@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Sharp3D.Math.GDI</name>
+    </assembly>
+    <members>
+        <member name="T:Sharp3D.Math.GDI.Convert">
+            <summary>
+            Contains functions to convert GDI+ structures to\from Sharp3D.Math structures.
+            </summary>
+        </member>
+        <member name="M:Sharp3D.Math.GDI.Convert.ToGDI(Sharp3D.Math.Core.Vector2F)">
+            <summary>
+            Converts a <see cref="T:Sharp3D.Math.Core.Vector2F"/> to <see cref="T:System.Drawing.PointF"/>.
+            </summary>
+            <param name="value">A <see cref="T:Sharp3D.Math.Core.Vector2F"/> instance to convert.</param>
+            <returns>A <see cref="T:System.Drawing.PointF"/> instance.</returns>
+        </member>
+        <member name="M:Sharp3D.Math.GDI.Convert.FromGDI(System.Drawing.PointF)">
+            <summary>
+            Converts a <see cref="T:System.Drawing.PointF"/> to <see cref="T:Sharp3D.Math.Core.Vector2F"/>.
+            </summary>
+            <param name="value">A <see cref="T:Sharp3D.Math.Core.Vector2F"/> instance to convert.</param>
+            <returns>A <see cref="T:Sharp3D.Math.Core.Vector2F"/> instance.</returns>
+        </member>
+        <member name="M:Sharp3D.Math.GDI.Convert.ToGDI(Sharp3D.Math.Core.Matrix2F)">
+            <summary>
+            Coberts a <see cref="T:Sharp3D.Math.Core.Matrix2F"/> to <see cref="T:System.Drawing.Drawing2D.Matrix"/>.
+            </summary>
+            <param name="value">A <see cref="T:Sharp3D.Math.Core.Matrix2F"/> instance to convert.</param>
+            <returns>A <see cref="T:System.Drawing.Drawing2D.Matrix"/> instance.</returns>
+        </member>
+        <member name="M:Sharp3D.Math.GDI.Convert.ToGDI(System.Drawing.Drawing2D.Matrix)">
+            <summary>
+            Coberts a <see cref="T:System.Drawing.Drawing2D.Matrix"/> to <see cref="T:Sharp3D.Math.Core.Matrix2F"/>.
+            </summary>
+            <param name="value">A <see cref="T:System.Drawing.Drawing2D.Matrix"/> instance to convert.</param>
+            <returns>A <see cref="T:Sharp3D.Math.Core.Matrix2F"/> instance.</returns>
+        </member>
+    </members>
+</doc>

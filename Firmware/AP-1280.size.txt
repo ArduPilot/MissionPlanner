@@ -1,0 +1,335 @@
+00000001 b crash_timer
+00000001 b home_is_set
+00000001 b ch3_failsafe
+00000001 b have_position
+00000001 b land_complete
+00000001 b receiver_rssi
+00000001 b mavlink_active
+00000001 b nav_command_ID
+00000001 b failsafeCounter
+00000001 b counter_one_herz
+00000001 b in_mavlink_delay
+00000001 b slow_loopCounter
+00000001 d takeoff_complete
+00000001 b nav_command_index
+00000001 b delta_ms_fast_loop
+00000001 d ground_start_count
+00000001 b medium_loopCounter
+00000001 b non_nav_command_ID
+00000001 b rc_override_active
+00000001 b throttle_suppressed
+00000001 b delta_ms_medium_loop
+00000001 b non_nav_command_index
+00000001 b superslow_loopCounter
+00000001 b GPS_light
+00000001 b failsafe_check(unsigned long)::in_failsafe
+00000001 b read_control_switch()::switch_debouncer
+00000001 D control_mode
+00000001 B inverted_flight
+00000001 B isr_registry
+00000001 B oldSwitchPosition
+00000001 B param_loader
+00000001 B relay
+00000002 T read_receiver_rssi()
+00000002 d elevon1_trim
+00000002 d elevon2_trim
+00000002 b loiter_delta
+00000002 b gps_fix_count
+00000002 b condition_rate
+00000002 b mainLoop_count
+00000002 b throttle_nudge
+00000002 b ground_start_avg
+00000002 b takeoff_pitch_cd
+00000002 b airspeed_nudge_cm
+00000002 b adc
+00000002 b g_gps
+00000002 b pmTest1
+00000002 b G_Dt_max
+00000002 d ch1_temp
+00000002 d ch2_temp
+00000002 b failsafe
+00000002 W Filter<float>::reset()
+00000002 W Filter<long>::reset()
+00000002 W AP_AHRS::init()
+00000002 b failsafe_check(unsigned long)::last_mainLoop_count
+00000002 d throttle_slew_limit()::last
+00000002 B timer_scheduler
+00000004 b loiter_sum
+00000004 d hold_course
+00000004 b nav_roll_cd
+00000004 b energy_error
+00000004 b loiter_total
+00000004 b nav_pitch_cd
+00000004 b current_amps1
+00000004 b current_total1
+00000004 b loiter_time_ms
+00000004 b nav_bearing_cd
+00000004 b perf_mon_timer
+00000004 b condition_start
+00000004 b condition_value
+00000004 d battery_voltage1
+00000004 b bearing_error_cd
+00000004 b crosstrack_error
+00000004 b takeoff_altitude
+00000004 b wp_totalDistance
+00000004 b airspeed_error_cm
+00000004 b altitude_error_cm
+00000004 b fast_loopTimer_ms
+00000004 b last_heartbeat_ms
+00000004 b target_bearing_cd
+00000004 b ch3_failsafe_timer
+00000004 b loiter_time_max_ms
+00000004 b offset_altitude_cm
+00000004 b target_airspeed_cm
+00000004 b target_altitude_cm
+00000004 b medium_loopTimer_ms
+00000004 b rc_override_fs_timer
+00000004 b airspeed_energy_error
+00000004 b crosstrack_bearing_cd
+00000004 b fast_loopTimeStamp_ms
+00000004 b old_target_bearing_cd
+00000004 b groundspeed_undershoot
+00000004 d G_Dt
+00000004 b load
+00000004 W FilterWithBuffer<float, (unsigned char)7>::get_filter_size()
+00000004 W FilterWithBuffer<long, (unsigned char)4>::get_filter_size()
+00000004 b failsafe_check(unsigned long)::last_timestamp
+00000004 b mavlink_delay(unsigned long)::last_5s
+00000004 b mavlink_delay(unsigned long)::last_1hz
+00000004 b mavlink_delay(unsigned long)::last_50hz
+00000004 B wp_distance
+00000006 W LowPassFilter<long>::reset()
+00000006 W Filter<long>::apply(long)
+00000006 V vtable for AP_AnalogSource
+00000006 r load_parameters()::__c
+00000007 b planner_menu
+00000007 b board_voltage()::vcc
+00000007 b read_battery()::current_pin
+00000007 b read_battery()::bat_pin
+00000008 b guard variable for board_voltage()::vcc
+00000008 b guard variable for read_battery()::current_pin
+00000008 b guard variable for read_battery()::bat_pin
+00000008 r __menu_name__planner_menu
+00000008 W Filter<float>::apply(float)
+00000008 V vtable for Filter<float>
+00000008 V vtable for Filter<long>
+00000009 B pitot_analog_source
+0000000a V vtable for AverageFilter<long, float, (unsigned char)4>
+0000000a V vtable for LowPassFilter<long>
+0000000a V vtable for FilterWithBuffer<float, (unsigned char)7>
+0000000a V vtable for FilterWithBuffer<long, (unsigned char)4>
+0000000a r init_home()::__c
+0000000a r verify_nav_wp()::__c
+0000000a T setup
+0000000b b altitude_filter
+0000000c T GCS_MAVLINK::send_text(gcs_severity, char const*)
+0000000c r startup_IMU_ground(bool)::__c
+0000000d r init_home()::__c
+0000000d r verify_RTL()::__c
+0000000d r demo_servos(unsigned char)::__c
+0000000d r control_failsafe(unsigned int)::__c
+0000000e t send_statustext(mavlink_channel_t)
+0000000e V vtable for DerivativeFilter<float, (unsigned char)7>
+0000000e r control_failsafe(unsigned int)::__c
+0000000f b current_loc
+0000000f b event_state
+0000000f b next_nav_command
+0000000f b next_nonnav_command
+0000000f b home
+0000000f b next_WP
+0000000f b prev_WP
+0000000f b guided_WP
+00000010 b rc_override
+00000010 r planner_menu_commands
+00000010 T GCS_MAVLINK::send_message(ap_message)
+00000010 V vtable for AP_Baro
+00000010 r do_change_speed()::__c
+00000011 r startup_ground()::__c
+00000011 r process_next_command()::__c
+00000011 r failsafe_long_on_event(int)::__c
+00000011 r failsafe_short_on_event(int)::__c
+00000012 B APM_RC
+00000012 r set_next_WP(Location*)::__c
+00000012 r handle_no_commands()::__c
+00000012 r startup_IMU_ground(bool)::__c
+00000013 r verify_takeoff()::__c
+00000013 r do_change_speed()::__c
+00000013 r GCS_MAVLINK::handleMessage(__mavlink_message*)::__c
+00000014 T GCS_MAVLINK::GCS_MAVLINK()
+00000014 T GCS_MAVLINK::GCS_MAVLINK()
+00000014 V vtable for AP_AHRS
+00000014 r mavlink_delay(unsigned long)::__c
+00000014 r do_change_speed()::__c
+00000014 B airspeed
+00000015 r map_baudrate(signed char, unsigned long)::__c
+00000015 r load_parameters()::__c
+00000015 r GCS_MAVLINK::handleMessage(__mavlink_message*)::__c
+00000016 t trim_radio()
+00000016 r GCS_MAVLINK::handleMessage(__mavlink_message*)::__c
+00000016 t mav_array_memcpy
+00000018 B DataFlash
+00000018 r navigate()::__c
+00000019 r zero_airspeed()::__c
+00000019 r handle_process_do_command()::__c
+00000019 r handle_process_do_command()::__c
+00000019 r handle_process_condition_command()::__c
+00000019 r do_jump()::__c
+0000001a T flash_leds(bool)
+0000001a t gcs_update()
+0000001a t zero_airspeed()
+0000001a t gcs_data_stream_send()
+0000001a r do_jump()::__c
+0000001b r failsafe_long_on_event(int)::__c
+0000001b r failsafe_short_off_event()::__c
+0000001b r GCS_MAVLINK::handleMessage(__mavlink_message*)::__c
+0000001c W AP_ParamT<int, (ap_var_type)2>::set_and_save_ifchanged(int)
+0000001c r failsafe_short_on_event(int)::__c
+0000001c r do_jump()::__c
+0000001c r GCS_MAVLINK::handleMessage(__mavlink_message*)::__c
+0000001d B Serial
+0000001d B Serial1
+0000001d B Serial3
+0000001d r verify_nav_wp()::__c
+0000001d r handle_process_nav_cmd()::__c
+0000001e t init_commands()
+0000001e t update_commands()
+0000001e r verify_nav_wp()::__c
+0000001e r startup_ground()::__c
+0000001e r do_jump()::__c
+0000001f r init_ardupilot()::__c
+0000001f r init_barometer()::__c
+00000020 r verify_land()::__c
+00000021 r change_command(unsigned char)::__c
+00000021 r verify_loiter_time()::__c
+00000021 r process_next_command()::__c
+00000022 W LowPassFilter<long>::reset(long)
+00000023 r verify_loiter_turns()::__c
+00000024 W FilterWithBuffer<float, (unsigned char)7>::reset()
+00000024 r load_parameters()::__c
+00000026 W FilterWithBuffer<long, (unsigned char)4>::reset()
+00000026 r init_ardupilot()::__c
+00000027 r change_command(unsigned char)::__c
+00000028 t gcs_send_message(ap_message)
+00000028 W AverageFilter<long, float, (unsigned char)4>::reset()
+00000029 r process_next_command()::__c
+0000002a r verify_nav_command()::__c
+0000002b r change_command(unsigned char)::__c
+0000002c t init_barometer()
+0000002d r startup_IMU_ground(bool)::__c
+0000002d r process_next_command()::__c
+00000032 t failsafe_short_off_event()
+00000032 r init_ardupilot()::__c
+00000032 t mavlink_msg_mission_ack_send
+00000033 b pending_status
+00000035 r verify_condition_command()::__c
+00000036 t gcs_send_text_P(gcs_severity, prog_char_t const*)
+00000036 t send_current_waypoint(mavlink_channel_t)
+00000036 T GCS_MAVLINK::init(FastSerial*)
+00000038 t comm_get_txspace(mavlink_channel_t)
+00000038 t mavlink_msg_statustext_send
+0000003b B imu
+0000003c t send_meminfo(mavlink_channel_t)
+0000003c t send_hwstatus(mavlink_channel_t)
+0000003c W FilterWithBuffer<long, (unsigned char)4>::apply(long)
+0000003e t verify_RTL()
+0000003e T GCS_MAVLINK::send_text(gcs_severity, prog_char_t const*)
+00000044 t alt_control_airspeed()
+0000004c t startup_ground()
+00000050 B gcs0
+00000050 B gcs3
+00000052 t verify_loiter_time()
+00000054 T board_voltage()
+00000054 T GCS_MAVLINK::queued_waypoint_send()
+00000054 W FilterWithBuffer<float, (unsigned char)7>::apply(float)
+00000056 t verify_loiter_turns()
+00000056 T GCS_MAVLINK::_count_parameters()
+0000005c B g_gps_driver
+00000060 b mavlink_queue
+00000060 B ins
+00000066 t verify_nav_command()
+0000006a t demo_servos(unsigned char)
+0000006a t get_cmd_with_index(int)
+0000006b B camera_mount
+0000006c t calc_bearing_error()
+0000006c t do_RTL()
+00000074 t mavlink_msg_param_value_send
+0000007c t planner_gcs(unsigned char, Menu::arg const*)
+0000007e T mavlink_send_text(mavlink_channel_t, gcs_severity, char const*)
+00000080 T gcs_send_text_fmt(prog_char_t const*, ...)
+00000080 T __vector_25
+00000080 T __vector_36
+00000080 T __vector_54
+00000082 t failsafe_long_on_event(int)
+00000086 t throttle_slew_limit()
+0000008c t handle_no_commands()
+0000008e t failsafe_short_on_event(int)
+00000090 W LowPassFilter<long>::apply(long)
+00000094 t trim_control_surfaces()
+00000096 b barometer
+000000a2 t get_cmd_with_index_raw(int)
+000000a4 T __vector_26
+000000a4 T __vector_37
+000000a4 T __vector_55
+000000a8 T change_command(unsigned char)
+000000ae t send_heartbeat(mavlink_channel_t)
+000000b8 W AverageFilter<long, float, (unsigned char)4>::apply(long)
+000000bc t send_raw_imu2(mavlink_channel_t)
+000000bc t send_radio_out(mavlink_channel_t)
+000000bc t send_ahrs(mavlink_channel_t)
+000000c0 t startup_IMU_ground(bool)
+000000c1 b compass
+000000c2 t send_radio_in(mavlink_channel_t)
+000000c4 t send_wind(mavlink_channel_t)
+000000ca t control_failsafe(unsigned int)
+000000ce t update_events()
+000000d6 T failsafe_check(unsigned long)
+000000d8 t load_parameters()
+000000de t map_baudrate(signed char, unsigned long)
+000000de t calc_nav_pitch()
+000000e6 R GCS_MAVLINK::var_info
+000000f2 t send_servo_out(mavlink_channel_t)
+000000f6 t set_guided_WP()
+000000f6 t set_cmd_with_index(Location, int)
+000000f6 T GCS_MAVLINK::stream_trigger(GCS_MAVLINK::streams)
+000000fe t set_mode(unsigned char)
+00000108 t calc_nav_roll()
+0000011a t verify_nav_wp()
+00000122 t do_change_speed()
+00000126 t read_control_switch()
+00000134 t verify_takeoff()
+0000014c T GCS_MAVLINK::queued_param_send()
+0000014c B ahrs
+00000154 t mavlink_delay(unsigned long)
+00000160 t send_vfr_hud(mavlink_channel_t)
+00000174 t send_nav_controller_output(mavlink_channel_t)
+0000017c T GCS_MAVLINK::data_stream_send()
+0000017e T GCS_MAVLINK::update()
+00000184 t mavlink_send_message(mavlink_channel_t, ap_message, unsigned int)
+00000186 t navigate()
+0000018e t handle_process_nav_cmd()
+00000192 T init_home()
+00000196 t send_raw_imu3(mavlink_channel_t)
+00000198 t verify_condition_command()
+000001a6 t send_attitude(mavlink_channel_t)
+000001ac t send_raw_imu1(mavlink_channel_t)
+000001b2 t handle_process_condition_command()
+000001d0 t do_jump()
+000001de t read_battery()
+000001e4 t verify_land()
+000001e4 t send_location(mavlink_channel_t)
+000001ec t calc_throttle()
+000001ec t mavlink_try_send_message(mavlink_channel_t, ap_message, unsigned int)
+0000021c t send_extended_status1(mavlink_channel_t, unsigned int)
+0000022c t update_loiter()
+00000240 t process_next_command()
+0000024a t set_next_WP(Location*)
+00000295 b g
+000002a8 t send_gps_raw(mavlink_channel_t)
+000002ce t handle_process_do_command()
+000002da t update_crosstrack()
+000002e4 t read_radio()
+000003f2 t init_ardupilot()
+00000941 R var_info
+00000958 t global constructors keyed to Serial
+000018a6 T GCS_MAVLINK::handleMessage(__mavlink_message*)
+00001cc8 T loop

@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Sharp3D.Math.DirectX</name>
+    </assembly>
+    <members>
+        <member name="T:Sharp3D.Math.DirectX.Convert">
+            <summary>
+            Contains functions to convert DirectX structures to\from Sharp3D.Math structures.
+            </summary>
+        </member>
+        <member name="M:Sharp3D.Math.DirectX.Convert.ToDirectX(Sharp3D.Math.Core.Matrix4F)">
+            <summary>
+            Converts a <see cref="T:Sharp3D.Math.Core.Matrix4F"/> to <see cref="T:Microsoft.DirectX.Matrix"/>.
+            </summary>
+            <param name="value">The matrix value to convert.</param>
+            <returns>A <see cref="T:Microsoft.DirectX.Matrix"/> value.</returns>
+        </member>
+        <member name="M:Sharp3D.Math.DirectX.Convert.FromDirectX(Microsoft.DirectX.Matrix)">
+            <summary>
+            Converts a <see cref="T:Microsoft.DirectX.Matrix"/> to <see cref="T:Sharp3D.Math.Core.Matrix4F"/>.
+            </summary>
+            <param name="value">The matrix value to convert.</param>
+            <returns>A <see cref="T:Sharp3D.Math.Core.Matrix4F"/> value.</returns>
+        </member>
+        <member name="M:Sharp3D.Math.DirectX.Convert.ToDirectX(Sharp3D.Math.Core.Vector2F)">
+            <summary>
+            Converts a <see cref="T:Sharp3D.Math.Core.Vector2F"/> to <see cref="T:Microsoft.DirectX.Vector2"/>.
+            </summary>
+            <param name="value">The vector to convert.</param>
+            <returns>A <see cref="T:Microsoft.DirectX.Vector2"/> value.</returns>
+        </member>
+        <member name="M:Sharp3D.Math.DirectX.Convert.FromDirectX(Microsoft.DirectX.Vector2)">
+            <summary>
+            Converts a <see cref="T:Microsoft.DirectX.Vector2"/> to <see cref="T:Sharp3D.Math.Core.Vector2F"/>.
+            </summary>
+            <param name="value">The vector to convert.</param>
+            <returns>A <see cref="T:Sharp3D.Math.Core.Vector2F"/> value.</returns>
+        </member>
+        <member name="M:Sharp3D.Math.DirectX.Convert.ToDirectX(Sharp3D.Math.Core.Vector3F)">
+            <summary>
+            Converts a <see cref="T:Sharp3D.Math.Core.Vector3F"/> to <see cref="T:Microsoft.DirectX.Vector3"/>.
+            </summary>
+            <param name="value">The vector to convert.</param>
+            <returns>A <see cref="T:Microsoft.DirectX.Vector3"/> value.</returns>
+        </member>
+        <member name="M:Sharp3D.Math.DirectX.Convert.FromDirectX(Microsoft.DirectX.Vector3)">
+            <summary>
+            Converts a <see cref="T:Microsoft.DirectX.Vector3"/> to <see cref="T:Sharp3D.Math.Core.Vector3F"/>.
+            </summary>
+            <param name="value">The vector to convert.</param>
+            <returns>A <see cref="T:Sharp3D.Math.Core.Vector3F"/> value.</returns>
+        </member>
+        <member name="M:Sharp3D.Math.DirectX.Convert.ToDirectX(Sharp3D.Math.Core.Vector4F)">
+            <summary>
+            Converts a <see cref="T:Sharp3D.Math.Core.Vector4F"/> to <see cref="T:Microsoft.DirectX.Vector4"/>.
+            </summary>
+            <param name="value">The vector to convert.</param>
+            <returns>A <see cref="T:Microsoft.DirectX.Vector4"/> value.</returns>
+        </member>
+        <member name="M:Sharp3D.Math.DirectX.Convert.FromDirectX(Microsoft.DirectX.Vector4)">
+            <summary>
+            Converts a <see cref="T:Microsoft.DirectX.Vector4"/> to <see cref="T:Sharp3D.Math.Core.Vector4F"/>.
+            </summary>
+            <param name="value">The vector to convert.</param>
+            <returns>A <see cref="T:Sharp3D.Math.Core.Vector4F"/> value.</returns>
+        </member>
+        <member name="M:Sharp3D.Math.DirectX.Convert.ToDirectX(Sharp3D.Math.Core.QuaternionF)">
+            <summary>
+            Converts a <see cref="T:Sharp3D.Math.Core.QuaternionF"/> to <see cref="T:Microsoft.DirectX.Quaternion"/>.
+            </summary>
+            <param name="value">The matrix value to convert.</param>
+            <returns>A <see cref="T:Microsoft.DirectX.Quaternion"/> value.</returns>
+        </member>
+        <member name="M:Sharp3D.Math.DirectX.Convert.FromDirectX(Microsoft.DirectX.Quaternion)">
+            <summary>
+            Converts a <see cref="T:Microsoft.DirectX.Quaternion"/> to <see cref="T:Sharp3D.Math.Core.QuaternionF"/>.
+            </summary>
+            <param name="value">The matrix value to convert.</param>
+            <returns>A <see cref="T:Sharp3D.Math.Core.QuaternionF"/> value.</returns>
+        </member>
+    </members>
+</doc>
