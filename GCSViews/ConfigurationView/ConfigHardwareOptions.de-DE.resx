@@ -144,6 +144,9 @@
   <data name="CHK_enablesonar.Text" xml:space="preserve">
     <value>Aktivieren</value>
   </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>Advanced Config Only.</value>
+  </data>
   <data name="label5.Text" xml:space="preserve">
     <value>Kompass</value>
   </data>

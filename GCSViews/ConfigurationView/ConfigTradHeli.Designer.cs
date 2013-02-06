@@ -31,6 +31,9 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigTradHeli));
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.fbl_modeFBL = new System.Windows.Forms.RadioButton();
+            this.Flybar_mode_flybar = new System.Windows.Forms.RadioButton();
             this.H_SWASH_TYPE = new System.Windows.Forms.RadioButton();
             this.CCPM = new System.Windows.Forms.RadioButton();
             this.label41 = new System.Windows.Forms.Label();
@@ -92,7 +95,23 @@
             this.Gservoloc = new AGaugeApp.AGauge();
             this.mavlinkNumericUpDownrollmax = new ArdupilotMega.Controls.MavlinkNumericUpDown();
             this.mavlinkNumericUpDownpitchmax = new ArdupilotMega.Controls.MavlinkNumericUpDown();
+            this.BUT_reset_swash = new ArdupilotMega.Controls.MyButton();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.H_COLYAW = new ArdupilotMega.Controls.MavlinkNumericUpDown();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.H_STAB_COL_MIN = new ArdupilotMega.Controls.MavlinkNumericUpDown();
+            this.H_STAB_COL_MAX = new ArdupilotMega.Controls.MavlinkNumericUpDown();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.H_RSC_RATE = new ArdupilotMega.Controls.MavlinkNumericUpDown();
+            this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.H_GOV_SETPOINT = new ArdupilotMega.Controls.MavlinkNumericUpDown();
+            this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.H_RSC_MODE = new ArdupilotMega.Controls.MavlinkComboBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.groupBox5.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -109,15 +128,49 @@
             ((System.ComponentModel.ISupportInitialize)(this.currentStateBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDownrollmax)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDownpitchmax)).BeginInit();
+            this.groupBox4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.H_COLYAW)).BeginInit();
+            this.groupBox6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.H_STAB_COL_MIN)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.H_STAB_COL_MAX)).BeginInit();
+            this.groupBox7.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.H_RSC_RATE)).BeginInit();
+            this.groupBox8.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.H_GOV_SETPOINT)).BeginInit();
+            this.groupBox9.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox5
             // 
+            this.groupBox5.Controls.Add(this.panel1);
             this.groupBox5.Controls.Add(this.H_SWASH_TYPE);
             this.groupBox5.Controls.Add(this.CCPM);
             resources.ApplyResources(this.groupBox5, "groupBox5");
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.TabStop = false;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.fbl_modeFBL);
+            this.panel1.Controls.Add(this.Flybar_mode_flybar);
+            resources.ApplyResources(this.panel1, "panel1");
+            this.panel1.Name = "panel1";
+            // 
+            // fbl_modeFBL
+            // 
+            resources.ApplyResources(this.fbl_modeFBL, "fbl_modeFBL");
+            this.fbl_modeFBL.Name = "fbl_modeFBL";
+            this.fbl_modeFBL.TabStop = true;
+            this.fbl_modeFBL.UseVisualStyleBackColor = true;
+            this.fbl_modeFBL.CheckedChanged += new System.EventHandler(this.fbl_modeFBL_CheckedChanged);
+            // 
+            // Flybar_mode_flybar
+            // 
+            resources.ApplyResources(this.Flybar_mode_flybar, "Flybar_mode_flybar");
+            this.Flybar_mode_flybar.Name = "Flybar_mode_flybar";
+            this.Flybar_mode_flybar.TabStop = true;
+            this.Flybar_mode_flybar.UseVisualStyleBackColor = true;
+            this.Flybar_mode_flybar.CheckedChanged += new System.EventHandler(this.Flybar_mode_flybar_CheckedChanged);
             // 
             // H_SWASH_TYPE
             // 
@@ -729,10 +782,161 @@
             this.mavlinkNumericUpDownpitchmax.param = null;
             this.mavlinkNumericUpDownpitchmax.ParamName = null;
             // 
+            // BUT_reset_swash
+            // 
+            resources.ApplyResources(this.BUT_reset_swash, "BUT_reset_swash");
+            this.BUT_reset_swash.Name = "BUT_reset_swash";
+            this.BUT_reset_swash.UseVisualStyleBackColor = true;
+            this.BUT_reset_swash.Click += new System.EventHandler(this.BUT_reset_swash_Click);
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.H_COLYAW);
+            resources.ApplyResources(this.groupBox4, "groupBox4");
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.TabStop = false;
+            // 
+            // H_COLYAW
+            // 
+            resources.ApplyResources(this.H_COLYAW, "H_COLYAW");
+            this.H_COLYAW.Max = 1F;
+            this.H_COLYAW.Min = 0F;
+            this.H_COLYAW.Name = "H_COLYAW";
+            this.H_COLYAW.param = null;
+            this.H_COLYAW.ParamName = null;
+            this.H_COLYAW.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+       
+            // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.label3);
+            this.groupBox6.Controls.Add(this.label4);
+            this.groupBox6.Controls.Add(this.H_STAB_COL_MIN);
+            this.groupBox6.Controls.Add(this.H_STAB_COL_MAX);
+            resources.ApplyResources(this.groupBox6, "groupBox6");
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.TabStop = false;
+            // 
+            // label3
+            // 
+            resources.ApplyResources(this.label3, "label3");
+            this.label3.Name = "label3";
+            // 
+            // label4
+            // 
+            resources.ApplyResources(this.label4, "label4");
+            this.label4.Name = "label4";
+            // 
+            // H_STAB_COL_MIN
+            // 
+            resources.ApplyResources(this.H_STAB_COL_MIN, "H_STAB_COL_MIN");
+            this.H_STAB_COL_MIN.Max = 1F;
+            this.H_STAB_COL_MIN.Min = 0F;
+            this.H_STAB_COL_MIN.Name = "H_STAB_COL_MIN";
+            this.H_STAB_COL_MIN.param = null;
+            this.H_STAB_COL_MIN.ParamName = null;
+            this.H_STAB_COL_MIN.Value = new decimal(new int[] {
+            20,
+            0,
+            0,
+            0});
+  
+            // 
+            // H_STAB_COL_MAX
+            // 
+            resources.ApplyResources(this.H_STAB_COL_MAX, "H_STAB_COL_MAX");
+            this.H_STAB_COL_MAX.Max = 1F;
+            this.H_STAB_COL_MAX.Min = 0F;
+            this.H_STAB_COL_MAX.Name = "H_STAB_COL_MAX";
+            this.H_STAB_COL_MAX.param = null;
+            this.H_STAB_COL_MAX.ParamName = null;
+            this.H_STAB_COL_MAX.Value = new decimal(new int[] {
+            80,
+            0,
+            0,
+            0});
+
+            // 
+            // groupBox7
+            // 
+            this.groupBox7.Controls.Add(this.H_RSC_RATE);
+            resources.ApplyResources(this.groupBox7, "groupBox7");
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.TabStop = false;
+            // 
+            // H_RSC_RATE
+            // 
+            resources.ApplyResources(this.H_RSC_RATE, "H_RSC_RATE");
+            this.H_RSC_RATE.Max = 1F;
+            this.H_RSC_RATE.Min = 0F;
+            this.H_RSC_RATE.Name = "H_RSC_RATE";
+            this.H_RSC_RATE.param = null;
+            this.H_RSC_RATE.ParamName = null;
+            this.H_RSC_RATE.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+    
+            // 
+            // groupBox8
+            // 
+            this.groupBox8.Controls.Add(this.H_GOV_SETPOINT);
+            resources.ApplyResources(this.groupBox8, "groupBox8");
+            this.groupBox8.Name = "groupBox8";
+            this.groupBox8.TabStop = false;
+            // 
+            // H_GOV_SETPOINT
+            // 
+            resources.ApplyResources(this.H_GOV_SETPOINT, "H_GOV_SETPOINT");
+            this.H_GOV_SETPOINT.Max = 1F;
+            this.H_GOV_SETPOINT.Min = 0F;
+            this.H_GOV_SETPOINT.Name = "H_GOV_SETPOINT";
+            this.H_GOV_SETPOINT.param = null;
+            this.H_GOV_SETPOINT.ParamName = null;
+            this.H_GOV_SETPOINT.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+     
+            // 
+            // groupBox9
+            // 
+            this.groupBox9.Controls.Add(this.H_RSC_MODE);
+            resources.ApplyResources(this.groupBox9, "groupBox9");
+            this.groupBox9.Name = "groupBox9";
+            this.groupBox9.TabStop = false;
+            // 
+            // H_RSC_MODE
+            // 
+            this.H_RSC_MODE.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            resources.ApplyResources(this.H_RSC_MODE, "H_RSC_MODE");
+            this.H_RSC_MODE.FormattingEnabled = true;
+            this.H_RSC_MODE.Name = "H_RSC_MODE";
+            this.H_RSC_MODE.param = null;
+            this.H_RSC_MODE.ParamName = null;
+            // 
+            // label5
+            // 
+            resources.ApplyResources(this.label5, "label5");
+            this.label5.Name = "label5";
+            // 
             // ConfigTradHeli
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.groupBox9);
+            this.Controls.Add(this.groupBox8);
+            this.Controls.Add(this.groupBox7);
+            this.Controls.Add(this.groupBox6);
+            this.Controls.Add(this.groupBox4);
+            this.Controls.Add(this.BUT_reset_swash);
             this.Controls.Add(this.mavlinkNumericUpDownpitchmax);
             this.Controls.Add(this.mavlinkNumericUpDownrollmax);
             this.Controls.Add(this.label2);
@@ -781,6 +985,8 @@
             this.Name = "ConfigTradHeli";
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.groupBox1.ResumeLayout(false);
@@ -800,6 +1006,17 @@
             ((System.ComponentModel.ISupportInitialize)(this.currentStateBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDownrollmax)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDownpitchmax)).EndInit();
+            this.groupBox4.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.H_COLYAW)).EndInit();
+            this.groupBox6.ResumeLayout(false);
+            this.groupBox6.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.H_STAB_COL_MIN)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.H_STAB_COL_MAX)).EndInit();
+            this.groupBox7.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.H_RSC_RATE)).EndInit();
+            this.groupBox8.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.H_GOV_SETPOINT)).EndInit();
+            this.groupBox9.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -869,5 +1086,23 @@
         private System.Windows.Forms.Label label2;
         private Controls.MavlinkNumericUpDown mavlinkNumericUpDownrollmax;
         private Controls.MavlinkNumericUpDown mavlinkNumericUpDownpitchmax;
+        private Controls.MyButton BUT_reset_swash;
+        private System.Windows.Forms.RadioButton Flybar_mode_flybar;
+        private System.Windows.Forms.RadioButton fbl_modeFBL;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private Controls.MavlinkNumericUpDown H_COLYAW;
+        private System.Windows.Forms.GroupBox groupBox6;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private Controls.MavlinkNumericUpDown H_STAB_COL_MIN;
+        private Controls.MavlinkNumericUpDown H_STAB_COL_MAX;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.GroupBox groupBox7;
+        private Controls.MavlinkNumericUpDown H_RSC_RATE;
+        private System.Windows.Forms.GroupBox groupBox8;
+        private Controls.MavlinkNumericUpDown H_GOV_SETPOINT;
+        private System.Windows.Forms.GroupBox groupBox9;
+        private System.Windows.Forms.Label label5;
+        private Controls.MavlinkComboBox H_RSC_MODE;
     }
 }

@@ -118,34 +118,34 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="pointCameraHereToolStripMenuItem.Text" xml:space="preserve">
-    <value>Point Camera Here</value>
+    <value>Kamera hierhin ausrichten</value>
   </data>
   <data name="BUT_setmode.ToolTip" xml:space="preserve">
-    <value>Changes to the Mode on the left</value>
+    <value>Modus links ändern</value>
   </data>
   <data name="BUT_quickmanual.Text" xml:space="preserve">
-    <value>&amp;Manual</value>
+    <value>&amp;Manuell</value>
   </data>
   <data name="BUT_playlog.Text" xml:space="preserve">
-    <value>Play/Pause</value>
+    <value>Abspielen/Pause</value>
   </data>
   <data name="BUT_setwp.ToolTip" xml:space="preserve">
-    <value>Changes the current target waypoint</value>
+    <value>Ändert den aktuellen Ziel-Wegpunkt</value>
   </data>
   <data name="BUT_quickauto.ToolTip" xml:space="preserve">
-    <value>In der Auto Modus wechseln</value>
+    <value>In der Auto-Modus wechseln</value>
   </data>
   <data name="goHereToolStripMenuItem.Text" xml:space="preserve">
-    <value>Fliege hier hin</value>
+    <value>Fliege hierhin</value>
   </data>
   <data name="quickView1.ToolTip" xml:space="preserve">
-    <value>Double Click me to change</value>
+    <value>Doppelklicken, um zu ändern</value>
   </data>
   <data name="lbl_windvel.ToolTip" xml:space="preserve">
-    <value>Geschätzte Windbeschleunigung</value>
+    <value>Geschätzte Windgeschwindigkeit</value>
   </data>
   <data name="BUT_RAWSensor.Text" xml:space="preserve">
-    <value>Ansicht der Senosrrohdaten</value>
+    <value>Ansicht der Senorrohdaten</value>
   </data>
   <data name="BUTrestartmission.ToolTip" xml:space="preserve">
     <value>Neustart der Mission</value>
@@ -163,19 +163,16 @@
     <value>Vel: 0</value>
   </data>
   <data name="CB_tuning.ToolTip" xml:space="preserve">
-    <value>Show the tunning graph, chowing target attitudes vs actual</value>
+    <value>Zeige Einstellungsgraph, Zielausrichtung gegen tatsächliche Ausrichtung</value>
   </data>
   <data name="TXT_long.Text" xml:space="preserve">
     <value>0</value>
-  </data>
-  <data name="displayBatteryInfoToolStripMenuItem.Text" xml:space="preserve">
-    <value>Batterie Info zeigen</value>
   </data>
   <data name="lbl_hdop.Text" xml:space="preserve">
     <value>hdop: 0</value>
   </data>
   <data name="BUT_ARM.ToolTip" xml:space="preserve">
-    <value>Arm the Mav</value>
+    <value>Mav scharfschalten</value>
   </data>
   <data name="BUT_log2kml.Text" xml:space="preserve">
     <value>Tlog &gt; Kml oder Diagramm</value>
@@ -193,10 +190,10 @@
     <value>Hoch</value>
   </data>
   <data name="userItemsToolStripMenuItem.Text" xml:space="preserve">
-    <value>User Items</value>
+    <value>User-Einstellungen</value>
   </data>
   <data name="CHK_autopan.ToolTip" xml:space="preserve">
-    <value>Makes the map autopan based on current location</value>
+    <value>Karte läuft mit der aktuellen Position mit</value>
   </data>
   <data name="BUT_script.Text" xml:space="preserve">
     <value>Script</value>
@@ -211,19 +208,19 @@
     <value>Auto Pan</value>
   </data>
   <data name="setMJPEGSourceToolStripMenuItem.Text" xml:space="preserve">
-    <value>Set MJPEG source</value>
+    <value>MJPEG-Quelle wählen</value>
   </data>
   <data name="BUT_joystick.Text" xml:space="preserve">
     <value>Joystick</value>
   </data>
   <data name="Zoomlevel.ToolTip" xml:space="preserve">
-    <value>Change Zoom Level</value>
-  </data>
-  <data name="resetToolStripMenuItem.Text" xml:space="preserve">
-    <value>Reset</value>
+    <value>Vergrösserung ändern</value>
   </data>
   <data name="CB_tuning.Text" xml:space="preserve">
     <value>Tuning</value>
+  </data>
+  <data name="triggerCameraToolStripMenuItem.Text" xml:space="preserve">
+    <value>Kamera JETZT auslösen</value>
   </data>
   <data name="dataGridViewImageColumn2.HeaderText" xml:space="preserve">
     <value>Runter</value>
@@ -232,52 +229,52 @@
     <value>Sats: 0</value>
   </data>
   <data name="BUTactiondo.Text" xml:space="preserve">
-    <value>Do Action</value>
+    <value>Tu was.</value>
   </data>
   <data name="BUTrestartmission.Text" xml:space="preserve">
-    <value>Restart Mission</value>
+    <value>Mission neu starten</value>
   </data>
   <data name="BUT_quickmanual.ToolTip" xml:space="preserve">
-    <value>Change Mode to Manual/Stabalize</value>
+    <value>Modus auf Manuell/Stabilisieren stellen</value>
   </data>
   <data name="BUT_RAWSensor.ToolTip" xml:space="preserve">
-    <value>View raw Gyro and Accel values, and Raw Radio ins/outs</value>
+    <value>Zeigt Gyro- und Beschleunigungsrohdaten sowie Funk-Ein und Ausgänge</value>
   </data>
   <data name="setAspectRatioToolStripMenuItem.Text" xml:space="preserve">
-    <value>Set Aspect Ratio</value>
+    <value>Seitenverhältnis einstellen</value>
   </data>
   <data name="Gspeed.ToolTip" xml:space="preserve">
-    <value>Double click me to change Max</value>
+    <value>Doppelklick, um Maximum einzustellen</value>
   </data>
   <data name="TXT_lat.Text" xml:space="preserve">
     <value>0</value>
   </data>
   <data name="tabActions.Text" xml:space="preserve">
-    <value>Actions</value>
+    <value>Aktionen</value>
   </data>
   <data name="BUTactiondo.ToolTip" xml:space="preserve">
-    <value>Preform the action ot the left</value>
+    <value>Links angezeigte Aktion ausführen</value>
   </data>
   <data name="BUT_Homealt.Text" xml:space="preserve">
-    <value>Set Home Alt</value>
+    <value>Startplatzhöhe einstellen</value>
   </data>
   <data name="tabQuick.Text" xml:space="preserve">
-    <value>Quick</value>
+    <value>Schnell</value>
   </data>
   <data name="lbl_winddir.Text" xml:space="preserve">
     <value>Dir: 0</value>
   </data>
   <data name="BUT_loadtelem.Text" xml:space="preserve">
-    <value>Load Log</value>
+    <value>Log laden</value>
   </data>
   <data name="BUT_joystick.ToolTip" xml:space="preserve">
-    <value>Setup and enable your joystick</value>
+    <value>Joystick einstellen und akttivieren</value>
   </data>
   <data name="BUT_Homealt.ToolTip" xml:space="preserve">
-    <value>Set the current display alt as 0, ie home alt is shown as 0</value>
+    <value>Aktuelle Startplatzhöhe als Null setzen</value>
   </data>
   <data name="recordHudToAVIToolStripMenuItem.Text" xml:space="preserve">
-    <value>Record Hud to AVI</value>
+    <value>HUD als AVI aufzeichnen</value>
   </data>
   <data name="tabStatus.Text" xml:space="preserve">
     <value>Status</value>
@@ -289,13 +286,13 @@
     <value>Set WP</value>
   </data>
   <data name="tabTLogs.Text" xml:space="preserve">
-    <value>Telemetry Logs</value>
+    <value>Telemetrie-Logs</value>
   </data>
   <data name="lbl_logpercent.Text" xml:space="preserve">
     <value>0.00 %</value>
   </data>
   <data name="flightPlannerToolStripMenuItem.Text" xml:space="preserve">
-    <value>Flight Planner</value>
+    <value>Flugplaner</value>
   </data>
   <data name="BUT_setmode.Text" xml:space="preserve">
     <value>Modus setzen</value>
@@ -304,7 +301,7 @@
     <value>x 1.0</value>
   </data>
   <data name="NUM_playbackspeed.ToolTip" xml:space="preserve">
-    <value>Abspielgechwindigkeit</value>
+    <value>Abspielgeschwindigkeit</value>
   </data>
   <data name="stopRecordToolStripMenuItem.Text" xml:space="preserve">
     <value>Aufzeichnung stoppen</value>
@@ -313,7 +310,7 @@
     <value>&amp;RTL</value>
   </data>
   <data name="flyToHereAltToolStripMenuItem.Text" xml:space="preserve">
-    <value>Fly To Here Alt</value>
+    <value>Hierhin fliegen - Höhe</value>
   </data>
   <data name="lbl_sats.ToolTip" xml:space="preserve">
     <value>Anzahl Satelliten</value>

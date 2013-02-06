@@ -184,6 +184,22 @@ namespace ArdupilotMega
                     throw new Exception("Not Enough Data");
                 }
 
+                data.Sort(
+                    delegate(Tuple<float, float, float> d1, Tuple<float, float, float> d2) 
+                    {
+                        // get distance from 0,0,0
+                        double ans1 = Math.Sqrt(d1.Item1 * d1.Item1 + d1.Item2 * d1.Item2+ d1.Item3 * d1.Item3);
+                        double ans2 = Math.Sqrt(d2.Item1 * d2.Item1 + d2.Item2 * d2.Item2+ d2.Item3 * d2.Item3);
+                        if (ans1 > ans2)
+                            return 1;
+                        if (ans1 < ans2)
+                            return -1;
+                        return 0;
+                    }
+                    );
+
+                data.RemoveRange(data.Count - (data.Count / 16), data.Count / 16);
+
                 double[] x = LeastSq(data);
 
                 System.Console.WriteLine("Old Method {0} {1} {2}", -(maxx + minx) / 2, -(maxy + miny) / 2, -(maxz + minz) / 2);

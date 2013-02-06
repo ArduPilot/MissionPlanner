@@ -318,7 +318,7 @@ namespace ArdupilotMega.GCSViews
             {
                 if (threadrun == 0) { return; }
 
-                if (MainV2.giveComport == true)
+                if (MainV2.comPort.giveComport == true)
                 {
                     System.Threading.Thread.Sleep(50);
                     continue;
@@ -330,7 +330,7 @@ namespace ArdupilotMega.GCSViews
                 }
 
                 // actauly read the packets
-                while (MainV2.comPort.BaseStream.BytesToRead > 0 && MainV2.giveComport == false)
+                while (MainV2.comPort.BaseStream.BytesToRead > 0 && MainV2.comPort.giveComport == false)
                 {
                     try
                     {
@@ -520,10 +520,10 @@ namespace ArdupilotMega.GCSViews
 
                                 if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane)
                                 {
-                                    routes.Markers[0] = (new GMapMarkerPlane(currentloc, MainV2.comPort.MAV.cs.yaw, MainV2.comPort.MAV.cs.groundcourse, MainV2.comPort.MAV.cs.nav_bearing, MainV2.comPort.MAV.cs.target_bearing, gMapControl1) 
-                                    { 
-                                        ToolTipText = MainV2.comPort.MAV.cs.alt.ToString("alt 0") + "\n" + MainV2.comPort.MAV.cs.groundspeed.ToString("gs 0"),
-                                        ToolTipMode = MarkerTooltipMode.Always 
+                                    routes.Markers[0] = (new GMapMarkerPlane(currentloc, MainV2.comPort.MAV.cs.yaw, MainV2.comPort.MAV.cs.groundcourse, MainV2.comPort.MAV.cs.nav_bearing, MainV2.comPort.MAV.cs.target_bearing, gMapControl1)
+                                    {
+                                        ToolTipText = MainV2.comPort.MAV.cs.mode + "\n" + MainV2.comPort.MAV.cs.alt.ToString("alt 0") + "\n" + MainV2.comPort.MAV.cs.groundspeed.ToString("gs 0"),
+                                        ToolTipMode = MarkerTooltipMode.Always
                                     });
                                 }
                                 else if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduRover)
@@ -533,10 +533,10 @@ namespace ArdupilotMega.GCSViews
                                 else
                                 {
                                     routes.Markers[0] = (new GMapMarkerQuad(currentloc, MainV2.comPort.MAV.cs.yaw, MainV2.comPort.MAV.cs.groundcourse, MainV2.comPort.MAV.cs.nav_bearing)
-                                          { 
-                                        ToolTipText = "alt "+MainV2.comPort.MAV.cs.alt.ToString("0") + "\ngs " + MainV2.comPort.MAV.cs.groundspeed.ToString("0"),
-                                        ToolTipMode = MarkerTooltipMode.Always 
-                                    });
+                                          {
+                                              ToolTipText = MainV2.comPort.MAV.cs.mode + "\n" + "alt " + MainV2.comPort.MAV.cs.alt.ToString("0") + "\ngs " + MainV2.comPort.MAV.cs.groundspeed.ToString("0"),
+                                              ToolTipMode = MarkerTooltipMode.Always
+                                          });
                                 }
 
                                 if (route.Points[route.Points.Count - 1].Lat != 0 && (mapupdate.AddSeconds(3) < DateTime.Now) && CHK_autopan.Checked)
@@ -954,7 +954,7 @@ namespace ArdupilotMega.GCSViews
             {
                 MainV2.comPort.setGuidedModeWP(gotohere);
             }
-            catch (Exception ex) { MainV2.giveComport = false; CustomMessageBox.Show("Error sending command : " + ex.Message); }
+            catch (Exception ex) { MainV2.comPort.giveComport = false; CustomMessageBox.Show("Error sending command : " + ex.Message); }
 
         }
 
@@ -1807,6 +1807,16 @@ print 'Roll complete'
             frm.Controls.Add(track);
             track.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top;
             frm.ShowDialog();
+        }
+
+        private void rTLToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MainV2.comPort.setMode("RLT");
+        }
+
+        private void loiterToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MainV2.comPort.setMode("LOITER");
         }
     }
 }

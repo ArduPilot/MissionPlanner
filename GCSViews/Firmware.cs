@@ -336,7 +336,7 @@ namespace ArdupilotMega.GCSViews
             MainV2.comPort.BaseStream.DtrEnable = false;
             MainV2.comPort.Close();
             System.Threading.Thread.Sleep(100);
-            MainV2.giveComport = true;
+            MainV2.comPort.giveComport = true;
 
             try
             {
@@ -652,7 +652,7 @@ namespace ArdupilotMega.GCSViews
                 catch { }
             }
             flashing = false;
-            MainV2.giveComport = false;
+            MainV2.comPort.giveComport = false;
         }
 
         void port_Progress(int progress,string status)

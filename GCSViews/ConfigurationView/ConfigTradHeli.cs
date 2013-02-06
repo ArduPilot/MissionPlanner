@@ -368,6 +368,13 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             MainV2.comPort.setParam(((CheckBox)sender).Name, ((CheckBox)sender).Checked == true ? 1.0f : 0.0f);
         }
 
+        public enum rsc_mode
+        {
+            Disable = 0,
+            Mode_1=1,
+            Mode_2=2
+        }
+
         public void Activate()
         {
 
@@ -393,6 +400,13 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             mavlinkNumericUpDownpitchmax.setup(10, 65, 100, 1, "H_PIT_MAX", MainV2.comPort.MAV.param);
             mavlinkNumericUpDownrollmax.setup(10, 65, 100, 1, "H_ROL_MAX", MainV2.comPort.MAV.param);
 
+            H_STAB_COL_MAX.setup(50, 100, 1, 1, "H_STAB_COL_MAX",MainV2.comPort.param);
+            H_STAB_COL_MIN.setup(0, 50, 1, 1, "H_STAB_COL_MIN", MainV2.comPort.param);
+            H_COLYAW.setup(0, 5, 1, 1, "H_COLYAW", MainV2.comPort.param);
+            H_RSC_RATE.setup(0, 60, 100, 1, "H_RSC_RATE", MainV2.comPort.param);
+            H_RSC_MODE.setup(typeof(rsc_mode),"H_RSC_MODE", MainV2.comPort.param);
+            H_GOV_SETPOINT.setup(800, 2200, 1, 1, "H_GOV_SETPOINT", MainV2.comPort.param);
+
             startup = true;
             try
             {
@@ -400,6 +414,12 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                 {
                     CCPM.Checked = MainV2.comPort.MAV.param["H_SWASH_TYPE"].ToString() == "0" ? true : false;
                     H_SWASH_TYPE.Checked = !CCPM.Checked;
+                }
+
+                if (MainV2.comPort.MAV.param.ContainsKey("H_FLYBAR_MODE"))
+                {
+                    fbl_modeFBL.Checked = MainV2.comPort.MAV.param["H_FLYBAR_MODE"].ToString() == "0" ? true : false;
+                    Flybar_mode_flybar.Checked = !fbl_modeFBL.Checked;
                 }
 
                 foreach (string value in MainV2.comPort.MAV.param.Keys)
@@ -493,6 +513,40 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             timer.Stop();
 
             startup = true;
+        }
+
+        private void BUT_reset_swash_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                MainV2.comPort.setParam("H_SV_MAN", 1);
+                System.Threading.Thread.Sleep(200);
+                MainV2.comPort.setParam("H_SV_MAN", 0);
+            }
+            catch { CustomMessageBox.Show("Toggle H_SV_MAN failed"); }
+        }
+
+        private void fbl_modeFBL_CheckedChanged(object sender, EventArgs e)
+        {
+            if (startup)
+                return;
+            try
+            {
+                if (MainV2.comPort.MAV.param["H_FLYBAR_MODE"] == null)
+                {
+                    CustomMessageBox.Show("Not Available on " + MainV2.comPort.MAV.cs.firmware.ToString());
+                }
+                else
+                {
+                    MainV2.comPort.setParam("H_FLYBAR_MODE", fbl_modeFBL.Checked == true ? 0 : 1);
+                }
+            }
+            catch { CustomMessageBox.Show("Set H_FLYBAR_MODE Failed"); }
+        }
+
+        private void Flybar_mode_flybar_CheckedChanged(object sender, EventArgs e)
+        {
+            fbl_modeFBL_CheckedChanged(sender, e);
         }
     }
 }

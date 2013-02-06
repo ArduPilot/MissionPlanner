@@ -360,6 +360,12 @@
     <Compile Include="Controls\MyUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Controls\OptionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\OptionForm.Designer.cs">
+      <DependentUpon>OptionForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\PictureBoxWithPseudoOpacity.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -777,6 +783,9 @@
     <EmbeddedResource Include="Controls\MainSwitcher.resx">
       <DependentUpon>MainSwitcher.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Controls\OptionForm.resx">
+      <DependentUpon>OptionForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\ProgressReporterDialogue.resx">
       <DependentUpon>ProgressReporterDialogue.cs</DependentUpon>
     </EmbeddedResource>
@@ -967,6 +976,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\Terminal.de-DE.resx">
       <DependentUpon>Terminal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Georefimage.de-DE.resx">
+      <DependentUpon>georefimage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="JoystickSetup.de-DE.resx">
       <DependentUpon>JoystickSetup.cs</DependentUpon>

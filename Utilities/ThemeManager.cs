@@ -17,6 +17,7 @@ namespace ArdupilotMega.Utilities
             LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         private static Themes _currentTheme = Themes.BurntKermit;
+        public static Themes CurrentTheme { get { return _currentTheme; } }
 
         public enum Themes
         {
@@ -51,13 +52,14 @@ namespace ArdupilotMega.Utilities
         {
             switch (_currentTheme)
             {
-                case Themes.BurntKermit: ApplyBurntKermitTheme(control, 0);
+                case Themes.BurntKermit: 
+                    ApplyBurntKermitTheme(control, 0);
                     break;
 
-                case Themes.HighContrast: ApplyHighContrast(control, 0);
+                case Themes.HighContrast: 
+                    ApplyHighContrast(control, 0);
                     break;
-            
-                    // More themes go here
+
                 case Themes.Test:
                     ApplyTestTheme(control, 0);
                     break;

@@ -61,17 +61,22 @@ namespace ArdupilotMega
 
                 CreateChart(zg1);
 
-                int a = 1;
-                foreach (DataGridViewRow row in dataGridView1.Rows)
-                {
-                    //Commands.Rows[a].HeaderCell.Value
-                    row.HeaderCell.Value = a.ToString();
-                    a++;
-                }
+                numberRowHeader();
             }
             else
             {
                 return;
+            }
+        }
+
+        void numberRowHeader()
+        {
+            int a = 1;
+            foreach (DataGridViewRow row in dataGridView1.Rows)
+            {
+                //Commands.Rows[a].HeaderCell.Value
+                row.HeaderCell.Value = a.ToString();
+                a++;
             }
         }
 
@@ -104,7 +109,7 @@ namespace ArdupilotMega
             int idx = 0;
             foreach (String strVal in strVals)
             {
-                String strColumnName = String.Format("{0}", idx++);
+                String strColumnName = String.Format("col{0}", idx++);
                 dt.Columns.Add(strColumnName, Type.GetType("System.String"));
             }
             return dt;
@@ -121,7 +126,7 @@ namespace ArdupilotMega
                 Int32 iDiff = iTotalNumberOfValues - m_iColumnCount;
                 for (Int32 i = 0; i < iDiff; i++)
                 {
-                    String strColumnName = String.Format("{0}", (m_iColumnCount + i));
+                    String strColumnName = String.Format("col{0}", (m_iColumnCount + i));
                     dt.Columns.Add(strColumnName, Type.GetType("System.String"));
                 }
                 m_iColumnCount = iTotalNumberOfValues;
@@ -130,7 +135,7 @@ namespace ArdupilotMega
             DataRow drow = dt.NewRow();
             foreach (String strVal in strVals)
             {
-                String strColumnName = String.Format("{0}", idx++);
+                String strColumnName = String.Format("col{0}", idx++);
                 drow[strColumnName] = strVal.Trim();
             }
             dt.Rows.Add(drow);
@@ -356,6 +361,74 @@ namespace ArdupilotMega
             zg1.GraphPane.CurveList.Clear();
             // reload
             Form1_Load(sender, e);
+        }
+
+        private void dataGridView1_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            Point mp = Control.MousePosition;
+
+            List<string> options = new List<string>();
+
+            foreach (DataRow datarow in m_dtCSV.Rows)
+            {
+                string celldata = datarow.ItemArray[0].ToString().Trim();
+                if (!options.Contains(celldata))
+                {
+                    options.Add(celldata);
+                }
+            }
+
+            ArdupilotMega.Controls.OptionForm opt = new ArdupilotMega.Controls.OptionForm();
+
+            opt.StartPosition = FormStartPosition.Manual;
+            opt.Location = mp;
+
+            opt.Combobox.DataSource = options;
+            opt.Button1.Text = "Filter";
+            opt.Button2.Text = "Cancel";
+
+            opt.ShowDialog(this);
+
+            if (opt.SelectedItem != "")
+            {
+                (dataGridView1.DataSource as DataTable).DefaultView.RowFilter = "col0 like '" + opt.SelectedItem + "'";
+
+                //numberRowHeader();
+            }
+            else
+            {
+                (dataGridView1.DataSource as DataTable).DefaultView.RowFilter = "";
+                //dataGridView1.DataSource = m_dtCSV;
+                numberRowHeader();
+            }
+
+            /*
+            dataGridView1.SuspendLayout();
+            
+            foreach (DataGridViewRow datarow in dataGridView1.Rows)
+            {
+                string celldata = datarow.Cells[0].Value.ToString().Trim();
+                if (celldata == opt.SelectedItem || opt.SelectedItem == "")
+                    datarow.Visible = true;
+                else
+                {
+                    try
+                    {
+                        datarow.Visible = false;
+                    }
+                    catch { }
+                }
+            }
+
+            dataGridView1.ResumeLayout();
+             * */
+        }
+
+        void BUT_go_Click(object sender, EventArgs e)
+        {
+            ArdupilotMega.Controls.MyButton  but = sender as ArdupilotMega.Controls.MyButton;
+
+            
         }
     }
 }

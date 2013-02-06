@@ -127,7 +127,7 @@
     <value>Pixel Breite</value>
   </data>
   <data name="label11.Text" xml:space="preserve">
-    <value>Flight line distance</value>
+    <value>Luftlinie</value>
   </data>
   <data name="label14.Text" xml:space="preserve">
     <value>Pixel Höhe</value>
@@ -142,10 +142,10 @@
     <value>Höhe m (agl)</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
-    <value>Sensor Height</value>
+    <value>Sensorhöhe</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>Focal Length</value>
+    <value>Brennweite</value>
   </data>
   <data name="label6.Text" xml:space="preserve">
     <value>FOV H (m)</value>

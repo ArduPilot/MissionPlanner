@@ -121,10 +121,10 @@
     <value>Roll</value>
   </data>
   <data name="label10.Text" xml:space="preserve">
-    <value>Höhen Fehler</value>
+    <value>Höhenfehler</value>
   </data>
   <data name="CHKREV_roll.Text" xml:space="preserve">
-    <value>Reverse Roll</value>
+    <value>Rollen umkehren</value>
   </data>
   <data name="CHK_heli.Text" xml:space="preserve">
     <value>Heli</value>
@@ -136,19 +136,19 @@
     <value>Ardupilot Ausgabe</value>
   </data>
   <data name="label11.Text" xml:space="preserve">
-    <value>Plane IMU</value>
+    <value>Flugzeug-IMU</value>
   </data>
   <data name="label14.Text" xml:space="preserve">
-    <value>Yaw</value>
+    <value>Gieren</value>
   </data>
   <data name="RAD_JSBSim.ToolTip" xml:space="preserve">
-    <value>Can do Plane/Heli/Quads</value>
+    <value>Kann Flugzeug/Heli/Quadrokopter</value>
   </data>
   <data name="label17.Text" xml:space="preserve">
-    <value>GPS Refresh Rate</value>
+    <value>GPS-Wiederholrate</value>
   </data>
   <data name="label15.Text" xml:space="preserve">
-    <value>Gas</value>
+    <value>Schub</value>
   </data>
   <data name="label18.Text" xml:space="preserve">
     <value>Autopilot Status</value>
@@ -157,22 +157,22 @@
     <value>WP</value>
   </data>
   <data name="CHKgraphroll.Text" xml:space="preserve">
-    <value>Show Roll</value>
+    <value>Zeige Rollen</value>
   </data>
   <data name="label20.Text" xml:space="preserve">
-    <value>Mode</value>
+    <value>Modus</value>
   </data>
   <data name="label21.Text" xml:space="preserve">
-    <value>Simulator Authority - For diff planes</value>
+    <value>Simulator Authority - Für verschiedene Flugzeuge</value>
   </data>
   <data name="BUT_startfgquad.Text" xml:space="preserve">
     <value>Start FG Quad</value>
   </data>
   <data name="label22.Text" xml:space="preserve">
-    <value>Roll Gain</value>
+    <value>Rollen Gain</value>
   </data>
   <data name="label23.Text" xml:space="preserve">
-    <value>Pitch Gain</value>
+    <value>Nicken Gain</value>
   </data>
   <data name="CHK_quad.Text" xml:space="preserve">
     <value>Quad</value>
@@ -184,7 +184,7 @@
     <value>Längengrad</value>
   </data>
   <data name="label25.Text" xml:space="preserve">
-    <value>Throttle Gain</value>
+    <value>Schub Gain</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
     <value>Höhe</value>
@@ -205,22 +205,22 @@
     <value>Erweiterte IP einstellungen</value>
   </data>
   <data name="label6.Text" xml:space="preserve">
-    <value>Pitch</value>
+    <value>Nicken</value>
   </data>
   <data name="label29.Text" xml:space="preserve">
     <value>NOTE: </value>
   </data>
   <data name="label7.Text" xml:space="preserve">
-    <value>Heading</value>
+    <value>Richtung</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
-    <value>Plane GPS</value>
+    <value>FlugzeugGPS</value>
   </data>
   <data name="TXT_pitchgain.Text" xml:space="preserve">
     <value>10000</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
-    <value>Roll</value>
+    <value>Rollen</value>
   </data>
   <data name="ConnectComPort.Text" xml:space="preserve">
     <value>Sim Link Start/Stop</value>
@@ -229,7 +229,7 @@
     <value>WPDist</value>
   </data>
   <data name="label9.Text" xml:space="preserve">
-    <value>Bearing ERR</value>
+    <value>Richtungsfehler</value>
   </data>
   <data name="CHKdisplayall.Text" xml:space="preserve">
     <value>Alles anzeigen</value>
@@ -241,28 +241,28 @@
     <value>Einstellungen speichern</value>
   </data>
   <data name="BUT_startfgplane.Text" xml:space="preserve">
-    <value>Start FG Plane</value>
+    <value>Start FG Flugzeug</value>
   </data>
   <data name="CHKgraphrudder.Text" xml:space="preserve">
-    <value>Show Rudder</value>
+    <value>Zeige Ruder</value>
   </data>
   <data name="label30.Text" xml:space="preserve">
-    <value>Yaw</value>
+    <value>Gieren</value>
   </data>
   <data name="CHKREV_rudder.Text" xml:space="preserve">
-    <value>Reverse Rudder</value>
+    <value>Ruder umkehren</value>
   </data>
   <data name="TXT_rollgain.Text" xml:space="preserve">
     <value>10000</value>
   </data>
   <data name="RAD_softFlightGear.ToolTip" xml:space="preserve">
-    <value>Can do Plane and Quad with model</value>
+    <value>Kann Quad und Flugzeug mit Modell</value>
   </data>
   <data name="CHKREV_pitch.Text" xml:space="preserve">
-    <value>Reverse Pitch</value>
+    <value>Nicken umkehren</value>
   </data>
   <data name="CHKgraphthrottle.Text" xml:space="preserve">
-    <value>Show Throttle</value>
+    <value>Zeige Schub</value>
   </data>
   <data name="CHK_xplane10.Text" xml:space="preserve">
     <value>Xplane 10</value>
@@ -271,7 +271,7 @@
     <value>AeroSimRC</value>
   </data>
   <data name="CHKgraphpitch.Text" xml:space="preserve">
-    <value>Show Pitch</value>
+    <value>Zeige nicken</value>
   </data>
   <data name="OutputLog.Text" xml:space="preserve">
     <value />
@@ -292,12 +292,12 @@
     <value>10000</value>
   </data>
   <data name="RAD_aerosimrc.ToolTip" xml:space="preserve">
-    <value>Can do Plane/Heli/Quads</value>
+    <value>Kann Flugzeug/Heli/Quads</value>
   </data>
   <data name="BUT_startxplane.Text" xml:space="preserve">
     <value>Start Xplane</value>
   </data>
   <data name="RAD_softXplanes.ToolTip" xml:space="preserve">
-    <value>Can Do Plane/Quad with plugin</value>
+    <value>Kann Flugzeug/Quad mit Plugin</value>
   </data>
 </root>

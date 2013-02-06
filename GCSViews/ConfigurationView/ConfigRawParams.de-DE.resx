@@ -120,26 +120,30 @@
   <data name="Value.HeaderText" xml:space="preserve">
     <value>Wert</value>
   </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>All Units are in raw 
+format with no scaling</value>
+  </data>
   <data name="BUT_load.Text" xml:space="preserve">
     <value>Laden</value>
+  </data>
+  <data name="Units.HeaderText" xml:space="preserve">
+    <value>Units</value>
   </data>
   <data name="Command.HeaderText" xml:space="preserve">
     <value>Komando</value>
   </data>
-  <data name="Default.HeaderText" xml:space="preserve">
-    <value>Grundeinstellung</value>
+  <data name="Desc.HeaderText" xml:space="preserve">
+    <value>Desc</value>
   </data>
   <data name="BUT_save.Text" xml:space="preserve">
     <value>Speichern</value>
   </data>
+  <data name="Options.HeaderText" xml:space="preserve">
+    <value>Options</value>
+  </data>
   <data name="BUT_writePIDS.Text" xml:space="preserve">
     <value>Parameter speichern</value>
-  </data>
-  <data name="mavScale.HeaderText" xml:space="preserve">
-    <value>mavScale</value>
-  </data>
-  <data name="RawValue.HeaderText" xml:space="preserve">
-    <value>RawValue</value>
   </data>
   <data name="BUT_compare.Text" xml:space="preserve">
     <value>Parameter vergleichen</value>

@@ -178,16 +178,16 @@
     <value>FS Value</value>
   </data>
   <data name="groupBox2.Text" xml:space="preserve">
-    <value>Navigations Winkel</value>
+    <value>Navigationswinkel</value>
   </data>
   <data name="label51.Text" xml:space="preserve">
     <value>I</value>
   </data>
   <data name="groupBox3.Text" xml:space="preserve">
-    <value>Gas 0-100%</value>
+    <value>Schub 0-100%</value>
   </data>
   <data name="label8.Text" xml:space="preserve">
-    <value>Cruise</value>
+    <value>Reiseflug</value>
   </data>
   <data name="groupBox1.Text" xml:space="preserve">
     <value>Geschwindigkeit m/s</value>
@@ -241,22 +241,22 @@
     <value>INT_MAX</value>
   </data>
   <data name="groupBox10.Text" xml:space="preserve">
-    <value>Servo Yaw Pid</value>
+    <value>Servo Gieren Pid</value>
   </data>
   <data name="groupBox13.Text" xml:space="preserve">
-    <value>Nav Pitch Alt Pid</value>
+    <value>Nav Nicken Alt Pid</value>
   </data>
   <data name="groupBox11.Text" xml:space="preserve">
-    <value>Nav Roll Pid</value>
+    <value>Nav Rollen Pid</value>
   </data>
   <data name="label38.Text" xml:space="preserve">
-    <value>Pitch Max</value>
+    <value>Nicken Max</value>
   </data>
   <data name="label37.Text" xml:space="preserve">
-    <value>Bank Max</value>
+    <value>Rollen Max</value>
   </data>
   <data name="label39.Text" xml:space="preserve">
-    <value>Pitch Min</value>
+    <value>Nicken Min</value>
   </data>
   <data name="label74.Text" xml:space="preserve">
     <value>D</value>
@@ -286,7 +286,7 @@
     <value>Ruder Mix</value>
   </data>
   <data name="label79.Text" xml:space="preserve">
-    <value>eingangs Winkel</value>
+    <value>Eingangswinkel</value>
   </data>
   <data name="BUT_rerequestparams.Text" xml:space="preserve">
     <value>Parameter aktualisieren</value>

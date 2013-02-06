@@ -131,7 +131,7 @@
     <value>RC Kanal</value>
   </data>
   <data name="LIM_FNC_REQ.Text" xml:space="preserve">
-    <value>Require Inside Fence</value>
+    <value>Im eingezäunten Gebiet bleiben</value>
   </data>
   <data name="myLabel2.Text" xml:space="preserve">
     <value>Max Höhe</value>

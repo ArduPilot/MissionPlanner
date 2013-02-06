@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="elevationGraphToolStripMenuItem.Text" xml:space="preserve">
-    <value>Elevation Graph</value>
+    <value>Höhenschreiber</value>
   </data>
   <data name="flyToHereToolStripMenuItem.Text" xml:space="preserve">
-    <value>Fly To Here</value>
+    <value>Hierhin fliegen</value>
   </data>
   <data name="CHK_geheight.Text" xml:space="preserve">
     <value>Höhe prüfen</value>
@@ -130,22 +130,22 @@
     <value>Home</value>
   </data>
   <data name="gridToolStripMenuItem.Text" xml:space="preserve">
-    <value>Grid</value>
+    <value>Gitter</value>
   </data>
   <data name="trackerHomeToolStripMenuItem.Text" xml:space="preserve">
     <value>Tracker Home</value>
   </data>
   <data name="label10.Text" xml:space="preserve">
-    <value>Lat</value>
+    <value>Breite</value>
   </data>
   <data name="GeoFencedownloadToolStripMenuItem.Text" xml:space="preserve">
     <value>Download</value>
   </data>
   <data name="lbl_prevdist.Text" xml:space="preserve">
-    <value>Prev</value>
+    <value>Zurück</value>
   </data>
   <data name="loadAndAppendToolStripMenuItem.Text" xml:space="preserve">
-    <value>Load and Append</value>
+    <value>Laden und Anhängen</value>
   </data>
   <data name="label11.Text" xml:space="preserve">
     <value>Vergrößern</value>
@@ -154,7 +154,7 @@
     <value>45</value>
   </data>
   <data name="comboBoxMapType.ToolTip" xml:space="preserve">
-    <value>Change the current map type</value>
+    <value>Aktuellen Kartentyp ändern</value>
   </data>
   <data name="Param4.HeaderText" xml:space="preserve">
     <value>P4</value>
@@ -181,22 +181,22 @@
     <value>KML Overlay</value>
   </data>
   <data name="Lat.HeaderText" xml:space="preserve">
-    <value>Lat</value>
+    <value>Breite</value>
   </data>
   <data name="autoWPToolStripMenuItem.Text" xml:space="preserve">
     <value>Auto WP</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>Long</value>
+    <value>Länge</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
-    <value>Alt (abs)</value>
+    <value>Höhe (abs)</value>
   </data>
   <data name="mapToolToolStripMenuItem.Text" xml:space="preserve">
-    <value>Map Tool</value>
+    <value>Karteneinstellungen</value>
   </data>
   <data name="loiterForeverToolStripMenuItem.Text" xml:space="preserve">
-    <value>Forever</value>
+    <value>Ewig</value>
   </data>
   <data name="Alt.HeaderText" xml:space="preserve">
     <value>Höhe</value>
@@ -205,13 +205,13 @@
     <value>ROI setzen</value>
   </data>
   <data name="label7.Text" xml:space="preserve">
-    <value>Mouse Location</value>
+    <value>Mausposition</value>
   </data>
   <data name="dataGridViewImageColumn1.HeaderText" xml:space="preserve">
     <value>hoch</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
-    <value>Heimatlokation</value>
+    <value>Heimatort</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
     <value>Loiter Radius</value>
@@ -241,22 +241,22 @@
     <value>WP Radius</value>
   </data>
   <data name="zoomToToolStripMenuItem.Text" xml:space="preserve">
-    <value>Zoom To</value>
+    <value>Hierhin zoomen</value>
   </data>
   <data name="label9.Text" xml:space="preserve">
-    <value>Long</value>
+    <value>Länge</value>
   </data>
   <data name="Command.HeaderText" xml:space="preserve">
-    <value>Command</value>
+    <value>Befehl</value>
   </data>
   <data name="Label1.Text" xml:space="preserve">
-    <value>Lat</value>
+    <value>Breite</value>
   </data>
   <data name="lbl_status.Text" xml:space="preserve">
     <value>Status</value>
   </data>
   <data name="setReturnLocationToolStripMenuItem.Text" xml:space="preserve">
-    <value>Set Return Location</value>
+    <value>Ort zur Rückkehr setzen</value>
   </data>
   <data name="panelMap.Text" xml:space="preserve">
     <value>panel6</value>
@@ -274,19 +274,22 @@
     <value>Zeile löschen</value>
   </data>
   <data name="takeoffToolStripMenuItem.Text" xml:space="preserve">
-    <value>Takeoff</value>
+    <value>Abflug</value>
   </data>
   <data name="addPolygonPointToolStripMenuItem.Text" xml:space="preserve">
-    <value>Polygon punkt hinzugügen</value>
+    <value>Polygonpunkt hinzufügen</value>
   </data>
   <data name="loiterToolStripMenuItem.Text" xml:space="preserve">
     <value>Loiter</value>
   </data>
   <data name="Command.ToolTipText" xml:space="preserve">
-    <value>APM Command</value>
+    <value>APM-Befehl</value>
   </data>
   <data name="BUT_Add.Text" xml:space="preserve">
-    <value>Add Below</value>
+    <value>Unten hinzufügen</value>
+  </data>
+  <data name="areaToolStripMenuItem.Text" xml:space="preserve">
+    <value>Fläche</value>
   </data>
   <data name="lbl_distance.Text" xml:space="preserve">
     <value>Entfernung</value>
@@ -301,7 +304,7 @@
     <value>Runter</value>
   </data>
   <data name="Lon.HeaderText" xml:space="preserve">
-    <value>Lon</value>
+    <value>Länge</value>
   </data>
   <data name="polygonToolStripMenuItem.Text" xml:space="preserve">
     <value>Polygon zeichnen</value>

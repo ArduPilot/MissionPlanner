@@ -26,6 +26,12 @@ namespace ArdupilotMega
         public event EventHandler ParamListChanged;
 
         /// <summary>
+        /// used to prevent comport access for exclusive use
+        /// </summary>
+        public bool giveComport { get { return _giveComport; } set { _giveComport = value; } }
+        static bool _giveComport = false;
+
+        /// <summary>
         /// mavlink remote sysid
         /// </summary>
         public byte sysid { get { return MAV.sysid; } set { MAV.sysid = value; } }
@@ -305,7 +311,7 @@ namespace ArdupilotMega
         {
             frmProgressReporter.UpdateProgressAndStatus(-1, "Mavlink Connecting...");
 
-            MainV2.giveComport = true;
+            giveComport = true;
 
             // allow settings to settle - previous dtr 
             System.Threading.Thread.Sleep(500);
@@ -360,7 +366,7 @@ namespace ArdupilotMega
                         countDown.Stop();
                         if (BaseStream.IsOpen)
                             BaseStream.Close();
-                        MainV2.giveComport = false;
+                        giveComport = false;
                         return;
                     }
 
@@ -449,7 +455,7 @@ namespace ArdupilotMega
 
                 if (frmProgressReporter.doWorkArgs.CancelAcknowledged == true)
                 {
-                    MainV2.giveComport = false;
+                    giveComport = false;
                     if (BaseStream.IsOpen)
                         BaseStream.Close();
                     return;
@@ -462,13 +468,13 @@ namespace ArdupilotMega
                     BaseStream.Close();
                 }
                 catch { }
-                MainV2.giveComport = false;
+                giveComport = false;
                 if (string.IsNullOrEmpty(progressWorkerEventArgs.ErrorMessage))
                     progressWorkerEventArgs.ErrorMessage = "Connect Failed";
                 throw e;
             }
             //frmProgressReporter.Close();
-            MainV2.giveComport = false;
+            giveComport = false;
             frmProgressReporter.UpdateProgressAndStatus(100, "Done.");
             log.Info("Done open " + sysid + " " + compid);
             packetslost = 0;
@@ -646,7 +652,7 @@ namespace ArdupilotMega
                 return true;
             }
 
-            MainV2.giveComport = true;
+            giveComport = true;
 
             var req = new mavlink_param_set_t { target_system = sysid, target_component = compid };
 
@@ -679,7 +685,7 @@ namespace ArdupilotMega
                         retrys--;
                         continue;
                     }
-                    MainV2.giveComport = false;
+                    giveComport = false;
                     throw new Exception("Timeout on read - setParam " + paramname);
                 }
 
@@ -707,7 +713,7 @@ namespace ArdupilotMega
 
                         param[st] = (par.param_value);
 
-                        MainV2.giveComport = false;
+                        giveComport = false;
                         //System.Threading.Thread.Sleep(100);//(int)(8.5 * 5)); // 8.5ms per byte
                         return true;
                     }
@@ -757,7 +763,7 @@ namespace ArdupilotMega
         /// <returns></returns>
         private Hashtable getParamListBG()
         {
-            MainV2.giveComport = true;
+            giveComport = true;
             List<int> indexsreceived = new List<int>();
 
             // clear old
@@ -789,7 +795,7 @@ namespace ArdupilotMega
                 if (frmProgressReporter.doWorkArgs.CancelRequested)
                 {
                     frmProgressReporter.doWorkArgs.CancelAcknowledged = true;
-                    MainV2.giveComport = false;
+                    giveComport = false;
                     frmProgressReporter.doWorkArgs.ErrorMessage = "User Canceled";
                     return param;
                 }
@@ -829,7 +835,7 @@ namespace ArdupilotMega
                         retrys--;
                         continue;
                     }
-                    MainV2.giveComport = false;
+                    giveComport = false;
                     if (packets > 0 && param_total == 1)
                     {
                         throw new Exception("Timeout on read - getParamList\n" + packets + " Packets where received, but no paramater packets where received\n");
@@ -919,7 +925,7 @@ namespace ArdupilotMega
                 }
                 throw new Exception("Missing Params");
             }
-            MainV2.giveComport = false;
+            giveComport = false;
             return param;
         }
 
@@ -946,7 +952,7 @@ namespace ArdupilotMega
 
             log.Info("GetParam name: "+ name + " index: " + index);
 
-            MainV2.giveComport = true;
+            giveComport = true;
             byte[] buffer;
 
             mavlink_param_request_read_t req = new mavlink_param_request_read_t();
@@ -978,7 +984,7 @@ namespace ArdupilotMega
                         retrys--;
                         continue;
                     }
-                    MainV2.giveComport = false;
+                    giveComport = false;
                     throw new Exception("Timeout on read - GetParam");
                 }
 
@@ -987,7 +993,7 @@ namespace ArdupilotMega
                 {
                     if (buffer[5] == MAVLINK_MSG_ID_PARAM_VALUE)
                     {
-                        MainV2.giveComport = false;
+                        giveComport = false;
 
                         mavlink_param_value_t par = buffer.ByteArrayToStructure<mavlink_param_value_t>(6);
 
@@ -1087,7 +1093,7 @@ namespace ArdupilotMega
         public bool setWPCurrent(ushort index)
         {
 #if MAVLINK10
-            MainV2.giveComport = true;
+            giveComport = true;
             byte[] buffer;
 
             mavlink_mission_set_current_t req = new mavlink_mission_set_current_t();
@@ -1113,7 +1119,7 @@ namespace ArdupilotMega
                         retrys--;
                         continue;
                     }
-                    MainV2.giveComport = false;
+                    giveComport = false;
                     throw new Exception("Timeout on read - setWPCurrent");
                 }
 
@@ -1122,7 +1128,7 @@ namespace ArdupilotMega
                 {
                     if (buffer[5] == MAVLINK_MSG_ID_MISSION_CURRENT)
                     {
-                        MainV2.giveComport = false;
+                        giveComport = false;
                         return true;
                     }
                 }
@@ -1144,7 +1150,7 @@ namespace ArdupilotMega
         public bool doCommand(MAV_CMD actionid, float p1, float p2, float p3, float p4, float p5, float p6, float p7)
         {
 
-            MainV2.giveComport = true;
+            giveComport = true;
             byte[] buffer;
 
             mavlink_command_long_t req = new mavlink_command_long_t();
@@ -1187,7 +1193,7 @@ namespace ArdupilotMega
             else if (actionid == MAV_CMD.PREFLIGHT_REBOOT_SHUTDOWN)
             {
                 generatePacket(MAVLINK_MSG_ID_COMMAND_LONG, req);
-                MainV2.giveComport = false;
+                giveComport = false;
                 return true;
             }
             else if (actionid == MAV_CMD.COMPONENT_ARM_DISARM)
@@ -1208,7 +1214,7 @@ namespace ArdupilotMega
                         retrys--;
                         continue;
                     }
-                    MainV2.giveComport = false;
+                    giveComport = false;
                     throw new Exception("Timeout on read - doAction");
                 }
 
@@ -1224,19 +1230,19 @@ namespace ArdupilotMega
 
                         if (ack.result == (byte)MAV_RESULT.ACCEPTED)
                         {
-                            MainV2.giveComport = false;
+                            giveComport = false;
                             return true;
                         }
                         else
                         {
-                            MainV2.giveComport = false;
+                            giveComport = false;
                             return false;
                         }
                     }
                 }
             }
 #else
-            MainV2.giveComport = true;
+            giveComport = true;
             byte[] buffer;
 
             mavlink_waypoint_set_current_t req = new mavlink_waypoint_set_current_t();
@@ -1262,7 +1268,7 @@ namespace ArdupilotMega
                         retrys--;
                         continue;
                     }
-                    MainV2.giveComport = false;
+                    giveComport = false;
                     throw new Exception("Timeout on read - setWPCurrent");
                 }
 
@@ -1271,7 +1277,7 @@ namespace ArdupilotMega
                 {
                     if (buffer[5] == MAVLINK_MSG_ID_WAYPOINT_CURRENT)
                     {
-                        MainV2.giveComport = false;
+                        giveComport = false;
                         return true;
                     }
                 }
@@ -1288,7 +1294,7 @@ namespace ArdupilotMega
         {
             MAV_ACTION actionid = (MAV_ACTION)actionidin;
 
-            MainV2.giveComport = true;
+            giveComport = true;
             byte[] buffer;
 
             mavlink_action_t req = new mavlink_action_t();
@@ -1328,7 +1334,7 @@ namespace ArdupilotMega
                         retrys--;
                         continue;
                     }
-                    MainV2.giveComport = false;
+                    giveComport = false;
                     throw new Exception("Timeout on read - doAction");
                 }
 
@@ -1339,12 +1345,12 @@ namespace ArdupilotMega
                     {
                         if (buffer[7] == 1)
                         {
-                            MainV2.giveComport = false;
+                            giveComport = false;
                             return true;
                         }
                         else
                         {
-                            MainV2.giveComport = false;
+                            giveComport = false;
                             return false;
                         }
                     }
@@ -1500,7 +1506,7 @@ namespace ArdupilotMega
         /// <returns></returns>
         public byte getWPCount()
         {
-            MainV2.giveComport = true;
+            giveComport = true;
             byte[] buffer;
 #if MAVLINK10
             mavlink_mission_request_list_t req = new mavlink_mission_request_list_t();
@@ -1520,13 +1526,13 @@ namespace ArdupilotMega
                 {
                     if (retrys > 0)
                     {
-                        log.Info("getWPCount Retry " + retrys + " - giv com " + MainV2.giveComport);
+                        log.Info("getWPCount Retry " + retrys + " - giv com " + giveComport);
                         generatePacket(MAVLINK_MSG_ID_MISSION_REQUEST_LIST, req);
                         start = DateTime.Now;
                         retrys--;
                         continue;
                     }
-                    MainV2.giveComport = false;
+                    giveComport = false;
                     //return (byte)int.Parse(param["WP_TOTAL"].ToString());
                     throw new Exception("Timeout on read - getWPCount");
                 }
@@ -1543,7 +1549,7 @@ namespace ArdupilotMega
 
 
                         log.Info("wpcount: " + count.count);
-                        MainV2.giveComport = false;
+                        giveComport = false;
                         return (byte)count.count; // should be ushort, but apm has limited wp count < byte
                     }
                     else
@@ -1571,13 +1577,13 @@ namespace ArdupilotMega
                 {
                     if (retrys > 0)
                     {
-                        log.Info("getWPCount Retry " + retrys + " - giv com " + MainV2.giveComport);
+                        log.Info("getWPCount Retry " + retrys + " - giv com " + giveComport);
                         generatePacket(MAVLINK_MSG_ID_WAYPOINT_REQUEST_LIST, req);
                         start = DateTime.Now;
                         retrys--;
                         continue;
                     }
-                    MainV2.giveComport = false;
+                    giveComport = false;
                     //return (byte)int.Parse(param["WP_TOTAL"].ToString());
                     throw new Exception("Timeout on read - getWPCount");
                 }
@@ -1589,7 +1595,7 @@ namespace ArdupilotMega
                     {
 
                         log.Info("wpcount: " + buffer[9]);
-                        MainV2.giveComport = false;
+                        giveComport = false;
                         return buffer[9]; // should be ushort, but apm has limited wp count < byte
                     }
                     else
@@ -1608,7 +1614,7 @@ namespace ArdupilotMega
         /// <returns>WP</returns>
         public Locationwp getWP(ushort index)
         {
-            MainV2.giveComport = true;
+            giveComport = true;
             Locationwp loc = new Locationwp();
 #if MAVLINK10
             mavlink_mission_request_t req = new mavlink_mission_request_t();
@@ -1638,7 +1644,7 @@ namespace ArdupilotMega
                         retrys--;
                         continue;
                     }
-                    MainV2.giveComport = false;
+                    giveComport = false;
                     throw new Exception("Timeout on read - getWP");
                 }
                 //Console.WriteLine("getwp read " + DateTime.Now.Millisecond);
@@ -1685,7 +1691,7 @@ namespace ArdupilotMega
                         retrys--;
                         continue;
                     }
-                    MainV2.giveComport = false;
+                    giveComport = false;
                     throw new Exception("Timeout on read - getWP");
                 }
                 //Console.WriteLine("getwp read " + DateTime.Now.Millisecond);
@@ -1711,7 +1717,7 @@ namespace ArdupilotMega
                         loc.lat = ((wp.x));
                         loc.lng = ((wp.y));
                         /*
-                        if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane)
+                        if (MAV.cs.firmware == MainV2.Firmwares.ArduPlane)
                         {
                             switch (loc.id)
                             {					// Switch to map APM command fields inot MAVLink command fields
@@ -1784,7 +1790,7 @@ namespace ArdupilotMega
                     }
                 }
             }
-            MainV2.giveComport = false;
+            giveComport = false;
             return loc;
         }
 
@@ -1888,7 +1894,7 @@ namespace ArdupilotMega
         public void setWPTotal(ushort wp_total)
         {
 #if MAVLINK10
-            MainV2.giveComport = true;
+            giveComport = true;
             mavlink_mission_count_t req = new mavlink_mission_count_t();
 
             req.target_system = sysid;
@@ -1913,7 +1919,7 @@ namespace ArdupilotMega
                         retrys--;
                         continue;
                     }
-                    MainV2.giveComport = false;
+                    giveComport = false;
                     throw new Exception("Timeout on read - setWPTotal");
                 }
                 byte[] buffer = readPacket();
@@ -1935,7 +1941,7 @@ namespace ArdupilotMega
 
                             wps.Clear();
 
-                            MainV2.giveComport = false;
+                            giveComport = false;
                             return;
                         }
                     }
@@ -1946,7 +1952,7 @@ namespace ArdupilotMega
                 }
             }
 #else
-            MainV2.giveComport = true;
+            giveComport = true;
             mavlink_waypoint_count_t req = new mavlink_waypoint_count_t();
 
             req.target_system = sysid;
@@ -1971,7 +1977,7 @@ namespace ArdupilotMega
                         retrys--;
                         continue;
                     }
-                    MainV2.giveComport = false;
+                    giveComport = false;
                     throw new Exception("Timeout on read - setWPTotal");
                 }
                 byte[] buffer = readPacket();
@@ -1987,7 +1993,7 @@ namespace ArdupilotMega
                                 param["WP_TOTAL"] = (float)wp_total - 1;
                             if (param["CMD_TOTAL"] != null)
                                 param["CMD_TOTAL"] = (float)wp_total - 1;
-                            MainV2.giveComport = false;
+                            giveComport = false;
                             return;
                         }
                     }
@@ -2010,7 +2016,7 @@ namespace ArdupilotMega
         /// <param name="current">0 = no , 2 = guided mode</param>
         public MAV_MISSION_RESULT setWP(Locationwp loc, ushort index, MAV_FRAME frame, byte current = 0)
         {
-            MainV2.giveComport = true;
+            giveComport = true;
             mavlink_mission_item_t req = new mavlink_mission_item_t();
 
             req.target_system = sysid;
@@ -2055,7 +2061,7 @@ namespace ArdupilotMega
                         retrys--;
                         continue;
                     }
-                    MainV2.giveComport = false;
+                    giveComport = false;
                     throw new Exception("Timeout on read - setWP");
                 }
                 byte[] buffer = readPacket();
@@ -2087,7 +2093,7 @@ namespace ArdupilotMega
                         if (ans.seq == (index + 1))
                         {
                             log.Info("set wp doing " + index + " req " + ans.seq + " REQ 40 : " + buffer[5]);
-                            MainV2.giveComport = false;
+                            giveComport = false;
 
                             if (req.current == 2)
                             {
@@ -2155,38 +2161,38 @@ namespace ArdupilotMega
             if (gotohere.alt == 0 || gotohere.lat == 0 || gotohere.lng == 0)
                 return;
 
-            MainV2.giveComport = true;
+            giveComport = true;
 
             try
             {
                 gotohere.id = (byte)MAV_CMD.WAYPOINT;
 
-                MAV_MISSION_RESULT ans = MainV2.comPort.setWP(gotohere, 0, MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT, (byte)2);
+                MAV_MISSION_RESULT ans = setWP(gotohere, 0, MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT, (byte)2);
 
                 if (ans != MAV_MISSION_RESULT.MAV_MISSION_ACCEPTED)
                     throw new Exception("Guided Mode Failed");
             }
             catch (Exception ex) { log.Error(ex); }
 
-            MainV2.giveComport = false;
+            giveComport = false;
         }
 
         public void setNewWPAlt(Locationwp gotohere)
         {
-            MainV2.giveComport = true;
+            giveComport = true;
 
             try
             {
                 gotohere.id = (byte)MAV_CMD.WAYPOINT;
 
-                MAV_MISSION_RESULT ans = MainV2.comPort.setWP(gotohere, 0, MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT, (byte)3);
+                MAV_MISSION_RESULT ans = setWP(gotohere, 0, MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT, (byte)3);
 
                 if (ans != MAV_MISSION_RESULT.MAV_MISSION_ACCEPTED)
                     throw new Exception("Alt Change Failed");
             }
-            catch (Exception ex) { MainV2.giveComport = false; log.Error(ex); throw; }
+            catch (Exception ex) { giveComport = false; log.Error(ex); throw; }
 
-            MainV2.giveComport = false;
+            giveComport = false;
         }
 
         public void setDigicamConfigure()
@@ -2350,7 +2356,7 @@ namespace ArdupilotMega
                         }
                         else
                         {
-                            MainV2.comPort.MAV.cs.datetime = DateTime.Now;
+                            MAV.cs.datetime = DateTime.Now;
 
                             DateTime to = DateTime.Now.AddMilliseconds(BaseStream.ReadTimeout);
 
@@ -2503,7 +2509,7 @@ namespace ArdupilotMega
                 packetsnotlost = (packetsnotlost * 0.8f);
             }
 
-            //MainV2.comPort.MAV.cs.linkqualitygcs = (ushort)((packetsnotlost / (packetsnotlost + packetslost)) * 100.0);
+            //MAV.cs.linkqualitygcs = (ushort)((packetsnotlost / (packetsnotlost + packetslost)) * 100.0);
 
             if (bpstime.Second != DateTime.Now.Second && !logreadmode)
             {
@@ -2724,7 +2730,7 @@ namespace ArdupilotMega
         {
             byte[] buffer;
 
-            MainV2.giveComport = true;
+            giveComport = true;
 
             PointLatLngAlt plla = new PointLatLngAlt();
             mavlink_fence_fetch_point_t req = new mavlink_fence_fetch_point_t();
@@ -2745,13 +2751,13 @@ namespace ArdupilotMega
                 {
                     if (retrys > 0)
                     {
-                        log.Info("getFencePoint Retry " + retrys + " - giv com " + MainV2.giveComport);
+                        log.Info("getFencePoint Retry " + retrys + " - giv com " + giveComport);
                         generatePacket(MAVLINK_MSG_ID_FENCE_FETCH_POINT, req);
                         start = DateTime.Now;
                         retrys--;
                         continue;
                     }
-                    MainV2.giveComport = false;
+                    giveComport = false;
                     throw new Exception("Timeout on read - getFencePoint");
                 }
 
@@ -2760,7 +2766,7 @@ namespace ArdupilotMega
                 {
                     if (buffer[5] == MAVLINK_MSG_ID_FENCE_POINT)
                     {
-                        MainV2.giveComport = false;
+                        giveComport = false;
 
                         mavlink_fence_point_t fp = buffer.ByteArrayToStructure<mavlink_fence_point_t>(6);
 
@@ -2876,7 +2882,7 @@ namespace ArdupilotMega
             }
             catch { }
 
-            MainV2.comPort.MAV.cs.datetime = lastlogread;
+            MAV.cs.datetime = lastlogread;
 
             int length = 5;
             int a = 0;
@@ -2913,7 +2919,7 @@ namespace ArdupilotMega
         public bool translateMode(string modein, ref MAVLink.mavlink_set_mode_t mode)
         {
             //MAVLink09.mavlink_set_mode_t mode = new MAVLink09.mavlink_set_mode_t();
-            mode.target_system = MainV2.comPort.MAV.sysid;
+            mode.target_system = MAV.sysid;
 
             try
             {
@@ -2973,13 +2979,13 @@ namespace ArdupilotMega
                     switch (aptype)
                     {
                         case MAVLink.MAV_TYPE.FIXED_WING:
-                            MainV2.comPort.MAV.cs.firmware = MainV2.Firmwares.ArduPlane;
+                            MAV.cs.firmware = MainV2.Firmwares.ArduPlane;
                             break;
                         case MAVLink.MAV_TYPE.QUADROTOR:
-                            MainV2.comPort.MAV.cs.firmware = MainV2.Firmwares.ArduCopter2;
+                            MAV.cs.firmware = MainV2.Firmwares.ArduCopter2;
                             break;
                         case MAVLink.MAV_TYPE.GROUND_ROVER:
-                            MainV2.comPort.MAV.cs.firmware = MainV2.Firmwares.ArduRover;
+                            MAV.cs.firmware = MainV2.Firmwares.ArduRover;
                             break;
                         default:
                             break;
@@ -2989,6 +2995,11 @@ namespace ArdupilotMega
 
                     break;
             }
+        }
+
+        public override string ToString() 
+        {
+            return "MAV " + sysid + " on " + BaseStream.PortName;
         }
 
     }

@@ -133,7 +133,7 @@
     <value>Joystick</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>Pitch</value>
+    <value>Nicken</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
     <value>Gas</value>
@@ -142,7 +142,7 @@
     <value>0</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>Roll</value>
+    <value>Rollen</value>
   </data>
   <data name="label6.Text" xml:space="preserve">
     <value>Expo</value>
@@ -157,7 +157,7 @@
     <value>30</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
-    <value>Rudder</value>
+    <value>Ruder</value>
   </data>
   <data name="expo_ch7.Text" xml:space="preserve">
     <value>0</value>
@@ -169,13 +169,13 @@
     <value>0</value>
   </data>
   <data name="label8.Text" xml:space="preserve">
-    <value>Controller Axis</value>
+    <value>Controller-Achse</value>
   </data>
   <data name="expo_ch6.Text" xml:space="preserve">
     <value>0</value>
   </data>
   <data name="label9.Text" xml:space="preserve">
-    <value>Reverse</value>
+    <value>Umkehren</value>
   </data>
   <data name="expo_ch4.Text" xml:space="preserve">
     <value>30</value>
@@ -187,31 +187,31 @@
     <value>Speichern</value>
   </data>
   <data name="BUT_detch6.Text" xml:space="preserve">
-    <value>Auto Detect</value>
+    <value>Automatisch erkennen</value>
   </data>
   <data name="CHK_elevons.Text" xml:space="preserve">
-    <value>Elevons</value>
+    <value>Höhenruder</value>
   </data>
   <data name="BUT_detch7.Text" xml:space="preserve">
-    <value>Auto Detect</value>
+    <value>Automatisch erkennen</value>
   </data>
   <data name="BUT_detch4.Text" xml:space="preserve">
-    <value>Auto Detect</value>
+    <value>Automatisch erkennen</value>
   </data>
   <data name="BUT_detch5.Text" xml:space="preserve">
-    <value>Auto Detect</value>
+    <value>Automatisch erkennen</value>
   </data>
   <data name="BUT_detch2.Text" xml:space="preserve">
-    <value>Auto Detect</value>
+    <value>Automatisch erkennen</value>
   </data>
   <data name="BUT_detch3.Text" xml:space="preserve">
-    <value>Auto Detect</value>
+    <value>Automatisch erkennen</value>
   </data>
   <data name="BUT_detch1.Text" xml:space="preserve">
-    <value>Auto Detect</value>
+    <value>Automatisch erkennen</value>
   </data>
   <data name="BUT_detch8.Text" xml:space="preserve">
-    <value>Auto Detect</value>
+    <value>Automatisch erkennen</value>
   </data>
   <data name="BUT_enable.Text" xml:space="preserve">
     <value>Aktivieren</value>

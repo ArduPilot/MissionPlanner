@@ -44,9 +44,14 @@ namespace ArdupilotMega
         const int SW_HIDE = 0;
 
         /// <summary>
-        /// Main Comport interface
+        /// Active Comport interface
         /// </summary>
         public static MAVLink comPort = new MAVLink();
+/// <summary>
+/// passive comports
+/// </summary>
+        public static List<MAVLink> Comports = new List<MAVLink>();
+
         /// <summary>
         /// Comport name
         /// </summary>
@@ -55,10 +60,6 @@ namespace ArdupilotMega
         /// use to store all internal config
         /// </summary>
         public static Hashtable config = new Hashtable();
-        /// <summary>
-        /// used to prevent comport access for exclusive use
-        /// </summary>
-        public static bool giveComport = false;
         /// <summary>
         /// mono detection
         /// </summary>
@@ -264,6 +265,11 @@ namespace ArdupilotMega
 
             ChangeUnits();
 
+            if (config["theme"] != null)
+            {
+                ThemeManager.SetTheme((ThemeManager.Themes)Enum.Parse(typeof(ThemeManager.Themes), MainV2.config["theme"].ToString()));
+            }
+
             try
             {
                 FlightData = new GCSViews.FlightData();
@@ -349,7 +355,6 @@ namespace ArdupilotMega
                         MainV2.comPort.MAV.cs.HomeLocation.Alt = double.Parse(config["TXT_homealt"].ToString());
                 }
                 catch { }
-
             }
             catch { }
 
@@ -382,6 +387,7 @@ namespace ArdupilotMega
 
             Application.DoEvents();
 
+            Comports.Add(comPort);
 
             splash.Close();
         }
@@ -499,7 +505,7 @@ namespace ArdupilotMega
 
         private void MenuConnect_Click(object sender, EventArgs e)
         {
-            giveComport = false;
+            comPort.giveComport = false;
 
             // sanity check
             if (comPort.BaseStream.IsOpen && MainV2.comPort.MAV.cs.groundspeed > 4)
@@ -617,13 +623,13 @@ namespace ArdupilotMega
                     comPort.BaseStream.RtsEnable = false;
 
                     // prevent serialreader from doing anything
-                    giveComport = true;
+                    comPort.giveComport = true;
 
                         // reset on connect logic.
                         if (config["CHK_resetapmonconnect"] == null || bool.Parse(config["CHK_resetapmonconnect"].ToString()) == true)
                             comPort.BaseStream.toggleDTR();
 
-                    giveComport = false;
+                        comPort.giveComport = false;
 
                     // setup to record new logs
                     try
@@ -1084,6 +1090,8 @@ namespace ArdupilotMega
 
             int minbytes = 0;
 
+            bool armedstatus = false;
+
             DateTime speechcustomtime = DateTime.Now;
 
             DateTime speechbatterytime = DateTime.Now;
@@ -1150,8 +1158,22 @@ namespace ArdupilotMega
                     }
 
                     // if not connected or busy, sleep and loop
-                    if (!comPort.BaseStream.IsOpen || giveComport == true)
+                    if (!comPort.BaseStream.IsOpen || comPort.giveComport == true)
                     {
+                        if (!comPort.BaseStream.IsOpen)
+                        {
+                            // check if other ports are still open
+                            foreach (var port in Comports)
+                            {
+                                if (port.BaseStream.IsOpen)
+                                {
+                                    Console.WriteLine("Main comport shut, swapping to other mav");
+                                    comPort = port;
+                                    break;
+                                }
+                            }
+                        }
+
                         System.Threading.Thread.Sleep(100);
                         continue;
                     }
@@ -1176,7 +1198,7 @@ namespace ArdupilotMega
                     }
 
                     // send a hb every seconds from gcs to ap
-                    if (heatbeatSend.Second != DateTime.Now.Second)
+                    if (heatbeatSend.Second != DateTime.Now.Second && comPort.giveComport == false)
                     {
                         MAVLink.mavlink_heartbeat_t htb = new MAVLink.mavlink_heartbeat_t()
                         {
@@ -1186,6 +1208,18 @@ namespace ArdupilotMega
                         };
 
                         comPort.sendPacket(htb);
+
+                        foreach (var port in MainV2.Comports)
+                        {
+                            if (port == MainV2.comPort)
+                                continue;
+                            try
+                            {
+                                port.sendPacket(htb);
+                            }
+                            catch { }
+                        }
+
                         heatbeatSend = DateTime.Now;
                     }
 
@@ -1199,14 +1233,47 @@ namespace ArdupilotMega
                         }
                     }
 
+                    // get home point on armed status change.
+                    if (armedstatus != MainV2.comPort.MAV.cs.armed)
+                    {
+                        armedstatus = MainV2.comPort.MAV.cs.armed;
+                        // status just changed to armed
+                        if (MainV2.comPort.MAV.cs.armed == true)
+                        {
+                            MainV2.comPort.MAV.cs.HomeLocation = new PointLatLngAlt(MainV2.comPort.getWP(0));
+                        }
+                    }
+
                     // actauly read the packets
-                    while (comPort.BaseStream.BytesToRead > minbytes && giveComport == false)
+                    while (comPort.BaseStream.BytesToRead > minbytes && comPort.giveComport == false)
                     {
                         try
                         {
                             comPort.readPacket();
                         }
                         catch { }
+                    }
+
+                    // read the other interfaces
+                    foreach (var port in Comports)
+                    {
+                        if (!port.BaseStream.IsOpen)
+                        {
+                            // modify array and drop out
+                            Comports.Remove(port);
+                            break;
+                        }
+                        // skip primary interface
+                        if (port == comPort)
+                            continue;
+                        while (port.BaseStream.BytesToRead > minbytes)
+                        {
+                            try
+                            {
+                                port.readPacket();
+                            }
+                            catch { }
+                        }
                     }
                 }
                 catch (Exception e)
@@ -2879,6 +2946,11 @@ Server: ubuntu
         private void MainV2_KeyDown(object sender, KeyEventArgs e)
         {
             Console.WriteLine(e.ToString());
+        }
+
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=mich146%40hotmail%2ecom&lc=AU&item_name=Michael%20Oborne&no_note=0&currency_code=AUD&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHostedGuest");
         }
     }
 }

@@ -597,16 +597,6 @@ namespace ArdupilotMega.GCSViews
 
             config(false);
 
-            if (MainV2.comPort.MAV.cs.HomeLocation.Lat != 0 && MainV2.comPort.MAV.cs.HomeLocation.Lng != 0)
-            {
-                TXT_homelat.Text = MainV2.comPort.MAV.cs.HomeLocation.Lat.ToString();
-
-                TXT_homelng.Text = MainV2.comPort.MAV.cs.HomeLocation.Lng.ToString();
-
-                TXT_homealt.Text = MainV2.comPort.MAV.cs.HomeLocation.Alt.ToString();
-            }
-
-
             quickadd = false;
 
             if (MainV2.config["WMSserver"] != null)
@@ -1205,7 +1195,7 @@ namespace ArdupilotMega.GCSViews
                     throw new Exception("Please Connect First!");
                 }
 
-                MainV2.giveComport = true;
+                MainV2.comPort.giveComport = true;
 
                 param = port.MAV.param;
 
@@ -1243,7 +1233,7 @@ namespace ArdupilotMega.GCSViews
                         catch (Exception exx) { log.Info(exx.ToString()); }
                     }
 
-                    MainV2.giveComport = false;
+                    MainV2.comPort.giveComport = false;
 
                     BUT_read.Enabled = true;
 
@@ -1315,7 +1305,7 @@ namespace ArdupilotMega.GCSViews
                     throw new Exception("Please Connect First!");
                 }
 
-                MainV2.giveComport = true;
+                MainV2.comPort.giveComport = true;
 
                 Locationwp home = new Locationwp();
 
@@ -1404,9 +1394,9 @@ namespace ArdupilotMega.GCSViews
 
                 ((Controls.ProgressReporterDialogue)sender).UpdateProgressAndStatus(100, "Done.");
             }
-            catch (Exception ex) { MainV2.giveComport = false; throw ex; }
+            catch (Exception ex) { MainV2.comPort.giveComport = false; throw ex; }
 
-            MainV2.giveComport = false;
+            MainV2.comPort.giveComport = false;
         }
 
         /// <summary>
@@ -3305,6 +3295,16 @@ namespace ArdupilotMega.GCSViews
             else
             {
                 CHK_altmode.Visible = true;
+            }
+
+            // set home location
+            if (MainV2.comPort.MAV.cs.HomeLocation.Lat != 0 && MainV2.comPort.MAV.cs.HomeLocation.Lng != 0)
+            {
+                TXT_homelat.Text = MainV2.comPort.MAV.cs.HomeLocation.Lat.ToString();
+
+                TXT_homelng.Text = MainV2.comPort.MAV.cs.HomeLocation.Lng.ToString();
+
+                TXT_homealt.Text = MainV2.comPort.MAV.cs.HomeLocation.Alt.ToString();
             }
         }
 

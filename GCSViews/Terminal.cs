@@ -158,7 +158,7 @@ namespace ArdupilotMega.GCSViews
 
             System.Threading.Thread.Sleep(400);
 
-            MainV2.giveComport = false;
+            MainV2.comPort.giveComport = false;
         }
 
         private void TXT_terminal_KeyPress(object sender, KeyPressEventArgs e)
@@ -251,7 +251,7 @@ namespace ArdupilotMega.GCSViews
         {
             try
             {
-                MainV2.giveComport = true;
+                MainV2.comPort.giveComport = true;
 
                 comPort = MainV2.comPort.BaseStream;
 

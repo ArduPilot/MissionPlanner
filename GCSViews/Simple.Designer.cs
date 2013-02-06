@@ -8,12 +8,13 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Simple));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.contextMenuStripMap = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.goHereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.flyToHereAltToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.connectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.trackerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MainH = new System.Windows.Forms.SplitContainer();
             this.SubMainLeft = new System.Windows.Forms.SplitContainer();
             this.tableMap = new System.Windows.Forms.TableLayoutPanel();
@@ -38,7 +39,8 @@
             this.dataGridViewImageColumn2 = new System.Windows.Forms.DataGridViewImageColumn();
             this.ZedGraphTimer = new System.Windows.Forms.Timer(this.components);
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.trackerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.rTLToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.loiterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStripMap.SuspendLayout();
             this.MainH.Panel1.SuspendLayout();
             this.MainH.Panel2.SuspendLayout();
@@ -60,7 +62,9 @@
             this.goHereToolStripMenuItem,
             this.flyToHereAltToolStripMenuItem,
             this.connectToolStripMenuItem,
-            this.trackerToolStripMenuItem});
+            this.trackerToolStripMenuItem,
+            this.rTLToolStripMenuItem,
+            this.loiterToolStripMenuItem});
             this.contextMenuStripMap.Name = "contextMenuStrip1";
             resources.ApplyResources(this.contextMenuStripMap, "contextMenuStripMap");
             // 
@@ -81,6 +85,12 @@
             this.connectToolStripMenuItem.Name = "connectToolStripMenuItem";
             resources.ApplyResources(this.connectToolStripMenuItem, "connectToolStripMenuItem");
             this.connectToolStripMenuItem.Click += new System.EventHandler(this.connectToolStripMenuItem_Click);
+            // 
+            // trackerToolStripMenuItem
+            // 
+            this.trackerToolStripMenuItem.Name = "trackerToolStripMenuItem";
+            resources.ApplyResources(this.trackerToolStripMenuItem, "trackerToolStripMenuItem");
+            this.trackerToolStripMenuItem.Click += new System.EventHandler(this.trackerToolStripMenuItem_Click);
             // 
             // MainH
             // 
@@ -306,8 +316,8 @@
             // 
             // dataGridViewImageColumn1
             // 
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.dataGridViewImageColumn1.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dataGridViewImageColumn1.DefaultCellStyle = dataGridViewCellStyle3;
             resources.ApplyResources(this.dataGridViewImageColumn1, "dataGridViewImageColumn1");
             this.dataGridViewImageColumn1.Image = global::ArdupilotMega.Properties.Resources.up;
             this.dataGridViewImageColumn1.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
@@ -315,8 +325,8 @@
             // 
             // dataGridViewImageColumn2
             // 
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.dataGridViewImageColumn2.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dataGridViewImageColumn2.DefaultCellStyle = dataGridViewCellStyle4;
             resources.ApplyResources(this.dataGridViewImageColumn2, "dataGridViewImageColumn2");
             this.dataGridViewImageColumn2.Image = global::ArdupilotMega.Properties.Resources.down;
             this.dataGridViewImageColumn2.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
@@ -331,11 +341,17 @@
             this.toolTip1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
             this.toolTip1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
             // 
-            // trackerToolStripMenuItem
+            // rTLToolStripMenuItem
             // 
-            this.trackerToolStripMenuItem.Name = "trackerToolStripMenuItem";
-            resources.ApplyResources(this.trackerToolStripMenuItem, "trackerToolStripMenuItem");
-            this.trackerToolStripMenuItem.Click += new System.EventHandler(this.trackerToolStripMenuItem_Click);
+            this.rTLToolStripMenuItem.Name = "rTLToolStripMenuItem";
+            resources.ApplyResources(this.rTLToolStripMenuItem, "rTLToolStripMenuItem");
+            this.rTLToolStripMenuItem.Click += new System.EventHandler(this.rTLToolStripMenuItem_Click);
+            // 
+            // loiterToolStripMenuItem
+            // 
+            this.loiterToolStripMenuItem.Name = "loiterToolStripMenuItem";
+            resources.ApplyResources(this.loiterToolStripMenuItem, "loiterToolStripMenuItem");
+            this.loiterToolStripMenuItem.Click += new System.EventHandler(this.loiterToolStripMenuItem_Click);
             // 
             // Simple
             // 
@@ -396,6 +412,8 @@
         private Controls.MyTrackBar TRK_zoom;
         private System.Windows.Forms.ToolStripMenuItem connectToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem trackerToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem rTLToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem loiterToolStripMenuItem;
 
     }
 }

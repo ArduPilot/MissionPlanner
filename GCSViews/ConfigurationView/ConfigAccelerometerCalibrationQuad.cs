@@ -103,7 +103,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
 
         public void Deactivate()
         {
-            MainV2.giveComport = false;
+            MainV2.comPort.giveComport = false;
 
             radioButton_Plus.CheckedChanged -= RadioButtonPlusCheckedChanged;
         }
@@ -118,7 +118,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
 
         private void BUT_calib_accell_Click(object sender, EventArgs e)
         {
-            if (MainV2.giveComport == true)
+            if (MainV2.comPort.giveComport == true)
             {
                 MainV2.comPort.BaseStream.WriteLine("");
                 return;
@@ -127,12 +127,13 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             try
             {
                 Log.Info("Sending accel command (mavlink 1.0)");
-                MainV2.giveComport = true;
+                MainV2.comPort.giveComport = true;
 
                 MainV2.comPort.Write("\n\n\n\n\n\n\n\n\n\n\n");
+                System.Threading.Thread.Sleep(200);
 
                 MainV2.comPort.doCommand(MAVLink.MAV_CMD.PREFLIGHT_CALIBRATION, 0, 0, 0, 0, 1, 0, 0);
-                //MainV2.giveComport = false;
+                MainV2.comPort.giveComport = true;
 
                 System.Threading.ThreadPool.QueueUserWorkItem(readmessage,this);
 
@@ -140,7 +141,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             }
             catch (Exception ex)
             {
-                MainV2.giveComport = false;
+                MainV2.comPort.giveComport = false;
                 Log.Error("Exception on level", ex);
                 CustomMessageBox.Show("Failed to level : ac2 2.0.37+ is required");
             }
@@ -149,6 +150,9 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
         static void readmessage(object item)
         {
             ConfigAccelerometerCalibrationQuad local = (ConfigAccelerometerCalibrationQuad)item;
+
+            // clean up history
+            MainV2.comPort.MAV.cs.messages.Clear();
 
             while (!(MainV2.comPort.MAV.cs.message.Contains("Calibration successful") || MainV2.comPort.MAV.cs.message.Contains("Calibration failed")))
             {
@@ -167,7 +171,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                 catch { break; }
             }
 
-            MainV2.giveComport = false;
+            MainV2.comPort.giveComport = false;
 
             try
             {

@@ -118,24 +118,22 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="tabRawSensor.Text" xml:space="preserve">
-    <value>Raw Sensor</value>
+    <value>RAW-Sensor</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>RAW Sensor</value>
+    <value>RAW-Sensor</value>
   </data>
   <data name="CMB_rawupdaterate.Text" xml:space="preserve">
-    <value>Update Speed</value>
+    <value>Update-Geschwindigkeit</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>Servo/Motor OUT</value>
+    <value>Servo/Motor-Ausgang</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
-    <value>Note: There is a delay 
-when viewing via Xbee
-@ 50hz</value>
+    <value>Es gibt eine Verzögerung, wenn man Xbee bei 50hz zur Ansicht benutzt</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>Radio IN</value>
+    <value>Radio Eingang</value>
   </data>
   <data name="chkax.Text" xml:space="preserve">
     <value>Accel X</value>
@@ -150,10 +148,10 @@ when viewing via Xbee
     <value>Radio</value>
   </data>
   <data name="tabOrientation.Text" xml:space="preserve">
-    <value>Flight Data</value>
+    <value>Flugdaten</value>
   </data>
   <data name="BUT_savecsv.Text" xml:space="preserve">
-    <value>Save CSV</value>
+    <value>CSV speichern</value>
   </data>
   <data name="chkgz.Text" xml:space="preserve">
     <value>Gyro Z</value>

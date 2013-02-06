@@ -123,8 +123,14 @@
   <data name="label10.Text" xml:space="preserve">
     <value>Winkel</value>
   </data>
+  <data name="label13.Text" xml:space="preserve">
+    <value>Center PWM</value>
+  </data>
   <data name="label11.Text" xml:space="preserve">
     <value>Winkel</value>
+  </data>
+  <data name="label14.Text" xml:space="preserve">
+    <value>Center PWM</value>
   </data>
   <data name="BUT_find.Text" xml:space="preserve">
     <value>Find Trim (3DR Radio)</value>
@@ -177,8 +183,14 @@
   <data name="TXT_panrange.Text" xml:space="preserve">
     <value>360</value>
   </data>
+  <data name="TXT_centerpan.Text" xml:space="preserve">
+    <value>1500</value>
+  </data>
   <data name="BUT_connect.Text" xml:space="preserve">
     <value>Verbinden</value>
+  </data>
+  <data name="TXT_centertilt.Text" xml:space="preserve">
+    <value>1500</value>
   </data>
   <data name="TXT_pwmrangetilt.Text" xml:space="preserve">
     <value>1000</value>

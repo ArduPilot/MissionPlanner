@@ -1,4 +1,15 @@
-﻿* Mission Planner 1.2.33
+﻿* Mission Planner 1.2.34
+update german lang thanks mike
+prep for multi mav
+reload home pos on arm
+simple - add rtl and loiter, add mode display
+fix multiple accel runs
+add thememanager - wip, basics going
+mod heli screen as per robert
+add logbrowse filter - still wip
+fix mag calib
+
+* Mission Planner 1.2.33
 fix guided mode alt to accept things other than m
 fix terminal > log download issue.
 fix hud overlay video

@@ -935,5 +935,51 @@ namespace ArdupilotMega
                 xp.MoveToPos(MainV2.comPort.MAV.cs.lat, MainV2.comPort.MAV.cs.lng, MainV2.comPort.MAV.cs.alt, MainV2.comPort.MAV.cs.roll, MainV2.comPort.MAV.cs.pitch, MainV2.comPort.MAV.cs.yaw);
             }
         }
+
+        private void BUT_magfit_Click(object sender, EventArgs e)
+        {
+            MagCalib.ProcessLog(0);
+        }
+
+        private void but_multimav_Click(object sender, EventArgs e)
+        {
+            Comms.CommsSerialScan.Scan(false);
+
+            DateTime deadline = DateTime.Now.AddSeconds(50);
+
+            while (Comms.CommsSerialScan.foundport == false)
+            {
+                System.Threading.Thread.Sleep(100);
+
+                if (DateTime.Now > deadline)
+                {
+                    CustomMessageBox.Show("Timeout waiting for autoscan/no mavlink device connected");
+                    return;
+                }
+            }
+
+            MAVLink com2 = new MAVLink();
+
+            com2.BaseStream.PortName = Comms.CommsSerialScan.portinterface.PortName;
+            com2.BaseStream.BaudRate = Comms.CommsSerialScan.portinterface.BaudRate;
+
+            com2.Open(true);
+
+            MainV2.Comports.Add(com2);
+
+            CMB_mavs.DataSource = MainV2.Comports;
+
+
+        }
+
+        private void CMB_mavs_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            foreach (var port in MainV2.Comports) {
+
+                if (port.ToString() == CMB_mavs.Text) {
+                    MainV2.comPort = port;
+                }
+            }
+        }
     }
 }

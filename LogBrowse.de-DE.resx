@@ -127,13 +127,13 @@
     <value>Diagramm</value>
   </data>
   <data name="Graphit.ToolTip" xml:space="preserve">
-    <value>Diagramm aus markirtem Bereich</value>
+    <value>Diagramm aus markeirtem Bereich erstellen</value>
   </data>
   <data name="BUT_loadlog.ToolTip" xml:space="preserve">
-    <value>andere log Datei laden</value>
+    <value>Andere log Datei laden</value>
   </data>
   <data name="BUT_cleargraph.ToolTip" xml:space="preserve">
-    <value>Daten des Diagrammes löschen</value>
+    <value>Daten des Diagramms löschen</value>
   </data>
   <data name="BUT_cleargraph.Text" xml:space="preserve">
     <value>Diagramm löschen</value>

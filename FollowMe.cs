@@ -156,17 +156,17 @@ namespace ArdupilotMega
                         }
                         catch { }
 
-                        if (MainV2.comPort.BaseStream.IsOpen && MainV2.giveComport == false)
+                        if (MainV2.comPort.BaseStream.IsOpen && MainV2.comPort.giveComport == false)
                         {
                             try
                             {
-                                MainV2.giveComport = true;
+                                MainV2.comPort.giveComport = true;
 
                                 MainV2.comPort.setGuidedModeWP(gotohere);
 
-                                MainV2.giveComport = false;
+                                MainV2.comPort.giveComport = false;
                             }
-                            catch { MainV2.giveComport = false; }
+                            catch { MainV2.comPort.giveComport = false; }
                         }
                     }
                 }

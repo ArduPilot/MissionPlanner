@@ -479,7 +479,7 @@ namespace ArdupilotMega.GCSViews
             {
                 if (threadrun == 0) { return; }
 
-                if (MainV2.giveComport == true)
+                if (MainV2.comPort.giveComport == true)
                 {
                     System.Threading.Thread.Sleep(50);
                     continue;
@@ -527,6 +527,7 @@ namespace ArdupilotMega.GCSViews
                 }
                 catch { log.Error("Failed to write avi"); }
 
+                // log playback
                 if (MainV2.comPort.logreadmode && MainV2.comPort.logplaybackfile != null)
                 {
                     if (threadrun == 0) { return; }
@@ -665,13 +666,14 @@ namespace ArdupilotMega.GCSViews
                         hud1.lowvoltagealert = false;
                     }
                     
-
+                    // update opengltest
                     if (ArdupilotMega.Controls.OpenGLtest.instance != null)
                     {
                         ArdupilotMega.Controls.OpenGLtest.instance.rpy = new OpenTK.Vector3(MainV2.comPort.MAV.cs.roll, MainV2.comPort.MAV.cs.pitch, MainV2.comPort.MAV.cs.yaw);
                         ArdupilotMega.Controls.OpenGLtest.instance.LocationCenter = new PointLatLngAlt(MainV2.comPort.MAV.cs.lat, MainV2.comPort.MAV.cs.lng, MainV2.comPort.MAV.cs.alt, "here");
                     }
 
+                    // udpate tunning tab
                     if (tunning.AddMilliseconds(50) < DateTime.Now && CB_tuning.Checked == true)
                     {
 
@@ -698,6 +700,7 @@ namespace ArdupilotMega.GCSViews
                             list10.Add(time, (float)list10item.GetValue((object)MainV2.comPort.MAV.cs, null));
                     }
 
+                    // update map
                     if (tracklast.AddSeconds(1) < DateTime.Now)
                     {
                         if (MainV2.config["CHK_maprotation"] != null && MainV2.config["CHK_maprotation"].ToString() == "True")
@@ -724,19 +727,19 @@ namespace ArdupilotMega.GCSViews
                             cnt++;
                         }
 
+                        // maintain route history length
                         if (route.Points.Count > int.Parse(MainV2.config["NUM_tracklength"].ToString()))
                         {
                             //  trackPoints.RemoveRange(0, trackPoints.Count - int.Parse(MainV2.config["NUM_tracklength"].ToString()));
                             route.Points.RemoveRange(0, route.Points.Count - int.Parse(MainV2.config["NUM_tracklength"].ToString()));
                         }
+                        // add new route point
                         if (MainV2.comPort.MAV.cs.lat != 0)
                         {
                             // trackPoints.Add(currentloc);
                             route.Points.Add(currentloc);
                         }
 
-
-                        //                        if (CB_tuning.Checked == false) // draw if in view
                         {
 
                             while (gMapControl1.inOnPaint == true)
@@ -754,6 +757,7 @@ namespace ArdupilotMega.GCSViews
 
                             gMapControl1.UpdateRouteLocalPosition(route);
 
+                            // update programed wp course
                             if (waypoints.AddSeconds(10) < DateTime.Now)
                             {
                                 //Console.WriteLine("Doing FD WP's");
@@ -815,6 +819,33 @@ namespace ArdupilotMega.GCSViews
                                 else
                                 {
                                     routes.Markers[0] = (new GMapMarkerQuad(currentloc, MainV2.comPort.MAV.cs.yaw, MainV2.comPort.MAV.cs.groundcourse, MainV2.comPort.MAV.cs.nav_bearing));
+                                }
+
+                                // add extra mavs
+                                int a = 1;
+                                foreach (var port in MainV2.Comports)
+                                {
+                                    if (port == MainV2.comPort)
+                                        continue;
+
+                                    PointLatLng portlocation = new PointLatLng(port.MAV.cs.lat, port.MAV.cs.lng);
+
+                                    while (routes.Markers.Count < (a+1))
+                                        routes.Markers.Add(new GMapMarkerCross(portlocation));
+
+                                    if (port.MAV.cs.firmware == MainV2.Firmwares.ArduPlane)
+                                    {
+                                        routes.Markers[a] = (new GMapMarkerPlane(portlocation, port.MAV.cs.yaw, port.MAV.cs.groundcourse, port.MAV.cs.nav_bearing, port.MAV.cs.target_bearing, gMapControl1) { ToolTipText = "MAV: " + a + " " +port.MAV.cs.alt.ToString("0"), ToolTipMode = MarkerTooltipMode.Always });
+                                    }
+                                    else if (port.MAV.cs.firmware == MainV2.Firmwares.ArduRover)
+                                    {
+                                        routes.Markers[a] = (new GMapMarkerRover(portlocation, port.MAV.cs.yaw, port.MAV.cs.groundcourse, port.MAV.cs.nav_bearing, port.MAV.cs.target_bearing, gMapControl1));
+                                    }
+                                    else
+                                    {
+                                        routes.Markers[a] = (new GMapMarkerQuad(portlocation, port.MAV.cs.yaw, port.MAV.cs.groundcourse, port.MAV.cs.nav_bearing));
+                                    }
+                                    a++;
                                 }
 
                                 if (route.Points[route.Points.Count - 1].Lat != 0 && (mapupdate.AddSeconds(3) < DateTime.Now) && CHK_autopan.Checked)
@@ -1279,7 +1310,7 @@ namespace ArdupilotMega.GCSViews
             {
                 MainV2.comPort.setGuidedModeWP(gotohere);
             }
-            catch (Exception ex) { MainV2.giveComport = false; CustomMessageBox.Show("Error sending command : " + ex.Message); }
+            catch (Exception ex) { MainV2.comPort.giveComport = false; CustomMessageBox.Show("Error sending command : " + ex.Message); }
 
         }
 

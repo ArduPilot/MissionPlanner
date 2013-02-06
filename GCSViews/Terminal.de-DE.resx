@@ -127,13 +127,12 @@
     <value>Sendereinstellung</value>
   </data>
   <data name="TXT_terminal.Text" xml:space="preserve">
-    <value>*NOTE* CLI Works over USB only
-</value>
+    <value>Achtung, CLI funktioniert nur über USB</value>
   </data>
   <data name="BUT_logbrowse.Text" xml:space="preserve">
-    <value>Log Browse</value>
+    <value>Log durchsuchen</value>
   </data>
   <data name="BUTsetupshow.Text" xml:space="preserve">
-    <value>Show Settings</value>
+    <value>Zeige Einstellungen</value>
   </data>
 </root>

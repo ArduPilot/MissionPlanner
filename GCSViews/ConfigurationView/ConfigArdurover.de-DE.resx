@@ -124,7 +124,7 @@
     <value>Closed Loop Nav</value>
   </data>
   <data name="label13.Text" xml:space="preserve">
-    <value>Sonar Trigger Dist</value>
+    <value>Sonar Auslösedistanz</value>
   </data>
   <data name="label11.Text" xml:space="preserve">
     <value>Booster</value>
@@ -139,7 +139,7 @@
     <value>FBW min</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>Ratio</value>
+    <value>Verhältnis</value>
   </data>
   <data name="label6.Text" xml:space="preserve">
     <value>Max</value>
@@ -157,10 +157,10 @@
     <value>FS Value</value>
   </data>
   <data name="groupBox2.Text" xml:space="preserve">
-    <value>Navigations Winkel</value>
+    <value>Navigations-Winkel</value>
   </data>
   <data name="groupBox3.Text" xml:space="preserve">
-    <value>Gas 0-100%</value>
+    <value>Schub 0-100%</value>
   </data>
   <data name="label8.Text" xml:space="preserve">
     <value>Cruise</value>
@@ -169,7 +169,7 @@
     <value>Geschwindigkeit m/s</value>
   </data>
   <data name="label9.Text" xml:space="preserve">
-    <value>Turn Gain</value>
+    <value>Wenden Gain</value>
   </data>
   <data name="label64.Text" xml:space="preserve">
     <value>P</value>
@@ -193,13 +193,13 @@
     <value>Nav Roll Pid</value>
   </data>
   <data name="label38.Text" xml:space="preserve">
-    <value>Pitch Max</value>
+    <value>Nicken Max</value>
   </data>
   <data name="label37.Text" xml:space="preserve">
-    <value>Bank Max</value>
+    <value>Neigen Max</value>
   </data>
   <data name="label39.Text" xml:space="preserve">
-    <value>Pitch Min</value>
+    <value>Nicken Min</value>
   </data>
   <data name="label74.Text" xml:space="preserve">
     <value>D</value>
@@ -217,7 +217,7 @@
     <value>Parameter speichern</value>
   </data>
   <data name="label79.Text" xml:space="preserve">
-    <value>Entry Angle</value>
+    <value>Eingangswinkel</value>
   </data>
   <data name="BUT_rerequestparams.Text" xml:space="preserve">
     <value>Parameter neu laden</value>

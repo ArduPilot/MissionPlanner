@@ -81,6 +81,8 @@
             this.label3 = new System.Windows.Forms.Label();
             this.txt_log_dir = new System.Windows.Forms.TextBox();
             this.BUT_logdirbrowse = new ArdupilotMega.Controls.MyButton();
+            this.label4 = new System.Windows.Forms.Label();
+            this.CMB_theme = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_tracklength)).BeginInit();
             this.SuspendLayout();
             // 
@@ -501,10 +503,25 @@
             this.BUT_logdirbrowse.UseVisualStyleBackColor = true;
             this.BUT_logdirbrowse.Click += new System.EventHandler(this.BUT_logdirbrowse_Click);
             // 
+            // label4
+            // 
+            resources.ApplyResources(this.label4, "label4");
+            this.label4.Name = "label4";
+            // 
+            // CMB_theme
+            // 
+            this.CMB_theme.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CMB_theme.FormattingEnabled = true;
+            resources.ApplyResources(this.CMB_theme, "CMB_theme");
+            this.CMB_theme.Name = "CMB_theme";
+            this.CMB_theme.SelectedIndexChanged += new System.EventHandler(this.CMB_theme_SelectedIndexChanged);
+            // 
             // ConfigPlanner
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.CMB_theme);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.BUT_logdirbrowse);
             this.Controls.Add(this.txt_log_dir);
             this.Controls.Add(this.label3);
@@ -619,5 +636,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txt_log_dir;
         private Controls.MyButton BUT_logdirbrowse;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ComboBox CMB_theme;
     }
 }

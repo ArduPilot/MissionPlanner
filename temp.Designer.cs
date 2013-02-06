@@ -31,6 +31,12 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.CMB_mavs = new System.Windows.Forms.ComboBox();
+            this.but_multimav = new ArdupilotMega.Controls.MyButton();
+            this.BUT_magfit = new ArdupilotMega.Controls.MyButton();
+            this.BUT_xplane = new ArdupilotMega.Controls.MyButton();
+            this.but_osdvideo = new ArdupilotMega.Controls.MyButton();
+            this.myButton1 = new ArdupilotMega.Controls.MyButton();
             this.BUT_paramgen = new ArdupilotMega.Controls.MyButton();
             this.BUT_follow_me = new ArdupilotMega.Controls.MyButton();
             this.BUT_georefimage = new ArdupilotMega.Controls.MyButton();
@@ -47,9 +53,6 @@
             this.BUT_flashdl = new ArdupilotMega.Controls.MyButton();
             this.BUT_wipeeeprom = new ArdupilotMega.Controls.MyButton();
             this.button1 = new ArdupilotMega.Controls.MyButton();
-            this.myButton1 = new ArdupilotMega.Controls.MyButton();
-            this.but_osdvideo = new ArdupilotMega.Controls.MyButton();
-            this.BUT_xplane = new ArdupilotMega.Controls.MyButton();
             this.SuspendLayout();
             // 
             // label1
@@ -78,6 +81,65 @@
             this.label3.Size = new System.Drawing.Size(273, 13);
             this.label3.TabIndex = 13;
             this.label3.Text = "1280 - can do full copy\'s   2560- full read, write flash only";
+            // 
+            // CMB_mavs
+            // 
+            this.CMB_mavs.FormattingEnabled = true;
+            this.CMB_mavs.Location = new System.Drawing.Point(12, 258);
+            this.CMB_mavs.Name = "CMB_mavs";
+            this.CMB_mavs.Size = new System.Drawing.Size(121, 21);
+            this.CMB_mavs.TabIndex = 26;
+            this.CMB_mavs.SelectedIndexChanged += new System.EventHandler(this.CMB_mavs_SelectedIndexChanged);
+            // 
+            // but_multimav
+            // 
+            this.but_multimav.Location = new System.Drawing.Point(37, 229);
+            this.but_multimav.Name = "but_multimav";
+            this.but_multimav.Size = new System.Drawing.Size(75, 23);
+            this.but_multimav.TabIndex = 25;
+            this.but_multimav.Text = "2nd mav";
+            this.but_multimav.UseVisualStyleBackColor = true;
+            this.but_multimav.Click += new System.EventHandler(this.but_multimav_Click);
+            // 
+            // BUT_magfit
+            // 
+            this.BUT_magfit.Location = new System.Drawing.Point(69, 183);
+            this.BUT_magfit.Name = "BUT_magfit";
+            this.BUT_magfit.Size = new System.Drawing.Size(75, 23);
+            this.BUT_magfit.TabIndex = 24;
+            this.BUT_magfit.Text = "Mag Fit";
+            this.BUT_magfit.UseVisualStyleBackColor = true;
+            this.BUT_magfit.Click += new System.EventHandler(this.BUT_magfit_Click);
+            // 
+            // BUT_xplane
+            // 
+            this.BUT_xplane.Location = new System.Drawing.Point(598, 238);
+            this.BUT_xplane.Name = "BUT_xplane";
+            this.BUT_xplane.Size = new System.Drawing.Size(75, 23);
+            this.BUT_xplane.TabIndex = 23;
+            this.BUT_xplane.Text = "xplane";
+            this.BUT_xplane.UseVisualStyleBackColor = true;
+            this.BUT_xplane.Click += new System.EventHandler(this.BUT_xplane_Click);
+            // 
+            // but_osdvideo
+            // 
+            this.but_osdvideo.Location = new System.Drawing.Point(495, 183);
+            this.but_osdvideo.Name = "but_osdvideo";
+            this.but_osdvideo.Size = new System.Drawing.Size(75, 23);
+            this.but_osdvideo.TabIndex = 22;
+            this.but_osdvideo.Text = "OSDVideo";
+            this.but_osdvideo.UseVisualStyleBackColor = true;
+            this.but_osdvideo.Click += new System.EventHandler(this.but_osdvideo_Click);
+            // 
+            // myButton1
+            // 
+            this.myButton1.Location = new System.Drawing.Point(576, 183);
+            this.myButton1.Name = "myButton1";
+            this.myButton1.Size = new System.Drawing.Size(75, 23);
+            this.myButton1.TabIndex = 21;
+            this.myButton1.Text = "MD";
+            this.myButton1.UseVisualStyleBackColor = true;
+            this.myButton1.Click += new System.EventHandler(this.myButton1_Click);
             // 
             // BUT_paramgen
             // 
@@ -237,41 +299,14 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // myButton1
-            // 
-            this.myButton1.Location = new System.Drawing.Point(576, 183);
-            this.myButton1.Name = "myButton1";
-            this.myButton1.Size = new System.Drawing.Size(75, 23);
-            this.myButton1.TabIndex = 21;
-            this.myButton1.Text = "MD";
-            this.myButton1.UseVisualStyleBackColor = true;
-            this.myButton1.Click += new System.EventHandler(this.myButton1_Click);
-            // 
-            // but_osdvideo
-            // 
-            this.but_osdvideo.Location = new System.Drawing.Point(495, 183);
-            this.but_osdvideo.Name = "but_osdvideo";
-            this.but_osdvideo.Size = new System.Drawing.Size(75, 23);
-            this.but_osdvideo.TabIndex = 22;
-            this.but_osdvideo.Text = "OSDVideo";
-            this.but_osdvideo.UseVisualStyleBackColor = true;
-            this.but_osdvideo.Click += new System.EventHandler(this.but_osdvideo_Click);
-            // 
-            // BUT_xplane
-            // 
-            this.BUT_xplane.Location = new System.Drawing.Point(598, 238);
-            this.BUT_xplane.Name = "BUT_xplane";
-            this.BUT_xplane.Size = new System.Drawing.Size(75, 23);
-            this.BUT_xplane.TabIndex = 23;
-            this.BUT_xplane.Text = "xplane";
-            this.BUT_xplane.UseVisualStyleBackColor = true;
-            this.BUT_xplane.Click += new System.EventHandler(this.BUT_xplane_Click);
-            // 
             // temp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(685, 507);
+            this.Controls.Add(this.CMB_mavs);
+            this.Controls.Add(this.but_multimav);
+            this.Controls.Add(this.BUT_magfit);
             this.Controls.Add(this.BUT_xplane);
             this.Controls.Add(this.but_osdvideo);
             this.Controls.Add(this.myButton1);
@@ -326,5 +361,8 @@
         private Controls.MyButton myButton1;
         private Controls.MyButton but_osdvideo;
         private Controls.MyButton BUT_xplane;
+        private Controls.MyButton BUT_magfit;
+        private Controls.MyButton but_multimav;
+        private System.Windows.Forms.ComboBox CMB_mavs;
     }
 }

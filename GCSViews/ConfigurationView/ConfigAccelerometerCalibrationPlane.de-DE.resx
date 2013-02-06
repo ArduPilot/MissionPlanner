@@ -118,24 +118,22 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="label2.Text" xml:space="preserve">
-    <value>By default your plane will autolevel on every boot. 
-To disable this action you need to turn on manual
- level and preform a level to calibrate the accel offsets.</value>
+    <value>Die Lageregler werden standardmässig bei jedem Boot des APM neu kalibriert. Um dies abzuschalten, Manuelles Kalibrieren einschalten und von Hand kalibrieren.</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
     <value>Nur für fortgeschrittene User</value>
   </data>
   <data name="label28.Text" xml:space="preserve">
-    <value>Level your plane to set default accel offsets</value>
+    <value>Flugzeug gerade ausrichten, um Standardwerte zu setzen</value>
   </data>
   <data name="BUT_levelplane.Text" xml:space="preserve">
-    <value>Level</value>
+    <value>Ausrichten</value>
   </data>
   <data name="BUT_levelplane.ToolTip" xml:space="preserve">
-    <value>Do a accel calibration now.</value>
+    <value>Beschleunigungssensoren kalibrieren</value>
   </data>
   <data name="CHK_manuallevel.ToolTip" xml:space="preserve">
-    <value>Disables autolevel and will keep the last done accel calibration</value>
+    <value>Schaltet Autolevel aus und behält die letzte Kalibrierung bei</value>
   </data>
   <data name="CHK_manuallevel.Text" xml:space="preserve">
     <value>Manuelles leveln</value>

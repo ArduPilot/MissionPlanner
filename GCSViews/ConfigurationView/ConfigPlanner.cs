@@ -524,6 +524,10 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             CMB_distunits.DataSource = Enum.GetNames(typeof(Common.distances));
             CMB_speedunits.DataSource = Enum.GetNames(typeof(Common.speeds));
 
+            CMB_theme.DataSource = Enum.GetNames(typeof(Utilities.ThemeManager.Themes));
+
+            CMB_theme.Text = ThemeManager.CurrentTheme.ToString();
+
             // setup language selection
             var cultureCodes = new[] { "en-US", "zh-Hans", "zh-TW", "ru-RU", "Fr", "Pl", "it-IT", "es-ES","de-DE" };
 
@@ -628,6 +632,16 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                 txt_log_dir.Text = ofd.SelectedPath;
                 MainV2.LogDir = ofd.SelectedPath;
             }                       
+        }
+
+        private void CMB_theme_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (startup)
+                return;
+
+            MainV2.config["theme"] = CMB_theme.Text;
+            ThemeManager.SetTheme((ThemeManager.Themes)Enum.Parse(typeof(ThemeManager.Themes), CMB_theme.Text));
+            ThemeManager.ApplyThemeTo(MainV2.instance);
         }
     }
 }
