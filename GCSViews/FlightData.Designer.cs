@@ -199,6 +199,7 @@
             this.hud1.DataBindings.Add(new System.Windows.Forms.Binding("current", this.bindingSource1, "current", true));
             this.hud1.DataBindings.Add(new System.Windows.Forms.Binding("datetime", this.bindingSource1, "datetime", true));
             this.hud1.DataBindings.Add(new System.Windows.Forms.Binding("disttowp", this.bindingSource1, "wp_dist", true));
+            this.hud1.DataBindings.Add(new System.Windows.Forms.Binding("failsafe", this.bindingSource1, "failsafe", true));
             this.hud1.DataBindings.Add(new System.Windows.Forms.Binding("gpsfix", this.bindingSource1, "gpsstatus", true));
             this.hud1.DataBindings.Add(new System.Windows.Forms.Binding("gpshdop", this.bindingSource1, "gpshdop", true));
             this.hud1.DataBindings.Add(new System.Windows.Forms.Binding("groundalt", this.bindingSource1, "HomeAlt", true));
@@ -222,6 +223,7 @@
             this.hud1.datetime = new System.DateTime(((long)(0)));
             this.hud1.disttowp = 0F;
             resources.ApplyResources(this.hud1, "hud1");
+            this.hud1.failsafe = false;
             this.hud1.gpsfix = 0F;
             this.hud1.gpshdop = 0F;
             this.hud1.groundalt = 0F;

@@ -59,7 +59,7 @@ namespace ArdupilotMega
         {
             SharpKml.Dom.AltitudeMode altmode = SharpKml.Dom.AltitudeMode.Absolute;
 
-            if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduRover)
+            if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduRover || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.Ateryx)
             {
                 altmode = SharpKml.Dom.AltitudeMode.Absolute;
             }

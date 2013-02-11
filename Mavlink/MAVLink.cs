@@ -2992,7 +2992,20 @@ namespace ArdupilotMega
                     }
                     break;
                 case MAV_AUTOPILOT.UDB:
-
+                    switch (aptype)
+                    {
+                        case MAVLink.MAV_TYPE.FIXED_WING:
+                            MAV.cs.firmware = MainV2.Firmwares.ArduPlane;
+                            break;
+                    }
+                    break;
+                case MAV_AUTOPILOT.GENERIC:
+                    switch (aptype)
+                    {
+                        case MAVLink.MAV_TYPE.FIXED_WING:
+                            MAV.cs.firmware = MainV2.Firmwares.Ateryx;
+                            break;
+                    }
                     break;
             }
         }

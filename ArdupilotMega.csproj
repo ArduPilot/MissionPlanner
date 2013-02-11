@@ -388,6 +388,12 @@
     <Compile Include="Controls\RangeControl.Designer.cs">
       <DependentUpon>RangeControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ThemeColors.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\ThemeColors.Designer.cs">
+      <DependentUpon>ThemeColors.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ToolStripConnectionControl.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -797,6 +803,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ModifyandSet.resx">
       <DependentUpon>ModifyandSet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ThemeColors.resx">
+      <DependentUpon>ThemeColors.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ValuesControl.resx">
       <DependentUpon>ValuesControl.cs</DependentUpon>

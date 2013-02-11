@@ -28,7 +28,7 @@
       /// </summary>
       private void InitializeComponent()
       {
-            this.tableLayoutPanel1 = new System.Windows.Forms.Panel();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.BUT_rerequestparams = new ArdupilotMega.Controls.MyButton();
             this.BUT_writePIDS = new ArdupilotMega.Controls.MyButton();
             this.SuspendLayout();
@@ -79,7 +79,7 @@
 
       #endregion
 
-      private System.Windows.Forms.Panel tableLayoutPanel1;
+      private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
       private Controls.MyButton BUT_rerequestparams;
       private Controls.MyButton BUT_writePIDS;
    }

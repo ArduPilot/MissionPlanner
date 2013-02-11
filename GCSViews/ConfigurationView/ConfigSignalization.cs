@@ -77,7 +77,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
 
         public void Activate()
         {
-            if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane)
+            if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.Ateryx)
             {
             }
             else if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduRover)

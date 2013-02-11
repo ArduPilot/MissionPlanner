@@ -1,4 +1,20 @@
-﻿* Mission Planner 1.2.34
+﻿* Mission Planner 1.2.35
+attempt to fix crash on usb pulled unsafe
+add failsafe display to hud
+add custom color thememanager
+add DEV builds to firmware screen.
+update for Ateryx
+increate width on wp dropdown
+fix crash in area calc, with no polygon defined
+fix update home on arm if on flightplanner tab
+mod friendly params screen - to prevent overlap
+add speech arm/disarm
+add message to rc calib about extremes
+fix wp total in action tab
+add {vsp} vert speed to speech options
+update dataflashlog.xml
+
+* Mission Planner 1.2.34
 update german lang thanks mike
 prep for multi mav
 reload home pos on arm

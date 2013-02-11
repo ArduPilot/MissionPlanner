@@ -194,16 +194,20 @@ namespace ArdupilotMega
                 //add AVI Decompressor
                 IBaseFilter pAVIDecompressor = (IBaseFilter)new AVIDec();
                 hr = m_FilterGraph.AddFilter(pAVIDecompressor, "AVI Decompressor");
-                DsError.ThrowExceptionForHR(hr);               
+                DsError.ThrowExceptionForHR(hr);
 
-                IBaseFilter ffdshow ;
-                // Create Decoder filter COM object (ffdshow video decoder)
-                Type comtype = Type.GetTypeFromCLSID(new Guid("{04FE9017-F873-410E-871E-AB91661A4EF7}"));
-                if (comtype == null)
-                    throw new NotSupportedException("Creating ffdshow video decoder COM object fails.");
-                object comobj = Activator.CreateInstance(comtype);
-                ffdshow = (IBaseFilter)comobj; // error ocurrs! raised exception
-                comobj = null;
+                IBaseFilter ffdshow;
+                try
+                {
+                    // Create Decoder filter COM object (ffdshow video decoder)
+                    Type comtype = Type.GetTypeFromCLSID(new Guid("{04FE9017-F873-410E-871E-AB91661A4EF7}"));
+                    if (comtype == null)
+                        throw new NotSupportedException("Creating ffdshow video decoder COM object fails.");
+                    object comobj = Activator.CreateInstance(comtype);
+                    ffdshow = (IBaseFilter)comobj; // error ocurrs! raised exception
+                    comobj = null;
+                }
+                catch { CustomMessageBox.Show("Please install/reinstall ffdshow"); return; }
 
                 hr = m_FilterGraph.AddFilter(ffdshow, "ffdshow");
                 DsError.ThrowExceptionForHR(hr);

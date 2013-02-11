@@ -31,19 +31,13 @@ namespace ArdupilotMega
         public float groundcourse { get { return _groundcourse; } set { if (value < 0) { _groundcourse = value + 360; } else { _groundcourse = value; } } }
         private float _groundcourse = 0;
 
-        /// <summary>
-        /// time over target in seconds
-        /// </summary>
-        [DisplayText("Time over Target (sec)")]
-        public int tot { get { if (groundspeed <= 0) return 0; return (int)(wp_dist / groundspeed); } }
-        [DisplayText("Dist Traveled (dist)")]
-        public float distTraveled { get; set; }
-        [DisplayText("Time in Air (sec)")]
-        public float timeInAir { get; set; }
+
 
         // speeds
         [DisplayText("AirSpeed (speed)")]
         public float airspeed { get { return _airspeed * multiplierspeed; } set { _airspeed = value; } }
+        [DisplayText("Airspeed Target (speed)")]
+        public float targetairspeed { get { return _targetairspeed; } }
         [DisplayText("GroundSpeed (speed)")]
         public float groundspeed { get { return _groundspeed * multiplierspeed; } set { _groundspeed = value; } }
         float _airspeed;
@@ -63,6 +57,7 @@ namespace ArdupilotMega
         /// used for wind calc
         /// </summary>
         double We_fgo;
+
 
         //(alt_now - alt_then)/(time_now-time_then)
 
@@ -115,12 +110,8 @@ namespace ArdupilotMega
         [DisplayText("Accel Strength")]
         public float accelsq { get { return (float)Math.Sqrt(Math.Pow(ax, 2) + Math.Pow(ay, 2) + Math.Pow(az, 2)) / 1000.0f /*980.665f*/; } }
 
-        // calced turn rate
-        [DisplayText("Turn Rate (speed)")]
-        public float turnrate { get { if (groundspeed <= 1) return 0; return (roll * 9.8f) / groundspeed; } }
-        // turn radius
-        [DisplayText("Turn Radius (dist)")]
-        public float radius { get { if (groundspeed <= 1) return 0; return ((groundspeed * groundspeed)/(float)(9.8f*Math.Tan(roll * deg2rad))); } }
+        [DisplayText("Failsafe")]
+        public bool failsafe { get; set; }
 
         [DisplayText("RX Rssi")]
         public float rxrssi { get; set; }
@@ -196,6 +187,25 @@ namespace ArdupilotMega
         public string mode { get; set; }
         [DisplayText("ClimbRate (speed)")]
         public float climbrate { get { return _climbrate * multiplierspeed; } set {_climbrate = value;} }
+
+
+        /// <summary>
+        /// time over target in seconds
+        /// </summary>
+        [DisplayText("Time over Target (sec)")]
+        public int tot { get { if (groundspeed <= 0) return 0; return (int)(wp_dist / groundspeed); } }
+        [DisplayText("Dist Traveled (dist)")]
+        public float distTraveled { get; set; }
+        [DisplayText("Time in Air (sec)")]
+        public float timeInAir { get; set; }
+
+        // calced turn rate
+        [DisplayText("Turn Rate (speed)")]
+        public float turnrate { get { if (groundspeed <= 1) return 0; return (roll * 9.8f) / groundspeed; } }
+        // turn radius
+        [DisplayText("Turn Radius (dist)")]
+        public float radius { get { if (groundspeed <= 1) return 0; return ((groundspeed * groundspeed) / (float)(9.8f * Math.Tan(roll * deg2rad))); } }
+
         float _wpdist;
         float _aspd_error;
         float _alt_error;
@@ -207,8 +217,7 @@ namespace ArdupilotMega
         public float targetalt { get { return _targetalt; } }
 
         //airspeed_error = (airspeed_error - airspeed);
-        [DisplayText("Airspeed Target (speed)")]
-        public float targetairspeed { get { return _targetairspeed; } }
+
 
 
         //message
@@ -316,25 +325,7 @@ namespace ArdupilotMega
         public float accel_cal_y { get; set; }
         public float accel_cal_z { get; set; }
 
-        // HIL
-        public int hilch1 { get; set; }
-        public int hilch2 { get; set; }
-        public int hilch3 { get; set; }
-        public int hilch4 { get; set; }
-        public int hilch5;
-        public int hilch6;
-        public int hilch7;
-        public int hilch8;
-
-        // rc override
-        public ushort rcoverridech1 { get; set; }
-        public ushort rcoverridech2 { get; set; }
-        public ushort rcoverridech3 { get; set; }
-        public ushort rcoverridech4 { get; set; }
-        public ushort rcoverridech5 { get; set; }
-        public ushort rcoverridech6 { get; set; }
-        public ushort rcoverridech7 { get; set; }
-        public ushort rcoverridech8 { get; set; }
+    
 
 
         // current firmware
@@ -403,6 +394,27 @@ namespace ArdupilotMega
 
         // reference
         public DateTime datetime { get; set; }
+
+        // HIL
+        public int hilch1 { get; set; }
+        public int hilch2 { get; set; }
+        public int hilch3 { get; set; }
+        public int hilch4 { get; set; }
+        public int hilch5;
+        public int hilch6;
+        public int hilch7;
+        public int hilch8;
+
+        // rc override
+        public ushort rcoverridech1 { get; set; }
+        public ushort rcoverridech2 { get; set; }
+        public ushort rcoverridech3 { get; set; }
+        public ushort rcoverridech4 { get; set; }
+        public ushort rcoverridech5 { get; set; }
+        public ushort rcoverridech6 { get; set; }
+        public ushort rcoverridech7 { get; set; }
+        public ushort rcoverridech8 { get; set; }
+
 
         private object locker = new object();
         bool useLocation = false;
@@ -587,6 +599,8 @@ namespace ArdupilotMega
 
                         armed = (hb.base_mode & (byte)MAVLink.MAV_MODE_FLAG.SAFETY_ARMED) == (byte)MAVLink.MAV_MODE_FLAG.SAFETY_ARMED;
 
+                        failsafe = hb.system_status == (byte)MAVLink.MAV_STATE.CRITICAL;
+
                         string oldmode = mode;
 
                         mode = "Unknown";
@@ -605,6 +619,9 @@ namespace ArdupilotMega
                                         break;
                                     case (byte)(Common.apmmodes.STABILIZE):
                                         mode = "Stabilize";
+                                        break;
+                                    case (byte)(Common.apmmodes.TRAINING):
+                                        mode = "Training";
                                         break;
                                     case (byte)(Common.apmmodes.FLY_BY_WIRE_A):
                                         mode = "FBW A";
@@ -1049,7 +1066,8 @@ namespace ArdupilotMega
 
                         //climbrate = vfr.climb;
 
-                        if ((datetime - lastalt).TotalSeconds >= 0.2 && oldalt != alt)
+                        // check update rate, and ensure time hasnt gone backwards
+                        if ((datetime - lastalt).TotalSeconds >= 0.2 && oldalt != alt || lastalt > datetime)
                         {
                             climbrate = (alt - oldalt) / (float)(datetime - lastalt).TotalSeconds;
                             verticalspeed = (alt - oldalt) / (float)(datetime - lastalt).TotalSeconds;

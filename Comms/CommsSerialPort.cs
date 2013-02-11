@@ -26,10 +26,15 @@ namespace ArdupilotMega.Comms
 
                     if (stream != null)
                     {
-                        stream.Dispose();
+                        try
+                        {
+                            stream.Dispose();
+                        }
+                        catch (Exception ex) { Console.WriteLine(ex.ToString()); }
+                        stream = null;
                     }
                 }
-                catch { }
+                catch {  }
 
                 base.Dispose(disposing);
             }

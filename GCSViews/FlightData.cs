@@ -238,7 +238,12 @@ namespace ArdupilotMega.GCSViews
             object thisBoxed = MainV2.comPort.MAV.cs;
             Type test = thisBoxed.GetType();
 
-            foreach (var field in test.GetProperties())
+            PropertyInfo[] props = test.GetProperties();
+
+            int fixmesort;
+            //props
+
+            foreach (var field in props)
             {
                 // field.Name has the field's name.
                 object fieldValue;
@@ -758,7 +763,7 @@ namespace ArdupilotMega.GCSViews
                             gMapControl1.UpdateRouteLocalPosition(route);
 
                             // update programed wp course
-                            if (waypoints.AddSeconds(10) < DateTime.Now)
+                            if (waypoints.AddSeconds(5) < DateTime.Now)
                             {
                                 //Console.WriteLine("Doing FD WP's");
                                 updateMissionRouteMarkers();
@@ -808,7 +813,7 @@ namespace ArdupilotMega.GCSViews
                                     addpolygonmarker("Guided Mode", MainV2.comPort.MAV.GuidedMode.y, MainV2.comPort.MAV.GuidedMode.x, (int)MainV2.comPort.MAV.GuidedMode.z, Color.Blue, routes);
                                 }
 
-                                if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane)
+                                if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.Ateryx)
                                 {
                                     routes.Markers[0] = (new GMapMarkerPlane(currentloc, MainV2.comPort.MAV.cs.yaw, MainV2.comPort.MAV.cs.groundcourse, MainV2.comPort.MAV.cs.nav_bearing, MainV2.comPort.MAV.cs.target_bearing, gMapControl1) { ToolTipText = MainV2.comPort.MAV.cs.alt.ToString("0"), ToolTipMode = MarkerTooltipMode.Always });
                                 }
@@ -833,7 +838,7 @@ namespace ArdupilotMega.GCSViews
                                     while (routes.Markers.Count < (a+1))
                                         routes.Markers.Add(new GMapMarkerCross(portlocation));
 
-                                    if (port.MAV.cs.firmware == MainV2.Firmwares.ArduPlane)
+                                    if (port.MAV.cs.firmware == MainV2.Firmwares.ArduPlane || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.Ateryx)
                                     {
                                         routes.Markers[a] = (new GMapMarkerPlane(portlocation, port.MAV.cs.yaw, port.MAV.cs.groundcourse, port.MAV.cs.nav_bearing, port.MAV.cs.target_bearing, gMapControl1) { ToolTipText = "MAV: " + a + " " +port.MAV.cs.alt.ToString("0"), ToolTipMode = MarkerTooltipMode.Always });
                                     }
@@ -1590,6 +1595,15 @@ namespace ArdupilotMega.GCSViews
                     CMB_setwp.Items.Add(z.ToString());
                 }
             }
+
+            if (MainV2.comPort.MAV.param["WP_TOTAL"] != null)
+            {
+                int wps = int.Parse(MainV2.comPort.MAV.param["WP_TOTAL"].ToString());
+                for (int z = 1; z <= wps; z++)
+                {
+                    CMB_setwp.Items.Add(z.ToString());
+                }
+            }
         }
 
         private void BUT_quickauto_Click(object sender, EventArgs e)
@@ -1619,7 +1633,7 @@ namespace ArdupilotMega.GCSViews
             try
             {
                 ((Button)sender).Enabled = false;
-                if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane)
+                if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.Ateryx)
                     MainV2.comPort.setMode("Manual");
                 if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
                     MainV2.comPort.setMode("Stabilize");

@@ -779,6 +779,12 @@ namespace ArdupilotMega
         {
             if (status == serialstatus.Done)
             {
+                if (CHK_logs.Items.Count == 0)
+                {
+                    CustomMessageBox.Show("Nothing to download");
+                    return;
+                }
+
                 System.Threading.Thread t11 = new System.Threading.Thread(delegate() { downloadthread(int.Parse(CHK_logs.Items[0].ToString()), int.Parse(CHK_logs.Items[CHK_logs.Items.Count - 1].ToString())); });
                 t11.Name = "Log Download All thread";
                 t11.Start();

@@ -32,6 +32,7 @@ namespace ArdupilotMega.Utilities
             BurntKermit,
             HighContrast,
             Test,
+            Custom,
         }
 
         /// <summary>
@@ -42,6 +43,11 @@ namespace ArdupilotMega.Utilities
         {
             log.Debug("Theme set to " +  Enum.GetName(typeof(Themes), theme));
             _currentTheme = theme;
+        }
+
+        public static void CustomColor()
+        {
+            new ThemeColors().ShowDialog();
         }
 
         /// <summary>
@@ -64,11 +70,219 @@ namespace ArdupilotMega.Utilities
                     ApplyTestTheme(control, 0);
                     break;
 
+                case Themes.Custom:
+                    ApplyCustomTheme(control, 0);
+                    break;
+
                 default:
                     break;
             }
 
                     
+        }
+
+        private static void ApplyCustomTheme(Control temp, int level)
+        {
+            if (level == 0)
+            {
+                temp.BackColor = BGColor;
+                temp.ForeColor = TextColor;
+            }
+
+            foreach (Control ctl in temp.Controls)
+            {
+                if (ctl.GetType() == typeof(Panel))
+                {
+                    ctl.BackColor = BGColor;
+                    ctl.ForeColor = TextColor;
+                }
+                else if (ctl.GetType() == typeof(GroupBox))
+                {
+                    ctl.BackColor = BGColor;
+                    ctl.ForeColor = TextColor;
+                }
+                else if (ctl.GetType() == typeof(MyLabel))
+                {
+                    ctl.BackColor = BGColor;
+                    ctl.ForeColor = TextColor;
+                }
+                else if (ctl.GetType() == typeof(Button))
+                {
+                    ctl.ForeColor = TextColor;
+                    ctl.BackColor = ButBG;
+                }
+                else if (ctl.GetType() == typeof(MyButton))
+                {
+                    ArdupilotMega.Controls.MyButton but = (MyButton)ctl;
+                    but.BGGradTop = ButBG;
+                    but.BGGradBot = Color.FromArgb(ButBG.ToArgb() - 0x333333);
+                    but.TextColor = TextColor;
+                    but.Outline = ButBorder;
+                }
+                else if (ctl.GetType() == typeof(TextBox))
+                {
+                    ctl.BackColor = ControlBGColor;
+                    ctl.ForeColor = TextColor;
+                    TextBox txt = (TextBox)ctl;
+                    txt.BorderStyle = BorderStyle.None;
+                }
+                else if (ctl.GetType() == typeof(DomainUpDown))
+                {
+                    ctl.BackColor = ControlBGColor;
+                    ctl.ForeColor = TextColor;
+                    DomainUpDown txt = (DomainUpDown)ctl;
+                    txt.BorderStyle = BorderStyle.None;
+                }
+                else if (ctl.GetType() == typeof(GroupBox) || ctl.GetType() == typeof(UserControl))
+                {
+                    ctl.BackColor = BGColor;
+                    ctl.ForeColor = TextColor;
+                }
+                else if (ctl.GetType() == typeof(ZedGraph.ZedGraphControl))
+                {
+                    var zg1 = (ZedGraph.ZedGraphControl)ctl;
+                    zg1.GraphPane.Chart.Fill = new ZedGraph.Fill(ControlBGColor);
+                    zg1.GraphPane.Fill = new ZedGraph.Fill(BGColor);
+
+                    foreach (ZedGraph.LineItem li in zg1.GraphPane.CurveList)
+                        li.Line.Width = 2;
+
+                    zg1.GraphPane.Title.FontSpec.FontColor = TextColor;
+
+                    zg1.GraphPane.XAxis.MajorTic.Color = TextColor;
+                    zg1.GraphPane.XAxis.MinorTic.Color = TextColor;
+                    zg1.GraphPane.YAxis.MajorTic.Color = TextColor;
+                    zg1.GraphPane.YAxis.MinorTic.Color = TextColor;
+                    zg1.GraphPane.Y2Axis.MajorTic.Color = TextColor;
+                    zg1.GraphPane.Y2Axis.MinorTic.Color = TextColor;
+
+                    zg1.GraphPane.XAxis.MajorGrid.Color = TextColor;
+                    zg1.GraphPane.YAxis.MajorGrid.Color = TextColor;
+                    zg1.GraphPane.Y2Axis.MajorGrid.Color = TextColor;
+
+                    zg1.GraphPane.YAxis.Scale.FontSpec.FontColor = TextColor;
+                    zg1.GraphPane.YAxis.Title.FontSpec.FontColor = TextColor;
+                    zg1.GraphPane.Y2Axis.Title.FontSpec.FontColor = TextColor;
+                    zg1.GraphPane.Y2Axis.Scale.FontSpec.FontColor = TextColor;
+
+                    zg1.GraphPane.XAxis.Scale.FontSpec.FontColor = TextColor;
+                    zg1.GraphPane.XAxis.Title.FontSpec.FontColor = TextColor;
+
+                    zg1.GraphPane.Legend.Fill = new ZedGraph.Fill(ControlBGColor);
+                    zg1.GraphPane.Legend.FontSpec.FontColor = TextColor;
+                }
+                else if (ctl.GetType() == typeof(BSE.Windows.Forms.Panel) || ctl.GetType() == typeof(SplitterPanel))
+                {
+                    ctl.BackColor = BGColor;
+                    ctl.ForeColor = TextColor;// Color.FromArgb(0xe6, 0xe8, 0xea);
+                }
+                else if (ctl.GetType() == typeof(Form))
+                {
+                    ctl.BackColor = BGColor;
+                    ctl.ForeColor = TextColor;// Color.FromArgb(0xe6, 0xe8, 0xea);
+                }
+                else if (ctl.GetType() == typeof(RichTextBox))
+                {
+                    ctl.BackColor = ControlBGColor;
+                    ctl.ForeColor = TextColor;
+                    RichTextBox txtr = (RichTextBox)ctl;
+                    txtr.BorderStyle = BorderStyle.None;
+                }
+                else if (ctl.GetType() == typeof(CheckedListBox))
+                {
+                    ctl.BackColor = ControlBGColor;
+                    ctl.ForeColor = TextColor;
+                    CheckedListBox txtr = (CheckedListBox)ctl;
+                    txtr.BorderStyle = BorderStyle.None;
+                }
+                else if (ctl.GetType() == typeof(TabPage))
+                {
+                    ctl.BackColor = BGColor;  //ControlBGColor
+                    ctl.ForeColor = TextColor;
+                    TabPage txtr = (TabPage)ctl;
+                    txtr.BorderStyle = BorderStyle.None;
+                }
+                else if (ctl.GetType() == typeof(TabControl))
+                {
+                    ctl.BackColor = BGColor;  //ControlBGColor
+                    ctl.ForeColor = TextColor;
+                    TabControl txtr = (TabControl)ctl;
+
+                }
+                else if (ctl.GetType() == typeof(DataGridView))
+                {
+                    ctl.ForeColor = TextColor;
+                    DataGridView dgv = (DataGridView)ctl;
+                    dgv.EnableHeadersVisualStyles = false;
+                    dgv.BorderStyle = BorderStyle.None;
+                    dgv.BackgroundColor = BGColor;
+                    DataGridViewCellStyle rs = new DataGridViewCellStyle();
+                    rs.BackColor = ControlBGColor;
+                    rs.ForeColor = TextColor;
+                    dgv.RowsDefaultCellStyle = rs;
+
+                    DataGridViewCellStyle hs = new DataGridViewCellStyle(dgv.ColumnHeadersDefaultCellStyle);
+                    hs.BackColor = BGColor;
+                    hs.ForeColor = TextColor;
+
+                    dgv.ColumnHeadersDefaultCellStyle = hs;
+                    dgv.RowHeadersDefaultCellStyle = hs;
+                }
+                else if (ctl.GetType() == typeof(CheckBox) || ctl.GetType() == typeof(MavlinkCheckBox))
+                {
+                    ctl.BackColor = BGColor;
+                    ctl.ForeColor = TextColor;
+                    CheckBox CHK = (CheckBox)ctl;
+                    // CHK.FlatStyle = FlatStyle.Flat;
+                }
+                else if (ctl.GetType() == typeof(ComboBox) || ctl.GetType() == typeof(MavlinkComboBox))
+                {
+                    ctl.BackColor = ControlBGColor;
+                    ctl.ForeColor = TextColor;
+                    ComboBox CMB = (ComboBox)ctl;
+                    CMB.FlatStyle = FlatStyle.Flat;
+                }
+                else if (ctl.GetType() == typeof(NumericUpDown) || ctl.GetType() == typeof(MavlinkNumericUpDown))
+                {
+                    ctl.BackColor = ControlBGColor;
+                    ctl.ForeColor = TextColor;
+                }
+                else if (ctl.GetType() == typeof(TrackBar))
+                {
+                    ctl.BackColor = BGColor;
+                    ctl.ForeColor = TextColor;
+                }
+                else if (ctl.GetType() == typeof(LinkLabel))
+                {
+                    ctl.BackColor = BGColor;
+                    ctl.ForeColor = TextColor;
+                    LinkLabel LNK = (LinkLabel)ctl;
+                    LNK.ActiveLinkColor = TextColor;
+                    LNK.LinkColor = TextColor;
+                    LNK.VisitedLinkColor = TextColor;
+
+                }
+                else if (ctl.GetType() == typeof(BackstageView))
+                {
+                    var bsv = ctl as BackstageView;
+
+                    bsv.BackColor = BGColor;
+                    bsv.ButtonsAreaBgColor = ControlBGColor;
+                    bsv.HighlightColor2 = Color.FromArgb(0x94, 0xc1, 0x1f);
+                    bsv.HighlightColor1 = Color.FromArgb(0x40, 0x57, 0x04);
+                    bsv.SelectedTextColor = Color.White;
+                    bsv.UnSelectedTextColor = Color.Gray;
+                    bsv.ButtonsAreaPencilColor = Color.DarkGray;
+                }
+                else if (ctl.GetType() == typeof(HorizontalProgressBar2) || ctl.GetType() == typeof(VerticalProgressBar2))
+                {
+                    ((HorizontalProgressBar2)ctl).BackgroundColor = ControlBGColor;
+                    ((HorizontalProgressBar2)ctl).ValueColor = Color.FromArgb(148, 193, 31);
+                }
+
+                if (ctl.Controls.Count > 0)
+                    ApplyCustomTheme(ctl, 1);
+            }
         }
 
         private static void ApplyTestTheme(Control temp, int level)

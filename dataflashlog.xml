@@ -129,6 +129,14 @@
       <F6>Pitch</F6>
       <F7>Yaw</F7>
     </CAMERA>
+    <COMPASS>
+      <F1>MagX</F1>
+      <F2>MagY</F2>
+      <F3>MagZ</F3>
+      <F4>OffX</F4>
+      <F5>OffY</F5>
+      <F6>OffZ</F6>
+    </COMPASS>
     <PID-1>
       <F1>Err</F1>
       <F2>P</F2>

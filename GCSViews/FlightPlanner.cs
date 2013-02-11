@@ -40,6 +40,8 @@ namespace ArdupilotMega.GCSViews
         bool polygongridmode = false;
         Hashtable param = new Hashtable();
 
+        public static FlightPlanner instance = null;
+
         List<PointLatLngAlt> pointlist = new List<PointLatLngAlt>(); // used to calc distance
         static public Object thisLock = new Object();
         private ComponentResourceManager rm = new ComponentResourceManager(typeof(FlightPlanner));
@@ -357,6 +359,8 @@ namespace ArdupilotMega.GCSViews
 
         public FlightPlanner()
         {
+            instance = this;
+
             InitializeComponent();
 
             // config map             
@@ -497,7 +501,7 @@ namespace ArdupilotMega.GCSViews
             {
                 reader.Read();
                 reader.ReadStartElement("CMD");
-                if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane)
+                if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.Ateryx)
                 {
                     reader.ReadToFollowing("APM");
                 }
@@ -763,6 +767,7 @@ namespace ArdupilotMega.GCSViews
             if (cell.Value == null)
             {
                 cell.Value = "WAYPOINT";
+                cell.DropDownWidth = 200;
                 Commands.Rows[e.RowIndex].Cells[Delete.Index].Value = "X";
                 if (!quickadd)
                 {
@@ -1880,6 +1885,12 @@ namespace ArdupilotMega.GCSViews
             // coords are in lat long
             // need utm to calc area
 
+            if (polygon.Count == 0)
+            {
+                CustomMessageBox.Show("Please define a polygon!");
+                return 0;
+            }
+
             // close the polygon
             if (polygon[0] != polygon[polygon.Count - 1])
                 polygon.Add(polygon[0]); // make a full loop
@@ -2835,7 +2846,7 @@ namespace ArdupilotMega.GCSViews
 
                 PointLatLng currentloc = new PointLatLng(MainV2.comPort.MAV.cs.lat, MainV2.comPort.MAV.cs.lng);
 
-                if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane)
+                if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.Ateryx)
                 {
                     routes.Markers.Add(new GMapMarkerPlane(currentloc, MainV2.comPort.MAV.cs.yaw, MainV2.comPort.MAV.cs.groundcourse, MainV2.comPort.MAV.cs.nav_bearing, MainV2.comPort.MAV.cs.target_bearing, MainMap));
                 }
@@ -3297,15 +3308,35 @@ namespace ArdupilotMega.GCSViews
                 CHK_altmode.Visible = true;
             }
 
-            // set home location
-            if (MainV2.comPort.MAV.cs.HomeLocation.Lat != 0 && MainV2.comPort.MAV.cs.HomeLocation.Lng != 0)
+            updateHome();
+        }
+
+        public void updateHome()
+        {
+            if (this.InvokeRequired)
             {
-                TXT_homelat.Text = MainV2.comPort.MAV.cs.HomeLocation.Lat.ToString();
-
-                TXT_homelng.Text = MainV2.comPort.MAV.cs.HomeLocation.Lng.ToString();
-
-                TXT_homealt.Text = MainV2.comPort.MAV.cs.HomeLocation.Alt.ToString();
+                this.Invoke((MethodInvoker)delegate { updateHomeText(); });
             }
+            else
+            {
+                updateHomeText();
+            }
+        }
+
+        private void updateHomeText() 
+        {
+                        // set home location
+                if (MainV2.comPort.MAV.cs.HomeLocation.Lat != 0 && MainV2.comPort.MAV.cs.HomeLocation.Lng != 0)
+                {
+                    TXT_homelat.Text = MainV2.comPort.MAV.cs.HomeLocation.Lat.ToString();
+
+                    TXT_homelng.Text = MainV2.comPort.MAV.cs.HomeLocation.Lng.ToString();
+
+                    TXT_homealt.Text = MainV2.comPort.MAV.cs.HomeLocation.Alt.ToString();
+
+                    writeKML();
+                }
+                
         }
 
         public void Deactivate()
@@ -4247,7 +4278,7 @@ namespace ArdupilotMega.GCSViews
             // take off pitch
             int topi = 0;
 
-            if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane)
+            if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.Ateryx)
             {
                 string top = "15";
 

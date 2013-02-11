@@ -68,7 +68,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
 
             startup = true;
 
-            if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane)
+            if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.Ateryx)
             {
                 try
                 {
@@ -132,6 +132,8 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             catch { }
 
             BUT_Calibrateradio.Text = "Click when Done";
+
+            CustomMessageBox.Show("Click OK, and move all sticks to there extreme positions,\nincluding switchs! so the red bars hit the limits.");
 
             run = true;
 

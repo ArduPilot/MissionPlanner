@@ -78,6 +78,7 @@ namespace ArdupilotMega.GCSViews
             this.CMB_history = new System.Windows.Forms.ComboBox();
             this.CMB_history_label = new System.Windows.Forms.Label();
             this.Custom_firmware_label = new System.Windows.Forms.Label();
+            this.lbl_devfw = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxHilimage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAPHil)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxACHil)).BeginInit();
@@ -247,10 +248,18 @@ namespace ArdupilotMega.GCSViews
             this.Custom_firmware_label.Name = "Custom_firmware_label";
             this.Custom_firmware_label.Click += new System.EventHandler(this.Custom_firmware_label_Click);
             // 
+            // lbl_devfw
+            // 
+            resources.ApplyResources(this.lbl_devfw, "lbl_devfw");
+            this.lbl_devfw.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lbl_devfw.Name = "lbl_devfw";
+            this.lbl_devfw.Click += new System.EventHandler(this.lbl_devfw_Click);
+            // 
             // Firmware
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.lbl_devfw);
             this.Controls.Add(this.Custom_firmware_label);
             this.Controls.Add(this.CMB_history_label);
             this.Controls.Add(this.pictureBoxRover);
@@ -288,6 +297,7 @@ namespace ArdupilotMega.GCSViews
         private Controls.ImageLabel pictureBoxRover;
         private Label CMB_history_label;
         private Label Custom_firmware_label;
+        private Label lbl_devfw;
 
     }
 }

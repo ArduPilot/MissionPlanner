@@ -127,14 +127,18 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
 
         private void lbl_currentmode_TextChanged(object sender, EventArgs e)
         {
-            if (MainV2.comPort.MAV.cs.ch3in < (float)MainV2.comPort.MAV.param["THR_FS_VALUE"])
+            try
             {
-                lbl_currentmode.ForeColor = Color.Red;
+                if (MainV2.comPort.MAV.cs.ch3in < (float)MainV2.comPort.MAV.param["FS_THR_VALUE"])
+                {
+                    lbl_currentmode.ForeColor = Color.Red;
+                }
+                else
+                {
+                    lbl_currentmode.ForeColor = Color.White;
+                }
             }
-            else
-            {
-                lbl_currentmode.ForeColor = Color.White;
-            }
+            catch { }
         }
     }
 }

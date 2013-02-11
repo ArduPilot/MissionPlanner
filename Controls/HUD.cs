@@ -167,6 +167,8 @@ namespace ArdupilotMega.Controls
         public float linkqualitygcs { get { return _linkqualitygcs; } set { if (_linkqualitygcs != value) { _linkqualitygcs = value; this.Invalidate(); } } }
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
         public DateTime datetime { get { return _datetime; } set { if (_datetime != value) { _datetime = value; this.Invalidate(); } } }
+        [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
+        public bool failsafe { get; set; }
 
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
         public bool lowvoltagealert { get; set; }
@@ -201,7 +203,7 @@ namespace ArdupilotMega.Controls
 
         Pen whitePen = new Pen(Color.White, 2);
 
-        public Image bgimage { set { while (inOnPaint) { } if (_bgimage != null) _bgimage.Dispose(); _bgimage = (Image)value.Clone(); this.Invalidate(); } }
+        public Image bgimage { set { while (inOnPaint) { } if (_bgimage != null) _bgimage.Dispose(); try { _bgimage = (Image)value.Clone(); } catch { _bgimage = null; } this.Invalidate(); } }
         Image _bgimage;
 
         // move these global as they rarely change - reduce GC
@@ -890,6 +892,14 @@ namespace ArdupilotMega.Controls
                     if ((armedtimer.AddSeconds(8) > DateTime.Now))
                     {
                         drawstring(graphicsObject, "ARMED", font, fontsize + 20, (SolidBrush)Brushes.Red, -70, halfheight / -3);
+                        statuslast = status;
+                    }
+                }
+
+                if (failsafe == true)
+                {
+                    {
+                        drawstring(graphicsObject, "FAILSAFE", font, fontsize + 20, (SolidBrush)Brushes.Red, -85, halfheight / -5);
                         statuslast = status;
                     }
                 }

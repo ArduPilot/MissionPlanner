@@ -268,6 +268,19 @@ namespace ArdupilotMega
             if (config["theme"] != null)
             {
                 ThemeManager.SetTheme((ThemeManager.Themes)Enum.Parse(typeof(ThemeManager.Themes), MainV2.config["theme"].ToString()));
+
+                if (ThemeManager.CurrentTheme == ThemeManager.Themes.Custom)
+                {
+                    try
+                    {
+                        ThemeManager.BGColor = Color.FromArgb(int.Parse(MainV2.config["theme_bg"].ToString()));
+                        ThemeManager.ControlBGColor = Color.FromArgb(int.Parse(MainV2.config["theme_ctlbg"].ToString()));
+                        ThemeManager.TextColor = Color.FromArgb(int.Parse(MainV2.config["theme_text"].ToString()));
+                        ThemeManager.ButBG = Color.FromArgb(int.Parse(MainV2.config["theme_butbg"].ToString()));
+                        ThemeManager.ButBorder = Color.FromArgb(int.Parse(MainV2.config["theme_butbord"].ToString()));
+                    }
+                    catch { log.Error("Bad Custom theme - reset to standard"); ThemeManager.SetTheme(ThemeManager.Themes.BurntKermit); }
+                }
             }
 
             try
@@ -1203,7 +1216,7 @@ namespace ArdupilotMega
                         MAVLink.mavlink_heartbeat_t htb = new MAVLink.mavlink_heartbeat_t()
                         {
                             type = (byte)MAVLink.MAV_TYPE.GCS,
-                            autopilot = (byte)MAVLink.MAV_AUTOPILOT.ARDUPILOTMEGA,
+                            autopilot = (byte)MAVLink.MAV_AUTOPILOT.INVALID,
                             mavlink_version = 3,
                         };
 
@@ -1240,7 +1253,30 @@ namespace ArdupilotMega
                         // status just changed to armed
                         if (MainV2.comPort.MAV.cs.armed == true)
                         {
-                            MainV2.comPort.MAV.cs.HomeLocation = new PointLatLngAlt(MainV2.comPort.getWP(0));
+                            try
+                            {
+                                MainV2.comPort.MAV.cs.HomeLocation = new PointLatLngAlt(MainV2.comPort.getWP(0));
+                                if (MyView.current != null && MyView.current.Name == "FlightPlanner")
+                                {
+                                    // update home if we are on flight data tab
+                                    FlightPlanner.updateHome();
+                                }
+                            }
+                            catch { 
+                                // dont hang this loop
+                                this.BeginInvoke((MethodInvoker)delegate { CustomMessageBox.Show("Failed to update home location"); }); 
+                            }
+                        }
+
+                        if (speechEnable && speechEngine != null)
+                        {
+                            if (MainV2.getConfig("speecharmenabled") == "True")
+                            {
+                                if (armedstatus)
+                                    MainV2.speechEngine.SpeakAsync(Common.speechConversion(MainV2.getConfig("speecharm")));
+                                else
+                                    MainV2.speechEngine.SpeakAsync(Common.speechConversion(MainV2.getConfig("speechdisarm")));
+                            }
                         }
                     }
 

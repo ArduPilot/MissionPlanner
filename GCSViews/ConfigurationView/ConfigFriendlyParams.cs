@@ -131,8 +131,11 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         public void Activate()
         {
+            Console.WriteLine(DateTime.Now.ToString());
             SortParamList();
+            Console.WriteLine(DateTime.Now.ToString());
             BindParamList();
+            Console.WriteLine(DateTime.Now.ToString());
         }
 
         /// <summary>
@@ -186,7 +189,10 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             foreach (Control ctl in tableLayoutPanel1.Controls)
             {
                 ctl.Dispose();
+                Console.WriteLine("ctl disp " + DateTime.Now.ToString());
             }
+            
+            tableLayoutPanel1.Controls.Clear();
 
             if (_params == null || _params.Count == 0) SortParamList();
 
@@ -204,16 +210,19 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                 catch (Exception exp) { log.Error(exp); } // just to cleanup any errors
             }
 
+            Console.WriteLine("next " + DateTime.Now.ToString());
+
             tableLayoutPanel1.VerticalScroll.Value = 0;
 
-            int ypos = 0;
+//            int ypos = 0;
             _params.OrderBy(x => x.Key).ForEach(x =>
          {
-             AddControl(x,ref ypos);
+             AddControl(x);//,ref ypos);
+             Console.WriteLine("add ctl " + DateTime.Now.ToString());
          });
         }
 
-        void AddControl(KeyValuePair<string,string> x, ref int ypos)
+        void AddControl(KeyValuePair<string,string> x) //, ref int ypos)
         {
             if (!String.IsNullOrEmpty(x.Key))
             {
@@ -250,13 +259,13 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
 
                             if (units.ToLower() == "centi-degrees")
                             {
-                                Console.WriteLine(x.Key + " scale");
+                                //Console.WriteLine(x.Key + " scale");
                                 displayscale = 100;
                                 units = "Degrees (Scaled)";
                                 increment /= 100;
                             } else if (units.ToLower() == "centimeters")
                             {
-                                Console.WriteLine(x.Key + " scale");
+                                //Console.WriteLine(x.Key + " scale");
                                 displayscale = 100;
                                 units = "Meters (Scaled)";
                                 increment /= 100;
@@ -264,7 +273,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
 
                             var rangeControl = new RangeControl(x.Key, FitDescriptionText(units, description), displayName, increment, displayscale, lowerRange, upperRange, value);
 
-                            Console.WriteLine("{0} {1} {2} {3} {4}", x.Key, increment, lowerRange, upperRange, value);
+                            //Console.WriteLine("{0} {1} {2} {3} {4}", x.Key, increment, lowerRange, upperRange, value);
 
                             ThemeManager.ApplyThemeTo(rangeControl);
 
@@ -277,11 +286,11 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                             rangeControl.AttachEvents();
 
                             // set pos
-                            rangeControl.Location = new Point(0, ypos);
+//                            rangeControl.Location = new Point(0, ypos);
                             // add control - let it autosize height
                             tableLayoutPanel1.Controls.Add(rangeControl);
                             // add height for next control
-                            ypos += rangeControl.Height;
+//                            ypos += rangeControl.Height;
 
                             controlAdded = true;
                         }
@@ -316,11 +325,11 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                                 valueControl.ComboBoxControl.SelectedValue = value;
 
                                 // set pos
-                                valueControl.Location = new Point(0, ypos);
+//                                valueControl.Location = new Point(0, ypos);
                                 // add control - let it autosize height
                                 tableLayoutPanel1.Controls.Add(valueControl);
                                 // add height for next control
-                                ypos += valueControl.Height;
+//                                ypos += valueControl.Height;
                             }
                         }
                     }

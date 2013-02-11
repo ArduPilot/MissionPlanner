@@ -471,6 +471,8 @@ namespace ArdupilotMega
             CIRCLE = 1,
             [DisplayText("Stabilize")]
             STABILIZE = 2,
+            [DisplayText("Training")]
+            TRAINING = 3,
             [DisplayText("FBW A")]
             FLY_BY_WIRE_A = 5,
             [DisplayText("FBW B")]
@@ -698,6 +700,10 @@ namespace ArdupilotMega
             {
                 return typeof(apmmodes);
             }
+            else if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.Ateryx)
+            {
+                return typeof(apmmodes);
+            }
             else if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
             {
                 return typeof(ac2modes);
@@ -713,6 +719,11 @@ namespace ArdupilotMega
         public static List<KeyValuePair<int,string>> getModesList()
         {
             if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane)
+            {
+                var flightModes = EnumTranslator.Translate<apmmodes>();
+                return flightModes.ToList();
+            }
+            else if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.Ateryx)
             {
                 var flightModes = EnumTranslator.Translate<apmmodes>();
                 return flightModes.ToList();
@@ -914,6 +925,8 @@ namespace ArdupilotMega
             input = input.Replace("{batv}", MainV2.comPort.MAV.cs.battery_voltage.ToString("0.00"));
 
             input = input.Replace("{batp}", (MainV2.comPort.MAV.cs.battery_remaining * 100).ToString("0"));
+
+            input = input.Replace("{vsp}", (MainV2.comPort.MAV.cs.verticalspeed).ToString("0.0"));
 
             return input;
         }

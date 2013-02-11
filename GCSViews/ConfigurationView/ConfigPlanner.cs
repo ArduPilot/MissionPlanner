@@ -190,6 +190,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                 CHK_speechbattery.Visible = true;
                 CHK_speechcustom.Visible = true;
                 CHK_speechmode.Visible = true;
+                CHK_speecharmdisarm.Visible = true;
             }
             else
             {
@@ -198,6 +199,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                 CHK_speechbattery.Visible = false;
                 CHK_speechcustom.Visible = false;
                 CHK_speechmode.Visible = false;
+                CHK_speecharmdisarm.Visible = false;
             }
         }
 
@@ -642,6 +644,37 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             MainV2.config["theme"] = CMB_theme.Text;
             ThemeManager.SetTheme((ThemeManager.Themes)Enum.Parse(typeof(ThemeManager.Themes), CMB_theme.Text));
             ThemeManager.ApplyThemeTo(MainV2.instance);
+
+            CustomMessageBox.Show("You may need to restart to see the full effect.");
+        }
+
+        private void BUT_themecustom_Click(object sender, EventArgs e)
+        {
+            ThemeManager.CustomColor();
+            CMB_theme.Text = "Custom";
+        }
+
+        private void CHK_speecharmdisarm_CheckedChanged(object sender, EventArgs e)
+        {
+            if (startup)
+                return;
+            MainV2.config["speecharmenabled"] = ((CheckBox)sender).Checked.ToString();
+
+            if (((CheckBox)sender).Checked)
+            {
+                string speechstring = "Armed";
+                if (MainV2.config["speecharm"] != null)
+                    speechstring = MainV2.config["speecharm"].ToString();
+                Common.InputBox("Arm", "What do you want it to say?", ref speechstring);
+                MainV2.config["speecharm"] = speechstring;
+
+                speechstring = "Disarmed";
+                if (MainV2.config["speechdisarm"] != null)
+                    speechstring = MainV2.config["speechdisarm"].ToString();
+                Common.InputBox("Disarmed", "What do you want it to say?", ref speechstring);
+                MainV2.config["speechdisarm"] = speechstring;
+
+            }
         }
     }
 }

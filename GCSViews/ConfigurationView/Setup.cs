@@ -8,11 +8,14 @@ using System.Text;
 using System.Windows.Forms;
 using ArdupilotMega.Controls.BackstageView;
 using ArdupilotMega.Utilities;
+using System.Reflection;
+using log4net;
 
 namespace ArdupilotMega.GCSViews.ConfigurationView
 {
     public partial class Setup : MyUserControl
     {
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         // remember the last page accessed
         static string lastpagename = "";
         public static Controls.FlashMessage flashMessage = new Controls.FlashMessage();
@@ -143,7 +146,11 @@ If you are just setting up 3DR radios, you may continue without connecting.");
 
         private BackstageView.BackstageViewPage AddBackstageViewPage(UserControl userControl, string headerText, BackstageView.BackstageViewPage Parent = null)
         {
-            return backstageView.AddPage(userControl, headerText, Parent);
+            try
+            {
+                return backstageView.AddPage(userControl, headerText, Parent);
+            }
+            catch (Exception ex) { log.Error(ex); return null; }
         }
 
         private void Setup_FormClosing(object sender, FormClosingEventArgs e)
