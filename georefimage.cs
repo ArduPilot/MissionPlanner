@@ -900,6 +900,7 @@ namespace ArdupilotMega
             if (File.Exists(openFileDialog1.FileName))
             {
                 TXT_logfile.Text = openFileDialog1.FileName;
+                TXT_jpgdir.Text = Path.GetDirectoryName(TXT_logfile.Text);
             }
         }
 
