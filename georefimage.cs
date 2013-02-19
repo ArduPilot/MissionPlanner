@@ -30,7 +30,7 @@ namespace ArdupilotMega
         private TextBox TXT_outputlog;
         private ArdupilotMega.Controls.MyButton BUT_estoffset;
 
-        int latpos = 4, lngpos = 5, altpos = 7, cogpos = 9;
+        int latpos = 4, lngpos = 5, altpos = 7, cogpos = 9, pitchATT = 13, rollATT = 12, yawATT = 14;
         private NumericUpDown NUM_latpos;
         private NumericUpDown NUM_lngpos;
         private NumericUpDown NUM_altpos;
@@ -190,14 +190,16 @@ namespace ArdupilotMega
 
                 if (line.ToLower().StartsWith("gps"))
                 {
-                    string[] vals = line.Split(new char[] {',',':'});
-
-                    if (lasttime == vals[1])
-                        continue;
-
-                    lasttime = vals[1];
-
-                    list.Add(vals);
+                    if (!sr.EndOfStream){
+                        string line2 = sr.ReadLine();
+                        if (line2.ToLower().StartsWith("att")){
+                            string[] vals = string.Concat(line, ",", line2).Split(new char[] { ',', ':' });
+                            if (lasttime == vals[1])
+                                continue;
+                            lasttime = vals[1];
+                            list.Add(vals);
+                        }
+                    }
                 }
             }
 
@@ -248,6 +250,9 @@ namespace ArdupilotMega
                 swloctel.WriteLine("#longitude and latitude - in degrees");
                 swloctel.WriteLine("#name	utc	longitude	latitude	height");
 
+                swloctxt.WriteLine("#name longitude/X latitude/Y height/Z yaw pitch roll");
+                swloctxt.WriteLine("#seconds_offset: " + TXT_offsetseconds.Text);
+
                 int first = 0;
                 int matchs = 0;
 
@@ -282,6 +287,7 @@ namespace ArdupilotMega
 
                         TXT_outputlog.AppendText("Photo  " + Path.GetFileNameWithoutExtension(filename) + " time  " + photodt + "\r\n");
                         //Application.DoEvents();
+
 
                         int a = 0;
 
@@ -418,7 +424,7 @@ namespace ArdupilotMega
 
                                 imagetotime[filename] = (long)(logdt.AddSeconds(-offsetseconds) - DateTime.MinValue).TotalSeconds;
 
-                                swloctxt.WriteLine(Path.GetFileName(filename) + " " + arr[lngpos] + " " + arr[latpos] + " " + arr[altpos]);
+                                swloctxt.WriteLine(Path.GetFileName(filename) + " " + arr[lngpos] + " " + arr[latpos] + " " + arr[altpos] + " " + ((double.Parse(arr[yawATT]) / 100.0) + 180) % 360 + " " + ((double.Parse(arr[pitchATT]) / 100.0)) + " " + (-double.Parse(arr[rollATT]) / 100.0));
                                 swloctel.WriteLine(Path.GetFileName(filename) + "\t" + logdt.ToString("yyyy:MM:dd HH:mm:ss") + "\t" + arr[lngpos] + "\t" + arr[latpos] + "\t" + arr[altpos]);
                                 swloctel.Flush();
                                 swloctxt.Flush();
