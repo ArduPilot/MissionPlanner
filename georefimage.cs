@@ -402,6 +402,8 @@ namespace ArdupilotMega
                                  new GroundOverlay()
                                  {
                                      Name = Path.GetFileNameWithoutExtension(filename),
+                                     Visibility = false,
+                                     Time = tstamp,
                                      AltitudeMode = AltitudeMode.ClampToGround,
                                      Bounds = new LatLonBox()
                                      {
