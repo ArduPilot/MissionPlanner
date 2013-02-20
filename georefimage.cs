@@ -357,6 +357,7 @@ namespace ArdupilotMega
 
                                 tstamp.When = photodt;
 
+                                /*
                                 kml.AddFeature(
                                     new Placemark()
                                     {
@@ -375,7 +376,7 @@ namespace ArdupilotMega
                                             Balloon = new BalloonStyle() { Text = "$[name]<br>$[description]" }
                                         }
                                     }
-                                );
+                                );*/
 
                                 double lat = double.Parse(arr[latpos]) ;
                                 double lng = double.Parse(arr[lngpos]) ;
