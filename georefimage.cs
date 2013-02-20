@@ -379,7 +379,7 @@ namespace ArdupilotMega
 
                                 double lat = double.Parse(arr[latpos]) ;
                                 double lng = double.Parse(arr[lngpos]) ;
-                                double alpha = double.Parse(arr[cogpos]) + (double)num_camerarotation.Value;
+                                double alpha = ((double.Parse(arr[yawATT]) / 100.0) + 180) + (double)num_camerarotation.Value;
 
                                 RectangleF rect = getboundingbox(lat, lng, alpha, (double)num_hfov.Value, (double)num_vfov.Value);
 
