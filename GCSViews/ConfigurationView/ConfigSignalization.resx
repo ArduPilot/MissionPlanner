@@ -117,4 +117,1163 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="CB_beeper_1.Text" xml:space="preserve">
+    <value>On arming</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="CMB_beeper_pin.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 47</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="CB_leds_legacy_4.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="CB_leds_legacy_4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>60, 17</value>
+  </data>
+  <data name="&gt;&gt;P_leds_mode_legacy.Parent" xml:space="preserve">
+    <value>GB_leds</value>
+  </data>
+  <data name="&gt;&gt;CMB_led_3.Parent" xml:space="preserve">
+    <value>P_leds_mode_combo</value>
+  </data>
+  <data name="L_led_2.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="L_led_5.TabIndex" type="System.Int32, mscorlib">
+    <value>31</value>
+  </data>
+  <data name="&gt;&gt;L_led_4.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;B_beeper_write.Name" xml:space="preserve">
+    <value>B_beeper_write</value>
+  </data>
+  <data name="L_led_1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>34, 13</value>
+  </data>
+  <data name="L_led_2.TabIndex" type="System.Int32, mscorlib">
+    <value>25</value>
+  </data>
+  <data name="&gt;&gt;L_beeper_functions.Parent" xml:space="preserve">
+    <value>GB_beeper</value>
+  </data>
+  <data name="L_led_7.TabIndex" type="System.Int32, mscorlib">
+    <value>35</value>
+  </data>
+  <data name="&gt;&gt;CMB_beeper_pin.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;CMB_led_3.Name" xml:space="preserve">
+    <value>CMB_led_3</value>
+  </data>
+  <data name="&gt;&gt;CB_leds_legacy_8.Parent" xml:space="preserve">
+    <value>P_leds_mode_legacy</value>
+  </data>
+  <data name="&gt;&gt;CMB_leds_style.Name" xml:space="preserve">
+    <value>CMB_leds_style</value>
+  </data>
+  <data name="CMB_beeper_pin.Items15" xml:space="preserve">
+    <value>AN15</value>
+  </data>
+  <data name="&gt;&gt;L_led_8.Parent" xml:space="preserve">
+    <value>P_leds_mode_combo</value>
+  </data>
+  <data name="&gt;&gt;CB_beeper_3.Parent" xml:space="preserve">
+    <value>GB_beeper</value>
+  </data>
+  <data name="CB_beeper_1.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;L_led_5.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="CMB_leds_style.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;CMB_led_4.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="CMB_led_3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>166, 21</value>
+  </data>
+  <data name="&gt;&gt;CMB_led_1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="CB_beeper_3.Text" xml:space="preserve">
+    <value>When armed and on ground</value>
+  </data>
+  <data name="CB_beeper_5.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;L_led_6.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="CMB_beeper_pin.Items" xml:space="preserve">
+    <value>AN0</value>
+  </data>
+  <data name="CMB_beeper_pin.Items10" xml:space="preserve">
+    <value>AN10</value>
+  </data>
+  <data name="L_beeper_functions.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;P_leds_mode_legacy.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;CB_beeper_4.Parent" xml:space="preserve">
+    <value>GB_beeper</value>
+  </data>
+  <data name="&gt;&gt;CB_leds_legacy_4.Name" xml:space="preserve">
+    <value>CB_leds_legacy_4</value>
+  </data>
+  <data name="CB_leds_legacy_2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 23</value>
+  </data>
+  <data name="&gt;&gt;CB_leds_legacy_7.Parent" xml:space="preserve">
+    <value>P_leds_mode_legacy</value>
+  </data>
+  <data name="CB_beeper_3.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;CMB_led_6.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CMB_beeper_pin.Parent" xml:space="preserve">
+    <value>GB_beeper</value>
+  </data>
+  <data name="&gt;&gt;CB_beeper_7.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="GB_beeper.Text" xml:space="preserve">
+    <value>Beeper settings</value>
+  </data>
+  <data name="&gt;&gt;L_led_7.ZOrder" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="CMB_led_4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>166, 21</value>
+  </data>
+  <data name="&gt;&gt;CMB_led_4.Parent" xml:space="preserve">
+    <value>P_leds_mode_combo</value>
+  </data>
+  <data name="CMB_led_7.Location" type="System.Drawing.Point, System.Drawing">
+    <value>46, 161</value>
+  </data>
+  <data name="L_led_3.TabIndex" type="System.Int32, mscorlib">
+    <value>27</value>
+  </data>
+  <data name="CB_leds_legacy_6.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 115</value>
+  </data>
+  <data name="CB_leds_legacy_3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 46</value>
+  </data>
+  <data name="&gt;&gt;CMB_led_7.Name" xml:space="preserve">
+    <value>CMB_led_7</value>
+  </data>
+  <data name="CMB_led_8.TabIndex" type="System.Int32, mscorlib">
+    <value>38</value>
+  </data>
+  <data name="CB_beeper_5.Text" xml:space="preserve">
+    <value>On low voltage</value>
+  </data>
+  <data name="L_beeper_pin.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;CB_leds_legacy_7.Name" xml:space="preserve">
+    <value>CB_leds_legacy_7</value>
+  </data>
+  <data name="CB_beeper_0.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 17</value>
+  </data>
+  <data name="&gt;&gt;CB_leds_legacy_2.Parent" xml:space="preserve">
+    <value>P_leds_mode_legacy</value>
+  </data>
+  <data name="L_led_4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>34, 13</value>
+  </data>
+  <data name="CB_beeper_0.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="CB_beeper_3.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;GB_leds.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;L_led_7.Parent" xml:space="preserve">
+    <value>P_leds_mode_combo</value>
+  </data>
+  <data name="L_beeper_functions.Size" type="System.Drawing.Size, System.Drawing">
+    <value>105, 13</value>
+  </data>
+  <data name="CB_leds_legacy_2.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;GB_leds.Name" xml:space="preserve">
+    <value>GB_leds</value>
+  </data>
+  <data name="CMB_beeper_pin.Items7" xml:space="preserve">
+    <value>AN7</value>
+  </data>
+  <data name="&gt;&gt;CB_leds_legacy_2.Name" xml:space="preserve">
+    <value>CB_leds_legacy_2</value>
+  </data>
+  <data name="CB_leds_legacy_5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>219, 17</value>
+  </data>
+  <data name="CMB_led_4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>46, 83</value>
+  </data>
+  <data name="&gt;&gt;L_beeper_functions.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;L_led_4.Parent" xml:space="preserve">
+    <value>P_leds_mode_combo</value>
+  </data>
+  <data name="&gt;&gt;CB_beeper_7.Parent" xml:space="preserve">
+    <value>GB_beeper</value>
+  </data>
+  <data name="&gt;&gt;CMB_led_1.Name" xml:space="preserve">
+    <value>CMB_led_1</value>
+  </data>
+  <data name="CB_beeper_4.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;CB_leds_legacy_5.Parent" xml:space="preserve">
+    <value>P_leds_mode_legacy</value>
+  </data>
+  <data name="GB_leds.Text" xml:space="preserve">
+    <value>LEDs settings</value>
+  </data>
+  <data name="L_led_5.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 115</value>
+  </data>
+  <data name="&gt;&gt;CB_leds_legacy_8.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="L_led_4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 88</value>
+  </data>
+  <data name="CB_leds_legacy_8.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="CB_beeper_7.Size" type="System.Drawing.Size, System.Drawing">
+    <value>142, 17</value>
+  </data>
+  <data name="L_led_2.Text" xml:space="preserve">
+    <value>LED2</value>
+  </data>
+  <data name="CMB_beeper_pin.Size" type="System.Drawing.Size, System.Drawing">
+    <value>121, 21</value>
+  </data>
+  <data name="&gt;&gt;L_led_5.Parent" xml:space="preserve">
+    <value>P_leds_mode_combo</value>
+  </data>
+  <data name="&gt;&gt;CMB_led_2.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="CMB_led_5.Location" type="System.Drawing.Point, System.Drawing">
+    <value>46, 109</value>
+  </data>
+  <data name="CB_leds_legacy_1.Text" xml:space="preserve">
+    <value>Motor</value>
+  </data>
+  <data name="&gt;&gt;CB_beeper_0.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;L_led_2.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>6, 13</value>
+  </data>
+  <data name="&gt;&gt;P_leds_mode_legacy.Name" xml:space="preserve">
+    <value>P_leds_mode_legacy</value>
+  </data>
+  <data name="L_leds_type.Size" type="System.Drawing.Size, System.Drawing">
+    <value>139, 13</value>
+  </data>
+  <data name="L_led_4.TabIndex" type="System.Int32, mscorlib">
+    <value>29</value>
+  </data>
+  <data name="CB_beeper_3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>159, 17</value>
+  </data>
+  <data name="GB_leds.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="&gt;&gt;CMB_led_1.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;L_led_6.Parent" xml:space="preserve">
+    <value>P_leds_mode_combo</value>
+  </data>
+  <data name="&gt;&gt;CB_leds_legacy_3.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="CMB_led_4.TabIndex" type="System.Int32, mscorlib">
+    <value>30</value>
+  </data>
+  <data name="CMB_led_7.TabIndex" type="System.Int32, mscorlib">
+    <value>36</value>
+  </data>
+  <data name="L_beeper_functions.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;CMB_led_6.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="&gt;&gt;L_led_8.Name" xml:space="preserve">
+    <value>L_led_8</value>
+  </data>
+  <data name="&gt;&gt;CB_beeper_1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="CB_beeper_2.Text" xml:space="preserve">
+    <value>On disarming</value>
+  </data>
+  <data name="CMB_led_1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>166, 21</value>
+  </data>
+  <data name="&gt;&gt;L_led_3.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;CMB_led_2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="L_led_7.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 169</value>
+  </data>
+  <data name="CB_leds_legacy_3.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="CMB_led_6.Location" type="System.Drawing.Point, System.Drawing">
+    <value>46, 135</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="CB_beeper_6.Text" xml:space="preserve">
+    <value>When CH7 is high</value>
+  </data>
+  <data name="&gt;&gt;CMB_led_5.Name" xml:space="preserve">
+    <value>CMB_led_5</value>
+  </data>
+  <data name="CMB_beeper_pin.Items11" xml:space="preserve">
+    <value>AN11</value>
+  </data>
+  <data name="&gt;&gt;CB_beeper_2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="L_led_1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 7</value>
+  </data>
+  <data name="CB_leds_legacy_8.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;CMB_led_6.Parent" xml:space="preserve">
+    <value>P_leds_mode_combo</value>
+  </data>
+  <data name="CMB_beeper_pin.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;CMB_led_8.ZOrder" xml:space="preserve">
+    <value>15</value>
+  </data>
+  <data name="CMB_led_2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>166, 21</value>
+  </data>
+  <data name="&gt;&gt;L_leds_type.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;B_beeper_write.Parent" xml:space="preserve">
+    <value>GB_beeper</value>
+  </data>
+  <data name="&gt;&gt;CB_beeper_3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="CB_beeper_4.Text" xml:space="preserve">
+    <value>On GPS home set</value>
+  </data>
+  <data name="&gt;&gt;CMB_led_4.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;CB_leds_legacy_3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="L_led_7.Size" type="System.Drawing.Size, System.Drawing">
+    <value>34, 13</value>
+  </data>
+  <data name="&gt;&gt;CMB_led_7.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="CB_leds_legacy_8.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;CB_leds_legacy_1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="CMB_leds_style.TabIndex" type="System.Int32, mscorlib">
+    <value>21</value>
+  </data>
+  <data name="CB_beeper_7.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CB_leds_legacy_7.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 138</value>
+  </data>
+  <data name="CMB_beeper_pin.Items14" xml:space="preserve">
+    <value>AN14</value>
+  </data>
+  <data name="L_led_6.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 142</value>
+  </data>
+  <data name="&gt;&gt;L_led_1.Parent" xml:space="preserve">
+    <value>P_leds_mode_combo</value>
+  </data>
+  <data name="&gt;&gt;B_beeper_write.Type" xml:space="preserve">
+    <value>ArdupilotMega.Controls.MyButton, ArdupilotMegaPlanner10, Version=1.1.4806.2032, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="CMB_led_5.TabIndex" type="System.Int32, mscorlib">
+    <value>32</value>
+  </data>
+  <data name="L_led_3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 61</value>
+  </data>
+  <data name="&gt;&gt;CB_leds_legacy_8.Name" xml:space="preserve">
+    <value>CB_leds_legacy_8</value>
+  </data>
+  <data name="L_led_3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>34, 13</value>
+  </data>
+  <data name="&gt;&gt;B_beeper_write.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;CMB_leds_style.Parent" xml:space="preserve">
+    <value>GB_leds</value>
+  </data>
+  <data name="CB_beeper_6.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="GB_beeper.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left</value>
+  </data>
+  <data name="CMB_beeper_pin.Items3" xml:space="preserve">
+    <value>AN3</value>
+  </data>
+  <data name="&gt;&gt;L_led_2.Parent" xml:space="preserve">
+    <value>P_leds_mode_combo</value>
+  </data>
+  <data name="&gt;&gt;GB_beeper.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="CMB_led_3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>46, 57</value>
+  </data>
+  <data name="L_beeper_functions.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 75</value>
+  </data>
+  <data name="&gt;&gt;CB_leds_legacy_4.Parent" xml:space="preserve">
+    <value>P_leds_mode_legacy</value>
+  </data>
+  <data name="&gt;&gt;CB_leds_legacy_7.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="CB_leds_legacy_3.Text" xml:space="preserve">
+    <value>Aux</value>
+  </data>
+  <data name="P_leds_mode_combo.TabIndex" type="System.Int32, mscorlib">
+    <value>23</value>
+  </data>
+  <data name="&gt;&gt;L_led_1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="CMB_led_5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>166, 21</value>
+  </data>
+  <data name="&gt;&gt;GB_leds.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="L_led_5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>34, 13</value>
+  </data>
+  <data name="CB_leds_legacy_4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 69</value>
+  </data>
+  <data name="CB_leds_legacy_1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>53, 17</value>
+  </data>
+  <data name="CB_beeper_2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>87, 17</value>
+  </data>
+  <data name="&gt;&gt;CB_leds_legacy_4.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;L_led_3.Parent" xml:space="preserve">
+    <value>P_leds_mode_combo</value>
+  </data>
+  <data name="CB_leds_legacy_8.Text" xml:space="preserve">
+    <value>Unused</value>
+  </data>
+  <data name="&gt;&gt;L_led_5.Name" xml:space="preserve">
+    <value>L_led_5</value>
+  </data>
+  <data name="CMB_led_6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>166, 21</value>
+  </data>
+  <data name="&gt;&gt;CB_beeper_6.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="CB_beeper_5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>97, 17</value>
+  </data>
+  <data name="CB_beeper_1.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CB_beeper_6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>112, 17</value>
+  </data>
+  <data name="CB_beeper_1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 114</value>
+  </data>
+  <data name="CB_leds_legacy_6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>99, 17</value>
+  </data>
+  <data name="L_leds_type.Text" xml:space="preserve">
+    <value>Select type of LEDs handler</value>
+  </data>
+  <data name="&gt;&gt;CB_leds_legacy_1.Name" xml:space="preserve">
+    <value>CB_leds_legacy_1</value>
+  </data>
+  <data name="&gt;&gt;CMB_led_1.Parent" xml:space="preserve">
+    <value>P_leds_mode_combo</value>
+  </data>
+  <data name="CB_beeper_0.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 91</value>
+  </data>
+  <data name="L_beeper_pin.Size" type="System.Drawing.Size, System.Drawing">
+    <value>186, 13</value>
+  </data>
+  <data name="L_led_7.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;CB_beeper_1.Name" xml:space="preserve">
+    <value>CB_beeper_1</value>
+  </data>
+  <data name="CB_leds_legacy_1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 2</value>
+  </data>
+  <data name="&gt;&gt;CB_beeper_7.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="CB_beeper_5.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;CB_beeper_1.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="CB_leds_legacy_8.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 161</value>
+  </data>
+  <data name="L_led_4.Text" xml:space="preserve">
+    <value>LED4</value>
+  </data>
+  <data name="&gt;&gt;CMB_led_7.ZOrder" xml:space="preserve">
+    <value>13</value>
+  </data>
+  <data name="CMB_led_1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>46, 5</value>
+  </data>
+  <data name="P_leds_mode_legacy.TabIndex" type="System.Int32, mscorlib">
+    <value>23</value>
+  </data>
+  <data name="&gt;&gt;B_leds_write.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;B_leds_write.Type" xml:space="preserve">
+    <value>ArdupilotMega.Controls.MyButton, ArdupilotMegaPlanner10, Version=1.1.4806.2032, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;CB_beeper_2.Name" xml:space="preserve">
+    <value>CB_beeper_2</value>
+  </data>
+  <data name="&gt;&gt;CB_beeper_2.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="CB_leds_legacy_4.Text" xml:space="preserve">
+    <value>Beeper</value>
+  </data>
+  <data name="L_led_6.TabIndex" type="System.Int32, mscorlib">
+    <value>33</value>
+  </data>
+  <data name="CB_beeper_2.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="CMB_led_3.TabIndex" type="System.Int32, mscorlib">
+    <value>28</value>
+  </data>
+  <data name="&gt;&gt;CMB_led_8.Name" xml:space="preserve">
+    <value>CMB_led_8</value>
+  </data>
+  <data name="&gt;&gt;L_led_8.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="CB_leds_legacy_6.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;CMB_led_7.Parent" xml:space="preserve">
+    <value>P_leds_mode_combo</value>
+  </data>
+  <data name="B_leds_write.Location" type="System.Drawing.Point, System.Drawing">
+    <value>82, 318</value>
+  </data>
+  <data name="CB_leds_legacy_2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>48, 17</value>
+  </data>
+  <data name="&gt;&gt;L_leds_type.Parent" xml:space="preserve">
+    <value>GB_leds</value>
+  </data>
+  <data name="CB_beeper_7.Text" xml:space="preserve">
+    <value>When in auto land mode</value>
+  </data>
+  <data name="L_led_6.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CMB_led_2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>46, 31</value>
+  </data>
+  <data name="&gt;&gt;CB_beeper_3.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="L_led_2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>34, 13</value>
+  </data>
+  <data name="L_led_4.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;P_leds_mode_combo.Parent" xml:space="preserve">
+    <value>GB_leds</value>
+  </data>
+  <data name="CB_beeper_7.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="CB_leds_legacy_5.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;CB_leds_legacy_2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CB_beeper_4.Name" xml:space="preserve">
+    <value>CB_beeper_4</value>
+  </data>
+  <data name="CB_beeper_2.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;L_led_1.Name" xml:space="preserve">
+    <value>L_led_1</value>
+  </data>
+  <data name="&gt;&gt;CB_beeper_2.Parent" xml:space="preserve">
+    <value>GB_beeper</value>
+  </data>
+  <data name="CMB_led_6.TabIndex" type="System.Int32, mscorlib">
+    <value>34</value>
+  </data>
+  <data name="&gt;&gt;B_leds_write.Parent" xml:space="preserve">
+    <value>GB_leds</value>
+  </data>
+  <data name="CB_beeper_6.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;CB_leds_legacy_6.Parent" xml:space="preserve">
+    <value>P_leds_mode_legacy</value>
+  </data>
+  <data name="B_beeper_write.Location" type="System.Drawing.Point, System.Drawing">
+    <value>83, 318</value>
+  </data>
+  <data name="&gt;&gt;P_leds_mode_combo.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="B_beeper_write.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="CB_leds_legacy_6.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;CB_beeper_4.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="CB_beeper_2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 137</value>
+  </data>
+  <data name="CMB_led_2.TabIndex" type="System.Int32, mscorlib">
+    <value>26</value>
+  </data>
+  <data name="CMB_beeper_pin.Items8" xml:space="preserve">
+    <value>AN8</value>
+  </data>
+  <data name="CMB_beeper_pin.Items9" xml:space="preserve">
+    <value>AN9</value>
+  </data>
+  <data name="CMB_beeper_pin.Items6" xml:space="preserve">
+    <value>AN6</value>
+  </data>
+  <data name="&gt;&gt;GB_beeper.Name" xml:space="preserve">
+    <value>GB_beeper</value>
+  </data>
+  <data name="CMB_beeper_pin.Items4" xml:space="preserve">
+    <value>AN4</value>
+  </data>
+  <data name="CMB_beeper_pin.Items5" xml:space="preserve">
+    <value>AN5</value>
+  </data>
+  <data name="CMB_beeper_pin.Items2" xml:space="preserve">
+    <value>AN2</value>
+  </data>
+  <data name="&gt;&gt;L_led_2.Name" xml:space="preserve">
+    <value>L_led_2</value>
+  </data>
+  <data name="CMB_beeper_pin.Items1" xml:space="preserve">
+    <value>AN1</value>
+  </data>
+  <data name="CB_beeper_1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>74, 17</value>
+  </data>
+  <data name="P_leds_mode_legacy.Location" type="System.Drawing.Point, System.Drawing">
+    <value>2, 73</value>
+  </data>
+  <data name="&gt;&gt;CB_leds_legacy_8.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="L_beeper_pin.Text" xml:space="preserve">
+    <value>Select pin where beeper is connected
+</value>
+  </data>
+  <data name="&gt;&gt;L_beeper_pin.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="CB_beeper_4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>111, 17</value>
+  </data>
+  <data name="L_led_5.Text" xml:space="preserve">
+    <value>LED5</value>
+  </data>
+  <data name="&gt;&gt;CB_beeper_5.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;P_leds_mode_combo.Name" xml:space="preserve">
+    <value>P_leds_mode_combo</value>
+  </data>
+  <data name="CMB_led_1.TabIndex" type="System.Int32, mscorlib">
+    <value>24</value>
+  </data>
+  <data name="CB_leds_legacy_7.Text" xml:space="preserve">
+    <value>GPS nav blink</value>
+  </data>
+  <data name="&gt;&gt;L_led_3.Name" xml:space="preserve">
+    <value>L_led_3</value>
+  </data>
+  <data name="CB_leds_legacy_2.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="GB_beeper.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="&gt;&gt;L_beeper_pin.Name" xml:space="preserve">
+    <value>L_beeper_pin</value>
+  </data>
+  <data name="CB_leds_legacy_7.Size" type="System.Drawing.Size, System.Drawing">
+    <value>94, 17</value>
+  </data>
+  <data name="L_leds_type.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="CB_leds_legacy_5.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 92</value>
+  </data>
+  <data name="CB_leds_legacy_5.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="L_led_1.Text" xml:space="preserve">
+    <value>LED1</value>
+  </data>
+  <data name="&gt;&gt;CB_beeper_6.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>ConfigSignalization</value>
+  </data>
+  <data name="CMB_beeper_pin.Items13" xml:space="preserve">
+    <value>AN13</value>
+  </data>
+  <data name="P_leds_mode_combo.Location" type="System.Drawing.Point, System.Drawing">
+    <value>2, 73</value>
+  </data>
+  <data name="&gt;&gt;L_led_4.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="L_led_7.Text" xml:space="preserve">
+    <value>LED7</value>
+  </data>
+  <data name="&gt;&gt;CB_leds_legacy_7.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="CB_beeper_4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 181</value>
+  </data>
+  <data name="&gt;&gt;CB_leds_legacy_3.Parent" xml:space="preserve">
+    <value>P_leds_mode_legacy</value>
+  </data>
+  <data name="&gt;&gt;CB_beeper_7.Name" xml:space="preserve">
+    <value>CB_beeper_7</value>
+  </data>
+  <data name="CB_leds_legacy_6.Text" xml:space="preserve">
+    <value>Motor nav blink</value>
+  </data>
+  <data name="L_beeper_pin.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;L_led_6.Name" xml:space="preserve">
+    <value>L_led_6</value>
+  </data>
+  <data name="B_leds_write.Size" type="System.Drawing.Size, System.Drawing">
+    <value>85, 23</value>
+  </data>
+  <data name="&gt;&gt;CB_leds_legacy_5.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="CMB_led_8.Size" type="System.Drawing.Size, System.Drawing">
+    <value>166, 21</value>
+  </data>
+  <data name="CB_leds_legacy_4.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="L_led_6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>34, 13</value>
+  </data>
+  <data name="B_leds_write.TabIndex" type="System.Int32, mscorlib">
+    <value>22</value>
+  </data>
+  <data name="L_led_3.Text" xml:space="preserve">
+    <value>LED3</value>
+  </data>
+  <data name="B_leds_write.Text" xml:space="preserve">
+    <value>Write changes</value>
+  </data>
+  <data name="GB_leds.Location" type="System.Drawing.Point, System.Drawing">
+    <value>253, 0</value>
+  </data>
+  <data name="CB_leds_legacy_7.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="L_leds_type.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="L_led_5.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;L_led_7.Name" xml:space="preserve">
+    <value>L_led_7</value>
+  </data>
+  <data name="L_led_8.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CB_leds_legacy_5.Text" xml:space="preserve">
+    <value>Fast flash (0) / oscillate (1) on low battery</value>
+  </data>
+  <data name="GB_beeper.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="CB_leds_legacy_3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>44, 17</value>
+  </data>
+  <data name="&gt;&gt;CB_leds_legacy_2.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;CMB_led_2.Name" xml:space="preserve">
+    <value>CMB_led_2</value>
+  </data>
+  <data name="&gt;&gt;CB_leds_legacy_5.Name" xml:space="preserve">
+    <value>CB_leds_legacy_5</value>
+  </data>
+  <data name="&gt;&gt;L_led_6.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CB_beeper_0.Name" xml:space="preserve">
+    <value>CB_beeper_0</value>
+  </data>
+  <data name="L_led_8.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 196</value>
+  </data>
+  <data name="CMB_leds_style.Size" type="System.Drawing.Size, System.Drawing">
+    <value>121, 21</value>
+  </data>
+  <data name="&gt;&gt;GB_beeper.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;L_leds_type.Name" xml:space="preserve">
+    <value>L_leds_type</value>
+  </data>
+  <data name="L_beeper_functions.Text" xml:space="preserve">
+    <value>Select when to beep</value>
+  </data>
+  <data name="CB_leds_legacy_8.Size" type="System.Drawing.Size, System.Drawing">
+    <value>63, 17</value>
+  </data>
+  <data name="L_led_8.TabIndex" type="System.Int32, mscorlib">
+    <value>37</value>
+  </data>
+  <data name="&gt;&gt;L_beeper_functions.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="CB_leds_legacy_2.Text" xml:space="preserve">
+    <value>GPS</value>
+  </data>
+  <data name="L_leds_type.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 31</value>
+  </data>
+  <data name="&gt;&gt;CB_leds_legacy_5.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;CMB_led_2.Parent" xml:space="preserve">
+    <value>P_leds_mode_combo</value>
+  </data>
+  <data name="&gt;&gt;L_led_7.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CB_leds_legacy_1.Parent" xml:space="preserve">
+    <value>P_leds_mode_legacy</value>
+  </data>
+  <data name="CB_beeper_5.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 204</value>
+  </data>
+  <data name="&gt;&gt;GB_leds.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;CMB_beeper_pin.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CB_leds_legacy_6.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="P_leds_mode_legacy.Size" type="System.Drawing.Size, System.Drawing">
+    <value>247, 214</value>
+  </data>
+  <data name="GB_leds.Size" type="System.Drawing.Size, System.Drawing">
+    <value>252, 347</value>
+  </data>
+  <data name="CB_beeper_6.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 227</value>
+  </data>
+  <data name="&gt;&gt;B_leds_write.Name" xml:space="preserve">
+    <value>B_leds_write</value>
+  </data>
+  <data name="&gt;&gt;CMB_led_3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CB_leds_legacy_6.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="L_led_2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 34</value>
+  </data>
+  <data name="&gt;&gt;L_led_4.Name" xml:space="preserve">
+    <value>L_led_4</value>
+  </data>
+  <data name="&gt;&gt;CMB_led_4.Name" xml:space="preserve">
+    <value>CMB_led_4</value>
+  </data>
+  <data name="L_led_8.Size" type="System.Drawing.Size, System.Drawing">
+    <value>34, 13</value>
+  </data>
+  <data name="&gt;&gt;CMB_led_8.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="CMB_leds_style.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 46</value>
+  </data>
+  <data name="L_led_1.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;GB_beeper.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="B_beeper_write.Text" xml:space="preserve">
+    <value>Write changes</value>
+  </data>
+  <data name="GB_beeper.Size" type="System.Drawing.Size, System.Drawing">
+    <value>252, 347</value>
+  </data>
+  <data name="&gt;&gt;L_led_1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CB_beeper_3.Name" xml:space="preserve">
+    <value>CB_beeper_3</value>
+  </data>
+  <data name="GB_leds.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left</value>
+  </data>
+  <data name="CB_beeper_0.Text" xml:space="preserve">
+    <value>On startup</value>
+  </data>
+  <data name="&gt;&gt;CB_beeper_0.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;CB_leds_legacy_3.Name" xml:space="preserve">
+    <value>CB_leds_legacy_3</value>
+  </data>
+  <data name="&gt;&gt;L_beeper_pin.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="CB_leds_legacy_7.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;L_led_8.ZOrder" xml:space="preserve">
+    <value>14</value>
+  </data>
+  <data name="CB_leds_legacy_1.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="L_led_3.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;L_led_2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;P_leds_mode_combo.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="CMB_beeper_pin.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="CB_leds_legacy_3.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;CMB_led_8.Parent" xml:space="preserve">
+    <value>P_leds_mode_combo</value>
+  </data>
+  <data name="&gt;&gt;L_beeper_pin.Parent" xml:space="preserve">
+    <value>GB_beeper</value>
+  </data>
+  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
+    <value>506, 350</value>
+  </data>
+  <data name="L_led_6.Text" xml:space="preserve">
+    <value>LED6</value>
+  </data>
+  <data name="&gt;&gt;CB_beeper_5.Parent" xml:space="preserve">
+    <value>GB_beeper</value>
+  </data>
+  <data name="&gt;&gt;L_led_5.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;L_led_3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CB_beeper_5.Name" xml:space="preserve">
+    <value>CB_beeper_5</value>
+  </data>
+  <data name="P_leds_mode_combo.Size" type="System.Drawing.Size, System.Drawing">
+    <value>247, 214</value>
+  </data>
+  <data name="&gt;&gt;CB_leds_legacy_1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CMB_led_5.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;P_leds_mode_legacy.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="L_led_1.TabIndex" type="System.Int32, mscorlib">
+    <value>23</value>
+  </data>
+  <data name="&gt;&gt;CB_beeper_4.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="CB_beeper_3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 160</value>
+  </data>
+  <data name="CMB_led_7.Size" type="System.Drawing.Size, System.Drawing">
+    <value>166, 21</value>
+  </data>
+  <data name="CB_beeper_7.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 250</value>
+  </data>
+  <data name="&gt;&gt;CB_beeper_6.Parent" xml:space="preserve">
+    <value>GB_beeper</value>
+  </data>
+  <data name="&gt;&gt;L_beeper_functions.Name" xml:space="preserve">
+    <value>L_beeper_functions</value>
+  </data>
+  <data name="&gt;&gt;CB_beeper_0.Parent" xml:space="preserve">
+    <value>GB_beeper</value>
+  </data>
+  <data name="&gt;&gt;CMB_led_5.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="&gt;&gt;CMB_beeper_pin.Name" xml:space="preserve">
+    <value>CMB_beeper_pin</value>
+  </data>
+  <data name="L_beeper_pin.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 31</value>
+  </data>
+  <data name="&gt;&gt;CB_beeper_6.Name" xml:space="preserve">
+    <value>CB_beeper_6</value>
+  </data>
+  <data name="CB_leds_legacy_1.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;CMB_led_3.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;L_leds_type.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="L_led_8.Text" xml:space="preserve">
+    <value>LED8</value>
+  </data>
+  <data name="&gt;&gt;CB_beeper_5.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CB_leds_legacy_6.Name" xml:space="preserve">
+    <value>CB_leds_legacy_6</value>
+  </data>
+  <data name="&gt;&gt;CMB_led_6.Name" xml:space="preserve">
+    <value>CMB_led_6</value>
+  </data>
+  <data name="&gt;&gt;CB_leds_legacy_4.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="CB_beeper_0.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="&gt;&gt;CMB_leds_style.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="B_beeper_write.Size" type="System.Drawing.Size, System.Drawing">
+    <value>85, 23</value>
+  </data>
+  <data name="CMB_beeper_pin.Items12" xml:space="preserve">
+    <value>AN12</value>
+  </data>
+  <data name="&gt;&gt;CB_beeper_1.Parent" xml:space="preserve">
+    <value>GB_beeper</value>
+  </data>
+  <data name="CMB_led_8.Location" type="System.Drawing.Point, System.Drawing">
+    <value>46, 187</value>
+  </data>
+  <data name="&gt;&gt;CMB_led_5.Parent" xml:space="preserve">
+    <value>P_leds_mode_combo</value>
+  </data>
+  <data name="&gt;&gt;CMB_leds_style.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="CB_beeper_4.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
 </root>

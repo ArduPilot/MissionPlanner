@@ -118,52 +118,37 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="CHK_elevonch2rev.Size" type="System.Drawing.Size, System.Drawing">
-    <value>115, 17</value>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>84, 13</value>
   </data>
-  <data name="CHK_elevonch2rev.Text" xml:space="preserve">
-    <value>Elevons CH2 逆转</value>
+  <data name="label2.Text" xml:space="preserve">
+    <value>舵机/电机输出</value>
   </data>
-  <data name="CHK_elevonrev.Size" type="System.Drawing.Size, System.Drawing">
-    <value>91, 17</value>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>55, 13</value>
   </data>
-  <data name="CHK_elevonrev.Text" xml:space="preserve">
-    <value>Elevons 逆转</value>
+  <data name="label1.Text" xml:space="preserve">
+    <value>遥控输入</value>
   </data>
-  <data name="CHK_elevonch1rev.Size" type="System.Drawing.Size, System.Drawing">
-    <value>115, 17</value>
+  <data name="mavlinkCheckBoxgcs_fs.Text" xml:space="preserve">
+    <value>地面站失效保护</value>
   </data>
-  <data name="CHK_elevonch1rev.Text" xml:space="preserve">
-    <value>Elevons CH1 逆转</value>
+  <data name="mavlinkCheckBoxthr_fs_action.Text" xml:space="preserve">
+    <value>油门失效保护动作</value>
   </data>
-  <data name="groupBoxElevons.Text" xml:space="preserve">
-    <value>升降副翼 (Elevon) 配置</value>
+  <data name="mavlinkCheckBoxthr_fs.Text" xml:space="preserve">
+    <value>油门失效保护</value>
   </data>
-  <data name="CHK_revch3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>50, 17</value>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>失效保护选项</value>
   </data>
-  <data name="CHK_revch3.Text" xml:space="preserve">
-    <value>逆转</value>
+  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>67, 13</value>
   </data>
-  <data name="CHK_revch4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>50, 17</value>
+  <data name="label4.Text" xml:space="preserve">
+    <value>电池电压低</value>
   </data>
-  <data name="CHK_revch4.Text" xml:space="preserve">
-    <value>逆转</value>
-  </data>
-  <data name="CHK_revch2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>50, 17</value>
-  </data>
-  <data name="CHK_revch2.Text" xml:space="preserve">
-    <value>逆转</value>
-  </data>
-  <data name="CHK_revch1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>50, 17</value>
-  </data>
-  <data name="CHK_revch1.Text" xml:space="preserve">
-    <value>逆转</value>
-  </data>
-  <data name="BUT_Calibrateradio.Text" xml:space="preserve">
-    <value>校准遥控</value>
+  <data name="mavlinkCheckBoxfs_batt_enable.Text" xml:space="preserve">
+    <value>电池失效保护</value>
   </data>
 </root>

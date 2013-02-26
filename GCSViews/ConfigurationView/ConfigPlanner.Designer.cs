@@ -95,6 +95,7 @@
             // 
             // CMB_ratesensors
             // 
+            resources.ApplyResources(this.CMB_ratesensors, "CMB_ratesensors");
             this.CMB_ratesensors.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CMB_ratesensors.FormattingEnabled = true;
             this.CMB_ratesensors.Items.AddRange(new object[] {
@@ -110,7 +111,6 @@
             resources.GetString("CMB_ratesensors.Items9"),
             resources.GetString("CMB_ratesensors.Items10"),
             resources.GetString("CMB_ratesensors.Items11")});
-            resources.ApplyResources(this.CMB_ratesensors, "CMB_ratesensors");
             this.CMB_ratesensors.Name = "CMB_ratesensors";
             this.CMB_ratesensors.SelectedIndexChanged += new System.EventHandler(this.CMB_ratesensors_SelectedIndexChanged);
             // 
@@ -121,9 +121,9 @@
             // 
             // CMB_videoresolutions
             // 
+            resources.ApplyResources(this.CMB_videoresolutions, "CMB_videoresolutions");
             this.CMB_videoresolutions.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CMB_videoresolutions.FormattingEnabled = true;
-            resources.ApplyResources(this.CMB_videoresolutions, "CMB_videoresolutions");
             this.CMB_videoresolutions.Name = "CMB_videoresolutions";
             // 
             // label12
@@ -157,12 +157,12 @@
             // 
             // NUM_tracklength
             // 
+            resources.ApplyResources(this.NUM_tracklength, "NUM_tracklength");
             this.NUM_tracklength.Increment = new decimal(new int[] {
             100,
             0,
             0,
             0});
-            resources.ApplyResources(this.NUM_tracklength, "NUM_tracklength");
             this.NUM_tracklength.Maximum = new decimal(new int[] {
             2000,
             0,
@@ -195,9 +195,9 @@
             // 
             // CHK_resetapmonconnect
             // 
+            resources.ApplyResources(this.CHK_resetapmonconnect, "CHK_resetapmonconnect");
             this.CHK_resetapmonconnect.Checked = true;
             this.CHK_resetapmonconnect.CheckState = System.Windows.Forms.CheckState.Checked;
-            resources.ApplyResources(this.CHK_resetapmonconnect, "CHK_resetapmonconnect");
             this.CHK_resetapmonconnect.Name = "CHK_resetapmonconnect";
             this.CHK_resetapmonconnect.UseVisualStyleBackColor = true;
             this.CHK_resetapmonconnect.CheckedChanged += new System.EventHandler(this.CHK_resetapmonconnect_CheckedChanged);
@@ -216,6 +216,7 @@
             // 
             // CMB_raterc
             // 
+            resources.ApplyResources(this.CMB_raterc, "CMB_raterc");
             this.CMB_raterc.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CMB_raterc.FormattingEnabled = true;
             this.CMB_raterc.Items.AddRange(new object[] {
@@ -230,7 +231,6 @@
             resources.GetString("CMB_raterc.Items8"),
             resources.GetString("CMB_raterc.Items9"),
             resources.GetString("CMB_raterc.Items10")});
-            resources.ApplyResources(this.CMB_raterc, "CMB_raterc");
             this.CMB_raterc.Name = "CMB_raterc";
             this.CMB_raterc.SelectedIndexChanged += new System.EventHandler(this.CMB_raterc_SelectedIndexChanged);
             // 
@@ -256,6 +256,7 @@
             // 
             // CMB_ratestatus
             // 
+            resources.ApplyResources(this.CMB_ratestatus, "CMB_ratestatus");
             this.CMB_ratestatus.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CMB_ratestatus.FormattingEnabled = true;
             this.CMB_ratestatus.Items.AddRange(new object[] {
@@ -270,12 +271,12 @@
             resources.GetString("CMB_ratestatus.Items8"),
             resources.GetString("CMB_ratestatus.Items9"),
             resources.GetString("CMB_ratestatus.Items10")});
-            resources.ApplyResources(this.CMB_ratestatus, "CMB_ratestatus");
             this.CMB_ratestatus.Name = "CMB_ratestatus";
             this.CMB_ratestatus.SelectedIndexChanged += new System.EventHandler(this.CMB_ratestatus_SelectedIndexChanged);
             // 
             // CMB_rateposition
             // 
+            resources.ApplyResources(this.CMB_rateposition, "CMB_rateposition");
             this.CMB_rateposition.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CMB_rateposition.FormattingEnabled = true;
             this.CMB_rateposition.Items.AddRange(new object[] {
@@ -290,12 +291,12 @@
             resources.GetString("CMB_rateposition.Items8"),
             resources.GetString("CMB_rateposition.Items9"),
             resources.GetString("CMB_rateposition.Items10")});
-            resources.ApplyResources(this.CMB_rateposition, "CMB_rateposition");
             this.CMB_rateposition.Name = "CMB_rateposition";
             this.CMB_rateposition.SelectedIndexChanged += new System.EventHandler(this.CMB_rateposition_SelectedIndexChanged);
             // 
             // CMB_rateattitude
             // 
+            resources.ApplyResources(this.CMB_rateattitude, "CMB_rateattitude");
             this.CMB_rateattitude.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CMB_rateattitude.FormattingEnabled = true;
             this.CMB_rateattitude.Items.AddRange(new object[] {
@@ -310,7 +311,6 @@
             resources.GetString("CMB_rateattitude.Items8"),
             resources.GetString("CMB_rateattitude.Items9"),
             resources.GetString("CMB_rateattitude.Items10")});
-            resources.ApplyResources(this.CMB_rateattitude, "CMB_rateattitude");
             this.CMB_rateattitude.Name = "CMB_rateattitude";
             this.CMB_rateattitude.SelectedIndexChanged += new System.EventHandler(this.CMB_rateattitude_SelectedIndexChanged);
             // 
@@ -331,17 +331,17 @@
             // 
             // CMB_speedunits
             // 
+            resources.ApplyResources(this.CMB_speedunits, "CMB_speedunits");
             this.CMB_speedunits.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CMB_speedunits.FormattingEnabled = true;
-            resources.ApplyResources(this.CMB_speedunits, "CMB_speedunits");
             this.CMB_speedunits.Name = "CMB_speedunits";
             this.CMB_speedunits.SelectedIndexChanged += new System.EventHandler(this.CMB_speedunits_SelectedIndexChanged);
             // 
             // CMB_distunits
             // 
+            resources.ApplyResources(this.CMB_distunits, "CMB_distunits");
             this.CMB_distunits.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CMB_distunits.FormattingEnabled = true;
-            resources.ApplyResources(this.CMB_distunits, "CMB_distunits");
             this.CMB_distunits.Name = "CMB_distunits";
             this.CMB_distunits.SelectedIndexChanged += new System.EventHandler(this.CMB_distunits_SelectedIndexChanged);
             // 
@@ -390,19 +390,19 @@
             // 
             // CMB_osdcolor
             // 
+            resources.ApplyResources(this.CMB_osdcolor, "CMB_osdcolor");
             this.CMB_osdcolor.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.CMB_osdcolor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CMB_osdcolor.FormattingEnabled = true;
-            resources.ApplyResources(this.CMB_osdcolor, "CMB_osdcolor");
             this.CMB_osdcolor.Name = "CMB_osdcolor";
             this.CMB_osdcolor.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.CMB_osdcolor_DrawItem);
             this.CMB_osdcolor.SelectedIndexChanged += new System.EventHandler(this.CMB_osdcolor_SelectedIndexChanged);
             // 
             // CMB_language
             // 
+            resources.ApplyResources(this.CMB_language, "CMB_language");
             this.CMB_language.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CMB_language.FormattingEnabled = true;
-            resources.ApplyResources(this.CMB_language, "CMB_language");
             this.CMB_language.Name = "CMB_language";
             this.CMB_language.SelectedIndexChanged += new System.EventHandler(this.CMB_language_SelectedIndexChanged);
             // 
@@ -420,9 +420,9 @@
             // 
             // CHK_hudshow
             // 
+            resources.ApplyResources(this.CHK_hudshow, "CHK_hudshow");
             this.CHK_hudshow.Checked = true;
             this.CHK_hudshow.CheckState = System.Windows.Forms.CheckState.Checked;
-            resources.ApplyResources(this.CHK_hudshow, "CHK_hudshow");
             this.CHK_hudshow.Name = "CHK_hudshow";
             this.CHK_hudshow.UseVisualStyleBackColor = true;
             this.CHK_hudshow.CheckedChanged += new System.EventHandler(this.CHK_hudshow_CheckedChanged);
@@ -434,9 +434,9 @@
             // 
             // CMB_videosources
             // 
+            resources.ApplyResources(this.CMB_videosources, "CMB_videosources");
             this.CMB_videosources.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CMB_videosources.FormattingEnabled = true;
-            resources.ApplyResources(this.CMB_videosources, "CMB_videosources");
             this.CMB_videosources.Name = "CMB_videosources";
             this.CMB_videosources.SelectedIndexChanged += new System.EventHandler(this.CMB_videosources_SelectedIndexChanged);
             this.CMB_videosources.Click += new System.EventHandler(this.CMB_videosources_Click);
@@ -460,9 +460,9 @@
             // 
             // CHK_disttohomeflightdata
             // 
+            resources.ApplyResources(this.CHK_disttohomeflightdata, "CHK_disttohomeflightdata");
             this.CHK_disttohomeflightdata.Checked = true;
             this.CHK_disttohomeflightdata.CheckState = System.Windows.Forms.CheckState.Checked;
-            resources.ApplyResources(this.CHK_disttohomeflightdata, "CHK_disttohomeflightdata");
             this.CHK_disttohomeflightdata.Name = "CHK_disttohomeflightdata";
             this.CHK_disttohomeflightdata.UseVisualStyleBackColor = true;
             this.CHK_disttohomeflightdata.CheckedChanged += new System.EventHandler(this.CHK_disttohomeflightdata_CheckedChanged);
@@ -512,9 +512,9 @@
             // 
             // CMB_theme
             // 
+            resources.ApplyResources(this.CMB_theme, "CMB_theme");
             this.CMB_theme.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CMB_theme.FormattingEnabled = true;
-            resources.ApplyResources(this.CMB_theme, "CMB_theme");
             this.CMB_theme.Name = "CMB_theme";
             this.CMB_theme.SelectedIndexChanged += new System.EventHandler(this.CMB_theme_SelectedIndexChanged);
             // 

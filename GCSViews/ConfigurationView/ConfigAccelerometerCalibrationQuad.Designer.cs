@@ -130,18 +130,18 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             // 
             // pictureBoxPlus
             // 
+            resources.ApplyResources(this.pictureBoxPlus, "pictureBoxPlus");
             this.pictureBoxPlus.Cursor = System.Windows.Forms.Cursors.Hand;
             this.pictureBoxPlus.Image = global::ArdupilotMega.Properties.Resources.frames_plus;
-            resources.ApplyResources(this.pictureBoxPlus, "pictureBoxPlus");
             this.pictureBoxPlus.Name = "pictureBoxPlus";
             this.pictureBoxPlus.TabStop = false;
             this.pictureBoxPlus.Click += new System.EventHandler(this.pictureBox_Click);
             // 
             // pictureBoxX
             // 
+            resources.ApplyResources(this.pictureBoxX, "pictureBoxX");
             this.pictureBoxX.Cursor = System.Windows.Forms.Cursors.Hand;
             this.pictureBoxX.Image = global::ArdupilotMega.Properties.Resources.frames_x;
-            resources.ApplyResources(this.pictureBoxX, "pictureBoxX");
             this.pictureBoxX.Name = "pictureBoxX";
             this.pictureBoxX.TabStop = false;
             this.pictureBoxX.Click += new System.EventHandler(this.pictureBox_Click);
