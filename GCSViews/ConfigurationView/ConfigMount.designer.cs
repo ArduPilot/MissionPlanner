@@ -162,9 +162,9 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             // 
             // pictureBox1
             // 
+            resources.ApplyResources(this.pictureBox1, "pictureBox1");
             this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox1.BackgroundImage = global::ArdupilotMega.Properties.Resources.cameraGimalPitch1;
-            resources.ApplyResources(this.pictureBox1, "pictureBox1");
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.TabStop = false;
             // 
@@ -176,8 +176,8 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             // 
             // pictureBox2
             // 
-            this.pictureBox2.BackgroundImage = global::ArdupilotMega.Properties.Resources.cameraGimalRoll1;
             resources.ApplyResources(this.pictureBox2, "pictureBox2");
+            this.pictureBox2.BackgroundImage = global::ArdupilotMega.Properties.Resources.cameraGimalRoll1;
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.TabStop = false;
             // 
@@ -219,8 +219,8 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             // 
             // pictureBox3
             // 
-            this.pictureBox3.BackgroundImage = global::ArdupilotMega.Properties.Resources.cameraGimalYaw;
             resources.ApplyResources(this.pictureBox3, "pictureBox3");
+            this.pictureBox3.BackgroundImage = global::ArdupilotMega.Properties.Resources.cameraGimalYaw;
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.TabStop = false;
             // 
@@ -328,25 +328,25 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             // 
             // mavlinkComboBoxTilt
             // 
+            resources.ApplyResources(this.mavlinkComboBoxTilt, "mavlinkComboBoxTilt");
             this.mavlinkComboBoxTilt.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.mavlinkComboBoxTilt.FormattingEnabled = true;
-            resources.ApplyResources(this.mavlinkComboBoxTilt, "mavlinkComboBoxTilt");
             this.mavlinkComboBoxTilt.Name = "mavlinkComboBoxTilt";
             this.mavlinkComboBoxTilt.SelectedIndexChanged += new System.EventHandler(this.mavlinkComboBox_SelectedIndexChanged);
             // 
             // mavlinkComboBoxRoll
             // 
+            resources.ApplyResources(this.mavlinkComboBoxRoll, "mavlinkComboBoxRoll");
             this.mavlinkComboBoxRoll.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.mavlinkComboBoxRoll.FormattingEnabled = true;
-            resources.ApplyResources(this.mavlinkComboBoxRoll, "mavlinkComboBoxRoll");
             this.mavlinkComboBoxRoll.Name = "mavlinkComboBoxRoll";
             this.mavlinkComboBoxRoll.SelectedIndexChanged += new System.EventHandler(this.mavlinkComboBox_SelectedIndexChanged);
             // 
             // mavlinkComboBoxPan
             // 
+            resources.ApplyResources(this.mavlinkComboBoxPan, "mavlinkComboBoxPan");
             this.mavlinkComboBoxPan.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.mavlinkComboBoxPan.FormattingEnabled = true;
-            resources.ApplyResources(this.mavlinkComboBoxPan, "mavlinkComboBoxPan");
             this.mavlinkComboBoxPan.Name = "mavlinkComboBoxPan";
             this.mavlinkComboBoxPan.SelectedIndexChanged += new System.EventHandler(this.mavlinkComboBox_SelectedIndexChanged);
             // 
@@ -367,8 +367,8 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             // 
             // CMB_inputch_pan
             // 
-            this.CMB_inputch_pan.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             resources.ApplyResources(this.CMB_inputch_pan, "CMB_inputch_pan");
+            this.CMB_inputch_pan.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CMB_inputch_pan.FormattingEnabled = true;
             this.CMB_inputch_pan.Name = "CMB_inputch_pan";
             this.CMB_inputch_pan.param = null;
@@ -376,8 +376,8 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             // 
             // CMB_inputch_roll
             // 
-            this.CMB_inputch_roll.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             resources.ApplyResources(this.CMB_inputch_roll, "CMB_inputch_roll");
+            this.CMB_inputch_roll.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CMB_inputch_roll.FormattingEnabled = true;
             this.CMB_inputch_roll.Name = "CMB_inputch_roll";
             this.CMB_inputch_roll.param = null;
@@ -385,8 +385,8 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             // 
             // CMB_inputch_tilt
             // 
-            this.CMB_inputch_tilt.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             resources.ApplyResources(this.CMB_inputch_tilt, "CMB_inputch_tilt");
+            this.CMB_inputch_tilt.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CMB_inputch_tilt.FormattingEnabled = true;
             this.CMB_inputch_tilt.Name = "CMB_inputch_tilt";
             this.CMB_inputch_tilt.param = null;
@@ -760,13 +760,13 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             // 
             // groupBox4
             // 
+            resources.ApplyResources(this.groupBox4, "groupBox4");
             this.groupBox4.Controls.Add(this.label27);
             this.groupBox4.Controls.Add(this.NUD_RETRACT_z);
             this.groupBox4.Controls.Add(this.label26);
             this.groupBox4.Controls.Add(this.NUD_RETRACT_y);
             this.groupBox4.Controls.Add(this.label25);
             this.groupBox4.Controls.Add(this.NUD_RETRACT_x);
-            resources.ApplyResources(this.groupBox4, "groupBox4");
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.TabStop = false;
             // 
@@ -859,13 +859,13 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             // 
             // groupBox5
             // 
+            resources.ApplyResources(this.groupBox5, "groupBox5");
             this.groupBox5.Controls.Add(this.label28);
             this.groupBox5.Controls.Add(this.NUD_NEUTRAL_z);
             this.groupBox5.Controls.Add(this.label29);
             this.groupBox5.Controls.Add(this.NUD_NEUTRAL_y);
             this.groupBox5.Controls.Add(this.label30);
             this.groupBox5.Controls.Add(this.NUD_NEUTRAL_x);
-            resources.ApplyResources(this.groupBox5, "groupBox5");
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.TabStop = false;
             // 
@@ -958,13 +958,13 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             // 
             // groupBox6
             // 
+            resources.ApplyResources(this.groupBox6, "groupBox6");
             this.groupBox6.Controls.Add(this.label31);
             this.groupBox6.Controls.Add(this.NUD_CONTROL_z);
             this.groupBox6.Controls.Add(this.label32);
             this.groupBox6.Controls.Add(this.NUD_CONTROL_y);
             this.groupBox6.Controls.Add(this.label33);
             this.groupBox6.Controls.Add(this.NUD_CONTROL_x);
-            resources.ApplyResources(this.groupBox6, "groupBox6");
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.TabStop = false;
             // 
@@ -1087,9 +1087,9 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             // 
             // comboBox1
             // 
+            resources.ApplyResources(this.comboBox1, "comboBox1");
             this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox1.FormattingEnabled = true;
-            resources.ApplyResources(this.comboBox1, "comboBox1");
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.mavlinkComboBox_SelectedIndexChanged);
             // 
@@ -1247,8 +1247,8 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             // 
             // pictureBox4
             // 
-            this.pictureBox4.BackgroundImage = global::ArdupilotMega.Properties.Resources.Shutter;
             resources.ApplyResources(this.pictureBox4, "pictureBox4");
+            this.pictureBox4.BackgroundImage = global::ArdupilotMega.Properties.Resources.Shutter;
             this.pictureBox4.Name = "pictureBox4";
             this.pictureBox4.TabStop = false;
             // 
@@ -1288,6 +1288,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             // 
             // ConfigMount
             // 
+            resources.ApplyResources(this, "$this");
             this.Controls.Add(this.label42);
             this.Controls.Add(this.label34);
             this.Controls.Add(this.mavlinkNumericUpDownshut_duration);
@@ -1364,7 +1365,6 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.pictureBox1);
             this.Name = "ConfigMount";
-            resources.ApplyResources(this, "$this");
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();

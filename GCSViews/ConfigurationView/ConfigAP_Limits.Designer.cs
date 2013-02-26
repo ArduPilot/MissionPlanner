@@ -81,12 +81,12 @@
             // 
             // groupBox1
             // 
+            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Controls.Add(this.textBox1);
             this.groupBox1.Controls.Add(this.groupBox5);
             this.groupBox1.Controls.Add(this.groupBox4);
             this.groupBox1.Controls.Add(this.groupBox3);
             this.groupBox1.Controls.Add(this.groupBox2);
-            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
             // 
@@ -97,10 +97,10 @@
             // 
             // groupBox5
             // 
+            resources.ApplyResources(this.groupBox5, "groupBox5");
             this.groupBox5.Controls.Add(this.LIM_GPSLCK_REQ);
             this.groupBox5.Controls.Add(this.LIM_FNC_REQ);
             this.groupBox5.Controls.Add(this.LIM_ALT_REQ);
-            resources.ApplyResources(this.groupBox5, "groupBox5");
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.TabStop = false;
             // 
@@ -127,13 +127,13 @@
             // 
             // groupBox4
             // 
+            resources.ApplyResources(this.groupBox4, "groupBox4");
             this.groupBox4.Controls.Add(this.LIM_REQUIRED);
             this.groupBox4.Controls.Add(this.myLabel4);
             this.groupBox4.Controls.Add(this.LIM_CHANNEL);
             this.groupBox4.Controls.Add(this.myLabel3);
             this.groupBox4.Controls.Add(this.LIM_FNC_RAD);
             this.groupBox4.Controls.Add(this.LIM_FNC_SMPL);
-            resources.ApplyResources(this.groupBox4, "groupBox4");
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.TabStop = false;
             // 
@@ -192,8 +192,8 @@
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.LIM_GPSLCK_ON);
             resources.ApplyResources(this.groupBox3, "groupBox3");
+            this.groupBox3.Controls.Add(this.LIM_GPSLCK_ON);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.TabStop = false;
             // 
@@ -206,12 +206,12 @@
             // 
             // groupBox2
             // 
+            resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Controls.Add(this.LIM_ALT_ON);
             this.groupBox2.Controls.Add(this.myLabel1);
             this.groupBox2.Controls.Add(this.LIM_ALT_MAX);
             this.groupBox2.Controls.Add(this.myLabel2);
             this.groupBox2.Controls.Add(this.LIM_ALT_MIN);
-            resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.TabStop = false;
             // 
