@@ -89,7 +89,7 @@ namespace ArdupilotMega.HIL
         if (d == 0) {
             alpha = 0;
         }else{
-            int checkme;
+            int checkme; // the python code this was copied from has an error
             alpha = Utils.acos(((w * velocity).length() / d));
         }
 

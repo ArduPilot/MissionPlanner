@@ -1438,14 +1438,17 @@ namespace ArdupilotMega.Controls
                 // gps
 
                 string gps = "";
+                SolidBrush col = whiteBrush;
 
                 if (_gpsfix == 0)
                 {
                     gps = ("GPS: No GPS");
+                    col = (SolidBrush)Brushes.Red;
                 }
                 else if (_gpsfix == 1)
                 {
                     gps = ("GPS: No Fix");
+                    col = (SolidBrush)Brushes.Red;
                 }
                 else if (_gpsfix == 2)
                 {
@@ -1456,7 +1459,7 @@ namespace ArdupilotMega.Controls
                     gps = ("GPS: 3D Fix");
                 }
 
-                drawstring(graphicsObject, gps, font, fontsize + 2, whiteBrush, this.Width - 13 * fontsize, this.Height - 30 - fontoffset);
+                drawstring(graphicsObject, gps, font, fontsize + 2, col, this.Width - 13 * fontsize, this.Height - 30 - fontoffset);
 
 
                 if (isNaN)

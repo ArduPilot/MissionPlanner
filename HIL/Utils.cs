@@ -276,5 +276,29 @@ namespace ArdupilotMega.HIL
 
             return new Vector3((phiDot), (thetaDot), (psiDot));
         }
+
+
+        public void gps_newpos(double lat, double lon, double bearing, double distance, ref double latitude, ref double longitude)
+        {
+            // '''extrapolate latitude/longitude given a heading and distance 
+            //   thanks to http://www.movable-type.co.uk/scripts/latlong.html
+            //  '''
+            // from math import sin, asin, cos, atan2, radians, degrees
+            double radius_of_earth = 6378100.0;//# in meters
+
+            double lat1 = radians(lat);
+            double lon1 = radians(lon);
+            double brng = radians(bearing);
+            double dr = distance / radius_of_earth;
+
+            double lat2 = asin(sin(lat1) * cos(dr) +
+                        cos(lat1) * sin(dr) * cos(brng));
+            double lon2 = lon1 + atan2(sin(brng) * sin(dr) * cos(lat1),
+                                cos(dr) - sin(lat1) * sin(lat2));
+
+            latitude = degrees(lat2);
+            longitude = degrees(lon2);
+            //return (degrees(lat2), degrees(lon2));
+        }
     }
 }

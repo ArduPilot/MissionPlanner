@@ -623,7 +623,7 @@ namespace ArdupilotMega.GCSViews
 
                 DateTime startwait = DateTime.Now;
 
-                CustomMessageBox.Show("1. If you are updating your firmware from a previous version, please verify your parameters are appropriate for the new version.\n2. Please ensure your accelerometer is calibrated after installing or re-calibrated after updating the firmware.");
+                //CustomMessageBox.Show("1. If you are updating your firmware from a previous version, please verify your parameters are appropriate for the new version.\n2. Please ensure your accelerometer is calibrated after installing or re-calibrated after updating the firmware.");
 
                 while ((DateTime.Now - startwait).TotalSeconds < 17)
                 {

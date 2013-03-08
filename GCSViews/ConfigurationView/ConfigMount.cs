@@ -197,6 +197,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                 }
                 else
                 {
+                    ensureDisabled(comboBox1, 10);  
                     MainV2.comPort.setParam(comboBox1.Text + "_FUNCTION", 10);
                     // servo
                     MainV2.comPort.setParam("CAM_TRIGG_TYPE", 0);

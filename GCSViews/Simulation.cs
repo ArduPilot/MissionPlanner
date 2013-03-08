@@ -949,6 +949,7 @@ namespace ArdupilotMega.GCSViews
 
                 byte[] sitlout = new byte[16 * 8 + 1 * 4]; // 16 * double + 1 * int
                 int a = 0;
+                // send state to sitl
 
                 Array.Copy(BitConverter.GetBytes((double)lastfdmdata.latitude * rad2deg), a, sitlout, a, 8);
                 Array.Copy(BitConverter.GetBytes((double)lastfdmdata.longitude * rad2deg), 0, sitlout, a += 8, 8);

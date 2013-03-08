@@ -422,6 +422,12 @@
       <SubType>Code</SubType>
     </None>
     <None Include="HIL\FlightGear.cs" />
+    <Compile Include="SerialOutputPass.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SerialOutputPass.Designer.cs">
+      <DependentUpon>SerialOutputPass.cs</DependentUpon>
+    </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigFailSafe.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -465,11 +471,11 @@
     <Compile Include="OSDVideo.Designer.cs">
       <DependentUpon>OSDVideo.cs</DependentUpon>
     </Compile>
-    <Compile Include="SerialOutput2.cs">
+    <Compile Include="SerialOutputMD.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SerialOutput2.Designer.cs">
-      <DependentUpon>SerialOutput2.cs</DependentUpon>
+    <Compile Include="SerialOutputMD.Designer.cs">
+      <DependentUpon>SerialOutputMD.cs</DependentUpon>
     </Compile>
     <Compile Include="Delta.cs" />
     <Compile Include="GCSViews\ConfigurationView\ConfigAP_Limits.cs">
@@ -501,6 +507,22 @@
       <DependentUpon>ConfigArdurover.cs</DependentUpon>
     </Compile>
     <Compile Include="Presenter\ICommand.cs" />
+    <Compile Include="Swarm\FollowLeaderControl.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Swarm\FollowLeaderControl.Designer.cs">
+      <DependentUpon>FollowLeaderControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Swarm\FollowLeader.cs" />
+    <Compile Include="Swarm\FollowPath.cs" />
+    <Compile Include="Swarm\Grid.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Swarm\Grid.Designer.cs">
+      <DependentUpon>Grid.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Swarm\Swarm.cs" />
+    <Compile Include="Swarm\VerticalWave.cs" />
     <Compile Include="Utilities\CaptureMJPEG.cs" />
     <Compile Include="Utilities\CollectionExtensions.cs" />
     <Compile Include="Utilities\ImageOverFilter.cs" />
@@ -713,11 +735,11 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Script.cs" />
-    <Compile Include="SerialOutput.cs">
+    <Compile Include="SerialOutputNMEA.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="SerialOutput.Designer.cs">
-      <DependentUpon>SerialOutput.cs</DependentUpon>
+    <Compile Include="SerialOutputNMEA.Designer.cs">
+      <DependentUpon>SerialOutputNMEA.cs</DependentUpon>
     </Compile>
     <None Include="Utilities\PathFind.cs" />
     <Compile Include="Utilities\Speech.cs" />
@@ -809,6 +831,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ValuesControl.resx">
       <DependentUpon>ValuesControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SerialOutputPass.resx">
+      <DependentUpon>SerialOutputPass.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FollowMe.de-DE.resx">
       <DependentUpon>FollowMe.cs</DependentUpon>
@@ -1019,8 +1044,8 @@
     <EmbeddedResource Include="RAW_Sensor.de-DE.resx">
       <DependentUpon>RAW_Sensor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="SerialOutput2.resx">
-      <DependentUpon>SerialOutput2.cs</DependentUpon>
+    <EmbeddedResource Include="SerialOutputMD.resx">
+      <DependentUpon>SerialOutputMD.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationQuad.es-ES.resx">
       <DependentUpon>ConfigAccelerometerCalibrationQuad.cs</DependentUpon>
@@ -1496,11 +1521,17 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="SerialOutput.resx">
-      <DependentUpon>SerialOutput.cs</DependentUpon>
+    <EmbeddedResource Include="SerialOutputNMEA.resx">
+      <DependentUpon>SerialOutputNMEA.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Splash.resx">
       <DependentUpon>Splash.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Swarm\FollowLeaderControl.resx">
+      <DependentUpon>FollowLeaderControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Swarm\Grid.resx">
+      <DependentUpon>Grid.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="temp.resx">
       <DependentUpon>temp.cs</DependentUpon>

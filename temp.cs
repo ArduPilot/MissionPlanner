@@ -902,7 +902,7 @@ namespace ArdupilotMega
 
         private void myButton1_Click(object sender, EventArgs e)
         {
-            new SerialOutput2().Show();
+            new SerialOutputMD().Show();
         }
 
         private void but_osdvideo_Click(object sender, EventArgs e)
@@ -980,6 +980,21 @@ namespace ArdupilotMega
                     MainV2.comPort = port;
                 }
             }
+        }
+
+        private void BUT_swarm_Click(object sender, EventArgs e)
+        {
+            new Swarm.FollowLeaderControl().Show();
+        }
+
+        private void BUT_outputMavlink_Click(object sender, EventArgs e)
+        {
+            new SerialOutputPass().Show();
+        }
+
+        private void BUT_outputnmea_Click(object sender, EventArgs e)
+        {
+            new SerialOutputNMEA().Show();
         }
     }
 }

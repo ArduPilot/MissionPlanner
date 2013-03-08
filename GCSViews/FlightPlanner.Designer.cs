@@ -125,6 +125,7 @@
             this.createWpCircleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gridToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gridV2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.areaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mapToolToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ContextMeasure = new System.Windows.Forms.ToolStripMenuItem();
             this.rotateMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -145,7 +146,6 @@
             this.panelBASE = new System.Windows.Forms.Panel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.areaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.Commands)).BeginInit();
             this.panel5.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -876,6 +876,12 @@
             resources.ApplyResources(this.gridV2ToolStripMenuItem, "gridV2ToolStripMenuItem");
             this.gridV2ToolStripMenuItem.Click += new System.EventHandler(this.gridV2ToolStripMenuItem_Click);
             // 
+            // areaToolStripMenuItem
+            // 
+            this.areaToolStripMenuItem.Name = "areaToolStripMenuItem";
+            resources.ApplyResources(this.areaToolStripMenuItem, "areaToolStripMenuItem");
+            this.areaToolStripMenuItem.Click += new System.EventHandler(this.areaToolStripMenuItem_Click);
+            // 
             // mapToolToolStripMenuItem
             // 
             this.mapToolToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -1008,12 +1014,6 @@
             // 
             this.timer1.Interval = 1000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
-            // areaToolStripMenuItem
-            // 
-            this.areaToolStripMenuItem.Name = "areaToolStripMenuItem";
-            resources.ApplyResources(this.areaToolStripMenuItem, "areaToolStripMenuItem");
-            this.areaToolStripMenuItem.Click += new System.EventHandler(this.areaToolStripMenuItem_Click);
             // 
             // FlightPlanner
             // 

@@ -820,7 +820,8 @@ namespace ArdupilotMega
                 catch (Exception ex) { log.Info(ex.ToString()); }
 
                 // custom sort based on packet name
-                //options.Sort(delegate(string c1, string c2) { return String.Compare(c1.Substring(0,c1.IndexOf('.')),c2.Substring(0,c2.IndexOf('.')));});
+                options.Sort(delegate(string c1, string c2) { return String.Compare(c1,c2);});
+                //String.Compare(c1.Substring(0,c1.IndexOf('.')),c2.Substring(0,c2.IndexOf('.')))
 
                 // this needs sorting
                 string lastitem = "";

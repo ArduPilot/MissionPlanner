@@ -2566,7 +2566,7 @@ print 'Roll complete'
             // arm the MAV
             try
             {
-                bool ans = MainV2.comPort.doARM(MainV2.comPort.MAV.cs.armed);
+                bool ans = MainV2.comPort.doARM(!MainV2.comPort.MAV.cs.armed);
                 if (ans == false)
                     CustomMessageBox.Show("Error: Arm message rejected by MAV");
             }

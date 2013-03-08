@@ -3,6 +3,8 @@ using System.Runtime.InteropServices;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Collections;
+using System.Collections.Generic;
 using u32 = System.UInt32;
 using u16 = System.UInt16;
 using u8 = System.Byte;
@@ -11,7 +13,7 @@ using u8 = System.Byte;
 /// based off ftp://pserver.samba.org/pub/unpacked/picturebook/avi.c
 /// </summary>
 
-public class AviWriter
+public class AviWriter: IDisposable
 {
     /*
 avi debug: * LIST-root size:1233440040 pos:0
@@ -32,6 +34,16 @@ avi debug: stream[0] rate:1000000 scale:33333 samplesize:0
 avi debug: stream[0] video(MJPG) 1280x720 24bpp 30.000300fps
      */
 
+    public struct AVIINDEXENTRY
+    {
+        [MarshalAs(
+                UnmanagedType.ByValArray,
+                SizeConst = 4)]
+        public char[] ckid;
+        public u32 dwFlags;
+        public u32 dwChunkOffset;
+        public u32 dwChunkLength;
+};
 
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public struct riff_head
@@ -164,6 +176,10 @@ SizeConst = 4)]
         public UInt32 biClrImportant;
     }
 
+    public void Dispose()
+    {
+        avi_close();
+    }
 
 
     static int nframes;
@@ -171,11 +187,21 @@ SizeConst = 4)]
     System.IO.BufferedStream fd;
     DateTime start = DateTime.MinValue;
     int targetfps = 10;
+    int width = 0;
+    int height = 0;
+
+    List<AVIINDEXENTRY> indexs = new List<AVIINDEXENTRY>();
 
     public void avi_close()
     {
         if (fd != null)
+        {
+            avi_end(width,height,targetfps);
+            writeindexs();
             fd.Close();
+            fd.Dispose();
+        }
+        fd = null;
     }
 
     /* start writing an AVI file */
@@ -185,7 +211,9 @@ SizeConst = 4)]
 
         fd = new BufferedStream(File.Open(filename, FileMode.Create));
 
-        fd.Seek(2048,SeekOrigin.Begin);
+        fd.Seek(8204,SeekOrigin.Begin);
+
+        indexs.Clear();
 
         nframes = 0;
         totalsize = 0;
@@ -200,11 +228,16 @@ SizeConst = 4)]
         Console.WriteLine(DateTime.Now.Millisecond + " avi frame");
         db_head db = new db_head { db = "00dc".ToCharArray(), size = size };
         fd.Write(StructureToByteArray(db), 0, Marshal.SizeOf(db));
+        uint offset = (uint)fd.Position;
         fd.Write(buf, 0, (int)size);
-        if (size % 2 == 1)
+
+        indexs.Add(new AVIINDEXENTRY() { ckid = "00dc".ToCharArray(), dwChunkLength = size, dwChunkOffset = (offset - 8212 + 4), dwFlags = 0x10 });
+
+        while (fd.Position % 2 != 0)
         {
             size++;
-            fd.Seek(1, SeekOrigin.Current);
+            fd.WriteByte(0);
+            //fd.Seek(1, SeekOrigin.Current);
         }
         nframes++;
         totalsize += size;
@@ -214,6 +247,8 @@ SizeConst = 4)]
             avi_add(buf, osize);
             Console.WriteLine("Extra frame");
         }
+
+        
     }
 
     void strcpy(ref char[] to,string orig)
@@ -224,6 +259,8 @@ SizeConst = 4)]
     /* finish writing the AVI file - filling in the header */
     public void avi_end(int width, int height, int fps)
     {
+        this.width = width;
+        this.height = height;
         targetfps = fps;
 
         riff_head rh = new riff_head { riff = "RIFF".ToCharArray(), size = 0, avistr = "AVI ".ToCharArray() };
@@ -245,22 +282,24 @@ SizeConst = 4)]
         ah.nframes = (u32)(nframes);
         ah.width = (u32)width;
         ah.height = (u32)height;
-        ah.flags = 0;
-        ah.suggested_bufsize = (u32)(3 * width * height * fps);
+        ah.flags = 0x10;
+        ah.suggested_bufsize = 0;
         ah.maxbytespersec = (u32)(3 * width * height * fps);
 
         //bzero(&sh, sizeof(sh));
         strcpy(ref sh.strh, "strh");
         strcpy(ref sh.vids, "vids");
         strcpy(ref sh.codec, "MJPG");
-        sh.scale = (u32)(1e6 / fps);
-        sh.rate = (u32)1000000;
+        sh.scale = (u32)1;
+        sh.rate = (u32)fps;
         sh.length = (u32)(nframes);
         sh.suggested_bufsize = (u32)(3 * width * height * fps);
         unchecked
         {
             sh.quality = (uint)-1;
         }
+        sh.r = (short)width;
+        sh.b = (short)height;
 
         //bzero(&fh, sizeof(fh));
         strcpy(ref fh.strf, "strf");
@@ -271,10 +310,12 @@ SizeConst = 4)]
         strcpy(ref fh.codec, "MJPG");
         fh.unpackedsize = (u32)(3 * width * height);
 
+        uint indexlength = (uint)(indexs.Count * 16) + 8; // header as well
+
         rh.size = (u32)(Marshal.SizeOf(lh1) + Marshal.SizeOf(ah) + Marshal.SizeOf(lh2) + Marshal.SizeOf(sh) +
-            Marshal.SizeOf(fh) + Marshal.SizeOf(lh3) +
+            Marshal.SizeOf(fh) + Marshal.SizeOf(lh3) +//); // 212
             nframes * Marshal.SizeOf((new db_head())) +
-            totalsize);
+            totalsize + indexlength + 7980); // needs junk length + list movi header
         lh1.size = (u32)(4 + Marshal.SizeOf(ah) + Marshal.SizeOf(lh2) + Marshal.SizeOf(sh) + Marshal.SizeOf(fh));
         ah.size = (u32)(Marshal.SizeOf(ah) - 8);
         lh2.size = (u32)(4 + Marshal.SizeOf(sh) + Marshal.SizeOf(fh));
@@ -284,7 +325,7 @@ SizeConst = 4)]
         lh3.size = (u32)(4 +
             nframes * Marshal.SizeOf((new db_head())) +
             totalsize);
-        junk.size = 2048 - lh1.size - 12 - 12 - 12 - 4; // junk head, list head, rif head , 4
+        junk.size = 8204 - lh1.size - 12 - 12 - 12 - 4; // junk head, list head, rif head , 4
         long pos = fd.Position;
         fd.Seek(0, SeekOrigin.Begin);
 
@@ -295,10 +336,25 @@ SizeConst = 4)]
         fd.Write(StructureToByteArray(sh), 0, Marshal.SizeOf(sh));
         fd.Write(StructureToByteArray(fh), 0, Marshal.SizeOf(fh));
         fd.Write(StructureToByteArray(junk), 0, Marshal.SizeOf(junk));
-        fd.Seek(2036, SeekOrigin.Begin);
+        fd.Seek(8192, SeekOrigin.Begin);
         fd.Write(StructureToByteArray(lh3), 0, Marshal.SizeOf(lh3));
 
         fd.Seek(pos, SeekOrigin.Begin);
+    }
+
+    public void writeindexs()
+    {
+        //fd.Seek(-(fd.Position % 2), SeekOrigin.End); // is either 0 or -1
+        fd.Seek(0, SeekOrigin.End);
+
+        db_head idx1 = new db_head() { db = "idx1".ToCharArray(), size = (uint)(indexs.Count * 16) };
+
+        fd.Write(StructureToByteArray(idx1), 0, Marshal.SizeOf(idx1));
+
+        foreach (AVIINDEXENTRY index in indexs)
+        {
+            fd.Write(StructureToByteArray(index), 0, Marshal.SizeOf(index));
+        }
     }
 
     byte[] StructureToByteArray(object obj)

@@ -31,7 +31,27 @@ namespace ArdupilotMega
         public float groundcourse { get { return _groundcourse; } set { if (value < 0) { _groundcourse = value + 360; } else { _groundcourse = value; } } }
         private float _groundcourse = 0;
 
+        // position
+        [DisplayText("Latitude (dd)")]
+        public float lat { get; set; }
+        [DisplayText("Longitude (dd)")]
+        public float lng { get; set; }
+        [DisplayText("Altitude (dist)")]
+        public float alt { get { return (_alt - altoffsethome) * multiplierdist; } set { _alt = value; } }
+        DateTime lastalt = DateTime.MinValue;
+        float oldalt = 0;
+        [DisplayText("Alt Home Offset (dist)")]
+        public float altoffsethome { get; set; }
+        private float _alt = 0;
+        [DisplayText("Gps Status")]
+        public float gpsstatus { get; set; }
+        [DisplayText("Gps HDOP")]
+        public float gpshdop { get; set; }
+        [DisplayText("Sat Count")]
+        public float satcount { get; set; }
 
+        public float altd1000 { get { return (alt / 1000) % 10; } }
+        public float altd100 { get { return (alt / 100) % 10; } }
 
         // speeds
         [DisplayText("AirSpeed (speed)")]
@@ -57,31 +77,6 @@ namespace ArdupilotMega
         /// used for wind calc
         /// </summary>
         double We_fgo;
-
-
-        //(alt_now - alt_then)/(time_now-time_then)
-
-        // position
-        [DisplayText("Latitude (dd)")]
-        public float lat { get; set; }
-        [DisplayText("Longitude (dd)")]
-        public float lng { get; set; }
-        [DisplayText("Altitude (dist)")]
-        public float alt { get { return (_alt - altoffsethome) * multiplierdist; } set { _alt = value; } }
-        DateTime lastalt = DateTime.MinValue;
-        float oldalt = 0;
-        [DisplayText("Alt Home Offset (dist)")]
-        public float altoffsethome { get; set; }
-        private float _alt = 0;
-        [DisplayText("Gps Status")]
-        public float gpsstatus { get; set; }
-        [DisplayText("Gps HDOP")]
-        public float gpshdop { get; set; }
-        [DisplayText("Sat Count")]
-        public float satcount { get; set; }
-
-        public float altd1000 { get { return (alt / 1000) % 10; } }
-        public float altd100 { get { return (alt / 100) % 10; } }
 
         // accel
         [DisplayText("Accel X")]

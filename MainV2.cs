@@ -667,6 +667,10 @@ namespace ArdupilotMega
                         {
                             _connectionControl.TOOL_APMFirmware.SelectedIndex = _connectionControl.TOOL_APMFirmware.Items.IndexOf(Firmwares.ArduCopter2);
                         }
+                        else if (float.Parse(comPort.MAV.param["SYSID_SW_TYPE"].ToString()) == 7)
+                        {
+                            _connectionControl.TOOL_APMFirmware.SelectedIndex = _connectionControl.TOOL_APMFirmware.Items.IndexOf(Firmwares.Ateryx);
+                        }
                         else if (float.Parse(comPort.MAV.param["SYSID_SW_TYPE"].ToString()) == 20)
                         {
                             _connectionControl.TOOL_APMFirmware.SelectedIndex = _connectionControl.TOOL_APMFirmware.Items.IndexOf(Firmwares.ArduRover);
@@ -2583,30 +2587,33 @@ Server: ubuntu
 
                     byte[] buf1 = new byte[1024];
 
-                    FileStream fs = new FileStream(path + ".new", FileMode.Create); // 
-
-                    DateTime dt = DateTime.Now;
-
-                    //dataStream.ReadTimeout = 30000;
-
-                    while (dataStream.CanRead)
+                    using (FileStream fs = new FileStream(path + ".new", FileMode.Create))
                     {
-                        try
+
+                        DateTime dt = DateTime.Now;
+
+                        //dataStream.ReadTimeout = 30000;
+
+                        while (dataStream.CanRead)
                         {
-                            if (dt.Second != DateTime.Now.Second)
+                            try
                             {
-                                if (frmProgressReporter != null)
-                                    frmProgressReporter.UpdateProgressAndStatus((int)(((double)(contlen - bytes) / (double)contlen) * 100), "Getting " + file + ": " + (((double)(contlen - bytes) / (double)contlen) * 100).ToString("0.0") + "%"); //+ Math.Abs(bytes) + " bytes");
-                                dt = DateTime.Now;
+                                if (dt.Second != DateTime.Now.Second)
+                                {
+                                    if (frmProgressReporter != null)
+                                        frmProgressReporter.UpdateProgressAndStatus((int)(((double)(contlen - bytes) / (double)contlen) * 100), "Getting " + file + ": " + (((double)(contlen - bytes) / (double)contlen) * 100).ToString("0.0") + "%"); //+ Math.Abs(bytes) + " bytes");
+                                    dt = DateTime.Now;
+                                }
                             }
+                            catch { }
+                            //    log.Debug(file + " " + bytes);
+                            int len = dataStream.Read(buf1, 0, 4096);
+                            if (len == 0)
+                                break;
+                            bytes -= len;
+                            fs.Write(buf1, 0, len);
                         }
-                        catch { }
-                        //    log.Debug(file + " " + bytes);
-                        int len = dataStream.Read(buf1, 0, 1024);
-                        if (len == 0)
-                            break;
-                        bytes -= len;
-                        fs.Write(buf1, 0, len);
+                        fs.Close();
                     }
                 }
 
@@ -2714,7 +2721,7 @@ Server: ubuntu
             }*/
             if (keyData == (Keys.Control | Keys.G)) // nmea out
             {
-                Form frm = new SerialOutput();
+                Form frm = new SerialOutputNMEA();
                 ThemeManager.ApplyThemeTo(frm);
                 frm.Show();
                 return true;
@@ -2987,6 +2994,47 @@ Server: ubuntu
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start("https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=mich146%40hotmail%2ecom&lc=AU&item_name=Michael%20Oborne&no_note=0&currency_code=AUD&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHostedGuest");
+        }
+
+        protected override void WndProc(ref Message m)
+        {
+            switch (m.Msg)
+            {
+                case WM_DEVICECHANGE:
+                    // The WParam value identifies what is occurring.
+                    WM_DEVICECHANGE_enum n = (WM_DEVICECHANGE_enum)m.WParam;
+                     int l = (int)m.LParam;
+                     if (n == WM_DEVICECHANGE_enum.DBT_DEVNODES_CHANGED)
+                     {
+
+                     }
+                     if (n == WM_DEVICECHANGE_enum.DBT_DEVICEARRIVAL)
+                     {
+                         string port = Marshal.PtrToStringAuto((IntPtr)((long)m.LParam + 12));
+                         Console.WriteLine("Added port {0}",port);
+                     }
+                     Console.WriteLine("Device Change {0} {1} {2}", m.Msg, (WM_DEVICECHANGE_enum)m.WParam, m.LParam);
+                    break;
+            }
+            base.WndProc(ref m);
+        }
+
+        const int WM_DEVICECHANGE = 0x219;
+
+        public enum WM_DEVICECHANGE_enum
+        {
+            DBT_CONFIGCHANGECANCELED = 0x19,
+            DBT_CONFIGCHANGED = 0x18,
+            DBT_CUSTOMEVENT = 0x8006,
+            DBT_DEVICEARRIVAL = 0x8000,
+            DBT_DEVICEQUERYREMOVE = 0x8001,
+            DBT_DEVICEQUERYREMOVEFAILED = 0x8002,
+            DBT_DEVICEREMOVECOMPLETE = 0x8004,
+            DBT_DEVICEREMOVEPENDING = 0x8003,
+            DBT_DEVICETYPESPECIFIC = 0x8005,
+            DBT_DEVNODES_CHANGED = 0x7,
+            DBT_QUERYCHANGECONFIG = 0x17,
+            DBT_USERDEFINED = 0xFFFF,
         }
     }
 }

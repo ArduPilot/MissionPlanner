@@ -673,7 +673,7 @@ namespace ArdupilotMega
 
                 if (newStream == null)
                 {
-                    int fixframerate;
+                    int fixframerate; // currently forcing 30 fps
                     newStream = newManager.AddVideoStream(true, (double)(int)30, bmp);
                 }
 

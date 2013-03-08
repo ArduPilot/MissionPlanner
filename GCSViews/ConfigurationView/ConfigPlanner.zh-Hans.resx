@@ -132,6 +132,10 @@
   <data name="label23.Text" xml:space="preserve">
     <value>轨迹长度</value>
   </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="CHK_speechaltwarning.Size" type="System.Drawing.Size, System.Drawing">
+    <value>74, 17</value>
+  </data>
   <data name="CHK_speechaltwarning.Text" xml:space="preserve">
     <value>高度警告</value>
   </data>
@@ -162,7 +166,6 @@
   <data name="label98.Text" xml:space="preserve">
     <value>速度单位</value>
   </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="label97.Size" type="System.Drawing.Size, System.Drawing">
     <value>65, 13</value>
   </data>
@@ -181,14 +184,26 @@
   <data name="label95.Text" xml:space="preserve">
     <value>语音合成</value>
   </data>
+  <data name="CHK_speechbattery.Size" type="System.Drawing.Size, System.Drawing">
+    <value>74, 17</value>
+  </data>
   <data name="CHK_speechbattery.Text" xml:space="preserve">
     <value>电池警告</value>
+  </data>
+  <data name="CHK_speechcustom.Size" type="System.Drawing.Size, System.Drawing">
+    <value>74, 17</value>
   </data>
   <data name="CHK_speechcustom.Text" xml:space="preserve">
     <value>时间间隔</value>
   </data>
+  <data name="CHK_speechmode.Size" type="System.Drawing.Size, System.Drawing">
+    <value>50, 17</value>
+  </data>
   <data name="CHK_speechmode.Text" xml:space="preserve">
     <value>模式</value>
+  </data>
+  <data name="CHK_speechwaypoint.Size" type="System.Drawing.Size, System.Drawing">
+    <value>50, 17</value>
   </data>
   <data name="CHK_speechwaypoint.Text" xml:space="preserve">
     <value>航点</value>
@@ -199,6 +214,9 @@
   <data name="label93.Text" xml:space="preserve">
     <value>UI 语言</value>
   </data>
+  <data name="CHK_enablespeech.Size" type="System.Drawing.Size, System.Drawing">
+    <value>74, 17</value>
+  </data>
   <data name="CHK_enablespeech.Text" xml:space="preserve">
     <value>启用语音</value>
   </data>
@@ -207,6 +225,18 @@
   </data>
   <data name="label92.Text" xml:space="preserve">
     <value>视频设备</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>地图追随</value>
+  </data>
+  <data name="CHK_maprotation.Text" xml:space="preserve">
+    <value>地图随飞机转动</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>离家距离</value>
+  </data>
+  <data name="CHK_disttohomeflightdata.Text" xml:space="preserve">
+    <value>在飞行数据中显示</value>
   </data>
   <data name="BUT_Joystick.Text" xml:space="preserve">
     <value>摇杆设置</value>
@@ -217,10 +247,19 @@
   <data name="BUT_videostart.Text" xml:space="preserve">
     <value>启动</value>
   </data>
-  <data name="label1.Text" xml:space="preserve">
-    <value>地图追随</value>
+  <data name="BUT_logdirbrowse.Text" xml:space="preserve">
+    <value>浏览</value>
   </data>
-  <data name="CHK_maprotation.Text" xml:space="preserve">
-    <value>地图随飞机转动</value>
+  <data name="label4.Text" xml:space="preserve">
+    <value>主题</value>
+  </data>
+  <data name="BUT_themecustom.Text" xml:space="preserve">
+    <value>自定义</value>
+  </data>
+  <data name="CHK_speecharmdisarm.Size" type="System.Drawing.Size, System.Drawing">
+    <value>91, 17</value>
+  </data>
+  <data name="CHK_speecharmdisarm.Text" xml:space="preserve">
+    <value>激活/未激活</value>
   </data>
 </root>

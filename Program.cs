@@ -129,6 +129,10 @@ namespace ArdupilotMega
 
          //   return;
 
+         //   new Swarm.Control().ShowDialog();
+         //   return;
+
+
             if (File.Exists("simple.txt"))
             {
                 Application.Run(new GCSViews.Simple());

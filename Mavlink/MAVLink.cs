@@ -23,6 +23,9 @@ namespace ArdupilotMega
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         public ICommsSerial BaseStream { get; set; }
+
+        public ICommsSerial MirrorStream { get; set; }
+
         public event EventHandler ParamListChanged;
 
         /// <summary>
@@ -1144,7 +1147,7 @@ namespace ArdupilotMega
 
         public bool doARM(bool armit)
         {
-            return doCommand(MAV_CMD.COMPONENT_ARM_DISARM, armit ? 0 : 1, 0, 0, 0, 0, 0, 0);
+            return doCommand(MAV_CMD.COMPONENT_ARM_DISARM, armit ? 1 : 0, 0, 0, 0, 0, 0, 0);
         }
 
         public bool doCommand(MAV_CMD actionid, float p1, float p2, float p3, float p4, float p5, float p6, float p7)
@@ -2581,11 +2584,6 @@ namespace ArdupilotMega
                         byte packetSeqNo = buffer[2];
                         int expectedPacketSeqNo = ((recvpacketcount + 1) % 0x100);
 
-                        if (buffer[5] == MAVLINK_MSG_ID_SIMSTATE)
-                        {
-                            // sitl injects a packet with a bad sequence number
-                        }
-                        else
                         {
                             if (packetSeqNo != expectedPacketSeqNo)
                             {
@@ -2673,6 +2671,13 @@ namespace ArdupilotMega
                             }
                         }
 
+                    }
+                    catch { }
+
+                    try
+                    {
+                        if (MirrorStream != null && MirrorStream.IsOpen)
+                            MirrorStream.Write(buffer, 0, buffer.Length);
                     }
                     catch { }
                 }

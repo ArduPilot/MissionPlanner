@@ -36,7 +36,7 @@
             this.BUT_magfit = new ArdupilotMega.Controls.MyButton();
             this.BUT_xplane = new ArdupilotMega.Controls.MyButton();
             this.but_osdvideo = new ArdupilotMega.Controls.MyButton();
-            this.myButton1 = new ArdupilotMega.Controls.MyButton();
+            this.BUT_outputMD = new ArdupilotMega.Controls.MyButton();
             this.BUT_paramgen = new ArdupilotMega.Controls.MyButton();
             this.BUT_follow_me = new ArdupilotMega.Controls.MyButton();
             this.BUT_georefimage = new ArdupilotMega.Controls.MyButton();
@@ -53,6 +53,9 @@
             this.BUT_flashdl = new ArdupilotMega.Controls.MyButton();
             this.BUT_wipeeeprom = new ArdupilotMega.Controls.MyButton();
             this.button1 = new ArdupilotMega.Controls.MyButton();
+            this.BUT_swarm = new ArdupilotMega.Controls.MyButton();
+            this.BUT_outputnmea = new ArdupilotMega.Controls.MyButton();
+            this.BUT_outputMavlink = new ArdupilotMega.Controls.MyButton();
             this.SuspendLayout();
             // 
             // label1
@@ -131,15 +134,15 @@
             this.but_osdvideo.UseVisualStyleBackColor = true;
             this.but_osdvideo.Click += new System.EventHandler(this.but_osdvideo_Click);
             // 
-            // myButton1
+            // BUT_outputMD
             // 
-            this.myButton1.Location = new System.Drawing.Point(576, 183);
-            this.myButton1.Name = "myButton1";
-            this.myButton1.Size = new System.Drawing.Size(75, 23);
-            this.myButton1.TabIndex = 21;
-            this.myButton1.Text = "MD";
-            this.myButton1.UseVisualStyleBackColor = true;
-            this.myButton1.Click += new System.EventHandler(this.myButton1_Click);
+            this.BUT_outputMD.Location = new System.Drawing.Point(492, 139);
+            this.BUT_outputMD.Name = "BUT_outputMD";
+            this.BUT_outputMD.Size = new System.Drawing.Size(75, 23);
+            this.BUT_outputMD.TabIndex = 21;
+            this.BUT_outputMD.Text = "MD";
+            this.BUT_outputMD.UseVisualStyleBackColor = true;
+            this.BUT_outputMD.Click += new System.EventHandler(this.myButton1_Click);
             // 
             // BUT_paramgen
             // 
@@ -299,17 +302,50 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // BUT_swarm
+            // 
+            this.BUT_swarm.Location = new System.Drawing.Point(307, 287);
+            this.BUT_swarm.Name = "BUT_swarm";
+            this.BUT_swarm.Size = new System.Drawing.Size(75, 23);
+            this.BUT_swarm.TabIndex = 27;
+            this.BUT_swarm.Text = "Swarm";
+            this.BUT_swarm.UseVisualStyleBackColor = true;
+            this.BUT_swarm.Click += new System.EventHandler(this.BUT_swarm_Click);
+            // 
+            // BUT_outputnmea
+            // 
+            this.BUT_outputnmea.Location = new System.Drawing.Point(411, 139);
+            this.BUT_outputnmea.Name = "BUT_outputnmea";
+            this.BUT_outputnmea.Size = new System.Drawing.Size(75, 23);
+            this.BUT_outputnmea.TabIndex = 28;
+            this.BUT_outputnmea.Text = "NMEA";
+            this.BUT_outputnmea.UseVisualStyleBackColor = true;
+            this.BUT_outputnmea.Click += new System.EventHandler(this.BUT_outputnmea_Click);
+            // 
+            // BUT_outputMavlink
+            // 
+            this.BUT_outputMavlink.Location = new System.Drawing.Point(573, 139);
+            this.BUT_outputMavlink.Name = "BUT_outputMavlink";
+            this.BUT_outputMavlink.Size = new System.Drawing.Size(75, 23);
+            this.BUT_outputMavlink.TabIndex = 29;
+            this.BUT_outputMavlink.Text = "Mavlink";
+            this.BUT_outputMavlink.UseVisualStyleBackColor = true;
+            this.BUT_outputMavlink.Click += new System.EventHandler(this.BUT_outputMavlink_Click);
+            // 
             // temp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(685, 507);
+            this.Controls.Add(this.BUT_outputMavlink);
+            this.Controls.Add(this.BUT_outputnmea);
+            this.Controls.Add(this.BUT_swarm);
             this.Controls.Add(this.CMB_mavs);
             this.Controls.Add(this.but_multimav);
             this.Controls.Add(this.BUT_magfit);
             this.Controls.Add(this.BUT_xplane);
             this.Controls.Add(this.but_osdvideo);
-            this.Controls.Add(this.myButton1);
+            this.Controls.Add(this.BUT_outputMD);
             this.Controls.Add(this.BUT_paramgen);
             this.Controls.Add(this.BUT_follow_me);
             this.Controls.Add(this.BUT_georefimage);
@@ -358,11 +394,14 @@
         private ArdupilotMega.Controls.MyButton BUT_georefimage;
         private ArdupilotMega.Controls.MyButton BUT_follow_me;
         private Controls.MyButton BUT_paramgen;
-        private Controls.MyButton myButton1;
+        private Controls.MyButton BUT_outputMD;
         private Controls.MyButton but_osdvideo;
         private Controls.MyButton BUT_xplane;
         private Controls.MyButton BUT_magfit;
         private Controls.MyButton but_multimav;
         private System.Windows.Forms.ComboBox CMB_mavs;
+        private Controls.MyButton BUT_swarm;
+        private Controls.MyButton BUT_outputnmea;
+        private Controls.MyButton BUT_outputMavlink;
     }
 }

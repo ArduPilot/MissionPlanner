@@ -259,7 +259,7 @@ namespace ArdupilotMega
 
                             this.Invoke((System.Windows.Forms.MethodInvoker)delegate()
 {
-    TXT_seriallog.AppendText("Createing KML for " + logfile);
+    TXT_seriallog.AppendText("Creating KML for " + logfile);
 });
 
                             while (tr.Peek() != -1)

@@ -83,7 +83,7 @@ If you are just setting up 3DR radios, you may continue without connecting.");
                 AddBackstageViewPage(new ConfigBatteryMonitoring(), "Battery Monitor", hardware);
             }
 
-            if ((MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2) || (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane) || (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduRover))
+            if ((MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2) || (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane) || (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduRover) || (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.Ateryx))
             {
                 standardpage = AddBackstageViewPage(new ConfigFriendlyParams { ParameterMode = ParameterMetaDataConstants.Standard }, "Standard Params");
                 advancedpage = AddBackstageViewPage(new ConfigFriendlyParams { ParameterMode = ParameterMetaDataConstants.Advanced }, "Advanced Params");
@@ -138,7 +138,7 @@ If you are just setting up 3DR radios, you may continue without connecting.");
             }
             else if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.Ateryx)
             {
-
+                AddBackstageViewPage(new ConfigFlightModes(), "Flight Modes");
                 AddBackstageViewPage(new ConfigAteryxSensors(), "Ateryx Zero Sensors");
                 AddBackstageViewPage(new ConfigAteryx(), "Ateryx Pids", standardpage);
             }

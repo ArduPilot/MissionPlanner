@@ -31,7 +31,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
 
             float pwm = 0;
 
-            if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduRover) // APM 
+            if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduRover || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.Ateryx) // APM 
             {
                 if (MainV2.comPort.MAV.param.ContainsKey("FLTMODE_CH") || MainV2.comPort.MAV.param.ContainsKey("MODE_CH"))
                 {
@@ -160,7 +160,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
 
         public void Activate()
         {
-            if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane) // APM
+            if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.Ateryx) // APM
             {
                 CB_simple1.Visible = false;
                 CB_simple2.Visible = false;

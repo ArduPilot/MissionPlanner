@@ -85,6 +85,8 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                 return;
             }
 
+            BUT_calib_accell.Enabled = true;
+
             if ((float)MainV2.comPort.MAV.param["FRAME"] == 0)
             {
                 this.radioButton_Plus.Checked = true;
@@ -178,6 +180,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                 local.Invoke((MethodInvoker)delegate()
             {
                 local.BUT_calib_accell.Text = "Done";
+                local.BUT_calib_accell.Enabled = false;
             });
             }
             catch { }
