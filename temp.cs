@@ -984,7 +984,7 @@ namespace ArdupilotMega
 
         private void BUT_swarm_Click(object sender, EventArgs e)
         {
-            new Swarm.FollowLeaderControl().Show();
+            new Swarm.FormationControl().Show();
         }
 
         private void BUT_outputMavlink_Click(object sender, EventArgs e)

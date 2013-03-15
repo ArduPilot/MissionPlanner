@@ -40,7 +40,7 @@ namespace ArdupilotMega.GCSViews
 
         readonly string gholdurl = ("https://github.com/diydrones/binary/raw/!Hash!/Firmware/firmware2.xml");
         readonly string gholdfirmwareurl = ("https://github.com/diydrones/binary/raw/!Hash!/Firmware/!Firmware!");
-        string[] gholdurls = new string[] { "9df6c4a964eca8ac4a10e636a20423a5a79566bc", "bb5e3443c306d8ee72ed680c22828852b674711d", "320cab065477593c05110cf6d5c8fa2049294fe8" };
+        string[] gholdurls = new string[] {  };
 
         string getUrl(string hash, string filename)
         {
@@ -108,6 +108,14 @@ namespace ArdupilotMega.GCSViews
             this.pictureBoxOcta.Image = ArdupilotMega.Properties.Resources.octo;
             this.pictureBoxOctav.Image = ArdupilotMega.Properties.Resources.octov;
 
+
+            gholdurls = File.ReadAllLines("FirmwareHistory.txt");
+
+            int a = 0;
+            foreach (string gh in gholdurls) {
+                gholdurls[a] = gh.Trim();
+                a++;
+            }
         }
 
         internal void Firmware_Load(object sender, EventArgs e)

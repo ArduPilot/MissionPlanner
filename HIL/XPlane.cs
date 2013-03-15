@@ -38,6 +38,7 @@ namespace ArdupilotMega.HIL
 
             UpdateStatus(-1, "Sent xplane settings\n");
         }
+
         public override void Shutdown()
         {
             try

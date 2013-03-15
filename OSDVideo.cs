@@ -157,6 +157,8 @@ namespace ArdupilotMega
             // resize
             hud1.Width = bmpin.Width;
             hud1.Height = bmpin.Height;
+            // makesure we can grab an image
+            hud1.streamjpgenable = true;
             // redraw
             hud1.Refresh();
             // clone current screen with trans

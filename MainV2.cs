@@ -1119,7 +1119,8 @@ namespace ArdupilotMega
             {
                 try
                 {
-                    Thread.Sleep(5);
+                    int checkthis;
+                    Thread.Sleep(1); // was 5
 
                     // update connect/disconnect button and info stats
                     UpdateConnectIcon();
@@ -1284,7 +1285,7 @@ namespace ArdupilotMega
                         }
                     }
 
-                    // actauly read the packets
+                    // actualy read the packets
                     while (comPort.BaseStream.BytesToRead > minbytes && comPort.giveComport == false)
                     {
                         try
@@ -2279,6 +2280,9 @@ Server: ubuntu
             string path = Path.GetDirectoryName(Application.ExecutablePath);
 
             path = path + Path.DirectorySeparatorChar + "version.txt";
+
+            ServicePointManager.ServerCertificateValidationCallback =
+new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate, chain, policyErrors) => { return true; });
 
             log.Debug(path);
 

@@ -79,6 +79,10 @@ If you are just setting up 3DR radios, you may continue without connecting.");
                 AddBackstageViewPage(new ConfigRadioInput(), "Radio Calibration");
                 AddBackstageViewPage(new ConfigFlightModes(), "Flight Modes");
                 AddBackstageViewPage(new ConfigFailSafe(), "FailSafe");
+                if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2 || MainV2.comPort.MAV.param["H_GYR_ENABLE"] != null)
+                {
+                    AddBackstageViewPage(new ConfigAccelerometerCalibrationQuad(), "ArduCopter Level");
+                }
                 hardware = AddBackstageViewPage(new ConfigHardwareOptions(), "Hardware Options");
                 AddBackstageViewPage(new ConfigBatteryMonitoring(), "Battery Monitor", hardware);
             }
@@ -97,7 +101,7 @@ If you are just setting up 3DR radios, you may continue without connecting.");
 
                 AddBackstageViewPage(new ConfigMount(), "Camera Gimbal", hardware);
 
-                AddBackstageViewPage(new ConfigAccelerometerCalibrationQuad(), "ArduCopter Level");
+               
 
                 AddBackstageViewPage(new ConfigTradHeli(), "Heli Setup");
 
@@ -113,8 +117,6 @@ If you are just setting up 3DR radios, you may continue without connecting.");
               //  AddBackstageViewPage(new ConfigSignalization(), "Signalization", hardware);
 
                 AddBackstageViewPage(new ConfigMount(), "Camera Gimbal", hardware);
-
-                AddBackstageViewPage(new ConfigAccelerometerCalibrationQuad(), "ArduCopter Level");
 
                 var configpanel = new Controls.ConfigPanel(Application.StartupPath + System.IO.Path.DirectorySeparatorChar + "ArduCopterConfig.xml");
                 AddBackstageViewPage(configpanel, "ArduCopter Pids", standardpage);
@@ -133,7 +135,7 @@ If you are just setting up 3DR radios, you may continue without connecting.");
                 /****************************** ArduRover **************************/
             else if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduRover)
             {
-                //AddBackstageViewPage(new ConfigAccelerometerCalibrationPlane(), "ArduRover Level"));
+                AddBackstageViewPage(new ConfigAccelerometerCalibrationPlane(), "ArduRover Level");
                 AddBackstageViewPage(new ConfigArdurover(), "ArduRover Pids", standardpage);
             }
             else if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.Ateryx)

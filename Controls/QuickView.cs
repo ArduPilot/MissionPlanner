@@ -107,5 +107,10 @@ namespace ArdupilotMega.Controls
 
             base.OnResize(e);
         }
+
+        private void QuickView_Resize(object sender, EventArgs e)
+        {
+            this.Invalidate();
+        }
     }
 }

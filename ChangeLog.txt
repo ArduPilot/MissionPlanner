@@ -1,4 +1,19 @@
-﻿* Mission Planner 1.2.35
+﻿* Mission Planner 1.2.36
+add red gps status on hud when no gps lock
+disable accel calib button after calibration
+Ateryx fixs
+fix camera shutter dup
+remove fw message after fw upload
+change armed logic
+fix update problem
+add mirrorstream, for mavlink passthrough
+add sorting to mavlink log screen
+add index frame to mjpg avis - HUD
+add hazys lang mods
+add arthurs georef mods
+
+
+* Mission Planner 1.2.35
 attempt to fix crash on usb pulled unsafe
 add failsafe display to hud
 add custom color thememanager

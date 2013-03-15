@@ -85,6 +85,7 @@
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "QuickView";
             this.Size = new System.Drawing.Size(122, 72);
+            this.Resize += new System.EventHandler(this.QuickView_Resize);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);

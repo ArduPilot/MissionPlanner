@@ -1497,15 +1497,16 @@ namespace ArdupilotMega.Controls
                 EncoderParameters eps = new EncoderParameters(1);
                 eps.Param[0] = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, 50L); // or whatever other quality value you want
 
-                if (opengl)
-                {
-                    objBitmap = GrabScreenshot();
-                }
 
                 lock (streamlock)
                 {
                     if (streamjpgenable || streamjpg == null) // init image and only update when needed
                     {
+                        if (opengl)
+                        {
+                            objBitmap = GrabScreenshot();
+                        }
+
                         streamjpg = new MemoryStream();
                         objBitmap.Save(streamjpg, ici, eps);
                         //objBitmap.Save(streamjpg,ImageFormat.Bmp);
