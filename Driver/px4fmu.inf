@@ -41,10 +41,10 @@ AddService=usbser, 0x00000002, LowerFilter_Service_Inst
 ;------------------------------------------------------------------------------
 
 [DeviceList]
-%DESCRIPTION%=DriverInstall, USB\VID_26AC&PID_0010
+%DESCRIPTION%=DriverInstall, USB\VID_26AC&PID_0010, USB\VID_26AC&PID_0011
 
 [DeviceList.NTamd64]
-%DESCRIPTION%=DriverInstall, USB\VID_26AC&PID_0010
+%DESCRIPTION%=DriverInstall, USB\VID_26AC&PID_0010, USB\VID_26AC&PID_0011
 
 
 ;------------------------------------------------------------------------------

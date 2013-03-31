@@ -283,7 +283,7 @@ namespace ArdupilotMega.GCSViews
                     lbl2.Location = new Point(lbl1.Right + 5, y);
                     lbl2.Size = new System.Drawing.Size(50, 13);
                     //if (lbl2.Name == "")
-                    lbl2.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.bindingSource1, field.Name, false, System.Windows.Forms.DataSourceUpdateMode.OnValidation, "0"));
+                    lbl2.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.bindingSource1, field.Name, false, System.Windows.Forms.DataSourceUpdateMode.Never, "0"));
                     lbl2.Name = field.Name + "value";
                     lbl2.Visible = true;
                     //lbl2.Text = fieldValue.ToString();
@@ -319,6 +319,8 @@ namespace ArdupilotMega.GCSViews
 
         public void Activate()
         {
+            OnResize(new EventArgs());
+
             if (CB_tuning.Checked)
                 ZedGraphTimer.Start();
 
@@ -432,6 +434,7 @@ namespace ArdupilotMega.GCSViews
             };
 
             t11.Start();
+
             //MainH.threads.Add(t11);
 
             TRK_zoom.Minimum = gMapControl1.MinZoom;
@@ -649,6 +652,7 @@ namespace ArdupilotMega.GCSViews
                 try
                 {
                      //Console.WriteLine(DateTime.Now.Millisecond);
+                    //int fixme;
                     updateBindingSource();
                     // Console.WriteLine(DateTime.Now.Millisecond + " done ");
 
@@ -950,7 +954,19 @@ namespace ArdupilotMega.GCSViews
             {
                 try
                 {
-                    MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSource1);
+                    if (this.Visible)
+                    {
+                        //Console.Write("bindingSource1 ");
+                        MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSource1);
+                        //Console.Write("bindingSourceHud ");
+                        MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSourceHud);
+                        //Console.WriteLine("DONE ");
+                    }
+                    else
+                    {
+                        //Console.WriteLine("Null Binding");
+                        MainV2.comPort.MAV.cs.UpdateCurrentSettings(null);
+                    }
                 }
                 catch { }
             });
@@ -1210,11 +1226,8 @@ namespace ArdupilotMega.GCSViews
             try
             {
                 ((Button)sender).Enabled = false;
-#if MAVLINK10
-                MainV2.comPort.doCommand((MAVLink.MAV_CMD)Enum.Parse(typeof(MAVLink.MAV_CMD), CMB_action.Text), 1, 0, 1, 0, 0, 0, 0);
-#else
-                comPort.doAction((MAVLink.MAV_ACTION)Enum.Parse(typeof(MAVLink.MAV_ACTION), "MAV_ACTION_" + CMB_action.Text));
-#endif
+
+                MainV2.comPort.doCommand((MAVLink.MAV_CMD)Enum.Parse(typeof(MAVLink.MAV_CMD), CMB_action.Text), 0, 0, 1, 0, 0, 0, 0);
             }
             catch { CustomMessageBox.Show("The Command failed to execute"); }
             ((Button)sender).Enabled = true;
@@ -1420,6 +1433,8 @@ namespace ArdupilotMega.GCSViews
 
         private void BUT_loadtelem_Click(object sender, EventArgs e)
         {
+            LBL_logfn.Text = "";
+
             if (MainV2.comPort.logplaybackfile != null)
             {
                 try
@@ -1446,6 +1461,8 @@ namespace ArdupilotMega.GCSViews
                     MainV2.comPort.logreadmode = false;
                     MainV2.comPort.logplaybackfile = new BinaryReader(File.OpenRead(file));
                     MainV2.comPort.lastlogread = DateTime.MinValue;
+
+                    LBL_logfn.Text = Path.GetFileName(file);
 
                     tracklog.Value = 0;
                     tracklog.Minimum = 0;

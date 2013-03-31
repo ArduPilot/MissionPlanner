@@ -1407,7 +1407,7 @@ namespace ArdupilotMega
 
             // for long running tasks using own threads.
             // for short use threadpool
-
+			
             // setup http server
             try
             {
@@ -1439,6 +1439,7 @@ namespace ArdupilotMega
                 Name = "Main Serial reader",
                 Priority = ThreadPriority.AboveNormal
             }.Start();
+          
 
             try
             {
@@ -2508,9 +2509,9 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
                 // Set the Method property of the request to POST.
                 request.Method = "GET";
 
-                ((HttpWebRequest)request).AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+           //     ((HttpWebRequest)request).AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
 
-                request.Headers.Add("Accept-Encoding", "gzip,deflate");
+           //     request.Headers.Add("Accept-Encoding", "gzip,deflate");
 
                 // Get the response.
                 response = request.GetResponse();

@@ -103,7 +103,7 @@ namespace ArdupilotMega.Arduino
         /// Detects APM board version
         /// </summary>
         /// <param name="port"></param>
-        /// <returns> (1280/2560/2560-2)</returns>
+        /// <returns> (1280/2560/2560-2/px4)</returns>
         public static string DetectBoard(string port)
         {
             SerialPort serialPort = new SerialPort();
@@ -196,6 +196,16 @@ namespace ArdupilotMega.Arduino
                                         return "2560-2";
                                     }
                                 }
+
+                                if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_26AC&PID_0010"))
+                                {
+                                    // check port name as well
+                                    if (obj2.Properties["Name"].Value.ToString().ToUpper().Contains(serialPort.PortName.ToUpper()))
+                                    {
+                                        log.Info("is a px4");
+                                        return "px4";
+                                    }
+                                }
                             }
 
                             log.Info("is a 2560");
@@ -209,7 +219,14 @@ namespace ArdupilotMega.Arduino
                             }
                             else
                             {
-                                return "2560";
+                                if (DialogResult.Yes == CustomMessageBox.Show("Is this a PX4?", "PX4", MessageBoxButtons.YesNo))
+                                {
+                                    return "px4";
+                                }
+                                else
+                                {
+                                    return "2560";
+                                }
                             }
                         }
 
@@ -220,6 +237,9 @@ namespace ArdupilotMega.Arduino
 
             serialPort.Close();
             log.Warn("Not a 2560");
+
+
+
             return "";
         }
 

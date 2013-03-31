@@ -31,11 +31,11 @@ namespace ArdupilotMega
 
             if (System.Diagnostics.Debugger.IsAttached) {
 
-                ArdupilotMega.Controls.OpenGLtest ogl = new Controls.OpenGLtest();
+              //  ArdupilotMega.Controls.OpenGLtest ogl = new Controls.OpenGLtest();
 
-                this.Controls.Add(ogl);
+              //  this.Controls.Add(ogl);
 
-                ogl.Dock = DockStyle.Fill;
+              //  ogl.Dock = DockStyle.Fill;
             }
         }
 
@@ -995,6 +995,11 @@ namespace ArdupilotMega
         private void BUT_outputnmea_Click(object sender, EventArgs e)
         {
             new SerialOutputNMEA().Show();
+        }
+
+        private void myButton1_Click_1(object sender, EventArgs e)
+        {
+            
         }
     }
 }

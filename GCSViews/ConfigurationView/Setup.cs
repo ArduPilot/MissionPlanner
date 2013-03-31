@@ -58,6 +58,10 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
 
             //this.backstageView.ActivatePage(backstageView.Pages[0]);
 
+
+            int fixme;
+            AddBackstageViewPage(new ConfigPlannerAdv(), "Planner Adv Config");
+
             ThemeManager.ApplyThemeTo(this);
 
             if (!MainV2.comPort.BaseStream.IsOpen)

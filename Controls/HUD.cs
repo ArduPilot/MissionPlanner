@@ -325,7 +325,7 @@ namespace ArdupilotMega.Controls
 
            // Console.WriteLine("hud paint");
 
-           // Console.WriteLine("ms " + (DateTime.Now.Millisecond));
+           // Console.WriteLine("hud ms " + (DateTime.Now.Millisecond));
 
             if (!started)
                 return;
@@ -1452,7 +1452,7 @@ namespace ArdupilotMega.Controls
                 }
                 else if (_gpsfix == 2)
                 {
-                    gps = ("GPS: 3D Fix");
+                    gps = ("GPS: 2D Fix");
                 }
                 else if (_gpsfix == 3)
                 {

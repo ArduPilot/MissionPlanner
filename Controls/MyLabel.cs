@@ -49,7 +49,7 @@ namespace ArdupilotMega.Controls
 
                 label = value;
 
-                if (noofchars != label.Length && resize)
+                if (noofchars <= label.Length && resize)
                 {
                     noofchars = label.Length;
                     Size textSize = TextRenderer.MeasureText(value, this.Font);
@@ -67,8 +67,8 @@ namespace ArdupilotMega.Controls
         /// <returns></returns>
         public bool ThisReallyVisible()
         {
-            if (Parent != null)
-                return this.Bounds.IntersectsWith(Parent.ClientRectangle);
+        //    if (Parent != null)
+         //       return this.Bounds.IntersectsWith(Parent.ClientRectangle);
 
             return true;
         }

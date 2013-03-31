@@ -14,7 +14,12 @@ namespace ArdupilotMega.Controls
         public new event EventHandler Click;
 
         private Image picture;
-        private string text;
+        private string text = "None";
+
+        [System.ComponentModel.Browsable(true)]
+        public Label Label;
+        [System.ComponentModel.Browsable(true)]
+        public PictureBox PictureBox;
 
         public ImageLabel()
         {
@@ -22,6 +27,9 @@ namespace ArdupilotMega.Controls
             picture = new Bitmap(640,480);
 
             InitializeComponent();
+
+            Label = label1;
+            PictureBox = pictureBox1;
         }
 
         public void setImageandText(Image image, string text)
@@ -37,7 +45,7 @@ namespace ArdupilotMega.Controls
         }
 
         [System.ComponentModel.Browsable(true)]
-        public override string Text
+        public new string Text
         {
             get { return text; }
             set { text = value; label1.Text = text; }

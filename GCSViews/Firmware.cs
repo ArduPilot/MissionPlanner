@@ -12,6 +12,7 @@ using ArdupilotMega.Utilities;
 using System.Text.RegularExpressions;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
+using px4uploader;
 
 namespace ArdupilotMega.GCSViews
 {
@@ -83,6 +84,7 @@ namespace ArdupilotMega.GCSViews
             public string url;
             public string url2560;
             public string url2560_2;
+            public string urlpx4;
             public string name;
             public string desc;
             public int k_format_version;
@@ -106,10 +108,10 @@ namespace ArdupilotMega.GCSViews
             this.pictureBoxACHil.Image = ArdupilotMega.Properties.Resources.hilquad;
             this.pictureBoxACHHil.Image = ArdupilotMega.Properties.Resources.hilheli;
             this.pictureBoxOcta.Image = ArdupilotMega.Properties.Resources.octo;
-            this.pictureBoxOctav.Image = ArdupilotMega.Properties.Resources.octov;
+            this.pictureBoxOctaQuad.Image = ArdupilotMega.Properties.Resources.x8;
 
 
-            gholdurls = File.ReadAllLines("FirmwareHistory.txt");
+            gholdurls = File.ReadAllLines(Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + "FirmwareHistory.txt");
 
             int a = 0;
             foreach (string gh in gholdurls) {
@@ -125,6 +127,7 @@ namespace ArdupilotMega.GCSViews
             string url = "";
             string url2560 = "";
             string url2560_2 = "";
+            string px4 = "";
             string name = "";
             string desc = "";
             int k_format_version = 0;
@@ -156,6 +159,9 @@ namespace ArdupilotMega.GCSViews
                             case "url2560-2":
                                 url2560_2 = xmlreader.ReadString();
                                 break;
+                            case "urlpx4":
+                                px4 = xmlreader.ReadString();
+                                break;
                             case "name":
                                 name = xmlreader.ReadString();
                                 break;
@@ -173,6 +179,7 @@ namespace ArdupilotMega.GCSViews
                                     temp.url = url;
                                     temp.url2560 = url2560;
                                     temp.url2560_2 = url2560_2;
+                                    temp.urlpx4 = px4;
                                     temp.k_format_version = k_format_version;
 
                                     try
@@ -249,9 +256,9 @@ namespace ArdupilotMega.GCSViews
             {
                 pictureBoxACHil.Text = temp.name;
             }
-            else if (temp.url.ToLower().Contains("ac2-octav-".ToLower()))
+            else if (temp.url.ToLower().Contains("ac2-octaquad-".ToLower()))
             {
-                pictureBoxOctav.Text = temp.name;
+                pictureBoxOctaQuad.Text = temp.name;
             }
             else if (temp.url.ToLower().Contains("ac2-octa-".ToLower()))
             {
@@ -363,7 +370,29 @@ namespace ArdupilotMega.GCSViews
                 this.Refresh();
                 Application.DoEvents();
 
-                board = ArduinoDetect.DetectBoard(MainV2.comPortName);
+
+                ArdupilotMega.Controls.Firmware_Board fwb = new ArdupilotMega.Controls.Firmware_Board();
+                fwb.ShowDialog();
+
+                var boardname = ArdupilotMega.Controls.Firmware_Board.fw;
+
+                switch (boardname)
+                {
+                    case ArdupilotMega.Controls.Firmware_Board.Firmware.apm1:
+                        board = "2560";
+                        break;
+                    case ArdupilotMega.Controls.Firmware_Board.Firmware.apm2:
+                        board = "2560-2";
+                        break;
+                    case ArdupilotMega.Controls.Firmware_Board.Firmware.apm2_5:
+                        board = "2560-2";
+                        break;
+                    case ArdupilotMega.Controls.Firmware_Board.Firmware.px4:
+                        board = "px4";
+                        break;
+                }
+
+               // board = ArduinoDetect.DetectBoard(MainV2.comPortName);
 
                 if (board == "")
                 {
@@ -373,21 +402,24 @@ namespace ArdupilotMega.GCSViews
 
                 int apmformat_version = -1; // fail continue
 
-                try
+                if (board != "px4")
                 {
-                    apmformat_version = ArduinoDetect.decodeApVar(MainV2.comPortName, board);
-                }
-                catch { }
-
-                if (apmformat_version != -1 && apmformat_version != temp.k_format_version)
-                {
-                    if (DialogResult.No == CustomMessageBox.Show("Epprom changed, all your setting will be lost during the update,\nDo you wish to continue?", "Epprom format changed (" + apmformat_version + " vs " + temp.k_format_version + ")", MessageBoxButtons.YesNo))
+                    try
                     {
-                        CustomMessageBox.Show("Please connect and backup your config in the configuration tab.");
-                        return;
+
+                        apmformat_version = ArduinoDetect.decodeApVar(MainV2.comPortName, board);
+                    }
+                    catch { }
+
+                    if (apmformat_version != -1 && apmformat_version != temp.k_format_version)
+                    {
+                        if (DialogResult.No == CustomMessageBox.Show("Epprom changed, all your setting will be lost during the update,\nDo you wish to continue?", "Epprom format changed (" + apmformat_version + " vs " + temp.k_format_version + ")", MessageBoxButtons.YesNo))
+                        {
+                            CustomMessageBox.Show("Please connect and backup your config in the configuration tab.");
+                            return;
+                        }
                     }
                 }
-
 
 
                 log.Info("Detected a " + board);
@@ -404,6 +436,10 @@ namespace ArdupilotMega.GCSViews
                 else if (board == "2560-2")
                 {
                     baseurl = temp.url2560_2.ToString();
+                }
+                else if (board == "px4")
+                {
+                    baseurl = temp.urlpx4.ToString();
                 }
                 else
                 {
@@ -475,7 +511,14 @@ namespace ArdupilotMega.GCSViews
 
             System.Threading.ThreadPool.QueueUserWorkItem(apmtype, temp.name + "!" + board);
 
-            UploadFlash(Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + @"firmware.hex", board);
+            if (board == "px4")
+            {
+                UploadPX4(Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + @"firmware.hex");
+            }
+            else
+            {
+                UploadFlash(Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + @"firmware.hex", board);
+            }
         }
 
         void apmtype(object temp)
@@ -494,6 +537,72 @@ namespace ArdupilotMega.GCSViews
                 WebResponse response = request.GetResponse();
             }
             catch { }
+        }
+
+        public void UploadPX4(string filename) {
+
+            DateTime DEADLINE = DateTime.Now.AddSeconds(30);
+
+            Uploader up;
+            px4uploader.Firmware fw = px4uploader.Firmware.ProcessFirmware(filename);
+
+            CustomMessageBox.Show("Press OK, and reset the board.\nMission Planner will look for 30 seconds to find the board");
+
+            while (DateTime.Now < DEADLINE)
+            {
+
+                string port = MainV2.comPortName;
+
+                Console.WriteLine(DateTime.Now.Millisecond + " Trying Port " + port);
+
+                lbl_status.Text = "Connecting";
+                Application.DoEvents();
+
+                try
+                {
+                    up = new Uploader(port, 115200);
+                }
+                catch (Exception ex)
+                {
+                    //System.Threading.Thread.Sleep(50);
+                    Console.WriteLine(ex.Message);
+                    continue;
+                }
+
+                try
+                {
+                    up.identify();
+                    lbl_status.Text = "Identify";
+                    Application.DoEvents();
+                    Console.WriteLine("Found board type {0} boardrev {1} bl rev {2} fwmax {3} on {4}", up.board_type, up.board_rev, up.bl_rev, up.fw_maxsize, port);
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("Not There..");
+                    //Console.WriteLine(ex.Message);
+                    up.close();
+                    continue;
+                }
+
+                try
+                {
+                    lbl_status.Text = "Erase..Upload..Verify";
+                    Application.DoEvents();
+                    up.upload(fw);
+                    lbl_status.Text = "Done";
+                    Application.DoEvents();
+                }
+                catch (Exception ex)
+                {
+                    lbl_status.Text = "ERROR: "+ex.Message;
+                    Application.DoEvents();
+                    Console.WriteLine(ex.ToString());
+
+                }
+                up.close();
+
+                break;
+            }
         }
         
         public void UploadFlash(string filename, string board)
@@ -771,7 +880,7 @@ namespace ArdupilotMega.GCSViews
 
         private void pictureBoxOctav_Click(object sender, EventArgs e)
         {
-            findfirmware("AC2-Octav-");
+            findfirmware("AC2-Octaquad-");
         }
 
         private void pictureBoxOcta_Click(object sender, EventArgs e)
@@ -843,6 +952,81 @@ namespace ArdupilotMega.GCSViews
             CustomMessageBox.Show("These are dev firmware, use at your own risk!!!", "DEV");
             firmwareurl = "https://raw.github.com/diydrones/binary/master/dev/firmware2.xml";
             Firmware_Load(null, null);
+        }
+
+        private void lbl_px4io_Click(object sender, EventArgs e)
+        {
+            CustomMessageBox.Show("Please save the px4io.bin file to your microsd card to insert into your px4.");
+
+            string baseurl = "http://firmware.diydrones.com/PX4IO/latest/PX4IO/px4io.bin";
+
+            try
+            {
+                // Create a request using a URL that can receive a post. 
+                WebRequest request = WebRequest.Create(baseurl);
+                request.Timeout = 10000;
+                // Set the Method property of the request to POST.
+                request.Method = "GET";
+                // Get the request stream.
+                Stream dataStream; //= request.GetRequestStream();
+                // Get the response.
+                WebResponse response = request.GetResponse();
+                // Display the status.
+                log.Info(((HttpWebResponse)response).StatusDescription);
+                // Get the stream containing content returned by the server.
+                dataStream = response.GetResponseStream();
+
+                long bytes = response.ContentLength;
+                long contlen = bytes;
+
+                byte[] buf1 = new byte[1024];
+
+                FileStream fs = new FileStream(Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + @"px4io.bin", FileMode.Create);
+
+                lbl_status.Text = "Downloading from Internet";
+
+                this.Refresh();
+                Application.DoEvents();
+
+                dataStream.ReadTimeout = 30000;
+
+                while (dataStream.CanRead)
+                {
+                    try
+                    {
+                        progress.Value = 50;// (int)(((float)(response.ContentLength - bytes) / (float)response.ContentLength) * 100);
+                        this.progress.Refresh();
+                    }
+                    catch { }
+                    int len = dataStream.Read(buf1, 0, 1024);
+                    if (len == 0)
+                        break;
+                    bytes -= len;
+                    fs.Write(buf1, 0, len);
+                }
+
+                fs.Close();
+                dataStream.Close();
+                response.Close();
+
+                lbl_status.Text = "Done";
+                Application.DoEvents();
+            }
+            catch { CustomMessageBox.Show("Error receiving firmware"); return; }
+
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.FileName = "px4io.bin";
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                if (sfd.FileName != "")
+                {
+                    File.Copy(Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + @"px4io.bin",sfd.FileName);
+                }
+            }
+
+            progress.Value = 100;
+
+            CustomMessageBox.Show("Please eject the microsd card, place into the px4, power on,\nand wait 60 seconds for the automated upgrade to take place.\nA upgrade status is created on your microsd card.");
         }
     }
 }

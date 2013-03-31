@@ -1,4 +1,22 @@
-﻿* Mission Planner 1.2.36
+﻿* Mission Planner 1.2.37
+px4 detect - wont work until usb hang is fixed
+new board selcetion in firmware screen
+add 2d fix to hud
+new servo options
+new px4 driver
+px4 uploading
+new quad x8 firmware placeholder.
+fix firmware history error
+add ioboard firmware dl
+fix preflight calib from action tab
+fix grid alt scaling ft/m
+fix quad aerosim hil
+update rover modes
+fix log downloading
+remove gzip updateing
+add miliseconds to mavlink csv's
+
+* Mission Planner 1.2.36
 add red gps status on hud when no gps lock
 disable accel calib button after calibration
 Ateryx fixs
@@ -11,7 +29,6 @@ add sorting to mavlink log screen
 add index frame to mjpg avis - HUD
 add hazys lang mods
 add arthurs georef mods
-
 
 * Mission Planner 1.2.35
 attempt to fix crash on usb pulled unsafe

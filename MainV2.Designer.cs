@@ -92,7 +92,7 @@
             this.CTX_mainmenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.autoHideToolStripMenuItem});
             this.CTX_mainmenu.Name = "CTX_mainmenu";
-            this.CTX_mainmenu.Size = new System.Drawing.Size(153, 48);
+            this.CTX_mainmenu.Size = new System.Drawing.Size(126, 26);
             // 
             // autoHideToolStripMenuItem
             // 
@@ -100,7 +100,7 @@
             this.autoHideToolStripMenuItem.CheckOnClick = true;
             this.autoHideToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.autoHideToolStripMenuItem.Name = "autoHideToolStripMenuItem";
-            this.autoHideToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.autoHideToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
             this.autoHideToolStripMenuItem.Text = "AutoHide";
             this.autoHideToolStripMenuItem.Click += new System.EventHandler(this.autoHideToolStripMenuItem_Click);
             // 
@@ -237,7 +237,6 @@
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
             this.toolStripMenuItem1.Size = new System.Drawing.Size(57, 76);
             this.toolStripMenuItem1.Text = "Donate";
-            this.toolStripMenuItem1.Visible = false;
             this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
             // menu

@@ -472,7 +472,7 @@ namespace ArdupilotMega
             lock (locker)
             {
 
-                if (DateTime.Now > lastupdate.AddMilliseconds(19) || updatenow) // 50 hz
+                if (DateTime.Now > lastupdate.AddMilliseconds(50) || updatenow) // 20 hz
                 {
                     lastupdate = DateTime.Now;
 
@@ -542,7 +542,9 @@ namespace ArdupilotMega
                         hilch7 = hil.chan7_scaled;
                         hilch8 = hil.chan8_scaled;
 
-                        //MAVLink.packets[MAVLink.MAVLINK_MSG_ID_RC_CHANNELS_SCALED] = null;
+                       // Console.WriteLine("MAVLINK_MSG_ID_RC_CHANNELS_SCALED Packet");
+
+                        mavinterface.MAV.packets[MAVLink.MAVLINK_MSG_ID_RC_CHANNELS_SCALED] = null;
                     }
 
                     bytearray = mavinterface.MAV.packets[MAVLink.MAVLINK_MSG_ID_HIL_CONTROLS];
@@ -1084,18 +1086,21 @@ namespace ArdupilotMega
                     }
                 }
 
-                //Console.WriteLine(DateTime.Now.Millisecond + " start ");
+                //Console.Write(DateTime.Now.Millisecond + " start ");
                 // update form
                 try
                 {
                     if (bs != null)
                     {
                         //System.Diagnostics.Debug.WriteLine(DateTime.Now.Millisecond);
-                        //Console.WriteLine(DateTime.Now.Millisecond);
-                        bs.DataSource = this;
-                        // Console.WriteLine(DateTime.Now.Millisecond + " 1 " + updatenow + " " + System.Threading.Thread.CurrentThread.Name);
-                        bs.ResetBindings(false);
-                        //Console.WriteLine(DateTime.Now.Millisecond + " done ");
+                       // Console.Write(" "+DateTime.Now.Millisecond);
+                        //bs.DataSource = this;
+                       // Console.Write(" " + DateTime.Now.Millisecond + " 1 " + updatenow + " " + System.Threading.Thread.CurrentThread.Name);
+                        //bs.ResetBindings(false);
+                        //bs.ResetCurrentItem();
+                        // mono workaround - this is alot faster
+                        bs.Add(this);
+                       // Console.WriteLine(" " + DateTime.Now.Millisecond + " done ");
                     }
                 }
                 catch { log.InfoFormat("CurrentState Binding error"); }

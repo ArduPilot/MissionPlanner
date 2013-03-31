@@ -2463,10 +2463,6 @@ namespace ArdupilotMega.GCSViews
             catch { }
         }
 
-        private void panel4_PanelCollapsing(object sender, BSE.Windows.Forms.XPanderStateChangeEventArgs e)
-        {
-
-        }
 
         private void BUT_Prefetch_Click(object sender, EventArgs e)
         {
@@ -3454,7 +3450,7 @@ namespace ArdupilotMega.GCSViews
                 double fulllatdiff = arearect.HeightLat * x1 * 2;
                 double fulllngdiff = arearect.WidthLng * y1 * 2;
 
-                int altitude = (int)(double.Parse(alt) / MainV2.comPort.MAV.cs.multiplierdist);
+                int altitude = (int)(double.Parse(alt));
 
                 // draw a grid
                 double x = arearect.LocationMiddle.Lng;
@@ -3840,7 +3836,7 @@ namespace ArdupilotMega.GCSViews
 
                 int overshootdist = 0;// (int)(double.Parse(overshoot) / MainV2.comPort.MAV.cs.multiplierdist);
 
-                int altitude = (int)(double.Parse(alt) / MainV2.comPort.MAV.cs.multiplierdist);
+                int altitude = (int)(double.Parse(alt));
 
                 double overshootdistlng = arearect.WidthLng / widthdist * overshootdist;
 

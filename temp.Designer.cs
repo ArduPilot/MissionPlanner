@@ -56,6 +56,7 @@
             this.BUT_swarm = new ArdupilotMega.Controls.MyButton();
             this.BUT_outputnmea = new ArdupilotMega.Controls.MyButton();
             this.BUT_outputMavlink = new ArdupilotMega.Controls.MyButton();
+            this.myButton1 = new ArdupilotMega.Controls.MyButton();
             this.SuspendLayout();
             // 
             // label1
@@ -332,11 +333,22 @@
             this.BUT_outputMavlink.UseVisualStyleBackColor = true;
             this.BUT_outputMavlink.Click += new System.EventHandler(this.BUT_outputMavlink_Click);
             // 
+            // myButton1
+            // 
+            this.myButton1.Location = new System.Drawing.Point(452, 287);
+            this.myButton1.Name = "myButton1";
+            this.myButton1.Size = new System.Drawing.Size(75, 23);
+            this.myButton1.TabIndex = 30;
+            this.myButton1.Text = "Test";
+            this.myButton1.UseVisualStyleBackColor = true;
+            this.myButton1.Click += new System.EventHandler(this.myButton1_Click_1);
+            // 
             // temp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(685, 507);
+            this.Controls.Add(this.myButton1);
             this.Controls.Add(this.BUT_outputMavlink);
             this.Controls.Add(this.BUT_outputnmea);
             this.Controls.Add(this.BUT_swarm);
@@ -403,5 +415,6 @@
         private Controls.MyButton BUT_swarm;
         private Controls.MyButton BUT_outputnmea;
         private Controls.MyButton BUT_outputMavlink;
+        private Controls.MyButton myButton1;
     }
 }

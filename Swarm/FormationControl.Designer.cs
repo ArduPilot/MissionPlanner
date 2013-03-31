@@ -39,7 +39,11 @@
             this.BUT_Takeoff = new ArdupilotMega.Controls.MyButton();
             this.BUT_Disarm = new ArdupilotMega.Controls.MyButton();
             this.BUT_Arm = new ArdupilotMega.Controls.MyButton();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
+            this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
             this.SuspendLayout();
             // 
             // CMB_mavs
@@ -54,13 +58,12 @@
             // 
             // grid1
             // 
-            this.grid1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.grid1.Location = new System.Drawing.Point(12, 68);
+            this.grid1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.grid1.Location = new System.Drawing.Point(3, 3);
             this.grid1.Name = "grid1";
-            this.grid1.Size = new System.Drawing.Size(691, 391);
+            this.grid1.Size = new System.Drawing.Size(674, 388);
             this.grid1.TabIndex = 8;
+            this.grid1.Vertical = false;
             this.grid1.UpdateOffsets += new ArdupilotMega.Swarm.Grid.UpdateOffsetsEvent(this.grid1_UpdateOffsets);
             // 
             // BUT_connect
@@ -134,12 +137,35 @@
             this.BUT_Arm.UseVisualStyleBackColor = true;
             this.BUT_Arm.Click += new System.EventHandler(this.BUT_Arm_Click);
             // 
+            // tabControl1
+            // 
+            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Location = new System.Drawing.Point(12, 39);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(688, 420);
+            this.tabControl1.TabIndex = 9;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.grid1);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(680, 394);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "tabPage1";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
             // FormationControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(715, 471);
-            this.Controls.Add(this.grid1);
+            this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.BUT_connect);
             this.Controls.Add(this.BUT_Start);
             this.Controls.Add(this.BUT_leader);
@@ -152,6 +178,8 @@
             this.Text = "Control";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Control_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
+            this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -168,5 +196,7 @@
         private Controls.MyButton BUT_connect;
         private Grid grid1;
         private System.Windows.Forms.BindingSource bindingSource1;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage1;
     }
 }

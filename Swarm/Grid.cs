@@ -62,7 +62,7 @@ namespace ArdupilotMega.Swarm
                 }
                 else
                 {
-                    e.Graphics.DrawLine(Pens.White, x * xline, 0, x * xline, this.Height);
+                    e.Graphics.DrawLine(Pens.Silver, x * xline, 0, x * xline, this.Height);
                 }
             }
 
@@ -75,7 +75,7 @@ namespace ArdupilotMega.Swarm
                 }
                 else
                 {
-                    e.Graphics.DrawLine(Pens.White, 0, y * yline, this.Width, y * yline);
+                    e.Graphics.DrawLine(Pens.Silver, 0, y * yline, this.Width, y * yline);
                 }
             }
 

@@ -35,11 +35,11 @@ namespace ArdupilotMega.Swarm
         {
             if (e.Delta < 0)
             {
-                grid1.setScale(grid1.getScale() + 2);
+                grid1.setScale(grid1.getScale() + 4);
             }
             else
             {
-                grid1.setScale(grid1.getScale() - 2);
+                grid1.setScale(grid1.getScale() - 4);
             }
         }
 

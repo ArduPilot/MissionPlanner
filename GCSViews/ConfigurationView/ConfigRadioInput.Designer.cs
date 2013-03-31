@@ -139,7 +139,7 @@
             this.BAR8.minline = 0;
             this.BAR8.Name = "BAR8";
             this.BAR8.Value = 1500;
-            this.BAR8.ValueColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
+         this.BAR8.ValueColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(0)))), ((int)(((byte)(255)))));
             // 
             // currentStateBindingSource
             // 

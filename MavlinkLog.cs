@@ -1252,7 +1252,7 @@ namespace ArdupilotMega
                         string text = "";
                         mine.DebugPacket(packet, ref text,true,",");
 
-                        sw.Write(mine.lastlogread + "," + text);
+                        sw.Write(mine.lastlogread.ToString("yyyy-MM-ddTHH:mm:ss") +"."+ mine.lastlogread.Millisecond.ToString() + "," + text);
                     }
 
                     sw.Close();

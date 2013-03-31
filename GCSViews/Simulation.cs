@@ -863,30 +863,42 @@ namespace ArdupilotMega.GCSViews
             }
             else if (receviedbytes == 662 || receviedbytes == 658) // 658 = 3.83   662 = 3.91
             {
-                
+                /*
+            // Model data in body frame coordinates (X=Right, Y=Front, Z=Up)
+            public float Model_fVel_Body_X; public float Model_fVel_Body_Y; public float Model_fVel_Body_Z;    // m/s    Model velocity in body coordinates
+            public float Model_fAngVel_Body_X; public float Model_fAngVel_Body_Y; public float Model_fAngVel_Body_Z; // rad/s  Model angular velocity in body coordinates
+            public float Model_fAccel_Body_X; public float Model_fAccel_Body_Y; public float Model_fAccel_Body_Z;  // m/s/s  Model acceleration in body coordinates
+                 */
+                TDataFromAeroSimRC aeroin_last = aeroin;
+
                 aeroin = data.ByteArrayToStructure<TDataFromAeroSimRC>(0);
 
                 sitldata.pitchDeg = (aeroin.Model_fPitch * rad2deg);
                 sitldata.rollDeg = (aeroin.Model_fRoll * -1 * rad2deg);
                 sitldata.yawDeg = ((aeroin.Model_fHeading * rad2deg));
 
-                sitldata.pitchRate = aeroin.Model_fAngVel_Body_X * rad2deg;
+                sitldata.pitchRate =aeroin.Model_fAngVel_Body_X * rad2deg;
                 sitldata.rollRate = aeroin.Model_fAngVel_Body_Y * rad2deg;
                 sitldata.yawRate = -aeroin.Model_fAngVel_Body_Z * rad2deg;
 
-                sitldata.xAccel = aeroin.Model_fAccel_Body_X; // pitch
-                sitldata.yAccel = aeroin.Model_fAccel_Body_Y; // roll
-                sitldata.zAccel = aeroin.Model_fAccel_Body_Z;
+                // calc gravity
+                Matrix3 dcm = new Matrix3();
+                dcm.from_euler(sitldata.rollDeg * deg2rad, sitldata.pitchDeg * deg2rad, sitldata.yawDeg * deg2rad);
 
-           //     YLScsDrawing.Drawing3d.Vector3d accel3D = HIL.QuadCopter.RPY_to_XYZ(att.roll, att.pitch, 0, -9.8); //DATA[18][2]
+                Vector3 accel_body = dcm.transposed() * (new Vector3(0, 0, -1)); // -9.8
 
+                sitldata.xAccel = aeroin.Model_fAccel_Body_Y / 9.808 + accel_body.x;// pitch - back forward-
+                sitldata.yAccel = aeroin.Model_fAccel_Body_X / 9.808 + accel_body.y; // roll - left right-
+                sitldata.zAccel = -aeroin.Model_fAccel_Body_Z /9.808 + accel_body.z;
+
+              //  Console.WriteLine("2 {0,20} {1,20} {2,20}", aeroin.Model_fAccel_Body_X.ToString("0.000"), aeroin.Model_fAccel_Body_Y.ToString("0.000"), aeroin.Model_fAccel_Body_Z.ToString("0.000"));
 
                 sitldata.altitude = aeroin.Model_fPosZ;
                 sitldata.latitude = aeroin.Model_fLatitude;
                 sitldata.longitude = aeroin.Model_fLongitude;
 
-                sitldata.speedN = aeroin.Model_fVelX;
-                sitldata.speedE = aeroin.Model_fVelY;
+                sitldata.speedN = aeroin.Model_fVelY;
+                sitldata.speedE = aeroin.Model_fVelX;
 
                 float xvec = aeroin.Model_fVelY - aeroin.Model_fWindVelY;
                 float yvec = aeroin.Model_fVelX - aeroin.Model_fWindVelX;
@@ -1035,7 +1047,9 @@ namespace ArdupilotMega.GCSViews
             hilstate.yacc = (short)(sitldata.yAccel * 1000); // (mg)
             hilstate.zacc = (short)(sitldata.zAccel * 1000); // (mg)
 
-            comPort.sendPacket(hilstate);
+  
+                comPort.sendPacket(hilstate);
+
 
             //            comPort.sendPacket(oldgps);
 
@@ -1194,7 +1208,7 @@ namespace ArdupilotMega.GCSViews
                 if (RAD_aerosimrc.Checked && CHK_quad.Checked)
                 {
                     throttle_out = ((float)MainV2.comPort.MAV.cs.hilch7 / 2 + 5000) / throttlegain;
-                    //throttle_out = (float)(MainV2.comPort.MAV.cs.hilch7 - 1100) / throttlegain;
+                    throttle_out = (float)(MainV2.comPort.MAV.cs.hilch3 - 1100) / throttlegain;
                 }
             }
 
@@ -1304,10 +1318,10 @@ namespace ArdupilotMega.GCSViews
                     // 4 back
                     // 2 left
 
-                    Array.Copy(BitConverter.GetBytes((double)((MainV2.comPort.MAV.cs.ch3out - 1100) / 800 * 2 - 1)), 0, AeroSimRC, 0, 8); // motor 1 = front
-                    Array.Copy(BitConverter.GetBytes((double)((MainV2.comPort.MAV.cs.ch1out - 1100) / 800 * 2 - 1)), 0, AeroSimRC, 8, 8); // motor 2 = right
-                    Array.Copy(BitConverter.GetBytes((double)((MainV2.comPort.MAV.cs.ch4out - 1100) / 800 * 2 - 1)), 0, AeroSimRC, 16, 8);// motor 3 = back
-                    Array.Copy(BitConverter.GetBytes((double)((MainV2.comPort.MAV.cs.ch2out - 1100) / 800 * 2 - 1)), 0, AeroSimRC, 24, 8);// motor 4 = left
+                  //  Array.Copy(BitConverter.GetBytes((double)((MainV2.comPort.MAV.cs.ch3out - 1100) / 800 * 2 - 1)), 0, AeroSimRC, 0, 8); // motor 1 = front
+                  //  Array.Copy(BitConverter.GetBytes((double)((MainV2.comPort.MAV.cs.ch1out - 1100) / 800 * 2 - 1)), 0, AeroSimRC, 8, 8); // motor 2 = right
+                  //  Array.Copy(BitConverter.GetBytes((double)((MainV2.comPort.MAV.cs.ch4out - 1100) / 800 * 2 - 1)), 0, AeroSimRC, 16, 8);// motor 3 = back
+                  //  Array.Copy(BitConverter.GetBytes((double)((MainV2.comPort.MAV.cs.ch2out - 1100) / 800 * 2 - 1)), 0, AeroSimRC, 24, 8);// motor 4 = left
 
                 }
                 else

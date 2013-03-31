@@ -588,8 +588,7 @@
             this.panelAction.ToolTipTextCloseIcon = null;
             this.panelAction.ToolTipTextExpandIconPanelCollapsed = null;
             this.panelAction.ToolTipTextExpandIconPanelExpanded = null;
-            this.panelAction.PanelCollapsing += new System.EventHandler<BSE.Windows.Forms.XPanderStateChangeEventArgs>(this.panel4_PanelCollapsing);
-            // 
+          // 
             // comboBoxMapType
             // 
             resources.ApplyResources(this.comboBoxMapType, "comboBoxMapType");

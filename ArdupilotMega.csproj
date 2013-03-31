@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -125,76 +125,46 @@
   <ItemGroup>
     <Reference Include="alglibnet2, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Lib\alglibnet2.dll</HintPath>
-    </Reference>
-    <Reference Include="AviFile">
-      <HintPath>Lib\AviFile.dll</HintPath>
     </Reference>
     <Reference Include="BaseClassesNET">
-      <HintPath>Lib\BaseClassesNET.dll</HintPath>
+      <HintPath>..\..\..\..\..\Downloads\H264EncoderNETSrc\Output\bin\Debug\BaseClassesNET.dll</HintPath>
     </Reference>
     <Reference Include="BSE.Windows.Forms">
-      <HintPath>Lib\BSE.Windows.Forms.dll</HintPath>
-    </Reference>
-    <Reference Include="Core">
-      <HintPath>Lib\Core.dll</HintPath>
     </Reference>
     <Reference Include="DirectShowLib-2005">
-      <HintPath>Lib\DirectShowLib-2005.dll</HintPath>
-    </Reference>
-    <Reference Include="GMap.NET.Core">
-      <HintPath>Lib\GMap.NET.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="GMap.NET.WindowsForms">
-      <HintPath>Lib\GMap.NET.WindowsForms.dll</HintPath>
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
-      <HintPath>Lib\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
     <Reference Include="IronPython, Version=2.7.0.40, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Lib\IronPython.dll</HintPath>
     </Reference>
     <Reference Include="IronPython.Modules, Version=2.7.0.40, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Lib\IronPython.Modules.dll</HintPath>
-    </Reference>
-    <Reference Include="KMLib">
-      <HintPath>Lib\KMLib.dll</HintPath>
     </Reference>
     <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Lib\log4net.dll</HintPath>
     </Reference>
     <Reference Include="MetaDataExtractor">
-      <HintPath>Lib\MetaDataExtractor.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.DirectX, Version=1.0.2902.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
       <SpecificVersion>False</SpecificVersion>
       <Private>True</Private>
-      <HintPath>Lib\Microsoft.DirectX.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.DirectX.DirectInput, Version=1.0.2902.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
       <SpecificVersion>False</SpecificVersion>
       <Private>True</Private>
-      <HintPath>Lib\Microsoft.DirectX.DirectInput.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Dynamic">
-      <HintPath>Lib\Microsoft.Dynamic.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Scripting, Version=1.1.0.20, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Lib\Microsoft.Scripting.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Scripting.Core">
-      <HintPath>Lib\Microsoft.Scripting.Core.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Scripting.Debugging">
-      <HintPath>Lib\Microsoft.Scripting.Debugging.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Scripting.ExtensionAttribute, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Lib\Microsoft.Scripting.ExtensionAttribute.dll</HintPath>
     </Reference>
     <Reference Include="netDxf, Version=0.1.2.0, Culture=neutral, PublicKeyToken=1c75adeaa4c98f42, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -204,33 +174,27 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Lib\OpenTK.dll</HintPath>
     </Reference>
-    <Reference Include="OpenTK.GLControl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Lib\OpenTK.GLControl.dll</HintPath>
-    </Reference>
     <Reference Include="ProjNet, Version=1.2.3432.30659, Culture=neutral, PublicKeyToken=a1f5bdcd9c6f5740, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Lib\ProjNet.dll</HintPath>
     </Reference>
-    <Reference Include="SharpKml, Version=1.1.0.0, Culture=neutral, PublicKeyToken=e608cd7d975805ad, processorArchitecture=MSIL">
+    <Reference Include="px4uploader, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Lib\SharpKml.dll</HintPath>
+      <ExecutableExtension>.exe</ExecutableExtension>
+      <HintPath>..\..\px4uploader\bin\Debug\px4uploader.exe</HintPath>
     </Reference>
     <Reference Include="System">
-      <Private>False</Private>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="System.Configuration">
+    <Reference Include="System.configuration">
       <Private>False</Private>
     </Reference>
     <Reference Include="System.Data">
       <Private>False</Private>
     </Reference>
     <Reference Include="System.Data.SQLite">
-      <HintPath>Lib\System.Data.SQLite.dll</HintPath>
     </Reference>
-    <Reference Include="System.Drawing">
-      <Private>False</Private>
-    </Reference>
+    <Reference Include="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System.Management">
       <Private>False</Private>
     </Reference>
@@ -243,19 +207,13 @@
     </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Windows.Forms">
-      <Private>False</Private>
-    </Reference>
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml">
       <Private>False</Private>
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="Transitions">
       <HintPath>Lib\Transitions.dll</HintPath>
-    </Reference>
-    <Reference Include="ZedGraph, Version=5.1.2.878, Culture=neutral, PublicKeyToken=02a83cbd123fcd60, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Lib\ZedGraph.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -325,6 +283,12 @@
       <DependentUpon>ConnectionStats.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\CustomMessageBox.cs" />
+    <Compile Include="Controls\Firmware_Board.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\Firmware_Board.Designer.cs">
+      <DependentUpon>Firmware_Board.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\FlashMessage.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -411,6 +375,12 @@
     <Compile Include="Controls\RangeControl.Designer.cs">
       <DependentUpon>RangeControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ServoOptions.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ServoOptions.Designer.cs">
+      <DependentUpon>ServoOptions.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ThemeColors.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -432,6 +402,19 @@
     <Compile Include="Controls\ValuesControl.Designer.cs">
       <DependentUpon>ValuesControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Widgets\GraphicsGL.cs" />
+    <Compile Include="Widgets\MessageBox.cs" />
+    <Compile Include="Widgets\MyControl.cs" />
+    <Compile Include="Widgets\PictureBox.cs" />
+    <Compile Include="Widgets\QuickView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Widgets\QuickView.Designer.cs">
+      <DependentUpon>QuickView.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Widgets\QuickView.resx">
+      <DependentUpon>QuickView.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Driver\arduino mega 2560.cat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -445,6 +428,13 @@
       <SubType>Code</SubType>
     </None>
     <None Include="HIL\FlightGear.cs" />
+    <Compile Include="GCSViews\ConfigurationView\ConfigPlannerAdv.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigPlannerAdv.Designer.cs">
+      <DependentUpon>ConfigPlannerAdv.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainV3.cs" />
     <Compile Include="SerialOutputPass.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -822,6 +812,9 @@
     <EmbeddedResource Include="Controls\ConnectionStats.resx">
       <DependentUpon>ConnectionStats.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Firmware_Board.resx">
+      <DependentUpon>Firmware_Board.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\FlashMessage.resx">
       <DependentUpon>FlashMessage.cs</DependentUpon>
     </EmbeddedResource>
@@ -848,6 +841,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ModifyandSet.resx">
       <DependentUpon>ModifyandSet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ServoOptions.resx">
+      <DependentUpon>ServoOptions.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ThemeColors.resx">
       <DependentUpon>ThemeColors.cs</DependentUpon>
@@ -1610,6 +1606,8 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
+    <None Include="Resources\px4.jpg" />
+    <None Include="Resources\x8.png" />
     <None Include="Resources\rover-10.png" />
     <None Include="Resources\rover-11.png" />
     <None Include="Resources\Shutter.png" />
@@ -1635,6 +1633,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Readme.txt" />
+    <None Include="Resources\apm1.jpg" />
+    <None Include="Resources\apm2.5.jpg" />
+    <None Include="Resources\apm2.jpg" />
+    <Content Include="Resources\aw.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\MAVCmd.zh-Hans.txt" />
     <None Include="Resources\MAVParam.txt" />
     <Content Include="Resources\MAVParam.zh-Hans.txt" />
@@ -1711,9 +1715,47 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\Desktop\DIYDrones\avi\AviDemo\AviFile\AviFile.csproj">
+      <Project>{ABB32A29-AF50-47FA-B243-5FD75A5ABA54}</Project>
+      <Name>AviFile</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\Desktop\DIYDrones\CsAssortedWidgets\CsAssortedWidgets\CsAssortedWidgets.csproj">
+      <Project>{3B933839-C505-48D4-A5CE-D9375C88E943}</Project>
+      <Name>CsAssortedWidgets</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\Desktop\DIYDrones\kml-library\Core\Core.csproj">
+      <Project>{59129078-7B12-4198-B93E-0AA08D0BB7ED}</Project>
+      <Name>Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\Desktop\DIYDrones\kml-library\KMLib\KMLib.csproj">
+      <Project>{29976BA4-A04D-4A80-A866-098C879C2FDE}</Project>
+      <Name>KMLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\Desktop\DIYDrones\myquad\greatmaps_e1bb830a18a3\GMap.NET.Core\GMap.NET.Core.csproj">
+      <Project>{D0C39D9D-BED0-418B-9A5E-713176CAF40C}</Project>
+      <Name>GMap.NET.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\Desktop\DIYDrones\myquad\greatmaps_e1bb830a18a3\GMap.NET.WindowsForms\GMap.NET.WindowsForms.csproj">
+      <Project>{E06DEF77-F933-42FB-AFD7-DB2D0D8D6A98}</Project>
+      <Name>GMap.NET.WindowsForms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\Desktop\DIYDrones\myquad\sharpkml\SharpKml\SharpKml.csproj">
+      <Project>{53F12A60-E9CC-44BC-8366-1AE3AB2B547D}</Project>
+      <Name>SharpKml</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\Desktop\DIYDrones\opentk\trunk\Source\GLControl\OpenTK.GLControl.csproj">
+      <Project>{A625BE88-0000-0000-0000-000000000000}</Project>
+      <Name>OpenTK.GLControl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\..\Desktop\DIYDrones\zedgraph\source\ZedGraph.csproj">
+      <Project>{2541686B-1673-43BF-AF89-3163945DB009}</Project>
+      <Name>ZedGraph</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>"$(SolutionDir)version.exe" "$(TargetPath)" &gt; "$(TargetDir)version.txt"</PostBuildEvent>
+    <PostBuildEvent>"$(TargetDir)version.exe" "$(TargetPath)" &gt; "$(TargetDir)version.txt"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>

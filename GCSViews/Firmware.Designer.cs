@@ -52,7 +52,7 @@ namespace ArdupilotMega.GCSViews
         private PictureBox pictureBoxACHHil;
         private ArdupilotMega.Controls.ImageLabel pictureBoxOcta;
         private Label label1;
-        private ArdupilotMega.Controls.ImageLabel pictureBoxOctav;
+        private ArdupilotMega.Controls.ImageLabel pictureBoxOctaQuad;
 
         private void InitializeComponent()
         {
@@ -72,13 +72,14 @@ namespace ArdupilotMega.GCSViews
             this.pictureBoxACHil = new System.Windows.Forms.PictureBox();
             this.pictureBoxACHHil = new System.Windows.Forms.PictureBox();
             this.pictureBoxOcta = new ArdupilotMega.Controls.ImageLabel();
-            this.pictureBoxOctav = new ArdupilotMega.Controls.ImageLabel();
+            this.pictureBoxOctaQuad = new ArdupilotMega.Controls.ImageLabel();
             this.pictureBoxRover = new ArdupilotMega.Controls.ImageLabel();
             this.label1 = new System.Windows.Forms.Label();
             this.CMB_history = new System.Windows.Forms.ComboBox();
             this.CMB_history_label = new System.Windows.Forms.Label();
             this.Custom_firmware_label = new System.Windows.Forms.Label();
             this.lbl_devfw = new System.Windows.Forms.Label();
+            this.lbl_px4io = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxHilimage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAPHil)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxACHil)).BeginInit();
@@ -204,13 +205,13 @@ namespace ArdupilotMega.GCSViews
             this.pictureBoxOcta.TabStop = false;
             this.pictureBoxOcta.Click += new System.EventHandler(this.pictureBoxOcta_Click);
             // 
-            // pictureBoxOctav
+            // pictureBoxOctaQuad
             // 
-            this.pictureBoxOctav.Image = null;
-            resources.ApplyResources(this.pictureBoxOctav, "pictureBoxOctav");
-            this.pictureBoxOctav.Name = "pictureBoxOctav";
-            this.pictureBoxOctav.TabStop = false;
-            this.pictureBoxOctav.Click += new System.EventHandler(this.pictureBoxOctav_Click);
+            this.pictureBoxOctaQuad.Image = null;
+            resources.ApplyResources(this.pictureBoxOctaQuad, "pictureBoxOctaQuad");
+            this.pictureBoxOctaQuad.Name = "pictureBoxOctaQuad";
+            this.pictureBoxOctaQuad.TabStop = false;
+            this.pictureBoxOctaQuad.Click += new System.EventHandler(this.pictureBoxOctav_Click);
             // 
             // pictureBoxRover
             // 
@@ -255,10 +256,18 @@ namespace ArdupilotMega.GCSViews
             this.lbl_devfw.Name = "lbl_devfw";
             this.lbl_devfw.Click += new System.EventHandler(this.lbl_devfw_Click);
             // 
+            // lbl_px4io
+            // 
+            resources.ApplyResources(this.lbl_px4io, "lbl_px4io");
+            this.lbl_px4io.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lbl_px4io.Name = "lbl_px4io";
+            this.lbl_px4io.Click += new System.EventHandler(this.lbl_px4io_Click);
+            // 
             // Firmware
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.lbl_px4io);
             this.Controls.Add(this.lbl_devfw);
             this.Controls.Add(this.Custom_firmware_label);
             this.Controls.Add(this.CMB_history_label);
@@ -273,7 +282,7 @@ namespace ArdupilotMega.GCSViews
             this.Controls.Add(this.pictureBoxACHil);
             this.Controls.Add(this.pictureBoxAPHil);
             this.Controls.Add(this.pictureBoxHilimage);
-            this.Controls.Add(this.pictureBoxOctav);
+            this.Controls.Add(this.pictureBoxOctaQuad);
             this.Controls.Add(this.pictureBoxOcta);
             this.Controls.Add(this.pictureBoxHeli);
             this.Controls.Add(this.pictureBoxY6);
@@ -298,6 +307,7 @@ namespace ArdupilotMega.GCSViews
         private Label CMB_history_label;
         private Label Custom_firmware_label;
         private Label lbl_devfw;
+        private Label lbl_px4io;
 
     }
 }

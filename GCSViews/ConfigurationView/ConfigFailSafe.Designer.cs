@@ -33,18 +33,10 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.lbl_currentmode = new System.Windows.Forms.Label();
+            this.currentStateBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.LNK_wiki = new System.Windows.Forms.LinkLabel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.PNL_thr_fs_value = new System.Windows.Forms.Panel();
-            this.label3 = new System.Windows.Forms.Label();
-            this.lbl_armed = new System.Windows.Forms.Label();
-            this.lbl_gpslock = new System.Windows.Forms.Label();
-            this.PNL_low_bat = new System.Windows.Forms.Panel();
-            this.label4 = new System.Windows.Forms.Label();
-            this.currentStateBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.mavlinkNumericUpDownlow_voltage = new ArdupilotMega.Controls.MavlinkNumericUpDown();
-            this.mavlinkCheckBoxfs_batt_enable = new ArdupilotMega.Controls.MavlinkCheckBox();
             this.mavlinkCheckBoxlong_fs = new ArdupilotMega.Controls.MavlinkCheckBox();
             this.mavlinkCheckBoxshort_fs = new ArdupilotMega.Controls.MavlinkCheckBox();
             this.mavlinkCheckBoxgcs_fs = new ArdupilotMega.Controls.MavlinkCheckBox();
@@ -53,6 +45,14 @@
             this.mavlinkNumericUpDownthr_fs_value = new ArdupilotMega.Controls.MavlinkNumericUpDown();
             this.mavlinkCheckBoxthr_fs = new ArdupilotMega.Controls.MavlinkCheckBox();
             this.mavlinkComboBox_fs_thr_enable = new ArdupilotMega.Controls.MavlinkComboBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.PNL_low_bat = new System.Windows.Forms.Panel();
+            this.label4 = new System.Windows.Forms.Label();
+            this.mavlinkCheckBoxfs_batt_enable = new ArdupilotMega.Controls.MavlinkCheckBox();
+            this.PNL_thr_fs_value = new System.Windows.Forms.Panel();
+            this.label3 = new System.Windows.Forms.Label();
+            this.lbl_armed = new ArdupilotMega.Controls.MyLabel();
+            this.lbl_gpslock = new ArdupilotMega.Controls.MyLabel();
             this.horizontalProgressBar9 = new ArdupilotMega.HorizontalProgressBar();
             this.horizontalProgressBar10 = new ArdupilotMega.HorizontalProgressBar();
             this.horizontalProgressBar11 = new ArdupilotMega.HorizontalProgressBar();
@@ -69,13 +69,13 @@
             this.horizontalProgressBar3 = new ArdupilotMega.HorizontalProgressBar();
             this.horizontalProgressBar2 = new ArdupilotMega.HorizontalProgressBar();
             this.horizontalProgressBar1 = new ArdupilotMega.HorizontalProgressBar();
-            this.groupBox1.SuspendLayout();
-            this.PNL_thr_fs_value.SuspendLayout();
-            this.PNL_low_bat.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.currentStateBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDownlow_voltage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDownfs_thr_value)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDownthr_fs_value)).BeginInit();
+            this.groupBox1.SuspendLayout();
+            this.PNL_low_bat.SuspendLayout();
+            this.PNL_thr_fs_value.SuspendLayout();
             this.SuspendLayout();
             // 
             // label2
@@ -95,6 +95,10 @@
             this.lbl_currentmode.Name = "lbl_currentmode";
             this.lbl_currentmode.TextChanged += new System.EventHandler(this.lbl_currentmode_TextChanged);
             // 
+            // currentStateBindingSource
+            // 
+            this.currentStateBindingSource.DataSource = typeof(ArdupilotMega.CurrentState);
+            // 
             // LNK_wiki
             // 
             resources.ApplyResources(this.LNK_wiki, "LNK_wiki");
@@ -109,64 +113,6 @@
             this.toolTip1.AutoPopDelay = 20000;
             this.toolTip1.InitialDelay = 500;
             this.toolTip1.ReshowDelay = 100;
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.PNL_low_bat);
-            this.groupBox1.Controls.Add(this.mavlinkCheckBoxfs_batt_enable);
-            this.groupBox1.Controls.Add(this.mavlinkCheckBoxlong_fs);
-            this.groupBox1.Controls.Add(this.mavlinkCheckBoxshort_fs);
-            this.groupBox1.Controls.Add(this.mavlinkCheckBoxgcs_fs);
-            this.groupBox1.Controls.Add(this.mavlinkCheckBoxthr_fs_action);
-            this.groupBox1.Controls.Add(this.PNL_thr_fs_value);
-            this.groupBox1.Controls.Add(this.mavlinkCheckBoxthr_fs);
-            this.groupBox1.Controls.Add(this.mavlinkComboBox_fs_thr_enable);
-            resources.ApplyResources(this.groupBox1, "groupBox1");
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.TabStop = false;
-            // 
-            // PNL_thr_fs_value
-            // 
-            this.PNL_thr_fs_value.Controls.Add(this.mavlinkNumericUpDownfs_thr_value);
-            this.PNL_thr_fs_value.Controls.Add(this.mavlinkNumericUpDownthr_fs_value);
-            this.PNL_thr_fs_value.Controls.Add(this.label3);
-            resources.ApplyResources(this.PNL_thr_fs_value, "PNL_thr_fs_value");
-            this.PNL_thr_fs_value.Name = "PNL_thr_fs_value";
-            // 
-            // label3
-            // 
-            resources.ApplyResources(this.label3, "label3");
-            this.label3.Name = "label3";
-            // 
-            // lbl_armed
-            // 
-            this.lbl_armed.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.currentStateBindingSource, "armed", true));
-            resources.ApplyResources(this.lbl_armed, "lbl_armed");
-            this.lbl_armed.Name = "lbl_armed";
-            this.lbl_armed.Paint += new System.Windows.Forms.PaintEventHandler(this.lbl_armed_Paint);
-            // 
-            // lbl_gpslock
-            // 
-            this.lbl_gpslock.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.currentStateBindingSource, "gpsstatus", true));
-            resources.ApplyResources(this.lbl_gpslock, "lbl_gpslock");
-            this.lbl_gpslock.Name = "lbl_gpslock";
-            this.lbl_gpslock.Paint += new System.Windows.Forms.PaintEventHandler(this.lbl_gpslock_Paint);
-            // 
-            // PNL_low_bat
-            // 
-            this.PNL_low_bat.Controls.Add(this.label4);
-            this.PNL_low_bat.Controls.Add(this.mavlinkNumericUpDownlow_voltage);
-            resources.ApplyResources(this.PNL_low_bat, "PNL_low_bat");
-            this.PNL_low_bat.Name = "PNL_low_bat";
-            // 
-            // label4
-            // 
-            resources.ApplyResources(this.label4, "label4");
-            this.label4.Name = "label4";
-            // 
-            // currentStateBindingSource
-            // 
-            this.currentStateBindingSource.DataSource = typeof(ArdupilotMega.CurrentState);
             // 
             // mavlinkNumericUpDownlow_voltage
             // 
@@ -188,16 +134,6 @@
             0,
             0,
             65536});
-            // 
-            // mavlinkCheckBoxfs_batt_enable
-            // 
-            resources.ApplyResources(this.mavlinkCheckBoxfs_batt_enable, "mavlinkCheckBoxfs_batt_enable");
-            this.mavlinkCheckBoxfs_batt_enable.Name = "mavlinkCheckBoxfs_batt_enable";
-            this.mavlinkCheckBoxfs_batt_enable.OffValue = 0F;
-            this.mavlinkCheckBoxfs_batt_enable.OnValue = 1F;
-            this.mavlinkCheckBoxfs_batt_enable.param = null;
-            this.mavlinkCheckBoxfs_batt_enable.ParamName = null;
-            this.mavlinkCheckBoxfs_batt_enable.UseVisualStyleBackColor = true;
             // 
             // mavlinkCheckBoxlong_fs
             // 
@@ -283,6 +219,72 @@
             this.mavlinkComboBox_fs_thr_enable.param = null;
             this.mavlinkComboBox_fs_thr_enable.ParamName = null;
             this.toolTip1.SetToolTip(this.mavlinkComboBox_fs_thr_enable, resources.GetString("mavlinkComboBox_fs_thr_enable.ToolTip"));
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.PNL_low_bat);
+            this.groupBox1.Controls.Add(this.mavlinkCheckBoxfs_batt_enable);
+            this.groupBox1.Controls.Add(this.mavlinkCheckBoxlong_fs);
+            this.groupBox1.Controls.Add(this.mavlinkCheckBoxshort_fs);
+            this.groupBox1.Controls.Add(this.mavlinkCheckBoxgcs_fs);
+            this.groupBox1.Controls.Add(this.mavlinkCheckBoxthr_fs_action);
+            this.groupBox1.Controls.Add(this.PNL_thr_fs_value);
+            this.groupBox1.Controls.Add(this.mavlinkCheckBoxthr_fs);
+            this.groupBox1.Controls.Add(this.mavlinkComboBox_fs_thr_enable);
+            resources.ApplyResources(this.groupBox1, "groupBox1");
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.TabStop = false;
+            // 
+            // PNL_low_bat
+            // 
+            this.PNL_low_bat.Controls.Add(this.label4);
+            this.PNL_low_bat.Controls.Add(this.mavlinkNumericUpDownlow_voltage);
+            resources.ApplyResources(this.PNL_low_bat, "PNL_low_bat");
+            this.PNL_low_bat.Name = "PNL_low_bat";
+            // 
+            // label4
+            // 
+            resources.ApplyResources(this.label4, "label4");
+            this.label4.Name = "label4";
+            // 
+            // mavlinkCheckBoxfs_batt_enable
+            // 
+            resources.ApplyResources(this.mavlinkCheckBoxfs_batt_enable, "mavlinkCheckBoxfs_batt_enable");
+            this.mavlinkCheckBoxfs_batt_enable.Name = "mavlinkCheckBoxfs_batt_enable";
+            this.mavlinkCheckBoxfs_batt_enable.OffValue = 0F;
+            this.mavlinkCheckBoxfs_batt_enable.OnValue = 1F;
+            this.mavlinkCheckBoxfs_batt_enable.param = null;
+            this.mavlinkCheckBoxfs_batt_enable.ParamName = null;
+            this.mavlinkCheckBoxfs_batt_enable.UseVisualStyleBackColor = true;
+            // 
+            // PNL_thr_fs_value
+            // 
+            this.PNL_thr_fs_value.Controls.Add(this.mavlinkNumericUpDownfs_thr_value);
+            this.PNL_thr_fs_value.Controls.Add(this.mavlinkNumericUpDownthr_fs_value);
+            this.PNL_thr_fs_value.Controls.Add(this.label3);
+            resources.ApplyResources(this.PNL_thr_fs_value, "PNL_thr_fs_value");
+            this.PNL_thr_fs_value.Name = "PNL_thr_fs_value";
+            // 
+            // label3
+            // 
+            resources.ApplyResources(this.label3, "label3");
+            this.label3.Name = "label3";
+            // 
+            // lbl_armed
+            // 
+            this.lbl_armed.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.currentStateBindingSource, "armed", true));
+            resources.ApplyResources(this.lbl_armed, "lbl_armed");
+            this.lbl_armed.Name = "lbl_armed";
+            this.lbl_armed.resize = false;
+            this.lbl_armed.Paint += new System.Windows.Forms.PaintEventHandler(this.lbl_armed_Paint);
+            // 
+            // lbl_gpslock
+            // 
+            this.lbl_gpslock.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.currentStateBindingSource, "gpsstatus", true));
+            resources.ApplyResources(this.lbl_gpslock, "lbl_gpslock");
+            this.lbl_gpslock.Name = "lbl_gpslock";
+            this.lbl_gpslock.resize = false;
+            this.lbl_gpslock.Paint += new System.Windows.Forms.PaintEventHandler(this.lbl_gpslock_Paint);
             // 
             // horizontalProgressBar9
             // 
@@ -536,16 +538,16 @@
             this.Controls.Add(this.horizontalProgressBar2);
             this.Controls.Add(this.horizontalProgressBar1);
             this.Name = "ConfigFailSafe";
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            this.PNL_thr_fs_value.ResumeLayout(false);
-            this.PNL_thr_fs_value.PerformLayout();
-            this.PNL_low_bat.ResumeLayout(false);
-            this.PNL_low_bat.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.currentStateBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDownlow_voltage)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDownfs_thr_value)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDownthr_fs_value)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            this.PNL_low_bat.ResumeLayout(false);
+            this.PNL_low_bat.PerformLayout();
+            this.PNL_thr_fs_value.ResumeLayout(false);
+            this.PNL_thr_fs_value.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -583,8 +585,8 @@
         private Controls.MavlinkCheckBox mavlinkCheckBoxthr_fs_action;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label lbl_armed;
-        private System.Windows.Forms.Label lbl_gpslock;
+        private Controls.MyLabel lbl_armed;
+        private Controls.MyLabel lbl_gpslock;
         private System.Windows.Forms.Panel PNL_thr_fs_value;
         private Controls.MavlinkCheckBox mavlinkCheckBoxfs_batt_enable;
         private Controls.MavlinkComboBox mavlinkComboBox_fs_thr_enable;

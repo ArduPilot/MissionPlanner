@@ -491,27 +491,20 @@ namespace ArdupilotMega
         {
             [DisplayText("Manual")]
             MANUAL = 0,
-            [DisplayText("Circle")]
-            CIRCLE = 1,
             [DisplayText("Learning")]
             LEARNING = 2,
-            [DisplayText("FBW A")]
-            FLY_BY_WIRE_A = 5,
-            [DisplayText("FBW B")]
-            FLY_BY_WIRE_B = 6,
+            [DisplayText("Steering")]
+            STEERING = 3,
+            [DisplayText("Hold")]
+            HOLD = 4,
             [DisplayText("Auto")]
             AUTO = 10,
             [DisplayText("RTL")]
             RTL = 11,
-            [DisplayText("Loiter")]
-            LOITER = 12,
             [DisplayText("Guided")]
             GUIDED = 15,
-            HEADALT = 17,
-            SARSEC = 18,
-            SARGRID = 19,
-            THERMAL = 20,
-            LAND = 21
+            [DisplayText("Initialising")]
+            INITIALISING = 16
         }
 
         public enum ac2modes

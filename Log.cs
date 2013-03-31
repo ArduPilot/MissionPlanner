@@ -245,9 +245,12 @@ namespace ArdupilotMega
                             {
                                 try
                                 {
+                                    System.Threading.Thread.Sleep(200);
                                     comPort.Write("\n\n\n\n");
                                 }
                                 catch { }
+
+                                System.Threading.Thread.Sleep(500);
 
                                 comPort.Write("logs\r");
                                 status = serialstatus.Done;

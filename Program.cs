@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading;
 using log4net;
 using log4net.Config;
+using System.Diagnostics;
 
 namespace ArdupilotMega
 {
@@ -33,7 +34,7 @@ namespace ArdupilotMega
 
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 
-            Application.Idle += Application_Idle;
+            //Application.Idle += Application_Idle;
 
             //MagCalib.ProcessLog();
 
@@ -133,6 +134,14 @@ namespace ArdupilotMega
          //   return;
 
 
+         //   using (MainV3 main = new MainV3(1024, 768))
+            {
+          //      main.Title = "Mission Planner";
+          //      main.Run(30.0, 0.0);
+            }
+
+            //return;
+
             if (File.Exists("simple.txt"))
             {
                 Application.Run(new GCSViews.Simple());
@@ -147,7 +156,6 @@ namespace ArdupilotMega
             try
             {
                 Thread.CurrentThread.Name = "Base Thread";
-
                 Application.Run(new MainV2());
             }
             catch (Exception ex)
@@ -169,9 +177,9 @@ namespace ArdupilotMega
 
         static void Application_Idle(object sender, EventArgs e)
         {
-            //System.Threading.Thread.Sleep(10);
-            //Console.Write("Idle\n");
-            if (lastidle.AddMilliseconds(20) < DateTime.Now)
+            //System.Threading.Thread.Sleep(50);
+            Console.Write("Idle\n");
+            if (lastidle.AddMilliseconds(100) < DateTime.Now)
             {
                 Application.DoEvents();
                 lastidle = DateTime.Now;
