@@ -1,0 +1,383 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <ProjectType>Local</ProjectType>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{B46F6C6C-9184-41AF-8F8B-E0084752CA7C}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ApplicationIcon>App.ico</ApplicationIcon>
+    <AssemblyKeyContainerName>
+    </AssemblyKeyContainerName>
+    <AssemblyName>MetaDataExtractor</AssemblyName>
+    <AssemblyOriginatorKeyFile>dontcare.snk</AssemblyOriginatorKeyFile>
+    <DefaultClientScript>JScript</DefaultClientScript>
+    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
+    <DefaultTargetSchema>IE50</DefaultTargetSchema>
+    <DelaySign>false</DelaySign>
+    <OutputType>Library</OutputType>
+    <RootNamespace>MetaDataExtractor</RootNamespace>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <StartupObject>
+    </StartupObject>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <GenerateManifests>false</GenerateManifests>
+    <TargetZone>LocalIntranet</TargetZone>
+    <SignManifests>false</SignManifests>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <SupportUrl>http://renaud91.free.fr/MetaDataExtractor/index.html</SupportUrl>
+    <TargetCulture>en</TargetCulture>
+    <ProductName>MetaDataExtractor</ProductName>
+    <PublisherName>Ferret Renaud</PublisherName>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>2.4.0.0</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>true</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>false</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>full</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <BaseAddress>285212672</BaseAddress>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <ConfigurationOverrideFile>
+    </ConfigurationOverrideFile>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DocumentationFile>
+    </DocumentationFile>
+    <DebugSymbols>false</DebugSymbols>
+    <FileAlignment>4096</FileAlignment>
+    <NoStdLib>false</NoStdLib>
+    <NoWarn>
+    </NoWarn>
+    <Optimize>true</Optimize>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningLevel>4</WarningLevel>
+    <DebugType>none</DebugType>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup />
+  <ItemGroup>
+    <Reference Include="System">
+      <Name>System</Name>
+    </Reference>
+    <Reference Include="System.Data">
+      <Name>System.Data</Name>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml">
+      <Name>System.XML</Name>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App.ico" />
+    <Compile Include="com\drew\imaging\tiff\TiffMetadataReader.cs" />
+    <Compile Include="com\drew\imaging\tiff\TiffProcessingException.cs" />
+    <Content Include="exif.xslt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="sampleFile.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="dontcare.snk" />
+    <None Include="MetadataExtractor.dtd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="MetadataExtractorNew.dtd">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <Compile Include="AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="com\codec\jpeg\JPEGDecodeParam.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="com\codec\jpeg\JPEGHuffmanTable.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="com\codec\jpeg\JPEGQTable.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="com\drew\imaging\jpg\JpegMetadataReader.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="com\drew\imaging\jpg\JpegProcessingException.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="com\drew\imaging\jpg\JpegSegmentData.cs" />
+    <Compile Include="com\drew\imaging\jpg\JpegSegmentReader.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="com\drew\lang\CompoundException.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="com\drew\lang\Rational.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="com\drew\metadata\AbstractDirectory.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="com\drew\metadata\exif\CanonDescriptor.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="com\drew\metadata\exif\CanonDirectory.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="com\drew\metadata\exif\CasioType1Descriptor.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="com\drew\metadata\exif\CasioType1Directory.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="com\drew\metadata\exif\AbstractCasioTypeDirectory.cs" />
+    <Compile Include="com\drew\metadata\exif\CasioType2Descriptor.cs" />
+    <Compile Include="com\drew\metadata\exif\CasioType2Directory.cs" />
+    <Compile Include="com\drew\metadata\exif\SonyDirectory.cs" />
+    <Compile Include="com\drew\metadata\exif\SonyDescriptor.cs" />
+    <Compile Include="com\drew\metadata\exif\PentaxDirectory.cs" />
+    <Compile Include="com\drew\metadata\exif\PentaxDescriptor.cs" />
+    <Compile Include="com\drew\metadata\exif\PanasonicDescriptor.cs" />
+    <Compile Include="com\drew\metadata\exif\PanasonicDirectory.cs" />
+    <Compile Include="com\drew\metadata\exif\KyoceraDirectory.cs" />
+    <Compile Include="com\drew\metadata\exif\KyoceraDescriptor.cs" />
+    <Compile Include="com\drew\metadata\exif\KodakDirectory.cs" />
+    <Compile Include="com\drew\metadata\exif\KodakDescriptor.cs" />
+    <Compile Include="com\drew\metadata\exif\ExifDescriptor.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="com\drew\metadata\exif\ExifDirectory.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="com\drew\metadata\exif\ExifInteropDescriptor.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="com\drew\metadata\exif\ExifInteropDirectory.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="com\drew\metadata\exif\ExifProcessingException.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="com\drew\metadata\exif\ExifReader.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="com\drew\metadata\exif\FujifilmDescriptor.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="com\drew\metadata\exif\FujifilmDirectory.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="com\drew\metadata\exif\GpsDescriptor.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="com\drew\metadata\exif\GpsDirectory.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="com\drew\metadata\exif\NikonType1Descriptor.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="com\drew\metadata\exif\NikonType1Directory.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="com\drew\metadata\exif\NikonType2Descriptor.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="com\drew\metadata\exif\NikonType2Directory.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="com\drew\metadata\exif\AbstractNikonTypeDirectory.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="com\drew\metadata\exif\OlympusDescriptor.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="com\drew\metadata\exif\OlympusDirectory.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="com\drew\metadata\AbstractMetadataReader.cs" />
+    <Compile Include="com\drew\metadata\iptc\IptcDescriptor.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="com\drew\metadata\iptc\IptcDirectory.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="com\drew\metadata\iptc\IptcProcessingException.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="com\drew\metadata\iptc\IptcReader.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="com\drew\metadata\jpeg\JpegCommentDescriptor.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="com\drew\metadata\jpeg\JpegCommentDirectory.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="com\drew\metadata\jpeg\JpegCommentReader.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="com\drew\metadata\jpeg\JpegComponent.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="com\drew\metadata\jpeg\JpegDescriptor.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="com\drew\metadata\jpeg\JpegDirectory.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="com\drew\metadata\jpeg\JpegReader.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="com\drew\metadata\Metadata.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="com\drew\metadata\MetadataException.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="com\drew\metadata\IMetadataReader.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="com\drew\metadata\Tag.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="com\drew\metadata\AbstractTagDescriptor.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="com\Run.cs" />
+    <Compile Include="com\SimpleRun.cs" />
+    <Compile Include="com\test\resouces\TestAllKeyWords.cs" />
+    <Compile Include="com\utils\bundle\AbstractResourceBundle.cs" />
+    <Compile Include="com\utils\bundle\SpecialResourceWriter.cs" />
+    <Compile Include="com\utils\bundle\ResourceBundleFactory.cs" />
+    <Compile Include="com\utils\bundle\IResourceBundle.cs" />
+    <Compile Include="com\utils\bundle\ResourceBundleWithManager.cs" />
+    <Compile Include="com\utils\xml\XmlNewOutPutStreamHandler.cs" />
+    <Compile Include="com\utils\xml\TxtOutPutStreamHandler.cs" />
+    <Compile Include="com\utils\xml\IOutPutTextStreamHandler.cs" />
+    <Compile Include="com\utils\xml\XmlOutPutStreamHandler.cs" />
+    <Compile Include="com\utils\bundle\MissingResourceException.cs" />
+    <Compile Include="com\utils\bundle\ResourceBundle.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="com\utils\Utils.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <None Include="Properties\app.manifest" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.2.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 2.0 %28x86%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.0">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.0 %28x86%29</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="resources\CanonMarkernote.txt" />
+    <EmbeddedResource Include="resources\CasioMarkernote.txt" />
+    <EmbeddedResource Include="resources\Commons.txt" />
+    <EmbeddedResource Include="resources\en\CanonMarkernote.txt" />
+    <EmbeddedResource Include="resources\en\CasioMarkernote.txt" />
+    <EmbeddedResource Include="resources\en\Commons.txt" />
+    <EmbeddedResource Include="resources\en\ExifInteropMarkernote.txt" />
+    <EmbeddedResource Include="resources\en\ExifMarkernote.txt" />
+    <EmbeddedResource Include="resources\en\FujiFilmMarkernote.txt" />
+    <EmbeddedResource Include="resources\en\GpsMarkernote.txt" />
+    <EmbeddedResource Include="resources\en\IptcMarkernote.txt" />
+    <EmbeddedResource Include="resources\en\JpegMarkernote.txt" />
+    <EmbeddedResource Include="resources\en\KodakMarkernote.txt" />
+    <EmbeddedResource Include="resources\en\KyoceraMarkernote.txt" />
+    <EmbeddedResource Include="resources\en\NikonTypeMarkernote.txt" />
+    <EmbeddedResource Include="resources\en\OlympusMarkernote.txt" />
+    <EmbeddedResource Include="resources\en\PanasonicMarkernote.txt" />
+    <EmbeddedResource Include="resources\en\PentaxMarkernote.txt" />
+    <EmbeddedResource Include="resources\en\SonyMarkernote.txt" />
+    <EmbeddedResource Include="resources\ExifInteropMarkernote.txt" />
+    <EmbeddedResource Include="resources\ExifMarkernote.txt" />
+    <EmbeddedResource Include="resources\FujiFilmMarkernote.txt" />
+    <EmbeddedResource Include="resources\GpsMarkernote.txt" />
+    <EmbeddedResource Include="resources\IptcMarkernote.txt" />
+    <EmbeddedResource Include="resources\JpegMarkernote.txt" />
+    <EmbeddedResource Include="resources\KodakMarkernote.txt" />
+    <EmbeddedResource Include="resources\KyoceraMarkernote.txt" />
+    <EmbeddedResource Include="resources\NikonTypeMarkernote.txt" />
+    <EmbeddedResource Include="resources\OlympusMarkernote.txt" />
+    <EmbeddedResource Include="resources\PanasonicMarkernote.txt" />
+    <EmbeddedResource Include="resources\PentaxMarkernote.txt" />
+    <EmbeddedResource Include="resources\SonyMarkernote.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="dll\" />
+    <Folder Include="obj\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

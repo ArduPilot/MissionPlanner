@@ -126,11 +126,6 @@
     <Reference Include="alglibnet2, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="BaseClassesNET">
-      <HintPath>..\..\..\..\..\Downloads\H264EncoderNETSrc\Output\bin\Debug\BaseClassesNET.dll</HintPath>
-    </Reference>
-    <Reference Include="BSE.Windows.Forms">
-    </Reference>
     <Reference Include="DirectShowLib-2005">
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
@@ -1716,39 +1711,47 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\Desktop\DIYDrones\avi\AviDemo\AviFile\AviFile.csproj">
+    <ProjectReference Include="ExtLibs\AviFile\AviFile.csproj">
       <Project>{ABB32A29-AF50-47FA-B243-5FD75A5ABA54}</Project>
       <Name>AviFile</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\Desktop\DIYDrones\CsAssortedWidgets\CsAssortedWidgets\CsAssortedWidgets.csproj">
-      <Project>{3B933839-C505-48D4-A5CE-D9375C88E943}</Project>
-      <Name>CsAssortedWidgets</Name>
+    <ProjectReference Include="ExtLibs\BaseClasses\BaseClasses.csproj">
+      <Project>{2A8E8AF5-74E7-49DB-A42E-9360FA7A6CC4}</Project>
+      <Name>BaseClasses</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\Desktop\DIYDrones\kml-library\Core\Core.csproj">
+    <ProjectReference Include="ExtLibs\BSE.Windows.Forms\BSE.Windows.Forms.csproj">
+      <Project>{9CA367B8-0B98-49D1-84FB-735E612E3BA9}</Project>
+      <Name>BSE.Windows.Forms</Name>
+    </ProjectReference>
+    <ProjectReference Include="ExtLibs\Core\Core.csproj">
       <Project>{59129078-7B12-4198-B93E-0AA08D0BB7ED}</Project>
       <Name>Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\Desktop\DIYDrones\kml-library\KMLib\KMLib.csproj">
-      <Project>{29976BA4-A04D-4A80-A866-098C879C2FDE}</Project>
-      <Name>KMLib</Name>
+    <ProjectReference Include="ExtLibs\CsAssortedWidgets\CsAssortedWidgets.csproj">
+      <Project>{3B933839-C505-48D4-A5CE-D9375C88E943}</Project>
+      <Name>CsAssortedWidgets</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\Desktop\DIYDrones\myquad\greatmaps_e1bb830a18a3\GMap.NET.Core\GMap.NET.Core.csproj">
-      <Project>{D0C39D9D-BED0-418B-9A5E-713176CAF40C}</Project>
-      <Name>GMap.NET.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\Desktop\DIYDrones\myquad\greatmaps_e1bb830a18a3\GMap.NET.WindowsForms\GMap.NET.WindowsForms.csproj">
-      <Project>{E06DEF77-F933-42FB-AFD7-DB2D0D8D6A98}</Project>
-      <Name>GMap.NET.WindowsForms</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\Desktop\DIYDrones\myquad\sharpkml\SharpKml\SharpKml.csproj">
-      <Project>{53F12A60-E9CC-44BC-8366-1AE3AB2B547D}</Project>
-      <Name>SharpKml</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\Desktop\DIYDrones\opentk\trunk\Source\GLControl\OpenTK.GLControl.csproj">
+    <ProjectReference Include="ExtLibs\GLControl\OpenTK.GLControl.csproj">
       <Project>{A625BE88-0000-0000-0000-000000000000}</Project>
       <Name>OpenTK.GLControl</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\Desktop\DIYDrones\zedgraph\source\ZedGraph.csproj">
+    <ProjectReference Include="ExtLibs\GMap.NET.Core\GMap.NET.Core.csproj">
+      <Project>{D0C39D9D-BED0-418B-9A5E-713176CAF40C}</Project>
+      <Name>GMap.NET.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="ExtLibs\GMap.NET.WindowsForms\GMap.NET.WindowsForms.csproj">
+      <Project>{E06DEF77-F933-42FB-AFD7-DB2D0D8D6A98}</Project>
+      <Name>GMap.NET.WindowsForms</Name>
+    </ProjectReference>
+    <ProjectReference Include="ExtLibs\KMLib\KMLib.csproj">
+      <Project>{29976BA4-A04D-4A80-A866-098C879C2FDE}</Project>
+      <Name>KMLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="ExtLibs\SharpKml\SharpKml.csproj">
+      <Project>{53F12A60-E9CC-44BC-8366-1AE3AB2B547D}</Project>
+      <Name>SharpKml</Name>
+    </ProjectReference>
+    <ProjectReference Include="ExtLibs\ZedGraph\ZedGraph.csproj">
       <Project>{2541686B-1673-43BF-AF89-3163945DB009}</Project>
       <Name>ZedGraph</Name>
     </ProjectReference>

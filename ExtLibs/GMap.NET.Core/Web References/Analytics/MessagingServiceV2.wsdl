@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://schemas.preemptive.com/services/messaging" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:s1="http://microsoft.com/wsdl/types/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://schemas.preemptive.com/services/messaging" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://schemas.preemptive.com/services/messaging">
+      <s:import namespace="http://microsoft.com/wsdl/types/" />
+      <s:element name="Publish">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="MessageCache" nillable="true" type="tns:MessageCache" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:complexType name="MessageCache">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="InstanceId" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="ApplicationGroupId" type="s1:guid" />
+          <s:element minOccurs="0" maxOccurs="1" name="Business" type="tns:BusinessInformation" />
+          <s:element minOccurs="1" maxOccurs="1" name="TimeSentUtc" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="ApiLanguage" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="ApiVersion" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s1:guid" />
+          <s:element minOccurs="0" maxOccurs="1" name="Messages" type="tns:ArrayOfMessage" />
+          <s:element minOccurs="1" maxOccurs="1" name="SchemaVersion" type="tns:SchemaVersionValue" />
+          <s:element minOccurs="0" maxOccurs="1" name="Application" type="tns:ApplicationInformation" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="BusinessInformation">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="CompanyName" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="CompanyId" type="s1:guid" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfMessage">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="Message" nillable="true" type="tns:Message" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="Message" abstract="true">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="SessionId" type="s1:guid" />
+          <s:element minOccurs="0" maxOccurs="1" name="Event" type="tns:EventInformation" />
+          <s:element minOccurs="0" maxOccurs="1" name="ExtendedInformation" type="tns:ArrayOfExtendedKey" />
+          <s:element minOccurs="0" maxOccurs="1" name="Binary" type="tns:BinaryInformation" />
+          <s:element minOccurs="1" maxOccurs="1" name="TimeStampUtc" type="s:dateTime" />
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s1:guid" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="EventInformation">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="PrivacySetting" type="tns:PrivacySettings" />
+          <s:element minOccurs="0" maxOccurs="1" name="Code" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="PrivacySettings">
+        <s:restriction base="s:string">
+          <s:enumeration value="SupportOptout" />
+          <s:enumeration value="AlwaysSend" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="ArrayOfExtendedKey">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="ExtendedKey" nillable="true" type="tns:ExtendedKey" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ExtendedKey">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="DataType" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Key" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Value" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="BinaryInformation">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="MethodName" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="ModifiedDate" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="TypeName" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s1:guid" />
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Version" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="SecurityMessage">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:Message">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="AttackOrigin" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="FeatureMessage">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:Message">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="GroupId" type="s1:guid" />
+              <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="SystemProfileMessage">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:Message">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Processors" type="tns:ArrayOfProcessorInformation" />
+              <s:element minOccurs="0" maxOccurs="1" name="LogicalDisks" type="tns:ArrayOfLogicalDiskInformation" />
+              <s:element minOccurs="0" maxOccurs="1" name="Memory" type="tns:MemoryInformation" />
+              <s:element minOccurs="0" maxOccurs="1" name="NetworkAdapters" type="tns:ArrayOfNetworkAdapterInformation" />
+              <s:element minOccurs="0" maxOccurs="1" name="Domain" type="tns:DomainInformation" />
+              <s:element minOccurs="0" maxOccurs="1" name="Manufacturer" type="tns:ManufacturerInformation" />
+              <s:element minOccurs="0" maxOccurs="1" name="TimeZone" type="tns:TimeZoneInformation" />
+              <s:element minOccurs="0" maxOccurs="1" name="PageFiles" type="tns:ArrayOfPageFileInformation" />
+              <s:element minOccurs="0" maxOccurs="1" name="DisplayController" type="tns:DisplayControllerInformation" />
+              <s:element minOccurs="0" maxOccurs="1" name="VideoController" type="tns:VideoControllerInformation" />
+              <s:element minOccurs="0" maxOccurs="1" name="TerminalServices" type="tns:TerminalServicesInformation" />
+              <s:element minOccurs="0" maxOccurs="1" name="SoundCard" type="tns:SoundCardInformation" />
+              <s:element minOccurs="0" maxOccurs="1" name="Modem" type="tns:ModemInformation" />
+              <s:element minOccurs="0" maxOccurs="1" name="PowerState" type="s:string" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="ArrayOfProcessorInformation">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="ProcessorInformation" nillable="true" type="tns:ProcessorInformation" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ProcessorInformation">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="CurrentClockSpeedMhz" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="MaxClockSpeedMhz" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Manufacturer" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="AddressWidth" type="s:short" />
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Id" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfLogicalDiskInformation">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="LogicalDiskInformation" nillable="true" type="tns:LogicalDiskInformation" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="LogicalDiskInformation">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="VolumeSerialNumber" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="VolumeName" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="SizeMb" type="s:long" />
+          <s:element minOccurs="1" maxOccurs="1" name="FreeSpaceMb" type="s:long" />
+          <s:element minOccurs="0" maxOccurs="1" name="FileSystem" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="MemoryInformation">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="TotalPhysicalMemory" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Speed" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="Capacity" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfNetworkAdapterInformation">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="NetworkAdapterInformation" nillable="true" type="tns:NetworkAdapterInformation" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="NetworkAdapterInformation">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="NetworkInterfaceIPAddress" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Speed" type="s:long" />
+          <s:element minOccurs="1" maxOccurs="1" name="MaxSpeed" type="s:long" />
+          <s:element minOccurs="0" maxOccurs="1" name="MACAddress" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="NetConnectionID" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="DHCPEnabled" type="s:boolean" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="DomainInformation">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Domain" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DomainRole" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="PartOfDomain" type="s:boolean" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ManufacturerInformation">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Manufacturer" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Model" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TimeZoneInformation">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="CurrentTimeZone" type="s:short" />
+          <s:element minOccurs="1" maxOccurs="1" name="DaylightSavingsTimeInEffect" type="s:boolean" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ArrayOfPageFileInformation">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="unbounded" name="PageFileInformation" nillable="true" type="tns:PageFileInformation" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="PageFileInformation">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="InitialSize" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="MaxSize" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="DisplayControllerInformation">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="RefreshRate" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="VerticalResolution" type="s:int" />
+          <s:element minOccurs="1" maxOccurs="1" name="HorizontalResolution" type="s:int" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="VideoControllerInformation">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="AdapterRAM" type="s:int" />
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="CurrentNumberOfColors" type="s:long" />
+          <s:element minOccurs="0" maxOccurs="1" name="DriverVersion" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="TerminalServicesInformation">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="AllowTSConnections" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="LicensingName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TerminalServerMode" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="SoundCardInformation">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ProductName" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Manufacturer" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ModemInformation">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Model" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="DeviceType" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="SessionLifeCycle">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:Message" />
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="PerformanceProbeMessage">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:Message">
+            <s:sequence>
+              <s:element minOccurs="1" maxOccurs="1" name="PercentCPUUtilization" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="MemoryMBAvailable" type="s:double" />
+              <s:element minOccurs="1" maxOccurs="1" name="MemoryMBUsedByProcess" type="s:double" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="FaultMessage">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:Message">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="Fault" type="tns:FaultInformation" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="FaultInformation">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="Message" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Code" type="s:long" />
+          <s:element minOccurs="0" maxOccurs="1" name="StackTrace" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="TypeName" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="ApplicationLifeCycle">
+        <s:complexContent mixed="false">
+          <s:extension base="tns:Message">
+            <s:sequence>
+              <s:element minOccurs="0" maxOccurs="1" name="User" type="tns:UserInfo" />
+              <s:element minOccurs="0" maxOccurs="1" name="Host" type="tns:HostInfo" />
+            </s:sequence>
+          </s:extension>
+        </s:complexContent>
+      </s:complexType>
+      <s:complexType name="UserInfo">
+        <s:sequence>
+          <s:element minOccurs="1" maxOccurs="1" name="IsAdministrator" type="s:boolean" />
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="HostInfo">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="RuntimeVersion" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="IPAddress" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="OS" type="tns:OSInformation" />
+        </s:sequence>
+      </s:complexType>
+      <s:complexType name="OSInformation">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="OsProductId" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="OsInstallDate" type="s:dateTime" />
+          <s:element minOccurs="0" maxOccurs="1" name="OsName" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="OsServicePackMajorVersion" type="s:long" />
+          <s:element minOccurs="1" maxOccurs="1" name="OsServicePackMinorVersion" type="s:long" />
+          <s:element minOccurs="0" maxOccurs="1" name="Locale" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="OSLanguage" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="IsVirtualized" type="s:boolean" />
+        </s:sequence>
+      </s:complexType>
+      <s:simpleType name="SchemaVersionValue">
+        <s:restriction base="s:string">
+          <s:enumeration value="01.00.02" />
+          <s:enumeration value="01.00.03" />
+          <s:enumeration value="02.00.00" />
+        </s:restriction>
+      </s:simpleType>
+      <s:complexType name="ApplicationInformation">
+        <s:sequence>
+          <s:element minOccurs="0" maxOccurs="1" name="ApplicationType" type="s:string" />
+          <s:element minOccurs="1" maxOccurs="1" name="Id" type="s1:guid" />
+          <s:element minOccurs="0" maxOccurs="1" name="Name" type="s:string" />
+          <s:element minOccurs="0" maxOccurs="1" name="Version" type="s:string" />
+        </s:sequence>
+      </s:complexType>
+    </s:schema>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://microsoft.com/wsdl/types/">
+      <s:simpleType name="guid">
+        <s:restriction base="s:string">
+          <s:pattern value="[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}" />
+        </s:restriction>
+      </s:simpleType>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="PublishSoapIn">
+    <wsdl:part name="parameters" element="tns:Publish" />
+  </wsdl:message>
+  <wsdl:portType name="MessagingServiceV2Soap">
+    <wsdl:operation name="Publish">
+      <wsdl:input message="tns:PublishSoapIn" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="MessagingServiceV2Soap" type="tns:MessagingServiceV2Soap">
+    <wsdl:documentation>
+      <wsi:Claim conformsTo="http://ws-i.org/profiles/basic/1.1" xmlns:wsi="http://ws-i.org/schemas/conformanceClaim/" />
+    </wsdl:documentation>
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Publish">
+      <soap:operation soapAction="http://schemas.preemptive.com/services/messaging/Publish" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="MessagingServiceV2Soap12" type="tns:MessagingServiceV2Soap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="Publish">
+      <soap12:operation soapAction="http://schemas.preemptive.com/services/messaging/Publish" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="MessagingServiceV2">
+    <wsdl:port name="MessagingServiceV2Soap" binding="tns:MessagingServiceV2Soap">
+      <soap:address location="http://so-s.info/PreEmptive.Web.Services.Messaging/MessagingServiceV2.asmx" />
+    </wsdl:port>
+    <wsdl:port name="MessagingServiceV2Soap12" binding="tns:MessagingServiceV2Soap12">
+      <soap12:address location="http://so-s.info/PreEmptive.Web.Services.Messaging/MessagingServiceV2.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

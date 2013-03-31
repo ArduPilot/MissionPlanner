@@ -1,0 +1,129 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>OpenTK.GLControl</name>
+    </assembly>
+    <members>
+        <member name="T:OpenTK.GLControl">
+            <summary>
+            Defines a UserControl with OpenGL rendering capabilities.
+            </summary>
+        </member>
+        <member name="M:OpenTK.GLControl.#ctor">
+            <summary>
+            Constructs a new GLControl.
+            </summary>
+        </member>
+        <member name="M:OpenTK.GLControl.#ctor(OpenTK.Graphics.GraphicsMode)">
+            <summary>
+            Constructs a new GLControl with the specified GraphicsMode.
+            </summary>
+            <param name="mode">The OpenTK.Graphics.GraphicsMode of the control.</param>
+        </member>
+        <member name="M:OpenTK.GLControl.#ctor(OpenTK.Graphics.GraphicsMode,System.Int32,System.Int32,OpenTK.Graphics.GraphicsContextFlags)">
+            <summary>
+            Constructs a new GLControl with the specified GraphicsMode.
+            </summary>
+            <param name="mode">The OpenTK.Graphics.GraphicsMode of the control.</param>
+            <param name="major">The major version for the OpenGL GraphicsContext.</param>
+            <param name="minor">The minor version for the OpenGL GraphicsContext.</param>
+            <param name="flags">The GraphicsContextFlags for the OpenGL GraphicsContext.</param>
+        </member>
+        <member name="M:OpenTK.GLControl.OnHandleCreated(System.EventArgs)">
+            <summary>Raises the HandleCreated event.</summary>
+            <param name="e">Not used.</param>
+        </member>
+        <member name="M:OpenTK.GLControl.OnHandleDestroyed(System.EventArgs)">
+            <summary>Raises the HandleDestroyed event.</summary>
+            <param name="e">Not used.</param>
+        </member>
+        <member name="M:OpenTK.GLControl.OnPaint(System.Windows.Forms.PaintEventArgs)">
+            <summary>
+            Raises the System.Windows.Forms.Control.Paint event.
+            </summary>
+            <param name="e">A System.Windows.Forms.PaintEventArgs that contains the event data.</param>
+        </member>
+        <member name="M:OpenTK.GLControl.OnResize(System.EventArgs)">
+            <summary>
+            Raises the Resize event.
+            Note: this method may be called before the OpenGL context is ready.
+            Check that IsHandleCreated is true before using any OpenGL methods.
+            </summary>
+            <param name="e">A System.EventArgs that contains the event data.</param>
+        </member>
+        <member name="M:OpenTK.GLControl.OnParentChanged(System.EventArgs)">
+            <summary>
+            Raises the ParentChanged event.
+            </summary>
+            <param name="e">A System.EventArgs that contains the event data.</param>
+        </member>
+        <member name="M:OpenTK.GLControl.SwapBuffers">
+            <summary>
+            Swaps the front and back buffers, presenting the rendered scene to the screen.
+            </summary>
+        </member>
+        <member name="M:OpenTK.GLControl.MakeCurrent">
+            <summary>
+            Makes the underlying this GLControl current in the calling thread.
+            All OpenGL commands issued are hereafter interpreted by this GLControl.
+            </summary>
+        </member>
+        <member name="M:OpenTK.GLControl.GrabScreenshot">
+            <summary>Grabs a screenshot of the frontbuffer contents.</summary>
+            <returns>A System.Drawing.Bitmap, containing the contents of the frontbuffer.</returns>
+            <exception cref="T:OpenTK.Graphics.GraphicsContextException">
+            Occurs when no OpenTK.Graphics.GraphicsContext is current in the calling thread.
+            </exception>
+        </member>
+        <member name="F:OpenTK.GLControl.components">
+            <summary> 
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:OpenTK.GLControl.Dispose(System.Boolean)">
+            <summary> 
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:OpenTK.GLControl.InitializeComponent">
+            <summary> 
+            Required method for Designer support - do not modify 
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="P:OpenTK.GLControl.IsIdle">
+            <summary>
+            Gets a value indicating whether the current thread contains pending system messages.
+            </summary>
+        </member>
+        <member name="P:OpenTK.GLControl.Context">
+            <summary>
+            Gets an interface to the underlying GraphicsContext used by this GLControl.
+            </summary>
+        </member>
+        <member name="P:OpenTK.GLControl.AspectRatio">
+            <summary>
+            Gets the aspect ratio of this GLControl.
+            </summary>
+        </member>
+        <member name="P:OpenTK.GLControl.VSync">
+            <summary>
+            Gets or sets a value indicating whether vsync is active for this GLControl.
+            </summary>
+        </member>
+        <member name="P:OpenTK.GLControl.GraphicsMode">
+            <summary>
+            Gets the GraphicsMode of the GraphicsContext attached to this GLControl.
+            </summary>
+            <remarks>
+            To change the GraphicsMode, you must destroy and recreate the GLControl.
+            </remarks>
+        </member>
+        <member name="P:OpenTK.GLControl.WindowInfo">
+            <summary>
+            Gets the <see cref="T:OpenTK.Platform.IWindowInfo"/> for this instance.
+            </summary>
+        </member>
+    </members>
+</doc>

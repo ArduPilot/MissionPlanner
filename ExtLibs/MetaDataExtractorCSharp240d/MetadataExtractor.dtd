@@ -1,0 +1,21 @@
+<!-- This DTD represent the XML output of MetadataExtractor -->
+
+<!-- metadataExtractor have zero to n file -->
+<!ELEMENT metadataExtractor (file*)>
+<!ATTLIST metadataExtractor nbFile CDATA #REQUIRED>
+
+<!-- file have zero to n directory -->
+<!ELEMENT file (directory*)>
+<!ATTLIST file name CDATA #REQUIRED>
+
+<!-- directory have zero to n tag -->
+<!ELEMENT directory (tag*)>
+<!ATTLIST directory name CDATA #REQUIRED>
+
+<!-- directory have only one tagLabel and tagDescription, but zero or one tagError -->
+<!ELEMENT tag (tagLabel,tagDescription,tagError?)>
+<!ATTLIST tag type CDATA #REQUIRED>
+
+<!ELEMENT tagLabel (#PCDATA)>
+<!ELEMENT tagDescription (#PCDATA)>
+<!ELEMENT tagError (#PCDATA)>

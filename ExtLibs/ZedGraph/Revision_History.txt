@@ -1,0 +1,1199 @@
+== Version 5.1 ==
+
+;02-Dec-2008 (By rjosulli) v5.1.5 Release
+; [FIX] Ensure error bars do not always render with 0 as the lowest value
+
+;16-Feb-2008 (By Champion)
+; [FIX] Fix exeption on null string (by Colin Dabritz)
+; [FIX] Make MakeTitle convert nulls to empty strings (By James Dunkerley)
+
+;30-Dec-2007 (By Champion)
+; [FIX] Fix Cross axis problem for Y2 Axes (thanks to jim (jjs9) for the fix)
+; [FIX] Remove color from Line (it's already in LineBase) for Serialization
+; [FIX] remove arbitrary limit on step size in BarSettings.cs (thanks to James Dunkerley)
+; [FIX] Make Line.cs copy constructor call LineBase copy constructor
+; [FIX] Use fixed width for candlestick legend entries (thanks to brien)
+; [FIX] Use wider width for OHLC legend entries (similar to Candlesticks)
+; [NEW] Add custom CursorValueEvent to ZedGraphControl
+
+;28-Nov-2007 (By Champion) v5.1.4 Release
+: [NEW] Add XDate.CompareTo() method with IComparable interface (thanks to Stefan)
+: [FIX] Copy constructor for CurveItem was missing _color
+: [FIX] PointPairList sort for small values (less than 1e-10)
+: [FIX] DateAsOrdinalScale.SetDateFormat() to handle GraphPane.IsBoundedRanges
+: [NEW] Add Slovak language locale file (thanks to thetamius)
+
+;3-Nov-2007 (By Champion) v5.1.3 Release
+: [UPD] HiLowBarItem is now the same as BarItem except for the Z value (Size & AutoSize are gone)
+: [UPD] BarType.HiLowCluster is no longer needed
+: [UPD] Move IsAntiAlias functionality to MasterPane and propogate properties
+: [UPD] Make clipboard and saveas() methods for ZedGraphControl honor AntiAlias settings for MasterPane
+: [UPD] Change DataSourcePointList public property BindingSource to a BindingSource type (instead of object)
+: [NEW] Add RollingPointPairList.RemoveRange() (thanks to bc)
+
+;25-Oct-2007 (By Champion) v5.1.2 Release
+: [FIX] DataSourcePointList problem with accessing reflection data & name "Item"
+: [FIX] Add protection for DBNull to DataSourcePointList
+: [UPD] Add ZedGraphControl.SaveAs() overload with default name (thanks to Mark Gray)
+: [UPD] Modify FilteredPointList to handle non-equal-spaced data (thanks to ingineer)
+: [ADD] Add ZedGraphControl.CopyEmf to supply Emf format to clipboard
+: [UPD] Use helper class to add Emf output data from ZedGraphControl.SaveAs()
+: [UPD] Fix HiLowBarItem for clustered result
+
+;25-Sep-2007 (By Champion) v5.1.1 Release
+: [FIX] Add CacheItemPriority.NotRemovable to protect temp images from premature removal (thanks to nocnoc)
+: [FIX] Protect MinorStep and MajorStep properties from values below 1e-300 to avoid lockup
+: [UPD] Make DataSourcePointList generate ordinals instead of PointPair.Missing for missing arrays
+: [FIX] Problem with optimized draw for lines -- it can draw incorrectly for data that doubles back on itself
+: [FIX] Make Line.IsOptimizedDraw false by default, and no optimization for curves less than 1000 pts
+: [FIX] DateAsOrdinal axis format option was not set correctly
+: [FIX] DateAsOrdinal.MakeLabel() method needs to use X for XAxis and Y for YAxis
+: [FIX] Have DateScale.PickScale() automatically set Scale.Format even if _majorStepAuto is false.
+: [NEW] Add SymbolType.UserDefined and Symbol.UserSymbol (thanks to Magnus Bernhardsson)
+: [FIX] Fix CreateBarLabels settings for Y2 axis curves (thanks to jakeab)
+: [FIX] FindNearestPoint handles X2 axes correctly
+: [UPD] FindNearestObject is more accurate, and includes X2 axis now
+
+;11-Aug-2007 (By Champion) v5.1.0 Release
+: [FIX] MinAuto/MaxAuto automatically set to false when Min/Max changed in DateAsOrdinal Scale
+: [FIX] GetRange() for IsBoundedRanges ordinal scales
+: [UPD] Make PointPair cloneable
+: [FIX] DateTimeToXLDate(DateTime) missing milliseconds
+: [FIX] GasGaugeRegion range was implicitly assumed to start at zero.  Fixed so it can start at any value.
+: [FIX] GasGaugeNeedle range was implicitly assumed to start at zero.  Fixed so it can start at any value.
+: [FIX] PieItem serialization was saving the _slicePath, which is not serializable.
+: [UPD] Split ZedGraphControl into partial classes for smaller files
+: [FIX] Protect Transform() from divide by zero errors
+: [UPD] Fix ScrollDoneEvent and ScrollProgressEvent to include all scroll actions
+: [NEW] Add ScrollEvent to pass-thru horizontal and vertical Scroll events
+: [NEW] Add Legend.IsShowLegendSymbols option (thanks to mfunduc)
+: [UPD] Add speed optimization to LineItem draw by culling duplicate points (thanks to Dale-a-b)
+: [UPD] Add speed optimization to Symbol draw by culling duplicate points (thanks to Dale-a-b)
+: [NEW] Add Line.IsOptimizedDraw to disable optimizations for highly discontinuous datasets
+
+== Version 5 ==
+
+;16-Jun-2007 (By Champion) v5.0.10 Release
+: [FIX] Symbols not shown on ordinal scales due to optimization
+: [UPD] Fix Spanish locale for print commands (thanks to URE)
+: [FIX] Disable zoom when difference is below a zoom limit resolution
+: [FIX] AxisRangesValid() check for min >= max
+: [FIX] optimizing of points outside chartrect now checks for four quadrants
+: [NEW] Add ForwardSegment and RearwardSegment StepType's
+: [FIX] XDate constructor from DateTime needed to include milliseconds (thanks Jeffrey Crossman)
+
+;1-Jun-2007 (By Champion) v5.0.9 release
+: [FIX] Handle null reference in CurveItem comparer for sortedoverlay bars
+: [NEW] Add Chinese Locale (thanks to Daniel Leonard)
+: [NEW] Add starting angle and rotation direction for RadarPointList (thanks to jongalloway)
+: [UPD] Make pick scale try to center flatlined data according to rules
+: [NEW] Add Russian Local (thanks to Alexander Gorbylev)
+: [UPD] Rename GasGuageNeedle class to GasGaugeNeedle, and rename both GasGauge cs files
+: [NEW] Add AxisChangeEvent
+: [UPD] Draw minor and major grid at the same zorder (behind the curves), and add a new ZOrder level
+: [FIX] CalcRect setup problem -- use Scale.Linearize instead of _minLinTemp in any Cross calculations
+: [NEW] Add parameterless AxisChange() that uses default Graphics Hwnd (thanks to Ryan Binns)
+
+;3-Apr-2007 (By Champion) V5.0.8 Dev Release
+: [NEW] Add X2 Axis functionality (Cross property still needs some work)
+: [UPD] Update French Locale (thanks to wick95)
+: [FIX] Change WebControl inheritance to regular Control instead of UserControl (thanks Stefan Wiggershaus)
+
+;16-Mar-2007 (by Champion) V5.0.7 Release
+: [FIX] Serialization call to base.GetObjectData( info, context ) for derived classes
+: [FIX] Locale issue for 4.5.X (resource name needs to include folder "ZedGraph_v5")
+: [FIX] Border default problem for webcontrol fontspecs
+: [UPD] Add ZedGraphWeb instance as parameter to OnRenderGraph
+: [NEW] Add Turkish locale (thanks to Olcay Seker)
+
+;10-Mar-2007 (by Champion) V5.0.6 Release
+: [FIX] Problem with GraphPane.Clone() for null title text
+: [UPD] Place Grid behind curves, leaving Axis & tics in front of curves
+: [UPD] Honor multiline curve labels in legend (per suggestion from Olaf Krumnow
+: [NEW] Added TmpImageDuration logic to web control to handle simultaneous user image files (Pavel Mazac)
+
+;26-Feb-2007 (by Champion)
+: [FIX] make datescale handle milliseconds, add DateUnit.Millisecond
+
+;18-Feb-2007 (by Champion)
+: [NEW] add PointPairCV class with mapped color value property
+: [FIX] fix chart rect bounding so it doesn't clip lines that cross the chart edge boundary
+: [UPD] make ZedGraphWeb.MakeImageMap() public
+
+;17-Feb-2007 (by Champion)
+: [UPD] Change draw order to put curves behind axes
+
+;6-Feb-2007 (by Champion)
+: [NEW] Add PointPairBase
+: [FIX] Make ColorValue property virtual/override in PointPair/StockPt
+: [FIX] add Cursor.Default else clause to SetCursor() in ZedGraphControl
+
+;29-Jan-2007 (by Champion)
+: [UPD] Make OHLCBar use integers for pixBase for more consistent appearance
+: [FIX] Proper implementation of LineBase in OHLCBar and JapaneseCandleStick
+: [NEW] Add ZedGraphControl.ScrollGrace to manage "grace" for IsAutoScrollRange
+
+;20-Jan-2007 (by Champion)
+: [NEW] Add in selection logic to ZedGraphControl based on code from JCarpenter
+: [UPD] Make ZedGraphControl.IsPrintScaleAll public
+: [NEW] Add LineBase class, giving common attributes to Line, LineObj, ArrowObj, and Border classes
+: [NEW] Add GradientByColorValue capacity
+: [FIX] fix tw locale file (thanks to Zak Fong)
+: [NEW] Add ZedGraphControl.SaveFileDialog property to allow user mods to dialog setup
+: [UPD] Rename CandleStick to OHLCBar
+: [UPD] Add Emf format capability to "Save As" context menu (STILL NEEDS WORK)
+: [UPD] Modify RollingPointPairList to improve memory efficiency
+: [UPD] Move order of Chart border draw
+
+;4-Jan-2007 (by Champion)
+: [NEW] Added Legend.IsReverse property to reverse order of legend items (thanks blumenstock)
+: [UPD] Get rid of web control border with BORDER=0 tag (thanks blumenstock)
+: [UPD] Add Tag to the url in ImageMap if it is a string type.
+
+;28-Dec-2006 (by Champion)
+: [NEW] Add GasGaugeRegion, GasGaugeNeedle classes (thanks Jay Mistry)
+: [UPD] Some speed optimizations in DrawSymbol and DrawCurve
+: [FIX] Fix Pie chart image map calculations
+: [UPD] Make DataSourcePointList handle null input --> PointPair.Missing
+
+;12-Dec-2006 (by Champion)
+: [UPD] Make Link.MakeCurveItemURL virtual
+
+;25-Nov-2006 (by Champion)
+: [NEW] Add IsClosedFigure property to PolyObj
+: [FIX] Switch back to redrawing the graph after a GetImage() to restore states
+: [FIX] Remove MaxBound & MinBound properties from FilteredPointList
+
+;21-Nov-2006 (by Champion) (release 5.0.4)
+: [NEW] Add CreateBarLabels overload that controls more font options
+: [NEW] Add option to color sticks in JapaneseCandleStick for rise vs fall (thanks i4xcoder)
+: [UPD] Many FontSpec's now have set properties, but not allowed to be null (thanks okrumnow)
+: [NEW] Add AlignH property to Scale (thanks to i4xcoder)
+: [NEW] Add DashOn and DashOff properties to Line to support DashStyle.Custom
+
+;11-Nov-2006 (by Champion)
+: [NEW] Add ZedGraphControl.IsAntiAlias property as a master override
+: [UPD] Add try/catch pairs around print operations
+: [FIX] Call AxisChange() when mousewheel zoom happens
+: [UPD] Change ZedGraphWeb to a UserControl instead of Control
+: [FIX] Fix CreateBarLabels() to work if there are non-bars present
+
+;28-Oct-2006 (by Champion)
+: [FIX] Make PaneBase.GetImage() save Chart.Rect so coords aren't messed up
+: [FIX] Make FontSpec.IsAntiAlias use g.TextRenderingHint = TextRenderingHint.AntiAlias (thanks to floreseken)
+
+;23-Oct-2006 (by Champion)
+: [UPD] Add clipping to boxObj's so wild coordinates don't cull them
+: [FIX] don't rely on PointPairList points for PieItem image map
+
+;18-Oct-2006 (by Champion)
+: [UPD] add using constructs for most temporary Pen, Brush, GraphicsPath instances
+: [NEW] add hungarian language locale file (thanks to cocinerox)
+: [FIX] use ppd.Show(this) to avoid sending print preview to background (thanks to Alexander Sosedkin)
+: [FIX] use tmpFont.StringAlignment = StringAlignment.Near for legend labels to fix X position
+
+;26-Sep-2006 (by Champion)
+: [FIX] don't call Scale.SetRange() until all curves are processed in CurveList.GetRange()
+
+;24-Sep-2006 (by Champion)
+: [FIX] draw chart border before axes so it does not cover the axis
+: [UPD] Add zedgraph signing to ZedGraph.Web dll
+: [NEW] Add tw language locale file (thanks to zakfong)
+: [FIX] For stacked lines, don't allow first curve to fill negative values back up to zero line
+
+;8-Sep-2006 (by Champion) (version 5.0.2)
+: [FIX] Predefine _clusterScaleWidth=1.0, then calculate it after picking scales to avoid invalid value issues
+: [UPD] Change Scale.Format documentation to reflect usage as Date and Numeric format modes
+: [UPD] Use doubles for location data in GraphObj constructors instead of floats
+: [UPD] Add the missing PieItem.Fill public property
+
+;22-Aug-2006 (by Champion)
+: [FIX] Repair index problem in RadarPointList indexer property
+: [UPD] Make Log scales honor step sizes other than 1
+: [UPD] Make GetRange() and ValueHandler (for stacks) honor the IsVisible property for curves
+
+;7-Aug-2006 (by Champion)
+: [NEW] Add linear regression to PointPairList (from Brian Chappell)
+: [UPD] Increase max value in CalcNumTics from 500 to 1000
+
+;5-Aug-2006 (by Champion)
+: [FIX] fix the minauto/maxauto problem for date scales.
+: [FIX] LinearAsOrdinal and DateAsOrdinal display values for ZedGraphControl
+: [FIX] Change tension value in SplineInterpolateX() to be consistent with GDI+
+
+;28-Jul-2006 (by Champion)
+: [UPD] Enable cache for ImageMap=true
+: [UPD] Change prototype of FindNearestPoint to make the overloads non-ambiguous for VB
+: [NEW] Add ZedGraphControl.DoubleClickEvent
+: [UPD] Add DefaultValue attributes for ZedGraphControl properties
+: [NEW] Add Portugese language translation file (thanks to andredav)
+
+;21-Jul-2006 (by Champion)
+: [UPD] Move Graph_PrintPage handler to PrintDocument property definition
+: [NEW] Add PointEditEvent
+: [FIX] When Link.Url is blank, don't do any launching and leave out href
+: [NEW] Add Italian translation (thanks to Ivo Muccioli)
+
+;13-Jul-2006 (by Champion) (version 5.0.1)
+: [FIX] Fix FilteredPointList to handle wide bound range
+: [FIX] Fix hard-wired majorunit in GetUnitMultiple()
+: [NEW] Add xtext and ytext parameters to Link Url's
+: [FIX] Show Point Values for CandleStick and JapaneseCandleStick items
+
+;1-Jul-2006 (by Champion)
+: [FIX] Add Graphics parameter to MasterPane.SetLayout(), and make SetLayout() always call DoLayout().
+: [FIX] BarItem.CreateBarLabels for negative bars
+: [FIX] use minortic color for minor tics (fix contributed by Steve Skillcorn)
+: [FIX] Add case option for wheel zoom, so unzoom context menu item does not disappear
+: [FIX] Fix Pie labels for types that include percent
+
+;23-Jun-2006 (by Champion) V5_BRANCH (version 5.0)
+: [FIX] Minor correction to NoDupePointList FilterData() method
+
+;22-Jun-2006 (by Champion) V5_BRANCH
+: [FIX] Make sure axischange is called for all axes that are sync'd
+: [FIX] Provide default value for ClusterScaleWidth()
+: [FIX] Default basetic for ordinals is always 1
+: [UPD] Add back in the GraphObjList.Move and CurveList.Move methods (lost with generics)
+
+;19-Jun-2006 (by Champion) V5_BRANCH (dev release 4.9.8)
+: [FIX] Compromise solution on RestoreScale with syncro active
+: [FIX] Add tags back in for ContextMenuStrip with generic names
+
+;17-Jun-2006 (by Champion) V5_BRANCH
+: [UPD] Add Japanese Language Locale - thanks to Yuichi Yasuda
+: [FIX] Move ScaleFormatEvent to Axis class, stub down to Scale
+: [FIX] Move PaneList.Count check in DoLayout for columns to protect for odd configurations - thanks to Brian Chappell
+: [FIX] CurveItem.cs: public Axis GetYAxis() had Y2 instead of Y
+: [UPD] Move ScaleFormatEventHandler from Scale to Axis, add MakeLabelEventWorks() method
+: [UPD] use "using" statements for short-term IDisposable objects (thanks to Adam Hughes)
+: [FIX] use threaded version of image copy to avoid MTA crash - per Dave Moor
+
+;17-May-2006 (by Champion) V5_BRANCH
+: [ADD] NoDupePointList
+
+;15-May-2006 (by Champion) V5_BRANCH (dev release v4.9.7)
+: [FIX] Protect Stick plot from GDI+ overflow
+: [ADD] Add ZedGraphControl.IsScrolling
+: [UPD] Remake projects to fix conflict/in-use problem
+: [FIX] Add '#' to map name for image maps
+: [UPD] Use integral widths for JapaneseCandleSticks, CandleSticks, and HiLowBars
+
+;14-May-2006 (by Champion) V5_BRANCH
+: [FIX] Make JapaneseCandleSticks always show at lease a line for the bar if open=close
+: [UPD] Add StockPointList.GetAt() method to retrieve the actual StockPt, rather than the PointPair
+: [UPD] make JapaneseCandleStick width a rounded integral value after scaling to avoid artifacts
+: [FIX] Fix the IsMaximumWidth logic for HiLow bars again.
+: [UPD] Add more descriptions to web control
+: [FIX] CalcClusterScaleWidth() needs to use _minLinearized and _maxLinearized
+
+;12-May-2006 (by Champion) V5_BRANCH
+: [FIX] FindNearestObject() -- Rect calculations were wrong for Y2 Axis (thanks fugacityepro)
+: [NEW] Add GraphPane.IsAlignGrids to line up number of major steps across Y/Y2 axes
+: [UPD] Add Page Setup and Print translations for German locale (thanks to Sean Goldin)
+: [UPD] Turn off GraphPane.IsBoundedRanges by default
+: [FIX] Get rid of CopyTo() methods for value types in ZedGraphWeb control
+: [UPD] Remove some properties from webcontrol, add MinorTic, MajorTic, Scale to organize
+: [UPD] Add descriptions for many web props
+: [UPD] Fix masterpane margin issues for webcontrol
+: [UPD] AxisChanged = true by default for web control
+
+;10-May-2006 (by Champion) V5_BRANCH (dev release 4.9.6)
+: [UPD] Make Location class use doubles to accommodate required precision for date coords
+: [UPD] Modify Matrix transform code for FontSpec to be generic
+: [FIX] Make HiLowBar use size property for width
+: [NEW] Add YAxisList.Add(string) method to create and add a new YAxis (ditto for Y2Axis)
+: [NEW] Add Link constructor
+: [NEW] Add PointD struct for PolyObj point list as doubles
+
+;3-May-2006 (by Champion) V5_BRANCH
+: [FIX] Protect from exception if yAxisIndex >= yAxisList.Count
+: [FIX] Fix up Coordinate Transforms for ImageMap
+: [UPD] Make LinkEvent a bool
+: [UPD] Make ZedGraphControl launch browser
+
+;3-May-2006 (by Champion) V5_BRANCH
+: [FIX] Web Control - make IsPreventLabelOverlap = true by default
+: [FIX] Web Control - don't call SetupForMinorGridDefaults since it messes up major grid/tics
+
+;1-May-2006 (by Champion) V5_BRANCH (dev release 4.9.5)
+: [FIX] Initialize GraphPane._zoomStack in Deserialization
+
+;29-Apr-2006 (by Champion) V5_BRANCH
+: [FIX] render line separate from fill for filled curves so that isIgnoreMissing is not implied.
+
+;26-Apr-2006 (by Champion) V5_BRANCH
+: [NEW] Add ZedGraphWeb.IsImageMap property
+: [NEW] Add Link Class, and property in GraphObj and CurveItem
+: [NEW] Add Image mapping to ZedGraphWeb
+: [NEW] Add ZedGraphControl.LinkEvent
+
+;24-Apr-2006 (by Champion) V5_BRANCH (prelim 4.9.4)
+: [FIX] Fix ValueHandler to return PointPair.Missing if any part of stack is missing
+: [FIX] Fix CurveList.GetStackRange() to ignore missing values
+: [FIX] Fix Line.BuildPointsArray and Line.BuildLowPointsArray to skip missing
+
+;23-Apr-2006 (by Champion) V5_BRANCH
+: [NEW] Add CreateBarLabels as a static function in BarItem
+: [FIX] Fix MinorGrid.PenWidth property self-reference
+: [UPD] Add ReSize() call to web control to handle layouts
+
+;21-Apr-2006 (by Champion) V5_BRANCH (prelim release 4.9.3)
+: [FIX] internal usage of public properties (Scale.MinorStep, etc.) caused Auto mode to switch off
+: [UPD] Add try/catch pair around the ZedGraphControl.OnPaint() method call to Draw()
+: [UPD] If CurveItem.IsOverrideOrdinal=true, then use data values instead of ordinal count
+: [FIX] Hittest for point values when lines or bars are stacked
+
+;18-Apr-2006 (by Champion) V5_BRANCH (prelim release 4.9.2)
+: [FIX] Fix point in polyObj test
+: [FIX] Fix interpolate logic for line items (when zoomed way in)
+
+;15-Apr-2006 (by Champion) V5_BRANCH
+: [NEW] Add GapLabel class that includes a Gap for the Axis.Title and PaneBase.Title
+: [NEW] Add Axis.LabelGap property
+: [NEW] Add Legend.Gap property
+
+;13-Apr-2006 (by Champion) V5_BRANCH
+: [UPD] Work in logic for undo states with Synchronized Axes
+: [UPD] Break out ZoomStates classes to separate files
+
+;11-Apr-2006 (by Softlion) V5_BRANCH
+: [UPD] Major update to Web control to integrate with V5 class library changes
+: [UPD] Split out web control to ZedGraph.Web namespace
+: ???
+ 
+;10-Apr-2006 (by Champion) V5_BRANCH
+: [NEW] Add Fill.SecondaryValueGradientColor to allow gradient results from gradient-by-value fills
+: [UPD] Fill background of legend for LineItems with the LineItem.Line.Fill color
+: [NEW] Add ZedGraphControl.IsSynchronizeXAxes, IsSynchronizeYAxes for multi-pane scroll/pan/zoom
+
+;6-Apr-2006 (by Champion) V5_BRANCH
+: [NEW] Add RollingPointPairList (by Colin Green)
+: [UPD] Make pan/zoom/etc used linearized axis equivalents so non-linear scales work consistently
+
+;31-Mar-2006 (by Champion) V5_BRANCH
+: [UPD] Major code refactoring to prepare for version 5
+: [UPD] Change all to .Net 2.0
+: [UPD] Rename All GraphItem-derived objects to GraphObj's (ArrowObj, ImageObj, etc.)
+: [NEW] Add Chart object to replace AxisRect
+: [NEW] Add MinorTic & MajorTic objects
+: [NEW] Add MinorGrid & MajorGrid objects
+: [UPD] Change MasterPane.AutoPaneLayout to SetLayout() -- re-layout done automatically at resize time
+: [NEW] Add GraphPane.BarSettings
+: [UPD] Change PaneBase.Image to PaneBase.GetImage, ScaleImage to GetImage also
+: [NEW] Add CandleStickItem and JapaneseCandleStickItem
+: [NEW] Add StockPt and StockPointList
+: [NEW] Change all collections to generics
+: [FIX] Fix owner reference for Scale and BarSettings class, ICloneable no longer supported
+: [NEW] Add MasterPane.IsCommonScaleFactor
+: [NEW] Add BarSettings.ClusterScaleWidthAuto
+: [FIX] Fix MouseEvents by hiding parent control MouseUp, MouseDown, MouseMove
+: [NEW] Change menu to contextMenuStrip
+: [NEW] Add IsAntiAlias switch to FontSpec, Symbol, and Line classes
+: [NEW] Add Label and AxisLabel classes -> GraphPane.Title, Axis.Title
+: [UPD] Update FilteredPointList to handle high-low logic
+: [NEW] Add Margin object
+: [NEW] Add ScrollFinishedEvent to ZedGraphControl
+: [NEW] Add LineObj (arrowless line segment)
+: [FIX] CloseFigure on PolyObj
+: [NEW] Add DataSourcePointList with data binding
+: [NEW] Add designer attributes for ZedGraphControl
+
+== Version 4.5 ==
+
+;10-Mar-2007 (by Champion) v4.5.6
+: [UPD] This version is a .net 1.1 mirror of v 5.0.6
+: [UPD] The files are identical, except for the collection classes
+
+;18-Feb-2007 (by Champion)  v4.5.2
+: [UPD] Copy over mods from V5.0.5
+: [NEW] Add PointPairBase
+: [FIX] Make ColorValue property virtual/override in PointPair/StockPt
+: [FIX] add Cursor.Default else clause to SetCursor() in ZedGraphControl
+: [UPD] Make OHLCBar use integers for pixBase for more consistent appearance
+: [FIX] Proper implementation of LineBase in OHLCBar and JapaneseCandleStick
+: [NEW] Add ZedGraphControl.ScrollGrace to manage "grace" for IsAutoScrollRange
+: [NEW] Add in selection logic to ZedGraphControl based on code from JCarpenter
+: [UPD] Make ZedGraphControl.IsPrintScaleAll public
+: [NEW] Add LineBase class, giving common attributes to Line, LineObj, ArrowObj, and Border classes
+: [NEW] Add GradientByColorValue capacity
+: [FIX] fix tw locale file (thanks to Zak Fong)
+: [NEW] Add ZedGraphControl.SaveFileDialog property to allow user mods to dialog setup
+: [UPD] Rename CandleStick to OHLCBar
+: [UPD] Add Emf format capability to "Save As" context menu (STILL NEEDS WORK)
+: [UPD] Modify RollingPointPairList to improve memory efficiency
+: [UPD] Move order of Chart border draw
+: [NEW] Added Legend.IsReverse property to reverse order of legend items (thanks blumenstock)
+: [UPD] Get rid of web control border with BORDER=0 tag (thanks blumenstock)
+: [UPD] Add Tag to the url in ImageMap if it is a string type.
+: [NEW] Add GasGaugeRegion, GasGaugeNeedle classes (thanks Jay Mistry)
+: [UPD] Some speed optimizations in DrawSymbol and DrawCurve
+: [FIX] Fix Pie chart image map calculations
+: [UPD] Make DataSourcePointList handle null input --> PointPair.Missing
+: [UPD] Make Link.MakeCurveItemURL virtual
+: [NEW] Add IsClosedFigure property to PolyObj
+: [FIX] Switch back to redrawing the graph after a GetImage() to restore states
+: [FIX] Remove MaxBound & MinBound properties from FilteredPointList
+: [UPD] Move order of Chart border draw
+
+;19-Jan-2007 (by Champion) release version 4.5.1
+: [UPD] Add in Web Control
+
+;28-Dec-2006 (by Champion) release version 4.5.0
+: [UPD] Major Update! Backported version 5.0.4 to .Net 1.1
+:       Limitation: No ZedGraphControl.ScrollDoneEvent
+:       Limitation: No Web Control
+
+== Version 4.3 ==
+
+;1-May-2006 (by Champion)
+: [FIX] Initialize GraphPane._zoomStack in Deserialization
+
+;25-Apr-2006 (by Champion) Release version 4.3.6
+: [FIX] Fix ValueHandler to return PointPair.Missing if any part of stack is missing
+: [FIX] Fix CurveList.GetStackRange() to ignore missing values
+: [FIX] Fix Line.BuildPointsArray and Line.BuildLowPointsArray to skip missing
+
+;21-Apr-2006 (by Champion) Release version 4.3.5
+: [FIX] references to public properties from internal calcs caused auto modes to switch off
+: [FIX] CloseFigure on PolyItem
+: [FIX] PointInBox calcs for PolyItem
+: [UPD] add try/catch pair around ZedGraphControl OnPaint() call to Draw()
+: [FIX] Fix interpolate logic for line items (when zoomed way in)
+
+;31-Mar-2006 (by Champion)
+: [UPD] Release Version 4.3.4
+
+;25-Mar-2006 (by Champion)
+: [FIX] Millisecond issue with DateTime
+: [FIX] Check for sub-zero index on LinearAsOrdinal and DateAsOrdinal MakeLabel()
+: [NEW] Add CommonScaleFactor to MasterPane
+
+;25-Mar-2006 (by Champion)
+: [FIX] Millisecond issue with DateTime
+: [FIX] Check for sub-zero index on LinearAsOrdinal and DateAsOrdinal MakeLabel()
+: [NEW] Add CommonScaleFactor to MasterPane
+
+;17-Mar-2006 (by Champion)
+: [UPD] Release Version 4.3.3
+
+;16-Mar-2006 (by Champion)
+: [NEW] SamplePointList and RadarPointList IPointList types
+: [UPD] Make IPointListEdit have a set method for the indexer
+: [UPD] Hide the ZedGraphControl MouseMove, MouseUp, MouseDown events to avoid confusion
+: [UPD] Use only one delegate for Mouse events
+: [NEW] Add Axis.IsSkipCrossLabel and Axis.IsTitleAtCross
+; [NEW] Add ReverseTransform overload that selects a single Y axis
+
+;14-Mar-2006 (by Champion)
+: [FIX] use IsAnyOrdinal in Axis.GetClusterWidth() for ClusterScaleWidth value
+
+;13-Mar-2006 (Release Version 4.3.2) (by Champion)
+: [UPD] Upload release version
+
+;9-Mar-2006 (by Champion)
+:[NEW] Add default PaneLayout.SquareColPreferred overload to AutoPaneLayout
+:[UPD] Resize original pane in panebase.scaledimage to correctly handle masterpanes
+
+;8-Mar-2006 (Dev version 4.3.1) (by Champion)
+:[UPD] Add proportion term to MasterPane.AutoPaneLayout to allow variable widths/heights
+:[FIX] Fix millisecond treatment in XDate to avoid DateTime exception throwing
+
+;6-Mar-2006 (by Champion)
+:[UPD] Add menuitem stringID strings to tags for consistent ID -- NOTE: ONLY WORKS W/2005 -- Add in later
+:[UPD] Experiment with interpolation for points way out of bounds
+:[FIX] Fix problem with ScaleMagAuto using tiny min value in preference to max value
+
+;3-Mar-2006 (Release Version 4.3) (by Champion)
+:[FIX] Fix IsBoundedRange implementation
+:[FIX] Place Axis.CrossAuto copy after Axis.Cross copy in ZedGraphWebData to avoid auto-set to false
+
+;18-Feb-2006 (by Champion)
+:[FIX] Protect minorgrid from dash=0 in Axis.cs
+:[FIX] problem with copy constructor on textlabels
+:[NEW] Add ZedGraphControl.IsShowCopyMessage
+
+;13-Feb-2006 (by Champion)
+:[FIX] Add Scale.Clone to Axis.Clone
+:[UPD] Make Scale and Axis class abstract cloneable, add typesafe Clone() methods
+
+;11-Feb-2006 (by Champion)
+:[NEW] Add ScaleLabelEvent for Scale label formatting
+
+;8-Feb-2006 (by Champion)
+:[FIX] Fix serialization code to handle Scale & Axis properly
+:[FIX] Make serialization always output a PointPairList, no matter what type IPointList it had
+
+;7-Feb-2006 (by Champion)
+:[UPD] Add bounds checking for Min/Max on Date Scales
+:[UPD] Add bounds checking for XDate.ToString()
+:[UPD] MouseWheel actions now trigger a ZoomEvent
+:[NEW] Add Print and PageSetup options to ZedGraphControl
+
+;2-Feb-2006 (by Champion)
+:[FIX] ErrorBar was not honoring ordinal type axes
+:[NEW] Add IPointListEdit interface, and enable the CurveItem.AddPoint(), RemovePoint(), and Clear().
+
+;24-Jan-2006 (by Champion)
+:[FIX] Turn on double buffer for control (inadvertantly disabled)
+:[NEW] Add ScrollEvent, and Add ZoomStates for scrolls
+:[UPD] Change MouseEventHandler delegates to pass ZedGraphControl type instead of object
+:[FIX] Handle bar low value for log scales properly (use Min instead of zero in ValueHandler)
+:[FIX] Bound zoom rect to AxisRect
+
+;12-Jan-2006 (by Champion)
+:[NEW] Add ZedGraphControl.ZoomPane()
+
+;7-Jan-2006 (by Champion)
+:[UPD] Exclude points from GetRange() that are <= 0 for log scales
+:[FIX] Make Fill.IsVisible retain original FillType when set to true
+
+;26-Dec-2005 (by Champion)
+:[UPD] Add Scale class and one subtype for each AxisType
+:[FIX] CalcNumTics was whacked for MajorUnit of Hours, Minutes, or Seconds
+:[UPD] Improve XDate to work with fractional seconds and/or milliseconds
+
+;21-Dec-2005 (by Champion)
+:[FIX] panebase draws fill even if PaneFill.IsVisible is false -- fixed
+:[UPD] Avoid overlap by checking actual spacing (particular useful for Exponential scales)
+:[UPD] Make scale labels apply scaleMult for Exponential scales
+
+;20-Dec-2005 (by Champion)
+:[FIX] ZedGraphControl.cs IsEnableVZoom/IsEnableHZoom properties referenced themselves, causing stack overflow
+:[NEW] Add MouseUpEvent, MouseMoveEvent and change MouseDownEvent to just use (object sender, MouseEventArgs)
+:[UPD] Add lots of paranoid tests in ZedGraphControl.cs to avoid null object references
+:[NEW] Add code from jackply to add exponential axis option
+
+;15-Dec-2005 (by Champion)
+:[NEW] Add TimeSpan options to XDate.ToString()
+
+;11-Dec-2005 (by Champion)
+:[NEW] Add Fill.RangeDefault
+
+;8-Dec-2005 (by Champion)
+:[FIX] Make cross logic work properly for isScaleLabels inside on secondary axes
+:[NEW] Add AxisGap property to control space between secondary axes
+
+;7-Dec-2005 (by Champion)
+:[FIX] Make stack bar & stack line work with non-ordinal axes
+
+;29-Nov-2005 (by Champion)
+:[NEW] Add IsEnableVZoom and IsEnableHZoom to constrain zoom in ZedGraphControl
+:[NEW] Add implicit float cast in XDate
+
+;24-Nov-2005 (by softlion, concern the webcontrol only)
+:[FIX] major bug, positioning of graph items was not working at all. Action: removed X1 and Y1 (redundant, described as alias of X and Y). Their 0 value were overriding the original X and Y values.
+:[UPD] Renamed AxisFill to GraphFill, AxisBorder to GraphBorder, AxisRect to GraphRect so axis and graph space becomes two correctly separated things.
+:[NEW] MasterPaneFill and MasterPaneBorder properties
+:[NEW] Transparency is shown as squares in the designer.
+:[REM] PNG transparency is supported in FireFox. To get it also in IE6 or less, you must use the IE7 javascript http://dean.edwards.name/IE7/ like this:
+:	<script>
+:	window.IE7_PNG_SUFFIX = "\\.png(?:\\?.*?)";
+:	</script>
+:	<script src="ie7/ie7-standard-p.js" type="text/javascript"></script>
+
+;23-Nov-2005 (by Champion)
+:[FIX] Ten Power placement for scale labels
+:[FIX] ShowPointValues with Text Axes and IsOverrideOrdinal
+:[FIX] Center data when range is zero for PickScale()
+:[FIX] remake font based on actual prior font size instead of persistent field
+:[FIX] modify XDate docs to explain Excel date bug
+:[NEW] add SampleMultiPointList class to illustrate IPointList usage
+:[NEW] demo pane with four y axes
+:[NEW] StickItemDemo, several Bars with Labels demos
+
+;22-Nov-2005 (by Champion)
+:[FIX] minor fix for cross axes with IsScaleLabelsInside
+
+;22-Nov-2005 (by softlion)
+:[UPD] Updated Web sample in C# to work with new RenderMode option
+:[FIX] Minor bug fix introduced in 21-nov-2005 version
+:[FIX] Workaround for .NET File.GetCreationTime method's bug.
+
+;21-Nov-2005 (by softlion)
+:[FIX] Caching with new rendering mode was not working as expected.
+:[NEW] The generated image tag has now a querystring to defeat browser caching mechanism when an update is needed.
+:[NEW] ColorOpacity property in "Fill" structures. We should created a new Color selector designer with the ability to set the color alpha channel instead, but this is a quick start.
+:[NEW] Added and updated some comments
+
+;19-Nov-2005 (by softlion)
+:  Major changes to the web interface:
+:  DataSource property works. Optional DataSource are also available on each curve, by default it uses the main DataSource. DataMember property is available as a main property for the base axis (x axis) and as a property on each curve (y axis).
+:  New RenderMode property to render as an IMG tag instead of generating and returning an image on the fly. A temporary image file is created and saved in the folder specified by the new RenderedImagePath property. The file name is the control ID (may change in a near future).
+:  Comments uptdated and added on properties
+:  Property categories change for readability (ASP.NET pages made with previous version will need to upgrade)
+:  Major and minor grid properties for all axis are now grouped into a child item
+:  minor bug fix: image generated on the fly also sends HTML IMG tag
+
+
+;6-Nov-2005 (by Champion)
+:  Make ScrollBar SmallChange proportional to LargeChange (thanks to tafkat)
+  
+;4-Nov-2005 (by Champion)
+:  Fix Thumb size for scrollbars
+:  Add Deutsch translation for "Image copied to clipboard" phrase
+:  Add protection against manually set axis limits that exclude all data
+  
+;31-Oct-2005 (by Champion)
+:  Add Swedish Translation, fix Spanish translation, add "Image copied to clipboard" to localization
+:  Split out context menu actions into public methods
+
+;7-Oct-2005 (by Champion)
+:  Fix LinearAsOrdinal and DateAsOrdinal off-by-one error and use blank label for out of range condition
+:  Add GraphPane.IsZoomed Property
+:  Add LegendPos.TopFlushLeft and BottomFlushLeft
+
+;25-Sep-2005 (by Champion)
+:  Fix crash when drawing pie charts that get too small (AxisRect dimensions less than zero)
+:  Fix DateAsOrdinal & LinearAsOrdinal indexing problem
+:  Fix Mouse double click problem in ZedGraphControl
+  
+;22-Sep-2005 (by Champion)
+:  Add support for multiple Y and Y2 axes (major mods throughout)
+:  Add Axis.IsAllTics property
+:  Fix FindNearestPoint bug for text type axes
+:  Add ZedGraphControl.IsShowCursorValues
+ 
+== Version 4.2 ==
+
+;9-Sep-2005 (by Champion) v4.2.3
+:  Fix issue with CalcDateStepSize() for max label calcs where the step number is only a target, not a max
+
+;4-Sep-2005 (by Champion) v4.2.2
+:  Fix problem with copy constructor on HiLowBar.cs, HiLowBarItem.cs, MasterPane.cs
+  
+;26-Aug-2005 (by Champion)
+:  Add HSBColor struct
+:  Add French (thanks to Fred Thomas) localization file
+:  Add Deutsch and Spanish (thanks to codemeier) localization files
+  
+;22-Aug-2005 (by Champion)
+:  Add Localization to ZedGraphControl
+:  Fix ContextMenu mouse location issue
+
+;21-Aug-2005 (by Champion)
+:  remove set requirement from IPointList
+:  Add ZedGraphControl.IsAutoScrollRange and SetScrollRangeFromData()
+
+;19-Aug-2005 (by Champion)
+:  Fix Pie.SlicePath access in FindNearestPoint
+:  Fix y position calc for axis title when IsScaleVisible=false
+
+;18-Aug-2005 (by Champion)
+:  Add new AxisType's LinearAsOrdinal and DateAsOrdinal
+
+;17-Aug-2005 (by Champion)
+:  Add new CoordTypes to allow mixed coordinate systems.
+:  Move Transform for the Coord system up to the PaneBase so there is only a single function
+  
+;13-Aug-2005 (by Champion)
+:  Disable the ZedGraphControl.PanModifierKeys due to a bug in VS2003 causing compiler error
+
+;11-Aug-2005 (by Champion)
+:  Fix rotated scale spacing logic to allow lapping at angles
+
+;10-Aug-2005 (by Champion)
+:  Add IPointList interface
+:  Remove ErrorBarItem.BarBase and HiLowBarItem.BarBase -- use GraphPane.BarBase instead
+:  Add BasicArrayPointList
+
+;8-Aug-2005 (by Champion)
+:  Add strong name key to assembly
+
+;2-Aug-2005 (by Champion) v 4.2
+:  Fix roundoff problem on scrollbars
+:  Fix Auto flags in ZedGraphWeb
+:  Fix the web demos to work properly
+
+;21-Jul-2005 (by Champion)
+:  Add PolyItem
+:  Add ArrowItem.Style
+:  Add CurveItem.FontSpec
+:  Make LineItem.Symbol & LineItem.Line modifiable
+:  Add StickItem
+:  Don't clone the PointPairList on AddCurve()
+:  Add DropShadow to FontSpec
+
+;19-Jul-2005 (by Champion)
+:  Add IsCrossTic, IsInsideCrossTic, IsMinorCrossTic, IsMinorInsideCrossTic
+
+;15-Jul-2005 (by Champion)
+:  Add PointPairList.Insert overloads
+
+== Version 4.1 ==
+
+;14-Jul-2005 (by Champion) v4.1.8beta
+:  Add Axis.IsScaleLabelsInside
+:  Add Axis.IsSkipFirstLabel
+:  Add Axis.IsSkipLastLabel
+:  Add ZedGraphControl.ScrollMinY2, ScrollMaxY2, IsScrollY2
+:  Revamp Axis.Cross logic, GraphPane.CalcAxisRect, and Axis.CalcSpace
+
+;6-Jul-2005 (by Champion) v4.1.7
+:  Add Axis.IsAxisSegmentVisible
+:  Fix axis space code to not have space when tics false, scalevisible false, etc.
+
+;5-Jul-2005 (by Champion) v4.1.6
+:  Fix GraphicsPath bug (using StartFigure) for X-Cross, Plus, and Star Symbols
+:  Initialize MasterPane in ZedGraphControl to IsShowTitle = false
+
+;26-Jun-2005 (by Champion)
+:  Fix bug to Remake fonts when family, italic, bold, or underline changes
+:  Show MinorInsideTics, MinorOutsideTics, and MinorGrids even if MinorTics are not shown
+
+;6-Jun-2005 (by Champion) v4.1.5
+:  Add GraphItem.IsClippedToAxisRect
+:  Fix isShowTitle problem (was not being initialized at all)
+
+;4-Jun-2005 (by Champion)
+:  Fix BarCenterValue() to properly handle ErrorBars and HiLowBars
+
+;3-Jun-2005 (by Champion) v4.1.4
+:  Add PointValueEvent
+
+;29-Apr-2005 (by Champion) v4.1.3
+:  Fix IsShowTitle so it does not get set to false if title is blank
+
+;19-Apr-2005 (by Champion) v4.1.2
+:  Add BarType.ClusterHiLow
+:  Add Curve.IsOverrideOrdinal
+:  Fix bug with LegendPos.BottomCenter
+:  Fix bug that allows crash if gridDash on/off is zero
+
+;16-Apr-2005 (by Champion) v4.1.1
+:  Fix FindNearestPoint() for Y2Axis curves
+:  Fix FindNearestPoint() for bars that extend beyond axis range
+
+;15-Apr-2005 (by Champion) v4.1.0
+:	Add scrollbars to ZedGraphControl (IsShowHScrollBar, IsShowVScrollBar)
+:	ScrollMinX & ScrollMaxX control the X bounds 
+:	ScrollMinY & ScrollMaxY control the Y bounds
+:	Use ScaleFormat for numeric labels and dates.
+:	Remove NumDec and NumDecAuto 
+:	Subscription event for zoom/pan notification (see ZoomEvent)
+
+== Version 4.0 ==
+
+;19-Apr-2005 (by Champion) v4.0.8
+:  Fix roundoff bug for bar width (when scale has large values like dates)
+:  Add PointPairList.Equals & PointPair.Equals
+:  Add AddCurve methods with lineWidth
+:  Make ToolTips disappear if mouse moves away from point
+:  Don't show tooltips for invisible curves
+:  Add Axis.IsScaleVisible
+
+;18-Apr-2005 (by Champion) v4.0.7
+:  Fix context menu event for null case
+:  Fix CurveItem.IsLegendLabelVisible
+
+;16-Apr-2005 (by Champion) v4.0.6
+:  Fix panning for log scales
+:  Add wheel mouse zoom
+:  Add Context Menu event/delegate
+
+;15-Apr-2005 (by Champion) v4.0.5
+:  Fix XDate roundoff bug
+
+;11-Apr-2005 (by Martz)
+:  Fix missing min/max properties on Axis proxy
+
+;02-Apr-2005 (by Martz)
+:  Added multiple pane support to web control
+
+;29-Mar-2005 (by Champion) v4.0.4
+:  Fix zeroline for filled curves
+:  Add SetX(), SetY(), SetZ() methods to PointPairList
+
+;25-Mar-2005 (by Champion) v4.0.3
+:  Fix Gradient by Value for Bars
+
+;21-Mar-2005 (by Champion) v4.0.2
+:  Fix IsFontsScaled
+
+;20-Mar-2005 (by Champion) v4.0.1
+:  Add protection on CalcNumTics -- no more than 500 tics
+:  AxisChange() -- Always call pickscale before CalcAxisRect() to make sure scales are reasonable
+
+;19-Mar-2005 RELEASE VERSION 4.0
+
+;17-Mar-2005 (by Champion)
+:  Added Save As... to context menu
+:  Fix up Web Demos
+
+;17-Mar-2005 (by Martz)
+:  Add ZedGraphWebPointPairCollection
+
+;15-Mar-2005 (by Champion)
+:  Fixed a bug that caused missing tics at the beginning of the axis for date type axes
+
+;15-Mar-2005 (by Martz)
+:  Added C# and VB web demo for visual designed graphs
+:  Added C# and VB web demo for multi-graph per webform
+
+;10-Mar-2005 (by Champion)
+:  Added horizontal stacked bar demo
+:  Fix bug in CurveList.GetStackRange() (failed to account for BarBase)
+:  Added GraphPane.IsBoundedRanges & modifed GetRange() cascade to include bounds
+
+;7-Mar-2005 (by Champion)
+:  Add comments to demo code, more cleanup
+
+;7-March-2005 (by Vos)
+:  Updated the demo tab forms and some minor updates to the other demo code (commenting and such)
+
+;4-Mar-2005 (by Champion)
+:  Update Demos
+:  Change BarValueHandler to ValueHandler
+
+;28-Feb-2005 (by Champion)
+:  Fix ColorSymbolRotator to use symbolCount.  Add more symbols & colors
+:  Add gradient color overload for GraphPane.AddPieSlice
+:  Revert demo project back to remove the property control
+
+;23-Feb-2005 (by Champion)
+:  Add Axis.BaseTic property
+:  Add ZedGraph.LibTest project to have a class library based general testing platform
+
+;22-Feb-2005 (by Champion)
+:  Add ZoomState stack for maintaining history of zoom and pan states in UserControl
+
+;19-Feb-2005 (by Champion)
+:  Make Axis label shift along with axis for non-default Cross value
+:  Make bounding axis label visible if pane.AxisBorder.IsVisible = false
+:  Add Pan/Zoom/Copy/ShowValues/AutoScale options in new context menu for ZedGraphControl
+
+;14-Feb-2005 (by Martz)
+:  Fix subitem persistance bug
+:  Add designtime graph display
+:  Add remaining proxy class members
+
+;12-Feb-2005 (by Martz)
+:  Fix control parsing error
+:  Add full support for graphpane and a variety of additional objects
+:  Move proxy/object mapping to individual objects
+:  Add support for static default values where possible
+:  Add graphitem partial support
+:  Add initial support for DataBinding
+
+;9-Feb-2005 (Champion)
+:  Make ZGControl tooltips display text for AxisType.Text
+:  Push Legend functionality up to PaneBase so MasterPane has a legend
+:  Add Axis.Cross to allow axes at non-default locations
+
+;21-Jan-2005 (by Champion)
+:  Replace GraphPaneList with MasterPane
+:  Add PaneList as GraphPane collection class
+:  Add PaneBase as parent of MasterPane and GraphPane
+
+;18-Jan-2005 (by Champion)
+:  Add GraphPaneList
+:  Use Tag.Clone() when ICloneable available
+:  Fix GraphItemList copy constructor
+:  Fix PieItem copy constructor
+:  Add Tag to GraphPane
+
+;17-Jan-2005 (by Champion)
+:  Add ZedGraphControl.PointDateFormat
+:  Move Axis visibility setup for pies to AxisChange()
+:  Move pie rect calcs out to static PieItem.CalcRect()
+:  Fix LegendPos.TopCenter problem (missing switch)
+:  Add Pie Serialization
+:  Fix Z-Order treatment of GraphItems in FindNearestObject
+
+;17-Jan-2005 (by Kaye)
+:  Fix up PieItem; Remove PieSlice
+
+== Version 3.5 ==
+
+;15-Jan-2005 (by Champion) v3.5.3
+:  Fix GraphItem Copy Constructor
+:  Fix +1 pixel error on ZedGraphControl bitmap
+:  Fix StringAlignment bug for FontSpec
+:  Fix maxlabels bug
+:  Fix ordinal transform bug for lines/symbols
+
+;8-Jan-2005 (by Champion)
+:  Fix CurveList.GetRange bug for stacked curves
+:  Some code cleanup
+:  Add SplineInterpolateX to PointPairList
+
+;7-Jan-2005 (by Martz)
+:  Add expanded interface for Web Chart
+
+;5-Jan-2005 (by Champion)
+:  Add Line Stacking via GraphPane.LineType
+:  Add Serialization - Implement ISerializable
+:  Fix StringAlignment bug for FontSpec
+:  Add Interpolation methods to PointPairList
+:  Fix maxlabels bug for text axes
+
+;10-Dec-2004 (by Champion)
+:  Add Z-Order control to GraphItems
+:  Add CollectionPlus base class with Move(), etc. methods
+:  Change ErrorBar ends to Symbols
+:  Add SymbolType.HDash and SymbolType.VDash
+
+;8-Dec-2004 (by Champion)
+:  Add FindNearest unit tests
+:  Fix extreme outlier overflow problem for symbols
+
+;8-Dec-2004 (by Kaye)
+:  Add Unit Tests
+
+;7-Dec-2004 (by Champion)
+:  Add overloaded constructors to PointPair for Tag labels
+:  Add ToolTip capability to ZedGraphControl to show point values
+:  Make ZedGraphControl.Image have bitmap 1 pixel wider & taller
+
+;3-Dec-2004 (by Champion)
+:  Add BoxItem, EllipseItem types
+:  Add BarValueHandler to handle stacking calcs
+:  Add ZedGraphWeb asp control stuff
+:  Fix FindNearestPoint
+
+;17-Nov-2004 (by Champion)
+:  Add ImageItem
+
+;16-Nov-2004 (by Champion)
+:  Convert ArrowItem & TextItem to children of GraphItem
+:  Delete TextList & ArrowList, make new GraphItemList
+
+;16-Nov-2004 (by Champion)
+:  Add ErrorBar (I-beam) graph type
+:  Convert HiLowBar type to a separate HiLowBarItem class
+:  Fix Hatch and PathGradient brush problem
+
+;9-Nov-2004 (by Champion)
+:  Add FillType.GradientByX, Y, Z
+:  Fix & Consolidate DrawSingleBar() code
+:  Add UserControl transparency
+:  Add new Fill constructors for ColorBlend, color array, etc.
+
+;5-Nov-2004 (by Champion)
+:  Add BaseVal to PointPair
+:  Remove PointTrio and PointTrioList entirely
+:  Add BarType.SortedOverlay
+:  Add DrawSingleBar code
+
+;2-Nov-2004 (by Champion)
+:  Fix scaling logic throughout - all sizes now in points
+:  Fix CalcScaleFactor so scale factor is world pixels/standard point
+:  Legend Height calculation now accounts for big symbols
+:  Correct Axis border so it is drawn with floats instead of ints (avoids misalignment)
+:  Add GraphPane.IsPenWidthScaled
+:  Add scaling to pen widths throughout
+:  Fix Fill.IsScaled (missing from copy constructor)
+:  Fix missing scale factor on tic spacing for axis text
+:  Add GraphPane.ScaledImage()
+
+;31-Oct-2004 (by Champion)
+:  Fix Image ScaleTransform bug
+:  Fix another reference problem in BuildPointsArray()
+
+;30-Oct-2004 (by Champion)
+:  Fix array ref problem when index=0 in BuildPointsArray()
+:  CVS was wacky, corrected a few files
+
+;29-Oct-2004 (by Kaye)
+:  Add BarType.Stack
+
+;28-Oct-2004 (by Champion)
+:  Add BarType.HiLow
+:  Add DateTime constructor to XDate
+:  PointTrioList is child of PointPairList
+
+;22-Oct-2004 (by Champion)
+:  Add PointTrio + PointTrioList
+:  Add Sum() to PointPairList
+
+;14-Oct-2004 (by Champion)
+:  Add Location class
+:  Add Legend Float mode
+:  Add Expanded Collection object functions Remove(object), IndexOf(object), Insert()
+
+;13-Oct-2004 (by Champion)
+:  Change Frame class to Border
+:  Add CurveList.Remove( curve )
+:  Add TextItem( string, float, float, CoordType )
+
+;12-Oct-2004 (by Champion)
+:  Make CurveItem an abstract base class & add BarItem & LineItem
+:  Fix BaseDPI problem, get rid of the BaseDPI property
+:  Speed up Symbol draws using GraphicsPath & transform scaling
+:  Add Frame and Fill Classes
+:  Add DrawLegendKey() to BarItem & LineItem
+
+;7-Oct-2004 (by Champion)
+:  Add MinorGrids
+:  IsZeroLine defaults to false for X axis
+:  GetRange widens range by ClusterScaleWidth/2 for non-ordinal bars
+
+;1-Oct-2004 (by Champion)
+:  FindNearestObject works for TextItems and ArrowItems
+:  Add SymbolType.Default and SymbolType.None
+
+;30-Sep-2004 (by Champion)
+:	Add CurveItem.IsVisible and CurveItem.IsLegendLabelVisible logic
+:	Fix the zero axis range bug
+
+;29-Sep-2004 (by Champion)
+:	Add FindNearestObject() method to GraphPane (still working on TextItem & ArrowItem)
+
+;24-Sep-2004 (by Champion)
+:	Add StringAlignment property to FontSpec
+
+;23-Sep-2004 (by Champion)
+:    Add AlignP type, and Axis.ScaleAlign property
+
+;22-Sep-2004 (by Champion)
+:    Eliminate legend entries for curves with blank labels
+
+== Version 3.0 ==
+
+;21-Sep-2004 (by Champion) v3.0
+:    Release 3.0
+:    Fix grid so it's behind the bar/line fills
+
+;18-Sep-2004 (by Champion)
+:    More Constructors for Fill class, gradients/texture fills
+:    Add Fill.IsScaled and Fill.AlignH/V
+
+;15-Sep-2004 (by Champion/Vos)
+:    Fix roundoff problem that caused the last scale label to occasionally disappear
+:    Add SetMinSpaceBuffer() to GraphPane and Axis
+:    Add a check in MakeBrush() to make sure the rect width and height are at least 1.0
+
+;14-Sep-2004 (by Champion)
+:    Add gradient fills to symbol type
+:    Symbol Frame can now have different color than fill
+:    Fix problem with smoothed curve and fill
+:    Draw Axes after curves so curve fill doesn't cover up axis line
+:    Add Axis.MinSpace property
+
+;13-Sep-2004 (by Champion/Vos)
+:    Fix problem with brushes scaled to zero width rect
+:    Fix scale label width calc bug in CalcMaxLabels()
+:    Add Brush.Dispose() calls after MakeBrush()
+
+;12-Sep-2004 (by Champion)
+:    Add new Fill class to handle gradient fills
+:    Add "Area under curve" shading
+:    Add gradient Fill class to paneRect, axisRect, legend, bar, line
+
+;11-Sep-2004 (by Champion)
+:    Fix space allocation for rotated Axis Labels
+:    Add gradient fills for bars
+
+== Version 2.0 ==
+
+;1-Sep-2004 (by Champion) v2.0
+:    Fix grace so that it won't extend across negative/positive boundary
+:    Finish up #region's
+
+;31-Aug-2004 (by Champion)
+:    Added Curve Smoothing (Line.IsSmooth, Line.SmoothTension)
+:    Added PointPair.IsInvalid
+:    Added PointPair implicit cast to PointF
+
+;31-Aug-2004 (by Vos)
+:    Cleaned up some of the files, making the #region'ing more consistent (some files still need to be done)
+
+;30-Aug-2004 (by Champion)
+:    Fix single point plotting (bug in validity checking code)
+:    Fix calls to Transform() so that Transform(i,x) is only called for bar charts
+:    Fix XML Comments to get rid of error messages
+:    Change the AddPoints() methods of PointPairList to overloaded Add()
+:    Add a couple unit tests
+
+;30-Aug-2004 (by Vos)
+:    Added locking to the ZedGraphControl to make it thread safe
+:    Added a .AxisChange() method to the ZedGraphControl (it creates a new Graphics object every time it is called)
+:    Added a ZedGraphException class
+:    ZGC.Image now throws a ZedGraphException if the control has been disposed
+:    Added a ZGC.BeenDisposed property, which checks if the GraphPane is null. This probably should have a separate field in the ZGC called beenDisposed, but for now it doesn't.
+:    Projects now reference the main ZedGraph by using project references instead of direct .dll references
+
+;27-Aug-2004 (by Champion)
+:    Add MinGrace and MaxGrace
+:    Fix up overlapping labels with double PickScale() call
+
+;26-Aug-2004 (by Champion)
+:    Fix problem with zero/negative values on Y Log scale
+:    Add long unittest
+:    clean up unit test code to three fixtures
+
+;25-Aug-2004 (by Champion)
+:    Make constructors handle null values better
+:    Integrate multiple constructors so default usage is cleaner
+:    Move Default struct into each class (get rid of Def.cs)
+:    extensive additions to unittest
+
+;23-Aug-2004 (by Champion)
+:    Fix NaN handling so it doesn't cause exceptions
+
+;18-Aug-2004 (by Vos)
+:    Add Image property
+:    Add ColorSymbolRotator
+
+;17-Aug-2004 (by Champion)
+:    Fix overlapping labels logic for X vs Y axes
+:    Fix scaleFormat in copy constuctor
+:    Add Point indexer to CurveItem
+:    Fix problem with recursive loop for text label calcs
+
+;25-Jul-2004 (by Champion)
+:    Add XTargetSteps, YTargetSteps
+:    New Format for 10 power log scale labels
+:    Fixed drawing of log scales
+:    Improved logic for scale picking
+:    Add logic to reduce text labels if they are overlapping
+:    Added IsIgnoreMissing
+:    Added IsFontsScaled
+:    Fixed FindNearestPoint() for bars
+
+;16-Jul-2004 (by Vos)
+:    Add PointPair, PointPairList storage for data points
+
+;15-Jul-2004
+:    Add Author/Revision XML tags
+
+;14-Jul-2004
+:    Added LGPL
+
+== Version 1 ==
+
+;13-Jul-2004 (Release 1.5)
+:    Added AxisType.Ordinal 
+:    Added Def.Ax.MaxTextLabels and made Text labels honor the Axis.Step setting 
+:    Added GraphPane.IsFontsScaled 
+:    Added GraphPane.BaseDPI for proper printer scaling 
+:    Fixed broken logarithmic scales 
+:    Fixed roundoff problems that caused minor cosmetic annoyances 
+:    Fixed bad rendering of Y2 axis grid and tics 
+:    Fixed zeroline flag 
+:    Bars now work properly with XAxis.IsReverse and FindNearestPoint() 
+:    Fixed other minor bugs 
+
+;10-Jun-2004 (Release 1.4)
+:    Added Bar Charts 
+:    Added FindNearestPoint() method 
+:    Minor Bug Fixes 
+:    Added zero-line when axis ranges from negative to positive 
+:    Added ScaleFormatAuto property so the ScaleFormat can be manual even when the scale range is auto 
+:    Added IsAxisRectAuto property so the AxisRect can be set manually 
+
+;1-Mar-2004 (Release 1.3)
+:    Added Date-Time Axis capability 
+:    Added Text Axis capability 
+:    Added ReverseTransform() function (returns axis values associated with a mousePt location on the graph) 
+:    Made some optimizations that dramatically increase the drawing speed for large datasets 
+:    Updated code to implement ICloneable interface and copy constructor for primary classes 
+:    Updated axis label code so that axis edge does not have to begin with a label (ex: axis min is 175, but first label is 200 and step is 50) 
+:    (Only the ZedGraphControl source file has changed) 
+
+;28-Nov-2003 (Release 1.2)
+:    Fixed the Axis.IsMinorOppositeTic bug (it wasn't working) 
+:    Changed over the ZedGraph code so that it can also be a UserControl 
+
+;13-Nov-2003 (Release 1.1)
+:    Fixed a minor bug in FontSpec.BoundingBox() calculation
