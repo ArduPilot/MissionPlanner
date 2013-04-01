@@ -511,63 +511,63 @@ namespace GMap.NET.WindowsForms
 #else
                      Tile t = Core.Matrix.GetTileWithNoLock(Core.Zoom, tileToDraw);
 #endif
-                     if(t != null)
+                     if (t != null)
                      {
-                        // render tile
-                        lock(t.Overlays)
-                        {
-                           foreach(WindowsFormsImage img in t.Overlays)
-                           {
-                              if(img != null && img.Img != null)
-                              {
-                                 if(!found)
-                                    found = true;
+                         // render tile
+                         lock (t.Overlays)
+                         {
+                             foreach (WindowsFormsImage img in t.Overlays)
+                             {
+                                 if (img != null && img.Img != null)
+                                 {
+                                     if (!found)
+                                         found = true;
 #if !PocketPC
-                                     g.DrawImage(img.Img, Core.tileRect.X, Core.tileRect.Y, Core.tileRectBearing.Width+1, Core.tileRectBearing.Height+1);
+                                     g.DrawImage(img.Img, Core.tileRect.X, Core.tileRect.Y, Core.tileRectBearing.Width + 1, Core.tileRectBearing.Height + 1);
 #else
                                  g.DrawImage(img.Img, Core.tileRect.X, Core.tileRect.Y);
 #endif
-                              }
-                           }
-                        }
+                                 }
+                             }
+                         }
                      }
 #if !PocketPC
-                     else if(FillEmptyTiles)
+                     else if (FillEmptyTiles)
                      {
-                        int ZoomOffset = 0;
-                        Tile ParentTile = null;
-                        int Ix = 0;
+                         int ZoomOffset = 0;
+                         Tile ParentTile = null;
+                         int Ix = 0;
 
-                        while(ParentTile == null && (Core.Zoom - ZoomOffset) >= 1 && ZoomOffset <= LevelsKeepInMemmory)
-                        {
-                           Ix = (int)Math.Pow(2, ++ZoomOffset);
-                           ParentTile = Core.Matrix.GetTileWithNoLock(Core.Zoom - ZoomOffset, new GPoint((int)(tilePoint.X / Ix), (int)(tilePoint.Y / Ix)));
-                        }
+                         while (ParentTile == null && (Core.Zoom - ZoomOffset) >= 1 && ZoomOffset <= LevelsKeepInMemmory)
+                         {
+                             Ix = (int)Math.Pow(2, ++ZoomOffset);
+                             ParentTile = Core.Matrix.GetTileWithNoLock(Core.Zoom - ZoomOffset, new GPoint((int)(tilePoint.X / Ix), (int)(tilePoint.Y / Ix)));
+                         }
 
-                        if(ParentTile != null)
-                        {
-                           int Xoff = Math.Abs(tilePoint.X - (ParentTile.Pos.X * Ix));
-                           int Yoff = Math.Abs(tilePoint.Y - (ParentTile.Pos.Y * Ix));
+                         if (ParentTile != null)
+                         {
+                             int Xoff = Math.Abs(tilePoint.X - (ParentTile.Pos.X * Ix));
+                             int Yoff = Math.Abs(tilePoint.Y - (ParentTile.Pos.Y * Ix));
 
-                           // render tile 
-                           lock(ParentTile.Overlays)
-                           {
-                              foreach(WindowsFormsImage img in ParentTile.Overlays)
-                              {
-                                 if(img != null && img.Img != null)
+                             // render tile 
+                             lock (ParentTile.Overlays)
+                             {
+                                 foreach (WindowsFormsImage img in ParentTile.Overlays)
                                  {
-                                    if(!found)
-                                       found = true;
+                                     if (img != null && img.Img != null)
+                                     {
+                                         if (!found)
+                                             found = true;
 
-                                    System.Drawing.RectangleF srcRect = new System.Drawing.RectangleF((float)(Xoff * (img.Img.Width / Ix)), (float)(Yoff * (img.Img.Height / Ix)), (img.Img.Width / Ix), (img.Img.Height / Ix));
-                                    System.Drawing.Rectangle dst = new System.Drawing.Rectangle(Core.tileRect.X, Core.tileRect.Y, Core.tileRect.Width, Core.tileRect.Height);
+                                         System.Drawing.RectangleF srcRect = new System.Drawing.RectangleF((float)(Xoff * (img.Img.Width / Ix)), (float)(Yoff * (img.Img.Height / Ix)), (img.Img.Width / Ix), (img.Img.Height / Ix));
+                                         System.Drawing.Rectangle dst = new System.Drawing.Rectangle(Core.tileRect.X, Core.tileRect.Y, Core.tileRect.Width, Core.tileRect.Height);
 
-                                    g.DrawImage(img.Img, dst, srcRect.X, srcRect.Y, srcRect.Width, srcRect.Height, GraphicsUnit.Pixel, TileFlipXYAttributes);
-                                    g.FillRectangle(SelectedAreaFill, dst);
+                                         g.DrawImage(img.Img, dst, srcRect.X, srcRect.Y, srcRect.Width, srcRect.Height, GraphicsUnit.Pixel, TileFlipXYAttributes);
+                                         g.FillRectangle(SelectedAreaFill, dst);
+                                     }
                                  }
-                              }
-                           }
-                        }
+                             }
+                         }
                      }
 #endif
                      // add text if tile is missing

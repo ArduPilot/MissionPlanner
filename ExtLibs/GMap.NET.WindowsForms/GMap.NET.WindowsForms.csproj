@@ -119,6 +119,10 @@
     <None Include="Resources\bigMarkerGreen.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CsAssortedWidgets\CsAssortedWidgets.csproj">
+      <Project>{3B933839-C505-48D4-A5CE-D9375C88E943}</Project>
+      <Name>CsAssortedWidgets</Name>
+    </ProjectReference>
     <ProjectReference Include="..\GMap.NET.Core\GMap.NET.Core.csproj">
       <Project>{D0C39D9D-BED0-418B-9A5E-713176CAF40C}</Project>
       <Name>GMap.NET.Core</Name>

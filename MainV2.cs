@@ -2403,11 +2403,12 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
 
             progressReporterDialogue.UpdateProgressAndStatus(-1, "Getting Base URL");
             // check for updates
-            if (Debugger.IsAttached)
+            int fixme;
+            //if (Debugger.IsAttached)
             {
-                log.Info("Skipping update test as it appears we are debugging");
+              //  log.Info("Skipping update test as it appears we are debugging");
             }
-            else
+            //else
             {
                 MainV2.updateCheckMain(progressReporterDialogue);
             }
@@ -2509,9 +2510,9 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
                 // Set the Method property of the request to POST.
                 request.Method = "GET";
 
-           //     ((HttpWebRequest)request).AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
+                ((HttpWebRequest)request).AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
 
-           //     request.Headers.Add("Accept-Encoding", "gzip,deflate");
+                request.Headers.Add("Accept-Encoding", "gzip,deflate");
 
                 // Get the response.
                 response = request.GetResponse();
@@ -2590,7 +2591,7 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
 
                     long contlen = bytes;
 
-                    byte[] buf1 = new byte[1024];
+                    byte[] buf1 = new byte[4096];
 
                     using (FileStream fs = new FileStream(path + ".new", FileMode.Create))
                     {
@@ -2611,8 +2612,8 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
                                 }
                             }
                             catch { }
-                            //    log.Debug(file + " " + bytes);
-                            int len = dataStream.Read(buf1, 0, 4096);
+                                log.Debug(file + " " + bytes);
+                                int len = dataStream.Read(buf1, 0, buf1.Length);
                             if (len == 0)
                                 break;
                             bytes -= len;

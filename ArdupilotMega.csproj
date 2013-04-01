@@ -399,7 +399,6 @@
     </Compile>
     <Compile Include="Widgets\GraphicsGL.cs" />
     <Compile Include="Widgets\MessageBox.cs" />
-    <Compile Include="Widgets\MyControl.cs" />
     <Compile Include="Widgets\PictureBox.cs" />
     <Compile Include="Widgets\QuickView.cs">
       <SubType>UserControl</SubType>

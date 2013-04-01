@@ -170,9 +170,11 @@ namespace SharpKml.Dom.GX
         /// <summary>Used to correctly serialize a Vector.</summary>
         private abstract class VectorElement : Element, ICustomElement
         {
+            
             private readonly double _x;
-            /// <param name="value">The value to serialize.</param>
+            
             private readonly double _y;
+            
             private readonly double _z;
 
             /// <summary>Initializes a new instance of the VectorElement class.</summary>

@@ -19,6 +19,8 @@ namespace ArdupilotMega.Utilities
       private static readonly ILog log =
          LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
+      static Dictionary<string, string> cache = new Dictionary<string, string>();
+
       public static void GetParameterInformation()
       {
          string parameterLocationsString = ConfigurationManager.AppSettings["ParameterLocations"];
@@ -296,6 +298,9 @@ namespace ArdupilotMega.Utilities
 
          log.Info(address);
 
+         if (cache.ContainsKey(address))
+             return cache[address];
+
          // Make sure we don't blow up if the user is not connected or the endpoint is not available
          try
          {
@@ -336,6 +341,8 @@ namespace ArdupilotMega.Utilities
                // Close the response
                response.Close();
             }
+
+            cache[address] = data;
 
             // Return the data
             return data;
