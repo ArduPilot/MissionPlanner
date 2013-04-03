@@ -2202,8 +2202,13 @@ Server: ubuntu
 
         private void MainV2_Resize(object sender, EventArgs e)
         {
-            log.Info("myview width " + MyView.Width + " height " + MyView.Height);
-            log.Info("this   width " + this.Width + " height " + this.Height);
+            try
+            {
+                // mono - resize is called before the control is created
+                log.Info("myview width " + MyView.Width + " height " + MyView.Height);
+                log.Info("this   width " + this.Width + " height " + this.Height);
+            }
+            catch { }
         }
 
         private void MenuHelp_Click(object sender, EventArgs e)

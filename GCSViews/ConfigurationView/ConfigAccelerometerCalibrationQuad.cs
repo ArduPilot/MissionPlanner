@@ -19,7 +19,6 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             Plus = 0,
             X = 1,
             V = 2,
-            Trapezoid = 3
         }
 
         public ConfigAccelerometerCalibrationQuad()
@@ -57,36 +56,27 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                 case Frame.Plus:
                     FadePicBoxes(pictureBoxPlus, EnabledOpacity);
                     FadePicBoxes(pictureBoxX, DisabledOpacity);
-                    FadePicBoxes(pictureBoxTrap, DisabledOpacity);
+                    FadePicBoxes(pictureBoxV, DisabledOpacity);
                     radioButton_Plus.Checked = true;
-                    radioButton_Trap.Checked = false;
+                    radioButton_V.Checked = false;
                     radioButton_X.Checked = false;
                     SetFrameParam(frame);
                     break;
                 case Frame.X:
                     FadePicBoxes(pictureBoxPlus, DisabledOpacity);
                     FadePicBoxes(pictureBoxX, EnabledOpacity);
-                    FadePicBoxes(pictureBoxTrap, DisabledOpacity);
+                    FadePicBoxes(pictureBoxV, DisabledOpacity);
                     radioButton_Plus.Checked = false;
-                    radioButton_Trap.Checked = false;
+                    radioButton_V.Checked = false;
                     radioButton_X.Checked = true;
                     SetFrameParam(frame);
                     break;
                 case Frame.V:
                     FadePicBoxes(pictureBoxPlus, DisabledOpacity);
                     FadePicBoxes(pictureBoxX, DisabledOpacity);
-                    FadePicBoxes(pictureBoxTrap, DisabledOpacity);
+                    FadePicBoxes(pictureBoxV, EnabledOpacity);
                     radioButton_Plus.Checked = false;
-                    radioButton_Trap.Checked = false;
-                    radioButton_X.Checked = false;
-                    SetFrameParam(frame);
-                    break;
-                case Frame.Trapezoid:
-                    FadePicBoxes(pictureBoxPlus, DisabledOpacity);
-                    FadePicBoxes(pictureBoxX, DisabledOpacity);
-                    FadePicBoxes(pictureBoxTrap, EnabledOpacity);
-                    radioButton_Plus.Checked = false;
-                    radioButton_Trap.Checked = true;
+                    radioButton_V.Checked = true;
                     radioButton_X.Checked = false;
                     SetFrameParam(frame);
                     break;
@@ -228,14 +218,14 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             DoChange(Frame.X);
         }
 
-        private void pictureBoxTrap_Click(object sender, EventArgs e)
+        private void pictureBoxV_Click(object sender, EventArgs e)
         {
-            DoChange(Frame.Trapezoid);
+            DoChange(Frame.V);
         }
 
-        private void radioButton_Trap_CheckedChanged(object sender, EventArgs e)
+        private void radioButton_V_CheckedChanged(object sender, EventArgs e)
         {
-            DoChange(Frame.Trapezoid);
+            DoChange(Frame.V);
         }
 
     }

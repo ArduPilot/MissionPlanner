@@ -1,4 +1,20 @@
-﻿* Mission Planner 1.2.37
+﻿* Mission Planner 1.2.40
+fix mono start
+fix trap frame definition
+
+* Mission Planner 1.2.39
+px4 detection mod
+.net 3.5 > 4.0
+add new frame type
+add osd config button
+firmware back to autodetect
+fix xplane hil accel and gyro scaling
+eto testing
+
+* Mission Planner 1.2.38
+fix updater
+
+* Mission Planner 1.2.37
 px4 detect - wont work until usb hang is fixed
 new board selcetion in firmware screen
 add 2d fix to hud

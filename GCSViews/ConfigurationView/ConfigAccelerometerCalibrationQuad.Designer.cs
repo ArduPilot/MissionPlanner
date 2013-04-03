@@ -46,11 +46,11 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             this.pictureBoxX = new ArdupilotMega.Controls.PictureBoxWithPseudoOpacity();
             this.BUT_levelac2 = new ArdupilotMega.Controls.MyButton();
             this.label6 = new System.Windows.Forms.Label();
-            this.radioButton_Trap = new System.Windows.Forms.RadioButton();
-            this.pictureBoxTrap = new ArdupilotMega.Controls.PictureBoxWithPseudoOpacity();
+            this.radioButton_V = new System.Windows.Forms.RadioButton();
+            this.pictureBoxV = new ArdupilotMega.Controls.PictureBoxWithPseudoOpacity();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPlus)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxX)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTrap)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxV)).BeginInit();
             this.SuspendLayout();
             // 
             // radioButton_Plus
@@ -158,30 +158,30 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             resources.ApplyResources(this.label6, "label6");
             this.label6.Name = "label6";
             // 
-            // radioButton_Trap
+            // radioButton_V
             // 
-            resources.ApplyResources(this.radioButton_Trap, "radioButton_Trap");
-            this.radioButton_Trap.Name = "radioButton_Trap";
-            this.radioButton_Trap.TabStop = true;
-            this.radioButton_Trap.UseVisualStyleBackColor = true;
-            this.radioButton_Trap.CheckedChanged += new System.EventHandler(this.radioButton_Trap_CheckedChanged);
+            resources.ApplyResources(this.radioButton_V, "radioButton_V");
+            this.radioButton_V.Name = "radioButton_V";
+            this.radioButton_V.TabStop = true;
+            this.radioButton_V.UseVisualStyleBackColor = true;
+            this.radioButton_V.CheckedChanged += new System.EventHandler(this.radioButton_V_CheckedChanged);
             // 
-            // pictureBoxTrap
+            // pictureBoxV
             // 
-            this.pictureBoxTrap.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pictureBoxTrap.Image = global::ArdupilotMega.Properties.Resources.new_3DR_04;
-            resources.ApplyResources(this.pictureBoxTrap, "pictureBoxTrap");
-            this.pictureBoxTrap.Name = "pictureBoxTrap";
-            this.pictureBoxTrap.TabStop = false;
-            this.pictureBoxTrap.Click += new System.EventHandler(this.pictureBoxTrap_Click);
+            this.pictureBoxV.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pictureBoxV.Image = global::ArdupilotMega.Properties.Resources.new_3DR_04;
+            resources.ApplyResources(this.pictureBoxV, "pictureBoxV");
+            this.pictureBoxV.Name = "pictureBoxV";
+            this.pictureBoxV.TabStop = false;
+            this.pictureBoxV.Click += new System.EventHandler(this.pictureBoxV_Click);
             // 
             // ConfigAccelerometerCalibrationQuad
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.label6);
-            this.Controls.Add(this.radioButton_Trap);
-            this.Controls.Add(this.pictureBoxTrap);
+            this.Controls.Add(this.radioButton_V);
+            this.Controls.Add(this.pictureBoxV);
             this.Controls.Add(this.lbl_Accel_user);
             this.Controls.Add(this.BUT_calib_accell);
             this.Controls.Add(this.lineSeparator2);
@@ -199,7 +199,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             this.Name = "ConfigAccelerometerCalibrationQuad";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPlus)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxX)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTrap)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxV)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -222,7 +222,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
         private MyButton BUT_calib_accell;
         private System.Windows.Forms.Label lbl_Accel_user;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.RadioButton radioButton_Trap;
-        private PictureBoxWithPseudoOpacity pictureBoxTrap;
+        private System.Windows.Forms.RadioButton radioButton_V;
+        private PictureBoxWithPseudoOpacity pictureBoxV;
     }
 }
