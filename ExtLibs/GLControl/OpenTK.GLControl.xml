@@ -9,6 +9,11 @@
             Defines a UserControl with OpenGL rendering capabilities.
             </summary>
         </member>
+        <member name="F:OpenTK.GLControl.UseOpenGL">
+            <summary>
+            allows override
+            </summary>
+        </member>
         <member name="M:OpenTK.GLControl.#ctor">
             <summary>
             Constructs a new GLControl.

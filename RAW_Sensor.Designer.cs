@@ -433,7 +433,7 @@
         ""};
             this.aGauge1.CapText = "";
             this.aGauge1.Center = new System.Drawing.Point(85, 85);
-            this.aGauge1.DataBindings.Add(new System.Windows.Forms.Binding("Value0", this.currentStateBindingSource, "yaw", true, System.Windows.Forms.DataSourceUpdateMode.OnValidation, "0"));
+            this.aGauge1.DataBindings.Add(new System.Windows.Forms.Binding("Value0", this.currentStateBindingSource, "yaw", true, System.Windows.Forms.DataSourceUpdateMode.Never, "0"));
             this.aGauge1.MaxValue = 359F;
             this.aGauge1.MinValue = 0F;
             this.aGauge1.Name = "aGauge1";
@@ -638,7 +638,7 @@
         ""};
             this.Gpitch.CapText = "";
             this.Gpitch.Center = new System.Drawing.Point(85, 85);
-            this.Gpitch.DataBindings.Add(new System.Windows.Forms.Binding("Value0", this.currentStateBindingSource, "pitch", true, System.Windows.Forms.DataSourceUpdateMode.OnValidation, "0"));
+            this.Gpitch.DataBindings.Add(new System.Windows.Forms.Binding("Value0", this.currentStateBindingSource, "pitch", true, System.Windows.Forms.DataSourceUpdateMode.Never, "0"));
             this.Gpitch.MaxValue = 89F;
             this.Gpitch.MinValue = -90F;
             this.Gpitch.Name = "Gpitch";
@@ -782,7 +782,7 @@
         ""};
             this.Groll.CapText = "";
             this.Groll.Center = new System.Drawing.Point(85, 85);
-            this.Groll.DataBindings.Add(new System.Windows.Forms.Binding("Value0", this.currentStateBindingSource, "roll", true, System.Windows.Forms.DataSourceUpdateMode.OnValidation, "0"));
+            this.Groll.DataBindings.Add(new System.Windows.Forms.Binding("Value0", this.currentStateBindingSource, "roll", true, System.Windows.Forms.DataSourceUpdateMode.Never, "0"));
             this.Groll.MaxValue = 179F;
             this.Groll.MinValue = -180F;
             this.Groll.Name = "Groll";
@@ -910,7 +910,7 @@
             // 
             // horizontalProgressBar17
             // 
-            this.horizontalProgressBar17.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.currentStateBindingSource, "gz", true, System.Windows.Forms.DataSourceUpdateMode.OnValidation, "0"));
+            this.horizontalProgressBar17.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.currentStateBindingSource, "gz", true, System.Windows.Forms.DataSourceUpdateMode.Never, "0"));
             this.horizontalProgressBar17.Label = "Gyro Z";
             resources.ApplyResources(this.horizontalProgressBar17, "horizontalProgressBar17");
             this.horizontalProgressBar17.MarqueeAnimationSpeed = 1;
@@ -924,7 +924,7 @@
             // 
             // verticalProgressBar7
             // 
-            this.verticalProgressBar7.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.currentStateBindingSource, "ch4out", true, System.Windows.Forms.DataSourceUpdateMode.OnValidation, "1000"));
+            this.verticalProgressBar7.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.currentStateBindingSource, "ch4out", true, System.Windows.Forms.DataSourceUpdateMode.Never, "1000"));
             this.verticalProgressBar7.Label = "Motor 4";
             resources.ApplyResources(this.verticalProgressBar7, "verticalProgressBar7");
             this.verticalProgressBar7.MarqueeAnimationSpeed = 1;
@@ -939,7 +939,7 @@
             // 
             // verticalProgressBar6
             // 
-            this.verticalProgressBar6.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.currentStateBindingSource, "ch3out", true, System.Windows.Forms.DataSourceUpdateMode.OnValidation, "1000"));
+            this.verticalProgressBar6.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.currentStateBindingSource, "ch3out", true, System.Windows.Forms.DataSourceUpdateMode.Never, "1000"));
             this.verticalProgressBar6.Label = "Motor 3";
             resources.ApplyResources(this.verticalProgressBar6, "verticalProgressBar6");
             this.verticalProgressBar6.MarqueeAnimationSpeed = 1;
@@ -954,7 +954,7 @@
             // 
             // verticalProgressBar5
             // 
-            this.verticalProgressBar5.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.currentStateBindingSource, "ch2out", true, System.Windows.Forms.DataSourceUpdateMode.OnValidation, "1000"));
+            this.verticalProgressBar5.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.currentStateBindingSource, "ch2out", true, System.Windows.Forms.DataSourceUpdateMode.Never, "1000"));
             this.verticalProgressBar5.Label = "Motor 2";
             resources.ApplyResources(this.verticalProgressBar5, "verticalProgressBar5");
             this.verticalProgressBar5.MarqueeAnimationSpeed = 1;
@@ -969,7 +969,7 @@
             // 
             // verticalProgressBar4
             // 
-            this.verticalProgressBar4.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.currentStateBindingSource, "ch1out", true, System.Windows.Forms.DataSourceUpdateMode.OnValidation, "1000"));
+            this.verticalProgressBar4.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.currentStateBindingSource, "ch1out", true, System.Windows.Forms.DataSourceUpdateMode.Never, "1000"));
             this.verticalProgressBar4.Label = "Motor 1";
             resources.ApplyResources(this.verticalProgressBar4, "verticalProgressBar4");
             this.verticalProgressBar4.MarqueeAnimationSpeed = 1;
@@ -984,7 +984,7 @@
             // 
             // progressBar2
             // 
-            this.progressBar2.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.currentStateBindingSource, "gx", true, System.Windows.Forms.DataSourceUpdateMode.OnValidation, "0"));
+            this.progressBar2.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.currentStateBindingSource, "gx", true, System.Windows.Forms.DataSourceUpdateMode.Never, "0"));
             this.progressBar2.Label = "Gyro X";
             resources.ApplyResources(this.progressBar2, "progressBar2");
             this.progressBar2.MarqueeAnimationSpeed = 1;
@@ -998,7 +998,7 @@
             // 
             // progressBar1
             // 
-            this.progressBar1.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.currentStateBindingSource, "ax", true, System.Windows.Forms.DataSourceUpdateMode.OnValidation, "0"));
+            this.progressBar1.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.currentStateBindingSource, "ax", true, System.Windows.Forms.DataSourceUpdateMode.Never, "0"));
             this.progressBar1.Label = "Accel X";
             resources.ApplyResources(this.progressBar1, "progressBar1");
             this.progressBar1.MarqueeAnimationSpeed = 1;
@@ -1012,7 +1012,7 @@
             // 
             // verticalProgressBar3
             // 
-            this.verticalProgressBar3.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.currentStateBindingSource, "gy", true, System.Windows.Forms.DataSourceUpdateMode.OnValidation, "0"));
+            this.verticalProgressBar3.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.currentStateBindingSource, "gy", true, System.Windows.Forms.DataSourceUpdateMode.Never, "0"));
             this.verticalProgressBar3.Label = "Gyro Y";
             resources.ApplyResources(this.verticalProgressBar3, "verticalProgressBar3");
             this.verticalProgressBar3.MarqueeAnimationSpeed = 1;
@@ -1026,7 +1026,7 @@
             // 
             // verticalProgressBar2
             // 
-            this.verticalProgressBar2.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.currentStateBindingSource, "ay", true, System.Windows.Forms.DataSourceUpdateMode.OnValidation, "0"));
+            this.verticalProgressBar2.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.currentStateBindingSource, "ay", true, System.Windows.Forms.DataSourceUpdateMode.Never, "0"));
             this.verticalProgressBar2.Label = "Accel Y";
             resources.ApplyResources(this.verticalProgressBar2, "verticalProgressBar2");
             this.verticalProgressBar2.MarqueeAnimationSpeed = 1;
@@ -1040,7 +1040,7 @@
             // 
             // verticalProgressBar1
             // 
-            this.verticalProgressBar1.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.currentStateBindingSource, "az", true, System.Windows.Forms.DataSourceUpdateMode.OnValidation, "0"));
+            this.verticalProgressBar1.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.currentStateBindingSource, "az", true, System.Windows.Forms.DataSourceUpdateMode.Never, "0"));
             this.verticalProgressBar1.Label = "Accel Z";
             resources.ApplyResources(this.verticalProgressBar1, "verticalProgressBar1");
             this.verticalProgressBar1.MarqueeAnimationSpeed = 1;

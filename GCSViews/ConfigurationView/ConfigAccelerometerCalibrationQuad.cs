@@ -14,6 +14,14 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
         private const float DisabledOpacity = 0.2F;
         private const float EnabledOpacity = 1.0F;
 
+        public enum Frame
+        {
+            Plus = 0,
+            X = 1,
+            V = 2,
+            Trapezoid = 3
+        }
+
         public ConfigAccelerometerCalibrationQuad()
         {
             InitializeComponent();
@@ -35,33 +43,62 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             }
         }
 
-        private void pictureBox_Click(object sender, EventArgs e)
+        bool indochange = false;
+
+        void DoChange(Frame frame)
         {
-            if (sender == pictureBoxPlus)
-                radioButton_Plus.Checked = true;
-            else
-                radioButton_X.Checked = true;
+            if (indochange)
+                return;
+
+            indochange = true;
+
+            switch (frame)
+            {
+                case Frame.Plus:
+                    FadePicBoxes(pictureBoxPlus, EnabledOpacity);
+                    FadePicBoxes(pictureBoxX, DisabledOpacity);
+                    FadePicBoxes(pictureBoxTrap, DisabledOpacity);
+                    radioButton_Plus.Checked = true;
+                    radioButton_Trap.Checked = false;
+                    radioButton_X.Checked = false;
+                    SetFrameParam(frame);
+                    break;
+                case Frame.X:
+                    FadePicBoxes(pictureBoxPlus, DisabledOpacity);
+                    FadePicBoxes(pictureBoxX, EnabledOpacity);
+                    FadePicBoxes(pictureBoxTrap, DisabledOpacity);
+                    radioButton_Plus.Checked = false;
+                    radioButton_Trap.Checked = false;
+                    radioButton_X.Checked = true;
+                    SetFrameParam(frame);
+                    break;
+                case Frame.V:
+                    FadePicBoxes(pictureBoxPlus, DisabledOpacity);
+                    FadePicBoxes(pictureBoxX, DisabledOpacity);
+                    FadePicBoxes(pictureBoxTrap, DisabledOpacity);
+                    radioButton_Plus.Checked = false;
+                    radioButton_Trap.Checked = false;
+                    radioButton_X.Checked = false;
+                    SetFrameParam(frame);
+                    break;
+                case Frame.Trapezoid:
+                    FadePicBoxes(pictureBoxPlus, DisabledOpacity);
+                    FadePicBoxes(pictureBoxX, DisabledOpacity);
+                    FadePicBoxes(pictureBoxTrap, EnabledOpacity);
+                    radioButton_Plus.Checked = false;
+                    radioButton_Trap.Checked = true;
+                    radioButton_X.Checked = false;
+                    SetFrameParam(frame);
+                    break;
+            }
+            indochange = false;
         }
 
-        private void SetPlus()
+        private void SetFrameParam(Frame frame)
         {
-            FadePicBoxes(DisabledOpacity, EnabledOpacity);
-            SetFrameParam(true);
-        }
-
-        private void SetX()
-        {
-            FadePicBoxes(EnabledOpacity, DisabledOpacity);
-            SetFrameParam(false);
-        }
-
-        private void SetFrameParam(bool isPlus)
-        {
-            var f = isPlus ? 0f : 1f;
-
             try
             {
-                MainV2.comPort.setParam("FRAME", f);
+                MainV2.comPort.setParam("FRAME", (int)frame);
             }
             catch
             {
@@ -69,11 +106,10 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             }
         }
 
-        private void FadePicBoxes(float xOpacity, float plusOpacity)
+        private void FadePicBoxes(Control picbox, float Opacity)
         {
             var fade = new Transition(new TransitionType_Linear(400));
-            fade.add(pictureBoxX, "Opacity", xOpacity);
-            fade.add(pictureBoxPlus, "Opacity", plusOpacity);
+            fade.add(picbox, "Opacity", Opacity);
             fade.run();
         }
 
@@ -85,37 +121,15 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                 return;
             }
 
+            DoChange((Frame)Enum.Parse(typeof(Frame), MainV2.comPort.MAV.param["FRAME"].ToString()));
+
             BUT_calib_accell.Enabled = true;
-
-            if ((float)MainV2.comPort.MAV.param["FRAME"] == 0)
-            {
-                this.radioButton_Plus.Checked = true;
-                pictureBoxX.Opacity = DisabledOpacity;
-                pictureBoxPlus.Opacity = EnabledOpacity;
-            }
-            else
-            {
-                this.radioButton_X.Checked = true;
-                pictureBoxX.Opacity = EnabledOpacity;
-                pictureBoxPlus.Opacity = DisabledOpacity;
-            }
-
-            radioButton_Plus.CheckedChanged += RadioButtonPlusCheckedChanged;
         }
 
         public void Deactivate()
         {
             MainV2.comPort.giveComport = false;
 
-            radioButton_Plus.CheckedChanged -= RadioButtonPlusCheckedChanged;
-        }
-
-        void RadioButtonPlusCheckedChanged(object sender, EventArgs e)
-        {
-            if (radioButton_X.Checked)
-                SetX();
-            else
-                SetPlus();
         }
 
         private void BUT_calib_accell_Click(object sender, EventArgs e)
@@ -193,5 +207,36 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                  lbl_Accel_user.Text = MainV2.comPort.MAV.cs.message;
             });
         }
+
+        private void radioButton_Plus_CheckedChanged(object sender, EventArgs e)
+        {
+            DoChange(Frame.Plus);
+        }
+
+        private void radioButton_X_CheckedChanged(object sender, EventArgs e)
+        {
+            DoChange(Frame.X);
+        }
+
+        private void pictureBoxPlus_Click(object sender, EventArgs e)
+        {
+            DoChange(Frame.Plus);
+        }
+
+        private void pictureBoxX_Click(object sender, EventArgs e)
+        {
+            DoChange(Frame.X);
+        }
+
+        private void pictureBoxTrap_Click(object sender, EventArgs e)
+        {
+            DoChange(Frame.Trapezoid);
+        }
+
+        private void radioButton_Trap_CheckedChanged(object sender, EventArgs e)
+        {
+            DoChange(Frame.Trapezoid);
+        }
+
     }
 }

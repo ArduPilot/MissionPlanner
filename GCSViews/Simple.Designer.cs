@@ -169,7 +169,7 @@
             // 
             // lbl_winddir
             // 
-            this.lbl_winddir.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.bindingSource1, "wind_dir", true, System.Windows.Forms.DataSourceUpdateMode.OnValidation, null, "Dir: 0"));
+            this.lbl_winddir.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.bindingSource1, "wind_dir", true, System.Windows.Forms.DataSourceUpdateMode.Never, null, "Dir: 0"));
             resources.ApplyResources(this.lbl_winddir, "lbl_winddir");
             this.lbl_winddir.Name = "lbl_winddir";
             this.lbl_winddir.resize = true;
@@ -181,7 +181,7 @@
             // 
             // lbl_windvel
             // 
-            this.lbl_windvel.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.bindingSource1, "wind_vel", true, System.Windows.Forms.DataSourceUpdateMode.OnValidation, null, "Vel: 0"));
+            this.lbl_windvel.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.bindingSource1, "wind_vel", true, System.Windows.Forms.DataSourceUpdateMode.Never, null, "Vel: 0"));
             resources.ApplyResources(this.lbl_windvel, "lbl_windvel");
             this.lbl_windvel.Name = "lbl_windvel";
             this.lbl_windvel.resize = true;
@@ -190,7 +190,7 @@
             // lbl_hdop
             // 
             resources.ApplyResources(this.lbl_hdop, "lbl_hdop");
-            this.lbl_hdop.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.bindingSource1, "gpshdop", true, System.Windows.Forms.DataSourceUpdateMode.OnValidation, null, "hdop: 0.0"));
+            this.lbl_hdop.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.bindingSource1, "gpshdop", true, System.Windows.Forms.DataSourceUpdateMode.Never, null, "hdop: 0.0"));
             this.lbl_hdop.Name = "lbl_hdop";
             this.lbl_hdop.resize = true;
             this.toolTip1.SetToolTip(this.lbl_hdop, resources.GetString("lbl_hdop.ToolTip"));
@@ -198,7 +198,7 @@
             // lbl_sats
             // 
             resources.ApplyResources(this.lbl_sats, "lbl_sats");
-            this.lbl_sats.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.bindingSource1, "satcount", true, System.Windows.Forms.DataSourceUpdateMode.OnValidation, null, "Sats: 0"));
+            this.lbl_sats.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.bindingSource1, "satcount", true, System.Windows.Forms.DataSourceUpdateMode.Never, null, "Sats: 0"));
             this.lbl_sats.Name = "lbl_sats";
             this.lbl_sats.resize = true;
             this.toolTip1.SetToolTip(this.lbl_sats, resources.GetString("lbl_sats.ToolTip"));
@@ -256,7 +256,7 @@
             // TXT_lat
             // 
             resources.ApplyResources(this.TXT_lat, "TXT_lat");
-            this.TXT_lat.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.bindingSource1, "lat", true, System.Windows.Forms.DataSourceUpdateMode.OnValidation, "Lat 0"));
+            this.TXT_lat.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.bindingSource1, "lat", true, System.Windows.Forms.DataSourceUpdateMode.Never, "Lat 0"));
             this.TXT_lat.Name = "TXT_lat";
             this.TXT_lat.resize = false;
             // 
@@ -297,14 +297,14 @@
             // TXT_long
             // 
             resources.ApplyResources(this.TXT_long, "TXT_long");
-            this.TXT_long.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.bindingSource1, "lng", true, System.Windows.Forms.DataSourceUpdateMode.OnValidation, "Lng 0"));
+            this.TXT_long.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.bindingSource1, "lng", true, System.Windows.Forms.DataSourceUpdateMode.Never, "Lng 0"));
             this.TXT_long.Name = "TXT_long";
             this.TXT_long.resize = false;
             // 
             // TXT_alt
             // 
             resources.ApplyResources(this.TXT_alt, "TXT_alt");
-            this.TXT_alt.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.bindingSource1, "alt", true, System.Windows.Forms.DataSourceUpdateMode.OnValidation, "Alt 0"));
+            this.TXT_alt.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.bindingSource1, "alt", true, System.Windows.Forms.DataSourceUpdateMode.Never, "Alt 0"));
             this.TXT_alt.Name = "TXT_alt";
             this.TXT_alt.resize = false;
             // 

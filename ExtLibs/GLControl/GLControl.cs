@@ -61,6 +61,9 @@ namespace OpenTK
         // evaluate this in the constructor.
         readonly bool design_mode;
 
+        /// <summary>
+        /// allows override
+        /// </summary>
         public bool UseOpenGL = true;
 
         #region --- Constructors ---

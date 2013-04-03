@@ -43,6 +43,8 @@ namespace ArdupilotMega
         const int SW_SHOWNORMAL = 1;
         const int SW_HIDE = 0;
 
+        ArdupilotMega.Controls.MainSwitcher MyView;
+
         /// <summary>
         /// Active Comport interface
         /// </summary>
@@ -181,6 +183,8 @@ namespace ArdupilotMega
             instance = this;
 
             InitializeComponent();
+
+            MyView = new MainSwitcher(this);
 
             View = MyView;
 

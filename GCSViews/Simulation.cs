@@ -755,9 +755,9 @@ namespace ArdupilotMega.GCSViews
                     sitldata.pitchDeg = (DATA[18][0]);
                     sitldata.rollDeg = (DATA[18][1]);
                     sitldata.yawDeg = (DATA[18][2]);
-                    sitldata.pitchRate = (DATA[17][0] * rad2deg);
-                    sitldata.rollRate = (DATA[17][1] * rad2deg);
-                    sitldata.yawRate = (DATA[17][2] * rad2deg);
+                    sitldata.pitchRate = (DATA[17][0]);
+                    sitldata.rollRate = (DATA[17][1]);
+                    sitldata.yawRate = (DATA[17][2]);
 
                     sitldata.heading = ((float)DATA[19][2]);
                 }
@@ -766,9 +766,9 @@ namespace ArdupilotMega.GCSViews
                     sitldata.pitchDeg = (DATA[17][0]);
                     sitldata.rollDeg = (DATA[17][1]);
                     sitldata.yawDeg = (DATA[17][2]);
-                    sitldata.pitchRate = (DATA[16][0] * rad2deg);
-                    sitldata.rollRate = (DATA[16][1] * rad2deg);
-                    sitldata.yawRate = (DATA[16][2] * rad2deg);
+                    sitldata.pitchRate = (DATA[16][0]);
+                    sitldata.rollRate = (DATA[16][1]);
+                    sitldata.yawRate = (DATA[16][2]);
 
                     sitldata.heading = (DATA[18][2]);
                 }
@@ -799,9 +799,9 @@ namespace ArdupilotMega.GCSViews
 
                 accel_body -= centrip_accel;
 
-                sitldata.xAccel = DATA[4][5] * 9.8;
-                sitldata.yAccel = DATA[4][6] * 9.8;
-                sitldata.zAccel = (0 - DATA[4][4]) * 9.8;
+                sitldata.xAccel = DATA[4][5] * 0.1;
+                sitldata.yAccel = DATA[4][6] * 0.1;
+                sitldata.zAccel = (0 - DATA[4][4]) * 0.1;
 
           //      Console.WriteLine(accel_body.ToString());
           //      Console.WriteLine("        {0} {1} {2}",sitldata.xAccel, sitldata.yAccel, sitldata.zAccel);

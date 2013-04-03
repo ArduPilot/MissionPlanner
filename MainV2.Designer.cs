@@ -30,7 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainV2));
-            this.MyView = new ArdupilotMega.Controls.MainSwitcher();
             this.MainMenu = new System.Windows.Forms.MenuStrip();
             this.CTX_mainmenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.autoHideToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -50,15 +49,6 @@
             this.CTX_mainmenu.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // MyView
-            // 
-            this.MyView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.MyView.Location = new System.Drawing.Point(0, 23);
-            this.MyView.Margin = new System.Windows.Forms.Padding(0);
-            this.MyView.Name = "MyView";
-            this.MyView.Size = new System.Drawing.Size(1008, 514);
-            this.MyView.TabIndex = 3;
             // 
             // MainMenu
             // 
@@ -268,7 +258,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1008, 537);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.MyView);
             this.Controls.Add(this.menu);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
@@ -294,7 +283,7 @@
         #endregion
 
 
-        private ArdupilotMega.Controls.MainSwitcher MyView;
+        
         private System.Windows.Forms.MenuStrip MainMenu;
         private System.Windows.Forms.ToolStripButton MenuFlightData;
         private System.Windows.Forms.ToolStripButton MenuFlightPlanner;

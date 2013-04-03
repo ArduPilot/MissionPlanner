@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Collections;
 
-namespace System
+namespace System22
 {
     internal interface ITuple
     {

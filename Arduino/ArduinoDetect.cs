@@ -109,6 +109,36 @@ namespace ArdupilotMega.Arduino
             SerialPort serialPort = new SerialPort();
             serialPort.PortName = port;
 
+            if (!MainV2.MONO)
+            {
+                ObjectQuery query = new ObjectQuery("SELECT * FROM Win32_SerialPort"); // Win32_USBControllerDevice
+                ManagementObjectSearcher searcher = new ManagementObjectSearcher(query);
+                foreach (ManagementObject obj2 in searcher.Get())
+                {
+                    // check vid and pid
+                    if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_2341&PID_0010"))
+                    {
+                        // check port name as well
+                        if (obj2.Properties["Name"].Value.ToString().ToUpper().Contains(serialPort.PortName.ToUpper()))
+                        {
+                            log.Info("is a 2560-2");
+                            return "2560-2";
+                        }
+                    }
+
+                    if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_26AC&PID_0010") || obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_26AC&PID_0011"))
+                    {
+                        // check port name as well
+                        if (obj2.Properties["Name"].Value.ToString().ToUpper().Contains(serialPort.PortName.ToUpper()))
+                        {
+                            log.Info("is a px4");
+                            return "px4";
+                        }
+                    }
+                }
+
+            }
+
             if (serialPort.IsOpen)
                 serialPort.Close();
 

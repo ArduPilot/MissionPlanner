@@ -11,14 +11,22 @@ using ArdupilotMega.Controls.BackstageView;
 
 namespace ArdupilotMega.Controls
 {
-    public partial class MainSwitcher : UserControl
+    public partial class MainSwitcher
     {
         public List<Screen> screens = new List<Screen>();
         public Screen current;
+        UserControl MainControl = new UserControl();
 
-        public MainSwitcher()
+        public int Width { get { return MainControl.Width; } }
+        public int Height { get { return MainControl.Height; } }
+
+        public Control.ControlCollection Controls { get { return MainControl.Controls; } }
+
+        public MainSwitcher(Control Parent)
         {
-            InitializeComponent();
+            MainControl.Dock = DockStyle.Fill;
+
+            Parent.Controls.Add(MainControl);
         }
 
         public void AddScreen(Screen Screen)
@@ -32,14 +40,13 @@ namespace ArdupilotMega.Controls
 
         public void ShowScreen(string name)
         {
-
             if (current != null)
             {
                 // hide current screen
                 current.Visible = false;
 
                 // remove reference
-                this.Controls.Remove(current.Control);
+                MainControl.Controls.Remove(current.Control);
 
                 if (current.Control is IDeactivate)
                 {
@@ -66,7 +73,7 @@ namespace ArdupilotMega.Controls
             nextscreen.Control.SuspendLayout();
             nextscreen.Control.Dock = DockStyle.Fill;
 
-            nextscreen.Control.Size = this.Size;
+            nextscreen.Control.Size = MainControl.Size;
 
             nextscreen.Visible = true;
 
@@ -75,7 +82,7 @@ namespace ArdupilotMega.Controls
                 ((IActivate)(nextscreen.Control)).Activate();
             }
 
-            this.Controls.Add(nextscreen.Control);
+            MainControl.Controls.Add(nextscreen.Control);
 
             nextscreen.Control.ResumeLayout();
 
@@ -84,11 +91,6 @@ namespace ArdupilotMega.Controls
             current = nextscreen;
 
             current.Control.Focus();
-        }
-
-        protected override void OnPaintBackground(PaintEventArgs e)
-        {
-            base.OnPaintBackground(e);
         }
 
         public class Screen

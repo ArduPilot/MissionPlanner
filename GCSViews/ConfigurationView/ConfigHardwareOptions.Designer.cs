@@ -55,10 +55,16 @@
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.CHK_airspeeduse = new ArdupilotMega.Controls.MavlinkCheckBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.pictureBox5 = new System.Windows.Forms.PictureBox();
+            this.BUT_osdrates = new ArdupilotMega.Controls.MyButton();
+            this.label7 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
             this.SuspendLayout();
             // 
             // BUT_MagCalibrationLive
@@ -255,10 +261,47 @@
             resources.ApplyResources(this.label4, "label4");
             this.label4.Name = "label4";
             // 
+            // label6
+            // 
+            resources.ApplyResources(this.label6, "label6");
+            this.label6.Name = "label6";
+            // 
+            // groupBox5
+            // 
+            resources.ApplyResources(this.groupBox5, "groupBox5");
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.TabStop = false;
+            // 
+            // pictureBox5
+            // 
+            this.pictureBox5.BackColor = System.Drawing.Color.White;
+            this.pictureBox5.BackgroundImage = global::ArdupilotMega.Properties.Resources.MinimOSD;
+            resources.ApplyResources(this.pictureBox5, "pictureBox5");
+            this.pictureBox5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBox5.Name = "pictureBox5";
+            this.pictureBox5.TabStop = false;
+            // 
+            // BUT_osdrates
+            // 
+            resources.ApplyResources(this.BUT_osdrates, "BUT_osdrates");
+            this.BUT_osdrates.Name = "BUT_osdrates";
+            this.BUT_osdrates.UseVisualStyleBackColor = true;
+            this.BUT_osdrates.Click += new System.EventHandler(this.BUT_osdrates_Click);
+            // 
+            // label7
+            // 
+            resources.ApplyResources(this.label7, "label7");
+            this.label7.Name = "label7";
+            // 
             // ConfigHardwareOptions
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.BUT_osdrates);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.groupBox5);
+            this.Controls.Add(this.pictureBox5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.CHK_airspeeduse);
             this.Controls.Add(this.CHK_enableoptflow);
@@ -290,6 +333,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -323,5 +367,10 @@
         private System.Windows.Forms.GroupBox groupBox4;
         private Controls.MavlinkCheckBox CHK_airspeeduse;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.PictureBox pictureBox5;
+        private Controls.MyButton BUT_osdrates;
+        private System.Windows.Forms.Label label7;
     }
 }

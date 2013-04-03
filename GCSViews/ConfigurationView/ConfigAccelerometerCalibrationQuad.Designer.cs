@@ -45,8 +45,12 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             this.pictureBoxPlus = new ArdupilotMega.Controls.PictureBoxWithPseudoOpacity();
             this.pictureBoxX = new ArdupilotMega.Controls.PictureBoxWithPseudoOpacity();
             this.BUT_levelac2 = new ArdupilotMega.Controls.MyButton();
+            this.label6 = new System.Windows.Forms.Label();
+            this.radioButton_Trap = new System.Windows.Forms.RadioButton();
+            this.pictureBoxTrap = new ArdupilotMega.Controls.PictureBoxWithPseudoOpacity();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPlus)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxX)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTrap)).BeginInit();
             this.SuspendLayout();
             // 
             // radioButton_Plus
@@ -55,7 +59,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             this.radioButton_Plus.Name = "radioButton_Plus";
             this.radioButton_Plus.TabStop = true;
             this.radioButton_Plus.UseVisualStyleBackColor = true;
-            this.radioButton_Plus.CheckedChanged += new System.EventHandler(this.RadioButtonPlusCheckedChanged);
+            this.radioButton_Plus.CheckedChanged += new System.EventHandler(this.radioButton_Plus_CheckedChanged);
             // 
             // radioButton_X
             // 
@@ -63,7 +67,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             this.radioButton_X.Name = "radioButton_X";
             this.radioButton_X.TabStop = true;
             this.radioButton_X.UseVisualStyleBackColor = true;
-            this.radioButton_X.CheckedChanged += new System.EventHandler(this.RadioButtonPlusCheckedChanged);
+            this.radioButton_X.CheckedChanged += new System.EventHandler(this.radioButton_X_CheckedChanged);
             // 
             // label5
             // 
@@ -107,8 +111,6 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             // lineSeparator2
             // 
             resources.ApplyResources(this.lineSeparator2, "lineSeparator2");
-            this.lineSeparator2.MaximumSize = new System.Drawing.Size(2000, 2);
-            this.lineSeparator2.MinimumSize = new System.Drawing.Size(0, 2);
             this.lineSeparator2.Name = "lineSeparator2";
             this.lineSeparator2.Opacity1 = 0.6F;
             this.lineSeparator2.Opacity2 = 0.7F;
@@ -119,8 +121,6 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             // lineSeparator3
             // 
             resources.ApplyResources(this.lineSeparator3, "lineSeparator3");
-            this.lineSeparator3.MaximumSize = new System.Drawing.Size(2000, 2);
-            this.lineSeparator3.MinimumSize = new System.Drawing.Size(0, 2);
             this.lineSeparator3.Name = "lineSeparator3";
             this.lineSeparator3.Opacity1 = 0.6F;
             this.lineSeparator3.Opacity2 = 0.7F;
@@ -135,7 +135,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             resources.ApplyResources(this.pictureBoxPlus, "pictureBoxPlus");
             this.pictureBoxPlus.Name = "pictureBoxPlus";
             this.pictureBoxPlus.TabStop = false;
-            this.pictureBoxPlus.Click += new System.EventHandler(this.pictureBox_Click);
+            this.pictureBoxPlus.Click += new System.EventHandler(this.pictureBoxPlus_Click);
             // 
             // pictureBoxX
             // 
@@ -144,7 +144,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             resources.ApplyResources(this.pictureBoxX, "pictureBoxX");
             this.pictureBoxX.Name = "pictureBoxX";
             this.pictureBoxX.TabStop = false;
-            this.pictureBoxX.Click += new System.EventHandler(this.pictureBox_Click);
+            this.pictureBoxX.Click += new System.EventHandler(this.pictureBoxX_Click);
             // 
             // BUT_levelac2
             // 
@@ -153,10 +153,35 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             this.BUT_levelac2.UseVisualStyleBackColor = true;
             this.BUT_levelac2.Click += new System.EventHandler(this.BUT_levelac2_Click);
             // 
+            // label6
+            // 
+            resources.ApplyResources(this.label6, "label6");
+            this.label6.Name = "label6";
+            // 
+            // radioButton_Trap
+            // 
+            resources.ApplyResources(this.radioButton_Trap, "radioButton_Trap");
+            this.radioButton_Trap.Name = "radioButton_Trap";
+            this.radioButton_Trap.TabStop = true;
+            this.radioButton_Trap.UseVisualStyleBackColor = true;
+            this.radioButton_Trap.CheckedChanged += new System.EventHandler(this.radioButton_Trap_CheckedChanged);
+            // 
+            // pictureBoxTrap
+            // 
+            this.pictureBoxTrap.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pictureBoxTrap.Image = global::ArdupilotMega.Properties.Resources.new_3DR_04;
+            resources.ApplyResources(this.pictureBoxTrap, "pictureBoxTrap");
+            this.pictureBoxTrap.Name = "pictureBoxTrap";
+            this.pictureBoxTrap.TabStop = false;
+            this.pictureBoxTrap.Click += new System.EventHandler(this.pictureBoxTrap_Click);
+            // 
             // ConfigAccelerometerCalibrationQuad
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.radioButton_Trap);
+            this.Controls.Add(this.pictureBoxTrap);
             this.Controls.Add(this.lbl_Accel_user);
             this.Controls.Add(this.BUT_calib_accell);
             this.Controls.Add(this.lineSeparator2);
@@ -174,6 +199,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             this.Name = "ConfigAccelerometerCalibrationQuad";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPlus)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxX)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTrap)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -195,5 +221,8 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
         private LineSeparator lineSeparator2;
         private MyButton BUT_calib_accell;
         private System.Windows.Forms.Label lbl_Accel_user;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.RadioButton radioButton_Trap;
+        private PictureBoxWithPseudoOpacity pictureBoxTrap;
     }
 }

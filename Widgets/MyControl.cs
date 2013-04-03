@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-using System.Collections;
-using System.Drawing;
+using Eto.Forms;
+using Eto.Drawing;
+using Eto.Misc;
 
 namespace System.Windows.Forms
 {

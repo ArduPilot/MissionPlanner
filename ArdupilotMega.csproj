@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ArdupilotMega</RootNamespace>
     <AssemblyName>ArdupilotMegaPlanner10</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -50,7 +50,7 @@
     </DocumentationFile>
     <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
     <NoStdLib>false</NoStdLib>
-    <UseVSHostingProcess>true</UseVSHostingProcess>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
@@ -128,6 +128,21 @@
     </Reference>
     <Reference Include="DirectShowLib-2005">
     </Reference>
+    <Reference Include="Eto">
+      <HintPath>..\..\..\..\..\Desktop\DIYDrones\Eto\BuildOutput\Debug\Eto.dll</HintPath>
+    </Reference>
+    <Reference Include="Eto.Json">
+      <HintPath>..\..\..\..\..\Desktop\DIYDrones\Eto\BuildOutput\Debug\Eto.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Eto.Platform.Gtk">
+      <HintPath>..\..\..\..\..\Desktop\DIYDrones\Eto\BuildOutput\Debug\Eto.Platform.Gtk.dll</HintPath>
+    </Reference>
+    <Reference Include="Eto.Platform.Mac">
+      <HintPath>..\..\..\..\..\Desktop\DIYDrones\Eto\BuildOutput\Debug\Eto.Platform.Mac.dll</HintPath>
+    </Reference>
+    <Reference Include="Eto.Platform.Windows">
+      <HintPath>..\..\..\..\..\Desktop\DIYDrones\Eto\BuildOutput\Debug\Eto.Platform.Windows.dll</HintPath>
+    </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
     </Reference>
     <Reference Include="IronPython, Version=2.7.0.40, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
@@ -161,9 +176,15 @@
     <Reference Include="Microsoft.Scripting.ExtensionAttribute, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
+    <Reference Include="MonoMac">
+      <HintPath>..\..\..\..\..\Desktop\DIYDrones\Eto\BuildOutput\Debug\MonoMac.dll</HintPath>
+    </Reference>
     <Reference Include="netDxf, Version=0.1.2.0, Culture=neutral, PublicKeyToken=1c75adeaa4c98f42, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Lib\netDxf.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\..\..\..\Desktop\DIYDrones\Eto\BuildOutput\Debug\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="OpenTK, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -179,7 +200,7 @@
       <HintPath>..\..\px4uploader\bin\Debug\px4uploader.exe</HintPath>
     </Reference>
     <Reference Include="System">
-      <Private>True</Private>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System.configuration">
       <Private>False</Private>
@@ -189,13 +210,23 @@
     </Reference>
     <Reference Include="System.Data.SQLite">
     </Reference>
-    <Reference Include="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
     <Reference Include="System.Management">
       <Private>False</Private>
     </Reference>
-    <Reference Include="System.Reactive, Version=1.0.10621.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="System.Reactive.Core, Version=2.0.20823.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Lib\System.Reactive.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Microsoft SDKs\Reactive Extensions\v2.0\Binaries\.NETFramework\v4.0\System.Reactive.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Interfaces, Version=2.0.20823.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Microsoft SDKs\Reactive Extensions\v2.0\Binaries\.NETFramework\v4.0\System.Reactive.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Linq, Version=2.0.20823.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Microsoft SDKs\Reactive Extensions\v2.0\Binaries\.NETFramework\v4.0\System.Reactive.Linq.dll</HintPath>
     </Reference>
     <Reference Include="System.Speech">
       <Private>True</Private>
@@ -312,12 +343,7 @@
     <Compile Include="Controls\LineSeparator.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\MainSwitcher.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\MainSwitcher.Designer.cs">
-      <DependentUpon>MainSwitcher.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Controls\MainSwitcher.cs" />
     <Compile Include="Controls\MavlinkCheckBox.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -399,6 +425,7 @@
     </Compile>
     <Compile Include="Widgets\GraphicsGL.cs" />
     <Compile Include="Widgets\MessageBox.cs" />
+    <Compile Include="Widgets\MyControl.cs" />
     <Compile Include="Widgets\PictureBox.cs" />
     <Compile Include="Widgets\QuickView.cs">
       <SubType>UserControl</SubType>
@@ -499,7 +526,6 @@
     </Compile>
     <Compile Include="HIL\Matrix3.cs" />
     <Compile Include="HIL\Vector3.cs" />
-    <Compile Include="Presenter\ConfigCameraStabPresenter.cs" />
     <Compile Include="Presenter\DelegateCommand.cs" />
     <Compile Include="GCSViews\ConfigurationView\ConfigFriendlyParams.cs">
       <SubType>UserControl</SubType>
@@ -817,9 +843,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ImageLabel.resx">
       <DependentUpon>ImageLabel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\MainSwitcher.resx">
-      <DependentUpon>MainSwitcher.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\OptionForm.resx">
       <DependentUpon>OptionForm.cs</DependentUpon>
@@ -1600,6 +1623,8 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
+    <None Include="Resources\MinimOSD.jpg" />
+    <None Include="Resources\new-3DR-04.png" />
     <None Include="Resources\px4.jpg" />
     <None Include="Resources\x8.png" />
     <None Include="Resources\rover-10.png" />

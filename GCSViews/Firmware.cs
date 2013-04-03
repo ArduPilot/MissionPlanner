@@ -370,7 +370,7 @@ namespace ArdupilotMega.GCSViews
                 this.Refresh();
                 Application.DoEvents();
 
-
+                /*
                 ArdupilotMega.Controls.Firmware_Board fwb = new ArdupilotMega.Controls.Firmware_Board();
                 fwb.ShowDialog();
 
@@ -391,8 +391,8 @@ namespace ArdupilotMega.GCSViews
                         board = "px4";
                         break;
                 }
-
-               // board = ArduinoDetect.DetectBoard(MainV2.comPortName);
+                */
+                board = ArduinoDetect.DetectBoard(MainV2.comPortName);
 
                 if (board == "")
                 {
@@ -511,14 +511,7 @@ namespace ArdupilotMega.GCSViews
 
             System.Threading.ThreadPool.QueueUserWorkItem(apmtype, temp.name + "!" + board);
 
-            if (board == "px4")
-            {
-                UploadPX4(Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + @"firmware.hex");
-            }
-            else
-            {
-                UploadFlash(Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + @"firmware.hex", board);
-            }
+            UploadFlash(Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + @"firmware.hex", board);
         }
 
         void apmtype(object temp)
@@ -607,6 +600,12 @@ namespace ArdupilotMega.GCSViews
         
         public void UploadFlash(string filename, string board)
         {
+            if (board == "px4")
+            {
+                UploadPX4(Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + @"firmware.hex");
+                return;
+            }
+
             byte[] FLASH = new byte[1];
             StreamReader sr = null;
             try
@@ -927,7 +926,7 @@ namespace ArdupilotMega.GCSViews
         //Load custom firmware (old CTRL+C shortcut)
         private void Custom_firmware_label_Click(object sender, EventArgs e)
         {
-            var fd = new OpenFileDialog { Filter = "Firmware (*.hex)|*.hex" };
+            var fd = new OpenFileDialog { Filter = "Firmware (*.hex;*.px4)|*.hex;*.px4" };
             fd.ShowDialog();
             if (File.Exists(fd.FileName))
             {
