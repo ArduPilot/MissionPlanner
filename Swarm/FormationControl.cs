@@ -97,7 +97,7 @@ namespace ArdupilotMega.Swarm
                 SwarmInterface.SendCommand();
 
                 // 10 hz
-                System.Threading.Thread.Sleep(100);
+                System.Threading.Thread.Sleep(200);
             }
         }
 

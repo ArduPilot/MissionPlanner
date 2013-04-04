@@ -103,11 +103,11 @@ namespace ArdupilotMega.Swarm
                 {
                     if (Vertical)
                     {
-                        ico.OnPaintVertical(e, xdist, ydist);
+                        ico.OnPaintVertical(e, xdist, ydist,this.Width,this.Height);
                     }
                     else
                     {
-                        ico.OnPaint(e, xdist, ydist);
+                        ico.OnPaint(e, xdist, ydist,this.Width,this.Height);
                     }
                 }
             }
@@ -152,8 +152,10 @@ namespace ArdupilotMega.Swarm
             icons.Add(new icon() { interf = mav, y=y, z = z,x = x, Movable = movable, Name = mav.ToString() });
         }
 
-        private void Grid_MouseMove(object sender, MouseEventArgs e)
+        protected override void OnMouseMove(MouseEventArgs e)
         {
+            base.OnMouseMove(e);
+
             if (e.Button == System.Windows.Forms.MouseButtons.Left && ismousedown == true && mouseover != null)
             {
                 if (mouseover.Movable)
@@ -236,10 +238,10 @@ namespace ArdupilotMega.Swarm
             public MAVLink interf = null;
             public bool Movable = true;
 
-            public void OnPaint(PaintEventArgs e,int xdist, int ydist)
+            public void OnPaint(PaintEventArgs e,int xdist, int ydist,int width, int height)
             {
-                bounds.X = e.ClipRectangle.Width / 2 + e.ClipRectangle.Width / xdist * x - icosize / 2;
-                bounds.Y = e.ClipRectangle.Height / 2 - e.ClipRectangle.Height / ydist * y - icosize / 2;
+                bounds.X = width / 2 + width / xdist * x - icosize / 2;
+                bounds.Y = height / 2 - height / ydist * y - icosize / 2;
                 bounds.Width = icosize;
                 bounds.Height = icosize;
 
@@ -251,10 +253,16 @@ namespace ArdupilotMega.Swarm
                 // e.ClipRectangle.Width / 2 + e.ClipRectangle.Width / xdist * x - icosize / 2, e.ClipRectangle.Height / 2 + e.ClipRectangle.Height / ydist * y - icosize / 2, icosize, icosize                
             }
 
-            public void OnPaintVertical(PaintEventArgs e, int xdist, int ydist)
+            public bool MouseInside()
             {
-                bounds.X = e.ClipRectangle.Width / 2 + e.ClipRectangle.Width / xdist * x - icosize / 2;
-                bounds.Y = e.ClipRectangle.Height / 2 - e.ClipRectangle.Height / ydist * z - icosize / 2;
+
+                return false;
+            }
+
+            public void OnPaintVertical(PaintEventArgs e, int xdist, int ydist, int width, int height)
+            {
+                bounds.X = width / 2 + width / xdist * x - icosize / 2;
+                bounds.Y = height / 2 - height / ydist * z - icosize / 2;
                 bounds.Width = icosize;
                 bounds.Height = icosize;
 

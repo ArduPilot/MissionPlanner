@@ -70,7 +70,6 @@
             this.DoubleBuffered = true;
             this.Name = "Grid";
             this.Size = new System.Drawing.Size(414, 329);
-            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Grid_MouseMove);
             this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();

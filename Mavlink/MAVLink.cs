@@ -2676,8 +2676,20 @@ namespace ArdupilotMega
 
                     try
                     {
+                        // full rw from mirror stream
                         if (MirrorStream != null && MirrorStream.IsOpen)
+                        {
                             MirrorStream.Write(buffer, 0, buffer.Length);
+
+                            while (MirrorStream.BytesToRead > 0)
+                            {
+                                byte[] buf = new byte[1024];
+
+                                int len = MirrorStream.Read(buf, 0, buf.Length);
+
+                                BaseStream.Write(buf,0,len);
+                            }
+                        }
                     }
                     catch { }
                 }

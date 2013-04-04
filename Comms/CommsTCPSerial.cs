@@ -15,7 +15,7 @@ namespace ArdupilotMega.Comms
     public class TcpSerial : ArdupilotMega.Comms.ICommsSerial
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        TcpClient client = new TcpClient();
+        internal TcpClient client = new TcpClient();
         IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
 
         int retrys = 3;
