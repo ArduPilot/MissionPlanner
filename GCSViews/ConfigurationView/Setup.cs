@@ -139,7 +139,6 @@ If you are just setting up 3DR radios, you may continue without connecting.");
                 /****************************** ArduRover **************************/
             else if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduRover)
             {
-                AddBackstageViewPage(new ConfigAccelerometerCalibrationPlane(), "ArduRover Level");
                 AddBackstageViewPage(new ConfigArdurover(), "ArduRover Pids", standardpage);
             }
             else if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.Ateryx)

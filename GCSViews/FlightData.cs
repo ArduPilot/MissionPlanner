@@ -957,67 +957,10 @@ namespace ArdupilotMega.GCSViews
                     if (this.Visible)
                     {
                         //Console.Write("bindingSource1 ");
-                        //MainV2.comPort.MAV.cs.UpdateCurrentSettings(null);
                         MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSource1);
                         //Console.Write("bindingSourceHud ");
-                        //MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSourceHud);
+                        MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSourceHud);
                         //Console.WriteLine("DONE ");
-
-                        this.hud1.airspeed = MainV2.comPort.MAV.cs.airspeed;
-                        this.hud1.alt = MainV2.comPort.MAV.cs.alt;
-                        this.hud1.batterylevel = MainV2.comPort.MAV.cs.battery_voltage;
-                        this.hud1.batteryremaining = MainV2.comPort.MAV.cs.battery_remaining;
-                        this.hud1.current = MainV2.comPort.MAV.cs.current;
-                        this.hud1.datetime = MainV2.comPort.MAV.cs.datetime;
-                        this.hud1.disttowp = MainV2.comPort.MAV.cs.wp_dist;
-                        this.hud1.failsafe = MainV2.comPort.MAV.cs.failsafe;
-                        this.hud1.gpsfix = MainV2.comPort.MAV.cs.gpsstatus;
-                        this.hud1.gpshdop = MainV2.comPort.MAV.cs.gpshdop;
-                        this.hud1.groundalt = MainV2.comPort.MAV.cs.HomeAlt;
-                        this.hud1.groundcourse = MainV2.comPort.MAV.cs.groundcourse;
-                        this.hud1.groundspeed = MainV2.comPort.MAV.cs.groundspeed;
-                        this.hud1.heading = MainV2.comPort.MAV.cs.yaw;
-                        this.hud1.linkqualitygcs = MainV2.comPort.MAV.cs.linkqualitygcs;
-                        this.hud1.mode = MainV2.comPort.MAV.cs.mode;
-                        this.hud1.navpitch = MainV2.comPort.MAV.cs.nav_pitch;
-                        this.hud1.navroll = MainV2.comPort.MAV.cs.nav_roll;
-                        this.hud1.pitch = MainV2.comPort.MAV.cs.pitch;
-                        this.hud1.roll = MainV2.comPort.MAV.cs.roll;
-                        this.hud1.status = MainV2.comPort.MAV.cs.armed;
-                        this.hud1.targetalt = MainV2.comPort.MAV.cs.targetalt;
-                        this.hud1.targetheading = MainV2.comPort.MAV.cs.nav_bearing;
-                        this.hud1.targetspeed = MainV2.comPort.MAV.cs.targetairspeed;
-                        this.hud1.turnrate = MainV2.comPort.MAV.cs.turnrate;
-                        this.hud1.verticalspeed = MainV2.comPort.MAV.cs.verticalspeed;
-                        this.hud1.wpno =(int)MainV2.comPort.MAV.cs.wpno;
-                        this.hud1.xtrack_error = MainV2.comPort.MAV.cs.xtrack_error;
-
-                        //this.quickView6.number = MainV2.comPort.MAV.cs.DistToHome;
-                        //this.quickView5.number = MainV2.comPort.MAV.cs.verticalspeed;
-                        //this.quickView4.number = MainV2.comPort.MAV.cs.yaw;
-                        //this.quickView3.number = MainV2.comPort.MAV.cs.wp_dist;
-                        //this.quickView2.number = MainV2.comPort.MAV.cs.groundspeed;
-                        //this.quickView1.number = MainV2.comPort.MAV.cs.alt;
-
-                        this.Gvspeed.Value0 = MainV2.comPort.MAV.cs.verticalspeed;
-                        this.Gheading.Heading = (int)MainV2.comPort.MAV.cs.yaw;
-                        this.Gheading.NavHeading = (int)MainV2.comPort.MAV.cs.nav_bearing;
-
-                        this.Galt.Value0 = MainV2.comPort.MAV.cs.altd100;
-                        this.Galt.Value1 = MainV2.comPort.MAV.cs.altd1000;
-                        this.Galt.Value2 = MainV2.comPort.MAV.cs.targetaltd100;
-
-                        this.Gspeed.Value0 = MainV2.comPort.MAV.cs.airspeed;
-                        this.Gspeed.Value1 = MainV2.comPort.MAV.cs.groundspeed;
-
-                        this.lbl_winddir.Text = MainV2.comPort.MAV.cs.wind_dir.ToString("Dir: 0");
-                        this.lbl_windvel.Text = MainV2.comPort.MAV.cs.wind_vel.ToString("Vel: 0");
-                        this.lbl_hdop.Text = MainV2.comPort.MAV.cs.gpshdop.ToString("hdop: 0.0");
-                        this.lbl_sats.Text = MainV2.comPort.MAV.cs.satcount.ToString("Sats: 0");
-
-                        this.TXT_lat.Text = MainV2.comPort.MAV.cs.lat.ToString("Lat 0");
-                        this.TXT_long.Text = MainV2.comPort.MAV.cs.lng.ToString("Lng 0");
-                        this.TXT_alt.Text = MainV2.comPort.MAV.cs.alt.ToString("Alt 0");
                     }
                     else
                     {

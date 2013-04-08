@@ -47,6 +47,7 @@ namespace ArdupilotMega.GCSViews
         int tickStart = 0;
         public static int threadrun = 0;
         string simIP = "127.0.0.1";
+        string SITLIP = "127.0.0.1";
         int simPort = 49000;
         int recvPort = 49005;
 
@@ -99,12 +100,12 @@ namespace ArdupilotMega.GCSViews
             public double latitude, longitude; // degrees
             public double altitude;  // MSL
             public double heading;   // degrees
-            public double speedN, speedE; // m/s
+            public double speedN, speedE, speedD; // m/s
             public double xAccel, yAccel, zAccel;       // m/s/s in body frame
             public double rollRate, pitchRate, yawRate; // degrees/s/s in earth frame
             public double rollDeg, pitchDeg, yawDeg;    // euler angles, degrees
             public double airspeed; // m/s
-            public UInt32 magic; // 0x4c56414e
+            public UInt32 magic; // 0x4c56414f
         };
 
         const int AEROSIMRC_MAX_CHANNELS = 39;
@@ -278,8 +279,8 @@ namespace ArdupilotMega.GCSViews
 
                 if (MainV2.comPort.BaseStream.IsOpen == false)
                 {
-                    CustomMessageBox.Show("Please connect first");
-                    return;
+                 //   CustomMessageBox.Show("Please connect first");
+                  //  return;
                 }
 
 
@@ -297,7 +298,8 @@ namespace ArdupilotMega.GCSViews
 
                     if (chkSensor.Checked)
                     {
-                        SITLSEND = new UdpClient(simIP, 5501);
+                        SITLSEND = new UdpClient(SITLIP, 5501);
+                        OutputLog.AppendText("SITL to " + SITLIP + " port " + 5501 + " \n");
                     }
 
                     if (RAD_softXplanes.Checked)
@@ -323,7 +325,7 @@ namespace ArdupilotMega.GCSViews
 
                             System.Threading.Thread.Sleep(2000);
 
-                            SetupTcpJSBSim(); // old style
+                            SetupTcpJSBSim();
                         }
 
                         SetupUDPXplanes(); // fg udp style
@@ -347,6 +349,14 @@ namespace ArdupilotMega.GCSViews
 
                 timer_servo_graph.Stop();
                 threadrun = 0;
+                if (JSBSimSEND != null && JSBSimSEND.Connected)
+                {
+                    try
+                    {
+                        JSBSimSEND.Client.Send(ASCIIEncoding.ASCII.GetBytes("\n\nexit\n"));
+                    }
+                    catch { }
+                }
                 if (SimulatorRECV != null)
                     SimulatorRECV.Close();
                 if (SimulatorRECV != null && SimulatorRECV.Connected)
@@ -388,6 +398,7 @@ namespace ArdupilotMega.GCSViews
 
                 ArdupilotMega.MainV2.config["CHKdisplayall"] = CHKdisplayall.Checked.ToString();
 
+                ArdupilotMega.MainV2.config["SITLIP"] = SITLIP;
                 ArdupilotMega.MainV2.config["simIP"] = simIP;
                 ArdupilotMega.MainV2.config["recvPort"] = recvPort;
 
@@ -401,6 +412,9 @@ namespace ArdupilotMega.GCSViews
                     {
                         case "simIP":
                             simIP = ArdupilotMega.MainV2.config[key].ToString();
+                            break;
+                        case "SITLIP":
+                            SITLIP = ArdupilotMega.MainV2.config[key].ToString();
                             break;
                         case "simPort":
                             simPort = int.Parse(ArdupilotMega.MainV2.config[key].ToString());
@@ -570,7 +584,7 @@ namespace ArdupilotMega.GCSViews
 
             while (threadrun == 1)
             {
-                if (comPort.BaseStream.IsOpen == false) { break; }
+               // if (comPort.BaseStream.IsOpen == false) { break; }
                 // re-request servo data
                 if (!(lastdata.AddSeconds(8) > DateTime.Now))
                 {
@@ -619,7 +633,7 @@ namespace ArdupilotMega.GCSViews
                     }
                     catch { }
                 }
-                if (comPort.BaseStream.IsOpen == false) { break; }
+                //if (comPort.BaseStream.IsOpen == false) { break; }
                 try
                 {
 
@@ -629,14 +643,16 @@ namespace ArdupilotMega.GCSViews
                     {
                         //hzcount++;
                         simsendtime = DateTime.Now;
-                        processArduPilot();
+
+                        if (comPort.BaseStream.IsOpen == true)
+                            processArduPilot();
                     }
                 }
                 catch (Exception ex) { log.Info("SIM Main loop exception " + ex.ToString()); }
 
                 if (hzcounttime.Second != DateTime.Now.Second)
                 {
-                   // Console.WriteLine("SIM hz {0}", hzcount);
+                    Console.WriteLine("SIM hz {0}", hzcount);
                     hzcount = 0;
                     hzcounttime = DateTime.Now;
                 }
@@ -658,6 +674,13 @@ namespace ArdupilotMega.GCSViews
             // setup receiver
             IPEndPoint ipep = new IPEndPoint(IPAddress.Any, recvPort);
 
+            try
+            {
+                // close it to be sure
+                SimulatorRECV.Close();
+            }
+            catch { }
+
             SimulatorRECV = new Socket(AddressFamily.InterNetwork,
                             SocketType.Dgram, ProtocolType.Udp);
 
@@ -673,7 +696,7 @@ namespace ArdupilotMega.GCSViews
                 JSBSimSEND = new TcpClient();
                 JSBSimSEND.Client.NoDelay = true;
                 JSBSimSEND.Connect("127.0.0.1", simPort);
-                OutputLog.AppendText("Sending to port TCP " + simPort + " (planner->sim)\n");
+                OutputLog.AppendText("Console port TCP " + simPort + " (planner->sim)\n");
 
                 //JSBSimSEND.Client.Send(System.Text.Encoding.ASCII.GetBytes("set position/h-agl-ft 0\r\n"));
 
@@ -713,6 +736,8 @@ namespace ArdupilotMega.GCSViews
 
         sitl_fdm oldgps = new sitl_fdm();
 
+        sitl_fdm sitldata_old = new sitl_fdm();
+
         /// <summary>
         /// Recevied UDP packet, process and send required data to serial port.
         /// </summary>
@@ -750,14 +775,16 @@ namespace ArdupilotMega.GCSViews
 
                 bool xplane9 = !CHK_xplane10.Checked;
 
+               
+
                 if (xplane9)
                 {
                     sitldata.pitchDeg = (DATA[18][0]);
                     sitldata.rollDeg = (DATA[18][1]);
                     sitldata.yawDeg = (DATA[18][2]);
-                    sitldata.pitchRate = (DATA[17][0]);
-                    sitldata.rollRate = (DATA[17][1]);
-                    sitldata.yawRate = (DATA[17][2]);
+                    sitldata.pitchRate = (DATA[17][0] * rad2deg);
+                    sitldata.rollRate = (DATA[17][1] * rad2deg);
+                    sitldata.yawRate = (DATA[17][2] * rad2deg);
 
                     sitldata.heading = ((float)DATA[19][2]);
                 }
@@ -766,11 +793,11 @@ namespace ArdupilotMega.GCSViews
                     sitldata.pitchDeg = (DATA[17][0]);
                     sitldata.rollDeg = (DATA[17][1]);
                     sitldata.yawDeg = (DATA[17][2]);
-                    sitldata.pitchRate = (DATA[16][0]);
-                    sitldata.rollRate = (DATA[16][1]);
-                    sitldata.yawRate = (DATA[16][2]);
+                    sitldata.pitchRate = (DATA[16][0] * rad2deg);
+                    sitldata.rollRate = (DATA[16][1] * rad2deg);
+                    sitldata.yawRate = (DATA[16][2] * rad2deg);
 
-                    sitldata.heading = (DATA[18][2]);
+                    sitldata.heading = (DATA[18][2]); // 18-2
                 }
 
                 sitldata.airspeed = ((DATA[3][5] * .44704));
@@ -779,11 +806,12 @@ namespace ArdupilotMega.GCSViews
                 sitldata.longitude = (DATA[20][1]);
                 sitldata.altitude = (DATA[20][2] * ft2m);
 
-                sitldata.speedN = DATA[21][3];// (DATA[3][7] * 0.44704 * Math.Sin(sitldata.heading * deg2rad));
-                sitldata.speedE = -DATA[21][5];// (DATA[3][7] * 0.44704 * Math.Cos(sitldata.heading * deg2rad));
+                sitldata.speedN = -DATA[21][5];// (DATA[3][7] * 0.44704 * Math.Sin(sitldata.heading * deg2rad));
+                sitldata.speedE = DATA[21][3];// (DATA[3][7] * 0.44704 * Math.Cos(sitldata.heading * deg2rad));
+                sitldata.speedD = -DATA[21][4];
 
                 Matrix3 dcm = new Matrix3();
-                dcm.from_euler(sitldata.rollDeg * deg2rad, sitldata.pitchDeg * deg2rad, sitldata.yawDeg * deg2rad);
+                dcm.from_euler(sitldata.rollDeg * deg2rad, sitldata.pitchDeg * deg2rad, sitldata.heading * deg2rad);
 
                 // rad = tas^2 / (tan(angle) * G)
                 float turnrad = (float)(((DATA[3][7] * 0.44704) * (DATA[3][7] * 0.44704)) / (float)(9.8f * Math.Tan(sitldata.rollDeg * deg2rad)));
@@ -793,15 +821,43 @@ namespace ArdupilotMega.GCSViews
                 // a = v^2/r
                 float centripaccel = (float)((DATA[3][7] * 0.44704) * (DATA[3][7] * 0.44704)) / turnrad;
 
-                Vector3 accel_body = dcm.transposed() * (new Vector3(0, 0, -9.8));
+                Vector3 accel_body = dcm.transposed() * (new Vector3(0, 0, -9.808));
 
                 Vector3 centrip_accel = new Vector3(0, centripaccel * Math.Cos(sitldata.rollDeg * deg2rad), centripaccel * Math.Sin(sitldata.rollDeg * deg2rad));
 
-                accel_body -= centrip_accel;
+                //accel_body += centrip_accel;
 
-                sitldata.xAccel = DATA[4][5] * 0.1;
-                sitldata.yAccel = DATA[4][6] * 0.1;
-                sitldata.zAccel = (0 - DATA[4][4]) * 0.1;
+                Vector3 velocitydelta = dcm.transposed() * (new Vector3((sitldata_old.speedN - sitldata.speedN), (sitldata_old.speedE - sitldata.speedE), (sitldata_old.speedD - sitldata.speedD)));
+
+                Vector3 velocity = dcm.transposed() * (new Vector3((sitldata.speedN), (sitldata.speedE), (sitldata.speedD)));
+
+                Console.WriteLine("vel " + velocity.ToString());
+                Console.WriteLine("ved " + velocitydelta.ToString());
+
+                // a = dv / dt
+
+                // 50 hz = 0.02sec
+                Vector3 accel_mine_body = dcm.transposed() * (new Vector3((sitldata_old.speedN - sitldata.speedN) / 0.02, (sitldata_old.speedE - sitldata.speedE) / 0.02, (sitldata_old.speedD - sitldata.speedD) / 0.02));
+
+             //   Console.WriteLine("G"+accel_body.ToString());
+                Console.WriteLine("M"+accel_mine_body.ToString());
+
+             //   sitldata.pitchRate = 0;
+             //   sitldata.rollRate = 0;
+              //  sitldata.yawRate = 0;
+
+               // accel_mine_body.x *= -1;
+
+                accel_mine_body.z *=-1;
+
+                accel_mine_body.y *= -1;
+
+                accel_body += accel_mine_body;
+
+                sitldata.xAccel = accel_body.x;// DATA[4][5] * 1;
+                sitldata.yAccel = accel_body.y;//  DATA[4][6] * 1;
+                sitldata.zAccel = accel_body.z;//  (0 - DATA[4][4]) * 9.808;
+
 
           //      Console.WriteLine(accel_body.ToString());
           //      Console.WriteLine("        {0} {1} {2}",sitldata.xAccel, sitldata.yAccel, sitldata.zAccel);
@@ -899,6 +955,7 @@ namespace ArdupilotMega.GCSViews
 
                 sitldata.speedN = aeroin.Model_fVelY;
                 sitldata.speedE = aeroin.Model_fVelX;
+                sitldata.speedD = aeroin.Model_fVelZ;
 
                 float xvec = aeroin.Model_fVelY - aeroin.Model_fWindVelY;
                 float yvec = aeroin.Model_fVelX - aeroin.Model_fWindVelX;
@@ -912,31 +969,32 @@ namespace ArdupilotMega.GCSViews
 
                 lastfdmdata = fdm;
 
+                sitldata.altitude = (fdm.altitude);
+                sitldata.latitude = (fdm.latitude * rad2deg);
+                sitldata.longitude = (fdm.longitude * rad2deg);
 
                 sitldata.rollDeg = fdm.phi * rad2deg;
                 sitldata.pitchDeg = fdm.theta * rad2deg;
                 sitldata.yawDeg = fdm.psi * rad2deg;
 
-
                 sitldata.rollRate = fdm.phidot * rad2deg;
                 sitldata.pitchRate = fdm.thetadot * rad2deg;
                 sitldata.yawRate = fdm.psidot * rad2deg;
 
+                sitldata.speedN = fdm.v_north * ft2m;
+                sitldata.speedE = fdm.v_east * ft2m;
+                sitldata.speedD = fdm.v_down * ft2m;
+
                 sitldata.xAccel = (fdm.A_X_pilot * 9.808 / 32.2); // pitch
-                sitldata.yAccel =  (fdm.A_Y_pilot * 9.808 / 32.2); // roll
-                sitldata.zAccel =  (fdm.A_Z_pilot / 32.2 * 9.808);
-
-                sitldata.altitude = (fdm.altitude);
-                sitldata.latitude = (fdm.latitude * rad2deg);
-                sitldata.longitude = (fdm.longitude * rad2deg);
-
-                sitldata.speedN = fdm.v_east * ft2m;
-                sitldata.speedE = fdm.v_north * ft2m;
+                sitldata.yAccel = (fdm.A_Y_pilot * 9.808 / 32.2); // roll
+                sitldata.zAccel = (fdm.A_Z_pilot / 32.2 * 9.808);
 
                 sitldata.airspeed = fdm.vcas * 0.5144444f;//  knots to m/s
 
+               // Console.WriteLine("1 {0} {1} {2} {3}",(float)sitldata.rollDeg,MainV2.comPort.MAV.cs.roll,sitldata.pitchDeg,MainV2.comPort.MAV.cs.pitch);
+
                 if (RAD_JSBSim.Checked)
-                    sitldata.airspeed = fdm.vcas * 0.3048f;//  fps to m/s
+                    sitldata.airspeed = fdm.vcas * ft2m;//  fps to m/s
                  
             }
             else
@@ -944,6 +1002,9 @@ namespace ArdupilotMega.GCSViews
                 log.Info("Bad Udp Packet " + receviedbytes);
                 return;
             }
+
+
+            sitldata_old = sitldata;
 
             // write arduimu to ardupilot
             if (CHK_quad.Checked && !RAD_aerosimrc.Checked) // quad does its own
@@ -957,42 +1018,21 @@ namespace ArdupilotMega.GCSViews
                 while (JSBSimSEND.Client.Available > 5)
                 {
                     int read = JSBSimSEND.Client.Receive(buffer);
+                   // Console.WriteLine(ASCIIEncoding.ASCII.GetString(buffer,0,read));
                 }
 
-                byte[] sitlout = new byte[16 * 8 + 1 * 4]; // 16 * double + 1 * int
-                int a = 0;
-                // send state to sitl
+                sitldata.magic = (int)0x4c56414f;
 
-                Array.Copy(BitConverter.GetBytes((double)lastfdmdata.latitude * rad2deg), a, sitlout, a, 8);
-                Array.Copy(BitConverter.GetBytes((double)lastfdmdata.longitude * rad2deg), 0, sitlout, a += 8, 8);
-                Array.Copy(BitConverter.GetBytes((double)lastfdmdata.altitude), 0, sitlout, a += 8, 8);
-                Array.Copy(BitConverter.GetBytes((double)lastfdmdata.psi * rad2deg), 0, sitlout, a += 8, 8);
-                Array.Copy(BitConverter.GetBytes((double)lastfdmdata.v_north * ft2m), 0, sitlout, a += 8, 8);
-                Array.Copy(BitConverter.GetBytes((double)lastfdmdata.v_east * ft2m), 0, sitlout, a += 8, 8);
-                Array.Copy(BitConverter.GetBytes((double)lastfdmdata.A_X_pilot * ft2m), 0, sitlout, a += 8, 8);
-                Array.Copy(BitConverter.GetBytes((double)lastfdmdata.A_Y_pilot * ft2m), 0, sitlout, a += 8, 8);
+                byte[] sendme = StructureToByteArray(sitldata);
 
-                Array.Copy(BitConverter.GetBytes((double)lastfdmdata.A_Z_pilot * ft2m), 0, sitlout, a += 8, 8);
-                Array.Copy(BitConverter.GetBytes((double)lastfdmdata.phidot * rad2deg), 0, sitlout, a += 8, 8);
-                Array.Copy(BitConverter.GetBytes((double)lastfdmdata.thetadot * rad2deg), 0, sitlout, a += 8, 8);
-                Array.Copy(BitConverter.GetBytes((double)lastfdmdata.psidot * rad2deg), 0, sitlout, a += 8, 8);
-                Array.Copy(BitConverter.GetBytes((double)lastfdmdata.phi * rad2deg), 0, sitlout, a += 8, 8);
-                Array.Copy(BitConverter.GetBytes((double)lastfdmdata.theta * rad2deg), 0, sitlout, a += 8, 8);
-                Array.Copy(BitConverter.GetBytes((double)lastfdmdata.psi * rad2deg), 0, sitlout, a += 8, 8);
-                Array.Copy(BitConverter.GetBytes((double)lastfdmdata.vcas * ft2m), 0, sitlout, a += 8, 8);
-
-                //                Console.WriteLine(lastfdmdata.theta);
-
-                Array.Copy(BitConverter.GetBytes((int)0x4c56414e), 0, sitlout, a += 8, 4);
-
-                SITLSEND.Send(sitlout, sitlout.Length);
+                SITLSEND.Send(sendme, sendme.Length);
 
                 return;
             }
 
             if (RAD_softXplanes.Checked && chkSensor.Checked)
             {
-                sitldata.magic = (int)0x4c56414e;
+                sitldata.magic = (int)0x4c56414f;
 
                 byte[] sendme = StructureToByteArray(sitldata);
 
@@ -1083,7 +1123,7 @@ namespace ArdupilotMega.GCSViews
             try
             {
                 // Update Sim stuff
-                this.Invoke((MethodInvoker)delegate
+                this.BeginInvoke((MethodInvoker)delegate
                 {
                     TXT_servoroll.Text = roll_out.ToString("0.000");
                     TXT_servopitch.Text = pitch_out.ToString("0.000");
@@ -1747,6 +1787,8 @@ namespace ArdupilotMega.GCSViews
         private void but_advsettings_Click(object sender, EventArgs e)
         {
             InputBox("IP", "Enter Sim pc IP (def 127.0.0.1)", ref simIP);
+
+            InputBox("IP", "Enter SITL pc IP (def 127.0.0.1)", ref SITLIP);
 
             string temp = simPort.ToString();
             InputBox("Port", "Enter Sim pc Port (def 49000)", ref temp);

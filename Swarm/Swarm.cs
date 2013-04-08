@@ -26,6 +26,9 @@ namespace ArdupilotMega.Swarm
         {
             foreach (var port in MainV2.Comports)
             {
+                if (port == Leader)
+                    continue;
+
                 port.doARM(true);
             }
         }
@@ -34,6 +37,9 @@ namespace ArdupilotMega.Swarm
         {
             foreach (var port in MainV2.Comports)
             {
+                if (port == Leader)
+                    continue;
+
                 port.doARM(false);
             }
         }

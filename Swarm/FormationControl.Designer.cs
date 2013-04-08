@@ -102,7 +102,7 @@
             this.BUT_Land.Name = "BUT_Land";
             this.BUT_Land.Size = new System.Drawing.Size(75, 23);
             this.BUT_Land.TabIndex = 3;
-            this.BUT_Land.Text = "Land";
+            this.BUT_Land.Text = "Land (all)";
             this.BUT_Land.UseVisualStyleBackColor = true;
             this.BUT_Land.Click += new System.EventHandler(this.BUT_Land_Click);
             // 
@@ -123,7 +123,7 @@
             this.BUT_Disarm.Name = "BUT_Disarm";
             this.BUT_Disarm.Size = new System.Drawing.Size(75, 23);
             this.BUT_Disarm.TabIndex = 1;
-            this.BUT_Disarm.Text = "Disarm";
+            this.BUT_Disarm.Text = "Disarm (exl leader)";
             this.BUT_Disarm.UseVisualStyleBackColor = true;
             this.BUT_Disarm.Click += new System.EventHandler(this.BUT_Disarm_Click);
             // 
@@ -133,7 +133,7 @@
             this.BUT_Arm.Name = "BUT_Arm";
             this.BUT_Arm.Size = new System.Drawing.Size(75, 23);
             this.BUT_Arm.TabIndex = 0;
-            this.BUT_Arm.Text = "Arm";
+            this.BUT_Arm.Text = "Arm (exl leader)";
             this.BUT_Arm.UseVisualStyleBackColor = true;
             this.BUT_Arm.Click += new System.EventHandler(this.BUT_Arm_Click);
             // 
@@ -157,7 +157,7 @@
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(680, 394);
             this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "tabPage1";
+            this.tabPage1.Text = "Stage 1";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // FormationControl

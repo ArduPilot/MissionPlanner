@@ -77,6 +77,12 @@ namespace ArdupilotMega.Swarm
 
         private void BUT_Start_Click(object sender, EventArgs e)
         {
+            if (threadrun == true)
+            {
+                threadrun = false;
+                return;
+            }
+
             if (SwarmInterface != null)
             {
                 new System.Threading.Thread(mainloop) { IsBackground = true }.Start();
