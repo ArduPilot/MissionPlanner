@@ -59,6 +59,9 @@ namespace ArdupilotMega
         /// used as a snapshot of what is loaded on the ap atm. - derived from the stream
         /// </summary>
         public Dictionary<int, mavlink_mission_item_t> wps { get { return MAV.wps; } set { MAV.wps = value; } }
+
+        public Dictionary<string, MAV_PARAM_TYPE> param_types = new Dictionary<string, MAV_PARAM_TYPE>();
+
         /// <summary>
         /// Store the guided mode wp location
         /// </summary>
@@ -657,15 +660,12 @@ namespace ArdupilotMega
 
             giveComport = true;
 
-            var req = new mavlink_param_set_t { target_system = sysid, target_component = compid };
+            // param type is set here, however it is always sent over the air as a float 100int = 100f.
+            var req = new mavlink_param_set_t { target_system = sysid, target_component = compid, param_type = (byte)param_types[paramname] };
 
             byte[] temp = Encoding.ASCII.GetBytes(paramname);
 
-#if MAVLINK10
             Array.Resize(ref temp, 16);
-#else
-            Array.Resize(ref temp, 15);
-#endif
             req.param_id = temp;
             req.param_value = (value);
 
@@ -900,6 +900,8 @@ namespace ArdupilotMega
                         param_count++;
                         indexsreceived.Add(par.param_index);
 
+                        param_types[paramID] = (MAV_PARAM_TYPE)par.param_type;
+
                         //Console.WriteLine(DateTime.Now.Millisecond + " gp3 ");
 
                         this.frmProgressReporter.UpdateProgressAndStatus((indexsreceived.Count * 100) / param_total, "Got param " + paramID);
@@ -1015,6 +1017,8 @@ namespace ArdupilotMega
 
                         // update table
                         param[st] = par.param_value;
+
+                        param_types[st] = (MAV_PARAM_TYPE)par.param_type;
 
                         log.Info(DateTime.Now.Millisecond + " got param " + (par.param_index) + " of " + (par.param_count) + " name: " + st);
 

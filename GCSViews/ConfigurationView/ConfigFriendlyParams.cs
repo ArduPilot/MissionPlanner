@@ -22,6 +22,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
           LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private readonly ParameterMetaDataRepository _parameterMetaDataRepository;
         private Dictionary<string, string> _params = new Dictionary<string, string>();
+        private Dictionary<string, string> _params_changed = new Dictionary<string, string>();
 
         #endregion
 
@@ -63,25 +64,21 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
         protected void BUT_writePIDS_Click(object sender, EventArgs e)
         {
             bool errorThrown = false;
-            _params.ForEach(x =>
+            _params_changed.ForEach(x =>
             {
-                var matchingControls = tableLayoutPanel1.Controls.Find(x.Key, true);
-                if (matchingControls.Length > 0)
+                try
                 {
-                    var ctl = (IDynamicParameterControl)matchingControls[0];
-                    try
-                    {
-                        MainV2.comPort.setParam(x.Key, float.Parse(ctl.Value));
-                    }
-                    catch
-                    {
-                        errorThrown = true;
-                        CustomMessageBox.Show("Set " + x.Key + " Failed");
-                    }
+                    MainV2.comPort.setParam(x.Key, float.Parse(x.Value));
+                }
+                catch
+                {
+                    errorThrown = true;
+                    CustomMessageBox.Show("Set " + x.Key + " Failed");
                 }
             });
             if (!errorThrown)
             {
+                _params_changed.Clear();
                 CustomMessageBox.Show("Parameters successfully saved.");
             }
         }
@@ -131,8 +128,6 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         public void Activate()
         {
-            Console.WriteLine(DateTime.Now.ToString());
-            SortParamList();
             Console.WriteLine(DateTime.Now.ToString());
             BindParamList();
             Console.WriteLine(DateTime.Now.ToString());
@@ -189,12 +184,16 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             foreach (Control ctl in tableLayoutPanel1.Controls)
             {
                 ctl.Dispose();
-                Console.WriteLine("ctl disp " + DateTime.Now.ToString());
+               // Console.WriteLine("ctl disp " + DateTime.Now.ToString());
             }
             
             tableLayoutPanel1.Controls.Clear();
 
-            if (_params == null || _params.Count == 0) SortParamList();
+            try
+            {
+                SortParamList();
+            }
+            catch { }
 
             // get the params if nothing exists already
             if (_params != null && _params.Count == 0)
@@ -218,7 +217,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             _params.OrderBy(x => x.Key).ForEach(x =>
          {
              AddControl(x);//,ref ypos);
-             Console.WriteLine("add ctl " + DateTime.Now.ToString());
+           //  Console.WriteLine("add ctl " +x.Key + " "  + DateTime.Now.ToString());
          });
         }
 
@@ -273,7 +272,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
 
                             var rangeControl = new RangeControl(x.Key, FitDescriptionText(units, description), displayName, increment, displayscale, lowerRange, upperRange, value);
 
-                            //Console.WriteLine("{0} {1} {2} {3} {4}", x.Key, increment, lowerRange, upperRange, value);
+                            Console.WriteLine("{0} {1} {2} {3} {4}", x.Key, increment, lowerRange, upperRange, value);
 
                             ThemeManager.ApplyThemeTo(rangeControl);
 
@@ -284,6 +283,8 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                                 rangeControl.NumericUpDownControl.BackColor = Color.Orange;
 
                             rangeControl.AttachEvents();
+
+                            rangeControl.ValueChanged += Control_ValueChanged;
 
                             // set pos
 //                            rangeControl.Location = new Point(0, ypos);
@@ -324,6 +325,8 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                                 valueControl.ComboBoxControl.DataSource = splitValues;
                                 valueControl.ComboBoxControl.SelectedValue = value;
 
+                                valueControl.ValueChanged += Control_ValueChanged;
+
                                 // set pos
 //                                valueControl.Location = new Point(0, ypos);
                                 // add control - let it autosize height
@@ -336,6 +339,11 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                 } // if there is an error simply dont show it, ie bad pde file, bad scale etc
                 catch (Exception ex) { log.Error(ex); }
             }
+        }
+
+        void Control_ValueChanged(string name, string value)
+        {
+            _params_changed[name] = value;
         }
 
         /// <summary>

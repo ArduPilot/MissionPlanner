@@ -57,6 +57,7 @@
             this.BUT_outputnmea = new ArdupilotMega.Controls.MyButton();
             this.BUT_outputMavlink = new ArdupilotMega.Controls.MyButton();
             this.myButton1 = new ArdupilotMega.Controls.MyButton();
+            this.BUT_simmulti = new ArdupilotMega.Controls.MyButton();
             this.SuspendLayout();
             // 
             // label1
@@ -343,11 +344,22 @@
             this.myButton1.UseVisualStyleBackColor = true;
             this.myButton1.Click += new System.EventHandler(this.myButton1_Click_1);
             // 
+            // BUT_simmulti
+            // 
+            this.BUT_simmulti.Location = new System.Drawing.Point(592, 287);
+            this.BUT_simmulti.Name = "BUT_simmulti";
+            this.BUT_simmulti.Size = new System.Drawing.Size(75, 23);
+            this.BUT_simmulti.TabIndex = 31;
+            this.BUT_simmulti.Text = "Multi Sim";
+            this.BUT_simmulti.UseVisualStyleBackColor = true;
+            this.BUT_simmulti.Click += new System.EventHandler(this.BUT_simmulti_Click);
+            // 
             // temp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(685, 507);
+            this.Controls.Add(this.BUT_simmulti);
             this.Controls.Add(this.myButton1);
             this.Controls.Add(this.BUT_outputMavlink);
             this.Controls.Add(this.BUT_outputnmea);
@@ -416,5 +428,6 @@
         private Controls.MyButton BUT_outputnmea;
         private Controls.MyButton BUT_outputMavlink;
         private Controls.MyButton myButton1;
+        private Controls.MyButton BUT_simmulti;
     }
 }

@@ -13,13 +13,24 @@ namespace ArdupilotMega.Controls
    {
       #region Properties
 
+       public event EventValueChanged ValueChanged;
+
       public string LabelText { get { return myLabel1.Text; } set { myLabel1.Text = value; } }
       public string DescriptionText { get { return label1.Text; } set { label1.Text = value; } }
       public ComboBox ComboBoxControl { get { return comboBox1; } set { comboBox1 = value; } }
 
       #region Interface Properties
 
-      public string Value { get { return comboBox1.SelectedValue.ToString(); } set { comboBox1.SelectedValue = value; } }
+      public string Value
+      {
+          get { return comboBox1.SelectedValue.ToString(); }
+          set
+          {
+              comboBox1.SelectedValue = value;
+              if (ValueChanged != null)
+                  ValueChanged(Name, Value);
+          }
+      }
 
       #endregion
 
@@ -33,5 +44,11 @@ namespace ArdupilotMega.Controls
       }
 
       #endregion
+
+      private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+      {
+          if (ValueChanged != null)
+              ValueChanged(Name, Value);
+      }
    }
 }

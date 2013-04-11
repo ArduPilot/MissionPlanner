@@ -802,7 +802,6 @@ namespace ArdupilotMega
         {
             // shutdown threads
             GCSViews.FlightData.threadrun = 0;
-            GCSViews.Simulation.threadrun = 0;
 
             // shutdown local thread
             serialThread = false;

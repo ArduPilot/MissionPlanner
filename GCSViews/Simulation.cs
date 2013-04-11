@@ -45,7 +45,7 @@ namespace ArdupilotMega.GCSViews
         int packetssent = 0;
         //string logdata = "";
         int tickStart = 0;
-        public static int threadrun = 0;
+        public int threadrun = 0;
         string simIP = "127.0.0.1";
         string SITLIP = "127.0.0.1";
         int simPort = 49000;

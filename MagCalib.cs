@@ -34,8 +34,6 @@ namespace ArdupilotMega
             }
             catch { } // incase dir doesnt exist
 
-            openFileDialog1.FileName = @"C:\Users\hog\Downloads\2012-02-05.log";
-
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 try

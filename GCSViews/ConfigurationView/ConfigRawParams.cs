@@ -306,7 +306,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                 }
 
                 Params[e.ColumnIndex, e.RowIndex].Style.BackColor = Color.Green;
-                _changes[Params[0, e.RowIndex].Value] = float.Parse(Params[e.ColumnIndex, e.RowIndex].Value.ToString());
+                _changes[Params[0, e.RowIndex].Value] = float.Parse(((string)Params[e.ColumnIndex, e.RowIndex].Value).ToString());
             }
             catch (Exception)
             {

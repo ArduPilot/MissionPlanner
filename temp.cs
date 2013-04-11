@@ -1001,5 +1001,18 @@ namespace ArdupilotMega
         {
             
         }
+
+        private void BUT_simmulti_Click(object sender, EventArgs e)
+        {
+            Form frm = new Form();
+            var sim = new GCSViews.Simulation();
+            frm.Controls.Add(sim);
+            frm.Size = sim.Size;
+            sim.Dock = DockStyle.Fill;
+
+            frm.Show();
+
+        
+        }
     }
 }

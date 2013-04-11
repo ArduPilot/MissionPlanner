@@ -14,6 +14,8 @@ namespace ArdupilotMega.Controls
    {
       #region Properties
 
+       public event EventValueChanged ValueChanged;
+
       public NumericUpDown NumericUpDownControl { get { return numericUpDown1; } set { numericUpDown1 = value; } }
       public string DescriptionText { get { return label1.Text; } set { label1.Text = value; } }
       public string LabelText { get { return myLabel1.Text; } set { myLabel1.Text = value; } }
@@ -59,6 +61,9 @@ namespace ArdupilotMega.Controls
 
              numericUpDown1.Value = (decimal)((float)decimal.Parse(value) / DisplayScale);
             numericUpDown1_ValueChanged(null, null);
+
+            if (ValueChanged != null)
+                ValueChanged(Name, Value);
          }
       }
 
@@ -118,12 +123,18 @@ namespace ArdupilotMega.Controls
 
          if ((float)numericUpDown1.Value > (MaxRange))
              numericUpDown1.BackColor = Color.Orange;
+
+         if (ValueChanged != null)
+             ValueChanged(Name, Value);
       }
 
       protected void trackBar1_ValueChanged(object sender, EventArgs e)
       {
           numericUpDown1.Value = (decimal)((float)trackBar1.Value / DisplayScale / tbscale);
          numericUpDown1.Text = ((float)numericUpDown1.Value).ToString();
+
+         if (ValueChanged != null)
+             ValueChanged(Name, Value);
       }
 
       #endregion
