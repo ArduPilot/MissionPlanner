@@ -643,8 +643,8 @@ namespace ArdupilotMega
                     comPort.giveComport = true;
 
                         // reset on connect logic.
-                        if (config["CHK_resetapmonconnect"] == null || bool.Parse(config["CHK_resetapmonconnect"].ToString()) == true)
-                            comPort.BaseStream.toggleDTR();
+               //         if (config["CHK_resetapmonconnect"] == null || bool.Parse(config["CHK_resetapmonconnect"].ToString()) == true)
+               //             comPort.BaseStream.toggleDTR();
 
                         comPort.giveComport = false;
 

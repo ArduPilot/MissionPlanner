@@ -1,4 +1,24 @@
-﻿* Mission Planner 1.2.40
+﻿* Mission Planner 1.2.44
+disable dtr on connect
+px4 uploader mods
+px4 upload progress
+
+* Mission Planner 1.2.43
+fix advanced param issue.
+mod px4 driver
+allow multiple simulator instances
+gather param types
+
+* Mission Planner 1.2.42
+swarm mods
+AR2 pid update
+SITL sim mods
+
+* Mission Planner 1.2.41
+fix swarming grid
+add mavlink tcp passthough
+
+* Mission Planner 1.2.40
 fix mono start
 fix trap frame definition
 

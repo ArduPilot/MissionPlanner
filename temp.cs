@@ -1014,5 +1014,18 @@ namespace ArdupilotMega
 
         
         }
+
+        private void BUT_fwren_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog fd = new FolderBrowserDialog();
+            fd.SelectedPath = @"\\ubuntu\hog1\buildlogs\binaries";
+
+            fd.ShowDialog();
+
+            if (Directory.Exists(fd.SelectedPath))
+            {
+                
+            }
+        }
     }
 }

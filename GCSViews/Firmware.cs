@@ -311,12 +311,12 @@ namespace ArdupilotMega.GCSViews
         }
         private void pictureBoxAPM_Click(object sender, EventArgs e)
         {
-            findfirmware("firmware/AP-1");
+            findfirmware("AP-");
         }
 
         private void pictureBoxAPMHIL_Click(object sender, EventArgs e)
         {
-            findfirmware("firmware/APHIL-");
+            findfirmware("APHIL-");
         }
 
         private void pictureBoxQuad_Click(object sender, EventArgs e)
@@ -539,7 +539,7 @@ namespace ArdupilotMega.GCSViews
             Uploader up;
             px4uploader.Firmware fw = px4uploader.Firmware.ProcessFirmware(filename);
 
-            CustomMessageBox.Show("Press OK, and reset the board.\nMission Planner will look for 30 seconds to find the board");
+            CustomMessageBox.Show("Press reset the board, and then press OK within 5 seconds.\nMission Planner will look for 30 seconds to find the board");
 
             while (DateTime.Now < DEADLINE)
             {
@@ -568,6 +568,8 @@ namespace ArdupilotMega.GCSViews
                     lbl_status.Text = "Identify";
                     Application.DoEvents();
                     Console.WriteLine("Found board type {0} boardrev {1} bl rev {2} fwmax {3} on {4}", up.board_type, up.board_rev, up.bl_rev, up.fw_maxsize, port);
+
+                    up.currentChecksum(fw);
                 }
                 catch (Exception)
                 {
@@ -579,7 +581,10 @@ namespace ArdupilotMega.GCSViews
 
                 try
                 {
-                    lbl_status.Text = "Erase..Upload..Verify";
+                    up.ProgressEvent += new Uploader.ProgressEventHandler(up_ProgressEvent);
+                    up.LogEvent += new Uploader.LogEventHandler(up_LogEvent);
+
+                    progress.Value = 0;
                     Application.DoEvents();
                     up.upload(fw);
                     lbl_status.Text = "Done";
@@ -596,13 +601,27 @@ namespace ArdupilotMega.GCSViews
 
                 break;
             }
+
+            CustomMessageBox.Show("Please unplug, and plug back in your px4, before you try connecting");
+        }
+
+        void up_LogEvent(string message, int level = 0)
+        {
+            lbl_status.Text = message;
+            Application.DoEvents();
+        }
+
+        void up_ProgressEvent(double completed)
+        {
+            progress.Value = (int)completed;
+            Application.DoEvents();
         }
         
         public void UploadFlash(string filename, string board)
         {
             if (board == "px4")
             {
-                UploadPX4(Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + @"firmware.hex");
+                UploadPX4(filename);
                 return;
             }
 
