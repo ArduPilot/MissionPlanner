@@ -80,6 +80,7 @@ namespace ArdupilotMega.GCSViews
             this.Custom_firmware_label = new System.Windows.Forms.Label();
             this.lbl_devfw = new System.Windows.Forms.Label();
             this.lbl_px4io = new System.Windows.Forms.Label();
+            this.lbl_dlfw = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxHilimage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAPHil)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxACHil)).BeginInit();
@@ -263,10 +264,18 @@ namespace ArdupilotMega.GCSViews
             this.lbl_px4io.Name = "lbl_px4io";
             this.lbl_px4io.Click += new System.EventHandler(this.lbl_px4io_Click);
             // 
+            // lbl_dlfw
+            // 
+            resources.ApplyResources(this.lbl_dlfw, "lbl_dlfw");
+            this.lbl_dlfw.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lbl_dlfw.Name = "lbl_dlfw";
+            this.lbl_dlfw.Click += new System.EventHandler(this.lbl_dlfw_Click);
+            // 
             // Firmware
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.lbl_dlfw);
             this.Controls.Add(this.lbl_px4io);
             this.Controls.Add(this.lbl_devfw);
             this.Controls.Add(this.Custom_firmware_label);
@@ -308,6 +317,7 @@ namespace ArdupilotMega.GCSViews
         private Label Custom_firmware_label;
         private Label lbl_devfw;
         private Label lbl_px4io;
+        private Label lbl_dlfw;
 
     }
 }

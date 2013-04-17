@@ -52,6 +52,17 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             BUT_writePIDS.Click += BUT_writePIDS_Click;
         }
 
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == (Keys.Control | Keys.S))
+            {
+                BUT_writePIDS_Click(null, null);
+                return true;
+            }
+
+            return false;
+        }
+
         #endregion
 
         #region Events

@@ -30,10 +30,40 @@ namespace ArdupilotMega.Swarm
             {
                 return offsets[mav];
             }
-            return new HIL.Vector3(offsets.Count, 0, 0);
+            
+            if (masterpos.GetDistance(new PointLatLngAlt(mav.MAV.cs.lat, mav.MAV.cs.lng, mav.MAV.cs.alt, "")) > 100)
+            {
+                return new HIL.Vector3(offsets.Count, 0, 0); 
+            }
+
+            return getOffsetFromLeader(mav);//offsets.Count, 0, 0);
         }
 
-   
+        public HIL.Vector3 getOffsetFromLeader(MAVLink mav)
+        {
+            //convert Wgs84ConversionInfo to utm
+            CoordinateTransformationFactory ctfac = new CoordinateTransformationFactory();
+
+            GeographicCoordinateSystem wgs84 = GeographicCoordinateSystem.WGS84;
+
+            int utmzone = (int)((masterpos.Lng - -183.0) / 6.0);
+
+            IProjectedCoordinateSystem utm = ProjectedCoordinateSystem.WGS84_UTM(utmzone, masterpos.Lat < 0 ? false : true);
+
+            ICoordinateTransformation trans = ctfac.CreateFromCoordinateSystems(wgs84, utm);
+
+            double[] masterpll = { masterpos.Lng, masterpos.Lat };
+
+            // get leader utm coords
+            double[] masterutm = trans.MathTransform.Transform(masterpll);
+
+            double[] mavpll = { mav.MAV.cs.lng, mav.MAV.cs.lat };
+
+            //getLeader follower utm coords
+            double[] mavutm = trans.MathTransform.Transform(mavpll);
+
+            return new HIL.Vector3(masterutm[1] - mavutm[1], masterutm[0] - mavutm[0],0);
+        }
 
         public override void Update()
         {
@@ -43,13 +73,16 @@ namespace ArdupilotMega.Swarm
             if (Leader == null)
                 Leader = MainV2.comPort;
 
-            masterpos = new PointLatLngAlt(MainV2.comPort.MAV.cs.lat, MainV2.comPort.MAV.cs.lng, MainV2.comPort.MAV.cs.alt, "");
+            masterpos = new PointLatLngAlt(Leader.MAV.cs.lat, Leader.MAV.cs.lng, Leader.MAV.cs.alt, "");
         }
 
         public override void SendCommand()
         {
             if (masterpos.Lat == 0 || masterpos.Lng == 0)
                 return;
+
+            Console.WriteLine(DateTime.Now);
+            Console.WriteLine("Leader {0} {1} {2}",masterpos.Lat,masterpos.Lng,masterpos.Alt);
 
             int a = 0;
             foreach (var port in MainV2.Comports)
@@ -89,6 +122,8 @@ namespace ArdupilotMega.Swarm
                     target.Alt += ((HIL.Vector3)offsets[port]).z;
 
                     port.setGuidedModeWP(new Locationwp() { alt = (float)target.Alt, lat = (float)target.Lat, lng = (float)target.Lng, id = (byte)MAVLink.MAV_CMD.WAYPOINT });
+
+                    Console.WriteLine("{0} {1} {2} {3}", port.ToString(), target.Lat, target.Lng, target.Alt);
 
                 }
                 catch (Exception ex) { Console.WriteLine("Failed to send command " + port.ToString() + "\n" + ex.ToString()); }

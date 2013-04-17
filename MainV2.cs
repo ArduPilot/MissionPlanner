@@ -643,8 +643,8 @@ namespace ArdupilotMega
                     comPort.giveComport = true;
 
                         // reset on connect logic.
-               //         if (config["CHK_resetapmonconnect"] == null || bool.Parse(config["CHK_resetapmonconnect"].ToString()) == true)
-               //             comPort.BaseStream.toggleDTR();
+                        if (config["CHK_resetapmonconnect"] == null || bool.Parse(config["CHK_resetapmonconnect"].ToString()) == true)
+                            comPort.BaseStream.toggleDTR();
 
                         comPort.giveComport = false;
 
@@ -2140,8 +2140,21 @@ Server: ubuntu
             else
             {
                 Console.WriteLine(url);
-                string header = "HTTP/1.1 404 not found\r\nContent-Type: image/jpg\r\n\r\n";
+                string header = "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n";
                 byte[] temp = asciiEncoding.GetBytes(header);
+                stream.Write(temp, 0, temp.Length);
+
+                string content = @"
+                <a href=/mav/>Mavelous</a>
+<a href=/mavlink/>Mavelous traffic</a>
+<a href=/hud.jpg>Hud image</a>
+<a href=/map.jpg>Map image </a>
+<a href=/both.jpg>Map & hud image</a>
+<a href=/hud.html>hud html5</a>
+<a href=/network.kml>network kml</a>
+
+";
+                temp = asciiEncoding.GetBytes(content);
                 stream.Write(temp, 0, temp.Length);
 
                 stream.Close();
@@ -3028,6 +3041,9 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
                          Console.WriteLine("Added port {0}",port);
                      }
                      Console.WriteLine("Device Change {0} {1} {2}", m.Msg, (WM_DEVICECHANGE_enum)m.WParam, m.LParam);
+                    break;
+                default:
+
                     break;
             }
             base.WndProc(ref m);

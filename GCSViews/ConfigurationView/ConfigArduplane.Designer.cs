@@ -133,6 +133,11 @@
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.BUT_writePIDS = new ArdupilotMega.Controls.MyButton();
             this.BUT_rerequestparams = new ArdupilotMega.Controls.MyButton();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.NAVL1_DAMPING = new System.Windows.Forms.NumericUpDown();
+            this.label9 = new System.Windows.Forms.Label();
+            this.NAVL1_PERIOD = new System.Windows.Forms.NumericUpDown();
+            this.label10 = new System.Windows.Forms.Label();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.THR_FS_VALUE)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.THR_MAX)).BeginInit();
@@ -189,6 +194,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.RLL2SRV_D)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RLL2SRV_I)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RLL2SRV_P)).BeginInit();
+            this.groupBox4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NAVL1_DAMPING)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NAVL1_PERIOD)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox3
@@ -811,10 +819,41 @@
             this.BUT_rerequestparams.UseVisualStyleBackColor = true;
             this.BUT_rerequestparams.Click += new System.EventHandler(this.BUT_rerequestparams_Click);
             // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.NAVL1_DAMPING);
+            this.groupBox4.Controls.Add(this.label9);
+            this.groupBox4.Controls.Add(this.NAVL1_PERIOD);
+            this.groupBox4.Controls.Add(this.label10);
+            resources.ApplyResources(this.groupBox4, "groupBox4");
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.TabStop = false;
+            // 
+            // NAVL1_DAMPING
+            // 
+            resources.ApplyResources(this.NAVL1_DAMPING, "NAVL1_DAMPING");
+            this.NAVL1_DAMPING.Name = "NAVL1_DAMPING";
+            // 
+            // label9
+            // 
+            resources.ApplyResources(this.label9, "label9");
+            this.label9.Name = "label9";
+            // 
+            // NAVL1_PERIOD
+            // 
+            resources.ApplyResources(this.NAVL1_PERIOD, "NAVL1_PERIOD");
+            this.NAVL1_PERIOD.Name = "NAVL1_PERIOD";
+            // 
+            // label10
+            // 
+            resources.ApplyResources(this.label10, "label10");
+            this.label10.Name = "label10";
+            // 
             // ConfigArduplane
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.BUT_rerequestparams);
             this.Controls.Add(this.BUT_writePIDS);
             this.Controls.Add(this.groupBox3);
@@ -886,6 +925,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.RLL2SRV_D)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.RLL2SRV_I)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.RLL2SRV_P)).EndInit();
+            this.groupBox4.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.NAVL1_DAMPING)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NAVL1_PERIOD)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -995,5 +1037,10 @@
         private System.Windows.Forms.ToolTip toolTip1;
         private Controls.MyButton BUT_writePIDS;
         private Controls.MyButton BUT_rerequestparams;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.NumericUpDown NAVL1_DAMPING;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.NumericUpDown NAVL1_PERIOD;
+        private System.Windows.Forms.Label label10;
     }
 }

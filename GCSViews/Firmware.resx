@@ -112,23 +112,23 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="pictureBoxAPM.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="pictureBoxAPM.Location" type="System.Drawing.Point, System.Drawing">
     <value>237, 0</value>
   </data>
   <data name="pictureBoxAPM.Size" type="System.Drawing.Size, System.Drawing">
     <value>170, 170</value>
   </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="pictureBoxAPM.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
@@ -136,13 +136,13 @@
     <value>pictureBoxAPM</value>
   </data>
   <data name="&gt;&gt;pictureBoxAPM.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.ImageLabel, ArdupilotMegaPlanner10, Version=1.1.4823.30161, Culture=neutral, PublicKeyToken=null</value>
+    <value>ArdupilotMega.Controls.ImageLabel, ArdupilotMegaPlanner10, Version=1.1.4854.31972, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pictureBoxAPM.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;pictureBoxAPM.ZOrder" xml:space="preserve">
-    <value>22</value>
+    <value>23</value>
   </data>
   <data name="pictureBoxQuad.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -160,13 +160,13 @@
     <value>pictureBoxQuad</value>
   </data>
   <data name="&gt;&gt;pictureBoxQuad.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.ImageLabel, ArdupilotMegaPlanner10, Version=1.1.4823.30161, Culture=neutral, PublicKeyToken=null</value>
+    <value>ArdupilotMega.Controls.ImageLabel, ArdupilotMegaPlanner10, Version=1.1.4854.31972, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pictureBoxQuad.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;pictureBoxQuad.ZOrder" xml:space="preserve">
-    <value>21</value>
+    <value>22</value>
   </data>
   <data name="pictureBoxHexa.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -184,13 +184,13 @@
     <value>pictureBoxHexa</value>
   </data>
   <data name="&gt;&gt;pictureBoxHexa.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.ImageLabel, ArdupilotMegaPlanner10, Version=1.1.4823.30161, Culture=neutral, PublicKeyToken=null</value>
+    <value>ArdupilotMega.Controls.ImageLabel, ArdupilotMegaPlanner10, Version=1.1.4854.31972, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pictureBoxHexa.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;pictureBoxHexa.ZOrder" xml:space="preserve">
-    <value>20</value>
+    <value>21</value>
   </data>
   <data name="pictureBoxTri.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -208,13 +208,13 @@
     <value>pictureBoxTri</value>
   </data>
   <data name="&gt;&gt;pictureBoxTri.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.ImageLabel, ArdupilotMegaPlanner10, Version=1.1.4823.30161, Culture=neutral, PublicKeyToken=null</value>
+    <value>ArdupilotMega.Controls.ImageLabel, ArdupilotMegaPlanner10, Version=1.1.4854.31972, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pictureBoxTri.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;pictureBoxTri.ZOrder" xml:space="preserve">
-    <value>19</value>
+    <value>20</value>
   </data>
   <data name="pictureBoxY6.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -232,13 +232,13 @@
     <value>pictureBoxY6</value>
   </data>
   <data name="&gt;&gt;pictureBoxY6.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.ImageLabel, ArdupilotMegaPlanner10, Version=1.1.4823.30161, Culture=neutral, PublicKeyToken=null</value>
+    <value>ArdupilotMega.Controls.ImageLabel, ArdupilotMegaPlanner10, Version=1.1.4854.31972, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pictureBoxY6.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;pictureBoxY6.ZOrder" xml:space="preserve">
-    <value>18</value>
+    <value>19</value>
   </data>
   <data name="lbl_status.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -262,13 +262,13 @@
     <value>lbl_status</value>
   </data>
   <data name="&gt;&gt;lbl_status.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lbl_status.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;lbl_status.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>10</value>
   </data>
   <data name="progress.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -286,13 +286,13 @@
     <value>progress</value>
   </data>
   <data name="&gt;&gt;progress.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ProgressBar, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.ProgressBar, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;progress.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;progress.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>11</value>
   </data>
   <data name="label2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -316,13 +316,13 @@
     <value>label2</value>
   </data>
   <data name="&gt;&gt;label2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label2.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>9</value>
   </data>
   <data name="pictureBoxHeli.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -340,13 +340,13 @@
     <value>pictureBoxHeli</value>
   </data>
   <data name="&gt;&gt;pictureBoxHeli.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.ImageLabel, ArdupilotMegaPlanner10, Version=1.1.4823.30161, Culture=neutral, PublicKeyToken=null</value>
+    <value>ArdupilotMega.Controls.ImageLabel, ArdupilotMegaPlanner10, Version=1.1.4854.31972, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pictureBoxHeli.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;pictureBoxHeli.ZOrder" xml:space="preserve">
-    <value>17</value>
+    <value>18</value>
   </data>
   <data name="BUT_setup.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -367,13 +367,13 @@
     <value>BUT_setup</value>
   </data>
   <data name="&gt;&gt;BUT_setup.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.MyButton, ArdupilotMegaPlanner10, Version=1.1.4823.30161, Culture=neutral, PublicKeyToken=null</value>
+    <value>ArdupilotMega.Controls.MyButton, ArdupilotMegaPlanner10, Version=1.1.4854.31972, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_setup.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BUT_setup.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>8</value>
   </data>
   <data name="pictureBoxHilimage.ImageLocation" xml:space="preserve">
     <value />
@@ -394,13 +394,13 @@
     <value>pictureBoxHilimage</value>
   </data>
   <data name="&gt;&gt;pictureBoxHilimage.Type" xml:space="preserve">
-    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;pictureBoxHilimage.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;pictureBoxHilimage.ZOrder" xml:space="preserve">
-    <value>14</value>
+    <value>15</value>
   </data>
   <data name="pictureBoxAPHil.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -421,13 +421,13 @@
     <value>pictureBoxAPHil</value>
   </data>
   <data name="&gt;&gt;pictureBoxAPHil.Type" xml:space="preserve">
-    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;pictureBoxAPHil.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;pictureBoxAPHil.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>14</value>
   </data>
   <data name="pictureBoxACHil.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -448,13 +448,13 @@
     <value>pictureBoxACHil</value>
   </data>
   <data name="&gt;&gt;pictureBoxACHil.Type" xml:space="preserve">
-    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;pictureBoxACHil.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;pictureBoxACHil.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>13</value>
   </data>
   <data name="pictureBoxACHHil.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -475,13 +475,13 @@
     <value>pictureBoxACHHil</value>
   </data>
   <data name="&gt;&gt;pictureBoxACHHil.Type" xml:space="preserve">
-    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;pictureBoxACHHil.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;pictureBoxACHHil.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>12</value>
   </data>
   <data name="pictureBoxOcta.Location" type="System.Drawing.Point, System.Drawing">
     <value>765, 176</value>
@@ -496,13 +496,13 @@
     <value>pictureBoxOcta</value>
   </data>
   <data name="&gt;&gt;pictureBoxOcta.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.ImageLabel, ArdupilotMegaPlanner10, Version=1.1.4823.30161, Culture=neutral, PublicKeyToken=null</value>
+    <value>ArdupilotMega.Controls.ImageLabel, ArdupilotMegaPlanner10, Version=1.1.4854.31972, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pictureBoxOcta.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;pictureBoxOcta.ZOrder" xml:space="preserve">
-    <value>16</value>
+    <value>17</value>
   </data>
   <data name="pictureBoxOctaQuad.Location" type="System.Drawing.Point, System.Drawing">
     <value>765, 0</value>
@@ -517,13 +517,13 @@
     <value>pictureBoxOctaQuad</value>
   </data>
   <data name="&gt;&gt;pictureBoxOctaQuad.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.ImageLabel, ArdupilotMegaPlanner10, Version=1.1.4823.30161, Culture=neutral, PublicKeyToken=null</value>
+    <value>ArdupilotMega.Controls.ImageLabel, ArdupilotMegaPlanner10, Version=1.1.4854.31972, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pictureBoxOctaQuad.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;pictureBoxOctaQuad.ZOrder" xml:space="preserve">
-    <value>15</value>
+    <value>16</value>
   </data>
   <data name="pictureBoxRover.Location" type="System.Drawing.Point, System.Drawing">
     <value>61, 0</value>
@@ -538,13 +538,13 @@
     <value>pictureBoxRover</value>
   </data>
   <data name="&gt;&gt;pictureBoxRover.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.ImageLabel, ArdupilotMegaPlanner10, Version=1.1.4823.30161, Culture=neutral, PublicKeyToken=null</value>
+    <value>ArdupilotMega.Controls.ImageLabel, ArdupilotMegaPlanner10, Version=1.1.4854.31972, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pictureBoxRover.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;pictureBoxRover.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="label1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -565,13 +565,13 @@
     <value>label1</value>
   </data>
   <data name="&gt;&gt;label1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label1.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="CMB_history.Location" type="System.Drawing.Point, System.Drawing">
     <value>878, 387</value>
@@ -589,13 +589,13 @@
     <value>CMB_history</value>
   </data>
   <data name="&gt;&gt;CMB_history.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;CMB_history.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CMB_history.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="CMB_history_label.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -616,13 +616,13 @@
     <value>CMB_history_label</value>
   </data>
   <data name="&gt;&gt;CMB_history_label.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;CMB_history_label.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CMB_history_label.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="Custom_firmware_label.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -646,13 +646,13 @@
     <value>Custom_firmware_label</value>
   </data>
   <data name="&gt;&gt;Custom_firmware_label.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;Custom_firmware_label.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;Custom_firmware_label.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="lbl_devfw.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -670,19 +670,19 @@
     <value>30</value>
   </data>
   <data name="lbl_devfw.Text" xml:space="preserve">
-    <value>DEV firmwares</value>
+    <value>Beta firmwares</value>
   </data>
   <data name="&gt;&gt;lbl_devfw.Name" xml:space="preserve">
     <value>lbl_devfw</value>
   </data>
   <data name="&gt;&gt;lbl_devfw.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lbl_devfw.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;lbl_devfw.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="lbl_px4io.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -706,15 +706,45 @@
     <value>lbl_px4io</value>
   </data>
   <data name="&gt;&gt;lbl_px4io.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lbl_px4io.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;lbl_px4io.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="lbl_dlfw.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lbl_dlfw.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lbl_dlfw.Location" type="System.Drawing.Point, System.Drawing">
+    <value>657, 371</value>
+  </data>
+  <data name="lbl_dlfw.Size" type="System.Drawing.Size, System.Drawing">
+    <value>102, 13</value>
+  </data>
+  <data name="lbl_dlfw.TabIndex" type="System.Int32, mscorlib">
+    <value>32</value>
+  </data>
+  <data name="lbl_dlfw.Text" xml:space="preserve">
+    <value>Download firmwares</value>
+  </data>
+  <data name="&gt;&gt;lbl_dlfw.Name" xml:space="preserve">
+    <value>lbl_dlfw</value>
+  </data>
+  <data name="&gt;&gt;lbl_dlfw.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lbl_dlfw.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;lbl_dlfw.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
@@ -727,6 +757,6 @@
     <value>Firmware</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>System.Windows.Forms.MyUserControl, ArdupilotMegaPlanner10, Version=1.1.4823.30161, Culture=neutral, PublicKeyToken=null</value>
+    <value>System.Windows.Forms.MyUserControl, ArdupilotMegaPlanner10, Version=1.1.4854.31972, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

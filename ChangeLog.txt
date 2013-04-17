@@ -1,4 +1,14 @@
-﻿* Mission Planner 1.2.44
+﻿* Mission Planner 1.2.45
+px4 inf mod
+firmware screen mod
+beta fw now from firmware.diydrones.com
+add l1 to arduplane config
+swarm - setup relative to master based on gps coords
+dataflashlog update
+restore dtr on connect
+add control-s to many config forms
+
+* Mission Planner 1.2.44
 disable dtr on connect
 px4 uploader mods
 px4 upload progress

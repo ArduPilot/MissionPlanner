@@ -102,6 +102,9 @@ namespace ArdupilotMega
 
             comPort = MainV2.comPort.BaseStream;
 
+            comPort.DtrEnable = false;
+            comPort.RtsEnable = false;
+
             try
             {
                 Console.WriteLine("Log_load " + comPort.IsOpen);
@@ -118,6 +121,15 @@ namespace ArdupilotMega
                 comPort.DiscardInBuffer();
 
                 Console.WriteLine("Log w&sleep");
+
+                try
+                {
+                    // try provoke a responce
+                    comPort.Write("\n\n?\r\n\n");
+                }
+                catch
+                {
+                }
 
                 // 10 sec
                 waitandsleep(10000);
@@ -138,7 +150,7 @@ namespace ArdupilotMega
 
                 try
                 {
-                    comPort.Write("\n\n\n\n"); // more in "connecting"
+                    comPort.Write("\n\n\n\nexit\r\nlogs\r\n"); // more in "connecting"
                 }
                 catch
                 {
@@ -300,9 +312,9 @@ namespace ArdupilotMega
                             break;
                         case serialstatus.Done:
                             // 
-                            if (line.Contains("start") && line.Contains("end"))
+                           // if (line.Contains("start") && line.Contains("end"))
                             {
-                                Regex regex2 = new Regex(@"^Log ([0-9]+),", RegexOptions.IgnoreCase);
+                                Regex regex2 = new Regex(@"^Log ([0-9]+)[,\s]", RegexOptions.IgnoreCase);
                                 if (regex2.IsMatch(line))
                                 {
                                     MatchCollection matchs = regex2.Matches(line);

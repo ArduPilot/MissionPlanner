@@ -19,12 +19,6 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
         static Hashtable tooltips = new Hashtable();
         internal bool startup = true;
 
-
-        public ConfigArducopter()
-        {
-            InitializeComponent();
-        }
-
         public struct paramsettings // hk's
         {
             public string name;
@@ -33,6 +27,22 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             public float normalvalue;
             public float scale;
             public string desc;
+        }
+
+        public ConfigArducopter()
+        {
+            InitializeComponent();
+        }
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == (Keys.Control | Keys.S))
+            {
+                BUT_writePIDS_Click(null, null);
+                return true;
+            }
+
+            return false;
         }
 
         public void Activate()

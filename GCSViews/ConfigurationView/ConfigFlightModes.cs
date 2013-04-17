@@ -21,6 +21,17 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             InitializeComponent();
         }
 
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == (Keys.Control | Keys.S))
+            {
+                BUT_SaveModes_Click(null, null);
+                return true;
+            }
+
+            return false;
+        }
+
         void timer_Tick(object sender, EventArgs e)
         {
             try

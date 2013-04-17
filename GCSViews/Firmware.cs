@@ -172,7 +172,7 @@ namespace ArdupilotMega.GCSViews
                                 desc = xmlreader.ReadString();
                                 break;
                             case "Firmware":
-                                if (!url.Equals("") && !name.Equals("") && !desc.Equals("Please Update"))
+                                if (!url2560.Equals("") && !name.Equals("") && !desc.Equals("Please Update"))
                                 {
                                     temp.desc = desc;
                                     temp.name = name;
@@ -216,57 +216,57 @@ namespace ArdupilotMega.GCSViews
 
         void updateDisplayName(software temp)
         {
-            if (temp.url.ToLower().Contains("AR2".ToLower()))
+            if (temp.url2560.ToLower().Contains("AR2".ToLower()) || temp.url2560.ToLower().Contains("apm1/ArduRover".ToLower()))
             {
                 pictureBoxRover.Text = temp.name;
-            } 
-            else if (temp.url.ToLower().Contains("AP-1".ToLower()))
+            }
+            else if (temp.url2560.ToLower().Contains("AP-".ToLower()) || temp.url2560.ToLower().Contains("apm1/ArduPlane".ToLower()))
             {
                 pictureBoxAPM.Text = temp.name;
             }
-            else if (temp.url.ToLower().Contains("APHIL-".ToLower()))
+            else if (temp.url2560.ToLower().Contains("APHIL-".ToLower()) || temp.url2560.ToLower().Contains("apm1-hilsensors/ArduPlane".ToLower()))
             {
                 pictureBoxAPHil.Text = temp.name;
             }
-            else if (temp.url.ToLower().Contains("ac2-quad-".ToLower()))
+            else if (temp.url2560.ToLower().Contains("ac2-quad-".ToLower()) || temp.url2560.ToLower().Contains("1-quad/ArduCopter".ToLower()))
             {
                 pictureBoxQuad.Text = temp.name;
             }
-            else if (temp.url.ToLower().Contains("ac2-tri".ToLower()))
+            else if (temp.url2560.ToLower().Contains("ac2-tri".ToLower()) || temp.url2560.ToLower().Contains("-tri/ArduCopter".ToLower()))
             {
                 pictureBoxTri.Text = temp.name;
             }
-            else if (temp.url.ToLower().Contains("ac2-hexa".ToLower()))
+            else if (temp.url2560.ToLower().Contains("ac2-hexa".ToLower()) || temp.url2560.ToLower().Contains("-hexa/ArduCopter".ToLower()))
             {
                 pictureBoxHexa.Text = temp.name;
             }
-            else if (temp.url.ToLower().Contains("ac2-y6".ToLower()))
+            else if (temp.url2560.ToLower().Contains("ac2-y6".ToLower()) || temp.url2560.ToLower().Contains("-y6/ArduCopter".ToLower()))
             {
                 pictureBoxY6.Text = temp.name;
             }
-            else if (temp.url.ToLower().Contains("ac2-heli-1".ToLower()))
+            else if (temp.url2560.ToLower().Contains("ac2-heli-".ToLower()) || temp.url2560.ToLower().Contains("-heli/ArduCopter".ToLower()))
             {
                 pictureBoxHeli.Text = temp.name;
             }
-            else if (temp.url.ToLower().Contains("ac2-helhil".ToLower()))
+            else if (temp.url2560.ToLower().Contains("ac2-helhil".ToLower()) || temp.url2560.ToLower().Contains("-heli-hil/ArduCopter".ToLower()))
             {
                 pictureBoxACHHil.Text = temp.name;
             }
-            else if (temp.url.ToLower().Contains("ac2-quadhil".ToLower()))
+            else if (temp.url2560.ToLower().Contains("ac2-quadhil".ToLower()) || temp.url2560.ToLower().Contains("-quad-hil/ArduCopter".ToLower()))
             {
                 pictureBoxACHil.Text = temp.name;
             }
-            else if (temp.url.ToLower().Contains("ac2-octaquad-".ToLower()))
+            else if (temp.url2560.ToLower().Contains("ac2-octaquad-".ToLower()) || temp.url2560.ToLower().Contains("-octa-quad/ArduCopter".ToLower()))
             {
                 pictureBoxOctaQuad.Text = temp.name;
             }
-            else if (temp.url.ToLower().Contains("ac2-octa-".ToLower()))
+            else if (temp.url2560.ToLower().Contains("ac2-octa-".ToLower()) || temp.url2560.ToLower().Contains("-octa/ArduCopter".ToLower()))
             {
                 pictureBoxOcta.Text = temp.name;
             }
             else
             {
-                log.Info("No Home " + temp.name + " " + temp.url);
+                log.Info("No Home " + temp.name + " " + temp.url2560);
             }
         }
 
@@ -277,7 +277,7 @@ namespace ArdupilotMega.GCSViews
             // build list
             foreach (software temp in softwares)
             {
-                if (temp.url.ToLower().Contains(findwhat.ToLower()))
+                if (temp.name.ToLower().Equals(findwhat.ToLower()))
                 {
                     items.Add(temp);
                 }
@@ -307,47 +307,74 @@ namespace ArdupilotMega.GCSViews
 
         private void pictureBoxRover_Click(object sender, EventArgs e)
         {
-            findfirmware("AR2");
+            findfirmware(((Control)sender).Text);
         }
         private void pictureBoxAPM_Click(object sender, EventArgs e)
         {
-            findfirmware("AP-");
+            findfirmware(((Control)sender).Text);
         }
 
         private void pictureBoxAPMHIL_Click(object sender, EventArgs e)
         {
-            findfirmware("APHIL-");
+            findfirmware(((Control)sender).Text);
         }
 
         private void pictureBoxQuad_Click(object sender, EventArgs e)
         {
-            findfirmware("AC2-Quad-");
+            findfirmware(((Control)sender).Text);
         }
 
         private void pictureBoxHexa_Click(object sender, EventArgs e)
         {
-            findfirmware("AC2-Hexa-");
+            findfirmware(((Control)sender).Text);
         }
 
         private void pictureBoxTri_Click(object sender, EventArgs e)
         {
-            findfirmware("AC2-Tri-");
+            findfirmware(((Control)sender).Text);
         }
 
         private void pictureBoxY6_Click(object sender, EventArgs e)
         {
-            findfirmware("AC2-Y6-");
+            findfirmware(((Control)sender).Text);
         }
 
         private void pictureBoxHeli_Click(object sender, EventArgs e)
         {
-            findfirmware("AC2-Heli-");
+            findfirmware(((Control)sender).Text);
         }
 
         private void pictureBoxQuadHil_Click(object sender, EventArgs e)
         {
-            findfirmware("AC2-QUADHIL");
+            findfirmware(((Control)sender).Text);
         }
+
+
+        private void pictureBoxOctav_Click(object sender, EventArgs e)
+        {
+            findfirmware(((Control)sender).Text);
+        }
+
+        private void pictureBoxOcta_Click(object sender, EventArgs e)
+        {
+            findfirmware(((Control)sender).Text);
+        }
+
+        private void pictureBoxAPHil_Click(object sender, EventArgs e)
+        {
+            findfirmware(((Control)sender).Text);
+        }
+
+        private void pictureBoxACHil_Click(object sender, EventArgs e)
+        {
+            findfirmware(((Control)sender).Text);
+        }
+
+        private void pictureBoxACHHil_Click(object sender, EventArgs e)
+        {
+            findfirmware(((Control)sender).Text);
+        }
+
 
         private void update(software temp)
         {
@@ -896,31 +923,6 @@ namespace ArdupilotMega.GCSViews
             temp.ShowDialog();
         }
 
-        private void pictureBoxOctav_Click(object sender, EventArgs e)
-        {
-            findfirmware("AC2-Octaquad-");
-        }
-
-        private void pictureBoxOcta_Click(object sender, EventArgs e)
-        {
-            findfirmware("AC2-Octa-");
-        }
-
-        private void pictureBoxAPHil_Click(object sender, EventArgs e)
-        {
-            findfirmware("Firmware/APHIL-");
-        }
-
-        private void pictureBoxACHil_Click(object sender, EventArgs e)
-        {
-            findfirmware("AC2-QUADHIL-");
-        }
-
-        private void pictureBoxACHHil_Click(object sender, EventArgs e)
-        {
-            findfirmware("AC2-HELHIL-");
-        }
-
         private void CMB_history_SelectedIndexChanged(object sender, EventArgs e)
         {
             firmwareurl = getUrl(CMB_history.Text, "");
@@ -967,7 +969,7 @@ namespace ArdupilotMega.GCSViews
 
         private void lbl_devfw_Click(object sender, EventArgs e)
         {
-            CustomMessageBox.Show("These are dev firmware, use at your own risk!!!", "DEV");
+            CustomMessageBox.Show("These are beta firmware, use at your own risk!!!", "Beta");
             firmwareurl = "https://raw.github.com/diydrones/binary/master/dev/firmware2.xml";
             Firmware_Load(null, null);
         }
@@ -1044,7 +1046,12 @@ namespace ArdupilotMega.GCSViews
 
             progress.Value = 100;
 
-            CustomMessageBox.Show("Please eject the microsd card, place into the px4, power on,\nand wait 60 seconds for the automated upgrade to take place.\nA upgrade status is created on your microsd card.");
+            CustomMessageBox.Show("Please eject the microsd card, place into the px4, hold down the ioboard arm button, power on,\nand wait 60 seconds for the automated upgrade to take place.\nA upgrade status is created on your microsd card.");
+        }
+
+        private void lbl_dlfw_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("http://firmware.diydrones.com/");
         }
     }
 }

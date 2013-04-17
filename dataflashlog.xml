@@ -106,20 +106,30 @@
     </ITERM>
     <INAV>
       <F1>Baro Alt</F1>
-      <F2>INAV Alt</F2>
-      <F3>Baro Climb Rate</F3>
-      <F4>INAV Climb Rate</F4>
+      <F2>Inav Alt</F2>
+      <F4>Climb Rate</F4>
       <F5>AccCorr X</F5>
       <F6>AccCorr Y</F6>
       <F7>AccCorr Z</F7>
-      <F8>AccCorrEF Z</F8>
-      <F9>GPS Lat Diff</F9>
-      <F10>GPS Lon Diff</F10>
-      <F11>INS Lat</F11>
-      <F12>INS Lon</F12>
-      <F13>INS Lat Vel</F13>
-      <F14>INS Lon Vel</F14>
+      <F8>GPS Lat Diff</F8>
+      <F9>GPS Lon Diff</F9>
+      <F10>Inav Lat</F10>
+      <F11>Inav Lon</F11>
+      <F12>Inav Lat Vel</F12>
+      <F13>Inav Lon Vel</F13>
     </INAV>
+    <WPNAV>
+      <F1>PosErrX</F1>
+      <F2>PosErrY</F2>
+      <F3>DesVelX</F3>
+      <F4>DesVelY</F4>
+      <F5>VelX</F5>
+      <F6>VelY</F6>
+      <F7>DesAccX</F7>
+      <F8>DesAccY</F8>
+      <F9>DesRoll</F9>
+      <F10>DesPitch</F10>
+    </WPNAV>
     <CAMERA>
       <F1>Time</F1>
       <F2>Lat</F2>

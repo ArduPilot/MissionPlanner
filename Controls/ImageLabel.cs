@@ -45,7 +45,7 @@ namespace ArdupilotMega.Controls
         }
 
         [System.ComponentModel.Browsable(true)]
-        public new string Text
+        public override string Text
         {
             get { return text; }
             set { text = value; label1.Text = text; }
@@ -55,7 +55,7 @@ namespace ArdupilotMega.Controls
         {
             if (Click != null)
             {
-                Click(sender,new EventArgs());
+                Click(this,new EventArgs());
             }
         }
     }

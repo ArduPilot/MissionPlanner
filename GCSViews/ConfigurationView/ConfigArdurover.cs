@@ -24,6 +24,17 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             InitializeComponent();
         }
 
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == (Keys.Control | Keys.S))
+            {
+                BUT_writePIDS_Click(null, null);
+                return true;
+            }
+
+            return false;
+        }
+
         public void Activate()
         {
             if (!MainV2.comPort.BaseStream.IsOpen)

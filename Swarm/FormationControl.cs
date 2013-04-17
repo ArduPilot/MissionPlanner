@@ -102,7 +102,7 @@ namespace ArdupilotMega.Swarm
                 // update other mavs
                 SwarmInterface.SendCommand();
 
-                // 10 hz
+                // 5 hz
                 System.Threading.Thread.Sleep(200);
             }
         }
@@ -186,6 +186,8 @@ namespace ArdupilotMega.Swarm
            // CMB_mavs.DataSource = MainV2.Comports;
 
             //CMB_mavs.DataSource
+
+
 
             updateicons();
 

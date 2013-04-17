@@ -100,7 +100,7 @@ ServiceBinary=%12%\%DRIVERFILENAME%.sys
 [Strings]
 MFGFILENAME="px4fmu"
 DRIVERFILENAME ="usbser"
-MFGNAME="3D Robotics"
-INSTDISK="3DR PX4 Installer"
+MFGNAME="DIYDrones"
+INSTDISK="DIYD PX4 Installer"
 DESCRIPTION="PX4 FMU v1.6"
 SERVICE="USB RS-232 Emulation Driver"

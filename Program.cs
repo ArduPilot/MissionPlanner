@@ -142,6 +142,14 @@ namespace ArdupilotMega
 
             //return;
 
+            float t1 = 180;
+            float t2 = -180;
+            float t3 = -37.123456789f;
+            float t4 = 37.123456789f;
+            float t5 = 150.123456789f;
+
+            Console.WriteLine("7 digits {0} {1} {2} {3} {4}",t1,t2,t3,t4,t5);
+
             if (File.Exists("simple.txt"))
             {
                 Application.Run(new GCSViews.Simple());
