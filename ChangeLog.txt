@@ -1,4 +1,15 @@
-﻿* Mission Planner 1.2.45
+﻿* Mission Planner 1.2.46
+add binary log support
+add new self describing log format
+disable dtr when using px4
+fix failsafe screen
+fix AC accel calib
+mag calib is no 60 seconds from 30
+firmware > add latest fw 
+remember last lat,lng,alt for main map.
+fix swarm initial location
+
+* Mission Planner 1.2.45
 px4 inf mod
 firmware screen mod
 beta fw now from firmware.diydrones.com

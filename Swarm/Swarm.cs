@@ -46,7 +46,14 @@ namespace ArdupilotMega.Swarm
 
         public void Takeoff()
         {
+            foreach (var port in MainV2.Comports)
+            {
+                if (port == Leader)
+                    continue;
 
+                if (port.MAV.cs.lat != 0 && port.MAV.cs.lng != 0)
+                    port.setGuidedModeWP(new Locationwp() { alt = 5, lat = port.MAV.cs.lat, lng = port.MAV.cs.lng });
+            }
         }
 
         public void Land()

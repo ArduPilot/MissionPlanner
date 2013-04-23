@@ -20,7 +20,7 @@ using log4net;
 using ArdupilotMega.Comms;
 
 
-namespace ArdupilotMega
+namespace ArdupilotMega.Log
 {
     public partial class Log : Form
     {
@@ -38,6 +38,8 @@ namespace ArdupilotMega
         Model runmodel = new Model();
         Object thisLock = new Object();
         DateTime start = DateTime.Now;
+ 
+
 
         public struct Data
         {
@@ -46,6 +48,7 @@ namespace ArdupilotMega
             public string[] ctun;
             public int datetime;
         }
+
 
         enum serialstatus
         {
@@ -276,6 +279,7 @@ namespace ArdupilotMega
 {
     TXT_seriallog.AppendText("Creating KML for " + logfile);
 });
+
 
                             while (tr.Peek() != -1)
                             {

@@ -947,8 +947,8 @@ namespace ArdupilotMega.GCSViews
 
             gotohere.id = (byte)MAVLink.MAV_CMD.WAYPOINT;
             gotohere.alt = (float)(MainV2.comPort.MAV.GuidedMode.z); // back to m
-            gotohere.lat = (float)(gotolocation.Lat);
-            gotohere.lng = (float)(gotolocation.Lng);
+            gotohere.lat = (gotolocation.Lat);
+            gotohere.lng = (gotolocation.Lng);
 
             try
             {
@@ -1665,7 +1665,7 @@ print 'Roll complete'
 
             if (MainV2.comPort.MAV.cs.mode == "Guided")
             {
-                MainV2.comPort.setGuidedModeWP(new Locationwp() { alt = (float)MainV2.comPort.MAV.GuidedMode.z, lat = (float)MainV2.comPort.MAV.GuidedMode.x, lng = (float)MainV2.comPort.MAV.GuidedMode.y });
+                MainV2.comPort.setGuidedModeWP(new Locationwp() { alt = (float)MainV2.comPort.MAV.GuidedMode.z, lat = MainV2.comPort.MAV.GuidedMode.x, lng = MainV2.comPort.MAV.GuidedMode.y });
             }
         }
 

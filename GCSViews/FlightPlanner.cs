@@ -101,14 +101,14 @@ namespace ArdupilotMega.GCSViews
                             if (temp.id < (byte)MAVLink.MAV_CMD.LAST)
                             {
                                 temp.alt = (float)(double.Parse(matchs[i].Groups[3].Value.ToString(), new System.Globalization.CultureInfo("en-US")));
-                                temp.lat = (float)(double.Parse(matchs[i].Groups[4].Value.ToString(), new System.Globalization.CultureInfo("en-US")));
-                                temp.lng = (float)(double.Parse(matchs[i].Groups[5].Value.ToString(), new System.Globalization.CultureInfo("en-US")));
+                                temp.lat = (double.Parse(matchs[i].Groups[4].Value.ToString(), new System.Globalization.CultureInfo("en-US")));
+                                temp.lng = (double.Parse(matchs[i].Groups[5].Value.ToString(), new System.Globalization.CultureInfo("en-US")));
                             }
                             else
                             {
                                 temp.alt = (float)(double.Parse(matchs[i].Groups[3].Value.ToString(), new System.Globalization.CultureInfo("en-US")));
-                                temp.lat = (float)(double.Parse(matchs[i].Groups[4].Value.ToString(), new System.Globalization.CultureInfo("en-US")));
-                                temp.lng = (float)(double.Parse(matchs[i].Groups[5].Value.ToString(), new System.Globalization.CultureInfo("en-US")));
+                                temp.lat = (double.Parse(matchs[i].Groups[4].Value.ToString(), new System.Globalization.CultureInfo("en-US")));
+                                temp.lng = (double.Parse(matchs[i].Groups[5].Value.ToString(), new System.Globalization.CultureInfo("en-US")));
                             }
                             cmds.Add(temp);
 
@@ -1041,11 +1041,11 @@ namespace ArdupilotMega.GCSViews
                     float range = 4000;
 
                     Locationwp loc1 = new Locationwp();
-                    loc1.lat = (float)(minlat);
-                    loc1.lng = (float)(minlong);
+                    loc1.lat = (minlat);
+                    loc1.lng = (minlong);
                     Locationwp loc2 = new Locationwp();
-                    loc2.lat = (float)(maxlat);
-                    loc2.lng = (float)(maxlong);
+                    loc2.lat = (maxlat);
+                    loc2.lng = (maxlong);
 
                     //double distance = getDistance(loc1, loc2);  // same code as ardupilot
                     double distance = 2000;
@@ -1317,8 +1317,8 @@ namespace ArdupilotMega.GCSViews
                 try
                 {
                     home.id = (byte)MAVLink.MAV_CMD.WAYPOINT;
-                    home.lat = (float.Parse(TXT_homelat.Text));
-                    home.lng = (float.Parse(TXT_homelng.Text));
+                    home.lat = (double.Parse(TXT_homelat.Text));
+                    home.lng = (double.Parse(TXT_homelng.Text));
                     home.alt = (float.Parse(TXT_homealt.Text) / MainV2.comPort.MAV.cs.multiplierdist); // use saved home
                 }
                 catch { throw new Exception("Your home location is invalid"); }
@@ -1354,8 +1354,8 @@ namespace ArdupilotMega.GCSViews
                     }
 
                     temp.alt = (float)(double.Parse(Commands.Rows[a].Cells[Alt.Index].Value.ToString()) / MainV2.comPort.MAV.cs.multiplierdist);
-                    temp.lat = (float)(double.Parse(Commands.Rows[a].Cells[Lat.Index].Value.ToString()));
-                    temp.lng = (float)(double.Parse(Commands.Rows[a].Cells[Lon.Index].Value.ToString()));
+                    temp.lat = (double.Parse(Commands.Rows[a].Cells[Lat.Index].Value.ToString()));
+                    temp.lng = (double.Parse(Commands.Rows[a].Cells[Lon.Index].Value.ToString()));
 
                     temp.p2 = (float)(double.Parse(Commands.Rows[a].Cells[Param2.Index].Value.ToString()));
                     temp.p3 = (float)(double.Parse(Commands.Rows[a].Cells[Param3.Index].Value.ToString()));
@@ -1831,8 +1831,8 @@ namespace ArdupilotMega.GCSViews
                             temp.id = 0;
 
                         temp.alt = (float)(double.Parse(items[10], new System.Globalization.CultureInfo("en-US")));
-                        temp.lat = (float)(double.Parse(items[8], new System.Globalization.CultureInfo("en-US")));
-                        temp.lng = (float)(double.Parse(items[9], new System.Globalization.CultureInfo("en-US")));
+                        temp.lat = (double.Parse(items[8], new System.Globalization.CultureInfo("en-US")));
+                        temp.lng = (double.Parse(items[9], new System.Globalization.CultureInfo("en-US")));
 
                         temp.p2 = (float)(double.Parse(items[5], new System.Globalization.CultureInfo("en-US")));
                         temp.p3 = (float)(double.Parse(items[6], new System.Globalization.CultureInfo("en-US")));

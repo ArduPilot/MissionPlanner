@@ -33,9 +33,9 @@ namespace ArdupilotMega
 
         // position
         [DisplayText("Latitude (dd)")]
-        public float lat { get; set; }
+        public double lat { get; set; }
         [DisplayText("Longitude (dd)")]
-        public float lng { get; set; }
+        public double lng { get; set; }
         [DisplayText("Altitude (dist)")]
         public float alt { get { return (_alt - altoffsethome) * multiplierdist; } set { _alt = value; } }
         DateTime lastalt = DateTime.MinValue;

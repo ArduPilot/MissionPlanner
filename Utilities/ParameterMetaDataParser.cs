@@ -14,7 +14,7 @@ namespace ArdupilotMega.Utilities
 {
    public static class ParameterMetaDataParser
    {
-      private static readonly Regex _paramMetaRegex = new Regex(String.Format("{0}(?<MetaKey>[^:]+):(?<MetaValue>.+)", ParameterMetaDataConstants.ParamDelimeter));
+      private static readonly Regex _paramMetaRegex = new Regex(String.Format("{0}(?<MetaKey>[^:\\s]+):(?<MetaValue>.+)", ParameterMetaDataConstants.ParamDelimeter));
       private static readonly Regex _parentDirectoryRegex = new Regex("(?<ParentDirectory>[../]*)(?<Path>.+)");
       private static readonly ILog log =
          LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);

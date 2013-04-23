@@ -43,8 +43,8 @@ namespace ArdupilotMega
         public float p2;				// param 2
         public float p3;				// param 3
         public float p4;				// param 4
-        public float lat;				// Lattitude * 10**7
-        public float lng;				// Longitude * 10**7
+        public double lat;				// Lattitude * 10**7
+        public double lng;				// Longitude * 10**7
         public float alt;				// Altitude in centimeters (meters * 100)
     };
 
@@ -484,7 +484,9 @@ namespace ArdupilotMega
             [DisplayText("Loiter")]
             LOITER = 12,
             [DisplayText("Guided")]
-            GUIDED = 15
+            GUIDED = 15,
+
+            TAKEOFF = 99
         }
 
         public enum aprovermodes

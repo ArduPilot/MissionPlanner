@@ -298,7 +298,7 @@ namespace ArdupilotMega
 
             startlogtime = mine.lastlogread;
 
-            float oldlatlngsum = 0;
+            double oldlatlngsum = 0;
 
             int appui = 0;
 

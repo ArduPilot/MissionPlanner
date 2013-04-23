@@ -424,9 +424,10 @@
     <Compile Include="Controls\ValuesControl.Designer.cs">
       <DependentUpon>ValuesControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Log\BinaryLog.cs" />
     <Compile Include="Widgets\GraphicsGL.cs" />
     <Compile Include="Widgets\MessageBox.cs" />
-    <Compile Include="Widgets\MyControl.cs" />
+    <None Include="Widgets\MyControl.cs" />
     <Compile Include="Widgets\PictureBox.cs" />
     <Compile Include="Widgets\QuickView.cs">
       <SubType>UserControl</SubType>
@@ -678,10 +679,10 @@
     <Compile Include="HIL\Quaternion.cs" />
     <Compile Include="HIL\Vector3d.cs" />
     <Compile Include="Utilities\hires.cs" />
-    <Compile Include="MavlinkLog.cs">
+    <Compile Include="Log\MavlinkLog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MavlinkLog.Designer.cs">
+    <Compile Include="Log\MavlinkLog.Designer.cs">
       <DependentUpon>MavlinkLog.cs</DependentUpon>
     </Compile>
     <Compile Include="GCSViews\FlightData.Designer.cs">
@@ -754,16 +755,16 @@
       <DependentUpon>ElevationProfile.cs</DependentUpon>
     </Compile>
     <Compile Include="Mavlink\MAVLink.cs" />
-    <Compile Include="Log.cs">
+    <Compile Include="Log\Log.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Log.Designer.cs">
+    <Compile Include="Log\Log.Designer.cs">
       <DependentUpon>Log.cs</DependentUpon>
     </Compile>
-    <Compile Include="LogBrowse.cs">
+    <Compile Include="Log\LogBrowse.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="LogBrowse.designer.cs">
+    <Compile Include="Log\LogBrowse.designer.cs">
       <DependentUpon>LogBrowse.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
@@ -1054,16 +1055,16 @@
     <EmbeddedResource Include="JoystickSetup.de-DE.resx">
       <DependentUpon>JoystickSetup.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Log.de-DE.resx">
+    <EmbeddedResource Include="Log\Log.de-DE.resx">
       <DependentUpon>Log.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="LogBrowse.de-DE.resx">
+    <EmbeddedResource Include="Log\LogBrowse.de-DE.resx">
       <DependentUpon>LogBrowse.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MavlinkLog.de-DE.resx">
+    <EmbeddedResource Include="Log\MavlinkLog.de-DE.resx">
       <DependentUpon>MavlinkLog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MavlinkLog.zh-Hans.resx">
+    <EmbeddedResource Include="Log\MavlinkLog.zh-Hans.resx">
       <DependentUpon>MavlinkLog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="OpenGLtest.resx">
@@ -1288,13 +1289,13 @@
     <EmbeddedResource Include="JoystickSetup.es-ES.resx">
       <DependentUpon>JoystickSetup.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Log.es-ES.resx">
+    <EmbeddedResource Include="Log\Log.es-ES.resx">
       <DependentUpon>Log.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="LogBrowse.es-ES.resx">
+    <EmbeddedResource Include="Log\LogBrowse.es-ES.resx">
       <DependentUpon>LogBrowse.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MavlinkLog.es-ES.resx">
+    <EmbeddedResource Include="Log\MavlinkLog.es-ES.resx">
       <DependentUpon>MavlinkLog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Radio\3DRradio.zh-Hans.resx">
@@ -1400,37 +1401,37 @@
     <EmbeddedResource Include="JoystickSetup.zh-TW.resx">
       <DependentUpon>JoystickSetup.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Log.fr.resx">
+    <EmbeddedResource Include="Log\Log.fr.resx">
       <DependentUpon>Log.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Log.it-IT.resx">
+    <EmbeddedResource Include="Log\Log.it-IT.resx">
       <DependentUpon>Log.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Log.pl.resx">
+    <EmbeddedResource Include="Log\Log.pl.resx">
       <DependentUpon>Log.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Log.zh-TW.resx">
+    <EmbeddedResource Include="Log\Log.zh-TW.resx">
       <DependentUpon>Log.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="LogBrowse.fr.resx">
+    <EmbeddedResource Include="Log\LogBrowse.fr.resx">
       <DependentUpon>LogBrowse.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="LogBrowse.it-IT.resx">
+    <EmbeddedResource Include="Log\LogBrowse.it-IT.resx">
       <DependentUpon>LogBrowse.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="LogBrowse.pl.resx">
+    <EmbeddedResource Include="Log\LogBrowse.pl.resx">
       <DependentUpon>LogBrowse.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="LogBrowse.zh-TW.resx">
+    <EmbeddedResource Include="Log\LogBrowse.zh-TW.resx">
       <DependentUpon>LogBrowse.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MavlinkLog.fr.resx">
+    <EmbeddedResource Include="Log\MavlinkLog.fr.resx">
       <DependentUpon>MavlinkLog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MavlinkLog.it-IT.resx">
+    <EmbeddedResource Include="Log\MavlinkLog.it-IT.resx">
       <DependentUpon>MavlinkLog.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MavlinkLog.pl.resx">
+    <EmbeddedResource Include="Log\MavlinkLog.pl.resx">
       <DependentUpon>MavlinkLog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RAW_Sensor.fr.resx">
@@ -1466,10 +1467,10 @@
     <EmbeddedResource Include="JoystickSetup.ru-RU.resx">
       <DependentUpon>JoystickSetup.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Log.zh-Hans.resx">
+    <EmbeddedResource Include="Log\Log.zh-Hans.resx">
       <DependentUpon>Log.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="LogBrowse.zh-Hans.resx">
+    <EmbeddedResource Include="Log\LogBrowse.zh-Hans.resx">
       <DependentUpon>LogBrowse.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="paramcompare.resx">
@@ -1479,7 +1480,7 @@
       <DependentUpon>RAW_Sensor.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="MavlinkLog.resx">
+    <EmbeddedResource Include="Log\MavlinkLog.resx">
       <DependentUpon>MavlinkLog.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -1540,11 +1541,11 @@
     <EmbeddedResource Include="ElevationProfile.resx">
       <DependentUpon>ElevationProfile.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Log.resx">
+    <EmbeddedResource Include="Log\Log.resx">
       <DependentUpon>Log.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="LogBrowse.resx">
+    <EmbeddedResource Include="Log\LogBrowse.resx">
       <DependentUpon>LogBrowse.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>

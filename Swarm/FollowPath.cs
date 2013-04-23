@@ -38,7 +38,7 @@ namespace ArdupilotMega.Swarm
 
                     int finishme;
 
-                        port.setGuidedModeWP(new Locationwp() { alt = (float)target.Alt, lat = (float)target.Lat, lng = (float)target.Lng, id = (byte)MAVLink.MAV_CMD.WAYPOINT });
+                        port.setGuidedModeWP(new Locationwp() { alt = (float)target.Alt, lat = target.Lat, lng = target.Lng, id = (byte)MAVLink.MAV_CMD.WAYPOINT });
 
                     
                 }

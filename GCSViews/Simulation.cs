@@ -825,7 +825,7 @@ namespace ArdupilotMega.GCSViews
 
                 Vector3 centrip_accel = new Vector3(0, centripaccel * Math.Cos(sitldata.rollDeg * deg2rad), centripaccel * Math.Sin(sitldata.rollDeg * deg2rad));
 
-                //accel_body += centrip_accel;
+                accel_body += centrip_accel;
 
                 Vector3 velocitydelta = dcm.transposed() * (new Vector3((sitldata_old.speedN - sitldata.speedN), (sitldata_old.speedE - sitldata.speedE), (sitldata_old.speedD - sitldata.speedD)));
 

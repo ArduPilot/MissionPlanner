@@ -154,6 +154,8 @@ namespace ArdupilotMega.Swarm
 
                 SwarmInterface.setLeader(MainV2.comPort);
                 updateicons();
+                BUT_Start.Enabled = true;
+
             }
         }
 

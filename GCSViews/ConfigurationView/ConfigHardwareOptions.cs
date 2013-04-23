@@ -33,9 +33,9 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             MainV2.comPort.MAV.cs.ratesensors = 10;
             MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RAW_SENSORS, MainV2.comPort.MAV.cs.ratesensors); // mag captures at 10 hz
 
-            CustomMessageBox.Show("Data will be collected for 30 seconds, Please click ok and move the apm around all axises");
+            CustomMessageBox.Show("Data will be collected for 60 seconds, Please click ok and move the apm around all axises");
 
-            DateTime deadline = DateTime.Now.AddSeconds(30);
+            DateTime deadline = DateTime.Now.AddSeconds(60);
 
             float oldmx = 0;
             float oldmy = 0;

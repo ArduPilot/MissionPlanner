@@ -400,7 +400,7 @@ namespace ArdupilotMega.GCSViews
         {
             inlogview = true;
             System.Threading.Thread.Sleep(300);
-            Form Log = new Log();
+            Form Log = new ArdupilotMega.Log.Log();
             ThemeManager.ApplyThemeTo(Log);
             Log.ShowDialog();
             inlogview = false;
@@ -413,7 +413,7 @@ namespace ArdupilotMega.GCSViews
 
         private void BUT_logbrowse_Click(object sender, EventArgs e)
         {
-            Form logbrowse = new LogBrowse();
+            Form logbrowse = new Log.LogBrowse();
             ThemeManager.ApplyThemeTo(logbrowse);
             logbrowse.Show();
         }

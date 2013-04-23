@@ -194,7 +194,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
         {
             this.Invoke((MethodInvoker)delegate()
             {
-                 lbl_Accel_user.Text = MainV2.comPort.MAV.cs.message;
+                lbl_Accel_user.Text = MainV2.comPort.plaintxtline;// MainV2.comPort.MAV.cs.message;
             });
         }
 

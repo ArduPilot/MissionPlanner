@@ -406,6 +406,15 @@ namespace ArdupilotMega
 
             Comports.Add(comPort);
 
+
+            int fixmenextrelease;
+            if (MainV2.getConfig("fixparams") == "")
+            {
+                Utilities.ParameterMetaDataParser.GetParameterInformation();
+                MainV2.config["fixparams"] = 1;
+            }
+
+
             splash.Close();
         }
 
@@ -1122,7 +1131,6 @@ namespace ArdupilotMega
             {
                 try
                 {
-                    int checkthis;
                     Thread.Sleep(1); // was 5
 
                     // update connect/disconnect button and info stats
@@ -1883,8 +1891,8 @@ public void DoAcceptTcpClientCallback(IAsyncResult ar)
                 {
                     Locationwp gwp = new Locationwp()
                     {
-                        lat = float.Parse(match.Groups[1].Value),
-                        lng = float.Parse(match.Groups[2].Value),
+                        lat = double.Parse(match.Groups[1].Value),
+                        lng = double.Parse(match.Groups[2].Value),
                         alt = float.Parse(match.Groups[3].Value)
                     };
                     try
@@ -1963,8 +1971,8 @@ public void DoAcceptTcpClientCallback(IAsyncResult ar)
                 {
                     Locationwp gwp = new Locationwp()
                     {
-                        lat = float.Parse(match.Groups[1].Value),
-                        lng = float.Parse(match.Groups[2].Value),
+                        lat = double.Parse(match.Groups[1].Value),
+                        lng = double.Parse(match.Groups[2].Value),
                         alt = float.Parse(match.Groups[3].Value)
                     };
                     try
@@ -2424,12 +2432,11 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
 
             progressReporterDialogue.UpdateProgressAndStatus(-1, "Getting Base URL");
             // check for updates
-            int fixme;
-            //if (Debugger.IsAttached)
+            if (Debugger.IsAttached)
             {
-              //  log.Info("Skipping update test as it appears we are debugging");
+                log.Info("Skipping update test as it appears we are debugging");
             }
-            //else
+            else
             {
                 MainV2.updateCheckMain(progressReporterDialogue);
             }

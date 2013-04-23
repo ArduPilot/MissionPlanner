@@ -78,6 +78,7 @@
             // 
             // BUT_Start
             // 
+            this.BUT_Start.Enabled = false;
             this.BUT_Start.Location = new System.Drawing.Point(625, 12);
             this.BUT_Start.Name = "BUT_Start";
             this.BUT_Start.Size = new System.Drawing.Size(75, 23);
@@ -108,7 +109,6 @@
             // 
             // BUT_Takeoff
             // 
-            this.BUT_Takeoff.Enabled = false;
             this.BUT_Takeoff.Location = new System.Drawing.Point(174, 12);
             this.BUT_Takeoff.Name = "BUT_Takeoff";
             this.BUT_Takeoff.Size = new System.Drawing.Size(75, 23);

@@ -147,8 +147,8 @@ namespace ArdupilotMega
 
                         gotohere.id = (byte)MAVLink.MAV_CMD.WAYPOINT;
                         gotohere.alt = (float)(gotolocation.Alt);
-                        gotohere.lat = (float)(gotolocation.Lat);
-                        gotohere.lng = (float)(gotolocation.Lng);
+                        gotohere.lat = (gotolocation.Lat);
+                        gotohere.lng = (gotolocation.Lng);
 
                         try
                         {

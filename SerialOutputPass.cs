@@ -47,7 +47,7 @@ namespace ArdupilotMega
                     {
                         case "TCP Host":
                             MainV2.comPort.MirrorStream = new Comms.TcpSerial();
-                            listener = new TcpListener(14550);
+                            listener = new TcpListener(System.Net.IPAddress.Any,14550);
                             listener.Start(0);
                             listener.BeginAcceptTcpClient(new AsyncCallback(DoAcceptTcpClientCallback), listener);
                             BUT_connect.Text = "Stop";

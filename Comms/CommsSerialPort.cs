@@ -10,9 +10,12 @@ using System.Reflection;
 
 namespace ArdupilotMega.Comms
 {
-    public class SerialPort : System.IO.Ports.SerialPort,ICommsSerial
+    public class SerialPort : System.IO.Ports.SerialPort, ICommsSerial
     {
         static bool serialportproblem = false;
+
+        public new bool DtrEnable { get { return base.DtrEnable; } set { if (ispx4(base.PortName)) return; base.DtrEnable = value; } }
+        public new bool RtsEnable { get { return base.RtsEnable; } set { if (ispx4(base.PortName)) return; base.RtsEnable = value; } }
 
         protected override void Dispose(bool disposing)
         {
@@ -34,7 +37,7 @@ namespace ArdupilotMega.Comms
                         stream = null;
                     }
                 }
-                catch {  }
+                catch { }
 
                 base.Dispose(disposing);
             }
@@ -54,33 +57,40 @@ namespace ArdupilotMega.Comms
 
         public void toggleDTR()
         {
-                bool open = this.IsOpen;
-                Console.WriteLine("toggleDTR " + this.IsOpen);
-                try
-                {
-                    if (!open)
-                        this.Open();
-                }
-                catch { }
+            if (ispx4(this.PortName))
+            {
+                Console.WriteLine("PX4 - no DTR");
+                return;
+            }
 
 
-                base.DtrEnable = false;
-                base.RtsEnable = false;
+            bool open = this.IsOpen;
+            Console.WriteLine("toggleDTR " + this.IsOpen);
+            try
+            {
+                if (!open)
+                    this.Open();
+            }
+            catch { }
 
-                System.Threading.Thread.Sleep(50);
 
-                base.DtrEnable = true;
-                base.RtsEnable = true;
+            base.DtrEnable = false;
+            base.RtsEnable = false;
 
-                System.Threading.Thread.Sleep(50);
+            System.Threading.Thread.Sleep(50);
 
-                try
-                {
-                    if (!open)
-                        this.Close();
-                }
-                catch { }
-                Console.WriteLine("toggleDTR done " + this.IsOpen);
+            base.DtrEnable = true;
+            base.RtsEnable = true;
+
+            System.Threading.Thread.Sleep(50);
+
+            try
+            {
+                if (!open)
+                    this.Close();
+            }
+            catch { }
+            Console.WriteLine("toggleDTR done " + this.IsOpen);
         }
 
         public new static string[] GetPortNames()
@@ -133,6 +143,27 @@ namespace ArdupilotMega.Comms
             catch { }
 
             return "";
+        }
+
+        internal bool ispx4(string port)
+        {
+            try
+            {
+                ObjectQuery query = new ObjectQuery("SELECT * FROM Win32_SerialPort"); // Win32_USBControllerDevice
+                ManagementObjectSearcher searcher = new ManagementObjectSearcher(query);
+                foreach (ManagementObject obj2 in searcher.Get())
+                {
+                    //DeviceID                     
+                    if (obj2.Properties["DeviceID"].Value.ToString().ToUpper() == port.ToUpper())
+                    {
+                        if (obj2.Properties["Name"].Value.ToString().ToLower().Contains("px4"))
+                            return true;
+                    }
+                }
+            }
+            catch { }
+
+            return false;
         }
 
         // .NET bug: sometimes bluetooth ports are enumerated with bogus characters 

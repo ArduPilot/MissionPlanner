@@ -1017,14 +1017,29 @@ namespace ArdupilotMega
 
         private void BUT_fwren_Click(object sender, EventArgs e)
         {
-            FolderBrowserDialog fd = new FolderBrowserDialog();
-            fd.SelectedPath = @"\\ubuntu\hog1\buildlogs\binaries";
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "Binary Log|*.bin";
 
-            fd.ShowDialog();
+            ofd.ShowDialog();
 
-            if (Directory.Exists(fd.SelectedPath))
+            if (File.Exists(ofd.FileName))
             {
-                
+                List<string> log = Log.BinaryLog.ReadLog(ofd.FileName);
+
+                SaveFileDialog sfd = new SaveFileDialog();
+                sfd.Filter = "log|*.log";
+
+                DialogResult res = sfd.ShowDialog();
+
+                if (res == System.Windows.Forms.DialogResult.OK)
+                {
+                    StreamWriter sw = new StreamWriter(sfd.OpenFile());
+                    foreach (string line in log)
+                    {
+                        sw.Write(line);
+                    }
+                    sw.Close();
+                }
             }
         }
     }

@@ -28,6 +28,14 @@ namespace ArdupilotMega.GCSViews
             //CTRL+R moved to pictureBoxRover_Click
             //CTRL+O moved to CMB_history_label_Click
             //CTRL+C moved to Custom_firmware_label_Click
+
+            if (keyData == (Keys.Control | Keys.Q))
+            {
+                CustomMessageBox.Show("These are the latest trunk firmware, use at your own risk!!!", "trunk");
+                firmwareurl = "https://raw.github.com/diydrones/binary/master/dev/firmwarelatest.xml";
+                Firmware_Load(null, null);
+            }
+
             return base.ProcessCmdKey(ref msg, keyData);
         }
 

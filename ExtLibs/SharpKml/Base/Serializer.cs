@@ -20,7 +20,12 @@ namespace SharpKml.Base
         /// </summary>
         public string Xml
         {
-            get { return _data.ToString(); }
+            get
+            {
+                string ans = _data.ToString();
+
+                return ans;
+            }
         }
 
         /// <summary>

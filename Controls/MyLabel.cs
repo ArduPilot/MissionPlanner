@@ -119,7 +119,8 @@ namespace ArdupilotMega.Controls
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            
+            base.OnPaint(e);
+
            // TextRenderer.DrawText(e.Graphics, label, this.Font, new Point(0, 0), ForeColor);
 
             e.Graphics.DrawString(label, this.Font, s, new PointF(0, this.Height / 2.0f), stringFormat);

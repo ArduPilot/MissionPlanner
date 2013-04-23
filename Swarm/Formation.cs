@@ -41,6 +41,9 @@ namespace ArdupilotMega.Swarm
 
         public HIL.Vector3 getOffsetFromLeader(MAVLink mav)
         {
+            // update leader pos
+            Update();
+
             //convert Wgs84ConversionInfo to utm
             CoordinateTransformationFactory ctfac = new CoordinateTransformationFactory();
 
@@ -121,7 +124,7 @@ namespace ArdupilotMega.Swarm
                     target.Lng = point[0];
                     target.Alt += ((HIL.Vector3)offsets[port]).z;
 
-                    port.setGuidedModeWP(new Locationwp() { alt = (float)target.Alt, lat = (float)target.Lat, lng = (float)target.Lng, id = (byte)MAVLink.MAV_CMD.WAYPOINT });
+                    port.setGuidedModeWP(new Locationwp() { alt = (float)target.Alt, lat = target.Lat, lng = target.Lng, id = (byte)MAVLink.MAV_CMD.WAYPOINT });
 
                     Console.WriteLine("{0} {1} {2} {3}", port.ToString(), target.Lat, target.Lng, target.Alt);
 

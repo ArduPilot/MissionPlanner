@@ -361,7 +361,7 @@
             this.BUT_fwren.Name = "BUT_fwren";
             this.BUT_fwren.Size = new System.Drawing.Size(75, 23);
             this.BUT_fwren.TabIndex = 32;
-            this.BUT_fwren.Text = "FW Ren";
+            this.BUT_fwren.Text = "Binary log";
             this.BUT_fwren.UseVisualStyleBackColor = true;
             this.BUT_fwren.Click += new System.EventHandler(this.BUT_fwren_Click);
             // 

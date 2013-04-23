@@ -240,7 +240,6 @@ namespace ArdupilotMega.GCSViews
 
             PropertyInfo[] props = test.GetProperties();
 
-            int fixmesort;
             //props
 
             foreach (var field in props)
@@ -383,6 +382,13 @@ namespace ArdupilotMega.GCSViews
             {
                 ctl.Visible = true;
             }
+
+            if (MainV2.getConfig("maplast_lat") != "")
+            {
+                gMapControl1.Position = new PointLatLng(double.Parse(MainV2.getConfig("maplast_lat")), double.Parse(MainV2.getConfig("maplast_lng")));
+                Zoomlevel.Value = (decimal)float.Parse(MainV2.getConfig("maplast_zoom"));
+                TRK_zoom.Value = (float)Zoomlevel.Value;
+            }
         }
 
         public void Deactivate()
@@ -395,6 +401,10 @@ namespace ArdupilotMega.GCSViews
                 hud1.Visible = false;
             }
             //     hud1.Location = new Point(-1000,-1000);
+
+            MainV2.config["maplast_lat"] = gMapControl1.Position.Lat;
+            MainV2.config["maplast_lng"] = gMapControl1.Position.Lng;
+            MainV2.config["maplast_zoom"] = gMapControl1.Zoom;
 
             ZedGraphTimer.Stop();
         }
@@ -1321,8 +1331,8 @@ namespace ArdupilotMega.GCSViews
 
             gotohere.id = (byte)MAVLink.MAV_CMD.WAYPOINT;
             gotohere.alt = (float)(MainV2.comPort.MAV.GuidedMode.z); // back to m
-            gotohere.lat = (float)(gotolocation.Lat);
-            gotohere.lng = (float)(gotolocation.Lng);
+            gotohere.lat = (gotolocation.Lat);
+            gotohere.lng = (gotolocation.Lng);
 
             try
             {
@@ -2483,7 +2493,7 @@ print 'Roll complete'
 
             if (MainV2.comPort.MAV.cs.mode == "Guided")
             {
-                MainV2.comPort.setGuidedModeWP(new Locationwp() { alt = (float)MainV2.comPort.MAV.GuidedMode.z, lat = (float)MainV2.comPort.MAV.GuidedMode.x, lng = (float)MainV2.comPort.MAV.GuidedMode.y });
+                MainV2.comPort.setGuidedModeWP(new Locationwp() { alt = (float)MainV2.comPort.MAV.GuidedMode.z, lat = MainV2.comPort.MAV.GuidedMode.x, lng = MainV2.comPort.MAV.GuidedMode.y });
             }
         }
 

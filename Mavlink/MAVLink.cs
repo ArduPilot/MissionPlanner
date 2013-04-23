@@ -69,6 +69,9 @@ namespace ArdupilotMega
 
         internal int recvpacketcount { get { return MAV.recvpacketcount; } set { MAV.recvpacketcount = value; } }
 
+        internal string plaintxtline = "";
+        string buildplaintxtline = "";
+
         public MAVState MAV = new MAVState();
 
         public class MAVState
@@ -2396,8 +2399,20 @@ namespace ArdupilotMega
                     {
                         if (buffer[0] >= 0x20 && buffer[0] <= 127 || buffer[0] == '\n' || buffer[0] == '\r')
                         {
+                            // check for line termination
+                            if (buffer[0] == '\r' || buffer[0] == '\n')
+                            {
+                                // check new line is valid
+                                if (buildplaintxtline.Length > 3)
+                                    plaintxtline = buildplaintxtline;
+
+                                // reset for next line
+                                buildplaintxtline = "";
+                            }
+
                             TCPConsole.Write(buffer[0]);
                             Console.Write((char)buffer[0]);
+                            buildplaintxtline += (char)buffer[0];
                         }
                         _bytesReceivedSubj.OnNext(1);
                         count = 0;
@@ -2615,9 +2630,6 @@ namespace ArdupilotMega
                         WhenPacketReceived.OnNext(1);
                         // Console.WriteLine(DateTime.Now.Millisecond);
                     }
-
-                    //MAVLINK_MSG_ID_GPS_STATUS
-                    //if (temp[5] == MAVLINK_MSG_ID_GPS_STATUS)
 
                     //                    Console.Write(temp[5] + " " + DateTime.Now.Millisecond + " " + packetspersecond[temp[5]] + " " + (DateTime.Now - packetspersecondbuild[temp[5]]).TotalMilliseconds + "     \n");
 
