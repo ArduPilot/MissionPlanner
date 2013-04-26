@@ -139,9 +139,9 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         public void Activate()
         {
-            Console.WriteLine(DateTime.Now.ToString());
+            Console.WriteLine("Activate " + DateTime.Now.Millisecond);
             BindParamList();
-            Console.WriteLine(DateTime.Now.ToString());
+            Console.WriteLine("Activate Done " + DateTime.Now.Millisecond);
         }
 
         /// <summary>
@@ -190,19 +190,24 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
         /// </summary>
         private void BindParamList()
         {
+            this.Visible = true;
+
             // fix memory leak
-            //tableLayoutPanel1.Controls.Clear();
             foreach (Control ctl in tableLayoutPanel1.Controls)
             {
                 ctl.Dispose();
-               // Console.WriteLine("ctl disp " + DateTime.Now.ToString());
             }
-            
+
+            Console.WriteLine("Disposed "+DateTime.Now.Millisecond);
+
             tableLayoutPanel1.Controls.Clear();
+
+
 
             try
             {
                 SortParamList();
+                Console.WriteLine("Sorted " + DateTime.Now.Millisecond);
             }
             catch { }
 
@@ -220,7 +225,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                 catch (Exception exp) { log.Error(exp); } // just to cleanup any errors
             }
 
-            Console.WriteLine("next " + DateTime.Now.ToString());
+            Console.WriteLine("next " + DateTime.Now.Millisecond);
 
             tableLayoutPanel1.VerticalScroll.Value = 0;
 
@@ -230,6 +235,8 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
              AddControl(x);//,ref ypos);
            //  Console.WriteLine("add ctl " +x.Key + " "  + DateTime.Now.ToString());
          });
+            Console.WriteLine("Add done" + DateTime.Now.Millisecond);
+            
         }
 
         void AddControl(KeyValuePair<string,string> x) //, ref int ypos)
@@ -283,7 +290,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
 
                             var rangeControl = new RangeControl(x.Key, FitDescriptionText(units, description), displayName, increment, displayscale, lowerRange, upperRange, value);
 
-                            Console.WriteLine("{0} {1} {2} {3} {4}", x.Key, increment, lowerRange, upperRange, value);
+                            //Console.WriteLine("{0} {1} {2} {3} {4}", x.Key, increment, lowerRange, upperRange, value);
 
                             ThemeManager.ApplyThemeTo(rangeControl);
 

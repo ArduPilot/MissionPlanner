@@ -98,7 +98,7 @@ namespace ArdupilotMega.Comms
             
         }
 
-        void frmProgressReporter_DoWork(object sender, ArdupilotMega.Controls.ProgressWorkerEventArgs e)
+        void frmProgressReporter_DoWork(object sender, ArdupilotMega.Controls.ProgressWorkerEventArgs e, object passdata = null)
         {
             string dest = Port;
 

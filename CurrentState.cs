@@ -638,6 +638,9 @@ namespace ArdupilotMega
                                     case (byte)(Common.apmmodes.CIRCLE):
                                         mode = "Circle";
                                         break;
+                                    case (byte)(Common.apmmodes.TAKEOFF):
+                                        mode = "Takeoff";
+                                        break;
                                     case 16:
                                         mode = "Initialising";
                                         break;

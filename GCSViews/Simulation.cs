@@ -814,7 +814,7 @@ namespace ArdupilotMega.GCSViews
                 dcm.from_euler(sitldata.rollDeg * deg2rad, sitldata.pitchDeg * deg2rad, sitldata.heading * deg2rad);
 
                 // rad = tas^2 / (tan(angle) * G)
-                float turnrad = (float)(((DATA[3][7] * 0.44704) * (DATA[3][7] * 0.44704)) / (float)(9.8f * Math.Tan(sitldata.rollDeg * deg2rad)));
+                float turnrad = (float)(((DATA[3][7] * 0.44704) * (DATA[3][7] * 0.44704)) / (float)(9.808f * Math.Tan(sitldata.rollDeg * deg2rad)));
 
                 float gload = (float)(1 / Math.Cos(sitldata.rollDeg * deg2rad)); // calculated Gs
 
@@ -825,14 +825,14 @@ namespace ArdupilotMega.GCSViews
 
                 Vector3 centrip_accel = new Vector3(0, centripaccel * Math.Cos(sitldata.rollDeg * deg2rad), centripaccel * Math.Sin(sitldata.rollDeg * deg2rad));
 
-                accel_body += centrip_accel;
+              //  accel_body += centrip_accel;
 
                 Vector3 velocitydelta = dcm.transposed() * (new Vector3((sitldata_old.speedN - sitldata.speedN), (sitldata_old.speedE - sitldata.speedE), (sitldata_old.speedD - sitldata.speedD)));
 
                 Vector3 velocity = dcm.transposed() * (new Vector3((sitldata.speedN), (sitldata.speedE), (sitldata.speedD)));
 
-                Console.WriteLine("vel " + velocity.ToString());
-                Console.WriteLine("ved " + velocitydelta.ToString());
+                //Console.WriteLine("vel " + velocity.ToString());
+                //Console.WriteLine("ved " + velocitydelta.ToString());
 
                 // a = dv / dt
 
@@ -840,27 +840,27 @@ namespace ArdupilotMega.GCSViews
                 Vector3 accel_mine_body = dcm.transposed() * (new Vector3((sitldata_old.speedN - sitldata.speedN) / 0.02, (sitldata_old.speedE - sitldata.speedE) / 0.02, (sitldata_old.speedD - sitldata.speedD) / 0.02));
 
              //   Console.WriteLine("G"+accel_body.ToString());
-                Console.WriteLine("M"+accel_mine_body.ToString());
+                //Console.WriteLine("M"+accel_mine_body.ToString());
 
              //   sitldata.pitchRate = 0;
-             //   sitldata.rollRate = 0;
+              //  sitldata.rollRate = 0;
               //  sitldata.yawRate = 0;
 
-               // accel_mine_body.x *= -1;
+                //accel_mine_body.x =0;// *= -1;
+                //accel_mine_body.y =0;//*= -1;
 
-                accel_mine_body.z *=-1;
-
-                accel_mine_body.y *= -1;
-
-                accel_body += accel_mine_body;
+               // accel_body -= accel_mine_body;
 
                 sitldata.xAccel = accel_body.x;// DATA[4][5] * 1;
                 sitldata.yAccel = accel_body.y;//  DATA[4][6] * 1;
                 sitldata.zAccel = accel_body.z;//  (0 - DATA[4][4]) * 9.808;
 
+                sitldata.xAccel = DATA[4][5] * 9.808;
+                 sitldata.yAccel = DATA[4][6] * 9.808;
+                sitldata.zAccel = -DATA[4][4] * 9.808;
 
-          //      Console.WriteLine(accel_body.ToString());
-          //      Console.WriteLine("        {0} {1} {2}",sitldata.xAccel, sitldata.yAccel, sitldata.zAccel);
+             //   Console.WriteLine(accel_body.ToString());
+              //  Console.WriteLine("        {0} {1} {2}",sitldata.xAccel, sitldata.yAccel, sitldata.zAccel);
 
             }
             else if (receviedbytes == 0x64) // FG binary udp
@@ -941,7 +941,7 @@ namespace ArdupilotMega.GCSViews
                 Matrix3 dcm = new Matrix3();
                 dcm.from_euler(sitldata.rollDeg * deg2rad, sitldata.pitchDeg * deg2rad, sitldata.yawDeg * deg2rad);
 
-                Vector3 accel_body = dcm.transposed() * (new Vector3(0, 0, -1)); // -9.8
+                Vector3 accel_body = dcm.transposed() * (new Vector3(0, 0, -9.8)); // -9.8
 
                 sitldata.xAccel = aeroin.Model_fAccel_Body_Y / 9.808 + accel_body.x;// pitch - back forward-
                 sitldata.yAccel = aeroin.Model_fAccel_Body_X / 9.808 + accel_body.y; // roll - left right-
@@ -1003,6 +1003,8 @@ namespace ArdupilotMega.GCSViews
                 return;
             }
 
+            if (sitldata.altitude < 0)
+                sitldata.altitude = 0.00001;
 
             sitldata_old = sitldata;
 
@@ -1040,6 +1042,18 @@ namespace ArdupilotMega.GCSViews
                 
                 return;
             }
+
+            if (RAD_aerosimrc.Checked && chkSensor.Checked)
+            {
+                sitldata.magic = (int)0x4c56414f;
+
+                byte[] sendme = StructureToByteArray(sitldata);
+
+                SITLSEND.Send(sendme, sendme.Length);
+
+                return;
+            }
+
 
             TimeSpan gpsspan = DateTime.Now - lastgpsupdate;
 

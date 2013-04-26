@@ -14,19 +14,6 @@ namespace ArdupilotMega.Log
         const byte HEAD_BYTE2 = 0x95;    // Decimal 149  
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
-        struct LogStructure
-        {
-            public uint8_t msg_type;
-            public uint8_t msg_len;
-            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 5)]
-            public byte[] name;
-            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)]
-            public byte[] format;
-            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 64)]
-            public byte[] labels;
-        }
-
-        [StructLayout(LayoutKind.Sequential, Pack = 1)]
         public struct log_Format
         {
             public uint8_t type;

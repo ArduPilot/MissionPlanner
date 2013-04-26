@@ -1185,7 +1185,7 @@ namespace ArdupilotMega.GCSViews
             frmProgressReporter.RunBackgroundOperationAsync();
         }
 
-        void getWPs(object sender, Controls.ProgressWorkerEventArgs e)
+        void getWPs(object sender, Controls.ProgressWorkerEventArgs e, object passdata = null)
         {
 
             List<Locationwp> cmds = new List<Locationwp>();
@@ -1299,7 +1299,7 @@ namespace ArdupilotMega.GCSViews
 
         }
 
-        void saveWPs(object sender, Controls.ProgressWorkerEventArgs e)
+        void saveWPs(object sender, Controls.ProgressWorkerEventArgs e, object passdata = null)
         {
             try
             {

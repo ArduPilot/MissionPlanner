@@ -385,9 +385,13 @@ namespace ArdupilotMega.GCSViews
 
             if (MainV2.getConfig("maplast_lat") != "")
             {
-                gMapControl1.Position = new PointLatLng(double.Parse(MainV2.getConfig("maplast_lat")), double.Parse(MainV2.getConfig("maplast_lng")));
-                Zoomlevel.Value = (decimal)float.Parse(MainV2.getConfig("maplast_zoom"));
-                TRK_zoom.Value = (float)Zoomlevel.Value;
+                try
+                {
+                    gMapControl1.Position = new PointLatLng(double.Parse(MainV2.getConfig("maplast_lat")), double.Parse(MainV2.getConfig("maplast_lng")));
+                    Zoomlevel.Value = (decimal)float.Parse(MainV2.getConfig("maplast_zoom"));
+                    TRK_zoom.Value = (float)Zoomlevel.Value;
+                }
+                catch { }
             }
         }
 

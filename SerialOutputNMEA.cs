@@ -80,7 +80,7 @@ namespace ArdupilotMega
                     checksum = GetChecksum(line);
                     comPort.WriteLine(line + "*" + checksum);
 
-                    if (counter % 5 == 0 && HomeLoc.Lat != 0 && HomeLoc.Lng != 0)
+                    if (counter % 20 == 0 && HomeLoc.Lat != 0 && HomeLoc.Lng != 0)
                     {
                         line = string.Format("$GP{0},{1:HHmmss},{2},{3},{4},{5},{6},{7},", "HOM", DateTime.Now.ToUniversalTime(), Math.Abs(HomeLoc.Lat * 100), HomeLoc.Lat < 0 ? "S" : "N", Math.Abs(HomeLoc.Lng * 100), HomeLoc.Lng < 0 ? "W" : "E", HomeLoc.Alt, "M");
 
@@ -88,7 +88,12 @@ namespace ArdupilotMega
                         comPort.WriteLine(line + "*" + checksum);
                     }
 
-                    System.Threading.Thread.Sleep(500);
+                    line = string.Format("$GP{0},{1},{2},{3},", "RPY", MainV2.comPort.MAV.cs.roll, MainV2.comPort.MAV.cs.pitch, MainV2.comPort.MAV.cs.yaw);
+
+                    checksum = GetChecksum(line);
+                    comPort.WriteLine(line + "*" + checksum);
+
+                    System.Threading.Thread.Sleep(200);
                     counter++;
                 }
                 catch { }

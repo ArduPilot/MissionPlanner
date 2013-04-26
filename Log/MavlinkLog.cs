@@ -1428,5 +1428,35 @@ namespace ArdupilotMega
                 }
             }
         }
+
+        private void BUT_droneshare_Click(object sender, EventArgs e)
+        {
+
+            OpenFileDialog openFileDialog1 = new OpenFileDialog();
+            openFileDialog1.Filter = "*.tlog|*.tlog";
+            openFileDialog1.FilterIndex = 2;
+            openFileDialog1.RestoreDirectory = true;
+            openFileDialog1.Multiselect = true;
+            try
+            {
+                openFileDialog1.InitialDirectory = MainV2.LogDir + Path.DirectorySeparatorChar;
+            }
+            catch { } // incase dir doesnt exist
+
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                foreach (string logfile in openFileDialog1.FileNames)
+                {
+                    Utilities.S3Uploader s3 = new S3Uploader("");
+                    s3.UploadTlog((string)logfile);
+                    progressBar1.Value = s3.Progress;
+                    while (s3.Progress != 100)
+                    {
+                        progressBar1.Value = s3.Progress;
+                        System.Threading.Thread.Sleep(100);
+                    }
+                }
+            }
+        }
     }
 }

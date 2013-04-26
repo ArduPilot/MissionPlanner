@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MavlinkLog));
             this.BUT_redokml = new ArdupilotMega.Controls.MyButton();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
@@ -37,6 +38,7 @@
             this.BUT_convertcsv = new ArdupilotMega.Controls.MyButton();
             this.BUT_paramsfromlog = new ArdupilotMega.Controls.MyButton();
             this.BUT_getwpsfromlog = new ArdupilotMega.Controls.MyButton();
+            this.BUT_droneshare = new ArdupilotMega.Controls.MyButton();
             this.SuspendLayout();
             // 
             // BUT_redokml
@@ -98,10 +100,18 @@
             this.BUT_getwpsfromlog.UseVisualStyleBackColor = true;
             this.BUT_getwpsfromlog.Click += new System.EventHandler(this.BUT_getwpsfromlog_Click);
             // 
+            // BUT_droneshare
+            // 
+            resources.ApplyResources(this.BUT_droneshare, "BUT_droneshare");
+            this.BUT_droneshare.Name = "BUT_droneshare";
+            this.BUT_droneshare.UseVisualStyleBackColor = true;
+            this.BUT_droneshare.Click += new System.EventHandler(this.BUT_droneshare_Click);
+            // 
             // MavlinkLog
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.BUT_droneshare);
             this.Controls.Add(this.BUT_getwpsfromlog);
             this.Controls.Add(this.BUT_paramsfromlog);
             this.Controls.Add(this.BUT_convertcsv);
@@ -126,5 +136,6 @@
         private Controls.MyButton BUT_convertcsv;
         private Controls.MyButton BUT_paramsfromlog;
         private Controls.MyButton BUT_getwpsfromlog;
+        private Controls.MyButton BUT_droneshare;
     }
 }

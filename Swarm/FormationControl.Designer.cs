@@ -41,6 +41,9 @@
             this.BUT_Arm = new ArdupilotMega.Controls.MyButton();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.BUT_Updatepos = new ArdupilotMega.Controls.MyButton();
+            this.PNL_status = new System.Windows.Forms.FlowLayoutPanel();
+            this.timer_status = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -61,7 +64,7 @@
             this.grid1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grid1.Location = new System.Drawing.Point(3, 3);
             this.grid1.Name = "grid1";
-            this.grid1.Size = new System.Drawing.Size(674, 388);
+            this.grid1.Size = new System.Drawing.Size(755, 388);
             this.grid1.TabIndex = 8;
             this.grid1.Vertical = false;
             this.grid1.UpdateOffsets += new ArdupilotMega.Swarm.Grid.UpdateOffsetsEvent(this.grid1_UpdateOffsets);
@@ -79,7 +82,7 @@
             // BUT_Start
             // 
             this.BUT_Start.Enabled = false;
-            this.BUT_Start.Location = new System.Drawing.Point(625, 12);
+            this.BUT_Start.Location = new System.Drawing.Point(706, 12);
             this.BUT_Start.Name = "BUT_Start";
             this.BUT_Start.Size = new System.Drawing.Size(75, 23);
             this.BUT_Start.TabIndex = 6;
@@ -146,7 +149,7 @@
             this.tabControl1.Location = new System.Drawing.Point(12, 39);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(688, 420);
+            this.tabControl1.Size = new System.Drawing.Size(769, 420);
             this.tabControl1.TabIndex = 9;
             // 
             // tabPage1
@@ -155,16 +158,43 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(680, 394);
+            this.tabPage1.Size = new System.Drawing.Size(761, 394);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Stage 1";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // BUT_Updatepos
+            // 
+            this.BUT_Updatepos.Enabled = false;
+            this.BUT_Updatepos.Location = new System.Drawing.Point(625, 12);
+            this.BUT_Updatepos.Name = "BUT_Updatepos";
+            this.BUT_Updatepos.Size = new System.Drawing.Size(75, 23);
+            this.BUT_Updatepos.TabIndex = 10;
+            this.BUT_Updatepos.Text = "Update Pos";
+            this.BUT_Updatepos.UseVisualStyleBackColor = true;
+            this.BUT_Updatepos.Click += new System.EventHandler(this.BUT_Updatepos_Click);
+            // 
+            // PNL_status
+            // 
+            this.PNL_status.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.PNL_status.Location = new System.Drawing.Point(787, 61);
+            this.PNL_status.Name = "PNL_status";
+            this.PNL_status.Size = new System.Drawing.Size(143, 398);
+            this.PNL_status.TabIndex = 11;
+            // 
+            // timer_status
+            // 
+            this.timer_status.Enabled = true;
+            this.timer_status.Interval = 200;
+            this.timer_status.Tick += new System.EventHandler(this.timer_status_Tick);
             // 
             // FormationControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(715, 471);
+            this.ClientSize = new System.Drawing.Size(931, 471);
+            this.Controls.Add(this.PNL_status);
+            this.Controls.Add(this.BUT_Updatepos);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.BUT_connect);
             this.Controls.Add(this.BUT_Start);
@@ -198,5 +228,8 @@
         private System.Windows.Forms.BindingSource bindingSource1;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
+        private Controls.MyButton BUT_Updatepos;
+        private System.Windows.Forms.FlowLayoutPanel PNL_status;
+        private System.Windows.Forms.Timer timer_status;
     }
 }

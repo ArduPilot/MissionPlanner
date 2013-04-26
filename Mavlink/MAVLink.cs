@@ -306,12 +306,12 @@ namespace ArdupilotMega
             }
         }
 
-        void FrmProgressReporterDoWorkAndParams(object sender, ProgressWorkerEventArgs e)
+        void FrmProgressReporterDoWorkAndParams(object sender, ProgressWorkerEventArgs e, object passdata = null)
         {
             OpenBg(true, e);
         }
 
-        void FrmProgressReporterDoWorkNOParams(object sender, ProgressWorkerEventArgs e)
+        void FrmProgressReporterDoWorkNOParams(object sender, ProgressWorkerEventArgs e, object passdata = null)
         {
             OpenBg(false, e);
         }
@@ -753,7 +753,7 @@ namespace ArdupilotMega
             }
         }
 
-        void FrmProgressReporterGetParams(object sender, ProgressWorkerEventArgs e)
+        void FrmProgressReporterGetParams(object sender, ProgressWorkerEventArgs e, object passdata = null)
         {
             Hashtable old = new Hashtable(param);
             getParamListBG();
@@ -2968,6 +2968,7 @@ namespace ArdupilotMega
                         case (int)Common.apmmodes.LOITER:
                         case (int)Common.apmmodes.FLY_BY_WIRE_A:
                         case (int)Common.apmmodes.FLY_BY_WIRE_B:
+                        case (int)Common.apmmodes.TAKEOFF:
                             mode.base_mode = (byte)MAVLink.MAV_MODE_FLAG.CUSTOM_MODE_ENABLED;
                             mode.custom_mode = (uint)EnumTranslator.GetValue<Common.apmmodes>(modein);
                             break;

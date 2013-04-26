@@ -18,7 +18,7 @@ namespace ArdupilotMega.Swarm
         
         PointLatLngAlt masterpos = new PointLatLngAlt();
 
-        public void setOffsets(MAVLink mav, float x, float y, float z)
+        public void setOffsets(MAVLink mav, double x, double y, double z)
         {
             offsets[mav] = new HIL.Vector3(x,y,z);
             //log.Info(mav.ToString() + " " + offsets[mav].ToString());
@@ -30,42 +30,8 @@ namespace ArdupilotMega.Swarm
             {
                 return offsets[mav];
             }
-            
-            if (masterpos.GetDistance(new PointLatLngAlt(mav.MAV.cs.lat, mav.MAV.cs.lng, mav.MAV.cs.alt, "")) > 100)
-            {
-                return new HIL.Vector3(offsets.Count, 0, 0); 
-            }
 
-            return getOffsetFromLeader(mav);//offsets.Count, 0, 0);
-        }
-
-        public HIL.Vector3 getOffsetFromLeader(MAVLink mav)
-        {
-            // update leader pos
-            Update();
-
-            //convert Wgs84ConversionInfo to utm
-            CoordinateTransformationFactory ctfac = new CoordinateTransformationFactory();
-
-            GeographicCoordinateSystem wgs84 = GeographicCoordinateSystem.WGS84;
-
-            int utmzone = (int)((masterpos.Lng - -183.0) / 6.0);
-
-            IProjectedCoordinateSystem utm = ProjectedCoordinateSystem.WGS84_UTM(utmzone, masterpos.Lat < 0 ? false : true);
-
-            ICoordinateTransformation trans = ctfac.CreateFromCoordinateSystems(wgs84, utm);
-
-            double[] masterpll = { masterpos.Lng, masterpos.Lat };
-
-            // get leader utm coords
-            double[] masterutm = trans.MathTransform.Transform(masterpll);
-
-            double[] mavpll = { mav.MAV.cs.lng, mav.MAV.cs.lat };
-
-            //getLeader follower utm coords
-            double[] mavutm = trans.MathTransform.Transform(mavpll);
-
-            return new HIL.Vector3(masterutm[1] - mavutm[1], masterutm[0] - mavutm[0],0);
+            return new HIL.Vector3(offsets.Count, 0, 0);
         }
 
         public override void Update()

@@ -1,4 +1,15 @@
-﻿* Mission Planner 1.2.46
+﻿* Mission Planner 1.2.47
+add RPY to nmea output as $GPRPY
+update current state for all mavs connected
+update wix gerneration for rsync uploads and google code
+swarm fixs, new status box's
+add droneshare tlog upload support
+use new firmware APMVERSION: tags
+xplane hil, go back to xplane accel data
+add aerosim sitl support
+speedup friendly config a little
+
+* Mission Planner 1.2.46
 add binary log support
 add new self describing log format
 disable dtr when using px4

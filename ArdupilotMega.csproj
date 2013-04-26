@@ -126,6 +126,11 @@
     <Reference Include="alglibnet2, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
+    <Reference Include="AWSSDK, Version=1.5.18.0, Culture=neutral, PublicKeyToken=9f476d3089b52be3, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\Extensions\Amazon Web Services LLC\AWSToolkit.VS2010\AWSSDK.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="DirectShowLib-2005">
     </Reference>
     <Reference Include="Eto">
@@ -425,6 +430,13 @@
       <DependentUpon>ValuesControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Log\BinaryLog.cs" />
+    <Compile Include="Swarm\Status.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Swarm\Status.Designer.cs">
+      <DependentUpon>Status.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Utilities\S3Uploader.cs" />
     <Compile Include="Widgets\GraphicsGL.cs" />
     <Compile Include="Widgets\MessageBox.cs" />
     <None Include="Widgets\MyControl.cs" />
@@ -435,6 +447,9 @@
     <Compile Include="Widgets\QuickView.Designer.cs">
       <DependentUpon>QuickView.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Swarm\Status.resx">
+      <DependentUpon>Status.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Widgets\QuickView.resx">
       <DependentUpon>QuickView.cs</DependentUpon>
     </EmbeddedResource>

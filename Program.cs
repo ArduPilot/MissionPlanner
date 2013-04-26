@@ -142,6 +142,11 @@ namespace ArdupilotMega
 
             //return;
 
+            //Utilities.S3Uploader s3 = new Utilities.S3Uploader("");
+
+            //s3.UploadTlog(@"C:\Users\hog\Documents\apm logs\2012-10-27 15-05-54.tlog");
+
+
             float t1 = 180;
             float t2 = -180;
             float t3 = -37.123456789f;

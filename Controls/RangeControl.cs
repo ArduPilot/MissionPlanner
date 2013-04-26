@@ -108,6 +108,12 @@ namespace ArdupilotMega.Controls
          trackBar1.ValueChanged += trackBar1_ValueChanged;
       }
 
+      public void DeAttachEvents()
+      {
+          numericUpDown1.ValueChanged -= numericUpDown1_ValueChanged;
+          trackBar1.ValueChanged -= trackBar1_ValueChanged;
+      }
+
       #endregion
 
       #region Events

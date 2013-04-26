@@ -1326,6 +1326,11 @@ namespace ArdupilotMega
                             }
                             catch { }
                         }
+						        try
+                            {
+                                port.MAV.cs.UpdateCurrentSettings(null, false, port);
+                            }
+                            catch { }
                     }
                 }
                 catch (Exception e)
@@ -2413,7 +2418,7 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
             frmProgressReporter.RunBackgroundOperationAsync();
         }
 
-        static void DoUpdateWorker_DoWork(object sender, Controls.ProgressWorkerEventArgs e)
+        static void DoUpdateWorker_DoWork(object sender, Controls.ProgressWorkerEventArgs e, object passdata = null)
         {
             // TODO: Is this the right place?
             #region Fetch Parameter Meta Data

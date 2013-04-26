@@ -50,5 +50,14 @@ namespace ArdupilotMega.Controls
           if (ValueChanged != null)
               ValueChanged(Name, Value);
       }
+
+      public void DeAttachEvents()
+      {
+          Delegate[] subscribers = ValueChanged.GetInvocationList();
+          for (int i = 0; i < subscribers.Length; i++)
+          {
+              ValueChanged -= subscribers[i] as EventValueChanged;
+          }
+      }
    }
 }

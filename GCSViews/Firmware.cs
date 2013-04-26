@@ -192,6 +192,17 @@ namespace ArdupilotMega.GCSViews
 
                                     try
                                     {
+                                        try
+                                        {
+                                            if (!url2560.Contains("github"))
+                                            {
+                                                name = getAPMVersion(temp.url2560);
+                                                if (name != "")
+                                                    temp.name = name;
+                                            }
+                                        }
+                                        catch { }
+
                                         updateDisplayName(temp);
                                     }
                                     catch { } // just in case
@@ -222,55 +233,93 @@ namespace ArdupilotMega.GCSViews
 
         }
 
+        string getAPMVersion(string fwurl)
+        {
+            Uri url = new Uri(new Uri(fwurl),"git-version.txt");
+
+            log.Info("Get url " + url.ToString());
+
+            WebRequest wr = WebRequest.Create(url);
+            WebResponse wresp = wr.GetResponse();
+
+            StreamReader sr = new StreamReader(wresp.GetResponseStream());
+
+            while (!sr.EndOfStream)
+            { 
+                string line = sr.ReadLine();
+
+                if (line.Contains("APMVERSION:"))
+                {
+                    log.Info(line);
+                    return line.Substring(line.IndexOf(':')+2);
+                }
+            }
+
+            log.Info("no answer");
+            return "";
+        }
+
         void updateDisplayName(software temp)
         {
             if (temp.url2560.ToLower().Contains("AR2".ToLower()) || temp.url2560.ToLower().Contains("apm1/ArduRover".ToLower()))
             {
                 pictureBoxRover.Text = temp.name;
+                pictureBoxRover.Tag = temp;
             }
             else if (temp.url2560.ToLower().Contains("AP-".ToLower()) || temp.url2560.ToLower().Contains("apm1/ArduPlane".ToLower()))
             {
                 pictureBoxAPM.Text = temp.name;
+                pictureBoxAPM.Tag = temp;
             }
             else if (temp.url2560.ToLower().Contains("APHIL-".ToLower()) || temp.url2560.ToLower().Contains("apm1-hilsensors/ArduPlane".ToLower()))
             {
                 pictureBoxAPHil.Text = temp.name;
+                pictureBoxAPHil.Tag = temp;
             }
             else if (temp.url2560.ToLower().Contains("ac2-quad-".ToLower()) || temp.url2560.ToLower().Contains("1-quad/ArduCopter".ToLower()))
             {
                 pictureBoxQuad.Text = temp.name;
+                pictureBoxQuad.Tag = temp;
             }
             else if (temp.url2560.ToLower().Contains("ac2-tri".ToLower()) || temp.url2560.ToLower().Contains("-tri/ArduCopter".ToLower()))
             {
                 pictureBoxTri.Text = temp.name;
+                pictureBoxTri.Tag = temp;
             }
             else if (temp.url2560.ToLower().Contains("ac2-hexa".ToLower()) || temp.url2560.ToLower().Contains("-hexa/ArduCopter".ToLower()))
             {
                 pictureBoxHexa.Text = temp.name;
+                pictureBoxHexa.Tag = temp;
             }
             else if (temp.url2560.ToLower().Contains("ac2-y6".ToLower()) || temp.url2560.ToLower().Contains("-y6/ArduCopter".ToLower()))
             {
                 pictureBoxY6.Text = temp.name;
+                pictureBoxY6.Tag = temp;
             }
             else if (temp.url2560.ToLower().Contains("ac2-heli-".ToLower()) || temp.url2560.ToLower().Contains("-heli/ArduCopter".ToLower()))
             {
                 pictureBoxHeli.Text = temp.name;
+                pictureBoxHeli.Tag = temp;
             }
             else if (temp.url2560.ToLower().Contains("ac2-helhil".ToLower()) || temp.url2560.ToLower().Contains("-heli-hil/ArduCopter".ToLower()))
             {
                 pictureBoxACHHil.Text = temp.name;
+                pictureBoxACHHil.Tag = temp;
             }
             else if (temp.url2560.ToLower().Contains("ac2-quadhil".ToLower()) || temp.url2560.ToLower().Contains("-quad-hil/ArduCopter".ToLower()))
             {
                 pictureBoxACHil.Text = temp.name;
+                pictureBoxACHil.Tag = temp;
             }
             else if (temp.url2560.ToLower().Contains("ac2-octaquad-".ToLower()) || temp.url2560.ToLower().Contains("-octa-quad/ArduCopter".ToLower()))
             {
                 pictureBoxOctaQuad.Text = temp.name;
+                pictureBoxOctaQuad.Tag = temp;
             }
             else if (temp.url2560.ToLower().Contains("ac2-octa-".ToLower()) || temp.url2560.ToLower().Contains("-octa/ArduCopter".ToLower()))
             {
                 pictureBoxOcta.Text = temp.name;
+                pictureBoxOcta.Tag = temp;
             }
             else
             {
@@ -278,109 +327,85 @@ namespace ArdupilotMega.GCSViews
             }
         }
 
-        void findfirmware(string findwhat)
+        void findfirmware(software findwhat)
         {
-            List<software> items = new List<software>();
 
-            // build list
-            foreach (software temp in softwares)
-            {
-                if (temp.name.ToLower().Equals(findwhat.ToLower()))
-                {
-                    items.Add(temp);
-                }
-            }
-
-            // none found
-            if (items.Count == 0)
-            {
-                CustomMessageBox.Show("The requested firmware was not found.");
-                return;
-            }
-            else if (items.Count == 1) // 1 found so accept it
-            {
-                DialogResult dr = CustomMessageBox.Show("Are you sure you want to upload " + items[0].name + "?", "Continue", MessageBoxButtons.YesNo);
+            DialogResult dr = CustomMessageBox.Show("Are you sure you want to upload " + findwhat.name + "?", "Continue", MessageBoxButtons.YesNo);
                 if (dr == System.Windows.Forms.DialogResult.Yes)
                 {
-                    update(items[0]);
+                    update(findwhat);
                 }
-                return;
-            }
-            else
-            {
-                CustomMessageBox.Show("Something has gone wrong, to many firmware choices");
-                return;
-            }
+
         }
 
         private void pictureBoxRover_Click(object sender, EventArgs e)
         {
-            findfirmware(((Control)sender).Text);
+            findfirmware((software)((Control)sender).Tag);
         }
         private void pictureBoxAPM_Click(object sender, EventArgs e)
         {
-            findfirmware(((Control)sender).Text);
+            findfirmware((software)((Control)sender).Tag);
         }
 
         private void pictureBoxAPMHIL_Click(object sender, EventArgs e)
         {
-            findfirmware(((Control)sender).Text);
+            findfirmware((software)((Control)sender).Tag);
         }
 
         private void pictureBoxQuad_Click(object sender, EventArgs e)
         {
-            findfirmware(((Control)sender).Text);
+            findfirmware((software)((Control)sender).Tag);
         }
 
         private void pictureBoxHexa_Click(object sender, EventArgs e)
         {
-            findfirmware(((Control)sender).Text);
+            findfirmware((software)((Control)sender).Tag);
         }
 
         private void pictureBoxTri_Click(object sender, EventArgs e)
         {
-            findfirmware(((Control)sender).Text);
+            findfirmware((software)((Control)sender).Tag);
         }
 
         private void pictureBoxY6_Click(object sender, EventArgs e)
         {
-            findfirmware(((Control)sender).Text);
+            findfirmware((software)((Control)sender).Tag);
         }
 
         private void pictureBoxHeli_Click(object sender, EventArgs e)
         {
-            findfirmware(((Control)sender).Text);
+            findfirmware((software)((Control)sender).Tag);
         }
 
         private void pictureBoxQuadHil_Click(object sender, EventArgs e)
         {
-            findfirmware(((Control)sender).Text);
+            findfirmware((software)((Control)sender).Tag);
         }
 
 
         private void pictureBoxOctav_Click(object sender, EventArgs e)
         {
-            findfirmware(((Control)sender).Text);
+            findfirmware((software)((Control)sender).Tag);
         }
 
         private void pictureBoxOcta_Click(object sender, EventArgs e)
         {
-            findfirmware(((Control)sender).Text);
+            findfirmware((software)((Control)sender).Tag);
         }
 
         private void pictureBoxAPHil_Click(object sender, EventArgs e)
         {
-            findfirmware(((Control)sender).Text);
+            findfirmware((software)((Control)sender).Tag);
         }
 
         private void pictureBoxACHil_Click(object sender, EventArgs e)
         {
-            findfirmware(((Control)sender).Text);
+            findfirmware((software)((Control)sender).Tag);
         }
 
         private void pictureBoxACHHil_Click(object sender, EventArgs e)
         {
-            findfirmware(((Control)sender).Text);
+            findfirmware((software)((Control)sender).Tag);
         }
 
 

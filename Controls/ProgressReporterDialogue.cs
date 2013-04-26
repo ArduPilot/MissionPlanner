@@ -25,7 +25,7 @@ namespace ArdupilotMega.Controls
         internal int _progress = -1;
         internal string _status = "";
 
-        public delegate void DoWorkEventHandler(object sender, ProgressWorkerEventArgs e);
+        public delegate void DoWorkEventHandler(object sender, ProgressWorkerEventArgs e, object passdata = null);
 
         // This is the event that will be raised on the BG thread
         public event DoWorkEventHandler DoWork;
