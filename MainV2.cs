@@ -1167,7 +1167,7 @@ namespace ArdupilotMega
                             speechbatterytime = DateTime.Now;
                         }
 
-                        
+
                     }
 
                     // speech altitude warning.
@@ -1177,7 +1177,7 @@ namespace ArdupilotMega
                         float.TryParse(MainV2.getConfig("speechaltheight"), out warnalt);
                         try
                         {
-                            if (MainV2.getConfig("speechaltenabled") == "True" && MainV2.comPort.MAV.cs.alt  != 0.00 && (MainV2.comPort.MAV.cs.alt - (int)double.Parse(MainV2.getConfig("TXT_homealt"))) <= warnalt)
+                            if (MainV2.getConfig("speechaltenabled") == "True" && MainV2.comPort.MAV.cs.alt != 0.00 && (MainV2.comPort.MAV.cs.alt - (int)double.Parse(MainV2.getConfig("TXT_homealt"))) <= warnalt)
                             {
                                 if (MainV2.speechEngine.State == SynthesizerState.Ready)
                                     MainV2.speechEngine.SpeakAsync(Common.speechConversion(MainV2.getConfig("speechalt")));
@@ -1278,9 +1278,10 @@ namespace ArdupilotMega
                                     FlightPlanner.updateHome();
                                 }
                             }
-                            catch { 
+                            catch
+                            {
                                 // dont hang this loop
-                                this.BeginInvoke((MethodInvoker)delegate { CustomMessageBox.Show("Failed to update home location"); }); 
+                                this.BeginInvoke((MethodInvoker)delegate { CustomMessageBox.Show("Failed to update home location"); });
                             }
                         }
 
@@ -1306,6 +1307,13 @@ namespace ArdupilotMega
                         catch { }
                     }
 
+                    // update currentstate of main port
+                    try
+                    {
+                        comPort.MAV.cs.UpdateCurrentSettings(null, false, comPort);
+                    }
+                    catch { }
+
                     // read the other interfaces
                     foreach (var port in Comports)
                     {
@@ -1326,11 +1334,12 @@ namespace ArdupilotMega
                             }
                             catch { }
                         }
-						        try
-                            {
-                                port.MAV.cs.UpdateCurrentSettings(null, false, port);
-                            }
-                            catch { }
+                        // update currentstate of port
+                        try
+                        {
+                            port.MAV.cs.UpdateCurrentSettings(null, false, port);
+                        }
+                        catch { }
                     }
                 }
                 catch (Exception e)

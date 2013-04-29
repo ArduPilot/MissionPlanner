@@ -27,6 +27,33 @@ namespace ArdupilotMega.Controls
             this.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
+        public void setup(List<KeyValuePair<string, string>> source, string paramname, Hashtable paramlist, string paramname2 = "", Control enabledisable = null)
+        {
+            base.SelectedIndexChanged -= MavlinkComboBox_SelectedIndexChanged;
+
+            this.DisplayMember = "Value";
+            this.ValueMember = "Key";
+            this.DataSource = source;
+
+            this.ParamName = paramname;
+            this.param = paramlist;
+            this.paramname2 = paramname2;
+            this._control = enabledisable;
+
+            if (paramlist.ContainsKey(paramname))
+            {
+                this.Enabled = true;
+                this.Visible = true;
+
+                enableControl(true);
+
+                this.Text = paramlist[paramname].ToString();
+            }
+
+            base.SelectedIndexChanged += new EventHandler(MavlinkComboBox_SelectedIndexChanged);
+        }
+        
+
         public void setup(Type source, string paramname, Hashtable paramlist, string paramname2 = "", Control enabledisable = null)
         {
             base.SelectedIndexChanged -= MavlinkComboBox_SelectedIndexChanged;

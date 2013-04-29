@@ -594,7 +594,9 @@ namespace ArdupilotMega
             CH6_LOITER_RATE_KD = 23,   // loiter rate controller's D term (speed error to tilt angle)
             CH6_AHRS_YAW_KP = 30,   // ahrs's compass effect on yaw angle (0 = very low, 1 = very high)
             CH6_AHRS_KP = 31,   // accelerometer effect on roll/pitch angle (0=low)
-            CH6_INAV_TC = 32          // inertial navigation baro/accel and gps/accel time
+            CH6_INAV_TC = 32,          // inertial navigation baro/accel and gps/accel time
+            CH6_DECLINATION = 38,         // compass declination in radians
+            CH6_CIRCLE_RATE = 39,        // circle turn rate in degrees (hard coded to about 45 degrees in either direction)
         }
 
         public static void linearRegression()

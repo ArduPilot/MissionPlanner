@@ -34,6 +34,10 @@ namespace ArdupilotMega
 
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 
+            // fix ssl on mono
+            ServicePointManager.ServerCertificateValidationCallback =
+new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate, chain, policyErrors) => { return true; });
+
             //Application.Idle += Application_Idle;
 
             //MagCalib.ProcessLog();
@@ -137,10 +141,10 @@ namespace ArdupilotMega
          //   using (MainV3 main = new MainV3(1024, 768))
             {
           //      main.Title = "Mission Planner";
-          //      main.Run(30.0, 0.0);
+           //     main.Run(30.0, 0.0);
             }
 
-            //return;
+           // return;
 
             //Utilities.S3Uploader s3 = new Utilities.S3Uploader("");
 

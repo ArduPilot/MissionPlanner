@@ -898,6 +898,8 @@ namespace ArdupilotMega
         private void BUT_paramgen_Click(object sender, EventArgs e)
         {
             ParameterMetaDataParser.GetParameterInformation();
+
+            ParameterMetaDataRepository.Reload();
         }
 
         private void myButton1_Click(object sender, EventArgs e)

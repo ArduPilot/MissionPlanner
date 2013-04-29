@@ -377,7 +377,7 @@ namespace ArdupilotMega
         // stats
         public ushort packetdropremote { get; set; }
         public ushort linkqualitygcs { get; set; }
-        public ushort hwvoltage { get; set; }
+        public float hwvoltage { get; set; }
         public ushort i2cerrors { get; set; }
 
         // requested stream rates
@@ -457,6 +457,10 @@ namespace ArdupilotMega
             return desc;
         }
 
+        /// <summary>
+        /// use for main serial port only
+        /// </summary>
+        /// <param name="bs"></param>
         public void UpdateCurrentSettings(System.Windows.Forms.BindingSource bs)
         {
             UpdateCurrentSettings(bs, false, MainV2.comPort);
@@ -567,7 +571,7 @@ namespace ArdupilotMega
                     {
                         var hwstatus = bytearray.ByteArrayToStructure<MAVLink.mavlink_hwstatus_t>(6);
 
-                        hwvoltage = hwstatus.Vcc;
+                        hwvoltage = hwstatus.Vcc / 1000.0f;
                         i2cerrors = hwstatus.I2Cerr;
 
                         //MAVLink.packets[MAVLink.MAVLINK_MSG_ID_HWSTATUS] = null;

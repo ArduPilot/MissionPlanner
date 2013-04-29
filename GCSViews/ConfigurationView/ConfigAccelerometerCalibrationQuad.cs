@@ -160,7 +160,8 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             // clean up history
             MainV2.comPort.MAV.cs.messages.Clear();
 
-            while (!(MainV2.comPort.MAV.cs.message.Contains("Calibration successful") || MainV2.comPort.MAV.cs.message.Contains("Calibration failed")))
+            while (!(MainV2.comPort.MAV.cs.message.Contains("Calibration successful") || MainV2.comPort.MAV.cs.message.Contains("Calibration failed")
+                  || MainV2.comPort.plaintxtline.Contains("Calibration successful")   || MainV2.comPort.plaintxtline.Contains("Calibration failed")))
             {
                 try
                 {
@@ -171,8 +172,6 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                     MainV2.comPort.MAV.cs.UpdateCurrentSettings(null);
                     // update user display
                     local.UpdateUserMessage();
-
-
                 }
                 catch { break; }
             }
@@ -194,7 +193,8 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
         {
             this.Invoke((MethodInvoker)delegate()
             {
-                lbl_Accel_user.Text = MainV2.comPort.plaintxtline;// MainV2.comPort.MAV.cs.message;
+                lbl_Accel_user.Text = MainV2.comPort.MAV.cs.message;
+                //lbl_Accel_user.Text = MainV2.comPort.plaintxtline;// MainV2.comPort.MAV.cs.message;
             });
         }
 

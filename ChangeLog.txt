@@ -1,4 +1,12 @@
-﻿* Mission Planner 1.2.47
+﻿* Mission Planner 1.2.48
+modify accel calib
+mono ssl fix
+add ch6_ dec
+better amazon error handling
+add AC_Fence
+add 3dr radio check on tracker scan
+
+* Mission Planner 1.2.47
 add RPY to nmea output as $GPRPY
 update current state for all mavs connected
 update wix gerneration for rsync uploads and google code

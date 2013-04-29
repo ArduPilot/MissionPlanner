@@ -268,6 +268,12 @@ namespace ArdupilotMega.Antenna
             float tilt = 0;
             float pan = 0;
 
+            if (snr == 0)
+            {
+                CustomMessageBox.Show("No valid 3dr radio");
+                return;
+            }
+
             this.Invoke((MethodInvoker)delegate
             {
                 tilt = TRK_tilttrim.Value;

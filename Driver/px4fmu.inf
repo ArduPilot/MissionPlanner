@@ -9,7 +9,7 @@ Class=Ports
 ClassGuid={4D36E978-E325-11CE-BFC1-08002BE10318}
 Provider=%MFGNAME%
 LayoutFile=layout.inf
-CatalogFile=%MFGFILENAME%.cat
+CatalogFile=px4fmu.cat
 DriverVer=03/28/2013,1.6.2.0
 
 [Manufacturer]
@@ -98,9 +98,9 @@ ServiceBinary=%12%\%DRIVERFILENAME%.sys
 ;Modify these strings to customize your device
 ;------------------------------------------------------------------------------
 [Strings]
-MFGFILENAME="px4fmu"
+MFGFILENAME="CDC_vista"
 DRIVERFILENAME ="usbser"
-MFGNAME="DIYDrones"
-INSTDISK="DIYD PX4 Installer"
+MFGNAME="3D Robotics"
+INSTDISK="3DR PX4 Installer"
 DESCRIPTION="PX4 FMU v1.6"
 SERVICE="USB RS-232 Emulation Driver"

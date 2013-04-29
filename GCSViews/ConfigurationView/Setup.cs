@@ -111,6 +111,7 @@ If you are just setting up 3DR radios, you may continue without connecting.");
                 AddBackstageViewPage(configpanel, "ArduCopter Pids", standardpage);
 
                 AddBackstageViewPage(new ConfigArducopter(), "ArduCopter Config", standardpage);
+                AddBackstageViewPage(new ConfigAC_Fence(), "GeoFence");
                // AddBackstageViewPage(new ConfigAP_Limits(), "GeoFence");
             }
                 /****************************** ArduCopter **************************/
@@ -124,6 +125,7 @@ If you are just setting up 3DR radios, you may continue without connecting.");
                 AddBackstageViewPage(configpanel, "ArduCopter Pids", standardpage);
 
                 AddBackstageViewPage(new ConfigArducopter(), "ArduCopter Config", standardpage);
+                AddBackstageViewPage(new ConfigAC_Fence(), "GeoFence");
                 //AddBackstageViewPage(new ConfigAP_Limits(), "GeoFence");
             }
                 /****************************** ArduPlane **************************/

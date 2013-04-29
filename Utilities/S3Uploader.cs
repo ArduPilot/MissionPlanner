@@ -42,7 +42,6 @@ namespace ArdupilotMega.Utilities
             //uploadRequest.AddHeader("x-amz-acl", "private");
             uploadRequest.UploadProgressEvent += new EventHandler<UploadProgressArgs>(uploadRequest_UploadProgressEvent);
             transferUtility.BeginUpload(uploadRequest, callback, toPath);
-
         }
 
         void uploadRequest_UploadProgressEvent(object sender, UploadProgressArgs e)
@@ -53,6 +52,14 @@ namespace ArdupilotMega.Utilities
 
         private void uploadComplete(IAsyncResult result)
         {
+            try
+            {
+                transferUtility.EndUpload(result);
+            }
+            catch (ArgumentException ex) { System.Windows.Forms.CustomMessageBox.Show("Error bad argument\n\n " + ex.ToString()); return; }
+            catch (WebException ex) { System.Windows.Forms.CustomMessageBox.Show("Error communicating with server\n\n" + ex.ToString()); return; }
+            catch (AmazonS3Exception ex) { System.Windows.Forms.CustomMessageBox.Show("Error accessing amazon\n\n" + ex.ToString()); return; }
+
             Progress = 100;
             var x = result;
             Console.WriteLine("Upload Done");
@@ -82,13 +89,26 @@ namespace ArdupilotMega.Utilities
                
 
                 var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
-                using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+
+                if (httpResponse.StatusCode >= HttpStatusCode.OK && (int)httpResponse.StatusCode < 300)
                 {
-                    var result = streamReader.ReadToEnd();
-                    if (result.StartsWith("\"") && result.EndsWith("\""))
+
+                    using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
                     {
-                        System.Diagnostics.Process.Start("http://upload.droneshare.com/view/" + result.Trim(new char[] {'"'}));
+                        var result = streamReader.ReadToEnd();
+                        if (result.StartsWith("\"") && result.EndsWith("\""))
+                        {
+                            System.Diagnostics.Process.Start("http://upload.droneshare.com/view/" + result.Trim(new char[] { '"' }));
+                        }
                     }
+                }
+                else if (httpResponse.StatusCode == HttpStatusCode.NotAcceptable)
+                {
+                    System.Windows.Forms.CustomMessageBox.Show("Flightlog was to short, please upload a longer flight log.");
+                }
+                else
+                {
+                    System.Windows.Forms.CustomMessageBox.Show("Error procerssing flight log " + httpResponse.StatusCode.ToString());
                 }
 
             }

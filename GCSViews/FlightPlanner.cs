@@ -192,7 +192,7 @@ namespace ArdupilotMega.GCSViews
                 return;
             }
 
-            setfromGE(lat, lng, alt);
+            setfromMap(lat, lng, alt);
         }
         /// <summary>
         /// Actualy Sets the values into the datagrid and verifys height if turned on
@@ -200,7 +200,7 @@ namespace ArdupilotMega.GCSViews
         /// <param name="lat"></param>
         /// <param name="lng"></param>
         /// <param name="alt"></param>
-        void setfromGE(double lat, double lng, int alt)
+        void setfromMap(double lat, double lng, int alt)
         {
             if (selectedrow > Commands.RowCount)
             {
@@ -225,8 +225,8 @@ namespace ArdupilotMega.GCSViews
                 cell = Commands.Rows[selectedrow].Cells[Alt.Index] as DataGridViewTextBoxCell;
 
                 {
-                    float result;
-                    bool pass = float.TryParse(TXT_homealt.Text, out result);
+                    double result;
+                    bool pass = double.TryParse(TXT_homealt.Text, out result);
 
                     if (pass == false)
                     {
@@ -240,6 +240,13 @@ namespace ArdupilotMega.GCSViews
                     {
                         CustomMessageBox.Show("Your default alt is not valid");
                         return;
+                    }
+
+                    if (results1 == 0)
+                    {
+                        string defalt = "100";
+                        Common.InputBox("Default Alt", "Default Altitude", ref defalt);
+                        TXT_DefaultAlt.Text = defalt;
                     }
                 }
 
@@ -354,7 +361,7 @@ namespace ArdupilotMega.GCSViews
 
             ChangeColumnHeader(MAVLink.MAV_CMD.WAYPOINT.ToString());
 
-            setfromGE(lat, lng, alt);
+            setfromMap(lat, lng, alt);
         }
 
         public FlightPlanner()
@@ -2679,7 +2686,7 @@ namespace ArdupilotMega.GCSViews
 
             ChangeColumnHeader(MAVLink.MAV_CMD.LOITER_UNLIM.ToString());
 
-            setfromGE(end.Lat, end.Lng, (int)float.Parse(TXT_DefaultAlt.Text));
+            setfromMap(end.Lat, end.Lng, (int)float.Parse(TXT_DefaultAlt.Text));
 
             writeKML();
         }
@@ -2774,7 +2781,7 @@ namespace ArdupilotMega.GCSViews
 
             ChangeColumnHeader(MAVLink.MAV_CMD.LOITER_TIME.ToString());
 
-            setfromGE(end.Lat, end.Lng, (int)float.Parse(TXT_DefaultAlt.Text));
+            setfromMap(end.Lat, end.Lng, (int)float.Parse(TXT_DefaultAlt.Text));
 
             writeKML();
         }
@@ -2792,7 +2799,7 @@ namespace ArdupilotMega.GCSViews
 
             ChangeColumnHeader(MAVLink.MAV_CMD.LOITER_TURNS.ToString());
 
-            setfromGE(end.Lat, end.Lng, (int)float.Parse(TXT_DefaultAlt.Text));
+            setfromMap(end.Lat, end.Lng, (int)float.Parse(TXT_DefaultAlt.Text));
 
             writeKML();
         }
@@ -3281,7 +3288,7 @@ namespace ArdupilotMega.GCSViews
 
                 PointLatLng pll = new PointLatLng(lat2 * rad2deg, lon2 * rad2deg);
 
-                setfromGE(pll.Lat, pll.Lng, (int)float.Parse(TXT_DefaultAlt.Text));
+                setfromMap(pll.Lat, pll.Lng, (int)float.Parse(TXT_DefaultAlt.Text));
 
             }
 
@@ -3355,7 +3362,7 @@ namespace ArdupilotMega.GCSViews
 
             ChangeColumnHeader(MAVLink.MAV_CMD.ROI.ToString());
 
-            setfromGE(end.Lat, end.Lng, (int)float.Parse(TXT_DefaultAlt.Text));
+            setfromMap(end.Lat, end.Lng, (int)float.Parse(TXT_DefaultAlt.Text));
 
             writeKML();
         }
@@ -4240,7 +4247,7 @@ namespace ArdupilotMega.GCSViews
 
             ChangeColumnHeader(MAVLink.MAV_CMD.LAND.ToString());
 
-            setfromGE(end.Lat, end.Lng, 1);
+            setfromMap(end.Lat, end.Lng, 1);
 
             writeKML();
         }

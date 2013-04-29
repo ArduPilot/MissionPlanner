@@ -218,7 +218,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                 {
                     Utilities.ParameterMetaDataParser.GetParameterInformation();
 
-                    _parameterMetaDataRepository.Reload();
+                    ParameterMetaDataRepository.Reload();
 
                     SortParamList();
                 }
