@@ -30,7 +30,7 @@ namespace ArdupilotMega
         private TextBox TXT_outputlog;
         private ArdupilotMega.Controls.MyButton BUT_estoffset;
 
-        int latpos = 4, lngpos = 5, altpos = 7, cogpos = 9, pitchATT = 13, rollATT = 12, yawATT = 14;
+        int latpos = 3, lngpos = 4, altpos = 5, cogpos = 8, pitchATT = 11, rollATT = 10, yawATT = 12;
         private NumericUpDown NUM_latpos;
         private NumericUpDown NUM_lngpos;
         private NumericUpDown NUM_altpos;
