@@ -387,15 +387,15 @@ namespace ArdupilotMega
         public double GetDistance2(PointLatLngAlt p2)
         {
             //http://www.movable-type.co.uk/scripts/latlong.html
-            var R = 6371; // 6371 km
+            var R = 6371.0; // 6371 km
             var dLat = (p2.Lat - Lat) * deg2rad;
             var dLon = (p2.Lng - Lng) * deg2rad;
             var lat1 = Lat * deg2rad;
             var lat2 = p2.Lat * deg2rad;
 
-            var a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) +
-                    Math.Sin(dLon / 2) * Math.Sin(dLon / 2) * Math.Cos(lat1) * Math.Cos(lat2);
-            var c = 2.0 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+            var a = Math.Sin(dLat / 2.0) * Math.Sin(dLat / 2.0) +
+                    Math.Sin(dLon / 2.0) * Math.Sin(dLon / 2.0) * Math.Cos(lat1) * Math.Cos(lat2);
+            var c = 2.0 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1.0 - a));
             var d = R * c * 1000.0; // M
 
             return d;
@@ -428,6 +428,42 @@ namespace ArdupilotMega
             mph,
             knots
         }
+
+
+        /// <summary>
+        /// from libraries\AP_Math\rotations.h
+        /// </summary>
+        public enum Rotation
+        {
+            ROTATION_NONE = 0,
+            ROTATION_YAW_45,
+            ROTATION_YAW_90,
+            ROTATION_YAW_135,
+            ROTATION_YAW_180,
+            ROTATION_YAW_225,
+            ROTATION_YAW_270,
+            ROTATION_YAW_315,
+            ROTATION_ROLL_180,
+            ROTATION_ROLL_180_YAW_45,
+            ROTATION_ROLL_180_YAW_90,
+            ROTATION_ROLL_180_YAW_135,
+            ROTATION_PITCH_180,
+            ROTATION_ROLL_180_YAW_225,
+            ROTATION_ROLL_180_YAW_270,
+            ROTATION_ROLL_180_YAW_315,
+            ROTATION_ROLL_90,
+            ROTATION_ROLL_90_YAW_45,
+            ROTATION_ROLL_90_YAW_90,
+            ROTATION_ROLL_90_YAW_135,
+            ROTATION_ROLL_270,
+            ROTATION_ROLL_270_YAW_45,
+            ROTATION_ROLL_270_YAW_90,
+            ROTATION_ROLL_270_YAW_135,
+            ROTATION_PITCH_90,
+            ROTATION_PITCH_270,
+            ROTATION_MAX
+        }
+
 
         public enum ap_product
         {

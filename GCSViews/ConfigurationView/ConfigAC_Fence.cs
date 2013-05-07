@@ -31,6 +31,12 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             if (availableValues.Any())
             {
                 var splitValues = new List<KeyValuePair<string, string>>();
+                // Add the values to the ddl
+                foreach (string val in availableValues)
+                {
+                    string[] valParts = val.Split(new[] { ':' });
+                    splitValues.Add(new KeyValuePair<string, string>(valParts[0].Trim(), (valParts.Length > 1) ? valParts[1].Trim() : valParts[0].Trim()));
+                };
                 mavlinkComboBox1.setup(splitValues, "FENCE_TYPE", MainV2.comPort.MAV.param);
             }
 
@@ -52,9 +58,9 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             }
 
             // 3
-            mavlinkNumericUpDown1.setup(1000, 100000, 100, 1, "FENCE_ALT_MAX", MainV2.comPort.MAV.param);
+            mavlinkNumericUpDown1.setup(10, 1000, 1, 1, "FENCE_ALT_MAX", MainV2.comPort.MAV.param);
 
-            mavlinkNumericUpDown2.setup(0, 65536, 100, 1, "FENCE_RADIUS", MainV2.comPort.MAV.param);
+            mavlinkNumericUpDown2.setup(0, 65536, 1, 1, "FENCE_RADIUS", MainV2.comPort.MAV.param);
         }
     }
 }

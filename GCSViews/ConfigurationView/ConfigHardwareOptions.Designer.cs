@@ -60,6 +60,8 @@
             this.pictureBox5 = new System.Windows.Forms.PictureBox();
             this.BUT_osdrates = new ArdupilotMega.Controls.MyButton();
             this.label7 = new System.Windows.Forms.Label();
+            this.CMB_compass_orient = new ArdupilotMega.Controls.MavlinkComboBox();
+            this.label8 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -293,10 +295,26 @@
             resources.ApplyResources(this.label7, "label7");
             this.label7.Name = "label7";
             // 
+            // CMB_compass_orient
+            // 
+            this.CMB_compass_orient.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            resources.ApplyResources(this.CMB_compass_orient, "CMB_compass_orient");
+            this.CMB_compass_orient.FormattingEnabled = true;
+            this.CMB_compass_orient.Name = "CMB_compass_orient";
+            this.CMB_compass_orient.param = null;
+            this.CMB_compass_orient.ParamName = null;
+            // 
+            // label8
+            // 
+            resources.ApplyResources(this.label8, "label8");
+            this.label8.Name = "label8";
+            // 
             // ConfigHardwareOptions
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.CMB_compass_orient);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.BUT_osdrates);
             this.Controls.Add(this.label6);
@@ -372,5 +390,7 @@
         private System.Windows.Forms.PictureBox pictureBox5;
         private Controls.MyButton BUT_osdrates;
         private System.Windows.Forms.Label label7;
+        private Controls.MavlinkComboBox CMB_compass_orient;
+        private System.Windows.Forms.Label label8;
     }
 }

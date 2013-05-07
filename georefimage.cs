@@ -30,7 +30,7 @@ namespace ArdupilotMega
         private TextBox TXT_outputlog;
         private ArdupilotMega.Controls.MyButton BUT_estoffset;
 
-        int latpos = 4, lngpos = 5, altpos = 7, cogpos = 9, pitchATT = 13, rollATT = 12, yawATT = 14;
+        int latpos = 3, lngpos = 4, altpos = 5, cogpos = 8, pitchATT = 11, rollATT = 10, yawATT = 12;
         private NumericUpDown NUM_latpos;
         private NumericUpDown NUM_lngpos;
         private NumericUpDown NUM_altpos;
@@ -154,11 +154,13 @@ namespace ArdupilotMega
 
                     cs.UpdateCurrentSettings(null, true, mine);
 
+                    // old
                     //		line	"GPS: 82686250, 1, 8, -34.1406480, 118.5441900, 0.0000, 309.1900, 315.9500, 0.0000, 279.1200"	string
 
+                    //Status,Time,NSats,HDop,Lat,Lng,RelAlt,Alt,Spd,GCrs
 
-                    string[] vals = new string[] { "GPS", (cs.datetime.ToUniversalTime() - new DateTime(cs.datetime.Year,cs.datetime.Month,cs.datetime.Day,0,0,0,DateTimeKind.Utc)).TotalMilliseconds.ToString(), "1",
-                    cs.satcount.ToString(),cs.lat.ToString(),cs.lng.ToString(),"0.0",cs.alt.ToString(),cs.alt.ToString(),cs.groundspeed.ToString(),cs.yaw.ToString()};
+                    string[] vals = new string[] { "GPS", "1",  (cs.datetime.ToUniversalTime() - new DateTime(cs.datetime.Year,cs.datetime.Month,cs.datetime.Day,0,0,0,DateTimeKind.Utc)).TotalMilliseconds.ToString(),
+                    cs.satcount.ToString(),cs.gpshdop.ToString(),cs.lat.ToString(),cs.lng.ToString(),cs.alt.ToString(),cs.alt.ToString(),cs.groundspeed.ToString(),cs.yaw.ToString()};
 
                     if (oldvalues.Length > 2 && oldvalues[latpos] == vals[latpos]
                         && oldvalues[lngpos] == vals[lngpos]
@@ -739,7 +741,7 @@ namespace ArdupilotMega
             resources.ApplyResources(this.NUM_latpos, "NUM_latpos");
             this.NUM_latpos.Name = "NUM_latpos";
             this.NUM_latpos.Value = new decimal(new int[] {
-            4,
+            3,
             0,
             0,
             0});
@@ -749,7 +751,7 @@ namespace ArdupilotMega
             resources.ApplyResources(this.NUM_lngpos, "NUM_lngpos");
             this.NUM_lngpos.Name = "NUM_lngpos";
             this.NUM_lngpos.Value = new decimal(new int[] {
-            5,
+            4,
             0,
             0,
             0});
@@ -759,7 +761,7 @@ namespace ArdupilotMega
             resources.ApplyResources(this.NUM_altpos, "NUM_altpos");
             this.NUM_altpos.Name = "NUM_altpos";
             this.NUM_altpos.Value = new decimal(new int[] {
-            7,
+            5,
             0,
             0,
             0});
@@ -769,7 +771,7 @@ namespace ArdupilotMega
             resources.ApplyResources(this.NUM_headingpos, "NUM_headingpos");
             this.NUM_headingpos.Name = "NUM_headingpos";
             this.NUM_headingpos.Value = new decimal(new int[] {
-            9,
+            8,
             0,
             0,
             0});

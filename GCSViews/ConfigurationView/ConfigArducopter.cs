@@ -444,51 +444,41 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             this.Activate();
         }
 
-        private void groupBox1_Enter(object sender, EventArgs e)
+        private void BUT_refreshpart_Click(object sender, EventArgs e)
         {
+            if (!MainV2.comPort.BaseStream.IsOpen)
+                return;
 
+            ((Control)sender).Enabled = false;
+
+
+            updateparam(this);
+
+            ((Control)sender).Enabled = true;
+
+
+            this.Activate();
         }
 
-        private void groupBox4_Enter(object sender, EventArgs e)
+        void updateparam(Control parentctl)
         {
+            foreach (Control ctl in parentctl.Controls)
+            {
+                if (typeof(NumericUpDown) == ctl.GetType() || typeof(ComboBox) == ctl.GetType())
+                {
+                    try
+                    {
+                        MainV2.comPort.GetParam(ctl.Name);
+                    }
+                    catch { }
+                }
 
+                if (ctl.Controls.Count > 0)
+                {
+                    updateparam(ctl);
+                }
+            }
         }
-
-        private void groupBox6_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void groupBox7_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void groupBox19_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void groupBox20_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void groupBox21_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void groupBox23_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void groupBox24_Enter(object sender, EventArgs e)
-        {
-
-        }
-      
         
     }
 }

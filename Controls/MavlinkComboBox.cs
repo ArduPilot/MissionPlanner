@@ -19,6 +19,7 @@ namespace ArdupilotMega.Controls
 
         Control _control;
         Type _source;
+        List<KeyValuePair<string, string>> _source2;
         string paramname2 = "";
 
         public MavlinkComboBox()
@@ -30,6 +31,8 @@ namespace ArdupilotMega.Controls
         public void setup(List<KeyValuePair<string, string>> source, string paramname, Hashtable paramlist, string paramname2 = "", Control enabledisable = null)
         {
             base.SelectedIndexChanged -= MavlinkComboBox_SelectedIndexChanged;
+
+            _source2 = source;
 
             this.DisplayMember = "Value";
             this.ValueMember = "Key";
@@ -91,16 +94,35 @@ namespace ArdupilotMega.Controls
             if (this.SelectedIndexChanged != null)
                 this.SelectedIndexChanged(sender,e);
 
-            if (!MainV2.comPort.setParam(ParamName, (float)(Int32)Enum.Parse(_source, this.Text)))
+            if (_source != null)
             {
-                CustomMessageBox.Show("Set " + ParamName + " Failed!");
-            }
 
-            if (paramname2 != "")
-            {
-                if (!MainV2.comPort.setParam(paramname2, (float)(Int32)Enum.Parse(_source, this.Text) > 0 ? 1: 0))
+                if (!MainV2.comPort.setParam(ParamName, (float)(Int32)Enum.Parse(_source, this.Text)))
                 {
-                    CustomMessageBox.Show("Set " + paramname2 + " Failed!");
+                    CustomMessageBox.Show("Set " + ParamName + " Failed!");
+                }
+
+                if (paramname2 != "")
+                {
+                    if (!MainV2.comPort.setParam(paramname2, (float)(Int32)Enum.Parse(_source, this.Text) > 0 ? 1 : 0))
+                    {
+                        CustomMessageBox.Show("Set " + paramname2 + " Failed!");
+                    }
+                }
+            }
+            else if (_source2 != null)
+            {
+                if (!MainV2.comPort.setParam(ParamName, float.Parse((string)((MavlinkComboBox)sender).SelectedValue)))
+                {
+                    CustomMessageBox.Show("Set " + ParamName + " Failed!");
+                }
+
+                if (paramname2 != "")
+                {
+                    if (!MainV2.comPort.setParam(paramname2, float.Parse((string)((MavlinkComboBox)sender).SelectedValue) > 0 ? 1 : 0))
+                    {
+                        CustomMessageBox.Show("Set " + paramname2 + " Failed!");
+                    }
                 }
             }
         }

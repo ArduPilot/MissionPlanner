@@ -1,4 +1,11 @@
-﻿* Mission Planner 1.2.48
+﻿* Mission Planner 1.2.49
+change update location
+update georefpage
+add compass rotation
+update ac geofence
+add refresh part.
+
+* Mission Planner 1.2.48
 modify accel calib
 mono ssl fix
 add ch6_ dec

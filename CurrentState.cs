@@ -551,6 +551,22 @@ namespace ArdupilotMega
                         mavinterface.MAV.packets[MAVLink.MAVLINK_MSG_ID_RC_CHANNELS_SCALED] = null;
                     }
 
+                    bytearray = mavinterface.MAV.packets[MAVLink.MAVLINK_MSG_ID_FENCE_STATUS];
+
+                    if (bytearray != null)
+                    {
+                        var fence = bytearray.ByteArrayToStructure<MAVLink.mavlink_fence_status_t>(6);
+
+                        if (fence.breach_status != (byte)MAVLink.FENCE_BREACH.NONE)
+                        {
+                            // fence breached
+
+
+                        }
+
+                        mavinterface.MAV.packets[MAVLink.MAVLINK_MSG_ID_FENCE_STATUS] = null;
+                    }
+
                     bytearray = mavinterface.MAV.packets[MAVLink.MAVLINK_MSG_ID_HIL_CONTROLS];
 
                     if (bytearray != null) // hil mavlink 0.9 and 1.0

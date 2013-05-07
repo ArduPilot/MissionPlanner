@@ -145,6 +145,7 @@
             this.THR_ACCEL_P = new System.Windows.Forms.NumericUpDown();
             this.label8 = new System.Windows.Forms.Label();
             this.MVCHK_thr_Acc_enable = new ArdupilotMega.Controls.MavlinkCheckBox();
+            this.BUT_refreshpart = new ArdupilotMega.Controls.MyButton();
             ((System.ComponentModel.ISupportInitialize)(this.TUNE_LOW)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TUNE_HIGH)).BeginInit();
             this.groupBox5.SuspendLayout();
@@ -315,7 +316,6 @@
             resources.ApplyResources(this.groupBox4, "groupBox4");
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.TabStop = false;
-            this.groupBox4.Enter += new System.EventHandler(this.groupBox4_Enter);
             // 
             // NAV_LAT_D
             // 
@@ -374,7 +374,7 @@
             resources.ApplyResources(this.groupBox6, "groupBox6");
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.TabStop = false;
-            this.groupBox6.Enter += new System.EventHandler(this.groupBox6_Enter);
+            
             // 
             // XTRK_GAIN_SC
             // 
@@ -397,7 +397,7 @@
             resources.ApplyResources(this.groupBox7, "groupBox7");
             this.groupBox7.Name = "groupBox7";
             this.groupBox7.TabStop = false;
-            this.groupBox7.Enter += new System.EventHandler(this.groupBox7_Enter);
+            
             // 
             // THR_ALT_IMAX
             // 
@@ -440,7 +440,7 @@
             resources.ApplyResources(this.groupBox19, "groupBox19");
             this.groupBox19.Name = "groupBox19";
             this.groupBox19.TabStop = false;
-            this.groupBox19.Enter += new System.EventHandler(this.groupBox19_Enter);
+            
             // 
             // HLD_LAT_IMAX
             // 
@@ -483,7 +483,7 @@
             resources.ApplyResources(this.groupBox20, "groupBox20");
             this.groupBox20.Name = "groupBox20";
             this.groupBox20.TabStop = false;
-            this.groupBox20.Enter += new System.EventHandler(this.groupBox20_Enter);
+            
             // 
             // STB_YAW_IMAX
             // 
@@ -526,7 +526,7 @@
             resources.ApplyResources(this.groupBox21, "groupBox21");
             this.groupBox21.Name = "groupBox21";
             this.groupBox21.TabStop = false;
-            this.groupBox21.Enter += new System.EventHandler(this.groupBox21_Enter);
+            
             // 
             // STB_PIT_IMAX
             // 
@@ -613,7 +613,7 @@
             resources.ApplyResources(this.groupBox23, "groupBox23");
             this.groupBox23.Name = "groupBox23";
             this.groupBox23.TabStop = false;
-            this.groupBox23.Enter += new System.EventHandler(this.groupBox23_Enter);
+            
             // 
             // RATE_YAW_D
             // 
@@ -668,7 +668,7 @@
             resources.ApplyResources(this.groupBox24, "groupBox24");
             this.groupBox24.Name = "groupBox24";
             this.groupBox24.TabStop = false;
-            this.groupBox24.Enter += new System.EventHandler(this.groupBox24_Enter);
+            
             // 
             // RATE_PIT_D
             // 
@@ -783,7 +783,7 @@
             resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
-            this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
+            
             // 
             // LOITER_LAT_D
             // 
@@ -926,10 +926,18 @@
             this.MVCHK_thr_Acc_enable.ParamName = null;
             this.MVCHK_thr_Acc_enable.UseVisualStyleBackColor = true;
             // 
+            // BUT_refreshpart
+            // 
+            resources.ApplyResources(this.BUT_refreshpart, "BUT_refreshpart");
+            this.BUT_refreshpart.Name = "BUT_refreshpart";
+            this.BUT_refreshpart.UseVisualStyleBackColor = true;
+            this.BUT_refreshpart.Click += new System.EventHandler(this.BUT_refreshpart_Click);
+            // 
             // ConfigArducopter
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.BUT_refreshpart);
             this.Controls.Add(this.MVCHK_thr_Acc_enable);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -1137,5 +1145,6 @@
         private System.Windows.Forms.NumericUpDown THR_ACCEL_P;
         private System.Windows.Forms.Label label8;
         private Controls.MavlinkCheckBox MVCHK_thr_Acc_enable;
+        private Controls.MyButton BUT_refreshpart;
     }
 }
