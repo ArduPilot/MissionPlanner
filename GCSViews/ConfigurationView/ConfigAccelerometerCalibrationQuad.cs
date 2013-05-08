@@ -122,16 +122,28 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
 
         }
 
+        byte count = 0;
+
         private void BUT_calib_accell_Click(object sender, EventArgs e)
         {
             if (MainV2.comPort.giveComport == true)
             {
-                MainV2.comPort.BaseStream.WriteLine("");
+                if (CHK_acversion.Checked)
+                {
+                    count++;
+                    MainV2.comPort.sendPacket(new MAVLink.mavlink_command_ack_t() { command = 1, result = count });// doCommand(MAVLink.MAV_CMD.PREFLIGHT_CALIBRATION, 0, 0, 0, 0, 1, 0, 0);
+                }
+                else
+                {
+                    MainV2.comPort.BaseStream.WriteLine("");
+                }
                 return;
             }
 
             try
             {
+                count = 0;
+
                 Log.Info("Sending accel command (mavlink 1.0)");
                 MainV2.comPort.giveComport = true;
 
@@ -160,8 +172,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             // clean up history
             MainV2.comPort.MAV.cs.messages.Clear();
 
-            while (!(MainV2.comPort.MAV.cs.message.Contains("Calibration successful") || MainV2.comPort.MAV.cs.message.Contains("Calibration failed")
-                  || MainV2.comPort.plaintxtline.Contains("Calibration successful")   || MainV2.comPort.plaintxtline.Contains("Calibration failed")))
+            while (!(MainV2.comPort.MAV.cs.message.ToLower().Contains("calibration successful") || MainV2.comPort.MAV.cs.message.ToLower().Contains("calibration failed")))
             {
                 try
                 {
@@ -193,8 +204,8 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
         {
             this.Invoke((MethodInvoker)delegate()
             {
-                lbl_Accel_user.Text = MainV2.comPort.MAV.cs.message;
-                //lbl_Accel_user.Text = MainV2.comPort.plaintxtline;// MainV2.comPort.MAV.cs.message;
+                if (!MainV2.comPort.MAV.cs.message.ToLower().Contains("initi"))
+                    lbl_Accel_user.Text = MainV2.comPort.MAV.cs.message;
             });
         }
 

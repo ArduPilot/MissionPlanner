@@ -389,6 +389,15 @@ namespace ArdupilotMega.Log
 
         private void processLine(string line)
         {
+            if (CHK_arducopter.Checked)
+            {
+                MainV2.comPort.MAV.cs.firmware = MainV2.Firmwares.ArduCopter2;
+            }
+            else
+            {
+                MainV2.comPort.MAV.cs.firmware = MainV2.Firmwares.ArduPlane;
+            }
+
             try
             {
                 Application.DoEvents();
@@ -404,7 +413,7 @@ namespace ArdupilotMega.Log
                     {
                         if (int.Parse(items[2]) <= (int)MAVLink.MAV_CMD.LAST) // wps
                         {
-                            PointLatLngAlt temp = new PointLatLngAlt(double.Parse(items[5], new System.Globalization.CultureInfo("en-US")) / 10000000, double.Parse(items[6], new System.Globalization.CultureInfo("en-US")) / 10000000, double.Parse(items[4], new System.Globalization.CultureInfo("en-US")) / 100, items[1].ToString());
+                            PointLatLngAlt temp = new PointLatLngAlt(double.Parse(items[7], new System.Globalization.CultureInfo("en-US")) / 10000000, double.Parse(items[8], new System.Globalization.CultureInfo("en-US")) / 10000000, double.Parse(items[6], new System.Globalization.CultureInfo("en-US")) / 100, items[1].ToString());
                             cmd.Add(temp);
                         }
                     }
@@ -416,6 +425,7 @@ namespace ArdupilotMega.Log
                     modelist.Add("");
                     modelist[positionindex] = (items[1]);
                 }
+                //GPS, 1, 15691, 10, 0.00, -35.3629379, 149.1650850, -0.08, 585.41, 0.00, 126.89
                 if (items[0].Contains("GPS") && items[2] == "1" && items[4] != "0" && items[4] != "-1" && lastline != line) // check gps line and fixed status
                 {
                     MainV2.comPort.MAV.cs.firmware = MainV2.Firmwares.ArduPlane;
@@ -456,6 +466,22 @@ namespace ArdupilotMega.Log
                     lastpos = (position[positionindex][position[positionindex].Count - 1]);
                     lastline = line;
 
+                }
+                //GPS, 1, 15691, 10, 0.00, -35.3629379, 149.1650850, -0.08, 585.41, 0.00, 126.89
+                if (items[0].Contains("GPS") && items[1] == "3" && items[4] != "0" && items[4] != "-1" && lastline != line) // check gps line and fixed status
+                {
+                    if (position[positionindex] == null)
+                        position[positionindex] = new List<Point3D>();
+
+                  //  if (double.Parse(items[4], new System.Globalization.CultureInfo("en-US")) == 0)
+                   //     return;
+
+                    double alt = double.Parse(items[8], new System.Globalization.CultureInfo("en-US"));
+
+                    position[positionindex].Add(new Point3D(double.Parse(items[6], new System.Globalization.CultureInfo("en-US")), double.Parse(items[5], new System.Globalization.CultureInfo("en-US")), alt));
+                    oldlastpos = lastpos;
+                    lastpos = (position[positionindex][position[positionindex].Count - 1]);
+                    lastline = line;
                 }
                 if (items[0].Contains("CTUN"))
                 {
@@ -1112,6 +1138,34 @@ namespace ArdupilotMega.Log
                 System.Threading.Thread t11 = new System.Threading.Thread(delegate() { downloadsinglethread(); });
                 t11.Name = "Log download single thread";
                 t11.Start();
+            }
+        }
+
+        private void BUT_bintolog_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "Binary Log|*.bin";
+
+            ofd.ShowDialog();
+
+            if (File.Exists(ofd.FileName))
+            {
+                List<string> log = BinaryLog.ReadLog(ofd.FileName);
+
+                SaveFileDialog sfd = new SaveFileDialog();
+                sfd.Filter = "log|*.log";
+
+                DialogResult res = sfd.ShowDialog();
+
+                if (res == System.Windows.Forms.DialogResult.OK)
+                {
+                    StreamWriter sw = new StreamWriter(sfd.OpenFile());
+                    foreach (string line in log)
+                    {
+                        sw.Write(line);
+                    }
+                    sw.Close();
+                }
             }
         }
 

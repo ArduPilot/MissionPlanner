@@ -48,6 +48,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             this.label6 = new System.Windows.Forms.Label();
             this.radioButton_V = new System.Windows.Forms.RadioButton();
             this.pictureBoxV = new ArdupilotMega.Controls.PictureBoxWithPseudoOpacity();
+            this.CHK_acversion = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPlus)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxV)).BeginInit();
@@ -175,10 +176,19 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             this.pictureBoxV.TabStop = false;
             this.pictureBoxV.Click += new System.EventHandler(this.pictureBoxV_Click);
             // 
+            // CHK_acversion
+            // 
+            resources.ApplyResources(this.CHK_acversion, "CHK_acversion");
+            this.CHK_acversion.Checked = true;
+            this.CHK_acversion.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_acversion.Name = "CHK_acversion";
+            this.CHK_acversion.UseVisualStyleBackColor = true;
+            // 
             // ConfigAccelerometerCalibrationQuad
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.CHK_acversion);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.radioButton_V);
             this.Controls.Add(this.pictureBoxV);
@@ -224,5 +234,6 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.RadioButton radioButton_V;
         private PictureBoxWithPseudoOpacity pictureBoxV;
+        private System.Windows.Forms.CheckBox CHK_acversion;
     }
 }

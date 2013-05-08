@@ -2666,6 +2666,17 @@ namespace ArdupilotMega
 
                     }
 
+                    // set ap type
+                    if (buffer[5] == MAVLink.MAVLINK_MSG_ID_HEARTBEAT)
+                    {
+                        mavlink_heartbeat_t hb = buffer.ByteArrayToStructure<mavlink_heartbeat_t>(6);
+
+                        mavlinkversion = hb.mavlink_version;
+                        aptype = (MAV_TYPE)hb.type;
+                        apname = (MAV_AUTOPILOT)hb.autopilot;
+                        setAPType();
+                    }
+
                     getWPsfromstream(ref buffer);
 
                     try

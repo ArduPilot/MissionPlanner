@@ -38,6 +38,8 @@
             this.BUT_redokml = new ArdupilotMega.Controls.MyButton();
             this.BUT_firstperson = new ArdupilotMega.Controls.MyButton();
             this.BUT_dumpdf = new ArdupilotMega.Controls.MyButton();
+            this.BUT_bintolog = new ArdupilotMega.Controls.MyButton();
+            this.CHK_arducopter = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // TXT_seriallog
@@ -101,10 +103,25 @@
             this.BUT_dumpdf.UseVisualStyleBackColor = true;
             this.BUT_dumpdf.Click += new System.EventHandler(this.BUT_dumpdf_Click);
             // 
+            // BUT_bintolog
+            // 
+            resources.ApplyResources(this.BUT_bintolog, "BUT_bintolog");
+            this.BUT_bintolog.Name = "BUT_bintolog";
+            this.BUT_bintolog.UseVisualStyleBackColor = true;
+            this.BUT_bintolog.Click += new System.EventHandler(this.BUT_bintolog_Click);
+            // 
+            // CHK_arducopter
+            // 
+            resources.ApplyResources(this.CHK_arducopter, "CHK_arducopter");
+            this.CHK_arducopter.Name = "CHK_arducopter";
+            this.CHK_arducopter.UseVisualStyleBackColor = true;
+            // 
             // Log
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.CHK_arducopter);
+            this.Controls.Add(this.BUT_bintolog);
             this.Controls.Add(this.BUT_dumpdf);
             this.Controls.Add(this.BUT_firstperson);
             this.Controls.Add(this.BUT_redokml);
@@ -133,5 +150,7 @@
         private System.Windows.Forms.TextBox TXT_seriallog;
         private ArdupilotMega.Controls.MyButton BUT_firstperson;
         private Controls.MyButton BUT_dumpdf;
+        private Controls.MyButton BUT_bintolog;
+        private System.Windows.Forms.CheckBox CHK_arducopter;
     }
 }

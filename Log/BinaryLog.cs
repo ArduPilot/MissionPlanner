@@ -70,6 +70,21 @@ namespace ArdupilotMega.Log
                         try
                         {
                             string line = logEntry(data, br);
+
+                            // we need to know the mav type to use the correct mode list.
+                            if (line.Contains("PARM, RATE_RLL_P"))
+                            {
+                                MainV2.comPort.MAV.cs.firmware = MainV2.Firmwares.ArduCopter2;
+                            }
+                            else if (line.Contains("PARM, PTCH2SRV_P"))
+                            {
+                                MainV2.comPort.MAV.cs.firmware = MainV2.Firmwares.ArduPlane;
+                            }
+                            else if (line.Contains("PARM, SKID_STEER_OUT"))
+                            {
+                                MainV2.comPort.MAV.cs.firmware = MainV2.Firmwares.ArduRover;
+                            }
+
                             lines.Add(line);
                         }
                         catch { Console.WriteLine("Bad Binary log line {0}", data); }
@@ -116,9 +131,13 @@ namespace ArdupilotMega.Log
 
                     logfmt = (log_Format)obj;
 
-                    logformat[ASCIIEncoding.ASCII.GetString(logfmt.name).Trim(new char[] { '\0' })] = logfmt;
+                    string lgname = ASCIIEncoding.ASCII.GetString(logfmt.name).Trim(new char[] { '\0' });
+                    string lgformat = ASCIIEncoding.ASCII.GetString(logfmt.format).Trim(new char[] { '\0' });
+                    string lglabels = ASCIIEncoding.ASCII.GetString(logfmt.labels).Trim(new char[] { '\0' });
 
-                    string line = String.Format("FMT, {0}, {1}, {2}, {3}, {4}\r\n", logfmt.type, logfmt.length, ASCIIEncoding.ASCII.GetString(logfmt.name).Trim(new char[] { '\0' }), ASCIIEncoding.ASCII.GetString(logfmt.format).Trim(new char[] { '\0' }), ASCIIEncoding.ASCII.GetString(logfmt.labels).Trim(new char[] { '\0' }));
+                    logformat[lgname] = logfmt;
+
+                    string line = String.Format("FMT, {0}, {1}, {2}, {3}, {4}\r\n", logfmt.type, logfmt.length, lgname, lgformat, lglabels);
 
                     return line;
 

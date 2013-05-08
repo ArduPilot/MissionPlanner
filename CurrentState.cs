@@ -624,88 +624,13 @@ namespace ArdupilotMega
 
                         if ((hb.base_mode & (byte)MAVLink.MAV_MODE_FLAG.CUSTOM_MODE_ENABLED) != 0)
                         {
-                            if (hb.type == (byte)MAVLink.MAV_TYPE.FIXED_WING)
+                            List<KeyValuePair<int,string>> modelist = Common.getModesList();
+
+                            foreach (KeyValuePair<int,string> pair in modelist) 
                             {
-                                switch (hb.custom_mode)
+                                if (pair.Key == hb.custom_mode)
                                 {
-                                    case (byte)(Common.apmmodes.MANUAL):
-                                        mode = "Manual";
-                                        break;
-                                    case (byte)(Common.apmmodes.GUIDED):
-                                        mode = "Guided";
-                                        break;
-                                    case (byte)(Common.apmmodes.STABILIZE):
-                                        mode = "Stabilize";
-                                        break;
-                                    case (byte)(Common.apmmodes.TRAINING):
-                                        mode = "Training";
-                                        break;
-                                    case (byte)(Common.apmmodes.FLY_BY_WIRE_A):
-                                        mode = "FBW A";
-                                        break;
-                                    case (byte)(Common.apmmodes.FLY_BY_WIRE_B):
-                                        mode = "FBW B";
-                                        break;
-                                    case (byte)(Common.apmmodes.AUTO):
-                                        mode = "Auto";
-                                        break;
-                                    case (byte)(Common.apmmodes.RTL):
-                                        mode = "RTL";
-                                        break;
-                                    case (byte)(Common.apmmodes.LOITER):
-                                        mode = "Loiter";
-                                        break;
-                                    case (byte)(Common.apmmodes.CIRCLE):
-                                        mode = "Circle";
-                                        break;
-                                    case (byte)(Common.apmmodes.TAKEOFF):
-                                        mode = "Takeoff";
-                                        break;
-                                    case 16:
-                                        mode = "Initialising";
-                                        break;
-                                    default:
-                                        mode = "Unknown";
-                                        break;
-                                }
-                            }
-                            else if (hb.type == (byte)MAVLink.MAV_TYPE.QUADROTOR)
-                            {
-                                switch (hb.custom_mode)
-                                {
-                                    case (byte)(Common.ac2modes.STABILIZE):
-                                        mode = "Stabilize";
-                                        break;
-                                    case (byte)(Common.ac2modes.ACRO):
-                                        mode = "Acro";
-                                        break;
-                                    case (byte)(Common.ac2modes.ALT_HOLD):
-                                        mode = "Alt Hold";
-                                        break;
-                                    case (byte)(Common.ac2modes.AUTO):
-                                        mode = "Auto";
-                                        break;
-                                    case (byte)(Common.ac2modes.GUIDED):
-                                        mode = "Guided";
-                                        break;
-                                    case (byte)(Common.ac2modes.LOITER):
-                                        mode = "Loiter";
-                                        break;
-                                    case (byte)(Common.ac2modes.RTL):
-                                        mode = "RTL";
-                                        break;
-                                    case (byte)(Common.ac2modes.CIRCLE):
-                                        mode = "Circle";
-                                        break;
-                                    case (byte)(Common.ac2modes.LAND):
-                                        mode = "Land";
-                                        break;
-                                    case (byte)Common.ac2modes.OF_LOITER:
-                                        mode = "OF Loiter";
-                                        break;
-                                    default:
-                                        mode = "Unknown";
-                                        break;
+                                    mode = pair.Value.ToString();
                                 }
                             }
                         }

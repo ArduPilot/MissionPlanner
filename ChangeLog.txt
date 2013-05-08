@@ -1,4 +1,12 @@
-﻿* Mission Planner 1.2.49
+﻿* Mission Planner 1.2.50
+fix AR modes on hud
+add binary log fw ap id
+fix kml generatio non new logs
+add bin to log
+add splitter to log browse
+add support for ac 3.0+ accel calib
+
+* Mission Planner 1.2.49
 change update location
 update georefpage
 add compass rotation
