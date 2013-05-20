@@ -139,9 +139,9 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         public void Activate()
         {
-            Console.WriteLine("Activate " + DateTime.Now.Millisecond);
+            Console.WriteLine("Activate " + DateTime.Now.ToString("mm.fff"));
             BindParamList();
-            Console.WriteLine("Activate Done " + DateTime.Now.Millisecond);
+            Console.WriteLine("Activate Done " + DateTime.Now.ToString("mm.fff"));
         }
 
         /// <summary>
@@ -190,24 +190,25 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
         /// </summary>
         private void BindParamList()
         {
-            this.Visible = true;
+            //this.Visible = true;
 
             // fix memory leak
             foreach (Control ctl in tableLayoutPanel1.Controls)
             {
-                ctl.Dispose();
+               // ctl.Visible = true;
+             //   ctl.Dispose();
             }
 
-            Console.WriteLine("Disposed "+DateTime.Now.Millisecond);
+            Console.WriteLine("Disposed "+DateTime.Now.ToString("mm.fff"));
 
-            tableLayoutPanel1.Controls.Clear();
+           // tableLayoutPanel1.Controls.Clear();
 
 
 
             try
             {
                 SortParamList();
-                Console.WriteLine("Sorted " + DateTime.Now.Millisecond);
+                Console.WriteLine("Sorted " + DateTime.Now.ToString("mm.fff"));
             }
             catch { }
 
@@ -225,7 +226,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                 catch (Exception exp) { log.Error(exp); } // just to cleanup any errors
             }
 
-            Console.WriteLine("next " + DateTime.Now.Millisecond);
+            Console.WriteLine("next " + DateTime.Now.ToString("mm.fff"));
 
             tableLayoutPanel1.VerticalScroll.Value = 0;
 
@@ -233,9 +234,9 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             _params.OrderBy(x => x.Key).ForEach(x =>
          {
              AddControl(x);//,ref ypos);
-           //  Console.WriteLine("add ctl " +x.Key + " "  + DateTime.Now.ToString());
+             Console.WriteLine("add ctl " + x.Key + " " + DateTime.Now.ToString("mm.fff"));
          });
-            Console.WriteLine("Add done" + DateTime.Now.Millisecond);
+            Console.WriteLine("Add done" + DateTime.Now.ToString("mm.fff"));
             
         }
 
@@ -251,6 +252,27 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                     string description = _parameterMetaDataRepository.GetParameterMetaData(x.Key, ParameterMetaDataConstants.Description);
                     string displayName = x.Value + " (" + x.Key + ")";
                     string units = _parameterMetaDataRepository.GetParameterMetaData(x.Key, ParameterMetaDataConstants.Units);
+
+                    var items = this.Controls.Find(x.Key,true);
+                    if (items.Length > 0)
+                    {
+                        if (items[0].GetType() == typeof(RangeControl)) {
+                            ((RangeControl)items[0]).ValueChanged -= Control_ValueChanged;
+                            ((RangeControl)items[0]).DeAttachEvents();
+                            ((RangeControl)items[0]).Value = value;
+                            ThemeManager.ApplyThemeTo(((RangeControl)items[0]));
+                            ((RangeControl)items[0]).AttachEvents();
+                            ((RangeControl)items[0]).ValueChanged += Control_ValueChanged;
+                            return;
+                        } else 
+                        if (items[0].GetType() == typeof(ValuesControl))
+                        {
+                            ((ValuesControl)items[0]).ValueChanged -= Control_ValueChanged;
+                            ((ValuesControl)items[0]).Value = value;
+                            ((ValuesControl)items[0]).ValueChanged += Control_ValueChanged;
+                            return;
+                        }
+                    }
 
                     // If this is a range
                     string rangeRaw = _parameterMetaDataRepository.GetParameterMetaData(x.Key, ParameterMetaDataConstants.Range);

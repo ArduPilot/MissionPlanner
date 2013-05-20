@@ -1,4 +1,13 @@
-﻿* Mission Planner 1.2.50
+﻿* Mission Planner 1.2.51
+update hil
+add missing baud rates
+NMEA output milliseconds
+fix georef
+add sonar range to status screen
+fix grid/feet issue
+cleanup old mavlink code
+
+* Mission Planner 1.2.50
 fix AR modes on hud
 add binary log fw ap id
 fix kml generatio non new logs

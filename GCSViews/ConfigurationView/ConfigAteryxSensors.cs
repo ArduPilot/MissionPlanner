@@ -61,12 +61,9 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                     ((Button)sender).Enabled = true;
                     return;
                 }
-#if MAVLINK10
                 //MainV2.comPort.doCommand((MAVLink.MAV_CMD)Enum.Parse(typeof(MAVLink.MAV_CMD), "MAV_CMD_PREFLIGHT_STORAGE"));
                 MainV2.comPort.doCommand(MAVLink.MAV_CMD.PREFLIGHT_CALIBRATION, 2.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
-#else
-                MainV2.comPort.doAction((MAVLink.MAV_ACTION)Enum.Parse(typeof(MAVLink.MAV_ACTION), "MAV_ACTION_STORAGE_WRITE"));
-#endif
+
             }
             catch { MessageBox.Show("Failed to Zero Attitude"); }
             ((Button)sender).Enabled = true;
@@ -86,13 +83,9 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                     return;
                 }
 
-
-#if MAVLINK10
                 //MainV2.comPort.doCommand((MAVLink.MAV_CMD)Enum.Parse(typeof(MAVLink.MAV_CMD), "MAV_CMD_PREFLIGHT_STORAGE"));
                 MainV2.comPort.doCommand(MAVLink.MAV_CMD.PREFLIGHT_CALIBRATION, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
-#else
-                MainV2.comPort.doAction((MAVLink.MAV_ACTION)Enum.Parse(typeof(MAVLink.MAV_ACTION), "MAV_ACTION_STORAGE_WRITE"));
-#endif
+
             }
             catch { MessageBox.Show("The Command failed to execute"); }
             ((Button)sender).Enabled = true;

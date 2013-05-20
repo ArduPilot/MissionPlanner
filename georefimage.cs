@@ -30,7 +30,11 @@ namespace ArdupilotMega
         private TextBox TXT_outputlog;
         private ArdupilotMega.Controls.MyButton BUT_estoffset;
 
-        int latpos = 3, lngpos = 4, altpos = 5, cogpos = 8, pitchATT = 11, rollATT = 10, yawATT = 12;
+        //Status,Time,NSats,HDop,Lat,Lng,RelAlt,Alt,Spd,GCrs
+        //GPS, 3, 122732, 10, 0.00, -35.3628880, 149.1621961, 808.90, 810.30, 23.30, 94.04
+
+        int timepos = 2;
+        int latpos = 5, lngpos = 6, altpos = 7, cogpos = 9, pitchATT = 11, rollATT = 10, yawATT = 12;
         private NumericUpDown NUM_latpos;
         private NumericUpDown NUM_lngpos;
         private NumericUpDown NUM_altpos;
@@ -47,10 +51,20 @@ namespace ArdupilotMega
         private Label label8;
         private NumericUpDown num_camerarotation;
         private Label label9;
+        private NumericUpDown NUM_time;
+        private Label label10;
         private ArdupilotMega.Controls.MyButton BUT_Geotagimages;
 
         internal Georefimage() {
             InitializeComponent();
+
+            NUM_time.Value = timepos;
+
+            NUM_latpos.Value = latpos;
+            NUM_lngpos.Value = lngpos;
+            NUM_altpos.Value = altpos;
+
+            NUM_headingpos.Value = cogpos;
         }
 
         Hashtable filedatecache = new Hashtable();
@@ -158,8 +172,9 @@ namespace ArdupilotMega
                     //		line	"GPS: 82686250, 1, 8, -34.1406480, 118.5441900, 0.0000, 309.1900, 315.9500, 0.0000, 279.1200"	string
 
                     //Status,Time,NSats,HDop,Lat,Lng,RelAlt,Alt,Spd,GCrs
+                    //GPS, 3, 122732, 10, 0.00, -35.3628880, 149.1621961, 808.90, 810.30, 23.30, 94.04
 
-                    string[] vals = new string[] { "GPS", "1",  (cs.datetime.ToUniversalTime() - new DateTime(cs.datetime.Year,cs.datetime.Month,cs.datetime.Day,0,0,0,DateTimeKind.Utc)).TotalMilliseconds.ToString(),
+                    string[] vals = new string[] { "GPS", "3",  (cs.datetime.ToUniversalTime() - new DateTime(cs.datetime.Year,cs.datetime.Month,cs.datetime.Day,0,0,0,DateTimeKind.Utc)).TotalMilliseconds.ToString(),
                     cs.satcount.ToString(),cs.gpshdop.ToString(),cs.lat.ToString(),cs.lng.ToString(),cs.alt.ToString(),cs.alt.ToString(),cs.groundspeed.ToString(),cs.yaw.ToString()};
 
                     if (oldvalues.Length > 2 && oldvalues[latpos] == vals[latpos]
@@ -202,10 +217,10 @@ namespace ArdupilotMega
 					}
                     string[] vals = line.Split(new char[] {',',':'});
 
-                    if (lasttime == vals[1])
+                    if (lasttime == vals[timepos])
                         continue;
 
-                    lasttime = vals[1];
+                    lasttime = vals[timepos];
 
                     list.Add(vals);
                 }
@@ -283,7 +298,7 @@ namespace ArdupilotMega
 
                             foreach (string[] arr in list)
                             {
-                                DateTime crap = startTime.AddMilliseconds(int.Parse(arr[1])).AddSeconds(offsetseconds);
+                                DateTime crap = startTime.AddMilliseconds(int.Parse(arr[timepos])).AddSeconds(offsetseconds);
 
                                 if (localmin > crap)
                                     localmin = crap;
@@ -310,7 +325,7 @@ namespace ArdupilotMega
                             if (a % 1000 == 0)
                                 Application.DoEvents();
 
-                            DateTime logdt = startTime.AddMilliseconds(int.Parse(arr[1])).AddSeconds(offsetseconds);
+                            DateTime logdt = startTime.AddMilliseconds(int.Parse(arr[timepos])).AddSeconds(offsetseconds);
 
                             if (first == 0)
                             {
@@ -661,6 +676,8 @@ namespace ArdupilotMega
             this.label8 = new System.Windows.Forms.Label();
             this.num_camerarotation = new System.Windows.Forms.NumericUpDown();
             this.label9 = new System.Windows.Forms.Label();
+            this.NUM_time = new System.Windows.Forms.NumericUpDown();
+            this.label10 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_latpos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_lngpos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_altpos)).BeginInit();
@@ -668,6 +685,7 @@ namespace ArdupilotMega
             ((System.ComponentModel.ISupportInitialize)(this.num_vfov)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_hfov)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_camerarotation)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_time)).BeginInit();
             this.SuspendLayout();
             // 
             // openFileDialog1
@@ -873,9 +891,26 @@ namespace ArdupilotMega
             resources.ApplyResources(this.label9, "label9");
             this.label9.Name = "label9";
             // 
+            // NUM_time
+            // 
+            resources.ApplyResources(this.NUM_time, "NUM_time");
+            this.NUM_time.Name = "NUM_time";
+            this.NUM_time.Value = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            // 
+            // label10
+            // 
+            resources.ApplyResources(this.label10, "label10");
+            this.label10.Name = "label10";
+            // 
             // Georefimage
             // 
             resources.ApplyResources(this, "$this");
+            this.Controls.Add(this.label10);
+            this.Controls.Add(this.NUM_time);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.num_camerarotation);
             this.Controls.Add(this.label8);
@@ -910,6 +945,7 @@ namespace ArdupilotMega
             ((System.ComponentModel.ISupportInitialize)(this.num_vfov)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_hfov)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_camerarotation)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_time)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

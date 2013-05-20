@@ -113,7 +113,7 @@ namespace ArdupilotMega
 
             if (list.Count <= 2 || coords.Length > (2048 - 256) || distance > 50000)
             {
-                CustomMessageBox.Show("To many/few WP's or to Big a Distance " + (distance/1000) + "km");
+                CustomMessageBox.Show("Too many/few WP's or to Big a Distance " + (distance/1000) + "km");
                 return answer;
             }
 

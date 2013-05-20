@@ -26,7 +26,6 @@ using ArdupilotMega.Arduino;
 using System.IO.Ports;
 using Transitions;
 using System.Web.Script.Serialization;
-using System.Security.Cryptography;
 
 namespace ArdupilotMega
 {
@@ -408,11 +407,11 @@ namespace ArdupilotMega
             Comports.Add(comPort);
 
 
-            int fixmenextrelease;
-            if (MainV2.getConfig("fixparams") == "")
+            //int fixmenextrelease;
+           // if (MainV2.getConfig("fixparams") == "")
             {
-                Utilities.ParameterMetaDataParser.GetParameterInformation();
-                MainV2.config["fixparams"] = 1;
+            //    Utilities.ParameterMetaDataParser.GetParameterInformation();
+            //    MainV2.config["fixparams"] = 1;
             }
 
 
@@ -3013,14 +3012,10 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
             }
             if (keyData == (Keys.Control | Keys.Y)) // for ryan beall
             {
-#if MAVLINK10
                 // write
                 MainV2.comPort.doCommand(MAVLink.MAV_CMD.PREFLIGHT_STORAGE, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
                 //read
                 ///////MainV2.comPort.doCommand(MAVLink09.MAV_CMD.PREFLIGHT_STORAGE, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
-#else
-                MainV2.comPort.doAction(MAVLink.MAV_ACTION.MAV_ACTION_STORAGE_WRITE);
-#endif
                 CustomMessageBox.Show("Done MAV_ACTION_STORAGE_WRITE");
                 return true;
             }

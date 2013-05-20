@@ -38,13 +38,14 @@
             // 
             this.cmb_Baud.FormattingEnabled = true;
             this.cmb_Baud.Items.AddRange(new object[] {
+            "1200",
+            "2400",
             "4800",
             "9600",
-            "14400",
             "19200",
-            "28800",
             "38400",
             "57600",
+            "111100",
             "115200"});
             this.cmb_Baud.Location = new System.Drawing.Point(130, 4);
             this.cmb_Baud.Name = "cmb_Baud";

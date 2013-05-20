@@ -12,8 +12,6 @@ namespace ArdupilotMega.Utilities
 {
     public class S3Uploader
     {
-        private string awsAccessKeyId;
-        private string awsSecretAccessKey;
         private string bucketName;
         private Amazon.S3.Transfer.TransferUtility transferUtility;
 

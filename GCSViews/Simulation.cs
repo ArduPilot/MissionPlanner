@@ -296,7 +296,7 @@ namespace ArdupilotMega.GCSViews
 
                     SetupUDPRecv();
 
-                    if (chkSensor.Checked)
+                    if (chkSITL.Checked)
                     {
                         SITLSEND = new UdpClient(SITLIP, 5501);
                         OutputLog.AppendText("SITL to " + SITLIP + " port " + 5501 + " \n");
@@ -855,9 +855,9 @@ namespace ArdupilotMega.GCSViews
                 sitldata.yAccel = accel_body.y;//  DATA[4][6] * 1;
                 sitldata.zAccel = accel_body.z;//  (0 - DATA[4][4]) * 9.808;
 
-                sitldata.xAccel = DATA[4][5] * 9.808;
-                 sitldata.yAccel = DATA[4][6] * 9.808;
-                sitldata.zAccel = -DATA[4][4] * 9.808;
+                sitldata.xAccel = DATA[4][5] *9.808;
+                sitldata.yAccel = DATA[4][6] *9.808;
+                sitldata.zAccel = -DATA[4][4] *9.808;
 
              //   Console.WriteLine(accel_body.ToString());
               //  Console.WriteLine("        {0} {1} {2}",sitldata.xAccel, sitldata.yAccel, sitldata.zAccel);
@@ -878,11 +878,7 @@ namespace ArdupilotMega.GCSViews
 
                 chkSensor.Checked = true;
 
-#if MAVLINK10
                 imu.time_usec = ((ulong)DateTime.Now.ToBinary());
-#else
-                imu.usec = ((ulong)DateTime.Now.ToBinary());
-#endif
 
                 imu.xacc = ((Int16)(imudata2.accelX * 9808 / 32.2));
                 imu.xgyro = ((Int16)(imudata2.rateRoll * 17.453293));
@@ -894,7 +890,6 @@ namespace ArdupilotMega.GCSViews
                 imu.zgyro = ((Int16)(imudata2.rateYaw * 17.453293));
                 imu.zmag = 0;
 
-#if MAVLINK10
                 gps.alt = ((int)(imudata2.altitude * ft2m * 1000));
                 gps.fix_type = 3;
                 gps.cog = (ushort)(Math.Atan2(imudata2.velocityE, imudata2.velocityN) * rad2deg * 100);
@@ -902,16 +897,7 @@ namespace ArdupilotMega.GCSViews
                 gps.lon = (int)(imudata2.longitude * 1.0e7);
                 gps.time_usec = ((ulong)DateTime.Now.Ticks);
                 gps.vel = (ushort)(Math.Sqrt((imudata2.velocityN * imudata2.velocityN) + (imudata2.velocityE * imudata2.velocityE)) * ft2m * 100);
-#else
-                gps.alt = ((float)(imudata2.altitude * ft2m));
-                gps.fix_type = 3;
-                gps.hdg = ((float)Math.Atan2(imudata2.velocityE, imudata2.velocityN) * rad2deg);
-                gps.lat = ((float)imudata2.latitude);
-                gps.lon = ((float)imudata2.longitude);
-                gps.usec = ((ulong)DateTime.Now.Ticks);
-                gps.v = ((float)Math.Sqrt((imudata2.velocityN * imudata2.velocityN) + (imudata2.velocityE * imudata2.velocityE)) * ft2m);
 
-#endif
                 //FileStream stream = File.OpenWrite("fgdata.txt");
                 //stream.Write(data, 0, receviedbytes);
                 //stream.Close();
@@ -1014,7 +1000,7 @@ namespace ArdupilotMega.GCSViews
                 return;
             }
 
-            if (RAD_JSBSim.Checked && chkSensor.Checked)
+            if (RAD_JSBSim.Checked && chkSITL.Checked)
             {
                 byte[] buffer = new byte[1500];
                 while (JSBSimSEND.Client.Available > 5)
@@ -1032,7 +1018,7 @@ namespace ArdupilotMega.GCSViews
                 return;
             }
 
-            if (RAD_softXplanes.Checked && chkSensor.Checked)
+            if (chkSITL.Checked)
             {
                 sitldata.magic = (int)0x4c56414f;
 
@@ -1040,17 +1026,6 @@ namespace ArdupilotMega.GCSViews
 
                 SITLSEND.Send(sendme, sendme.Length);
                 
-                return;
-            }
-
-            if (RAD_aerosimrc.Checked && chkSensor.Checked)
-            {
-                sitldata.magic = (int)0x4c56414f;
-
-                byte[] sendme = StructureToByteArray(sitldata);
-
-                SITLSEND.Send(sendme, sendme.Length);
-
                 return;
             }
 
@@ -1086,6 +1061,9 @@ namespace ArdupilotMega.GCSViews
 
          //   Console.WriteLine(hilstate.alt);
 
+           // Console.WriteLine("{0} {1} {2}", sitldata.rollDeg.ToString("0.0"), sitldata.pitchDeg.ToString("0.0"), sitldata.yawDeg.ToString("0.0"));
+            
+
             hilstate.pitch = (float)sitldata.pitchDeg * deg2rad; // (rad)
             hilstate.pitchspeed = (float)sitldata.pitchRate * deg2rad; // (rad/s)
             hilstate.roll = (float)sitldata.rollDeg * deg2rad; // (rad)
@@ -1093,16 +1071,24 @@ namespace ArdupilotMega.GCSViews
             hilstate.yaw = (float)sitldata.yawDeg * deg2rad; // (rad)
             hilstate.yawspeed = (float)sitldata.yawRate * deg2rad; // (rad/s)
             
-            hilstate.vx = (short)(sitldata.speedE * 100); // m/s * 100
-            hilstate.vy = (short)(sitldata.speedN * 100); // m/s * 100
-            hilstate.vz = 0; // m/s * 100 - + speed down
+            hilstate.vx = (short)(sitldata.speedN * 100); // m/s * 100 - lat
+            hilstate.vy = (short)(sitldata.speedE * 100); // m/s * 100 - long
+            hilstate.vz = (short)(sitldata.speedD * 100); // m/s * 100 - + speed down
 
-            hilstate.xacc = (short)(sitldata.xAccel * 1000); // (mg)
-            hilstate.yacc = (short)(sitldata.yAccel * 1000); // (mg)
-            hilstate.zacc = (short)(sitldata.zAccel * 1000); // (mg)
+            hilstate.xacc = (short)(sitldata.xAccel * 101.957); // (mg)
+            hilstate.yacc = (short)(sitldata.yAccel * 101.957); // (mg)
+            hilstate.zacc = (short)(sitldata.zAccel * 101.957); // (mg)
 
-  
-                comPort.sendPacket(hilstate);
+
+            packetcount++;
+
+            if (comPort.BaseStream.BytesToWrite > 100)
+                return;
+
+          //  if (packetcount % 2 == 0) 
+          //      return;
+
+            comPort.sendPacket(hilstate);
 
 
             //            comPort.sendPacket(oldgps);
@@ -1117,6 +1103,8 @@ namespace ArdupilotMega.GCSViews
         }
 
         HIL.QuadCopter quad = new HIL.QuadCopter();
+
+        int packetcount = 0;
 
         /// <summary>
         /// 

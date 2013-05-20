@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 namespace ArdupilotMega
 {
-#if MAVLINK10
+
     partial class MAVLink
     {
         public const string MAVLINK_BUILD_DATE = "Sun Mar 03 21:09:54 2013";
@@ -2839,5 +2839,4 @@ namespace ArdupilotMega
         };
 
     }
-#endif
 }

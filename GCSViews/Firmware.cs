@@ -34,6 +34,7 @@ namespace ArdupilotMega.GCSViews
                 CustomMessageBox.Show("These are the latest trunk firmware, use at your own risk!!!", "trunk");
                 firmwareurl = "https://raw.github.com/diydrones/binary/master/dev/firmwarelatest.xml";
                 Firmware_Load(null, null);
+                CMB_history.Visible = false;
             }
 
             return base.ProcessCmdKey(ref msg, keyData);
@@ -1005,6 +1006,7 @@ namespace ArdupilotMega.GCSViews
             CustomMessageBox.Show("These are beta firmware, use at your own risk!!!", "Beta");
             firmwareurl = "https://raw.github.com/diydrones/binary/master/dev/firmware2.xml";
             Firmware_Load(null, null);
+            CMB_history.Visible = false;
         }
 
         private void lbl_px4io_Click(object sender, EventArgs e)

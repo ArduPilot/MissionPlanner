@@ -103,7 +103,7 @@
             this.CHKgraphrudder = new System.Windows.Forms.CheckBox();
             this.CHKgraphthrottle = new System.Windows.Forms.CheckBox();
             this.but_advsettings = new ArdupilotMega.Controls.MyButton();
-            this.chkSensor = new System.Windows.Forms.CheckBox();
+            this.chkSITL = new System.Windows.Forms.CheckBox();
             this.CHK_quad = new System.Windows.Forms.CheckBox();
             this.BUT_startfgquad = new ArdupilotMega.Controls.MyButton();
             this.BUT_startfgplane = new ArdupilotMega.Controls.MyButton();
@@ -640,11 +640,11 @@
             this.but_advsettings.UseVisualStyleBackColor = true;
             this.but_advsettings.Click += new System.EventHandler(this.but_advsettings_Click);
             // 
-            // chkSensor
+            // chkSITL
             // 
-            resources.ApplyResources(this.chkSensor, "chkSensor");
-            this.chkSensor.Name = "chkSensor";
-            this.chkSensor.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.chkSITL, "chkSITL");
+            this.chkSITL.Name = "chkSITL";
+            this.chkSITL.UseVisualStyleBackColor = true;
             // 
             // CHK_quad
             // 
@@ -712,7 +712,7 @@
             this.Controls.Add(this.BUT_startfgplane);
             this.Controls.Add(this.BUT_startfgquad);
             this.Controls.Add(this.CHK_quad);
-            this.Controls.Add(this.chkSensor);
+            this.Controls.Add(this.chkSITL);
             this.Controls.Add(this.but_advsettings);
             this.Controls.Add(this.CHKgraphthrottle);
             this.Controls.Add(this.CHKgraphrudder);
@@ -826,7 +826,7 @@
         private ArdupilotMega.Controls.MyLabel label30;
         private ArdupilotMega.Controls.MyLabel TXT_yaw;
         private ArdupilotMega.Controls.MyButton but_advsettings;
-        private System.Windows.Forms.CheckBox chkSensor;
+        private System.Windows.Forms.CheckBox chkSITL;
         private System.Windows.Forms.CheckBox CHK_quad;
         private ArdupilotMega.Controls.MyButton BUT_startfgquad;
         private ArdupilotMega.Controls.MyButton BUT_startfgplane;

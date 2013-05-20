@@ -18,6 +18,12 @@ namespace ArdupilotMega
         public float multiplierspeed = 1;
         internal string SpeedUnit = "";
 
+        public double toDistDisplayUnit(double input) { return input * multiplierdist; }
+        public double toSpeedDisplayUnit(double input) { return input * multiplierspeed; }
+
+        public double fromDistDisplayUnit(double input) { return input / multiplierdist; }
+        public double fromSpeedDisplayUnit(double input) { return input / multiplierspeed; }
+
         // orientation - rads
         [DisplayText("Roll (deg)")]
         public float roll { get; set; }
@@ -320,8 +326,10 @@ namespace ArdupilotMega
         public float accel_cal_y { get; set; }
         public float accel_cal_z { get; set; }
 
-    
-
+        [DisplayText("Sonar Range (meters)")]
+        public float sonarrange { get; set; }
+        [DisplayText("Sonar Voltage (Volt)")]
+        public float sonarvoltage { get; set; }
 
         // current firmware
         public MainV2.Firmwares firmware = MainV2.Firmwares.ArduPlane;
@@ -420,6 +428,7 @@ namespace ArdupilotMega
         {
             mode = "";
             messages = new List<string>();
+            useLocation = false;
             rateattitude = 10;
             rateposition = 3;
             ratestatus = 2;
@@ -593,6 +602,15 @@ namespace ArdupilotMega
                         //MAVLink.packets[MAVLink.MAVLINK_MSG_ID_HWSTATUS] = null;
                     }
 
+                    bytearray = mavinterface.MAV.packets[MAVLink.MAVLINK_MSG_ID_RANGEFINDER];
+                    if (bytearray != null)
+                    {
+                        var sonar = bytearray.ByteArrayToStructure<MAVLink.mavlink_rangefinder_t>(6);
+
+                        sonarrange = sonar.distance;
+                        sonarvoltage = sonar.voltage;
+                    }
+
                     bytearray = mavinterface.MAV.packets[MAVLink.MAVLINK_MSG_ID_WIND];
                     if (bytearray != null)
                     {
@@ -606,7 +624,7 @@ namespace ArdupilotMega
                         //MAVLink.packets[ArdupilotMega.MAVLink.MAVLINK_MSG_ID_SYS_STATUS] = null;
                     }
 
-#if MAVLINK10
+
 
 
                     bytearray = mavinterface.MAV.packets[MAVLink.MAVLINK_MSG_ID_HEARTBEAT];
@@ -655,125 +673,6 @@ namespace ArdupilotMega
 
                         //MAVLink.packets[ArdupilotMega.MAVLink.MAVLINK_MSG_ID_SYS_STATUS] = null;
                     }
-#else
-
-                bytearray = mavinterface.MAV.packets[MAVLink.MAVLINK_MSG_ID_SYS_STATUS];
-
-                if (bytearray != null)
-                {
-                    var sysstatus = bytearray.ByteArrayToStructure<MAVLink.mavlink_sys_status_t>(6);
-
-                    armed = sysstatus.status;
-
-                    string oldmode = mode;
-
-                    switch (sysstatus.mode)
-                    {
-                        case (byte)ArdupilotMega.MAVLink.MAV_MODE.MAV_MODE_UNINIT:
-                            switch (sysstatus.nav_mode)
-                            {
-                                case (byte)ArdupilotMega.MAVLink.MAV_NAV.MAV_NAV_GROUNDED:
-                                    mode = "Initialising";
-                                    break;
-                            }
-                            break;
-                        case (byte)(100 + Common.ac2modes.STABILIZE):
-                            mode = EnumTranslator.GetDisplayText(Common.ac2modes.STABILIZE);
-                            break;
-                        case (byte)(100 + Common.ac2modes.ACRO):
-                            mode = EnumTranslator.GetDisplayText(Common.ac2modes.ACRO);
-                            break;
-                        case (byte)(100 + Common.ac2modes.ALT_HOLD):
-                            mode = EnumTranslator.GetDisplayText(Common.ac2modes.ALT_HOLD);
-                            break;
-                        case (byte)(100 + Common.ac2modes.AUTO):
-                            mode = EnumTranslator.GetDisplayText(Common.ac2modes.AUTO);
-                            break;
-                        case (byte)(100 + Common.ac2modes.GUIDED):
-                            mode = EnumTranslator.GetDisplayText(Common.ac2modes.GUIDED);
-                            break;
-                        case (byte)(100 + Common.ac2modes.LOITER):
-                            mode = EnumTranslator.GetDisplayText(Common.ac2modes.LOITER);
-                            break;
-                        case (byte)(100 + Common.ac2modes.RTL):
-                            mode = EnumTranslator.GetDisplayText(Common.ac2modes.RTL);
-                            break;
-                        case (byte)(100 + Common.ac2modes.CIRCLE):
-                            mode = EnumTranslator.GetDisplayText(Common.ac2modes.CIRCLE);
-                            break;
-                        case (byte)(100 + Common.ac2modes.LAND):
-                            mode = EnumTranslator.GetDisplayText(Common.ac2modes.LAND);
-                            break;
-                        case (byte)(100 + Common.ac2modes.POSITION):
-                            mode = EnumTranslator.GetDisplayText(Common.ac2modes.POSITION);
-                            break;
-                        case (byte)ArdupilotMega.MAVLink.MAV_MODE.MAV_MODE_MANUAL:
-                            mode = "Manual";
-                            break;
-                        case (byte)ArdupilotMega.MAVLink.MAV_MODE.MAV_MODE_GUIDED:
-                            mode = "Guided";
-                            break;
-                        case (byte)ArdupilotMega.MAVLink.MAV_MODE.MAV_MODE_TEST1:
-                            mode = "Stabilize";
-                            break;
-                        case (byte)ArdupilotMega.MAVLink.MAV_MODE.MAV_MODE_TEST2:
-                            mode = "FBW A"; // fall though  old
-                            switch (sysstatus.nav_mode)
-                            {
-                                case (byte)1:
-                                    mode = "FBW A";
-                                    break;
-                                case (byte)2:
-                                    mode = "FBW B";
-                                    break;
-                                case (byte)3:
-                                    mode = "FBW C";
-                                    break;
-                            }
-                            break;
-                        case (byte)ArdupilotMega.MAVLink.MAV_MODE.MAV_MODE_TEST3:
-                            mode = "Circle";
-                            break;
-                        case (byte)ArdupilotMega.MAVLink.MAV_MODE.MAV_MODE_AUTO:
-                            switch (sysstatus.nav_mode)
-                            {
-                                case (byte)ArdupilotMega.MAVLink.MAV_NAV.MAV_NAV_WAYPOINT:
-                                    mode = "Auto";
-                                    break;
-                                case (byte)ArdupilotMega.MAVLink.MAV_NAV.MAV_NAV_RETURNING:
-                                    mode = "RTL";
-                                    break;
-                                case (byte)ArdupilotMega.MAVLink.MAV_NAV.MAV_NAV_HOLD:
-                                case (byte)ArdupilotMega.MAVLink.MAV_NAV.MAV_NAV_LOITER:
-                                    mode = "Loiter";
-                                    break;
-                                case (byte)ArdupilotMega.MAVLink.MAV_NAV.MAV_NAV_LIFTOFF:
-                                    mode = "Takeoff";
-                                    break;
-                                case (byte)ArdupilotMega.MAVLink.MAV_NAV.MAV_NAV_LANDING:
-                                    mode = "Land";
-                                    break;
-                            }
-
-                            break;
-                        default:
-                            mode = "Unknown";
-                            break;
-                    }
-
-                    battery_voltage = sysstatus.vbat;
-                    battery_remaining = sysstatus.battery_remaining;
-
-                    packetdropremote = sysstatus.packet_drop;
-
-                    if (oldmode != mode && MainV2.speechEnable && MainV2.speechEngine != null && MainV2.getConfig("speechmodeenabled") == "True")
-                    {
-                        MainV2.speechEngine.SpeakAsync(Common.speechConversion(MainV2.getConfig("speechmode")));
-                    }
-
-                    //MAVLink.packets[ArdupilotMega.MAVLink.MAVLINK_MSG_ID_SYS_STATUS] = null;
-                }
-#endif
 
                     bytearray = mavinterface.MAV.packets[MAVLink.MAVLINK_MSG_ID_SCALED_PRESSURE];
                     if (bytearray != null)
@@ -879,9 +778,20 @@ namespace ArdupilotMega
                         }
                         else
                         {
-                            //alt = loc.alt / 1000.0f;
+                            alt = loc.alt / 1000.0f;
                             lat = loc.lat / 10000000.0f;
                             lng = loc.lon / 10000000.0f;
+
+                            // check update rate, and ensure time hasnt gone backwards
+                            if ((datetime - lastalt).TotalSeconds >= 0.2 && oldalt != alt || lastalt > datetime)
+                            {
+                                climbrate = (alt - oldalt) / (float)(datetime - lastalt).TotalSeconds;
+                                verticalspeed = (alt - oldalt) / (float)(datetime - lastalt).TotalSeconds;
+                                if (float.IsInfinity(_verticalspeed))
+                                    _verticalspeed = 0;
+                                lastalt = datetime;
+                                oldalt = alt;
+                            }
                         }
                     }
 
@@ -1000,10 +910,10 @@ namespace ArdupilotMega
                     {
                         var vfr = bytearray.ByteArrayToStructure<MAVLink.mavlink_vfr_hud_t>(6);
 
-                        groundspeed = vfr.groundspeed;
+                        //groundspeed = vfr.groundspeed;
                         airspeed = vfr.airspeed;
 
-                        alt = vfr.alt; // this might include baro
+                        //alt = vfr.alt; // this might include baro
 
                         ch3percent = vfr.throttle;
 
@@ -1011,16 +921,7 @@ namespace ArdupilotMega
 
                         //climbrate = vfr.climb;
 
-                        // check update rate, and ensure time hasnt gone backwards
-                        if ((datetime - lastalt).TotalSeconds >= 0.2 && oldalt != alt || lastalt > datetime)
-                        {
-                            climbrate = (alt - oldalt) / (float)(datetime - lastalt).TotalSeconds;
-                            verticalspeed = (alt - oldalt) / (float)(datetime - lastalt).TotalSeconds;
-                            if (float.IsInfinity(_verticalspeed))
-                                _verticalspeed = 0;
-                            lastalt = datetime;
-                            oldalt = alt;
-                        }
+ 
 
                         //MAVLink.packets[MAVLink.MAVLINK_MSG_ID_VFR_HUD] = null;
                     }

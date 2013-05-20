@@ -2,14 +2,14 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension" xmlns:difx="http://schemas.microsoft.com/wix/DifxAppExtension" xmlns:iis='http://schemas.microsoft.com/wix/IIsExtension' >
 
 
-    <Product Id="*" Name="Mission Planner" Language="1033" Version="1.2.49" Manufacturer="Michael Oborne" UpgradeCode="{625389D7-EB3C-4d77-A5F6-A285CF99437D}">
+    <Product Id="*" Name="Mission Planner" Language="1033" Version="1.2.50" Manufacturer="Michael Oborne" UpgradeCode="{625389D7-EB3C-4d77-A5F6-A285CF99437D}">
 
         <Package Description="Mission Planner Installer" Comments="Mission Planner Installer" Manufacturer="Michael Oborne" InstallerVersion="200" Compressed="yes" />
 
 
 <Upgrade Id="{625389D7-EB3C-4d77-A5F6-A285CF99437D}">
-    <UpgradeVersion OnlyDetect="yes" Minimum="1.2.49" Property="NEWERVERSIONDETECTED" IncludeMinimum="no" />
-    <UpgradeVersion OnlyDetect="no" Maximum="1.2.49" Property="OLDERVERSIONBEINGUPGRADED" IncludeMaximum="no" />
+    <UpgradeVersion OnlyDetect="yes" Minimum="1.2.50" Property="NEWERVERSIONDETECTED" IncludeMinimum="no" />
+    <UpgradeVersion OnlyDetect="no" Maximum="1.2.50" Property="OLDERVERSIONBEINGUPGRADED" IncludeMaximum="no" />
 </Upgrade>
 
 <InstallExecuteSequence>
@@ -31,7 +31,7 @@
                             <Permission User="Everyone" GenericAll="yes" /> 
                         </CreateFolder>
                     </Component>
-<Component Id="_comp1" Guid="f589adf5-7ad3-4404-90b4-53547d40d36f">
+<Component Id="_comp1" Guid="ae3a204e-092c-48b5-9845-221bf9abc903">
 <File Id="_2" Source="..\bin\release\.gdbinit" />
 <File Id="_3" Source="..\bin\release\.gitignore" />
 <File Id="_4" Source="..\bin\release\aerosim3.91.txt" />
@@ -147,11 +147,11 @@
 <File Id="_114" Source="..\bin\release\ZedGraph.pdb" />
 </Component>
 <Directory Id="aircraft114" Name="aircraft">
-<Component Id="_comp115" Guid="f068f6a2-bccc-46b2-86ac-787a109b5781">
+<Component Id="_comp115" Guid="0ffc08cf-100b-4bf7-9ea1-0ae32c36f93c">
 <File Id="_116" Source="..\bin\release\aircraft\placeholder.txt" />
 </Component>
 <Directory Id="arducopter116" Name="arducopter">
-<Component Id="_comp117" Guid="0e937d51-73d2-494b-9267-ecef897a1049">
+<Component Id="_comp117" Guid="53c0fb22-f1e3-439c-9046-0d246a88f4c7">
 <File Id="_118" Source="..\bin\release\aircraft\arducopter\arducopter-set.xml" />
 <File Id="_119" Source="..\bin\release\aircraft\arducopter\arducopter.jpg" />
 <File Id="_120" Source="..\bin\release\aircraft\arducopter\arducopter.xml" />
@@ -162,20 +162,20 @@
 <File Id="_125" Source="..\bin\release\aircraft\arducopter\README" />
 </Component>
 <Directory Id="data125" Name="data">
-<Component Id="_comp126" Guid="43d01771-20eb-4738-8ba8-ea47e931b5ba">
+<Component Id="_comp126" Guid="b9b90c9b-cf8d-4ceb-8a18-618a988dd456">
 <File Id="_127" Source="..\bin\release\aircraft\arducopter\data\arducopter_half_step.txt" />
 <File Id="_128" Source="..\bin\release\aircraft\arducopter\data\arducopter_step.txt" />
 <File Id="_129" Source="..\bin\release\aircraft\arducopter\data\rw_generic_pylon.ac" />
 </Component>
 </Directory>
 <Directory Id="Engines129" Name="Engines">
-<Component Id="_comp130" Guid="2986cf40-7a02-4e16-91e1-39df8e030706">
+<Component Id="_comp130" Guid="c9c9721f-8c67-466c-9625-03a7357c6b66">
 <File Id="_131" Source="..\bin\release\aircraft\arducopter\Engines\a2830-12.xml" />
 <File Id="_132" Source="..\bin\release\aircraft\arducopter\Engines\prop10x4.5.xml" />
 </Component>
 </Directory>
 <Directory Id="Models132" Name="Models">
-<Component Id="_comp133" Guid="c9379955-8d93-4862-9d24-c84681ab9187">
+<Component Id="_comp133" Guid="1b02f8dc-24f6-4270-8f2c-be78fd70848b">
 <File Id="_134" Source="..\bin\release\aircraft\arducopter\Models\arducopter.ac" />
 <File Id="_135" Source="..\bin\release\aircraft\arducopter\Models\arducopter.xml" />
 <File Id="_136" Source="..\bin\release\aircraft\arducopter\Models\plus_quad.ac" />
@@ -189,7 +189,7 @@
 </Directory>
 </Directory>
 <Directory Id="Rascal142" Name="Rascal">
-<Component Id="_comp143" Guid="81288f0e-e764-4dd6-b472-51136036fe45">
+<Component Id="_comp143" Guid="b0e8a345-783e-4ee3-b50b-173803f49b5a">
 <File Id="_144" Source="..\bin\release\aircraft\Rascal\Rascal-keyboard.xml" />
 <File Id="_145" Source="..\bin\release\aircraft\Rascal\Rascal-submodels.xml" />
 <File Id="_146" Source="..\bin\release\aircraft\Rascal\Rascal.xml" />
@@ -201,13 +201,13 @@
 <File Id="_152" Source="..\bin\release\aircraft\Rascal\thumbnail.jpg" />
 </Component>
 <Directory Id="Engines152" Name="Engines">
-<Component Id="_comp153" Guid="2db00e32-b21a-49b7-921c-5cd29d1c7f81">
+<Component Id="_comp153" Guid="e7a7f055-27fd-4578-a65d-2161f73d8f23">
 <File Id="_154" Source="..\bin\release\aircraft\Rascal\Engines\18x8.xml" />
 <File Id="_155" Source="..\bin\release\aircraft\Rascal\Engines\Zenoah_G-26A.xml" />
 </Component>
 </Directory>
 <Directory Id="Models155" Name="Models">
-<Component Id="_comp156" Guid="cc6b4746-7869-4a9b-acb0-17a2ff64a84b">
+<Component Id="_comp156" Guid="27a21b02-658b-4117-8e3e-c6f38b5c688e">
 <File Id="_157" Source="..\bin\release\aircraft\Rascal\Models\Rascal.rgb" />
 <File Id="_158" Source="..\bin\release\aircraft\Rascal\Models\Rascal110-000-013.ac" />
 <File Id="_159" Source="..\bin\release\aircraft\Rascal\Models\Rascal110.xml" />
@@ -218,7 +218,7 @@
 </Component>
 </Directory>
 <Directory Id="Systems163" Name="Systems">
-<Component Id="_comp164" Guid="ecef0efa-26aa-4755-bd9e-937e2e3f09db">
+<Component Id="_comp164" Guid="540559f9-3713-461a-9248-706ed0767be6">
 <File Id="_165" Source="..\bin\release\aircraft\Rascal\Systems\110-autopilot.xml" />
 <File Id="_166" Source="..\bin\release\aircraft\Rascal\Systems\airdata.nas" />
 <File Id="_167" Source="..\bin\release\aircraft\Rascal\Systems\electrical.xml" />
@@ -229,17 +229,17 @@
 </Directory>
 </Directory>
 <Directory Id="de169" Name="de">
-<Component Id="_comp170" Guid="9a6a5590-f722-4530-9a83-d2b69eddf49d">
+<Component Id="_comp170" Guid="ff40c7c5-d068-4ae6-b256-6f75803cba67">
 <File Id="_171" Source="..\bin\release\de\ZedGraph.resources.dll" />
 </Component>
 </Directory>
 <Directory Id="de_DE171" Name="de-DE">
-<Component Id="_comp172" Guid="e096e30f-1e19-4f41-ba21-e27634fb893f">
+<Component Id="_comp172" Guid="9a3ae46f-e02a-4111-9f3f-47cdd867a58b">
 <File Id="_173" Source="..\bin\release\de-DE\ArdupilotMegaPlanner10.resources.dll" />
 </Component>
 </Directory>
 <Directory Id="Driver173" Name="Driver">
-<Component Id="_comp174" Guid="bc5d3ecc-5723-4641-bdc6-d15dec408bd3">
+<Component Id="_comp174" Guid="be9536de-e511-4ca1-8dc0-ac12bf08d321">
 <File Id="_175" Source="..\bin\release\Driver\arduino mega 2560.cat" />
 <File Id="_176" Source="..\bin\release\Driver\Arduino MEGA 2560.inf" />
 <File Id="_177" Source="..\bin\release\Driver\arduino.inf" />
@@ -253,7 +253,7 @@
 <File Id="_185" Source="..\bin\release\Driver\signed.cer" />
 </Component>
 <Directory Id="amd64185" Name="amd64">
-<Component Id="_comp186" Guid="d872c1ec-8ff4-4852-9be7-70cf3f39c37b">
+<Component Id="_comp186" Guid="fd69452b-1726-47c3-8b24-f3c4893356d5">
 <File Id="_187" Source="..\bin\release\Driver\amd64\ftbusui.dll" />
 <File Id="_188" Source="..\bin\release\Driver\amd64\ftcserco.dll" />
 <File Id="_189" Source="..\bin\release\Driver\amd64\ftd2xx.lib" />
@@ -265,7 +265,7 @@
 </Component>
 </Directory>
 <Directory Id="i386194" Name="i386">
-<Component Id="_comp195" Guid="6995a170-d622-4787-9b4a-cda774f555df">
+<Component Id="_comp195" Guid="8815ac24-3c3e-485f-a767-ef59e0c808c5">
 <File Id="_196" Source="..\bin\release\Driver\i386\ftbusui.dll" />
 <File Id="_197" Source="..\bin\release\Driver\i386\ftcserco.dll" />
 <File Id="_198" Source="..\bin\release\Driver\i386\ftd2xx.dll" />
@@ -278,52 +278,52 @@
 </Directory>
 </Directory>
 <Directory Id="es203" Name="es">
-<Component Id="_comp204" Guid="d579dd7a-82ba-4571-9c30-7174ddb6f70a">
+<Component Id="_comp204" Guid="5de13f9f-a2cb-4966-b014-dc6c5673ef32">
 <File Id="_205" Source="..\bin\release\es\ZedGraph.resources.dll" />
 </Component>
 </Directory>
 <Directory Id="es_ES205" Name="es-ES">
-<Component Id="_comp206" Guid="7ad7ac99-e556-4177-be9a-92102dc792ae">
+<Component Id="_comp206" Guid="ee60e546-03be-422f-ba5a-379f6f54c337">
 <File Id="_207" Source="..\bin\release\es-ES\ArdupilotMegaPlanner.resources.dll" />
 <File Id="_208" Source="..\bin\release\es-ES\ArdupilotMegaPlanner10.resources.dll" />
 </Component>
 </Directory>
 <Directory Id="fr208" Name="fr">
-<Component Id="_comp209" Guid="d244c562-b9b8-4f8b-b484-ee765faf9a67">
+<Component Id="_comp209" Guid="51d859f1-c5fb-43dc-a9e8-4ba7bebbcb0d">
 <File Id="_210" Source="..\bin\release\fr\ArdupilotMegaPlanner.resources.dll" />
 <File Id="_211" Source="..\bin\release\fr\ArdupilotMegaPlanner10.resources.dll" />
 <File Id="_212" Source="..\bin\release\fr\ZedGraph.resources.dll" />
 </Component>
 </Directory>
 <Directory Id="hu212" Name="hu">
-<Component Id="_comp213" Guid="f22f53f0-717a-4d7d-97c5-c3f14e45a18e">
+<Component Id="_comp213" Guid="c655b23b-8ce4-464f-99f4-b259f055f7fe">
 <File Id="_214" Source="..\bin\release\hu\ZedGraph.resources.dll" />
 </Component>
 </Directory>
 <Directory Id="it214" Name="it">
-<Component Id="_comp215" Guid="40428187-3a34-400d-b6be-55dbd8fa5c4d">
+<Component Id="_comp215" Guid="5fe6023a-3432-4748-8e81-0a7855d54c50">
 <File Id="_216" Source="..\bin\release\it\ZedGraph.resources.dll" />
 </Component>
 </Directory>
 <Directory Id="it_IT216" Name="it-IT">
-<Component Id="_comp217" Guid="dc894a7b-8f0a-461f-b0d3-55610da76560">
+<Component Id="_comp217" Guid="3ee04fbf-f7f8-4691-b5d5-487c4913da5b">
 <File Id="_218" Source="..\bin\release\it-IT\ArdupilotMegaPlanner.resources.dll" />
 <File Id="_219" Source="..\bin\release\it-IT\ArdupilotMegaPlanner10.resources.dll" />
 </Component>
 </Directory>
 <Directory Id="ja219" Name="ja">
-<Component Id="_comp220" Guid="0ac58ddc-50c6-423a-ab9a-689a318be486">
+<Component Id="_comp220" Guid="f881202b-853a-4dbb-8e92-90d15324f01b">
 <File Id="_221" Source="..\bin\release\ja\ZedGraph.resources.dll" />
 </Component>
 </Directory>
 <Directory Id="jsbsim221" Name="jsbsim">
-<Component Id="_comp222" Guid="a2e676c6-cbd8-44f0-8110-1e8e1e56be83">
+<Component Id="_comp222" Guid="f83b0518-4060-4111-a07e-314ef32ba0eb">
 <File Id="_223" Source="..\bin\release\jsbsim\fgout.xml" />
 <File Id="_224" Source="..\bin\release\jsbsim\rascal_test.xml" />
 </Component>
 </Directory>
 <Directory Id="m3u224" Name="m3u">
-<Component Id="_comp225" Guid="a0c94e5d-1e88-4caf-8897-0fbbaf582235">
+<Component Id="_comp225" Guid="f51c2ba6-a5ca-4e74-ac46-c30581d95a26">
 <File Id="_226" Source="..\bin\release\m3u\both.m3u" />
 <File Id="_227" Source="..\bin\release\m3u\GeoRefnetworklink.kml" />
 <File Id="_228" Source="..\bin\release\m3u\hud.m3u" />
@@ -332,67 +332,67 @@
 </Component>
 </Directory>
 <Directory Id="mavelous_web230" Name="mavelous_web">
-<Component Id="_comp231" Guid="7d222f56-ef4a-4d3b-b080-83e050f8ac89">
+<Component Id="_comp231" Guid="a71d269d-f357-4201-8c0a-f466c7a22dab">
 <File Id="_232" Source="..\bin\release\mavelous_web\index.html" />
 </Component>
 </Directory>
 <Directory Id="pl232" Name="pl">
-<Component Id="_comp233" Guid="6834b6a0-b950-4178-8c92-f4252cb16f9d">
+<Component Id="_comp233" Guid="796abe88-96df-48dd-8565-31c697ba6cb2">
 <File Id="_234" Source="..\bin\release\pl\ArdupilotMegaPlanner.resources.dll" />
 <File Id="_235" Source="..\bin\release\pl\ArdupilotMegaPlanner10.resources.dll" />
 </Component>
 </Directory>
 <Directory Id="pt235" Name="pt">
-<Component Id="_comp236" Guid="953c7e79-d2c8-4cac-9f2e-903489ee4829">
+<Component Id="_comp236" Guid="2ccad1b9-8c36-42e7-a2fa-07e6869bf9b0">
 <File Id="_237" Source="..\bin\release\pt\ZedGraph.resources.dll" />
 </Component>
 </Directory>
 <Directory Id="Resources237" Name="Resources">
-<Component Id="_comp238" Guid="5ac8fbaf-0f24-4adc-98d4-eecbd57732ac">
+<Component Id="_comp238" Guid="d1ec6b17-291d-459d-970b-a609f4b0c3af">
 <File Id="_239" Source="..\bin\release\Resources\aw.png" />
 <File Id="_240" Source="..\bin\release\Resources\MAVCmd.txt" />
 <File Id="_241" Source="..\bin\release\Resources\Welcome_to_Michael_Oborne.rtf" />
 </Component>
 </Directory>
 <Directory Id="ru241" Name="ru">
-<Component Id="_comp242" Guid="6c36c141-bedc-430d-b7e5-508af01b55aa">
+<Component Id="_comp242" Guid="71474b7c-c260-4f57-b689-063fa6badc31">
 <File Id="_243" Source="..\bin\release\ru\ZedGraph.resources.dll" />
 </Component>
 </Directory>
 <Directory Id="ru_RU243" Name="ru-RU">
-<Component Id="_comp244" Guid="dca5d708-c520-48a2-a717-c8242b419627">
+<Component Id="_comp244" Guid="8ac3bcdc-f0fe-48c8-ac80-8a4f70141239">
 <File Id="_245" Source="..\bin\release\ru-RU\ArdupilotMegaPlanner.resources.dll" />
 <File Id="_246" Source="..\bin\release\ru-RU\ArdupilotMegaPlanner10.resources.dll" />
 </Component>
 </Directory>
 <Directory Id="sk246" Name="sk">
-<Component Id="_comp247" Guid="dec57f8c-813f-426b-b5da-1a6a32d8d3dd">
+<Component Id="_comp247" Guid="2c1ffd19-a640-453f-a9b1-22d0cfa1ace6">
 <File Id="_248" Source="..\bin\release\sk\ZedGraph.resources.dll" />
 </Component>
 </Directory>
 <Directory Id="sv248" Name="sv">
-<Component Id="_comp249" Guid="15912cac-99cd-4ff9-9611-f45c2a03c2ef">
+<Component Id="_comp249" Guid="5ad3b121-3c1d-4e6b-8900-842b819c1845">
 <File Id="_250" Source="..\bin\release\sv\ZedGraph.resources.dll" />
 </Component>
 </Directory>
 <Directory Id="tr250" Name="tr">
-<Component Id="_comp251" Guid="a7bc8c5f-42ab-4667-bde1-7ce85c46086e">
+<Component Id="_comp251" Guid="c521d767-4032-4c5a-9545-a7ab4146d68d">
 <File Id="_252" Source="..\bin\release\tr\ZedGraph.resources.dll" />
 </Component>
 </Directory>
 <Directory Id="zh_cn252" Name="zh-cn">
-<Component Id="_comp253" Guid="e3c56af5-e931-4dce-b150-2f1a6a716e83">
+<Component Id="_comp253" Guid="02b805c8-b0af-4b40-a3e8-d98e8cb0904c">
 <File Id="_254" Source="..\bin\release\zh-cn\ZedGraph.resources.dll" />
 </Component>
 </Directory>
 <Directory Id="zh_Hans254" Name="zh-Hans">
-<Component Id="_comp255" Guid="aeb27803-80f9-4bf7-9cb4-545e535df564">
+<Component Id="_comp255" Guid="b49609e0-e028-4afb-b914-ceb947d0a572">
 <File Id="_256" Source="..\bin\release\zh-Hans\ArdupilotMegaPlanner.resources.dll" />
 <File Id="_257" Source="..\bin\release\zh-Hans\ArdupilotMegaPlanner10.resources.dll" />
 </Component>
 </Directory>
 <Directory Id="zh_TW257" Name="zh-TW">
-<Component Id="_comp258" Guid="caf94b42-54db-4f17-b4c7-7ba042cf6946">
+<Component Id="_comp258" Guid="8d06d259-2ab9-41c2-89c7-4463d14eb17a">
 <File Id="_259" Source="..\bin\release\zh-TW\ArdupilotMegaPlanner.resources.dll" />
 <File Id="_260" Source="..\bin\release\zh-TW\ArdupilotMegaPlanner10.resources.dll" />
 <File Id="_261" Source="..\bin\release\zh-TW\ZedGraph.resources.dll" />

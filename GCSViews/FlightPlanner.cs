@@ -3410,8 +3410,8 @@ namespace ArdupilotMega.GCSViews
                 string distance = (50 * MainV2.comPort.MAV.cs.multiplierdist).ToString("0");
                 Common.InputBox("Distance", "Distance between lines", ref distance);
 
-                string wpevery = (40 * MainV2.comPort.MAV.cs.multiplierdist).ToString("0");
-                Common.InputBox("Every", "Put a WP every x distance (-1 for none)", ref wpevery);
+                string wpeverytext = (40 * MainV2.comPort.MAV.cs.multiplierdist).ToString("0");
+                Common.InputBox("Every", "Put a WP every x distance (-1 for none)", ref wpeverytext);
 
                 string angle = (90).ToString("0");
                 Common.InputBox("Angle", "Enter the line direction (0-90)", ref angle);
@@ -3436,11 +3436,14 @@ namespace ArdupilotMega.GCSViews
                     CustomMessageBox.Show("Invalid Distance");
                     return;
                 }
-                if (!double.TryParse(wpevery, out tryme))
+                if (!double.TryParse(wpeverytext, out tryme))
                 {
                     CustomMessageBox.Show("Invalid Waypoint spacing");
                     return;
                 }
+
+                // switch back to m
+                double wpevery = double.Parse(wpeverytext) / MainV2.comPort.MAV.cs.multiplierdist;
 
                 // get x y components
                 double y1 = Math.Cos((double.Parse(angle)) * deg2rad); // needs to mod for long scale
@@ -3645,9 +3648,11 @@ namespace ArdupilotMega.GCSViews
                     {
                         callMe(closest.p1.Lat, closest.p1.Lng, altitude);
 
-                        if (double.Parse(wpevery) > 0)
+                        if (wpevery > 0)
                         {
-                            for (int d = (int)(double.Parse(wpevery) - ((MainMap.Manager.GetDistance(closest.basepnt, closest.p1) * 1000) % double.Parse(wpevery))); d < (MainMap.Manager.GetDistance(closest.p1, closest.p2) * 1000); d += (int)double.Parse(wpevery))
+                            for (int d = (int)(wpevery - ((MainMap.Manager.GetDistance(closest.basepnt, closest.p1) * 1000) % wpevery));
+                                d < (MainMap.Manager.GetDistance(closest.p1, closest.p2) * 1000);
+                                d += (int)wpevery)
                             {
                                 double ax = closest.p1.Lat;
                                 double ay = closest.p1.Lng;
@@ -3673,9 +3678,11 @@ namespace ArdupilotMega.GCSViews
                     {
                         callMe(closest.p2.Lat, closest.p2.Lng, altitude);
 
-                        if (double.Parse(wpevery) > 0)
+                        if (wpevery > 0)
                         {
-                            for (int d = (int)((MainMap.Manager.GetDistance(closest.basepnt, closest.p2) * 1000) % double.Parse(wpevery)); d < (MainMap.Manager.GetDistance(closest.p1, closest.p2) * 1000); d += (int)double.Parse(wpevery))
+                            for (int d = (int)((MainMap.Manager.GetDistance(closest.basepnt, closest.p2) * 1000) % wpevery); 
+                                d < (MainMap.Manager.GetDistance(closest.p1, closest.p2) * 1000);
+                                d += (int)wpevery)
                             {
                                 double ax = closest.p2.Lat;
                                 double ay = closest.p2.Lng;

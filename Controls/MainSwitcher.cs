@@ -62,6 +62,9 @@ namespace ArdupilotMega.Controls
                     current.Control.Dispose();
 
                     current.Control = (MyUserControl)Activator.CreateInstance(current.Control.GetType());
+
+                    // set the next new instance as not visible
+                    current.Control.Visible = false;
                 }
             }
 
@@ -70,23 +73,22 @@ namespace ArdupilotMega.Controls
 
             nextscreen.Control.Location = new Point(0, 0);
 
-            nextscreen.Control.SuspendLayout();
             nextscreen.Control.Dock = DockStyle.Fill;
 
             nextscreen.Control.Size = MainControl.Size;
-
-            nextscreen.Visible = true;
 
             if (nextscreen.Control is IActivate)
             {
                 ((IActivate)(nextscreen.Control)).Activate();
             }
 
+            ThemeManager.ApplyThemeTo(nextscreen.Control);
+
             MainControl.Controls.Add(nextscreen.Control);
 
-            nextscreen.Control.ResumeLayout();
+            nextscreen.Control.PerformLayout();
 
-            ThemeManager.ApplyThemeTo(nextscreen.Control);
+            nextscreen.Visible = true;
 
             current = nextscreen;
 
