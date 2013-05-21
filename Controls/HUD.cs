@@ -178,6 +178,12 @@ namespace ArdupilotMega.Controls
 
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
         public bool status { get; set; }
+
+        [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
+        public string message { get { return _message; } set { if (_message == value) return; messagetime = DateTime.Now; _message = value; } }
+        string _message = "";
+        DateTime messagetime = DateTime.MinValue;
+
         bool statuslast = false;
         DateTime armedtimer = DateTime.MinValue;
 
@@ -765,6 +771,10 @@ namespace ArdupilotMega.Controls
             }
         }
 
+        Pen blackPen = new Pen(Color.Black, 2);
+        Pen greenPen = new Pen(Color.Green, 2);
+        Pen redPen = new Pen(Color.Red, 2);
+
         void doPaint(PaintEventArgs e)
         {
             //Console.WriteLine("hud paint "+DateTime.Now.Millisecond);
@@ -833,9 +843,9 @@ namespace ArdupilotMega.Controls
 
                 SolidBrush whiteBrush = new SolidBrush(whitePen.Color);
 
-                Pen blackPen = new Pen(Color.Black, 2);
-                Pen greenPen = new Pen(Color.Green, 2);
-                Pen redPen = new Pen(Color.Red, 2);
+                blackPen = new Pen(Color.Black, 2);
+                greenPen = new Pen(Color.Green, 2);
+                redPen = new Pen(Color.Red, 2);
 
                 // draw sky
                 if (bgon == true)
@@ -902,6 +912,11 @@ namespace ArdupilotMega.Controls
                         drawstring(graphicsObject, "FAILSAFE", font, fontsize + 20, (SolidBrush)Brushes.Red, -85, halfheight / -5);
                         statuslast = status;
                     }
+                }
+
+                if (message != "" && messagetime.AddSeconds(20) > DateTime.Now)
+                {
+                    drawstring(graphicsObject, message, font, fontsize + 10, (SolidBrush)Brushes.Red, -halfwidth + 50, halfheight / -2);
                 }
 
                 //draw pitch           

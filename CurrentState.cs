@@ -43,7 +43,25 @@ namespace ArdupilotMega
         [DisplayText("Longitude (dd)")]
         public double lng { get; set; }
         [DisplayText("Altitude (dist)")]
-        public float alt { get { return (_alt - altoffsethome) * multiplierdist; } set { _alt = value; } }
+        public float alt
+        {
+            get { return (_alt - altoffsethome) * multiplierdist; }
+            set
+            {
+                // check update rate, and ensure time hasnt gone backwards                
+                _alt = value;
+
+                if ((datetime - lastalt).TotalSeconds >= 0.2 && oldalt != alt || lastalt > datetime)
+                {
+                    climbrate = (alt - oldalt) / (float)(datetime - lastalt).TotalSeconds;
+                    verticalspeed = (alt - oldalt) / (float)(datetime - lastalt).TotalSeconds;
+                    if (float.IsInfinity(_verticalspeed))
+                        _verticalspeed = 0;
+                    lastalt = datetime;
+                    oldalt = alt;
+                }
+            }
+        }
         DateTime lastalt = DateTime.MinValue;
         float oldalt = 0;
         [DisplayText("Alt Home Offset (dist)")]
@@ -224,6 +242,8 @@ namespace ArdupilotMega
         //message
         internal List<string> messages { get; set; }
         internal string message { get { if (messages.Count == 0) return ""; return messages[messages.Count - 1]; } }
+        public string messageHigh { get {return _messagehigh;} set {_messagehigh = value;} }
+        private string _messagehigh;
 
         //battery
         [DisplayText("Bat Voltage (V)")]
@@ -521,11 +541,29 @@ namespace ArdupilotMega
                     if (mavinterface.MAV.packets[MAVLink.MAVLINK_MSG_ID_STATUSTEXT] != null) // status text 
                     {
 
+                        var msg = mavinterface.MAV.packets[MAVLink.MAVLINK_MSG_ID_STATUSTEXT].ByteArrayToStructure<MAVLink.mavlink_statustext_t>(6);
+
+                        /*
+enum gcs_severity {
+    SEVERITY_LOW=1,
+    SEVERITY_MEDIUM,
+    SEVERITY_HIGH,
+    SEVERITY_CRITICAL
+};
+                         */
+
+                       byte sev = msg.severity;
+
                         string logdata = Encoding.ASCII.GetString(mavinterface.MAV.packets[MAVLink.MAVLINK_MSG_ID_STATUSTEXT], 6, mavinterface.MAV.packets[MAVLink.MAVLINK_MSG_ID_STATUSTEXT].Length - 6);
 
                         int ind = logdata.IndexOf('\0');
                         if (ind != -1)
                             logdata = logdata.Substring(0, ind);
+
+                        if (sev >= 3)
+                        {
+                            messageHigh = logdata;
+                        }
 
                         try
                         {
@@ -537,6 +575,7 @@ namespace ArdupilotMega
 
                         }
                         catch { }
+
                         mavinterface.MAV.packets[MAVLink.MAVLINK_MSG_ID_STATUSTEXT] = null;
                     }
 
@@ -728,8 +767,10 @@ namespace ArdupilotMega
                         {
                             lat = gps.lat * 1.0e-7f;
                             lng = gps.lon * 1.0e-7f;
+
+                           // alt = gps.alt; // using vfr as includes baro calc
                         }
-                        //                alt = gps.alt; // using vfr as includes baro calc
+                                        
 
                         gpsstatus = gps.fix_type;
                         //                    Console.WriteLine("gpsfix {0}",gpsstatus);
@@ -778,20 +819,9 @@ namespace ArdupilotMega
                         }
                         else
                         {
-                            alt = loc.alt / 1000.0f;
+                            //alt = loc.alt / 1000.0f;
                             lat = loc.lat / 10000000.0f;
                             lng = loc.lon / 10000000.0f;
-
-                            // check update rate, and ensure time hasnt gone backwards
-                            if ((datetime - lastalt).TotalSeconds >= 0.2 && oldalt != alt || lastalt > datetime)
-                            {
-                                climbrate = (alt - oldalt) / (float)(datetime - lastalt).TotalSeconds;
-                                verticalspeed = (alt - oldalt) / (float)(datetime - lastalt).TotalSeconds;
-                                if (float.IsInfinity(_verticalspeed))
-                                    _verticalspeed = 0;
-                                lastalt = datetime;
-                                oldalt = alt;
-                            }
                         }
                     }
 
@@ -913,7 +943,7 @@ namespace ArdupilotMega
                         //groundspeed = vfr.groundspeed;
                         airspeed = vfr.airspeed;
 
-                        //alt = vfr.alt; // this might include baro
+                        alt = vfr.alt; // this might include baro
 
                         ch3percent = vfr.throttle;
 
