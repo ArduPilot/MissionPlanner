@@ -479,13 +479,15 @@ namespace ArdupilotMega
 
                 }
 
+                
+
                 Serializer serializer = new Serializer();
                 serializer.Serialize(kml);
                 swlockml.Write(serializer.Xml);
                 swlockml.Close();
 
-                MainV2.instance.georefkml = serializer.Xml;
-                MainV2.instance.georefimagepath = dirWithImages + Path.DirectorySeparatorChar;
+                Utilities.httpserver.georefkml = serializer.Xml;
+                Utilities.httpserver.georefimagepath = dirWithImages + Path.DirectorySeparatorChar;
 
                 writeGPX(dirWithImages + Path.DirectorySeparatorChar + "location.gpx");
 

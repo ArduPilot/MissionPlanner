@@ -11,7 +11,7 @@ using ArdupilotMega.Comms;
 
 namespace ArdupilotMega.Arduino
 {
-    public class ArduinoSTK : SerialPort, ArduinoComms
+    public class ArduinoSTK : SerialPort, IArduinoComms
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         public event ProgressEventHandler Progress;

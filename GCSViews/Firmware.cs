@@ -708,7 +708,7 @@ namespace ArdupilotMega.GCSViews
                 CustomMessageBox.Show("Failed to read firmware.hex : " + ex.Message); 
                 return;
             }
-            ArduinoComms port = new ArduinoSTK();
+            IArduinoComms port = new ArduinoSTK();
 
             if (board == "1280")
             {
@@ -1075,13 +1075,16 @@ namespace ArdupilotMega.GCSViews
             {
                 if (sfd.FileName != "")
                 {
+                    if (File.Exists(sfd.FileName))
+                        File.Delete(sfd.FileName);
+
                     File.Copy(Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + @"px4io.bin",sfd.FileName);
                 }
             }
 
             progress.Value = 100;
 
-            CustomMessageBox.Show("Please eject the microsd card, place into the px4, hold down the ioboard arm button, power on,\nand wait 60 seconds for the automated upgrade to take place.\nA upgrade status is created on your microsd card.");
+            CustomMessageBox.Show("Please eject the microsd card, place into the px4, hold down the ioboard safety button, power on,\nand wait 60 seconds for the automated upgrade to take place.\nA upgrade status is created on your microsd card.");
         }
 
         private void lbl_dlfw_Click(object sender, EventArgs e)

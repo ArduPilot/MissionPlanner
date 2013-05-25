@@ -263,7 +263,7 @@
     <Compile Include="Antenna\Tracker.Designer.cs">
       <DependentUpon>Tracker.cs</DependentUpon>
     </Compile>
-    <Compile Include="Arduino\ArduinoComms.cs" />
+    <Compile Include="Arduino\IArduinoComms.cs" />
     <Compile Include="Arduino\ArduinoDetect.cs" />
     <Compile Include="Arduino\ArduinoSTK.cs">
       <SubType>Component</SubType>
@@ -446,6 +446,7 @@
     <Compile Include="Swarm\Status.Designer.cs">
       <DependentUpon>Status.cs</DependentUpon>
     </Compile>
+    <Compile Include="Utilities\httpserver.cs" />
     <Compile Include="Utilities\S3Uploader.cs" />
     <Compile Include="Widgets\GraphicsGL.cs" />
     <Compile Include="Widgets\MessageBox.cs" />
@@ -1711,6 +1712,9 @@
     <Content Include="mavcmd.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
+    </Content>
+    <Content Include="version.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="Resources\MinimOSD.jpg" />
     <None Include="Resources\new-3DR-04.png" />

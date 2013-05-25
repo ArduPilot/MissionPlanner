@@ -146,7 +146,7 @@ namespace ArdupilotMega
                     br.Close();
                     sr.Close();
 
-                    ArduinoComms port = new ArduinoSTK();
+                    IArduinoComms port = new ArduinoSTK();
 
                     if (DialogResult.Yes == CustomMessageBox.Show("is this a 1280?", "", MessageBoxButtons.YesNo))
                     {
@@ -218,7 +218,7 @@ namespace ArdupilotMega
                 EEPROM[i] = 0xff;
             }
 
-            ArduinoComms port = new ArduinoSTK();
+            IArduinoComms port = new ArduinoSTK();
 
             if (DialogResult.Yes == CustomMessageBox.Show("is this a 1280?", "", MessageBoxButtons.YesNo))
             {
@@ -281,7 +281,7 @@ namespace ArdupilotMega
         {
             byte[] FLASH = new byte[256 * 1024];
 
-            ArduinoComms port = new ArduinoSTK();
+            IArduinoComms port = new ArduinoSTK();
 
             if (DialogResult.Yes == CustomMessageBox.Show("is this a 1280?", "", MessageBoxButtons.YesNo))
             {
@@ -385,7 +385,7 @@ namespace ArdupilotMega
 
             }
             catch (Exception ex) { CustomMessageBox.Show("Failed to read firmware.hex : " + ex.Message); }
-            ArduinoComms port = new ArduinoSTK();
+            IArduinoComms port = new ArduinoSTK();
 
             if (DialogResult.Yes == CustomMessageBox.Show("is this a 1280?", "", MessageBoxButtons.YesNo))
             {
@@ -530,7 +530,7 @@ namespace ArdupilotMega
 
         private void BUT_dleeprom_Click(object sender, EventArgs e)
         {
-            ArduinoComms port = new ArduinoSTK();
+            IArduinoComms port = new ArduinoSTK();
 
             if (DialogResult.Yes == CustomMessageBox.Show("is this a 1280?", "", MessageBoxButtons.YesNo))
             {
@@ -718,7 +718,7 @@ namespace ArdupilotMega
 
         private void BUT_copyto1280_Click(object sender, EventArgs e)
         {
-            ArduinoComms port = new ArduinoSTK();
+            IArduinoComms port = new ArduinoSTK();
 
             port.BaudRate = 57600;
 

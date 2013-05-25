@@ -10,7 +10,7 @@ using log4net;
 
 namespace ArdupilotMega.Arduino
 {
-    public class ArduinoSTKv2 : SerialPort,ArduinoComms
+    public class ArduinoSTKv2 : SerialPort,IArduinoComms
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         public event ProgressEventHandler Progress;

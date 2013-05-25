@@ -322,7 +322,7 @@ namespace ArdupilotMega.Arduino
         /// <returns></returns>
         public static int decodeApVar(string comport, string version)
         {
-            ArduinoComms port = new ArduinoSTK();
+            IArduinoComms port = new ArduinoSTK();
             if (version == "1280")
             {
                 port = new ArduinoSTK();

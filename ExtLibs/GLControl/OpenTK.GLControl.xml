@@ -9,6 +9,23 @@
             Defines a UserControl with OpenGL rendering capabilities.
             </summary>
         </member>
+        <member name="F:OpenTK.GLControl.components">
+            <summary> 
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:OpenTK.GLControl.Dispose(System.Boolean)">
+            <summary> 
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:OpenTK.GLControl.InitializeComponent">
+            <summary> 
+            Required method for Designer support - do not modify 
+            the contents of this method with the code editor.
+            </summary>
+        </member>
         <member name="F:OpenTK.GLControl.UseOpenGL">
             <summary>
             allows override
@@ -79,23 +96,6 @@
             <exception cref="T:OpenTK.Graphics.GraphicsContextException">
             Occurs when no OpenTK.Graphics.GraphicsContext is current in the calling thread.
             </exception>
-        </member>
-        <member name="F:OpenTK.GLControl.components">
-            <summary> 
-            Required designer variable.
-            </summary>
-        </member>
-        <member name="M:OpenTK.GLControl.Dispose(System.Boolean)">
-            <summary> 
-            Clean up any resources being used.
-            </summary>
-            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        </member>
-        <member name="M:OpenTK.GLControl.InitializeComponent">
-            <summary> 
-            Required method for Designer support - do not modify 
-            the contents of this method with the code editor.
-            </summary>
         </member>
         <member name="P:OpenTK.GLControl.IsIdle">
             <summary>

@@ -63,6 +63,7 @@ namespace ArdupilotMega
         void mainloop()
         {
             threadrun = true;
+            comPort.NewLine = "\r\n";
             int counter = 0;
             while (threadrun)
             {
