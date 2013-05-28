@@ -78,6 +78,12 @@
     <CodeAnalysisIgnoreBuiltInRules>true</CodeAnalysisIgnoreBuiltInRules>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net">
+      <HintPath>..\..\packages\log4net.2.0.0\lib\net20-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\packages\Newtonsoft.Json.5.0.5\lib\net20\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Design" />
@@ -185,6 +191,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\ChevronDown.png" />
+    <None Include="packages.config" />
     <None Include="Resources\ChevronRight.png" />
     <None Include="Resources\ChevronLeft.png" />
     <Content Include="Resources\ChevronUp.png" />

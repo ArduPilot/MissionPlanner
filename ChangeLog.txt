@@ -1,4 +1,20 @@
-﻿* Mission Planner 1.2.51
+﻿* Mission Planner 1.2.53
+confirm nmea line endings
+fix timeinair reset on connect
+seperate out mini http server
+add more fw history
+modify arducopter config screen
+add better cancel checking in input dialogs
+update battery monitoring screen
+fix arm/disarm speech option
+fix ac fence option on load
+tweaks to make it easyer to compile
+
+* Mission Planner 1.2.52
+revert to vfr_hud.alt
+add prearm warning text
+
+* Mission Planner 1.2.51
 update hil
 add missing baud rates
 NMEA output milliseconds

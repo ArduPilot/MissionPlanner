@@ -63,12 +63,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Arduino\ArduinoComms.cs">
-      <Link>Linked\ArduinoComms.cs</Link>
-    </Compile>
     <Compile Include="..\Arduino\ArduinoSTK.cs">
       <Link>Linked\ArduinoSTK.cs</Link>
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="..\Arduino\IArduinoComms.cs">
+      <Link>Linked\IArduinoComms.cs</Link>
     </Compile>
     <Compile Include="..\Attributes\DisplayTextAttribute.cs">
       <Link>Linked\DisplayTextAttribute.cs</Link>

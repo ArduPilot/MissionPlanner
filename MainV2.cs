@@ -594,6 +594,8 @@ namespace ArdupilotMega
                 // Here we want to reset the connection stats counter etc.
                 this.ResetConnectionStats();
 
+                MainV2.comPort.MAV.cs.timeInAir = 0;
+
                 //cleanup any log being played
                 comPort.logreadmode = false;
                 if (comPort.logplaybackfile != null)
@@ -2273,8 +2275,10 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
             if (keyData == (Keys.Control | Keys.J)) // for jani
             {
                 string data = "!!";
-                Common.InputBox("inject", "enter data to be written", ref data);
-                MainV2.comPort.Write(data + "\r");
+                if (System.Windows.Forms.DialogResult.OK == Common.InputBox("inject", "enter data to be written", ref data))
+                {
+                    MainV2.comPort.Write(data + "\r");
+                }
                 return true;
             }
             return base.ProcessCmdKey(ref msg, keyData);

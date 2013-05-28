@@ -1384,7 +1384,8 @@ namespace ArdupilotMega.GCSViews
             }
 
             string alt = (100 * MainV2.comPort.MAV.cs.multiplierdist).ToString("0");
-            Common.InputBox("Enter Alt", "Enter Target Alt (absolute)", ref alt);
+            if (System.Windows.Forms.DialogResult.Cancel == Common.InputBox("Enter Alt", "Enter Target Alt (absolute)", ref alt))
+                return;
 
             int intalt = (int)(100 * MainV2.comPort.MAV.cs.multiplierdist);
             if (!int.TryParse(alt, out intalt))

@@ -530,8 +530,8 @@ namespace ArdupilotMega
                             lastpos = new PointLatLngAlt(lat, lng, 0, "");
                         }
 
-                        // cant use gs, cant use alt, 
-                        if (ch3percent > 12) 
+                        // throttle is up, or groundspeed is > 3 m/s
+                        if (ch3percent > 12 || _groundspeed > 3.0) 
                             timeInAir++;
 
                         if (!gotwind)

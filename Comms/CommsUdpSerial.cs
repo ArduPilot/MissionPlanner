@@ -105,7 +105,10 @@ namespace ArdupilotMega.Comms
             if (ArdupilotMega.MainV2.config["UDP_port"] != null)
                 dest = ArdupilotMega.MainV2.config["UDP_port"].ToString();
 
-            ArdupilotMega.Common.InputBox("Listern Port", "Enter Local port (ensure remote end is already sending)", ref dest);
+            if (System.Windows.Forms.DialogResult.Cancel == ArdupilotMega.Common.InputBox("Listern Port", "Enter Local port (ensure remote end is already sending)", ref dest))
+            {
+                return;
+            }
             Port = dest;
 
             ArdupilotMega.MainV2.config["UDP_port"] = Port;

@@ -31,20 +31,8 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigBatteryMonitoring));
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.label31 = new System.Windows.Forms.Label();
-            this.label32 = new System.Windows.Forms.Label();
-            this.label33 = new System.Windows.Forms.Label();
-            this.TXT_ampspervolt = new System.Windows.Forms.TextBox();
-            this.label34 = new System.Windows.Forms.Label();
-            this.TXT_divider = new System.Windows.Forms.TextBox();
-            this.label35 = new System.Windows.Forms.Label();
-            this.TXT_voltage = new System.Windows.Forms.TextBox();
-            this.TXT_inputvoltage = new System.Windows.Forms.TextBox();
-            this.TXT_measuredvoltage = new System.Windows.Forms.TextBox();
             this.label47 = new System.Windows.Forms.Label();
             this.CMB_batmonsensortype = new System.Windows.Forms.ComboBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
             this.label29 = new System.Windows.Forms.Label();
             this.label30 = new System.Windows.Forms.Label();
             this.TXT_battcapacity = new System.Windows.Forms.TextBox();
@@ -55,80 +43,18 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.CHK_speechbattery = new System.Windows.Forms.CheckBox();
-            this.groupBox4.SuspendLayout();
+            this.TXT_measuredvoltage = new System.Windows.Forms.TextBox();
+            this.TXT_voltage = new System.Windows.Forms.TextBox();
+            this.label35 = new System.Windows.Forms.Label();
+            this.TXT_divider = new System.Windows.Forms.TextBox();
+            this.label34 = new System.Windows.Forms.Label();
+            this.TXT_ampspervolt = new System.Windows.Forms.TextBox();
+            this.label33 = new System.Windows.Forms.Label();
+            this.label32 = new System.Windows.Forms.Label();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
+            this.groupBox4.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // groupBox4
-            // 
-            this.groupBox4.Controls.Add(this.label31);
-            this.groupBox4.Controls.Add(this.label32);
-            this.groupBox4.Controls.Add(this.label33);
-            this.groupBox4.Controls.Add(this.TXT_ampspervolt);
-            this.groupBox4.Controls.Add(this.label34);
-            this.groupBox4.Controls.Add(this.TXT_divider);
-            this.groupBox4.Controls.Add(this.label35);
-            this.groupBox4.Controls.Add(this.TXT_voltage);
-            this.groupBox4.Controls.Add(this.TXT_inputvoltage);
-            this.groupBox4.Controls.Add(this.TXT_measuredvoltage);
-            resources.ApplyResources(this.groupBox4, "groupBox4");
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.TabStop = false;
-            // 
-            // label31
-            // 
-            resources.ApplyResources(this.label31, "label31");
-            this.label31.Name = "label31";
-            // 
-            // label32
-            // 
-            resources.ApplyResources(this.label32, "label32");
-            this.label32.Name = "label32";
-            // 
-            // label33
-            // 
-            resources.ApplyResources(this.label33, "label33");
-            this.label33.Name = "label33";
-            // 
-            // TXT_ampspervolt
-            // 
-            resources.ApplyResources(this.TXT_ampspervolt, "TXT_ampspervolt");
-            this.TXT_ampspervolt.Name = "TXT_ampspervolt";
-            this.TXT_ampspervolt.Validated += new System.EventHandler(this.TXT_ampspervolt_Validated);
-            // 
-            // label34
-            // 
-            resources.ApplyResources(this.label34, "label34");
-            this.label34.Name = "label34";
-            // 
-            // TXT_divider
-            // 
-            resources.ApplyResources(this.TXT_divider, "TXT_divider");
-            this.TXT_divider.Name = "TXT_divider";
-            this.TXT_divider.Validated += new System.EventHandler(this.TXT_divider_Validated);
-            // 
-            // label35
-            // 
-            resources.ApplyResources(this.label35, "label35");
-            this.label35.Name = "label35";
-            // 
-            // TXT_voltage
-            // 
-            resources.ApplyResources(this.TXT_voltage, "TXT_voltage");
-            this.TXT_voltage.Name = "TXT_voltage";
-            this.TXT_voltage.ReadOnly = true;
-            // 
-            // TXT_inputvoltage
-            // 
-            resources.ApplyResources(this.TXT_inputvoltage, "TXT_inputvoltage");
-            this.TXT_inputvoltage.Name = "TXT_inputvoltage";
-            this.TXT_inputvoltage.Validated += new System.EventHandler(this.TXT_inputvoltage_Validated);
-            // 
-            // TXT_measuredvoltage
-            // 
-            resources.ApplyResources(this.TXT_measuredvoltage, "TXT_measuredvoltage");
-            this.TXT_measuredvoltage.Name = "TXT_measuredvoltage";
-            this.TXT_measuredvoltage.Validated += new System.EventHandler(this.TXT_measuredvoltage_Validated);
             // 
             // label47
             // 
@@ -148,12 +74,6 @@
             resources.ApplyResources(this.CMB_batmonsensortype, "CMB_batmonsensortype");
             this.CMB_batmonsensortype.Name = "CMB_batmonsensortype";
             this.CMB_batmonsensortype.SelectedIndexChanged += new System.EventHandler(this.CMB_batmonsensortype_SelectedIndexChanged);
-            // 
-            // textBox3
-            // 
-            resources.ApplyResources(this.textBox3, "textBox3");
-            this.textBox3.Name = "textBox3";
-            this.textBox3.ReadOnly = true;
             // 
             // label29
             // 
@@ -226,6 +146,67 @@
             this.CHK_speechbattery.UseVisualStyleBackColor = true;
             this.CHK_speechbattery.CheckedChanged += new System.EventHandler(this.CHK_speechbattery_CheckedChanged);
             // 
+            // TXT_measuredvoltage
+            // 
+            resources.ApplyResources(this.TXT_measuredvoltage, "TXT_measuredvoltage");
+            this.TXT_measuredvoltage.Name = "TXT_measuredvoltage";
+            this.TXT_measuredvoltage.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.TXT_measuredvoltage_PreviewKeyDown);
+            this.TXT_measuredvoltage.Validated += new System.EventHandler(this.TXT_measuredvoltage_Validated);
+            // 
+            // TXT_voltage
+            // 
+            resources.ApplyResources(this.TXT_voltage, "TXT_voltage");
+            this.TXT_voltage.Name = "TXT_voltage";
+            this.TXT_voltage.ReadOnly = true;
+            // 
+            // label35
+            // 
+            resources.ApplyResources(this.label35, "label35");
+            this.label35.Name = "label35";
+            // 
+            // TXT_divider
+            // 
+            resources.ApplyResources(this.TXT_divider, "TXT_divider");
+            this.TXT_divider.Name = "TXT_divider";
+            this.TXT_divider.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.TXT_divider_PreviewKeyDown);
+            this.TXT_divider.Validated += new System.EventHandler(this.TXT_divider_Validated);
+            // 
+            // label34
+            // 
+            resources.ApplyResources(this.label34, "label34");
+            this.label34.Name = "label34";
+            // 
+            // TXT_ampspervolt
+            // 
+            resources.ApplyResources(this.TXT_ampspervolt, "TXT_ampspervolt");
+            this.TXT_ampspervolt.Name = "TXT_ampspervolt";
+            this.TXT_ampspervolt.PreviewKeyDown += new System.Windows.Forms.PreviewKeyDownEventHandler(this.TXT_ampspervolt_PreviewKeyDown);
+            this.TXT_ampspervolt.Validated += new System.EventHandler(this.TXT_ampspervolt_Validated);
+            // 
+            // label33
+            // 
+            resources.ApplyResources(this.label33, "label33");
+            this.label33.Name = "label33";
+            // 
+            // label32
+            // 
+            resources.ApplyResources(this.label32, "label32");
+            this.label32.Name = "label32";
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.label32);
+            this.groupBox4.Controls.Add(this.label33);
+            this.groupBox4.Controls.Add(this.TXT_ampspervolt);
+            this.groupBox4.Controls.Add(this.label34);
+            this.groupBox4.Controls.Add(this.TXT_divider);
+            this.groupBox4.Controls.Add(this.label35);
+            this.groupBox4.Controls.Add(this.TXT_voltage);
+            this.groupBox4.Controls.Add(this.TXT_measuredvoltage);
+            resources.ApplyResources(this.groupBox4, "groupBox4");
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.TabStop = false;
+            // 
             // ConfigBatteryMonitoring
             // 
             resources.ApplyResources(this, "$this");
@@ -237,16 +218,15 @@
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.label47);
             this.Controls.Add(this.CMB_batmonsensortype);
-            this.Controls.Add(this.textBox3);
             this.Controls.Add(this.label29);
             this.Controls.Add(this.label30);
             this.Controls.Add(this.TXT_battcapacity);
             this.Controls.Add(this.CMB_batmontype);
             this.Controls.Add(this.pictureBox5);
             this.Name = "ConfigBatteryMonitoring";
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -254,20 +234,8 @@
 
         #endregion
 
-        private System.Windows.Forms.GroupBox groupBox4;
-        private System.Windows.Forms.Label label31;
-        private System.Windows.Forms.Label label32;
-        private System.Windows.Forms.Label label33;
-        private System.Windows.Forms.TextBox TXT_ampspervolt;
-        private System.Windows.Forms.Label label34;
-        private System.Windows.Forms.TextBox TXT_divider;
-        private System.Windows.Forms.Label label35;
-        private System.Windows.Forms.TextBox TXT_voltage;
-        private System.Windows.Forms.TextBox TXT_inputvoltage;
-        private System.Windows.Forms.TextBox TXT_measuredvoltage;
         private System.Windows.Forms.Label label47;
         private System.Windows.Forms.ComboBox CMB_batmonsensortype;
-        private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.Label label29;
         private System.Windows.Forms.Label label30;
         private System.Windows.Forms.TextBox TXT_battcapacity;
@@ -278,5 +246,14 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.CheckBox CHK_speechbattery;
+        private System.Windows.Forms.TextBox TXT_measuredvoltage;
+        private System.Windows.Forms.TextBox TXT_voltage;
+        private System.Windows.Forms.Label label35;
+        private System.Windows.Forms.TextBox TXT_divider;
+        private System.Windows.Forms.Label label34;
+        private System.Windows.Forms.TextBox TXT_ampspervolt;
+        private System.Windows.Forms.Label label33;
+        private System.Windows.Forms.Label label32;
+        private System.Windows.Forms.GroupBox groupBox4;
     }
 }

@@ -274,7 +274,8 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
         private void BUT_MagCalibrationLog_Click(object sender, EventArgs e)
         {
             string minthro = "30";
-            Common.InputBox("Min Throttle", "Use only data above this throttle percent.", ref minthro);
+            if (System.Windows.Forms.DialogResult.Cancel == Common.InputBox("Min Throttle", "Use only data above this throttle percent.", ref minthro))
+                return;
 
             int ans = 0;
             int.TryParse(minthro, out ans);

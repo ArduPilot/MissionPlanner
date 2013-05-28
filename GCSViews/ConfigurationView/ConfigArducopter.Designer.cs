@@ -45,15 +45,15 @@
             this.label25 = new System.Windows.Forms.Label();
             this.CHK_lockrollpitch = new System.Windows.Forms.CheckBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.NAV_LAT_D = new System.Windows.Forms.NumericUpDown();
+            this.WPNAV_SPEED_UP = new System.Windows.Forms.NumericUpDown();
             this.label27 = new System.Windows.Forms.Label();
-            this.WP_SPEED_MAX = new System.Windows.Forms.NumericUpDown();
+            this.WPNAV_LOIT_SPEED = new System.Windows.Forms.NumericUpDown();
             this.label9 = new System.Windows.Forms.Label();
-            this.NAV_LAT_IMAX = new System.Windows.Forms.NumericUpDown();
+            this.WPNAV_SPEED_DN = new System.Windows.Forms.NumericUpDown();
             this.label13 = new System.Windows.Forms.Label();
-            this.NAV_LAT_I = new System.Windows.Forms.NumericUpDown();
+            this.WPNAV_RADIUS = new System.Windows.Forms.NumericUpDown();
             this.label15 = new System.Windows.Forms.Label();
-            this.NAV_LAT_P = new System.Windows.Forms.NumericUpDown();
+            this.WPNAV_SPEED = new System.Windows.Forms.NumericUpDown();
             this.label16 = new System.Windows.Forms.Label();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.XTRK_GAIN_SC = new System.Windows.Forms.NumericUpDown();
@@ -154,11 +154,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.THR_RATE_I)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.THR_RATE_P)).BeginInit();
             this.groupBox4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NAV_LAT_D)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.WP_SPEED_MAX)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NAV_LAT_IMAX)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NAV_LAT_I)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NAV_LAT_P)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.WPNAV_SPEED_UP)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.WPNAV_LOIT_SPEED)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.WPNAV_SPEED_DN)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.WPNAV_RADIUS)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.WPNAV_SPEED)).BeginInit();
             this.groupBox6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.XTRK_GAIN_SC)).BeginInit();
             this.groupBox7.SuspendLayout();
@@ -303,64 +303,64 @@
             // 
             // groupBox4
             // 
-            this.groupBox4.Controls.Add(this.NAV_LAT_D);
+            this.groupBox4.Controls.Add(this.WPNAV_SPEED_UP);
             this.groupBox4.Controls.Add(this.label27);
-            this.groupBox4.Controls.Add(this.WP_SPEED_MAX);
+            this.groupBox4.Controls.Add(this.WPNAV_LOIT_SPEED);
             this.groupBox4.Controls.Add(this.label9);
-            this.groupBox4.Controls.Add(this.NAV_LAT_IMAX);
+            this.groupBox4.Controls.Add(this.WPNAV_SPEED_DN);
             this.groupBox4.Controls.Add(this.label13);
-            this.groupBox4.Controls.Add(this.NAV_LAT_I);
+            this.groupBox4.Controls.Add(this.WPNAV_RADIUS);
             this.groupBox4.Controls.Add(this.label15);
-            this.groupBox4.Controls.Add(this.NAV_LAT_P);
+            this.groupBox4.Controls.Add(this.WPNAV_SPEED);
             this.groupBox4.Controls.Add(this.label16);
             resources.ApplyResources(this.groupBox4, "groupBox4");
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.TabStop = false;
             // 
-            // NAV_LAT_D
+            // WPNAV_SPEED_UP
             // 
-            resources.ApplyResources(this.NAV_LAT_D, "NAV_LAT_D");
-            this.NAV_LAT_D.Name = "NAV_LAT_D";
+            resources.ApplyResources(this.WPNAV_SPEED_UP, "WPNAV_SPEED_UP");
+            this.WPNAV_SPEED_UP.Name = "WPNAV_SPEED_UP";
             // 
             // label27
             // 
             resources.ApplyResources(this.label27, "label27");
             this.label27.Name = "label27";
             // 
-            // WP_SPEED_MAX
+            // WPNAV_LOIT_SPEED
             // 
-            resources.ApplyResources(this.WP_SPEED_MAX, "WP_SPEED_MAX");
-            this.WP_SPEED_MAX.Name = "WP_SPEED_MAX";
+            resources.ApplyResources(this.WPNAV_LOIT_SPEED, "WPNAV_LOIT_SPEED");
+            this.WPNAV_LOIT_SPEED.Name = "WPNAV_LOIT_SPEED";
             // 
             // label9
             // 
             resources.ApplyResources(this.label9, "label9");
             this.label9.Name = "label9";
             // 
-            // NAV_LAT_IMAX
+            // WPNAV_SPEED_DN
             // 
-            resources.ApplyResources(this.NAV_LAT_IMAX, "NAV_LAT_IMAX");
-            this.NAV_LAT_IMAX.Name = "NAV_LAT_IMAX";
+            resources.ApplyResources(this.WPNAV_SPEED_DN, "WPNAV_SPEED_DN");
+            this.WPNAV_SPEED_DN.Name = "WPNAV_SPEED_DN";
             // 
             // label13
             // 
             resources.ApplyResources(this.label13, "label13");
             this.label13.Name = "label13";
             // 
-            // NAV_LAT_I
+            // WPNAV_RADIUS
             // 
-            resources.ApplyResources(this.NAV_LAT_I, "NAV_LAT_I");
-            this.NAV_LAT_I.Name = "NAV_LAT_I";
+            resources.ApplyResources(this.WPNAV_RADIUS, "WPNAV_RADIUS");
+            this.WPNAV_RADIUS.Name = "WPNAV_RADIUS";
             // 
             // label15
             // 
             resources.ApplyResources(this.label15, "label15");
             this.label15.Name = "label15";
             // 
-            // NAV_LAT_P
+            // WPNAV_SPEED
             // 
-            resources.ApplyResources(this.NAV_LAT_P, "NAV_LAT_P");
-            this.NAV_LAT_P.Name = "NAV_LAT_P";
+            resources.ApplyResources(this.WPNAV_SPEED, "WPNAV_SPEED");
+            this.WPNAV_SPEED.Name = "WPNAV_SPEED";
             // 
             // label16
             // 
@@ -374,7 +374,6 @@
             resources.ApplyResources(this.groupBox6, "groupBox6");
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.TabStop = false;
-            
             // 
             // XTRK_GAIN_SC
             // 
@@ -397,7 +396,6 @@
             resources.ApplyResources(this.groupBox7, "groupBox7");
             this.groupBox7.Name = "groupBox7";
             this.groupBox7.TabStop = false;
-            
             // 
             // THR_ALT_IMAX
             // 
@@ -440,7 +438,6 @@
             resources.ApplyResources(this.groupBox19, "groupBox19");
             this.groupBox19.Name = "groupBox19";
             this.groupBox19.TabStop = false;
-            
             // 
             // HLD_LAT_IMAX
             // 
@@ -483,7 +480,6 @@
             resources.ApplyResources(this.groupBox20, "groupBox20");
             this.groupBox20.Name = "groupBox20";
             this.groupBox20.TabStop = false;
-            
             // 
             // STB_YAW_IMAX
             // 
@@ -526,7 +522,6 @@
             resources.ApplyResources(this.groupBox21, "groupBox21");
             this.groupBox21.Name = "groupBox21";
             this.groupBox21.TabStop = false;
-            
             // 
             // STB_PIT_IMAX
             // 
@@ -613,7 +608,6 @@
             resources.ApplyResources(this.groupBox23, "groupBox23");
             this.groupBox23.Name = "groupBox23";
             this.groupBox23.TabStop = false;
-            
             // 
             // RATE_YAW_D
             // 
@@ -668,7 +662,6 @@
             resources.ApplyResources(this.groupBox24, "groupBox24");
             this.groupBox24.Name = "groupBox24";
             this.groupBox24.TabStop = false;
-            
             // 
             // RATE_PIT_D
             // 
@@ -783,7 +776,6 @@
             resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
-            
             // 
             // LOITER_LAT_D
             // 
@@ -971,11 +963,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.THR_RATE_I)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.THR_RATE_P)).EndInit();
             this.groupBox4.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.NAV_LAT_D)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.WP_SPEED_MAX)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NAV_LAT_IMAX)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NAV_LAT_I)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NAV_LAT_P)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.WPNAV_SPEED_UP)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.WPNAV_LOIT_SPEED)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.WPNAV_SPEED_DN)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.WPNAV_RADIUS)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.WPNAV_SPEED)).EndInit();
             this.groupBox6.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.XTRK_GAIN_SC)).EndInit();
             this.groupBox7.ResumeLayout(false);
@@ -1048,15 +1040,15 @@
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.CheckBox CHK_lockrollpitch;
         private System.Windows.Forms.GroupBox groupBox4;
-        private System.Windows.Forms.NumericUpDown NAV_LAT_D;
+        private System.Windows.Forms.NumericUpDown WPNAV_SPEED_UP;
         private System.Windows.Forms.Label label27;
-        private System.Windows.Forms.NumericUpDown WP_SPEED_MAX;
+        private System.Windows.Forms.NumericUpDown WPNAV_LOIT_SPEED;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.NumericUpDown NAV_LAT_IMAX;
+        private System.Windows.Forms.NumericUpDown WPNAV_SPEED_DN;
         private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.NumericUpDown NAV_LAT_I;
+        private System.Windows.Forms.NumericUpDown WPNAV_RADIUS;
         private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.NumericUpDown NAV_LAT_P;
+        private System.Windows.Forms.NumericUpDown WPNAV_SPEED;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.GroupBox groupBox6;
         private System.Windows.Forms.NumericUpDown XTRK_GAIN_SC;

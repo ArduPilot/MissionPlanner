@@ -50,7 +50,9 @@ namespace ArdupilotMega.Controls
 
                 enableControl(true);
 
-                this.Text = paramlist[paramname].ToString();
+                var item = paramlist[paramname];
+
+                this.SelectedValue = paramlist[paramname].ToString();
             }
 
             base.SelectedIndexChanged += new EventHandler(MavlinkComboBox_SelectedIndexChanged);

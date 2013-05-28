@@ -150,6 +150,9 @@
     <Reference Include="Eto.Platform.Windows">
       <HintPath>..\..\..\..\..\Desktop\DIYDrones\Eto\BuildOutput\Debug\Eto.Platform.Windows.dll</HintPath>
     </Reference>
+    <Reference Include="Eto.Test">
+      <HintPath>..\..\..\..\..\Desktop\DIYDrones\Eto\BuildOutput\Debug\Eto.Test.dll</HintPath>
+    </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
     </Reference>
     <Reference Include="IronPython, Version=2.7.0.40, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">

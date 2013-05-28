@@ -191,6 +191,8 @@ namespace SharpKml.Dom.GX
 
             /// <summary>Gets the Vector value of this instance.</summary>
             /// <param name="x">The first value.</param>
+            /// <param name="y">The second value.</param>
+            /// <param name="z">The third value.</param>
             protected VectorElement(double x, double y, double z)
             {
                 _x = x;

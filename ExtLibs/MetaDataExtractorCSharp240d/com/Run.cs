@@ -149,14 +149,6 @@ namespace com
             }
             Console.ReadLine();
 
-            return;
-            
-
-
-
-
-
-
             if (someArgs.Length == 0)
             {
                 Console.Error.WriteLine("Use: MetaDataExtractor [FilePaths|DirectoryPaths] [noUnknown|asXml|asXml2|doSub]");

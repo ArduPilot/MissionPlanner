@@ -81,6 +81,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                     if (selection == 0)
                     {
                         CMB_batmonsensortype.Enabled = false;
+                        CMB_apmversion.Enabled = false;
                         groupBox4.Enabled = false;
                         MainV2.comPort.setParam("BATT_VOLT_PIN", -1);
                         MainV2.comPort.setParam("BATT_CURR_PIN", -1);
@@ -88,6 +89,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                     else if (selection == 4)
                     {
                         CMB_batmonsensortype.Enabled = true;
+                        CMB_apmversion.Enabled = true;
                         groupBox4.Enabled = true;
                         TXT_ampspervolt.Enabled = true;
                     }
@@ -95,8 +97,8 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                     {
                         groupBox4.Enabled = true;
                         CMB_batmonsensortype.Enabled = false;
+                        CMB_apmversion.Enabled = true;
                         TXT_ampspervolt.Enabled = false;
-                        TXT_inputvoltage.Enabled = true;
                         TXT_measuredvoltage.Enabled = true;
                         TXT_divider.Enabled = true;
                     }
@@ -106,28 +108,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             }
             catch { CustomMessageBox.Show("Set BATT_MONITOR,BATT_VOLT_PIN,BATT_CURR_PIN Failed"); }
         }
-        private void TXT_inputvoltage_Validating(object sender, CancelEventArgs e)
-        {
-            float ans = 0;
-            e.Cancel = !float.TryParse(TXT_inputvoltage.Text, out ans);
-        }
-        private void TXT_inputvoltage_Validated(object sender, EventArgs e)
-        {
-            if (startup || ((TextBox)sender).Enabled == false)
-                return;
-            try
-            {
-                if (MainV2.comPort.MAV.param["INPUT_VOLTS"] == null)
-                {
-                    CustomMessageBox.Show("Not Available");
-                }
-                else
-                {
-                    MainV2.comPort.setParam("INPUT_VOLTS", float.Parse(TXT_inputvoltage.Text));
-                }
-            }
-            catch { CustomMessageBox.Show("Set INPUT_VOLTS Failed"); }
-        }
+   
         private void TXT_measuredvoltage_Validating(object sender, CancelEventArgs e)
         {
             float ans = 0;
@@ -211,7 +192,6 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
         {
             int selection = int.Parse(CMB_batmonsensortype.Text.Substring(0, 1));
 
-
             if (selection == 1) // atto 45
             {
                 float maxvolt = 13.6f;
@@ -271,7 +251,6 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             TXT_divider.Enabled = true;
             TXT_ampspervolt.Enabled = true;
             TXT_measuredvoltage.Enabled = true;
-            TXT_inputvoltage.Enabled = true;
 
             // update
             TXT_ampspervolt_Validated(TXT_ampspervolt, null);
@@ -289,10 +268,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                 TXT_divider.Enabled = true;
                 TXT_ampspervolt.Enabled = true;
                 TXT_measuredvoltage.Enabled = true;
-                TXT_inputvoltage.Enabled = true;
             }
-
-            disableinstructionbox();
         }
 
         public void Deactivate()
@@ -303,7 +279,6 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
         public void Activate()
         {
             startup = true;
-            bool not_supported = false;
             if (MainV2.comPort.MAV.param["BATT_MONITOR"] != null)
             {
                 if (MainV2.comPort.MAV.param["BATT_MONITOR"].ToString() != "0.0")
@@ -314,27 +289,15 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
 
             if (MainV2.comPort.MAV.param["BATT_CAPACITY"] != null)
                 TXT_battcapacity.Text = MainV2.comPort.MAV.param["BATT_CAPACITY"].ToString();
-            if (MainV2.comPort.MAV.param["INPUT_VOLTS"] != null)
-                TXT_inputvoltage.Text = MainV2.comPort.MAV.param["INPUT_VOLTS"].ToString();
-            else
-                not_supported = true;
+
             TXT_voltage.Text = MainV2.comPort.MAV.cs.battery_voltage.ToString();
             TXT_measuredvoltage.Text = TXT_voltage.Text;
+
             if (MainV2.comPort.MAV.param["VOLT_DIVIDER"] != null)
                 TXT_divider.Text = MainV2.comPort.MAV.param["VOLT_DIVIDER"].ToString();
-            else
-                not_supported = true;
+
             if (MainV2.comPort.MAV.param["AMP_PER_VOLT"] != null)
                 TXT_ampspervolt.Text = MainV2.comPort.MAV.param["AMP_PER_VOLT"].ToString();
-            else
-                not_supported = true;
-            if (not_supported)
-            {
-                TXT_inputvoltage.Enabled = false;
-                TXT_measuredvoltage.Enabled = false;
-                TXT_divider.Enabled = false;
-                TXT_ampspervolt.Enabled = false;
-            }
 
             if (MainV2.config["speechbatteryenabled"] != null && MainV2.config["speechbatteryenabled"].ToString() == "True" && MainV2.config["speechenable"] != null && MainV2.config["speechenable"].ToString() == "True")
             {
@@ -345,21 +308,20 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                 CHK_speechbattery.Checked = false;
             }
             
-            // ignore language re . vs ,
-
-            if (TXT_ampspervolt.Text == (13.6612).ToString())
+            // determine the sensor type
+            if (TXT_ampspervolt.Text == (13.6612).ToString() && TXT_divider.Text == (4.127115).ToString())
             {
                 CMB_batmonsensortype.SelectedIndex = 1;
             }
-            else if (TXT_ampspervolt.Text == (27.3224).ToString())
+            else if (TXT_ampspervolt.Text == (27.3224).ToString() && TXT_divider.Text == (15.70105).ToString())
             {
                 CMB_batmonsensortype.SelectedIndex = 2;
             }
-            else if (TXT_ampspervolt.Text == (54.64481).ToString())
+            else if (TXT_ampspervolt.Text == (54.64481).ToString() && TXT_divider.Text == (15.70105).ToString())
             {
                 CMB_batmonsensortype.SelectedIndex = 3;
             }
-            else if (TXT_ampspervolt.Text == (18.0018).ToString())
+            else if (TXT_ampspervolt.Text == (18.0018).ToString() && TXT_divider.Text == (10).ToString())
             {
                 CMB_batmonsensortype.SelectedIndex = 4;
             }
@@ -368,6 +330,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                 CMB_batmonsensortype.SelectedIndex = 0;
             }
 
+            // determine the board type
             if (MainV2.comPort.MAV.param["BATT_VOLT_PIN"] != null)
             {
                 CMB_apmversion.Enabled = true;
@@ -447,26 +410,6 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             }
             catch { CustomMessageBox.Show("Set BATT_????_PIN Failed"); }
 
-            disableinstructionbox();
-        }
-
-        void disableinstructionbox()
-        {
-            try
-            {
-                if (int.Parse(CMB_apmversion.Text.Substring(0, 1)) == 2)
-                {
-                    if (int.Parse(CMB_batmonsensortype.Text.Substring(0, 1)) == 4)
-                    {
-                        textBox3.Visible = false;
-                    }
-                    else
-                    {
-                        textBox3.Visible = true;
-                    }
-                }
-            }
-            catch { }
         }
 
         private void CHK_speechbattery_CheckedChanged(object sender, EventArgs e)
@@ -484,21 +427,42 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                 string speechstring = "WARNING, Battery at {batv} Volt, {batp} percent";
                 if (MainV2.config["speechbattery"] != null)
                     speechstring = MainV2.config["speechbattery"].ToString();
-                Common.InputBox("Notification", "What do you want it to say?", ref speechstring);
+                if (System.Windows.Forms.DialogResult.Cancel == Common.InputBox("Notification", "What do you want it to say?", ref speechstring))
+                    return;
                 MainV2.config["speechbattery"] = speechstring;
 
                 speechstring = "9.6";
                 if (MainV2.config["speechbatteryvolt"] != null)
                     speechstring = MainV2.config["speechbatteryvolt"].ToString();
-                Common.InputBox("Battery Level", "What Voltage do you want to warn at?", ref speechstring);
+                if (System.Windows.Forms.DialogResult.Cancel == Common.InputBox("Battery Level", "What Voltage do you want to warn at?", ref speechstring))
+                    return;
                 MainV2.config["speechbatteryvolt"] = speechstring;
 
                 speechstring = "20";
                 if (MainV2.config["speechbatterypercent"] != null)
                     speechstring = MainV2.config["speechbatterypercent"].ToString();
-                Common.InputBox("Battery Level", "What percentage do you want to warn at?", ref speechstring);
+                if (System.Windows.Forms.DialogResult.Cancel == Common.InputBox("Battery Level", "What percentage do you want to warn at?", ref speechstring))
+                    return;
                 MainV2.config["speechbatterypercent"] = speechstring;
             }
+        }
+
+        private void TXT_measuredvoltage_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.KeyData == Keys.Enter)
+                TXT_measuredvoltage_Validated(sender, e);
+        }
+
+        private void TXT_ampspervolt_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.KeyData == Keys.Enter)
+                TXT_ampspervolt_Validated(sender, e);
+        }
+
+        private void TXT_divider_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        {
+            if (e.KeyData == Keys.Enter)
+                TXT_divider_Validated(sender, e);
         }
     }
 }
