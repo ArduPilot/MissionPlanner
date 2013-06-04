@@ -125,6 +125,7 @@
             this.createWpCircleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gridToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gridV2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cameraGridToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.areaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mapToolToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ContextMeasure = new System.Windows.Forms.ToolStripMenuItem();
@@ -853,6 +854,7 @@
             this.createWpCircleToolStripMenuItem,
             this.gridToolStripMenuItem,
             this.gridV2ToolStripMenuItem,
+            this.cameraGridToolStripMenuItem,
             this.areaToolStripMenuItem});
             this.autoWPToolStripMenuItem.Name = "autoWPToolStripMenuItem";
             resources.ApplyResources(this.autoWPToolStripMenuItem, "autoWPToolStripMenuItem");
@@ -874,6 +876,12 @@
             this.gridV2ToolStripMenuItem.Name = "gridV2ToolStripMenuItem";
             resources.ApplyResources(this.gridV2ToolStripMenuItem, "gridV2ToolStripMenuItem");
             this.gridV2ToolStripMenuItem.Click += new System.EventHandler(this.gridV2ToolStripMenuItem_Click);
+            // 
+            // cameraGridToolStripMenuItem
+            // 
+            this.cameraGridToolStripMenuItem.Name = "cameraGridToolStripMenuItem";
+            resources.ApplyResources(this.cameraGridToolStripMenuItem, "cameraGridToolStripMenuItem");
+            this.cameraGridToolStripMenuItem.Click += new System.EventHandler(this.cameraGridToolStripMenuItem_Click);
             // 
             // areaToolStripMenuItem
             // 
@@ -1136,6 +1144,7 @@
         private System.Windows.Forms.ToolStripMenuItem trackerHomeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem flyToHereToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem gridV2ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem cameraGridToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem reverseWPsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem loadAndAppendToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem savePolygonToolStripMenuItem;
