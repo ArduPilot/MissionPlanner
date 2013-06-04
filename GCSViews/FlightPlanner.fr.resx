@@ -309,6 +309,9 @@
   <data name="gridV2ToolStripMenuItem.Text" xml:space="preserve">
     <value>GridV2</value>
   </data>
+  <data name="cameraGridToolStripMenuItem.Text" xml:space="preserve">
+    <value>CameraGrid</value>
+  </data>
   <data name="jumpToolStripMenuItem.Text" xml:space="preserve">
     <value>Saut</value>
   </data>

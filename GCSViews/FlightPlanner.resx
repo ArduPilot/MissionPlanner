@@ -1512,6 +1512,12 @@
   <data name="gridV2ToolStripMenuItem.Text" xml:space="preserve">
     <value>GridV2</value>
   </data>
+  <data name="cameraGridToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>162, 22</value>
+  </data>
+  <data name="cameraGridToolStripMenuItem.Text" xml:space="preserve">
+    <value>CameraGrid</value>
+  </data>
   <data name="areaToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>162, 22</value>
   </data>
@@ -2187,6 +2193,12 @@
     <value>gridV2ToolStripMenuItem</value>
   </data>
   <data name="&gt;&gt;gridV2ToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;cameraGridToolStripMenuItem.Name" xml:space="preserve">
+    <value>cameraGridToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;cameraGridToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;areaToolStripMenuItem.Name" xml:space="preserve">
