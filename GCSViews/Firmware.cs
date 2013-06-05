@@ -262,7 +262,7 @@ namespace ArdupilotMega.GCSViews
 
         void updateDisplayName(software temp)
         {
-            if (temp.url2560.ToLower().Contains("AR2".ToLower()) || temp.url2560.ToLower().Contains("apm1/ArduRover".ToLower()))
+            if (temp.url2560.ToLower().Contains("AR2".ToLower()) || temp.url2560.ToLower().Contains("apm1/APMRover".ToLower()))
             {
                 pictureBoxRover.Text = temp.name;
                 pictureBoxRover.Tag = temp;

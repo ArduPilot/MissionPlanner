@@ -1758,12 +1758,12 @@ namespace ArdupilotMega.GCSViews
             }
             else
             {
-                foreach (Control temp in tabStatus.Controls)
-                {
+               // foreach (Control temp in tabStatus.Controls)
+               // {
                     //   temp.DataBindings.Clear();
                     //  temp.Dispose();
                     //  tabStatus.Controls.Remove(temp);
-                }
+               // }
 
                 if (tabControl1.SelectedTab == tabQuick)
                 {

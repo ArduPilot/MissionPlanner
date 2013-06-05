@@ -1109,6 +1109,7 @@ namespace ArdupilotMega.GCSViews
                     lbl_distance.Text = rm.GetString("lbl_distance.Text") + ": " + FormatDistance(polygon.Distance + homedist, false);
                 }
 
+                setgrad();
 
                 config(true);
             }
@@ -1119,6 +1120,23 @@ namespace ArdupilotMega.GCSViews
 
             System.Diagnostics.Debug.WriteLine(DateTime.Now);
         }
+
+        void setgrad()
+        {
+            int a =0;
+            PointLatLngAlt last = MainV2.comPort.MAV.cs.HomeLocation;
+            foreach (var lla in pointlist)
+            {
+                try
+                {
+                    Commands.Rows[int.Parse(lla.Tag)-1].Cells[Grad.Index].Value = (((lla.Alt - last.Alt) / lla.GetDistance(last)) * 100).ToString();
+                }
+                catch { }
+                    a++;
+                last = lla;
+            }
+        }
+
         /// <summary>
         /// Saves a waypoint writer file
         /// </summary>

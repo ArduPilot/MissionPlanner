@@ -11,15 +11,6 @@
       <Y>Long</Y>
       <Z>Alt</Z>
     </WAYPOINT>
-    <LOITER_UNLIM>
-      <P1></P1>
-      <P2></P2>
-      <P3></P3>
-      <P4></P4>
-      <X>Lat</X>
-      <Y>Long</Y>
-      <Z>Alt</Z>
-    </LOITER_UNLIM>
     <LOITER_TURNS>
       <P1>Turns</P1>
       <P2></P2>
@@ -74,15 +65,6 @@
       <Y>Long</Y>
       <Z>Alt</Z>
     </ROI>
-    <PATHPLANNING>
-      <P1></P1>
-      <P2></P2>
-      <P3></P3>
-      <P4></P4>
-      <X></X>
-      <Y></Y>
-      <Z></Z>
-    </PATHPLANNING>
     <CONDITION_DELAY>
       <P1>Time (sec)</P1>
       <P2></P2>
@@ -119,15 +101,6 @@
       <Y></Y>
       <Z></Z>
     </CONDITION_YAW>
-    <DO_SET_MODE>
-      <P1></P1>
-      <P2></P2>
-      <P3></P3>
-      <P4></P4>
-      <X></X>
-      <Y></Y>
-      <Z></Z>
-    </DO_SET_MODE>
     <DO_JUMP>
       <P1>WP #</P1>
       <P2>Repeat#</P2>
@@ -155,15 +128,6 @@
       <Y></Y>
       <Z></Z>
     </DO_SET_HOME>
-    <DO_SET_PARAMETER>
-      <P1>#</P1>
-      <P2>Value</P2>
-      <P3></P3>
-      <P4></P4>
-      <X></X>
-      <Y></Y>
-      <Z></Z>
-    </DO_SET_PARAMETER>
     <DO_SET_RELAY>
       <P1>off(0)/on(1)</P1>
       <P2>Delay (s)</P2>
@@ -200,15 +164,6 @@
       <Y></Y>
       <Z></Z>
     </DO_REPEAT_SERVO>
-    <DO_DIGICAM_CONFIGURE>
-      <P1></P1>
-      <P2></P2>
-      <P3></P3>
-      <P4></P4>
-      <X></X>
-      <Y></Y>
-      <Z></Z>
-    </DO_DIGICAM_CONFIGURE>
     <DO_DIGICAM_CONTROL>
       <P1></P1>
       <P2></P2>
@@ -218,15 +173,6 @@
       <Y></Y>
       <Z></Z>
     </DO_DIGICAM_CONTROL>
-    <DO_MOUNT_CONFIGURE>
-      <P1></P1>
-      <P2></P2>
-      <P3></P3>
-      <P4></P4>
-      <X></X>
-      <Y></Y>
-      <Z></Z>
-    </DO_MOUNT_CONFIGURE>
     <DO_MOUNT_CONTROL>
       <P1></P1>
       <P2></P2>
@@ -236,7 +182,6 @@
       <Y></Y>
       <Z></Z>
     </DO_MOUNT_CONTROL>
-
   </AC2>
   <!-- -->
   <APM>
