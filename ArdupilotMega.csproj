@@ -396,6 +396,12 @@
     <Compile Include="Controls\ProgressReporterDialogue.designer.cs">
       <DependentUpon>ProgressReporterDialogue.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ProgressStep.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\ProgressStep.Designer.cs">
+      <DependentUpon>ProgressStep.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\PseudoOpacityHelper.cs" />
     <Compile Include="Controls\QuickView.cs">
       <SubType>UserControl</SubType>
@@ -435,6 +441,12 @@
     </Compile>
     <Compile Include="Controls\ValuesControl.Designer.cs">
       <DependentUpon>ValuesControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Wizard\Wizard.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Wizard\Wizard.Designer.cs">
+      <DependentUpon>Wizard.cs</DependentUpon>
     </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigAC_Fence.cs">
       <SubType>UserControl</SubType>
@@ -485,6 +497,12 @@
     <Compile Include="Widgets\QuickView.Designer.cs">
       <DependentUpon>QuickView.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Controls\ProgressStep.resx">
+      <DependentUpon>ProgressStep.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\Wizard.resx">
+      <DependentUpon>Wizard.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAC_Fence.resx">
       <DependentUpon>ConfigAC_Fence.cs</DependentUpon>
     </EmbeddedResource>

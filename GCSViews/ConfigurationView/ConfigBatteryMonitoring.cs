@@ -348,6 +348,10 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                 {
                     CMB_apmversion.SelectedIndex = 2;
                 }
+                else if (value == 100) // px4
+                {
+                    CMB_apmversion.SelectedIndex = 3;
+                }
             }
             else
             {
@@ -406,6 +410,14 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                     //apm2.5
                     MainV2.comPort.setParam("BATT_VOLT_PIN", 13);
                     MainV2.comPort.setParam("BATT_CURR_PIN", 12);
+                }
+                else if (selection == 3)
+                {
+                    //px4
+                    MainV2.comPort.setParam("BATT_VOLT_PIN", 100);
+                    MainV2.comPort.setParam("BATT_CURR_PIN", 101);
+                    MainV2.comPort.setParam("VOLT_DIVIDER", 1);
+                    TXT_divider.Text = "1";
                 }
             }
             catch { CustomMessageBox.Show("Set BATT_????_PIN Failed"); }

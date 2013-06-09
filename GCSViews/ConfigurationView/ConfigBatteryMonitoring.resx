@@ -333,6 +333,9 @@
   <data name="CMB_apmversion.Items2" xml:space="preserve">
     <value>2: APM2.5 - 3DR Power Module</value>
   </data>
+  <data name="CMB_apmversion.Items3" xml:space="preserve">
+    <value>3: PX4</value>
+  </data>
   <data name="CMB_apmversion.Location" type="System.Drawing.Point, System.Drawing">
     <value>160, 95</value>
   </data>
