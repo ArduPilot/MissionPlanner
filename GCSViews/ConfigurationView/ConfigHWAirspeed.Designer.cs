@@ -1,0 +1,104 @@
+﻿namespace ArdupilotMega.GCSViews.ConfigurationView
+{
+    partial class ConfigHWAirspeed
+    {
+        /// <summary> 
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary> 
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Component Designer generated code
+
+        /// <summary> 
+        /// Required method for Designer support - do not modify 
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigHWAirspeed));
+            this.CHK_enableairspeed = new ArdupilotMega.Controls.MavlinkCheckBox();
+            this.pictureBox4 = new System.Windows.Forms.PictureBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.CHK_airspeeduse = new ArdupilotMega.Controls.MavlinkCheckBox();
+            this.label2 = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // CHK_enableairspeed
+            // 
+            resources.ApplyResources(this.CHK_enableairspeed, "CHK_enableairspeed");
+            this.CHK_enableairspeed.Name = "CHK_enableairspeed";
+            this.CHK_enableairspeed.OffValue = 0F;
+            this.CHK_enableairspeed.OnValue = 1F;
+            this.CHK_enableairspeed.param = null;
+            this.CHK_enableairspeed.ParamName = null;
+            this.CHK_enableairspeed.UseVisualStyleBackColor = true;
+            this.CHK_enableairspeed.CheckedChanged += new System.EventHandler(this.CHK_enableairspeed_CheckedChanged);
+            // 
+            // pictureBox4
+            // 
+            this.pictureBox4.BackColor = System.Drawing.Color.White;
+            this.pictureBox4.BackgroundImage = global::ArdupilotMega.Properties.Resources.airspeed;
+            resources.ApplyResources(this.pictureBox4, "pictureBox4");
+            this.pictureBox4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBox4.Name = "pictureBox4";
+            this.pictureBox4.TabStop = false;
+            // 
+            // groupBox3
+            // 
+            resources.ApplyResources(this.groupBox3, "groupBox3");
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.TabStop = false;
+            // 
+            // CHK_airspeeduse
+            // 
+            resources.ApplyResources(this.CHK_airspeeduse, "CHK_airspeeduse");
+            this.CHK_airspeeduse.Name = "CHK_airspeeduse";
+            this.CHK_airspeeduse.OffValue = 0F;
+            this.CHK_airspeeduse.OnValue = 1F;
+            this.CHK_airspeeduse.param = null;
+            this.CHK_airspeeduse.ParamName = null;
+            this.CHK_airspeeduse.UseVisualStyleBackColor = true;
+            // 
+            // label2
+            // 
+            resources.ApplyResources(this.label2, "label2");
+            this.label2.Name = "label2";
+            // 
+            // ConfigHWAirspeed
+            // 
+            resources.ApplyResources(this, "$this");
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.CHK_airspeeduse);
+            this.Controls.Add(this.CHK_enableairspeed);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.groupBox3);
+            this.Controls.Add(this.pictureBox4);
+            this.Name = "ConfigHWAirspeed";
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
+            this.ResumeLayout(false);
+
+        }
+
+        #endregion
+
+        private ArdupilotMega.Controls.MavlinkCheckBox CHK_enableairspeed;
+        private System.Windows.Forms.PictureBox pictureBox4;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private Controls.MavlinkCheckBox CHK_airspeeduse;
+        private System.Windows.Forms.Label label2;
+    }
+}

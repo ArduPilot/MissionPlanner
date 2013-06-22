@@ -1,0 +1,91 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
+using System.Data;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
+using ArdupilotMega.Controls.BackstageView;
+using ArdupilotMega.Controls;
+
+namespace ArdupilotMega.GCSViews.ConfigurationView
+{
+    public partial class ConfigHWSonar : UserControl, IActivate
+    {
+        bool startup = false;
+
+        const float rad2deg = (float)(180 / Math.PI);
+        const float deg2rad = (float)(1.0 / rad2deg);
+
+        public ConfigHWSonar()
+        {
+            InitializeComponent();
+        }
+
+      
+
+        private void CHK_enablesonar_CheckedChanged(object sender, EventArgs e)
+        {
+            if (startup)
+                return;
+            try
+            {
+                if (MainV2.comPort.MAV.param["SONAR_ENABLE"] == null)
+                {
+                    CustomMessageBox.Show("Not Available");
+                }
+                else
+                {
+                    MainV2.comPort.setParam("SONAR_ENABLE", ((CheckBox)sender).Checked == true ? 1 : 0);
+                }
+            }
+            catch { CustomMessageBox.Show("Set SONAR_ENABLE Failed"); }
+        }
+
+      
+        private void CMB_sonartype_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (startup)
+                return;
+            try
+            {
+                if (MainV2.comPort.MAV.param["SONAR_TYPE"] == null)
+                {
+                    CustomMessageBox.Show("Not Available on " + MainV2.comPort.MAV.cs.firmware.ToString());
+                }
+                else
+                {
+                    MainV2.comPort.setParam("SONAR_TYPE", ((ComboBox)sender).SelectedIndex);
+                }
+            }
+            catch { CustomMessageBox.Show("Set SONAR_TYPE Failed"); }
+        }
+
+        public void Activate()
+        {
+            if (!MainV2.comPort.BaseStream.IsOpen)
+            {
+                this.Enabled = false;
+                return;
+            }
+            else
+            {
+                this.Enabled = true;
+            }
+
+            startup = true;
+
+  
+            CHK_enablesonar.setup(1, 0, "SONAR_ENABLE", MainV2.comPort.MAV.param, CMB_sonartype);
+
+            if (MainV2.comPort.MAV.param["SONAR_TYPE"] != null)
+            {
+                CMB_sonartype.SelectedIndex = int.Parse(MainV2.comPort.MAV.param["SONAR_TYPE"].ToString());
+            }
+
+            startup = false;
+        }
+
+    }
+}
