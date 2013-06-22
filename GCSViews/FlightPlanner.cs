@@ -342,7 +342,7 @@ namespace ArdupilotMega.GCSViews
         /// <param name="lat"></param>
         /// <param name="lng"></param>
         /// <param name="alt"></param>
-        public void callMe(double lat, double lng, int alt)
+        public void AddWPToMap(double lat, double lng, int alt)
         {
             if (polygongridmode)
             {
@@ -420,7 +420,7 @@ namespace ArdupilotMega.GCSViews
 
             // get zoom  
             trackBar1.Minimum = MainMap.MinZoom;
-            trackBar1.Maximum = MainMap.MaxZoom + 0.99;
+            trackBar1.Maximum = MainMap.MaxZoom + 0.99f;
 
             // draw this layer first
             kmlpolygons = new GMapOverlay(MainMap, "kmlpolygons");
@@ -1120,7 +1120,6 @@ namespace ArdupilotMega.GCSViews
 
             System.Diagnostics.Debug.WriteLine(DateTime.Now);
         }
-
         void setgrad()
         {
             int a =0;
@@ -1136,7 +1135,6 @@ namespace ArdupilotMega.GCSViews
                 last = lla;
             }
         }
-
         /// <summary>
         /// Saves a waypoint writer file
         /// </summary>
@@ -2052,7 +2050,7 @@ namespace ArdupilotMega.GCSViews
             comboBoxMapType.SelectedItem = MainMap.MapType;
 
             trackBar1.Minimum = MainMap.MinZoom;
-            trackBar1.Maximum = MainMap.MaxZoom + 0.99;
+            trackBar1.Maximum = MainMap.MaxZoom + 0.99f;
 
             MainMap.ZoomAndCenterMarkers("objects");
 
@@ -2093,7 +2091,7 @@ namespace ArdupilotMega.GCSViews
                     }
                     else
                     {
-                        callMe(currentMarker.Position.Lat, currentMarker.Position.Lng, 0);
+                        AddWPToMap(currentMarker.Position.Lat, currentMarker.Position.Lng, 0);
                     }
                 }
                 else
@@ -3679,7 +3677,7 @@ namespace ArdupilotMega.GCSViews
                 {
                     if (MainMap.Manager.GetDistance(closest.p1, lastpnt) < MainMap.Manager.GetDistance(closest.p2, lastpnt))
                     {
-                        callMe(closest.p1.Lat, closest.p1.Lng, altitude);
+                        AddWPToMap(closest.p1.Lat, closest.p1.Lng, altitude);
 
                         if (wpevery > 0)
                         {
@@ -3691,14 +3689,14 @@ namespace ArdupilotMega.GCSViews
                                 double ay = closest.p1.Lng;
 
                                 newpos(ref ax, ref ay, double.Parse(angle), d);
-                                callMe(ax, ay, altitude);
+                                AddWPToMap(ax, ay, altitude);
 
                                 if (shutter.ToLower().StartsWith("y"))
                                     AddDigicamControlPhoto();
                             }
                         }
 
-                        callMe(closest.p2.Lat, closest.p2.Lng, altitude);
+                        AddWPToMap(closest.p2.Lat, closest.p2.Lng, altitude);
 
                         lastpnt = closest.p2;
 
@@ -3709,7 +3707,7 @@ namespace ArdupilotMega.GCSViews
                     }
                     else
                     {
-                        callMe(closest.p2.Lat, closest.p2.Lng, altitude);
+                        AddWPToMap(closest.p2.Lat, closest.p2.Lng, altitude);
 
                         if (wpevery > 0)
                         {
@@ -3721,14 +3719,14 @@ namespace ArdupilotMega.GCSViews
                                 double ay = closest.p2.Lng;
 
                                 newpos(ref ax, ref ay, double.Parse(angle), -d);
-                                callMe(ax, ay, altitude);
+                                AddWPToMap(ax, ay, altitude);
 
                                 if (shutter.ToLower().StartsWith("y"))
                                     AddDigicamControlPhoto();
                             }
                         }
 
-                        callMe(closest.p1.Lat, closest.p1.Lng, altitude);
+                        AddWPToMap(closest.p1.Lat, closest.p1.Lng, altitude);
 
                         lastpnt = closest.p1;
 
@@ -3827,17 +3825,17 @@ namespace ArdupilotMega.GCSViews
 
 
                 string alt = (100 * MainV2.comPort.MAV.cs.multiplierdist).ToString("0");
-                Common.InputBox("Altitude", "Relative Altitude", ref alt);
+                if (System.Windows.Forms.DialogResult.Cancel == Common.InputBox("Altitude", "Relative Altitude", ref alt)) return;
 
 
                 string distance = (50 * MainV2.comPort.MAV.cs.multiplierdist).ToString("0");
-                Common.InputBox("Distance", "Distance between lines", ref distance);
+                if (System.Windows.Forms.DialogResult.Cancel == Common.InputBox("Distance", "Distance between lines", ref distance)) return;
 
                 string wpevery = (40 * MainV2.comPort.MAV.cs.multiplierdist).ToString("0");
-                Common.InputBox("Every", "Put a WP every x distance (-1 for none)", ref wpevery);
+                if (System.Windows.Forms.DialogResult.Cancel == Common.InputBox("Every", "Put a WP every x distance (-1 for none)", ref wpevery)) return;
 
                 string angle = (90).ToString("0");
-                Common.InputBox("Angle", "Enter the line direction (0-180)", ref angle);
+                if (System.Windows.Forms.DialogResult.Cancel == Common.InputBox("Angle", "Enter the line direction (0-180)", ref angle) ) return;
 
                 double tryme = 0;
 
@@ -3974,7 +3972,7 @@ namespace ArdupilotMega.GCSViews
 
                         if (!farestlatlong.IsZero)
                         {
-                            callMe(farestlatlong.Lat, farestlatlong.Lng, altitude);
+                            AddWPToMap(farestlatlong.Lat, farestlatlong.Lng, altitude);
                         }
                         if (!closestlatlong.IsZero && !farestlatlong.IsZero && double.Parse(wpevery) > 0)
                         {
@@ -3984,12 +3982,12 @@ namespace ArdupilotMega.GCSViews
                                 ay = farestlatlong.Lng;
 
                                 newpos(ref ax, ref ay, double.Parse(angle), -d);
-                                callMe(ax, ay, altitude);
+                                AddWPToMap(ax, ay, altitude);
                             }
                         }
                         if (!closestlatlong.IsZero)
                         {
-                            callMe(closestlatlong.Lat, closestlatlong.Lng - overshootdistlng, altitude);
+                            AddWPToMap(closestlatlong.Lat, closestlatlong.Lng - overshootdistlng, altitude);
                         }
 
                         //callMe(x, topright.Lng, altitude);
@@ -4030,7 +4028,7 @@ namespace ArdupilotMega.GCSViews
                         }
                         if (!closestlatlong.IsZero)
                         {
-                            callMe(closestlatlong.Lat, closestlatlong.Lng, altitude);
+                            AddWPToMap(closestlatlong.Lat, closestlatlong.Lng, altitude);
                         }
                         if (!closestlatlong.IsZero && !farestlatlong.IsZero && double.Parse(wpevery) > 0)
                         {
@@ -4040,12 +4038,12 @@ namespace ArdupilotMega.GCSViews
                                 ay = closestlatlong.Lng;
 
                                 newpos(ref ax, ref ay, double.Parse(angle), d);
-                                callMe(ax, ay, altitude);
+                                AddWPToMap(ax, ay, altitude);
                             }
                         }
                         if (!farestlatlong.IsZero)
                         {
-                            callMe(farestlatlong.Lat, farestlatlong.Lng + overshootdistlng, altitude);
+                            AddWPToMap(farestlatlong.Lat, farestlatlong.Lng + overshootdistlng, altitude);
                         }
                         //callMe(x, bottomleft.Lng, altitude);
                         //callMe(x, topright.Lng + overshootdistlng, altitude);

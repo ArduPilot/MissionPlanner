@@ -29,9 +29,26 @@ namespace ArdupilotMega.Controls.BackstageView
         private const int ButtonSpacing = 30;
         private const int ButtonHeight = 30;
 
+        private List<BackstageViewPage> expanded = new List<BackstageViewPage>();
+
         public BackstageViewPage SelectedPage { get { return _activePage; } }
         
         public List<BackstageViewPage> Pages { get { return _items.OfType<BackstageViewPage>().ToList(); } }
+
+        public int WidthMenu
+        {
+            get 
+            { 
+                return pnlMenu.Width;
+            }
+            set
+            {
+                int delta = value - pnlMenu.Width; 
+                pnlMenu.Width = value;
+                pnlPages.Location = new Point(pnlPages.Location.X + delta, pnlPages.Location.Y);
+                pnlPages.Width -= delta;
+            }
+        }
 
         private BackstageViewPage popoutPage = null;
 
@@ -160,9 +177,9 @@ namespace ArdupilotMega.Controls.BackstageView
                            };
 
             _items.Add(page);
-         
+
             //CreateLinkButton(page);
-            DrawMenu(page);
+            //DrawMenu(page);
 
             page.Page.Visible = false;
             
@@ -170,9 +187,9 @@ namespace ArdupilotMega.Controls.BackstageView
 
             if (_activePage == null)
             {
-                _activePage = page;
+              //  _activePage = page;
 
-                ActivatePage(page);
+             //   ActivatePage(page);
             }
 
             return page;
@@ -193,11 +210,11 @@ namespace ArdupilotMega.Controls.BackstageView
 
             if (haschild)
             {
-                label = "> " + label;
+                label = ">> " + label;
             }
             if (child)
             {
-                label = "+ " + label;
+                label = "      " + label;
             }
 
             var lnkButton = new BackstageViewButton
@@ -224,10 +241,15 @@ namespace ArdupilotMega.Controls.BackstageView
             ButtonTopPos += lnkButton.Height;
         }
 
-        private void DrawMenu(BackstageViewPage CurrentPage)
+        private void DrawMenu(BackstageViewPage CurrentPage, bool force = false)
         {
-            if (_activePage == CurrentPage)
-                return;
+            if (!force)
+            {
+                if (_activePage == CurrentPage || CurrentPage == null)
+                {
+                    return;
+                }
+            }
 
             pnlMenu.Visible = false;
             pnlMenu.SuspendLayout();
@@ -248,21 +270,37 @@ namespace ArdupilotMega.Controls.BackstageView
 
                         CreateLinkButton((BackstageViewPage)page, children);
 
-                        // check for children
-                        foreach (BackstageViewItem parentpage in _items)
+                        // remember whats expanded
+                        if (CurrentPage == page && children)
                         {
-                            if (parentpage.GetType() == typeof(BackstageViewPage))
+                            if (expanded.Contains((BackstageViewPage)page))
                             {
-                                if (((BackstageViewPage)parentpage).Parent == ((BackstageViewPage)page))
+                                expanded.Remove((BackstageViewPage)page);
+                            }
+                            else
+                            {
+                                expanded.Add((BackstageViewPage)page);
+                            }
+                        }
+
+                        // check for children
+                        foreach (BackstageViewItem childrenpage in _items)
+                        {
+                            if (childrenpage.GetType() == typeof(BackstageViewPage))
+                            {
+                                if (((BackstageViewPage)childrenpage).Parent == ((BackstageViewPage)page))
                                 {
-                                    // draw all the siblings
-                                    if (((BackstageViewPage)parentpage).Parent == CurrentPage)
+                                    // check if current page has a parent thats not expanded
+                                    if (CurrentPage == childrenpage && !expanded.Contains((BackstageViewPage)page))
                                     {
-                                        CreateLinkButton((BackstageViewPage)parentpage,false,true);
+                                        expanded.Add((BackstageViewPage)page);
+                                        DrawMenu(CurrentPage,true);
+                                        return;
                                     }
-                                    if (((BackstageViewPage)parentpage).Parent == CurrentPage.Parent)
+                                    // draw all the siblings
+                                    if (expanded.Contains((BackstageViewPage)page))
                                     {
-                                        CreateLinkButton((BackstageViewPage)parentpage,false,true);
+                                        CreateLinkButton((BackstageViewPage)childrenpage, false, true);
                                     }
                                 }
                             }
@@ -374,10 +412,13 @@ namespace ArdupilotMega.Controls.BackstageView
 
         public void ActivatePage(BackstageViewPage associatedPage)
         {
-            DrawMenu(associatedPage);
+            if (associatedPage == null)
+                return;
+
+            DrawMenu(associatedPage , false);
 
             // Deactivate old page
-            if (_activePage.Page is IDeactivate)
+            if (_activePage != null && _activePage.Page is IDeactivate)
             {
                 ((IDeactivate)(_activePage.Page)).Deactivate();
             }
@@ -389,7 +430,9 @@ namespace ArdupilotMega.Controls.BackstageView
                 p.Page.Visible = false;
 
             // deactivate button
-            _activePage.Page.Visible = false;
+            if (_activePage != null)
+                _activePage.Page.Visible = false;
+
             try
             { // if the button was on an expanded tab. when we leave it no longer exits
                 var oldButton = this.pnlMenu.Controls.OfType<BackstageViewButton>().Single(b => b.Tag == _activePage);
@@ -409,9 +452,13 @@ namespace ArdupilotMega.Controls.BackstageView
 
             // show it
             associatedPage.Page.Visible = true;
-            
-            var newButton = this.pnlMenu.Controls.OfType<BackstageViewButton>().Single(b => b.Tag == associatedPage);
-            newButton.IsSelected = true;
+
+            try
+            {
+                var newButton = this.pnlMenu.Controls.OfType<BackstageViewButton>().Single(b => b.Tag == associatedPage);
+                newButton.IsSelected = true;
+            }
+            catch { }
 
             _activePage = associatedPage;
         }
@@ -470,7 +517,7 @@ namespace ArdupilotMega.Controls.BackstageView
         /// </summary>
         public class BackstageViewPage : BackstageViewItem
         {
-            public BackstageViewPage(UserControl page, string linkText, BackstageViewPage parent)
+            public BackstageViewPage(UserControl page, string linkText, BackstageViewPage parent = null)
             {
                 Page = page;
                 LinkText = linkText;

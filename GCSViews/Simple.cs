@@ -254,7 +254,7 @@ namespace ArdupilotMega.GCSViews
 
         void gMapControl1_OnMapZoomChanged()
         {
-            TRK_zoom.Value = gMapControl1.Zoom;
+            TRK_zoom.Value = (float)gMapControl1.Zoom;
             Zoomlevel.Value = Convert.ToDecimal(gMapControl1.Zoom);
         }
 
@@ -271,7 +271,7 @@ namespace ArdupilotMega.GCSViews
 
             TRK_zoom.Minimum = gMapControl1.MinZoom;
             TRK_zoom.Maximum = gMapControl1.MaxZoom + 1;
-            TRK_zoom.Value = gMapControl1.Zoom;
+            TRK_zoom.Value = (float)gMapControl1.Zoom;
 
             Zoomlevel.Minimum = gMapControl1.MinZoom;
             Zoomlevel.Maximum = gMapControl1.MaxZoom + 1;

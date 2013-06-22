@@ -78,7 +78,6 @@
             // panel1
             // 
             resources.ApplyResources(this.panel1, "panel1");
-            this.panel1.MinimumSize = new System.Drawing.Size(781, 433);
             this.panel1.Name = "panel1";
             // 
             // label1

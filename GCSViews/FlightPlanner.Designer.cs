@@ -894,14 +894,12 @@
             // trackBar1
             // 
             resources.ApplyResources(this.trackBar1, "trackBar1");
-            this.trackBar1.LargeChange = 50;
-            this.trackBar1.Maximum = 19D;
-            this.trackBar1.Minimum = 1D;
+            this.trackBar1.Maximum = 19f;
+            this.trackBar1.Minimum = 1f;
             this.trackBar1.Name = "trackBar1";
-            this.trackBar1.SmallChange = 50;
-            this.trackBar1.TickFrequency = 100;
+            this.trackBar1.TickFrequency = 1;
             this.trackBar1.TickStyle = System.Windows.Forms.TickStyle.TopLeft;
-            this.trackBar1.Value = 2D;
+            this.trackBar1.Value = 2f;
             this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
             // 
             // label11

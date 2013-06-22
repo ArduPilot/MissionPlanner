@@ -28,7 +28,7 @@ namespace ArdupilotMega.Controls
           {
               comboBox1.SelectedValue = value;
               if (ValueChanged != null)
-                  ValueChanged(Name, Value);
+                  ValueChanged(this,Name, Value);
           }
       }
 
@@ -48,7 +48,7 @@ namespace ArdupilotMega.Controls
       private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
       {
           if (ValueChanged != null)
-              ValueChanged(Name, Value);
+              ValueChanged(this,Name, Value);
       }
 
       public void DeAttachEvents()

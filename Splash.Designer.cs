@@ -38,7 +38,7 @@
             this.label1.AutoSize = true;
             this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Font = new System.Drawing.Font("Century Gothic", 8F, System.Drawing.FontStyle.Bold);
-            this.label1.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.label1.ForeColor = System.Drawing.Color.OliveDrab;
             this.label1.Location = new System.Drawing.Point(447, 132);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(111, 15);
@@ -50,6 +50,7 @@
             // 
             this.TXT_version.BackColor = System.Drawing.Color.Transparent;
             this.TXT_version.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TXT_version.ForeColor = System.Drawing.Color.White;
             this.TXT_version.Location = new System.Drawing.Point(403, 107);
             this.TXT_version.Name = "TXT_version";
             this.TXT_version.Size = new System.Drawing.Size(155, 25);
@@ -60,9 +61,9 @@
             // Splash
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
+            this.BackgroundImage = global::ArdupilotMega.Properties.Resources.splashdark;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.ClientSize = new System.Drawing.Size(594, 347);
+            this.ClientSize = new System.Drawing.Size(584, 337);
             this.ControlBox = false;
             this.Controls.Add(this.TXT_version);
             this.Controls.Add(this.label1);

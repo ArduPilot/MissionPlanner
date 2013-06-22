@@ -55,6 +55,11 @@ namespace ArdupilotMega
             }
             else if (device == uploader.Uploader.Code.DEVICE_ID_RFD900A)
             {
+                int fixme;
+                int fixme23;
+
+              //  return Common.getFilefromNet("http://rfdesign.com.au/firmware/MPSiK%20V2.2%20radio~rfd900a.ihx", firmwarefile);
+
                 return Common.getFilefromNet("http://rfdesign.com.au/firmware/radio.rfd900a.hex", firmwarefile);
             }
             else
@@ -517,6 +522,8 @@ namespace ArdupilotMega
 
                             if (controls.Length > 0)
                             {
+                                controls[0].Enabled = true;
+
                                 if (controls[0].GetType() == typeof(CheckBox))
                                 {
                                     ((CheckBox)controls[0]).Checked = values[2].Trim() == "1";
@@ -558,6 +565,8 @@ namespace ArdupilotMega
 
                             if (controls.Length == 0)
                                 continue;
+
+                            controls[0].Enabled = true;
 
                             if (controls[0].GetType() == typeof(CheckBox))
                             {
@@ -664,6 +673,15 @@ namespace ArdupilotMega
             }
 
             log.Info("responce " + level + " " + ans.Replace('\0', ' '));
+
+            Regex pattern = new Regex(@"^\[([0-9+])\]\s+",RegexOptions.Multiline);
+
+            if (pattern.IsMatch(ans))
+            {
+                Match mat = pattern.Match(ans);
+
+                ans = pattern.Replace(ans,"");
+            }
 
             // try again
             if (ans == "" && level == 0)

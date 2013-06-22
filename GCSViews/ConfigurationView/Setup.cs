@@ -85,7 +85,7 @@ If you are just setting up 3DR radios, you may continue without connecting.");
                 {
                     AddBackstageViewPage(new ConfigAccelerometerCalibrationQuad(), "ArduCopter Level");
                 }
-                hardware = AddBackstageViewPage(new ConfigHardwareOptions(), "Hardware Options");
+                hardware = AddBackstageViewPage(new ConfigHWCompass(), "Hardware Options");
                 AddBackstageViewPage(new ConfigBatteryMonitoring(), "Battery Monitor", hardware);
             }
 

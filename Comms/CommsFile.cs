@@ -37,7 +37,7 @@ namespace ArdupilotMega.Comms
         // Properties
         public Stream BaseStream { get; private set; }
         public int BaudRate { get; set; }
-        public int BytesToRead { get { return (int)(BaseStream.Length - BaseStream.Position); } }
+        public int BytesToRead { get { if (!BaseStream.CanRead) return 0; return (int)(BaseStream.Length - BaseStream.Position); } }
         public int BytesToWrite { get; set; }
         public int DataBits  { get; set; }
         public bool DtrEnable { get; set; }

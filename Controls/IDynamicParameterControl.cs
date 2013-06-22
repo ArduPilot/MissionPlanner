@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ArdupilotMega.Controls
 {
-    public delegate void EventValueChanged(string Name, string Value);
+    public delegate void EventValueChanged(object sender, string Name, string Value);
 
    public interface IDynamicParameterControl
    {

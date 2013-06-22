@@ -50,6 +50,7 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
 
            // Console.ReadLine();
            // return;
+
             /*
             Arduino.ArduinoSTKv2 comport = new Arduino.ArduinoSTKv2();
 
@@ -114,9 +115,12 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
             /*
             MAVLink mav = new MAVLink();
 
-            mav.BaseStream = new Comms.CommsFile() { PortName = @"C:\Users\hog\Documents\Visual Studio 2010\Projects\ArdupilotMega\ArdupilotMega\bin\Debug\logs\2012-09-09 15-07-25.tlog" };
+            mav.BaseStream = new Comms.CommsFile() 
+            {
+                PortName = @"C:\Users\hog\AppData\Roaming\Skype\My Skype Received Files\2013-06-12 15-11-00.tlog"
+            };
 
-            mav.Open(true);
+            mav.Open(false);
 
             while (mav.BaseStream.BytesToRead > 0)
             {
@@ -127,7 +131,7 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
             }
             */
 
-
+           // return;
           //  OSDVideo vid = new OSDVideo();
 
          //   vid.ShowDialog();

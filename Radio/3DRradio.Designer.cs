@@ -67,6 +67,9 @@
             this.RS8 = new System.Windows.Forms.ComboBox();
             this.RS9 = new System.Windows.Forms.ComboBox();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.S15 = new System.Windows.Forms.ComboBox();
+            this.S16 = new System.Windows.Forms.ComboBox();
+            this.S18 = new System.Windows.Forms.ComboBox();
             this.RS0 = new System.Windows.Forms.TextBox();
             this.RTI = new System.Windows.Forms.TextBox();
             this.ATI = new System.Windows.Forms.TextBox();
@@ -95,6 +98,9 @@
             this.label31 = new System.Windows.Forms.Label();
             this.label32 = new System.Windows.Forms.Label();
             this.SPLIT_local = new System.Windows.Forms.SplitContainer();
+            this.label33 = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
             this.SPLIT_remote = new System.Windows.Forms.SplitContainer();
             this.CHK_advanced = new System.Windows.Forms.CheckBox();
             this.BUT_Syncoptions = new ArdupilotMega.Controls.MyButton();
@@ -121,6 +127,7 @@
             // 
             // S1
             // 
+            resources.ApplyResources(this.S1, "S1");
             this.S1.FormattingEnabled = true;
             this.S1.Items.AddRange(new object[] {
             resources.GetString("S1.Items"),
@@ -132,7 +139,6 @@
             resources.GetString("S1.Items6"),
             resources.GetString("S1.Items7"),
             resources.GetString("S1.Items8")});
-            resources.ApplyResources(this.S1, "S1");
             this.S1.Name = "S1";
             this.toolTip1.SetToolTip(this.S1, resources.GetString("S1.ToolTip"));
             // 
@@ -159,6 +165,7 @@
             // 
             // S2
             // 
+            resources.ApplyResources(this.S2, "S2");
             this.S2.FormattingEnabled = true;
             this.S2.Items.AddRange(new object[] {
             resources.GetString("S2.Items"),
@@ -174,7 +181,6 @@
             resources.GetString("S2.Items10"),
             resources.GetString("S2.Items11"),
             resources.GetString("S2.Items12")});
-            resources.ApplyResources(this.S2, "S2");
             this.S2.Name = "S2";
             this.toolTip1.SetToolTip(this.S2, resources.GetString("S2.ToolTip"));
             // 
@@ -185,6 +191,7 @@
             // 
             // S3
             // 
+            resources.ApplyResources(this.S3, "S3");
             this.S3.FormattingEnabled = true;
             this.S3.Items.AddRange(new object[] {
             resources.GetString("S3.Items"),
@@ -217,7 +224,6 @@
             resources.GetString("S3.Items27"),
             resources.GetString("S3.Items28"),
             resources.GetString("S3.Items29")});
-            resources.ApplyResources(this.S3, "S3");
             this.S3.Name = "S3";
             this.toolTip1.SetToolTip(this.S3, resources.GetString("S3.ToolTip"));
             // 
@@ -228,6 +234,7 @@
             // 
             // S4
             // 
+            resources.ApplyResources(this.S4, "S4");
             this.S4.FormattingEnabled = true;
             this.S4.Items.AddRange(new object[] {
             resources.GetString("S4.Items"),
@@ -238,7 +245,6 @@
             resources.GetString("S4.Items5"),
             resources.GetString("S4.Items6"),
             resources.GetString("S4.Items7")});
-            resources.ApplyResources(this.S4, "S4");
             this.S4.Name = "S4";
             this.toolTip1.SetToolTip(this.S4, resources.GetString("S4.ToolTip"));
             // 
@@ -295,6 +301,7 @@
             // 
             // RS4
             // 
+            resources.ApplyResources(this.RS4, "RS4");
             this.RS4.FormattingEnabled = true;
             this.RS4.Items.AddRange(new object[] {
             resources.GetString("RS4.Items"),
@@ -305,12 +312,12 @@
             resources.GetString("RS4.Items5"),
             resources.GetString("RS4.Items6"),
             resources.GetString("RS4.Items7")});
-            resources.ApplyResources(this.RS4, "RS4");
             this.RS4.Name = "RS4";
             this.toolTip1.SetToolTip(this.RS4, resources.GetString("RS4.ToolTip"));
             // 
             // RS3
             // 
+            resources.ApplyResources(this.RS3, "RS3");
             this.RS3.FormattingEnabled = true;
             this.RS3.Items.AddRange(new object[] {
             resources.GetString("RS3.Items"),
@@ -343,12 +350,12 @@
             resources.GetString("RS3.Items27"),
             resources.GetString("RS3.Items28"),
             resources.GetString("RS3.Items29")});
-            resources.ApplyResources(this.RS3, "RS3");
             this.RS3.Name = "RS3";
             this.toolTip1.SetToolTip(this.RS3, resources.GetString("RS3.ToolTip"));
             // 
             // RS2
             // 
+            resources.ApplyResources(this.RS2, "RS2");
             this.RS2.FormattingEnabled = true;
             this.RS2.Items.AddRange(new object[] {
             resources.GetString("RS2.Items"),
@@ -364,12 +371,12 @@
             resources.GetString("RS2.Items10"),
             resources.GetString("RS2.Items11"),
             resources.GetString("RS2.Items12")});
-            resources.ApplyResources(this.RS2, "RS2");
             this.RS2.Name = "RS2";
             this.toolTip1.SetToolTip(this.RS2, resources.GetString("RS2.ToolTip"));
             // 
             // RS1
             // 
+            resources.ApplyResources(this.RS1, "RS1");
             this.RS1.FormattingEnabled = true;
             this.RS1.Items.AddRange(new object[] {
             resources.GetString("RS1.Items"),
@@ -381,7 +388,6 @@
             resources.GetString("RS1.Items6"),
             resources.GetString("RS1.Items7"),
             resources.GetString("RS1.Items8")});
-            resources.ApplyResources(this.RS1, "RS1");
             this.RS1.Name = "RS1";
             this.toolTip1.SetToolTip(this.RS1, resources.GetString("RS1.ToolTip"));
             // 
@@ -394,6 +400,7 @@
             // 
             // S10
             // 
+            resources.ApplyResources(this.S10, "S10");
             this.S10.FormattingEnabled = true;
             this.S10.Items.AddRange(new object[] {
             resources.GetString("S10.Items"),
@@ -415,12 +422,12 @@
             resources.GetString("S10.Items16"),
             resources.GetString("S10.Items17"),
             resources.GetString("S10.Items18")});
-            resources.ApplyResources(this.S10, "S10");
             this.S10.Name = "S10";
             this.toolTip1.SetToolTip(this.S10, resources.GetString("S10.ToolTip"));
             // 
             // S11
             // 
+            resources.ApplyResources(this.S11, "S11");
             this.S11.FormattingEnabled = true;
             this.S11.Items.AddRange(new object[] {
             resources.GetString("S11.Items"),
@@ -433,32 +440,32 @@
             resources.GetString("S11.Items7"),
             resources.GetString("S11.Items8"),
             resources.GetString("S11.Items9")});
-            resources.ApplyResources(this.S11, "S11");
             this.S11.Name = "S11";
             this.toolTip1.SetToolTip(this.S11, resources.GetString("S11.ToolTip"));
             // 
             // S12
             // 
+            resources.ApplyResources(this.S12, "S12");
             this.S12.FormattingEnabled = true;
             this.S12.Items.AddRange(new object[] {
             resources.GetString("S12.Items"),
             resources.GetString("S12.Items1")});
-            resources.ApplyResources(this.S12, "S12");
             this.S12.Name = "S12";
             this.toolTip1.SetToolTip(this.S12, resources.GetString("S12.ToolTip"));
             // 
             // RS12
             // 
+            resources.ApplyResources(this.RS12, "RS12");
             this.RS12.FormattingEnabled = true;
             this.RS12.Items.AddRange(new object[] {
             resources.GetString("RS12.Items"),
             resources.GetString("RS12.Items1")});
-            resources.ApplyResources(this.RS12, "RS12");
             this.RS12.Name = "RS12";
             this.toolTip1.SetToolTip(this.RS12, resources.GetString("RS12.ToolTip"));
             // 
             // RS11
             // 
+            resources.ApplyResources(this.RS11, "RS11");
             this.RS11.FormattingEnabled = true;
             this.RS11.Items.AddRange(new object[] {
             resources.GetString("RS11.Items"),
@@ -471,12 +478,12 @@
             resources.GetString("RS11.Items7"),
             resources.GetString("RS11.Items8"),
             resources.GetString("RS11.Items9")});
-            resources.ApplyResources(this.RS11, "RS11");
             this.RS11.Name = "RS11";
             this.toolTip1.SetToolTip(this.RS11, resources.GetString("RS11.ToolTip"));
             // 
             // RS10
             // 
+            resources.ApplyResources(this.RS10, "RS10");
             this.RS10.FormattingEnabled = true;
             this.RS10.Items.AddRange(new object[] {
             resources.GetString("RS10.Items"),
@@ -498,12 +505,12 @@
             resources.GetString("RS10.Items16"),
             resources.GetString("RS10.Items17"),
             resources.GetString("RS10.Items18")});
-            resources.ApplyResources(this.RS10, "RS10");
             this.RS10.Name = "RS10";
             this.toolTip1.SetToolTip(this.RS10, resources.GetString("RS10.ToolTip"));
             // 
             // S9
             // 
+            resources.ApplyResources(this.S9, "S9");
             this.S9.FormattingEnabled = true;
             this.S9.Items.AddRange(new object[] {
             resources.GetString("S9.Items"),
@@ -515,12 +522,12 @@
             resources.GetString("S9.Items6"),
             resources.GetString("S9.Items7"),
             resources.GetString("S9.Items8")});
-            resources.ApplyResources(this.S9, "S9");
             this.S9.Name = "S9";
             this.toolTip1.SetToolTip(this.S9, resources.GetString("S9.ToolTip"));
             // 
             // S8
             // 
+            resources.ApplyResources(this.S8, "S8");
             this.S8.FormattingEnabled = true;
             this.S8.Items.AddRange(new object[] {
             resources.GetString("S8.Items"),
@@ -535,12 +542,12 @@
             resources.GetString("S8.Items9"),
             resources.GetString("S8.Items10"),
             resources.GetString("S8.Items11")});
-            resources.ApplyResources(this.S8, "S8");
             this.S8.Name = "S8";
             this.toolTip1.SetToolTip(this.S8, resources.GetString("S8.ToolTip"));
             // 
             // RS8
             // 
+            resources.ApplyResources(this.RS8, "RS8");
             this.RS8.FormattingEnabled = true;
             this.RS8.Items.AddRange(new object[] {
             resources.GetString("RS8.Items"),
@@ -552,12 +559,12 @@
             resources.GetString("RS8.Items6"),
             resources.GetString("RS8.Items7"),
             resources.GetString("RS8.Items8")});
-            resources.ApplyResources(this.RS8, "RS8");
             this.RS8.Name = "RS8";
             this.toolTip1.SetToolTip(this.RS8, resources.GetString("RS8.ToolTip"));
             // 
             // RS9
             // 
+            resources.ApplyResources(this.RS9, "RS9");
             this.RS9.FormattingEnabled = true;
             this.RS9.Items.AddRange(new object[] {
             resources.GetString("RS9.Items"),
@@ -569,7 +576,6 @@
             resources.GetString("RS9.Items6"),
             resources.GetString("RS9.Items7"),
             resources.GetString("RS9.Items8")});
-            resources.ApplyResources(this.RS9, "RS9");
             this.RS9.Name = "RS9";
             this.toolTip1.SetToolTip(this.RS9, resources.GetString("RS9.ToolTip"));
             // 
@@ -580,6 +586,91 @@
             this.linkLabel1.TabStop = true;
             this.toolTip1.SetToolTip(this.linkLabel1, resources.GetString("linkLabel1.ToolTip"));
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
+            // 
+            // S15
+            // 
+            resources.ApplyResources(this.S15, "S15");
+            this.S15.FormattingEnabled = true;
+            this.S15.Items.AddRange(new object[] {
+            resources.GetString("S15.Items"),
+            resources.GetString("S15.Items1"),
+            resources.GetString("S15.Items2"),
+            resources.GetString("S15.Items3"),
+            resources.GetString("S15.Items4"),
+            resources.GetString("S15.Items5"),
+            resources.GetString("S15.Items6"),
+            resources.GetString("S15.Items7"),
+            resources.GetString("S15.Items8"),
+            resources.GetString("S15.Items9"),
+            resources.GetString("S15.Items10"),
+            resources.GetString("S15.Items11"),
+            resources.GetString("S15.Items12"),
+            resources.GetString("S15.Items13"),
+            resources.GetString("S15.Items14"),
+            resources.GetString("S15.Items15"),
+            resources.GetString("S15.Items16"),
+            resources.GetString("S15.Items17"),
+            resources.GetString("S15.Items18"),
+            resources.GetString("S15.Items19"),
+            resources.GetString("S15.Items20"),
+            resources.GetString("S15.Items21"),
+            resources.GetString("S15.Items22"),
+            resources.GetString("S15.Items23"),
+            resources.GetString("S15.Items24"),
+            resources.GetString("S15.Items25"),
+            resources.GetString("S15.Items26"),
+            resources.GetString("S15.Items27"),
+            resources.GetString("S15.Items28"),
+            resources.GetString("S15.Items29"),
+            resources.GetString("S15.Items30")});
+            this.S15.Name = "S15";
+            this.toolTip1.SetToolTip(this.S15, resources.GetString("S15.ToolTip"));
+            // 
+            // S16
+            // 
+            resources.ApplyResources(this.S16, "S16");
+            this.S16.FormattingEnabled = true;
+            this.S16.Items.AddRange(new object[] {
+            resources.GetString("S16.Items")});
+            this.S16.Name = "S16";
+            this.toolTip1.SetToolTip(this.S16, resources.GetString("S16.ToolTip"));
+            // 
+            // S18
+            // 
+            resources.ApplyResources(this.S18, "S18");
+            this.S18.FormattingEnabled = true;
+            this.S18.Items.AddRange(new object[] {
+            resources.GetString("S18.Items"),
+            resources.GetString("S18.Items1"),
+            resources.GetString("S18.Items2"),
+            resources.GetString("S18.Items3"),
+            resources.GetString("S18.Items4"),
+            resources.GetString("S18.Items5"),
+            resources.GetString("S18.Items6"),
+            resources.GetString("S18.Items7"),
+            resources.GetString("S18.Items8"),
+            resources.GetString("S18.Items9"),
+            resources.GetString("S18.Items10"),
+            resources.GetString("S18.Items11"),
+            resources.GetString("S18.Items12"),
+            resources.GetString("S18.Items13"),
+            resources.GetString("S18.Items14"),
+            resources.GetString("S18.Items15"),
+            resources.GetString("S18.Items16"),
+            resources.GetString("S18.Items17"),
+            resources.GetString("S18.Items18"),
+            resources.GetString("S18.Items19"),
+            resources.GetString("S18.Items20"),
+            resources.GetString("S18.Items21"),
+            resources.GetString("S18.Items22"),
+            resources.GetString("S18.Items23"),
+            resources.GetString("S18.Items24"),
+            resources.GetString("S18.Items25"),
+            resources.GetString("S18.Items26"),
+            resources.GetString("S18.Items27"),
+            resources.GetString("S18.Items28")});
+            this.S18.Name = "S18";
+            this.toolTip1.SetToolTip(this.S18, resources.GetString("S18.ToolTip"));
             // 
             // RS0
             // 
@@ -752,6 +843,12 @@
             // 
             // SPLIT_local.Panel2
             // 
+            this.SPLIT_local.Panel2.Controls.Add(this.label33);
+            this.SPLIT_local.Panel2.Controls.Add(this.S18);
+            this.SPLIT_local.Panel2.Controls.Add(this.label19);
+            this.SPLIT_local.Panel2.Controls.Add(this.S16);
+            this.SPLIT_local.Panel2.Controls.Add(this.label18);
+            this.SPLIT_local.Panel2.Controls.Add(this.S15);
             this.SPLIT_local.Panel2.Controls.Add(this.label13);
             this.SPLIT_local.Panel2.Controls.Add(this.S9);
             this.SPLIT_local.Panel2.Controls.Add(this.S10);
@@ -762,6 +859,21 @@
             this.SPLIT_local.Panel2.Controls.Add(this.S8);
             this.SPLIT_local.Panel2.Controls.Add(this.label15);
             this.SPLIT_local.Panel2.Controls.Add(this.label14);
+            // 
+            // label33
+            // 
+            resources.ApplyResources(this.label33, "label33");
+            this.label33.Name = "label33";
+            // 
+            // label19
+            // 
+            resources.ApplyResources(this.label19, "label19");
+            this.label19.Name = "label19";
+            // 
+            // label18
+            // 
+            resources.ApplyResources(this.label18, "label18");
+            this.label18.Name = "label18";
             // 
             // SPLIT_remote
             // 
@@ -971,5 +1083,11 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.LinkLabel linkLabel1;
         private Controls.MyButton BUT_resettodefault;
+        private System.Windows.Forms.Label label33;
+        private System.Windows.Forms.ComboBox S18;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.ComboBox S16;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.ComboBox S15;
     }
 }

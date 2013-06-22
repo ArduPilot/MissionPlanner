@@ -68,15 +68,14 @@ namespace ArdupilotMega.Controls.BackstageView
             }
 
            Graphics g = pevent.Graphics;
-         
 
             // Now the little 'arrow' thingy if we are selected and the selected bg grad
            if (_isSelected)
            {
-               var rect1 = new Rectangle(0, 0, Width / 2, Height);
-               var rect2 = new Rectangle(Width / 2, 0, Width, Height);
+               //var rect1 = new Rectangle(0, 0, Width / 1, Height);
+               var rect2 = new Rectangle(0, 0, Width, Height);
 
-               g.FillRectangle(new LinearGradientBrush(rect1, HighlightColor1, HighlightColor2, LinearGradientMode.Horizontal), rect1);
+              // g.FillRectangle(new LinearGradientBrush(rect1, HighlightColor1, HighlightColor2, LinearGradientMode.Horizontal), rect1);
                g.FillRectangle(new LinearGradientBrush(rect2, HighlightColor2, HighlightColor1, LinearGradientMode.Horizontal), rect2);
 
                var butPen = new Pen(HighlightColor1);

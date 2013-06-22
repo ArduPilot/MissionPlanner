@@ -381,7 +381,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             }
         }
 
-        void Control_ValueChanged(string name, string value)
+        void Control_ValueChanged(object Sender, string name, string value)
         {
             _params_changed[name] = value;
         }

@@ -231,14 +231,12 @@
             // TRK_zoom
             // 
             resources.ApplyResources(this.TRK_zoom, "TRK_zoom");
-            this.TRK_zoom.LargeChange = 100;
-            this.TRK_zoom.Maximum = 18D;
-            this.TRK_zoom.Minimum = 1D;
+            this.TRK_zoom.Maximum = 18f;
+            this.TRK_zoom.Minimum = 1f;
             this.TRK_zoom.Name = "TRK_zoom";
-            this.TRK_zoom.SmallChange = 50;
-            this.TRK_zoom.TickFrequency = 100;
+            this.TRK_zoom.TickFrequency = 1;
             this.TRK_zoom.TickStyle = System.Windows.Forms.TickStyle.Both;
-            this.TRK_zoom.Value = 10D;
+            this.TRK_zoom.Value = 10f;
             this.TRK_zoom.Scroll += new System.EventHandler(this.TRK_zoom_Scroll);
             // 
             // panel1

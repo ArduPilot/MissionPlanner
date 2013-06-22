@@ -29,6 +29,8 @@ namespace ArdupilotMega
                 ServicePointManager.ServerCertificateValidationCallback =
     new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate, chain, policyErrors) => { return true; });
 
+                log.Info("Get "+url);
+
                 // Create a request using a URL that can receive a post. 
                 WebRequest request = WebRequest.Create(url);
                 request.Timeout = 10000;
@@ -67,6 +69,8 @@ namespace ArdupilotMega
 
                 File.Delete(saveto);
                 File.Move(saveto + ".new", saveto);
+
+                log.Info("Done "+ saveto);
 
                 return true;
             }

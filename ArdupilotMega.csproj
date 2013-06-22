@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ArdupilotMega</RootNamespace>
     <AssemblyName>ArdupilotMegaPlanner10</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -60,7 +60,7 @@
     <DebugType>full</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;MAVLINK10</DefineConstants>
+    <DefineConstants>MAVLINK10</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
@@ -150,8 +150,8 @@
     <Reference Include="Eto.Platform.Windows">
       <HintPath>..\..\..\..\..\Desktop\DIYDrones\Eto\BuildOutput\Debug\Eto.Platform.Windows.dll</HintPath>
     </Reference>
-    <Reference Include="Eto.Test">
-      <HintPath>..\..\..\..\..\Desktop\DIYDrones\Eto\BuildOutput\Debug\Eto.Test.dll</HintPath>
+    <Reference Include="Eto.Platform.XamMac">
+      <HintPath>..\..\..\..\..\Desktop\DIYDrones\Eto\BuildOutput\Debug\Eto.Platform.XamMac.dll</HintPath>
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
     </Reference>
@@ -228,18 +228,9 @@
     <Reference Include="System.Management">
       <Private>False</Private>
     </Reference>
-    <Reference Include="System.Reactive.Core, Version=2.0.20823.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="System.Reactive, Version=1.0.10621.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Microsoft SDKs\Reactive Extensions\v2.0\Binaries\.NETFramework\v4.0\System.Reactive.Core.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Reactive.Interfaces, Version=2.0.20823.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Microsoft SDKs\Reactive Extensions\v2.0\Binaries\.NETFramework\v4.0\System.Reactive.Interfaces.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Reactive.Linq, Version=2.0.20823.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Microsoft SDKs\Reactive Extensions\v2.0\Binaries\.NETFramework\v4.0\System.Reactive.Linq.dll</HintPath>
+      <HintPath>Lib\System.Reactive.dll</HintPath>
     </Reference>
     <Reference Include="System.Speech">
       <Private>True</Private>
@@ -442,6 +433,66 @@
     <Compile Include="Controls\ValuesControl.Designer.cs">
       <DependentUpon>ValuesControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigFrameType.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigFrameType.Designer.cs">
+      <DependentUpon>ConfigFrameType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigMandatory.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigMandatory.Designer.cs">
+      <DependentUpon>ConfigMandatory.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigOptional.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigOptional.Designer.cs">
+      <DependentUpon>ConfigOptional.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigSimplePids.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigSimplePids.Designer.cs">
+      <DependentUpon>ConfigSimplePids.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigHWSonar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigHWSonar.Designer.cs">
+      <DependentUpon>ConfigHWSonar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigHWAirspeed.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigHWAirspeed.Designer.cs">
+      <DependentUpon>ConfigHWAirspeed.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigHWOptFlow.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigHWOptFlow.Designer.cs">
+      <DependentUpon>ConfigHWOptFlow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigHWOSD.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigHWOSD.Designer.cs">
+      <DependentUpon>ConfigHWOSD.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GCSViews\HardwareConfig.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GCSViews\HardwareConfig.Designer.cs">
+      <DependentUpon>HardwareConfig.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GCSViews\SoftwareConfig.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GCSViews\SoftwareConfig.Designer.cs">
+      <DependentUpon>SoftwareConfig.cs</DependentUpon>
+    </Compile>
     <Compile Include="Wizard\Wizard.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -463,8 +514,6 @@
     </Compile>
     <Compile Include="Utilities\httpserver.cs" />
     <Compile Include="Utilities\S3Uploader.cs" />
-    <Compile Include="Widgets\GraphicsGL.cs" />
-    <Compile Include="Widgets\MessageBox.cs" />
     <None Include="Driver\amd64\ftd2xx.lib">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -489,16 +538,143 @@
     <None Include="Driver\i386\ftser2k.sys">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Widgets\MyControl.cs" />
-    <Compile Include="Widgets\PictureBox.cs" />
-    <Compile Include="Widgets\QuickView.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Widgets\QuickView.Designer.cs">
-      <DependentUpon>QuickView.cs</DependentUpon>
-    </Compile>
     <EmbeddedResource Include="Controls\ProgressStep.resx">
       <DependentUpon>ProgressStep.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFrameType.de-DE.resx">
+      <DependentUpon>ConfigFrameType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFrameType.es-ES.resx">
+      <DependentUpon>ConfigFrameType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFrameType.fr.resx">
+      <DependentUpon>ConfigFrameType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFrameType.it-IT.resx">
+      <DependentUpon>ConfigFrameType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFrameType.pl.resx">
+      <DependentUpon>ConfigFrameType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFrameType.resx">
+      <DependentUpon>ConfigFrameType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFrameType.zh-Hans.resx">
+      <DependentUpon>ConfigFrameType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFrameType.zh-TW.resx">
+      <DependentUpon>ConfigFrameType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigMandatory.resx">
+      <DependentUpon>ConfigMandatory.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigOptional.resx">
+      <DependentUpon>ConfigOptional.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigSimplePids.resx">
+      <DependentUpon>ConfigSimplePids.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWSonar.de-DE.resx">
+      <DependentUpon>ConfigHWSonar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWSonar.es-ES.resx">
+      <DependentUpon>ConfigHWSonar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWSonar.fr.resx">
+      <DependentUpon>ConfigHWSonar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWSonar.it-IT.resx">
+      <DependentUpon>ConfigHWSonar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWSonar.pl.resx">
+      <DependentUpon>ConfigHWSonar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWSonar.resx">
+      <DependentUpon>ConfigHWSonar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWSonar.zh-Hans.resx">
+      <DependentUpon>ConfigHWSonar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWSonar.zh-TW.resx">
+      <DependentUpon>ConfigHWSonar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWAirspeed.de-DE.resx">
+      <DependentUpon>ConfigHWAirspeed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWAirspeed.es-ES.resx">
+      <DependentUpon>ConfigHWAirspeed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWAirspeed.fr.resx">
+      <DependentUpon>ConfigHWAirspeed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWAirspeed.it-IT.resx">
+      <DependentUpon>ConfigHWAirspeed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWAirspeed.pl.resx">
+      <DependentUpon>ConfigHWAirspeed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWAirspeed.resx">
+      <DependentUpon>ConfigHWAirspeed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWAirspeed.zh-Hans.resx">
+      <DependentUpon>ConfigHWAirspeed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWAirspeed.zh-TW.resx">
+      <DependentUpon>ConfigHWAirspeed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWOptFlow.de-DE.resx">
+      <DependentUpon>ConfigHWOptFlow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWOptFlow.es-ES.resx">
+      <DependentUpon>ConfigHWOptFlow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWOptFlow.fr.resx">
+      <DependentUpon>ConfigHWOptFlow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWOptFlow.it-IT.resx">
+      <DependentUpon>ConfigHWOptFlow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWOptFlow.pl.resx">
+      <DependentUpon>ConfigHWOptFlow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWOptFlow.resx">
+      <DependentUpon>ConfigHWOptFlow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWOptFlow.zh-Hans.resx">
+      <DependentUpon>ConfigHWOptFlow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWOptFlow.zh-TW.resx">
+      <DependentUpon>ConfigHWOptFlow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWOSD.de-DE.resx">
+      <DependentUpon>ConfigHWOSD.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWOSD.es-ES.resx">
+      <DependentUpon>ConfigHWOSD.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWOSD.fr.resx">
+      <DependentUpon>ConfigHWOSD.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWOSD.it-IT.resx">
+      <DependentUpon>ConfigHWOSD.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWOSD.pl.resx">
+      <DependentUpon>ConfigHWOSD.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWOSD.resx">
+      <DependentUpon>ConfigHWOSD.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWOSD.zh-Hans.resx">
+      <DependentUpon>ConfigHWOSD.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWOSD.zh-TW.resx">
+      <DependentUpon>ConfigHWOSD.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\HardwareConfig.resx">
+      <DependentUpon>HardwareConfig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\SoftwareConfig.resx">
+      <DependentUpon>SoftwareConfig.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\Wizard.resx">
       <DependentUpon>Wizard.cs</DependentUpon>
@@ -508,9 +684,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Swarm\Status.resx">
       <DependentUpon>Status.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Widgets\QuickView.resx">
-      <DependentUpon>QuickView.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Driver\arduino mega 2560.cat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -586,7 +759,6 @@
     <Compile Include="SerialOutputMD.Designer.cs">
       <DependentUpon>SerialOutputMD.cs</DependentUpon>
     </Compile>
-    <Compile Include="Delta.cs" />
     <Compile Include="GCSViews\ConfigurationView\ConfigAP_Limits.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -665,11 +837,11 @@
     <Compile Include="GCSViews\ConfigurationView\ConfigFlightModes.Designer.cs">
       <DependentUpon>ConfigFlightModes.cs</DependentUpon>
     </Compile>
-    <Compile Include="GCSViews\ConfigurationView\ConfigHardwareOptions.cs">
+    <Compile Include="GCSViews\ConfigurationView\ConfigHWCompass.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="GCSViews\ConfigurationView\ConfigHardwareOptions.Designer.cs">
-      <DependentUpon>ConfigHardwareOptions.cs</DependentUpon>
+    <Compile Include="GCSViews\ConfigurationView\ConfigHWCompass.Designer.cs">
+      <DependentUpon>ConfigHWCompass.cs</DependentUpon>
     </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigPlanner.cs">
       <SubType>UserControl</SubType>
@@ -991,8 +1163,8 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFlightModes.de-DE.resx">
       <DependentUpon>ConfigFlightModes.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHardwareOptions.de-DE.resx">
-      <DependentUpon>ConfigHardwareOptions.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWCompass.de-DE.resx">
+      <DependentUpon>ConfigHWCompass.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigMount.fr.resx">
       <DependentUpon>ConfigMount.cs</DependentUpon>
@@ -1227,26 +1399,26 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFlightModes.zh-TW.resx">
       <DependentUpon>ConfigFlightModes.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHardwareOptions.es-ES.resx">
-      <DependentUpon>ConfigHardwareOptions.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWCompass.es-ES.resx">
+      <DependentUpon>ConfigHWCompass.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHardwareOptions.fr.resx">
-      <DependentUpon>ConfigHardwareOptions.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWCompass.fr.resx">
+      <DependentUpon>ConfigHWCompass.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHardwareOptions.it-IT.resx">
-      <DependentUpon>ConfigHardwareOptions.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWCompass.it-IT.resx">
+      <DependentUpon>ConfigHWCompass.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHardwareOptions.pl.resx">
-      <DependentUpon>ConfigHardwareOptions.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWCompass.pl.resx">
+      <DependentUpon>ConfigHWCompass.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHardwareOptions.resx">
-      <DependentUpon>ConfigHardwareOptions.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWCompass.resx">
+      <DependentUpon>ConfigHWCompass.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHardwareOptions.zh-Hans.resx">
-      <DependentUpon>ConfigHardwareOptions.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWCompass.zh-Hans.resx">
+      <DependentUpon>ConfigHWCompass.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHardwareOptions.zh-TW.resx">
-      <DependentUpon>ConfigHardwareOptions.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWCompass.zh-TW.resx">
+      <DependentUpon>ConfigHWCompass.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigPlanner.resx">
       <DependentUpon>ConfigPlanner.cs</DependentUpon>
@@ -1670,6 +1842,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="acsimplepids.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="apm2.ico" />
     <Content Include="ArduCopterConfig.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -1734,6 +1909,19 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
+    <None Include="Resources\hardwareconfig.png" />
+    <None Include="Resources\softwareconfig.png" />
+    <None Include="Resources\connect.png" />
+    <None Include="Resources\disconnect.png" />
+    <None Include="Resources\flightdata.png" />
+    <None Include="Resources\flightplanner.png" />
+    <None Include="Resources\simulation.png" />
+    <None Include="Resources\terminal.png" />
+    <None Include="Resources\helpwizard.png" />
+    <None Include="Resources\donate.png" />
+    <None Include="Resources\hardwareconfig02.png" />
+    <None Include="Resources\bgdark.jpg" />
+    <None Include="Resources\splashdark.jpg" />
     <Content Include="version.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -1787,15 +1975,11 @@
     <None Include="Resources\quad2.png" />
     <None Include="Resources\quad.png" />
     <None Include="Resources\planetracker.png" />
-    <None Include="Resources\terminal.png" />
-    <None Include="Resources\simulation.png" />
     <None Include="Resources\planner.png" />
     <None Include="Resources\configuration.png" />
     <None Include="Resources\data.png" />
     <None Include="Resources\firmware.png" />
     <None Include="Resources\bg.jpg" />
-    <None Include="Resources\connect.png" />
-    <None Include="Resources\disconnect.png" />
     <None Include="Resources\help.png" />
     <None Include="Resources\APM_airframes_001.png" />
     <None Include="Resources\APM_airframes_002.png" />
@@ -1898,6 +2082,7 @@
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>"$(TargetDir)version.exe" "$(TargetPath)" &gt; "$(TargetDir)version.txt"</PostBuildEvent>

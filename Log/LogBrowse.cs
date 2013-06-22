@@ -153,6 +153,27 @@ namespace ArdupilotMega.Log
 
                 string[] items = strLine.Split(',', ':');
 
+                // populate fw type
+                if (items[0].Contains("SYSID_SW_TYPE"))
+                {
+                    switch (items[1].ToString())
+                    {
+                        case "10":
+                            MainV2.comPort.MAV.cs.firmware = MainV2.Firmwares.ArduCopter2;
+                            break;
+                        case "7":
+                            MainV2.comPort.MAV.cs.firmware = MainV2.Firmwares.Ateryx;
+                            break;
+                        case "20":
+                            MainV2.comPort.MAV.cs.firmware = MainV2.Firmwares.ArduRover;
+                            break;
+                        case "0":
+                            MainV2.comPort.MAV.cs.firmware = MainV2.Firmwares.ArduPlane;
+                            break;
+                    }
+                }
+
+
                 if (items[0].Contains("FMT"))
                 {
                     try

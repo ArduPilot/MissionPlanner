@@ -176,6 +176,8 @@ namespace ArdupilotMega
 
             InitializeComponent();
 
+            MenuFlightPlanner.Image = new Bitmap(ArdupilotMega.Properties.Resources.flightplanner);
+
             MyView = new MainSwitcher(this);
 
             View = MyView;
@@ -199,9 +201,9 @@ namespace ArdupilotMega
             // proxy loader - dll load now instead of on config form load
             new Transition(new TransitionType_EaseInEaseOut(2000));
 
-            MyRenderer.currentpressed = MenuFlightData;
+            //MyRenderer.currentpressed = MenuFlightData;
 
-            MainMenu.Renderer = new MyRenderer();
+            //MainMenu.Renderer = new MyRenderer();
 
             foreach (object obj in Enum.GetValues(typeof(Firmwares)))
             {
@@ -498,7 +500,7 @@ namespace ArdupilotMega
 
         public void MenuConfiguration_Click(object sender, EventArgs e)
         {
-            MyView.ShowScreen("Config");
+            MyView.ShowScreen("HWConfig");
         }
 
         private void MenuSimulation_Click(object sender, EventArgs e)
@@ -508,7 +510,7 @@ namespace ArdupilotMega
 
         private void MenuFirmware_Click(object sender, EventArgs e)
         {
-            MyView.ShowScreen("Firmware");
+            MyView.ShowScreen("SWConfig");
         }
 
         private void MenuTerminal_Click(object sender, EventArgs e)
@@ -570,7 +572,7 @@ namespace ArdupilotMega
                 }
                 catch { }
 
-                this.MenuConnect.BackgroundImage = global::ArdupilotMega.Properties.Resources.connect;
+                this.MenuConnect.Image = global::ArdupilotMega.Properties.Resources.connect;
             }
             else
             {
@@ -692,9 +694,12 @@ namespace ArdupilotMega
                     config[_connectionControl.CMB_serialport.Text + "_BAUD"] = _connectionControl.CMB_baudrate.Text;
 
                     // refresh config window if needed
-                    if (MyView.current != null && MyView.current.Name == "Config")
+                    if (MyView.current != null) 
                     {
-                        MyView.ShowScreen("Config");
+                        if (MyView.current.Name == "HWConfig")
+                            MyView.ShowScreen("HWConfig");
+                        if (MyView.current.Name == "SWConfig")
+                            MyView.ShowScreen("SWConfig");
                     }
 
 
@@ -706,7 +711,7 @@ namespace ArdupilotMega
                     }
 
                     // set connected icon
-                    this.MenuConnect.BackgroundImage = global::ArdupilotMega.Properties.Resources.disconnect;
+                    this.MenuConnect.Image = global::ArdupilotMega.Properties.Resources.disconnect;
                 }
                 catch (Exception ex)
                 {
@@ -1059,24 +1064,26 @@ namespace ArdupilotMega
                 //                        Console.WriteLine(DateTime.Now.Millisecond);
                 if (comPort.BaseStream.IsOpen)
                 {
-                    if ((string)this.MenuConnect.BackgroundImage.Tag != "Disconnect")
+                    if ((string)this.MenuConnect.Image.Tag != "Disconnect")
                     {
                         this.BeginInvoke((MethodInvoker)delegate
                         {
-                            this.MenuConnect.BackgroundImage = global::ArdupilotMega.Properties.Resources.disconnect;
-                            this.MenuConnect.BackgroundImage.Tag = "Disconnect";
+                            this.MenuConnect.Image = global::ArdupilotMega.Properties.Resources.disconnect;
+                            this.MenuConnect.Image.Tag = "Disconnect";
+                            this.MenuConnect.Text = "DISCONNECT";
                             _connectionControl.IsConnected(true);
                         });
                     }
                 }
                 else
                 {
-                    if ((string)this.MenuConnect.BackgroundImage.Tag != "Connect")
+                    if ((string)this.MenuConnect.Image.Tag != "Connect")
                     {
                         this.BeginInvoke((MethodInvoker)delegate
                         {
-                            this.MenuConnect.BackgroundImage = global::ArdupilotMega.Properties.Resources.connect;
-                            this.MenuConnect.BackgroundImage.Tag = "Connect";
+                            this.MenuConnect.Image = global::ArdupilotMega.Properties.Resources.connect;
+                            this.MenuConnect.Image.Tag = "Connect";
+                            this.MenuConnect.Text = "CONNECT";
                             _connectionControl.IsConnected(false);
                             if (_connectionStats != null)
                             {
@@ -1421,9 +1428,9 @@ namespace ArdupilotMega
 
             MyView.AddScreen(new MainSwitcher.Screen("FlightData", FlightData, true));
             MyView.AddScreen(new MainSwitcher.Screen("FlightPlanner", FlightPlanner, true));
-            MyView.AddScreen(new MainSwitcher.Screen("Config", new GCSViews.ConfigurationView.Setup(), false));
+            MyView.AddScreen(new MainSwitcher.Screen("HWConfig", new GCSViews.HardwareConfig(), false));
+            MyView.AddScreen(new MainSwitcher.Screen("SWConfig", new GCSViews.SoftwareConfig(), false));
             MyView.AddScreen(new MainSwitcher.Screen("Simulation", Simulation, true));
-            MyView.AddScreen(new MainSwitcher.Screen("Firmware", new GCSViews.Firmware(), false));
             MyView.AddScreen(new MainSwitcher.Screen("Terminal", new GCSViews.Terminal(), false));
             MyView.AddScreen(new MainSwitcher.Screen("Help", new GCSViews.Help(), false));
 
@@ -2266,7 +2273,11 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
             if (keyData == (Keys.Control | Keys.Y)) // for ryan beall
             {
                 // write
-                MainV2.comPort.doCommand(MAVLink.MAV_CMD.PREFLIGHT_STORAGE, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+                try
+                {
+                    MainV2.comPort.doCommand(MAVLink.MAV_CMD.PREFLIGHT_STORAGE, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+                }
+                catch { CustomMessageBox.Show("Invalid command"); return true; }
                 //read
                 ///////MainV2.comPort.doCommand(MAVLink09.MAV_CMD.PREFLIGHT_STORAGE, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
                 CustomMessageBox.Show("Done MAV_ACTION_STORAGE_WRITE");

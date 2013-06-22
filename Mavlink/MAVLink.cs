@@ -647,7 +647,7 @@ namespace ArdupilotMega
         {
             if (!param.ContainsKey(paramname))
             {
-                log.Warn("Trying to set Param that doesnt exist " + paramname);
+                log.Warn("Trying to set Param that doesnt exist " + paramname + "=" + value);
                 return false;
             }
 
@@ -2312,7 +2312,10 @@ namespace ArdupilotMega
                 {
                     packetno = buffer[5];
                 }
-                log.InfoFormat("Mavlink Bad Packet (crc fail) len {0} crc {1} pkno {2}", buffer.Length, crc, packetno);
+                if (packetno != -1 && buffer.Length > 5)
+                    log.InfoFormat("Mavlink Bad Packet (crc fail) len {0} crc {1} vs {4} pkno {2} {3}", buffer.Length, crc, packetno, MAVLINK_MESSAGE_INFO[packetno].ToString(), BitConverter.ToUInt16(buffer,buffer.Length - 2));
+                if (logreadmode)
+                    log.InfoFormat("bad packet pos {0} ",logplaybackfile.BaseStream.Position);
                 return new byte[0];
             }
 
@@ -2348,7 +2351,7 @@ namespace ArdupilotMega
                                 packetslost += numLost;
                                 WhenPacketLost.OnNext(numLost);
 
-                                log.InfoFormat("lost {0} pkts {1}", packetSeqNo, (int)packetslost);
+                                log.InfoFormat("lost pkts new seqno {0} pkts lost {1}", packetSeqNo, numLost);
                             }
 
                             packetsnotlost++;
@@ -2663,7 +2666,7 @@ namespace ArdupilotMega
                 temp[a] = (byte)logplaybackfile.ReadByte();
                 if (temp[0] != 'U' && temp[0] != 254)
                 {
-                    log.InfoFormat("lost sync byte {0} pos {1}", temp[0], logplaybackfile.BaseStream.Position);
+                    log.InfoFormat("logread - lost sync byte {0} pos {1}", temp[0], logplaybackfile.BaseStream.Position);
                     a = 0;
                     continue;
                 }

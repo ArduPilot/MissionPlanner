@@ -36,6 +36,8 @@
             // 
             // cmb_Baud
             // 
+            this.cmb_Baud.BackColor = System.Drawing.Color.Black;
+            this.cmb_Baud.ForeColor = System.Drawing.Color.White;
             this.cmb_Baud.FormattingEnabled = true;
             this.cmb_Baud.Items.AddRange(new object[] {
             "1200",
@@ -54,8 +56,10 @@
             // 
             // cmb_ConnectionType
             // 
+            this.cmb_ConnectionType.BackColor = System.Drawing.Color.Black;
+            this.cmb_ConnectionType.ForeColor = System.Drawing.Color.White;
             this.cmb_ConnectionType.FormattingEnabled = true;
-            this.cmb_ConnectionType.Location = new System.Drawing.Point(79, 31);
+            this.cmb_ConnectionType.Location = new System.Drawing.Point(79, 28);
             this.cmb_ConnectionType.Name = "cmb_ConnectionType";
             this.cmb_ConnectionType.Size = new System.Drawing.Size(121, 21);
             this.cmb_ConnectionType.TabIndex = 1;
@@ -63,8 +67,10 @@
             // 
             // cmb_Connection
             // 
+            this.cmb_Connection.BackColor = System.Drawing.Color.Black;
             this.cmb_Connection.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.cmb_Connection.DropDownWidth = 200;
+            this.cmb_Connection.ForeColor = System.Drawing.Color.White;
             this.cmb_Connection.FormattingEnabled = true;
             this.cmb_Connection.Location = new System.Drawing.Point(3, 4);
             this.cmb_Connection.Name = "cmb_Connection";
@@ -75,8 +81,10 @@
             // linkLabel1
             // 
             this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Image = global::ArdupilotMega.Properties.Resources.bg;
-            this.linkLabel1.Location = new System.Drawing.Point(3, 44);
+            this.linkLabel1.BackColor = System.Drawing.Color.Transparent;
+            this.linkLabel1.Image = global::ArdupilotMega.Properties.Resources.bgdark;
+            this.linkLabel1.LinkColor = System.Drawing.Color.White;
+            this.linkLabel1.Location = new System.Drawing.Point(3, 32);
             this.linkLabel1.Name = "linkLabel1";
             this.linkLabel1.Size = new System.Drawing.Size(63, 13);
             this.linkLabel1.TabIndex = 3;
@@ -88,13 +96,13 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackgroundImage = global::ArdupilotMega.Properties.Resources.bg;
+            this.BackgroundImage = global::ArdupilotMega.Properties.Resources.bgdark;
             this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.cmb_Connection);
             this.Controls.Add(this.cmb_ConnectionType);
             this.Controls.Add(this.cmb_Baud);
             this.Name = "ConnectionControl";
-            this.Size = new System.Drawing.Size(230, 60);
+            this.Size = new System.Drawing.Size(230, 54);
             this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ConnectionControl_MouseClick);
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -13,6 +13,7 @@ using System.Text.RegularExpressions;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using px4uploader;
+using ArdupilotMega.Controls;
 
 namespace ArdupilotMega.GCSViews
 {
@@ -50,7 +51,7 @@ namespace ArdupilotMega.GCSViews
 
         readonly string gholdurl = ("https://github.com/diydrones/binary/raw/!Hash!/Firmware/firmware2.xml");
         readonly string gholdfirmwareurl = ("https://github.com/diydrones/binary/raw/!Hash!/Firmware/!Firmware!");
-        string[] gholdurls = new string[] {  };
+        string[] gholdurls = new string[] { };
 
         string getUrl(string hash, string filename)
         {
@@ -58,7 +59,7 @@ namespace ArdupilotMega.GCSViews
             {
                 if (x == hash)
                 {
-                    if (filename == "") 
+                    if (filename == "")
                         return gholdurl.Replace("!Hash!", CMB_history.Text);
 
                     string fn = Path.GetFileName(filename);
@@ -72,7 +73,7 @@ namespace ArdupilotMega.GCSViews
             {
                 if (x == hash)
                 {
-                    if (filename == "") 
+                    if (filename == "")
                         return gcoldurl.Replace("!Hash!", CMB_history.Text);
 
                     string fn = Path.GetFileName(filename);
@@ -123,13 +124,27 @@ namespace ArdupilotMega.GCSViews
             gholdurls = File.ReadAllLines(Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + "FirmwareHistory.txt");
 
             int a = 0;
-            foreach (string gh in gholdurls) {
+            foreach (string gh in gholdurls)
+            {
                 gholdurls[a] = gh.Trim();
                 a++;
             }
         }
 
         internal void Firmware_Load(object sender, EventArgs e)
+        {
+            ProgressReporterDialogue pdr = new ArdupilotMega.Controls.ProgressReporterDialogue();
+
+            pdr.DoWork += pdr_DoWork;
+
+            pdr.UpdateProgressAndStatus(-1,"Getting Firmware List");
+
+            ThemeManager.ApplyThemeTo(pdr);
+
+            pdr.RunBackgroundOperationAsync();
+        }
+
+        void pdr_DoWork(object sender, Controls.ProgressWorkerEventArgs e, object passdata = null)
         {
             log.Info("FW load");
 
@@ -151,7 +166,7 @@ namespace ArdupilotMega.GCSViews
 
             try
             {
-                log.Info("url: "+firmwareurl);
+                log.Info("url: " + firmwareurl);
                 using (XmlTextReader xmlreader = new XmlTextReader(firmwareurl))
                 {
                     while (xmlreader.Read())
@@ -204,7 +219,7 @@ namespace ArdupilotMega.GCSViews
                                         }
                                         catch { }
 
-                                        updateDisplayName(temp);
+                                        updateDisplayNameInvoke(temp);
                                     }
                                     catch { } // just in case
 
@@ -228,15 +243,17 @@ namespace ArdupilotMega.GCSViews
             catch (Exception ex)
             {
                 log.Error(ex);
-                CustomMessageBox.Show("Failed to get Firmware List : " + ex.Message);
+                //CustomMessageBox.Show("Failed to get Firmware List : " + ex.Message);
+                throw ex;
             }
             log.Info("FW load done");
 
+            ((ProgressReporterDialogue)sender).UpdateProgressAndStatus(100, "Done");
         }
 
         string getAPMVersion(string fwurl)
         {
-            Uri url = new Uri(new Uri(fwurl),"git-version.txt");
+            Uri url = new Uri(new Uri(fwurl), "git-version.txt");
 
             log.Info("Get url " + url.ToString());
 
@@ -246,18 +263,26 @@ namespace ArdupilotMega.GCSViews
             StreamReader sr = new StreamReader(wresp.GetResponseStream());
 
             while (!sr.EndOfStream)
-            { 
+            {
                 string line = sr.ReadLine();
 
                 if (line.Contains("APMVERSION:"))
                 {
                     log.Info(line);
-                    return line.Substring(line.IndexOf(':')+2);
+                    return line.Substring(line.IndexOf(':') + 2);
                 }
             }
 
             log.Info("no answer");
             return "";
+        }
+
+        void updateDisplayNameInvoke(software temp)
+        {
+            this.Invoke((MethodInvoker)delegate
+            {
+                updateDisplayName(temp);
+            });
         }
 
         void updateDisplayName(software temp)
@@ -330,82 +355,152 @@ namespace ArdupilotMega.GCSViews
 
         void findfirmware(software findwhat)
         {
-
             DialogResult dr = CustomMessageBox.Show("Are you sure you want to upload " + findwhat.name + "?", "Continue", MessageBoxButtons.YesNo);
-                if (dr == System.Windows.Forms.DialogResult.Yes)
-                {
-                    update(findwhat);
-                }
+            if (dr == System.Windows.Forms.DialogResult.Yes)
+            {
+                update(findwhat);
+            }
 
         }
 
         private void pictureBoxRover_Click(object sender, EventArgs e)
         {
+            if (((Control)sender).Tag.GetType() != typeof(software))
+            {
+                CustomMessageBox.Show("Bad Firmware"); return;
+            }
+
             findfirmware((software)((Control)sender).Tag);
         }
+
         private void pictureBoxAPM_Click(object sender, EventArgs e)
         {
+            if (((Control)sender).Tag.GetType() != typeof(software))
+            {
+                CustomMessageBox.Show("Bad Firmware"); return;
+            }
+
             findfirmware((software)((Control)sender).Tag);
         }
 
         private void pictureBoxAPMHIL_Click(object sender, EventArgs e)
         {
+            if (((Control)sender).Tag.GetType() != typeof(software))
+            {
+                CustomMessageBox.Show("Bad Firmware"); return;
+            }
+
             findfirmware((software)((Control)sender).Tag);
         }
 
         private void pictureBoxQuad_Click(object sender, EventArgs e)
         {
+            if (((Control)sender).Tag.GetType() != typeof(software))
+            {
+                CustomMessageBox.Show("Bad Firmware"); return;
+            }
+
             findfirmware((software)((Control)sender).Tag);
         }
 
         private void pictureBoxHexa_Click(object sender, EventArgs e)
         {
+            if (((Control)sender).Tag.GetType() != typeof(software))
+            {
+                CustomMessageBox.Show("Bad Firmware"); return;
+            }
+
             findfirmware((software)((Control)sender).Tag);
         }
 
         private void pictureBoxTri_Click(object sender, EventArgs e)
         {
+            if (((Control)sender).Tag.GetType() != typeof(software))
+            {
+                CustomMessageBox.Show("Bad Firmware"); return;
+            }
+
             findfirmware((software)((Control)sender).Tag);
         }
 
         private void pictureBoxY6_Click(object sender, EventArgs e)
         {
+            if (((Control)sender).Tag.GetType() != typeof(software))
+            {
+                CustomMessageBox.Show("Bad Firmware"); return;
+            }
+
             findfirmware((software)((Control)sender).Tag);
         }
 
         private void pictureBoxHeli_Click(object sender, EventArgs e)
         {
+            if (((Control)sender).Tag.GetType() != typeof(software))
+            {
+                CustomMessageBox.Show("Bad Firmware"); return;
+            }
+
             findfirmware((software)((Control)sender).Tag);
         }
 
         private void pictureBoxQuadHil_Click(object sender, EventArgs e)
         {
+            if (((Control)sender).Tag.GetType() != typeof(software))
+            {
+                CustomMessageBox.Show("Bad Firmware"); return;
+            }
+
             findfirmware((software)((Control)sender).Tag);
         }
 
 
         private void pictureBoxOctav_Click(object sender, EventArgs e)
         {
+            if (((Control)sender).Tag.GetType() != typeof(software))
+            {
+                CustomMessageBox.Show("Bad Firmware"); return;
+            }
+
             findfirmware((software)((Control)sender).Tag);
         }
 
         private void pictureBoxOcta_Click(object sender, EventArgs e)
         {
+            if (((Control)sender).Tag.GetType() != typeof(software))
+            {
+                CustomMessageBox.Show("Bad Firmware"); return;
+            }
+
             findfirmware((software)((Control)sender).Tag);
         }
 
         private void pictureBoxAPHil_Click(object sender, EventArgs e)
         {
+            if (((Control)sender).Tag.GetType() != typeof(software))
+            {
+                CustomMessageBox.Show("Bad Firmware"); return;
+            }
+
             findfirmware((software)((Control)sender).Tag);
         }
 
         private void pictureBoxACHil_Click(object sender, EventArgs e)
         {
+            if (((Control)sender).Tag.GetType() != typeof(software))
+            {
+                CustomMessageBox.Show("Bad Firmware"); return;
+            }
+
             findfirmware((software)((Control)sender).Tag);
         }
 
         private void pictureBoxACHHil_Click(object sender, EventArgs e)
         {
+            if (((Control)sender).Tag.GetType() != typeof(software))
+            {
+                CustomMessageBox.Show("Bad Firmware"); return;
+            }
+
             findfirmware((software)((Control)sender).Tag);
         }
 
@@ -593,7 +688,8 @@ namespace ArdupilotMega.GCSViews
             catch { }
         }
 
-        public void UploadPX4(string filename) {
+        public void UploadPX4(string filename)
+        {
 
             DateTime DEADLINE = DateTime.Now.AddSeconds(30);
 
@@ -653,7 +749,7 @@ namespace ArdupilotMega.GCSViews
                 }
                 catch (Exception ex)
                 {
-                    lbl_status.Text = "ERROR: "+ex.Message;
+                    lbl_status.Text = "ERROR: " + ex.Message;
                     Application.DoEvents();
                     Console.WriteLine(ex.ToString());
 
@@ -677,7 +773,7 @@ namespace ArdupilotMega.GCSViews
             progress.Value = (int)completed;
             Application.DoEvents();
         }
-        
+
         public void UploadFlash(string filename, string board)
         {
             if (board == "px4")
@@ -703,9 +799,9 @@ namespace ArdupilotMega.GCSViews
                 if (sr != null)
                 {
                     sr.Dispose();
-                } 
-                lbl_status.Text = "Failed read HEX"; 
-                CustomMessageBox.Show("Failed to read firmware.hex : " + ex.Message); 
+                }
+                lbl_status.Text = "Failed read HEX";
+                CustomMessageBox.Show("Failed to read firmware.hex : " + ex.Message);
                 return;
             }
             IArduinoComms port = new ArduinoSTK();
@@ -743,7 +839,7 @@ namespace ArdupilotMega.GCSViews
                 if (port.connectAP())
                 {
                     log.Info("starting");
-                    lbl_status.Text = "Uploading " + FLASH.Length + " bytes to APM Board: "+board;
+                    lbl_status.Text = "Uploading " + FLASH.Length + " bytes to APM Board: " + board;
                     progress.Value = 0;
                     this.Refresh();
 
@@ -825,11 +921,11 @@ namespace ArdupilotMega.GCSViews
                 {
                     try
                     {
-                      //  Console.Write(((SerialPort)port).ReadExisting().Replace("\0"," "));
+                        //  Console.Write(((SerialPort)port).ReadExisting().Replace("\0"," "));
                     }
                     catch { }
                     System.Threading.Thread.Sleep(1000);
-                    progress.Value = (int)Math.Min(((DateTime.Now - startwait).TotalSeconds / 17 * 100),100);
+                    progress.Value = (int)Math.Min(((DateTime.Now - startwait).TotalSeconds / 17 * 100), 100);
                     Application.DoEvents();
                 }
                 try
@@ -843,7 +939,7 @@ namespace ArdupilotMega.GCSViews
             }
             catch (Exception ex)
             {
-                lbl_status.Text = "Failed upload"; 
+                lbl_status.Text = "Failed upload";
                 CustomMessageBox.Show("Check port settings or Port in use? " + ex);
                 try
                 {
@@ -855,7 +951,7 @@ namespace ArdupilotMega.GCSViews
             MainV2.comPort.giveComport = false;
         }
 
-        void port_Progress(int progress,string status)
+        void port_Progress(int progress, string status)
         {
             log.InfoFormat("Progress {0} ", progress);
             this.progress.Value = progress;
@@ -1078,7 +1174,7 @@ namespace ArdupilotMega.GCSViews
                     if (File.Exists(sfd.FileName))
                         File.Delete(sfd.FileName);
 
-                    File.Copy(Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + @"px4io.bin",sfd.FileName);
+                    File.Copy(Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + @"px4io.bin", sfd.FileName);
                 }
             }
 

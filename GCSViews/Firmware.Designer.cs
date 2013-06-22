@@ -94,6 +94,7 @@ namespace ArdupilotMega.GCSViews
             resources.ApplyResources(this.pictureBoxAPM, "pictureBoxAPM");
             this.pictureBoxAPM.Name = "pictureBoxAPM";
             this.pictureBoxAPM.TabStop = false;
+            this.pictureBoxAPM.Tag = "";
             this.pictureBoxAPM.Click += new System.EventHandler(this.pictureBoxAPM_Click);
             // 
             // pictureBoxQuad
@@ -103,6 +104,7 @@ namespace ArdupilotMega.GCSViews
             resources.ApplyResources(this.pictureBoxQuad, "pictureBoxQuad");
             this.pictureBoxQuad.Name = "pictureBoxQuad";
             this.pictureBoxQuad.TabStop = false;
+            this.pictureBoxQuad.Tag = "";
             this.pictureBoxQuad.Click += new System.EventHandler(this.pictureBoxQuad_Click);
             // 
             // pictureBoxHexa
@@ -112,6 +114,7 @@ namespace ArdupilotMega.GCSViews
             resources.ApplyResources(this.pictureBoxHexa, "pictureBoxHexa");
             this.pictureBoxHexa.Name = "pictureBoxHexa";
             this.pictureBoxHexa.TabStop = false;
+            this.pictureBoxHexa.Tag = "";
             this.pictureBoxHexa.Click += new System.EventHandler(this.pictureBoxHexa_Click);
             // 
             // pictureBoxTri
@@ -121,6 +124,7 @@ namespace ArdupilotMega.GCSViews
             resources.ApplyResources(this.pictureBoxTri, "pictureBoxTri");
             this.pictureBoxTri.Name = "pictureBoxTri";
             this.pictureBoxTri.TabStop = false;
+            this.pictureBoxTri.Tag = "";
             this.pictureBoxTri.Click += new System.EventHandler(this.pictureBoxTri_Click);
             // 
             // pictureBoxY6
@@ -130,6 +134,7 @@ namespace ArdupilotMega.GCSViews
             resources.ApplyResources(this.pictureBoxY6, "pictureBoxY6");
             this.pictureBoxY6.Name = "pictureBoxY6";
             this.pictureBoxY6.TabStop = false;
+            this.pictureBoxY6.Tag = "";
             this.pictureBoxY6.Click += new System.EventHandler(this.pictureBoxY6_Click);
             // 
             // lbl_status
@@ -155,12 +160,17 @@ namespace ArdupilotMega.GCSViews
             resources.ApplyResources(this.pictureBoxHeli, "pictureBoxHeli");
             this.pictureBoxHeli.Name = "pictureBoxHeli";
             this.pictureBoxHeli.TabStop = false;
+            this.pictureBoxHeli.Tag = "";
             this.pictureBoxHeli.Click += new System.EventHandler(this.pictureBoxHeli_Click);
             // 
             // BUT_setup
             // 
+            this.BUT_setup.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
+            this.BUT_setup.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
             resources.ApplyResources(this.BUT_setup, "BUT_setup");
             this.BUT_setup.Name = "BUT_setup";
+            this.BUT_setup.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
+            this.BUT_setup.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_setup.UseVisualStyleBackColor = true;
             this.BUT_setup.Click += new System.EventHandler(this.BUT_setup_Click);
             // 
@@ -170,6 +180,7 @@ namespace ArdupilotMega.GCSViews
             resources.ApplyResources(this.pictureBoxHilimage, "pictureBoxHilimage");
             this.pictureBoxHilimage.Name = "pictureBoxHilimage";
             this.pictureBoxHilimage.TabStop = false;
+            this.pictureBoxHilimage.Tag = "";
             // 
             // pictureBoxAPHil
             // 
@@ -178,6 +189,7 @@ namespace ArdupilotMega.GCSViews
             resources.ApplyResources(this.pictureBoxAPHil, "pictureBoxAPHil");
             this.pictureBoxAPHil.Name = "pictureBoxAPHil";
             this.pictureBoxAPHil.TabStop = false;
+            this.pictureBoxAPHil.Tag = "";
             this.pictureBoxAPHil.Click += new System.EventHandler(this.pictureBoxAPHil_Click);
             // 
             // pictureBoxACHil
@@ -187,6 +199,7 @@ namespace ArdupilotMega.GCSViews
             resources.ApplyResources(this.pictureBoxACHil, "pictureBoxACHil");
             this.pictureBoxACHil.Name = "pictureBoxACHil";
             this.pictureBoxACHil.TabStop = false;
+            this.pictureBoxACHil.Tag = "";
             this.pictureBoxACHil.Click += new System.EventHandler(this.pictureBoxACHil_Click);
             // 
             // pictureBoxACHHil
@@ -196,6 +209,7 @@ namespace ArdupilotMega.GCSViews
             resources.ApplyResources(this.pictureBoxACHHil, "pictureBoxACHHil");
             this.pictureBoxACHHil.Name = "pictureBoxACHHil";
             this.pictureBoxACHHil.TabStop = false;
+            this.pictureBoxACHHil.Tag = "";
             this.pictureBoxACHHil.Click += new System.EventHandler(this.pictureBoxACHHil_Click);
             // 
             // pictureBoxOcta
@@ -204,6 +218,7 @@ namespace ArdupilotMega.GCSViews
             resources.ApplyResources(this.pictureBoxOcta, "pictureBoxOcta");
             this.pictureBoxOcta.Name = "pictureBoxOcta";
             this.pictureBoxOcta.TabStop = false;
+            this.pictureBoxOcta.Tag = "";
             this.pictureBoxOcta.Click += new System.EventHandler(this.pictureBoxOcta_Click);
             // 
             // pictureBoxOctaQuad
@@ -212,6 +227,7 @@ namespace ArdupilotMega.GCSViews
             resources.ApplyResources(this.pictureBoxOctaQuad, "pictureBoxOctaQuad");
             this.pictureBoxOctaQuad.Name = "pictureBoxOctaQuad";
             this.pictureBoxOctaQuad.TabStop = false;
+            this.pictureBoxOctaQuad.Tag = "";
             this.pictureBoxOctaQuad.Click += new System.EventHandler(this.pictureBoxOctav_Click);
             // 
             // pictureBoxRover
@@ -221,6 +237,7 @@ namespace ArdupilotMega.GCSViews
             resources.ApplyResources(this.pictureBoxRover, "pictureBoxRover");
             this.pictureBoxRover.Name = "pictureBoxRover";
             this.pictureBoxRover.TabStop = false;
+            this.pictureBoxRover.Tag = "";
             this.pictureBoxRover.Click += new System.EventHandler(this.pictureBoxRover_Click);
             // 
             // label1
@@ -299,7 +316,6 @@ namespace ArdupilotMega.GCSViews
             this.Controls.Add(this.pictureBoxHexa);
             this.Controls.Add(this.pictureBoxQuad);
             this.Controls.Add(this.pictureBoxAPM);
-            this.MinimumSize = new System.Drawing.Size(1008, 461);
             this.Name = "Firmware";
             this.Load += new System.EventHandler(this.Firmware_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxHilimage)).EndInit();

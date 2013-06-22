@@ -42,66 +42,6 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             }
         }
 
-        bool indochange = false;
-
-        void DoChange(Frame frame)
-        {
-            if (indochange)
-                return;
-
-            indochange = true;
-
-            switch (frame)
-            {
-                case Frame.Plus:
-                    FadePicBoxes(pictureBoxPlus, EnabledOpacity);
-                    FadePicBoxes(pictureBoxX, DisabledOpacity);
-                    FadePicBoxes(pictureBoxV, DisabledOpacity);
-                    radioButton_Plus.Checked = true;
-                    radioButton_V.Checked = false;
-                    radioButton_X.Checked = false;
-                    SetFrameParam(frame);
-                    break;
-                case Frame.X:
-                    FadePicBoxes(pictureBoxPlus, DisabledOpacity);
-                    FadePicBoxes(pictureBoxX, EnabledOpacity);
-                    FadePicBoxes(pictureBoxV, DisabledOpacity);
-                    radioButton_Plus.Checked = false;
-                    radioButton_V.Checked = false;
-                    radioButton_X.Checked = true;
-                    SetFrameParam(frame);
-                    break;
-                case Frame.V:
-                    FadePicBoxes(pictureBoxPlus, DisabledOpacity);
-                    FadePicBoxes(pictureBoxX, DisabledOpacity);
-                    FadePicBoxes(pictureBoxV, EnabledOpacity);
-                    radioButton_Plus.Checked = false;
-                    radioButton_V.Checked = true;
-                    radioButton_X.Checked = false;
-                    SetFrameParam(frame);
-                    break;
-            }
-            indochange = false;
-        }
-
-        private void SetFrameParam(Frame frame)
-        {
-            try
-            {
-                MainV2.comPort.setParam("FRAME", (int)frame);
-            }
-            catch
-            {
-                CustomMessageBox.Show("Set frame failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-        }
-
-        private void FadePicBoxes(Control picbox, float Opacity)
-        {
-            var fade = new Transition(new TransitionType_Linear(400));
-            fade.add(picbox, "Opacity", Opacity);
-            fade.run();
-        }
 
         public void Activate()
         {
@@ -110,8 +50,6 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                 this.Enabled = false;
                 return;
             }
-
-            DoChange((Frame)Enum.Parse(typeof(Frame), MainV2.comPort.MAV.param["FRAME"].ToString()));
 
             BUT_calib_accell.Enabled = true;
         }
@@ -131,11 +69,19 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                 if (CHK_acversion.Checked)
                 {
                     count++;
-                    MainV2.comPort.sendPacket(new MAVLink.mavlink_command_ack_t() { command = 1, result = count });// doCommand(MAVLink.MAV_CMD.PREFLIGHT_CALIBRATION, 0, 0, 0, 0, 1, 0, 0);
+                    try
+                    {
+                        MainV2.comPort.sendPacket(new MAVLink.mavlink_command_ack_t() { command = 1, result = count });// doCommand(MAVLink.MAV_CMD.PREFLIGHT_CALIBRATION, 0, 0, 0, 0, 1, 0, 0);
+                    }
+                    catch { CustomMessageBox.Show("Error writing to serial port"); return; }
                 }
                 else
                 {
-                    MainV2.comPort.BaseStream.WriteLine("");
+                    try
+                    {
+                        MainV2.comPort.BaseStream.WriteLine("");
+                    }
+                    catch { CustomMessageBox.Show("Error writing to serial port"); return; }
                 }
                 return;
             }
@@ -209,35 +155,6 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             });
         }
 
-        private void radioButton_Plus_CheckedChanged(object sender, EventArgs e)
-        {
-            DoChange(Frame.Plus);
-        }
-
-        private void radioButton_X_CheckedChanged(object sender, EventArgs e)
-        {
-            DoChange(Frame.X);
-        }
-
-        private void pictureBoxPlus_Click(object sender, EventArgs e)
-        {
-            DoChange(Frame.Plus);
-        }
-
-        private void pictureBoxX_Click(object sender, EventArgs e)
-        {
-            DoChange(Frame.X);
-        }
-
-        private void pictureBoxV_Click(object sender, EventArgs e)
-        {
-            DoChange(Frame.V);
-        }
-
-        private void radioButton_V_CheckedChanged(object sender, EventArgs e)
-        {
-            DoChange(Frame.V);
-        }
 
     }
 }

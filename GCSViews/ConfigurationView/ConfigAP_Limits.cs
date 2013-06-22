@@ -99,6 +99,10 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                     {
                         NumericUpDown nud = ((NumericUpDown)ctls[0]);
                         Console.WriteLine(nud.Name + " " + copy[key]);
+                        // set new max
+                        if ((decimal)(float)copy[key] > nud.Maximum)
+                            nud.Maximum = (decimal)(float)copy[key];
+
                         nud.Value = (decimal)(float)copy[key];
                         nud.Enabled = true;
                     }

@@ -268,7 +268,7 @@ namespace ArdupilotMega.Swarm
             // clean up old
             foreach (Control ctl in PNL_status.Controls)
             {
-                if (!MainV2.Comports.Contains(ctl.Tag))
+                if (!MainV2.Comports.Contains((MAVLink)ctl.Tag))
                 {
                     ctl.Dispose();
                 }

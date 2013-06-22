@@ -14,19 +14,26 @@ namespace ArdupilotMega.Controls
 {
     public class MyButton : Button
     {
-        bool mouseover = false;
-        bool mousedown = false;
+        bool _mouseover = false;
+        bool _mousedown = false;
+
+        internal Color _BGGradTop = Color.FromArgb(0x94, 0xc1, 0x1f);
+        internal Color _BGGradBot = Color.FromArgb(0xcd, 0xe2, 0x96);
+        internal Color _TextColor = Color.FromArgb(0x40, 0x57, 0x04);
+        internal Color _Outline = Color.FromArgb(0x79, 0x94, 0x29);
 
        bool inOnPaint = false;
 
-       public Color BGGradTop = Color.FromArgb(0x94, 0xc1, 0x1f);
-
-       public Color BGGradBot = Color.FromArgb(0xcd, 0xe2, 0x96);
+       [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Colors")]
+       public Color BGGradTop { get { return _BGGradTop; } set { _BGGradTop = value; } }
+         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Colors")]
+       public Color BGGradBot { get { return _BGGradBot; } set { _BGGradBot = value; } }
 
         // i want to ignore forecolor
-       public Color TextColor = Color.FromArgb(0x40, 0x57, 0x04);
-
-       public Color Outline = Color.FromArgb(0x79, 0x94, 0x29);
+         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Colors")]
+         public Color TextColor { get { return _TextColor; } set { _TextColor = value; } }
+         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Colors")]
+         public Color Outline { get { return _Outline; } set { _Outline = value; } }
 
         protected override void OnPaint(PaintEventArgs pevent)
         {
@@ -87,13 +94,13 @@ namespace ArdupilotMega.Controls
 
                 SolidBrush mybrush = new SolidBrush(TextColor);
 
-                if (mouseover)
+                if (_mouseover)
                 {
                     SolidBrush brush = new SolidBrush(Color.FromArgb(73, 0x2b, 0x3a, 0x03));
 
                     gr.FillPath(brush, outline);
                 }
-                if (mousedown)
+                if (_mousedown)
                 {
                     SolidBrush brush = new SolidBrush(Color.FromArgb(73, 0x2b, 0x3a, 0x03));
 
@@ -136,25 +143,25 @@ namespace ArdupilotMega.Controls
 
         protected override void OnMouseEnter(EventArgs e)
         {
-            mouseover = true;
+            _mouseover = true;
             base.OnMouseEnter(e);
         }
 
         protected override void OnMouseLeave(EventArgs e)
         {
-            mouseover = false;
+            _mouseover = false;
             base.OnMouseLeave(e);
         }
 
         protected override void OnMouseDown(MouseEventArgs mevent)
         {
-            mousedown = true;
+            _mousedown = true;
             base.OnMouseDown(mevent);
         }
 
         protected override void OnMouseUp(MouseEventArgs mevent)
         {
-            mousedown = false;
+            _mousedown = false;
             base.OnMouseUp(mevent);
         }
     }

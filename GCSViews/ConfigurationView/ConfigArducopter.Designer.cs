@@ -37,10 +37,6 @@
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.THR_RATE_D = new System.Windows.Forms.NumericUpDown();
             this.label29 = new System.Windows.Forms.Label();
-            this.label14 = new System.Windows.Forms.Label();
-            this.THR_RATE_IMAX = new System.Windows.Forms.NumericUpDown();
-            this.THR_RATE_I = new System.Windows.Forms.NumericUpDown();
-            this.label20 = new System.Windows.Forms.Label();
             this.THR_RATE_P = new System.Windows.Forms.NumericUpDown();
             this.label25 = new System.Windows.Forms.Label();
             this.CHK_lockrollpitch = new System.Windows.Forms.CheckBox();
@@ -59,38 +55,18 @@
             this.XTRK_GAIN_SC = new System.Windows.Forms.NumericUpDown();
             this.label18 = new System.Windows.Forms.Label();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
-            this.THR_ALT_IMAX = new System.Windows.Forms.NumericUpDown();
-            this.label19 = new System.Windows.Forms.Label();
-            this.THR_ALT_I = new System.Windows.Forms.NumericUpDown();
-            this.label21 = new System.Windows.Forms.Label();
             this.THR_ALT_P = new System.Windows.Forms.NumericUpDown();
             this.label22 = new System.Windows.Forms.Label();
             this.groupBox19 = new System.Windows.Forms.GroupBox();
-            this.HLD_LAT_IMAX = new System.Windows.Forms.NumericUpDown();
-            this.label28 = new System.Windows.Forms.Label();
-            this.HLD_LAT_I = new System.Windows.Forms.NumericUpDown();
-            this.label30 = new System.Windows.Forms.Label();
             this.HLD_LAT_P = new System.Windows.Forms.NumericUpDown();
             this.label31 = new System.Windows.Forms.Label();
             this.groupBox20 = new System.Windows.Forms.GroupBox();
-            this.STB_YAW_IMAX = new System.Windows.Forms.NumericUpDown();
-            this.label32 = new System.Windows.Forms.Label();
-            this.STB_YAW_I = new System.Windows.Forms.NumericUpDown();
-            this.label34 = new System.Windows.Forms.Label();
             this.STB_YAW_P = new System.Windows.Forms.NumericUpDown();
             this.label35 = new System.Windows.Forms.Label();
             this.groupBox21 = new System.Windows.Forms.GroupBox();
-            this.STB_PIT_IMAX = new System.Windows.Forms.NumericUpDown();
-            this.label36 = new System.Windows.Forms.Label();
-            this.STB_PIT_I = new System.Windows.Forms.NumericUpDown();
-            this.label41 = new System.Windows.Forms.Label();
             this.STB_PIT_P = new System.Windows.Forms.NumericUpDown();
             this.label42 = new System.Windows.Forms.Label();
             this.groupBox22 = new System.Windows.Forms.GroupBox();
-            this.STB_RLL_IMAX = new System.Windows.Forms.NumericUpDown();
-            this.label43 = new System.Windows.Forms.Label();
-            this.STB_RLL_I = new System.Windows.Forms.NumericUpDown();
-            this.label45 = new System.Windows.Forms.Label();
             this.STB_RLL_P = new System.Windows.Forms.NumericUpDown();
             this.label46 = new System.Windows.Forms.Label();
             this.groupBox23 = new System.Windows.Forms.GroupBox();
@@ -150,8 +126,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.TUNE_HIGH)).BeginInit();
             this.groupBox5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.THR_RATE_D)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.THR_RATE_IMAX)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.THR_RATE_I)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.THR_RATE_P)).BeginInit();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.WPNAV_SPEED_UP)).BeginInit();
@@ -162,24 +136,14 @@
             this.groupBox6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.XTRK_GAIN_SC)).BeginInit();
             this.groupBox7.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.THR_ALT_IMAX)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.THR_ALT_I)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.THR_ALT_P)).BeginInit();
             this.groupBox19.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.HLD_LAT_IMAX)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.HLD_LAT_I)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.HLD_LAT_P)).BeginInit();
             this.groupBox20.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.STB_YAW_IMAX)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.STB_YAW_I)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.STB_YAW_P)).BeginInit();
             this.groupBox21.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.STB_PIT_IMAX)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.STB_PIT_I)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.STB_PIT_P)).BeginInit();
             this.groupBox22.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.STB_RLL_IMAX)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.STB_RLL_I)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.STB_RLL_P)).BeginInit();
             this.groupBox23.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.RATE_YAW_D)).BeginInit();
@@ -221,7 +185,7 @@
             // TUNE
             // 
             this.TUNE.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.TUNE.DropDownWidth = 150;
+            this.TUNE.DropDownWidth = 170;
             this.TUNE.FormattingEnabled = true;
             resources.ApplyResources(this.TUNE, "TUNE");
             this.TUNE.Name = "TUNE";
@@ -229,7 +193,7 @@
             // CH7_OPT
             // 
             this.CH7_OPT.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CH7_OPT.DropDownWidth = 150;
+            this.CH7_OPT.DropDownWidth = 170;
             this.CH7_OPT.FormattingEnabled = true;
             resources.ApplyResources(this.CH7_OPT, "CH7_OPT");
             this.CH7_OPT.Name = "CH7_OPT";
@@ -238,10 +202,6 @@
             // 
             this.groupBox5.Controls.Add(this.THR_RATE_D);
             this.groupBox5.Controls.Add(this.label29);
-            this.groupBox5.Controls.Add(this.label14);
-            this.groupBox5.Controls.Add(this.THR_RATE_IMAX);
-            this.groupBox5.Controls.Add(this.THR_RATE_I);
-            this.groupBox5.Controls.Add(this.label20);
             this.groupBox5.Controls.Add(this.THR_RATE_P);
             this.groupBox5.Controls.Add(this.label25);
             resources.ApplyResources(this.groupBox5, "groupBox5");
@@ -257,31 +217,6 @@
             // 
             resources.ApplyResources(this.label29, "label29");
             this.label29.Name = "label29";
-            // 
-            // label14
-            // 
-            resources.ApplyResources(this.label14, "label14");
-            this.label14.Name = "label14";
-            // 
-            // THR_RATE_IMAX
-            // 
-            resources.ApplyResources(this.THR_RATE_IMAX, "THR_RATE_IMAX");
-            this.THR_RATE_IMAX.Maximum = new decimal(new int[] {
-            1000,
-            0,
-            0,
-            0});
-            this.THR_RATE_IMAX.Name = "THR_RATE_IMAX";
-            // 
-            // THR_RATE_I
-            // 
-            resources.ApplyResources(this.THR_RATE_I, "THR_RATE_I");
-            this.THR_RATE_I.Name = "THR_RATE_I";
-            // 
-            // label20
-            // 
-            resources.ApplyResources(this.label20, "label20");
-            this.label20.Name = "label20";
             // 
             // THR_RATE_P
             // 
@@ -387,35 +322,11 @@
             // 
             // groupBox7
             // 
-            this.groupBox7.Controls.Add(this.THR_ALT_IMAX);
-            this.groupBox7.Controls.Add(this.label19);
-            this.groupBox7.Controls.Add(this.THR_ALT_I);
-            this.groupBox7.Controls.Add(this.label21);
             this.groupBox7.Controls.Add(this.THR_ALT_P);
             this.groupBox7.Controls.Add(this.label22);
             resources.ApplyResources(this.groupBox7, "groupBox7");
             this.groupBox7.Name = "groupBox7";
             this.groupBox7.TabStop = false;
-            // 
-            // THR_ALT_IMAX
-            // 
-            resources.ApplyResources(this.THR_ALT_IMAX, "THR_ALT_IMAX");
-            this.THR_ALT_IMAX.Name = "THR_ALT_IMAX";
-            // 
-            // label19
-            // 
-            resources.ApplyResources(this.label19, "label19");
-            this.label19.Name = "label19";
-            // 
-            // THR_ALT_I
-            // 
-            resources.ApplyResources(this.THR_ALT_I, "THR_ALT_I");
-            this.THR_ALT_I.Name = "THR_ALT_I";
-            // 
-            // label21
-            // 
-            resources.ApplyResources(this.label21, "label21");
-            this.label21.Name = "label21";
             // 
             // THR_ALT_P
             // 
@@ -429,35 +340,11 @@
             // 
             // groupBox19
             // 
-            this.groupBox19.Controls.Add(this.HLD_LAT_IMAX);
-            this.groupBox19.Controls.Add(this.label28);
-            this.groupBox19.Controls.Add(this.HLD_LAT_I);
-            this.groupBox19.Controls.Add(this.label30);
             this.groupBox19.Controls.Add(this.HLD_LAT_P);
             this.groupBox19.Controls.Add(this.label31);
             resources.ApplyResources(this.groupBox19, "groupBox19");
             this.groupBox19.Name = "groupBox19";
             this.groupBox19.TabStop = false;
-            // 
-            // HLD_LAT_IMAX
-            // 
-            resources.ApplyResources(this.HLD_LAT_IMAX, "HLD_LAT_IMAX");
-            this.HLD_LAT_IMAX.Name = "HLD_LAT_IMAX";
-            // 
-            // label28
-            // 
-            resources.ApplyResources(this.label28, "label28");
-            this.label28.Name = "label28";
-            // 
-            // HLD_LAT_I
-            // 
-            resources.ApplyResources(this.HLD_LAT_I, "HLD_LAT_I");
-            this.HLD_LAT_I.Name = "HLD_LAT_I";
-            // 
-            // label30
-            // 
-            resources.ApplyResources(this.label30, "label30");
-            this.label30.Name = "label30";
             // 
             // HLD_LAT_P
             // 
@@ -471,35 +358,11 @@
             // 
             // groupBox20
             // 
-            this.groupBox20.Controls.Add(this.STB_YAW_IMAX);
-            this.groupBox20.Controls.Add(this.label32);
-            this.groupBox20.Controls.Add(this.STB_YAW_I);
-            this.groupBox20.Controls.Add(this.label34);
             this.groupBox20.Controls.Add(this.STB_YAW_P);
             this.groupBox20.Controls.Add(this.label35);
             resources.ApplyResources(this.groupBox20, "groupBox20");
             this.groupBox20.Name = "groupBox20";
             this.groupBox20.TabStop = false;
-            // 
-            // STB_YAW_IMAX
-            // 
-            resources.ApplyResources(this.STB_YAW_IMAX, "STB_YAW_IMAX");
-            this.STB_YAW_IMAX.Name = "STB_YAW_IMAX";
-            // 
-            // label32
-            // 
-            resources.ApplyResources(this.label32, "label32");
-            this.label32.Name = "label32";
-            // 
-            // STB_YAW_I
-            // 
-            resources.ApplyResources(this.STB_YAW_I, "STB_YAW_I");
-            this.STB_YAW_I.Name = "STB_YAW_I";
-            // 
-            // label34
-            // 
-            resources.ApplyResources(this.label34, "label34");
-            this.label34.Name = "label34";
             // 
             // STB_YAW_P
             // 
@@ -513,35 +376,11 @@
             // 
             // groupBox21
             // 
-            this.groupBox21.Controls.Add(this.STB_PIT_IMAX);
-            this.groupBox21.Controls.Add(this.label36);
-            this.groupBox21.Controls.Add(this.STB_PIT_I);
-            this.groupBox21.Controls.Add(this.label41);
             this.groupBox21.Controls.Add(this.STB_PIT_P);
             this.groupBox21.Controls.Add(this.label42);
             resources.ApplyResources(this.groupBox21, "groupBox21");
             this.groupBox21.Name = "groupBox21";
             this.groupBox21.TabStop = false;
-            // 
-            // STB_PIT_IMAX
-            // 
-            resources.ApplyResources(this.STB_PIT_IMAX, "STB_PIT_IMAX");
-            this.STB_PIT_IMAX.Name = "STB_PIT_IMAX";
-            // 
-            // label36
-            // 
-            resources.ApplyResources(this.label36, "label36");
-            this.label36.Name = "label36";
-            // 
-            // STB_PIT_I
-            // 
-            resources.ApplyResources(this.STB_PIT_I, "STB_PIT_I");
-            this.STB_PIT_I.Name = "STB_PIT_I";
-            // 
-            // label41
-            // 
-            resources.ApplyResources(this.label41, "label41");
-            this.label41.Name = "label41";
             // 
             // STB_PIT_P
             // 
@@ -555,35 +394,11 @@
             // 
             // groupBox22
             // 
-            this.groupBox22.Controls.Add(this.STB_RLL_IMAX);
-            this.groupBox22.Controls.Add(this.label43);
-            this.groupBox22.Controls.Add(this.STB_RLL_I);
-            this.groupBox22.Controls.Add(this.label45);
             this.groupBox22.Controls.Add(this.STB_RLL_P);
             this.groupBox22.Controls.Add(this.label46);
             resources.ApplyResources(this.groupBox22, "groupBox22");
             this.groupBox22.Name = "groupBox22";
             this.groupBox22.TabStop = false;
-            // 
-            // STB_RLL_IMAX
-            // 
-            resources.ApplyResources(this.STB_RLL_IMAX, "STB_RLL_IMAX");
-            this.STB_RLL_IMAX.Name = "STB_RLL_IMAX";
-            // 
-            // label43
-            // 
-            resources.ApplyResources(this.label43, "label43");
-            this.label43.Name = "label43";
-            // 
-            // STB_RLL_I
-            // 
-            resources.ApplyResources(this.STB_RLL_I, "STB_RLL_I");
-            this.STB_RLL_I.Name = "STB_RLL_I";
-            // 
-            // label45
-            // 
-            resources.ApplyResources(this.label45, "label45");
-            this.label45.Name = "label45";
             // 
             // STB_RLL_P
             // 
@@ -819,15 +634,23 @@
             // 
             // BUT_rerequestparams
             // 
+            this.BUT_rerequestparams.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
+            this.BUT_rerequestparams.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
             resources.ApplyResources(this.BUT_rerequestparams, "BUT_rerequestparams");
             this.BUT_rerequestparams.Name = "BUT_rerequestparams";
+            this.BUT_rerequestparams.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
+            this.BUT_rerequestparams.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_rerequestparams.UseVisualStyleBackColor = true;
             this.BUT_rerequestparams.Click += new System.EventHandler(this.BUT_rerequestparams_Click);
             // 
             // BUT_writePIDS
             // 
+            this.BUT_writePIDS.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
+            this.BUT_writePIDS.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
             resources.ApplyResources(this.BUT_writePIDS, "BUT_writePIDS");
             this.BUT_writePIDS.Name = "BUT_writePIDS";
+            this.BUT_writePIDS.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
+            this.BUT_writePIDS.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_writePIDS.UseVisualStyleBackColor = true;
             this.BUT_writePIDS.Click += new System.EventHandler(this.BUT_writePIDS_Click);
             // 
@@ -920,8 +743,12 @@
             // 
             // BUT_refreshpart
             // 
+            this.BUT_refreshpart.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
+            this.BUT_refreshpart.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
             resources.ApplyResources(this.BUT_refreshpart, "BUT_refreshpart");
             this.BUT_refreshpart.Name = "BUT_refreshpart";
+            this.BUT_refreshpart.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
+            this.BUT_refreshpart.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_refreshpart.UseVisualStyleBackColor = true;
             this.BUT_refreshpart.Click += new System.EventHandler(this.BUT_refreshpart_Click);
             // 
@@ -959,8 +786,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.TUNE_HIGH)).EndInit();
             this.groupBox5.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.THR_RATE_D)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.THR_RATE_IMAX)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.THR_RATE_I)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.THR_RATE_P)).EndInit();
             this.groupBox4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.WPNAV_SPEED_UP)).EndInit();
@@ -971,24 +796,14 @@
             this.groupBox6.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.XTRK_GAIN_SC)).EndInit();
             this.groupBox7.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.THR_ALT_IMAX)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.THR_ALT_I)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.THR_ALT_P)).EndInit();
             this.groupBox19.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.HLD_LAT_IMAX)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.HLD_LAT_I)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.HLD_LAT_P)).EndInit();
             this.groupBox20.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.STB_YAW_IMAX)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.STB_YAW_I)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.STB_YAW_P)).EndInit();
             this.groupBox21.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.STB_PIT_IMAX)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.STB_PIT_I)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.STB_PIT_P)).EndInit();
             this.groupBox22.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.STB_RLL_IMAX)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.STB_RLL_I)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.STB_RLL_P)).EndInit();
             this.groupBox23.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.RATE_YAW_D)).EndInit();
@@ -1032,10 +847,6 @@
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.NumericUpDown THR_RATE_D;
         private System.Windows.Forms.Label label29;
-        private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.NumericUpDown THR_RATE_IMAX;
-        private System.Windows.Forms.NumericUpDown THR_RATE_I;
-        private System.Windows.Forms.Label label20;
         private System.Windows.Forms.NumericUpDown THR_RATE_P;
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.CheckBox CHK_lockrollpitch;
@@ -1054,38 +865,18 @@
         private System.Windows.Forms.NumericUpDown XTRK_GAIN_SC;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.GroupBox groupBox7;
-        private System.Windows.Forms.NumericUpDown THR_ALT_IMAX;
-        private System.Windows.Forms.Label label19;
-        private System.Windows.Forms.NumericUpDown THR_ALT_I;
-        private System.Windows.Forms.Label label21;
         private System.Windows.Forms.NumericUpDown THR_ALT_P;
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.GroupBox groupBox19;
-        private System.Windows.Forms.NumericUpDown HLD_LAT_IMAX;
-        private System.Windows.Forms.Label label28;
-        private System.Windows.Forms.NumericUpDown HLD_LAT_I;
-        private System.Windows.Forms.Label label30;
         private System.Windows.Forms.NumericUpDown HLD_LAT_P;
         private System.Windows.Forms.Label label31;
         private System.Windows.Forms.GroupBox groupBox20;
-        private System.Windows.Forms.NumericUpDown STB_YAW_IMAX;
-        private System.Windows.Forms.Label label32;
-        private System.Windows.Forms.NumericUpDown STB_YAW_I;
-        private System.Windows.Forms.Label label34;
         private System.Windows.Forms.NumericUpDown STB_YAW_P;
         private System.Windows.Forms.Label label35;
         private System.Windows.Forms.GroupBox groupBox21;
-        private System.Windows.Forms.NumericUpDown STB_PIT_IMAX;
-        private System.Windows.Forms.Label label36;
-        private System.Windows.Forms.NumericUpDown STB_PIT_I;
-        private System.Windows.Forms.Label label41;
         private System.Windows.Forms.NumericUpDown STB_PIT_P;
         private System.Windows.Forms.Label label42;
         private System.Windows.Forms.GroupBox groupBox22;
-        private System.Windows.Forms.NumericUpDown STB_RLL_IMAX;
-        private System.Windows.Forms.Label label43;
-        private System.Windows.Forms.NumericUpDown STB_RLL_I;
-        private System.Windows.Forms.Label label45;
         private System.Windows.Forms.NumericUpDown STB_RLL_P;
         private System.Windows.Forms.Label label46;
         private System.Windows.Forms.GroupBox groupBox23;

@@ -19,7 +19,7 @@ namespace ArdupilotMega.Controls
       public NumericUpDown NumericUpDownControl { get { return numericUpDown1; } set { numericUpDown1 = value; } }
       public string DescriptionText { get { return label1.Text; } set { label1.Text = value; } }
       public string LabelText { get { return myLabel1.Text; } set { myLabel1.Text = value; } }
-      public TrackBar TrackBarControl { get { return trackBar1; } set { trackBar1 = value; } }
+      public MyTrackBar TrackBarControl { get { return trackBar1; } set { trackBar1 = value; } }
       public float Increment
       {
           get
@@ -29,19 +29,19 @@ namespace ArdupilotMega.Controls
           set
           {
               _increment = value;
-              tbscale = (1 / _increment);
-              trackBar1.TickFrequency = 1;
+              trackBar1.TickFrequency = _increment;
+              trackBar1.SmallChange = _increment;
+              trackBar1.LargeChange = _increment;
               numericUpDown1.Increment = (decimal)_increment;
               numericUpDown1.DecimalPlaces = _increment.ToString(CultureInfo.InvariantCulture).Length - 1;
           }
       }
       public float DisplayScale { get; set; }
-      public float MinRange { get { return _minrange; } set { _minrange = value; numericUpDown1.Minimum = (decimal)(value / DisplayScale); trackBar1.Minimum = (int)(value / _increment); } }
-      public float MaxRange { get { return _maxrange; } set { _maxrange = value; numericUpDown1.Maximum = (decimal)(value / DisplayScale); trackBar1.Maximum = (int)(value / _increment); } }
+      public float MinRange { get { return _minrange; } set { _minrange = value; numericUpDown1.Minimum = (decimal)(value / DisplayScale); trackBar1.Minimum = value; LBL_min.Text = value.ToString(); } }
+      public float MaxRange { get { return _maxrange; } set { _maxrange = value; numericUpDown1.Maximum = (decimal)(value / DisplayScale); trackBar1.Maximum = value; LBL_max.Text = value.ToString(); } }
       float _minrange = 0;
       float _maxrange = 10;
       float _increment = 1;
-      float tbscale = 1;
 
       #region Interface Properties
 
@@ -63,7 +63,7 @@ namespace ArdupilotMega.Controls
             numericUpDown1_ValueChanged(null, null);
 
             if (ValueChanged != null)
-                ValueChanged(Name, Value);
+                ValueChanged(this,Name, Value);
          }
       }
 
@@ -93,7 +93,9 @@ namespace ArdupilotMega.Controls
           MaxRange = maxrange;
           float delta = maxrange - minrange;
 
-          trackBar1.TickFrequency = (int)(delta / 10);
+          Console.WriteLine("RangeControl "+Increment + " " + MinRange + " " + MaxRange);
+
+         // trackBar1.TickFrequency = (int)(delta / 10);
 
           this.Value = value;
       }
@@ -120,7 +122,7 @@ namespace ArdupilotMega.Controls
 
       protected void numericUpDown1_ValueChanged(object sender, EventArgs e)
       {
-         trackBar1.Value =  (int)((float)numericUpDown1.Value * DisplayScale * tbscale) ;
+         trackBar1.Value = (float)numericUpDown1.Value * DisplayScale;
 
          numericUpDown1.BackColor = Color.Green;
 
@@ -131,16 +133,16 @@ namespace ArdupilotMega.Controls
              numericUpDown1.BackColor = Color.Orange;
 
          if (ValueChanged != null)
-             ValueChanged(Name, Value);
+             ValueChanged(this,Name, Value);
       }
 
       protected void trackBar1_ValueChanged(object sender, EventArgs e)
-      {
-          numericUpDown1.Value = (decimal)((float)trackBar1.Value / DisplayScale / tbscale);
-         numericUpDown1.Text = ((float)numericUpDown1.Value).ToString();
+      {         
+          numericUpDown1.Value = (decimal)(trackBar1.Value / DisplayScale);
+         numericUpDown1.Text = (numericUpDown1.Value).ToString();
 
          if (ValueChanged != null)
-             ValueChanged(Name, Value);
+             ValueChanged(this,Name, Value);
       }
 
       #endregion

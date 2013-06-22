@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.ComponentModel;
+using log4net;
+using System.Reflection;
 
 namespace System.Windows.Forms
 {

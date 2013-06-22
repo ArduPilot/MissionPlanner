@@ -192,6 +192,9 @@
   <data name="panel1.Location" type="System.Drawing.Point, System.Drawing">
     <value>1, 19</value>
   </data>
+  <data name="panel1.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>781, 433</value>
+  </data>
   <data name="panel1.Size" type="System.Drawing.Size, System.Drawing">
     <value>781, 452</value>
   </data>
@@ -1588,7 +1591,7 @@
 </value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>3DRRadio Config 1.0a</value>
+    <value>3DRRadio Config 1.01</value>
   </data>
   <data name="&gt;&gt;settingsToolStripMenuItem.Name" xml:space="preserve">
     <value>settingsToolStripMenuItem</value>

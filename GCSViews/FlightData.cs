@@ -246,14 +246,16 @@ namespace ArdupilotMega.GCSViews
             {
                 // field.Name has the field's name.
                 object fieldValue;
+                TypeCode typeCode;
                 try
                 {
                     fieldValue = field.GetValue(thisBoxed, null); // Get value
+
+                    // Get the TypeCode enumeration. Multiple types get mapped to a common typecode.
+                    typeCode = Type.GetTypeCode(fieldValue.GetType());
+
                 }
                 catch { continue; }
-
-                // Get the TypeCode enumeration. Multiple types get mapped to a common typecode.
-                TypeCode typeCode = Type.GetTypeCode(fieldValue.GetType());
 
                 bool add = true;
 
@@ -435,7 +437,7 @@ namespace ArdupilotMega.GCSViews
 
         void gMapControl1_OnMapZoomChanged()
         {
-            TRK_zoom.Value = gMapControl1.Zoom;
+            TRK_zoom.Value = (float)gMapControl1.Zoom;
             Zoomlevel.Value = Convert.ToDecimal(gMapControl1.Zoom);
         }
 
@@ -453,7 +455,9 @@ namespace ArdupilotMega.GCSViews
 
             TRK_zoom.Minimum = gMapControl1.MinZoom;
             TRK_zoom.Maximum = gMapControl1.MaxZoom + 1;
-            TRK_zoom.Value = gMapControl1.Zoom;
+            TRK_zoom.Value = (float)gMapControl1.Zoom;
+
+            gMapControl1.EmptytileBrush = Brushes.Gray;
 
             Zoomlevel.Minimum = gMapControl1.MinZoom;
             Zoomlevel.Maximum = gMapControl1.MaxZoom + 1;
@@ -1855,14 +1859,17 @@ namespace ArdupilotMega.GCSViews
             {
                 // field.Name has the field's name.
                 object fieldValue;
+                TypeCode typeCode;
                 try
                 {
                     fieldValue = field.GetValue(thisBoxed, null); // Get value
-                }
-                catch { continue; }
+        
 
                 // Get the TypeCode enumeration. Multiple types get mapped to a common typecode.
-                TypeCode typeCode = Type.GetTypeCode(fieldValue.GetType());
+                typeCode = Type.GetTypeCode(fieldValue.GetType());
+
+                }
+                catch { continue; }
 
                 if (!(typeCode == TypeCode.Single))
                     continue;
@@ -1936,14 +1943,17 @@ namespace ArdupilotMega.GCSViews
             {
                 // field.Name has the field's name.
                 object fieldValue;
+                TypeCode typeCode;
                 try
                 {
                     fieldValue = field.GetValue(thisBoxed, null); // Get value
-                }
-                catch { continue; }
+            
 
                 // Get the TypeCode enumeration. Multiple types get mapped to a common typecode.
-                TypeCode typeCode = Type.GetTypeCode(fieldValue.GetType());
+                typeCode = Type.GetTypeCode(fieldValue.GetType());
+
+                }
+                catch { continue; }
 
                 if (!(typeCode == TypeCode.Single))
                     continue;
@@ -2399,14 +2409,15 @@ print 'Roll complete'
             {
                 // field.Name has the field's name.
                 object fieldValue;
+                TypeCode typeCode;
                 try
                 {
                     fieldValue = field.GetValue(thisBoxed, null); // Get value
+
+                    // Get the TypeCode enumeration. Multiple types get mapped to a common typecode.
+                    typeCode = Type.GetTypeCode(fieldValue.GetType());
                 }
                 catch { continue; }
-
-                // Get the TypeCode enumeration. Multiple types get mapped to a common typecode.
-                TypeCode typeCode = Type.GetTypeCode(fieldValue.GetType());
 
                 if (!(typeCode == TypeCode.Single))
                     continue;
