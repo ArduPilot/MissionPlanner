@@ -14,15 +14,15 @@ using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using px4uploader;
 using ArdupilotMega.Controls;
+using System.Collections;
 
 namespace ArdupilotMega.GCSViews
 {
-    partial class Firmware : MyUserControl
+    partial class ConfigFirmware : MyUserControl
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         string firmwareurl = "https://raw.github.com/diydrones/binary/master/Firmware/firmware2.xml";
-        //"http://ardupilot-mega.googlecode.com/git/Tools/ArdupilotMegaPlanner/Firmware/firmware2.xml";
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
@@ -100,7 +100,7 @@ namespace ArdupilotMega.GCSViews
             public int k_format_version;
         }
 
-        public Firmware()
+        public ConfigFirmware()
         {
             InitializeComponent();
 

@@ -51,9 +51,6 @@
             this.label15 = new System.Windows.Forms.Label();
             this.WPNAV_SPEED = new System.Windows.Forms.NumericUpDown();
             this.label16 = new System.Windows.Forms.Label();
-            this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.XTRK_GAIN_SC = new System.Windows.Forms.NumericUpDown();
-            this.label18 = new System.Windows.Forms.Label();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.THR_ALT_P = new System.Windows.Forms.NumericUpDown();
             this.label22 = new System.Windows.Forms.Label();
@@ -120,8 +117,9 @@
             this.label7 = new System.Windows.Forms.Label();
             this.THR_ACCEL_P = new System.Windows.Forms.NumericUpDown();
             this.label8 = new System.Windows.Forms.Label();
-            this.MVCHK_thr_Acc_enable = new ArdupilotMega.Controls.MavlinkCheckBox();
             this.BUT_refreshpart = new ArdupilotMega.Controls.MyButton();
+            this.myLabel4 = new ArdupilotMega.Controls.MyLabel();
+            this.CH8_OPT = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.TUNE_LOW)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TUNE_HIGH)).BeginInit();
             this.groupBox5.SuspendLayout();
@@ -133,8 +131,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.WPNAV_SPEED_DN)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.WPNAV_RADIUS)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.WPNAV_SPEED)).BeginInit();
-            this.groupBox6.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.XTRK_GAIN_SC)).BeginInit();
             this.groupBox7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.THR_ALT_P)).BeginInit();
             this.groupBox19.SuspendLayout();
@@ -301,24 +297,6 @@
             // 
             resources.ApplyResources(this.label16, "label16");
             this.label16.Name = "label16";
-            // 
-            // groupBox6
-            // 
-            this.groupBox6.Controls.Add(this.XTRK_GAIN_SC);
-            this.groupBox6.Controls.Add(this.label18);
-            resources.ApplyResources(this.groupBox6, "groupBox6");
-            this.groupBox6.Name = "groupBox6";
-            this.groupBox6.TabStop = false;
-            // 
-            // XTRK_GAIN_SC
-            // 
-            resources.ApplyResources(this.XTRK_GAIN_SC, "XTRK_GAIN_SC");
-            this.XTRK_GAIN_SC.Name = "XTRK_GAIN_SC";
-            // 
-            // label18
-            // 
-            resources.ApplyResources(this.label18, "label18");
-            this.label18.Name = "label18";
             // 
             // groupBox7
             // 
@@ -731,16 +709,6 @@
             resources.ApplyResources(this.label8, "label8");
             this.label8.Name = "label8";
             // 
-            // MVCHK_thr_Acc_enable
-            // 
-            resources.ApplyResources(this.MVCHK_thr_Acc_enable, "MVCHK_thr_Acc_enable");
-            this.MVCHK_thr_Acc_enable.Name = "MVCHK_thr_Acc_enable";
-            this.MVCHK_thr_Acc_enable.OffValue = 0F;
-            this.MVCHK_thr_Acc_enable.OnValue = 1F;
-            this.MVCHK_thr_Acc_enable.param = null;
-            this.MVCHK_thr_Acc_enable.ParamName = null;
-            this.MVCHK_thr_Acc_enable.UseVisualStyleBackColor = true;
-            // 
             // BUT_refreshpart
             // 
             this.BUT_refreshpart.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
@@ -752,12 +720,27 @@
             this.BUT_refreshpart.UseVisualStyleBackColor = true;
             this.BUT_refreshpart.Click += new System.EventHandler(this.BUT_refreshpart_Click);
             // 
+            // myLabel4
+            // 
+            resources.ApplyResources(this.myLabel4, "myLabel4");
+            this.myLabel4.Name = "myLabel4";
+            this.myLabel4.resize = false;
+            // 
+            // CH8_OPT
+            // 
+            this.CH8_OPT.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CH8_OPT.DropDownWidth = 170;
+            this.CH8_OPT.FormattingEnabled = true;
+            resources.ApplyResources(this.CH8_OPT, "CH8_OPT");
+            this.CH8_OPT.Name = "CH8_OPT";
+            // 
             // ConfigArducopter
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.myLabel4);
+            this.Controls.Add(this.CH8_OPT);
             this.Controls.Add(this.BUT_refreshpart);
-            this.Controls.Add(this.MVCHK_thr_Acc_enable);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.BUT_rerequestparams);
@@ -772,7 +755,6 @@
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.CHK_lockrollpitch);
             this.Controls.Add(this.groupBox4);
-            this.Controls.Add(this.groupBox6);
             this.Controls.Add(this.groupBox7);
             this.Controls.Add(this.groupBox19);
             this.Controls.Add(this.groupBox20);
@@ -793,8 +775,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.WPNAV_SPEED_DN)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.WPNAV_RADIUS)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.WPNAV_SPEED)).EndInit();
-            this.groupBox6.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.XTRK_GAIN_SC)).EndInit();
             this.groupBox7.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.THR_ALT_P)).EndInit();
             this.groupBox19.ResumeLayout(false);
@@ -861,9 +841,6 @@
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.NumericUpDown WPNAV_SPEED;
         private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.GroupBox groupBox6;
-        private System.Windows.Forms.NumericUpDown XTRK_GAIN_SC;
-        private System.Windows.Forms.Label label18;
         private System.Windows.Forms.GroupBox groupBox7;
         private System.Windows.Forms.NumericUpDown THR_ALT_P;
         private System.Windows.Forms.Label label22;
@@ -927,7 +904,8 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.NumericUpDown THR_ACCEL_P;
         private System.Windows.Forms.Label label8;
-        private Controls.MavlinkCheckBox MVCHK_thr_Acc_enable;
         private Controls.MyButton BUT_refreshpart;
+        private Controls.MyLabel myLabel4;
+        private System.Windows.Forms.ComboBox CH8_OPT;
     }
 }

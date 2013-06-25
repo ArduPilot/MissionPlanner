@@ -1,6 +1,6 @@
 ﻿namespace ArdupilotMega.Controls
 {
-   partial class RangeControl
+    partial class RangeControlCopy
    {
       /// <summary> 
       /// Required designer variable.
@@ -30,11 +30,11 @@
       {
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.trackBar1 = new ArdupilotMega.Controls.MyTrackBar();
             this.myLabel1 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.LBL_max = new System.Windows.Forms.Label();
             this.LBL_min = new System.Windows.Forms.Label();
-            this.trackBar1 = new System.Windows.Forms.TrackBar();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.tableLayoutPanel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
@@ -56,12 +56,12 @@
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel3.Controls.Add(this.trackBar1, 1, 2);
             this.tableLayoutPanel3.Controls.Add(this.myLabel1, 0, 0);
             this.tableLayoutPanel3.Controls.Add(this.label1, 0, 1);
             this.tableLayoutPanel3.Controls.Add(this.LBL_max, 2, 3);
             this.tableLayoutPanel3.Controls.Add(this.LBL_min, 1, 3);
             this.tableLayoutPanel3.Controls.Add(this.numericUpDown1, 0, 2);
-            this.tableLayoutPanel3.Controls.Add(this.trackBar1, 1, 2);
             this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 4;
@@ -71,6 +71,21 @@
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel3.Size = new System.Drawing.Size(487, 98);
             this.tableLayoutPanel3.TabIndex = 6;
+            // 
+            // trackBar1
+            // 
+            this.tableLayoutPanel3.SetColumnSpan(this.trackBar1, 2);
+            this.trackBar1.LargeChange = 0.004F;
+            this.trackBar1.Location = new System.Drawing.Point(66, 32);
+            this.trackBar1.Maximum = 100F;
+            this.trackBar1.Minimum = 0F;
+            this.trackBar1.Name = "trackBar1";
+            this.trackBar1.Size = new System.Drawing.Size(314, 45);
+            this.trackBar1.SmallChange = 1F;
+            this.trackBar1.TabIndex = 3;
+            this.trackBar1.TickFrequency = 10F;
+            this.trackBar1.TickStyle = System.Windows.Forms.TickStyle.Both;
+            this.trackBar1.Value = 0F;
             // 
             // myLabel1
             // 
@@ -99,7 +114,7 @@
             // 
             this.LBL_max.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.LBL_max.AutoSize = true;
-            this.LBL_max.Location = new System.Drawing.Point(377, 80);
+            this.LBL_max.Location = new System.Drawing.Point(367, 80);
             this.LBL_max.Name = "LBL_max";
             this.LBL_max.Size = new System.Drawing.Size(13, 13);
             this.LBL_max.TabIndex = 6;
@@ -113,20 +128,6 @@
             this.LBL_min.Size = new System.Drawing.Size(13, 13);
             this.LBL_min.TabIndex = 7;
             this.LBL_min.Text = "0";
-            // 
-            // trackBar1
-            // 
-            this.tableLayoutPanel3.SetColumnSpan(this.trackBar1, 2);
-            this.trackBar1.LargeChange = 1;
-            this.trackBar1.Location = new System.Drawing.Point(66, 32);
-            this.trackBar1.Maximum = 100;
-            this.trackBar1.Minimum = 0;
-            this.trackBar1.Name = "trackBar1";
-            this.trackBar1.Size = new System.Drawing.Size(324, 45);
-            this.trackBar1.SmallChange = 1;
-            this.trackBar1.TabIndex = 8;
-            this.trackBar1.TickFrequency = 10;
-            this.trackBar1.Value = 0;
             // 
             // RangeControl
             // 
@@ -146,13 +147,13 @@
 
       #endregion
 
+      private MyTrackBar trackBar1;
       private System.Windows.Forms.NumericUpDown numericUpDown1;
       private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
       private System.Windows.Forms.Label myLabel1;
       private System.Windows.Forms.Label label1;
       private System.Windows.Forms.Label LBL_max;
       private System.Windows.Forms.Label LBL_min;
-      private System.Windows.Forms.TrackBar trackBar1;
 
    }
 }

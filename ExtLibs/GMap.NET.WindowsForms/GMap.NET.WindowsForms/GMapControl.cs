@@ -1082,11 +1082,14 @@ namespace GMap.NET.WindowsForms
 
       public Color EmptyMapBackground = Color.WhiteSmoke;
 
+      Bitmap objBitmap;
+
       protected override void OnPaint(PaintEventArgs e)
       {
           try
           {
-              Bitmap objBitmap = new Bitmap(this.Width, this.Height);
+              if (objBitmap == null || objBitmap.Width != this.Width || objBitmap.Height != this.Height)
+                objBitmap = new Bitmap(this.Width, this.Height);
 
               Graphics graphicsObject = Graphics.FromImage(objBitmap);
 

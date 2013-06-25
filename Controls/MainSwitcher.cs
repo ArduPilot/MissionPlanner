@@ -73,9 +73,13 @@ namespace ArdupilotMega.Controls
 
             nextscreen.Control.Location = new Point(0, 0);
 
-            nextscreen.Control.Dock = DockStyle.Fill;
+            nextscreen.Control.AutoScaleMode = AutoScaleMode.None;
 
             nextscreen.Control.Size = MainControl.Size;
+
+            nextscreen.Control.Dock = DockStyle.Fill;
+
+            MainControl.SuspendLayout();
 
             if (nextscreen.Control is IActivate)
             {
@@ -86,9 +90,9 @@ namespace ArdupilotMega.Controls
 
             MainControl.Controls.Add(nextscreen.Control);
 
-            nextscreen.Control.PerformLayout();
-
             nextscreen.Visible = true;
+
+            MainControl.ResumeLayout();
 
             current = nextscreen;
 

@@ -25,6 +25,19 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
 
         private void BUT_MagCalibration_Click(object sender, EventArgs e)
         {
+            CustomMessageBox.Show("Data will be collected for 60 seconds, Please click ok and move the apm around all axises");
+
+            ProgressReporterDialogue prd = new ProgressReporterDialogue();
+
+            Utilities.ThemeManager.ApplyThemeTo(prd);
+
+            prd.DoWork += prd_DoWork;
+
+            prd.RunBackgroundOperationAsync();
+        }
+
+        void prd_DoWork(object sender, ProgressWorkerEventArgs e, object passdata = null)
+        {
             // list of x,y,z 's
             List<Tuple<float, float, float>> data = new List<Tuple<float, float, float>>();
 
@@ -32,8 +45,6 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             byte backupratesens = MainV2.comPort.MAV.cs.ratesensors;
             MainV2.comPort.MAV.cs.ratesensors = 10;
             MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RAW_SENSORS, MainV2.comPort.MAV.cs.ratesensors); // mag captures at 10 hz
-
-            CustomMessageBox.Show("Data will be collected for 60 seconds, Please click ok and move the apm around all axises");
 
             DateTime deadline = DateTime.Now.AddSeconds(60);
 
@@ -43,8 +54,18 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
 
             while (deadline > DateTime.Now)
             {
-                // dont let the gui hang
-                Application.DoEvents();
+                double timeremaining = (deadline - DateTime.Now).TotalSeconds;
+                ((ProgressReporterDialogue)sender).UpdateProgressAndStatus((int)(((60 - timeremaining) / 60) * 100), timeremaining.ToString("0") + " Seconds");
+
+                if (e.CancelRequested)
+                {
+                    // restore old sensor rate
+                    MainV2.comPort.MAV.cs.ratesensors = backupratesens;
+                    MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RAW_SENSORS, MainV2.comPort.MAV.cs.ratesensors);
+
+                    e.CancelAcknowledged = true;
+                    return;
+                }
 
                 if (oldmx != MainV2.comPort.MAV.cs.mx &&
                     oldmy != MainV2.comPort.MAV.cs.my &&

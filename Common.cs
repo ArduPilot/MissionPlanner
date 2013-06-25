@@ -498,7 +498,7 @@ namespace ArdupilotMega
             [DisplayText("APM2 D9")]
             AP_PRODUCT_ID_APM2_REV_D9 = 0x59	// APM2 with MPU6000_REV_D9 
         }
-
+        /*
         public enum apmmodes
         {
             [DisplayText("Manual")]
@@ -571,109 +571,35 @@ namespace ArdupilotMega
             [DisplayText("Toy")]
 			TOY = 11
         }
-
-        public enum ac2ch7modes
+        */
+        /// <summary>
+        /// use .ToList() to a datasource
+        /// </summary>
+        /// <param name="param"></param>
+        /// <returns></returns>
+        public static Dictionary<int, string> getOptions(string param)
         {
-            [DisplayText("Do Nothing")]
-            CH7_DO_NOTHING = 0,
-            [DisplayText("Flip")]
-            CH7_FLIP = 2,
-            [DisplayText("Simple Mode")]
-            CH7_SIMPLE_MODE = 3,
-            [DisplayText("Return to Launch")]
-            CH7_RTL = 4,
-            [DisplayText("Save Trim")]
-            CH7_AUTO_TRIM = 5,
-            [DisplayText("Save Waypoint")]
-            CH7_SAVE_WP = 7,
-            [DisplayText("Camera Trigger")]
-            CH7_CAMERA_TRIGGER = 9,
-            [DisplayText("Sonar")]
-            CH7_SONAR = 10
-        }
+            Dictionary<int, string> options = new Dictionary<int, string>();
 
-        public enum ac2ch6modes
-        {
-            // CH_6 Tuning
-            // -----------
-            CH6_0NONE = 0,  // no tuning performed
-            CH6_STABILIZE_KP = 1,   // stabilize roll/pitch angle controller's P term
-            CH6_STABILIZE_KI = 2,   // stabilize roll/pitch angle controller's I term
-            CH6_STABILIZE_KD = 29,   // stabilize roll/pitch angle controller's D term
-            CH6_YAW_KP = 3,   // stabilize yaw heading controller's P term
-            CH6_YAW_KI = 24,   // stabilize yaw heading controller's P term
-            CH6_ACRO_KP = 25,   // acro controller's P term.  converts pilot input to a desired roll, pitch or yaw rate
-            CH6_RATE_KP = 4,   // body frame roll/pitch rate controller's P term
-            CH6_RATE_KI = 5,   // body frame roll/pitch rate controller's I term
-            CH6_RATE_KD = 21,   // body frame roll/pitch rate controller's D term
-            CH6_YAW_RATE_KP = 6,   // body frame yaw rate controller's P term
-            CH6_YAW_RATE_KD = 26,   // body frame yaw rate controller's D term
-            CH6_THR_HOLD_KP = 14,   // altitude hold controller's P term (alt error to desired rate)
-            CH6_THROTTLE_KP = 7,   // throttle rate controller's P term (desired rate to acceleration or motor output)
-            CH6_THROTTLE_KI = 33,   // throttle rate controller's I term (desired rate to acceleration or motor output)
-            CH6_THR_ACCEL_KP = 34,   // accel based throttle controller's P term
-            CH6_THR_ACCEL_KI = 35,   // accel based throttle controller's I term
-            CH6_THR_ACCEL_KD = 36,   // accel based throttle controller's D term
-            CH6_TOP_BOTTOM_RATIO = 8,   // upper/lower motor ratio (not used)
-            CH6_RELAY = 9,   // switch relay on if ch6 high, off if low
-            CH6_TRAVERSE_SPEED = 10,   // maximum speed to next way point (0 to 10m/s)
-            CH6_NAV_KP = 11,   // navigation rate controller's P term (speed error to tilt angle)
-            CH6_NAV_KI = 20,   // navigation rate controller's I term (speed error to tilt angle)
-            CH6_LOITER_KP = 12,   // loiter distance controller's P term (position error to speed)
-            CH6_LOITER_KI = 27,   // loiter distance controller's I term (position error to speed)
-            CH6_HELI_EXTERNAL_GYRO = 13,   // TradHeli specific external tail gyro gain
-            CH6_OPTFLOW_KP = 17,   // optical flow loiter controller's P term (position error to tilt angle)
-            CH6_OPTFLOW_KI = 18,   // optical flow loiter controller's I term (position error to tilt angle)
-            CH6_OPTFLOW_KD = 19,   // optical flow loiter controller's D term (position error to tilt angle)
-            CH6_LOITER_RATE_KP = 22,   // loiter rate controller's P term (speed error to tilt angle)
-            CH6_LOITER_RATE_KI = 28,   // loiter rate controller's I term (speed error to tilt angle)
-            CH6_LOITER_RATE_KD = 23,   // loiter rate controller's D term (speed error to tilt angle)
-            CH6_AHRS_YAW_KP = 30,   // ahrs's compass effect on yaw angle (0 = very low, 1 = very high)
-            CH6_AHRS_KP = 31,   // accelerometer effect on roll/pitch angle (0=low)
-            CH6_INAV_TC = 32,          // inertial navigation baro/accel and gps/accel time
-            CH6_DECLINATION = 38,         // compass declination in radians
-            CH6_CIRCLE_RATE = 39,        // circle turn rate in degrees (hard coded to about 45 degrees in either direction)
-        }
+            ParameterMetaDataRepository _parameterMetaDataRepository = new ParameterMetaDataRepository();
 
-        public static void linearRegression()
-        {
-            double[] values = { 4.8, 4.8, 4.5, 3.9, 4.4, 3.6, 3.6, 2.9, 3.5, 3.0, 2.5, 2.2, 2.6, 2.1, 2.2 };
-            
-            double xAvg = 0;
-            double yAvg = 0;
+            string paramoptions = _parameterMetaDataRepository.GetParameterMetaData(param, ParameterMetaDataConstants.Values);
 
-            for (int x = 0; x < values.Length; x++)
+            string[] values = paramoptions.Split(new char[] {',' }, StringSplitOptions.RemoveEmptyEntries);
+
+            foreach (var opt in values)
             {
-                xAvg += x;
-                yAvg += values[x];
+                string[] split = opt.Split(new char[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
+                try
+                {
+                    options.Add(int.Parse(split[0].Trim()), split[1].Trim());
+                }
+                catch { }
             }
 
-            xAvg = xAvg / values.Length;
-            yAvg = yAvg / values.Length;
-
-
-            double v1 = 0;
-            double v2 = 0;
-
-            for (int x = 0; x < values.Length; x++)
-            {
-                v1 += (x - xAvg) * (values[x] - yAvg);
-                v2 += Math.Pow(x - xAvg, 2);
-            }
-
-            double a = v1 / v2;
-            double b = yAvg - a * xAvg;
-
-            log.Debug("y = ax + b");
-            log.DebugFormat("a = {0}, the slope of the trend line.", Math.Round(a, 2));
-            log.DebugFormat("b = {0}, the intercept of the trend line.", Math.Round(b, 2));
-
-            //Console.ReadLine();
+            return options;
         }
-       
-
-
-        
+  
         public static bool getFilefromNet(string url,string saveto) {
             try
             {
@@ -726,49 +652,29 @@ namespace ArdupilotMega
             }
             catch (Exception ex) { log.Info("getFilefromNet(): " + ex.ToString()); return false; }
         }
-        
-        public static Type getModes()
-        {
-            if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane)
-            {
-                return typeof(apmmodes);
-            }
-            else if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.Ateryx)
-            {
-                return typeof(apmmodes);
-            }
-            else if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
-            {
-                return typeof(ac2modes);
-            }
-            else if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduRover)
-            {
-                return typeof(aprovermodes);
-            }
-
-            return null;
-        }
 
         public static List<KeyValuePair<int,string>> getModesList()
         {
+            log.Info("getModesList Called");
+
             if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane)
             {
-                var flightModes = EnumTranslator.Translate<apmmodes>();
+                var flightModes = getOptions("FLTMODE1");
                 return flightModes.ToList();
             }
             else if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.Ateryx)
             {
-                var flightModes = EnumTranslator.Translate<apmmodes>();
+                var flightModes = getOptions("FLTMODE1"); //same as apm
                 return flightModes.ToList();
             }
             else if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
             {
-                var flightModes = EnumTranslator.Translate<ac2modes>();
+                var flightModes = getOptions("FLTMODE1");
                 return flightModes.ToList();
             }
             else if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduRover)
             {
-                var flightModes = EnumTranslator.Translate<aprovermodes>();
+                var flightModes = getOptions("MODE1");
                 return flightModes.ToList();
             }
 

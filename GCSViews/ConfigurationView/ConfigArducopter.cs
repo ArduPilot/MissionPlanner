@@ -74,18 +74,20 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                 readToolTips();
 
             // ensure the fields are populated before setting them
-            CH7_OPT.DataSource = Utilities.EnumTranslator.Translate<Common.ac2ch7modes>().ToList();
+            CH7_OPT.DataSource = Common.getOptions("CH7_OPT").ToList(); 
             CH7_OPT.DisplayMember = "Value";
             CH7_OPT.ValueMember = "Key";
 
-            TUNE.DataSource = Utilities.EnumTranslator.Translate<Common.ac2ch6modes>().ToList();
+            CH8_OPT.DataSource = Common.getOptions("CH8_OPT").ToList(); 
+            CH8_OPT.DisplayMember = "Value";
+            CH8_OPT.ValueMember = "Key";
+
+            TUNE.DataSource = Common.getOptions("TUNE").ToList();
             TUNE.DisplayMember = "Value";
             TUNE.ValueMember = "Key";
 
             // prefill all fields
             processToScreen();
-
-            MVCHK_thr_Acc_enable.setup(1, 0, "THR_ACC_ENABLE", MainV2.comPort.MAV.param, groupBox2);
 
             if (MainV2.comPort.MAV.param["H_GYR_ENABLE"] != null)
             {
@@ -94,6 +96,8 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
 
             startup = false;
         }
+
+
 
         void readToolTips()
         {

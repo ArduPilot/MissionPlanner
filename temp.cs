@@ -30,12 +30,15 @@ namespace ArdupilotMega
             InitializeComponent();
 
             //if (System.Diagnostics.Debugger.IsAttached) {
-
+            try
+            {
                 ArdupilotMega.Controls.OpenGLtest ogl = new Controls.OpenGLtest();
 
                 this.Controls.Add(ogl);
 
                 ogl.Dock = DockStyle.Fill;
+            }
+            catch { }
            // }
         }
 

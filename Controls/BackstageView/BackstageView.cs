@@ -241,7 +241,7 @@ namespace ArdupilotMega.Controls.BackstageView
             ButtonTopPos += lnkButton.Height;
         }
 
-        private void DrawMenu(BackstageViewPage CurrentPage, bool force = false)
+        public void DrawMenu(BackstageViewPage CurrentPage, bool force = false)
         {
             if (!force)
             {
@@ -413,7 +413,13 @@ namespace ArdupilotMega.Controls.BackstageView
         public void ActivatePage(BackstageViewPage associatedPage)
         {
             if (associatedPage == null)
+            {
+                if (_activePage == null)
+                    DrawMenu(null, true);
                 return;
+            }
+
+            this.SuspendLayout();
 
             DrawMenu(associatedPage , false);
 
@@ -427,11 +433,10 @@ namespace ArdupilotMega.Controls.BackstageView
             //_activePage.Page.Close();
 
             foreach (var p in Pages)
-                p.Page.Visible = false;
-
-            // deactivate button
-            if (_activePage != null)
-                _activePage.Page.Visible = false;
+            {
+                if (p.Page.Visible != false)
+                    p.Page.Visible = false;
+            }
 
             try
             { // if the button was on an expanded tab. when we leave it no longer exits
@@ -439,9 +444,6 @@ namespace ArdupilotMega.Controls.BackstageView
                 oldButton.IsSelected = false;
             }
             catch { }            
-
-            // ensure fields have been init - obsolete way of notifying activation
-            //associatedPage.Page.DoLoad(new EventArgs());
 
             // new way of notifying activation. Goal is to get rid of BackStageViewContentPanel
             // so plain old user controls can be added
@@ -461,6 +463,8 @@ namespace ArdupilotMega.Controls.BackstageView
             catch { }
 
             _activePage = associatedPage;
+
+            this.ResumeLayout();
         }
 
         public void Close()

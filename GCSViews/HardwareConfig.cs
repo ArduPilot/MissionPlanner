@@ -39,7 +39,7 @@ namespace ArdupilotMega.GCSViews
             BackstageView.BackstageViewPage start;
             if (MainV2.comPort.BaseStream.IsOpen)
             {
-                start  = AddBackstageViewPage(new ArdupilotMega.GCSViews.Firmware(), "Install Firmware");
+                start  = AddBackstageViewPage(new ArdupilotMega.GCSViews.ConfigFirmware(), "Install Firmware");
 
                 BackstageView.BackstageViewPage mandatoryhardware = AddBackstageViewPage(new ConfigMandatory(), "Mandatory Hardware", null);
                 BackstageView.BackstageViewPage optionalhardware = AddBackstageViewPage(new ConfigOptional(), "Optional Hardware", null);
@@ -57,7 +57,6 @@ namespace ArdupilotMega.GCSViews
                 }
 
                 AddBackstageViewPage(new ConfigRadioInput(), "Radio Calibration", mandatoryhardware);
-                AddBackstageViewPage(new ConfigFlightModes(), "Flight Modes", mandatoryhardware);
 
                 AddBackstageViewPage(new ArdupilotMega._3DRradio(), "3DR Radio", optionalhardware);
                 AddBackstageViewPage(new ConfigBatteryMonitoring(), "Battery Monitor", optionalhardware);
@@ -78,12 +77,12 @@ namespace ArdupilotMega.GCSViews
 
                 if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane)
                 {
-                    AddBackstageViewPage(new ConfigAccelerometerCalibrationPlane(), "ArduPlane Level");
+                    AddBackstageViewPage(new ConfigAccelerometerCalibrationPlane(), "ArduPlane Level",mandatoryhardware);
                 }
             }
             else
             {
-                start  = AddBackstageViewPage(new ArdupilotMega.GCSViews.Firmware(), "Install Firmware");
+                start  = AddBackstageViewPage(new ArdupilotMega.GCSViews.ConfigFirmware(), "Install Firmware");
                 AddBackstageViewPage(new ArdupilotMega._3DRradio(), "3DR Radio");
                 AddBackstageViewPage(new ArdupilotMega.Antenna.Tracker(), "Antenna Tracker");
             }

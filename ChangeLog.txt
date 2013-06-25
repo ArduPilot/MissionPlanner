@@ -1,4 +1,26 @@
-﻿* Mission Planner 1.2.53
+﻿* Mission Planner 1.2.56
+fix param list memory usage
+generate mode list to param data
+generate ch6,7,8 list from param data
+fix Reboot command
+move flight modes screen to software
+make compass calib nicer
+fix simple pid screen
+change autoscalemode, for people that have 125% font size
+fix rangecontrol, memory hog
+
+* Mission Planner 1.2.55
+Fix arduplane software screen.
+fix new basic pids redraw
+
+* Mission Planner 1.2.54
+add new AC pids
+modify theme
+update 3dr radio for new rfd's
+fix a few exceptions
+modify range control
+
+* Mission Planner 1.2.53
 confirm nmea line endings
 fix timeinair reset on connect
 seperate out mini http server

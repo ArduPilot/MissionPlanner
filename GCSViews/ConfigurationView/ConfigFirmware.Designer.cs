@@ -14,7 +14,7 @@ using System.Net;
 
 namespace ArdupilotMega.GCSViews
 {
-    partial class Firmware : MyUserControl
+    partial class ConfigFirmware : MyUserControl
     {
         
                 /// <summary> 
@@ -56,7 +56,7 @@ namespace ArdupilotMega.GCSViews
 
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Firmware));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigFirmware));
             this.pictureBoxAPM = new ArdupilotMega.Controls.ImageLabel();
             this.pictureBoxQuad = new ArdupilotMega.Controls.ImageLabel();
             this.pictureBoxHexa = new ArdupilotMega.Controls.ImageLabel();

@@ -55,11 +55,6 @@
             this.label38 = new System.Windows.Forms.Label();
             this.LIM_ROLL_CD = new System.Windows.Forms.NumericUpDown();
             this.label37 = new System.Windows.Forms.Label();
-            this.groupBox15 = new System.Windows.Forms.GroupBox();
-            this.XTRK_ANGLE_CD = new System.Windows.Forms.NumericUpDown();
-            this.label79 = new System.Windows.Forms.Label();
-            this.XTRK_GAIN_SC = new System.Windows.Forms.NumericUpDown();
-            this.label80 = new System.Windows.Forms.Label();
             this.groupBox16 = new System.Windows.Forms.GroupBox();
             this.KFF_PTCH2THR = new System.Windows.Forms.NumericUpDown();
             this.label83 = new System.Windows.Forms.Label();
@@ -94,15 +89,6 @@
             this.label67 = new System.Windows.Forms.Label();
             this.ARSP2PTCH_P = new System.Windows.Forms.NumericUpDown();
             this.label68 = new System.Windows.Forms.Label();
-            this.groupBox11 = new System.Windows.Forms.GroupBox();
-            this.HDNG2RLL_IMAX = new System.Windows.Forms.NumericUpDown();
-            this.label61 = new System.Windows.Forms.Label();
-            this.HDNG2RLL_D = new System.Windows.Forms.NumericUpDown();
-            this.label62 = new System.Windows.Forms.Label();
-            this.HDNG2RLL_I = new System.Windows.Forms.NumericUpDown();
-            this.label63 = new System.Windows.Forms.Label();
-            this.HDNG2RLL_P = new System.Windows.Forms.NumericUpDown();
-            this.label64 = new System.Windows.Forms.Label();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
             this.YW2SRV_IMAX = new System.Windows.Forms.NumericUpDown();
             this.label57 = new System.Windows.Forms.Label();
@@ -152,9 +138,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.LIM_PITCH_MIN)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.LIM_PITCH_MAX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.LIM_ROLL_CD)).BeginInit();
-            this.groupBox15.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.XTRK_ANGLE_CD)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.XTRK_GAIN_SC)).BeginInit();
             this.groupBox16.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.KFF_PTCH2THR)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.KFF_RDDRMIX)).BeginInit();
@@ -174,11 +157,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.ARSP2PTCH_D)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ARSP2PTCH_I)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ARSP2PTCH_P)).BeginInit();
-            this.groupBox11.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.HDNG2RLL_IMAX)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.HDNG2RLL_D)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.HDNG2RLL_I)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.HDNG2RLL_P)).BeginInit();
             this.groupBox10.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.YW2SRV_IMAX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.YW2SRV_D)).BeginInit();
@@ -348,36 +326,6 @@
             // 
             resources.ApplyResources(this.label37, "label37");
             this.label37.Name = "label37";
-            // 
-            // groupBox15
-            // 
-            this.groupBox15.Controls.Add(this.XTRK_ANGLE_CD);
-            this.groupBox15.Controls.Add(this.label79);
-            this.groupBox15.Controls.Add(this.XTRK_GAIN_SC);
-            this.groupBox15.Controls.Add(this.label80);
-            resources.ApplyResources(this.groupBox15, "groupBox15");
-            this.groupBox15.Name = "groupBox15";
-            this.groupBox15.TabStop = false;
-            // 
-            // XTRK_ANGLE_CD
-            // 
-            resources.ApplyResources(this.XTRK_ANGLE_CD, "XTRK_ANGLE_CD");
-            this.XTRK_ANGLE_CD.Name = "XTRK_ANGLE_CD";
-            // 
-            // label79
-            // 
-            resources.ApplyResources(this.label79, "label79");
-            this.label79.Name = "label79";
-            // 
-            // XTRK_GAIN_SC
-            // 
-            resources.ApplyResources(this.XTRK_GAIN_SC, "XTRK_GAIN_SC");
-            this.XTRK_GAIN_SC.Name = "XTRK_GAIN_SC";
-            // 
-            // label80
-            // 
-            resources.ApplyResources(this.label80, "label80");
-            this.label80.Name = "label80";
             // 
             // groupBox16
             // 
@@ -583,60 +531,6 @@
             resources.ApplyResources(this.label68, "label68");
             this.label68.Name = "label68";
             // 
-            // groupBox11
-            // 
-            this.groupBox11.Controls.Add(this.HDNG2RLL_IMAX);
-            this.groupBox11.Controls.Add(this.label61);
-            this.groupBox11.Controls.Add(this.HDNG2RLL_D);
-            this.groupBox11.Controls.Add(this.label62);
-            this.groupBox11.Controls.Add(this.HDNG2RLL_I);
-            this.groupBox11.Controls.Add(this.label63);
-            this.groupBox11.Controls.Add(this.HDNG2RLL_P);
-            this.groupBox11.Controls.Add(this.label64);
-            resources.ApplyResources(this.groupBox11, "groupBox11");
-            this.groupBox11.Name = "groupBox11";
-            this.groupBox11.TabStop = false;
-            // 
-            // HDNG2RLL_IMAX
-            // 
-            resources.ApplyResources(this.HDNG2RLL_IMAX, "HDNG2RLL_IMAX");
-            this.HDNG2RLL_IMAX.Name = "HDNG2RLL_IMAX";
-            // 
-            // label61
-            // 
-            resources.ApplyResources(this.label61, "label61");
-            this.label61.Name = "label61";
-            // 
-            // HDNG2RLL_D
-            // 
-            resources.ApplyResources(this.HDNG2RLL_D, "HDNG2RLL_D");
-            this.HDNG2RLL_D.Name = "HDNG2RLL_D";
-            // 
-            // label62
-            // 
-            resources.ApplyResources(this.label62, "label62");
-            this.label62.Name = "label62";
-            // 
-            // HDNG2RLL_I
-            // 
-            resources.ApplyResources(this.HDNG2RLL_I, "HDNG2RLL_I");
-            this.HDNG2RLL_I.Name = "HDNG2RLL_I";
-            // 
-            // label63
-            // 
-            resources.ApplyResources(this.label63, "label63");
-            this.label63.Name = "label63";
-            // 
-            // HDNG2RLL_P
-            // 
-            resources.ApplyResources(this.HDNG2RLL_P, "HDNG2RLL_P");
-            this.HDNG2RLL_P.Name = "HDNG2RLL_P";
-            // 
-            // label64
-            // 
-            resources.ApplyResources(this.label64, "label64");
-            this.label64.Name = "label64";
-            // 
             // groupBox10
             // 
             this.groupBox10.Controls.Add(this.YW2SRV_IMAX);
@@ -807,15 +701,23 @@
             // 
             // BUT_writePIDS
             // 
+            this.BUT_writePIDS.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
+            this.BUT_writePIDS.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
             resources.ApplyResources(this.BUT_writePIDS, "BUT_writePIDS");
             this.BUT_writePIDS.Name = "BUT_writePIDS";
+            this.BUT_writePIDS.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
+            this.BUT_writePIDS.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_writePIDS.UseVisualStyleBackColor = true;
             this.BUT_writePIDS.Click += new System.EventHandler(this.BUT_writePIDS_Click);
             // 
             // BUT_rerequestparams
             // 
+            this.BUT_rerequestparams.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
+            this.BUT_rerequestparams.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
             resources.ApplyResources(this.BUT_rerequestparams, "BUT_rerequestparams");
             this.BUT_rerequestparams.Name = "BUT_rerequestparams";
+            this.BUT_rerequestparams.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
+            this.BUT_rerequestparams.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_rerequestparams.UseVisualStyleBackColor = true;
             this.BUT_rerequestparams.Click += new System.EventHandler(this.BUT_rerequestparams_Click);
             // 
@@ -859,12 +761,10 @@
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.groupBox15);
             this.Controls.Add(this.groupBox16);
             this.Controls.Add(this.groupBox14);
             this.Controls.Add(this.groupBox13);
             this.Controls.Add(this.groupBox12);
-            this.Controls.Add(this.groupBox11);
             this.Controls.Add(this.groupBox10);
             this.Controls.Add(this.groupBox9);
             this.Controls.Add(this.groupBox8);
@@ -883,9 +783,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.LIM_PITCH_MIN)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.LIM_PITCH_MAX)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.LIM_ROLL_CD)).EndInit();
-            this.groupBox15.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.XTRK_ANGLE_CD)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.XTRK_GAIN_SC)).EndInit();
             this.groupBox16.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.KFF_PTCH2THR)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.KFF_RDDRMIX)).EndInit();
@@ -905,11 +802,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.ARSP2PTCH_D)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ARSP2PTCH_I)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ARSP2PTCH_P)).EndInit();
-            this.groupBox11.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.HDNG2RLL_IMAX)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.HDNG2RLL_D)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.HDNG2RLL_I)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.HDNG2RLL_P)).EndInit();
             this.groupBox10.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.YW2SRV_IMAX)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.YW2SRV_D)).EndInit();
@@ -959,11 +851,6 @@
         private System.Windows.Forms.Label label38;
         private System.Windows.Forms.NumericUpDown LIM_ROLL_CD;
         private System.Windows.Forms.Label label37;
-        private System.Windows.Forms.GroupBox groupBox15;
-        private System.Windows.Forms.NumericUpDown XTRK_ANGLE_CD;
-        private System.Windows.Forms.Label label79;
-        private System.Windows.Forms.NumericUpDown XTRK_GAIN_SC;
-        private System.Windows.Forms.Label label80;
         private System.Windows.Forms.GroupBox groupBox16;
         private System.Windows.Forms.NumericUpDown KFF_PTCH2THR;
         private System.Windows.Forms.Label label83;
@@ -998,15 +885,6 @@
         private System.Windows.Forms.Label label67;
         private System.Windows.Forms.NumericUpDown ARSP2PTCH_P;
         private System.Windows.Forms.Label label68;
-        private System.Windows.Forms.GroupBox groupBox11;
-        private System.Windows.Forms.NumericUpDown HDNG2RLL_IMAX;
-        private System.Windows.Forms.Label label61;
-        private System.Windows.Forms.NumericUpDown HDNG2RLL_D;
-        private System.Windows.Forms.Label label62;
-        private System.Windows.Forms.NumericUpDown HDNG2RLL_I;
-        private System.Windows.Forms.Label label63;
-        private System.Windows.Forms.NumericUpDown HDNG2RLL_P;
-        private System.Windows.Forms.Label label64;
         private System.Windows.Forms.GroupBox groupBox10;
         private System.Windows.Forms.NumericUpDown YW2SRV_IMAX;
         private System.Windows.Forms.Label label57;

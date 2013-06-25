@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace ArdupilotMega.Controls
 {
-   public partial class RangeControl : UserControl, IDynamicParameterControl
+   public partial class RangeControlCopy : UserControl, IDynamicParameterControl
    {
       #region Properties
 
@@ -19,7 +19,7 @@ namespace ArdupilotMega.Controls
       public NumericUpDown NumericUpDownControl { get { return numericUpDown1; } set { numericUpDown1 = value; } }
       public string DescriptionText { get { return label1.Text; } set { label1.Text = value; } }
       public string LabelText { get { return myLabel1.Text; } set { myLabel1.Text = value; } }
-      public TrackBar TrackBarControl { get { return trackBar1; } set { trackBar1 = value; } }
+      public MyTrackBar TrackBarControl { get { return trackBar1; } set { trackBar1 = value; } }
       public float Increment
       {
           get
@@ -29,13 +29,16 @@ namespace ArdupilotMega.Controls
           set
           {
               _increment = value;
+              trackBar1.TickFrequency = _increment;
+              trackBar1.SmallChange = _increment;
+              trackBar1.LargeChange = _increment;
               numericUpDown1.Increment = (decimal)_increment;
               numericUpDown1.DecimalPlaces = _increment.ToString(CultureInfo.InvariantCulture).Length - 1;
           }
       }
       public float DisplayScale { get; set; }
-      public float MinRange { get { return _minrange; } set { _minrange = value; numericUpDown1.Minimum = (decimal)(value / DisplayScale); LBL_min.Text = numericUpDown1.Minimum.ToString(); } }
-      public float MaxRange { get { return _maxrange; } set { _maxrange = value; numericUpDown1.Maximum = (decimal)(value / DisplayScale); LBL_max.Text = numericUpDown1.Maximum.ToString(); } }
+      public float MinRange { get { return _minrange; } set { _minrange = value; numericUpDown1.Minimum = (decimal)(value / DisplayScale); trackBar1.Minimum = value; LBL_min.Text = numericUpDown1.Minimum.ToString(); } }
+      public float MaxRange { get { return _maxrange; } set { _maxrange = value; numericUpDown1.Maximum = (decimal)(value / DisplayScale); trackBar1.Maximum = value; LBL_max.Text = numericUpDown1.Maximum.ToString(); } }
       float _minrange = 0;
       float _maxrange = 10;
       float _increment = 1;
@@ -70,14 +73,14 @@ namespace ArdupilotMega.Controls
 
       #region Constructor
 
-      public RangeControl()
+      public RangeControlCopy()
       {
          InitializeComponent();
          DisplayScale = 1;
       }
 
 
-      public RangeControl(string param, String Desc, string Label, float increment, float Displayscale, float minrange, float maxrange, string value)
+      public RangeControlCopy(string param, String Desc, string Label, float increment, float Displayscale, float minrange, float maxrange, string value)
       {
           InitializeComponent();
           this.DisplayScale = Displayscale;
@@ -91,6 +94,12 @@ namespace ArdupilotMega.Controls
           float delta = maxrange - minrange;
 
           Console.WriteLine("RangeControl "+Increment + " " + MinRange + " " + MaxRange);
+
+          if (((maxrange - minrange) / increment) > 100)
+          {
+              trackBar1.TickFrequency = 0;// (maxrange - minrange) / 20;
+              Console.WriteLine("RangeControl TickFrequency to high " + param);
+          }
 
           this.Value = value;
       }
@@ -115,14 +124,9 @@ namespace ArdupilotMega.Controls
 
       #region Events
 
-      decimal map(decimal x, decimal in_min, decimal in_max, decimal out_min, decimal out_max)
-      {
-          return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
-      }
-
       protected void numericUpDown1_ValueChanged(object sender, EventArgs e)
       {
-          trackBar1.Value = (int)map(numericUpDown1.Value, numericUpDown1.Minimum, numericUpDown1.Maximum, 0, 100);
+         trackBar1.Value = (float)numericUpDown1.Value * DisplayScale;
 
          numericUpDown1.BackColor = Color.Green;
 
@@ -137,8 +141,8 @@ namespace ArdupilotMega.Controls
       }
 
       protected void trackBar1_ValueChanged(object sender, EventArgs e)
-      {
-          numericUpDown1.Value = map(trackBar1.Value, 0, 100, numericUpDown1.Minimum, numericUpDown1.Maximum);
+      {         
+          numericUpDown1.Value = (decimal)(trackBar1.Value / DisplayScale);
          numericUpDown1.Text = (numericUpDown1.Value).ToString();
 
          if (ValueChanged != null)

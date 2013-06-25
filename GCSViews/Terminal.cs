@@ -268,6 +268,8 @@ namespace ArdupilotMega.GCSViews
 
                 comPort.toggleDTR();
 
+                MainV2.comPort.doReboot();
+
                 comPort.DiscardInBuffer();
 
                 Console.WriteLine("Terminal_Load");

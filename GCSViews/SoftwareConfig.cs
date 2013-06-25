@@ -45,8 +45,10 @@ namespace ArdupilotMega.GCSViews
                     start = AddBackstageViewPage(new ConfigSimplePids(), "Basic Pids");
                 }
 
+                AddBackstageViewPage(new ConfigFlightModes(), "Flight Modes");
                 AddBackstageViewPage(new ConfigFriendlyParams { ParameterMode = ParameterMetaDataConstants.Standard }, "Standard Params");
-                AddBackstageViewPage(new ConfigAC_Fence(), "GeoFence");
+                if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
+                    AddBackstageViewPage(new ConfigAC_Fence(), "GeoFence");
                 AddBackstageViewPage(new ConfigFailSafe(), "FailSafe");
                 AddBackstageViewPage(new ConfigPlanner(), "Planner");
                 AddBackstageViewPage(new ConfigFriendlyParams { ParameterMode = ParameterMetaDataConstants.Advanced }, "Advanced Params");
@@ -62,13 +64,13 @@ namespace ArdupilotMega.GCSViews
 
                 if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane)
                 {
-                    AddBackstageViewPage(new ConfigArduplane(), "ArduPlane Pids");
+                    start = AddBackstageViewPage(new ConfigArduplane(), "ArduPlane Pids");
 
                 }
 
                 if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.Ateryx)
                 {
-                    AddBackstageViewPage(new ConfigFlightModes(), "Flight Modes");
+                    start = AddBackstageViewPage(new ConfigFlightModes(), "Flight Modes");
                     AddBackstageViewPage(new ConfigAteryxSensors(), "Ateryx Zero Sensors");
                     AddBackstageViewPage(new ConfigAteryx(), "Ateryx Pids");
                 }

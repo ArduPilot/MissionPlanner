@@ -117,4 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ACSetup.Text" xml:space="preserve">
+    <value>Arducopter首次設置（固件上傳後）</value>
+  </data>
+  <data name="APMSetup.Text" xml:space="preserve">
+    <value>ArduPilot首次設置（固件上傳後）</value>
+  </data>
 </root>

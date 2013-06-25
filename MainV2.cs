@@ -283,14 +283,18 @@ namespace ArdupilotMega
 
             try
             {
+                log.Info("Create FD");
                 FlightData = new GCSViews.FlightData();
+                log.Info("Create FP");
                 FlightPlanner = new GCSViews.FlightPlanner();
                 //Configuration = new GCSViews.ConfigurationView.Setup();
+                log.Info("Create SIM");
                 Simulation = new GCSViews.Simulation();
                 //Firmware = new GCSViews.Firmware();
                 //Terminal = new GCSViews.Terminal();
 
                 // preload
+                log.Info("Create Python");
                 Python.CreateEngine();
             }
             catch (ArgumentException e)
@@ -299,10 +303,12 @@ namespace ArdupilotMega
                 //System.ArgumentException: Font 'Arial' does not support style 'Regular'.
 
                 log.Fatal(e);
-                CustomMessageBox.Show(e.ToString() + "\n\n Please install this http://www.microsoft.com/en-us/download/details.aspx?id=16083");
-                this.Close();
+                CustomMessageBox.Show(e.ToString() + "\n\n Font Issues? Please install this http://www.microsoft.com/en-us/download/details.aspx?id=16083");
+                //splash.Close();
+                //this.Close();
+                Application.Exit();
             }
-            catch (Exception e) { log.Fatal(e); CustomMessageBox.Show("A Major error has occured : " + e.ToString()); this.Close(); }
+            catch (Exception e) { log.Fatal(e); CustomMessageBox.Show("A Major error has occured : " + e.ToString()); Application.Exit(); }
 
             if (MainV2.config["CHK_GDIPlus"] != null)
                 GCSViews.FlightData.myhud.UseOpenGL = !bool.Parse(MainV2.config["CHK_GDIPlus"].ToString());
@@ -723,47 +729,7 @@ namespace ArdupilotMega
                         comPort.Close();
                     }
                     catch { }
-                    // detect firmware -> scan eeprom contents -> error if no valid ap param/apvar header detected.
-                    try
-                    {
-                        string version = ArduinoDetect.DetectVersion(comPort.BaseStream.PortName);
-                        IArduinoComms port = new ArduinoSTK();
-                        if (version == "1280")
-                        {
-                            port = new ArduinoSTK();
-                            port.BaudRate = 57600;
-                        }
-                        else if (version == "2560")
-                        {
-                            port = new ArduinoSTKv2();
-                            port.BaudRate = 115200;
-                        }
-                        else { throw new Exception("Can not determine APM board type"); }
-                        port.PortName = comPort.BaseStream.PortName;
-                        port.DtrEnable = true;
-                        port.Open();
-                        if (port.connectAP())
-                        {
-                            byte[] buffer = port.download(20);
-                            port.Close();
-
-                            if ((buffer[0] == 'A' || buffer[0] == 'P') && (buffer[1] == 'A' || buffer[1] == 'P')) // this is the apvar header
-                            {
-                                log.Info("Valid eeprom contents");
-                            }
-                            else
-                            {
-                                CustomMessageBox.Show("You dont appear to have uploaded a firmware yet,\n\nPlease goto the firmware page and upload one.");
-                                return;
-                            }
-                        }
-                        else
-                        {
-                            log.Error("Could not download eeprom contents");
-                        }
-                    }
-                    catch (Exception exp3) { log.Error(exp3); }
-                    CustomMessageBox.Show("Can not establish a connection\n\n" + ex.Message);
+                    CustomMessageBox.Show(@"Can not establish a connection\n\n" + ex.Message);
                     return;
                 }
             }
@@ -1504,13 +1470,11 @@ namespace ArdupilotMega
 
         private void MainV2_Resize(object sender, EventArgs e)
         {
-            try
-            {
-                // mono - resize is called before the control is created
+            // mono - resize is called before the control is created
+            if (MyView != null)
                 log.Info("myview width " + MyView.Width + " height " + MyView.Height);
-                log.Info("this   width " + this.Width + " height " + this.Height);
-            }
-            catch { }
+
+            log.Info("this   width " + this.Width + " height " + this.Height);
         }
 
         private void MenuHelp_Click(object sender, EventArgs e)

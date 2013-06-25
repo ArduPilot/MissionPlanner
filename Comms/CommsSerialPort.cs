@@ -16,7 +16,7 @@ namespace ArdupilotMega.Comms
 
         public new bool DtrEnable { get { return base.DtrEnable; } set { if (ispx4(base.PortName)) return; base.DtrEnable = value; } }
         public new bool RtsEnable { get { return base.RtsEnable; } set { if (ispx4(base.PortName)) return; base.RtsEnable = value; } }
-
+        /*
         protected override void Dispose(bool disposing)
         {
             try
@@ -42,7 +42,7 @@ namespace ArdupilotMega.Comms
                 base.Dispose(disposing);
             }
             catch { }
-        }
+        }*/
 
         public new void Open()
         {

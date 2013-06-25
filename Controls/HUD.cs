@@ -1808,7 +1808,6 @@ namespace ArdupilotMega.Controls
 
             base.OnResize(e);
 
-
             if (SixteenXNine)
             {
                 int ht = (int)(this.Width / 1.777f);
@@ -1854,7 +1853,7 @@ namespace ArdupilotMega.Controls
             }
             catch { }
 
-            GC.Collect();
+           // GC.Collect();
             
             try
             {

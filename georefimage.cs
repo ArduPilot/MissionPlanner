@@ -12,6 +12,7 @@ using SharpKml.Dom;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Text;
+using System.Xml;
 
 namespace ArdupilotMega
 {
@@ -243,6 +244,10 @@ namespace ArdupilotMega
 
             DateTime startTime = DateTime.MinValue;
 
+            recordno = 10;
+
+            photostnrecord = new List<int>();
+
             photocoords = new Hashtable();
             timecoordcache = new Hashtable();
             imagetotime = new Hashtable();
@@ -268,7 +273,132 @@ namespace ArdupilotMega
             using (StreamWriter swlockml = new StreamWriter(dirWithImages + Path.DirectorySeparatorChar + "location.kml"))
             using (StreamWriter swloctxt = new StreamWriter(dirWithImages + Path.DirectorySeparatorChar + "location.txt"))
             using (StreamWriter swloctel = new StreamWriter(dirWithImages + Path.DirectorySeparatorChar + "location.tel"))
+            using (XmlTextWriter swloctrim = new XmlTextWriter(dirWithImages + Path.DirectorySeparatorChar + "location.jxl",Encoding.ASCII))
             {
+                swloctrim.Formatting = Formatting.Indented;
+                swloctrim.WriteStartDocument(false);
+                swloctrim.WriteStartElement("JOBFile");
+                swloctrim.WriteAttributeString("jobName", "MPGeoRef");
+                swloctrim.WriteAttributeString("product", "Gatewing");
+                swloctrim.WriteAttributeString("productVersion", "1.0");
+                swloctrim.WriteAttributeString("version", "5.6");
+                // enviro
+                swloctrim.WriteStartElement("Environment");
+                swloctrim.WriteStartElement("CoordinateSystem");
+                swloctrim.WriteElementString("SystemName", "Default");
+                swloctrim.WriteElementString("ZoneName", "Default");
+                swloctrim.WriteElementString("DatumName", "WGS 1984");
+                swloctrim.WriteStartElement("Ellipsoid");
+                swloctrim.WriteElementString("EarthRadius", "6378137");
+                swloctrim.WriteElementString("Flattening", "0.00335281067183");
+                swloctrim.WriteEndElement();
+                swloctrim.WriteStartElement("Projection");
+                swloctrim.WriteElementString("Type", "NoProjection");
+                swloctrim.WriteElementString("Scale", "1");
+                swloctrim.WriteElementString("GridOrientation", "IncreasingNorthEast");
+                swloctrim.WriteElementString("SouthAzimuth", "false");
+                swloctrim.WriteElementString("ApplySeaLevelCorrection", "true");
+                swloctrim.WriteEndElement();
+                swloctrim.WriteStartElement("LocalSite");
+                swloctrim.WriteElementString("Type", "Grid");
+                swloctrim.WriteElementString("ProjectLocationLatitude", "");
+                swloctrim.WriteElementString("ProjectLocationLongitude", "");
+                swloctrim.WriteElementString("ProjectLocationHeight", "");
+                swloctrim.WriteEndElement();
+                swloctrim.WriteStartElement("Datum");
+                swloctrim.WriteElementString("Type", "ThreeParameter");
+                swloctrim.WriteElementString("GridName", "WGS 1984");
+                swloctrim.WriteElementString("Direction", "WGS84ToLocal");
+                swloctrim.WriteElementString("EarthRadius", "6378137");
+                swloctrim.WriteElementString("Flattening", "0.00335281067183");
+                swloctrim.WriteElementString("TranslationX", "0");
+                swloctrim.WriteElementString("TranslationY", "0");
+                swloctrim.WriteElementString("TranslationZ", "0");
+                swloctrim.WriteEndElement();
+                swloctrim.WriteStartElement("HorizontalAdjustment");
+                swloctrim.WriteElementString("Type", "NoAdjustment");
+                swloctrim.WriteEndElement();
+                swloctrim.WriteStartElement("VerticalAdjustment");
+                swloctrim.WriteElementString("Type", "NoAdjustment");
+                swloctrim.WriteEndElement();
+                swloctrim.WriteStartElement("CombinedScaleFactor");
+                swloctrim.WriteStartElement("Location");
+                swloctrim.WriteElementString("Latitude", "");
+                swloctrim.WriteElementString("Longitude", "");
+                swloctrim.WriteElementString("Height", "");
+                swloctrim.WriteEndElement();
+                swloctrim.WriteElementString("Scale", "");
+                swloctrim.WriteEndElement();
+
+                swloctrim.WriteEndElement(); 
+                swloctrim.WriteEndElement();
+
+                // fieldbook
+                swloctrim.WriteStartElement("FieldBook");
+
+                swloctrim.WriteRaw(@"   <CameraDesignRecord ID='00000001'>
+      <Type>RICOH       GR DIGITAL 4   </Type>
+      <HeightPixels>2736</HeightPixels>
+      <WidthPixels>3648</WidthPixels>
+      <PixelSize>0.00000203947368</PixelSize>
+      <LensModel>Rectilinear</LensModel>
+      <NominalFocalLength>0.00600671907890</NominalFocalLength>
+    </CameraDesignRecord>
+    <CameraRecord2 ID='00000002'>
+      <CameraDesignID>00000001</CameraDesignID>
+      <CameraPosition>01</CameraPosition>
+      <Optics>
+        <IdealAngularMagnification>1.0</IdealAngularMagnification>
+        <AngleSymmetricDistortion>
+          <Order3>0.0072180217669081713</Order3>
+          <Order5>-0.22203969051881772</Order5>
+          <Order7>-0.5029187240559464</Order7>
+          <Order9> 0</Order9>
+        </AngleSymmetricDistortion>
+        <AngleDecenteringDistortion>
+          <Column>-0.0023795120687855236</Column>
+          <Row>0.0001379430407941622</Row>
+        </AngleDecenteringDistortion>
+      </Optics>
+      <Geometry>
+        <PerspectiveCenterPixels>
+          <PrincipalPointColumn>-1808.3295867620682</PrincipalPointColumn>
+          <PrincipalPointRow>-1298.7805047992365</PrincipalPointRow>
+          <PrincipalDistance>-3033.81222099565</PrincipalDistance>
+        </PerspectiveCenterPixels>
+        <VectorOffset>
+          <X>0</X>
+          <Y>0</Y>
+          <Z>0</Z>
+        </VectorOffset>
+        <BiVectorAngle>
+          <XX>0</XX>
+          <YY>0</YY>
+          <ZZ>-1.5707963268</ZZ>
+        </BiVectorAngle>
+      </Geometry>
+    </CameraRecord2>");
+                
+                swloctrim.WriteStartElement("PhotoInstrumentRecord");
+                swloctrim.WriteAttributeString("ID", "0000000E");
+                swloctrim.WriteElementString("Type", "Aerial");
+                swloctrim.WriteElementString("Model", "X100");
+                swloctrim.WriteElementString("Serial", "000-000");
+                swloctrim.WriteElementString("FirmwareVersion", "v0.0");
+                swloctrim.WriteElementString("UserDefinedName", "Prototype");
+                swloctrim.WriteEndElement();
+
+                swloctrim.WriteStartElement("AtmosphereRecord");
+                swloctrim.WriteAttributeString("ID", "0000000F");
+                swloctrim.WriteElementString("Pressure", "");
+                swloctrim.WriteElementString("Temperature", "");
+                swloctrim.WriteElementString("PPM", "");
+                swloctrim.WriteElementString("ApplyEarthCurvatureCorrection", "false");
+                swloctrim.WriteElementString("ApplyRefractionCorrection", "false");
+                swloctrim.WriteElementString("RefractionCoefficient", "0");
+                swloctrim.WriteElementString("PressureInputMethod", "ReadFromInstrument");
+                swloctrim.WriteEndElement();
+
                 swloctel.WriteLine("version=1");
 
                 swloctel.WriteLine("#seconds offset - " + TXT_offsetseconds.Text);
@@ -469,6 +599,9 @@ namespace ArdupilotMega
                                 swloctel.WriteLine(Path.GetFileName(filename) + "\t" + logdt.ToString("yyyy:MM:dd HH:mm:ss") + "\t" + arr[lngpos] + "\t" + arr[latpos] + "\t" + arr[altpos]);
                                 swloctel.Flush();
                                 swloctxt.Flush();
+
+                                GenPhotoStationRecord(swloctrim, filename, double.Parse(arr[latpos]), double.Parse(arr[lngpos]), double.Parse(arr[altpos]), 0, 0, double.Parse(arr[cogpos]) * deg2rad, 3200, 2400);
+
                                 log.InfoFormat(Path.GetFileName(filename) + " " + arr[lngpos] + " " + arr[latpos] + " " + arr[altpos] + "           ");
                                 break;
                             }
@@ -493,6 +626,13 @@ namespace ArdupilotMega
 
                 swlogloccsv.Close();
 
+                // flightmission
+                GenFlightMission(swloctrim);
+
+                swloctrim.WriteEndElement(); // fieldbook
+                swloctrim.WriteEndElement(); // job
+                swloctrim.WriteEndDocument();
+
                 swloctxt.Close();
                 swloctel.Close();
 
@@ -500,7 +640,125 @@ namespace ArdupilotMega
 
             }
         }
- 
+
+        int recordno = 10;
+
+        List<int> photostnrecord = new List<int>();
+
+        void GenFlightMission(XmlTextWriter swloctrim)
+        {
+            swloctrim.WriteStartElement("FlightMissionRecord");
+            swloctrim.WriteAttributeString("ID", (recordno++).ToString("0000000"));
+            swloctrim.WriteElementString("Name", "MP");
+            swloctrim.WriteStartElement("FlightBlock");
+            swloctrim.WriteStartElement("FlightPlan");
+            swloctrim.WriteAttributeString("height", "100");
+            swloctrim.WriteAttributeString("percentForwardOverlap", "75");
+            swloctrim.WriteAttributeString("percentLateralOverlap", "75");
+            //swloctrim.WriteElementString("Node", "");
+            //swloctrim.WriteElementString("Node", "");
+            //swloctrim.WriteElementString("Node", "");
+            //swloctrim.WriteElementString("Node", "");
+            swloctrim.WriteEndElement();
+            swloctrim.WriteStartElement("StationList");
+            foreach (int station in photostnrecord)
+            {
+                swloctrim.WriteElementString("StationID", station.ToString("0000000"));
+            }
+            swloctrim.WriteEndElement();
+            swloctrim.WriteEndElement();
+            swloctrim.WriteEndElement();
+        }
+
+        void GenPhotoStationRecord(XmlTextWriter swloctrim, string imgname, double lat, double lng, double alt, double roll, double pitch, double yaw, int imgwidth, int imgheight)
+        {
+            swloctrim.WriteStartElement("PhotoStationRecord");
+            swloctrim.WriteAttributeString("ID", (recordno++).ToString("0000000"));
+
+            photostnrecord.Add(recordno-1);
+
+            swloctrim.WriteElementString("StationName", Path.GetFileNameWithoutExtension(imgname));
+            swloctrim.WriteElementString("InstrumentHeight", "");
+
+            swloctrim.WriteStartElement("RawInstrumentHeight");
+            swloctrim.WriteElementString("MeasurementMethod", "TrueHeight");
+            swloctrim.WriteElementString("MeasuredHeight", "0");
+            swloctrim.WriteElementString("HorizontalOffset", "0");
+            swloctrim.WriteElementString("VerticalOffset", "0");
+            swloctrim.WriteEndElement();
+
+            swloctrim.WriteElementString("InstrumentID", "0000000E");
+            swloctrim.WriteElementString("AtmosphereID", "0000000F");
+            swloctrim.WriteElementString("StationType", "RawSensorValues");
+
+            swloctrim.WriteStartElement("DeviceAxisOrientationData");
+            swloctrim.WriteStartElement("DeviceAxisOrientation");
+            swloctrim.WriteStartElement("BiVector");
+            swloctrim.WriteElementString("XX", roll.ToString());
+            swloctrim.WriteElementString("YY", pitch.ToString());
+            swloctrim.WriteElementString("ZZ", yaw.ToString());
+            swloctrim.WriteEndElement();
+            swloctrim.WriteEndElement();
+            swloctrim.WriteEndElement();
+            swloctrim.WriteEndElement();
+            // end PhotoStationRecord
+
+            // pointrecord
+
+            swloctrim.WriteStartElement("PointRecord");
+            swloctrim.WriteAttributeString("ID", (recordno++).ToString("0000000"));
+
+            swloctrim.WriteElementString("Name", Path.GetFileNameWithoutExtension(imgname));
+            swloctrim.WriteElementString("Code", "");
+            swloctrim.WriteElementString("Method", "Coordinates");
+            swloctrim.WriteElementString("SurveyMethod", "Autonomous");
+            swloctrim.WriteElementString("Classification", "Normal");
+            swloctrim.WriteElementString("Deleted", "false");
+            swloctrim.WriteStartElement("WGS84");
+            swloctrim.WriteElementString("Latitude", lat.ToString());
+            swloctrim.WriteElementString("Longitude", lng.ToString());
+            swloctrim.WriteElementString("Height", alt.ToString());
+            swloctrim.WriteEndElement();
+            swloctrim.WriteEndElement();
+
+            // end point record
+
+            // imagerecord
+            swloctrim.WriteStartElement("ImageRecord");
+            swloctrim.WriteAttributeString("ID", (recordno++).ToString("0000000"));
+            swloctrim.WriteElementString("StationID", (recordno - 3).ToString("0000000"));
+            swloctrim.WriteElementString("BackBearingID", "");
+            swloctrim.WriteElementString("CameraID", "00000002");
+            swloctrim.WriteElementString("PointRecordID", "");
+            swloctrim.WriteElementString("FileName", Path.GetFileName(imgname));
+            swloctrim.WriteElementString("HorizontalAngle", "");
+            swloctrim.WriteElementString("VerticalAngle", "");
+            swloctrim.WriteElementString("Width", imgwidth.ToString());
+            swloctrim.WriteElementString("Height", imgheight.ToString());
+            swloctrim.WriteElementString("SourceX", "0");
+            swloctrim.WriteElementString("SourceY", "0");
+            swloctrim.WriteElementString("SourceWidth", imgwidth.ToString());
+            swloctrim.WriteElementString("SourceHeight", imgheight.ToString());
+            swloctrim.WriteEndElement();
+            /*
+    <ImageRecord ID="0000056" TimeStamp="2013-04-12T10:22:21">
+      <StationID>0000010</StationID>
+      <BackBearingID/>
+      <CameraID>00000002</CameraID>
+      <PointRecordID/>
+      <FileName>R0011726.JPG</FileName>
+      <HorizontalAngle/>
+      <VerticalAngle/>
+      <Width>3648</Width>
+      <Height>2736</Height>
+      <SourceX>0</SourceX>
+      <SourceY>0</SourceY>
+      <SourceWidth>3648</SourceWidth>
+      <SourceHeight>2736</SourceHeight>
+    </ImageRecord>
+             * */
+
+        }
 
         RectangleF getboundingbox(double centery, double centerx, double angle, double width, double height)
         {
@@ -969,6 +1227,12 @@ namespace ArdupilotMega
 
         private void BUT_browsedir_Click(object sender, EventArgs e)
         {
+            try
+            {
+                folderBrowserDialog1.SelectedPath = Path.GetDirectoryName(TXT_logfile.Text);
+            }
+            catch { }
+
             folderBrowserDialog1.ShowDialog();
 
             if (folderBrowserDialog1.SelectedPath != "")

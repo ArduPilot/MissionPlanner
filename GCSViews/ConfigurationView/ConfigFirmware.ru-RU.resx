@@ -117,4 +117,37 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="lbl_status.Text" xml:space="preserve">
+    <value>Статус</value>
+  </data>
+  <data name="lbl_AP.Text" xml:space="preserve">
+    <value>ArduPlane</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Изобр. Max Levine</value>
+  </data>
+  <data name="lbl_APHil.Text" xml:space="preserve">
+    <value>ArduPlane (Xplane симулятор)</value>
+  </data>
+  <data name="lbl_ACQuad.Text" xml:space="preserve">
+    <value>ArduCopter Quad</value>
+  </data>
+  <data name="lbl_ACHexa.Text" xml:space="preserve">
+    <value>ArduCopter Hexa</value>
+  </data>
+  <data name="lbl_ACTri.Text" xml:space="preserve">
+    <value>ArduCopter Tri</value>
+  </data>
+  <data name="lbl_ACY6.Text" xml:space="preserve">
+    <value>ArduCopter Y6</value>
+  </data>
+  <data name="lbl_Heli.Text" xml:space="preserve">
+    <value>ArduCopter Heli</value>
+  </data>
+  <data name="lbl_ACHil.Text" xml:space="preserve">
+    <value>ArduCopter Quad (Симулятор)</value>
+  </data>
+  <data name="BUT_setup.Text" xml:space="preserve">
+    <value>Настройка автопилота</value>
+  </data>
 </root>

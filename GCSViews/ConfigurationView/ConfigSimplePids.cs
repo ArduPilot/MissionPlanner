@@ -54,9 +54,13 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
 
         public void Activate()
         {
-            this.Controls.Clear();
+            // prevent memory leak
+            foreach (Control ctl in this.panel1.Controls)
+            {
+                ctl.Dispose();
+            }
 
-            this.Controls.Add(TXT_info);
+            y = 10;
 
             LoadXML(Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + "acsimplepids.xml");
         }
@@ -183,7 +187,9 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
 
                 RNG.ValueChanged += RNG_ValueChanged;
 
-                this.Controls.Add(RNG);
+                ThemeManager.ApplyThemeTo(RNG);
+
+                panel1.Controls.Add(RNG);
 
                 y += RNG.Height;
             }

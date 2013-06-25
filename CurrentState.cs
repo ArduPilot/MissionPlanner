@@ -204,6 +204,7 @@ namespace ArdupilotMega
         public float wpno { get; set; }
         [DisplayText("Mode")]
         public string mode { get; set; }
+        uint _mode = 99999;
         [DisplayText("ClimbRate (speed)")]
         public float climbrate { get { return _climbrate * multiplierspeed; } set {_climbrate = value;} }
 
@@ -446,7 +447,8 @@ namespace ArdupilotMega
 
         public CurrentState()
         {
-            mode = "";
+            mode = "Unknown";
+            _mode = 99999;
             messages = new List<string>();
             useLocation = false;
             rateattitude = 10;
@@ -677,17 +679,21 @@ enum gcs_severity {
 
                         string oldmode = mode;
 
-                        mode = "Unknown";
-
                         if ((hb.base_mode & (byte)MAVLink.MAV_MODE_FLAG.CUSTOM_MODE_ENABLED) != 0)
                         {
-                            List<KeyValuePair<int,string>> modelist = Common.getModesList();
-
-                            foreach (KeyValuePair<int,string> pair in modelist) 
+                            // prevent running thsi unless we have to
+                            if (_mode != hb.custom_mode)
                             {
-                                if (pair.Key == hb.custom_mode)
+                                List<KeyValuePair<int, string>> modelist = Common.getModesList();
+
+                                foreach (KeyValuePair<int, string> pair in modelist)
                                 {
-                                    mode = pair.Value.ToString();
+                                    if (pair.Key == hb.custom_mode)
+                                    {
+                                        mode = pair.Value.ToString();
+                                        _mode = hb.custom_mode;
+                                        break;
+                                    }
                                 }
                             }
                         }

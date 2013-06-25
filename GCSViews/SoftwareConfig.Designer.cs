@@ -33,11 +33,11 @@
             // 
             // backstageView
             // 
-            this.backstageView.AutoSize = true;
             this.backstageView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.backstageView.HighlightColor1 = System.Drawing.SystemColors.Highlight;
             this.backstageView.HighlightColor2 = System.Drawing.SystemColors.MenuHighlight;
             this.backstageView.Location = new System.Drawing.Point(0, 0);
+            this.backstageView.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.backstageView.Name = "backstageView";
             this.backstageView.Size = new System.Drawing.Size(1000, 450);
             this.backstageView.TabIndex = 1;
@@ -45,8 +45,7 @@
             // 
             // SoftwareConfig
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.backstageView);
             this.MinimumSize = new System.Drawing.Size(1000, 450);
             this.Name = "SoftwareConfig";
@@ -54,7 +53,6 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SoftwareConfig_FormClosing);
             this.Load += new System.EventHandler(this.SoftwareConfig_Load);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 

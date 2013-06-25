@@ -35,6 +35,8 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
         /// The parameter mode.
         /// </value>
         public string ParameterMode { get; set; }
+        int y = 10;
+
 
         #endregion
 
@@ -139,6 +141,8 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         public void Activate()
         {
+            y = 10;
+
             Console.WriteLine("Activate " + DateTime.Now.ToString("mm.fff"));
             BindParamList();
             Console.WriteLine("Activate Done " + DateTime.Now.ToString("mm.fff"));
@@ -230,7 +234,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
 
             tableLayoutPanel1.VerticalScroll.Value = 0;
 
-//            int ypos = 0;
+
             _params.OrderBy(x => x.Key).ForEach(x =>
          {
              AddControl(x);//,ref ypos);
@@ -327,11 +331,11 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                             rangeControl.ValueChanged += Control_ValueChanged;
 
                             // set pos
-//                            rangeControl.Location = new Point(0, ypos);
+                            rangeControl.Location = new Point(0, y);
                             // add control - let it autosize height
                             tableLayoutPanel1.Controls.Add(rangeControl);
                             // add height for next control
-//                            ypos += rangeControl.Height;
+                            y += rangeControl.Height;
 
                             controlAdded = true;
                         }
@@ -368,11 +372,11 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                                 valueControl.ValueChanged += Control_ValueChanged;
 
                                 // set pos
-//                                valueControl.Location = new Point(0, ypos);
+                                valueControl.Location = new Point(0, y);
                                 // add control - let it autosize height
                                 tableLayoutPanel1.Controls.Add(valueControl);
                                 // add height for next control
-//                                ypos += valueControl.Height;
+                                y += valueControl.Height;
                             }
                         }
                     }

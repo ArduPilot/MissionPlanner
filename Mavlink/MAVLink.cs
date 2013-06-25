@@ -126,7 +126,7 @@ namespace ArdupilotMega
             internal int recvpacketcount = 0;
         }
 
-        private const double CONNECT_TIMEOUT_SECONDS = 30;
+        public double CONNECT_TIMEOUT_SECONDS = 30;
 
         /// <summary>
         /// progress form to handle connect and param requests
@@ -384,20 +384,20 @@ namespace ArdupilotMega
 
                     log.Info(DateTime.Now.Millisecond + " Start connect loop ");
 
-                    if (lastbad[0] == '!' && lastbad[1] == 'G' || lastbad[0] == 'G' && lastbad[1] == '!') // waiting for gps lock
-                    {
-                        //if (Progress != null)
-                        //    Progress(-1, "Waiting for GPS detection..");
-                        frmProgressReporter.UpdateProgressAndStatus(-1, "Waiting for GPS detection..");
-                        deadline = deadline.AddSeconds(5); // each round is 1.1 seconds
-                    }
-
                     if (DateTime.Now > deadline)
                     {
                         //if (Progress != null)
                         //    Progress(-1, "No Heatbeat Packets");
                         countDown.Stop();
                         this.Close();
+                
+                        CustomMessageBox.Show(@"Can not establish a connection\n
+Please check the following
+1. You have firmware loaded
+2. You have the correct serial port selected
+3. PX4 - You have the microsd card installed
+4. Try a diffrent usb port");
+
                         if (hbseen)
                         {
                             progressWorkerEventArgs.ErrorMessage = "Only 1 Heatbeat Received";
@@ -490,7 +490,7 @@ namespace ArdupilotMega
             synclost = 0;
         }
 
-        byte[] getHeartBeat()
+        public byte[] getHeartBeat()
         {
             DateTime start = DateTime.Now;
             while (true)
@@ -1147,6 +1147,44 @@ namespace ArdupilotMega
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// send lots of packets to reset the hardware, this asumes we dont know the sysid in the first place
+        /// </summary>
+        /// <returns></returns>
+        public bool doReboot()
+        {
+            byte[] buffer = getHeartBeat();
+
+            if (buffer.Length > 5)
+            {
+                mavlink_heartbeat_t hb = buffer.ByteArrayToStructure<mavlink_heartbeat_t>(6);
+
+                mavlinkversion = hb.mavlink_version;
+                aptype = (MAV_TYPE)hb.type;
+                apname = (MAV_AUTOPILOT)hb.autopilot;
+                       sysid = buffer[3];
+                        compid = buffer[4];
+
+            }
+
+            if (sysid != 0 && compid != 0)
+            {
+                doCommand(MAV_CMD.PREFLIGHT_REBOOT_SHUTDOWN, 1, 0, 0, 0, 0, 0, 0);
+            }
+            else
+            {
+
+                for (byte a = byte.MinValue; a < byte.MaxValue; a++)
+                {
+                    giveComport = true;
+                    sysid = a;
+                    doCommand(MAV_CMD.PREFLIGHT_REBOOT_SHUTDOWN, 1, 0, 0, 0, 0, 0, 0);
+                }
+            }
+            giveComport = false;
+            return true;
+        }
+
         public bool doARM(bool armit)
         {
             return doCommand(MAV_CMD.COMPONENT_ARM_DISARM, armit ? 1 : 0, 0, 0, 0, 0, 0, 0);
@@ -1166,6 +1204,11 @@ namespace ArdupilotMega
             if (actionid == MAV_CMD.COMPONENT_ARM_DISARM)
             {
                 req.target_component = (byte)MAV_COMPONENT.MAV_COMP_ID_SYSTEM_CONTROL;
+            }
+
+            if (actionid == MAV_CMD.PREFLIGHT_REBOOT_SHUTDOWN)
+            {
+                p1 = 1;
             }
 
             req.command = (ushort)actionid;
