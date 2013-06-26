@@ -268,7 +268,8 @@ namespace ArdupilotMega.GCSViews
 
                 comPort.toggleDTR();
 
-                MainV2.comPort.doReboot();
+                // causes issues on apm 1/2
+              //  MainV2.comPort.doReboot();
 
                 comPort.DiscardInBuffer();
 

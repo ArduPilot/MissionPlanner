@@ -1,4 +1,10 @@
-﻿* Mission Planner 1.2.56
+﻿Mission Planner 1.2.57
+fix small screen res
+fix cli
+add more python script ability
+fix battery percent quick view
+
+* Mission Planner 1.2.56
 fix param list memory usage
 generate mode list to param data
 generate ch6,7,8 list from param data

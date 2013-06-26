@@ -1134,7 +1134,7 @@ namespace ArdupilotMega
                             MainV2.speechEngine.SpeakAsync(Common.speechConversion(MainV2.getConfig("speechbattery")));
                             speechbatterytime = DateTime.Now;
                         }
-                        else if (MainV2.getConfig("speechbatteryenabled") == "True" && (MainV2.comPort.MAV.cs.battery_remaining * 100) < warnpercent && MainV2.comPort.MAV.cs.battery_voltage != 0.0 && MainV2.comPort.MAV.cs.battery_remaining != 0.0)
+                        else if (MainV2.getConfig("speechbatteryenabled") == "True" && (MainV2.comPort.MAV.cs.battery_remaining) < warnpercent && MainV2.comPort.MAV.cs.battery_voltage != 0.0 && MainV2.comPort.MAV.cs.battery_remaining != 0.0)
                         {
                             MainV2.speechEngine.SpeakAsync(Common.speechConversion(MainV2.getConfig("speechbattery")));
                             speechbatterytime = DateTime.Now;

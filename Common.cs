@@ -863,7 +863,7 @@ namespace ArdupilotMega
 
             input = input.Replace("{batv}", MainV2.comPort.MAV.cs.battery_voltage.ToString("0.00"));
 
-            input = input.Replace("{batp}", (MainV2.comPort.MAV.cs.battery_remaining * 100).ToString("0"));
+            input = input.Replace("{batp}", (MainV2.comPort.MAV.cs.battery_remaining).ToString("0"));
 
             input = input.Replace("{vsp}", (MainV2.comPort.MAV.cs.verticalspeed).ToString("0.0"));
 

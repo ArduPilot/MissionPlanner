@@ -1439,7 +1439,7 @@ namespace ArdupilotMega.Controls
 
                     string text = "Bat " + _batterylevel.ToString("0.00v") + " " + _current.ToString("0 A");
 
-                    text = "Bat " + _batterylevel.ToString("0.00v") + " " + _current.ToString("0 A") + " " + (_batteryremaining * 100) + "%";
+                    text = "Bat " + _batterylevel.ToString("0.00v") + " " + _current.ToString("0 A") + " " + (_batteryremaining) + "%";
 
                     if (lowvoltagealert)
                     {

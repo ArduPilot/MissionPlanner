@@ -27,6 +27,7 @@ namespace ArdupilotMega
             engine = Python.CreateEngine(options);
             scope = engine.CreateScope();
 
+            scope.SetVariable("MAV", MainV2.comPort);
             scope.SetVariable("cs", MainV2.comPort.MAV.cs);
             scope.SetVariable("Script", this);
             scope.SetVariable("mavutil", this);

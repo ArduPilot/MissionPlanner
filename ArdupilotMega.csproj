@@ -499,6 +499,8 @@
     <Compile Include="GCSViews\SoftwareConfig.Designer.cs">
       <DependentUpon>SoftwareConfig.cs</DependentUpon>
     </Compile>
+    <Compile Include="Plugin\IPlugin.cs" />
+    <Compile Include="Plugin\PluginLoader.cs" />
     <Compile Include="Wizard\Wizard.cs">
       <SubType>Form</SubType>
     </Compile>

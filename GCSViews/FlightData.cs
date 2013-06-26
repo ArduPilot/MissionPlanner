@@ -693,7 +693,7 @@ namespace ArdupilotMega.GCSViews
                     {
                         hud1.lowvoltagealert = true;
                     }
-                    else if ((MainV2.comPort.MAV.cs.battery_remaining * 100) < warnpercent)
+                    else if ((MainV2.comPort.MAV.cs.battery_remaining) < warnpercent)
                     {
                         hud1.lowvoltagealert = true;
                     }

@@ -251,7 +251,7 @@ namespace ArdupilotMega
         public float battery_voltage { get { return _battery_voltage; } set { _battery_voltage = value; } }
         private float _battery_voltage;
         [DisplayText("Bat Remaining (%)")]
-        public float battery_remaining { get { return _battery_remaining; } set { _battery_remaining = value; if (_battery_remaining < 0 || _battery_remaining > 1) _battery_remaining = 0; } }
+        public float battery_remaining { get { return _battery_remaining; } set { _battery_remaining = value; if (_battery_remaining < 0 || _battery_remaining > 100) _battery_remaining = 0; } }
         private float _battery_remaining;
         [DisplayText("Bat Current (Amps)")]
         public float current { get { return _current; } set { _current = value; } }
@@ -711,7 +711,7 @@ enum gcs_severity {
                         var sysstatus = bytearray.ByteArrayToStructure<MAVLink.mavlink_sys_status_t>(6);
 
                         battery_voltage = (float)sysstatus.voltage_battery / 1000.0f;
-                        battery_remaining = (float)sysstatus.battery_remaining / 100.0f;
+                        battery_remaining = (float)sysstatus.battery_remaining;
                         current = (float)sysstatus.current_battery / 100.0f;
 
                         packetdropremote = sysstatus.drop_rate_comm;

@@ -70,7 +70,7 @@
             this.MainMenu.Location = new System.Drawing.Point(0, 0);
             this.MainMenu.Name = "MainMenu";
             this.MainMenu.Padding = new System.Windows.Forms.Padding(0, 2, 0, 4);
-            this.MainMenu.Size = new System.Drawing.Size(1248, 69);
+            this.MainMenu.Size = new System.Drawing.Size(953, 69);
             this.MainMenu.Stretch = false;
             this.MainMenu.TabIndex = 5;
             this.MainMenu.Text = "menuStrip1";
@@ -265,7 +265,7 @@
             this.menu.Margin = new System.Windows.Forms.Padding(4);
             this.menu.Name = "menu";
             this.menu.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
-            this.menu.Size = new System.Drawing.Size(1344, 28);
+            this.menu.Size = new System.Drawing.Size(1008, 28);
             this.menu.TabIndex = 6;
             this.menu.Text = "Menu";
             this.menu.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
@@ -276,12 +276,11 @@
             // 
             this.panel1.BackColor = System.Drawing.Color.White;
             this.panel1.Controls.Add(this.MainMenu);
-            this.panel1.Location = new System.Drawing.Point(57, 57);
+            this.panel1.Location = new System.Drawing.Point(9, 57);
             this.panel1.Margin = new System.Windows.Forms.Padding(4);
             this.panel1.MaximumSize = new System.Drawing.Size(133332, 123);
-            this.panel1.MinimumSize = new System.Drawing.Size(1200, 70);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1248, 70);
+            this.panel1.Size = new System.Drawing.Size(953, 70);
             this.panel1.TabIndex = 7;
             this.panel1.Visible = false;
             this.panel1.MouseLeave += new System.EventHandler(this.MainMenu_MouseLeave);
@@ -289,14 +288,14 @@
             // MainV2
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(1344, 661);
+            this.ClientSize = new System.Drawing.Size(1008, 562);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.menu);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.MainMenuStrip = this.MainMenu;
             this.Margin = new System.Windows.Forms.Padding(4);
-            this.MinimumSize = new System.Drawing.Size(1359, 697);
+            this.MinimumSize = new System.Drawing.Size(1024, 600);
             this.Name = "MainV2";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Mission Planner - By Michael Oborne";
