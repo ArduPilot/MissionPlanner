@@ -35,6 +35,8 @@
             this.BUTtests = new ArdupilotMega.Controls.MyButton();
             this.Logs = new ArdupilotMega.Controls.MyButton();
             this.BUT_logbrowse = new ArdupilotMega.Controls.MyButton();
+            this.BUT_ConnectAPM = new ArdupilotMega.Controls.MyButton();
+            this.BUT_ConnectPX4 = new ArdupilotMega.Controls.MyButton();
             this.SuspendLayout();
             // 
             // TXT_terminal
@@ -49,43 +51,87 @@
             // 
             // BUTsetupshow
             // 
+            this.BUTsetupshow.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
+            this.BUTsetupshow.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
             resources.ApplyResources(this.BUTsetupshow, "BUTsetupshow");
             this.BUTsetupshow.Name = "BUTsetupshow";
+            this.BUTsetupshow.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
+            this.BUTsetupshow.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUTsetupshow.UseVisualStyleBackColor = true;
             this.BUTsetupshow.Click += new System.EventHandler(this.BUTsetupshow_Click);
             // 
             // BUTradiosetup
             // 
+            this.BUTradiosetup.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
+            this.BUTradiosetup.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
             resources.ApplyResources(this.BUTradiosetup, "BUTradiosetup");
             this.BUTradiosetup.Name = "BUTradiosetup";
+            this.BUTradiosetup.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
+            this.BUTradiosetup.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUTradiosetup.UseVisualStyleBackColor = true;
             this.BUTradiosetup.Click += new System.EventHandler(this.BUTradiosetup_Click);
             // 
             // BUTtests
             // 
+            this.BUTtests.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
+            this.BUTtests.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
             resources.ApplyResources(this.BUTtests, "BUTtests");
             this.BUTtests.Name = "BUTtests";
+            this.BUTtests.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
+            this.BUTtests.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUTtests.UseVisualStyleBackColor = true;
             this.BUTtests.Click += new System.EventHandler(this.BUTtests_Click);
             // 
             // Logs
             // 
+            this.Logs.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
+            this.Logs.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
             resources.ApplyResources(this.Logs, "Logs");
             this.Logs.Name = "Logs";
+            this.Logs.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
+            this.Logs.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.Logs.UseVisualStyleBackColor = true;
             this.Logs.Click += new System.EventHandler(this.Logs_Click);
             // 
             // BUT_logbrowse
             // 
+            this.BUT_logbrowse.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
+            this.BUT_logbrowse.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
             resources.ApplyResources(this.BUT_logbrowse, "BUT_logbrowse");
             this.BUT_logbrowse.Name = "BUT_logbrowse";
+            this.BUT_logbrowse.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
+            this.BUT_logbrowse.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_logbrowse.UseVisualStyleBackColor = true;
             this.BUT_logbrowse.Click += new System.EventHandler(this.BUT_logbrowse_Click);
+            // 
+            // BUT_ConnectAPM
+            // 
+            this.BUT_ConnectAPM.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
+            this.BUT_ConnectAPM.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
+            resources.ApplyResources(this.BUT_ConnectAPM, "BUT_ConnectAPM");
+            this.BUT_ConnectAPM.Name = "BUT_ConnectAPM";
+            this.BUT_ConnectAPM.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
+            this.BUT_ConnectAPM.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.BUT_ConnectAPM.UseVisualStyleBackColor = true;
+            this.BUT_ConnectAPM.Click += new System.EventHandler(this.BUT_RebootAPM_Click);
+            // 
+            // BUT_ConnectPX4
+            // 
+            this.BUT_ConnectPX4.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
+            this.BUT_ConnectPX4.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
+            resources.ApplyResources(this.BUT_ConnectPX4, "BUT_ConnectPX4");
+            this.BUT_ConnectPX4.Name = "BUT_ConnectPX4";
+            this.BUT_ConnectPX4.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
+            this.BUT_ConnectPX4.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.BUT_ConnectPX4.UseVisualStyleBackColor = true;
+            this.BUT_ConnectPX4.Click += new System.EventHandler(this.BUT_ConnectPX4_Click);
             // 
             // Terminal
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.BUT_ConnectPX4);
+            this.Controls.Add(this.BUT_ConnectAPM);
             this.Controls.Add(this.BUT_logbrowse);
             this.Controls.Add(this.Logs);
             this.Controls.Add(this.BUTtests);
@@ -107,5 +153,7 @@
         private ArdupilotMega.Controls.MyButton BUTtests;
         private ArdupilotMega.Controls.MyButton Logs;
         private ArdupilotMega.Controls.MyButton BUT_logbrowse;
+        private Controls.MyButton BUT_ConnectAPM;
+        private Controls.MyButton BUT_ConnectPX4;
     }
 }

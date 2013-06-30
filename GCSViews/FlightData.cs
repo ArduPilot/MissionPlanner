@@ -125,6 +125,8 @@ namespace ArdupilotMega.GCSViews
             myhud = hud1;
             MainHcopy = MainH;
 
+            mymap.Manager.UseMemoryCache = false;
+
             log.Info("Tunning Graph Settings");
             // setup default tuning graph
             if (MainV2.config["Tuning_Graph_Selected"] != null)

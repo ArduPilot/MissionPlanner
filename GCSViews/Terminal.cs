@@ -11,11 +11,15 @@ using System.IO.Ports;
 using ArdupilotMega.Comms;
 using ArdupilotMega.Utilities;
 using System.Text.RegularExpressions;
+using log4net;
+using System.Reflection;
 
 namespace ArdupilotMega.GCSViews
 {
     public partial class Terminal : MyUserControl
     {
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         ICommsSerial comPort;
         Object thisLock = new Object();
         public static bool threadrun = false;
@@ -249,6 +253,11 @@ namespace ArdupilotMega.GCSViews
 
         private void Terminal_Load(object sender, EventArgs e)
         {
+
+        }
+
+        private void start_Terminal(bool px4)
+        {
             try
             {
                 MainV2.comPort.giveComport = true;
@@ -256,7 +265,17 @@ namespace ArdupilotMega.GCSViews
                 comPort = MainV2.comPort.BaseStream;
 
                 if (comPort.IsOpen)
+                {
+                  //  if (DialogResult.Cancel == CustomMessageBox.Show("The port is open\n Continue?", "Continue", MessageBoxButtons.YesNo))
+                    {
+                      //  return;
+                    }
+
                     comPort.Close();
+
+                    // allow things to cleanup
+                    System.Threading.Thread.Sleep(200);
+                }
 
                 comPort.ReadBufferSize = 1024 * 1024;
 
@@ -266,10 +285,47 @@ namespace ArdupilotMega.GCSViews
 
                 comPort.Open();
 
-                comPort.toggleDTR();
+                if (px4)
+                {
+                    byte[] buffer = MainV2.comPort.readPacket();
 
-                // causes issues on apm 1/2
-              //  MainV2.comPort.doReboot();
+                    if (buffer.Length > 0)
+                    {
+                        log.Info("got packet - sending reboot via mavlink");
+                        MainV2.comPort.giveComport = true;
+                        MainV2.comPort.doReboot();
+                        comPort.Close();
+                    }
+                    else
+                    {
+                        log.Info("no packet - sending reboot via console");
+                        MainV2.comPort.giveComport = true;
+                        MainV2.comPort.BaseStream.Write("exit\rreboot\r");
+                        comPort.Close();
+                    }
+
+                    MainV2.comPort.giveComport = true;
+
+                    // wait 7 seconds for px4 reboot
+                    log.Info("waiting for px4 reboot");
+                    System.Threading.Thread.Sleep(7000);
+
+                    int a = 0;
+                    while (a < 5)
+                    {
+                        try
+                        {
+                            comPort.Open();
+                        }
+                        catch { }
+                        System.Threading.Thread.Sleep(200);
+                        a++;
+                    }
+                }
+                else
+                {
+                    comPort.toggleDTR();
+                }
 
                 comPort.DiscardInBuffer();
 
@@ -349,7 +405,7 @@ namespace ArdupilotMega.GCSViews
                 TXT_terminal.AppendText("Opened com port\r\n");
                 inputStartPos = TXT_terminal.SelectionStart;
             }
-            catch (Exception) { TXT_terminal.AppendText("Cant open serial port\r\n"); return; }
+            catch (Exception ex) { log.Error(ex); TXT_terminal.AppendText("Cant open serial port\r\n"); return; }
 
             TXT_terminal.Focus();
         }
@@ -419,6 +475,16 @@ namespace ArdupilotMega.GCSViews
             Form logbrowse = new Log.LogBrowse();
             ThemeManager.ApplyThemeTo(logbrowse);
             logbrowse.Show();
+        }
+
+        private void BUT_RebootAPM_Click(object sender, EventArgs e)
+        {
+            start_Terminal(false);
+        }
+
+        private void BUT_ConnectPX4_Click(object sender, EventArgs e)
+        {
+            start_Terminal(true);
         }
     }
 }

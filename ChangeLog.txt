@@ -1,4 +1,13 @@
-﻿Mission Planner 1.2.57
+﻿* Mission Planner 1.2.58
+add more python internal support - guided mode/wp's
+remove disconnect on terminal click
+test no memory cache on FD
+fix wprad and default alt on FP load, and save
+remove old waypoint writer support
+change the way terminal resets the apm and connects.
+fix google map loading issue
+
+* Mission Planner 1.2.57
 fix small screen res
 fix cli
 add more python script ability

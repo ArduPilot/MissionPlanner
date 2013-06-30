@@ -46,21 +46,21 @@ namespace GMap.NET
       public readonly string GServerKoreaKr = ThisIsLegalString("zOl/KnHzebIhmuu+tK5lbw==");
 
       // Google version strings
-      public string VersionGoogleMap = "m@151";
-      public string VersionGoogleSatellite = "83";
-      public string VersionGoogleLabels = "h@151";
+      public string VersionGoogleMap = "m@220000000";
+      public string VersionGoogleSatellite = "131";
+      public string VersionGoogleLabels = "h@220000000";
       public string VersionGoogleTerrain = "t@126,r@151";
       public string SecGoogleWord = "Galileo";
 
       // Google (China) version strings
       public string VersionGoogleMapChina = "m@151";
-      public string VersionGoogleSatelliteChina = "s@83";
+      public string VersionGoogleSatelliteChina = "s@131";
       public string VersionGoogleLabelsChina = "h@151";
       public string VersionGoogleTerrainChina = "t@126,r@151";
 
       // Google (Korea) version strings
       public string VersionGoogleMapKorea = "kr1.12";
-      public string VersionGoogleSatelliteKorea = "83";
+      public string VersionGoogleSatelliteKorea = "131";
       public string VersionGoogleLabelsKorea = "kr1t.12";
 
       /// <summary>
@@ -1382,46 +1382,46 @@ namespace GMap.NET
             #region -- Google --
             case MapType.GoogleMap:
             {
-               string server = "mt";
+               string server = "mts";
                string request = "vt";
                string sec1 = ""; // after &x=...
                string sec2 = ""; // after &zoom=...
                GetSecGoogleWords(pos, out sec1, out sec2);
 
-               return string.Format("http://{0}{1}.{10}/{2}/lyrs={3}&hl={4}&x={5}{6}&y={7}&z={8}&s={9}", server, GetServerNum(pos, 4), request, VersionGoogleMap, language, pos.X, sec1, pos.Y, zoom, sec2, GServer);
+               return string.Format("https://{0}{1}.{10}/{2}/lyrs={3}&hl={4}&x={5}{6}&y={7}&z={8}&s={9}", server, GetServerNum(pos, 4), request, VersionGoogleMap, language, pos.X, sec1, pos.Y, zoom, sec2, GServer);
             }
 
             case MapType.GoogleSatellite:
             {
-               string server = "khm";
+               string server = "khms";
                string request = "kh";
                string sec1 = ""; // after &x=...
                string sec2 = ""; // after &zoom=...
                GetSecGoogleWords(pos, out sec1, out sec2);
 
-               return string.Format("http://{0}{1}.{10}/{2}/v={3}&hl={4}&x={5}{6}&y={7}&z={8}&s={9}", server, GetServerNum(pos, 4), request, VersionGoogleSatellite, language, pos.X, sec1, pos.Y, zoom, sec2, GServer);
+               return string.Format("https://{0}{1}.{10}/{2}/v={3}&hl={4}&x={5}{6}&y={7}&z={8}&s={9}", server, GetServerNum(pos, 4), request, VersionGoogleSatellite, language, pos.X, sec1, pos.Y, zoom, sec2, GServer);
             }
 
             case MapType.GoogleLabels:
             {
-               string server = "mt";
+               string server = "mts";
                string request = "vt";
                string sec1 = ""; // after &x=...
                string sec2 = ""; // after &zoom=...
                GetSecGoogleWords(pos, out sec1, out sec2);
 
-               return string.Format("http://{0}{1}.{10}/{2}/lyrs={3}&hl={4}&x={5}{6}&y={7}&z={8}&s={9}", server, GetServerNum(pos, 4), request, VersionGoogleLabels, language, pos.X, sec1, pos.Y, zoom, sec2, GServer);
+               return string.Format("https://{0}{1}.{10}/{2}/lyrs={3}&hl={4}&x={5}{6}&y={7}&z={8}&s={9}", server, GetServerNum(pos, 4), request, VersionGoogleLabels, language, pos.X, sec1, pos.Y, zoom, sec2, GServer);
             }
 
             case MapType.GoogleTerrain:
             {
-               string server = "mt";
+               string server = "mts";
                string request = "vt";
                string sec1 = ""; // after &x=...
                string sec2 = ""; // after &zoom=...
                GetSecGoogleWords(pos, out sec1, out sec2);
 
-               return string.Format("http://{0}{1}.{10}/{2}/v={3}&hl={4}&x={5}{6}&y={7}&z={8}&s={9}", server, GetServerNum(pos, 4), request, VersionGoogleTerrain, language, pos.X, sec1, pos.Y, zoom, sec2, GServer);
+               return string.Format("https://{0}{1}.{10}/{2}/v={3}&hl={4}&x={5}{6}&y={7}&z={8}&s={9}", server, GetServerNum(pos, 4), request, VersionGoogleTerrain, language, pos.X, sec1, pos.Y, zoom, sec2, GServer);
             }
             #endregion
 
@@ -3005,7 +3005,7 @@ namespace GMap.NET
                      case MapType.GoogleTerrain:
                      case MapType.GoogleHybrid:
                      {
-                        request.Referer = string.Format("http://maps.{0}/", GServer);
+                        request.Referer = string.Format("https://maps.{0}/", GServer);
                      }
                      break;
 

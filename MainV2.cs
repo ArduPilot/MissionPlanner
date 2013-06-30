@@ -521,11 +521,6 @@ namespace ArdupilotMega
 
         private void MenuTerminal_Click(object sender, EventArgs e)
         {
-            if (comPort.BaseStream.IsOpen)
-            {
-                MenuConnect_Click(sender, e);
-            }
-
             MyView.ShowScreen("Terminal");
         }
 

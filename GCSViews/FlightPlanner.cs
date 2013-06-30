@@ -48,102 +48,7 @@ namespace ArdupilotMega.GCSViews
 
         private Dictionary<string, string[]> cmdParamNames = new Dictionary<string, string[]>();
 
-        /// <summary>
-        /// Read from waypoint writter *.h file
-        /// </summary>
-        /// <param name="file">File Path</param>
-        /// <returns></returns>
-        bool readwaypointwritterfile(string file)
-        {
-
-            byte wp_rad = 30;
-            byte loit_rad = 45;
-            int alt_hold = 100;
-            byte wp_count = 0;
-            bool error = false;
-            List<Locationwp> cmds = new List<Locationwp>();
-
-            cmds.Add(new Locationwp());
-
-            try
-            {
-                StreamReader sr = new StreamReader(file); //"defines.h"
-                while (!error && !sr.EndOfStream)
-                {
-                    string line = sr.ReadLine();
-                    // defines
-                    Regex regex2 = new Regex(@"define\s+([^\s]+)\s+([^\s]+)", RegexOptions.IgnoreCase);
-                    if (regex2.IsMatch(line))
-                    {
-                        MatchCollection matchs = regex2.Matches(line);
-                        for (int i = 0; i < matchs.Count; i++)
-                        {
-                            if (matchs[i].Groups[1].Value.ToString().Equals("WP_RADIUS"))
-                                wp_rad = (byte)double.Parse(matchs[i].Groups[2].Value.ToString());
-                            if (matchs[i].Groups[1].Value.ToString().Equals("LOITER_RADIUS"))
-                                loit_rad = (byte)double.Parse(matchs[i].Groups[2].Value.ToString());
-                            if (matchs[i].Groups[1].Value.ToString().Equals("ALT_TO_HOLD"))
-                                alt_hold = (int)double.Parse(matchs[i].Groups[2].Value.ToString());
-                        }
-                    }
-                    // waypoints
-                    regex2 = new Regex(@"([^,{]+),([^,]+),([^,]+),([^,]+),([^,}]+)", RegexOptions.IgnoreCase);
-                    if (regex2.IsMatch(line))
-                    {
-                        MatchCollection matchs = regex2.Matches(line);
-                        for (int i = 0; i < matchs.Count; i++)
-                        {
-                            Locationwp temp = new Locationwp();
-                            temp.options = 1;
-                            temp.id = (byte)(int)Enum.Parse(typeof(MAVLink.MAV_CMD), matchs[i].Groups[1].Value.ToString().Replace("NAV_", ""), false);
-                            temp.p1 = byte.Parse(matchs[i].Groups[2].Value.ToString());
-
-                            if (temp.id < (byte)MAVLink.MAV_CMD.LAST)
-                            {
-                                temp.alt = (float)(double.Parse(matchs[i].Groups[3].Value.ToString(), new System.Globalization.CultureInfo("en-US")));
-                                temp.lat = (double.Parse(matchs[i].Groups[4].Value.ToString(), new System.Globalization.CultureInfo("en-US")));
-                                temp.lng = (double.Parse(matchs[i].Groups[5].Value.ToString(), new System.Globalization.CultureInfo("en-US")));
-                            }
-                            else
-                            {
-                                temp.alt = (float)(double.Parse(matchs[i].Groups[3].Value.ToString(), new System.Globalization.CultureInfo("en-US")));
-                                temp.lat = (double.Parse(matchs[i].Groups[4].Value.ToString(), new System.Globalization.CultureInfo("en-US")));
-                                temp.lng = (double.Parse(matchs[i].Groups[5].Value.ToString(), new System.Globalization.CultureInfo("en-US")));
-                            }
-                            cmds.Add(temp);
-
-                            wp_count++;
-                            if (wp_count == byte.MaxValue)
-                                break;
-                        }
-                        if (wp_count == byte.MaxValue)
-                        {
-                            CustomMessageBox.Show("To many Waypoints!!!");
-                            break;
-                        }
-                    }
-                }
-
-                sr.Close();
-
-                TXT_DefaultAlt.Text = (alt_hold).ToString();
-                TXT_WPRad.Text = (wp_rad).ToString();
-                TXT_loiterrad.Text = (loit_rad).ToString();
-
-                processToScreen(cmds);
-
-                writeKML();
-
-                MainMap.ZoomAndCenterMarkers("objects");
-            }
-            catch (Exception ex)
-            {
-                CustomMessageBox.Show("Can't open file! " + ex.ToString());
-                return false;
-            }
-            return true;
-
-        }
+ 
 
         /// <summary>
         /// used to adjust existing point in the datagrid including "Home"
@@ -1410,7 +1315,11 @@ namespace ArdupilotMega.GCSViews
                     port.setParam("RTL_ALT", 0);
                 }
 
+                // m
                 port.setParam("WP_RADIUS", (byte)int.Parse(TXT_WPRad.Text) / MainV2.comPort.MAV.cs.multiplierdist);
+
+                // cm's
+                port.setParam("WPNAV_RADIUS", (byte)int.Parse(TXT_WPRad.Text) / MainV2.comPort.MAV.cs.multiplierdist * 100);
 
                 try
                 {
@@ -1505,54 +1414,8 @@ namespace ArdupilotMega.GCSViews
                 cell = Commands.Rows[i].Cells[Param4.Index] as DataGridViewTextBoxCell;
                 cell.Value = temp.p4;
             }
-            try
-            {
-                log.Info("Setting wp params");
 
-                string hold_alt = "0";
-
-                if (param["RTL_ALT"] != null)
-                {
-                    hold_alt = ((int)((float)param["RTL_ALT"] * MainV2.comPort.MAV.cs.multiplierdist / 100.0)).ToString();
-                    CHK_holdalt.Checked = Convert.ToBoolean((float)param["RTL_ALT"] > 0);
-                    log.Info("param RTL_ALT " + CHK_holdalt.Checked.ToString());
-                }
-                if (param["ALT_HOLD_RTL"] != null)
-                {
-                    hold_alt = ((int)((float)param["ALT_HOLD_RTL"] * MainV2.comPort.MAV.cs.multiplierdist / 100.0)).ToString();
-                    CHK_holdalt.Checked = Convert.ToBoolean((float)param["ALT_HOLD_RTL"] > 0);
-                    log.Info("param ALT_HOLD_RTL " + CHK_holdalt.Checked.ToString());
-                }
-                
-                
-
-                log.Info("param ALT_HOLD_RTL " + hold_alt);
-
-                if (!hold_alt.Equals("-1") || !hold_alt.Equals("0"))
-                {
-                    TXT_DefaultAlt.Text = hold_alt;
-                }
-
-                TXT_WPRad.Text = ((int)((float)param["WP_RADIUS"] * MainV2.comPort.MAV.cs.multiplierdist)).ToString();
-
-                log.Info("param WP_RADIUS " + TXT_WPRad.Text);
-
-                try
-                {
-                    if (param["LOITER_RADIUS"] != null)
-                        TXT_loiterrad.Text = ((int)((float)param["LOITER_RADIUS"] * MainV2.comPort.MAV.cs.multiplierdist)).ToString();
-
-                    if (param["WP_LOITER_RAD"] != null)
-                        TXT_loiterrad.Text = ((int)((float)param["WP_LOITER_RAD"] * MainV2.comPort.MAV.cs.multiplierdist)).ToString();
-
-                    log.Info("param LOITER_RADIUS " + TXT_loiterrad.Text);
-                }
-                catch
-                {
-
-                }
-            }
-            catch (Exception ex) { log.Error(ex); }
+            setWPParams();
 
             try
             {
@@ -1593,7 +1456,69 @@ namespace ArdupilotMega.GCSViews
             MainMap_OnMapZoomChanged();
         }
 
+        void setWPParams()
+        {
+            try
+            {
+                log.Info("Loading wp params");
 
+                Hashtable param = new Hashtable(MainV2.comPort.param);
+
+                string hold_alt = "0";
+
+                if (param["RTL_ALT"] != null)
+                {
+                    hold_alt = ((int)((float)param["RTL_ALT"] * MainV2.comPort.MAV.cs.multiplierdist / 100.0)).ToString();
+                    CHK_holdalt.Checked = Convert.ToBoolean((float)param["RTL_ALT"] > 0);
+                    log.Info("param RTL_ALT " + CHK_holdalt.Checked.ToString());
+                }
+                if (param["ALT_HOLD_RTL"] != null)
+                {
+                    hold_alt = ((int)((float)param["ALT_HOLD_RTL"] * MainV2.comPort.MAV.cs.multiplierdist / 100.0)).ToString();
+                    CHK_holdalt.Checked = Convert.ToBoolean((float)param["ALT_HOLD_RTL"] > 0);
+                    log.Info("param ALT_HOLD_RTL " + CHK_holdalt.Checked.ToString());
+                }
+
+                log.Info("param ALT_HOLD_RTL " + hold_alt);
+
+                if (!hold_alt.Equals("-1") && !hold_alt.Equals("0"))
+                {
+                    TXT_DefaultAlt.Text = hold_alt;
+                }
+
+                if (param["WP_RADIUS"] != null)
+                {
+                    TXT_WPRad.Text = ((int)((float)param["WP_RADIUS"] * MainV2.comPort.MAV.cs.multiplierdist)).ToString();
+                }
+                if (param["WPNAV_RADIUS"] != null)
+                {
+                    TXT_WPRad.Text = ((int)((float)param["WPNAV_RADIUS"] * MainV2.comPort.MAV.cs.multiplierdist / 100)).ToString();
+                }
+
+                log.Info("param WP_RADIUS " + TXT_WPRad.Text);
+
+                try
+                {
+                    TXT_loiterrad.Enabled = false;
+                    if (param["LOITER_RADIUS"] != null)
+                    {
+                        TXT_loiterrad.Text = ((int)((float)param["LOITER_RADIUS"] * MainV2.comPort.MAV.cs.multiplierdist)).ToString();
+                        TXT_loiterrad.Enabled = true;
+                    } else if (param["WP_LOITER_RAD"] != null)
+                    {
+                        TXT_loiterrad.Text = ((int)((float)param["WP_LOITER_RAD"] * MainV2.comPort.MAV.cs.multiplierdist)).ToString();
+                        TXT_loiterrad.Enabled = true;
+                    }
+
+                    log.Info("param LOITER_RADIUS " + TXT_loiterrad.Text);
+                }
+                catch
+                {
+
+                }
+            }
+            catch (Exception ex) { log.Error(ex); }
+        }
 
         /// <summary>
         /// Saves this forms config to MAIN, where it is written in a global config
@@ -1798,14 +1723,7 @@ namespace ArdupilotMega.GCSViews
             string file = fd.FileName;
             if (file != "")
             {
-                if (file.ToLower().EndsWith(".h"))
-                {
-                    readwaypointwritterfile(file);
-                }
-                else
-                {
                     readQGC110wpfile(file);
-                }
             }
         }
 
@@ -3342,6 +3260,8 @@ namespace ArdupilotMega.GCSViews
             }
 
             updateHome();
+
+            setWPParams();
         }
 
         public void updateHome()

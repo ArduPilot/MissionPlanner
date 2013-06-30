@@ -126,10 +126,10 @@
     <value>Courier New, 10pt, style=Bold</value>
   </data>
   <data name="TXT_terminal.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 30</value>
+    <value>0, 60</value>
   </data>
   <data name="TXT_terminal.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1009, 430</value>
+    <value>708, 400</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="TXT_terminal.TabIndex" type="System.Int32, mscorlib">
@@ -149,10 +149,10 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;TXT_terminal.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>7</value>
   </data>
   <data name="BUTsetupshow.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 4</value>
+    <value>3, 32</value>
   </data>
   <data name="BUTsetupshow.Size" type="System.Drawing.Size, System.Drawing">
     <value>87, 23</value>
@@ -167,16 +167,16 @@
     <value>BUTsetupshow</value>
   </data>
   <data name="&gt;&gt;BUTsetupshow.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.MyButton, ArdupilotMegaPlanner10, Version=1.1.4780.12784, Culture=neutral, PublicKeyToken=null</value>
+    <value>ArdupilotMega.Controls.MyButton, ArdupilotMegaPlanner10, Version=1.1.4926.36277, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUTsetupshow.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BUTsetupshow.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>6</value>
   </data>
   <data name="BUTradiosetup.Location" type="System.Drawing.Point, System.Drawing">
-    <value>103, 4</value>
+    <value>96, 32</value>
   </data>
   <data name="BUTradiosetup.Size" type="System.Drawing.Size, System.Drawing">
     <value>87, 23</value>
@@ -191,16 +191,16 @@
     <value>BUTradiosetup</value>
   </data>
   <data name="&gt;&gt;BUTradiosetup.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.MyButton, ArdupilotMegaPlanner10, Version=1.1.4780.12784, Culture=neutral, PublicKeyToken=null</value>
+    <value>ArdupilotMega.Controls.MyButton, ArdupilotMegaPlanner10, Version=1.1.4926.36277, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUTradiosetup.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BUTradiosetup.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>5</value>
   </data>
   <data name="BUTtests.Location" type="System.Drawing.Point, System.Drawing">
-    <value>196, 4</value>
+    <value>189, 32</value>
   </data>
   <data name="BUTtests.Size" type="System.Drawing.Size, System.Drawing">
     <value>87, 23</value>
@@ -215,16 +215,16 @@
     <value>BUTtests</value>
   </data>
   <data name="&gt;&gt;BUTtests.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.MyButton, ArdupilotMegaPlanner10, Version=1.1.4780.12784, Culture=neutral, PublicKeyToken=null</value>
+    <value>ArdupilotMega.Controls.MyButton, ArdupilotMegaPlanner10, Version=1.1.4926.36277, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUTtests.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BUTtests.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>4</value>
   </data>
   <data name="Logs.Location" type="System.Drawing.Point, System.Drawing">
-    <value>289, 4</value>
+    <value>282, 32</value>
   </data>
   <data name="Logs.Size" type="System.Drawing.Size, System.Drawing">
     <value>87, 23</value>
@@ -239,16 +239,16 @@
     <value>Logs</value>
   </data>
   <data name="&gt;&gt;Logs.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.MyButton, ArdupilotMegaPlanner10, Version=1.1.4780.12784, Culture=neutral, PublicKeyToken=null</value>
+    <value>ArdupilotMega.Controls.MyButton, ArdupilotMegaPlanner10, Version=1.1.4926.36277, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;Logs.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;Logs.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>3</value>
   </data>
   <data name="BUT_logbrowse.Location" type="System.Drawing.Point, System.Drawing">
-    <value>382, 4</value>
+    <value>375, 32</value>
   </data>
   <data name="BUT_logbrowse.Size" type="System.Drawing.Size, System.Drawing">
     <value>87, 23</value>
@@ -263,12 +263,66 @@
     <value>BUT_logbrowse</value>
   </data>
   <data name="&gt;&gt;BUT_logbrowse.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.MyButton, ArdupilotMegaPlanner10, Version=1.1.4780.12784, Culture=neutral, PublicKeyToken=null</value>
+    <value>ArdupilotMega.Controls.MyButton, ArdupilotMegaPlanner10, Version=1.1.4926.36277, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_logbrowse.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BUT_logbrowse.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="BUT_ConnectAPM.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="BUT_ConnectAPM.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
+  </data>
+  <data name="BUT_ConnectAPM.Size" type="System.Drawing.Size, System.Drawing">
+    <value>87, 23</value>
+  </data>
+  <data name="BUT_ConnectAPM.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="BUT_ConnectAPM.Text" xml:space="preserve">
+    <value>REBOOT APM</value>
+  </data>
+  <data name="&gt;&gt;BUT_ConnectAPM.Name" xml:space="preserve">
+    <value>BUT_ConnectAPM</value>
+  </data>
+  <data name="&gt;&gt;BUT_ConnectAPM.Type" xml:space="preserve">
+    <value>ArdupilotMega.Controls.MyButton, ArdupilotMegaPlanner10, Version=1.1.4926.36277, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;BUT_ConnectAPM.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;BUT_ConnectAPM.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="BUT_ConnectPX4.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="BUT_ConnectPX4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>96, 3</value>
+  </data>
+  <data name="BUT_ConnectPX4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>87, 23</value>
+  </data>
+  <data name="BUT_ConnectPX4.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="BUT_ConnectPX4.Text" xml:space="preserve">
+    <value>REBOOT PX4</value>
+  </data>
+  <data name="&gt;&gt;BUT_ConnectPX4.Name" xml:space="preserve">
+    <value>BUT_ConnectPX4</value>
+  </data>
+  <data name="&gt;&gt;BUT_ConnectPX4.Type" xml:space="preserve">
+    <value>ArdupilotMega.Controls.MyButton, ArdupilotMegaPlanner10, Version=1.1.4926.36277, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;BUT_ConnectPX4.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;BUT_ConnectPX4.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
@@ -278,12 +332,12 @@
     <value>6, 13</value>
   </data>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1008, 461</value>
+    <value>707, 461</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>Terminal</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>System.Windows.Forms.MyUserControl, ArdupilotMegaPlanner10, Version=1.1.4780.12784, Culture=neutral, PublicKeyToken=null</value>
+    <value>System.Windows.Forms.MyUserControl, ArdupilotMegaPlanner10, Version=1.1.4926.36277, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>
