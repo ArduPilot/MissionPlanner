@@ -2472,22 +2472,107 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
             System.Diagnostics.Process.Start("https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=mich146%40hotmail%2ecom&lc=AU&item_name=Michael%20Oborne&no_note=0&currency_code=AUD&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHostedGuest");
         }
 
+        [StructLayout(LayoutKind.Sequential)]
+        internal class DEV_BROADCAST_HDR
+        {
+            internal Int32 dbch_size;
+            internal Int32 dbch_devicetype;
+            internal Int32 dbch_reserved;
+        }
+
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
+        internal class DEV_BROADCAST_PORT
+        {
+            public int dbcp_size;
+            public int dbcp_devicetype;
+            public int dbcp_reserved; // MSDN say "do not use"
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 255)]
+            public byte[] dbcp_name;
+        }
+
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
+        internal class DEV_BROADCAST_DEVICEINTERFACE
+        {
+            public Int32 dbcc_size;
+            public Int32 dbcc_devicetype;
+            public Int32 dbcc_reserved;
+            [MarshalAs(UnmanagedType.ByValArray,            ArraySubType = UnmanagedType.U1,            SizeConst = 16)]
+            internal Byte[] dbcc_classguid;
+            [MarshalAs(UnmanagedType.ByValArray,             SizeConst = 255)]
+            internal Byte[] dbcc_name;
+        }
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        internal static extern IntPtr RegisterDeviceNotification
+        (IntPtr hRecipient,
+        IntPtr NotificationFilter,
+        Int32 Flags);
+
         protected override void WndProc(ref Message m)
         {
             switch (m.Msg)
             {
+                case WM_CREATE:
+                    try
+                    {
+                        DEV_BROADCAST_DEVICEINTERFACE devBroadcastDeviceInterface = new DEV_BROADCAST_DEVICEINTERFACE();
+                        IntPtr devBroadcastDeviceInterfaceBuffer;
+                        IntPtr deviceNotificationHandle = IntPtr.Zero;
+                        Int32 size = 0;
+
+                        // frmMy is the form that will receive device-change messages.
+
+
+                        size = Marshal.SizeOf(devBroadcastDeviceInterface);
+                        devBroadcastDeviceInterface.dbcc_size = size;
+                        devBroadcastDeviceInterface.dbcc_devicetype = DBT_DEVTYP_DEVICEINTERFACE;
+                        devBroadcastDeviceInterface.dbcc_reserved = 0;
+                        devBroadcastDeviceInterface.dbcc_classguid = GUID_DEVINTERFACE_USB_DEVICE.ToByteArray();
+                        devBroadcastDeviceInterfaceBuffer = Marshal.AllocHGlobal(size);
+                        Marshal.StructureToPtr(devBroadcastDeviceInterface, devBroadcastDeviceInterfaceBuffer, true);
+
+
+                        deviceNotificationHandle = RegisterDeviceNotification(this.Handle, devBroadcastDeviceInterfaceBuffer, DEVICE_NOTIFY_WINDOW_HANDLE);
+                    }
+                    catch { }
+
+                    break;
+
                 case WM_DEVICECHANGE:
                     // The WParam value identifies what is occurring.
                     WM_DEVICECHANGE_enum n = (WM_DEVICECHANGE_enum)m.WParam;
                      int l = (int)m.LParam;
+                     if (n == WM_DEVICECHANGE_enum.DBT_DEVICEREMOVEPENDING)
+                     {
+                         Console.WriteLine("DBT_DEVICEREMOVEPENDING");
+                     }
                      if (n == WM_DEVICECHANGE_enum.DBT_DEVNODES_CHANGED)
                      {
-
+                         Console.WriteLine("DBT_DEVNODES_CHANGED");
                      }
-                     if (n == WM_DEVICECHANGE_enum.DBT_DEVICEARRIVAL)
+                     if (n == WM_DEVICECHANGE_enum.DBT_DEVICEARRIVAL || n == WM_DEVICECHANGE_enum.DBT_DEVICEREMOVECOMPLETE)
                      {
-                         string port = Marshal.PtrToStringAuto((IntPtr)((long)m.LParam + 12));
-                         Console.WriteLine("Added port {0}",port);
+                         Console.WriteLine(((WM_DEVICECHANGE_enum)n).ToString());
+
+                         DEV_BROADCAST_HDR hdr = new DEV_BROADCAST_HDR();
+                         Marshal.PtrToStructure(m.LParam, hdr);
+
+                         switch (hdr.dbch_devicetype)
+                         {
+                             case DBT_DEVTYP_DEVICEINTERFACE:
+                                 DEV_BROADCAST_DEVICEINTERFACE inter = new DEV_BROADCAST_DEVICEINTERFACE();
+                                 Marshal.PtrToStructure(m.LParam, inter);
+                                 Console.WriteLine("Interface {0}", ASCIIEncoding.Unicode.GetString(inter.dbcc_name,0,inter.dbcc_size - (4*3)));
+                                 break;
+                             case DBT_DEVTYP_PORT:
+                                 DEV_BROADCAST_PORT prt = new DEV_BROADCAST_PORT();
+                                 Marshal.PtrToStructure(m.LParam, prt);
+                                 Console.WriteLine("port {0}", ASCIIEncoding.Unicode.GetString(prt.dbcp_name, 0, prt.dbcp_size - (4 * 3)));
+                                 break;
+                         }
+
+                         //string port = Marshal.PtrToStringAuto((IntPtr)((long)m.LParam + 12));
+                         //Console.WriteLine("Added port {0}",port);
                      }
                      Console.WriteLine("Device Change {0} {1} {2}", m.Msg, (WM_DEVICECHANGE_enum)m.WParam, m.LParam);
                     break;
@@ -2498,7 +2583,18 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
             base.WndProc(ref m);
         }
 
-        const int WM_DEVICECHANGE = 0x219;
+        const int DBT_DEVTYP_PORT = 0x00000003;
+        const int WM_CREATE           =            0x0001;
+        const Int32 DBT_DEVTYP_HANDLE = 6;
+        const Int32 DBT_DEVTYP_DEVICEINTERFACE = 5;
+        const Int32 DEVICE_NOTIFY_WINDOW_HANDLE = 0;
+        const Int32 DIGCF_PRESENT = 2;
+        const Int32 DIGCF_DEVICEINTERFACE = 0X10;
+        const Int32 WM_DEVICECHANGE = 0X219;
+        public static Guid        GUID_DEVINTERFACE_USB_DEVICE = new Guid("A5DCBF10-6530-11D2-901F-00C04FB951ED");
+
+
+
 
         public enum WM_DEVICECHANGE_enum
         {

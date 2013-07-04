@@ -123,7 +123,7 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="BUT_MagCalibrationLive.Location" type="System.Drawing.Point, System.Drawing">
-    <value>180, 120</value>
+    <value>180, 89</value>
   </data>
   <data name="BUT_MagCalibrationLive.Size" type="System.Drawing.Size, System.Drawing">
     <value>66, 27</value>
@@ -139,7 +139,7 @@
     <value>BUT_MagCalibrationLive</value>
   </data>
   <data name="&gt;&gt;BUT_MagCalibrationLive.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.MyButton, ArdupilotMegaPlanner10, Version=1.1.4921.19089, Culture=neutral, PublicKeyToken=null</value>
+    <value>ArdupilotMega.Controls.MyButton, ArdupilotMegaPlanner10, Version=1.1.4932.14170, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_MagCalibrationLive.Parent" xml:space="preserve">
     <value>$this</value>
@@ -277,7 +277,7 @@
     <value>CHK_enablecompass</value>
   </data>
   <data name="&gt;&gt;CHK_enablecompass.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.MavlinkCheckBox, ArdupilotMegaPlanner10, Version=1.1.4921.19089, Culture=neutral, PublicKeyToken=null</value>
+    <value>ArdupilotMega.Controls.MavlinkCheckBox, ArdupilotMegaPlanner10, Version=1.1.4932.14170, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_enablecompass.Parent" xml:space="preserve">
     <value>$this</value>
@@ -337,7 +337,7 @@
     <value>BUT_MagCalibrationLog</value>
   </data>
   <data name="&gt;&gt;BUT_MagCalibrationLog.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.MyButton, ArdupilotMegaPlanner10, Version=1.1.4921.19089, Culture=neutral, PublicKeyToken=null</value>
+    <value>ArdupilotMega.Controls.MyButton, ArdupilotMegaPlanner10, Version=1.1.4932.14170, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_MagCalibrationLog.Parent" xml:space="preserve">
     <value>$this</value>
@@ -379,13 +379,13 @@
     <value>7, 3</value>
   </data>
   <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>76, 20</value>
+    <value>167, 20</value>
   </data>
   <data name="label5.TabIndex" type="System.Int32, mscorlib">
     <value>66</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
-    <value>Compass</value>
+    <value>Compass Onboard</value>
   </data>
   <data name="&gt;&gt;label5.Name" xml:space="preserve">
     <value>label5</value>
@@ -427,7 +427,7 @@
     <value>False</value>
   </data>
   <data name="CMB_compass_orient.Location" type="System.Drawing.Point, System.Drawing">
-    <value>180, 93</value>
+    <value>180, 201</value>
   </data>
   <data name="CMB_compass_orient.Size" type="System.Drawing.Size, System.Drawing">
     <value>202, 21</value>
@@ -439,7 +439,7 @@
     <value>CMB_compass_orient</value>
   </data>
   <data name="&gt;&gt;CMB_compass_orient.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.MavlinkComboBox, ArdupilotMegaPlanner10, Version=1.1.4921.19089, Culture=neutral, PublicKeyToken=null</value>
+    <value>ArdupilotMega.Controls.MavlinkComboBox, ArdupilotMegaPlanner10, Version=1.1.4932.14170, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CMB_compass_orient.Parent" xml:space="preserve">
     <value>$this</value>
@@ -451,7 +451,7 @@
     <value>NoControl</value>
   </data>
   <data name="label8.Location" type="System.Drawing.Point, System.Drawing">
-    <value>105, 94</value>
+    <value>105, 202</value>
   </data>
   <data name="label8.Size" type="System.Drawing.Size, System.Drawing">
     <value>69, 20</value>
@@ -511,7 +511,7 @@
     <value>NoControl</value>
   </data>
   <data name="linkLabel1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>252, 127</value>
+    <value>252, 96</value>
   </data>
   <data name="linkLabel1.Size" type="System.Drawing.Size, System.Drawing">
     <value>90, 13</value>
@@ -541,7 +541,7 @@
     <value>6, 13</value>
   </data>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>650, 186</value>
+    <value>650, 239</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>ConfigHWCompass</value>

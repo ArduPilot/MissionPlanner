@@ -101,7 +101,16 @@ namespace ArdupilotMega.Log
 
         private void Log_Load(object sender, EventArgs e)
         {
+            if (MainV2.config["log_isarducopter"] != null)
+            {
+                CHK_arducopter.Checked = bool.Parse(MainV2.config["log_isarducopter"].ToString());
+                CHK_arduplane.Checked = bool.Parse(MainV2.config["log_isarduplane"].ToString());
+                CHK_ardurover.Checked = bool.Parse(MainV2.config["log_isardurover"].ToString());
+            }
+
             status = serialstatus.Connecting;
+
+            MainV2.comPort.giveComport = true;
 
             comPort = MainV2.comPort.BaseStream;
 
@@ -805,6 +814,11 @@ namespace ArdupilotMega.Log
 
         private void Log_FormClosing(object sender, FormClosingEventArgs e)
         {
+            // save the status
+            MainV2.config["log_isarducopter"] = CHK_arducopter.Checked.ToString();
+            MainV2.config["log_isarduplane"] = CHK_arduplane.Checked.ToString();
+            MainV2.config["log_isardurover"] = CHK_ardurover.Checked.ToString();
+
             threadrun = false;
             System.Threading.Thread.Sleep(500);
             if (comPort.IsOpen)

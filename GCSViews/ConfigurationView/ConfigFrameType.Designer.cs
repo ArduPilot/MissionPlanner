@@ -33,10 +33,8 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigFrameType));
             this.radioButton_Plus = new System.Windows.Forms.RadioButton();
             this.radioButton_X = new System.Windows.Forms.RadioButton();
-            this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.lineSeparator3 = new ArdupilotMega.Controls.LineSeparator();
             this.pictureBoxPlus = new ArdupilotMega.Controls.PictureBoxWithPseudoOpacity();
             this.pictureBoxX = new ArdupilotMega.Controls.PictureBoxWithPseudoOpacity();
             this.label6 = new System.Windows.Forms.Label();
@@ -63,12 +61,6 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             this.radioButton_X.UseVisualStyleBackColor = true;
             this.radioButton_X.CheckedChanged += new System.EventHandler(this.radioButton_X_CheckedChanged);
             // 
-            // label1
-            // 
-            resources.ApplyResources(this.label1, "label1");
-            this.label1.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.label1.Name = "label1";
-            // 
             // label2
             // 
             resources.ApplyResources(this.label2, "label2");
@@ -78,16 +70,6 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             // 
             resources.ApplyResources(this.label3, "label3");
             this.label3.Name = "label3";
-            // 
-            // lineSeparator3
-            // 
-            resources.ApplyResources(this.lineSeparator3, "lineSeparator3");
-            this.lineSeparator3.Name = "lineSeparator3";
-            this.lineSeparator3.Opacity1 = 0.6F;
-            this.lineSeparator3.Opacity2 = 0.7F;
-            this.lineSeparator3.Opacity3 = 0.1F;
-            this.lineSeparator3.PrimaryColor = System.Drawing.Color.Black;
-            this.lineSeparator3.SecondaryColor = System.Drawing.Color.Gainsboro;
             // 
             // pictureBoxPlus
             // 
@@ -136,10 +118,8 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             this.Controls.Add(this.label6);
             this.Controls.Add(this.radioButton_V);
             this.Controls.Add(this.pictureBoxV);
-            this.Controls.Add(this.lineSeparator3);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.radioButton_X);
             this.Controls.Add(this.radioButton_Plus);
             this.Controls.Add(this.pictureBoxPlus);
@@ -159,10 +139,8 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
         private PictureBoxWithPseudoOpacity pictureBoxPlus;
         private System.Windows.Forms.RadioButton radioButton_Plus;
         private System.Windows.Forms.RadioButton radioButton_X;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private LineSeparator lineSeparator3;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.RadioButton radioButton_V;
         private PictureBoxWithPseudoOpacity pictureBoxV;

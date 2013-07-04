@@ -1,4 +1,16 @@
-﻿* Mission Planner 1.2.58
+﻿* Mission Planner 1.2.59
+fix terminal exception
+add back loiter_unlim to copter
+more debug for usb device add and remove
+modify to use relative alt. for ap
+remove eto dependancys
+change log screen, for ap type selction
+change some timeing in flightdata
+change dist traveled on log playback skip
+add better saving of wp_rad and default alt to FP page
+more terminal tweaks for px4
+
+* Mission Planner 1.2.58
 add more python internal support - guided mode/wp's
 remove disconnect on terminal click
 test no memory cache on FD

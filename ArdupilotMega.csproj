@@ -46,13 +46,12 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
-    <DocumentationFile>
-    </DocumentationFile>
+    <DocumentationFile>bin\Debug\ArdupilotMegaPlanner10.XML</DocumentationFile>
     <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
     <NoStdLib>false</NoStdLib>
     <UseVSHostingProcess>true</UseVSHostingProcess>
     <FileAlignment>512</FileAlignment>
-    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
     <LangVersion>default</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
@@ -64,8 +63,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
-    <DocumentationFile>
-    </DocumentationFile>
+    <DocumentationFile>bin\Release\ArdupilotMegaPlanner10.XML</DocumentationFile>
     <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
     <DebugSymbols>true</DebugSymbols>
     <NoStdLib>false</NoStdLib>
@@ -130,28 +128,9 @@
     </Reference>
     <Reference Include="AWSSDK, Version=1.5.18.0, Culture=neutral, PublicKeyToken=9f476d3089b52be3, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\Extensions\Amazon Web Services LLC\AWSToolkit.VS2010\AWSSDK.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>Lib\AWSSDK.dll</HintPath>
     </Reference>
     <Reference Include="DirectShowLib-2005">
-    </Reference>
-    <Reference Include="Eto">
-      <HintPath>..\..\..\..\..\Desktop\DIYDrones\Eto\BuildOutput\Debug\Eto.dll</HintPath>
-    </Reference>
-    <Reference Include="Eto.Json">
-      <HintPath>..\..\..\..\..\Desktop\DIYDrones\Eto\BuildOutput\Debug\Eto.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="Eto.Platform.Gtk">
-      <HintPath>..\..\..\..\..\Desktop\DIYDrones\Eto\BuildOutput\Debug\Eto.Platform.Gtk.dll</HintPath>
-    </Reference>
-    <Reference Include="Eto.Platform.Mac">
-      <HintPath>..\..\..\..\..\Desktop\DIYDrones\Eto\BuildOutput\Debug\Eto.Platform.Mac.dll</HintPath>
-    </Reference>
-    <Reference Include="Eto.Platform.Windows">
-      <HintPath>..\..\..\..\..\Desktop\DIYDrones\Eto\BuildOutput\Debug\Eto.Platform.Windows.dll</HintPath>
-    </Reference>
-    <Reference Include="Eto.Platform.XamMac">
-      <HintPath>..\..\..\..\..\Desktop\DIYDrones\Eto\BuildOutput\Debug\Eto.Platform.XamMac.dll</HintPath>
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
     </Reference>
@@ -501,6 +480,12 @@
     </Compile>
     <Compile Include="Plugin\IPlugin.cs" />
     <Compile Include="Plugin\PluginLoader.cs" />
+    <Compile Include="Wizard\1Intro.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Wizard\1Intro.Designer.cs">
+      <DependentUpon>1Intro.cs</DependentUpon>
+    </Compile>
     <Compile Include="Wizard\Wizard.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -546,11 +531,29 @@
     <None Include="Driver\i386\ftser2k.sys">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <EmbeddedResource Include="Antenna\Tracker.it-IT.resx">
+      <DependentUpon>Tracker.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\RangeControlCopy.resx">
       <DependentUpon>RangeControlCopy.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ProgressStep.resx">
       <DependentUpon>ProgressStep.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAP_Limits.it-IT.resx">
+      <DependentUpon>ConfigAP_Limits.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigArducopter.it-IT.resx">
+      <DependentUpon>ConfigArducopter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigArduplane.it-IT.resx">
+      <DependentUpon>ConfigArduplane.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigArdurover.it-IT.resx">
+      <DependentUpon>ConfigArdurover.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAteryx.it-IT.resx">
+      <DependentUpon>ConfigAteryx.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFrameType.de-DE.resx">
       <DependentUpon>ConfigFrameType.cs</DependentUpon>
@@ -579,8 +582,20 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigMandatory.resx">
       <DependentUpon>ConfigMandatory.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigMount.de-DE.resx">
+      <DependentUpon>ConfigMount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigMount.it-IT.resx">
+      <DependentUpon>ConfigMount.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigOptional.resx">
       <DependentUpon>ConfigOptional.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigPlanner.it-IT.resx">
+      <DependentUpon>ConfigPlanner.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigRawParams.it-IT.resx">
+      <DependentUpon>ConfigRawParams.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigSimplePids.resx">
       <DependentUpon>ConfigSimplePids.cs</DependentUpon>
@@ -686,6 +701,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\SoftwareConfig.resx">
       <DependentUpon>SoftwareConfig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\1Intro.resx">
+      <DependentUpon>1Intro.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\Wizard.resx">
       <DependentUpon>Wizard.cs</DependentUpon>

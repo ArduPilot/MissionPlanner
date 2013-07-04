@@ -117,16 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="BUT_zero_press.ToolTip" xml:space="preserve">
-    <value>Eseguire una calibrazione dell'accel ora.</value>
-  </data>
-  <data name="BUT_zero_att.ToolTip" xml:space="preserve">
-    <value>Eseguire una calibrazione dell'accel ora.</value>
-  </data>
-  <data name="BUT_zero_press.Text" xml:space="preserve">
-    <value>Pressione nulla</value>
-  </data>
-  <data name="BUT_zero_att.Text" xml:space="preserve">
-    <value>Altitudine Zero</value>
+  <data name="textBox1.Text" xml:space="preserve">
+    <value>Quello che fa.  #1. Ottiene le attuali coordinate GPS da un GPS NMEA.  #2. Invia una modalità WP guidata al AP ogni 2 secondi.       Come usarlo:   #1. connettersi al AP.    #2. decollare, la modalità guidata test sta funzionando.    #3. aprire questo e scegli la tua porta COM, il "baud rate" per il vostro GPS NMEA.   #4. ora dovrebbe seguirti.</value>
   </data>
 </root>

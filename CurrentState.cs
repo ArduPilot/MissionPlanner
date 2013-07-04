@@ -686,14 +686,22 @@ enum gcs_severity {
                             {
                                 List<KeyValuePair<int, string>> modelist = Common.getModesList();
 
+                                bool found = false;
+
                                 foreach (KeyValuePair<int, string> pair in modelist)
                                 {
                                     if (pair.Key == hb.custom_mode)
                                     {
                                         mode = pair.Value.ToString();
                                         _mode = hb.custom_mode;
+                                        found = true;
                                         break;
                                     }
+                                }
+
+                                if (!found)
+                                {
+                                    log.Warn("Mode not found bm:" + hb.base_mode + " cm:" + hb.custom_mode);
                                 }
                             }
                         }
@@ -818,6 +826,8 @@ enum gcs_severity {
 
                         // the new arhs deadreckoning may send 0 alt and 0 long. check for and undo
 
+                        alt = loc.relative_alt / 1000.0f;
+
                         useLocation = true;
                         if (loc.lat == 0 && loc.lon == 0)
                         {
@@ -825,7 +835,6 @@ enum gcs_severity {
                         }
                         else
                         {
-                            //alt = loc.alt / 1000.0f;
                             lat = loc.lat / 10000000.0f;
                             lng = loc.lon / 10000000.0f;
                         }
@@ -949,7 +958,7 @@ enum gcs_severity {
                         //groundspeed = vfr.groundspeed;
                         airspeed = vfr.airspeed;
 
-                        alt = vfr.alt; // this might include baro
+                       // alt = vfr.alt; // this might include baro
 
                         ch3percent = vfr.throttle;
 

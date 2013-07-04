@@ -288,14 +288,14 @@
             // MainV2
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(1008, 562);
+            this.ClientSize = new System.Drawing.Size(1008, 537);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.menu);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.MainMenuStrip = this.MainMenu;
             this.Margin = new System.Windows.Forms.Padding(4);
-            this.MinimumSize = new System.Drawing.Size(1024, 600);
+            this.MinimumSize = new System.Drawing.Size(1024, 575);
             this.Name = "MainV2";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Mission Planner - By Michael Oborne";
@@ -316,7 +316,7 @@
         #endregion
 
 
-        
+
         private System.Windows.Forms.MenuStrip MainMenu;
         private System.Windows.Forms.ToolStripButton MenuFlightData;
         private System.Windows.Forms.ToolStripButton MenuFlightPlanner;
@@ -324,7 +324,7 @@
         private System.Windows.Forms.ToolStripButton MenuSimulation;
         private System.Windows.Forms.ToolStripButton MenuSWConfig;
         private System.Windows.Forms.ToolStripButton MenuTerminal;
-        private System.Windows.Forms.ToolStripButton MenuConnect;
+        public System.Windows.Forms.ToolStripButton MenuConnect;
 
         private System.Windows.Forms.ToolStripButton MenuHelp;
         private Controls.ToolStripConnectionControl toolStripConnectionControl;

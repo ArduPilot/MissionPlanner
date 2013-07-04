@@ -126,11 +126,14 @@
   <data name="BUT_quickmanual.Text" xml:space="preserve">
     <value>&amp;Manuale</value>
   </data>
+  <data name="tabServo.Text" xml:space="preserve">
+    <value>Servo</value>
+  </data>
   <data name="BUT_playlog.Text" xml:space="preserve">
     <value>Avvia/Pausa</value>
   </data>
   <data name="BUT_setwp.ToolTip" xml:space="preserve">
-    <value>Cambia il corrente punto di destinazione </value>
+    <value>Cambia il Waypoint corrente</value>
   </data>
   <data name="BUT_quickauto.ToolTip" xml:space="preserve">
     <value>Cambia il modo in Auto</value>
@@ -138,20 +141,23 @@
   <data name="goHereToolStripMenuItem.Text" xml:space="preserve">
     <value>Vola qui</value>
   </data>
+  <data name="quickView1.ToolTip" xml:space="preserve">
+    <value>Doppio Click me per cambiare</value>
+  </data>
   <data name="lbl_windvel.ToolTip" xml:space="preserve">
     <value>Velocità stimata del vento</value>
   </data>
   <data name="BUT_RAWSensor.Text" xml:space="preserve">
-    <value>Vista grezza del Sensore</value>
+    <value>Vista RAW del Sensore</value>
   </data>
   <data name="BUTrestartmission.ToolTip" xml:space="preserve">
-    <value>Ricomincia la Missione dall'Inizio</value>
+    <value>Riavvia la Missione</value>
   </data>
   <data name="TXT_alt.Text" xml:space="preserve">
     <value>0</value>
   </data>
   <data name="BUT_clear_track.ToolTip" xml:space="preserve">
-    <value>Pulisci il percorso registrato sulla Mappa</value>
+    <value>Pulisci il percorso visualizzato sulla Mappa</value>
   </data>
   <data name="lbl_winddir.ToolTip" xml:space="preserve">
     <value>Direzione stimata del vento</value>
@@ -160,13 +166,19 @@
     <value>Vel: 0</value>
   </data>
   <data name="CB_tuning.ToolTip" xml:space="preserve">
-    <value>Visualizza il grafico di tuning, Evidenziando l'assetto desiderato contro quello attuale</value>
+    <value>Visualizza il grafico di TUNING, Evidenziando l'assetto desiderato contro quello attuale</value>
   </data>
   <data name="TXT_long.Text" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="lbl_hdop.Text" xml:space="preserve">
+    <value>hdop: 0</value>
+  </data>
+  <data name="BUT_ARM.ToolTip" xml:space="preserve">
+    <value>Arm the Mav</value>
+  </data>
   <data name="BUT_log2kml.Text" xml:space="preserve">
-    <value>Log &gt; KML</value>
+    <value>Log -&gt; KML</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
     <value>Zoom</value>
@@ -174,14 +186,20 @@
   <data name="BUT_clear_track.Text" xml:space="preserve">
     <value>Pulisci Traccia</value>
   </data>
+  <data name="BUT_ARM.Text" xml:space="preserve">
+    <value>Arma / Disarma</value>
+  </data>
   <data name="dataGridViewImageColumn1.HeaderText" xml:space="preserve">
     <value>Su</value>
   </data>
+  <data name="userItemsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Elementi Utente</value>
+  </data>
   <data name="CHK_autopan.ToolTip" xml:space="preserve">
-    <value>Modifica la Panoramica sulla mappa basandoti sulla posizione corrente</value>
+    <value>Modifica l'Autopan sulla mappa, basandoti sulla posizione corrente</value>
   </data>
   <data name="BUT_script.Text" xml:space="preserve">
-    <value>Programma</value>
+    <value>Script</value>
   </data>
   <data name="BUT_quickrtl.ToolTip" xml:space="preserve">
     <value>Cambia Modo in RTL</value>
@@ -192,6 +210,9 @@
   <data name="CHK_autopan.Text" xml:space="preserve">
     <value>Auto Panoramica</value>
   </data>
+  <data name="setMJPEGSourceToolStripMenuItem.Text" xml:space="preserve">
+    <value>Setta sorgente MJPEG </value>
+  </data>
   <data name="BUT_joystick.Text" xml:space="preserve">
     <value>Joystick</value>
   </data>
@@ -199,10 +220,16 @@
     <value>Cambia Livello di Zoom</value>
   </data>
   <data name="CB_tuning.Text" xml:space="preserve">
-    <value>Settaggi</value>
+    <value>Tuning</value>
+  </data>
+  <data name="triggerCameraToolStripMenuItem.Text" xml:space="preserve">
+    <value>Trigger Camera ORA</value>
   </data>
   <data name="dataGridViewImageColumn2.HeaderText" xml:space="preserve">
     <value>Giù</value>
+  </data>
+  <data name="lbl_sats.Text" xml:space="preserve">
+    <value>Sats: 0</value>
   </data>
   <data name="BUTactiondo.Text" xml:space="preserve">
     <value>Fai un Azione</value>
@@ -214,7 +241,10 @@
     <value>Cambia Modo in Manuale/Stabilizzato</value>
   </data>
   <data name="BUT_RAWSensor.ToolTip" xml:space="preserve">
-    <value>Visualizza i valori grezzi dei Giroscopi e degli Accellerometri, e gli Ingressi/Uscite della radio</value>
+    <value>Visualizza i valori RAW dei Giroscopi e degli Accellerometri, e gli Ingressi/Uscite della radio</value>
+  </data>
+  <data name="setAspectRatioToolStripMenuItem.Text" xml:space="preserve">
+    <value>Imposta "Aspect Ratio"</value>
   </data>
   <data name="Gspeed.ToolTip" xml:space="preserve">
     <value>Doppio Click per cambiare il Massimo</value>
@@ -229,7 +259,10 @@
     <value>Avvia l'azione sulla Sinistra</value>
   </data>
   <data name="BUT_Homealt.Text" xml:space="preserve">
-    <value>Setta l'Altezza della Home</value>
+    <value>Imposta la quota della "Home"</value>
+  </data>
+  <data name="tabQuick.Text" xml:space="preserve">
+    <value>Quick</value>
   </data>
   <data name="lbl_winddir.Text" xml:space="preserve">
     <value>Dir: 0</value>
@@ -261,8 +294,14 @@
   <data name="lbl_logpercent.Text" xml:space="preserve">
     <value>0.00 %</value>
   </data>
+  <data name="flightPlannerToolStripMenuItem.Text" xml:space="preserve">
+    <value>Flight Planner</value>
+  </data>
   <data name="BUT_setmode.Text" xml:space="preserve">
     <value>Inposta Modo</value>
+  </data>
+  <data name="lbl_playbackspeed.Text" xml:space="preserve">
+    <value>x 1.0</value>
   </data>
   <data name="NUM_playbackspeed.ToolTip" xml:space="preserve">
     <value>Velocità di riproduzione</value>
@@ -272,5 +311,14 @@
   </data>
   <data name="BUT_quickrtl.Text" xml:space="preserve">
     <value>&amp;RTL</value>
+  </data>
+  <data name="flyToHereAltToolStripMenuItem.Text" xml:space="preserve">
+    <value>Vola QUI Alt</value>
+  </data>
+  <data name="lbl_sats.ToolTip" xml:space="preserve">
+    <value>Num Satelliti</value>
+  </data>
+  <data name="lbl_hdop.ToolTip" xml:space="preserve">
+    <value>GPS  hdop</value>
   </data>
 </root>

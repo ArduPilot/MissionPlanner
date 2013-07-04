@@ -13,14 +13,15 @@ using ArdupilotMega.Utilities;
 using System.Text.RegularExpressions;
 using log4net;
 using System.Reflection;
+using ArdupilotMega.Controls.BackstageView;
 
 namespace ArdupilotMega.GCSViews
 {
-    public partial class Terminal : MyUserControl
+    public partial class Terminal : MyUserControl, IActivate, IDeactivate
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        ICommsSerial comPort;
+        ICommsSerial comPort = MainV2.comPort.BaseStream;
         Object thisLock = new Object();
         public static bool threadrun = false;
         bool inlogview = false;
@@ -33,6 +34,16 @@ namespace ArdupilotMega.GCSViews
             threadrun = false;
 
             InitializeComponent();
+        }
+
+        public void Activate()
+        {
+            MainV2.instance.MenuConnect.Enabled = false;
+        }
+
+        public void Deactivate()
+        {
+            MainV2.instance.MenuConnect.Enabled = true;
         }
 
         void comPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
@@ -169,6 +180,7 @@ namespace ArdupilotMega.GCSViews
         {
             if (e.KeyChar == '\r')
             {
+                
                 if (comPort.IsOpen)
                 {
                     try
@@ -266,6 +278,7 @@ namespace ArdupilotMega.GCSViews
 
                 if (comPort.IsOpen)
                 {
+                    threadrun = false;
                   //  if (DialogResult.Cancel == CustomMessageBox.Show("The port is open\n Continue?", "Continue", MessageBoxButtons.YesNo))
                     {
                       //  return;
@@ -281,12 +294,19 @@ namespace ArdupilotMega.GCSViews
 
                 comPort.PortName = MainV2.comPortName;
 
-                comPort.BaudRate = int.Parse(MainV2._connectionControl.CMB_baudrate.Text);
+                int fixme;
+
+                // test moving baud rate line
+
+                log.Info("Abbout to open " + comPort.PortName);
 
                 comPort.Open();
 
+                comPort.BaudRate = int.Parse(MainV2._connectionControl.CMB_baudrate.Text);
+
                 if (px4)
                 {
+                    // check if we are a mavlink stream
                     byte[] buffer = MainV2.comPort.readPacket();
 
                     if (buffer.Length > 0)
@@ -294,24 +314,39 @@ namespace ArdupilotMega.GCSViews
                         log.Info("got packet - sending reboot via mavlink");
                         MainV2.comPort.giveComport = true;
                         MainV2.comPort.doReboot();
-                        comPort.Close();
+                        try
+                        {
+                            comPort.Close();
+                        }
+                        catch { }
+
                     }
                     else
                     {
                         log.Info("no packet - sending reboot via console");
                         MainV2.comPort.giveComport = true;
                         MainV2.comPort.BaseStream.Write("exit\rreboot\r");
-                        comPort.Close();
+                        try
+                        {
+                            comPort.Close();
+                        }
+                        catch { }
+
                     }
 
                     MainV2.comPort.giveComport = true;
 
                     // wait 7 seconds for px4 reboot
                     log.Info("waiting for px4 reboot");
-                    System.Threading.Thread.Sleep(7000);
-
+                    DateTime deadline = DateTime.Now.AddSeconds(8);
+                    while (DateTime.Now < deadline)
+                    {
+                        System.Threading.Thread.Sleep(100);
+                        Application.DoEvents();
+                    }
+                   
                     int a = 0;
-                    while (a < 5)
+                   // while (a < 5)
                     {
                         try
                         {
@@ -321,6 +356,7 @@ namespace ArdupilotMega.GCSViews
                         System.Threading.Thread.Sleep(200);
                         a++;
                     }
+                     
                 }
                 else
                 {
@@ -371,7 +407,10 @@ namespace ArdupilotMega.GCSViews
                             if (inlogview)
                                 continue;
                             if (!comPort.IsOpen)
+                            {
+                                Console.WriteLine("Comport Closed");
                                 break;
+                            }
                             if (comPort.BytesToRead > 0)
                             {
                                 comPort_DataReceived((object)null, (SerialDataReceivedEventArgs)null);
@@ -485,6 +524,16 @@ namespace ArdupilotMega.GCSViews
         private void BUT_ConnectPX4_Click(object sender, EventArgs e)
         {
             start_Terminal(true);
+        }
+
+        private void BUT_disconnect_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                comPort.Close();
+                TXT_terminal.AppendText("Closed\n");
+            }
+            catch { }
         }
     }
 }

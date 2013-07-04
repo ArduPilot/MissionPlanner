@@ -37,6 +37,7 @@
             this.BUT_logbrowse = new ArdupilotMega.Controls.MyButton();
             this.BUT_ConnectAPM = new ArdupilotMega.Controls.MyButton();
             this.BUT_ConnectPX4 = new ArdupilotMega.Controls.MyButton();
+            this.BUT_disconnect = new ArdupilotMega.Controls.MyButton();
             this.SuspendLayout();
             // 
             // TXT_terminal
@@ -126,10 +127,22 @@
             this.BUT_ConnectPX4.UseVisualStyleBackColor = true;
             this.BUT_ConnectPX4.Click += new System.EventHandler(this.BUT_ConnectPX4_Click);
             // 
+            // BUT_disconnect
+            // 
+            resources.ApplyResources(this.BUT_disconnect, "BUT_disconnect");
+            this.BUT_disconnect.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
+            this.BUT_disconnect.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
+            this.BUT_disconnect.Name = "BUT_disconnect";
+            this.BUT_disconnect.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
+            this.BUT_disconnect.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.BUT_disconnect.UseVisualStyleBackColor = true;
+            this.BUT_disconnect.Click += new System.EventHandler(this.BUT_disconnect_Click);
+            // 
             // Terminal
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.BUT_disconnect);
             this.Controls.Add(this.BUT_ConnectPX4);
             this.Controls.Add(this.BUT_ConnectAPM);
             this.Controls.Add(this.BUT_logbrowse);
@@ -155,5 +168,6 @@
         private ArdupilotMega.Controls.MyButton BUT_logbrowse;
         private Controls.MyButton BUT_ConnectAPM;
         private Controls.MyButton BUT_ConnectPX4;
+        private Controls.MyButton BUT_disconnect;
     }
 }

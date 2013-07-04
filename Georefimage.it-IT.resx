@@ -117,16 +117,58 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="BUT_zero_press.ToolTip" xml:space="preserve">
-    <value>Eseguire una calibrazione dell'accel ora.</value>
+  <data name="label10.Text" xml:space="preserve">
+    <value>Time</value>
   </data>
-  <data name="BUT_zero_att.ToolTip" xml:space="preserve">
-    <value>Eseguire una calibrazione dell'accel ora.</value>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Immagini Geo Ref </value>
   </data>
-  <data name="BUT_zero_press.Text" xml:space="preserve">
-    <value>Pressione nulla</value>
+  <data name="TXT_offsetseconds.Text" xml:space="preserve">
+    <value>0</value>
   </data>
-  <data name="BUT_zero_att.Text" xml:space="preserve">
-    <value>Altitudine Zero</value>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Lat</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>Lon</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Offset Secondi</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>Log Offsets</value>
+  </data>
+  <data name="label7.Text" xml:space="preserve">
+    <value>Dir fov</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>Alt</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>Heading</value>
+  </data>
+  <data name="label8.Text" xml:space="preserve">
+    <value>Cross fov</value>
+  </data>
+  <data name="label9.Text" xml:space="preserve">
+    <value>Rotazione</value>
+  </data>
+  <data name="BUT_doit.Text" xml:space="preserve">
+    <value>Facciamo</value>
+  </data>
+  <data name="BUT_browsedir.Text" xml:space="preserve">
+    <value>Sfoglia Cartella</value>
+  </data>
+  <data name="BUT_networklinkgeoref.Text" xml:space="preserve">
+    <value>Localizazzione Kml</value>
+  </data>
+  <data name="BUT_browselog.Text" xml:space="preserve">
+    <value>Sfolgia Log</value>
+  </data>
+  <data name="BUT_Geotagimages.Text" xml:space="preserve">
+    <value>Immagini GeoTag</value>
+  </data>
+  <data name="BUT_estoffset.Text" xml:space="preserve">
+    <value>Estimate Offset</value>
   </data>
 </root>

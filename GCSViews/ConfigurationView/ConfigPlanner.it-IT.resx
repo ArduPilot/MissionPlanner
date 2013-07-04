@@ -117,16 +117,131 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="BUT_zero_press.ToolTip" xml:space="preserve">
-    <value>Eseguire una calibrazione dell'accel ora.</value>
+  <data name="CHK_maprotation.Text" xml:space="preserve">
+    <value>La mappa è ruotata per seguire il veivolo</value>
   </data>
-  <data name="BUT_zero_att.ToolTip" xml:space="preserve">
-    <value>Eseguire una calibrazione dell'accel ora.</value>
+  <data name="CHK_speechaltwarning.Text" xml:space="preserve">
+    <value>Allerta Altezza</value>
   </data>
-  <data name="BUT_zero_press.Text" xml:space="preserve">
-    <value>Pressione nulla</value>
+  <data name="label12.Text" xml:space="preserve">
+    <value>HUD</value>
   </data>
-  <data name="BUT_zero_att.Text" xml:space="preserve">
-    <value>Altitudine Zero</value>
+  <data name="BUT_videostop.Text" xml:space="preserve">
+    <value>Stop</value>
+  </data>
+  <data name="CHK_speechbattery.Text" xml:space="preserve">
+    <value>Allerta Batteria</value>
+  </data>
+  <data name="CHK_enablespeech.Text" xml:space="preserve">
+    <value>Abilità Voce</value>
+  </data>
+  <data name="label23.Text" xml:space="preserve">
+    <value>Lunghezza Track </value>
+  </data>
+  <data name="CHK_speecharmdisarm.Text" xml:space="preserve">
+    <value>Arm/Disarm</value>
+  </data>
+  <data name="label24.Text" xml:space="preserve">
+    <value>Waypoints</value>
+  </data>
+  <data name="CHK_speechcustom.Text" xml:space="preserve">
+    <value>Intervallo 30s </value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Distanza da Casa</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>Percorso Log </value>
+  </data>
+  <data name="label26.Text" xml:space="preserve">
+    <value>Formato Video</value>
+  </data>
+  <data name="label103.Text" xml:space="preserve">
+    <value>Posizione</value>
+  </data>
+  <data name="label102.Text" xml:space="preserve">
+    <value>Quota</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Segui la mappa</value>
+  </data>
+  <data name="label101.Text" xml:space="preserve">
+    <value>Telemetria Rates</value>
+  </data>
+  <data name="label107.Text" xml:space="preserve">
+    <value>RC</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>Tema</value>
+  </data>
+  <data name="label104.Text" xml:space="preserve">
+    <value>Modalità/Stato</value>
+  </data>
+  <data name="CHK_hudshow.Text" xml:space="preserve">
+    <value>Abilità copertura HUD </value>
+  </data>
+  <data name="label108.Text" xml:space="preserve">
+    <value>APM Reset</value>
+  </data>
+  <data name="CHK_loadwponconnect.Text" xml:space="preserve">
+    <value>Carica Waypoints quando connesso?</value>
+  </data>
+  <data name="label98.Text" xml:space="preserve">
+    <value>Unità di misura "Velocità"</value>
+  </data>
+  <data name="CHK_speechwaypoint.Text" xml:space="preserve">
+    <value>Waypoint</value>
+  </data>
+  <data name="label99.Text" xml:space="preserve">
+    <value>NOTA: Il TAB di configurazione non visualizza questi valori, in quanto questi sono in formato RAW.
+</value>
+  </data>
+  <data name="label92.Text" xml:space="preserve">
+    <value>Dispositivo Video</value>
+  </data>
+  <data name="label93.Text" xml:space="preserve">
+    <value>Lingua Interfaccia</value>
+  </data>
+  <data name="label96.Text" xml:space="preserve">
+    <value>Joystick</value>
+  </data>
+  <data name="CHK_GDIPlus.Text" xml:space="preserve">
+    <value>GDI+ (Vecchio tipo)</value>
+  </data>
+  <data name="label94.Text" xml:space="preserve">
+    <value>Colore OSD </value>
+  </data>
+  <data name="label33.Text" xml:space="preserve">
+    <value>Sensore</value>
+  </data>
+  <data name="label97.Text" xml:space="preserve">
+    <value>Unità di misura "Distanza"</value>
+  </data>
+  <data name="BUT_themecustom.Text" xml:space="preserve">
+    <value>Personalizzato</value>
+  </data>
+  <data name="label95.Text" xml:space="preserve">
+    <value>Voce</value>
+  </data>
+  <data name="BUT_Joystick.Text" xml:space="preserve">
+    <value>Impostazione Joystick </value>
+  </data>
+  <data name="CHK_disttohomeflightdata.Text" xml:space="preserve">
+    <value>Display in Flightdata</value>
+  </data>
+  <data name="CHK_mavdebug.Text" xml:space="preserve">
+    <value>Messaggi debug Mavlink </value>
+  </data>
+  <data name="CHK_resetapmonconnect.Text" xml:space="preserve">
+    <value>Reset APM quando connesso via USB </value>
+  </data>
+  <data name="CHK_speechmode.Text" xml:space="preserve">
+    <value>Modalità</value>
+  </data>
+  <data name="BUT_logdirbrowse.Text" xml:space="preserve">
+    <value>Sfoglia</value>
+  </data>
+  <data name="BUT_videostart.Text" xml:space="preserve">
+    <value>Avvio</value>
   </data>
 </root>

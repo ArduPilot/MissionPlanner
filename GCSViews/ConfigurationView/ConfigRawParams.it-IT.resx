@@ -117,16 +117,37 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="BUT_zero_press.ToolTip" xml:space="preserve">
-    <value>Eseguire una calibrazione dell'accel ora.</value>
+  <data name="Value.HeaderText" xml:space="preserve">
+    <value>Valore</value>
   </data>
-  <data name="BUT_zero_att.ToolTip" xml:space="preserve">
-    <value>Eseguire una calibrazione dell'accel ora.</value>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Tutte le unità sono senza scala e in formato RAW</value>
   </data>
-  <data name="BUT_zero_press.Text" xml:space="preserve">
-    <value>Pressione nulla</value>
+  <data name="BUT_load.Text" xml:space="preserve">
+    <value>Carica</value>
   </data>
-  <data name="BUT_zero_att.Text" xml:space="preserve">
-    <value>Altitudine Zero</value>
+  <data name="Units.HeaderText" xml:space="preserve">
+    <value>Unità</value>
+  </data>
+  <data name="Command.HeaderText" xml:space="preserve">
+    <value>Comando</value>
+  </data>
+  <data name="Desc.HeaderText" xml:space="preserve">
+    <value>Desc</value>
+  </data>
+  <data name="BUT_save.Text" xml:space="preserve">
+    <value>Salva</value>
+  </data>
+  <data name="Options.HeaderText" xml:space="preserve">
+    <value>Opzioni</value>
+  </data>
+  <data name="BUT_writePIDS.Text" xml:space="preserve">
+    <value>Scrivi Parametri</value>
+  </data>
+  <data name="BUT_compare.Text" xml:space="preserve">
+    <value>Confronta  Parametri</value>
+  </data>
+  <data name="BUT_rerequestparams.Text" xml:space="preserve">
+    <value>Aggiorna  Parametri</value>
   </data>
 </root>
