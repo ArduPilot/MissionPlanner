@@ -16,9 +16,9 @@ namespace ArdupilotMega.Controls
         private Image picture;
         private string text = "None";
 
-        [System.ComponentModel.Browsable(true)]
+        [System.ComponentModel.Browsable(true), DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public Label Label;
-        [System.ComponentModel.Browsable(true)]
+        [System.ComponentModel.Browsable(true), DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public PictureBox PictureBox;
 
         public ImageLabel()

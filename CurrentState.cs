@@ -63,6 +63,8 @@ namespace ArdupilotMega
             }
         }
         DateTime lastalt = DateTime.MinValue;
+        [DisplayText("Altitude (dist)")]
+        public float altasl { get; set; }
         float oldalt = 0;
         [DisplayText("Alt Home Offset (dist)")]
         public float altoffsethome { get; set; }
@@ -784,7 +786,8 @@ enum gcs_severity {
 
                            // alt = gps.alt; // using vfr as includes baro calc
                         }
-                                        
+
+                        altasl = gps.alt / 1000.0f;
 
                         gpsstatus = gps.fix_type;
                         //                    Console.WriteLine("gpsfix {0}",gpsstatus);
@@ -958,7 +961,7 @@ enum gcs_severity {
                         //groundspeed = vfr.groundspeed;
                         airspeed = vfr.airspeed;
 
-                       // alt = vfr.alt; // this might include baro
+                        //alt = vfr.alt; // this might include baro
 
                         ch3percent = vfr.throttle;
 

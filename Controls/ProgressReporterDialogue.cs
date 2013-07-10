@@ -25,6 +25,8 @@ namespace ArdupilotMega.Controls
         internal int _progress = -1;
         internal string _status = "";
 
+        public bool Running = false;
+
         public delegate void DoWorkEventHandler(object sender, ProgressWorkerEventArgs e, object passdata = null);
 
         // This is the event that will be raised on the BG thread
@@ -48,6 +50,7 @@ namespace ArdupilotMega.Controls
 
         private void RunBackgroundOperation(object o)
         {
+            Running = true;
             log.Info("RunBackgroundOperation");
 
             try
@@ -84,6 +87,7 @@ namespace ArdupilotMega.Controls
                 // Otherwise display 'Unexpected error' and exception details
                 timer1.Stop();
                 ShowDoneWithError(e, doWorkArgs.ErrorMessage);
+                Running = false;
                 return;
             }
 
@@ -98,22 +102,26 @@ namespace ArdupilotMega.Controls
             if (doWorkArgs.CancelRequested && doWorkArgs.CancelAcknowledged)
             {
                 ShowDoneCancelled();
+                Running = false;
                 return;
             }
 
             if (!string.IsNullOrEmpty(doWorkArgs.ErrorMessage))
             {
                 ShowDoneWithError(null, doWorkArgs.ErrorMessage);
+                Running = false;
                 return;
             }
 
             if (doWorkArgs.CancelRequested)
             {
                 ShowDoneWithError(null, "Operation could not cancel");
+                Running = false;
                 return;
             }
 
             ShowDone();
+            Running = false;
         }
 
         // Called as a possible last operation of the bg thread that was cancelled

@@ -13,8 +13,6 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
 {
     public partial class ConfigHWOSD : UserControl, IActivate
     {
-        bool startup = false;
-
         const float rad2deg = (float)(180 / Math.PI);
         const float deg2rad = (float)(1.0 / rad2deg);
 
@@ -34,11 +32,6 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             {
                 this.Enabled = true;
             }
-
-            startup = true;
-
-           
-            startup = false;
         }
 
         private void BUT_osdrates_Click(object sender, EventArgs e)

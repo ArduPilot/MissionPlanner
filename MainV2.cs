@@ -2213,11 +2213,10 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
             }
             if (keyData == (Keys.Control | Keys.W)) // test ac config
             {
+                Wizard.Wizard cfg = new Wizard.Wizard();
 
-                Controls.ConfigPanel cfg = new Controls.ConfigPanel(Application.StartupPath + System.IO.Path.DirectorySeparatorChar + "ArduCopterConfig.xml");
-
-                //cfg.Show();
-
+                cfg.ShowDialog();
+                
                 return true;
             }
             if (keyData == (Keys.Control | Keys.T)) // for override connect

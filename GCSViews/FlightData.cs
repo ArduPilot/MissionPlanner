@@ -335,7 +335,7 @@ namespace ArdupilotMega.GCSViews
             if (CB_tuning.Checked)
                 ZedGraphTimer.Start();
 
-            /*if (MainV2.MONO)
+            if (MainV2.MONO)
             {
                 if (!hud1.Visible)
                     hud1.Visible = true;
@@ -343,7 +343,7 @@ namespace ArdupilotMega.GCSViews
                     hud1.Enabled = true;
 
                 hud1.Dock = DockStyle.Fill;
-            }*/
+            }
 
             for (int f = 1; f < 10; f++)
             {
@@ -668,8 +668,6 @@ namespace ArdupilotMega.GCSViews
                     }
                 }
 
-
-
                 try
                 {
                      //Console.WriteLine(DateTime.Now.Millisecond);
@@ -970,28 +968,38 @@ namespace ArdupilotMega.GCSViews
             }
         }
 
+        DateTime lastscreenupdate = DateTime.Now;
+
         private void updateBindingSource()
         {
-            this.BeginInvoke((System.Windows.Forms.MethodInvoker)delegate()
+                                //  run at 52 hz.
+            if (lastscreenupdate.AddMilliseconds(19) < DateTime.Now)
             {
-                try
+                // async
+                this.BeginInvoke((System.Windows.Forms.MethodInvoker)delegate()
                 {
-                    if (this.Visible)
+                    try
                     {
-                        //Console.Write("bindingSource1 ");
-                        MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSource1);
-                        //Console.Write("bindingSourceHud ");
-                        MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSourceHud);
-                        //Console.WriteLine("DONE ");
+
+                        if (this.Visible)
+                        {
+                            //Console.Write("bindingSource1 ");
+                            MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSource1);
+                            //Console.Write("bindingSourceHud ");
+                            MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSourceHud);
+                            //Console.WriteLine("DONE ");
+                        }
+                        else
+                        {
+                            //Console.WriteLine("Null Binding");
+                            MainV2.comPort.MAV.cs.UpdateCurrentSettings(null);
+                        }
+                        lastscreenupdate = DateTime.Now;
+
                     }
-                    else
-                    {
-                        //Console.WriteLine("Null Binding");
-                        MainV2.comPort.MAV.cs.UpdateCurrentSettings(null);
-                    }
-                }
-                catch { }
-            });
+                    catch { }
+                });
+            }
         }
 
         /// <summary>
@@ -2363,12 +2371,6 @@ print 'Roll complete'
             MainV2.config["CHK_autopan"] = CHK_autopan.Checked.ToString();
         }
 
-        private void NUM_playbackspeed_Scroll(object sender, EventArgs e)
-        {
-            LogPlayBackSpeed = NUM_playbackspeed.Value;
-            lbl_playbackspeed.Text = "x " + LogPlayBackSpeed;
-        }
-
         private void setMJPEGSourceToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string url = MainV2.config["mjpeg_url"] != null ? MainV2.config["mjpeg_url"].ToString() : @"http://127.0.0.1:56781/map.jpg";
@@ -2588,13 +2590,7 @@ print 'Roll complete'
 
         private void tabQuick_Resize(object sender, EventArgs e)
         {
-            int height = ((Control)sender).Height / 6;
-            quickView1.Size = new System.Drawing.Size(tabQuick.Width, height);
-            quickView2.Size = new System.Drawing.Size(tabQuick.Width, height);
-            quickView3.Size = new System.Drawing.Size(tabQuick.Width, height);
-            quickView4.Size = new System.Drawing.Size(tabQuick.Width, height);
-            quickView5.Size = new System.Drawing.Size(tabQuick.Width, height);
-            quickView6.Size = new System.Drawing.Size(tabQuick.Width, height);
+
         }
 
         private void hud1_Resize(object sender, EventArgs e)
@@ -2714,6 +2710,19 @@ print 'Roll complete'
                 }
             }
             catch { }
+        }
+
+        private void BUT_speed1_Click(object sender, EventArgs e)
+        {
+            LogPlayBackSpeed = double.Parse(((MyButton)sender).Tag.ToString());
+            lbl_playbackspeed.Text = "x " + LogPlayBackSpeed;            
+        }
+
+        private void BUT_logbrowse_Click(object sender, EventArgs e)
+        {
+            Form logbrowse = new Log.LogBrowse();
+            ThemeManager.ApplyThemeTo(logbrowse);
+            logbrowse.Show();
         }
     }
 }

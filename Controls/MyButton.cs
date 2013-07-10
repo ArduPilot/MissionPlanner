@@ -57,12 +57,12 @@ namespace ArdupilotMega.Controls
                 LinearGradientBrush linear = new LinearGradientBrush(outside, BGGradTop, BGGradBot, LinearGradientMode.Vertical);
 
                 Pen mypen = new Pen(Outline, 1);
-                
-            //    gr.FillRectangle(new SolidBrush(Color.FromArgb(0x26, 0x27, 0x28)), outside);
 
                 GraphicsPath outline = new GraphicsPath();
 
                 float wid = this.Height / 3f;
+
+                wid = 1;
 
                 int width = this.Width - 1;
                 int height = this.Height - 1;
@@ -86,11 +86,6 @@ namespace ArdupilotMega.Controls
                 gr.FillPath(linear, outline);
 
                 gr.DrawPath(mypen, outline);
-
-
-             //   gr.FillRectangle(linear, outside);
-             //   gr.DrawRectangle(mypen, outside);
-
 
                 SolidBrush mybrush = new SolidBrush(TextColor);
 

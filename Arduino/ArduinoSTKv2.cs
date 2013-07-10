@@ -265,7 +265,7 @@ namespace ArdupilotMega.Arduino
 
 
                 if (Progress != null)
-                    Progress((int)(((float)startaddress / (float)length) * 100),"");
+                    Progress((int)(((float)startaddress / (float)length) * 100), "Uploading Firmware");
 
                 if (command[1] != 0)
                 {

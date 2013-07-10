@@ -62,7 +62,7 @@
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(122, 72);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(122, 54);
             this.tableLayoutPanel1.TabIndex = 2;
             // 
             // labelWithPseudoOpacity2
@@ -72,19 +72,18 @@
             this.labelWithPseudoOpacity2.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelWithPseudoOpacity2.Location = new System.Drawing.Point(3, 20);
             this.labelWithPseudoOpacity2.Name = "labelWithPseudoOpacity2";
-            this.labelWithPseudoOpacity2.Size = new System.Drawing.Size(118, 52);
+            this.labelWithPseudoOpacity2.Size = new System.Drawing.Size(118, 34);
             this.labelWithPseudoOpacity2.TabIndex = 2;
-            this.labelWithPseudoOpacity2.Text = "000.00";
+            this.labelWithPseudoOpacity2.Text = "0000.00";
             this.labelWithPseudoOpacity2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.toolTip1.SetToolTip(this.labelWithPseudoOpacity2, "Double click to change");
             // 
             // QuickView
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "QuickView";
-            this.Size = new System.Drawing.Size(122, 72);
+            this.Size = new System.Drawing.Size(122, 54);
             this.Resize += new System.EventHandler(this.QuickView_Resize);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();

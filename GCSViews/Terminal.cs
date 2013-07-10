@@ -294,11 +294,9 @@ namespace ArdupilotMega.GCSViews
 
                 comPort.PortName = MainV2.comPortName;
 
-                int fixme;
-
                 // test moving baud rate line
 
-                log.Info("Abbout to open " + comPort.PortName);
+                log.Info("About to open " + comPort.PortName);
 
                 comPort.Open();
 

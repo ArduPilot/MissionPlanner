@@ -1,4 +1,15 @@
-﻿* Mission Planner 1.2.59
+﻿* Mission Planner 1.2.60
+More Wizard (excluded atm - wip)
+add altasl to status tab (altitude above sea level)
+update ac simple pids yaw
+add row numbers to log filter view
+fix hud hideing under mono
+mod quickview layout
+mod log playback speed
+add message about compass calib after FW
+new control gradientbg, progressstep, radialgradientbg, picturemouseover
+
+* Mission Planner 1.2.59
 fix terminal exception
 add back loiter_unlim to copter
 more debug for usb device add and remove

@@ -239,7 +239,8 @@
             this.toolStripConnectionControl.ForeColor = System.Drawing.Color.Black;
             this.toolStripConnectionControl.Margin = new System.Windows.Forms.Padding(0);
             this.toolStripConnectionControl.Name = "toolStripConnectionControl";
-            this.toolStripConnectionControl.Size = new System.Drawing.Size(169, 63);
+            this.toolStripConnectionControl.Padding = new System.Windows.Forms.Padding(0, 0, 30, 0);
+            this.toolStripConnectionControl.Size = new System.Drawing.Size(199, 63);
             this.toolStripConnectionControl.MouseLeave += new System.EventHandler(this.MainMenu_MouseLeave);
             // 
             // MenuDonate
