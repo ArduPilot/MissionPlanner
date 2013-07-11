@@ -117,16 +117,31 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="CMB_history_label.Text" xml:space="preserve">
+    <value>Scegli firmware precedente</value>
+  </data>
+  <data name="lbl_devfw.Text" xml:space="preserve">
+    <value>Beta FIRMWARE</value>
+  </data>
+  <data name="lbl_dlfw.Text" xml:space="preserve">
+    <value>Scarica FIRMWARE</value>
+  </data>
+  <data name="lbl_px4io.Text" xml:space="preserve">
+    <value>PX4IO Firmware</value>
+  </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>Immagini di Max Levine</value>
+    <value>Immagini di Max Levine e Marooned</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>Perfavire selezione queste immagini per "Flight versions"</value>
+    <value>Perfavore seleziona queste immagini per "Flight versions"</value>
   </data>
   <data name="lbl_status.Text" xml:space="preserve">
     <value>Stato</value>
   </data>
   <data name="BUT_setup.Text" xml:space="preserve">
-    <value>Settaggi APM (Aerei e Quad)</value>
+    <value>Settaggi APM (Aerei e Droni)</value>
+  </data>
+  <data name="Custom_firmware_label.Text" xml:space="preserve">
+    <value>Carica Firmware personalizzato</value>
   </data>
 </root>

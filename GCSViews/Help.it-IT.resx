@@ -121,7 +121,7 @@
     <value />
   </data>
   <data name="CHK_showconsole.Text" xml:space="preserve">
-    <value>Mostra la Finestra di Console (Riavvio)</value>
+    <value>Mostra la CONSOLE (Riavvio)</value>
   </data>
   <data name="BUT_updatecheck.Text" xml:space="preserve">
     <value>Controlla gli Aggiornamenti</value>

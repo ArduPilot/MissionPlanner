@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="tabRawSensor.Text" xml:space="preserve">
-    <value>Sensori Grezzi</value>
+    <value>Sensori RAW</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Sensori Grezzi</value>
+    <value>Sensori RAW</value>
   </data>
   <data name="CMB_rawupdaterate.Text" xml:space="preserve">
     <value>Aggiorna Velocità</value>
@@ -133,7 +133,7 @@
     <value>Nota: C'è un ritando quando si visualizza tramite Xbee@ 50hz</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>IN Radio</value>
+    <value>Radio IN</value>
   </data>
   <data name="chkax.Text" xml:space="preserve">
     <value>Accel X</value>

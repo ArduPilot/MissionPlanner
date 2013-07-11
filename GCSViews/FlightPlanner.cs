@@ -3294,6 +3294,7 @@ namespace ArdupilotMega.GCSViews
 
         public void Deactivate()
         {
+            config(true);
             timer1.Stop();
         }
 

@@ -8,8 +8,8 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FlightData));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.contextMenuStripMap = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.goHereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.flyToHereAltToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -28,6 +28,7 @@
             this.bindingSourceHud = new System.Windows.Forms.BindingSource(this.components);
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabQuick = new System.Windows.Forms.TabPage();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.quickView6 = new ArdupilotMega.Controls.QuickView();
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.quickView5 = new ArdupilotMega.Controls.QuickView();
@@ -65,11 +66,19 @@
             this.BUT_loadtelem = new ArdupilotMega.Controls.MyButton();
             this.lbl_playbackspeed = new ArdupilotMega.Controls.MyLabel();
             this.lbl_logpercent = new ArdupilotMega.Controls.MyLabel();
-            this.NUM_playbackspeed = new ArdupilotMega.Controls.MyTrackBar();
             this.tracklog = new System.Windows.Forms.TrackBar();
             this.LBL_logfn = new ArdupilotMega.Controls.MyLabel();
             this.BUT_log2kml = new ArdupilotMega.Controls.MyButton();
             this.BUT_playlog = new ArdupilotMega.Controls.MyButton();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.label2 = new System.Windows.Forms.Label();
+            this.BUT_speed10 = new ArdupilotMega.Controls.MyButton();
+            this.BUT_speed5 = new ArdupilotMega.Controls.MyButton();
+            this.BUT_speed2 = new ArdupilotMega.Controls.MyButton();
+            this.BUT_speed1 = new ArdupilotMega.Controls.MyButton();
+            this.BUT_speed1_2 = new ArdupilotMega.Controls.MyButton();
+            this.BUT_speed1_4 = new ArdupilotMega.Controls.MyButton();
+            this.BUT_speed1_10 = new ArdupilotMega.Controls.MyButton();
             this.tabServo = new System.Windows.Forms.TabPage();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.servoOptions1 = new ArdupilotMega.Controls.ServoOptions();
@@ -100,6 +109,8 @@
             this.dataGridViewImageColumn2 = new System.Windows.Forms.DataGridViewImageColumn();
             this.ZedGraphTimer = new System.Windows.Forms.Timer(this.components);
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.tablogbrowse = new System.Windows.Forms.TabPage();
+            this.BUT_logbrowse = new ArdupilotMega.Controls.MyButton();
             this.contextMenuStripMap.SuspendLayout();
             this.MainH.Panel1.SuspendLayout();
             this.MainH.Panel2.SuspendLayout();
@@ -111,13 +122,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.bindingSourceHud)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabQuick.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             this.tabActions.SuspendLayout();
             this.tabGauges.SuspendLayout();
             this.tabTLogs.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NUM_playbackspeed)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tracklog)).BeginInit();
+            this.panel2.SuspendLayout();
             this.tabServo.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.tableMap.SuspendLayout();
@@ -127,6 +139,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.TRK_zoom)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Zoomlevel)).BeginInit();
+            this.tablogbrowse.SuspendLayout();
             this.SuspendLayout();
             // 
             // contextMenuStripMap
@@ -203,7 +216,7 @@
             // 
             this.hud1.airspeed = 0F;
             this.hud1.alt = 0F;
-            this.hud1.BackColor = System.Drawing.Color.Transparent;
+            this.hud1.BackColor = System.Drawing.Color.Black;
             this.hud1.batterylevel = 0F;
             this.hud1.batteryremaining = 0F;
             this.hud1.ContextMenuStrip = this.contextMenuStripHud;
@@ -251,7 +264,7 @@
             this.hud1.linkqualitygcs = 0F;
             this.hud1.lowvoltagealert = false;
             this.hud1.message = "";
-            this.hud1.mode = "Manual";
+            this.hud1.mode = "Unknown";
             this.hud1.Name = "hud1";
             this.hud1.navpitch = 0F;
             this.hud1.navroll = 0F;
@@ -322,8 +335,9 @@
             this.tabControl1.Controls.Add(this.tabActions);
             this.tabControl1.Controls.Add(this.tabGauges);
             this.tabControl1.Controls.Add(this.tabStatus);
-            this.tabControl1.Controls.Add(this.tabTLogs);
             this.tabControl1.Controls.Add(this.tabServo);
+            this.tabControl1.Controls.Add(this.tabTLogs);
+            this.tabControl1.Controls.Add(this.tablogbrowse);
             resources.ApplyResources(this.tabControl1, "tabControl1");
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -333,15 +347,21 @@
             // tabQuick
             // 
             resources.ApplyResources(this.tabQuick, "tabQuick");
-            this.tabQuick.Controls.Add(this.quickView6);
-            this.tabQuick.Controls.Add(this.quickView5);
-            this.tabQuick.Controls.Add(this.quickView4);
-            this.tabQuick.Controls.Add(this.quickView3);
-            this.tabQuick.Controls.Add(this.quickView2);
-            this.tabQuick.Controls.Add(this.quickView1);
+            this.tabQuick.Controls.Add(this.tableLayoutPanel2);
             this.tabQuick.Name = "tabQuick";
             this.tabQuick.UseVisualStyleBackColor = true;
             this.tabQuick.Resize += new System.EventHandler(this.tabQuick_Resize);
+            // 
+            // tableLayoutPanel2
+            // 
+            resources.ApplyResources(this.tableLayoutPanel2, "tableLayoutPanel2");
+            this.tableLayoutPanel2.Controls.Add(this.quickView6, 1, 2);
+            this.tableLayoutPanel2.Controls.Add(this.quickView5, 0, 2);
+            this.tableLayoutPanel2.Controls.Add(this.quickView4, 1, 1);
+            this.tableLayoutPanel2.Controls.Add(this.quickView3, 0, 1);
+            this.tableLayoutPanel2.Controls.Add(this.quickView2, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this.quickView1, 0, 0);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             // 
             // quickView6
             // 
@@ -393,7 +413,7 @@
             this.quickView2.desc = "groundspeed";
             resources.ApplyResources(this.quickView2, "quickView2");
             this.quickView2.Name = "quickView2";
-            this.quickView2.number = 0D;
+            this.quickView2.number = 9999.99D;
             this.quickView2.numberColor = System.Drawing.Color.FromArgb(((int)(((byte)(254)))), ((int)(((byte)(132)))), ((int)(((byte)(46)))));
             this.quickView2.DoubleClick += new System.EventHandler(this.quickView_DoubleClick);
             // 
@@ -1115,11 +1135,11 @@
             this.tableLayoutPanel1.Controls.Add(this.BUT_loadtelem, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.lbl_playbackspeed, 2, 2);
             this.tableLayoutPanel1.Controls.Add(this.lbl_logpercent, 2, 1);
-            this.tableLayoutPanel1.Controls.Add(this.NUM_playbackspeed, 1, 2);
             this.tableLayoutPanel1.Controls.Add(this.tracklog, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.LBL_logfn, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.BUT_log2kml, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.BUT_playlog, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.panel2, 1, 2);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             // 
             // BUT_loadtelem
@@ -1144,19 +1164,6 @@
             resources.ApplyResources(this.lbl_logpercent, "lbl_logpercent");
             this.lbl_logpercent.Name = "lbl_logpercent";
             this.lbl_logpercent.resize = false;
-            // 
-            // NUM_playbackspeed
-            // 
-            resources.ApplyResources(this.NUM_playbackspeed, "NUM_playbackspeed");
-            this.NUM_playbackspeed.LargeChange = 1F;
-            this.NUM_playbackspeed.Maximum = 10F;
-            this.NUM_playbackspeed.Minimum = 0.01F;
-            this.NUM_playbackspeed.Name = "NUM_playbackspeed";
-            this.NUM_playbackspeed.SmallChange = 1F;
-            this.NUM_playbackspeed.TickFrequency = 1F;
-            this.toolTip1.SetToolTip(this.NUM_playbackspeed, resources.GetString("NUM_playbackspeed.ToolTip"));
-            this.NUM_playbackspeed.Value = 1F;
-            this.NUM_playbackspeed.Scroll += new System.EventHandler(this.NUM_playbackspeed_Scroll);
             // 
             // tracklog
             // 
@@ -1194,6 +1201,108 @@
             this.BUT_playlog.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_playlog.UseVisualStyleBackColor = true;
             this.BUT_playlog.Click += new System.EventHandler(this.BUT_playlog_Click);
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.label2);
+            this.panel2.Controls.Add(this.BUT_speed10);
+            this.panel2.Controls.Add(this.BUT_speed5);
+            this.panel2.Controls.Add(this.BUT_speed2);
+            this.panel2.Controls.Add(this.BUT_speed1);
+            this.panel2.Controls.Add(this.BUT_speed1_2);
+            this.panel2.Controls.Add(this.BUT_speed1_4);
+            this.panel2.Controls.Add(this.BUT_speed1_10);
+            resources.ApplyResources(this.panel2, "panel2");
+            this.panel2.Name = "panel2";
+            // 
+            // label2
+            // 
+            resources.ApplyResources(this.label2, "label2");
+            this.label2.Name = "label2";
+            // 
+            // BUT_speed10
+            // 
+            this.BUT_speed10.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
+            this.BUT_speed10.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
+            resources.ApplyResources(this.BUT_speed10, "BUT_speed10");
+            this.BUT_speed10.Name = "BUT_speed10";
+            this.BUT_speed10.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
+            this.BUT_speed10.Tag = "10";
+            this.BUT_speed10.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.BUT_speed10.UseVisualStyleBackColor = true;
+            this.BUT_speed10.Click += new System.EventHandler(this.BUT_speed1_Click);
+            // 
+            // BUT_speed5
+            // 
+            this.BUT_speed5.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
+            this.BUT_speed5.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
+            resources.ApplyResources(this.BUT_speed5, "BUT_speed5");
+            this.BUT_speed5.Name = "BUT_speed5";
+            this.BUT_speed5.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
+            this.BUT_speed5.Tag = "5";
+            this.BUT_speed5.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.BUT_speed5.UseVisualStyleBackColor = true;
+            this.BUT_speed5.Click += new System.EventHandler(this.BUT_speed1_Click);
+            // 
+            // BUT_speed2
+            // 
+            this.BUT_speed2.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
+            this.BUT_speed2.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
+            resources.ApplyResources(this.BUT_speed2, "BUT_speed2");
+            this.BUT_speed2.Name = "BUT_speed2";
+            this.BUT_speed2.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
+            this.BUT_speed2.Tag = "2";
+            this.BUT_speed2.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.BUT_speed2.UseVisualStyleBackColor = true;
+            this.BUT_speed2.Click += new System.EventHandler(this.BUT_speed1_Click);
+            // 
+            // BUT_speed1
+            // 
+            this.BUT_speed1.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
+            this.BUT_speed1.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
+            resources.ApplyResources(this.BUT_speed1, "BUT_speed1");
+            this.BUT_speed1.Name = "BUT_speed1";
+            this.BUT_speed1.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
+            this.BUT_speed1.Tag = "1";
+            this.BUT_speed1.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.BUT_speed1.UseVisualStyleBackColor = true;
+            this.BUT_speed1.Click += new System.EventHandler(this.BUT_speed1_Click);
+            // 
+            // BUT_speed1_2
+            // 
+            this.BUT_speed1_2.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
+            this.BUT_speed1_2.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
+            resources.ApplyResources(this.BUT_speed1_2, "BUT_speed1_2");
+            this.BUT_speed1_2.Name = "BUT_speed1_2";
+            this.BUT_speed1_2.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
+            this.BUT_speed1_2.Tag = "0.5";
+            this.BUT_speed1_2.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.BUT_speed1_2.UseVisualStyleBackColor = true;
+            this.BUT_speed1_2.Click += new System.EventHandler(this.BUT_speed1_Click);
+            // 
+            // BUT_speed1_4
+            // 
+            this.BUT_speed1_4.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
+            this.BUT_speed1_4.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
+            resources.ApplyResources(this.BUT_speed1_4, "BUT_speed1_4");
+            this.BUT_speed1_4.Name = "BUT_speed1_4";
+            this.BUT_speed1_4.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
+            this.BUT_speed1_4.Tag = "0.25";
+            this.BUT_speed1_4.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.BUT_speed1_4.UseVisualStyleBackColor = true;
+            this.BUT_speed1_4.Click += new System.EventHandler(this.BUT_speed1_Click);
+            // 
+            // BUT_speed1_10
+            // 
+            this.BUT_speed1_10.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
+            this.BUT_speed1_10.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
+            resources.ApplyResources(this.BUT_speed1_10, "BUT_speed1_10");
+            this.BUT_speed1_10.Name = "BUT_speed1_10";
+            this.BUT_speed1_10.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
+            this.BUT_speed1_10.Tag = "0.1";
+            this.BUT_speed1_10.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.BUT_speed1_10.UseVisualStyleBackColor = true;
+            this.BUT_speed1_10.Click += new System.EventHandler(this.BUT_speed1_Click);
             // 
             // tabServo
             // 
@@ -1446,8 +1555,8 @@
             // 
             // dataGridViewImageColumn1
             // 
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.dataGridViewImageColumn1.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dataGridViewImageColumn1.DefaultCellStyle = dataGridViewCellStyle3;
             resources.ApplyResources(this.dataGridViewImageColumn1, "dataGridViewImageColumn1");
             this.dataGridViewImageColumn1.Image = global::ArdupilotMega.Properties.Resources.up;
             this.dataGridViewImageColumn1.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
@@ -1455,8 +1564,8 @@
             // 
             // dataGridViewImageColumn2
             // 
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.dataGridViewImageColumn2.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dataGridViewImageColumn2.DefaultCellStyle = dataGridViewCellStyle4;
             resources.ApplyResources(this.dataGridViewImageColumn2, "dataGridViewImageColumn2");
             this.dataGridViewImageColumn2.Image = global::ArdupilotMega.Properties.Resources.down;
             this.dataGridViewImageColumn2.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
@@ -1470,6 +1579,24 @@
             // 
             this.toolTip1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
             this.toolTip1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
+            // 
+            // tablogbrowse
+            // 
+            this.tablogbrowse.Controls.Add(this.BUT_logbrowse);
+            resources.ApplyResources(this.tablogbrowse, "tablogbrowse");
+            this.tablogbrowse.Name = "tablogbrowse";
+            this.tablogbrowse.UseVisualStyleBackColor = true;
+            // 
+            // BUT_logbrowse
+            // 
+            this.BUT_logbrowse.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
+            this.BUT_logbrowse.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
+            resources.ApplyResources(this.BUT_logbrowse, "BUT_logbrowse");
+            this.BUT_logbrowse.Name = "BUT_logbrowse";
+            this.BUT_logbrowse.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
+            this.BUT_logbrowse.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.BUT_logbrowse.UseVisualStyleBackColor = true;
+            this.BUT_logbrowse.Click += new System.EventHandler(this.BUT_logbrowse_Click);
             // 
             // FlightData
             // 
@@ -1493,14 +1620,16 @@
             ((System.ComponentModel.ISupportInitialize)(this.bindingSourceHud)).EndInit();
             this.tabControl1.ResumeLayout(false);
             this.tabQuick.ResumeLayout(false);
+            this.tableLayoutPanel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
             this.tabActions.ResumeLayout(false);
             this.tabGauges.ResumeLayout(false);
             this.tabTLogs.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NUM_playbackspeed)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tracklog)).EndInit();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.tabServo.ResumeLayout(false);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.tableMap.ResumeLayout(false);
@@ -1512,6 +1641,7 @@
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Zoomlevel)).EndInit();
+            this.tablogbrowse.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1565,7 +1695,6 @@
         private ArdupilotMega.Controls.MyLabel lbl_winddir;
         private ArdupilotMega.Controls.MyButton BUT_joystick;
         private System.Windows.Forms.ToolTip toolTip1;
-        private ArdupilotMega.Controls.MyTrackBar NUM_playbackspeed;
         private System.Windows.Forms.ContextMenuStrip contextMenuStripHud;
         private System.Windows.Forms.ToolStripMenuItem recordHudToAVIToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem stopRecordToolStripMenuItem;
@@ -1607,6 +1736,18 @@
         private Controls.ServoOptions servoOptions6;
         private Controls.ServoOptions servoOptions7;
         private System.Windows.Forms.BindingSource bindingSourceHud;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private System.Windows.Forms.Panel panel2;
+        private Controls.MyButton BUT_speed10;
+        private Controls.MyButton BUT_speed5;
+        private Controls.MyButton BUT_speed2;
+        private Controls.MyButton BUT_speed1;
+        private Controls.MyButton BUT_speed1_2;
+        private Controls.MyButton BUT_speed1_4;
+        private Controls.MyButton BUT_speed1_10;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TabPage tablogbrowse;
+        private Controls.MyButton BUT_logbrowse;
 
     }
 }

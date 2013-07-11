@@ -117,8 +117,11 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="BUT_Camera.ToolTip" xml:space="preserve">
-    <value>Usa i settaggi della telecamera per la sovrapposizione </value>
+  <data name="elevationGraphToolStripMenuItem.Text" xml:space="preserve">
+    <value>Grafico Alettoni</value>
+  </data>
+  <data name="flyToHereToolStripMenuItem.Text" xml:space="preserve">
+    <value>Vola QUI</value>
   </data>
   <data name="CHK_geheight.Text" xml:space="preserve">
     <value>Verifica Altezza</value>
@@ -126,8 +129,11 @@
   <data name="lbl_homedist.Text" xml:space="preserve">
     <value>Home</value>
   </data>
-  <data name="BUT_grid.Text" xml:space="preserve">
-    <value>Griglia</value>
+  <data name="gridToolStripMenuItem.Text" xml:space="preserve">
+    <value>Grid</value>
+  </data>
+  <data name="trackerHomeToolStripMenuItem.Text" xml:space="preserve">
+    <value>Tracker Home</value>
   </data>
   <data name="label10.Text" xml:space="preserve">
     <value>Lat</value>
@@ -137,6 +143,9 @@
   </data>
   <data name="lbl_prevdist.Text" xml:space="preserve">
     <value>Prev</value>
+  </data>
+  <data name="loadAndAppendToolStripMenuItem.Text" xml:space="preserve">
+    <value>Load and Append</value>
   </data>
   <data name="label11.Text" xml:space="preserve">
     <value>Zoom</value>
@@ -156,28 +165,26 @@
   <data name="CHK_altmode.Text" xml:space="preserve">
     <value>Alt Assoluta</value>
   </data>
-  <data name="BUT_loadkml.ToolTip" xml:space="preserve">
-    <value>Usa i settaggi della telecamera per la sovrapposizione </value>
-  </data>
   <data name="LBL_defalutalt.Text" xml:space="preserve">
     <value>Alt di default</value>
   </data>
   <data name="Param2.HeaderText" xml:space="preserve">
     <value>P2</value>
   </data>
+  <data name="cameraToolStripMenuItem.Text" xml:space="preserve">
+    <value>Camera</value>
+  </data>
   <data name="rotateMapToolStripMenuItem.Text" xml:space="preserve">
     <value>Ruota mappa</value>
+  </data>
+  <data name="kMLOverlayToolStripMenuItem.Text" xml:space="preserve">
+    <value>KML Overlay</value>
   </data>
   <data name="Lat.HeaderText" xml:space="preserve">
     <value>Lat</value>
   </data>
-  <data name="textBox1.Text" xml:space="preserve">
-    <value>1. Collegati
-2. Leggi i WP se devi.
-3. Assicurati che la Home e l'altezza siano settatae4. Fai click sulla mappa per aggiungere i WP</value>
-  </data>
-  <data name="SaveFile.Text" xml:space="preserve">
-    <value>Salva il file dei WP</value>
+  <data name="autoWPToolStripMenuItem.Text" xml:space="preserve">
+    <value>Auto WP</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
     <value>Lunghezza</value>
@@ -185,26 +192,32 @@
   <data name="label3.Text" xml:space="preserve">
     <value>Alt (abs)</value>
   </data>
+  <data name="mapToolToolStripMenuItem.Text" xml:space="preserve">
+    <value>Strumenti Map</value>
+  </data>
   <data name="loiterForeverToolStripMenuItem.Text" xml:space="preserve">
-    <value>Infinito</value>
+    <value>Per Sempre</value>
   </data>
   <data name="Alt.HeaderText" xml:space="preserve">
     <value>Alt</value>
   </data>
+  <data name="setROIToolStripMenuItem.Text" xml:space="preserve">
+    <value>Set ROI</value>
+  </data>
   <data name="label7.Text" xml:space="preserve">
-    <value>Coordinatre del mouse</value>
+    <value>Posizione del mouse</value>
   </data>
   <data name="dataGridViewImageColumn1.HeaderText" xml:space="preserve">
     <value>Up</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
-    <value>Localizzazione della Home</value>
-  </data>
-  <data name="BUT_loadwpfile.Text" xml:space="preserve">
-    <value>Carica il file dei WP</value>
+    <value>Posizione della Home</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
-    <value>Raggio del cerchio</value>
+    <value>Raggio Loiter</value>
+  </data>
+  <data name="loadWPFileToolStripMenuItem.Text" xml:space="preserve">
+    <value>Load WP File</value>
   </data>
   <data name="jumpstartToolStripMenuItem.Text" xml:space="preserve">
     <value>Avvia</value>
@@ -212,14 +225,23 @@
   <data name="BUT_read.Text" xml:space="preserve">
     <value>Leggi i Wp</value>
   </data>
+  <data name="loadPolygonToolStripMenuItem.Text" xml:space="preserve">
+    <value>Load Polygon</value>
+  </data>
+  <data name="prefetchToolStripMenuItem.Text" xml:space="preserve">
+    <value>Prefetch</value>
+  </data>
   <data name="GeoFenceuploadToolStripMenuItem.Text" xml:space="preserve">
-    <value>Carica</value>
+    <value>Upload</value>
   </data>
   <data name="label8.Text" xml:space="preserve">
     <value>Alt</value>
   </data>
   <data name="LBL_WPRad.Text" xml:space="preserve">
-    <value>Raggio dei WP</value>
+    <value>Raggio WP</value>
+  </data>
+  <data name="zoomToToolStripMenuItem.Text" xml:space="preserve">
+    <value>Zoom To</value>
   </data>
   <data name="label9.Text" xml:space="preserve">
     <value>Lunghezza</value>
@@ -248,29 +270,26 @@
   <data name="Param1.HeaderText" xml:space="preserve">
     <value>P1</value>
   </data>
-  <data name="button1.ToolTip" xml:space="preserve">
-    <value>Disegna la missione a confronto con i dati di Google</value>
-  </data>
-  <data name="BUT_Prefetch.ToolTip" xml:space="preserve">
-    <value>Precarica una parte della mappa relativa al rettangolo disegnato</value>
-  </data>
   <data name="Delete.ToolTipText" xml:space="preserve">
     <value>Elimina la riga</value>
   </data>
-  <data name="BUT_zoomto.ToolTip" xml:space="preserve">
-    <value>Carica i settaggi della Telecamera per la sovraimpressione</value>
+  <data name="takeoffToolStripMenuItem.Text" xml:space="preserve">
+    <value>Decollo</value>
   </data>
   <data name="addPolygonPointToolStripMenuItem.Text" xml:space="preserve">
     <value>Aggiungi un punto del poligono</value>
   </data>
   <data name="loiterToolStripMenuItem.Text" xml:space="preserve">
-    <value>Cerchio</value>
+    <value>Loiter</value>
   </data>
   <data name="Command.ToolTipText" xml:space="preserve">
-    <value>Comanpo APM</value>
+    <value>APM Command</value>
   </data>
   <data name="BUT_Add.Text" xml:space="preserve">
     <value>Aggiungi Sotto</value>
+  </data>
+  <data name="areaToolStripMenuItem.Text" xml:space="preserve">
+    <value>Area</value>
   </data>
   <data name="lbl_distance.Text" xml:space="preserve">
     <value>Distanza</value>
@@ -279,10 +298,7 @@
     <value>Sposta sotto la riga</value>
   </data>
   <data name="BUT_write.Text" xml:space="preserve">
-    <value>Scrivi i WP</value>
-  </data>
-  <data name="BUT_loadkml.Text" xml:space="preserve">
-    <value>Sovraimpressione KML</value>
+    <value>Scrivi i WPs</value>
   </data>
   <data name="dataGridViewImageColumn2.HeaderText" xml:space="preserve">
     <value>Giù</value>
@@ -293,14 +309,26 @@
   <data name="polygonToolStripMenuItem.Text" xml:space="preserve">
     <value>Disegna poligono</value>
   </data>
+  <data name="gridV2ToolStripMenuItem.Text" xml:space="preserve">
+    <value>GridV2</value>
+  </data>
   <data name="jumpToolStripMenuItem.Text" xml:space="preserve">
     <value>Salta</value>
+  </data>
+  <data name="landToolStripMenuItem.Text" xml:space="preserve">
+    <value>Land</value>
+  </data>
+  <data name="fileLoadSaveToolStripMenuItem.Text" xml:space="preserve">
+    <value>File Load/Save</value>
   </data>
   <data name="TXT_DefaultAlt.Text" xml:space="preserve">
     <value>100</value>
   </data>
   <data name="geoFenceToolStripMenuItem.Text" xml:space="preserve">
     <value>Geo-Fence</value>
+  </data>
+  <data name="saveWPFileToolStripMenuItem.Text" xml:space="preserve">
+    <value>Save WP File</value>
   </data>
   <data name="saveToFileToolStripMenuItem.Text" xml:space="preserve">
     <value>Salva in un file</value>
@@ -329,20 +357,17 @@
   <data name="panelWaypoints.Text" xml:space="preserve">
     <value>Waypoints</value>
   </data>
-  <data name="BUT_grid.ToolTip" xml:space="preserve">
-    <value>Disegna una griglia sull'area predefinita con una spaziatura predefinita</value>
-  </data>
-  <data name="BUT_zoomto.Text" xml:space="preserve">
-    <value>Zoom a</value>
+  <data name="Grad.HeaderText" xml:space="preserve">
+    <value>Grad</value>
   </data>
   <data name="loadFromFileToolStripMenuItem.Text" xml:space="preserve">
     <value>Carica da File</value>
   </data>
-  <data name="CHK_holdalt.Text" xml:space="preserve">
-    <value>Mantieni l'altezza di default</value>
+  <data name="rTLToolStripMenuItem.Text" xml:space="preserve">
+    <value>RTL</value>
   </data>
-  <data name="button1.Text" xml:space="preserve">
-    <value>Elevation Graph</value>
+  <data name="CHK_holdalt.Text" xml:space="preserve">
+    <value>RTL @ Altezza di default</value>
   </data>
   <data name="clearMissionToolStripMenuItem.Text" xml:space="preserve">
     <value>Cancella Missione</value>
@@ -353,16 +378,22 @@
   <data name="Param3.HeaderText" xml:space="preserve">
     <value>P3</value>
   </data>
-  <data name="BUT_Prefetch.Text" xml:space="preserve">
-    <value>Precarica</value>
+  <data name="toolStripMenuItem1.Text" xml:space="preserve">
+    <value>Complex</value>
+  </data>
+  <data name="savePolygonToolStripMenuItem.Text" xml:space="preserve">
+    <value>Save Polygon</value>
+  </data>
+  <data name="createWpCircleToolStripMenuItem.Text" xml:space="preserve">
+    <value>Create Wp Circle</value>
   </data>
   <data name="ContextMeasure.Text" xml:space="preserve">
     <value>Misura DIstanza</value>
   </data>
-  <data name="BUT_Camera.Text" xml:space="preserve">
-    <value>Camera</value>
-  </data>
   <data name="Down.HeaderText" xml:space="preserve">
     <value>Giù</value>
+  </data>
+  <data name="reverseWPsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Inverti WPs</value>
   </data>
 </root>

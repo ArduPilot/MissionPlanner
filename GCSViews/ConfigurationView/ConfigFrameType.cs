@@ -7,7 +7,7 @@ using Transitions;
 
 namespace ArdupilotMega.GCSViews.ConfigurationView
 {
-    public partial class ConfigFrameType : UserControl, IActivate, IDeactivate
+    public partial class ConfigFrameType : MyUserControl, IActivate, IDeactivate
     {
         private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 

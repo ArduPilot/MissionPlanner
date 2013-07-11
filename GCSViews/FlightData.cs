@@ -335,7 +335,7 @@ namespace ArdupilotMega.GCSViews
             if (CB_tuning.Checked)
                 ZedGraphTimer.Start();
 
-            /*if (MainV2.MONO)
+            if (MainV2.MONO)
             {
                 if (!hud1.Visible)
                     hud1.Visible = true;
@@ -343,7 +343,7 @@ namespace ArdupilotMega.GCSViews
                     hud1.Enabled = true;
 
                 hud1.Dock = DockStyle.Fill;
-            }*/
+            }
 
             for (int f = 1; f < 10; f++)
             {
@@ -452,15 +452,7 @@ namespace ArdupilotMega.GCSViews
 
         private void FlightData_Load(object sender, EventArgs e)
         {
-            System.Threading.Thread t11 = new System.Threading.Thread(new System.Threading.ThreadStart(mainloop))
-            {
-                IsBackground = true,
-                Name = "FlightData updater"
-            };
-
-            t11.Start();
-
-            //MainH.threads.Add(t11);
+            System.Threading.ThreadPool.QueueUserWorkItem(mainloop);
 
             TRK_zoom.Minimum = gMapControl1.MinZoom;
             TRK_zoom.Maximum = gMapControl1.MaxZoom + 1;
@@ -485,7 +477,7 @@ namespace ArdupilotMega.GCSViews
             hud1.doResize();
         }
 
-        private void mainloop()
+        private void mainloop(object o)
         {
             //System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en-US");
             //System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
@@ -541,11 +533,11 @@ namespace ArdupilotMega.GCSViews
                         MainV2.comPort.requestDatastream(ArdupilotMega.MAVLink.MAV_DATA_STREAM.RC_CHANNELS, MainV2.comPort.MAV.cs.raterc); // request rc info
                     }
                     catch { log.Error("Failed to request rates"); }
-                    lastdata = DateTime.Now.AddSeconds(120); // prevent flooding
+                    lastdata = DateTime.Now.AddSeconds(60); // prevent flooding
                 }
 
                 if (!MainV2.comPort.logreadmode)
-                    System.Threading.Thread.Sleep(100); // max is only ever 10 hz
+                    System.Threading.Thread.Sleep(50); // max is only ever 10 hz but we go a little faster to empty the serial queue
 
                 try
                 {
@@ -676,8 +668,6 @@ namespace ArdupilotMega.GCSViews
                     }
                 }
 
-
-
                 try
                 {
                      //Console.WriteLine(DateTime.Now.Millisecond);
@@ -739,7 +729,7 @@ namespace ArdupilotMega.GCSViews
                     }
 
                     // update map
-                    if (tracklast.AddSeconds(1) < DateTime.Now)
+                    if (tracklast.AddSeconds(1.2) < DateTime.Now)
                     {
                         if (MainV2.config["CHK_maprotation"] != null && MainV2.config["CHK_maprotation"].ToString() == "True")
                         {
@@ -783,6 +773,7 @@ namespace ArdupilotMega.GCSViews
                             while (gMapControl1.inOnPaint == true)
                             {
                                 System.Threading.Thread.Sleep(1);
+                                cnt++;
                             }
 
                             //route = new GMapRoute(route.Points, "track");
@@ -977,28 +968,38 @@ namespace ArdupilotMega.GCSViews
             }
         }
 
+        DateTime lastscreenupdate = DateTime.Now;
+
         private void updateBindingSource()
         {
-            this.BeginInvoke((System.Windows.Forms.MethodInvoker)delegate()
+                                //  run at 52 hz.
+            if (lastscreenupdate.AddMilliseconds(19) < DateTime.Now)
             {
-                try
+                // async
+                this.BeginInvoke((System.Windows.Forms.MethodInvoker)delegate()
                 {
-                    if (this.Visible)
+                    try
                     {
-                        //Console.Write("bindingSource1 ");
-                        MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSource1);
-                        //Console.Write("bindingSourceHud ");
-                        MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSourceHud);
-                        //Console.WriteLine("DONE ");
+
+                        if (this.Visible)
+                        {
+                            //Console.Write("bindingSource1 ");
+                            MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSource1);
+                            //Console.Write("bindingSourceHud ");
+                            MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSourceHud);
+                            //Console.WriteLine("DONE ");
+                        }
+                        else
+                        {
+                            //Console.WriteLine("Null Binding");
+                            MainV2.comPort.MAV.cs.UpdateCurrentSettings(null);
+                        }
+                        lastscreenupdate = DateTime.Now;
+
                     }
-                    else
-                    {
-                        //Console.WriteLine("Null Binding");
-                        MainV2.comPort.MAV.cs.UpdateCurrentSettings(null);
-                    }
-                }
-                catch { }
-            });
+                    catch { }
+                });
+            }
         }
 
         /// <summary>
@@ -1548,6 +1549,8 @@ namespace ArdupilotMega.GCSViews
                 BUT_clear_track_Click(sender, e);
 
                 MainV2.comPort.lastlogread = DateTime.MinValue;
+                MainV2.comPort.MAV.cs.distTraveled = 0;
+                MainV2.comPort.MAV.cs.timeInAir = 0;
 
                 if (MainV2.comPort.logplaybackfile != null)
                     MainV2.comPort.logplaybackfile.BaseStream.Position = (long)(MainV2.comPort.logplaybackfile.BaseStream.Length * (tracklog.Value / 100.0));
@@ -2368,12 +2371,6 @@ print 'Roll complete'
             MainV2.config["CHK_autopan"] = CHK_autopan.Checked.ToString();
         }
 
-        private void NUM_playbackspeed_Scroll(object sender, EventArgs e)
-        {
-            LogPlayBackSpeed = NUM_playbackspeed.Value;
-            lbl_playbackspeed.Text = "x " + LogPlayBackSpeed;
-        }
-
         private void setMJPEGSourceToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string url = MainV2.config["mjpeg_url"] != null ? MainV2.config["mjpeg_url"].ToString() : @"http://127.0.0.1:56781/map.jpg";
@@ -2593,13 +2590,7 @@ print 'Roll complete'
 
         private void tabQuick_Resize(object sender, EventArgs e)
         {
-            int height = ((Control)sender).Height / 6;
-            quickView1.Size = new System.Drawing.Size(tabQuick.Width, height);
-            quickView2.Size = new System.Drawing.Size(tabQuick.Width, height);
-            quickView3.Size = new System.Drawing.Size(tabQuick.Width, height);
-            quickView4.Size = new System.Drawing.Size(tabQuick.Width, height);
-            quickView5.Size = new System.Drawing.Size(tabQuick.Width, height);
-            quickView6.Size = new System.Drawing.Size(tabQuick.Width, height);
+
         }
 
         private void hud1_Resize(object sender, EventArgs e)
@@ -2719,6 +2710,19 @@ print 'Roll complete'
                 }
             }
             catch { }
+        }
+
+        private void BUT_speed1_Click(object sender, EventArgs e)
+        {
+            LogPlayBackSpeed = double.Parse(((MyButton)sender).Tag.ToString());
+            lbl_playbackspeed.Text = "x " + LogPlayBackSpeed;            
+        }
+
+        private void BUT_logbrowse_Click(object sender, EventArgs e)
+        {
+            Form logbrowse = new Log.LogBrowse();
+            ThemeManager.ApplyThemeTo(logbrowse);
+            logbrowse.Show();
         }
     }
 }

@@ -163,7 +163,7 @@
     <value>zg1</value>
   </data>
   <data name="&gt;&gt;zg1.Type" xml:space="preserve">
-    <value>ZedGraph.ZedGraphControl, ZedGraph, Version=5.1.5.13630, Culture=neutral, PublicKeyToken=null</value>
+    <value>ZedGraph.ZedGraphControl, ZedGraph, Version=5.1.5.35093, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;zg1.Parent" xml:space="preserve">
     <value>splitContainer1.Panel1</value>
@@ -190,7 +190,7 @@
     <value>Graphit</value>
   </data>
   <data name="&gt;&gt;Graphit.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.MyButton, ArdupilotMegaPlanner10, Version=1.1.4915.30450, Culture=neutral, PublicKeyToken=null</value>
+    <value>ArdupilotMega.Controls.MyButton, ArdupilotMegaPlanner10, Version=1.1.4935.30167, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;Graphit.Parent" xml:space="preserve">
     <value>splitContainer1.Panel2</value>
@@ -217,7 +217,7 @@
     <value>BUT_cleargraph</value>
   </data>
   <data name="&gt;&gt;BUT_cleargraph.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.MyButton, ArdupilotMegaPlanner10, Version=1.1.4915.30450, Culture=neutral, PublicKeyToken=null</value>
+    <value>ArdupilotMega.Controls.MyButton, ArdupilotMegaPlanner10, Version=1.1.4935.30167, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_cleargraph.Parent" xml:space="preserve">
     <value>splitContainer1.Panel2</value>
@@ -244,7 +244,7 @@
     <value>BUT_loadlog</value>
   </data>
   <data name="&gt;&gt;BUT_loadlog.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.MyButton, ArdupilotMegaPlanner10, Version=1.1.4915.30450, Culture=neutral, PublicKeyToken=null</value>
+    <value>ArdupilotMega.Controls.MyButton, ArdupilotMegaPlanner10, Version=1.1.4935.30167, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_loadlog.Parent" xml:space="preserve">
     <value>splitContainer1.Panel2</value>

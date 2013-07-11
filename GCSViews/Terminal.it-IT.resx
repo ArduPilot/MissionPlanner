@@ -120,6 +120,9 @@
   <data name="BUTtests.Text" xml:space="preserve">
     <value>Tests</value>
   </data>
+  <data name="BUT_ConnectAPM.Text" xml:space="preserve">
+    <value>RIAVVIA APM</value>
+  </data>
   <data name="Logs.Text" xml:space="preserve">
     <value>Scarica Logs</value>
   </data>
@@ -127,7 +130,10 @@
     <value>Settaggi Radio</value>
   </data>
   <data name="TXT_terminal.Text" xml:space="preserve">
-    <value />
+    <value>*NOTA* Per utilizzare CLI è necessario prima collegare la batteria e cliccare su RIAVVIA APM.    E' possibile scaricare i log solo con connessione USB</value>
+  </data>
+  <data name="BUT_ConnectPX4.Text" xml:space="preserve">
+    <value>RIAVVIA PX4</value>
   </data>
   <data name="BUT_logbrowse.Text" xml:space="preserve">
     <value>Sfoglia Log</value>

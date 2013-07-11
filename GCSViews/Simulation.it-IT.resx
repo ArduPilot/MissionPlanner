@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="label12.Text" xml:space="preserve">
-    <value>Rollio</value>
+    <value>Roll</value>
   </data>
   <data name="label10.Text" xml:space="preserve">
-    <value>ERR Altezza</value>
+    <value>Altezza ERR </value>
   </data>
   <data name="CHKREV_roll.Text" xml:space="preserve">
     <value>Inverti Roll</value>
@@ -130,25 +130,25 @@
     <value>Heli</value>
   </data>
   <data name="label13.Text" xml:space="preserve">
-    <value>Passo</value>
+    <value>Pitch</value>
   </data>
   <data name="label16.Text" xml:space="preserve">
     <value>Uscita Ardupilot</value>
   </data>
   <data name="label11.Text" xml:space="preserve">
-    <value>IMU Aereo</value>
+    <value>IMU Drone</value>
   </data>
   <data name="label14.Text" xml:space="preserve">
-    <value>Timone</value>
+    <value>Yaw</value>
   </data>
   <data name="RAD_JSBSim.ToolTip" xml:space="preserve">
-    <value>Può fare Aereo/Eli/Quads</value>
+    <value>Si può fare Aereo/Eli/Quads</value>
   </data>
   <data name="label17.Text" xml:space="preserve">
-    <value>Rateo di Aggiornamento GPS</value>
+    <value>Aggiorna Refresh Rate</value>
   </data>
   <data name="label15.Text" xml:space="preserve">
-    <value>Motore</value>
+    <value>Throttle</value>
   </data>
   <data name="label18.Text" xml:space="preserve">
     <value>Stato Autopilot</value>
@@ -157,34 +157,34 @@
     <value>WP</value>
   </data>
   <data name="CHKgraphroll.Text" xml:space="preserve">
-    <value>Mostra Rollio</value>
+    <value>Mostra Roll</value>
   </data>
   <data name="label20.Text" xml:space="preserve">
     <value>Modo</value>
   </data>
   <data name="label21.Text" xml:space="preserve">
-    <value>Autorità del simulatore - Per gli aerei Diff</value>
+    <value>Simulatore Authority - Per diff Veivoli</value>
   </data>
   <data name="BUT_startfgquad.Text" xml:space="preserve">
     <value>Avvia Quad FG</value>
   </data>
   <data name="label22.Text" xml:space="preserve">
-    <value>Guadagno Rollio</value>
+    <value>Roll Gain</value>
   </data>
   <data name="label23.Text" xml:space="preserve">
-    <value>Guadagno Passo</value>
+    <value>Pitch Gain</value>
   </data>
   <data name="CHK_quad.Text" xml:space="preserve">
     <value>Quad</value>
   </data>
   <data name="label24.Text" xml:space="preserve">
-    <value>Guadagno Timone</value>
+    <value>Timone Gain</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>Longitudione</value>
+    <value>Longitudine</value>
   </data>
   <data name="label25.Text" xml:space="preserve">
-    <value>Guadagno Motore</value>
+    <value>Gain Throttle</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
     <value>Altezza</value>
@@ -193,7 +193,7 @@
     <value>Questi</value>
   </data>
   <data name="label27.Text" xml:space="preserve">
-    <value>Sono</value>
+    <value>sono</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
     <value>Latitudine</value>
@@ -205,7 +205,7 @@
     <value>Settaggio IP avanzato</value>
   </data>
   <data name="label6.Text" xml:space="preserve">
-    <value>Passo</value>
+    <value>Pitch</value>
   </data>
   <data name="label29.Text" xml:space="preserve">
     <value>NOTA: </value>
@@ -214,13 +214,13 @@
     <value>Puntamento</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
-    <value>GPS Aereo</value>
+    <value>GPS Drone</value>
   </data>
   <data name="TXT_pitchgain.Text" xml:space="preserve">
     <value>10000</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
-    <value>Rollio</value>
+    <value>Roll</value>
   </data>
   <data name="ConnectComPort.Text" xml:space="preserve">
     <value>Link SIM Avvia/Ferma</value>
@@ -229,13 +229,13 @@
     <value>WPDist</value>
   </data>
   <data name="label9.Text" xml:space="preserve">
-    <value>ERR Attinenza</value>
+    <value>Posizione ERR </value>
   </data>
   <data name="CHKdisplayall.Text" xml:space="preserve">
     <value>Mostra Tutto</value>
   </data>
-  <data name="chkSensor.Text" xml:space="preserve">
-    <value>Sensore</value>
+  <data name="chkSITL.Text" xml:space="preserve">
+    <value>SITL</value>
   </data>
   <data name="SaveSettings.Text" xml:space="preserve">
     <value>Salva Settaggi</value>
@@ -247,7 +247,7 @@
     <value>Mostra Timone</value>
   </data>
   <data name="label30.Text" xml:space="preserve">
-    <value>Imbardata</value>
+    <value>Yaw</value>
   </data>
   <data name="CHKREV_rudder.Text" xml:space="preserve">
     <value>Inverti Timone</value>
@@ -256,13 +256,13 @@
     <value>10000</value>
   </data>
   <data name="RAD_softFlightGear.ToolTip" xml:space="preserve">
-    <value>Puà fare Aereo  e Quad con il modello</value>
+    <value>Puoi fare "Aereo" e "Quad" con il modello</value>
   </data>
   <data name="CHKREV_pitch.Text" xml:space="preserve">
-    <value>Inverti Passo</value>
+    <value>Inverti Pitch</value>
   </data>
   <data name="CHKgraphthrottle.Text" xml:space="preserve">
-    <value>Mostra Motore</value>
+    <value>Mostra Throttle</value>
   </data>
   <data name="CHK_xplane10.Text" xml:space="preserve">
     <value>Xplane 10</value>
@@ -271,7 +271,7 @@
     <value>AeroSimRC</value>
   </data>
   <data name="CHKgraphpitch.Text" xml:space="preserve">
-    <value>Mostra Passo</value>
+    <value>Mostra Pitch</value>
   </data>
   <data name="OutputLog.Text" xml:space="preserve">
     <value />
@@ -292,12 +292,12 @@
     <value>10000</value>
   </data>
   <data name="RAD_aerosimrc.ToolTip" xml:space="preserve">
-    <value>Può fare Aereo/Eli/Quad</value>
+    <value>Puoi fare "Aereo" e "Quad" con il modello</value>
   </data>
   <data name="BUT_startxplane.Text" xml:space="preserve">
     <value>Avvia Xplane</value>
   </data>
   <data name="RAD_softXplanes.ToolTip" xml:space="preserve">
-    <value>Può fare Aereo/Quad con Plugin</value>
+    <value>Puoi fare "Aereo" e "Quad" con il Plugin</value>
   </data>
 </root>

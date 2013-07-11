@@ -48,6 +48,9 @@ namespace ArdupilotMega.Controls
             labelWithPseudoOpacity2.DoubleClick += new EventHandler(labelWithPseudoOpacity2_DoubleClick);
 
             labelWithPseudoOpacity2.DoubleBuffered = true;
+
+            // set the initial value as something invalid
+            number = -9999;
         }
 
         void labelWithPseudoOpacity2_DoubleClick(object sender, EventArgs e)
@@ -101,11 +104,12 @@ namespace ArdupilotMega.Controls
 
         protected override void OnResize(EventArgs e)
         {
+            base.OnResize(e);
             this.ResizeRedraw = true;
 
             GetFontSize();
 
-            base.OnResize(e);
+          
         }
 
         private void QuickView_Resize(object sender, EventArgs e)

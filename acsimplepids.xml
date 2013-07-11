@@ -45,7 +45,7 @@
       <max>0.4</max>
       <relation>
         <param>RATE_YAW_I</param>
-        <multiplier>1</multiplier>
+        <multiplier>0.1</multiplier>
       </relation>
     
   </param>

@@ -235,6 +235,8 @@ namespace ArdupilotMega.Controls
             OnPaint(new PaintEventArgs(this.CreateGraphics(),this.ClientRectangle));
         }
 
+        DateTime lastinvalidate = DateTime.MinValue;
+
         /// <summary>
         /// Override to prevent offscreen drawing the control - mono mac
         /// </summary>
@@ -245,8 +247,10 @@ namespace ArdupilotMega.Controls
 
             if (!ThisReallyVisible())
             {
-              //  return;
+                //  return;
             }
+
+            lastinvalidate = DateTime.Now;
 
             base.Invalidate();
         }

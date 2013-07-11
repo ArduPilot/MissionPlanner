@@ -10,6 +10,7 @@ using System.IO;
 using log4net;
 using ZedGraph; // Graphs
 using System.Xml;
+using System.Collections;
 
 namespace ArdupilotMega.Log
 {
@@ -17,6 +18,7 @@ namespace ArdupilotMega.Log
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         int m_iColumnCount = 0;
+        int rowno = 1;
         DataTable m_dtCSV = new DataTable();
 
         PointPairList list1 = new PointPairList();
@@ -65,6 +67,8 @@ namespace ArdupilotMega.Log
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            rowno = 1;
+
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
             openFileDialog1.Filter = "Log Files|*.log;*.bin";
             openFileDialog1.FilterIndex = 2;
@@ -93,11 +97,15 @@ namespace ArdupilotMega.Log
                     } else {
                         stream = File.Open(openFileDialog1.FileName, FileMode.Open,FileAccess.Read,FileShare.Read);
                     }
+
+                    this.Text = "Log Browser - " + Path.GetFileName(openFileDialog1.FileName);
                     
                     PopulateDataTableFromUploadedFile(stream);
                     stream.Close();
 
                     dataGridView1.DataSource = m_dtCSV;
+
+                    dataGridView1.Columns[0].Visible = false;
 
                 }
                 catch (Exception ex) { CustomMessageBox.Show("Failed to read File: " + ex.ToString()); }
@@ -108,23 +116,10 @@ namespace ArdupilotMega.Log
                 }
 
                 CreateChart(zg1);
-
-                numberRowHeader();
             }
             else
             {
                 return;
-            }
-        }
-
-        void numberRowHeader()
-        {
-            int a = 1;
-            foreach (DataGridViewRow row in dataGridView1.Rows)
-            {
-                //Commands.Rows[a].HeaderCell.Value
-                row.HeaderCell.Value = a.ToString();
-                a++;
             }
         }
 
@@ -144,7 +139,6 @@ namespace ArdupilotMega.Log
                 if (0 == iLineCount++)
                 {
                     m_dtCSV = new DataTable("CSVTable");
-                    //m_dtCSV = this.CreateDataTableForCSVData(strLine);
                 }
                 this.AddDataRowToTable(strLine, m_dtCSV);
 
@@ -192,28 +186,18 @@ namespace ArdupilotMega.Log
             } while (true);
         }
 
-        private DataTable CreateDataTableForCSVData(String strLine)
-        {
-            DataTable dt = new DataTable("CSVTable");
-            String[] strVals = strLine.Split(new char[] { ',', ':' });
-            m_iColumnCount = strVals.Length;
-            int idx = 0;
-            foreach (String strVal in strVals)
-            {
-                String strColumnName = String.Format("col{0}", idx++);
-                dt.Columns.Add(strColumnName, Type.GetType("System.String"));
-            }
-            return dt;
-        }
-
         private DataRow AddDataRowToTable(String strCSVLine, DataTable dt)
         {
             String[] strVals = strCSVLine.Split(new char[] { ',', ':' });
-            Int32 iTotalNumberOfValues = strVals.Length;
+            Int32 iTotalNumberOfValues = strVals.Length + 1;
             // If number of values in this line are more than the columns
             // currently in table, then we need to add more columns to table.
             if (iTotalNumberOfValues > m_iColumnCount)
             {
+                if (!dt.Columns.Contains("rowno"))
+                    dt.Columns.Add("rowno", Type.GetType("System.String"));
+
+                // add only what doesnt exist already
                 Int32 iDiff = iTotalNumberOfValues - m_iColumnCount;
                 for (Int32 i = 0; i < iDiff; i++)
                 {
@@ -224,12 +208,14 @@ namespace ArdupilotMega.Log
             }
             int idx = 0;
             DataRow drow = dt.NewRow();
+            drow["rowno"] = rowno;
             foreach (String strVal in strVals)
             {
                 String strColumnName = String.Format("col{0}", idx++);
                 drow[strColumnName] = strVal.Trim();
             }
             dt.Rows.Add(drow);
+            rowno++;
             return drow;
         }
 
@@ -237,7 +223,8 @@ namespace ArdupilotMega.Log
         {
             try
             {
-                int a = 0;
+                // number the coloums
+                int a = -1;
                 foreach (DataGridViewColumn col in dataGridView1.Columns)
                 {
                         col.HeaderText = a.ToString();
@@ -247,12 +234,13 @@ namespace ArdupilotMega.Log
             catch { }
             try
             {
-                string option = dataGridView1[0, e.RowIndex].EditedFormattedValue.ToString();
+                // process the line type
+                string option = dataGridView1[1, e.RowIndex].EditedFormattedValue.ToString();
 
                 // new self describing log
                 if (logformat.ContainsKey(option))
                 {
-                    int a = 1;
+                    int a = 2;
                     foreach (string name in logformat[option].FieldNames)
                     {
                         dataGridView1.Columns[a].HeaderText = name;
@@ -286,13 +274,13 @@ namespace ArdupilotMega.Log
                     }
                     reader.ReadToFollowing(option);
 
-                    dataGridView1.Columns[0].HeaderText = "";
+                    dataGridView1.Columns[1].HeaderText = "";
 
                     XmlReader inner = reader.ReadSubtree();
 
                     inner.MoveToElement();
 
-                    int a = 1;
+                    int a = 2;
 
                     while (inner.Read())
                     {
@@ -381,7 +369,7 @@ namespace ArdupilotMega.Log
 
             int col = dataGridView1.CurrentCell.ColumnIndex;
             int row = dataGridView1.CurrentCell.RowIndex;
-            string type = dataGridView1[0, row].Value.ToString();
+            string type = dataGridView1[1, row].Value.ToString();
             double a = 0; // row counter
 
             if (col == 0)
@@ -394,7 +382,7 @@ namespace ArdupilotMega.Log
 
             foreach (DataGridViewRow datarow in dataGridView1.Rows)
             {
-                if (datarow.Cells[0].Value.ToString() == type)
+                if (datarow.Cells[1].Value.ToString() == type)
                 {
                     try
                     {
@@ -478,7 +466,7 @@ namespace ArdupilotMega.Log
 
             foreach (DataRow datarow in m_dtCSV.Rows)
             {
-                string celldata = datarow.ItemArray[0].ToString().Trim();
+                string celldata = datarow.ItemArray[1].ToString().Trim();
                 if (!options.Contains(celldata))
                 {
                     options.Add(celldata);
@@ -499,14 +487,10 @@ namespace ArdupilotMega.Log
             if (opt.SelectedItem != "")
             {
                 (dataGridView1.DataSource as DataTable).DefaultView.RowFilter = "col0 like '" + opt.SelectedItem + "'";
-
-                //numberRowHeader();
             }
             else
             {
                 (dataGridView1.DataSource as DataTable).DefaultView.RowFilter = "";
-                //dataGridView1.DataSource = m_dtCSV;
-                numberRowHeader();
             }
 
             /*
@@ -536,6 +520,23 @@ namespace ArdupilotMega.Log
             ArdupilotMega.Controls.MyButton  but = sender as ArdupilotMega.Controls.MyButton;
 
             
+        }
+
+        private void dataGridView1_RowPostPaint(object sender, DataGridViewRowPostPaintEventArgs e)
+        {
+            var grid = sender as DataGridView;
+            var rowIdx = grid.Rows[e.RowIndex].Cells[0].Value.ToString();
+
+            var centerFormat = new StringFormat()
+            {
+                // right alignment might actually make more sense for numbers
+                Alignment = StringAlignment.Center,
+                LineAlignment = StringAlignment.Center
+            };
+
+            var headerBounds = new Rectangle(e.RowBounds.Left, e.RowBounds.Top, grid.RowHeadersWidth, e.RowBounds.Height);
+            e.Graphics.DrawString(rowIdx, this.Font, new SolidBrush(this.ForeColor), headerBounds, centerFormat);
+
         }
     }
 }

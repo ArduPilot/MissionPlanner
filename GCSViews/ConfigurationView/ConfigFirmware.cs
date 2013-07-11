@@ -60,10 +60,10 @@ namespace ArdupilotMega.GCSViews
                 if (x == hash)
                 {
                     if (filename == "")
-                        return gholdurl.Replace("!Hash!", CMB_history.Text);
+                        return gholdurl.Replace("!Hash!", hash);
 
                     string fn = Path.GetFileName(filename);
-                    filename = gholdfirmwareurl.Replace("!Hash!", CMB_history.Text);
+                    filename = gholdfirmwareurl.Replace("!Hash!", hash);
                     filename = filename.Replace("!Firmware!", fn);
                     return filename;
                 }
@@ -74,10 +74,10 @@ namespace ArdupilotMega.GCSViews
                 if (x == hash)
                 {
                     if (filename == "")
-                        return gcoldurl.Replace("!Hash!", CMB_history.Text);
+                        return gcoldurl.Replace("!Hash!", hash);
 
                     string fn = Path.GetFileName(filename);
-                    filename = gcoldfirmwareurl.Replace("!Hash!", CMB_history.Text);
+                    filename = gcoldfirmwareurl.Replace("!Hash!", hash);
                     filename = filename.Replace("!Firmware!", fn);
                     return filename;
                 }
@@ -915,19 +915,8 @@ namespace ArdupilotMega.GCSViews
 
                 DateTime startwait = DateTime.Now;
 
-                //CustomMessageBox.Show("1. If you are updating your firmware from a previous version, please verify your parameters are appropriate for the new version.\n2. Please ensure your accelerometer is calibrated after installing or re-calibrated after updating the firmware.");
+                CustomMessageBox.Show("Please ensure you do a live compass calibration after installing arducopter V 3.x");
 
-                while ((DateTime.Now - startwait).TotalSeconds < 17)
-                {
-                    try
-                    {
-                        //  Console.Write(((SerialPort)port).ReadExisting().Replace("\0"," "));
-                    }
-                    catch { }
-                    System.Threading.Thread.Sleep(1000);
-                    progress.Value = (int)Math.Min(((DateTime.Now - startwait).TotalSeconds / 17 * 100), 100);
-                    Application.DoEvents();
-                }
                 try
                 {
                     ((SerialPort)port).Close();

@@ -52,7 +52,7 @@
     <NoStdLib>false</NoStdLib>
     <UseVSHostingProcess>true</UseVSHostingProcess>
     <FileAlignment>512</FileAlignment>
-    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
     <LangVersion>default</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
@@ -130,28 +130,9 @@
     </Reference>
     <Reference Include="AWSSDK, Version=1.5.18.0, Culture=neutral, PublicKeyToken=9f476d3089b52be3, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\Extensions\Amazon Web Services LLC\AWSToolkit.VS2010\AWSSDK.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>Lib\AWSSDK.dll</HintPath>
     </Reference>
     <Reference Include="DirectShowLib-2005">
-    </Reference>
-    <Reference Include="Eto">
-      <HintPath>..\..\..\..\..\Desktop\DIYDrones\Eto\BuildOutput\Debug\Eto.dll</HintPath>
-    </Reference>
-    <Reference Include="Eto.Json">
-      <HintPath>..\..\..\..\..\Desktop\DIYDrones\Eto\BuildOutput\Debug\Eto.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="Eto.Platform.Gtk">
-      <HintPath>..\..\..\..\..\Desktop\DIYDrones\Eto\BuildOutput\Debug\Eto.Platform.Gtk.dll</HintPath>
-    </Reference>
-    <Reference Include="Eto.Platform.Mac">
-      <HintPath>..\..\..\..\..\Desktop\DIYDrones\Eto\BuildOutput\Debug\Eto.Platform.Mac.dll</HintPath>
-    </Reference>
-    <Reference Include="Eto.Platform.Windows">
-      <HintPath>..\..\..\..\..\Desktop\DIYDrones\Eto\BuildOutput\Debug\Eto.Platform.Windows.dll</HintPath>
-    </Reference>
-    <Reference Include="Eto.Platform.XamMac">
-      <HintPath>..\..\..\..\..\Desktop\DIYDrones\Eto\BuildOutput\Debug\Eto.Platform.XamMac.dll</HintPath>
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
     </Reference>
@@ -194,9 +175,6 @@
     <Reference Include="netDxf, Version=0.1.2.0, Culture=neutral, PublicKeyToken=1c75adeaa4c98f42, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Lib\netDxf.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\..\..\..\Desktop\DIYDrones\Eto\BuildOutput\Debug\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="OpenTK, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -312,11 +290,20 @@
     <Compile Include="Controls\ConnectionStats.Designer.cs">
       <DependentUpon>ConnectionStats.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\RangeControlCopy.cs">
+    <Compile Include="Controls\GradientBG.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\RangeControlCopy.Designer.cs">
-      <DependentUpon>RangeControlCopy.cs</DependentUpon>
+    <Compile Include="Controls\GradientBG.Designer.cs">
+      <DependentUpon>GradientBG.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\PictureBoxMouseOver.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\RadialGradientBG.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\RadialGradientBG.Designer.cs">
+      <DependentUpon>RadialGradientBG.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\CustomMessageBox.cs" />
     <Compile Include="Controls\Firmware_Board.cs">
@@ -501,6 +488,44 @@
     </Compile>
     <Compile Include="Plugin\IPlugin.cs" />
     <Compile Include="Plugin\PluginLoader.cs" />
+    <Compile Include="Utilities\Firmware.cs" />
+    <Compile Include="Wizard\1Intro.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Wizard\1Intro.Designer.cs">
+      <DependentUpon>1Intro.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Wizard\2FrameFW.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Wizard\2FrameFW.Designer.cs">
+      <DependentUpon>2FrameFW.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Wizard\3ConnectAP.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Wizard\3ConnectAP.Designer.cs">
+      <DependentUpon>3ConnectAP.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Wizard\4FrameType.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Wizard\4FrameType.Designer.cs">
+      <DependentUpon>4FrameType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Wizard\5AccelCalib.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Wizard\5AccelCalib.Designer.cs">
+      <DependentUpon>5AccelCalib.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Wizard\6CompassCalib.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Wizard\6CompassCalib.Designer.cs">
+      <DependentUpon>6CompassCalib.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Wizard\IWizard.cs" />
     <Compile Include="Wizard\Wizard.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -522,6 +547,7 @@
     </Compile>
     <Compile Include="Utilities\httpserver.cs" />
     <Compile Include="Utilities\S3Uploader.cs" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="Driver\amd64\ftd2xx.lib">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -546,11 +572,32 @@
     <None Include="Driver\i386\ftser2k.sys">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <EmbeddedResource Include="Controls\RangeControlCopy.resx">
-      <DependentUpon>RangeControlCopy.cs</DependentUpon>
+    <EmbeddedResource Include="Antenna\Tracker.it-IT.resx">
+      <DependentUpon>Tracker.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\GradientBG.resx">
+      <DependentUpon>GradientBG.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\RadialGradientBG.resx">
+      <DependentUpon>RadialGradientBG.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ProgressStep.resx">
       <DependentUpon>ProgressStep.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAP_Limits.it-IT.resx">
+      <DependentUpon>ConfigAP_Limits.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigArducopter.it-IT.resx">
+      <DependentUpon>ConfigArducopter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigArduplane.it-IT.resx">
+      <DependentUpon>ConfigArduplane.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigArdurover.it-IT.resx">
+      <DependentUpon>ConfigArdurover.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAteryx.it-IT.resx">
+      <DependentUpon>ConfigAteryx.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFrameType.de-DE.resx">
       <DependentUpon>ConfigFrameType.cs</DependentUpon>
@@ -579,8 +626,20 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigMandatory.resx">
       <DependentUpon>ConfigMandatory.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigMount.de-DE.resx">
+      <DependentUpon>ConfigMount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigMount.it-IT.resx">
+      <DependentUpon>ConfigMount.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigOptional.resx">
       <DependentUpon>ConfigOptional.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigPlanner.it-IT.resx">
+      <DependentUpon>ConfigPlanner.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigRawParams.it-IT.resx">
+      <DependentUpon>ConfigRawParams.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigSimplePids.resx">
       <DependentUpon>ConfigSimplePids.cs</DependentUpon>
@@ -686,6 +745,24 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\SoftwareConfig.resx">
       <DependentUpon>SoftwareConfig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\1Intro.resx">
+      <DependentUpon>1Intro.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\2FrameFW.resx">
+      <DependentUpon>2FrameFW.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\3ConnectAP.resx">
+      <DependentUpon>3ConnectAP.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\4FrameType.resx">
+      <DependentUpon>4FrameType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\5AccelCalib.resx">
+      <DependentUpon>5AccelCalib.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\6CompassCalib.resx">
+      <DependentUpon>6CompassCalib.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\Wizard.resx">
       <DependentUpon>Wizard.cs</DependentUpon>
@@ -1933,6 +2010,75 @@
     <None Include="Resources\hardwareconfig02.png" />
     <None Include="Resources\bgdark.jpg" />
     <None Include="Resources\splashdark.jpg" />
+    <None Include="Resources\missionplannerlogo.png" />
+    <None Include="Resources\FW icons 2013+logos-01.png" />
+    <None Include="Resources\FW icons 2013+logos-02.png" />
+    <None Include="Resources\FW icons 2013+logos-03.png" />
+    <None Include="Resources\FW icons 2013+logos-04.png" />
+    <None Include="Resources\FW icons 2013+logos-05.png" />
+    <None Include="Resources\FW icons 2013+logos-06.png" />
+    <None Include="Resources\FW icons 2013+logos-07.png" />
+    <None Include="Resources\FW icons 2013+logos-08.png" />
+    <None Include="Resources\FW icons 2013+logos-09.png" />
+    <None Include="Resources\FW icons 2013+logos-10.png" />
+    <None Include="Resources\FW icons 2013+logos-11.png" />
+    <None Include="Resources\FW icons 2013+logos-12.png" />
+    <None Include="Resources\FW icons 2013+logos-13.png" />
+    <None Include="Resources\FW icons 2013+logos-14.png" />
+    <None Include="Resources\FW icons 2013+logos-15.png" />
+    <None Include="Resources\FW icons 2013+logos-16.png" />
+    <None Include="Resources\01_01.png" />
+    <None Include="Resources\01_03.png" />
+    <None Include="Resources\01_05.png" />
+    <None Include="Resources\01_06.png" />
+    <None Include="Resources\light_01.png" />
+    <None Include="Resources\light_03.png" />
+    <None Include="Resources\light_05.png" />
+    <None Include="Resources\light_06.png" />
+    <None Include="Resources\missionplannerlogodark.png" />
+    <None Include="Resources\selectvehicle.png" />
+    <None Include="Resources\wizardicon.png" />
+    <None Include="Resources\wizardicon1.png" />
+    <None Include="Resources\quadframes_01.jpg" />
+    <None Include="Resources\quadframes_03.jpg" />
+    <None Include="Resources\quadframes_05.jpg" />
+    <None Include="Resources\quadframes_07.jpg" />
+    <None Include="Resources\quadframes_13.jpg" />
+    <None Include="Resources\quadframes_15.jpg" />
+    <None Include="Resources\quadframes_16.png" />
+    <None Include="Resources\quadframeslight_01.jpg" />
+    <None Include="Resources\quadframeslight_03.jpg" />
+    <None Include="Resources\quadframeslight_05.jpg" />
+    <None Include="Resources\quadframeslight_07.jpg" />
+    <None Include="Resources\quadframeslight_13.jpg" />
+    <None Include="Resources\quadframeslight_15.jpg" />
+    <None Include="Resources\quadframeslight_16.png" />
+    <None Include="Resources\apm3.jpg" />
+    <None Include="Resources\apm4.jpg" />
+    <None Include="Resources\apm5.jpg" />
+    <None Include="Resources\apm6.jpg" />
+    <None Include="Resources\apmp1.jpg" />
+    <None Include="Resources\apmp2.jpg" />
+    <None Include="Resources\apmp3.jpg" />
+    <None Include="Resources\apmp4.jpg" />
+    <None Include="Resources\apmp5.jpg" />
+    <None Include="Resources\apmp6.jpg" />
+    <None Include="Resources\planebackground.png" />
+    <None Include="Resources\quadframesnormal_01.png" />
+    <None Include="Resources\quadframesnormal_03.png" />
+    <None Include="Resources\quadframesnormal_05.png" />
+    <None Include="Resources\quadframesnormal_06.png" />
+    <None Include="Resources\quadframesnormal_11.png" />
+    <None Include="Resources\quadframesnormal_12.png" />
+    <None Include="Resources\quadframesnormal_14.png" />
+    <None Include="Resources\quadhover_01.png" />
+    <None Include="Resources\quadhover_03.png" />
+    <None Include="Resources\quadhover_05.png" />
+    <None Include="Resources\quadhover_06.png" />
+    <None Include="Resources\quadhover_11.png" />
+    <None Include="Resources\quadhover_12.png" />
+    <None Include="Resources\quadhover_14.png" />
+    <None Include="Resources\maggps.png" />
     <Content Include="version.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
