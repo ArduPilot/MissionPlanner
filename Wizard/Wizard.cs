@@ -29,14 +29,7 @@ namespace ArdupilotMega.Wizard
 
             wiz_main = new MainSwitcher(this.panel1);
 
-            wiz_main.AddScreen(new MainSwitcher.Screen("Intro", new _1Intro(), true));
-            wiz_main.AddScreen(new MainSwitcher.Screen("FrameFW", new _2FrameFW(), true));
-            wiz_main.AddScreen(new MainSwitcher.Screen("Connect", new _3ConnectAP(), true));
-            wiz_main.AddScreen(new MainSwitcher.Screen("FrameType", new _4FrameType(), true));
-            wiz_main.AddScreen(new MainSwitcher.Screen("AccelCalib", new _5AccelCalib(), true));
-            wiz_main.AddScreen(new MainSwitcher.Screen("CompassCalib", new _6CompassCalib(), true));
-
-            wiz_main.ShowScreen("Intro");
+    
 
             history.Add(wiz_main.current.Name);
 

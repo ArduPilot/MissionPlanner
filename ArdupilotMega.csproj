@@ -489,42 +489,6 @@
     <Compile Include="Plugin\IPlugin.cs" />
     <Compile Include="Plugin\PluginLoader.cs" />
     <Compile Include="Utilities\Firmware.cs" />
-    <Compile Include="Wizard\1Intro.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Wizard\1Intro.Designer.cs">
-      <DependentUpon>1Intro.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Wizard\2FrameFW.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Wizard\2FrameFW.Designer.cs">
-      <DependentUpon>2FrameFW.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Wizard\3ConnectAP.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Wizard\3ConnectAP.Designer.cs">
-      <DependentUpon>3ConnectAP.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Wizard\4FrameType.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Wizard\4FrameType.Designer.cs">
-      <DependentUpon>4FrameType.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Wizard\5AccelCalib.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Wizard\5AccelCalib.Designer.cs">
-      <DependentUpon>5AccelCalib.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Wizard\6CompassCalib.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Wizard\6CompassCalib.Designer.cs">
-      <DependentUpon>6CompassCalib.cs</DependentUpon>
-    </Compile>
     <Compile Include="Wizard\IWizard.cs" />
     <Compile Include="Wizard\Wizard.cs">
       <SubType>Form</SubType>
@@ -745,24 +709,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\SoftwareConfig.resx">
       <DependentUpon>SoftwareConfig.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\1Intro.resx">
-      <DependentUpon>1Intro.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\2FrameFW.resx">
-      <DependentUpon>2FrameFW.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\3ConnectAP.resx">
-      <DependentUpon>3ConnectAP.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\4FrameType.resx">
-      <DependentUpon>4FrameType.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\5AccelCalib.resx">
-      <DependentUpon>5AccelCalib.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wizard\6CompassCalib.resx">
-      <DependentUpon>6CompassCalib.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\Wizard.resx">
       <DependentUpon>Wizard.cs</DependentUpon>
