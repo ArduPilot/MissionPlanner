@@ -488,7 +488,14 @@
     </Compile>
     <Compile Include="Plugin\IPlugin.cs" />
     <Compile Include="Plugin\PluginLoader.cs" />
+    <Compile Include="ScriptConsole.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ScriptConsole.Designer.cs">
+      <DependentUpon>ScriptConsole.cs</DependentUpon>
+    </Compile>
     <Compile Include="Utilities\Firmware.cs" />
+    <Compile Include="Utilities\StringRedirectWriter.cs" />
     <Compile Include="Wizard\IWizard.cs" />
     <Compile Include="Wizard\Wizard.cs">
       <SubType>Form</SubType>
@@ -709,6 +716,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\SoftwareConfig.resx">
       <DependentUpon>SoftwareConfig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ScriptConsole.resx">
+      <DependentUpon>ScriptConsole.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\Wizard.resx">
       <DependentUpon>Wizard.cs</DependentUpon>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using IronPython.Hosting;
+using System.IO;
 
 namespace ArdupilotMega
 {
@@ -16,7 +17,9 @@ namespace ArdupilotMega
         // keeps history
         MAVLink.mavlink_rc_channels_override_t rc = new MAVLink.mavlink_rc_channels_override_t();
 
-        public Script()
+        internal Utilities.StringRedirectWriter OutputWriter { get; private set; }
+
+        public Script(bool redirectOutput = false)
         {
             Dictionary<string, object> options = new Dictionary<string, object>();
             options["Debug"] = true;
@@ -36,6 +39,17 @@ namespace ArdupilotMega
 
             engine.CreateScriptSourceFromString("print 'hello world from python'").Execute(scope);
             engine.CreateScriptSourceFromString("print cs.roll").Execute(scope);
+
+            if (redirectOutput)
+            {
+                //Redirect output through this writer
+                //this writer will not actually write to the memorystreams
+                OutputWriter = new Utilities.StringRedirectWriter();
+                engine.Runtime.IO.SetErrorOutput(new MemoryStream(), OutputWriter);
+                engine.Runtime.IO.SetOutput(new MemoryStream(), OutputWriter);
+            }
+            else
+                OutputWriter = null;
 
 
             object thisBoxed = MainV2.comPort.MAV.cs;

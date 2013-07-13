@@ -10,6 +10,7 @@ using System.Text.RegularExpressions; // regex
 using System.Xml; // GE xml alt reader
 using System.Net; // dns, ip address
 using System.Net.Sockets; // tcplistner
+using System.Threading;
 using GMap.NET;
 using GMap.NET.WindowsForms;
 using System.Globalization; // language
@@ -94,6 +95,19 @@ namespace ArdupilotMega.GCSViews
         public SplitContainer MainHcopy = null;
 
         public static FlightData instance;
+
+        //The file path of the selected script
+        string selectedscript = "";
+        //the text of the file loaded from the path
+        string scripttext = "";
+        //the thread the script is running on
+        Thread scriptthread = null;
+        //whether or not a script is running
+        bool scriptrunning = false;
+        Script script;
+        //whether or not the output console has already started
+        bool outputwindowstarted = false;
+
 
         protected override void Dispose(bool disposing)
         {
@@ -225,7 +239,7 @@ namespace ArdupilotMega.GCSViews
 
             MainV2.comPort.ParamListChanged += FlightData_ParentChanged;
         }
-   
+
         void tabStatus_Resize(object sender, EventArgs e)
         {
             // localise it
@@ -362,7 +376,7 @@ namespace ArdupilotMega.GCSViews
                         QV.DataBindings.Clear();
                         try
                         {
-                            QV.DataBindings.Add(new System.Windows.Forms.Binding("number", this.bindingSource1, MainV2.config["quickView" + f].ToString(),false));
+                            QV.DataBindings.Add(new System.Windows.Forms.Binding("number", this.bindingSource1, MainV2.config["quickView" + f].ToString(), false));
                         }
                         catch (Exception ex) { log.Debug(ex); }
                     }
@@ -372,11 +386,11 @@ namespace ArdupilotMega.GCSViews
                     // if no config, update description on predefined
                     try
                     {
-                          Control[] ctls = this.Controls.Find("quickView" + f, true);
-                          if (ctls.Length > 0)
-                          {
-                              ((QuickView)ctls[0]).desc = MainV2.comPort.MAV.cs.GetNameandUnit(((QuickView)ctls[0]).desc);
-                          }
+                        Control[] ctls = this.Controls.Find("quickView" + f, true);
+                        if (ctls.Length > 0)
+                        {
+                            ((QuickView)ctls[0]).desc = MainV2.comPort.MAV.cs.GetNameandUnit(((QuickView)ctls[0]).desc);
+                        }
                     }
                     catch (Exception ex) { log.Debug(ex); }
                 }
@@ -670,7 +684,7 @@ namespace ArdupilotMega.GCSViews
 
                 try
                 {
-                     //Console.WriteLine(DateTime.Now.Millisecond);
+                    //Console.WriteLine(DateTime.Now.Millisecond);
                     //int fixme;
                     updateBindingSource();
                     // Console.WriteLine(DateTime.Now.Millisecond + " done ");
@@ -693,7 +707,7 @@ namespace ArdupilotMega.GCSViews
                     {
                         hud1.lowvoltagealert = false;
                     }
-                    
+
                     // update opengltest
                     if (ArdupilotMega.Controls.OpenGLtest.instance != null)
                     {
@@ -859,12 +873,12 @@ namespace ArdupilotMega.GCSViews
 
                                     PointLatLng portlocation = new PointLatLng(port.MAV.cs.lat, port.MAV.cs.lng);
 
-                                    while (routes.Markers.Count < (a+1))
+                                    while (routes.Markers.Count < (a + 1))
                                         routes.Markers.Add(new GMapMarkerCross(portlocation));
 
                                     if (port.MAV.cs.firmware == MainV2.Firmwares.ArduPlane || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.Ateryx)
                                     {
-                                        routes.Markers[a] = (new GMapMarkerPlane(portlocation, port.MAV.cs.yaw, port.MAV.cs.groundcourse, port.MAV.cs.nav_bearing, port.MAV.cs.target_bearing, gMapControl1) { ToolTipText = "MAV: " + a + " " +port.MAV.cs.alt.ToString("0"), ToolTipMode = MarkerTooltipMode.Always });
+                                        routes.Markers[a] = (new GMapMarkerPlane(portlocation, port.MAV.cs.yaw, port.MAV.cs.groundcourse, port.MAV.cs.nav_bearing, port.MAV.cs.target_bearing, gMapControl1) { ToolTipText = "MAV: " + a + " " + port.MAV.cs.alt.ToString("0"), ToolTipMode = MarkerTooltipMode.Always });
                                     }
                                     else if (port.MAV.cs.firmware == MainV2.Firmwares.ArduRover)
                                     {
@@ -972,7 +986,7 @@ namespace ArdupilotMega.GCSViews
 
         private void updateBindingSource()
         {
-                                //  run at 52 hz.
+            //  run at 52 hz.
             if (lastscreenupdate.AddMilliseconds(19) < DateTime.Now)
             {
                 // async
@@ -1785,12 +1799,12 @@ namespace ArdupilotMega.GCSViews
             }
             else
             {
-               // foreach (Control temp in tabStatus.Controls)
-               // {
-                    //   temp.DataBindings.Clear();
-                    //  temp.Dispose();
-                    //  tabStatus.Controls.Remove(temp);
-               // }
+                // foreach (Control temp in tabStatus.Controls)
+                // {
+                //   temp.DataBindings.Clear();
+                //  temp.Dispose();
+                //  tabStatus.Controls.Remove(temp);
+                // }
 
                 if (tabControl1.SelectedTab == tabQuick)
                 {
@@ -1886,10 +1900,10 @@ namespace ArdupilotMega.GCSViews
                 try
                 {
                     fieldValue = field.GetValue(thisBoxed, null); // Get value
-        
 
-                // Get the TypeCode enumeration. Multiple types get mapped to a common typecode.
-                typeCode = Type.GetTypeCode(fieldValue.GetType());
+
+                    // Get the TypeCode enumeration. Multiple types get mapped to a common typecode.
+                    typeCode = Type.GetTypeCode(fieldValue.GetType());
 
                 }
                 catch { continue; }
@@ -1970,10 +1984,10 @@ namespace ArdupilotMega.GCSViews
                 try
                 {
                     fieldValue = field.GetValue(thisBoxed, null); // Get value
-            
 
-                // Get the TypeCode enumeration. Multiple types get mapped to a common typecode.
-                typeCode = Type.GetTypeCode(fieldValue.GetType());
+
+                    // Get the TypeCode enumeration. Multiple types get mapped to a common typecode.
+                    typeCode = Type.GetTypeCode(fieldValue.GetType());
 
                 }
                 catch { continue; }
@@ -2715,7 +2729,7 @@ print 'Roll complete'
         private void BUT_speed1_Click(object sender, EventArgs e)
         {
             LogPlayBackSpeed = double.Parse(((MyButton)sender).Tag.ToString());
-            lbl_playbackspeed.Text = "x " + LogPlayBackSpeed;            
+            lbl_playbackspeed.Text = "x " + LogPlayBackSpeed;
         }
 
         private void BUT_logbrowse_Click(object sender, EventArgs e)
@@ -2724,5 +2738,97 @@ print 'Roll complete'
             ThemeManager.ApplyThemeTo(logbrowse);
             logbrowse.Show();
         }
+
+        private void BUT_select_script_Click(object sender, EventArgs e)
+        {
+            if (openScriptDialog.ShowDialog() == DialogResult.OK)
+            {
+                selectedscript = openScriptDialog.FileName;
+                BUT_run_script.Visible = BUT_edit_selected.Visible = true;
+                labelSelectedScript.Text = "Selected Script: " + selectedscript;
+            }
+        }
+
+        private void BUT_run_script_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                scripttext = File.ReadAllText(selectedscript);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Failed to open script file due to exception: " + ex.Message);
+                return;
+            }
+
+            scriptthread = new System.Threading.Thread(new System.Threading.ThreadStart(run_selected_script))
+            {
+                IsBackground = true,
+                Name = "Script Thread (new)"
+            };
+            labelScriptStatus.Text = "Script Status: Running";
+
+            script = null;
+            outputwindowstarted = false;
+
+            scriptthread.Start();
+            scriptrunning = true;
+            BUT_run_script.Enabled = false;
+            BUT_select_script.Enabled = false;
+            BUT_abort_script.Visible = true;
+            BUT_edit_selected.Enabled = false;
+            scriptChecker.Enabled = true;
+            checkBoxRedirectOutput.Enabled = false;
+        }
+
+        void run_selected_script()
+        {
+            script = new Script(checkBoxRedirectOutput.Checked);
+            script.runScript(scripttext);
+            scriptrunning = false;
+        }
+
+        private void scriptChecker_Tick(object sender, EventArgs e)
+        {
+            if (!scriptrunning)
+            {
+                labelScriptStatus.Text = "Script Status: Finished (or aborted)";
+                scriptChecker.Enabled = false;
+                BUT_select_script.Enabled = true;
+                BUT_run_script.Enabled = true;
+                BUT_abort_script.Visible = false;
+                BUT_edit_selected.Enabled = true;
+                checkBoxRedirectOutput.Enabled = true;
+            }
+            else if ((script != null) && (checkBoxRedirectOutput.Checked) && (!outputwindowstarted))
+            {
+                outputwindowstarted = true;
+
+                ScriptConsole console = new ScriptConsole();
+                console.SetScript(script);
+                ThemeManager.ApplyThemeTo((Form)console);
+                console.Show();
+                console.BringToFront();
+            }
+        }
+
+        private void BUT_abort_script_Click(object sender, EventArgs e)
+        {
+            scriptthread.Abort();
+            scriptrunning = false;
+            BUT_abort_script.Visible = false;
+        }
+
+        private void BUT_edit_selected_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                System.Diagnostics.ProcessStartInfo psi = new System.Diagnostics.ProcessStartInfo(selectedscript);
+                psi.UseShellExecute = true;
+                System.Diagnostics.Process.Start(psi);
+            }
+            catch { }
+        }
+
     }
 }
