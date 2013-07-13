@@ -10,6 +10,7 @@ using System.Text.RegularExpressions; // regex
 using System.Xml; // GE xml alt reader
 using System.Net; // dns, ip address
 using System.Net.Sockets; // tcplistner
+using System.Threading;
 using GMap.NET;
 using GMap.NET.WindowsForms;
 using System.Globalization; // language
@@ -94,6 +95,12 @@ namespace ArdupilotMega.GCSViews
         public SplitContainer MainHcopy = null;
 
         public static FlightData instance;
+
+        string selectedscript = "";
+        string scripttext = "";
+        Thread scriptthread = null;
+        bool scriptrunning = false;
+
 
         protected override void Dispose(bool disposing)
         {
@@ -2723,6 +2730,82 @@ print 'Roll complete'
             Form logbrowse = new Log.LogBrowse();
             ThemeManager.ApplyThemeTo(logbrowse);
             logbrowse.Show();
+        }
+
+        private void BUT_select_script_Click(object sender, EventArgs e)
+        {
+            if (openScriptDialog.ShowDialog() == DialogResult.OK)
+            {
+                selectedscript = openScriptDialog.FileName;
+                BUT_run_script.Visible = BUT_edit_selected.Visible = true;
+                labelSelectedScript.Text = "Selected Script: " + selectedscript;
+            }
+        }
+
+        private void BUT_run_script_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                scripttext = File.ReadAllText(selectedscript);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Failed to open script file due to exception: " + ex.Message);
+                return;
+            }
+
+            scriptthread = new System.Threading.Thread(new System.Threading.ThreadStart(run_selected_script))
+            {
+                IsBackground = true,
+                Name = "Script Thread (new)"
+            };
+            labelScriptStatus.Text = "Script Status: Running";
+            scriptthread.Start();
+            scriptrunning = true;
+            BUT_run_script.Enabled = false;
+            BUT_select_script.Enabled = false;
+            BUT_abort_script.Visible = true;
+            BUT_edit_selected.Enabled = false;
+            scriptChecker.Enabled = true;
+        }
+
+        void run_selected_script()
+        {
+            Script scr = new Script();
+
+            scr.runScript(scripttext);
+            scriptrunning = false;
+        }
+
+        private void scriptChecker_Tick(object sender, EventArgs e)
+        {
+            if (!scriptrunning)
+            {
+                labelScriptStatus.Text = "Script Status: Finished (or aborted)";
+                scriptChecker.Enabled = false;
+                BUT_select_script.Enabled = true;
+                BUT_run_script.Enabled = true;
+                BUT_abort_script.Visible = false;
+                BUT_edit_selected.Enabled = true;
+            }
+        }
+
+        private void BUT_abort_script_Click(object sender, EventArgs e)
+        {
+            scriptthread.Abort();
+            scriptrunning = false;
+            BUT_abort_script.Visible = false;
+        }
+
+        private void BUT_edit_selected_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                System.Diagnostics.ProcessStartInfo psi = new System.Diagnostics.ProcessStartInfo(selectedscript);
+                psi.UseShellExecute = true;
+                System.Diagnostics.Process.Start(psi);
+            }
+            catch { }
         }
     }
 }
