@@ -14,187 +14,214 @@ namespace ArdupilotMega.Utilities
     /// with the written string as an argument. The string is then
     /// discarded.
     /// </summary>
-    class StringRedirectWriter : StreamWriter
+    class StringRedirectWriter : TextWriter
     {
-        public event StringWrittenEvent StringWritten;
+
+        public override Encoding Encoding
+        {
+            get
+            {
+                return UTF8Encoding.UTF8;
+            }
+        }
+
+        private StringBuilder internalString = new StringBuilder();
+        private void writeString(string s)
+        {
+            lock (internalString)
+                internalString.Append(s);
+        }
+
+        public string RetrieveWrittenString()
+        {
+            lock (internalString)
+            {
+                string retrieved = internalString.ToString();
+                internalString.Length = 0;
+                return retrieved;
+            }
+        }
 
         public override void Write(bool value)
         {
-            if (StringWritten != null)
-                StringWritten(this, value.ToString());
+
+            writeString(value.ToString());
         }
         public override void Write(char[] buffer)
         {
-            if (StringWritten != null)
-                StringWritten(this, new string(buffer));
+
+            writeString(new string(buffer));
         }
 
         public override void Write(char value)
         {
-            if (StringWritten != null)
-                StringWritten(this, value.ToString());
+
+            writeString(value.ToString());
         }
         public override void Write(char[] buffer, int index, int count)
         {
-            if (StringWritten != null)
-                StringWritten(this, (new string(buffer)).Substring(index,count));
+
+            writeString((new string(buffer)).Substring(index, count));
         }
 
         public override void Write(decimal value)
         {
-            if (StringWritten != null)
-                StringWritten(this, value.ToString());
+
+            writeString(value.ToString());
         }
         public override void Write(double value)
         {
-            if (StringWritten != null)
-                StringWritten(this, value.ToString());
+
+            writeString(value.ToString());
         }
         public override void Write(float value)
         {
-            if (StringWritten != null)
-                StringWritten(this, value.ToString());
+
+            writeString(value.ToString());
         }
         public override void Write(int value)
         {
-            if (StringWritten != null)
-                StringWritten(this, value.ToString());
+
+            writeString(value.ToString());
         }
         public override void Write(long value)
         {
-            if (StringWritten != null)
-                StringWritten(this, value.ToString());
+
+            writeString(value.ToString());
         }
         public override void Write(object value)
         {
-            if (StringWritten != null)
-                StringWritten(this, value.ToString());
+
+            writeString(value.ToString());
         }
         public override void Write(string format, object arg0)
         {
-            if (StringWritten != null)
-                StringWritten(this, String.Format(format, arg0));
+
+            writeString(String.Format(format, arg0));
         }
         public override void Write(string format, object arg0, object arg1)
         {
-            if (StringWritten != null)
-                StringWritten(this, String.Format(format, arg0, arg1));
+
+            writeString(String.Format(format, arg0, arg1));
         }
         public override void Write(string format, object arg0, object arg1, object arg2)
         {
-            if (StringWritten != null)
-                StringWritten(this, String.Format(format, arg0, arg1, arg2));
+
+            writeString(String.Format(format, arg0, arg1, arg2));
         }
         public override void Write(string format, params object[] arg)
         {
-            if (StringWritten != null)
-                StringWritten(this, String.Format(format, arg));
+
+            writeString(String.Format(format, arg));
         }
         public override void Write(string value)
         {
-            if (StringWritten != null)
-                StringWritten(this, value.ToString());
+
+            writeString(value.ToString());
         }
         public override void Write(uint value)
         {
-            if (StringWritten != null)
-                StringWritten(this, value.ToString());
+
+            writeString(value.ToString());
         }
         public override void Write(ulong value)
         {
-            if (StringWritten != null)
-                StringWritten(this, value.ToString());
+
+            writeString(value.ToString());
         }
 
 
         public override void WriteLine(bool value)
         {
-            if (StringWritten != null)
-                StringWritten(this, value.ToString() + "\r\n");
+
+            writeString(value.ToString() + "\r\n");
         }
         public override void WriteLine(char[] buffer)
         {
-            if (StringWritten != null)
-                StringWritten(this, new string(buffer) + "\r\n");
+
+            writeString(new string(buffer) + "\r\n");
         }
 
         public override void WriteLine(char value)
         {
-            if (StringWritten != null)
-                StringWritten(this, value.ToString() + "\r\n");
+
+            writeString(value.ToString() + "\r\n");
         }
         public override void WriteLine(char[] buffer, int index, int count)
         {
-            if (StringWritten != null)
-                StringWritten(this, (new string(buffer)).Substring(index, count) + "\r\n");
+
+            writeString((new string(buffer)).Substring(index, count) + "\r\n");
         }
 
         public override void WriteLine(decimal value)
         {
-            if (StringWritten != null)
-                StringWritten(this, value.ToString() + "\r\n");
+
+            writeString(value.ToString() + "\r\n");
         }
         public override void WriteLine(double value)
         {
-            if (StringWritten != null)
-                StringWritten(this, value.ToString() + "\r\n");
+
+            writeString(value.ToString() + "\r\n");
         }
         public override void WriteLine(float value)
         {
-            if (StringWritten != null)
-                StringWritten(this, value.ToString() + "\r\n");
+
+            writeString(value.ToString() + "\r\n");
         }
         public override void WriteLine(int value)
         {
-            if (StringWritten != null)
-                StringWritten(this, value.ToString() + "\r\n");
+
+            writeString(value.ToString() + "\r\n");
         }
         public override void WriteLine(long value)
         {
-            if (StringWritten != null)
-                StringWritten(this, value.ToString() + "\r\n");
+
+            writeString(value.ToString() + "\r\n");
         }
         public override void WriteLine(object value)
         {
-            if (StringWritten != null)
-                StringWritten(this, value.ToString() + "\r\n");
+
+            writeString(value.ToString() + "\r\n");
         }
         public override void WriteLine(string format, object arg0)
         {
-            if (StringWritten != null)
-                StringWritten(this, String.Format(format, arg0) + "\r\n");
+
+            writeString(String.Format(format, arg0) + "\r\n");
         }
         public override void WriteLine(string format, object arg0, object arg1)
         {
-            if (StringWritten != null)
-                StringWritten(this, String.Format(format, arg0, arg1) + "\r\n");
+
+            writeString(String.Format(format, arg0, arg1) + "\r\n");
         }
         public override void WriteLine(string format, object arg0, object arg1, object arg2)
         {
-            if (StringWritten != null)
-                StringWritten(this, String.Format(format, arg0, arg1, arg2) + "\r\n");
+
+            writeString(String.Format(format, arg0, arg1, arg2) + "\r\n");
         }
         public override void WriteLine(string format, params object[] arg)
         {
-            if (StringWritten != null)
-                StringWritten(this, String.Format(format, arg) + "\r\n");
+
+            writeString(String.Format(format, arg) + "\r\n");
         }
         public override void WriteLine(string value)
         {
-            if (StringWritten != null)
-                StringWritten(this, value.ToString() + "\r\n");
+
+            writeString(value.ToString() + "\r\n");
         }
         public override void WriteLine(uint value)
         {
-            if (StringWritten != null)
-                StringWritten(this, value.ToString() + "\r\n");
+
+            writeString(value.ToString() + "\r\n");
         }
         public override void WriteLine(ulong value)
         {
-            if (StringWritten != null)
-                StringWritten(this, value.ToString() + "\r\n");
+
+            writeString(value.ToString() + "\r\n");
         }
-        
-        
+        public override void WriteLine()
+        {
+            writeString("\r\n");
+        }
+
     }
 }

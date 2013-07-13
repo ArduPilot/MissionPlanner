@@ -19,7 +19,7 @@ namespace ArdupilotMega
 
         internal Utilities.StringRedirectWriter OutputWriter { get; private set; }
 
-        public Script()
+        public Script(bool redirectOutput = false)
         {
             Dictionary<string, object> options = new Dictionary<string, object>();
             options["Debug"] = true;
@@ -40,11 +40,17 @@ namespace ArdupilotMega
             engine.CreateScriptSourceFromString("print 'hello world from python'").Execute(scope);
             engine.CreateScriptSourceFromString("print cs.roll").Execute(scope);
 
-            //Redirect output through this writer
-            //this writer will not actually write to the memorystreams
-            OutputWriter = new Utilities.StringRedirectWriter();
-            engine.Runtime.IO.SetErrorOutput(new MemoryStream(), OutputWriter);
-            engine.Runtime.IO.SetOutput(new MemoryStream(), OutputWriter);
+            if (redirectOutput)
+            {
+                //Redirect output through this writer
+                //this writer will not actually write to the memorystreams
+                OutputWriter = new Utilities.StringRedirectWriter();
+                engine.Runtime.IO.SetErrorOutput(new MemoryStream(), OutputWriter);
+                engine.Runtime.IO.SetOutput(new MemoryStream(), OutputWriter);
+            }
+            else
+                OutputWriter = null;
+
 
             object thisBoxed = MainV2.comPort.MAV.cs;
             Type test = thisBoxed.GetType();
