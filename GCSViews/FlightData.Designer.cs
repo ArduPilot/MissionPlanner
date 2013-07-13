@@ -91,6 +91,7 @@
             this.tablogbrowse = new System.Windows.Forms.TabPage();
             this.BUT_logbrowse = new ArdupilotMega.Controls.MyButton();
             this.tabScripts = new System.Windows.Forms.TabPage();
+            this.checkBoxRedirectOutput = new System.Windows.Forms.CheckBox();
             this.BUT_edit_selected = new ArdupilotMega.Controls.MyButton();
             this.labelSelectedScript = new System.Windows.Forms.Label();
             this.BUT_run_script = new ArdupilotMega.Controls.MyButton();
@@ -1389,6 +1390,7 @@
             // 
             // tabScripts
             // 
+            this.tabScripts.Controls.Add(this.checkBoxRedirectOutput);
             this.tabScripts.Controls.Add(this.BUT_edit_selected);
             this.tabScripts.Controls.Add(this.labelSelectedScript);
             this.tabScripts.Controls.Add(this.BUT_run_script);
@@ -1398,6 +1400,14 @@
             resources.ApplyResources(this.tabScripts, "tabScripts");
             this.tabScripts.Name = "tabScripts";
             this.tabScripts.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxRedirectOutput
+            // 
+            resources.ApplyResources(this.checkBoxRedirectOutput, "checkBoxRedirectOutput");
+            this.checkBoxRedirectOutput.Checked = true;
+            this.checkBoxRedirectOutput.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxRedirectOutput.Name = "checkBoxRedirectOutput";
+            this.checkBoxRedirectOutput.UseVisualStyleBackColor = true;
             // 
             // BUT_edit_selected
             // 
@@ -1844,6 +1854,7 @@
         private Controls.MyButton BUT_select_script;
         private System.Windows.Forms.OpenFileDialog openScriptDialog;
         private System.Windows.Forms.Timer scriptChecker;
+        private System.Windows.Forms.CheckBox checkBoxRedirectOutput;
 
     }
 }
