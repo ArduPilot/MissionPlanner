@@ -13,6 +13,7 @@ namespace ArdupilotMega
     {
         private static int consoleNumber = 0;
         private Script readingScript;
+        Utilities.StringRedirectWriter writer;
 
         public ScriptConsole()
         {
@@ -35,13 +36,9 @@ namespace ArdupilotMega
         public void SetScript(Script script)
         {
             readingScript = script;
-            Utilities.StringRedirectWriter writer = readingScript.OutputWriter;
-            if (writer != null)
-            {
-                //Subscribe to this event so it will be called
-                //for every string written
-                writer.StringWritten += new Utilities.StringWrittenEvent(output_called);
-            }
+            writer = readingScript.OutputWriter;
+            //Only enable if writer is not null
+            updateoutput.Enabled = (writer != null);//*/
         }
 
         private void BUT_clear_Click(object sender, EventArgs e)
@@ -49,15 +46,14 @@ namespace ArdupilotMega
             textOutput.Text = "";
         }
 
-        private void output_called(object sender, string writtenText)
+
+
+        private void updateoutput_Tick(object sender, EventArgs e)
         {
-            textOutput.AppendText(writtenText);
             if (autoscrollCheckbox.Checked)
-            {
-                textOutput.SelectionStart = textOutput.Text.Length;
-                textOutput.ScrollToCaret();
-            }
-                
+                textOutput.AppendText(writer.RetrieveWrittenString());
+            else
+                textOutput.Text += writer.RetrieveWrittenString();
         }
     }
 }

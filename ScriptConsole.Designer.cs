@@ -28,10 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ScriptConsole));
             this.textOutput = new System.Windows.Forms.TextBox();
-            this.autoscrollCheckbox = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.updateoutput = new System.Windows.Forms.Timer(this.components);
+            this.autoscrollCheckbox = new System.Windows.Forms.CheckBox();
             this.BUT_clear = new ArdupilotMega.Controls.MyButton();
             this.SuspendLayout();
             // 
@@ -41,16 +43,23 @@
             this.textOutput.Name = "textOutput";
             this.textOutput.ReadOnly = true;
             // 
-            // autoscrollCheckbox
-            // 
-            resources.ApplyResources(this.autoscrollCheckbox, "autoscrollCheckbox");
-            this.autoscrollCheckbox.Name = "autoscrollCheckbox";
-            this.autoscrollCheckbox.UseVisualStyleBackColor = true;
-            // 
             // label1
             // 
             resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
+            // 
+            // updateoutput
+            // 
+            this.updateoutput.Interval = 250;
+            this.updateoutput.Tick += new System.EventHandler(this.updateoutput_Tick);
+            // 
+            // autoscrollCheckbox
+            // 
+            resources.ApplyResources(this.autoscrollCheckbox, "autoscrollCheckbox");
+            this.autoscrollCheckbox.Checked = true;
+            this.autoscrollCheckbox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.autoscrollCheckbox.Name = "autoscrollCheckbox";
+            this.autoscrollCheckbox.UseVisualStyleBackColor = true;
             // 
             // BUT_clear
             // 
@@ -81,8 +90,9 @@
         #endregion
 
         private System.Windows.Forms.TextBox textOutput;
-        private System.Windows.Forms.CheckBox autoscrollCheckbox;
         private System.Windows.Forms.Label label1;
         private Controls.MyButton BUT_clear;
+        private System.Windows.Forms.Timer updateoutput;
+        private System.Windows.Forms.CheckBox autoscrollCheckbox;
     }
 }
