@@ -489,6 +489,7 @@
     <Compile Include="Plugin\IPlugin.cs" />
     <Compile Include="Plugin\PluginLoader.cs" />
     <Compile Include="Utilities\Firmware.cs" />
+    <Compile Include="Utilities\StringRedirectWriter.cs" />
     <Compile Include="Wizard\IWizard.cs" />
     <Compile Include="Wizard\Wizard.cs">
       <SubType>Form</SubType>
