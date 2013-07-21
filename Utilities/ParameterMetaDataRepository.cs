@@ -65,5 +65,31 @@ namespace ArdupilotMega.Utilities
          }
          return string.Empty;
       }
+
+       /// <summary>
+       /// Return a key, value list off all options selectable
+       /// </summary>
+       /// <param name="nodeKey"></param>
+       /// <returns></returns>
+      public List<KeyValuePair<string,string>> GetParameterOptions(string nodeKey)
+      {
+          string availableValuesRaw = GetParameterMetaData(nodeKey, ParameterMetaDataConstants.Values);
+
+          string[] availableValues = availableValuesRaw.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+          if (availableValues.Any())
+          {
+              var splitValues = new List<KeyValuePair<string, string>>();
+              // Add the values to the ddl
+              foreach (string val in availableValues)
+              {
+                  string[] valParts = val.Split(new[] { ':' });
+                  splitValues.Add(new KeyValuePair<string, string>(valParts[0].Trim(), (valParts.Length > 1) ? valParts[1].Trim() : valParts[0].Trim()));
+              };
+
+              return splitValues;
+          }
+
+          return new List<KeyValuePair<string, string>>();
+      }
    }
 }

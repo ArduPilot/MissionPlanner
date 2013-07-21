@@ -38,6 +38,8 @@ namespace ArdupilotMega.Controls
 
         public bool HoldInvalidation = false;
 
+        public bool Russian = false;
+
         class character {
             public Bitmap bitmap;
             public int gltextureid;
@@ -831,7 +833,7 @@ namespace ArdupilotMega.Controls
                 graphicsObject.TranslateTransform(this.Width / 2, this.Height / 2);
 
 
-
+                if (!Russian) 
                     graphicsObject.RotateTransform(-_roll);
 
 
@@ -1007,20 +1009,27 @@ namespace ArdupilotMega.Controls
 
                 //draw centre / current att
 
-                Rectangle centercircle = new Rectangle(halfwidth - halfwidth / 2, halfheight - halfwidth / 2, halfwidth, halfwidth);
+                graphicsObject.TranslateTransform(this.Width / 2, this.Height / 2  +this.Height / 14);
 
-                //graphicsObject.DrawEllipse(redPen, centercircle);
+                if (Russian)
+                    graphicsObject.RotateTransform(-_roll);
+
+                Rectangle centercircle = new Rectangle(-halfwidth / 2, -halfwidth / 2, halfwidth, halfwidth);
+
+              //  graphicsObject.DrawEllipse(redPen, centercircle);
                 Pen redtemp = new Pen(Color.FromArgb(200, redPen.Color.R, redPen.Color.G, redPen.Color.B));
                 redtemp.Width = 4.0f;
                 // left
-                graphicsObject.DrawLine(redtemp, centercircle.Left - halfwidth / 5, halfheight, centercircle.Left, halfheight);
+                graphicsObject.DrawLine(redtemp, centercircle.Left - halfwidth / 5, 0, centercircle.Left, 0);
                 // right
-                graphicsObject.DrawLine(redtemp, centercircle.Right, halfheight, centercircle.Right + halfwidth / 5, halfheight);
+                graphicsObject.DrawLine(redtemp, centercircle.Right, 0, centercircle.Right + halfwidth / 5, 0);
                 // center point
-                graphicsObject.DrawLine(redtemp, halfwidth-1, halfheight, centercircle.Right - halfwidth / 3, halfheight + halfheight / 10);
-                graphicsObject.DrawLine(redtemp, halfwidth+1, halfheight, centercircle.Left + halfwidth / 3, halfheight + halfheight / 10);
+                graphicsObject.DrawLine(redtemp, 0-1, 0, centercircle.Right - halfwidth / 3, 0 + halfheight / 10);
+                graphicsObject.DrawLine(redtemp, 0+1, 0, centercircle.Left + halfwidth / 3, 0 + halfheight / 10);
 
                 //draw heading ind
+
+                graphicsObject.ResetTransform();
 
                 graphicsObject.ResetClip();
 

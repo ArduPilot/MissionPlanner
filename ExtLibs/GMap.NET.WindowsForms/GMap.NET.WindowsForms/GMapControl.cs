@@ -523,7 +523,7 @@ namespace GMap.NET.WindowsForms
                                      if (!found)
                                          found = true;
 #if !PocketPC
-                                     g.DrawImage(img.Img, Core.tileRect.X, Core.tileRect.Y, Core.tileRectBearing.Width + 1, Core.tileRectBearing.Height + 1);
+                                     g.DrawImage(img.Img, Core.tileRect.X, Core.tileRect.Y, Core.tileRectBearing.Width+1, Core.tileRectBearing.Height+1);
 #else
                                  g.DrawImage(img.Img, Core.tileRect.X, Core.tileRect.Y);
 #endif
@@ -1092,6 +1092,11 @@ namespace GMap.NET.WindowsForms
                 objBitmap = new Bitmap(this.Width, this.Height);
 
               Graphics graphicsObject = Graphics.FromImage(objBitmap);
+              graphicsObject.CompositingMode = CompositingMode.SourceOver;
+              graphicsObject.CompositingQuality = CompositingQuality.HighSpeed;
+              graphicsObject.InterpolationMode = InterpolationMode.Low;
+              graphicsObject.PixelOffsetMode = PixelOffsetMode.HighSpeed;
+              graphicsObject.TextRenderingHint = TextRenderingHint.SystemDefault;
 
               if (ForceDoubleBuffer)
               {

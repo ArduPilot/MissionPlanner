@@ -127,7 +127,7 @@ namespace AviFile
 			
 			Avi.BITMAPINFOHEADER bih = new Avi.BITMAPINFOHEADER();
 			int size = Marshal.SizeOf(bih);
-			Avi.AVIStreamReadFormat(aviStream, 0, ref bih, ref size);
+            Avi.NativeMethods.AVIStreamReadFormat(aviStream, 0, ref bih, ref size);
 			Avi.AVISTREAMINFO streamInfo = GetStreamInfo(aviStream);
 			
 			this.frameRate = (float)streamInfo.dwRate / (float)streamInfo.dwScale;
@@ -135,8 +135,8 @@ namespace AviFile
 			this.height = (int)streamInfo.rcFrame.bottom;
 			this.frameSize = bih.biSizeImage;
 			this.countBitsPerPixel = bih.biBitCount;
-			this.firstFrame = Avi.AVIStreamStart(aviStream.ToInt32());
-			this.countFrames = Avi.AVIStreamLength(aviStream.ToInt32());
+            this.firstFrame = Avi.NativeMethods.AVIStreamStart(aviStream.ToInt32());
+            this.countFrames = Avi.NativeMethods.AVIStreamLength(aviStream.ToInt32());
 		}
 
         /// <summary>Copy all properties from one VideoStream to another one</summary>
@@ -219,7 +219,7 @@ namespace AviFile
 
 		private Avi.AVISTREAMINFO GetStreamInfo(IntPtr aviStream){
 			Avi.AVISTREAMINFO streamInfo = new Avi.AVISTREAMINFO();
-			int result = Avi.AVIStreamInfo(StreamPointer, ref streamInfo, Marshal.SizeOf(streamInfo));
+            int result = Avi.NativeMethods.AVIStreamInfo(StreamPointer, ref streamInfo, Marshal.SizeOf(streamInfo));
 			if(result != 0) {
 				throw new Exception("Exception in VideoStreamInfo: "+result.ToString());
 			}
@@ -241,8 +241,8 @@ namespace AviFile
             GetRateAndScale(ref rate, ref scale);
 
             Avi.AVISTREAMINFO strhdr = new Avi.AVISTREAMINFO();
-            strhdr.fccType = Avi.mmioStringToFOURCC("vids", 0);
-            strhdr.fccHandler = Avi.mmioStringToFOURCC("CVID", 0);
+            strhdr.fccType = Avi.NativeMethods.mmioStringToFOURCC("vids", 0);
+            strhdr.fccHandler = Avi.NativeMethods.mmioStringToFOURCC("CVID", 0);
             strhdr.dwFlags = 0;
             strhdr.dwCaps = 0;
             strhdr.wPriority = 0;
@@ -263,7 +263,7 @@ namespace AviFile
             strhdr.dwFormatChangeCount = 0;
             strhdr.szName = new UInt16[64];
 
-            int result = Avi.AVIFileCreateStream(aviFile, out aviStream, ref strhdr);
+            int result = Avi.NativeMethods.AVIFileCreateStream(aviFile, out aviStream, ref strhdr);
 
             if (result != 0) {
                 throw new Exception("Exception in AVIFileCreateStream: " + result.ToString());
@@ -295,8 +295,8 @@ namespace AviFile
 
             options.lpParms = IntPtr.Zero;
 			options.lpFormat = IntPtr.Zero;
-			Avi.AVISaveOptions(IntPtr.Zero, Avi.ICMF_CHOOSE_KEYFRAME | Avi.ICMF_CHOOSE_DATARATE, 1, ref aviStream, ref options);
-			Avi.AVISaveOptionsFree(1, ref options);
+            Avi.NativeMethods.AVISaveOptions(IntPtr.Zero, Avi.ICMF_CHOOSE_KEYFRAME | Avi.ICMF_CHOOSE_DATARATE, 1, ref aviStream, ref options);
+            Avi.NativeMethods.AVISaveOptionsFree(1, ref options);
 
             //..or set static options
 			/*Avi.AVICOMPRESSOPTIONS opts = new Avi.AVICOMPRESSOPTIONS();
@@ -314,7 +314,7 @@ namespace AviFile
 
 			//get the compressed stream
             this.compressOptions = options.ToStruct();
-            int result = Avi.AVIMakeCompressedStream(out compressedStream, aviStream, ref compressOptions, 0);
+            int result = Avi.NativeMethods.AVIMakeCompressedStream(out compressedStream, aviStream, ref compressOptions, 0);
             if(result != 0) {
 				throw new Exception("Exception in AVIMakeCompressedStream: "+result.ToString());
 			}
@@ -324,7 +324,7 @@ namespace AviFile
 
         /// <summary>Create a compressed stream from an uncompressed stream</summary>
         private void CreateCompressedStream(Avi.AVICOMPRESSOPTIONS options) {
-            int result = Avi.AVIMakeCompressedStream(out compressedStream, aviStream, ref options, 0);
+            int result = Avi.NativeMethods.AVIMakeCompressedStream(out compressedStream, aviStream, ref options, 0);
             if (result != 0) {
                 throw new Exception("Exception in AVIMakeCompressedStream: " + result.ToString());
             }
@@ -349,7 +349,7 @@ namespace AviFile
 				0,0, bmp.Width, bmp.Height),
 				ImageLockMode.ReadOnly, bmp.PixelFormat);
 
-            int result = Avi.AVIStreamWrite(writeCompressed ? compressedStream : StreamPointer,
+            int result = Avi.NativeMethods.AVIStreamWrite(writeCompressed ? compressedStream : StreamPointer,
                 countFrames, 1, 
 				bmpDat.Scan0, 
 				(Int32)(bmpDat.Stride * bmpDat.Height), 
@@ -379,7 +379,7 @@ namespace AviFile
 			bi.biBitCount  = countBitsPerPixel;
 			bi.biSizeImage = frameSize;
 
-			int result = Avi.AVIStreamSetFormat(aviStream, 0, ref bi, bi.biSize);
+            int result = Avi.NativeMethods.AVIStreamSetFormat(aviStream, 0, ref bi, bi.biSize);
 			if(result != 0){ throw new Exception("Error in VideoStreamSetFormat: "+result.ToString()); }
 		}
 
@@ -433,8 +433,8 @@ namespace AviFile
 			{
 				bih.biBitCount = 4;
 			}
-        
-            getFrameObject = Avi.AVIStreamGetFrameOpen(StreamPointer, ref bih);
+
+            getFrameObject = Avi.NativeMethods.AVIStreamGetFrameOpen(StreamPointer, ref bih);
 
             if(getFrameObject == 0){ throw new Exception("Exception in VideoStreamGetFrameOpen!"); }
 		}
@@ -458,7 +458,7 @@ namespace AviFile
             Avi.AVISTREAMINFO streamInfo = GetStreamInfo(StreamPointer);
 
             //Decompress the frame and return a pointer to the DIB
-            int dib = Avi.AVIStreamGetFrame(getFrameObject, firstFrame + position);
+            int dib = Avi.NativeMethods.AVIStreamGetFrame(getFrameObject, firstFrame + position);
 			//Copy the bitmap header into a managed struct
 			Avi.BITMAPINFOHEADER bih = new Avi.BITMAPINFOHEADER();
 			bih = (Avi.BITMAPINFOHEADER)Marshal.PtrToStructure(new IntPtr(dib), bih.GetType());
@@ -531,7 +531,7 @@ namespace AviFile
         /// <summary>Free ressources that have been used by GetFrameOpen</summary>
 		public void GetFrameClose(){
 			if(getFrameObject != 0){
-				Avi.AVIStreamGetFrameClose(getFrameObject);
+                Avi.NativeMethods.AVIStreamGetFrameClose(getFrameObject);
 				getFrameObject = 0;
 			}
 		}
@@ -570,10 +570,10 @@ namespace AviFile
 			opts.lpParms = IntPtr.Zero;
 			opts.lpFormat = IntPtr.Zero;
             IntPtr streamPointer = StreamPointer;
-            Avi.AVISaveOptions(IntPtr.Zero, Avi.ICMF_CHOOSE_KEYFRAME | Avi.ICMF_CHOOSE_DATARATE, 1, ref streamPointer, ref opts);
-            Avi.AVISaveOptionsFree(1, ref opts);
+            Avi.NativeMethods.AVISaveOptions(IntPtr.Zero, Avi.ICMF_CHOOSE_KEYFRAME | Avi.ICMF_CHOOSE_DATARATE, 1, ref streamPointer, ref opts);
+            Avi.NativeMethods.AVISaveOptionsFree(1, ref opts);
 
-			Avi.AVISaveV(fileName, 0, 0, 1, ref aviStream, ref opts);
+            Avi.NativeMethods.AVISaveV(fileName, 0, 0, 1, ref aviStream, ref opts);
 		}
     }
 }

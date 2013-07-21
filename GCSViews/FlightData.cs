@@ -10,6 +10,7 @@ using System.Text.RegularExpressions; // regex
 using System.Xml; // GE xml alt reader
 using System.Net; // dns, ip address
 using System.Net.Sockets; // tcplistner
+using System.Threading;
 using GMap.NET;
 using GMap.NET.WindowsForms;
 using System.Globalization; // language
@@ -94,6 +95,18 @@ namespace ArdupilotMega.GCSViews
         public SplitContainer MainHcopy = null;
 
         public static FlightData instance;
+
+        //The file path of the selected script
+        string selectedscript = "";
+        //the text of the file loaded from the path
+        string scripttext = "";
+        //the thread the script is running on
+        Thread scriptthread = null;
+        //whether or not a script is running
+        bool scriptrunning = false;
+        Script script;
+        //whether or not the output console has already started
+        bool outputwindowstarted = false;
 
         protected override void Dispose(bool disposing)
         {
@@ -397,8 +410,17 @@ namespace ArdupilotMega.GCSViews
                 try
                 {
                     gMapControl1.Position = new PointLatLng(double.Parse(MainV2.getConfig("maplast_lat")), double.Parse(MainV2.getConfig("maplast_lng")));
-                    Zoomlevel.Value = (decimal)float.Parse(MainV2.getConfig("maplast_zoom"));
-                    TRK_zoom.Value = (float)Zoomlevel.Value;
+                    if (Math.Round(double.Parse(MainV2.getConfig("maplast_lat")),1) == 0)
+                    {
+                        // no zoom in
+                        Zoomlevel.Value = 3;
+                        TRK_zoom.Value = 3;
+                    }
+                    else
+                    {
+                        Zoomlevel.Value = (decimal)float.Parse(MainV2.getConfig("maplast_zoom"));
+                        TRK_zoom.Value = (float)Zoomlevel.Value;
+                    }
                 }
                 catch { }
             }
@@ -797,7 +819,7 @@ namespace ArdupilotMega.GCSViews
                                     if (plla.x == 0 || plla.y == 0)
                                         continue;
 
-                                    if (plla.command == (byte)MAVLink.MAV_CMD.ROI)
+                                    if (plla.command == (byte)MAVLink.MAV_CMD.DO_SET_ROI)
                                     {
                                         addpolygonmarkerred(plla.seq.ToString(), plla.y, plla.x, (int)plla.z, Color.Red, routes);
                                         continue;
@@ -972,8 +994,8 @@ namespace ArdupilotMega.GCSViews
 
         private void updateBindingSource()
         {
-                                //  run at 52 hz.
-            if (lastscreenupdate.AddMilliseconds(19) < DateTime.Now)
+                                //  run at 25 hz.
+            if (lastscreenupdate.AddMilliseconds(40) < DateTime.Now)
             {
                 // async
                 this.BeginInvoke((System.Windows.Forms.MethodInvoker)delegate()
@@ -2723,6 +2745,97 @@ print 'Roll complete'
             Form logbrowse = new Log.LogBrowse();
             ThemeManager.ApplyThemeTo(logbrowse);
             logbrowse.Show();
+        }
+
+        private void BUT_select_script_Click(object sender, EventArgs e)
+        {
+            if (openScriptDialog.ShowDialog() == DialogResult.OK)
+            {
+                selectedscript = openScriptDialog.FileName;
+                BUT_run_script.Visible = BUT_edit_selected.Visible = true;
+                labelSelectedScript.Text = "Selected Script: " + selectedscript;
+            }
+        }
+
+        private void BUT_run_script_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                scripttext = File.ReadAllText(selectedscript);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Failed to open script file due to exception: " + ex.Message);
+                return;
+            }
+
+            scriptthread = new System.Threading.Thread(new System.Threading.ThreadStart(run_selected_script))
+            {
+                IsBackground = true,
+                Name = "Script Thread (new)"
+            };
+            labelScriptStatus.Text = "Script Status: Running";
+
+            script = null;
+            outputwindowstarted = false;
+
+            scriptthread.Start();
+            scriptrunning = true;
+            BUT_run_script.Enabled = false;
+            BUT_select_script.Enabled = false;
+            BUT_abort_script.Visible = true;
+            BUT_edit_selected.Enabled = false;
+            scriptChecker.Enabled = true;
+            checkBoxRedirectOutput.Enabled = false;
+        }
+
+        void run_selected_script()
+        {
+            script = new Script(checkBoxRedirectOutput.Checked);
+            script.runScript(scripttext);
+            scriptrunning = false;
+        }
+
+        private void scriptChecker_Tick(object sender, EventArgs e)
+        {
+            if (!scriptrunning)
+            {
+                labelScriptStatus.Text = "Script Status: Finished (or aborted)";
+                scriptChecker.Enabled = false;
+                BUT_select_script.Enabled = true;
+                BUT_run_script.Enabled = true;
+                BUT_abort_script.Visible = false;
+                BUT_edit_selected.Enabled = true;
+                checkBoxRedirectOutput.Enabled = true;
+            }
+            else if ((script != null) && (checkBoxRedirectOutput.Checked) && (!outputwindowstarted))
+            {
+                outputwindowstarted = true;
+
+                ScriptConsole console = new ScriptConsole();
+                console.SetScript(script);
+                ThemeManager.ApplyThemeTo((Form)console);
+                console.Show();
+                console.BringToFront();
+            }
+        }
+
+        private void BUT_abort_script_Click(object sender, EventArgs e)
+        {
+            scriptthread.Abort();
+            scriptrunning = false;
+            BUT_abort_script.Visible = false;
+        }
+
+        private void BUT_edit_selected_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                System.Diagnostics.ProcessStartInfo psi = new System.Diagnostics.ProcessStartInfo(selectedscript);
+                psi.UseShellExecute = true;
+                System.Diagnostics.Process.Start(psi);
+            }
+            catch { }
         }
     }
 }

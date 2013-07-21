@@ -367,8 +367,8 @@ namespace ArdupilotMega
                    // Console.WriteLine("mem "+mem);
                     System.Threading.Thread.Sleep(20); // 25 fps
 
-                    
-
+                    if (flightdata.Count == 0)
+                        break;
                   //  videopos = videopos.AddMilliseconds(1000 / 25);
 
 //                    m_mediaseek = m_FilterGraph as IMediaSeeking;
@@ -402,7 +402,11 @@ namespace ArdupilotMega
                         cs = flightdata[cstimestamp.AddMilliseconds(-40)];
                     }
 
-                   // Console.WriteLine("Update CS");
+                  //  Console.WriteLine("Update CS");
+
+                    Console.WriteLine("log "+ cs.datetime);
+
+                    hud1.datetime = cs.datetime;
                     
                     cs.UpdateCurrentSettings(bindingSource1);
 
@@ -587,9 +591,11 @@ namespace ArdupilotMega
             this.MinimumSize = this.Size;
         }
 
-        [DllImport("Kernel32.dll", EntryPoint = "RtlMoveMemory")]
-        private static extern void CopyMemory(IntPtr Destination, IntPtr Source, int Length);
-
+        private static class NativeMethods
+        {
+            [DllImport("Kernel32.dll", EntryPoint = "RtlMoveMemory")]
+            internal static extern void CopyMemory(IntPtr Destination, IntPtr Source, int Length);
+        }
 
         /// <summary> sample callback, NOT USED. </summary>
         int ISampleGrabberCB.SampleCB(double SampleTime, IMediaSample pSample)
@@ -609,7 +615,7 @@ namespace ArdupilotMega
                     throw new Exception("Buffer is wrong size");
                 }
 
-                CopyMemory(m_handle, pBuffer, m_stride * m_videoHeight);
+                NativeMethods.CopyMemory(m_handle, pBuffer, m_stride * m_videoHeight);
 
                 // Picture is ready.
                 m_PictureReady.Set();
@@ -622,7 +628,7 @@ namespace ArdupilotMega
         /// <summary> buffer callback, COULD BE FROM FOREIGN THREAD. </summary>
         int ISampleGrabberCB.BufferCB(double SampleTime, IntPtr pBuffer, int BufferLen)
         {
-            Console.WriteLine("0 " + DateTime.Now.Millisecond);
+            Console.WriteLine("BufferCB " + DateTime.Now.Millisecond + " pbtime " + SampleTime);
             framecount++;
 
             videopos = startlogtime.AddSeconds(SampleTime);
@@ -656,7 +662,7 @@ namespace ArdupilotMega
                 hud1.HoldInvalidation = true;
                 hud1.opengl = true;
                 hud1.bgimage = image;
-                //hud1.streamjpgenable = true;
+                hud1.streamjpgenable = true;
                 if (fullresolution)
                 {
                     hud1.Width = image.Width;
@@ -664,12 +670,14 @@ namespace ArdupilotMega
                 }
 
                 Console.WriteLine("1c " + DateTime.Now.Millisecond);
-
+    
                 hud1.Refresh();
 
                 Console.WriteLine("1d " + DateTime.Now.Millisecond);
 
                 Bitmap bmp = (Bitmap)hud1.objBitmap.Clone();
+
+              //  bmp.Save(framecount+".bmp");
 
                 Console.WriteLine("1e " + DateTime.Now.Millisecond);
 
@@ -681,10 +689,10 @@ namespace ArdupilotMega
 
                 Console.WriteLine("2 " + DateTime.Now.Millisecond);
 
-                //addframe(bmp);
+                addframe(bmp);
                 lock (avienclock)
                 {
-                    System.Threading.ThreadPool.QueueUserWorkItem(addframe, bmp);
+                //    System.Threading.ThreadPool.QueueUserWorkItem(addframe, bmp);
                 }
 
 
@@ -733,6 +741,8 @@ namespace ArdupilotMega
         {
             try
             {
+                flightdata.Clear();
+
                 th.Abort();
             }
             catch { }

@@ -31,18 +31,18 @@ namespace AviFile
 		/// <param name="fileName">Name of the AVI file</param>
 		/// <param name="open">true: Open the file; false: Create or overwrite the file</param>
 		public AviManager(String fileName, bool open){
-			Avi.AVIFileInit();
+            Avi.NativeMethods.AVIFileInit();
 			int result;
 
 			if(open){ //open existing file
-				
-				result = Avi.AVIFileOpen(
+
+                result = Avi.NativeMethods.AVIFileOpen(
 					ref aviFile, fileName,
 					Avi.OF_READWRITE, 0);
 
 			}else{ //create empty file
-				
-				result = Avi.AVIFileOpen(
+
+                result = Avi.NativeMethods.AVIFileOpen(
 					ref aviFile, fileName, 
 					Avi.OF_WRITE | Avi.OF_CREATE, 0);
 			
@@ -62,7 +62,7 @@ namespace AviFile
 		public VideoStream GetVideoStream(){
 			IntPtr aviStream;
 
-			int result = Avi.AVIFileGetStream(
+            int result = Avi.NativeMethods.AVIFileGetStream(
 				aviFile,
 				out aviStream,
 				Avi.streamtypeVIDEO, 0);
@@ -81,7 +81,7 @@ namespace AviFile
 		public AudioStream GetWaveStream(){
 			IntPtr aviStream;
 
-			int result = Avi.AVIFileGetStream(
+            int result = Avi.NativeMethods.AVIFileGetStream(
 				aviFile,
 				out aviStream,
 				Avi.streamtypeAUDIO, 0);
@@ -211,22 +211,22 @@ namespace AviFile
             }
 
             IntPtr aviStream;
-			int result = Avi.AVIFileCreateStream(aviFile, out aviStream, ref streamInfo);
+            int result = Avi.NativeMethods.AVIFileCreateStream(aviFile, out aviStream, ref streamInfo);
 			if(result != 0){
 				throw new Exception("Exception in AVIFileCreateStream: "+result.ToString());
 			}
 
-			result = Avi.AVIStreamSetFormat(aviStream, 0, ref streamFormat, Marshal.SizeOf(streamFormat));
+            result = Avi.NativeMethods.AVIStreamSetFormat(aviStream, 0, ref streamFormat, Marshal.SizeOf(streamFormat));
 			if(result != 0){
 				throw new Exception("Exception in AVIStreamSetFormat: "+result.ToString());
 			}
-			
-			result = Avi.AVIStreamWrite(aviStream, 0, streamLength, waveData, streamLength, Avi.AVIIF_KEYFRAME, 0, 0);
+
+            result = Avi.NativeMethods.AVIStreamWrite(aviStream, 0, streamLength, waveData, streamLength, Avi.AVIIF_KEYFRAME, 0, 0);
 			if(result != 0){
 				throw new Exception("Exception in AVIStreamWrite: "+result.ToString());
 			}
-			
-			result = Avi.AVIStreamRelease(aviStream);
+
+            result = Avi.NativeMethods.AVIStreamRelease(aviStream);
 			if(result != 0){
 				throw new Exception("Exception in AVIStreamRelease: "+result.ToString());
 			}
@@ -241,22 +241,22 @@ namespace AviFile
         /// <param name="streamLength">Length of the new stream</param>
         public void AddAudioStream(IntPtr waveData, Avi.AVISTREAMINFO streamInfo, Avi.PCMWAVEFORMAT streamFormat, int streamLength) {
             IntPtr aviStream;
-            int result = Avi.AVIFileCreateStream(aviFile, out aviStream, ref streamInfo);
+            int result = Avi.NativeMethods.AVIFileCreateStream(aviFile, out aviStream, ref streamInfo);
             if (result != 0) {
                 throw new Exception("Exception in AVIFileCreateStream: " + result.ToString());
             }
 
-            result = Avi.AVIStreamSetFormat(aviStream, 0, ref streamFormat, Marshal.SizeOf(streamFormat));
+            result = Avi.NativeMethods.AVIStreamSetFormat(aviStream, 0, ref streamFormat, Marshal.SizeOf(streamFormat));
             if (result != 0) {
                 throw new Exception("Exception in AVIStreamSetFormat: " + result.ToString());
             }
 
-            result = Avi.AVIStreamWrite(aviStream, 0, streamLength, waveData, streamLength, Avi.AVIIF_KEYFRAME, 0, 0);
+            result = Avi.NativeMethods.AVIStreamWrite(aviStream, 0, streamLength, waveData, streamLength, Avi.AVIIF_KEYFRAME, 0, 0);
             if (result != 0) {
                 throw new Exception("Exception in AVIStreamWrite: " + result.ToString());
             }
 
-            result = Avi.AVIStreamRelease(aviStream);
+            result = Avi.NativeMethods.AVIStreamRelease(aviStream);
             if (result != 0) {
                 throw new Exception("Exception in AVIStreamRelease: " + result.ToString());
             }
@@ -328,9 +328,9 @@ namespace AviFile
 			foreach(AviStream stream in streams){
 				stream.Close();
 			}
-			
-			Avi.AVIFileRelease(aviFile);
-			Avi.AVIFileExit();
+
+            Avi.NativeMethods.AVIFileRelease(aviFile);
+            Avi.NativeMethods.AVIFileExit();
 		}
 
         public static void MakeFileFromStream(String fileName, AviStream stream) {
@@ -341,10 +341,10 @@ namespace AviFile
             opts.fccType = (uint)Avi.streamtypeVIDEO;
             opts.lpParms = IntPtr.Zero;
             opts.lpFormat = IntPtr.Zero;
-            Avi.AVISaveOptions(IntPtr.Zero, Avi.ICMF_CHOOSE_KEYFRAME | Avi.ICMF_CHOOSE_DATARATE, 1, ref streamPointer, ref opts);
-            Avi.AVISaveOptionsFree(1, ref opts);
+            Avi.NativeMethods.AVISaveOptions(IntPtr.Zero, Avi.ICMF_CHOOSE_KEYFRAME | Avi.ICMF_CHOOSE_DATARATE, 1, ref streamPointer, ref opts);
+            Avi.NativeMethods.AVISaveOptionsFree(1, ref opts);
 
-            Avi.AVISaveV(fileName, 0, 0, 1, ref streamPointer, ref opts);
+            Avi.NativeMethods.AVISaveV(fileName, 0, 0, 1, ref streamPointer, ref opts);
         }
     }
 }

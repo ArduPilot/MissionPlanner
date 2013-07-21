@@ -75,12 +75,11 @@ namespace ArdupilotMega.GCSViews
             this.pictureBoxOctaQuad = new ArdupilotMega.Controls.ImageLabel();
             this.pictureBoxRover = new ArdupilotMega.Controls.ImageLabel();
             this.label1 = new System.Windows.Forms.Label();
-            this.CMB_history = new System.Windows.Forms.ComboBox();
-            this.CMB_history_label = new System.Windows.Forms.Label();
             this.Custom_firmware_label = new System.Windows.Forms.Label();
             this.lbl_devfw = new System.Windows.Forms.Label();
             this.lbl_px4io = new System.Windows.Forms.Label();
             this.lbl_dlfw = new System.Windows.Forms.Label();
+            this.CMB_history_label = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxHilimage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAPHil)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxACHil)).BeginInit();
@@ -245,21 +244,6 @@ namespace ArdupilotMega.GCSViews
             resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
             // 
-            // CMB_history
-            // 
-            this.CMB_history.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.CMB_history.FormattingEnabled = true;
-            resources.ApplyResources(this.CMB_history, "CMB_history");
-            this.CMB_history.Name = "CMB_history";
-            this.CMB_history.SelectedIndexChanged += new System.EventHandler(this.CMB_history_SelectedIndexChanged);
-            // 
-            // CMB_history_label
-            // 
-            resources.ApplyResources(this.CMB_history_label, "CMB_history_label");
-            this.CMB_history_label.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.CMB_history_label.Name = "CMB_history_label";
-            this.CMB_history_label.Click += new System.EventHandler(this.CMB_history_label_Click);
-            // 
             // Custom_firmware_label
             // 
             resources.ApplyResources(this.Custom_firmware_label, "Custom_firmware_label");
@@ -288,7 +272,14 @@ namespace ArdupilotMega.GCSViews
             this.lbl_dlfw.Name = "lbl_dlfw";
             this.lbl_dlfw.Click += new System.EventHandler(this.lbl_dlfw_Click);
             // 
-            // Firmware
+            // CMB_history_label
+            // 
+            resources.ApplyResources(this.CMB_history_label, "CMB_history_label");
+            this.CMB_history_label.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.CMB_history_label.Name = "CMB_history_label";
+            this.CMB_history_label.Click += new System.EventHandler(this.lbl_dlfw_Click);
+            // 
+            // ConfigFirmware
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -298,7 +289,6 @@ namespace ArdupilotMega.GCSViews
             this.Controls.Add(this.Custom_firmware_label);
             this.Controls.Add(this.CMB_history_label);
             this.Controls.Add(this.pictureBoxRover);
-            this.Controls.Add(this.CMB_history);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.BUT_setup);
             this.Controls.Add(this.label2);
@@ -316,7 +306,7 @@ namespace ArdupilotMega.GCSViews
             this.Controls.Add(this.pictureBoxHexa);
             this.Controls.Add(this.pictureBoxQuad);
             this.Controls.Add(this.pictureBoxAPM);
-            this.Name = "Firmware";
+            this.Name = "ConfigFirmware";
             this.Load += new System.EventHandler(this.Firmware_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxHilimage)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAPHil)).EndInit();
@@ -326,14 +316,12 @@ namespace ArdupilotMega.GCSViews
             this.PerformLayout();
 
         }
-
-        private ComboBox CMB_history;
         private Controls.ImageLabel pictureBoxRover;
-        private Label CMB_history_label;
         private Label Custom_firmware_label;
         private Label lbl_devfw;
         private Label lbl_px4io;
         private Label lbl_dlfw;
+        private Label CMB_history_label;
 
     }
 }

@@ -485,6 +485,8 @@ namespace ArdupilotMega.Log
                   //  if (double.Parse(items[4], new System.Globalization.CultureInfo("en-US")) == 0)
                    //     return;
 
+                    // 7 agl
+                    // 8 asl...
                     double alt = double.Parse(items[8], new System.Globalization.CultureInfo("en-US"));
 
                     position[positionindex].Add(new Point3D(double.Parse(items[6], new System.Globalization.CultureInfo("en-US")), double.Parse(items[5], new System.Globalization.CultureInfo("en-US")), alt));
@@ -597,9 +599,10 @@ namespace ArdupilotMega.Log
 
             AltitudeMode altmode = AltitudeMode.absolute;
 
-            if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
+            // all new logs have both agl and asl, we are using asl. this may break old logs
+           // if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
             {
-                altmode = AltitudeMode.relativeToGround; // because of sonar, this is both right and wrong. right for sonar, wrong in terms of gps as the land slopes off.
+               // altmode = AltitudeMode.relativeToGround; // because of sonar, this is both right and wrong. right for sonar, wrong in terms of gps as the land slopes off.
             }
 
             KMLRoot kml = new KMLRoot();

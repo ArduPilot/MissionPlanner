@@ -27,9 +27,9 @@ namespace AviFile
         /// <summary>Close the stream</summary>
         public virtual void Close(){
 			if(writeCompressed){
-				Avi.AVIStreamRelease(compressedStream);
+                Avi.NativeMethods.AVIStreamRelease(compressedStream);
 			}
-			Avi.AVIStreamRelease(StreamPointer);
+            Avi.NativeMethods.AVIStreamRelease(StreamPointer);
 		}
 
         /// <summary>Export the stream into a new file</summary>

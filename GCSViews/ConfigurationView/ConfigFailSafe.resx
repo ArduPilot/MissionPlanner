@@ -112,20 +112,20 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="label2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="label2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
     <value>342, 5</value>
   </data>
@@ -142,7 +142,7 @@
     <value>label2</value>
   </data>
   <data name="&gt;&gt;label2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label2.Parent" xml:space="preserve">
     <value>$this</value>
@@ -172,7 +172,7 @@
     <value>label1</value>
   </data>
   <data name="&gt;&gt;label1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label1.Parent" xml:space="preserve">
     <value>$this</value>
@@ -180,7 +180,7 @@
   <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
     <value>6</value>
   </data>
-  <metadata name="currentStateBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <metadata name="currentStateBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
   <data name="lbl_currentmode.Font" type="System.Drawing.Font, System.Drawing">
@@ -208,7 +208,7 @@
     <value>lbl_currentmode</value>
   </data>
   <data name="&gt;&gt;lbl_currentmode.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;lbl_currentmode.Parent" xml:space="preserve">
     <value>$this</value>
@@ -241,7 +241,7 @@
     <value>LNK_wiki</value>
   </data>
   <data name="&gt;&gt;LNK_wiki.Type" xml:space="preserve">
-    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;LNK_wiki.Parent" xml:space="preserve">
     <value>$this</value>
@@ -249,7 +249,7 @@
   <data name="&gt;&gt;LNK_wiki.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>214, 17</value>
   </metadata>
   <data name="mavlinkNumericUpDownlow_voltage.Enabled" type="System.Boolean, mscorlib">
@@ -271,7 +271,7 @@
     <value>mavlinkNumericUpDownlow_voltage</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownlow_voltage.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.MavlinkNumericUpDown, ArdupilotMegaPlanner10, Version=1.1.4859.18927, Culture=neutral, PublicKeyToken=null</value>
+    <value>ArdupilotMega.Controls.MavlinkNumericUpDown, ArdupilotMegaPlanner10, Version=1.1.4941.32078, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownlow_voltage.Parent" xml:space="preserve">
     <value>PNL_low_bat</value>
@@ -313,7 +313,7 @@
     <value>mavlinkCheckBoxlong_fs</value>
   </data>
   <data name="&gt;&gt;mavlinkCheckBoxlong_fs.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.MavlinkCheckBox, ArdupilotMegaPlanner10, Version=1.1.4859.18927, Culture=neutral, PublicKeyToken=null</value>
+    <value>ArdupilotMega.Controls.MavlinkCheckBox, ArdupilotMegaPlanner10, Version=1.1.4941.32078, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkCheckBoxlong_fs.Parent" xml:space="preserve">
     <value>groupBox1</value>
@@ -355,7 +355,7 @@
     <value>mavlinkCheckBoxshort_fs</value>
   </data>
   <data name="&gt;&gt;mavlinkCheckBoxshort_fs.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.MavlinkCheckBox, ArdupilotMegaPlanner10, Version=1.1.4859.18927, Culture=neutral, PublicKeyToken=null</value>
+    <value>ArdupilotMega.Controls.MavlinkCheckBox, ArdupilotMegaPlanner10, Version=1.1.4941.32078, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkCheckBoxshort_fs.Parent" xml:space="preserve">
     <value>groupBox1</value>
@@ -397,7 +397,7 @@
     <value>mavlinkCheckBoxgcs_fs</value>
   </data>
   <data name="&gt;&gt;mavlinkCheckBoxgcs_fs.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.MavlinkCheckBox, ArdupilotMegaPlanner10, Version=1.1.4859.18927, Culture=neutral, PublicKeyToken=null</value>
+    <value>ArdupilotMega.Controls.MavlinkCheckBox, ArdupilotMegaPlanner10, Version=1.1.4941.32078, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkCheckBoxgcs_fs.Parent" xml:space="preserve">
     <value>groupBox1</value>
@@ -440,7 +440,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>mavlinkCheckBoxthr_fs_action</value>
   </data>
   <data name="&gt;&gt;mavlinkCheckBoxthr_fs_action.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.MavlinkCheckBox, ArdupilotMegaPlanner10, Version=1.1.4859.18927, Culture=neutral, PublicKeyToken=null</value>
+    <value>ArdupilotMega.Controls.MavlinkCheckBox, ArdupilotMegaPlanner10, Version=1.1.4941.32078, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkCheckBoxthr_fs_action.Parent" xml:space="preserve">
     <value>groupBox1</value>
@@ -455,10 +455,10 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>False</value>
   </data>
   <data name="mavlinkNumericUpDownfs_thr_value.Location" type="System.Drawing.Point, System.Drawing">
-    <value>-7, 0</value>
+    <value>3, 0</value>
   </data>
   <data name="mavlinkNumericUpDownfs_thr_value.Size" type="System.Drawing.Size, System.Drawing">
-    <value>103, 20</value>
+    <value>93, 20</value>
   </data>
   <data name="mavlinkNumericUpDownfs_thr_value.TabIndex" type="System.Int32, mscorlib">
     <value>153</value>
@@ -473,7 +473,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>mavlinkNumericUpDownfs_thr_value</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownfs_thr_value.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.MavlinkNumericUpDown, ArdupilotMegaPlanner10, Version=1.1.4859.18927, Culture=neutral, PublicKeyToken=null</value>
+    <value>ArdupilotMega.Controls.MavlinkNumericUpDown, ArdupilotMegaPlanner10, Version=1.1.4941.32078, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownfs_thr_value.Parent" xml:space="preserve">
     <value>PNL_thr_fs_value</value>
@@ -506,7 +506,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>mavlinkNumericUpDownthr_fs_value</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownthr_fs_value.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.MavlinkNumericUpDown, ArdupilotMegaPlanner10, Version=1.1.4859.18927, Culture=neutral, PublicKeyToken=null</value>
+    <value>ArdupilotMega.Controls.MavlinkNumericUpDown, ArdupilotMegaPlanner10, Version=1.1.4941.32078, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownthr_fs_value.Parent" xml:space="preserve">
     <value>PNL_thr_fs_value</value>
@@ -548,7 +548,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>mavlinkCheckBoxthr_fs</value>
   </data>
   <data name="&gt;&gt;mavlinkCheckBoxthr_fs.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.MavlinkCheckBox, ArdupilotMegaPlanner10, Version=1.1.4859.18927, Culture=neutral, PublicKeyToken=null</value>
+    <value>ArdupilotMega.Controls.MavlinkCheckBox, ArdupilotMegaPlanner10, Version=1.1.4941.32078, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkCheckBoxthr_fs.Parent" xml:space="preserve">
     <value>groupBox1</value>
@@ -584,7 +584,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>mavlinkComboBox_fs_thr_enable</value>
   </data>
   <data name="&gt;&gt;mavlinkComboBox_fs_thr_enable.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.MavlinkComboBox, ArdupilotMegaPlanner10, Version=1.1.4859.18927, Culture=neutral, PublicKeyToken=null</value>
+    <value>ArdupilotMega.Controls.MavlinkComboBox, ArdupilotMegaPlanner10, Version=1.1.4941.32078, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkComboBox_fs_thr_enable.Parent" xml:space="preserve">
     <value>groupBox1</value>
@@ -614,7 +614,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>label4</value>
   </data>
   <data name="&gt;&gt;label4.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label4.Parent" xml:space="preserve">
     <value>PNL_low_bat</value>
@@ -641,7 +641,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>PNL_low_bat</value>
   </data>
   <data name="&gt;&gt;PNL_low_bat.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;PNL_low_bat.Parent" xml:space="preserve">
     <value>groupBox1</value>
@@ -680,7 +680,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>mavlinkCheckBoxfs_batt_enable</value>
   </data>
   <data name="&gt;&gt;mavlinkCheckBoxfs_batt_enable.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.MavlinkCheckBox, ArdupilotMegaPlanner10, Version=1.1.4859.18927, Culture=neutral, PublicKeyToken=null</value>
+    <value>ArdupilotMega.Controls.MavlinkCheckBox, ArdupilotMegaPlanner10, Version=1.1.4941.32078, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkCheckBoxfs_batt_enable.Parent" xml:space="preserve">
     <value>groupBox1</value>
@@ -713,7 +713,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>label3</value>
   </data>
   <data name="&gt;&gt;label3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label3.Parent" xml:space="preserve">
     <value>PNL_thr_fs_value</value>
@@ -737,7 +737,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>PNL_thr_fs_value</value>
   </data>
   <data name="&gt;&gt;PNL_thr_fs_value.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;PNL_thr_fs_value.Parent" xml:space="preserve">
     <value>groupBox1</value>
@@ -761,7 +761,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;groupBox1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;groupBox1.Parent" xml:space="preserve">
     <value>$this</value>
@@ -791,7 +791,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>lbl_armed</value>
   </data>
   <data name="&gt;&gt;lbl_armed.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.MyLabel, ArdupilotMegaPlanner10, Version=1.1.4859.18927, Culture=neutral, PublicKeyToken=null</value>
+    <value>ArdupilotMega.Controls.MyLabel, ArdupilotMegaPlanner10, Version=1.1.4941.32078, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;lbl_armed.Parent" xml:space="preserve">
     <value>$this</value>
@@ -821,7 +821,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>lbl_gpslock</value>
   </data>
   <data name="&gt;&gt;lbl_gpslock.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.MyLabel, ArdupilotMegaPlanner10, Version=1.1.4859.18927, Culture=neutral, PublicKeyToken=null</value>
+    <value>ArdupilotMega.Controls.MyLabel, ArdupilotMegaPlanner10, Version=1.1.4941.32078, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;lbl_gpslock.Parent" xml:space="preserve">
     <value>$this</value>
@@ -845,7 +845,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>horizontalProgressBar9</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar9.Type" xml:space="preserve">
-    <value>ArdupilotMega.HorizontalProgressBar, ArdupilotMegaPlanner10, Version=1.1.4859.18927, Culture=neutral, PublicKeyToken=null</value>
+    <value>ArdupilotMega.HorizontalProgressBar, ArdupilotMegaPlanner10, Version=1.1.4941.32078, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar9.Parent" xml:space="preserve">
     <value>$this</value>
@@ -869,7 +869,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>horizontalProgressBar10</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar10.Type" xml:space="preserve">
-    <value>ArdupilotMega.HorizontalProgressBar, ArdupilotMegaPlanner10, Version=1.1.4859.18927, Culture=neutral, PublicKeyToken=null</value>
+    <value>ArdupilotMega.HorizontalProgressBar, ArdupilotMegaPlanner10, Version=1.1.4941.32078, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar10.Parent" xml:space="preserve">
     <value>$this</value>
@@ -893,7 +893,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>horizontalProgressBar11</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar11.Type" xml:space="preserve">
-    <value>ArdupilotMega.HorizontalProgressBar, ArdupilotMegaPlanner10, Version=1.1.4859.18927, Culture=neutral, PublicKeyToken=null</value>
+    <value>ArdupilotMega.HorizontalProgressBar, ArdupilotMegaPlanner10, Version=1.1.4941.32078, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar11.Parent" xml:space="preserve">
     <value>$this</value>
@@ -917,7 +917,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>horizontalProgressBar12</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar12.Type" xml:space="preserve">
-    <value>ArdupilotMega.HorizontalProgressBar, ArdupilotMegaPlanner10, Version=1.1.4859.18927, Culture=neutral, PublicKeyToken=null</value>
+    <value>ArdupilotMega.HorizontalProgressBar, ArdupilotMegaPlanner10, Version=1.1.4941.32078, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar12.Parent" xml:space="preserve">
     <value>$this</value>
@@ -941,7 +941,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>horizontalProgressBar13</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar13.Type" xml:space="preserve">
-    <value>ArdupilotMega.HorizontalProgressBar, ArdupilotMegaPlanner10, Version=1.1.4859.18927, Culture=neutral, PublicKeyToken=null</value>
+    <value>ArdupilotMega.HorizontalProgressBar, ArdupilotMegaPlanner10, Version=1.1.4941.32078, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar13.Parent" xml:space="preserve">
     <value>$this</value>
@@ -965,7 +965,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>horizontalProgressBar14</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar14.Type" xml:space="preserve">
-    <value>ArdupilotMega.HorizontalProgressBar, ArdupilotMegaPlanner10, Version=1.1.4859.18927, Culture=neutral, PublicKeyToken=null</value>
+    <value>ArdupilotMega.HorizontalProgressBar, ArdupilotMegaPlanner10, Version=1.1.4941.32078, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar14.Parent" xml:space="preserve">
     <value>$this</value>
@@ -989,7 +989,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>horizontalProgressBar15</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar15.Type" xml:space="preserve">
-    <value>ArdupilotMega.HorizontalProgressBar, ArdupilotMegaPlanner10, Version=1.1.4859.18927, Culture=neutral, PublicKeyToken=null</value>
+    <value>ArdupilotMega.HorizontalProgressBar, ArdupilotMegaPlanner10, Version=1.1.4941.32078, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar15.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1013,7 +1013,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>horizontalProgressBar16</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar16.Type" xml:space="preserve">
-    <value>ArdupilotMega.HorizontalProgressBar, ArdupilotMegaPlanner10, Version=1.1.4859.18927, Culture=neutral, PublicKeyToken=null</value>
+    <value>ArdupilotMega.HorizontalProgressBar, ArdupilotMegaPlanner10, Version=1.1.4941.32078, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar16.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1037,7 +1037,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>horizontalProgressBar8</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar8.Type" xml:space="preserve">
-    <value>ArdupilotMega.HorizontalProgressBar, ArdupilotMegaPlanner10, Version=1.1.4859.18927, Culture=neutral, PublicKeyToken=null</value>
+    <value>ArdupilotMega.HorizontalProgressBar, ArdupilotMegaPlanner10, Version=1.1.4941.32078, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar8.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1061,7 +1061,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>horizontalProgressBar7</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar7.Type" xml:space="preserve">
-    <value>ArdupilotMega.HorizontalProgressBar, ArdupilotMegaPlanner10, Version=1.1.4859.18927, Culture=neutral, PublicKeyToken=null</value>
+    <value>ArdupilotMega.HorizontalProgressBar, ArdupilotMegaPlanner10, Version=1.1.4941.32078, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar7.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1085,7 +1085,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>horizontalProgressBar6</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar6.Type" xml:space="preserve">
-    <value>ArdupilotMega.HorizontalProgressBar, ArdupilotMegaPlanner10, Version=1.1.4859.18927, Culture=neutral, PublicKeyToken=null</value>
+    <value>ArdupilotMega.HorizontalProgressBar, ArdupilotMegaPlanner10, Version=1.1.4941.32078, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar6.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1109,7 +1109,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>horizontalProgressBar5</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar5.Type" xml:space="preserve">
-    <value>ArdupilotMega.HorizontalProgressBar, ArdupilotMegaPlanner10, Version=1.1.4859.18927, Culture=neutral, PublicKeyToken=null</value>
+    <value>ArdupilotMega.HorizontalProgressBar, ArdupilotMegaPlanner10, Version=1.1.4941.32078, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar5.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1133,7 +1133,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>horizontalProgressBar4</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar4.Type" xml:space="preserve">
-    <value>ArdupilotMega.HorizontalProgressBar, ArdupilotMegaPlanner10, Version=1.1.4859.18927, Culture=neutral, PublicKeyToken=null</value>
+    <value>ArdupilotMega.HorizontalProgressBar, ArdupilotMegaPlanner10, Version=1.1.4941.32078, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar4.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1157,7 +1157,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>horizontalProgressBar3</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar3.Type" xml:space="preserve">
-    <value>ArdupilotMega.HorizontalProgressBar, ArdupilotMegaPlanner10, Version=1.1.4859.18927, Culture=neutral, PublicKeyToken=null</value>
+    <value>ArdupilotMega.HorizontalProgressBar, ArdupilotMegaPlanner10, Version=1.1.4941.32078, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar3.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1181,7 +1181,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>horizontalProgressBar2</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar2.Type" xml:space="preserve">
-    <value>ArdupilotMega.HorizontalProgressBar, ArdupilotMegaPlanner10, Version=1.1.4859.18927, Culture=neutral, PublicKeyToken=null</value>
+    <value>ArdupilotMega.HorizontalProgressBar, ArdupilotMegaPlanner10, Version=1.1.4941.32078, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar2.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1205,7 +1205,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>horizontalProgressBar1</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar1.Type" xml:space="preserve">
-    <value>ArdupilotMega.HorizontalProgressBar, ArdupilotMegaPlanner10, Version=1.1.4859.18927, Culture=neutral, PublicKeyToken=null</value>
+    <value>ArdupilotMega.HorizontalProgressBar, ArdupilotMegaPlanner10, Version=1.1.4941.32078, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar1.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1213,7 +1213,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
   <data name="&gt;&gt;horizontalProgressBar1.ZOrder" xml:space="preserve">
     <value>22</value>
   </data>
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
@@ -1226,18 +1226,18 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>currentStateBindingSource</value>
   </data>
   <data name="&gt;&gt;currentStateBindingSource.Type" xml:space="preserve">
-    <value>System.Windows.Forms.BindingSource, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.BindingSource, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;toolTip1.Name" xml:space="preserve">
     <value>toolTip1</value>
   </data>
   <data name="&gt;&gt;toolTip1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.ToolTip, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>ConfigFailSafe</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

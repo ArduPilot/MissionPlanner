@@ -176,7 +176,7 @@ namespace ArdupilotMega
                     //GPS, 3, 122732, 10, 0.00, -35.3628880, 149.1621961, 808.90, 810.30, 23.30, 94.04
 
                     string[] vals = new string[] { "GPS", "3",  (cs.datetime.ToUniversalTime() - new DateTime(cs.datetime.Year,cs.datetime.Month,cs.datetime.Day,0,0,0,DateTimeKind.Utc)).TotalMilliseconds.ToString(),
-                    cs.satcount.ToString(),cs.gpshdop.ToString(),cs.lat.ToString(),cs.lng.ToString(),cs.alt.ToString(),cs.alt.ToString(),cs.groundspeed.ToString(),cs.yaw.ToString()};
+                    cs.satcount.ToString(),cs.gpshdop.ToString(),cs.lat.ToString(),cs.lng.ToString(),cs.altasl.ToString(),cs.altasl.ToString(),cs.groundspeed.ToString(),cs.yaw.ToString()};
 
                     if (oldvalues.Length > 2 && oldvalues[latpos] == vals[latpos]
                         && oldvalues[lngpos] == vals[lngpos]
@@ -230,7 +230,6 @@ namespace ArdupilotMega
             }
 
             sr.Close();
-            sr.Dispose();
 
             logcache = list;
 

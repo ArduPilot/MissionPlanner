@@ -1,4 +1,22 @@
-﻿* Mission Planner 1.2.60
+﻿* Mission Planner 1.2.61
+Wizard WIP
+relocate native methods
+add support for russian hud. - no option to change this yet.
+failsafe options fixed.
+remove history from FW screen - will add back in time.
+reduce osd request rates
+make do_set_roi work
+add more script support (thanks wd40bomber7)
+add left/right support in log browse
+remove dark colors from tlog viewer
+add error message about extracting wp's from tlog when there are none.
+add GetParameterOptions to param metastore
+add update rate to follow me
+fix georef agl vs asl issue = always asl
+fix no data warning endless loop.
+tweak osdvideo - cant be on FD screen
+
+* Mission Planner 1.2.60
 More Wizard (excluded atm - wip)
 add altasl to status tab (altitude above sea level)
 update ac simple pids yaw

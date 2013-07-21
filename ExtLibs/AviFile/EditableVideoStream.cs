@@ -33,8 +33,8 @@ namespace AviFile {
         /// <summary>Create an editable stream from an uneditable stream</summary>
         /// <param name="stream">uneditable stream</param>
         public EditableVideoStream(VideoStream stream) : base(stream.FrameSize, stream.FrameRate, stream.Width, stream.Height, stream.CountBitsPerPixel, stream.CountFrames, stream.CompressOptions, stream.WriteCompressed) {
-            Avi.AVIFileInit();
-            int result = Avi.CreateEditableStream(ref editableStream, stream.StreamPointer);
+            Avi.NativeMethods.AVIFileInit();
+            int result = Avi.NativeMethods.CreateEditableStream(ref editableStream, stream.StreamPointer);
 
             if (result != 0) {
                 throw new Exception("Exception in CreateEditableStream: " + result.ToString());
@@ -46,7 +46,7 @@ namespace AviFile {
         /// <summary>Close the stream</summary>
         public override void Close() {
             base.Close();
-            Avi.AVIFileExit();
+            Avi.NativeMethods.AVIFileExit();
         }
 
         /// <summary>Copy a number of frames into a temporary stream</summary>
@@ -55,7 +55,7 @@ namespace AviFile {
         /// <returns>Pointer to the unmanaged temporary stream</returns>
         public IntPtr Copy(int start, int length) {
             IntPtr copyPointer = IntPtr.Zero;
-            int result = Avi.EditStreamCopy(editableStream, ref start, ref length, ref copyPointer);
+            int result = Avi.NativeMethods.EditStreamCopy(editableStream, ref start, ref length, ref copyPointer);
 
             if (result != 0) {
                 throw new Exception("Exception in Copy: " + result.ToString());
@@ -70,7 +70,7 @@ namespace AviFile {
         /// <returns>Pointer to the unmanaged temporary stream</returns>
         public IntPtr Cut(int start, int length) {
             IntPtr copyPointer = IntPtr.Zero;
-            int result = Avi.EditStreamCut(editableStream, ref start, ref length, ref copyPointer);
+            int result = Avi.NativeMethods.EditStreamCut(editableStream, ref start, ref length, ref copyPointer);
 
             if (result != 0) {
                 throw new Exception("Exception in Cut: " + result.ToString());
@@ -96,7 +96,7 @@ namespace AviFile {
         /// <param name="length">Count of frames to paste</param>
         public void Paste(IntPtr sourceStream, int copyPosition, int pastePosition, int length) {
             int pastedLength = 0;
-            int result = Avi.EditStreamPaste(editableStream, ref pastePosition, ref pastedLength, sourceStream, copyPosition, length);
+            int result = Avi.NativeMethods.EditStreamPaste(editableStream, ref pastePosition, ref pastedLength, sourceStream, copyPosition, length);
             
             if (result != 0) {
                 throw new Exception("Exception in Paste: " + result.ToString());
@@ -108,7 +108,7 @@ namespace AviFile {
         /// <summary>Change the AviStreamInfo values and update the frame rate</summary>
         /// <param name="info"></param>
         public void SetInfo(Avi.AVISTREAMINFO info) {
-            int result = Avi.EditStreamSetInfo(editableStream, ref info, Marshal.SizeOf(info));
+            int result = Avi.NativeMethods.EditStreamSetInfo(editableStream, ref info, Marshal.SizeOf(info));
             if (result != 0) {
                 throw new Exception("Exception in SetInfo: " + result.ToString());
             }

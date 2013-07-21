@@ -22,58 +22,6 @@ namespace ArdupilotMega.Utilities
 
         string firmwareurl = "https://raw.github.com/diydrones/binary/master/Firmware/firmware2.xml";
 
-        // old google code fw xml
-        readonly string gcoldurl = ("https://meee146-planner.googlecode.com/git-history/!Hash!/Tools/ArdupilotMegaPlanner/Firmware/firmware2.xml");
-        // old google code fw's
-        readonly string gcoldfirmwareurl = ("https://meee146-planner.googlecode.com/git-history/!Hash!/Tools/ArdupilotMegaPlanner/Firmware/!Firmware!");
-        // old google code hashs
-        string[] gcoldurls = new string[] { "76ff91fe7b2940a509ea7dfd728542491f480372", "bb5ee0e1c3e643e7e359ffb4c8bde34aa7d4f996", "55ec5eaf662a56044ea25c894d235d17185f0660", "cb5b736976c7ed791ea45675c31f588ecb8228d4", "bcd5239322df38db011f183e48d596f215803838", "8709cc418e00326295abc562530413c0089807a7", "06a64192df594b0f81233dfb1f0214aab2cb2603", "7853ef3fad98e5053f228b7c1748c76858c4d282", "abe930ce723267697542388ef181328f00371f40", "26305d5790333f730cd396afcd08c165cde33ed7", "bc1f26ca40b076e3d06f173adad772fb25aa6512", "dfc5737c5efc1e7b78e908829a097624c273d9d7", "682065db449b6c79d89717908ed8beea1ed6a03a", "b21116847d35472b9ab770408cbeb88ed2ed0a95", "511e00bc89a554aea8768a274bff28af532cd335", "1da56714aa1ed88dcdb078a90d33bcef4eb4315f", "8aa4c7a1ed07648f31335926cc6bcc06c87dc536" };
-
-        // github fw xml
-        readonly string gholdurl = ("https://github.com/diydrones/binary/raw/!Hash!/Firmware/firmware2.xml");
-        // github fw's
-        readonly string gholdfirmwareurl = ("https://github.com/diydrones/binary/raw/!Hash!/Firmware/!Firmware!");
-        // github history is loaded from file
-        string[] gholdurls = new string[] { };
-
-        /// <summary>
-        /// Generate url from template and subsitute in fw name and git hash
-        /// </summary>
-        /// <param name="hash"></param>
-        /// <param name="filename"></param>
-        /// <returns></returns>
-        string getUrl(string hash, string filename)
-        {
-            foreach (string x in gholdurls)
-            {
-                if (x == hash)
-                {
-                    if (filename == "")
-                        return gholdurl.Replace("!Hash!", hash);
-
-                    string fn = Path.GetFileName(filename);
-                    filename = gholdfirmwareurl.Replace("!Hash!", hash);
-                    filename = filename.Replace("!Firmware!", fn);
-                    return filename;
-                }
-            }
-
-            foreach (string x in gcoldurls)
-            {
-                if (x == hash)
-                {
-                    if (filename == "")
-                        return gcoldurl.Replace("!Hash!", hash);
-
-                    string fn = Path.GetFileName(filename);
-                    filename = gcoldfirmwareurl.Replace("!Hash!", hash);
-                    filename = filename.Replace("!Firmware!", fn);
-                    return filename;
-                }
-            }
-
-            return "";
-        }
 
         List<software> softwares = new List<software>();
 
@@ -93,14 +41,7 @@ namespace ArdupilotMega.Utilities
         /// </summary>
         public Firmware()
         {
-            gholdurls = File.ReadAllLines(Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + "FirmwareHistory.txt");
 
-            int a = 0;
-            foreach (string gh in gholdurls)
-            {
-                gholdurls[a] = gh.Trim();
-                a++;
-            }
         }
 
         /// <summary>
@@ -205,7 +146,7 @@ namespace ArdupilotMega.Utilities
             {
                 log.Error(ex);
                 //CustomMessageBox.Show("Failed to get Firmware List : " + ex.Message);
-                throw ex;
+                throw;
             }
             log.Info("load done");
 
@@ -258,7 +199,7 @@ namespace ArdupilotMega.Utilities
         /// </summary>
         /// <param name="temp"></param>
         /// <param name="historyhash"></param>
-        public bool update(string comport, software temp, string historyhash = "")
+        public bool update(string comport, software temp)
         {
             string board = "";
 
@@ -349,12 +290,6 @@ namespace ArdupilotMega.Utilities
                 {
                     CustomMessageBox.Show("Invalid Board Type");
                     return false;
-                }
-
-                // use the git-history url
-                if (historyhash != "")
-                {
-                    baseurl = getUrl(historyhash, baseurl);
                 }
 
                 log.Info("Using " + baseurl);

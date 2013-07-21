@@ -19,8 +19,12 @@ namespace ArdupilotMega.Wizard
 
         internal static Hashtable config = new Hashtable();
 
+        internal static Wizard instance;
+
         public Wizard()
         {
+            instance = this;
+
             InitializeComponent();
 
             Utilities.ThemeManager.ApplyThemeTo(this);
@@ -28,8 +32,17 @@ namespace ArdupilotMega.Wizard
             config.Clear();
 
             wiz_main = new MainSwitcher(this.panel1);
-
-    
+            /*
+            wiz_main.AddScreen(new MainSwitcher.Screen("Intro", new _1Intro(), true));
+            wiz_main.AddScreen(new MainSwitcher.Screen("FrameFW", new _2FrameFW(), true));
+            wiz_main.AddScreen(new MainSwitcher.Screen("Connect", new _3ConnectAP(), true));
+            wiz_main.AddScreen(new MainSwitcher.Screen("FrameType", new _4FrameType(), true));
+            wiz_main.AddScreen(new MainSwitcher.Screen("AccelCalib", new _5AccelCalib(), true));
+            wiz_main.AddScreen(new MainSwitcher.Screen("CompassCalib", new _6CompassCalib(), true));
+            wiz_main.AddScreen(new MainSwitcher.Screen("BatteryMonitor", new _7BatteryMonitor(), true));
+            wiz_main.AddScreen(new MainSwitcher.Screen("OptionalAC", new _8OptionalItemsAC(), true));
+            */
+            wiz_main.ShowScreen("FrameType");
 
             history.Add(wiz_main.current.Name);
 
@@ -37,7 +50,34 @@ namespace ArdupilotMega.Wizard
             progressStep1.Step = 1;
         }
 
-        private void BUT_Back_Click(object sender, EventArgs e)
+        public void GoNext(int progresspages)
+        {
+            // show the next screen
+            wiz_main.ShowScreen(wiz_main.screens[wiz_main.screens.IndexOf(wiz_main.current) + progresspages].Name);
+
+            // display index 0 as 1
+            progressStep1.Step = wiz_main.screens.IndexOf(wiz_main.current) + 1;
+
+            // add a history line
+            history.Add(wiz_main.current.Name);
+
+            // enable the back button if we leave the start point
+            if (wiz_main.screens.IndexOf(wiz_main.current) >= 1)
+            {
+                BUT_Back.Enabled = true;
+            }
+
+            if (wiz_main.current == wiz_main.screens.Last())
+            {
+                BUT_Next.Text = "Finish";
+            }
+            else
+            {
+                BUT_Next.Text = "NEXT >>";
+            }
+        }
+
+        public void GoBack()
         {
             // show the last page in history
             wiz_main.ShowScreen(history[history.Count - 2]);
@@ -55,6 +95,11 @@ namespace ArdupilotMega.Wizard
             }
         }
 
+        private void BUT_Back_Click(object sender, EventArgs e)
+        {
+            GoBack();
+        }
+
         private void BUT_Next_Click(object sender, EventArgs e)
         {
             int progresspages = 1;
@@ -69,21 +114,7 @@ namespace ArdupilotMega.Wizard
                 }
             }
 
-            // show the next screen
-            wiz_main.ShowScreen(wiz_main.screens[wiz_main.screens.IndexOf(wiz_main.current) + progresspages].Name);
-
-            // display index 0 as 1
-            progressStep1.Step = wiz_main.screens.IndexOf(wiz_main.current) + 1;
-
-            // add a history line
-            history.Add(wiz_main.current.Name);
-
-            // enable the back button if we leave the start point
-            if (wiz_main.screens.IndexOf(wiz_main.current) >= 1)
-            {
-                BUT_Back.Enabled = true;
-            }
-
+            GoNext(progresspages);
         }
     }
 }

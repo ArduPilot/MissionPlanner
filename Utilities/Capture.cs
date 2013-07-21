@@ -56,8 +56,11 @@ namespace WebCamService
 
         #region API
 
-        [DllImport("Kernel32.dll", EntryPoint="RtlMoveMemory")]
-        private static extern void CopyMemory(IntPtr Destination, IntPtr Source, int Length);
+        private static class NativeMethods
+        {
+            [DllImport("Kernel32.dll", EntryPoint = "RtlMoveMemory")]
+            internal static extern void CopyMemory(IntPtr Destination, IntPtr Source, int Length);
+        }
 
         #endregion
 
@@ -492,7 +495,7 @@ namespace WebCamService
                     throw new Exception("Buffer is wrong size");
                 }
 
-                CopyMemory(m_handle, pBuffer, m_stride * m_videoHeight);
+                NativeMethods.CopyMemory(m_handle, pBuffer, m_stride * m_videoHeight);
 
                 // Picture is ready.
                 m_PictureReady.Set();
@@ -511,7 +514,7 @@ namespace WebCamService
                 if(BufferLen <= m_stride * m_videoHeight)
                 {
                     // Copy the frame to the buffer
-                    CopyMemory(m_handle, pBuffer, m_stride * m_videoHeight);
+                    NativeMethods.CopyMemory(m_handle, pBuffer, m_stride * m_videoHeight);
                 }
                 else
                 {

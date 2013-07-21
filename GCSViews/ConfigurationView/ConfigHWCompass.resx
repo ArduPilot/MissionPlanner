@@ -139,13 +139,13 @@
     <value>BUT_MagCalibrationLive</value>
   </data>
   <data name="&gt;&gt;BUT_MagCalibrationLive.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.MyButton, ArdupilotMegaPlanner10, Version=1.1.4932.14170, Culture=neutral, PublicKeyToken=null</value>
+    <value>ArdupilotMega.Controls.MyButton, ArdupilotMegaPlanner10, Version=1.1.4950.13827, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_MagCalibrationLive.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BUT_MagCalibrationLive.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>10</value>
   </data>
   <data name="label27.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -172,7 +172,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label27.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>11</value>
   </data>
   <data name="linkLabelmagdec.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -202,7 +202,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;linkLabelmagdec.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>12</value>
   </data>
   <data name="label100.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -229,7 +229,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label100.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>13</value>
   </data>
   <data name="TXT_declination.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -253,7 +253,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;TXT_declination.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>14</value>
   </data>
   <data name="CHK_enablecompass.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -277,13 +277,13 @@
     <value>CHK_enablecompass</value>
   </data>
   <data name="&gt;&gt;CHK_enablecompass.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.MavlinkCheckBox, ArdupilotMegaPlanner10, Version=1.1.4932.14170, Culture=neutral, PublicKeyToken=null</value>
+    <value>ArdupilotMega.Controls.MavlinkCheckBox, ArdupilotMegaPlanner10, Version=1.1.4950.13827, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_enablecompass.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CHK_enablecompass.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="pictureBox1.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
     <value>Zoom</value>
@@ -316,7 +316,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;pictureBox1.ZOrder" xml:space="preserve">
-    <value>14</value>
+    <value>15</value>
   </data>
   <data name="BUT_MagCalibrationLog.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -337,13 +337,13 @@
     <value>BUT_MagCalibrationLog</value>
   </data>
   <data name="&gt;&gt;BUT_MagCalibrationLog.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.MyButton, ArdupilotMegaPlanner10, Version=1.1.4932.14170, Culture=neutral, PublicKeyToken=null</value>
+    <value>ArdupilotMega.Controls.MyButton, ArdupilotMegaPlanner10, Version=1.1.4950.13827, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_MagCalibrationLog.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BUT_MagCalibrationLog.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>9</value>
   </data>
   <data name="CHK_autodec.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -370,7 +370,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CHK_autodec.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>8</value>
   </data>
   <data name="label5.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 12pt</value>
@@ -385,7 +385,7 @@
     <value>66</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
-    <value>Compass Onboard</value>
+    <value>Compass</value>
   </data>
   <data name="&gt;&gt;label5.Name" xml:space="preserve">
     <value>label5</value>
@@ -397,7 +397,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="groupBox2.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
@@ -421,7 +421,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;groupBox2.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="CMB_compass_orient.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -439,13 +439,13 @@
     <value>CMB_compass_orient</value>
   </data>
   <data name="&gt;&gt;CMB_compass_orient.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.MavlinkComboBox, ArdupilotMegaPlanner10, Version=1.1.4932.14170, Culture=neutral, PublicKeyToken=null</value>
+    <value>ArdupilotMega.Controls.MavlinkComboBox, ArdupilotMegaPlanner10, Version=1.1.4950.13827, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CMB_compass_orient.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CMB_compass_orient.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="label8.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -472,7 +472,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label8.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="label4.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -502,7 +502,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="linkLabel1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -532,6 +532,37 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;linkLabel1.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="label1.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>388, 201</value>
+  </data>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>211, 26</value>
+  </data>
+  <data name="label1.TabIndex" type="System.Int32, mscorlib">
+    <value>84</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Please Select None, for a standard APM
+Select Roll 180 for the new 3DR GPS/Mag</value>
+  </data>
+  <data name="&gt;&gt;label1.Name" xml:space="preserve">
+    <value>label1</value>
+  </data>
+  <data name="&gt;&gt;label1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">

@@ -478,7 +478,7 @@ namespace ArdupilotMega.GCSViews
                                     if (plla.x == 0 || plla.y == 0)
                                         continue;
 
-                                    if (plla.command == (byte)MAVLink.MAV_CMD.ROI)
+                                    if (plla.command == (byte)MAVLink.MAV_CMD.DO_SET_ROI)
                                     {
                                         addpolygonmarkerred(plla.seq.ToString(), plla.y, plla.x, (int)plla.z, Color.Red, routes);
                                         continue;

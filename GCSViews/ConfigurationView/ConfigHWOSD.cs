@@ -48,8 +48,8 @@ SR0_RAW_SENS,0
 SR0_RC_CHAN,0
     */
             MainV2.comPort.setParam("SR0_EXT_STAT", 2);
-            MainV2.comPort.setParam("SR0_EXTRA1", 10);
-            MainV2.comPort.setParam("SR0_EXTRA2", 10);
+            MainV2.comPort.setParam("SR0_EXTRA1", 3);
+            MainV2.comPort.setParam("SR0_EXTRA2", 3);
             MainV2.comPort.setParam("SR0_EXTRA3", 2);
             MainV2.comPort.setParam("SR0_POSITION", 3);
             MainV2.comPort.setParam("SR0_RAW_CTRL", 2);
@@ -57,8 +57,8 @@ SR0_RC_CHAN,0
             MainV2.comPort.setParam("SR0_RC_CHAN", 2);
 
             MainV2.comPort.setParam("SR3_EXT_STAT", 2);
-            MainV2.comPort.setParam("SR3_EXTRA1", 10);
-            MainV2.comPort.setParam("SR3_EXTRA2", 10);
+            MainV2.comPort.setParam("SR3_EXTRA1", 3);
+            MainV2.comPort.setParam("SR3_EXTRA2", 3);
             MainV2.comPort.setParam("SR3_EXTRA3", 2);
             MainV2.comPort.setParam("SR3_POSITION", 3);
             MainV2.comPort.setParam("SR3_RAW_CTRL", 2);

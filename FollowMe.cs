@@ -19,12 +19,15 @@ namespace ArdupilotMega
         static internal PointLatLngAlt lastgotolocation = new PointLatLngAlt(0, 0, 0, "Goto last");
         static internal PointLatLngAlt gotolocation = new PointLatLngAlt(0, 0, 0, "Goto");
         static internal int intalt = 100;
+        static float updaterate = 0.5f;
 
         public FollowMe()
         {
             InitializeComponent();
 
             CMB_serialport.DataSource = SerialPort.GetPortNames();
+
+            CMB_updaterate.SelectedItem = updaterate;
 
             if (threadrun)
             {
@@ -139,7 +142,7 @@ namespace ArdupilotMega
 
                     if (DateTime.Now > nextsend && gotolocation.Lat != 0 && gotolocation.Lng != 0 && gotolocation.Alt != 0) // 200 * 10 = 2 sec /// lastgotolocation != gotolocation && 
                     {
-                        nextsend = DateTime.Now.AddSeconds(2);
+                        nextsend = DateTime.Now.AddMilliseconds(1000/updaterate);
                         Console.WriteLine("Sending follow wp " +DateTime.Now.ToString("h:MM:ss")+" "+ gotolocation.Lat + " " + gotolocation.Lng + " " +gotolocation.Alt);
                         lastgotolocation = new PointLatLngAlt(gotolocation);
 
@@ -170,7 +173,7 @@ namespace ArdupilotMega
                         }
                     }
                 }
-                catch { System.Threading.Thread.Sleep(2000); }
+                catch { System.Threading.Thread.Sleep((int)(1000 / updaterate)); }
             }
         }
 
@@ -220,6 +223,15 @@ namespace ArdupilotMega
             }
             // Return the checksum formatted as a two-character hexadecimal
             return Checksum.ToString("X2");
+        }
+
+        private void CMB_updaterate_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                updaterate = float.Parse(CMB_updaterate.Text.Replace("hz", ""));
+            }
+            catch { CustomMessageBox.Show("Bad Update Rate"); }
         }
 
     }

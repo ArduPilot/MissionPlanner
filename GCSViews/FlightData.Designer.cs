@@ -40,7 +40,6 @@
             this.modifyandSetSpeed = new ArdupilotMega.Controls.ModifyandSet();
             this.modifyandSetAlt = new ArdupilotMega.Controls.ModifyandSet();
             this.BUT_ARM = new ArdupilotMega.Controls.MyButton();
-            this.BUT_script = new ArdupilotMega.Controls.MyButton();
             this.BUT_joystick = new ArdupilotMega.Controls.MyButton();
             this.BUT_quickmanual = new ArdupilotMega.Controls.MyButton();
             this.BUT_quickrtl = new ArdupilotMega.Controls.MyButton();
@@ -61,6 +60,15 @@
             this.Galt = new AGaugeApp.AGauge();
             this.Gspeed = new AGaugeApp.AGauge();
             this.tabStatus = new System.Windows.Forms.TabPage();
+            this.tabServo = new System.Windows.Forms.TabPage();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.servoOptions1 = new ArdupilotMega.Controls.ServoOptions();
+            this.servoOptions2 = new ArdupilotMega.Controls.ServoOptions();
+            this.servoOptions3 = new ArdupilotMega.Controls.ServoOptions();
+            this.servoOptions4 = new ArdupilotMega.Controls.ServoOptions();
+            this.servoOptions5 = new ArdupilotMega.Controls.ServoOptions();
+            this.servoOptions6 = new ArdupilotMega.Controls.ServoOptions();
+            this.servoOptions7 = new ArdupilotMega.Controls.ServoOptions();
             this.tabTLogs = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.BUT_loadtelem = new ArdupilotMega.Controls.MyButton();
@@ -79,18 +87,23 @@
             this.BUT_speed1_2 = new ArdupilotMega.Controls.MyButton();
             this.BUT_speed1_4 = new ArdupilotMega.Controls.MyButton();
             this.BUT_speed1_10 = new ArdupilotMega.Controls.MyButton();
-            this.tabServo = new System.Windows.Forms.TabPage();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.servoOptions1 = new ArdupilotMega.Controls.ServoOptions();
-            this.servoOptions2 = new ArdupilotMega.Controls.ServoOptions();
-            this.servoOptions3 = new ArdupilotMega.Controls.ServoOptions();
-            this.servoOptions4 = new ArdupilotMega.Controls.ServoOptions();
-            this.servoOptions5 = new ArdupilotMega.Controls.ServoOptions();
-            this.servoOptions6 = new ArdupilotMega.Controls.ServoOptions();
-            this.servoOptions7 = new ArdupilotMega.Controls.ServoOptions();
+            this.tablogbrowse = new System.Windows.Forms.TabPage();
+            this.BUT_logbrowse = new ArdupilotMega.Controls.MyButton();
+            this.tabScripts = new System.Windows.Forms.TabPage();
+            this.checkBoxRedirectOutput = new System.Windows.Forms.CheckBox();
+            this.BUT_edit_selected = new ArdupilotMega.Controls.MyButton();
+            this.labelSelectedScript = new System.Windows.Forms.Label();
+            this.BUT_run_script = new ArdupilotMega.Controls.MyButton();
+            this.BUT_abort_script = new ArdupilotMega.Controls.MyButton();
+            this.labelScriptStatus = new System.Windows.Forms.Label();
+            this.BUT_select_script = new ArdupilotMega.Controls.MyButton();
             this.tableMap = new System.Windows.Forms.TableLayoutPanel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.zg1 = new ZedGraph.ZedGraphControl();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.lbl_winddir = new ArdupilotMega.Controls.MyLabel();
             this.lbl_windvel = new ArdupilotMega.Controls.MyLabel();
             this.lbl_hdop = new ArdupilotMega.Controls.MyLabel();
@@ -109,8 +122,8 @@
             this.dataGridViewImageColumn2 = new System.Windows.Forms.DataGridViewImageColumn();
             this.ZedGraphTimer = new System.Windows.Forms.Timer(this.components);
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.tablogbrowse = new System.Windows.Forms.TabPage();
-            this.BUT_logbrowse = new ArdupilotMega.Controls.MyButton();
+            this.openScriptDialog = new System.Windows.Forms.OpenFileDialog();
+            this.scriptChecker = new System.Windows.Forms.Timer(this.components);
             this.contextMenuStripMap.SuspendLayout();
             this.MainH.Panel1.SuspendLayout();
             this.MainH.Panel2.SuspendLayout();
@@ -126,12 +139,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             this.tabActions.SuspendLayout();
             this.tabGauges.SuspendLayout();
+            this.tabServo.SuspendLayout();
+            this.flowLayoutPanel1.SuspendLayout();
             this.tabTLogs.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tracklog)).BeginInit();
             this.panel2.SuspendLayout();
-            this.tabServo.SuspendLayout();
-            this.flowLayoutPanel1.SuspendLayout();
+            this.tablogbrowse.SuspendLayout();
+            this.tabScripts.SuspendLayout();
             this.tableMap.SuspendLayout();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -139,7 +154,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.TRK_zoom)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Zoomlevel)).BeginInit();
-            this.tablogbrowse.SuspendLayout();
             this.SuspendLayout();
             // 
             // contextMenuStripMap
@@ -338,6 +352,7 @@
             this.tabControl1.Controls.Add(this.tabServo);
             this.tabControl1.Controls.Add(this.tabTLogs);
             this.tabControl1.Controls.Add(this.tablogbrowse);
+            this.tabControl1.Controls.Add(this.tabScripts);
             resources.ApplyResources(this.tabControl1, "tabControl1");
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -433,7 +448,6 @@
             this.tabActions.Controls.Add(this.modifyandSetSpeed);
             this.tabActions.Controls.Add(this.modifyandSetAlt);
             this.tabActions.Controls.Add(this.BUT_ARM);
-            this.tabActions.Controls.Add(this.BUT_script);
             this.tabActions.Controls.Add(this.BUT_joystick);
             this.tabActions.Controls.Add(this.BUT_quickmanual);
             this.tabActions.Controls.Add(this.BUT_quickrtl);
@@ -488,17 +502,6 @@
             this.toolTip1.SetToolTip(this.BUT_ARM, resources.GetString("BUT_ARM.ToolTip"));
             this.BUT_ARM.UseVisualStyleBackColor = true;
             this.BUT_ARM.Click += new System.EventHandler(this.BUT_ARM_Click);
-            // 
-            // BUT_script
-            // 
-            this.BUT_script.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
-            this.BUT_script.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
-            resources.ApplyResources(this.BUT_script, "BUT_script");
-            this.BUT_script.Name = "BUT_script";
-            this.BUT_script.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
-            this.BUT_script.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
-            this.BUT_script.UseVisualStyleBackColor = true;
-            this.BUT_script.Click += new System.EventHandler(this.BUT_script_Click);
             // 
             // BUT_joystick
             // 
@@ -1122,6 +1125,60 @@
             resources.ApplyResources(this.tabStatus, "tabStatus");
             this.tabStatus.Name = "tabStatus";
             // 
+            // tabServo
+            // 
+            this.tabServo.Controls.Add(this.flowLayoutPanel1);
+            resources.ApplyResources(this.tabServo, "tabServo");
+            this.tabServo.Name = "tabServo";
+            this.tabServo.UseVisualStyleBackColor = true;
+            // 
+            // flowLayoutPanel1
+            // 
+            resources.ApplyResources(this.flowLayoutPanel1, "flowLayoutPanel1");
+            this.flowLayoutPanel1.Controls.Add(this.servoOptions1);
+            this.flowLayoutPanel1.Controls.Add(this.servoOptions2);
+            this.flowLayoutPanel1.Controls.Add(this.servoOptions3);
+            this.flowLayoutPanel1.Controls.Add(this.servoOptions4);
+            this.flowLayoutPanel1.Controls.Add(this.servoOptions5);
+            this.flowLayoutPanel1.Controls.Add(this.servoOptions6);
+            this.flowLayoutPanel1.Controls.Add(this.servoOptions7);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            // 
+            // servoOptions1
+            // 
+            resources.ApplyResources(this.servoOptions1, "servoOptions1");
+            this.servoOptions1.Name = "servoOptions1";
+            // 
+            // servoOptions2
+            // 
+            resources.ApplyResources(this.servoOptions2, "servoOptions2");
+            this.servoOptions2.Name = "servoOptions2";
+            // 
+            // servoOptions3
+            // 
+            resources.ApplyResources(this.servoOptions3, "servoOptions3");
+            this.servoOptions3.Name = "servoOptions3";
+            // 
+            // servoOptions4
+            // 
+            resources.ApplyResources(this.servoOptions4, "servoOptions4");
+            this.servoOptions4.Name = "servoOptions4";
+            // 
+            // servoOptions5
+            // 
+            resources.ApplyResources(this.servoOptions5, "servoOptions5");
+            this.servoOptions5.Name = "servoOptions5";
+            // 
+            // servoOptions6
+            // 
+            resources.ApplyResources(this.servoOptions6, "servoOptions6");
+            this.servoOptions6.Name = "servoOptions6";
+            // 
+            // servoOptions7
+            // 
+            resources.ApplyResources(this.servoOptions7, "servoOptions7");
+            this.servoOptions7.Name = "servoOptions7";
+            // 
             // tabTLogs
             // 
             this.tabTLogs.Controls.Add(this.tableLayoutPanel1);
@@ -1304,59 +1361,98 @@
             this.BUT_speed1_10.UseVisualStyleBackColor = true;
             this.BUT_speed1_10.Click += new System.EventHandler(this.BUT_speed1_Click);
             // 
-            // tabServo
+            // tablogbrowse
             // 
-            this.tabServo.Controls.Add(this.flowLayoutPanel1);
-            resources.ApplyResources(this.tabServo, "tabServo");
-            this.tabServo.Name = "tabServo";
-            this.tabServo.UseVisualStyleBackColor = true;
+            this.tablogbrowse.Controls.Add(this.BUT_logbrowse);
+            resources.ApplyResources(this.tablogbrowse, "tablogbrowse");
+            this.tablogbrowse.Name = "tablogbrowse";
+            this.tablogbrowse.UseVisualStyleBackColor = true;
             // 
-            // flowLayoutPanel1
+            // BUT_logbrowse
             // 
-            resources.ApplyResources(this.flowLayoutPanel1, "flowLayoutPanel1");
-            this.flowLayoutPanel1.Controls.Add(this.servoOptions1);
-            this.flowLayoutPanel1.Controls.Add(this.servoOptions2);
-            this.flowLayoutPanel1.Controls.Add(this.servoOptions3);
-            this.flowLayoutPanel1.Controls.Add(this.servoOptions4);
-            this.flowLayoutPanel1.Controls.Add(this.servoOptions5);
-            this.flowLayoutPanel1.Controls.Add(this.servoOptions6);
-            this.flowLayoutPanel1.Controls.Add(this.servoOptions7);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.BUT_logbrowse.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
+            this.BUT_logbrowse.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
+            resources.ApplyResources(this.BUT_logbrowse, "BUT_logbrowse");
+            this.BUT_logbrowse.Name = "BUT_logbrowse";
+            this.BUT_logbrowse.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
+            this.BUT_logbrowse.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.BUT_logbrowse.UseVisualStyleBackColor = true;
+            this.BUT_logbrowse.Click += new System.EventHandler(this.BUT_logbrowse_Click);
             // 
-            // servoOptions1
+            // tabScripts
             // 
-            resources.ApplyResources(this.servoOptions1, "servoOptions1");
-            this.servoOptions1.Name = "servoOptions1";
+            this.tabScripts.Controls.Add(this.checkBoxRedirectOutput);
+            this.tabScripts.Controls.Add(this.BUT_edit_selected);
+            this.tabScripts.Controls.Add(this.labelSelectedScript);
+            this.tabScripts.Controls.Add(this.BUT_run_script);
+            this.tabScripts.Controls.Add(this.BUT_abort_script);
+            this.tabScripts.Controls.Add(this.labelScriptStatus);
+            this.tabScripts.Controls.Add(this.BUT_select_script);
+            resources.ApplyResources(this.tabScripts, "tabScripts");
+            this.tabScripts.Name = "tabScripts";
+            this.tabScripts.UseVisualStyleBackColor = true;
             // 
-            // servoOptions2
+            // checkBoxRedirectOutput
             // 
-            resources.ApplyResources(this.servoOptions2, "servoOptions2");
-            this.servoOptions2.Name = "servoOptions2";
+            resources.ApplyResources(this.checkBoxRedirectOutput, "checkBoxRedirectOutput");
+            this.checkBoxRedirectOutput.Checked = true;
+            this.checkBoxRedirectOutput.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxRedirectOutput.Name = "checkBoxRedirectOutput";
+            this.checkBoxRedirectOutput.UseVisualStyleBackColor = true;
             // 
-            // servoOptions3
+            // BUT_edit_selected
             // 
-            resources.ApplyResources(this.servoOptions3, "servoOptions3");
-            this.servoOptions3.Name = "servoOptions3";
+            this.BUT_edit_selected.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
+            this.BUT_edit_selected.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
+            resources.ApplyResources(this.BUT_edit_selected, "BUT_edit_selected");
+            this.BUT_edit_selected.Name = "BUT_edit_selected";
+            this.BUT_edit_selected.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
+            this.BUT_edit_selected.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.BUT_edit_selected.UseVisualStyleBackColor = true;
+            this.BUT_edit_selected.Click += new System.EventHandler(this.BUT_edit_selected_Click);
             // 
-            // servoOptions4
+            // labelSelectedScript
             // 
-            resources.ApplyResources(this.servoOptions4, "servoOptions4");
-            this.servoOptions4.Name = "servoOptions4";
+            resources.ApplyResources(this.labelSelectedScript, "labelSelectedScript");
+            this.labelSelectedScript.Name = "labelSelectedScript";
             // 
-            // servoOptions5
+            // BUT_run_script
             // 
-            resources.ApplyResources(this.servoOptions5, "servoOptions5");
-            this.servoOptions5.Name = "servoOptions5";
+            this.BUT_run_script.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
+            this.BUT_run_script.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
+            resources.ApplyResources(this.BUT_run_script, "BUT_run_script");
+            this.BUT_run_script.Name = "BUT_run_script";
+            this.BUT_run_script.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
+            this.BUT_run_script.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.BUT_run_script.UseVisualStyleBackColor = true;
+            this.BUT_run_script.Click += new System.EventHandler(this.BUT_run_script_Click);
             // 
-            // servoOptions6
+            // BUT_abort_script
             // 
-            resources.ApplyResources(this.servoOptions6, "servoOptions6");
-            this.servoOptions6.Name = "servoOptions6";
+            this.BUT_abort_script.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
+            this.BUT_abort_script.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
+            resources.ApplyResources(this.BUT_abort_script, "BUT_abort_script");
+            this.BUT_abort_script.Name = "BUT_abort_script";
+            this.BUT_abort_script.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
+            this.BUT_abort_script.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.BUT_abort_script.UseVisualStyleBackColor = true;
+            this.BUT_abort_script.Click += new System.EventHandler(this.BUT_abort_script_Click);
             // 
-            // servoOptions7
+            // labelScriptStatus
             // 
-            resources.ApplyResources(this.servoOptions7, "servoOptions7");
-            this.servoOptions7.Name = "servoOptions7";
+            resources.ApplyResources(this.labelScriptStatus, "labelScriptStatus");
+            this.labelScriptStatus.Name = "labelScriptStatus";
+            // 
+            // BUT_select_script
+            // 
+            this.BUT_select_script.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
+            this.BUT_select_script.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
+            resources.ApplyResources(this.BUT_select_script, "BUT_select_script");
+            this.BUT_select_script.Name = "BUT_select_script";
+            this.BUT_select_script.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
+            this.BUT_select_script.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.BUT_select_script.UseVisualStyleBackColor = true;
+            this.BUT_select_script.Click += new System.EventHandler(this.BUT_select_script_Click);
             // 
             // tableMap
             // 
@@ -1378,6 +1474,10 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.ContextMenuStrip = this.contextMenuStripMap;
+            this.splitContainer1.Panel2.Controls.Add(this.label6);
+            this.splitContainer1.Panel2.Controls.Add(this.label5);
+            this.splitContainer1.Panel2.Controls.Add(this.label3);
+            this.splitContainer1.Panel2.Controls.Add(this.label4);
             this.splitContainer1.Panel2.Controls.Add(this.lbl_winddir);
             this.splitContainer1.Panel2.Controls.Add(this.lbl_windvel);
             this.splitContainer1.Panel2.Controls.Add(this.lbl_hdop);
@@ -1397,6 +1497,30 @@
             this.zg1.ScrollMinY = 0D;
             this.zg1.ScrollMinY2 = 0D;
             this.zg1.DoubleClick += new System.EventHandler(this.zg1_DoubleClick);
+            // 
+            // label6
+            // 
+            resources.ApplyResources(this.label6, "label6");
+            this.label6.ForeColor = System.Drawing.Color.Black;
+            this.label6.Name = "label6";
+            // 
+            // label5
+            // 
+            resources.ApplyResources(this.label5, "label5");
+            this.label5.ForeColor = System.Drawing.Color.Green;
+            this.label5.Name = "label5";
+            // 
+            // label3
+            // 
+            resources.ApplyResources(this.label3, "label3");
+            this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.label3.Name = "label3";
+            // 
+            // label4
+            // 
+            resources.ApplyResources(this.label4, "label4");
+            this.label4.ForeColor = System.Drawing.Color.Red;
+            this.label4.Name = "label4";
             // 
             // lbl_winddir
             // 
@@ -1580,23 +1704,13 @@
             this.toolTip1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
             this.toolTip1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
             // 
-            // tablogbrowse
+            // openScriptDialog
             // 
-            this.tablogbrowse.Controls.Add(this.BUT_logbrowse);
-            resources.ApplyResources(this.tablogbrowse, "tablogbrowse");
-            this.tablogbrowse.Name = "tablogbrowse";
-            this.tablogbrowse.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.openScriptDialog, "openScriptDialog");
             // 
-            // BUT_logbrowse
+            // scriptChecker
             // 
-            this.BUT_logbrowse.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
-            this.BUT_logbrowse.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
-            resources.ApplyResources(this.BUT_logbrowse, "BUT_logbrowse");
-            this.BUT_logbrowse.Name = "BUT_logbrowse";
-            this.BUT_logbrowse.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
-            this.BUT_logbrowse.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
-            this.BUT_logbrowse.UseVisualStyleBackColor = true;
-            this.BUT_logbrowse.Click += new System.EventHandler(this.BUT_logbrowse_Click);
+            this.scriptChecker.Tick += new System.EventHandler(this.scriptChecker_Tick);
             // 
             // FlightData
             // 
@@ -1624,14 +1738,17 @@
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
             this.tabActions.ResumeLayout(false);
             this.tabGauges.ResumeLayout(false);
+            this.tabServo.ResumeLayout(false);
+            this.flowLayoutPanel1.ResumeLayout(false);
             this.tabTLogs.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.tracklog)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
-            this.tabServo.ResumeLayout(false);
-            this.flowLayoutPanel1.ResumeLayout(false);
+            this.tablogbrowse.ResumeLayout(false);
+            this.tabScripts.ResumeLayout(false);
+            this.tabScripts.PerformLayout();
             this.tableMap.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
@@ -1641,7 +1758,6 @@
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Zoomlevel)).EndInit();
-            this.tablogbrowse.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1701,7 +1817,6 @@
         private ArdupilotMega.Controls.MyLabel lbl_logpercent;
         private System.Windows.Forms.ToolStripMenuItem pointCameraHereToolStripMenuItem;
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private ArdupilotMega.Controls.MyButton BUT_script;
         private ArdupilotMega.Controls.MyLabel lbl_hdop;
         private ArdupilotMega.Controls.MyLabel lbl_sats;
         private Controls.HSI Gheading;
@@ -1748,6 +1863,20 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TabPage tablogbrowse;
         private Controls.MyButton BUT_logbrowse;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TabPage tabScripts;
+        private Controls.MyButton BUT_edit_selected;
+        private System.Windows.Forms.Label labelSelectedScript;
+        private Controls.MyButton BUT_run_script;
+        private Controls.MyButton BUT_abort_script;
+        private System.Windows.Forms.Label labelScriptStatus;
+        private Controls.MyButton BUT_select_script;
+        private System.Windows.Forms.OpenFileDialog openScriptDialog;
+        private System.Windows.Forms.Timer scriptChecker;
+        private System.Windows.Forms.CheckBox checkBoxRedirectOutput;
 
     }
 }

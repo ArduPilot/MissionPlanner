@@ -32,10 +32,11 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LogBrowse));
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.zg1 = new ZedGraph.ZedGraphControl();
-            this.Graphit = new ArdupilotMega.Controls.MyButton();
+            this.BUT_Graphit = new ArdupilotMega.Controls.MyButton();
             this.BUT_cleargraph = new ArdupilotMega.Controls.MyButton();
             this.BUT_loadlog = new ArdupilotMega.Controls.MyButton();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.BUT_Graphit_R = new ArdupilotMega.Controls.MyButton();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -68,16 +69,16 @@
             this.zg1.ScrollMinY = 0D;
             this.zg1.ScrollMinY2 = 0D;
             // 
-            // Graphit
+            // BUT_Graphit
             // 
-            this.Graphit.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
-            this.Graphit.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
-            resources.ApplyResources(this.Graphit, "Graphit");
-            this.Graphit.Name = "Graphit";
-            this.Graphit.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
-            this.Graphit.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
-            this.Graphit.UseVisualStyleBackColor = true;
-            this.Graphit.Click += new System.EventHandler(this.Graphit_Click);
+            this.BUT_Graphit.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
+            this.BUT_Graphit.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
+            resources.ApplyResources(this.BUT_Graphit, "BUT_Graphit");
+            this.BUT_Graphit.Name = "BUT_Graphit";
+            this.BUT_Graphit.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
+            this.BUT_Graphit.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.BUT_Graphit.UseVisualStyleBackColor = true;
+            this.BUT_Graphit.Click += new System.EventHandler(this.Graphit_Click);
             // 
             // BUT_cleargraph
             // 
@@ -112,10 +113,22 @@
             // 
             // splitContainer1.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.Graphit);
+            this.splitContainer1.Panel2.Controls.Add(this.BUT_Graphit_R);
+            this.splitContainer1.Panel2.Controls.Add(this.BUT_Graphit);
             this.splitContainer1.Panel2.Controls.Add(this.BUT_loadlog);
             this.splitContainer1.Panel2.Controls.Add(this.dataGridView1);
             this.splitContainer1.Panel2.Controls.Add(this.BUT_cleargraph);
+            // 
+            // BUT_Graphit_R
+            // 
+            this.BUT_Graphit_R.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
+            this.BUT_Graphit_R.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
+            resources.ApplyResources(this.BUT_Graphit_R, "BUT_Graphit_R");
+            this.BUT_Graphit_R.Name = "BUT_Graphit_R";
+            this.BUT_Graphit_R.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
+            this.BUT_Graphit_R.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.BUT_Graphit_R.UseVisualStyleBackColor = true;
+            this.BUT_Graphit_R.Click += new System.EventHandler(this.BUT_Graphit_R_Click);
             // 
             // LogBrowse
             // 
@@ -136,10 +149,11 @@
 
         private System.Windows.Forms.DataGridView dataGridView1;
         private ZedGraph.ZedGraphControl zg1;
-        private ArdupilotMega.Controls.MyButton Graphit;
+        private ArdupilotMega.Controls.MyButton BUT_Graphit;
         private ArdupilotMega.Controls.MyButton BUT_cleargraph;
         private ArdupilotMega.Controls.MyButton BUT_loadlog;
         private System.Windows.Forms.SplitContainer splitContainer1;
+        private Controls.MyButton BUT_Graphit_R;
     }
 }
 

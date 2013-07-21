@@ -20,6 +20,14 @@ namespace ArdupilotMega.HIL
             this.z = z;
         }
 
+        public Vector3(Vector3 copyme)
+        {
+            self = this;
+            this.x = copyme.x;
+            this.y = copyme.y;
+            this.z = copyme.z;
+        }
+
         public new string ToString()
         {
             return String.Format("Vector3({0}, {1}, {2})", self.x,
@@ -119,107 +127,107 @@ namespace ArdupilotMega.HIL
 
         const double HALF_SQRT_2 = 0.70710678118654757;
 
-        void rotate(Common.Rotation rotation)
+        public Vector3 rotate(Common.Rotation rotation)
         {
             double tmp;
             switch (rotation)
             {
                 case Common.Rotation.ROTATION_NONE:
                 case Common.Rotation.ROTATION_MAX:
-                    return;
+                    return this;
                 case Common.Rotation.ROTATION_YAW_45:
                     {
                         tmp = HALF_SQRT_2 * (x - y);
                         y = HALF_SQRT_2 * (x + y);
                         x = tmp;
-                        return;
+                        return this;
                     }
                 case Common.Rotation.ROTATION_YAW_90:
                     {
                         tmp = x; x = -y; y = tmp;
-                        return;
+                        return this;
                     }
                 case Common.Rotation.ROTATION_YAW_135:
                     {
                         tmp = -HALF_SQRT_2 * (x + y);
                         y = HALF_SQRT_2 * (x - y);
                         x = tmp;
-                        return;
+                        return this;
                     }
                 case Common.Rotation.ROTATION_YAW_180:
                     x = -x; y = -y;
-                    return;
+                    return this;
                 case Common.Rotation.ROTATION_YAW_225:
                     {
                         tmp = HALF_SQRT_2 * (y - x);
                         y = -HALF_SQRT_2 * (x + y);
                         x = tmp;
-                        return;
+                        return this;
                     }
                 case Common.Rotation.ROTATION_YAW_270:
                     {
                         tmp = x; x = y; y = -tmp;
-                        return;
+                        return this;
                     }
                 case Common.Rotation.ROTATION_YAW_315:
                     {
                         tmp = HALF_SQRT_2 * (x + y);
                         y = HALF_SQRT_2 * (y - x);
                         x = tmp;
-                        return;
+                        return this;
                     }
                 case Common.Rotation.ROTATION_ROLL_180:
                     {
                         y = -y; z = -z;
-                        return;
+                        return this;
                     }
                 case Common.Rotation.ROTATION_ROLL_180_YAW_45:
                     {
                         tmp = HALF_SQRT_2 * (x + y);
                         y = HALF_SQRT_2 * (x - y);
                         x = tmp; z = -z;
-                        return;
+                        return this;
                     }
                 case Common.Rotation.ROTATION_ROLL_180_YAW_90:
                     {
                         tmp = x; x = y; y = tmp; z = -z;
-                        return;
+                        return this;
                     }
                 case Common.Rotation.ROTATION_ROLL_180_YAW_135:
                     {
                         tmp = HALF_SQRT_2 * (y - x);
                         y = HALF_SQRT_2 * (y + x);
                         x = tmp; z = -z;
-                        return;
+                        return this;
                     }
                 case Common.Rotation.ROTATION_PITCH_180:
                     {
                         x = -x; z = -z;
-                        return;
+                        return this;
                     }
                 case Common.Rotation.ROTATION_ROLL_180_YAW_225:
                     {
                         tmp = -HALF_SQRT_2 * (x + y);
                         y = HALF_SQRT_2 * (y - x);
                         x = tmp; z = -z;
-                        return;
+                        return this;
                     }
                 case Common.Rotation.ROTATION_ROLL_180_YAW_270:
                     {
                         tmp = x; x = -y; y = -tmp; z = -z;
-                        return;
+                        return this;
                     }
                 case Common.Rotation.ROTATION_ROLL_180_YAW_315:
                     {
                         tmp = HALF_SQRT_2 * (x - y);
                         y = -HALF_SQRT_2 * (x + y);
                         x = tmp; z = -z;
-                        return;
+                        return this;
                     }
                 case Common.Rotation.ROTATION_ROLL_90:
                     {
                         tmp = z; z = y; y = -tmp;
-                        return;
+                        return this;
                     }
                 case Common.Rotation.ROTATION_ROLL_90_YAW_45:
                     {
@@ -227,13 +235,13 @@ namespace ArdupilotMega.HIL
                         tmp = HALF_SQRT_2 * (x - y);
                         y = HALF_SQRT_2 * (x + y);
                         x = tmp;
-                        return;
+                        return this;
                     }
                 case Common.Rotation.ROTATION_ROLL_90_YAW_90:
                     {
                         tmp = z; z = y; y = -tmp;
                         tmp = x; x = -y; y = tmp;
-                        return;
+                        return this;
                     }
                 case Common.Rotation.ROTATION_ROLL_90_YAW_135:
                     {
@@ -241,12 +249,12 @@ namespace ArdupilotMega.HIL
                         tmp = -HALF_SQRT_2 * (x + y);
                         y = HALF_SQRT_2 * (x - y);
                         x = tmp;
-                        return;
+                        return this;
                     }
                 case Common.Rotation.ROTATION_ROLL_270:
                     {
                         tmp = z; z = -y; y = tmp;
-                        return;
+                        return this;
                     }
                 case Common.Rotation.ROTATION_ROLL_270_YAW_45:
                     {
@@ -254,13 +262,13 @@ namespace ArdupilotMega.HIL
                         tmp = HALF_SQRT_2 * (x - y);
                         y = HALF_SQRT_2 * (x + y);
                         x = tmp;
-                        return;
+                        return this;
                     }
                 case Common.Rotation.ROTATION_ROLL_270_YAW_90:
                     {
                         tmp = z; z = -y; y = tmp;
                         tmp = x; x = -y; y = tmp;
-                        return;
+                        return this;
                     }
                 case Common.Rotation.ROTATION_ROLL_270_YAW_135:
                     {
@@ -268,19 +276,21 @@ namespace ArdupilotMega.HIL
                         tmp = -HALF_SQRT_2 * (x + y);
                         y = HALF_SQRT_2 * (x - y);
                         x = tmp;
-                        return;
+                        return this;
                     }
                 case Common.Rotation.ROTATION_PITCH_90:
                     {
                         tmp = z; z = -x; x = tmp;
-                        return;
+                        return this;
                     }
                 case Common.Rotation.ROTATION_PITCH_270:
                     {
                         tmp = z; z = x; x = -tmp;
-                        return;
+                        return this;
                     }
             }
+            throw new Exception("Invalid Rotation");
+            //return this;
         }
     }
 }

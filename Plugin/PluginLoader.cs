@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Windows.Forms;
 
 namespace ArdupilotMega.Plugin
 {
@@ -58,7 +59,7 @@ namespace ArdupilotMega.Plugin
 
         public static void LoadAll()
         {
-            String[] files = Directory.GetFiles("./Plugins/", "*.dll");
+            String[] files = Directory.GetFiles(Application.StartupPath +  "/Plugins/", "*.dll");
             foreach (var s in files)
                 Load(Path.Combine(Environment.CurrentDirectory, s));
 
@@ -72,6 +73,8 @@ namespace ArdupilotMega.Plugin
                         Plugins.RemoveAt(i);
                         --i;
                     }
+
+                    p.Init();
                 }
                 catch (Exception)
                 {

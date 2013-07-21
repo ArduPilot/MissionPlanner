@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using ArdupilotMega.Controls.BackstageView;
 using ArdupilotMega.Controls;
 using System.Diagnostics;
+using ArdupilotMega.Utilities;
 
 namespace ArdupilotMega.GCSViews.ConfigurationView
 {
@@ -16,14 +17,6 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
     {
         Timer timer = new Timer();
         //
-
-        enum thr_fs_types
-        {
-            Disable = 0,
-            Enabled_always_RTL = 1,
-            Enabled_continue_in_auto_mode = 2,
-        }
-
 
         public ConfigFailSafe()
         {
@@ -50,9 +43,27 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
 
         public void Activate()
         {
+            Utilities.ParameterMetaDataRepository repo = new Utilities.ParameterMetaDataRepository();
+
+            string availableValuesRaw = repo.GetParameterMetaData("FS_THR_ENABLE", ParameterMetaDataConstants.Values);
+
+            string[] availableValues = availableValuesRaw.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+            if (availableValues.Any())
+            {
+                var splitValues = new List<KeyValuePair<string, string>>();
+                // Add the values to the ddl
+                foreach (string val in availableValues)
+                {
+                    string[] valParts = val.Split(new[] { ':' });
+                    splitValues.Add(new KeyValuePair<string, string>(valParts[0].Trim(), (valParts.Length > 1) ? valParts[1].Trim() : valParts[0].Trim()));
+                };
+                mavlinkComboBox_fs_thr_enable.setup(splitValues, "FS_THR_ENABLE", MainV2.comPort.MAV.param);
+
+            }
+
+
             // arducopter
             mavlinkCheckBoxfs_batt_enable.setup(1, 0, "FS_BATT_ENABLE", MainV2.comPort.MAV.param);
-            mavlinkComboBox_fs_thr_enable.setup(typeof(thr_fs_types), "FS_THR_ENABLE", MainV2.comPort.MAV.param);
             mavlinkNumericUpDownfs_thr_value.setup(800, 1200, 1, 1, "FS_THR_VALUE", MainV2.comPort.MAV.param);
             mavlinkNumericUpDownlow_voltage.setup(6, 99, 1, 0.1f, "LOW_VOLT", MainV2.comPort.MAV.param, PNL_low_bat);
 

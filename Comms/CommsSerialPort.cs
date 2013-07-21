@@ -232,7 +232,7 @@ namespace ArdupilotMega.Comms
             {
                 throw new ArgumentException("Invalid Serial Port", "portName");
             }
-            SafeFileHandle hFile = CreateFile(@"\\.\" + portName, dwAccess, 0, IntPtr.Zero, 3, dwFlagsAndAttributes,
+            SafeFileHandle hFile = NativeMethods.CreateFile(@"\\.\" + portName, dwAccess, 0, IntPtr.Zero, 3, dwFlagsAndAttributes,
                                               IntPtr.Zero);
             if (hFile.IsInvalid)
             {
@@ -240,7 +240,7 @@ namespace ArdupilotMega.Comms
             }
             try
             {
-                int fileType = GetFileType(hFile);
+                int fileType = NativeMethods.GetFileType(hFile);
                 if ((fileType != 2) && (fileType != 0))
                 {
                     throw new ArgumentException("Invalid Serial Port", "portName");
@@ -256,26 +256,30 @@ namespace ArdupilotMega.Comms
             }
         }
 
-        [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        private static extern int FormatMessage(int dwFlags, HandleRef lpSource, int dwMessageId, int dwLanguageId,
-                                                StringBuilder lpBuffer, int nSize, IntPtr arguments);
+        private static class NativeMethods
+        {
+            [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+            internal static extern int FormatMessage(int dwFlags, HandleRef lpSource, int dwMessageId, int dwLanguageId,
+                                                    StringBuilder lpBuffer, int nSize, IntPtr arguments);
 
-        [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        private static extern bool GetCommState(SafeFileHandle hFile, ref Dcb lpDcb);
+            [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+            internal static extern bool GetCommState(SafeFileHandle hFile, ref Dcb lpDcb);
 
-        [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        private static extern bool SetCommState(SafeFileHandle hFile, ref Dcb lpDcb);
+            [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+            internal static extern bool SetCommState(SafeFileHandle hFile, ref Dcb lpDcb);
 
-        [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        private static extern bool ClearCommError(SafeFileHandle hFile, ref int lpErrors, ref Comstat lpStat);
+            [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+            internal static extern bool ClearCommError(SafeFileHandle hFile, ref int lpErrors, ref Comstat lpStat);
 
-        [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        private static extern SafeFileHandle CreateFile(string lpFileName, int dwDesiredAccess, int dwShareMode,
-                                                        IntPtr securityAttrs, int dwCreationDisposition,
-                                                        int dwFlagsAndAttributes, IntPtr hTemplateFile);
+            [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+            internal static extern SafeFileHandle CreateFile(string lpFileName, int dwDesiredAccess, int dwShareMode,
+                                                            IntPtr securityAttrs, int dwCreationDisposition,
+                                                            int dwFlagsAndAttributes, IntPtr hTemplateFile);
 
-        [DllImport("kernel32.dll", SetLastError = true)]
-        private static extern int GetFileType(SafeFileHandle hFile);
+            [DllImport("kernel32.dll", SetLastError = true)]
+            internal static extern int GetFileType(SafeFileHandle hFile);
+
+        }
 
         private void InitializeDcb()
         {
@@ -289,7 +293,7 @@ namespace ArdupilotMega.Comms
         {
             StringBuilder lpBuffer = new StringBuilder(0x200);
             if (
-                FormatMessage(0x3200, new HandleRef(null, IntPtr.Zero), errorCode, 0, lpBuffer, lpBuffer.Capacity,
+                NativeMethods.FormatMessage(0x3200, new HandleRef(null, IntPtr.Zero), errorCode, 0, lpBuffer, lpBuffer.Capacity,
                               IntPtr.Zero) != 0)
             {
                 return lpBuffer.ToString();
@@ -315,11 +319,11 @@ namespace ArdupilotMega.Comms
 
             for (int i = 0; i < CommStateRetries; i++)
             {
-                if (!ClearCommError(m_Handle, ref commErrors, ref comStat))
+                if (!NativeMethods.ClearCommError(m_Handle, ref commErrors, ref comStat))
                 {
                     WinIoError();
                 }
-                if (GetCommState(m_Handle, ref lpDcb))
+                if (NativeMethods.GetCommState(m_Handle, ref lpDcb))
                 {
                     break;
                 }
@@ -334,11 +338,11 @@ namespace ArdupilotMega.Comms
             int commErrors = 0;
             Comstat comStat = new Comstat(); for (int i = 0; i < CommStateRetries; i++)
             {
-                if (!ClearCommError(m_Handle, ref commErrors, ref comStat))
+                if (!NativeMethods.ClearCommError(m_Handle, ref commErrors, ref comStat))
                 {
                     WinIoError();
                 }
-                if (SetCommState(m_Handle, ref lpDcb))
+                if (NativeMethods.SetCommState(m_Handle, ref lpDcb))
                 {
                     break;
                 }

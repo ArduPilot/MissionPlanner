@@ -903,7 +903,7 @@ namespace ArdupilotMega.GCSViews
                             if (cell4 == "?" || cell3 == "?")
                                 continue;
 
-                            if (command == (byte)MAVLink.MAV_CMD.ROI)
+                            if (command == (byte)MAVLink.MAV_CMD.DO_SET_ROI)
                             {
                                 pointlist.Add(new PointLatLngAlt(double.Parse(cell3), double.Parse(cell4), (int)double.Parse(cell2) + homealt, "ROI" + (a + 1).ToString()) { color = Color.Red });
                                 GMapMarkerGoogleRed m = new GMapMarkerGoogleRed(new PointLatLng(double.Parse(cell3), double.Parse(cell4)));
@@ -1333,7 +1333,7 @@ namespace ArdupilotMega.GCSViews
 
                 ((Controls.ProgressReporterDialogue)sender).UpdateProgressAndStatus(100, "Done.");
             }
-            catch (Exception ex) { MainV2.comPort.giveComport = false; throw ex; }
+            catch (Exception ex) { MainV2.comPort.giveComport = false; throw; }
 
             MainV2.comPort.giveComport = false;
         }
@@ -3307,11 +3307,11 @@ namespace ArdupilotMega.GCSViews
         {
             selectedrow = Commands.Rows.Add();
 
-            Commands.Rows[selectedrow].Cells[Command.Index].Value = MAVLink.MAV_CMD.ROI.ToString();
+            Commands.Rows[selectedrow].Cells[Command.Index].Value = MAVLink.MAV_CMD.DO_SET_ROI.ToString();
 
             //Commands.Rows[selectedrow].Cells[Param1.Index].Value = time;
 
-            ChangeColumnHeader(MAVLink.MAV_CMD.ROI.ToString());
+            ChangeColumnHeader(MAVLink.MAV_CMD.DO_SET_ROI.ToString());
 
             setfromMap(end.Lat, end.Lng, (int)float.Parse(TXT_DefaultAlt.Text));
 

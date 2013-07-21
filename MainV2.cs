@@ -35,11 +35,21 @@ namespace ArdupilotMega
         private static readonly ILog log =
             LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        // used to hide/show console window
-        [DllImport("user32.dll")]
-        public static extern int FindWindow(string szClass, string szTitle);
-        [DllImport("user32.dll")]
-        public static extern int ShowWindow(int Handle, int showState);
+        private static class NativeMethods
+        {
+            // used to hide/show console window
+            [DllImport("user32.dll")]
+            public static extern int FindWindow(string szClass, string szTitle);
+            [DllImport("user32.dll")]
+            public static extern int ShowWindow(int Handle, int showState);
+
+            [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+            internal static extern IntPtr RegisterDeviceNotification
+            (IntPtr hRecipient,
+            IntPtr NotificationFilter,
+            Int32 Flags);
+
+        }
 
         const int SW_SHOWNORMAL = 1;
         const int SW_HIDE = 0;
@@ -122,6 +132,7 @@ namespace ArdupilotMega
         /// store the time we first connect
         /// </summary>
         DateTime connecttime = DateTime.Now;
+        DateTime nodatawarning = DateTime.Now;
 
         /// <summary>
         /// enum of firmwares
@@ -256,8 +267,8 @@ namespace ArdupilotMega
                 }
                 else
                 {
-                    int win = FindWindow("ConsoleWindowClass", null);
-                    ShowWindow(win, SW_HIDE); // hide window
+                    int win = NativeMethods.FindWindow("ConsoleWindowClass", null);
+                    NativeMethods.ShowWindow(win, SW_HIDE); // hide window
                 }
             }
 
@@ -1220,13 +1231,16 @@ namespace ArdupilotMega
                         heatbeatSend = DateTime.Now;
                     }
 
-                    // data loss warning - ignore first 30 seconds of connect
-                    if ((DateTime.Now - comPort.lastvalidpacket).TotalSeconds > 10 && (DateTime.Now - connecttime).TotalSeconds > 30)
+                    // data loss warning - wait min of 10 seconds, ignore first 30 seconds of connect, repeat at 5 seconds interval
+                    if ((DateTime.Now - comPort.lastvalidpacket).TotalSeconds > 10 && (DateTime.Now - connecttime).TotalSeconds > 30 && (DateTime.Now - nodatawarning).TotalSeconds > 5)
                     {
                         if (speechEnable && speechEngine != null)
                         {
                             if (MainV2.speechEngine.State == SynthesizerState.Ready)
+                            {
                                 MainV2.speechEngine.SpeakAsync("WARNING No Data for " + (int)(DateTime.Now - comPort.lastvalidpacket).TotalSeconds + " Seconds");
+                                nodatawarning = DateTime.Now;
+                            }
                         }
                     }
 
@@ -1399,7 +1413,6 @@ namespace ArdupilotMega
             //int fixme;
             MenuFlightData_Click(sender, e);
 
-
             // for long running tasks using own threads.
             // for short use threadpool
 			
@@ -1452,6 +1465,12 @@ namespace ArdupilotMega
             {
                 log.Error("Update check failed", ex);
             }
+
+            try
+            {
+                Plugin.PluginLoader.LoadAll();
+            }
+            catch { }
         }
 
    
@@ -2501,11 +2520,7 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
             internal Byte[] dbcc_name;
         }
 
-        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        internal static extern IntPtr RegisterDeviceNotification
-        (IntPtr hRecipient,
-        IntPtr NotificationFilter,
-        Int32 Flags);
+
 
         protected override void WndProc(ref Message m)
         {
@@ -2531,7 +2546,7 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
                         Marshal.StructureToPtr(devBroadcastDeviceInterface, devBroadcastDeviceInterfaceBuffer, true);
 
 
-                        deviceNotificationHandle = RegisterDeviceNotification(this.Handle, devBroadcastDeviceInterfaceBuffer, DEVICE_NOTIFY_WINDOW_HANDLE);
+                        deviceNotificationHandle = NativeMethods.RegisterDeviceNotification(this.Handle, devBroadcastDeviceInterfaceBuffer, DEVICE_NOTIFY_WINDOW_HANDLE);
                     }
                     catch { }
 

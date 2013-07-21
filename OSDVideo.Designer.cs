@@ -85,11 +85,15 @@
             // 
             // BUT_tlogfile
             // 
+            this.BUT_tlogfile.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
+            this.BUT_tlogfile.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
             this.BUT_tlogfile.Location = new System.Drawing.Point(334, 38);
             this.BUT_tlogfile.Name = "BUT_tlogfile";
+            this.BUT_tlogfile.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
             this.BUT_tlogfile.Size = new System.Drawing.Size(75, 19);
             this.BUT_tlogfile.TabIndex = 6;
             this.BUT_tlogfile.Text = "Browse Tlog";
+            this.BUT_tlogfile.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_tlogfile.UseVisualStyleBackColor = true;
             this.BUT_tlogfile.Click += new System.EventHandler(this.BUT_tlogfile_Click);
             // 
@@ -133,6 +137,7 @@
             this.hud1.DataBindings.Add(new System.Windows.Forms.Binding("xtrack_error", this.bindingSource1, "xtrack_error", true));
             this.hud1.datetime = new System.DateTime(((long)(0)));
             this.hud1.disttowp = 0F;
+            this.hud1.failsafe = false;
             this.hud1.gpsfix = 0F;
             this.hud1.gpshdop = 0F;
             this.hud1.groundalt = 0F;
@@ -143,6 +148,7 @@
             this.hud1.linkqualitygcs = 100F;
             this.hud1.Location = new System.Drawing.Point(13, 115);
             this.hud1.lowvoltagealert = false;
+            this.hud1.message = "";
             this.hud1.mode = "Manual";
             this.hud1.Name = "hud1";
             this.hud1.navpitch = 0F;
@@ -150,7 +156,7 @@
             this.hud1.opengl = true;
             this.hud1.pitch = 0F;
             this.hud1.roll = 0F;
-            this.hud1.Size = new System.Drawing.Size(834, 447);
+            this.hud1.Size = new System.Drawing.Size(832, 448);
             this.hud1.status = false;
             this.hud1.streamjpg = ((System.IO.MemoryStream)(resources.GetObject("hud1.streamjpg")));
             this.hud1.TabIndex = 4;
@@ -169,21 +175,29 @@
             // 
             // BUT_start
             // 
+            this.BUT_start.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
+            this.BUT_start.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
             this.BUT_start.Location = new System.Drawing.Point(772, 29);
             this.BUT_start.Name = "BUT_start";
+            this.BUT_start.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
             this.BUT_start.Size = new System.Drawing.Size(75, 19);
             this.BUT_start.TabIndex = 3;
             this.BUT_start.Text = "Start";
+            this.BUT_start.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_start.UseVisualStyleBackColor = true;
             this.BUT_start.Click += new System.EventHandler(this.BUT_start_Click);
             // 
             // BUT_vidfile
             // 
+            this.BUT_vidfile.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
+            this.BUT_vidfile.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
             this.BUT_vidfile.Location = new System.Drawing.Point(334, 13);
             this.BUT_vidfile.Name = "BUT_vidfile";
+            this.BUT_vidfile.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
             this.BUT_vidfile.Size = new System.Drawing.Size(75, 19);
             this.BUT_vidfile.TabIndex = 2;
             this.BUT_vidfile.Text = "Browse Video";
+            this.BUT_vidfile.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_vidfile.UseVisualStyleBackColor = true;
             this.BUT_vidfile.Click += new System.EventHandler(this.BUT_vidfile_Click);
             // 

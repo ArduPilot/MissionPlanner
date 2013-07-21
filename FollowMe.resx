@@ -120,7 +120,7 @@
   <data name="textBox1.Text" xml:space="preserve">
     <value>What this does.
 1. gets the current gps coords from a nmea gps.
-2. sends a guided mode WP to the AP every 2 seconds.
+2. sends a guided mode WP to the AP at the hz you request. (remember this is limited to the gps you are using)
 
 How to use it
 1. connect to ap.

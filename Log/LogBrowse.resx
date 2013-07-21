@@ -145,7 +145,7 @@
     <value>splitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;dataGridView1.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="zg1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -171,38 +171,38 @@
   <data name="&gt;&gt;zg1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="Graphit.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="BUT_Graphit.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="Graphit.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="BUT_Graphit.Location" type="System.Drawing.Point, System.Drawing">
     <value>3, 3</value>
   </data>
-  <data name="Graphit.Size" type="System.Drawing.Size, System.Drawing">
-    <value>91, 23</value>
+  <data name="BUT_Graphit.Size" type="System.Drawing.Size, System.Drawing">
+    <value>115, 23</value>
   </data>
-  <data name="Graphit.TabIndex" type="System.Int32, mscorlib">
+  <data name="BUT_Graphit.TabIndex" type="System.Int32, mscorlib">
     <value>31</value>
   </data>
-  <data name="Graphit.Text" xml:space="preserve">
-    <value>Graph this data</value>
+  <data name="BUT_Graphit.Text" xml:space="preserve">
+    <value>Graph this data Left</value>
   </data>
-  <data name="&gt;&gt;Graphit.Name" xml:space="preserve">
-    <value>Graphit</value>
+  <data name="&gt;&gt;BUT_Graphit.Name" xml:space="preserve">
+    <value>BUT_Graphit</value>
   </data>
-  <data name="&gt;&gt;Graphit.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.MyButton, ArdupilotMegaPlanner10, Version=1.1.4935.30167, Culture=neutral, PublicKeyToken=null</value>
+  <data name="&gt;&gt;BUT_Graphit.Type" xml:space="preserve">
+    <value>ArdupilotMega.Controls.MyButton, ArdupilotMegaPlanner10, Version=1.1.4943.25972, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="&gt;&gt;Graphit.Parent" xml:space="preserve">
+  <data name="&gt;&gt;BUT_Graphit.Parent" xml:space="preserve">
     <value>splitContainer1.Panel2</value>
   </data>
-  <data name="&gt;&gt;Graphit.ZOrder" xml:space="preserve">
-    <value>0</value>
+  <data name="&gt;&gt;BUT_Graphit.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <data name="BUT_cleargraph.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="BUT_cleargraph.Location" type="System.Drawing.Point, System.Drawing">
-    <value>100, 3</value>
+    <value>245, 3</value>
   </data>
   <data name="BUT_cleargraph.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
@@ -217,19 +217,19 @@
     <value>BUT_cleargraph</value>
   </data>
   <data name="&gt;&gt;BUT_cleargraph.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.MyButton, ArdupilotMegaPlanner10, Version=1.1.4935.30167, Culture=neutral, PublicKeyToken=null</value>
+    <value>ArdupilotMega.Controls.MyButton, ArdupilotMegaPlanner10, Version=1.1.4943.25972, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_cleargraph.Parent" xml:space="preserve">
     <value>splitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;BUT_cleargraph.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="BUT_loadlog.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="BUT_loadlog.Location" type="System.Drawing.Point, System.Drawing">
-    <value>182, 4</value>
+    <value>326, 3</value>
   </data>
   <data name="BUT_loadlog.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
@@ -244,13 +244,13 @@
     <value>BUT_loadlog</value>
   </data>
   <data name="&gt;&gt;BUT_loadlog.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.MyButton, ArdupilotMegaPlanner10, Version=1.1.4935.30167, Culture=neutral, PublicKeyToken=null</value>
+    <value>ArdupilotMega.Controls.MyButton, ArdupilotMegaPlanner10, Version=1.1.4943.25972, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_loadlog.Parent" xml:space="preserve">
     <value>splitContainer1.Panel2</value>
   </data>
   <data name="&gt;&gt;BUT_loadlog.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="splitContainer1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
@@ -271,6 +271,33 @@
     <value>splitContainer1</value>
   </data>
   <data name="&gt;&gt;splitContainer1.Panel1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="BUT_Graphit_R.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="BUT_Graphit_R.Location" type="System.Drawing.Point, System.Drawing">
+    <value>124, 3</value>
+  </data>
+  <data name="BUT_Graphit_R.Size" type="System.Drawing.Size, System.Drawing">
+    <value>115, 23</value>
+  </data>
+  <data name="BUT_Graphit_R.TabIndex" type="System.Int32, mscorlib">
+    <value>34</value>
+  </data>
+  <data name="BUT_Graphit_R.Text" xml:space="preserve">
+    <value>Graph this data Right</value>
+  </data>
+  <data name="&gt;&gt;BUT_Graphit_R.Name" xml:space="preserve">
+    <value>BUT_Graphit_R</value>
+  </data>
+  <data name="&gt;&gt;BUT_Graphit_R.Type" xml:space="preserve">
+    <value>ArdupilotMega.Controls.MyButton, ArdupilotMegaPlanner10, Version=1.1.4943.25972, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;BUT_Graphit_R.Parent" xml:space="preserve">
+    <value>splitContainer1.Panel2</value>
+  </data>
+  <data name="&gt;&gt;BUT_Graphit_R.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <data name="&gt;&gt;splitContainer1.Panel2.Name" xml:space="preserve">

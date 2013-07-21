@@ -58,7 +58,28 @@ namespace ArdupilotMega.Log
     116    +  e   : int32_t * 100  
     117    +  E   : uint32_t * 100  
     118    +  L   : uint32_t latitude/longitude  
-    119    + */ 
+    119    + */
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == (Keys.Control |Keys.G))
+            {
+                string lineno = "0";
+                Common.InputBox("Line no", "Enter Line Number", ref lineno);
+
+                int line = int.Parse(lineno);
+
+                try
+                {
+                    dataGridView1.CurrentCell = dataGridView1[1, line - 1];
+                }
+                catch { CustomMessageBox.Show("Line Doesn't Exist"); }
+
+                return true;
+            }
+
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
 
         public LogBrowse()
         {
@@ -391,26 +412,31 @@ namespace ArdupilotMega.Log
                         {
                             zg1.GraphPane.CurveList[0].Label.Text = dataGridView1.Columns[col].HeaderText;
                             list1.Add(a, value);
+                            leftorrightaxis(sender,zg1.GraphPane.CurveList[0]);
                         }
                         else if (graphs == 1)
                         {
                             zg1.GraphPane.CurveList[1].Label.Text = dataGridView1.Columns[col].HeaderText;
                             list2.Add(a, value);
+                            leftorrightaxis(sender,zg1.GraphPane.CurveList[1]);
                         }
                         else if (graphs == 2)
                         {
                             zg1.GraphPane.CurveList[2].Label.Text = dataGridView1.Columns[col].HeaderText;
                             list3.Add(a, value);
+                            leftorrightaxis(sender,zg1.GraphPane.CurveList[2]);
                         }
                         else if (graphs == 3)
                         {
                             zg1.GraphPane.CurveList[3].Label.Text = dataGridView1.Columns[col].HeaderText;
                             list4.Add(a, value);
+                            leftorrightaxis(sender,zg1.GraphPane.CurveList[3]);
                         }
                         else if (graphs == 4)
                         {
                             zg1.GraphPane.CurveList[4].Label.Text = dataGridView1.Columns[col].HeaderText;
                             list5.Add(a, value);
+                            leftorrightaxis(sender,zg1.GraphPane.CurveList[4]);
                         }
                         else
                         {
@@ -435,6 +461,21 @@ namespace ArdupilotMega.Log
             zg1.Invalidate();
 
             graphs++;
+        }
+
+        private void leftorrightaxis(object sender, CurveItem myCurve)
+        {
+            if (sender == BUT_Graphit_R)
+            {
+                myCurve.Label.Text += " R";
+                myCurve.IsY2Axis = true;
+                myCurve.YAxisIndex = 0;
+                zg1.GraphPane.Y2Axis.IsVisible = true;
+            }
+            else if (sender == BUT_Graphit)
+            {
+                myCurve.IsY2Axis = false;
+            }
         }
 
         private void BUT_cleargraph_Click(object sender, EventArgs e)
@@ -537,6 +578,11 @@ namespace ArdupilotMega.Log
             var headerBounds = new Rectangle(e.RowBounds.Left, e.RowBounds.Top, grid.RowHeadersWidth, e.RowBounds.Height);
             e.Graphics.DrawString(rowIdx, this.Font, new SolidBrush(this.ForeColor), headerBounds, centerFormat);
 
+        }
+
+        private void BUT_Graphit_R_Click(object sender, EventArgs e)
+        {
+            Graphit_Click(sender,e);
         }
     }
 }

@@ -704,6 +704,7 @@ enum gcs_severity {
                                 if (!found)
                                 {
                                     log.Warn("Mode not found bm:" + hb.base_mode + " cm:" + hb.custom_mode);
+                                    _mode = hb.custom_mode;
                                 }
                             }
                         }
@@ -991,12 +992,13 @@ enum gcs_severity {
                     {
                         //System.Diagnostics.Debug.WriteLine(DateTime.Now.Millisecond);
                        // Console.Write(" "+DateTime.Now.Millisecond);
-                        //bs.DataSource = this;
+                        bs.DataSource = this;
                        // Console.Write(" " + DateTime.Now.Millisecond + " 1 " + updatenow + " " + System.Threading.Thread.CurrentThread.Name);
-                        //bs.ResetBindings(false);
+                        bs.ResetBindings(false);
                         //bs.ResetCurrentItem();
                         // mono workaround - this is alot faster
-                        bs.Add(this);
+                       // bs.Clear();
+                        //bs.Add(this);
                        // Console.WriteLine(" " + DateTime.Now.Millisecond + " done ");
                     }
                 }
