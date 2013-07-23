@@ -45,6 +45,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.label1 = new System.Windows.Forms.Label();
+            this.imageLabel1 = new ArdupilotMega.Controls.ImageLabel();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -161,10 +162,17 @@
             resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
             // 
+            // imageLabel1
+            // 
+            this.imageLabel1.Image = ((System.Drawing.Image)(resources.GetObject("imageLabel1.Image")));
+            resources.ApplyResources(this.imageLabel1, "imageLabel1");
+            this.imageLabel1.Name = "imageLabel1";
+            // 
             // ConfigHWCompass
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.imageLabel1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.label8);
@@ -206,5 +214,6 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.LinkLabel linkLabel1;
         private System.Windows.Forms.Label label1;
+        private Controls.ImageLabel imageLabel1;
     }
 }

@@ -38,7 +38,7 @@ namespace ArdupilotMega.Controls
 
         public bool HoldInvalidation = false;
 
-        public bool Russian = false;
+        public bool Russian {get;set;}
 
         class character {
             public Bitmap bitmap;
@@ -833,8 +833,15 @@ namespace ArdupilotMega.Controls
                 graphicsObject.TranslateTransform(this.Width / 2, this.Height / 2);
 
 
-                if (!Russian) 
+                if (!Russian)
+                {
+                    // horizon
                     graphicsObject.RotateTransform(-_roll);
+                }
+                else
+                {
+                    _roll *= -1;
+                }
 
 
                 int fontsize = this.Height / 30; // = 10
@@ -886,7 +893,9 @@ namespace ArdupilotMega.Controls
                 graphicsObject.SetClip(new Rectangle(0, this.Height / 14, this.Width, this.Height - this.Height / 14));
 
                 graphicsObject.TranslateTransform(this.Width / 2, this.Height / 2);
+                
                 graphicsObject.RotateTransform(-_roll);
+
 
                 // draw armed
 
@@ -989,7 +998,7 @@ namespace ArdupilotMega.Controls
                 foreach (int a in array)
                 {
                     graphicsObject.ResetTransform();
-                    graphicsObject.TranslateTransform(this.Width / 2, this.Height / 2);
+                    graphicsObject.TranslateTransform(this.Width / 2, this.Height / 2); 
                     graphicsObject.RotateTransform(a - _roll);
                     drawstring(graphicsObject, Math.Abs(a).ToString("0").PadLeft(2), font, fontsize, whiteBrush, 0 - 6 - fontoffset, -lengthlong * 8 - extra);
                     graphicsObject.DrawLine(whitePen, 0, -lengthlong * 3 - extra, 0, -lengthlong * 3 - extra - lengthlong);
@@ -1009,8 +1018,9 @@ namespace ArdupilotMega.Controls
 
                 //draw centre / current att
 
-                graphicsObject.TranslateTransform(this.Width / 2, this.Height / 2  +this.Height / 14);
+                graphicsObject.TranslateTransform(this.Width / 2, this.Height / 2);//  +this.Height / 14);
 
+                // plane wings
                 if (Russian)
                     graphicsObject.RotateTransform(-_roll);
 

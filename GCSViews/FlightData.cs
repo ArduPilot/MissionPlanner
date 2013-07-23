@@ -138,7 +138,7 @@ namespace ArdupilotMega.GCSViews
             myhud = hud1;
             MainHcopy = MainH;
 
-            mymap.Manager.UseMemoryCache = false;
+          //  mymap.Manager.UseMemoryCache = false;
 
             log.Info("Tunning Graph Settings");
             // setup default tuning graph
@@ -491,9 +491,12 @@ namespace ArdupilotMega.GCSViews
 
             if (MainV2.config.Contains("FlightSplitter"))
             {
-                //  hud1.Width = int.Parse(MainV2.config["FlightSplitter"].ToString());
-                //  MainH.PerformLayout();
                 MainH.SplitterDistance = int.Parse(MainV2.config["FlightSplitter"].ToString());
+            }
+
+            if (MainV2.config.Contains("russian_hud"))
+            {
+                hud1.Russian = bool.Parse(MainV2.config["russian_hud"].ToString());
             }
 
             hud1.doResize();
@@ -2736,7 +2739,7 @@ print 'Roll complete'
 
         private void BUT_speed1_Click(object sender, EventArgs e)
         {
-            LogPlayBackSpeed = double.Parse(((MyButton)sender).Tag.ToString());
+            LogPlayBackSpeed = double.Parse(((MyButton)sender).Tag.ToString(),System.Globalization.CultureInfo.InvariantCulture);
             lbl_playbackspeed.Text = "x " + LogPlayBackSpeed;            
         }
 
@@ -2836,6 +2839,12 @@ print 'Roll complete'
                 System.Diagnostics.Process.Start(psi);
             }
             catch { }
+        }
+
+        private void russianHudToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            hud1.Russian = !hud1.Russian;
+            MainV2.config["russian_hud"] = hud1.Russian.ToString();
         }
     }
 }

@@ -117,25 +117,28 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="BUT_calib_accell.Text" xml:space="preserve">
+    <value>Calibrate Accel</value>
+  </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>Die Lageregler werden standardmässig bei jedem Boot des APM neu kalibriert. Um dies abzuschalten, Manuelles Kalibrieren einschalten und von Hand kalibrieren.</value>
+    <value>'Plus'</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>'X'</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>Nur für fortgeschrittene User</value>
+    <value>Rahmen Einstellungen</value>
   </data>
-  <data name="label28.Text" xml:space="preserve">
-    <value>Flugzeug gerade ausrichten, um Standardwerte zu setzen</value>
+  <data name="label4.Text" xml:space="preserve">
+    <value>Level den Multicopter um den Beschleunigungsmesser zu Kalibrieren</value>
   </data>
-  <data name="BUT_levelplane.Text" xml:space="preserve">
-    <value>Ausrichten</value>
+  <data name="label5.Text" xml:space="preserve">
+    <value>Beschleunigungsmesser Kalibrieren</value>
   </data>
-  <data name="BUT_levelplane.ToolTip" xml:space="preserve">
-    <value>Beschleunigungssensoren kalibrieren</value>
+  <data name="lbl_Accel_user.Text" xml:space="preserve">
+    <value>ArduCopter 2.9+</value>
   </data>
-  <data name="CHK_manuallevel.ToolTip" xml:space="preserve">
-    <value>Schaltet Autolevel aus und behält die letzte Kalibrierung bei</value>
-  </data>
-  <data name="CHK_manuallevel.Text" xml:space="preserve">
-    <value>Manuelles leveln</value>
+  <data name="BUT_levelac2.Text" xml:space="preserve">
+    <value>Jetzt Kalibrieren</value>
   </data>
 </root>

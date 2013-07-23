@@ -1,4 +1,10 @@
-﻿* Mission Planner 1.2.61
+﻿* Mission Planner 1.2.62
+fix hud
+revert fw history
+mod plane accell calib
+fix log playback speed
+
+* Mission Planner 1.2.61
 Wizard WIP
 relocate native methods
 add support for russian hud. - no option to change this yet.

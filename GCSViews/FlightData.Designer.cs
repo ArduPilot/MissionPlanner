@@ -8,8 +8,8 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FlightData));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.contextMenuStripMap = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.goHereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.flyToHereAltToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -124,6 +124,7 @@
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.openScriptDialog = new System.Windows.Forms.OpenFileDialog();
             this.scriptChecker = new System.Windows.Forms.Timer(this.components);
+            this.russianHudToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStripMap.SuspendLayout();
             this.MainH.Panel1.SuspendLayout();
             this.MainH.Panel2.SuspendLayout();
@@ -305,7 +306,8 @@
             this.stopRecordToolStripMenuItem,
             this.setMJPEGSourceToolStripMenuItem,
             this.setAspectRatioToolStripMenuItem,
-            this.userItemsToolStripMenuItem});
+            this.userItemsToolStripMenuItem,
+            this.russianHudToolStripMenuItem});
             this.contextMenuStripHud.Name = "contextMenuStrip2";
             resources.ApplyResources(this.contextMenuStripHud, "contextMenuStripHud");
             // 
@@ -1679,8 +1681,8 @@
             // 
             // dataGridViewImageColumn1
             // 
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.dataGridViewImageColumn1.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dataGridViewImageColumn1.DefaultCellStyle = dataGridViewCellStyle1;
             resources.ApplyResources(this.dataGridViewImageColumn1, "dataGridViewImageColumn1");
             this.dataGridViewImageColumn1.Image = global::ArdupilotMega.Properties.Resources.up;
             this.dataGridViewImageColumn1.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
@@ -1688,8 +1690,8 @@
             // 
             // dataGridViewImageColumn2
             // 
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.dataGridViewImageColumn2.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dataGridViewImageColumn2.DefaultCellStyle = dataGridViewCellStyle2;
             resources.ApplyResources(this.dataGridViewImageColumn2, "dataGridViewImageColumn2");
             this.dataGridViewImageColumn2.Image = global::ArdupilotMega.Properties.Resources.down;
             this.dataGridViewImageColumn2.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
@@ -1711,6 +1713,12 @@
             // scriptChecker
             // 
             this.scriptChecker.Tick += new System.EventHandler(this.scriptChecker_Tick);
+            // 
+            // russianHudToolStripMenuItem
+            // 
+            this.russianHudToolStripMenuItem.Name = "russianHudToolStripMenuItem";
+            resources.ApplyResources(this.russianHudToolStripMenuItem, "russianHudToolStripMenuItem");
+            this.russianHudToolStripMenuItem.Click += new System.EventHandler(this.russianHudToolStripMenuItem_Click);
             // 
             // FlightData
             // 
@@ -1877,6 +1885,7 @@
         private System.Windows.Forms.OpenFileDialog openScriptDialog;
         private System.Windows.Forms.Timer scriptChecker;
         private System.Windows.Forms.CheckBox checkBoxRedirectOutput;
+        private System.Windows.Forms.ToolStripMenuItem russianHudToolStripMenuItem;
 
     }
 }

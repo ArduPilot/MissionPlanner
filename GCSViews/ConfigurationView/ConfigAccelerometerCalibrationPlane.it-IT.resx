@@ -117,25 +117,22 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="label2.Text" xml:space="preserve">
-    <value>Il vostro veivolo ad ogni avvio, avrà come impostazione di volo predefinita l'AUTOLEVEL. Per disattivare questa modalità, è necessario attivare la gestione manuale dell'orizzone "MANUAL LEVEL" che necessita la calibrazione degli accelerometri.  </value>
+  <data name="BUT_calib_accell.Text" xml:space="preserve">
+    <value>Calibra Accel</value>
   </data>
-  <data name="label1.Text" xml:space="preserve">
-    <value>SOLO per utenti esperti</value>
+  <data name="label4.Text" xml:space="preserve">
+    <value>Livella il tuo drone settando degli offset sui livelli di default dell'accelerometro</value>
   </data>
-  <data name="label28.Text" xml:space="preserve">
-    <value>Livella il drone per impostare gli accelerometri</value>
+  <data name="label5.Text" xml:space="preserve">
+    <value>Calibrazione Accelerometro</value>
   </data>
-  <data name="BUT_levelplane.Text" xml:space="preserve">
-    <value>Level</value>
+  <data name="CHK_acversion.Text" xml:space="preserve">
+    <value>AC 3.0 o succ.</value>
   </data>
-  <data name="BUT_levelplane.ToolTip" xml:space="preserve">
-    <value>Eseguire la calibrazione degli Acc ora.</value>
+  <data name="lbl_Accel_user.Text" xml:space="preserve">
+    <value>ArduCopter 2.9.x</value>
   </data>
-  <data name="CHK_manuallevel.ToolTip" xml:space="preserve">
-    <value>Disabilitando "auto level" si manterrà l'ultima calibrazione degli Acc. effettuata.</value>
-  </data>
-  <data name="CHK_manuallevel.Text" xml:space="preserve">
-    <value>Manual level</value>
+  <data name="BUT_levelac2.Text" xml:space="preserve">
+    <value>Calibra ORA</value>
   </data>
 </root>

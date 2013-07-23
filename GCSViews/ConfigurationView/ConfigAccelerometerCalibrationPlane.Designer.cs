@@ -1,4 +1,6 @@
-﻿namespace ArdupilotMega.GCSViews.ConfigurationView
+﻿using ArdupilotMega.Controls;
+
+namespace ArdupilotMega.GCSViews.ConfigurationView
 {
     partial class ConfigAccelerometerCalibrationPlane
     {
@@ -28,61 +30,61 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigAccelerometerCalibrationPlane));
-            this.label28 = new System.Windows.Forms.Label();
-            this.BUT_levelplane = new ArdupilotMega.Controls.MyButton();
-            this.CHK_manuallevel = new System.Windows.Forms.CheckBox();
-            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.lbl_Accel_user = new System.Windows.Forms.Label();
+            this.BUT_calib_accell = new ArdupilotMega.Controls.MyButton();
+            this.lineSeparator2 = new ArdupilotMega.Controls.LineSeparator();
             this.SuspendLayout();
             // 
-            // label28
+            // label5
             // 
-            resources.ApplyResources(this.label28, "label28");
-            this.label28.Name = "label28";
-            this.toolTip1.SetToolTip(this.label28, resources.GetString("label28.ToolTip"));
+            resources.ApplyResources(this.label5, "label5");
+            this.label5.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.label5.Name = "label5";
             // 
-            // BUT_levelplane
+            // label4
             // 
-            resources.ApplyResources(this.BUT_levelplane, "BUT_levelplane");
-            this.BUT_levelplane.Name = "BUT_levelplane";
-            this.toolTip1.SetToolTip(this.BUT_levelplane, resources.GetString("BUT_levelplane.ToolTip"));
-            this.BUT_levelplane.UseVisualStyleBackColor = true;
-            this.BUT_levelplane.Click += new System.EventHandler(this.BUT_levelplane_Click);
+            resources.ApplyResources(this.label4, "label4");
+            this.label4.Name = "label4";
             // 
-            // CHK_manuallevel
+            // lbl_Accel_user
             // 
-            resources.ApplyResources(this.CHK_manuallevel, "CHK_manuallevel");
-            this.CHK_manuallevel.Name = "CHK_manuallevel";
-            this.toolTip1.SetToolTip(this.CHK_manuallevel, resources.GetString("CHK_manuallevel.ToolTip"));
-            this.CHK_manuallevel.UseVisualStyleBackColor = true;
-            this.CHK_manuallevel.CheckedChanged += new System.EventHandler(this.CHK_manuallevel_CheckedChanged);
+            resources.ApplyResources(this.lbl_Accel_user, "lbl_Accel_user");
+            this.lbl_Accel_user.Name = "lbl_Accel_user";
             // 
-            // label1
+            // BUT_calib_accell
             // 
-            resources.ApplyResources(this.label1, "label1");
-            this.label1.Name = "label1";
-            this.toolTip1.SetToolTip(this.label1, resources.GetString("label1.ToolTip"));
+            this.BUT_calib_accell.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
+            this.BUT_calib_accell.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
+            resources.ApplyResources(this.BUT_calib_accell, "BUT_calib_accell");
+            this.BUT_calib_accell.Name = "BUT_calib_accell";
+            this.BUT_calib_accell.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
+            this.BUT_calib_accell.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.BUT_calib_accell.UseVisualStyleBackColor = true;
+            this.BUT_calib_accell.Click += new System.EventHandler(this.BUT_calib_accell_Click);
             // 
-            // label2
+            // lineSeparator2
             // 
-            resources.ApplyResources(this.label2, "label2");
-            this.label2.Name = "label2";
-            this.toolTip1.SetToolTip(this.label2, resources.GetString("label2.ToolTip"));
+            resources.ApplyResources(this.lineSeparator2, "lineSeparator2");
+            this.lineSeparator2.Name = "lineSeparator2";
+            this.lineSeparator2.Opacity1 = 0.6F;
+            this.lineSeparator2.Opacity2 = 0.7F;
+            this.lineSeparator2.Opacity3 = 0.1F;
+            this.lineSeparator2.PrimaryColor = System.Drawing.Color.Black;
+            this.lineSeparator2.SecondaryColor = System.Drawing.Color.Gainsboro;
             // 
             // ConfigAccelerometerCalibrationPlane
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.CHK_manuallevel);
-            this.Controls.Add(this.label28);
-            this.Controls.Add(this.BUT_levelplane);
+            this.Controls.Add(this.lbl_Accel_user);
+            this.Controls.Add(this.BUT_calib_accell);
+            this.Controls.Add(this.lineSeparator2);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.label5);
             this.Name = "ConfigAccelerometerCalibrationPlane";
-            this.toolTip1.SetToolTip(this, resources.GetString("$this.ToolTip"));
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -90,11 +92,10 @@
 
         #endregion
 
-        private System.Windows.Forms.Label label28;
-        private ArdupilotMega.Controls.MyButton BUT_levelplane;
-        private System.Windows.Forms.CheckBox CHK_manuallevel;
-        private System.Windows.Forms.ToolTip toolTip1;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label4;
+        private LineSeparator lineSeparator2;
+        private MyButton BUT_calib_accell;
+        private System.Windows.Forms.Label lbl_Accel_user;
     }
 }

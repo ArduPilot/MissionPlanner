@@ -1,19 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
+using System.Reflection;
 using System.Windows.Forms;
 using ArdupilotMega.Controls.BackstageView;
-using ArdupilotMega.Controls;
+using log4net;
+using Transitions;
 
 namespace ArdupilotMega.GCSViews.ConfigurationView
 {
-    public partial class ConfigAccelerometerCalibrationPlane : UserControl, IActivate
+    public partial class ConfigAccelerometerCalibrationPlane : UserControl, IActivate, IDeactivate
     {
-        bool startup = false;
+        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
+        private const float DisabledOpacity = 0.2F;
+        private const float EnabledOpacity = 1.0F;
+
+        public enum Frame
+        {
+            Plus = 0,
+            X = 1,
+            V = 2,
+        }
 
         public ConfigAccelerometerCalibrationPlane()
         {
@@ -22,57 +28,106 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
 
         public void Activate()
         {
-            if (!MainV2.comPort.BaseStream.IsOpen)
+            if (!MainV2.comPort.MAV.param.ContainsKey("FRAME"))
             {
                 this.Enabled = false;
                 return;
             }
-            else
-            {
-                if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane)
-                {
-                    this.Enabled = true;
-                }
-                else
-                {
-                    this.Enabled = false;
-                    return;
-                }
-            }
 
-            startup = true;
-
-            if (MainV2.comPort.MAV.param["MANUAL_LEVEL"] != null)
-                CHK_manuallevel.Checked = MainV2.comPort.MAV.param["MANUAL_LEVEL"].ToString() == "1" ? true : false;
-
-            startup = false;
+            BUT_calib_accell.Enabled = true;
         }
 
-        private void CHK_manuallevel_CheckedChanged(object sender, EventArgs e)
+        public void Deactivate()
         {
-            if (startup)
+            MainV2.comPort.giveComport = false;
+
+        }
+
+        byte count = 0;
+
+        private void BUT_calib_accell_Click(object sender, EventArgs e)
+        {
+            if (MainV2.comPort.giveComport == true)
+            {
+                    count++;
+                    try
+                    {
+                        MainV2.comPort.sendPacket(new MAVLink.mavlink_command_ack_t() { command = 1, result = count });// doCommand(MAVLink.MAV_CMD.PREFLIGHT_CALIBRATION, 0, 0, 0, 0, 1, 0, 0);
+                    }
+                    catch { CustomMessageBox.Show("Error writing to serial port"); return; }
+        
                 return;
+            }
+
             try
             {
-                MainV2.comPort.setParam("MANUAL_LEVEL", ((CheckBox)sender).Checked == true ? 1 : 0);
+                count = 0;
+
+                Log.Info("Sending accel command (mavlink 1.0)");
+                MainV2.comPort.giveComport = true;
+
+                MainV2.comPort.Write("\n\n\n\n\n\n\n\n\n\n\n");
+                System.Threading.Thread.Sleep(200);
+
+                MainV2.comPort.doCommand(MAVLink.MAV_CMD.PREFLIGHT_CALIBRATION, 0, 0, 0, 0, 1, 0, 0);
+                MainV2.comPort.giveComport = true;
+
+                System.Threading.ThreadPool.QueueUserWorkItem(readmessage,this);
+
+                BUT_calib_accell.Text = "Click When Done";
             }
-            catch
+            catch (Exception ex)
             {
-                CustomMessageBox.Show("Failed to level : AP 2.32+ is required");
+                MainV2.comPort.giveComport = false;
+                Log.Error("Exception on level", ex);
+                CustomMessageBox.Show("Failed to level : ac2 2.0.37+ is required");
             }
         }
 
-        private void BUT_levelplane_Click(object sender, EventArgs e)
+        static void readmessage(object item)
         {
-            try
-            {           
-                            MainV2.comPort.doCommand(MAVLink.MAV_CMD.PREFLIGHT_CALIBRATION,1,0,1,0,0,0,0);
-                BUT_levelplane.Text = "Complete";
-            }
-            catch
+            var local = (ConfigAccelerometerCalibrationPlane)item;
+
+            // clean up history
+            MainV2.comPort.MAV.cs.messages.Clear();
+
+            while (!(MainV2.comPort.MAV.cs.message.ToLower().Contains("calibration successful") || MainV2.comPort.MAV.cs.message.ToLower().Contains("calibration failed")))
             {
-                CustomMessageBox.Show("Failed to level : AP 2.32+ is required");
+                try
+                {
+                    System.Threading.Thread.Sleep(10);
+                    // read the message
+                    MainV2.comPort.readPacket();
+                    // update cs with the message
+                    MainV2.comPort.MAV.cs.UpdateCurrentSettings(null);
+                    // update user display
+                    local.UpdateUserMessage();
+                }
+                catch { break; }
             }
+
+            MainV2.comPort.giveComport = false;
+
+            try
+            {
+                local.Invoke((MethodInvoker)delegate()
+            {
+                local.BUT_calib_accell.Text = "Done";
+                local.BUT_calib_accell.Enabled = false;
+            });
+            }
+            catch { }
         }
+
+        public void UpdateUserMessage()
+        {
+            this.Invoke((MethodInvoker)delegate()
+            {
+                if (!MainV2.comPort.MAV.cs.message.ToLower().Contains("initi"))
+                    lbl_Accel_user.Text = MainV2.comPort.MAV.cs.message;
+            });
+        }
+
+
     }
 }

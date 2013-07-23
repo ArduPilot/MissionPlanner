@@ -17,9 +17,9 @@ namespace ArdupilotMega.Controls
         private string text = "None";
 
         [System.ComponentModel.Browsable(true), DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public Label Label;
+        public Label Label { get { return label1; } set { label1 = value; } }
         [System.ComponentModel.Browsable(true), DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PictureBox PictureBox;
+        public PictureBox PictureBox { get { return pictureBox1; } set { pictureBox1 = value; } }
 
         public ImageLabel()
         {
@@ -27,9 +27,6 @@ namespace ArdupilotMega.Controls
             picture = new Bitmap(640,480);
 
             InitializeComponent();
-
-            Label = label1;
-            PictureBox = pictureBox1;
         }
 
         public void setImageandText(Image image, string text)
