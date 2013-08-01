@@ -1,4 +1,5 @@
-﻿namespace ArdupilotMega.GCSViews.ConfigurationView
+﻿using ArdupilotMega.Controls;
+namespace ArdupilotMega.GCSViews.ConfigurationView
 {
     partial class ConfigFailSafe
     {
@@ -53,22 +54,22 @@
             this.label3 = new System.Windows.Forms.Label();
             this.lbl_armed = new ArdupilotMega.Controls.MyLabel();
             this.lbl_gpslock = new ArdupilotMega.Controls.MyLabel();
-            this.horizontalProgressBar9 = new ArdupilotMega.HorizontalProgressBar();
-            this.horizontalProgressBar10 = new ArdupilotMega.HorizontalProgressBar();
-            this.horizontalProgressBar11 = new ArdupilotMega.HorizontalProgressBar();
-            this.horizontalProgressBar12 = new ArdupilotMega.HorizontalProgressBar();
-            this.horizontalProgressBar13 = new ArdupilotMega.HorizontalProgressBar();
-            this.horizontalProgressBar14 = new ArdupilotMega.HorizontalProgressBar();
-            this.horizontalProgressBar15 = new ArdupilotMega.HorizontalProgressBar();
-            this.horizontalProgressBar16 = new ArdupilotMega.HorizontalProgressBar();
-            this.horizontalProgressBar8 = new ArdupilotMega.HorizontalProgressBar();
-            this.horizontalProgressBar7 = new ArdupilotMega.HorizontalProgressBar();
-            this.horizontalProgressBar6 = new ArdupilotMega.HorizontalProgressBar();
-            this.horizontalProgressBar5 = new ArdupilotMega.HorizontalProgressBar();
-            this.horizontalProgressBar4 = new ArdupilotMega.HorizontalProgressBar();
-            this.horizontalProgressBar3 = new ArdupilotMega.HorizontalProgressBar();
-            this.horizontalProgressBar2 = new ArdupilotMega.HorizontalProgressBar();
-            this.horizontalProgressBar1 = new ArdupilotMega.HorizontalProgressBar();
+            this.horizontalProgressBar9 = new HorizontalProgressBar();
+            this.horizontalProgressBar10 = new HorizontalProgressBar();
+            this.horizontalProgressBar11 = new HorizontalProgressBar();
+            this.horizontalProgressBar12 = new HorizontalProgressBar();
+            this.horizontalProgressBar13 = new HorizontalProgressBar();
+            this.horizontalProgressBar14 = new HorizontalProgressBar();
+            this.horizontalProgressBar15 = new HorizontalProgressBar();
+            this.horizontalProgressBar16 = new HorizontalProgressBar();
+            this.horizontalProgressBar8 = new HorizontalProgressBar();
+            this.horizontalProgressBar7 = new HorizontalProgressBar();
+            this.horizontalProgressBar6 = new HorizontalProgressBar();
+            this.horizontalProgressBar5 = new HorizontalProgressBar();
+            this.horizontalProgressBar4 = new HorizontalProgressBar();
+            this.horizontalProgressBar3 = new HorizontalProgressBar();
+            this.horizontalProgressBar2 = new HorizontalProgressBar();
+            this.horizontalProgressBar1 = new HorizontalProgressBar();
             ((System.ComponentModel.ISupportInitialize)(this.currentStateBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDownlow_voltage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDownfs_thr_value)).BeginInit();

@@ -2775,6 +2775,9 @@ Please check the following
                         case MAVLink.MAV_TYPE.QUADROTOR:
                             MAV.cs.firmware = MainV2.Firmwares.ArduCopter2;
                             break;
+                        case MAVLink.MAV_TYPE.HELICOPTER:
+                            MAV.cs.firmware = MainV2.Firmwares.ArduHeli;
+                            break;
                         case MAVLink.MAV_TYPE.GROUND_ROVER:
                             MAV.cs.firmware = MainV2.Firmwares.ArduRover;
                             break;

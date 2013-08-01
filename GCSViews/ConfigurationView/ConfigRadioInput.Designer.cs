@@ -1,4 +1,5 @@
-﻿namespace ArdupilotMega.GCSViews.ConfigurationView
+﻿using ArdupilotMega.Controls;
+namespace ArdupilotMega.GCSViews.ConfigurationView
 {
     partial class ConfigRadioInput
     {
@@ -40,15 +41,15 @@
             this.CHK_revch2 = new System.Windows.Forms.CheckBox();
             this.CHK_revch1 = new System.Windows.Forms.CheckBox();
             this.BUT_Calibrateradio = new ArdupilotMega.Controls.MyButton();
-            this.BAR8 = new ArdupilotMega.HorizontalProgressBar2();
+            this.BAR8 = new HorizontalProgressBar2();
             this.currentStateBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.BAR7 = new ArdupilotMega.HorizontalProgressBar2();
-            this.BAR6 = new ArdupilotMega.HorizontalProgressBar2();
-            this.BAR5 = new ArdupilotMega.HorizontalProgressBar2();
-            this.BARpitch = new ArdupilotMega.VerticalProgressBar2();
-            this.BARthrottle = new ArdupilotMega.VerticalProgressBar2();
-            this.BARyaw = new ArdupilotMega.HorizontalProgressBar2();
-            this.BARroll = new ArdupilotMega.HorizontalProgressBar2();
+            this.BAR7 = new HorizontalProgressBar2();
+            this.BAR6 = new HorizontalProgressBar2();
+            this.BAR5 = new HorizontalProgressBar2();
+            this.BARpitch = new VerticalProgressBar2();
+            this.BARthrottle = new VerticalProgressBar2();
+            this.BARyaw = new HorizontalProgressBar2();
+            this.BARroll = new HorizontalProgressBar2();
             this.groupBoxElevons.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.currentStateBindingSource)).BeginInit();
             this.SuspendLayout();

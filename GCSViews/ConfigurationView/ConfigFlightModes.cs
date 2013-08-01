@@ -86,7 +86,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                 }
             }
 
-            if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2) // ac2
+            if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2 || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduHeli) // ac2
             {
                 pwm = MainV2.comPort.MAV.cs.ch5in;
                 LBL_flightmodepwm.Text = "5: " + MainV2.comPort.MAV.cs.ch5in.ToString();
@@ -140,7 +140,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                     MainV2.comPort.setParam("MODE6", (float)Int32.Parse(CMB_fmode6.SelectedValue.ToString()));
                 }
 
-                if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2) // ac2
+                if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2 || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduHeli) // ac2
                 {
                     float value = (float)(CB_simple1.Checked ? (int)SimpleMode.Simple1 : 0) + (CB_simple2.Checked ? (int)SimpleMode.Simple2 : 0) + (CB_simple3.Checked ? (int)SimpleMode.Simple3 : 0)
                         + (CB_simple4.Checked ? (int)SimpleMode.Simple4 : 0) + (CB_simple5.Checked ? (int)SimpleMode.Simple5 : 0) + (CB_simple6.Checked ? (int)SimpleMode.Simple6 : 0);
@@ -229,7 +229,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                 }
                 catch { }
             }
-            else if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2) // ac2
+            else if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2 || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduHeli) // ac2
             {
                 try
                 {
@@ -271,7 +271,9 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
 
         void updateDropDown(ComboBox ctl, string param)
         {
-            ctl.DataSource = Common.getOptions(param).ToList();
+            ParameterMetaDataRepository parm = new ParameterMetaDataRepository();
+
+            ctl.DataSource = parm.GetParameterOptionsInt(param).ToList();
             ctl.DisplayMember = "Value";
             ctl.ValueMember = "Key";
         }

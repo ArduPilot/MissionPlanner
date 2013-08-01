@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using ArdupilotMega.Controls.BackstageView;
+using ArdupilotMega.Controls;
 using ArdupilotMega.Comms;
 using ArdupilotMega.Utilities;
 

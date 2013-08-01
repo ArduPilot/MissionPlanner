@@ -51,7 +51,7 @@ namespace ArdupilotMega.GCSViews
 
                 AddBackstageViewPage(new ConfigHWCompass(), "Compass",mandatoryhardware);
 
-                if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
+                if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2 || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduHeli)
                 {
                     AddBackstageViewPage(new ConfigAccelerometerCalibrationQuad(), "Accel Calibration", mandatoryhardware);
                 }
@@ -69,11 +69,6 @@ namespace ArdupilotMega.GCSViews
                 AddBackstageViewPage(new ConfigMount(), "Camera Gimbal", optionalhardware);
 
                 AddBackstageViewPage(new ArdupilotMega.Antenna.Tracker(), "Antenna Tracker", optionalhardware);
-
-                if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2 && MainV2.comPort.MAV.param["H_GYR_ENABLE"] != null)
-                {
-                    AddBackstageViewPage(new ConfigTradHeli(), "Heli Setup", optionalhardware);
-                }
 
                 if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane)
                 {

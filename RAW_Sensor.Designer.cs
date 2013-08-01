@@ -1,4 +1,5 @@
-﻿namespace ArdupilotMega
+﻿using ArdupilotMega.Controls;
+namespace ArdupilotMega
 {
     partial class RAW_Sensor
     {
@@ -36,22 +37,22 @@
             this.tabRadio = new System.Windows.Forms.TabPage();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.horizontalProgressBar9 = new ArdupilotMega.HorizontalProgressBar();
-            this.horizontalProgressBar10 = new ArdupilotMega.HorizontalProgressBar();
-            this.horizontalProgressBar11 = new ArdupilotMega.HorizontalProgressBar();
-            this.horizontalProgressBar12 = new ArdupilotMega.HorizontalProgressBar();
-            this.horizontalProgressBar13 = new ArdupilotMega.HorizontalProgressBar();
-            this.horizontalProgressBar14 = new ArdupilotMega.HorizontalProgressBar();
-            this.horizontalProgressBar15 = new ArdupilotMega.HorizontalProgressBar();
-            this.horizontalProgressBar16 = new ArdupilotMega.HorizontalProgressBar();
-            this.horizontalProgressBar8 = new ArdupilotMega.HorizontalProgressBar();
-            this.horizontalProgressBar7 = new ArdupilotMega.HorizontalProgressBar();
-            this.horizontalProgressBar6 = new ArdupilotMega.HorizontalProgressBar();
-            this.horizontalProgressBar5 = new ArdupilotMega.HorizontalProgressBar();
-            this.horizontalProgressBar4 = new ArdupilotMega.HorizontalProgressBar();
-            this.horizontalProgressBar3 = new ArdupilotMega.HorizontalProgressBar();
-            this.horizontalProgressBar2 = new ArdupilotMega.HorizontalProgressBar();
-            this.horizontalProgressBar1 = new ArdupilotMega.HorizontalProgressBar();
+            this.horizontalProgressBar9 = new HorizontalProgressBar();
+            this.horizontalProgressBar10 = new HorizontalProgressBar();
+            this.horizontalProgressBar11 = new HorizontalProgressBar();
+            this.horizontalProgressBar12 = new HorizontalProgressBar();
+            this.horizontalProgressBar13 = new HorizontalProgressBar();
+            this.horizontalProgressBar14 = new HorizontalProgressBar();
+            this.horizontalProgressBar15 = new HorizontalProgressBar();
+            this.horizontalProgressBar16 = new HorizontalProgressBar();
+            this.horizontalProgressBar8 = new HorizontalProgressBar();
+            this.horizontalProgressBar7 = new HorizontalProgressBar();
+            this.horizontalProgressBar6 = new HorizontalProgressBar();
+            this.horizontalProgressBar5 = new HorizontalProgressBar();
+            this.horizontalProgressBar4 = new HorizontalProgressBar();
+            this.horizontalProgressBar3 = new HorizontalProgressBar();
+            this.horizontalProgressBar2 = new HorizontalProgressBar();
+            this.horizontalProgressBar1 = new HorizontalProgressBar();
             this.tabRawSensor = new System.Windows.Forms.TabPage();
             this.BUT_savecsv = new ArdupilotMega.Controls.MyButton();
             this.label3 = new System.Windows.Forms.Label();
@@ -67,16 +68,16 @@
             this.Gpitch = new AGaugeApp.AGauge();
             this.Groll = new AGaugeApp.AGauge();
             this.tabOrientation = new System.Windows.Forms.TabPage();
-            this.horizontalProgressBar17 = new ArdupilotMega.VerticalProgressBar();
-            this.verticalProgressBar7 = new ArdupilotMega.VerticalProgressBar();
-            this.verticalProgressBar6 = new ArdupilotMega.VerticalProgressBar();
-            this.verticalProgressBar5 = new ArdupilotMega.VerticalProgressBar();
-            this.verticalProgressBar4 = new ArdupilotMega.VerticalProgressBar();
-            this.progressBar2 = new ArdupilotMega.VerticalProgressBar();
-            this.progressBar1 = new ArdupilotMega.VerticalProgressBar();
-            this.verticalProgressBar3 = new ArdupilotMega.VerticalProgressBar();
-            this.verticalProgressBar2 = new ArdupilotMega.VerticalProgressBar();
-            this.verticalProgressBar1 = new ArdupilotMega.VerticalProgressBar();
+            this.horizontalProgressBar17 = new VerticalProgressBar();
+            this.verticalProgressBar7 = new VerticalProgressBar();
+            this.verticalProgressBar6 = new VerticalProgressBar();
+            this.verticalProgressBar5 = new VerticalProgressBar();
+            this.verticalProgressBar4 = new VerticalProgressBar();
+            this.progressBar2 = new VerticalProgressBar();
+            this.progressBar1 = new VerticalProgressBar();
+            this.verticalProgressBar3 = new VerticalProgressBar();
+            this.verticalProgressBar2 = new VerticalProgressBar();
+            this.verticalProgressBar1 = new VerticalProgressBar();
             this.tabControl = new System.Windows.Forms.TabControl();
             ((System.ComponentModel.ISupportInitialize)(this.currentStateBindingSource)).BeginInit();
             this.tabRadio.SuspendLayout();
@@ -402,7 +403,7 @@
             // aGauge1
             // 
             this.aGauge1.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.aGauge1.BackgroundImage = global::ArdupilotMega.Properties.Resources.Gaugebg;
+            this.aGauge1.BackgroundImage = global::MissionPlanner.Properties.Resources.Gaugebg;
             resources.ApplyResources(this.aGauge1, "aGauge1");
             this.aGauge1.BaseArcColor = System.Drawing.Color.Gray;
             this.aGauge1.BaseArcRadius = 50;
@@ -607,7 +608,7 @@
             // Gpitch
             // 
             this.Gpitch.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.Gpitch.BackgroundImage = global::ArdupilotMega.Properties.Resources.Gaugebg;
+            this.Gpitch.BackgroundImage = global::MissionPlanner.Properties.Resources.Gaugebg;
             resources.ApplyResources(this.Gpitch, "Gpitch");
             this.Gpitch.BaseArcColor = System.Drawing.Color.Gray;
             this.Gpitch.BaseArcRadius = 50;
@@ -751,7 +752,7 @@
             // Groll
             // 
             this.Groll.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.Groll.BackgroundImage = global::ArdupilotMega.Properties.Resources.Gaugebg;
+            this.Groll.BackgroundImage = global::MissionPlanner.Properties.Resources.Gaugebg;
             resources.ApplyResources(this.Groll, "Groll");
             this.Groll.BaseArcColor = System.Drawing.Color.Gray;
             this.Groll.BaseArcRadius = 50;

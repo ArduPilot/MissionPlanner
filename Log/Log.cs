@@ -514,7 +514,7 @@ namespace ArdupilotMega.Log
 
                             try
                             {
-                                dat.datetime = int.Parse(lastline.Split(',', ':')[1]);
+                                dat.datetime = int.Parse(lastline.Split(',', ':')[2]);
                             }
                             catch { }
 

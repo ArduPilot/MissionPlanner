@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using ArdupilotMega.Controls.BackstageView;
 using ArdupilotMega.Controls;
+using MissionPlanner.Controls;
 
 namespace ArdupilotMega.GCSViews.ConfigurationView
 {
@@ -439,21 +440,21 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                 string speechstring = "WARNING, Battery at {batv} Volt, {batp} percent";
                 if (MainV2.config["speechbattery"] != null)
                     speechstring = MainV2.config["speechbattery"].ToString();
-                if (System.Windows.Forms.DialogResult.Cancel == Common.InputBox("Notification", "What do you want it to say?", ref speechstring))
+                if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Notification", "What do you want it to say?", ref speechstring))
                     return;
                 MainV2.config["speechbattery"] = speechstring;
 
                 speechstring = "9.6";
                 if (MainV2.config["speechbatteryvolt"] != null)
                     speechstring = MainV2.config["speechbatteryvolt"].ToString();
-                if (System.Windows.Forms.DialogResult.Cancel == Common.InputBox("Battery Level", "What Voltage do you want to warn at?", ref speechstring))
+                if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Battery Level", "What Voltage do you want to warn at?", ref speechstring))
                     return;
                 MainV2.config["speechbatteryvolt"] = speechstring;
 
                 speechstring = "20";
                 if (MainV2.config["speechbatterypercent"] != null)
                     speechstring = MainV2.config["speechbatterypercent"].ToString();
-                if (System.Windows.Forms.DialogResult.Cancel == Common.InputBox("Battery Level", "What percentage do you want to warn at?", ref speechstring))
+                if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Battery Level", "What percentage do you want to warn at?", ref speechstring))
                     return;
                 MainV2.config["speechbatterypercent"] = speechstring;
             }

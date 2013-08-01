@@ -54,9 +54,9 @@ namespace ArdupilotMega.Utilities
             {
                 transferUtility.EndUpload(result);
             }
-            catch (ArgumentException ex) { System.Windows.Forms.CustomMessageBox.Show("Error bad argument\n\n " + ex.ToString()); return; }
-            catch (WebException ex) { System.Windows.Forms.CustomMessageBox.Show("Error communicating with server\n\n" + ex.ToString()); return; }
-            catch (AmazonS3Exception ex) { System.Windows.Forms.CustomMessageBox.Show("Error accessing amazon\n\n" + ex.ToString()); return; }
+            catch (ArgumentException ex) { throw new Exception("Error bad argument\n\n " + ex.ToString());  }
+            catch (WebException ex) { throw new Exception("Error communicating with server\n\n" + ex.ToString());  }
+            catch (AmazonS3Exception ex) { throw new Exception("Error accessing amazon\n\n" + ex.ToString());  }
 
             Progress = 100;
             var x = result;
@@ -102,11 +102,11 @@ namespace ArdupilotMega.Utilities
                 }
                 else if (httpResponse.StatusCode == HttpStatusCode.NotAcceptable)
                 {
-                    System.Windows.Forms.CustomMessageBox.Show("Flightlog was to short, please upload a longer flight log.");
+                    throw new Exception("Flightlog was to short, please upload a longer flight log.");
                 }
                 else
                 {
-                    System.Windows.Forms.CustomMessageBox.Show("Error procerssing flight log " + httpResponse.StatusCode.ToString());
+                    throw new Exception("Error procerssing flight log " + httpResponse.StatusCode.ToString());
                 }
 
             }

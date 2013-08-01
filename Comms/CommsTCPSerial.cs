@@ -9,6 +9,7 @@ using System.Net; // dns, ip address
 using System.Net.Sockets; // tcplistner
 using log4net;
 using System.IO;
+using MissionPlanner.Controls;
 
 namespace ArdupilotMega.Comms
 {
@@ -96,11 +97,11 @@ namespace ArdupilotMega.Comms
 
             //if (!MainV2.MONO)
             {
-                if (System.Windows.Forms.DialogResult.Cancel == ArdupilotMega.Common.InputBox("remote host", "Enter host name/ip (ensure remote end is already started)", ref host))
+                if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("remote host", "Enter host name/ip (ensure remote end is already started)", ref host))
                 {
                     throw new Exception("Canceled by request");
                 }
-                if (System.Windows.Forms.DialogResult.Cancel == ArdupilotMega.Common.InputBox("remote Port", "Enter remote port", ref dest))
+                if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("remote Port", "Enter remote port", ref dest))
                 {
                     throw new Exception("Canceled by request");
                 }

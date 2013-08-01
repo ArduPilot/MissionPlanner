@@ -64,7 +64,8 @@ namespace ArdupilotMega
         }
         DateTime lastalt = DateTime.MinValue;
         [DisplayText("Altitude (dist)")]
-        public float altasl { get; set; }
+        public float altasl { get { return _altasl * multiplierdist; } set { _altasl = value; } }
+        float _altasl = 0;
         float oldalt = 0;
         [DisplayText("Alt Home Offset (dist)")]
         public float altoffsethome { get; set; }

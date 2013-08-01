@@ -7,6 +7,7 @@ using ArdupilotMega.Controls;
 using System.IO.Ports;
 using System.IO;
 using System;
+using MissionPlanner.Controls;
 
 namespace ArdupilotMega.Comms
 {
@@ -91,8 +92,6 @@ namespace ArdupilotMega.Comms
 
             frmProgressReporter.UpdateProgressAndStatus(-1, "Connecting Mavlink UDP");
 
-            ArdupilotMega.Utilities.ThemeManager.ApplyThemeTo(frmProgressReporter);
-
             frmProgressReporter.RunBackgroundOperationAsync();
 
             
@@ -105,7 +104,7 @@ namespace ArdupilotMega.Comms
             if (ArdupilotMega.MainV2.config["UDP_port"] != null)
                 dest = ArdupilotMega.MainV2.config["UDP_port"].ToString();
 
-            if (System.Windows.Forms.DialogResult.Cancel == ArdupilotMega.Common.InputBox("Listern Port", "Enter Local port (ensure remote end is already sending)", ref dest))
+            if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Listern Port", "Enter Local port (ensure remote end is already sending)", ref dest))
             {
                 return;
             }

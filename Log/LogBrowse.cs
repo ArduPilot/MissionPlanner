@@ -11,6 +11,7 @@ using log4net;
 using ZedGraph; // Graphs
 using System.Xml;
 using System.Collections;
+using MissionPlanner.Controls;
 
 namespace ArdupilotMega.Log
 {
@@ -65,7 +66,7 @@ namespace ArdupilotMega.Log
             if (keyData == (Keys.Control |Keys.G))
             {
                 string lineno = "0";
-                Common.InputBox("Line no", "Enter Line Number", ref lineno);
+                InputBox.Show("Line no", "Enter Line Number", ref lineno);
 
                 int line = int.Parse(lineno);
 
@@ -583,6 +584,11 @@ namespace ArdupilotMega.Log
         private void BUT_Graphit_R_Click(object sender, EventArgs e)
         {
             Graphit_Click(sender,e);
+        }
+
+        private void zg1_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }

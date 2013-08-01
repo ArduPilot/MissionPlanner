@@ -86,33 +86,6 @@
     <Compile Include="..\Comms\ICommsSerial.cs">
       <Link>Linked\ICommsSerial.cs</Link>
     </Compile>
-    <Compile Include="..\Controls\BackstageView\BackstageView.cs">
-      <Link>Linked\BackstageView.cs</Link>
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="..\Controls\BackstageView\BackstageView.designer.cs">
-      <Link>Linked\BackstageView.designer.cs</Link>
-      <DependentUpon>BackstageView.cs</DependentUpon>
-    </Compile>
-    <Compile Include="..\Controls\BackstageView\BackstageViewButton.cs">
-      <Link>Linked\BackstageViewButton.cs</Link>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="..\Controls\BackstageView\BackStageViewContentPanel.cs">
-      <Link>Linked\BackStageViewContentPanel.cs</Link>
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="..\Controls\BackstageView\BackStageViewMenuPanel.cs">
-      <Link>Linked\BackStageViewMenuPanel.cs</Link>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="..\Controls\CustomMessageBox.cs">
-      <Link>Linked\CustomMessageBox.cs</Link>
-    </Compile>
-    <Compile Include="..\Controls\MyButton.cs">
-      <Link>Linked\MyButton.cs</Link>
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="..\Radio\3DRradio.cs">
       <Link>Linked\3DRradio.cs</Link>
       <SubType>UserControl</SubType>
@@ -150,10 +123,6 @@
       <DependentUpon>Terminal.cs</DependentUpon>
     </Compile>
     <Compile Include="ThemeManager.cs" />
-    <EmbeddedResource Include="..\Controls\BackstageView\BackstageView.resx">
-      <Link>Linked\BackstageView.resx</Link>
-      <DependentUpon>BackstageView.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="..\Radio\3DRradio.resx">
       <Link>Linked\3DRradio.resx</Link>
       <DependentUpon>3DRradio.cs</DependentUpon>
@@ -215,6 +184,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="Resources\3dr3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ExtLibs\Controls\MissionPlanner.Controls.csproj">
+      <Project>{c8b88795-6d01-494d-83ad-6944bd4c5023}</Project>
+      <Name>MissionPlanner.Controls</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

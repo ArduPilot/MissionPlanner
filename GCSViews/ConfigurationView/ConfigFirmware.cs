@@ -34,6 +34,7 @@ namespace ArdupilotMega.GCSViews
             {
                 CustomMessageBox.Show("These are the latest trunk firmware, use at your own risk!!!", "trunk");
                 firmwareurl = "https://raw.github.com/diydrones/binary/master/dev/firmwarelatest.xml";
+                softwares.Clear();
                 Firmware_Load(null, null);
                 CMB_history.Visible = false;
             }
@@ -86,7 +87,7 @@ namespace ArdupilotMega.GCSViews
             return "";
         }
 
-        List<software> softwares = new List<software>();
+        static List<software> softwares = new List<software>();
         bool flashing = false;
 
         public struct software
@@ -106,19 +107,19 @@ namespace ArdupilotMega.GCSViews
 
             WebRequest.DefaultWebProxy.Credentials = System.Net.CredentialCache.DefaultCredentials;
 
-            this.pictureBoxAPM.Image = ArdupilotMega.Properties.Resources.APM_airframes_001;
-            this.pictureBoxRover.Image = ArdupilotMega.Properties.Resources.rover_11;
-            this.pictureBoxQuad.Image = ArdupilotMega.Properties.Resources.quad;
-            this.pictureBoxHexa.Image = ArdupilotMega.Properties.Resources.hexa;
-            this.pictureBoxTri.Image = ArdupilotMega.Properties.Resources.tri;
-            this.pictureBoxY6.Image = ArdupilotMega.Properties.Resources.y6;
-            this.pictureBoxHeli.Image = ArdupilotMega.Properties.Resources.APM_airframes_08;
-            this.pictureBoxHilimage.Image = ArdupilotMega.Properties.Resources.hil;
-            this.pictureBoxAPHil.Image = ArdupilotMega.Properties.Resources.hilplane;
-            this.pictureBoxACHil.Image = ArdupilotMega.Properties.Resources.hilquad;
-            this.pictureBoxACHHil.Image = ArdupilotMega.Properties.Resources.hilheli;
-            this.pictureBoxOcta.Image = ArdupilotMega.Properties.Resources.octo;
-            this.pictureBoxOctaQuad.Image = ArdupilotMega.Properties.Resources.x8;
+            this.pictureBoxAPM.Image = MissionPlanner.Properties.Resources.APM_airframes_001;
+            this.pictureBoxRover.Image = MissionPlanner.Properties.Resources.rover_11;
+            this.pictureBoxQuad.Image = MissionPlanner.Properties.Resources.quad;
+            this.pictureBoxHexa.Image = MissionPlanner.Properties.Resources.hexa;
+            this.pictureBoxTri.Image = MissionPlanner.Properties.Resources.tri;
+            this.pictureBoxY6.Image = MissionPlanner.Properties.Resources.y6;
+            this.pictureBoxHeli.Image = MissionPlanner.Properties.Resources.APM_airframes_08;
+            this.pictureBoxHilimage.Image = MissionPlanner.Properties.Resources.hil;
+            this.pictureBoxAPHil.Image = MissionPlanner.Properties.Resources.hilplane;
+            this.pictureBoxACHil.Image = MissionPlanner.Properties.Resources.hilquad;
+            this.pictureBoxACHHil.Image = MissionPlanner.Properties.Resources.hilheli;
+            this.pictureBoxOcta.Image = MissionPlanner.Properties.Resources.octo;
+            this.pictureBoxOctaQuad.Image = MissionPlanner.Properties.Resources.x8;
 
 
             gholdurls = File.ReadAllLines(Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + "FirmwareHistory.txt");
@@ -133,15 +134,25 @@ namespace ArdupilotMega.GCSViews
 
         internal void Firmware_Load(object sender, EventArgs e)
         {
-            ProgressReporterDialogue pdr = new ArdupilotMega.Controls.ProgressReporterDialogue();
+            if (softwares.Count == 0)
+            {
+                ProgressReporterDialogue pdr = new ArdupilotMega.Controls.ProgressReporterDialogue();
 
-            pdr.DoWork += pdr_DoWork;
+                pdr.DoWork += pdr_DoWork;
 
-            pdr.UpdateProgressAndStatus(-1,"Getting Firmware List");
+                pdr.UpdateProgressAndStatus(-1, "Getting Firmware List");
 
-            ThemeManager.ApplyThemeTo(pdr);
+                ThemeManager.ApplyThemeTo(pdr);
 
-            pdr.RunBackgroundOperationAsync();
+                pdr.RunBackgroundOperationAsync();
+            }
+            else
+            {
+                foreach (var temp in softwares)
+                {
+                    updateDisplayNameInvoke(temp);
+                }
+            }
         }
 
         void pdr_DoWork(object sender, Controls.ProgressWorkerEventArgs e, object passdata = null)
@@ -667,7 +678,7 @@ namespace ArdupilotMega.GCSViews
 
             System.Threading.ThreadPool.QueueUserWorkItem(apmtype, temp.name + "!" + board);
 
-            UploadFlash(Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + @"firmware.hex", board);
+            UploadFlash(Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + @"firmware.hex", board, temp);
         }
 
         void apmtype(object temp)
@@ -774,7 +785,7 @@ namespace ArdupilotMega.GCSViews
             Application.DoEvents();
         }
 
-        public void UploadFlash(string filename, string board)
+        public void UploadFlash(string filename, string board, software installing)
         {
             if (board == "px4")
             {
@@ -915,7 +926,9 @@ namespace ArdupilotMega.GCSViews
 
                 DateTime startwait = DateTime.Now;
 
-                CustomMessageBox.Show("Please ensure you do a live compass calibration after installing arducopter V 3.x");
+
+                if (installing.url2560_2.ToLower().Contains("copter"))
+                    CustomMessageBox.Show("Please ensure you do a live compass calibration after installing arducopter V 3.x");
 
                 try
                 {
@@ -1027,25 +1040,11 @@ namespace ArdupilotMega.GCSViews
             }
         }
 
-        private void BUT_setup_Click(object sender, EventArgs e)
-        {
-            Form temp = new Form();
-            MyUserControl configview = new GCSViews.ConfigurationView.Setup();
-            temp.Controls.Add(configview);
-            ThemeManager.ApplyThemeTo(temp);
-            // fix title
-            temp.Text = configview.Name;
-            // fix size
-            temp.Size = configview.Size;
-            configview.Dock = DockStyle.Fill;
-            temp.FormClosing += configview.Close;
-            temp.ShowDialog();
-        }
-
         private void CMB_history_SelectedIndexChanged(object sender, EventArgs e)
         {
             firmwareurl = getUrl(CMB_history.Text, "");
 
+            softwares.Clear();
             Firmware_Load(null, null);
         }
 
@@ -1082,7 +1081,7 @@ namespace ArdupilotMega.GCSViews
                 }
 
 
-                UploadFlash(fd.FileName, boardtype);
+                UploadFlash(fd.FileName, boardtype, new software() { desc = "custom" });
             }
         }
 
@@ -1090,6 +1089,7 @@ namespace ArdupilotMega.GCSViews
         {
             CustomMessageBox.Show("These are beta firmware, use at your own risk!!!", "Beta");
             firmwareurl = "https://raw.github.com/diydrones/binary/master/dev/firmware2.xml";
+            softwares.Clear();
             Firmware_Load(null, null);
             CMB_history.Visible = false;
         }

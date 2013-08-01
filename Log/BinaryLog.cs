@@ -76,6 +76,10 @@ namespace ArdupilotMega.Log
                             {
                                 MainV2.comPort.MAV.cs.firmware = MainV2.Firmwares.ArduCopter2;
                             }
+                            else if ((line.Contains("PARM, H_SWASH_PLATE")))
+                            {
+                                MainV2.comPort.MAV.cs.firmware = MainV2.Firmwares.ArduHeli;
+                            }
                             else if (line.Contains("PARM, PTCH2SRV_P"))
                             {
                                 MainV2.comPort.MAV.cs.firmware = MainV2.Firmwares.ArduPlane;

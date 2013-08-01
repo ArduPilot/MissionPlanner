@@ -54,7 +54,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             }
             else
             {
-                if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
+                if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2 || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduHeli)
                 {
                     this.Enabled = true;
                 }
@@ -73,23 +73,25 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             if (tooltips.Count == 0)
                 readToolTips();
 
+            ParameterMetaDataRepository param = new ParameterMetaDataRepository();
+
             // ensure the fields are populated before setting them
-            CH7_OPT.DataSource = Common.getOptions("CH7_OPT").ToList(); 
+            CH7_OPT.DataSource = param.GetParameterOptionsInt("CH7_OPT").ToList(); 
             CH7_OPT.DisplayMember = "Value";
             CH7_OPT.ValueMember = "Key";
 
-            CH8_OPT.DataSource = Common.getOptions("CH8_OPT").ToList(); 
+            CH8_OPT.DataSource = param.GetParameterOptionsInt("CH8_OPT").ToList(); 
             CH8_OPT.DisplayMember = "Value";
             CH8_OPT.ValueMember = "Key";
 
-            TUNE.DataSource = Common.getOptions("TUNE").ToList();
+            TUNE.DataSource = param.GetParameterOptionsInt("TUNE").ToList();
             TUNE.DisplayMember = "Value";
             TUNE.ValueMember = "Key";
 
             // prefill all fields
             processToScreen();
 
-            if (MainV2.comPort.MAV.param["H_GYR_ENABLE"] != null)
+            if (MainV2.comPort.MAV.param["H_SWASH_TYPE"] != null)
             {
                 CHK_lockrollpitch.Checked = false;
             }
@@ -101,7 +103,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
 
         void readToolTips()
         {
-            string data = global::ArdupilotMega.Properties.Resources.MAVParam;
+            string data = global::MissionPlanner.Properties.Resources.MAVParam;
 
             string[] tips = data.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
 

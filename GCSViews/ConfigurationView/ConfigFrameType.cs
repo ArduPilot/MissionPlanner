@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using System.Windows.Forms;
-using ArdupilotMega.Controls.BackstageView;
+using ArdupilotMega.Controls;
 using log4net;
 using Transitions;
 

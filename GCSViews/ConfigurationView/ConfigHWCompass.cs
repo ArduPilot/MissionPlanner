@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using ArdupilotMega.Controls.BackstageView;
 using ArdupilotMega.Controls;
+using MissionPlanner.Controls;
 
 namespace ArdupilotMega.GCSViews.ConfigurationView
 {
@@ -220,7 +221,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
         private void BUT_MagCalibrationLog_Click(object sender, EventArgs e)
         {
             string minthro = "30";
-            if (System.Windows.Forms.DialogResult.Cancel == Common.InputBox("Min Throttle", "Use only data above this throttle percent.", ref minthro))
+            if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Min Throttle", "Use only data above this throttle percent.", ref minthro))
                 return;
 
             int ans = 0;
@@ -261,6 +262,20 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             System.Diagnostics.Process.Start("https://www.youtube.com/watch?v=DmsueBS0J3E");
         }
 
-      
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton1.Checked)
+            {
+                CMB_compass_orient.SelectedIndex =  (int)Common.Rotation.ROTATION_NONE;
+            }
+            if (radioButton2.Checked)
+            {
+                CMB_compass_orient.SelectedIndex = (int)Common.Rotation.ROTATION_ROLL_180;
+            }
+            if (radioButton3.Checked)
+            {
+                CMB_compass_orient.SelectedIndex = (int)Common.Rotation.ROTATION_ROLL_180;
+            }
+        }
     }
 }

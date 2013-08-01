@@ -40,26 +40,31 @@ namespace ArdupilotMega.GCSViews
 
             if (MainV2.comPort.BaseStream.IsOpen)
             {
-                if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
+                if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2 || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduHeli)
                 {
                     start = AddBackstageViewPage(new ConfigSimplePids(), "Basic Pids");
                 }
 
                 AddBackstageViewPage(new ConfigFlightModes(), "Flight Modes");
                 AddBackstageViewPage(new ConfigFriendlyParams { ParameterMode = ParameterMetaDataConstants.Standard }, "Standard Params");
-                if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
+                if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2 || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduHeli)
                     AddBackstageViewPage(new ConfigAC_Fence(), "GeoFence");
                 AddBackstageViewPage(new ConfigFailSafe(), "FailSafe");
                 AddBackstageViewPage(new ConfigPlanner(), "Planner");
                 AddBackstageViewPage(new ConfigFriendlyParams { ParameterMode = ParameterMetaDataConstants.Advanced }, "Advanced Params");
-                AddBackstageViewPage(new ConfigRawParams(), "Adv Parameter List");
+                AddBackstageViewPage(new ConfigRawParams(), "Full Parameter List");
 
-                if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
+                if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2 || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduHeli)
                 {
                    // var configpanel = new Controls.ConfigPanel(Application.StartupPath + System.IO.Path.DirectorySeparatorChar + "ArduCopterConfig.xml");
                    // AddBackstageViewPage(configpanel, "ArduCopter Pids");
 
                     AddBackstageViewPage(new ConfigArducopter(), "ArduCopter Pids");
+                }
+
+                if (MainV2.comPort.MAV.param["H_SWASH_TYPE"] != null)
+                {
+                    AddBackstageViewPage(new ConfigTradHeli(), "Heli Setup");
                 }
 
                 if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane)

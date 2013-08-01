@@ -168,7 +168,7 @@ namespace System
             ushort result = (ushort)(baseTable[(value >> 23) & 0x1ff] + ((value & 0x007fffff) >> shiftTable[value >> 23]));
             return Half.ToHalf(result);
         }
-
+        
         public static Half Negate(Half half)
         {
             return Half.ToHalf((ushort)(half.value ^ 0x8000));

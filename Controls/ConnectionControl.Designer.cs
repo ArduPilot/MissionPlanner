@@ -82,7 +82,7 @@
             // 
             this.linkLabel1.AutoSize = true;
             this.linkLabel1.BackColor = System.Drawing.Color.Transparent;
-            this.linkLabel1.Image = global::ArdupilotMega.Properties.Resources.bgdark;
+            this.linkLabel1.Image = global::MissionPlanner.Properties.Resources.bgdark;
             this.linkLabel1.LinkColor = System.Drawing.Color.White;
             this.linkLabel1.Location = new System.Drawing.Point(3, 32);
             this.linkLabel1.Name = "linkLabel1";
@@ -96,7 +96,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackgroundImage = global::ArdupilotMega.Properties.Resources.bgdark;
+            this.BackgroundImage = global::MissionPlanner.Properties.Resources.bgdark;
             this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.cmb_Connection);
             this.Controls.Add(this.cmb_ConnectionType);

@@ -51,7 +51,7 @@
             // pictureBox4
             // 
             this.pictureBox4.BackColor = System.Drawing.Color.White;
-            this.pictureBox4.BackgroundImage = global::ArdupilotMega.Properties.Resources.airspeed;
+            this.pictureBox4.BackgroundImage = global::MissionPlanner.Properties.Resources.airspeed;
             resources.ApplyResources(this.pictureBox4, "pictureBox4");
             this.pictureBox4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox4.Name = "pictureBox4";

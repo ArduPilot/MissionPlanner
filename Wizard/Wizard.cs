@@ -32,17 +32,10 @@ namespace ArdupilotMega.Wizard
             config.Clear();
 
             wiz_main = new MainSwitcher(this.panel1);
-            /*
-            wiz_main.AddScreen(new MainSwitcher.Screen("Intro", new _1Intro(), true));
-            wiz_main.AddScreen(new MainSwitcher.Screen("FrameFW", new _2FrameFW(), true));
-            wiz_main.AddScreen(new MainSwitcher.Screen("Connect", new _3ConnectAP(), true));
-            wiz_main.AddScreen(new MainSwitcher.Screen("FrameType", new _4FrameType(), true));
-            wiz_main.AddScreen(new MainSwitcher.Screen("AccelCalib", new _5AccelCalib(), true));
-            wiz_main.AddScreen(new MainSwitcher.Screen("CompassCalib", new _6CompassCalib(), true));
-            wiz_main.AddScreen(new MainSwitcher.Screen("BatteryMonitor", new _7BatteryMonitor(), true));
-            wiz_main.AddScreen(new MainSwitcher.Screen("OptionalAC", new _8OptionalItemsAC(), true));
-            */
-            wiz_main.ShowScreen("FrameType");
+
+           
+
+            wiz_main.ShowScreen("Intro");
 
             history.Add(wiz_main.current.Name);
 
@@ -50,7 +43,7 @@ namespace ArdupilotMega.Wizard
             progressStep1.Step = 1;
         }
 
-        public void GoNext(int progresspages)
+        public void GoNext(int progresspages, bool saveinhistory = true)
         {
             // show the next screen
             wiz_main.ShowScreen(wiz_main.screens[wiz_main.screens.IndexOf(wiz_main.current) + progresspages].Name);

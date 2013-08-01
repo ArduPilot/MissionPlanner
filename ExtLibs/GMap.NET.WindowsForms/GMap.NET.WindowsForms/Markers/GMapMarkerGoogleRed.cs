@@ -4,7 +4,7 @@ namespace GMap.NET.WindowsForms.Markers
    using System.Drawing;
 
 #if !PocketPC
-   using System.Windows.Forms.Properties;
+    using GMap.NET.Properties;
 #else
    using GMap.NET.WindowsMobile.Properties;
 #endif

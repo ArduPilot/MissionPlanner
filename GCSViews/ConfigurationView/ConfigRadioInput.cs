@@ -83,7 +83,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             {
                 groupBoxElevons.Visible = false;
 
-                if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
+                if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2 || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduHeli)
                 {
                     CHK_revch1.Visible = false;
                     CHK_revch2.Visible = false;
@@ -133,7 +133,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
 
             BUT_Calibrateradio.Text = "Click when Done";
 
-            CustomMessageBox.Show("Click OK, and move all sticks to there extreme positions,\nincluding switchs! so the red bars hit the limits.");
+            CustomMessageBox.Show("Click OK and move all RC sticks and switches to their\nextreme positions so the red bars hit the limits.");
 
             run = true;
 

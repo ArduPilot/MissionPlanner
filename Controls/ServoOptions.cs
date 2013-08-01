@@ -28,7 +28,7 @@ namespace ArdupilotMega.Controls
 
             servo++;
 
-            pictureBox1.BackColor = Color.Silver;
+            TXT_rcchannel.BackColor = Color.Silver;
         }
 
         void loadSettings()
@@ -53,7 +53,7 @@ namespace ArdupilotMega.Controls
             {
                 if (MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_SERVO, int.Parse(TXT_rcchannel.Text), int.Parse(TXT_pwm_low.Text), 0, 0, 0, 0, 0))
                 {
-                    pictureBox1.BackColor = Color.Red;
+                    TXT_rcchannel.BackColor = Color.Red;
                 }
                 else
                 {
@@ -69,7 +69,7 @@ namespace ArdupilotMega.Controls
             {
                 if (MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_SERVO, int.Parse(TXT_rcchannel.Text), int.Parse(TXT_pwm_high.Text), 0, 0, 0, 0, 0))
                 {
-                    pictureBox1.BackColor = Color.Green;
+                    TXT_rcchannel.BackColor = Color.Green;
                 }
                 else
                 {
@@ -85,7 +85,7 @@ namespace ArdupilotMega.Controls
             {
                 if (MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_SERVO, int.Parse(TXT_rcchannel.Text), int.Parse(TXT_pwm_low.Text), 0, 0, 0, 0, 0))
                 {
-                    pictureBox1.BackColor = Color.Red;
+                    TXT_rcchannel.BackColor = Color.Red;
                 }
 
                 Application.DoEvents();
@@ -93,7 +93,7 @@ namespace ArdupilotMega.Controls
 
                 if (MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_SERVO, int.Parse(TXT_rcchannel.Text), int.Parse(TXT_pwm_high.Text), 0, 0, 0, 0, 0))
                 {
-                    pictureBox1.BackColor = Color.Green;
+                    TXT_rcchannel.BackColor = Color.Green;
                 }
 
                 Application.DoEvents();
@@ -101,7 +101,7 @@ namespace ArdupilotMega.Controls
 
                 if (MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_SERVO, int.Parse(TXT_rcchannel.Text), int.Parse(TXT_pwm_low.Text), 0, 0, 0, 0, 0))
                 {
-                    pictureBox1.BackColor = Color.Red;
+                    TXT_rcchannel.BackColor = Color.Red;
                 }
             }
             catch (Exception ex) { CustomMessageBox.Show("Command Failed "+ ex.ToString()); }

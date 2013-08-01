@@ -13,23 +13,22 @@ namespace ArdupilotMega.Plugin
         string Version { get; }
         string Author { get; }
 
-        /// <summary>
-        /// called as the plugin is loaded.
-        /// </summary>
-        /// <returns></returns>
+        bool Loaded();
+
         bool Init();
 
-        void Activate();
-        void DeActivate();
-        void Unload();
+        bool SetupUI();
 
-        void ExecuteOption(int option);
+        bool Loop();
 
-        bool Loaded();
+        int loopratehz { get; set; }
+
+        bool Exit();
+
     }
 
     public interface IPluginHost
     {
-        MAVLink MAVInterface { get; }
+        MainV2 Planner { get; }
     }
 }

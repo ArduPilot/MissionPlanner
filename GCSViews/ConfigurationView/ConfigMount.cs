@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using ArdupilotMega.Controls.BackstageView;
+using ArdupilotMega.Controls;
 using ArdupilotMega.Presenter;
 using Transitions;
 using System.Collections;

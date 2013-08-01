@@ -22,6 +22,7 @@ using ArdupilotMega.Controls.BackstageView;
 //using Crom.Controls.Docking;
 using log4net;
 using System.Reflection;
+using MissionPlanner.Controls;
 
 // written by michael oborne
 namespace ArdupilotMega.GCSViews
@@ -1065,7 +1066,7 @@ namespace ArdupilotMega.GCSViews
                 ((Button)sender).Enabled = false;
                 if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.Ateryx)
                     MainV2.comPort.setMode("Manual");
-                if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
+                if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2 || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduHeli)
                     MainV2.comPort.setMode("Stabilize");
 
             }
@@ -1384,7 +1385,7 @@ namespace ArdupilotMega.GCSViews
             }
 
             string alt = (100 * MainV2.comPort.MAV.cs.multiplierdist).ToString("0");
-            if (System.Windows.Forms.DialogResult.Cancel == Common.InputBox("Enter Alt", "Enter Target Alt (absolute)", ref alt))
+            if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Enter Alt", "Enter Target Alt (absolute)", ref alt))
                 return;
 
             int intalt = (int)(100 * MainV2.comPort.MAV.cs.multiplierdist);
@@ -1521,7 +1522,7 @@ print 'Roll complete'
         {
             string url = MainV2.config["mjpeg_url"] != null ? MainV2.config["mjpeg_url"].ToString() : @"http://127.0.0.1:56781/map.jpg";
 
-            if (DialogResult.OK == Common.InputBox("Mjpeg url", "Enter the url to the mjpeg source url", ref url))
+            if (DialogResult.OK == InputBox.Show("Mjpeg url", "Enter the url to the mjpeg source url", ref url))
             {
 
                 MainV2.config["mjpeg_url"] = url;
@@ -1638,7 +1639,7 @@ print 'Roll complete'
         {
             string alt = "100";
 
-            if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
+            if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2 || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduHeli)
             {
                 alt = (10 * MainV2.comPort.MAV.cs.multiplierdist).ToString("0");
             }
@@ -1650,7 +1651,7 @@ print 'Roll complete'
             if (MainV2.config.ContainsKey("guided_alt"))
                 alt = MainV2.config["guided_alt"].ToString();
 
-            if (DialogResult.Cancel == Common.InputBox("Enter Alt", "Enter Guided Mode Alt", ref alt))
+            if (DialogResult.Cancel == InputBox.Show("Enter Alt", "Enter Guided Mode Alt", ref alt))
                 return;
 
             MainV2.config["guided_alt"] = alt;

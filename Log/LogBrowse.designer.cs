@@ -68,6 +68,7 @@
             this.zg1.ScrollMinX = 0D;
             this.zg1.ScrollMinY = 0D;
             this.zg1.ScrollMinY2 = 0D;
+            this.zg1.Paint += new System.Windows.Forms.PaintEventHandler(this.zg1_Paint);
             // 
             // BUT_Graphit
             // 

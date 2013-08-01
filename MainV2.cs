@@ -26,6 +26,7 @@ using ArdupilotMega.Arduino;
 using System.IO.Ports;
 using Transitions;
 using System.Web.Script.Serialization;
+using MissionPlanner.Controls;
 
 namespace ArdupilotMega
 {
@@ -141,6 +142,7 @@ namespace ArdupilotMega
         {
             ArduPlane,
             ArduCopter2,
+            ArduHeli,
             ArduRover,
             Ateryx
         }
@@ -187,7 +189,7 @@ namespace ArdupilotMega
 
             InitializeComponent();
 
-            MenuFlightPlanner.Image = new Bitmap(ArdupilotMega.Properties.Resources.flightplanner);
+            MenuFlightPlanner.Image = new Bitmap(MissionPlanner.Properties.Resources.flightplanner);
 
             MyView = new MainSwitcher(this);
 
@@ -584,7 +586,7 @@ namespace ArdupilotMega
                 }
                 catch { }
 
-                this.MenuConnect.Image = global::ArdupilotMega.Properties.Resources.connect;
+                this.MenuConnect.Image = global::MissionPlanner.Properties.Resources.connect;
             }
             else
             {
@@ -723,7 +725,7 @@ namespace ArdupilotMega
                     }
 
                     // set connected icon
-                    this.MenuConnect.Image = global::ArdupilotMega.Properties.Resources.disconnect;
+                    this.MenuConnect.Image = global::MissionPlanner.Properties.Resources.disconnect;
                 }
                 catch (Exception ex)
                 {
@@ -1040,7 +1042,7 @@ namespace ArdupilotMega
                     {
                         this.BeginInvoke((MethodInvoker)delegate
                         {
-                            this.MenuConnect.Image = global::ArdupilotMega.Properties.Resources.disconnect;
+                            this.MenuConnect.Image = global::MissionPlanner.Properties.Resources.disconnect;
                             this.MenuConnect.Image.Tag = "Disconnect";
                             this.MenuConnect.Text = "DISCONNECT";
                             _connectionControl.IsConnected(true);
@@ -1053,7 +1055,7 @@ namespace ArdupilotMega
                     {
                         this.BeginInvoke((MethodInvoker)delegate
                         {
-                            this.MenuConnect.Image = global::ArdupilotMega.Properties.Resources.connect;
+                            this.MenuConnect.Image = global::MissionPlanner.Properties.Resources.connect;
                             this.MenuConnect.Image.Tag = "Connect";
                             this.MenuConnect.Text = "CONNECT";
                             _connectionControl.IsConnected(false);
@@ -2263,7 +2265,7 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
             if (keyData == (Keys.Control | Keys.J)) // for jani
             {
                 string data = "!!";
-                if (System.Windows.Forms.DialogResult.OK == Common.InputBox("inject", "enter data to be written", ref data))
+                if (System.Windows.Forms.DialogResult.OK == InputBox.Show("inject", "enter data to be written", ref data))
                 {
                     MainV2.comPort.Write(data + "\r");
                 }

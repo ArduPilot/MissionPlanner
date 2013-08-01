@@ -102,7 +102,7 @@ namespace ArdupilotMega
         const float rad2deg = (float)(180 / Math.PI);
         const float deg2rad = (float)(1.0 / rad2deg);
 
-        static readonly System.Drawing.Size SizeSt = new System.Drawing.Size(global::ArdupilotMega.Properties.Resources.rover.Width, global::ArdupilotMega.Properties.Resources.rover.Height);
+        static readonly System.Drawing.Size SizeSt = new System.Drawing.Size(global::MissionPlanner.Properties.Resources.rover.Width, global::MissionPlanner.Properties.Resources.rover.Height);
         float heading = 0;
         float cog = -1;
         float target = -1;
@@ -144,7 +144,7 @@ namespace ArdupilotMega
                 g.RotateTransform(heading);
             }
             catch { }
-            g.DrawImageUnscaled(global::ArdupilotMega.Properties.Resources.rover, global::ArdupilotMega.Properties.Resources.rover.Width / -2, global::ArdupilotMega.Properties.Resources.rover.Height / -2);
+            g.DrawImageUnscaled(global::MissionPlanner.Properties.Resources.rover, global::MissionPlanner.Properties.Resources.rover.Width / -2, global::MissionPlanner.Properties.Resources.rover.Height / -2);
 
             g.Transform = temp;
         }
@@ -156,7 +156,7 @@ namespace ArdupilotMega
         const float rad2deg = (float)(180 / Math.PI);
         const float deg2rad = (float)(1.0 / rad2deg);
 
-        static readonly System.Drawing.Size SizeSt = new System.Drawing.Size(global::ArdupilotMega.Properties.Resources.planeicon.Width, global::ArdupilotMega.Properties.Resources.planeicon.Height);
+        static readonly System.Drawing.Size SizeSt = new System.Drawing.Size(global::MissionPlanner.Properties.Resources.planeicon.Width, global::MissionPlanner.Properties.Resources.planeicon.Height);
         float heading = 0;
         float cog = -1;
         float target = -1;
@@ -234,7 +234,7 @@ namespace ArdupilotMega
             try {
             g.RotateTransform(heading);
             } catch{}
-            g.DrawImageUnscaled(global::ArdupilotMega.Properties.Resources.planeicon, global::ArdupilotMega.Properties.Resources.planeicon.Width / -2, global::ArdupilotMega.Properties.Resources.planeicon.Height / -2);
+            g.DrawImageUnscaled(global::MissionPlanner.Properties.Resources.planeicon, global::MissionPlanner.Properties.Resources.planeicon.Width / -2, global::MissionPlanner.Properties.Resources.planeicon.Height / -2);
 
             g.Transform = temp;
         }
@@ -246,7 +246,7 @@ namespace ArdupilotMega
         const float rad2deg = (float)(180 / Math.PI);
         const float deg2rad = (float)(1.0 / rad2deg);
 
-        static readonly System.Drawing.Size SizeSt = new System.Drawing.Size(global::ArdupilotMega.Properties.Resources.quadicon.Width, global::ArdupilotMega.Properties.Resources.quadicon.Height);
+        static readonly System.Drawing.Size SizeSt = new System.Drawing.Size(global::MissionPlanner.Properties.Resources.quadicon.Width, global::MissionPlanner.Properties.Resources.quadicon.Height);
         float heading = 0;
         float cog = -1;
         float target = -1;
@@ -281,7 +281,7 @@ namespace ArdupilotMega
                 g.RotateTransform(heading);
             }
             catch { }
-            g.DrawImageUnscaled(global::ArdupilotMega.Properties.Resources.quadicon, global::ArdupilotMega.Properties.Resources.quadicon.Width / -2 + 2, global::ArdupilotMega.Properties.Resources.quadicon.Height / -2);
+            g.DrawImageUnscaled(global::MissionPlanner.Properties.Resources.quadicon, global::MissionPlanner.Properties.Resources.quadicon.Width / -2 + 2, global::MissionPlanner.Properties.Resources.quadicon.Height / -2);
 
             g.Transform = temp;
         }
@@ -572,33 +572,6 @@ namespace ArdupilotMega
 			TOY = 11
         }
         */
-        /// <summary>
-        /// use .ToList() to a datasource
-        /// </summary>
-        /// <param name="param"></param>
-        /// <returns></returns>
-        public static Dictionary<int, string> getOptions(string param)
-        {
-            Dictionary<int, string> options = new Dictionary<int, string>();
-
-            ParameterMetaDataRepository _parameterMetaDataRepository = new ParameterMetaDataRepository();
-
-            string paramoptions = _parameterMetaDataRepository.GetParameterMetaData(param, ParameterMetaDataConstants.Values);
-
-            string[] values = paramoptions.Split(new char[] {',' }, StringSplitOptions.RemoveEmptyEntries);
-
-            foreach (var opt in values)
-            {
-                string[] split = opt.Split(new char[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
-                try
-                {
-                    options.Add(int.Parse(split[0].Trim()), split[1].Trim());
-                }
-                catch { }
-            }
-
-            return options;
-        }
   
         public static bool getFilefromNet(string url,string saveto) {
             try
@@ -657,25 +630,27 @@ namespace ArdupilotMega
         {
             log.Info("getModesList Called");
 
+            Utilities.ParameterMetaDataRepository parm = new ParameterMetaDataRepository();
+
             if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane)
             {
-                var flightModes = getOptions("FLTMODE1");
-                return flightModes.ToList();
+                var flightModes = parm.GetParameterOptionsInt("FLTMODE1");
+                return flightModes;
             }
             else if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.Ateryx)
             {
-                var flightModes = getOptions("FLTMODE1"); //same as apm
-                return flightModes.ToList();
+                var flightModes = parm.GetParameterOptionsInt("FLTMODE1"); //same as apm
+                return flightModes;
             }
-            else if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
+            else if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2 || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduHeli)
             {
-                var flightModes = getOptions("FLTMODE1");
-                return flightModes.ToList();
+                var flightModes = parm.GetParameterOptionsInt("FLTMODE1");
+                return flightModes;
             }
             else if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduRover)
             {
-                var flightModes = getOptions("MODE1");
-                return flightModes.ToList();
+                var flightModes = parm.GetParameterOptionsInt("MODE1");
+                return flightModes;
             }
 
             return null;
@@ -773,73 +748,6 @@ namespace ArdupilotMega
             MainV2.config[(string)((CheckBox)(sender)).Tag] = ((CheckBox)(sender)).Checked.ToString();
         }
 
-        //from http://www.csharp-examples.net/inputbox/
-        public static DialogResult InputBox(string title, string promptText, ref string value)
-        {
-            Form form = new Form();
-            System.Windows.Forms.Label label = new System.Windows.Forms.Label();
-            TextBox textBox = new TextBox();
-            ArdupilotMega.Controls.MyButton buttonOk = new ArdupilotMega.Controls.MyButton();
-            ArdupilotMega.Controls.MyButton buttonCancel = new ArdupilotMega.Controls.MyButton();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainV2));
-            form.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-
-            form.TopMost = true;
-            form.TopLevel = true;
-
-            form.Text = title;
-            label.Text = promptText;
-            textBox.Text = value;
-
-            buttonOk.Text = "OK";
-            buttonCancel.Text = "Cancel";
-            buttonOk.DialogResult = DialogResult.OK;
-            buttonCancel.DialogResult = DialogResult.Cancel;
-
-            label.SetBounds(9, 20, 372, 13);
-            textBox.SetBounds(12, 36, 372, 20);
-            buttonOk.SetBounds(228, 72, 75, 23);
-            buttonCancel.SetBounds(309, 72, 75, 23);
-
-            label.AutoSize = true;
-            textBox.Anchor = textBox.Anchor | AnchorStyles.Right;
-            buttonOk.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            buttonCancel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-
-            form.ClientSize = new Size(396, 107);
-            form.Controls.AddRange(new Control[] { label, textBox, buttonOk, buttonCancel });
-            form.ClientSize = new Size(Math.Max(300, label.Right + 10), form.ClientSize.Height);
-            form.FormBorderStyle = FormBorderStyle.FixedSingle;
-            form.StartPosition = FormStartPosition.CenterScreen;
-            form.MinimizeBox = false;
-            form.MaximizeBox = false;
-            form.AcceptButton = buttonOk;
-            form.CancelButton = buttonCancel;
-
-            ThemeManager.ApplyThemeTo(form);
-
-            DialogResult dialogResult = DialogResult.Cancel;
-
-            Console.WriteLine("Input Box");
-
-                form.ShowDialog();
-
-            Console.WriteLine("Input Box 2");
-
-            dialogResult = form.DialogResult;
-
-            if (dialogResult == DialogResult.OK)
-            {
-                value = textBox.Text;
-            }
-
-            form.Dispose();
-
-            form = null;
-            
-            return dialogResult;
-        }
-
         public static string speechConversion(string input)
         {
             if (MainV2.comPort.MAV.cs.wpno == 0)
@@ -871,326 +779,8 @@ namespace ArdupilotMega
         }
     }
 
-    public class VerticalProgressBar : HorizontalProgressBar
-    {
-        protected override CreateParams CreateParams
-        {
-            get
-            {
-                CreateParams cp = base.CreateParams;
-                cp.Style |= 0x04;
-                return cp;
-            }
-        }
-    }
-
-    public class VerticalProgressBar2 : HorizontalProgressBar2
-    {
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            e.Graphics.TranslateTransform(0, e.Graphics.ClipBounds.Height);
-            e.Graphics.RotateTransform(270);
-            e.Graphics.ScaleTransform((float)this.Height / (float)this.Width, (float)this.Width / (float)this.Height);
-            base.OnPaint(e);
-        }
-    }
-
-    public class HorizontalProgressBar2 : BSE.Windows.Forms.ProgressBar
-    {
-        private string m_Text;
-        int offset = 0;
-        int _min = 0;
-        int _max = 0;
-        int _value = 0;
-        System.Windows.Forms.Label lbl1 = new System.Windows.Forms.Label();
-        System.Windows.Forms.Label lbl = new System.Windows.Forms.Label();
-        public bool reverse = false;
-        int displayvalue = 0;
-
-        public HorizontalProgressBar2()
-            : base()
-        {
-        }
-
-        public new int Value
-        {
-            get { return _value; }
-            set
-            {
-                if (_value == value)
-                    return;
-                _value = value;
-                displayvalue = _value;
-
-                if (reverse)
-                {
-                    int dif = _value - Minimum;
-                    _value = Maximum - dif;
-                }
-
-                int ans = _value + offset;
-                if (ans <= base.Minimum)
-                {
-                    ans = base.Minimum + 1; // prevent an exception for the -1 hack
-                }
-                else if (ans >= base.Maximum)
-                {
-                    ans = base.Maximum;
-                }
-                
-                base.Value = ans;
-
-                if (this.DesignMode) return;
-
-                if (this.Parent != null)
-                {
-                    this.Parent.Controls.Add(lbl);
-                    this.Parent.Controls.Add(lbl1);
-                }
-            }
-        }
-
-        public new int Minimum
-        {
-            get { return _min; }
-            set
-            {
-                _min = value;
-                if (_min < 0)
-                {
-                    base.Minimum = 0; offset = (_max - value) / 2; base.Maximum = _max - value;
-                }
-                else
-                {
-                    base.Minimum = value;
-                }
-            }
-        }
-
-        public new int Maximum { get { return _max; } set { _max = value; base.Maximum = value; } }
-
-        [System.ComponentModel.Browsable(true),
-System.ComponentModel.Category("Mine"),
-System.ComponentModel.Description("Text under Bar")]
-        public string Label
-        {
-            get
-            {
-                return m_Text;
-            }
-            set
-            {
-                if (m_Text != value)
-                {
-                    m_Text = value;
-                }
-            }
-        }
-
-        private void drawlbl(Graphics e)
-        {
-            lbl.Location = new Point(this.Location.X, this.Location.Y + this.Height + 2);
-            lbl.ClientSize = new Size(this.Width, 13);
-            lbl.TextAlign = ContentAlignment.MiddleCenter;
-            lbl.Text = m_Text;
-
-            lbl1.Location = new Point(this.Location.X, this.Location.Y + this.Height + 15);
-            lbl1.ClientSize = new Size(this.Width, 13);
-            lbl1.TextAlign = ContentAlignment.MiddleCenter;
-            lbl1.Text = displayvalue.ToString();
-
-            if (minline != 0 && maxline != 0)
-            {
-                float range = this.Maximum - this.Minimum;
-                float range2 = this.Width;
-                Pen redPen = new Pen(Color.Red, 2);
-
-                SolidBrush mybrush = new SolidBrush(Color.FromArgb(0x40, 0x57, 0x04));
-
-                if ((Type)this.GetType() == typeof(VerticalProgressBar2)) {
-                    e.ResetTransform();
-                    range2 = this.Height;
-                    if (reverse)
-                    {
-                        e.DrawLine(redPen, 0, (maxline - this.Minimum) / range * range2 + 0, this.Width, (maxline - this.Minimum) / range * range2 + 0);
-                        e.DrawLine(redPen, 0, (minline - this.Minimum) / range * range2 + 6, this.Width, (minline - this.Minimum) / range * range2 + 6);
-                        e.DrawString(maxline.ToString(), SystemFonts.DefaultFont, mybrush, 5, (maxline - this.Minimum) / range * range2 + 2);
-                        e.DrawString(minline.ToString(), SystemFonts.DefaultFont, Brushes.White, 5, (minline - this.Minimum) / range * range2 - 10);
-                    }
-                    else
-                    {
-                        e.DrawLine(redPen, 0, (this.Maximum - minline) / range * range2 + 0, this.Width, (this.Maximum - minline) / range * range2 + 0);
-                        e.DrawLine(redPen, 0, (this.Maximum - maxline) / range * range2 + 6, this.Width, (this.Maximum - maxline) / range * range2 + 6);
-                        e.DrawString(minline.ToString(), SystemFonts.DefaultFont, mybrush, 5, (this.Maximum - minline) / range * range2 + 2);
-                        e.DrawString(maxline.ToString(), SystemFonts.DefaultFont, Brushes.White, 5, (this.Maximum - maxline) / range * range2 - 10);
-                    }
-                } else {
-                    if (reverse)
-                    {
-                        e.DrawLine(redPen, (this.Maximum - minline) / range * range2 - 0, 0, (this.Maximum - minline) / range * range2 - 0, this.Height);
-                        e.DrawLine(redPen, (this.Maximum - maxline) / range * range2 - 0, 0, (this.Maximum - maxline) / range * range2 - 0, this.Height);
-                        e.DrawString(minline.ToString(), SystemFonts.DefaultFont, mybrush, (this.Maximum - minline) / range * range2 - 30, 5);
-                        e.DrawString(maxline.ToString(), SystemFonts.DefaultFont, Brushes.White, (this.Maximum - maxline) / range * range2 - 0, 5);
-                    }
-                    else
-                    {
-                        e.DrawLine(redPen, (minline - this.Minimum) / range * range2 - 0, 0, (minline - this.Minimum) / range * range2 - 0, this.Height);
-                        e.DrawLine(redPen, (maxline - this.Minimum) / range * range2 - 0, 0, (maxline - this.Minimum) / range * range2 - 0, this.Height);
-                        e.DrawString(minline.ToString(), SystemFonts.DefaultFont, mybrush, (minline - this.Minimum) / range * range2 - 30, 5);
-                        e.DrawString(maxline.ToString(), SystemFonts.DefaultFont, Brushes.White, (maxline - this.Minimum) / range * range2 - 0, 5);
-                    }
-                }
-            }
-        }
-
-        public int minline { get; set; }
-        public int maxline { get; set; }
-
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            base.OnPaint(e);
-            drawlbl(e.Graphics);
-        }
-
-    }
-
-    public class HorizontalProgressBar : ProgressBar
-    {
-        private string m_Text;
-        int offset = 0;
-        int _min = 0;
-        int _max = 0;
-        int _value = 0;
-        bool ctladded = false;
-        System.Windows.Forms.Label lbl1 = new System.Windows.Forms.Label();
-        System.Windows.Forms.Label lbl = new System.Windows.Forms.Label();
 
 
-        public HorizontalProgressBar()
-            : base()
-        {
-            drawlbl();
-            //this.Parent.Controls.AddRange(new Control[] { lbl, lbl1 });
-        }
 
-        public new int Value
-        {
-            get { return _value; }
-            set
-            {
-                _value = value;
-                int ans = value + offset;
-                if (ans <= base.Minimum)
-                {
-                    ans = base.Minimum + 1; // prevent an exception for the -1 hack
-                }
-                else if (ans >= base.Maximum)
-                {
-                    ans = base.Maximum;
-                }
-                base.Value = ans;
-                drawlbl();
-                base.Value = ans - 1;
-                drawlbl();
-                base.Value = ans;
-                drawlbl();
 
-                if (this.Parent != null && ctladded == false)
-                {
-                    this.Parent.Controls.Add(lbl);
-                    this.Parent.Controls.Add(lbl1);
-                    ctladded = true;
-                }
-            }
-        }
-
-        public new int Minimum
-        {
-            get { return _min; }
-            set
-            {
-                _min = value;
-                if (_min < 0)
-                {
-                    base.Minimum = 0; offset = (_max - value) / 2; base.Maximum = _max - value;
-                }
-                else
-                {
-                    base.Minimum = value;
-                }
-
-                if (this.DesignMode) return;
-
-                if (this.Parent != null && ctladded == false)
-                {
-                    this.Parent.Controls.Add(lbl);
-                    this.Parent.Controls.Add(lbl1);
-                    ctladded = true;
-                }
-            }
-        }
-
-        public new int Maximum { get { return _max; } set { _max = value; base.Maximum = value; } }
-
-        [System.ComponentModel.Browsable(true),
-System.ComponentModel.Category("Mine"),
-System.ComponentModel.Description("Text under Bar")]
-        public string Label
-        {
-            get
-            {
-                return m_Text;
-            }
-            set
-            {
-                if (m_Text != value)
-                {
-                    m_Text = value;
-                }
-            }
-        }
-
-        private void drawlbl()
-        {
-            lbl.Location = new Point(this.Location.X, this.Location.Y + this.Height + 2);
-            lbl.ClientSize = new Size(this.Width, 13);
-            lbl.TextAlign = ContentAlignment.MiddleCenter;
-            lbl.Text = m_Text;
-
-            lbl1.Location = new Point(this.Location.X, this.Location.Y + this.Height + 15);
-            lbl1.ClientSize = new Size(this.Width, 13);
-            lbl1.TextAlign = ContentAlignment.MiddleCenter;
-            lbl1.Text = Value.ToString();
-
-            if (minline != 0 && maxline != 0)
-            {
-                float range = this.Maximum - this.Minimum;
-                float range2 = this.Width;
-                Graphics e = this.CreateGraphics();
-                Pen redPen = new Pen(Color.Red, 2);
-
-                if ((Type)this.GetType() == typeof(VerticalProgressBar)) {
-                    range2 = this.Height;
-                    e.DrawLine(redPen, 0, (this.Maximum - minline) / range * range2 + 0, this.Width, (this.Maximum - minline) / range * range2 + 0);
-                    e.DrawLine(redPen, 0, (this.Maximum - maxline) / range * range2 + 0, this.Width, (this.Maximum - maxline) / range * range2 + 0);
-                    e.DrawString(minline.ToString(), SystemFonts.DefaultFont, Brushes.Black, 5, (this.Maximum - minline) / range * range2 + 2);
-                    e.DrawString(maxline.ToString(), SystemFonts.DefaultFont, Brushes.Black, 5, (this.Maximum - maxline) / range * range2 - 15);
-                } else {
-                    e.DrawLine(redPen, (minline - this.Minimum) / range * range2 - 3, 0, (minline - this.Minimum) / range * range2 - 3, this.Height);
-                    e.DrawLine(redPen, (maxline - this.Minimum) / range * range2 - 3, 0, (maxline - this.Minimum) / range * range2 - 3, this.Height);
-                    e.DrawString(minline.ToString(), SystemFonts.DefaultFont, Brushes.Black, (minline - this.Minimum) / range * range2 - 35, 5);
-                    e.DrawString(maxline.ToString(), SystemFonts.DefaultFont, Brushes.Black, (maxline - this.Minimum) / range * range2 - 3, 5);
-                }
-            }
-        }
-
-        public int minline { get; set; }
-        public int maxline { get; set; }
-
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            base.OnPaint(e);
-            drawlbl();
-        }
-    }
 }

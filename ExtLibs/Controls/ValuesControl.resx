@@ -112,21 +112,9 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="BUT_loadlog.Text" xml:space="preserve">
-    <value>Carica un Log</value>
-  </data>
-  <data name="$this.Text" xml:space="preserve">
-    <value>Sfoglia Log</value>
-  </data>
-  <data name="Graphit.Text" xml:space="preserve">
-    <value>Crea un grafico da questi Dati</value>
-  </data>
-  <data name="BUT_cleargraph.Text" xml:space="preserve">
-    <value>Pulisci Grafico GV</value>
-  </data>
 </root>

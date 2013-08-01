@@ -13,6 +13,7 @@ using ArdupilotMega.Controls.BackstageView;
 using ArdupilotMega.Controls;
 using ArdupilotMega.Utilities;
 using System.Threading;
+using MissionPlanner.Controls;
 
 namespace ArdupilotMega.GCSViews.ConfigurationView
 {
@@ -238,7 +239,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                 string speechstring = "Heading to Waypoint {wpn}";
                 if (MainV2.config["speechwaypoint"] != null)
                     speechstring = MainV2.config["speechwaypoint"].ToString();
-                if (System.Windows.Forms.DialogResult.Cancel == Common.InputBox("Notification", "What do you want it to say?", ref speechstring))
+                if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Notification", "What do you want it to say?", ref speechstring))
                     return;
                 MainV2.config["speechwaypoint"] = speechstring;
             }
@@ -255,7 +256,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                 string speechstring = "Mode changed to {mode}";
                 if (MainV2.config["speechmode"] != null)
                     speechstring = MainV2.config["speechmode"].ToString();
-                if (System.Windows.Forms.DialogResult.Cancel == Common.InputBox("Notification", "What do you want it to say?", ref speechstring))
+                if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Notification", "What do you want it to say?", ref speechstring))
                     return;
                 MainV2.config["speechmode"] = speechstring;
             }
@@ -272,7 +273,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                 string speechstring = "Heading to Waypoint {wpn}, altitude is {alt}, Ground speed is {gsp} ";
                 if (MainV2.config["speechcustom"] != null)
                     speechstring = MainV2.config["speechcustom"].ToString();
-                if (System.Windows.Forms.DialogResult.Cancel == Common.InputBox("Notification", "What do you want it to say?", ref speechstring))
+                if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Notification", "What do you want it to say?", ref speechstring))
                     return;
                 MainV2.config["speechcustom"] = speechstring;
             }
@@ -314,21 +315,21 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                 string speechstring = "WARNING, Battery at {batv} Volt, {batp} percent";
                 if (MainV2.config["speechbattery"] != null)
                     speechstring = MainV2.config["speechbattery"].ToString();
-                if (System.Windows.Forms.DialogResult.Cancel == Common.InputBox("Notification", "What do you want it to say?", ref speechstring))
+                if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Notification", "What do you want it to say?", ref speechstring))
                     return;
                 MainV2.config["speechbattery"] = speechstring;
 
                 speechstring = "9.6";
                 if (MainV2.config["speechbatteryvolt"] != null)
                     speechstring = MainV2.config["speechbatteryvolt"].ToString();
-                if (System.Windows.Forms.DialogResult.Cancel == Common.InputBox("Battery Level", "What Voltage do you want to warn at?", ref speechstring))
+                if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Battery Level", "What Voltage do you want to warn at?", ref speechstring))
                     return;
                 MainV2.config["speechbatteryvolt"] = speechstring;
 
                 speechstring = "20";
                 if (MainV2.config["speechbatterypercent"] != null)
                     speechstring = MainV2.config["speechbatterypercent"].ToString();
-                if (System.Windows.Forms.DialogResult.Cancel == Common.InputBox("Battery Level", "What percentage do you want to warn at?", ref speechstring))
+                if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Battery Level", "What percentage do you want to warn at?", ref speechstring))
                     return;
                 MainV2.config["speechbatterypercent"] = speechstring;
             }
@@ -430,14 +431,14 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                 string speechstring = "WARNING, low altitude {alt}";
                 if (MainV2.config["speechalt"] != null)
                     speechstring = MainV2.config["speechalt"].ToString();
-                if (System.Windows.Forms.DialogResult.Cancel == Common.InputBox("Notification", "What do you want it to say?", ref speechstring))
+                if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Notification", "What do you want it to say?", ref speechstring))
                     return;
                 MainV2.config["speechalt"] = speechstring;
 
                 speechstring = "2";
                 if (MainV2.config["speechaltheight"] != null)
                     speechstring = MainV2.config["speechaltheight"].ToString();
-                if (System.Windows.Forms.DialogResult.Cancel == Common.InputBox("Min Alt", "What altitude do you want to warn at? (relative to home)", ref speechstring))
+                if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Min Alt", "What altitude do you want to warn at? (relative to home)", ref speechstring))
                     return;
                 MainV2.config["speechaltheight"] = (double.Parse(speechstring) / MainV2.comPort.MAV.cs.multiplierdist).ToString(); // save as m
 
@@ -674,14 +675,14 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                 string speechstring = "Armed";
                 if (MainV2.config["speecharm"] != null)
                     speechstring = MainV2.config["speecharm"].ToString();
-                if (System.Windows.Forms.DialogResult.Cancel == Common.InputBox("Arm", "What do you want it to say?", ref speechstring))
+                if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Arm", "What do you want it to say?", ref speechstring))
                     return;
                 MainV2.config["speecharm"] = speechstring;
 
                 speechstring = "Disarmed";
                 if (MainV2.config["speechdisarm"] != null)
                     speechstring = MainV2.config["speechdisarm"].ToString();
-                if (System.Windows.Forms.DialogResult.Cancel == Common.InputBox("Disarmed", "What do you want it to say?", ref speechstring))
+                if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Disarmed", "What do you want it to say?", ref speechstring))
                     return;
                 MainV2.config["speechdisarm"] = speechstring;
 

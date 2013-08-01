@@ -1,4 +1,5 @@
-﻿namespace ArdupilotMega.GCSViews.ConfigurationView
+﻿using ArdupilotMega.Controls;
+namespace ArdupilotMega.GCSViews.ConfigurationView
 {
     partial class ConfigTradHeli
     {
@@ -89,9 +90,9 @@
             this.mavlinkNumericUpDown1min = new ArdupilotMega.Controls.MavlinkNumericUpDown();
             this.BUT_swash_manual = new ArdupilotMega.Controls.MyButton();
             this.BUT_HS4save = new ArdupilotMega.Controls.MyButton();
-            this.HS4 = new ArdupilotMega.HorizontalProgressBar2();
+            this.HS4 = new HorizontalProgressBar2();
             this.currentStateBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.HS3 = new ArdupilotMega.VerticalProgressBar2();
+            this.HS3 = new VerticalProgressBar2();
             this.Gservoloc = new AGaugeApp.AGauge();
             this.mavlinkNumericUpDownrollmax = new ArdupilotMega.Controls.MavlinkNumericUpDown();
             this.mavlinkNumericUpDownpitchmax = new ArdupilotMega.Controls.MavlinkNumericUpDown();
@@ -624,7 +625,7 @@
             // Gservoloc
             // 
             this.Gservoloc.BackColor = System.Drawing.Color.Transparent;
-            this.Gservoloc.BackgroundImage = global::ArdupilotMega.Properties.Resources.Gaugebg;
+            this.Gservoloc.BackgroundImage = global::MissionPlanner.Properties.Resources.Gaugebg;
             resources.ApplyResources(this.Gservoloc, "Gservoloc");
             this.Gservoloc.BaseArcColor = System.Drawing.Color.Transparent;
             this.Gservoloc.BaseArcRadius = 60;

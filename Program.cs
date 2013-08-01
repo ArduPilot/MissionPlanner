@@ -38,6 +38,11 @@ namespace ArdupilotMega
             ServicePointManager.ServerCertificateValidationCallback =
 new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate, chain, policyErrors) => { return true; });
 
+            CustomMessageBox.ApplyTheme += ArdupilotMega.Utilities.ThemeManager.ApplyThemeTo;
+            ArdupilotMega.Controls.MainSwitcher.ApplyTheme += ArdupilotMega.Utilities.ThemeManager.ApplyThemeTo;
+            MissionPlanner.Controls.InputBox.ApplyTheme += ArdupilotMega.Utilities.ThemeManager.ApplyThemeTo;
+
+
             //Application.Idle += Application_Idle;
 
             //MagCalib.ProcessLog();
@@ -149,6 +154,13 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
             }
 
            // return;
+
+        //    Utilities.RSA rsa = new Utilities.RSA();
+
+        //    rsa.testit();
+
+           // return;
+
 
             //Utilities.S3Uploader s3 = new Utilities.S3Uploader("");
 

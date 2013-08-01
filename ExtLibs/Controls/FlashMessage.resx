@@ -117,31 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="$this.Text" xml:space="preserve">
-    <value>Log</value>
-  </data>
-  <data name="BUT_DLall.Text" xml:space="preserve">
-    <value>Scarica tutti i Log</value>
-  </data>
-  <data name="BUT_redokml.Text" xml:space="preserve">
-    <value>Ricrea KML</value>
-  </data>
-  <data name="CHK_arducopter.Text" xml:space="preserve">
-    <value>è un ArduCopter?</value>
-  </data>
-  <data name="BUT_DLthese.Text" xml:space="preserve">
-    <value>Scarica questi Log</value>
-  </data>
-  <data name="BUT_clearlogs.Text" xml:space="preserve">
-    <value>Pulisci Log</value>
-  </data>
-  <data name="BUT_firstperson.Text" xml:space="preserve">
-    <value>KML in Prima Persona</value>
-  </data>
-  <data name="BUT_dumpdf.Text" xml:space="preserve">
-    <value>(adv) Dump All DF</value>
-  </data>
-  <data name="BUT_bintolog.Text" xml:space="preserve">
-    <value>.bin -&gt; .log</value>
-  </data>
+  <metadata name="$this.TrayLargeIcon" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>False</value>
+  </metadata>
 </root>

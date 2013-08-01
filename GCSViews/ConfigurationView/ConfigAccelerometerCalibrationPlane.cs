@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using System.Windows.Forms;
-using ArdupilotMega.Controls.BackstageView;
+using ArdupilotMega.Controls;
 using log4net;
 using Transitions;
 
@@ -28,11 +28,6 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
 
         public void Activate()
         {
-            if (!MainV2.comPort.MAV.param.ContainsKey("FRAME"))
-            {
-                this.Enabled = false;
-                return;
-            }
 
             BUT_calib_accell.Enabled = true;
         }

@@ -13,7 +13,7 @@ using ArdupilotMega.Utilities;
 using System.Text.RegularExpressions;
 using log4net;
 using System.Reflection;
-using ArdupilotMega.Controls.BackstageView;
+using ArdupilotMega.Controls;
 
 namespace ArdupilotMega.GCSViews
 {

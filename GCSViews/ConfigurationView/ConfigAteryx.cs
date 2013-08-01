@@ -74,7 +74,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
 
         void readToolTips()
         {
-            string data = global::ArdupilotMega.Properties.Resources.MAVParam;
+            string data = global::MissionPlanner.Properties.Resources.MAVParam;
             
 
             string[] tips = data.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);

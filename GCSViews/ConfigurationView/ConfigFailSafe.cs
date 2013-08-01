@@ -45,21 +45,9 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
         {
             Utilities.ParameterMetaDataRepository repo = new Utilities.ParameterMetaDataRepository();
 
-            string availableValuesRaw = repo.GetParameterMetaData("FS_THR_ENABLE", ParameterMetaDataConstants.Values);
+            mavlinkComboBox_fs_thr_enable.setup(repo.GetParameterOptionsInt("FS_THR_ENABLE"), "FS_THR_ENABLE", MainV2.comPort.MAV.param);
 
-            string[] availableValues = availableValuesRaw.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-            if (availableValues.Any())
-            {
-                var splitValues = new List<KeyValuePair<string, string>>();
-                // Add the values to the ddl
-                foreach (string val in availableValues)
-                {
-                    string[] valParts = val.Split(new[] { ':' });
-                    splitValues.Add(new KeyValuePair<string, string>(valParts[0].Trim(), (valParts.Length > 1) ? valParts[1].Trim() : valParts[0].Trim()));
-                };
-                mavlinkComboBox_fs_thr_enable.setup(splitValues, "FS_THR_ENABLE", MainV2.comPort.MAV.param);
-
-            }
+            
 
 
             // arducopter
@@ -84,7 +72,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
 
         private void LNK_wiki_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
+            if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2 || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduHeli)
             {
                 Process.Start(new ProcessStartInfo("http://code.google.com/p/arducopter/wiki/AC2_Failsafe"));
             }

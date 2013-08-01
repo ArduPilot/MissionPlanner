@@ -8,7 +8,7 @@
     <ProjectGuid>{A2E22272-95FE-47B6-B050-9AE7E2055BF5}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ArdupilotMega</RootNamespace>
+    <RootNamespace>MissionPlanner</RootNamespace>
     <AssemblyName>ArdupilotMegaPlanner10</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>
@@ -109,7 +109,7 @@
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>apm2.ico</ApplicationIcon>
+    <ApplicationIcon>mpdesktop.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup />
   <PropertyGroup />
@@ -131,6 +131,10 @@
     <Reference Include="AWSSDK, Version=1.5.18.0, Culture=neutral, PublicKeyToken=9f476d3089b52be3, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Lib\AWSSDK.dll</HintPath>
+    </Reference>
+    <Reference Include="BouncyCastle.Crypto, Version=1.7.4114.6375, Culture=neutral, PublicKeyToken=0e99375e54769942">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Lib\BouncyCastle.Crypto.dll</HintPath>
     </Reference>
     <Reference Include="DirectShowLib-2005">
     </Reference>
@@ -254,24 +258,6 @@
     </Compile>
     <Compile Include="Comms\CommsTCPSerial.cs" />
     <Compile Include="Comms\CommsUdpSerial.cs" />
-    <Compile Include="Controls\AGauge.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\BackstageView\BackstageView.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\BackstageView\BackstageView.Designer.cs">
-      <DependentUpon>BackstageView.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\BackstageView\BackstageViewButton.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controls\BackstageView\BackStageViewContentPanel.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\BackstageView\BackStageViewMenuPanel.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Controls\ConfigPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -290,57 +276,6 @@
     <Compile Include="Controls\ConnectionStats.Designer.cs">
       <DependentUpon>ConnectionStats.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\GradientBG.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\GradientBG.Designer.cs">
-      <DependentUpon>GradientBG.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\PictureBoxMouseOver.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controls\RadialGradientBG.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\RadialGradientBG.Designer.cs">
-      <DependentUpon>RadialGradientBG.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\CustomMessageBox.cs" />
-    <Compile Include="Controls\Firmware_Board.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Controls\Firmware_Board.Designer.cs">
-      <DependentUpon>Firmware_Board.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\FlashMessage.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controls\FlashMessage.designer.cs">
-      <DependentUpon>FlashMessage.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\HSI.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\HSI.Designer.cs">
-      <DependentUpon>HSI.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\HUD.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\IDynamicParameterControl.cs" />
-    <Compile Include="Controls\ImageLabel.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\ImageLabel.Designer.cs">
-      <DependentUpon>ImageLabel.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\LabelWithPseudoOpacity.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controls\LineSeparator.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\MainSwitcher.cs" />
     <Compile Include="Controls\MavlinkCheckBox.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -349,55 +284,6 @@
     </Compile>
     <Compile Include="Controls\MavlinkNumericUpDown.cs">
       <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controls\MyButton.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controls\myGMAP.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\MyLabel.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controls\MyTrackBar.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controls\MyUserControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\OptionForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Controls\OptionForm.Designer.cs">
-      <DependentUpon>OptionForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\PictureBoxWithPseudoOpacity.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controls\ProgressReporterDialogue.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Controls\ProgressReporterDialogue.designer.cs">
-      <DependentUpon>ProgressReporterDialogue.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\ProgressStep.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\ProgressStep.Designer.cs">
-      <DependentUpon>ProgressStep.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\PseudoOpacityHelper.cs" />
-    <Compile Include="Controls\QuickView.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\QuickView.Designer.cs">
-      <DependentUpon>QuickView.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\RangeControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\RangeControl.Designer.cs">
-      <DependentUpon>RangeControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\ServoOptions.cs">
       <SubType>UserControl</SubType>
@@ -419,12 +305,6 @@
     </Compile>
     <Compile Include="Controls\ModifyandSet.Designer.cs">
       <DependentUpon>ModifyandSet.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\ValuesControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\ValuesControl.Designer.cs">
-      <DependentUpon>ValuesControl.cs</DependentUpon>
     </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigFrameType.cs">
       <SubType>UserControl</SubType>
@@ -494,6 +374,7 @@
     <Compile Include="ScriptConsole.Designer.cs">
       <DependentUpon>ScriptConsole.cs</DependentUpon>
     </Compile>
+    <Compile Include="Utilities\BigInteger.cs" />
     <Compile Include="Utilities\Firmware.cs" />
     <Compile Include="Utilities\StringRedirectWriter.cs" />
     <Compile Include="Wizard\IWizard.cs" />
@@ -545,14 +426,8 @@
     <EmbeddedResource Include="Antenna\Tracker.it-IT.resx">
       <DependentUpon>Tracker.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\GradientBG.resx">
-      <DependentUpon>GradientBG.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\RadialGradientBG.resx">
-      <DependentUpon>RadialGradientBG.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ProgressStep.resx">
-      <DependentUpon>ProgressStep.cs</DependentUpon>
+    <EmbeddedResource Include="Controls\ConnectionControl.resx">
+      <DependentUpon>ConnectionControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAP_Limits.it-IT.resx">
       <DependentUpon>ConfigAP_Limits.cs</DependentUpon>
@@ -771,12 +646,6 @@
     <Compile Include="GCSViews\ConfigurationView\ConfigAteryxSensors.Designer.cs">
       <DependentUpon>ConfigAteryxSensors.cs</DependentUpon>
     </Compile>
-    <Compile Include="GCSViews\ConfigurationView\ConfigSignalization.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="GCSViews\ConfigurationView\ConfigSignalization.designer.cs">
-      <DependentUpon>ConfigSignalization.cs</DependentUpon>
-    </Compile>
     <Compile Include="GCSViews\Simple.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -916,12 +785,6 @@
     <Compile Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationPlane.Designer.cs">
       <DependentUpon>ConfigAccelerometerCalibrationPlane.cs</DependentUpon>
     </Compile>
-    <Compile Include="GCSViews\ConfigurationView\Setup.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="GCSViews\ConfigurationView\Setup.Designer.cs">
-      <DependentUpon>Setup.cs</DependentUpon>
-    </Compile>
     <Compile Include="MagCalib.cs" />
     <Compile Include="Mavlink\MavlinkOther.cs" />
     <Compile Include="PIDTunning.cs" />
@@ -987,9 +850,7 @@
       <DependentUpon>JoystickSetup.cs</DependentUpon>
     </Compile>
     <Compile Include="Mavlink\MAVLinkTypes.cs" />
-    <Compile Include="Common.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="Common.cs" />
     <Compile Include="paramcompare.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1064,6 +925,7 @@
     <Compile Include="SerialOutputNMEA.Designer.cs">
       <DependentUpon>SerialOutputNMEA.cs</DependentUpon>
     </Compile>
+    <None Include="README.md" />
     <None Include="Utilities\PathFind.cs" />
     <Compile Include="Utilities\Speech.cs" />
     <Compile Include="Splash.cs">
@@ -1107,44 +969,11 @@
     <EmbeddedResource Include="Camera.zh-Hans.resx">
       <DependentUpon>Camera.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\AGauge.resx">
-      <DependentUpon>AGauge.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\BackstageView\BackstageView.resx">
-      <DependentUpon>BackstageView.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Controls\ConfigPanel.resx">
       <DependentUpon>ConfigPanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ConnectionControl.resx">
-      <DependentUpon>ConnectionControl.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Controls\ConnectionStats.resx">
       <DependentUpon>ConnectionStats.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\Firmware_Board.resx">
-      <DependentUpon>Firmware_Board.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\FlashMessage.resx">
-      <DependentUpon>FlashMessage.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\HSI.resx">
-      <DependentUpon>HSI.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ImageLabel.resx">
-      <DependentUpon>ImageLabel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\OptionForm.resx">
-      <DependentUpon>OptionForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ProgressReporterDialogue.resx">
-      <DependentUpon>ProgressReporterDialogue.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\QuickView.resx">
-      <DependentUpon>QuickView.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\RangeControl.resx">
-      <DependentUpon>RangeControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ModifyandSet.resx">
       <DependentUpon>ModifyandSet.cs</DependentUpon>
@@ -1154,9 +983,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ThemeColors.resx">
       <DependentUpon>ThemeColors.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\ValuesControl.resx">
-      <DependentUpon>ValuesControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SerialOutputPass.resx">
       <DependentUpon>SerialOutputPass.cs</DependentUpon>
@@ -1250,9 +1076,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigRawParams.fr.resx">
       <DependentUpon>ConfigRawParams.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigSignalization.resx">
-      <DependentUpon>ConfigSignalization.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigTradHeli.de-DE.resx">
       <DependentUpon>ConfigTradHeli.cs</DependentUpon>
@@ -1510,6 +1333,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigTradHeli.resx">
       <DependentUpon>ConfigTradHeli.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigTradHeli.zh-Hans.resx">
       <DependentUpon>ConfigTradHeli.cs</DependentUpon>
@@ -1546,9 +1370,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigMount.resx">
       <DependentUpon>ConfigMount.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\Setup.resx">
-      <DependentUpon>Setup.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Radio\3DRradio.resx">
       <DependentUpon>3DRradio.cs</DependentUpon>
@@ -1888,7 +1709,6 @@
     <Content Include="acsimplepids.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="apm2.ico" />
     <Content Include="ArduCopterConfig.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -2034,6 +1854,19 @@
     <None Include="Resources\quadhover_12.png" />
     <None Include="Resources\quadhover_14.png" />
     <None Include="Resources\maggps.png" />
+    <Content Include="mpdesktop.ico" />
+    <Content Include="ParameterMetaDataBackup.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\APM_rover-firmware.png" />
+    <Content Include="Resources\guagebg.jpg" />
+    <Content Include="Resources\MAVCmd.zh-TW.txt" />
+    <Content Include="Resources\MAVParam.zh-TW.txt" />
+    <Content Include="Resources\new frames-01.png" />
+    <Content Include="Resources\new frames-05X.png" />
+    <Content Include="Resources\new frames-14.png" />
+    <Content Include="Resources\rover.png" />
+    <Content Include="Resources\splash.jpg" />
     <Content Include="version.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -2158,6 +1991,10 @@
       <Project>{9CA367B8-0B98-49D1-84FB-735E612E3BA9}</Project>
       <Name>BSE.Windows.Forms</Name>
       <EmbedInteropTypes>False</EmbedInteropTypes>
+    </ProjectReference>
+    <ProjectReference Include="ExtLibs\Controls\MissionPlanner.Controls.csproj">
+      <Project>{c8b88795-6d01-494d-83ad-6944bd4c5023}</Project>
+      <Name>MissionPlanner.Controls</Name>
     </ProjectReference>
     <ProjectReference Include="ExtLibs\Core\Core.csproj">
       <Project>{59129078-7B12-4198-B93E-0AA08D0BB7ED}</Project>

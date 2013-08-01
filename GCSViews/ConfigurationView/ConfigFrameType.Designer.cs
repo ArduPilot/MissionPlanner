@@ -74,7 +74,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             // pictureBoxPlus
             // 
             this.pictureBoxPlus.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pictureBoxPlus.Image = global::ArdupilotMega.Properties.Resources.frames_plus;
+            this.pictureBoxPlus.Image = global::MissionPlanner.Properties.Resources.frames_plus;
             resources.ApplyResources(this.pictureBoxPlus, "pictureBoxPlus");
             this.pictureBoxPlus.Name = "pictureBoxPlus";
             this.pictureBoxPlus.TabStop = false;
@@ -83,7 +83,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             // pictureBoxX
             // 
             this.pictureBoxX.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pictureBoxX.Image = global::ArdupilotMega.Properties.Resources.frames_x;
+            this.pictureBoxX.Image = global::MissionPlanner.Properties.Resources.frames_x;
             resources.ApplyResources(this.pictureBoxX, "pictureBoxX");
             this.pictureBoxX.Name = "pictureBoxX";
             this.pictureBoxX.TabStop = false;
@@ -105,7 +105,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             // pictureBoxV
             // 
             this.pictureBoxV.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pictureBoxV.Image = global::ArdupilotMega.Properties.Resources.new_3DR_04;
+            this.pictureBoxV.Image = global::MissionPlanner.Properties.Resources.new_3DR_04;
             resources.ApplyResources(this.pictureBoxV, "pictureBoxV");
             this.pictureBoxV.Name = "pictureBoxV";
             this.pictureBoxV.TabStop = false;

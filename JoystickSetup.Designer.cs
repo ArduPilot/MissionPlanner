@@ -1,4 +1,5 @@
-﻿namespace ArdupilotMega
+﻿using ArdupilotMega.Controls;
+namespace ArdupilotMega
 {
     partial class JoystickSetup
     {
@@ -71,23 +72,23 @@
             this.expo_ch8 = new System.Windows.Forms.TextBox();
             this.CMB_CH8 = new System.Windows.Forms.ComboBox();
             this.BUT_detch8 = new ArdupilotMega.Controls.MyButton();
-            this.horizontalProgressBar4 = new ArdupilotMega.HorizontalProgressBar();
+            this.horizontalProgressBar4 = new HorizontalProgressBar();
             this.BUT_detch4 = new ArdupilotMega.Controls.MyButton();
             this.BUT_detch3 = new ArdupilotMega.Controls.MyButton();
             this.BUT_detch2 = new ArdupilotMega.Controls.MyButton();
             this.BUT_detch1 = new ArdupilotMega.Controls.MyButton();
             this.BUT_enable = new ArdupilotMega.Controls.MyButton();
             this.BUT_save = new ArdupilotMega.Controls.MyButton();
-            this.progressBar4 = new ArdupilotMega.HorizontalProgressBar();
-            this.progressBar3 = new ArdupilotMega.HorizontalProgressBar();
-            this.progressBar2 = new ArdupilotMega.HorizontalProgressBar();
-            this.progressBar1 = new ArdupilotMega.HorizontalProgressBar();
+            this.progressBar4 = new HorizontalProgressBar();
+            this.progressBar3 = new HorizontalProgressBar();
+            this.progressBar2 = new HorizontalProgressBar();
+            this.progressBar1 = new HorizontalProgressBar();
             this.BUT_detch5 = new ArdupilotMega.Controls.MyButton();
-            this.horizontalProgressBar1 = new ArdupilotMega.HorizontalProgressBar();
+            this.horizontalProgressBar1 = new HorizontalProgressBar();
             this.BUT_detch6 = new ArdupilotMega.Controls.MyButton();
-            this.horizontalProgressBar2 = new ArdupilotMega.HorizontalProgressBar();
+            this.horizontalProgressBar2 = new HorizontalProgressBar();
             this.BUT_detch7 = new ArdupilotMega.Controls.MyButton();
-            this.horizontalProgressBar3 = new ArdupilotMega.HorizontalProgressBar();
+            this.horizontalProgressBar3 = new HorizontalProgressBar();
             this.SuspendLayout();
             // 
             // CMB_joysticks

@@ -1,4 +1,16 @@
-﻿* Mission Planner 1.2.62
+﻿* Mission Planner 1.2.63
+relocate controls to external dll
+change mp icon
+add backup metadatafile
+fix altmsl unit scaling
+more wizard wip
+fix gpx time
+fix AP accel
+added ctl + left click = guided mode wp
+move heli screen to software tab
+rename adv param list to full param list
+
+* Mission Planner 1.2.62
 fix hud
 revert fw history
 mod plane accell calib

@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using ArdupilotMega.Comms;
 using System.Globalization;
+using MissionPlanner.Controls;
 
 namespace ArdupilotMega
 {
@@ -60,7 +61,7 @@ namespace ArdupilotMega
 
                 string alt = "100";
 
-                if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
+                if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2 || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduHeli)
                 {
                     alt = (10 * MainV2.comPort.MAV.cs.multiplierdist).ToString("0");
                 }
@@ -68,7 +69,7 @@ namespace ArdupilotMega
                 {
                     alt = (100 * MainV2.comPort.MAV.cs.multiplierdist).ToString("0");
                 }
-                if (DialogResult.Cancel == Common.InputBox("Enter Alt", "Enter Alt (relative to home alt)", ref alt))
+                if (DialogResult.Cancel == InputBox.Show("Enter Alt", "Enter Alt (relative to home alt)", ref alt))
                     return;
 
                 intalt = (int)(100 * MainV2.comPort.MAV.cs.multiplierdist);

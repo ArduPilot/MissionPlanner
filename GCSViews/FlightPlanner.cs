@@ -27,6 +27,7 @@ using ArdupilotMega.Controls.BackstageView;
 using ProjNet.CoordinateSystems.Transformations;
 using ProjNet.CoordinateSystems;
 using ProjNet.Converters;
+using MissionPlanner.Controls;
 
 namespace ArdupilotMega.GCSViews
 {
@@ -137,7 +138,7 @@ namespace ArdupilotMega.GCSViews
                     {
                         CustomMessageBox.Show("You must have a home altitude");
                         string homealt = "100";
-                        if (System.Windows.Forms.DialogResult.Cancel == Common.InputBox("Home Alt", "Home Altitude", ref homealt))
+                        if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Home Alt", "Home Altitude", ref homealt))
                             return;
                         TXT_homealt.Text = homealt;
                     }
@@ -151,7 +152,7 @@ namespace ArdupilotMega.GCSViews
                     if (results1 == 0)
                     {
                         string defalt = "100";
-                        if (System.Windows.Forms.DialogResult.Cancel == Common.InputBox("Default Alt", "Default Altitude", ref defalt))
+                        if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Default Alt", "Default Altitude", ref defalt))
                             return;
                         TXT_DefaultAlt.Text = defalt;
                     }
@@ -167,7 +168,7 @@ namespace ArdupilotMega.GCSViews
                         cell.Value = alt.ToString();
                     if (ans == 0) // default
                         cell.Value = 50;
-                    if (ans == 0 && MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
+                    if (ans == 0 && (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2 || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduHeli))
                         cell.Value = 15;
                     //   online          verify height
                     if (isonline && CHK_geheight.Checked)
@@ -385,8 +386,8 @@ namespace ArdupilotMega.GCSViews
 
             updateCMDParams();
 
-            Up.Image = global::ArdupilotMega.Properties.Resources.up;
-            Down.Image = global::ArdupilotMega.Properties.Resources.down;
+            Up.Image = global::MissionPlanner.Properties.Resources.up;
+            Down.Image = global::MissionPlanner.Properties.Resources.down;
         }
 
         public void updateCMDParams()
@@ -1672,8 +1673,8 @@ namespace ArdupilotMega.GCSViews
         private void Commands_DefaultValuesNeeded(object sender, DataGridViewRowEventArgs e)
         {
             e.Row.Cells[Delete.Index].Value = "X";
-            e.Row.Cells[Up.Index].Value = global::ArdupilotMega.Properties.Resources.up;
-            e.Row.Cells[Down.Index].Value = global::ArdupilotMega.Properties.Resources.down;
+            e.Row.Cells[Up.Index].Value = global::MissionPlanner.Properties.Resources.up;
+            e.Row.Cells[Down.Index].Value = global::MissionPlanner.Properties.Resources.down;
         }
 
         private void TXT_homelat_TextChanged(object sender, EventArgs e)
@@ -1977,7 +1978,7 @@ namespace ArdupilotMega.GCSViews
                 string url = "";
                 if (MainV2.config["WMSserver"] != null)
                     url = MainV2.config["WMSserver"].ToString();
-                if (System.Windows.Forms.DialogResult.Cancel == Common.InputBox("WMS Server", "Enter the WMS server URL", ref url))
+                if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("WMS Server", "Enter the WMS server URL", ref url))
                     return;
                 MainV2.config["WMSserver"] = url;
                 MainMap.Manager.CustomWMSURL = url;
@@ -2549,7 +2550,7 @@ namespace ArdupilotMega.GCSViews
         private void rotateMapToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string heading = "0";
-            if (System.Windows.Forms.DialogResult.Cancel == Common.InputBox("Rotate map to heading", "Enter new UP heading", ref heading))
+            if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Rotate map to heading", "Enter new UP heading", ref heading))
                 return;
             float ans = 0;
             if (float.TryParse(heading, out ans))
@@ -2632,7 +2633,7 @@ namespace ArdupilotMega.GCSViews
         private void jumpstartToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string repeat = "5";
-            if (System.Windows.Forms.DialogResult.Cancel == Common.InputBox("Jump repeat", "Number of times to Repeat", ref repeat))
+            if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Jump repeat", "Number of times to Repeat", ref repeat))
                 return;
 
             selectedrow = Commands.Rows.Add();
@@ -2649,10 +2650,10 @@ namespace ArdupilotMega.GCSViews
         private void jumpwPToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string wp = "1";
-            if (System.Windows.Forms.DialogResult.Cancel == Common.InputBox("WP No", "Jump to WP no?", ref wp))
+            if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("WP No", "Jump to WP no?", ref wp))
                 return;
             string repeat = "5";
-            if (System.Windows.Forms.DialogResult.Cancel == Common.InputBox("Jump repeat", "Number of times to Repeat", ref repeat))
+            if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Jump repeat", "Number of times to Repeat", ref repeat))
                 return;
 
             selectedrow = Commands.Rows.Add();
@@ -2712,7 +2713,7 @@ namespace ArdupilotMega.GCSViews
         private void loitertimeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string time = "5";
-            if (System.Windows.Forms.DialogResult.Cancel == Common.InputBox("Loiter Time", "Loiter Time", ref time))
+            if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Loiter Time", "Loiter Time", ref time))
                 return;
 
             selectedrow = Commands.Rows.Add();
@@ -2731,7 +2732,7 @@ namespace ArdupilotMega.GCSViews
         private void loitercirclesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string turns = "3";
-            if (System.Windows.Forms.DialogResult.Cancel == Common.InputBox("Loiter Turns", "Loiter Turns", ref turns))
+            if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Loiter Turns", "Loiter Turns", ref turns))
                 return;
 
             selectedrow = Commands.Rows.Add();
@@ -2887,11 +2888,11 @@ namespace ArdupilotMega.GCSViews
             }
 
             string minalts = (int.Parse(MainV2.comPort.MAV.param["FENCE_MINALT"].ToString()) * MainV2.comPort.MAV.cs.multiplierdist).ToString("0");
-            if (System.Windows.Forms.DialogResult.Cancel == Common.InputBox("Min Alt", "Box Minimum Altitude?", ref minalts))
+            if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Min Alt", "Box Minimum Altitude?", ref minalts))
                 return;
 
             string maxalts = (int.Parse(MainV2.comPort.MAV.param["FENCE_MAXALT"].ToString()) * MainV2.comPort.MAV.cs.multiplierdist).ToString("0");
-            if (System.Windows.Forms.DialogResult.Cancel == Common.InputBox("Max Alt", "Box Maximum Altitude?", ref maxalts))
+            if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Max Alt", "Box Maximum Altitude?", ref maxalts))
                 return;
 
             int minalt = 0;
@@ -3174,15 +3175,15 @@ namespace ArdupilotMega.GCSViews
         private void createWpCircleToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string RadiusIn = "50";
-            if (System.Windows.Forms.DialogResult.Cancel == Common.InputBox("Radius", "Radius", ref RadiusIn))
+            if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Radius", "Radius", ref RadiusIn))
                 return;
 
             string Pointsin = "20";
-            if (System.Windows.Forms.DialogResult.Cancel == Common.InputBox("Points", "Number of points to generate Circle", ref Pointsin))
+            if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Points", "Number of points to generate Circle", ref Pointsin))
                 return;
 
             string Directionin = "1";
-            if (System.Windows.Forms.DialogResult.Cancel == Common.InputBox("Points", "Direction of circle (-1 or 1)", ref Directionin))
+            if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Points", "Direction of circle (-1 or 1)", ref Directionin))
                 return;
 
             int Points = 0;
@@ -3250,7 +3251,7 @@ namespace ArdupilotMega.GCSViews
         {
             timer1.Start();
 
-            if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
+            if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2 || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduHeli)
             {
                 CHK_altmode.Visible = false;
             }
@@ -3356,20 +3357,20 @@ namespace ArdupilotMega.GCSViews
                 double widthdist = MainMap.Manager.GetDistance(arearect.LocationTopLeft, topright) * 1000;
 
                 string alt = (100 * MainV2.comPort.MAV.cs.multiplierdist).ToString("0");
-                if (System.Windows.Forms.DialogResult.Cancel == Common.InputBox("Altitude", "Relative Altitude", ref alt))
+                if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Altitude", "Relative Altitude", ref alt))
                     return;
 
                 string distance = (50 * MainV2.comPort.MAV.cs.multiplierdist).ToString("0");
-                if (System.Windows.Forms.DialogResult.Cancel == Common.InputBox("Distance", "Distance between lines", ref distance)) return;
+                if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Distance", "Distance between lines", ref distance)) return;
 
                 string wpeverytext = (40 * MainV2.comPort.MAV.cs.multiplierdist).ToString("0");
-                if (System.Windows.Forms.DialogResult.Cancel == Common.InputBox("Every", "Put a WP every x distance (-1 for none)", ref wpeverytext)) return;
+                if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Every", "Put a WP every x distance (-1 for none)", ref wpeverytext)) return;
 
                 string angle = (90).ToString("0");
-                if (System.Windows.Forms.DialogResult.Cancel == Common.InputBox("Angle", "Enter the line direction (0-90)", ref angle)) return;
+                if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Angle", "Enter the line direction (0-90)", ref angle)) return;
 
                 string shutter = "Yes";
-                if (System.Windows.Forms.DialogResult.Cancel == Common.InputBox("Shutter", "Add Shutter Triggers?", ref shutter)) return;
+                if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Shutter", "Add Shutter Triggers?", ref shutter)) return;
 
                 double tryme = 0;
 
@@ -3746,17 +3747,17 @@ namespace ArdupilotMega.GCSViews
 
 
                 string alt = (100 * MainV2.comPort.MAV.cs.multiplierdist).ToString("0");
-                if (System.Windows.Forms.DialogResult.Cancel == Common.InputBox("Altitude", "Relative Altitude", ref alt)) return;
+                if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Altitude", "Relative Altitude", ref alt)) return;
 
 
                 string distance = (50 * MainV2.comPort.MAV.cs.multiplierdist).ToString("0");
-                if (System.Windows.Forms.DialogResult.Cancel == Common.InputBox("Distance", "Distance between lines", ref distance)) return;
+                if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Distance", "Distance between lines", ref distance)) return;
 
                 string wpevery = (40 * MainV2.comPort.MAV.cs.multiplierdist).ToString("0");
-                if (System.Windows.Forms.DialogResult.Cancel == Common.InputBox("Every", "Put a WP every x distance (-1 for none)", ref wpevery)) return;
+                if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Every", "Put a WP every x distance (-1 for none)", ref wpevery)) return;
 
                 string angle = (90).ToString("0");
-                if (System.Windows.Forms.DialogResult.Cancel == Common.InputBox("Angle", "Enter the line direction (0-180)", ref angle) ) return;
+                if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Angle", "Enter the line direction (0-180)", ref angle) ) return;
 
                 double tryme = 0;
 
@@ -4067,7 +4068,7 @@ namespace ArdupilotMega.GCSViews
         private void zoomToToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string place = "Perth Airport, Australia";
-            if (DialogResult.OK == Common.InputBox("Location", "Enter your location", ref place))
+            if (DialogResult.OK == InputBox.Show("Location", "Enter your location", ref place))
             {
 
                 GeoCoderStatusCode status = MainMap.SetCurrentPositionByKeywords(place);
@@ -4227,7 +4228,7 @@ namespace ArdupilotMega.GCSViews
             // altitude
             string alt = "10";
 
-            if (System.Windows.Forms.DialogResult.Cancel == Common.InputBox("Altitude", "Please enter your takeoff altitude", ref alt))
+            if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Altitude", "Please enter your takeoff altitude", ref alt))
                 return;
 
             int alti = -1;
@@ -4245,7 +4246,7 @@ namespace ArdupilotMega.GCSViews
             {
                 string top = "15";
 
-                if (System.Windows.Forms.DialogResult.Cancel == Common.InputBox("Takeoff Pitch", "Please enter your takeoff pitch", ref alt))
+                if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Takeoff Pitch", "Please enter your takeoff pitch", ref alt))
                     return;
 
                 if (!int.TryParse(top, out topi))

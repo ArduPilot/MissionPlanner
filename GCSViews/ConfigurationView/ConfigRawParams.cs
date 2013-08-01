@@ -7,8 +7,8 @@ using System.Text;
 using System.Windows.Forms;
 using ArdupilotMega.Utilities;
 using log4net;
-using ArdupilotMega.Controls.BackstageView;
-
+using ArdupilotMega.Controls;
+using MissionPlanner.Controls;
 
 namespace ArdupilotMega.GCSViews.ConfigurationView
 {
@@ -188,7 +188,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                 {
                     input = DateTime.Now + " Plane: Skywalker";
                 }
-                Common.InputBox("Custom Note", "Enter your Notes/Frame Type etc", ref input);
+                InputBox.Show("Custom Note", "Enter your Notes/Frame Type etc", ref input);
                 if (input != "")
                     sw.WriteLine("#NOTE: " + input.Replace(',', '|'));
                 foreach (DataGridViewRow row in Params.Rows)
@@ -330,7 +330,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
 
         void readToolTips()
         {
-            string data = global::ArdupilotMega.Properties.Resources.MAVParam;
+            string data = global::MissionPlanner.Properties.Resources.MAVParam;
 
             string[] tips = data.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
 

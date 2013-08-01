@@ -12,7 +12,7 @@ using System.IO;
 using log4net;
 using System.Reflection;
 using System.Globalization;
-using ArdupilotMega.Controls.BackstageView;
+using ArdupilotMega.Controls;
 
 namespace ArdupilotMega.GCSViews.ConfigurationView
 {

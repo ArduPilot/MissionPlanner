@@ -172,11 +172,10 @@ namespace ArdupilotMega.GCSViews
             this.BUT_setup.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
             this.BUT_setup.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_setup.UseVisualStyleBackColor = true;
-            this.BUT_setup.Click += new System.EventHandler(this.BUT_setup_Click);
             // 
             // pictureBoxHilimage
             // 
-            this.pictureBoxHilimage.Image = global::ArdupilotMega.Properties.Resources.hil;
+            this.pictureBoxHilimage.Image = global::MissionPlanner.Properties.Resources.hil;
             resources.ApplyResources(this.pictureBoxHilimage, "pictureBoxHilimage");
             this.pictureBoxHilimage.Name = "pictureBoxHilimage";
             this.pictureBoxHilimage.TabStop = false;
@@ -185,7 +184,7 @@ namespace ArdupilotMega.GCSViews
             // pictureBoxAPHil
             // 
             this.pictureBoxAPHil.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pictureBoxAPHil.Image = global::ArdupilotMega.Properties.Resources.hilplane;
+            this.pictureBoxAPHil.Image = global::MissionPlanner.Properties.Resources.hilplane;
             resources.ApplyResources(this.pictureBoxAPHil, "pictureBoxAPHil");
             this.pictureBoxAPHil.Name = "pictureBoxAPHil";
             this.pictureBoxAPHil.TabStop = false;
@@ -195,7 +194,7 @@ namespace ArdupilotMega.GCSViews
             // pictureBoxACHil
             // 
             this.pictureBoxACHil.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pictureBoxACHil.Image = global::ArdupilotMega.Properties.Resources.hilquad;
+            this.pictureBoxACHil.Image = global::MissionPlanner.Properties.Resources.hilquad;
             resources.ApplyResources(this.pictureBoxACHil, "pictureBoxACHil");
             this.pictureBoxACHil.Name = "pictureBoxACHil";
             this.pictureBoxACHil.TabStop = false;
@@ -205,7 +204,7 @@ namespace ArdupilotMega.GCSViews
             // pictureBoxACHHil
             // 
             this.pictureBoxACHHil.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pictureBoxACHHil.Image = global::ArdupilotMega.Properties.Resources.hilheli;
+            this.pictureBoxACHHil.Image = global::MissionPlanner.Properties.Resources.hilheli;
             resources.ApplyResources(this.pictureBoxACHHil, "pictureBoxACHHil");
             this.pictureBoxACHHil.Name = "pictureBoxACHHil";
             this.pictureBoxACHHil.TabStop = false;

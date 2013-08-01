@@ -21,6 +21,12 @@ namespace ArdupilotMega.Utilities
 
       static Dictionary<string, string> cache = new Dictionary<string, string>();
 
+       /// <summary>
+       /// retrived parameter info from the net
+       /// </summary>
+       /// <param name="ap">xml name for arduplane</param>
+       /// <param name="ac">xml name for arducopter</param>
+       /// <param name="ar">xml name for ardurover</param>
       public static void GetParameterInformation()
       {
          string parameterLocationsString = ConfigurationManager.AppSettings["ParameterLocations"];

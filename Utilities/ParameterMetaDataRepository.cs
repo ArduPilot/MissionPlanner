@@ -24,13 +24,27 @@ namespace ArdupilotMega.Utilities
       public static void Reload()
       {
           string paramMetaDataXMLFileName = String.Format("{0}{1}{2}", Application.StartupPath, Path.DirectorySeparatorChar, ConfigurationManager.AppSettings["ParameterMetaDataXMLFileName"]);
+
+          string paramMetaDataXMLFileNameBackup = String.Format("{0}{1}{2}", Application.StartupPath, Path.DirectorySeparatorChar, ConfigurationManager.AppSettings["ParameterMetaDataXMLFileNameBackup"]);
+
           try
           {
               if (File.Exists(paramMetaDataXMLFileName))
                   _parameterMetaDataXML = XDocument.Load(paramMetaDataXMLFileName);
-
           }
           catch { } // Exception System.Xml.XmlException: Root element is missing.
+
+          try
+          {
+              // error loading the good file, load the backup
+              if (File.Exists(paramMetaDataXMLFileNameBackup) && _parameterMetaDataXML == null)
+              {
+                  _parameterMetaDataXML = XDocument.Load(paramMetaDataXMLFileNameBackup);
+                  Console.WriteLine("Using backup param data");
+              }
+          }
+          catch { }
+      
       }
 
       /// <summary>
@@ -71,7 +85,7 @@ namespace ArdupilotMega.Utilities
        /// </summary>
        /// <param name="nodeKey"></param>
        /// <returns></returns>
-      public List<KeyValuePair<string,string>> GetParameterOptions(string nodeKey)
+  /*    public List<KeyValuePair<string,string>> GetParameterOptions(string nodeKey)
       {
           string availableValuesRaw = GetParameterMetaData(nodeKey, ParameterMetaDataConstants.Values);
 
@@ -90,6 +104,32 @@ namespace ArdupilotMega.Utilities
           }
 
           return new List<KeyValuePair<string, string>>();
+      }*/
+
+      /// <summary>
+      /// Return a key, value list off all options selectable
+      /// </summary>
+      /// <param name="nodeKey"></param>
+      /// <returns></returns>
+      public List<KeyValuePair<int, string>> GetParameterOptionsInt(string nodeKey)
+      {
+          string availableValuesRaw = GetParameterMetaData(nodeKey, ParameterMetaDataConstants.Values);
+
+          string[] availableValues = availableValuesRaw.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+          if (availableValues.Any())
+          {
+              var splitValues = new List<KeyValuePair<int, string>>();
+              // Add the values to the ddl
+              foreach (string val in availableValues)
+              {
+                  string[] valParts = val.Split(new[] { ':' });
+                  splitValues.Add(new KeyValuePair<int, string>(int.Parse(valParts[0].Trim()), (valParts.Length > 1) ? valParts[1].Trim() : valParts[0].Trim()));
+              };
+
+              return splitValues;
+          }
+
+          return new List<KeyValuePair<int, string>>();
       }
    }
 }

@@ -63,7 +63,7 @@ namespace ArdupilotMega
             {
                 altmode = SharpKml.Dom.AltitudeMode.Absolute;
             }
-            else if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
+            else if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2 || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduHeli)
             {
                 altmode = SharpKml.Dom.AltitudeMode.RelativeToGround;
             }
@@ -1453,14 +1453,18 @@ namespace ArdupilotMega
             {
                 foreach (string logfile in openFileDialog1.FileNames)
                 {
-                    Utilities.S3Uploader s3 = new S3Uploader("");
-                    s3.UploadTlog((string)logfile);
-                    progressBar1.Value = s3.Progress;
-                    while (s3.Progress != 100)
+                    try
                     {
+                        Utilities.S3Uploader s3 = new S3Uploader("");
+                        s3.UploadTlog((string)logfile);
                         progressBar1.Value = s3.Progress;
-                        System.Threading.Thread.Sleep(100);
+                        while (s3.Progress != 100)
+                        {
+                            progressBar1.Value = s3.Progress;
+                            System.Threading.Thread.Sleep(100);
+                        }
                     }
+                    catch (Exception ex) { CustomMessageBox.Show(ex.Message); }
                 }
             }
         }

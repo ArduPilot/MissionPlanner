@@ -15,7 +15,7 @@ namespace ArdupilotMega.Arduino
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         public event ProgressEventHandler Progress;
-
+        
         public new void Open()
         {
             // default dtr status is false

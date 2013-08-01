@@ -6,6 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using MissionPlanner.Controls;
 
 namespace ArdupilotMega.Swarm
 {
@@ -287,7 +288,7 @@ namespace ArdupilotMega.Swarm
                 return;
 
             string output = mouseover.z.ToString();
-            if (DialogResult.OK == Common.InputBox("Alt", "Enter New Alt", ref output))
+            if (DialogResult.OK == InputBox.Show("Alt", "Enter New Alt", ref output))
             {
                 mouseover.z = float.Parse(output);
 

@@ -378,7 +378,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
         public void Activate()
         {
 
-            if (MainV2.comPort.MAV.param["H_GYR_ENABLE"] == null)
+            if (MainV2.comPort.MAV.param["H_SWASH_TYPE"] == null)
             {
                 this.Enabled = false;
                 return;
