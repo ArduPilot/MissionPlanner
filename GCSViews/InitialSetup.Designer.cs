@@ -1,6 +1,6 @@
 ﻿namespace ArdupilotMega.GCSViews
 {
-    partial class HardwareConfig
+    partial class InitialSetup
     {
         /// <summary> 
         /// Required designer variable.

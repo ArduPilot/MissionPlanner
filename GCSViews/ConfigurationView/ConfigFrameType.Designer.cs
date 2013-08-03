@@ -40,9 +40,13 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             this.label6 = new System.Windows.Forms.Label();
             this.radioButton_V = new System.Windows.Forms.RadioButton();
             this.pictureBoxV = new ArdupilotMega.Controls.PictureBoxWithPseudoOpacity();
+            this.label1 = new System.Windows.Forms.Label();
+            this.radioButton_H = new System.Windows.Forms.RadioButton();
+            this.pictureBoxH = new ArdupilotMega.Controls.PictureBoxWithPseudoOpacity();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPlus)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxV)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxH)).BeginInit();
             this.SuspendLayout();
             // 
             // radioButton_Plus
@@ -111,10 +115,35 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             this.pictureBoxV.TabStop = false;
             this.pictureBoxV.Click += new System.EventHandler(this.pictureBoxV_Click);
             // 
+            // label1
+            // 
+            resources.ApplyResources(this.label1, "label1");
+            this.label1.Name = "label1";
+            // 
+            // radioButton_H
+            // 
+            resources.ApplyResources(this.radioButton_H, "radioButton_H");
+            this.radioButton_H.Name = "radioButton_H";
+            this.radioButton_H.TabStop = true;
+            this.radioButton_H.UseVisualStyleBackColor = true;
+            this.radioButton_H.CheckedChanged += new System.EventHandler(this.radioButton_H_CheckedChanged);
+            // 
+            // pictureBoxH
+            // 
+            this.pictureBoxH.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pictureBoxH.Image = global::MissionPlanner.Properties.Resources.frames_h;
+            resources.ApplyResources(this.pictureBoxH, "pictureBoxH");
+            this.pictureBoxH.Name = "pictureBoxH";
+            this.pictureBoxH.TabStop = false;
+            this.pictureBoxH.Click += new System.EventHandler(this.pictureBoxH_Click);
+            // 
             // ConfigFrameType
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.radioButton_H);
+            this.Controls.Add(this.pictureBoxH);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.radioButton_V);
             this.Controls.Add(this.pictureBoxV);
@@ -128,6 +157,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPlus)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxX)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxV)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxH)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -144,5 +174,8 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.RadioButton radioButton_V;
         private PictureBoxWithPseudoOpacity pictureBoxV;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.RadioButton radioButton_H;
+        private PictureBoxWithPseudoOpacity pictureBoxH;
     }
 }

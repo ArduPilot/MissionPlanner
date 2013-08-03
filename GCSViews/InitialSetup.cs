@@ -14,13 +14,13 @@ using System.Reflection;
 
 namespace ArdupilotMega.GCSViews
 {
-    public partial class HardwareConfig : MyUserControl
+    public partial class InitialSetup : MyUserControl
     {
         internal static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         static string lastpagename = "";
 
-        public HardwareConfig()
+        public InitialSetup()
         {
             InitializeComponent();
         }
@@ -39,10 +39,11 @@ namespace ArdupilotMega.GCSViews
             BackstageView.BackstageViewPage start;
             if (MainV2.comPort.BaseStream.IsOpen)
             {
-                start  = AddBackstageViewPage(new ArdupilotMega.GCSViews.ConfigFirmware(), "Install Firmware");
 
                 BackstageView.BackstageViewPage mandatoryhardware = AddBackstageViewPage(new ConfigMandatory(), "Mandatory Hardware", null);
                 BackstageView.BackstageViewPage optionalhardware = AddBackstageViewPage(new ConfigOptional(), "Optional Hardware", null);
+
+                start = mandatoryhardware;
 
                 if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
                 {
@@ -77,7 +78,7 @@ namespace ArdupilotMega.GCSViews
             }
             else
             {
-                start  = AddBackstageViewPage(new ArdupilotMega.GCSViews.ConfigFirmware(), "Install Firmware");
+                AddBackstageViewPage(new ArdupilotMega.GCSViews.ConfigFirmware(), "Install Firmware");
                 AddBackstageViewPage(new ArdupilotMega._3DRradio(), "3DR Radio");
                 AddBackstageViewPage(new ArdupilotMega.Antenna.Tracker(), "Antenna Tracker");
             }
@@ -92,8 +93,8 @@ namespace ArdupilotMega.GCSViews
                 }
             }
 
-            if (this.backstageView.SelectedPage == null)
-                backstageView.ActivatePage(start);
+            if (backstageView.SelectedPage == null)
+                backstageView.DrawMenu(null, true);
 
             ThemeManager.ApplyThemeTo(this);
         }

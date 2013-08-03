@@ -403,6 +403,16 @@ namespace MissionPlanner.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap frames_h {
+            get {
+                object obj = ResourceManager.GetObject("frames-h", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap frames_plus {
             get {
                 object obj = ResourceManager.GetObject("frames_plus", resourceCulture);

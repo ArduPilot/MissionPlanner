@@ -586,6 +586,15 @@ namespace ArdupilotMega
                 }
                 catch { }
 
+                // refresh config window if needed
+                if (MyView.current != null)
+                {
+                    if (MyView.current.Name == "HWConfig")
+                        MyView.ShowScreen("HWConfig");
+                    if (MyView.current.Name == "SWConfig")
+                        MyView.ShowScreen("SWConfig");
+                }
+
                 this.MenuConnect.Image = global::MissionPlanner.Properties.Resources.connect;
             }
             else
@@ -1405,7 +1414,7 @@ namespace ArdupilotMega
 
             MyView.AddScreen(new MainSwitcher.Screen("FlightData", FlightData, true));
             MyView.AddScreen(new MainSwitcher.Screen("FlightPlanner", FlightPlanner, true));
-            MyView.AddScreen(new MainSwitcher.Screen("HWConfig", new GCSViews.HardwareConfig(), false));
+            MyView.AddScreen(new MainSwitcher.Screen("HWConfig", new GCSViews.InitialSetup(), false));
             MyView.AddScreen(new MainSwitcher.Screen("SWConfig", new GCSViews.SoftwareConfig(), false));
             MyView.AddScreen(new MainSwitcher.Screen("Simulation", Simulation, true));
             MyView.AddScreen(new MainSwitcher.Screen("Terminal", new GCSViews.Terminal(), false));

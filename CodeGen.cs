@@ -71,6 +71,7 @@ namespace ArdupilotMega
             compilerParams.IncludeDebugInformation = false;
             compilerParams.ReferencedAssemblies.Add("mscorlib.dll");
             compilerParams.ReferencedAssemblies.Add("System.dll");
+            compilerParams.ReferencedAssemblies.Add("System.Windows.Forms.dll");
             compilerParams.ReferencedAssemblies.Add(Application.ExecutablePath);
 
             compilerParams.ReferencedAssemblies.Add("");

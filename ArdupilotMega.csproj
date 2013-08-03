@@ -188,9 +188,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Lib\ProjNet.dll</HintPath>
     </Reference>
-    <Reference Include="px4uploader, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+    <Reference Include="px4uploader, Version=1.0.4855.33293, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <ExecutableExtension>.exe</ExecutableExtension>
       <HintPath>..\..\px4uploader\bin\Release\px4uploader.exe</HintPath>
     </Reference>
     <Reference Include="System">
@@ -354,11 +353,11 @@
     <Compile Include="GCSViews\ConfigurationView\ConfigHWOSD.Designer.cs">
       <DependentUpon>ConfigHWOSD.cs</DependentUpon>
     </Compile>
-    <Compile Include="GCSViews\HardwareConfig.cs">
+    <Compile Include="GCSViews\InitialSetup.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="GCSViews\HardwareConfig.Designer.cs">
-      <DependentUpon>HardwareConfig.cs</DependentUpon>
+    <Compile Include="GCSViews\InitialSetup.Designer.cs">
+      <DependentUpon>InitialSetup.cs</DependentUpon>
     </Compile>
     <Compile Include="GCSViews\SoftwareConfig.cs">
       <SubType>UserControl</SubType>
@@ -585,8 +584,8 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWOSD.zh-TW.resx">
       <DependentUpon>ConfigHWOSD.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\HardwareConfig.resx">
-      <DependentUpon>HardwareConfig.cs</DependentUpon>
+    <EmbeddedResource Include="GCSViews\InitialSetup.resx">
+      <DependentUpon>InitialSetup.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\SoftwareConfig.resx">
       <DependentUpon>SoftwareConfig.cs</DependentUpon>
@@ -606,7 +605,7 @@
     <None Include="Driver\arduino mega 2560.cat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Driver\px4fmu.cat">
+    <None Include="Driver\px4fmu_2.0.0.3.cat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Driver\signed.cer">
@@ -1757,7 +1756,7 @@
     <Content Include="Driver\i386\ftserui2.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Driver\px4fmu.inf">
+    <Content Include="Driver\px4fmu_2.0.0.3.inf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="FirmwareHistory.txt">
@@ -1859,6 +1858,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\APM_rover-firmware.png" />
+    <None Include="Resources\frames-h.png" />
     <Content Include="Resources\guagebg.jpg" />
     <Content Include="Resources\MAVCmd.zh-TW.txt" />
     <Content Include="Resources\MAVParam.zh-TW.txt" />

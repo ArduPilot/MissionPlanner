@@ -19,6 +19,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             Plus = 0,
             X = 1,
             V = 2,
+            H=3
         }
 
         public ConfigFrameType()
@@ -41,27 +42,44 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                     FadePicBoxes(pictureBoxPlus, EnabledOpacity);
                     FadePicBoxes(pictureBoxX, DisabledOpacity);
                     FadePicBoxes(pictureBoxV, DisabledOpacity);
+                    FadePicBoxes(pictureBoxH, DisabledOpacity);
                     radioButton_Plus.Checked = true;
                     radioButton_V.Checked = false;
                     radioButton_X.Checked = false;
+                    radioButton_H.Checked = false;
                     SetFrameParam(frame);
                     break;
                 case Frame.X:
                     FadePicBoxes(pictureBoxPlus, DisabledOpacity);
                     FadePicBoxes(pictureBoxX, EnabledOpacity);
                     FadePicBoxes(pictureBoxV, DisabledOpacity);
+                    FadePicBoxes(pictureBoxH, DisabledOpacity);
                     radioButton_Plus.Checked = false;
                     radioButton_V.Checked = false;
                     radioButton_X.Checked = true;
+                    radioButton_H.Checked = false;
                     SetFrameParam(frame);
                     break;
                 case Frame.V:
                     FadePicBoxes(pictureBoxPlus, DisabledOpacity);
                     FadePicBoxes(pictureBoxX, DisabledOpacity);
                     FadePicBoxes(pictureBoxV, EnabledOpacity);
+                    FadePicBoxes(pictureBoxH, DisabledOpacity);
                     radioButton_Plus.Checked = false;
                     radioButton_V.Checked = true;
                     radioButton_X.Checked = false;
+                    radioButton_H.Checked = false;
+                    SetFrameParam(frame);
+                    break;
+                case Frame.H:
+                    FadePicBoxes(pictureBoxPlus, DisabledOpacity);
+                    FadePicBoxes(pictureBoxX, DisabledOpacity);
+                    FadePicBoxes(pictureBoxV, DisabledOpacity);
+                    FadePicBoxes(pictureBoxH, EnabledOpacity);
+                    radioButton_Plus.Checked = false;
+                    radioButton_V.Checked = false;
+                    radioButton_X.Checked = false;
+                    radioButton_H.Checked = true;
                     SetFrameParam(frame);
                     break;
             }
@@ -134,6 +152,16 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
         private void radioButton_V_CheckedChanged(object sender, EventArgs e)
         {
             DoChange(Frame.V);
+        }
+
+        private void pictureBoxH_Click(object sender, EventArgs e)
+        {
+            DoChange(Frame.H);
+        }
+
+        private void radioButton_H_CheckedChanged(object sender, EventArgs e)
+        {
+            DoChange(Frame.H);
         }
 
     }

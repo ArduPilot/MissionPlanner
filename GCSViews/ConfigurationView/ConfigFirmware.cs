@@ -134,7 +134,7 @@ namespace ArdupilotMega.GCSViews
 
         internal void Firmware_Load(object sender, EventArgs e)
         {
-            if (softwares.Count == 0)
+           // if (softwares.Count == 0)
             {
                 ProgressReporterDialogue pdr = new ArdupilotMega.Controls.ProgressReporterDialogue();
 
@@ -146,12 +146,12 @@ namespace ArdupilotMega.GCSViews
 
                 pdr.RunBackgroundOperationAsync();
             }
-            else
+          //  else
             {
-                foreach (var temp in softwares)
-                {
-                    updateDisplayNameInvoke(temp);
-                }
+              //  foreach (var temp in softwares)
+              //  {
+              //      updateDisplayNameInvoke(temp);
+              //  }
             }
         }
 
@@ -711,63 +711,67 @@ namespace ArdupilotMega.GCSViews
 
             while (DateTime.Now < DEADLINE)
             {
+                string[] allports = SerialPort.GetPortNames();
 
-                string port = MainV2.comPortName;
-
-                Console.WriteLine(DateTime.Now.Millisecond + " Trying Port " + port);
-
-                lbl_status.Text = "Connecting";
-                Application.DoEvents();
-
-                try
+                foreach (string port in allports)
                 {
-                    up = new Uploader(port, 115200);
-                }
-                catch (Exception ex)
-                {
-                    //System.Threading.Thread.Sleep(50);
-                    Console.WriteLine(ex.Message);
-                    continue;
-                }
+                    Console.WriteLine(DateTime.Now.Millisecond + " Trying Port " + port);
 
-                try
-                {
-                    up.identify();
-                    lbl_status.Text = "Identify";
+                    lbl_status.Text = "Connecting";
                     Application.DoEvents();
-                    Console.WriteLine("Found board type {0} boardrev {1} bl rev {2} fwmax {3} on {4}", up.board_type, up.board_rev, up.bl_rev, up.fw_maxsize, port);
 
-                    up.currentChecksum(fw);
-                }
-                catch (Exception)
-                {
-                    Console.WriteLine("Not There..");
-                    //Console.WriteLine(ex.Message);
+                    try
+                    {
+                        up = new Uploader(port, 115200);
+                    }
+                    catch (Exception ex)
+                    {
+                        //System.Threading.Thread.Sleep(50);
+                        Console.WriteLine(ex.Message);
+                        continue;
+                    }
+
+                    try
+                    {
+                        up.identify();
+                        lbl_status.Text = "Identify";
+                        Application.DoEvents();
+                        Console.WriteLine("Found board type {0} boardrev {1} bl rev {2} fwmax {3} on {4}", up.board_type, up.board_rev, up.bl_rev, up.fw_maxsize, port);
+
+                        up.currentChecksum(fw);
+                    }
+                    catch (Exception)
+                    {
+                        Console.WriteLine("Not There..");
+                        //Console.WriteLine(ex.Message);
+                        up.close();
+                        continue;
+                    }
+
+                    try
+                    {
+                        up.ProgressEvent += new Uploader.ProgressEventHandler(up_ProgressEvent);
+                        up.LogEvent += new Uploader.LogEventHandler(up_LogEvent);
+
+                        progress.Value = 0;
+                        Application.DoEvents();
+                        up.upload(fw);
+                        lbl_status.Text = "Done";
+                        Application.DoEvents();
+                    }
+                    catch (Exception ex)
+                    {
+                        lbl_status.Text = "ERROR: " + ex.Message;
+                        Application.DoEvents();
+                        Console.WriteLine(ex.ToString());
+
+                    }
                     up.close();
-                    continue;
+
+                    DEADLINE = DateTime.MinValue;
+
+                    break;
                 }
-
-                try
-                {
-                    up.ProgressEvent += new Uploader.ProgressEventHandler(up_ProgressEvent);
-                    up.LogEvent += new Uploader.LogEventHandler(up_LogEvent);
-
-                    progress.Value = 0;
-                    Application.DoEvents();
-                    up.upload(fw);
-                    lbl_status.Text = "Done";
-                    Application.DoEvents();
-                }
-                catch (Exception ex)
-                {
-                    lbl_status.Text = "ERROR: " + ex.Message;
-                    Application.DoEvents();
-                    Console.WriteLine(ex.ToString());
-
-                }
-                up.close();
-
-                break;
             }
 
             CustomMessageBox.Show("Please unplug, and plug back in your px4, before you try connecting");
@@ -926,8 +930,7 @@ namespace ArdupilotMega.GCSViews
 
                 DateTime startwait = DateTime.Now;
 
-
-                if (installing.url2560_2.ToLower().Contains("copter"))
+                if (installing.url2560_2 != null && installing.url2560_2.ToLower().Contains("copter"))
                     CustomMessageBox.Show("Please ensure you do a live compass calibration after installing arducopter V 3.x");
 
                 try

@@ -1,4 +1,16 @@
-﻿* Mission Planner 1.2.63
+﻿* Mission Planner 1.2.65
+custom firmware load fix
+refresh on disconnect
+px4fmu updates
+px4uploader update
+add H, Y6, tri, Heli to frame setup
+
+* Mission Planner 1.2.64
+rename hardware and software config
+change fw screen loading
+wizard wip
+
+* Mission Planner 1.2.63
 relocate controls to external dll
 change mp icon
 add backup metadatafile

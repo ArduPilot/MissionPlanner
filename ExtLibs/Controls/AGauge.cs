@@ -1515,7 +1515,6 @@ System.ComponentModel.Description("Enables or disables the range selected by Nee
 
             if (!ThisReallyVisible())
             {
-                Console.WriteLine(this.Visible);
                 base.OnPaint(pe);
                 return;
             }
@@ -1525,7 +1524,7 @@ System.ComponentModel.Description("Enables or disables the range selected by Nee
             // scale it
             if (basesize != null)
             {
-                scale = (float)this.Width / basesize.Width;
+                scale = (float)this.Width / (float)basesize.Width;
 
 //                Console.WriteLine("Scale: " + scale);
             }

@@ -138,8 +138,8 @@
             this.MenuHWConfig.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.MenuHWConfig.Margin = new System.Windows.Forms.Padding(0);
             this.MenuHWConfig.Name = "MenuHWConfig";
-            this.MenuHWConfig.Size = new System.Drawing.Size(71, 63);
-            this.MenuHWConfig.Text = "HARDWARE";
+            this.MenuHWConfig.Size = new System.Drawing.Size(79, 63);
+            this.MenuHWConfig.Text = "INITIAL SETUP";
             this.MenuHWConfig.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.MenuHWConfig.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage;
             this.MenuHWConfig.ToolTipText = "Hardware Config";
@@ -156,8 +156,8 @@
             this.MenuSWConfig.Margin = new System.Windows.Forms.Padding(0);
             this.MenuSWConfig.Name = "MenuSWConfig";
             this.MenuSWConfig.Padding = new System.Windows.Forms.Padding(0, 0, 5, 0);
-            this.MenuSWConfig.Size = new System.Drawing.Size(74, 63);
-            this.MenuSWConfig.Text = "SOFTWARE";
+            this.MenuSWConfig.Size = new System.Drawing.Size(94, 63);
+            this.MenuSWConfig.Text = "CONFIG/TUNING";
             this.MenuSWConfig.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.MenuSWConfig.TextDirection = System.Windows.Forms.ToolStripTextDirection.Horizontal;
             this.MenuSWConfig.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage;
