@@ -105,6 +105,7 @@ namespace ArdupilotMega.Wizard
             this.MinimizeBox = false;
             this.Name = "Wizard";
             this.Text = "Wizard";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Wizard_FormClosing);
             this.ResumeLayout(false);
 
         }

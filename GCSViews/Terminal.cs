@@ -8,7 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using ArdupilotMega;
 using System.IO.Ports;
-using ArdupilotMega.Comms;
+using MissionPlanner.Comms;
 using ArdupilotMega.Utilities;
 using System.Text.RegularExpressions;
 using log4net;

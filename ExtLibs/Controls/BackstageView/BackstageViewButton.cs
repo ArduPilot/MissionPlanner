@@ -28,7 +28,6 @@ namespace ArdupilotMega.Controls.BackstageView
 
             this.Width = 150;
             this.Height = 30;
-
             
             this.ResumeLayout(false);
         }

@@ -5,9 +5,9 @@ using System.Text;
 using System.IO.Ports;
 using System.IO;
 
-namespace ArdupilotMega.Comms
+namespace MissionPlanner.Comms
 {
-    public class CommsFile : ICommsSerial
+    public class CommsFile : CommsBase, ICommsSerial
     {
         // Methods
         public void Close() { BaseStream.Close(); }

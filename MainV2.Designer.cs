@@ -132,7 +132,7 @@
             this.MenuHWConfig.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.MenuHWConfig.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MenuHWConfig.ForeColor = System.Drawing.Color.White;
-            this.MenuHWConfig.Image = global::MissionPlanner.Properties.Resources.hardwareconfig;
+            this.MenuHWConfig.Image = global::MissionPlanner.Properties.Resources.light_initialsetup_icon;
             this.MenuHWConfig.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.MenuHWConfig.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.MenuHWConfig.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -150,7 +150,7 @@
             this.MenuSWConfig.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.MenuSWConfig.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MenuSWConfig.ForeColor = System.Drawing.Color.White;
-            this.MenuSWConfig.Image = global::MissionPlanner.Properties.Resources.softwareconfig;
+            this.MenuSWConfig.Image = global::MissionPlanner.Properties.Resources.light_tuningconfig_icon;
             this.MenuSWConfig.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.MenuSWConfig.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.MenuSWConfig.Margin = new System.Windows.Forms.Padding(0);

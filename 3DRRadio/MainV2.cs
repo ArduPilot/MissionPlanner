@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using MissionPlanner.Comms;
 
 namespace ArdupilotMega
 {
@@ -12,6 +13,6 @@ namespace ArdupilotMega
 
     class portproxy
     {
-        public ArdupilotMega.Comms.SerialPort BaseStream = new ArdupilotMega.Comms.SerialPort();
+        public SerialPort BaseStream = new SerialPort();
     }
 }

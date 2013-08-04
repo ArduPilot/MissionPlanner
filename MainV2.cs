@@ -21,9 +21,8 @@ using IronPython.Hosting;
 using log4net;
 using ArdupilotMega.Controls;
 using System.Security.Cryptography;
-using ArdupilotMega.Comms;
+using MissionPlanner.Comms;
 using ArdupilotMega.Arduino;
-using System.IO.Ports;
 using Transitions;
 using System.Web.Script.Serialization;
 using MissionPlanner.Controls;
@@ -154,10 +153,7 @@ namespace ArdupilotMega
         /// </summary>
         GCSViews.FlightData FlightData;
         GCSViews.FlightPlanner FlightPlanner;
-        //GCSViews.ConfigurationView.Setup Configuration;
         GCSViews.Simulation Simulation;
-        //GCSViews.Firmware Firmware;
-        //GCSViews.Terminal Terminal;
 
         private Form connectionStatsForm;
         private ConnectionStats _connectionStats;
@@ -241,7 +237,7 @@ namespace ArdupilotMega
             //            }
             // ** new
             _connectionControl.CMB_serialport.Items.Add("AUTO");
-            _connectionControl.CMB_serialport.Items.AddRange(ArdupilotMega.Comms.SerialPort.GetPortNames());
+            _connectionControl.CMB_serialport.Items.AddRange(SerialPort.GetPortNames());
             _connectionControl.CMB_serialport.Items.Add("TCP");
             _connectionControl.CMB_serialport.Items.Add("UDP");
             if (_connectionControl.CMB_serialport.Items.Count > 0)
@@ -257,6 +253,7 @@ namespace ArdupilotMega
             // set this before we reset it
             MainV2.config["NUM_tracklength"] = "200";
 
+            // load config
             xmlconfig(false);
 
             if (config.ContainsKey("language") && !string.IsNullOrEmpty((string)config["language"]))
@@ -496,7 +493,7 @@ namespace ArdupilotMega
             string oldport = _connectionControl.CMB_serialport.Text;
             _connectionControl.CMB_serialport.Items.Clear();
             _connectionControl.CMB_serialport.Items.Add("AUTO");
-            _connectionControl.CMB_serialport.Items.AddRange(ArdupilotMega.Comms.SerialPort.GetPortNames());
+            _connectionControl.CMB_serialport.Items.AddRange(SerialPort.GetPortNames());
             _connectionControl.CMB_serialport.Items.Add("TCP");
             _connectionControl.CMB_serialport.Items.Add("UDP");
             if (_connectionControl.CMB_serialport.Items.Contains(oldport))
@@ -609,7 +606,7 @@ namespace ArdupilotMega
                         break;
                     case "AUTO":
                     default:
-                        comPort.BaseStream = new Comms.SerialPort();
+                        comPort.BaseStream = new SerialPort();
                         break;
                 }
 
@@ -654,9 +651,6 @@ namespace ArdupilotMega
                     // set port, then options
                     comPort.BaseStream.PortName = _connectionControl.CMB_serialport.Text;
 
-                    comPort.BaseStream.DataBits = 8;
-                    comPort.BaseStream.StopBits = (StopBits)Enum.Parse(typeof(StopBits), "1");
-                    comPort.BaseStream.Parity = (Parity)Enum.Parse(typeof(Parity), "None");
                     try
                     {
                         comPort.BaseStream.BaudRate = int.Parse(_connectionControl.CMB_baudrate.Text);
@@ -764,14 +758,14 @@ namespace ArdupilotMega
                     MainV2.comPort.BaseStream = new UdpSerial();
                 if (comPortName == "AUTO")
                 {
-                    MainV2.comPort.BaseStream = new ArdupilotMega.Comms.SerialPort();
+                    MainV2.comPort.BaseStream = new SerialPort();
                     return;
                 }
             }
             else
             {
                 _connectionControl.CMB_baudrate.Enabled = true;
-                MainV2.comPort.BaseStream = new ArdupilotMega.Comms.SerialPort();
+                MainV2.comPort.BaseStream = new SerialPort();
             }
 
             try
@@ -1084,6 +1078,38 @@ namespace ArdupilotMega
                     }
                 }
                 connectButtonUpdate = DateTime.Now;
+            }
+        }
+
+        private void PluginThread()
+        {
+            Hashtable nextrun = new Hashtable();
+
+            while (true)
+            {
+
+                foreach (var plugin in Plugin.PluginLoader.Plugins)
+                {
+                    if (!nextrun.ContainsKey(plugin))
+                        nextrun[plugin] = DateTime.MinValue;
+
+                    if (DateTime.Now > plugin.NextRun)
+                    {
+                        // get ms till next run
+                        int msnext = 1000 / plugin.loopratehz;
+                        // allow the plug to modify this, if needed
+                        plugin.NextRun = DateTime.Now.AddMilliseconds(msnext);
+
+                        try
+                        {
+                            plugin.Loop();
+                        }
+                        catch (Exception ex) { log.Error(ex); }
+                    }
+                }
+
+                // max rate is 100 hz - prevent masive cpu usage
+                System.Threading.Thread.Sleep(10);
             }
         }
 
@@ -1458,6 +1484,14 @@ namespace ArdupilotMega
                 Name = "Main Serial reader",
                 Priority = ThreadPriority.AboveNormal
             }.Start();
+
+            // setup main plugin thread
+            new Thread(PluginThread)
+            {
+                IsBackground = true,
+                Name = "plugin runner thread",
+                Priority = ThreadPriority.BelowNormal
+            }.Start();
           
 
             try
@@ -1481,7 +1515,7 @@ namespace ArdupilotMega
             {
                 Plugin.PluginLoader.LoadAll();
             }
-            catch { }
+            catch (Exception ex) { log.Error(ex); }
         }
 
    

@@ -6,6 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using MissionPlanner.Comms;
 
 namespace ArdupilotMega.Controls
 {
@@ -65,7 +66,7 @@ namespace ArdupilotMega.Controls
             string text = combo.Items[e.Index].ToString();
             if (!MainV2.MONO)
             {
-                text = text + " "+ ArdupilotMega.Comms.SerialPort.GetNiceName(text);
+                text = text + " "+ SerialPort.GetNiceName(text);
             }
 
             e.Graphics.DrawString(text, e.Font,

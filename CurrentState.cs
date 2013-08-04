@@ -687,7 +687,7 @@ enum gcs_severity {
                             // prevent running thsi unless we have to
                             if (_mode != hb.custom_mode)
                             {
-                                List<KeyValuePair<int, string>> modelist = Common.getModesList();
+                                List<KeyValuePair<int, string>> modelist = Common.getModesList(this);
 
                                 bool found = false;
 

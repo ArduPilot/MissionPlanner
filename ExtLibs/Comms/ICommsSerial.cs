@@ -5,8 +5,9 @@ using System.IO.Ports;
 using System.IO;
 using System.Reflection;
 
-namespace ArdupilotMega.Comms
+namespace MissionPlanner.Comms
 {
+
     public interface ICommsSerial
     {
         // from serialport class

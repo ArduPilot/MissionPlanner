@@ -626,28 +626,31 @@ namespace ArdupilotMega
             catch (Exception ex) { log.Info("getFilefromNet(): " + ex.ToString()); return false; }
         }
 
-        public static List<KeyValuePair<int,string>> getModesList()
+        public static List<KeyValuePair<int,string>> getModesList(CurrentState cs)
         {
             log.Info("getModesList Called");
 
+            // ensure we get the correct list
+            MainV2.comPort.MAV.cs.firmware = cs.firmware;
+
             Utilities.ParameterMetaDataRepository parm = new ParameterMetaDataRepository();
 
-            if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane)
+            if (cs.firmware == MainV2.Firmwares.ArduPlane)
             {
                 var flightModes = parm.GetParameterOptionsInt("FLTMODE1");
                 return flightModes;
             }
-            else if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.Ateryx)
+            else if (cs.firmware == MainV2.Firmwares.Ateryx)
             {
                 var flightModes = parm.GetParameterOptionsInt("FLTMODE1"); //same as apm
                 return flightModes;
             }
-            else if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2 || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduHeli)
+            else if (cs.firmware == MainV2.Firmwares.ArduCopter2 || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduHeli)
             {
                 var flightModes = parm.GetParameterOptionsInt("FLTMODE1");
                 return flightModes;
             }
-            else if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduRover)
+            else if (cs.firmware == MainV2.Firmwares.ArduRover)
             {
                 var flightModes = parm.GetParameterOptionsInt("MODE1");
                 return flightModes;

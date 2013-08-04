@@ -13,39 +13,33 @@ namespace ArdupilotMega.Controls
     {
         public new event EventHandler Click;
 
-        private Image picture;
-        private string text = "None";
-
-        [System.ComponentModel.Browsable(true), DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public Label Label { get { return label1; } set { label1 = value; } }
-        [System.ComponentModel.Browsable(true), DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public PictureBox PictureBox { get { return pictureBox1; } set { pictureBox1 = value; } }
+       // [System.ComponentModel.Browsable(true), DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+      //  public Label Label { get { return label1; } set { label1 = value; } }
+      //  [System.ComponentModel.Browsable(true), DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+      //  public PictureBox PictureBox { get { return pictureBox1; } set { pictureBox1 = value; } }
 
         public ImageLabel()
         {
-            text = "";
-            picture = new Bitmap(640,480);
-
             InitializeComponent();
         }
 
         public void setImageandText(Image image, string text)
         {
-            pictureBox1.Image = image;
-            label1.Text = text;
+            PictureBox.Image = image;
+            Label.Text = text;
         }
 
         [System.ComponentModel.Browsable(true)]
         public Image Image {
-            get { return picture; }
-            set { picture = value; pictureBox1.Image = picture; }
+            get { return PictureBox.Image; }
+            set { PictureBox.Image = value; }
         }
 
         [System.ComponentModel.Browsable(true)]
         public override string Text
         {
-            get { return text; }
-            set { text = value; label1.Text = text; }
+            get { return Label.Text; }
+            set { Label.Text = value; }
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)

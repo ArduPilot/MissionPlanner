@@ -11,12 +11,12 @@ using log4net;
 using System.IO;
 using MissionPlanner.Controls;
 
-namespace ArdupilotMega.Comms
+namespace MissionPlanner.Comms
 {
-    public class TcpSerial : ArdupilotMega.Comms.ICommsSerial
+    public class TcpSerial : CommsBase,  ICommsSerial
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        internal TcpClient client = new TcpClient();
+        public TcpClient client = new TcpClient();
         IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
 
         int retrys = 3;
@@ -89,11 +89,9 @@ namespace ArdupilotMega.Comms
             string dest = Port;
             string host = "127.0.0.1";
 
-            if (ArdupilotMega.MainV2.config["TCP_port"] != null)
-                dest = ArdupilotMega.MainV2.config["TCP_port"].ToString();
+            dest = OnSettings("TCP_port", dest);
 
-            if (ArdupilotMega.MainV2.config["TCP_host"] != null)
-                host = ArdupilotMega.MainV2.config["TCP_host"].ToString();
+            host = OnSettings("TCP_host", host);
 
             //if (!MainV2.MONO)
             {
@@ -109,8 +107,8 @@ namespace ArdupilotMega.Comms
 
             Port = dest;
 
-            ArdupilotMega.MainV2.config["TCP_port"] = Port;
-            ArdupilotMega.MainV2.config["TCP_host"] = host;
+            OnSettings("TCP_port", Port, true);
+            OnSettings("TCP_host", host, true);
 
             client = new TcpClient(host, int.Parse(Port));
 
@@ -136,7 +134,7 @@ namespace ArdupilotMega.Comms
                 if (client != null && retrys > 0)
                 {
                     log.Info("tcp reconnect");
-                    client.Connect(ArdupilotMega.MainV2.config["TCP_host"].ToString(), int.Parse(ArdupilotMega.MainV2.config["TCP_port"].ToString()));
+                    client.Connect(OnSettings("TCP_host", ""), int.Parse(OnSettings("TCP_port", "")));
                     retrys--;
                 }
 

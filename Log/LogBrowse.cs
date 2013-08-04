@@ -389,6 +389,12 @@ namespace ArdupilotMega.Log
                 return;
             }
 
+            if (dataGridView1.CurrentCell == null)
+            {
+                CustomMessageBox.Show("Please select a cell first");
+                return;
+            }
+                
             int col = dataGridView1.CurrentCell.ColumnIndex;
             int row = dataGridView1.CurrentCell.RowIndex;
             string type = dataGridView1[1, row].Value.ToString();

@@ -63,6 +63,8 @@ namespace ArdupilotMega.Controls.BackstageView
             pnlMenu.BackColor = _buttonsAreaBgColor;
             pnlMenu.PencilBorderColor = _buttonsAreaPencilColor;
             pnlMenu.GradColor = this.BackColor;
+
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
         }
 
         public override Color BackColor

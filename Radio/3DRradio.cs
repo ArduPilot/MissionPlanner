@@ -10,7 +10,7 @@ using System.Net;
 using System.IO;
 using ArdupilotMega.Controls.BackstageView;
 using ArdupilotMega.Arduino;
-using ArdupilotMega.Comms;
+using MissionPlanner.Comms;
 using log4net;
 using System.Reflection;
 using System.Text.RegularExpressions;
@@ -245,7 +245,7 @@ namespace ArdupilotMega
 
         private void BUT_savesettings_Click(object sender, EventArgs e)
         {
-            ArdupilotMega.Comms.ICommsSerial comPort = new SerialPort();
+            ICommsSerial comPort = new SerialPort();
 
             try
             {
@@ -436,7 +436,7 @@ namespace ArdupilotMega
 
         private void BUT_getcurrent_Click(object sender, EventArgs e)
         {
-            ArdupilotMega.Comms.ICommsSerial comPort = new SerialPort();
+            ICommsSerial comPort = new SerialPort();
 
             try
             {
@@ -610,7 +610,7 @@ namespace ArdupilotMega
             BUT_savesettings.Enabled = true;
         }
 
-        string Serial_ReadLine(ArdupilotMega.Comms.ICommsSerial comPort)
+        string Serial_ReadLine(ICommsSerial comPort)
         {
             StringBuilder sb = new StringBuilder();
             DateTime Deadline = DateTime.Now.AddMilliseconds(comPort.ReadTimeout);
@@ -629,7 +629,7 @@ namespace ArdupilotMega
             return sb.ToString();
         }
 
-        public string doCommand(ArdupilotMega.Comms.ICommsSerial comPort, string cmd, int level = 0)
+        public string doCommand(ICommsSerial comPort, string cmd, int level = 0)
         {
             if (!comPort.IsOpen)
                 return "";
@@ -690,7 +690,7 @@ namespace ArdupilotMega
             return ans;
         }
 
-        public bool doConnect(ArdupilotMega.Comms.ICommsSerial comPort)
+        public bool doConnect(ICommsSerial comPort)
         {
             try
             {
@@ -763,7 +763,7 @@ red LED solid - in firmware update mode");
 
         private void BUT_resettodefault_Click(object sender, EventArgs e)
         {
-             ArdupilotMega.Comms.ICommsSerial comPort = new SerialPort();
+             ICommsSerial comPort = new SerialPort();
 
             try
             {

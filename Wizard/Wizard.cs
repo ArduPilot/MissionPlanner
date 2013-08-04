@@ -33,6 +33,7 @@ namespace ArdupilotMega.Wizard
 
             wiz_main = new MainSwitcher(this.panel1);
 
+ 
             wiz_main.ShowScreen("Intro");
 
             history.Add(wiz_main.current.Name);
@@ -43,6 +44,12 @@ namespace ArdupilotMega.Wizard
 
         public void GoNext(int progresspages, bool saveinhistory = true)
         {
+            if (wiz_main.screens.IndexOf(wiz_main.current) ==( wiz_main.screens.Count-1))
+            {
+                this.Close();
+                return;
+            }
+
             // show the next screen
             wiz_main.ShowScreen(wiz_main.screens[wiz_main.screens.IndexOf(wiz_main.current) + progresspages].Name);
 
@@ -50,7 +57,8 @@ namespace ArdupilotMega.Wizard
             progressStep1.Step = wiz_main.screens.IndexOf(wiz_main.current) + 1;
 
             // add a history line
-            history.Add(wiz_main.current.Name);
+            if (saveinhistory)
+                history.Add(wiz_main.current.Name);
 
             // enable the back button if we leave the start point
             if (wiz_main.screens.IndexOf(wiz_main.current) >= 1)
@@ -106,6 +114,15 @@ namespace ArdupilotMega.Wizard
             }
 
             GoNext(progresspages);
+        }
+
+        private void Wizard_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            try
+            {
+                wiz_main.ShowScreen("");
+            }
+            catch { }
         }
     }
 }

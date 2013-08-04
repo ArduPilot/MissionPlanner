@@ -7,11 +7,13 @@ namespace ArdupilotMega.Plugin
 {
     public interface IPlugin
     {
-        IPluginHost Host { get; set; }
+        MainV2 Host { get; set; }
 
         string Name { get; }
         string Version { get; }
         string Author { get; }
+
+        DateTime NextRun { get; set; }
 
         bool Loaded();
 
@@ -25,10 +27,5 @@ namespace ArdupilotMega.Plugin
 
         bool Exit();
 
-    }
-
-    public interface IPluginHost
-    {
-        MainV2 Planner { get; }
     }
 }

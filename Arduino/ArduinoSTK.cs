@@ -4,7 +4,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using log4net;
-using ArdupilotMega.Comms;
+using MissionPlanner.Comms;
 
 
 // Written by Michael Oborne

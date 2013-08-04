@@ -77,7 +77,7 @@ namespace ArdupilotMega.GCSViews
             this.label1 = new System.Windows.Forms.Label();
             this.CMB_history = new System.Windows.Forms.ComboBox();
             this.CMB_history_label = new System.Windows.Forms.Label();
-            this.Custom_firmware_label = new System.Windows.Forms.Label();
+            this.lbl_Custom_firmware_label = new System.Windows.Forms.Label();
             this.lbl_devfw = new System.Windows.Forms.Label();
             this.lbl_px4io = new System.Windows.Forms.Label();
             this.lbl_dlfw = new System.Windows.Forms.Label();
@@ -90,7 +90,7 @@ namespace ArdupilotMega.GCSViews
             // pictureBoxAPM
             // 
             this.pictureBoxAPM.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pictureBoxAPM.Image = null;
+            this.pictureBoxAPM.Image = global::MissionPlanner.Properties.Resources.APM_airframes_001;
             resources.ApplyResources(this.pictureBoxAPM, "pictureBoxAPM");
             this.pictureBoxAPM.Name = "pictureBoxAPM";
             this.pictureBoxAPM.TabStop = false;
@@ -100,7 +100,7 @@ namespace ArdupilotMega.GCSViews
             // pictureBoxQuad
             // 
             this.pictureBoxQuad.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pictureBoxQuad.Image = null;
+            this.pictureBoxQuad.Image = global::MissionPlanner.Properties.Resources.FW_icons_2013_logos_04;
             resources.ApplyResources(this.pictureBoxQuad, "pictureBoxQuad");
             this.pictureBoxQuad.Name = "pictureBoxQuad";
             this.pictureBoxQuad.TabStop = false;
@@ -110,7 +110,7 @@ namespace ArdupilotMega.GCSViews
             // pictureBoxHexa
             // 
             this.pictureBoxHexa.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pictureBoxHexa.Image = null;
+            this.pictureBoxHexa.Image = global::MissionPlanner.Properties.Resources.FW_icons_2013_logos_10;
             resources.ApplyResources(this.pictureBoxHexa, "pictureBoxHexa");
             this.pictureBoxHexa.Name = "pictureBoxHexa";
             this.pictureBoxHexa.TabStop = false;
@@ -120,7 +120,7 @@ namespace ArdupilotMega.GCSViews
             // pictureBoxTri
             // 
             this.pictureBoxTri.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pictureBoxTri.Image = null;
+            this.pictureBoxTri.Image = global::MissionPlanner.Properties.Resources.FW_icons_2013_logos_08;
             resources.ApplyResources(this.pictureBoxTri, "pictureBoxTri");
             this.pictureBoxTri.Name = "pictureBoxTri";
             this.pictureBoxTri.TabStop = false;
@@ -130,7 +130,7 @@ namespace ArdupilotMega.GCSViews
             // pictureBoxY6
             // 
             this.pictureBoxY6.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pictureBoxY6.Image = null;
+            this.pictureBoxY6.Image = global::MissionPlanner.Properties.Resources.y6;
             resources.ApplyResources(this.pictureBoxY6, "pictureBoxY6");
             this.pictureBoxY6.Name = "pictureBoxY6";
             this.pictureBoxY6.TabStop = false;
@@ -156,7 +156,7 @@ namespace ArdupilotMega.GCSViews
             // pictureBoxHeli
             // 
             this.pictureBoxHeli.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pictureBoxHeli.Image = null;
+            this.pictureBoxHeli.Image = global::MissionPlanner.Properties.Resources.APM_airframes_08;
             resources.ApplyResources(this.pictureBoxHeli, "pictureBoxHeli");
             this.pictureBoxHeli.Name = "pictureBoxHeli";
             this.pictureBoxHeli.TabStop = false;
@@ -213,7 +213,7 @@ namespace ArdupilotMega.GCSViews
             // 
             // pictureBoxOcta
             // 
-            this.pictureBoxOcta.Image = null;
+            this.pictureBoxOcta.Image = global::MissionPlanner.Properties.Resources.FW_icons_2013_logos_12;
             resources.ApplyResources(this.pictureBoxOcta, "pictureBoxOcta");
             this.pictureBoxOcta.Name = "pictureBoxOcta";
             this.pictureBoxOcta.TabStop = false;
@@ -222,7 +222,7 @@ namespace ArdupilotMega.GCSViews
             // 
             // pictureBoxOctaQuad
             // 
-            this.pictureBoxOctaQuad.Image = null;
+            this.pictureBoxOctaQuad.Image = global::MissionPlanner.Properties.Resources.x8;
             resources.ApplyResources(this.pictureBoxOctaQuad, "pictureBoxOctaQuad");
             this.pictureBoxOctaQuad.Name = "pictureBoxOctaQuad";
             this.pictureBoxOctaQuad.TabStop = false;
@@ -232,7 +232,7 @@ namespace ArdupilotMega.GCSViews
             // pictureBoxRover
             // 
             this.pictureBoxRover.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pictureBoxRover.Image = null;
+            this.pictureBoxRover.Image = global::MissionPlanner.Properties.Resources.rover_11;
             resources.ApplyResources(this.pictureBoxRover, "pictureBoxRover");
             this.pictureBoxRover.Name = "pictureBoxRover";
             this.pictureBoxRover.TabStop = false;
@@ -259,12 +259,12 @@ namespace ArdupilotMega.GCSViews
             this.CMB_history_label.Name = "CMB_history_label";
             this.CMB_history_label.Click += new System.EventHandler(this.CMB_history_label_Click);
             // 
-            // Custom_firmware_label
+            // lbl_Custom_firmware_label
             // 
-            resources.ApplyResources(this.Custom_firmware_label, "Custom_firmware_label");
-            this.Custom_firmware_label.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.Custom_firmware_label.Name = "Custom_firmware_label";
-            this.Custom_firmware_label.Click += new System.EventHandler(this.Custom_firmware_label_Click);
+            resources.ApplyResources(this.lbl_Custom_firmware_label, "lbl_Custom_firmware_label");
+            this.lbl_Custom_firmware_label.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lbl_Custom_firmware_label.Name = "lbl_Custom_firmware_label";
+            this.lbl_Custom_firmware_label.Click += new System.EventHandler(this.Custom_firmware_label_Click);
             // 
             // lbl_devfw
             // 
@@ -287,14 +287,14 @@ namespace ArdupilotMega.GCSViews
             this.lbl_dlfw.Name = "lbl_dlfw";
             this.lbl_dlfw.Click += new System.EventHandler(this.lbl_dlfw_Click);
             // 
-            // Firmware
+            // ConfigFirmware
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.lbl_dlfw);
             this.Controls.Add(this.lbl_px4io);
             this.Controls.Add(this.lbl_devfw);
-            this.Controls.Add(this.Custom_firmware_label);
+            this.Controls.Add(this.lbl_Custom_firmware_label);
             this.Controls.Add(this.CMB_history_label);
             this.Controls.Add(this.pictureBoxRover);
             this.Controls.Add(this.CMB_history);
@@ -315,7 +315,7 @@ namespace ArdupilotMega.GCSViews
             this.Controls.Add(this.pictureBoxHexa);
             this.Controls.Add(this.pictureBoxQuad);
             this.Controls.Add(this.pictureBoxAPM);
-            this.Name = "Firmware";
+            this.Name = "ConfigFirmware";
             this.Load += new System.EventHandler(this.Firmware_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxHilimage)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAPHil)).EndInit();
@@ -329,7 +329,7 @@ namespace ArdupilotMega.GCSViews
         private ComboBox CMB_history;
         private Controls.ImageLabel pictureBoxRover;
         private Label CMB_history_label;
-        private Label Custom_firmware_label;
+        private Label lbl_Custom_firmware_label;
         private Label lbl_devfw;
         private Label lbl_px4io;
         private Label lbl_dlfw;

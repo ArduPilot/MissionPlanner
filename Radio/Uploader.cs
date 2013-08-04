@@ -1,5 +1,5 @@
 using System;
-using ArdupilotMega.Comms;
+using MissionPlanner.Comms;
 using System.Collections.Generic;
 
 namespace uploader

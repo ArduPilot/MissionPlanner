@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using ArdupilotMega.Comms;
+using MissionPlanner.Comms;
 using System.Net.Sockets;
 using System.Threading;
 
@@ -46,14 +46,14 @@ namespace ArdupilotMega
                     switch (CMB_serialport.Text)
                     {
                         case "TCP Host":
-                            MainV2.comPort.MirrorStream = new Comms.TcpSerial();
+                            MainV2.comPort.MirrorStream = new TcpSerial();
                             listener = new TcpListener(System.Net.IPAddress.Any,14550);
                             listener.Start(0);
                             listener.BeginAcceptTcpClient(new AsyncCallback(DoAcceptTcpClientCallback), listener);
                             BUT_connect.Text = "Stop";
                             return;
                         case "TCP Client":
-                            MainV2.comPort.MirrorStream = new Comms.TcpSerial();
+                            MainV2.comPort.MirrorStream = new TcpSerial();
                             break;
                         default:
                             MainV2.comPort.MirrorStream = new SerialPort();
@@ -84,7 +84,7 @@ namespace ArdupilotMega
             // the console.
             TcpClient client = listener.EndAcceptTcpClient(ar);
 
-            ((Comms.TcpSerial)MainV2.comPort.MirrorStream).client = client;
+            ((TcpSerial)MainV2.comPort.MirrorStream).client = client;
 
             listener.BeginAcceptTcpClient(new AsyncCallback(DoAcceptTcpClientCallback), listener);
         }

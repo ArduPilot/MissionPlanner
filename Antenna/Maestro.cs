@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using MissionPlanner.Comms;
 
 namespace ArdupilotMega.Antenna
 {
     class Maestro : ITrackerOutput
     {
-        public Comms.SerialPort ComPort { get; set; }
+        public SerialPort ComPort { get; set; }
         /// <summary>
         ///  0-360
         /// </summary>

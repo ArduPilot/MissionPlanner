@@ -209,6 +209,8 @@ namespace wix
 
         static void footer()
         {
+            
+
             string data = @"
                     
                     <Directory Id=""driver"" Name=""Drivers"">
@@ -218,8 +220,8 @@ namespace wix
                             <File Id=""dpixml"" Source=""..\Driver\dpinst.xml"" />
                             <File Id=""dpix64"" Source=""..\Driver\DPInstx64.exe"" />
                             <File Id=""dpix86"" Source=""..\Driver\DPInstx86.exe"" />
-                            <File Id=""px4cat"" Source=""..\Driver\px4fmu.cat"" />
-                            <File Id=""px4inf"" Source=""..\Driver\px4fmu.inf"" />
+                            <File Id=""px4cat"" Source=""..\Driver\px4fmu_2.0.0.3.cat"" />
+                            <File Id=""px4inf"" Source=""..\Driver\px4fmu_2.0.0.3.inf"" />
                             
                             <iis:Certificate Id=""rootcert"" StoreLocation=""localMachine"" StoreName=""root"" Overwrite='yes' BinaryKey='signedcer' Request=""no"" Name='Michael Oborne' />
                         </Component>

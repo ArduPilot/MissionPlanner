@@ -1,4 +1,18 @@
-﻿* Mission Planner 1.2.65
+﻿* Mission Planner 1.2.66
+relocate serial/tcp/udp comms to external dll
+try fix serialstream.disposed error
+more plugin system mods
+fix tlog kml generation
+more wizard wip
+new drivers
+fix core mavlink getparam index
+fix logbrowse exception
+fix tlog kmls, always alt asl
+change firmware screen images
+change autoscalemode on custommessagebox (125% fonts)
+add excveption handleing to mavlinkcombobox
+
+* Mission Planner 1.2.65
 custom firmware load fix
 refresh on disconnect
 px4fmu updates

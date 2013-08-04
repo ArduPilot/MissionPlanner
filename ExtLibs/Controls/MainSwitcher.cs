@@ -15,6 +15,7 @@ namespace ArdupilotMega.Controls
 
         public static event ThemeManager ApplyTheme;
 
+
         public List<Screen> screens = new List<Screen>();
         public Screen current;
         UserControl MainControl = new UserControl();

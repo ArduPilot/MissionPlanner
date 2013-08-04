@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using MissionPlanner.Comms;
 
 namespace ArdupilotMega.Antenna
 {
     class ArduTracker : ITrackerOutput
     {
-        public Comms.SerialPort ComPort { get; set; }
+        public SerialPort ComPort { get; set; }
         /// <summary>
         ///  0-360
         /// </summary>

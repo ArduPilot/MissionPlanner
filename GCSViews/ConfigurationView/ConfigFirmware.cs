@@ -6,7 +6,7 @@ using System.IO;
 using System.Xml;
 using System.Net;
 using log4net;
-using ArdupilotMega.Comms;
+using MissionPlanner.Comms;
 using ArdupilotMega.Arduino;
 using ArdupilotMega.Utilities;
 using System.Text.RegularExpressions;
@@ -21,6 +21,8 @@ namespace ArdupilotMega.GCSViews
     partial class ConfigFirmware : MyUserControl
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
+        Utilities.Firmware fw = new Utilities.Firmware();
 
         string firmwareurl = "https://raw.github.com/diydrones/binary/master/Firmware/firmware2.xml";
 
@@ -107,19 +109,7 @@ namespace ArdupilotMega.GCSViews
 
             WebRequest.DefaultWebProxy.Credentials = System.Net.CredentialCache.DefaultCredentials;
 
-            this.pictureBoxAPM.Image = MissionPlanner.Properties.Resources.APM_airframes_001;
-            this.pictureBoxRover.Image = MissionPlanner.Properties.Resources.rover_11;
-            this.pictureBoxQuad.Image = MissionPlanner.Properties.Resources.quad;
-            this.pictureBoxHexa.Image = MissionPlanner.Properties.Resources.hexa;
-            this.pictureBoxTri.Image = MissionPlanner.Properties.Resources.tri;
-            this.pictureBoxY6.Image = MissionPlanner.Properties.Resources.y6;
-            this.pictureBoxHeli.Image = MissionPlanner.Properties.Resources.APM_airframes_08;
-            this.pictureBoxHilimage.Image = MissionPlanner.Properties.Resources.hil;
-            this.pictureBoxAPHil.Image = MissionPlanner.Properties.Resources.hilplane;
-            this.pictureBoxACHil.Image = MissionPlanner.Properties.Resources.hilquad;
-            this.pictureBoxACHHil.Image = MissionPlanner.Properties.Resources.hilheli;
-            this.pictureBoxOcta.Image = MissionPlanner.Properties.Resources.octo;
-            this.pictureBoxOctaQuad.Image = MissionPlanner.Properties.Resources.x8;
+   
 
 
             gholdurls = File.ReadAllLines(Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + "FirmwareHistory.txt");
@@ -315,22 +305,22 @@ namespace ArdupilotMega.GCSViews
             }
             else if (temp.url2560.ToLower().Contains("ac2-quad-".ToLower()) || temp.url2560.ToLower().Contains("1-quad/ArduCopter".ToLower()))
             {
-                pictureBoxQuad.Text = temp.name;
+                pictureBoxQuad.Text = temp.name + " Quad";
                 pictureBoxQuad.Tag = temp;
             }
             else if (temp.url2560.ToLower().Contains("ac2-tri".ToLower()) || temp.url2560.ToLower().Contains("-tri/ArduCopter".ToLower()))
             {
-                pictureBoxTri.Text = temp.name;
+                pictureBoxTri.Text = temp.name + " Tri";
                 pictureBoxTri.Tag = temp;
             }
             else if (temp.url2560.ToLower().Contains("ac2-hexa".ToLower()) || temp.url2560.ToLower().Contains("-hexa/ArduCopter".ToLower()))
             {
-                pictureBoxHexa.Text = temp.name;
+                pictureBoxHexa.Text = temp.name + " Hexa";
                 pictureBoxHexa.Tag = temp;
             }
             else if (temp.url2560.ToLower().Contains("ac2-y6".ToLower()) || temp.url2560.ToLower().Contains("-y6/ArduCopter".ToLower()))
             {
-                pictureBoxY6.Text = temp.name;
+                pictureBoxY6.Text = temp.name + " Y6";
                 pictureBoxY6.Tag = temp;
             }
             else if (temp.url2560.ToLower().Contains("ac2-heli-".ToLower()) || temp.url2560.ToLower().Contains("-heli/ArduCopter".ToLower()))
@@ -350,12 +340,12 @@ namespace ArdupilotMega.GCSViews
             }
             else if (temp.url2560.ToLower().Contains("ac2-octaquad-".ToLower()) || temp.url2560.ToLower().Contains("-octa-quad/ArduCopter".ToLower()))
             {
-                pictureBoxOctaQuad.Text = temp.name;
+                pictureBoxOctaQuad.Text = temp.name + " Octa Quad";
                 pictureBoxOctaQuad.Tag = temp;
             }
             else if (temp.url2560.ToLower().Contains("ac2-octa-".ToLower()) || temp.url2560.ToLower().Contains("-octa/ArduCopter".ToLower()))
             {
-                pictureBoxOcta.Text = temp.name;
+                pictureBoxOcta.Text = temp.name + " Octa";
                 pictureBoxOcta.Tag = temp;
             }
             else

@@ -249,14 +249,7 @@
     <Compile Include="Attributes\DisplayTextAttribute.cs" />
     <Compile Include="Attributes\PrivateAttribute.cs" />
     <Compile Include="CodeGen.cs" />
-    <Compile Include="Comms\CommsFile.cs" />
     <Compile Include="Comms\CommsSerialScan.cs" />
-    <Compile Include="Comms\ICommsSerial.cs" />
-    <Compile Include="Comms\CommsSerialPort.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Comms\CommsTCPSerial.cs" />
-    <Compile Include="Comms\CommsUdpSerial.cs" />
     <Compile Include="Controls\ConfigPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -1860,11 +1853,21 @@
     <Content Include="Resources\APM_rover-firmware.png" />
     <None Include="Resources\frames-h.png" />
     <Content Include="Resources\guagebg.jpg" />
+    <None Include="Resources\Hframe.png" />
+    <None Include="Resources\Hframelight.png" />
+    <None Include="Resources\light_initialsetup_icon.png" />
+    <None Include="Resources\light_tuningconfig_icon.png" />
     <Content Include="Resources\MAVCmd.zh-TW.txt" />
     <Content Include="Resources\MAVParam.zh-TW.txt" />
     <Content Include="Resources\new frames-01.png" />
     <Content Include="Resources\new frames-05X.png" />
     <Content Include="Resources\new frames-14.png" />
+    <None Include="Resources\PlusFrames_02.png" />
+    <None Include="Resources\PlusFrames_04.png" />
+    <None Include="Resources\PlusFrames_06.png" />
+    <None Include="Resources\PlusFramesGreen_02.png" />
+    <None Include="Resources\PlusFramesGreen_04.png" />
+    <None Include="Resources\PlusFramesGreen_06.png" />
     <Content Include="Resources\rover.png" />
     <Content Include="Resources\splash.jpg" />
     <Content Include="version.exe">
@@ -1991,6 +1994,10 @@
       <Project>{9CA367B8-0B98-49D1-84FB-735E612E3BA9}</Project>
       <Name>BSE.Windows.Forms</Name>
       <EmbedInteropTypes>False</EmbedInteropTypes>
+    </ProjectReference>
+    <ProjectReference Include="ExtLibs\Comms\MissionPlanner.Comms.csproj">
+      <Project>{825e7a10-390c-4a2b-b3a8-491d14966912}</Project>
+      <Name>MissionPlanner.Comms</Name>
     </ProjectReference>
     <ProjectReference Include="ExtLibs\Controls\MissionPlanner.Controls.csproj">
       <Project>{c8b88795-6d01-494d-83ad-6944bd4c5023}</Project>

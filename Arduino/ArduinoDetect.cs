@@ -5,7 +5,7 @@ using System.Windows.Forms;
 using System.Threading;
 using log4net;
 using System.Globalization;
-using ArdupilotMega.Comms;
+using MissionPlanner.Comms;
 using ArdupilotMega.Utilities;
 
 namespace ArdupilotMega.Arduino

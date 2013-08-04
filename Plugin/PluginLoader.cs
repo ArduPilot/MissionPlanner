@@ -59,7 +59,7 @@ namespace ArdupilotMega.Plugin
 
         public static void LoadAll()
         {
-            String[] files = Directory.GetFiles(Application.StartupPath +  "/Plugins/", "*.dll");
+            String[] files = Directory.GetFiles(Application.StartupPath +  Path.DirectorySeparatorChar+ "Plugins" +  Path.DirectorySeparatorChar, "*.dll");
             foreach (var s in files)
                 Load(Path.Combine(Environment.CurrentDirectory, s));
 
@@ -73,6 +73,8 @@ namespace ArdupilotMega.Plugin
                         Plugins.RemoveAt(i);
                         --i;
                     }
+
+                    p.Host = MainV2.instance;
 
                     p.Init();
                 }

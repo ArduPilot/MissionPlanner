@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
-using ArdupilotMega.Comms;
+using MissionPlanner.Comms;
 using System.Threading;
 using log4net;
 

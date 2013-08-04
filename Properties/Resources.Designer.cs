@@ -643,6 +643,26 @@ namespace MissionPlanner.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap Hframe {
+            get {
+                object obj = ResourceManager.GetObject("Hframe", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap Hframelight {
+            get {
+                object obj = ResourceManager.GetObject("Hframelight", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap hil {
             get {
                 object obj = ResourceManager.GetObject("hil", resourceCulture);
@@ -736,6 +756,26 @@ namespace MissionPlanner.Properties {
         public static System.Drawing.Bitmap light_06 {
             get {
                 object obj = ResourceManager.GetObject("light_06", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap light_initialsetup_icon {
+            get {
+                object obj = ResourceManager.GetObject("light_initialsetup_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap light_tuningconfig_icon {
+            get {
+                object obj = ResourceManager.GetObject("light_tuningconfig_icon", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -861,6 +901,66 @@ namespace MissionPlanner.Properties {
         public static System.Drawing.Bitmap planeicon {
             get {
                 object obj = ResourceManager.GetObject("planeicon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap PlusFrames_02 {
+            get {
+                object obj = ResourceManager.GetObject("PlusFrames_02", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap PlusFrames_04 {
+            get {
+                object obj = ResourceManager.GetObject("PlusFrames_04", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap PlusFrames_06 {
+            get {
+                object obj = ResourceManager.GetObject("PlusFrames_06", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap PlusFramesGreen_02 {
+            get {
+                object obj = ResourceManager.GetObject("PlusFramesGreen_02", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap PlusFramesGreen_04 {
+            get {
+                object obj = ResourceManager.GetObject("PlusFramesGreen_04", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap PlusFramesGreen_06 {
+            get {
+                object obj = ResourceManager.GetObject("PlusFramesGreen_06", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

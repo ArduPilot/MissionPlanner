@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using MissionPlanner.Comms;
 
 namespace _3DRRadio
 {
@@ -17,7 +18,7 @@ namespace _3DRRadio
 
             loadSettings();
 
-            CMB_SerialPort.Items.AddRange(ArdupilotMega.Comms.SerialPort.GetPortNames());
+            CMB_SerialPort.Items.AddRange(SerialPort.GetPortNames());
             if (CMB_SerialPort.Items.Count > 0)
                 CMB_SerialPort.SelectedIndex = 0;
 
@@ -85,7 +86,7 @@ namespace _3DRRadio
         private void CMB_SerialPort_Click(object sender, EventArgs e)
         {
             CMB_SerialPort.Items.Clear();
-            CMB_SerialPort.Items.AddRange(ArdupilotMega.Comms.SerialPort.GetPortNames());
+            CMB_SerialPort.Items.AddRange(SerialPort.GetPortNames());
         }
 
         private void helpToolStripMenuItem_Click(object sender, EventArgs e)

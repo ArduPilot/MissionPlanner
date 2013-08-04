@@ -263,7 +263,7 @@ namespace ArdupilotMega.Log
                         offset += 16;
                         break;
                     case 'M':
-                        line += ", " + Common.getModesList()[message[offset]].Value;
+                        line += ", " + Common.getModesList(MainV2.comPort.MAV.cs)[message[offset]].Value;
                         offset++;
                         break;
                     case 'Z':

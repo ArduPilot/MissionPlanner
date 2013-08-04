@@ -59,15 +59,6 @@ namespace ArdupilotMega
         {
             SharpKml.Dom.AltitudeMode altmode = SharpKml.Dom.AltitudeMode.Absolute;
 
-            if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduRover || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.Ateryx)
-            {
-                altmode = SharpKml.Dom.AltitudeMode.Absolute;
-            }
-            else if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2 || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduHeli)
-            {
-                altmode = SharpKml.Dom.AltitudeMode.RelativeToGround;
-            }
-
             Color[] colours = { Color.Red, Color.Orange, Color.Yellow, Color.Green, Color.Blue, Color.Indigo, Color.Violet, Color.Pink };
 
             Document kml = new Document();
@@ -173,7 +164,7 @@ namespace ArdupilotMega
                     coords = new CoordinateCollection();
                 }
 
-                coords.Add(new Vector(cs.lat, cs.lng, cs.alt));
+                coords.Add(new Vector(cs.lat, cs.lng, cs.altasl));
 
                 SharpKml.Dom.Timestamp tstamp = new SharpKml.Dom.Timestamp();
                 tstamp.When = cs.datetime;
@@ -187,7 +178,7 @@ namespace ArdupilotMega
                 cam.AltitudeMode = altmode;
                 cam.Latitude = cs.lat;
                 cam.Longitude = cs.lng;
-                cam.Altitude = cs.alt;
+                cam.Altitude = cs.altasl;
                 cam.Heading = cs.yaw;
                 cam.Roll = -cs.roll;
                 cam.Tilt = (90 - (cs.pitch * -1));
@@ -214,7 +205,7 @@ namespace ArdupilotMega
                 SharpKml.Dom.Location loc = new SharpKml.Dom.Location();
                 loc.Latitude = cs.lat;
                 loc.Longitude = cs.lng;
-                loc.Altitude = cs.alt;
+                loc.Altitude = cs.altasl;
 
                 if (loc.Altitude < 0)
                     loc.Altitude = 0.01;
@@ -267,7 +258,7 @@ namespace ArdupilotMega
 
                 SharpKml.Dom.Point pnt = new SharpKml.Dom.Point();
                 pnt.AltitudeMode = altmode;
-                pnt.Coordinate = new Vector(cs.lat,cs.lng,cs.alt);
+                pnt.Coordinate = new Vector(cs.lat, cs.lng, cs.altasl);
 
                 pmt.Name = "" + a;
 
@@ -320,6 +311,8 @@ namespace ArdupilotMega
             }
             zipStream.CloseEntry();
 
+            File.Delete(filename);
+
             filename = Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + "block_plane_0.dae";
 
             // entry 2
@@ -341,6 +334,7 @@ namespace ArdupilotMega
 
             zipStream.IsStreamOwner = true;	// Makes the Close also Close the underlying stream
             zipStream.Close();
+
 
         }
 
@@ -394,8 +388,6 @@ namespace ArdupilotMega
 
                     mine.MAV.packets.Initialize(); // clear
 
-                    CurrentState cs = new CurrentState();
-
                     double oldlatlngsum = 0;
 
                     int appui = 0;
@@ -409,9 +401,9 @@ namespace ArdupilotMega
 
                         byte[] packet = mine.readPacket();
 
-                        cs.datetime = mine.lastlogread;
+                        mine.MAV.cs.datetime = mine.lastlogread;
 
-                        cs.UpdateCurrentSettings(null, true, mine);
+                        mine.MAV.cs.UpdateCurrentSettings(null, true, mine);
 
                         if (appui != DateTime.Now.Second)
                         {
@@ -427,15 +419,18 @@ namespace ArdupilotMega
                         }
                         catch { } // ignore because of this Exception System.PlatformNotSupportedException: No voice installed on the system or none available with the current security setting.
 
-                        if ((cs.lat + cs.lng) != oldlatlngsum
-                            && cs.lat != 0 && cs.lng != 0)
+                        if ((mine.MAV.cs.lat + mine.MAV.cs.lng) != oldlatlngsum
+                            && mine.MAV.cs.lat != 0 && mine.MAV.cs.lng != 0)
                         {
-                            Console.WriteLine(cs.lat + " " + cs.lng + " " + cs.alt + "   lah " + (float)(cs.lat + cs.lng) + "!=" + oldlatlngsum);
-                            CurrentState cs2 = (CurrentState)cs.Clone();
+                            if (Math.Round(mine.MAV.cs.lat,5) == 0 || Math.Round(mine.MAV.cs.lng,5) == 0)
+                                continue;
+
+                           // Console.WriteLine(cs.lat + " " + cs.lng + " " + cs.alt + "   lah " + (float)(cs.lat + cs.lng) + "!=" + oldlatlngsum);
+                            CurrentState cs2 = (CurrentState)mine.MAV.cs.Clone();
 
                             flightdata.Add(cs2);
 
-                            oldlatlngsum = (cs.lat + cs.lng);
+                            oldlatlngsum = (mine.MAV.cs.lat + mine.MAV.cs.lng);
                         }
                     }
 
@@ -445,7 +440,7 @@ namespace ArdupilotMega
 
                     Application.DoEvents();
 
-                    mine.setAPType();
+                    log.Info(mine.MAV.cs.firmware + " : " + logfile);
 
                     writeGPX(logfile);
                     writeKML(logfile + ".kml");
@@ -474,7 +469,7 @@ namespace ArdupilotMega
                 xw.WriteAttributeString("lat", cs.lat.ToString(new System.Globalization.CultureInfo("en-US")));
                 xw.WriteAttributeString("lon", cs.lng.ToString(new System.Globalization.CultureInfo("en-US")));
 
-                xw.WriteElementString("ele", cs.alt.ToString(new System.Globalization.CultureInfo("en-US")));
+                xw.WriteElementString("ele", cs.altasl.ToString(new System.Globalization.CultureInfo("en-US")));
                 xw.WriteElementString("time", cs.datetime.ToString("yyyy-MM-ddTHH:mm:sszzzzzz"));
                 xw.WriteElementString("course", (cs.yaw).ToString(new System.Globalization.CultureInfo("en-US")));
 

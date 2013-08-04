@@ -9,9 +9,9 @@ using System.IO;
 using System;
 using MissionPlanner.Controls;
 
-namespace ArdupilotMega.Comms
+namespace MissionPlanner.Comms
 {
-    public class UdpSerial : ArdupilotMega.Comms.ICommsSerial
+    public class UdpSerial : CommsBase, ICommsSerial
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         UdpClient client = new UdpClient();
@@ -101,8 +101,7 @@ namespace ArdupilotMega.Comms
         {
             string dest = Port;
 
-            if (ArdupilotMega.MainV2.config["UDP_port"] != null)
-                dest = ArdupilotMega.MainV2.config["UDP_port"].ToString();
+            dest = OnSettings("UDP_port", dest);         
 
             if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Listern Port", "Enter Local port (ensure remote end is already sending)", ref dest))
             {
@@ -110,7 +109,7 @@ namespace ArdupilotMega.Comms
             }
             Port = dest;
 
-            ArdupilotMega.MainV2.config["UDP_port"] = Port;
+            OnSettings("UDP_port", Port, true);
 
             client = new UdpClient(int.Parse(Port));
 

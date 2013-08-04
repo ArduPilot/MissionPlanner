@@ -41,6 +41,7 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
             CustomMessageBox.ApplyTheme += ArdupilotMega.Utilities.ThemeManager.ApplyThemeTo;
             ArdupilotMega.Controls.MainSwitcher.ApplyTheme += ArdupilotMega.Utilities.ThemeManager.ApplyThemeTo;
             MissionPlanner.Controls.InputBox.ApplyTheme += ArdupilotMega.Utilities.ThemeManager.ApplyThemeTo;
+            MissionPlanner.Comms.CommsBase.Settings += CommsBase_Settings;
 
 
             //Application.Idle += Application_Idle;
@@ -200,6 +201,20 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
             }
         }
 
+        static string CommsBase_Settings(string name, string value, bool set = false)
+        {
+            if (set) {
+                MainV2.config[name] = value;
+                return value;
+            }
+
+            if (MainV2.config.ContainsKey(name)) {
+                return MainV2.config[name].ToString();
+            }
+
+            return "";
+        }
+
         static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             handleException((Exception)e.ExceptionObject);
@@ -252,6 +267,11 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
                 CustomMessageBox.Show("You are missing some DLL's. Please extract the zip file somewhere. OR Use the update feature from the menu " + ex.ToString());
                 // return;
             }
+            if (ex.StackTrace.Contains("System.IO.Ports.SerialStream.Dispose"))
+            {
+                return; // ignore
+            }
+
             DialogResult dr = CustomMessageBox.Show("An error has occurred\n" + ex.ToString() + "\n\nReport this Error???", "Send Error", MessageBoxButtons.YesNo);
             if (DialogResult.Yes == dr)
             {

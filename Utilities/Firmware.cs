@@ -8,7 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Xml;
 using ArdupilotMega.Arduino;
-using ArdupilotMega.Comms;
+using MissionPlanner.Comms;
 using log4net;
 using px4uploader;
 

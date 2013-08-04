@@ -9,7 +9,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using Microsoft.Win32.SafeHandles;
 
-namespace ArdupilotMega.Comms
+namespace MissionPlanner.Comms
 {
 
     public class SerialPort : System.IO.Ports.SerialPort, ICommsSerial
@@ -56,9 +56,9 @@ namespace ArdupilotMega.Comms
 
             try
             {
-                Console.WriteLine("Doing SerialPortFixer");
-                SerialPortFixer.Execute(this.PortName);
-                Console.WriteLine("Done SerialPortFixer");
+              //  Console.WriteLine("Doing SerialPortFixer");
+              //  SerialPortFixer.Execute(this.PortName);
+              //  Console.WriteLine("Done SerialPortFixer");
             }
             catch (Exception ex) { Console.WriteLine(ex.ToString()); }
 
@@ -126,7 +126,7 @@ namespace ArdupilotMega.Comms
             return allPorts.ToArray();
         }
 
-        internal static string GetNiceName(string port)
+        public static string GetNiceName(string port)
         {
             if (serialportproblem)
                 return "";

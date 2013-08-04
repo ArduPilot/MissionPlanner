@@ -8,7 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO.Ports;
 using ArdupilotMega;
-using ArdupilotMega.Comms;
+using MissionPlanner.Comms;
 using System.IO;
 
 namespace _3DRRadio

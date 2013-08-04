@@ -79,13 +79,6 @@
     <Compile Include="..\Attributes\PrivateAttribute.cs">
       <Link>Linked\PrivateAttribute.cs</Link>
     </Compile>
-    <Compile Include="..\Comms\CommsSerialPort.cs">
-      <Link>Linked\CommsSerialPort.cs</Link>
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="..\Comms\ICommsSerial.cs">
-      <Link>Linked\ICommsSerial.cs</Link>
-    </Compile>
     <Compile Include="..\Radio\3DRradio.cs">
       <Link>Linked\3DRradio.cs</Link>
       <SubType>UserControl</SubType>
@@ -186,6 +179,10 @@
     <None Include="Resources\3dr3.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ExtLibs\Comms\MissionPlanner.Comms.csproj">
+      <Project>{825e7a10-390c-4a2b-b3a8-491d14966912}</Project>
+      <Name>MissionPlanner.Comms</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ExtLibs\Controls\MissionPlanner.Controls.csproj">
       <Project>{c8b88795-6d01-494d-83ad-6944bd4c5023}</Project>
       <Name>MissionPlanner.Controls</Name>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using MissionPlanner.Comms;
 
 namespace ArdupilotMega.Comms
 {
@@ -26,11 +27,11 @@ namespace ArdupilotMega.Comms
 
             List<MAVLink> scanports = new List<MAVLink>();
 
-            string[] portlist = Comms.SerialPort.GetPortNames();
+            string[] portlist = SerialPort.GetPortNames();
 
             foreach (string port in portlist)
             {
-                scanports.Add(new MAVLink() { BaseStream = new Comms.SerialPort() { PortName = port, BaudRate = bauds[0] } });
+                scanports.Add(new MAVLink() { BaseStream = new SerialPort() { PortName = port, BaudRate = bauds[0] } });
             }
 
             foreach (MAVLink inter in scanports)

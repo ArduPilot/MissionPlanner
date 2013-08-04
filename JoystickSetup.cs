@@ -448,7 +448,7 @@ namespace ArdupilotMega
             cmbaction.Location = new Point(hbar.Right + 5, y);
             cmbaction.Size = new Size(100, 21);
 
-            cmbaction.DataSource = Common.getModesList();
+            cmbaction.DataSource = Common.getModesList(MainV2.comPort.MAV.cs);
             cmbaction.ValueMember = "Key";
             cmbaction.DisplayMember = "Value";
 
