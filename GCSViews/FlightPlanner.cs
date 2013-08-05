@@ -3737,7 +3737,7 @@ namespace ArdupilotMega.GCSViews
                 drawnpolygon.Points.RemoveAt(drawnpolygon.Points.Count - 1); // unmake a full loop
         }
 
-private void cameraGrid()
+        private void cameraGrid(CameraPlanner.camerainfo cinf)
         {
             polygongridmode = false;
 
@@ -3765,90 +3765,39 @@ private void cameraGrid()
                 double diagdist = MainMap.Manager.GetDistance(arearect.LocationTopLeft, arearect.LocationRightBottom) * 1000;
                 double heightdist = MainMap.Manager.GetDistance(arearect.LocationTopLeft, bottomleft) * 1000;
                 double widthdist = MainMap.Manager.GetDistance(arearect.LocationTopLeft, topright) * 1000;
-
-                string alt = (100 * MainV2.comPort.MAV.cs.multiplierdist).ToString("0");
-                Common.InputBox("Altitude", "Relative Altitude", ref alt);
-
-                ////////string distance = (50 * MainV2.comPort.MAV.cs.multiplierdist).ToString("0");
-                ////////Common.InputBox("Distance", "Distance between lines", ref distance);
-
-                ////////string wpevery = (40 * MainV2.comPort.MAV.cs.multiplierdist).ToString("0");
-                ////////Common.InputBox("Every", "Put a WP every x distance (-1 for none)", ref wpevery);
-
-                string angle = (70).ToString("0");
-                Common.InputBox("Angle", "Enter the line direction (0-90)", ref angle);
-
-                string sx = (6.17).ToString("0.##");
-                Common.InputBox("Horizontal sensor size", "Enter horizontal sensor dimensions [mm]", ref sx);
-
-                string sy = (4.55).ToString("0.##");
-                Common.InputBox("Vertical sensor size", "Enter vertical sensor dimensions  [mm]", ref sy);
-
-                string focallength = (7).ToString("0");
-                Common.InputBox("Camera Focal Length", "Enter camera focal length (based on your zoom) [mm]", ref focallength);
-
-                string overlap = (60).ToString("0");
-                Common.InputBox("Percentage overlapp", "Enter desired percentage image overlap [0-100]", ref overlap);
-
-                string orient = "P";
-                Common.InputBox("Camera Orientation", "(P)ortrait or (L)andscape", ref orient);
+                int altitude = cinf.flyalt;
+                int angle = cinf.angle;
+                float sx = cinf.sensorwidth;
+                float sy = cinf.sensorheight;
+                float focallength = cinf.focallen;
+                int overlap = cinf.overlap;
+                int sidelap = cinf.sidelap;
+                bool orient = cinf.orient;
+                bool drawinterior = cinf.drawinterior;
 
                 string shutter = "Yes";
-                Common.InputBox("Shutter", "Add DO_SET_SERVO Triggers?", ref shutter);
-
-                //float sx = dialogResult.ToString;
-
-                double tryme = 0;
-
-                if (!double.TryParse(angle, out tryme))
-                {
-                    CustomMessageBox.Show("Invalid Angle");
-                    return;
-                }
-                if (!double.TryParse(alt, out tryme))
-                {
-                    CustomMessageBox.Show("Invalid Alt");
-                    return;
-                }
-                if (!double.TryParse(sx, out tryme))
-                {
-                    CustomMessageBox.Show("Invalid Sensor X");
-                    return;
-                }
-                if (!double.TryParse(sy, out tryme))
-                {
-                    CustomMessageBox.Show("Invalid Sensor Y");
-                    return;
-                }
-                if (!double.TryParse(focallength, out tryme))
-                {
-                    CustomMessageBox.Show("Invalid Focal Length");
-                    return;
-                }
-                if (!double.TryParse(overlap, out tryme))
-                {
-                    CustomMessageBox.Show("Invalid Overlap");
-                    return;
-                }
 
                 // Lets calculate some stuff!!!
 
-                double alphax = 2*Math.Atan(double.Parse(sx) / (2 * double.Parse(focallength)));
-                double alphay = 2 * Math.Atan(double.Parse(sy) / (2 * double.Parse(focallength)));
+                double alphax = 2 * Math.Atan(sx / (2 * focallength));
+                double alphay = 2 * Math.Atan(sy / (2 * focallength));
 
-                double fpx = 2 * double.Parse(alt) * Math.Tan(alphax / 2);
-                double fpy = 2 * double.Parse(alt) * Math.Tan(alphay / 2);
+                double fpx = 2 * altitude * Math.Tan(alphax / 2);
+                double fpy = 2 * altitude * Math.Tan(alphay / 2);
 
                 double shotlat;
                 double shotlon;
+                double seplat;
+                double seplon;
 
                 switch (orient)
                 {
-                    case "P":
+                    //Portrait=true, Landscape=false
+                    case true:
                         shotlat = fpy;
                         shotlon = fpx;
                         break;
-                    case "L":
+                    case false:
                         shotlat = fpx;
                         shotlon = fpy;
                         break;
@@ -3858,26 +3807,35 @@ private void cameraGrid()
                         break;
                 }
 
-                //double seplat = shotlat * (1 - double.Parse(overlap) * .01);
-                double seplon = shotlon * (1 - double.Parse(overlap) * .01);
-                double seplat = shotlat * (1 - double.Parse(overlap) * .01);
+                switch (drawinterior)
+                {
+                    case true:
+                        seplon = shotlon * (1 - overlap * .01);
+                        break;
+                    case false:
+                        seplon = -1;
+                        break;
+                    default:
+                        seplon = -1;
+                        break;
+                }
+                seplat = shotlat * (1 - sidelap * .01);
 
-
-                //square_side = coverage_area^(.5)*1000;   % [m] side of the coverage area if it were square
-                //nlat = ceil(square_side/grid.seplat);
-                //nlon = ceil(square_side/grid.seplon);
-                //npic = nlat*nlon;
                 //max_vel = ceil(grid.seplon/max_freq_shutter);
 
-
+                // switch back to m
+                // double wpevery = double.Parse(wpeverytext) / MainV2.comPort.MAV.cs.multiplierdist;
+                double wpevery = seplon / MainV2.comPort.MAV.cs.multiplierdist;
+                double distance = seplat;
 
                 // get x y components
-                double y1 = Math.Cos((double.Parse(angle)) * deg2rad); // needs to mod for long scale
-                double x1 = Math.Sin((double.Parse(angle)) * deg2rad);
+                double y1 = Math.Cos(angle * deg2rad); // needs to mod for long scale
+                double x1 = Math.Sin(angle * deg2rad);
+
 
                 // get x y step amount in lat lng from m
-                double latdiff = arearect.HeightLat / ((heightdist / (seplat * (x1) / MainV2.comPort.MAV.cs.multiplierdist)));
-                double lngdiff = arearect.WidthLng / ((widthdist / (seplat * (y1) / MainV2.comPort.MAV.cs.multiplierdist)));
+                double latdiff = arearect.HeightLat / ((heightdist / (distance * (x1) / MainV2.comPort.MAV.cs.multiplierdist)));
+                double lngdiff = arearect.WidthLng / ((widthdist / (distance * (y1) / MainV2.comPort.MAV.cs.multiplierdist)));
 
                 double latlngdiff = Math.Sqrt(latdiff * latdiff + lngdiff * lngdiff);
 
@@ -3886,33 +3844,33 @@ private void cameraGrid()
                 double fulllatdiff = arearect.HeightLat * x1 * 2;
                 double fulllngdiff = arearect.WidthLng * y1 * 2;
 
-                int altitude = (int)(double.Parse(alt));
+                //int altitude = (int)(double.Parse(alt));
 
                 // draw a grid
                 double x = arearect.LocationMiddle.Lng;
                 double y = arearect.LocationMiddle.Lat;
 
-                newpos(ref y, ref x, double.Parse(angle) - 135, diagdist);
+                newpos(ref y, ref x, angle - 135, diagdist);
 
                 List<linelatlng> grid = new List<linelatlng>();
 
                 int lines = 0;
 
-                y1 = Math.Cos((double.Parse(angle) + 90) * deg2rad); // needs to mod for long scale
-                x1 = Math.Sin((double.Parse(angle) + 90) * deg2rad);
+                y1 = Math.Cos((angle + 90) * deg2rad); // needs to mod for long scale
+                x1 = Math.Sin((angle + 90) * deg2rad);
 
                 // get x y step amount in lat lng from m
-                latdiff = arearect.HeightLat / ((heightdist / (seplat * (y1) / MainV2.comPort.MAV.cs.multiplierdist)));
-                lngdiff = arearect.WidthLng / ((widthdist / (seplat * (x1) / MainV2.comPort.MAV.cs.multiplierdist)));
+                latdiff = arearect.HeightLat / ((heightdist / (distance * (y1) / MainV2.comPort.MAV.cs.multiplierdist)));
+                lngdiff = arearect.WidthLng / ((widthdist / (distance * (x1) / MainV2.comPort.MAV.cs.multiplierdist)));
 
                 quickadd = true;
 
-                while (lines * seplat < diagdist * 1.5) //x < topright.Lat && y < topright.Lng)
+                while (lines * distance < diagdist * 1.5) //x < topright.Lat && y < topright.Lng)
                 {
                     // callMe(y, x, 0);
                     double nx = x;
                     double ny = y;
-                    newpos(ref ny, ref nx, double.Parse(angle), diagdist * 1.5);
+                    newpos(ref ny, ref nx, angle, diagdist * 1.5);
 
                     //callMe(ny, nx, 0);
 
@@ -4074,14 +4032,16 @@ private void cameraGrid()
                     {
                         callMe(closest.p1.Lat, closest.p1.Lng, altitude);
 
-                        if (seplon > 0)
+                        if (wpevery > 0)
                         {
-                            for (int d = (int)(seplon - ((MainMap.Manager.GetDistance(closest.basepnt, closest.p1) * 1000) % seplon)); d < (MainMap.Manager.GetDistance(closest.p1, closest.p2) * 1000); d += (int)seplon)
+                            for (int d = (int)(wpevery - ((MainMap.Manager.GetDistance(closest.basepnt, closest.p1) * 1000) % wpevery));
+                                d < (MainMap.Manager.GetDistance(closest.p1, closest.p2) * 1000);
+                                d += (int)wpevery)
                             {
                                 double ax = closest.p1.Lat;
                                 double ay = closest.p1.Lng;
 
-                                newpos(ref ax, ref ay, double.Parse(angle), d);
+                                newpos(ref ax, ref ay, angle, d);
                                 callMe(ax, ay, altitude);
 
                                 if (shutter.ToLower().StartsWith("y"))
@@ -4102,14 +4062,16 @@ private void cameraGrid()
                     {
                         callMe(closest.p2.Lat, closest.p2.Lng, altitude);
 
-                        if (seplon > 0)
+                        if (wpevery > 0)
                         {
-                            for (int d = (int)((MainMap.Manager.GetDistance(closest.basepnt, closest.p2) * 1000) % seplon); d < (MainMap.Manager.GetDistance(closest.p1, closest.p2) * 1000); d += (int)seplon)
+                            for (int d = (int)((MainMap.Manager.GetDistance(closest.basepnt, closest.p2) * 1000) % wpevery); 
+                                d < (MainMap.Manager.GetDistance(closest.p1, closest.p2) * 1000);
+                                d += (int)wpevery)
                             {
                                 double ax = closest.p2.Lat;
                                 double ay = closest.p2.Lng;
 
-                                newpos(ref ax, ref ay, double.Parse(angle), -d);
+                                newpos(ref ax, ref ay, angle, -d);
                                 callMe(ax, ay, altitude);
 
                                 if (shutter.ToLower().StartsWith("y"))
@@ -4651,16 +4613,22 @@ private void cameraGrid()
             ThemeManager.ApplyThemeTo(form);
             form.Show();
         }
-		
-		private void cameraGridToolStripMenuItem_Click(object sender, EventArgs e)
+
+        private void cameraGridToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //CameraPlanner camform = new CameraPlanner();
-            //ThemeManager.ApplyThemeTo(camform);
+            CameraPlanner camform = new CameraPlanner();
+            ThemeManager.ApplyThemeTo(camform);
+            camform.ShowDialog();
             //ShowDialog() and not Show() because we want all the information to be complete before continuing
-            //DialogResult dialogResult = camform.ShowDialog();
-            //struct cinf = camform.camerainfo;
-            //cameraGrid(dialogResult);
-            cameraGrid();
+            CameraPlanner.camerainfo cinf = camform.camera;
+            if (camform.camera.done == true)
+            {
+                cameraGrid(cinf);
+            }
+            else
+            {
+            }
+            
         }
 
 

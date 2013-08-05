@@ -276,6 +276,12 @@
     </Compile>
     <Compile Include="Attributes\DisplayTextAttribute.cs" />
     <Compile Include="Attributes\PrivateAttribute.cs" />
+    <Compile Include="CameraPlanner.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CameraPlanner.Designer.cs">
+      <DependentUpon>CameraPlanner.cs</DependentUpon>
+    </Compile>
     <Compile Include="CodeGen.cs" />
     <Compile Include="Comms\CommsFile.cs" />
     <Compile Include="Comms\CommsSerialScan.cs" />
@@ -436,6 +442,12 @@
     <Compile Include="Controls\ValuesControl.Designer.cs">
       <DependentUpon>ValuesControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Form2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form2.Designer.cs">
+      <DependentUpon>Form2.cs</DependentUpon>
+    </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigAC_Fence.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -453,6 +465,7 @@
     <Compile Include="Utilities\S3Uploader.cs" />
     <Compile Include="Widgets\GraphicsGL.cs" />
     <Compile Include="Widgets\MessageBox.cs" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="Driver\amd64\ftd2xx.lib">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -485,6 +498,9 @@
     <Compile Include="Widgets\QuickView.Designer.cs">
       <DependentUpon>QuickView.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="CameraPlanner.resx">
+      <DependentUpon>CameraPlanner.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAC_Fence.resx">
       <DependentUpon>ConfigAC_Fence.cs</DependentUpon>
     </EmbeddedResource>
