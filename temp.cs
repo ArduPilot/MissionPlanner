@@ -872,11 +872,11 @@ namespace ArdupilotMega
 
             MainMap.CacheLocation = Path.GetDirectoryName(Application.ExecutablePath) + "/gmapcache/";
 
-            int removed =  ((GMap.NET.CacheProviders.SQLitePureImageCache)MainMap.Manager.ImageCacheLocal).DeleteOlderThan(DateTime.Now, GMap.NET.MapType.Custom);
+            int removed =  ((GMap.NET.CacheProviders.myPureImageCache)MainMap.Manager.ImageCacheLocal).DeleteOlderThan(DateTime.Now, GMap.NET.MapType.Custom);
 
             CustomMessageBox.Show("Removed "+removed + " images\nshrinking file next");
 
-            GMap.NET.CacheProviders.SQLitePureImageCache.VacuumDb(MainMap.CacheLocation + @"\TileDBv3\en\Data.gmdb");
+            GMap.NET.CacheProviders.myPureImageCache.VacuumDb(MainMap.CacheLocation + @"\TileDBv3\en\Data.gmdb");
 
 
             log.InfoFormat("Removed {0} images", removed);

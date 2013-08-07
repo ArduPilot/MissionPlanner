@@ -316,9 +316,6 @@
 
         #endregion
 
-
-
-        private System.Windows.Forms.MenuStrip MainMenu;
         private System.Windows.Forms.ToolStripButton MenuFlightData;
         private System.Windows.Forms.ToolStripButton MenuFlightPlanner;
         private System.Windows.Forms.ToolStripButton MenuHWConfig;
@@ -334,5 +331,6 @@
         private System.Windows.Forms.ContextMenuStrip CTX_mainmenu;
         private System.Windows.Forms.ToolStripMenuItem autoHideToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem MenuDonate;
+        public System.Windows.Forms.MenuStrip MainMenu;
     }
 }

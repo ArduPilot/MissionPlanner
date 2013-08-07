@@ -30,7 +30,6 @@ using MissionPlanner.Controls;
 namespace ArdupilotMega
 {
     public partial class MainV2 : Form
-
     {
         private static readonly ILog log =
             LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -49,10 +48,11 @@ namespace ArdupilotMega
             IntPtr NotificationFilter,
             Int32 Flags);
 
+            static public int SW_SHOWNORMAL = 1;
+            static public int SW_HIDE = 0;
         }
 
-        const int SW_SHOWNORMAL = 1;
-        const int SW_HIDE = 0;
+
 
         ArdupilotMega.Controls.MainSwitcher MyView;
 
@@ -60,10 +60,14 @@ namespace ArdupilotMega
         /// Active Comport interface
         /// </summary>
         public static MAVLink comPort = new MAVLink();
+
 /// <summary>
 /// passive comports
 /// </summary>
         public static List<MAVLink> Comports = new List<MAVLink>();
+
+        public delegate void WMDeviceChangeEventHandler(WM_DEVICECHANGE_enum cause);
+        public event WMDeviceChangeEventHandler DeviceChanged;
 
         /// <summary>
         /// Comport name
@@ -151,8 +155,8 @@ namespace ArdupilotMega
         /// declared here if i want a "single" instance of the form
         /// ie configuration gets reloaded on every click
         /// </summary>
-        GCSViews.FlightData FlightData;
-        GCSViews.FlightPlanner FlightPlanner;
+        public GCSViews.FlightData FlightData;
+        public GCSViews.FlightPlanner FlightPlanner;
         GCSViews.Simulation Simulation;
 
         private Form connectionStatsForm;
@@ -267,7 +271,7 @@ namespace ArdupilotMega
                 else
                 {
                     int win = NativeMethods.FindWindow("ConsoleWindowClass", null);
-                    NativeMethods.ShowWindow(win, SW_HIDE); // hide window
+                    NativeMethods.ShowWindow(win, NativeMethods.SW_HIDE); // hide window
                 }
             }
 
@@ -2634,6 +2638,15 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
                          //Console.WriteLine("Added port {0}",port);
                      }
                      Console.WriteLine("Device Change {0} {1} {2}", m.Msg, (WM_DEVICECHANGE_enum)m.WParam, m.LParam);
+
+                     if (DeviceChanged != null)
+                     {
+                         try
+                         {
+                             DeviceChanged((WM_DEVICECHANGE_enum)m.WParam);
+                         }
+                         catch { }
+                     }
                     break;
                 default:
 

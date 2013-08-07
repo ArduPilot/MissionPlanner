@@ -5,11 +5,14 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
+using log4net;
 
 namespace ArdupilotMega.Plugin
 {
     public class PluginLoader
     {
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         public static List<IPlugin> Plugins = new List<IPlugin>();
 
         public static void Load(String file)
@@ -45,8 +48,12 @@ namespace ArdupilotMega.Plugin
                 {
                     Object o = Activator.CreateInstance(pluginInfo);
                     IPlugin plugin = (IPlugin)o;
+
+                    plugin.Host = new PluginHost();
+
                     if (plugin.Init())
                     {
+                        log.InfoFormat("Plugin Init {0} {1} by {2}", plugin.Name,plugin.Version,plugin.Author );
                         Plugins.Add(plugin);
                     }
                 }
@@ -73,10 +80,6 @@ namespace ArdupilotMega.Plugin
                         Plugins.RemoveAt(i);
                         --i;
                     }
-
-                    p.Host = MainV2.instance;
-
-                    p.Init();
                 }
                 catch (Exception)
                 {

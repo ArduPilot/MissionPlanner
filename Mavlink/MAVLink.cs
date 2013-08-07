@@ -2070,31 +2070,17 @@ Please check the following
         /// <returns></returns>
         public byte[] readPacket()
         {
-            byte[] buffer = new byte[300];
+            byte[] buffer = new byte[260];
             int count = 0;
             int length = 0;
             int readcount = 0;
             lastbad = new byte[2];
-
-            byte[] headbuffer = new byte[6];
 
             BaseStream.ReadTimeout = 1200; // 1200 ms between chars - the gps detection requires this.
 
             DateTime start = DateTime.Now;
 
             //Console.WriteLine(DateTime.Now.Millisecond + " SR0 " + BaseStream.BytesToRead);
-
-            try
-            {
-                // test fabs idea - http://diydrones.com/profiles/blogs/flying-with-joystick?commentId=705844%3AComment%3A818712&xg_source=msg_com_blogpost
-                if (BaseStream.IsOpen && BaseStream.BytesToWrite > 0)
-                {
-                    // slow down execution. else 100% cpu
-                    Thread.Sleep(1);
-                    return new byte[0];
-                }
-            }
-            catch (Exception ex) { log.Info(ex.ToString()); }
 
             lock (readlock)
             {

@@ -28,7 +28,7 @@ using MissionPlanner.Controls;
 // written by michael oborne
 namespace ArdupilotMega.GCSViews
 {
-    partial class FlightData : MyUserControl, IActivate, IDeactivate
+    public partial class FlightData : MyUserControl, IActivate, IDeactivate
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 

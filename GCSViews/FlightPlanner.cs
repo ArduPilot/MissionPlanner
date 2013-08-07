@@ -31,7 +31,7 @@ using MissionPlanner.Controls;
 
 namespace ArdupilotMega.GCSViews
 {
-    partial class FlightPlanner : MyUserControl, IDeactivate, IActivate
+    public partial class FlightPlanner : MyUserControl, IDeactivate, IActivate
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         int selectedrow = 0;
@@ -106,7 +106,7 @@ namespace ArdupilotMega.GCSViews
         /// <param name="lat"></param>
         /// <param name="lng"></param>
         /// <param name="alt"></param>
-        void setfromMap(double lat, double lng, int alt)
+        public void setfromMap(double lat, double lng, int alt)
         {
             if (selectedrow > Commands.RowCount)
             {
@@ -566,7 +566,7 @@ namespace ArdupilotMega.GCSViews
         {
             try
             {
-                log.Info(Element.ToString() + " " + Element.Parent);
+              //  log.Info(Element.ToString() + " " + Element.Parent);
             }
             catch { }
 
@@ -1334,7 +1334,7 @@ namespace ArdupilotMega.GCSViews
 
                 ((Controls.ProgressReporterDialogue)sender).UpdateProgressAndStatus(100, "Done.");
             }
-            catch (Exception ex) { MainV2.comPort.giveComport = false; throw; }
+            catch (Exception) { MainV2.comPort.giveComport = false; throw; }
 
             MainV2.comPort.giveComport = false;
         }
@@ -1728,7 +1728,7 @@ namespace ArdupilotMega.GCSViews
             }
         }
 
-        void readQGC110wpfile(string file, bool append = false)
+        public void readQGC110wpfile(string file, bool append = false)
         {
             int wp_count = 0;
             bool error = false;
@@ -4148,7 +4148,7 @@ namespace ArdupilotMega.GCSViews
                     var parser = new SharpKml.Base.Parser();
 
                     parser.ElementAdded += parser_ElementAdded;
-                    parser.ParseString(kml, true);
+                    parser.ParseString(kml, false);
 
                     if (DialogResult.Yes == CustomMessageBox.Show("Do you want to load this into the flight data screen?", "Load data", MessageBoxButtons.YesNo))
                     {

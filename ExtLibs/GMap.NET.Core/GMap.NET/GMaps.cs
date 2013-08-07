@@ -20,7 +20,7 @@ namespace GMap.NET
    using System.Security.Cryptography;
 
 #if !MONO
-   using System.Data.SQLite;
+  // using System.Data.SQLite;
 #else
    using SQLiteConnection=Mono.Data.SqliteClient.SqliteConnection;
    using SQLiteTransaction=Mono.Data.SqliteClient.SqliteTransaction;
@@ -834,12 +834,12 @@ namespace GMap.NET
       public bool ExportToGMDB(string file)
       {
 #if SQLite
-         if(Cache.Instance.ImageCache is SQLitePureImageCache)
+         if(Cache.Instance.ImageCache is myPureImageCache)
          {
-            StringBuilder db = new StringBuilder((Cache.Instance.ImageCache as SQLitePureImageCache).GtileCache);
+            StringBuilder db = new StringBuilder((Cache.Instance.ImageCache as myPureImageCache).GtileCache);
             db.AppendFormat(CultureInfo.InvariantCulture, "{0}{1}Data.gmdb", GMaps.Instance.LanguageStr, Path.DirectorySeparatorChar);
 
-            return SQLitePureImageCache.ExportMapDataToDB(db.ToString(), file);
+            return myPureImageCache.ExportMapDataToDB(db.ToString(), file);
          }
 #endif
          return false;
@@ -854,12 +854,12 @@ namespace GMap.NET
       public bool ImportFromGMDB(string file)
       {
 #if SQLite
-         if(Cache.Instance.ImageCache is GMap.NET.CacheProviders.SQLitePureImageCache)
+         if(Cache.Instance.ImageCache is GMap.NET.CacheProviders.myPureImageCache)
          {
-            StringBuilder db = new StringBuilder((Cache.Instance.ImageCache as SQLitePureImageCache).GtileCache);
+            StringBuilder db = new StringBuilder((Cache.Instance.ImageCache as myPureImageCache).GtileCache);
             db.AppendFormat(CultureInfo.InvariantCulture, "{0}{1}Data.gmdb", GMaps.Instance.LanguageStr, Path.DirectorySeparatorChar);
 
-            return SQLitePureImageCache.ExportMapDataToDB(file, db.ToString());
+            return myPureImageCache.ExportMapDataToDB(file, db.ToString());
          }
 #endif
          return false;
@@ -874,18 +874,18 @@ namespace GMap.NET
       /// <returns></returns>
       public bool OptimizeMapDb(string file)
       {
-         if(Cache.Instance.ImageCache is GMap.NET.CacheProviders.SQLitePureImageCache)
+         if(Cache.Instance.ImageCache is GMap.NET.CacheProviders.myPureImageCache)
          {
             if(string.IsNullOrEmpty(file))
             {
-               StringBuilder db = new StringBuilder((Cache.Instance.ImageCache as SQLitePureImageCache).GtileCache);
+               StringBuilder db = new StringBuilder((Cache.Instance.ImageCache as myPureImageCache).GtileCache);
                db.AppendFormat(CultureInfo.InvariantCulture, "{0}{1}Data.gmdb", GMaps.Instance.LanguageStr, Path.DirectorySeparatorChar);
 
-               return SQLitePureImageCache.VacuumDb(db.ToString());
+               return myPureImageCache.VacuumDb(db.ToString());
             }
             else
             {
-               return SQLitePureImageCache.VacuumDb(file);
+               return myPureImageCache.VacuumDb(file);
             }
          }
 
@@ -905,118 +905,7 @@ namespace GMap.NET
       /// <returns></returns>
       public IEnumerable<List<GpsLog>> GetRoutesFromMobileLog(string gpsdLogFile, DateTime? start, DateTime? end, double? maxPositionDilutionOfPrecision)
       {
-#if SQLite
-         using(SQLiteConnection cn = new SQLiteConnection())
-         {
-#if !MONO
-            cn.ConnectionString = string.Format("Data Source=\"{0}\";FailIfMissing=True;", gpsdLogFile);
-#else
-            cn.ConnectionString = string.Format("Version=3,URI=file://{0},FailIfMissing=True", gpsdLogFile);
-#endif
-
-            cn.Open();
-            {
-               using(DbCommand cmd = cn.CreateCommand())
-               {
-                  cmd.CommandText = "SELECT * FROM GPS ";
-                  int initLenght = cmd.CommandText.Length;
-
-                  if(start.HasValue)
-                  {
-                     cmd.CommandText += "WHERE TimeUTC >= @t1 ";
-                     SQLiteParameter lookupValue = new SQLiteParameter("@t1", start);
-                     cmd.Parameters.Add(lookupValue);
-                  }
-
-                  if(end.HasValue)
-                  {
-                     if(cmd.CommandText.Length <= initLenght)
-                     {
-                        cmd.CommandText += "WHERE ";
-                     }
-                     else
-                     {
-                        cmd.CommandText += "AND ";
-                     }
-
-                     cmd.CommandText += "TimeUTC <= @t2 ";
-                     SQLiteParameter lookupValue = new SQLiteParameter("@t2", end);
-                     cmd.Parameters.Add(lookupValue);
-                  }
-
-                  if(maxPositionDilutionOfPrecision.HasValue)
-                  {
-                     if(cmd.CommandText.Length <= initLenght)
-                     {
-                        cmd.CommandText += "WHERE ";
-                     }
-                     else
-                     {
-                        cmd.CommandText += "AND ";
-                     }
-
-                     cmd.CommandText += "PositionDilutionOfPrecision <= @p3 ";
-                     SQLiteParameter lookupValue = new SQLiteParameter("@p3", maxPositionDilutionOfPrecision);
-                     cmd.Parameters.Add(lookupValue);
-                  }
-
-                  using(DbDataReader rd = cmd.ExecuteReader())
-                  {
-                     List<GpsLog> points = new List<GpsLog>();
-                     while(rd.Read())
-                     {
-                        GpsLog log = new GpsLog();
-                        {
-                           log.TimeUTC = (DateTime)rd["TimeUTC"];
-                           log.SessionCounter = (long)rd["SessionCounter"];
-                           log.Delta = rd["Delta"] as double?;
-                           log.Speed = rd["Speed"] as double?;
-                           log.SeaLevelAltitude = rd["SeaLevelAltitude"] as double?;
-                           log.EllipsoidAltitude = rd["EllipsoidAltitude"] as double?;
-                           log.SatellitesInView = rd["SatellitesInView"] as System.Byte?;
-                           log.SatelliteCount = rd["SatelliteCount"] as System.Byte?;
-                           log.Position = new PointLatLng((double)rd["Lat"], (double)rd["Lng"]);
-                           log.PositionDilutionOfPrecision = rd["PositionDilutionOfPrecision"] as double?;
-                           log.HorizontalDilutionOfPrecision = rd["HorizontalDilutionOfPrecision"] as double?;
-                           log.VerticalDilutionOfPrecision = rd["VerticalDilutionOfPrecision"] as double?;
-                           log.FixQuality = (FixQuality)((byte)rd["FixQuality"]);
-                           log.FixType = (FixType)((byte)rd["FixType"]);
-                           log.FixSelection = (FixSelection)((byte)rd["FixSelection"]);
-                        }
-
-                        if(log.SessionCounter == 0 && points.Count > 0)
-                        {
-                           List<GpsLog> ret = new List<GpsLog>(points);
-                           points.Clear();
-                           {
-                              yield return ret;
-                           }
-                        }
-
-                        points.Add(log);
-                     }
-
-                     if(points.Count > 0)
-                     {
-                        List<GpsLog> ret = new List<GpsLog>(points);
-                        points.Clear();
-                        {
-                           yield return ret;
-                        }
-                     }
-
-                     points.Clear();
-                     points = null;
-
-                     rd.Close();
-                  }
-               }
-            }
-            cn.Close();
-         }
-#else
          return null;
-#endif
       }
 
       /// <summary>

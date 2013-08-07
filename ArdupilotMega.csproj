@@ -201,8 +201,6 @@
     <Reference Include="System.Data">
       <Private>False</Private>
     </Reference>
-    <Reference Include="System.Data.SQLite">
-    </Reference>
     <Reference Include="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
@@ -369,6 +367,7 @@
     <Compile Include="Utilities\BigInteger.cs" />
     <Compile Include="Utilities\Firmware.cs" />
     <Compile Include="Utilities\StringRedirectWriter.cs" />
+  
     <Compile Include="Wizard\IWizard.cs" />
     <Compile Include="Wizard\Wizard.cs">
       <SubType>Form</SubType>
@@ -391,6 +390,7 @@
     </Compile>
     <Compile Include="Utilities\httpserver.cs" />
     <Compile Include="Utilities\S3Uploader.cs" />
+  
     <None Include="Driver\amd64\ftd2xx.lib">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -586,6 +586,7 @@
     <EmbeddedResource Include="ScriptConsole.resx">
       <DependentUpon>ScriptConsole.cs</DependentUpon>
     </EmbeddedResource>
+  
     <EmbeddedResource Include="Wizard\Wizard.resx">
       <DependentUpon>Wizard.cs</DependentUpon>
     </EmbeddedResource>

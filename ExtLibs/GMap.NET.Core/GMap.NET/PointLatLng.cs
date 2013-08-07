@@ -80,7 +80,7 @@ namespace GMap.NET
       public static PointLatLng Subtract(PointLatLng pt, SizeLatLng sz)
       {
          return new PointLatLng(pt.Lat + sz.HeightLat, pt.Lng - sz.WidthLng);
-      }
+      }      
 
       public override bool Equals(object obj)
       {
@@ -88,8 +88,7 @@ namespace GMap.NET
          {
             return false;
          }
-         PointLatLng tf = (PointLatLng) obj;
-         return (((tf.Lng == this.Lng) && (tf.Lat == this.Lat)) && tf.GetType().Equals(base.GetType()));
+         return (((((PointLatLng)obj).Lng == this.Lng) && (((PointLatLng)obj).Lat == this.Lat)) && obj.GetType().Equals(base.GetType()));
       }
 
       public void Offset(PointLatLng pos)

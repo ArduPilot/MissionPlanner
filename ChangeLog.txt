@@ -1,4 +1,12 @@
-﻿* Mission Planner 1.2.66
+﻿* Mission Planner 1.2.67
+add firmware screen back to initial config
+fix georegimage bug
+wizard fixs
+new plugintest project
+fix binary log , vs .
+fix kml overlay
+
+* Mission Planner 1.2.66
 relocate serial/tcp/udp comms to external dll
 try fix serialstream.disposed error
 more plugin system mods

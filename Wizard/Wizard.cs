@@ -33,7 +33,6 @@ namespace ArdupilotMega.Wizard
 
             wiz_main = new MainSwitcher(this.panel1);
 
- 
             wiz_main.ShowScreen("Intro");
 
             history.Add(wiz_main.current.Name);

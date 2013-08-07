@@ -46,9 +46,9 @@ namespace GMap.NET.Internals
             placemarkCache = cache + "PlacemarkCache" + Path.DirectorySeparatorChar;
 
 #if SQLite
-            if(ImageCache is SQLitePureImageCache)
+            if(ImageCache is myPureImageCache)
             {
-               (ImageCache as SQLitePureImageCache).CacheLocation = value;
+               (ImageCache as myPureImageCache).CacheLocation = value;
             }
 #else
             if(ImageCache is MsSQLCePureImageCache)
@@ -69,7 +69,7 @@ namespace GMap.NET.Internals
          #endregion
 
 #if SQLite
-         ImageCache = new SQLitePureImageCache();
+         ImageCache = new myPureImageCache();
 #else
          // you can use $ms stuff if you like too ;}
          ImageCache = new MsSQLCePureImageCache();

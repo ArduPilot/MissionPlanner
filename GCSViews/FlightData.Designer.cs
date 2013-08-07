@@ -1777,7 +1777,6 @@
         private System.Windows.Forms.Timer ZedGraphTimer;
         private System.Windows.Forms.SplitContainer MainH;
         private System.Windows.Forms.SplitContainer SubMainLeft;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStripMap;
         private System.Windows.Forms.ToolStripMenuItem goHereToolStripMenuItem;
         private ArdupilotMega.Controls.HUD hud1;
         private ArdupilotMega.Controls.MyButton BUT_clear_track;
@@ -1820,7 +1819,6 @@
         private ArdupilotMega.Controls.MyLabel lbl_winddir;
         private ArdupilotMega.Controls.MyButton BUT_joystick;
         private System.Windows.Forms.ToolTip toolTip1;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStripHud;
         private System.Windows.Forms.ToolStripMenuItem recordHudToAVIToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem stopRecordToolStripMenuItem;
         private ArdupilotMega.Controls.MyLabel lbl_logpercent;
@@ -1887,6 +1885,8 @@
         private System.Windows.Forms.Timer scriptChecker;
         private System.Windows.Forms.CheckBox checkBoxRedirectOutput;
         private System.Windows.Forms.ToolStripMenuItem russianHudToolStripMenuItem;
+        public System.Windows.Forms.ContextMenuStrip contextMenuStripMap;
+        public System.Windows.Forms.ContextMenuStrip contextMenuStripHud;
 
     }
 }

@@ -215,43 +215,43 @@ namespace ArdupilotMega.Log
                         offset++;
                         break;
                     case 'h':
-                        line += ", " + BitConverter.ToInt16(message, offset);
+                        line += ", " + BitConverter.ToInt16(message, offset).ToString(System.Globalization.CultureInfo.InvariantCulture);
                         offset += 2;
                         break;
                     case 'H':
-                        line += ", " + BitConverter.ToUInt16(message, offset);
+                        line += ", " + BitConverter.ToUInt16(message, offset).ToString(System.Globalization.CultureInfo.InvariantCulture);
                         offset += 2;
                         break;
                     case 'i':
-                        line += ", " + BitConverter.ToInt32(message, offset);
+                        line += ", " + BitConverter.ToInt32(message, offset).ToString(System.Globalization.CultureInfo.InvariantCulture);
                         offset += 4;
                         break;
                     case 'I':
-                        line += ", " + BitConverter.ToUInt32(message, offset);
+                        line += ", " + BitConverter.ToUInt32(message, offset).ToString(System.Globalization.CultureInfo.InvariantCulture);
                         offset += 4;
                         break;
                     case 'f':
-                        line += ", " + BitConverter.ToSingle(message, offset);
+                        line += ", " + BitConverter.ToSingle(message, offset).ToString(System.Globalization.CultureInfo.InvariantCulture);
                         offset += 4;
                         break;
                     case 'c':
-                        line += ", " + (BitConverter.ToInt16(message, offset) / 100.0).ToString("0.00");
+                        line += ", " + (BitConverter.ToInt16(message, offset) / 100.0).ToString("0.00", System.Globalization.CultureInfo.InvariantCulture);
                         offset += 2;
                         break;
                     case 'C':
-                        line += ", " + (BitConverter.ToUInt16(message, offset) / 100.0).ToString("0.00");
+                        line += ", " + (BitConverter.ToUInt16(message, offset) / 100.0).ToString("0.00", System.Globalization.CultureInfo.InvariantCulture);
                         offset += 2;
                         break;
                     case 'e':
-                        line += ", " + (BitConverter.ToInt32(message, offset) / 100.0).ToString("0.00");
+                        line += ", " + (BitConverter.ToInt32(message, offset) / 100.0).ToString("0.00", System.Globalization.CultureInfo.InvariantCulture);
                         offset += 4;
                         break;
                     case 'E':
-                        line += ", " + (BitConverter.ToUInt32(message, offset) / 100.0).ToString("0.00");
+                        line += ", " + (BitConverter.ToUInt32(message, offset) / 100.0).ToString("0.00", System.Globalization.CultureInfo.InvariantCulture);
                         offset += 4;
                         break;
                     case 'L':
-                        line += ", " + (double)BitConverter.ToInt32(message, offset) / 10000000.0;
+                        line += ", " + ((double)BitConverter.ToInt32(message, offset) / 10000000.0).ToString(System.Globalization.CultureInfo.InvariantCulture);
                         offset += 4;
                         break;
                     case 'n':

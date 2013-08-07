@@ -613,8 +613,7 @@ enum gcs_severity {
                         if (fence.breach_status != (byte)MAVLink.FENCE_BREACH.NONE)
                         {
                             // fence breached
-
-
+                            messageHigh = "Fence Breach";
                         }
 
                         mavinterface.MAV.packets[MAVLink.MAVLINK_MSG_ID_FENCE_STATUS] = null;
@@ -998,9 +997,9 @@ enum gcs_severity {
                         bs.ResetBindings(false);
                         //bs.ResetCurrentItem();
                         // mono workaround - this is alot faster
-                       // bs.Clear();
+                        //bs.Clear();
                         //bs.Add(this);
-                       // Console.WriteLine(" " + DateTime.Now.Millisecond + " done ");
+                      //  Console.WriteLine(" " + DateTime.Now.Millisecond + " done ");
                     }
                 }
                 catch { log.InfoFormat("CurrentState Binding error"); }

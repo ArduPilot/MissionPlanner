@@ -13,6 +13,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Text;
 using System.Xml;
+using System.Text.RegularExpressions;
 
 namespace ArdupilotMega
 {
@@ -35,7 +36,7 @@ namespace ArdupilotMega
         //GPS, 3, 122732, 10, 0.00, -35.3628880, 149.1621961, 808.90, 810.30, 23.30, 94.04
 
         int timepos = 2;
-        int latpos = 5, lngpos = 6, altpos = 7, cogpos = 9, pitchATT = 11, rollATT = 10, yawATT = 12;
+        int latpos = 5, lngpos = 6, altpos = 7, cogpos = 10, pitchATT = 12, rollATT = 11, yawATT = 13;
         private NumericUpDown NUM_latpos;
         private NumericUpDown NUM_lngpos;
         private NumericUpDown NUM_altpos;
@@ -238,6 +239,15 @@ namespace ArdupilotMega
 
         public void dowork(string logFile, string dirWithImages, float offsetseconds, bool dooffset)
         {
+
+            timepos = (int)NUM_time.Value;
+
+            latpos = (int)NUM_latpos.Value;
+            lngpos = (int)NUM_lngpos.Value;
+            altpos = (int)NUM_altpos.Value;
+
+            cogpos = (int)NUM_headingpos.Value;
+
             DateTime localmin = DateTime.MaxValue;
             DateTime localmax = DateTime.MinValue;
 
@@ -336,12 +346,12 @@ namespace ArdupilotMega
                 swloctrim.WriteStartElement("FieldBook");
 
                 swloctrim.WriteRaw(@"   <CameraDesignRecord ID='00000001'>
-      <Type>RICOH       GR DIGITAL 4   </Type>
-      <HeightPixels>2736</HeightPixels>
-      <WidthPixels>3648</WidthPixels>
-      <PixelSize>0.00000203947368</PixelSize>
+      <Type>GoPro   </Type>
+      <HeightPixels>2400</HeightPixels>
+      <WidthPixels>3200</WidthPixels>
+      <PixelSize>0.0000022</PixelSize>
       <LensModel>Rectilinear</LensModel>
-      <NominalFocalLength>0.00600671907890</NominalFocalLength>
+      <NominalFocalLength>0.002</NominalFocalLength>
     </CameraDesignRecord>
     <CameraRecord2 ID='00000002'>
       <CameraDesignID>00000001</CameraDesignID>
@@ -349,21 +359,21 @@ namespace ArdupilotMega
       <Optics>
         <IdealAngularMagnification>1.0</IdealAngularMagnification>
         <AngleSymmetricDistortion>
-          <Order3>0.0072180217669081713</Order3>
-          <Order5>-0.22203969051881772</Order5>
-          <Order7>-0.5029187240559464</Order7>
+          <Order3>-0.35</Order3>
+          <Order5>0.15</Order5>
+          <Order7>-0.033</Order7>
           <Order9> 0</Order9>
         </AngleSymmetricDistortion>
         <AngleDecenteringDistortion>
-          <Column>-0.0023795120687855236</Column>
-          <Row>0.0001379430407941622</Row>
+          <Column>0</Column>
+          <Row>0</Row>
         </AngleDecenteringDistortion>
       </Optics>
       <Geometry>
         <PerspectiveCenterPixels>
-          <PrincipalPointColumn>-1808.3295867620682</PrincipalPointColumn>
-          <PrincipalPointRow>-1298.7805047992365</PrincipalPointRow>
-          <PrincipalDistance>-3033.81222099565</PrincipalDistance>
+          <PrincipalPointColumn>-1615.5</PrincipalPointColumn>
+          <PrincipalPointRow>-1187.5</PrincipalPointRow>
+          <PrincipalDistance>-2102</PrincipalDistance>
         </PerspectiveCenterPixels>
         <VectorOffset>
           <X>0</X>
@@ -378,6 +388,12 @@ namespace ArdupilotMega
       </Geometry>
     </CameraRecord2>");
                 
+                // 2mm fl
+                // res 2400 * 3200 = 7,680,000
+                // sensor size = 1/2.5" - 5.70 × 4.28 mm
+                // 2.2 μm
+                // fl in pixels = fl in mm * res / sensor size
+
                 swloctrim.WriteStartElement("PhotoInstrumentRecord");
                 swloctrim.WriteAttributeString("ID", "0000000E");
                 swloctrim.WriteElementString("Type", "Aerial");
@@ -502,9 +518,9 @@ namespace ArdupilotMega
 
                                 matchs++;
 
-                                // int fixme;
-                                // if (matchs > 50)
-                                //    break; ;
+                               //  int fixme;
+                               //  if (matchs < 150 || matchs > 170)
+                               //     break; ;
 
                                 SharpKml.Dom.Timestamp tstamp = new SharpKml.Dom.Timestamp();
 
@@ -599,7 +615,7 @@ namespace ArdupilotMega
                                 swloctel.Flush();
                                 swloctxt.Flush();
 
-                                GenPhotoStationRecord(swloctrim, filename, double.Parse(arr[latpos]), double.Parse(arr[lngpos]), double.Parse(arr[altpos]), 0, 0, double.Parse(arr[cogpos]) * deg2rad, 3200, 2400);
+                                GenPhotoStationRecord(swloctrim, filename, double.Parse(arr[latpos]), double.Parse(arr[lngpos]), double.Parse(arr[altpos]), 0, 0, double.Parse(arr[cogpos]), 3200, 2400);
 
                                 log.InfoFormat(Path.GetFileName(filename) + " " + arr[lngpos] + " " + arr[latpos] + " " + arr[altpos] + "           ");
                                 break;
@@ -671,6 +687,11 @@ namespace ArdupilotMega
 
         void GenPhotoStationRecord(XmlTextWriter swloctrim, string imgname, double lat, double lng, double alt, double roll, double pitch, double yaw, int imgwidth, int imgheight)
         {
+            Console.WriteLine("yaw {0}",yaw);
+
+            // conver tto rads
+            yaw = -yaw * deg2rad;
+
             swloctrim.WriteStartElement("PhotoStationRecord");
             swloctrim.WriteAttributeString("ID", (recordno++).ToString("0000000"));
 
@@ -980,36 +1001,56 @@ namespace ArdupilotMega
             // 
             // BUT_Geotagimages
             // 
+            this.BUT_Geotagimages.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
+            this.BUT_Geotagimages.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
             resources.ApplyResources(this.BUT_Geotagimages, "BUT_Geotagimages");
             this.BUT_Geotagimages.Name = "BUT_Geotagimages";
+            this.BUT_Geotagimages.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
+            this.BUT_Geotagimages.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_Geotagimages.UseVisualStyleBackColor = true;
             this.BUT_Geotagimages.Click += new System.EventHandler(this.BUT_Geotagimages_Click);
             // 
             // BUT_estoffset
             // 
+            this.BUT_estoffset.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
+            this.BUT_estoffset.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
             resources.ApplyResources(this.BUT_estoffset, "BUT_estoffset");
             this.BUT_estoffset.Name = "BUT_estoffset";
+            this.BUT_estoffset.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
+            this.BUT_estoffset.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_estoffset.UseVisualStyleBackColor = true;
             this.BUT_estoffset.Click += new System.EventHandler(this.BUT_estoffset_Click);
             // 
             // BUT_doit
             // 
+            this.BUT_doit.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
+            this.BUT_doit.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
             resources.ApplyResources(this.BUT_doit, "BUT_doit");
             this.BUT_doit.Name = "BUT_doit";
+            this.BUT_doit.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
+            this.BUT_doit.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_doit.UseVisualStyleBackColor = true;
             this.BUT_doit.Click += new System.EventHandler(this.BUT_doit_Click);
             // 
             // BUT_browsedir
             // 
+            this.BUT_browsedir.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
+            this.BUT_browsedir.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
             resources.ApplyResources(this.BUT_browsedir, "BUT_browsedir");
             this.BUT_browsedir.Name = "BUT_browsedir";
+            this.BUT_browsedir.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
+            this.BUT_browsedir.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_browsedir.UseVisualStyleBackColor = true;
             this.BUT_browsedir.Click += new System.EventHandler(this.BUT_browsedir_Click);
             // 
             // BUT_browselog
             // 
+            this.BUT_browselog.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
+            this.BUT_browselog.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
             resources.ApplyResources(this.BUT_browselog, "BUT_browselog");
             this.BUT_browselog.Name = "BUT_browselog";
+            this.BUT_browselog.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
+            this.BUT_browselog.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_browselog.UseVisualStyleBackColor = true;
             this.BUT_browselog.Click += new System.EventHandler(this.BUT_browselog_Click);
             // 
@@ -1048,7 +1089,7 @@ namespace ArdupilotMega
             resources.ApplyResources(this.NUM_headingpos, "NUM_headingpos");
             this.NUM_headingpos.Name = "NUM_headingpos";
             this.NUM_headingpos.Value = new decimal(new int[] {
-            8,
+            10,
             0,
             0,
             0});
@@ -1080,8 +1121,12 @@ namespace ArdupilotMega
             // 
             // BUT_networklinkgeoref
             // 
+            this.BUT_networklinkgeoref.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
+            this.BUT_networklinkgeoref.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
             resources.ApplyResources(this.BUT_networklinkgeoref, "BUT_networklinkgeoref");
             this.BUT_networklinkgeoref.Name = "BUT_networklinkgeoref";
+            this.BUT_networklinkgeoref.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
+            this.BUT_networklinkgeoref.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_networklinkgeoref.UseVisualStyleBackColor = true;
             this.BUT_networklinkgeoref.Click += new System.EventHandler(this.BUT_networklinkgeoref_Click);
             // 
@@ -1237,6 +1282,29 @@ namespace ArdupilotMega
             if (folderBrowserDialog1.SelectedPath != "")
             {
                 TXT_jpgdir.Text = folderBrowserDialog1.SelectedPath;
+
+                string file = folderBrowserDialog1.SelectedPath + Path.DirectorySeparatorChar + "location.txt";
+
+                if (File.Exists(file))
+                {
+                    try
+                    {
+                        using (StreamReader sr = new StreamReader(file))
+                        {
+
+                            string cotent = sr.ReadToEnd();
+
+                            Match match = Regex.Match(cotent, "seconds_offset: ([0-9]+)");
+
+                            if (match.Success)
+                            {
+                                TXT_offsetseconds.Text = match.Groups[1].Value;
+                            }
+                            sr.Close();
+                        }
+                    }
+                    catch { }                    
+                }
             }
         }
 

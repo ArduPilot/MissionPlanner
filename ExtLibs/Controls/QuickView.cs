@@ -95,6 +95,8 @@ namespace ArdupilotMega.Controls
             if (newSize < 8)
                 newSize = 8;
 
+            if (labelWithPseudoOpacity2.Font.Size == (newSize - 2))
+                return;
             //return newSize;
 
             labelWithPseudoOpacity2.Font = new Font(labelWithPseudoOpacity2.Font.FontFamily, newSize - 2, labelWithPseudoOpacity2.Font.Style);

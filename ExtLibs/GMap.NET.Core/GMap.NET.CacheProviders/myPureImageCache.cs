@@ -12,7 +12,7 @@ namespace GMap.NET.CacheProviders
    /// <summary>
    /// ultra fast cache system for tiles
    /// </summary>
-   public class SQLitePureImageCache : PureImageCache
+   public class myPureImageCache : PureImageCache
    {
       string cache;
       string gtileCache;

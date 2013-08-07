@@ -581,7 +581,7 @@ namespace ArdupilotMega.Utilities
                         if (MainV2.comPort.MAV.packets[MAVLink.MAVLINK_MSG_ID_SYS_STATUS] != null)
                             message.SYS_STATUS = new Message2() { index = MainV2.comPort.MAV.packetseencount[MAVLink.MAVLINK_MSG_ID_SYS_STATUS], msg = MainV2.comPort.MAV.packets[MAVLink.MAVLINK_MSG_ID_SYS_STATUS].ByteArrayToStructure<MAVLink.mavlink_sys_status_t>(6) };
 
-                        message.META_LINKQUALITY = message.SYS_STATUS = new Message2() { index = packetindex, msg = new META_LINKQUALITY() { master_in = (int)MainV2.comPort.packetsnotlost, mavpackettype = "META_LINKQUALITY", master_out = MainV2.comPort.packetcount, packet_loss = 100 - MainV2.comPort.MAV.cs.linkqualitygcs } };
+                        message.META_LINKQUALITY = message.SYS_STATUS = new Message2() { index = packetindex, time_usec = 0, msg = new META_LINKQUALITY() { master_in = (int)MainV2.comPort.packetsnotlost, mavpackettype = "META_LINKQUALITY", master_out = MainV2.comPort.packetcount, packet_loss = 100 - MainV2.comPort.MAV.cs.linkqualitygcs, mav_loss = 0 } };
 
                         packetindex++;
 
