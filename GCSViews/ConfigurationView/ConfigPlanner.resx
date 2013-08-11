@@ -123,7 +123,7 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="label33.Location" type="System.Drawing.Point, System.Drawing">
-    <value>517, 246</value>
+    <value>517, 239</value>
   </data>
   <data name="label33.Size" type="System.Drawing.Size, System.Drawing">
     <value>43, 13</value>
@@ -145,7 +145,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label33.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>13</value>
   </data>
   <data name="CMB_ratesensors.Items" xml:space="preserve">
     <value>0</value>
@@ -184,7 +184,7 @@
     <value>50</value>
   </data>
   <data name="CMB_ratesensors.Location" type="System.Drawing.Point, System.Drawing">
-    <value>564, 243</value>
+    <value>564, 236</value>
   </data>
   <data name="CMB_ratesensors.Size" type="System.Drawing.Size, System.Drawing">
     <value>40, 21</value>
@@ -202,13 +202,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CMB_ratesensors.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>14</value>
   </data>
   <data name="label26.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="label26.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 52</value>
+    <value>15, 45</value>
   </data>
   <data name="label26.Size" type="System.Drawing.Size, System.Drawing">
     <value>100, 23</value>
@@ -229,10 +229,10 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label26.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>15</value>
   </data>
   <data name="CMB_videoresolutions.Location" type="System.Drawing.Point, System.Drawing">
-    <value>124, 49</value>
+    <value>124, 42</value>
   </data>
   <data name="CMB_videoresolutions.Size" type="System.Drawing.Size, System.Drawing">
     <value>408, 21</value>
@@ -250,13 +250,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CMB_videoresolutions.ZOrder" xml:space="preserve">
-    <value>14</value>
+    <value>16</value>
   </data>
   <data name="label12.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="label12.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 342</value>
+    <value>15, 335</value>
   </data>
   <data name="label12.Size" type="System.Drawing.Size, System.Drawing">
     <value>61, 13</value>
@@ -277,13 +277,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label12.ZOrder" xml:space="preserve">
-    <value>15</value>
+    <value>17</value>
   </data>
   <data name="CHK_GDIPlus.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="CHK_GDIPlus.Location" type="System.Drawing.Point, System.Drawing">
-    <value>124, 342</value>
+    <value>124, 335</value>
   </data>
   <data name="CHK_GDIPlus.Size" type="System.Drawing.Size, System.Drawing">
     <value>177, 17</value>
@@ -304,13 +304,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CHK_GDIPlus.ZOrder" xml:space="preserve">
-    <value>16</value>
+    <value>18</value>
   </data>
   <data name="label24.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="label24.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 320</value>
+    <value>15, 313</value>
   </data>
   <data name="label24.Size" type="System.Drawing.Size, System.Drawing">
     <value>61, 13</value>
@@ -331,13 +331,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label24.ZOrder" xml:space="preserve">
-    <value>17</value>
+    <value>19</value>
   </data>
   <data name="CHK_loadwponconnect.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="CHK_loadwponconnect.Location" type="System.Drawing.Point, System.Drawing">
-    <value>124, 319</value>
+    <value>124, 312</value>
   </data>
   <data name="CHK_loadwponconnect.Size" type="System.Drawing.Size, System.Drawing">
     <value>177, 17</value>
@@ -358,13 +358,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CHK_loadwponconnect.ZOrder" xml:space="preserve">
-    <value>18</value>
+    <value>20</value>
   </data>
   <data name="label23.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="label23.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 294</value>
+    <value>15, 287</value>
   </data>
   <data name="label23.Size" type="System.Drawing.Size, System.Drawing">
     <value>103, 18</value>
@@ -385,10 +385,10 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label23.ZOrder" xml:space="preserve">
-    <value>19</value>
+    <value>21</value>
   </data>
   <data name="NUM_tracklength.Location" type="System.Drawing.Point, System.Drawing">
-    <value>124, 293</value>
+    <value>124, 286</value>
   </data>
   <data name="NUM_tracklength.Size" type="System.Drawing.Size, System.Drawing">
     <value>67, 20</value>
@@ -406,7 +406,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;NUM_tracklength.ZOrder" xml:space="preserve">
-    <value>20</value>
+    <value>22</value>
   </data>
   <data name="CHK_speechaltwarning.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -415,7 +415,7 @@
     <value>NoControl</value>
   </data>
   <data name="CHK_speechaltwarning.Location" type="System.Drawing.Point, System.Drawing">
-    <value>552, 109</value>
+    <value>552, 102</value>
   </data>
   <data name="CHK_speechaltwarning.Size" type="System.Drawing.Size, System.Drawing">
     <value>81, 17</value>
@@ -439,13 +439,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CHK_speechaltwarning.ZOrder" xml:space="preserve">
-    <value>21</value>
+    <value>23</value>
   </data>
   <data name="label108.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="label108.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 271</value>
+    <value>15, 264</value>
   </data>
   <data name="label108.Size" type="System.Drawing.Size, System.Drawing">
     <value>61, 13</value>
@@ -466,13 +466,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label108.ZOrder" xml:space="preserve">
-    <value>22</value>
+    <value>24</value>
   </data>
   <data name="CHK_resetapmonconnect.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="CHK_resetapmonconnect.Location" type="System.Drawing.Point, System.Drawing">
-    <value>124, 269</value>
+    <value>124, 262</value>
   </data>
   <data name="CHK_resetapmonconnect.Size" type="System.Drawing.Size, System.Drawing">
     <value>163, 17</value>
@@ -493,7 +493,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CHK_resetapmonconnect.ZOrder" xml:space="preserve">
-    <value>23</value>
+    <value>25</value>
   </data>
   <data name="CHK_mavdebug.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left</value>
@@ -523,13 +523,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CHK_mavdebug.ZOrder" xml:space="preserve">
-    <value>24</value>
+    <value>26</value>
   </data>
   <data name="label107.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="label107.Location" type="System.Drawing.Point, System.Drawing">
-    <value>439, 246</value>
+    <value>439, 239</value>
   </data>
   <data name="label107.Size" type="System.Drawing.Size, System.Drawing">
     <value>22, 13</value>
@@ -550,7 +550,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label107.ZOrder" xml:space="preserve">
-    <value>25</value>
+    <value>27</value>
   </data>
   <data name="CMB_raterc.Items" xml:space="preserve">
     <value>0</value>
@@ -586,7 +586,7 @@
     <value>10</value>
   </data>
   <data name="CMB_raterc.Location" type="System.Drawing.Point, System.Drawing">
-    <value>470, 242</value>
+    <value>470, 235</value>
   </data>
   <data name="CMB_raterc.Size" type="System.Drawing.Size, System.Drawing">
     <value>40, 21</value>
@@ -604,13 +604,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CMB_raterc.ZOrder" xml:space="preserve">
-    <value>26</value>
+    <value>28</value>
   </data>
   <data name="label104.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="label104.Location" type="System.Drawing.Point, System.Drawing">
-    <value>319, 246</value>
+    <value>319, 239</value>
   </data>
   <data name="label104.Size" type="System.Drawing.Size, System.Drawing">
     <value>69, 13</value>
@@ -631,13 +631,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label104.ZOrder" xml:space="preserve">
-    <value>27</value>
+    <value>29</value>
   </data>
   <data name="label103.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="label103.Location" type="System.Drawing.Point, System.Drawing">
-    <value>219, 246</value>
+    <value>219, 239</value>
   </data>
   <data name="label103.Size" type="System.Drawing.Size, System.Drawing">
     <value>44, 13</value>
@@ -658,13 +658,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label103.ZOrder" xml:space="preserve">
-    <value>28</value>
+    <value>30</value>
   </data>
   <data name="label102.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="label102.Location" type="System.Drawing.Point, System.Drawing">
-    <value>121, 246</value>
+    <value>121, 239</value>
   </data>
   <data name="label102.Size" type="System.Drawing.Size, System.Drawing">
     <value>43, 13</value>
@@ -685,13 +685,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label102.ZOrder" xml:space="preserve">
-    <value>29</value>
+    <value>31</value>
   </data>
   <data name="label101.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="label101.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 246</value>
+    <value>12, 239</value>
   </data>
   <data name="label101.Size" type="System.Drawing.Size, System.Drawing">
     <value>84, 13</value>
@@ -712,7 +712,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label101.ZOrder" xml:space="preserve">
-    <value>30</value>
+    <value>32</value>
   </data>
   <data name="CMB_ratestatus.Items" xml:space="preserve">
     <value>0</value>
@@ -748,7 +748,7 @@
     <value>10</value>
   </data>
   <data name="CMB_ratestatus.Location" type="System.Drawing.Point, System.Drawing">
-    <value>393, 242</value>
+    <value>393, 235</value>
   </data>
   <data name="CMB_ratestatus.Size" type="System.Drawing.Size, System.Drawing">
     <value>40, 21</value>
@@ -766,7 +766,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CMB_ratestatus.ZOrder" xml:space="preserve">
-    <value>31</value>
+    <value>33</value>
   </data>
   <data name="CMB_rateposition.Items" xml:space="preserve">
     <value>0</value>
@@ -802,7 +802,7 @@
     <value>10</value>
   </data>
   <data name="CMB_rateposition.Location" type="System.Drawing.Point, System.Drawing">
-    <value>273, 242</value>
+    <value>273, 235</value>
   </data>
   <data name="CMB_rateposition.Size" type="System.Drawing.Size, System.Drawing">
     <value>40, 21</value>
@@ -820,7 +820,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CMB_rateposition.ZOrder" xml:space="preserve">
-    <value>32</value>
+    <value>34</value>
   </data>
   <data name="CMB_rateattitude.Items" xml:space="preserve">
     <value>0</value>
@@ -856,7 +856,7 @@
     <value>10</value>
   </data>
   <data name="CMB_rateattitude.Location" type="System.Drawing.Point, System.Drawing">
-    <value>173, 242</value>
+    <value>173, 235</value>
   </data>
   <data name="CMB_rateattitude.Size" type="System.Drawing.Size, System.Drawing">
     <value>40, 21</value>
@@ -874,13 +874,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CMB_rateattitude.ZOrder" xml:space="preserve">
-    <value>33</value>
+    <value>35</value>
   </data>
   <data name="label99.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="label99.Location" type="System.Drawing.Point, System.Drawing">
-    <value>268, 211</value>
+    <value>268, 204</value>
   </data>
   <data name="label99.Size" type="System.Drawing.Size, System.Drawing">
     <value>402, 13</value>
@@ -902,13 +902,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label99.ZOrder" xml:space="preserve">
-    <value>34</value>
+    <value>36</value>
   </data>
   <data name="label98.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="label98.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 219</value>
+    <value>15, 212</value>
   </data>
   <data name="label98.Size" type="System.Drawing.Size, System.Drawing">
     <value>65, 13</value>
@@ -929,13 +929,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label98.ZOrder" xml:space="preserve">
-    <value>35</value>
+    <value>37</value>
   </data>
   <data name="label97.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="label97.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 191</value>
+    <value>15, 184</value>
   </data>
   <data name="label97.Size" type="System.Drawing.Size, System.Drawing">
     <value>52, 13</value>
@@ -956,10 +956,10 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label97.ZOrder" xml:space="preserve">
-    <value>36</value>
+    <value>38</value>
   </data>
   <data name="CMB_speedunits.Location" type="System.Drawing.Point, System.Drawing">
-    <value>124, 216</value>
+    <value>124, 209</value>
   </data>
   <data name="CMB_speedunits.Size" type="System.Drawing.Size, System.Drawing">
     <value>138, 21</value>
@@ -977,10 +977,10 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CMB_speedunits.ZOrder" xml:space="preserve">
-    <value>37</value>
+    <value>39</value>
   </data>
   <data name="CMB_distunits.Location" type="System.Drawing.Point, System.Drawing">
-    <value>124, 189</value>
+    <value>124, 182</value>
   </data>
   <data name="CMB_distunits.Size" type="System.Drawing.Size, System.Drawing">
     <value>138, 21</value>
@@ -998,13 +998,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CMB_distunits.ZOrder" xml:space="preserve">
-    <value>38</value>
+    <value>40</value>
   </data>
   <data name="label96.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="label96.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 164</value>
+    <value>15, 157</value>
   </data>
   <data name="label96.Size" type="System.Drawing.Size, System.Drawing">
     <value>45, 13</value>
@@ -1025,13 +1025,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label96.ZOrder" xml:space="preserve">
-    <value>39</value>
+    <value>41</value>
   </data>
   <data name="label95.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="label95.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 113</value>
+    <value>15, 106</value>
   </data>
   <data name="label95.Size" type="System.Drawing.Size, System.Drawing">
     <value>44, 13</value>
@@ -1052,7 +1052,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label95.ZOrder" xml:space="preserve">
-    <value>40</value>
+    <value>42</value>
   </data>
   <data name="CHK_speechbattery.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1061,7 +1061,7 @@
     <value>NoControl</value>
   </data>
   <data name="CHK_speechbattery.Location" type="System.Drawing.Point, System.Drawing">
-    <value>447, 109</value>
+    <value>447, 102</value>
   </data>
   <data name="CHK_speechbattery.Size" type="System.Drawing.Size, System.Drawing">
     <value>102, 17</value>
@@ -1085,7 +1085,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CHK_speechbattery.ZOrder" xml:space="preserve">
-    <value>41</value>
+    <value>43</value>
   </data>
   <data name="CHK_speechcustom.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1094,7 +1094,7 @@
     <value>NoControl</value>
   </data>
   <data name="CHK_speechcustom.Location" type="System.Drawing.Point, System.Drawing">
-    <value>363, 109</value>
+    <value>363, 102</value>
   </data>
   <data name="CHK_speechcustom.Size" type="System.Drawing.Size, System.Drawing">
     <value>81, 17</value>
@@ -1118,7 +1118,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CHK_speechcustom.ZOrder" xml:space="preserve">
-    <value>42</value>
+    <value>44</value>
   </data>
   <data name="CHK_speechmode.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1127,7 +1127,7 @@
     <value>NoControl</value>
   </data>
   <data name="CHK_speechmode.Location" type="System.Drawing.Point, System.Drawing">
-    <value>306, 109</value>
+    <value>306, 102</value>
   </data>
   <data name="CHK_speechmode.Size" type="System.Drawing.Size, System.Drawing">
     <value>56, 17</value>
@@ -1151,7 +1151,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CHK_speechmode.ZOrder" xml:space="preserve">
-    <value>43</value>
+    <value>45</value>
   </data>
   <data name="CHK_speechwaypoint.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1160,7 +1160,7 @@
     <value>NoControl</value>
   </data>
   <data name="CHK_speechwaypoint.Location" type="System.Drawing.Point, System.Drawing">
-    <value>229, 109</value>
+    <value>229, 102</value>
   </data>
   <data name="CHK_speechwaypoint.Size" type="System.Drawing.Size, System.Drawing">
     <value>71, 17</value>
@@ -1184,13 +1184,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CHK_speechwaypoint.ZOrder" xml:space="preserve">
-    <value>44</value>
+    <value>46</value>
   </data>
   <data name="label94.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="label94.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 85</value>
+    <value>15, 78</value>
   </data>
   <data name="label94.Size" type="System.Drawing.Size, System.Drawing">
     <value>57, 13</value>
@@ -1211,10 +1211,10 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label94.ZOrder" xml:space="preserve">
-    <value>45</value>
+    <value>47</value>
   </data>
   <data name="CMB_osdcolor.Location" type="System.Drawing.Point, System.Drawing">
-    <value>124, 82</value>
+    <value>124, 75</value>
   </data>
   <data name="CMB_osdcolor.Size" type="System.Drawing.Size, System.Drawing">
     <value>138, 21</value>
@@ -1232,10 +1232,10 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CMB_osdcolor.ZOrder" xml:space="preserve">
-    <value>46</value>
+    <value>48</value>
   </data>
   <data name="CMB_language.Location" type="System.Drawing.Point, System.Drawing">
-    <value>124, 133</value>
+    <value>124, 126</value>
   </data>
   <data name="CMB_language.Size" type="System.Drawing.Size, System.Drawing">
     <value>138, 21</value>
@@ -1253,13 +1253,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CMB_language.ZOrder" xml:space="preserve">
-    <value>47</value>
+    <value>49</value>
   </data>
   <data name="label93.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="label93.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 137</value>
+    <value>15, 130</value>
   </data>
   <data name="label93.Size" type="System.Drawing.Size, System.Drawing">
     <value>69, 13</value>
@@ -1280,7 +1280,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label93.ZOrder" xml:space="preserve">
-    <value>48</value>
+    <value>50</value>
   </data>
   <data name="CHK_enablespeech.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1289,7 +1289,7 @@
     <value>NoControl</value>
   </data>
   <data name="CHK_enablespeech.Location" type="System.Drawing.Point, System.Drawing">
-    <value>124, 109</value>
+    <value>124, 102</value>
   </data>
   <data name="CHK_enablespeech.Size" type="System.Drawing.Size, System.Drawing">
     <value>99, 17</value>
@@ -1310,13 +1310,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CHK_enablespeech.ZOrder" xml:space="preserve">
-    <value>49</value>
+    <value>51</value>
   </data>
   <data name="CHK_hudshow.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="CHK_hudshow.Location" type="System.Drawing.Point, System.Drawing">
-    <value>537, 17</value>
+    <value>537, 10</value>
   </data>
   <data name="CHK_hudshow.Size" type="System.Drawing.Size, System.Drawing">
     <value>125, 17</value>
@@ -1337,13 +1337,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CHK_hudshow.ZOrder" xml:space="preserve">
-    <value>50</value>
+    <value>52</value>
   </data>
   <data name="label92.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="label92.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 18</value>
+    <value>15, 11</value>
   </data>
   <data name="label92.Size" type="System.Drawing.Size, System.Drawing">
     <value>100, 23</value>
@@ -1364,10 +1364,10 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label92.ZOrder" xml:space="preserve">
-    <value>51</value>
+    <value>53</value>
   </data>
   <data name="CMB_videosources.Location" type="System.Drawing.Point, System.Drawing">
-    <value>124, 15</value>
+    <value>124, 8</value>
   </data>
   <data name="CMB_videosources.Size" type="System.Drawing.Size, System.Drawing">
     <value>245, 21</value>
@@ -1385,13 +1385,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CMB_videosources.ZOrder" xml:space="preserve">
-    <value>52</value>
+    <value>54</value>
   </data>
   <data name="label1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 365</value>
+    <value>15, 358</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
     <value>81, 17</value>
@@ -1412,13 +1412,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>11</value>
   </data>
   <data name="CHK_maprotation.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="CHK_maprotation.Location" type="System.Drawing.Point, System.Drawing">
-    <value>124, 365</value>
+    <value>124, 358</value>
   </data>
   <data name="CHK_maprotation.Size" type="System.Drawing.Size, System.Drawing">
     <value>205, 17</value>
@@ -1439,13 +1439,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CHK_maprotation.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>12</value>
   </data>
   <data name="label2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>360, 293</value>
+    <value>360, 286</value>
   </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
     <value>81, 17</value>
@@ -1466,13 +1466,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>9</value>
   </data>
   <data name="CHK_disttohomeflightdata.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="CHK_disttohomeflightdata.Location" type="System.Drawing.Point, System.Drawing">
-    <value>447, 293</value>
+    <value>447, 286</value>
   </data>
   <data name="CHK_disttohomeflightdata.Size" type="System.Drawing.Size, System.Drawing">
     <value>129, 17</value>
@@ -1493,13 +1493,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CHK_disttohomeflightdata.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>10</value>
   </data>
   <data name="BUT_Joystick.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="BUT_Joystick.Location" type="System.Drawing.Point, System.Drawing">
-    <value>124, 160</value>
+    <value>124, 153</value>
   </data>
   <data name="BUT_Joystick.Size" type="System.Drawing.Size, System.Drawing">
     <value>99, 23</value>
@@ -1514,19 +1514,19 @@
     <value>BUT_Joystick</value>
   </data>
   <data name="&gt;&gt;BUT_Joystick.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.MyButton, ArdupilotMegaPlanner10, Version=1.1.4915.19344, Culture=neutral, PublicKeyToken=null</value>
+    <value>ArdupilotMega.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_Joystick.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BUT_Joystick.ZOrder" xml:space="preserve">
-    <value>53</value>
+    <value>55</value>
   </data>
   <data name="BUT_videostop.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="BUT_videostop.Location" type="System.Drawing.Point, System.Drawing">
-    <value>456, 13</value>
+    <value>456, 6</value>
   </data>
   <data name="BUT_videostop.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
@@ -1541,19 +1541,19 @@
     <value>BUT_videostop</value>
   </data>
   <data name="&gt;&gt;BUT_videostop.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.MyButton, ArdupilotMegaPlanner10, Version=1.1.4915.19344, Culture=neutral, PublicKeyToken=null</value>
+    <value>ArdupilotMega.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_videostop.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BUT_videostop.ZOrder" xml:space="preserve">
-    <value>54</value>
+    <value>56</value>
   </data>
   <data name="BUT_videostart.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="BUT_videostart.Location" type="System.Drawing.Point, System.Drawing">
-    <value>375, 13</value>
+    <value>375, 6</value>
   </data>
   <data name="BUT_videostart.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
@@ -1568,19 +1568,19 @@
     <value>BUT_videostart</value>
   </data>
   <data name="&gt;&gt;BUT_videostart.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.MyButton, ArdupilotMegaPlanner10, Version=1.1.4915.19344, Culture=neutral, PublicKeyToken=null</value>
+    <value>ArdupilotMega.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_videostart.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BUT_videostart.ZOrder" xml:space="preserve">
-    <value>55</value>
+    <value>57</value>
   </data>
   <data name="label3.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 388</value>
+    <value>15, 381</value>
   </data>
   <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
     <value>81, 17</value>
@@ -1601,10 +1601,10 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>8</value>
   </data>
   <data name="txt_log_dir.Location" type="System.Drawing.Point, System.Drawing">
-    <value>124, 387</value>
+    <value>124, 380</value>
   </data>
   <data name="txt_log_dir.Size" type="System.Drawing.Size, System.Drawing">
     <value>386, 20</value>
@@ -1622,13 +1622,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;txt_log_dir.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>7</value>
   </data>
   <data name="BUT_logdirbrowse.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="BUT_logdirbrowse.Location" type="System.Drawing.Point, System.Drawing">
-    <value>516, 385</value>
+    <value>516, 378</value>
   </data>
   <data name="BUT_logdirbrowse.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
@@ -1643,19 +1643,19 @@
     <value>BUT_logdirbrowse</value>
   </data>
   <data name="&gt;&gt;BUT_logdirbrowse.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.MyButton, ArdupilotMegaPlanner10, Version=1.1.4915.19344, Culture=neutral, PublicKeyToken=null</value>
+    <value>ArdupilotMega.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_logdirbrowse.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BUT_logdirbrowse.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>6</value>
   </data>
   <data name="label4.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 416</value>
+    <value>15, 409</value>
   </data>
   <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
     <value>81, 17</value>
@@ -1676,10 +1676,10 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>5</value>
   </data>
   <data name="CMB_theme.Location" type="System.Drawing.Point, System.Drawing">
-    <value>124, 413</value>
+    <value>124, 406</value>
   </data>
   <data name="CMB_theme.Size" type="System.Drawing.Size, System.Drawing">
     <value>138, 21</value>
@@ -1697,10 +1697,10 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CMB_theme.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>4</value>
   </data>
   <data name="BUT_themecustom.Location" type="System.Drawing.Point, System.Drawing">
-    <value>269, 413</value>
+    <value>269, 406</value>
   </data>
   <data name="BUT_themecustom.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 20</value>
@@ -1715,13 +1715,13 @@
     <value>BUT_themecustom</value>
   </data>
   <data name="&gt;&gt;BUT_themecustom.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.MyButton, ArdupilotMegaPlanner10, Version=1.1.4915.19344, Culture=neutral, PublicKeyToken=null</value>
+    <value>ArdupilotMega.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_themecustom.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BUT_themecustom.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>3</value>
   </data>
   <data name="CHK_speecharmdisarm.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1730,7 +1730,7 @@
     <value>NoControl</value>
   </data>
   <data name="CHK_speecharmdisarm.Location" type="System.Drawing.Point, System.Drawing">
-    <value>630, 109</value>
+    <value>630, 102</value>
   </data>
   <data name="CHK_speecharmdisarm.Size" type="System.Drawing.Size, System.Drawing">
     <value>81, 17</value>
@@ -1754,6 +1754,60 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CHK_speecharmdisarm.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="BUT_Vario.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="BUT_Vario.Location" type="System.Drawing.Point, System.Drawing">
+    <value>124, 433</value>
+  </data>
+  <data name="BUT_Vario.Size" type="System.Drawing.Size, System.Drawing">
+    <value>99, 20</value>
+  </data>
+  <data name="BUT_Vario.TabIndex" type="System.Int32, mscorlib">
+    <value>100</value>
+  </data>
+  <data name="BUT_Vario.Text" xml:space="preserve">
+    <value>Start/Stop Vario</value>
+  </data>
+  <data name="&gt;&gt;BUT_Vario.Name" xml:space="preserve">
+    <value>BUT_Vario</value>
+  </data>
+  <data name="&gt;&gt;BUT_Vario.Type" xml:space="preserve">
+    <value>ArdupilotMega.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;BUT_Vario.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;BUT_Vario.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="label5.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
+    <value>15, 433</value>
+  </data>
+  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>81, 17</value>
+  </data>
+  <data name="label5.TabIndex" type="System.Int32, mscorlib">
+    <value>101</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>Vario</value>
+  </data>
+  <data name="&gt;&gt;label5.Name" xml:space="preserve">
+    <value>label5</value>
+  </data>
+  <data name="&gt;&gt;label5.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label5.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">

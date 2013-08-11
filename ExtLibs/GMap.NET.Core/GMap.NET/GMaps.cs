@@ -167,7 +167,8 @@ namespace GMap.NET
       /// </summary>
       public double EarthRadiusKm = 6378.137; // WGS-84
 
-      public string CustomWMSURL = "";
+      public string CustomWMSURL = "";//!< WMS Server base url 
+      public string szWmsLayer = ""; //!< User-selectable layer. 
 
       /// <summary>
       /// pure image cache provider, by default: ultra fast SQLite!
@@ -1715,7 +1716,18 @@ namespace GMap.NET
                     throw new Exception("No WMS URL defined");
                 }
 
-                var ret = string.Format(CultureInfo.InvariantCulture, CustomWMSURL +"?VERSION=1.1.1&REQUEST=GetMap&SERVICE=WMS&styles=&bbox={0},{1},{2},{3}&width={4}&height={5}&srs=EPSG:4326&format=image/png", p1.Lng, p1.Lat, p2.Lng, p2.Lat, ProjectionForWMS.TileSize.Width, ProjectionForWMS.TileSize.Height);
+                string ret;
+
+                //if there is a layer, use it  
+                if (szWmsLayer != "")
+                {
+                    ret = string.Format(CultureInfo.InvariantCulture, CustomWMSURL + "?VERSION=1.1.1&REQUEST=GetMap&SERVICE=WMS&layers=" + szWmsLayer + "&styles=&bbox={0},{1},{2},{3}&width={4}&height={5}&srs=EPSG:4326&format=image/png", p1.Lng, p1.Lat, p2.Lng, p2.Lat, ProjectionForWMS.TileSize.Width, ProjectionForWMS.TileSize.Height);
+                }
+                else
+                {
+                    ret = string.Format(CultureInfo.InvariantCulture, CustomWMSURL + "?VERSION=1.1.1&REQUEST=GetMap&SERVICE=WMS&styles=&bbox={0},{1},{2},{3}&width={4}&height={5}&srs=EPSG:4326&format=image/png", p1.Lng, p1.Lat, p2.Lng, p2.Lat, ProjectionForWMS.TileSize.Width, ProjectionForWMS.TileSize.Height);
+                }
+
 
                 return ret;
             }

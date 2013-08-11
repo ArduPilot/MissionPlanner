@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace System.Windows.Forms
 {
@@ -39,6 +40,18 @@ namespace System.Windows.Forms
             if (caption == null)
                 caption = "";
 
+            string link = "";
+            string linktext = "";
+
+           
+            Regex linkregex = new Regex(@"(\[link;([^\]]+);([^\]]+)\])", RegexOptions.IgnoreCase);
+                Match match = linkregex.Match(text);
+                if (match.Success) {
+                    link = match.Groups[2].Value;
+                    linktext = match.Groups[3].Value;
+                    text = text.Replace(match.Groups[1].Value,"");
+                }
+
             // ensure we are always in a known state
             _state = DialogResult.None;
 
@@ -59,7 +72,7 @@ namespace System.Windows.Forms
                                     MaximizeBox = false,
                                     MinimizeBox = false,
                                     Width = textSize.Width + 50,
-                                    Height = textSize.Height + 100,
+                                    Height = textSize.Height + 120,
                                     TopMost = true,
                                     AutoScaleMode = AutoScaleMode.None
                                 };
@@ -77,6 +90,14 @@ namespace System.Windows.Forms
                                  };
 
             msgBoxFrm.Controls.Add(lblMessage);
+
+            if (link != "" && linktext != "")
+            {
+                var linklbl = new LinkLabel { Left = lblMessage.Left, Top = lblMessage.Bottom, Width = lblMessage.Width, Height = 15, Text = linktext, Tag = link };
+                linklbl.Click += linklbl_Click;
+
+                msgBoxFrm.Controls.Add(linklbl);
+            }
 
             var actualIcon = getMessageBoxIcon(icon);
 
@@ -110,6 +131,11 @@ namespace System.Windows.Forms
             DialogResult answer = _state;
 
             return answer;
+        }
+
+        static void linklbl_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start(((LinkLabel)sender).Tag.ToString());
         }
 
         // from http://stackoverflow.com/questions/2512781/winforms-big-paragraph-tooltip/2512895#2512895

@@ -14,13 +14,6 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
         private const float DisabledOpacity = 0.2F;
         private const float EnabledOpacity = 1.0F;
 
-        public enum Frame
-        {
-            Plus = 0,
-            X = 1,
-            V = 2,
-        }
-
         public ConfigAccelerometerCalibrationPlane()
         {
             InitializeComponent();
@@ -121,6 +114,22 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                 if (!MainV2.comPort.MAV.cs.message.ToLower().Contains("initi"))
                     lbl_Accel_user.Text = MainV2.comPort.MAV.cs.message;
             });
+        }
+
+        private void BUT_level_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Log.Info("Sending level command (mavlink 1.0)");
+                MainV2.comPort.doCommand(MAVLink.MAV_CMD.PREFLIGHT_CALIBRATION, 1, 0, 0, 0, 0, 0, 0);
+
+                BUT_level.Text = "Complete";
+            }
+            catch (Exception ex)
+            {
+                Log.Error("Exception on level", ex);
+                CustomMessageBox.Show("Failed to level : ac2 2.0.37+ is required");
+            }
         }
 
 

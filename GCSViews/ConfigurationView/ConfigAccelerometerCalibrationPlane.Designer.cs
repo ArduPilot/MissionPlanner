@@ -36,6 +36,8 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             this.lbl_Accel_user = new System.Windows.Forms.Label();
             this.BUT_calib_accell = new ArdupilotMega.Controls.MyButton();
             this.lineSeparator2 = new ArdupilotMega.Controls.LineSeparator();
+            this.BUT_level = new ArdupilotMega.Controls.MyButton();
+            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label5
@@ -75,10 +77,28 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             this.lineSeparator2.PrimaryColor = System.Drawing.Color.Black;
             this.lineSeparator2.SecondaryColor = System.Drawing.Color.Gainsboro;
             // 
+            // BUT_level
+            // 
+            this.BUT_level.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
+            this.BUT_level.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
+            resources.ApplyResources(this.BUT_level, "BUT_level");
+            this.BUT_level.Name = "BUT_level";
+            this.BUT_level.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
+            this.BUT_level.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.BUT_level.UseVisualStyleBackColor = true;
+            this.BUT_level.Click += new System.EventHandler(this.BUT_level_Click);
+            // 
+            // label1
+            // 
+            resources.ApplyResources(this.label1, "label1");
+            this.label1.Name = "label1";
+            // 
             // ConfigAccelerometerCalibrationPlane
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.BUT_level);
             this.Controls.Add(this.lbl_Accel_user);
             this.Controls.Add(this.BUT_calib_accell);
             this.Controls.Add(this.lineSeparator2);
@@ -97,5 +117,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
         private LineSeparator lineSeparator2;
         private MyButton BUT_calib_accell;
         private System.Windows.Forms.Label lbl_Accel_user;
+        private MyButton BUT_level;
+        private System.Windows.Forms.Label label1;
     }
 }

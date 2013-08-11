@@ -85,6 +85,8 @@
             this.CMB_theme = new System.Windows.Forms.ComboBox();
             this.BUT_themecustom = new ArdupilotMega.Controls.MyButton();
             this.CHK_speecharmdisarm = new System.Windows.Forms.CheckBox();
+            this.BUT_Vario = new ArdupilotMega.Controls.MyButton();
+            this.label5 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_tracklength)).BeginInit();
             this.SuspendLayout();
             // 
@@ -552,10 +554,28 @@
             this.CHK_speecharmdisarm.UseVisualStyleBackColor = true;
             this.CHK_speecharmdisarm.CheckedChanged += new System.EventHandler(this.CHK_speecharmdisarm_CheckedChanged);
             // 
+            // BUT_Vario
+            // 
+            this.BUT_Vario.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
+            this.BUT_Vario.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
+            resources.ApplyResources(this.BUT_Vario, "BUT_Vario");
+            this.BUT_Vario.Name = "BUT_Vario";
+            this.BUT_Vario.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
+            this.BUT_Vario.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.BUT_Vario.UseVisualStyleBackColor = true;
+            this.BUT_Vario.Click += new System.EventHandler(this.BUT_Vario_Click);
+            // 
+            // label5
+            // 
+            resources.ApplyResources(this.label5, "label5");
+            this.label5.Name = "label5";
+            // 
             // ConfigPlanner
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.BUT_Vario);
             this.Controls.Add(this.CHK_speecharmdisarm);
             this.Controls.Add(this.BUT_themecustom);
             this.Controls.Add(this.CMB_theme);
@@ -678,5 +698,7 @@
         private System.Windows.Forms.ComboBox CMB_theme;
         private Controls.MyButton BUT_themecustom;
         private System.Windows.Forms.CheckBox CHK_speecharmdisarm;
+        private Controls.MyButton BUT_Vario;
+        private System.Windows.Forms.Label label5;
     }
 }

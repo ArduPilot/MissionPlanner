@@ -730,6 +730,9 @@ namespace ArdupilotMega.GCSViews
                         ArdupilotMega.Controls.OpenGLtest.instance.LocationCenter = new PointLatLngAlt(MainV2.comPort.MAV.cs.lat, MainV2.comPort.MAV.cs.lng, MainV2.comPort.MAV.cs.alt, "here");
                     }
 
+                    // update vario info
+                    MissionPlanner.Utilities.Vario.SetValue(MainV2.comPort.MAV.cs.climbrate);
+
                     // udpate tunning tab
                     if (tunning.AddMilliseconds(50) < DateTime.Now && CB_tuning.Checked == true)
                     {

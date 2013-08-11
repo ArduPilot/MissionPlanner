@@ -39,7 +39,7 @@ namespace ArdupilotMega.GCSViews
             BackstageView.BackstageViewPage start;
             if (MainV2.comPort.BaseStream.IsOpen)
             {
-                AddBackstageViewPage(new ArdupilotMega.GCSViews.ConfigFirmware(), "Install Firmware");
+                AddBackstageViewPage(new ArdupilotMega.GCSViews.ConfigurationView.ConfigFirmwareDisabled(), "Install Firmware");
 
                 BackstageView.BackstageViewPage mandatoryhardware = AddBackstageViewPage(new ConfigMandatory(), "Mandatory Hardware", null);
                 BackstageView.BackstageViewPage optionalhardware = AddBackstageViewPage(new ConfigOptional(), "Optional Hardware", null);

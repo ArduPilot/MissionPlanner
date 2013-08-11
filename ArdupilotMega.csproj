@@ -87,7 +87,7 @@
     <ManifestKeyFile>ArdupilotMega_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <GenerateManifests>false</GenerateManifests>
+    <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
     <SignManifests>false</SignManifests>
@@ -246,6 +246,12 @@
     </Compile>
     <Compile Include="Attributes\DisplayTextAttribute.cs" />
     <Compile Include="Attributes\PrivateAttribute.cs" />
+    <Compile Include="CameraPlanner.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CameraPlanner.Designer.cs">
+      <DependentUpon>CameraPlanner.cs</DependentUpon>
+    </Compile>
     <Compile Include="CodeGen.cs" />
     <Compile Include="Comms\CommsSerialScan.cs" />
     <Compile Include="Controls\ConfigPanel.cs">
@@ -344,6 +350,12 @@
     <Compile Include="GCSViews\ConfigurationView\ConfigHWOSD.Designer.cs">
       <DependentUpon>ConfigHWOSD.cs</DependentUpon>
     </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigFirmwareDisabled.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigFirmwareDisabled.Designer.cs">
+      <DependentUpon>ConfigFirmwareDisabled.cs</DependentUpon>
+    </Compile>
     <Compile Include="GCSViews\InitialSetup.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -366,8 +378,99 @@
     </Compile>
     <Compile Include="Utilities\BigInteger.cs" />
     <Compile Include="Utilities\Firmware.cs" />
+    <Compile Include="Utilities\RSA.cs" />
     <Compile Include="Utilities\StringRedirectWriter.cs" />
-  
+    <Compile Include="Utilities\Vario.cs" />
+    <Compile Include="Wizard\1Intro.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Wizard\1Intro.Designer.cs">
+      <DependentUpon>1Intro.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Wizard\2FrameFW.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Wizard\2FrameFW.Designer.cs">
+      <DependentUpon>2FrameFW.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Wizard\3ConnectAP.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Wizard\3ConnectAP.Designer.cs">
+      <DependentUpon>3ConnectAP.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Wizard\4FrameType.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Wizard\4FrameType.Designer.cs">
+      <DependentUpon>4FrameType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Wizard\5AccelCalib.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Wizard\5AccelCalib.Designer.cs">
+      <DependentUpon>5AccelCalib.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Wizard\6CompassCalib.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Wizard\6CompassCalib.Designer.cs">
+      <DependentUpon>6CompassCalib.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Wizard\7BatteryMonitor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Wizard\7BatteryMonitor.Designer.cs">
+      <DependentUpon>7BatteryMonitor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Wizard\8OptionalItemsAC.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Wizard\8OptionalItemsAC.Designer.cs">
+      <DependentUpon>8OptionalItemsAC.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Wizard\8OptionalItemsAP.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Wizard\8OptionalItemsAP.Designer.cs">
+      <DependentUpon>8OptionalItemsAP.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Wizard\9RadioCalibration.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Wizard\9RadioCalibration.Designer.cs">
+      <DependentUpon>9RadioCalibration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Wizard\10FlightModes.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Wizard\10FlightModes.Designer.cs">
+      <DependentUpon>10FlightModes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Wizard\11Verify.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Wizard\11Verify.Designer.cs">
+      <DependentUpon>11Verify.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Wizard\12FailSafe.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Wizard\12FailSafe.Designer.cs">
+      <DependentUpon>12FailSafe.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Wizard\13GeoFence.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Wizard\13GeoFence.Designer.cs">
+      <DependentUpon>13GeoFence.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Wizard\98DontForget.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Wizard\98DontForget.Designer.cs">
+      <DependentUpon>98DontForget.cs</DependentUpon>
+    </Compile>
     <Compile Include="Wizard\IWizard.cs" />
     <Compile Include="Wizard\Wizard.cs">
       <SubType>Form</SubType>
@@ -390,33 +493,20 @@
     </Compile>
     <Compile Include="Utilities\httpserver.cs" />
     <Compile Include="Utilities\S3Uploader.cs" />
-  
-    <None Include="Driver\amd64\ftd2xx.lib">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Driver\amd64\ftdibus.sys">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Driver\amd64\ftser2k.sys">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Driver\ftdibus.cat">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Driver\ftdiport.cat">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Driver\i386\ftd2xx.lib">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Driver\i386\ftdibus.sys">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Driver\i386\ftser2k.sys">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <None Include="Driver\amd64\ftd2xx.lib" />
+    <None Include="Driver\amd64\ftdibus.sys" />
+    <None Include="Driver\amd64\ftser2k.sys" />
+    <None Include="Driver\arduinomega2560.cat" />
+    <None Include="Driver\ftdibus.cat" />
+    <None Include="Driver\ftdiport.cat" />
+    <None Include="Driver\i386\ftd2xx.lib" />
+    <None Include="Driver\i386\ftdibus.sys" />
+    <None Include="Driver\i386\ftser2k.sys" />
     <EmbeddedResource Include="Antenna\Tracker.it-IT.resx">
       <DependentUpon>Tracker.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CameraPlanner.resx">
+      <DependentUpon>CameraPlanner.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ConnectionControl.resx">
       <DependentUpon>ConnectionControl.cs</DependentUpon>
@@ -577,6 +667,9 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWOSD.zh-TW.resx">
       <DependentUpon>ConfigHWOSD.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFirmwareDisabled.resx">
+      <DependentUpon>ConfigFirmwareDisabled.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\InitialSetup.resx">
       <DependentUpon>InitialSetup.cs</DependentUpon>
     </EmbeddedResource>
@@ -586,7 +679,51 @@
     <EmbeddedResource Include="ScriptConsole.resx">
       <DependentUpon>ScriptConsole.cs</DependentUpon>
     </EmbeddedResource>
-  
+    <EmbeddedResource Include="Wizard\1Intro.resx">
+      <DependentUpon>1Intro.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\2FrameFW.resx">
+      <DependentUpon>2FrameFW.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\3ConnectAP.resx">
+      <DependentUpon>3ConnectAP.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\4FrameType.resx">
+      <DependentUpon>4FrameType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\5AccelCalib.resx">
+      <DependentUpon>5AccelCalib.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\6CompassCalib.resx">
+      <DependentUpon>6CompassCalib.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\7BatteryMonitor.resx">
+      <DependentUpon>7BatteryMonitor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\8OptionalItemsAC.resx">
+      <DependentUpon>8OptionalItemsAC.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\8OptionalItemsAP.resx">
+      <DependentUpon>8OptionalItemsAP.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\9RadioCalibration.resx">
+      <DependentUpon>9RadioCalibration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\10FlightModes.resx">
+      <DependentUpon>10FlightModes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\11Verify.resx">
+      <DependentUpon>11Verify.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\12FailSafe.resx">
+      <DependentUpon>12FailSafe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\13GeoFence.resx">
+      <DependentUpon>13GeoFence.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\98DontForget.resx">
+      <DependentUpon>98DontForget.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Wizard\Wizard.resx">
       <DependentUpon>Wizard.cs</DependentUpon>
     </EmbeddedResource>
@@ -596,12 +733,8 @@
     <EmbeddedResource Include="Swarm\Status.resx">
       <DependentUpon>Status.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="Driver\arduino mega 2560.cat">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Driver\px4fmu_2.0.0.3.cat">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <None Include="Driver\px4flow.cat" />
+    <None Include="Driver\px4fmu.cat" />
     <None Include="Driver\signed.cer">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -788,12 +921,6 @@
       <DependentUpon>3DRradio.cs</DependentUpon>
     </Compile>
     <Compile Include="Utilities\AviWriter.cs" />
-    <Compile Include="Camera.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Camera.Designer.cs">
-      <DependentUpon>Camera.cs</DependentUpon>
-    </Compile>
     <Compile Include="Utilities\Capture.cs" />
     <Compile Include="Radio\IHex.cs" />
     <Compile Include="Mavlink\MavlinkCRC.cs" />
@@ -952,15 +1079,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Antenna\Tracker.zh-Hans.resx">
       <DependentUpon>Tracker.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Camera.de-DE.resx">
-      <DependentUpon>Camera.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Camera.fr.resx">
-      <DependentUpon>Camera.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Camera.zh-Hans.resx">
-      <DependentUpon>Camera.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ConfigPanel.resx">
       <DependentUpon>ConfigPanel.cs</DependentUpon>
@@ -1367,9 +1485,6 @@
     <EmbeddedResource Include="Radio\3DRradio.resx">
       <DependentUpon>3DRradio.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Camera.resx">
-      <DependentUpon>Camera.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFirmware.es-ES.resx">
       <DependentUpon>ConfigFirmware.cs</DependentUpon>
     </EmbeddedResource>
@@ -1652,7 +1767,7 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
+      <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -1708,51 +1823,24 @@
     <Content Include="ChangeLog.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Driver\amd64\ftbusui.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Driver\amd64\ftcserco.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Driver\amd64\ftd2xx64.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Driver\amd64\ftlang.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Driver\amd64\ftserui2.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Driver\Arduino MEGA 2560.inf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Driver\amd64\ftbusui.dll" />
+    <Content Include="Driver\amd64\ftcserco.dll" />
+    <Content Include="Driver\amd64\ftd2xx64.dll" />
+    <Content Include="Driver\amd64\ftlang.dll" />
+    <Content Include="Driver\amd64\ftserui2.dll" />
+    <Content Include="Driver\ArduinoMEGA2560.inf" />
     <Content Include="Driver\dpinst.xml" />
     <Content Include="Driver\DPInstx64.exe" />
     <Content Include="Driver\DPInstx86.exe" />
-    <Content Include="Driver\ftdibus.inf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Driver\ftdiport.inf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Driver\i386\ftbusui.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Driver\i386\ftcserco.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Driver\i386\ftd2xx.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Driver\i386\ftlang.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Driver\i386\ftserui2.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Driver\px4fmu_2.0.0.3.inf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Driver\ftdibus.inf" />
+    <Content Include="Driver\ftdiport.inf" />
+    <Content Include="Driver\i386\ftbusui.dll" />
+    <Content Include="Driver\i386\ftcserco.dll" />
+    <Content Include="Driver\i386\ftd2xx.dll" />
+    <Content Include="Driver\i386\ftlang.dll" />
+    <Content Include="Driver\i386\ftserui2.dll" />
+    <Content Include="Driver\px4flow.inf" />
+    <Content Include="Driver\px4fmu.inf" />
     <Content Include="FirmwareHistory.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -1853,10 +1941,26 @@
     </Content>
     <Content Include="Resources\APM_rover-firmware.png" />
     <None Include="Resources\frames-h.png" />
+    <None Include="Resources\dark_connect_icon.png" />
+    <None Include="Resources\dark_disconnect_icon.png" />
+    <None Include="Resources\dark_flightdata_icon.png" />
+    <None Include="Resources\dark_flightplan_icon.png" />
+    <None Include="Resources\dark_help_icon.png" />
+    <None Include="Resources\dark_initialsetup_icon.png" />
+    <None Include="Resources\dark_simulation_icon.png" />
+    <None Include="Resources\dark_terminal_icon.png" />
+    <None Include="Resources\dark_tuningconfig_icon.png" />
     <Content Include="Resources\guagebg.jpg" />
     <None Include="Resources\Hframe.png" />
     <None Include="Resources\Hframelight.png" />
+    <None Include="Resources\light_connect_icon.png" />
+    <None Include="Resources\light_disconnect_icon.png" />
+    <None Include="Resources\light_flightdata_icon.png" />
+    <None Include="Resources\light_flightplan_icon.png" />
+    <None Include="Resources\light_help_icon.png" />
     <None Include="Resources\light_initialsetup_icon.png" />
+    <None Include="Resources\light_simulation_icon.png" />
+    <None Include="Resources\light_terminal_icon.png" />
     <None Include="Resources\light_tuningconfig_icon.png" />
     <Content Include="Resources\MAVCmd.zh-TW.txt" />
     <Content Include="Resources\MAVParam.zh-TW.txt" />

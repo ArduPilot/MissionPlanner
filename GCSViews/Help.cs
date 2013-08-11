@@ -36,5 +36,10 @@ namespace ArdupilotMega.GCSViews
         {
             richTextBox1.Rtf = new ComponentResourceManager(this.GetType()).GetString("help_text");
         }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("http://firmware.diydrones.com/Tools/MissionPlanner/upgrade/ChangeLog.txt");
+        }
     }
 }

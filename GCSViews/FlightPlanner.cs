@@ -28,6 +28,7 @@ using ProjNet.CoordinateSystems.Transformations;
 using ProjNet.CoordinateSystems;
 using ProjNet.Converters;
 using MissionPlanner.Controls;
+using System.Xml.XPath;
 
 namespace ArdupilotMega.GCSViews
 {
@@ -411,6 +412,12 @@ namespace ArdupilotMega.GCSViews
             // do lang stuff here
 
             string file = Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + "mavcmd.xml";
+
+            if (!File.Exists(file)) 
+            {
+                CustomMessageBox.Show("Missing mavcmd.xml file");
+                return cmd;
+            }
 
             using (XmlReader reader = XmlReader.Create(file))
             {
@@ -1980,10 +1987,145 @@ namespace ArdupilotMega.GCSViews
                     url = MainV2.config["WMSserver"].ToString();
                 if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("WMS Server", "Enter the WMS server URL", ref url))
                     return;
+
+                string szCapabilityRequest = url + "?version=1.1.0&Request=GetCapabilities";
+
+                XmlDocument xCapabilityResponse = MakeRequest(szCapabilityRequest);
+                ProcessWmsCapabilitesRequest(xCapabilityResponse);
+
                 MainV2.config["WMSserver"] = url;
                 MainMap.Manager.CustomWMSURL = url;
             }
         }
+
+        /**
+        * This function requests an XML document from a webserver.
+        * @param requestUrl The request url as a string including. Example: http://129.206.228.72/cached/hillshade?Request=GetCapabilities
+        * @return An XML document containing the response.
+        */
+        private XmlDocument MakeRequest(string requestUrl)
+        {
+            try
+            {
+                HttpWebRequest request = WebRequest.Create(requestUrl) as HttpWebRequest;
+                HttpWebResponse response = request.GetResponse() as HttpWebResponse;
+
+
+                XmlDocument xmlDoc = new XmlDocument();
+                xmlDoc.Load(response.GetResponseStream());
+                return (xmlDoc);
+
+
+            }
+            catch (Exception e)
+            {
+
+
+                CustomMessageBox.Show("Failed to make WMS Server request: " + e.Message);
+                return null;
+            }
+        }
+
+
+        /**
+         * This function parses a WMS server capabilites response.
+         */
+        private void ProcessWmsCapabilitesRequest(XmlDocument xCapabilitesResponse)
+        {
+            //Create namespace manager
+            XmlNamespaceManager nsmgr = new XmlNamespaceManager(xCapabilitesResponse.NameTable);
+
+            //check if the response is a valid xml document - if not, the server might still be able to serve us but all the checks below would fail. example: http://tiles.kartat.kapsi.fi/peruskartta
+            //best sign is that there is no node WMT_MS_Capabilities
+            if (xCapabilitesResponse.SelectNodes("//WMT_MS_Capabilities", nsmgr).Count == 0)
+                return;
+
+
+            //first, we have to make sure that the server is able to send us png imagery
+            bool bPngCapable = false;
+            XmlNodeList getMapElements = xCapabilitesResponse.SelectNodes("//GetMap", nsmgr);
+            if (getMapElements.Count != 1)
+                CustomMessageBox.Show("Invalid WMS Server response: Invalid number of GetMap elements.");
+            else
+            {
+                XmlNode getMapNode = getMapElements.Item(0);
+                //search through all format nodes for image/png
+                foreach (XmlNode formatNode in getMapNode.SelectNodes("//Format", nsmgr))
+                {
+                    if (formatNode.InnerText.Contains("image/png"))
+                    {
+                        bPngCapable = true;
+                        break;
+                    }
+                }
+            }
+
+
+            if (!bPngCapable)
+            {
+                CustomMessageBox.Show("Invalid WMS Server response: Server unable to return PNG images.");
+                return;
+            }
+
+
+            //now search through all layer -> srs nodes for EPSG:4326 compatibility
+            bool bEpsgCapable = false;
+            XmlNodeList srsELements = xCapabilitesResponse.SelectNodes("//SRS", nsmgr);
+            foreach (XmlNode srsNode in srsELements)
+            {
+                if (srsNode.InnerText.Contains("EPSG:4326"))
+                {
+                    bEpsgCapable = true;
+                    break;
+                }
+            }
+
+
+            if (!bEpsgCapable)
+            {
+                CustomMessageBox.Show("Invalid WMS Server response: Server unable to return EPSG:4326 / WGS84 compatible images.");
+                return;
+            }
+
+
+            //the server is capable of serving our requests - now check if there is a layer to be selected
+            //format: layer -> layer -> name
+            string szLayerSelection = "";
+            int iSelect = 0;
+            List<string> szListLayerName = new List<string>();
+            XmlNodeList layerELements = xCapabilitesResponse.SelectNodes("//Layer/Layer/Name", nsmgr);
+            foreach (XmlNode nameNode in layerELements)
+            {
+                szLayerSelection += string.Format("{0}: " + nameNode.InnerText + ", ", iSelect); //mixing control and formatting is not optimal...
+                szListLayerName.Add(nameNode.InnerText);
+                iSelect++;
+            }
+
+
+            //only select layer if there is one
+            if (szListLayerName.Count != 0)
+            {
+                //now let the user select a layer
+                string szUserSelection = "";
+                if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("WMS Server", "The following layers were detected: " + szLayerSelection + "please choose one by typing the associated number.", ref szUserSelection))
+                    return;
+                int iUserSelection = 0;
+                try
+                {
+                    iUserSelection = Convert.ToInt32(szUserSelection);
+                }
+                catch
+                {
+                    iUserSelection = 0; //ignore all errors and default to first layer
+                }
+
+
+
+
+                MainMap.Manager.szWmsLayer = szListLayerName[iUserSelection];
+            }
+        }
+
 
         void MainMap_MouseUp(object sender, MouseEventArgs e)
         {
@@ -3675,6 +3817,374 @@ namespace ArdupilotMega.GCSViews
                 drawnpolygon.Points.RemoveAt(drawnpolygon.Points.Count - 1); // unmake a full loop
         }
 
+        private void cameraGrid(CameraPlanner.camerainfo cinf)
+        {
+            polygongridmode = false;
+
+            if (drawnpolygon == null || drawnpolygon.Points.Count == 0)
+            {
+                CustomMessageBox.Show("Right click the map to draw a polygon", "Area", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                return;
+            }
+
+            // ensure points/latlong are current
+            MainMap.Zoom = (int)MainMap.Zoom;
+
+            MainMap.Refresh();
+
+            GMapPolygon area = drawnpolygon;
+            if (area.Points[0] != area.Points[area.Points.Count - 1])
+                area.Points.Add(area.Points[0]); // make a full loop
+            RectLatLng arearect = getPolyMinMax(area);
+            if (area.Distance > 0)
+            {
+
+                PointLatLng topright = new PointLatLng(arearect.LocationTopLeft.Lat, arearect.LocationRightBottom.Lng);
+                PointLatLng bottomleft = new PointLatLng(arearect.LocationRightBottom.Lat, arearect.LocationTopLeft.Lng);
+
+                double diagdist = MainMap.Manager.GetDistance(arearect.LocationTopLeft, arearect.LocationRightBottom) * 1000;
+                double heightdist = MainMap.Manager.GetDistance(arearect.LocationTopLeft, bottomleft) * 1000;
+                double widthdist = MainMap.Manager.GetDistance(arearect.LocationTopLeft, topright) * 1000;
+                int altitude = cinf.flyalt;
+                int angle = cinf.angle;
+                float sx = cinf.sensorwidth;
+                float sy = cinf.sensorheight;
+                float focallength = cinf.focallen;
+                int overlap = cinf.overlap;
+                int sidelap = cinf.sidelap;
+                bool orient = cinf.orient;
+                bool drawinterior = cinf.drawinterior;
+
+                string shutter = "Yes";
+
+                // Lets calculate some stuff!!!
+
+                double alphax = 2 * Math.Atan(sx / (2 * focallength));
+                double alphay = 2 * Math.Atan(sy / (2 * focallength));
+
+                double fpx = 2 * altitude * Math.Tan(alphax / 2);
+                double fpy = 2 * altitude * Math.Tan(alphay / 2);
+
+                double shotlat;
+                double shotlon;
+                double seplat;
+                double seplon;
+
+                switch (orient)
+                {
+                    //Portrait=true, Landscape=false
+                    case true:
+                        shotlat = fpy;
+                        shotlon = fpx;
+                        break;
+                    case false:
+                        shotlat = fpx;
+                        shotlon = fpy;
+                        break;
+                    default:
+                        shotlat = fpy;
+                        shotlon = fpx;
+                        break;
+                }
+
+                switch (drawinterior)
+                {
+                    case true:
+                        seplon = shotlon * (1 - overlap * .01);
+                        break;
+                    case false:
+                        seplon = -1;
+                        break;
+                    default:
+                        seplon = -1;
+                        break;
+                }
+                seplat = shotlat * (1 - sidelap * .01);
+
+                //max_vel = ceil(grid.seplon/max_freq_shutter);
+
+                // switch back to m
+                // double wpevery = double.Parse(wpeverytext) / MainV2.comPort.MAV.cs.multiplierdist;
+                double wpevery = seplon / MainV2.comPort.MAV.cs.multiplierdist;
+                double distance = seplat;
+
+                // get x y components
+                double y1 = Math.Cos(angle * deg2rad); // needs to mod for long scale
+                double x1 = Math.Sin(angle * deg2rad);
+
+
+                // get x y step amount in lat lng from m
+                double latdiff = arearect.HeightLat / ((heightdist / (distance * (x1) / MainV2.comPort.MAV.cs.multiplierdist)));
+                double lngdiff = arearect.WidthLng / ((widthdist / (distance * (y1) / MainV2.comPort.MAV.cs.multiplierdist)));
+
+                double latlngdiff = Math.Sqrt(latdiff * latdiff + lngdiff * lngdiff);
+
+                double latlngdiff2 = Math.Sqrt(arearect.HeightLat * arearect.HeightLat + arearect.WidthLng * arearect.WidthLng);
+
+                double fulllatdiff = arearect.HeightLat * x1 * 2;
+                double fulllngdiff = arearect.WidthLng * y1 * 2;
+
+                //int altitude = (int)(double.Parse(alt));
+
+                // draw a grid
+                double x = arearect.LocationMiddle.Lng;
+                double y = arearect.LocationMiddle.Lat;
+
+                newpos(ref y, ref x, angle - 135, diagdist);
+
+                List<linelatlng> grid = new List<linelatlng>();
+
+                int lines = 0;
+
+                y1 = Math.Cos((angle + 90) * deg2rad); // needs to mod for long scale
+                x1 = Math.Sin((angle + 90) * deg2rad);
+
+                // get x y step amount in lat lng from m
+                latdiff = arearect.HeightLat / ((heightdist / (distance * (y1) / MainV2.comPort.MAV.cs.multiplierdist)));
+                lngdiff = arearect.WidthLng / ((widthdist / (distance * (x1) / MainV2.comPort.MAV.cs.multiplierdist)));
+
+                quickadd = true;
+
+                while (lines * distance < diagdist * 1.5) //x < topright.Lat && y < topright.Lng)
+                {
+                    // callMe(y, x, 0);
+                    double nx = x;
+                    double ny = y;
+                    newpos(ref ny, ref nx, angle, diagdist * 1.5);
+
+                    //callMe(ny, nx, 0);
+
+                    linelatlng line = new linelatlng();
+                    line.p1 = new PointLatLng(y, x);
+                    line.p2 = new PointLatLng(ny, nx);
+                    line.basepnt = new PointLatLng(y, x);
+                    grid.Add(line);
+
+                    x += lngdiff;
+                    y += latdiff;
+                    lines++;
+                }
+
+                // callMe(x, y, 0);
+
+                quickadd = false;
+
+                // writeKML();
+
+                // return;
+
+                // find intersections
+                List<linelatlng> remove = new List<linelatlng>();
+
+                int gridno = grid.Count;
+
+                for (int a = 0; a < gridno; a++)
+                {
+                    double noc = double.MaxValue;
+                    double nof = double.MinValue;
+
+                    PointLatLng closestlatlong = PointLatLng.Zero;
+                    PointLatLng farestlatlong = PointLatLng.Zero;
+
+                    List<PointLatLng> matchs = new List<PointLatLng>();
+
+                    int b = -1;
+                    int crosses = 0;
+                    PointLatLng newlatlong = PointLatLng.Zero;
+                    foreach (PointLatLng pnt in area.Points)
+                    {
+                        b++;
+                        if (b == 0)
+                        {
+                            continue;
+                        }
+                        newlatlong = FindLineIntersection(area.Points[b - 1], area.Points[b], grid[a].p1, grid[a].p2);
+                        if (!newlatlong.IsZero)
+                        {
+                            crosses++;
+                            matchs.Add(newlatlong);
+                            if (noc > MainMap.Manager.GetDistance(grid[a].p1, newlatlong))
+                            {
+                                closestlatlong.Lat = newlatlong.Lat;
+                                closestlatlong.Lng = newlatlong.Lng;
+                                noc = MainMap.Manager.GetDistance(grid[a].p1, newlatlong);
+                            }
+                            if (nof < MainMap.Manager.GetDistance(grid[a].p1, newlatlong))
+                            {
+                                farestlatlong.Lat = newlatlong.Lat;
+                                farestlatlong.Lng = newlatlong.Lng;
+                                nof = MainMap.Manager.GetDistance(grid[a].p1, newlatlong);
+                            }
+                        }
+                    }
+                    if (crosses == 0)
+                    {
+                        if (!PointInPolygon(grid[a].p1, area.Points) && !PointInPolygon(grid[a].p2, area.Points))
+                            remove.Add(grid[a]);
+                    }
+                    else if (crosses == 1)
+                    {
+
+                    }
+                    else if (crosses == 2)
+                    {
+                        linelatlng line = grid[a];
+                        line.p1 = closestlatlong;
+                        line.p2 = farestlatlong;
+                        grid[a] = line;
+                    }
+                    else
+                    {
+                        linelatlng line = grid[a];
+                        remove.Add(line);
+                        /*
+                        // set new start point
+                        line.p1 = findClosestPoint(line.basepnt, matchs); ;
+                        matchs.Remove(line.p1);
+
+                        line.p2 = findClosestPoint(line.basepnt, matchs);
+                        matchs.Remove(line.p2);
+
+                        grid[a] = line;
+
+                        callMe(line.basepnt.Lat, line.basepnt.Lng, altitude);
+                        callMe(line.p1.Lat, line.p1.Lng, altitude);
+                        callMe(line.p2.Lat, line.p2.Lng, altitude);
+
+                        continue;
+                        */
+
+                        while (matchs.Count > 1)
+                        {
+                            linelatlng newline = new linelatlng();
+
+                            closestlatlong = findClosestPoint(closestlatlong, matchs);
+                            newline.p1 = closestlatlong;
+                            matchs.Remove(closestlatlong);
+
+                            closestlatlong = findClosestPoint(closestlatlong, matchs);
+                            newline.p2 = closestlatlong;
+                            matchs.Remove(closestlatlong);
+
+                            newline.basepnt = line.basepnt;
+
+                            grid.Add(newline);
+                        }
+                        if (a > 150)
+                            break;
+                    }
+                }
+
+                // return;
+
+                foreach (linelatlng line in remove)
+                {
+                    grid.Remove(line);
+                }
+
+                // int fixme;
+
+                // foreach (PointLatLng pnt in PathFind.FindPath(MainV2.comPort.MAV.cs.HomeLocation.Point(),grid))
+                // {
+                //     callMe(pnt.Lat, pnt.Lng, altitude);
+                // }
+
+                // return;
+
+                quickadd = true;
+
+                linelatlng closest = findClosestLine(MainV2.comPort.MAV.cs.HomeLocation.Point(), grid);
+
+                PointLatLng lastpnt;
+
+                if (MainMap.Manager.GetDistance(closest.p1, MainV2.comPort.MAV.cs.HomeLocation.Point()) < MainMap.Manager.GetDistance(closest.p2, MainV2.comPort.MAV.cs.HomeLocation.Point()))
+                {
+                    lastpnt = closest.p1;
+                }
+                else
+                {
+                    lastpnt = closest.p2;
+                }
+
+                while (grid.Count > 0)
+                {
+                    if (MainMap.Manager.GetDistance(closest.p1, lastpnt) < MainMap.Manager.GetDistance(closest.p2, lastpnt))
+                    {
+                        AddWPToMap(closest.p1.Lat, closest.p1.Lng, altitude);
+
+                        if (wpevery > 0)
+                        {
+                            for (int d = (int)(wpevery - ((MainMap.Manager.GetDistance(closest.basepnt, closest.p1) * 1000) % wpevery));
+                                d < (MainMap.Manager.GetDistance(closest.p1, closest.p2) * 1000);
+                                d += (int)wpevery)
+                            {
+                                double ax = closest.p1.Lat;
+                                double ay = closest.p1.Lng;
+
+                                newpos(ref ax, ref ay, angle, d);
+                                AddWPToMap(ax, ay, altitude);
+
+                                if (shutter.ToLower().StartsWith("y"))
+                                    AddDigicamControlPhoto();
+                            }
+                        }
+
+                        AddWPToMap(closest.p2.Lat, closest.p2.Lng, altitude);
+
+                        lastpnt = closest.p2;
+
+                        grid.Remove(closest);
+                        if (grid.Count == 0)
+                            break;
+                        closest = findClosestLine(closest.p2, grid);
+                    }
+                    else
+                    {
+                        AddWPToMap(closest.p2.Lat, closest.p2.Lng, altitude);
+
+                        if (wpevery > 0)
+                        {
+                            for (int d = (int)((MainMap.Manager.GetDistance(closest.basepnt, closest.p2) * 1000) % wpevery); 
+                                d < (MainMap.Manager.GetDistance(closest.p1, closest.p2) * 1000);
+                                d += (int)wpevery)
+                            {
+                                double ax = closest.p2.Lat;
+                                double ay = closest.p2.Lng;
+
+                                newpos(ref ax, ref ay, angle, -d);
+                                AddWPToMap(ax, ay, altitude);
+
+                                if (shutter.ToLower().StartsWith("y"))
+                                    AddDigicamControlPhoto();
+                            }
+                        }
+
+                        AddWPToMap(closest.p1.Lat, closest.p1.Lng, altitude);
+
+                        lastpnt = closest.p1;
+
+                        grid.Remove(closest);
+                        if (grid.Count == 0)
+                            break;
+                        closest = findClosestLine(closest.p1, grid);
+                    }
+                }
+
+                foreach (linelatlng line in grid)
+                {
+                    //  callMe(line.p1.Lat, line.p1.Lng, 0);
+                    //  callMe(line.p2.Lat, line.p2.Lng, 0);
+                }
+
+                quickadd = false;
+
+                writeKML();
+            }
+
+            // remove full loop if exists
+            if (drawnpolygon.Points.Count > 1 && drawnpolygon.Points[0] == drawnpolygon.Points[drawnpolygon.Points.Count - 1])
+                drawnpolygon.Points.RemoveAt(drawnpolygon.Points.Count - 1); // unmake a full loop
+        }
 
         PointLatLng findClosestPoint(PointLatLng start, List<PointLatLng> list)
         {
@@ -4177,11 +4687,21 @@ namespace ArdupilotMega.GCSViews
             temp.ShowDialog();
         }
 
-        private void cameraToolStripMenuItem_Click(object sender, EventArgs e)
+        private void cameraGridToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Camera form = new Camera();
-            ThemeManager.ApplyThemeTo(form);
-            form.Show();
+            CameraPlanner camform = new CameraPlanner();
+            ThemeManager.ApplyThemeTo(camform);
+            camform.ShowDialog();
+            //ShowDialog() and not Show() because we want all the information to be complete before continuing
+            CameraPlanner.camerainfo cinf = camform.camera;
+            if (cinf.done == true)
+            {
+                cameraGrid(cinf);
+            }
+            else
+            {
+            }
+            
         }
 
         private void rTLToolStripMenuItem_Click(object sender, EventArgs e)
@@ -4219,6 +4739,25 @@ namespace ArdupilotMega.GCSViews
             Commands.Rows[selectedrow].Cells[Command.Index].Value = MAVLink.MAV_CMD.DO_DIGICAM_CONTROL.ToString();
 
             ChangeColumnHeader(MAVLink.MAV_CMD.DO_DIGICAM_CONTROL.ToString());
+
+            writeKML();
+        }
+
+        public void AddCommand(MAVLink.MAV_CMD cmd, float p1, float p2, float p3, float p4,float x, float y, float z)
+        {
+            selectedrow = Commands.Rows.Add();
+
+            Commands.Rows[selectedrow].Cells[Command.Index].Value = cmd.ToString();
+
+            ChangeColumnHeader(cmd.ToString());
+
+            Commands.Rows[selectedrow].Cells[Param1.Index].Value = p1;
+            Commands.Rows[selectedrow].Cells[Param2.Index].Value = p2;
+            Commands.Rows[selectedrow].Cells[Param3.Index].Value = p3;
+            Commands.Rows[selectedrow].Cells[Param4.Index].Value = p4;
+            Commands.Rows[selectedrow].Cells[Lat.Index].Value = y;
+            Commands.Rows[selectedrow].Cells[Lon.Index].Value = x;
+            Commands.Rows[selectedrow].Cells[Alt.Index].Value = z;
 
             writeKML();
         }

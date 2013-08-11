@@ -33,6 +33,23 @@ namespace ArdupilotMega.Wizard
 
             wiz_main = new MainSwitcher(this.panel1);
 
+            wiz_main.AddScreen(new MainSwitcher.Screen("Intro", new _1Intro(), true));
+            wiz_main.AddScreen(new MainSwitcher.Screen("FrameFW", new _2FrameFW(), true));
+            wiz_main.AddScreen(new MainSwitcher.Screen("Connect", new _3ConnectAP(), true));
+            wiz_main.AddScreen(new MainSwitcher.Screen("FrameType", new _4FrameType(), true));
+            wiz_main.AddScreen(new MainSwitcher.Screen("AccelCalib", new _5AccelCalib(), true));
+            wiz_main.AddScreen(new MainSwitcher.Screen("CompassCalib", new _6CompassCalib(), true));
+            wiz_main.AddScreen(new MainSwitcher.Screen("BatteryMonitor", new _7BatteryMonitor(), true));
+            wiz_main.AddScreen(new MainSwitcher.Screen("OptionalAC", new _8OptionalItemsAC(), true));
+            wiz_main.AddScreen(new MainSwitcher.Screen("OptionalAP", new _8OptionalItemsAP(), true));
+            wiz_main.AddScreen(new MainSwitcher.Screen("Radio Calib", new _9RadioCalibration(), true));
+            wiz_main.AddScreen(new MainSwitcher.Screen("Flight Modes",new _10FlightModes(), true));
+            wiz_main.AddScreen(new MainSwitcher.Screen("Verify", new _11Verify(), true));
+            wiz_main.AddScreen(new MainSwitcher.Screen("Failsafe", new _12FailSafe(), true));
+            wiz_main.AddScreen(new MainSwitcher.Screen("GeoFence", new _13GeoFence(), true));
+
+            wiz_main.AddScreen(new MainSwitcher.Screen("DontForget", new _98DontForget(), true));
+
             wiz_main.ShowScreen("Intro");
 
             history.Add(wiz_main.current.Name);

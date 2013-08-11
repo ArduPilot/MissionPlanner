@@ -20,7 +20,7 @@ using System.Windows.Forms;
 
         public DateTime NextRun { get; set; }
 
-        public bool Init() { loopratehz = 1; return true; }
+        public bool Init() { loopratehz = 0.1f; return true; }
 
         public bool Loaded() 
         {
@@ -56,7 +56,7 @@ using System.Windows.Forms;
             return true; 
         }
 
-        public int loopratehz { get; set; }
+        public float loopratehz { get; set; }
 
         public bool Exit() { return true; }
     }

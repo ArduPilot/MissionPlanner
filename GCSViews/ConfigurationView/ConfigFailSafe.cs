@@ -74,11 +74,11 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
         {
             if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2 || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduHeli)
             {
-                Process.Start(new ProcessStartInfo("http://code.google.com/p/arducopter/wiki/AC2_Failsafe"));
+                Process.Start(new ProcessStartInfo("http://copter.ardupilot.com/wiki/failsafe/"));
             }
             else
             {
-                Process.Start(new ProcessStartInfo("http://code.google.com/p/ardupilot-mega/wiki/APM2xFailsafe"));
+                Process.Start(new ProcessStartInfo("http://plane.ardupilot.com/wiki/failsafe/"));
             }
         }
 

@@ -43,7 +43,6 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
             MissionPlanner.Controls.InputBox.ApplyTheme += ArdupilotMega.Utilities.ThemeManager.ApplyThemeTo;
             MissionPlanner.Comms.CommsBase.Settings += CommsBase_Settings;
 
-
             //Application.Idle += Application_Idle;
 
             //MagCalib.ProcessLog();

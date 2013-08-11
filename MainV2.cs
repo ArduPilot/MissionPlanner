@@ -52,7 +52,19 @@ namespace ArdupilotMega
             static public int SW_HIDE = 0;
         }
 
-
+        public class menuicons
+        {
+            public static Image fd = global::MissionPlanner.Properties.Resources.light_flightdata_icon;
+            public static Image fp = global::MissionPlanner.Properties.Resources.light_flightplan_icon;
+            public static Image initsetup = global::MissionPlanner.Properties.Resources.light_initialsetup_icon;
+            public static Image config_tuning = global::MissionPlanner.Properties.Resources.light_tuningconfig_icon;
+            public static Image sim = global::MissionPlanner.Properties.Resources.light_simulation_icon;
+            public static Image terminal = global::MissionPlanner.Properties.Resources.light_terminal_icon;
+            public static Image help = global::MissionPlanner.Properties.Resources.light_help_icon;
+            public static Image donate = global::MissionPlanner.Properties.Resources.donate;
+            public static Image connect = global::MissionPlanner.Properties.Resources.light_connect_icon;
+            public static Image disconnect = global::MissionPlanner.Properties.Resources.light_disconnect_icon;
+        }
 
         ArdupilotMega.Controls.MainSwitcher MyView;
 
@@ -188,8 +200,6 @@ namespace ArdupilotMega
             instance = this;
 
             InitializeComponent();
-
-            MenuFlightPlanner.Image = new Bitmap(MissionPlanner.Properties.Resources.flightplanner);
 
             MyView = new MainSwitcher(this);
 
@@ -596,7 +606,7 @@ namespace ArdupilotMega
                         MyView.ShowScreen("SWConfig");
                 }
 
-                this.MenuConnect.Image = global::MissionPlanner.Properties.Resources.connect;
+                this.MenuConnect.Image = global::MissionPlanner.Properties.Resources.light_connect_icon;
             }
             else
             {
@@ -732,7 +742,7 @@ namespace ArdupilotMega
                     }
 
                     // set connected icon
-                    this.MenuConnect.Image = global::MissionPlanner.Properties.Resources.disconnect;
+                    this.MenuConnect.Image = menuicons.disconnect;
                 }
                 catch (Exception ex)
                 {
@@ -1049,7 +1059,7 @@ namespace ArdupilotMega
                     {
                         this.BeginInvoke((MethodInvoker)delegate
                         {
-                            this.MenuConnect.Image = global::MissionPlanner.Properties.Resources.disconnect;
+                            this.MenuConnect.Image = menuicons.disconnect;
                             this.MenuConnect.Image.Tag = "Disconnect";
                             this.MenuConnect.Text = "DISCONNECT";
                             _connectionControl.IsConnected(true);
@@ -1062,7 +1072,7 @@ namespace ArdupilotMega
                     {
                         this.BeginInvoke((MethodInvoker)delegate
                         {
-                            this.MenuConnect.Image = global::MissionPlanner.Properties.Resources.connect;
+                            this.MenuConnect.Image = menuicons.connect;
                             this.MenuConnect.Image.Tag = "Connect";
                             this.MenuConnect.Text = "CONNECT";
                             _connectionControl.IsConnected(false);
@@ -1100,7 +1110,7 @@ namespace ArdupilotMega
                     if (DateTime.Now > plugin.NextRun)
                     {
                         // get ms till next run
-                        int msnext = 1000 / plugin.loopratehz;
+                        int msnext = (int)(1000 / plugin.loopratehz);
                         // allow the plug to modify this, if needed
                         plugin.NextRun = DateTime.Now.AddMilliseconds(msnext);
 
@@ -1689,7 +1699,7 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
 
             if (updateFound)
             {
-                var dr = CustomMessageBox.Show("Update Found\n\nDo you wish to update now?", "Update Now", MessageBoxButtons.YesNo);
+                var dr = CustomMessageBox.Show("Update Found\n\nDo you wish to update now? [link;http://firmware.diydrones.com/Tools/MissionPlanner/upgrade/ChangeLog.txt;ChangeLog]", "Update Now", MessageBoxButtons.YesNo);
                 if (dr == DialogResult.Yes)
                 {
                     DoUpdate();

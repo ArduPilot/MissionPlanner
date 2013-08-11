@@ -43,6 +43,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             this.label1 = new System.Windows.Forms.Label();
             this.radioButton_H = new System.Windows.Forms.RadioButton();
             this.pictureBoxH = new ArdupilotMega.Controls.PictureBoxWithPseudoOpacity();
+            this.label4 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPlus)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxV)).BeginInit();
@@ -137,10 +138,16 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             this.pictureBoxH.TabStop = false;
             this.pictureBoxH.Click += new System.EventHandler(this.pictureBoxH_Click);
             // 
+            // label4
+            // 
+            resources.ApplyResources(this.label4, "label4");
+            this.label4.Name = "label4";
+            // 
             // ConfigFrameType
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.radioButton_H);
             this.Controls.Add(this.pictureBoxH);
@@ -177,5 +184,6 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.RadioButton radioButton_H;
         private PictureBoxWithPseudoOpacity pictureBoxH;
+        private System.Windows.Forms.Label label4;
     }
 }

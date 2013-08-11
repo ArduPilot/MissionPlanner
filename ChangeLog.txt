@@ -1,10 +1,23 @@
-﻿* Mission Planner 1.2.67
-add firmware screen back to initial config
+﻿* Mission Planner 1.2.68
+add vario support.
+add better wms support, as per kogan's mod
+add camera planner - bbasso
+add more plugin interfaces
+add change log to help screen
+add change log to update dialog
+add firmware screen when connected.
+add old accel calib to plane config.
+migrate fw screen to new fw class
+add support for more graphs, 5 to 10
+add custommessagebox link support
+
+* Mission Planner 1.2.67
 fix georegimage bug
 wizard fixs
 new plugintest project
 fix binary log , vs .
 fix kml overlay
+wiki link on fs page
 
 * Mission Planner 1.2.66
 relocate serial/tcp/udp comms to external dll

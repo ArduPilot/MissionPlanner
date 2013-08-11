@@ -688,5 +688,17 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
 
             }
         }
+
+        private void BUT_Vario_Click(object sender, EventArgs e)
+        {
+            if (MissionPlanner.Utilities.Vario.run)
+            {
+                MissionPlanner.Utilities.Vario.Stop();
+            }
+            else
+            {
+                MissionPlanner.Utilities.Vario.Start();
+            }
+        }
     }
 }
