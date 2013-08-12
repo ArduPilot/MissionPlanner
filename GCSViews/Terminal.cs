@@ -34,11 +34,14 @@ namespace ArdupilotMega.GCSViews
             threadrun = false;
 
             InitializeComponent();
+
         }
 
         public void Activate()
         {
             MainV2.instance.MenuConnect.Enabled = false;
+
+            MissionPlanner.Utilities.Tracking.AddPage(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.ToString(), System.Reflection.MethodBase.GetCurrentMethod().Name);
         }
 
         public void Deactivate()

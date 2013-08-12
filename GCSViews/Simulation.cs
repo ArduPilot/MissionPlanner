@@ -21,7 +21,7 @@ using ArdupilotMega.HIL;
 // Written by Michael Oborne
 namespace ArdupilotMega.GCSViews
 {
-    public partial class Simulation : MyUserControl
+    public partial class Simulation : MyUserControl, IActivate
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         MAVLink comPort = MainV2.comPort;
@@ -251,6 +251,11 @@ namespace ArdupilotMega.GCSViews
         public Simulation()
         {
             InitializeComponent();
+        }
+
+        public void Activate()
+        {
+            MissionPlanner.Utilities.Tracking.AddPage(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.ToString(), System.Reflection.MethodBase.GetCurrentMethod().Name);
         }
 
         private void Simulation_Load(object sender, EventArgs e)

@@ -204,6 +204,9 @@
   <data name="&gt;&gt;BUT_updatecheck.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
+  <data name="linkLabel1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom</value>
+  </data>
   <data name="linkLabel1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>

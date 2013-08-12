@@ -1,4 +1,10 @@
-﻿* Mission Planner 1.2.68
+﻿* Mission Planner 1.2.69
+add png support to direct image injection
+add analytics
+fix plane accel calib
+fix help screen
+
+* Mission Planner 1.2.68
 add vario support.
 add better wms support, as per kogan's mod
 add camera planner - bbasso

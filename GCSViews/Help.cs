@@ -6,10 +6,11 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using ArdupilotMega.Controls;
 
 namespace ArdupilotMega.GCSViews
 {
-    public partial class Help : MyUserControl
+    public partial class Help : MyUserControl, IActivate
     {
         public Help()
         {
@@ -20,6 +21,11 @@ namespace ArdupilotMega.GCSViews
                 CHK_showconsole.Checked = MainV2.config["showconsole"].ToString() == "True";
             }
             catch { }
+        }
+
+        public void Activate()
+        {
+            MissionPlanner.Utilities.Tracking.AddPage(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.ToString(), System.Reflection.MethodBase.GetCurrentMethod().Name);
         }
 
         public void BUT_updatecheck_Click(object sender, EventArgs e)
@@ -34,7 +40,7 @@ namespace ArdupilotMega.GCSViews
 
         private void Help_Load(object sender, EventArgs e)
         {
-            richTextBox1.Rtf = new ComponentResourceManager(this.GetType()).GetString("help_text");
+            richTextBox1.Rtf = MissionPlanner.Properties.Resources.help_text;
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

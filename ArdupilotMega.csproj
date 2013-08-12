@@ -377,9 +377,11 @@
       <DependentUpon>ScriptConsole.cs</DependentUpon>
     </Compile>
     <Compile Include="Utilities\BigInteger.cs" />
+    <Compile Include="Utilities\CleanDrivers.cs" />
     <Compile Include="Utilities\Firmware.cs" />
     <Compile Include="Utilities\RSA.cs" />
     <Compile Include="Utilities\StringRedirectWriter.cs" />
+    <Compile Include="Utilities\Tracking.cs" />
     <Compile Include="Utilities\Vario.cs" />
     <Compile Include="Wizard\1Intro.cs">
       <SubType>UserControl</SubType>
@@ -493,15 +495,7 @@
     </Compile>
     <Compile Include="Utilities\httpserver.cs" />
     <Compile Include="Utilities\S3Uploader.cs" />
-    <None Include="Driver\amd64\ftd2xx.lib" />
-    <None Include="Driver\amd64\ftdibus.sys" />
-    <None Include="Driver\amd64\ftser2k.sys" />
     <None Include="Driver\arduinomega2560.cat" />
-    <None Include="Driver\ftdibus.cat" />
-    <None Include="Driver\ftdiport.cat" />
-    <None Include="Driver\i386\ftd2xx.lib" />
-    <None Include="Driver\i386\ftdibus.sys" />
-    <None Include="Driver\i386\ftser2k.sys" />
     <EmbeddedResource Include="Antenna\Tracker.it-IT.resx">
       <DependentUpon>Tracker.cs</DependentUpon>
     </EmbeddedResource>
@@ -1823,22 +1817,10 @@
     <Content Include="ChangeLog.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Driver\amd64\ftbusui.dll" />
-    <Content Include="Driver\amd64\ftcserco.dll" />
-    <Content Include="Driver\amd64\ftd2xx64.dll" />
-    <Content Include="Driver\amd64\ftlang.dll" />
-    <Content Include="Driver\amd64\ftserui2.dll" />
     <Content Include="Driver\ArduinoMEGA2560.inf" />
     <Content Include="Driver\dpinst.xml" />
     <Content Include="Driver\DPInstx64.exe" />
     <Content Include="Driver\DPInstx86.exe" />
-    <Content Include="Driver\ftdibus.inf" />
-    <Content Include="Driver\ftdiport.inf" />
-    <Content Include="Driver\i386\ftbusui.dll" />
-    <Content Include="Driver\i386\ftcserco.dll" />
-    <Content Include="Driver\i386\ftd2xx.dll" />
-    <Content Include="Driver\i386\ftlang.dll" />
-    <Content Include="Driver\i386\ftserui2.dll" />
     <Content Include="Driver\px4flow.inf" />
     <Content Include="Driver\px4fmu.inf" />
     <Content Include="FirmwareHistory.txt">

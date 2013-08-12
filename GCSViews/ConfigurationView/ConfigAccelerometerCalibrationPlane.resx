@@ -172,9 +172,6 @@
     <value>Level your Plane to set default accelerometer offsets (3 axis).
 This will ask you to place your autopilot on each edge.</value>
   </data>
-  <data name="label4.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
   <data name="&gt;&gt;label4.Name" xml:space="preserve">
     <value>label4</value>
   </data>
@@ -283,9 +280,6 @@ This will ask you to place your autopilot on each edge.</value>
   <data name="BUT_level.Text" xml:space="preserve">
     <value>Calibrate Level</value>
   </data>
-  <data name="BUT_level.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
   <data name="&gt;&gt;BUT_level.Name" xml:space="preserve">
     <value>BUT_level</value>
   </data>
@@ -316,9 +310,6 @@ This will ask you to place your autopilot on each edge.</value>
   <data name="label1.Text" xml:space="preserve">
     <value>Level your Plane to set default accelerometer offsets (1 axis).
 This requires you to place your autopilot flat and level.</value>
-  </data>
-  <data name="label1.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
   </data>
   <data name="&gt;&gt;label1.Name" xml:space="preserve">
     <value>label1</value>

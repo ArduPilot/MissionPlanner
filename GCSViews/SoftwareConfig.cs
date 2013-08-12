@@ -11,10 +11,11 @@ using ArdupilotMega.GCSViews.ConfigurationView;
 using ArdupilotMega.Utilities;
 using log4net;
 using System.Reflection;
+using ArdupilotMega.Controls;
 
 namespace ArdupilotMega.GCSViews
 {
-    public partial class SoftwareConfig : MyUserControl
+    public partial class SoftwareConfig : MyUserControl, IActivate
     {
         internal static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -23,6 +24,11 @@ namespace ArdupilotMega.GCSViews
         public SoftwareConfig()
         {
             InitializeComponent();
+  }
+
+        public void Activate()
+        {
+            MissionPlanner.Utilities.Tracking.AddPage(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.ToString(), System.Reflection.MethodBase.GetCurrentMethod().Name);
         }
 
         private BackstageView.BackstageViewPage AddBackstageViewPage(UserControl userControl, string headerText, BackstageView.BackstageViewPage Parent = null)

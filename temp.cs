@@ -816,6 +816,11 @@ namespace ArdupilotMega
             if (fbd.SelectedPath != "") {
 
                 string[] files = Directory.GetFiles(fbd.SelectedPath,"*.jpg",SearchOption.AllDirectories);
+                string[] files1 = Directory.GetFiles(fbd.SelectedPath, "*.png", SearchOption.AllDirectories);
+
+                int origlength = files.Length;
+                Array.Resize(ref files, origlength + files1.Length);
+                Array.Copy(files1, 0, files, origlength, files1.Length);
 
                 foreach (string file in files)
                 {
@@ -845,7 +850,7 @@ namespace ArdupilotMega
 
                     MainMap.Manager.ImageCacheLocal.PutImageToCache(tile, GMap.NET.MapType.Custom, pnt, int.Parse(mat.Groups[1].Value)); 
 
-                    Application.DoEvents();
+                   // Application.DoEvents();
                 }
             }
           

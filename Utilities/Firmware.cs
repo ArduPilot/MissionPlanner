@@ -373,6 +373,8 @@ namespace ArdupilotMega.Utilities
 
             System.Threading.ThreadPool.QueueUserWorkItem(apmtype, temp.name + "!" + board);
 
+            MissionPlanner.Utilities.Tracking.AddFW(temp.name, board);
+
             return UploadFlash(comport, Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + @"firmware.hex", board);
         }
 

@@ -143,12 +143,12 @@ namespace ArdupilotMega
 
         public static MainSwitcher View;
 
-
         /// <summary>
         /// store the time we first connect
         /// </summary>
         DateTime connecttime = DateTime.Now;
         DateTime nodatawarning = DateTime.Now;
+        DateTime OpenTime = DateTime.Now;
 
         /// <summary>
         /// enum of firmwares
@@ -267,8 +267,13 @@ namespace ArdupilotMega
             // set this before we reset it
             MainV2.config["NUM_tracklength"] = "200";
 
+            // create one here - but override on load
+            MainV2.config["guid"] = Guid.NewGuid().ToString();
+
             // load config
             xmlconfig(false);
+
+            MissionPlanner.Utilities.Tracking.cid = new Guid(MainV2.config["guid"].ToString());
 
             if (config.ContainsKey("language") && !string.IsNullOrEmpty((string)config["language"]))
                 changelanguage(CultureInfoEx.GetCultureInfo((string)config["language"]));
@@ -1530,6 +1535,8 @@ namespace ArdupilotMega
                 Plugin.PluginLoader.LoadAll();
             }
             catch (Exception ex) { log.Error(ex); }
+
+            MissionPlanner.Utilities.Tracking.AddPage(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.ToString(), System.Reflection.MethodBase.GetCurrentMethod().Name);
         }
 
    

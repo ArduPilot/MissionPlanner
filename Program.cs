@@ -43,6 +43,9 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
             MissionPlanner.Controls.InputBox.ApplyTheme += ArdupilotMega.Utilities.ThemeManager.ApplyThemeTo;
             MissionPlanner.Comms.CommsBase.Settings += CommsBase_Settings;
 
+
+        //    MissionPlanner.Utilities.CleanDrivers.Clean();
+
             //Application.Idle += Application_Idle;
 
             //MagCalib.ProcessLog();
@@ -236,6 +239,8 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
 
         static void handleException(Exception ex)
         {
+            MissionPlanner.Utilities.Tracking.AddException(ex);
+
             log.Debug(ex.ToString());
 
             if (ex.Message == "Requested registry access is not allowed.")
