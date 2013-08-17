@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace ArdupilotMega.Utilities
 {
-    static class CultureInfoEx
+    public static class CultureInfoEx
     {
         public static CultureInfo GetCultureInfo(string name)
         {
@@ -35,7 +35,7 @@ namespace ArdupilotMega.Utilities
         }
     }
 
-    static class ComponentResourceManagerEx
+    public static class ComponentResourceManagerEx
     {
         public static void ApplyResource(this ComponentResourceManager rm, Control ctrl)
         {

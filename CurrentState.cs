@@ -6,6 +6,7 @@ using System.ComponentModel;
 using ArdupilotMega.Utilities;
 using log4net;
 using ArdupilotMega.Attributes;
+using MissionPlanner.Utilities;
 
 namespace ArdupilotMega
 {
@@ -257,14 +258,17 @@ namespace ArdupilotMega
         public float battery_remaining { get { return _battery_remaining; } set { _battery_remaining = value; if (_battery_remaining < 0 || _battery_remaining > 100) _battery_remaining = 0; } }
         private float _battery_remaining;
         [DisplayText("Bat Current (Amps)")]
-        public float current { get { return _current; } set { _current = value; } }
+        public float current { get { return _current; } set { if (_lastcurrent == DateTime.MinValue) _lastcurrent = datetime; battery_usedmah += (value * 1000) * (float)(datetime - _lastcurrent).TotalHours; _current = value; _lastcurrent = datetime; } }
         private float _current;
+        private DateTime _lastcurrent = DateTime.MinValue;
+        [DisplayText("Bat mah EST (mah)")]
+        public float battery_usedmah { get; set; }
 
         public float HomeAlt { get { return (float)HomeLocation.Alt; } set { } }
-        internal PointLatLngAlt HomeLocation = new PointLatLngAlt();
+        public PointLatLngAlt HomeLocation = new PointLatLngAlt();
 
         PointLatLngAlt _trackerloc = new PointLatLngAlt();
-        internal PointLatLngAlt TrackerLocation { get { if (_trackerloc.Lng != 0) return _trackerloc; return HomeLocation; } set { _trackerloc = value; } }
+        public PointLatLngAlt TrackerLocation { get { if (_trackerloc.Lng != 0) return _trackerloc; return HomeLocation; } set { _trackerloc = value; } }
 
         [DisplayText("Distance to Home (dist)")]
         public float DistToHome
@@ -450,6 +454,11 @@ namespace ArdupilotMega
 
         public CurrentState()
         {
+            ResetInternals();
+        }
+
+        public void ResetInternals()
+        {
             mode = "Unknown";
             _mode = 99999;
             messages = new List<string>();
@@ -460,6 +469,10 @@ namespace ArdupilotMega
             ratesensors = 2;
             raterc = 2;
             datetime = DateTime.MinValue;
+            battery_usedmah = 0;
+            _lastcurrent = DateTime.MinValue;
+            distTraveled = 0;
+           timeInAir = 0;
         }
 
         const float rad2deg = (float)(180 / Math.PI);
@@ -727,7 +740,7 @@ enum gcs_severity {
 
                         packetdropremote = sysstatus.drop_rate_comm;
 
-                        //MAVLink.packets[ArdupilotMega.MAVLink.MAVLINK_MSG_ID_SYS_STATUS] = null;
+                        mavinterface.MAV.packets[ArdupilotMega.MAVLink.MAVLINK_MSG_ID_SYS_STATUS] = null;
                     }
 
                     bytearray = mavinterface.MAV.packets[MAVLink.MAVLINK_MSG_ID_SCALED_PRESSURE];

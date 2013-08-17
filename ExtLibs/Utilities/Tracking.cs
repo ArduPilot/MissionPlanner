@@ -11,7 +11,7 @@ using log4net;
 
 namespace MissionPlanner.Utilities
 {
-    class Tracking
+    public class Tracking
     {
         private static readonly ILog log =
      LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
@@ -22,6 +22,8 @@ namespace MissionPlanner.Utilities
         // cd1 = os
         // cd2 = fw version
         // cd3 = board
+        // cd4 = processors
+        // cd5 = exception detail
 
         enum type
         {
@@ -36,6 +38,8 @@ namespace MissionPlanner.Utilities
             appview      ,
 
         }
+
+        public static bool OptOut = false;
 
         static string version = "1";
         static string tid = "UA-43098846-1";
@@ -102,6 +106,8 @@ namespace MissionPlanner.Utilities
             param.Add(new KeyValuePair<string, string>("exd", ex.Message));
             param.Add(new KeyValuePair<string, string>("exf", "0"));
 
+            param.Add(new KeyValuePair<string, string>("cd5", ex.ToString().Substring(0,140)));
+
             param.Add(new KeyValuePair<string, string>("ul", Application.CurrentCulture.Name));
             param.Add(new KeyValuePair<string, string>("sd", Screen.PrimaryScreen.BitsPerPixel + "-bits"));
             param.Add(new KeyValuePair<string, string>("sr", Screen.PrimaryScreen.Bounds.Width + "x" + Screen.PrimaryScreen.Bounds.Height));
@@ -116,14 +122,15 @@ namespace MissionPlanner.Utilities
             param.Add(new KeyValuePair<string, string>("v", version));
             param.Add(new KeyValuePair<string, string>("tid", tid));
             param.Add(new KeyValuePair<string, string>("cid", cid.ToString()));
-            param.Add(new KeyValuePair<string, string>("t", "appview"));
+            param.Add(new KeyValuePair<string, string>("t", "event"));
             param.Add(new KeyValuePair<string, string>("an", Application.ProductName));
             param.Add(new KeyValuePair<string, string>("av", Application.ProductVersion));
 
-            param.Add(new KeyValuePair<string, string>("dp", "Firmware"));
-            param.Add(new KeyValuePair<string, string>("dt", "Firmware"));
+            param.Add(new KeyValuePair<string, string>("ec", "Firmware Upload"));
+            param.Add(new KeyValuePair<string, string>("ea", board));
+            param.Add(new KeyValuePair<string, string>("el", name));
 
-            param.Add(new KeyValuePair<string, string>("cd2",name));
+            param.Add(new KeyValuePair<string, string>("cd2", name));
             param.Add(new KeyValuePair<string, string>("cd3", board));
 
             param.Add(new KeyValuePair<string, string>("ul", Application.CurrentCulture.Name));
@@ -135,12 +142,15 @@ namespace MissionPlanner.Utilities
 
         static void track(object temp)
         {
+            if (OptOut)
+                return;
+
             try
             {
 
                 var httpWebRequest = (HttpWebRequest)WebRequest.Create(trackingEndpoint);
                 httpWebRequest.ServicePoint.Expect100Continue = false;
-                httpWebRequest.UserAgent = Application.ProductName + " " + Application.ProductVersion;
+                httpWebRequest.UserAgent = Application.ProductName + " " + Application.ProductVersion + " ("+ Environment.OSVersion.VersionString +")";
                 //httpWebRequest.ContentType = "text/plain";
                 httpWebRequest.Method = "POST";
 
@@ -149,7 +159,7 @@ namespace MissionPlanner.Utilities
                 List<KeyValuePair<string, string>> data1 = (List<KeyValuePair<string, string>>)temp;
 
                 data1.Add(new KeyValuePair<string, string>("cd1", Environment.OSVersion.VersionString));
-                data1.Add(new KeyValuePair<string, string>("cm1", Environment.ProcessorCount.ToString()));
+                data1.Add(new KeyValuePair<string, string>("cd4", Environment.ProcessorCount.ToString()));
 
                 foreach (KeyValuePair<string, string> item in data1)
                 {

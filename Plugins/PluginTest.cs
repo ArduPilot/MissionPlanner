@@ -6,23 +6,20 @@ using ArdupilotMega.Plugin;
 using ArdupilotMega;
 using System.Windows.Forms;
 
-    public class PluginTestExample : IPlugin
+    public class PluginTestExample : Plugin
     {
-        public PluginHost Host { get; set; }
-
         string _Name = "Plugin Test"; 
         string _Version = "0.1";
         string _Author = "Michael Oborne";
 
-        public string Name { get { return _Name; } }
-        public string Version { get { return _Version; } }
-        public string Author { get { return _Author; } }
+        public override string Name { get { return _Name; } }
+        public override string Version { get { return _Version; } }
+        public override string Author { get { return _Author; } }
 
-        public DateTime NextRun { get; set; }
 
-        public bool Init() { loopratehz = 0.1f; return true; }
+        public override bool Init() { loopratehz = 0.1f; return true; }
 
-        public bool Loaded() 
+        public override bool Loaded() 
         {
             ToolStripLabel item = new ToolStripLabel("Test Plugin");
             item.Click += item_Click;
@@ -48,7 +45,8 @@ using System.Windows.Forms;
             return true; 
         }
 
-        public bool Loop() { 
+        public override bool Loop()
+        { 
             Console.WriteLine("Plugin Loop - {0}", NextRun);
 
             Console.WriteLine("Currrent Pos {0} {1} {2}", Host.cs.lat, Host.cs.lng, Host.cs.altasl);
@@ -56,8 +54,7 @@ using System.Windows.Forms;
             return true; 
         }
 
-        public float loopratehz { get; set; }
 
-        public bool Exit() { return true; }
+        public override bool Exit() { return true; }
     }
 

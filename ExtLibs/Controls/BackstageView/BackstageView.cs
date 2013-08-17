@@ -420,6 +420,8 @@ namespace ArdupilotMega.Controls.BackstageView
                 return;
             }
 
+            MissionPlanner.Utilities.Tracking.AddPage(associatedPage.Page.GetType().ToString(), associatedPage.LinkText);
+
             this.SuspendLayout();
 
             DrawMenu(associatedPage , false);

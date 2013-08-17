@@ -314,7 +314,7 @@ namespace ArdupilotMega.GCSViews
                     {
                         log.Info("got packet - sending reboot via mavlink");
                         MainV2.comPort.giveComport = true;
-                        MainV2.comPort.doReboot();
+                        MainV2.comPort.doReboot(false);
                         try
                         {
                             comPort.Close();

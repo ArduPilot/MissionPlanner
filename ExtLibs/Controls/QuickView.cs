@@ -32,8 +32,12 @@ namespace ArdupilotMega.Controls
                 string ans = (value).ToString("0.00");
                 if (labelWithPseudoOpacity2.Text == ans) 
                     return;
+                string before = labelWithPseudoOpacity2.Text;
                 labelWithPseudoOpacity2.Text = ans;
-                GetFontSize();
+
+                // only run when needed
+                if (before.Length != ans.Length)
+                    GetFontSize();
             }
         }
 
@@ -83,8 +87,13 @@ namespace ArdupilotMega.Controls
 
         void GetFontSize()
         {
-
             Size extent = TextRenderer.MeasureText(labelWithPseudoOpacity2.Text, this.Font);
+
+            //SizeF extenttest2 = Graphics.FromHwnd(this.Handle).MeasureString(labelWithPseudoOpacity2.Text, this.Font);
+
+            //SizeF extent = Measure.MeasureString(Graphics.FromHwnd(this.Handle), this.Font, labelWithPseudoOpacity2.Text);
+
+           // extent = extenttest;
 
             float hRatio = (labelWithPseudoOpacity2.Height) / (float)(extent.Height);
             float wRatio = this.Width / (float)extent.Width;
@@ -95,13 +104,7 @@ namespace ArdupilotMega.Controls
             if (newSize < 8)
                 newSize = 8;
 
-            if (labelWithPseudoOpacity2.Font.Size == (newSize - 2))
-                return;
-            //return newSize;
-
             labelWithPseudoOpacity2.Font = new Font(labelWithPseudoOpacity2.Font.FontFamily, newSize - 2, labelWithPseudoOpacity2.Font.Style);
-
-            extent = TextRenderer.MeasureText(labelWithPseudoOpacity2.Text, labelWithPseudoOpacity2.Font);
         }
 
         protected override void OnResize(EventArgs e)

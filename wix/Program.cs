@@ -84,7 +84,7 @@ namespace wix
 
             header();
 
-            sw.WriteLine("<Directory Id=\"APMPlanner\" Name=\"APM Planner\">");
+            sw.WriteLine("<Directory Id=\"MissionPlanner\" Name=\"Mission Planner\">");
 
             sw.WriteLine(@"<Component Id=""InstallDirPermissions"" Guid=""{525389D7-EB3C-4d77-A5F6-A285CF99437D}"" KeyPath=""yes""> 
                         <CreateFolder> 
@@ -231,7 +231,7 @@ namespace wix
 
 
             <Directory Id=""ProgramMenuFolder"">
-                <Directory Id=""ApplicationProgramsFolder"" Name=""APM Planner"" />
+                <Directory Id=""ApplicationProgramsFolder"" Name=""Mission Planner"" />
             </Directory>
 
         </Directory>
@@ -253,10 +253,10 @@ namespace wix
 
         <DirectoryRef Id=""ApplicationProgramsFolder"">
             <Component Id=""ApplicationShortcut"" Guid=""{8BC628BA-08A0-43d6-88C8-D4C007AC4607}"">
-                <Shortcut Id=""ApplicationStartMenuShortcut10"" Name=""Mission Planner Mav 1.0"" Description=""Ardupilot Mega Planner"" Target=""[APMPlanner]ArdupilotMegaPlanner10.exe"" WorkingDirectory=""APMPlanner"" />
+                <Shortcut Id=""ApplicationStartMenuShortcut10"" Name=""Mission Planner Mav 1.0"" Description=""Mission Planner"" Target=""[MissionPlanner]ArdupilotMegaPlanner10.exe"" WorkingDirectory=""MissionPlanner"" />
                 <RemoveFolder Id=""ApplicationProgramsFolder"" On=""uninstall"" />
                 <Shortcut Id=""UninstallProduct"" Name=""Uninstall Mission Planner"" Description=""Uninstalls My Application"" Target=""[System64Folder]msiexec.exe"" Arguments=""/x [ProductCode]"" />
-                <RegistryValue Root=""HKCU"" Key=""Software\MichaelOborne\APMPlanner"" Name=""installed"" Type=""integer"" Value=""1"" KeyPath=""yes"" />
+                <RegistryValue Root=""HKCU"" Key=""Software\MichaelOborne\MissionPlanner"" Name=""installed"" Type=""integer"" Value=""1"" KeyPath=""yes"" />
             </Component>
         </DirectoryRef>
 
@@ -278,7 +278,7 @@ data = @"
         </Feature>
         
             <!-- Step 2: Add UI to your installer / Step 4: Trigger the custom action -->
-    <Property Id=""WIXUI_INSTALLDIR"" Value=""APMPlanner"" />
+    <Property Id=""WIXUI_INSTALLDIR"" Value=""MissionPlanner"" />
 
     <UI>
         <UIRef Id=""WixUI_InstallDir"" />
@@ -319,7 +319,8 @@ data = @"
             foreach (string filepath in files)
             {
                 if (filepath.ToLower().EndsWith("release\\config.xml") || filepath.ToLower().Contains("ardupilotplanner.log") ||
-                    filepath.ToLower().Contains("dataflash.bin") || filepath.ToLower().Contains(".etag") || filepath.ToLower().Contains("parametermetadata.xml"))
+                    filepath.ToLower().Contains("dataflash.bin") || filepath.ToLower().Contains(".etag") || filepath.ToLower().Contains("parametermetadata.xml") ||
+                    filepath.ToLower().Contains(".zip") || filepath.ToLower().Contains(".rlog"))
                     continue;
 
                 no++;

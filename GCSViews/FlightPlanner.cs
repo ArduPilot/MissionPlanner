@@ -29,6 +29,7 @@ using ProjNet.CoordinateSystems;
 using ProjNet.Converters;
 using MissionPlanner.Controls;
 using System.Xml.XPath;
+using MissionPlanner.Utilities;
 
 namespace ArdupilotMega.GCSViews
 {
@@ -232,11 +233,11 @@ namespace ArdupilotMega.GCSViews
 
             try
             {
-                double lastdist = MainMap.Manager.GetDistance(polygon.Points[polygon.Points.Count - 1], currentMarker.Position);
+                double lastdist = MainMap.Manager.GetDistance(wppolygon.Points[wppolygon.Points.Count - 1], currentMarker.Position);
 
                 lbl_prevdist.Text = rm.GetString("lbl_prevdist.Text") + ": " + FormatDistance(lastdist, true);
 
-                double homedist = MainMap.Manager.GetDistance(currentMarker.Position, polygon.Points[0]);
+                double homedist = MainMap.Manager.GetDistance(currentMarker.Position, wppolygon.Points[0]);
 
                 lbl_homedist.Text = rm.GetString("lbl_homedist.Text") + ": " + FormatDistance(homedist, true);
             }
@@ -542,8 +543,8 @@ namespace ArdupilotMega.GCSViews
 
             // setup geofence
             List<PointLatLng> polygonPoints = new List<PointLatLng>();
-            gf = new GMapPolygon(polygonPoints, "geofence");
-            gf.Stroke = new Pen(Color.Pink, 5);
+            geofencepolygon = new GMapPolygon(polygonPoints, "geofence");
+            geofencepolygon.Stroke = new Pen(Color.Pink, 5);
 
             //setup drawnpolgon
             List<PointLatLng> polygonPoints2 = new List<PointLatLng>();
@@ -1007,7 +1008,7 @@ namespace ArdupilotMega.GCSViews
 
                 RegeneratePolygon();
 
-                if (polygon != null && polygon.Points.Count > 0)
+                if (wppolygon != null && wppolygon.Points.Count > 0)
                 {
                     double homedist = 0;
 
@@ -1015,11 +1016,11 @@ namespace ArdupilotMega.GCSViews
                     {
                         pointlist.Add(new PointLatLngAlt(double.Parse(TXT_homelat.Text), double.Parse(TXT_homelng.Text), (int)double.Parse(TXT_homealt.Text), "Home"));
 
-                        homedist = MainMap.Manager.GetDistance(polygon.Points[polygon.Points.Count - 1], polygon.Points[0]);
+                        homedist = MainMap.Manager.GetDistance(wppolygon.Points[wppolygon.Points.Count - 1], wppolygon.Points[0]);
 
                         lbl_homedist.Text = rm.GetString("lbl_homedist.Text") + ": " + FormatDistance(homedist, true);
                     }
-                    lbl_distance.Text = rm.GetString("lbl_distance.Text") + ": " + FormatDistance(polygon.Distance + homedist, false);
+                    lbl_distance.Text = rm.GetString("lbl_distance.Text") + ": " + FormatDistance(wppolygon.Distance + homedist, false);
                 }
 
                 setgrad();
@@ -1312,17 +1313,6 @@ namespace ArdupilotMega.GCSViews
 
                 ((Controls.ProgressReporterDialogue)sender).UpdateProgressAndStatus(95, "Setting Params");
 
-                if (CHK_holdalt.Checked)
-                {
-                    port.setParam("ALT_HOLD_RTL", int.Parse(TXT_DefaultAlt.Text) / MainV2.comPort.MAV.cs.multiplierdist * 100);
-                    port.setParam("RTL_ALT", int.Parse(TXT_DefaultAlt.Text) / MainV2.comPort.MAV.cs.multiplierdist * 100);
-                }
-                else
-                {
-                    port.setParam("ALT_HOLD_RTL", -1);
-                    port.setParam("RTL_ALT", 0);
-                }
-
                 // m
                 port.setParam("WP_RADIUS", (byte)int.Parse(TXT_WPRad.Text) / MainV2.comPort.MAV.cs.multiplierdist);
 
@@ -1442,7 +1432,7 @@ namespace ArdupilotMega.GCSViews
                             cellhome = Commands.Rows[0].Cells[Lon.Index] as DataGridViewTextBoxCell;
                             TXT_homelng.Text = (double.Parse(cellhome.Value.ToString())).ToString();
                             cellhome = Commands.Rows[0].Cells[Alt.Index] as DataGridViewTextBoxCell;
-                            TXT_homealt.Text = (double.Parse(cellhome.Value.ToString()) * MainV2.comPort.MAV.cs.multiplierdist).ToString();
+                            TXT_homealt.Text = "0";  //(double.Parse(cellhome.Value.ToString()) * MainV2.comPort.MAV.cs.multiplierdist).ToString();
                         }
                     }
                 }
@@ -1471,28 +1461,6 @@ namespace ArdupilotMega.GCSViews
                 log.Info("Loading wp params");
 
                 Hashtable param = new Hashtable(MainV2.comPort.param);
-
-                string hold_alt = "0";
-
-                if (param["RTL_ALT"] != null)
-                {
-                    hold_alt = ((int)((float)param["RTL_ALT"] * MainV2.comPort.MAV.cs.multiplierdist / 100.0)).ToString();
-                    CHK_holdalt.Checked = Convert.ToBoolean((float)param["RTL_ALT"] > 0);
-                    log.Info("param RTL_ALT " + CHK_holdalt.Checked.ToString());
-                }
-                if (param["ALT_HOLD_RTL"] != null)
-                {
-                    hold_alt = ((int)((float)param["ALT_HOLD_RTL"] * MainV2.comPort.MAV.cs.multiplierdist / 100.0)).ToString();
-                    CHK_holdalt.Checked = Convert.ToBoolean((float)param["ALT_HOLD_RTL"] > 0);
-                    log.Info("param ALT_HOLD_RTL " + CHK_holdalt.Checked.ToString());
-                }
-
-                log.Info("param ALT_HOLD_RTL " + hold_alt);
-
-                if (!hold_alt.Equals("-1") && !hold_alt.Equals("0"))
-                {
-                    TXT_DefaultAlt.Text = hold_alt;
-                }
 
                 if (param["WP_RADIUS"] != null)
                 {
@@ -1884,9 +1852,9 @@ namespace ArdupilotMega.GCSViews
         GMapMarker center = new GMapMarkerCross(new PointLatLng(0.0, 0.0));
 
         // polygons
-        GMapPolygon polygon;
+        GMapPolygon wppolygon;
         GMapPolygon drawnpolygon;
-        GMapPolygon gf;
+        GMapPolygon geofencepolygon;
 
         // layers
         GMapOverlay top;
@@ -2256,12 +2224,12 @@ namespace ArdupilotMega.GCSViews
                         int? pIndex = (int?)CurentRectMarker.Tag;
                         if (pIndex.HasValue)
                         {
-                            if (pIndex < polygon.Points.Count)
+                            if (pIndex < wppolygon.Points.Count)
                             {
-                                polygon.Points[pIndex.Value] = pnew;
+                                wppolygon.Points[pIndex.Value] = pnew;
                                 lock (thisLock)
                                 {
-                                    MainMap.UpdatePolygonLocalPosition(polygon);
+                                    MainMap.UpdatePolygonLocalPosition(wppolygon);
                                 }
                             }
                         }
@@ -2392,27 +2360,27 @@ namespace ArdupilotMega.GCSViews
                 }
             }
 
-            if (polygon == null)
+            if (wppolygon == null)
             {
-                polygon = new GMapPolygon(polygonPoints, "polygon test");
-                polygons.Polygons.Add(polygon);
+                wppolygon = new GMapPolygon(polygonPoints, "polygon test");
+                polygons.Polygons.Add(wppolygon);
             }
             else
             {
-                polygon.Points.Clear();
-                polygon.Points.AddRange(polygonPoints);
+                wppolygon.Points.Clear();
+                wppolygon.Points.AddRange(polygonPoints);
 
-                polygon.Stroke = new Pen(Color.Yellow, 4);
+                wppolygon.Stroke = new Pen(Color.Yellow, 4);
 
                 if (polygons.Polygons.Count == 0)
                 {
-                    polygons.Polygons.Add(polygon);
+                    polygons.Polygons.Add(wppolygon);
                 }
                 else
                 {
                     lock (thisLock)
                     {
-                        MainMap.UpdatePolygonLocalPosition(polygon);
+                        MainMap.UpdatePolygonLocalPosition(wppolygon);
                     }
                 }
             }
@@ -2449,6 +2417,13 @@ namespace ArdupilotMega.GCSViews
             ChangeColumnHeader(((ComboBox)sender).Text);
             try
             {
+                // default takeoff to non 0 alt
+                if (((ComboBox)sender).Text == "TAKEOFF")
+                {
+                    if (Commands.Rows[selectedrow].Cells[Alt.Index].Value == "0")
+                        Commands.Rows[selectedrow].Cells[Alt.Index].Value = TXT_DefaultAlt.Text;
+                }
+
                 for (int i = 0; i < Commands.ColumnCount; i++)
                 {
                     DataGridViewCell tcell = Commands.Rows[selectedrow].Cells[i];
@@ -3098,22 +3073,22 @@ namespace ArdupilotMega.GCSViews
             drawnpolygons.Polygons.Clear();
             drawnpolygons.Markers.Clear();
             geofence.Polygons.Clear();
-            gf.Points.Clear();
+            geofencepolygon.Points.Clear();
 
             // add polygon
-            gf.Points.AddRange(drawnpolygon.Points.ToArray());
+            geofencepolygon.Points.AddRange(drawnpolygon.Points.ToArray());
 
             drawnpolygon.Points.Clear();
 
-            geofence.Polygons.Add(gf);
+            geofence.Polygons.Add(geofencepolygon);
 
             // update flightdata
             FlightData.geofence.Markers.Clear();
             FlightData.geofence.Polygons.Clear();
-            FlightData.geofence.Polygons.Add(new GMapPolygon(gf.Points, "gf fd") { Stroke = gf.Stroke });
+            FlightData.geofence.Polygons.Add(new GMapPolygon(geofencepolygon.Points, "gf fd") { Stroke = geofencepolygon.Stroke });
             FlightData.geofence.Markers.Add(new GMapMarkerGoogleRed(geofence.Markers[0].Position) { ToolTipText = geofence.Markers[0].ToolTipText, ToolTipMode = geofence.Markers[0].ToolTipMode });
 
-            MainMap.UpdatePolygonLocalPosition(gf);
+            MainMap.UpdatePolygonLocalPosition(geofencepolygon);
             MainMap.UpdateMarkerLocalPosition(geofence.Markers[0]);
 
             MainMap.Invalidate();
@@ -3138,29 +3113,29 @@ namespace ArdupilotMega.GCSViews
 
             geofence.Polygons.Clear();
             geofence.Markers.Clear();
-            gf.Points.Clear();
+            geofencepolygon.Points.Clear();
 
 
             for (int a = 0; a < count; a++)
             {
                 PointLatLngAlt plla = MainV2.comPort.getFencePoint(a, ref count);
-                gf.Points.Add(new PointLatLng(plla.Lat, plla.Lng));
+                geofencepolygon.Points.Add(new PointLatLng(plla.Lat, plla.Lng));
             }
 
             // do return location
-            geofence.Markers.Add(new GMapMarkerGoogleRed(new PointLatLng(gf.Points[0].Lat, gf.Points[0].Lng)) { ToolTipMode = MarkerTooltipMode.OnMouseOver, ToolTipText = "GeoFence Return" });
-            gf.Points.RemoveAt(0);
+            geofence.Markers.Add(new GMapMarkerGoogleRed(new PointLatLng(geofencepolygon.Points[0].Lat, geofencepolygon.Points[0].Lng)) { ToolTipMode = MarkerTooltipMode.OnMouseOver, ToolTipText = "GeoFence Return" });
+            geofencepolygon.Points.RemoveAt(0);
 
             // add now - so local points are calced
-            geofence.Polygons.Add(gf);
+            geofence.Polygons.Add(geofencepolygon);
 
             // update flight data
             FlightData.geofence.Markers.Clear();
             FlightData.geofence.Polygons.Clear();
-            FlightData.geofence.Polygons.Add(new GMapPolygon(gf.Points, "gf fd") { Stroke = gf.Stroke });
+            FlightData.geofence.Polygons.Add(new GMapPolygon(geofencepolygon.Points, "gf fd") { Stroke = geofencepolygon.Stroke });
             FlightData.geofence.Markers.Add(new GMapMarkerGoogleRed(geofence.Markers[0].Position) { ToolTipText = geofence.Markers[0].ToolTipText, ToolTipMode = geofence.Markers[0].ToolTipMode });
 
-            MainMap.UpdatePolygonLocalPosition(gf);
+            MainMap.UpdatePolygonLocalPosition(geofencepolygon);
             MainMap.UpdateMarkerLocalPosition(geofence.Markers[0]);
 
             MainMap.Invalidate();
@@ -3284,12 +3259,12 @@ namespace ArdupilotMega.GCSViews
                     }
                     else
                     {
-                        foreach (var pll in gf.Points)
+                        foreach (var pll in geofencepolygon.Points)
                         {
                             sw.WriteLine(pll.Lat + " " + pll.Lng);
                         }
 
-                        PointLatLng pll2 = gf.Points[0];
+                        PointLatLng pll2 = geofencepolygon.Points[0];
 
                         sw.WriteLine(pll2.Lat + " " + pll2.Lng);
                     }
@@ -4881,7 +4856,7 @@ namespace ArdupilotMega.GCSViews
                 {
                     StreamWriter sw = new StreamWriter(sf.OpenFile());
 
-                    sw.WriteLine("#saved by APM Planner " + Application.ProductVersion);
+                    sw.WriteLine("#saved by Mission Planner " + Application.ProductVersion);
 
                     if (drawnpolygon.Points.Count > 0)
                     {

@@ -115,7 +115,11 @@ namespace ArdupilotMega.Utilities
                 {
                     ArdupilotMega.Controls.MyButton but = (MyButton)ctl;
                     but.BGGradTop = ButBG;
-                    but.BGGradBot = Color.FromArgb(ButBG.ToArgb() - 0x333333);
+                    try
+                    {
+                        but.BGGradBot = Color.FromArgb(ButBG.ToArgb() - 0x333333);
+                    }
+                    catch { }
                     but.TextColor = TextColor;
                     but.Outline = ButBorder;
                 }

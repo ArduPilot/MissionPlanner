@@ -11,6 +11,7 @@ using System.Threading;
 using System.Web.Script.Serialization;
 using System.Windows.Forms;
 using log4net;
+using MissionPlanner.Utilities;
 
 namespace ArdupilotMega.Utilities
 {

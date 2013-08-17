@@ -54,6 +54,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Management" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
@@ -70,14 +71,12 @@
       <Link>Linked\ArduinoSTK.cs</Link>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="..\Arduino\ArduinoSTKv2.cs">
+      <Link>Linked\ArduinoSTKv2.cs</Link>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="..\Arduino\IArduinoComms.cs">
       <Link>Linked\IArduinoComms.cs</Link>
-    </Compile>
-    <Compile Include="..\Attributes\DisplayTextAttribute.cs">
-      <Link>Linked\DisplayTextAttribute.cs</Link>
-    </Compile>
-    <Compile Include="..\Attributes\PrivateAttribute.cs">
-      <Link>Linked\PrivateAttribute.cs</Link>
     </Compile>
     <Compile Include="..\Radio\3DRradio.cs">
       <Link>Linked\3DRradio.cs</Link>
@@ -186,6 +185,10 @@
     <ProjectReference Include="..\ExtLibs\Controls\MissionPlanner.Controls.csproj">
       <Project>{c8b88795-6d01-494d-83ad-6944bd4c5023}</Project>
       <Name>MissionPlanner.Controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ExtLibs\Utilities\MissionPlanner.Utilities.csproj">
+      <Project>{1378a66c-38e4-46f5-a05f-dc04ef7d4d16}</Project>
+      <Name>MissionPlanner.Utilities</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

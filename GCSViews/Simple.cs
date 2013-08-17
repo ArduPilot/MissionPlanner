@@ -23,6 +23,7 @@ using ArdupilotMega.Controls.BackstageView;
 using log4net;
 using System.Reflection;
 using MissionPlanner.Controls;
+using MissionPlanner.Utilities;
 
 // written by michael oborne
 namespace ArdupilotMega.GCSViews

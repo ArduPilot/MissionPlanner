@@ -13,7 +13,7 @@ namespace ArdupilotMega.Plugin
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        public static List<IPlugin> Plugins = new List<IPlugin>();
+        public static List<Plugin> Plugins = new List<Plugin>();
 
         public static void Load(String file)
         {
@@ -36,7 +36,7 @@ namespace ArdupilotMega.Plugin
             try
             {
                 Type[] types = asm.GetTypes();
-                Type type = typeof(ArdupilotMega.Plugin.IPlugin);
+                Type type = typeof(ArdupilotMega.Plugin.Plugin);
                 foreach (var t in types)
                     if (type.IsAssignableFrom((Type)t))
                     {
@@ -47,7 +47,7 @@ namespace ArdupilotMega.Plugin
                 if (pluginInfo != null)
                 {
                     Object o = Activator.CreateInstance(pluginInfo);
-                    IPlugin plugin = (IPlugin)o;
+                    Plugin plugin = (Plugin)o;
 
                     plugin.Host = new PluginHost();
 
@@ -72,7 +72,7 @@ namespace ArdupilotMega.Plugin
 
             for (Int32 i = 0; i < Plugins.Count; ++i)
             {
-                IPlugin p = Plugins.ElementAt(i);
+                Plugin p = Plugins.ElementAt(i);
                 try
                 {
                     if (!p.Loaded())

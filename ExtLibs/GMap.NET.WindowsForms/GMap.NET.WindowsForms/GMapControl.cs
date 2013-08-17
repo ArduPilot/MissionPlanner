@@ -1089,7 +1089,7 @@ namespace GMap.NET.WindowsForms
           try
           {
               if (objBitmap == null || objBitmap.Width != this.Width || objBitmap.Height != this.Height)
-                objBitmap = new Bitmap(this.Width, this.Height);
+                  objBitmap = new Bitmap(this.Width, this.Height);
 
               Graphics graphicsObject = Graphics.FromImage(objBitmap);
               graphicsObject.CompositingMode = CompositingMode.SourceOver;

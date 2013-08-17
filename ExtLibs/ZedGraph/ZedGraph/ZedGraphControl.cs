@@ -602,7 +602,7 @@ namespace ZedGraph
 					SetScroll( vScrollBar1, this.GraphPane.YAxis, _yScrollRangeList[0].Min,
 						_yScrollRangeList[0].Max );
 				}
-
+               
 				base.OnPaint( e );
 
 				// Add a try/catch pair since the users of the control can't catch this one

@@ -18,6 +18,7 @@ using ICSharpCode.SharpZipLib.Checksums;
 using ICSharpCode.SharpZipLib.Core;
 using log4net;
 using MissionPlanner.Comms;
+using MissionPlanner.Utilities;
 
 
 namespace ArdupilotMega.Log
@@ -420,9 +421,9 @@ namespace ArdupilotMega.Log
                 {
                     if (flightdata.Count == 0)
                     {
-                        if (int.Parse(items[2]) <= (int)MAVLink.MAV_CMD.LAST) // wps
+                        if (int.Parse(items[3]) <= (int)MAVLink.MAV_CMD.LAST) // wps
                         {
-                            PointLatLngAlt temp = new PointLatLngAlt(double.Parse(items[7], new System.Globalization.CultureInfo("en-US")) / 10000000, double.Parse(items[8], new System.Globalization.CultureInfo("en-US")) / 10000000, double.Parse(items[6], new System.Globalization.CultureInfo("en-US")) / 100, items[1].ToString());
+                            PointLatLngAlt temp = new PointLatLngAlt(double.Parse(items[7], new System.Globalization.CultureInfo("en-US")), double.Parse(items[8], new System.Globalization.CultureInfo("en-US")), double.Parse(items[6], new System.Globalization.CultureInfo("en-US")), items[2].ToString());
                             cmd.Add(temp);
                         }
                     }
@@ -501,8 +502,12 @@ namespace ArdupilotMega.Log
                 if (items[0].Contains("NTUN"))
                 {
                     ntunlast = items;
-                    line = "ATT:" + double.Parse(ctunlast[3], new System.Globalization.CultureInfo("en-US")) * 100 + "," + double.Parse(ctunlast[6], new System.Globalization.CultureInfo("en-US")) * 100 + "," + double.Parse(items[1], new System.Globalization.CultureInfo("en-US")) * 100;
-                    items = line.Split(',', ':');
+                    try
+                    {
+                       // line = "ATT:" + double.Parse(ctunlast[3], new System.Globalization.CultureInfo("en-US")) * 100 + "," + double.Parse(ctunlast[6], new System.Globalization.CultureInfo("en-US")) * 100 + "," + double.Parse(items[1], new System.Globalization.CultureInfo("en-US")) * 100;
+                       // items = line.Split(',', ':');
+                    }
+                    catch { }
                 }
                 if (items[0].Contains("ATT"))
                 {
@@ -526,9 +531,9 @@ namespace ArdupilotMega.Log
 
                             oldlastpos = lastpos;
 
-                            runmodel.Orientation.roll = double.Parse(items[1], new System.Globalization.CultureInfo("en-US")) / -100;
-                            runmodel.Orientation.tilt = double.Parse(items[2], new System.Globalization.CultureInfo("en-US")) / -100;
-                            runmodel.Orientation.heading = double.Parse(items[3], new System.Globalization.CultureInfo("en-US")) / 100;
+                            runmodel.Orientation.roll = double.Parse(items[1], new System.Globalization.CultureInfo("en-US")) / -1;
+                            runmodel.Orientation.tilt = double.Parse(items[2], new System.Globalization.CultureInfo("en-US")) / -1;
+                            runmodel.Orientation.heading = double.Parse(items[3], new System.Globalization.CultureInfo("en-US")) / 1;
 
                             dat.model = runmodel;
                             dat.ctun = ctunlast;
@@ -1022,7 +1027,7 @@ namespace ArdupilotMega.Log
                     }
                     catch (Exception ex) { CustomMessageBox.Show("Error processing log. Is it still downloading? " + ex.Message); continue; }
 
-                    writeKMLFirstPerson(logfile + ".kml");
+                    writeKMLFirstPerson(logfile + "-fp.kml");
 
                     TXT_seriallog.AppendText("Done\n");
                 }
@@ -1093,7 +1098,7 @@ namespace ArdupilotMega.Log
 
             // create kmz - aka zip file
 
-            FileStream fs = File.Open(filename.Replace(".log.kml", ".kmz"), FileMode.Create);
+            FileStream fs = File.Open(filename.Replace(".log-fp.kml", "-fp.kmz"), FileMode.Create);
             ZipOutputStream zipStream = new ZipOutputStream(fs);
             zipStream.SetLevel(9); //0-9, 9 being the highest level of compression
             zipStream.UseZip64 = UseZip64.Off; // older zipfile

@@ -7,6 +7,7 @@ using log4net;
 using System.Globalization;
 using MissionPlanner.Comms;
 using ArdupilotMega.Utilities;
+using MissionPlanner.Utilities;
 
 namespace ArdupilotMega.Arduino
 {

@@ -5,10 +5,9 @@ using System.Runtime.InteropServices;
 
 namespace ArdupilotMega
 {
-
     partial class MAVLink
     {
-        public const string MAVLINK_BUILD_DATE = "Sun Mar 03 21:09:54 2013";
+        public const string MAVLINK_BUILD_DATE = "Thu Aug 15 07:23:05 2013";
         public const string MAVLINK_WIRE_PROTOCOL_VERSION = "1.0";
         public const int MAVLINK_MAX_DIALECT_PAYLOAD_SIZE = 254;
 
@@ -25,11 +24,11 @@ namespace ArdupilotMega
 
         public const bool MAVLINK_NEED_BYTE_SWAP = (MAVLINK_ENDIAN == MAVLINK_LITTLE_ENDIAN);
 
-        public byte[] MAVLINK_MESSAGE_LENGTHS = new byte[] { 9, 31, 12, 0, 14, 28, 3, 32, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 20, 2, 25, 23, 30, 101, 22, 26, 16, 14, 28, 32, 28, 28, 22, 22, 21, 6, 6, 37, 4, 4, 2, 2, 4, 2, 2, 3, 13, 12, 19, 17, 15, 15, 27, 25, 18, 18, 20, 20, 9, 34, 26, 46, 36, 0, 6, 4, 0, 11, 18, 0, 0, 0, 20, 0, 33, 3, 0, 0, 20, 22, 0, 0, 0, 0, 0, 0, 0, 28, 56, 42, 33, 0, 0, 0, 0, 0, 0, 0, 26, 32, 32, 20, 32, 62, 0, 0, 0, 0, 254, 249, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 16, 33, 25, 42, 8, 4, 12, 15, 13, 6, 15, 14, 0, 12, 3, 8, 28, 44, 3, 9, 22, 12, 18, 34, 66, 98, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 36, 30, 18, 18, 51, 9, 0 };
+        public byte[] MAVLINK_MESSAGE_LENGTHS = new byte[] { 9, 31, 12, 0, 14, 28, 3, 32, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 20, 2, 25, 23, 30, 101, 22, 26, 16, 14, 28, 32, 28, 28, 22, 22, 21, 6, 6, 37, 4, 4, 2, 2, 4, 2, 2, 3, 13, 12, 19, 17, 15, 15, 27, 25, 18, 18, 20, 20, 9, 34, 26, 46, 36, 0, 6, 4, 0, 11, 18, 0, 0, 0, 20, 0, 33, 3, 0, 0, 20, 22, 0, 0, 0, 0, 0, 0, 0, 28, 56, 42, 33, 0, 0, 0, 0, 0, 0, 0, 26, 32, 32, 20, 32, 62, 54, 64, 84, 9, 254, 249, 9, 36, 26, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 16, 33, 25, 42, 8, 4, 12, 15, 13, 6, 15, 14, 0, 12, 3, 8, 28, 44, 3, 9, 22, 12, 18, 34, 66, 98, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 36, 30, 18, 18, 51, 9, 0 };
 
-        public byte[] MAVLINK_MESSAGE_CRCS = new byte[] { 50, 124, 137, 0, 237, 217, 104, 119, 0, 0, 0, 89, 0, 0, 0, 0, 0, 0, 0, 0, 214, 159, 220, 168, 24, 23, 170, 144, 67, 115, 39, 246, 185, 104, 237, 244, 222, 212, 9, 254, 230, 28, 28, 132, 221, 232, 11, 153, 41, 39, 214, 223, 141, 33, 15, 3, 100, 24, 239, 238, 30, 240, 183, 130, 130, 0, 148, 21, 0, 243, 124, 0, 0, 0, 20, 0, 152, 143, 0, 0, 127, 106, 0, 0, 0, 0, 0, 0, 0, 231, 183, 63, 54, 0, 0, 0, 0, 0, 0, 0, 175, 102, 158, 208, 56, 93, 0, 0, 0, 0, 235, 93, 124, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 42, 241, 15, 134, 219, 208, 188, 84, 22, 19, 21, 134, 0, 78, 68, 189, 127, 111, 21, 21, 144, 1, 234, 73, 181, 22, 83, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 204, 49, 170, 44, 83, 46, 0 };
+        public byte[] MAVLINK_MESSAGE_CRCS = new byte[] { 50, 124, 137, 0, 237, 217, 104, 119, 0, 0, 0, 89, 0, 0, 0, 0, 0, 0, 0, 0, 214, 159, 220, 168, 24, 23, 170, 144, 67, 115, 39, 246, 185, 104, 237, 244, 222, 212, 9, 254, 230, 28, 28, 132, 221, 232, 11, 153, 41, 39, 214, 223, 141, 33, 15, 3, 100, 24, 239, 238, 30, 240, 183, 130, 130, 0, 148, 21, 0, 243, 124, 0, 0, 0, 20, 0, 152, 143, 0, 0, 127, 106, 0, 0, 0, 0, 0, 0, 0, 231, 183, 63, 54, 0, 0, 0, 0, 0, 0, 0, 175, 102, 158, 208, 56, 93, 211, 108, 32, 185, 235, 93, 124, 124, 119, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 42, 241, 15, 134, 219, 208, 188, 84, 22, 19, 21, 134, 0, 78, 68, 189, 127, 154, 21, 21, 144, 1, 234, 73, 181, 22, 83, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 204, 49, 170, 44, 83, 46, 0 };
 
-        public Type[] MAVLINK_MESSAGE_INFO = new Type[] { typeof(mavlink_heartbeat_t), typeof(mavlink_sys_status_t), typeof(mavlink_system_time_t), null, typeof(mavlink_ping_t), typeof(mavlink_change_operator_control_t), typeof(mavlink_change_operator_control_ack_t), typeof(mavlink_auth_key_t), null, null, null, typeof(mavlink_set_mode_t), null, null, null, null, null, null, null, null, typeof(mavlink_param_request_read_t), typeof(mavlink_param_request_list_t), typeof(mavlink_param_value_t), typeof(mavlink_param_set_t), typeof(mavlink_gps_raw_int_t), typeof(mavlink_gps_status_t), typeof(mavlink_scaled_imu_t), typeof(mavlink_raw_imu_t), typeof(mavlink_raw_pressure_t), typeof(mavlink_scaled_pressure_t), typeof(mavlink_attitude_t), typeof(mavlink_attitude_quaternion_t), typeof(mavlink_local_position_ned_t), typeof(mavlink_global_position_int_t), typeof(mavlink_rc_channels_scaled_t), typeof(mavlink_rc_channels_raw_t), typeof(mavlink_servo_output_raw_t), typeof(mavlink_mission_request_partial_list_t), typeof(mavlink_mission_write_partial_list_t), typeof(mavlink_mission_item_t), typeof(mavlink_mission_request_t), typeof(mavlink_mission_set_current_t), typeof(mavlink_mission_current_t), typeof(mavlink_mission_request_list_t), typeof(mavlink_mission_count_t), typeof(mavlink_mission_clear_all_t), typeof(mavlink_mission_item_reached_t), typeof(mavlink_mission_ack_t), typeof(mavlink_set_gps_global_origin_t), typeof(mavlink_gps_global_origin_t), typeof(mavlink_set_local_position_setpoint_t), typeof(mavlink_local_position_setpoint_t), typeof(mavlink_global_position_setpoint_int_t), typeof(mavlink_set_global_position_setpoint_int_t), typeof(mavlink_safety_set_allowed_area_t), typeof(mavlink_safety_allowed_area_t), typeof(mavlink_set_roll_pitch_yaw_thrust_t), typeof(mavlink_set_roll_pitch_yaw_speed_thrust_t), typeof(mavlink_roll_pitch_yaw_thrust_setpoint_t), typeof(mavlink_roll_pitch_yaw_speed_thrust_setpoint_t), typeof(mavlink_set_quad_motors_setpoint_t), typeof(mavlink_set_quad_swarm_roll_pitch_yaw_thrust_t), typeof(mavlink_nav_controller_output_t), typeof(mavlink_set_quad_swarm_led_roll_pitch_yaw_thrust_t), typeof(mavlink_state_correction_t), null, typeof(mavlink_request_data_stream_t), typeof(mavlink_data_stream_t), null, typeof(mavlink_manual_control_t), typeof(mavlink_rc_channels_override_t), null, null, null, typeof(mavlink_vfr_hud_t), null, typeof(mavlink_command_long_t), typeof(mavlink_command_ack_t), null, null, typeof(mavlink_roll_pitch_yaw_rates_thrust_setpoint_t), typeof(mavlink_manual_setpoint_t), null, null, null, null, null, null, null, typeof(mavlink_local_position_ned_system_global_offset_t), typeof(mavlink_hil_state_t), typeof(mavlink_hil_controls_t), typeof(mavlink_hil_rc_inputs_raw_t), null, null, null, null, null, null, null, typeof(mavlink_optical_flow_t), typeof(mavlink_global_vision_position_estimate_t), typeof(mavlink_vision_position_estimate_t), typeof(mavlink_vision_speed_estimate_t), typeof(mavlink_vicon_position_estimate_t), typeof(mavlink_highres_imu_t), null, null, null, null, typeof(mavlink_file_transfer_start_t), typeof(mavlink_file_transfer_dir_list_t), typeof(mavlink_file_transfer_res_t), null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, typeof(mavlink_battery_status_t), typeof(mavlink_setpoint_8dof_t), typeof(mavlink_setpoint_6dof_t), typeof(mavlink_sensor_offsets_t), typeof(mavlink_set_mag_offsets_t), typeof(mavlink_meminfo_t), typeof(mavlink_ap_adc_t), typeof(mavlink_digicam_configure_t), typeof(mavlink_digicam_control_t), typeof(mavlink_mount_configure_t), typeof(mavlink_mount_control_t), typeof(mavlink_mount_status_t), null, typeof(mavlink_fence_point_t), typeof(mavlink_fence_fetch_point_t), typeof(mavlink_fence_status_t), typeof(mavlink_ahrs_t), typeof(mavlink_simstate_t), typeof(mavlink_hwstatus_t), typeof(mavlink_radio_t), typeof(mavlink_limits_status_t), typeof(mavlink_wind_t), typeof(mavlink_data16_t), typeof(mavlink_data32_t), typeof(mavlink_data64_t), typeof(mavlink_data96_t), typeof(mavlink_rangefinder_t), null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, typeof(mavlink_memory_vect_t), typeof(mavlink_debug_vect_t), typeof(mavlink_named_value_float_t), typeof(mavlink_named_value_int_t), typeof(mavlink_statustext_t), typeof(mavlink_debug_t), null };
+        public Type[] MAVLINK_MESSAGE_INFO = new Type[] { typeof(mavlink_heartbeat_t), typeof(mavlink_sys_status_t), typeof(mavlink_system_time_t), null, typeof(mavlink_ping_t), typeof(mavlink_change_operator_control_t), typeof(mavlink_change_operator_control_ack_t), typeof(mavlink_auth_key_t), null, null, null, typeof(mavlink_set_mode_t), null, null, null, null, null, null, null, null, typeof(mavlink_param_request_read_t), typeof(mavlink_param_request_list_t), typeof(mavlink_param_value_t), typeof(mavlink_param_set_t), typeof(mavlink_gps_raw_int_t), typeof(mavlink_gps_status_t), typeof(mavlink_scaled_imu_t), typeof(mavlink_raw_imu_t), typeof(mavlink_raw_pressure_t), typeof(mavlink_scaled_pressure_t), typeof(mavlink_attitude_t), typeof(mavlink_attitude_quaternion_t), typeof(mavlink_local_position_ned_t), typeof(mavlink_global_position_int_t), typeof(mavlink_rc_channels_scaled_t), typeof(mavlink_rc_channels_raw_t), typeof(mavlink_servo_output_raw_t), typeof(mavlink_mission_request_partial_list_t), typeof(mavlink_mission_write_partial_list_t), typeof(mavlink_mission_item_t), typeof(mavlink_mission_request_t), typeof(mavlink_mission_set_current_t), typeof(mavlink_mission_current_t), typeof(mavlink_mission_request_list_t), typeof(mavlink_mission_count_t), typeof(mavlink_mission_clear_all_t), typeof(mavlink_mission_item_reached_t), typeof(mavlink_mission_ack_t), typeof(mavlink_set_gps_global_origin_t), typeof(mavlink_gps_global_origin_t), typeof(mavlink_set_local_position_setpoint_t), typeof(mavlink_local_position_setpoint_t), typeof(mavlink_global_position_setpoint_int_t), typeof(mavlink_set_global_position_setpoint_int_t), typeof(mavlink_safety_set_allowed_area_t), typeof(mavlink_safety_allowed_area_t), typeof(mavlink_set_roll_pitch_yaw_thrust_t), typeof(mavlink_set_roll_pitch_yaw_speed_thrust_t), typeof(mavlink_roll_pitch_yaw_thrust_setpoint_t), typeof(mavlink_roll_pitch_yaw_speed_thrust_setpoint_t), typeof(mavlink_set_quad_motors_setpoint_t), typeof(mavlink_set_quad_swarm_roll_pitch_yaw_thrust_t), typeof(mavlink_nav_controller_output_t), typeof(mavlink_set_quad_swarm_led_roll_pitch_yaw_thrust_t), typeof(mavlink_state_correction_t), null, typeof(mavlink_request_data_stream_t), typeof(mavlink_data_stream_t), null, typeof(mavlink_manual_control_t), typeof(mavlink_rc_channels_override_t), null, null, null, typeof(mavlink_vfr_hud_t), null, typeof(mavlink_command_long_t), typeof(mavlink_command_ack_t), null, null, typeof(mavlink_roll_pitch_yaw_rates_thrust_setpoint_t), typeof(mavlink_manual_setpoint_t), null, null, null, null, null, null, null, typeof(mavlink_local_position_ned_system_global_offset_t), typeof(mavlink_hil_state_t), typeof(mavlink_hil_controls_t), typeof(mavlink_hil_rc_inputs_raw_t), null, null, null, null, null, null, null, typeof(mavlink_optical_flow_t), typeof(mavlink_global_vision_position_estimate_t), typeof(mavlink_vision_position_estimate_t), typeof(mavlink_vision_speed_estimate_t), typeof(mavlink_vicon_position_estimate_t), typeof(mavlink_highres_imu_t), typeof(mavlink_omnidirectional_flow_t), typeof(mavlink_hil_sensor_t), typeof(mavlink_sim_state_t), typeof(mavlink_radio_status_t), typeof(mavlink_file_transfer_start_t), typeof(mavlink_file_transfer_dir_list_t), typeof(mavlink_file_transfer_res_t), typeof(mavlink_hil_gps_t), typeof(mavlink_hil_optical_flow_t), typeof(mavlink_hil_state_quaternion_t), null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, typeof(mavlink_battery_status_t), typeof(mavlink_setpoint_8dof_t), typeof(mavlink_setpoint_6dof_t), typeof(mavlink_sensor_offsets_t), typeof(mavlink_set_mag_offsets_t), typeof(mavlink_meminfo_t), typeof(mavlink_ap_adc_t), typeof(mavlink_digicam_configure_t), typeof(mavlink_digicam_control_t), typeof(mavlink_mount_configure_t), typeof(mavlink_mount_control_t), typeof(mavlink_mount_status_t), null, typeof(mavlink_fence_point_t), typeof(mavlink_fence_fetch_point_t), typeof(mavlink_fence_status_t), typeof(mavlink_ahrs_t), typeof(mavlink_simstate_t), typeof(mavlink_hwstatus_t), typeof(mavlink_radio_t), typeof(mavlink_limits_status_t), typeof(mavlink_wind_t), typeof(mavlink_data16_t), typeof(mavlink_data32_t), typeof(mavlink_data64_t), typeof(mavlink_data96_t), typeof(mavlink_rangefinder_t), null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, typeof(mavlink_memory_vect_t), typeof(mavlink_debug_vect_t), typeof(mavlink_named_value_float_t), typeof(mavlink_named_value_int_t), typeof(mavlink_statustext_t), typeof(mavlink_debug_t), null };
 
         public const byte MAVLINK_VERSION = 2;
 
@@ -105,6 +104,7 @@ namespace ArdupilotMega
             DO_REPEAT_SERVO = 184,
             ///<summary> Control onboard camera system. |Camera ID (-1 for all)| Transmission: 0: disabled, 1: enabled compressed, 2: enabled raw| Transmission mode: 0: video stream, >0: single images every n seconds (decimal)| Recording: 0: disabled, 1: enabled compressed, 2: enabled raw| Empty| Empty| Empty|  </summary>
             DO_CONTROL_VIDEO = 200,
+            ///<summary> Sets the region of interest (ROI) for a sensor set or the vehicle itself. This can then be used by the vehicles control system to control the vehicle attitude and the attitude of various sensors such as cameras. |Region of intereset mode. (see MAV_ROI enum)| MISSION index/ target ID. (see MAV_ROI enum)| ROI index (allows a vehicle to manage multiple ROI's)| Empty| x the location of the fixed ROI (see MAV_FRAME)| y| z|  </summary>
             DO_SET_ROI = 201,
             ///<summary> Mission command to configure an on-board camera controller system. |Modes: P, TV, AV, M, Etc| Shutter speed: Divisor number for one second| Aperture: F stop number| ISO number e.g. 80, 100, 200, Etc| Exposure type enumerator| Command Identity| Main engine cut-off time before camera trigger in seconds/10 (0 means no cut-off)|  </summary>
             DO_DIGICAM_CONFIGURE = 202,
@@ -156,7 +156,7 @@ namespace ArdupilotMega
             NONE = 0,
             ///<summary> Breached minimum altitude | </summary>
             MINALT = 1,
-            ///<summary> Breached minimum altitude | </summary>
+            ///<summary> Breached maximum altitude | </summary>
             MAXALT = 2,
             ///<summary> Breached fence boundary | </summary>
             BOUNDARY = 3,
@@ -230,8 +230,12 @@ namespace ArdupilotMega
             FP = 11,
             ///<summary> PX4 Autopilot - http://pixhawk.ethz.ch/px4/ | </summary>
             PX4 = 12,
+            ///<summary> SMACCMPilot - http://smaccmpilot.org | </summary>
+            SMACCMPILOT = 13,
+            ///<summary> AutoQuad -- http://autoquad.org | </summary>
+            AUTOQUAD = 14,
             ///<summary>  | </summary>
-            ENUM_END = 13,
+            ENUM_END = 15,
 
         };
 
@@ -966,10 +970,10 @@ namespace ArdupilotMega
             public Single ygyro;
             /// <summary> Angular speed around Z axis rad/s </summary>
             public Single zgyro;
-            /// <summary> Latitude in degrees </summary>
-            public Single lat;
-            /// <summary> Longitude in degrees </summary>
-            public Single lng;
+            /// <summary> Latitude in degrees * 1E7 </summary>
+            public Int32 lat;
+            /// <summary> Longitude in degrees * 1E7 </summary>
+            public Int32 lng;
 
         };
 
@@ -1305,7 +1309,6 @@ namespace ArdupilotMega
 
         };
 
-
         public const byte MAVLINK_MSG_ID_PARAM_SET = 23;
         [StructLayout(LayoutKind.Sequential, Pack = 1, Size = 23)]
         public struct mavlink_param_set_t
@@ -1331,19 +1334,19 @@ namespace ArdupilotMega
         {
             /// <summary> Timestamp (microseconds since UNIX epoch or microseconds since system boot) </summary>
             public UInt64 time_usec;
-            /// <summary> Latitude in 1E7 degrees </summary>
+            /// <summary> Latitude (WGS84), in degrees * 1E7 </summary>
             public Int32 lat;
-            /// <summary> Longitude in 1E7 degrees </summary>
+            /// <summary> Longitude (WGS84), in degrees * 1E7 </summary>
             public Int32 lon;
-            /// <summary> Altitude in 1E3 meters (millimeters) above MSL </summary>
+            /// <summary> Altitude (WGS84), in meters * 1000 (positive for up) </summary>
             public Int32 alt;
-            /// <summary> GPS HDOP horizontal dilution of position in cm (m*100). If unknown, set to: 65535 </summary>
+            /// <summary> GPS HDOP horizontal dilution of position in cm (m*100). If unknown, set to: UINT16_MAX </summary>
             public UInt16 eph;
-            /// <summary> GPS VDOP horizontal dilution of position in cm (m*100). If unknown, set to: 65535 </summary>
+            /// <summary> GPS VDOP horizontal dilution of position in cm (m*100). If unknown, set to: UINT16_MAX </summary>
             public UInt16 epv;
-            /// <summary> GPS ground speed (m/s * 100). If unknown, set to: 65535 </summary>
+            /// <summary> GPS ground speed (m/s * 100). If unknown, set to: UINT16_MAX </summary>
             public UInt16 vel;
-            /// <summary> Course over ground (NOT heading, but direction of movement) in degrees * 100, 0.0..359.99 degrees. If unknown, set to: 65535 </summary>
+            /// <summary> Course over ground (NOT heading, but direction of movement) in degrees * 100, 0.0..359.99 degrees. If unknown, set to: UINT16_MAX </summary>
             public UInt16 cog;
             /// <summary> 0-1: no fix, 2: 2D fix, 3: 3D fix. Some applications will not use the value of this field unless it is at least two, so always correctly fill in the fix. </summary>
             public byte fix_type;
@@ -1556,7 +1559,7 @@ namespace ArdupilotMega
             public Int16 vy;
             /// <summary> Ground Z Speed (Altitude), expressed as m/s * 100 </summary>
             public Int16 vz;
-            /// <summary> Compass heading in degrees * 100, 0.0..359.99 degrees. If unknown, set to: 65535 </summary>
+            /// <summary> Compass heading in degrees * 100, 0.0..359.99 degrees. If unknown, set to: UINT16_MAX </summary>
             public UInt16 hdg;
 
         };
@@ -1568,21 +1571,21 @@ namespace ArdupilotMega
         {
             /// <summary> Timestamp (milliseconds since system boot) </summary>
             public UInt32 time_boot_ms;
-            /// <summary> RC channel 1 value scaled, (-100%) -10000, (0%) 0, (100%) 10000, (invalid) 32767. </summary>
+            /// <summary> RC channel 1 value scaled, (-100%) -10000, (0%) 0, (100%) 10000, (invalid) INT16_MAX. </summary>
             public Int16 chan1_scaled;
-            /// <summary> RC channel 2 value scaled, (-100%) -10000, (0%) 0, (100%) 10000, (invalid) 32767. </summary>
+            /// <summary> RC channel 2 value scaled, (-100%) -10000, (0%) 0, (100%) 10000, (invalid) INT16_MAX. </summary>
             public Int16 chan2_scaled;
-            /// <summary> RC channel 3 value scaled, (-100%) -10000, (0%) 0, (100%) 10000, (invalid) 32767. </summary>
+            /// <summary> RC channel 3 value scaled, (-100%) -10000, (0%) 0, (100%) 10000, (invalid) INT16_MAX. </summary>
             public Int16 chan3_scaled;
-            /// <summary> RC channel 4 value scaled, (-100%) -10000, (0%) 0, (100%) 10000, (invalid) 32767. </summary>
+            /// <summary> RC channel 4 value scaled, (-100%) -10000, (0%) 0, (100%) 10000, (invalid) INT16_MAX. </summary>
             public Int16 chan4_scaled;
-            /// <summary> RC channel 5 value scaled, (-100%) -10000, (0%) 0, (100%) 10000, (invalid) 32767. </summary>
+            /// <summary> RC channel 5 value scaled, (-100%) -10000, (0%) 0, (100%) 10000, (invalid) INT16_MAX. </summary>
             public Int16 chan5_scaled;
-            /// <summary> RC channel 6 value scaled, (-100%) -10000, (0%) 0, (100%) 10000, (invalid) 32767. </summary>
+            /// <summary> RC channel 6 value scaled, (-100%) -10000, (0%) 0, (100%) 10000, (invalid) INT16_MAX. </summary>
             public Int16 chan6_scaled;
-            /// <summary> RC channel 7 value scaled, (-100%) -10000, (0%) 0, (100%) 10000, (invalid) 32767. </summary>
+            /// <summary> RC channel 7 value scaled, (-100%) -10000, (0%) 0, (100%) 10000, (invalid) INT16_MAX. </summary>
             public Int16 chan7_scaled;
-            /// <summary> RC channel 8 value scaled, (-100%) -10000, (0%) 0, (100%) 10000, (invalid) 32767. </summary>
+            /// <summary> RC channel 8 value scaled, (-100%) -10000, (0%) 0, (100%) 10000, (invalid) INT16_MAX. </summary>
             public Int16 chan8_scaled;
             /// <summary> Servo output port (set of 8 outputs = 1 port). Most MAVs will just use one, but this allows for more than 8 servos. </summary>
             public byte port;
@@ -1598,21 +1601,21 @@ namespace ArdupilotMega
         {
             /// <summary> Timestamp (milliseconds since system boot) </summary>
             public UInt32 time_boot_ms;
-            /// <summary> RC channel 1 value, in microseconds. A value of 65535 implies the channel is unused. </summary>
+            /// <summary> RC channel 1 value, in microseconds. A value of UINT16_MAX implies the channel is unused. </summary>
             public UInt16 chan1_raw;
-            /// <summary> RC channel 2 value, in microseconds. A value of 65535 implies the channel is unused. </summary>
+            /// <summary> RC channel 2 value, in microseconds. A value of UINT16_MAX implies the channel is unused. </summary>
             public UInt16 chan2_raw;
-            /// <summary> RC channel 3 value, in microseconds. A value of 65535 implies the channel is unused. </summary>
+            /// <summary> RC channel 3 value, in microseconds. A value of UINT16_MAX implies the channel is unused. </summary>
             public UInt16 chan3_raw;
-            /// <summary> RC channel 4 value, in microseconds. A value of 65535 implies the channel is unused. </summary>
+            /// <summary> RC channel 4 value, in microseconds. A value of UINT16_MAX implies the channel is unused. </summary>
             public UInt16 chan4_raw;
-            /// <summary> RC channel 5 value, in microseconds. A value of 65535 implies the channel is unused. </summary>
+            /// <summary> RC channel 5 value, in microseconds. A value of UINT16_MAX implies the channel is unused. </summary>
             public UInt16 chan5_raw;
-            /// <summary> RC channel 6 value, in microseconds. A value of 65535 implies the channel is unused. </summary>
+            /// <summary> RC channel 6 value, in microseconds. A value of UINT16_MAX implies the channel is unused. </summary>
             public UInt16 chan6_raw;
-            /// <summary> RC channel 7 value, in microseconds. A value of 65535 implies the channel is unused. </summary>
+            /// <summary> RC channel 7 value, in microseconds. A value of UINT16_MAX implies the channel is unused. </summary>
             public UInt16 chan7_raw;
-            /// <summary> RC channel 8 value, in microseconds. A value of 65535 implies the channel is unused. </summary>
+            /// <summary> RC channel 8 value, in microseconds. A value of UINT16_MAX implies the channel is unused. </summary>
             public UInt16 chan8_raw;
             /// <summary> Servo output port (set of 8 outputs = 1 port). Most MAVs will just use one, but this allows for more than 8 servos. </summary>
             public byte port;
@@ -1822,11 +1825,11 @@ namespace ArdupilotMega
         [StructLayout(LayoutKind.Sequential, Pack = 1, Size = 13)]
         public struct mavlink_set_gps_global_origin_t
         {
-            /// <summary> global position * 1E7 </summary>
+            /// <summary> Latitude (WGS84), in degrees * 1E7 </summary>
             public Int32 latitude;
-            /// <summary> global position * 1E7 </summary>
+            /// <summary> Longitude (WGS84, in degrees * 1E7 </summary>
             public Int32 longitude;
-            /// <summary> global position * 1000 </summary>
+            /// <summary> Altitude (WGS84), in meters * 1000 (positive for up) </summary>
             public Int32 altitude;
             /// <summary> System ID </summary>
             public byte target_system;
@@ -1838,11 +1841,11 @@ namespace ArdupilotMega
         [StructLayout(LayoutKind.Sequential, Pack = 1, Size = 12)]
         public struct mavlink_gps_global_origin_t
         {
-            /// <summary> Latitude (WGS84), expressed as * 1E7 </summary>
+            /// <summary> Latitude (WGS84), in degrees * 1E7 </summary>
             public Int32 latitude;
-            /// <summary> Longitude (WGS84), expressed as * 1E7 </summary>
+            /// <summary> Longitude (WGS84), in degrees * 1E7 </summary>
             public Int32 longitude;
-            /// <summary> Altitude(WGS84), expressed as * 1000 </summary>
+            /// <summary> Altitude (WGS84), in meters * 1000 (positive for up) </summary>
             public Int32 altitude;
 
         };
@@ -1892,11 +1895,11 @@ namespace ArdupilotMega
         [StructLayout(LayoutKind.Sequential, Pack = 1, Size = 15)]
         public struct mavlink_global_position_setpoint_int_t
         {
-            /// <summary> WGS84 Latitude position in degrees * 1E7 </summary>
+            /// <summary> Latitude (WGS84), in degrees * 1E7 </summary>
             public Int32 latitude;
-            /// <summary> WGS84 Longitude position in degrees * 1E7 </summary>
+            /// <summary> Longitude (WGS84), in degrees * 1E7 </summary>
             public Int32 longitude;
-            /// <summary> WGS84 Altitude in meters * 1000 (positive for up) </summary>
+            /// <summary> Altitude (WGS84), in meters * 1000 (positive for up) </summary>
             public Int32 altitude;
             /// <summary> Desired yaw angle in degrees * 100 </summary>
             public Int16 yaw;
@@ -1910,11 +1913,11 @@ namespace ArdupilotMega
         [StructLayout(LayoutKind.Sequential, Pack = 1, Size = 15)]
         public struct mavlink_set_global_position_setpoint_int_t
         {
-            /// <summary> WGS84 Latitude position in degrees * 1E7 </summary>
+            /// <summary> Latitude (WGS84), in degrees * 1E7 </summary>
             public Int32 latitude;
-            /// <summary> WGS84 Longitude position in degrees * 1E7 </summary>
+            /// <summary> Longitude (WGS84), in degrees * 1E7 </summary>
             public Int32 longitude;
-            /// <summary> WGS84 Altitude in meters * 1000 (positive for up) </summary>
+            /// <summary> Altitude (WGS84), in meters * 1000 (positive for up) </summary>
             public Int32 altitude;
             /// <summary> Desired yaw angle in degrees * 100 </summary>
             public Int16 yaw;
@@ -2070,16 +2073,16 @@ namespace ArdupilotMega
         [StructLayout(LayoutKind.Sequential, Pack = 1, Size = 34)]
         public struct mavlink_set_quad_swarm_roll_pitch_yaw_thrust_t
         {
-            /// <summary> Desired roll angle in radians +-PI (+-32767) </summary>
+            /// <summary> Desired roll angle in radians +-PI (+-INT16_MAX) </summary>
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
             public Int16[] roll;
-            /// <summary> Desired pitch angle in radians +-PI (+-32767) </summary>
+            /// <summary> Desired pitch angle in radians +-PI (+-INT16_MAX) </summary>
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
             public Int16[] pitch;
-            /// <summary> Desired yaw angle in radians, scaled to int16 +-PI (+-32767) </summary>
+            /// <summary> Desired yaw angle in radians, scaled to int16 +-PI (+-INT16_MAX) </summary>
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
             public Int16[] yaw;
-            /// <summary> Collective thrust, scaled to uint16 (0..65535) </summary>
+            /// <summary> Collective thrust, scaled to uint16 (0..UINT16_MAX) </summary>
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
             public UInt16[] thrust;
             /// <summary> ID of the quadrotor group (0 - 255, up to 256 groups supported) </summary>
@@ -2118,16 +2121,16 @@ namespace ArdupilotMega
         [StructLayout(LayoutKind.Sequential, Pack = 1, Size = 46)]
         public struct mavlink_set_quad_swarm_led_roll_pitch_yaw_thrust_t
         {
-            /// <summary> Desired roll angle in radians +-PI (+-32767) </summary>
+            /// <summary> Desired roll angle in radians +-PI (+-INT16_MAX) </summary>
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
             public Int16[] roll;
-            /// <summary> Desired pitch angle in radians +-PI (+-32767) </summary>
+            /// <summary> Desired pitch angle in radians +-PI (+-INT16_MAX) </summary>
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
             public Int16[] pitch;
-            /// <summary> Desired yaw angle in radians, scaled to int16 +-PI (+-32767) </summary>
+            /// <summary> Desired yaw angle in radians, scaled to int16 +-PI (+-INT16_MAX) </summary>
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
             public Int16[] yaw;
-            /// <summary> Collective thrust, scaled to uint16 (0..65535) </summary>
+            /// <summary> Collective thrust, scaled to uint16 (0..UINT16_MAX) </summary>
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
             public UInt16[] thrust;
             /// <summary> ID of the quadrotor group (0 - 255, up to 256 groups supported) </summary>
@@ -2229,21 +2232,21 @@ namespace ArdupilotMega
         [StructLayout(LayoutKind.Sequential, Pack = 1, Size = 18)]
         public struct mavlink_rc_channels_override_t
         {
-            /// <summary> RC channel 1 value, in microseconds </summary>
+            /// <summary> RC channel 1 value, in microseconds. A value of UINT16_MAX means to ignore this field. </summary>
             public UInt16 chan1_raw;
-            /// <summary> RC channel 2 value, in microseconds </summary>
+            /// <summary> RC channel 2 value, in microseconds. A value of UINT16_MAX means to ignore this field. </summary>
             public UInt16 chan2_raw;
-            /// <summary> RC channel 3 value, in microseconds </summary>
+            /// <summary> RC channel 3 value, in microseconds. A value of UINT16_MAX means to ignore this field. </summary>
             public UInt16 chan3_raw;
-            /// <summary> RC channel 4 value, in microseconds </summary>
+            /// <summary> RC channel 4 value, in microseconds. A value of UINT16_MAX means to ignore this field. </summary>
             public UInt16 chan4_raw;
-            /// <summary> RC channel 5 value, in microseconds </summary>
+            /// <summary> RC channel 5 value, in microseconds. A value of UINT16_MAX means to ignore this field. </summary>
             public UInt16 chan5_raw;
-            /// <summary> RC channel 6 value, in microseconds </summary>
+            /// <summary> RC channel 6 value, in microseconds. A value of UINT16_MAX means to ignore this field. </summary>
             public UInt16 chan6_raw;
-            /// <summary> RC channel 7 value, in microseconds </summary>
+            /// <summary> RC channel 7 value, in microseconds. A value of UINT16_MAX means to ignore this field. </summary>
             public UInt16 chan7_raw;
-            /// <summary> RC channel 8 value, in microseconds </summary>
+            /// <summary> RC channel 8 value, in microseconds. A value of UINT16_MAX means to ignore this field. </summary>
             public UInt16 chan8_raw;
             /// <summary> System ID </summary>
             public byte target_system;
@@ -2389,11 +2392,11 @@ namespace ArdupilotMega
             public Single pitch;
             /// <summary> Yaw angle (rad) </summary>
             public Single yaw;
-            /// <summary> Roll angular speed (rad/s) </summary>
+            /// <summary> Body frame roll / phi angular speed (rad/s) </summary>
             public Single rollspeed;
-            /// <summary> Pitch angular speed (rad/s) </summary>
+            /// <summary> Body frame pitch / theta angular speed (rad/s) </summary>
             public Single pitchspeed;
-            /// <summary> Yaw angular speed (rad/s) </summary>
+            /// <summary> Body frame yaw / psi angular speed (rad/s) </summary>
             public Single yawspeed;
             /// <summary> Latitude, expressed as * 1E7 </summary>
             public Int32 lat;
@@ -2495,9 +2498,9 @@ namespace ArdupilotMega
             public Single flow_comp_m_y;
             /// <summary> Ground distance in meters. Positive value: distance known. Negative value: Unknown distance </summary>
             public Single ground_distance;
-            /// <summary> Flow in pixels in x-sensor direction </summary>
+            /// <summary> Flow in pixels * 10 in x-sensor direction (dezi-pixels) </summary>
             public Int16 flow_x;
-            /// <summary> Flow in pixels in y-sensor direction </summary>
+            /// <summary> Flow in pixels * 10 in y-sensor direction (dezi-pixels) </summary>
             public Int16 flow_y;
             /// <summary> Sensor ID </summary>
             public byte sensor_id;
@@ -2627,6 +2630,138 @@ namespace ArdupilotMega
         };
 
 
+        public const byte MAVLINK_MSG_ID_OMNIDIRECTIONAL_FLOW = 106;
+        [StructLayout(LayoutKind.Sequential, Pack = 1, Size = 54)]
+        public struct mavlink_omnidirectional_flow_t
+        {
+            /// <summary> Timestamp (microseconds, synced to UNIX time or since system boot) </summary>
+            public UInt64 time_usec;
+            /// <summary> Front distance in meters. Positive value (including zero): distance known. Negative value: Unknown distance </summary>
+            public Single front_distance_m;
+            /// <summary> Flow in deci pixels (1 = 0.1 pixel) on left hemisphere </summary>
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 10)]
+            public Int16[] left;
+            /// <summary> Flow in deci pixels (1 = 0.1 pixel) on right hemisphere </summary>
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 10)]
+            public Int16[] right;
+            /// <summary> Sensor ID </summary>
+            public byte sensor_id;
+            /// <summary> Optical flow quality / confidence. 0: bad, 255: maximum quality </summary>
+            public byte quality;
+
+        };
+
+
+        public const byte MAVLINK_MSG_ID_HIL_SENSOR = 107;
+        [StructLayout(LayoutKind.Sequential, Pack = 1, Size = 64)]
+        public struct mavlink_hil_sensor_t
+        {
+            /// <summary> Timestamp (microseconds, synced to UNIX time or since system boot) </summary>
+            public UInt64 time_usec;
+            /// <summary> X acceleration (m/s^2) </summary>
+            public Single xacc;
+            /// <summary> Y acceleration (m/s^2) </summary>
+            public Single yacc;
+            /// <summary> Z acceleration (m/s^2) </summary>
+            public Single zacc;
+            /// <summary> Angular speed around X axis in body frame (rad / sec) </summary>
+            public Single xgyro;
+            /// <summary> Angular speed around Y axis in body frame (rad / sec) </summary>
+            public Single ygyro;
+            /// <summary> Angular speed around Z axis in body frame (rad / sec) </summary>
+            public Single zgyro;
+            /// <summary> X Magnetic field (Gauss) </summary>
+            public Single xmag;
+            /// <summary> Y Magnetic field (Gauss) </summary>
+            public Single ymag;
+            /// <summary> Z Magnetic field (Gauss) </summary>
+            public Single zmag;
+            /// <summary> Absolute pressure in millibar </summary>
+            public Single abs_pressure;
+            /// <summary> Differential pressure (airspeed) in millibar </summary>
+            public Single diff_pressure;
+            /// <summary> Altitude calculated from pressure </summary>
+            public Single pressure_alt;
+            /// <summary> Temperature in degrees celsius </summary>
+            public Single temperature;
+            /// <summary> Bitmask for fields that have updated since last message, bit 0 = xacc, bit 12: temperature </summary>
+            public UInt32 fields_updated;
+
+        };
+
+
+        public const byte MAVLINK_MSG_ID_SIM_STATE = 108;
+        [StructLayout(LayoutKind.Sequential, Pack = 1, Size = 84)]
+        public struct mavlink_sim_state_t
+        {
+            /// <summary> True attitude quaternion component 1 </summary>
+            public Single q1;
+            /// <summary> True attitude quaternion component 2 </summary>
+            public Single q2;
+            /// <summary> True attitude quaternion component 3 </summary>
+            public Single q3;
+            /// <summary> True attitude quaternion component 4 </summary>
+            public Single q4;
+            /// <summary> Attitude roll expressed as Euler angles, not recommended except for human-readable outputs </summary>
+            public Single roll;
+            /// <summary> Attitude pitch expressed as Euler angles, not recommended except for human-readable outputs </summary>
+            public Single pitch;
+            /// <summary> Attitude yaw expressed as Euler angles, not recommended except for human-readable outputs </summary>
+            public Single yaw;
+            /// <summary> X acceleration m/s/s </summary>
+            public Single xacc;
+            /// <summary> Y acceleration m/s/s </summary>
+            public Single yacc;
+            /// <summary> Z acceleration m/s/s </summary>
+            public Single zacc;
+            /// <summary> Angular speed around X axis rad/s </summary>
+            public Single xgyro;
+            /// <summary> Angular speed around Y axis rad/s </summary>
+            public Single ygyro;
+            /// <summary> Angular speed around Z axis rad/s </summary>
+            public Single zgyro;
+            /// <summary> Latitude in degrees </summary>
+            public Single lat;
+            /// <summary> Longitude in degrees </summary>
+            public Single lon;
+            /// <summary> Altitude in meters </summary>
+            public Single alt;
+            /// <summary> Horizontal position standard deviation </summary>
+            public Single std_dev_horz;
+            /// <summary> Vertical position standard deviation </summary>
+            public Single std_dev_vert;
+            /// <summary> True velocity in m/s in NORTH direction in earth-fixed NED frame </summary>
+            public Single vn;
+            /// <summary> True velocity in m/s in EAST direction in earth-fixed NED frame </summary>
+            public Single ve;
+            /// <summary> True velocity in m/s in DOWN direction in earth-fixed NED frame </summary>
+            public Single vd;
+
+        };
+
+
+        public const byte MAVLINK_MSG_ID_RADIO_STATUS = 109;
+        [StructLayout(LayoutKind.Sequential, Pack = 1, Size = 9)]
+        public struct mavlink_radio_status_t
+        {
+            /// <summary> receive errors </summary>
+            public UInt16 rxerrors;
+            /// <summary> count of error corrected packets </summary>
+            public UInt16 fixedp;
+            /// <summary> local signal strength </summary>
+            public byte rssi;
+            /// <summary> remote signal strength </summary>
+            public byte remrssi;
+            /// <summary> how full the tx buffer is as a percentage </summary>
+            public byte txbuf;
+            /// <summary> background noise level </summary>
+            public byte noise;
+            /// <summary> remote background noise level </summary>
+            public byte remnoise;
+
+        };
+
+
         public const byte MAVLINK_MSG_ID_FILE_TRANSFER_START = 110;
         [StructLayout(LayoutKind.Sequential, Pack = 1, Size = 254)]
         public struct mavlink_file_transfer_start_t
@@ -2669,6 +2804,105 @@ namespace ArdupilotMega
             public UInt64 transfer_uid;
             /// <summary> 0: OK, 1: not permitted, 2: bad path / file name, 3: no space left on device </summary>
             public byte result;
+
+        };
+
+
+        public const byte MAVLINK_MSG_ID_HIL_GPS = 113;
+        [StructLayout(LayoutKind.Sequential, Pack = 1, Size = 36)]
+        public struct mavlink_hil_gps_t
+        {
+            /// <summary> Timestamp (microseconds since UNIX epoch or microseconds since system boot) </summary>
+            public UInt64 time_usec;
+            /// <summary> Latitude (WGS84), in degrees * 1E7 </summary>
+            public Int32 lat;
+            /// <summary> Longitude (WGS84), in degrees * 1E7 </summary>
+            public Int32 lon;
+            /// <summary> Altitude (WGS84), in meters * 1000 (positive for up) </summary>
+            public Int32 alt;
+            /// <summary> GPS HDOP horizontal dilution of position in cm (m*100). If unknown, set to: 65535 </summary>
+            public UInt16 eph;
+            /// <summary> GPS VDOP horizontal dilution of position in cm (m*100). If unknown, set to: 65535 </summary>
+            public UInt16 epv;
+            /// <summary> GPS ground speed (m/s * 100). If unknown, set to: 65535 </summary>
+            public UInt16 vel;
+            /// <summary> GPS velocity in cm/s in NORTH direction in earth-fixed NED frame </summary>
+            public Int16 vn;
+            /// <summary> GPS velocity in cm/s in EAST direction in earth-fixed NED frame </summary>
+            public Int16 ve;
+            /// <summary> GPS velocity in cm/s in DOWN direction in earth-fixed NED frame </summary>
+            public Int16 vd;
+            /// <summary> Course over ground (NOT heading, but direction of movement) in degrees * 100, 0.0..359.99 degrees. If unknown, set to: 65535 </summary>
+            public UInt16 cog;
+            /// <summary> 0-1: no fix, 2: 2D fix, 3: 3D fix. Some applications will not use the value of this field unless it is at least two, so always correctly fill in the fix. </summary>
+            public byte fix_type;
+            /// <summary> Number of satellites visible. If unknown, set to 255 </summary>
+            public byte satellites_visible;
+
+        };
+
+
+        public const byte MAVLINK_MSG_ID_HIL_OPTICAL_FLOW = 114;
+        [StructLayout(LayoutKind.Sequential, Pack = 1, Size = 26)]
+        public struct mavlink_hil_optical_flow_t
+        {
+            /// <summary> Timestamp (UNIX) </summary>
+            public UInt64 time_usec;
+            /// <summary> Flow in meters in x-sensor direction, angular-speed compensated </summary>
+            public Single flow_comp_m_x;
+            /// <summary> Flow in meters in y-sensor direction, angular-speed compensated </summary>
+            public Single flow_comp_m_y;
+            /// <summary> Ground distance in meters. Positive value: distance known. Negative value: Unknown distance </summary>
+            public Single ground_distance;
+            /// <summary> Flow in pixels in x-sensor direction </summary>
+            public Int16 flow_x;
+            /// <summary> Flow in pixels in y-sensor direction </summary>
+            public Int16 flow_y;
+            /// <summary> Sensor ID </summary>
+            public byte sensor_id;
+            /// <summary> Optical flow quality / confidence. 0: bad, 255: maximum quality </summary>
+            public byte quality;
+
+        };
+
+
+        public const byte MAVLINK_MSG_ID_HIL_STATE_QUATERNION = 115;
+        [StructLayout(LayoutKind.Sequential, Pack = 1, Size = 64)]
+        public struct mavlink_hil_state_quaternion_t
+        {
+            /// <summary> Timestamp (microseconds since UNIX epoch or microseconds since system boot) </summary>
+            public UInt64 time_usec;
+            /// <summary> Vehicle attitude expressed as normalized quaternion </summary>
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
+            public float attitude_quaternion;
+            /// <summary> Body frame roll / phi angular speed (rad/s) </summary>
+            public Single rollspeed;
+            /// <summary> Body frame pitch / theta angular speed (rad/s) </summary>
+            public Single pitchspeed;
+            /// <summary> Body frame yaw / psi angular speed (rad/s) </summary>
+            public Single yawspeed;
+            /// <summary> Latitude, expressed as * 1E7 </summary>
+            public Int32 lat;
+            /// <summary> Longitude, expressed as * 1E7 </summary>
+            public Int32 lon;
+            /// <summary> Altitude in meters, expressed as * 1000 (millimeters) </summary>
+            public Int32 alt;
+            /// <summary> Ground X Speed (Latitude), expressed as m/s * 100 </summary>
+            public Int16 vx;
+            /// <summary> Ground Y Speed (Longitude), expressed as m/s * 100 </summary>
+            public Int16 vy;
+            /// <summary> Ground Z Speed (Altitude), expressed as m/s * 100 </summary>
+            public Int16 vz;
+            /// <summary> Indicated airspeed, expressed as m/s * 100 </summary>
+            public UInt16 ind_airspeed;
+            /// <summary> True airspeed, expressed as m/s * 100 </summary>
+            public UInt16 true_airspeed;
+            /// <summary> X acceleration (mg) </summary>
+            public Int16 xacc;
+            /// <summary> Y acceleration (mg) </summary>
+            public Int16 yacc;
+            /// <summary> Z acceleration (mg) </summary>
+            public Int16 zacc;
 
         };
 

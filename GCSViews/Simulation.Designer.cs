@@ -163,8 +163,12 @@
             // 
             // ConnectComPort
             // 
+            this.ConnectComPort.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
+            this.ConnectComPort.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
             resources.ApplyResources(this.ConnectComPort, "ConnectComPort");
             this.ConnectComPort.Name = "ConnectComPort";
+            this.ConnectComPort.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
+            this.ConnectComPort.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.ConnectComPort.UseVisualStyleBackColor = true;
             this.ConnectComPort.Click += new System.EventHandler(this.ConnectComPort_Click);
             // 
@@ -230,8 +234,12 @@
             // 
             // SaveSettings
             // 
+            this.SaveSettings.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
+            this.SaveSettings.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
             resources.ApplyResources(this.SaveSettings, "SaveSettings");
             this.SaveSettings.Name = "SaveSettings";
+            this.SaveSettings.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
+            this.SaveSettings.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.SaveSettings.UseVisualStyleBackColor = true;
             this.SaveSettings.Click += new System.EventHandler(this.SaveSettings_Click);
             // 
@@ -497,6 +505,7 @@
             // 
             // timer_servo_graph
             // 
+            this.timer_servo_graph.Interval = 200;
             this.timer_servo_graph.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // panel6
@@ -635,8 +644,12 @@
             // 
             // but_advsettings
             // 
+            this.but_advsettings.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
+            this.but_advsettings.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
             resources.ApplyResources(this.but_advsettings, "but_advsettings");
             this.but_advsettings.Name = "but_advsettings";
+            this.but_advsettings.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
+            this.but_advsettings.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.but_advsettings.UseVisualStyleBackColor = true;
             this.but_advsettings.Click += new System.EventHandler(this.but_advsettings_Click);
             // 
@@ -655,22 +668,34 @@
             // 
             // BUT_startfgquad
             // 
+            this.BUT_startfgquad.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
+            this.BUT_startfgquad.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
             resources.ApplyResources(this.BUT_startfgquad, "BUT_startfgquad");
             this.BUT_startfgquad.Name = "BUT_startfgquad";
+            this.BUT_startfgquad.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
+            this.BUT_startfgquad.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_startfgquad.UseVisualStyleBackColor = true;
             this.BUT_startfgquad.Click += new System.EventHandler(this.BUT_startfgquad_Click);
             // 
             // BUT_startfgplane
             // 
+            this.BUT_startfgplane.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
+            this.BUT_startfgplane.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
             resources.ApplyResources(this.BUT_startfgplane, "BUT_startfgplane");
             this.BUT_startfgplane.Name = "BUT_startfgplane";
+            this.BUT_startfgplane.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
+            this.BUT_startfgplane.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_startfgplane.UseVisualStyleBackColor = true;
             this.BUT_startfgplane.Click += new System.EventHandler(this.BUT_startfgplane_Click);
             // 
             // BUT_startxplane
             // 
+            this.BUT_startxplane.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
+            this.BUT_startxplane.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
             resources.ApplyResources(this.BUT_startxplane, "BUT_startxplane");
             this.BUT_startxplane.Name = "BUT_startxplane";
+            this.BUT_startxplane.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
+            this.BUT_startxplane.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_startxplane.UseVisualStyleBackColor = true;
             this.BUT_startxplane.Click += new System.EventHandler(this.BUT_startxplane_Click);
             // 

@@ -261,7 +261,7 @@ namespace ArdupilotMega.GCSViews
 
         private void CMB_history_SelectedIndexChanged(object sender, EventArgs e)
         {
-            firmwareurl = fw.getUrl(CMB_history.Text, "");
+            firmwareurl = fw.getUrl(CMB_history.SelectedValue.ToString(), "");
 
             softwares.Clear();
             Firmware_Load(null, null);
@@ -273,8 +273,11 @@ namespace ArdupilotMega.GCSViews
             CMB_history.Enabled = false;
 
             CMB_history.Items.Clear();
-            CMB_history.Items.AddRange(fw.gholdurls);
-            CMB_history.Items.AddRange(fw.gcoldurls);
+            //CMB_history.Items.AddRange(fw.gholdurls);
+            //CMB_history.Items.AddRange(fw.gcoldurls);
+            CMB_history.DataSource = fw.niceNames;
+            CMB_history.DisplayMember = "Value";
+            CMB_history.ValueMember = "Key";
 
             CMB_history.Enabled = true;
             CMB_history.Visible = true;

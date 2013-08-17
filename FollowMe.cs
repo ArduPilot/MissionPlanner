@@ -9,6 +9,8 @@ using System.Windows.Forms;
 using MissionPlanner.Comms;
 using System.Globalization;
 using MissionPlanner.Controls;
+using MissionPlanner.Utilities;
+using System.IO;
 
 namespace ArdupilotMega
 {
@@ -96,12 +98,16 @@ namespace ArdupilotMega
         {
             DateTime nextsend = DateTime.Now;
 
+            StreamWriter sw = new StreamWriter(File.OpenWrite("followmeraw.txt"));
+
             threadrun = true;
             while (threadrun)
             {
                 try
                 {
                     string line = comPort.ReadLine();
+
+                    sw.WriteLine(line);
 
                     //string line = string.Format("$GP{0},{1:HHmmss},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},", "GGA", DateTime.Now.ToUniversalTime(), Math.Abs(lat * 100), MainV2.comPort.MAV.cs.lat < 0 ? "S" : "N", Math.Abs(lng * 100), MainV2.comPort.MAV.cs.lng < 0 ? "W" : "E", MainV2.comPort.MAV.cs.gpsstatus, MainV2.comPort.MAV.cs.satcount, MainV2.comPort.MAV.cs.gpshdop, MainV2.comPort.MAV.cs.alt, "M", 0, "M", "");
                     if (line.StartsWith("$GPGGA")) // 
@@ -176,6 +182,8 @@ namespace ArdupilotMega
                 }
                 catch { System.Threading.Thread.Sleep((int)(1000 / updaterate)); }
             }
+
+            sw.Close();
         }
 
         private void updateLocationLabel(Locationwp plla)

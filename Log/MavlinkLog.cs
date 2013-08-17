@@ -29,6 +29,7 @@ using ZedGraph; // Graphs
 using ArdupilotMega.Utilities;
 
 using System.CodeDom.Compiler;
+using MissionPlanner.Utilities;
 
 namespace ArdupilotMega
 {

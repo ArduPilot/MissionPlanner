@@ -309,9 +309,9 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                             } else if (units.ToLower() == "centimeters")
                             {
                                 //Console.WriteLine(x.Key + " scale");
-                                displayscale = 100;
-                                units = "Meters (Scaled)";
-                                increment /= 100;
+                              //  displayscale = 100;
+                              //  units = "Meters (Scaled)";
+                              //  increment /= 100;
                             }
 
                             var rangeControl = new RangeControl(x.Key, FitDescriptionText(units, description), displayName, increment, displayscale, lowerRange, upperRange, value);

@@ -268,12 +268,7 @@ namespace ArdupilotMega.GCSViews
 
             CreateChart(zg1);
 
-            zg1.Visible = displayfull;
-
-            CHKgraphpitch.Visible = displayfull;
-            CHKgraphroll.Visible = displayfull;
-            CHKgraphrudder.Visible = displayfull;
-            CHKgraphthrottle.Visible = displayfull;
+            CHKdisplayall_CheckedChanged(null, null);
         }
 
         private void ConnectComPort_Click(object sender, EventArgs e)
@@ -1680,7 +1675,11 @@ namespace ArdupilotMega.GCSViews
 
         public void CreateChart(ZedGraphControl zgc)
         {
+            Console.WriteLine("sim CreateChart");
+
             GraphPane myPane = zgc.GraphPane;
+
+            zgc.IsAntiAlias = false;
 
             // Set the titles and axis labels
             myPane.Title.Text = "Servo Output";
@@ -1722,9 +1721,9 @@ namespace ArdupilotMega.GCSViews
             //myPane.Chart.Fill = new Fill(Color.White, Color.LightGray, 45.0f);
 
             // Sample at 50ms intervals
-            timer_servo_graph.Interval = 50;
-            timer_servo_graph.Enabled = true;
-            timer_servo_graph.Start();
+            timer_servo_graph.Interval = 200;
+            //timer_servo_graph.Enabled = true;
+            //timer_servo_graph.Start();
 
 
             // Calculate the Axis Scale Ranges

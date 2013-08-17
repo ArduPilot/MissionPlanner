@@ -7,7 +7,7 @@ using System.Net.Sockets;
 
 namespace ArdupilotMega.Utilities
 {
-    static class TCPConsole
+    public static class TCPConsole
     {
         static TcpListener listener;
         static TcpClient client;

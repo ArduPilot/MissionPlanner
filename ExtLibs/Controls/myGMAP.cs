@@ -45,7 +45,8 @@ namespace ArdupilotMega.Controls
         {
             try
             {
-                if (e.X == lastx && e.Y == lasty)
+                // try prevent alot of cpu usage
+                if (e.X >= lastx - 2 && e.X <= lastx + 2 && e.Y >= lasty - 2 && e.Y <= lasty + 2)
                     return;
 
                 lastx = e.X;

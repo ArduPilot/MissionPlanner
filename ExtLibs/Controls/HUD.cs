@@ -700,6 +700,8 @@ namespace ArdupilotMega.Controls
 
                 GL.Begin(BeginMode.Quads);
 
+                GL.LineWidth(0);
+
                 if (((Type)brushh.GetType()) == typeof(LinearGradientBrush))
                 {
                     LinearGradientBrush temp = (LinearGradientBrush)brushh;

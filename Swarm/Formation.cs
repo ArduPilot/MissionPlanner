@@ -5,6 +5,7 @@ using System.Text;
 using ProjNet.CoordinateSystems.Transformations;
 using ProjNet.CoordinateSystems;
 using ProjNet.Converters;
+using MissionPlanner.Utilities;
 
 namespace ArdupilotMega.Swarm
 {

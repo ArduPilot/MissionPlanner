@@ -247,6 +247,7 @@ namespace ArdupilotMega.GCSViews
             // CMB_history
             // 
             this.CMB_history.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CMB_history.DropDownWidth = 160;
             this.CMB_history.FormattingEnabled = true;
             resources.ApplyResources(this.CMB_history, "CMB_history");
             this.CMB_history.Name = "CMB_history";

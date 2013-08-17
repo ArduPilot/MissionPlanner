@@ -24,6 +24,7 @@ using ArdupilotMega.Controls.BackstageView;
 using log4net;
 using System.Reflection;
 using MissionPlanner.Controls;
+using MissionPlanner.Utilities;
 
 // written by michael oborne
 namespace ArdupilotMega.GCSViews
@@ -307,7 +308,7 @@ namespace ArdupilotMega.GCSViews
                     lbl2.Location = new Point(lbl1.Right + 5, y);
                     lbl2.Size = new System.Drawing.Size(50, 13);
                     //if (lbl2.Name == "")
-                    lbl2.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.bindingSource1, field.Name, false, System.Windows.Forms.DataSourceUpdateMode.Never, "0"));
+                    lbl2.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.bindingSourceStatusTab, field.Name, false, System.Windows.Forms.DataSourceUpdateMode.Never, "0"));
                     lbl2.Name = field.Name + "value";
                     lbl2.Visible = true;
                     //lbl2.Text = fieldValue.ToString();
@@ -377,7 +378,7 @@ namespace ArdupilotMega.GCSViews
                         QV.DataBindings.Clear();
                         try
                         {
-                            QV.DataBindings.Add(new System.Windows.Forms.Binding("number", this.bindingSource1, MainV2.config["quickView" + f].ToString(),false));
+                            QV.DataBindings.Add(new System.Windows.Forms.Binding("number", this.bindingSourceQuickTab, MainV2.config["quickView" + f].ToString(),false));
                         }
                         catch (Exception ex) { log.Debug(ex); }
                     }
@@ -1020,6 +1021,19 @@ namespace ArdupilotMega.GCSViews
                             //Console.Write("bindingSourceHud ");
                             MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSourceHud);
                             //Console.WriteLine("DONE ");
+
+                            if (tabControl1.SelectedTab == tabStatus)
+                            {
+                                MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSourceStatusTab);
+                            }
+                            else if (tabControl1.SelectedTab == tabQuick)
+                            {
+                                MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSourceQuickTab);
+                            }
+                            else if (tabControl1.SelectedTab == tabGauges)
+                            {
+                                MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSourceGaugesTab);
+                            }
                         }
                         else
                         {
@@ -1216,7 +1230,7 @@ namespace ArdupilotMega.GCSViews
             //myPane.Chart.Fill = new Fill(Color.White, Color.LightGray, 45.0f);
 
             // Sample at 50ms intervals
-            ZedGraphTimer.Interval = 100;
+            ZedGraphTimer.Interval = 200;
             //timer1.Enabled = true;
             //timer1.Start();
 
@@ -1310,11 +1324,8 @@ namespace ArdupilotMega.GCSViews
             {
                 ((Button)sender).Enabled = false;
 
-                //comPort.doAction(MAVLink09.MAV_ACTION.MAV_ACTION_RETURN); // set nav from
-                //System.Threading.Thread.Sleep(100);
                 MainV2.comPort.setWPCurrent(1); // set nav to
-                //System.Threading.Thread.Sleep(100);
-                //comPort.doAction(MAVLink09.MAV_ACTION.MAV_ACTION_SET_AUTO); // set auto
+
             }
             catch { CustomMessageBox.Show("The command failed to execute"); }
             ((Button)sender).Enabled = true;
@@ -1426,10 +1437,10 @@ namespace ArdupilotMega.GCSViews
 
         private void gMapControl1_MouseMove(object sender, MouseEventArgs e)
         {
-            PointLatLng point = gMapControl1.FromLocalToLatLng(e.X, e.Y);
-
             if (e.Button == MouseButtons.Left)
             {
+                PointLatLng point = gMapControl1.FromLocalToLatLng(e.X, e.Y);
+
                 double latdif = gotolocation.Lat - point.Lat;
                 double lngdif = gotolocation.Lng - point.Lng;
 
@@ -1450,6 +1461,8 @@ namespace ArdupilotMega.GCSViews
 
                 if (MainV2.getConfig("CHK_disttohomeflightdata") != false.ToString())
                 {
+                    PointLatLng point = gMapControl1.FromLocalToLatLng(e.X, e.Y);
+
                     marker = new GMapMarkerRect(point);
                     marker.ToolTip = new GMapToolTip(marker);
                     marker.ToolTipMode = MarkerTooltipMode.Always;
@@ -1586,8 +1599,7 @@ namespace ArdupilotMega.GCSViews
                 BUT_clear_track_Click(sender, e);
 
                 MainV2.comPort.lastlogread = DateTime.MinValue;
-                MainV2.comPort.MAV.cs.distTraveled = 0;
-                MainV2.comPort.MAV.cs.timeInAir = 0;
+                MainV2.comPort.MAV.cs.ResetInternals();
 
                 if (MainV2.comPort.logplaybackfile != null)
                     MainV2.comPort.logplaybackfile.BaseStream.Position = (long)(MainV2.comPort.logplaybackfile.BaseStream.Length * (tracklog.Value / 100.0));
@@ -1813,9 +1825,6 @@ namespace ArdupilotMega.GCSViews
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
-
-
-
             if (tabControl1.SelectedTab == tabStatus)
             {
                 tabStatus_Resize(sender, e);
@@ -2526,7 +2535,7 @@ print 'Roll complete'
 
                 // set databinding for value
                 ((QuickView)((CheckBox)sender).Tag).DataBindings.Clear();
-                ((QuickView)((CheckBox)sender).Tag).DataBindings.Add(new System.Windows.Forms.Binding("number", this.bindingSource1, ((CheckBox)sender).Name, true));
+                ((QuickView)((CheckBox)sender).Tag).DataBindings.Add(new System.Windows.Forms.Binding("number", this.bindingSourceQuickTab, ((CheckBox)sender).Name, true));
 
                 // close selection form
                 ((Form)((CheckBox)sender).Parent).Close();

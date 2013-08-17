@@ -40,7 +40,6 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             this.CHK_altmode = new System.Windows.Forms.CheckBox();
-            this.CHK_holdalt = new System.Windows.Forms.CheckBox();
             this.Commands = new System.Windows.Forms.DataGridView();
             this.Command = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.Param1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -165,14 +164,6 @@
             this.CHK_altmode.Name = "CHK_altmode";
             this.CHK_altmode.UseVisualStyleBackColor = true;
             this.CHK_altmode.CheckedChanged += new System.EventHandler(this.CHK_altmode_CheckedChanged);
-            // 
-            // CHK_holdalt
-            // 
-            resources.ApplyResources(this.CHK_holdalt, "CHK_holdalt");
-            this.CHK_holdalt.Checked = true;
-            this.CHK_holdalt.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_holdalt.Name = "CHK_holdalt";
-            this.CHK_holdalt.UseVisualStyleBackColor = true;
             // 
             // Commands
             // 
@@ -520,7 +511,6 @@
             this.panelWaypoints.Controls.Add(this.LBL_WPRad);
             this.panelWaypoints.Controls.Add(this.label5);
             this.panelWaypoints.Controls.Add(this.TXT_loiterrad);
-            this.panelWaypoints.Controls.Add(this.CHK_holdalt);
             this.panelWaypoints.Controls.Add(this.LBL_defalutalt);
             this.panelWaypoints.Controls.Add(this.Commands);
             this.panelWaypoints.Controls.Add(this.TXT_DefaultAlt);
@@ -1089,7 +1079,6 @@
         private System.Windows.Forms.Label LBL_defalutalt;
         private System.Windows.Forms.TextBox TXT_loiterrad;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.CheckBox CHK_holdalt;
         private System.Windows.Forms.CheckBox CHK_altmode;
         private BSE.Windows.Forms.Panel panelWaypoints;
         private BSE.Windows.Forms.Panel panelAction;

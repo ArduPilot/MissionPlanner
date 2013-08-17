@@ -769,7 +769,6 @@ namespace ZedGraph
 				shiftPos = CalcTotalShift( pane, scaleFactor, shiftPos );
 
 				_scale.Draw( g, pane, scaleFactor, shiftPos );
-
 				//DrawTitle( g, pane, scaleFactor );
 
 				g.Transform = saveMatrix;

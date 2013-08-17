@@ -143,7 +143,7 @@
             this.MenuHWConfig.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.MenuHWConfig.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage;
             this.MenuHWConfig.ToolTipText = "Hardware Config";
-            this.MenuHWConfig.Click += new System.EventHandler(this.MenuConfiguration_Click);
+            this.MenuHWConfig.Click += new System.EventHandler(this.MenuSetup_Click);
             // 
             // MenuSWConfig
             // 
@@ -162,7 +162,7 @@
             this.MenuSWConfig.TextDirection = System.Windows.Forms.ToolStripTextDirection.Horizontal;
             this.MenuSWConfig.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage;
             this.MenuSWConfig.ToolTipText = "Software Config";
-            this.MenuSWConfig.Click += new System.EventHandler(this.MenuFirmware_Click);
+            this.MenuSWConfig.Click += new System.EventHandler(this.MenuTuning_Click);
             // 
             // MenuSimulation
             // 

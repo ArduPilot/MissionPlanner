@@ -8,6 +8,8 @@ using System.Threading;
 using log4net;
 using log4net.Config;
 using System.Diagnostics;
+using System.Linq;
+using MissionPlanner.Utilities;
 
 namespace ArdupilotMega
 {
@@ -43,7 +45,7 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
             MissionPlanner.Controls.InputBox.ApplyTheme += ArdupilotMega.Utilities.ThemeManager.ApplyThemeTo;
             MissionPlanner.Comms.CommsBase.Settings += CommsBase_Settings;
 
-
+            //return;
         //    MissionPlanner.Utilities.CleanDrivers.Clean();
 
             //Application.Idle += Application_Idle;

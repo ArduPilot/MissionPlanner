@@ -16,6 +16,7 @@ using log4net;
 using MissionPlanner.Comms;
 using ArdupilotMega.Utilities;
 using System.Windows.Forms;
+using MissionPlanner.Utilities;
 
 namespace ArdupilotMega
 {
@@ -202,8 +203,8 @@ namespace ArdupilotMega
         public bool logreadmode { get; set; }
         public DateTime lastlogread { get; set; }
         public BinaryReader logplaybackfile { get; set; }
-        public BinaryWriter logfile { get; set; }
-        public BinaryWriter rawlogfile { get; set; }
+        public BufferedStream logfile { get; set; }
+        public BufferedStream rawlogfile { get; set; }
 
         int bps1 = 0;
         int bps2 = 0;
@@ -600,7 +601,7 @@ Please check the following
 
                 try
                 {
-                    if (logfile != null && logfile.BaseStream.CanWrite)
+                    if (logfile != null && logfile.CanWrite)
                     {
                         lock (logfile)
                         {
@@ -1153,7 +1154,7 @@ Please check the following
         /// send lots of packets to reset the hardware, this asumes we dont know the sysid in the first place
         /// </summary>
         /// <returns></returns>
-        public bool doReboot()
+        public bool doReboot(bool bootloadermode = false)
         {
             byte[] buffer = getHeartBeat();
 
@@ -1169,9 +1170,15 @@ Please check the following
 
             }
 
+            int param1 = 1;
+            if (bootloadermode)
+            {
+                param1 = 3;
+            }
+
             if (sysid != 0 && compid != 0)
             {
-                doCommand(MAV_CMD.PREFLIGHT_REBOOT_SHUTDOWN, 1, 0, 0, 0, 0, 0, 0);
+                doCommand(MAV_CMD.PREFLIGHT_REBOOT_SHUTDOWN, param1, 0, 0, 0, 0, 0, 0);
             }
             else
             {
@@ -1180,7 +1187,7 @@ Please check the following
                 {
                     giveComport = true;
                     sysid = a;
-                    doCommand(MAV_CMD.PREFLIGHT_REBOOT_SHUTDOWN, 1, 0, 0, 0, 0, 0, 0);
+                    doCommand(MAV_CMD.PREFLIGHT_REBOOT_SHUTDOWN, param1, 0, 0, 0, 0, 0, 0);
                 }
             }
             giveComport = false;
@@ -2145,8 +2152,8 @@ Please check the following
                             if (BaseStream.IsOpen)
                             {
                                 BaseStream.Read(buffer, count, 1);
-                                if (rawlogfile != null && rawlogfile.BaseStream.CanWrite)
-                                    rawlogfile.Write(buffer[count]);
+                                if (rawlogfile != null && rawlogfile.CanWrite)
+                                    rawlogfile.WriteByte(buffer[count]);
                             }
                             //Console.WriteLine(DateTime.Now.Millisecond + " SR1b " + BaseStream.BytesToRead);
                         }
@@ -2205,7 +2212,7 @@ Please check the following
                             }
                             int read = BaseStream.Read(buffer, 1, 5);
                             count = read;
-                            if (rawlogfile != null && rawlogfile.BaseStream.CanWrite)
+                            if (rawlogfile != null && rawlogfile.CanWrite)
                                 rawlogfile.Write(buffer, 1, read);
                         }
 
@@ -2251,7 +2258,7 @@ Please check the following
                                     if (BaseStream.IsOpen)
                                     {
                                         int read = BaseStream.Read(buffer, 6, length - 4);
-                                        if (rawlogfile != null && rawlogfile.BaseStream.CanWrite)
+                                        if (rawlogfile != null && rawlogfile.CanWrite)
                                         {
                                             // write only what we read, temp is the whole packet, so 6-end
                                             rawlogfile.Write(buffer, 6, read);
@@ -2443,7 +2450,7 @@ Please check the following
 
                     try
                     {
-                        if (logfile != null && logfile.BaseStream.CanWrite && !logreadmode)
+                        if (logfile != null && logfile.CanWrite && !logreadmode)
                         {
                             lock (logfile)
                             {
@@ -2454,8 +2461,8 @@ Please check the following
 
                                 if (buffer[5] == 0)
                                 {// flush on heartbeat - 1 seconds
-                                    logfile.BaseStream.Flush();
-                                    rawlogfile.BaseStream.Flush();
+                                    logfile.Flush();
+                                    rawlogfile.Flush();
                                 }
                             }
                         }

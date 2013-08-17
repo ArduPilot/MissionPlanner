@@ -1,4 +1,28 @@
-﻿* Mission Planner 1.2.69
+﻿* Mission Planner 1.2.70
+add larger deadzone on map interface.
+convert Measuretext to more efficent cached method
+add new Grid project / plugin wip
+Refactor Utilities to seperate DLL
+convert zedgraph to new cached measuretext
+convert old fw history to nice names (github only)
+remove centimeter to m scaling on standard and adv screens.
+refactor bindingsources on flight data. mac issue.
+remove setting rtl_alt from FP page
+add takeoff command default alt
+extract out Update library
+prep for new px4 reboot method
+fix wp list in log kml files
+fix log issue
+add mode drawing to log browse
+change tlog writing from binarywriter to bufferedstream
+update mavlink definitions from upstream
+change plugin from interface to class
+change msi to install into new directory
+add battery_usedmah estimate
+change home and trackerlocation to public
+add saving of raw data from gps while using followme mode
+
+* Mission Planner 1.2.69
 add png support to direct image injection
 add analytics
 fix plane accel calib

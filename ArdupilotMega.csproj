@@ -173,9 +173,6 @@
     <Reference Include="Microsoft.Scripting.ExtensionAttribute, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="MonoMac">
-      <HintPath>..\..\..\..\..\Desktop\DIYDrones\Eto\BuildOutput\Debug\MonoMac.dll</HintPath>
-    </Reference>
     <Reference Include="netDxf, Version=0.1.2.0, Culture=neutral, PublicKeyToken=1c75adeaa4c98f42, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Lib\netDxf.dll</HintPath>
@@ -244,8 +241,6 @@
     <Compile Include="Arduino\ArduinoSTKv2.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Attributes\DisplayTextAttribute.cs" />
-    <Compile Include="Attributes\PrivateAttribute.cs" />
     <Compile Include="CameraPlanner.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -368,7 +363,7 @@
     <Compile Include="GCSViews\SoftwareConfig.Designer.cs">
       <DependentUpon>SoftwareConfig.cs</DependentUpon>
     </Compile>
-    <Compile Include="Plugin\IPlugin.cs" />
+    <Compile Include="Plugin\Plugin.cs" />
     <Compile Include="Plugin\PluginLoader.cs" />
     <Compile Include="ScriptConsole.cs">
       <SubType>Form</SubType>
@@ -376,13 +371,11 @@
     <Compile Include="ScriptConsole.Designer.cs">
       <DependentUpon>ScriptConsole.cs</DependentUpon>
     </Compile>
-    <Compile Include="Utilities\BigInteger.cs" />
-    <Compile Include="Utilities\CleanDrivers.cs" />
     <Compile Include="Utilities\Firmware.cs" />
+    <Compile Include="Utilities\ImageOverFilter.cs" />
     <Compile Include="Utilities\RSA.cs" />
     <Compile Include="Utilities\StringRedirectWriter.cs" />
-    <Compile Include="Utilities\Tracking.cs" />
-    <Compile Include="Utilities\Vario.cs" />
+    <Compile Include="Utilities\Update.cs" />
     <Compile Include="Wizard\1Intro.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -494,7 +487,6 @@
       <DependentUpon>Status.cs</DependentUpon>
     </Compile>
     <Compile Include="Utilities\httpserver.cs" />
-    <Compile Include="Utilities\S3Uploader.cs" />
     <None Include="Driver\arduinomega2560.cat" />
     <EmbeddedResource Include="Antenna\Tracker.it-IT.resx">
       <DependentUpon>Tracker.cs</DependentUpon>
@@ -835,9 +827,6 @@
     </Compile>
     <Compile Include="Swarm\Swarm.cs" />
     <Compile Include="Swarm\VerticalWave.cs" />
-    <Compile Include="Utilities\CaptureMJPEG.cs" />
-    <Compile Include="Utilities\CollectionExtensions.cs" />
-    <Compile Include="Utilities\ImageOverFilter.cs" />
     <Compile Include="Utilities\ParameterMetaDataConstants.cs" />
     <Compile Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationQuad.cs">
       <SubType>UserControl</SubType>
@@ -906,7 +895,6 @@
       <DependentUpon>ConfigAccelerometerCalibrationPlane.cs</DependentUpon>
     </Compile>
     <Compile Include="MagCalib.cs" />
-    <Compile Include="Mavlink\MavlinkOther.cs" />
     <Compile Include="PIDTunning.cs" />
     <Compile Include="Radio\3DRradio.cs">
       <SubType>UserControl</SubType>
@@ -914,8 +902,6 @@
     <Compile Include="Radio\3DRradio.Designer.cs">
       <DependentUpon>3DRradio.cs</DependentUpon>
     </Compile>
-    <Compile Include="Utilities\AviWriter.cs" />
-    <Compile Include="Utilities\Capture.cs" />
     <Compile Include="Radio\IHex.cs" />
     <Compile Include="Mavlink\MavlinkCRC.cs" />
     <Compile Include="Mavlink\MavlinkUtil.cs" />
@@ -943,7 +929,6 @@
     <Compile Include="HIL\QuadCopter.cs" />
     <Compile Include="HIL\Quaternion.cs" />
     <Compile Include="HIL\Vector3d.cs" />
-    <Compile Include="Utilities\hires.cs" />
     <Compile Include="Log\MavlinkLog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1040,8 +1025,6 @@
       <DependentUpon>SerialOutputNMEA.cs</DependentUpon>
     </Compile>
     <None Include="README.md" />
-    <None Include="Utilities\PathFind.cs" />
-    <Compile Include="Utilities\Speech.cs" />
     <Compile Include="Splash.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1049,7 +1032,6 @@
       <DependentUpon>Splash.cs</DependentUpon>
     </Compile>
     <Compile Include="srtm.cs" />
-    <Compile Include="Utilities\TCPConsole.cs" />
     <Compile Include="temp.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1057,9 +1039,7 @@
       <DependentUpon>temp.cs</DependentUpon>
     </Compile>
     <Compile Include="Radio\Uploader.cs" />
-    <Compile Include="Utilities\LangUtility.cs" />
     <Compile Include="Utilities\ThemeManager.cs" />
-    <Compile Include="Utilities\EnumTranslator.cs" />
     <Compile Include="Utilities\ParameterMetaDataParser.cs" />
     <Compile Include="Utilities\ParameterMetaDataRepository.cs" />
     <EmbeddedResource Include="Antenna\Tracker.de-DE.resx">
@@ -2114,6 +2094,10 @@
     <ProjectReference Include="ExtLibs\SharpKml\SharpKml.csproj">
       <Project>{53F12A60-E9CC-44BC-8366-1AE3AB2B547D}</Project>
       <Name>SharpKml</Name>
+    </ProjectReference>
+    <ProjectReference Include="ExtLibs\Utilities\MissionPlanner.Utilities.csproj">
+      <Project>{1378a66c-38e4-46f5-a05f-dc04ef7d4d16}</Project>
+      <Name>MissionPlanner.Utilities</Name>
     </ProjectReference>
     <ProjectReference Include="ExtLibs\ZedGraph\ZedGraph.csproj">
       <Project>{2541686B-1673-43BF-AF89-3163945DB009}</Project>

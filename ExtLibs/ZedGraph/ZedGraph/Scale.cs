@@ -2061,7 +2061,6 @@ namespace ZedGraph
 						pixVal2 = pixVal;
 
 					tic.Draw( g, pane, ticPen, pixVal2, topPix, shift, scaledTic );
-
 					// draw the grid
 //					grid.Draw( g, gridPen, pixVal2, topPix );
 
@@ -2090,7 +2089,6 @@ namespace ZedGraph
 							continue;
 
 						DrawLabel( g, pane, i, dVal, pixVal, shift, maxSpace, scaledTic, charHeight, scaleFactor );
-
 						lastPixVal = pixVal;
 					}
 				}
@@ -2263,7 +2261,6 @@ namespace ZedGraph
 			using ( Pen pen = new Pen( _ownerAxis.Color,
 						pane.ScaledPenWidth( majorTic._penWidth, scaleFactor ) ) )
 			{
-
 				// redraw the axis border
 				if ( _ownerAxis.IsAxisSegmentVisible )
 					g.DrawLine( pen, 0.0F, shiftPos, rightPix, shiftPos );
@@ -2273,13 +2270,14 @@ namespace ZedGraph
 				{
 					float zeroPix = LocalTransform( 0.0 );
 					g.DrawLine( pen, zeroPix, 0.0F, zeroPix, topPix );
+
 				}
 			}
 
 			// draw the major tics and labels
 			DrawLabels( g, pane, baseVal, nTics, topPix, shiftPos, scaleFactor );
 
-//			_ownerAxis.DrawMinorTics( g, pane, baseVal, shiftPos, scaleFactor, topPix );
+            //			_ownerAxis.DrawMinorTics( g, pane, baseVal, shiftPos, scaleFactor, topPix );
 
 			_ownerAxis.DrawTitle( g, pane, shiftPos, scaleFactor );
 		}

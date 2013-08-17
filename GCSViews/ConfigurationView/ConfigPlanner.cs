@@ -599,6 +599,8 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             CMB_ratestatus.Text = MainV2.comPort.MAV.cs.ratestatus.ToString();
             CMB_ratesensors.Text = MainV2.comPort.MAV.cs.ratesensors.ToString();
 
+            SetCheckboxFromConfig("analyticsoptout", chk_analytics);
+
             SetCheckboxFromConfig("CHK_GDIPlus", CHK_GDIPlus);
             SetCheckboxFromConfig("CHK_maprotation", CHK_maprotation);
 
@@ -699,6 +701,12 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             {
                 MissionPlanner.Utilities.Vario.Start();
             }
+        }
+
+        private void chk_analytics_CheckedChanged(object sender, EventArgs e)
+        {
+            MissionPlanner.Utilities.Tracking.OptOut = chk_analytics.Checked;
+            MainV2.config["analyticsoptout"] = chk_analytics.Checked;
         }
     }
 }

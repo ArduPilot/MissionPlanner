@@ -434,16 +434,22 @@ namespace ArdupilotMega.Log
                             break;
                         }
 
-                        double value = double.Parse(datarow.Cells[col].Value.ToString(), new System.Globalization.CultureInfo("en-US"));
+
+                   
+                        {
+
+                            double value = double.Parse(datarow.Cells[col].Value.ToString(), new System.Globalization.CultureInfo("en-US"));
 
                             zg1.GraphPane.CurveList[graphs].Label.Text = dataGridView1.Columns[col].HeaderText;
                             listdata[graphs].Add(a, value);
                             leftorrightaxis(sender, zg1.GraphPane.CurveList[graphs]);
-                      
+                        }
              
                     }
                     catch { error++; log.Info("Bad Data : " + type + " " + col + " " + a); if (error >= 500) { CustomMessageBox.Show("There is to much bad data - failing"); break; } }
                 }
+
+    
                 a++;
             }
 
@@ -455,10 +461,31 @@ namespace ArdupilotMega.Log
             catch { }
             // Zoom all
             zg1.ZoomOutAll(zg1.GraphPane);
+
+            DrawModes();
+
             // Force a redraw
             zg1.Invalidate();
 
             graphs++;
+        }
+
+        void DrawModes()
+        {
+            int a = 0;
+
+            zg1.GraphPane.GraphObjList.Clear();
+
+            foreach (DataGridViewRow datarow in dataGridView1.Rows)
+            {
+                if (datarow.Cells[1].Value.ToString() == "MODE")
+                {
+                    string mode = datarow.Cells[2].Value.ToString();
+
+                    zg1.GraphPane.GraphObjList.Add(new TextObj(mode, a, zg1.GraphPane.YAxis.Scale.Min, CoordType.AxisXY2Scale, AlignH.Left, AlignV.Top));
+                }
+                a++;
+            }
         }
 
         private void leftorrightaxis(object sender, CurveItem myCurve)
@@ -484,6 +511,7 @@ namespace ArdupilotMega.Log
                 line.Clear();
                 line.Label.Text = "Value";
             }
+            zg1.GraphPane.GraphObjList.Clear();
             zg1.Invalidate();
         }
 
@@ -586,6 +614,11 @@ namespace ArdupilotMega.Log
         private void zg1_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void zg1_ZoomEvent(ZedGraphControl sender, ZoomState oldState, ZoomState newState)
+        {
+            DrawModes();
         }
     }
 }

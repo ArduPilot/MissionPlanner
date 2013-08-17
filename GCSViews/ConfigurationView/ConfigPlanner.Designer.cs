@@ -87,6 +87,7 @@
             this.CHK_speecharmdisarm = new System.Windows.Forms.CheckBox();
             this.BUT_Vario = new ArdupilotMega.Controls.MyButton();
             this.label5 = new System.Windows.Forms.Label();
+            this.chk_analytics = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_tracklength)).BeginInit();
             this.SuspendLayout();
             // 
@@ -570,10 +571,18 @@
             resources.ApplyResources(this.label5, "label5");
             this.label5.Name = "label5";
             // 
+            // chk_analytics
+            // 
+            resources.ApplyResources(this.chk_analytics, "chk_analytics");
+            this.chk_analytics.Name = "chk_analytics";
+            this.chk_analytics.UseVisualStyleBackColor = true;
+            this.chk_analytics.CheckedChanged += new System.EventHandler(this.chk_analytics_CheckedChanged);
+            // 
             // ConfigPlanner
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.chk_analytics);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.BUT_Vario);
             this.Controls.Add(this.CHK_speecharmdisarm);
@@ -700,5 +709,6 @@
         private System.Windows.Forms.CheckBox CHK_speecharmdisarm;
         private Controls.MyButton BUT_Vario;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.CheckBox chk_analytics;
     }
 }

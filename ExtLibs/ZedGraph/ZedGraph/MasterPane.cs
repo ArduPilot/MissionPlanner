@@ -608,7 +608,7 @@ namespace ZedGraph
 			g.SetClip( _rect );
 
 			_graphObjList.Draw( g, this, scaleFactor, ZOrder.B_BehindLegend );
-			
+
 			// Recalculate the legend rect, just in case it has not yet been done
 			// innerRect is the area for the GraphPane's
 			RectangleF innerRect = CalcClientRect( g, scaleFactor );

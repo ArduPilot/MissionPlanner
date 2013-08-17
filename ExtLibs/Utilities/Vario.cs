@@ -5,11 +5,16 @@ using System.Text;
 
 namespace MissionPlanner.Utilities
 {
-    class Vario
+    public class Vario
     {
         public static int MidTone = 700;
         static float climbrate = 0;
-        public static bool run = true;
+        public static bool run = false;
+
+        public static string Running
+        {
+            get { if (run) return "Stop Vario"; return "Start Vario"; }
+        }
 
         public static void SetValue(float climbrate)
         {
@@ -22,28 +27,33 @@ namespace MissionPlanner.Utilities
 
             while (run)
             {
-                float note = climbrate *20 + MidTone;
+                float note = climbrate *30 + MidTone;
 
                 try
                 {
 
-                    if (Math.Abs(climbrate) > 0.5)
+                    if (Math.Abs(climbrate) > 0.3)
                     {
                         // freq , duration
                         if (climbrate > 0)
                         {
-                            Console.Beep((int)note, 130 - (int)(climbrate * 5));
+                            Console.Beep((int)note, 300 - (int)(climbrate * 5));
+                            System.Threading.Thread.Sleep(20);
                         }
                         else
                         {
-                            Console.Beep((int)note, 220 - (int)(climbrate * 5));
+                            Console.Beep((int)note - 50, 600);
                         }
+                    }
+                    else
+                    {
+                        // sleep when there is no sound required
+                        System.Threading.Thread.Sleep(100);
                     }
 
                 }
                 catch { }
 
-                System.Threading.Thread.Sleep(20);
             }
         }
 

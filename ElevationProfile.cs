@@ -7,7 +7,8 @@ using System.Text;
 using System.Windows.Forms;
 using ZedGraph;
 using GMap.NET;
-using System.Xml; // GE xml alt reader
+using System.Xml;
+using MissionPlanner.Utilities; // GE xml alt reader
 
 namespace ArdupilotMega
 {
