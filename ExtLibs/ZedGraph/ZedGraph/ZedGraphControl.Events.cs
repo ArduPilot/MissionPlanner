@@ -1431,7 +1431,10 @@ namespace ZedGraph
 
 				RectangleF rF = new RectangleF( (float)left, (float)top, (float)w, (float)h );
 
-				_dragPane.FindContainedObjects( rF, this.CreateGraphics(), out objects );
+                using (Graphics gg = this.CreateGraphics())
+                {
+                    _dragPane.FindContainedObjects(rF, gg, out objects);
+                }
 
 				if ( Control.ModifierKeys == _selectAppendModifierKeys )
 					_selection.AddToSelection( _masterPane, objects );

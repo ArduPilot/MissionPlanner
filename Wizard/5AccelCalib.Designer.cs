@@ -71,7 +71,7 @@ namespace ArdupilotMega.Wizard
             // 
             // imageLabel1
             // 
-            this.imageLabel1.Image = global::MissionPlanner.Properties.Resources.apmp1;
+            this.imageLabel1.Image = global::MissionPlanner.Properties.Resources.calibration01;
             this.imageLabel1.Location = new System.Drawing.Point(262, 106);
             this.imageLabel1.Name = "imageLabel1";
             this.imageLabel1.Size = new System.Drawing.Size(415, 290);

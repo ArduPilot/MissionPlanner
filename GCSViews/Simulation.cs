@@ -255,7 +255,6 @@ namespace ArdupilotMega.GCSViews
 
         public void Activate()
         {
-            MissionPlanner.Utilities.Tracking.AddPage(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.ToString(), System.Reflection.MethodBase.GetCurrentMethod().Name);
         }
 
         private void Simulation_Load(object sender, EventArgs e)
@@ -286,7 +285,7 @@ namespace ArdupilotMega.GCSViews
 
                 try
                 {
-                    quad = new HIL.QuadCopter();
+                    quad = new HIL.MultiCopter();
 
                     if (RAD_JSBSim.Checked)
                     {
@@ -593,7 +592,8 @@ namespace ArdupilotMega.GCSViews
 
                         if (CHK_quad.Checked && !RAD_aerosimrc.Checked)// || chkSensor.Checked && RAD_JSBSim.Checked)
                         {
-                            comPort.requestDatastream(ArdupilotMega.MAVLink.MAV_DATA_STREAM.RAW_CONTROLLER, 0); // request servoout
+                            //comPort.requestDatastream(ArdupilotMega.MAVLink.MAV_DATA_STREAM.RAW_CONTROLLER, 0); // request servoout
+                            comPort.requestDatastream(ArdupilotMega.MAVLink.MAV_DATA_STREAM.RAW_CONTROLLER, 50); // request servoout
                         }
                         else
                         {
@@ -639,7 +639,7 @@ namespace ArdupilotMega.GCSViews
 
                     MainV2.comPort.MAV.cs.UpdateCurrentSettings(null); // when true this uses alot more cpu time
 
-                    if ((DateTime.Now - simsendtime).TotalMilliseconds > 19)
+                    if ((DateTime.Now - simsendtime).TotalMilliseconds > 4 && chkSITL.Checked ||(DateTime.Now - simsendtime).TotalMilliseconds > 19)
                     {
                         //hzcount++;
                         simsendtime = DateTime.Now;
@@ -1102,7 +1102,7 @@ namespace ArdupilotMega.GCSViews
            // comPort.sendPacket(pres);
         }
 
-        HIL.QuadCopter quad = new HIL.QuadCopter();
+        HIL.MultiCopter quad = new HIL.MultiCopter();
 
         int packetcount = 0;
 
@@ -1181,15 +1181,89 @@ namespace ArdupilotMega.GCSViews
                         return;
 
                     quad.update(ref m, lastfdmdata);
+
+                    double roll = 0;
+                    double pitch = 0;
+                    double yaw = 0;
+                    Vector3 earth_rates = Utils.BodyRatesToEarthRates(quad.dcm, quad.gyro);
+                    quad.dcm.to_euler(ref roll, ref pitch, ref yaw);
+
+                    if (chkSITL.Checked)
+                    {
+  
+
+                        sitl_fdm sitldata = new sitl_fdm();
+                        sitldata.latitude = quad.latitude;
+                        sitldata.longitude = quad.longitude;
+                        sitldata.altitude = quad.altitude;
+                        sitldata.heading = yaw;
+                        sitldata.speedN = quad.velocity.x;
+                        sitldata.speedE = quad.velocity.y;
+                        sitldata.speedD = quad.velocity.z;
+                        sitldata.xAccel = quad.accelerometer.x;
+                        sitldata.yAccel = quad.accelerometer.y;
+                        sitldata.zAccel = quad.accelerometer.z;
+                        sitldata.rollDeg = roll * rad2deg;
+                        sitldata.pitchDeg = pitch * rad2deg;
+                        sitldata.yawDeg = yaw * rad2deg;
+                        sitldata.rollRate = earth_rates.x * rad2deg;
+                        sitldata.pitchRate = earth_rates.y * rad2deg;
+                        sitldata.yawRate = earth_rates.z * rad2deg;
+                        sitldata.airspeed = ((float)Math.Sqrt((sitldata.speedN * sitldata.speedN) + (sitldata.speedE * sitldata.speedE))); ;
+
+                        sitldata.magic = (int)0x4c56414f;
+
+                        byte[] sendme = StructureToByteArray(sitldata);
+
+                        SITLSEND.Send(sendme, sendme.Length);
+                    }
+                    else
+                    {
+                        // send to apm
+                        MAVLink.mavlink_hil_state_t hilstate = new MAVLink.mavlink_hil_state_t();
+
+                        hilstate.time_usec = (UInt64)DateTime.Now.Ticks; // microsec
+
+                        hilstate.lat = (int)(quad.latitude * 1e7); // * 1E7
+                        hilstate.lon = (int)(quad.longitude * 1e7); // * 1E7
+                        hilstate.alt = (int)(quad.altitude * 1000); // mm
+
+                        quad.dcm.to_euler(ref quad.roll, ref quad.pitch, ref quad.yaw);
+
+                        if (double.IsNaN(quad.roll))
+                        {
+                            quad.dcm.identity();
+                        }
+
+                        hilstate.roll = (float)quad.roll;
+                        hilstate.pitch = (float)quad.pitch;
+                        hilstate.yaw = (float)quad.yaw;
+
+                        //  Vector3 earth_rates = Utils.BodyRatesToEarthRates(dcm, gyro);
+
+                        hilstate.rollspeed = (float)quad.gyro.x;
+                        hilstate.pitchspeed = (float)quad.gyro.y;
+                        hilstate.yawspeed = (float)quad.gyro.z;
+
+                        hilstate.vx = (short)(quad.velocity.y * 100); // m/s * 100
+                        hilstate.vy = (short)(quad.velocity.x * 100); // m/s * 100
+                        hilstate.vz = (short)(quad.velocity.z * 100); // m/s * 100
+
+                        hilstate.xacc = (short)(quad.accelerometer.x * 1000); // (mg)
+                        hilstate.yacc = (short)(quad.accelerometer.y * 1000); // (mg)
+                        hilstate.zacc = (short)(quad.accelerometer.z * 1000); // (mg)
+
+                        MainV2.comPort.sendPacket(hilstate);
+                    }
                 }
                 catch (Exception e) { log.Info("Quad hill error " + e.ToString()); }
 
                 byte[] FlightGear = new byte[8 * 11];// StructureToByteArray(fg);
 
-                Array.Copy(BitConverter.GetBytes((double)(m[0])), 0, FlightGear, 0, 8);
-                Array.Copy(BitConverter.GetBytes((double)(m[1])), 0, FlightGear, 8, 8);
-                Array.Copy(BitConverter.GetBytes((double)(m[2])), 0, FlightGear, 16, 8);
-                Array.Copy(BitConverter.GetBytes((double)(m[3])), 0, FlightGear, 24, 8);
+                Array.Copy(BitConverter.GetBytes((double)(quad.motor_speed[0])), 0, FlightGear, 0, 8);
+                Array.Copy(BitConverter.GetBytes((double)(quad.motor_speed[1])), 0, FlightGear, 8, 8);
+                Array.Copy(BitConverter.GetBytes((double)(quad.motor_speed[2])), 0, FlightGear, 16, 8);
+                Array.Copy(BitConverter.GetBytes((double)(quad.motor_speed[3])), 0, FlightGear, 24, 8);
                 Array.Copy(BitConverter.GetBytes((double)(quad.latitude)), 0, FlightGear, 32, 8);
                 Array.Copy(BitConverter.GetBytes((double)(quad.longitude)), 0, FlightGear, 40, 8);
                 Array.Copy(BitConverter.GetBytes((double)(quad.altitude * 1 / ft2m)), 0, FlightGear, 48, 8);
@@ -1902,6 +1976,11 @@ namespace ArdupilotMega.GCSViews
                 else
                 {
                     ofd.FileName = MainV2.config["fgexe"].ToString();
+                }
+
+                if (!MainV2.MONO)
+                {
+                    extra = " --fg-root=\"" + Path.GetDirectoryName(ofd.FileName.ToLower().Replace("bin\\win32\\", "")) + "\\data\"";
                 }
 
                 System.Diagnostics.Process P = new System.Diagnostics.Process();

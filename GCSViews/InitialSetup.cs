@@ -29,7 +29,6 @@ namespace ArdupilotMega.GCSViews
 
         public void Activate()
         {
-            MissionPlanner.Utilities.Tracking.AddPage(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.ToString(), System.Reflection.MethodBase.GetCurrentMethod().Name);
         }
 
         private BackstageView.BackstageViewPage AddBackstageViewPage(UserControl userControl, string headerText, BackstageView.BackstageViewPage Parent = null)
@@ -67,10 +66,15 @@ namespace ArdupilotMega.GCSViews
 
                 AddBackstageViewPage(new ConfigRadioInput(), "Radio Calibration", mandatoryhardware);
 
+                AddBackstageViewPage(new ConfigFlightModes(), "Flight Modes", mandatoryhardware);
+
+                AddBackstageViewPage(new ConfigFailSafe(), "FailSafe");
+
                 AddBackstageViewPage(new ArdupilotMega._3DRradio(), "3DR Radio", optionalhardware);
                 AddBackstageViewPage(new ConfigBatteryMonitoring(), "Battery Monitor", optionalhardware);
                 AddBackstageViewPage(new ConfigHWSonar(), "Sonar", optionalhardware);
-                AddBackstageViewPage(new ConfigHWAirspeed(), "Airspeed", optionalhardware);
+                if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.Ateryx)
+                    AddBackstageViewPage(new ConfigHWAirspeed(), "Airspeed", optionalhardware);
                 AddBackstageViewPage(new ConfigHWOptFlow(), "Optical Flow", optionalhardware);
                 AddBackstageViewPage(new ConfigHWOSD(), "OSD", optionalhardware);
                 // opt flow

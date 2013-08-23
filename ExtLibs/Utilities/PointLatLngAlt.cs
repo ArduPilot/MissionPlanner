@@ -72,6 +72,11 @@ namespace MissionPlanner.Utilities
             return new PointLatLng(Lat, Lng);
         }
 
+        public static implicit operator PointLatLngAlt(PointLatLng a)
+        {
+            return new PointLatLngAlt(a);
+        }
+
         public static implicit operator PointLatLng(PointLatLngAlt a)
         {
             return a.Point();

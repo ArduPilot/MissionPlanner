@@ -26,7 +26,6 @@ namespace ArdupilotMega.GCSViews
 
         public void Activate()
         {
-            MissionPlanner.Utilities.Tracking.AddPage(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.ToString(), System.Reflection.MethodBase.GetCurrentMethod().Name);
         }
 
         public void BUT_updatecheck_Click(object sender, EventArgs e)

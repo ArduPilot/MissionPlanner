@@ -677,7 +677,8 @@ namespace ArdupilotMega
                 CurrentState cs = new CurrentState();
 
                 // to get first packet time
-                MavlinkInterface.readPacket();
+                MavlinkInterface.getHeartBeat();
+                MavlinkInterface.setAPType();
 
                 DateTime startlogtime = MavlinkInterface.lastlogread;
 

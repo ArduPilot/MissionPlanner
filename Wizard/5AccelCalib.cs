@@ -82,42 +82,42 @@ namespace ArdupilotMega.Wizard
             {
                 if (MainV2.comPort.MAV.cs.message.ToLower().Contains("initi"))
                 {
-                    imageLabel1.Image = MissionPlanner.Properties.Resources.apmp1;
+                    imageLabel1.Image = MissionPlanner.Properties.Resources.calibration01;
                     imageLabel1.Text = MainV2.comPort.MAV.cs.message;
                 }
                 if (MainV2.comPort.MAV.cs.message.ToLower().Contains("level"))
                 {
-                    imageLabel1.Image = MissionPlanner.Properties.Resources.apmp1;
+                    imageLabel1.Image = MissionPlanner.Properties.Resources.calibration01;
                     imageLabel1.Text = MainV2.comPort.MAV.cs.message;
                 }
                 else if (MainV2.comPort.MAV.cs.message.ToLower().Contains("left"))
                 {
-                    imageLabel1.Image = MissionPlanner.Properties.Resources.apmp3;
+                    imageLabel1.Image = MissionPlanner.Properties.Resources.calibration07;
                     imageLabel1.Text = MainV2.comPort.MAV.cs.message;
                 }
                 else if (MainV2.comPort.MAV.cs.message.ToLower().Contains("right"))
                 {
-                    imageLabel1.Image = MissionPlanner.Properties.Resources.apmp2;
+                    imageLabel1.Image = MissionPlanner.Properties.Resources.calibration05;
                     imageLabel1.Text = MainV2.comPort.MAV.cs.message;
                 }
                 else if (MainV2.comPort.MAV.cs.message.ToLower().Contains("down"))
                 {
-                    imageLabel1.Image = MissionPlanner.Properties.Resources.apmp4;
+                    imageLabel1.Image = MissionPlanner.Properties.Resources.calibration04;
                     imageLabel1.Text = MainV2.comPort.MAV.cs.message;
                 }
                 else if (MainV2.comPort.MAV.cs.message.ToLower().Contains("up"))
                 {
-                    imageLabel1.Image = MissionPlanner.Properties.Resources.apmp5;
+                    imageLabel1.Image = MissionPlanner.Properties.Resources.calibration06;
                     imageLabel1.Text = MainV2.comPort.MAV.cs.message;
                 }
                 else if (MainV2.comPort.MAV.cs.message.ToLower().Contains("back"))
                 {
-                    imageLabel1.Image = MissionPlanner.Properties.Resources.apmp6;
+                    imageLabel1.Image = MissionPlanner.Properties.Resources.calibration03;
                     imageLabel1.Text = MainV2.comPort.MAV.cs.message;
                 }
                 else if (MainV2.comPort.MAV.cs.message.ToLower().Contains("calibration"))
                 {
-                    imageLabel1.Image = MissionPlanner.Properties.Resources.apmp1;
+                    imageLabel1.Image = MissionPlanner.Properties.Resources.calibration01;
                     imageLabel1.Text = MainV2.comPort.MAV.cs.message;
                 }
             });

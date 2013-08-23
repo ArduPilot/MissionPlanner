@@ -41,9 +41,12 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.lineSeparator2 = new ArdupilotMega.Controls.LineSeparator();
+            this.label2 = new System.Windows.Forms.Label();
+            this.mavlinkNumericUpDown3 = new ArdupilotMega.Controls.MavlinkNumericUpDown();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown3)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -63,6 +66,7 @@
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20.65217F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 79.34782F));
+            this.tableLayoutPanel1.Controls.Add(this.label2, 0, 5);
             this.tableLayoutPanel1.Controls.Add(this.mavlinkComboBox2, 1, 2);
             this.tableLayoutPanel1.Controls.Add(this.mavlinkNumericUpDown1, 1, 3);
             this.tableLayoutPanel1.Controls.Add(this.mavlinkNumericUpDown2, 1, 4);
@@ -73,14 +77,16 @@
             this.tableLayoutPanel1.Controls.Add(this.label5, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.label6, 0, 3);
             this.tableLayoutPanel1.Controls.Add(this.label7, 0, 4);
+            this.tableLayoutPanel1.Controls.Add(this.mavlinkNumericUpDown3, 1, 5);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(23, 35);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 5;
+            this.tableLayoutPanel1.RowCount = 6;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(460, 169);
             this.tableLayoutPanel1.TabIndex = 88;
             // 
@@ -89,7 +95,7 @@
             this.mavlinkComboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.mavlinkComboBox2.Enabled = false;
             this.mavlinkComboBox2.FormattingEnabled = true;
-            this.mavlinkComboBox2.Location = new System.Drawing.Point(97, 69);
+            this.mavlinkComboBox2.Location = new System.Drawing.Point(97, 61);
             this.mavlinkComboBox2.Name = "mavlinkComboBox2";
             this.mavlinkComboBox2.param = null;
             this.mavlinkComboBox2.ParamName = null;
@@ -99,7 +105,7 @@
             // mavlinkNumericUpDown1
             // 
             this.mavlinkNumericUpDown1.Enabled = false;
-            this.mavlinkNumericUpDown1.Location = new System.Drawing.Point(97, 102);
+            this.mavlinkNumericUpDown1.Location = new System.Drawing.Point(97, 90);
             this.mavlinkNumericUpDown1.Max = 1F;
             this.mavlinkNumericUpDown1.Min = 0F;
             this.mavlinkNumericUpDown1.Name = "mavlinkNumericUpDown1";
@@ -111,7 +117,7 @@
             // mavlinkNumericUpDown2
             // 
             this.mavlinkNumericUpDown2.Enabled = false;
-            this.mavlinkNumericUpDown2.Location = new System.Drawing.Point(97, 135);
+            this.mavlinkNumericUpDown2.Location = new System.Drawing.Point(97, 119);
             this.mavlinkNumericUpDown2.Max = 1F;
             this.mavlinkNumericUpDown2.Min = 0F;
             this.mavlinkNumericUpDown2.Name = "mavlinkNumericUpDown2";
@@ -149,7 +155,7 @@
             this.mavlinkComboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.mavlinkComboBox1.Enabled = false;
             this.mavlinkComboBox1.FormattingEnabled = true;
-            this.mavlinkComboBox1.Location = new System.Drawing.Point(97, 36);
+            this.mavlinkComboBox1.Location = new System.Drawing.Point(97, 32);
             this.mavlinkComboBox1.Name = "mavlinkComboBox1";
             this.mavlinkComboBox1.param = null;
             this.mavlinkComboBox1.ParamName = null;
@@ -159,7 +165,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(3, 33);
+            this.label4.Location = new System.Drawing.Point(3, 29);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(31, 13);
             this.label4.TabIndex = 90;
@@ -168,7 +174,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(3, 66);
+            this.label5.Location = new System.Drawing.Point(3, 58);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(37, 13);
             this.label5.TabIndex = 91;
@@ -177,7 +183,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(3, 99);
+            this.label6.Location = new System.Drawing.Point(3, 87);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(42, 13);
             this.label6.TabIndex = 92;
@@ -186,7 +192,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(3, 132);
+            this.label7.Location = new System.Drawing.Point(3, 116);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(63, 13);
             this.label7.TabIndex = 93;
@@ -206,6 +212,27 @@
             this.lineSeparator2.Size = new System.Drawing.Size(460, 2);
             this.lineSeparator2.TabIndex = 82;
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(3, 145);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(66, 13);
+            this.label2.TabIndex = 94;
+            this.label2.Text = "RTL Altitude";
+            // 
+            // mavlinkNumericUpDown3
+            // 
+            this.mavlinkNumericUpDown3.Enabled = false;
+            this.mavlinkNumericUpDown3.Location = new System.Drawing.Point(97, 148);
+            this.mavlinkNumericUpDown3.Max = 1F;
+            this.mavlinkNumericUpDown3.Min = 0F;
+            this.mavlinkNumericUpDown3.Name = "mavlinkNumericUpDown3";
+            this.mavlinkNumericUpDown3.param = null;
+            this.mavlinkNumericUpDown3.ParamName = null;
+            this.mavlinkNumericUpDown3.Size = new System.Drawing.Size(120, 20);
+            this.mavlinkNumericUpDown3.TabIndex = 95;
+            // 
             // ConfigAC_Fence
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -219,6 +246,7 @@
             this.tableLayoutPanel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown3)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -239,5 +267,7 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label2;
+        private Controls.MavlinkNumericUpDown mavlinkNumericUpDown3;
     }
 }

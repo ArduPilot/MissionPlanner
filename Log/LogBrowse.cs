@@ -464,6 +464,8 @@ namespace ArdupilotMega.Log
 
             DrawModes();
 
+            DrawTime();
+
             // Force a redraw
             zg1.Invalidate();
 
@@ -472,6 +474,7 @@ namespace ArdupilotMega.Log
 
         void DrawModes()
         {
+            bool top = false;
             int a = 0;
 
             zg1.GraphPane.GraphObjList.Clear();
@@ -481,11 +484,77 @@ namespace ArdupilotMega.Log
                 if (datarow.Cells[1].Value.ToString() == "MODE")
                 {
                     string mode = datarow.Cells[2].Value.ToString();
-
-                    zg1.GraphPane.GraphObjList.Add(new TextObj(mode, a, zg1.GraphPane.YAxis.Scale.Min, CoordType.AxisXY2Scale, AlignH.Left, AlignV.Top));
+                    if (top)
+                    {
+                        zg1.GraphPane.GraphObjList.Add(new TextObj(mode, a, zg1.GraphPane.YAxis.Scale.Min, CoordType.AxisXY2Scale, AlignH.Left, AlignV.Top));
+                    }
+                    else
+                    {
+                        zg1.GraphPane.GraphObjList.Add(new TextObj(mode, a, zg1.GraphPane.YAxis.Scale.Min, CoordType.AxisXY2Scale, AlignH.Left, AlignV.Bottom));
+                    }
+                    top = !top;
                 }
                 a++;
             }
+        }
+
+        void DrawTime()
+        {
+            int a = 0;
+
+            DateTime starttime = DateTime.MinValue ;
+            int startdelta = 0;
+            DateTime workingtime = starttime;
+
+            DateTime lastdrawn = DateTime.MinValue;
+
+            //zg1.GraphPane.GraphObjList.Clear();
+
+            foreach (DataGridViewRow datarow in dataGridView1.Rows)
+            {
+                if (datarow.Cells[1].Value.ToString() == "GPS")
+                {
+                    int index = FindInArray(logformat["GPS"].FieldNames,"Time");
+                    if (index == -1)
+                    {
+                        a++;
+                        continue;
+                    }
+
+                    string time = datarow.Cells[index + 2].Value.ToString();
+                    int temp;
+                    if (int.TryParse(time, out temp))
+                    {
+                        if (startdelta == 0)
+                            startdelta = temp;
+
+                        workingtime = starttime.AddMilliseconds(temp - startdelta);
+
+                        TimeSpan span = workingtime - starttime;
+
+                        if (workingtime.Minute != lastdrawn.Minute)
+                        {
+                                zg1.GraphPane.GraphObjList.Add(new TextObj(span.TotalMinutes.ToString("0") + " min", a, zg1.GraphPane.YAxis.Scale.Max, CoordType.AxisXY2Scale, AlignH.Left, AlignV.Top));
+                            lastdrawn = workingtime;
+                        }
+                    }
+                }
+                a++;
+            }
+        }
+
+        int FindInArray(string[] array, string find)
+        {
+            int a = 0;
+            foreach (string item in array)
+            {
+                if (item == find)
+                {
+                    return a;
+                }
+                a++;
+            }
+            return -1;
         }
 
         private void leftorrightaxis(object sender, CurveItem myCurve)
@@ -619,6 +688,7 @@ namespace ArdupilotMega.Log
         private void zg1_ZoomEvent(ZedGraphControl sender, ZoomState oldState, ZoomState newState)
         {
             DrawModes();
+            DrawTime();
         }
     }
 }

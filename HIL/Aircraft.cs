@@ -68,6 +68,13 @@ namespace ArdupilotMega.HIL
 
         }
 
-
+        public void set_yaw_degrees(double yaw_degrees)
+        {
+            double roll = 0, pitch = 0, yaw = 0;
+            //'''rotate to the given yaw'''
+            dcm.to_euler(ref roll, ref pitch, ref yaw);
+            yaw = (yaw_degrees * deg2rad);
+            self.dcm.from_euler(roll, pitch, yaw);
+        }
     }
 }

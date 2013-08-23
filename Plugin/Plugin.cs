@@ -4,12 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using GMap.NET;
+using GMap.NET.WindowsForms;
 
 namespace ArdupilotMega.Plugin
 {
     public abstract class Plugin
     {
-        public PluginHost Host { get; set; }
+        public PluginHost Host { get; internal set; }
 
         public abstract string Name { get; }
         public abstract string Version { get; }
@@ -89,6 +91,11 @@ namespace ArdupilotMega.Plugin
         public ContextMenuStrip FDMenuMap { get { return MainV2.instance.FlightData.contextMenuStripMap; } }
 
         /// <summary>
+        /// The point where the menu was drawn
+        /// </summary>
+        public PointLatLng FDMenuMapPosition { get { return MainV2.instance.FlightData.gotolocation; } }
+
+        /// <summary>
         /// add things to flightdata hud menu
         /// </summary>
         public ContextMenuStrip FDMenuHud { get { return MainV2.instance.FlightData.contextMenuStripHud; } }
@@ -98,5 +105,38 @@ namespace ArdupilotMega.Plugin
         /// </summary>
         public ContextMenuStrip FPMenuMap { get { return MainV2.instance.FlightPlanner.contextMenuStrip1; } }
 
+        /// <summary>
+        /// The point where the menu was drawn
+        /// </summary>
+        public PointLatLng FPMenuMapPosition { get { return MainV2.instance.FlightPlanner.MouseDownEnd; } }
+
+        /// <summary>
+        /// The polygon drawn by the user on the FP page
+        /// </summary>
+        public GMapPolygon FPDrawnPolygon { get { return MainV2.instance.FlightPlanner.drawnpolygon; } }
+
+        /// <summary>
+        /// add wp to command queue - dont upload to mav
+        /// </summary>
+        /// <param name="cmd"></param>
+        /// <param name="p1"></param>
+        /// <param name="p2"></param>
+        /// <param name="p3"></param>
+        /// <param name="p4"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="z"></param>
+        public void AddWPtoList(MAVLink.MAV_CMD cmd, double p1, double p2, double p3, double p4, double x, double y, double z)
+        {
+            MainV2.instance.FlightPlanner.AddCommand(cmd, p1, p2, p3, p4, x, y, z);
+        }
+
+        /// <summary>
+        /// refresh command list on flight planner tab from autopilot
+        /// </summary>
+        public void GetWPs()
+        {
+            MainV2.instance.FlightPlanner.BUT_read_Click(null, null);
+        }
     }
 }

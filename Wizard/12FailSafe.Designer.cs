@@ -30,10 +30,10 @@ namespace ArdupilotMega.Wizard
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.radialGradientBG1 = new ArdupilotMega.Controls.GradientBG();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.radialGradientBG1.Image)).BeginInit();
             this.SuspendLayout();
@@ -50,16 +50,24 @@ namespace ArdupilotMega.Wizard
             this.panel1.Size = new System.Drawing.Size(740, 424);
             this.panel1.TabIndex = 1;
             // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.AutoScroll = true;
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(8, 58);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(727, 361);
+            this.flowLayoutPanel1.TabIndex = 7;
+            // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.Location = new System.Drawing.Point(5, 36);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(583, 18);
+            this.label3.Size = new System.Drawing.Size(598, 18);
             this.label3.TabIndex = 6;
-            this.label3.Text = "These settings control what the autopilot does when rc, and gcs failsafes are bro" +
-    "ken";
+            this.label3.Text = "These settings control what the autopilot does when rc, and gcs failsafes are tri" +
+    "ggered";
             // 
             // label1
             // 
@@ -104,14 +112,6 @@ namespace ArdupilotMega.Wizard
             this.radialGradientBG1.OutsideColor = System.Drawing.Color.FromArgb(((int)(((byte)(67)))), ((int)(((byte)(107)))), ((int)(((byte)(10)))));
             this.radialGradientBG1.Size = new System.Drawing.Size(800, 41);
             this.radialGradientBG1.TabIndex = 4;
-            // 
-            // flowLayoutPanel1
-            // 
-            this.flowLayoutPanel1.AutoScroll = true;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(8, 58);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(727, 361);
-            this.flowLayoutPanel1.TabIndex = 7;
             // 
             // _12FailSafe
             // 

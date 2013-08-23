@@ -207,7 +207,11 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
 
             List<relationitem> relitems = ((configitem)rc.Tag).relations;
 
-            MainV2.comPort.setParam(rc.Name, value);
+            try
+            {
+                MainV2.comPort.setParam(rc.Name, value);
+            }
+            catch (Exception ex) { CustomMessageBox.Show("Failed to change setting " + ex.Message ); return; }
             TXT_info.AppendText("set " + rc.Name + " " + rc.Value + "\r\n");
 
             foreach (var item in relitems)

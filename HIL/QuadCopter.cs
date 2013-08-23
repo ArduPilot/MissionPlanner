@@ -102,14 +102,14 @@ namespace ArdupilotMega.HIL
         }
     }
 
-    public class QuadCopter : Aircraft
+    public class MultiCopter : Aircraft
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        QuadCopter self;
+        MultiCopter self;
 
         DateTime seconds = DateTime.Now;
 
-        double[] motor_speed = null;
+       public double[] motor_speed = null;
 
         double hover_throttle;
         double terminal_velocity;
@@ -125,17 +125,17 @@ namespace ArdupilotMega.HIL
 
         DateTime last_time;
 
-        public QuadCopter(string frame = "quad")
+        public MultiCopter(string frame = "quad")
         {
             self = this;
 
             motors = Motor.build_motors(frame);
             motor_speed = new double[motors.Length];
-            mass = 1.0;// # Kg
+            mass = 1.5;// # Kg
             frame_height = 0.1;
             
-            hover_throttle = 0.37;
-            terminal_velocity = 30.0;
+            hover_throttle = 0.45;
+            terminal_velocity = 15.0;
             terminal_rotation_rate = 4 * (360.0 * deg2rad);
 
             thrust_scale = (mass * gravity) / (motors.Length * hover_throttle);
@@ -222,7 +222,7 @@ namespace ArdupilotMega.HIL
             accel_earth += air_resistance;
 
             // add in some wind (turn force into accel by dividing by mass).
-            accel_earth += self.wind.drag(self.velocity) / self.mass;
+           // accel_earth += self.wind.drag(self.velocity) / self.mass;
 
             // if we're on the ground, then our vertical acceleration is limited
             // to zero. This effectively adds the force of the ground on the aircraft
@@ -270,42 +270,6 @@ namespace ArdupilotMega.HIL
 
             // update lat/lon/altitude
             self.update_position(delta_time.TotalSeconds);
-
-            // send to apm
-            MAVLink.mavlink_hil_state_t hilstate = new MAVLink.mavlink_hil_state_t();
-
-            hilstate.time_usec = (UInt64)DateTime.Now.Ticks; // microsec
-
-            hilstate.lat = (int)(latitude * 1e7); // * 1E7
-            hilstate.lon = (int)(longitude * 1e7); // * 1E7
-            hilstate.alt = (int)(altitude * 1000); // mm
-
-            self.dcm.to_euler(ref roll, ref pitch, ref yaw);
-
-            if (double.IsNaN(roll))
-            {
-                self.dcm.identity();
-            }
-
-            hilstate.roll = (float)roll;
-            hilstate.pitch = (float)pitch;
-            hilstate.yaw = (float)yaw;
-
-            Vector3 earth_rates = Utils.BodyRatesToEarthRates(dcm, gyro);
-
-            hilstate.rollspeed = (float)earth_rates.x;
-            hilstate.pitchspeed = (float)earth_rates.y;
-            hilstate.yawspeed = (float)earth_rates.z;
-
-            hilstate.vx = (short)(velocity.y * 100); // m/s * 100
-            hilstate.vy = (short)(velocity.x * 100); // m/s * 100
-            hilstate.vz = 0; // m/s * 100
-
-            hilstate.xacc = (short)(accelerometer.x * 1000); // (mg)
-            hilstate.yacc = (short)(accelerometer.y * 1000); // (mg)
-            hilstate.zacc = (short)(accelerometer.z * 1000); // (mg)
-
-            MainV2.comPort.sendPacket(hilstate);
         }
     }
 }

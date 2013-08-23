@@ -117,18 +117,22 @@ namespace ArdupilotMega.Controls
             }
             else if (_source2 != null)
             {
-                if (!MainV2.comPort.setParam(ParamName, (float)(int)((MavlinkComboBox)sender).SelectedValue))
+                try
                 {
-                    CustomMessageBox.Show("Set " + ParamName + " Failed!");
-                }
-
-                if (paramname2 != "")
-                {
-                    if (!MainV2.comPort.setParam(paramname2, (float)(int)((MavlinkComboBox)sender).SelectedValue > 0 ? 1 : 0))
+                    if (!MainV2.comPort.setParam(ParamName, (float)(int)((MavlinkComboBox)sender).SelectedValue))
                     {
-                        CustomMessageBox.Show("Set " + paramname2 + " Failed!");
+                        CustomMessageBox.Show("Set " + ParamName + " Failed!");
+                    }
+
+                    if (paramname2 != "")
+                    {
+                        if (!MainV2.comPort.setParam(paramname2, (float)(int)((MavlinkComboBox)sender).SelectedValue > 0 ? 1 : 0))
+                        {
+                            CustomMessageBox.Show("Set " + paramname2 + " Failed!");
+                        }
                     }
                 }
+                catch { CustomMessageBox.Show("Set " + ParamName + " Failed!"); }
             }
         }
     }

@@ -35,6 +35,8 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             mavlinkNumericUpDown1.setup(10, 1000, 1, 1, "FENCE_ALT_MAX", MainV2.comPort.MAV.param);
 
             mavlinkNumericUpDown2.setup(0, 65536, 1, 1, "FENCE_RADIUS", MainV2.comPort.MAV.param);
+
+            mavlinkNumericUpDown3.setup(1, 500, 1, 1, "RTL_ALT", MainV2.comPort.MAV.param);
         }
     }
 }

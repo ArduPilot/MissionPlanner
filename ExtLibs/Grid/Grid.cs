@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -39,7 +40,7 @@ namespace MissionPlanner
             TopRight = 4
         }
 
-        void addtomap(linelatlng pos)
+        static void addtomap(linelatlng pos)
         {
             return;
             List<PointLatLng> list = new List<PointLatLng>();
@@ -56,7 +57,7 @@ namespace MissionPlanner
         }
 
 
-        void addtomap(utmpos pos, string tag)
+        static void addtomap(utmpos pos, string tag)
         {
             return;
             //tag = (no++).ToString();
@@ -67,8 +68,11 @@ namespace MissionPlanner
             //map.Invalidate();
         }
 
-        public List<PointLatLngAlt> CreateGrid(List<PointLatLngAlt> polygon, double altitude, double distance, double spacing, double angle, double overshoot, StartPosition startpos, bool shutter)
+        public static List<PointLatLngAlt> CreateGrid(List<PointLatLngAlt> polygon, double altitude, double distance, double spacing, double angle, double overshoot, StartPosition startpos, bool shutter)
         {
+            if (spacing < 10 && spacing != 0)
+                spacing = 10;
+
             List<PointLatLngAlt> ans = new List<PointLatLngAlt>();
 
             int utmzone = polygon[0].GetUTMZone();
@@ -267,6 +271,9 @@ namespace MissionPlanner
 
             }
 
+            //return 
+          //      FindPath(grid, startposutm);
+
             // find closest line point to home
             linelatlng closest = findClosestLine(startposutm, grid);
 
@@ -300,7 +307,7 @@ namespace MissionPlanner
 
                             newpos(ref ax, ref ay, angle, d);
                             addtomap(new utmpos(ax,ay,utmzone),"M");
-                            ans.Add(new utmpos(ax, ay, utmzone));
+                            ans.Add(new utmpos(ax, ay, utmzone) { Tag = "M" });
 
                           //  if (shutter.ToLower().StartsWith("y"))
                               //  AddDigicamControlPhoto();
@@ -317,7 +324,7 @@ namespace MissionPlanner
                     grid.Remove(closest);
                     if (grid.Count == 0)
                         break;
-                    closest = findClosestLine(closest.p2, grid);
+                    closest = findClosestLine(newend, grid);
                 }
                 else
                 {
@@ -335,7 +342,7 @@ namespace MissionPlanner
 
                             newpos(ref ax, ref ay, angle, -d);
                             addtomap(new utmpos(ax, ay, utmzone), "M");
-                            ans.Add(new utmpos(ax, ay, utmzone));
+                            ans.Add(new utmpos(ax, ay, utmzone) { Tag = "M" });
 
                            // if (shutter.ToLower().StartsWith("y"))
                             //    AddDigicamControlPhoto();
@@ -351,14 +358,197 @@ namespace MissionPlanner
                     grid.Remove(closest);
                     if (grid.Count == 0)
                         break;
-                    closest = findClosestLine(closest.p1, grid);
+                    closest = findClosestLine(newend, grid);
                 }
             }
+
+            // set the altitude on all points
+            ans.ForEach(plla => { plla.Alt = altitude; });
 
             return ans;
         }
 
-        Rect getPolyMinMax(List<utmpos> utmpos)
+        static List<PointLatLngAlt> FindPath(List<linelatlng> grid1, utmpos startposutm)
+        {
+            List<PointLatLngAlt> answer = new List<PointLatLngAlt>();
+
+            List<linelatlng> closedset = new List<linelatlng>();
+            List<linelatlng> openset = new List<linelatlng>(); // nodes to be travered
+            Hashtable came_from = new Hashtable();
+            List<linelatlng> grid = new List<linelatlng>();
+
+
+            linelatlng start = new linelatlng() { p1 = startposutm, p2 = startposutm };
+
+            grid.Add(start);
+            grid.AddRange(grid1);
+            openset.Add(start);
+
+            Hashtable g_score = new Hashtable();
+            Hashtable f_score = new Hashtable();
+            g_score[start] = 0.0;
+            f_score[start] = (double)g_score[start] + heuristic_cost_estimate(grid,0,start); // heuristic_cost_estimate(start, goal)
+
+            linelatlng current = start;
+
+            while (openset.Count > 0)
+            {
+                current = FindLowestFscore(g_score, openset); // lowest f_score
+                openset.Remove(current);
+                closedset.Add(current);
+                foreach (var neighbor in neighbor_nodes(current, grid))
+                {
+                    double tentative_g_score = (double)g_score[current];
+
+                    double dist1 = current.p1.GetDistance(neighbor.p1);
+                    double dist2 = current.p1.GetDistance(neighbor.p2);
+                    double dist3 = current.p2.GetDistance(neighbor.p1);
+                    double dist4 = current.p2.GetDistance(neighbor.p2);
+
+                    tentative_g_score += (dist1 + dist2 + dist3 + dist4) / 4;
+
+                    tentative_g_score  += neighbor.p1.GetDistance(neighbor.p2);
+
+                    //tentative_g_score += Math.Min(Math.Min(dist1, dist2), Math.Min(dist3, dist4));
+                    //tentative_g_score += Math.Max(Math.Max(dist1, dist2), Math.Max(dist3, dist4));
+
+                   // if (closedset.Contains(neighbor) && tentative_g_score >= (double)g_score[neighbor])
+                   //     continue;
+
+                    if (!closedset.Contains(neighbor) ||
+                       tentative_g_score < (double)g_score[neighbor])
+                    {
+                        came_from[neighbor] = current;
+                        g_score[neighbor] = tentative_g_score;
+                        f_score[neighbor] = tentative_g_score + heuristic_cost_estimate(grid, tentative_g_score, neighbor);
+                        Console.WriteLine("neighbor score: " + g_score[neighbor] + " " + f_score[neighbor]);
+                        if (!openset.Contains(neighbor))
+                            openset.Add(neighbor);
+                    }
+                }
+               
+            }
+
+            // bad
+            //linelatlng ans = FindLowestFscore(g_score, grid);
+
+          //  foreach (var ans in grid)
+            {
+                List<linelatlng> list = reconstruct_path(came_from, current);
+              //  list.Insert(0,current);
+                //list.Remove(start);
+                //list.Remove(start);
+                Console.WriteLine("List " + list.Count + " " + g_score[current]);
+               {
+                   List<utmpos> temp = new List<utmpos>();
+                   temp.Add(list[0].p1);
+                   temp.Add(list[0].p2);
+                   utmpos oldpos = findClosestPoint(startposutm, temp);
+
+                   foreach (var item in list) 
+                   {
+                       double dist1 = oldpos.GetDistance(item.p1);
+                       double dist2 = oldpos.GetDistance(item.p2);
+                       if (dist1 < dist2)
+                       {
+                           answer.Add(new PointLatLngAlt(item.p1));
+                           answer.Add(new PointLatLngAlt(item.p2));
+                           oldpos = item.p2;
+                       }
+                       else
+                       {
+                           answer.Add(new PointLatLngAlt(item.p2));
+                           answer.Add(new PointLatLngAlt(item.p1));
+                           oldpos = item.p1;
+                       }
+                   }
+                   //return answer;
+               }
+            }
+
+            List<PointLatLng> list2 = new List<PointLatLng>();
+
+            answer.ForEach(x => { list2.Add(x); });
+
+            GMapPolygon wppoly = new GMapPolygon(list2, "Grid");
+
+            Console.WriteLine("dist " + (wppoly.Distance));
+
+            return answer;
+        }
+
+        static double heuristic_cost_estimate(List<linelatlng> grid, double sofar, linelatlng current_node)
+        {
+            double ans = 0;
+
+            linelatlng lastx = grid[0];
+
+            grid.ForEach(x => 
+            { 
+                ans += x.p1.GetDistance(x.p2);
+                ans += x.p1.GetDistance(lastx.p1);
+                lastx = x; 
+            });
+
+
+
+            return ans - sofar * 0.95;
+        }
+
+        static List<linelatlng> reconstruct_path(Hashtable came_from, linelatlng current_node)
+        {
+            List<linelatlng> ans = new List<linelatlng>();
+            if (came_from.ContainsKey(current_node))
+            {
+                
+                ans.AddRange(reconstruct_path(came_from, (linelatlng)came_from[current_node]));
+                ans.Add((linelatlng)came_from[current_node]);
+                return ans;
+            }
+            else
+            {
+                ans.Add(current_node);
+                return ans;
+            }
+        }
+
+
+        static private List<linelatlng> neighbor_nodes(linelatlng current, List<linelatlng> grid)
+        {
+            List<linelatlng> neighbors = new List<linelatlng>();
+
+            foreach (var item in grid)
+            {
+               // if (item.Equals(current))
+              //      continue;
+
+                neighbors.Add(item);
+            }
+
+            return neighbors;
+        }
+
+        static private linelatlng FindLowestFscore(Hashtable f_score, List<linelatlng> openset)
+        {
+            linelatlng lowest = openset[0];
+            int lowestint = int.MaxValue;
+
+            foreach (linelatlng key in openset)
+            {
+                if (f_score.ContainsKey(key) && (double)f_score[key] < lowestint)
+                {
+                    lowestint = (int)(double)f_score[key];
+                    lowest = key;
+                }
+            }
+
+            Console.WriteLine("Lowest " + lowestint);
+
+            return lowest;
+        }
+
+
+        static Rect getPolyMinMax(List<utmpos> utmpos)
         {
             if (utmpos.Count == 0)
                 return new Rect();
@@ -381,7 +571,7 @@ namespace MissionPlanner
         }
 
         // polar to rectangular
-        void newpos(ref double x, ref double y, double bearing, double distance)
+        static void newpos(ref double x, ref double y, double bearing, double distance)
         {
             double degN = 90 - bearing;
             if (degN < 0)
@@ -391,7 +581,7 @@ namespace MissionPlanner
         }
 
         // polar to rectangular
-        utmpos newpos(utmpos input, double bearing, double distance)
+        static utmpos newpos(utmpos input, double bearing, double distance)
         {
             double degN = 90 - bearing;
             if (degN < 0)
@@ -410,7 +600,7 @@ namespace MissionPlanner
         /// <param name="start2"></param>
         /// <param name="end2"></param>
         /// <returns></returns>
-        public utmpos FindLineIntersection(utmpos start1, utmpos end1, utmpos start2, utmpos end2)
+        public static utmpos FindLineIntersection(utmpos start1, utmpos end1, utmpos start2, utmpos end2)
         {
             double denom = ((end1.x - start1.x) * (end2.y - start2.y)) - ((end1.y - start1.y) * (end2.x - start2.x));
             //  AB & CD are parallel         
@@ -430,7 +620,7 @@ namespace MissionPlanner
             return result;
         }
 
-        utmpos findClosestPoint(utmpos start, List<utmpos> list)
+        static utmpos findClosestPoint(utmpos start, List<utmpos> list)
         {
             utmpos answer = utmpos.Zero;
             double currentbest = double.MaxValue;
@@ -449,7 +639,7 @@ namespace MissionPlanner
             return answer;
         }
 
-        linelatlng findClosestLine(utmpos start, List<linelatlng> list)
+        static linelatlng findClosestLine(utmpos start, List<linelatlng> list)
         {
             linelatlng answer = list[0];
             double shortest = double.MaxValue;
@@ -470,7 +660,7 @@ namespace MissionPlanner
             return answer;
         }
 
-        bool PointInPolygon(utmpos p, List<utmpos> poly)
+        static bool PointInPolygon(utmpos p, List<utmpos> poly)
         {
             utmpos p1, p2;
             bool inside = false;

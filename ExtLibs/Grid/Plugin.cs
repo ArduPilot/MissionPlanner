@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using GMap.NET.WindowsForms;
 
 namespace MissionPlanner
 {
@@ -44,8 +45,15 @@ namespace MissionPlanner
 
         void but_Click(object sender, EventArgs e)
         {
-            Form gridui = new GridUI();
-            gridui.Show();
+            if (Host.FPDrawnPolygon != null && Host.FPDrawnPolygon.Points.Count > 0)
+            {
+                Form gridui = new GridUI(this);
+                gridui.Show();
+            }
+            else
+            {
+                CustomMessageBox.Show("Please define a polygon.");
+            }
         }
 
         public override bool Exit()

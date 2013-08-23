@@ -2350,7 +2350,7 @@ Please check the following
                 {
                     packetno = buffer[5];
                 }
-                if (packetno != -1 && buffer.Length > 5)
+                if (packetno != -1 && buffer.Length > 5 && MAVLINK_MESSAGE_INFO[packetno] != null)
                     log.InfoFormat("Mavlink Bad Packet (crc fail) len {0} crc {1} vs {4} pkno {2} {3}", buffer.Length, crc, packetno, MAVLINK_MESSAGE_INFO[packetno].ToString(), BitConverter.ToUInt16(buffer,buffer.Length - 2));
                 if (logreadmode)
                     log.InfoFormat("bad packet pos {0} ",logplaybackfile.BaseStream.Position);
@@ -2509,7 +2509,7 @@ Please check the following
         }
 
         /// <summary>
-        /// Used to extract mission from log file
+        /// Used to extract mission from log file - both sent or received
         /// </summary>
         /// <param name="buffer">packet</param>
         void getWPsfromstream(ref byte[] buffer)
@@ -2518,7 +2518,6 @@ Please check the following
             {
                 // clear old
                 wps.Clear();
-                //new PointLatLngAlt[wps.Length];
             }
 
             if (buffer[5] == MAVLink.MAVLINK_MSG_ID_MISSION_ITEM)

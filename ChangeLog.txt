@@ -1,4 +1,16 @@
-﻿* Mission Planner 1.2.70
+﻿* Mission Planner 1.2.71
+update wizard accel images to iris
+ensure wizard mag calib works, req streams and mag enable
+identify arduheli
+more plugin interface options
+fix mavlink read packet exception. (bad packet id)
+add time to log browse
+tweak hil interface (wip)
+rearrange menu
+new grid testing
+add rtl_alt to fence
+
+* Mission Planner 1.2.70
 add larger deadzone on map interface.
 convert Measuretext to more efficent cached method
 add new Grid project / plugin wip

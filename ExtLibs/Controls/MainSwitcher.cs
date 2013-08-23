@@ -82,6 +82,8 @@ namespace ArdupilotMega.Controls
 
             nextscreen.Control.Dock = DockStyle.Fill;
 
+            MissionPlanner.Utilities.Tracking.AddPage(nextscreen.Control.GetType().ToString(), name);
+
             MainControl.SuspendLayout();
 
             if (nextscreen.Control is IActivate)

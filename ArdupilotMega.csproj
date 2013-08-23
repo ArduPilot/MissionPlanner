@@ -365,6 +365,12 @@
     </Compile>
     <Compile Include="Plugin\Plugin.cs" />
     <Compile Include="Plugin\PluginLoader.cs" />
+    <Compile Include="Plugin\PluginUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Plugin\PluginUI.Designer.cs">
+      <DependentUpon>PluginUI.cs</DependentUpon>
+    </Compile>
     <Compile Include="ScriptConsole.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -661,6 +667,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\SoftwareConfig.resx">
       <DependentUpon>SoftwareConfig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Plugin\PluginUI.resx">
+      <DependentUpon>PluginUI.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ScriptConsole.resx">
       <DependentUpon>ScriptConsole.cs</DependentUpon>
@@ -1912,6 +1921,13 @@
     <None Include="Resources\dark_simulation_icon.png" />
     <None Include="Resources\dark_terminal_icon.png" />
     <None Include="Resources\dark_tuningconfig_icon.png" />
+    <None Include="Resources\calibration01.jpg" />
+    <None Include="Resources\calibration02.jpg" />
+    <None Include="Resources\calibration03.jpg" />
+    <None Include="Resources\calibration04.jpg" />
+    <None Include="Resources\calibration05.jpg" />
+    <None Include="Resources\calibration06.jpg" />
+    <None Include="Resources\calibration07.jpg" />
     <Content Include="Resources\guagebg.jpg" />
     <None Include="Resources\Hframe.png" />
     <None Include="Resources\Hframelight.png" />
@@ -1937,6 +1953,8 @@
     <None Include="Resources\PlusFramesGreen_06.png" />
     <Content Include="Resources\rover.png" />
     <Content Include="Resources\splash.jpg" />
+    <Content Include="Scripts\rc.py" />
+    <Content Include="Scripts\example1.py" />
     <Content Include="version.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

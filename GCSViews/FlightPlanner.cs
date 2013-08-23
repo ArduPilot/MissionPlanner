@@ -1853,7 +1853,7 @@ namespace ArdupilotMega.GCSViews
 
         // polygons
         GMapPolygon wppolygon;
-        GMapPolygon drawnpolygon;
+        internal GMapPolygon drawnpolygon;
         GMapPolygon geofencepolygon;
 
         // layers
@@ -1871,8 +1871,8 @@ namespace ArdupilotMega.GCSViews
         GMapMarkerRect CurentRectMarker = null;
         bool isMouseDown = false;
         bool isMouseDraging = false;
-        PointLatLng start;
-        PointLatLng end;
+        PointLatLng MouseDownStart;
+        internal PointLatLng MouseDownEnd;
 
         //public long ElapsedMilliseconds;
 
@@ -2097,7 +2097,7 @@ namespace ArdupilotMega.GCSViews
 
         void MainMap_MouseUp(object sender, MouseEventArgs e)
         {
-            end = MainMap.FromLocalToLatLng(e.X, e.Y);
+            MouseDownEnd = MainMap.FromLocalToLatLng(e.X, e.Y);
 
             // Console.WriteLine("MainMap MU");
 
@@ -2131,7 +2131,7 @@ namespace ArdupilotMega.GCSViews
                         {
                             try
                             {
-                                drawnpolygon.Points[int.Parse(CurentRectMarker.InnerMarker.Tag.ToString().Replace("grid", "")) - 1] = new PointLatLng(end.Lat, end.Lng);
+                                drawnpolygon.Points[int.Parse(CurentRectMarker.InnerMarker.Tag.ToString().Replace("grid", "")) - 1] = new PointLatLng(MouseDownEnd.Lat, MouseDownEnd.Lng);
                                 MainMap.UpdatePolygonLocalPosition(drawnpolygon);
                                 MainMap.Invalidate();
                             }
@@ -2151,7 +2151,7 @@ namespace ArdupilotMega.GCSViews
 
         void MainMap_MouseDown(object sender, MouseEventArgs e)
         {
-            start = MainMap.FromLocalToLatLng(e.X, e.Y);
+            MouseDownStart = MainMap.FromLocalToLatLng(e.X, e.Y);
 
             //   Console.WriteLine("MainMap MD");
 
@@ -2172,7 +2172,7 @@ namespace ArdupilotMega.GCSViews
         {
             PointLatLng point = MainMap.FromLocalToLatLng(e.X, e.Y);
 
-            if (start == point)
+            if (MouseDownStart == point)
                 return;
 
             //  Console.WriteLine("MainMap MM " + point);
@@ -2190,8 +2190,8 @@ namespace ArdupilotMega.GCSViews
                 isMouseDraging = true;
                 if (CurentRectMarker == null) // left click pan
                 {
-                    double latdif = start.Lat - point.Lat;
-                    double lngdif = start.Lng - point.Lng;
+                    double latdif = MouseDownStart.Lat - point.Lat;
+                    double lngdif = MouseDownStart.Lng - point.Lng;
 
                     try
                     {
@@ -2640,24 +2640,24 @@ namespace ArdupilotMega.GCSViews
         {
             if (startmeasure.IsZero)
             {
-                startmeasure = start;
-                polygons.Markers.Add(new GMapMarkerGoogleRed(start));
+                startmeasure = MouseDownStart;
+                polygons.Markers.Add(new GMapMarkerGoogleRed(MouseDownStart));
                 MainMap.Invalidate();
             }
             else
             {
                 List<PointLatLng> polygonPoints = new List<PointLatLng>();
                 polygonPoints.Add(startmeasure);
-                polygonPoints.Add(start);
+                polygonPoints.Add(MouseDownStart);
 
                 GMapPolygon line = new GMapPolygon(polygonPoints, "measure dist");
                 line.Stroke.Color = Color.Green;
 
                 polygons.Polygons.Add(line);
 
-                polygons.Markers.Add(new GMapMarkerGoogleRed(start));
+                polygons.Markers.Add(new GMapMarkerGoogleRed(MouseDownStart));
                 MainMap.Invalidate();
-                CustomMessageBox.Show("Distance: " + FormatDistance(MainMap.Manager.GetDistance(startmeasure, start), true) + " AZ: " + (MainMap.Manager.GetBearing(startmeasure, start).ToString("0")));
+                CustomMessageBox.Show("Distance: " + FormatDistance(MainMap.Manager.GetDistance(startmeasure, MouseDownStart), true) + " AZ: " + (MainMap.Manager.GetBearing(startmeasure, MouseDownStart).ToString("0")));
                 polygons.Polygons.Remove(line);
                 polygons.Markers.Clear();
                 startmeasure = new PointLatLng();
@@ -2697,9 +2697,9 @@ namespace ArdupilotMega.GCSViews
             if (drawnpolygon.Points.Count > 1 && drawnpolygon.Points[0] == drawnpolygon.Points[drawnpolygon.Points.Count - 1])
                 drawnpolygon.Points.RemoveAt(drawnpolygon.Points.Count - 1); // unmake a full loop
 
-            drawnpolygon.Points.Add(new PointLatLng(start.Lat, start.Lng));
+            drawnpolygon.Points.Add(new PointLatLng(MouseDownStart.Lat, MouseDownStart.Lng));
 
-            addpolygonmarkergrid(drawnpolygon.Points.Count.ToString(), start.Lng, start.Lat, 0);
+            addpolygonmarkergrid(drawnpolygon.Points.Count.ToString(), MouseDownStart.Lng, MouseDownStart.Lat, 0);
 
             MainMap.UpdatePolygonLocalPosition(drawnpolygon);
 
@@ -2742,7 +2742,7 @@ namespace ArdupilotMega.GCSViews
 
             ChangeColumnHeader(MAVLink.MAV_CMD.LOITER_UNLIM.ToString());
 
-            setfromMap(end.Lat, end.Lng, (int)float.Parse(TXT_DefaultAlt.Text));
+            setfromMap(MouseDownEnd.Lat, MouseDownEnd.Lng, (int)float.Parse(TXT_DefaultAlt.Text));
 
             writeKML();
         }
@@ -2841,7 +2841,7 @@ namespace ArdupilotMega.GCSViews
 
             ChangeColumnHeader(MAVLink.MAV_CMD.LOITER_TIME.ToString());
 
-            setfromMap(end.Lat, end.Lng, (int)float.Parse(TXT_DefaultAlt.Text));
+            setfromMap(MouseDownEnd.Lat, MouseDownEnd.Lng, (int)float.Parse(TXT_DefaultAlt.Text));
 
             writeKML();
         }
@@ -2860,7 +2860,7 @@ namespace ArdupilotMega.GCSViews
 
             ChangeColumnHeader(MAVLink.MAV_CMD.LOITER_TURNS.ToString());
 
-            setfromMap(end.Lat, end.Lng, (int)float.Parse(TXT_DefaultAlt.Text));
+            setfromMap(MouseDownEnd.Lat, MouseDownEnd.Lng, (int)float.Parse(TXT_DefaultAlt.Text));
 
             writeKML();
         }
@@ -3144,7 +3144,7 @@ namespace ArdupilotMega.GCSViews
         private void setReturnLocationToolStripMenuItem_Click(object sender, EventArgs e)
         {
             geofence.Markers.Clear();
-            geofence.Markers.Add(new GMapMarkerGoogleRed(new PointLatLng(start.Lat, start.Lng)) { ToolTipMode = MarkerTooltipMode.OnMouseOver, ToolTipText = "GeoFence Return" });
+            geofence.Markers.Add(new GMapMarkerGoogleRed(new PointLatLng(MouseDownStart.Lat, MouseDownStart.Lng)) { ToolTipMode = MarkerTooltipMode.OnMouseOver, ToolTipText = "GeoFence Return" });
 
             MainMap.Invalidate();
         }
@@ -3347,10 +3347,10 @@ namespace ArdupilotMega.GCSViews
                 float d = Radius;
                 float R = 6371000;
 
-                var lat2 = Math.Asin(Math.Sin(end.Lat * deg2rad) * Math.Cos(d / R) +
-              Math.Cos(end.Lat * deg2rad) * Math.Sin(d / R) * Math.Cos(a * deg2rad));
-                var lon2 = end.Lng * deg2rad + Math.Atan2(Math.Sin(a * deg2rad) * Math.Sin(d / R) * Math.Cos(end.Lat * deg2rad),
-                                     Math.Cos(d / R) - Math.Sin(end.Lat * deg2rad) * Math.Sin(lat2));
+                var lat2 = Math.Asin(Math.Sin(MouseDownEnd.Lat * deg2rad) * Math.Cos(d / R) +
+              Math.Cos(MouseDownEnd.Lat * deg2rad) * Math.Sin(d / R) * Math.Cos(a * deg2rad));
+                var lon2 = MouseDownEnd.Lng * deg2rad + Math.Atan2(Math.Sin(a * deg2rad) * Math.Sin(d / R) * Math.Cos(MouseDownEnd.Lat * deg2rad),
+                                     Math.Cos(d / R) - Math.Sin(MouseDownEnd.Lat * deg2rad) * Math.Sin(lat2));
 
                 PointLatLng pll = new PointLatLng(lat2 * rad2deg, lon2 * rad2deg);
 
@@ -3366,8 +3366,6 @@ namespace ArdupilotMega.GCSViews
 
         public void Activate()
         {
-            MissionPlanner.Utilities.Tracking.AddPage(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.ToString(), System.Reflection.MethodBase.GetCurrentMethod().Name);
-
             timer1.Start();
 
             if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2 || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduHeli)
@@ -3433,7 +3431,7 @@ namespace ArdupilotMega.GCSViews
 
             ChangeColumnHeader(MAVLink.MAV_CMD.DO_SET_ROI.ToString());
 
-            setfromMap(end.Lat, end.Lng, (int)float.Parse(TXT_DefaultAlt.Text));
+            setfromMap(MouseDownEnd.Lat, MouseDownEnd.Lng, (int)float.Parse(TXT_DefaultAlt.Text));
 
             writeKML();
         }
@@ -4704,7 +4702,7 @@ namespace ArdupilotMega.GCSViews
 
             ChangeColumnHeader(MAVLink.MAV_CMD.LAND.ToString());
 
-            setfromMap(end.Lat, end.Lng, 1);
+            setfromMap(MouseDownEnd.Lat, MouseDownEnd.Lng, 1);
 
             writeKML();
         }
@@ -4720,7 +4718,7 @@ namespace ArdupilotMega.GCSViews
             writeKML();
         }
 
-        public void AddCommand(MAVLink.MAV_CMD cmd, float p1, float p2, float p3, float p4,float x, float y, float z)
+        public void AddCommand(MAVLink.MAV_CMD cmd, double p1, double p2, double p3, double p4, double x, double y, double z)
         {
             selectedrow = Commands.Rows.Add();
 
@@ -4797,7 +4795,7 @@ namespace ArdupilotMega.GCSViews
 
         private void trackerHomeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MainV2.comPort.MAV.cs.TrackerLocation = new PointLatLngAlt(end) { Alt = MainV2.comPort.MAV.cs.HomeAlt };
+            MainV2.comPort.MAV.cs.TrackerLocation = new PointLatLngAlt(MouseDownEnd) { Alt = MainV2.comPort.MAV.cs.HomeAlt };
         }
 
         private void gridV2ToolStripMenuItem_Click(object sender, EventArgs e)

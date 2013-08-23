@@ -36,6 +36,8 @@ namespace ArdupilotMega
             {
                 BUT_connect.Text = "Stop";
             }
+
+            MissionPlanner.Utilities.Tracking.AddPage(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.ToString(), System.Reflection.MethodBase.GetCurrentMethod().Name);
         }
 
         private void BUT_connect_Click(object sender, EventArgs e)

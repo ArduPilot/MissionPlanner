@@ -89,6 +89,8 @@ namespace MissionPlanner.Utilities
             param.Add(new KeyValuePair<string, string>("sd", Screen.PrimaryScreen.BitsPerPixel + "-bits"));
             param.Add(new KeyValuePair<string, string>("sr", Screen.PrimaryScreen.Bounds.Width + "x" + Screen.PrimaryScreen.Bounds.Height));
 
+            Console.WriteLine("Open "+page + " " + title);
+
             System.Threading.ThreadPool.QueueUserWorkItem(track, param);
         }
 

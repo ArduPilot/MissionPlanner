@@ -175,10 +175,21 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
         {
             Control temp = (Control)(sender);
 
-            if (int.Parse(temp.Text) < 900)
-                temp.Text = "900";
-            if (int.Parse(temp.Text) > 2100)
-                temp.Text = "2100";
+            int tempint = 0;
+            if (int.TryParse(temp.Text, out tempint))
+            {
+                if (tempint < 900)
+                    temp.Text = "900";
+            }
+            else { CustomMessageBox.Show("Bad Min PWM"); }
+
+            if (int.TryParse(temp.Text, out tempint))
+            {
+                if (tempint > 2100)
+                    temp.Text = "2100";
+            }
+            else { CustomMessageBox.Show("Bad Max PWM"); }
+
         }
 
         private void TXT_srvpos1_Validating(object sender, CancelEventArgs e)

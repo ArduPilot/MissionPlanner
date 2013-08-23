@@ -57,7 +57,7 @@ namespace ArdupilotMega.HIL
         }
 
         //# update turbulance random walk
-        double w_delta = Utils.sqrt(deltat) * (1.0 - new GaussianRandom().NextGaussian(1.0, self.turbulance));
+        double w_delta = Utils.sqrt(deltat) * (1.0 - new GaussianRandom().NextGaussian(1.0, self.turbulance+0.01));
         w_delta -= (self.turbulance_mul-1.0)*(deltat/self.turbulance_time_constant);
         self.turbulance_mul += w_delta;
         speed = self.speed * (float)Utils.fabs(self.turbulance_mul);

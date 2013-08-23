@@ -51,6 +51,13 @@ namespace ArdupilotMega.Wizard
 
         private void BUT_MagCalibration_Click(object sender, EventArgs e)
         {
+            MainV2.comPort.MAV.cs.ratesensors = 2;
+
+            MainV2.comPort.requestDatastream(ArdupilotMega.MAVLink.MAV_DATA_STREAM.EXTRA3, MainV2.comPort.MAV.cs.ratesensors);
+            MainV2.comPort.requestDatastream(ArdupilotMega.MAVLink.MAV_DATA_STREAM.RAW_SENSORS, MainV2.comPort.MAV.cs.ratesensors);
+
+            MainV2.comPort.setParam("MAG_ENABLE", 1);
+
             CustomMessageBox.Show("Data will be collected for 60 seconds, Please click ok and move the apm around all axises");
 
             ProgressReporterDialogue prd = new ProgressReporterDialogue();

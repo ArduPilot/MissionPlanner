@@ -28,7 +28,6 @@ namespace ArdupilotMega.GCSViews
 
         public void Activate()
         {
-            MissionPlanner.Utilities.Tracking.AddPage(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.ToString(), System.Reflection.MethodBase.GetCurrentMethod().Name);
         }
 
         private BackstageView.BackstageViewPage AddBackstageViewPage(UserControl userControl, string headerText, BackstageView.BackstageViewPage Parent = null)
@@ -47,25 +46,25 @@ namespace ArdupilotMega.GCSViews
             if (MainV2.comPort.BaseStream.IsOpen)
             {
                 if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2 || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduHeli)
+                    AddBackstageViewPage(new ConfigAC_Fence(), "GeoFence");
+
+                if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2 || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduHeli)
                 {
                     start = AddBackstageViewPage(new ConfigSimplePids(), "Basic Pids");
                 }
 
-                AddBackstageViewPage(new ConfigFlightModes(), "Flight Modes");
-                AddBackstageViewPage(new ConfigFriendlyParams { ParameterMode = ParameterMetaDataConstants.Standard }, "Standard Params");
-                if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2 || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduHeli)
-                    AddBackstageViewPage(new ConfigAC_Fence(), "GeoFence");
-                AddBackstageViewPage(new ConfigFailSafe(), "FailSafe");
-                AddBackstageViewPage(new ConfigPlanner(), "Planner");
-                AddBackstageViewPage(new ConfigFriendlyParams { ParameterMode = ParameterMetaDataConstants.Advanced }, "Advanced Params");
-                AddBackstageViewPage(new ConfigRawParams(), "Full Parameter List");
+                if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane)
+                {
+                    start = AddBackstageViewPage(new ConfigArduplane(), "APM:Plane Pids");
+
+                }
 
                 if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2 || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduHeli)
                 {
-                   // var configpanel = new Controls.ConfigPanel(Application.StartupPath + System.IO.Path.DirectorySeparatorChar + "ArduCopterConfig.xml");
-                   // AddBackstageViewPage(configpanel, "ArduCopter Pids");
+                    // var configpanel = new Controls.ConfigPanel(Application.StartupPath + System.IO.Path.DirectorySeparatorChar + "ArduCopterConfig.xml");
+                    // AddBackstageViewPage(configpanel, "ArduCopter Pids");
 
-                    AddBackstageViewPage(new ConfigArducopter(), "ArduCopter Pids");
+                    AddBackstageViewPage(new ConfigArducopter(), "APM:Copter Pids");
                 }
 
                 if (MainV2.comPort.MAV.param["H_SWASH_TYPE"] != null)
@@ -73,11 +72,11 @@ namespace ArdupilotMega.GCSViews
                     AddBackstageViewPage(new ConfigTradHeli(), "Heli Setup");
                 }
 
-                if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane)
-                {
-                    start = AddBackstageViewPage(new ConfigArduplane(), "ArduPlane Pids");
+                AddBackstageViewPage(new ConfigFriendlyParams { ParameterMode = ParameterMetaDataConstants.Standard }, "Standard Params");
+                AddBackstageViewPage(new ConfigFriendlyParams { ParameterMode = ParameterMetaDataConstants.Advanced }, "Advanced Params");
+                AddBackstageViewPage(new ConfigRawParams(), "Full Parameter List");
 
-                }
+
 
                 if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.Ateryx)
                 {
@@ -85,6 +84,8 @@ namespace ArdupilotMega.GCSViews
                     AddBackstageViewPage(new ConfigAteryxSensors(), "Ateryx Zero Sensors");
                     AddBackstageViewPage(new ConfigAteryx(), "Ateryx Pids");
                 }
+
+                AddBackstageViewPage(new ConfigPlanner(), "Planner");
             }
             else
             {

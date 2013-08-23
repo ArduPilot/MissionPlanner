@@ -13,6 +13,7 @@ namespace MissionPlanner.Utilities
         public double x;
         public double y;
         public int zone;
+        public object Tag;
 
         static CoordinateTransformationFactory ctfac = new CoordinateTransformationFactory();
         static GeographicCoordinateSystem wgs84 = GeographicCoordinateSystem.WGS84;
@@ -22,6 +23,7 @@ namespace MissionPlanner.Utilities
             this.x = x;
             this.y = y;
             this.zone = zone;
+            this.Tag = null;
         }
 
         public utmpos(utmpos pos)
@@ -29,6 +31,7 @@ namespace MissionPlanner.Utilities
             this.x = pos.x;
             this.y = pos.y;
             this.zone = pos.zone;
+            this.Tag = null;
         }
 
         public utmpos(PointLatLngAlt pos)
@@ -37,6 +40,7 @@ namespace MissionPlanner.Utilities
             this.x = dd[0];
             this.y = dd[1];
             this.zone = pos.GetUTMZone();
+            this.Tag = null;
         }
 
         public static implicit operator double[](utmpos a)
@@ -58,7 +62,11 @@ namespace MissionPlanner.Utilities
             // get leader utm coords
             double[] pll = trans.MathTransform.Inverse().Transform(this);
 
-            return new PointLatLngAlt(pll[1], pll[0]);
+            PointLatLngAlt ans = new PointLatLngAlt(pll[1], pll[0]);
+            if (this.Tag != null)
+                ans.Tag = this.Tag.ToString();
+
+            return ans;
         }
 
         public static List<utmpos> ToList(List<double[]> input, int zone)

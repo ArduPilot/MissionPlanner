@@ -235,7 +235,10 @@ namespace ArdupilotMega.Controls
             }
 
             //base.Refresh();
-            OnPaint(new PaintEventArgs(this.CreateGraphics(),this.ClientRectangle));
+            using (Graphics gg = this.CreateGraphics())
+            {
+                OnPaint(new PaintEventArgs(gg, this.ClientRectangle));
+            }
         }
 
         DateTime lastinvalidate = DateTime.MinValue;

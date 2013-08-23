@@ -16,48 +16,41 @@ namespace MissionPlanner
 {
     public partial class GridUI : Form
     {
-        GMapOverlay polygons;
+        GMapOverlay layerpolygons;
+        GMapPolygon wppoly;
+        private Plugin plugin;
+        List<PointLatLngAlt> grid;
 
-        public GridUI()
+        public GridUI(Plugin plugin)
         {
+            this.plugin = plugin;
+
             InitializeComponent();
 
             map.MapType = MapType.GoogleSatellite;
 
-            polygons = new GMapOverlay(map, "polygons");
-            map.Overlays.Add(polygons);
+            layerpolygons = new GMapOverlay(map, "polygons");
+            map.Overlays.Add(layerpolygons);
 
             CMB_startfrom.DataSource = Enum.GetNames(typeof(Grid.StartPosition));
             CMB_startfrom.SelectedIndex = 0;
+
+            layerpolygons.Polygons.Add(plugin.Host.FPDrawnPolygon);
+
+            foreach (var item in plugin.Host.FPDrawnPolygon.Points)
+            {
+                layerpolygons.Markers.Add(new GMapMarkerGoogleRed(item));
+            }
         }
 
         private void domainUpDown1_ValueChanged(object sender, EventArgs e)
         {
-            MissionPlanner.Grid gr = new MissionPlanner.Grid();
-
             // new grid system test
             List<PointLatLngAlt> list = new List<PointLatLngAlt>();
 
-            StreamReader sr = new StreamReader(File.OpenRead(@"C:\Users\hog\Documents\apm logs\test.poly"));
+            plugin.Host.FPDrawnPolygon.Points.ForEach(x => { list.Add(x); });
 
-            while (!sr.EndOfStream)
-            {
-                string line = sr.ReadLine();
-                if (line.StartsWith("#"))
-                {
-                    continue;
-                }
-                else
-                {
-                    string[] items = line.Split(new char[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
-
-                    list.Add(new PointLatLngAlt(double.Parse(items[0]), double.Parse(items[1])));
-                }
-            }
-
-            sr.Close();
-
-            List<PointLatLngAlt> grid = gr.CreateGrid(list, (double)NUM_altitude.Value, (double)NUM_Distance.Value, (double)NUM_spacing.Value, (double)NUM_angle.Value, (double)NUM_overshoot.Value, (Grid.StartPosition)Enum.Parse(typeof(Grid.StartPosition), CMB_startfrom.Text), false);
+            grid = Grid.CreateGrid(list, (double)NUM_altitude.Value, (double)NUM_Distance.Value, (double)NUM_spacing.Value, (double)NUM_angle.Value, (double)NUM_overshoot.Value, (Grid.StartPosition)Enum.Parse(typeof(Grid.StartPosition), CMB_startfrom.Text), false);
 
             List<PointLatLng> list2 = new List<PointLatLng>();
 
@@ -65,23 +58,58 @@ namespace MissionPlanner
 
             map.HoldInvalidation = true;
 
-            polygons.Polygons.Clear();
-            polygons.Markers.Clear();
+            layerpolygons.Polygons.Remove(wppoly);
+            layerpolygons.Markers.Clear();
 
-            GMapPolygon poly = new GMapPolygon(list2, "Grid");
-            polygons.Polygons.Add(poly);
+            wppoly = new GMapPolygon(list2, "Grid");
+            layerpolygons.Polygons.Add(wppoly);
+            wppoly.Stroke.Color = Color.Yellow;
+            wppoly.Stroke.Width = 4;
 
+            Console.WriteLine("Poly Dist " + wppoly.Distance);
 
-
+            int a = 1;
             foreach (var item in list2) 
             {
-                polygons.Markers.Add(new GMapMarkerGoogleGreen(item));
+                layerpolygons.Markers.Add(new GMapMarkerGoogleGreen(item) { ToolTipText = a.ToString(), ToolTipMode = MarkerTooltipMode.Always });
+                a++;
             }
 
                 map.HoldInvalidation = false;
 
             map.ZoomAndCenterMarkers("polygons");
 
+        }
+
+        private void BUT_Accept_Click(object sender, EventArgs e)
+        {
+            if (grid != null && grid.Count > 0)
+            {
+                grid.ForEach(plla =>
+                {
+                    if (plla.Tag == "M")
+                    {
+                        plugin.Host.AddWPtoList(ArdupilotMega.MAVLink.MAV_CMD.WAYPOINT, 0, 0, 0, 0, plla.Lng, plla.Lat, plla.Alt);
+                        plugin.Host.AddWPtoList(ArdupilotMega.MAVLink.MAV_CMD.DO_DIGICAM_CONTROL, 0, 0, 0, 0, 0, 0, 0);
+                    }
+                    else
+                    {
+                        plugin.Host.AddWPtoList(ArdupilotMega.MAVLink.MAV_CMD.WAYPOINT, 0, 0, 0, 0, plla.Lng, plla.Lat, plla.Alt);
+                    }
+                }
+                );
+
+                this.Close();
+            }
+            else
+            {
+                CustomMessageBox.Show("Bad Grid");
+            }
+        }
+
+        private void GridUI_Resize(object sender, EventArgs e)
+        {
+            map.ZoomAndCenterMarkers("polygons");
         }
     }
 }

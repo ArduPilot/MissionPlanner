@@ -1370,7 +1370,7 @@ namespace ArdupilotMega.GCSViews
 
         }
 
-        PointLatLng gotolocation = new PointLatLng();
+        internal PointLatLng gotolocation = new PointLatLng();
 
         private void gMapControl1_MouseDown(object sender, MouseEventArgs e)
         {

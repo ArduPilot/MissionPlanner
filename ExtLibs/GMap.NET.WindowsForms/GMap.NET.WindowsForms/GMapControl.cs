@@ -273,7 +273,10 @@ namespace GMap.NET.WindowsForms
             HoldInvalidation = false;
          }
          base.Refresh();
-         OnPaint(new PaintEventArgs(this.CreateGraphics(),this.ClientRectangle));
+         using (Graphics temp = this.CreateGraphics())
+         {
+             OnPaint(new PaintEventArgs(temp, this.ClientRectangle));
+         }
       }
 
 #if !PocketPC
