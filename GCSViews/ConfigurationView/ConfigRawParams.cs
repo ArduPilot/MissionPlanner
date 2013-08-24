@@ -455,5 +455,27 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
 
             startup = false;
         }
+
+        private void BUT_find_Click(object sender, EventArgs e)
+        {
+            string searchfor = "";
+            InputBox.Show("Search For", "Enter a single word to search for", ref searchfor);
+
+            foreach (DataGridViewRow row in Params.Rows)
+            {
+                foreach (DataGridViewCell cell in row.Cells)
+                {
+                    if (cell.Value != null && cell.Value.ToString().ToLower().Contains(searchfor.ToLower()))
+                    {
+                        row.Visible = true;
+                        break;
+                    }
+                    else
+                    {
+                        row.Visible = false;
+                    }
+                }
+            }
+        }
     }
 }

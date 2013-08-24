@@ -28,12 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.BUT_Low = new ArdupilotMega.Controls.MyButton();
             this.BUT_High = new ArdupilotMega.Controls.MyButton();
             this.TXT_pwm_low = new System.Windows.Forms.TextBox();
             this.TXT_pwm_high = new System.Windows.Forms.TextBox();
             this.BUT_Repeat = new ArdupilotMega.Controls.MyButton();
             this.TXT_rcchannel = new System.Windows.Forms.Label();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.renameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // BUT_Low
@@ -99,12 +103,27 @@
             // TXT_rcchannel
             // 
             this.TXT_rcchannel.BackColor = System.Drawing.Color.Red;
+            this.TXT_rcchannel.ContextMenuStrip = this.contextMenuStrip1;
             this.TXT_rcchannel.Location = new System.Drawing.Point(140, 0);
             this.TXT_rcchannel.Name = "TXT_rcchannel";
             this.TXT_rcchannel.Size = new System.Drawing.Size(51, 23);
             this.TXT_rcchannel.TabIndex = 12;
             this.TXT_rcchannel.Text = "5";
             this.TXT_rcchannel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.renameToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(153, 48);
+            // 
+            // renameToolStripMenuItem
+            // 
+            this.renameToolStripMenuItem.Name = "renameToolStripMenuItem";
+            this.renameToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.renameToolStripMenuItem.Text = "Rename";
+            this.renameToolStripMenuItem.Click += new System.EventHandler(this.renameToolStripMenuItem_Click);
             // 
             // ServoOptions
             // 
@@ -118,6 +137,7 @@
             this.Controls.Add(this.BUT_Low);
             this.Name = "ServoOptions";
             this.Size = new System.Drawing.Size(278, 24);
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -131,5 +151,7 @@
         private System.Windows.Forms.TextBox TXT_pwm_high;
         private MyButton BUT_Repeat;
         private System.Windows.Forms.Label TXT_rcchannel;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem renameToolStripMenuItem;
     }
 }

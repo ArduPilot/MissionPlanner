@@ -52,8 +52,11 @@ namespace ArdupilotMega.Controls
                 if (noofchars <= label.Length && resize)
                 {
                     noofchars = label.Length;
-                    SizeF textSize = Measure.MeasureString(Graphics.FromHwnd(this.Handle), this.Font,value);
-                    this.Width = (int)textSize.Width;
+                    using (Graphics g = Graphics.FromHwnd(this.Handle))
+                    {
+                        SizeF textSize = Measure.MeasureString(g, this.Font, value);
+                        this.Width = (int)textSize.Width;
+                    }                    
                 }
 
                 if (this.Visible && ThisReallyVisible())

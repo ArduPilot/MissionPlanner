@@ -68,7 +68,7 @@ namespace MissionPlanner
             //map.Invalidate();
         }
 
-        public static List<PointLatLngAlt> CreateGrid(List<PointLatLngAlt> polygon, double altitude, double distance, double spacing, double angle, double overshoot, StartPosition startpos, bool shutter)
+        public static List<PointLatLngAlt> CreateGrid(List<PointLatLngAlt> polygon, double altitude, double distance, double spacing, double angle, double overshoot1,double overshoot2, StartPosition startpos, bool shutter)
         {
             if (spacing < 10 && spacing != 0)
                 spacing = 10;
@@ -315,7 +315,7 @@ namespace MissionPlanner
                     }
 
 
-                    utmpos newend = newpos(closest.p2, angle, overshoot);
+                    utmpos newend = newpos(closest.p2, angle, overshoot1);
                     addtomap(newend, "E");
                     ans.Add(newend);
 
@@ -349,7 +349,7 @@ namespace MissionPlanner
                         }
                     }
 
-                    utmpos newend = newpos(closest.p1, angle, -overshoot);
+                    utmpos newend = newpos(closest.p1, angle, -overshoot2);
                     addtomap(newend, "E");
                     ans.Add(newend);
 

@@ -64,11 +64,16 @@ namespace ArdupilotMega.GCSViews
                     AddBackstageViewPage(new ConfigAccelerometerCalibrationQuad(), "Accel Calibration", mandatoryhardware);
                 }
 
+                if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane)
+                {
+                    AddBackstageViewPage(new ConfigAccelerometerCalibrationPlane(), "Accel Calibration", mandatoryhardware);
+                }
+
                 AddBackstageViewPage(new ConfigRadioInput(), "Radio Calibration", mandatoryhardware);
 
                 AddBackstageViewPage(new ConfigFlightModes(), "Flight Modes", mandatoryhardware);
 
-                AddBackstageViewPage(new ConfigFailSafe(), "FailSafe");
+                AddBackstageViewPage(new ConfigFailSafe(), "FailSafe",mandatoryhardware);
 
                 AddBackstageViewPage(new ArdupilotMega._3DRradio(), "3DR Radio", optionalhardware);
                 AddBackstageViewPage(new ConfigBatteryMonitoring(), "Battery Monitor", optionalhardware);
@@ -83,10 +88,7 @@ namespace ArdupilotMega.GCSViews
 
                 AddBackstageViewPage(new ArdupilotMega.Antenna.Tracker(), "Antenna Tracker", optionalhardware);
 
-                if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane)
-                {
-                    AddBackstageViewPage(new ConfigAccelerometerCalibrationPlane(), "ArduPlane Level",mandatoryhardware);
-                }
+
             }
             else
             {

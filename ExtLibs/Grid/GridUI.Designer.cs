@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GridUI));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.BUT_Accept = new ArdupilotMega.Controls.MyButton();
             this.label6 = new System.Windows.Forms.Label();
             this.CMB_startfrom = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
@@ -42,20 +43,24 @@
             this.NUM_Distance = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             this.NUM_altitude = new System.Windows.Forms.NumericUpDown();
-            this.BUT_Accept = new ArdupilotMega.Controls.MyButton();
             this.map = new ArdupilotMega.Controls.myGMAP();
+            this.label7 = new System.Windows.Forms.Label();
+            this.NUM_overshoot2 = new System.Windows.Forms.NumericUpDown();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_overshoot)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_angle)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_spacing)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_Distance)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_altitude)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_overshoot2)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.label7);
+            this.groupBox1.Controls.Add(this.NUM_overshoot2);
             this.groupBox1.Controls.Add(this.BUT_Accept);
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.CMB_startfrom);
@@ -76,10 +81,24 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Grid Options";
             // 
+            // BUT_Accept
+            // 
+            this.BUT_Accept.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
+            this.BUT_Accept.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
+            this.BUT_Accept.Location = new System.Drawing.Point(137, 338);
+            this.BUT_Accept.Name = "BUT_Accept";
+            this.BUT_Accept.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
+            this.BUT_Accept.Size = new System.Drawing.Size(75, 23);
+            this.BUT_Accept.TabIndex = 12;
+            this.BUT_Accept.Text = "Accept";
+            this.BUT_Accept.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.BUT_Accept.UseVisualStyleBackColor = true;
+            this.BUT_Accept.Click += new System.EventHandler(this.BUT_Accept_Click);
+            // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(6, 154);
+            this.label6.Location = new System.Drawing.Point(6, 179);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(52, 13);
             this.label6.TabIndex = 11;
@@ -88,7 +107,7 @@
             // CMB_startfrom
             // 
             this.CMB_startfrom.FormattingEnabled = true;
-            this.CMB_startfrom.Location = new System.Drawing.Point(121, 151);
+            this.CMB_startfrom.Location = new System.Drawing.Point(121, 176);
             this.CMB_startfrom.Name = "CMB_startfrom";
             this.CMB_startfrom.Size = new System.Drawing.Size(92, 21);
             this.CMB_startfrom.TabIndex = 10;
@@ -234,20 +253,6 @@
             0});
             this.NUM_altitude.ValueChanged += new System.EventHandler(this.domainUpDown1_ValueChanged);
             // 
-            // BUT_Accept
-            // 
-            this.BUT_Accept.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
-            this.BUT_Accept.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
-            this.BUT_Accept.Location = new System.Drawing.Point(137, 338);
-            this.BUT_Accept.Name = "BUT_Accept";
-            this.BUT_Accept.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
-            this.BUT_Accept.Size = new System.Drawing.Size(75, 23);
-            this.BUT_Accept.TabIndex = 12;
-            this.BUT_Accept.Text = "Accept";
-            this.BUT_Accept.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
-            this.BUT_Accept.UseVisualStyleBackColor = true;
-            this.BUT_Accept.Click += new System.EventHandler(this.BUT_Accept_Click);
-            // 
             // map
             // 
             this.map.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -274,6 +279,32 @@
             this.map.TabIndex = 0;
             this.map.Zoom = 3D;
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(6, 152);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(58, 13);
+            this.label7.TabIndex = 14;
+            this.label7.Text = "OverShoot";
+            // 
+            // NUM_overshoot2
+            // 
+            this.NUM_overshoot2.Location = new System.Drawing.Point(121, 150);
+            this.NUM_overshoot2.Maximum = new decimal(new int[] {
+            500,
+            0,
+            0,
+            0});
+            this.NUM_overshoot2.Name = "NUM_overshoot2";
+            this.NUM_overshoot2.Size = new System.Drawing.Size(91, 20);
+            this.NUM_overshoot2.TabIndex = 13;
+            this.NUM_overshoot2.Value = new decimal(new int[] {
+            20,
+            0,
+            0,
+            0});
+            // 
             // GridUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -291,6 +322,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUM_spacing)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_Distance)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_altitude)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_overshoot2)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -312,5 +344,7 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.ComboBox CMB_startfrom;
         private ArdupilotMega.Controls.MyButton BUT_Accept;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.NumericUpDown NUM_overshoot2;
     }
 }

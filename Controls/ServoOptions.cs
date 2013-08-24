@@ -33,6 +33,7 @@ namespace ArdupilotMega.Controls
 
         void loadSettings()
         {
+            string desc = MainV2.getConfig("Servo" + thisservo + "_desc");
             string low = MainV2.getConfig("Servo" + thisservo + "_low");
             string high = MainV2.getConfig("Servo" + thisservo + "_high");
 
@@ -44,6 +45,11 @@ namespace ArdupilotMega.Controls
             if (high != "")
             {
                 TXT_pwm_high.Text = high;
+            }
+
+            if (desc != "")
+            {
+                TXT_rcchannel.Text = desc;
             }
         }
 
@@ -116,6 +122,14 @@ namespace ArdupilotMega.Controls
         private void TXT_pwm_high_TextChanged(object sender, EventArgs e)
         {
             MainV2.config["Servo" + thisservo + "_high"] = TXT_pwm_high.Text;
+        }
+
+        private void renameToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string desc = TXT_rcchannel.Text;
+            MissionPlanner.Controls.InputBox.Show("Description", "Enter new Description", ref desc);
+            TXT_rcchannel.Text = desc;
+            MainV2.config["Servo" + thisservo + "_desc"] = desc;
         }
     }
 }

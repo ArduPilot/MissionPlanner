@@ -1,4 +1,13 @@
-﻿* Mission Planner 1.2.71
+﻿* Mission Planner 1.2.72
+menu structure change.  since it missed .71
+support new 3dr radio message
+add find to full param list
+fix poosible memory issue in mylabel
+add support for diffrent overshoot at each end of a grid
+fix messuresting bug with languages with unicode characters.
+add rename support to the servo tab. (right click.)
+
+* Mission Planner 1.2.71
 update wizard accel images to iris
 ensure wizard mag calib works, req streams and mag enable
 identify arduheli

@@ -46,6 +46,7 @@
             this.Desc = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.label1 = new System.Windows.Forms.Label();
+            this.BUT_find = new ArdupilotMega.Controls.MyButton();
             ((System.ComponentModel.ISupportInitialize)(this.Params)).BeginInit();
             this.SuspendLayout();
             // 
@@ -181,9 +182,21 @@
             resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
             // 
+            // BUT_find
+            // 
+            resources.ApplyResources(this.BUT_find, "BUT_find");
+            this.BUT_find.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
+            this.BUT_find.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
+            this.BUT_find.Name = "BUT_find";
+            this.BUT_find.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
+            this.BUT_find.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.BUT_find.UseVisualStyleBackColor = true;
+            this.BUT_find.Click += new System.EventHandler(this.BUT_find_Click);
+            // 
             // ConfigRawParams
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.Controls.Add(this.BUT_find);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.BUT_compare);
             this.Controls.Add(this.BUT_rerequestparams);
@@ -214,5 +227,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Units;
         private System.Windows.Forms.DataGridViewTextBoxColumn Options;
         private System.Windows.Forms.DataGridViewTextBoxColumn Desc;
+        private Controls.MyButton BUT_find;
     }
 }

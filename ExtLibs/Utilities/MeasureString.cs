@@ -53,7 +53,7 @@ namespace System.Drawing
             }
         }
       
-        private static SizeF MeasureString(IDeviceContext g, Font font, string text)
+        internal static SizeF MeasureString(IDeviceContext g, Font font, string text)
         {
             return string.IsNullOrEmpty(text) ? new SizeF(0,0) : TextRenderer.MeasureText(text,font); //((Graphics)g).MeasureString(text, font);
         }
@@ -98,7 +98,7 @@ namespace System.Drawing
             {
                 if (chrValue > 255 && data.BoldCharacter[chrValue].Width == 0)
                 {
-                    data.BoldCharacter[chrValue] = MeasureString(g, font, chr.ToString());
+                    data.BoldCharacter[chrValue] = FontData.MeasureString(g, font, chr.ToString());
                 }
                 return data.BoldCharacter[chrValue];
             }
@@ -106,13 +106,13 @@ namespace System.Drawing
             {
                 if (chrValue > 255 && data.ItalicCharacter[chrValue].Width == 0)
                 {
-                    data.ItalicCharacter[chrValue] = MeasureString(g, font, chr.ToString());
+                    data.ItalicCharacter[chrValue] = FontData.MeasureString(g, font, chr.ToString());
                 }
                 return data.ItalicCharacter[chrValue];
             }
             if (chrValue > 255 && data.NormalCharacter[chrValue].Width == 0)
             {
-                data.NormalCharacter[chrValue] = MeasureString(g, font, chr.ToString());
+                data.NormalCharacter[chrValue] = FontData.MeasureString(g, font, chr.ToString());
             }
             return data.NormalCharacter[chrValue];
         }

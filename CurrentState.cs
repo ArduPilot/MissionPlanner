@@ -836,6 +836,19 @@ enum gcs_severity {
                         fixedp = radio.fixedp;
                     }
 
+                    bytearray = mavinterface.MAV.packets[MAVLink.MAVLINK_MSG_ID_RADIO_STATUS];
+                    if (bytearray != null)
+                    {
+                        var radio = bytearray.ByteArrayToStructure<MAVLink.mavlink_radio_status_t>(6);
+                        rssi = radio.rssi;
+                        remrssi = radio.remrssi;
+                        txbuffer = radio.txbuf;
+                        rxerrors = radio.rxerrors;
+                        noise = radio.noise;
+                        remnoise = radio.remnoise;
+                        fixedp = radio.fixedp;
+                    }
+
                     bytearray = mavinterface.MAV.packets[MAVLink.MAVLINK_MSG_ID_GLOBAL_POSITION_INT];
                     if (bytearray != null)
                     {
