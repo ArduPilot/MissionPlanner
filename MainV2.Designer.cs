@@ -74,6 +74,7 @@
             this.MainMenu.Stretch = false;
             this.MainMenu.TabIndex = 5;
             this.MainMenu.Text = "menuStrip1";
+            this.MainMenu.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.MainMenu_ItemClicked);
             this.MainMenu.MouseLeave += new System.EventHandler(this.MainMenu_MouseLeave);
             // 
             // CTX_mainmenu
@@ -97,7 +98,7 @@
             // 
             this.MenuFlightData.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MenuFlightData.ForeColor = System.Drawing.Color.White;
-            this.MenuFlightData.Image = menuicons.fd;
+            this.MenuFlightData.Image = ((System.Drawing.Image)(resources.GetObject("MenuFlightData.Image")));
             this.MenuFlightData.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.MenuFlightData.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.MenuFlightData.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -114,7 +115,7 @@
             // 
             this.MenuFlightPlanner.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MenuFlightPlanner.ForeColor = System.Drawing.Color.White;
-            this.MenuFlightPlanner.Image = menuicons.fp;
+            this.MenuFlightPlanner.Image = ((System.Drawing.Image)(resources.GetObject("MenuFlightPlanner.Image")));
             this.MenuFlightPlanner.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.MenuFlightPlanner.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.MenuFlightPlanner.ImageTransparentColor = System.Drawing.Color.White;
@@ -132,7 +133,7 @@
             this.MenuHWConfig.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.MenuHWConfig.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MenuHWConfig.ForeColor = System.Drawing.Color.White;
-            this.MenuHWConfig.Image = menuicons.initsetup ;
+            this.MenuHWConfig.Image = ((System.Drawing.Image)(resources.GetObject("MenuHWConfig.Image")));
             this.MenuHWConfig.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.MenuHWConfig.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.MenuHWConfig.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -150,7 +151,7 @@
             this.MenuSWConfig.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.MenuSWConfig.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MenuSWConfig.ForeColor = System.Drawing.Color.White;
-            this.MenuSWConfig.Image = menuicons.config_tuning;
+            this.MenuSWConfig.Image = ((System.Drawing.Image)(resources.GetObject("MenuSWConfig.Image")));
             this.MenuSWConfig.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.MenuSWConfig.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.MenuSWConfig.Margin = new System.Windows.Forms.Padding(0);
@@ -168,7 +169,7 @@
             // 
             this.MenuSimulation.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MenuSimulation.ForeColor = System.Drawing.Color.White;
-            this.MenuSimulation.Image = menuicons.sim;
+            this.MenuSimulation.Image = ((System.Drawing.Image)(resources.GetObject("MenuSimulation.Image")));
             this.MenuSimulation.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.MenuSimulation.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.MenuSimulation.Margin = new System.Windows.Forms.Padding(0);
@@ -185,7 +186,7 @@
             // 
             this.MenuTerminal.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MenuTerminal.ForeColor = System.Drawing.Color.White;
-            this.MenuTerminal.Image = menuicons.terminal;
+            this.MenuTerminal.Image = ((System.Drawing.Image)(resources.GetObject("MenuTerminal.Image")));
             this.MenuTerminal.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.MenuTerminal.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.MenuTerminal.Margin = new System.Windows.Forms.Padding(0);
@@ -202,7 +203,7 @@
             // 
             this.MenuHelp.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MenuHelp.ForeColor = System.Drawing.Color.White;
-            this.MenuHelp.Image = menuicons.help;
+            this.MenuHelp.Image = ((System.Drawing.Image)(resources.GetObject("MenuHelp.Image")));
             this.MenuHelp.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.MenuHelp.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.MenuHelp.Margin = new System.Windows.Forms.Padding(0);
@@ -220,12 +221,12 @@
             this.MenuConnect.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.MenuConnect.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MenuConnect.ForeColor = System.Drawing.Color.White;
-            this.MenuConnect.Image = menuicons.connect;
+            this.MenuConnect.Image = ((System.Drawing.Image)(resources.GetObject("MenuConnect.Image")));
             this.MenuConnect.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.MenuConnect.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.MenuConnect.Margin = new System.Windows.Forms.Padding(0);
             this.MenuConnect.Name = "MenuConnect";
-            this.MenuConnect.Size = new System.Drawing.Size(59, 63);
+            this.MenuConnect.Size = new System.Drawing.Size(66, 63);
             this.MenuConnect.Text = "CONNECT";
             this.MenuConnect.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.MenuConnect.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage;

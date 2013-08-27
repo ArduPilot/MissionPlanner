@@ -132,7 +132,7 @@ namespace ArdupilotMega.Antenna
                     BaudRate = int.Parse(CMB_baudrate.Text)
                 };
             }
-            catch (Exception ex) { CustomMessageBox.Show("Bad Port settings " + ex.Message); return; }
+            catch (Exception ex) { CustomMessageBox.Show("Bad Port settings " + ex.Message,"Error"); return; }
 
             try
             {
@@ -154,7 +154,7 @@ namespace ArdupilotMega.Antenna
                 tracker.TiltPWMCenter = int.Parse(TXT_centertilt.Text);
 
             }
-            catch (Exception ex) { CustomMessageBox.Show("Bad User input " + ex.Message); return; }
+            catch (Exception ex) { CustomMessageBox.Show("Bad User input " + ex.Message,"Error"); return; }
 
             if (tracker.Init())
             {
@@ -270,7 +270,7 @@ namespace ArdupilotMega.Antenna
 
             if (snr == 0)
             {
-                CustomMessageBox.Show("No valid 3dr radio");
+                CustomMessageBox.Show("No valid 3dr radio","Error");
                 return;
             }
 

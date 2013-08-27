@@ -417,7 +417,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                 }
                 catch
                 {
-                    CustomMessageBox.Show("Set " + value + " Failed");
+                    CustomMessageBox.Show("Set " + value + " Failed", "Error");
                 }
             }
         }
@@ -440,7 +440,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             }
             catch (Exception ex)
             {
-                CustomMessageBox.Show("Error: getting param list " + ex.ToString());
+                CustomMessageBox.Show("Error: getting param list " + ex.ToString(), "Error");
             }
 
 

@@ -206,7 +206,7 @@ namespace _3DRRadio
                             sw.Flush();
                         }
                     }
-                    catch { CustomMessageBox.Show("Error writing to com port"); }
+                    catch { CustomMessageBox.Show("Error writing to com port","Error"); }
                 }
                 cmd = new StringBuilder();
             }

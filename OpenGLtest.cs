@@ -27,7 +27,7 @@ namespace ArdupilotMega.Controls
         double step = 1 / 1200.0;
 
         // image zoom level
-        int zoom = 11;
+        int zoom = 14;
 
         RectLatLng area = new RectLatLng(-35.04286,117.84262,0.1,0.1);
 
@@ -254,7 +254,7 @@ namespace ArdupilotMega.Controls
 
             sw.Start();
 
-            zoom = 11;
+            zoom = 14;
 
             getImage();
 

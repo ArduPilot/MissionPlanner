@@ -261,7 +261,7 @@ namespace ArdupilotMega
         public float current { get { return _current; } set { if (_lastcurrent == DateTime.MinValue) _lastcurrent = datetime; battery_usedmah += (value * 1000) * (float)(datetime - _lastcurrent).TotalHours; _current = value; _lastcurrent = datetime; } }
         private float _current;
         private DateTime _lastcurrent = DateTime.MinValue;
-        [DisplayText("Bat mah EST (mah)")]
+        [DisplayText("Bat used EST (mah)")]
         public float battery_usedmah { get; set; }
 
         public float HomeAlt { get { return (float)HomeLocation.Alt; } set { } }
@@ -366,10 +366,14 @@ namespace ArdupilotMega
         public bool armed { get; set; }
 
         // 3dr radio
+        [DisplayText("3DR Radio rssi")]
         public float rssi { get; set; }
+        [DisplayText("3DR Radio remote rssi")]
         public float remrssi { get; set; }
         public byte txbuffer { get; set; }
+        [DisplayText("3DR Radio noise")]
         public float noise { get; set; }
+        [DisplayText("3DR Radio remote noise")]
         public float remnoise { get; set; }
         public ushort rxerrors { get; set; }
         public ushort fixedp { get; set; }
@@ -377,8 +381,11 @@ namespace ArdupilotMega
         private float _remotesnrdb = 0;
         private DateTime lastrssi = DateTime.Now;
         private DateTime lastremrssi = DateTime.Now;
+        [DisplayText("3DR Radio snr")]
         public float localsnrdb { get { if (lastrssi.AddSeconds(1) > DateTime.Now) { return _localsnrdb; } lastrssi = DateTime.Now; _localsnrdb = ((rssi - noise) / 1.9f) * 0.5f + _localsnrdb * 0.5f; return _localsnrdb; } }
+        [DisplayText("3DR Radio remote snr")]
         public float remotesnrdb { get { if (lastremrssi.AddSeconds(1) > DateTime.Now) { return _remotesnrdb; } lastremrssi = DateTime.Now; _remotesnrdb = ((remrssi - remnoise) / 1.9f) * 0.5f + _remotesnrdb * 0.5f; return _remotesnrdb; } }
+        [DisplayText("3DR Radio est dist (m)")]
         public float DistRSSIRemain {
             get
             {
@@ -535,7 +542,7 @@ namespace ArdupilotMega
                     {
                         lastsecondcounter = DateTime.Now;
 
-                        if (lastpos.Lat != 0 && lastpos.Lng != 0)
+                        if (lastpos.Lat != 0 && lastpos.Lng != 0 && armed)
                         {
                             if (!MainV2.comPort.BaseStream.IsOpen && !MainV2.comPort.logreadmode)
                                 distTraveled = 0;

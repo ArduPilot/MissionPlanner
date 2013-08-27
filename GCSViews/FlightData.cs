@@ -1314,7 +1314,7 @@ namespace ArdupilotMega.GCSViews
 
                 MainV2.comPort.doCommand((MAVLink.MAV_CMD)Enum.Parse(typeof(MAVLink.MAV_CMD), CMB_action.Text), 0, 0, 1, 0, 0, 0, 0);
             }
-            catch { CustomMessageBox.Show("The Command failed to execute"); }
+            catch { CustomMessageBox.Show("The Command failed to execute", "Error"); }
             ((Button)sender).Enabled = true;
         }
 
@@ -1327,7 +1327,7 @@ namespace ArdupilotMega.GCSViews
                 MainV2.comPort.setWPCurrent(1); // set nav to
 
             }
-            catch { CustomMessageBox.Show("The command failed to execute"); }
+            catch { CustomMessageBox.Show("The command failed to execute", "Error"); }
             ((Button)sender).Enabled = true;
         }
 
@@ -1386,7 +1386,7 @@ namespace ArdupilotMega.GCSViews
         {
             if (!MainV2.comPort.BaseStream.IsOpen)
             {
-                CustomMessageBox.Show("Please Connect First");
+                CustomMessageBox.Show("Please Connect First", "Error");
                 return;
             }
 
@@ -1400,7 +1400,7 @@ namespace ArdupilotMega.GCSViews
 
             if (gotolocation.Lat == 0 || gotolocation.Lng == 0)
             {
-                CustomMessageBox.Show("Bad Lat/Long");
+                CustomMessageBox.Show("Bad Lat/Long", "Error");
                 return;
             }
 
@@ -1415,7 +1415,7 @@ namespace ArdupilotMega.GCSViews
             {
                 MainV2.comPort.setGuidedModeWP(gotohere);
             }
-            catch (Exception ex) { MainV2.comPort.giveComport = false; CustomMessageBox.Show("Error sending command : " + ex.Message); }
+            catch (Exception ex) { MainV2.comPort.giveComport = false; CustomMessageBox.Show("Error sending command : " + ex.Message, "Error"); }
 
         }
 
@@ -1557,7 +1557,7 @@ namespace ArdupilotMega.GCSViews
                     tracklog.Minimum = 0;
                     tracklog.Maximum = 100;
                 }
-                catch { CustomMessageBox.Show("Error: Failed to write log file"); }
+                catch { CustomMessageBox.Show("Error: Failed to write log file", "Error"); }
             }
         }
 
@@ -1684,7 +1684,7 @@ namespace ArdupilotMega.GCSViews
                 ((Button)sender).Enabled = false;
                 MainV2.comPort.setWPCurrent((ushort)CMB_setwp.SelectedIndex); // set nav to
             }
-            catch { CustomMessageBox.Show("The command failed to execute"); }
+            catch { CustomMessageBox.Show("The command failed to execute", "Error"); }
             ((Button)sender).Enabled = true;
         }
 
@@ -1720,7 +1720,7 @@ namespace ArdupilotMega.GCSViews
                 ((Button)sender).Enabled = false;
                 MainV2.comPort.setMode("Auto");
             }
-            catch { CustomMessageBox.Show("The Command failed to execute"); }
+            catch { CustomMessageBox.Show("The Command failed to execute", "Error"); }
             ((Button)sender).Enabled = true;
         }
 
@@ -1731,7 +1731,7 @@ namespace ArdupilotMega.GCSViews
                 ((Button)sender).Enabled = false;
                 MainV2.comPort.setMode("RTL");
             }
-            catch { CustomMessageBox.Show("The Command failed to execute"); }
+            catch { CustomMessageBox.Show("The Command failed to execute", "Error"); }
             ((Button)sender).Enabled = true;
         }
 
@@ -1746,7 +1746,7 @@ namespace ArdupilotMega.GCSViews
                     MainV2.comPort.setMode("Stabilize");
 
             }
-            catch { CustomMessageBox.Show("The Command failed to execute"); }
+            catch { CustomMessageBox.Show("The Command failed to execute", "Error"); }
             ((Button)sender).Enabled = true;
         }
 
@@ -2670,9 +2670,9 @@ print 'Roll complete'
             {
                 bool ans = MainV2.comPort.doARM(!MainV2.comPort.MAV.cs.armed);
                 if (ans == false)
-                    CustomMessageBox.Show("Error: Arm message rejected by MAV");
+                    CustomMessageBox.Show("Error: Arm message rejected by MAV", "Error");
             }
-            catch { CustomMessageBox.Show("Error: No responce from MAV"); }
+            catch { CustomMessageBox.Show("Error: No responce from MAV", "Error"); }
 
 
         }
@@ -2684,7 +2684,7 @@ print 'Roll complete'
             {
                 MainV2.comPort.setNewWPAlt(new Locationwp() { alt = newalt / MainV2.comPort.MAV.cs.multiplierdist });
             }
-            catch { CustomMessageBox.Show("Error sending new Alt"); }
+            catch { CustomMessageBox.Show("Error sending new Alt", "Error"); }
             //MainV2.comPort.setNextWPTargetAlt((ushort)MainV2.comPort.MAV.cs.wpno, newalt);
         }
 
@@ -2706,7 +2706,7 @@ print 'Roll complete'
                 {
                     MainV2.comPort.setParam("WP_SPEED_MAX", ((float)modifyandSetSpeed.Value * 100.0f));
                 }
-                catch { CustomMessageBox.Show("Error sending WP_SPEED_MAX command"); }
+                catch { CustomMessageBox.Show("Error sending WP_SPEED_MAX command", "Error"); }
             } // plane with airspeed
             else if (MainV2.comPort.MAV.param.ContainsKey("TRIM_ARSPD_CM") && MainV2.comPort.MAV.param.ContainsKey("ARSPD_ENABLE")
                 && MainV2.comPort.MAV.param.ContainsKey("ARSPD_USE") && (float)MainV2.comPort.MAV.param["ARSPD_ENABLE"] == 1
@@ -2716,7 +2716,7 @@ print 'Roll complete'
                 {
                     MainV2.comPort.setParam("TRIM_ARSPD_CM", ((float)modifyandSetSpeed.Value * 100.0f));
                 }
-                catch { CustomMessageBox.Show("Error sending TRIM_ARSPD_CM command"); }
+                catch { CustomMessageBox.Show("Error sending TRIM_ARSPD_CM command", "Error"); }
             } // plane without airspeed
             else if (MainV2.comPort.MAV.param.ContainsKey("TRIM_THROTTLE") && MainV2.comPort.MAV.param.ContainsKey("ARSPD_USE")
                 && (float)MainV2.comPort.MAV.param["ARSPD_USE"] == 0)
@@ -2725,7 +2725,7 @@ print 'Roll complete'
                 {
                     MainV2.comPort.setParam("TRIM_THROTTLE", (float)modifyandSetSpeed.Value);
                 }
-                catch { CustomMessageBox.Show("Error sending TRIM_THROTTLE command"); }
+                catch { CustomMessageBox.Show("Error sending TRIM_THROTTLE command", "Error"); }
             }
         }
 
@@ -2740,7 +2740,7 @@ print 'Roll complete'
             {
                 MainV2.comPort.setDigicamControl(true);
             }
-            catch { CustomMessageBox.Show("Error sending command"); }
+            catch { CustomMessageBox.Show("Error sending command", "Error"); }
         }
 
         private void TRK_zoom_Scroll(object sender, EventArgs e)

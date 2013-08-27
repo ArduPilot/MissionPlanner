@@ -148,7 +148,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                         MainV2.comPort.setParam("SIMPLE", value);
                 }
             }
-            catch { CustomMessageBox.Show("Failed to set Flight modes"); }
+            catch { CustomMessageBox.Show("Failed to set Flight modes", "Error"); }
             BUT_SaveModes.Text = "Complete";
         }
 

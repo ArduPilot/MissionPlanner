@@ -103,7 +103,7 @@ namespace ArdupilotMega.Wizard
                     if (MainV2.comPort.MAV.cs.armed)
                     {
                         lbl_prearm.BackColor = Color.Green;
-                       // MainV2.comPort.doARM(false);
+                        MainV2.comPort.doARM(false);
                         stage = 5;
                     }
                     else

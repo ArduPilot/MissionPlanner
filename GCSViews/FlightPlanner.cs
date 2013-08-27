@@ -483,6 +483,7 @@ namespace ArdupilotMega.GCSViews
             e.ThrowException = false;
             //throw new NotImplementedException();
         }
+
         /// <summary>
         /// Adds a new row to the datagrid
         /// </summary>
@@ -901,7 +902,7 @@ namespace ArdupilotMega.GCSViews
                     try
                     {
                         int command = (byte)(int)Enum.Parse(typeof(MAVLink.MAV_CMD), Commands.Rows[a].Cells[Command.Index].Value.ToString(), false);
-                        if (command < (byte)MAVLink.MAV_CMD.LAST && command != (byte)MAVLink.MAV_CMD.TAKEOFF)
+                        if (command < (byte)MAVLink.MAV_CMD.LAST && command != (byte)MAVLink.MAV_CMD.TAKEOFF || command == (byte)MAVLink.MAV_CMD.DO_SET_ROI)
                         {
                             string cell2 = Commands.Rows[a].Cells[Alt.Index].Value.ToString(); // alt
                             string cell3 = Commands.Rows[a].Cells[Lat.Index].Value.ToString(); // lat
@@ -1024,8 +1025,6 @@ namespace ArdupilotMega.GCSViews
                 }
 
                 setgrad();
-
-                config(true);
             }
             catch (Exception ex)
             {
@@ -4935,9 +4934,15 @@ namespace ArdupilotMega.GCSViews
 
         private void areaToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            double area = calcpolygonarea(drawnpolygon.Points);
+            double aream2 = calcpolygonarea(drawnpolygon.Points);
 
-            CustomMessageBox.Show("Area: " + area + " m2");
+            double areaa = aream2 * 0.000247105;
+
+            double areaha = aream2 * 1e-4;
+
+            double areasqf = aream2 * 10.7639;
+
+            CustomMessageBox.Show("Area: " + aream2.ToString("0") + " m2\n\t" + areaa.ToString("0.00") + " Acre\n\t" + areaha.ToString("0.00") +" Hectare\n\t" + areasqf.ToString("0") + " sqf","Area");
         }
     }
 }

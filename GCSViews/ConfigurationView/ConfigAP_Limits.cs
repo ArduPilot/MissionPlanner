@@ -43,7 +43,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
         {
             if (!MainV2.comPort.MAV.param.ContainsKey("LIM_ENABLED"))
             {
-                CustomMessageBox.Show("This feature is not enabled in your firmware.");
+                CustomMessageBox.Show("This feature is not enabled in your firmware.", "Error");
                 return;
             }
             

@@ -211,7 +211,7 @@ namespace ArdupilotMega
                     xmlwriter.Close();
 
                 }
-                catch (Exception ex) { CustomMessageBox.Show(ex.ToString()); }
+                catch (Exception ex) { CustomMessageBox.Show(ex.ToString(),"Error"); }
             }
             else
             {
@@ -333,7 +333,7 @@ namespace ArdupilotMega
                 camera.overlap = (int)num_overlap.Value;
                 camera.sidelap = (int)num_sidelap.Value;
             }
-            catch { CustomMessageBox.Show("One of your entries is not a valid number"); return; }
+            catch { CustomMessageBox.Show("One of your entries is not a valid number","Error"); return; }
 
             cameraplanners[CMB_camera.Text] = camera;
 

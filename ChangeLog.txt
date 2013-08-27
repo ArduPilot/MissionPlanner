@@ -1,4 +1,21 @@
-﻿* Mission Planner 1.2.72
+﻿* Mission Planner 1.2.73
+remove DO_SET_PARAMETER - has never worked
+add connect event
+add plugin shutdown on exit
+add highlighting selected item on main menu
+add armed filter to disttraveled
+add wizard quickconnect
+add auto disarm to wizard verify
+add better error handling to log browse time errors
+fix roi display in FP
+add more units to area calc
+add "Help" screen
+fix custom firmware status
+add find to standard and advanced param list.
+more work on new gridv2 + camera intergration
+wip on stats plugin.
+
+* Mission Planner 1.2.72
 menu structure change.  since it missed .71
 support new 3dr radio message
 add find to full param list

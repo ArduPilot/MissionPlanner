@@ -52,7 +52,7 @@ namespace MissionPlanner
             }
             else
             {
-                CustomMessageBox.Show("Please define a polygon.");
+                CustomMessageBox.Show("Please define a polygon.", "Error");
             }
         }
 

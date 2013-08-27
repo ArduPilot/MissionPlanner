@@ -316,6 +316,8 @@ namespace MissionPlanner
 
 
                     utmpos newend = newpos(closest.p2, angle, overshoot1);
+                  //  if (overshoot1 > 0)
+                   //     ans.Add(new utmpos(closest.p2) { Tag = "M" });
                     addtomap(newend, "E");
                     ans.Add(newend);
 
@@ -350,6 +352,8 @@ namespace MissionPlanner
                     }
 
                     utmpos newend = newpos(closest.p1, angle, -overshoot2);
+                 //   if (overshoot2 > 0)
+                 //       ans.Add(new utmpos(closest.p1) { Tag = "M" });
                     addtomap(newend, "E");
                     ans.Add(newend);
 

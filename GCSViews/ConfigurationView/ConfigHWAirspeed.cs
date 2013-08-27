@@ -32,14 +32,14 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             {
                 if (MainV2.comPort.MAV.param["ARSPD_ENABLE"] == null)
                 {
-                    CustomMessageBox.Show("Not Available on " + MainV2.comPort.MAV.cs.firmware.ToString());
+                    CustomMessageBox.Show("Not Available on " + MainV2.comPort.MAV.cs.firmware.ToString(), "Error");
                 }
                 else
                 {
                     MainV2.comPort.setParam("ARSPD_ENABLE", ((CheckBox)sender).Checked == true ? 1 : 0);
                 }
             }
-            catch { CustomMessageBox.Show("Set ARSPD_ENABLE Failed"); }
+            catch { CustomMessageBox.Show("Set ARSPD_ENABLE Failed", "Error"); }
         }
 
         public void Activate()

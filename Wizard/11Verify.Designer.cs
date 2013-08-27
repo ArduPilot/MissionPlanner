@@ -126,7 +126,7 @@ namespace ArdupilotMega.Wizard
             this.lbl_prearm.Name = "lbl_prearm";
             this.lbl_prearm.Size = new System.Drawing.Size(288, 52);
             this.lbl_prearm.TabIndex = 18;
-            this.lbl_prearm.Text = "Can you arm the autopilot?";
+            this.lbl_prearm.Text = "Can you arm the autopilot?\r\nPlease try arming with your transmitter.";
             this.lbl_prearm.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lbl_rc

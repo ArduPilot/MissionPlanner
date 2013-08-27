@@ -283,7 +283,7 @@ namespace ArdupilotMega.Controls
                     }
                     catch { }
                 }
-                catch { CustomMessageBox.Show("Set " + value + " Failed"); }
+                catch { CustomMessageBox.Show("Set " + value + " Failed", "Error"); }
             }
         }
 

@@ -69,7 +69,8 @@ namespace MissionPlanner.Utilities
 
         public PointLatLng Point()
         {
-            return new PointLatLng(Lat, Lng);
+            PointLatLng pnt = new PointLatLng(Lat, Lng);
+            return pnt;
         }
 
         public static implicit operator PointLatLngAlt(PointLatLng a)
@@ -154,6 +155,43 @@ namespace MissionPlanner.Utilities
             list.ForEach(x => { data.Add((double[])x); });
 
             return trans.MathTransform.TransformList(data);
+        }
+
+
+        public PointLatLngAlt newpos(double bearing, double distance)
+        {
+            // '''extrapolate latitude/longitude given a heading and distance 
+            //   thanks to http://www.movable-type.co.uk/scripts/latlong.html
+            //  '''
+            // from math import sin, asin, cos, atan2, radians, degrees
+            double radius_of_earth = 6378100.0;//# in meters
+
+            double lat1 = deg2rad * (this.Lat);
+            double lon1 = deg2rad * (this.Lng);
+            double brng = deg2rad * (bearing);
+            double dr = distance / radius_of_earth;
+
+            double lat2 = Math.Asin(Math.Sin(lat1) * Math.Cos(dr) +
+                        Math.Cos(lat1) * Math.Sin(dr) * Math.Cos(brng));
+            double lon2 = lon1 + Math.Atan2(Math.Sin(brng) * Math.Sin(dr) * Math.Cos(lat1),
+                                Math.Cos(dr) - Math.Sin(lat1) * Math.Sin(lat2));
+
+            double latout = rad2deg * (lat2);
+            double lngout = rad2deg * (lon2);
+
+            return new PointLatLngAlt(latout, lngout, this.Alt, this.Tag);
+        }
+
+        public double GetBearing(PointLatLngAlt p2)
+        {
+            //http://www.movable-type.co.uk/scripts/latlong.html
+            double dLon = this.Lng - p2.Lng;
+
+            var y = Math.Sin(dLon) * Math.Cos(p2.Lat);
+            var x = Math.Cos(this.Lat) * Math.Sin(p2.Lat) -
+                    Math.Sin(this.Lat) * Math.Cos(p2.Lat) * Math.Cos(dLon);
+            var brng = Math.Atan2(y, x) * rad2deg;
+            return brng;
         }
 
         /// <summary>

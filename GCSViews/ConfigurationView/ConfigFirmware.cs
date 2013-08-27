@@ -215,7 +215,7 @@ namespace ArdupilotMega.GCSViews
                 if (updated)
                 {
                     if (fwtoupload.url2560_2 != null && fwtoupload.url2560_2.ToLower().Contains("copter"))
-                        CustomMessageBox.Show("Please ensure you do a live compass calibration after installing arducopter V 3.x");
+                        CustomMessageBox.Show("Please ensure you do a live compass calibration after installing arducopter V 3.x", "Compass");
                 }
             }
 
@@ -225,7 +225,7 @@ namespace ArdupilotMega.GCSViews
         {
             if (((Control)sender).Tag.GetType() != typeof(Utilities.Firmware.software))
             {
-                CustomMessageBox.Show("Bad Firmware"); return;
+                CustomMessageBox.Show("Bad Firmware", "Error"); return;
             }
 
             findfirmware((Utilities.Firmware.software)((Control)sender).Tag);
@@ -255,7 +255,7 @@ namespace ArdupilotMega.GCSViews
             if (flashing == true)
             {
                 e.Cancel = true;
-                CustomMessageBox.Show("Cant exit while updating");
+                CustomMessageBox.Show("Cant exit while updating", "Error");
             }
         }
 
@@ -291,6 +291,9 @@ namespace ArdupilotMega.GCSViews
             fd.ShowDialog();
             if (File.Exists(fd.FileName))
             {
+                fw.Progress -= fw_Progress;
+                fw.Progress += fw_Progress1;
+
                 string boardtype = "";
                 try
                 {
@@ -298,7 +301,7 @@ namespace ArdupilotMega.GCSViews
                 }
                 catch
                 {
-                    CustomMessageBox.Show("Can not connect to com port and detect board type");
+                    CustomMessageBox.Show("Can not connect to com port and detect board type", "Error");
                     return;
                 }
 
@@ -317,7 +320,7 @@ namespace ArdupilotMega.GCSViews
 
         private void lbl_px4io_Click(object sender, EventArgs e)
         {
-            CustomMessageBox.Show("Please save the px4io.bin file to your microsd card to insert into your px4.");
+            CustomMessageBox.Show("Please save the px4io.bin file to your microsd card to insert into your px4.", "IO");
 
             string baseurl = "http://firmware.diydrones.com/PX4IO/latest/PX4IO/px4io.bin";
 
@@ -373,7 +376,7 @@ namespace ArdupilotMega.GCSViews
                 lbl_status.Text = "Done";
                 Application.DoEvents();
             }
-            catch { CustomMessageBox.Show("Error receiving firmware"); return; }
+            catch { CustomMessageBox.Show("Error receiving firmware", "Error"); return; }
 
             SaveFileDialog sfd = new SaveFileDialog();
             sfd.FileName = "px4io.bin";

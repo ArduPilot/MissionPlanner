@@ -63,10 +63,10 @@ namespace ArdupilotMega.Controls
                 }
                 else
                 {
-                    CustomMessageBox.Show("Command Failed");
+                    CustomMessageBox.Show("Command Failed", "Error");
                 }
             }
-            catch (Exception ex) { CustomMessageBox.Show("Command Failed " + ex.ToString()); }
+            catch (Exception ex) { CustomMessageBox.Show("Command Failed " + ex.ToString(), "Error"); }
         }
 
         private void BUT_High_Click(object sender, EventArgs e)
@@ -79,10 +79,10 @@ namespace ArdupilotMega.Controls
                 }
                 else
                 {
-                    CustomMessageBox.Show("Command Failed");
+                    CustomMessageBox.Show("Command Failed", "Error");
                 }
             }
-            catch (Exception ex) { CustomMessageBox.Show("Command Failed " + ex.ToString()); }
+            catch (Exception ex) { CustomMessageBox.Show("Command Failed " + ex.ToString(), "Error"); }
         }
 
         private void BUT_Repeat_Click(object sender, EventArgs e)
@@ -110,7 +110,7 @@ namespace ArdupilotMega.Controls
                     TXT_rcchannel.BackColor = Color.Red;
                 }
             }
-            catch (Exception ex) { CustomMessageBox.Show("Command Failed "+ ex.ToString()); }
+            catch (Exception ex) { CustomMessageBox.Show("Command Failed " + ex.ToString(), "Error"); }
             // MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_SERVO, int.Parse(TXT_rcchannel.Text), int.Parse(TXT_pwm_high.Text), 10, 1000, 0, 0, 0);         
         }
 

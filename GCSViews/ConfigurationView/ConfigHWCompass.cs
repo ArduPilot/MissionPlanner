@@ -105,7 +105,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                 //System.Diagnostics.Process.Start("http://www.ngdc.noaa.gov/geomagmodels/Declination.jsp");
                 System.Diagnostics.Process.Start("http://www.magnetic-declination.com/");
             }
-            catch { CustomMessageBox.Show("Webpage open failed... do you have a virus?\nhttp://www.magnetic-declination.com/"); }
+            catch { CustomMessageBox.Show("Webpage open failed... do you have a virus?\nhttp://www.magnetic-declination.com/", "Mag"); }
         }
 
         private void TXT_declination_Validating(object sender, CancelEventArgs e)
@@ -122,7 +122,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             {
                 if (MainV2.comPort.MAV.param["COMPASS_DEC"] == null)
                 {
-                    CustomMessageBox.Show("Not Available");
+                    CustomMessageBox.Show("Not Available", "Error");
                 }
                 else
                 {
@@ -142,14 +142,14 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                             dec -= ((mins) / 60.0f);
                         }
                     }
-                    catch { CustomMessageBox.Show("Invalid input!"); return; }
+                    catch { CustomMessageBox.Show("Invalid input!", "Error"); return; }
 
                     TXT_declination.Text = dec.ToString();
 
                     MainV2.comPort.setParam("COMPASS_DEC", dec * deg2rad);
                 }
             }
-            catch { CustomMessageBox.Show("Set COMPASS_DEC Failed"); }
+            catch { CustomMessageBox.Show("Set COMPASS_DEC Failed", "Error"); }
         }
 
 
@@ -172,14 +172,14 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             {
                 if (MainV2.comPort.MAV.param["MAG_ENABLE"] == null)
                 {
-                    CustomMessageBox.Show("Not Available");
+                    CustomMessageBox.Show("Not Available", "Error");
                 }
                 else
                 {
                     MainV2.comPort.setParam("MAG_ENABLE", ((CheckBox)sender).Checked == true ? 1 : 0);
                 }
             }
-            catch { CustomMessageBox.Show("Set MAG_ENABLE Failed"); }
+            catch { CustomMessageBox.Show("Set MAG_ENABLE Failed", "Error"); }
         }
 
  

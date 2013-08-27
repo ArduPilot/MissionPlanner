@@ -53,6 +53,8 @@ namespace ArdupilotMega.GCSViews
                 if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2 || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduHeli)
                 {
                     start = AddBackstageViewPage(new ConfigSimplePids(), "Basic Pids");
+
+               //     AddBackstageViewPage(new ConfigSimplePidsV2(), "Basic Pids V2");
                 }
 
                 if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane)
@@ -93,6 +95,8 @@ namespace ArdupilotMega.GCSViews
             {
                 start = AddBackstageViewPage(new ConfigPlanner(), "Planner");
             }
+
+            AddBackstageViewPage(new ConfigHelp(), "Help");
 
             // remeber last page accessed
             foreach (BackstageView.BackstageViewPage page in backstageView.Pages)

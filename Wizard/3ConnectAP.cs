@@ -226,6 +226,8 @@ namespace ArdupilotMega.Wizard
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
+            if (!MainV2.comPort.BaseStream.IsOpen)
+                MainV2.comPort.Open(true);
             Wizard.instance.GoNext(1);
         }
     }

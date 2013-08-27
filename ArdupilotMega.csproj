@@ -351,6 +351,18 @@
     <Compile Include="GCSViews\ConfigurationView\ConfigFirmwareDisabled.Designer.cs">
       <DependentUpon>ConfigFirmwareDisabled.cs</DependentUpon>
     </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigSimplePidsV2.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigSimplePidsV2.Designer.cs">
+      <DependentUpon>ConfigSimplePidsV2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigHelp.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigHelp.Designer.cs">
+      <DependentUpon>ConfigHelp.cs</DependentUpon>
+    </Compile>
     <Compile Include="GCSViews\InitialSetup.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -379,7 +391,7 @@
     </Compile>
     <Compile Include="Utilities\Firmware.cs" />
     <Compile Include="Utilities\ImageOverFilter.cs" />
-    <Compile Include="Utilities\RSA.cs" />
+    <None Include="Utilities\RSA.cs" />
     <Compile Include="Utilities\StringRedirectWriter.cs" />
     <Compile Include="Utilities\Update.cs" />
     <Compile Include="Wizard\1Intro.cs">
@@ -661,6 +673,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFirmwareDisabled.resx">
       <DependentUpon>ConfigFirmwareDisabled.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigSimplePidsV2.resx">
+      <DependentUpon>ConfigSimplePidsV2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHelp.resx">
+      <DependentUpon>ConfigHelp.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\InitialSetup.resx">
       <DependentUpon>InitialSetup.cs</DependentUpon>
@@ -1880,10 +1898,6 @@
     <None Include="Resources\quadframeslight_13.jpg" />
     <None Include="Resources\quadframeslight_15.jpg" />
     <None Include="Resources\quadframeslight_16.png" />
-    <None Include="Resources\apm3.jpg" />
-    <None Include="Resources\apm4.jpg" />
-    <None Include="Resources\apm5.jpg" />
-    <None Include="Resources\apm6.jpg" />
     <None Include="Resources\apmp1.jpg" />
     <None Include="Resources\apmp2.jpg" />
     <None Include="Resources\apmp3.jpg" />
@@ -2123,7 +2137,9 @@
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="translation\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>"$(TargetDir)version.exe" "$(TargetPath)" &gt; "$(TargetDir)version.txt"</PostBuildEvent>

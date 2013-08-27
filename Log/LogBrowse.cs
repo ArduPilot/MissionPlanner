@@ -462,9 +462,13 @@ namespace ArdupilotMega.Log
             // Zoom all
             zg1.ZoomOutAll(zg1.GraphPane);
 
-            DrawModes();
+            try
+            {
+                DrawModes();
 
-            DrawTime();
+                DrawTime();
+            }
+            catch { }
 
             // Force a redraw
             zg1.Invalidate();
@@ -514,6 +518,9 @@ namespace ArdupilotMega.Log
             {
                 if (datarow.Cells[1].Value.ToString() == "GPS")
                 {
+                    if (!logformat.ContainsKey("GPS"))
+                        break;
+
                     int index = FindInArray(logformat["GPS"].FieldNames,"Time");
                     if (index == -1)
                     {
@@ -687,8 +694,12 @@ namespace ArdupilotMega.Log
 
         private void zg1_ZoomEvent(ZedGraphControl sender, ZoomState oldState, ZoomState newState)
         {
-            DrawModes();
-            DrawTime();
+            try
+            {
+                DrawModes();
+                DrawTime();
+            }
+            catch { }
         }
     }
 }

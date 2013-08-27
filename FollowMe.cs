@@ -54,13 +54,15 @@ namespace ArdupilotMega
                 {
                     comPort.PortName = CMB_serialport.Text;
                 }
-                catch { CustomMessageBox.Show("Invalid PortName"); return; }
+                catch { CustomMessageBox.Show("Invalid PortName", "Error"); return; }
                 try {
                 comPort.BaudRate = int.Parse(CMB_baudrate.Text);
-                } catch {CustomMessageBox.Show("Invalid BaudRate"); return;}
+                }
+                catch { CustomMessageBox.Show("Invalid BaudRate", "Error"); return; }
                 try {
                 comPort.Open();
-                } catch (Exception ex) {CustomMessageBox.Show("Error Connecting\nif using com0com please rename the ports to COM??\n" + ex.ToString()); return;}
+                }
+                catch (Exception ex) { CustomMessageBox.Show("Error Connecting\nif using com0com please rename the ports to COM??\n" + ex.ToString(), "Error"); return; }
 
 
                 string alt = "100";
@@ -79,7 +81,7 @@ namespace ArdupilotMega
                 intalt = (int)(100 * MainV2.comPort.MAV.cs.multiplierdist);
                 if (!int.TryParse(alt, out intalt))
                 {
-                    CustomMessageBox.Show("Bad Alt");
+                    CustomMessageBox.Show("Bad Alt", "Error");
                     return;
                 }
 
@@ -242,7 +244,7 @@ namespace ArdupilotMega
             {
                 updaterate = float.Parse(CMB_updaterate.Text.Replace("hz", ""));
             }
-            catch { CustomMessageBox.Show("Bad Update Rate"); }
+            catch { CustomMessageBox.Show("Bad Update Rate", "Error"); }
         }
 
     }

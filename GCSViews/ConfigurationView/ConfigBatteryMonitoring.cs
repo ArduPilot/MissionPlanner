@@ -37,7 +37,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                         CMB_batmontype.SelectedIndex = 1;
                 }
             }
-            catch { CustomMessageBox.Show("Set BATT_MONITOR Failed"); }
+            catch { CustomMessageBox.Show("Set BATT_MONITOR Failed", "Error"); }
         }
         private void TXT_battcapacity_Validating(object sender, CancelEventArgs e)
         {
@@ -52,14 +52,14 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             {
                 if (MainV2.comPort.MAV.param["BATT_CAPACITY"] == null)
                 {
-                    CustomMessageBox.Show("Not Available");
+                    CustomMessageBox.Show("Not Available", "Error");
                 }
                 else
                 {
                     MainV2.comPort.setParam("BATT_CAPACITY", float.Parse(TXT_battcapacity.Text));
                 }
             }
-            catch { CustomMessageBox.Show("Set BATT_CAPACITY Failed"); }
+            catch { CustomMessageBox.Show("Set BATT_CAPACITY Failed", "Error"); }
         }
         private void CMB_batmontype_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -69,7 +69,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             {
                 if (MainV2.comPort.MAV.param["BATT_MONITOR"] == null)
                 {
-                    CustomMessageBox.Show("Not Available");
+                    CustomMessageBox.Show("Not Available", "Error");
                 }
                 else
                 {
@@ -107,7 +107,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                     MainV2.comPort.setParam("BATT_MONITOR", selection);
                 }
             }
-            catch { CustomMessageBox.Show("Set BATT_MONITOR,BATT_VOLT_PIN,BATT_CURR_PIN Failed"); }
+            catch { CustomMessageBox.Show("Set BATT_MONITOR,BATT_VOLT_PIN,BATT_CURR_PIN Failed", "Error"); }
         }
    
         private void TXT_measuredvoltage_Validating(object sender, CancelEventArgs e)
@@ -129,20 +129,20 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                 float new_divider = (measuredvoltage * divider) / voltage;
                 TXT_divider.Text = new_divider.ToString();
             }
-            catch { CustomMessageBox.Show("Invalid number entered"); return; }
+            catch { CustomMessageBox.Show("Invalid number entered", "Error"); return; }
 
             try
             {
                 if (MainV2.comPort.MAV.param["VOLT_DIVIDER"] == null)
                 {
-                    CustomMessageBox.Show("Not Available");
+                    CustomMessageBox.Show("Not Available", "Error");
                 }
                 else
                 {
                     MainV2.comPort.setParam("VOLT_DIVIDER", float.Parse(TXT_divider.Text));
                 }
             }
-            catch { CustomMessageBox.Show("Set VOLT_DIVIDER Failed"); }
+            catch { CustomMessageBox.Show("Set VOLT_DIVIDER Failed", "Error"); }
         }
         private void TXT_divider_Validating(object sender, CancelEventArgs e)
         {
@@ -157,14 +157,14 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             {
                 if (MainV2.comPort.MAV.param["VOLT_DIVIDER"] == null)
                 {
-                    CustomMessageBox.Show("Not Available");
+                    CustomMessageBox.Show("Not Available", "Error");
                 }
                 else
                 {
                     MainV2.comPort.setParam("VOLT_DIVIDER", float.Parse(TXT_divider.Text));
                 }
             }
-            catch { CustomMessageBox.Show("Set VOLT_DIVIDER Failed"); }
+            catch { CustomMessageBox.Show("Set VOLT_DIVIDER Failed", "Error"); }
         }
         private void TXT_ampspervolt_Validating(object sender, CancelEventArgs e)
         {
@@ -179,14 +179,14 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             {
                 if (MainV2.comPort.MAV.param["AMP_PER_VOLT"] == null)
                 {
-                    CustomMessageBox.Show("Not Available");
+                    CustomMessageBox.Show("Not Available", "Error");
                 }
                 else
                 {
                     MainV2.comPort.setParam("AMP_PER_VOLT", float.Parse(TXT_ampspervolt.Text));
                 }
             }
-            catch { CustomMessageBox.Show("Set AMP_PER_VOLT Failed"); }
+            catch { CustomMessageBox.Show("Set AMP_PER_VOLT Failed", "Error"); }
         }
 
         private void CMB_batmonsensortype_SelectedIndexChanged(object sender, EventArgs e)
@@ -421,7 +421,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                     TXT_divider.Text = "1";
                 }
             }
-            catch { CustomMessageBox.Show("Set BATT_????_PIN Failed"); }
+            catch { CustomMessageBox.Show("Set BATT_????_PIN Failed", "Error"); }
 
         }
 

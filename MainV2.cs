@@ -68,6 +68,20 @@ namespace ArdupilotMega
             public static Image disconnect = global::MissionPlanner.Properties.Resources.light_disconnect_icon;
         }
 
+        public class menuicons2 : menuicons
+        {
+            public static Image fd = global::MissionPlanner.Properties.Resources.dark_flightdata_icon;
+            public static Image fp = global::MissionPlanner.Properties.Resources.dark_flightplan_icon;
+            public static Image initsetup = global::MissionPlanner.Properties.Resources.dark_initialsetup_icon;
+            public static Image config_tuning = global::MissionPlanner.Properties.Resources.dark_tuningconfig_icon;
+            public static Image sim = global::MissionPlanner.Properties.Resources.dark_simulation_icon;
+            public static Image terminal = global::MissionPlanner.Properties.Resources.dark_terminal_icon;
+            public static Image help = global::MissionPlanner.Properties.Resources.dark_help_icon;
+            public static Image donate = global::MissionPlanner.Properties.Resources.donate;
+            public static Image connect = global::MissionPlanner.Properties.Resources.dark_connect_icon;
+            public static Image disconnect = global::MissionPlanner.Properties.Resources.dark_disconnect_icon;
+        }
+
         ArdupilotMega.Controls.MainSwitcher MyView;
 
         /// <summary>
@@ -640,7 +654,7 @@ namespace ArdupilotMega
                 // Here we want to reset the connection stats counter etc.
                 this.ResetConnectionStats();
 
-                MainV2.comPort.MAV.cs.timeInAir = 0;
+                MainV2.comPort.MAV.cs.ResetInternals();
 
                 //cleanup any log being played
                 comPort.logreadmode = false;
@@ -730,6 +744,8 @@ namespace ArdupilotMega
                             _connectionControl.TOOL_APMFirmware.SelectedIndex = _connectionControl.TOOL_APMFirmware.Items.IndexOf(Firmwares.ArduPlane);
                         }
                     }
+
+                    MissionPlanner.Utilities.Tracking.AddEvent("", "Connect", comPort.MAV.cs.firmware.ToString(), comPort.param.Count.ToString());
 
                     // save the baudrate for this port
                     config[_connectionControl.CMB_serialport.Text + "_BAUD"] = _connectionControl.CMB_baudrate.Text;
@@ -1117,29 +1133,48 @@ namespace ArdupilotMega
 
             while (true)
             {
-
-                foreach (var plugin in Plugin.PluginLoader.Plugins)
+                try
                 {
-                    if (!nextrun.ContainsKey(plugin))
-                        nextrun[plugin] = DateTime.MinValue;
-
-                    if (DateTime.Now > plugin.NextRun)
+                    foreach (var plugin in Plugin.PluginLoader.Plugins)
                     {
-                        // get ms till next run
-                        int msnext = (int)(1000 / plugin.loopratehz);
-                        // allow the plug to modify this, if needed
-                        plugin.NextRun = DateTime.Now.AddMilliseconds(msnext);
+                        if (!nextrun.ContainsKey(plugin))
+                            nextrun[plugin] = DateTime.MinValue;
 
-                        try
+                        if (DateTime.Now > plugin.NextRun)
                         {
-                            plugin.Loop();
+                            // get ms till next run
+                            int msnext = (int)(1000 / plugin.loopratehz);
+                            // allow the plug to modify this, if needed
+                            plugin.NextRun = DateTime.Now.AddMilliseconds(msnext);
+
+                            try
+                            {
+                               bool ans = plugin.Loop();
+
+                            }
+                            catch (Exception ex) { log.Error(ex); }
                         }
-                        catch (Exception ex) { log.Error(ex); }
                     }
                 }
+                catch { }
 
-                // max rate is 100 hz - prevent masive cpu usage
+                // max rate is 100 hz - prevent massive cpu usage
                 System.Threading.Thread.Sleep(10);
+
+                if (this.Disposing || this.IsDisposed)
+                {
+                    while (Plugin.PluginLoader.Plugins.Count > 0)
+                    {
+                        var plugin = Plugin.PluginLoader.Plugins[0];
+                        try
+                        {
+                            plugin.Exit();
+                        }
+                        catch { }
+                        Plugin.PluginLoader.Plugins.Remove(plugin);
+                    }
+                    return;
+                }
             }
         }
 
@@ -1479,6 +1514,7 @@ namespace ArdupilotMega
             // init button depressed - ensures correct action
             //int fixme;
             MenuFlightData_Click(sender, e);
+            MainMenu_ItemClicked(sender, new ToolStripItemClickedEventArgs(MenuFlightData));
 
             // for long running tasks using own threads.
             // for short use threadpool
@@ -2051,6 +2087,17 @@ namespace ArdupilotMega
             DBT_DEVNODES_CHANGED = 0x7,
             DBT_QUERYCHANGECONFIG = 0x17,
             DBT_USERDEFINED = 0xFFFF,
+        }
+
+        private void MainMenu_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+            foreach (ToolStripItem item in MainMenu.Items)
+            {
+                if (e.ClickedItem == item)
+                    item.BackColor = ThemeManager.ControlBGColor;
+                else
+                    item.BackColor = Color.Black;
+            }
         }
     }
 }

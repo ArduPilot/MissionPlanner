@@ -11,6 +11,7 @@ using ArdupilotMega.Controls;
 using ArdupilotMega.Controls.BackstageView;
 using ArdupilotMega.Utilities;
 using log4net;
+using MissionPlanner.Controls;
 
 namespace ArdupilotMega.GCSViews.ConfigurationView
 {
@@ -86,13 +87,13 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                 catch
                 {
                     errorThrown = true;
-                    CustomMessageBox.Show("Set " + x.Key + " Failed");
+                    CustomMessageBox.Show("Set " + x.Key + " Failed", "Error");
                 }
             });
             if (!errorThrown)
             {
                 _params_changed.Clear();
-                CustomMessageBox.Show("Parameters successfully saved.");
+                CustomMessageBox.Show("Parameters successfully saved.", "Saved");
             }
         }
 
@@ -115,7 +116,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             catch (Exception ex)
             {
                 log.Error("Exception getting param list", ex);
-                CustomMessageBox.Show("Error: getting param list");
+                CustomMessageBox.Show("Error: getting param list", "Error");
             }
 
 
@@ -430,6 +431,45 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
         }
 
         #endregion
+
+        private void BUT_Find_Click(object sender, EventArgs e)
+        {
+            y = 10;
+
+            string searchfor = "";
+            InputBox.Show("Search For", "Enter a single word to search for", ref searchfor);
+
+            foreach (Control ctl in tableLayoutPanel1.Controls)
+            {
+                if (ctl.GetType() == typeof(RangeControl))
+                {
+                    RangeControl rng = (RangeControl)ctl;
+                    if (rng.LabelText.ToString().ToLower().Contains(searchfor.ToLower()) || rng.DescriptionText.ToString().ToLower().Contains(searchfor.ToLower()))
+                    {
+                        ctl.Visible = true;
+                        ctl.Location = new Point(ctl.Location.X, y);
+                        y += ctl.Height;
+                    }
+                    else
+                    {
+                        ctl.Visible = false;
+                    }
+                } else if (ctl.GetType() == typeof(ValuesControl))
+                {
+                    ValuesControl vctl = (ValuesControl)ctl;
+                    if (vctl.LabelText.ToString().ToLower().Contains(searchfor.ToLower()) || vctl.DescriptionText.ToString().ToLower().Contains(searchfor.ToLower()))
+                    {
+                        ctl.Visible = true;
+                        ctl.Location = new Point(ctl.Location.X, y);
+                        y += ctl.Height;
+                    }
+                    else
+                    {
+                        ctl.Visible = false;
+                    }
+                }
+            }
+        }
 
     }
 }

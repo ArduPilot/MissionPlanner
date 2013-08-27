@@ -53,6 +53,10 @@ namespace ArdupilotMega.Plugin
         /// </summary>
         public virtual float loopratehz { get; set; }
 
+        /// <summary>
+        /// Exit is only called on plugin unload. not app exit
+        /// </summary>
+        /// <returns></returns>
         public abstract bool Exit();
 
     }

@@ -90,9 +90,9 @@ namespace ArdupilotMega.Controls
                 {
                     bool ans = MainV2.comPort.setParam(ParamName, OnValue);
                     if (ans == false)
-                        CustomMessageBox.Show("Set " + ParamName + " Failed 1!");
+                        CustomMessageBox.Show("Set " + ParamName + " Failed 1!", "Error");
                 }
-                catch { CustomMessageBox.Show("Set " + ParamName + " Failed 2!"); }
+                catch { CustomMessageBox.Show("Set " + ParamName + " Failed 2!", "Error"); }
             }
             else
             {
@@ -101,9 +101,9 @@ namespace ArdupilotMega.Controls
                 {
                     bool ans = MainV2.comPort.setParam(ParamName, OffValue);
                     if (ans == false)
-                        CustomMessageBox.Show("Set " + ParamName + " Failed 1!");
+                        CustomMessageBox.Show("Set " + ParamName + " Failed 1!", "Error");
                 }
-                catch { CustomMessageBox.Show("Set " + ParamName + " Failed 2!"); }
+                catch { CustomMessageBox.Show("Set " + ParamName + " Failed 2!", "Error"); }
             }
         }
 
