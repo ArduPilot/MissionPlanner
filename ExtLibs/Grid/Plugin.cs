@@ -35,7 +35,7 @@ namespace MissionPlanner
         {
             Host2 = Host;
 
-            ToolStripButton but = new ToolStripButton("Grid V2");
+            ToolStripMenuItem but = new ToolStripMenuItem("Survey");
             but.Click += but_Click;
 
             Host.FPMenuMap.Items.Add(but);

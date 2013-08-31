@@ -41,7 +41,7 @@ namespace MissionPlanner.Comms
         public int BytesToWrite { get; set; }
         public int DataBits  { get; set; }
         public bool DtrEnable { get; set; }
-        public bool IsOpen { get { return (BaseStream != null); } }
+        public bool IsOpen { get { if (BaseStream != null && BaseStream.CanRead) { return BaseStream.Position < BaseStream.Length; } return false; } }
 
         public Parity Parity { get; set; }
 

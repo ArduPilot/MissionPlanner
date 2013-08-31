@@ -495,7 +495,13 @@ namespace ArdupilotMega
             string desc = name;
             try
             {
-                desc = ((Attributes.DisplayTextAttribute)typeof(CurrentState).GetProperty(name).GetCustomAttributes(false)[0]).Text;
+                var typeofthing = typeof(CurrentState).GetProperty(name);
+                if (typeofthing != null)
+                {
+                    var attrib = typeofthing.GetCustomAttributes(false);
+                    if (attrib.Length > 0)
+                        desc = ((Attributes.DisplayTextAttribute)attrib[0]).Text;
+                }
             }
             catch { }
 
@@ -840,7 +846,7 @@ enum gcs_severity {
                         rxerrors = radio.rxerrors;
                         noise = radio.noise;
                         remnoise = radio.remnoise;
-                        fixedp = radio.fixedp;
+                        fixedp = radio.@fixed;
                     }
 
                     bytearray = mavinterface.MAV.packets[MAVLink.MAVLINK_MSG_ID_RADIO_STATUS];

@@ -255,16 +255,19 @@ namespace ArdupilotMega
         {
             try
             {
-                logfile.Close();
+                if (logfile != null)
+                    logfile.Close();
             }
             catch { }
             try
             {
+                if (rawlogfile != null)
                 rawlogfile.Close();
             }
             catch { }
             try
             {
+                if (logplaybackfile != null)
                 logplaybackfile.Close();
             }
             catch { }
@@ -495,9 +498,11 @@ Please check the following
         public byte[] getHeartBeat()
         {
             DateTime start = DateTime.Now;
+            int readcount = 0;
             while (true)
             {
                 byte[] buffer = readPacket();
+                readcount++;
                 if (buffer.Length > 5)
                 {
                     //log.Info("getHB packet received: " + buffer.Length + " btr " + BaseStream.BytesToRead + " type " + buffer[5] );
@@ -506,7 +511,7 @@ Please check the following
                         return buffer;
                     }
                 }
-                if (DateTime.Now > start.AddMilliseconds(2200)) // was 1200 , now 2.2 sec
+                if (DateTime.Now > start.AddMilliseconds(2200) || readcount > 200) // was 1200 , now 2.2 sec
                     return new byte[0];
             }
         }
@@ -1732,6 +1737,31 @@ Please check the following
             return null;
         }
 
+        public object GetPacket(byte[] datin)
+        {
+            if (datin.Length > 5)
+            {
+                byte header = datin[0];
+                byte length = datin[1];
+                byte seq = datin[2];
+                byte sysid = datin[3];
+                byte compid = datin[4];
+                byte messid = datin[5];
+
+                try
+                {
+                    object data = Activator.CreateInstance(MAVLINK_MESSAGE_INFO[messid]);
+
+                    MavlinkUtil.ByteArrayToStructure(datin, ref data, 6);
+
+                    return data;
+                }
+                catch { }
+            }
+
+            return null;
+        }
+
         /// <summary>
         /// Sets wp total count
         /// </summary>
@@ -2688,11 +2718,20 @@ Please check the following
 
             try
             {
-                date1 = date1.AddMilliseconds(dateint / 1000);
+                // array is reversed above
+                if (datearray[7] == 254)
+                {
+                    //rewind 8bytes
+                    logplaybackfile.BaseStream.Seek(-8, SeekOrigin.Current); 
+                }
+                else
+                {
+                    date1 = date1.AddMilliseconds(dateint / 1000);
 
-                lastlogread = date1.ToLocalTime();
+                    lastlogread = date1.ToLocalTime();
+                }
             }
-            catch { }
+            catch {            }
 
             MAV.cs.datetime = lastlogread;
 
@@ -2700,6 +2739,8 @@ Please check the following
             int a = 0;
             while (a < length)
             {
+                if (logplaybackfile.BaseStream.Position == logplaybackfile.BaseStream.Length)
+                    break;
                 temp[a] = (byte)logplaybackfile.ReadByte();
                 if (temp[0] != 'U' && temp[0] != 254)
                 {
@@ -2715,7 +2756,7 @@ Please check the following
             }
 
             // set ap type for log file playback
-            if (temp[5] == 0)
+            if (temp[5] == 0 && a > 5)
             {
                 mavlink_heartbeat_t hb = temp.ByteArrayToStructure<mavlink_heartbeat_t>(6);
 

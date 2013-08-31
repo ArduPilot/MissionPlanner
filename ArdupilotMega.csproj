@@ -151,8 +151,6 @@
     <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="MetaDataExtractor">
-    </Reference>
     <Reference Include="Microsoft.DirectX, Version=1.0.2902.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
       <SpecificVersion>False</SpecificVersion>
       <Private>True</Private>
@@ -375,6 +373,7 @@
     <Compile Include="GCSViews\SoftwareConfig.Designer.cs">
       <DependentUpon>SoftwareConfig.cs</DependentUpon>
     </Compile>
+    <Compile Include="Magfitrotation.cs" />
     <Compile Include="Plugin\Plugin.cs" />
     <Compile Include="Plugin\PluginLoader.cs" />
     <Compile Include="Plugin\PluginUI.cs">
@@ -388,6 +387,12 @@
     </Compile>
     <Compile Include="ScriptConsole.Designer.cs">
       <DependentUpon>ScriptConsole.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Swarm\FollowPathControl.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Swarm\FollowPathControl.Designer.cs">
+      <DependentUpon>FollowPathControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Utilities\Firmware.cs" />
     <Compile Include="Utilities\ImageOverFilter.cs" />
@@ -691,6 +696,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ScriptConsole.resx">
       <DependentUpon>ScriptConsole.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Swarm\FollowPathControl.resx">
+      <DependentUpon>FollowPathControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\1Intro.resx">
       <DependentUpon>1Intro.cs</DependentUpon>
@@ -1821,6 +1829,9 @@
     <Content Include="ArduCopterConfig.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="camerasBuiltin.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="ChangeLog.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -1920,6 +1931,7 @@
     <None Include="Resources\quadhover_12.png" />
     <None Include="Resources\quadhover_14.png" />
     <None Include="Resources\maggps.png" />
+    <Content Include="Mavlink\mavgen_csharp.py" />
     <Content Include="mpdesktop.ico" />
     <Content Include="ParameterMetaDataBackup.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -2122,6 +2134,10 @@
     <ProjectReference Include="ExtLibs\KMLib\KMLib.csproj">
       <Project>{29976BA4-A04D-4A80-A866-098C879C2FDE}</Project>
       <Name>KMLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="ExtLibs\MetaDataExtractorCSharp240d\MetaDataExtractor.csproj">
+      <Project>{b46f6c6c-9184-41af-8f8b-e0084752ca7c}</Project>
+      <Name>MetaDataExtractor</Name>
     </ProjectReference>
     <ProjectReference Include="ExtLibs\SharpKml\SharpKml.csproj">
       <Project>{53F12A60-E9CC-44BC-8366-1AE3AB2B547D}</Project>

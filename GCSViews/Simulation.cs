@@ -659,7 +659,10 @@ namespace ArdupilotMega.GCSViews
 
 
 
-                System.Threading.Thread.Sleep(1); // this controls send speed  to sim                
+                System.Threading.Thread.Sleep(1); // this controls send speed  to sim     
+
+                if (this.Disposing)
+                    threadrun = 0;
             }
 
         }
@@ -677,7 +680,8 @@ namespace ArdupilotMega.GCSViews
             try
             {
                 // close it to be sure
-                SimulatorRECV.Close();
+                if (SimulatorRECV != null)
+                  SimulatorRECV.Close();
             }
             catch { }
 

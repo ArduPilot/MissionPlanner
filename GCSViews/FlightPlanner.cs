@@ -30,6 +30,7 @@ using ProjNet.Converters;
 using MissionPlanner.Controls;
 using System.Xml.XPath;
 using MissionPlanner.Utilities;
+using com.codec.jpeg;
 
 namespace ArdupilotMega.GCSViews
 {
@@ -369,8 +370,11 @@ namespace ArdupilotMega.GCSViews
             //set home
             try
             {
-                MainMap.Position = new PointLatLng(double.Parse(TXT_homelat.Text), double.Parse(TXT_homelng.Text));
-                MainMap.Zoom = 13;
+                if (TXT_homelat.Text != "")
+                {
+                    MainMap.Position = new PointLatLng(double.Parse(TXT_homelat.Text), double.Parse(TXT_homelng.Text));
+                    MainMap.Zoom = 13;
+                }
 
             }
             catch (Exception) { }
@@ -882,6 +886,7 @@ namespace ArdupilotMega.GCSViews
                 double homealt = 0;
                 try
                 {
+                    if (TXT_homealt.Text != null)
                     homealt = (int)double.Parse(TXT_homealt.Text);
                 }
                 catch { }
@@ -1041,7 +1046,8 @@ namespace ArdupilotMega.GCSViews
             {
                 try
                 {
-                    Commands.Rows[int.Parse(lla.Tag)-1].Cells[Grad.Index].Value = (((lla.Alt - last.Alt) / lla.GetDistance(last)) * 100).ToString();
+                    if (lla.Tag != null && lla.Tag != "Home")
+                        Commands.Rows[int.Parse(lla.Tag)-1].Cells[Grad.Index].Value = (((lla.Alt - last.Alt) / lla.GetDistance(last)) * 100).ToString();
                 }
                 catch { }
                     a++;
@@ -1928,6 +1934,11 @@ namespace ArdupilotMega.GCSViews
             int answer;
             try // when dragging item can sometimes be null
             {
+                if (item.Tag == null)
+                {
+                    // home.. etc
+                    return;
+                }
                 if (int.TryParse(item.Tag.ToString(), out answer))
                 {
 
@@ -3383,6 +3394,7 @@ namespace ArdupilotMega.GCSViews
 
         public void updateHome()
         {
+            quickadd = true;
             if (this.InvokeRequired)
             {
                 this.Invoke((MethodInvoker)delegate { updateHomeText(); });
@@ -3391,6 +3403,7 @@ namespace ArdupilotMega.GCSViews
             {
                 updateHomeText();
             }
+            quickadd = false;
         }
 
         private void updateHomeText() 

@@ -1,4 +1,23 @@
-﻿* Mission Planner 1.2.73
+﻿* Mission Planner 1.2.74
+more Grid/Survey WIP
+fix close issue on mono
+implement MagFitRotation from tridge
+add predefined camera list
+update MP update location
+fix some internal exeptions
+fix time/mode display issue
+add realtime to mavlog browser
+add units to GeoFence screen
+fix some mono speed issues in progressbars
+fix exceptions in hud
+add dispose to MainSwitcher
+add ability to draw polygon fills back to gmap.net
+fix servooption error when its been renamed.
+fix missing updater.exe file
+update arduplane pid screen
+add follow path control (rover)
+
+* Mission Planner 1.2.73
 remove DO_SET_PARAMETER - has never worked
 add connect event
 add plugin shutdown on exit

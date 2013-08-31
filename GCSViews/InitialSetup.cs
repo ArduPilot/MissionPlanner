@@ -24,7 +24,6 @@ namespace ArdupilotMega.GCSViews
         public InitialSetup()
         {
             InitializeComponent();
-
         }
 
         public void Activate()

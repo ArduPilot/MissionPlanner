@@ -10,6 +10,7 @@ using log4net.Config;
 using System.Diagnostics;
 using System.Linq;
 using MissionPlanner.Utilities;
+using MissionPlanner;
 
 namespace ArdupilotMega
 {
@@ -45,6 +46,14 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
             MissionPlanner.Controls.InputBox.ApplyTheme += ArdupilotMega.Utilities.ThemeManager.ApplyThemeTo;
             MissionPlanner.Comms.CommsBase.Settings += CommsBase_Settings;
 
+       //     string[] files = Directory.GetFiles(@"C:\Users\hog\Documents\apm logs\","*.tlog");
+
+       //     foreach (string file in files) {
+          //      Console.WriteLine(Magfitrotation.magfit(file));
+        //    }
+       //     Magfitrotation.magfit(@"C:\Users\hog\Downloads\flight.tlog.raw");
+
+            
             //return;
         //    MissionPlanner.Utilities.CleanDrivers.Clean();
 

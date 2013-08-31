@@ -5,18 +5,27 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
+using com.drew.imaging.jpg;
+using com.drew.metadata;
+using com.drew.metadata.exif;
 using GMap.NET;
 using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
+using log4net;
 using MissionPlanner.Utilities;
+using ProjNet.CoordinateSystems;
+using ProjNet.CoordinateSystems.Transformations;
 
 namespace MissionPlanner
 {
     public partial class GridUI : Form
     {
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         const float rad2deg = (float)(180 / Math.PI);
         const float deg2rad = (float)(1.0 / rad2deg);
 
@@ -50,16 +59,40 @@ namespace MissionPlanner
 
             CMB_startfrom.DataSource = Enum.GetNames(typeof(Grid.StartPosition));
             CMB_startfrom.SelectedIndex = 0;
+
+            // set and angle that is good
+            List<PointLatLngAlt> list = new List<PointLatLngAlt>();
+            plugin.Host.FPDrawnPolygon.Points.ForEach(x => { list.Add(x); });
+            NUM_angle.Value = (decimal)((getAngleOfLongestSide(list) + 360) % 360);
+
         }
 
         void AddDrawPolygon()
         {
+            
             layerpolygons.Polygons.Add(plugin.Host.FPDrawnPolygon);
 
             foreach (var item in plugin.Host.FPDrawnPolygon.Points)
             {
                 layerpolygons.Markers.Add(new GMapMarkerGoogleRed(item));
             }
+        }
+
+        double getAngleOfLongestSide(List<PointLatLngAlt> list)
+        {
+            double angle = 0;
+            double maxdist = 0;
+            PointLatLngAlt last = list[0];
+            foreach (var item in list)
+            {
+                 if (item.GetDistance(last) > maxdist) 
+                 {
+                     angle = item.GetBearing(last);
+                 }
+                 last = item;
+            }
+
+            return angle;
         }
 
         private void domainUpDown1_ValueChanged(object sender, EventArgs e)
@@ -83,7 +116,8 @@ namespace MissionPlanner
             layerpolygons.Polygons.Clear();
             layerpolygons.Markers.Clear();
 
-            AddDrawPolygon();
+            if (chk_boundary.Checked)
+                AddDrawPolygon();
 
             int a = 1;
             PointLatLngAlt prevpoint = grid[0];
@@ -91,7 +125,8 @@ namespace MissionPlanner
             {
                 if (item.Tag == "M")
                 {
-                    layerpolygons.Markers.Add(new GMapMarkerGoogleGreen(item) { ToolTipText = a.ToString(), ToolTipMode = MarkerTooltipMode.OnMouseOver });
+                    if (chk_internals.Checked)
+                        layerpolygons.Markers.Add(new GMapMarkerGoogleGreen(item) { ToolTipText = a.ToString(), ToolTipMode = MarkerTooltipMode.OnMouseOver });
                     try
                     {
                         if (TXT_fovH.Text != "")
@@ -119,15 +154,18 @@ namespace MissionPlanner
 
                             GMapPolygon poly = new GMapPolygon(footprint, a.ToString());
                             poly.Stroke.Color = Color.FromArgb(250 - ((a * 5) % 240), 250 - ((a * 3) % 240), 250 - ((a * 9) % 240));
-                            poly.Stroke.Width = 2;
-                            layerpolygons.Polygons.Add(poly);
+                            poly.Stroke.Width = 1;
+                            poly.Fill = new SolidBrush(Color.FromArgb(40, Color.Purple));
+                            if (chk_footprints.Checked)
+                                layerpolygons.Polygons.Add(poly);
                         }
                     }
                     catch { }
                 }
                 else
                 {
-                    layerpolygons.Markers.Add(new GMapMarkerGoogleGreen(item) { ToolTipText = a.ToString(), ToolTipMode = MarkerTooltipMode.Always });
+                    if (chk_markers.Checked)
+                        layerpolygons.Markers.Add(new GMapMarkerGoogleGreen(item) { ToolTipText = a.ToString(), ToolTipMode = MarkerTooltipMode.Always });
                 }
                 prevpoint = item;
                 a++;
@@ -135,16 +173,74 @@ namespace MissionPlanner
 
             // add wp polygon
             wppoly = new GMapPolygon(list2, "Grid");
-            layerpolygons.Polygons.Add(wppoly);
             wppoly.Stroke.Color = Color.Yellow;
             wppoly.Stroke.Width = 4;
+            if (chk_grid.Checked)
+                layerpolygons.Polygons.Add(wppoly);
 
             Console.WriteLine("Poly Dist " + wppoly.Distance);
+
+            lbl_area.Text = calcpolygonarea(plugin.Host.FPDrawnPolygon.Points).ToString("#") + " m^2";
+
+            lbl_distance.Text = wppoly.Distance.ToString("0.##") + " km";
+
+            lbl_spacing.Text = NUM_spacing.Value.ToString("#") + " m";
+
+            lbl_grndres.Text = TXT_cmpixel.Text;
 
                 map.HoldInvalidation = false;
 
             map.ZoomAndCenterMarkers("polygons");
 
+        }
+
+        double calcpolygonarea(List<PointLatLng> polygon)
+        {
+            // should be a closed polygon
+            // coords are in lat long
+            // need utm to calc area
+
+            if (polygon.Count == 0)
+            {
+                CustomMessageBox.Show("Please define a polygon!");
+                return 0;
+            }
+
+            // close the polygon
+            if (polygon[0] != polygon[polygon.Count - 1])
+                polygon.Add(polygon[0]); // make a full loop
+
+            CoordinateTransformationFactory ctfac = new CoordinateTransformationFactory();
+
+            GeographicCoordinateSystem wgs84 = GeographicCoordinateSystem.WGS84;
+
+            int utmzone = (int)((polygon[0].Lng - -183.0) / 6.0);
+
+            IProjectedCoordinateSystem utm = ProjectedCoordinateSystem.WGS84_UTM(utmzone, polygon[0].Lat < 0 ? false : true);
+
+            ICoordinateTransformation trans = ctfac.CreateFromCoordinateSystems(wgs84, utm);
+
+            double prod1 = 0;
+            double prod2 = 0;
+
+            for (int a = 0; a < (polygon.Count - 1); a++)
+            {
+                double[] pll1 = { polygon[a].Lng, polygon[a].Lat };
+                double[] pll2 = { polygon[a + 1].Lng, polygon[a + 1].Lat };
+
+                double[] p1 = trans.MathTransform.Transform(pll1);
+                double[] p2 = trans.MathTransform.Transform(pll2);
+
+                prod1 += p1[0] * p2[1];
+                prod2 += p1[1] * p2[0];
+            }
+
+            double answer = (prod1 - prod2) / 2;
+
+            if (polygon[0] == polygon[polygon.Count - 1])
+                polygon.RemoveAt(polygon.Count - 1); // unmake a full loop
+
+            return answer;
         }
 
         private void BUT_Accept_Click(object sender, EventArgs e)
@@ -195,11 +291,11 @@ namespace MissionPlanner
             doCalc();
         }
 
-        private void xmlcamera(bool write)
+        private void xmlcamera(bool write, string filename = "cameras.xml")
         {
-            string filename = "cameras.xml";
+            bool exists = File.Exists(Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + filename);
 
-            if (write || !File.Exists(Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + filename))
+            if (write || !exists)
             {
                 try
                 {
@@ -278,8 +374,7 @@ namespace MissionPlanner
                                                         camera.focallen = float.Parse(xmlreader.ReadString(), new System.Globalization.CultureInfo("en-US"));
                                                         break;
                                                     case "Camera":
-                                                        cameras.Add(camera.name, camera);
-                                                        CMB_camera.Items.Add(camera.name);
+                                                        cameras[camera.name] = camera;
                                                         dobreak = true;
                                                         break;
                                                 }
@@ -305,6 +400,12 @@ namespace MissionPlanner
                     }
                 }
                 catch (Exception ex) { Console.WriteLine("Bad Camera File: " + ex.ToString()); } // bad config file
+
+                // populate list
+                foreach (var camera in cameras.Values)
+                {
+                    CMB_camera.Items.Add(camera.name);
+                }
             }
         }
 
@@ -373,6 +474,13 @@ namespace MissionPlanner
         {
             camerainfo camera = new camerainfo();
 
+            string camname = "Default";
+
+            if (MissionPlanner.Controls.InputBox.Show("Camera Name", "Please and a camera name", ref camname) != System.Windows.Forms.DialogResult.OK)
+                return;
+
+            CMB_camera.Text = camname;
+
             // check if camera exists alreay
             if (cameras.ContainsKey(CMB_camera.Text))
             {
@@ -401,7 +509,11 @@ namespace MissionPlanner
 
         private void GridUI_Load(object sender, EventArgs e)
         {
-            xmlcamera(false);
+            xmlcamera(false, "camerasBuiltin.xml");
+
+            xmlcamera(false);                
+
+            CHK_advanced_CheckedChanged(null, null);
         }
 
         private void TXT_TextChanged(object sender, EventArgs e)
@@ -412,6 +524,93 @@ namespace MissionPlanner
         private void CHK_camdirection_CheckedChanged(object sender, EventArgs e)
         {
             doCalc();
+        }
+
+        private void BUT_samplephoto_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "*.jpg|*.jpg";
+
+            ofd.ShowDialog();
+
+            if (File.Exists(ofd.FileName))
+            {
+                string fn = ofd.FileName;
+
+                Metadata lcMetadata = null;
+                try
+                {
+                    FileInfo lcImgFile = new FileInfo(fn);
+                    // Loading all meta data
+                    lcMetadata = JpegMetadataReader.ReadMetadata(lcImgFile);
+                }
+                catch (JpegProcessingException ex)
+                {
+                    log.InfoFormat(ex.Message);
+                    return;
+                }
+
+                foreach (AbstractDirectory lcDirectory in lcMetadata)
+                {
+                    foreach (var tag in lcDirectory)
+                    {
+                        Console.WriteLine(lcDirectory.GetName() + " - " + tag.GetTagName() + " " + tag.GetTagValue().ToString());
+                    }
+
+                    if (lcDirectory.ContainsTag(ExifDirectory.TAG_EXIF_IMAGE_HEIGHT))
+                    {
+                        TXT_imgheight.Text = lcDirectory.GetInt(ExifDirectory.TAG_EXIF_IMAGE_HEIGHT).ToString();
+                    }
+
+                    if (lcDirectory.ContainsTag(ExifDirectory.TAG_EXIF_IMAGE_WIDTH))
+                    {
+                        TXT_imgwidth.Text = lcDirectory.GetInt(ExifDirectory.TAG_EXIF_IMAGE_WIDTH).ToString();
+                    }
+
+                    if (lcDirectory.ContainsTag(ExifDirectory.TAG_FOCAL_PLANE_X_RES))
+                    {
+                        var unit = lcDirectory.GetFloat(ExifDirectory.TAG_FOCAL_PLANE_UNIT);
+
+                       // TXT_senswidth.Text = lcDirectory.GetDouble(ExifDirectory.TAG_FOCAL_PLANE_X_RES).ToString();
+                    }
+
+                    if (lcDirectory.ContainsTag(ExifDirectory.TAG_FOCAL_PLANE_Y_RES))
+                    {
+                        var unit = lcDirectory.GetFloat(ExifDirectory.TAG_FOCAL_PLANE_UNIT);
+
+                       // TXT_sensheight.Text = lcDirectory.GetDouble(ExifDirectory.TAG_FOCAL_PLANE_Y_RES).ToString();
+                    }
+
+                    if (lcDirectory.ContainsTag(ExifDirectory.TAG_FOCAL_LENGTH))
+                    {
+                        var item = lcDirectory.GetFloat(ExifDirectory.TAG_FOCAL_LENGTH);
+                        num_focallength.Value = (decimal)item;
+                    }
+                    
+
+                    if (lcDirectory.ContainsTag(ExifDirectory.TAG_DATETIME_ORIGINAL))
+                    {
+
+                    }
+
+                }
+            }
+        }
+
+        private void CHK_advanced_CheckedChanged(object sender, EventArgs e)
+        {
+            if (CHK_advanced.Checked)
+            {
+                tabControl1.TabPages.Add(tabGrid);
+                tabControl1.TabPages.Add(tabCamera);
+                tabControl1.TabPages.Add(tabTrigger);
+            }
+            else
+            {
+                tabControl1.TabPages.Remove(tabGrid);
+                tabControl1.TabPages.Remove(tabCamera);
+                tabControl1.TabPages.Remove(tabTrigger);
+            }
         }
 
 

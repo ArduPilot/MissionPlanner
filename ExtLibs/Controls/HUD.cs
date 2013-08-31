@@ -1517,6 +1517,8 @@ namespace ArdupilotMega.Controls
                     try
                     {
                         Custom item = (Custom)CustomItems[key];
+                        if (item.Item == null)
+                            continue;
                         drawstring(graphicsObject, item.Header + item.GetValue.ToString("0.##"), font, fontsize + 2, whiteBrush, this.Width / 8, height);
                         height -= fontsize+5;
                     }

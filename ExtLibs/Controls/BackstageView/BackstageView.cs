@@ -443,8 +443,11 @@ namespace ArdupilotMega.Controls.BackstageView
 
             try
             { // if the button was on an expanded tab. when we leave it no longer exits
-                var oldButton = this.pnlMenu.Controls.OfType<BackstageViewButton>().Single(b => b.Tag == _activePage);
-                oldButton.IsSelected = false;
+                if (_activePage != null)
+                {
+                    var oldButton = this.pnlMenu.Controls.OfType<BackstageViewButton>().Single(b => b.Tag == _activePage);
+                    oldButton.IsSelected = false;
+                }
             }
             catch { }            
 

@@ -134,6 +134,13 @@ namespace ArdupilotMega
         /// </summary>
         bool serialThread = false;
 
+        bool pluginthreadrun = false;
+
+        Thread httpthread;
+        Thread joystickthread;
+        Thread serialreaderthread;
+        Thread pluginthread;
+
         /// <summary>
         /// track the last heartbeat sent
         /// </summary>
@@ -617,7 +624,8 @@ namespace ArdupilotMega
                 try
                 {
                     // if terminal is used, then closed using this button.... exception
-                    ((ConnectionStats)this.connectionStatsForm.Controls[0]).StopUpdates();
+                    if (this.connectionStatsForm != null)
+                        ((ConnectionStats)this.connectionStatsForm.Controls[0]).StopUpdates();
                 }
                 catch { }
 
@@ -745,7 +753,7 @@ namespace ArdupilotMega
                         }
                     }
 
-                    MissionPlanner.Utilities.Tracking.AddEvent("", "Connect", comPort.MAV.cs.firmware.ToString(), comPort.param.Count.ToString());
+                    MissionPlanner.Utilities.Tracking.AddEvent("Connect", "Connect", comPort.MAV.cs.firmware.ToString(), comPort.param.Count.ToString());
 
                     // save the baudrate for this port
                     config[_connectionControl.CMB_serialport.Text + "_BAUD"] = _connectionControl.CMB_baudrate.Text;
@@ -825,39 +833,7 @@ namespace ArdupilotMega
 
         private void MainV2_FormClosed(object sender, FormClosedEventArgs e)
         {
-            // shutdown threads
-            GCSViews.FlightData.threadrun = 0;
-
-            // shutdown local thread
-            serialThread = false;
-
-            SerialThreadrunner.WaitOne();
-
-            try
-            {
-                if (comPort.BaseStream.IsOpen)
-                    comPort.Close();
-            }
-            catch { } // i get alot of these errors, the port is still open, but not valid - user has unpluged usb
-            try
-            {
-                FlightData.Dispose();
-            }
-            catch { }
-            try
-            {
-                FlightPlanner.Dispose();
-            }
-            catch { }
-            try
-            {
-                Simulation.Dispose();
-            }
-            catch { }
-
-
-            // save config
-            xmlconfig(true);
+            Console.WriteLine("MainV2_FormClosed");
         }
 
 
@@ -1127,32 +1103,41 @@ namespace ArdupilotMega
             }
         }
 
+        ManualResetEvent PluginThreadrunner = new ManualResetEvent(false);
+
         private void PluginThread()
         {
             Hashtable nextrun = new Hashtable();
 
-            while (true)
+            pluginthreadrun = true;
+
+            PluginThreadrunner.Reset();
+
+            while (pluginthreadrun)
             {
                 try
                 {
-                    foreach (var plugin in Plugin.PluginLoader.Plugins)
+                    lock (Plugin.PluginLoader.Plugins)
                     {
-                        if (!nextrun.ContainsKey(plugin))
-                            nextrun[plugin] = DateTime.MinValue;
-
-                        if (DateTime.Now > plugin.NextRun)
+                        foreach (var plugin in Plugin.PluginLoader.Plugins)
                         {
-                            // get ms till next run
-                            int msnext = (int)(1000 / plugin.loopratehz);
-                            // allow the plug to modify this, if needed
-                            plugin.NextRun = DateTime.Now.AddMilliseconds(msnext);
+                            if (!nextrun.ContainsKey(plugin))
+                                nextrun[plugin] = DateTime.MinValue;
 
-                            try
+                            if (DateTime.Now > plugin.NextRun)
                             {
-                               bool ans = plugin.Loop();
+                                // get ms till next run
+                                int msnext = (int)(1000 / plugin.loopratehz);
+                                // allow the plug to modify this, if needed
+                                plugin.NextRun = DateTime.Now.AddMilliseconds(msnext);
 
+                                try
+                                {
+                                    bool ans = plugin.Loop();
+
+                                }
+                                catch (Exception ex) { log.Error(ex); }
                             }
-                            catch (Exception ex) { log.Error(ex); }
                         }
                     }
                 }
@@ -1160,22 +1145,22 @@ namespace ArdupilotMega
 
                 // max rate is 100 hz - prevent massive cpu usage
                 System.Threading.Thread.Sleep(10);
-
-                if (this.Disposing || this.IsDisposed)
-                {
-                    while (Plugin.PluginLoader.Plugins.Count > 0)
-                    {
-                        var plugin = Plugin.PluginLoader.Plugins[0];
-                        try
-                        {
-                            plugin.Exit();
-                        }
-                        catch { }
-                        Plugin.PluginLoader.Plugins.Remove(plugin);
-                    }
-                    return;
-                }
             }
+
+            while (Plugin.PluginLoader.Plugins.Count > 0)
+            {
+                var plugin = Plugin.PluginLoader.Plugins[0];
+                try
+                {
+                    plugin.Exit();
+                }
+                catch (Exception ex) { log.Error(ex); }
+                Plugin.PluginLoader.Plugins.Remove(plugin);
+            }
+
+            PluginThreadrunner.Set();
+
+            return;
         }
 
         ManualResetEvent SerialThreadrunner = new ManualResetEvent(false);
@@ -1437,56 +1422,8 @@ namespace ArdupilotMega
                 }
             }
 
+            Console.WriteLine("SerialReader Done");
             SerialThreadrunner.Set();
-        }
-
-        /// <summary>
-        /// Override the stock ToolStripProfessionalRenderer to implement 'highlighting' of the 
-        /// currently selected GCS view.
-        /// </summary>
-        private class MyRenderer : ToolStripProfessionalRenderer
-        {
-            public static ToolStripItem currentpressed;
-            protected override void OnRenderButtonBackground(ToolStripItemRenderEventArgs e)
-            {
-                //BackgroundImage
-                if (e.Item.BackgroundImage == null) base.OnRenderButtonBackground(e);
-                else
-                {
-                    Rectangle bounds = new Rectangle(Point.Empty, e.Item.Size);
-                    e.Graphics.DrawImage(e.Item.BackgroundImage, bounds);
-                    if (e.Item.Pressed || e.Item == currentpressed)
-                    {
-                        SolidBrush brush = new SolidBrush(Color.FromArgb(73, 0x2b, 0x3a, 0x03));
-                        e.Graphics.FillRectangle(brush, bounds);
-                        if (e.Item.Name != "MenuConnect")
-                        {
-                            //Console.WriteLine("new " + e.Item.Name + " old " + currentpressed.Name );
-                            //e.Item.GetCurrentParent().Invalidate();
-                            if (currentpressed != e.Item)
-                                currentpressed.Invalidate();
-                            currentpressed = e.Item;
-                        }
-
-                        // Something...
-                    }
-                    else if (e.Item.Selected) // mouse over
-                    {
-                        SolidBrush brush = new SolidBrush(Color.FromArgb(73, 0x2b, 0x3a, 0x03));
-                        e.Graphics.FillRectangle(brush, bounds);
-                        // Something...
-                    }
-                    using (Pen pen = new Pen(Color.Black))
-                    {
-                        //e.GraphiMainV2.comPort.MAV.cs.DrawRectangle(pen, bounds.X, bounds.Y, bounds.Width - 1, bounds.Height - 1);
-                    }
-                }
-            }
-
-            protected override void OnRenderItemImage(ToolStripItemImageRenderEventArgs e)
-            {
-                //base.OnRenderItemImage(e);
-            }
         }
 
         private void MainV2_Load(object sender, EventArgs e)
@@ -1495,8 +1432,8 @@ namespace ArdupilotMega
             if (config["menu_autohide"] == null)
             {
                 config["menu_autohide"] = "false";
-               }
-            
+            }
+
             try
             {
                 AutoHideMenu(bool.Parse(config["menu_autohide"].ToString()));
@@ -1518,16 +1455,16 @@ namespace ArdupilotMega
 
             // for long running tasks using own threads.
             // for short use threadpool
-			
+
             // setup http server
             try
             {
-               
-                new Thread(new httpserver().listernforclients)
+
+                httpthread = new Thread(new httpserver().listernforclients)
                 {
                     Name = "motion jpg stream-network kml",
                     IsBackground = true
-                }.Start();
+                }; httpthread.Start();
             }
             catch (Exception ex)
             {
@@ -1536,29 +1473,29 @@ namespace ArdupilotMega
             }
 
             /// setup joystick packet sender
-            new Thread(new ThreadStart(joysticksend))
-            {
-                IsBackground = true,
-                Priority = ThreadPriority.AboveNormal,
-                Name = "Main joystick sender"
-            }.Start();
+            joystickthread = new Thread(new ThreadStart(joysticksend))
+             {
+                 IsBackground = true,
+                 Priority = ThreadPriority.AboveNormal,
+                 Name = "Main joystick sender"
+             }; joystickthread.Start();
 
             // setup main serial reader
-            new Thread(SerialReader)
+            serialreaderthread = new Thread(SerialReader)
             {
                 IsBackground = true,
                 Name = "Main Serial reader",
                 Priority = ThreadPriority.AboveNormal
-            }.Start();
+            }; serialreaderthread.Start();
 
             // setup main plugin thread
-            new Thread(PluginThread)
+            pluginthread = new Thread(PluginThread)
             {
                 IsBackground = true,
                 Name = "plugin runner thread",
                 Priority = ThreadPriority.BelowNormal
-            }.Start();
-          
+            }; pluginthread.Start();
+
 
             try
             {
@@ -1583,10 +1520,6 @@ namespace ArdupilotMega
             }
             catch (Exception ex) { log.Error(ex); }
         }
-
-   
-
-
 
         private void TOOL_APMFirmware_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -1746,6 +1679,8 @@ namespace ArdupilotMega
 
         private void MainV2_FormClosing(object sender, FormClosingEventArgs e)
         {
+            Console.WriteLine("MainV2_FormClosing");
+
             config["MainHeight"] = this.Height;
             config["MainWidth"] = this.Width;
             config["MainMaximised"] = this.WindowState.ToString();
@@ -1767,6 +1702,56 @@ namespace ArdupilotMega
             }
             catch { }
 
+            // shutdown threads
+            GCSViews.FlightData.threadrun = 0;
+
+            pluginthreadrun = false;
+
+            PluginThreadrunner.WaitOne();
+
+            // shutdown local thread
+            serialThread = false;
+
+            SerialThreadrunner.WaitOne();
+
+            // close all tabs
+            MyView.Dispose();
+
+            try
+            {
+                FlightData.Dispose();
+            }
+            catch { }
+            try
+            {
+                FlightPlanner.Dispose();
+            }
+            catch { }
+            try
+            {
+                Simulation.Dispose();
+            }
+            catch { }
+
+            try
+            {
+                if (comPort.BaseStream.IsOpen)
+                    comPort.Close();
+            }
+            catch { } // i get alot of these errors, the port is still open, but not valid - user has unpluged usb
+
+            // save config
+            xmlconfig(true);
+            
+            Console.WriteLine(httpthread.IsAlive);
+            Console.WriteLine(joystickthread.IsAlive);
+            Console.WriteLine(serialreaderthread.IsAlive);
+            Console.WriteLine(pluginthread.IsAlive);
+
+            Console.WriteLine("MainV2_FormClosing done");
+
+            if (MONO)
+                this.Dispose();
         }
 
         public static string getConfig(string paramname)

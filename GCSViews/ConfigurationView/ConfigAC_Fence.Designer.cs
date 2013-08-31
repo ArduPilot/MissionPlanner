@@ -30,18 +30,18 @@
         {
             this.label1 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.mavlinkComboBox2 = new ArdupilotMega.Controls.MavlinkComboBox();
-            this.mavlinkNumericUpDown1 = new ArdupilotMega.Controls.MavlinkNumericUpDown();
-            this.mavlinkNumericUpDown2 = new ArdupilotMega.Controls.MavlinkNumericUpDown();
-            this.mavlinkCheckBox1 = new ArdupilotMega.Controls.MavlinkCheckBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.mavlinkComboBox1 = new ArdupilotMega.Controls.MavlinkComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.lineSeparator2 = new ArdupilotMega.Controls.LineSeparator();
-            this.label2 = new System.Windows.Forms.Label();
+            this.mavlinkComboBox2 = new ArdupilotMega.Controls.MavlinkComboBox();
+            this.mavlinkNumericUpDown1 = new ArdupilotMega.Controls.MavlinkNumericUpDown();
+            this.mavlinkNumericUpDown2 = new ArdupilotMega.Controls.MavlinkNumericUpDown();
+            this.mavlinkCheckBox1 = new ArdupilotMega.Controls.MavlinkCheckBox();
+            this.mavlinkComboBox1 = new ArdupilotMega.Controls.MavlinkComboBox();
             this.mavlinkNumericUpDown3 = new ArdupilotMega.Controls.MavlinkNumericUpDown();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown1)).BeginInit();
@@ -64,8 +64,8 @@
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20.65217F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 79.34782F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 29.13043F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70.86957F));
             this.tableLayoutPanel1.Controls.Add(this.label2, 0, 5);
             this.tableLayoutPanel1.Controls.Add(this.mavlinkComboBox2, 1, 2);
             this.tableLayoutPanel1.Controls.Add(this.mavlinkNumericUpDown1, 1, 3);
@@ -90,56 +90,14 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(460, 169);
             this.tableLayoutPanel1.TabIndex = 88;
             // 
-            // mavlinkComboBox2
+            // label2
             // 
-            this.mavlinkComboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.mavlinkComboBox2.Enabled = false;
-            this.mavlinkComboBox2.FormattingEnabled = true;
-            this.mavlinkComboBox2.Location = new System.Drawing.Point(97, 61);
-            this.mavlinkComboBox2.Name = "mavlinkComboBox2";
-            this.mavlinkComboBox2.param = null;
-            this.mavlinkComboBox2.ParamName = null;
-            this.mavlinkComboBox2.Size = new System.Drawing.Size(121, 21);
-            this.mavlinkComboBox2.TabIndex = 85;
-            // 
-            // mavlinkNumericUpDown1
-            // 
-            this.mavlinkNumericUpDown1.Enabled = false;
-            this.mavlinkNumericUpDown1.Location = new System.Drawing.Point(97, 90);
-            this.mavlinkNumericUpDown1.Max = 1F;
-            this.mavlinkNumericUpDown1.Min = 0F;
-            this.mavlinkNumericUpDown1.Name = "mavlinkNumericUpDown1";
-            this.mavlinkNumericUpDown1.param = null;
-            this.mavlinkNumericUpDown1.ParamName = null;
-            this.mavlinkNumericUpDown1.Size = new System.Drawing.Size(120, 20);
-            this.mavlinkNumericUpDown1.TabIndex = 86;
-            // 
-            // mavlinkNumericUpDown2
-            // 
-            this.mavlinkNumericUpDown2.Enabled = false;
-            this.mavlinkNumericUpDown2.Location = new System.Drawing.Point(97, 119);
-            this.mavlinkNumericUpDown2.Max = 1F;
-            this.mavlinkNumericUpDown2.Min = 0F;
-            this.mavlinkNumericUpDown2.Name = "mavlinkNumericUpDown2";
-            this.mavlinkNumericUpDown2.param = null;
-            this.mavlinkNumericUpDown2.ParamName = null;
-            this.mavlinkNumericUpDown2.Size = new System.Drawing.Size(120, 20);
-            this.mavlinkNumericUpDown2.TabIndex = 87;
-            // 
-            // mavlinkCheckBox1
-            // 
-            this.mavlinkCheckBox1.AutoSize = true;
-            this.mavlinkCheckBox1.Enabled = false;
-            this.mavlinkCheckBox1.Location = new System.Drawing.Point(97, 3);
-            this.mavlinkCheckBox1.Name = "mavlinkCheckBox1";
-            this.mavlinkCheckBox1.OffValue = 0F;
-            this.mavlinkCheckBox1.OnValue = 1F;
-            this.mavlinkCheckBox1.param = null;
-            this.mavlinkCheckBox1.ParamName = null;
-            this.mavlinkCheckBox1.Size = new System.Drawing.Size(59, 17);
-            this.mavlinkCheckBox1.TabIndex = 0;
-            this.mavlinkCheckBox1.Text = "Enable";
-            this.mavlinkCheckBox1.UseVisualStyleBackColor = true;
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(3, 145);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(66, 13);
+            this.label2.TabIndex = 94;
+            this.label2.Text = "RTL Altitude";
             // 
             // label3
             // 
@@ -149,18 +107,6 @@
             this.label3.Size = new System.Drawing.Size(40, 13);
             this.label3.TabIndex = 89;
             this.label3.Text = "Enable";
-            // 
-            // mavlinkComboBox1
-            // 
-            this.mavlinkComboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.mavlinkComboBox1.Enabled = false;
-            this.mavlinkComboBox1.FormattingEnabled = true;
-            this.mavlinkComboBox1.Location = new System.Drawing.Point(97, 32);
-            this.mavlinkComboBox1.Name = "mavlinkComboBox1";
-            this.mavlinkComboBox1.param = null;
-            this.mavlinkComboBox1.ParamName = null;
-            this.mavlinkComboBox1.Size = new System.Drawing.Size(121, 21);
-            this.mavlinkComboBox1.TabIndex = 84;
             // 
             // label4
             // 
@@ -212,19 +158,73 @@
             this.lineSeparator2.Size = new System.Drawing.Size(460, 2);
             this.lineSeparator2.TabIndex = 82;
             // 
-            // label2
+            // mavlinkComboBox2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(3, 145);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(66, 13);
-            this.label2.TabIndex = 94;
-            this.label2.Text = "RTL Altitude";
+            this.mavlinkComboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.mavlinkComboBox2.Enabled = false;
+            this.mavlinkComboBox2.FormattingEnabled = true;
+            this.mavlinkComboBox2.Location = new System.Drawing.Point(136, 61);
+            this.mavlinkComboBox2.Name = "mavlinkComboBox2";
+            this.mavlinkComboBox2.param = null;
+            this.mavlinkComboBox2.ParamName = null;
+            this.mavlinkComboBox2.Size = new System.Drawing.Size(121, 21);
+            this.mavlinkComboBox2.TabIndex = 85;
+            // 
+            // mavlinkNumericUpDown1
+            // 
+            this.mavlinkNumericUpDown1.Enabled = false;
+            this.mavlinkNumericUpDown1.Location = new System.Drawing.Point(136, 90);
+            this.mavlinkNumericUpDown1.Max = 1F;
+            this.mavlinkNumericUpDown1.Min = 0F;
+            this.mavlinkNumericUpDown1.Name = "mavlinkNumericUpDown1";
+            this.mavlinkNumericUpDown1.param = null;
+            this.mavlinkNumericUpDown1.ParamName = null;
+            this.mavlinkNumericUpDown1.Size = new System.Drawing.Size(120, 20);
+            this.mavlinkNumericUpDown1.TabIndex = 86;
+            // 
+            // mavlinkNumericUpDown2
+            // 
+            this.mavlinkNumericUpDown2.Enabled = false;
+            this.mavlinkNumericUpDown2.Location = new System.Drawing.Point(136, 119);
+            this.mavlinkNumericUpDown2.Max = 1F;
+            this.mavlinkNumericUpDown2.Min = 0F;
+            this.mavlinkNumericUpDown2.Name = "mavlinkNumericUpDown2";
+            this.mavlinkNumericUpDown2.param = null;
+            this.mavlinkNumericUpDown2.ParamName = null;
+            this.mavlinkNumericUpDown2.Size = new System.Drawing.Size(120, 20);
+            this.mavlinkNumericUpDown2.TabIndex = 87;
+            // 
+            // mavlinkCheckBox1
+            // 
+            this.mavlinkCheckBox1.AutoSize = true;
+            this.mavlinkCheckBox1.Enabled = false;
+            this.mavlinkCheckBox1.Location = new System.Drawing.Point(136, 3);
+            this.mavlinkCheckBox1.Name = "mavlinkCheckBox1";
+            this.mavlinkCheckBox1.OffValue = 0F;
+            this.mavlinkCheckBox1.OnValue = 1F;
+            this.mavlinkCheckBox1.param = null;
+            this.mavlinkCheckBox1.ParamName = null;
+            this.mavlinkCheckBox1.Size = new System.Drawing.Size(59, 17);
+            this.mavlinkCheckBox1.TabIndex = 0;
+            this.mavlinkCheckBox1.Text = "Enable";
+            this.mavlinkCheckBox1.UseVisualStyleBackColor = true;
+            // 
+            // mavlinkComboBox1
+            // 
+            this.mavlinkComboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.mavlinkComboBox1.Enabled = false;
+            this.mavlinkComboBox1.FormattingEnabled = true;
+            this.mavlinkComboBox1.Location = new System.Drawing.Point(136, 32);
+            this.mavlinkComboBox1.Name = "mavlinkComboBox1";
+            this.mavlinkComboBox1.param = null;
+            this.mavlinkComboBox1.ParamName = null;
+            this.mavlinkComboBox1.Size = new System.Drawing.Size(121, 21);
+            this.mavlinkComboBox1.TabIndex = 84;
             // 
             // mavlinkNumericUpDown3
             // 
             this.mavlinkNumericUpDown3.Enabled = false;
-            this.mavlinkNumericUpDown3.Location = new System.Drawing.Point(97, 148);
+            this.mavlinkNumericUpDown3.Location = new System.Drawing.Point(136, 148);
             this.mavlinkNumericUpDown3.Max = 1F;
             this.mavlinkNumericUpDown3.Min = 0F;
             this.mavlinkNumericUpDown3.Name = "mavlinkNumericUpDown3";

@@ -276,7 +276,8 @@ namespace GMap.NET.WindowsForms
                   {
                      rp.CloseFigure();
 
-                     //g.FillPath(r.Fill, rp);
+                     if (!(((SolidBrush)r.Fill).Color.A == 155 && ((SolidBrush)r.Fill).Color.B == 255 && ((SolidBrush)r.Fill).Color.G == 248 && ((SolidBrush)r.Fill).Color.R == 240))
+                        g.FillPath(r.Fill, rp);
 
                      g.DrawPath(r.Stroke, rp);
                   }

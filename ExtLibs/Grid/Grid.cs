@@ -110,7 +110,7 @@ namespace MissionPlanner
 
             utmpos left = new utmpos(xb1, yb1, utmzone);
 
-           // addtomap(left, "left");
+            addtomap(left, "left");
 
             // get right extent
             double xb2 = x;
@@ -122,7 +122,7 @@ namespace MissionPlanner
 
             utmpos right = new utmpos(xb2, yb2, utmzone);
 
-          //  addtomap(right,"right");
+            addtomap(right,"right");
 
             // set start point to left hand side
             x = xb1;
@@ -372,6 +372,11 @@ namespace MissionPlanner
             return ans;
         }
 
+        //http://en.wikipedia.org/wiki/Rapidly_exploring_random_tree
+
+
+
+        // a*
         static List<PointLatLngAlt> FindPath(List<linelatlng> grid1, utmpos startposutm)
         {
             List<PointLatLngAlt> answer = new List<PointLatLngAlt>();

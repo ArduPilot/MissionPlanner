@@ -38,7 +38,7 @@ namespace ArdupilotMega.Utilities
             uploadRequest.BucketName = bucketName;
             uploadRequest.Key = toPath;
             //uploadRequest.AddHeader("x-amz-acl", "private");
-            uploadRequest.UploadProgressEvent += new EventHandler<UploadProgressArgs>(uploadRequest_UploadProgressEvent);
+            uploadRequest.UploadProgressEvent += uploadRequest_UploadProgressEvent;
             transferUtility.BeginUpload(uploadRequest, callback, toPath);
         }
 

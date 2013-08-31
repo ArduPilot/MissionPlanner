@@ -50,6 +50,9 @@ namespace ArdupilotMega.Controls
             get { return _value; }
             set
             {
+                if (_value == value)
+                    return;
+
                 _value = value;
                 int ans = value + offset;
                 if (ans <= base.Minimum)
@@ -61,9 +64,9 @@ namespace ArdupilotMega.Controls
                     ans = base.Maximum;
                 }
                 base.Value = ans;
-                drawlbl();
+                //drawlbl();
                 base.Value = ans - 1;
-                drawlbl();
+                //drawlbl();
                 base.Value = ans;
                 drawlbl();
 

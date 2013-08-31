@@ -1054,5 +1054,10 @@ namespace ArdupilotMega
                 }
             }
         }
+
+        private void BUT_followleader_Click(object sender, EventArgs e)
+        {
+            new Swarm.FollowPathControl().Show();
+        }
     }
 }

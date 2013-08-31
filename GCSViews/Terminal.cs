@@ -87,6 +87,9 @@ namespace ArdupilotMega.GCSViews
         {
             this.BeginInvoke((System.Windows.Forms.MethodInvoker)delegate()
             {
+                if (this.Disposing)
+                    return;
+
                 TXT_terminal.SelectionStart = TXT_terminal.Text.Length;
 
                 data = data.Replace("U3","");
@@ -403,6 +406,8 @@ namespace ArdupilotMega.GCSViews
                         try
                         {
                             System.Threading.Thread.Sleep(10);
+                            if (this.Disposing)
+                                break;
                             if (inlogview)
                                 continue;
                             if (!comPort.IsOpen)

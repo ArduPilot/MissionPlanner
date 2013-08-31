@@ -57,7 +57,7 @@ namespace ArdupilotMega.Controls
         {
             try
             {
-                if (MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_SERVO, int.Parse(TXT_rcchannel.Text), int.Parse(TXT_pwm_low.Text), 0, 0, 0, 0, 0))
+                if (MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_SERVO, thisservo, int.Parse(TXT_pwm_low.Text), 0, 0, 0, 0, 0))
                 {
                     TXT_rcchannel.BackColor = Color.Red;
                 }
@@ -73,7 +73,7 @@ namespace ArdupilotMega.Controls
         {
             try
             {
-                if (MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_SERVO, int.Parse(TXT_rcchannel.Text), int.Parse(TXT_pwm_high.Text), 0, 0, 0, 0, 0))
+                if (MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_SERVO, thisservo, int.Parse(TXT_pwm_high.Text), 0, 0, 0, 0, 0))
                 {
                     TXT_rcchannel.BackColor = Color.Green;
                 }
@@ -89,7 +89,7 @@ namespace ArdupilotMega.Controls
         {
             try
             {
-                if (MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_SERVO, int.Parse(TXT_rcchannel.Text), int.Parse(TXT_pwm_low.Text), 0, 0, 0, 0, 0))
+                if (MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_SERVO, thisservo, int.Parse(TXT_pwm_low.Text), 0, 0, 0, 0, 0))
                 {
                     TXT_rcchannel.BackColor = Color.Red;
                 }
@@ -97,7 +97,7 @@ namespace ArdupilotMega.Controls
                 Application.DoEvents();
                 System.Threading.Thread.Sleep(200);
 
-                if (MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_SERVO, int.Parse(TXT_rcchannel.Text), int.Parse(TXT_pwm_high.Text), 0, 0, 0, 0, 0))
+                if (MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_SERVO, thisservo, int.Parse(TXT_pwm_high.Text), 0, 0, 0, 0, 0))
                 {
                     TXT_rcchannel.BackColor = Color.Green;
                 }
@@ -105,7 +105,7 @@ namespace ArdupilotMega.Controls
                 Application.DoEvents();
                 System.Threading.Thread.Sleep(200);
 
-                if (MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_SERVO, int.Parse(TXT_rcchannel.Text), int.Parse(TXT_pwm_low.Text), 0, 0, 0, 0, 0))
+                if (MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_SERVO, thisservo, int.Parse(TXT_pwm_low.Text), 0, 0, 0, 0, 0))
                 {
                     TXT_rcchannel.BackColor = Color.Red;
                 }

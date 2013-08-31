@@ -997,7 +997,7 @@ namespace ArdupilotMega
             /// <summary> receive errors </summary>
             public UInt16 rxerrors;
             /// <summary> count of error corrected packets </summary>
-            public UInt16 fixedp;
+            public UInt16 @fixed;
             /// <summary> local signal strength </summary>
             public byte rssi;
             /// <summary> remote signal strength </summary>

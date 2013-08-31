@@ -84,6 +84,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
 
         private void lbl_armed_Paint(object sender, PaintEventArgs e)
         {
+            lbl_armed.SuspendLayout();
             if (lbl_armed.Text == "True")
             {
                 lbl_armed.Text = "Armed";
@@ -92,6 +93,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             {
                 lbl_armed.Text = "Disarmed";
             }
+            lbl_armed.ResumeLayout();
         }
 
         private void lbl_gpslock_Paint(object sender, PaintEventArgs e)
@@ -99,7 +101,8 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             int _gpsfix = 0;
             try
             {
-                _gpsfix = int.Parse(lbl_gpslock.Text);
+                if (!int.TryParse(lbl_gpslock.Text, out _gpsfix))
+                    return;
             }
             catch { return; }
             string gps = "";
@@ -120,21 +123,25 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             {
                 gps = ("GPS: 3D Fix");
             }
-
+            lbl_gpslock.SuspendLayout();
             lbl_gpslock.Text = gps;
+            lbl_gpslock.ResumeLayout();
         }
 
         private void lbl_currentmode_TextChanged(object sender, EventArgs e)
         {
             try
             {
-                if (MainV2.comPort.MAV.cs.ch3in < (float)MainV2.comPort.MAV.param["FS_THR_VALUE"])
+                if (MainV2.comPort.MAV.param.ContainsKey("FS_THR_VALUE"))
                 {
-                    lbl_currentmode.ForeColor = Color.Red;
-                }
-                else
-                {
-                    lbl_currentmode.ForeColor = Color.White;
+                    if (MainV2.comPort.MAV.cs.ch3in < (float)MainV2.comPort.MAV.param["FS_THR_VALUE"])
+                    {
+                        lbl_currentmode.ForeColor = Color.Red;
+                    }
+                    else
+                    {
+                        lbl_currentmode.ForeColor = Color.White;
+                    }
                 }
             }
             catch { }

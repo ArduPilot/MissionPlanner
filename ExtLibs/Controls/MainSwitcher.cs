@@ -9,12 +9,11 @@ using System.Windows.Forms;
 
 namespace ArdupilotMega.Controls
 {
-    public partial class MainSwitcher
+    public partial class MainSwitcher : IDisposable
     {
         public delegate void ThemeManager(Control ctl);
 
         public static event ThemeManager ApplyTheme;
-
 
         public List<Screen> screens = new List<Screen>();
         public Screen current;
@@ -118,6 +117,21 @@ namespace ArdupilotMega.Controls
                 this.Control = Control;
                 this.Persistent = Persistent;
             }
+        }
+
+        public void Dispose()
+        {
+            if (current.Control is IDeactivate)
+            {
+                ((IDeactivate)(current.Control)).Deactivate();
+            }
+
+            foreach (var item in screens)
+            {
+                item.Control.Dispose();
+            }
+
+            MainControl.Dispose();
         }
     }
 }

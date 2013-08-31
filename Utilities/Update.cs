@@ -304,7 +304,13 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
 
                     byte[] buf1 = new byte[4096];
 
-                    using (FileStream fs = new FileStream(path + ".new", FileMode.Create))
+                    // if the file doesnt exist. just save it inplace
+                    string fn = path + ".new";
+
+                    if (!File.Exists(path))
+                        fn = path;
+
+                    using (FileStream fs = new FileStream(fn, FileMode.Create))
                     {
 
                         DateTime dt = DateTime.Now;

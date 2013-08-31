@@ -490,11 +490,11 @@ namespace ArdupilotMega.Log
                     string mode = datarow.Cells[2].Value.ToString();
                     if (top)
                     {
-                        zg1.GraphPane.GraphObjList.Add(new TextObj(mode, a, zg1.GraphPane.YAxis.Scale.Min, CoordType.AxisXY2Scale, AlignH.Left, AlignV.Top));
+                        zg1.GraphPane.GraphObjList.Add(new TextObj(mode, a, zg1.GraphPane.YAxis.Scale.Min, CoordType.AxisXYScale, AlignH.Left, AlignV.Top));
                     }
                     else
                     {
-                        zg1.GraphPane.GraphObjList.Add(new TextObj(mode, a, zg1.GraphPane.YAxis.Scale.Min, CoordType.AxisXY2Scale, AlignH.Left, AlignV.Bottom));
+                        zg1.GraphPane.GraphObjList.Add(new TextObj(mode, a, zg1.GraphPane.YAxis.Scale.Min, CoordType.AxisXYScale, AlignH.Left, AlignV.Bottom));
                     }
                     top = !top;
                 }
@@ -541,7 +541,7 @@ namespace ArdupilotMega.Log
 
                         if (workingtime.Minute != lastdrawn.Minute)
                         {
-                                zg1.GraphPane.GraphObjList.Add(new TextObj(span.TotalMinutes.ToString("0") + " min", a, zg1.GraphPane.YAxis.Scale.Max, CoordType.AxisXY2Scale, AlignH.Left, AlignV.Top));
+                            zg1.GraphPane.GraphObjList.Add(new TextObj(span.TotalMinutes.ToString("0") + " min", a, zg1.GraphPane.YAxis.Scale.Max, CoordType.AxisXYScale, AlignH.Left, AlignV.Top));
                             lastdrawn = workingtime;
                         }
                     }

@@ -150,7 +150,7 @@ namespace MissionPlanner.Utilities
             try
             {
 
-                var httpWebRequest = (HttpWebRequest)WebRequest.Create(trackingEndpoint);
+                var httpWebRequest = (HttpWebRequest)WebRequest.Create(secureTrackingEndpoint);
                 httpWebRequest.ServicePoint.Expect100Continue = false;
                 httpWebRequest.UserAgent = Application.ProductName + " " + Application.ProductVersion + " ("+ Environment.OSVersion.VersionString +")";
                 //httpWebRequest.ContentType = "text/plain";

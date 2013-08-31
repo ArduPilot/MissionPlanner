@@ -76,6 +76,8 @@ namespace ArdupilotMega.GCSViews
         bool huddropout = false;
         bool huddropoutresize = false;
 
+        bool ismainlooprunning = false;
+
         //      private DockStateSerializer _serializer = null;
 
         List<PointLatLng> trackPoints = new List<PointLatLng>();
@@ -119,7 +121,12 @@ namespace ArdupilotMega.GCSViews
                 MainV2.config["FlightSplitter"] = hud1.Width;
             }
             catch { }
-            System.Threading.Thread.Sleep(100);
+            // run anything that might be outstanding.
+            while (ismainlooprunning)
+            {
+                Application.DoEvents();
+                System.Threading.Thread.Sleep(5);
+            }           
             base.Dispose(disposing);
         }
 
@@ -509,6 +516,8 @@ namespace ArdupilotMega.GCSViews
         {
             //System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en-US");
             //System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
+
+            ismainlooprunning = true;
             System.Threading.Thread.CurrentThread.IsBackground = true;
 
             threadrun = 1;
@@ -536,6 +545,8 @@ namespace ArdupilotMega.GCSViews
 
             while (threadrun == 1)
             {
+                ismainlooprunning = true;
+
                 if (threadrun == 0) { return; }
 
                 if (MainV2.comPort.giveComport == true)
@@ -935,6 +946,7 @@ namespace ArdupilotMega.GCSViews
                 catch (Exception ex) { Console.WriteLine("FD Main loop exception " + ex.ToString()); }
             }
             Console.WriteLine("FD Main loop exit");
+            ismainlooprunning = false;
         }
 
         private void setMapBearing()

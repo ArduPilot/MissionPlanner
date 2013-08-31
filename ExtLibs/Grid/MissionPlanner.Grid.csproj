@@ -35,6 +35,11 @@
       <HintPath>..\..\Lib\AStar.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\log4net.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="ProjNet">
       <HintPath>..\..\Lib\ProjNet.dll</HintPath>
       <Private>False</Private>
@@ -49,12 +54,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Camera.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Camera.Designer.cs">
-      <DependentUpon>Camera.cs</DependentUpon>
-    </Compile>
     <Compile Include="Grid.cs" />
     <Compile Include="GridUI.cs">
       <SubType>Form</SubType>
@@ -62,7 +61,6 @@
     <Compile Include="GridUI.Designer.cs">
       <DependentUpon>GridUI.cs</DependentUpon>
     </Compile>
-    <None Include="PathFind.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -92,6 +90,11 @@
       <Name>GMap.NET.WindowsForms</Name>
       <Private>False</Private>
     </ProjectReference>
+    <ProjectReference Include="..\MetaDataExtractorCSharp240d\MetaDataExtractor.csproj">
+      <Project>{b46f6c6c-9184-41af-8f8b-e0084752ca7c}</Project>
+      <Name>MetaDataExtractor</Name>
+      <Private>False</Private>
+    </ProjectReference>
     <ProjectReference Include="..\Utilities\MissionPlanner.Utilities.csproj">
       <Project>{1378a66c-38e4-46f5-a05f-dc04ef7d4d16}</Project>
       <Name>MissionPlanner.Utilities</Name>
@@ -99,21 +102,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Camera.de-DE.resx">
-      <DependentUpon>Camera.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Camera.fr.resx">
-      <DependentUpon>Camera.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Camera.it-IT.resx">
-      <DependentUpon>Camera.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Camera.resx">
-      <DependentUpon>Camera.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Camera.zh-Hans.resx">
-      <DependentUpon>Camera.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="GridUI.resx">
       <DependentUpon>GridUI.cs</DependentUpon>
     </EmbeddedResource>

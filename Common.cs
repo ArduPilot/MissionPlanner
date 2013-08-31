@@ -509,6 +509,7 @@ namespace ArdupilotMega
             if (cs.firmware == MainV2.Firmwares.ArduPlane)
             {
                 var flightModes = parm.GetParameterOptionsInt("FLTMODE1");
+                flightModes.Add(new KeyValuePair<int,string>(16,"INITIALISING"));
                 return flightModes;
             }
             else if (cs.firmware == MainV2.Firmwares.Ateryx)

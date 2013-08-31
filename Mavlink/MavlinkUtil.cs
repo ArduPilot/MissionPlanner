@@ -14,6 +14,7 @@ namespace ArdupilotMega
     {
         private static readonly ILog log =
             LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         /// <summary>
         /// Create a new mavlink packet object from a byte array as recieved over mavlink
         /// Endianess will be detetected using packet inspection

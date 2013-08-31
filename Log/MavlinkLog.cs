@@ -54,6 +54,12 @@ namespace ArdupilotMega
             zg1.GraphPane.YAxis.Title.IsVisible = false;
             zg1.GraphPane.Title.IsVisible = true;
             zg1.GraphPane.Title.Text = "Mavlink Log Graph";
+            zg1.GraphPane.XAxis.Title.Text = "Time (sec)";
+
+            zg1.GraphPane.XAxis.Type = AxisType.Date;
+            zg1.GraphPane.XAxis.Scale.Format = "HH:mm:ss";
+            zg1.GraphPane.XAxis.Scale.MajorUnit = DateUnit.Minute;
+            zg1.GraphPane.XAxis.Scale.MinorUnit = DateUnit.Second;
         }
 
         private void writeKML(string filename)
@@ -712,12 +718,13 @@ namespace ArdupilotMega
 
                         if (!packetdata.ContainsKey(packetname))
                         {
-                            packetdata[packetname] = new Dictionary<double,object>();
+                            packetdata[packetname] = new Dictionary<DateTime,object>();
                         }
 
-                        Dictionary<double, object> temp = (Dictionary<double, object>)packetdata[packetname];
+                        Dictionary<DateTime, object> temp = (Dictionary<DateTime, object>)packetdata[packetname];
 
-                        double time = (MavlinkInterface.lastlogread - startlogtime).TotalMilliseconds / 1000.0;
+                        //double time = (MavlinkInterface.lastlogread - startlogtime).TotalMilliseconds / 1000.0;
+                        DateTime time = MavlinkInterface.lastlogread;
 
                         temp[time] = data;
                     }
@@ -748,7 +755,9 @@ namespace ArdupilotMega
 
                             object value = fieldValue;
                             // seconds scale
-                            double time = (MavlinkInterface.lastlogread - startlogtime).TotalMilliseconds / 1000.0;
+                            //double time = (MavlinkInterface.lastlogread - startlogtime).TotalMilliseconds / 1000.0;
+
+                            XDate time = new XDate(MavlinkInterface.lastlogread);
 
                             if (value.GetType() == typeof(Single))
                             {

@@ -23,8 +23,6 @@ namespace ArdupilotMega.Utilities
 
         string firmwareurl = "https://raw.github.com/diydrones/binary/master/Firmware/firmware2.xml";
 
-
-
         // ap 2.5 - ac 2.7
         //"https://meee146-planner.googlecode.com/git-history/dfc5737c5efc1e7b78e908829a097624c273d9d7/Tools/ArdupilotMegaPlanner/Firmware/firmware2.xml";
         //"http://meee146-planner.googlecode.com/git/Tools/ArdupilotMegaPlanner/Firmware/AC2-Y6-1280.hex"
@@ -72,7 +70,8 @@ namespace ArdupilotMega.Utilities
             public string url;
             public string url2560;
             public string url2560_2;
-            public string urlpx4;
+            public string urlpx4v1;
+            public string urlpx4v2;
             public string name;
             public string desc;
             public int k_format_version;
@@ -126,6 +125,7 @@ namespace ArdupilotMega.Utilities
             string url2560 = "";
             string url2560_2 = "";
             string px4 = "";
+            string px4v2 = "";
             string name = "";
             string desc = "";
             int k_format_version = 0;
@@ -162,6 +162,9 @@ namespace ArdupilotMega.Utilities
                             case "urlpx4":
                                 px4 = xmlreader.ReadString();
                                 break;
+                            case "urlpx4v2":
+                                px4v2 = xmlreader.ReadString();
+                                break;
                             case "name":
                                 name = xmlreader.ReadString();
                                 break;
@@ -172,14 +175,15 @@ namespace ArdupilotMega.Utilities
                                 desc = xmlreader.ReadString();
                                 break;
                             case "Firmware":
-                                if (!url2560.Equals("") && !name.Equals("") && !desc.Equals("Please Update"))
+                                if (!url2560_2.Equals("") && !name.Equals("") && !desc.Equals("Please Update"))
                                 {
                                     temp.desc = desc;
                                     temp.name = name;
                                     temp.url = url;
                                     temp.url2560 = url2560;
                                     temp.url2560_2 = url2560_2;
-                                    temp.urlpx4 = px4;
+                                    temp.urlpx4v1 = px4;
+                                    temp.urlpx4v2 = px4v2;
                                     temp.k_format_version = k_format_version;
 
                                     try
@@ -201,6 +205,9 @@ namespace ArdupilotMega.Utilities
                                 }
                                 url = "";
                                 url2560 = "";
+                                url2560_2 = "";
+                                px4 = "";
+                                px4v2 = "";
                                 name = "";
                                 desc = "";
                                 k_format_version = 0;
@@ -326,7 +333,7 @@ namespace ArdupilotMega.Utilities
                 }
                 else if (board == "px4")
                 {
-                    baseurl = temp.urlpx4.ToString();
+                    baseurl = temp.urlpx4v1.ToString();
                 }
                 else
                 {

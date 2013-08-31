@@ -31,7 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigArduplane));
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.THR_FS_VALUE = new System.Windows.Forms.NumericUpDown();
+            this.THR_SLEWRATE = new System.Windows.Forms.NumericUpDown();
             this.label5 = new System.Windows.Forms.Label();
             this.THR_MAX = new System.Windows.Forms.NumericUpDown();
             this.label6 = new System.Windows.Forms.Label();
@@ -60,8 +60,6 @@
             this.label83 = new System.Windows.Forms.Label();
             this.KFF_RDDRMIX = new System.Windows.Forms.NumericUpDown();
             this.label78 = new System.Windows.Forms.Label();
-            this.KFF_PTCHCOMP = new System.Windows.Forms.NumericUpDown();
-            this.label81 = new System.Windows.Forms.Label();
             this.groupBox14 = new System.Windows.Forms.GroupBox();
             this.ENRGY2THR_IMAX = new System.Windows.Forms.NumericUpDown();
             this.label73 = new System.Windows.Forms.Label();
@@ -90,13 +88,13 @@
             this.ARSP2PTCH_P = new System.Windows.Forms.NumericUpDown();
             this.label68 = new System.Windows.Forms.Label();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
-            this.YW2SRV_IMAX = new System.Windows.Forms.NumericUpDown();
+            this.YAW2SRV_IMAX = new System.Windows.Forms.NumericUpDown();
             this.label57 = new System.Windows.Forms.Label();
-            this.YW2SRV_D = new System.Windows.Forms.NumericUpDown();
+            this.YAW2SRV_DAMP = new System.Windows.Forms.NumericUpDown();
             this.label58 = new System.Windows.Forms.Label();
-            this.YW2SRV_I = new System.Windows.Forms.NumericUpDown();
+            this.YAW2SRV_INT = new System.Windows.Forms.NumericUpDown();
             this.label59 = new System.Windows.Forms.Label();
-            this.YW2SRV_P = new System.Windows.Forms.NumericUpDown();
+            this.YAW2SRV_RLL = new System.Windows.Forms.NumericUpDown();
             this.label60 = new System.Windows.Forms.Label();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
             this.PTCH2SRV_IMAX = new System.Windows.Forms.NumericUpDown();
@@ -124,8 +122,19 @@
             this.label9 = new System.Windows.Forms.Label();
             this.NAVL1_PERIOD = new System.Windows.Forms.NumericUpDown();
             this.label10 = new System.Windows.Forms.Label();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.TECS_SINK_MIN = new System.Windows.Forms.NumericUpDown();
+            this.label11 = new System.Windows.Forms.Label();
+            this.TECS_CLMB_MAX = new System.Windows.Forms.NumericUpDown();
+            this.label12 = new System.Windows.Forms.Label();
+            this.TECS_PTCH_DAMP = new System.Windows.Forms.NumericUpDown();
+            this.label13 = new System.Windows.Forms.Label();
+            this.TECS_TIME_CONST = new System.Windows.Forms.NumericUpDown();
+            this.label14 = new System.Windows.Forms.Label();
+            this.TECS_SINK_MAX = new System.Windows.Forms.NumericUpDown();
+            this.label15 = new System.Windows.Forms.Label();
             this.groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.THR_FS_VALUE)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.THR_SLEWRATE)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.THR_MAX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.THR_MIN)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TRIM_THROTTLE)).BeginInit();
@@ -141,7 +150,6 @@
             this.groupBox16.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.KFF_PTCH2THR)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.KFF_RDDRMIX)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.KFF_PTCHCOMP)).BeginInit();
             this.groupBox14.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ENRGY2THR_IMAX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ENRGY2THR_D)).BeginInit();
@@ -158,10 +166,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.ARSP2PTCH_I)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ARSP2PTCH_P)).BeginInit();
             this.groupBox10.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.YW2SRV_IMAX)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.YW2SRV_D)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.YW2SRV_I)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.YW2SRV_P)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.YAW2SRV_IMAX)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.YAW2SRV_DAMP)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.YAW2SRV_INT)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.YAW2SRV_RLL)).BeginInit();
             this.groupBox9.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PTCH2SRV_IMAX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PTCH2SRV_D)).BeginInit();
@@ -175,11 +183,17 @@
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NAVL1_DAMPING)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NAVL1_PERIOD)).BeginInit();
+            this.groupBox5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.TECS_SINK_MIN)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TECS_CLMB_MAX)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TECS_PTCH_DAMP)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TECS_TIME_CONST)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TECS_SINK_MAX)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.THR_FS_VALUE);
+            this.groupBox3.Controls.Add(this.THR_SLEWRATE);
             this.groupBox3.Controls.Add(this.label5);
             this.groupBox3.Controls.Add(this.THR_MAX);
             this.groupBox3.Controls.Add(this.label6);
@@ -191,10 +205,10 @@
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.TabStop = false;
             // 
-            // THR_FS_VALUE
+            // THR_SLEWRATE
             // 
-            resources.ApplyResources(this.THR_FS_VALUE, "THR_FS_VALUE");
-            this.THR_FS_VALUE.Name = "THR_FS_VALUE";
+            resources.ApplyResources(this.THR_SLEWRATE, "THR_SLEWRATE");
+            this.THR_SLEWRATE.Name = "THR_SLEWRATE";
             // 
             // label5
             // 
@@ -333,8 +347,6 @@
             this.groupBox16.Controls.Add(this.label83);
             this.groupBox16.Controls.Add(this.KFF_RDDRMIX);
             this.groupBox16.Controls.Add(this.label78);
-            this.groupBox16.Controls.Add(this.KFF_PTCHCOMP);
-            this.groupBox16.Controls.Add(this.label81);
             resources.ApplyResources(this.groupBox16, "groupBox16");
             this.groupBox16.Name = "groupBox16";
             this.groupBox16.TabStop = false;
@@ -358,16 +370,6 @@
             // 
             resources.ApplyResources(this.label78, "label78");
             this.label78.Name = "label78";
-            // 
-            // KFF_PTCHCOMP
-            // 
-            resources.ApplyResources(this.KFF_PTCHCOMP, "KFF_PTCHCOMP");
-            this.KFF_PTCHCOMP.Name = "KFF_PTCHCOMP";
-            // 
-            // label81
-            // 
-            resources.ApplyResources(this.label81, "label81");
-            this.label81.Name = "label81";
             // 
             // groupBox14
             // 
@@ -533,52 +535,52 @@
             // 
             // groupBox10
             // 
-            this.groupBox10.Controls.Add(this.YW2SRV_IMAX);
+            this.groupBox10.Controls.Add(this.YAW2SRV_IMAX);
             this.groupBox10.Controls.Add(this.label57);
-            this.groupBox10.Controls.Add(this.YW2SRV_D);
+            this.groupBox10.Controls.Add(this.YAW2SRV_DAMP);
             this.groupBox10.Controls.Add(this.label58);
-            this.groupBox10.Controls.Add(this.YW2SRV_I);
+            this.groupBox10.Controls.Add(this.YAW2SRV_INT);
             this.groupBox10.Controls.Add(this.label59);
-            this.groupBox10.Controls.Add(this.YW2SRV_P);
+            this.groupBox10.Controls.Add(this.YAW2SRV_RLL);
             this.groupBox10.Controls.Add(this.label60);
             resources.ApplyResources(this.groupBox10, "groupBox10");
             this.groupBox10.Name = "groupBox10";
             this.groupBox10.TabStop = false;
             // 
-            // YW2SRV_IMAX
+            // YAW2SRV_IMAX
             // 
-            resources.ApplyResources(this.YW2SRV_IMAX, "YW2SRV_IMAX");
-            this.YW2SRV_IMAX.Name = "YW2SRV_IMAX";
+            resources.ApplyResources(this.YAW2SRV_IMAX, "YAW2SRV_IMAX");
+            this.YAW2SRV_IMAX.Name = "YAW2SRV_IMAX";
             // 
             // label57
             // 
             resources.ApplyResources(this.label57, "label57");
             this.label57.Name = "label57";
             // 
-            // YW2SRV_D
+            // YAW2SRV_DAMP
             // 
-            resources.ApplyResources(this.YW2SRV_D, "YW2SRV_D");
-            this.YW2SRV_D.Name = "YW2SRV_D";
+            resources.ApplyResources(this.YAW2SRV_DAMP, "YAW2SRV_DAMP");
+            this.YAW2SRV_DAMP.Name = "YAW2SRV_DAMP";
             // 
             // label58
             // 
             resources.ApplyResources(this.label58, "label58");
             this.label58.Name = "label58";
             // 
-            // YW2SRV_I
+            // YAW2SRV_INT
             // 
-            resources.ApplyResources(this.YW2SRV_I, "YW2SRV_I");
-            this.YW2SRV_I.Name = "YW2SRV_I";
+            resources.ApplyResources(this.YAW2SRV_INT, "YAW2SRV_INT");
+            this.YAW2SRV_INT.Name = "YAW2SRV_INT";
             // 
             // label59
             // 
             resources.ApplyResources(this.label59, "label59");
             this.label59.Name = "label59";
             // 
-            // YW2SRV_P
+            // YAW2SRV_RLL
             // 
-            resources.ApplyResources(this.YW2SRV_P, "YW2SRV_P");
-            this.YW2SRV_P.Name = "YW2SRV_P";
+            resources.ApplyResources(this.YAW2SRV_RLL, "YAW2SRV_RLL");
+            this.YAW2SRV_RLL.Name = "YAW2SRV_RLL";
             // 
             // label60
             // 
@@ -751,10 +753,77 @@
             resources.ApplyResources(this.label10, "label10");
             this.label10.Name = "label10";
             // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.TECS_SINK_MAX);
+            this.groupBox5.Controls.Add(this.label15);
+            this.groupBox5.Controls.Add(this.TECS_TIME_CONST);
+            this.groupBox5.Controls.Add(this.label14);
+            this.groupBox5.Controls.Add(this.TECS_PTCH_DAMP);
+            this.groupBox5.Controls.Add(this.label13);
+            this.groupBox5.Controls.Add(this.TECS_SINK_MIN);
+            this.groupBox5.Controls.Add(this.label11);
+            this.groupBox5.Controls.Add(this.TECS_CLMB_MAX);
+            this.groupBox5.Controls.Add(this.label12);
+            resources.ApplyResources(this.groupBox5, "groupBox5");
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.TabStop = false;
+            // 
+            // TECS_SINK_MIN
+            // 
+            resources.ApplyResources(this.TECS_SINK_MIN, "TECS_SINK_MIN");
+            this.TECS_SINK_MIN.Name = "TECS_SINK_MIN";
+            // 
+            // label11
+            // 
+            resources.ApplyResources(this.label11, "label11");
+            this.label11.Name = "label11";
+            // 
+            // TECS_CLMB_MAX
+            // 
+            resources.ApplyResources(this.TECS_CLMB_MAX, "TECS_CLMB_MAX");
+            this.TECS_CLMB_MAX.Name = "TECS_CLMB_MAX";
+            // 
+            // label12
+            // 
+            resources.ApplyResources(this.label12, "label12");
+            this.label12.Name = "label12";
+            // 
+            // TECS_PTCH_DAMP
+            // 
+            resources.ApplyResources(this.TECS_PTCH_DAMP, "TECS_PTCH_DAMP");
+            this.TECS_PTCH_DAMP.Name = "TECS_PTCH_DAMP";
+            // 
+            // label13
+            // 
+            resources.ApplyResources(this.label13, "label13");
+            this.label13.Name = "label13";
+            // 
+            // TECS_TIME_CONST
+            // 
+            resources.ApplyResources(this.TECS_TIME_CONST, "TECS_TIME_CONST");
+            this.TECS_TIME_CONST.Name = "TECS_TIME_CONST";
+            // 
+            // label14
+            // 
+            resources.ApplyResources(this.label14, "label14");
+            this.label14.Name = "label14";
+            // 
+            // TECS_SINK_MAX
+            // 
+            resources.ApplyResources(this.TECS_SINK_MAX, "TECS_SINK_MAX");
+            this.TECS_SINK_MAX.Name = "TECS_SINK_MAX";
+            // 
+            // label15
+            // 
+            resources.ApplyResources(this.label15, "label15");
+            this.label15.Name = "label15";
+            // 
             // ConfigArduplane
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.BUT_rerequestparams);
             this.Controls.Add(this.BUT_writePIDS);
@@ -770,7 +839,7 @@
             this.Controls.Add(this.groupBox8);
             this.Name = "ConfigArduplane";
             this.groupBox3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.THR_FS_VALUE)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.THR_SLEWRATE)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.THR_MAX)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.THR_MIN)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TRIM_THROTTLE)).EndInit();
@@ -786,7 +855,6 @@
             this.groupBox16.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.KFF_PTCH2THR)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.KFF_RDDRMIX)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.KFF_PTCHCOMP)).EndInit();
             this.groupBox14.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.ENRGY2THR_IMAX)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ENRGY2THR_D)).EndInit();
@@ -803,10 +871,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.ARSP2PTCH_I)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ARSP2PTCH_P)).EndInit();
             this.groupBox10.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.YW2SRV_IMAX)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.YW2SRV_D)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.YW2SRV_I)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.YW2SRV_P)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.YAW2SRV_IMAX)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.YAW2SRV_DAMP)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.YAW2SRV_INT)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.YAW2SRV_RLL)).EndInit();
             this.groupBox9.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.PTCH2SRV_IMAX)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PTCH2SRV_D)).EndInit();
@@ -820,6 +888,12 @@
             this.groupBox4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.NAVL1_DAMPING)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NAVL1_PERIOD)).EndInit();
+            this.groupBox5.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.TECS_SINK_MIN)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TECS_CLMB_MAX)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TECS_PTCH_DAMP)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TECS_TIME_CONST)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TECS_SINK_MAX)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -827,7 +901,7 @@
         #endregion
 
         private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.NumericUpDown THR_FS_VALUE;
+        private System.Windows.Forms.NumericUpDown THR_SLEWRATE;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.NumericUpDown THR_MAX;
         private System.Windows.Forms.Label label6;
@@ -856,8 +930,6 @@
         private System.Windows.Forms.Label label83;
         private System.Windows.Forms.NumericUpDown KFF_RDDRMIX;
         private System.Windows.Forms.Label label78;
-        private System.Windows.Forms.NumericUpDown KFF_PTCHCOMP;
-        private System.Windows.Forms.Label label81;
         private System.Windows.Forms.GroupBox groupBox14;
         private System.Windows.Forms.NumericUpDown ENRGY2THR_IMAX;
         private System.Windows.Forms.Label label73;
@@ -886,13 +958,13 @@
         private System.Windows.Forms.NumericUpDown ARSP2PTCH_P;
         private System.Windows.Forms.Label label68;
         private System.Windows.Forms.GroupBox groupBox10;
-        private System.Windows.Forms.NumericUpDown YW2SRV_IMAX;
+        private System.Windows.Forms.NumericUpDown YAW2SRV_IMAX;
         private System.Windows.Forms.Label label57;
-        private System.Windows.Forms.NumericUpDown YW2SRV_D;
+        private System.Windows.Forms.NumericUpDown YAW2SRV_DAMP;
         private System.Windows.Forms.Label label58;
-        private System.Windows.Forms.NumericUpDown YW2SRV_I;
+        private System.Windows.Forms.NumericUpDown YAW2SRV_INT;
         private System.Windows.Forms.Label label59;
-        private System.Windows.Forms.NumericUpDown YW2SRV_P;
+        private System.Windows.Forms.NumericUpDown YAW2SRV_RLL;
         private System.Windows.Forms.Label label60;
         private System.Windows.Forms.GroupBox groupBox9;
         private System.Windows.Forms.NumericUpDown PTCH2SRV_IMAX;
@@ -920,5 +992,16 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.NumericUpDown NAVL1_PERIOD;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.NumericUpDown TECS_SINK_MAX;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.NumericUpDown TECS_TIME_CONST;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.NumericUpDown TECS_PTCH_DAMP;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.NumericUpDown TECS_SINK_MIN;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.NumericUpDown TECS_CLMB_MAX;
+        private System.Windows.Forms.Label label12;
     }
 }

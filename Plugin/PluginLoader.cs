@@ -54,7 +54,10 @@ namespace ArdupilotMega.Plugin
                     if (plugin.Init())
                     {
                         log.InfoFormat("Plugin Init {0} {1} by {2}", plugin.Name,plugin.Version,plugin.Author );
-                        Plugins.Add(plugin);
+                        lock (Plugins)
+                        {
+                            Plugins.Add(plugin);
+                        }
                     }
                 }
             }
@@ -72,19 +75,22 @@ namespace ArdupilotMega.Plugin
 
             for (Int32 i = 0; i < Plugins.Count; ++i)
             {
-                Plugin p = Plugins.ElementAt(i);
-                try
+                lock (Plugins)
                 {
-                    if (!p.Loaded())
+                    Plugin p = Plugins.ElementAt(i);
+                    try
+                    {
+                        if (!p.Loaded())
+                        {
+                            Plugins.RemoveAt(i);
+                            --i;
+                        }
+                    }
+                    catch (Exception)
                     {
                         Plugins.RemoveAt(i);
                         --i;
                     }
-                }
-                catch (Exception)
-                {
-                    Plugins.RemoveAt(i);
-                    --i;
                 }
             }
         }

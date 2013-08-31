@@ -12,6 +12,23 @@ namespace ArdupilotMega.HIL
         public const double ft2m = (1.0 / 3.2808399);
         public const double kts2fps = 1.68780986;
 
+        public const bool True = true;
+        public const bool False = false;
+
+        public static string str(byte[] input)
+        {
+            string st = System.Text.ASCIIEncoding.ASCII.GetString(input);
+
+            int pos = st.IndexOf('\0');
+
+            if (pos != -1)
+            {
+                st = st.Substring(0, pos);
+            }
+
+            return st;
+        }
+
         public static double sin(double val)
         {
             return System.Math.Sin(val);
@@ -44,6 +61,10 @@ namespace ArdupilotMega.HIL
         {
             return System.Math.Sqrt(val);
         }
+        public static double abs(double val)
+        {
+            return System.Math.Abs(val);
+        }
 
         public static int[] range(int no)
         {
@@ -70,6 +91,10 @@ namespace ArdupilotMega.HIL
             return data.Length;
         }
 
+        public static int len<T>(List<T> data)
+        {
+            return data.Count;
+        }
 
         public static Tuple<double, double, double> EarthRatesToBodyRates(double roll, double pitch, double yaw,
                                  double rollRate, double pitchRate, double yawRate)
