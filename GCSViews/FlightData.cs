@@ -76,8 +76,6 @@ namespace ArdupilotMega.GCSViews
         bool huddropout = false;
         bool huddropoutresize = false;
 
-        bool ismainlooprunning = false;
-
         //      private DockStateSerializer _serializer = null;
 
         List<PointLatLng> trackPoints = new List<PointLatLng>();
@@ -122,10 +120,10 @@ namespace ArdupilotMega.GCSViews
             }
             catch { }
             // run anything that might be outstanding.
-            while (ismainlooprunning)
+          //  while (ismainlooprunning)
             {
                 Application.DoEvents();
-                System.Threading.Thread.Sleep(5);
+                System.Threading.Thread.Sleep(200);
             }           
             base.Dispose(disposing);
         }
@@ -517,7 +515,6 @@ namespace ArdupilotMega.GCSViews
             //System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en-US");
             //System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
 
-            ismainlooprunning = true;
             System.Threading.Thread.CurrentThread.IsBackground = true;
 
             threadrun = 1;
@@ -545,8 +542,6 @@ namespace ArdupilotMega.GCSViews
 
             while (threadrun == 1)
             {
-                ismainlooprunning = true;
-
                 if (threadrun == 0) { return; }
 
                 if (MainV2.comPort.giveComport == true)
@@ -946,7 +941,6 @@ namespace ArdupilotMega.GCSViews
                 catch (Exception ex) { Console.WriteLine("FD Main loop exception " + ex.ToString()); }
             }
             Console.WriteLine("FD Main loop exit");
-            ismainlooprunning = false;
         }
 
         private void setMapBearing()
@@ -2879,6 +2873,13 @@ print 'Roll complete'
         {
             hud1.Russian = !hud1.Russian;
             MainV2.config["russian_hud"] = hud1.Russian.ToString();
+        }
+
+        private void setHomeHereToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CustomMessageBox.Show("Not implemented yet");
+
+            //MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_HOME, 0, 0, 0, 0, gotolocation.Lat, gotolocation.Lng, 0);
         }
     }
 }

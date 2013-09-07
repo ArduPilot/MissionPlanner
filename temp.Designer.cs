@@ -60,6 +60,8 @@
             this.BUT_simmulti = new ArdupilotMega.Controls.MyButton();
             this.BUT_fwren = new ArdupilotMega.Controls.MyButton();
             this.BUT_followleader = new ArdupilotMega.Controls.MyButton();
+            this.myProgressBar1 = new MissionPlanner.Controls.MyProgressBar();
+            this.BUT_compassmot = new ArdupilotMega.Controls.MyButton();
             this.SuspendLayout();
             // 
             // label1
@@ -488,11 +490,40 @@
             this.BUT_followleader.UseVisualStyleBackColor = true;
             this.BUT_followleader.Click += new System.EventHandler(this.BUT_followleader_Click);
             // 
+            // myProgressBar1
+            // 
+            this.myProgressBar1.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(167)))), ((int)(((byte)(42)))));
+            this.myProgressBar1.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(102)))), ((int)(((byte)(139)))), ((int)(((byte)(26)))));
+            this.myProgressBar1.Location = new System.Drawing.Point(227, 380);
+            this.myProgressBar1.Maximum = 0;
+            this.myProgressBar1.Name = "myProgressBar1";
+            this.myProgressBar1.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(150)))), ((int)(((byte)(171)))), ((int)(((byte)(112)))));
+            this.myProgressBar1.Size = new System.Drawing.Size(208, 29);
+            this.myProgressBar1.TabIndex = 34;
+            this.myProgressBar1.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(54)))), ((int)(((byte)(8)))));
+            this.myProgressBar1.Value = 50;
+            // 
+            // BUT_compassmot
+            // 
+            this.BUT_compassmot.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
+            this.BUT_compassmot.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
+            this.BUT_compassmot.Location = new System.Drawing.Point(526, 335);
+            this.BUT_compassmot.Name = "BUT_compassmot";
+            this.BUT_compassmot.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
+            this.BUT_compassmot.Size = new System.Drawing.Size(75, 23);
+            this.BUT_compassmot.TabIndex = 35;
+            this.BUT_compassmot.Text = "CompassMot";
+            this.BUT_compassmot.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.BUT_compassmot.UseVisualStyleBackColor = true;
+            this.BUT_compassmot.Click += new System.EventHandler(this.BUT_compassmot_Click);
+            // 
             // temp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(685, 507);
+            this.Controls.Add(this.BUT_compassmot);
+            this.Controls.Add(this.myProgressBar1);
             this.Controls.Add(this.BUT_followleader);
             this.Controls.Add(this.BUT_fwren);
             this.Controls.Add(this.BUT_simmulti);
@@ -567,5 +598,7 @@
         private Controls.MyButton BUT_simmulti;
         private Controls.MyButton BUT_fwren;
         private Controls.MyButton BUT_followleader;
+        private MissionPlanner.Controls.MyProgressBar myProgressBar1;
+        private Controls.MyButton BUT_compassmot;
     }
 }

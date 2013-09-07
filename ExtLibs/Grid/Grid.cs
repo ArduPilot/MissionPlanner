@@ -307,7 +307,7 @@ namespace MissionPlanner
 
                             newpos(ref ax, ref ay, angle, d);
                             addtomap(new utmpos(ax,ay,utmzone),"M");
-                            ans.Add(new utmpos(ax, ay, utmzone) { Tag = "M" });
+                            ans.Add((new utmpos(ax, ay, utmzone) { Tag = "M" }));
 
                           //  if (shutter.ToLower().StartsWith("y"))
                               //  AddDigicamControlPhoto();
@@ -344,7 +344,7 @@ namespace MissionPlanner
 
                             newpos(ref ax, ref ay, angle, -d);
                             addtomap(new utmpos(ax, ay, utmzone), "M");
-                            ans.Add(new utmpos(ax, ay, utmzone) { Tag = "M" });
+                            ans.Add((new utmpos(ax, ay, utmzone) { Tag = "M" }));
 
                            // if (shutter.ToLower().StartsWith("y"))
                             //    AddDigicamControlPhoto();

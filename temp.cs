@@ -1059,5 +1059,12 @@ namespace ArdupilotMega
         {
             new Swarm.FollowPathControl().Show();
         }
+
+        private void BUT_compassmot_Click(object sender, EventArgs e)
+        {
+            MissionPlanner.MagMotor mot = new MissionPlanner.MagMotor();
+
+            mot.StartCalibration();
+        }
     }
 }

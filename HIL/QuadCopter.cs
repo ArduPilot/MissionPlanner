@@ -12,8 +12,8 @@ namespace ArdupilotMega.HIL
 {
     public class Motor : Utils
     {
-        const bool True = true;
-        const bool False = false;
+        new const bool True = true;
+        new const bool False = false;
 
         public Motor self;
         public double angle;

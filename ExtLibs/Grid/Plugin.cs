@@ -45,7 +45,7 @@ namespace MissionPlanner
 
         void but_Click(object sender, EventArgs e)
         {
-            if (Host.FPDrawnPolygon != null && Host.FPDrawnPolygon.Points.Count > 0)
+            if (Host.FPDrawnPolygon != null && Host.FPDrawnPolygon.Points.Count > 2)
             {
                 Form gridui = new GridUI(this);
                 gridui.Show();

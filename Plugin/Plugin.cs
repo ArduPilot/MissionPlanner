@@ -117,7 +117,7 @@ namespace ArdupilotMega.Plugin
         /// <summary>
         /// The polygon drawn by the user on the FP page
         /// </summary>
-        public GMapPolygon FPDrawnPolygon { get { return MainV2.instance.FlightPlanner.drawnpolygon; } }
+        public GMapPolygon FPDrawnPolygon { get { return new GMapPolygon(new List<PointLatLng>(MainV2.instance.FlightPlanner.drawnpolygon.Points), "Poly Copy") { Stroke = MainV2.instance.FlightPlanner.drawnpolygon.Stroke }; } }
 
         /// <summary>
         /// add wp to command queue - dont upload to mav

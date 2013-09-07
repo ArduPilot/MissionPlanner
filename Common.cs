@@ -142,13 +142,14 @@ namespace ArdupilotMega
         const float rad2deg = (float)(180 / Math.PI);
         const float deg2rad = (float)(1.0 / rad2deg);
 
-        static readonly System.Drawing.Size SizeSt = new System.Drawing.Size(global::MissionPlanner.Properties.Resources.planeicon.Width, global::MissionPlanner.Properties.Resources.planeicon.Height);
+        private readonly Bitmap icon = global::MissionPlanner.Properties.Resources.planeicon;
+
         float heading = 0;
         float cog = -1;
         float target = -1;
         float nav_bearing = -1;
         public GMapControl MainMap;
-
+        
         public GMapMarkerPlane(PointLatLng p, float heading, float cog, float nav_bearing,float target, GMapControl map)
             : base(p)
         {
@@ -156,7 +157,7 @@ namespace ArdupilotMega
             this.cog = cog;
             this.target = target;
             this.nav_bearing = nav_bearing;
-            Size = SizeSt;
+            Size = icon.Size;
             MainMap = map;
         }
 
@@ -220,7 +221,7 @@ namespace ArdupilotMega
             try {
             g.RotateTransform(heading);
             } catch{}
-            g.DrawImageUnscaled(global::MissionPlanner.Properties.Resources.planeicon, global::MissionPlanner.Properties.Resources.planeicon.Width / -2, global::MissionPlanner.Properties.Resources.planeicon.Height / -2);
+            g.DrawImageUnscaled(icon, icon.Width / -2, icon.Height / -2);
 
             g.Transform = temp;
         }
@@ -232,7 +233,8 @@ namespace ArdupilotMega
         const float rad2deg = (float)(180 / Math.PI);
         const float deg2rad = (float)(1.0 / rad2deg);
 
-        static readonly System.Drawing.Size SizeSt = new System.Drawing.Size(global::MissionPlanner.Properties.Resources.quadicon.Width, global::MissionPlanner.Properties.Resources.quadicon.Height);
+        private readonly Bitmap icon = global::MissionPlanner.Properties.Resources.quadicon;
+
         float heading = 0;
         float cog = -1;
         float target = -1;
@@ -243,7 +245,7 @@ namespace ArdupilotMega
             this.heading = heading;
             this.cog = cog;
             this.target = target;
-            Size = SizeSt;
+            Size = icon.Size;
         }
 
         public override void OnRender(Graphics g)
@@ -267,7 +269,7 @@ namespace ArdupilotMega
                 g.RotateTransform(heading);
             }
             catch { }
-            g.DrawImageUnscaled(global::MissionPlanner.Properties.Resources.quadicon, global::MissionPlanner.Properties.Resources.quadicon.Width / -2 + 2, global::MissionPlanner.Properties.Resources.quadicon.Height / -2);
+            g.DrawImageUnscaled(icon, icon.Width / -2 + 2, icon.Height / -2);
 
             g.Transform = temp;
         }

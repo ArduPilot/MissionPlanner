@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.progressBar1 = new MissionPlanner.Controls.MyProgressBar();
             this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
@@ -69,7 +69,7 @@
 
         #endregion
 
-        private System.Windows.Forms.ProgressBar progressBar1;
+        private MissionPlanner.Controls.MyProgressBar progressBar1;
         private System.Windows.Forms.Label label1;
     }
 }

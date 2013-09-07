@@ -442,17 +442,21 @@ Please check the following
                     {
                         mavlink_heartbeat_t hb = buffer.ByteArrayToStructure<mavlink_heartbeat_t>(6);
 
-                        mavlinkversion = hb.mavlink_version;
-                        aptype = (MAV_TYPE)hb.type;
-                        apname = (MAV_AUTOPILOT)hb.autopilot;
+                        if (hb.type != (byte)MAVLink.MAV_TYPE.GCS)
+                        {
 
-                        setAPType();
+                            mavlinkversion = hb.mavlink_version;
+                            aptype = (MAV_TYPE)hb.type;
+                            apname = (MAV_AUTOPILOT)hb.autopilot;
 
-                        sysid = buffer[3];
-                        compid = buffer[4];
-                        recvpacketcount = buffer[2];
-                        log.InfoFormat("ID sys {0} comp {1} ver{2}", sysid, compid, mavlinkversion);
-                        break;
+                            setAPType();
+
+                            sysid = buffer[3];
+                            compid = buffer[4];
+                            recvpacketcount = buffer[2];
+                            log.InfoFormat("ID sys {0} comp {1} ver{2}", sysid, compid, mavlinkversion);
+                            break;
+                        }
                     }
 
                 }
@@ -508,6 +512,7 @@ Please check the following
                     //log.Info("getHB packet received: " + buffer.Length + " btr " + BaseStream.BytesToRead + " type " + buffer[5] );
                     if (buffer[5] == MAVLINK_MSG_ID_HEARTBEAT)
                     {
+
                         return buffer;
                     }
                 }
@@ -1148,7 +1153,7 @@ Please check the following
             }
         }
 
-        [Obsolete("Mavlink 09", true)]
+        [Obsolete("Mavlink 09 - use doCommand", true)]
         public bool doAction(object actionid)
         {
             // mavlink 09
@@ -1184,6 +1189,7 @@ Please check the following
             if (sysid != 0 && compid != 0)
             {
                 doCommand(MAV_CMD.PREFLIGHT_REBOOT_SHUTDOWN, param1, 0, 0, 0, 0, 0, 0);
+                doCommand(MAV_CMD.PREFLIGHT_REBOOT_SHUTDOWN, 1, 0, 0, 0, 0, 0, 0);
             }
             else
             {
@@ -1834,7 +1840,7 @@ Please check the following
         /// <param name="index">wp no</param>
         /// <param name="frame">global or relative</param>
         /// <param name="current">0 = no , 2 = guided mode</param>
-        public MAV_MISSION_RESULT setWP(Locationwp loc, ushort index, MAV_FRAME frame, byte current = 0)
+        public MAV_MISSION_RESULT setWP(Locationwp loc, ushort index, MAV_FRAME frame, byte current = 0, byte autocontinue = 1)
         {
             giveComport = true;
             mavlink_mission_item_t req = new mavlink_mission_item_t();
@@ -1843,9 +1849,9 @@ Please check the following
             req.target_component = compid; // MAVLINK_MSG_ID_MISSION_ITEM
 
             req.command = loc.id;
-            req.param1 = loc.p1;
 
             req.current = current;
+            req.autocontinue = autocontinue;
 
             req.frame = (byte)frame;
             req.y = (float)(loc.lng);
@@ -2341,7 +2347,7 @@ Please check the following
 
             bps = (bps1 + bps2) / 2;
 
-            if (buffer.Length >= 5 && buffer[3] == 255 && logreadmode) // gcs packet
+            if (buffer.Length >= 5 && (buffer[3] == 255 || buffer[3] == 253) && logreadmode) // gcs packet
             {
                 getWPsfromstream(ref buffer);
                 return buffer;// new byte[0];
@@ -2470,10 +2476,13 @@ Please check the following
                     {
                         mavlink_heartbeat_t hb = buffer.ByteArrayToStructure<mavlink_heartbeat_t>(6);
 
-                        mavlinkversion = hb.mavlink_version;
-                        aptype = (MAV_TYPE)hb.type;
-                        apname = (MAV_AUTOPILOT)hb.autopilot;
-                        setAPType();
+                        if (hb.type != (byte)MAVLink.MAV_TYPE.GCS)
+                        {
+                            mavlinkversion = hb.mavlink_version;
+                            aptype = (MAV_TYPE)hb.type;
+                            apname = (MAV_AUTOPILOT)hb.autopilot;
+                            setAPType();
+                        }
                     }
 
                     getWPsfromstream(ref buffer);
@@ -2759,11 +2768,13 @@ Please check the following
             if (temp[5] == 0 && a > 5)
             {
                 mavlink_heartbeat_t hb = temp.ByteArrayToStructure<mavlink_heartbeat_t>(6);
-
-                mavlinkversion = hb.mavlink_version;
-                aptype = (MAV_TYPE)hb.type;
-                apname = (MAV_AUTOPILOT)hb.autopilot;
-                setAPType();
+                if (hb.type != (byte)MAVLink.MAV_TYPE.GCS)
+                {
+                    mavlinkversion = hb.mavlink_version;
+                    aptype = (MAV_TYPE)hb.type;
+                    apname = (MAV_AUTOPILOT)hb.autopilot;
+                    setAPType();
+                }
             }
 
             return temp;

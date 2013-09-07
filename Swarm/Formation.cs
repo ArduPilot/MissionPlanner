@@ -69,7 +69,7 @@ namespace ArdupilotMega.Swarm
 
                     GeographicCoordinateSystem wgs84 = GeographicCoordinateSystem.WGS84;
 
-                    int utmzone = (int)((masterpos.Lng - -183.0) / 6.0);
+                    int utmzone = (int)((masterpos.Lng - -186.0) / 6.0);
 
                     IProjectedCoordinateSystem utm = ProjectedCoordinateSystem.WGS84_UTM(utmzone, masterpos.Lat < 0 ? false : true);
 

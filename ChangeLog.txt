@@ -1,4 +1,35 @@
-﻿* Mission Planner 1.2.74
+﻿* Mission Planner 1.2.75
+speed tuning.
+fix ch3out when not connected
+fix dont let current be negative
+support andropilot logs (253 sysid)
+change gmapmaker to cache icon
+fix utmzone calc. (was central meridian, not zone)
+resize some images.
+add utm and mgrs to mouse movement.
+fix sort on grad click
+recalc grad more often.
+add utm grid to FP screen.
+add COMPASS_EXTERNAL support
+fix declination handeling.
+add overstats, and session stats
+support fmuv2 uploading
+add geoutility external lib
+add new coords display in FD
+hud performance tweak
+mainswitcher input validation
+tweak mybutton colors
+add new myprogressbar
+map marker performance tweak
+fix getlongest side in survey interface
+zedgraph symbol performance tweak
+split the deg, min in compass
+add rc9 to gimbal screen
+raw param performance tweak
+anable/disable disconnect button in terminal
+add map to logbrowser
+
+* Mission Planner 1.2.74
 more Grid/Survey WIP
 fix close issue on mono
 implement MagFitRotation from tridge

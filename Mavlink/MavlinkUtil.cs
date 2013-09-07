@@ -37,6 +37,10 @@ namespace ArdupilotMega
             return (TMavlinkPacket)newPacket;
         }
 
+        // make it global - save lots of allocations
+       // static IntPtr i = Marshal.AllocHGlobal(1024);
+       // static object locker = new object();
+
         public static void ByteArrayToStructure(byte[] bytearray, ref object obj, int startoffset)
         {
             if (bytearray[0] == 'U')
@@ -45,17 +49,74 @@ namespace ArdupilotMega
             }
             else
             {
-                int len = Marshal.SizeOf(obj);
+                //lock (locker)
+                {
+                    int len = Marshal.SizeOf(obj);
 
+                    IntPtr i = Marshal.AllocHGlobal(len);
+
+                    // create structure from ptr
+                    obj = Marshal.PtrToStructure(i, obj.GetType());
+
+                    try
+                    {
+                        // copy byte array to ptr
+                        Marshal.Copy(bytearray, startoffset, i, len);
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error("ByteArrayToStructure FAIL", ex);
+                    }
+
+                    obj = Marshal.PtrToStructure(i, obj.GetType());
+
+                    Marshal.FreeHGlobal(i);
+                }
+            }
+        }
+
+        public static void ByteArrayToStructureEndian(byte[] bytearray, ref object obj, int startoffset)
+        {
+           // lock (locker)
+            {
+                int len = Marshal.SizeOf(obj);
                 IntPtr i = Marshal.AllocHGlobal(len);
+                byte[] temparray = (byte[])bytearray.Clone();
 
                 // create structure from ptr
                 obj = Marshal.PtrToStructure(i, obj.GetType());
 
+                // do endian swap
+                object thisBoxed = obj;
+                Type test = thisBoxed.GetType();
+
+                int reversestartoffset = startoffset;
+
+                // Enumerate each structure field using reflection.
+                foreach (var field in test.GetFields())
+                {
+                    // field.Name has the field's name.
+                    object fieldValue = field.GetValue(thisBoxed); // Get value
+
+                    // Get the TypeCode enumeration. Multiple types get mapped to a common typecode.
+                    TypeCode typeCode = Type.GetTypeCode(fieldValue.GetType());
+
+                    if (typeCode != TypeCode.Object)
+                    {
+                        Array.Reverse(temparray, reversestartoffset, Marshal.SizeOf(fieldValue));
+                        reversestartoffset += Marshal.SizeOf(fieldValue);
+                    }
+                    else
+                    {
+                        reversestartoffset += ((byte[])fieldValue).Length;
+                    }
+
+                }
+
                 try
                 {
                     // copy byte array to ptr
-                    Marshal.Copy(bytearray, startoffset, i, len);
+                    Marshal.Copy(temparray, startoffset, i, len);
                 }
                 catch (Exception ex)
                 {
@@ -66,58 +127,6 @@ namespace ArdupilotMega
 
                 Marshal.FreeHGlobal(i);
             }
-        }
-
-        public static void ByteArrayToStructureEndian(byte[] bytearray, ref object obj, int startoffset)
-        {
-            int len = Marshal.SizeOf(obj);
-            IntPtr i = Marshal.AllocHGlobal(len);
-            byte[] temparray = (byte[])bytearray.Clone();
-
-            // create structure from ptr
-            obj = Marshal.PtrToStructure(i, obj.GetType());
-
-            // do endian swap
-            object thisBoxed = obj;
-            Type test = thisBoxed.GetType();
-
-            int reversestartoffset = startoffset;
-
-            // Enumerate each structure field using reflection.
-            foreach (var field in test.GetFields())
-            {
-                // field.Name has the field's name.
-                object fieldValue = field.GetValue(thisBoxed); // Get value
-
-                // Get the TypeCode enumeration. Multiple types get mapped to a common typecode.
-                TypeCode typeCode = Type.GetTypeCode(fieldValue.GetType());
-
-                if (typeCode != TypeCode.Object)
-                {
-                    Array.Reverse(temparray, reversestartoffset, Marshal.SizeOf(fieldValue));
-                    reversestartoffset += Marshal.SizeOf(fieldValue);
-                }
-                else
-                {
-                    reversestartoffset += ((byte[])fieldValue).Length;
-                }
-
-            }
-
-            try
-            {
-                // copy byte array to ptr
-                Marshal.Copy(temparray, startoffset, i, len);
-            }
-            catch (Exception ex)
-            {
-                log.Error("ByteArrayToStructure FAIL", ex);
-            }
-
-            obj = Marshal.PtrToStructure(i, obj.GetType());
-
-            Marshal.FreeHGlobal(i);
-
         }
 
         /// <summary>

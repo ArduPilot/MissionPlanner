@@ -16,6 +16,7 @@
             this.pointCameraHereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.triggerCameraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.flightPlannerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.setHomeHereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MainH = new System.Windows.Forms.SplitContainer();
             this.SubMainLeft = new System.Windows.Forms.SplitContainer();
             this.hud1 = new ArdupilotMega.Controls.HUD();
@@ -114,19 +115,17 @@
             this.gMapControl1 = new ArdupilotMega.Controls.myGMAP();
             this.TRK_zoom = new ArdupilotMega.Controls.MyTrackBar();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.TXT_lat = new ArdupilotMega.Controls.MyLabel();
+            this.coords1 = new MissionPlanner.Controls.Coords();
             this.Zoomlevel = new System.Windows.Forms.NumericUpDown();
             this.label1 = new ArdupilotMega.Controls.MyLabel();
-            this.TXT_long = new ArdupilotMega.Controls.MyLabel();
-            this.TXT_alt = new ArdupilotMega.Controls.MyLabel();
             this.CHK_autopan = new System.Windows.Forms.CheckBox();
             this.CB_tuning = new System.Windows.Forms.CheckBox();
-            this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
-            this.dataGridViewImageColumn2 = new System.Windows.Forms.DataGridViewImageColumn();
             this.ZedGraphTimer = new System.Windows.Forms.Timer(this.components);
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.openScriptDialog = new System.Windows.Forms.OpenFileDialog();
             this.scriptChecker = new System.Windows.Forms.Timer(this.components);
+            this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
+            this.dataGridViewImageColumn2 = new System.Windows.Forms.DataGridViewImageColumn();
             this.bindingSourceStatusTab = new System.Windows.Forms.BindingSource(this.components);
             this.contextMenuStripMap.SuspendLayout();
             this.MainH.Panel1.SuspendLayout();
@@ -170,7 +169,8 @@
             this.flyToHereAltToolStripMenuItem,
             this.pointCameraHereToolStripMenuItem,
             this.triggerCameraToolStripMenuItem,
-            this.flightPlannerToolStripMenuItem});
+            this.flightPlannerToolStripMenuItem,
+            this.setHomeHereToolStripMenuItem});
             this.contextMenuStripMap.Name = "contextMenuStrip1";
             resources.ApplyResources(this.contextMenuStripMap, "contextMenuStripMap");
             // 
@@ -203,6 +203,12 @@
             this.flightPlannerToolStripMenuItem.Name = "flightPlannerToolStripMenuItem";
             resources.ApplyResources(this.flightPlannerToolStripMenuItem, "flightPlannerToolStripMenuItem");
             this.flightPlannerToolStripMenuItem.Click += new System.EventHandler(this.flightPlannerToolStripMenuItem_Click);
+            // 
+            // setHomeHereToolStripMenuItem
+            // 
+            this.setHomeHereToolStripMenuItem.Name = "setHomeHereToolStripMenuItem";
+            resources.ApplyResources(this.setHomeHereToolStripMenuItem, "setHomeHereToolStripMenuItem");
+            this.setHomeHereToolStripMenuItem.Click += new System.EventHandler(this.setHomeHereToolStripMenuItem_Click);
             // 
             // MainH
             // 
@@ -1617,22 +1623,24 @@
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.TXT_lat);
+            this.panel1.Controls.Add(this.coords1);
             this.panel1.Controls.Add(this.Zoomlevel);
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Controls.Add(this.TXT_long);
-            this.panel1.Controls.Add(this.TXT_alt);
             this.panel1.Controls.Add(this.CHK_autopan);
             this.panel1.Controls.Add(this.CB_tuning);
             resources.ApplyResources(this.panel1, "panel1");
             this.panel1.Name = "panel1";
             // 
-            // TXT_lat
+            // coords1
             // 
-            resources.ApplyResources(this.TXT_lat, "TXT_lat");
-            this.TXT_lat.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.bindingSource1, "lat", true, System.Windows.Forms.DataSourceUpdateMode.Never, "Lat 0"));
-            this.TXT_lat.Name = "TXT_lat";
-            this.TXT_lat.resize = false;
+            this.coords1.Alt = 0D;
+            this.coords1.DataBindings.Add(new System.Windows.Forms.Binding("Alt", this.bindingSource1, "alt", true));
+            this.coords1.DataBindings.Add(new System.Windows.Forms.Binding("Lat", this.bindingSource1, "lat", true));
+            this.coords1.DataBindings.Add(new System.Windows.Forms.Binding("Lng", this.bindingSource1, "lng", true));
+            this.coords1.Lat = 0D;
+            this.coords1.Lng = 0D;
+            resources.ApplyResources(this.coords1, "coords1");
+            this.coords1.Name = "coords1";
             // 
             // Zoomlevel
             // 
@@ -1668,20 +1676,6 @@
             this.label1.Name = "label1";
             this.label1.resize = false;
             // 
-            // TXT_long
-            // 
-            resources.ApplyResources(this.TXT_long, "TXT_long");
-            this.TXT_long.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.bindingSource1, "lng", true, System.Windows.Forms.DataSourceUpdateMode.Never, "Lng 0"));
-            this.TXT_long.Name = "TXT_long";
-            this.TXT_long.resize = false;
-            // 
-            // TXT_alt
-            // 
-            resources.ApplyResources(this.TXT_alt, "TXT_alt");
-            this.TXT_alt.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.bindingSource1, "alt", true, System.Windows.Forms.DataSourceUpdateMode.Never, "Alt 0"));
-            this.TXT_alt.Name = "TXT_alt";
-            this.TXT_alt.resize = false;
-            // 
             // CHK_autopan
             // 
             resources.ApplyResources(this.CHK_autopan, "CHK_autopan");
@@ -1700,6 +1694,23 @@
             this.CB_tuning.UseVisualStyleBackColor = true;
             this.CB_tuning.CheckedChanged += new System.EventHandler(this.CB_tuning_CheckedChanged);
             // 
+            // ZedGraphTimer
+            // 
+            this.ZedGraphTimer.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // toolTip1
+            // 
+            this.toolTip1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
+            this.toolTip1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
+            // 
+            // openScriptDialog
+            // 
+            resources.ApplyResources(this.openScriptDialog, "openScriptDialog");
+            // 
+            // scriptChecker
+            // 
+            this.scriptChecker.Tick += new System.EventHandler(this.scriptChecker_Tick);
+            // 
             // dataGridViewImageColumn1
             // 
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
@@ -1717,23 +1728,6 @@
             this.dataGridViewImageColumn2.Image = global::MissionPlanner.Properties.Resources.down;
             this.dataGridViewImageColumn2.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
             this.dataGridViewImageColumn2.Name = "dataGridViewImageColumn2";
-            // 
-            // ZedGraphTimer
-            // 
-            this.ZedGraphTimer.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
-            // toolTip1
-            // 
-            this.toolTip1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
-            this.toolTip1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
-            // 
-            // openScriptDialog
-            // 
-            resources.ApplyResources(this.openScriptDialog, "openScriptDialog");
-            // 
-            // scriptChecker
-            // 
-            this.scriptChecker.Tick += new System.EventHandler(this.scriptChecker_Tick);
             // 
             // bindingSourceStatusTab
             // 
@@ -1815,11 +1809,8 @@
         private AGaugeApp.AGauge Gvspeed;
         private System.Windows.Forms.TableLayoutPanel tableMap;
         private System.Windows.Forms.Panel panel1;
-        private ArdupilotMega.Controls.MyLabel TXT_lat;
         private System.Windows.Forms.NumericUpDown Zoomlevel;
         private ArdupilotMega.Controls.MyLabel label1;
-        private ArdupilotMega.Controls.MyLabel TXT_long;
-        private ArdupilotMega.Controls.MyLabel TXT_alt;
         private System.Windows.Forms.CheckBox CHK_autopan;
         private ArdupilotMega.Controls.myGMAP gMapControl1;
         private ZedGraph.ZedGraphControl zg1;
@@ -1911,6 +1902,8 @@
         private System.Windows.Forms.BindingSource bindingSourceQuickTab;
         private System.Windows.Forms.BindingSource bindingSourceStatusTab;
         private System.Windows.Forms.BindingSource bindingSourceGaugesTab;
+        private System.Windows.Forms.ToolStripMenuItem setHomeHereToolStripMenuItem;
+        private MissionPlanner.Controls.Coords coords1;
 
     }
 }

@@ -75,6 +75,15 @@
             this.dataGridViewImageColumn2 = new System.Windows.Forms.DataGridViewImageColumn();
             this.label6 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.label16 = new System.Windows.Forms.Label();
+            this.txt_mouse_mgrs = new System.Windows.Forms.TextBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.txt_mouse_utmzone = new System.Windows.Forms.TextBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.txt_mouse_utmy = new System.Windows.Forms.TextBox();
+            this.txt_mouse_utmx = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
@@ -87,6 +96,7 @@
             this.splitter1 = new BSE.Windows.Forms.Splitter();
             this.BUT_Add = new ArdupilotMega.Controls.MyButton();
             this.panelAction = new BSE.Windows.Forms.Panel();
+            this.chk_grid = new System.Windows.Forms.CheckBox();
             this.comboBoxMapType = new System.Windows.Forms.ComboBox();
             this.panelMap = new System.Windows.Forms.Panel();
             this.lbl_distance = new System.Windows.Forms.Label();
@@ -300,6 +310,7 @@
             // 
             resources.ApplyResources(this.Grad, "Grad");
             this.Grad.Name = "Grad";
+            this.Grad.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // CHK_geheight
             // 
@@ -451,6 +462,15 @@
             // panel2
             // 
             resources.ApplyResources(this.panel2, "panel2");
+            this.panel2.Controls.Add(this.label16);
+            this.panel2.Controls.Add(this.txt_mouse_mgrs);
+            this.panel2.Controls.Add(this.label15);
+            this.panel2.Controls.Add(this.txt_mouse_utmzone);
+            this.panel2.Controls.Add(this.label14);
+            this.panel2.Controls.Add(this.label12);
+            this.panel2.Controls.Add(this.label13);
+            this.panel2.Controls.Add(this.txt_mouse_utmy);
+            this.panel2.Controls.Add(this.txt_mouse_utmx);
             this.panel2.Controls.Add(this.label7);
             this.panel2.Controls.Add(this.label8);
             this.panel2.Controls.Add(this.label9);
@@ -459,6 +479,51 @@
             this.panel2.Controls.Add(this.TXT_mouselong);
             this.panel2.Controls.Add(this.TXT_mouselat);
             this.panel2.Name = "panel2";
+            // 
+            // label16
+            // 
+            resources.ApplyResources(this.label16, "label16");
+            this.label16.Name = "label16";
+            // 
+            // txt_mouse_mgrs
+            // 
+            resources.ApplyResources(this.txt_mouse_mgrs, "txt_mouse_mgrs");
+            this.txt_mouse_mgrs.Name = "txt_mouse_mgrs";
+            // 
+            // label15
+            // 
+            resources.ApplyResources(this.label15, "label15");
+            this.label15.Name = "label15";
+            // 
+            // txt_mouse_utmzone
+            // 
+            resources.ApplyResources(this.txt_mouse_utmzone, "txt_mouse_utmzone");
+            this.txt_mouse_utmzone.Name = "txt_mouse_utmzone";
+            // 
+            // label14
+            // 
+            resources.ApplyResources(this.label14, "label14");
+            this.label14.Name = "label14";
+            // 
+            // label12
+            // 
+            resources.ApplyResources(this.label12, "label12");
+            this.label12.Name = "label12";
+            // 
+            // label13
+            // 
+            resources.ApplyResources(this.label13, "label13");
+            this.label13.Name = "label13";
+            // 
+            // txt_mouse_utmy
+            // 
+            resources.ApplyResources(this.txt_mouse_utmy, "txt_mouse_utmy");
+            this.txt_mouse_utmy.Name = "txt_mouse_utmy";
+            // 
+            // txt_mouse_utmx
+            // 
+            resources.ApplyResources(this.txt_mouse_utmx, "txt_mouse_utmx");
+            this.txt_mouse_utmx.Name = "txt_mouse_utmx";
             // 
             // label7
             // 
@@ -565,6 +630,7 @@
             this.panelAction.CaptionFont = new System.Drawing.Font("Segoe UI", 11.75F, System.Drawing.FontStyle.Bold);
             this.panelAction.CaptionHeight = 21;
             this.panelAction.ColorScheme = BSE.Windows.Forms.ColorScheme.Custom;
+            this.panelAction.Controls.Add(this.chk_grid);
             this.panelAction.Controls.Add(this.panel5);
             this.panelAction.Controls.Add(this.panel1);
             this.panelAction.Controls.Add(this.panel2);
@@ -591,6 +657,13 @@
             this.panelAction.ToolTipTextCloseIcon = null;
             this.panelAction.ToolTipTextExpandIconPanelCollapsed = null;
             this.panelAction.ToolTipTextExpandIconPanelExpanded = null;
+            // 
+            // chk_grid
+            // 
+            resources.ApplyResources(this.chk_grid, "chk_grid");
+            this.chk_grid.Name = "chk_grid";
+            this.chk_grid.UseVisualStyleBackColor = true;
+            this.chk_grid.CheckedChanged += new System.EventHandler(this.chk_grid_CheckedChanged);
             // 
             // comboBoxMapType
             // 
@@ -650,6 +723,7 @@
             this.MainMap.ShowTileGridLines = false;
             this.MainMap.streamjpg = ((System.IO.MemoryStream)(resources.GetObject("MainMap.streamjpg")));
             this.MainMap.Zoom = 0D;
+            this.MainMap.Paint += new System.Windows.Forms.PaintEventHandler(this.MainMap_Paint);
             // 
             // contextMenuStrip1
             // 
@@ -1141,6 +1215,16 @@
         private System.Windows.Forms.ToolStripMenuItem savePolygonToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem loadPolygonToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem areaToolStripMenuItem;
+        public System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.TextBox txt_mouse_utmy;
+        private System.Windows.Forms.TextBox txt_mouse_utmx;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.TextBox txt_mouse_utmzone;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.TextBox txt_mouse_mgrs;
         private System.Windows.Forms.DataGridViewComboBoxColumn Command;
         private System.Windows.Forms.DataGridViewTextBoxColumn Param1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Param2;
@@ -1153,6 +1237,6 @@
         private System.Windows.Forms.DataGridViewImageColumn Up;
         private System.Windows.Forms.DataGridViewImageColumn Down;
         private System.Windows.Forms.DataGridViewTextBoxColumn Grad;
-        public System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.CheckBox chk_grid;
     }
 }

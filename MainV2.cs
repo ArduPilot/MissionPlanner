@@ -70,16 +70,16 @@ namespace ArdupilotMega
 
         public class menuicons2 : menuicons
         {
-            public static Image fd = global::MissionPlanner.Properties.Resources.dark_flightdata_icon;
-            public static Image fp = global::MissionPlanner.Properties.Resources.dark_flightplan_icon;
-            public static Image initsetup = global::MissionPlanner.Properties.Resources.dark_initialsetup_icon;
-            public static Image config_tuning = global::MissionPlanner.Properties.Resources.dark_tuningconfig_icon;
-            public static Image sim = global::MissionPlanner.Properties.Resources.dark_simulation_icon;
-            public static Image terminal = global::MissionPlanner.Properties.Resources.dark_terminal_icon;
-            public static Image help = global::MissionPlanner.Properties.Resources.dark_help_icon;
-            public static Image donate = global::MissionPlanner.Properties.Resources.donate;
-            public static Image connect = global::MissionPlanner.Properties.Resources.dark_connect_icon;
-            public static Image disconnect = global::MissionPlanner.Properties.Resources.dark_disconnect_icon;
+            public new static Image fd = global::MissionPlanner.Properties.Resources.dark_flightdata_icon;
+            public new static Image fp = global::MissionPlanner.Properties.Resources.dark_flightplan_icon;
+            public new static Image initsetup = global::MissionPlanner.Properties.Resources.dark_initialsetup_icon;
+            public new static Image config_tuning = global::MissionPlanner.Properties.Resources.dark_tuningconfig_icon;
+            public new static Image sim = global::MissionPlanner.Properties.Resources.dark_simulation_icon;
+            public new static Image terminal = global::MissionPlanner.Properties.Resources.dark_terminal_icon;
+            public new static Image help = global::MissionPlanner.Properties.Resources.dark_help_icon;
+            public new static Image donate = global::MissionPlanner.Properties.Resources.donate;
+            public new static Image connect = global::MissionPlanner.Properties.Resources.dark_connect_icon;
+            public new static Image disconnect = global::MissionPlanner.Properties.Resources.dark_disconnect_icon;
         }
 
         ArdupilotMega.Controls.MainSwitcher MyView;
@@ -1679,7 +1679,7 @@ namespace ArdupilotMega
 
         private void MainV2_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Console.WriteLine("MainV2_FormClosing");
+            log.Info("MainV2_FormClosing");
 
             config["MainHeight"] = this.Height;
             config["MainWidth"] = this.Width;
@@ -1705,14 +1705,20 @@ namespace ArdupilotMega
             // shutdown threads
             GCSViews.FlightData.threadrun = 0;
 
+            log.Info("closing pluginthread");
+
             pluginthreadrun = false;
 
             PluginThreadrunner.WaitOne();
+
+            log.Info("closing serialthread");
 
             // shutdown local thread
             serialThread = false;
 
             SerialThreadrunner.WaitOne();
+
+            log.Info("closing MyView");
 
             // close all tabs
             MyView.Dispose();
@@ -1748,7 +1754,7 @@ namespace ArdupilotMega
             Console.WriteLine(serialreaderthread.IsAlive);
             Console.WriteLine(pluginthread.IsAlive);
 
-            Console.WriteLine("MainV2_FormClosing done");
+            log.Info("MainV2_FormClosing done");
 
             if (MONO)
                 this.Dispose();

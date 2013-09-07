@@ -44,6 +44,8 @@ namespace ArdupilotMega.GCSViews
         bool polygongridmode = false;
         Hashtable param = new Hashtable();
 
+        bool grid = false;
+
         public static FlightPlanner instance = null;
 
         List<PointLatLngAlt> pointlist = new List<PointLatLngAlt>(); // used to calc distance
@@ -220,17 +222,32 @@ namespace ArdupilotMega.GCSViews
             writeKML();
             Commands.EndEdit();
         }
+
+        PointLatLngAlt mouseposdisplay = new PointLatLngAlt(0, 0);
+
         /// <summary>
         /// Used for current mouse position
         /// </summary>
         /// <param name="lat"></param>
         /// <param name="lng"></param>
         /// <param name="alt"></param>
-        public void callMeDisplay(double lat, double lng, int alt)
+        public void SetMouseDisplay(double lat, double lng, int alt)
         {
-            TXT_mouselat.Text = lat.ToString();
-            TXT_mouselong.Text = lng.ToString();
-            TXT_mousealt.Text = srtm.getAltitude(lat, lng, MainMap.Zoom).ToString("0");
+            mouseposdisplay.Lat = lat;
+            mouseposdisplay.Lng = lng;
+            mouseposdisplay.Alt = alt;
+
+            TXT_mouselat.Text = mouseposdisplay.Lat.ToString("0.#######");
+            TXT_mouselong.Text = mouseposdisplay.Lng.ToString("0.#######");
+            TXT_mousealt.Text = srtm.getAltitude(mouseposdisplay.Lat, mouseposdisplay.Lng, MainMap.Zoom).ToString("0");
+
+            int zone = mouseposdisplay.GetUTMZone();
+            
+            txt_mouse_utmx.Text = mouseposdisplay.ToUTM(zone)[0].ToString("#.###");
+            txt_mouse_utmy.Text = mouseposdisplay.ToUTM(zone)[1].ToString("#.###");
+            txt_mouse_utmzone.Text = zone.ToString("0N;0S");
+
+            txt_mouse_mgrs.Text = mouseposdisplay.GetMGRS();
 
             try
             {
@@ -673,6 +690,8 @@ namespace ArdupilotMega.GCSViews
                 catch { cmd = option; }
                 //Console.WriteLine("editformat " + option + " value " + cmd);
                 ChangeColumnHeader(cmd);
+
+                setgrad();
 
               //  writeKML();
             }
@@ -1437,7 +1456,7 @@ namespace ArdupilotMega.GCSViews
                             cellhome = Commands.Rows[0].Cells[Lon.Index] as DataGridViewTextBoxCell;
                             TXT_homelng.Text = (double.Parse(cellhome.Value.ToString())).ToString();
                             cellhome = Commands.Rows[0].Cells[Alt.Index] as DataGridViewTextBoxCell;
-                            TXT_homealt.Text = "0";  //(double.Parse(cellhome.Value.ToString()) * MainV2.comPort.MAV.cs.multiplierdist).ToString();
+                            TXT_homealt.Text = (double.Parse(cellhome.Value.ToString()) * MainV2.comPort.MAV.cs.multiplierdist).ToString();
                         }
                     }
                 }
@@ -1823,7 +1842,7 @@ namespace ArdupilotMega.GCSViews
 
             GeographicCoordinateSystem wgs84 = GeographicCoordinateSystem.WGS84;
 
-            int utmzone = (int)((polygon[0].Lng - -183.0) / 6.0);
+            int utmzone = (int)((polygon[0].Lng - -186.0) / 6.0);
 
             IProjectedCoordinateSystem utm = ProjectedCoordinateSystem.WGS84_UTM(utmzone, polygon[0].Lat < 0 ? false : true);
 
@@ -2191,7 +2210,8 @@ namespace ArdupilotMega.GCSViews
 
             if (!isMouseDown)
             {
-                callMeDisplay(point.Lat, point.Lng, 0);
+                // update mouse pos display
+                SetMouseDisplay(point.Lat, point.Lng, 0);
             }
 
             //draging
@@ -2311,7 +2331,8 @@ namespace ArdupilotMega.GCSViews
             };
             try
             {
-                BeginInvoke(m);
+                if (!this.IsDisposed)
+                    BeginInvoke(m);
             }
             catch
             {
@@ -4956,6 +4977,88 @@ namespace ArdupilotMega.GCSViews
             double areasqf = aream2 * 10.7639;
 
             CustomMessageBox.Show("Area: " + aream2.ToString("0") + " m2\n\t" + areaa.ToString("0.00") + " Acre\n\t" + areaha.ToString("0.00") +" Hectare\n\t" + areasqf.ToString("0") + " sqf","Area");
+        }
+
+        private void MainMap_Paint(object sender, PaintEventArgs e)
+        {
+            // draw utm grid
+            {
+                if (!grid)
+                    return;
+
+                if (MainMap.Zoom < 10)
+                    return;
+
+                var rect = MainMap.CurrentViewArea;
+
+                var plla1 = new PointLatLngAlt(rect.LocationTopLeft);
+                var plla2 = new PointLatLngAlt(rect.LocationRightBottom);
+
+                var zone = plla1.GetUTMZone();
+
+                var utm1 = plla1.ToUTM(zone);
+                var utm2 = plla2.ToUTM(zone);
+
+                var deltax = utm1[0] - utm2[0];
+                var deltay = utm1[1] - utm2[1];
+
+                //if (deltax)
+
+                var gridsize = 1000.0;
+
+
+                if (Math.Abs(deltax) / 100000 < 40)
+                    gridsize = 100000;
+
+                if (Math.Abs(deltax) / 10000 < 40)
+                    gridsize = 10000;
+
+                if (Math.Abs(deltax) / 1000 < 40)
+                    gridsize = 1000;
+
+                if (Math.Abs(deltax) / 100 < 40)
+                    gridsize = 100;
+
+
+
+                // round it - x
+                utm1[0] = utm1[0] - (utm1[0] % gridsize);
+                // y
+                utm2[1] = utm2[1] - (utm2[1] % gridsize);
+
+                // x's
+                for (double x = utm1[0]; x < utm2[0]; x += gridsize)
+                {
+                    var p1 = MainMap.FromLatLngToLocal(PointLatLngAlt.FromUTM(zone, x, utm1[1]));
+                    var p2 = MainMap.FromLatLngToLocal(PointLatLngAlt.FromUTM(zone, x, utm2[1]));
+
+                    int x1 = p1.X;
+                    int y1 = p1.Y;
+                    int x2 = p2.X;
+                    int y2 = p2.Y;
+
+                    e.Graphics.DrawLine(new Pen(MainMap.SelectionPen.Color, 1), x1, y1, x2, y2);
+                }
+
+                // y's
+                for (double y = utm2[1]; y < utm1[1]; y += gridsize)
+                {
+                    var p1 = MainMap.FromLatLngToLocal(PointLatLngAlt.FromUTM(zone, utm1[0], y));
+                    var p2 = MainMap.FromLatLngToLocal(PointLatLngAlt.FromUTM(zone, utm2[0], y));
+
+                    int x1 = p1.X;
+                    int y1 = p1.Y;
+                    int x2 = p2.X;
+                    int y2 = p2.Y;
+
+                    e.Graphics.DrawLine(new Pen(MainMap.SelectionPen.Color, 1), x1, y1, x2, y2);
+                }
+            }
+        }
+
+        private void chk_grid_CheckedChanged(object sender, EventArgs e)
+        {
+            grid = chk_grid.Checked;
         }
     }
 }

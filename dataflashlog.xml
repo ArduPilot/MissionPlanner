@@ -6,7 +6,7 @@
       <F1>Time</F1>
       <F2>Sats</F2>
       <F3>Lat</F3>
-      <F4>Long</F4>
+      <F4>Lng</F4>
       <F5>Mix Alt</F5>
       <F6>GPSAlt</F6>
       <F7>GR Speed</F7>
@@ -367,7 +367,7 @@
       <F2>Status</F2>
       <F3>Sats</F3>
       <F4>Lat</F4>
-      <F5>Long</F5>
+      <F5>Lng</F5>
       <F6>RelAlt</F6>
       <F7>Altitude</F7>
       <F8>GR Speed</F8>
@@ -446,7 +446,7 @@
       <F2>Fix</F2>
       <F3>Sats</F3>
       <F4>Lat</F4>
-      <F5>Long</F5>
+      <F5>Lng</F5>
       <F6>GPSAlt</F6>
       <F7>GR Speed</F7>
       <F8>CRS</F8>

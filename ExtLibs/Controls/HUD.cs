@@ -47,7 +47,7 @@ namespace ArdupilotMega.Controls
             public int size;
         }
 
-        Dictionary<string, character> charDict = new Dictionary<string, character>();
+        Dictionary<int, character> charDict = new Dictionary<int, character>();
 
         //Bitmap[] charbitmaps = new Bitmap[6000];
         //int[] charbitmaptexid = new int[6000];
@@ -61,6 +61,9 @@ namespace ArdupilotMega.Controls
 
         public bool SixteenXNine = false;
 
+        static ImageCodecInfo ici = GetImageCodec("image/jpeg");
+        static EncoderParameters eps = new EncoderParameters(1);
+
         public HUD()
         {
             if (this.DesignMode)
@@ -71,6 +74,8 @@ namespace ArdupilotMega.Controls
 
             this.Name = "Hud";
 
+            eps.Param[0] = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, 50L); // or whatever other quality value you want
+
             objBitmap.MakeTransparent();
 
             //InitializeComponent();
@@ -78,6 +83,7 @@ namespace ArdupilotMega.Controls
             graphicsObject = this;
             graphicsObjectGDIP = Graphics.FromImage(objBitmap);
         }
+
         /*
         private void InitializeComponent()
         {
@@ -1539,11 +1545,6 @@ namespace ArdupilotMega.Controls
 
                 //                Console.WriteLine("HUD 1 " + (DateTime.Now - starttime).TotalMilliseconds + " " + DateTime.Now.Millisecond);
 
-                ImageCodecInfo ici = GetImageCodec("image/jpeg");
-                EncoderParameters eps = new EncoderParameters(1);
-                eps.Param[0] = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, 50L); // or whatever other quality value you want
-
-
                 lock (streamlock)
                 {
                     if (streamjpgenable || streamjpg == null) // init image and only update when needed
@@ -1570,7 +1571,7 @@ namespace ArdupilotMega.Controls
             //base.OnPaintBackground(e);
         }
 
-        ImageCodecInfo GetImageCodec(string mimetype)
+        static ImageCodecInfo GetImageCodec(string mimetype)
         {
             foreach (ImageCodecInfo ici in ImageCodecInfo.GetImageEncoders())
             {
@@ -1638,7 +1639,7 @@ namespace ArdupilotMega.Controls
             {
                 int charno = (int)cha;
 
-                string charid = cha + " " + fontsize.ToString() + " " + brush.Color.Name;
+                int charid = charno ^ (int)(fontsize * 1000) ^ brush.Color.ToArgb();
 
                 if (!charDict.ContainsKey(charid))
                 {
@@ -1746,7 +1747,7 @@ namespace ArdupilotMega.Controls
             {
                 int charno = (int)cha;
 
-                string charid = cha + " " + fontsize.ToString() + " " + brush.Color.Name;
+                int charid = charno ^ (int)(fontsize * 1000) ^ brush.Color.ToArgb();
 
                 if (!charDict.ContainsKey(charid))
                 {

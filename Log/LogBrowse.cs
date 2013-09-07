@@ -12,6 +12,8 @@ using ZedGraph; // Graphs
 using System.Xml;
 using System.Collections;
 using MissionPlanner.Controls;
+using GMap.NET;
+using GMap.NET.WindowsForms;
 
 namespace ArdupilotMega.Log
 {
@@ -36,6 +38,8 @@ namespace ArdupilotMega.Log
         PointPairList[] listdata;
 
         int graphs = 0;
+
+        GMapOverlay mapoverlay;
 
 
         public struct Label
@@ -94,6 +98,12 @@ namespace ArdupilotMega.Log
             listdata = new PointPairList[] { list1, list2, list3, list4, list5, list6, list7, list8, list9, list10 };
 
             InitializeComponent();
+
+             mapoverlay = new GMapOverlay(myGMAP1,"overlay");
+
+             myGMAP1.MapType = MapType.GoogleSatellite;
+
+             myGMAP1.Overlays.Add(mapoverlay);
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -145,6 +155,8 @@ namespace ArdupilotMega.Log
                 {
                     column.SortMode = DataGridViewColumnSortMode.NotSortable;
                 }
+
+                DrawMap();
 
                 CreateChart(zg1);
             }
@@ -550,6 +562,72 @@ namespace ArdupilotMega.Log
             }
         }
 
+        void DrawMap()
+        {
+            int a = 0;
+
+            DateTime starttime = DateTime.MinValue;
+            int startdelta = 0;
+            DateTime workingtime = starttime;
+
+            DateTime lastdrawn = DateTime.MinValue;
+
+            List<PointLatLng> routelist = new List<PointLatLng>();
+
+            //zg1.GraphPane.GraphObjList.Clear();
+
+            foreach (DataGridViewRow datarow in dataGridView1.Rows)
+            {
+                if (datarow.Cells[1].Value.ToString() == "GPS")
+                {
+                    if (!logformat.ContainsKey("GPS"))
+                        break;
+
+                    int index = FindInArray(logformat["GPS"].FieldNames, "Lat");
+                    if (index == -1)
+                    {
+                        a++;
+                        continue;
+                    }
+
+                    int index2 = FindInArray(logformat["GPS"].FieldNames, "Lng");
+                    if (index2 == -1)
+                    {
+                        a++;
+                        continue;
+                    }
+
+                    int index3 = FindInArray(logformat["GPS"].FieldNames, "Status");
+                    if (index3 == -1)
+                    {
+                        a++;
+                        continue;
+                    }
+
+                    if (double.Parse(datarow.Cells[index3 + 2].Value.ToString()) != 3)
+                    {
+                        a++;
+                        continue;
+                    }
+
+                    string lat = datarow.Cells[index+2].Value.ToString();
+                    string lng = datarow.Cells[index2+2].Value.ToString();
+
+                    PointLatLng pnt = new PointLatLng() { };
+                    pnt.Lat = double.Parse(lat);
+                    pnt.Lng = double.Parse(lng);
+
+                    routelist.Add(pnt);
+                }
+                a++;
+            }
+
+            GMapRoute route = new GMapRoute(routelist,"route");
+            mapoverlay.Routes.Add(route);
+            myGMAP1.ZoomAndCenterRoute(route);
+            myGMAP1.RoutesEnabled = true;
+        }
+
         int FindInArray(string[] array, string find)
         {
             int a = 0;
@@ -700,6 +778,11 @@ namespace ArdupilotMega.Log
                 DrawTime();
             }
             catch { }
+        }
+
+        private void CHK_map_CheckedChanged(object sender, EventArgs e)
+        {
+            splitContainer2.Panel2Collapsed = !splitContainer2.Panel2Collapsed;
         }
     }
 }

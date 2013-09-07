@@ -207,7 +207,7 @@ namespace ArdupilotMega.Swarm
 
             GeographicCoordinateSystem wgs84 = GeographicCoordinateSystem.WGS84;
 
-            int utmzone = (int)((leader.MAV.cs.lng - -183.0) / 6.0);
+            int utmzone = (int)((leader.MAV.cs.lng - -186.0) / 6.0);
 
             IProjectedCoordinateSystem utm = ProjectedCoordinateSystem.WGS84_UTM(utmzone, leader.MAV.cs.lat < 0 ? false : true);
 

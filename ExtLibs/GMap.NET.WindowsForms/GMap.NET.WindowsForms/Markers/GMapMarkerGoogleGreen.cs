@@ -15,6 +15,9 @@ namespace GMap.NET.WindowsForms.Markers
 
       static readonly System.Drawing.Size SizeSt = new System.Drawing.Size(Resources.bigMarkerGreen.Width, Resources.bigMarkerGreen.Height);
 
+       static Bitmap localcache1 = Resources.shadow50;
+       static Bitmap localcache2 = Resources.bigMarkerGreen;
+
       public GMapMarkerGoogleGreen(PointLatLng p)
          : base(p)
       {
@@ -29,7 +32,7 @@ namespace GMap.NET.WindowsForms.Markers
 #if !PocketPC
          if(!Bearing.HasValue)
          {
-            g.DrawImageUnscaled(Resources.shadow50, LocalPosition.X, LocalPosition.Y);
+             g.DrawImageUnscaled(localcache1, LocalPosition.X, LocalPosition.Y);
          }
          g.TranslateTransform(ToolTipPosition.X, ToolTipPosition.Y);
 
@@ -43,7 +46,7 @@ namespace GMap.NET.WindowsForms.Markers
 
          if(!Bearing.HasValue)
          {
-            g.DrawImageUnscaled(Resources.bigMarkerGreen, LocalPosition.X, LocalPosition.Y);
+             g.DrawImageUnscaled(localcache2, LocalPosition.X, LocalPosition.Y);
          }
 #else
             DrawImageUnscaled(g, Resources.shadow50, LocalPosition.X, LocalPosition.Y);

@@ -7,6 +7,8 @@ using ArdupilotMega;
 using GMap.NET;
 using ProjNet.CoordinateSystems;
 using ProjNet.CoordinateSystems.Transformations;
+using GeoUtility;
+using GeoUtility.GeoSystem;
 
 namespace MissionPlanner.Utilities
 {
@@ -93,6 +95,11 @@ namespace MissionPlanner.Utilities
             return new PointLatLngAlt() { Lng =  a[0], Lat = a[1] };
         }
 
+        public static implicit operator PointLatLngAlt(GeoUtility.GeoSystem.Geographic geo)
+        {
+            return new PointLatLngAlt() { Lat = geo.Latitude, Lng = geo.Longitude};
+        }        
+
         public override bool Equals(Object pllaobj)
         {
             PointLatLngAlt plla = (PointLatLngAlt)pllaobj;
@@ -123,13 +130,42 @@ namespace MissionPlanner.Utilities
 
         public int GetUTMZone()
         {
-            int zone = (int)((Lng - -183.0) / 6.0);
+            int zone = (int)((Lng - -186.0) / 6.0);
             if (Lat < 0)
                 zone *= -1;
 
             return zone;
         }
 
+        public string GetFriendlyZone()
+        {
+            return GetUTMZone().ToString("0N;0S");
+        }
+
+        public string GetMGRS()
+        {
+            Geographic geo = new Geographic(Lng, Lat);
+
+            MGRS mgrs = (MGRS)geo;
+
+            return mgrs.ToString();
+        }
+
+        public static PointLatLngAlt FromUTM(int zone,double x, double y)
+        {
+            GeoUtility.GeoSystem.UTM utm = new GeoUtility.GeoSystem.UTM(Math.Abs(zone), x, y, zone < 0 ? GeoUtility.GeoSystem.Base.Geocentric.Hemisphere.South : GeoUtility.GeoSystem.Base.Geocentric.Hemisphere.North);
+
+            PointLatLngAlt ans = ((GeoUtility.GeoSystem.Geographic)utm);
+
+            return ans;
+        }
+
+        public double[] ToUTM()
+        {
+           return ToUTM(GetUTMZone());
+        }
+
+        // force a zone
         public double[] ToUTM(int utmzone)
         {
             IProjectedCoordinateSystem utm = ProjectedCoordinateSystem.WGS84_UTM(Math.Abs(utmzone), Lat < 0 ? false : true);

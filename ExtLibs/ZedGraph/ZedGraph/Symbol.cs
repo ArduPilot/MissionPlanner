@@ -558,6 +558,10 @@ namespace ZedGraph
 		public void Draw( Graphics g, GraphPane pane, LineItem curve, float scaleFactor,
 			bool isSelected )
 		{
+            // tracing shows this uses alot of time when we are not drawing anything.
+            if (this.Type == SymbolType.None)
+                return;
+
 			Symbol source = this;
 			if ( isSelected )
 				source = Selection.Symbol;

@@ -308,6 +308,8 @@ namespace ArdupilotMega.GCSViews
 
                 if (px4)
                 {
+                    TXT_terminal.AppendText("Rebooting");
+
                     // check if we are a mavlink stream
                     byte[] buffer = MainV2.comPort.readPacket();
 
@@ -338,8 +340,10 @@ namespace ArdupilotMega.GCSViews
 
                     MainV2.comPort.giveComport = true;
 
+                    TXT_terminal.AppendText("Waiting for reboot");
+
                     // wait 7 seconds for px4 reboot
-                    log.Info("waiting for px4 reboot");
+                    log.Info("waiting for reboot");
                     DateTime deadline = DateTime.Now.AddSeconds(8);
                     while (DateTime.Now < deadline)
                     {
@@ -365,9 +369,15 @@ namespace ArdupilotMega.GCSViews
                     comPort.toggleDTR();
                 }
 
-                comPort.DiscardInBuffer();
+                try
+                {
+                    comPort.DiscardInBuffer();
+                }
+                catch { }
 
                 Console.WriteLine("Terminal_Load");
+
+                BUT_disconnect.Enabled = true;
 
                 System.Threading.Thread t11 = new System.Threading.Thread(delegate()
                 {
@@ -397,7 +407,7 @@ namespace ArdupilotMega.GCSViews
                         if (!inlogview)
                             comPort.Write("\r\r\r?\r");
                     }
-                    catch (Exception ex) { Console.WriteLine("Terminal thread 3 " + ex.ToString()); threadrun = false; return; }
+                    catch (Exception ex) { Console.WriteLine("Terminal thread 3 " + ex.ToString()); ChangeConnectStatus(false); threadrun = false; return; }
 
                     Console.WriteLine("Terminal thread 3");
 
@@ -406,6 +416,9 @@ namespace ArdupilotMega.GCSViews
                         try
                         {
                             System.Threading.Thread.Sleep(10);
+
+                            ChangeConnectStatus(comPort.IsOpen);
+
                             if (this.Disposing)
                                 break;
                             if (inlogview)
@@ -413,6 +426,7 @@ namespace ArdupilotMega.GCSViews
                             if (!comPort.IsOpen)
                             {
                                 Console.WriteLine("Comport Closed");
+                                ChangeConnectStatus(false);
                                 break;
                             }
                             if (comPort.BytesToRead > 0)
@@ -432,6 +446,7 @@ namespace ArdupilotMega.GCSViews
                     try
                     {
                         Console.WriteLine("term thread close");
+                        ChangeConnectStatus(false);
                         comPort.Close();
                     }
                     catch { }
@@ -451,6 +466,23 @@ namespace ArdupilotMega.GCSViews
             catch (Exception ex) { log.Error(ex); TXT_terminal.AppendText("Cant open serial port\r\n"); return; }
 
             TXT_terminal.Focus();
+        }
+
+        void ChangeConnectStatus(bool connected) 
+        {
+            if (this.IsDisposed || this.Disposing)
+                return;
+
+            this.Invoke((System.Windows.Forms.MethodInvoker)delegate()
+            {
+                if (connected && BUT_disconnect.Enabled == false) {
+                    BUT_disconnect.Enabled = true;
+                }
+                else if (!connected && BUT_disconnect.Enabled == true)
+                {
+                    BUT_disconnect.Enabled = false;
+                }
+            });
         }
 
         private void BUTsetupshow_Click(object sender, EventArgs e)

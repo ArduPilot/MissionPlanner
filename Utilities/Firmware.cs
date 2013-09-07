@@ -278,15 +278,15 @@ namespace ArdupilotMega.Utilities
         /// <param name="historyhash"></param>
         public bool update(string comport, software temp)
         {
-            string board = "";
+            BoardDetect.boards board = BoardDetect.boards.none;
 
             try
             {
                 updateProgress(-1, "Detecting Board Version");
 
-                board = ArduinoDetect.DetectBoard(comport);
+                board = BoardDetect.DetectBoard(comport);
 
-                if (board == "")
+                if (board == BoardDetect.boards.none)
                 {
                     CustomMessageBox.Show("Cant detect your Board version. Please check your cabling");
                     return false;
@@ -294,12 +294,12 @@ namespace ArdupilotMega.Utilities
 
                 int apmformat_version = -1; // fail continue
 
-                if (board != "px4")
+                if (board != BoardDetect.boards.px4 && board != BoardDetect.boards.px4v2)
                 {
                     try
                     {
 
-                        apmformat_version = ArduinoDetect.decodeApVar(comport, board);
+                        apmformat_version = BoardDetect.decodeApVar(comport, board);
                     }
                     catch { }
 
@@ -319,21 +319,25 @@ namespace ArdupilotMega.Utilities
                 updateProgress(-1, "Detected a " + board);
 
                 string baseurl = "";
-                if (board == "2560")
+                if (board == BoardDetect.boards.b2560)
                 {
                     baseurl = temp.url2560.ToString();
                 }
-                else if (board == "1280")
+                else if (board == BoardDetect.boards.b1280)
                 {
                     baseurl = temp.url.ToString();
                 }
-                else if (board == "2560-2")
+                else if (board == BoardDetect.boards.b2560v2)
                 {
                     baseurl = temp.url2560_2.ToString();
                 }
-                else if (board == "px4")
+                else if (board == BoardDetect.boards.px4)
                 {
                     baseurl = temp.urlpx4v1.ToString();
+                }
+                else if (board == BoardDetect.boards.px4v2)
+                {
+                    baseurl = temp.urlpx4v2.ToString();
                 }
                 else
                 {
@@ -391,9 +395,7 @@ namespace ArdupilotMega.Utilities
             }
             catch (Exception ex) { updateProgress(50, "Failed download"); CustomMessageBox.Show("Failed to download new firmware : " + ex.ToString()); return false; }
 
-            System.Threading.ThreadPool.QueueUserWorkItem(apmtype, temp.name + "!" + board);
-
-            MissionPlanner.Utilities.Tracking.AddFW(temp.name, board);
+            MissionPlanner.Utilities.Tracking.AddFW(temp.name, board.ToString());
 
             return UploadFlash(comport, Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + @"firmware.hex", board);
         }
@@ -425,9 +427,12 @@ namespace ArdupilotMega.Utilities
             DateTime DEADLINE = DateTime.Now.AddSeconds(30);
 
             Uploader up;
+            updateProgress(0, "Reading Hex File");
             px4uploader.Firmware fw = px4uploader.Firmware.ProcessFirmware(filename);
 
-            CustomMessageBox.Show("Press reset the board, and then press OK within 5 seconds.\nMission Planner will look for 30 seconds to find the board");
+            CustomMessageBox.Show("Press unplug the board, and then press OK and plug back in.\nMission Planner will look for 30 seconds to find the board");
+
+            updateProgress(0, "Scanning comports");
 
             while (DateTime.Now < DEADLINE)
             {
@@ -456,8 +461,6 @@ namespace ArdupilotMega.Utilities
                         up.identify();
                         updateProgress(-1, "Identify");
                         Console.WriteLine("Found board type {0} boardrev {1} bl rev {2} fwmax {3} on {4}", up.board_type, up.board_rev, up.bl_rev, up.fw_maxsize, port);
-
-                        up.currentChecksum(fw);
                     }
                     catch (Exception)
                     {
@@ -465,6 +468,18 @@ namespace ArdupilotMega.Utilities
                         //Console.WriteLine(ex.Message);
                         up.close();
                         continue;
+                    }
+
+                    try
+                    {
+
+                        up.verifyotp();
+
+                        up.currentChecksum(fw);
+                    }
+                    catch {
+                        CustomMessageBox.Show("Failed to upload new firmware");
+                        break;
                     }
 
                     try
@@ -510,9 +525,9 @@ namespace ArdupilotMega.Utilities
         /// </summary>
         /// <param name="filename"></param>
         /// <param name="board"></param>
-        public bool UploadFlash(string comport, string filename, string board)
+        public bool UploadFlash(string comport, string filename, BoardDetect.boards board)
         {
-            if (board == "px4")
+            if (board == BoardDetect.boards.px4|| board == BoardDetect.boards.px4v2)
             {
                 return UploadPX4(filename);
             }
@@ -539,7 +554,7 @@ namespace ArdupilotMega.Utilities
             }
             IArduinoComms port = new ArduinoSTK();
 
-            if (board == "1280")
+            if (board == BoardDetect.boards.b1280)
             {
                 if (FLASH.Length > 126976)
                 {
@@ -549,7 +564,7 @@ namespace ArdupilotMega.Utilities
                 //port = new ArduinoSTK();
                 port.BaudRate = 57600;
             }
-            else if (board == "2560" || board == "2560-2")
+            else if (board == BoardDetect.boards.b2560 || board == BoardDetect.boards.b2560v2)
             {
                 port = new ArduinoSTKv2
                 {

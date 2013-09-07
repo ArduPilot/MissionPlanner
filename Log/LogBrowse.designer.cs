@@ -31,16 +31,22 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LogBrowse));
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.zg1 = new ZedGraph.ZedGraphControl();
             this.BUT_Graphit = new ArdupilotMega.Controls.MyButton();
             this.BUT_cleargraph = new ArdupilotMega.Controls.MyButton();
             this.BUT_loadlog = new ArdupilotMega.Controls.MyButton();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.zg1 = new ZedGraph.ZedGraphControl();
+            this.myGMAP1 = new ArdupilotMega.Controls.myGMAP();
+            this.CHK_map = new System.Windows.Forms.CheckBox();
             this.BUT_Graphit_R = new ArdupilotMega.Controls.MyButton();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            this.splitContainer2.Panel1.SuspendLayout();
+            this.splitContainer2.Panel2.SuspendLayout();
+            this.splitContainer2.SuspendLayout();
             this.SuspendLayout();
             // 
             // dataGridView1
@@ -56,20 +62,6 @@
             this.dataGridView1.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView1_ColumnHeaderMouseClick);
             this.dataGridView1.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_RowEnter);
             this.dataGridView1.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.dataGridView1_RowPostPaint);
-            // 
-            // zg1
-            // 
-            resources.ApplyResources(this.zg1, "zg1");
-            this.zg1.Name = "zg1";
-            this.zg1.ScrollGrace = 0D;
-            this.zg1.ScrollMaxX = 0D;
-            this.zg1.ScrollMaxY = 0D;
-            this.zg1.ScrollMaxY2 = 0D;
-            this.zg1.ScrollMinX = 0D;
-            this.zg1.ScrollMinY = 0D;
-            this.zg1.ScrollMinY2 = 0D;
-            this.zg1.ZoomEvent += new ZedGraph.ZedGraphControl.ZoomEventHandler(this.zg1_ZoomEvent);
-            this.zg1.Paint += new System.Windows.Forms.PaintEventHandler(this.zg1_Paint);
             // 
             // BUT_Graphit
             // 
@@ -111,15 +103,71 @@
             // 
             // splitContainer1.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.zg1);
+            this.splitContainer1.Panel1.Controls.Add(this.splitContainer2);
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.CHK_map);
             this.splitContainer1.Panel2.Controls.Add(this.BUT_Graphit_R);
             this.splitContainer1.Panel2.Controls.Add(this.BUT_Graphit);
             this.splitContainer1.Panel2.Controls.Add(this.BUT_loadlog);
             this.splitContainer1.Panel2.Controls.Add(this.dataGridView1);
             this.splitContainer1.Panel2.Controls.Add(this.BUT_cleargraph);
+            // 
+            // splitContainer2
+            // 
+            resources.ApplyResources(this.splitContainer2, "splitContainer2");
+            this.splitContainer2.Name = "splitContainer2";
+            // 
+            // splitContainer2.Panel1
+            // 
+            this.splitContainer2.Panel1.Controls.Add(this.zg1);
+            // 
+            // splitContainer2.Panel2
+            // 
+            this.splitContainer2.Panel2.Controls.Add(this.myGMAP1);
+            this.splitContainer2.Panel2Collapsed = true;
+            // 
+            // zg1
+            // 
+            resources.ApplyResources(this.zg1, "zg1");
+            this.zg1.Name = "zg1";
+            this.zg1.ScrollGrace = 0D;
+            this.zg1.ScrollMaxX = 0D;
+            this.zg1.ScrollMaxY = 0D;
+            this.zg1.ScrollMaxY2 = 0D;
+            this.zg1.ScrollMinX = 0D;
+            this.zg1.ScrollMinY = 0D;
+            this.zg1.ScrollMinY2 = 0D;
+            this.zg1.ZoomEvent += new ZedGraph.ZedGraphControl.ZoomEventHandler(this.zg1_ZoomEvent);
+            this.zg1.Paint += new System.Windows.Forms.PaintEventHandler(this.zg1_Paint);
+            // 
+            // myGMAP1
+            // 
+            this.myGMAP1.Bearing = 0F;
+            this.myGMAP1.CanDragMap = true;
+            resources.ApplyResources(this.myGMAP1, "myGMAP1");
+            this.myGMAP1.GrayScaleMode = false;
+            this.myGMAP1.LevelsKeepInMemmory = 5;
+            this.myGMAP1.MarkersEnabled = true;
+            this.myGMAP1.MaxZoom = 19;
+            this.myGMAP1.MinZoom = 2;
+            this.myGMAP1.MouseWheelZoomType = GMap.NET.MouseWheelZoomType.MousePositionAndCenter;
+            this.myGMAP1.Name = "myGMAP1";
+            this.myGMAP1.NegativeMode = false;
+            this.myGMAP1.PolygonsEnabled = true;
+            this.myGMAP1.RetryLoadTile = 0;
+            this.myGMAP1.RoutesEnabled = true;
+            this.myGMAP1.ShowTileGridLines = false;
+            this.myGMAP1.streamjpg = ((System.IO.MemoryStream)(resources.GetObject("myGMAP1.streamjpg")));
+            this.myGMAP1.Zoom = 0D;
+            // 
+            // CHK_map
+            // 
+            resources.ApplyResources(this.CHK_map, "CHK_map");
+            this.CHK_map.Name = "CHK_map";
+            this.CHK_map.UseVisualStyleBackColor = true;
+            this.CHK_map.CheckedChanged += new System.EventHandler(this.CHK_map_CheckedChanged);
             // 
             // BUT_Graphit_R
             // 
@@ -142,7 +190,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
+            this.splitContainer1.Panel2.PerformLayout();
             this.splitContainer1.ResumeLayout(false);
+            this.splitContainer2.Panel1.ResumeLayout(false);
+            this.splitContainer2.Panel2.ResumeLayout(false);
+            this.splitContainer2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -150,12 +202,15 @@
         #endregion
 
         private System.Windows.Forms.DataGridView dataGridView1;
-        private ZedGraph.ZedGraphControl zg1;
         private ArdupilotMega.Controls.MyButton BUT_Graphit;
         private ArdupilotMega.Controls.MyButton BUT_cleargraph;
         private ArdupilotMega.Controls.MyButton BUT_loadlog;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private Controls.MyButton BUT_Graphit_R;
+        private System.Windows.Forms.SplitContainer splitContainer2;
+        private ZedGraph.ZedGraphControl zg1;
+        private Controls.myGMAP myGMAP1;
+        private System.Windows.Forms.CheckBox CHK_map;
     }
 }
 

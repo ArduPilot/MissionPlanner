@@ -77,6 +77,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             RC6 = 1,
             RC7 = 1,
             RC8 = 1,
+            RC9 = 1,
             RC10 = 1,
             RC11 = 1
         }
@@ -88,6 +89,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             RC6 = 6,
             RC7 = 7,
             RC8 = 8,
+            RC9 = 1,
             RC10 = 10,
             RC11 = 11,
             Relay = 1,

@@ -33,6 +33,9 @@ namespace ArdupilotMega.Controls
 
         public void AddScreen(Screen Screen)
         {
+            if (Screen == null || Screen.Control == null)
+                return;
+
             // add to list
             screens.Add(Screen);
 
@@ -69,6 +72,9 @@ namespace ArdupilotMega.Controls
                     current.Control.Visible = false;
                 }
             }
+
+            if (name == "")
+                return;
 
             // find next screen
             Screen nextscreen = screens.Single(s => s.Name == name);
@@ -128,7 +134,11 @@ namespace ArdupilotMega.Controls
 
             foreach (var item in screens)
             {
-                item.Control.Dispose();
+                try
+                {
+                    item.Control.Dispose();
+                }
+                catch { }
             }
 
             MainControl.Dispose();

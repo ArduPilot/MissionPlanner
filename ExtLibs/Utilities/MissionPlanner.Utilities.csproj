@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -84,6 +85,10 @@
     <ProjectReference Include="..\BaseClasses\BaseClasses.csproj">
       <Project>{2a8e8af5-74e7-49db-a42e-9360fa7a6cc4}</Project>
       <Name>BaseClasses</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GeoUtility\GeoUtility.csproj">
+      <Project>{7f7994ce-823f-4a04-bbea-d0a3808ff56d}</Project>
+      <Name>GeoUtility</Name>
     </ProjectReference>
     <ProjectReference Include="..\GMap.NET.Core\GMap.NET.Core.csproj">
       <Project>{d0c39d9d-bed0-418b-9a5e-713176caf40c}</Project>

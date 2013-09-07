@@ -167,10 +167,12 @@ namespace ArdupilotMega
                 {
                     if (MainV2.comPort.MAV.param.ContainsKey("RC3_MIN"))
                     {
-                        return (int)((ch3out - float.Parse(MainV2.comPort.MAV.param["RC3_MIN"].ToString())) / (float.Parse(MainV2.comPort.MAV.param["RC3_MAX"].ToString()) - float.Parse(MainV2.comPort.MAV.param["RC3_MIN"].ToString())) * 100);
+                        return (int)(((ch3out - (float)MainV2.comPort.MAV.param["RC3_MIN"]) / ((float)MainV2.comPort.MAV.param["RC3_MAX"] - (float)MainV2.comPort.MAV.param["RC3_MIN"])) * 100);
                     }
                     else
                     {
+                        if (ch3out == 0)
+                            return 0;
                         return (int)((ch3out - 1100) / (1900 - 1100) * 100);
                     }
                 }
@@ -258,7 +260,7 @@ namespace ArdupilotMega
         public float battery_remaining { get { return _battery_remaining; } set { _battery_remaining = value; if (_battery_remaining < 0 || _battery_remaining > 100) _battery_remaining = 0; } }
         private float _battery_remaining;
         [DisplayText("Bat Current (Amps)")]
-        public float current { get { return _current; } set { if (_lastcurrent == DateTime.MinValue) _lastcurrent = datetime; battery_usedmah += (value * 1000) * (float)(datetime - _lastcurrent).TotalHours; _current = value; _lastcurrent = datetime; } }
+        public float current { get { return _current; } set { if (value < 0) return; if (_lastcurrent == DateTime.MinValue) _lastcurrent = datetime; battery_usedmah += (value * 1000) * (float)(datetime - _lastcurrent).TotalHours; _current = value; _lastcurrent = datetime; } }
         private float _current;
         private DateTime _lastcurrent = DateTime.MinValue;
         [DisplayText("Bat used EST (mah)")]
@@ -459,9 +461,14 @@ namespace ArdupilotMega
         bool gotwind = false;
         internal bool batterymonitoring = false;
 
+        internal bool MONO = false;
+
         public CurrentState()
         {
             ResetInternals();
+
+            var t = Type.GetType("Mono.Runtime");
+            MONO = (t != null);
         }
 
         public void ResetInternals()
@@ -701,43 +708,51 @@ enum gcs_severity {
                     {
                         var hb = bytearray.ByteArrayToStructure<MAVLink.mavlink_heartbeat_t>(6);
 
-                        armed = (hb.base_mode & (byte)MAVLink.MAV_MODE_FLAG.SAFETY_ARMED) == (byte)MAVLink.MAV_MODE_FLAG.SAFETY_ARMED;
-
-                        failsafe = hb.system_status == (byte)MAVLink.MAV_STATE.CRITICAL;
-
-                        string oldmode = mode;
-
-                        if ((hb.base_mode & (byte)MAVLink.MAV_MODE_FLAG.CUSTOM_MODE_ENABLED) != 0)
+                        if (hb.type == (byte)MAVLink.MAV_TYPE.GCS)
                         {
-                            // prevent running thsi unless we have to
-                            if (_mode != hb.custom_mode)
+                            // skip gcs hb's
+                            // only happens on log playback - and shouldnt get them here
+                        }
+                        else
+                        {
+                            armed = (hb.base_mode & (byte)MAVLink.MAV_MODE_FLAG.SAFETY_ARMED) == (byte)MAVLink.MAV_MODE_FLAG.SAFETY_ARMED;
+
+                            failsafe = hb.system_status == (byte)MAVLink.MAV_STATE.CRITICAL;
+
+                            string oldmode = mode;
+
+                            if ((hb.base_mode & (byte)MAVLink.MAV_MODE_FLAG.CUSTOM_MODE_ENABLED) != 0)
                             {
-                                List<KeyValuePair<int, string>> modelist = Common.getModesList(this);
-
-                                bool found = false;
-
-                                foreach (KeyValuePair<int, string> pair in modelist)
+                                // prevent running thsi unless we have to
+                                if (_mode != hb.custom_mode)
                                 {
-                                    if (pair.Key == hb.custom_mode)
+                                    List<KeyValuePair<int, string>> modelist = Common.getModesList(this);
+
+                                    bool found = false;
+
+                                    foreach (KeyValuePair<int, string> pair in modelist)
                                     {
-                                        mode = pair.Value.ToString();
+                                        if (pair.Key == hb.custom_mode)
+                                        {
+                                            mode = pair.Value.ToString();
+                                            _mode = hb.custom_mode;
+                                            found = true;
+                                            break;
+                                        }
+                                    }
+
+                                    if (!found)
+                                    {
+                                        log.Warn("Mode not found bm:" + hb.base_mode + " cm:" + hb.custom_mode);
                                         _mode = hb.custom_mode;
-                                        found = true;
-                                        break;
                                     }
                                 }
-
-                                if (!found)
-                                {
-                                    log.Warn("Mode not found bm:" + hb.base_mode + " cm:" + hb.custom_mode);
-                                    _mode = hb.custom_mode;
-                                }
                             }
-                        }
 
-                        if (oldmode != mode && MainV2.speechEnable && MainV2.getConfig("speechmodeenabled") == "True")
-                        {
-                            MainV2.speechEngine.SpeakAsync(Common.speechConversion(MainV2.getConfig("speechmode")));
+                            if (oldmode != mode && MainV2.speechEnable && MainV2.getConfig("speechmodeenabled") == "True")
+                            {
+                                MainV2.speechEngine.SpeakAsync(Common.speechConversion(MainV2.getConfig("speechmode")));
+                            }
                         }
                     }
 
@@ -1029,16 +1044,38 @@ enum gcs_severity {
                 {
                     if (bs != null)
                     {
-                        //System.Diagnostics.Debug.WriteLine(DateTime.Now.Millisecond);
-                       // Console.Write(" "+DateTime.Now.Millisecond);
+                        if (bs.Count > 100)
+                            bs.Clear();
+                        bs.Add(this);
+
+                        return;
+
+                        hires.Stopwatch sw = new hires.Stopwatch();
+
+                        sw.Start();
                         bs.DataSource = this;
-                       // Console.Write(" " + DateTime.Now.Millisecond + " 1 " + updatenow + " " + System.Threading.Thread.CurrentThread.Name);
                         bs.ResetBindings(false);
-                        //bs.ResetCurrentItem();
-                        // mono workaround - this is alot faster
-                        //bs.Clear();
-                        //bs.Add(this);
-                      //  Console.WriteLine(" " + DateTime.Now.Millisecond + " done ");
+                        sw.Stop();
+                        var elaps = sw.Elapsed;
+                        Console.WriteLine("1 " + elaps.ToString("0.#####") + " done ");
+
+                        sw.Start();
+                        bs.SuspendBinding();
+                        bs.Clear();
+                        bs.ResumeBinding();
+                        bs.Add(this);
+                        sw.Stop();
+                        elaps = sw.Elapsed;
+                        Console.WriteLine("2 " + elaps.ToString("0.#####") + " done ");
+                     
+                        sw.Start();
+                        if (bs.Count > 100)
+                            bs.Clear();
+                        bs.Add(this);
+                        sw.Stop();
+                        elaps = sw.Elapsed;
+                        Console.WriteLine("3 " + elaps.ToString("0.#####") + " done ");
+
                     }
                 }
                 catch { log.InfoFormat("CurrentState Binding error"); }

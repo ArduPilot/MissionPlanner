@@ -111,7 +111,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
         private void TXT_declination_Validating(object sender, CancelEventArgs e)
         {
             float ans = 0;
-            e.Cancel = !float.TryParse(TXT_declination.Text, out ans);
+            e.Cancel = !float.TryParse(TXT_declination_deg.Text, out ans);
         }
 
         private void TXT_declination_Validated(object sender, EventArgs e)
@@ -129,24 +129,15 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                     float dec = 0.0f;
                     try
                     {
-                        string declination = TXT_declination.Text;
-                        float.TryParse(declination, out dec);
-                        float deg = (float)((int)dec);
-                        float mins = (dec - deg);
-                        if (dec > 0)
-                        {
-                            dec += ((mins) / 60.0f);
-                        }
-                        else
-                        {
-                            dec -= ((mins) / 60.0f);
-                        }
+                        string deg = TXT_declination_deg.Text;
+
+                        string min = TXT_declination_min.Text;
+
+                        dec = float.Parse(deg) + (float.Parse(min) / 60);
+
+                        MainV2.comPort.setParam("COMPASS_DEC", dec * deg2rad);
                     }
                     catch { CustomMessageBox.Show("Invalid input!", "Error"); return; }
-
-                    TXT_declination.Text = dec.ToString();
-
-                    MainV2.comPort.setParam("COMPASS_DEC", dec * deg2rad);
                 }
             }
             catch { CustomMessageBox.Show("Set COMPASS_DEC Failed", "Error"); }
@@ -158,12 +149,14 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             if (((CheckBox)sender).Checked == true)
             {
                 CHK_autodec.Enabled = true;
-                TXT_declination.Enabled = true;
+                TXT_declination_deg.Enabled = true;
+                TXT_declination_min.Enabled = true;
             }
             else
             {
                 CHK_autodec.Enabled = false;
-                TXT_declination.Enabled = false;
+                TXT_declination_deg.Enabled = false;
+                TXT_declination_min.Enabled = false;
             }
 
             if (startup)
@@ -202,12 +195,17 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             CMB_compass_orient.setup(typeof(Common.Rotation), "COMPASS_ORIENT", MainV2.comPort.MAV.param);
 
   
-            CHK_enablecompass.setup(1, 0, "MAG_ENABLE", MainV2.comPort.MAV.param, TXT_declination);
+            CHK_enablecompass.setup(1, 0, "MAG_ENABLE", MainV2.comPort.MAV.param, TXT_declination_deg);
    
 
             if (MainV2.comPort.MAV.param["COMPASS_DEC"] != null)
             {
-                TXT_declination.Text = (float.Parse(MainV2.comPort.MAV.param["COMPASS_DEC"].ToString()) * rad2deg).ToString();
+                float dec = (float)MainV2.comPort.MAV.param["COMPASS_DEC"] * rad2deg;
+
+                float min = (dec - (int)dec) * 60;
+
+                TXT_declination_deg.Text = ((int)dec).ToString("0");
+                TXT_declination_min.Text = min.ToString("0");
             }
  
             if (MainV2.comPort.MAV.param["COMPASS_AUTODEC"] != null)
@@ -234,11 +232,14 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
         {
             if (((CheckBox)sender).Checked == true)
             {
-                TXT_declination.Enabled = false;
+                TXT_declination_deg.Enabled = false;
+
+                TXT_declination_min.Enabled = false;
             }
             else
             {
-                TXT_declination.Enabled = true;
+                TXT_declination_deg.Enabled = true;
+                TXT_declination_min.Enabled = true;
             }
 
             if (startup)
@@ -264,17 +265,20 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
-            if (radioButton1.Checked)
+            if (radioButton_onboard.Checked)
             {
                 CMB_compass_orient.SelectedIndex =  (int)Common.Rotation.ROTATION_NONE;
+                MainV2.comPort.setParam("COMPASS_EXTERNAL", 0);
             }
-            if (radioButton2.Checked)
+            if (radioButton_external.Checked)
             {
                 CMB_compass_orient.SelectedIndex = (int)Common.Rotation.ROTATION_ROLL_180;
+                MainV2.comPort.setParam("COMPASS_EXTERNAL",1);
             }
-            if (radioButton3.Checked)
+            if (radioButtonpx4.Checked)
             {
                 CMB_compass_orient.SelectedIndex = (int)Common.Rotation.ROTATION_ROLL_180;
+                MainV2.comPort.setParam("COMPASS_EXTERNAL", 0);
             }
         }
     }

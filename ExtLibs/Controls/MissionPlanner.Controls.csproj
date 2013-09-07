@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -64,6 +65,12 @@
     </Compile>
     <Compile Include="BackstageView\BackStageViewMenuPanel.cs">
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Coords.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Coords.Designer.cs">
+      <DependentUpon>Coords.cs</DependentUpon>
     </Compile>
     <Compile Include="CustomMessageBox.cs" />
     <Compile Include="FlashMessage.cs">
@@ -117,6 +124,12 @@
     </Compile>
     <Compile Include="MyLabel.cs">
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="MyProgressBar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="MyProgressBar.Designer.cs">
+      <DependentUpon>MyProgressBar.cs</DependentUpon>
     </Compile>
     <Compile Include="MyTrackBar.cs">
       <SubType>Component</SubType>
@@ -193,6 +206,9 @@
     <EmbeddedResource Include="BackstageView\BackstageView.resx">
       <DependentUpon>BackstageView.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Coords.resx">
+      <DependentUpon>Coords.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FlashMessage.resx">
       <DependentUpon>FlashMessage.cs</DependentUpon>
     </EmbeddedResource>
@@ -204,6 +220,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ImageLabel.resx">
       <DependentUpon>ImageLabel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MyProgressBar.resx">
+      <DependentUpon>MyProgressBar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="OptionForm.resx">
       <DependentUpon>OptionForm.cs</DependentUpon>
@@ -241,6 +260,10 @@
     <ProjectReference Include="..\BSE.Windows.Forms\BSE.Windows.Forms.csproj">
       <Project>{9ca367b8-0b98-49d1-84fb-735e612e3ba9}</Project>
       <Name>BSE.Windows.Forms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GeoUtility\GeoUtility.csproj">
+      <Project>{7f7994ce-823f-4a04-bbea-d0a3808ff56d}</Project>
+      <Name>GeoUtility</Name>
     </ProjectReference>
     <ProjectReference Include="..\GLControl\OpenTK.GLControl.csproj">
       <Project>{a625be88-0000-0000-0000-000000000000}</Project>

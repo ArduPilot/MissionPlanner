@@ -82,12 +82,13 @@ namespace MissionPlanner
         {
             double angle = 0;
             double maxdist = 0;
-            PointLatLngAlt last = list[0];
+            PointLatLngAlt last = list[list.Count - 1];
             foreach (var item in list)
             {
                  if (item.GetDistance(last) > maxdist) 
                  {
                      angle = item.GetBearing(last);
+                     maxdist = item.GetDistance(last);
                  }
                  last = item;
             }
@@ -214,7 +215,7 @@ namespace MissionPlanner
 
             GeographicCoordinateSystem wgs84 = GeographicCoordinateSystem.WGS84;
 
-            int utmzone = (int)((polygon[0].Lng - -183.0) / 6.0);
+            int utmzone = (int)((polygon[0].Lng - -186.0) / 6.0);
 
             IProjectedCoordinateSystem utm = ProjectedCoordinateSystem.WGS84_UTM(utmzone, polygon[0].Lat < 0 ? false : true);
 

@@ -1,0 +1,272 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="DE_ERROR_CONVERTFROM" xml:space="preserve">
+    <value>Eine Typ-Konvertierung zwischen {0} und {1} ist nicht erlaubt.</value>
+  </data>
+  <data name="DE_ERROR_GAUSS_EAST" xml:space="preserve">
+    <value>Rechtswert außerhalb des für Deutschland definierten Gauss-Krüger-Systems: 
+Geogr. Länge: 5 bis 16 E.</value>
+  </data>
+  <data name="DE_ERROR_GAUSS_NORTH" xml:space="preserve">
+    <value>Hochwert außerhalb des für Deutschland definierten Gauss-Krüger-Systems: 
+Geogr. Breite: 46 bis 55 N.</value>
+  </data>
+  <data name="DE_ERROR_GEO2UTM" xml:space="preserve">
+    <value>Werte außerhalb des definierten Bereichs im WGS84 Datum: 
+Länge: -180 bis +180 E; Breite: -80 bis +84 N.</value>
+  </data>
+  <data name="DE_ERROR_GEO_LATITUDE" xml:space="preserve">
+    <value>Breitengrad ungültig. Definierter Bereich: -80 (südl.) bis +84 (nördl.)</value>
+  </data>
+  <data name="DE_ERROR_GEO_LONGITUDE" xml:space="preserve">
+    <value>Längengrad ungültig. Definierter Bereich: -180 (westl.) bis +180 (östl.)</value>
+  </data>
+  <data name="DE_ERROR_GK_OUT_OF_RANGE" xml:space="preserve">
+    <value>Werte außerhalb des für Deutschland definierten Gauss-Krüger-Systems: 
+Länge: 5 bis 16 E; Breite: 46 bis 55 N.</value>
+  </data>
+  <data name="DE_ERROR_MAPDIMENSION" xml:space="preserve">
+    <value>Ungültiger interner Schlüssel für das Satellitenbild.</value>
+  </data>
+  <data name="DE_ERROR_MGRS" xml:space="preserve">
+    <value>Format des MGRS-Koordinatenstrings konnte nicht erkannt werden oder außerhalb des gültigen Bereichs.</value>
+  </data>
+  <data name="DE_ERROR_MGRS_EAST" xml:space="preserve">
+    <value>East-Wert ungültig. </value>
+  </data>
+  <data name="DE_ERROR_MGRS_GRID" xml:space="preserve">
+    <value>Grid-Wert ungültig. Er besteht aus 2 Buchstaben.</value>
+  </data>
+  <data name="DE_ERROR_MGRS_NORTH" xml:space="preserve">
+    <value>North-Wert ungültig.</value>
+  </data>
+  <data name="DE_ERROR_TILE" xml:space="preserve">
+    <value>Ungültige Werte in dem von MapServiceTileBase abgeleiteten Parameter.</value>
+  </data>
+  <data name="DE_ERROR_UTM_BAND" xml:space="preserve">
+    <value>Band ungültig. Definierter Bereich: C bis X (ohne I und O).</value>
+  </data>
+  <data name="DE_ERROR_UTM_EAST" xml:space="preserve">
+    <value>East-Wert ungültig. Definierter Bereich: ca. 200000 bis 800000</value>
+  </data>
+  <data name="DE_ERROR_UTM_NORTH" xml:space="preserve">
+    <value>Nord-Wert ungültig. Def.-Bereich: ca. 0 bis 9300000 (Nord), ca. 1100000 bis 10000000 (Süd)</value>
+  </data>
+  <data name="DE_ERROR_UTM_STRING" xml:space="preserve">
+    <value>Der UTM-String konnte nicht erkannt werden (Format unbekannt).</value>
+  </data>
+  <data name="DE_ERROR_UTM_ZONE" xml:space="preserve">
+    <value>{0}{1} ist eine ungültige UTM-Zone.</value>
+  </data>
+  <data name="DE_ERROR_UTM_ZONE2" xml:space="preserve">
+    <value>Zone ungültig. Definierter Bereich: 1 bis 60.</value>
+  </data>
+  <data name="DE_GAUSS_LONG_STRING" xml:space="preserve">
+    <value>Rechts: {0}; Hoch: {1}</value>
+  </data>
+  <data name="DE_GAUSS_SHORT_STRING" xml:space="preserve">
+    <value>R: {0}   H: {1}</value>
+  </data>
+  <data name="DE_GEOGRAPHIC_STRING" xml:space="preserve">
+    <value>Länge: {0}; Breite: {1}</value>
+  </data>
+  <data name="DE_MS_NO_IMAGE" xml:space="preserve">
+    <value>Satellitenbild in dieser Zoomstufe nicht verfügar.</value>
+  </data>
+  <data name="DE_NO_ERROR_MESSAGE" xml:space="preserve">
+    <value>Nähere Angaben zum Fehler sind nicht verfügbar.</value>
+  </data>
+  <data name="ERROR_CONVERTFROM" xml:space="preserve">
+    <value>Type conversion between {0} and {1} is not allowed.</value>
+  </data>
+  <data name="ERROR_GAUSS_EAST" xml:space="preserve">
+    <value>East value out of range for the german Gauss-Krueger-System: 
+Longitude: 5 bis 16 E.</value>
+  </data>
+  <data name="ERROR_GAUSS_NORTH" xml:space="preserve">
+    <value>North value out of range for the german Gauss-Krueger-System: 
+Latitude: 46 to 55 N.</value>
+  </data>
+  <data name="ERROR_GEO2UTM" xml:space="preserve">
+    <value>Values out of range for UTM: 
+Longitude: -180 to +180 E; Latitude: -80 to +84 N.</value>
+  </data>
+  <data name="ERROR_GEO_LATITUDE" xml:space="preserve">
+    <value>Latitude invalid. Range: -80 (South) to +84 (North)</value>
+  </data>
+  <data name="ERROR_GEO_LONGITUDE" xml:space="preserve">
+    <value>Longitude invalid. Range: -180 (West) to +180 (East)</value>
+  </data>
+  <data name="ERROR_GK_OUT_OF_RANGE" xml:space="preserve">
+    <value>Values out of range for the german Gauss-Krueger-System: 
+Longitude: 5 bis 16 E; Latitude: 46 to 55 N.</value>
+  </data>
+  <data name="ERROR_MAPDIMENSION" xml:space="preserve">
+    <value>Invalid internal key for the satellite picture.</value>
+  </data>
+  <data name="ERROR_MGRS" xml:space="preserve">
+    <value>Format of the MGRS string could not be parsed or out of range.</value>
+  </data>
+  <data name="ERROR_MGRS_EAST" xml:space="preserve">
+    <value>East value invalid.</value>
+  </data>
+  <data name="ERROR_MGRS_GRID" xml:space="preserve">
+    <value>Grid value invalid. It needs 2 letters.</value>
+  </data>
+  <data name="ERROR_MGRS_NORTH" xml:space="preserve">
+    <value>North value invalid.</value>
+  </data>
+  <data name="ERROR_TILE" xml:space="preserve">
+    <value>Your MapServiceTileBase derived object contains invalid values.</value>
+  </data>
+  <data name="ERROR_UTM_BAND" xml:space="preserve">
+    <value>Band invalid. Range: C to X (without I and O).</value>
+  </data>
+  <data name="ERROR_UTM_EAST" xml:space="preserve">
+    <value>East value invalid. Range: approx. 200000 to 800000</value>
+  </data>
+  <data name="ERROR_UTM_NORTH" xml:space="preserve">
+    <value>North value invalid. Range: approx. 0 to 9300000 (North), approx. 1100000 to 10000000 (South)</value>
+  </data>
+  <data name="ERROR_UTM_STRING" xml:space="preserve">
+    <value>UTM string could not be parsed (format unknown).</value>
+  </data>
+  <data name="ERROR_UTM_ZONE" xml:space="preserve">
+    <value>{0}{1} is an invalid utm zone.</value>
+  </data>
+  <data name="ERROR_UTM_ZONE2" xml:space="preserve">
+    <value>Zone invalid. Range: 1 to 60.</value>
+  </data>
+  <data name="GAUSS_SHORT_STRING" xml:space="preserve">
+    <value>E {0}   N {1}</value>
+  </data>
+  <data name="GAUSS_LONG_STRING" xml:space="preserve">
+    <value>East: {0}; North: {1}</value>
+  </data>
+  <data name="GEOGRAPHIC_STRING" xml:space="preserve">
+    <value>Longitude: {0}; Latitude: {1}</value>
+  </data>
+  <data name="MS_NO_IMAGE" xml:space="preserve">
+    <value>Satellite picture with this zoom level not available .</value>
+  </data>
+  <data name="NO_ERROR_MESSAGE" xml:space="preserve">
+    <value>There are no error details available.</value>
+  </data>
+</root>

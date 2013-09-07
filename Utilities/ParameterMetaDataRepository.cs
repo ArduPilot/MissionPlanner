@@ -18,7 +18,8 @@ namespace ArdupilotMega.Utilities
       /// </summary>
       public ParameterMetaDataRepository()
       {
-          Reload();
+          if (_parameterMetaDataXML == null)
+            Reload();
       }
 
       public static void Reload()

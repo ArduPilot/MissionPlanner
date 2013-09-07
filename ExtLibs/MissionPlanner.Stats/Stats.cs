@@ -12,7 +12,8 @@ namespace MissionPlanner.Stats
 {
     public class Stats : ArdupilotMega.Plugin.Plugin
     {
-        whattostat stats = new whattostat();
+        whattostat statsoverall = new whattostat();
+        whattostat statssession = new whattostat();
 
         string statsfile = System.Windows.Forms.Application.StartupPath + System.IO.Path.DirectorySeparatorChar + "stats.xml";
 
@@ -45,11 +46,11 @@ namespace MissionPlanner.Stats
             {
                 try
                 {
-                    System.Xml.Serialization.XmlSerializer reader = new System.Xml.Serialization.XmlSerializer(stats.GetType());
+                    System.Xml.Serialization.XmlSerializer reader = new System.Xml.Serialization.XmlSerializer(statsoverall.GetType());
 
                     var file = new System.IO.StreamReader(statsfile);
 
-                    stats = (whattostat)reader.Deserialize(file);
+                    statsoverall = (whattostat)reader.Deserialize(file);
                 }
                 catch { }
             }
@@ -58,7 +59,7 @@ namespace MissionPlanner.Stats
             men.Click += men_Click;
             Host.FDMenuMap.Items.Add(men);
 
-            stats.appstarts++;
+            statsoverall.appstarts++;
 
             return true;
         }
@@ -104,15 +105,25 @@ connecttime {9} disconnecttime {10} maxspeed {11} avgspeed {12}"
 
         public override bool Loop()
         {
+            // loaded from file at app start
+            dostats(statsoverall);
+
+            // starts blank
+            dostats(statssession);
+
             // display to console
             if (display.AddSeconds(5) < DateTime.Now)
             {
-                Console.WriteLine(stats.ToString());
+               // Console.WriteLine(statssession.ToString());
 
                 display = DateTime.Now;
             }
 
+            return true;
+        }
 
+        void dostats(whattostat stats) 
+        {
             // connects
             if (connectedstate != Host.comPort.BaseStream.IsOpen)
             {
@@ -131,7 +142,7 @@ connecttime {9} disconnecttime {10} maxspeed {11} avgspeed {12}"
 
             // if we are not connected, dont do anything
             if (!Host.comPort.BaseStream.IsOpen)
-                return true;
+                return;
 
             // armed time
             if (Host.cs.armed)
@@ -193,7 +204,7 @@ connecttime {9} disconnecttime {10} maxspeed {11} avgspeed {12}"
             {
                 stats.connectedtime++;
             }
-            return true;
+            return;
         }
 
         public override bool Exit()
@@ -203,7 +214,7 @@ connecttime {9} disconnecttime {10} maxspeed {11} avgspeed {12}"
 
             var file = new System.IO.StreamWriter(statsfile);
 
-            writer.Serialize(file, stats);
+            writer.Serialize(file, statsoverall);
             
             return true;
         }

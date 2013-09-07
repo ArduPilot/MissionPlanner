@@ -9,6 +9,7 @@ using ArdupilotMega.Utilities;
 using log4net;
 using ArdupilotMega.Controls;
 using MissionPlanner.Controls;
+using System.Collections.Generic;
 
 namespace ArdupilotMega.GCSViews.ConfigurationView
 {
@@ -396,8 +397,17 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             toolTip1.RemoveAll();
             Params.Rows.Clear();
 
+
+            //Params.Sort(Params.Columns[0], ListSortDirection.Ascending);
+
+            List<string> sorted = new List<string>();
+            foreach (string item in MainV2.comPort.MAV.param.Keys)
+                sorted.Add(item);
+
+            sorted.Sort();
+
             // process hashdefines and update display
-            foreach (string value in MainV2.comPort.MAV.param.Keys)
+            foreach (string value in sorted)
             {
                 if (value == null || value == "")
                     continue;
@@ -440,7 +450,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                 catch { }
 
             }
-            Params.Sort(Params.Columns[0], ListSortDirection.Ascending);
+            //Params.Sort(Params.Columns[0], ListSortDirection.Ascending);
         }
 
         public void Activate()
@@ -451,7 +461,11 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
 
             startup = true;
 
+            this.SuspendLayout();
+
             processToScreen();
+
+            this.ResumeLayout();
 
             startup = false;
         }

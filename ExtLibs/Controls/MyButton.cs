@@ -17,10 +17,15 @@ namespace ArdupilotMega.Controls
         bool _mouseover = false;
         bool _mousedown = false;
 
-        internal Color _BGGradTop = Color.FromArgb(0x94, 0xc1, 0x1f);
-        internal Color _BGGradBot = Color.FromArgb(0xcd, 0xe2, 0x96);
-        internal Color _TextColor = Color.FromArgb(0x40, 0x57, 0x04);
-        internal Color _Outline = Color.FromArgb(0x79, 0x94, 0x29);
+        //internal Color _BGGradTop = Color.FromArgb(0x94, 0xc1, 0x1f);
+        //internal Color _BGGradBot = Color.FromArgb(0xcd, 0xe2, 0x96);
+        //internal Color _TextColor = Color.FromArgb(0x40, 0x57, 0x04);
+        //internal Color _Outline = Color.FromArgb(0x79, 0x94, 0x29);
+
+        internal Color _BGGradTop = Color.FromArgb(102,139,26);
+        internal Color _BGGradBot = Color.FromArgb(127,167,42);
+        internal Color _TextColor = Color.FromArgb(31,54,8);
+        internal Color _Outline = Color.FromArgb(150,171,112);
 
        bool inOnPaint = false;
 

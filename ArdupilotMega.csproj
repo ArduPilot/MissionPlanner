@@ -232,7 +232,7 @@
       <DependentUpon>Tracker.cs</DependentUpon>
     </Compile>
     <Compile Include="Arduino\IArduinoComms.cs" />
-    <Compile Include="Arduino\ArduinoDetect.cs" />
+    <Compile Include="Arduino\BoardDetect.cs" />
     <Compile Include="Arduino\ArduinoSTK.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -374,6 +374,7 @@
       <DependentUpon>SoftwareConfig.cs</DependentUpon>
     </Compile>
     <Compile Include="Magfitrotation.cs" />
+    <Compile Include="MagMotor.cs" />
     <Compile Include="Plugin\Plugin.cs" />
     <Compile Include="Plugin\PluginLoader.cs" />
     <Compile Include="Plugin\PluginUI.cs">
@@ -396,7 +397,6 @@
     </Compile>
     <Compile Include="Utilities\Firmware.cs" />
     <Compile Include="Utilities\ImageOverFilter.cs" />
-    <None Include="Utilities\RSA.cs" />
     <Compile Include="Utilities\StringRedirectWriter.cs" />
     <Compile Include="Utilities\Update.cs" />
     <Compile Include="Wizard\1Intro.cs">
@@ -1226,6 +1226,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAteryxSensors.resx">
       <DependentUpon>ConfigAteryxSensors.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAteryxSensors.zh-Hans.resx">
       <DependentUpon>ConfigAteryxSensors.cs</DependentUpon>
@@ -2117,6 +2118,10 @@
     <ProjectReference Include="ExtLibs\Core\Core.csproj">
       <Project>{59129078-7B12-4198-B93E-0AA08D0BB7ED}</Project>
       <Name>Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="ExtLibs\GeoUtility\GeoUtility.csproj">
+      <Project>{7f7994ce-823f-4a04-bbea-d0a3808ff56d}</Project>
+      <Name>GeoUtility</Name>
     </ProjectReference>
     <ProjectReference Include="ExtLibs\GLControl\OpenTK.GLControl.csproj">
       <Project>{A625BE88-0000-0000-0000-000000000000}</Project>

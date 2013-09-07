@@ -695,9 +695,6 @@ namespace ArdupilotMega
 
                     byte[] packet = MavlinkInterface.readPacket();
 
-                    if (packet.Length > 5 && packet[3] == 0xff)
-                        continue;
-
                     cs.datetime = MavlinkInterface.lastlogread;
 
                     cs.UpdateCurrentSettings(null, true, MavlinkInterface);
@@ -708,6 +705,12 @@ namespace ArdupilotMega
                     {
                         log.Info("No info on packet");
                         continue;
+                    }
+
+                    if (data is MAVLink.mavlink_heartbeat_t)
+                    {
+                        if (((MAVLink.mavlink_heartbeat_t)data).type == (byte)MAVLink.MAV_TYPE.GCS)
+                            continue;
                     }
 
                     Type test = data.GetType();
@@ -908,6 +911,8 @@ namespace ArdupilotMega
 
                 try
                 {
+                    if (temp == null)
+                        return;
 
                     object assemblyInstance = results.CompiledAssembly.CreateInstance("ExpressionEvaluator.Calculator");
 

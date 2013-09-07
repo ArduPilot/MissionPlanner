@@ -294,10 +294,10 @@ namespace ArdupilotMega.GCSViews
                 fw.Progress -= fw_Progress;
                 fw.Progress += fw_Progress1;
 
-                string boardtype = "";
+                BoardDetect.boards boardtype = BoardDetect.boards.none;
                 try
                 {
-                    boardtype = ArduinoDetect.DetectBoard(MainV2.comPortName);
+                    boardtype = BoardDetect.DetectBoard(MainV2.comPortName);
                 }
                 catch
                 {
