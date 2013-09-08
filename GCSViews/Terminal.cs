@@ -538,11 +538,6 @@ namespace ArdupilotMega.GCSViews
             ThemeManager.ApplyThemeTo(Log);
             Log.ShowDialog();
             inlogview = false;
-            try
-            {
-                comPort.Write("\n\n\n");
-            }
-            catch { }
         }
 
         private void BUT_logbrowse_Click(object sender, EventArgs e)

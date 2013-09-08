@@ -297,7 +297,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             {
                 if (sender.GetType() == typeof(NumericUpDown))
                 {
-                    value = float.Parse(((Control)sender).Text,System.Globalization.CultureInfo.InvariantCulture);
+                    value = (float)((NumericUpDown)sender).Value;
                     MAVLink.modifyParamForDisplay(false, ((Control)sender).Name, ref value);
                     changes[name] = value;
                 }

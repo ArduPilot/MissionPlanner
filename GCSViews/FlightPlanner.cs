@@ -1585,10 +1585,10 @@ namespace ArdupilotMega.GCSViews
             {
                 TXT_WPRad.Text = "30";
             }
-            if (isNumber > 127)
+            if (isNumber > (127 / MainV2.comPort.MAV.cs.multiplierdist))
             {
-                CustomMessageBox.Show("The value can only be between 0 and 127");
-                TXT_WPRad.Text = "127";
+                CustomMessageBox.Show("The value can only be between 0 and 127 m");
+                TXT_WPRad.Text = (127 / MainV2.comPort.MAV.cs.multiplierdist).ToString();
             }
             writeKML();
         }

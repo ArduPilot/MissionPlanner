@@ -266,7 +266,7 @@ namespace MissionPlanner.Comms
         {
             try
             {
-                if (client.Client.Connected)
+                if (client.Client != null && client.Client.Connected)
                 {
                     client.Client.Close();
                     client.Close();

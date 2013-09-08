@@ -1,4 +1,12 @@
-﻿* Mission Planner 1.2.75
+﻿* Mission Planner 1.2.76
+fix arducopter pid screen when locals is using , vs .
+fix div by 0 in hud
+fix guage custom color exception
+fix 127 ft radius limit
+increare log read buffer size
+fix for bad gps lines in logs
+
+* Mission Planner 1.2.75
 speed tuning.
 fix ch3out when not connected
 fix dont let current be negative

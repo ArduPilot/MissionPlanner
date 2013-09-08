@@ -319,6 +319,9 @@ namespace ArdupilotMega.Log
 
                     dataGridView1.Columns[1].HeaderText = "";
 
+                    if (reader.NodeType == XmlNodeType.None)
+                        return;
+
                     XmlReader inner = reader.ReadSubtree();
 
                     inner.MoveToElement();
@@ -564,68 +567,76 @@ namespace ArdupilotMega.Log
 
         void DrawMap()
         {
-            int a = 0;
-
-            DateTime starttime = DateTime.MinValue;
-            int startdelta = 0;
-            DateTime workingtime = starttime;
-
-            DateTime lastdrawn = DateTime.MinValue;
-
-            List<PointLatLng> routelist = new List<PointLatLng>();
-
-            //zg1.GraphPane.GraphObjList.Clear();
-
-            foreach (DataGridViewRow datarow in dataGridView1.Rows)
+            try
             {
-                if (datarow.Cells[1].Value.ToString() == "GPS")
+                int a = 0;
+
+                DateTime starttime = DateTime.MinValue;
+                int startdelta = 0;
+                DateTime workingtime = starttime;
+
+                DateTime lastdrawn = DateTime.MinValue;
+
+                List<PointLatLng> routelist = new List<PointLatLng>();
+
+                //zg1.GraphPane.GraphObjList.Clear();
+
+                foreach (DataGridViewRow datarow in dataGridView1.Rows)
                 {
-                    if (!logformat.ContainsKey("GPS"))
-                        break;
-
-                    int index = FindInArray(logformat["GPS"].FieldNames, "Lat");
-                    if (index == -1)
+                    if (datarow.Cells[1].Value.ToString() == "GPS")
                     {
-                        a++;
-                        continue;
+                        if (!logformat.ContainsKey("GPS"))
+                            break;
+
+                        int index = FindInArray(logformat["GPS"].FieldNames, "Lat");
+                        if (index == -1)
+                        {
+                            a++;
+                            continue;
+                        }
+
+                        int index2 = FindInArray(logformat["GPS"].FieldNames, "Lng");
+                        if (index2 == -1)
+                        {
+                            a++;
+                            continue;
+                        }
+
+                        int index3 = FindInArray(logformat["GPS"].FieldNames, "Status");
+                        if (index3 == -1)
+                        {
+                            a++;
+                            continue;
+                        }
+
+                        try
+                        {
+                            if (double.Parse(datarow.Cells[index3 + 2].Value.ToString(), System.Globalization.CultureInfo.InvariantCulture) != 3)
+                            {
+                                a++;
+                                continue;
+                            }
+
+                            string lat = datarow.Cells[index + 2].Value.ToString();
+                            string lng = datarow.Cells[index2 + 2].Value.ToString();
+
+                            PointLatLng pnt = new PointLatLng() { };
+                            pnt.Lat = double.Parse(lat, System.Globalization.CultureInfo.InvariantCulture);
+                            pnt.Lng = double.Parse(lng, System.Globalization.CultureInfo.InvariantCulture);
+
+                            routelist.Add(pnt);
+                        }
+                        catch { }
                     }
-
-                    int index2 = FindInArray(logformat["GPS"].FieldNames, "Lng");
-                    if (index2 == -1)
-                    {
-                        a++;
-                        continue;
-                    }
-
-                    int index3 = FindInArray(logformat["GPS"].FieldNames, "Status");
-                    if (index3 == -1)
-                    {
-                        a++;
-                        continue;
-                    }
-
-                    if (double.Parse(datarow.Cells[index3 + 2].Value.ToString()) != 3)
-                    {
-                        a++;
-                        continue;
-                    }
-
-                    string lat = datarow.Cells[index+2].Value.ToString();
-                    string lng = datarow.Cells[index2+2].Value.ToString();
-
-                    PointLatLng pnt = new PointLatLng() { };
-                    pnt.Lat = double.Parse(lat);
-                    pnt.Lng = double.Parse(lng);
-
-                    routelist.Add(pnt);
+                    a++;
                 }
-                a++;
-            }
 
-            GMapRoute route = new GMapRoute(routelist,"route");
-            mapoverlay.Routes.Add(route);
-            myGMAP1.ZoomAndCenterRoute(route);
-            myGMAP1.RoutesEnabled = true;
+                GMapRoute route = new GMapRoute(routelist, "route");
+                mapoverlay.Routes.Add(route);
+                myGMAP1.ZoomAndCenterRoute(route);
+                myGMAP1.RoutesEnabled = true;
+            }
+            catch { }
         }
 
         int FindInArray(string[] array, string find)

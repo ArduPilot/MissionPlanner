@@ -407,8 +407,6 @@ namespace ArdupilotMega.Controls
             }
             catch (Exception ex) { log.Info(ex.ToString()); }
 
-            inOnPaint = false;
-
             count++;
 
             huddrawtime += (int)(DateTime.Now - starttime).TotalMilliseconds;
@@ -423,6 +421,8 @@ namespace ArdupilotMega.Controls
                 count = 0;
                 huddrawtime = 0;
             }
+
+            inOnPaint = false;
         }
 
         void Clear(Color color)

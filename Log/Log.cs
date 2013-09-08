@@ -144,6 +144,9 @@ namespace ArdupilotMega.Log
                 {
                 }
 
+                // 4mb
+                comPort.ReadBufferSize = 1024 * 1024 * 4;
+
                 // 10 sec
                 waitandsleep(10000);
             }
@@ -175,7 +178,7 @@ namespace ArdupilotMega.Log
                     {
                         updateDisplay();
 
-                        System.Threading.Thread.Sleep(10);
+                        System.Threading.Thread.Sleep(1);
                         if (!comPort.IsOpen)
                             break;
                         while (comPort.BytesToRead >= 4)
@@ -189,7 +192,7 @@ namespace ArdupilotMega.Log
                     } // cant exit unless told to
                 }
                 log.Info("Comport thread close");
-            }) {Name = "comport reader"};
+            }) {Name = "comport reader", IsBackground = true };
             t11.Start();
 
             // doesnt seem to work on mac
@@ -240,8 +243,6 @@ namespace ArdupilotMega.Log
 
                 while (comPort.BytesToRead > 0 && threadrun)
                 {
-                    updateDisplay();
-
                     string line = "";
 
                     comPort.ReadTimeout = 500;
@@ -346,6 +347,7 @@ namespace ArdupilotMega.Log
                             if (line.Contains("packets read") || line.Contains("Done") || line.Contains("logs enabled"))
                             {
                                 status = serialstatus.Closefile;
+                                Console.Write("CloseFile: " +line);
                                 break;
                             }
                             sw.Write(line);
@@ -354,6 +356,7 @@ namespace ArdupilotMega.Log
                             if (line.Contains("Dumping Log") || line.Contains("GPS:") || line.Contains("NTUN:") || line.Contains("CTUN:") || line.Contains("PM:"))
                             {
                                 status = serialstatus.Reading;
+                                Console.Write("Reading: " + line);
                             }
                             break;
                     }
