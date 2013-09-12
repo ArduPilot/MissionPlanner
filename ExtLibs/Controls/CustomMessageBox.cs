@@ -129,11 +129,12 @@ namespace System.Windows.Forms
 
             DialogResult test;
 
-            if (Application.OpenForms.Count > 0)
+           // if (Application.OpenForms.Count > 0)
             {
-                test = msgBoxFrm.ShowDialog(Application.OpenForms[0]);
+                //cross thread issues
+               // test = msgBoxFrm.ShowDialog(Application.OpenForms[Application.OpenForms.Count - 1]);
             }
-            else
+          //  else
             {
                 test = msgBoxFrm.ShowDialog();
             }

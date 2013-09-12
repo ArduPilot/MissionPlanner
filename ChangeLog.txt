@@ -1,4 +1,7 @@
-﻿* Mission Planner 1.2.77
+﻿* Mission Planner 1.2.78
+fix stacked windows
+
+* Mission Planner 1.2.77
 fix log download
 modify custommessagebox to start center of parent
 add filebrowse control
