@@ -1067,7 +1067,7 @@ namespace ArdupilotMega.GCSViews
                 ((Button)sender).Enabled = false;
                 if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.Ateryx)
                     MainV2.comPort.setMode("Manual");
-                if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2 || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduHeli)
+                if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
                     MainV2.comPort.setMode("Stabilize");
 
             }
@@ -1640,7 +1640,7 @@ print 'Roll complete'
         {
             string alt = "100";
 
-            if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2 || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduHeli)
+            if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
             {
                 alt = (10 * MainV2.comPort.MAV.cs.multiplierdist).ToString("0");
             }

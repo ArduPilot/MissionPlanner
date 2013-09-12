@@ -33,6 +33,8 @@
             this.CHK_showconsole = new System.Windows.Forms.CheckBox();
             this.BUT_updatecheck = new ArdupilotMega.Controls.MyButton();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.PIC_wizard = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.PIC_wizard)).BeginInit();
             this.SuspendLayout();
             // 
             // richTextBox1
@@ -67,16 +69,26 @@
             this.linkLabel1.TabStop = true;
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
+            // PIC_wizard
+            // 
+            resources.ApplyResources(this.PIC_wizard, "PIC_wizard");
+            this.PIC_wizard.Image = global::MissionPlanner.Properties.Resources.wizardicon;
+            this.PIC_wizard.Name = "PIC_wizard";
+            this.PIC_wizard.TabStop = false;
+            this.PIC_wizard.Click += new System.EventHandler(this.PIC_wizard_Click);
+            // 
             // Help
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.PIC_wizard);
             this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.CHK_showconsole);
             this.Controls.Add(this.BUT_updatecheck);
             this.Controls.Add(this.richTextBox1);
             this.Name = "Help";
             this.Load += new System.EventHandler(this.Help_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.PIC_wizard)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -88,6 +100,7 @@
         private ArdupilotMega.Controls.MyButton BUT_updatecheck;
         private System.Windows.Forms.CheckBox CHK_showconsole;
         private System.Windows.Forms.LinkLabel linkLabel1;
+        private System.Windows.Forms.PictureBox PIC_wizard;
 
     }
 }

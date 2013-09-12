@@ -100,7 +100,7 @@ namespace MissionPlanner.Controls
 
         protected override void OnPaintBackground(PaintEventArgs pevent)
         {
-            //base.OnPaintBackground(pevent);
+            base.OnPaintBackground(pevent);
         }
     }
 }

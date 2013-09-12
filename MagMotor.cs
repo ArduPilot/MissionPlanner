@@ -50,11 +50,11 @@ namespace MissionPlanner
             float throttle_pct_max = 0.0f;   // maximum throttle reached (as a percentage 0~1.0)
             float current_amps_max = 0.0f;   // maximum current reached
             float interference_pct;          // interference as a percentage of total mag field (for reporting purposes only)
-            uint32_t last_run_time;
+            //uint32_t last_run_time;
             uint8_t print_counter = 49;
             bool updated = false;           // have we updated the compensation vector at least once
 
-            if ((float)MainV2.comPort.param["BATT_MONITOR"] == 4f) // volt and current
+            if ((float)MainV2.comPort.MAV.param["BATT_MONITOR"] == 4f) // volt and current
             {
                 comp_type = (sbyte)comptype.Current;
                 prd.UpdateProgressAndStatus(-1, "Compass Mot using current");
@@ -65,7 +65,7 @@ namespace MissionPlanner
                 prd.UpdateProgressAndStatus(-1, "Compass Mot using throttle");
             }
 
-            if ((float)MainV2.comPort.param["COMPASS_USE"] != 1)
+            if ((float)MainV2.comPort.MAV.param["COMPASS_USE"] != 1)
             {
                 e.ErrorMessage = "Compass is disabled";
                 return;

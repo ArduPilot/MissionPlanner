@@ -118,9 +118,15 @@ namespace ArdupilotMega.Log
             comPort.DtrEnable = false;
             comPort.RtsEnable = false;
 
+            if (comPort.IsOpen)
+                comPort.Close();
+
             try
             {
                 Console.WriteLine("Log_load " + comPort.IsOpen);
+
+                // 4mb
+                comPort.ReadBufferSize = 1024 * 1024 * 4;
 
                 if (!comPort.IsOpen)
                     comPort.Open();
@@ -143,9 +149,6 @@ namespace ArdupilotMega.Log
                 catch
                 {
                 }
-
-                // 4mb
-                comPort.ReadBufferSize = 1024 * 1024 * 4;
 
                 // 10 sec
                 waitandsleep(10000);
@@ -239,10 +242,10 @@ namespace ArdupilotMega.Log
         {
             try
             {
-
-
                 while (comPort.BytesToRead > 0 && threadrun)
                 {
+                    updateDisplay();
+
                     string line = "";
 
                     comPort.ReadTimeout = 500;

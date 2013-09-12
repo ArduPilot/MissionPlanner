@@ -101,7 +101,6 @@ namespace ArdupilotMega
             this.MenuFlightData.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MenuFlightData.ForeColor = System.Drawing.Color.White;
             this.MenuFlightData.Image = ((System.Drawing.Image)(resources.GetObject("MenuFlightData.Image")));
-            this.MenuFlightData.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.MenuFlightData.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.MenuFlightData.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.MenuFlightData.Margin = new System.Windows.Forms.Padding(0);
@@ -118,7 +117,6 @@ namespace ArdupilotMega
             this.MenuFlightPlanner.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MenuFlightPlanner.ForeColor = System.Drawing.Color.White;
             this.MenuFlightPlanner.Image = ((System.Drawing.Image)(resources.GetObject("MenuFlightPlanner.Image")));
-            this.MenuFlightPlanner.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.MenuFlightPlanner.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.MenuFlightPlanner.ImageTransparentColor = System.Drawing.Color.White;
             this.MenuFlightPlanner.Margin = new System.Windows.Forms.Padding(0);
@@ -132,11 +130,9 @@ namespace ArdupilotMega
             // 
             // MenuHWConfig
             // 
-            this.MenuHWConfig.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.MenuHWConfig.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MenuHWConfig.ForeColor = System.Drawing.Color.White;
             this.MenuHWConfig.Image = ((System.Drawing.Image)(resources.GetObject("MenuHWConfig.Image")));
-            this.MenuHWConfig.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
             this.MenuHWConfig.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.MenuHWConfig.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.MenuHWConfig.Margin = new System.Windows.Forms.Padding(0);
@@ -150,7 +146,6 @@ namespace ArdupilotMega
             // 
             // MenuSWConfig
             // 
-            this.MenuSWConfig.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.MenuSWConfig.Font = new System.Drawing.Font("Arial", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.MenuSWConfig.ForeColor = System.Drawing.Color.White;
             this.MenuSWConfig.Image = ((System.Drawing.Image)(resources.GetObject("MenuSWConfig.Image")));
@@ -162,7 +157,6 @@ namespace ArdupilotMega
             this.MenuSWConfig.Size = new System.Drawing.Size(94, 63);
             this.MenuSWConfig.Text = "CONFIG/TUNING";
             this.MenuSWConfig.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.MenuSWConfig.TextDirection = System.Windows.Forms.ToolStripTextDirection.Horizontal;
             this.MenuSWConfig.TextImageRelation = System.Windows.Forms.TextImageRelation.TextAboveImage;
             this.MenuSWConfig.ToolTipText = "Software Config";
             this.MenuSWConfig.Click += new System.EventHandler(this.MenuTuning_Click);

@@ -86,7 +86,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                 }
             }
 
-            if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2 || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduHeli) // ac2
+            if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2) // ac2
             {
                 pwm = MainV2.comPort.MAV.cs.ch5in;
                 LBL_flightmodepwm.Text = "5: " + MainV2.comPort.MAV.cs.ch5in.ToString();
@@ -121,7 +121,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
         {
             try
             {
-                if (MainV2.comPort.param.ContainsKey("FLTMODE1"))
+                if (MainV2.comPort.MAV.param.ContainsKey("FLTMODE1"))
                 {
                     MainV2.comPort.setParam("FLTMODE1", (float)Int32.Parse(CMB_fmode1.SelectedValue.ToString()));
                     MainV2.comPort.setParam("FLTMODE2", (float)Int32.Parse(CMB_fmode2.SelectedValue.ToString()));
@@ -130,7 +130,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                     MainV2.comPort.setParam("FLTMODE5", (float)Int32.Parse(CMB_fmode5.SelectedValue.ToString()));
                     MainV2.comPort.setParam("FLTMODE6", (float)Int32.Parse(CMB_fmode6.SelectedValue.ToString()));
                 }
-                else if (MainV2.comPort.param.ContainsKey("MODE1"))
+                else if (MainV2.comPort.MAV.param.ContainsKey("MODE1"))
                 {
                     MainV2.comPort.setParam("MODE1", (float)Int32.Parse(CMB_fmode1.SelectedValue.ToString()));
                     MainV2.comPort.setParam("MODE2", (float)Int32.Parse(CMB_fmode2.SelectedValue.ToString()));
@@ -140,7 +140,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                     MainV2.comPort.setParam("MODE6", (float)Int32.Parse(CMB_fmode6.SelectedValue.ToString()));
                 }
 
-                if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2 || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduHeli) // ac2
+                if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2) // ac2
                 {
                     float value = (float)(CB_simple1.Checked ? (int)SimpleMode.Simple1 : 0) + (CB_simple2.Checked ? (int)SimpleMode.Simple2 : 0) + (CB_simple3.Checked ? (int)SimpleMode.Simple3 : 0)
                         + (CB_simple4.Checked ? (int)SimpleMode.Simple4 : 0) + (CB_simple5.Checked ? (int)SimpleMode.Simple5 : 0) + (CB_simple6.Checked ? (int)SimpleMode.Simple6 : 0);
@@ -229,7 +229,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                 }
                 catch { }
             }
-            else if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2 || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduHeli) // ac2
+            else if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2) // ac2
             {
                 try
                 {

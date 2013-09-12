@@ -258,6 +258,8 @@ namespace ArdupilotMega.GCSViews
                     {
                         try
                         {
+                            if (!comPort.IsOpen)
+                                return;
                             if (comPort.BytesToRead > 0)
                             {
                                 comPort_DataReceived((object)null, (SerialDataReceivedEventArgs)null);
@@ -397,14 +399,14 @@ namespace ArdupilotMega.GCSViews
 
                     try
                     {
-                        if (!inlogview)
+                        if (!inlogview && comPort.IsOpen)
                             comPort.Write("\n\n\n");
 
                         // 1 secs
-                        if (!inlogview)
+                        if (!inlogview && comPort.IsOpen)
                             readandsleep(1000);
 
-                        if (!inlogview)
+                        if (!inlogview && comPort.IsOpen)
                             comPort.Write("\r\r\r?\r");
                     }
                     catch (Exception ex) { Console.WriteLine("Terminal thread 3 " + ex.ToString()); ChangeConnectStatus(false); threadrun = false; return; }

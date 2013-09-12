@@ -31,7 +31,7 @@ namespace MissionPlanner
 
         GMapOverlay layerpolygons;
         GMapPolygon wppoly;
-        private Plugin plugin;
+        private GridPlugin plugin;
         List<PointLatLngAlt> grid;
 
         Dictionary<string, camerainfo> cameras = new Dictionary<string, camerainfo>();
@@ -46,7 +46,7 @@ namespace MissionPlanner
             public float imageheight;
         }
 
-        public GridUI(Plugin plugin)
+        public GridUI(GridPlugin plugin)
         {
             this.plugin = plugin;
 

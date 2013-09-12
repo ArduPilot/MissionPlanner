@@ -31,7 +31,7 @@
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.myButton1 = new ArdupilotMega.Controls.MyButton();
             this.Loaded = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PluginName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Author = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Version = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -45,7 +45,7 @@
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Loaded,
-            this.Name,
+            this.PluginName,
             this.Author,
             this.Version});
             this.dataGridView1.Location = new System.Drawing.Point(13, 64);
@@ -71,10 +71,10 @@
             this.Loaded.HeaderText = "Loaded";
             this.Loaded.Name = "Loaded";
             // 
-            // Name
+            // PluginName
             // 
-            this.Name.HeaderText = "Name";
-            this.Name.Name = "Name";
+            this.PluginName.HeaderText = "PluginName";
+            this.PluginName.Name = "PluginName";
             // 
             // Author
             // 
@@ -93,6 +93,7 @@
             this.ClientSize = new System.Drawing.Size(540, 336);
             this.Controls.Add(this.myButton1);
             this.Controls.Add(this.dataGridView1);
+            this.Name = "PluginUI";
             this.Text = "PluginUI";
             this.Load += new System.EventHandler(this.PluginUI_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
@@ -105,7 +106,7 @@
         private System.Windows.Forms.DataGridView dataGridView1;
         private ArdupilotMega.Controls.MyButton myButton1;
         private System.Windows.Forms.DataGridViewCheckBoxColumn Loaded;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn PluginName;
         private System.Windows.Forms.DataGridViewTextBoxColumn Author;
         private System.Windows.Forms.DataGridViewTextBoxColumn Version;
     }

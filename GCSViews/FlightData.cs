@@ -166,6 +166,11 @@ namespace ArdupilotMega.GCSViews
                 chk_box_CheckedChanged((object)(new CheckBox() { Name = "nav_pitch", Checked = true }), new EventArgs());
             }
 
+            if (MainV2.config.ContainsKey("hudcolor"))
+            {
+                hud1.hudcolor = Color.FromName(MainV2.config["hudcolor"].ToString());
+            }
+
             log.Info("HUD Settings");
             foreach (string item in MainV2.config.Keys)
             {
@@ -1330,7 +1335,7 @@ namespace ArdupilotMega.GCSViews
             {
                 ((Button)sender).Enabled = false;
 
-                MainV2.comPort.setWPCurrent(1); // set nav to
+                MainV2.comPort.setWPCurrent(0); // set nav to
 
             }
             catch { CustomMessageBox.Show("The command failed to execute", "Error"); }
@@ -1748,7 +1753,7 @@ namespace ArdupilotMega.GCSViews
                 ((Button)sender).Enabled = false;
                 if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.Ateryx || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduRover)
                     MainV2.comPort.setMode("Manual");
-                if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2 || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduHeli)
+                if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
                     MainV2.comPort.setMode("Stabilize");
 
             }
@@ -2552,7 +2557,7 @@ print 'Roll complete'
         {
             string alt = "100";
 
-            if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2 || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduHeli)
+            if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
             {
                 alt = (10 * MainV2.comPort.MAV.cs.multiplierdist).ToString("0");
             }

@@ -319,8 +319,8 @@ data = @"
             foreach (string filepath in files)
             {
                 if (filepath.ToLower().EndsWith("release\\config.xml") || filepath.ToLower().Contains("ardupilotplanner.log") ||
-                    filepath.ToLower().Contains("dataflash.bin") || filepath.ToLower().Contains(".etag") || filepath.ToLower().Contains("parametermetadata.xml") ||
-                    filepath.ToLower().Contains(".zip") || filepath.ToLower().Contains(".rlog"))
+                    filepath.ToLower().EndsWith("dataflash.bin") || filepath.ToLower().EndsWith(".etag") || filepath.ToLower().EndsWith("parametermetadata.xml") ||
+                    filepath.ToLower().EndsWith(".zip") || filepath.ToLower().EndsWith(".rlog"))
                     continue;
 
                 no++;

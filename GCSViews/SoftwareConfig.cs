@@ -47,10 +47,10 @@ namespace ArdupilotMega.GCSViews
             {
                 AddBackstageViewPage(new ConfigFlightModes(), "Flight Modes");
 
-                if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2 || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduHeli)
+                if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
                     AddBackstageViewPage(new ConfigAC_Fence(), "GeoFence");
 
-                if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2 || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduHeli)
+                if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
                 {
                     start = AddBackstageViewPage(new ConfigSimplePids(), "Basic Pids");
 
@@ -63,7 +63,7 @@ namespace ArdupilotMega.GCSViews
 
                 }
 
-                if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2 || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduHeli)
+                if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
                 {
                     // var configpanel = new Controls.ConfigPanel(Application.StartupPath + System.IO.Path.DirectorySeparatorChar + "ArduCopterConfig.xml");
                     // AddBackstageViewPage(configpanel, "ArduCopter Pids");

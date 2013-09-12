@@ -18,6 +18,8 @@ namespace ArdupilotMega
     {
         private static readonly ILog log = LogManager.GetLogger("Program");
 
+        public static DateTime starttime = DateTime.Now;
+
         public static Splash Splash;
         /// <summary>
         /// The main entry point for the application.
@@ -160,21 +162,13 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
          //   new Swarm.Control().ShowDialog();
          //   return;
 
+          //  Application.Run(new GenOTP());
 
-         //   using (MainV3 main = new MainV3(1024, 768))
-            {
-          //      main.Title = "Mission Planner";
-           //     main.Run(30.0, 0.0);
-            }
+            //Utilities.RSA rsa = new Utilities.RSA();
+
+            //rsa.testit();
 
            // return;
-
-         //   Utilities.RSA rsa = new Utilities.RSA();
-
-          //  rsa.testit();
-
-//            return;
-
 
             //Utilities.S3Uploader s3 = new Utilities.S3Uploader("");
 
@@ -254,6 +248,7 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
 
             log.Debug(ex.ToString());
 
+            // hyperlinks error
             if (ex.Message == "Requested registry access is not allowed.")
             {
                 return;

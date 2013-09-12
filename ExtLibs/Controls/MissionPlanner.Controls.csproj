@@ -73,6 +73,12 @@
       <DependentUpon>Coords.cs</DependentUpon>
     </Compile>
     <Compile Include="CustomMessageBox.cs" />
+    <Compile Include="FileBrowse.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FileBrowse.Designer.cs">
+      <DependentUpon>FileBrowse.cs</DependentUpon>
+    </Compile>
     <Compile Include="FlashMessage.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -208,6 +214,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Coords.resx">
       <DependentUpon>Coords.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FileBrowse.resx">
+      <DependentUpon>FileBrowse.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FlashMessage.resx">
       <DependentUpon>FlashMessage.cs</DependentUpon>

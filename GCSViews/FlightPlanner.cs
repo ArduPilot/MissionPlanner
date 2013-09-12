@@ -173,7 +173,7 @@ namespace ArdupilotMega.GCSViews
                         cell.Value = alt.ToString();
                     if (ans == 0) // default
                         cell.Value = 50;
-                    if (ans == 0 && (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2 || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduHeli))
+                    if (ans == 0 && (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2))
                         cell.Value = 15;
                     //   online          verify height
                     if (isonline && CHK_geheight.Checked)
@@ -1484,7 +1484,7 @@ namespace ArdupilotMega.GCSViews
             {
                 log.Info("Loading wp params");
 
-                Hashtable param = new Hashtable(MainV2.comPort.param);
+                Hashtable param = new Hashtable(MainV2.comPort.MAV.param);
 
                 if (param["WP_RADIUS"] != null)
                 {
@@ -1585,10 +1585,10 @@ namespace ArdupilotMega.GCSViews
             {
                 TXT_WPRad.Text = "30";
             }
-            if (isNumber > (127 / MainV2.comPort.MAV.cs.multiplierdist))
+            if (isNumber > (127 * MainV2.comPort.MAV.cs.multiplierdist))
             {
                 CustomMessageBox.Show("The value can only be between 0 and 127 m");
-                TXT_WPRad.Text = (127 / MainV2.comPort.MAV.cs.multiplierdist).ToString();
+                TXT_WPRad.Text = (127 * MainV2.comPort.MAV.cs.multiplierdist).ToString();
             }
             writeKML();
         }
@@ -3399,7 +3399,7 @@ namespace ArdupilotMega.GCSViews
         {
             timer1.Start();
 
-            if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2 || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduHeli)
+            if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
             {
                 CHK_altmode.Visible = false;
             }
@@ -4968,7 +4968,7 @@ namespace ArdupilotMega.GCSViews
 
         private void areaToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            double aream2 = calcpolygonarea(drawnpolygon.Points);
+            double aream2 = Math.Abs(calcpolygonarea(drawnpolygon.Points));
 
             double areaa = aream2 * 0.000247105;
 

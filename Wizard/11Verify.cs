@@ -64,7 +64,7 @@ namespace ArdupilotMega.Wizard
                     catch { }
                     break;
                 case 2: // COMPASS
-                    if (MainV2.comPort.param.ContainsKey("COMPASS_OFS_X") && MainV2.comPort.param["COMPASS_OFS_X"].ToString() != "0")
+                    if (MainV2.comPort.MAV.param.ContainsKey("COMPASS_OFS_X") && MainV2.comPort.MAV.param["COMPASS_OFS_X"].ToString() != "0")
                     {
                         lbl_compass.BackColor = Color.Green;
                         stage = 3;
@@ -75,13 +75,13 @@ namespace ArdupilotMega.Wizard
                     }
                     break;
                 case 3: // RC
-                    if (MainV2.comPort.param.ContainsKey("RC1_MIN"))
+                    if (MainV2.comPort.MAV.param.ContainsKey("RC1_MIN"))
                     {
-                        if (((float)MainV2.comPort.param["RC1_MIN"]) < 1300 && ((float)MainV2.comPort.param["RC1_MAX"]) > 1700 &&
-                            ((float)MainV2.comPort.param["RC2_MIN"]) < 1300 && ((float)MainV2.comPort.param["RC2_MAX"]) > 1700 &&
-                            ((float)MainV2.comPort.param["RC3_MIN"]) < 1300 && ((float)MainV2.comPort.param["RC3_MAX"]) > 1700 &&
-                            ((float)MainV2.comPort.param["RC4_MIN"]) < 1300 && ((float)MainV2.comPort.param["RC4_MAX"]) > 1700 &&
-                            ((float)MainV2.comPort.param["RC3_MIN"]) != 1100 && ((float)MainV2.comPort.param["RC3_MAX"]) != 1900)
+                        if (((float)MainV2.comPort.MAV.param["RC1_MIN"]) < 1300 && ((float)MainV2.comPort.MAV.param["RC1_MAX"]) > 1700 &&
+                            ((float)MainV2.comPort.MAV.param["RC2_MIN"]) < 1300 && ((float)MainV2.comPort.MAV.param["RC2_MAX"]) > 1700 &&
+                            ((float)MainV2.comPort.MAV.param["RC3_MIN"]) < 1300 && ((float)MainV2.comPort.MAV.param["RC3_MAX"]) > 1700 &&
+                            ((float)MainV2.comPort.MAV.param["RC4_MIN"]) < 1300 && ((float)MainV2.comPort.MAV.param["RC4_MAX"]) > 1700 &&
+                            ((float)MainV2.comPort.MAV.param["RC3_MIN"]) != 1100 && ((float)MainV2.comPort.MAV.param["RC3_MAX"]) != 1900)
                         {
                             
                             lbl_rc.BackColor = Color.Green;

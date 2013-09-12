@@ -72,7 +72,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
 
         private void LNK_wiki_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2 || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduHeli)
+            if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
             {
                 Process.Start(new ProcessStartInfo("http://copter.ardupilot.com/wiki/failsafe/"));
             }

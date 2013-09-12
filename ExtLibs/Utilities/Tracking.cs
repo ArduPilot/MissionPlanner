@@ -105,7 +105,19 @@ namespace MissionPlanner.Utilities
             param.Add(new KeyValuePair<string, string>("an", Application.ProductName));
             param.Add(new KeyValuePair<string, string>("av", Application.ProductVersion));
 
-            param.Add(new KeyValuePair<string, string>("exd", ex.Message));
+            try
+            {
+                int lineidx = ex.StackTrace.IndexOf(":line");
+                if (lineidx == -1)
+                    lineidx = 0;
+                // 150 bytes
+
+                param.Add(new KeyValuePair<string, string>("exd", ex.Message + ex.StackTrace.Substring(0, 50) + ex.StackTrace.Substring(lineidx, 10)));
+            }
+            catch 
+            { 
+                param.Add(new KeyValuePair<string, string>("exd", ex.Message));
+            }
             param.Add(new KeyValuePair<string, string>("exf", "0"));
 
             param.Add(new KeyValuePair<string, string>("cd5", ex.ToString().Substring(0,140)));
@@ -134,6 +146,29 @@ namespace MissionPlanner.Utilities
 
             param.Add(new KeyValuePair<string, string>("cd2", name));
             param.Add(new KeyValuePair<string, string>("cd3", board));
+
+            param.Add(new KeyValuePair<string, string>("ul", Application.CurrentCulture.Name));
+            param.Add(new KeyValuePair<string, string>("sd", Screen.PrimaryScreen.BitsPerPixel + "-bits"));
+            param.Add(new KeyValuePair<string, string>("sr", Screen.PrimaryScreen.Bounds.Width + "x" + Screen.PrimaryScreen.Bounds.Height));
+
+            System.Threading.ThreadPool.QueueUserWorkItem(track, param);
+        }
+
+        public static void AddTiming(string cat, string name, double timeinms, string label)
+        {
+            List<KeyValuePair<string, string>> param = new List<KeyValuePair<string, string>>();
+
+            param.Add(new KeyValuePair<string, string>("v", version));
+            param.Add(new KeyValuePair<string, string>("tid", tid));
+            param.Add(new KeyValuePair<string, string>("cid", cid.ToString()));
+            param.Add(new KeyValuePair<string, string>("t", "event"));
+            param.Add(new KeyValuePair<string, string>("an", Application.ProductName));
+            param.Add(new KeyValuePair<string, string>("av", Application.ProductVersion));
+
+            param.Add(new KeyValuePair<string, string>("utc", cat));
+            param.Add(new KeyValuePair<string, string>("utv", name));
+            param.Add(new KeyValuePair<string, string>("utt", ((int)timeinms).ToString()));
+            param.Add(new KeyValuePair<string, string>("utl", label));
 
             param.Add(new KeyValuePair<string, string>("ul", Application.CurrentCulture.Name));
             param.Add(new KeyValuePair<string, string>("sd", Screen.PrimaryScreen.BitsPerPixel + "-bits"));

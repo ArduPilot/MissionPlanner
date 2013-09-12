@@ -21,15 +21,15 @@ namespace ArdupilotMega.Wizard
         public void Activate()
         {
             //
-            if (MainV2.comPort.param.ContainsKey("SONAR_ENABLE"))
+            if (MainV2.comPort.MAV.param.ContainsKey("SONAR_ENABLE"))
             {
                 Utilities.ParameterMetaDataRepository repo = new Utilities.ParameterMetaDataRepository();
 
-                mavlinkCheckBox1.setup(1, 0, "SONAR_ENABLE", MainV2.comPort.param, mavlinkComboBox1);
+                mavlinkCheckBox1.setup(1, 0, "SONAR_ENABLE", MainV2.comPort.MAV.param, mavlinkComboBox1);
 
-                mavlinkComboBox1.setup(repo.GetParameterOptionsInt("SONAR_TYPE"), "SONAR_TYPE", MainV2.comPort.param);
+                mavlinkComboBox1.setup(repo.GetParameterOptionsInt("SONAR_TYPE"), "SONAR_TYPE", MainV2.comPort.MAV.param);
 
-                mavlinkCheckBox2.setup(1, 0, "FLOW_ENABLE", MainV2.comPort.param);
+                mavlinkCheckBox2.setup(1, 0, "FLOW_ENABLE", MainV2.comPort.MAV.param);
 
                 timer1.Start();
             }

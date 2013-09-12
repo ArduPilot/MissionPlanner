@@ -62,7 +62,7 @@
     <Compile Include="GridUI.Designer.cs">
       <DependentUpon>GridUI.cs</DependentUpon>
     </Compile>
-    <Compile Include="Plugin.cs" />
+    <Compile Include="GridPlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

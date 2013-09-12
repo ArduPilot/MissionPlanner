@@ -25,7 +25,7 @@ namespace MissionPlanner.Plugin
                 DataGridViewRow temp = dataGridView1.Rows[row];
 
                 temp.Cells[Loaded.Index].Value = true;
-                temp.Cells[Name.Index].Value = item.Name;
+                temp.Cells[PluginName.Index].Value = item.Name;
                 temp.Cells[Author.Index].Value = item.Author;
                 temp.Cells[Version.Index].Value = item.Version;
             }

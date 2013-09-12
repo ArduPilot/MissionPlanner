@@ -12,6 +12,8 @@ namespace ArdupilotMega.Wizard
 {
     public partial class _4FrameType : MyUserControl, IWizard
     {
+        bool selected = false;
+
         public _4FrameType()
         {
             InitializeComponent();
@@ -19,12 +21,17 @@ namespace ArdupilotMega.Wizard
 
         public int WizardValidate()
         {
-            return 1;
+            if (selected)
+                return 1;
+
+            return 0;
         }
 
         void setframeType(object sender)
         {
             string option = (sender as PictureBoxMouseOver).Tag.ToString();
+
+            selected = true;
 
             switch (option) {
                 case "x":

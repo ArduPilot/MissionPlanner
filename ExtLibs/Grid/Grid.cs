@@ -254,7 +254,7 @@ namespace MissionPlanner
             {
                 default:
                 case StartPosition.Home:
-                    startposutm = new utmpos(Plugin.Host2.cs.HomeLocation);
+                    startposutm = new utmpos(GridPlugin.Host2.cs.HomeLocation);
                     break;
                 case StartPosition.BottomLeft:
                     startposutm = new utmpos(area.Left, area.Bottom, utmzone);

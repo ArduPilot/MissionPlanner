@@ -83,7 +83,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             {
                 groupBoxElevons.Visible = false;
 
-                if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2 || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduHeli)
+                if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
                 {
                     CHK_revch1.Visible = false;
                     CHK_revch2.Visible = false;

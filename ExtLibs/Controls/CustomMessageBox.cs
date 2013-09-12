@@ -67,14 +67,14 @@ namespace System.Windows.Forms
                                 {
                                     FormBorderStyle = FormBorderStyle.FixedDialog,
                                     ShowInTaskbar = true,
-                                    StartPosition = FormStartPosition.CenterScreen,
+                                    StartPosition = FormStartPosition.CenterParent,
                                     Text = caption,
                                     MaximizeBox = false,
                                     MinimizeBox = false,
                                     Width = textSize.Width + 50,
                                     Height = textSize.Height + 120,
                                     TopMost = true,
-                                    AutoScaleMode = AutoScaleMode.None
+                                    AutoScaleMode = AutoScaleMode.None,
                                 };
 
             Rectangle screenRectangle = msgBoxFrm.RectangleToScreen(msgBoxFrm.ClientRectangle);
@@ -126,7 +126,17 @@ namespace System.Windows.Forms
                 //ThemeManager.ApplyThemeTo(msgBoxFrm);
             }
             catch { }
-            DialogResult test = msgBoxFrm.ShowDialog();
+
+            DialogResult test;
+
+            if (Application.OpenForms.Count > 0)
+            {
+                test = msgBoxFrm.ShowDialog(Application.OpenForms[0]);
+            }
+            else
+            {
+                test = msgBoxFrm.ShowDialog();
+            }
 
             DialogResult answer = _state;
 

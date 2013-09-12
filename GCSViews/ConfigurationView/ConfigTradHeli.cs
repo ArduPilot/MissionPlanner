@@ -411,12 +411,12 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             mavlinkNumericUpDownpitchmax.setup(10, 65, 100, 1, "H_PIT_MAX", MainV2.comPort.MAV.param);
             mavlinkNumericUpDownrollmax.setup(10, 65, 100, 1, "H_ROL_MAX", MainV2.comPort.MAV.param);
 
-            H_STAB_COL_MAX.setup(50, 100, 1, 1, "H_STAB_COL_MAX",MainV2.comPort.param);
-            H_STAB_COL_MIN.setup(0, 50, 1, 1, "H_STAB_COL_MIN", MainV2.comPort.param);
-            H_COLYAW.setup(0, 5, 1, 1, "H_COLYAW", MainV2.comPort.param);
-            H_RSC_RATE.setup(0, 60, 100, 1, "H_RSC_RATE", MainV2.comPort.param);
-            H_RSC_MODE.setup(typeof(rsc_mode),"H_RSC_MODE", MainV2.comPort.param);
-            H_GOV_SETPOINT.setup(800, 2200, 1, 1, "H_GOV_SETPOINT", MainV2.comPort.param);
+            H_STAB_COL_MAX.setup(50, 100, 1, 1, "H_STAB_COL_MAX",MainV2.comPort.MAV.param);
+            H_STAB_COL_MIN.setup(0, 50, 1, 1, "H_STAB_COL_MIN", MainV2.comPort.MAV.param);
+            H_COLYAW.setup(0, 5, 1, 1, "H_COLYAW", MainV2.comPort.MAV.param);
+            H_RSC_RATE.setup(0, 60, 100, 1, "H_RSC_RATE", MainV2.comPort.MAV.param);
+            H_RSC_MODE.setup(typeof(rsc_mode),"H_RSC_MODE", MainV2.comPort.MAV.param);
+            H_GOV_SETPOINT.setup(800, 2200, 1, 1, "H_GOV_SETPOINT", MainV2.comPort.MAV.param);
 
             startup = true;
             try

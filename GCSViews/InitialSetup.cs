@@ -58,7 +58,7 @@ namespace ArdupilotMega.GCSViews
 
                 AddBackstageViewPage(new ConfigHWCompass(), "Compass",mandatoryhardware);
 
-                if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2 || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduHeli)
+                if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
                 {
                     AddBackstageViewPage(new ConfigAccelerometerCalibrationQuad(), "Accel Calibration", mandatoryhardware);
                 }

@@ -335,10 +335,13 @@ namespace ArdupilotMega.GCSViews
                 }
                 catch (Exception ex) { OutputLog.AppendText("Socket setup problem. Do you have this open already? " + ex.ToString()); }
 
+                // set to highest to try prevent any timer issues
+
                 System.Threading.Thread t11 = new System.Threading.Thread(new System.Threading.ThreadStart(mainloop))
                 {
                     Name = "Main simu Serial/UDP listener",
-                    IsBackground = true
+                    IsBackground = true,
+                    Priority = System.Threading.ThreadPriority.Lowest
                 };
                 t11.Start();
                 timer_servo_graph.Start();
@@ -659,7 +662,7 @@ namespace ArdupilotMega.GCSViews
 
 
 
-                System.Threading.Thread.Sleep(1); // this controls send speed  to sim     
+             //   System.Threading.Thread.Sleep(1); // this controls send speed  to sim     
 
                 if (this.Disposing)
                     threadrun = 0;

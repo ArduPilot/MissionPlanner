@@ -90,7 +90,7 @@ namespace ArdupilotMega.Wizard
 
             CMB_sensor.DataSource = sensorlist;
 
-            txt_mah.Text = MainV2.comPort.param["BATT_CAPACITY"].ToString();
+            txt_mah.Text = MainV2.comPort.MAV.param["BATT_CAPACITY"].ToString();
 
             startup = false;
         }

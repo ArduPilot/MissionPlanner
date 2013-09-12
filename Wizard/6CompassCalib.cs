@@ -217,7 +217,7 @@ namespace ArdupilotMega.Wizard
         {
             try
             {
-                //  HIL.Vector3 magoff = new HIL.Vector3((float)MainV2.comPort.param["COMPASS_OFS_X"], (float)MainV2.comPort.param["COMPASS_OFS_Y"], (float)MainV2.comPort.param["COMPASS_OFS_Z"]);
+                //  HIL.Vector3 magoff = new HIL.Vector3((float)MainV2.comPort.MAV.param["COMPASS_OFS_X"], (float)MainV2.comPort.MAV.param["COMPASS_OFS_Y"], (float)MainV2.comPort.MAV.param["COMPASS_OFS_Z"]);
                 //north -= magoff;
                 //east -= magoff;
                 //south -= magoff;

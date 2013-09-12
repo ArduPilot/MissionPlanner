@@ -154,7 +154,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
         {
             try
             {
-                float value = (float)MainV2.comPort.param[item.paramname];
+                float value = (float)MainV2.comPort.MAV.param[item.paramname];
 
                 if (value < item.min)
                     item.min = value;

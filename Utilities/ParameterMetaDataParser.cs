@@ -56,7 +56,6 @@ namespace ArdupilotMega.Utilities
                        element = MainV2.Firmwares.ArduRover.ToString();
                    }
 
-               heli:
                   // Write the start element for this parameter location
                   objXmlTextWriter.WriteStartElement(element);
 
@@ -67,13 +66,6 @@ namespace ArdupilotMega.Utilities
 
                   // Write the end element for this parameter location
                   objXmlTextWriter.WriteEndElement();
-
-                  if (element == MainV2.Firmwares.ArduCopter2.ToString())
-                  {
-                      element = MainV2.Firmwares.ArduHeli.ToString();
-                      goto heli;
-                  }
-
                }
 
                objXmlTextWriter.WriteEndElement();

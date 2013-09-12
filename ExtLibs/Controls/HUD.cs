@@ -24,8 +24,7 @@ namespace ArdupilotMega.Controls
 {
     public class HUD : GLControl
     {
-        private static readonly ILog log = LogManager.GetLogger(
-  System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         object paintlock = new object();
         object streamlock = new object();
         MemoryStream _streamjpg = new MemoryStream();
@@ -182,15 +181,19 @@ namespace ArdupilotMega.Controls
         public bool lowvoltagealert { get; set; }
 
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
+        public bool connected { get; set; }
+
+        [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
         public float groundalt { get; set; }
 
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
         public bool status { get; set; }
 
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
-        public string message { get { return _message; } set { if (_message == value) return; messagetime = DateTime.Now; _message = value; } }
-        string _message = "";
-        DateTime messagetime = DateTime.MinValue;
+        public string message { get; set; }
+
+        [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
+        public DateTime messagetime { get; set; }
 
         bool statuslast = false;
         DateTime armedtimer = DateTime.MinValue;
@@ -214,8 +217,8 @@ namespace ArdupilotMega.Controls
         public bool batteryon = true;
 
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
-        public Color hudcolor { get { return whitePen.Color; } set { whitePen = new Pen(value, 2); } }
-
+        public Color hudcolor { get { return whitePen.Color; } set { _hudcolor = value; whitePen = new Pen(value, 2); } }
+        Color _hudcolor = Color.White;
         Pen whitePen = new Pen(Color.White, 2);
 
         public Image bgimage { set { while (inOnPaint) { } if (_bgimage != null) _bgimage.Dispose(); try { _bgimage = (Image)value.Clone(); } catch { _bgimage = null; } this.Invalidate(); } }
@@ -872,6 +875,16 @@ namespace ArdupilotMega.Controls
                 greenPen = new Pen(Color.Green, 2);
                 redPen = new Pen(Color.Red, 2);
 
+                if (!connected)
+                {
+                    whiteBrush.Color = Color.LightGray;
+                    whitePen.Color = Color.LightGray;
+                }
+                else
+                {
+                    whitePen.Color = _hudcolor;
+                }
+
                 // draw sky
                 if (bgon == true)
                 {
@@ -935,16 +948,15 @@ namespace ArdupilotMega.Controls
 
                 if (failsafe == true)
                 {
-                    {
-                        drawstring(graphicsObject, "FAILSAFE", font, fontsize + 20, (SolidBrush)Brushes.Red, -85, halfheight / -5);
-                        statuslast = status;
-                    }
+                    drawstring(graphicsObject, "FAILSAFE", font, fontsize + 20, (SolidBrush)Brushes.Red, -85, halfheight / -5);
+                    statuslast = status;
                 }
 
                 if (message != "" && messagetime.AddSeconds(20) > DateTime.Now)
                 {
                     drawstring(graphicsObject, message, font, fontsize + 10, (SolidBrush)Brushes.Red, -halfwidth + 50, halfheight / -2);
                 }
+
 
                 //draw pitch           
 

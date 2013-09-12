@@ -66,6 +66,7 @@ namespace ArdupilotMega
             public static Image donate = global::MissionPlanner.Properties.Resources.donate;
             public static Image connect = global::MissionPlanner.Properties.Resources.light_connect_icon;
             public static Image disconnect = global::MissionPlanner.Properties.Resources.light_disconnect_icon;
+            public static Image bg = global::MissionPlanner.Properties.Resources.bgdark;
         }
 
         public class menuicons2 : menuicons
@@ -80,6 +81,7 @@ namespace ArdupilotMega
             public new static Image donate = global::MissionPlanner.Properties.Resources.donate;
             public new static Image connect = global::MissionPlanner.Properties.Resources.dark_connect_icon;
             public new static Image disconnect = global::MissionPlanner.Properties.Resources.dark_disconnect_icon;
+            public new static Image bg = global::MissionPlanner.Properties.Resources.bgdark;
         }
 
         ArdupilotMega.Controls.MainSwitcher MyView;
@@ -180,7 +182,7 @@ namespace ArdupilotMega
         {
             ArduPlane,
             ArduCopter2,
-            ArduHeli,
+            //ArduHeli,
             ArduRover,
             Ateryx
         }
@@ -212,9 +214,7 @@ namespace ArdupilotMega
 
             string strVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
-            strVersion = "mav " + MAVLink.MAVLINK_WIRE_PROTOCOL_VERSION;
-
-            splash.Text = "Mission Planner " + Application.ProductVersion + " " + strVersion;
+            splash.Text = "Mission Planner " + Application.ProductVersion + " build " + strVersion;
 
             splash.Refresh();
 
@@ -753,7 +753,8 @@ namespace ArdupilotMega
                         }
                     }
 
-                    MissionPlanner.Utilities.Tracking.AddEvent("Connect", "Connect", comPort.MAV.cs.firmware.ToString(), comPort.param.Count.ToString());
+                    MissionPlanner.Utilities.Tracking.AddEvent("Connect", "Connect", comPort.MAV.cs.firmware.ToString(), comPort.MAV.param.Count.ToString());
+                    MissionPlanner.Utilities.Tracking.AddTiming("Connect", "Connect Time", (DateTime.Now - connecttime).TotalMilliseconds, "");
 
                     // save the baudrate for this port
                     config[_connectionControl.CMB_serialport.Text + "_BAUD"] = _connectionControl.CMB_baudrate.Text;
@@ -1519,6 +1520,29 @@ namespace ArdupilotMega
                 Plugin.PluginLoader.LoadAll();
             }
             catch (Exception ex) { log.Error(ex); }
+
+
+            MissionPlanner.Utilities.Tracking.AddTiming("AppLoad", "Load Time", (DateTime.Now - Program.starttime).TotalMilliseconds, "");
+
+/*
+            if (getConfig("newuser") == "")
+            {
+                if (CustomMessageBox.Show("This is your first run, Do you wish to use the setup wizard?\nRecomended for new users.", "Wizard", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
+                {
+                    Wizard.Wizard wiz = new Wizard.Wizard();
+
+                    wiz.ShowDialog(this);
+
+                    CustomMessageBox.Show("To use the wizard again please goto the help screen, and click the wizard icon.", "Wizard");
+                }
+                else
+                {
+                    CustomMessageBox.Show("To use the wizard please goto the help screen, and click the wizard icon.", "Wizard");
+                }
+
+                config["newuser"] = DateTime.Now.ToShortDateString();
+            }
+*/
         }
 
         private void TOOL_APMFirmware_SelectedIndexChanged(object sender, EventArgs e)
@@ -1613,8 +1637,16 @@ namespace ArdupilotMega
             {
                 Wizard.Wizard cfg = new Wizard.Wizard();
 
-                cfg.ShowDialog();
+                cfg.ShowDialog(this);
                 
+                return true;
+            }
+            if (keyData == (Keys.Control | Keys.Z)) // test ac config
+            {
+                MissionPlanner.GenOTP otp = new MissionPlanner.GenOTP();
+
+                otp.ShowDialog(this);
+
                 return true;
             }
             if (keyData == (Keys.Control | Keys.T)) // for override connect
@@ -2085,10 +2117,17 @@ namespace ArdupilotMega
             foreach (ToolStripItem item in MainMenu.Items)
             {
                 if (e.ClickedItem == item)
+                {
                     item.BackColor = ThemeManager.ControlBGColor;
+                }
                 else
-                    item.BackColor = Color.Black;
+                {
+                    item.BackColor = Color.White;
+                    item.BackgroundImage = MissionPlanner.Properties.Resources.bgdark;//.BackColor = Color.Black;
+                }
             }
+            //MainMenu.BackColor = Color.Black;
+            //MainMenu.BackgroundImage = MissionPlanner.Properties.Resources.bgdark;
         }
     }
 }

@@ -43,7 +43,7 @@ namespace ArdupilotMega.Wizard
         public void Activate()
         {
 
-            if (MainV2.comPort.param.ContainsKey("ARSPD_ENABLE"))
+            if (MainV2.comPort.MAV.param.ContainsKey("ARSPD_ENABLE"))
             {
                 CHK_airspeeduse.setup(1, 0, "ARSPD_USE", MainV2.comPort.MAV.param);
                 CHK_enableairspeed.setup(1, 0, "ARSPD_ENABLE", MainV2.comPort.MAV.param);

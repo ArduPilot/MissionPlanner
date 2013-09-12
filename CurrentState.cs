@@ -251,6 +251,7 @@ namespace ArdupilotMega
         internal string message { get { if (messages.Count == 0) return ""; return messages[messages.Count - 1]; } }
         public string messageHigh { get {return _messagehigh;} set {_messagehigh = value;} }
         private string _messagehigh;
+        public DateTime messageHighTime { get; set; }
 
         //battery
         [DisplayText("Bat Voltage (V)")]
@@ -455,6 +456,7 @@ namespace ArdupilotMega
         public ushort rcoverridech7 { get; set; }
         public ushort rcoverridech8 { get; set; }
 
+        public bool connected { get { return (MainV2.comPort.BaseStream.IsOpen || MainV2.comPort.logreadmode); } }
 
         private object locker = new object();
         bool useLocation = false;
@@ -601,6 +603,7 @@ enum gcs_severity {
                         if (sev >= 3)
                         {
                             messageHigh = logdata;
+                            messageHighTime = DateTime.Now;
                         }
 
                         try
@@ -716,6 +719,9 @@ enum gcs_severity {
                         else
                         {
                             armed = (hb.base_mode & (byte)MAVLink.MAV_MODE_FLAG.SAFETY_ARMED) == (byte)MAVLink.MAV_MODE_FLAG.SAFETY_ARMED;
+
+                            // for future use
+                            bool landed = hb.system_status == (byte)MAVLink.MAV_STATE.STANDBY;
 
                             failsafe = hb.system_status == (byte)MAVLink.MAV_STATE.CRITICAL;
 
@@ -1044,9 +1050,18 @@ enum gcs_severity {
                 {
                     if (bs != null)
                     {
-                        if (bs.Count > 100)
-                            bs.Clear();
+                        if (bs.Count > 200)
+                        {
+                            while (bs.Count > 3)
+                                bs.RemoveAt(1);
+                            //bs.Clear();
+                        }
                         bs.Add(this);
+
+                        return;
+
+                        bs.DataSource = this;
+                        bs.ResetBindings(false);
 
                         return;
 
