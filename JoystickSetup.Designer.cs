@@ -1,5 +1,5 @@
-﻿using ArdupilotMega.Controls;
-namespace ArdupilotMega
+﻿using MissionPlanner.Controls;
+namespace MissionPlanner
 {
     partial class JoystickSetup
     {
@@ -71,23 +71,23 @@ namespace ArdupilotMega
             this.label13 = new System.Windows.Forms.Label();
             this.expo_ch8 = new System.Windows.Forms.TextBox();
             this.CMB_CH8 = new System.Windows.Forms.ComboBox();
-            this.BUT_detch8 = new ArdupilotMega.Controls.MyButton();
+            this.BUT_detch8 = new Controls.MyButton();
             this.horizontalProgressBar4 = new HorizontalProgressBar();
-            this.BUT_detch4 = new ArdupilotMega.Controls.MyButton();
-            this.BUT_detch3 = new ArdupilotMega.Controls.MyButton();
-            this.BUT_detch2 = new ArdupilotMega.Controls.MyButton();
-            this.BUT_detch1 = new ArdupilotMega.Controls.MyButton();
-            this.BUT_enable = new ArdupilotMega.Controls.MyButton();
-            this.BUT_save = new ArdupilotMega.Controls.MyButton();
+            this.BUT_detch4 = new Controls.MyButton();
+            this.BUT_detch3 = new Controls.MyButton();
+            this.BUT_detch2 = new Controls.MyButton();
+            this.BUT_detch1 = new Controls.MyButton();
+            this.BUT_enable = new Controls.MyButton();
+            this.BUT_save = new Controls.MyButton();
             this.progressBar4 = new HorizontalProgressBar();
             this.progressBar3 = new HorizontalProgressBar();
             this.progressBar2 = new HorizontalProgressBar();
             this.progressBar1 = new HorizontalProgressBar();
-            this.BUT_detch5 = new ArdupilotMega.Controls.MyButton();
+            this.BUT_detch5 = new Controls.MyButton();
             this.horizontalProgressBar1 = new HorizontalProgressBar();
-            this.BUT_detch6 = new ArdupilotMega.Controls.MyButton();
+            this.BUT_detch6 = new Controls.MyButton();
             this.horizontalProgressBar2 = new HorizontalProgressBar();
-            this.BUT_detch7 = new ArdupilotMega.Controls.MyButton();
+            this.BUT_detch7 = new Controls.MyButton();
             this.horizontalProgressBar3 = new HorizontalProgressBar();
             this.SuspendLayout();
             // 
@@ -626,38 +626,38 @@ namespace ArdupilotMega
         private System.Windows.Forms.CheckBox revCH2;
         private System.Windows.Forms.CheckBox revCH3;
         private System.Windows.Forms.CheckBox revCH4;
-        private ArdupilotMega.Controls.MyButton BUT_save;
-        private ArdupilotMega.Controls.MyButton BUT_enable;
+        private Controls.MyButton BUT_save;
+        private Controls.MyButton BUT_enable;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Timer timer1;
-        private ArdupilotMega.Controls.MyButton BUT_detch1;
-        private ArdupilotMega.Controls.MyButton BUT_detch2;
-        private ArdupilotMega.Controls.MyButton BUT_detch3;
-        private ArdupilotMega.Controls.MyButton BUT_detch4;
+        private Controls.MyButton BUT_detch1;
+        private Controls.MyButton BUT_detch2;
+        private Controls.MyButton BUT_detch3;
+        private Controls.MyButton BUT_detch4;
         private System.Windows.Forms.CheckBox CHK_elevons;
-        private ArdupilotMega.Controls.MyButton BUT_detch5;
+        private Controls.MyButton BUT_detch5;
         private System.Windows.Forms.CheckBox revCH5;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.TextBox expo_ch5;
         private HorizontalProgressBar horizontalProgressBar1;
         private System.Windows.Forms.ComboBox CMB_CH5;
-        private ArdupilotMega.Controls.MyButton BUT_detch6;
+        private Controls.MyButton BUT_detch6;
         private System.Windows.Forms.CheckBox revCH6;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.TextBox expo_ch6;
         private HorizontalProgressBar horizontalProgressBar2;
         private System.Windows.Forms.ComboBox CMB_CH6;
-        private ArdupilotMega.Controls.MyButton BUT_detch7;
+        private Controls.MyButton BUT_detch7;
         private System.Windows.Forms.CheckBox revCH7;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.TextBox expo_ch7;
         private HorizontalProgressBar horizontalProgressBar3;
         private System.Windows.Forms.ComboBox CMB_CH7;
-        private ArdupilotMega.Controls.MyButton BUT_detch8;
+        private Controls.MyButton BUT_detch8;
         private System.Windows.Forms.CheckBox revCH8;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.TextBox expo_ch8;

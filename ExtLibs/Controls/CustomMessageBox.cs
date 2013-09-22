@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Text;
 using System.Text.RegularExpressions;
+using MissionPlanner.Controls;
 
 namespace System.Windows.Forms
 {
@@ -197,7 +198,7 @@ namespace System.Windows.Forms
             switch (buttons)
             {
                 case MessageBoxButtons.OK:
-                    var but = new ArdupilotMega.Controls.MyButton
+                    var but = new MyButton
                                   {
                                       Size = new Size(75, 23),
                                       Text = "OK",
@@ -215,7 +216,7 @@ namespace System.Windows.Forms
                     if (msgBoxFrm.Width < (75 * 2 + FORM_X_MARGIN * 3))
                         msgBoxFrm.Width = (75 * 2 + FORM_X_MARGIN * 3);
 
-                    var butyes = new ArdupilotMega.Controls.MyButton
+                    var butyes = new MyButton
                     {
                         Size = new Size(75, 23),
                         Text = "Yes",
@@ -227,7 +228,7 @@ namespace System.Windows.Forms
                     msgBoxFrm.Controls.Add(butyes);
                     msgBoxFrm.AcceptButton = butyes;
 
-                    var butno = new ArdupilotMega.Controls.MyButton
+                    var butno = new MyButton
                     {
                         Size = new Size(75, 23),
                         Text = "No",

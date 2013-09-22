@@ -1,4 +1,4 @@
-﻿namespace ArdupilotMega.Controls
+﻿namespace MissionPlanner.Controls
 {
    partial class ValuesControl
    {
@@ -31,7 +31,7 @@
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
-            this.myLabel1 = new ArdupilotMega.Controls.MyLabel();
+            this.myLabel1 = new Controls.MyLabel();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -97,7 +97,7 @@
 
       #endregion
 
-      private ArdupilotMega.Controls.MyLabel myLabel1;
+      private Controls.MyLabel myLabel1;
       private System.Windows.Forms.ComboBox comboBox1;
       private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
       private System.Windows.Forms.Label label1;

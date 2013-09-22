@@ -3,11 +3,10 @@ using System.Text;
 using System.Net; // dns, ip address
 using System.Net.Sockets; // tcplistner
 using log4net;
-using ArdupilotMega.Controls;
+using MissionPlanner.Controls;
 using System.IO.Ports;
 using System.IO;
 using System;
-using MissionPlanner.Controls;
 
 namespace MissionPlanner.Comms
 {
@@ -97,7 +96,7 @@ namespace MissionPlanner.Comms
             
         }
 
-        void frmProgressReporter_DoWork(object sender, ArdupilotMega.Controls.ProgressWorkerEventArgs e, object passdata = null)
+        void frmProgressReporter_DoWork(object sender, Controls.ProgressWorkerEventArgs e, object passdata = null)
         {
             string dest = Port;
 

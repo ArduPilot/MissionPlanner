@@ -1,4 +1,4 @@
-﻿namespace ArdupilotMega.Swarm
+﻿namespace MissionPlanner.Swarm
 {
     partial class FollowPathControl
     {
@@ -31,11 +31,11 @@
             this.components = new System.ComponentModel.Container();
             this.CMB_mavs = new System.Windows.Forms.ComboBox();
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
-            this.BUT_connect = new ArdupilotMega.Controls.MyButton();
-            this.BUT_Start = new ArdupilotMega.Controls.MyButton();
-            this.BUT_leader = new ArdupilotMega.Controls.MyButton();
-            this.BUT_Disarm = new ArdupilotMega.Controls.MyButton();
-            this.BUT_Arm = new ArdupilotMega.Controls.MyButton();
+            this.BUT_connect = new Controls.MyButton();
+            this.BUT_Start = new Controls.MyButton();
+            this.BUT_leader = new Controls.MyButton();
+            this.BUT_Disarm = new Controls.MyButton();
+            this.BUT_Arm = new Controls.MyButton();
             this.PNL_status = new System.Windows.Forms.FlowLayoutPanel();
             this.timer_status = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();

@@ -4,7 +4,7 @@ using System;
 
 #endregion
 
-namespace ArdupilotMega.Attributes
+namespace MissionPlanner.Attributes
 {
    [AttributeUsage(AttributeTargets.All, Inherited = false, AllowMultiple = false)]
    public sealed class PrivateAttribute : Attribute

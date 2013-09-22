@@ -10,7 +10,7 @@ using System.IO;
 using System.Xml;
 using System.Collections;
 
-namespace ArdupilotMega
+namespace MissionPlanner
 {
     public partial class CameraPlanner : Form
     {

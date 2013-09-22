@@ -1,4 +1,4 @@
-﻿namespace ArdupilotMega.GCSViews.ConfigurationView
+﻿namespace MissionPlanner.GCSViews.ConfigurationView
 {
     partial class ConfigRawParams
     {
@@ -33,11 +33,11 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.BUT_compare = new ArdupilotMega.Controls.MyButton();
-            this.BUT_rerequestparams = new ArdupilotMega.Controls.MyButton();
-            this.BUT_writePIDS = new ArdupilotMega.Controls.MyButton();
-            this.BUT_save = new ArdupilotMega.Controls.MyButton();
-            this.BUT_load = new ArdupilotMega.Controls.MyButton();
+            this.BUT_compare = new Controls.MyButton();
+            this.BUT_rerequestparams = new Controls.MyButton();
+            this.BUT_writePIDS = new Controls.MyButton();
+            this.BUT_save = new Controls.MyButton();
+            this.BUT_load = new Controls.MyButton();
             this.Params = new System.Windows.Forms.DataGridView();
             this.Command = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Value = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -46,7 +46,7 @@
             this.Desc = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.label1 = new System.Windows.Forms.Label();
-            this.BUT_find = new ArdupilotMega.Controls.MyButton();
+            this.BUT_find = new Controls.MyButton();
             ((System.ComponentModel.ISupportInitialize)(this.Params)).BeginInit();
             this.SuspendLayout();
             // 
@@ -214,11 +214,11 @@
 
         #endregion
 
-        private ArdupilotMega.Controls.MyButton BUT_compare;
-        private ArdupilotMega.Controls.MyButton BUT_rerequestparams;
-        private ArdupilotMega.Controls.MyButton BUT_writePIDS;
-        private ArdupilotMega.Controls.MyButton BUT_save;
-        private ArdupilotMega.Controls.MyButton BUT_load;
+        private Controls.MyButton BUT_compare;
+        private Controls.MyButton BUT_rerequestparams;
+        private Controls.MyButton BUT_writePIDS;
+        private Controls.MyButton BUT_save;
+        private Controls.MyButton BUT_load;
         private System.Windows.Forms.DataGridView Params;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Label label1;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Runtime.InteropServices;
 
-namespace ArdupilotMega
+namespace MissionPlanner
 {
     partial class MAVLink
     {
@@ -210,8 +210,8 @@ namespace ArdupilotMega
             PIXHAWK = 1,
             ///<summary> SLUGS autopilot, http://slugsuav.soe.ucsc.edu | </summary>
             SLUGS = 2,
-            ///<summary> ArduPilotMega / ArduCopter, http://diydrones.com | </summary>
-            ARDUPILOTMEGA = 3,
+            ///<summary> MissionPlanner./ ArduCopter, http://diydrones.com | </summary>
+            MissionPlanner = 3,
             ///<summary> OpenPilot, http://openpilot.org | </summary>
             OPENPILOT = 4,
             ///<summary> Generic autopilot only supporting simple waypoints | </summary>

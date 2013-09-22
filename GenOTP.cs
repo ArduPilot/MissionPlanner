@@ -51,22 +51,22 @@ namespace MissionPlanner
 
             using (BinaryWriter bw = new BinaryWriter(File.OpenWrite(fileBrowseOtpbin.filename)))
             {
-                bw.Write('P');
-                bw.Write('X');
-                bw.Write('4');
-                bw.Write('\0');
+            //    bw.Write('P');
+            //    bw.Write('X');
+            //    bw.Write('4');
+            //    bw.Write('\0');
 
-                bw.Write(byte.Parse(txt_id.Text, System.Globalization.NumberStyles.HexNumber));
+            //    bw.Write(byte.Parse(txt_id.Text, System.Globalization.NumberStyles.HexNumber));
 
-                bw.Write(int.Parse(txt_vid.Text, System.Globalization.NumberStyles.HexNumber));
-                bw.Write(int.Parse(txt_pid.Text, System.Globalization.NumberStyles.HexNumber));
+             //   bw.Write(int.Parse(txt_vid.Text, System.Globalization.NumberStyles.HexNumber));
+             //   bw.Write(int.Parse(txt_pid.Text, System.Globalization.NumberStyles.HexNumber));
 
-                for (int a = 0; a < 32; a++)
-                {
-                    bw.Write((byte)0xff);
-                }
+            //    for (int a = 0; a < 32; a++)
+             //   {
+             //       bw.Write((byte)0xff);
+             //   }
 
-                bw.Seek(32, SeekOrigin.Begin);
+             //   bw.Seek(32, SeekOrigin.Begin);
                 bw.Write(signedhash);
 
                 bw.Close();

@@ -5,7 +5,7 @@ using System.Text;
 using System.IO.Ports;
 using System.IO;
 
-namespace ArdupilotMega.Arduino
+namespace MissionPlanner.Arduino
 {
     public delegate void ProgressEventHandler(int progress, string status);
 

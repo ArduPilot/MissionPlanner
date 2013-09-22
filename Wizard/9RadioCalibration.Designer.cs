@@ -1,5 +1,5 @@
 ﻿using System.Windows.Forms;
-namespace ArdupilotMega.Wizard
+namespace MissionPlanner.Wizard
 {
     partial class _9RadioCalibration
     {
@@ -31,10 +31,10 @@ namespace ArdupilotMega.Wizard
         {
             this.panel1 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
-            this.configRadioInput1 = new ArdupilotMega.GCSViews.ConfigurationView.ConfigRadioInput();
-            this.radialGradientBG1 = new ArdupilotMega.Controls.GradientBG();
+            this.configRadioInput1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigRadioInput();
+            this.radialGradientBG1 = new Controls.GradientBG();
             this.label3 = new System.Windows.Forms.Label();
-            this.BUT_continue = new ArdupilotMega.Controls.MyButton();
+            this.BUT_continue = new Controls.MyButton();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.radialGradientBG1.Image)).BeginInit();
             this.SuspendLayout();

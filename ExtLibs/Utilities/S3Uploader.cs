@@ -8,7 +8,7 @@ using System.Net;
 using System.IO;
 
 
-namespace ArdupilotMega.Utilities
+namespace MissionPlanner.Utilities
 {
     public class S3Uploader
     {

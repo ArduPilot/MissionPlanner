@@ -1,4 +1,4 @@
-﻿namespace ArdupilotMega.GCSViews.ConfigurationView
+﻿namespace MissionPlanner.GCSViews.ConfigurationView
 {
     partial class ConfigPlanner
     {
@@ -75,19 +75,20 @@
             this.CHK_maprotation = new System.Windows.Forms.CheckBox();
             this.label2 = new System.Windows.Forms.Label();
             this.CHK_disttohomeflightdata = new System.Windows.Forms.CheckBox();
-            this.BUT_Joystick = new ArdupilotMega.Controls.MyButton();
-            this.BUT_videostop = new ArdupilotMega.Controls.MyButton();
-            this.BUT_videostart = new ArdupilotMega.Controls.MyButton();
+            this.BUT_Joystick = new Controls.MyButton();
+            this.BUT_videostop = new Controls.MyButton();
+            this.BUT_videostart = new Controls.MyButton();
             this.label3 = new System.Windows.Forms.Label();
             this.txt_log_dir = new System.Windows.Forms.TextBox();
-            this.BUT_logdirbrowse = new ArdupilotMega.Controls.MyButton();
+            this.BUT_logdirbrowse = new Controls.MyButton();
             this.label4 = new System.Windows.Forms.Label();
             this.CMB_theme = new System.Windows.Forms.ComboBox();
-            this.BUT_themecustom = new ArdupilotMega.Controls.MyButton();
+            this.BUT_themecustom = new Controls.MyButton();
             this.CHK_speecharmdisarm = new System.Windows.Forms.CheckBox();
-            this.BUT_Vario = new ArdupilotMega.Controls.MyButton();
+            this.BUT_Vario = new Controls.MyButton();
             this.label5 = new System.Windows.Forms.Label();
             this.chk_analytics = new System.Windows.Forms.CheckBox();
+            this.CHK_beta = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_tracklength)).BeginInit();
             this.SuspendLayout();
             // 
@@ -578,10 +579,18 @@
             this.chk_analytics.UseVisualStyleBackColor = true;
             this.chk_analytics.CheckedChanged += new System.EventHandler(this.chk_analytics_CheckedChanged);
             // 
+            // CHK_beta
+            // 
+            resources.ApplyResources(this.CHK_beta, "CHK_beta");
+            this.CHK_beta.Name = "CHK_beta";
+            this.CHK_beta.UseVisualStyleBackColor = true;
+            this.CHK_beta.CheckedChanged += new System.EventHandler(this.CHK_beta_CheckedChanged);
+            // 
             // ConfigPlanner
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.CHK_beta);
             this.Controls.Add(this.chk_analytics);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.BUT_Vario);
@@ -693,9 +702,9 @@
         private System.Windows.Forms.CheckBox CHK_hudshow;
         private System.Windows.Forms.Label label92;
         private System.Windows.Forms.ComboBox CMB_videosources;
-        private ArdupilotMega.Controls.MyButton BUT_Joystick;
-        private ArdupilotMega.Controls.MyButton BUT_videostop;
-        private ArdupilotMega.Controls.MyButton BUT_videostart;
+        private Controls.MyButton BUT_Joystick;
+        private Controls.MyButton BUT_videostop;
+        private Controls.MyButton BUT_videostart;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.CheckBox CHK_maprotation;
         private System.Windows.Forms.Label label2;
@@ -710,5 +719,6 @@
         private Controls.MyButton BUT_Vario;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.CheckBox chk_analytics;
+        private System.Windows.Forms.CheckBox CHK_beta;
     }
 }

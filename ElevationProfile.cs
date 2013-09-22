@@ -10,7 +10,7 @@ using GMap.NET;
 using System.Xml;
 using MissionPlanner.Utilities; // GE xml alt reader
 
-namespace ArdupilotMega
+namespace MissionPlanner
 {
     public partial class ElevationProfile : Form
     {

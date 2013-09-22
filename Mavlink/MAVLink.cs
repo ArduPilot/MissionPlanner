@@ -10,15 +10,15 @@ using System.Reflection.Emit;
 using System.IO;
 using System.Drawing;
 using System.Threading;
-using ArdupilotMega.Controls;
+using MissionPlanner.Controls;
 using System.ComponentModel;
 using log4net;
 using MissionPlanner.Comms;
-using ArdupilotMega.Utilities;
+using MissionPlanner.Utilities;
 using System.Windows.Forms;
 using MissionPlanner.Utilities;
 
-namespace ArdupilotMega
+namespace MissionPlanner
 {
     public partial class MAVLink
     {
@@ -33,7 +33,7 @@ namespace ArdupilotMega
         /// used to prevent comport access for exclusive use
         /// </summary>
         public bool giveComport { get { return _giveComport; } set { _giveComport = value; } }
-        static bool _giveComport = false;
+        bool _giveComport = false;
 
         public Dictionary<string, MAV_PARAM_TYPE> param_types = new Dictionary<string, MAV_PARAM_TYPE>();
 
@@ -515,6 +515,11 @@ Please check the following
         /// <param name="indata">struct of data</param>
         void generatePacket(byte messageType, object indata)
         {
+            if (!BaseStream.IsOpen)
+            {
+                return;
+            }
+
             lock (objlock)
             {
                 byte[] data;
@@ -592,7 +597,7 @@ Please check the following
                 }
                 catch { }
                 /*
-                if (messageType == ArdupilotMega.MAVLink.MAVLINK_MSG_ID_REQUEST_DATA_STREAM)
+                if (messageType == MissionPlanner.MAVLink.MAVLINK_MSG_ID_REQUEST_DATA_STREAM)
                 {
                     try
                     {
@@ -806,7 +811,7 @@ Please check the following
 
                     if (retrys == 4)
                     {
-                        requestDatastream(ArdupilotMega.MAVLink.MAV_DATA_STREAM.ALL, 1);
+                        requestDatastream(MissionPlanner.MAVLink.MAV_DATA_STREAM.ALL, 1);
                     }
 
                     if (retrys > 0)
@@ -1280,7 +1285,7 @@ Please check the following
             }
         }
 
-        public void requestDatastream(ArdupilotMega.MAVLink.MAV_DATA_STREAM id, byte hzrate)
+        public void requestDatastream(MAVLink.MAV_DATA_STREAM id, byte hzrate)
         {
 
             double pps = 0;
@@ -1405,7 +1410,7 @@ Please check the following
 
         }
 
-        void getDatastream(ArdupilotMega.MAVLink.MAV_DATA_STREAM id, byte hzrate)
+        void getDatastream(MAVLink.MAV_DATA_STREAM id, byte hzrate)
         {
             mavlink_request_data_stream_t req = new mavlink_request_data_stream_t();
             req.target_system = MAV.sysid;
@@ -2304,7 +2309,7 @@ Please check the following
 
             //MAV.cs.linkqualitygcs = (ushort)((packetsnotlost / (packetsnotlost + packetslost)) * 100.0);
 
-            if (bpstime.Second != DateTime.Now.Second && !logreadmode)
+            if (bpstime.Second != DateTime.Now.Second && !logreadmode && BaseStream.IsOpen)
             {
                 Console.Write("bps {0} loss {1} left {2} mem {3}      \n", bps1, synclost, BaseStream.BytesToRead, System.GC.GetTotalMemory(false) / 1024 / 1024.0);
                 bps2 = bps1; // prev sec
@@ -2781,7 +2786,7 @@ Please check the following
         {
             switch (MAV.apname)
             {
-                case MAV_AUTOPILOT.ARDUPILOTMEGA:
+                case MAV_AUTOPILOT.MissionPlanner:
                     switch (MAV.aptype)
                     {
                         case MAVLink.MAV_TYPE.FIXED_WING:

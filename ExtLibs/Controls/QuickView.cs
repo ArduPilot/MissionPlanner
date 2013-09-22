@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace ArdupilotMega.Controls
+namespace MissionPlanner.Controls
 {
     public partial class QuickView : UserControl
     {

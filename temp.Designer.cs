@@ -1,4 +1,4 @@
-﻿namespace ArdupilotMega
+﻿namespace MissionPlanner
 {
     partial class temp
     {
@@ -32,36 +32,38 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.CMB_mavs = new System.Windows.Forms.ComboBox();
-            this.but_multimav = new ArdupilotMega.Controls.MyButton();
-            this.BUT_magfit = new ArdupilotMega.Controls.MyButton();
-            this.BUT_xplane = new ArdupilotMega.Controls.MyButton();
-            this.but_osdvideo = new ArdupilotMega.Controls.MyButton();
-            this.BUT_outputMD = new ArdupilotMega.Controls.MyButton();
-            this.BUT_paramgen = new ArdupilotMega.Controls.MyButton();
-            this.BUT_follow_me = new ArdupilotMega.Controls.MyButton();
-            this.BUT_georefimage = new ArdupilotMega.Controls.MyButton();
-            this.BUT_lang_edit = new ArdupilotMega.Controls.MyButton();
-            this.BUT_clearcustommaps = new ArdupilotMega.Controls.MyButton();
-            this.BUT_geinjection = new ArdupilotMega.Controls.MyButton();
-            this.button2 = new ArdupilotMega.Controls.MyButton();
-            this.BUT_copyto2560 = new ArdupilotMega.Controls.MyButton();
-            this.BUT_copyto1280 = new ArdupilotMega.Controls.MyButton();
-            this.BUT_copy2560 = new ArdupilotMega.Controls.MyButton();
-            this.BUT_copy1280 = new ArdupilotMega.Controls.MyButton();
-            this.BUT_dleeprom = new ArdupilotMega.Controls.MyButton();
-            this.BUT_flashup = new ArdupilotMega.Controls.MyButton();
-            this.BUT_flashdl = new ArdupilotMega.Controls.MyButton();
-            this.BUT_wipeeeprom = new ArdupilotMega.Controls.MyButton();
-            this.button1 = new ArdupilotMega.Controls.MyButton();
-            this.BUT_swarm = new ArdupilotMega.Controls.MyButton();
-            this.BUT_outputnmea = new ArdupilotMega.Controls.MyButton();
-            this.BUT_outputMavlink = new ArdupilotMega.Controls.MyButton();
-            this.myButton1 = new ArdupilotMega.Controls.MyButton();
-            this.BUT_simmulti = new ArdupilotMega.Controls.MyButton();
-            this.BUT_fwren = new ArdupilotMega.Controls.MyButton();
-            this.BUT_followleader = new ArdupilotMega.Controls.MyButton();
+            this.but_multimav = new Controls.MyButton();
+            this.BUT_magfit = new Controls.MyButton();
+            this.BUT_xplane = new Controls.MyButton();
+            this.but_osdvideo = new Controls.MyButton();
+            this.BUT_outputMD = new Controls.MyButton();
+            this.BUT_paramgen = new Controls.MyButton();
+            this.BUT_follow_me = new Controls.MyButton();
+            this.BUT_georefimage = new Controls.MyButton();
+            this.BUT_lang_edit = new Controls.MyButton();
+            this.BUT_clearcustommaps = new Controls.MyButton();
+            this.BUT_geinjection = new Controls.MyButton();
+            this.button2 = new Controls.MyButton();
+            this.BUT_copyto2560 = new Controls.MyButton();
+            this.BUT_copyto1280 = new Controls.MyButton();
+            this.BUT_copy2560 = new Controls.MyButton();
+            this.BUT_copy1280 = new Controls.MyButton();
+            this.BUT_dleeprom = new Controls.MyButton();
+            this.BUT_flashup = new Controls.MyButton();
+            this.BUT_flashdl = new Controls.MyButton();
+            this.BUT_wipeeeprom = new Controls.MyButton();
+            this.button1 = new Controls.MyButton();
+            this.BUT_swarm = new Controls.MyButton();
+            this.BUT_outputnmea = new Controls.MyButton();
+            this.BUT_outputMavlink = new Controls.MyButton();
+            this.myButton1 = new Controls.MyButton();
+            this.BUT_simmulti = new Controls.MyButton();
+            this.BUT_fwren = new Controls.MyButton();
+            this.BUT_followleader = new Controls.MyButton();
             this.myProgressBar1 = new MissionPlanner.Controls.MyProgressBar();
-            this.BUT_compassmot = new ArdupilotMega.Controls.MyButton();
+            this.BUT_compassmot = new Controls.MyButton();
+            this.BUT_driverclean = new Controls.MyButton();
+            this.but_compassrotation = new Controls.MyButton();
             this.SuspendLayout();
             // 
             // label1
@@ -507,7 +509,7 @@
             // 
             this.BUT_compassmot.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
             this.BUT_compassmot.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
-            this.BUT_compassmot.Location = new System.Drawing.Point(526, 335);
+            this.BUT_compassmot.Location = new System.Drawing.Point(461, 338);
             this.BUT_compassmot.Name = "BUT_compassmot";
             this.BUT_compassmot.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
             this.BUT_compassmot.Size = new System.Drawing.Size(75, 23);
@@ -517,11 +519,37 @@
             this.BUT_compassmot.UseVisualStyleBackColor = true;
             this.BUT_compassmot.Click += new System.EventHandler(this.BUT_compassmot_Click);
             // 
+            // BUT_driverclean
+            // 
+            this.BUT_driverclean.Location = new System.Drawing.Point(526, 380);
+            this.BUT_driverclean.Name = "BUT_driverclean";
+            this.BUT_driverclean.Size = new System.Drawing.Size(75, 23);
+            this.BUT_driverclean.TabIndex = 36;
+            this.BUT_driverclean.Text = "Driver Clean";
+            this.BUT_driverclean.UseVisualStyleBackColor = true;
+            this.BUT_driverclean.Click += new System.EventHandler(this.BUT_driverclean_Click);
+            // 
+            // but_compassrotation
+            // 
+            this.but_compassrotation.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
+            this.but_compassrotation.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
+            this.but_compassrotation.Location = new System.Drawing.Point(542, 338);
+            this.but_compassrotation.Name = "but_compassrotation";
+            this.but_compassrotation.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
+            this.but_compassrotation.Size = new System.Drawing.Size(75, 23);
+            this.but_compassrotation.TabIndex = 37;
+            this.but_compassrotation.Text = "Compass Rotation";
+            this.but_compassrotation.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.but_compassrotation.UseVisualStyleBackColor = true;
+            this.but_compassrotation.Click += new System.EventHandler(this.but_compassrotation_Click);
+            // 
             // temp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(685, 507);
+            this.Controls.Add(this.but_compassrotation);
+            this.Controls.Add(this.BUT_driverclean);
             this.Controls.Add(this.BUT_compassmot);
             this.Controls.Add(this.myProgressBar1);
             this.Controls.Add(this.BUT_followleader);
@@ -566,24 +594,24 @@
 
         #endregion
 
-        private ArdupilotMega.Controls.MyButton button1;
-        private ArdupilotMega.Controls.MyButton BUT_wipeeeprom;
-        private ArdupilotMega.Controls.MyButton BUT_flashdl;
-        private ArdupilotMega.Controls.MyButton BUT_flashup;
-        private ArdupilotMega.Controls.MyButton BUT_dleeprom;
-        private ArdupilotMega.Controls.MyButton BUT_copy1280;
-        private ArdupilotMega.Controls.MyButton BUT_copy2560;
-        private ArdupilotMega.Controls.MyButton BUT_copyto2560;
-        private ArdupilotMega.Controls.MyButton BUT_copyto1280;
-        private ArdupilotMega.Controls.MyButton button2;
+        private Controls.MyButton button1;
+        private Controls.MyButton BUT_wipeeeprom;
+        private Controls.MyButton BUT_flashdl;
+        private Controls.MyButton BUT_flashup;
+        private Controls.MyButton BUT_dleeprom;
+        private Controls.MyButton BUT_copy1280;
+        private Controls.MyButton BUT_copy2560;
+        private Controls.MyButton BUT_copyto2560;
+        private Controls.MyButton BUT_copyto1280;
+        private Controls.MyButton button2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private ArdupilotMega.Controls.MyButton BUT_geinjection;
-        private ArdupilotMega.Controls.MyButton BUT_clearcustommaps;
-        private ArdupilotMega.Controls.MyButton BUT_lang_edit;
-        private ArdupilotMega.Controls.MyButton BUT_georefimage;
-        private ArdupilotMega.Controls.MyButton BUT_follow_me;
+        private Controls.MyButton BUT_geinjection;
+        private Controls.MyButton BUT_clearcustommaps;
+        private Controls.MyButton BUT_lang_edit;
+        private Controls.MyButton BUT_georefimage;
+        private Controls.MyButton BUT_follow_me;
         private Controls.MyButton BUT_paramgen;
         private Controls.MyButton BUT_outputMD;
         private Controls.MyButton but_osdvideo;
@@ -600,5 +628,7 @@
         private Controls.MyButton BUT_followleader;
         private MissionPlanner.Controls.MyProgressBar myProgressBar1;
         private Controls.MyButton BUT_compassmot;
+        private Controls.MyButton BUT_driverclean;
+        private Controls.MyButton but_compassrotation;
     }
 }

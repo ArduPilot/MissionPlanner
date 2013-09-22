@@ -7,7 +7,7 @@ using log4net;
 using Microsoft.DirectX.DirectInput;
 using System.Reflection;
 
-namespace ArdupilotMega
+namespace MissionPlanner
 {
     public class Joystick
     {

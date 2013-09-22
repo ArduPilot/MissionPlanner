@@ -1,4 +1,4 @@
-﻿namespace ArdupilotMega.GCSViews.ConfigurationView
+﻿namespace MissionPlanner.GCSViews.ConfigurationView
 {
     partial class ConfigAC_Fence
     {
@@ -36,13 +36,13 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.lineSeparator2 = new ArdupilotMega.Controls.LineSeparator();
-            this.mavlinkComboBox2 = new ArdupilotMega.Controls.MavlinkComboBox();
-            this.mavlinkNumericUpDown1 = new ArdupilotMega.Controls.MavlinkNumericUpDown();
-            this.mavlinkNumericUpDown2 = new ArdupilotMega.Controls.MavlinkNumericUpDown();
-            this.mavlinkCheckBox1 = new ArdupilotMega.Controls.MavlinkCheckBox();
-            this.mavlinkComboBox1 = new ArdupilotMega.Controls.MavlinkComboBox();
-            this.mavlinkNumericUpDown3 = new ArdupilotMega.Controls.MavlinkNumericUpDown();
+            this.lineSeparator2 = new Controls.LineSeparator();
+            this.mavlinkComboBox2 = new Controls.MavlinkComboBox();
+            this.mavlinkNumericUpDown1 = new Controls.MavlinkNumericUpDown();
+            this.mavlinkNumericUpDown2 = new Controls.MavlinkNumericUpDown();
+            this.mavlinkCheckBox1 = new Controls.MavlinkCheckBox();
+            this.mavlinkComboBox1 = new Controls.MavlinkComboBox();
+            this.mavlinkNumericUpDown3 = new Controls.MavlinkNumericUpDown();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown2)).BeginInit();

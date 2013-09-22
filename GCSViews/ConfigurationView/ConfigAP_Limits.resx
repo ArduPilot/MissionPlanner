@@ -380,7 +380,7 @@
     <value>myLabel4</value>
   </data>
   <data name="&gt;&gt;myLabel4.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.MyLabel, ArdupilotMegaPlanner10, Version=1.1.4597.13822, Culture=neutral, PublicKeyToken=null</value>
+    <value>Controls.MyLabel, MissionPlanner.lanner10, Version=1.1.4597.13822, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;myLabel4.Parent" xml:space="preserve">
     <value>groupBox4</value>
@@ -425,7 +425,7 @@
     <value>myLabel3</value>
   </data>
   <data name="&gt;&gt;myLabel3.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.MyLabel, ArdupilotMegaPlanner10, Version=1.1.4597.13822, Culture=neutral, PublicKeyToken=null</value>
+    <value>Controls.MyLabel, MissionPlanner.lanner10, Version=1.1.4597.13822, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;myLabel3.Parent" xml:space="preserve">
     <value>groupBox4</value>
@@ -614,7 +614,7 @@
     <value>myLabel1</value>
   </data>
   <data name="&gt;&gt;myLabel1.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.MyLabel, ArdupilotMegaPlanner10, Version=1.1.4597.13822, Culture=neutral, PublicKeyToken=null</value>
+    <value>Controls.MyLabel, MissionPlanner.lanner10, Version=1.1.4597.13822, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;myLabel1.Parent" xml:space="preserve">
     <value>groupBox2</value>
@@ -659,7 +659,7 @@
     <value>myLabel2</value>
   </data>
   <data name="&gt;&gt;myLabel2.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.MyLabel, ArdupilotMegaPlanner10, Version=1.1.4597.13822, Culture=neutral, PublicKeyToken=null</value>
+    <value>Controls.MyLabel, MissionPlanner.lanner10, Version=1.1.4597.13822, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;myLabel2.Parent" xml:space="preserve">
     <value>groupBox2</value>

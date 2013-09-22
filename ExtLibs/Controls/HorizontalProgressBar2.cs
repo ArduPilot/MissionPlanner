@@ -19,14 +19,14 @@ using System.Xml; // config file
 using System.Runtime.InteropServices; // dll imports
 using log4net;
 
-using ArdupilotMega;
+using MissionPlanner;
 using System.Reflection;
 
 using System.IO;
 
 using System.Drawing.Drawing2D;
 
-namespace ArdupilotMega.Controls
+namespace MissionPlanner.Controls
 {
     public class HorizontalProgressBar2 : BSE.Windows.Forms.ProgressBar
     {

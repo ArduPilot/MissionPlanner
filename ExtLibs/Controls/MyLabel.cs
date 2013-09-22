@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace ArdupilotMega.Controls
+namespace MissionPlanner.Controls
 {
     /// <summary>
     /// profiling showed that the built in Label function was using alot of call time.

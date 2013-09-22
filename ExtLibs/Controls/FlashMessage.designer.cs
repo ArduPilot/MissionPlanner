@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 using System.Drawing;
-namespace ArdupilotMega.Controls
+namespace MissionPlanner.Controls
 {
     partial class FlashMessage
     {

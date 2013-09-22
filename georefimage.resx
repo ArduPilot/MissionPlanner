@@ -268,7 +268,7 @@
     <value>BUT_Geotagimages</value>
   </data>
   <data name="&gt;&gt;BUT_Geotagimages.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_Geotagimages.Parent" xml:space="preserve">
     <value>$this</value>
@@ -292,7 +292,7 @@
     <value>BUT_estoffset</value>
   </data>
   <data name="&gt;&gt;BUT_estoffset.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_estoffset.Parent" xml:space="preserve">
     <value>$this</value>
@@ -316,7 +316,7 @@
     <value>BUT_doit</value>
   </data>
   <data name="&gt;&gt;BUT_doit.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_doit.Parent" xml:space="preserve">
     <value>$this</value>
@@ -340,7 +340,7 @@
     <value>BUT_browsedir</value>
   </data>
   <data name="&gt;&gt;BUT_browsedir.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_browsedir.Parent" xml:space="preserve">
     <value>$this</value>
@@ -364,7 +364,7 @@
     <value>BUT_browselog</value>
   </data>
   <data name="&gt;&gt;BUT_browselog.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_browselog.Parent" xml:space="preserve">
     <value>$this</value>
@@ -607,7 +607,7 @@
     <value>BUT_networklinkgeoref</value>
   </data>
   <data name="&gt;&gt;BUT_networklinkgeoref.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_networklinkgeoref.Parent" xml:space="preserve">
     <value>$this</value>

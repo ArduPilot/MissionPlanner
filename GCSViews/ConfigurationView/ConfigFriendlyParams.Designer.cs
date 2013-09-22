@@ -1,4 +1,4 @@
-﻿namespace ArdupilotMega.GCSViews.ConfigurationView
+﻿namespace MissionPlanner.GCSViews.ConfigurationView
 {
    partial class ConfigFriendlyParams
    {
@@ -29,9 +29,9 @@
       private void InitializeComponent()
       {
             this.tableLayoutPanel1 = new System.Windows.Forms.Panel();
-            this.BUT_rerequestparams = new ArdupilotMega.Controls.MyButton();
-            this.BUT_writePIDS = new ArdupilotMega.Controls.MyButton();
-            this.BUT_Find = new ArdupilotMega.Controls.MyButton();
+            this.BUT_rerequestparams = new Controls.MyButton();
+            this.BUT_writePIDS = new Controls.MyButton();
+            this.BUT_Find = new Controls.MyButton();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1

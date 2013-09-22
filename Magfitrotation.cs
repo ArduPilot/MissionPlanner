@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using ArdupilotMega.HIL;
+using MissionPlanner;
+using MissionPlanner.HIL;
 
 namespace MissionPlanner
 {
-    public class Magfitrotation : ArdupilotMega.HIL.Utils
+    public class Magfitrotation : HIL.Utils
     {
         // copy of https://github.com/mavlink/mavlink/blob/master/pymavlink/tools/magfit_rotation_gyro.py
         class Rotation
@@ -125,15 +126,40 @@ new     Rotation("ROTATION_ROLL_180_YAW_45",         180,   0,  45),
             // print("Processing log %s" % filename);
             // mlog = mavutil.mavlink_connection(filename, notimestamps=opts.notimestamps);
 
-            ArdupilotMega.MAVLink mavint = new ArdupilotMega.MAVLink();
+            MAVLink mavint = new MAVLink();
 
             try
             {
-                mavint.logplaybackfile = new BinaryReader(File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.Read));
+                mavint.BaseStream = new Comms.CommsFile();
+                mavint.BaseStream.PortName = logfile;
+                mavint.BaseStream.Open();
             }
             catch (Exception ex) { return ""; }
 
             mavint.logreadmode = true;
+
+            return process(mavint);
+        }
+
+        public static string magfit()
+        {
+            // give exclusive access ot this function
+            MainV2.comPort.giveComport = true;
+
+            // request more mag data and gyro data
+            MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RAW_SENSORS, 20);
+
+            // process the data
+            string ans = process(MainV2.comPort);
+
+            MainV2.comPort.giveComport = false;
+
+            return ans;
+        }
+
+        static string process(MAVLink mavint)
+        {
+            DateTime Deadline = DateTime.Now.AddSeconds(60);
 
             Vector3 last_mag = null;
             double last_usec = 0;
@@ -145,7 +171,7 @@ new     Rotation("ROTATION_ROLL_180_YAW_45",         180,   0,  45),
             float COMPASS_EXTERNAL = 0;
 
             //# now gather all the data
-            while (mavint.logplaybackfile.BaseStream.Position < mavint.logplaybackfile.BaseStream.Length)
+            while (DateTime.Now < Deadline || mavint.BaseStream.BytesToRead > 0)
             {
                 byte[] packetbytes = mavint.readPacket();
                 if (packetbytes.Length < 5)
@@ -153,9 +179,9 @@ new     Rotation("ROTATION_ROLL_180_YAW_45",         180,   0,  45),
                 object packet = mavint.GetPacket(packetbytes);
                 if (packet == null)
                     continue;
-                if (packet is ArdupilotMega.MAVLink.mavlink_param_value_t)
+                if (packet is MAVLink.mavlink_param_value_t)
                 {
-                    ArdupilotMega.MAVLink.mavlink_param_value_t m = (ArdupilotMega.MAVLink.mavlink_param_value_t)packet;
+                    MAVLink.mavlink_param_value_t m = (MAVLink.mavlink_param_value_t)packet;
                     if (str(m.param_id) == "AHRS_ORIENTATION")
                         AHRS_ORIENTATION = (int)(m.param_value);
                     if (str(m.param_id) == "COMPASS_ORIENT")
@@ -164,9 +190,9 @@ new     Rotation("ROTATION_ROLL_180_YAW_45",         180,   0,  45),
                         COMPASS_EXTERNAL = (int)(m.param_value);
                 }
 
-                if (packet is ArdupilotMega.MAVLink.mavlink_raw_imu_t)
+                if (packet is MAVLink.mavlink_raw_imu_t)
                 {
-                    ArdupilotMega.MAVLink.mavlink_raw_imu_t m = (ArdupilotMega.MAVLink.mavlink_raw_imu_t)packet;
+                    MAVLink.mavlink_raw_imu_t m = (MAVLink.mavlink_raw_imu_t)packet;
                     Vector3 mag = new Vector3(m.xmag, m.ymag, m.zmag);
                     mag = mag_fixup(mag, AHRS_ORIENTATION, COMPASS_ORIENT, COMPASS_EXTERNAL);
                     Vector3 gyr = new Vector3(m.xgyro, m.ygyro, m.zgyro) * 0.001;

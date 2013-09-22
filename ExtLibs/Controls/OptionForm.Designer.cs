@@ -1,4 +1,4 @@
-﻿namespace ArdupilotMega.Controls
+﻿namespace MissionPlanner.Controls
 {
     partial class OptionForm
     {
@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.myButton1 = new ArdupilotMega.Controls.MyButton();
-            this.myButton2 = new ArdupilotMega.Controls.MyButton();
+            this.myButton1 = new Controls.MyButton();
+            this.myButton2 = new Controls.MyButton();
             this.SuspendLayout();
             // 
             // comboBox1

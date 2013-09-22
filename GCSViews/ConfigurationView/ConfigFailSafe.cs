@@ -6,12 +6,12 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using ArdupilotMega.Controls.BackstageView;
-using ArdupilotMega.Controls;
+using MissionPlanner.Controls.BackstageView;
+using MissionPlanner.Controls;
 using System.Diagnostics;
-using ArdupilotMega.Utilities;
+using MissionPlanner.Utilities;
 
-namespace ArdupilotMega.GCSViews.ConfigurationView
+namespace MissionPlanner.GCSViews.ConfigurationView
 {
     public partial class ConfigFailSafe : UserControl, IActivate, IDeactivate
     {
@@ -43,9 +43,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
 
         public void Activate()
         {
-            Utilities.ParameterMetaDataRepository repo = new Utilities.ParameterMetaDataRepository();
-
-            mavlinkComboBox_fs_thr_enable.setup(repo.GetParameterOptionsInt("FS_THR_ENABLE"), "FS_THR_ENABLE", MainV2.comPort.MAV.param);
+            mavlinkComboBox_fs_thr_enable.setup(ParameterMetaDataRepository.GetParameterOptionsInt("FS_THR_ENABLE"), "FS_THR_ENABLE", MainV2.comPort.MAV.param);
 
             
 

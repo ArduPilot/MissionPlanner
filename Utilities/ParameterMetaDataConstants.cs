@@ -1,4 +1,4 @@
-﻿namespace ArdupilotMega.Utilities
+﻿namespace MissionPlanner.Utilities
 {
    public sealed class ParameterMetaDataConstants
    {

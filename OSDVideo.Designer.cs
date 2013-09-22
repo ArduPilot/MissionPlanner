@@ -1,4 +1,4 @@
-﻿namespace ArdupilotMega
+﻿namespace MissionPlanner
 {
     partial class OSDVideo
     {
@@ -34,11 +34,11 @@
             this.txt_tlog = new System.Windows.Forms.TextBox();
             this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.trackBar_mediapos = new System.Windows.Forms.TrackBar();
-            this.BUT_tlogfile = new ArdupilotMega.Controls.MyButton();
-            this.hud1 = new ArdupilotMega.Controls.HUD();
+            this.BUT_tlogfile = new Controls.MyButton();
+            this.hud1 = new Controls.HUD();
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
-            this.BUT_start = new ArdupilotMega.Controls.MyButton();
-            this.BUT_vidfile = new ArdupilotMega.Controls.MyButton();
+            this.BUT_start = new Controls.MyButton();
+            this.BUT_vidfile = new Controls.MyButton();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.CHK_fullres = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
@@ -171,7 +171,7 @@
             // 
             // bindingSource1
             // 
-            this.bindingSource1.DataSource = typeof(ArdupilotMega.CurrentState);
+            this.bindingSource1.DataSource = typeof(MissionPlanner.CurrentState);
             // 
             // BUT_start
             // 

@@ -5,8 +5,9 @@ using System.Text;
 using log4net;
 using System.Reflection;
 using MissionPlanner.Utilities;
+using MissionPlanner;
 
-namespace ArdupilotMega.Swarm
+namespace MissionPlanner.Swarm
 {
     abstract class Swarm
     {

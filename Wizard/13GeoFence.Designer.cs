@@ -1,5 +1,5 @@
 ﻿using System.Windows.Forms;
-namespace ArdupilotMega.Wizard
+namespace MissionPlanner.Wizard
 {
     partial class _13GeoFence
     {
@@ -30,10 +30,10 @@ namespace ArdupilotMega.Wizard
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
-            this.configAC_Fence1 = new ArdupilotMega.GCSViews.ConfigurationView.ConfigAC_Fence();
+            this.configAC_Fence1 = new GCSViews.ConfigurationView.ConfigAC_Fence();
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.radialGradientBG1 = new ArdupilotMega.Controls.GradientBG();
+            this.radialGradientBG1 = new Controls.GradientBG();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.radialGradientBG1.Image)).BeginInit();
             this.SuspendLayout();

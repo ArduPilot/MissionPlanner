@@ -1,4 +1,4 @@
-﻿namespace ArdupilotMega.GCSViews
+﻿namespace MissionPlanner.GCSViews
 {
     partial class FlightData
     {
@@ -19,7 +19,7 @@
             this.setHomeHereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MainH = new System.Windows.Forms.SplitContainer();
             this.SubMainLeft = new System.Windows.Forms.SplitContainer();
-            this.hud1 = new ArdupilotMega.Controls.HUD();
+            this.hud1 = new Controls.HUD();
             this.contextMenuStripHud = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.recordHudToAVIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stopRecordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -27,67 +27,82 @@
             this.setAspectRatioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.userItemsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.russianHudToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.bindingSourceHud = new System.Windows.Forms.BindingSource(this.components);
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabQuick = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.quickView6 = new ArdupilotMega.Controls.QuickView();
-            this.quickView5 = new ArdupilotMega.Controls.QuickView();
-            this.quickView4 = new ArdupilotMega.Controls.QuickView();
-            this.quickView3 = new ArdupilotMega.Controls.QuickView();
-            this.quickView2 = new ArdupilotMega.Controls.QuickView();
-            this.quickView1 = new ArdupilotMega.Controls.QuickView();
+            this.quickView6 = new Controls.QuickView();
+            this.bindingSourceQuickTab = new System.Windows.Forms.BindingSource(this.components);
+            this.quickView5 = new Controls.QuickView();
+            this.quickView4 = new Controls.QuickView();
+            this.quickView3 = new Controls.QuickView();
+            this.quickView2 = new Controls.QuickView();
+            this.quickView1 = new Controls.QuickView();
             this.tabActions = new System.Windows.Forms.TabPage();
-            this.BUT_ARM = new ArdupilotMega.Controls.MyButton();
-            this.BUT_joystick = new ArdupilotMega.Controls.MyButton();
-            this.BUT_quickmanual = new ArdupilotMega.Controls.MyButton();
-            this.BUT_quickrtl = new ArdupilotMega.Controls.MyButton();
-            this.BUT_quickauto = new ArdupilotMega.Controls.MyButton();
+            this.CMB_mountmode = new System.Windows.Forms.ComboBox();
+            this.BUT_mountmode = new Controls.MyButton();
+            this.modifyandSetSpeed = new Controls.ModifyandSet();
+            this.modifyandSetAlt = new Controls.ModifyandSet();
+            this.BUT_ARM = new Controls.MyButton();
+            this.BUT_joystick = new Controls.MyButton();
+            this.BUT_quickmanual = new Controls.MyButton();
+            this.BUT_quickrtl = new Controls.MyButton();
+            this.BUT_quickauto = new Controls.MyButton();
             this.CMB_setwp = new System.Windows.Forms.ComboBox();
-            this.BUT_setwp = new ArdupilotMega.Controls.MyButton();
+            this.BUT_setwp = new Controls.MyButton();
             this.CMB_modes = new System.Windows.Forms.ComboBox();
-            this.BUT_setmode = new ArdupilotMega.Controls.MyButton();
-            this.BUT_clear_track = new ArdupilotMega.Controls.MyButton();
+            this.BUT_setmode = new Controls.MyButton();
+            this.BUT_clear_track = new Controls.MyButton();
             this.CMB_action = new System.Windows.Forms.ComboBox();
-            this.BUT_Homealt = new ArdupilotMega.Controls.MyButton();
-            this.BUT_RAWSensor = new ArdupilotMega.Controls.MyButton();
-            this.BUTrestartmission = new ArdupilotMega.Controls.MyButton();
-            this.BUTactiondo = new ArdupilotMega.Controls.MyButton();
+            this.BUT_Homealt = new Controls.MyButton();
+            this.BUT_RAWSensor = new Controls.MyButton();
+            this.BUTrestartmission = new Controls.MyButton();
+            this.BUTactiondo = new Controls.MyButton();
             this.tabGauges = new System.Windows.Forms.TabPage();
             this.Gvspeed = new AGaugeApp.AGauge();
-            this.Gheading = new ArdupilotMega.Controls.HSI();
+            this.bindingSourceGaugesTab = new System.Windows.Forms.BindingSource(this.components);
+            this.Gheading = new Controls.HSI();
             this.Galt = new AGaugeApp.AGauge();
             this.Gspeed = new AGaugeApp.AGauge();
             this.tabStatus = new System.Windows.Forms.TabPage();
             this.tabServo = new System.Windows.Forms.TabPage();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.servoOptions1 = new Controls.ServoOptions();
+            this.servoOptions2 = new Controls.ServoOptions();
+            this.servoOptions3 = new Controls.ServoOptions();
+            this.servoOptions4 = new Controls.ServoOptions();
+            this.servoOptions5 = new Controls.ServoOptions();
+            this.servoOptions6 = new Controls.ServoOptions();
+            this.servoOptions7 = new Controls.ServoOptions();
             this.tabTLogs = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.BUT_loadtelem = new ArdupilotMega.Controls.MyButton();
-            this.lbl_playbackspeed = new ArdupilotMega.Controls.MyLabel();
-            this.lbl_logpercent = new ArdupilotMega.Controls.MyLabel();
+            this.BUT_loadtelem = new Controls.MyButton();
+            this.lbl_playbackspeed = new Controls.MyLabel();
+            this.lbl_logpercent = new Controls.MyLabel();
             this.tracklog = new System.Windows.Forms.TrackBar();
-            this.LBL_logfn = new ArdupilotMega.Controls.MyLabel();
-            this.BUT_log2kml = new ArdupilotMega.Controls.MyButton();
-            this.BUT_playlog = new ArdupilotMega.Controls.MyButton();
+            this.LBL_logfn = new Controls.MyLabel();
+            this.BUT_log2kml = new Controls.MyButton();
+            this.BUT_playlog = new Controls.MyButton();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
-            this.BUT_speed10 = new ArdupilotMega.Controls.MyButton();
-            this.BUT_speed5 = new ArdupilotMega.Controls.MyButton();
-            this.BUT_speed2 = new ArdupilotMega.Controls.MyButton();
-            this.BUT_speed1 = new ArdupilotMega.Controls.MyButton();
-            this.BUT_speed1_2 = new ArdupilotMega.Controls.MyButton();
-            this.BUT_speed1_4 = new ArdupilotMega.Controls.MyButton();
-            this.BUT_speed1_10 = new ArdupilotMega.Controls.MyButton();
+            this.BUT_speed10 = new Controls.MyButton();
+            this.BUT_speed5 = new Controls.MyButton();
+            this.BUT_speed2 = new Controls.MyButton();
+            this.BUT_speed1 = new Controls.MyButton();
+            this.BUT_speed1_2 = new Controls.MyButton();
+            this.BUT_speed1_4 = new Controls.MyButton();
+            this.BUT_speed1_10 = new Controls.MyButton();
             this.tablogbrowse = new System.Windows.Forms.TabPage();
-            this.BUT_logbrowse = new ArdupilotMega.Controls.MyButton();
+            this.BUT_matlab = new Controls.MyButton();
+            this.BUT_logbrowse = new Controls.MyButton();
             this.tabScripts = new System.Windows.Forms.TabPage();
             this.checkBoxRedirectOutput = new System.Windows.Forms.CheckBox();
-            this.BUT_edit_selected = new ArdupilotMega.Controls.MyButton();
+            this.BUT_edit_selected = new Controls.MyButton();
             this.labelSelectedScript = new System.Windows.Forms.Label();
-            this.BUT_run_script = new ArdupilotMega.Controls.MyButton();
-            this.BUT_abort_script = new ArdupilotMega.Controls.MyButton();
+            this.BUT_run_script = new Controls.MyButton();
+            this.BUT_abort_script = new Controls.MyButton();
             this.labelScriptStatus = new System.Windows.Forms.Label();
-            this.BUT_select_script = new ArdupilotMega.Controls.MyButton();
+            this.BUT_select_script = new Controls.MyButton();
             this.tableMap = new System.Windows.Forms.TableLayoutPanel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.zg1 = new ZedGraph.ZedGraphControl();
@@ -95,16 +110,17 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.lbl_winddir = new ArdupilotMega.Controls.MyLabel();
-            this.lbl_windvel = new ArdupilotMega.Controls.MyLabel();
-            this.lbl_hdop = new ArdupilotMega.Controls.MyLabel();
-            this.lbl_sats = new ArdupilotMega.Controls.MyLabel();
-            this.gMapControl1 = new ArdupilotMega.Controls.myGMAP();
-            this.TRK_zoom = new ArdupilotMega.Controls.MyTrackBar();
+            this.lbl_winddir = new Controls.MyLabel();
+            this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
+            this.lbl_windvel = new Controls.MyLabel();
+            this.lbl_hdop = new Controls.MyLabel();
+            this.lbl_sats = new Controls.MyLabel();
+            this.gMapControl1 = new Controls.myGMAP();
+            this.TRK_zoom = new Controls.MyTrackBar();
             this.panel1 = new System.Windows.Forms.Panel();
             this.coords1 = new MissionPlanner.Controls.Coords();
             this.Zoomlevel = new System.Windows.Forms.NumericUpDown();
-            this.label1 = new ArdupilotMega.Controls.MyLabel();
+            this.label1 = new Controls.MyLabel();
             this.CHK_autopan = new System.Windows.Forms.CheckBox();
             this.CB_tuning = new System.Windows.Forms.CheckBox();
             this.ZedGraphTimer = new System.Windows.Forms.Timer(this.components);
@@ -113,19 +129,6 @@
             this.scriptChecker = new System.Windows.Forms.Timer(this.components);
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
             this.dataGridViewImageColumn2 = new System.Windows.Forms.DataGridViewImageColumn();
-            this.bindingSourceHud = new System.Windows.Forms.BindingSource(this.components);
-            this.bindingSourceQuickTab = new System.Windows.Forms.BindingSource(this.components);
-            this.modifyandSetSpeed = new ArdupilotMega.Controls.ModifyandSet();
-            this.modifyandSetAlt = new ArdupilotMega.Controls.ModifyandSet();
-            this.servoOptions1 = new ArdupilotMega.Controls.ServoOptions();
-            this.servoOptions2 = new ArdupilotMega.Controls.ServoOptions();
-            this.servoOptions3 = new ArdupilotMega.Controls.ServoOptions();
-            this.servoOptions4 = new ArdupilotMega.Controls.ServoOptions();
-            this.servoOptions5 = new ArdupilotMega.Controls.ServoOptions();
-            this.servoOptions6 = new ArdupilotMega.Controls.ServoOptions();
-            this.servoOptions7 = new ArdupilotMega.Controls.ServoOptions();
-            this.bindingSourceGaugesTab = new System.Windows.Forms.BindingSource(this.components);
-            this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.bindingSourceStatusTab = new System.Windows.Forms.BindingSource(this.components);
             this.contextMenuStripMap.SuspendLayout();
             this.MainH.Panel1.SuspendLayout();
@@ -135,11 +138,14 @@
             this.SubMainLeft.Panel2.SuspendLayout();
             this.SubMainLeft.SuspendLayout();
             this.contextMenuStripHud.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSourceHud)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabQuick.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSourceQuickTab)).BeginInit();
             this.tabActions.SuspendLayout();
             this.tabGauges.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSourceGaugesTab)).BeginInit();
             this.tabServo.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.tabTLogs.SuspendLayout();
@@ -152,13 +158,10 @@
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TRK_zoom)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Zoomlevel)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingSourceHud)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingSourceQuickTab)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingSourceGaugesTab)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSourceStatusTab)).BeginInit();
             this.SuspendLayout();
             // 
@@ -364,6 +367,10 @@
             resources.ApplyResources(this.russianHudToolStripMenuItem, "russianHudToolStripMenuItem");
             this.russianHudToolStripMenuItem.Click += new System.EventHandler(this.russianHudToolStripMenuItem_Click);
             // 
+            // bindingSourceHud
+            // 
+            this.bindingSourceHud.DataSource = typeof(MissionPlanner.CurrentState);
+            // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabQuick);
@@ -408,6 +415,10 @@
             this.quickView6.number = 0D;
             this.quickView6.numberColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(255)))), ((int)(((byte)(252)))));
             this.quickView6.DoubleClick += new System.EventHandler(this.quickView_DoubleClick);
+            // 
+            // bindingSourceQuickTab
+            // 
+            this.bindingSourceQuickTab.DataSource = typeof(MissionPlanner.CurrentState);
             // 
             // quickView5
             // 
@@ -462,6 +473,8 @@
             // 
             // tabActions
             // 
+            this.tabActions.Controls.Add(this.CMB_mountmode);
+            this.tabActions.Controls.Add(this.BUT_mountmode);
             this.tabActions.Controls.Add(this.modifyandSetSpeed);
             this.tabActions.Controls.Add(this.modifyandSetAlt);
             this.tabActions.Controls.Add(this.BUT_ARM);
@@ -482,6 +495,50 @@
             resources.ApplyResources(this.tabActions, "tabActions");
             this.tabActions.Name = "tabActions";
             this.tabActions.UseVisualStyleBackColor = true;
+            // 
+            // CMB_mountmode
+            // 
+            this.CMB_mountmode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.CMB_mountmode.FormattingEnabled = true;
+            resources.ApplyResources(this.CMB_mountmode, "CMB_mountmode");
+            this.CMB_mountmode.Name = "CMB_mountmode";
+            // 
+            // BUT_mountmode
+            // 
+            this.BUT_mountmode.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
+            this.BUT_mountmode.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
+            resources.ApplyResources(this.BUT_mountmode, "BUT_mountmode");
+            this.BUT_mountmode.Name = "BUT_mountmode";
+            this.BUT_mountmode.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
+            this.BUT_mountmode.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.toolTip1.SetToolTip(this.BUT_mountmode, resources.GetString("BUT_mountmode.ToolTip"));
+            this.BUT_mountmode.UseVisualStyleBackColor = true;
+            this.BUT_mountmode.Click += new System.EventHandler(this.BUT_mountmode_Click);
+            // 
+            // modifyandSetSpeed
+            // 
+            this.modifyandSetSpeed.ButtonText = "Change Speed";
+            resources.ApplyResources(this.modifyandSetSpeed, "modifyandSetSpeed");
+            this.modifyandSetSpeed.Name = "modifyandSetSpeed";
+            this.modifyandSetSpeed.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            this.modifyandSetSpeed.Click += new System.EventHandler(this.modifyandSetSpeed_Click);
+            this.modifyandSetSpeed.ParentChanged += new System.EventHandler(this.modifyandSetSpeed_ParentChanged);
+            // 
+            // modifyandSetAlt
+            // 
+            this.modifyandSetAlt.ButtonText = "Change Alt";
+            resources.ApplyResources(this.modifyandSetAlt, "modifyandSetAlt");
+            this.modifyandSetAlt.Name = "modifyandSetAlt";
+            this.modifyandSetAlt.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            this.modifyandSetAlt.Click += new System.EventHandler(this.modifyandSetAlt_Click);
             // 
             // BUT_ARM
             // 
@@ -807,6 +864,10 @@
             this.Gvspeed.Value1 = 0F;
             this.Gvspeed.Value2 = 0F;
             this.Gvspeed.Value3 = 0F;
+            // 
+            // bindingSourceGaugesTab
+            // 
+            this.bindingSourceGaugesTab.DataSource = typeof(MissionPlanner.CurrentState);
             // 
             // Gheading
             // 
@@ -1136,6 +1197,41 @@
             this.flowLayoutPanel1.Controls.Add(this.servoOptions7);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             // 
+            // servoOptions1
+            // 
+            resources.ApplyResources(this.servoOptions1, "servoOptions1");
+            this.servoOptions1.Name = "servoOptions1";
+            // 
+            // servoOptions2
+            // 
+            resources.ApplyResources(this.servoOptions2, "servoOptions2");
+            this.servoOptions2.Name = "servoOptions2";
+            // 
+            // servoOptions3
+            // 
+            resources.ApplyResources(this.servoOptions3, "servoOptions3");
+            this.servoOptions3.Name = "servoOptions3";
+            // 
+            // servoOptions4
+            // 
+            resources.ApplyResources(this.servoOptions4, "servoOptions4");
+            this.servoOptions4.Name = "servoOptions4";
+            // 
+            // servoOptions5
+            // 
+            resources.ApplyResources(this.servoOptions5, "servoOptions5");
+            this.servoOptions5.Name = "servoOptions5";
+            // 
+            // servoOptions6
+            // 
+            resources.ApplyResources(this.servoOptions6, "servoOptions6");
+            this.servoOptions6.Name = "servoOptions6";
+            // 
+            // servoOptions7
+            // 
+            resources.ApplyResources(this.servoOptions7, "servoOptions7");
+            this.servoOptions7.Name = "servoOptions7";
+            // 
             // tabTLogs
             // 
             this.tabTLogs.Controls.Add(this.tableLayoutPanel1);
@@ -1320,10 +1416,22 @@
             // 
             // tablogbrowse
             // 
+            this.tablogbrowse.Controls.Add(this.BUT_matlab);
             this.tablogbrowse.Controls.Add(this.BUT_logbrowse);
             resources.ApplyResources(this.tablogbrowse, "tablogbrowse");
             this.tablogbrowse.Name = "tablogbrowse";
             this.tablogbrowse.UseVisualStyleBackColor = true;
+            // 
+            // BUT_matlab
+            // 
+            this.BUT_matlab.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
+            this.BUT_matlab.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
+            resources.ApplyResources(this.BUT_matlab, "BUT_matlab");
+            this.BUT_matlab.Name = "BUT_matlab";
+            this.BUT_matlab.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
+            this.BUT_matlab.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.BUT_matlab.UseVisualStyleBackColor = true;
+            this.BUT_matlab.Click += new System.EventHandler(this.BUT_matlab_Click);
             // 
             // BUT_logbrowse
             // 
@@ -1486,6 +1594,10 @@
             this.lbl_winddir.Name = "lbl_winddir";
             this.lbl_winddir.resize = true;
             this.toolTip1.SetToolTip(this.lbl_winddir, resources.GetString("lbl_winddir.ToolTip"));
+            // 
+            // bindingSource1
+            // 
+            this.bindingSource1.DataSource = typeof(MissionPlanner.CurrentState);
             // 
             // lbl_windvel
             // 
@@ -1657,85 +1769,9 @@
             this.dataGridViewImageColumn2.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
             this.dataGridViewImageColumn2.Name = "dataGridViewImageColumn2";
             // 
-            // bindingSourceHud
-            // 
-            this.bindingSourceHud.DataSource = typeof(ArdupilotMega.CurrentState);
-            // 
-            // bindingSourceQuickTab
-            // 
-            this.bindingSourceQuickTab.DataSource = typeof(ArdupilotMega.CurrentState);
-            // 
-            // modifyandSetSpeed
-            // 
-            this.modifyandSetSpeed.ButtonText = "Change Speed";
-            resources.ApplyResources(this.modifyandSetSpeed, "modifyandSetSpeed");
-            this.modifyandSetSpeed.Name = "modifyandSetSpeed";
-            this.modifyandSetSpeed.Value = new decimal(new int[] {
-            100,
-            0,
-            0,
-            0});
-            this.modifyandSetSpeed.Click += new System.EventHandler(this.modifyandSetSpeed_Click);
-            this.modifyandSetSpeed.ParentChanged += new System.EventHandler(this.modifyandSetSpeed_ParentChanged);
-            // 
-            // modifyandSetAlt
-            // 
-            this.modifyandSetAlt.ButtonText = "Change Alt";
-            resources.ApplyResources(this.modifyandSetAlt, "modifyandSetAlt");
-            this.modifyandSetAlt.Name = "modifyandSetAlt";
-            this.modifyandSetAlt.Value = new decimal(new int[] {
-            100,
-            0,
-            0,
-            0});
-            this.modifyandSetAlt.Click += new System.EventHandler(this.modifyandSetAlt_Click);
-            // 
-            // servoOptions1
-            // 
-            resources.ApplyResources(this.servoOptions1, "servoOptions1");
-            this.servoOptions1.Name = "servoOptions1";
-            // 
-            // servoOptions2
-            // 
-            resources.ApplyResources(this.servoOptions2, "servoOptions2");
-            this.servoOptions2.Name = "servoOptions2";
-            // 
-            // servoOptions3
-            // 
-            resources.ApplyResources(this.servoOptions3, "servoOptions3");
-            this.servoOptions3.Name = "servoOptions3";
-            // 
-            // servoOptions4
-            // 
-            resources.ApplyResources(this.servoOptions4, "servoOptions4");
-            this.servoOptions4.Name = "servoOptions4";
-            // 
-            // servoOptions5
-            // 
-            resources.ApplyResources(this.servoOptions5, "servoOptions5");
-            this.servoOptions5.Name = "servoOptions5";
-            // 
-            // servoOptions6
-            // 
-            resources.ApplyResources(this.servoOptions6, "servoOptions6");
-            this.servoOptions6.Name = "servoOptions6";
-            // 
-            // servoOptions7
-            // 
-            resources.ApplyResources(this.servoOptions7, "servoOptions7");
-            this.servoOptions7.Name = "servoOptions7";
-            // 
-            // bindingSourceGaugesTab
-            // 
-            this.bindingSourceGaugesTab.DataSource = typeof(ArdupilotMega.CurrentState);
-            // 
-            // bindingSource1
-            // 
-            this.bindingSource1.DataSource = typeof(ArdupilotMega.CurrentState);
-            // 
             // bindingSourceStatusTab
             // 
-            this.bindingSourceStatusTab.DataSource = typeof(ArdupilotMega.CurrentState);
+            this.bindingSourceStatusTab.DataSource = typeof(MissionPlanner.CurrentState);
             // 
             // FlightData
             // 
@@ -1756,11 +1792,14 @@
             this.SubMainLeft.Panel2.ResumeLayout(false);
             this.SubMainLeft.ResumeLayout(false);
             this.contextMenuStripHud.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSourceHud)).EndInit();
             this.tabControl1.ResumeLayout(false);
             this.tabQuick.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSourceQuickTab)).EndInit();
             this.tabActions.ResumeLayout(false);
             this.tabGauges.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSourceGaugesTab)).EndInit();
             this.tabServo.ResumeLayout(false);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.tabTLogs.ResumeLayout(false);
@@ -1777,14 +1816,11 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.Panel2.PerformLayout();
             this.splitContainer1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TRK_zoom)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Zoomlevel)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingSourceHud)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingSourceQuickTab)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingSourceGaugesTab)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSourceStatusTab)).EndInit();
             this.ResumeLayout(false);
 
@@ -1797,26 +1833,26 @@
         private System.Windows.Forms.SplitContainer MainH;
         private System.Windows.Forms.SplitContainer SubMainLeft;
         private System.Windows.Forms.ToolStripMenuItem goHereToolStripMenuItem;
-        private ArdupilotMega.Controls.HUD hud1;
-        private ArdupilotMega.Controls.MyButton BUT_clear_track;
+        private Controls.HUD hud1;
+        private Controls.MyButton BUT_clear_track;
         private System.Windows.Forms.CheckBox CB_tuning;
-        private ArdupilotMega.Controls.MyButton BUT_RAWSensor;
-        private ArdupilotMega.Controls.MyButton BUTactiondo;
-        private ArdupilotMega.Controls.MyButton BUTrestartmission;
+        private Controls.MyButton BUT_RAWSensor;
+        private Controls.MyButton BUTactiondo;
+        private Controls.MyButton BUTrestartmission;
         private System.Windows.Forms.ComboBox CMB_action;
-        private ArdupilotMega.Controls.MyButton BUT_Homealt;
+        private Controls.MyButton BUT_Homealt;
         private System.Windows.Forms.TrackBar tracklog;
-        private ArdupilotMega.Controls.MyButton BUT_playlog;
-        private ArdupilotMega.Controls.MyButton BUT_loadtelem;
+        private Controls.MyButton BUT_playlog;
+        private Controls.MyButton BUT_loadtelem;
         private AGaugeApp.AGauge Galt;
         private AGaugeApp.AGauge Gspeed;
         private AGaugeApp.AGauge Gvspeed;
         private System.Windows.Forms.TableLayoutPanel tableMap;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.NumericUpDown Zoomlevel;
-        private ArdupilotMega.Controls.MyLabel label1;
+        private Controls.MyLabel label1;
         private System.Windows.Forms.CheckBox CHK_autopan;
-        private ArdupilotMega.Controls.myGMAP gMapControl1;
+        private Controls.myGMAP gMapControl1;
         private ZedGraph.ZedGraphControl zg1;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabGauges;
@@ -1824,24 +1860,24 @@
         private System.Windows.Forms.TabPage tabActions;
         private System.Windows.Forms.TabPage tabTLogs;
         private System.Windows.Forms.ComboBox CMB_modes;
-        private ArdupilotMega.Controls.MyButton BUT_setmode;
+        private Controls.MyButton BUT_setmode;
         private System.Windows.Forms.ComboBox CMB_setwp;
-        private ArdupilotMega.Controls.MyButton BUT_setwp;
-        private ArdupilotMega.Controls.MyButton BUT_quickmanual;
-        private ArdupilotMega.Controls.MyButton BUT_quickrtl;
-        private ArdupilotMega.Controls.MyButton BUT_quickauto;
-        private ArdupilotMega.Controls.MyButton BUT_log2kml;
-        private ArdupilotMega.Controls.MyLabel lbl_windvel;
-        private ArdupilotMega.Controls.MyLabel lbl_winddir;
-        private ArdupilotMega.Controls.MyButton BUT_joystick;
+        private Controls.MyButton BUT_setwp;
+        private Controls.MyButton BUT_quickmanual;
+        private Controls.MyButton BUT_quickrtl;
+        private Controls.MyButton BUT_quickauto;
+        private Controls.MyButton BUT_log2kml;
+        private Controls.MyLabel lbl_windvel;
+        private Controls.MyLabel lbl_winddir;
+        private Controls.MyButton BUT_joystick;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.ToolStripMenuItem recordHudToAVIToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem stopRecordToolStripMenuItem;
-        private ArdupilotMega.Controls.MyLabel lbl_logpercent;
+        private Controls.MyLabel lbl_logpercent;
         private System.Windows.Forms.ToolStripMenuItem pointCameraHereToolStripMenuItem;
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private ArdupilotMega.Controls.MyLabel lbl_hdop;
-        private ArdupilotMega.Controls.MyLabel lbl_sats;
+        private Controls.MyLabel lbl_hdop;
+        private Controls.MyLabel lbl_sats;
         private Controls.HSI Gheading;
         private Controls.MyLabel lbl_playbackspeed;
         private System.Windows.Forms.ToolStripMenuItem setMJPEGSourceToolStripMenuItem;
@@ -1908,6 +1944,9 @@
         private System.Windows.Forms.BindingSource bindingSourceGaugesTab;
         private System.Windows.Forms.ToolStripMenuItem setHomeHereToolStripMenuItem;
         private MissionPlanner.Controls.Coords coords1;
+        private Controls.MyButton BUT_matlab;
+        private System.Windows.Forms.ComboBox CMB_mountmode;
+        private Controls.MyButton BUT_mountmode;
 
     }
 }

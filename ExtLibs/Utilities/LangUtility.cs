@@ -8,7 +8,7 @@ using System.Globalization;
 using System.ComponentModel;
 using System.Windows.Forms;
 
-namespace ArdupilotMega.Utilities
+namespace MissionPlanner.Utilities
 {
     public static class CultureInfoEx
     {

@@ -6,15 +6,15 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using ArdupilotMega.Utilities;
+using MissionPlanner.Utilities;
 using System.Xml;
 using System.IO;
 using log4net;
 using System.Reflection;
 using System.Globalization;
-using ArdupilotMega.Controls;
+using MissionPlanner.Controls;
 
-namespace ArdupilotMega.GCSViews.ConfigurationView
+namespace MissionPlanner.GCSViews.ConfigurationView
 {
     public partial class ConfigSimplePidsV2: MyUserControl, IActivate
     {

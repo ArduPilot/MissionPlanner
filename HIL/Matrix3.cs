@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using YLScsDrawing.Drawing3d;
 
-namespace ArdupilotMega.HIL
+namespace MissionPlanner.HIL
 {
     public class Matrix3
     {

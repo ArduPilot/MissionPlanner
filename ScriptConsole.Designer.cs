@@ -1,4 +1,4 @@
-﻿namespace ArdupilotMega
+﻿namespace MissionPlanner
 {
     partial class ScriptConsole
     {
@@ -34,7 +34,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.updateoutput = new System.Windows.Forms.Timer(this.components);
             this.autoscrollCheckbox = new System.Windows.Forms.CheckBox();
-            this.BUT_clear = new ArdupilotMega.Controls.MyButton();
+            this.BUT_clear = new Controls.MyButton();
             this.SuspendLayout();
             // 
             // textOutput

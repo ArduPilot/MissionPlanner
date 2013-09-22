@@ -5,7 +5,7 @@ using System.Windows.Forms;
 using System.Reflection;
 using log4net;
 
-namespace ArdupilotMega.Controls
+namespace MissionPlanner.Controls
 {
     /// <summary>
     /// Form that is shown to the user during a background operation
@@ -36,6 +36,7 @@ namespace ArdupilotMega.Controls
         {
             InitializeComponent();
             doWorkArgs = new ProgressWorkerEventArgs();
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.btnClose.Visible = false;
         }
 
@@ -94,6 +95,11 @@ namespace ArdupilotMega.Controls
             // stop the timer
             timer1.Stop();
             // run once more to do final message and progressbar
+            if (this.IsDisposed || this.Disposing)
+            {
+                return;
+            }
+
             this.Invoke((MethodInvoker)delegate
             {
                 timer1_Tick(null, null);

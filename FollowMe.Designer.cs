@@ -1,4 +1,4 @@
-﻿namespace ArdupilotMega
+﻿namespace MissionPlanner
 {
     partial class FollowMe
     {
@@ -36,7 +36,7 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.CMB_updaterate = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.BUT_connect = new ArdupilotMega.Controls.MyButton();
+            this.BUT_connect = new Controls.MyButton();
             this.SuspendLayout();
             // 
             // CMB_serialport
@@ -157,7 +157,7 @@
         #endregion
 
         private System.Windows.Forms.ComboBox CMB_serialport;
-        private ArdupilotMega.Controls.MyButton BUT_connect;
+        private Controls.MyButton BUT_connect;
         private System.Windows.Forms.ComboBox CMB_baudrate;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label LBL_location;

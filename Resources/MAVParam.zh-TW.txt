@@ -54,7 +54,7 @@ It includes both fixed wing (APM) and rotary wing (!ArduCopter) parameters. Some
 ||THR_FS_ACTION||0||2||1||1|| ||THROTTLE_FAILSAFE_ACTION - FAILSAFE_ACTION 設置決定了APM 在自動模式下進入油門失控保護時的動作。這對於避免飛機暫時飛出遙控範圍時意外的保護行為非常重要。若FAILSAFE_ACTION 為1，當飛機在自動或盤旋模式下進入失控保護時，飛機將返航。當油門恢復時，將返回自動或盤旋模式。默認行為是忽略自動和盤旋模式下的油門失控保護||
 ||TRIM_THROTTLE||0||90||45||1||1||THROTTLE_CRUISE - 單位為百分比- 水平飛行下達到AIRSPEED_CRUISE 的近似油門設置。默認值是45%，對於動力適當的飛機來說比較合理||
 ||TRIM_AUTO||0||1||1||1||1||AUTO_TRIM - ArduPilot Mega 可以根據切出手動模式時的遙控輸入自動更新微調值。這意味著你可以在切換到輔助模式之前手動微調飛機，同時也意味著在切換的時候所有搖桿都不能有偏差||
-||FLTMODE_CH||5||8||8||1||1||FLIGHT_MODE_CHANNEL - 讀取分配飛行模式的輸入通道。使用舵機測試儀或ArduPilotMega_demo 測試程序檢查你的開關設置。注意：一些APM 板子遙控通道標為0-7，另一些標為1-8。該設置使用1-8 的標法（默認值為8）。如果你只有一個三段開關，或者只想要三個設置，將你的開關設置成輸出1165, 1425, 1815 毫秒，並把飛行模式1 & 2、3 & 4、5 & 6 設成一樣的。如果你把FLIGHT_MODE_CHANNEL 設成8 (默認值) 並且控制通道連到輸入通道8，當輸入超過1750 毫秒時，硬件失控保護將會啟動||
+||FLTMODE_CH||5||8||8||1||1||FLIGHT_MODE_CHANNEL - 讀取分配飛行模式的輸入通道。使用舵機測試儀或MissionPlanner.demo 測試程序檢查你的開關設置。注意：一些APM 板子遙控通道標為0-7，另一些標為1-8。該設置使用1-8 的標法（默認值為8）。如果你只有一個三段開關，或者只想要三個設置，將你的開關設置成輸出1165, 1425, 1815 毫秒，並把飛行模式1 & 2、3 & 4、5 & 6 設成一樣的。如果你把FLIGHT_MODE_CHANNEL 設成8 (默認值) 並且控制通道連到輸入通道8，當輸入超過1750 毫秒時，硬件失控保護將會啟動||
 ||FLIGHT_MODE_1||0||14||11||1|| ||FLIGHT_MODE_1 - 可用的標準飛行模式包括：MANUAL = 通過硬件復用器完全手動控制。 STABILIZE = 盡量保持水平飛行，但可以由遙控控制。 FLY_BY_WIRE_A = 用戶輸入的自動駕駛控制，手動控製油門。 FLY_BY_WIRE_B = 用戶輸入的自動駕駛控制，油門控制空速。 RTL = 返回出發點兵在安全高度盤旋。 AUTO = 基於編程的航點自主飛行。 ||
 ||FLIGHT_MODE_2||0||14||11||1|| ||FLIGHT_MODE_2||
 ||FLIGHT_MODE_3||0||14||5||1|| ||FLIGHT_MODE_3||
@@ -101,7 +101,7 @@ It includes both fixed wing (APM) and rotary wing (!ArduCopter) parameters. Some
 ||FIRMWARE_VER|| || ||0|| || ||FIRMWARE_VER||
 ||LOG_BITMASK||0||65535||334||1||1||LOG_BITMASK||
 ||TRIM_ELEVON||900||2100||1500||1||1||TRIM_ELEVON||
-||THR_FS_VALUE||850||1000||950||1||1||THROTTLE_FS_VALUE - 如果啟用了油門失控保護，當油門低於THROTTLE_FS_VALUE 時將進入失控保護。默認值是975ms, 一個非常低的油門設置。多數發射器允許你調高油門位置，以便正常的搖桿動作不會引發失控保護。將你的接收機油門的失控保護設為非常小的值，並用ArduPilotMega_demo 程​​序檢查正常的油門會不會到該值。在最小的油門設置和THROTTLE_FS_VALUE 之間需要留有50ms 的間隔||
+||THR_FS_VALUE||850||1000||950||1||1||THROTTLE_FS_VALUE - 如果啟用了油門失控保護，當油門低於THROTTLE_FS_VALUE 時將進入失控保護。默認值是975ms, 一個非常低的油門設置。多數發射器允許你調高油門位置，以便正常的搖桿動作不會引發失控保護。將你的接收機油門的失控保護設為非常小的值，並用MissionPlanner.demo 程​​序檢查正常的油門會不會到該值。在最小的油門設置和THROTTLE_FS_VALUE 之間需要留有50ms 的間隔||
 ||TRIM_ARSPD_CM||500||5000||1200||100||1||AIRSPEED_CRUISE_CM - 巡航時維持的速度，單位m/s。默認值是10m/s，適合比較小的輕型飛機||
 ||GND_TEMP||-10||50||28||1||1||GND_TEMP - 地面溫度||
 ||AP_OFF​​SET|| || ||0|| || ||AP_OFF​​SET||

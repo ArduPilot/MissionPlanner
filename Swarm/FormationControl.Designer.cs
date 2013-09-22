@@ -1,4 +1,4 @@
-﻿namespace ArdupilotMega.Swarm
+﻿namespace MissionPlanner.Swarm
 {
     partial class FormationControl
     {
@@ -31,17 +31,17 @@
             this.components = new System.ComponentModel.Container();
             this.CMB_mavs = new System.Windows.Forms.ComboBox();
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
-            this.grid1 = new ArdupilotMega.Swarm.Grid();
-            this.BUT_connect = new ArdupilotMega.Controls.MyButton();
-            this.BUT_Start = new ArdupilotMega.Controls.MyButton();
-            this.BUT_leader = new ArdupilotMega.Controls.MyButton();
-            this.BUT_Land = new ArdupilotMega.Controls.MyButton();
-            this.BUT_Takeoff = new ArdupilotMega.Controls.MyButton();
-            this.BUT_Disarm = new ArdupilotMega.Controls.MyButton();
-            this.BUT_Arm = new ArdupilotMega.Controls.MyButton();
+            this.grid1 = new MissionPlanner.Swarm.Grid();
+            this.BUT_connect = new Controls.MyButton();
+            this.BUT_Start = new Controls.MyButton();
+            this.BUT_leader = new Controls.MyButton();
+            this.BUT_Land = new Controls.MyButton();
+            this.BUT_Takeoff = new Controls.MyButton();
+            this.BUT_Disarm = new Controls.MyButton();
+            this.BUT_Arm = new Controls.MyButton();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.BUT_Updatepos = new ArdupilotMega.Controls.MyButton();
+            this.BUT_Updatepos = new Controls.MyButton();
             this.PNL_status = new System.Windows.Forms.FlowLayoutPanel();
             this.timer_status = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
@@ -67,7 +67,7 @@
             this.grid1.Size = new System.Drawing.Size(755, 388);
             this.grid1.TabIndex = 8;
             this.grid1.Vertical = false;
-            this.grid1.UpdateOffsets += new ArdupilotMega.Swarm.Grid.UpdateOffsetsEvent(this.grid1_UpdateOffsets);
+            this.grid1.UpdateOffsets += new MissionPlanner.Swarm.Grid.UpdateOffsetsEvent(this.grid1_UpdateOffsets);
             // 
             // BUT_connect
             // 

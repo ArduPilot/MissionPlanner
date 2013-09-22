@@ -1,4 +1,28 @@
-﻿* Mission Planner 1.2.78
+﻿* Mission Planner 1.2.79
+dpinst tweaks
+enable doublebuffer on coords display
+fix progressdialog fontscaling and exception
+relocate survey option to auto wp menu and apply theme
+fix neagtive area on suvery screen
+add trackerhome by Will Bryan
+relocate srtm.cs
+add mnt_mode to action tab
+add verify command action on action tab
+add matlab export
+add beta support
+modify terminal function
+mod + and X images
+mod ParameterMetaDataRepository to be a static class
+add support for MP-latest.zip and msi
+add "3DR 4in 1 ESC"
+remove options from simple pid - now at 3 items.
+fix fence breach warning
+fix genotp
+fix hb sending
+rename main exe
+migrate all old namespace to new namespace
+
+* Mission Planner 1.2.78
 fix stacked windows
 
 * Mission Planner 1.2.77

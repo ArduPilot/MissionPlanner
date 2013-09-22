@@ -1,5 +1,5 @@
 ﻿using System.Windows.Forms;
-namespace ArdupilotMega.Wizard
+namespace MissionPlanner.Wizard
 {
     partial class _98DontForget
     {
@@ -40,7 +40,7 @@ namespace ArdupilotMega.Wizard
             this.linkLabel7 = new System.Windows.Forms.LinkLabel();
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.radialGradientBG1 = new ArdupilotMega.Controls.GradientBG();
+            this.radialGradientBG1 = new Controls.GradientBG();
             this.linkLabel8 = new System.Windows.Forms.LinkLabel();
             this.linkLabel9 = new System.Windows.Forms.LinkLabel();
             this.panel1.SuspendLayout();

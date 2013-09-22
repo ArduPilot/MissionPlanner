@@ -1,14 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using MissionPlanner;
 
 namespace uploader
 {
 	public class IHex : SortedList<UInt32, byte[]>
 	{
-        public event ArdupilotMega._3DRradio.LogEventHandler LogEvent;
+        public event _3DRradio.LogEventHandler LogEvent;
 
-        public event ArdupilotMega._3DRradio.ProgressEventHandler ProgressEvent;
+        public event _3DRradio.ProgressEventHandler ProgressEvent;
 		
 		private SortedList<UInt32, UInt32>	merge_index;
 		

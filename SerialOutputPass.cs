@@ -10,7 +10,7 @@ using MissionPlanner.Comms;
 using System.Net.Sockets;
 using System.Threading;
 
-namespace ArdupilotMega
+namespace MissionPlanner
 {
     public partial class SerialOutputPass : Form
     {

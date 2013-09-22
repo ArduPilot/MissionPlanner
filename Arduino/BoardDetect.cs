@@ -6,10 +6,10 @@ using System.Threading;
 using log4net;
 using System.Globalization;
 using MissionPlanner.Comms;
-using ArdupilotMega.Utilities;
+using MissionPlanner.Utilities;
 using MissionPlanner.Utilities;
 
-namespace ArdupilotMega.Arduino
+namespace MissionPlanner.Arduino
 {
     public class BoardDetect
     {

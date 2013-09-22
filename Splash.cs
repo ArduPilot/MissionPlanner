@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace ArdupilotMega
+namespace MissionPlanner
 {
     public partial class Splash : Form
     {

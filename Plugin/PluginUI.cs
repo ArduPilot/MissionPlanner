@@ -18,7 +18,7 @@ namespace MissionPlanner.Plugin
 
         private void PluginUI_Load(object sender, EventArgs e)
         {
-            foreach (var item in ArdupilotMega.Plugin.PluginLoader.Plugins)
+            foreach (var item in MissionPlanner.Plugin.PluginLoader.Plugins)
             {
                 int row = dataGridView1.Rows.Add();
 

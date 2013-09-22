@@ -1,4 +1,4 @@
-﻿namespace ArdupilotMega.GCSViews
+﻿namespace MissionPlanner.GCSViews
 {
     partial class FlightPlanner
     {
@@ -61,8 +61,8 @@
             this.TXT_loiterrad = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.panel5 = new System.Windows.Forms.Panel();
-            this.BUT_write = new ArdupilotMega.Controls.MyButton();
-            this.BUT_read = new ArdupilotMega.Controls.MyButton();
+            this.BUT_write = new Controls.MyButton();
+            this.BUT_read = new Controls.MyButton();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.LinkLabel();
             this.label3 = new System.Windows.Forms.Label();
@@ -94,7 +94,7 @@
             this.lbl_status = new System.Windows.Forms.Label();
             this.panelWaypoints = new BSE.Windows.Forms.Panel();
             this.splitter1 = new BSE.Windows.Forms.Splitter();
-            this.BUT_Add = new ArdupilotMega.Controls.MyButton();
+            this.BUT_Add = new Controls.MyButton();
             this.panelAction = new BSE.Windows.Forms.Panel();
             this.chk_grid = new System.Windows.Forms.CheckBox();
             this.comboBoxMapType = new System.Windows.Forms.ComboBox();
@@ -102,7 +102,7 @@
             this.lbl_distance = new System.Windows.Forms.Label();
             this.lbl_homedist = new System.Windows.Forms.Label();
             this.lbl_prevdist = new System.Windows.Forms.Label();
-            this.MainMap = new ArdupilotMega.Controls.myGMAP();
+            this.MainMap = new Controls.myGMAP();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.deleteWPToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loiterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -151,7 +151,7 @@
             this.saveWPFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.trackerHomeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.flyToHereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.trackBar1 = new ArdupilotMega.Controls.MyTrackBar();
+            this.trackBar1 = new Controls.MyTrackBar();
             this.label11 = new System.Windows.Forms.Label();
             this.panelBASE = new System.Windows.Forms.Panel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
@@ -1121,8 +1121,8 @@
 
         #endregion
 
-        private ArdupilotMega.Controls.MyButton BUT_read;
-        private ArdupilotMega.Controls.MyButton BUT_write;
+        private Controls.MyButton BUT_read;
+        private Controls.MyButton BUT_write;
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.LinkLabel label4;
@@ -1146,7 +1146,7 @@
         private System.Windows.Forms.Label lbl_status;
         private System.Windows.Forms.DataGridView Commands;
         private System.Windows.Forms.CheckBox CHK_geheight;
-        private ArdupilotMega.Controls.MyButton BUT_Add;
+        private Controls.MyButton BUT_Add;
         private System.Windows.Forms.TextBox TXT_WPRad;
         private System.Windows.Forms.TextBox TXT_DefaultAlt;
         private System.Windows.Forms.Label LBL_WPRad;
@@ -1157,8 +1157,8 @@
         private BSE.Windows.Forms.Panel panelWaypoints;
         private BSE.Windows.Forms.Panel panelAction;
         private System.Windows.Forms.Panel panelMap;
-        private ArdupilotMega.Controls.myGMAP MainMap;
-        private ArdupilotMega.Controls.MyTrackBar trackBar1;
+        private Controls.myGMAP MainMap;
+        private Controls.MyTrackBar trackBar1;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label lbl_distance;
         private System.Windows.Forms.Label lbl_prevdist;

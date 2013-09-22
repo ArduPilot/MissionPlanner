@@ -336,6 +336,9 @@
   <data name="CMB_apmversion.Items3" xml:space="preserve">
     <value>3: PX4</value>
   </data>
+  <data name="CMB_apmversion.Items4" xml:space="preserve">
+    <value>4: Pixhawk</value>
+  </data>
   <data name="CMB_apmversion.Location" type="System.Drawing.Point, System.Drawing">
     <value>160, 95</value>
   </data>

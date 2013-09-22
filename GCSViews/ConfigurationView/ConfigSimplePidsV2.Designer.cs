@@ -1,4 +1,4 @@
-﻿namespace ArdupilotMega.GCSViews.ConfigurationView
+﻿namespace MissionPlanner.GCSViews.ConfigurationView
 {
     partial class ConfigSimplePidsV2
     {
@@ -30,11 +30,11 @@
         {
             this.TXT_info = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.TRK_Gain = new ArdupilotMega.Controls.MyTrackBar();
+            this.TRK_Gain = new Controls.MyTrackBar();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.myLabel1 = new ArdupilotMega.Controls.MyLabel();
-            this.TRK_damp = new ArdupilotMega.Controls.MyTrackBar();
-            this.myLabel2 = new ArdupilotMega.Controls.MyLabel();
+            this.myLabel1 = new Controls.MyLabel();
+            this.TRK_damp = new Controls.MyTrackBar();
+            this.myLabel2 = new Controls.MyLabel();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.TRK_Gain)).BeginInit();
             this.groupBox1.SuspendLayout();

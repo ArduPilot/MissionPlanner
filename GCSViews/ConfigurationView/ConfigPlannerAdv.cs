@@ -7,9 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using log4net;
-using ArdupilotMega.Controls;
+using MissionPlanner.Controls;
 
-namespace ArdupilotMega.GCSViews.ConfigurationView
+namespace MissionPlanner.GCSViews.ConfigurationView
 {
     public partial class ConfigPlannerAdv : UserControl, IActivate
     {

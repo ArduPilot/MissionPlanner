@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Reflection;
 using System.Windows.Forms;
-using ArdupilotMega.Controls;
+using MissionPlanner.Controls;
 using log4net;
 using Transitions;
 
-namespace ArdupilotMega.GCSViews.ConfigurationView
+namespace MissionPlanner.GCSViews.ConfigurationView
 {
     public partial class ConfigFrameType : MyUserControl, IActivate, IDeactivate
     {

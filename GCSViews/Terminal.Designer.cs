@@ -1,4 +1,4 @@
-﻿namespace ArdupilotMega.GCSViews
+﻿namespace MissionPlanner.GCSViews
 {
     partial class Terminal
     {
@@ -30,14 +30,14 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Terminal));
             this.TXT_terminal = new System.Windows.Forms.RichTextBox();
-            this.BUTsetupshow = new ArdupilotMega.Controls.MyButton();
-            this.BUTradiosetup = new ArdupilotMega.Controls.MyButton();
-            this.BUTtests = new ArdupilotMega.Controls.MyButton();
-            this.Logs = new ArdupilotMega.Controls.MyButton();
-            this.BUT_logbrowse = new ArdupilotMega.Controls.MyButton();
-            this.BUT_ConnectAPM = new ArdupilotMega.Controls.MyButton();
-            this.BUT_ConnectPX4 = new ArdupilotMega.Controls.MyButton();
-            this.BUT_disconnect = new ArdupilotMega.Controls.MyButton();
+            this.BUTsetupshow = new Controls.MyButton();
+            this.BUTradiosetup = new Controls.MyButton();
+            this.BUTtests = new Controls.MyButton();
+            this.Logs = new Controls.MyButton();
+            this.BUT_logbrowse = new Controls.MyButton();
+            this.BUT_ConnectAPM = new Controls.MyButton();
+            this.BUT_disconnect = new Controls.MyButton();
+            this.CMB_boardtype = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // TXT_terminal
@@ -116,17 +116,6 @@
             this.BUT_ConnectAPM.UseVisualStyleBackColor = true;
             this.BUT_ConnectAPM.Click += new System.EventHandler(this.BUT_RebootAPM_Click);
             // 
-            // BUT_ConnectPX4
-            // 
-            this.BUT_ConnectPX4.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
-            this.BUT_ConnectPX4.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
-            resources.ApplyResources(this.BUT_ConnectPX4, "BUT_ConnectPX4");
-            this.BUT_ConnectPX4.Name = "BUT_ConnectPX4";
-            this.BUT_ConnectPX4.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
-            this.BUT_ConnectPX4.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
-            this.BUT_ConnectPX4.UseVisualStyleBackColor = true;
-            this.BUT_ConnectPX4.Click += new System.EventHandler(this.BUT_ConnectPX4_Click);
-            // 
             // BUT_disconnect
             // 
             resources.ApplyResources(this.BUT_disconnect, "BUT_disconnect");
@@ -138,12 +127,21 @@
             this.BUT_disconnect.UseVisualStyleBackColor = true;
             this.BUT_disconnect.Click += new System.EventHandler(this.BUT_disconnect_Click);
             // 
+            // CMB_boardtype
+            // 
+            this.CMB_boardtype.FormattingEnabled = true;
+            this.CMB_boardtype.Items.AddRange(new object[] {
+            resources.GetString("CMB_boardtype.Items"),
+            resources.GetString("CMB_boardtype.Items1")});
+            resources.ApplyResources(this.CMB_boardtype, "CMB_boardtype");
+            this.CMB_boardtype.Name = "CMB_boardtype";
+            // 
             // Terminal
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.CMB_boardtype);
             this.Controls.Add(this.BUT_disconnect);
-            this.Controls.Add(this.BUT_ConnectPX4);
             this.Controls.Add(this.BUT_ConnectAPM);
             this.Controls.Add(this.BUT_logbrowse);
             this.Controls.Add(this.Logs);
@@ -161,13 +159,13 @@
         #endregion
 
         private System.Windows.Forms.RichTextBox TXT_terminal;
-        private ArdupilotMega.Controls.MyButton BUTsetupshow;
-        private ArdupilotMega.Controls.MyButton BUTradiosetup;
-        private ArdupilotMega.Controls.MyButton BUTtests;
-        private ArdupilotMega.Controls.MyButton Logs;
-        private ArdupilotMega.Controls.MyButton BUT_logbrowse;
+        private Controls.MyButton BUTsetupshow;
+        private Controls.MyButton BUTradiosetup;
+        private Controls.MyButton BUTtests;
+        private Controls.MyButton Logs;
+        private Controls.MyButton BUT_logbrowse;
         private Controls.MyButton BUT_ConnectAPM;
-        private Controls.MyButton BUT_ConnectPX4;
         private Controls.MyButton BUT_disconnect;
+        private System.Windows.Forms.ComboBox CMB_boardtype;
     }
 }

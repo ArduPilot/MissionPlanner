@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Windows.Forms;
 
-namespace ArdupilotMega.Controls
+namespace MissionPlanner.Controls
 {
     partial class ProgressReporterDialogue
     {

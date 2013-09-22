@@ -1,5 +1,5 @@
 ﻿using System;
-namespace ArdupilotMega
+namespace MissionPlanner
 {
     partial class MainV2
     {
@@ -43,9 +43,9 @@ namespace ArdupilotMega
             this.MenuTerminal = new System.Windows.Forms.ToolStripButton();
             this.MenuHelp = new System.Windows.Forms.ToolStripButton();
             this.MenuConnect = new System.Windows.Forms.ToolStripButton();
-            this.toolStripConnectionControl = new ArdupilotMega.Controls.ToolStripConnectionControl();
+            this.toolStripConnectionControl = new Controls.ToolStripConnectionControl();
             this.MenuDonate = new System.Windows.Forms.ToolStripMenuItem();
-            this.menu = new ArdupilotMega.Controls.MyButton();
+            this.menu = new Controls.MyButton();
             this.panel1 = new System.Windows.Forms.Panel();
             this.MainMenu.SuspendLayout();
             this.CTX_mainmenu.SuspendLayout();

@@ -1,4 +1,4 @@
-﻿namespace ArdupilotMega.GCSViews.ConfigurationView
+﻿namespace MissionPlanner.GCSViews.ConfigurationView
 {
     partial class ConfigFlightModes
     {
@@ -59,7 +59,7 @@
             this.CMB_fmode2 = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.CMB_fmode1 = new System.Windows.Forms.ComboBox();
-            this.BUT_SaveModes = new ArdupilotMega.Controls.MyButton();
+            this.BUT_SaveModes = new Controls.MyButton();
             ((System.ComponentModel.ISupportInitialize)(this.currentStateBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
@@ -122,7 +122,7 @@
             // 
             // currentStateBindingSource
             // 
-            this.currentStateBindingSource.DataSource = typeof(ArdupilotMega.CurrentState);
+            this.currentStateBindingSource.DataSource = typeof(MissionPlanner.CurrentState);
             // 
             // label12
             // 
@@ -315,7 +315,7 @@
         private System.Windows.Forms.ComboBox CMB_fmode2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox CMB_fmode1;
-        private ArdupilotMega.Controls.MyButton BUT_SaveModes;
+        private Controls.MyButton BUT_SaveModes;
         private System.Windows.Forms.BindingSource currentStateBindingSource;
     }
 }

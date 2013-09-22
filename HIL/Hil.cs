@@ -6,7 +6,7 @@ using log4net;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-namespace ArdupilotMega.HIL
+namespace MissionPlanner.HIL
 {
     public delegate void ProgressEventHandler(int progress, string status);
 

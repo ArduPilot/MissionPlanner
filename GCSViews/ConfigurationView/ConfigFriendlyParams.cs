@@ -7,13 +7,13 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using ArdupilotMega.Controls;
-using ArdupilotMega.Controls.BackstageView;
-using ArdupilotMega.Utilities;
+using MissionPlanner.Controls;
+using MissionPlanner.Controls.BackstageView;
+using MissionPlanner.Utilities;
 using log4net;
 using MissionPlanner.Controls;
 
-namespace ArdupilotMega.GCSViews.ConfigurationView
+namespace MissionPlanner.GCSViews.ConfigurationView
 {
     public partial class ConfigFriendlyParams : UserControl, IActivate
     {
@@ -21,7 +21,6 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
 
         private static readonly ILog log =
           LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        private readonly ParameterMetaDataRepository _parameterMetaDataRepository;
         private Dictionary<string, string> _params = new Dictionary<string, string>();
         private Dictionary<string, string> _params_changed = new Dictionary<string, string>();
 
@@ -47,7 +46,6 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
         {
             InitializeComponent();
             tableLayoutPanel1.Height = this.Height;
-            _parameterMetaDataRepository = new ParameterMetaDataRepository();
 
             Resize += this_Resize;
 
@@ -174,8 +172,8 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             // When the parameter list is changed, re sort the list for our View's purposes
             MainV2.comPort.MAV.param.Keys.ForEach(x =>
             {
-                string displayName = _parameterMetaDataRepository.GetParameterMetaData(x.ToString(), ParameterMetaDataConstants.DisplayName);
-                string parameterMode = _parameterMetaDataRepository.GetParameterMetaData(x.ToString(), ParameterMetaDataConstants.User);
+                string displayName = ParameterMetaDataRepository.GetParameterMetaData(x.ToString(), ParameterMetaDataConstants.DisplayName);
+                string parameterMode = ParameterMetaDataRepository.GetParameterMetaData(x.ToString(), ParameterMetaDataConstants.User);
 
                 // If we have a friendly display name AND
                 if (!String.IsNullOrEmpty(displayName) &&
@@ -254,9 +252,9 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                     bool controlAdded = false;
 
                     string value = ((float)MainV2.comPort.MAV.param[x.Key]).ToString("0.###", CultureInfo.InvariantCulture);
-                    string description = _parameterMetaDataRepository.GetParameterMetaData(x.Key, ParameterMetaDataConstants.Description);
+                    string description = ParameterMetaDataRepository.GetParameterMetaData(x.Key, ParameterMetaDataConstants.Description);
                     string displayName = x.Value + " (" + x.Key + ")";
-                    string units = _parameterMetaDataRepository.GetParameterMetaData(x.Key, ParameterMetaDataConstants.Units);
+                    string units = ParameterMetaDataRepository.GetParameterMetaData(x.Key, ParameterMetaDataConstants.Units);
 
                     var items = this.Controls.Find(x.Key,true);
                     if (items.Length > 0)
@@ -280,8 +278,8 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                     }
 
                     // If this is a range
-                    string rangeRaw = _parameterMetaDataRepository.GetParameterMetaData(x.Key, ParameterMetaDataConstants.Range);
-                    string incrementRaw = _parameterMetaDataRepository.GetParameterMetaData(x.Key, ParameterMetaDataConstants.Increment);
+                    string rangeRaw = ParameterMetaDataRepository.GetParameterMetaData(x.Key, ParameterMetaDataConstants.Range);
+                    string incrementRaw = ParameterMetaDataRepository.GetParameterMetaData(x.Key, ParameterMetaDataConstants.Increment);
                     
                     if (!String.IsNullOrEmpty(rangeRaw) && !String.IsNullOrEmpty(incrementRaw))
                     {
@@ -345,7 +343,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                     if (!controlAdded)
                     {
                         // If this is a subset of values
-                        string availableValuesRaw = _parameterMetaDataRepository.GetParameterMetaData(x.Key, ParameterMetaDataConstants.Values);
+                        string availableValuesRaw = ParameterMetaDataRepository.GetParameterMetaData(x.Key, ParameterMetaDataConstants.Values);
                         if (!String.IsNullOrEmpty(availableValuesRaw))
                         {
                             string[] availableValues = availableValuesRaw.Split(new[] { ',' });

@@ -6,12 +6,12 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using ArdupilotMega.Controls.BackstageView;
+using MissionPlanner.Controls.BackstageView;
 using System.Collections;
-using ArdupilotMega.Controls;
-using ArdupilotMega.Utilities;
+using MissionPlanner.Controls;
+using MissionPlanner.Utilities;
 
-namespace ArdupilotMega.GCSViews.ConfigurationView
+namespace MissionPlanner.GCSViews.ConfigurationView
 {
     public partial class ConfigArducopter : UserControl, IActivate
     {
@@ -73,18 +73,16 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             if (tooltips.Count == 0)
                 readToolTips();
 
-            ParameterMetaDataRepository param = new ParameterMetaDataRepository();
-
             // ensure the fields are populated before setting them
-            CH7_OPT.DataSource = param.GetParameterOptionsInt("CH7_OPT").ToList(); 
+            CH7_OPT.DataSource = ParameterMetaDataRepository.GetParameterOptionsInt("CH7_OPT").ToList(); 
             CH7_OPT.DisplayMember = "Value";
             CH7_OPT.ValueMember = "Key";
 
-            CH8_OPT.DataSource = param.GetParameterOptionsInt("CH8_OPT").ToList(); 
+            CH8_OPT.DataSource = ParameterMetaDataRepository.GetParameterOptionsInt("CH8_OPT").ToList(); 
             CH8_OPT.DisplayMember = "Value";
             CH8_OPT.ValueMember = "Key";
 
-            TUNE.DataSource = param.GetParameterOptionsInt("TUNE").ToList();
+            TUNE.DataSource = ParameterMetaDataRepository.GetParameterOptionsInt("TUNE").ToList();
             TUNE.DisplayMember = "Value";
             TUNE.ValueMember = "Key";
 

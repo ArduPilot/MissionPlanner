@@ -1,4 +1,4 @@
-﻿namespace ArdupilotMega
+﻿namespace MissionPlanner
 {
     partial class Splash
     {

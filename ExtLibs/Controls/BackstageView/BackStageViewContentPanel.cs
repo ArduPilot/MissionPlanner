@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
 
-namespace ArdupilotMega.Controls.BackstageView
+namespace MissionPlanner.Controls.BackstageView
 {
     /// <summary>
     /// Base class for user controls that wish to participate as a backstage view 

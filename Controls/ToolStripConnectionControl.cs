@@ -1,5 +1,5 @@
 ﻿﻿using System.Windows.Forms;
-namespace ArdupilotMega.Controls
+namespace MissionPlanner.Controls
 {
     public class ToolStripConnectionControl : ToolStripControlHost
     {

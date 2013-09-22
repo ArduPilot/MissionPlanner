@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using MissionPlanner.Utilities;
 
-namespace ArdupilotMega.Swarm
+namespace MissionPlanner.Swarm
 {
     /// <summary>
     /// Follow the trail of the leader

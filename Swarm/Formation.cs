@@ -6,8 +6,9 @@ using ProjNet.CoordinateSystems.Transformations;
 using ProjNet.CoordinateSystems;
 using ProjNet.Converters;
 using MissionPlanner.Utilities;
+using MissionPlanner;
 
-namespace ArdupilotMega.Swarm
+namespace MissionPlanner.Swarm
 {
     /// <summary>
     /// Follow the leader

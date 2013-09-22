@@ -1,4 +1,4 @@
-﻿namespace ArdupilotMega
+﻿namespace MissionPlanner
 {
     partial class MavlinkLog
     {
@@ -30,15 +30,16 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MavlinkLog));
-            this.BUT_redokml = new ArdupilotMega.Controls.MyButton();
+            this.BUT_redokml = new Controls.MyButton();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
-            this.BUT_humanreadable = new ArdupilotMega.Controls.MyButton();
-            this.BUT_graphmavlog = new ArdupilotMega.Controls.MyButton();
+            this.BUT_humanreadable = new Controls.MyButton();
+            this.BUT_graphmavlog = new Controls.MyButton();
             this.zg1 = new ZedGraph.ZedGraphControl();
-            this.BUT_convertcsv = new ArdupilotMega.Controls.MyButton();
-            this.BUT_paramsfromlog = new ArdupilotMega.Controls.MyButton();
-            this.BUT_getwpsfromlog = new ArdupilotMega.Controls.MyButton();
-            this.BUT_droneshare = new ArdupilotMega.Controls.MyButton();
+            this.BUT_convertcsv = new Controls.MyButton();
+            this.BUT_paramsfromlog = new Controls.MyButton();
+            this.BUT_getwpsfromlog = new Controls.MyButton();
+            this.BUT_droneshare = new Controls.MyButton();
+            this.BUT_matlab = new Controls.MyButton();
             this.SuspendLayout();
             // 
             // BUT_redokml
@@ -107,10 +108,18 @@
             this.BUT_droneshare.UseVisualStyleBackColor = true;
             this.BUT_droneshare.Click += new System.EventHandler(this.BUT_droneshare_Click);
             // 
+            // BUT_matlab
+            // 
+            resources.ApplyResources(this.BUT_matlab, "BUT_matlab");
+            this.BUT_matlab.Name = "BUT_matlab";
+            this.BUT_matlab.UseVisualStyleBackColor = true;
+            this.BUT_matlab.Click += new System.EventHandler(this.BUT_matlab_Click);
+            // 
             // MavlinkLog
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.BUT_matlab);
             this.Controls.Add(this.BUT_droneshare);
             this.Controls.Add(this.BUT_getwpsfromlog);
             this.Controls.Add(this.BUT_paramsfromlog);
@@ -128,14 +137,15 @@
 
         #endregion
 
-        private ArdupilotMega.Controls.MyButton BUT_redokml;
+        private Controls.MyButton BUT_redokml;
         private System.Windows.Forms.ProgressBar progressBar1;
-        private ArdupilotMega.Controls.MyButton BUT_humanreadable;
-        private ArdupilotMega.Controls.MyButton BUT_graphmavlog;
+        private Controls.MyButton BUT_humanreadable;
+        private Controls.MyButton BUT_graphmavlog;
         private ZedGraph.ZedGraphControl zg1;
         private Controls.MyButton BUT_convertcsv;
         private Controls.MyButton BUT_paramsfromlog;
         private Controls.MyButton BUT_getwpsfromlog;
         private Controls.MyButton BUT_droneshare;
+        private Controls.MyButton BUT_matlab;
     }
 }

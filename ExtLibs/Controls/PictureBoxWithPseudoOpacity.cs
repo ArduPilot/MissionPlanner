@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Windows.Forms;
 
-namespace ArdupilotMega.Controls
+namespace MissionPlanner.Controls
 {
     /// <summary>
     /// Picture Box which uses a painting trick to simulate opacity

@@ -6,9 +6,9 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using ArdupilotMega.Controls;
+using MissionPlanner.Controls;
 
-namespace ArdupilotMega.Wizard
+namespace MissionPlanner.Wizard
 {
     public partial class _4FrameType : MyUserControl, IWizard
     {

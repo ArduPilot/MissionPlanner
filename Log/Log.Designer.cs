@@ -1,4 +1,4 @@
-﻿namespace ArdupilotMega.Log
+﻿namespace MissionPlanner.Log
 {
     partial class Log
     {
@@ -30,15 +30,15 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Log));
             this.TXT_seriallog = new System.Windows.Forms.TextBox();
-            this.BUT_DLall = new ArdupilotMega.Controls.MyButton();
-            this.BUT_DLthese = new ArdupilotMega.Controls.MyButton();
-            this.BUT_clearlogs = new ArdupilotMega.Controls.MyButton();
+            this.BUT_DLall = new Controls.MyButton();
+            this.BUT_DLthese = new Controls.MyButton();
+            this.BUT_clearlogs = new Controls.MyButton();
             this.CHK_logs = new System.Windows.Forms.CheckedListBox();
             this.TXT_status = new System.Windows.Forms.TextBox();
-            this.BUT_redokml = new ArdupilotMega.Controls.MyButton();
-            this.BUT_firstperson = new ArdupilotMega.Controls.MyButton();
-            this.BUT_dumpdf = new ArdupilotMega.Controls.MyButton();
-            this.BUT_bintolog = new ArdupilotMega.Controls.MyButton();
+            this.BUT_redokml = new Controls.MyButton();
+            this.BUT_firstperson = new Controls.MyButton();
+            this.BUT_dumpdf = new Controls.MyButton();
+            this.BUT_bintolog = new Controls.MyButton();
             this.CHK_arducopter = new System.Windows.Forms.RadioButton();
             this.CHK_arduplane = new System.Windows.Forms.RadioButton();
             this.CHK_ardurover = new System.Windows.Forms.RadioButton();
@@ -194,14 +194,14 @@
 
         #endregion
 
-        private ArdupilotMega.Controls.MyButton BUT_DLall;
-        private ArdupilotMega.Controls.MyButton BUT_DLthese;
-        private ArdupilotMega.Controls.MyButton BUT_clearlogs;
+        private Controls.MyButton BUT_DLall;
+        private Controls.MyButton BUT_DLthese;
+        private Controls.MyButton BUT_clearlogs;
         private System.Windows.Forms.CheckedListBox CHK_logs;
         private System.Windows.Forms.TextBox TXT_status;
-        private ArdupilotMega.Controls.MyButton BUT_redokml;
+        private Controls.MyButton BUT_redokml;
         private System.Windows.Forms.TextBox TXT_seriallog;
-        private ArdupilotMega.Controls.MyButton BUT_firstperson;
+        private Controls.MyButton BUT_firstperson;
         private Controls.MyButton BUT_dumpdf;
         private Controls.MyButton BUT_bintolog;
         private System.Windows.Forms.RadioButton CHK_arducopter;

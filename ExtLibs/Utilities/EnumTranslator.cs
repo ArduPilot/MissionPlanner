@@ -4,11 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using ArdupilotMega.Attributes;
+using MissionPlanner.Attributes;
 
 #endregion
 
-namespace ArdupilotMega.Utilities
+namespace MissionPlanner.Utilities
 {
    public static class EnumTranslator
    {

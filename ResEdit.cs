@@ -251,7 +251,7 @@ namespace resedit
 
             try
             {
-                thisAssembly = Assembly.LoadFile(Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + ci + Path.DirectorySeparatorChar + "ArdupilotMegaPlanner10.resources.dll");
+                thisAssembly = Assembly.LoadFile(Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + ci + Path.DirectorySeparatorChar + "MissionPlanner.resources.dll");
             }
             catch { return; }
 

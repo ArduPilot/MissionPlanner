@@ -29,17 +29,17 @@
         private void InitializeComponent()
         {
             this.txtboardsn = new System.Windows.Forms.TextBox();
-            this.myLabel3 = new ArdupilotMega.Controls.MyLabel();
+            this.myLabel3 = new Controls.MyLabel();
             this.fileBrowseOtpbin = new MissionPlanner.Controls.FileBrowse();
-            this.BUT_makeotp = new ArdupilotMega.Controls.MyButton();
-            this.myLabel2 = new ArdupilotMega.Controls.MyLabel();
-            this.myLabel1 = new ArdupilotMega.Controls.MyLabel();
+            this.BUT_makeotp = new Controls.MyButton();
+            this.myLabel2 = new Controls.MyLabel();
+            this.myLabel1 = new Controls.MyLabel();
             this.fileBrowsePrivateKey = new MissionPlanner.Controls.FileBrowse();
-            this.myLabel4 = new ArdupilotMega.Controls.MyLabel();
+            this.myLabel4 = new Controls.MyLabel();
             this.txt_vid = new System.Windows.Forms.TextBox();
-            this.myLabel5 = new ArdupilotMega.Controls.MyLabel();
+            this.myLabel5 = new Controls.MyLabel();
             this.txt_pid = new System.Windows.Forms.TextBox();
-            this.myLabel6 = new ArdupilotMega.Controls.MyLabel();
+            this.myLabel6 = new Controls.MyLabel();
             this.txt_id = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
@@ -115,6 +115,7 @@
             this.myLabel4.Size = new System.Drawing.Size(108, 20);
             this.myLabel4.TabIndex = 8;
             this.myLabel4.Text = "Vendor ID (hex)";
+            this.myLabel4.Visible = false;
             // 
             // txt_vid
             // 
@@ -123,6 +124,7 @@
             this.txt_vid.Size = new System.Drawing.Size(232, 20);
             this.txt_vid.TabIndex = 7;
             this.txt_vid.Text = "26AC";
+            this.txt_vid.Visible = false;
             // 
             // myLabel5
             // 
@@ -132,6 +134,7 @@
             this.myLabel5.Size = new System.Drawing.Size(108, 20);
             this.myLabel5.TabIndex = 10;
             this.myLabel5.Text = "Product ID (hex)";
+            this.myLabel5.Visible = false;
             // 
             // txt_pid
             // 
@@ -140,6 +143,7 @@
             this.txt_pid.Size = new System.Drawing.Size(232, 20);
             this.txt_pid.TabIndex = 9;
             this.txt_pid.Text = "10";
+            this.txt_pid.Visible = false;
             // 
             // myLabel6
             // 
@@ -149,6 +153,7 @@
             this.myLabel6.Size = new System.Drawing.Size(108, 20);
             this.myLabel6.TabIndex = 12;
             this.myLabel6.Text = "Type (hex)";
+            this.myLabel6.Visible = false;
             // 
             // txt_id
             // 
@@ -157,6 +162,7 @@
             this.txt_id.Size = new System.Drawing.Size(232, 20);
             this.txt_id.TabIndex = 11;
             this.txt_id.Text = "0";
+            this.txt_id.Visible = false;
             // 
             // GenOTP
             // 
@@ -186,17 +192,17 @@
         #endregion
 
         private Controls.FileBrowse fileBrowsePrivateKey;
-        private ArdupilotMega.Controls.MyLabel myLabel1;
+        private Controls.MyLabel myLabel1;
         private System.Windows.Forms.TextBox txtboardsn;
-        private ArdupilotMega.Controls.MyLabel myLabel2;
-        private ArdupilotMega.Controls.MyButton BUT_makeotp;
+        private Controls.MyLabel myLabel2;
+        private Controls.MyButton BUT_makeotp;
         private Controls.FileBrowse fileBrowseOtpbin;
-        private ArdupilotMega.Controls.MyLabel myLabel3;
-        private ArdupilotMega.Controls.MyLabel myLabel4;
+        private Controls.MyLabel myLabel3;
+        private Controls.MyLabel myLabel4;
         private System.Windows.Forms.TextBox txt_vid;
-        private ArdupilotMega.Controls.MyLabel myLabel5;
+        private Controls.MyLabel myLabel5;
         private System.Windows.Forms.TextBox txt_pid;
-        private ArdupilotMega.Controls.MyLabel myLabel6;
+        private Controls.MyLabel myLabel6;
         private System.Windows.Forms.TextBox txt_id;
     }
 }

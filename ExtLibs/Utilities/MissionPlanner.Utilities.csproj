@@ -20,7 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -37,18 +37,25 @@
     </Reference>
     <Reference Include="DirectShowLib-2005">
       <HintPath>..\..\Lib\DirectShowLib-2005.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\..\Lib\ICSharpCode.SharpZipLib.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="log4net">
       <HintPath>..\..\Lib\log4net.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="ProjNet">
       <HintPath>..\..\Lib\ProjNet.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Speech">
-      <Private>True</Private>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
@@ -76,6 +83,7 @@
     <Compile Include="Rect.cs" />
     <Compile Include="S3Uploader.cs" />
     <Compile Include="Speech.cs" />
+    <Compile Include="srtm.cs" />
     <Compile Include="TCPConsole.cs" />
     <Compile Include="Tracking.cs" />
     <Compile Include="utmpos.cs" />
@@ -85,14 +93,17 @@
     <ProjectReference Include="..\BaseClasses\BaseClasses.csproj">
       <Project>{2a8e8af5-74e7-49db-a42e-9360fa7a6cc4}</Project>
       <Name>BaseClasses</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\GeoUtility\GeoUtility.csproj">
       <Project>{7f7994ce-823f-4a04-bbea-d0a3808ff56d}</Project>
       <Name>GeoUtility</Name>
+      <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\GMap.NET.Core\GMap.NET.Core.csproj">
       <Project>{d0c39d9d-bed0-418b-9a5e-713176caf40c}</Project>
       <Name>GMap.NET.Core</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

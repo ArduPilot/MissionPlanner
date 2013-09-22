@@ -1,4 +1,4 @@
-﻿namespace ArdupilotMega.Swarm
+﻿namespace MissionPlanner.Swarm
 {
     partial class Status
     {

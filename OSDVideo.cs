@@ -14,7 +14,7 @@ using System.IO;
 using DirectShowLib;
 using AviFile;
 
-namespace ArdupilotMega
+namespace MissionPlanner
 {
     public partial class OSDVideo : Form, ISampleGrabberCB
     {

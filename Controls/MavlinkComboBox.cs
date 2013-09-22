@@ -5,7 +5,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Collections;
 
-namespace ArdupilotMega.Controls
+namespace MissionPlanner.Controls
 {
     public class MavlinkComboBox : ComboBox
     {

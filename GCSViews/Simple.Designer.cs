@@ -1,4 +1,4 @@
-﻿namespace ArdupilotMega.GCSViews
+﻿namespace MissionPlanner.GCSViews
 {
     partial class Simple
     {
@@ -22,19 +22,19 @@
             this.tableMap = new System.Windows.Forms.TableLayoutPanel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.zg1 = new ZedGraph.ZedGraphControl();
-            this.lbl_winddir = new ArdupilotMega.Controls.MyLabel();
+            this.lbl_winddir = new Controls.MyLabel();
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
-            this.lbl_windvel = new ArdupilotMega.Controls.MyLabel();
-            this.lbl_hdop = new ArdupilotMega.Controls.MyLabel();
-            this.lbl_sats = new ArdupilotMega.Controls.MyLabel();
-            this.gMapControl1 = new ArdupilotMega.Controls.myGMAP();
-            this.TRK_zoom = new ArdupilotMega.Controls.MyTrackBar();
+            this.lbl_windvel = new Controls.MyLabel();
+            this.lbl_hdop = new Controls.MyLabel();
+            this.lbl_sats = new Controls.MyLabel();
+            this.gMapControl1 = new Controls.myGMAP();
+            this.TRK_zoom = new Controls.MyTrackBar();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.TXT_lat = new ArdupilotMega.Controls.MyLabel();
+            this.TXT_lat = new Controls.MyLabel();
             this.Zoomlevel = new System.Windows.Forms.NumericUpDown();
-            this.label1 = new ArdupilotMega.Controls.MyLabel();
-            this.TXT_long = new ArdupilotMega.Controls.MyLabel();
-            this.TXT_alt = new ArdupilotMega.Controls.MyLabel();
+            this.label1 = new Controls.MyLabel();
+            this.TXT_long = new Controls.MyLabel();
+            this.TXT_alt = new Controls.MyLabel();
             this.CHK_autopan = new System.Windows.Forms.CheckBox();
             this.CB_tuning = new System.Windows.Forms.CheckBox();
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
@@ -177,7 +177,7 @@
             // 
             // bindingSource1
             // 
-            this.bindingSource1.DataSource = typeof(ArdupilotMega.CurrentState);
+            this.bindingSource1.DataSource = typeof(MissionPlanner.CurrentState);
             // 
             // lbl_windvel
             // 
@@ -391,20 +391,20 @@
         private System.Windows.Forms.CheckBox CB_tuning;
         private System.Windows.Forms.TableLayoutPanel tableMap;
         private System.Windows.Forms.Panel panel1;
-        private ArdupilotMega.Controls.MyLabel TXT_lat;
+        private Controls.MyLabel TXT_lat;
         private System.Windows.Forms.NumericUpDown Zoomlevel;
-        private ArdupilotMega.Controls.MyLabel label1;
-        private ArdupilotMega.Controls.MyLabel TXT_long;
-        private ArdupilotMega.Controls.MyLabel TXT_alt;
+        private Controls.MyLabel label1;
+        private Controls.MyLabel TXT_long;
+        private Controls.MyLabel TXT_alt;
         private System.Windows.Forms.CheckBox CHK_autopan;
-        private ArdupilotMega.Controls.myGMAP gMapControl1;
+        private Controls.myGMAP gMapControl1;
         private ZedGraph.ZedGraphControl zg1;
-        private ArdupilotMega.Controls.MyLabel lbl_windvel;
-        private ArdupilotMega.Controls.MyLabel lbl_winddir;
+        private Controls.MyLabel lbl_windvel;
+        private Controls.MyLabel lbl_winddir;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private ArdupilotMega.Controls.MyLabel lbl_hdop;
-        private ArdupilotMega.Controls.MyLabel lbl_sats;
+        private Controls.MyLabel lbl_hdop;
+        private Controls.MyLabel lbl_sats;
         private System.Windows.Forms.ToolStripMenuItem flyToHereAltToolStripMenuItem;
         //private Crom.Controls.Docking.DockContainer dockContainer1;
         private Controls.MyTrackBar TRK_zoom;

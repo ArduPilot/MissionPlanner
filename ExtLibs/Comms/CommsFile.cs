@@ -13,6 +13,12 @@ namespace MissionPlanner.Comms
         public void Close() { BaseStream.Close(); }
         public void DiscardInBuffer() { }
         //void DiscardOutBuffer();
+        public void Open(string filename)
+        {
+            PortName = filename;
+            BaseStream = File.OpenRead(PortName);
+        }
+
         public void Open()
         {
             BaseStream = File.OpenRead(PortName);

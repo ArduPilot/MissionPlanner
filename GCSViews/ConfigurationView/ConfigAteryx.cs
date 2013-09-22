@@ -7,13 +7,13 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using ArdupilotMega.Controls.BackstageView;
+using MissionPlanner.Controls.BackstageView;
 using System.Collections;
 using log4net;
-using ArdupilotMega.Controls;
-using ArdupilotMega.Utilities;
+using MissionPlanner.Controls;
+using MissionPlanner.Utilities;
 
-namespace ArdupilotMega.GCSViews.ConfigurationView
+namespace MissionPlanner.GCSViews.ConfigurationView
 {
     public partial class ConfigAteryx : UserControl, IActivate
     {

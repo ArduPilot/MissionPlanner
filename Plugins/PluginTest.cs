@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ArdupilotMega.Plugin;
-using ArdupilotMega;
+using MissionPlanner.Plugin;
+using MissionPlanner;
 using System.Windows.Forms;
 
     public class PluginTestExample : Plugin

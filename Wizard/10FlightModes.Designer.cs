@@ -1,5 +1,5 @@
 ﻿using System.Windows.Forms;
-namespace ArdupilotMega.Wizard
+namespace MissionPlanner.Wizard
 {
     partial class _10FlightModes
     {
@@ -31,8 +31,8 @@ namespace ArdupilotMega.Wizard
         {
             this.panel1 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
-            this.radialGradientBG1 = new ArdupilotMega.Controls.GradientBG();
-            this.configFlightModes1 = new ArdupilotMega.GCSViews.ConfigurationView.ConfigFlightModes();
+            this.radialGradientBG1 = new Controls.GradientBG();
+            this.configFlightModes1 = new GCSViews.ConfigurationView.ConfigFlightModes();
             this.label3 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.radialGradientBG1.Image)).BeginInit();

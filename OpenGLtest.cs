@@ -10,7 +10,7 @@ using GMap.NET;
 using GMap.NET.WindowsForms;
 using MissionPlanner.Utilities;
 
-namespace ArdupilotMega.Controls
+namespace MissionPlanner.Controls
 {
     public class OpenGLtest : GLControl
     {

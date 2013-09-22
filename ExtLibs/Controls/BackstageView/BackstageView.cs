@@ -4,9 +4,9 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using ArdupilotMega.Controls.BackstageView;
+using MissionPlanner.Controls.BackstageView;
 
-namespace ArdupilotMega.Controls.BackstageView
+namespace MissionPlanner.Controls.BackstageView
 {
     /// <summary>
     /// A Control to somewhat emulate the 'backstage view' as in MS Office 2010

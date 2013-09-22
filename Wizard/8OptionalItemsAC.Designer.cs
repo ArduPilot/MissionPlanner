@@ -1,5 +1,5 @@
 ﻿using System.Windows.Forms;
-namespace ArdupilotMega.Wizard
+namespace MissionPlanner.Wizard
 {
     partial class _8OptionalItemsAC
     {
@@ -32,21 +32,21 @@ namespace ArdupilotMega.Wizard
             this.components = new System.ComponentModel.Container();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
-            this.radialGradientBG1 = new ArdupilotMega.Controls.GradientBG();
+            this.radialGradientBG1 = new Controls.GradientBG();
             this.panel2 = new System.Windows.Forms.Panel();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
-            this.mavlinkCheckBox1 = new ArdupilotMega.Controls.MavlinkCheckBox();
+            this.mavlinkCheckBox1 = new Controls.MavlinkCheckBox();
             this.label3 = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.label2 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.mavlinkComboBox1 = new ArdupilotMega.Controls.MavlinkComboBox();
+            this.mavlinkComboBox1 = new Controls.MavlinkComboBox();
             this.LBL_dist = new System.Windows.Forms.Label();
             this.LBL_volt = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.mavlinkCheckBox2 = new ArdupilotMega.Controls.MavlinkCheckBox();
+            this.mavlinkCheckBox2 = new Controls.MavlinkCheckBox();
             this.label7 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.radialGradientBG1.Image)).BeginInit();

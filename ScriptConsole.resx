@@ -244,7 +244,7 @@
     <value>BUT_clear</value>
   </data>
   <data name="&gt;&gt;BUT_clear.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.MyButton, ArdupilotMegaPlanner10, Version=1.1.4941.34935, Culture=neutral, PublicKeyToken=null</value>
+    <value>Controls.MyButton, MissionPlanner.lanner10, Version=1.1.4941.34935, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_clear.Parent" xml:space="preserve">
     <value>$this</value>

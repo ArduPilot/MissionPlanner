@@ -6,10 +6,10 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using ArdupilotMega.Controls.BackstageView;
-using ArdupilotMega.Controls;
+using MissionPlanner.Controls.BackstageView;
+using MissionPlanner.Controls;
 
-namespace ArdupilotMega.GCSViews.ConfigurationView
+namespace MissionPlanner.GCSViews.ConfigurationView
 {
     public partial class ConfigRadioInput : UserControl, IActivate, IDeactivate
     {
@@ -62,7 +62,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             try
             {
                 // force this screen to work
-                MainV2.comPort.requestDatastream(ArdupilotMega.MAVLink.MAV_DATA_STREAM.RC_CHANNELS, 2);
+                MainV2.comPort.requestDatastream(MissionPlanner.MAVLink.MAV_DATA_STREAM.RC_CHANNELS, 2);
             }
             catch { }
 
@@ -126,7 +126,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             try
             {
 
-                MainV2.comPort.requestDatastream(ArdupilotMega.MAVLink.MAV_DATA_STREAM.RC_CHANNELS, 10);
+                MainV2.comPort.requestDatastream(MissionPlanner.MAVLink.MAV_DATA_STREAM.RC_CHANNELS, 10);
 
             }
             catch { }
@@ -242,7 +242,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             try
             {
 
-                MainV2.comPort.requestDatastream(ArdupilotMega.MAVLink.MAV_DATA_STREAM.RC_CHANNELS, oldrc);
+                MainV2.comPort.requestDatastream(MissionPlanner.MAVLink.MAV_DATA_STREAM.RC_CHANNELS, oldrc);
 
             }
             catch { }

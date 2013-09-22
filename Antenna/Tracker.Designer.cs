@@ -1,4 +1,4 @@
-﻿namespace ArdupilotMega.Antenna
+﻿namespace MissionPlanner.Antenna
 {
     partial class Tracker
     {
@@ -52,10 +52,10 @@
             this.label10 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
-            this.BUT_connect = new ArdupilotMega.Controls.MyButton();
+            this.BUT_connect = new Controls.MyButton();
             this.LBL_pantrim = new System.Windows.Forms.Label();
             this.LBL_tilttrim = new System.Windows.Forms.Label();
-            this.BUT_find = new ArdupilotMega.Controls.MyButton();
+            this.BUT_find = new Controls.MyButton();
             this.TXT_centerpan = new System.Windows.Forms.TextBox();
             this.TXT_centertilt = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
@@ -305,7 +305,7 @@
         private System.Windows.Forms.ComboBox CMB_interface;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox CMB_baudrate;
-        private ArdupilotMega.Controls.MyButton BUT_connect;
+        private Controls.MyButton BUT_connect;
         private System.Windows.Forms.ComboBox CMB_serialport;
         private System.Windows.Forms.TrackBar TRK_pantrim;
         private System.Windows.Forms.TextBox TXT_panrange;

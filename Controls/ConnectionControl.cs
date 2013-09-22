@@ -8,7 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using MissionPlanner.Comms;
 
-namespace ArdupilotMega.Controls
+namespace MissionPlanner.Controls
 {
     public partial class ConnectionControl : UserControl
     {

@@ -6,10 +6,10 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using ArdupilotMega.Controls;
-using ArdupilotMega.Controls.BackstageView;
+using MissionPlanner.Controls;
+using MissionPlanner.Controls.BackstageView;
 
-namespace ArdupilotMega.Wizard
+namespace MissionPlanner.Wizard
 {
     public partial class _8OptionalItemsAP : MyUserControl, IWizard, IActivate, IDeactivate
     {

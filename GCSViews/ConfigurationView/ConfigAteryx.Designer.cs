@@ -1,4 +1,4 @@
-﻿namespace ArdupilotMega.GCSViews.ConfigurationView
+﻿namespace MissionPlanner.GCSViews.ConfigurationView
 {
     partial class ConfigAteryx
     {
@@ -139,10 +139,10 @@
             this.label44 = new System.Windows.Forms.Label();
             this.groupBox13 = new System.Windows.Forms.GroupBox();
             this.ROLL_TO_ELEV = new System.Windows.Forms.NumericUpDown();
-            this.BUT_read_flash = new ArdupilotMega.Controls.MyButton();
-            this.BUT_write_flash = new ArdupilotMega.Controls.MyButton();
-            this.BUT_rerequestparams = new ArdupilotMega.Controls.MyButton();
-            this.BUT_writePIDS = new ArdupilotMega.Controls.MyButton();
+            this.BUT_read_flash = new Controls.MyButton();
+            this.BUT_write_flash = new Controls.MyButton();
+            this.BUT_rerequestparams = new Controls.MyButton();
+            this.BUT_writePIDS = new Controls.MyButton();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.THR_FS_VALUE)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.THR_MAX)).BeginInit();

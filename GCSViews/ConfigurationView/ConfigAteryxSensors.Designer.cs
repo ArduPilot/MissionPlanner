@@ -1,4 +1,4 @@
-﻿namespace ArdupilotMega.GCSViews.ConfigurationView
+﻿namespace MissionPlanner.GCSViews.ConfigurationView
 {
     partial class ConfigAteryxSensors
     {
@@ -31,9 +31,9 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigAteryxSensors));
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.BUT_zero_att = new ArdupilotMega.Controls.MyButton();
-            this.BUT_zero_press = new ArdupilotMega.Controls.MyButton();
-            this.hud1 = new ArdupilotMega.Controls.HUD();
+            this.BUT_zero_att = new Controls.MyButton();
+            this.BUT_zero_press = new Controls.MyButton();
+            this.hud1 = new Controls.HUD();
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
@@ -121,7 +121,7 @@
             // 
             // bindingSource1
             // 
-            this.bindingSource1.DataSource = typeof(ArdupilotMega.CurrentState);
+            this.bindingSource1.DataSource = typeof(MissionPlanner.CurrentState);
             // 
             // timer1
             // 
@@ -143,7 +143,7 @@
 
         #endregion
 
-        private ArdupilotMega.Controls.MyButton BUT_zero_att;
+        private Controls.MyButton BUT_zero_att;
         private System.Windows.Forms.ToolTip toolTip1;
         private Controls.MyButton BUT_zero_press;
         private Controls.HUD hud1;

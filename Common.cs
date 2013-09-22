@@ -9,7 +9,7 @@ using System.Windows.Forms;
 using AGaugeApp;
 using System.IO.Ports;
 using System.Threading;
-using ArdupilotMega.Attributes;
+using MissionPlanner.Attributes;
 using GMap.NET;
 using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
@@ -22,17 +22,18 @@ using System.Xml; // config file
 using System.Runtime.InteropServices; // dll imports
 using log4net;
 using ZedGraph; // Graphs
-using ArdupilotMega;
+using MissionPlanner;
 using System.Reflection;
-using ArdupilotMega.Utilities;
+using MissionPlanner.Utilities;
 
 using System.IO;
 
 using System.Drawing.Drawing2D;
 using ProjNet.CoordinateSystems.Transformations;
 using ProjNet.CoordinateSystems;
+using MissionPlanner;
 
-namespace ArdupilotMega
+namespace MissionPlanner
 {
 
     /// <summary>
@@ -510,27 +511,25 @@ namespace ArdupilotMega
             // ensure we get the correct list
             MainV2.comPort.MAV.cs.firmware = cs.firmware;
 
-            Utilities.ParameterMetaDataRepository parm = new ParameterMetaDataRepository();
-
             if (cs.firmware == MainV2.Firmwares.ArduPlane)
             {
-                var flightModes = parm.GetParameterOptionsInt("FLTMODE1");
+                var flightModes = Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("FLTMODE1");
                 flightModes.Add(new KeyValuePair<int,string>(16,"INITIALISING"));
                 return flightModes;
             }
             else if (cs.firmware == MainV2.Firmwares.Ateryx)
             {
-                var flightModes = parm.GetParameterOptionsInt("FLTMODE1"); //same as apm
+                var flightModes = Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("FLTMODE1"); //same as apm
                 return flightModes;
             }
             else if (cs.firmware == MainV2.Firmwares.ArduCopter2)
             {
-                var flightModes = parm.GetParameterOptionsInt("FLTMODE1");
+                var flightModes = Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("FLTMODE1");
                 return flightModes;
             }
             else if (cs.firmware == MainV2.Firmwares.ArduRover)
             {
-                var flightModes = parm.GetParameterOptionsInt("MODE1");
+                var flightModes = Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("MODE1");
                 return flightModes;
             }
 
@@ -573,7 +572,7 @@ namespace ArdupilotMega
             Form form = new Form();
             System.Windows.Forms.Label label = new System.Windows.Forms.Label();
             CheckBox chk = new CheckBox();
-            ArdupilotMega.Controls.MyButton buttonOk = new ArdupilotMega.Controls.MyButton();
+            Controls.MyButton buttonOk = new Controls.MyButton();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainV2));
             form.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 

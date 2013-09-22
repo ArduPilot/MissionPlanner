@@ -1,4 +1,4 @@
-﻿namespace ArdupilotMega
+﻿namespace MissionPlanner
 {
     partial class _3DRradio
     {
@@ -75,10 +75,10 @@
             this.ATI = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
-            this.BUT_savesettings = new ArdupilotMega.Controls.MyButton();
-            this.BUT_getcurrent = new ArdupilotMega.Controls.MyButton();
+            this.BUT_savesettings = new Controls.MyButton();
+            this.BUT_getcurrent = new Controls.MyButton();
             this.lbl_status = new System.Windows.Forms.Label();
-            this.BUT_upload = new ArdupilotMega.Controls.MyButton();
+            this.BUT_upload = new Controls.MyButton();
             this.label13 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
@@ -103,13 +103,13 @@
             this.label18 = new System.Windows.Forms.Label();
             this.SPLIT_remote = new System.Windows.Forms.SplitContainer();
             this.CHK_advanced = new System.Windows.Forms.CheckBox();
-            this.BUT_Syncoptions = new ArdupilotMega.Controls.MyButton();
+            this.BUT_Syncoptions = new Controls.MyButton();
             this.ATI3 = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
-            this.BUT_resettodefault = new ArdupilotMega.Controls.MyButton();
+            this.BUT_resettodefault = new Controls.MyButton();
             this.SPLIT_local.Panel1.SuspendLayout();
             this.SPLIT_local.Panel2.SuspendLayout();
             this.SPLIT_local.SuspendLayout();
@@ -1009,12 +1009,12 @@
 
         #endregion
 
-        private ArdupilotMega.Controls.MyButton BUT_upload;
+        private Controls.MyButton BUT_upload;
         private System.Windows.Forms.ProgressBar Progressbar;
         private System.Windows.Forms.Label lbl_status;
         private System.Windows.Forms.ComboBox S1;
         private System.Windows.Forms.Label label1;
-        private ArdupilotMega.Controls.MyButton BUT_getcurrent;
+        private Controls.MyButton BUT_getcurrent;
         private System.Windows.Forms.TextBox S0;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
@@ -1029,7 +1029,7 @@
         private System.Windows.Forms.CheckBox S6;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.CheckBox S7;
-        private ArdupilotMega.Controls.MyButton BUT_savesettings;
+        private Controls.MyButton BUT_savesettings;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.CheckBox RS7;
         private System.Windows.Forms.CheckBox RS6;

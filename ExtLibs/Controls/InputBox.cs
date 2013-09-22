@@ -19,8 +19,8 @@ namespace MissionPlanner.Controls
             Form form = new Form();
             System.Windows.Forms.Label label = new System.Windows.Forms.Label();
             TextBox textBox = new TextBox();
-            ArdupilotMega.Controls.MyButton buttonOk = new ArdupilotMega.Controls.MyButton();
-            ArdupilotMega.Controls.MyButton buttonCancel = new ArdupilotMega.Controls.MyButton();
+            Controls.MyButton buttonOk = new Controls.MyButton();
+            Controls.MyButton buttonCancel = new Controls.MyButton();
             //System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainV2));
             //form.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 

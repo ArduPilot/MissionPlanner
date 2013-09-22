@@ -26,12 +26,13 @@ using System.Xml;
 using log4net;
 using ZedGraph; // Graphs
 
-using ArdupilotMega.Utilities;
+using MissionPlanner.Utilities;
 
 using System.CodeDom.Compiler;
 using MissionPlanner.Utilities;
+using MissionPlanner;
 
-namespace ArdupilotMega
+namespace MissionPlanner
 {
     public partial class MavlinkLog : Form
     {
@@ -1478,6 +1479,11 @@ namespace ArdupilotMega
                     catch (Exception ex) { CustomMessageBox.Show(ex.Message); }
                 }
             }
+        }
+
+        private void BUT_matlab_Click(object sender, EventArgs e)
+        {
+            MissionPlanner.Log.MatLab.ProcessTLog();
         }
     }
 }

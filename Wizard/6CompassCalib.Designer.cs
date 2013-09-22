@@ -1,5 +1,5 @@
 ﻿using System.Windows.Forms;
-namespace ArdupilotMega.Wizard
+namespace MissionPlanner.Wizard
 {
     partial class _6CompassCalib
     {
@@ -32,17 +32,17 @@ namespace ArdupilotMega.Wizard
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(_6CompassCalib));
             this.panel1 = new System.Windows.Forms.Panel();
-            this.BUT_MagCalibrationLive = new ArdupilotMega.Controls.MyButton();
+            this.BUT_MagCalibrationLive = new Controls.MyButton();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.radialGradientBG1 = new ArdupilotMega.Controls.GradientBG();
+            this.radialGradientBG1 = new Controls.GradientBG();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label5 = new System.Windows.Forms.Label();
-            this.BUT_compassorient = new ArdupilotMega.Controls.MyButton();
-            this.pictureBoxMouseOver3 = new ArdupilotMega.Controls.PictureBoxMouseOver();
-            this.pictureBoxMouseOver2 = new ArdupilotMega.Controls.PictureBoxMouseOver();
-            this.pictureBoxMouseOver1 = new ArdupilotMega.Controls.PictureBoxMouseOver();
+            this.BUT_compassorient = new Controls.MyButton();
+            this.pictureBoxMouseOver3 = new Controls.PictureBoxMouseOver();
+            this.pictureBoxMouseOver2 = new Controls.PictureBoxMouseOver();
+            this.pictureBoxMouseOver1 = new Controls.PictureBoxMouseOver();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);

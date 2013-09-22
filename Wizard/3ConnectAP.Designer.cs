@@ -1,5 +1,5 @@
 ﻿using System.Windows.Forms;
-namespace ArdupilotMega.Wizard
+namespace MissionPlanner.Wizard
 {
     partial class _3ConnectAP
     {
@@ -33,7 +33,7 @@ namespace ArdupilotMega.Wizard
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.radialGradientBG1 = new ArdupilotMega.Controls.GradientBG();
+            this.radialGradientBG1 = new Controls.GradientBG();
             this.panel4 = new System.Windows.Forms.Panel();
             this.CMB_port = new System.Windows.Forms.ComboBox();
             this.label7 = new System.Windows.Forms.Label();

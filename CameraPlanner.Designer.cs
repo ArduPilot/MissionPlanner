@@ -1,4 +1,4 @@
-﻿namespace ArdupilotMega
+﻿namespace MissionPlanner
 {
     partial class CameraPlanner
     {
@@ -60,8 +60,8 @@
             this.TXT_picevery = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.BUT_Ssave = new ArdupilotMega.Controls.MyButton();
-            this.OokButton = new ArdupilotMega.Controls.MyButton();
+            this.BUT_Ssave = new Controls.MyButton();
+            this.OokButton = new Controls.MyButton();
             ((System.ComponentModel.ISupportInitialize)(this.num_overlap)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_sidelap)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_focallength)).BeginInit();

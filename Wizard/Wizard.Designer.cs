@@ -1,6 +1,6 @@
-﻿using ArdupilotMega.Controls;
+﻿using MissionPlanner.Controls;
 
-namespace ArdupilotMega.Wizard
+namespace MissionPlanner.Wizard
 {
     partial class Wizard
     {
@@ -31,9 +31,9 @@ namespace ArdupilotMega.Wizard
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
-            this.progressStep1 = new ArdupilotMega.Controls.ProgressStep();
-            this.BUT_Next = new ArdupilotMega.Controls.MyButton();
-            this.BUT_Back = new ArdupilotMega.Controls.MyButton();
+            this.progressStep1 = new Controls.ProgressStep();
+            this.BUT_Next = new Controls.MyButton();
+            this.BUT_Back = new Controls.MyButton();
             this.SuspendLayout();
             // 
             // panel1

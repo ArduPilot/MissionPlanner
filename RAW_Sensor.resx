@@ -195,7 +195,7 @@
     <value>horizontalProgressBar9</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar9.Type" xml:space="preserve">
-    <value>ArdupilotMega.HorizontalProgressBar, ArdupilotMegaPlanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff91852278f5092c</value>
+    <value>MissionPlanner.HorizontalProgressBar, MissionPlanner.lanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff91852278f5092c</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar9.Parent" xml:space="preserve">
     <value>tabRadio</value>
@@ -216,7 +216,7 @@
     <value>horizontalProgressBar10</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar10.Type" xml:space="preserve">
-    <value>ArdupilotMega.HorizontalProgressBar, ArdupilotMegaPlanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff91852278f5092c</value>
+    <value>MissionPlanner.HorizontalProgressBar, MissionPlanner.lanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff91852278f5092c</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar10.Parent" xml:space="preserve">
     <value>tabRadio</value>
@@ -237,7 +237,7 @@
     <value>horizontalProgressBar11</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar11.Type" xml:space="preserve">
-    <value>ArdupilotMega.HorizontalProgressBar, ArdupilotMegaPlanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff91852278f5092c</value>
+    <value>MissionPlanner.HorizontalProgressBar, MissionPlanner.lanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff91852278f5092c</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar11.Parent" xml:space="preserve">
     <value>tabRadio</value>
@@ -258,7 +258,7 @@
     <value>horizontalProgressBar12</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar12.Type" xml:space="preserve">
-    <value>ArdupilotMega.HorizontalProgressBar, ArdupilotMegaPlanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff91852278f5092c</value>
+    <value>MissionPlanner.HorizontalProgressBar, MissionPlanner.lanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff91852278f5092c</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar12.Parent" xml:space="preserve">
     <value>tabRadio</value>
@@ -279,7 +279,7 @@
     <value>horizontalProgressBar13</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar13.Type" xml:space="preserve">
-    <value>ArdupilotMega.HorizontalProgressBar, ArdupilotMegaPlanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff91852278f5092c</value>
+    <value>MissionPlanner.HorizontalProgressBar, MissionPlanner.lanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff91852278f5092c</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar13.Parent" xml:space="preserve">
     <value>tabRadio</value>
@@ -300,7 +300,7 @@
     <value>horizontalProgressBar14</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar14.Type" xml:space="preserve">
-    <value>ArdupilotMega.HorizontalProgressBar, ArdupilotMegaPlanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff91852278f5092c</value>
+    <value>MissionPlanner.HorizontalProgressBar, MissionPlanner.lanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff91852278f5092c</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar14.Parent" xml:space="preserve">
     <value>tabRadio</value>
@@ -321,7 +321,7 @@
     <value>horizontalProgressBar15</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar15.Type" xml:space="preserve">
-    <value>ArdupilotMega.HorizontalProgressBar, ArdupilotMegaPlanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff91852278f5092c</value>
+    <value>MissionPlanner.HorizontalProgressBar, MissionPlanner.lanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff91852278f5092c</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar15.Parent" xml:space="preserve">
     <value>tabRadio</value>
@@ -342,7 +342,7 @@
     <value>horizontalProgressBar16</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar16.Type" xml:space="preserve">
-    <value>ArdupilotMega.HorizontalProgressBar, ArdupilotMegaPlanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff91852278f5092c</value>
+    <value>MissionPlanner.HorizontalProgressBar, MissionPlanner.lanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff91852278f5092c</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar16.Parent" xml:space="preserve">
     <value>tabRadio</value>
@@ -363,7 +363,7 @@
     <value>horizontalProgressBar8</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar8.Type" xml:space="preserve">
-    <value>ArdupilotMega.HorizontalProgressBar, ArdupilotMegaPlanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff91852278f5092c</value>
+    <value>MissionPlanner.HorizontalProgressBar, MissionPlanner.lanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff91852278f5092c</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar8.Parent" xml:space="preserve">
     <value>tabRadio</value>
@@ -384,7 +384,7 @@
     <value>horizontalProgressBar7</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar7.Type" xml:space="preserve">
-    <value>ArdupilotMega.HorizontalProgressBar, ArdupilotMegaPlanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff91852278f5092c</value>
+    <value>MissionPlanner.HorizontalProgressBar, MissionPlanner.lanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff91852278f5092c</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar7.Parent" xml:space="preserve">
     <value>tabRadio</value>
@@ -405,7 +405,7 @@
     <value>horizontalProgressBar6</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar6.Type" xml:space="preserve">
-    <value>ArdupilotMega.HorizontalProgressBar, ArdupilotMegaPlanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff91852278f5092c</value>
+    <value>MissionPlanner.HorizontalProgressBar, MissionPlanner.lanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff91852278f5092c</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar6.Parent" xml:space="preserve">
     <value>tabRadio</value>
@@ -426,7 +426,7 @@
     <value>horizontalProgressBar5</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar5.Type" xml:space="preserve">
-    <value>ArdupilotMega.HorizontalProgressBar, ArdupilotMegaPlanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff91852278f5092c</value>
+    <value>MissionPlanner.HorizontalProgressBar, MissionPlanner.lanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff91852278f5092c</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar5.Parent" xml:space="preserve">
     <value>tabRadio</value>
@@ -447,7 +447,7 @@
     <value>horizontalProgressBar4</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar4.Type" xml:space="preserve">
-    <value>ArdupilotMega.HorizontalProgressBar, ArdupilotMegaPlanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff91852278f5092c</value>
+    <value>MissionPlanner.HorizontalProgressBar, MissionPlanner.lanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff91852278f5092c</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar4.Parent" xml:space="preserve">
     <value>tabRadio</value>
@@ -468,7 +468,7 @@
     <value>horizontalProgressBar3</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar3.Type" xml:space="preserve">
-    <value>ArdupilotMega.HorizontalProgressBar, ArdupilotMegaPlanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff91852278f5092c</value>
+    <value>MissionPlanner.HorizontalProgressBar, MissionPlanner.lanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff91852278f5092c</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar3.Parent" xml:space="preserve">
     <value>tabRadio</value>
@@ -489,7 +489,7 @@
     <value>horizontalProgressBar2</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar2.Type" xml:space="preserve">
-    <value>ArdupilotMega.HorizontalProgressBar, ArdupilotMegaPlanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff91852278f5092c</value>
+    <value>MissionPlanner.HorizontalProgressBar, MissionPlanner.lanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff91852278f5092c</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar2.Parent" xml:space="preserve">
     <value>tabRadio</value>
@@ -510,7 +510,7 @@
     <value>horizontalProgressBar1</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar1.Type" xml:space="preserve">
-    <value>ArdupilotMega.HorizontalProgressBar, ArdupilotMegaPlanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff91852278f5092c</value>
+    <value>MissionPlanner.HorizontalProgressBar, MissionPlanner.lanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff91852278f5092c</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar1.Parent" xml:space="preserve">
     <value>tabRadio</value>
@@ -558,7 +558,7 @@
     <value>BUT_savecsv</value>
   </data>
   <data name="&gt;&gt;BUT_savecsv.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.MyButton, ArdupilotMegaPlanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff91852278f5092c</value>
+    <value>Controls.MyButton, MissionPlanner.lanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff91852278f5092c</value>
   </data>
   <data name="&gt;&gt;BUT_savecsv.Parent" xml:space="preserve">
     <value>tabRawSensor</value>
@@ -645,7 +645,7 @@ when viewing via Xbee
     <value>aGauge1</value>
   </data>
   <data name="&gt;&gt;aGauge1.Type" xml:space="preserve">
-    <value>AGaugeApp.AGauge, ArdupilotMegaPlanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff91852278f5092c</value>
+    <value>AGaugeApp.AGauge, MissionPlanner.lanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff91852278f5092c</value>
   </data>
   <data name="&gt;&gt;aGauge1.Parent" xml:space="preserve">
     <value>tabRawSensor</value>
@@ -873,7 +873,7 @@ when viewing via Xbee
     <value>Gpitch</value>
   </data>
   <data name="&gt;&gt;Gpitch.Type" xml:space="preserve">
-    <value>AGaugeApp.AGauge, ArdupilotMegaPlanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff91852278f5092c</value>
+    <value>AGaugeApp.AGauge, MissionPlanner.lanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff91852278f5092c</value>
   </data>
   <data name="&gt;&gt;Gpitch.Parent" xml:space="preserve">
     <value>tabRawSensor</value>
@@ -897,7 +897,7 @@ when viewing via Xbee
     <value>Groll</value>
   </data>
   <data name="&gt;&gt;Groll.Type" xml:space="preserve">
-    <value>AGaugeApp.AGauge, ArdupilotMegaPlanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff91852278f5092c</value>
+    <value>AGaugeApp.AGauge, MissionPlanner.lanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff91852278f5092c</value>
   </data>
   <data name="&gt;&gt;Groll.Parent" xml:space="preserve">
     <value>tabRawSensor</value>
@@ -945,7 +945,7 @@ when viewing via Xbee
     <value>horizontalProgressBar17</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar17.Type" xml:space="preserve">
-    <value>ArdupilotMega.VerticalProgressBar, ArdupilotMegaPlanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff91852278f5092c</value>
+    <value>MissionPlanner.VerticalProgressBar, MissionPlanner.lanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff91852278f5092c</value>
   </data>
   <data name="&gt;&gt;horizontalProgressBar17.Parent" xml:space="preserve">
     <value>tabOrientation</value>
@@ -966,7 +966,7 @@ when viewing via Xbee
     <value>verticalProgressBar7</value>
   </data>
   <data name="&gt;&gt;verticalProgressBar7.Type" xml:space="preserve">
-    <value>ArdupilotMega.VerticalProgressBar, ArdupilotMegaPlanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff91852278f5092c</value>
+    <value>MissionPlanner.VerticalProgressBar, MissionPlanner.lanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff91852278f5092c</value>
   </data>
   <data name="&gt;&gt;verticalProgressBar7.Parent" xml:space="preserve">
     <value>tabOrientation</value>
@@ -987,7 +987,7 @@ when viewing via Xbee
     <value>verticalProgressBar6</value>
   </data>
   <data name="&gt;&gt;verticalProgressBar6.Type" xml:space="preserve">
-    <value>ArdupilotMega.VerticalProgressBar, ArdupilotMegaPlanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff91852278f5092c</value>
+    <value>MissionPlanner.VerticalProgressBar, MissionPlanner.lanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff91852278f5092c</value>
   </data>
   <data name="&gt;&gt;verticalProgressBar6.Parent" xml:space="preserve">
     <value>tabOrientation</value>
@@ -1008,7 +1008,7 @@ when viewing via Xbee
     <value>verticalProgressBar5</value>
   </data>
   <data name="&gt;&gt;verticalProgressBar5.Type" xml:space="preserve">
-    <value>ArdupilotMega.VerticalProgressBar, ArdupilotMegaPlanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff91852278f5092c</value>
+    <value>MissionPlanner.VerticalProgressBar, MissionPlanner.lanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff91852278f5092c</value>
   </data>
   <data name="&gt;&gt;verticalProgressBar5.Parent" xml:space="preserve">
     <value>tabOrientation</value>
@@ -1029,7 +1029,7 @@ when viewing via Xbee
     <value>verticalProgressBar4</value>
   </data>
   <data name="&gt;&gt;verticalProgressBar4.Type" xml:space="preserve">
-    <value>ArdupilotMega.VerticalProgressBar, ArdupilotMegaPlanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff91852278f5092c</value>
+    <value>MissionPlanner.VerticalProgressBar, MissionPlanner.lanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff91852278f5092c</value>
   </data>
   <data name="&gt;&gt;verticalProgressBar4.Parent" xml:space="preserve">
     <value>tabOrientation</value>
@@ -1050,7 +1050,7 @@ when viewing via Xbee
     <value>progressBar2</value>
   </data>
   <data name="&gt;&gt;progressBar2.Type" xml:space="preserve">
-    <value>ArdupilotMega.VerticalProgressBar, ArdupilotMegaPlanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff91852278f5092c</value>
+    <value>MissionPlanner.VerticalProgressBar, MissionPlanner.lanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff91852278f5092c</value>
   </data>
   <data name="&gt;&gt;progressBar2.Parent" xml:space="preserve">
     <value>tabOrientation</value>
@@ -1071,7 +1071,7 @@ when viewing via Xbee
     <value>progressBar1</value>
   </data>
   <data name="&gt;&gt;progressBar1.Type" xml:space="preserve">
-    <value>ArdupilotMega.VerticalProgressBar, ArdupilotMegaPlanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff91852278f5092c</value>
+    <value>MissionPlanner.VerticalProgressBar, MissionPlanner.lanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff91852278f5092c</value>
   </data>
   <data name="&gt;&gt;progressBar1.Parent" xml:space="preserve">
     <value>tabOrientation</value>
@@ -1092,7 +1092,7 @@ when viewing via Xbee
     <value>verticalProgressBar3</value>
   </data>
   <data name="&gt;&gt;verticalProgressBar3.Type" xml:space="preserve">
-    <value>ArdupilotMega.VerticalProgressBar, ArdupilotMegaPlanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff91852278f5092c</value>
+    <value>MissionPlanner.VerticalProgressBar, MissionPlanner.lanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff91852278f5092c</value>
   </data>
   <data name="&gt;&gt;verticalProgressBar3.Parent" xml:space="preserve">
     <value>tabOrientation</value>
@@ -1113,7 +1113,7 @@ when viewing via Xbee
     <value>verticalProgressBar2</value>
   </data>
   <data name="&gt;&gt;verticalProgressBar2.Type" xml:space="preserve">
-    <value>ArdupilotMega.VerticalProgressBar, ArdupilotMegaPlanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff91852278f5092c</value>
+    <value>MissionPlanner.VerticalProgressBar, MissionPlanner.lanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff91852278f5092c</value>
   </data>
   <data name="&gt;&gt;verticalProgressBar2.Parent" xml:space="preserve">
     <value>tabOrientation</value>
@@ -1134,7 +1134,7 @@ when viewing via Xbee
     <value>verticalProgressBar1</value>
   </data>
   <data name="&gt;&gt;verticalProgressBar1.Type" xml:space="preserve">
-    <value>ArdupilotMega.VerticalProgressBar, ArdupilotMegaPlanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff91852278f5092c</value>
+    <value>MissionPlanner.VerticalProgressBar, MissionPlanner.lanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=ff91852278f5092c</value>
   </data>
   <data name="&gt;&gt;verticalProgressBar1.Parent" xml:space="preserve">
     <value>tabOrientation</value>

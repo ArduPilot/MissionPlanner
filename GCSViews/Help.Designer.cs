@@ -1,4 +1,4 @@
-﻿namespace ArdupilotMega.GCSViews
+﻿namespace MissionPlanner.GCSViews
 {
     partial class Help
     {
@@ -31,9 +31,10 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Help));
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.CHK_showconsole = new System.Windows.Forms.CheckBox();
-            this.BUT_updatecheck = new ArdupilotMega.Controls.MyButton();
+            this.BUT_updatecheck = new Controls.MyButton();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.PIC_wizard = new System.Windows.Forms.PictureBox();
+            this.BUT_betaupdate = new Controls.MyButton();
             ((System.ComponentModel.ISupportInitialize)(this.PIC_wizard)).BeginInit();
             this.SuspendLayout();
             // 
@@ -77,10 +78,22 @@
             this.PIC_wizard.TabStop = false;
             this.PIC_wizard.Click += new System.EventHandler(this.PIC_wizard_Click);
             // 
+            // BUT_betaupdate
+            // 
+            resources.ApplyResources(this.BUT_betaupdate, "BUT_betaupdate");
+            this.BUT_betaupdate.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
+            this.BUT_betaupdate.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
+            this.BUT_betaupdate.Name = "BUT_betaupdate";
+            this.BUT_betaupdate.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
+            this.BUT_betaupdate.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
+            this.BUT_betaupdate.UseVisualStyleBackColor = true;
+            this.BUT_betaupdate.Click += new System.EventHandler(this.BUT_betaupdate_Click);
+            // 
             // Help
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.BUT_betaupdate);
             this.Controls.Add(this.PIC_wizard);
             this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.CHK_showconsole);
@@ -97,10 +110,11 @@
         #endregion
 
         private System.Windows.Forms.RichTextBox richTextBox1;
-        private ArdupilotMega.Controls.MyButton BUT_updatecheck;
+        private Controls.MyButton BUT_updatecheck;
         private System.Windows.Forms.CheckBox CHK_showconsole;
         private System.Windows.Forms.LinkLabel linkLabel1;
         private System.Windows.Forms.PictureBox PIC_wizard;
+        private Controls.MyButton BUT_betaupdate;
 
     }
 }

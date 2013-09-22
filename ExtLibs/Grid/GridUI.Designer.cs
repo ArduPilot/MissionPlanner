@@ -44,13 +44,13 @@
             this.NUM_overshoot = new System.Windows.Forms.NumericUpDown();
             this.label2 = new System.Windows.Forms.Label();
             this.NUM_Distance = new System.Windows.Forms.NumericUpDown();
-            this.BUT_Accept = new ArdupilotMega.Controls.MyButton();
+            this.BUT_Accept = new Controls.MyButton();
             this.label4 = new System.Windows.Forms.Label();
             this.NUM_angle = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             this.NUM_altitude = new System.Windows.Forms.NumericUpDown();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.BUT_samplephoto = new ArdupilotMega.Controls.MyButton();
+            this.BUT_samplephoto = new Controls.MyButton();
             this.label21 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
@@ -68,7 +68,7 @@
             this.label14 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
-            this.BUT_save = new ArdupilotMega.Controls.MyButton();
+            this.BUT_save = new Controls.MyButton();
             this.CHK_camdirection = new System.Windows.Forms.CheckBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.label18 = new System.Windows.Forms.Label();
@@ -94,7 +94,7 @@
             this.tabGrid = new System.Windows.Forms.TabPage();
             this.tabTrigger = new System.Windows.Forms.TabPage();
             this.tabCamera = new System.Windows.Forms.TabPage();
-            this.map = new ArdupilotMega.Controls.myGMAP();
+            this.map = new Controls.myGMAP();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.lbl_grndres = new System.Windows.Forms.Label();
             this.label29 = new System.Windows.Forms.Label();
@@ -1135,7 +1135,7 @@
 
         #endregion
 
-        private ArdupilotMega.Controls.myGMAP map;
+        private Controls.myGMAP map;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.NumericUpDown NUM_altitude;
@@ -1147,11 +1147,11 @@
         private System.Windows.Forms.NumericUpDown NUM_Distance;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.ComboBox CMB_startfrom;
-        private ArdupilotMega.Controls.MyButton BUT_Accept;
+        private Controls.MyButton BUT_Accept;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.NumericUpDown NUM_overshoot2;
         private System.Windows.Forms.GroupBox groupBox2;
-        private ArdupilotMega.Controls.MyButton BUT_save;
+        private Controls.MyButton BUT_save;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label14;
@@ -1192,7 +1192,7 @@
         private System.Windows.Forms.CheckBox chk_footprints;
         private System.Windows.Forms.CheckBox chk_internals;
         private System.Windows.Forms.CheckBox chk_grid;
-        private ArdupilotMega.Controls.MyButton BUT_samplephoto;
+        private Controls.MyButton BUT_samplephoto;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.TabPage tabSimple;

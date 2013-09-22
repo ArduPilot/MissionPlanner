@@ -30,7 +30,7 @@
         {
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.textBox1 = new System.Windows.Forms.TextBox();
-            this.myButton1 = new ArdupilotMega.Controls.MyButton();
+            this.myButton1 = new Controls.MyButton();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.SuspendLayout();
             // 
@@ -78,7 +78,7 @@
 
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.TextBox textBox1;
-        private ArdupilotMega.Controls.MyButton myButton1;
+        private Controls.MyButton myButton1;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
     }
 }

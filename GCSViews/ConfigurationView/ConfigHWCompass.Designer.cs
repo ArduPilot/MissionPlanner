@@ -1,4 +1,4 @@
-﻿namespace ArdupilotMega.GCSViews.ConfigurationView
+﻿namespace MissionPlanner.GCSViews.ConfigurationView
 {
     partial class ConfigHWCompass
     {
@@ -29,21 +29,21 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigHWCompass));
-            this.BUT_MagCalibrationLive = new ArdupilotMega.Controls.MyButton();
+            this.BUT_MagCalibrationLive = new Controls.MyButton();
             this.linkLabelmagdec = new System.Windows.Forms.LinkLabel();
             this.label100 = new System.Windows.Forms.Label();
             this.TXT_declination_deg = new System.Windows.Forms.TextBox();
-            this.CHK_enablecompass = new ArdupilotMega.Controls.MavlinkCheckBox();
+            this.CHK_enablecompass = new Controls.MavlinkCheckBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.BUT_MagCalibrationLog = new ArdupilotMega.Controls.MyButton();
+            this.BUT_MagCalibrationLog = new Controls.MyButton();
             this.CHK_autodec = new System.Windows.Forms.CheckBox();
             this.label5 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.CMB_compass_orient = new ArdupilotMega.Controls.MavlinkComboBox();
+            this.CMB_compass_orient = new Controls.MavlinkComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.label1 = new System.Windows.Forms.Label();
-            this.imageLabel1 = new ArdupilotMega.Controls.ImageLabel();
+            this.imageLabel1 = new Controls.ImageLabel();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.radioButtonmanual = new System.Windows.Forms.RadioButton();
@@ -293,13 +293,13 @@
 
         #endregion
 
-        private ArdupilotMega.Controls.MyButton BUT_MagCalibrationLive;
+        private Controls.MyButton BUT_MagCalibrationLive;
         private System.Windows.Forms.LinkLabel linkLabelmagdec;
         private System.Windows.Forms.Label label100;
         private System.Windows.Forms.TextBox TXT_declination_deg;
-        private ArdupilotMega.Controls.MavlinkCheckBox CHK_enablecompass;
+        private Controls.MavlinkCheckBox CHK_enablecompass;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private ArdupilotMega.Controls.MyButton BUT_MagCalibrationLog;
+        private Controls.MyButton BUT_MagCalibrationLog;
         private System.Windows.Forms.CheckBox CHK_autodec;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.GroupBox groupBox2;

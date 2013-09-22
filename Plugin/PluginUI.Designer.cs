@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.myButton1 = new ArdupilotMega.Controls.MyButton();
+            this.myButton1 = new Controls.MyButton();
             this.Loaded = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.PluginName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Author = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -104,7 +104,7 @@
         #endregion
 
         private System.Windows.Forms.DataGridView dataGridView1;
-        private ArdupilotMega.Controls.MyButton myButton1;
+        private Controls.MyButton myButton1;
         private System.Windows.Forms.DataGridViewCheckBoxColumn Loaded;
         private System.Windows.Forms.DataGridViewTextBoxColumn PluginName;
         private System.Windows.Forms.DataGridViewTextBoxColumn Author;

@@ -12,7 +12,7 @@ using System.Linq;
 using MissionPlanner.Utilities;
 using MissionPlanner;
 
-namespace ArdupilotMega
+namespace MissionPlanner
 {
     static class Program
     {
@@ -43,9 +43,9 @@ namespace ArdupilotMega
             ServicePointManager.ServerCertificateValidationCallback =
 new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate, chain, policyErrors) => { return true; });
 
-            CustomMessageBox.ApplyTheme += ArdupilotMega.Utilities.ThemeManager.ApplyThemeTo;
-            ArdupilotMega.Controls.MainSwitcher.ApplyTheme += ArdupilotMega.Utilities.ThemeManager.ApplyThemeTo;
-            MissionPlanner.Controls.InputBox.ApplyTheme += ArdupilotMega.Utilities.ThemeManager.ApplyThemeTo;
+            CustomMessageBox.ApplyTheme += MissionPlanner.Utilities.ThemeManager.ApplyThemeTo;
+            Controls.MainSwitcher.ApplyTheme += MissionPlanner.Utilities.ThemeManager.ApplyThemeTo;
+            MissionPlanner.Controls.InputBox.ApplyTheme += MissionPlanner.Utilities.ThemeManager.ApplyThemeTo;
             MissionPlanner.Comms.CommsBase.Settings += CommsBase_Settings;
 
        //     string[] files = Directory.GetFiles(@"C:\Users\hog\Documents\apm logs\","*.tlog");
@@ -159,36 +159,13 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
 
          //   return;
 
-         //   new Swarm.Control().ShowDialog();
-         //   return;
-
-          //  Application.Run(new GenOTP());
-
-            //Utilities.RSA rsa = new Utilities.RSA();
-
-            //rsa.testit();
-
-           // return;
-
-            //Utilities.S3Uploader s3 = new Utilities.S3Uploader("");
-
-            //s3.UploadTlog(@"C:\Users\hog\Documents\apm logs\2012-10-27 15-05-54.tlog");
-
-            float t1 = 180;
-            float t2 = -180;
-            float t3 = -37.123456789f;
-            float t4 = 37.123456789f;
-            float t5 = 150.123456789f;
-
-            Console.WriteLine("7 digits {0} {1} {2} {3} {4}",t1,t2,t3,t4,t5);
-
             if (File.Exists("simple.txt"))
             {
                 Application.Run(new GCSViews.Simple());
                 return;
             }
 
-            Splash = new ArdupilotMega.Splash();
+            Splash = new MissionPlanner.Splash();
             Splash.Show();
 
             Application.DoEvents();
@@ -249,7 +226,7 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
             log.Debug(ex.ToString());
 
             // hyperlinks error
-            if (ex.Message == "Requested registry access is not allowed.")
+            if (ex.Message == "Requested registry access is not allowed." || ex.ToString().Contains("System.Windows.Forms.LinkUtilities.GetIELinkBehavior"))
             {
                 return;
             }

@@ -230,7 +230,7 @@ This will ask you to place your autopilot on each edge.</value>
     <value>BUT_calib_accell</value>
   </data>
   <data name="&gt;&gt;BUT_calib_accell.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_calib_accell.Parent" xml:space="preserve">
     <value>$this</value>
@@ -257,7 +257,7 @@ This will ask you to place your autopilot on each edge.</value>
     <value>lineSeparator2</value>
   </data>
   <data name="&gt;&gt;lineSeparator2.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.LineSeparator, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Controls.LineSeparator, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;lineSeparator2.Parent" xml:space="preserve">
     <value>$this</value>
@@ -284,7 +284,7 @@ This will ask you to place your autopilot on each edge.</value>
     <value>BUT_level</value>
   </data>
   <data name="&gt;&gt;BUT_level.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_level.Parent" xml:space="preserve">
     <value>$this</value>

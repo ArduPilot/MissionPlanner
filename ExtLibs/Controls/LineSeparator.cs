@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
-namespace ArdupilotMega.Controls
+namespace MissionPlanner.Controls
 {
     /// <summary>
     /// A seperator that is fundamentally made from two lines the top 'Primary' and the

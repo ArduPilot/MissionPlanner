@@ -12,7 +12,7 @@ using System.Reflection;
 using System.IO;
 using System.Text.RegularExpressions;
 
-namespace ArdupilotMega
+namespace MissionPlanner
 {
     static class CodeGen
     {
@@ -303,7 +303,7 @@ namespace ArdupilotMega
             myNamespace.Imports.Add(new CodeNamespaceImport("System"));
             myNamespace.Imports.Add(new CodeNamespaceImport("System.Windows.Forms"));
 
-            myNamespace.Imports.Add(new CodeNamespaceImport("ArdupilotMega"));
+            myNamespace.Imports.Add(new CodeNamespaceImport("MissionPlanner"));
 
             //Build the class declaration and member variables			
             CodeTypeDeclaration classDeclaration = new CodeTypeDeclaration();

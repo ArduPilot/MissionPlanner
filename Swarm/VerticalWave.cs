@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ArdupilotMega.Swarm
+namespace MissionPlanner.Swarm
 {
     /// <summary>
     /// Create a wave effect

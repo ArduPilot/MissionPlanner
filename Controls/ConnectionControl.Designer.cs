@@ -1,4 +1,4 @@
-﻿namespace ArdupilotMega.Controls
+﻿namespace MissionPlanner.Controls
 {
     partial class ConnectionControl
     {
@@ -37,6 +37,7 @@
             // cmb_Baud
             // 
             this.cmb_Baud.BackColor = System.Drawing.Color.Black;
+            this.cmb_Baud.DropDownWidth = 150;
             this.cmb_Baud.ForeColor = System.Drawing.Color.White;
             this.cmb_Baud.FormattingEnabled = true;
             this.cmb_Baud.Items.AddRange(new object[] {

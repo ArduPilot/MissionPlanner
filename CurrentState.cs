@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 using System.ComponentModel;
-using ArdupilotMega.Utilities;
-using log4net;
-using ArdupilotMega.Attributes;
 using MissionPlanner.Utilities;
+using log4net;
+using MissionPlanner.Attributes;
+using MissionPlanner.Utilities;
+using MissionPlanner;
 
-namespace ArdupilotMega
+namespace MissionPlanner
 {
     public class CurrentState : ICloneable
     {
@@ -303,7 +304,7 @@ namespace ArdupilotMega
                 if (dist < 5)
                     return 0;
 
-                float altdiff = (float)(alt - TrackerLocation.Alt);
+                float altdiff = (float)(_alt - TrackerLocation.Alt);
 
                 float angle = (float)Math.Atan(altdiff / dist) * rad2deg;
 
@@ -650,6 +651,7 @@ enum gcs_severity {
                         {
                             // fence breached
                             messageHigh = "Fence Breach";
+                            messageHighTime = DateTime.Now;
                         }
 
                         mavinterface.MAV.packets[MAVLink.MAVLINK_MSG_ID_FENCE_STATUS] = null;
@@ -700,7 +702,7 @@ enum gcs_severity {
                         wind_dir = (wind.direction + 360) % 360;
                         wind_vel = wind.speed * multiplierspeed;
 
-                        //MAVLink.packets[ArdupilotMega.MAVLink.MAVLINK_MSG_ID_SYS_STATUS] = null;
+                        //MAVLink.packets[MissionPlanner.MAVLink.MAVLINK_MSG_ID_SYS_STATUS] = null;
                     }
 
 
@@ -763,7 +765,7 @@ enum gcs_severity {
                     }
 
 
-                    bytearray = mavinterface.MAV.packets[ArdupilotMega.MAVLink.MAVLINK_MSG_ID_SYS_STATUS];
+                    bytearray = mavinterface.MAV.packets[MAVLink.MAVLINK_MSG_ID_SYS_STATUS];
                     if (bytearray != null)
                     {
                         var sysstatus = bytearray.ByteArrayToStructure<MAVLink.mavlink_sys_status_t>(6);
@@ -774,7 +776,7 @@ enum gcs_severity {
 
                         packetdropremote = sysstatus.drop_rate_comm;
 
-                        mavinterface.MAV.packets[ArdupilotMega.MAVLink.MAVLINK_MSG_ID_SYS_STATUS] = null;
+                        mavinterface.MAV.packets[MAVLink.MAVLINK_MSG_ID_SYS_STATUS] = null;
                     }
 
                     bytearray = mavinterface.MAV.packets[MAVLink.MAVLINK_MSG_ID_SCALED_PRESSURE];
@@ -918,7 +920,7 @@ enum gcs_severity {
                             MainV2.speechEngine.SpeakAsync(Common.speechConversion(MainV2.getConfig("speechwaypoint")));
                         }
 
-                        //MAVLink.packets[ArdupilotMega.MAVLink.MAVLINK_MSG_ID_WAYPOINT_CURRENT] = null;
+                        //MAVLink.packets[MissionPlanner.MAVLink.MAVLINK_MSG_ID_WAYPOINT_CURRENT] = null;
                     }
 
                     bytearray = mavinterface.MAV.packets[MAVLink.MAVLINK_MSG_ID_NAV_CONTROLLER_OUTPUT];

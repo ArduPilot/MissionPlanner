@@ -145,7 +145,7 @@
     <value>BUT_zero_att</value>
   </data>
   <data name="&gt;&gt;BUT_zero_att.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.MyButton, ArdupilotMegaPlanner10, Version=1.1.4708.38784, Culture=neutral, PublicKeyToken=null</value>
+    <value>Controls.MyButton, MissionPlanner.lanner10, Version=1.1.4708.38784, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_zero_att.Parent" xml:space="preserve">
     <value>$this</value>
@@ -175,7 +175,7 @@
     <value>BUT_zero_press</value>
   </data>
   <data name="&gt;&gt;BUT_zero_press.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.MyButton, ArdupilotMegaPlanner10, Version=1.1.4708.38784, Culture=neutral, PublicKeyToken=null</value>
+    <value>Controls.MyButton, MissionPlanner.lanner10, Version=1.1.4708.38784, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_zero_press.Parent" xml:space="preserve">
     <value>$this</value>
@@ -207,7 +207,7 @@
     <value>hud1</value>
   </data>
   <data name="&gt;&gt;hud1.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.HUD, ArdupilotMegaPlanner10, Version=1.1.4708.38784, Culture=neutral, PublicKeyToken=null</value>
+    <value>Controls.HUD, MissionPlanner.lanner10, Version=1.1.4708.38784, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;hud1.Parent" xml:space="preserve">
     <value>$this</value>

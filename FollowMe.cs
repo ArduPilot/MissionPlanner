@@ -12,7 +12,7 @@ using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
 using System.IO;
 
-namespace ArdupilotMega
+namespace MissionPlanner
 {
     public partial class FollowMe : Form
     {

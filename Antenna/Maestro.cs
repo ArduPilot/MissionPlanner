@@ -5,7 +5,7 @@ using System.Text;
 using System.Windows.Forms;
 using MissionPlanner.Comms;
 
-namespace ArdupilotMega.Antenna
+namespace MissionPlanner.Antenna
 {
     class Maestro : ITrackerOutput
     {

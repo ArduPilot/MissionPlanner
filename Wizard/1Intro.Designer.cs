@@ -1,5 +1,5 @@
 ﻿using System.Windows.Forms;
-namespace ArdupilotMega.Wizard
+namespace MissionPlanner.Wizard
 {
     partial class _1Intro
     {
@@ -35,12 +35,12 @@ namespace ArdupilotMega.Wizard
             this.label1 = new System.Windows.Forms.Label();
             this.pictureBoxwizard = new System.Windows.Forms.PictureBox();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.pictureBoxheli = new ArdupilotMega.Controls.PictureBoxMouseOver();
+            this.pictureBoxheli = new Controls.PictureBoxMouseOver();
             this.pictureBoxselectvehicle = new System.Windows.Forms.PictureBox();
-            this.pictureBoxquad = new ArdupilotMega.Controls.PictureBoxMouseOver();
-            this.pictureBoxrover = new ArdupilotMega.Controls.PictureBoxMouseOver();
-            this.pictureBoxplane = new ArdupilotMega.Controls.PictureBoxMouseOver();
-            this.radialGradientBG1 = new ArdupilotMega.Controls.GradientBG();
+            this.pictureBoxquad = new Controls.PictureBoxMouseOver();
+            this.pictureBoxrover = new Controls.PictureBoxMouseOver();
+            this.pictureBoxplane = new Controls.PictureBoxMouseOver();
+            this.radialGradientBG1 = new Controls.GradientBG();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxwizard)).BeginInit();
             this.panel2.SuspendLayout();

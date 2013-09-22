@@ -9,9 +9,9 @@ using ICSharpCode.SharpZipLib.Zip;
 using System.Threading;
 using System.Collections;
 
-namespace ArdupilotMega
+namespace MissionPlanner
 {
-    class srtm
+    public class srtm
     {
         public static string datadirectory = "./srtm/";
 

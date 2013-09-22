@@ -1,4 +1,4 @@
-﻿namespace ArdupilotMega.Controls
+﻿namespace MissionPlanner.Controls
 {
     partial class ThemeColors
     {
@@ -34,12 +34,12 @@
             this.TXT_text = new System.Windows.Forms.TextBox();
             this.TXT_butbg = new System.Windows.Forms.TextBox();
             this.TXT_butbord = new System.Windows.Forms.TextBox();
-            this.BUT_butbord = new ArdupilotMega.Controls.MyButton();
-            this.BUT_butbg = new ArdupilotMega.Controls.MyButton();
-            this.BUT_text = new ArdupilotMega.Controls.MyButton();
-            this.BUT_ctlbg = new ArdupilotMega.Controls.MyButton();
-            this.BUT_bg = new ArdupilotMega.Controls.MyButton();
-            this.BUT_done = new ArdupilotMega.Controls.MyButton();
+            this.BUT_butbord = new Controls.MyButton();
+            this.BUT_butbg = new Controls.MyButton();
+            this.BUT_text = new Controls.MyButton();
+            this.BUT_ctlbg = new Controls.MyButton();
+            this.BUT_bg = new Controls.MyButton();
+            this.BUT_done = new Controls.MyButton();
             this.SuspendLayout();
             // 
             // TXT_bg

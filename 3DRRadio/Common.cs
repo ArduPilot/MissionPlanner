@@ -13,7 +13,7 @@ using log4net;
 using System.Reflection;
 using System.Windows.Forms;
 
-namespace ArdupilotMega
+namespace MissionPlanner
 {
     public class Common
     {

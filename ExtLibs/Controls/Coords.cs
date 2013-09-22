@@ -32,7 +32,7 @@ namespace MissionPlanner.Controls
         public Coords()
         {
             InitializeComponent();
-
+            this.DoubleBuffered = true;
             CMB_coordsystem.DataSource = Enum.GetNames(typeof(CoordsSystems));
         }
 

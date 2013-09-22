@@ -6,10 +6,10 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using ArdupilotMega.Controls.BackstageView;
-using ArdupilotMega.Controls;
+using MissionPlanner.Controls.BackstageView;
+using MissionPlanner.Controls;
 
-namespace ArdupilotMega.GCSViews.ConfigurationView
+namespace MissionPlanner.GCSViews.ConfigurationView
 {
     public partial class ConfigTradHeli : UserControl, IActivate, IDeactivate
     {
@@ -461,7 +461,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                         }
                         if (control[0].GetType() == typeof(MyTrackBar))
                         {
-                            ArdupilotMega.Controls.MyTrackBar temp = (MyTrackBar)control[0];
+                            Controls.MyTrackBar temp = (MyTrackBar)control[0];
                             string option = MainV2.comPort.MAV.param[value].ToString();
                             temp.Value = int.Parse(option);
                         }

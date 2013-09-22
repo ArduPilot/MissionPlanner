@@ -1,4 +1,4 @@
-﻿namespace ArdupilotMega.Log
+﻿namespace MissionPlanner.Log
 {
     partial class LogBrowse
     {
@@ -31,15 +31,15 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LogBrowse));
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.BUT_Graphit = new ArdupilotMega.Controls.MyButton();
-            this.BUT_cleargraph = new ArdupilotMega.Controls.MyButton();
-            this.BUT_loadlog = new ArdupilotMega.Controls.MyButton();
+            this.BUT_Graphit = new Controls.MyButton();
+            this.BUT_cleargraph = new Controls.MyButton();
+            this.BUT_loadlog = new Controls.MyButton();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.zg1 = new ZedGraph.ZedGraphControl();
-            this.myGMAP1 = new ArdupilotMega.Controls.myGMAP();
+            this.myGMAP1 = new Controls.myGMAP();
             this.CHK_map = new System.Windows.Forms.CheckBox();
-            this.BUT_Graphit_R = new ArdupilotMega.Controls.MyButton();
+            this.BUT_Graphit_R = new Controls.MyButton();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -202,9 +202,9 @@
         #endregion
 
         private System.Windows.Forms.DataGridView dataGridView1;
-        private ArdupilotMega.Controls.MyButton BUT_Graphit;
-        private ArdupilotMega.Controls.MyButton BUT_cleargraph;
-        private ArdupilotMega.Controls.MyButton BUT_loadlog;
+        private Controls.MyButton BUT_Graphit;
+        private Controls.MyButton BUT_cleargraph;
+        private Controls.MyButton BUT_loadlog;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private Controls.MyButton BUT_Graphit_R;
         private System.Windows.Forms.SplitContainer splitContainer2;

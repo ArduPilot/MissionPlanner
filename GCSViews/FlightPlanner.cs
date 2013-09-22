@@ -21,9 +21,9 @@ using System.Threading;
 using log4net;
 using SharpKml.Base;
 using SharpKml.Dom;
-using ArdupilotMega.Controls;
-using ArdupilotMega.Utilities;
-using ArdupilotMega.Controls.BackstageView;
+using MissionPlanner.Controls;
+using MissionPlanner.Utilities;
+using MissionPlanner.Controls.BackstageView;
 using ProjNet.CoordinateSystems.Transformations;
 using ProjNet.CoordinateSystems;
 using ProjNet.Converters;
@@ -31,8 +31,9 @@ using MissionPlanner.Controls;
 using System.Xml.XPath;
 using MissionPlanner.Utilities;
 using com.codec.jpeg;
+using MissionPlanner;
 
-namespace ArdupilotMega.GCSViews
+namespace MissionPlanner.GCSViews
 {
     public partial class FlightPlanner : MyUserControl, IDeactivate, IActivate
     {
@@ -788,7 +789,7 @@ namespace ArdupilotMega.GCSViews
                 m.ToolTipText = tag;
                 m.Tag = tag;
 
-                //ArdupilotMega.GMapMarkerRectWPRad mBorders = new ArdupilotMega.GMapMarkerRectWPRad(point, (int)float.Parse(TXT_WPRad.Text), MainMap);
+                //MissionPlanner.GMapMarkerRectWPRad mBorders = new MissionPlanner.GMapMarkerRectWPRad(point, (int)float.Parse(TXT_WPRad.Text), MainMap);
                 GMapMarkerRect mBorders = new GMapMarkerRect(point);
                 {
                     mBorders.InnerMarker = m;
@@ -816,7 +817,7 @@ namespace ArdupilotMega.GCSViews
                 m.ToolTipText = "grid" + tag;
                 m.Tag = "grid" + tag;
 
-                //ArdupilotMega.GMapMarkerRectWPRad mBorders = new ArdupilotMega.GMapMarkerRectWPRad(point, (int)float.Parse(TXT_WPRad.Text), MainMap);
+                //MissionPlanner.GMapMarkerRectWPRad mBorders = new MissionPlanner.GMapMarkerRectWPRad(point, (int)float.Parse(TXT_WPRad.Text), MainMap);
                 GMapMarkerRect mBorders = new GMapMarkerRect(point);
                 {
                     mBorders.InnerMarker = m;
@@ -1528,39 +1529,39 @@ namespace ArdupilotMega.GCSViews
         {
             if (write)
             {
-                ArdupilotMega.MainV2.config["TXT_homelat"] = TXT_homelat.Text;
-                ArdupilotMega.MainV2.config["TXT_homelng"] = TXT_homelng.Text;
-                ArdupilotMega.MainV2.config["TXT_homealt"] = TXT_homealt.Text;
+                MissionPlanner.MainV2.config["TXT_homelat"] = TXT_homelat.Text;
+                MissionPlanner.MainV2.config["TXT_homelng"] = TXT_homelng.Text;
+                MissionPlanner.MainV2.config["TXT_homealt"] = TXT_homealt.Text;
 
 
-                ArdupilotMega.MainV2.config["TXT_WPRad"] = TXT_WPRad.Text;
+                MissionPlanner.MainV2.config["TXT_WPRad"] = TXT_WPRad.Text;
 
-                ArdupilotMega.MainV2.config["TXT_loiterrad"] = TXT_loiterrad.Text;
+                MissionPlanner.MainV2.config["TXT_loiterrad"] = TXT_loiterrad.Text;
 
-                ArdupilotMega.MainV2.config["TXT_DefaultAlt"] = TXT_DefaultAlt.Text;
+                MissionPlanner.MainV2.config["TXT_DefaultAlt"] = TXT_DefaultAlt.Text;
 
-                ArdupilotMega.MainV2.config["CHK_altmode"] = CHK_altmode.Checked;
+                MissionPlanner.MainV2.config["CHK_altmode"] = CHK_altmode.Checked;
 
             }
             else
             {
-                Hashtable temp = new Hashtable((Hashtable)ArdupilotMega.MainV2.config.Clone());
+                Hashtable temp = new Hashtable((Hashtable)MissionPlanner.MainV2.config.Clone());
 
                 foreach (string key in temp.Keys)
                 {
                     switch (key)
                     {
                         case "TXT_WPRad":
-                            TXT_WPRad.Text = ArdupilotMega.MainV2.config[key].ToString();
+                            TXT_WPRad.Text = MissionPlanner.MainV2.config[key].ToString();
                             break;
                         case "TXT_loiterrad":
-                            TXT_loiterrad.Text = ArdupilotMega.MainV2.config[key].ToString();
+                            TXT_loiterrad.Text = MissionPlanner.MainV2.config[key].ToString();
                             break;
                         case "TXT_DefaultAlt":
-                            TXT_DefaultAlt.Text = ArdupilotMega.MainV2.config[key].ToString();
+                            TXT_DefaultAlt.Text = MissionPlanner.MainV2.config[key].ToString();
                             break;
                         case "CHK_altmode":
-                            CHK_altmode.Checked = false;//bool.Parse(ArdupilotMega.MainV2.config[key].ToString());
+                            CHK_altmode.Checked = false;//bool.Parse(MissionPlanner.MainV2.config[key].ToString());
                             break;
                         default:
                             break;
@@ -2980,7 +2981,7 @@ namespace ArdupilotMega.GCSViews
                     mBorders.InnerMarker = m;
                     try
                     {
-                        mBorders.wprad = (int)(float.Parse(ArdupilotMega.MainV2.config["TXT_WPRad"].ToString()) / MainV2.comPort.MAV.cs.multiplierdist);
+                        mBorders.wprad = (int)(float.Parse(MissionPlanner.MainV2.config["TXT_WPRad"].ToString()) / MainV2.comPort.MAV.cs.multiplierdist);
                     }
                     catch { }
                     mBorders.MainMap = MainMap;

@@ -175,7 +175,7 @@
     <value>CHK_enablesonar</value>
   </data>
   <data name="&gt;&gt;CHK_enablesonar.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.MavlinkCheckBox, ArdupilotMegaPlanner10, Version=1.1.4915.32079, Culture=neutral, PublicKeyToken=null</value>
+    <value>Controls.MavlinkCheckBox, MissionPlanner.lanner10, Version=1.1.4915.32079, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_enablesonar.Parent" xml:space="preserve">
     <value>$this</value>

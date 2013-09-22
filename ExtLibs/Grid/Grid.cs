@@ -6,7 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using ArdupilotMega;
+using MissionPlanner;
 using GMap.NET;
 using GMap.NET.WindowsForms;
 using GMap.NET.WindowsForms.Markers;
@@ -247,6 +247,9 @@ namespace MissionPlanner
             {
                 addtomap(line);
             }
+
+            if (grid.Count == 0)
+                return ans;
 
             utmpos startposutm;
 

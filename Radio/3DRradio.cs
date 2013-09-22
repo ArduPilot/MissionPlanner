@@ -8,14 +8,14 @@ using System.Text;
 using System.Windows.Forms;
 using System.Net;
 using System.IO;
-using ArdupilotMega.Controls.BackstageView;
-using ArdupilotMega.Arduino;
+using MissionPlanner.Controls.BackstageView;
+using MissionPlanner.Arduino;
 using MissionPlanner.Comms;
 using log4net;
 using System.Reflection;
 using System.Text.RegularExpressions;
 
-namespace ArdupilotMega
+namespace MissionPlanner
 {
     public partial class _3DRradio : UserControl
     {

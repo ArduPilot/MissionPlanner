@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ArdupilotMega;
-using ArdupilotMega.Controls;
+using MissionPlanner;
+using MissionPlanner.Controls;
 using int8_t = System.SByte;
-using Vector3f = ArdupilotMega.HIL.Vector3;
+using Vector3f = MissionPlanner.HIL.Vector3;
 using uint32_t = System.UInt32;
 using uint8_t = System.Byte;
 
@@ -24,7 +24,7 @@ namespace MissionPlanner
 
         public void StartCalibration()
         {
-            ArdupilotMega.Controls.ProgressReporterDialogue prd = new ArdupilotMega.Controls.ProgressReporterDialogue()
+            Controls.ProgressReporterDialogue prd = new Controls.ProgressReporterDialogue()
             {
                 StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen,
                 Text = "Compass Mot"

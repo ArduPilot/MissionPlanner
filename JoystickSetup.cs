@@ -7,11 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using Microsoft.DirectX.DirectInput;
-using ArdupilotMega.Controls;
-using ArdupilotMega.Utilities;
+using MissionPlanner.Controls;
+using MissionPlanner.Utilities;
 
 
-namespace ArdupilotMega
+namespace MissionPlanner
 {
     public partial class JoystickSetup : Form
     {
@@ -415,7 +415,7 @@ namespace ArdupilotMega
         {
             MyLabel lbl = new MyLabel();
             ComboBox cmbbutton = new ComboBox();
-            ArdupilotMega.Controls.MyButton mybut = new ArdupilotMega.Controls.MyButton();
+            Controls.MyButton mybut = new Controls.MyButton();
             HorizontalProgressBar hbar = new HorizontalProgressBar();
             ComboBox cmbaction = new ComboBox();
 

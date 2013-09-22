@@ -1,12 +1,11 @@
 <?xml version="1.0"?>
 <dpInst>
-	<enableNotListedLanguages/>
-	<DONTsuppressAddRemovePrograms/>
-	<crapasuppressWizard/>
+  <enableNotListedLanguages/>
 	<quietInstallStrict/>
-	<forceIfDriverIsNotBetter/>
+  <forceIfDriverIsNotBetter/>
+  <legacyMode/>
+  <deleteBinaries/>
 	<search>
       <subDirectory>*</subDirectory>
     </search>
-	
 </dpInst>

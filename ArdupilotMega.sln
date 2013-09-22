@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArdupilotMega", "ArdupilotMega.csproj", "{A2E22272-95FE-47B6-B050-9AE7E2055BF5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MissionPlanner", "MissionPlanner.csproj", "{A2E22272-95FE-47B6-B050-9AE7E2055BF5}"
 	ProjectSection(ProjectDependencies) = postProject
 		{E64A1A41-A5B0-458E-8284-BB63705354DA} = {E64A1A41-A5B0-458E-8284-BB63705354DA}
 		{B46F6C6C-9184-41AF-8F8B-E0084752CA7C} = {B46F6C6C-9184-41AF-8F8B-E0084752CA7C}
@@ -50,6 +50,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MissionPlanner.Stats", "Ext
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeoUtility", "ExtLibs\GeoUtility\GeoUtility.csproj", "{7F7994CE-823F-4A04-BBEA-D0A3808FF56D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackerHomeGPS", "ExtLibs\TrackerHome\TrackerHomeGPS.csproj", "{94C380C1-566A-4D86-855B-2E987851BF0A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArdupilotMegaPlanner10", "ExtLibs\ArdupilotMegaPlanner10\ArdupilotMegaPlanner10.csproj", "{B1538F7F-C82B-4678-9397-880F92848BFB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,11 +65,13 @@ Global
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{A2E22272-95FE-47B6-B050-9AE7E2055BF5}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{A2E22272-95FE-47B6-B050-9AE7E2055BF5}.Debug|Any CPU.Build.0 = Debug|x86
 		{A2E22272-95FE-47B6-B050-9AE7E2055BF5}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
 		{A2E22272-95FE-47B6-B050-9AE7E2055BF5}.Debug|Mixed Platforms.Build.0 = Debug|x86
 		{A2E22272-95FE-47B6-B050-9AE7E2055BF5}.Debug|x86.ActiveCfg = Debug|x86
 		{A2E22272-95FE-47B6-B050-9AE7E2055BF5}.Debug|x86.Build.0 = Debug|x86
 		{A2E22272-95FE-47B6-B050-9AE7E2055BF5}.Release|Any CPU.ActiveCfg = Release|x86
+		{A2E22272-95FE-47B6-B050-9AE7E2055BF5}.Release|Any CPU.Build.0 = Release|x86
 		{A2E22272-95FE-47B6-B050-9AE7E2055BF5}.Release|Mixed Platforms.ActiveCfg = Release|x86
 		{A2E22272-95FE-47B6-B050-9AE7E2055BF5}.Release|Mixed Platforms.Build.0 = Release|x86
 		{A2E22272-95FE-47B6-B050-9AE7E2055BF5}.Release|x86.ActiveCfg = Release|x86
@@ -313,11 +319,28 @@ Global
 		{7F7994CE-823F-4A04-BBEA-D0A3808FF56D}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{7F7994CE-823F-4A04-BBEA-D0A3808FF56D}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{7F7994CE-823F-4A04-BBEA-D0A3808FF56D}.Release|x86.ActiveCfg = Release|Any CPU
+		{94C380C1-566A-4D86-855B-2E987851BF0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94C380C1-566A-4D86-855B-2E987851BF0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94C380C1-566A-4D86-855B-2E987851BF0A}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{94C380C1-566A-4D86-855B-2E987851BF0A}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{94C380C1-566A-4D86-855B-2E987851BF0A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{94C380C1-566A-4D86-855B-2E987851BF0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94C380C1-566A-4D86-855B-2E987851BF0A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{94C380C1-566A-4D86-855B-2E987851BF0A}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{94C380C1-566A-4D86-855B-2E987851BF0A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{94C380C1-566A-4D86-855B-2E987851BF0A}.Release|x86.ActiveCfg = Release|Any CPU
+		{B1538F7F-C82B-4678-9397-880F92848BFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1538F7F-C82B-4678-9397-880F92848BFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1538F7F-C82B-4678-9397-880F92848BFB}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{B1538F7F-C82B-4678-9397-880F92848BFB}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{B1538F7F-C82B-4678-9397-880F92848BFB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B1538F7F-C82B-4678-9397-880F92848BFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1538F7F-C82B-4678-9397-880F92848BFB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1538F7F-C82B-4678-9397-880F92848BFB}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{B1538F7F-C82B-4678-9397-880F92848BFB}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{B1538F7F-C82B-4678-9397-880F92848BFB}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(Performance) = preSolution
-		HasPerformanceSessions = true
 	EndGlobalSection
 EndGlobal

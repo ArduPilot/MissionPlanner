@@ -1,4 +1,4 @@
-﻿namespace ArdupilotMega.Controls
+﻿namespace MissionPlanner.Controls
 {
     partial class ServoOptions
     {
@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.BUT_Low = new ArdupilotMega.Controls.MyButton();
-            this.BUT_High = new ArdupilotMega.Controls.MyButton();
+            this.BUT_Low = new Controls.MyButton();
+            this.BUT_High = new Controls.MyButton();
             this.TXT_pwm_low = new System.Windows.Forms.TextBox();
             this.TXT_pwm_high = new System.Windows.Forms.TextBox();
-            this.BUT_Repeat = new ArdupilotMega.Controls.MyButton();
+            this.BUT_Repeat = new Controls.MyButton();
             this.TXT_rcchannel = new System.Windows.Forms.Label();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.renameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();

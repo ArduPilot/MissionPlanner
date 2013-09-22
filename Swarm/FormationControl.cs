@@ -9,8 +9,9 @@ using System.Windows.Forms;
 using ProjNet.CoordinateSystems.Transformations;
 using ProjNet.CoordinateSystems;
 using ProjNet.Converters;
+using MissionPlanner;
 
-namespace ArdupilotMega.Swarm
+namespace MissionPlanner.Swarm
 {
     public partial class FormationControl : Form
     {

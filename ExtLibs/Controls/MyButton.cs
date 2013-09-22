@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 using System.Drawing.Drawing2D;
 
-namespace ArdupilotMega.Controls
+namespace MissionPlanner.Controls
 {
     public class MyButton : Button
     {

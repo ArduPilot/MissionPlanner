@@ -4,12 +4,13 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using ArdupilotMega.Controls;
-using ArdupilotMega.Presenter;
+using MissionPlanner.Controls;
+using MissionPlanner.Presenter;
 using Transitions;
 using System.Collections;
+using MissionPlanner.Models;
 
-namespace ArdupilotMega.GCSViews.ConfigurationView
+namespace MissionPlanner.GCSViews.ConfigurationView
 {
     public partial class ConfigMount : UserControl, IActivate
     {

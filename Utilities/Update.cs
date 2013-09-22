@@ -10,8 +10,8 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using ArdupilotMega.Controls;
-using ArdupilotMega.Utilities;
+using MissionPlanner.Controls;
+using MissionPlanner.Utilities;
 using log4net;
 
 namespace MissionPlanner.Utilities
@@ -22,6 +22,7 @@ namespace MissionPlanner.Utilities
       LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
        static bool MONO = false;
+       public static bool dobeta = false;
 
         public static void updateCheckMain(ProgressReporterDialogue frmProgressReporter)
         {
@@ -31,7 +32,14 @@ namespace MissionPlanner.Utilities
 
             try
             {
-                CheckMD5(frmProgressReporter, ConfigurationManager.AppSettings["UpdateLocationMD5"].ToString());
+                if (dobeta)
+                {
+                    CheckMD5(frmProgressReporter, ConfigurationManager.AppSettings["BetaUpdateLocationMD5"].ToString());
+                }
+                else
+                {
+                    CheckMD5(frmProgressReporter, ConfigurationManager.AppSettings["UpdateLocationMD5"].ToString());
+                }
 
                 var process = new Process();
                 string exePath = Path.GetDirectoryName(Application.ExecutablePath);
@@ -76,6 +84,10 @@ namespace MissionPlanner.Utilities
         public static void CheckForUpdate()
         {
             var baseurl = ConfigurationManager.AppSettings["UpdateLocationVersion"];
+
+            if (dobeta)
+                baseurl = ConfigurationManager.AppSettings["BetaUpdateLocationVersion"];
+
             string path = Path.GetDirectoryName(Application.ExecutablePath);
 
             path = path + Path.DirectorySeparatorChar + "version.txt";
@@ -181,6 +193,12 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
         static void CheckMD5(ProgressReporterDialogue frmProgressReporter, string url)
         {
             var baseurl = ConfigurationManager.AppSettings["UpdateLocation"];
+
+            if (dobeta)
+            {
+                baseurl = ConfigurationManager.AppSettings["BetaUpdateLocation"];
+            }
+
 
             WebRequest request = WebRequest.Create(url);
             request.Timeout = 10000;

@@ -16,9 +16,9 @@ using System.Globalization; // language
 using GMap.NET.WindowsForms.Markers;
 using ZedGraph; // Graphs
 using System.Drawing.Drawing2D;
-using ArdupilotMega.Controls;
-using ArdupilotMega.Utilities;
-using ArdupilotMega.Controls.BackstageView;
+using MissionPlanner.Controls;
+using MissionPlanner.Utilities;
+using MissionPlanner.Controls.BackstageView;
 //using Crom.Controls.Docking;
 using log4net;
 using System.Reflection;
@@ -26,7 +26,7 @@ using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
 
 // written by michael oborne
-namespace ArdupilotMega.GCSViews
+namespace MissionPlanner.GCSViews
 {
     partial class Simple : Form, IActivate, IDeactivate
     {
@@ -349,14 +349,14 @@ namespace ArdupilotMega.GCSViews
                     {
                         //System.Threading.Thread.Sleep(1000);
 
-                        //comPort.requestDatastream((byte)ArdupilotMega.MAVLink09.MAV_DATA_STREAM.RAW_CONTROLLER, 0); // request servoout
-                        MainV2.comPort.requestDatastream(ArdupilotMega.MAVLink.MAV_DATA_STREAM.EXTENDED_STATUS, MainV2.comPort.MAV.cs.ratestatus); // mode
-                        MainV2.comPort.requestDatastream(ArdupilotMega.MAVLink.MAV_DATA_STREAM.POSITION, MainV2.comPort.MAV.cs.rateposition); // request gps
-                        MainV2.comPort.requestDatastream(ArdupilotMega.MAVLink.MAV_DATA_STREAM.EXTRA1, MainV2.comPort.MAV.cs.rateattitude); // request attitude
-                        MainV2.comPort.requestDatastream(ArdupilotMega.MAVLink.MAV_DATA_STREAM.EXTRA2, MainV2.comPort.MAV.cs.rateattitude); // request vfr
-                        MainV2.comPort.requestDatastream(ArdupilotMega.MAVLink.MAV_DATA_STREAM.EXTRA3, MainV2.comPort.MAV.cs.ratesensors); // request extra stuff - tridge
-                        MainV2.comPort.requestDatastream(ArdupilotMega.MAVLink.MAV_DATA_STREAM.RAW_SENSORS, MainV2.comPort.MAV.cs.ratesensors); // request raw sensor
-                        MainV2.comPort.requestDatastream(ArdupilotMega.MAVLink.MAV_DATA_STREAM.RC_CHANNELS, MainV2.comPort.MAV.cs.raterc); // request rc info
+                        //comPort.requestDatastream((byte)MissionPlanner.MAVLink09.MAV_DATA_STREAM.RAW_CONTROLLER, 0); // request servoout
+                        MainV2.comPort.requestDatastream(MissionPlanner.MAVLink.MAV_DATA_STREAM.EXTENDED_STATUS, MainV2.comPort.MAV.cs.ratestatus); // mode
+                        MainV2.comPort.requestDatastream(MissionPlanner.MAVLink.MAV_DATA_STREAM.POSITION, MainV2.comPort.MAV.cs.rateposition); // request gps
+                        MainV2.comPort.requestDatastream(MissionPlanner.MAVLink.MAV_DATA_STREAM.EXTRA1, MainV2.comPort.MAV.cs.rateattitude); // request attitude
+                        MainV2.comPort.requestDatastream(MissionPlanner.MAVLink.MAV_DATA_STREAM.EXTRA2, MainV2.comPort.MAV.cs.rateattitude); // request vfr
+                        MainV2.comPort.requestDatastream(MissionPlanner.MAVLink.MAV_DATA_STREAM.EXTRA3, MainV2.comPort.MAV.cs.ratesensors); // request extra stuff - tridge
+                        MainV2.comPort.requestDatastream(MissionPlanner.MAVLink.MAV_DATA_STREAM.RAW_SENSORS, MainV2.comPort.MAV.cs.ratesensors); // request raw sensor
+                        MainV2.comPort.requestDatastream(MissionPlanner.MAVLink.MAV_DATA_STREAM.RC_CHANNELS, MainV2.comPort.MAV.cs.raterc); // request rc info
                     }
                     catch { log.Error("Failed to request rates"); }
                     lastdata = DateTime.Now.AddSeconds(120); // prevent flooding
@@ -381,10 +381,10 @@ namespace ArdupilotMega.GCSViews
                     float.TryParse(MainV2.getConfig("speechbatterypercent"), out warnpercent);
 
 
-                    if (ArdupilotMega.Controls.OpenGLtest.instance != null)
+                    if (OpenGLtest.instance != null)
                     {
-                        ArdupilotMega.Controls.OpenGLtest.instance.rpy = new OpenTK.Vector3(MainV2.comPort.MAV.cs.roll, MainV2.comPort.MAV.cs.pitch, MainV2.comPort.MAV.cs.yaw);
-                        ArdupilotMega.Controls.OpenGLtest.instance.LocationCenter = new PointLatLngAlt(MainV2.comPort.MAV.cs.lat, MainV2.comPort.MAV.cs.lng, MainV2.comPort.MAV.cs.alt, "here");
+                        OpenGLtest.instance.rpy = new OpenTK.Vector3(MainV2.comPort.MAV.cs.roll, MainV2.comPort.MAV.cs.pitch, MainV2.comPort.MAV.cs.yaw);
+                        OpenGLtest.instance.LocationCenter = new PointLatLngAlt(MainV2.comPort.MAV.cs.lat, MainV2.comPort.MAV.cs.lng, MainV2.comPort.MAV.cs.alt, "here");
                     }
 
                     if (tunning.AddMilliseconds(50) < DateTime.Now && CB_tuning.Checked == true)
@@ -654,7 +654,7 @@ namespace ArdupilotMega.GCSViews
                     mBorders.InnerMarker = m;
                     try
                     {
-                        mBorders.wprad = (int)(float.Parse(ArdupilotMega.MainV2.config["TXT_WPRad"].ToString()) / MainV2.comPort.MAV.cs.multiplierdist);
+                        mBorders.wprad = (int)(float.Parse(MissionPlanner.MainV2.config["TXT_WPRad"].ToString()) / MainV2.comPort.MAV.cs.multiplierdist);
                     }
                     catch { }
                     mBorders.MainMap = gMapControl1;

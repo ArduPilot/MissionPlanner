@@ -12,24 +12,25 @@ using System.Net;
 using System.Text.RegularExpressions;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-using System.Speech.Synthesis;
 using System.Globalization;
 using System.Threading;
 using System.Net.Sockets;
-using ArdupilotMega.Utilities;
+using MissionPlanner.Utilities;
 using IronPython.Hosting;
 using log4net;
-using ArdupilotMega.Controls;
+using MissionPlanner.Controls;
 using System.Security.Cryptography;
 using MissionPlanner.Comms;
-using ArdupilotMega.Arduino;
+using MissionPlanner.Arduino;
 using Transitions;
 using System.Web.Script.Serialization;
 using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
-using ArdupilotMega.Plugin;
+using MissionPlanner.Plugin;
+using System.Speech.Synthesis;
+using MissionPlanner;
 
-namespace ArdupilotMega
+namespace MissionPlanner
 {
     public partial class MainV2 : Form
     {
@@ -84,7 +85,7 @@ namespace ArdupilotMega
             public new static Image bg = global::MissionPlanner.Properties.Resources.bgdark;
         }
 
-        ArdupilotMega.Controls.MainSwitcher MyView;
+        Controls.MainSwitcher MyView;
 
         /// <summary>
         /// Active Comport interface
@@ -216,6 +217,7 @@ namespace ArdupilotMega
 
             splash.Text = "Mission Planner " + Application.ProductVersion + " build " + strVersion;
 
+
             splash.Refresh();
 
             Application.DoEvents();
@@ -230,7 +232,6 @@ namespace ArdupilotMega
 
             _connectionControl = toolStripConnectionControl.ConnectionControl;
             _connectionControl.CMB_baudrate.TextChanged += this.CMB_baudrate_TextChanged;
-            _connectionControl.CMB_baudrate.SelectedIndexChanged += this.CMB_baudrate_SelectedIndexChanged;
             _connectionControl.CMB_serialport.SelectedIndexChanged += this.CMB_serialport_SelectedIndexChanged;
             _connectionControl.CMB_serialport.Enter += this.CMB_serialport_Enter;
             _connectionControl.CMB_serialport.Click += this.CMB_serialport_Click;
@@ -951,17 +952,6 @@ namespace ArdupilotMega
             }
         }
 
-        private void CMB_baudrate_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                comPort.BaseStream.BaudRate = int.Parse(_connectionControl.CMB_baudrate.Text);
-            }
-            catch
-            {
-            }
-        }
-
         /// <summary>
         /// thread used to send joystick packets to the MAV
         /// </summary>
@@ -1202,6 +1192,13 @@ namespace ArdupilotMega
                 {
                     Thread.Sleep(1); // was 5
 
+                    try
+                    {
+                        if (GCSViews.Terminal.comPort != null && GCSViews.Terminal.comPort.IsOpen)
+                            continue;
+                    }
+                    catch { }
+
                     // update connect/disconnect button and info stats
                     UpdateConnectIcon();
 
@@ -1255,27 +1252,6 @@ namespace ArdupilotMega
                         catch { } // silent fail
                     }
 
-                    // if not connected or busy, sleep and loop
-                    if (!comPort.BaseStream.IsOpen || comPort.giveComport == true)
-                    {
-                        if (!comPort.BaseStream.IsOpen)
-                        {
-                            // check if other ports are still open
-                            foreach (var port in Comports)
-                            {
-                                if (port.BaseStream.IsOpen)
-                                {
-                                    Console.WriteLine("Main comport shut, swapping to other mav");
-                                    comPort = port;
-                                    break;
-                                }
-                            }
-                        }
-
-                        System.Threading.Thread.Sleep(100);
-                        continue;
-                    }
-
                     // make sure we attenuate the link quality if we dont see any valid packets
                     if ((DateTime.Now - comPort.lastvalidpacket).TotalSeconds > 10)
                     {
@@ -1295,34 +1271,11 @@ namespace ArdupilotMega
                         }
                     }
 
-                    // send a hb every seconds from gcs to ap
-                    if (heatbeatSend.Second != DateTime.Now.Second && comPort.giveComport == false)
-                    {
-                        MAVLink.mavlink_heartbeat_t htb = new MAVLink.mavlink_heartbeat_t()
-                        {
-                            type = (byte)MAVLink.MAV_TYPE.GCS,
-                            autopilot = (byte)MAVLink.MAV_AUTOPILOT.INVALID,
-                            mavlink_version = 3,
-                        };
-
-                        comPort.sendPacket(htb);
-
-                        foreach (var port in MainV2.Comports)
-                        {
-                            if (port == MainV2.comPort)
-                                continue;
-                            try
-                            {
-                                port.sendPacket(htb);
-                            }
-                            catch { }
-                        }
-
-                        heatbeatSend = DateTime.Now;
-                    }
-
                     // data loss warning - wait min of 10 seconds, ignore first 30 seconds of connect, repeat at 5 seconds interval
-                    if ((DateTime.Now - comPort.lastvalidpacket).TotalSeconds > 10 && (DateTime.Now - connecttime).TotalSeconds > 30 && (DateTime.Now - nodatawarning).TotalSeconds > 5)
+                    if ((DateTime.Now - comPort.lastvalidpacket).TotalSeconds > 10
+                        && (DateTime.Now - connecttime).TotalSeconds > 30 
+                        && (DateTime.Now - nodatawarning).TotalSeconds > 5 
+                        && (MainV2.comPort.logreadmode || comPort.BaseStream.IsOpen))
                     {
                         if (speechEnable && speechEngine != null)
                         {
@@ -1335,7 +1288,7 @@ namespace ArdupilotMega
                     }
 
                     // get home point on armed status change.
-                    if (armedstatus != MainV2.comPort.MAV.cs.armed)
+                    if (armedstatus != MainV2.comPort.MAV.cs.armed && (MainV2.comPort.logreadmode || comPort.BaseStream.IsOpen))
                     {
                         armedstatus = MainV2.comPort.MAV.cs.armed;
                         // status just changed to armed
@@ -1367,6 +1320,53 @@ namespace ArdupilotMega
                                     MainV2.speechEngine.SpeakAsync(Common.speechConversion(MainV2.getConfig("speechdisarm")));
                             }
                         }
+                    }
+
+                    // send a hb every seconds from gcs to ap
+                    if (heatbeatSend.Second != DateTime.Now.Second)
+                    {
+                        MAVLink.mavlink_heartbeat_t htb = new MAVLink.mavlink_heartbeat_t()
+                        {
+                            type = (byte)MAVLink.MAV_TYPE.GCS,
+                            autopilot = (byte)MAVLink.MAV_AUTOPILOT.INVALID,
+                            mavlink_version = 3,
+                        };
+
+                        comPort.sendPacket(htb);
+
+                        foreach (var port in MainV2.Comports)
+                        {
+                            if (port == MainV2.comPort)
+                                continue;
+                            try
+                            {
+                                port.sendPacket(htb);
+                            }
+                            catch { }
+                        }
+
+                        heatbeatSend = DateTime.Now;
+                    }
+
+                    // if not connected or busy, sleep and loop
+                    if (!comPort.BaseStream.IsOpen || comPort.giveComport == true)
+                    {
+                        if (!comPort.BaseStream.IsOpen)
+                        {
+                            // check if other ports are still open
+                            foreach (var port in Comports)
+                            {
+                                if (port.BaseStream.IsOpen)
+                                {
+                                    Console.WriteLine("Main comport shut, swapping to other mav");
+                                    comPort = port;
+                                    break;
+                                }
+                            }
+                        }
+
+                        System.Threading.Thread.Sleep(100);
+                        continue;
                     }
 
                     // actualy read the packets
@@ -1467,7 +1467,8 @@ namespace ArdupilotMega
                 {
                     Name = "motion jpg stream-network kml",
                     IsBackground = true
-                }; httpthread.Start();
+                }; 
+                httpthread.Start();
             }
             catch (Exception ex)
             {
@@ -1481,7 +1482,8 @@ namespace ArdupilotMega
                  IsBackground = true,
                  Priority = ThreadPriority.AboveNormal,
                  Name = "Main joystick sender"
-             }; joystickthread.Start();
+             }; 
+            joystickthread.Start();
 
             // setup main serial reader
             serialreaderthread = new Thread(SerialReader)
@@ -1489,7 +1491,8 @@ namespace ArdupilotMega
                 IsBackground = true,
                 Name = "Main Serial reader",
                 Priority = ThreadPriority.AboveNormal
-            }; serialreaderthread.Start();
+            }; 
+            serialreaderthread.Start();
 
             // setup main plugin thread
             pluginthread = new Thread(PluginThread)
@@ -1497,18 +1500,24 @@ namespace ArdupilotMega
                 IsBackground = true,
                 Name = "plugin runner thread",
                 Priority = ThreadPriority.BelowNormal
-            }; pluginthread.Start();
+            }; 
+            pluginthread.Start();
 
 
             try
             {
-                if (!System.Diagnostics.Debugger.IsAttached)
+               // if (!System.Diagnostics.Debugger.IsAttached)
                 {
                     // single update check per day
                     if (getConfig("update_check") != DateTime.Now.ToShortDateString())
                     {
                         MissionPlanner.Utilities.Update.CheckForUpdate();
                         config["update_check"] = DateTime.Now.ToShortDateString();
+                    }
+                    else if (getConfig("beta_updates") == "True")
+                    {
+                        MissionPlanner.Utilities.Update.dobeta = true;
+                        MissionPlanner.Utilities.Update.CheckForUpdate();
                     }
                 }
             }
@@ -1812,18 +1821,18 @@ namespace ArdupilotMega
                     {
                         case Common.distances.Meters:
                             MainV2.comPort.MAV.cs.multiplierdist = 1;
-                            MainV2.comPort.MAV.cs.DistanceUnit = "Meters";
+                            MainV2.comPort.MAV.cs.DistanceUnit = "m";
                             break;
                         case Common.distances.Feet:
                             MainV2.comPort.MAV.cs.multiplierdist = 3.2808399f;
-                            MainV2.comPort.MAV.cs.DistanceUnit = "Feet";
+                            MainV2.comPort.MAV.cs.DistanceUnit = "ft";
                             break;
                     }
                 }
                 else
                 {
                     MainV2.comPort.MAV.cs.multiplierdist = 1;
-                    MainV2.comPort.MAV.cs.DistanceUnit = "Meters";
+                    MainV2.comPort.MAV.cs.DistanceUnit = "m";
                 }
 
                 // speed
@@ -2042,19 +2051,25 @@ namespace ArdupilotMega
                          DEV_BROADCAST_HDR hdr = new DEV_BROADCAST_HDR();
                          Marshal.PtrToStructure(m.LParam, hdr);
 
-                         switch (hdr.dbch_devicetype)
+                         try
                          {
-                             case DBT_DEVTYP_DEVICEINTERFACE:
-                                 DEV_BROADCAST_DEVICEINTERFACE inter = new DEV_BROADCAST_DEVICEINTERFACE();
-                                 Marshal.PtrToStructure(m.LParam, inter);
-                                 Console.WriteLine("Interface {0}", ASCIIEncoding.Unicode.GetString(inter.dbcc_name,0,inter.dbcc_size - (4*3)));
-                                 break;
-                             case DBT_DEVTYP_PORT:
-                                 DEV_BROADCAST_PORT prt = new DEV_BROADCAST_PORT();
-                                 Marshal.PtrToStructure(m.LParam, prt);
-                                 Console.WriteLine("port {0}", ASCIIEncoding.Unicode.GetString(prt.dbcp_name, 0, prt.dbcp_size - (4 * 3)));
-                                 break;
+
+                             switch (hdr.dbch_devicetype)
+                             {
+                                 case DBT_DEVTYP_DEVICEINTERFACE:
+                                     DEV_BROADCAST_DEVICEINTERFACE inter = new DEV_BROADCAST_DEVICEINTERFACE();
+                                     Marshal.PtrToStructure(m.LParam, inter);
+                                     Console.WriteLine("Interface {0}", ASCIIEncoding.Unicode.GetString(inter.dbcc_name, 0, inter.dbcc_size - (4 * 3)));
+                                     break;
+                                 case DBT_DEVTYP_PORT:
+                                     DEV_BROADCAST_PORT prt = new DEV_BROADCAST_PORT();
+                                     Marshal.PtrToStructure(m.LParam, prt);
+                                     Console.WriteLine("port {0}", ASCIIEncoding.Unicode.GetString(prt.dbcp_name, 0, prt.dbcp_size - (4 * 3)));
+                                     break;
+                             }
+
                          }
+                         catch { }
 
                          //string port = Marshal.PtrToStringAuto((IntPtr)((long)m.LParam + 12));
                          //Console.WriteLine("Added port {0}",port);
@@ -2072,7 +2087,7 @@ namespace ArdupilotMega
                          catch { }
                      }
 
-                     foreach (Plugin.Plugin item in ArdupilotMega.Plugin.PluginLoader.Plugins)
+                     foreach (Plugin.Plugin item in MissionPlanner.Plugin.PluginLoader.Plugins)
                      {
                          item.Host.ProcessDeviceChanged((WM_DEVICECHANGE_enum)m.WParam);
                      }

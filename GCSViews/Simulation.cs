@@ -11,15 +11,16 @@ using System.Xml; // config file
 using System.Runtime.InteropServices; // dll imports
 using log4net;
 using ZedGraph; // Graphs
-using ArdupilotMega;
+using MissionPlanner;
 using System.Reflection;
-using ArdupilotMega.Controls;
+using MissionPlanner.Controls;
 using System.Drawing.Drawing2D;
 
-using ArdupilotMega.HIL;
+using MissionPlanner.HIL;
+using MissionPlanner;
 
 // Written by Michael Oborne
-namespace ArdupilotMega.GCSViews
+namespace MissionPlanner.GCSViews
 {
     public partial class Simulation : MyUserControl, IActivate
     {
@@ -388,68 +389,68 @@ namespace ArdupilotMega.GCSViews
         {
             if (write)
             {
-                ArdupilotMega.MainV2.config["REV_roll"] = CHKREV_roll.Checked.ToString();
-                ArdupilotMega.MainV2.config["REV_pitch"] = CHKREV_pitch.Checked.ToString();
-                ArdupilotMega.MainV2.config["REV_rudder"] = CHKREV_rudder.Checked.ToString();
-                ArdupilotMega.MainV2.config["GPSrate"] = GPSrate.Text;
+                MissionPlanner.MainV2.config["REV_roll"] = CHKREV_roll.Checked.ToString();
+                MissionPlanner.MainV2.config["REV_pitch"] = CHKREV_pitch.Checked.ToString();
+                MissionPlanner.MainV2.config["REV_rudder"] = CHKREV_rudder.Checked.ToString();
+                MissionPlanner.MainV2.config["GPSrate"] = GPSrate.Text;
 
-                ArdupilotMega.MainV2.config["MAVrollgain"] = TXT_rollgain.Text;
-                ArdupilotMega.MainV2.config["MAVpitchgain"] = TXT_pitchgain.Text;
-                ArdupilotMega.MainV2.config["MAVruddergain"] = TXT_ruddergain.Text;
-                ArdupilotMega.MainV2.config["MAVthrottlegain"] = TXT_throttlegain.Text;
+                MissionPlanner.MainV2.config["MAVrollgain"] = TXT_rollgain.Text;
+                MissionPlanner.MainV2.config["MAVpitchgain"] = TXT_pitchgain.Text;
+                MissionPlanner.MainV2.config["MAVruddergain"] = TXT_ruddergain.Text;
+                MissionPlanner.MainV2.config["MAVthrottlegain"] = TXT_throttlegain.Text;
 
-                ArdupilotMega.MainV2.config["CHKdisplayall"] = CHKdisplayall.Checked.ToString();
+                MissionPlanner.MainV2.config["CHKdisplayall"] = CHKdisplayall.Checked.ToString();
 
-                ArdupilotMega.MainV2.config["SITLIP"] = SITLIP;
-                ArdupilotMega.MainV2.config["simIP"] = simIP;
-                ArdupilotMega.MainV2.config["recvPort"] = recvPort;
+                MissionPlanner.MainV2.config["SITLIP"] = SITLIP;
+                MissionPlanner.MainV2.config["simIP"] = simIP;
+                MissionPlanner.MainV2.config["recvPort"] = recvPort;
 
-                ArdupilotMega.MainV2.config["simPort"] = simPort.ToString();
+                MissionPlanner.MainV2.config["simPort"] = simPort.ToString();
             }
             else
             {
-                foreach (string key in ArdupilotMega.MainV2.config.Keys)
+                foreach (string key in MissionPlanner.MainV2.config.Keys)
                 {
                     switch (key)
                     {
                         case "simIP":
-                            simIP = ArdupilotMega.MainV2.config[key].ToString();
+                            simIP = MissionPlanner.MainV2.config[key].ToString();
                             break;
                         case "SITLIP":
-                            SITLIP = ArdupilotMega.MainV2.config[key].ToString();
+                            SITLIP = MissionPlanner.MainV2.config[key].ToString();
                             break;
                         case "simPort":
-                            simPort = int.Parse(ArdupilotMega.MainV2.config[key].ToString());
+                            simPort = int.Parse(MissionPlanner.MainV2.config[key].ToString());
                             break;
                         case "recvPort":
-                            recvPort = int.Parse(ArdupilotMega.MainV2.config[key].ToString());
+                            recvPort = int.Parse(MissionPlanner.MainV2.config[key].ToString());
                             break;
                         case "REV_roll":
-                            CHKREV_roll.Checked = bool.Parse(ArdupilotMega.MainV2.config[key].ToString());
+                            CHKREV_roll.Checked = bool.Parse(MissionPlanner.MainV2.config[key].ToString());
                             break;
                         case "REV_pitch":
-                            CHKREV_pitch.Checked = bool.Parse(ArdupilotMega.MainV2.config[key].ToString());
+                            CHKREV_pitch.Checked = bool.Parse(MissionPlanner.MainV2.config[key].ToString());
                             break;
                         case "REV_rudder":
-                            CHKREV_rudder.Checked = bool.Parse(ArdupilotMega.MainV2.config[key].ToString());
+                            CHKREV_rudder.Checked = bool.Parse(MissionPlanner.MainV2.config[key].ToString());
                             break;
                         case "GPSrate":
-                            GPSrate.Text = ArdupilotMega.MainV2.config[key].ToString();
+                            GPSrate.Text = MissionPlanner.MainV2.config[key].ToString();
                             break;
                         case "MAVrollgain":
-                            TXT_rollgain.Text = ArdupilotMega.MainV2.config[key].ToString();
+                            TXT_rollgain.Text = MissionPlanner.MainV2.config[key].ToString();
                             break;
                         case "MAVpitchgain":
-                            TXT_pitchgain.Text = ArdupilotMega.MainV2.config[key].ToString();
+                            TXT_pitchgain.Text = MissionPlanner.MainV2.config[key].ToString();
                             break;
                         case "MAVruddergain":
-                            TXT_ruddergain.Text = ArdupilotMega.MainV2.config[key].ToString();
+                            TXT_ruddergain.Text = MissionPlanner.MainV2.config[key].ToString();
                             break;
                         case "MAVthrottlegain":
-                            TXT_throttlegain.Text = ArdupilotMega.MainV2.config[key].ToString();
+                            TXT_throttlegain.Text = MissionPlanner.MainV2.config[key].ToString();
                             break;
                         case "CHKdisplayall":
-                            CHKdisplayall.Checked = bool.Parse(ArdupilotMega.MainV2.config[key].ToString());
+                            CHKdisplayall.Checked = bool.Parse(MissionPlanner.MainV2.config[key].ToString());
                             displayfull = CHKdisplayall.Checked;
                             break;
                         default:
@@ -595,18 +596,18 @@ namespace ArdupilotMega.GCSViews
 
                         if (CHK_quad.Checked && !RAD_aerosimrc.Checked)// || chkSensor.Checked && RAD_JSBSim.Checked)
                         {
-                            //comPort.requestDatastream(ArdupilotMega.MAVLink.MAV_DATA_STREAM.RAW_CONTROLLER, 0); // request servoout
-                            comPort.requestDatastream(ArdupilotMega.MAVLink.MAV_DATA_STREAM.RAW_CONTROLLER, 50); // request servoout
+                            //comPort.requestDatastream(MissionPlanner.MAVLink.MAV_DATA_STREAM.RAW_CONTROLLER, 0); // request servoout
+                            comPort.requestDatastream(MissionPlanner.MAVLink.MAV_DATA_STREAM.RAW_CONTROLLER, 50); // request servoout
                         }
                         else
                         {
-                            comPort.requestDatastream(ArdupilotMega.MAVLink.MAV_DATA_STREAM.RAW_CONTROLLER, 50); // request servoout
+                            comPort.requestDatastream(MissionPlanner.MAVLink.MAV_DATA_STREAM.RAW_CONTROLLER, 50); // request servoout
                         }
                     }
                     catch { }
                     lastdata = DateTime.Now; // prevent flooding
                 }
-                if (SimulatorRECV.Available > 0)
+                if (SimulatorRECV != null && SimulatorRECV.Available > 0)
                 {
                     udpdata = new byte[udpdata.Length];
                     try
@@ -751,7 +752,7 @@ namespace ArdupilotMega.GCSViews
         /// <param name="data">Packet</param>
         /// <param name="receviedbytes">Length</param>
         /// <param name="comPort">Com Port</param>
-        private void RECVprocess(byte[] data, int receviedbytes, ArdupilotMega.MAVLink comPort)
+        private void RECVprocess(byte[] data, int receviedbytes, MAVLink comPort)
         {
             sitl_fdm sitldata = new sitl_fdm();
 

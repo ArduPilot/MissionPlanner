@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
-using ArdupilotMega.Controls.BackstageView;
+using MissionPlanner.Controls.BackstageView;
 using log4net;
-using ArdupilotMega.Controls;
+using MissionPlanner.Controls;
 
-namespace ArdupilotMega.Utilities
+namespace MissionPlanner.Utilities
 {
     /// <summary>
     /// Helper class for the stylng 'theming' of forms and controls, and provides MessageBox
@@ -71,7 +71,7 @@ namespace ArdupilotMega.Utilities
             {
                 if (ctl.GetType() == typeof(MyButton))
                 {
-                    ArdupilotMega.Controls.MyButton but = (MyButton)ctl;
+                    Controls.MyButton but = (MyButton)ctl;
                     but.BGGradTop = Color.FromArgb(242,242,242);
                     but.BGGradBot = Color.FromArgb(207,207,207);
                     but.ForeColor = Color.Black;
@@ -108,7 +108,7 @@ namespace ArdupilotMega.Utilities
                 {
                     Color PrimeColor = Color.FromArgb(0x94, 0xc1, 0x1f);
 
-                    ArdupilotMega.Controls.MyButton but = (MyButton)ctl;
+                    Controls.MyButton but = (MyButton)ctl;
                     //but.BGGradTop = Color.FromArgb(PrimeColor.R, PrimeColor.G, PrimeColor.B);
                     //but.BGGradBot = Color.FromArgb(255 - (int)(PrimeColor.R * 0.27), 255 - (int)(PrimeColor.G * 0.14), 255 - (int)(PrimeColor.B * 0.79));
                     //but.ForeColor = Color.FromArgb(0x40, 0x57, 0x04); //Color.FromArgb(255 - (int)(PrimeColor.R * 0.7), 255 - (int)(PrimeColor.G * 0.8), 255 - (int)(PrimeColor.B * 0.1));

@@ -1,6 +1,6 @@
-﻿using ArdupilotMega.Controls;
+﻿using MissionPlanner.Controls;
 
-namespace ArdupilotMega.GCSViews.ConfigurationView
+namespace MissionPlanner.GCSViews.ConfigurationView
 {
     partial class ConfigAccelerometerCalibrationQuad
     {
@@ -34,9 +34,9 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.lbl_Accel_user = new System.Windows.Forms.Label();
-            this.BUT_calib_accell = new ArdupilotMega.Controls.MyButton();
-            this.lineSeparator2 = new ArdupilotMega.Controls.LineSeparator();
-            this.BUT_levelac2 = new ArdupilotMega.Controls.MyButton();
+            this.BUT_calib_accell = new Controls.MyButton();
+            this.lineSeparator2 = new Controls.LineSeparator();
+            this.BUT_levelac2 = new Controls.MyButton();
             this.CHK_acversion = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
@@ -107,7 +107,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
 
         #endregion
 
-        private ArdupilotMega.Controls.MyButton BUT_levelac2;
+        private Controls.MyButton BUT_levelac2;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
         private LineSeparator lineSeparator2;

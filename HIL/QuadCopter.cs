@@ -5,10 +5,11 @@ using System.Reflection;
 using System.Text;
 using log4net;
 using YLScsDrawing.Drawing3d;
-using ArdupilotMega.HIL;
+using MissionPlanner.HIL;
+using MissionPlanner.GCSViews;
 
 
-namespace ArdupilotMega.HIL
+namespace MissionPlanner.HIL
 {
     public class Motor : Utils
     {
@@ -150,7 +151,7 @@ namespace ArdupilotMega.HIL
 
 
 
-        public void update(ref double[] servos, ArdupilotMega.GCSViews.Simulation.FGNetFDM fdm)
+        public void update(ref double[] servos, Simulation.FGNetFDM fdm)
         {
             for (int i = 0; i < servos.Length; i++)
             {

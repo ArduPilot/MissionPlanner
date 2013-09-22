@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
-using ArdupilotMega.Controls.BackstageView;
+using MissionPlanner.Controls.BackstageView;
 using log4net;
-using ArdupilotMega.Controls;
+using MissionPlanner.Controls;
 
-namespace ArdupilotMega.Utilities
+namespace MissionPlanner.Utilities
 {
     /// <summary>
     /// Helper class for the stylng 'theming' of forms and controls, and provides MessageBox
@@ -113,7 +113,7 @@ namespace ArdupilotMega.Utilities
                 }
                 else if (ctl.GetType() == typeof(MyButton))
                 {
-                    ArdupilotMega.Controls.MyButton but = (MyButton)ctl;
+                    Controls.MyButton but = (MyButton)ctl;
                     but.BGGradTop = ButBG;
                     try
                     {
@@ -296,7 +296,7 @@ namespace ArdupilotMega.Utilities
             {
                 if (ctl.GetType() == typeof(MyButton))
                 {
-                    ArdupilotMega.Controls.MyButton but = (MyButton)ctl;
+                    Controls.MyButton but = (MyButton)ctl;
                     but.BGGradTop = SystemColors.ControlLight;
                     but.BGGradBot = SystemColors.ControlDark;
                     but.TextColor = SystemColors.ControlText;
@@ -351,7 +351,7 @@ namespace ArdupilotMega.Utilities
                 }
                 else if (ctl.GetType() == typeof(MyButton))
                 {
-                    ArdupilotMega.Controls.MyButton but = (MyButton)ctl;
+                    Controls.MyButton but = (MyButton)ctl;
                     but.BGGradTop = ButBG;
                     but.BGGradBot = Color.FromArgb(ButBG.ToArgb() - 0x333333);
                     but.TextColor = TextColor;
@@ -558,7 +558,7 @@ namespace ArdupilotMega.Utilities
                 }
                 else if (ctl.GetType() == typeof(MyButton))
                 {
-                    ArdupilotMega.Controls.MyButton but = (MyButton)ctl;
+                    Controls.MyButton but = (MyButton)ctl;
                 }
                 else if (ctl.GetType() == typeof(TextBox))
                 {

@@ -7,7 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using log4net;
 
-namespace ArdupilotMega.Plugin
+namespace MissionPlanner.Plugin
 {
     public class PluginLoader
     {
@@ -36,7 +36,7 @@ namespace ArdupilotMega.Plugin
             try
             {
                 Type[] types = asm.GetTypes();
-                Type type = typeof(ArdupilotMega.Plugin.Plugin);
+                Type type = typeof(MissionPlanner.Plugin.Plugin);
                 foreach (var t in types)
                     if (type.IsAssignableFrom((Type)t))
                     {

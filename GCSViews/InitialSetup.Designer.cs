@@ -1,4 +1,4 @@
-﻿namespace ArdupilotMega.GCSViews
+﻿namespace MissionPlanner.GCSViews
 {
     partial class InitialSetup
     {
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.backstageView = new ArdupilotMega.Controls.BackstageView.BackstageView();
+            this.backstageView = new Controls.BackstageView.BackstageView();
             this.SuspendLayout();
             // 
             // backstageView

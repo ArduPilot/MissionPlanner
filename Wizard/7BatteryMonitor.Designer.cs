@@ -1,5 +1,5 @@
 ﻿using System.Windows.Forms;
-namespace ArdupilotMega.Wizard
+namespace MissionPlanner.Wizard
 {
     partial class _7BatteryMonitor
     {
@@ -38,7 +38,7 @@ namespace ArdupilotMega.Wizard
             this.CMB_apmversion = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.radialGradientBG1 = new ArdupilotMega.Controls.GradientBG();
+            this.radialGradientBG1 = new Controls.GradientBG();
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
@@ -106,10 +106,7 @@ namespace ArdupilotMega.Wizard
             // 
             this.CMB_sensor.FormattingEnabled = true;
             this.CMB_sensor.Items.AddRange(new object[] {
-            "0: APM1",
-            "1: APM2 - 2.5 non 3DR",
-            "2: APM2.5 - 3DR Power Module",
-            "3: PX4"});
+            "AUTOFILLED"});
             this.CMB_sensor.Location = new System.Drawing.Point(347, 68);
             this.CMB_sensor.Name = "CMB_sensor";
             this.CMB_sensor.Size = new System.Drawing.Size(182, 21);

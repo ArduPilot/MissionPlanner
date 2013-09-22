@@ -6,15 +6,15 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using ArdupilotMega.Utilities;
+using MissionPlanner.Utilities;
 using System.Xml;
 using System.IO;
 using log4net;
 using System.Reflection;
 using System.Globalization;
-using ArdupilotMega.Controls;
+using MissionPlanner.Controls;
 
-namespace ArdupilotMega.GCSViews.ConfigurationView
+namespace MissionPlanner.GCSViews.ConfigurationView
 {
     public partial class ConfigSimplePids: MyUserControl, IActivate
     {
@@ -161,10 +161,8 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                 if (value > item.max)
                     item.max = value;
 
-                ParameterMetaDataRepository _parameterMetaDataRepository = new ParameterMetaDataRepository();
-
-                string range = _parameterMetaDataRepository.GetParameterMetaData(item.paramname, ParameterMetaDataConstants.Range);
-                string increment = _parameterMetaDataRepository.GetParameterMetaData(item.paramname, ParameterMetaDataConstants.Increment);
+                string range = ParameterMetaDataRepository.GetParameterMetaData(item.paramname, ParameterMetaDataConstants.Range);
+                string increment = ParameterMetaDataRepository.GetParameterMetaData(item.paramname, ParameterMetaDataConstants.Increment);
 
                 string[] rangeopt = range.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
@@ -178,7 +176,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                 if (increment.Length > 0)
                     float.TryParse(increment, out incrementf);
 
-                ArdupilotMega.Controls.RangeControl RNG = new ArdupilotMega.Controls.RangeControl(item.paramname, item.desc, item.title, incrementf, 1, item.min, item.max, value.ToString());
+                Controls.RangeControl RNG = new Controls.RangeControl(item.paramname, item.desc, item.title, incrementf, 1, item.min, item.max, value.ToString());
                 RNG.Tag = item;
 
                 RNG.Location = new Point(10, y);
@@ -202,7 +200,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
 
             float value = float.Parse(Value,CultureInfo.InvariantCulture);
 
-            ArdupilotMega.Controls.RangeControl rc = ((ArdupilotMega.Controls.RangeControl)sender);
+            Controls.RangeControl rc = ((Controls.RangeControl)sender);
             log.Info(rc.Name + " " + rc.Value);
 
             List<relationitem> relitems = ((configitem)rc.Tag).relations;
@@ -216,8 +214,12 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
 
             foreach (var item in relitems)
             {
-                MainV2.comPort.setParam(item.paramaname, (float)(value * item.multiplier));
-                TXT_info.AppendText("set " + item.paramaname + " " + (float)(value * item.multiplier) + "\r\n");
+                try
+                {
+                    MainV2.comPort.setParam(item.paramaname, (float)(value * item.multiplier));
+                    TXT_info.AppendText("set " + item.paramaname + " " + (float)(value * item.multiplier) + "\r\n");
+                }
+                catch (Exception ex) { CustomMessageBox.Show("Failed to change setting " + ex.Message); return; }
             }
         }
     }

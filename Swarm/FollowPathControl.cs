@@ -10,7 +10,7 @@ using ProjNet.CoordinateSystems.Transformations;
 using ProjNet.CoordinateSystems;
 using ProjNet.Converters;
 
-namespace ArdupilotMega.Swarm
+namespace MissionPlanner.Swarm
 {
     public partial class FollowPathControl : Form
     {

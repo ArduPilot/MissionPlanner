@@ -235,7 +235,7 @@
     <value>BUT_calib_accell</value>
   </data>
   <data name="&gt;&gt;BUT_calib_accell.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.MyButton, ArdupilotMegaPlanner10, Version=1.1.4913.33884, Culture=neutral, PublicKeyToken=null</value>
+    <value>Controls.MyButton, MissionPlanner.lanner10, Version=1.1.4913.33884, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_calib_accell.Parent" xml:space="preserve">
     <value>$this</value>
@@ -262,7 +262,7 @@
     <value>lineSeparator2</value>
   </data>
   <data name="&gt;&gt;lineSeparator2.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.LineSeparator, ArdupilotMegaPlanner10, Version=1.1.4913.33884, Culture=neutral, PublicKeyToken=null</value>
+    <value>Controls.LineSeparator, MissionPlanner.lanner10, Version=1.1.4913.33884, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;lineSeparator2.Parent" xml:space="preserve">
     <value>$this</value>
@@ -292,7 +292,7 @@
     <value>BUT_levelac2</value>
   </data>
   <data name="&gt;&gt;BUT_levelac2.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.MyButton, ArdupilotMegaPlanner10, Version=1.1.4913.33884, Culture=neutral, PublicKeyToken=null</value>
+    <value>Controls.MyButton, MissionPlanner.lanner10, Version=1.1.4913.33884, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_levelac2.Parent" xml:space="preserve">
     <value>$this</value>

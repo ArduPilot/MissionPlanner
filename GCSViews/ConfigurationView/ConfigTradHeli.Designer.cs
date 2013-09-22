@@ -1,5 +1,5 @@
-﻿using ArdupilotMega.Controls;
-namespace ArdupilotMega.GCSViews.ConfigurationView
+﻿using MissionPlanner.Controls;
+namespace MissionPlanner.GCSViews.ConfigurationView
 {
     partial class ConfigTradHeli
     {
@@ -48,7 +48,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.H_COL_MID = new System.Windows.Forms.TextBox();
             this.H_COL_MAX = new System.Windows.Forms.TextBox();
-            this.BUT_0collective = new ArdupilotMega.Controls.MyButton();
+            this.BUT_0collective = new Controls.MyButton();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label24 = new System.Windows.Forms.Label();
             this.HS4_MIN = new System.Windows.Forms.TextBox();
@@ -82,34 +82,34 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             this.HS4_REV = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.mavlinkNumericUpDown3max = new ArdupilotMega.Controls.MavlinkNumericUpDown();
-            this.mavlinkNumericUpDown3min = new ArdupilotMega.Controls.MavlinkNumericUpDown();
-            this.mavlinkNumericUpDown2max = new ArdupilotMega.Controls.MavlinkNumericUpDown();
-            this.mavlinkNumericUpDown2min = new ArdupilotMega.Controls.MavlinkNumericUpDown();
-            this.mavlinkNumericUpDown1max = new ArdupilotMega.Controls.MavlinkNumericUpDown();
-            this.mavlinkNumericUpDown1min = new ArdupilotMega.Controls.MavlinkNumericUpDown();
-            this.BUT_swash_manual = new ArdupilotMega.Controls.MyButton();
-            this.BUT_HS4save = new ArdupilotMega.Controls.MyButton();
+            this.mavlinkNumericUpDown3max = new Controls.MavlinkNumericUpDown();
+            this.mavlinkNumericUpDown3min = new Controls.MavlinkNumericUpDown();
+            this.mavlinkNumericUpDown2max = new Controls.MavlinkNumericUpDown();
+            this.mavlinkNumericUpDown2min = new Controls.MavlinkNumericUpDown();
+            this.mavlinkNumericUpDown1max = new Controls.MavlinkNumericUpDown();
+            this.mavlinkNumericUpDown1min = new Controls.MavlinkNumericUpDown();
+            this.BUT_swash_manual = new Controls.MyButton();
+            this.BUT_HS4save = new Controls.MyButton();
             this.HS4 = new HorizontalProgressBar2();
             this.currentStateBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.HS3 = new VerticalProgressBar2();
             this.Gservoloc = new AGaugeApp.AGauge();
-            this.mavlinkNumericUpDownrollmax = new ArdupilotMega.Controls.MavlinkNumericUpDown();
-            this.mavlinkNumericUpDownpitchmax = new ArdupilotMega.Controls.MavlinkNumericUpDown();
-            this.BUT_reset_swash = new ArdupilotMega.Controls.MyButton();
+            this.mavlinkNumericUpDownrollmax = new Controls.MavlinkNumericUpDown();
+            this.mavlinkNumericUpDownpitchmax = new Controls.MavlinkNumericUpDown();
+            this.BUT_reset_swash = new Controls.MyButton();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.H_COLYAW = new ArdupilotMega.Controls.MavlinkNumericUpDown();
+            this.H_COLYAW = new Controls.MavlinkNumericUpDown();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.H_STAB_COL_MIN = new ArdupilotMega.Controls.MavlinkNumericUpDown();
-            this.H_STAB_COL_MAX = new ArdupilotMega.Controls.MavlinkNumericUpDown();
+            this.H_STAB_COL_MIN = new Controls.MavlinkNumericUpDown();
+            this.H_STAB_COL_MAX = new Controls.MavlinkNumericUpDown();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
-            this.H_RSC_RATE = new ArdupilotMega.Controls.MavlinkNumericUpDown();
+            this.H_RSC_RATE = new Controls.MavlinkNumericUpDown();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
-            this.H_GOV_SETPOINT = new ArdupilotMega.Controls.MavlinkNumericUpDown();
+            this.H_GOV_SETPOINT = new Controls.MavlinkNumericUpDown();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
-            this.H_RSC_MODE = new ArdupilotMega.Controls.MavlinkComboBox();
+            this.H_RSC_MODE = new Controls.MavlinkComboBox();
             this.label5 = new System.Windows.Forms.Label();
             this.groupBox5.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -604,7 +604,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             // 
             // currentStateBindingSource
             // 
-            this.currentStateBindingSource.DataSource = typeof(ArdupilotMega.CurrentState);
+            this.currentStateBindingSource.DataSource = typeof(MissionPlanner.CurrentState);
             // 
             // HS3
             // 
@@ -1028,20 +1028,20 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.RadioButton H_SWASH_TYPE;
         private System.Windows.Forms.RadioButton CCPM;
-        private ArdupilotMega.Controls.MyButton BUT_swash_manual;
+        private Controls.MyButton BUT_swash_manual;
         private System.Windows.Forms.Label label41;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Label label46;
         private System.Windows.Forms.Label label45;
         private System.Windows.Forms.CheckBox H_GYR_ENABLE;
         private System.Windows.Forms.TextBox H_GYR_GAIN;
-        private ArdupilotMega.Controls.MyButton BUT_HS4save;
+        private Controls.MyButton BUT_HS4save;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.TextBox H_COL_MIN;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TextBox H_COL_MID;
         private System.Windows.Forms.TextBox H_COL_MAX;
-        private ArdupilotMega.Controls.MyButton BUT_0collective;
+        private Controls.MyButton BUT_0collective;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label label24;
         private System.Windows.Forms.TextBox HS4_MIN;

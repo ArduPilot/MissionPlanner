@@ -6,10 +6,10 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using ArdupilotMega.Controls;
-using ArdupilotMega.Controls.BackstageView;
+using MissionPlanner.Controls;
+using MissionPlanner.Controls.BackstageView;
 
-namespace ArdupilotMega.Wizard
+namespace MissionPlanner.Wizard
 {
     public partial class _8OptionalItemsAC : MyUserControl, IWizard, IActivate, IDeactivate
     {
@@ -23,11 +23,9 @@ namespace ArdupilotMega.Wizard
             //
             if (MainV2.comPort.MAV.param.ContainsKey("SONAR_ENABLE"))
             {
-                Utilities.ParameterMetaDataRepository repo = new Utilities.ParameterMetaDataRepository();
-
                 mavlinkCheckBox1.setup(1, 0, "SONAR_ENABLE", MainV2.comPort.MAV.param, mavlinkComboBox1);
 
-                mavlinkComboBox1.setup(repo.GetParameterOptionsInt("SONAR_TYPE"), "SONAR_TYPE", MainV2.comPort.MAV.param);
+                mavlinkComboBox1.setup(Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("SONAR_TYPE"), "SONAR_TYPE", MainV2.comPort.MAV.param);
 
                 mavlinkCheckBox2.setup(1, 0, "FLOW_ENABLE", MainV2.comPort.MAV.param);
 

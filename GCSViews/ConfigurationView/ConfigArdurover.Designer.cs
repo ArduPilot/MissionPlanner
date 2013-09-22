@@ -1,4 +1,4 @@
-﻿namespace ArdupilotMega.GCSViews.ConfigurationView
+﻿namespace MissionPlanner.GCSViews.ConfigurationView
 {
     partial class ConfigArdurover
     {
@@ -63,8 +63,8 @@
             this.HDNG2STEER_P = new System.Windows.Forms.NumericUpDown();
             this.label64 = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.BUT_writePIDS = new ArdupilotMega.Controls.MyButton();
-            this.BUT_rerequestparams = new ArdupilotMega.Controls.MyButton();
+            this.BUT_writePIDS = new Controls.MyButton();
+            this.BUT_rerequestparams = new Controls.MyButton();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.SPEED_TURN_DIST = new System.Windows.Forms.NumericUpDown();
             this.label10 = new System.Windows.Forms.Label();

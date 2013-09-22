@@ -15,7 +15,7 @@ using MissionPlanner.Controls;
 using GMap.NET;
 using GMap.NET.WindowsForms;
 
-namespace ArdupilotMega.Log
+namespace MissionPlanner.Log
 {
     public partial class LogBrowse : Form
     {
@@ -705,7 +705,7 @@ namespace ArdupilotMega.Log
                 }
             }
 
-            ArdupilotMega.Controls.OptionForm opt = new ArdupilotMega.Controls.OptionForm();
+            Controls.OptionForm opt = new Controls.OptionForm();
 
             opt.StartPosition = FormStartPosition.Manual;
             opt.Location = mp;
@@ -749,7 +749,7 @@ namespace ArdupilotMega.Log
 
         void BUT_go_Click(object sender, EventArgs e)
         {
-            ArdupilotMega.Controls.MyButton  but = sender as ArdupilotMega.Controls.MyButton;
+            Controls.MyButton  but = sender as Controls.MyButton;
 
             
         }

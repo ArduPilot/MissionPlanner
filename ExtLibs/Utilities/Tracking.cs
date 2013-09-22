@@ -16,6 +16,8 @@ namespace MissionPlanner.Utilities
         private static readonly ILog log =
      LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
+        static string currentscreen = "";
+
         //https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters
 
 
@@ -63,6 +65,9 @@ namespace MissionPlanner.Utilities
             param.Add(new KeyValuePair<string, string>("el", label));
             param.Add(new KeyValuePair<string, string>("ev", value));
 
+            param.Add(new KeyValuePair<string, string>("cd", currentscreen));
+            param.Add(new KeyValuePair<string, string>("dp", currentscreen));
+
             param.Add(new KeyValuePair<string, string>("ul", Application.CurrentCulture.Name));
             param.Add(new KeyValuePair<string, string>("sd", Screen.PrimaryScreen.BitsPerPixel + "-bits"));
             param.Add(new KeyValuePair<string, string>("sr", Screen.PrimaryScreen.Bounds.Width + "x" + Screen.PrimaryScreen.Bounds.Height));
@@ -72,6 +77,8 @@ namespace MissionPlanner.Utilities
 
         public static void AddPage(string page, string title)
         {
+            currentscreen = page;
+
             List<KeyValuePair<string, string>> param = new List<KeyValuePair<string, string>>();
 
             param.Add(new KeyValuePair<string, string>("v", version));
@@ -105,14 +112,28 @@ namespace MissionPlanner.Utilities
             param.Add(new KeyValuePair<string, string>("an", Application.ProductName));
             param.Add(new KeyValuePair<string, string>("av", Application.ProductVersion));
 
+            param.Add(new KeyValuePair<string, string>("cd", currentscreen));
+            param.Add(new KeyValuePair<string, string>("dp", currentscreen));
+
             try
             {
-                int lineidx = ex.StackTrace.IndexOf(":line");
-                if (lineidx == -1)
-                    lineidx = 0;
+                string[] lines = ex.StackTrace.Split(new char[] { '\n' });
+
+                string reportline = "";
+
+                foreach (string line in lines)
+                {
+                    if (line.Contains(":line"))
+                    {
+                        reportline = line;
+                        break;
+                    }
+                }
                 // 150 bytes
 
-                param.Add(new KeyValuePair<string, string>("exd", ex.Message + ex.StackTrace.Substring(0, 50) + ex.StackTrace.Substring(lineidx, 10)));
+                reportline = reportline.Replace(@"c:\Users\hog\Documents\Visual Studio 2010\Projects\MissionPlanner.", "");
+
+                param.Add(new KeyValuePair<string, string>("exd", ex.Message + reportline));
             }
             catch 
             { 
@@ -140,6 +161,9 @@ namespace MissionPlanner.Utilities
             param.Add(new KeyValuePair<string, string>("an", Application.ProductName));
             param.Add(new KeyValuePair<string, string>("av", Application.ProductVersion));
 
+            param.Add(new KeyValuePair<string, string>("cd", currentscreen));
+            param.Add(new KeyValuePair<string, string>("dp", currentscreen));
+
             param.Add(new KeyValuePair<string, string>("ec", "Firmware Upload"));
             param.Add(new KeyValuePair<string, string>("ea", board));
             param.Add(new KeyValuePair<string, string>("el", name));
@@ -161,9 +185,12 @@ namespace MissionPlanner.Utilities
             param.Add(new KeyValuePair<string, string>("v", version));
             param.Add(new KeyValuePair<string, string>("tid", tid));
             param.Add(new KeyValuePair<string, string>("cid", cid.ToString()));
-            param.Add(new KeyValuePair<string, string>("t", "event"));
+            param.Add(new KeyValuePair<string, string>("t", "timing"));
             param.Add(new KeyValuePair<string, string>("an", Application.ProductName));
             param.Add(new KeyValuePair<string, string>("av", Application.ProductVersion));
+
+            param.Add(new KeyValuePair<string, string>("cd", currentscreen));
+            param.Add(new KeyValuePair<string, string>("dp", currentscreen));
 
             param.Add(new KeyValuePair<string, string>("utc", cat));
             param.Add(new KeyValuePair<string, string>("utv", name));

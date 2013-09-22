@@ -1,5 +1,5 @@
 ﻿using System.Windows.Forms;
-namespace ArdupilotMega.Wizard
+namespace MissionPlanner.Wizard
 {
     partial class _8OptionalItemsAP
     {
@@ -34,12 +34,12 @@ namespace ArdupilotMega.Wizard
             this.LBL_airspeed = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.CHK_enableairspeed = new ArdupilotMega.Controls.MavlinkCheckBox();
+            this.CHK_enableairspeed = new Controls.MavlinkCheckBox();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.radialGradientBG1 = new ArdupilotMega.Controls.GradientBG();
+            this.radialGradientBG1 = new Controls.GradientBG();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.CHK_airspeeduse = new ArdupilotMega.Controls.MavlinkCheckBox();
+            this.CHK_airspeeduse = new Controls.MavlinkCheckBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.radialGradientBG1.Image)).BeginInit();

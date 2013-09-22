@@ -5,19 +5,18 @@ using System.Drawing;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
-using ArdupilotMega.Utilities;
+using MissionPlanner.Utilities;
 using log4net;
-using ArdupilotMega.Controls;
+using MissionPlanner.Controls;
 using MissionPlanner.Controls;
 using System.Collections.Generic;
 
-namespace ArdupilotMega.GCSViews.ConfigurationView
+namespace MissionPlanner.GCSViews.ConfigurationView
 {
     public partial class ConfigRawParams : UserControl, IActivate
     {
         private static readonly ILog log =
           LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        private readonly ParameterMetaDataRepository _parameterMetaDataRepository;
 
         // Changes made to the params between writing to the copter
         readonly Hashtable _changes = new Hashtable();
@@ -41,7 +40,6 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
         public ConfigRawParams()
         {
             InitializeComponent();
-            _parameterMetaDataRepository = new ParameterMetaDataRepository();
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
@@ -419,15 +417,15 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                 Params.Rows[Params.RowCount - 1].Cells[Value.Index].Value = ((float)MainV2.comPort.MAV.param[value]).ToString("0.###");
                 try
                 {
-                    string metaDataDescription = _parameterMetaDataRepository.GetParameterMetaData(value, ParameterMetaDataConstants.Description);
+                    string metaDataDescription = ParameterMetaDataRepository.GetParameterMetaData(value, ParameterMetaDataConstants.Description);
                     if (!String.IsNullOrEmpty(metaDataDescription))
                     {
                         Params.Rows[Params.RowCount - 1].Cells[Command.Index].ToolTipText = metaDataDescription;
                         Params.Rows[Params.RowCount - 1].Cells[Value.Index].ToolTipText = metaDataDescription;
 
-                        string range = _parameterMetaDataRepository.GetParameterMetaData(value, ParameterMetaDataConstants.Range);
-                        string options = _parameterMetaDataRepository.GetParameterMetaData(value, ParameterMetaDataConstants.Values);
-                        string units = _parameterMetaDataRepository.GetParameterMetaData(value, ParameterMetaDataConstants.Units);
+                        string range = ParameterMetaDataRepository.GetParameterMetaData(value, ParameterMetaDataConstants.Range);
+                        string options = ParameterMetaDataRepository.GetParameterMetaData(value, ParameterMetaDataConstants.Values);
+                        string units = ParameterMetaDataRepository.GetParameterMetaData(value, ParameterMetaDataConstants.Units);
 
                         Params.Rows[Params.RowCount - 1].Cells[Units.Index].Value = units;
                         Params.Rows[Params.RowCount - 1].Cells[Options.Index].Value = range + options;

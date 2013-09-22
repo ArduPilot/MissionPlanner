@@ -6,10 +6,10 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using ArdupilotMega.Controls;
-using ArdupilotMega.Controls.BackstageView;
+using MissionPlanner.Controls;
+using MissionPlanner.Controls.BackstageView;
 
-namespace ArdupilotMega.Wizard
+namespace MissionPlanner.Wizard
 {
     public partial class _7BatteryMonitor : MyUserControl, IWizard, IActivate
     {
@@ -45,8 +45,22 @@ namespace ArdupilotMega.Wizard
                 Name = "None",
                 maxvolt = 50f,
                 maxamps = 90f,
-                mvpervolt = 100f,
+                mvpervolt = 101f,
                 mvperamp = 55.55f
+            });
+
+            sensorlist.Add(new sensor()
+            {
+                Name = "3DR 4in 1 ESC",
+                maxvolt = 39.67f,
+                maxamps = 56.1f,
+                mvpervolt = 83.19f,
+                mvperamp = 58.82f
+
+                //Sensor 3DR 4in 1 ESC with 
+
+ //AMP_PER_VOLT: 17
+//VOLT_DIVIDER: 12.02
             });
 
             sensorlist.Add(new sensor()
@@ -54,7 +68,7 @@ namespace ArdupilotMega.Wizard
                 Name = "3DR Power Module",
                 maxvolt = 50f,
                 maxamps = 90f,
-                mvpervolt = 100f,
+                mvpervolt = 99f,
                 mvperamp = 55.55f
             });
             sensorlist.Add(new sensor()
@@ -139,6 +153,12 @@ namespace ArdupilotMega.Wizard
                     //px4
                     MainV2.comPort.setParam("BATT_VOLT_PIN", 100);
                     MainV2.comPort.setParam("BATT_CURR_PIN", 101);
+                }
+                else if (selection == 4)
+                {
+                    //px4
+                    MainV2.comPort.setParam("BATT_VOLT_PIN", 2);
+                    MainV2.comPort.setParam("BATT_CURR_PIN", 3);
                 }
             }
             catch { CustomMessageBox.Show("Set BATT_????_PIN Failed"); }

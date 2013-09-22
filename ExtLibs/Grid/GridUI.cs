@@ -132,20 +132,20 @@ namespace MissionPlanner
                     {
                         if (TXT_fovH.Text != "")
                         {
-                            float fovh = float.Parse(TXT_fovH.Text);
-                            float fovv = float.Parse(TXT_fovV.Text);
+                            double fovh = double.Parse(TXT_fovH.Text);
+                            double fovv = double.Parse(TXT_fovV.Text);
 
-                            float startangle = 0;
+                            double startangle = 0;
 
                             if (!CHK_camdirection.Checked)
                             {
                                 startangle = 90;
                             }
 
-                            float angle1 = startangle - (float)(Math.Tan((fovv / 2) / (fovh / 2)) * rad2deg);
-                            float dist1 = (float)Math.Sqrt(Math.Pow(fovh / 2, 2) + Math.Pow(fovv / 2, 2));
+                            double angle1 = startangle - (Math.Tan((fovv / 2.0) / (fovh / 2.0)) * rad2deg);
+                            double dist1 = Math.Sqrt(Math.Pow(fovh / 2.0, 2) + Math.Pow(fovv / 2.0, 2));
 
-                            float bearing = (float)prevpoint.GetBearing(item);
+                            double bearing = (double)NUM_angle.Value;// (prevpoint.GetBearing(item) + 360.0) % 360;
 
                             List<PointLatLng> footprint = new List<PointLatLng>();
                             footprint.Add(item.newpos(bearing + angle1, dist1));
@@ -241,7 +241,7 @@ namespace MissionPlanner
             if (polygon[0] == polygon[polygon.Count - 1])
                 polygon.RemoveAt(polygon.Count - 1); // unmake a full loop
 
-            return answer;
+            return Math.Abs( answer);
         }
 
         private void BUT_Accept_Click(object sender, EventArgs e)
@@ -259,18 +259,18 @@ namespace MissionPlanner
                     {
                         if (rad_repeatservo.Checked)
                         {
-                            plugin.Host.AddWPtoList(ArdupilotMega.MAVLink.MAV_CMD.WAYPOINT, 0, 0, 0, 0, plla.Lng, plla.Lat, plla.Alt);
-                            plugin.Host.AddWPtoList(ArdupilotMega.MAVLink.MAV_CMD.DO_REPEAT_SERVO, (float)num_reptservo.Value, (float)num_reptpwm.Value, 999, (float)num_repttime.Value, 0, 0, 0);
+                            plugin.Host.AddWPtoList(MissionPlanner.MAVLink.MAV_CMD.WAYPOINT, 0, 0, 0, 0, plla.Lng, plla.Lat, plla.Alt);
+                            plugin.Host.AddWPtoList(MissionPlanner.MAVLink.MAV_CMD.DO_REPEAT_SERVO, (float)num_reptservo.Value, (float)num_reptpwm.Value, 999, (float)num_repttime.Value, 0, 0, 0);
                         }
                         if (rad_digicam.Checked)
                         {
-                            plugin.Host.AddWPtoList(ArdupilotMega.MAVLink.MAV_CMD.WAYPOINT, 0, 0, 0, 0, plla.Lng, plla.Lat, plla.Alt);
-                            plugin.Host.AddWPtoList(ArdupilotMega.MAVLink.MAV_CMD.DO_DIGICAM_CONTROL, 0, 0, 0, 0, 0, 0, 0);
+                            plugin.Host.AddWPtoList(MissionPlanner.MAVLink.MAV_CMD.WAYPOINT, 0, 0, 0, 0, plla.Lng, plla.Lat, plla.Alt);
+                            plugin.Host.AddWPtoList(MissionPlanner.MAVLink.MAV_CMD.DO_DIGICAM_CONTROL, 0, 0, 0, 0, 0, 0, 0);
                         }
                     }
                     else
                     {
-                        plugin.Host.AddWPtoList(ArdupilotMega.MAVLink.MAV_CMD.WAYPOINT, 0, 0, 0, 0, plla.Lng, plla.Lat, plla.Alt);
+                        plugin.Host.AddWPtoList(MissionPlanner.MAVLink.MAV_CMD.WAYPOINT, 0, 0, 0, 0, plla.Lng, plla.Lat, plla.Alt);
                     }
                 });
 

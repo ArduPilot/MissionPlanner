@@ -403,7 +403,7 @@
     <value>BUT_Calibrateradio</value>
   </data>
   <data name="&gt;&gt;BUT_Calibrateradio.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.MyButton, ArdupilotMegaPlanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Controls.MyButton, MissionPlanner.lanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_Calibrateradio.Parent" xml:space="preserve">
     <value>$this</value>
@@ -427,7 +427,7 @@
     <value>BAR8</value>
   </data>
   <data name="&gt;&gt;BAR8.Type" xml:space="preserve">
-    <value>ArdupilotMega.HorizontalProgressBar2, ArdupilotMegaPlanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.HorizontalProgressBar2, MissionPlanner.lanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BAR8.Parent" xml:space="preserve">
     <value>$this</value>
@@ -448,7 +448,7 @@
     <value>BAR7</value>
   </data>
   <data name="&gt;&gt;BAR7.Type" xml:space="preserve">
-    <value>ArdupilotMega.HorizontalProgressBar2, ArdupilotMegaPlanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.HorizontalProgressBar2, MissionPlanner.lanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BAR7.Parent" xml:space="preserve">
     <value>$this</value>
@@ -469,7 +469,7 @@
     <value>BAR6</value>
   </data>
   <data name="&gt;&gt;BAR6.Type" xml:space="preserve">
-    <value>ArdupilotMega.HorizontalProgressBar2, ArdupilotMegaPlanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.HorizontalProgressBar2, MissionPlanner.lanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BAR6.Parent" xml:space="preserve">
     <value>$this</value>
@@ -490,7 +490,7 @@
     <value>BAR5</value>
   </data>
   <data name="&gt;&gt;BAR5.Type" xml:space="preserve">
-    <value>ArdupilotMega.HorizontalProgressBar2, ArdupilotMegaPlanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.HorizontalProgressBar2, MissionPlanner.lanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BAR5.Parent" xml:space="preserve">
     <value>$this</value>
@@ -511,7 +511,7 @@
     <value>BARpitch</value>
   </data>
   <data name="&gt;&gt;BARpitch.Type" xml:space="preserve">
-    <value>ArdupilotMega.VerticalProgressBar2, ArdupilotMegaPlanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.VerticalProgressBar2, MissionPlanner.lanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BARpitch.Parent" xml:space="preserve">
     <value>$this</value>
@@ -532,7 +532,7 @@
     <value>BARthrottle</value>
   </data>
   <data name="&gt;&gt;BARthrottle.Type" xml:space="preserve">
-    <value>ArdupilotMega.VerticalProgressBar2, ArdupilotMegaPlanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.VerticalProgressBar2, MissionPlanner.lanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BARthrottle.Parent" xml:space="preserve">
     <value>$this</value>
@@ -553,7 +553,7 @@
     <value>BARyaw</value>
   </data>
   <data name="&gt;&gt;BARyaw.Type" xml:space="preserve">
-    <value>ArdupilotMega.HorizontalProgressBar2, ArdupilotMegaPlanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.HorizontalProgressBar2, MissionPlanner.lanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BARyaw.Parent" xml:space="preserve">
     <value>$this</value>
@@ -574,7 +574,7 @@
     <value>BARroll</value>
   </data>
   <data name="&gt;&gt;BARroll.Type" xml:space="preserve">
-    <value>ArdupilotMega.HorizontalProgressBar2, ArdupilotMegaPlanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.HorizontalProgressBar2, MissionPlanner.lanner, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BARroll.Parent" xml:space="preserve">
     <value>$this</value>

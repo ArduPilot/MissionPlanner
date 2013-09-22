@@ -8,7 +8,7 @@ using System.Drawing;
 using System.Threading;
 using log4net;
 
-namespace ArdupilotMega.Utilities
+namespace MissionPlanner.Utilities
 {
     public class CaptureMJPEG
     {

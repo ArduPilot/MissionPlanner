@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 using YLScsDrawing.Drawing3d;
-using ArdupilotMega.HIL;
+using MissionPlanner.HIL;
 
-namespace ArdupilotMega.HIL
+namespace MissionPlanner.HIL
 {
     public class Aircraft : Utils
     {

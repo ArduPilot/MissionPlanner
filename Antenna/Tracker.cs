@@ -6,11 +6,11 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using ArdupilotMega.Controls;
+using MissionPlanner.Controls;
 using MissionPlanner.Comms;
-using ArdupilotMega.Utilities;
+using MissionPlanner.Utilities;
 
-namespace ArdupilotMega.Antenna
+namespace MissionPlanner.Antenna
 {
     public partial class Tracker : UserControl, IDeactivate
     {
@@ -118,11 +118,11 @@ namespace ArdupilotMega.Antenna
             }
 
             if (CMB_interface.Text == interfaces.Maestro.ToString())
-                tracker = new ArdupilotMega.Antenna.Maestro();
+                tracker = new Antenna.Maestro();
             if (CMB_interface.Text == interfaces.ArduTracker.ToString())
-                tracker = new ArdupilotMega.Antenna.ArduTracker();
+                tracker = new Antenna.ArduTracker();
             if (CMB_interface.Text == interfaces.DegreeTracker.ToString())
-                tracker = new ArdupilotMega.Antenna.DegreeTracker();
+                tracker = new Antenna.DegreeTracker();
 
             try
             {

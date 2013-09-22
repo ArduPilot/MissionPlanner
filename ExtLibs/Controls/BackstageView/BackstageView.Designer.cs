@@ -1,4 +1,4 @@
-﻿namespace ArdupilotMega.Controls.BackstageView
+﻿namespace MissionPlanner.Controls.BackstageView
 {
     partial class BackstageView
     {
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.pnlPages = new System.Windows.Forms.Panel();
-            this.pnlMenu = new ArdupilotMega.Controls.BackstageView.BackStageViewMenuPanel();
+            this.pnlMenu = new Controls.BackstageView.BackStageViewMenuPanel();
             this.SuspendLayout();
             // 
             // pnlPages

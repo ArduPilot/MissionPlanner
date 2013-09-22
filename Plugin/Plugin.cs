@@ -6,8 +6,9 @@ using System.Text;
 using System.Windows.Forms;
 using GMap.NET;
 using GMap.NET.WindowsForms;
+using MissionPlanner;
 
-namespace ArdupilotMega.Plugin
+namespace MissionPlanner.Plugin
 {
     public abstract class Plugin
     {
@@ -66,9 +67,9 @@ namespace ArdupilotMega.Plugin
         /// <summary>
         /// Device change event
         /// </summary>
-        public event ArdupilotMega.MainV2.WMDeviceChangeEventHandler DeviceChanged;
+        public event MainV2.WMDeviceChangeEventHandler DeviceChanged;
 
-        internal void ProcessDeviceChanged(ArdupilotMega.MainV2.WM_DEVICECHANGE_enum dc) {
+        internal void ProcessDeviceChanged(MainV2.WM_DEVICECHANGE_enum dc) {
             if (DeviceChanged != null)
             {
                 try

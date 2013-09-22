@@ -12,7 +12,7 @@ using netDxf.Header;
 using System.Reflection;
 using log4net;
 
-namespace ArdupilotMega
+namespace MissionPlanner
 {
     public class MagCalib
     {

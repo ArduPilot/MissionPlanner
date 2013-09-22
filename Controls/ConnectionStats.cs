@@ -6,8 +6,9 @@ using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Threading;
 using System.Windows.Forms;
+using MissionPlanner;
 
-namespace ArdupilotMega.Controls
+namespace MissionPlanner.Controls
 {
     public partial class ConnectionStats : UserControl
     {

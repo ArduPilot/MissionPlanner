@@ -7,7 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Collections;
 
-namespace ArdupilotMega
+namespace MissionPlanner
 {
     public partial class ParamCompare : Form
     {

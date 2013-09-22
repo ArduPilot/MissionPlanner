@@ -17,9 +17,9 @@ using System.Globalization; // language
 using GMap.NET.WindowsForms.Markers;
 using ZedGraph; // Graphs
 using System.Drawing.Drawing2D;
-using ArdupilotMega.Controls;
-using ArdupilotMega.Utilities;
-using ArdupilotMega.Controls.BackstageView;
+using MissionPlanner.Controls;
+using MissionPlanner.Utilities;
+using MissionPlanner.Controls.BackstageView;
 //using Crom.Controls.Docking;
 using log4net;
 using System.Reflection;
@@ -27,7 +27,7 @@ using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
 
 // written by michael oborne
-namespace ArdupilotMega.GCSViews
+namespace MissionPlanner.GCSViews
 {
     public partial class FlightData : MyUserControl, IActivate, IDeactivate
     {
@@ -84,7 +84,7 @@ namespace ArdupilotMega.GCSViews
 
         const float deg2rad = (float)(1.0 / rad2deg);
 
-        public static ArdupilotMega.Controls.HUD myhud = null;
+        public static Controls.HUD myhud = null;
         public static GMapControl mymap = null;
 
         bool playingLog = false;
@@ -499,6 +499,10 @@ namespace ArdupilotMega.GCSViews
             Zoomlevel.Maximum = gMapControl1.MaxZoom + 1;
             Zoomlevel.Value = Convert.ToDecimal(gMapControl1.Zoom);
 
+            CMB_mountmode.DataSource = Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("MNT_MODE");
+            CMB_mountmode.DisplayMember = "Value";
+            CMB_mountmode.ValueMember = "Key";
+
             if (MainV2.config["CHK_autopan"] != null)
                 CHK_autopan.Checked = bool.Parse(MainV2.config["CHK_autopan"].ToString());
 
@@ -564,14 +568,14 @@ namespace ArdupilotMega.GCSViews
                     {
                         //System.Threading.Thread.Sleep(1000);
 
-                        //comPort.requestDatastream((byte)ArdupilotMega.MAVLink09.MAV_DATA_STREAM.RAW_CONTROLLER, 0); // request servoout
-                        MainV2.comPort.requestDatastream(ArdupilotMega.MAVLink.MAV_DATA_STREAM.EXTENDED_STATUS, MainV2.comPort.MAV.cs.ratestatus); // mode
-                        MainV2.comPort.requestDatastream(ArdupilotMega.MAVLink.MAV_DATA_STREAM.POSITION, MainV2.comPort.MAV.cs.rateposition); // request gps
-                        MainV2.comPort.requestDatastream(ArdupilotMega.MAVLink.MAV_DATA_STREAM.EXTRA1, MainV2.comPort.MAV.cs.rateattitude); // request attitude
-                        MainV2.comPort.requestDatastream(ArdupilotMega.MAVLink.MAV_DATA_STREAM.EXTRA2, MainV2.comPort.MAV.cs.rateattitude); // request vfr
-                        MainV2.comPort.requestDatastream(ArdupilotMega.MAVLink.MAV_DATA_STREAM.EXTRA3, MainV2.comPort.MAV.cs.ratesensors); // request extra stuff - tridge
-                        MainV2.comPort.requestDatastream(ArdupilotMega.MAVLink.MAV_DATA_STREAM.RAW_SENSORS, MainV2.comPort.MAV.cs.ratesensors); // request raw sensor
-                        MainV2.comPort.requestDatastream(ArdupilotMega.MAVLink.MAV_DATA_STREAM.RC_CHANNELS, MainV2.comPort.MAV.cs.raterc); // request rc info
+                        //comPort.requestDatastream((byte)MissionPlanner.MAVLink09.MAV_DATA_STREAM.RAW_CONTROLLER, 0); // request servoout
+                        MainV2.comPort.requestDatastream(MissionPlanner.MAVLink.MAV_DATA_STREAM.EXTENDED_STATUS, MainV2.comPort.MAV.cs.ratestatus); // mode
+                        MainV2.comPort.requestDatastream(MissionPlanner.MAVLink.MAV_DATA_STREAM.POSITION, MainV2.comPort.MAV.cs.rateposition); // request gps
+                        MainV2.comPort.requestDatastream(MissionPlanner.MAVLink.MAV_DATA_STREAM.EXTRA1, MainV2.comPort.MAV.cs.rateattitude); // request attitude
+                        MainV2.comPort.requestDatastream(MissionPlanner.MAVLink.MAV_DATA_STREAM.EXTRA2, MainV2.comPort.MAV.cs.rateattitude); // request vfr
+                        MainV2.comPort.requestDatastream(MissionPlanner.MAVLink.MAV_DATA_STREAM.EXTRA3, MainV2.comPort.MAV.cs.ratesensors); // request extra stuff - tridge
+                        MainV2.comPort.requestDatastream(MissionPlanner.MAVLink.MAV_DATA_STREAM.RAW_SENSORS, MainV2.comPort.MAV.cs.ratesensors); // request raw sensor
+                        MainV2.comPort.requestDatastream(MissionPlanner.MAVLink.MAV_DATA_STREAM.RC_CHANNELS, MainV2.comPort.MAV.cs.raterc); // request rc info
                     }
                     catch { log.Error("Failed to request rates"); }
                     lastdata = DateTime.Now.AddSeconds(60); // prevent flooding
@@ -736,10 +740,10 @@ namespace ArdupilotMega.GCSViews
                     }
                     
                     // update opengltest
-                    if (ArdupilotMega.Controls.OpenGLtest.instance != null)
+                    if (OpenGLtest.instance != null)
                     {
-                        ArdupilotMega.Controls.OpenGLtest.instance.rpy = new OpenTK.Vector3(MainV2.comPort.MAV.cs.roll, MainV2.comPort.MAV.cs.pitch, MainV2.comPort.MAV.cs.yaw);
-                        ArdupilotMega.Controls.OpenGLtest.instance.LocationCenter = new PointLatLngAlt(MainV2.comPort.MAV.cs.lat, MainV2.comPort.MAV.cs.lng, MainV2.comPort.MAV.cs.alt, "here");
+                        OpenGLtest.instance.rpy = new OpenTK.Vector3(MainV2.comPort.MAV.cs.roll, MainV2.comPort.MAV.cs.pitch, MainV2.comPort.MAV.cs.yaw);
+                        OpenGLtest.instance.LocationCenter = new PointLatLngAlt(MainV2.comPort.MAV.cs.lat, MainV2.comPort.MAV.cs.lng, MainV2.comPort.MAV.cs.alt, "here");
                     }
 
                     // update vario info
@@ -1124,7 +1128,7 @@ namespace ArdupilotMega.GCSViews
                     mBorders.InnerMarker = m;
                     try
                     {
-                        mBorders.wprad = (int)(float.Parse(ArdupilotMega.MainV2.config["TXT_WPRad"].ToString()) / MainV2.comPort.MAV.cs.multiplierdist);
+                        mBorders.wprad = (int)(float.Parse(MissionPlanner.MainV2.config["TXT_WPRad"].ToString()) / MainV2.comPort.MAV.cs.multiplierdist);
                     }
                     catch { }
                     mBorders.MainMap = gMapControl1;
@@ -1319,14 +1323,17 @@ namespace ArdupilotMega.GCSViews
 
         private void BUTactiondo_Click(object sender, EventArgs e)
         {
-            try
+            if (CustomMessageBox.Show("Are you sure you want to do " + CMB_action.Text + " ?", "Action", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-                ((Button)sender).Enabled = false;
+                try
+                {
+                    ((Button)sender).Enabled = false;
 
-                MainV2.comPort.doCommand((MAVLink.MAV_CMD)Enum.Parse(typeof(MAVLink.MAV_CMD), CMB_action.Text), 0, 0, 1, 0, 0, 0, 0);
+                    MainV2.comPort.doCommand((MAVLink.MAV_CMD)Enum.Parse(typeof(MAVLink.MAV_CMD), CMB_action.Text), 0, 0, 1, 0, 0, 0, 0);
+                }
+                catch { CustomMessageBox.Show("The Command failed to execute", "Error"); }
+                ((Button)sender).Enabled = true;
             }
-            catch { CustomMessageBox.Show("The Command failed to execute", "Error"); }
-            ((Button)sender).Enabled = true;
         }
 
         private void BUTrestartmission_Click(object sender, EventArgs e)
@@ -2884,7 +2891,19 @@ print 'Roll complete'
         {
             CustomMessageBox.Show("Not implemented yet");
 
+            MainV2.comPort.getWP(0);
+
             //MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_HOME, 0, 0, 0, 0, gotolocation.Lat, gotolocation.Lng, 0);
+        }
+
+        private void BUT_matlab_Click(object sender, EventArgs e)
+        {
+            MissionPlanner.Log.MatLab.ProcessLog();
+        }
+
+        private void BUT_mountmode_Click(object sender, EventArgs e)
+        {
+            MainV2.comPort.setParam("MNT_MODE",(int)CMB_mountmode.SelectedValue);
         }
     }
 }

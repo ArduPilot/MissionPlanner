@@ -21,7 +21,7 @@ using MissionPlanner.Comms;
 using MissionPlanner.Utilities;
 
 
-namespace ArdupilotMega.Log
+namespace MissionPlanner.Log
 {
     public partial class Log : Form
     {
@@ -111,29 +111,18 @@ namespace ArdupilotMega.Log
 
             status = serialstatus.Connecting;
 
-            MainV2.comPort.giveComport = true;
-
-            comPort = MainV2.comPort.BaseStream;
-
-            comPort.DtrEnable = false;
-            comPort.RtsEnable = false;
-
-            if (comPort.IsOpen)
-                comPort.Close();
+            comPort = GCSViews.Terminal.comPort;
 
             try
             {
                 Console.WriteLine("Log_load " + comPort.IsOpen);
 
-                // 4mb
-                comPort.ReadBufferSize = 1024 * 1024 * 4;
-
                 if (!comPort.IsOpen)
                     comPort.Open();
 
-                Console.WriteLine("Log dtr");
+                //Console.WriteLine("Log dtr");
 
-                comPort.toggleDTR();
+                //comPort.toggleDTR();
 
                 Console.WriteLine("Log discard");
 
@@ -157,6 +146,8 @@ namespace ArdupilotMega.Log
             {
                 log.Error("Error opening comport", ex);
                 CustomMessageBox.Show("Error opening comport");
+                this.Close();
+                return;
             }
 
             var t11 = new System.Threading.Thread(delegate()
@@ -165,11 +156,13 @@ namespace ArdupilotMega.Log
 
                 threadrun = true;
 
-                readandsleep(100);
+                if (comPort.IsOpen)
+                    readandsleep(100);
 
                 try
                 {
-                    comPort.Write("\n\n\n\nexit\r\nlogs\r\n"); // more in "connecting"
+                    if (comPort.IsOpen)
+                        comPort.Write("\n\n\n\nexit\r\nlogs\r\n"); // more in "connecting"
                 }
                 catch
                 {
@@ -230,6 +223,7 @@ namespace ArdupilotMega.Log
 {
     try
     {
+        if (comPort.IsOpen)
         TXT_status.Text = status.ToString() + " " + receivedbytes + " " + comPort.BytesToRead;
     }
     catch { }
@@ -839,7 +833,6 @@ namespace ArdupilotMega.Log
             {
                 //comPort.Close();
             }
-            System.Threading.Thread.Sleep(500);
         }
 
         private void CHK_logs_Click(object sender, EventArgs e)

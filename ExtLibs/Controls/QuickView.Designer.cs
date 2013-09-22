@@ -1,4 +1,4 @@
-﻿namespace ArdupilotMega.Controls
+﻿namespace MissionPlanner.Controls
 {
     partial class QuickView
     {
@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.labelWithPseudoOpacity1 = new ArdupilotMega.Controls.LabelWithPseudoOpacity();
+            this.labelWithPseudoOpacity1 = new Controls.LabelWithPseudoOpacity();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.labelWithPseudoOpacity2 = new ArdupilotMega.Controls.LabelWithPseudoOpacity();
+            this.labelWithPseudoOpacity2 = new Controls.LabelWithPseudoOpacity();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();

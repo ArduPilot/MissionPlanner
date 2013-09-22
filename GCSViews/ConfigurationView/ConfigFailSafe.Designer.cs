@@ -1,5 +1,5 @@
-﻿using ArdupilotMega.Controls;
-namespace ArdupilotMega.GCSViews.ConfigurationView
+﻿using MissionPlanner.Controls;
+namespace MissionPlanner.GCSViews.ConfigurationView
 {
     partial class ConfigFailSafe
     {
@@ -37,39 +37,39 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             this.currentStateBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.LNK_wiki = new System.Windows.Forms.LinkLabel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.mavlinkNumericUpDownlow_voltage = new ArdupilotMega.Controls.MavlinkNumericUpDown();
-            this.mavlinkCheckBoxlong_fs = new ArdupilotMega.Controls.MavlinkCheckBox();
-            this.mavlinkCheckBoxshort_fs = new ArdupilotMega.Controls.MavlinkCheckBox();
-            this.mavlinkCheckBoxgcs_fs = new ArdupilotMega.Controls.MavlinkCheckBox();
-            this.mavlinkCheckBoxthr_fs_action = new ArdupilotMega.Controls.MavlinkCheckBox();
-            this.mavlinkNumericUpDownfs_thr_value = new ArdupilotMega.Controls.MavlinkNumericUpDown();
-            this.mavlinkNumericUpDownthr_fs_value = new ArdupilotMega.Controls.MavlinkNumericUpDown();
-            this.mavlinkCheckBoxthr_fs = new ArdupilotMega.Controls.MavlinkCheckBox();
-            this.mavlinkComboBox_fs_thr_enable = new ArdupilotMega.Controls.MavlinkComboBox();
+            this.mavlinkNumericUpDownlow_voltage = new Controls.MavlinkNumericUpDown();
+            this.mavlinkCheckBoxlong_fs = new Controls.MavlinkCheckBox();
+            this.mavlinkCheckBoxshort_fs = new Controls.MavlinkCheckBox();
+            this.mavlinkCheckBoxgcs_fs = new Controls.MavlinkCheckBox();
+            this.mavlinkCheckBoxthr_fs_action = new Controls.MavlinkCheckBox();
+            this.mavlinkNumericUpDownfs_thr_value = new Controls.MavlinkNumericUpDown();
+            this.mavlinkNumericUpDownthr_fs_value = new Controls.MavlinkNumericUpDown();
+            this.mavlinkCheckBoxthr_fs = new Controls.MavlinkCheckBox();
+            this.mavlinkComboBox_fs_thr_enable = new Controls.MavlinkComboBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.PNL_low_bat = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.Label();
-            this.mavlinkCheckBoxfs_batt_enable = new ArdupilotMega.Controls.MavlinkCheckBox();
+            this.mavlinkCheckBoxfs_batt_enable = new Controls.MavlinkCheckBox();
             this.PNL_thr_fs_value = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
-            this.lbl_armed = new ArdupilotMega.Controls.MyLabel();
-            this.lbl_gpslock = new ArdupilotMega.Controls.MyLabel();
-            this.horizontalProgressBar9 = new ArdupilotMega.Controls.HorizontalProgressBar();
-            this.horizontalProgressBar10 = new ArdupilotMega.Controls.HorizontalProgressBar();
-            this.horizontalProgressBar11 = new ArdupilotMega.Controls.HorizontalProgressBar();
-            this.horizontalProgressBar12 = new ArdupilotMega.Controls.HorizontalProgressBar();
-            this.horizontalProgressBar13 = new ArdupilotMega.Controls.HorizontalProgressBar();
-            this.horizontalProgressBar14 = new ArdupilotMega.Controls.HorizontalProgressBar();
-            this.horizontalProgressBar15 = new ArdupilotMega.Controls.HorizontalProgressBar();
-            this.horizontalProgressBar16 = new ArdupilotMega.Controls.HorizontalProgressBar();
-            this.horizontalProgressBar8 = new ArdupilotMega.Controls.HorizontalProgressBar();
-            this.horizontalProgressBar7 = new ArdupilotMega.Controls.HorizontalProgressBar();
-            this.horizontalProgressBar6 = new ArdupilotMega.Controls.HorizontalProgressBar();
-            this.horizontalProgressBar5 = new ArdupilotMega.Controls.HorizontalProgressBar();
-            this.horizontalProgressBar4 = new ArdupilotMega.Controls.HorizontalProgressBar();
-            this.horizontalProgressBar3 = new ArdupilotMega.Controls.HorizontalProgressBar();
-            this.horizontalProgressBar2 = new ArdupilotMega.Controls.HorizontalProgressBar();
-            this.horizontalProgressBar1 = new ArdupilotMega.Controls.HorizontalProgressBar();
+            this.lbl_armed = new Controls.MyLabel();
+            this.lbl_gpslock = new Controls.MyLabel();
+            this.horizontalProgressBar9 = new Controls.HorizontalProgressBar();
+            this.horizontalProgressBar10 = new Controls.HorizontalProgressBar();
+            this.horizontalProgressBar11 = new Controls.HorizontalProgressBar();
+            this.horizontalProgressBar12 = new Controls.HorizontalProgressBar();
+            this.horizontalProgressBar13 = new Controls.HorizontalProgressBar();
+            this.horizontalProgressBar14 = new Controls.HorizontalProgressBar();
+            this.horizontalProgressBar15 = new Controls.HorizontalProgressBar();
+            this.horizontalProgressBar16 = new Controls.HorizontalProgressBar();
+            this.horizontalProgressBar8 = new Controls.HorizontalProgressBar();
+            this.horizontalProgressBar7 = new Controls.HorizontalProgressBar();
+            this.horizontalProgressBar6 = new Controls.HorizontalProgressBar();
+            this.horizontalProgressBar5 = new Controls.HorizontalProgressBar();
+            this.horizontalProgressBar4 = new Controls.HorizontalProgressBar();
+            this.horizontalProgressBar3 = new Controls.HorizontalProgressBar();
+            this.horizontalProgressBar2 = new Controls.HorizontalProgressBar();
+            this.horizontalProgressBar1 = new Controls.HorizontalProgressBar();
             ((System.ComponentModel.ISupportInitialize)(this.currentStateBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDownlow_voltage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDownfs_thr_value)).BeginInit();
@@ -98,7 +98,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             // 
             // currentStateBindingSource
             // 
-            this.currentStateBindingSource.DataSource = typeof(ArdupilotMega.CurrentState);
+            this.currentStateBindingSource.DataSource = typeof(MissionPlanner.CurrentState);
             // 
             // LNK_wiki
             // 

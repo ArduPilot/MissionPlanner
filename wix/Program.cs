@@ -112,7 +112,7 @@ namespace wix
             */
             //Console.ReadLine();
 
-            string exepath = Path.GetFullPath(path) + Path.DirectorySeparatorChar + "ArdupilotMegaPlanner10.exe";
+            string exepath = Path.GetFullPath(path) + Path.DirectorySeparatorChar + "MissionPlanner.exe";
             string version = Assembly.LoadFile(exepath).GetName().Version.ToString();
 
             System.Diagnostics.FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(exepath);
@@ -127,7 +127,7 @@ namespace wix
 
             st.WriteLine(@"""%wix%\bin\light"" installer.wixobj ""%wix%\bin\difxapp_x86.wixlib"" -o MissionPlanner-" + fvi.FileVersion + ".msi -ext WiXNetFxExtension -ext WixDifxAppExtension -ext WixUIExtension.dll -ext WixUtilExtension -ext WixIisExtension");
 
-            st.WriteLine(@"""C:\Program Files\7-Zip\7z.exe"" a -tzip -xr!*.log -xr!ArdupilotPlanner.log* -xr!ParameterMetaData.xml -xr!*.etag -xr!*.tlog -xr!config.xml -xr!gmapcache -xr!eeprom.bin -xr!dataflash.bin -xr!*.new " + fn + @".zip ..\bin\release\*");
+            st.WriteLine(@"""C:\Program Files\7-Zip\7z.exe"" a -tzip -xr!*.log -xr!ArdupilotPlanner.log* -xr!*.zip -xr!ParameterMetaData.xml -xr!*.etag -xr!*.rlog -xr!*.tlog -xr!config.xml -xr!gmapcache -xr!eeprom.bin -xr!dataflash.bin -xr!*.new " + fn + @".zip ..\bin\release\*");
 
             st.WriteLine("pause");
 
@@ -135,8 +135,14 @@ namespace wix
 
             //st.WriteLine("googlecode_upload.py -s \"Mission Planner installer\" -p ardupilot-mega " + fn + ".msi");
 
+            st.WriteLine(@"c:\cygwin\bin\ln.exe -f -s " + fn + ".zip MissionPlanner-latest.zip");
+            st.WriteLine(@"c:\cygwin\bin\ln.exe -f -s " + fn + ".msi MissionPlanner-latest.msi");
+
             st.WriteLine(@"c:\cygwin\bin\rsync.exe -Pv --password-file=/cygdrive/c/users/hog/diyrsync.txt " + fn + ".zip michael@firmware.diydrones.com::MissionPlanner/");
             st.WriteLine(@"c:\cygwin\bin\rsync.exe -Pv --password-file=/cygdrive/c/users/hog/diyrsync.txt " + fn + ".msi michael@firmware.diydrones.com::MissionPlanner/");
+
+            st.WriteLine(@"c:\cygwin\bin\rsync.exe -Pv --password-file=/cygdrive/c/users/hog/diyrsync.txt -l MissionPlanner-latest.zip michael@firmware.diydrones.com::MissionPlanner/");
+            st.WriteLine(@"c:\cygwin\bin\rsync.exe -Pv --password-file=/cygdrive/c/users/hog/diyrsync.txt -l MissionPlanner-latest.msi michael@firmware.diydrones.com::MissionPlanner/");
 
             st.Close();
 
@@ -253,7 +259,7 @@ namespace wix
 
         <DirectoryRef Id=""ApplicationProgramsFolder"">
             <Component Id=""ApplicationShortcut"" Guid=""{8BC628BA-08A0-43d6-88C8-D4C007AC4607}"">
-                <Shortcut Id=""ApplicationStartMenuShortcut10"" Name=""Mission Planner Mav 1.0"" Description=""Mission Planner"" Target=""[MissionPlanner]ArdupilotMegaPlanner10.exe"" WorkingDirectory=""MissionPlanner"" />
+                <Shortcut Id=""ApplicationStartMenuShortcut10"" Name=""Mission Planner Mav 1.0"" Description=""Mission Planner"" Target=""[MissionPlanner]MissionPlanner.exe"" WorkingDirectory=""MissionPlanner"" />
                 <RemoveFolder Id=""ApplicationProgramsFolder"" On=""uninstall"" />
                 <Shortcut Id=""UninstallProduct"" Name=""Uninstall Mission Planner"" Description=""Uninstalls My Application"" Target=""[System64Folder]msiexec.exe"" Arguments=""/x [ProductCode]"" />
                 <RegistryValue Root=""HKCU"" Key=""Software\MichaelOborne\MissionPlanner"" Name=""installed"" Type=""integer"" Value=""1"" KeyPath=""yes"" />
@@ -326,10 +332,10 @@ data = @"
                 no++;
                 
 
-                if (filepath.EndsWith("ArdupilotMegaPlanner10.exe")) {
+                if (filepath.EndsWith("MissionPlanner.exe")) {
                     mainexeid = "_" + no;
 
-                    sw.WriteLine("<File Id=\"_" + no + "\" Source=\"" + filepath + "\" ><netfx:NativeImage Id=\"ngen_ArdupilotMegaPlannerexe\"/> </File>");
+                    sw.WriteLine("<File Id=\"_" + no + "\" Source=\"" + filepath + "\" ><netfx:NativeImage Id=\"ngen_MissionPlannerexe\"/> </File>");
 
                 } else {
                     sw.WriteLine("<File Id=\"_" + no + "\" Source=\"" + filepath + "\" />");

@@ -3,11 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using System.Windows.Forms;
 
 namespace MissionPlanner.Utilities
 {
-    class CleanDrivers
+    public class CleanDrivers
     {
+        private static int GetOSArchitecture()
+        {
+            string pa =
+                Environment.GetEnvironmentVariable("ProgramW6432");
+            return (String.IsNullOrEmpty(pa) ? 32 : 64);
+        }
+
 
         public static void Clean()
         {
@@ -24,7 +32,7 @@ namespace MissionPlanner.Utilities
                     while (sr.BaseStream != null && !sr.EndOfStream)
                     {
                         string line = sr.ReadLine();
-                        if (line.ToUpper().Contains(@"USB\VID_26AC") || line.ToUpper().Contains(@"USB\VID_2341"))
+                        if (line.ToUpper().Contains(@"USB\VID_26AC"))// || line.ToUpper().Contains(@"USB\VID_2341"))
                         {
                             try
                             {
@@ -32,10 +40,18 @@ namespace MissionPlanner.Utilities
 
                                 sr.Close();
 
-                                File.Delete(file);
+                              //  File.Delete(file);
                             }
                             catch { }
-                            //System.Diagnostics.Process.Start("PnPutil.exe");//, "-f -d " + Path.GetFileName(file));
+
+                            if (GetOSArchitecture() == 64)
+                            {
+                                System.Diagnostics.Process.Start(Application.StartupPath + Path.DirectorySeparatorChar + "driver/DPInstx64.exe", @"/u """ + file + @""" /d");
+                            }
+                            else
+                            {
+                                System.Diagnostics.Process.Start(Application.StartupPath + Path.DirectorySeparatorChar + "driver/DPInstx86.exe", @"/u """ + file + @""" /d");
+                            }
                         }
                     }
 

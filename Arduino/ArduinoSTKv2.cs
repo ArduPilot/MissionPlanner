@@ -8,7 +8,7 @@ using log4net;
 
 // Written by Michael Oborne
 
-namespace ArdupilotMega.Arduino
+namespace MissionPlanner.Arduino
 {
     public class ArduinoSTKv2 : SerialPort,IArduinoComms
     {

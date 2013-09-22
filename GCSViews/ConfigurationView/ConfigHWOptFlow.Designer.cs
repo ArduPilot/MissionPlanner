@@ -1,4 +1,4 @@
-﻿namespace ArdupilotMega.GCSViews.ConfigurationView
+﻿namespace MissionPlanner.GCSViews.ConfigurationView
 {
     partial class ConfigHWOptFlow
     {
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigHWOptFlow));
-            this.CHK_enableoptflow = new ArdupilotMega.Controls.MavlinkCheckBox();
+            this.CHK_enableoptflow = new Controls.MavlinkCheckBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
@@ -83,7 +83,7 @@
 
         #endregion
 
-        private ArdupilotMega.Controls.MavlinkCheckBox CHK_enableoptflow;
+        private Controls.MavlinkCheckBox CHK_enableoptflow;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.GroupBox groupBox4;

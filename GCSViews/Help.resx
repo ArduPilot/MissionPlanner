@@ -145,7 +145,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;richTextBox1.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="CHK_showconsole.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom</value>
@@ -175,13 +175,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CHK_showconsole.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="BUT_updatecheck.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom</value>
   </data>
   <data name="BUT_updatecheck.Location" type="System.Drawing.Point, System.Drawing">
-    <value>429, 390</value>
+    <value>361, 390</value>
   </data>
   <data name="BUT_updatecheck.Size" type="System.Drawing.Size, System.Drawing">
     <value>123, 29</value>
@@ -196,13 +196,13 @@
     <value>BUT_updatecheck</value>
   </data>
   <data name="&gt;&gt;BUT_updatecheck.Type" xml:space="preserve">
-    <value>ArdupilotMega.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_updatecheck.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BUT_updatecheck.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="linkLabel1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom</value>
@@ -232,7 +232,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;linkLabel1.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="PIC_wizard.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
@@ -259,6 +259,36 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;PIC_wizard.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="BUT_betaupdate.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom</value>
+  </data>
+  <data name="BUT_betaupdate.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="BUT_betaupdate.Location" type="System.Drawing.Point, System.Drawing">
+    <value>490, 390</value>
+  </data>
+  <data name="BUT_betaupdate.Size" type="System.Drawing.Size, System.Drawing">
+    <value>123, 29</value>
+  </data>
+  <data name="BUT_betaupdate.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="BUT_betaupdate.Text" xml:space="preserve">
+    <value>Check for BETA Updates</value>
+  </data>
+  <data name="&gt;&gt;BUT_betaupdate.Name" xml:space="preserve">
+    <value>BUT_betaupdate</value>
+  </data>
+  <data name="&gt;&gt;BUT_betaupdate.Type" xml:space="preserve">
+    <value>Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;BUT_betaupdate.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;BUT_betaupdate.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">

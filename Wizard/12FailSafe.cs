@@ -6,12 +6,12 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using ArdupilotMega.Controls;
-using ArdupilotMega.Controls.BackstageView;
-using ArdupilotMega.Utilities;
+using MissionPlanner.Controls;
+using MissionPlanner.Controls.BackstageView;
+using MissionPlanner.Utilities;
 using System.Globalization;
 
-namespace ArdupilotMega.Wizard
+namespace MissionPlanner.Wizard
 {
     public partial class _12FailSafe : MyUserControl, IWizard, IDeactivate, IActivate
     {
@@ -45,12 +45,11 @@ namespace ArdupilotMega.Wizard
 
         void createValueControl(KeyValuePair<string,string> x)
         {
-            ParameterMetaDataRepository _parameterMetaDataRepository = new ParameterMetaDataRepository();
 
             string value = ((float)MainV2.comPort.MAV.param[x.Key]).ToString("0.###", CultureInfo.InvariantCulture);
-            string description = _parameterMetaDataRepository.GetParameterMetaData(x.Key, ParameterMetaDataConstants.Description);
-            string displayName = _parameterMetaDataRepository.GetParameterMetaData(x.Key, ParameterMetaDataConstants.DisplayName) +" (" + x.Key + ")";
-            string units = _parameterMetaDataRepository.GetParameterMetaData(x.Key, ParameterMetaDataConstants.Units);
+            string description = ParameterMetaDataRepository.GetParameterMetaData(x.Key, ParameterMetaDataConstants.Description);
+            string displayName = ParameterMetaDataRepository.GetParameterMetaData(x.Key, ParameterMetaDataConstants.DisplayName) + " (" + x.Key + ")";
+            string units = ParameterMetaDataRepository.GetParameterMetaData(x.Key, ParameterMetaDataConstants.Units);
 
             var valueControl = new ValuesControl();
             valueControl.Name = x.Key;
@@ -61,7 +60,7 @@ namespace ArdupilotMega.Wizard
 
             valueControl.ComboBoxControl.DisplayMember = "Value";
             valueControl.ComboBoxControl.ValueMember = "Key";
-            valueControl.ComboBoxControl.DataSource = _parameterMetaDataRepository.GetParameterOptionsInt(x.Key);
+            valueControl.ComboBoxControl.DataSource = ParameterMetaDataRepository.GetParameterOptionsInt(x.Key);
             valueControl.ComboBoxControl.SelectedItem = value;
 
             valueControl.ValueChanged += valueControl_ValueChanged;

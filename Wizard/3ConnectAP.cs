@@ -6,13 +6,13 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using ArdupilotMega.Controls;
+using MissionPlanner.Controls;
 using MissionPlanner.Comms;
 using System.Collections;
-using ArdupilotMega.Utilities;
-using ArdupilotMega.Controls.BackstageView;
+using MissionPlanner.Utilities;
+using MissionPlanner.Controls.BackstageView;
 
-namespace ArdupilotMega.Wizard
+namespace MissionPlanner.Wizard
 {
     public partial class _3ConnectAP : MyUserControl, IWizard, IActivate
     {

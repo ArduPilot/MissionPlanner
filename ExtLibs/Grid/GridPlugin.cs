@@ -7,9 +7,9 @@ using GMap.NET.WindowsForms;
 
 namespace MissionPlanner
 {
-    public class GridPlugin : ArdupilotMega.Plugin.Plugin
+    public class GridPlugin : MissionPlanner.Plugin.Plugin
     {
-        public static ArdupilotMega.Plugin.PluginHost Host2;
+        public static MissionPlanner.Plugin.PluginHost Host2;
 
         public override string Name
         {
@@ -35,10 +35,20 @@ namespace MissionPlanner
         {
             Host2 = Host;
 
-            ToolStripMenuItem but = new ToolStripMenuItem("Survey");
+            ToolStripMenuItem but = new ToolStripMenuItem("Survey (Grid)");
             but.Click += but_Click;
 
-            Host.FPMenuMap.Items.Add(but);
+            ToolStripItemCollection col = Host.FPMenuMap.Items;
+            int index = col.Count;
+            foreach (ToolStripItem item in col)
+            {
+                if (item.Text.Equals("Auto WP"))
+                {
+                    index = col.IndexOf(item);
+                    ((ToolStripMenuItem)item).DropDownItems.Add(but);
+                    break;
+                }
+            }
 
             return true;
         }
@@ -48,6 +58,7 @@ namespace MissionPlanner
             if (Host.FPDrawnPolygon != null && Host.FPDrawnPolygon.Points.Count > 2)
             {
                 Form gridui = new GridUI(this);
+                MissionPlanner.Utilities.ThemeManager.ApplyThemeTo(gridui);
                 gridui.Show();
             }
             else

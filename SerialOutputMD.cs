@@ -9,7 +9,7 @@ using System.Windows.Forms;
 using MissionPlanner.Comms;
 using MissionPlanner.Utilities;
 
-namespace ArdupilotMega
+namespace MissionPlanner
 {
     public partial class SerialOutputMD : Form
     {

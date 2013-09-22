@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using MissionPlanner.Comms;
 
-namespace ArdupilotMega
+namespace MissionPlanner
 {
     class MainV2
     {

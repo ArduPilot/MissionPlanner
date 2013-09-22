@@ -1,5 +1,5 @@
 ﻿using System.Windows.Forms;
-namespace ArdupilotMega.Wizard
+namespace MissionPlanner.Wizard
 {
     partial class _4FrameType
     {
@@ -30,13 +30,13 @@ namespace ArdupilotMega.Wizard
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
-            this.pictureBoxMouseOvertrap = new ArdupilotMega.Controls.PictureBoxMouseOver();
-            this.pictureBoxMouseOverX = new ArdupilotMega.Controls.PictureBoxMouseOver();
-            this.pictureBoxMouseOverplus = new ArdupilotMega.Controls.PictureBoxMouseOver();
+            this.pictureBoxMouseOvertrap = new Controls.PictureBoxMouseOver();
+            this.pictureBoxMouseOverX = new Controls.PictureBoxMouseOver();
+            this.pictureBoxMouseOverplus = new Controls.PictureBoxMouseOver();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.radialGradientBG1 = new ArdupilotMega.Controls.GradientBG();
-            this.pictureBoxMouseOverH = new ArdupilotMega.Controls.PictureBoxMouseOver();
+            this.radialGradientBG1 = new Controls.GradientBG();
+            this.pictureBoxMouseOverH = new Controls.PictureBoxMouseOver();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMouseOvertrap)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMouseOverX)).BeginInit();

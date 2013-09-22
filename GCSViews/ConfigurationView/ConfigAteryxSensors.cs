@@ -6,12 +6,12 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using ArdupilotMega.Controls.BackstageView;
-using ArdupilotMega.Controls;
-using ArdupilotMega.Utilities;
+using MissionPlanner.Controls.BackstageView;
+using MissionPlanner.Controls;
+using MissionPlanner.Utilities;
 using System.Drawing.Drawing2D;
 
-namespace ArdupilotMega.GCSViews.ConfigurationView
+namespace MissionPlanner.GCSViews.ConfigurationView
 {
     public partial class ConfigAteryxSensors : UserControl, IActivate, IDeactivate
     {

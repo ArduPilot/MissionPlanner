@@ -9,7 +9,7 @@ using MissionPlanner.Comms;
 
 // Written by Michael Oborne
 
-namespace ArdupilotMega.Arduino
+namespace MissionPlanner.Arduino
 {
     public class ArduinoSTK : SerialPort, IArduinoComms
     {

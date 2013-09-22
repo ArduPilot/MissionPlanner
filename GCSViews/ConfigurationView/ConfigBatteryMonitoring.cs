@@ -6,11 +6,11 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using ArdupilotMega.Controls.BackstageView;
-using ArdupilotMega.Controls;
+using MissionPlanner.Controls.BackstageView;
+using MissionPlanner.Controls;
 using MissionPlanner.Controls;
 
-namespace ArdupilotMega.GCSViews.ConfigurationView
+namespace MissionPlanner.GCSViews.ConfigurationView
 {
     public partial class ConfigBatteryMonitoring : UserControl, IActivate, IDeactivate
     {
@@ -419,6 +419,12 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
                     MainV2.comPort.setParam("BATT_CURR_PIN", 101);
                     MainV2.comPort.setParam("VOLT_DIVIDER", 1);
                     TXT_divider.Text = "1";
+                }
+                else if (selection == 4)
+                {
+                    //px4
+                    MainV2.comPort.setParam("BATT_VOLT_PIN", 2);
+                    MainV2.comPort.setParam("BATT_CURR_PIN", 3);
                 }
             }
             catch { CustomMessageBox.Show("Set BATT_????_PIN Failed", "Error"); }

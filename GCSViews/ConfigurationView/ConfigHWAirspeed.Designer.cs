@@ -1,4 +1,4 @@
-﻿namespace ArdupilotMega.GCSViews.ConfigurationView
+﻿namespace MissionPlanner.GCSViews.ConfigurationView
 {
     partial class ConfigHWAirspeed
     {
@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigHWAirspeed));
-            this.CHK_enableairspeed = new ArdupilotMega.Controls.MavlinkCheckBox();
+            this.CHK_enableairspeed = new Controls.MavlinkCheckBox();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.CHK_airspeeduse = new ArdupilotMega.Controls.MavlinkCheckBox();
+            this.CHK_airspeeduse = new Controls.MavlinkCheckBox();
             this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             this.SuspendLayout();
@@ -95,7 +95,7 @@
 
         #endregion
 
-        private ArdupilotMega.Controls.MavlinkCheckBox CHK_enableairspeed;
+        private Controls.MavlinkCheckBox CHK_enableairspeed;
         private System.Windows.Forms.PictureBox pictureBox4;
         private System.Windows.Forms.GroupBox groupBox3;
         private Controls.MavlinkCheckBox CHK_airspeeduse;

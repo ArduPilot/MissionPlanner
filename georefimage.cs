@@ -15,22 +15,22 @@ using System.Text;
 using System.Xml;
 using System.Text.RegularExpressions;
 
-namespace ArdupilotMega
+namespace MissionPlanner
 {
     public class Georefimage : Form
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private OpenFileDialog openFileDialog1;
-        private ArdupilotMega.Controls.MyButton BUT_browselog;
-        private ArdupilotMega.Controls.MyButton BUT_browsedir;
+        private Controls.MyButton BUT_browselog;
+        private Controls.MyButton BUT_browsedir;
         private TextBox TXT_logfile;
         private TextBox TXT_jpgdir;
         private TextBox TXT_offsetseconds;
-        private ArdupilotMega.Controls.MyButton BUT_doit;
+        private Controls.MyButton BUT_doit;
         private FolderBrowserDialog folderBrowserDialog1;
         private Label label1;
         private TextBox TXT_outputlog;
-        private ArdupilotMega.Controls.MyButton BUT_estoffset;
+        private Controls.MyButton BUT_estoffset;
 
         //Status,Time,NSats,HDop,Lat,Lng,RelAlt,Alt,Spd,GCrs
         //GPS, 3, 122732, 10, 0.00, -35.3628880, 149.1621961, 808.90, 810.30, 23.30, 94.04
@@ -55,7 +55,7 @@ namespace ArdupilotMega
         private Label label9;
         private NumericUpDown NUM_time;
         private Label label10;
-        private ArdupilotMega.Controls.MyButton BUT_Geotagimages;
+        private Controls.MyButton BUT_Geotagimages;
 
         internal Georefimage() {
             InitializeComponent();
@@ -935,11 +935,11 @@ namespace ArdupilotMega
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.TXT_outputlog = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.BUT_Geotagimages = new ArdupilotMega.Controls.MyButton();
-            this.BUT_estoffset = new ArdupilotMega.Controls.MyButton();
-            this.BUT_doit = new ArdupilotMega.Controls.MyButton();
-            this.BUT_browsedir = new ArdupilotMega.Controls.MyButton();
-            this.BUT_browselog = new ArdupilotMega.Controls.MyButton();
+            this.BUT_Geotagimages = new Controls.MyButton();
+            this.BUT_estoffset = new Controls.MyButton();
+            this.BUT_doit = new Controls.MyButton();
+            this.BUT_browsedir = new Controls.MyButton();
+            this.BUT_browselog = new Controls.MyButton();
             this.NUM_latpos = new System.Windows.Forms.NumericUpDown();
             this.NUM_lngpos = new System.Windows.Forms.NumericUpDown();
             this.NUM_altpos = new System.Windows.Forms.NumericUpDown();
@@ -949,7 +949,7 @@ namespace ArdupilotMega
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.BUT_networklinkgeoref = new ArdupilotMega.Controls.MyButton();
+            this.BUT_networklinkgeoref = new Controls.MyButton();
             this.num_vfov = new System.Windows.Forms.NumericUpDown();
             this.num_hfov = new System.Windows.Forms.NumericUpDown();
             this.label7 = new System.Windows.Forms.Label();

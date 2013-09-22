@@ -2,6 +2,16 @@
 <simple>
   <ac>
     <version>3.0</version>
+
+    <param>
+      <title>Throttle Hover:</title>
+      <desc> How much throttle is needed to maintain a steady hover. </desc>
+      <name>THR_MID</name>
+      <value>480</value>
+      <min>200</min>
+      <max>800</max>
+    </param>
+    
     <param>
       <title>Roll/Pitch Rate Control:</title>
       <desc>How much thrust is applied to rotate the copter at the desired speed.</desc>
@@ -24,33 +34,6 @@
     </param>
 
     <param>
-      <title>Roll/Pitch Rate Dampening:</title>
-      <desc>How much dampening applies to the rate controller</desc>
-      <name>RATE_RLL_D</name>
-      <value>0.004</value>
-      <min>0</min>
-      <max>0.01</max>
-      <relation>
-        <param>RATE_PIT_D</param>
-        <multiplier>1</multiplier>
-      </relation>
-    </param>
-
-    <param>
-      <title>Yaw Angular Rate Control:</title>
-      <desc>How much thrust is applied to rotate the copter at the desired speed.</desc>
-        <name>RATE_YAW_P</name>
-      <value>0.2</value>
-      <min>0.08</min>
-      <max>0.4</max>
-      <relation>
-        <param>RATE_YAW_I</param>
-        <multiplier>0.1</multiplier>
-      </relation>
-    
-  </param>
-
-    <param>
       <title>Throttle Accel:</title>
       <desc>How much thrust to give us the desired Accel. This will change depending on the weight and thrust of your copter.</desc>
       <name>THR_ACCEL_P</name>
@@ -62,14 +45,6 @@
         <multiplier>2</multiplier>
       </relation>
     </param>
-
-    <param>
-      <title>Throttle Hover:</title>
-      <desc> How much throttle is needed to maintain a steady hover. </desc>
-      <name>THR_MID</name>
-      <value>480</value>
-      <min>200</min>
-      <max>800</max>
-    </param>    
+  
   </ac>
 </simple>

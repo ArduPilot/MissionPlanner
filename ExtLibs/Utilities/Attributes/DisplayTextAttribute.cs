@@ -4,7 +4,7 @@ using System;
 
 #endregion
 
-namespace ArdupilotMega.Attributes
+namespace MissionPlanner.Attributes
 {
    /// <summary>
    /// Used to decorate a type or type member with display text.

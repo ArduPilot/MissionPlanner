@@ -7,16 +7,16 @@ using System.Xml;
 using System.Net;
 using log4net;
 using MissionPlanner.Comms;
-using ArdupilotMega.Arduino;
-using ArdupilotMega.Utilities;
+using MissionPlanner.Arduino;
+using MissionPlanner.Utilities;
 using System.Text.RegularExpressions;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using px4uploader;
-using ArdupilotMega.Controls;
+using MissionPlanner.Controls;
 using System.Collections;
 
-namespace ArdupilotMega.GCSViews
+namespace MissionPlanner.GCSViews
 {
     partial class ConfigFirmware : MyUserControl
     {

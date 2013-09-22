@@ -10,7 +10,7 @@ using System.IO;
 
 namespace MissionPlanner.Stats
 {
-    public class StatsPlugin : ArdupilotMega.Plugin.Plugin
+    public class StatsPlugin : MissionPlanner.Plugin.Plugin
     {
         whattostat statsoverall = new whattostat();
         whattostat statssession = new whattostat();

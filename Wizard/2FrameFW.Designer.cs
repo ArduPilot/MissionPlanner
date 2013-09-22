@@ -1,5 +1,5 @@
 ﻿using System.Windows.Forms;
-namespace ArdupilotMega.Wizard
+namespace MissionPlanner.Wizard
 {
     partial class _2FrameFW
     {
@@ -30,16 +30,16 @@ namespace ArdupilotMega.Wizard
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
-            this.pictureBoxMouseOvery6 = new ArdupilotMega.Controls.PictureBoxMouseOver();
-            this.pictureBoxMouseOverocta = new ArdupilotMega.Controls.PictureBoxMouseOver();
-            this.pictureBoxMouseOverx8 = new ArdupilotMega.Controls.PictureBoxMouseOver();
-            this.pictureBoxMouseOverhexa = new ArdupilotMega.Controls.PictureBoxMouseOver();
-            this.pictureBoxMouseOvertrap = new ArdupilotMega.Controls.PictureBoxMouseOver();
-            this.pictureBoxMouseOverquad = new ArdupilotMega.Controls.PictureBoxMouseOver();
-            this.pictureBoxMouseOvertri = new ArdupilotMega.Controls.PictureBoxMouseOver();
+            this.pictureBoxMouseOvery6 = new Controls.PictureBoxMouseOver();
+            this.pictureBoxMouseOverocta = new Controls.PictureBoxMouseOver();
+            this.pictureBoxMouseOverx8 = new Controls.PictureBoxMouseOver();
+            this.pictureBoxMouseOverhexa = new Controls.PictureBoxMouseOver();
+            this.pictureBoxMouseOvertrap = new Controls.PictureBoxMouseOver();
+            this.pictureBoxMouseOverquad = new Controls.PictureBoxMouseOver();
+            this.pictureBoxMouseOvertri = new Controls.PictureBoxMouseOver();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.radialGradientBG1 = new ArdupilotMega.Controls.GradientBG();
+            this.radialGradientBG1 = new Controls.GradientBG();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMouseOvery6)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxMouseOverocta)).BeginInit();

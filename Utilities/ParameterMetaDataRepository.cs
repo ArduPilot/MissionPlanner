@@ -7,16 +7,16 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace ArdupilotMega.Utilities
+namespace MissionPlanner.Utilities
 {
-   public class ParameterMetaDataRepository
+   public static class ParameterMetaDataRepository
    {
       private static XDocument _parameterMetaDataXML;
 
       /// <summary>
       /// Initializes a new instance of the <see cref="ParameterMetaDataRepository"/> class.
       /// </summary>
-      public ParameterMetaDataRepository()
+      public static void CheckLoad()
       {
           if (_parameterMetaDataXML == null)
             Reload();
@@ -54,8 +54,10 @@ namespace ArdupilotMega.Utilities
       /// <param name="nodeKey">The node key.</param>
       /// <param name="metaKey">The meta key.</param>
       /// <returns></returns>
-      public string GetParameterMetaData(string nodeKey, string metaKey)
+      public static string GetParameterMetaData(string nodeKey, string metaKey)
       {
+          CheckLoad();
+
          if(_parameterMetaDataXML != null)
          {
             // Use this to find the endpoint node we are looking for
@@ -114,8 +116,10 @@ namespace ArdupilotMega.Utilities
       /// </summary>
       /// <param name="nodeKey"></param>
       /// <returns></returns>
-      public List<KeyValuePair<int, string>> GetParameterOptionsInt(string nodeKey)
+      public static List<KeyValuePair<int, string>> GetParameterOptionsInt(string nodeKey)
       {
+          CheckLoad();
+
           string availableValuesRaw = GetParameterMetaData(nodeKey, ParameterMetaDataConstants.Values);
 
           string[] availableValues = availableValuesRaw.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);

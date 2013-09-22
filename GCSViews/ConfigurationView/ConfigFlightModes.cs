@@ -6,11 +6,11 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using ArdupilotMega.Controls.BackstageView;
-using ArdupilotMega.Utilities;
-using ArdupilotMega.Controls;
+using MissionPlanner.Controls.BackstageView;
+using MissionPlanner.Utilities;
+using MissionPlanner.Controls;
 
-namespace ArdupilotMega.GCSViews.ConfigurationView
+namespace MissionPlanner.GCSViews.ConfigurationView
 {
     public partial class ConfigFlightModes : UserControl, IActivate, IDeactivate
     {
@@ -271,9 +271,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
 
         void updateDropDown(ComboBox ctl, string param)
         {
-            ParameterMetaDataRepository parm = new ParameterMetaDataRepository();
-
-            ctl.DataSource = parm.GetParameterOptionsInt(param).ToList();
+            ctl.DataSource = ParameterMetaDataRepository.GetParameterOptionsInt(param).ToList();
             ctl.DisplayMember = "Value";
             ctl.ValueMember = "Key";
         }

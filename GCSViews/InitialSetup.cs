@@ -6,14 +6,14 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using ArdupilotMega.Controls.BackstageView;
-using ArdupilotMega.Utilities;
-using ArdupilotMega.GCSViews.ConfigurationView;
+using MissionPlanner.Controls.BackstageView;
+using MissionPlanner.Utilities;
+using MissionPlanner.GCSViews.ConfigurationView;
 using log4net;
 using System.Reflection;
-using ArdupilotMega.Controls;
+using MissionPlanner.Controls;
 
-namespace ArdupilotMega.GCSViews
+namespace MissionPlanner.GCSViews
 {
     public partial class InitialSetup : MyUserControl, IActivate
     {
@@ -44,7 +44,7 @@ namespace ArdupilotMega.GCSViews
             BackstageView.BackstageViewPage start;
             if (MainV2.comPort.BaseStream.IsOpen)
             {
-                AddBackstageViewPage(new ArdupilotMega.GCSViews.ConfigurationView.ConfigFirmwareDisabled(), "Install Firmware");
+                AddBackstageViewPage(new MissionPlanner.GCSViews.ConfigurationView.ConfigFirmwareDisabled(), "Install Firmware");
 
                 BackstageView.BackstageViewPage mandatoryhardware = AddBackstageViewPage(new ConfigMandatory(), "Mandatory Hardware", null);
                 BackstageView.BackstageViewPage optionalhardware = AddBackstageViewPage(new ConfigOptional(), "Optional Hardware", null);
@@ -74,7 +74,7 @@ namespace ArdupilotMega.GCSViews
 
                 AddBackstageViewPage(new ConfigFailSafe(), "FailSafe",mandatoryhardware);
 
-                AddBackstageViewPage(new ArdupilotMega._3DRradio(), "3DR Radio", optionalhardware);
+                AddBackstageViewPage(new MissionPlanner._3DRradio(), "3DR Radio", optionalhardware);
                 AddBackstageViewPage(new ConfigBatteryMonitoring(), "Battery Monitor", optionalhardware);
                 AddBackstageViewPage(new ConfigHWSonar(), "Sonar", optionalhardware);
                 if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.Ateryx)
@@ -85,15 +85,15 @@ namespace ArdupilotMega.GCSViews
                 // osd
                 AddBackstageViewPage(new ConfigMount(), "Camera Gimbal", optionalhardware);
 
-                AddBackstageViewPage(new ArdupilotMega.Antenna.Tracker(), "Antenna Tracker", optionalhardware);
+                AddBackstageViewPage(new MissionPlanner.Antenna.Tracker(), "Antenna Tracker", optionalhardware);
 
 
             }
             else
             {
-                AddBackstageViewPage(new ArdupilotMega.GCSViews.ConfigFirmware(), "Install Firmware");
-                AddBackstageViewPage(new ArdupilotMega._3DRradio(), "3DR Radio");
-                AddBackstageViewPage(new ArdupilotMega.Antenna.Tracker(), "Antenna Tracker");
+                AddBackstageViewPage(new MissionPlanner.GCSViews.ConfigFirmware(), "Install Firmware");
+                AddBackstageViewPage(new MissionPlanner._3DRradio(), "3DR Radio");
+                AddBackstageViewPage(new MissionPlanner.Antenna.Tracker(), "Antenna Tracker");
             }
 
             // remeber last page accessed

@@ -1,4 +1,4 @@
-﻿namespace ArdupilotMega
+﻿namespace MissionPlanner
 {
     partial class SerialOutputMD
     {
@@ -30,7 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SerialOutputMD));
             this.CMB_serialport = new System.Windows.Forms.ComboBox();
-            this.BUT_connect = new ArdupilotMega.Controls.MyButton();
+            this.BUT_connect = new Controls.MyButton();
             this.CMB_baudrate = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
@@ -90,7 +90,7 @@
         #endregion
 
         private System.Windows.Forms.ComboBox CMB_serialport;
-        private ArdupilotMega.Controls.MyButton BUT_connect;
+        private Controls.MyButton BUT_connect;
         private System.Windows.Forms.ComboBox CMB_baudrate;
     }
 }

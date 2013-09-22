@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ArdupilotMega.Controls
+namespace MissionPlanner.Controls
 {
     public delegate void EventValueChanged(object sender, string Name, string Value);
 

@@ -1,4 +1,5 @@
-﻿namespace _3DRRadio
+﻿using MissionPlanner.Controls;
+namespace _3DRRadio
 {
     partial class Rssi
     {
@@ -31,8 +32,8 @@
             this.components = new System.ComponentModel.Container();
             this.zedGraphControl1 = new ZedGraph.ZedGraphControl();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.BUT_disconnect = new ArdupilotMega.Controls.MyButton();
-            this.BUT_connect = new ArdupilotMega.Controls.MyButton();
+            this.BUT_disconnect = new MyButton();
+            this.BUT_connect = new MyButton();
             this.SuspendLayout();
             // 
             // zedGraphControl1
@@ -95,8 +96,8 @@
         #endregion
 
         private ZedGraph.ZedGraphControl zedGraphControl1;
-        private ArdupilotMega.Controls.MyButton BUT_connect;
-        private ArdupilotMega.Controls.MyButton BUT_disconnect;
+        private MyButton BUT_connect;
+        private MyButton BUT_disconnect;
         private System.Windows.Forms.Timer timer1;
     }
 }

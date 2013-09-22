@@ -1,6 +1,6 @@
-﻿using ArdupilotMega.Controls;
+﻿using MissionPlanner.Controls;
 
-namespace ArdupilotMega.GCSViews.ConfigurationView
+namespace MissionPlanner.GCSViews.ConfigurationView
 {
     partial class ConfigFrameType
     {
@@ -35,14 +35,14 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             this.radioButton_X = new System.Windows.Forms.RadioButton();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.pictureBoxPlus = new ArdupilotMega.Controls.PictureBoxWithPseudoOpacity();
-            this.pictureBoxX = new ArdupilotMega.Controls.PictureBoxWithPseudoOpacity();
+            this.pictureBoxPlus = new Controls.PictureBoxWithPseudoOpacity();
+            this.pictureBoxX = new Controls.PictureBoxWithPseudoOpacity();
             this.label6 = new System.Windows.Forms.Label();
             this.radioButton_V = new System.Windows.Forms.RadioButton();
-            this.pictureBoxV = new ArdupilotMega.Controls.PictureBoxWithPseudoOpacity();
+            this.pictureBoxV = new Controls.PictureBoxWithPseudoOpacity();
             this.label1 = new System.Windows.Forms.Label();
             this.radioButton_H = new System.Windows.Forms.RadioButton();
-            this.pictureBoxH = new ArdupilotMega.Controls.PictureBoxWithPseudoOpacity();
+            this.pictureBoxH = new Controls.PictureBoxWithPseudoOpacity();
             this.label4 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPlus)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxX)).BeginInit();

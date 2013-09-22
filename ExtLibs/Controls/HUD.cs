@@ -20,7 +20,7 @@ using OpenTK.Graphics.OpenGL;
 // Control written by Michael Oborne 2011
 // dual opengl and GDI+
 
-namespace ArdupilotMega.Controls
+namespace MissionPlanner.Controls
 {
     public class HUD : GLControl
     {

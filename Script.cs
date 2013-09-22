@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using IronPython.Hosting;
 using System.IO;
+using MissionPlanner;
 
-namespace ArdupilotMega
+namespace MissionPlanner
 {
     public class Script
     {

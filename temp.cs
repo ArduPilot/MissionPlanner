@@ -16,10 +16,10 @@ using GMap.NET.CacheProviders;
 using log4net;
 
 using System.Security.Permissions;
-using ArdupilotMega.Arduino;
-using ArdupilotMega.Utilities;
+using MissionPlanner.Arduino;
+using MissionPlanner.Utilities;
 
-namespace ArdupilotMega
+namespace MissionPlanner
 {
     public partial class temp : Form
     {
@@ -32,7 +32,7 @@ namespace ArdupilotMega
             //if (System.Diagnostics.Debugger.IsAttached) {
             try
             {
-                ArdupilotMega.Controls.OpenGLtest ogl = new Controls.OpenGLtest();
+                Controls.OpenGLtest ogl = new Controls.OpenGLtest();
 
                 this.Controls.Add(ogl);
 
@@ -169,7 +169,7 @@ namespace ArdupilotMega
             port.Parity = Parity.None;
             port.DtrEnable = true;
 
-            port.PortName = ArdupilotMega.MainV2.comPortName;
+            port.PortName = MissionPlanner.MainV2.comPortName;
             try
             {
                 port.Open();
@@ -240,7 +240,7 @@ namespace ArdupilotMega
             port.Parity = Parity.None;
             port.DtrEnable = true;
 
-            port.PortName = ArdupilotMega.MainV2.comPortName;
+            port.PortName = MissionPlanner.MainV2.comPortName;
             try
             {
                 port.Open();
@@ -303,7 +303,7 @@ namespace ArdupilotMega
             port.Parity = Parity.None;
             port.DtrEnable = true;
 
-            port.PortName = ArdupilotMega.MainV2.comPortName;
+            port.PortName = MissionPlanner.MainV2.comPortName;
             try
             {
                 port.Open();
@@ -410,7 +410,7 @@ namespace ArdupilotMega
 
             try
             {
-                port.PortName = ArdupilotMega.MainV2.comPortName;
+                port.PortName = MissionPlanner.MainV2.comPortName;
 
                 port.Open();
 
@@ -554,7 +554,7 @@ namespace ArdupilotMega
 
             try
             {
-                port.PortName = ArdupilotMega.MainV2.comPortName;
+                port.PortName = MissionPlanner.MainV2.comPortName;
 
                 log.Info("Open Port");
                 port.Open();
@@ -605,7 +605,7 @@ namespace ArdupilotMega
 
             try
             {
-                port.PortName = ArdupilotMega.MainV2.comPortName;
+                port.PortName = MissionPlanner.MainV2.comPortName;
 
                 log.Info("Open Port");
                 port.Open();
@@ -669,7 +669,7 @@ namespace ArdupilotMega
 
             try
             {
-                port.PortName = ArdupilotMega.MainV2.comPortName;
+                port.PortName = MissionPlanner.MainV2.comPortName;
 
                 log.Info("Open Port");
                 port.Open();
@@ -746,7 +746,7 @@ namespace ArdupilotMega
 
             try
             {
-                port.PortName = ArdupilotMega.MainV2.comPortName;
+                port.PortName = MissionPlanner.MainV2.comPortName;
 
                 port.Open();
 
@@ -1065,6 +1065,16 @@ namespace ArdupilotMega
             MissionPlanner.MagMotor mot = new MissionPlanner.MagMotor();
 
             mot.StartCalibration();
+        }
+
+        private void BUT_driverclean_Click(object sender, EventArgs e)
+        {
+            MissionPlanner.Utilities.CleanDrivers.Clean();
+        }
+
+        private void but_compassrotation_Click(object sender, EventArgs e)
+        {
+            MissionPlanner.Magfitrotation.magfit();
         }
     }
 }

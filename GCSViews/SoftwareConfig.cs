@@ -6,14 +6,14 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using ArdupilotMega.Controls.BackstageView;
-using ArdupilotMega.GCSViews.ConfigurationView;
-using ArdupilotMega.Utilities;
+using MissionPlanner.Controls.BackstageView;
+using MissionPlanner.GCSViews.ConfigurationView;
+using MissionPlanner.Utilities;
 using log4net;
 using System.Reflection;
-using ArdupilotMega.Controls;
+using MissionPlanner.Controls;
 
-namespace ArdupilotMega.GCSViews
+namespace MissionPlanner.GCSViews
 {
     public partial class SoftwareConfig : MyUserControl, IActivate
     {

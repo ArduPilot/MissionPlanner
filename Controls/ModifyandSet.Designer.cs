@@ -1,4 +1,4 @@
-﻿namespace ArdupilotMega.Controls
+﻿namespace MissionPlanner.Controls
 {
     partial class ModifyandSet
     {
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-            this.myButton1 = new ArdupilotMega.Controls.MyButton();
+            this.myButton1 = new Controls.MyButton();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.flowLayoutPanel1.SuspendLayout();

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using ArdupilotMega;
 using GMap.NET;
 using ProjNet.CoordinateSystems;
 using ProjNet.CoordinateSystems.Transformations;

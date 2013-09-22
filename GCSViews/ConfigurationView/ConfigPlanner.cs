@@ -9,13 +9,13 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 using DirectShowLib;
-using ArdupilotMega.Controls.BackstageView;
-using ArdupilotMega.Controls;
-using ArdupilotMega.Utilities;
+using MissionPlanner.Controls.BackstageView;
+using MissionPlanner.Controls;
+using MissionPlanner.Utilities;
 using System.Threading;
 using MissionPlanner.Controls;
 
-namespace ArdupilotMega.GCSViews.ConfigurationView
+namespace MissionPlanner.GCSViews.ConfigurationView
 {
     public partial class ConfigPlanner : UserControl, IActivate
     {
@@ -365,8 +365,8 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             MainV2.config[((ComboBox)sender).Name] = ((ComboBox)sender).Text;
             MainV2.comPort.MAV.cs.rateattitude = byte.Parse(((ComboBox)sender).Text);
 
-            MainV2.comPort.requestDatastream(ArdupilotMega.MAVLink.MAV_DATA_STREAM.EXTRA1, MainV2.comPort.MAV.cs.rateattitude); // request attitude
-            MainV2.comPort.requestDatastream(ArdupilotMega.MAVLink.MAV_DATA_STREAM.EXTRA2, MainV2.comPort.MAV.cs.rateattitude); // request vfr
+            MainV2.comPort.requestDatastream(MissionPlanner.MAVLink.MAV_DATA_STREAM.EXTRA1, MainV2.comPort.MAV.cs.rateattitude); // request attitude
+            MainV2.comPort.requestDatastream(MissionPlanner.MAVLink.MAV_DATA_STREAM.EXTRA2, MainV2.comPort.MAV.cs.rateattitude); // request vfr
         }
 
         private void CMB_rateposition_SelectedIndexChanged(object sender, EventArgs e)
@@ -376,7 +376,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             MainV2.config[((ComboBox)sender).Name] = ((ComboBox)sender).Text;
             MainV2.comPort.MAV.cs.rateposition = byte.Parse(((ComboBox)sender).Text);
 
-            MainV2.comPort.requestDatastream(ArdupilotMega.MAVLink.MAV_DATA_STREAM.POSITION, MainV2.comPort.MAV.cs.rateposition); // request gps
+            MainV2.comPort.requestDatastream(MissionPlanner.MAVLink.MAV_DATA_STREAM.POSITION, MainV2.comPort.MAV.cs.rateposition); // request gps
         }
 
         private void CMB_ratestatus_SelectedIndexChanged(object sender, EventArgs e)
@@ -386,7 +386,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             MainV2.config[((ComboBox)sender).Name] = ((ComboBox)sender).Text;
             MainV2.comPort.MAV.cs.ratestatus = byte.Parse(((ComboBox)sender).Text);
 
-            MainV2.comPort.requestDatastream(ArdupilotMega.MAVLink.MAV_DATA_STREAM.EXTENDED_STATUS, MainV2.comPort.MAV.cs.ratestatus); // mode
+            MainV2.comPort.requestDatastream(MissionPlanner.MAVLink.MAV_DATA_STREAM.EXTENDED_STATUS, MainV2.comPort.MAV.cs.ratestatus); // mode
         }
 
         private void CMB_raterc_SelectedIndexChanged(object sender, EventArgs e)
@@ -396,7 +396,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             MainV2.config[((ComboBox)sender).Name] = ((ComboBox)sender).Text;
             MainV2.comPort.MAV.cs.raterc = byte.Parse(((ComboBox)sender).Text);
 
-            MainV2.comPort.requestDatastream(ArdupilotMega.MAVLink.MAV_DATA_STREAM.RC_CHANNELS, MainV2.comPort.MAV.cs.raterc); // request rc info 
+            MainV2.comPort.requestDatastream(MissionPlanner.MAVLink.MAV_DATA_STREAM.RC_CHANNELS, MainV2.comPort.MAV.cs.raterc); // request rc info 
         }
 
         private void CMB_ratesensors_SelectedIndexChanged(object sender, EventArgs e)
@@ -406,8 +406,8 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             MainV2.config[((ComboBox)sender).Name] = ((ComboBox)sender).Text;
             MainV2.comPort.MAV.cs.ratesensors = byte.Parse(((ComboBox)sender).Text);
 
-            MainV2.comPort.requestDatastream(ArdupilotMega.MAVLink.MAV_DATA_STREAM.EXTRA3, MainV2.comPort.MAV.cs.ratesensors); // request extra stuff - tridge
-            MainV2.comPort.requestDatastream(ArdupilotMega.MAVLink.MAV_DATA_STREAM.RAW_SENSORS, MainV2.comPort.MAV.cs.ratesensors); // request raw sensor
+            MainV2.comPort.requestDatastream(MissionPlanner.MAVLink.MAV_DATA_STREAM.EXTRA3, MainV2.comPort.MAV.cs.ratesensors); // request extra stuff - tridge
+            MainV2.comPort.requestDatastream(MissionPlanner.MAVLink.MAV_DATA_STREAM.RAW_SENSORS, MainV2.comPort.MAV.cs.ratesensors); // request raw sensor
         }
 
         private void CHK_mavdebug_CheckedChanged(object sender, EventArgs e)
@@ -583,6 +583,7 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
             SetCheckboxFromConfig("speechbatteryenabled", CHK_speechbattery);
             SetCheckboxFromConfig("speechaltenabled", CHK_speechaltwarning);
             SetCheckboxFromConfig("speecharmenabled", CHK_speecharmdisarm);
+            SetCheckboxFromConfig("beta_updates", CHK_beta);
 
             // this can't fail because it set at startup
             NUM_tracklength.Value = int.Parse(MainV2.config["NUM_tracklength"].ToString());
@@ -707,6 +708,11 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
         {
             MissionPlanner.Utilities.Tracking.OptOut = chk_analytics.Checked;
             MainV2.config["analyticsoptout"] = chk_analytics.Checked;
+        }
+
+        private void CHK_beta_CheckedChanged(object sender, EventArgs e)
+        {
+            MainV2.config["beta_updates"] = CHK_beta.Checked;
         }
     }
 }

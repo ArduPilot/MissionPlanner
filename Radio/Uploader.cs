@@ -1,13 +1,14 @@
 using System;
 using MissionPlanner.Comms;
 using System.Collections.Generic;
+using MissionPlanner;
 
 namespace uploader
 {
 	public class Uploader
 	{		
-		public event ArdupilotMega._3DRradio.LogEventHandler LogEvent;
-        public event ArdupilotMega._3DRradio.ProgressEventHandler ProgressEvent;
+		public event _3DRradio.LogEventHandler LogEvent;
+        public event _3DRradio.ProgressEventHandler ProgressEvent;
 		
 		private	int bytes_to_process;
 		private int bytes_processed;

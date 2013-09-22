@@ -8,10 +8,11 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
-using ArdupilotMega.Controls.BackstageView;
-using ArdupilotMega.Utilities;
+using MissionPlanner.Controls.BackstageView;
+using MissionPlanner.Utilities;
+using MissionPlanner;
 
-namespace ArdupilotMega.Controls
+namespace MissionPlanner.Controls
 {
     public partial class ConfigPanel : UserControl, IActivate
     {
@@ -22,8 +23,12 @@ namespace ArdupilotMega.Controls
         // store linked param options
         Hashtable _linkedParams = new Hashtable();
 
-        public ConfigPanel(string XMLFile)
+        MAVLink _mavinterface;
+
+        public ConfigPanel(string XMLFile, MAVLink mavinterface)
         {
+            _mavinterface = mavinterface;
+
             InitializeComponent();
 
             LoadXML(XMLFile);
@@ -35,7 +40,7 @@ namespace ArdupilotMega.Controls
         public void PopulateData()
         {
             // process hashdefines and update display
-            foreach (string value in MainV2.comPort.MAV.param.Keys)
+            foreach (string value in _mavinterface.MAV.param.Keys)
             {
                 if (value == null || value == "") // older ap version have a null param
                     continue;
@@ -44,7 +49,7 @@ namespace ArdupilotMega.Controls
                 {
                     try
                     {
-                        float numbervalue = (float)MainV2.comPort.MAV.param[value];
+                        float numbervalue = (float)_mavinterface.MAV.param[value];
 
                         MAVLink.modifyParamForDisplay(true, value, ref numbervalue);
 
@@ -133,7 +138,7 @@ namespace ArdupilotMega.Controls
 
                             this.Controls.Add(lbl);
 
-                            ArdupilotMega.Controls.MyButton but = new ArdupilotMega.Controls.MyButton();
+                            Controls.MyButton but = new Controls.MyButton();
 
                             but.Text = "Save";
                             but.Location = new Point(optionx + 100, y);
@@ -269,7 +274,7 @@ namespace ArdupilotMega.Controls
             {
                 try
                 {
-                    MainV2.comPort.setParam(value, (float)_changed[value]);
+                    _mavinterface.setParam(value, (float)_changed[value]);
                     _changed.Remove(value);
 
                     try

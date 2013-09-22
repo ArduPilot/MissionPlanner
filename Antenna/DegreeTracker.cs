@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using MissionPlanner.Comms;
 
-namespace ArdupilotMega.Antenna
+namespace MissionPlanner.Antenna
 {
     class DegreeTracker : ITrackerOutput
     {

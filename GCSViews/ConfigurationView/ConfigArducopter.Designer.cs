@@ -1,4 +1,4 @@
-﻿namespace ArdupilotMega.GCSViews.ConfigurationView
+﻿namespace MissionPlanner.GCSViews.ConfigurationView
 {
     partial class ConfigArducopter
     {
@@ -103,11 +103,11 @@
             this.label3 = new System.Windows.Forms.Label();
             this.LOITER_LAT_P = new System.Windows.Forms.NumericUpDown();
             this.label4 = new System.Windows.Forms.Label();
-            this.BUT_rerequestparams = new ArdupilotMega.Controls.MyButton();
-            this.BUT_writePIDS = new ArdupilotMega.Controls.MyButton();
-            this.myLabel3 = new ArdupilotMega.Controls.MyLabel();
-            this.myLabel2 = new ArdupilotMega.Controls.MyLabel();
-            this.myLabel1 = new ArdupilotMega.Controls.MyLabel();
+            this.BUT_rerequestparams = new Controls.MyButton();
+            this.BUT_writePIDS = new Controls.MyButton();
+            this.myLabel3 = new Controls.MyLabel();
+            this.myLabel2 = new Controls.MyLabel();
+            this.myLabel1 = new Controls.MyLabel();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.THR_ACCEL_D = new System.Windows.Forms.NumericUpDown();
             this.label5 = new System.Windows.Forms.Label();
@@ -117,8 +117,8 @@
             this.label7 = new System.Windows.Forms.Label();
             this.THR_ACCEL_P = new System.Windows.Forms.NumericUpDown();
             this.label8 = new System.Windows.Forms.Label();
-            this.BUT_refreshpart = new ArdupilotMega.Controls.MyButton();
-            this.myLabel4 = new ArdupilotMega.Controls.MyLabel();
+            this.BUT_refreshpart = new Controls.MyButton();
+            this.myLabel4 = new Controls.MyLabel();
             this.CH8_OPT = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.TUNE_LOW)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TUNE_HIGH)).BeginInit();
@@ -817,12 +817,12 @@
 
         #endregion
 
-        private ArdupilotMega.Controls.MyLabel myLabel3;
+        private Controls.MyLabel myLabel3;
         private System.Windows.Forms.NumericUpDown TUNE_LOW;
         private System.Windows.Forms.NumericUpDown TUNE_HIGH;
-        private ArdupilotMega.Controls.MyLabel myLabel2;
+        private Controls.MyLabel myLabel2;
         private System.Windows.Forms.ComboBox TUNE;
-        private ArdupilotMega.Controls.MyLabel myLabel1;
+        private Controls.MyLabel myLabel1;
         private System.Windows.Forms.ComboBox CH7_OPT;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.NumericUpDown THR_RATE_D;

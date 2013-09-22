@@ -1,4 +1,4 @@
-﻿namespace ArdupilotMega.GCSViews.ConfigurationView
+﻿namespace MissionPlanner.GCSViews.ConfigurationView
 {
     partial class ConfigHWSonar
     {
@@ -30,7 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigHWSonar));
             this.CMB_sonartype = new System.Windows.Forms.ComboBox();
-            this.CHK_enablesonar = new ArdupilotMega.Controls.MavlinkCheckBox();
+            this.CHK_enablesonar = new Controls.MavlinkCheckBox();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -98,7 +98,7 @@
         #endregion
 
         private System.Windows.Forms.ComboBox CMB_sonartype;
-        private ArdupilotMega.Controls.MavlinkCheckBox CHK_enablesonar;
+        private Controls.MavlinkCheckBox CHK_enablesonar;
         private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.GroupBox groupBox1;

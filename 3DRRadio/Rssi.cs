@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using ZedGraph;
-using ArdupilotMega;
+using MissionPlanner;
 using System.Text.RegularExpressions;
 using System.IO;
 

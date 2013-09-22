@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace ArdupilotMega.HIL
+namespace MissionPlanner.HIL
 {
     class FlightGear : Hil
     {

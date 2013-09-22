@@ -1,5 +1,5 @@
-﻿using ArdupilotMega.Controls;
-namespace ArdupilotMega
+﻿using MissionPlanner.Controls;
+namespace MissionPlanner
 {
     partial class RAW_Sensor
     {
@@ -54,7 +54,7 @@ namespace ArdupilotMega
             this.horizontalProgressBar2 = new HorizontalProgressBar();
             this.horizontalProgressBar1 = new HorizontalProgressBar();
             this.tabRawSensor = new System.Windows.Forms.TabPage();
-            this.BUT_savecsv = new ArdupilotMega.Controls.MyButton();
+            this.BUT_savecsv = new Controls.MyButton();
             this.label3 = new System.Windows.Forms.Label();
             this.CMB_rawupdaterate = new System.Windows.Forms.ComboBox();
             this.aGauge1 = new AGaugeApp.AGauge();
@@ -92,7 +92,7 @@ namespace ArdupilotMega
             // 
             // currentStateBindingSource
             // 
-            this.currentStateBindingSource.DataSource = typeof(ArdupilotMega.CurrentState);
+            this.currentStateBindingSource.DataSource = typeof(MissionPlanner.CurrentState);
             // 
             // timer2serial
             // 
@@ -1130,7 +1130,7 @@ namespace ArdupilotMega
         private VerticalProgressBar verticalProgressBar2;
         private VerticalProgressBar verticalProgressBar1;
         private System.Windows.Forms.TabControl tabControl;
-        private ArdupilotMega.Controls.MyButton BUT_savecsv;
+        private Controls.MyButton BUT_savecsv;
 
     }
 }

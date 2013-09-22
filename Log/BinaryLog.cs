@@ -6,7 +6,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using uint8_t = System.Byte;
 
-namespace ArdupilotMega.Log
+namespace MissionPlanner.Log
 {
     public class BinaryLog
     {

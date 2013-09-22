@@ -1,5 +1,5 @@
 ﻿using System.Windows.Forms;
-namespace ArdupilotMega.Wizard
+namespace MissionPlanner.Wizard
 {
     partial class _5AccelCalib
     {
@@ -30,12 +30,12 @@ namespace ArdupilotMega.Wizard
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
-            this.BUT_continue = new ArdupilotMega.Controls.MyButton();
-            this.imageLabel1 = new ArdupilotMega.Controls.ImageLabel();
-            this.BUT_start = new ArdupilotMega.Controls.MyButton();
+            this.BUT_continue = new Controls.MyButton();
+            this.imageLabel1 = new Controls.ImageLabel();
+            this.BUT_start = new Controls.MyButton();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.radialGradientBG1 = new ArdupilotMega.Controls.GradientBG();
+            this.radialGradientBG1 = new Controls.GradientBG();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.radialGradientBG1.Image)).BeginInit();
             this.SuspendLayout();

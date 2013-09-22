@@ -6,10 +6,10 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using ArdupilotMega.Controls;
-using ArdupilotMega.Utilities;
+using MissionPlanner.Controls;
+using MissionPlanner.Utilities;
 
-namespace ArdupilotMega.GCSViews.ConfigurationView
+namespace MissionPlanner.GCSViews.ConfigurationView
 {
     public partial class ConfigAC_Fence : UserControl, IActivate
     {
@@ -26,12 +26,10 @@ namespace ArdupilotMega.GCSViews.ConfigurationView
         {
             mavlinkCheckBox1.setup(1, 0, "FENCE_ENABLE", MainV2.comPort.MAV.param);
 
-            Utilities.ParameterMetaDataRepository repo = new Utilities.ParameterMetaDataRepository();
-
-            mavlinkComboBox1.setup(repo.GetParameterOptionsInt("FENCE_TYPE"), "FENCE_TYPE", MainV2.comPort.MAV.param);
+            mavlinkComboBox1.setup(Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("FENCE_TYPE"), "FENCE_TYPE", MainV2.comPort.MAV.param);
 
 
-            mavlinkComboBox2.setup(repo.GetParameterOptionsInt("FENCE_ACTION"), "FENCE_ACTION", MainV2.comPort.MAV.param);
+            mavlinkComboBox2.setup(Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("FENCE_ACTION"), "FENCE_ACTION", MainV2.comPort.MAV.param);
   
 
             // 3
