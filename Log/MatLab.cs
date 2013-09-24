@@ -223,73 +223,78 @@ namespace MissionPlanner.Log
 
                 DateTime time = mine.lastlogread;
 
-                foreach (var field in test.GetFields())
+                try
                 {
-                    // field.Name has the field's name.
 
-                    object fieldValue = field.GetValue(data); // Get value
-                    if (field.FieldType.IsArray)
+                    foreach (var field in test.GetFields())
                     {
+                        // field.Name has the field's name.
 
-                    }
-                    else
-                    {
-                        if (!datappl.ContainsKey(field.Name + " " + field.DeclaringType.Name))
+                        object fieldValue = field.GetValue(data); // Get value
+                        if (field.FieldType.IsArray)
                         {
-                            datappl[field.Name + " " + field.DeclaringType.Name] = new List<double[]>();
-                        }
 
-                        List<double[]> list = ((List<double[]>)datappl[field.Name + " " + field.DeclaringType.Name]);
-
-                        object value = fieldValue;
-
-                        if (value.GetType() == typeof(Single))
-                        {
-                            list.Add(new double[] { time.ToFileTime(), (double)(Single)field.GetValue(data) });
-                        }
-                        else if (value.GetType() == typeof(short))
-                        {
-                            list.Add(new double[] { time.ToFileTime(), (double)(short)field.GetValue(data) });
-                        }
-                        else if (value.GetType() == typeof(ushort))
-                        {
-                            list.Add(new double[] { time.ToFileTime(), (double)(ushort)field.GetValue(data) });
-                        }
-                        else if (value.GetType() == typeof(byte))
-                        {
-                            list.Add(new double[] { time.ToFileTime(), (double)(byte)field.GetValue(data) });
-                        }
-                        else if (value.GetType() == typeof(sbyte))
-                        {
-                            list.Add(new double[] { time.ToFileTime(), (double)(sbyte)field.GetValue(data) });
-                        }
-                        else if (value.GetType() == typeof(Int32))
-                        {
-                            list.Add(new double[] { time.ToFileTime(), (double)(Int32)field.GetValue(data) });
-                        }
-                        else if (value.GetType() == typeof(UInt32))
-                        {
-                            list.Add(new double[] { time.ToFileTime(), (double)(UInt32)field.GetValue(data) });
-                        }
-                        else if (value.GetType() == typeof(ulong))
-                        {
-                            list.Add(new double[] { time.ToFileTime(), (double)(ulong)field.GetValue(data) });
-                        }
-                        else if (value.GetType() == typeof(long))
-                        {
-                            list.Add(new double[] { time.ToFileTime(), (double)(long)field.GetValue(data) });
-                        }
-                        else if (value.GetType() == typeof(double))
-                        {
-                            list.Add(new double[] { time.ToFileTime(), (double)(double)field.GetValue(data) });
                         }
                         else
                         {
-                            Console.WriteLine("Unknown data type");
-                        }
-                    }
+                            if (!datappl.ContainsKey(field.Name + " " + field.DeclaringType.Name))
+                            {
+                                datappl[field.Name + " " + field.DeclaringType.Name] = new List<double[]>();
+                            }
 
+                            List<double[]> list = ((List<double[]>)datappl[field.Name + " " + field.DeclaringType.Name]);
+
+                            object value = fieldValue;
+
+                            if (value.GetType() == typeof(Single))
+                            {
+                                list.Add(new double[] { time.ToFileTime(), (double)(Single)field.GetValue(data) });
+                            }
+                            else if (value.GetType() == typeof(short))
+                            {
+                                list.Add(new double[] { time.ToFileTime(), (double)(short)field.GetValue(data) });
+                            }
+                            else if (value.GetType() == typeof(ushort))
+                            {
+                                list.Add(new double[] { time.ToFileTime(), (double)(ushort)field.GetValue(data) });
+                            }
+                            else if (value.GetType() == typeof(byte))
+                            {
+                                list.Add(new double[] { time.ToFileTime(), (double)(byte)field.GetValue(data) });
+                            }
+                            else if (value.GetType() == typeof(sbyte))
+                            {
+                                list.Add(new double[] { time.ToFileTime(), (double)(sbyte)field.GetValue(data) });
+                            }
+                            else if (value.GetType() == typeof(Int32))
+                            {
+                                list.Add(new double[] { time.ToFileTime(), (double)(Int32)field.GetValue(data) });
+                            }
+                            else if (value.GetType() == typeof(UInt32))
+                            {
+                                list.Add(new double[] { time.ToFileTime(), (double)(UInt32)field.GetValue(data) });
+                            }
+                            else if (value.GetType() == typeof(ulong))
+                            {
+                                list.Add(new double[] { time.ToFileTime(), (double)(ulong)field.GetValue(data) });
+                            }
+                            else if (value.GetType() == typeof(long))
+                            {
+                                list.Add(new double[] { time.ToFileTime(), (double)(long)field.GetValue(data) });
+                            }
+                            else if (value.GetType() == typeof(double))
+                            {
+                                list.Add(new double[] { time.ToFileTime(), (double)(double)field.GetValue(data) });
+                            }
+                            else
+                            {
+                                Console.WriteLine("Unknown data type");
+                            }
+                        }
+
+                    }
                 }
+                catch { }
             }
 
             mine.logreadmode = false;

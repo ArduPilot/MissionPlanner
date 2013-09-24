@@ -8,7 +8,6 @@ using System.Windows.Forms;
 using MissionPlanner.Utilities;
 using log4net;
 using MissionPlanner.Controls;
-using MissionPlanner.Controls;
 using System.Collections.Generic;
 
 namespace MissionPlanner.GCSViews.ConfigurationView

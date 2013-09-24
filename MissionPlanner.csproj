@@ -371,12 +371,6 @@
     <Compile Include="GCSViews\ConfigurationView\ConfigFirmwareDisabled.Designer.cs">
       <DependentUpon>ConfigFirmwareDisabled.cs</DependentUpon>
     </Compile>
-    <Compile Include="GCSViews\ConfigurationView\ConfigSimplePidsV2.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="GCSViews\ConfigurationView\ConfigSimplePidsV2.Designer.cs">
-      <DependentUpon>ConfigSimplePidsV2.cs</DependentUpon>
-    </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigHelp.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -718,9 +712,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFirmwareDisabled.resx">
       <DependentUpon>ConfigFirmwareDisabled.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigSimplePidsV2.resx">
-      <DependentUpon>ConfigSimplePidsV2.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHelp.resx">
       <DependentUpon>ConfigHelp.cs</DependentUpon>

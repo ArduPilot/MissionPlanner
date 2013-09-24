@@ -25,7 +25,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Drawing.Drawing2D;
 using System.Diagnostics;
-
+using MissionPlanner.Controls;
 
 namespace AGaugeApp
 {
@@ -1478,7 +1478,7 @@ System.ComponentModel.Description("Enables or disables the range selected by Nee
         /// </summary>
         public new void Invalidate()
         {
-            if (!ThisReallyVisible())
+            if (!this.ThisReallyVisible())
             {
                 return;
             }
@@ -1490,16 +1490,6 @@ System.ComponentModel.Description("Enables or disables the range selected by Nee
         {
             base.Refresh();
         }
-
-        /// <summary>
-        /// this is to fix a mono off screen drawing issue
-        /// </summary>
-        /// <returns></returns>
-        public bool ThisReallyVisible()
-        {
-            Control ctl = Control.FromHandle(this.Handle);
-            return ctl.Visible;
-        } 
 
 #region base member overrides
         protected override void OnPaintBackground(PaintEventArgs pevent)
@@ -1513,7 +1503,7 @@ System.ComponentModel.Description("Enables or disables the range selected by Nee
                 return;
             }
 
-            if (!ThisReallyVisible())
+            if (!this.ThisReallyVisible())
             {
                 base.OnPaint(pe);
                 return;
@@ -1526,9 +1516,9 @@ System.ComponentModel.Description("Enables or disables the range selected by Nee
             {
                 scale = (float)this.Width / (float)basesize.Width;
 
-//                Console.WriteLine("Scale: " + scale);
+                //                Console.WriteLine("Scale: " + scale);
             }
-           
+
             if (drawGaugeBackground)
             {
                 drawGaugeBackground = false;
@@ -1538,11 +1528,10 @@ System.ComponentModel.Description("Enables or disables the range selected by Nee
                 }
                 catch { } // ignore for now - happens when the control gets to small for text
 
-                gaugeBitmap = new Bitmap(Width, Height, pe.Graphics);
                 Graphics ggr = Graphics.FromImage(gaugeBitmap);
                 ggr.FillRectangle(new SolidBrush(BackColor), ClientRectangle);
 
-                if (BackgroundImage!=null)
+                if (BackgroundImage != null)
                 {
                     switch (BackgroundImageLayout)
                     {
@@ -1594,7 +1583,7 @@ System.ComponentModel.Description("Enables or disables the range selected by Nee
                 GraphicsPath gp = new GraphicsPath();
                 Single rangeStartAngle;
                 Single rangeSweepAngle;
-                for (Int32 counter= 0; counter<NUMOFRANGES; counter++)
+                for (Int32 counter = 0; counter < NUMOFRANGES; counter++)
                 {
                     if (m_RangeEndValue[counter] > m_RangeStartValue[counter]
                     && m_RangeEnabled[counter])
@@ -1616,11 +1605,11 @@ System.ComponentModel.Description("Enables or disables the range selected by Nee
                 {
                     ggr.DrawArc(new Pen(m_BaseArcColor, m_BaseArcWidth), new Rectangle(m_Center.X - m_BaseArcRadius, m_Center.Y - m_BaseArcRadius, 2 * m_BaseArcRadius, 2 * m_BaseArcRadius), m_BaseArcStart, m_BaseArcSweep);
                 }
-                
+
                 String valueText = "";
                 SizeF boundingBox;
-                Single  countValue= 0;
-                Int32 counter1  = 0;
+                Single countValue = 0;
+                Int32 counter1 = 0;
                 while (countValue <= (m_MaxValue - m_MinValue))
                 {
                     valueText = (m_MinValue + countValue).ToString(m_ScaleNumbersFormat);
@@ -1639,12 +1628,13 @@ System.ComponentModel.Description("Enables or disables the range selected by Nee
                     gp.Reverse();
                     ggr.SetClip(gp);
 
+                    // major - mono doesnt appear to scale drawline correctly
                     ggr.DrawLine(new Pen(m_ScaleLinesMajorColor, m_ScaleLinesMajorWidth),
-                    (Single)(Center.X), 
-                    (Single)(Center.Y), 
+                    (Single)(Center.X),
+                    (Single)(Center.Y),
                     (Single)(Center.X + 2 * m_ScaleLinesMajorOuterRadius * Math.Cos((m_BaseArcStart + countValue * m_BaseArcSweep / (m_MaxValue - m_MinValue)) * Math.PI / 180.0)),
                     (Single)(Center.Y + 2 * m_ScaleLinesMajorOuterRadius * Math.Sin((m_BaseArcStart + countValue * m_BaseArcSweep / (m_MaxValue - m_MinValue)) * Math.PI / 180.0)));
-
+                    
                     gp.Reset();
                     gp.AddEllipse(new Rectangle(m_Center.X - m_ScaleLinesMinorOuterRadius, m_Center.Y - m_ScaleLinesMinorOuterRadius, 2 * m_ScaleLinesMinorOuterRadius, 2 * m_ScaleLinesMinorOuterRadius));
                     gp.Reverse();
@@ -1654,7 +1644,7 @@ System.ComponentModel.Description("Enables or disables the range selected by Nee
 
                     if (countValue < (m_MaxValue - m_MinValue))
                     {
-                        for (Int32 counter2= 1; counter2<=m_ScaleLinesMinorNumOf; counter2++)
+                        for (Int32 counter2 = 1; counter2 <= m_ScaleLinesMinorNumOf; counter2++)
                         {
                             if (((m_ScaleLinesMinorNumOf % 2) == 1) && ((Int32)(m_ScaleLinesMinorNumOf / 2) + 1 == counter2))
                             {
@@ -1665,10 +1655,10 @@ System.ComponentModel.Description("Enables or disables the range selected by Nee
                                 gp.Reverse();
                                 ggr.SetClip(gp);
 
-                                ggr.DrawLine(new Pen(m_ScaleLinesInterColor, m_ScaleLinesInterWidth), 
-                                (Single)(Center.X), 
-                                (Single)(Center.Y), 
-                                (Single)(Center.X + 2 * m_ScaleLinesInterOuterRadius * Math.Cos((m_BaseArcStart + countValue * m_BaseArcSweep / (m_MaxValue - m_MinValue) + counter2 * m_BaseArcSweep / (((Single)((m_MaxValue - m_MinValue) / m_ScaleLinesMajorStepValue)) * (m_ScaleLinesMinorNumOf + 1))) * Math.PI / 180.0)), 
+                                ggr.DrawLine(new Pen(m_ScaleLinesInterColor, m_ScaleLinesInterWidth),
+                                (Single)(Center.X),
+                                (Single)(Center.Y),
+                                (Single)(Center.X + 2 * m_ScaleLinesInterOuterRadius * Math.Cos((m_BaseArcStart + countValue * m_BaseArcSweep / (m_MaxValue - m_MinValue) + counter2 * m_BaseArcSweep / (((Single)((m_MaxValue - m_MinValue) / m_ScaleLinesMajorStepValue)) * (m_ScaleLinesMinorNumOf + 1))) * Math.PI / 180.0)),
                                 (Single)(Center.Y + 2 * m_ScaleLinesInterOuterRadius * Math.Sin((m_BaseArcStart + countValue * m_BaseArcSweep / (m_MaxValue - m_MinValue) + counter2 * m_BaseArcSweep / (((Single)((m_MaxValue - m_MinValue) / m_ScaleLinesMajorStepValue)) * (m_ScaleLinesMinorNumOf + 1))) * Math.PI / 180.0)));
 
                                 gp.Reset();
@@ -1680,10 +1670,10 @@ System.ComponentModel.Description("Enables or disables the range selected by Nee
                             }
                             else
                             {
-                                ggr.DrawLine(new Pen(m_ScaleLinesMinorColor, m_ScaleLinesMinorWidth), 
-                                (Single)(Center.X), 
-                                (Single)(Center.Y), 
-                                (Single)(Center.X + 2 * m_ScaleLinesMinorOuterRadius * Math.Cos((m_BaseArcStart + countValue * m_BaseArcSweep / (m_MaxValue - m_MinValue) + counter2 * m_BaseArcSweep / (((Single)((m_MaxValue - m_MinValue) / m_ScaleLinesMajorStepValue)) * (m_ScaleLinesMinorNumOf + 1))) * Math.PI / 180.0)), 
+                                ggr.DrawLine(new Pen(m_ScaleLinesMinorColor, m_ScaleLinesMinorWidth),
+                                (Single)(Center.X),
+                                (Single)(Center.Y),
+                                (Single)(Center.X + 2 * m_ScaleLinesMinorOuterRadius * Math.Cos((m_BaseArcStart + countValue * m_BaseArcSweep / (m_MaxValue - m_MinValue) + counter2 * m_BaseArcSweep / (((Single)((m_MaxValue - m_MinValue) / m_ScaleLinesMajorStepValue)) * (m_ScaleLinesMinorNumOf + 1))) * Math.PI / 180.0)),
                                 (Single)(Center.Y + 2 * m_ScaleLinesMinorOuterRadius * Math.Sin((m_BaseArcStart + countValue * m_BaseArcSweep / (m_MaxValue - m_MinValue) + counter2 * m_BaseArcSweep / (((Single)((m_MaxValue - m_MinValue) / m_ScaleLinesMajorStepValue)) * (m_ScaleLinesMinorNumOf + 1))) * Math.PI / 180.0)));
                             }
                         }
@@ -1702,7 +1692,7 @@ System.ComponentModel.Description("Enables or disables the range selected by Nee
                                            System.Drawing.Drawing2D.MatrixOrder.Append);*/
 
                     ggr.TranslateTransform((Single)(Center.X * scale + m_ScaleNumbersRadius * scale * Math.Cos((m_BaseArcStart + countValue * m_BaseArcSweep / (m_MaxValue - m_MinValue)) * Math.PI / 180.0f)),
-                       (Single)(Center.Y * scale + m_ScaleNumbersRadius * scale * Math.Sin((m_BaseArcStart + countValue * m_BaseArcSweep / (m_MaxValue - m_MinValue)) * Math.PI / 180.0f)), 
+                       (Single)(Center.Y * scale + m_ScaleNumbersRadius * scale * Math.Sin((m_BaseArcStart + countValue * m_BaseArcSweep / (m_MaxValue - m_MinValue)) * Math.PI / 180.0f)),
                        System.Drawing.Drawing2D.MatrixOrder.Append);
                     
                     if (counter1 >= ScaleNumbersStartScaleLine - 1)
@@ -1711,7 +1701,7 @@ System.ComponentModel.Description("Enables or disables the range selected by Nee
                     }
 
                     countValue += m_ScaleLinesMajorStepValue;
-                    counter1 ++;
+                    counter1++;
                 }
 
                 ggr.ResetTransform();
@@ -1724,17 +1714,17 @@ System.ComponentModel.Description("Enables or disables the range selected by Nee
 
                 if (m_ScaleNumbersRotation != 0)
                 {
-                   ggr.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SystemDefault;
+                    ggr.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SystemDefault;
                 }
-                
-                for (Int32 counter= 0; counter<NUMOFCAPS; counter++)
+
+                for (Int32 counter = 0; counter < NUMOFCAPS; counter++)
                 {
                     if (m_CapText[counter] != "")
                     {
-                       ggr.DrawString(m_CapText[counter], Font, new SolidBrush(m_CapColor[counter]), m_CapPosition[counter].X, m_CapPosition[counter].Y, StringFormat.GenericTypographic);
+                        ggr.DrawString(m_CapText[counter], Font, new SolidBrush(m_CapColor[counter]), m_CapPosition[counter].X, m_CapPosition[counter].Y, StringFormat.GenericTypographic);
                     }
                 }
-            }
+            } // end bg
 
             pe.Graphics.DrawImageUnscaled(gaugeBitmap, 0, 0);
             pe.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
@@ -1921,18 +1911,15 @@ System.ComponentModel.Description("Enables or disables the range selected by Nee
             }
             //this.Center = new Point(this.Width / 2, this.Width / 2);
 
+            gaugeBitmap = new Bitmap(Width, Height);
+
             drawGaugeBackground = true;
             Refresh();
         }
 
         public new Size Size { get { return base.Size; } set { base.Size = value; } }
 
-        [System.ComponentModel.Browsable(true),
-        System.ComponentModel.Category("AGauge"),
-        System.ComponentModel.Description("Base Size the dials are designed for")]
-        public Size basesize { get { return _basesize; } set { _basesize = value; } }
-
-        private Size _basesize = new Size(150,150);
+        private Size basesize = new Size(150,150);
          
 #endregion
 

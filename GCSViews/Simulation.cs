@@ -17,7 +17,6 @@ using MissionPlanner.Controls;
 using System.Drawing.Drawing2D;
 
 using MissionPlanner.HIL;
-using MissionPlanner;
 
 // Written by Michael Oborne
 namespace MissionPlanner.GCSViews
@@ -607,7 +606,7 @@ namespace MissionPlanner.GCSViews
                     catch { }
                     lastdata = DateTime.Now; // prevent flooding
                 }
-                if (SimulatorRECV != null && SimulatorRECV.Available > 0)
+                if (SimulatorRECV != null && SimulatorRECV.Connected && SimulatorRECV.Available > 0)
                 {
                     udpdata = new byte[udpdata.Length];
                     try

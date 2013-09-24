@@ -66,6 +66,7 @@
     <Compile Include="BackstageView\BackStageViewMenuPanel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="ControlExt.cs" />
     <Compile Include="Coords.cs">
       <SubType>UserControl</SubType>
     </Compile>

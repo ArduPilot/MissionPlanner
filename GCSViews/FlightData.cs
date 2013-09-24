@@ -1053,7 +1053,7 @@ namespace MissionPlanner.GCSViews
                         else
                         {
                             //Console.WriteLine("Null Binding");
-                            MainV2.comPort.MAV.cs.UpdateCurrentSettings(null);
+                            MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSourceHud);
                         }
                         lastscreenupdate = DateTime.Now;
 
@@ -2890,7 +2890,7 @@ print 'Roll complete'
         private void setHomeHereToolStripMenuItem_Click(object sender, EventArgs e)
         {
             CustomMessageBox.Show("Not implemented yet");
-
+            return;
             MainV2.comPort.getWP(0);
 
             //MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_HOME, 0, 0, 0, 0, gotolocation.Lat, gotolocation.Lng, 0);

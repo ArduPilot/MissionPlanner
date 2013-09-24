@@ -813,7 +813,8 @@ namespace MissionPlanner
             }
             catch { }
 
-            fbd.ShowDialog();
+            if (fbd.ShowDialog() != System.Windows.Forms.DialogResult.OK)
+                return;
 
             if (fbd.SelectedPath != "") {
 
@@ -830,6 +831,9 @@ namespace MissionPlanner
                     Regex reg = new Regex(@"Z([0-9]+)\\([0-9]+)\\([0-9]+)");
 
                     Match mat = reg.Match(file);
+
+                    if (mat.Success == false)
+                        continue;
 
                     int temp = 1 << int.Parse(mat.Groups[1].Value);
 

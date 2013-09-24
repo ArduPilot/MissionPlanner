@@ -38,8 +38,8 @@ namespace TrackerHomeGPS
 
     public abstract class GPSDevice : Device
     {
-        public event EventHandler GPSAvailable;
-        public event EventHandler GPSUnavailable;
+        //public event EventHandler GPSAvailable;
+        //public event EventHandler GPSUnavailable;
 
         public abstract GPSPosition GetCoordinates();
         public abstract bool IsAvailable();

@@ -117,6 +117,11 @@ namespace MissionPlanner
             layerpolygons.Polygons.Clear();
             layerpolygons.Markers.Clear();
 
+            if (grid.Count == 0)
+            {
+                return;
+            }
+
             if (chk_boundary.Checked)
                 AddDrawPolygon();
 

@@ -59,22 +59,11 @@ namespace MissionPlanner.Controls
                     }                    
                 }
 
-                if (this.Visible && ThisReallyVisible())
+                if (this.Visible && this.ThisReallyVisible())
                     this.Invalidate();
             }
         }
 
-        /// <summary>
-        /// this is to fix a mono off screen drawing issue
-        /// </summary>
-        /// <returns></returns>
-        public bool ThisReallyVisible()
-        {
-        //    if (Parent != null)
-         //       return this.Bounds.IntersectsWith(Parent.ClientRectangle);
-
-            return true;
-        }
 
         public override void Refresh()
         {

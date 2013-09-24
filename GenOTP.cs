@@ -10,6 +10,8 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Windows.Forms;
+using MissionPlanner.Comms;
+using px4uploader;
 
 namespace MissionPlanner
 {
@@ -25,6 +27,12 @@ namespace MissionPlanner
             if (txtboardsn.Text.Length != 24)
             {
                 CustomMessageBox.Show("SN invalid length (should be 24 chars)");
+                return;
+            }
+
+            if (!File.Exists(fileBrowsePrivateKey.filename))
+            {
+                CustomMessageBox.Show("Private key files doesnt exist");
                 return;
             }
 
@@ -338,6 +346,68 @@ namespace MissionPlanner
             public int size_DP = -1;
             public int size_DQ = -1;
             public int size_InvQ = -1;
+        }
+
+        private void BUT_sn_Click(object sender, EventArgs e)
+        {
+            px4uploader.Uploader up;
+
+            CustomMessageBox.Show("Please unplug press ok, and plug board in","px4");
+
+            DateTime DEADLINE = DateTime.Now.AddSeconds(30);
+            while (DateTime.Now < DEADLINE)
+            {
+                string[] allports = SerialPort.GetPortNames();
+
+                foreach (string port in allports)
+                {
+
+                    Console.WriteLine(DateTime.Now.Millisecond + " Trying Port " + port);
+
+                    try
+                    {
+                        up = new Uploader(port, 115200);
+                    }
+                    catch (Exception ex)
+                    {
+                        //System.Threading.Thread.Sleep(50);
+                        Console.WriteLine(ex.Message);
+                        continue;
+                    }
+
+                    try
+                    {
+                        up.identify();
+                        Console.WriteLine("Found board type {0} boardrev {1} bl rev {2} fwmax {3} on {4}", up.board_type, up.board_rev, up.bl_rev, up.fw_maxsize, port);
+
+                        byte[] sn = up.__get_sn();
+
+                        StringBuilder sb = new StringBuilder();
+
+                       Console.Write("SN: ");
+                    for (int s = 0; s < sn.Length; s += 1)
+                    {
+                        Console.Write(sn[s].ToString("X2"));
+                        sb.Append(sn[s].ToString("X2"));
+                    }
+
+                    txtboardsn.Text = sb.ToString();
+
+                    up.close();
+
+                    CustomMessageBox.Show("Done");
+                    return;
+                    }
+                    catch (Exception)
+                    {
+                        Console.WriteLine("Not There..");
+                        //Console.WriteLine(ex.Message);
+                        up.close();
+                        continue;
+                    }
+
+                }
+            }
         }
     }
 

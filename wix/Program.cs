@@ -127,7 +127,7 @@ namespace wix
 
             st.WriteLine(@"""%wix%\bin\light"" installer.wixobj ""%wix%\bin\difxapp_x86.wixlib"" -o MissionPlanner-" + fvi.FileVersion + ".msi -ext WiXNetFxExtension -ext WixDifxAppExtension -ext WixUIExtension.dll -ext WixUtilExtension -ext WixIisExtension");
 
-            st.WriteLine(@"""C:\Program Files\7-Zip\7z.exe"" a -tzip -xr!*.log -xr!ArdupilotPlanner.log* -xr!*.zip -xr!ParameterMetaData.xml -xr!*.etag -xr!*.rlog -xr!*.tlog -xr!config.xml -xr!gmapcache -xr!eeprom.bin -xr!dataflash.bin -xr!*.new " + fn + @".zip ..\bin\release\*");
+            st.WriteLine(@"""C:\Program Files\7-Zip\7z.exe"" a -tzip -xr!*.log -xr!ArdupilotPlanner.log* -xr!*.zip -xr!stats.xml -xr!ParameterMetaData.xml -xr!*.etag -xr!*.rlog -xr!*.tlog -xr!config.xml -xr!gmapcache -xr!eeprom.bin -xr!dataflash.bin -xr!*.new " + fn + @".zip ..\bin\release\*");
 
             st.WriteLine("pause");
 
@@ -193,12 +193,13 @@ namespace wix
 
 <Upgrade Id=""{625389D7-EB3C-4d77-A5F6-A285CF99437D}"">
     <UpgradeVersion OnlyDetect=""yes"" Minimum=""" + version + @""" Property=""NEWERVERSIONDETECTED"" IncludeMinimum=""no"" />
-    <UpgradeVersion OnlyDetect=""no"" Maximum=""" + version + @""" Property=""OLDERVERSIONBEINGUPGRADED"" IncludeMaximum=""no"" />
+    <UpgradeVersion OnlyDetect=""no"" Minimum=""0.0.0"" Maximum=""" + version + @""" Property=""OLDERVERSIONBEINGUPGRADED"" IncludeMinimum=""yes"" IncludeMaximum=""yes"" />
 </Upgrade>
 
 <InstallExecuteSequence>
     <RemoveExistingProducts After=""InstallInitialize"" />
 </InstallExecuteSequence>
+
 
         <PropertyRef Id=""NETFRAMEWORK35"" />
 
@@ -227,7 +228,7 @@ namespace wix
                             <File Id=""dpix86"" Source=""..\Driver\DPInstx86.exe"" />
                             <File Id=""px4cat"" Source=""..\Driver\px4fmu.cat"" />
                             <File Id=""px4inf"" Source=""..\Driver\px4fmu.inf"" />
-                            
+
                             <iis:Certificate Id=""rootcert"" StoreLocation=""localMachine"" StoreName=""root"" Overwrite='yes' BinaryKey='signedcer' Request=""no"" Name='Michael Oborne' />
                         </Component>
                     </Directory>
@@ -241,6 +242,8 @@ namespace wix
             </Directory>
 
         </Directory>
+
+
 
 <Binary Id=""signedcer""  SourceFile=""..\Driver\signed.cer"" />
   
@@ -258,16 +261,17 @@ namespace wix
 
 
         <DirectoryRef Id=""ApplicationProgramsFolder"">
-            <Component Id=""ApplicationShortcut"" Guid=""{8BC628BA-08A0-43d6-88C8-D4C007AC4607}"">
-                <Shortcut Id=""ApplicationStartMenuShortcut10"" Name=""Mission Planner Mav 1.0"" Description=""Mission Planner"" Target=""[MissionPlanner]MissionPlanner.exe"" WorkingDirectory=""MissionPlanner"" />
-                <RemoveFolder Id=""ApplicationProgramsFolder"" On=""uninstall"" />
+            <Component Id=""ApplicationShortcut"" Guid=""*"">
+                <Shortcut Id=""ApplicationStartMenuShortcut10"" Name=""Mission Planner"" Description=""Mission Planner"" Target=""[MissionPlanner]MissionPlanner.exe"" WorkingDirectory=""MissionPlanner"" />
                 <Shortcut Id=""UninstallProduct"" Name=""Uninstall Mission Planner"" Description=""Uninstalls My Application"" Target=""[System64Folder]msiexec.exe"" Arguments=""/x [ProductCode]"" />
                 <RegistryValue Root=""HKCU"" Key=""Software\MichaelOborne\MissionPlanner"" Name=""installed"" Type=""integer"" Value=""1"" KeyPath=""yes"" />
+
+                <RemoveFolder Id=""dltApplicationProgramsFolder"" Directory=""ApplicationProgramsFolder"" On=""uninstall"" />
             </Component>
         </DirectoryRef>
 
 
-        <Feature Id=""MyFeature"" Title=""My 1st Feature"" Level=""1"">
+        <Feature Id=""Complete"" Title=""Mission Planner"" Level=""1"">
             <ComponentRef Id=""InstallDirPermissions"" />
 ";
             sw.WriteLine(data);
@@ -285,6 +289,8 @@ data = @"
         
             <!-- Step 2: Add UI to your installer / Step 4: Trigger the custom action -->
     <Property Id=""WIXUI_INSTALLDIR"" Value=""MissionPlanner"" />
+
+<WixVariable Id=""WixUILicenseRtf"" Value=""licence.rtf"" />
 
     <UI>
         <UIRef Id=""WixUI_InstallDir"" />
@@ -319,8 +325,8 @@ data = @"
 
             no++;
 
-            sw.WriteLine("<Component Id=\"_comp"+no+"\" Guid=\""+ System.Guid.NewGuid().ToString() +"\">");
-            components.Add("_comp"+no);
+            sw.WriteLine("<Component Id=\""+fixname(Path.GetFileName(path)) +"_"+no+"\" Guid=\""+ System.Guid.NewGuid().ToString() +"\">");
+            components.Add(fixname(Path.GetFileName(path)) + "_" + no);
 
             foreach (string filepath in files)
             {
@@ -338,7 +344,7 @@ data = @"
                     sw.WriteLine("<File Id=\"_" + no + "\" Source=\"" + filepath + "\" ><netfx:NativeImage Id=\"ngen_MissionPlannerexe\"/> </File>");
 
                 } else {
-                    sw.WriteLine("<File Id=\"_" + no + "\" Source=\"" + filepath + "\" />");
+                    sw.WriteLine("<File Id=\"" + fixname(Path.GetFileName(filepath))+ "_" + no + "\" Source=\"" + filepath + "\" />");
                 }
             }
 
@@ -360,6 +366,7 @@ data = @"
             name = name.Replace("-", "_");
             name = name.Replace(" ", "_");
             name = name.Replace(" ", "_");
+            name = name.Replace(".", "_");
 
             return name;
         }

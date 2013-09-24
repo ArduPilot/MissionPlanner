@@ -882,7 +882,7 @@ enum gcs_severity {
                         rxerrors = radio.rxerrors;
                         noise = radio.noise;
                         remnoise = radio.remnoise;
-                        fixedp = radio.fixedp;
+                        fixedp = radio.@fixed;
                     }
 
                     bytearray = mavinterface.MAV.packets[MAVLink.MAVLINK_MSG_ID_GLOBAL_POSITION_INT];

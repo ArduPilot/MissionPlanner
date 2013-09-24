@@ -16,7 +16,6 @@ using log4net;
 using MissionPlanner.Comms;
 using MissionPlanner.Utilities;
 using System.Windows.Forms;
-using MissionPlanner.Utilities;
 
 namespace MissionPlanner
 {
@@ -2786,7 +2785,7 @@ Please check the following
         {
             switch (MAV.apname)
             {
-                case MAV_AUTOPILOT.MissionPlanner:
+                case MAV_AUTOPILOT.ARDUPILOTMEGA:
                     switch (MAV.aptype)
                     {
                         case MAVLink.MAV_TYPE.FIXED_WING:

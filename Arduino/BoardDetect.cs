@@ -174,29 +174,6 @@ namespace MissionPlanner.Arduino
                             log.Info("is a 2560");
                             return boards.b2560;
                         }
-                        else
-                        {
-                            if (DialogResult.Yes == CustomMessageBox.Show("Is this a APM 2+?", "APM 2+", MessageBoxButtons.YesNo))
-                            {
-                                return boards.b2560v2;
-                            }
-                            else
-                            {
-                                if (DialogResult.Yes == CustomMessageBox.Show("Is this a PX4?", "PX4", MessageBoxButtons.YesNo))
-                                {
-                                    if (DialogResult.Yes == CustomMessageBox.Show("Is this a PIXHAWK?", "PIXHAWK", MessageBoxButtons.YesNo))
-                                    {
-                                        return boards.px4v2;
-                                    }
-                                    return boards.px4;
-                                }
-                                else
-                                {
-                                    return boards.b2560;
-                                }
-                            }
-                        }
-
                     }
                 }
                 catch { }
@@ -205,7 +182,25 @@ namespace MissionPlanner.Arduino
             serialPort.Close();
             log.Warn("Not a 2560");
 
-
+            if (DialogResult.Yes == CustomMessageBox.Show("Is this a APM 2+?", "APM 2+", MessageBoxButtons.YesNo))
+            {
+                return boards.b2560v2;
+            }
+            else
+            {
+                if (DialogResult.Yes == CustomMessageBox.Show("Is this a PX4/PIXHAWK?", "PX4/PIXHAWK", MessageBoxButtons.YesNo))
+                {
+                    if (DialogResult.Yes == CustomMessageBox.Show("Is this a PIXHAWK?", "PIXHAWK", MessageBoxButtons.YesNo))
+                    {
+                        return boards.px4v2;
+                    }
+                    return boards.px4;
+                }
+                else
+                {
+                    return boards.b2560;
+                }
+            }
 
             return boards.none;
         }

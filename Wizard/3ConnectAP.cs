@@ -83,9 +83,13 @@ namespace MissionPlanner.Wizard
         {
             comport = CMB_port.Text;
 
-            pdr = new ProgressReporterDialogue();
+            if (comport == "")
+            {
+                CustomMessageBox.Show("Please select a comport","error");
+                return 0;
+            }
 
-            pdr.DoWork -= pdr_DoWork;
+            pdr = new ProgressReporterDialogue();
 
             pdr.DoWork += pdr_DoWork;
 
@@ -93,8 +97,15 @@ namespace MissionPlanner.Wizard
 
             pdr.RunBackgroundOperationAsync();
 
-            MainV2.comPort.BaseStream.BaudRate = 115200;
-            MainV2.comPort.BaseStream.PortName = comport;
+            if (pdr.doWorkArgs.CancelRequested || pdr.doWorkArgs.ErrorMessage != "")
+                return 0;
+
+            if (!MainV2.comPort.BaseStream.IsOpen)
+                MainV2.comPort.BaseStream.Close();
+            
+                MainV2.comPort.BaseStream.BaudRate = 115200;
+                MainV2.comPort.BaseStream.PortName = comport;
+            
 
             MainV2.comPort.Open(true);
 
@@ -142,7 +153,11 @@ namespace MissionPlanner.Wizard
             string target = Wizard.config["fwframe"].ToString();
             bool fwdone = false;
 
-           
+            if (e.CancelRequested)
+            {
+                e.CancelAcknowledged = true;
+                return;
+            }
             
             foreach (var sw in swlist)
             {

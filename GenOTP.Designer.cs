@@ -29,18 +29,19 @@
         private void InitializeComponent()
         {
             this.txtboardsn = new System.Windows.Forms.TextBox();
-            this.myLabel3 = new Controls.MyLabel();
+            this.myLabel3 = new MissionPlanner.Controls.MyLabel();
             this.fileBrowseOtpbin = new MissionPlanner.Controls.FileBrowse();
-            this.BUT_makeotp = new Controls.MyButton();
-            this.myLabel2 = new Controls.MyLabel();
-            this.myLabel1 = new Controls.MyLabel();
+            this.BUT_makeotp = new MissionPlanner.Controls.MyButton();
+            this.myLabel2 = new MissionPlanner.Controls.MyLabel();
+            this.myLabel1 = new MissionPlanner.Controls.MyLabel();
             this.fileBrowsePrivateKey = new MissionPlanner.Controls.FileBrowse();
-            this.myLabel4 = new Controls.MyLabel();
+            this.myLabel4 = new MissionPlanner.Controls.MyLabel();
             this.txt_vid = new System.Windows.Forms.TextBox();
-            this.myLabel5 = new Controls.MyLabel();
+            this.myLabel5 = new MissionPlanner.Controls.MyLabel();
             this.txt_pid = new System.Windows.Forms.TextBox();
-            this.myLabel6 = new Controls.MyLabel();
+            this.myLabel6 = new MissionPlanner.Controls.MyLabel();
             this.txt_id = new System.Windows.Forms.TextBox();
+            this.BUT_sn = new MissionPlanner.Controls.MyButton();
             this.SuspendLayout();
             // 
             // txtboardsn
@@ -164,11 +165,22 @@
             this.txt_id.Text = "0";
             this.txt_id.Visible = false;
             // 
+            // BUT_sn
+            // 
+            this.BUT_sn.Location = new System.Drawing.Point(487, 57);
+            this.BUT_sn.Name = "BUT_sn";
+            this.BUT_sn.Size = new System.Drawing.Size(75, 23);
+            this.BUT_sn.TabIndex = 13;
+            this.BUT_sn.Text = "Get SN";
+            this.BUT_sn.UseVisualStyleBackColor = true;
+            this.BUT_sn.Click += new System.EventHandler(this.BUT_sn_Click);
+            // 
             // GenOTP
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(574, 315);
+            this.Controls.Add(this.BUT_sn);
             this.Controls.Add(this.myLabel6);
             this.Controls.Add(this.txt_id);
             this.Controls.Add(this.myLabel5);
@@ -204,5 +216,6 @@
         private System.Windows.Forms.TextBox txt_pid;
         private Controls.MyLabel myLabel6;
         private System.Windows.Forms.TextBox txt_id;
+        private Controls.MyButton BUT_sn;
     }
 }

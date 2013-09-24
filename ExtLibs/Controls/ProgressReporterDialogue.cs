@@ -95,15 +95,22 @@ namespace MissionPlanner.Controls
             // stop the timer
             timer1.Stop();
             // run once more to do final message and progressbar
-            if (this.IsDisposed || this.Disposing)
+            if (this.IsDisposed || this.Disposing || !this.IsHandleCreated)
             {
                 return;
             }
 
-            this.Invoke((MethodInvoker)delegate
+            try
             {
-                timer1_Tick(null, null);
-            });
+                this.Invoke((MethodInvoker)delegate
+                {
+                    timer1_Tick(null, null);
+                });
+            }
+            catch { 
+                Running = false; 
+                return;
+            }
 
             if (doWorkArgs.CancelRequested && doWorkArgs.CancelAcknowledged)
             {
@@ -172,6 +179,9 @@ namespace MissionPlanner.Controls
         private void ShowDoneWithError(Exception exception, string doWorkArgs)
         {
             var errMessage = doWorkArgs ?? "There was an unexpected error";
+
+            if (this.Disposing || this.IsDisposed)
+                return;
             
             if (this.InvokeRequired)
             {

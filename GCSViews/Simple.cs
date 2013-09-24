@@ -22,8 +22,6 @@ using MissionPlanner.Controls.BackstageView;
 //using Crom.Controls.Docking;
 using log4net;
 using System.Reflection;
-using MissionPlanner.Controls;
-using MissionPlanner.Utilities;
 
 // written by michael oborne
 namespace MissionPlanner.GCSViews

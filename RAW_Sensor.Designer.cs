@@ -37,24 +37,24 @@ namespace MissionPlanner
             this.tabRadio = new System.Windows.Forms.TabPage();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.horizontalProgressBar9 = new HorizontalProgressBar();
-            this.horizontalProgressBar10 = new HorizontalProgressBar();
-            this.horizontalProgressBar11 = new HorizontalProgressBar();
-            this.horizontalProgressBar12 = new HorizontalProgressBar();
-            this.horizontalProgressBar13 = new HorizontalProgressBar();
-            this.horizontalProgressBar14 = new HorizontalProgressBar();
-            this.horizontalProgressBar15 = new HorizontalProgressBar();
-            this.horizontalProgressBar16 = new HorizontalProgressBar();
-            this.horizontalProgressBar8 = new HorizontalProgressBar();
-            this.horizontalProgressBar7 = new HorizontalProgressBar();
-            this.horizontalProgressBar6 = new HorizontalProgressBar();
-            this.horizontalProgressBar5 = new HorizontalProgressBar();
-            this.horizontalProgressBar4 = new HorizontalProgressBar();
-            this.horizontalProgressBar3 = new HorizontalProgressBar();
-            this.horizontalProgressBar2 = new HorizontalProgressBar();
-            this.horizontalProgressBar1 = new HorizontalProgressBar();
+            this.horizontalProgressBar9 = new MissionPlanner.Controls.HorizontalProgressBar();
+            this.horizontalProgressBar10 = new MissionPlanner.Controls.HorizontalProgressBar();
+            this.horizontalProgressBar11 = new MissionPlanner.Controls.HorizontalProgressBar();
+            this.horizontalProgressBar12 = new MissionPlanner.Controls.HorizontalProgressBar();
+            this.horizontalProgressBar13 = new MissionPlanner.Controls.HorizontalProgressBar();
+            this.horizontalProgressBar14 = new MissionPlanner.Controls.HorizontalProgressBar();
+            this.horizontalProgressBar15 = new MissionPlanner.Controls.HorizontalProgressBar();
+            this.horizontalProgressBar16 = new MissionPlanner.Controls.HorizontalProgressBar();
+            this.horizontalProgressBar8 = new MissionPlanner.Controls.HorizontalProgressBar();
+            this.horizontalProgressBar7 = new MissionPlanner.Controls.HorizontalProgressBar();
+            this.horizontalProgressBar6 = new MissionPlanner.Controls.HorizontalProgressBar();
+            this.horizontalProgressBar5 = new MissionPlanner.Controls.HorizontalProgressBar();
+            this.horizontalProgressBar4 = new MissionPlanner.Controls.HorizontalProgressBar();
+            this.horizontalProgressBar3 = new MissionPlanner.Controls.HorizontalProgressBar();
+            this.horizontalProgressBar2 = new MissionPlanner.Controls.HorizontalProgressBar();
+            this.horizontalProgressBar1 = new MissionPlanner.Controls.HorizontalProgressBar();
             this.tabRawSensor = new System.Windows.Forms.TabPage();
-            this.BUT_savecsv = new Controls.MyButton();
+            this.BUT_savecsv = new MissionPlanner.Controls.MyButton();
             this.label3 = new System.Windows.Forms.Label();
             this.CMB_rawupdaterate = new System.Windows.Forms.ComboBox();
             this.aGauge1 = new AGaugeApp.AGauge();
@@ -68,16 +68,16 @@ namespace MissionPlanner
             this.Gpitch = new AGaugeApp.AGauge();
             this.Groll = new AGaugeApp.AGauge();
             this.tabOrientation = new System.Windows.Forms.TabPage();
-            this.horizontalProgressBar17 = new VerticalProgressBar();
-            this.verticalProgressBar7 = new VerticalProgressBar();
-            this.verticalProgressBar6 = new VerticalProgressBar();
-            this.verticalProgressBar5 = new VerticalProgressBar();
-            this.verticalProgressBar4 = new VerticalProgressBar();
-            this.progressBar2 = new VerticalProgressBar();
-            this.progressBar1 = new VerticalProgressBar();
-            this.verticalProgressBar3 = new VerticalProgressBar();
-            this.verticalProgressBar2 = new VerticalProgressBar();
-            this.verticalProgressBar1 = new VerticalProgressBar();
+            this.horizontalProgressBar17 = new MissionPlanner.Controls.VerticalProgressBar();
+            this.verticalProgressBar7 = new MissionPlanner.Controls.VerticalProgressBar();
+            this.verticalProgressBar6 = new MissionPlanner.Controls.VerticalProgressBar();
+            this.verticalProgressBar5 = new MissionPlanner.Controls.VerticalProgressBar();
+            this.verticalProgressBar4 = new MissionPlanner.Controls.VerticalProgressBar();
+            this.progressBar2 = new MissionPlanner.Controls.VerticalProgressBar();
+            this.progressBar1 = new MissionPlanner.Controls.VerticalProgressBar();
+            this.verticalProgressBar3 = new MissionPlanner.Controls.VerticalProgressBar();
+            this.verticalProgressBar2 = new MissionPlanner.Controls.VerticalProgressBar();
+            this.verticalProgressBar1 = new MissionPlanner.Controls.VerticalProgressBar();
             this.tabControl = new System.Windows.Forms.TabControl();
             ((System.ComponentModel.ISupportInitialize)(this.currentStateBindingSource)).BeginInit();
             this.tabRadio.SuspendLayout();
@@ -410,7 +410,6 @@ namespace MissionPlanner
             this.aGauge1.BaseArcStart = 270;
             this.aGauge1.BaseArcSweep = 360;
             this.aGauge1.BaseArcWidth = 2;
-            this.aGauge1.basesize = new System.Drawing.Size(170, 170);
             this.aGauge1.Cap_Idx = ((byte)(2));
             this.aGauge1.CapColor = System.Drawing.Color.White;
             this.aGauge1.CapColors = new System.Drawing.Color[] {
@@ -433,7 +432,7 @@ namespace MissionPlanner
         "",
         ""};
             this.aGauge1.CapText = "";
-            this.aGauge1.Center = new System.Drawing.Point(85, 85);
+            this.aGauge1.Center = new System.Drawing.Point(75, 75);
             this.aGauge1.DataBindings.Add(new System.Windows.Forms.Binding("Value0", this.currentStateBindingSource, "yaw", true, System.Windows.Forms.DataSourceUpdateMode.Never, "0"));
             this.aGauge1.MaxValue = 359F;
             this.aGauge1.MinValue = 0F;
@@ -615,7 +614,6 @@ namespace MissionPlanner
             this.Gpitch.BaseArcStart = 90;
             this.Gpitch.BaseArcSweep = 360;
             this.Gpitch.BaseArcWidth = 2;
-            this.Gpitch.basesize = new System.Drawing.Size(170, 170);
             this.Gpitch.Cap_Idx = ((byte)(2));
             this.Gpitch.CapColor = System.Drawing.Color.White;
             this.Gpitch.CapColors = new System.Drawing.Color[] {
@@ -638,7 +636,7 @@ namespace MissionPlanner
         "",
         ""};
             this.Gpitch.CapText = "";
-            this.Gpitch.Center = new System.Drawing.Point(85, 85);
+            this.Gpitch.Center = new System.Drawing.Point(75, 75);
             this.Gpitch.DataBindings.Add(new System.Windows.Forms.Binding("Value0", this.currentStateBindingSource, "pitch", true, System.Windows.Forms.DataSourceUpdateMode.Never, "0"));
             this.Gpitch.MaxValue = 89F;
             this.Gpitch.MinValue = -90F;
@@ -759,7 +757,6 @@ namespace MissionPlanner
             this.Groll.BaseArcStart = 90;
             this.Groll.BaseArcSweep = 360;
             this.Groll.BaseArcWidth = 2;
-            this.Groll.basesize = new System.Drawing.Size(170, 170);
             this.Groll.Cap_Idx = ((byte)(2));
             this.Groll.CapColor = System.Drawing.Color.White;
             this.Groll.CapColors = new System.Drawing.Color[] {
@@ -782,7 +779,7 @@ namespace MissionPlanner
         "",
         ""};
             this.Groll.CapText = "";
-            this.Groll.Center = new System.Drawing.Point(85, 85);
+            this.Groll.Center = new System.Drawing.Point(75, 75);
             this.Groll.DataBindings.Add(new System.Windows.Forms.Binding("Value0", this.currentStateBindingSource, "roll", true, System.Windows.Forms.DataSourceUpdateMode.Never, "0"));
             this.Groll.MaxValue = 179F;
             this.Groll.MinValue = -180F;

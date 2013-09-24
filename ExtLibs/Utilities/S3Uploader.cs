@@ -54,9 +54,10 @@ namespace MissionPlanner.Utilities
             {
                 transferUtility.EndUpload(result);
             }
-            catch (ArgumentException ex) { throw new Exception("Error bad argument\n\n " + ex.ToString());  }
-            catch (WebException ex) { throw new Exception("Error communicating with server\n\n" + ex.ToString());  }
-            catch (AmazonS3Exception ex) { throw new Exception("Error accessing amazon\n\n" + ex.ToString());  }
+            catch (ArgumentException ex) { throw new Exception("Error bad argument\n\n " + ex.ToString()); }
+            catch (WebException ex) { throw new Exception("Error communicating with server\n\n" + ex.ToString()); }
+            catch (AmazonS3Exception ex) { throw new Exception("Error accessing amazon\n\n" + ex.ToString()); }
+            catch (Exception ex) { throw new Exception("Error General Error\n\n" + ex.ToString()); }
 
             Progress = 100;
             var x = result;

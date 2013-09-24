@@ -27,9 +27,7 @@ using MissionPlanner.Controls.BackstageView;
 using ProjNet.CoordinateSystems.Transformations;
 using ProjNet.CoordinateSystems;
 using ProjNet.Converters;
-using MissionPlanner.Controls;
 using System.Xml.XPath;
-using MissionPlanner.Utilities;
 using com.codec.jpeg;
 using MissionPlanner;
 
@@ -3150,8 +3148,12 @@ namespace MissionPlanner.GCSViews
 
             for (int a = 0; a < count; a++)
             {
-                PointLatLngAlt plla = MainV2.comPort.getFencePoint(a, ref count);
-                geofencepolygon.Points.Add(new PointLatLng(plla.Lat, plla.Lng));
+                try
+                {
+                    PointLatLngAlt plla = MainV2.comPort.getFencePoint(a, ref count);
+                    geofencepolygon.Points.Add(new PointLatLng(plla.Lat, plla.Lng));
+                }
+                catch { CustomMessageBox.Show("Failed to get fence point", "Error"); return; }
             }
 
             // do return location
@@ -3412,6 +3414,12 @@ namespace MissionPlanner.GCSViews
             updateHome();
 
             setWPParams();
+
+            try
+            {
+                int.Parse(TXT_DefaultAlt.Text);
+            }
+            catch { CustomMessageBox.Show("Please fix your default alt value"); }
         }
 
         public void updateHome()

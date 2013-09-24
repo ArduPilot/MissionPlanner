@@ -632,7 +632,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.Gservoloc.BaseArcStart = 90;
             this.Gservoloc.BaseArcSweep = 360;
             this.Gservoloc.BaseArcWidth = 2;
-            this.Gservoloc.basesize = new System.Drawing.Size(150, 150);
             this.Gservoloc.Cap_Idx = ((byte)(0));
             this.Gservoloc.CapColor = System.Drawing.Color.White;
             this.Gservoloc.CapColors = new System.Drawing.Color[] {

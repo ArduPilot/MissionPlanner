@@ -75,7 +75,7 @@ namespace MissionPlanner.Controls
 
         protected override void OnInvalidated(InvalidateEventArgs e)
         {
-            if (this.Visible)
+            if (this.Visible && this.ThisReallyVisible())
                 base.OnInvalidated(e);
         }
 

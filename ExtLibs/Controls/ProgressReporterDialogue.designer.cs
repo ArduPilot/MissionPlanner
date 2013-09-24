@@ -124,7 +124,7 @@ namespace MissionPlanner.Controls
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.lblProgressMessage);
             this.Controls.Add(this.progressBar1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ProgressReporterDialogue";

@@ -1,4 +1,16 @@
-﻿* Mission Planner 1.2.79
+﻿* Mission Planner 1.2.80
+exception fixs
+fix mono menu bar color
+fix wizard connect screen - better error handling
+add default_alt checking
+fix stats file close
+fix mono board detection for px4/pixhawk
+add thisreallyvisible for mono
+add back hud updates in background
+show beta updates as beta
+tweak msi installer
+
+* Mission Planner 1.2.79
 dpinst tweaks
 enable doublebuffer on coords display
 fix progressdialog fontscaling and exception

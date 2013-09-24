@@ -29,7 +29,6 @@ using ZedGraph; // Graphs
 using MissionPlanner.Utilities;
 
 using System.CodeDom.Compiler;
-using MissionPlanner.Utilities;
 using MissionPlanner;
 
 namespace MissionPlanner

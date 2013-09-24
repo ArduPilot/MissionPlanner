@@ -580,7 +580,11 @@ namespace MissionPlanner
             }
             catch { }
 
-            newManager = new AviManager(System.IO.Path.GetDirectoryName(txtAviFileName.Text) + System.IO.Path.DirectorySeparatorChar + System.IO.Path.GetFileNameWithoutExtension(txtAviFileName.Text) + "-overlay.avi", false);
+            try
+            {
+                newManager = new AviManager(System.IO.Path.GetDirectoryName(txtAviFileName.Text) + System.IO.Path.DirectorySeparatorChar + System.IO.Path.GetFileNameWithoutExtension(txtAviFileName.Text) + "-overlay.avi", false);
+            }
+            catch { CustomMessageBox.Show("bad filename","error"); return; }
 
 
             //newManager.Close();

@@ -51,6 +51,8 @@ namespace MissionPlanner.Stats
                     var file = new System.IO.StreamReader(statsfile);
 
                     statsoverall = (whattostat)reader.Deserialize(file);
+
+                    file.Close();
                 }
                 catch { }
             }

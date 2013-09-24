@@ -161,7 +161,12 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
 
             if (updateFound)
             {
-                var dr = CustomMessageBox.Show("Update Found\n\nDo you wish to update now? [link;http://firmware.diydrones.com/Tools/MissionPlanner/upgrade/ChangeLog.txt;ChangeLog]", "Update Now", MessageBoxButtons.YesNo);
+                string extra = "";
+
+                if (dobeta)
+                    extra = "BETA ";
+
+                var dr = CustomMessageBox.Show(extra + "Update Found\n\nDo you wish to update now? [link;" + baseurl + "/ChangeLog.txt;ChangeLog]", "Update Now", MessageBoxButtons.YesNo);
                 if (dr == DialogResult.Yes)
                 {
                     DoUpdate();

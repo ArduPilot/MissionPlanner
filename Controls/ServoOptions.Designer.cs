@@ -29,11 +29,11 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.BUT_Low = new Controls.MyButton();
-            this.BUT_High = new Controls.MyButton();
+            this.BUT_Low = new MissionPlanner.Controls.MyButton();
+            this.BUT_High = new MissionPlanner.Controls.MyButton();
             this.TXT_pwm_low = new System.Windows.Forms.TextBox();
             this.TXT_pwm_high = new System.Windows.Forms.TextBox();
-            this.BUT_Repeat = new Controls.MyButton();
+            this.BUT_Repeat = new MissionPlanner.Controls.MyButton();
             this.TXT_rcchannel = new System.Windows.Forms.Label();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.renameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -116,12 +116,12 @@
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.renameToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(153, 48);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(118, 26);
             // 
             // renameToolStripMenuItem
             // 
             this.renameToolStripMenuItem.Name = "renameToolStripMenuItem";
-            this.renameToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.renameToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
             this.renameToolStripMenuItem.Text = "Rename";
             this.renameToolStripMenuItem.Click += new System.EventHandler(this.renameToolStripMenuItem_Click);
             // 
@@ -136,7 +136,7 @@
             this.Controls.Add(this.BUT_High);
             this.Controls.Add(this.BUT_Low);
             this.Name = "ServoOptions";
-            this.Size = new System.Drawing.Size(278, 24);
+            this.Size = new System.Drawing.Size(295, 24);
             this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
