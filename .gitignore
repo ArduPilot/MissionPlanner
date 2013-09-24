@@ -3,3 +3,4 @@
 *.user
 bin/
 obj/
+/Mavlink/*.pyc
