@@ -7,7 +7,6 @@ using log4net;
 using System.Globalization;
 using MissionPlanner.Comms;
 using MissionPlanner.Utilities;
-using MissionPlanner.Utilities;
 
 namespace MissionPlanner.Arduino
 {

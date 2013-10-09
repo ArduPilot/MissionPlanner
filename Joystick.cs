@@ -117,7 +117,7 @@ namespace MissionPlanner
 
             joystick.Acquire();
 
-            System.Windows.Forms.CustomMessageBox.Show("Please ensure you have calibrated your joystick in Windows first");
+            CustomMessageBox.Show("Please ensure you have calibrated your joystick in Windows first");
 
             joystick.Poll();
 
@@ -133,7 +133,7 @@ namespace MissionPlanner
             values["Slider1"] = obj.GetSlider()[0];
             values["Slider2"] = obj.GetSlider()[1];
 
-            System.Windows.Forms.CustomMessageBox.Show("Please move the joystick axis you want assigned to this function after clicking ok");
+            CustomMessageBox.Show("Please move the joystick axis you want assigned to this function after clicking ok");
 
             DateTime start = DateTime.Now;
 
@@ -178,7 +178,7 @@ namespace MissionPlanner
                 }
             }
 
-            System.Windows.Forms.CustomMessageBox.Show("No valid option was detected");
+            CustomMessageBox.Show("No valid option was detected");
             
             return joystickaxis.None;
         }
@@ -210,7 +210,7 @@ namespace MissionPlanner
 
             joystick.Poll();
 
-            System.Windows.Forms.CustomMessageBox.Show("Please press the joystick button you want assigned to this function after clicking ok");
+            CustomMessageBox.Show("Please press the joystick button you want assigned to this function after clicking ok");
 
             DateTime start = DateTime.Now;
 
@@ -228,7 +228,7 @@ namespace MissionPlanner
                 }
             }
 
-            System.Windows.Forms.CustomMessageBox.Show("No valid option was detected");
+            CustomMessageBox.Show("No valid option was detected");
 
             return -1;
         }
@@ -341,7 +341,7 @@ namespace MissionPlanner
                                     MainV2.comPort.setMode(mode); 
 
                                 }
-                                catch { System.Windows.Forms.CustomMessageBox.Show("Failed to change Modes"); }
+                                catch { CustomMessageBox.Show("Failed to change Modes"); }
                             });
                         }
                     }

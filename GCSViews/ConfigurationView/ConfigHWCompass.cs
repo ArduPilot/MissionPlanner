@@ -8,7 +8,6 @@ using System.Text;
 using System.Windows.Forms;
 using MissionPlanner.Controls.BackstageView;
 using MissionPlanner.Controls;
-using MissionPlanner.Controls;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
@@ -275,10 +274,18 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 CMB_compass_orient.SelectedIndex = (int)Common.Rotation.ROTATION_ROLL_180;
                 MainV2.comPort.setParam("COMPASS_EXTERNAL",1);
             }
-            if (radioButtonpx4.Checked)
+            if (rb_px4pixhawk.Checked)
             {
-                CMB_compass_orient.SelectedIndex = (int)Common.Rotation.ROTATION_ROLL_180;
-                MainV2.comPort.setParam("COMPASS_EXTERNAL", 0);
+                if (CustomMessageBox.Show("is the FW version greater than APM:copter 3.01 or APM:Plane 2.74?", "", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    CMB_compass_orient.SelectedIndex = (int)Common.Rotation.ROTATION_NONE;
+                }
+                else
+                {
+                    CMB_compass_orient.SelectedIndex = (int)Common.Rotation.ROTATION_ROLL_180;
+                    MainV2.comPort.setParam("COMPASS_EXTERNAL", 0);
+                }
+                
             }
         }
     }

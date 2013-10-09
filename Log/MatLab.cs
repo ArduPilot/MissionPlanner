@@ -193,7 +193,7 @@ namespace MissionPlanner.Log
         {
             List<MLArray> mlList = new List<MLArray>();
 
-            MAVLink mine = new MAVLink();
+            MAVLinkInterface mine = new MAVLinkInterface();
             try
             {
                 mine.logplaybackfile = new BinaryReader(File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.Read));

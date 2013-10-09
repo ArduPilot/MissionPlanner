@@ -6,7 +6,7 @@ Copyright Michael Oborne 2011
 Released under GNU GPL version 3 or later
 '''
 
-import sys, textwrap, os, time
+import sys, textwrap, os, time, re
 import mavparse, mavtemplate
 
 t = mavtemplate.MAVTemplate()
@@ -46,13 +46,20 @@ def generate_message_header(f, xml):
         xml.message_crcs_array += '%u, ' % crc
     xml.message_crcs_array = xml.message_crcs_array[:-2]
 
+	# and message names enum
+    xml.message_names_enum = ''
+    count = 0
+    for name in xml.message_names:
+        if name is not None:
+            xml.message_names_enum += '%s = %u,\n' % (name, count)
+        count += 1
+
     # form message info array
     xml.message_info_array = ''
     for name in xml.message_names:
         if name is not None:
             xml.message_info_array += 'typeof( mavlink_%s_t ), ' % name.lower()
         else:
-            #xml.message_info_array += '{"EMPTY",0,{}}, '
             xml.message_info_array += 'null, '
     xml.message_info_array = xml.message_info_array[:-2]
     
@@ -66,22 +73,19 @@ def generate_message_header(f, xml):
             fe.description = fe.description.replace("\r"," ")
             fe.name = fe.name.replace(m.name + "_","")
             fe.name = fe.name.replace("NAV_","")
+            firstchar = re.search('^([0-9])', fe.name )
+            if firstchar != None and firstchar.group():
+                fe.name = '_%s' % fe.name
+                print fe.name
            
-    
-    if xml.version == "0.9":
-        text = "#if !MAVLINK10";
-    else:
-        text = "#if MAVLINK10";
     t.write(f, '''
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Runtime.InteropServices;
 
-namespace MissionPlanner
+public partial class MAVLink
 {
-    partial class MAVLink
-    {
         public const string MAVLINK_BUILD_DATE = "${parse_time}";
         public const string MAVLINK_WIRE_PROTOCOL_VERSION = "${wire_protocol_version}";
         public const int MAVLINK_MAX_DIALECT_PAYLOAD_SIZE = ${largest_payload};
@@ -99,16 +103,22 @@ namespace MissionPlanner
         
         public const bool MAVLINK_NEED_BYTE_SWAP = (MAVLINK_ENDIAN == MAVLINK_LITTLE_ENDIAN);
         
-        public byte[] MAVLINK_MESSAGE_LENGTHS = new byte[] {${message_lengths_array}};
+        public static readonly byte[] MAVLINK_MESSAGE_LENGTHS = new byte[] {${message_lengths_array}};
 
-        public byte[] MAVLINK_MESSAGE_CRCS = new byte[] {${message_crcs_array}};
+        public static readonly byte[] MAVLINK_MESSAGE_CRCS = new byte[] {${message_crcs_array}};
 
-        public Type[] MAVLINK_MESSAGE_INFO = new Type[] {${message_info_array}};
+        public static readonly Type[] MAVLINK_MESSAGE_INFO = new Type[] {${message_info_array}};
 
         public const byte MAVLINK_VERSION = ${version};
+
+		public enum MAVLINK_MSG_ID 
+		{
+			${message_names_enum}
+		}
+
     
         ${{enum:
-        /** @brief ${description} */
+        ///<summary> ${description} </summary>
         public enum ${name}
         {
     ${{entry:	///<summary> ${description} |${{param:${description}| }} </summary>
@@ -128,10 +138,14 @@ def generate_message_enums(f, xml):
             fe.description = fe.description.replace("\n"," ")
             fe.description = fe.description.replace("\r"," ")
             fe.name = fe.name.replace(m.name + "_","")
+            firstchar = re.search('^([0-9])', fe.name )
+            if firstchar != None and firstchar.group():
+                fe.name = '_%s' % fe.name
+                print fe.name
             
     t.write(f, '''
         ${{enum:
-        /** @brief ${description} */
+        ///<summary> ${description} </summary>
         public enum ${name}
         {
     ${{entry:	///<summary> ${description} |${{param:${description}| }} </summary>
@@ -144,7 +158,6 @@ def generate_message_enums(f, xml):
 
 def generate_message_footer(f, xml):
     t.write(f, '''
-     }
 }
 ''', xml)
     f.close()
@@ -152,10 +165,8 @@ def generate_message_footer(f, xml):
 
 def generate_message_h(f, directory, m):
     '''generate per-message header for a XML file'''
-    #f = open(os.path.join(directory, 'mavlink_msg_%s.cs' % m.name_lower), mode='w')
     t.write(f, '''
 
-    public const byte MAVLINK_MSG_ID_${name} = ${id};
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=${wire_length})]
     public struct mavlink_${name_lower}_t
     {
@@ -186,6 +197,7 @@ def generate_one(fh, basename, xml):
             m.crc_extra_arg = ", %s" % m.crc_extra
         else:
             m.crc_extra_arg = ""
+        m.msg_nameid = "MAVLINK_MSG_ID_${name} = ${id}"
         for f in m.fields:
             f.description = f.description.replace("\n"," ")
             f.description = f.description.replace("\r","")
@@ -259,7 +271,7 @@ def generate_one(fh, basename, xml):
                 if f.type == 'byte':
                     f.array_tag = 'getByte'
                 if f.name == 'fixed':   # this is a keyword
-                    f.name = '@fixed'
+                    f.name = '@fixed' 
                 f.array_arg = ''
                 f.array_return_arg = ''
                 f.array_const = ''

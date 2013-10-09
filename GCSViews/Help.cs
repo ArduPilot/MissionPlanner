@@ -17,15 +17,16 @@ namespace MissionPlanner.GCSViews
         {
             InitializeComponent();
 
+
+        }
+
+        public void Activate()
+        {
             try
             {
                 CHK_showconsole.Checked = MainV2.config["showconsole"].ToString() == "True";
             }
             catch { }
-        }
-
-        public void Activate()
-        {
         }
 
         public void BUT_updatecheck_Click(object sender, EventArgs e)

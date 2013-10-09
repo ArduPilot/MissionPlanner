@@ -572,7 +572,6 @@ namespace MissionPlanner.Log
                 int a = 0;
 
                 DateTime starttime = DateTime.MinValue;
-                int startdelta = 0;
                 DateTime workingtime = starttime;
 
                 DateTime lastdrawn = DateTime.MinValue;

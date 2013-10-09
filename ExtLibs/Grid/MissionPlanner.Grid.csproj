@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MissionPlanner</RootNamespace>
     <AssemblyName>MissionPlanner.Grid</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -95,6 +96,10 @@
       <Project>{e06def77-f933-42fb-afd7-db2d0d8d6a98}</Project>
       <Name>GMap.NET.WindowsForms</Name>
       <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Mavlink\MAVLink.csproj">
+      <Project>{20296734-5f3c-4593-a0d5-dd20b440b13a}</Project>
+      <Name>MAVLink</Name>
     </ProjectReference>
     <ProjectReference Include="..\MetaDataExtractorCSharp240d\MetaDataExtractor.csproj">
       <Project>{b46f6c6c-9184-41af-8f8b-e0084752ca7c}</Project>

@@ -90,6 +90,7 @@ namespace MissionPlanner.Controls
             MissionPlanner.Utilities.Tracking.AddPage(nextscreen.Control.GetType().ToString(), name);
 
             MainControl.SuspendLayout();
+            nextscreen.Control.SuspendLayout();
 
             if (nextscreen.Control is IActivate)
             {
@@ -104,6 +105,7 @@ namespace MissionPlanner.Controls
             nextscreen.Visible = true;
 
             MainControl.ResumeLayout();
+			nextscreen.Control.ResumeLayout();
 
             current = nextscreen;
 

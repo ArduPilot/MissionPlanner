@@ -318,7 +318,7 @@ namespace MissionPlanner.GCSViews
                 {
                     TXT_terminal.AppendText("Rebooting\n");
                     // keep it local
-                    MAVLink mine = new MAVLink();
+                    MAVLinkInterface mine = new MAVLinkInterface();
 
                     mine.BaseStream.PortName = MainV2.comPortName;
                     mine.BaseStream.BaudRate = comPort.BaudRate;

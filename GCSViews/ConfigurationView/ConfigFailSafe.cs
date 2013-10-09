@@ -52,6 +52,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             mavlinkCheckBoxfs_batt_enable.setup(1, 0, "FS_BATT_ENABLE", MainV2.comPort.MAV.param);
             mavlinkNumericUpDownfs_thr_value.setup(800, 1200, 1, 1, "FS_THR_VALUE", MainV2.comPort.MAV.param);
             mavlinkNumericUpDownlow_voltage.setup(6, 99, 1, 0.1f, "LOW_VOLT", MainV2.comPort.MAV.param, PNL_low_bat);
+            mavlinkNumericUpDownlow_voltage.setup(6, 99, 1, 0.1f, "FS_BATT_VOLTAGE", MainV2.comPort.MAV.param, PNL_low_bat);
 
             // plane
             mavlinkCheckBoxthr_fs.setup(1, 0, "THR_FAILSAFE", MainV2.comPort.MAV.param, mavlinkNumericUpDownthr_fs_value);

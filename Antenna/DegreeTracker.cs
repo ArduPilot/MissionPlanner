@@ -55,7 +55,7 @@ namespace MissionPlanner.Antenna
             {
                 ComPort.Open();
             }
-            catch (Exception ex) { System.Windows.Forms.CustomMessageBox.Show("Connect failed " + ex.Message, "Error"); return false; }
+            catch (Exception ex) { CustomMessageBox.Show("Connect failed " + ex.Message, "Error"); return false; }
 
             return true;
         }

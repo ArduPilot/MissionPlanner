@@ -385,7 +385,7 @@ namespace MissionPlanner
                 foreach (string logfile in openFileDialog1.FileNames)
                 {
 
-                    MAVLink mine = new MAVLink();
+                    MAVLinkInterface mine = new MAVLinkInterface();
                     try
                     {
                         mine.logplaybackfile = new BinaryReader(File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.Read));
@@ -554,7 +554,7 @@ namespace MissionPlanner
                 foreach (string logfile in openFileDialog1.FileNames)
                 {
 
-                    MAVLink mine = new MAVLink();
+                    MAVLinkInterface mine = new MAVLinkInterface();
                     try
                     {
                         mine.logplaybackfile = new BinaryReader(File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.Read));
@@ -670,7 +670,7 @@ namespace MissionPlanner
             
             {
 
-                MAVLink MavlinkInterface = new MAVLink();
+                MAVLinkInterface MavlinkInterface = new MAVLinkInterface();
                 try
                 {
                     MavlinkInterface.logplaybackfile = new BinaryReader(File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.Read));
@@ -1239,7 +1239,7 @@ namespace MissionPlanner
                 foreach (string logfile in openFileDialog1.FileNames)
                 {
 
-                    MAVLink mine = new MAVLink();
+                    MAVLinkInterface mine = new MAVLinkInterface();
                     try
                     {
                         mine.logplaybackfile = new BinaryReader(File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.Read));
@@ -1303,7 +1303,7 @@ namespace MissionPlanner
                 {
                     try
                     {
-                        MAVLink mine = new MAVLink();
+                        MAVLinkInterface mine = new MAVLinkInterface();
                         try
                         {
                             mine.logplaybackfile = new BinaryReader(File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.Read));
@@ -1370,7 +1370,7 @@ namespace MissionPlanner
 
                     int wplists = 0;
 
-                    MAVLink mine = new MAVLink();
+                    MAVLinkInterface mine = new MAVLinkInterface();
                     try
                     {
                         mine.logplaybackfile = new BinaryReader(File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.Read));

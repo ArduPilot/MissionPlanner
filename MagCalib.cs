@@ -80,7 +80,7 @@ namespace MissionPlanner
 
             log.Info("Start log: " + DateTime.Now);
 
-                MAVLink mine = new MAVLink();
+            MAVLinkInterface mine = new MAVLinkInterface();
                 try
                 {
                     mine.logplaybackfile = new BinaryReader(File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.Read));

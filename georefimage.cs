@@ -151,7 +151,7 @@ namespace MissionPlanner
 
             if (fn.ToLower().EndsWith("tlog"))
             {
-                MAVLink mine = new MAVLink();
+                MAVLinkInterface mine = new MAVLinkInterface();
                 mine.logplaybackfile = new BinaryReader(File.Open(fn, FileMode.Open, FileAccess.Read, FileShare.Read));
                 mine.logreadmode = true;
 

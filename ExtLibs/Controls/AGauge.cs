@@ -52,7 +52,7 @@ namespace AGaugeApp
 
         private Single fontBoundY1;
         private Single fontBoundY2;
-        private Bitmap gaugeBitmap;
+        private Bitmap gaugeBitmap = new Bitmap(150, 150);
         private Boolean drawGaugeBackground = true;
 
         private Boolean[] m_valueIsInRange = { false, false, false, false, false };
@@ -1768,7 +1768,7 @@ System.ComponentModel.Description("Enables or disables the range selected by Nee
                                 brush1 = new SolidBrush(Color.FromArgb(80 + subcol, 80 + subcol, 80 + subcol));
                                 brush2 = new SolidBrush(Color.FromArgb(180 - subcol, 180 - subcol, 180 - subcol));
                                 brush3 = new SolidBrush(Color.FromArgb(((80 + subcol2) + 255) % 255, ((80 + subcol2) + 255) % 255, ((80 + subcol2) + 255) % 255));
-                                brush4 = new SolidBrush(Color.FromArgb(180 - subcol2, 180 - subcol2, 180 - subcol2));
+                                brush4 = new SolidBrush(Color.FromArgb(((180 - subcol2) + 255) % 255, ((180 - subcol2) + 255) % 255, ((180 - subcol2) + 255) % 255));
                                 pe.Graphics.DrawEllipse(Pens.Gray, Center.X - m_NeedleWidth[m_NeedIdx] * 3, Center.Y - m_NeedleWidth[m_NeedIdx] * 3, m_NeedleWidth[m_NeedIdx] * 6, m_NeedleWidth[m_NeedIdx] * 6);
                                 break;
                             case NeedleColorEnum.Red:

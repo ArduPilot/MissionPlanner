@@ -30,26 +30,26 @@ namespace MissionPlanner.Controls
        bool inOnPaint = false;
 
        [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Colors")]
-       [DefaultValue(typeof(Color), "102, 139, 26")]
+       [DefaultValue(typeof(Color), "0x94, 0xc1, 0x1f")]
        public Color BGGradTop { get { return _BGGradTop; } set { _BGGradTop = value; } }
          [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Colors")]
-         [DefaultValue(typeof(Color), "127, 167, 42")]
+         [DefaultValue(typeof(Color), "0xcd, 0xe2, 0x96")]
        public Color BGGradBot { get { return _BGGradBot; } set { _BGGradBot = value; } }
 
         // i want to ignore forecolor
          [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Colors")]
-         [DefaultValue(typeof(Color), "31, 54, 8")]
+         [DefaultValue(typeof(Color), "0x40, 0x57, 0x04")]
          public Color TextColor { get { return _TextColor; } set { _TextColor = value; } }
          [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Colors")]
-         [DefaultValue(typeof(Color), "150, 171, 112")]
+         [DefaultValue(typeof(Color), "0x79, 0x94, 0x29")]
          public Color Outline { get { return _Outline; } set { _Outline = value; } }
 
          public MyButton()
          {
-             _BGGradTop = Color.FromArgb(102, 139, 26);
-             _BGGradBot = Color.FromArgb(127, 167, 42);
-             _TextColor = Color.FromArgb(31, 54, 8);
-             _Outline = Color.FromArgb(150, 171, 112);
+             _BGGradTop = Color.FromArgb(0x94, 0xc1, 0x1f);
+             _BGGradBot = Color.FromArgb(0xcd, 0xe2, 0x96);
+             _TextColor = Color.FromArgb(0x40, 0x57, 0x04);
+             _Outline = Color.FromArgb(0x79, 0x94, 0x29);
          }
 
         protected override void OnPaint(PaintEventArgs pevent)

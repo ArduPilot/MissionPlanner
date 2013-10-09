@@ -31,7 +31,6 @@ using System.IO;
 using System.Drawing.Drawing2D;
 using ProjNet.CoordinateSystems.Transformations;
 using ProjNet.CoordinateSystems;
-using MissionPlanner;
 
 namespace MissionPlanner
 {
@@ -48,7 +47,6 @@ namespace MissionPlanner
         public GMapMarker InnerMarker;
 
         public int wprad = 0;
-        public GMapControl MainMap;
 
         public GMapMarkerRect(PointLatLng p)
             : base(p)
@@ -65,17 +63,17 @@ namespace MissionPlanner
         {
             base.OnRender(g);
 
-            if (wprad == 0 || MainMap == null)
+            if (wprad == 0 || Overlay.Control == null)
                 return;
 
             // undo autochange in mouse over
             if (Pen.Color == Color.Blue)
                 Pen.Color = Color.White;
 
-                double width = (MainMap.Manager.GetDistance(MainMap.FromLocalToLatLng(0, 0), MainMap.FromLocalToLatLng(MainMap.Width, 0)) * 1000.0);
-                double height = (MainMap.Manager.GetDistance(MainMap.FromLocalToLatLng(0, 0), MainMap.FromLocalToLatLng(MainMap.Height, 0)) * 1000.0);
-                double m2pixelwidth = MainMap.Width / width;
-                double m2pixelheight = MainMap.Height / height;
+            double width = (Overlay.Control.Manager.GetDistance(Overlay.Control.FromLocalToLatLng(0, 0), Overlay.Control.FromLocalToLatLng(Overlay.Control.Width, 0)) * 1000.0);
+            double height = (Overlay.Control.Manager.GetDistance(Overlay.Control.FromLocalToLatLng(0, 0), Overlay.Control.FromLocalToLatLng(Overlay.Control.Height, 0)) * 1000.0);
+            double m2pixelwidth = Overlay.Control.Width / width;
+            double m2pixelheight = Overlay.Control.Height / height;
 
             GPoint loc = new GPoint((int)(LocalPosition.X - (m2pixelwidth * wprad * 2)), LocalPosition.Y);// MainMap.FromLatLngToLocal(wpradposition);
 
@@ -94,9 +92,8 @@ namespace MissionPlanner
         float cog = -1;
         float target = -1;
         float nav_bearing = -1;
-        public GMapControl MainMap;
 
-        public GMapMarkerRover(PointLatLng p, float heading, float cog, float nav_bearing, float target, GMapControl map)
+        public GMapMarkerRover(PointLatLng p, float heading, float cog, float nav_bearing, float target)
             : base(p)
         {
             this.heading = heading;
@@ -104,7 +101,6 @@ namespace MissionPlanner
             this.target = target;
             this.nav_bearing = nav_bearing;
             Size = SizeSt;
-            MainMap = map;
         }
 
         public override void OnRender(Graphics g)
@@ -112,7 +108,7 @@ namespace MissionPlanner
             Matrix temp = g.Transform;
             g.TranslateTransform(LocalPosition.X, LocalPosition.Y);
 
-            g.RotateTransform(-MainMap.Bearing);
+            g.RotateTransform(-Overlay.Control.Bearing);
 
             int length = 500;
             // anti NaN
@@ -149,9 +145,8 @@ namespace MissionPlanner
         float cog = -1;
         float target = -1;
         float nav_bearing = -1;
-        public GMapControl MainMap;
         
-        public GMapMarkerPlane(PointLatLng p, float heading, float cog, float nav_bearing,float target, GMapControl map)
+        public GMapMarkerPlane(PointLatLng p, float heading, float cog, float nav_bearing,float target)
             : base(p)
         {
             this.heading = heading;
@@ -159,7 +154,6 @@ namespace MissionPlanner
             this.target = target;
             this.nav_bearing = nav_bearing;
             Size = icon.Size;
-            MainMap = map;
         }
 
         public override void OnRender(Graphics g)
@@ -167,7 +161,7 @@ namespace MissionPlanner
             Matrix temp = g.Transform;
             g.TranslateTransform(LocalPosition.X, LocalPosition.Y);
 
-            g.RotateTransform(-MainMap.Bearing);
+            g.RotateTransform(-Overlay.Control.Bearing);
 
             int length = 500;
 // anti NaN
@@ -186,8 +180,8 @@ namespace MissionPlanner
                 float desired_lead_dist = 100;
 
 
-                double width = (MainMap.Manager.GetDistance(MainMap.FromLocalToLatLng(0, 0), MainMap.FromLocalToLatLng(MainMap.Width, 0)) * 1000.0);
-                double m2pixelwidth = MainMap.Width / width;
+                double width = (Overlay.Control.Manager.GetDistance(Overlay.Control.FromLocalToLatLng(0, 0), Overlay.Control.FromLocalToLatLng(Overlay.Control.Width, 0)) * 1000.0);
+                double m2pixelwidth = Overlay.Control.Width / width;
 
                 float alpha = ((desired_lead_dist * (float)m2pixelwidth) / MainV2.comPort.MAV.cs.radius) * rad2deg;
 

@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using MissionPlanner.Controls;
 
-namespace System.Windows.Forms
+namespace System
 {
     public static class CustomMessageBox
     {

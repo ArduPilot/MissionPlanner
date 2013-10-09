@@ -183,7 +183,7 @@ namespace MissionPlanner.Swarm
                 }
             }
 
-            MAVLink com2 = new MAVLink();
+            MAVLinkInterface com2 = new MAVLinkInterface();
 
             com2.BaseStream.PortName = Comms.CommsSerialScan.portinterface.PortName;
             com2.BaseStream.BaudRate = Comms.CommsSerialScan.portinterface.BaudRate;
@@ -201,7 +201,7 @@ namespace MissionPlanner.Swarm
             bindingSource1.ResetBindings(false);
         }
 
-        public HIL.Vector3 getOffsetFromLeader(MAVLink leader, MAVLink mav)
+        public HIL.Vector3 getOffsetFromLeader(MAVLinkInterface leader, MAVLinkInterface mav)
         {
             //convert Wgs84ConversionInfo to utm
             CoordinateTransformationFactory ctfac = new CoordinateTransformationFactory();
@@ -227,7 +227,7 @@ namespace MissionPlanner.Swarm
             return new HIL.Vector3(masterutm[1] - mavutm[1], masterutm[0] - mavutm[0], 0);
         }
 
-        private void grid1_UpdateOffsets(MAVLink mav, float x, float y, float z, Grid.icon ico)
+        private void grid1_UpdateOffsets(MAVLinkInterface mav, float x, float y, float z, Grid.icon ico)
         {
             if (mav == SwarmInterface.Leader)
             {
@@ -269,7 +269,7 @@ namespace MissionPlanner.Swarm
             // clean up old
             foreach (Control ctl in PNL_status.Controls)
             {
-                if (!MainV2.Comports.Contains((MAVLink)ctl.Tag))
+                if (!MainV2.Comports.Contains((MAVLinkInterface)ctl.Tag))
                 {
                     ctl.Dispose();
                 }

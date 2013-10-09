@@ -12,10 +12,10 @@ namespace MissionPlanner.Controls
 {
     public partial class ConnectionStats : UserControl
     {
-        private readonly MAVLink _mavlink;
+        private readonly MAVLinkInterface _mavlink;
         private CompositeDisposable _subscriptionsDisposable;
 
-        public ConnectionStats(MAVLink comPort)
+        public ConnectionStats(MAVLinkInterface comPort)
             : this()
         {
             _mavlink = comPort;

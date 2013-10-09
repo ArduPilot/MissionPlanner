@@ -100,7 +100,7 @@ namespace MissionPlanner
             }
             catch (Exception e)
             {
-                System.Windows.Forms.CustomMessageBox.Show("Error running script " + e.Message);
+                CustomMessageBox.Show("Error running script " + e.Message);
             }
         }
 

@@ -61,8 +61,8 @@
             this.TXT_loiterrad = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.panel5 = new System.Windows.Forms.Panel();
-            this.BUT_write = new Controls.MyButton();
-            this.BUT_read = new Controls.MyButton();
+            this.BUT_write = new MissionPlanner.Controls.MyButton();
+            this.BUT_read = new MissionPlanner.Controls.MyButton();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.LinkLabel();
             this.label3 = new System.Windows.Forms.Label();
@@ -94,7 +94,7 @@
             this.lbl_status = new System.Windows.Forms.Label();
             this.panelWaypoints = new BSE.Windows.Forms.Panel();
             this.splitter1 = new BSE.Windows.Forms.Splitter();
-            this.BUT_Add = new Controls.MyButton();
+            this.BUT_Add = new MissionPlanner.Controls.MyButton();
             this.panelAction = new BSE.Windows.Forms.Panel();
             this.chk_grid = new System.Windows.Forms.CheckBox();
             this.comboBoxMapType = new System.Windows.Forms.ComboBox();
@@ -102,9 +102,10 @@
             this.lbl_distance = new System.Windows.Forms.Label();
             this.lbl_homedist = new System.Windows.Forms.Label();
             this.lbl_prevdist = new System.Windows.Forms.Label();
-            this.MainMap = new Controls.myGMAP();
+            this.MainMap = new MissionPlanner.Controls.myGMAP();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.deleteWPToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.insertWpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loiterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loiterForeverToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loitertimeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -123,6 +124,10 @@
             this.clearPolygonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.savePolygonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadPolygonToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.rallyPointsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.setRallyPointToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.getRallyPointsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveRallyPointsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.geoFenceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
@@ -133,9 +138,6 @@
             this.saveToFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.autoWPToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.createWpCircleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.gridToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.gridV2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.cameraGridToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.areaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mapToolToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ContextMeasure = new System.Windows.Forms.ToolStripMenuItem();
@@ -151,11 +153,12 @@
             this.saveWPFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.trackerHomeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.flyToHereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.trackBar1 = new Controls.MyTrackBar();
+            this.trackBar1 = new MissionPlanner.Controls.MyTrackBar();
             this.label11 = new System.Windows.Forms.Label();
             this.panelBASE = new System.Windows.Forms.Panel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.clearRallyPointsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.Commands)).BeginInit();
             this.panel5.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -363,23 +366,15 @@
             // 
             // BUT_write
             // 
-            this.BUT_write.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
-            this.BUT_write.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
             resources.ApplyResources(this.BUT_write, "BUT_write");
             this.BUT_write.Name = "BUT_write";
-            this.BUT_write.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
-            this.BUT_write.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_write.UseVisualStyleBackColor = true;
             this.BUT_write.Click += new System.EventHandler(this.BUT_write_Click);
             // 
             // BUT_read
             // 
-            this.BUT_read.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
-            this.BUT_read.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
             resources.ApplyResources(this.BUT_read, "BUT_read");
             this.BUT_read.Name = "BUT_read";
-            this.BUT_read.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
-            this.BUT_read.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_read.UseVisualStyleBackColor = true;
             this.BUT_read.Click += new System.EventHandler(this.BUT_read_Click);
             // 
@@ -613,12 +608,8 @@
             // 
             // BUT_Add
             // 
-            this.BUT_Add.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
-            this.BUT_Add.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
             resources.ApplyResources(this.BUT_Add, "BUT_Add");
             this.BUT_Add.Name = "BUT_Add";
-            this.BUT_Add.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
-            this.BUT_Add.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.toolTip1.SetToolTip(this.BUT_Add, resources.GetString("BUT_Add.ToolTip"));
             this.BUT_Add.UseVisualStyleBackColor = true;
             this.BUT_Add.Click += new System.EventHandler(this.BUT_Add_Click);
@@ -729,6 +720,7 @@
             // 
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.deleteWPToolStripMenuItem,
+            this.insertWpToolStripMenuItem,
             this.loiterToolStripMenuItem,
             this.jumpToolStripMenuItem,
             this.rTLToolStripMenuItem,
@@ -738,6 +730,7 @@
             this.clearMissionToolStripMenuItem,
             this.toolStripSeparator1,
             this.polygonToolStripMenuItem,
+            this.rallyPointsToolStripMenuItem,
             this.geoFenceToolStripMenuItem,
             this.autoWPToolStripMenuItem,
             this.mapToolToolStripMenuItem,
@@ -753,6 +746,12 @@
             this.deleteWPToolStripMenuItem.Name = "deleteWPToolStripMenuItem";
             resources.ApplyResources(this.deleteWPToolStripMenuItem, "deleteWPToolStripMenuItem");
             this.deleteWPToolStripMenuItem.Click += new System.EventHandler(this.deleteWPToolStripMenuItem_Click);
+            // 
+            // insertWpToolStripMenuItem
+            // 
+            this.insertWpToolStripMenuItem.Name = "insertWpToolStripMenuItem";
+            resources.ApplyResources(this.insertWpToolStripMenuItem, "insertWpToolStripMenuItem");
+            this.insertWpToolStripMenuItem.Click += new System.EventHandler(this.insertWpToolStripMenuItem_Click);
             // 
             // loiterToolStripMenuItem
             // 
@@ -870,6 +869,34 @@
             resources.ApplyResources(this.loadPolygonToolStripMenuItem, "loadPolygonToolStripMenuItem");
             this.loadPolygonToolStripMenuItem.Click += new System.EventHandler(this.loadPolygonToolStripMenuItem_Click);
             // 
+            // rallyPointsToolStripMenuItem
+            // 
+            this.rallyPointsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.setRallyPointToolStripMenuItem,
+            this.getRallyPointsToolStripMenuItem,
+            this.saveRallyPointsToolStripMenuItem,
+            this.clearRallyPointsToolStripMenuItem});
+            this.rallyPointsToolStripMenuItem.Name = "rallyPointsToolStripMenuItem";
+            resources.ApplyResources(this.rallyPointsToolStripMenuItem, "rallyPointsToolStripMenuItem");
+            // 
+            // setRallyPointToolStripMenuItem
+            // 
+            this.setRallyPointToolStripMenuItem.Name = "setRallyPointToolStripMenuItem";
+            resources.ApplyResources(this.setRallyPointToolStripMenuItem, "setRallyPointToolStripMenuItem");
+            this.setRallyPointToolStripMenuItem.Click += new System.EventHandler(this.setRallyPointToolStripMenuItem_Click);
+            // 
+            // getRallyPointsToolStripMenuItem
+            // 
+            this.getRallyPointsToolStripMenuItem.Name = "getRallyPointsToolStripMenuItem";
+            resources.ApplyResources(this.getRallyPointsToolStripMenuItem, "getRallyPointsToolStripMenuItem");
+            this.getRallyPointsToolStripMenuItem.Click += new System.EventHandler(this.getRallyPointsToolStripMenuItem_Click);
+            // 
+            // saveRallyPointsToolStripMenuItem
+            // 
+            this.saveRallyPointsToolStripMenuItem.Name = "saveRallyPointsToolStripMenuItem";
+            resources.ApplyResources(this.saveRallyPointsToolStripMenuItem, "saveRallyPointsToolStripMenuItem");
+            this.saveRallyPointsToolStripMenuItem.Click += new System.EventHandler(this.saveRallyPointsToolStripMenuItem_Click);
+            // 
             // geoFenceToolStripMenuItem
             // 
             this.geoFenceToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -927,9 +954,6 @@
             // 
             this.autoWPToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.createWpCircleToolStripMenuItem,
-            this.gridToolStripMenuItem,
-            this.gridV2ToolStripMenuItem,
-            this.cameraGridToolStripMenuItem,
             this.areaToolStripMenuItem});
             this.autoWPToolStripMenuItem.Name = "autoWPToolStripMenuItem";
             resources.ApplyResources(this.autoWPToolStripMenuItem, "autoWPToolStripMenuItem");
@@ -939,24 +963,6 @@
             this.createWpCircleToolStripMenuItem.Name = "createWpCircleToolStripMenuItem";
             resources.ApplyResources(this.createWpCircleToolStripMenuItem, "createWpCircleToolStripMenuItem");
             this.createWpCircleToolStripMenuItem.Click += new System.EventHandler(this.createWpCircleToolStripMenuItem_Click);
-            // 
-            // gridToolStripMenuItem
-            // 
-            this.gridToolStripMenuItem.Name = "gridToolStripMenuItem";
-            resources.ApplyResources(this.gridToolStripMenuItem, "gridToolStripMenuItem");
-            this.gridToolStripMenuItem.Click += new System.EventHandler(this.gridToolStripMenuItem_Click);
-            // 
-            // gridV2ToolStripMenuItem
-            // 
-            this.gridV2ToolStripMenuItem.Name = "gridV2ToolStripMenuItem";
-            resources.ApplyResources(this.gridV2ToolStripMenuItem, "gridV2ToolStripMenuItem");
-            this.gridV2ToolStripMenuItem.Click += new System.EventHandler(this.gridV2ToolStripMenuItem_Click);
-            // 
-            // cameraGridToolStripMenuItem
-            // 
-            this.cameraGridToolStripMenuItem.Name = "cameraGridToolStripMenuItem";
-            resources.ApplyResources(this.cameraGridToolStripMenuItem, "cameraGridToolStripMenuItem");
-            this.cameraGridToolStripMenuItem.Click += new System.EventHandler(this.cameraGridToolStripMenuItem_Click);
             // 
             // areaToolStripMenuItem
             // 
@@ -1090,6 +1096,12 @@
             this.timer1.Interval = 1000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // clearRallyPointsToolStripMenuItem
+            // 
+            this.clearRallyPointsToolStripMenuItem.Name = "clearRallyPointsToolStripMenuItem";
+            resources.ApplyResources(this.clearRallyPointsToolStripMenuItem, "clearRallyPointsToolStripMenuItem");
+            this.clearRallyPointsToolStripMenuItem.Click += new System.EventHandler(this.clearRallyPointsToolStripMenuItem_Click);
+            // 
             // FlightPlanner
             // 
             resources.ApplyResources(this, "$this");
@@ -1191,7 +1203,6 @@
         private System.Windows.Forms.ToolStripMenuItem setROIToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem autoWPToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem createWpCircleToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem gridToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem mapToolToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ContextMeasure;
         private System.Windows.Forms.ToolStripMenuItem rotateMapToolStripMenuItem;
@@ -1208,8 +1219,6 @@
         private System.Windows.Forms.ToolStripMenuItem saveWPFileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem trackerHomeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem flyToHereToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem gridV2ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem cameraGridToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem reverseWPsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem loadAndAppendToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem savePolygonToolStripMenuItem;
@@ -1238,5 +1247,11 @@
         private System.Windows.Forms.DataGridViewImageColumn Down;
         private System.Windows.Forms.DataGridViewTextBoxColumn Grad;
         private System.Windows.Forms.CheckBox chk_grid;
+        private System.Windows.Forms.ToolStripMenuItem insertWpToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem rallyPointsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem getRallyPointsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveRallyPointsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem setRallyPointToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem clearRallyPointsToolStripMenuItem;
     }
 }

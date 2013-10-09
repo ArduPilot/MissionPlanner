@@ -31,14 +31,22 @@ namespace MissionPlanner.Wizard
             {
                 foreach (var item in ac_failsafe)
                 {
-                    createValueControl(new KeyValuePair<string,string>(item,MainV2.comPort.MAV.param[item].ToString()));
+                    try
+                    {
+                        createValueControl(new KeyValuePair<string, string>(item, MainV2.comPort.MAV.param[item].ToString()));
+                    }
+                    catch { }
                 }
             }
             else if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane)
             {
                 foreach (var item in ap_failsafe)
                 {
-                    createValueControl(new KeyValuePair<string, string>(item, ""));
+                    try
+                    {
+                        createValueControl(new KeyValuePair<string, string>(item, ""));
+                    }
+                    catch { }
                 }
             }
         }

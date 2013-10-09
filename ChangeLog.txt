@@ -1,4 +1,21 @@
-﻿* Mission Planner 1.2.80
+﻿* Mission Planner 1.2.81
+fix guage exception
+change mybutton colours back
+add more grid stats
+add grid map type
+extract mavlink library
+prep for AP 2.5 release
+add ability to add wp mid mission (right click)
+move updater to seperate thread
+add sensor checking
+fix speech data warning and voltage
+add rally points
+add super simple
+add new battery param names
+add support for passing tlog at command line.
+add load to current state
+
+* Mission Planner 1.2.80
 exception fixs
 fix mono menu bar color
 fix wizard connect screen - better error handling

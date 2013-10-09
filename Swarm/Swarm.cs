@@ -12,14 +12,14 @@ namespace MissionPlanner.Swarm
     abstract class Swarm
     {
         internal static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        internal MAVLink Leader = null;
+        internal MAVLinkInterface Leader = null;
 
-        public void setLeader(MAVLink lead)
+        public void setLeader(MAVLinkInterface lead)
         {
             Leader = lead;
         }
 
-        public MAVLink getLeader()
+        public MAVLinkInterface getLeader()
         {
             return Leader;
         }

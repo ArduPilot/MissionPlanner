@@ -14,28 +14,30 @@ using MissionPlanner;
 
 namespace MissionPlanner
 {
-    static class Program
+    public static class Program
     {
         private static readonly ILog log = LogManager.GetLogger("Program");
 
         public static DateTime starttime = DateTime.Now;
 
         public static Splash Splash;
+
+        public static string[] args = new string[]{};
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        public static void Main(string[] args)
         {
-
+            Program.args = args;
             Console.WriteLine("If your error is about Microsoft.DirectX.DirectInput, please install the latest directx redist from here http://www.microsoft.com/en-us/download/details.aspx?id=35 \n\n");
 
-            Application.EnableVisualStyles();
+            System.Windows.Forms.Application.EnableVisualStyles();
             XmlConfigurator.Configure();
             log.Info("******************* Logging Configured *******************");
-            Application.SetCompatibleTextRenderingDefault(false);
+            System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
 
-            Application.ThreadException += Application_ThreadException;
+            System.Windows.Forms.Application.ThreadException += Application_ThreadException;
 
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 
@@ -158,6 +160,12 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
          //   vid.ShowDialog();
 
          //   return;
+
+            int fixme;
+         //   ThemeManager.doxamlgen();
+
+            //testMissionPlanner.Wizard._1Intro test = new testMissionPlanner.Wizard._1Intro();
+
 
             if (File.Exists("simple.txt"))
             {

@@ -339,7 +339,6 @@ namespace MissionPlanner.Controls
             started = true;
         }
 
-        object lockit = new object();
         bool inOnPaint = false;
         string otherthread = "";
 
@@ -368,7 +367,7 @@ namespace MissionPlanner.Controls
                 return;              
             }
 
-            lock (lockit)
+            lock (this)
             {
 
                 if (inOnPaint)
@@ -1847,7 +1846,7 @@ namespace MissionPlanner.Controls
 
         protected override void OnResize(EventArgs e)
         {
-            if (DesignMode || !started)
+            if (DesignMode || !IsHandleCreated || !started)
                 return;
 
             base.OnResize(e);
@@ -1855,7 +1854,7 @@ namespace MissionPlanner.Controls
             if (SixteenXNine)
             {
                 int ht = (int)(this.Width / 1.777f);
-                if (ht != this.Height)
+                if (ht >= this.Height + 5 || ht <= this.Height - 5)
                 {
                     this.Height = ht;
                     return;
@@ -1865,7 +1864,7 @@ namespace MissionPlanner.Controls
             {
                 // 4x3
                 int ht = (int)(this.Width / 1.333f);
-                if (ht != this.Height)
+                if (ht >= this.Height + 5 || ht <= this.Height - 5)
                 {
                     this.Height = ht;
                     return;

@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MissionPlanner</RootNamespace>
     <AssemblyName>MissionPlanner</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -160,9 +160,7 @@
       <SpecificVersion>False</SpecificVersion>
       <Private>True</Private>
     </Reference>
-    <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
+    <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.DirectX, Version=1.0.2902.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
       <SpecificVersion>False</SpecificVersion>
       <Private>True</Private>
@@ -178,10 +176,17 @@
       <SpecificVersion>False</SpecificVersion>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Scripting.Core">
+    <Reference Include="Microsoft.Scripting.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Lib\Microsoft.Scripting.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Scripting.Debugging, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Lib\Microsoft.Scripting.Debugging.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Scripting.ExtensionAttribute, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
+      <HintPath>Lib\Microsoft.Scripting.ExtensionAttribute.dll</HintPath>
     </Reference>
     <Reference Include="netDxf, Version=0.1.2.0, Culture=neutral, PublicKeyToken=1c75adeaa4c98f42, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -214,10 +219,9 @@
     <Reference Include="System.Management">
       <Private>False</Private>
     </Reference>
-    <Reference Include="System.Reactive, Version=1.0.10621.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Lib\System.Reactive.dll</HintPath>
-    </Reference>
+    <Reference Include="System.Reactive.Core, Version=2.0.20823.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Reactive.Interfaces, Version=2.0.20823.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Reactive.Linq, Version=2.0.20823.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Speech, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
     </Reference>
@@ -254,12 +258,6 @@
     </Compile>
     <Compile Include="Arduino\ArduinoSTKv2.cs">
       <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="CameraPlanner.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="CameraPlanner.Designer.cs">
-      <DependentUpon>CameraPlanner.cs</DependentUpon>
     </Compile>
     <Compile Include="CodeGen.cs" />
     <Compile Include="Comms\CommsSerialScan.cs" />
@@ -398,6 +396,7 @@
     <Compile Include="Log\MatLab.cs" />
     <Compile Include="Magfitrotation.cs" />
     <Compile Include="MagMotor.cs" />
+    <Compile Include="Models\BattMonitor.cs" />
     <Compile Include="Plugin\Plugin.cs" />
     <Compile Include="Plugin\PluginLoader.cs" />
     <Compile Include="Plugin\PluginUI.cs">
@@ -407,6 +406,7 @@
       <DependentUpon>PluginUI.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\ConfigCameraStabModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.log4net.cs" />
     <Compile Include="ScriptConsole.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -419,9 +419,12 @@
     <Compile Include="Swarm\FollowPathControl.Designer.cs">
       <DependentUpon>FollowPathControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="System.cs" />
+    <Compile Include="Utilities\GMapMarkerRallyPt.cs" />
     <Compile Include="Utilities\ParameterMetaDataRepositoryAutoTest.cs" />
     <Compile Include="Utilities\Firmware.cs" />
     <Compile Include="Utilities\ImageOverFilter.cs" />
+    <None Include="packages.config" />
     <None Include="Utilities\RSA.cs" />
     <Compile Include="Utilities\StringRedirectWriter.cs" />
     <Compile Include="Utilities\Update.cs" />
@@ -541,9 +544,6 @@
     </None>
     <EmbeddedResource Include="Antenna\Tracker.it-IT.resx">
       <DependentUpon>Tracker.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="CameraPlanner.resx">
-      <DependentUpon>CameraPlanner.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ConfigPanel.resx">
       <DependentUpon>ConfigPanel.cs</DependentUpon>
@@ -976,8 +976,6 @@
       <DependentUpon>3DRradio.cs</DependentUpon>
     </Compile>
     <Compile Include="Radio\IHex.cs" />
-    <Compile Include="Mavlink\MavlinkCRC.cs" />
-    <Compile Include="Mavlink\MavlinkUtil.cs" />
     <Compile Include="FollowMe.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1021,7 +1019,6 @@
     <Compile Include="JoystickSetup.Designer.cs">
       <DependentUpon>JoystickSetup.cs</DependentUpon>
     </Compile>
-    <Compile Include="Mavlink\MAVLinkTypes.cs" />
     <Compile Include="Common.cs" />
     <Compile Include="paramcompare.cs">
       <SubType>Form</SubType>
@@ -1122,6 +1119,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Antenna\Tracker.resx">
       <DependentUpon>Tracker.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Antenna\Tracker.zh-Hans.resx">
       <DependentUpon>Tracker.cs</DependentUpon>
@@ -1330,6 +1328,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Log\MavlinkLog.de-DE.resx">
       <DependentUpon>MavlinkLog.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Log\MavlinkLog.zh-Hans.resx">
       <DependentUpon>MavlinkLog.cs</DependentUpon>
@@ -1978,7 +1977,6 @@
     <None Include="Resources\quadhover_12.png" />
     <None Include="Resources\quadhover_14.png" />
     <None Include="Resources\maggps.png" />
-    <Content Include="Mavlink\mavgen_csharp.py" />
     <Content Include="mpdesktop.ico" />
     <Content Include="ParameterMetaDataBackup.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -2013,6 +2011,13 @@
     <None Include="Resources\light_simulation_icon.png" />
     <None Include="Resources\light_terminal_icon.png" />
     <None Include="Resources\light_tuningconfig_icon.png" />
+    <None Include="Resources\marker_01.png" />
+    <None Include="Resources\marker_02.png" />
+    <None Include="Resources\marker_03.png" />
+    <None Include="Resources\marker_04.png" />
+    <None Include="Resources\marker_05.png" />
+    <None Include="Resources\marker_06.png" />
+    <None Include="Resources\marker_07.png" />
     <Content Include="Resources\MAVCmd.zh-TW.txt" />
     <Content Include="Resources\MAVParam.zh-TW.txt" />
     <Content Include="Resources\new frames-01.png" />
@@ -2024,13 +2029,14 @@
     <None Include="Resources\PlusFramesGreen_02.png" />
     <None Include="Resources\PlusFramesGreen_04.png" />
     <None Include="Resources\PlusFramesGreen_06.png" />
+    <None Include="Resources\pixhawk.jpg" />
     <Content Include="Resources\rover.png" />
     <Content Include="Resources\splash.jpg" />
     <Content Include="Scripts\rc.py" />
     <Content Include="Scripts\example1.py" />
-    <Content Include="version.exe">
+    <None Include="version.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    </None>
     <None Include="Resources\MinimOSD.jpg" />
     <None Include="Resources\new-3DR-04.png" />
     <None Include="Resources\px4.jpg" />
@@ -2186,6 +2192,10 @@
       <Project>{29976BA4-A04D-4A80-A866-098C879C2FDE}</Project>
       <Name>KMLib</Name>
     </ProjectReference>
+    <ProjectReference Include="ExtLibs\Mavlink\MAVLink.csproj">
+      <Project>{20296734-5f3c-4593-a0d5-dd20b440b13a}</Project>
+      <Name>MAVLink</Name>
+    </ProjectReference>
     <ProjectReference Include="ExtLibs\MetaDataExtractorCSharp240d\MetaDataExtractor.csproj">
       <Project>{b46f6c6c-9184-41af-8f8b-e0084752ca7c}</Project>
       <Name>MetaDataExtractor</Name>
@@ -2203,9 +2213,6 @@
       <Name>ZedGraph</Name>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="translation\" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

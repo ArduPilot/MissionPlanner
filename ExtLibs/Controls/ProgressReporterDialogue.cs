@@ -94,6 +94,7 @@ namespace MissionPlanner.Controls
 
             // stop the timer
             timer1.Stop();
+
             // run once more to do final message and progressbar
             if (this.IsDisposed || this.Disposing || !this.IsHandleCreated)
             {
@@ -185,18 +186,22 @@ namespace MissionPlanner.Controls
             
             if (this.InvokeRequired)
             {
-                this.Invoke((MethodInvoker) delegate
-                                                {
-                                                    this.Text = "Error";
-                                                    this.lblProgressMessage.Left = 65;
-                                                    this.lblProgressMessage.Text = errMessage;
-                                                    this.imgWarning.Visible = true;
-                                                    this.progressBar1.Visible = false;
-                                                    this.btnCancel.Visible = false;
-                                                    this.btnClose.Visible = true;
-                                                    this.linkLabel1.Visible = exception != null;
-                                                    this.workerException = exception;
-                                                });
+                try
+                {
+                    this.Invoke((MethodInvoker)delegate
+                                                    {
+                                                        this.Text = "Error";
+                                                        this.lblProgressMessage.Left = 65;
+                                                        this.lblProgressMessage.Text = errMessage;
+                                                        this.imgWarning.Visible = true;
+                                                        this.progressBar1.Visible = false;
+                                                        this.btnCancel.Visible = false;
+                                                        this.btnClose.Visible = true;
+                                                        this.linkLabel1.Visible = exception != null;
+                                                        this.workerException = exception;
+                                                    });
+                }
+                catch { } // disposing
             }
 
         }
@@ -262,6 +267,9 @@ namespace MissionPlanner.Controls
         /// <param name="e"></param>
         private void timer1_Tick(object sender, EventArgs e)
         {
+            if (this.Disposing || this.IsDisposed)
+                return;
+
             int pgv = -1;
             lock (locker)
             {

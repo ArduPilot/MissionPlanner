@@ -141,6 +141,7 @@ namespace ZedGraph
 			if ( this.ScrollEvent != null )
 				this.ScrollEvent( scrollBar, e );
 		}
+
 /*
 		/// <summary>
 		/// Use the MouseCaptureChanged as an indicator for the start and end of a scrolling operation

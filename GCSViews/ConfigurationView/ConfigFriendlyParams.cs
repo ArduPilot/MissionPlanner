@@ -11,7 +11,6 @@ using MissionPlanner.Controls;
 using MissionPlanner.Controls.BackstageView;
 using MissionPlanner.Utilities;
 using log4net;
-using MissionPlanner.Controls;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {

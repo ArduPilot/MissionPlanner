@@ -62,7 +62,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             try
             {
                 // force this screen to work
-                MainV2.comPort.requestDatastream(MissionPlanner.MAVLink.MAV_DATA_STREAM.RC_CHANNELS, 2);
+                MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RC_CHANNELS, 2);
             }
             catch { }
 
@@ -126,7 +126,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             try
             {
 
-                MainV2.comPort.requestDatastream(MissionPlanner.MAVLink.MAV_DATA_STREAM.RC_CHANNELS, 10);
+                MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RC_CHANNELS, 10);
 
             }
             catch { }
@@ -242,7 +242,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             try
             {
 
-                MainV2.comPort.requestDatastream(MissionPlanner.MAVLink.MAV_DATA_STREAM.RC_CHANNELS, oldrc);
+                MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RC_CHANNELS, oldrc);
 
             }
             catch { }

@@ -115,24 +115,24 @@
             this.RLL2SRV_P = new System.Windows.Forms.NumericUpDown();
             this.label52 = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.BUT_writePIDS = new Controls.MyButton();
-            this.BUT_rerequestparams = new Controls.MyButton();
+            this.BUT_writePIDS = new MissionPlanner.Controls.MyButton();
+            this.BUT_rerequestparams = new MissionPlanner.Controls.MyButton();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.NAVL1_DAMPING = new System.Windows.Forms.NumericUpDown();
             this.label9 = new System.Windows.Forms.Label();
             this.NAVL1_PERIOD = new System.Windows.Forms.NumericUpDown();
             this.label10 = new System.Windows.Forms.Label();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.TECS_SINK_MAX = new System.Windows.Forms.NumericUpDown();
+            this.label15 = new System.Windows.Forms.Label();
+            this.TECS_TIME_CONST = new System.Windows.Forms.NumericUpDown();
+            this.label14 = new System.Windows.Forms.Label();
+            this.TECS_PTCH_DAMP = new System.Windows.Forms.NumericUpDown();
+            this.label13 = new System.Windows.Forms.Label();
             this.TECS_SINK_MIN = new System.Windows.Forms.NumericUpDown();
             this.label11 = new System.Windows.Forms.Label();
             this.TECS_CLMB_MAX = new System.Windows.Forms.NumericUpDown();
             this.label12 = new System.Windows.Forms.Label();
-            this.TECS_PTCH_DAMP = new System.Windows.Forms.NumericUpDown();
-            this.label13 = new System.Windows.Forms.Label();
-            this.TECS_TIME_CONST = new System.Windows.Forms.NumericUpDown();
-            this.label14 = new System.Windows.Forms.Label();
-            this.TECS_SINK_MAX = new System.Windows.Forms.NumericUpDown();
-            this.label15 = new System.Windows.Forms.Label();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.THR_SLEWRATE)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.THR_MAX)).BeginInit();
@@ -184,11 +184,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.NAVL1_DAMPING)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NAVL1_PERIOD)).BeginInit();
             this.groupBox5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.TECS_SINK_MAX)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TECS_TIME_CONST)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TECS_PTCH_DAMP)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TECS_SINK_MIN)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TECS_CLMB_MAX)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.TECS_PTCH_DAMP)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.TECS_TIME_CONST)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.TECS_SINK_MAX)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox3
@@ -703,23 +703,15 @@
             // 
             // BUT_writePIDS
             // 
-            this.BUT_writePIDS.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
-            this.BUT_writePIDS.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
             resources.ApplyResources(this.BUT_writePIDS, "BUT_writePIDS");
             this.BUT_writePIDS.Name = "BUT_writePIDS";
-            this.BUT_writePIDS.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
-            this.BUT_writePIDS.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_writePIDS.UseVisualStyleBackColor = true;
             this.BUT_writePIDS.Click += new System.EventHandler(this.BUT_writePIDS_Click);
             // 
             // BUT_rerequestparams
             // 
-            this.BUT_rerequestparams.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
-            this.BUT_rerequestparams.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
             resources.ApplyResources(this.BUT_rerequestparams, "BUT_rerequestparams");
             this.BUT_rerequestparams.Name = "BUT_rerequestparams";
-            this.BUT_rerequestparams.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
-            this.BUT_rerequestparams.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_rerequestparams.UseVisualStyleBackColor = true;
             this.BUT_rerequestparams.Click += new System.EventHandler(this.BUT_rerequestparams_Click);
             // 
@@ -769,6 +761,36 @@
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.TabStop = false;
             // 
+            // TECS_SINK_MAX
+            // 
+            resources.ApplyResources(this.TECS_SINK_MAX, "TECS_SINK_MAX");
+            this.TECS_SINK_MAX.Name = "TECS_SINK_MAX";
+            // 
+            // label15
+            // 
+            resources.ApplyResources(this.label15, "label15");
+            this.label15.Name = "label15";
+            // 
+            // TECS_TIME_CONST
+            // 
+            resources.ApplyResources(this.TECS_TIME_CONST, "TECS_TIME_CONST");
+            this.TECS_TIME_CONST.Name = "TECS_TIME_CONST";
+            // 
+            // label14
+            // 
+            resources.ApplyResources(this.label14, "label14");
+            this.label14.Name = "label14";
+            // 
+            // TECS_PTCH_DAMP
+            // 
+            resources.ApplyResources(this.TECS_PTCH_DAMP, "TECS_PTCH_DAMP");
+            this.TECS_PTCH_DAMP.Name = "TECS_PTCH_DAMP";
+            // 
+            // label13
+            // 
+            resources.ApplyResources(this.label13, "label13");
+            this.label13.Name = "label13";
+            // 
             // TECS_SINK_MIN
             // 
             resources.ApplyResources(this.TECS_SINK_MIN, "TECS_SINK_MIN");
@@ -788,36 +810,6 @@
             // 
             resources.ApplyResources(this.label12, "label12");
             this.label12.Name = "label12";
-            // 
-            // TECS_PTCH_DAMP
-            // 
-            resources.ApplyResources(this.TECS_PTCH_DAMP, "TECS_PTCH_DAMP");
-            this.TECS_PTCH_DAMP.Name = "TECS_PTCH_DAMP";
-            // 
-            // label13
-            // 
-            resources.ApplyResources(this.label13, "label13");
-            this.label13.Name = "label13";
-            // 
-            // TECS_TIME_CONST
-            // 
-            resources.ApplyResources(this.TECS_TIME_CONST, "TECS_TIME_CONST");
-            this.TECS_TIME_CONST.Name = "TECS_TIME_CONST";
-            // 
-            // label14
-            // 
-            resources.ApplyResources(this.label14, "label14");
-            this.label14.Name = "label14";
-            // 
-            // TECS_SINK_MAX
-            // 
-            resources.ApplyResources(this.TECS_SINK_MAX, "TECS_SINK_MAX");
-            this.TECS_SINK_MAX.Name = "TECS_SINK_MAX";
-            // 
-            // label15
-            // 
-            resources.ApplyResources(this.label15, "label15");
-            this.label15.Name = "label15";
             // 
             // ConfigArduplane
             // 
@@ -889,11 +881,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.NAVL1_DAMPING)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NAVL1_PERIOD)).EndInit();
             this.groupBox5.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.TECS_SINK_MAX)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TECS_TIME_CONST)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TECS_PTCH_DAMP)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TECS_SINK_MIN)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TECS_CLMB_MAX)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.TECS_PTCH_DAMP)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.TECS_TIME_CONST)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.TECS_SINK_MAX)).EndInit();
             this.ResumeLayout(false);
 
         }

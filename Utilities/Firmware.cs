@@ -424,20 +424,30 @@ namespace MissionPlanner.Utilities
         /// <param name="filename"></param>
         public bool UploadPX4(string filename)
         {
-            try
-            {
-//                MainV2.comPort.Open(false);
-//                MainV2.comPort.doReboot(true);
-            }
-            catch { }
 
-            DateTime DEADLINE = DateTime.Now.AddSeconds(30);
 
             Uploader up;
             updateProgress(0, "Reading Hex File");
             px4uploader.Firmware fw = px4uploader.Firmware.ProcessFirmware(filename);
 
-            CustomMessageBox.Show("Please unplug the board, and then press OK and plug back in.\nMission Planner will look for 30 seconds to find the board");
+            try
+            {
+              //  MainV2.comPort.BaseStream.Open();
+               // if (MainV2.comPort.BaseStream.IsOpen)
+                {
+               //     MainV2.comPort.doReboot(true);
+               //     MainV2.comPort.Close();
+                }
+               // else
+                {
+                    CustomMessageBox.Show("Please unplug the board, and then press OK and plug back in.\nMission Planner will look for 30 seconds to find the board");
+                }
+            }
+            catch {
+                // MainV2.comPort.Close();
+            }
+
+            DateTime DEADLINE = DateTime.Now.AddSeconds(30);
 
             updateProgress(0, "Scanning comports");
 
@@ -447,8 +457,7 @@ namespace MissionPlanner.Utilities
 
                 foreach (string port in allports)
                 {
-
-                    Console.WriteLine(DateTime.Now.Millisecond + " Trying Port " + port);
+                    log.Info(DateTime.Now.Millisecond + " Trying Port " + port);
 
                     updateProgress(-1, "Connecting");
 
@@ -467,7 +476,7 @@ namespace MissionPlanner.Utilities
                     {
                         up.identify();
                         updateProgress(-1, "Identify");
-                        Console.WriteLine("Found board type {0} boardrev {1} bl rev {2} fwmax {3} on {4}", up.board_type, up.board_rev, up.bl_rev, up.fw_maxsize, port);
+                        log.InfoFormat("Found board type {0} boardrev {1} bl rev {2} fwmax {3} on {4}", up.board_type, up.board_rev, up.bl_rev, up.fw_maxsize, port);
                     }
                     catch (Exception)
                     {
@@ -479,13 +488,10 @@ namespace MissionPlanner.Utilities
 
                     try
                     {
-
-                        up.verifyotp();
-
                         up.currentChecksum(fw);
                     }
                     catch {
-                        CustomMessageBox.Show("Failed to upload new firmware");
+                        CustomMessageBox.Show("No need to upload. already on the board");
                         break;
                     }
 
@@ -501,6 +507,7 @@ namespace MissionPlanner.Utilities
                     catch (Exception ex)
                     {
                         updateProgress(0, "ERROR: " + ex.Message);
+                        log.Info(ex);
                         Console.WriteLine(ex.ToString());
 
                     }
@@ -511,6 +518,8 @@ namespace MissionPlanner.Utilities
                     return true;
                 }
             }
+
+            updateProgress(0, "ERROR: No Responce from board");
             return false;
         }
 
@@ -518,6 +527,8 @@ namespace MissionPlanner.Utilities
 
         void up_LogEvent(string message, int level = 0)
         {
+            log.Debug(message);
+
             _message = message;
             updateProgress(-1, message);
         }

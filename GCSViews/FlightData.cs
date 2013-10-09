@@ -23,8 +23,6 @@ using MissionPlanner.Controls.BackstageView;
 //using Crom.Controls.Docking;
 using log4net;
 using System.Reflection;
-using MissionPlanner.Controls;
-using MissionPlanner.Utilities;
 
 // written by michael oborne
 namespace MissionPlanner.GCSViews
@@ -481,8 +479,12 @@ namespace MissionPlanner.GCSViews
 
         void gMapControl1_OnMapZoomChanged()
         {
-            TRK_zoom.Value = (float)gMapControl1.Zoom;
-            Zoomlevel.Value = Convert.ToDecimal(gMapControl1.Zoom);
+            try
+            { // Exception System.Runtime.InteropServices.SEHException: External component has thrown an exception.
+                TRK_zoom.Value = (float)gMapControl1.Zoom;
+                Zoomlevel.Value = Convert.ToDecimal(gMapControl1.Zoom);
+            }
+            catch { }
         }
 
         private void FlightData_Load(object sender, EventArgs e)
@@ -558,8 +560,12 @@ namespace MissionPlanner.GCSViews
                     System.Threading.Thread.Sleep(50);
                     continue;
                 }
-                if (!MainV2.comPort.BaseStream.IsOpen)
-                    lastdata = DateTime.Now;
+                try
+                {
+                    if (!MainV2.comPort.BaseStream.IsOpen)
+                        lastdata = DateTime.Now;
+                }
+                catch { }
                 // re-request servo data
                 if (!(lastdata.AddSeconds(8) > DateTime.Now) && MainV2.comPort.BaseStream.IsOpen)
                 {
@@ -569,13 +575,13 @@ namespace MissionPlanner.GCSViews
                         //System.Threading.Thread.Sleep(1000);
 
                         //comPort.requestDatastream((byte)MissionPlanner.MAVLink09.MAV_DATA_STREAM.RAW_CONTROLLER, 0); // request servoout
-                        MainV2.comPort.requestDatastream(MissionPlanner.MAVLink.MAV_DATA_STREAM.EXTENDED_STATUS, MainV2.comPort.MAV.cs.ratestatus); // mode
-                        MainV2.comPort.requestDatastream(MissionPlanner.MAVLink.MAV_DATA_STREAM.POSITION, MainV2.comPort.MAV.cs.rateposition); // request gps
-                        MainV2.comPort.requestDatastream(MissionPlanner.MAVLink.MAV_DATA_STREAM.EXTRA1, MainV2.comPort.MAV.cs.rateattitude); // request attitude
-                        MainV2.comPort.requestDatastream(MissionPlanner.MAVLink.MAV_DATA_STREAM.EXTRA2, MainV2.comPort.MAV.cs.rateattitude); // request vfr
-                        MainV2.comPort.requestDatastream(MissionPlanner.MAVLink.MAV_DATA_STREAM.EXTRA3, MainV2.comPort.MAV.cs.ratesensors); // request extra stuff - tridge
-                        MainV2.comPort.requestDatastream(MissionPlanner.MAVLink.MAV_DATA_STREAM.RAW_SENSORS, MainV2.comPort.MAV.cs.ratesensors); // request raw sensor
-                        MainV2.comPort.requestDatastream(MissionPlanner.MAVLink.MAV_DATA_STREAM.RC_CHANNELS, MainV2.comPort.MAV.cs.raterc); // request rc info
+                        MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTENDED_STATUS, MainV2.comPort.MAV.cs.ratestatus); // mode
+                        MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.POSITION, MainV2.comPort.MAV.cs.rateposition); // request gps
+                        MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTRA1, MainV2.comPort.MAV.cs.rateattitude); // request attitude
+                        MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTRA2, MainV2.comPort.MAV.cs.rateattitude); // request vfr
+                        MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTRA3, MainV2.comPort.MAV.cs.ratesensors); // request extra stuff - tridge
+                        MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RAW_SENSORS, MainV2.comPort.MAV.cs.ratesensors); // request raw sensor
+                        MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RC_CHANNELS, MainV2.comPort.MAV.cs.raterc); // request rc info
                     }
                     catch { log.Error("Failed to request rates"); }
                     lastdata = DateTime.Now.AddSeconds(60); // prevent flooding
@@ -887,11 +893,11 @@ namespace MissionPlanner.GCSViews
 
                                 if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.Ateryx)
                                 {
-                                    routes.Markers[0] = (new GMapMarkerPlane(currentloc, MainV2.comPort.MAV.cs.yaw, MainV2.comPort.MAV.cs.groundcourse, MainV2.comPort.MAV.cs.nav_bearing, MainV2.comPort.MAV.cs.target_bearing, gMapControl1) { ToolTipText = MainV2.comPort.MAV.cs.alt.ToString("0"), ToolTipMode = MarkerTooltipMode.Always });
+                                    routes.Markers[0] = (new GMapMarkerPlane(currentloc, MainV2.comPort.MAV.cs.yaw, MainV2.comPort.MAV.cs.groundcourse, MainV2.comPort.MAV.cs.nav_bearing, MainV2.comPort.MAV.cs.target_bearing) { ToolTipText = MainV2.comPort.MAV.cs.alt.ToString("0"), ToolTipMode = MarkerTooltipMode.Always });
                                 }
                                 else if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduRover)
                                 {
-                                    routes.Markers[0] = (new GMapMarkerRover(currentloc, MainV2.comPort.MAV.cs.yaw, MainV2.comPort.MAV.cs.groundcourse, MainV2.comPort.MAV.cs.nav_bearing, MainV2.comPort.MAV.cs.target_bearing, gMapControl1));
+                                    routes.Markers[0] = (new GMapMarkerRover(currentloc, MainV2.comPort.MAV.cs.yaw, MainV2.comPort.MAV.cs.groundcourse, MainV2.comPort.MAV.cs.nav_bearing, MainV2.comPort.MAV.cs.target_bearing));
                                 }
                                 else
                                 {
@@ -912,11 +918,11 @@ namespace MissionPlanner.GCSViews
 
                                     if (port.MAV.cs.firmware == MainV2.Firmwares.ArduPlane || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.Ateryx)
                                     {
-                                        routes.Markers[a] = (new GMapMarkerPlane(portlocation, port.MAV.cs.yaw, port.MAV.cs.groundcourse, port.MAV.cs.nav_bearing, port.MAV.cs.target_bearing, gMapControl1) { ToolTipText = "MAV: " + a + " " +port.MAV.cs.alt.ToString("0"), ToolTipMode = MarkerTooltipMode.Always });
+                                        routes.Markers[a] = (new GMapMarkerPlane(portlocation, port.MAV.cs.yaw, port.MAV.cs.groundcourse, port.MAV.cs.nav_bearing, port.MAV.cs.target_bearing) { ToolTipText = "MAV: " + a + " " +port.MAV.cs.alt.ToString("0"), ToolTipMode = MarkerTooltipMode.Always });
                                     }
                                     else if (port.MAV.cs.firmware == MainV2.Firmwares.ArduRover)
                                     {
-                                        routes.Markers[a] = (new GMapMarkerRover(portlocation, port.MAV.cs.yaw, port.MAV.cs.groundcourse, port.MAV.cs.nav_bearing, port.MAV.cs.target_bearing, gMapControl1));
+                                        routes.Markers[a] = (new GMapMarkerRover(portlocation, port.MAV.cs.yaw, port.MAV.cs.groundcourse, port.MAV.cs.nav_bearing, port.MAV.cs.target_bearing));
                                     }
                                     else
                                     {
@@ -1131,7 +1137,6 @@ namespace MissionPlanner.GCSViews
                         mBorders.wprad = (int)(float.Parse(MissionPlanner.MainV2.config["TXT_WPRad"].ToString()) / MainV2.comPort.MAV.cs.multiplierdist);
                     }
                     catch { }
-                    mBorders.MainMap = gMapControl1;
                     if (color.HasValue)
                     {
                         mBorders.Color = color.Value;
@@ -1559,11 +1564,16 @@ namespace MissionPlanner.GCSViews
             fd.DefaultExt = ".tlog";
             DialogResult result = fd.ShowDialog();
             string file = fd.FileName;
+            LoadLogFile(file);
+        }
+
+        public void LoadLogFile(string file)
+        {
             if (file != "")
             {
                 try
                 {
-                    BUT_clear_track_Click(sender, e);
+                    BUT_clear_track_Click(null,null);
 
                     MainV2.comPort.logreadmode = false;
                     MainV2.comPort.logplaybackfile = new BinaryReader(File.OpenRead(file));
@@ -1575,11 +1585,11 @@ namespace MissionPlanner.GCSViews
                     tracklog.Minimum = 0;
                     tracklog.Maximum = 100;
                 }
-                catch { CustomMessageBox.Show("Error: Failed to write log file", "Error"); }
+                catch { CustomMessageBox.Show("Error: Failed to read log file", "Error"); }
             }
         }
 
-        private void BUT_playlog_Click(object sender, EventArgs e)
+        public void BUT_playlog_Click(object sender, EventArgs e)
         {
             if (MainV2.comPort.logreadmode)
             {
@@ -2660,21 +2670,13 @@ print 'Roll complete'
 
         private void hud1_Resize(object sender, EventArgs e)
         {
-            Console.WriteLine("HUD resize " + hud1.Width + " " + hud1.Height);
+            Console.WriteLine("HUD resize " + hud1.Width + " " + hud1.Height);// +"\n"+ System.Environment.StackTrace);
 
             SubMainLeft.SplitterDistance = hud1.Height;
-
-            try
-            {
-                //  dockContainer1.SetHeight(dockhud, hud1.Height);
-            }
-            catch { }
         }
 
         private void resetToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //dockContainer1.Clear();
-            //SetupDocking();
             this.Refresh();
         }
 

@@ -17,9 +17,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             InitializeComponent();
 
-            label6.Text += "[" + MainV2.comPort.MAV.cs.DistanceUnit + "]";
-            label7.Text += "[" + MainV2.comPort.MAV.cs.DistanceUnit + "]";
-            label2.Text += "[" + MainV2.comPort.MAV.cs.DistanceUnit + "]";
+            label6maxalt.Text += "[" + MainV2.comPort.MAV.cs.DistanceUnit + "]";
+            label7maxrad.Text += "[" + MainV2.comPort.MAV.cs.DistanceUnit + "]";
+            label2rtlalt.Text += "[" + MainV2.comPort.MAV.cs.DistanceUnit + "]";
         }
 
         public void Activate()

@@ -15,7 +15,6 @@ using MissionPlanner;
 using System.Reflection;
 using MissionPlanner.Controls;
 using System.Drawing.Drawing2D;
-
 using MissionPlanner.HIL;
 
 // Written by Michael Oborne
@@ -24,7 +23,7 @@ namespace MissionPlanner.GCSViews
     public partial class Simulation : MyUserControl, IActivate
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        MAVLink comPort = MainV2.comPort;
+        MAVLinkInterface comPort = MainV2.comPort;
         UdpClient XplanesSEND;
         UdpClient MavLink;
         Socket SimulatorRECV;
@@ -595,22 +594,23 @@ namespace MissionPlanner.GCSViews
 
                         if (CHK_quad.Checked && !RAD_aerosimrc.Checked)// || chkSensor.Checked && RAD_JSBSim.Checked)
                         {
-                            //comPort.requestDatastream(MissionPlanner.MAVLink.MAV_DATA_STREAM.RAW_CONTROLLER, 0); // request servoout
-                            comPort.requestDatastream(MissionPlanner.MAVLink.MAV_DATA_STREAM.RAW_CONTROLLER, 50); // request servoout
+                            //comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RAW_CONTROLLER, 0); // request servoout
+                            comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RAW_CONTROLLER, 50); // request servoout
                         }
                         else
                         {
-                            comPort.requestDatastream(MissionPlanner.MAVLink.MAV_DATA_STREAM.RAW_CONTROLLER, 50); // request servoout
+                            comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RAW_CONTROLLER, 50); // request servoout
                         }
                     }
                     catch { }
                     lastdata = DateTime.Now; // prevent flooding
                 }
-                if (SimulatorRECV != null && SimulatorRECV.Connected && SimulatorRECV.Available > 0)
+                try
                 {
-                    udpdata = new byte[udpdata.Length];
-                    try
+                    if (SimulatorRECV != null && SimulatorRECV.Connected && SimulatorRECV.Available > 0)
                     {
+                        udpdata = new byte[udpdata.Length];
+
                         while (SimulatorRECV.Available > 0)
                         {
                             int recv = SimulatorRECV.ReceiveFrom(udpdata, ref Remote);
@@ -619,23 +619,26 @@ namespace MissionPlanner.GCSViews
 
                             hzcount++;
                         }
-                    }
-                    catch
-                    { //OutputLog.AppendText("Xplanes Data Problem - You need DATA IN/OUT 3, 4, 17, 18, 19, 20\n" + ex.Message + "\n");
+
                     }
                 }
-                if (MavLink != null && MavLink.Client != null && MavLink.Client.Connected && MavLink.Available > 0)
+                catch
+                { //OutputLog.AppendText("Xplanes Data Problem - You need DATA IN/OUT 3, 4, 17, 18, 19, 20\n" + ex.Message + "\n");
+                }
+                try
                 {
-                    IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
-                    try
+                    if (MavLink != null && MavLink.Client != null && MavLink.Client.Connected && MavLink.Available > 0)
                     {
+                        IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
+
                         Byte[] receiveBytes = MavLink.Receive(ref RemoteIpEndPoint);
 
 
                         comPort.BaseStream.Write(receiveBytes, 0, receiveBytes.Length);
+
                     }
-                    catch { }
                 }
+                catch { }
                 //if (comPort.BaseStream.IsOpen == false) { break; }
                 try
                 {
@@ -751,7 +754,7 @@ namespace MissionPlanner.GCSViews
         /// <param name="data">Packet</param>
         /// <param name="receviedbytes">Length</param>
         /// <param name="comPort">Com Port</param>
-        private void RECVprocess(byte[] data, int receviedbytes, MAVLink comPort)
+        private void RECVprocess(byte[] data, int receviedbytes, MAVLinkInterface comPort)
         {
             sitl_fdm sitldata = new sitl_fdm();
 

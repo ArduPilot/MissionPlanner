@@ -50,7 +50,7 @@ namespace MissionPlanner.Utilities
             }
             catch (Exception e)
             {
-                log.Error("Exception starting lister. Possible multiple instances of planner?", e);
+                log.Error("Exception starting listener. Possible multiple instances of planner?", e);
                 return;
             } // in use
             // Enter the listening loop.               
@@ -137,6 +137,8 @@ namespace MissionPlanner.Utilities
                     //url = url.Replace("GET ","");
                     //url = url.Replace(" HTTP/1.0", "");
                     //url = url.Replace(" HTTP/1.1", "");
+
+                    Tracking.AddEvent("HTTPServer", "Get", url, "");
 
                     if (url.Contains("websocket"))
                     {
@@ -565,22 +567,22 @@ namespace MissionPlanner.Utilities
                         Messagejson message = new Messagejson();
 
 
-                        if (MainV2.comPort.MAV.packets[MAVLink.MAVLINK_MSG_ID_ATTITUDE] != null)
-                            message.ATTITUDE = new Message2() { index = MainV2.comPort.MAV.packetseencount[MAVLink.MAVLINK_MSG_ID_ATTITUDE], msg = MainV2.comPort.MAV.packets[MAVLink.MAVLINK_MSG_ID_ATTITUDE].ByteArrayToStructure<MAVLink.mavlink_attitude_t>(6) };
-                        if (MainV2.comPort.MAV.packets[MAVLink.MAVLINK_MSG_ID_VFR_HUD] != null)
-                            message.VFR_HUD = new Message2() { index = MainV2.comPort.MAV.packetseencount[MAVLink.MAVLINK_MSG_ID_VFR_HUD], msg = MainV2.comPort.MAV.packets[MAVLink.MAVLINK_MSG_ID_VFR_HUD].ByteArrayToStructure<MAVLink.mavlink_vfr_hud_t>(6) };
-                        if (MainV2.comPort.MAV.packets[MAVLink.MAVLINK_MSG_ID_NAV_CONTROLLER_OUTPUT] != null)
-                            message.NAV_CONTROLLER_OUTPUT = new Message2() { index = MainV2.comPort.MAV.packetseencount[MAVLink.MAVLINK_MSG_ID_NAV_CONTROLLER_OUTPUT], msg = MainV2.comPort.MAV.packets[MAVLink.MAVLINK_MSG_ID_NAV_CONTROLLER_OUTPUT].ByteArrayToStructure<MAVLink.mavlink_nav_controller_output_t>(6) };
-                        if (MainV2.comPort.MAV.packets[MAVLink.MAVLINK_MSG_ID_GPS_RAW_INT] != null)
-                            message.GPS_RAW_INT = new Message2() { index = MainV2.comPort.MAV.packetseencount[MAVLink.MAVLINK_MSG_ID_GPS_RAW_INT], msg = MainV2.comPort.MAV.packets[MAVLink.MAVLINK_MSG_ID_GPS_RAW_INT].ByteArrayToStructure<MAVLink.mavlink_gps_raw_int_t>(6) };
-                        if (MainV2.comPort.MAV.packets[MAVLink.MAVLINK_MSG_ID_HEARTBEAT] != null)
-                            message.HEARTBEAT = new Message2() { index = MainV2.comPort.MAV.packetseencount[MAVLink.MAVLINK_MSG_ID_HEARTBEAT], msg = MainV2.comPort.MAV.packets[MAVLink.MAVLINK_MSG_ID_HEARTBEAT].ByteArrayToStructure<MAVLink.mavlink_heartbeat_t>(6) };
-                        if (MainV2.comPort.MAV.packets[MAVLink.MAVLINK_MSG_ID_GPS_STATUS] != null)
-                            message.GPS_STATUS = new Message2() { index = MainV2.comPort.MAV.packetseencount[MAVLink.MAVLINK_MSG_ID_GPS_STATUS], msg = MainV2.comPort.MAV.packets[MAVLink.MAVLINK_MSG_ID_GPS_STATUS].ByteArrayToStructure<MAVLink.mavlink_gps_status_t>(6) };
-                        if (MainV2.comPort.MAV.packets[MAVLink.MAVLINK_MSG_ID_STATUSTEXT] != null)
-                            message.STATUSTEXT = new Message2() { index = MainV2.comPort.MAV.packetseencount[MAVLink.MAVLINK_MSG_ID_STATUSTEXT], msg = MainV2.comPort.MAV.packets[MAVLink.MAVLINK_MSG_ID_STATUSTEXT].ByteArrayToStructure<MAVLink.mavlink_statustext_t>(6) };
-                        if (MainV2.comPort.MAV.packets[MAVLink.MAVLINK_MSG_ID_SYS_STATUS] != null)
-                            message.SYS_STATUS = new Message2() { index = MainV2.comPort.MAV.packetseencount[MAVLink.MAVLINK_MSG_ID_SYS_STATUS], msg = MainV2.comPort.MAV.packets[MAVLink.MAVLINK_MSG_ID_SYS_STATUS].ByteArrayToStructure<MAVLink.mavlink_sys_status_t>(6) };
+                        if (MainV2.comPort.MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.ATTITUDE] != null)
+                            message.ATTITUDE = new Message2() { index = MainV2.comPort.MAV.packetseencount[(byte)MAVLink.MAVLINK_MSG_ID.ATTITUDE], msg = MainV2.comPort.MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.ATTITUDE].ByteArrayToStructure<MAVLink.mavlink_attitude_t>(6) };
+                        if (MainV2.comPort.MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.VFR_HUD] != null)
+                            message.VFR_HUD = new Message2() { index = MainV2.comPort.MAV.packetseencount[(byte)MAVLink.MAVLINK_MSG_ID.VFR_HUD], msg = MainV2.comPort.MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.VFR_HUD].ByteArrayToStructure<MAVLink.mavlink_vfr_hud_t>(6) };
+                        if (MainV2.comPort.MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.NAV_CONTROLLER_OUTPUT] != null)
+                            message.NAV_CONTROLLER_OUTPUT = new Message2() { index = MainV2.comPort.MAV.packetseencount[(byte)MAVLink.MAVLINK_MSG_ID.NAV_CONTROLLER_OUTPUT], msg = MainV2.comPort.MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.NAV_CONTROLLER_OUTPUT].ByteArrayToStructure<MAVLink.mavlink_nav_controller_output_t>(6) };
+                        if (MainV2.comPort.MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.GPS_RAW_INT] != null)
+                            message.GPS_RAW_INT = new Message2() { index = MainV2.comPort.MAV.packetseencount[(byte)MAVLink.MAVLINK_MSG_ID.GPS_RAW_INT], msg = MainV2.comPort.MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.GPS_RAW_INT].ByteArrayToStructure<MAVLink.mavlink_gps_raw_int_t>(6) };
+                        if (MainV2.comPort.MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.HEARTBEAT] != null)
+                            message.HEARTBEAT = new Message2() { index = MainV2.comPort.MAV.packetseencount[(byte)MAVLink.MAVLINK_MSG_ID.HEARTBEAT], msg = MainV2.comPort.MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.HEARTBEAT].ByteArrayToStructure<MAVLink.mavlink_heartbeat_t>(6) };
+                        if (MainV2.comPort.MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.GPS_STATUS] != null)
+                            message.GPS_STATUS = new Message2() { index = MainV2.comPort.MAV.packetseencount[(byte)MAVLink.MAVLINK_MSG_ID.GPS_STATUS], msg = MainV2.comPort.MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.GPS_STATUS].ByteArrayToStructure<MAVLink.mavlink_gps_status_t>(6) };
+                        if (MainV2.comPort.MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.STATUSTEXT] != null)
+                            message.STATUSTEXT = new Message2() { index = MainV2.comPort.MAV.packetseencount[(byte)MAVLink.MAVLINK_MSG_ID.STATUSTEXT], msg = MainV2.comPort.MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.STATUSTEXT].ByteArrayToStructure<MAVLink.mavlink_statustext_t>(6) };
+                        if (MainV2.comPort.MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.SYS_STATUS] != null)
+                            message.SYS_STATUS = new Message2() { index = MainV2.comPort.MAV.packetseencount[(byte)MAVLink.MAVLINK_MSG_ID.SYS_STATUS], msg = MainV2.comPort.MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.SYS_STATUS].ByteArrayToStructure<MAVLink.mavlink_sys_status_t>(6) };
 
                         message.META_LINKQUALITY = message.SYS_STATUS = new Message2() { index = packetindex, time_usec = 0, msg = new META_LINKQUALITY() { master_in = (int)MainV2.comPort.packetsnotlost, mavpackettype = "META_LINKQUALITY", master_out = MainV2.comPort.packetcount, packet_loss = 100 - MainV2.comPort.MAV.cs.linkqualitygcs, mav_loss = 0 } };
 
@@ -680,7 +682,7 @@ namespace MissionPlanner.Utilities
                 }
                 catch (Exception ee)
                 {
-                    log.Error("Failed mjpg ", ee);
+                    log.Error("Failed http ", ee);
                     try
                     {
                         client.Close();

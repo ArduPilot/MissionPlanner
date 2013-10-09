@@ -72,7 +72,7 @@ namespace MissionPlanner.Utilities
                 process.Start();
                 log.Info("Quitting existing process");
 
-                    Application.Exit();
+                Application.Exit();
             }
             catch (Exception ex)
             {
@@ -169,7 +169,10 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
                 var dr = CustomMessageBox.Show(extra + "Update Found\n\nDo you wish to update now? [link;" + baseurl + "/ChangeLog.txt;ChangeLog]", "Update Now", MessageBoxButtons.YesNo);
                 if (dr == DialogResult.Yes)
                 {
-                    DoUpdate();
+                    MainV2.instance.Invoke((MethodInvoker)delegate
+                    {
+                        DoUpdate();
+                    });
                 }
                 else
                 {
@@ -263,6 +266,9 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
             {
                 using (var md5 = MD5.Create())
                 {
+                    if (!File.Exists(filename))
+                        return false;
+
                     using (var stream = File.OpenRead(filename))
                     {
                         return hash == BitConverter.ToString(md5.ComputeHash(stream)).Replace("-", "").ToLower();

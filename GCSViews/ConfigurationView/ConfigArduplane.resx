@@ -1044,6 +1044,9 @@
   <data name="groupBox14.Text" xml:space="preserve">
     <value>Energy/Alt Pid</value>
   </data>
+  <data name="groupBox14.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <data name="&gt;&gt;groupBox14.Name" xml:space="preserve">
     <value>groupBox14</value>
   </data>
@@ -1260,6 +1263,9 @@
   <data name="groupBox13.Text" xml:space="preserve">
     <value>Nav Pitch Alt Pid</value>
   </data>
+  <data name="groupBox13.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <data name="&gt;&gt;groupBox13.Name" xml:space="preserve">
     <value>groupBox13</value>
   </data>
@@ -1475,6 +1481,9 @@
   </data>
   <data name="groupBox12.Text" xml:space="preserve">
     <value>Nav Pitch AS Pid</value>
+  </data>
+  <data name="groupBox12.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
   <data name="&gt;&gt;groupBox12.Name" xml:space="preserve">
     <value>groupBox12</value>
@@ -2158,7 +2167,7 @@
     <value>BUT_writePIDS</value>
   </data>
   <data name="&gt;&gt;BUT_writePIDS.Type" xml:space="preserve">
-    <value>Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_writePIDS.Parent" xml:space="preserve">
     <value>$this</value>
@@ -2188,7 +2197,7 @@
     <value>BUT_rerequestparams</value>
   </data>
   <data name="&gt;&gt;BUT_rerequestparams.Type" xml:space="preserve">
-    <value>Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_rerequestparams.Parent" xml:space="preserve">
     <value>$this</value>

@@ -80,7 +80,6 @@
             // 
             // QuickView
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "QuickView";
             this.Size = new System.Drawing.Size(122, 54);

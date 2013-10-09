@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>TrackerHomeGPS</RootNamespace>
     <AssemblyName>TrackerHome</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -80,6 +80,10 @@
       <Project>{1378a66c-38e4-46f5-a05f-dc04ef7d4d16}</Project>
       <Name>MissionPlanner.Utilities</Name>
       <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Mavlink\MAVLink.csproj">
+      <Project>{20296734-5f3c-4593-a0d5-dd20b440b13a}</Project>
+      <Name>MAVLink</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

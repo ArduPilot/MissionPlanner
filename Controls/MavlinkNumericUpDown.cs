@@ -30,6 +30,8 @@ namespace MissionPlanner.Controls
             Min = 0;
             Max = 1;
 
+            this.Name = "MavlinkNumericUpDown";
+
             this.Enabled = false;
         }
 

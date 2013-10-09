@@ -52,7 +52,7 @@ namespace MissionPlanner
 
             InitializeComponent();
 
-            map.MapType = MapType.GoogleSatellite;
+            map.MapType = plugin.Host.FDMapType;
 
             layerpolygons = new GMapOverlay(map, "polygons");
             map.Overlays.Add(layerpolygons);
@@ -125,14 +125,21 @@ namespace MissionPlanner
             if (chk_boundary.Checked)
                 AddDrawPolygon();
 
+            int strips = 0;
+            int images = 0;
             int a = 1;
             PointLatLngAlt prevpoint = grid[0];
             foreach (var item in grid)
             {
                 if (item.Tag == "M")
                 {
+                    images++;
+
                     if (chk_internals.Checked)
+                    {
                         layerpolygons.Markers.Add(new GMapMarkerGoogleGreen(item) { ToolTipText = a.ToString(), ToolTipMode = MarkerTooltipMode.OnMouseOver });
+                        a++;
+                    }
                     try
                     {
                         if (TXT_fovH.Text != "")
@@ -170,11 +177,13 @@ namespace MissionPlanner
                 }
                 else
                 {
+                    strips++;
                     if (chk_markers.Checked)
                         layerpolygons.Markers.Add(new GMapMarkerGoogleGreen(item) { ToolTipText = a.ToString(), ToolTipMode = MarkerTooltipMode.Always });
+
+                    a++;
                 }
                 prevpoint = item;
-                a++;
             }
 
             // add wp polygon
@@ -193,6 +202,13 @@ namespace MissionPlanner
             lbl_spacing.Text = NUM_spacing.Value.ToString("#") + " m";
 
             lbl_grndres.Text = TXT_cmpixel.Text;
+
+            lbl_pictures.Text = images.ToString();
+
+            lbl_strips.Text = ((int)(strips / 2)).ToString();
+            lbl_distbetweenlines.Text = NUM_Distance.Value.ToString("0.##") + " m";
+
+            lbl_footprint.Text = TXT_fovH.Text + " x " + TXT_fovV.Text +" m";
 
                 map.HoldInvalidation = false;
 
@@ -264,18 +280,18 @@ namespace MissionPlanner
                     {
                         if (rad_repeatservo.Checked)
                         {
-                            plugin.Host.AddWPtoList(MissionPlanner.MAVLink.MAV_CMD.WAYPOINT, 0, 0, 0, 0, plla.Lng, plla.Lat, plla.Alt);
-                            plugin.Host.AddWPtoList(MissionPlanner.MAVLink.MAV_CMD.DO_REPEAT_SERVO, (float)num_reptservo.Value, (float)num_reptpwm.Value, 999, (float)num_repttime.Value, 0, 0, 0);
+                            plugin.Host.AddWPtoList(MAVLink.MAV_CMD.WAYPOINT, 0, 0, 0, 0, plla.Lng, plla.Lat, plla.Alt);
+                            plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_REPEAT_SERVO, (float)num_reptservo.Value, (float)num_reptpwm.Value, 999, (float)num_repttime.Value, 0, 0, 0);
                         }
                         if (rad_digicam.Checked)
                         {
-                            plugin.Host.AddWPtoList(MissionPlanner.MAVLink.MAV_CMD.WAYPOINT, 0, 0, 0, 0, plla.Lng, plla.Lat, plla.Alt);
-                            plugin.Host.AddWPtoList(MissionPlanner.MAVLink.MAV_CMD.DO_DIGICAM_CONTROL, 0, 0, 0, 0, 0, 0, 0);
+                            plugin.Host.AddWPtoList(MAVLink.MAV_CMD.WAYPOINT, 0, 0, 0, 0, plla.Lng, plla.Lat, plla.Alt);
+                            plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_DIGICAM_CONTROL, 0, 0, 0, 0, 0, 0, 0);
                         }
                     }
                     else
                     {
-                        plugin.Host.AddWPtoList(MissionPlanner.MAVLink.MAV_CMD.WAYPOINT, 0, 0, 0, 0, plla.Lng, plla.Lat, plla.Alt);
+                        plugin.Host.AddWPtoList(MAVLink.MAV_CMD.WAYPOINT, 0, 0, 0, 0, plla.Lng, plla.Lat, plla.Alt);
                     }
                 });
 
@@ -472,6 +488,8 @@ namespace MissionPlanner
                 TXT_imgwidth.Text = camera.imagewidth.ToString();
                 TXT_sensheight.Text = camera.sensorheight.ToString();
                 TXT_senswidth.Text = camera.sensorwidth.ToString();
+
+                NUM_Distance.Enabled = false;
             }
 
             doCalc();
@@ -589,8 +607,12 @@ namespace MissionPlanner
 
                     if (lcDirectory.ContainsTag(ExifDirectory.TAG_FOCAL_LENGTH))
                     {
-                        var item = lcDirectory.GetFloat(ExifDirectory.TAG_FOCAL_LENGTH);
-                        num_focallength.Value = (decimal)item;
+                        try
+                        {
+                            var item = lcDirectory.GetFloat(ExifDirectory.TAG_FOCAL_LENGTH);
+                            num_focallength.Value = (decimal)item;
+                        }
+                        catch { }
                     }
                     
 

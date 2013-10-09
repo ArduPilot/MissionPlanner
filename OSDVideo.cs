@@ -284,7 +284,7 @@ namespace MissionPlanner
         {
             flightdata.Clear();
 
-            MAVLink mine = new MAVLink();
+            MAVLinkInterface mine = new MAVLinkInterface();
             try
             {
                 mine.logplaybackfile = new BinaryReader(File.Open(txt_tlog.Text, FileMode.Open, FileAccess.Read, FileShare.Read));

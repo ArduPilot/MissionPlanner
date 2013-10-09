@@ -237,7 +237,7 @@ namespace MissionPlanner
                         //comPort.requestDatastream((byte)MissionPlanner.MAVLink09.MAV_DATA_STREAM.POSITION, 3); // request location
                         //comPort.requestDatastream((byte)MissionPlanner.MAVLink09.MAV_DATA_STREAM.EXTRA1, 3); // request attitude
                         //comPort.requestDatastream((byte)MissionPlanner.MAVLink09.MAV_DATA_STREAM.EXTRA2, 3); // request vfr
-                        MainV2.comPort.requestDatastream(MissionPlanner.MAVLink.MAV_DATA_STREAM.RAW_SENSORS, MainV2.comPort.MAV.cs.ratesensors); // request raw sensor
+                        MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RAW_SENSORS, MainV2.comPort.MAV.cs.ratesensors); // request raw sensor
                         //comPort.requestDatastream((byte)MissionPlanner.MAVLink09.MAV_DATA_STREAM.RC_CHANNELS, 3); // request rc info
                     }
                     catch
@@ -251,7 +251,7 @@ namespace MissionPlanner
         private void CMB_rawupdaterate_SelectedIndexChanged(object sender, EventArgs e)
         {
             MainV2.comPort.MAV.cs.ratesensors = (byte)int.Parse(CMB_rawupdaterate.Text);
-            MainV2.comPort.requestDatastream(MissionPlanner.MAVLink.MAV_DATA_STREAM.RAW_SENSORS, (byte)int.Parse(CMB_rawupdaterate.Text)); // request raw sensor
+            MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RAW_SENSORS, (byte)int.Parse(CMB_rawupdaterate.Text)); // request raw sensor
         }
 
         System.IO.StreamWriter sw = null;
@@ -264,6 +264,13 @@ namespace MissionPlanner
             ofd.ShowDialog();
             if (ofd.FileName != "")
             {
+                try
+                {
+                    if (sw != null)
+                        sw.Close();
+                }
+                catch { }
+
                 sw = new System.IO.StreamWriter(ofd.OpenFile());
             }
         }

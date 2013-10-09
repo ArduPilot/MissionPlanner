@@ -974,7 +974,7 @@ namespace MissionPlanner
                 }
             }
 
-            MAVLink com2 = new MAVLink();
+            MAVLinkInterface com2 = new MAVLinkInterface();
 
             com2.BaseStream.PortName = Comms.CommsSerialScan.portinterface.PortName;
             com2.BaseStream.BaudRate = Comms.CommsSerialScan.portinterface.BaudRate;

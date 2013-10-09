@@ -348,13 +348,13 @@ namespace MissionPlanner.GCSViews
                         //System.Threading.Thread.Sleep(1000);
 
                         //comPort.requestDatastream((byte)MissionPlanner.MAVLink09.MAV_DATA_STREAM.RAW_CONTROLLER, 0); // request servoout
-                        MainV2.comPort.requestDatastream(MissionPlanner.MAVLink.MAV_DATA_STREAM.EXTENDED_STATUS, MainV2.comPort.MAV.cs.ratestatus); // mode
-                        MainV2.comPort.requestDatastream(MissionPlanner.MAVLink.MAV_DATA_STREAM.POSITION, MainV2.comPort.MAV.cs.rateposition); // request gps
-                        MainV2.comPort.requestDatastream(MissionPlanner.MAVLink.MAV_DATA_STREAM.EXTRA1, MainV2.comPort.MAV.cs.rateattitude); // request attitude
-                        MainV2.comPort.requestDatastream(MissionPlanner.MAVLink.MAV_DATA_STREAM.EXTRA2, MainV2.comPort.MAV.cs.rateattitude); // request vfr
-                        MainV2.comPort.requestDatastream(MissionPlanner.MAVLink.MAV_DATA_STREAM.EXTRA3, MainV2.comPort.MAV.cs.ratesensors); // request extra stuff - tridge
-                        MainV2.comPort.requestDatastream(MissionPlanner.MAVLink.MAV_DATA_STREAM.RAW_SENSORS, MainV2.comPort.MAV.cs.ratesensors); // request raw sensor
-                        MainV2.comPort.requestDatastream(MissionPlanner.MAVLink.MAV_DATA_STREAM.RC_CHANNELS, MainV2.comPort.MAV.cs.raterc); // request rc info
+                        MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTENDED_STATUS, MainV2.comPort.MAV.cs.ratestatus); // mode
+                        MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.POSITION, MainV2.comPort.MAV.cs.rateposition); // request gps
+                        MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTRA1, MainV2.comPort.MAV.cs.rateattitude); // request attitude
+                        MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTRA2, MainV2.comPort.MAV.cs.rateattitude); // request vfr
+                        MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTRA3, MainV2.comPort.MAV.cs.ratesensors); // request extra stuff - tridge
+                        MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RAW_SENSORS, MainV2.comPort.MAV.cs.ratesensors); // request raw sensor
+                        MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RC_CHANNELS, MainV2.comPort.MAV.cs.raterc); // request rc info
                     }
                     catch { log.Error("Failed to request rates"); }
                     lastdata = DateTime.Now.AddSeconds(120); // prevent flooding
@@ -520,7 +520,7 @@ namespace MissionPlanner.GCSViews
 
                                 if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.Ateryx)
                                 {
-                                    routes.Markers[0] = (new GMapMarkerPlane(currentloc, MainV2.comPort.MAV.cs.yaw, MainV2.comPort.MAV.cs.groundcourse, MainV2.comPort.MAV.cs.nav_bearing, MainV2.comPort.MAV.cs.target_bearing, gMapControl1)
+                                    routes.Markers[0] = (new GMapMarkerPlane(currentloc, MainV2.comPort.MAV.cs.yaw, MainV2.comPort.MAV.cs.groundcourse, MainV2.comPort.MAV.cs.nav_bearing, MainV2.comPort.MAV.cs.target_bearing)
                                     {
                                         ToolTipText = MainV2.comPort.MAV.cs.mode + "\n" + MainV2.comPort.MAV.cs.alt.ToString("alt 0") + "\n" + MainV2.comPort.MAV.cs.groundspeed.ToString("gs 0"),
                                         ToolTipMode = MarkerTooltipMode.Always
@@ -528,7 +528,7 @@ namespace MissionPlanner.GCSViews
                                 }
                                 else if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduRover)
                                 {
-                                    routes.Markers[0] = (new GMapMarkerRover(currentloc, MainV2.comPort.MAV.cs.yaw, MainV2.comPort.MAV.cs.groundcourse, MainV2.comPort.MAV.cs.nav_bearing, MainV2.comPort.MAV.cs.target_bearing, gMapControl1));
+                                    routes.Markers[0] = (new GMapMarkerRover(currentloc, MainV2.comPort.MAV.cs.yaw, MainV2.comPort.MAV.cs.groundcourse, MainV2.comPort.MAV.cs.nav_bearing, MainV2.comPort.MAV.cs.target_bearing));
                                 }
                                 else
                                 {
@@ -655,7 +655,6 @@ namespace MissionPlanner.GCSViews
                         mBorders.wprad = (int)(float.Parse(MissionPlanner.MainV2.config["TXT_WPRad"].ToString()) / MainV2.comPort.MAV.cs.multiplierdist);
                     }
                     catch { }
-                    mBorders.MainMap = gMapControl1;
                     if (color.HasValue)
                     {
                         mBorders.Color = color.Value;

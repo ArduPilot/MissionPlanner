@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace MissionPlanner
+public partial class MAVLink
 {
-    class MavlinkCRC
+    public class MavlinkCRC
     {
         const int X25_INIT_CRC = 0xffff;
         const int X25_VALIDATE_CRC = 0xf0b8;

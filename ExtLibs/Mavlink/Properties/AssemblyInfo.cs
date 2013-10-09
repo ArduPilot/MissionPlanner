@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ArdupilotMegaPlanner10")]
+[assembly: AssemblyTitle("Mavlink")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("ArdupilotMegaPlanner10")]
+[assembly: AssemblyProduct("Mavlink")]
 [assembly: AssemblyCopyright("Copyright ©  2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("88a41373-b4bb-47d8-89f9-148093cb9ce5")]
+[assembly: Guid("a5fd9bd4-aa6f-4ac5-87e6-5de5835bf5bc")]
 
 // Version information for an assembly consists of the following four values:
 //

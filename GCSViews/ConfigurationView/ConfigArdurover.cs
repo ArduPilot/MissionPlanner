@@ -181,7 +181,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                             float numbervalue = (float)MainV2.comPort.MAV.param[value];
 
-                            MAVLink.modifyParamForDisplay(true, value, ref numbervalue);
+                            MAVLinkInterface.modifyParamForDisplay(true, value, ref numbervalue);
 
                             NumericUpDown thisctl = ((NumericUpDown)ctl);
                             thisctl.Maximum = 9000;
@@ -266,7 +266,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 if (sender.GetType() == typeof(NumericUpDown))
                 {
                     value = (float)((NumericUpDown)sender).Value;
-                    MAVLink.modifyParamForDisplay(false, ((Control)sender).Name, ref value);
+                    MAVLinkInterface.modifyParamForDisplay(false, ((Control)sender).Name, ref value);
                     changes[name] = value;
                 }
                 else if (sender.GetType() == typeof(ComboBox))

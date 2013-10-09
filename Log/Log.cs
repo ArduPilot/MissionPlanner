@@ -859,29 +859,9 @@ namespace MissionPlanner.Log
 
         private void downloadthread(int startlognum, int endlognum)
         {
-            for (int a = startlognum; a <= endlognum; a++)
+            try
             {
-                currentlog = a;
-                System.Threading.Thread.Sleep(1100);
-                comPort.Write("dump ");
-                System.Threading.Thread.Sleep(100);
-                comPort.Write(a.ToString() + "\r");
-                comPort.DiscardInBuffer();
-                status = serialstatus.Createfile;
-
-                while (status != serialstatus.Done)
-                {
-                    System.Threading.Thread.Sleep(100);
-                }
-
-            }
-        }
-
-        private void downloadsinglethread()
-        {
-            for (int i = 0; i < CHK_logs.CheckedItems.Count; ++i)
-            {
-                int a = (int)CHK_logs.CheckedItems[i];
+                for (int a = startlognum; a <= endlognum; a++)
                 {
                     currentlog = a;
                     System.Threading.Thread.Sleep(1100);
@@ -895,8 +875,36 @@ namespace MissionPlanner.Log
                     {
                         System.Threading.Thread.Sleep(100);
                     }
+
                 }
             }
+            catch (Exception ex) { CustomMessageBox.Show(ex.Message,"Error"); }
+        }
+
+        private void downloadsinglethread()
+        {
+            try
+            {
+                for (int i = 0; i < CHK_logs.CheckedItems.Count; ++i)
+                {
+                    int a = (int)CHK_logs.CheckedItems[i];
+                    {
+                        currentlog = a;
+                        System.Threading.Thread.Sleep(1100);
+                        comPort.Write("dump ");
+                        System.Threading.Thread.Sleep(100);
+                        comPort.Write(a.ToString() + "\r");
+                        comPort.DiscardInBuffer();
+                        status = serialstatus.Createfile;
+
+                        while (status != serialstatus.Done)
+                        {
+                            System.Threading.Thread.Sleep(100);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex) { CustomMessageBox.Show(ex.Message, "Error"); }
         }
 
         private void BUT_DLthese_Click(object sender, EventArgs e)
@@ -911,12 +919,16 @@ namespace MissionPlanner.Log
 
         private void BUT_clearlogs_Click(object sender, EventArgs e)
         {
-            System.Threading.Thread.Sleep(500);
-            comPort.Write("erase\r");
-            System.Threading.Thread.Sleep(100);
-            TXT_seriallog.AppendText("!!Allow 30-90 seconds for erase\n");
-            status = serialstatus.Done;
-            CHK_logs.Items.Clear();
+            try
+            {
+                System.Threading.Thread.Sleep(500);
+                comPort.Write("erase\r");
+                System.Threading.Thread.Sleep(100);
+                TXT_seriallog.AppendText("!!Allow 30-90 seconds for erase\n");
+                status = serialstatus.Done;
+                CHK_logs.Items.Clear();
+            }
+            catch (Exception ex) { CustomMessageBox.Show(ex.Message, "Error"); }
         }
 
         private void BUT_redokml_Click(object sender, EventArgs e)

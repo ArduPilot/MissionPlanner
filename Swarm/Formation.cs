@@ -16,17 +16,17 @@ namespace MissionPlanner.Swarm
     class Formation: Swarm
     {
 
-        Dictionary<MAVLink, HIL.Vector3> offsets = new Dictionary<MAVLink, HIL.Vector3>();
+        Dictionary<MAVLinkInterface, HIL.Vector3> offsets = new Dictionary<MAVLinkInterface, HIL.Vector3>();
         
         PointLatLngAlt masterpos = new PointLatLngAlt();
 
-        public void setOffsets(MAVLink mav, double x, double y, double z)
+        public void setOffsets(MAVLinkInterface mav, double x, double y, double z)
         {
             offsets[mav] = new HIL.Vector3(x,y,z);
             //log.Info(mav.ToString() + " " + offsets[mav].ToString());
         }
 
-        public HIL.Vector3 getOffsets(MAVLink mav)
+        public HIL.Vector3 getOffsets(MAVLinkInterface mav)
         {
             if (offsets.ContainsKey(mav))
             {

@@ -23,9 +23,9 @@ namespace MissionPlanner.Controls
         // store linked param options
         Hashtable _linkedParams = new Hashtable();
 
-        MAVLink _mavinterface;
+        MAVLinkInterface _mavinterface;
 
-        public ConfigPanel(string XMLFile, MAVLink mavinterface)
+        public ConfigPanel(string XMLFile, MAVLinkInterface mavinterface)
         {
             _mavinterface = mavinterface;
 
@@ -51,7 +51,7 @@ namespace MissionPlanner.Controls
                     {
                         float numbervalue = (float)_mavinterface.MAV.param[value];
 
-                        MAVLink.modifyParamForDisplay(true, value, ref numbervalue);
+                        MAVLinkInterface.modifyParamForDisplay(true, value, ref numbervalue);
 
                         NumericUpDown thisctl = ((NumericUpDown)ctl);
                         thisctl.Validated -= thisctl_Validated;
@@ -75,7 +75,7 @@ namespace MissionPlanner.Controls
             foreach (string item in (List<string>)_linkedParams[param])
             {
                 float value = (float)((NumericUpDown)sender).Value;
-                MAVLink.modifyParamForDisplay(false, param, ref value);
+                MAVLinkInterface.modifyParamForDisplay(false, param, ref value);
                 _changed[item] = value;
             }
         }

@@ -127,7 +127,7 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="CB_simple6.Location" type="System.Drawing.Point, System.Drawing">
-    <value>232, 200</value>
+    <value>220, 137</value>
   </data>
   <data name="CB_simple6.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
@@ -148,10 +148,10 @@
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;CB_simple6.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;CB_simple6.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>14</value>
   </data>
   <data name="CB_simple5.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -160,7 +160,7 @@
     <value>NoControl</value>
   </data>
   <data name="CB_simple5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>232, 173</value>
+    <value>220, 110</value>
   </data>
   <data name="CB_simple5.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
@@ -181,10 +181,10 @@
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;CB_simple5.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;CB_simple5.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>16</value>
   </data>
   <data name="CB_simple4.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -193,7 +193,7 @@
     <value>NoControl</value>
   </data>
   <data name="CB_simple4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>232, 146</value>
+    <value>220, 83</value>
   </data>
   <data name="CB_simple4.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
@@ -214,10 +214,10 @@
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;CB_simple4.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;CB_simple4.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>18</value>
   </data>
   <data name="CB_simple3.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -226,7 +226,7 @@
     <value>NoControl</value>
   </data>
   <data name="CB_simple3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>232, 119</value>
+    <value>220, 56</value>
   </data>
   <data name="CB_simple3.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
@@ -247,10 +247,10 @@
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;CB_simple3.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;CB_simple3.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>20</value>
   </data>
   <data name="CB_simple2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -259,7 +259,7 @@
     <value>NoControl</value>
   </data>
   <data name="CB_simple2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>232, 92</value>
+    <value>220, 29</value>
   </data>
   <data name="CB_simple2.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
@@ -280,10 +280,10 @@
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;CB_simple2.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;CB_simple2.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>21</value>
   </data>
   <data name="CB_simple1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -292,7 +292,7 @@
     <value>NoControl</value>
   </data>
   <data name="CB_simple1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>232, 65</value>
+    <value>220, 2</value>
   </data>
   <data name="CB_simple1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>2, 2, 2, 2</value>
@@ -313,10 +313,10 @@
     <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;CB_simple1.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;CB_simple1.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>4</value>
   </data>
   <data name="label14.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -346,7 +346,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label14.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>1</value>
   </data>
   <data name="LBL_flightmodepwm.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -376,7 +376,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;LBL_flightmodepwm.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>2</value>
   </data>
   <data name="label13.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -406,7 +406,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label13.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>3</value>
   </data>
   <data name="lbl_currentmode.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -439,7 +439,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;lbl_currentmode.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>4</value>
   </data>
   <data name="label12.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -448,7 +448,7 @@
     <value>NoControl</value>
   </data>
   <data name="label12.Location" type="System.Drawing.Point, System.Drawing">
-    <value>358, 66</value>
+    <value>441, 0</value>
   </data>
   <data name="label12.Size" type="System.Drawing.Size, System.Drawing">
     <value>76, 13</value>
@@ -466,10 +466,10 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label12.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;label12.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>12</value>
   </data>
   <data name="label11.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -478,7 +478,7 @@
     <value>NoControl</value>
   </data>
   <data name="label11.Location" type="System.Drawing.Point, System.Drawing">
-    <value>358, 201</value>
+    <value>441, 135</value>
   </data>
   <data name="label11.Size" type="System.Drawing.Size, System.Drawing">
     <value>70, 13</value>
@@ -496,10 +496,10 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label11.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;label11.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>5</value>
   </data>
   <data name="label10.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -508,7 +508,7 @@
     <value>NoControl</value>
   </data>
   <data name="label10.Location" type="System.Drawing.Point, System.Drawing">
-    <value>358, 174</value>
+    <value>441, 108</value>
   </data>
   <data name="label10.Size" type="System.Drawing.Size, System.Drawing">
     <value>94, 13</value>
@@ -526,10 +526,10 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label10.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;label10.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>7</value>
   </data>
   <data name="label9.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -538,7 +538,7 @@
     <value>NoControl</value>
   </data>
   <data name="label9.Location" type="System.Drawing.Point, System.Drawing">
-    <value>358, 147</value>
+    <value>441, 81</value>
   </data>
   <data name="label9.Size" type="System.Drawing.Size, System.Drawing">
     <value>94, 13</value>
@@ -556,10 +556,10 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label9.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;label9.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>9</value>
   </data>
   <data name="label8.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -568,7 +568,7 @@
     <value>NoControl</value>
   </data>
   <data name="label8.Location" type="System.Drawing.Point, System.Drawing">
-    <value>358, 120</value>
+    <value>441, 54</value>
   </data>
   <data name="label8.Size" type="System.Drawing.Size, System.Drawing">
     <value>94, 13</value>
@@ -586,10 +586,10 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label8.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;label8.ZOrder" xml:space="preserve">
-    <value>14</value>
+    <value>11</value>
   </data>
   <data name="label7.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -598,7 +598,7 @@
     <value>NoControl</value>
   </data>
   <data name="label7.Location" type="System.Drawing.Point, System.Drawing">
-    <value>358, 93</value>
+    <value>441, 27</value>
   </data>
   <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
     <value>94, 13</value>
@@ -616,43 +616,43 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label7.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;label7.ZOrder" xml:space="preserve">
-    <value>15</value>
+    <value>13</value>
   </data>
-  <data name="label6.AutoSize" type="System.Boolean, mscorlib">
+  <data name="labelfm6.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label6.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="labelfm6.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label6.Location" type="System.Drawing.Point, System.Drawing">
-    <value>20, 201</value>
+  <data name="labelfm6.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 135</value>
   </data>
-  <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="labelfm6.Size" type="System.Drawing.Size, System.Drawing">
     <value>71, 13</value>
   </data>
-  <data name="label6.TabIndex" type="System.Int32, mscorlib">
+  <data name="labelfm6.TabIndex" type="System.Int32, mscorlib">
     <value>131</value>
   </data>
-  <data name="label6.Text" xml:space="preserve">
+  <data name="labelfm6.Text" xml:space="preserve">
     <value>Flight Mode 6</value>
   </data>
-  <data name="&gt;&gt;label6.Name" xml:space="preserve">
-    <value>label6</value>
+  <data name="&gt;&gt;labelfm6.Name" xml:space="preserve">
+    <value>labelfm6</value>
   </data>
-  <data name="&gt;&gt;label6.Type" xml:space="preserve">
+  <data name="&gt;&gt;labelfm6.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label6.Parent" xml:space="preserve">
-    <value>$this</value>
+  <data name="&gt;&gt;labelfm6.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
   </data>
-  <data name="&gt;&gt;label6.ZOrder" xml:space="preserve">
-    <value>16</value>
+  <data name="&gt;&gt;labelfm6.ZOrder" xml:space="preserve">
+    <value>25</value>
   </data>
   <data name="CMB_fmode6.Location" type="System.Drawing.Point, System.Drawing">
-    <value>97, 198</value>
+    <value>87, 138</value>
   </data>
   <data name="CMB_fmode6.Size" type="System.Drawing.Size, System.Drawing">
     <value>121, 21</value>
@@ -667,43 +667,43 @@
     <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;CMB_fmode6.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;CMB_fmode6.ZOrder" xml:space="preserve">
-    <value>17</value>
+    <value>29</value>
   </data>
-  <data name="label5.AutoSize" type="System.Boolean, mscorlib">
+  <data name="labelfm5.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label5.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="labelfm5.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>20, 174</value>
+  <data name="labelfm5.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 108</value>
   </data>
-  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="labelfm5.Size" type="System.Drawing.Size, System.Drawing">
     <value>71, 13</value>
   </data>
-  <data name="label5.TabIndex" type="System.Int32, mscorlib">
+  <data name="labelfm5.TabIndex" type="System.Int32, mscorlib">
     <value>129</value>
   </data>
-  <data name="label5.Text" xml:space="preserve">
+  <data name="labelfm5.Text" xml:space="preserve">
     <value>Flight Mode 5</value>
   </data>
-  <data name="&gt;&gt;label5.Name" xml:space="preserve">
-    <value>label5</value>
+  <data name="&gt;&gt;labelfm5.Name" xml:space="preserve">
+    <value>labelfm5</value>
   </data>
-  <data name="&gt;&gt;label5.Type" xml:space="preserve">
+  <data name="&gt;&gt;labelfm5.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label5.Parent" xml:space="preserve">
-    <value>$this</value>
+  <data name="&gt;&gt;labelfm5.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
   </data>
-  <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
-    <value>18</value>
+  <data name="&gt;&gt;labelfm5.ZOrder" xml:space="preserve">
+    <value>24</value>
   </data>
   <data name="CMB_fmode5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>97, 171</value>
+    <value>87, 111</value>
   </data>
   <data name="CMB_fmode5.Size" type="System.Drawing.Size, System.Drawing">
     <value>121, 21</value>
@@ -718,43 +718,43 @@
     <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;CMB_fmode5.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;CMB_fmode5.ZOrder" xml:space="preserve">
-    <value>19</value>
+    <value>28</value>
   </data>
-  <data name="label4.AutoSize" type="System.Boolean, mscorlib">
+  <data name="labelfm4.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label4.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="labelfm4.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>20, 147</value>
+  <data name="labelfm4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 81</value>
   </data>
-  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="labelfm4.Size" type="System.Drawing.Size, System.Drawing">
     <value>71, 13</value>
   </data>
-  <data name="label4.TabIndex" type="System.Int32, mscorlib">
+  <data name="labelfm4.TabIndex" type="System.Int32, mscorlib">
     <value>127</value>
   </data>
-  <data name="label4.Text" xml:space="preserve">
+  <data name="labelfm4.Text" xml:space="preserve">
     <value>Flight Mode 4</value>
   </data>
-  <data name="&gt;&gt;label4.Name" xml:space="preserve">
-    <value>label4</value>
+  <data name="&gt;&gt;labelfm4.Name" xml:space="preserve">
+    <value>labelfm4</value>
   </data>
-  <data name="&gt;&gt;label4.Type" xml:space="preserve">
+  <data name="&gt;&gt;labelfm4.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label4.Parent" xml:space="preserve">
-    <value>$this</value>
+  <data name="&gt;&gt;labelfm4.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
   </data>
-  <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
-    <value>20</value>
+  <data name="&gt;&gt;labelfm4.ZOrder" xml:space="preserve">
+    <value>23</value>
   </data>
   <data name="CMB_fmode4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>97, 144</value>
+    <value>87, 84</value>
   </data>
   <data name="CMB_fmode4.Size" type="System.Drawing.Size, System.Drawing">
     <value>121, 21</value>
@@ -769,43 +769,43 @@
     <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;CMB_fmode4.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;CMB_fmode4.ZOrder" xml:space="preserve">
-    <value>21</value>
+    <value>27</value>
   </data>
-  <data name="label3.AutoSize" type="System.Boolean, mscorlib">
+  <data name="labelfm3.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label3.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="labelfm3.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>20, 120</value>
+  <data name="labelfm3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 54</value>
   </data>
-  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="labelfm3.Size" type="System.Drawing.Size, System.Drawing">
     <value>71, 13</value>
   </data>
-  <data name="label3.TabIndex" type="System.Int32, mscorlib">
+  <data name="labelfm3.TabIndex" type="System.Int32, mscorlib">
     <value>125</value>
   </data>
-  <data name="label3.Text" xml:space="preserve">
+  <data name="labelfm3.Text" xml:space="preserve">
     <value>Flight Mode 3</value>
   </data>
-  <data name="&gt;&gt;label3.Name" xml:space="preserve">
-    <value>label3</value>
+  <data name="&gt;&gt;labelfm3.Name" xml:space="preserve">
+    <value>labelfm3</value>
   </data>
-  <data name="&gt;&gt;label3.Type" xml:space="preserve">
+  <data name="&gt;&gt;labelfm3.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label3.Parent" xml:space="preserve">
-    <value>$this</value>
+  <data name="&gt;&gt;labelfm3.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
   </data>
-  <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;labelfm3.ZOrder" xml:space="preserve">
     <value>22</value>
   </data>
   <data name="CMB_fmode3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>97, 117</value>
+    <value>87, 57</value>
   </data>
   <data name="CMB_fmode3.Size" type="System.Drawing.Size, System.Drawing">
     <value>121, 21</value>
@@ -820,43 +820,43 @@
     <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;CMB_fmode3.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;CMB_fmode3.ZOrder" xml:space="preserve">
-    <value>23</value>
+    <value>26</value>
   </data>
-  <data name="label2.AutoSize" type="System.Boolean, mscorlib">
+  <data name="labelfm2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="labelfm2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>20, 93</value>
+  <data name="labelfm2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 27</value>
   </data>
-  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="labelfm2.Size" type="System.Drawing.Size, System.Drawing">
     <value>71, 13</value>
   </data>
-  <data name="label2.TabIndex" type="System.Int32, mscorlib">
+  <data name="labelfm2.TabIndex" type="System.Int32, mscorlib">
     <value>123</value>
   </data>
-  <data name="label2.Text" xml:space="preserve">
+  <data name="labelfm2.Text" xml:space="preserve">
     <value>Flight Mode 2</value>
   </data>
-  <data name="&gt;&gt;label2.Name" xml:space="preserve">
-    <value>label2</value>
+  <data name="&gt;&gt;labelfm2.Name" xml:space="preserve">
+    <value>labelfm2</value>
   </data>
-  <data name="&gt;&gt;label2.Type" xml:space="preserve">
+  <data name="&gt;&gt;labelfm2.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label2.Parent" xml:space="preserve">
-    <value>$this</value>
+  <data name="&gt;&gt;labelfm2.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
   </data>
-  <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
-    <value>24</value>
+  <data name="&gt;&gt;labelfm2.ZOrder" xml:space="preserve">
+    <value>17</value>
   </data>
   <data name="CMB_fmode2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>97, 90</value>
+    <value>87, 30</value>
   </data>
   <data name="CMB_fmode2.Size" type="System.Drawing.Size, System.Drawing">
     <value>121, 21</value>
@@ -871,43 +871,43 @@
     <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;CMB_fmode2.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;CMB_fmode2.ZOrder" xml:space="preserve">
-    <value>25</value>
+    <value>19</value>
   </data>
-  <data name="label1.AutoSize" type="System.Boolean, mscorlib">
+  <data name="labelfm1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="labelfm1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>20, 66</value>
+  <data name="labelfm1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 0</value>
   </data>
-  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="labelfm1.Size" type="System.Drawing.Size, System.Drawing">
     <value>71, 13</value>
   </data>
-  <data name="label1.TabIndex" type="System.Int32, mscorlib">
+  <data name="labelfm1.TabIndex" type="System.Int32, mscorlib">
     <value>121</value>
   </data>
-  <data name="label1.Text" xml:space="preserve">
+  <data name="labelfm1.Text" xml:space="preserve">
     <value>Flight Mode 1</value>
   </data>
-  <data name="&gt;&gt;label1.Name" xml:space="preserve">
-    <value>label1</value>
+  <data name="&gt;&gt;labelfm1.Name" xml:space="preserve">
+    <value>labelfm1</value>
   </data>
-  <data name="&gt;&gt;label1.Type" xml:space="preserve">
+  <data name="&gt;&gt;labelfm1.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label1.Parent" xml:space="preserve">
-    <value>$this</value>
+  <data name="&gt;&gt;labelfm1.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
   </data>
-  <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
-    <value>26</value>
+  <data name="&gt;&gt;labelfm1.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="CMB_fmode1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>97, 63</value>
+    <value>87, 3</value>
   </data>
   <data name="CMB_fmode1.Size" type="System.Drawing.Size, System.Drawing">
     <value>121, 21</value>
@@ -922,16 +922,16 @@
     <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;CMB_fmode1.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;CMB_fmode1.ZOrder" xml:space="preserve">
-    <value>27</value>
+    <value>2</value>
   </data>
   <data name="BUT_SaveModes.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="BUT_SaveModes.Location" type="System.Drawing.Point, System.Drawing">
-    <value>97, 225</value>
+    <value>87, 165</value>
   </data>
   <data name="BUT_SaveModes.Size" type="System.Drawing.Size, System.Drawing">
     <value>121, 23</value>
@@ -946,13 +946,241 @@
     <value>BUT_SaveModes</value>
   </data>
   <data name="&gt;&gt;BUT_SaveModes.Type" xml:space="preserve">
-    <value>Controls.MyButton, MissionPlanner.lanner, Version=1.1.4536.38105, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_SaveModes.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>tableLayoutPanel1</value>
   </data>
   <data name="&gt;&gt;BUT_SaveModes.ZOrder" xml:space="preserve">
-    <value>28</value>
+    <value>30</value>
+  </data>
+  <data name="chk_ss6.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="chk_ss6.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chk_ss6.Location" type="System.Drawing.Point, System.Drawing">
+    <value>313, 137</value>
+  </data>
+  <data name="chk_ss6.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
+  </data>
+  <data name="chk_ss6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>118, 17</value>
+  </data>
+  <data name="chk_ss6.TabIndex" type="System.Int32, mscorlib">
+    <value>154</value>
+  </data>
+  <data name="chk_ss6.Text" xml:space="preserve">
+    <value>Super Simple Mode</value>
+  </data>
+  <data name="&gt;&gt;chk_ss6.Name" xml:space="preserve">
+    <value>chk_ss6</value>
+  </data>
+  <data name="&gt;&gt;chk_ss6.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;chk_ss6.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;chk_ss6.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="chk_ss5.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="chk_ss5.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chk_ss5.Location" type="System.Drawing.Point, System.Drawing">
+    <value>313, 110</value>
+  </data>
+  <data name="chk_ss5.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
+  </data>
+  <data name="chk_ss5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>118, 17</value>
+  </data>
+  <data name="chk_ss5.TabIndex" type="System.Int32, mscorlib">
+    <value>153</value>
+  </data>
+  <data name="chk_ss5.Text" xml:space="preserve">
+    <value>Super Simple Mode</value>
+  </data>
+  <data name="&gt;&gt;chk_ss5.Name" xml:space="preserve">
+    <value>chk_ss5</value>
+  </data>
+  <data name="&gt;&gt;chk_ss5.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;chk_ss5.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;chk_ss5.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="chk_ss4.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="chk_ss4.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chk_ss4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>313, 83</value>
+  </data>
+  <data name="chk_ss4.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
+  </data>
+  <data name="chk_ss4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>118, 17</value>
+  </data>
+  <data name="chk_ss4.TabIndex" type="System.Int32, mscorlib">
+    <value>152</value>
+  </data>
+  <data name="chk_ss4.Text" xml:space="preserve">
+    <value>Super Simple Mode</value>
+  </data>
+  <data name="&gt;&gt;chk_ss4.Name" xml:space="preserve">
+    <value>chk_ss4</value>
+  </data>
+  <data name="&gt;&gt;chk_ss4.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;chk_ss4.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;chk_ss4.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="chk_ss3.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="chk_ss3.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chk_ss3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>313, 56</value>
+  </data>
+  <data name="chk_ss3.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
+  </data>
+  <data name="chk_ss3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>118, 17</value>
+  </data>
+  <data name="chk_ss3.TabIndex" type="System.Int32, mscorlib">
+    <value>151</value>
+  </data>
+  <data name="chk_ss3.Text" xml:space="preserve">
+    <value>Super Simple Mode</value>
+  </data>
+  <data name="&gt;&gt;chk_ss3.Name" xml:space="preserve">
+    <value>chk_ss3</value>
+  </data>
+  <data name="&gt;&gt;chk_ss3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;chk_ss3.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;chk_ss3.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="chk_ss2.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="chk_ss2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chk_ss2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>313, 29</value>
+  </data>
+  <data name="chk_ss2.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
+  </data>
+  <data name="chk_ss2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>118, 17</value>
+  </data>
+  <data name="chk_ss2.TabIndex" type="System.Int32, mscorlib">
+    <value>150</value>
+  </data>
+  <data name="chk_ss2.Text" xml:space="preserve">
+    <value>Super Simple Mode</value>
+  </data>
+  <data name="&gt;&gt;chk_ss2.Name" xml:space="preserve">
+    <value>chk_ss2</value>
+  </data>
+  <data name="&gt;&gt;chk_ss2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;chk_ss2.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;chk_ss2.ZOrder" xml:space="preserve">
+    <value>15</value>
+  </data>
+  <data name="chk_ss1.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="chk_ss1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="chk_ss1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>313, 2</value>
+  </data>
+  <data name="chk_ss1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>2, 2, 2, 2</value>
+  </data>
+  <data name="chk_ss1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>118, 17</value>
+  </data>
+  <data name="chk_ss1.TabIndex" type="System.Int32, mscorlib">
+    <value>149</value>
+  </data>
+  <data name="chk_ss1.Text" xml:space="preserve">
+    <value>Super Simple Mode</value>
+  </data>
+  <data name="&gt;&gt;chk_ss1.Name" xml:space="preserve">
+    <value>chk_ss1</value>
+  </data>
+  <data name="&gt;&gt;chk_ss1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;chk_ss1.Parent" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;chk_ss1.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="tableLayoutPanel1.ColumnCount" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="tableLayoutPanel1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 48</value>
+  </data>
+  <data name="tableLayoutPanel1.RowCount" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="tableLayoutPanel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>549, 194</value>
+  </data>
+  <data name="tableLayoutPanel1.TabIndex" type="System.Int32, mscorlib">
+    <value>155</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel1.Name" xml:space="preserve">
+    <value>tableLayoutPanel1</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tableLayoutPanel1.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="labelfm1" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="chk_ss6" Row="5" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="CMB_fmode1" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="chk_ss5" Row="4" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="CB_simple1" Row="0" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="label11" Row="5" RowSpan="1" Column="4" ColumnSpan="1" /&gt;&lt;Control Name="chk_ss4" Row="3" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="label10" Row="4" RowSpan="1" Column="4" ColumnSpan="1" /&gt;&lt;Control Name="chk_ss1" Row="0" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="label9" Row="3" RowSpan="1" Column="4" ColumnSpan="1" /&gt;&lt;Control Name="chk_ss3" Row="2" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="label8" Row="2" RowSpan="1" Column="4" ColumnSpan="1" /&gt;&lt;Control Name="label12" Row="0" RowSpan="1" Column="4" ColumnSpan="1" /&gt;&lt;Control Name="label7" Row="1" RowSpan="1" Column="4" ColumnSpan="1" /&gt;&lt;Control Name="CB_simple6" Row="5" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="chk_ss2" Row="1" RowSpan="1" Column="3" ColumnSpan="1" /&gt;&lt;Control Name="CB_simple5" Row="4" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="labelfm2" Row="1" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="CB_simple4" Row="3" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="CMB_fmode2" Row="1" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="CB_simple3" Row="2" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="CB_simple2" Row="1" RowSpan="1" Column="2" ColumnSpan="1" /&gt;&lt;Control Name="labelfm3" Row="2" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="labelfm4" Row="3" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="labelfm5" Row="4" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="labelfm6" Row="5" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="CMB_fmode3" Row="2" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="CMB_fmode4" Row="3" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="CMB_fmode5" Row="4" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="CMB_fmode6" Row="5" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;Control Name="BUT_SaveModes" Row="6" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,15.30055,Percent,24.40801,Percent,16.93989,Percent,23.13297,Percent,20" /&gt;&lt;Rows Styles="Percent,14.28571,Percent,14.28571,Percent,14.28571,Percent,14.28571,Percent,14.28571,Percent,14.28571,Percent,14.28571" /&gt;&lt;/TableLayoutSettings&gt;</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -961,7 +1189,7 @@
     <value>6, 13</value>
   </data>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>500, 270</value>
+    <value>561, 248</value>
   </data>
   <data name="&gt;&gt;currentStateBindingSource.Name" xml:space="preserve">
     <value>currentStateBindingSource</value>
@@ -973,6 +1201,6 @@
     <value>ConfigFlightModes</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>Controls.BackstageView.BackStageViewContentPanel, MissionPlanner.lanner, Version=1.1.4536.38105, Culture=neutral, PublicKeyToken=null</value>
+    <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

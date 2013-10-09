@@ -58,8 +58,6 @@ namespace MissionPlanner.Controls
             instance = this;
 
             InitializeComponent();
-
-            GL.GenTextures(1, out texture);
         }
 
         void getImage()
@@ -357,6 +355,8 @@ namespace MissionPlanner.Controls
 
         private void test_Load(object sender, EventArgs e)
         {
+                GL.GenTextures(1, out texture);
+
             GL.Enable(EnableCap.DepthTest);
            // GL.Enable(EnableCap.Light0);
             GL.Enable(EnableCap.Lighting);

@@ -217,6 +217,10 @@ namespace MissionPlanner.GCSViews
                     if (fwtoupload.url2560_2 != null && fwtoupload.url2560_2.ToLower().Contains("copter"))
                         CustomMessageBox.Show("Please ensure you do a live compass calibration after installing arducopter V 3.x", "Compass");
                 }
+                else
+                {
+                    CustomMessageBox.Show("Error uploading firmware","Error");
+                }
             }
 
         }
@@ -398,7 +402,30 @@ namespace MissionPlanner.GCSViews
 
         private void lbl_dlfw_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start("http://firmware.diydrones.com/");
+            try
+            {
+                System.Diagnostics.Process.Start("http://firmware.diydrones.com/");
+            }
+            catch { CustomMessageBox.Show("Can not open url http://firmware.diydrones.com/", "Error"); }
+        }
+
+        private void lbl_px4bl_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                MainV2.comPort.Open(false);
+
+                if (MainV2.comPort.BaseStream.IsOpen)
+                {
+                    MainV2.comPort.doReboot(true);
+                    CustomMessageBox.Show("Please ignore the unplug and plug back in when uploading firmware.");
+                }
+                else
+                {
+                    throw new Exception();
+                }
+            }
+            catch { CustomMessageBox.Show("Failed to connect and send the reboot command","Error"); }
         }
     }
 }

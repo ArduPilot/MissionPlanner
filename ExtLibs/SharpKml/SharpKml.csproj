@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SharpKml</RootNamespace>
     <AssemblyName>SharpKml</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
@@ -207,7 +207,7 @@
     <Compile Include="Engine\UriExtensions.cs" />
     <Compile Include="Engine\KmzFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tuple.cs" />
+    <None Include="Tuple.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="dont care.snk" />

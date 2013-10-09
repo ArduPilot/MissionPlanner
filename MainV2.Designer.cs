@@ -43,9 +43,9 @@ namespace MissionPlanner
             this.MenuTerminal = new System.Windows.Forms.ToolStripButton();
             this.MenuHelp = new System.Windows.Forms.ToolStripButton();
             this.MenuConnect = new System.Windows.Forms.ToolStripButton();
-            this.toolStripConnectionControl = new Controls.ToolStripConnectionControl();
+            this.toolStripConnectionControl = new MissionPlanner.Controls.ToolStripConnectionControl();
             this.MenuDonate = new System.Windows.Forms.ToolStripMenuItem();
-            this.menu = new Controls.MyButton();
+            this.menu = new MissionPlanner.Controls.MyButton();
             this.panel1 = new System.Windows.Forms.Panel();
             this.MainMenu.SuspendLayout();
             this.CTX_mainmenu.SuspendLayout();
@@ -256,17 +256,13 @@ namespace MissionPlanner
             // 
             // menu
             // 
-            this.menu.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
-            this.menu.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
             this.menu.Dock = System.Windows.Forms.DockStyle.Top;
             this.menu.Location = new System.Drawing.Point(0, 0);
             this.menu.Margin = new System.Windows.Forms.Padding(4);
             this.menu.Name = "menu";
-            this.menu.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
             this.menu.Size = new System.Drawing.Size(1008, 28);
             this.menu.TabIndex = 6;
             this.menu.Text = "Menu";
-            this.menu.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.menu.UseVisualStyleBackColor = true;
             this.menu.MouseEnter += new System.EventHandler(this.menu_MouseEnter);
             // 

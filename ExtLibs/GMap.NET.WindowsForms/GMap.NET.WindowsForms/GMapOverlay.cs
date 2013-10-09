@@ -71,7 +71,7 @@ namespace GMap.NET.WindowsForms
       /// </summary>
       public readonly ObservableCollectionThreadSafe<GMapPolygon> Polygons = new ObservableCollectionThreadSafe<GMapPolygon>();
 
-      internal GMapControl Control;
+      public GMapControl Control;
 
       public GMapOverlay(GMapControl control, string id)
       {
