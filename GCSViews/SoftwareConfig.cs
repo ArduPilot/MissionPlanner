@@ -63,6 +63,12 @@ namespace MissionPlanner.GCSViews
 
                 }
 
+                if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduRover)
+                {
+                    start = AddBackstageViewPage(new ConfigArdurover(), "APM:Rover Pids");
+
+                }
+
                 if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
                 {
                     // var configpanel = new Controls.ConfigPanel(Application.StartupPath + System.IO.Path.DirectorySeparatorChar + "ArduCopterConfig.xml");

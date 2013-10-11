@@ -52,10 +52,10 @@
             this.label33 = new System.Windows.Forms.Label();
             this.label32 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.txt_meascurrent = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
             this.txt_current = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.txt_meascurrent = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
             this.groupBox4.SuspendLayout();
             this.SuspendLayout();
@@ -74,7 +74,8 @@
             resources.GetString("CMB_batmonsensortype.Items1"),
             resources.GetString("CMB_batmonsensortype.Items2"),
             resources.GetString("CMB_batmonsensortype.Items3"),
-            resources.GetString("CMB_batmonsensortype.Items4")});
+            resources.GetString("CMB_batmonsensortype.Items4"),
+            resources.GetString("CMB_batmonsensortype.Items5")});
             resources.ApplyResources(this.CMB_batmonsensortype, "CMB_batmonsensortype");
             this.CMB_batmonsensortype.Name = "CMB_batmonsensortype";
             this.CMB_batmonsensortype.SelectedIndexChanged += new System.EventHandler(this.CMB_batmonsensortype_SelectedIndexChanged);
@@ -217,17 +218,6 @@
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.TabStop = false;
             // 
-            // txt_meascurrent
-            // 
-            resources.ApplyResources(this.txt_meascurrent, "txt_meascurrent");
-            this.txt_meascurrent.Name = "txt_meascurrent";
-            this.txt_meascurrent.Validated += new System.EventHandler(this.txt_meascurrent_Validated);
-            // 
-            // label3
-            // 
-            resources.ApplyResources(this.label3, "label3");
-            this.label3.Name = "label3";
-            // 
             // txt_current
             // 
             resources.ApplyResources(this.txt_current, "txt_current");
@@ -238,6 +228,17 @@
             // 
             resources.ApplyResources(this.label4, "label4");
             this.label4.Name = "label4";
+            // 
+            // txt_meascurrent
+            // 
+            resources.ApplyResources(this.txt_meascurrent, "txt_meascurrent");
+            this.txt_meascurrent.Name = "txt_meascurrent";
+            this.txt_meascurrent.Validated += new System.EventHandler(this.txt_meascurrent_Validated);
+            // 
+            // label3
+            // 
+            resources.ApplyResources(this.label3, "label3");
+            this.label3.Name = "label3";
             // 
             // ConfigBatteryMonitoring
             // 

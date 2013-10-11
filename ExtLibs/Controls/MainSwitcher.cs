@@ -138,6 +138,7 @@ namespace MissionPlanner.Controls
             {
                 try
                 {
+                    Console.WriteLine("MainSwitcher dispose "+ item.Control.Name);
                     item.Control.Dispose();
                 }
                 catch { }

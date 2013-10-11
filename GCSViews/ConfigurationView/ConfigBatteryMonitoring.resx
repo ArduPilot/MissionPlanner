@@ -162,6 +162,9 @@
   <data name="CMB_batmonsensortype.Items4" xml:space="preserve">
     <value>4: 3DR Power Module</value>
   </data>
+  <data name="CMB_batmonsensortype.Items5" xml:space="preserve">
+    <value>5: 3DR 4 in 1 ESC</value>
+  </data>
   <data name="CMB_batmonsensortype.Location" type="System.Drawing.Point, System.Drawing">
     <value>160, 68</value>
   </data>

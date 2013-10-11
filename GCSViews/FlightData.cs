@@ -117,12 +117,11 @@ namespace MissionPlanner.GCSViews
                 MainV2.config["FlightSplitter"] = hud1.Width;
             }
             catch { }
-            // run anything that might be outstanding.
-          //  while (ismainlooprunning)
-            {
-                Application.DoEvents();
-                System.Threading.Thread.Sleep(200);
-            }           
+
+            //Application.DoEvents();
+            //System.Threading.Thread.Sleep(200);
+            //Application.DoEvents();
+
             base.Dispose(disposing);
         }
 

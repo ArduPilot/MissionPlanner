@@ -425,7 +425,6 @@
     <Compile Include="Utilities\Firmware.cs" />
     <Compile Include="Utilities\ImageOverFilter.cs" />
     <None Include="packages.config" />
-    <None Include="Utilities\RSA.cs" />
     <Compile Include="Utilities\StringRedirectWriter.cs" />
     <Compile Include="Utilities\Update.cs" />
     <Compile Include="Wizard\1Intro.cs">

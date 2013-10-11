@@ -3,10 +3,10 @@ using System.Text;
 using System.Net; // dns, ip address
 using System.Net.Sockets; // tcplistner
 using log4net;
-using MissionPlanner.Controls;
 using System.IO.Ports;
 using System.IO;
 using System;
+using MissionPlanner.Controls;
 
 namespace MissionPlanner.Comms
 {

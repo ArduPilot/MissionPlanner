@@ -1775,16 +1775,19 @@ namespace MissionPlanner
             // close all tabs
             MyView.Dispose();
 
+            log.Info("closing fd");
             try
             {
                 FlightData.Dispose();
             }
             catch { }
+            log.Info("closing fp");
             try
             {
                 FlightPlanner.Dispose();
             }
             catch { }
+            log.Info("closing sim");
             try
             {
                 Simulation.Dispose();
@@ -1798,6 +1801,7 @@ namespace MissionPlanner
             }
             catch { } // i get alot of these errors, the port is still open, but not valid - user has unpluged usb
 
+            log.Info("save config");
             // save config
             xmlconfig(true);
             

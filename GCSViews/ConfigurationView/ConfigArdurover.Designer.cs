@@ -39,11 +39,6 @@
             this.label7 = new System.Windows.Forms.Label();
             this.CRUISE_THROTTLE = new System.Windows.Forms.NumericUpDown();
             this.label8 = new System.Windows.Forms.Label();
-            this.groupBox15 = new System.Windows.Forms.GroupBox();
-            this.XTRK_ANGLE_CD = new System.Windows.Forms.NumericUpDown();
-            this.label79 = new System.Windows.Forms.Label();
-            this.XTRK_GAIN_SC = new System.Windows.Forms.NumericUpDown();
-            this.label80 = new System.Windows.Forms.Label();
             this.groupBox14 = new System.Windows.Forms.GroupBox();
             this.SPEED2THR_IMAX = new System.Windows.Forms.NumericUpDown();
             this.label73 = new System.Windows.Forms.Label();
@@ -53,19 +48,12 @@
             this.label75 = new System.Windows.Forms.Label();
             this.SPEED2THR_P = new System.Windows.Forms.NumericUpDown();
             this.label76 = new System.Windows.Forms.Label();
-            this.groupBox11 = new System.Windows.Forms.GroupBox();
-            this.HDNG2STEER_IMAX = new System.Windows.Forms.NumericUpDown();
-            this.label61 = new System.Windows.Forms.Label();
-            this.HDNG2STEER_D = new System.Windows.Forms.NumericUpDown();
-            this.label62 = new System.Windows.Forms.Label();
-            this.HDNG2STEER_I = new System.Windows.Forms.NumericUpDown();
-            this.label63 = new System.Windows.Forms.Label();
-            this.HDNG2STEER_P = new System.Windows.Forms.NumericUpDown();
-            this.label64 = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.BUT_writePIDS = new Controls.MyButton();
-            this.BUT_rerequestparams = new Controls.MyButton();
+            this.BUT_writePIDS = new MissionPlanner.Controls.MyButton();
+            this.BUT_rerequestparams = new MissionPlanner.Controls.MyButton();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.WP_RADIUS = new System.Windows.Forms.NumericUpDown();
+            this.label9 = new System.Windows.Forms.Label();
             this.SPEED_TURN_DIST = new System.Windows.Forms.NumericUpDown();
             this.label10 = new System.Windows.Forms.Label();
             this.SPEED_TURN_GAIN = new System.Windows.Forms.NumericUpDown();
@@ -82,35 +70,31 @@
             this.STEER2SRV_P = new System.Windows.Forms.NumericUpDown();
             this.label17 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.SONAR_DEBOUNCE = new System.Windows.Forms.NumericUpDown();
+            this.label4 = new System.Windows.Forms.Label();
             this.SONAR_TURN_TIME = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             this.SONAR_TURN_ANGLE = new System.Windows.Forms.NumericUpDown();
             this.label2 = new System.Windows.Forms.Label();
             this.SONAR_TRIGGER_CM = new System.Windows.Forms.NumericUpDown();
             this.label3 = new System.Windows.Forms.Label();
-            this.SONAR_DEBOUNCE = new System.Windows.Forms.NumericUpDown();
-            this.label4 = new System.Windows.Forms.Label();
-            this.WP_RADIUS = new System.Windows.Forms.NumericUpDown();
-            this.label9 = new System.Windows.Forms.Label();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.NAVL1_DAMPING = new System.Windows.Forms.NumericUpDown();
+            this.label13 = new System.Windows.Forms.Label();
+            this.NAVL1_PERIOD = new System.Windows.Forms.NumericUpDown();
+            this.label18 = new System.Windows.Forms.Label();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.FS_THR_VALUE)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.THR_MAX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.THR_MIN)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.CRUISE_THROTTLE)).BeginInit();
-            this.groupBox15.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.XTRK_ANGLE_CD)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.XTRK_GAIN_SC)).BeginInit();
             this.groupBox14.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SPEED2THR_IMAX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.SPEED2THR_D)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.SPEED2THR_I)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.SPEED2THR_P)).BeginInit();
-            this.groupBox11.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.HDNG2STEER_IMAX)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.HDNG2STEER_D)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.HDNG2STEER_I)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.HDNG2STEER_P)).BeginInit();
             this.groupBox4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.WP_RADIUS)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.SPEED_TURN_DIST)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.SPEED_TURN_GAIN)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.CRUISE_SPEED)).BeginInit();
@@ -120,11 +104,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.STEER2SRV_I)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.STEER2SRV_P)).BeginInit();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.SONAR_DEBOUNCE)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.SONAR_TURN_TIME)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.SONAR_TURN_ANGLE)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.SONAR_TRIGGER_CM)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.SONAR_DEBOUNCE)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.WP_RADIUS)).BeginInit();
+            this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NAVL1_DAMPING)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NAVL1_PERIOD)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox3
@@ -181,36 +167,6 @@
             resources.ApplyResources(this.label8, "label8");
             this.label8.Name = "label8";
             // 
-            // groupBox15
-            // 
-            this.groupBox15.Controls.Add(this.XTRK_ANGLE_CD);
-            this.groupBox15.Controls.Add(this.label79);
-            this.groupBox15.Controls.Add(this.XTRK_GAIN_SC);
-            this.groupBox15.Controls.Add(this.label80);
-            resources.ApplyResources(this.groupBox15, "groupBox15");
-            this.groupBox15.Name = "groupBox15";
-            this.groupBox15.TabStop = false;
-            // 
-            // XTRK_ANGLE_CD
-            // 
-            resources.ApplyResources(this.XTRK_ANGLE_CD, "XTRK_ANGLE_CD");
-            this.XTRK_ANGLE_CD.Name = "XTRK_ANGLE_CD";
-            // 
-            // label79
-            // 
-            resources.ApplyResources(this.label79, "label79");
-            this.label79.Name = "label79";
-            // 
-            // XTRK_GAIN_SC
-            // 
-            resources.ApplyResources(this.XTRK_GAIN_SC, "XTRK_GAIN_SC");
-            this.XTRK_GAIN_SC.Name = "XTRK_GAIN_SC";
-            // 
-            // label80
-            // 
-            resources.ApplyResources(this.label80, "label80");
-            this.label80.Name = "label80";
-            // 
             // groupBox14
             // 
             this.groupBox14.Controls.Add(this.SPEED2THR_IMAX);
@@ -265,60 +221,6 @@
             resources.ApplyResources(this.label76, "label76");
             this.label76.Name = "label76";
             // 
-            // groupBox11
-            // 
-            this.groupBox11.Controls.Add(this.HDNG2STEER_IMAX);
-            this.groupBox11.Controls.Add(this.label61);
-            this.groupBox11.Controls.Add(this.HDNG2STEER_D);
-            this.groupBox11.Controls.Add(this.label62);
-            this.groupBox11.Controls.Add(this.HDNG2STEER_I);
-            this.groupBox11.Controls.Add(this.label63);
-            this.groupBox11.Controls.Add(this.HDNG2STEER_P);
-            this.groupBox11.Controls.Add(this.label64);
-            resources.ApplyResources(this.groupBox11, "groupBox11");
-            this.groupBox11.Name = "groupBox11";
-            this.groupBox11.TabStop = false;
-            // 
-            // HDNG2STEER_IMAX
-            // 
-            resources.ApplyResources(this.HDNG2STEER_IMAX, "HDNG2STEER_IMAX");
-            this.HDNG2STEER_IMAX.Name = "HDNG2STEER_IMAX";
-            // 
-            // label61
-            // 
-            resources.ApplyResources(this.label61, "label61");
-            this.label61.Name = "label61";
-            // 
-            // HDNG2STEER_D
-            // 
-            resources.ApplyResources(this.HDNG2STEER_D, "HDNG2STEER_D");
-            this.HDNG2STEER_D.Name = "HDNG2STEER_D";
-            // 
-            // label62
-            // 
-            resources.ApplyResources(this.label62, "label62");
-            this.label62.Name = "label62";
-            // 
-            // HDNG2STEER_I
-            // 
-            resources.ApplyResources(this.HDNG2STEER_I, "HDNG2STEER_I");
-            this.HDNG2STEER_I.Name = "HDNG2STEER_I";
-            // 
-            // label63
-            // 
-            resources.ApplyResources(this.label63, "label63");
-            this.label63.Name = "label63";
-            // 
-            // HDNG2STEER_P
-            // 
-            resources.ApplyResources(this.HDNG2STEER_P, "HDNG2STEER_P");
-            this.HDNG2STEER_P.Name = "HDNG2STEER_P";
-            // 
-            // label64
-            // 
-            resources.ApplyResources(this.label64, "label64");
-            this.label64.Name = "label64";
-            // 
             // toolTip1
             // 
             this.toolTip1.AutoPopDelay = 20000;
@@ -352,6 +254,16 @@
             resources.ApplyResources(this.groupBox4, "groupBox4");
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.TabStop = false;
+            // 
+            // WP_RADIUS
+            // 
+            resources.ApplyResources(this.WP_RADIUS, "WP_RADIUS");
+            this.WP_RADIUS.Name = "WP_RADIUS";
+            // 
+            // label9
+            // 
+            resources.ApplyResources(this.label9, "label9");
+            this.label9.Name = "label9";
             // 
             // SPEED_TURN_DIST
             // 
@@ -451,6 +363,16 @@
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
             // 
+            // SONAR_DEBOUNCE
+            // 
+            resources.ApplyResources(this.SONAR_DEBOUNCE, "SONAR_DEBOUNCE");
+            this.SONAR_DEBOUNCE.Name = "SONAR_DEBOUNCE";
+            // 
+            // label4
+            // 
+            resources.ApplyResources(this.label4, "label4");
+            this.label4.Name = "label4";
+            // 
             // SONAR_TURN_TIME
             // 
             resources.ApplyResources(this.SONAR_TURN_TIME, "SONAR_TURN_TIME");
@@ -481,59 +403,61 @@
             resources.ApplyResources(this.label3, "label3");
             this.label3.Name = "label3";
             // 
-            // SONAR_DEBOUNCE
+            // groupBox2
             // 
-            resources.ApplyResources(this.SONAR_DEBOUNCE, "SONAR_DEBOUNCE");
-            this.SONAR_DEBOUNCE.Name = "SONAR_DEBOUNCE";
+            this.groupBox2.Controls.Add(this.NAVL1_DAMPING);
+            this.groupBox2.Controls.Add(this.label13);
+            this.groupBox2.Controls.Add(this.NAVL1_PERIOD);
+            this.groupBox2.Controls.Add(this.label18);
+            resources.ApplyResources(this.groupBox2, "groupBox2");
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.TabStop = false;
             // 
-            // label4
+            // NAVL1_DAMPING
             // 
-            resources.ApplyResources(this.label4, "label4");
-            this.label4.Name = "label4";
+            resources.ApplyResources(this.NAVL1_DAMPING, "NAVL1_DAMPING");
+            this.NAVL1_DAMPING.Name = "NAVL1_DAMPING";
             // 
-            // WP_RADIUS
+            // label13
             // 
-            resources.ApplyResources(this.WP_RADIUS, "WP_RADIUS");
-            this.WP_RADIUS.Name = "WP_RADIUS";
+            resources.ApplyResources(this.label13, "label13");
+            this.label13.Name = "label13";
             // 
-            // label9
+            // NAVL1_PERIOD
             // 
-            resources.ApplyResources(this.label9, "label9");
-            this.label9.Name = "label9";
+            resources.ApplyResources(this.NAVL1_PERIOD, "NAVL1_PERIOD");
+            this.NAVL1_PERIOD.Name = "NAVL1_PERIOD";
+            // 
+            // label18
+            // 
+            resources.ApplyResources(this.label18, "label18");
+            this.label18.Name = "label18";
             // 
             // ConfigArdurover
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.BUT_rerequestparams);
             this.Controls.Add(this.BUT_writePIDS);
             this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.groupBox15);
             this.Controls.Add(this.groupBox14);
-            this.Controls.Add(this.groupBox11);
             this.Name = "ConfigArdurover";
             this.groupBox3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.FS_THR_VALUE)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.THR_MAX)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.THR_MIN)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.CRUISE_THROTTLE)).EndInit();
-            this.groupBox15.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.XTRK_ANGLE_CD)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.XTRK_GAIN_SC)).EndInit();
             this.groupBox14.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.SPEED2THR_IMAX)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.SPEED2THR_D)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.SPEED2THR_I)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.SPEED2THR_P)).EndInit();
-            this.groupBox11.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.HDNG2STEER_IMAX)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.HDNG2STEER_D)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.HDNG2STEER_I)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.HDNG2STEER_P)).EndInit();
             this.groupBox4.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.WP_RADIUS)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.SPEED_TURN_DIST)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.SPEED_TURN_GAIN)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.CRUISE_SPEED)).EndInit();
@@ -543,11 +467,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.STEER2SRV_I)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.STEER2SRV_P)).EndInit();
             this.groupBox1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.SONAR_DEBOUNCE)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.SONAR_TURN_TIME)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.SONAR_TURN_ANGLE)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.SONAR_TRIGGER_CM)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.SONAR_DEBOUNCE)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.WP_RADIUS)).EndInit();
+            this.groupBox2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.NAVL1_DAMPING)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NAVL1_PERIOD)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -563,11 +489,6 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.NumericUpDown CRUISE_THROTTLE;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.GroupBox groupBox15;
-        private System.Windows.Forms.NumericUpDown XTRK_ANGLE_CD;
-        private System.Windows.Forms.Label label79;
-        private System.Windows.Forms.NumericUpDown XTRK_GAIN_SC;
-        private System.Windows.Forms.Label label80;
         private System.Windows.Forms.GroupBox groupBox14;
         private System.Windows.Forms.NumericUpDown SPEED2THR_IMAX;
         private System.Windows.Forms.Label label73;
@@ -577,15 +498,6 @@
         private System.Windows.Forms.Label label75;
         private System.Windows.Forms.NumericUpDown SPEED2THR_P;
         private System.Windows.Forms.Label label76;
-        private System.Windows.Forms.GroupBox groupBox11;
-        private System.Windows.Forms.NumericUpDown HDNG2STEER_IMAX;
-        private System.Windows.Forms.Label label61;
-        private System.Windows.Forms.NumericUpDown HDNG2STEER_D;
-        private System.Windows.Forms.Label label62;
-        private System.Windows.Forms.NumericUpDown HDNG2STEER_I;
-        private System.Windows.Forms.Label label63;
-        private System.Windows.Forms.NumericUpDown HDNG2STEER_P;
-        private System.Windows.Forms.Label label64;
         private System.Windows.Forms.ToolTip toolTip1;
         private Controls.MyButton BUT_writePIDS;
         private Controls.MyButton BUT_rerequestparams;
@@ -616,5 +528,10 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.NumericUpDown WP_RADIUS;
         private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.NumericUpDown NAVL1_DAMPING;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.NumericUpDown NAVL1_PERIOD;
+        private System.Windows.Forms.Label label18;
     }
 }

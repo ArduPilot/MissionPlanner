@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 public partial class MAVLink
 {
-    public const string MAVLINK_BUILD_DATE = "Sat Oct 05 16:12:20 2013";
+    public const string MAVLINK_BUILD_DATE = "Fri Oct 11 18:57:48 2013";
     public const string MAVLINK_WIRE_PROTOCOL_VERSION = "1.0";
     public const int MAVLINK_MAX_DIALECT_PAYLOAD_SIZE = 254;
 
@@ -235,6 +235,8 @@ public partial class MAVLink
         DO_MOUNT_CONFIGURE = 204,
         ///<summary> Mission command to control a camera or antenna mount |pitch(deg*100) or lat, depending on mount mode.| roll(deg*100) or lon depending on mount mode| yaw(deg*100) or alt (in cm) depending on mount mode| Empty| Empty| Empty| Empty|  </summary>
         DO_MOUNT_CONTROL = 205,
+        ///<summary> Mission command to set CAM_TRIGG_DIST for this flight |Camera trigger distance (meters)| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
+        DO_SET_CAM_TRIGG_DIST = 206,
         ///<summary> NOP - This command is only used to mark the upper limit of the DO commands in the enumeration |Empty| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
         DO_LAST = 240,
         ///<summary> Trigger calibration. This command will be only accepted if in pre-flight mode. |Gyro calibration: 0: no, 1: yes| Magnetometer calibration: 0: no, 1: yes| Ground pressure: 0: no, 1: yes| Radio calibration: 0: no, 1: yes| Accelerometer calibration: 0: no, 1: yes| Empty| Empty|  </summary>

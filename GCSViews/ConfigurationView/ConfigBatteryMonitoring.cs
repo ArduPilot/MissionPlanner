@@ -231,6 +231,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 TXT_divider.Text = (maxvolt / topvolt).ToString();
                 TXT_ampspervolt.Text = (maxamps / topamps).ToString();
             }
+            else if (selection == 5) // 3dr esc
+            {
+                TXT_divider.Text = "12.02";
+                TXT_ampspervolt.Text = "17";
+            }
 
             // enable to update
             TXT_divider.Enabled = true;

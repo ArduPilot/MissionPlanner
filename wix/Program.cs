@@ -343,6 +343,12 @@ data = @"
 
                     sw.WriteLine("<File Id=\"_" + no + "\" Source=\"" + filepath + "\" ><netfx:NativeImage Id=\"ngen_MissionPlannerexe\"/> </File>");
 
+                    sw.WriteLine(@"<ProgId Id='MissionPlanner.tlog' Description='Telemetry Log'>
+  <Extension Id='tlog' ContentType='application/tlog'>
+     <Verb Id='open' Command='Open' TargetFile='"+mainexeid+@"' Argument='""%1""' />
+  </Extension>
+</ProgId>");
+
                 } else {
                     sw.WriteLine("<File Id=\"" + fixname(Path.GetFileName(filepath))+ "_" + no + "\" Source=\"" + filepath + "\" />");
                 }

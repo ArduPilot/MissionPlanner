@@ -460,7 +460,6 @@ namespace MissionPlanner
 
         public bool connected { get { return (MainV2.comPort.BaseStream.IsOpen || MainV2.comPort.logreadmode); } }
 
-        private object locker = new object();
         bool useLocation = false;
         bool gotwind = false;
         internal bool batterymonitoring = false;
@@ -544,7 +543,7 @@ namespace MissionPlanner
         */
         public void UpdateCurrentSettings(System.Windows.Forms.BindingSource bs, bool updatenow, MAVLinkInterface mavinterface)
         {
-            lock (locker)
+            lock (this)
             {
 
                 if (DateTime.Now > lastupdate.AddMilliseconds(50) || updatenow) // 20 hz

@@ -1,4 +1,13 @@
-﻿* Mission Planner 1.2.81
+﻿* Mission Planner 1.2.82
+address .net update/issues
+add DO_SET_CAM_TRIGG_DIST
+add msi default tlog application
+update px4uploader
+update ardurover pid screen.
+add 3dr 4 in 1 esc
+update mavlink library
+
+* Mission Planner 1.2.81
 fix guage exception
 change mybutton colours back
 add more grid stats
