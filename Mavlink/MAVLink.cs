@@ -19,7 +19,7 @@ using System.Windows.Forms;
 
 namespace MissionPlanner
 {
-    public class MAVLinkInterface: MAVLink
+    public class MAVLinkInterface: MAVLink, IDisposable
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         public ICommsSerial BaseStream { get; set; }
@@ -371,22 +371,20 @@ namespace MissionPlanner
                         countDown.Stop();
                         this.Close();
 
-                        CustomMessageBox.Show(@"Can not establish a connection\n
-Please check the following
-1. You have firmware loaded
-2. You have the correct serial port selected
-3. PX4 - You have the microsd card installed
-4. Try a diffrent usb port");
-
                         if (hbseen)
                         {
                             progressWorkerEventArgs.ErrorMessage = "Only 1 Heatbeat Received";
-                            throw new Exception("Only 1 Mavlink Heartbeat Packets was read from this port - Verify your hardware is setup correctly\nAPM Planner waits for 2 valid heartbeat packets before connecting");
+                            throw new Exception("Only 1 Mavlink Heartbeat Packets was read from this port - Verify your hardware is setup correctly\nMission Planner waits for 2 valid heartbeat packets before connecting");
                         }
                         else
                         {
                             progressWorkerEventArgs.ErrorMessage = "No Heatbeat Packets Received";
-                            throw new Exception("No Mavlink Heartbeat Packets where read from this port - Verify Baud Rate and setup\nAPM Planner waits for 2 valid heartbeat packets before connecting");
+                            throw new Exception(@"Can not establish a connection\n
+Please check the following
+1. You have firmware loaded
+2. You have the correct serial port selected
+3. PX4 - You have the microsd card installed
+4. Try a diffrent usb port\n\n"+"No Mavlink Heartbeat Packets where read from this port - Verify Baud Rate and setup\nMission Planner waits for 2 valid heartbeat packets before connecting");
                         }
                     }
 
@@ -2987,5 +2985,10 @@ Please check the following
             return "MAV " + MAV.sysid + " on " + BaseStream.PortName;
         }
 
+
+        public void Dispose()
+        {
+            this.Close();
+        }
     }
 }

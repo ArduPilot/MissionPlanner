@@ -1080,5 +1080,26 @@ namespace MissionPlanner
         {
             MissionPlanner.Magfitrotation.magfit();
         }
+
+        private void BUT_sorttlogs_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog fbd = new FolderBrowserDialog();
+            fbd.SelectedPath = MainV2.LogDir;
+
+            if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                try
+                {
+                    MissionPlanner.Log.LogSort.SortLogs(Directory.GetFiles(fbd.SelectedPath, "*.tlog"));
+                }
+                catch { }
+            }
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            windDir1.Direction++;
+            windDir1.Speed = 10;
+        }
     }
 }

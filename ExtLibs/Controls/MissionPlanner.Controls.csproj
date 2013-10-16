@@ -60,9 +60,6 @@
     <Compile Include="BackstageView\BackstageViewButton.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="BackstageView\BackStageViewContentPanel.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="BackstageView\BackStageViewMenuPanel.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -204,6 +201,12 @@
     </Compile>
     <Compile Include="VerticalProgressBar2.cs">
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WindDir.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="WindDir.Designer.cs">
+      <DependentUpon>WindDir.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

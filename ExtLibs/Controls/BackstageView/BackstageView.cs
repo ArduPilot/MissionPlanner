@@ -449,7 +449,7 @@ namespace MissionPlanner.Controls.BackstageView
                     oldButton.IsSelected = false;
                 }
             }
-            catch { }            
+            catch { }
 
             // new way of notifying activation. Goal is to get rid of BackStageViewContentPanel
             // so plain old user controls can be added

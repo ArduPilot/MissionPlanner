@@ -34,6 +34,7 @@
     <Reference Include="AWSSDK, Version=1.5.18.0, Culture=neutral, PublicKeyToken=9f476d3089b52be3, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\AWSSDK.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="DirectShowLib-2005">
       <HintPath>..\..\Lib\DirectShowLib-2005.dll</HintPath>

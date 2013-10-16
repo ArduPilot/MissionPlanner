@@ -491,8 +491,10 @@ namespace MissionPlanner.Utilities
                         up.currentChecksum(fw);
                     }
                     catch {
+                        up.__reboot();
+                        up.close();
                         CustomMessageBox.Show("No need to upload. already on the board");
-                        break;
+                        return true;
                     }
 
                     try

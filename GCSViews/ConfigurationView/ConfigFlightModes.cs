@@ -18,7 +18,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         public ConfigFlightModes()
         {
-            InitializeComponent();
+            try
+            {
+                InitializeComponent();
+            }
+            catch (Exception ex) { Console.WriteLine(ex.ToString()); }
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)

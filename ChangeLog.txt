@@ -1,4 +1,18 @@
-﻿* Mission Planner 1.2.82
+﻿* Mission Planner 1.2.83.x
+add new winddir
+
+* Mission Planner 1.2.83
+add log sorting
+add password protected config
+add pan and remove from log browse
+fix terminal multiple connect clicks
+fix set home alt button to switch between asl and agl
+add more options to failsafe screen
+add password support to inputbox
+fix posible gmap 404 error
+add px4flow driver to msi
+
+* Mission Planner 1.2.82
 address .net update/issues
 add DO_SET_CAM_TRIGG_DIST
 add msi default tlog application

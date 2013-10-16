@@ -607,7 +607,7 @@ namespace MissionPlanner.GCSViews
                 }
                 try
                 {
-                    if (SimulatorRECV != null && SimulatorRECV.Connected && SimulatorRECV.Available > 0)
+                    if (SimulatorRECV != null && SimulatorRECV.Available > 0)
                     {
                         udpdata = new byte[udpdata.Length];
 

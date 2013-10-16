@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using System.Text;
 using System.Text.RegularExpressions;
 using MissionPlanner.Controls;
+using System.Threading;
 
 namespace System
 {
@@ -35,6 +36,31 @@ namespace System
 
         public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon)
         {
+            DialogResult answer = DialogResult.Cancel;
+
+            Console.WriteLine("CustomMessageBox thread calling " + System.Threading.Thread.CurrentThread.Name);
+
+            // ensure we run this on the right thread - mono - mac
+            if (Application.OpenForms.Count > 0 && Application.OpenForms[0].InvokeRequired)
+            {
+                Application.OpenForms[0].Invoke((Action)delegate
+                {
+                    Console.WriteLine("CustomMessageBox thread running invoke " + System.Threading.Thread.CurrentThread.Name);
+                    answer =  ShowUI(text, caption, buttons, icon);
+                });
+            }
+            else
+            {
+                Console.WriteLine("CustomMessageBox thread running " + System.Threading.Thread.CurrentThread.Name);
+                answer =  ShowUI(text, caption, buttons, icon);
+            }
+
+            return answer;
+        }
+
+        static DialogResult ShowUI(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon)
+        {
+
             if (text == null)
                 text = "";
 
@@ -44,14 +70,15 @@ namespace System
             string link = "";
             string linktext = "";
 
-           
+
             Regex linkregex = new Regex(@"(\[link;([^\]]+);([^\]]+)\])", RegexOptions.IgnoreCase);
-                Match match = linkregex.Match(text);
-                if (match.Success) {
-                    link = match.Groups[2].Value;
-                    linktext = match.Groups[3].Value;
-                    text = text.Replace(match.Groups[1].Value,"");
-                }
+            Match match = linkregex.Match(text);
+            if (match.Success)
+            {
+                link = match.Groups[2].Value;
+                linktext = match.Groups[3].Value;
+                text = text.Replace(match.Groups[1].Value, "");
+            }
 
             // ensure we are always in a known state
             _state = DialogResult.None;
@@ -130,15 +157,7 @@ namespace System
 
             DialogResult test;
 
-           // if (Application.OpenForms.Count > 0)
-            {
-                //cross thread issues
-               // test = msgBoxFrm.ShowDialog(Application.OpenForms[Application.OpenForms.Count - 1]);
-            }
-          //  else
-            {
                 test = msgBoxFrm.ShowDialog();
-            }
 
             DialogResult answer = _state;
 

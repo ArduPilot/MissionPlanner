@@ -135,6 +135,7 @@
     <Reference Include="AWSSDK, Version=1.5.18.0, Culture=neutral, PublicKeyToken=9f476d3089b52be3, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Lib\AWSSDK.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="BouncyCastle.Crypto, Version=1.7.4114.6375, Culture=neutral, PublicKeyToken=0e99375e54769942">
       <SpecificVersion>False</SpecificVersion>
@@ -203,6 +204,7 @@
     <Reference Include="px4uploader, Version=1.0.4855.33293, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\px4uploader\bin\Release\px4uploader.exe</HintPath>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="System">
       <Private>False</Private>
@@ -213,6 +215,7 @@
     <Reference Include="System.Data">
       <Private>False</Private>
     </Reference>
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
@@ -393,6 +396,7 @@
     <Compile Include="GenOTP.Designer.cs">
       <DependentUpon>GenOTP.cs</DependentUpon>
     </Compile>
+    <Compile Include="Log\LogSort.cs" />
     <Compile Include="Log\MatLab.cs" />
     <Compile Include="Magfitrotation.cs" />
     <Compile Include="MagMotor.cs" />
@@ -425,6 +429,7 @@
     <Compile Include="Utilities\Firmware.cs" />
     <Compile Include="Utilities\ImageOverFilter.cs" />
     <None Include="packages.config" />
+    <Compile Include="Utilities\Password.cs" />
     <Compile Include="Utilities\StringRedirectWriter.cs" />
     <Compile Include="Utilities\Update.cs" />
     <Compile Include="Wizard\1Intro.cs">
@@ -967,7 +972,6 @@
       <DependentUpon>ConfigAccelerometerCalibrationPlane.cs</DependentUpon>
     </Compile>
     <Compile Include="MagCalib.cs" />
-    <Compile Include="PIDTunning.cs" />
     <Compile Include="Radio\3DRradio.cs">
       <SubType>UserControl</SubType>
     </Compile>

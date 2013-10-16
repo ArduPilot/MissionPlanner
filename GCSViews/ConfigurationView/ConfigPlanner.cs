@@ -583,6 +583,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             SetCheckboxFromConfig("speechaltenabled", CHK_speechaltwarning);
             SetCheckboxFromConfig("speecharmenabled", CHK_speecharmdisarm);
             SetCheckboxFromConfig("beta_updates", CHK_beta);
+            SetCheckboxFromConfig("password_protect", CHK_Password);            
 
             // this can't fail because it set at startup
             NUM_tracklength.Value = int.Parse(MainV2.config["NUM_tracklength"].ToString());
@@ -712,6 +713,18 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void CHK_beta_CheckedChanged(object sender, EventArgs e)
         {
             MainV2.config["beta_updates"] = CHK_beta.Checked;
+        }
+
+        private void CHK_Password_CheckedChanged(object sender, EventArgs e)
+        {
+            if (startup)
+                return;
+
+            MainV2.config["password_protect"] = CHK_Password.Checked;
+            if (CHK_Password.Checked == true)
+            {
+                Password.EnterPassword(); 
+            }
         }
     }
 }

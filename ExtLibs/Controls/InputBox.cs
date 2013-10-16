@@ -13,12 +13,41 @@ namespace MissionPlanner.Controls
 
         public static event ThemeManager ApplyTheme;
 
+        public static string value = "";
+
         //from http://www.csharp-examples.net/inputbox/
-        public static DialogResult Show(string title, string promptText, ref string value)
+        public static DialogResult Show(string title, string promptText, ref string value, bool password = false)
+        {
+            DialogResult answer = DialogResult.Cancel;
+
+            InputBox.value = value;
+            string passin = value;
+
+            // ensure we run this on the right thread - mono - mac
+            if (Application.OpenForms.Count > 0 && Application.OpenForms[0].InvokeRequired)
+            {
+                Application.OpenForms[0].Invoke((Action)delegate
+                {
+                    answer = ShowUI(title, promptText, passin, password);
+                });
+            }
+            else
+            {
+                answer = ShowUI(title, promptText, passin, password);
+            }
+
+            value = InputBox.value;
+
+            return answer;
+        }
+
+        static DialogResult ShowUI(string title, string promptText, string value, bool password = false)
         {
             Form form = new Form();
             System.Windows.Forms.Label label = new System.Windows.Forms.Label();
             TextBox textBox = new TextBox();
+            if (password)
+                textBox.UseSystemPasswordChar = true;
             Controls.MyButton buttonOk = new Controls.MyButton();
             Controls.MyButton buttonCancel = new Controls.MyButton();
             //System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainV2));
@@ -65,6 +94,7 @@ namespace MissionPlanner.Controls
 
             form.ShowDialog();
 
+
             Console.WriteLine("Input Box 2");
 
             dialogResult = form.DialogResult;
@@ -72,6 +102,7 @@ namespace MissionPlanner.Controls
             if (dialogResult == DialogResult.OK)
             {
                 value = textBox.Text;
+                InputBox.value = value;
             }
 
             form.Dispose();

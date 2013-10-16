@@ -87,6 +87,8 @@ namespace MissionPlanner.Controls
 
             nextscreen.Control.Dock = DockStyle.Fill;
 
+            nextscreen.Control.PerformLayout();
+
             MissionPlanner.Utilities.Tracking.AddPage(nextscreen.Control.GetType().ToString(), name);
 
             MainControl.SuspendLayout();
@@ -102,10 +104,10 @@ namespace MissionPlanner.Controls
 
             MainControl.Controls.Add(nextscreen.Control);
 
-            nextscreen.Visible = true;
-
             MainControl.ResumeLayout();
 			nextscreen.Control.ResumeLayout();
+
+            nextscreen.Visible = true;
 
             current = nextscreen;
 

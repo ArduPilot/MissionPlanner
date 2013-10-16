@@ -370,7 +370,7 @@ namespace MissionPlanner
             openFileDialog1.Multiselect = true;
             try
             {
-                openFileDialog1.InitialDirectory = MainV2.LogDir + Path.DirectorySeparatorChar;
+               // openFileDialog1.InitialDirectory = MainV2.LogDir + Path.DirectorySeparatorChar;
             }
             catch { } // incase dir doesnt exist
 

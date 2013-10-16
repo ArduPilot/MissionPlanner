@@ -73,7 +73,7 @@ namespace MissionPlanner
             compilerParams.ReferencedAssemblies.Add("System.dll");
             compilerParams.ReferencedAssemblies.Add("System.Windows.Forms.dll");
             compilerParams.ReferencedAssemblies.Add(Application.ExecutablePath);
-            compilerParams.ReferencedAssemblies.Add("mavlink.dll");
+            compilerParams.ReferencedAssemblies.Add("MAVLink.dll");
 
             compilerParams.ReferencedAssemblies.Add("");
 
@@ -306,8 +306,6 @@ namespace MissionPlanner
 
             myNamespace.Imports.Add(new CodeNamespaceImport("MissionPlanner"));
 
-            myNamespace.Imports.Add(new CodeNamespaceImport("MAVLink"));
-
             //Build the class declaration and member variables			
             CodeTypeDeclaration classDeclaration = new CodeTypeDeclaration();
             classDeclaration.IsClass = true;
@@ -361,3 +359,4 @@ namespace MissionPlanner
         }
     }
 }
+

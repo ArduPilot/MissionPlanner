@@ -34,6 +34,14 @@ namespace MissionPlanner
         private static readonly ILog log =
             LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
+        public static void testthread(object crap = null)
+        {
+            string test = "";
+            //CustomMessageBox.Show("test");
+            //InputBox.Show("test", "test", ref test);
+ 
+        }
+
         private static class NativeMethods
         {
             // used to hide/show console window
@@ -277,7 +285,7 @@ namespace MissionPlanner
             _connectionControl.CMB_serialport.Items.Add("UDP");
             if (_connectionControl.CMB_serialport.Items.Count > 0)
             {
-                _connectionControl.CMB_baudrate.SelectedIndex = 7;
+                _connectionControl.CMB_baudrate.SelectedIndex = 8;
                 _connectionControl.CMB_serialport.SelectedIndex = 0;
             }
             // ** Done
@@ -445,9 +453,9 @@ namespace MissionPlanner
                 double Framework = Convert.ToDouble(version_names[version_names.Length - 1].Remove(0, 1), CultureInfo.InvariantCulture);
                 int SP = Convert.ToInt32(installed_versions.OpenSubKey(version_names[version_names.Length - 1]).GetValue("SP", 0));
 
-                if (Framework < 3.5)
+                if (Framework < 4.0)
                 {
-                    CustomMessageBox.Show("This program requires .NET Framework 3.5. You currently have " + Framework);
+                    CustomMessageBox.Show("This program requires .NET Framework 4.0. You currently have " + Framework);
                 }
             }
 
@@ -536,7 +544,17 @@ namespace MissionPlanner
 
         public void MenuSetup_Click(object sender, EventArgs e)
         {
-            MyView.ShowScreen("HWConfig");
+            if (getConfig("password_protect") == "" || bool.Parse(getConfig("password_protect")) == false)
+            {
+                MyView.ShowScreen("HWConfig");
+            }
+            else
+            {
+                if (Password.VerifyPassword())
+                {
+                    MyView.ShowScreen("HWConfig");
+                }
+            }
         }
 
         private void MenuSimulation_Click(object sender, EventArgs e)
@@ -546,7 +564,17 @@ namespace MissionPlanner
 
         private void MenuTuning_Click(object sender, EventArgs e)
         {
-            MyView.ShowScreen("SWConfig");
+            if (getConfig("password_protect") == "" || bool.Parse(getConfig("password_protect")) == false)
+            {
+                MyView.ShowScreen("SWConfig");
+            }
+            else
+            {
+                if (Password.VerifyPassword())
+                {
+                    MyView.ShowScreen("SWConfig");
+                }
+            }
         }
 
         private void MenuTerminal_Click(object sender, EventArgs e)
@@ -619,6 +647,12 @@ namespace MissionPlanner
                     if (MyView.current.Name == "SWConfig")
                         MyView.ShowScreen("SWConfig");
                 }
+
+                try
+                {
+                    MissionPlanner.Log.LogSort.SortLogs(Directory.GetFiles(MainV2.LogDir, "*.tlog"));
+                }
+                catch { }
 
                 this.MenuConnect.Image = global::MissionPlanner.Properties.Resources.light_connect_icon;
             }
@@ -1413,6 +1447,8 @@ namespace MissionPlanner
 
         private void MainV2_Load(object sender, EventArgs e)
         {
+            System.Threading.ThreadPool.QueueUserWorkItem(MainV2.testthread);
+
             // check if its defined, and force to show it if not known about
             if (config["menu_autohide"] == null)
             {
@@ -1769,6 +1805,13 @@ namespace MissionPlanner
             serialThread = false;
 
             SerialThreadrunner.WaitOne();
+
+            log.Info("sorting tlogs");
+            try
+            {
+                MissionPlanner.Log.LogSort.SortLogs(Directory.GetFiles(MainV2.LogDir, "*.tlog"));
+            }
+            catch { }
 
             log.Info("closing MyView");
 

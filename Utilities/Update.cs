@@ -161,23 +161,28 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
 
             if (updateFound)
             {
-                string extra = "";
-
-                if (dobeta)
-                    extra = "BETA ";
-
-                var dr = CustomMessageBox.Show(extra + "Update Found\n\nDo you wish to update now? [link;" + baseurl + "/ChangeLog.txt;ChangeLog]", "Update Now", MessageBoxButtons.YesNo);
-                if (dr == DialogResult.Yes)
+                // do the update in the main thread
+                MainV2.instance.Invoke((MethodInvoker)delegate
                 {
-                    MainV2.instance.Invoke((MethodInvoker)delegate
+                    string extra = "";
+
+                    if (dobeta)
+                        extra = "BETA ";
+
+                    DialogResult dr = DialogResult.Cancel;
+
+
+                    dr = CustomMessageBox.Show(extra + "Update Found\n\nDo you wish to update now? [link;" + baseurl + "/ChangeLog.txt;ChangeLog]", "Update Now", MessageBoxButtons.YesNo);
+
+                    if (dr == DialogResult.Yes)
                     {
                         DoUpdate();
-                    });
-                }
-                else
-                {
-                    return;
-                }
+                    }
+                    else
+                    {
+                        return;
+                    }
+                });
             }
         }
 

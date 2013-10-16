@@ -24,21 +24,7 @@ namespace MissionPlanner.Log
         int rowno = 1;
         DataTable m_dtCSV = new DataTable();
 
-        PointPairList list1 = new PointPairList();
-        PointPairList list2 = new PointPairList();
-        PointPairList list3 = new PointPairList();
-        PointPairList list4 = new PointPairList();
-        PointPairList list5 = new PointPairList();
-        PointPairList list6 = new PointPairList();
-        PointPairList list7 = new PointPairList();
-        PointPairList list8 = new PointPairList();
-        PointPairList list9 = new PointPairList();
-        PointPairList list10 = new PointPairList();
-
-        PointPairList[] listdata;
-
-        int graphs = 0;
-
+        List<PointPairList> listdata = new List<PointPairList>();
         GMapOverlay mapoverlay;
 
 
@@ -95,8 +81,6 @@ namespace MissionPlanner.Log
 
         public LogBrowse()
         {
-            listdata = new PointPairList[] { list1, list2, list3, list4, list5, list6, list7, list8, list9, list10 };
-
             InitializeComponent();
 
              mapoverlay = new GMapOverlay(myGMAP1,"overlay");
@@ -353,6 +337,18 @@ namespace MissionPlanner.Log
             catch { log.Info("DGV logbrowse error"); }
         }
 
+        Color[] colours = new Color[] {      
+            Color.Red, 
+           Color.Green, 
+           Color.Blue, 
+           Color.Pink, 
+           Color.Yellow, 
+           Color.Orange, 
+           Color.Violet, 
+           Color.Wheat, 
+           Color.Teal, 
+           Color.Silver };
+
         public void CreateChart(ZedGraphControl zgc)
         {
             GraphPane myPane = zgc.GraphPane;
@@ -361,19 +357,6 @@ namespace MissionPlanner.Log
             myPane.Title.Text = "Value Graph";
             myPane.XAxis.Title.Text = "Line Number";
             myPane.YAxis.Title.Text = "Output";
-
-            LineItem myCurve;
-
-            myCurve = myPane.AddCurve("Value", list1, Color.Red, SymbolType.None);
-            myCurve = myPane.AddCurve("Value", list2, Color.Green, SymbolType.None);
-            myCurve = myPane.AddCurve("Value", list3, Color.Blue, SymbolType.None);
-            myCurve = myPane.AddCurve("Value", list4, Color.Pink, SymbolType.None);
-            myCurve = myPane.AddCurve("Value", list5, Color.Yellow, SymbolType.None);
-            myCurve = myPane.AddCurve("Value", list6, Color.Orange, SymbolType.None);
-            myCurve = myPane.AddCurve("Value", list7, Color.Violet, SymbolType.None);
-            myCurve = myPane.AddCurve("Value", list8, Color.Wheat, SymbolType.None);
-            myCurve = myPane.AddCurve("Value", list9, Color.Teal, SymbolType.None);
-            myCurve = myPane.AddCurve("Value", list10, Color.Silver, SymbolType.None);
 
             // Show the x axis grid
             myPane.XAxis.MajorGrid.IsVisible = true;
@@ -437,29 +420,19 @@ namespace MissionPlanner.Log
 
             int error = 0;
 
+            PointPairList list1 = new PointPairList();
+
+            string header = "Value";
+
             foreach (DataGridViewRow datarow in dataGridView1.Rows)
             {
                 if (datarow.Cells[1].Value.ToString() == type)
                 {
                     try
-                    {
-                        if (graphs >= listdata.Length)
-                        {
-                            CustomMessageBox.Show("Max of 10");
-                            break;
-                        }
-
-
-                   
-                        {
-
+                    {                   
                             double value = double.Parse(datarow.Cells[col].Value.ToString(), new System.Globalization.CultureInfo("en-US"));
-
-                            zg1.GraphPane.CurveList[graphs].Label.Text = dataGridView1.Columns[col].HeaderText;
-                            listdata[graphs].Add(a, value);
-                            leftorrightaxis(sender, zg1.GraphPane.CurveList[graphs]);
-                        }
-             
+                            header = dataGridView1.Columns[col].HeaderText;
+                            list1.Add(a, value);
                     }
                     catch { error++; log.Info("Bad Data : " + type + " " + col + " " + a); if (error >= 500) { CustomMessageBox.Show("There is to much bad data - failing"); break; } }
                 }
@@ -467,6 +440,12 @@ namespace MissionPlanner.Log
     
                 a++;
             }
+
+            LineItem myCurve;
+
+            myCurve = zg1.GraphPane.AddCurve(header, list1, colours[zg1.GraphPane.CurveList.Count % colours.Length], SymbolType.None);
+
+            leftorrightaxis(sender, myCurve);
 
             // Make sure the Y axis is rescaled to accommodate actual data
             try
@@ -487,8 +466,6 @@ namespace MissionPlanner.Log
 
             // Force a redraw
             zg1.Invalidate();
-
-            graphs++;
         }
 
         void DrawModes()
@@ -669,12 +646,7 @@ namespace MissionPlanner.Log
 
         private void BUT_cleargraph_Click(object sender, EventArgs e)
         {
-            graphs = 0;
-            foreach (LineItem line in zg1.GraphPane.CurveList)
-            {
-                line.Clear();
-                line.Label.Text = "Value";
-            }
+            zg1.GraphPane.CurveList.Clear();
             zg1.GraphPane.GraphObjList.Clear();
             zg1.Invalidate();
         }
@@ -793,6 +765,43 @@ namespace MissionPlanner.Log
         private void CHK_map_CheckedChanged(object sender, EventArgs e)
         {
             splitContainer2.Panel2Collapsed = !splitContainer2.Panel2Collapsed;
+        }
+
+        private void BUT_removeitem_Click(object sender, EventArgs e)
+        {
+            Point mp = Control.MousePosition;
+
+            Controls.OptionForm opt = new Controls.OptionForm();
+
+            opt.StartPosition = FormStartPosition.Manual;
+            opt.Location = mp;
+
+            List<string> list = new List<string>();
+
+            zg1.GraphPane.CurveList.ForEach(x => list.Add(x.Label.Text));
+
+            opt.Combobox.DataSource = list.ToArray();
+            opt.Button1.DialogResult = System.Windows.Forms.DialogResult.OK;
+            opt.Button1.Text = "Remove";
+            opt.Button2.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            opt.Button2.Text = "Cancel";
+
+            if (opt.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
+            {
+                if (opt.SelectedItem != "")
+                {
+                    foreach (var item in zg1.GraphPane.CurveList)
+                    {
+                        if (item.Label.Text == opt.SelectedItem)
+                        {
+                            zg1.GraphPane.CurveList.Remove(item);
+                            break;
+                        }
+                    }
+                }
+            }
+
+            zg1.Invalidate();
         }
     }
 }

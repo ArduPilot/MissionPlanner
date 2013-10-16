@@ -1067,7 +1067,7 @@ namespace MissionPlanner.GCSViews
                 try
                 {
                     if (lla.Tag != null && lla.Tag != "Home")
-                        Commands.Rows[int.Parse(lla.Tag) - 1].Cells[Grad.Index].Value = (((lla.Alt - last.Alt) / lla.GetDistance(last)) * 100).ToString();
+                        Commands.Rows[int.Parse(lla.Tag) - 1].Cells[Grad.Index].Value = (((lla.Alt - last.Alt) / (lla.GetDistance(last) * MainV2.comPort.MAV.cs.multiplierdist)) * 100).ToString();
                 }
                 catch { }
                 a++;
@@ -4707,15 +4707,20 @@ namespace MissionPlanner.GCSViews
         private void insertWpToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string wpno = "1";
-            InputBox.Show("Insert WP", "Insert WP after wp#", ref wpno);
+            if (InputBox.Show("Insert WP", "Insert WP after wp#", ref wpno) == DialogResult.OK)
+            {
+                try
+                {
+                    Commands.Rows.Insert(int.Parse(wpno), 1);
+                }
+                catch { CustomMessageBox.Show("Invalid insert position", "Error"); return; }
 
-            Commands.Rows.Insert(int.Parse(wpno), 1);
+                selectedrow = int.Parse(wpno);
 
-            selectedrow = int.Parse(wpno);
+                ChangeColumnHeader(MAVLink.MAV_CMD.WAYPOINT.ToString());
 
-            ChangeColumnHeader(MAVLink.MAV_CMD.WAYPOINT.ToString());
-
-            setfromMap(MouseDownStart.Lat, MouseDownStart.Lng, (int)float.Parse(TXT_DefaultAlt.Text));
+                setfromMap(MouseDownStart.Lat, MouseDownStart.Lng, (int)float.Parse(TXT_DefaultAlt.Text));
+            }
         }
 
         private void getRallyPointsToolStripMenuItem_Click(object sender, EventArgs e)

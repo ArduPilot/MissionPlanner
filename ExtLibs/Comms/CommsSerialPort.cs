@@ -118,6 +118,7 @@ namespace MissionPlanner.Comms
                 allPorts.AddRange(Directory.GetFiles("/dev/", "ttyACM*"));
                 allPorts.AddRange(Directory.GetFiles("/dev/", "ttyUSB*"));
                 allPorts.AddRange(Directory.GetFiles("/dev/", "rfcomm*"));
+                allPorts.AddRange(Directory.GetFiles("/dev/", "*usb*"));
             }
 
             string[] ports = System.IO.Ports.SerialPort.GetPortNames()

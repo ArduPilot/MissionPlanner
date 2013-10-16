@@ -118,6 +118,11 @@ namespace MissionPlanner.GCSViews
             }
             catch { }
 
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+
             //Application.DoEvents();
             //System.Threading.Thread.Sleep(200);
             //Application.DoEvents();
@@ -1533,7 +1538,7 @@ namespace MissionPlanner.GCSViews
             }
             else
             {
-                MainV2.comPort.MAV.cs.altoffsethome = MainV2.comPort.MAV.cs.alt / MainV2.comPort.MAV.cs.multiplierdist;
+                MainV2.comPort.MAV.cs.altoffsethome = -MainV2.comPort.MAV.cs.HomeAlt / MainV2.comPort.MAV.cs.multiplierdist;
             }
         }
 

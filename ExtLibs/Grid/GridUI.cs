@@ -271,7 +271,11 @@ namespace MissionPlanner
             {
                 if (rad_trigdist.Checked)
                 {
-                    plugin.Host.comPort.setParam("CAM_TRIGG_DIST",(float)NUM_spacing.Value);
+                    try
+                    {
+                        plugin.Host.comPort.setParam("CAM_TRIGG_DIST", (float)NUM_spacing.Value);
+                    }
+                    catch { CustomMessageBox.Show("Failed to set CAM_TRIGG_DIST", "Error"); }
                 }
 
                 grid.ForEach(plla =>

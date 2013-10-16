@@ -256,7 +256,7 @@ namespace MissionPlanner
                         {
                             string name = (f + 1).ToString();
 
-                            doButtontoUI(name, 10, 290 + f * 25);
+                            doButtontoUI(name, 10, CMB_CH8.Bottom + 20 + f * 25);
 
                             joy.setButton(f, int.Parse(this.Controls.Find("cmbbutton" + name, false)[0].Text), this.Controls.Find("cmbaction" + name, false)[0].Text);
                         }

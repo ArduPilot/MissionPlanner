@@ -31,6 +31,8 @@ namespace MissionPlanner
         {
             Program.args = args;
             Console.WriteLine("If your error is about Microsoft.DirectX.DirectInput, please install the latest directx redist from here http://www.microsoft.com/en-us/download/details.aspx?id=35 \n\n");
+            Console.WriteLine("Debug under mono    MONO_LOG_LEVEL=debug mono MissionPlanner.exe");
+
 
             System.Windows.Forms.Application.EnableVisualStyles();
             XmlConfigurator.Configure();
@@ -164,6 +166,9 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
             int fixme;
          //   ThemeManager.doxamlgen();
 
+           
+
+
             //testMissionPlanner.Wizard._1Intro test = new testMissionPlanner.Wizard._1Intro();
 
 
@@ -192,6 +197,8 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
                 Console.ReadLine();
             }
         }
+
+
 
         static string CommsBase_Settings(string name, string value, bool set = false)
         {

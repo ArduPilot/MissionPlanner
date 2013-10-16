@@ -228,7 +228,8 @@ namespace wix
                             <File Id=""dpix86"" Source=""..\Driver\DPInstx86.exe"" />
                             <File Id=""px4cat"" Source=""..\Driver\px4fmu.cat"" />
                             <File Id=""px4inf"" Source=""..\Driver\px4fmu.inf"" />
-
+                            <File Id=""px4flowcat"" Source=""..\Driver\px4flow.cat"" />
+                            <File Id=""px4flowinf"" Source=""..\Driver\px4flow.inf"" />
                             <iis:Certificate Id=""rootcert"" StoreLocation=""localMachine"" StoreName=""root"" Overwrite='yes' BinaryKey='signedcer' Request=""no"" Name='Michael Oborne' />
                         </Component>
                     </Directory>
@@ -332,7 +333,7 @@ data = @"
             {
                 if (filepath.ToLower().EndsWith("release\\config.xml") || filepath.ToLower().Contains("ardupilotplanner.log") ||
                     filepath.ToLower().EndsWith("dataflash.bin") || filepath.ToLower().EndsWith(".etag") || filepath.ToLower().EndsWith("parametermetadata.xml") ||
-                    filepath.ToLower().EndsWith(".zip") || filepath.ToLower().EndsWith(".rlog"))
+                    filepath.ToLower().EndsWith(".zip") || filepath.ToLower().EndsWith(".rlog") || filepath.ToLower().Contains("stats.xml"))
                     continue;
 
                 no++;

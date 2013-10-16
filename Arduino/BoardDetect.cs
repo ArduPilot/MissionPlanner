@@ -40,7 +40,7 @@ namespace MissionPlanner.Arduino
                 ManagementObjectSearcher searcher = new ManagementObjectSearcher(query);
                 foreach (ManagementObject obj2 in searcher.Get())
                 {
-                    Console.WriteLine("PNPID: "+obj2.Properties["PNPDeviceID"].Value.ToString());
+                    Console.WriteLine("PNPID: " + obj2.Properties["PNPDeviceID"].Value.ToString());
 
                     // check vid and pid
                     if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_2341&PID_0010"))
@@ -75,10 +75,42 @@ namespace MissionPlanner.Arduino
                         return boards.px4v2;
                     }
 
+                    if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_26AC&PID_0016"))
+                    {
+                        log.Info("is a px4v2 bootloader");
+                        CustomMessageBox.Show("You appear to have a bootloader with a bad PID value, please update your bootloader.");
+                        return boards.px4v2;
+                    }
+
                     //|| obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_26AC&PID_0012") || obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_26AC&PID_0013") || obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_26AC&PID_0014") || obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_26AC&PID_0015") || obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_26AC&PID_0016")
 
                 }
 
+            }
+            else
+            {
+                // if its mono
+                if (DialogResult.Yes == CustomMessageBox.Show("Is this a APM 2+?", "APM 2+", MessageBoxButtons.YesNo))
+                {
+                    return boards.b2560v2;
+                }
+                else
+                {
+                    if (DialogResult.Yes == CustomMessageBox.Show("Is this a PX4/PIXHAWK?", "PX4/PIXHAWK", MessageBoxButtons.YesNo))
+                    {
+                        if (DialogResult.Yes == CustomMessageBox.Show("Is this a PIXHAWK?", "PIXHAWK", MessageBoxButtons.YesNo))
+                        {
+                            return boards.px4v2;
+                        }
+                        return boards.px4;
+                    }
+                    else
+                    {
+                        return boards.b2560;
+                    }
+                }
+
+                return boards.none;
             }
 
             if (serialPort.IsOpen)
