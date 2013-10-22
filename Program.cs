@@ -164,10 +164,8 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
          //   return;
 
             int fixme;
-         //   ThemeManager.doxamlgen();
 
-           
-
+           // ThemeManager.doxamlgen();
 
             //testMissionPlanner.Wizard._1Intro test = new testMissionPlanner.Wizard._1Intro();
 
@@ -234,11 +232,30 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
             System.Threading.Thread.Sleep(1);
         }
 
+        static string GetStackTrace(Exception e)
+        {
+            StackTrace st = new System.Diagnostics.StackTrace(e);
+            string stackTrace = "";
+            foreach (StackFrame frame in st.GetFrames())
+            {
+                stackTrace = "at " + frame.GetMethod().Module.Name + "." +
+                    frame.GetMethod().ReflectedType.Name + "."
+                    + frame.GetMethod().Name
+                    + "  (IL offset: 0x" + frame.GetILOffset().ToString("x") + ")\n" + stackTrace;
+            }
+            Console.Write(stackTrace);
+            Console.WriteLine("Message: " + e.Message);
+
+            return stackTrace;
+        }
+
         static void handleException(Exception ex)
         {
             MissionPlanner.Utilities.Tracking.AddException(ex);
 
             log.Debug(ex.ToString());
+
+            GetStackTrace(ex);
 
             // hyperlinks error
             if (ex.Message == "Requested registry access is not allowed." || ex.ToString().Contains("System.Windows.Forms.LinkUtilities.GetIELinkBehavior"))

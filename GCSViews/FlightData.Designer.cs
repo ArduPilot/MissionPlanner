@@ -8,8 +8,8 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FlightData));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.contextMenuStripMap = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.goHereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.flyToHereAltToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -129,6 +129,7 @@
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
             this.dataGridViewImageColumn2 = new System.Windows.Forms.DataGridViewImageColumn();
             this.bindingSourceStatusTab = new System.Windows.Forms.BindingSource(this.components);
+            this.but_bintolog = new MissionPlanner.Controls.MyButton();
             this.contextMenuStripMap.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MainH)).BeginInit();
             this.MainH.Panel1.SuspendLayout();
@@ -156,6 +157,7 @@
             this.tablogbrowse.SuspendLayout();
             this.tabScripts.SuspendLayout();
             this.tableMap.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -1322,6 +1324,7 @@
             // 
             // tablogbrowse
             // 
+            this.tablogbrowse.Controls.Add(this.but_bintolog);
             this.tablogbrowse.Controls.Add(this.BUT_matlab);
             this.tablogbrowse.Controls.Add(this.BUT_logbrowse);
             resources.ApplyResources(this.tablogbrowse, "tablogbrowse");
@@ -1628,8 +1631,8 @@
             // 
             // dataGridViewImageColumn1
             // 
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.dataGridViewImageColumn1.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dataGridViewImageColumn1.DefaultCellStyle = dataGridViewCellStyle3;
             resources.ApplyResources(this.dataGridViewImageColumn1, "dataGridViewImageColumn1");
             this.dataGridViewImageColumn1.Image = global::MissionPlanner.Properties.Resources.up;
             this.dataGridViewImageColumn1.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
@@ -1637,8 +1640,8 @@
             // 
             // dataGridViewImageColumn2
             // 
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.dataGridViewImageColumn2.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.dataGridViewImageColumn2.DefaultCellStyle = dataGridViewCellStyle4;
             resources.ApplyResources(this.dataGridViewImageColumn2, "dataGridViewImageColumn2");
             this.dataGridViewImageColumn2.Image = global::MissionPlanner.Properties.Resources.down;
             this.dataGridViewImageColumn2.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
@@ -1647,6 +1650,13 @@
             // bindingSourceStatusTab
             // 
             this.bindingSourceStatusTab.DataSource = typeof(MissionPlanner.CurrentState);
+            // 
+            // but_bintolog
+            // 
+            resources.ApplyResources(this.but_bintolog, "but_bintolog");
+            this.but_bintolog.Name = "but_bintolog";
+            this.but_bintolog.UseVisualStyleBackColor = true;
+            this.but_bintolog.Click += new System.EventHandler(this.but_bintolog_Click);
             // 
             // FlightData
             // 
@@ -1692,6 +1702,7 @@
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TRK_zoom)).EndInit();
@@ -1823,6 +1834,7 @@
         private System.Windows.Forms.ComboBox CMB_mountmode;
         private Controls.MyButton BUT_mountmode;
         private Controls.WindDir windDir1;
+        private Controls.MyButton but_bintolog;
 
     }
 }

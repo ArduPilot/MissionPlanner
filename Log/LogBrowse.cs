@@ -111,14 +111,15 @@ namespace MissionPlanner.Log
                     {
                         // extract log
                         List<string> loglines = BinaryLog.ReadLog(openFileDialog1.FileName);
+                        // convert log to memory stream;
+                        stream = new MemoryStream();   
                         // create single string with entire log
-                        string log = "";
                         foreach (string line in loglines)
                         {
-                            log += line;
+                            stream.Write(ASCIIEncoding.ASCII.GetBytes(line),0,line.Length);
                         }
-                        // convert log to memory stream;
-                        stream = new MemoryStream(ASCIIEncoding.ASCII.GetBytes(log));
+                        // back to stream start
+                        stream.Seek(0, SeekOrigin.Begin);
                     } else {
                         stream = File.Open(openFileDialog1.FileName, FileMode.Open,FileAccess.Read,FileShare.Read);
                     }

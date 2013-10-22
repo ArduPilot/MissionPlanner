@@ -486,8 +486,12 @@ Please check the following
                     //log.Info("getHB packet received: " + buffer.Length + " btr " + BaseStream.BytesToRead + " type " + buffer[5] );
                     if (buffer[5] == (byte)MAVLINK_MSG_ID.HEARTBEAT)
                     {
+                        mavlink_heartbeat_t hb = buffer.ByteArrayToStructure<mavlink_heartbeat_t>(6);
 
-                        return buffer;
+                        if (hb.type != (byte)MAVLink.MAV_TYPE.GCS)
+                        {
+                            return buffer;
+                        }
                     }
                 }
                 if (DateTime.Now > start.AddMilliseconds(2200) || readcount > 200) // was 1200 , now 2.2 sec
@@ -784,8 +788,6 @@ Please check the following
             int param_count = 0;
             int param_total = 1;
 
-        goagain:
-
             mavlink_param_request_list_t req = new mavlink_param_request_list_t();
             req.target_system = MAV.sysid;
             req.target_component = MAV.compid;
@@ -802,7 +804,6 @@ Please check the following
 
             do
             {
-
                 if (frmProgressReporter.doWorkArgs.CancelRequested)
                 {
                     frmProgressReporter.doWorkArgs.CancelAcknowledged = true;
@@ -878,7 +879,6 @@ Please check the following
                         // set new target
                         param_total = (par.param_count);
 
-
                         string paramID = System.Text.ASCIIEncoding.ASCII.GetString(par.param_id);
 
                         int pos = paramID.IndexOf('\0');
@@ -915,13 +915,9 @@ Please check the following
 
                         this.frmProgressReporter.UpdateProgressAndStatus((indexsreceived.Count * 100) / param_total, "Got param " + paramID);
 
-                        // we have them all - lets escape eq total = 176 index = 0-175
+                        // we hit the last param - lets escape eq total = 176 index = 0-175
                         if (par.param_index == (param_total - 1))
-                            break;
-                    }
-                    else
-                    {
-                        //Console.WriteLine(DateTime.Now + " PC paramlist " + buffer[5] + " want " + MSG_NAMES.PARAM_VALUE + " btr " + BaseStream.BytesToRead);
+                            start = DateTime.MinValue;
                     }
                     //stopwatch.Stop();
                     // Console.WriteLine("Time elapsed: {0}", stopwatch.Elapsed);
@@ -931,12 +927,6 @@ Please check the following
 
             if (indexsreceived.Count != param_total)
             {
-                if (retrys > 0)
-                {
-                    this.frmProgressReporter.UpdateProgressAndStatus((indexsreceived.Count * 100) / param_total, "Getting missed params");
-                    retrys--;
-                    goto goagain;
-                }
                 throw new Exception("Missing Params");
             }
             giveComport = false;
@@ -2904,6 +2894,9 @@ Please check the following
         public bool translateMode(string modein, ref MAVLink.mavlink_set_mode_t mode)
         {
             mode.target_system = MAV.sysid;
+
+            if (modein == null || modein == "")
+                return false;
 
             try
             {

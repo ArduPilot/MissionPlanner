@@ -14,11 +14,18 @@ namespace MissionPlanner.Log
             {
                 FileInfo info = new FileInfo(logfile);
 
-                if (info.Length == 0)
+                if (info.Length <= 1024)
                 {
                     try
                     {
-                        File.Delete(logfile);
+                        string destdir = Path.GetDirectoryName(logfile) + Path.DirectorySeparatorChar
+                 + "SMALL" + Path.DirectorySeparatorChar;
+
+                        if (!Directory.Exists(destdir))
+                            Directory.CreateDirectory(destdir);
+
+                        File.Move(logfile, destdir + Path.GetFileName(logfile));
+                        File.Move(logfile.Replace(".tlog", ".rlog"), destdir + Path.GetFileName(logfile).Replace(".tlog", ".rlog"));
                     }
                     catch { }
                     continue;

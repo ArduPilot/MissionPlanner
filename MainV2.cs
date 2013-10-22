@@ -648,12 +648,20 @@ namespace MissionPlanner
                         MyView.ShowScreen("SWConfig");
                 }
 
-                try
+            try
+            {
+                System.Threading.ThreadPool.QueueUserWorkItem((WaitCallback)delegate
                 {
-                    MissionPlanner.Log.LogSort.SortLogs(Directory.GetFiles(MainV2.LogDir, "*.tlog"));
+                    try
+                    {
+                        MissionPlanner.Log.LogSort.SortLogs(Directory.GetFiles(MainV2.LogDir, "*.tlog"));
+                    }
+                    catch { }
                 }
-                catch { }
-
+                );
+            }
+            catch { }
+			
                 this.MenuConnect.Image = global::MissionPlanner.Properties.Resources.light_connect_icon;
             }
             else
@@ -1555,7 +1563,6 @@ namespace MissionPlanner
             }
             catch (Exception ex) { log.Error(ex); }
 
-
             MissionPlanner.Utilities.Tracking.AddTiming("AppLoad", "Load Time", (DateTime.Now - Program.starttime).TotalMilliseconds, "");
 
             // play a tlog that was passed to the program
@@ -1567,6 +1574,21 @@ namespace MissionPlanner
                     FlightData.BUT_playlog_Click(null,null);
                 }
             }
+
+
+            try
+            {
+                System.Threading.ThreadPool.QueueUserWorkItem((WaitCallback)delegate
+                {
+                    try
+                    {
+                        MissionPlanner.Log.LogSort.SortLogs(Directory.GetFiles(MainV2.LogDir, "*.tlog"));
+                    }
+                    catch { }
+                }
+                );
+            }
+            catch { }
 
 /*
             if (getConfig("newuser") == "")
@@ -1809,7 +1831,15 @@ namespace MissionPlanner
             log.Info("sorting tlogs");
             try
             {
-                MissionPlanner.Log.LogSort.SortLogs(Directory.GetFiles(MainV2.LogDir, "*.tlog"));
+                System.Threading.ThreadPool.QueueUserWorkItem((WaitCallback)delegate
+                {
+                    try
+                    {
+                        MissionPlanner.Log.LogSort.SortLogs(Directory.GetFiles(MainV2.LogDir, "*.tlog"));
+                    }
+                    catch { }
+                }
+                );
             }
             catch { }
 

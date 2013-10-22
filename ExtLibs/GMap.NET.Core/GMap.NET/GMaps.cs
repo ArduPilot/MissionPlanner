@@ -47,7 +47,7 @@ namespace GMap.NET
 
       // Google version strings
       public string VersionGoogleMap = "m@220000000";
-      public string VersionGoogleSatellite = "131";
+      public string VersionGoogleSatellite = "138";
       public string VersionGoogleLabels = "h@220000000";
       public string VersionGoogleTerrain = "t@126,r@151";
       public string SecGoogleWord = "Galileo";
@@ -1289,7 +1289,7 @@ namespace GMap.NET
                string sec2 = ""; // after &zoom=...
                GetSecGoogleWords(pos, out sec1, out sec2);
 
-               return string.Format("https://{0}{1}.{10}/{2}/v={3}&hl={4}&x={5}{6}&y={7}&z={8}&s={9}", server, GetServerNum(pos, 4), request, VersionGoogleSatellite, language, pos.X, sec1, pos.Y, zoom, sec2, GServer);
+               return string.Format("https://{0}{1}.{10}/{2}/v={3}&src=app&x={5}{6}&y={7}&z={8}&s={9}", server, GetServerNum(pos, 2), request, VersionGoogleSatellite, language, pos.X, sec1, pos.Y, zoom, sec2, GServer);
             }
 
             case MapType.GoogleLabels:
@@ -2052,7 +2052,7 @@ namespace GMap.NET
                      {
                         string html = read.ReadToEnd();
 
-                        Regex reg = new Regex(string.Format("\"*http://mt0.{0}/vt/lyrs=m@(\\d*)", GServer), RegexOptions.IgnoreCase);
+                        Regex reg = new Regex(string.Format("\"*https://mts0.{0}/vt/lyrs=m@(\\d*)", GServer), RegexOptions.IgnoreCase);
                         Match mat = reg.Match(html);
                         if(mat.Success)
                         {
@@ -2066,7 +2066,7 @@ namespace GMap.NET
                            }
                         }
 
-                        reg = new Regex(string.Format("\"*http://mt0.{0}/vt/lyrs=h@(\\d*)", GServer), RegexOptions.IgnoreCase);
+                        reg = new Regex(string.Format("\"*https://mts0.{0}/vt/lyrs=h@(\\d*)", GServer), RegexOptions.IgnoreCase);
                         mat = reg.Match(html);
                         if(mat.Success)
                         {
@@ -2080,7 +2080,7 @@ namespace GMap.NET
                            }
                         }
 
-                        reg = new Regex(string.Format("\"*http://khm0.{0}/kh/v=(\\d*)", GServer), RegexOptions.IgnoreCase);
+                        reg = new Regex(string.Format("\"*https://khms0.{0}/kh/v=(\\d*)", GServer), RegexOptions.IgnoreCase);
                         mat = reg.Match(html);
                         if(mat.Success)
                         {
@@ -2095,7 +2095,7 @@ namespace GMap.NET
                            }
                         }
 
-                        reg = new Regex(string.Format("\"*http://mt0.{0}/vt/lyrs=t@(\\d*),r@(\\d*)", GServer), RegexOptions.IgnoreCase);
+                        reg = new Regex(string.Format("\"*https://mts0.{0}/vt/lyrs=t@(\\d*),r@(\\d*)", GServer), RegexOptions.IgnoreCase);
                         mat = reg.Match(html);
                         if(mat.Success)
                         {
@@ -2883,6 +2883,8 @@ namespace GMap.NET
                if(Mode != AccessMode.CacheOnly)
                {
                   string url = MakeImageUrl(type, pos, zoom, LanguageStr);
+
+                  Debug.WriteLine(url);
 
                   HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
                   if(Proxy != null)

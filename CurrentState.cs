@@ -248,7 +248,7 @@ namespace MissionPlanner
 
 
         //message
-        internal List<string> messages { get; set; }
+        public List<string> messages { get; set; }
         internal string message { get { if (messages.Count == 0) return ""; return messages[messages.Count - 1]; } }
         public string messageHigh { get {return _messagehigh;} set {_messagehigh = value;} }
         private string _messagehigh;
@@ -1012,7 +1012,7 @@ enum gcs_severity {
                         ch7out = servoout.servo7_raw;
                         ch8out = servoout.servo8_raw;
 
-                        //MAVLink.packets[(byte)MAVLink.MSG_NAMES.SERVO_OUTPUT_RAW] = null;
+                        mavinterface.MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.SERVO_OUTPUT_RAW] = null;
                     }
 
 

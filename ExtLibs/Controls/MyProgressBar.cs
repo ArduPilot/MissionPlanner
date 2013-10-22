@@ -54,6 +54,8 @@ namespace MissionPlanner.Controls
         [DefaultValue(0)]
         public int Value { get; set; }
 
+        public int BarSize = 40;
+
         internal Color _BGGradTop = Color.FromArgb(102, 139, 26);
         internal Color _BGGradBot = Color.FromArgb(127, 167, 42);
         internal Color _TextColor = Color.FromArgb(31, 54, 8);
@@ -73,6 +75,24 @@ namespace MissionPlanner.Controls
         public MyProgressBar()
         {
             InitializeComponent();
+
+            Maximum = 100;
+            Minimum = 0;
+            Value = 0;
+        }
+
+        void marquee_Tick(object sender, EventArgs e)
+        {
+            int delta = Maximum - Minimum;
+            if (delta == 0)
+                delta = 100;
+
+            int newvalue = Value + (delta) / 50;
+            if (newvalue > Maximum)
+                newvalue = -BarSize;
+            if (newvalue < (Minimum - BarSize))
+                newvalue = -BarSize;
+            Value = newvalue;
         }
 
         protected override void OnPaint(PaintEventArgs e)
@@ -90,6 +110,9 @@ namespace MissionPlanner.Controls
 
             Rectangle progressdone = new Rectangle(new Point(1, 1), new System.Drawing.Size(position,this.Height -2));
 
+            if (Style == ProgressBarStyle.Marquee)
+                progressdone = new Rectangle(new Point(position, 1), new System.Drawing.Size(BarSize, this.Height - 2));
+
             // fill the background
             e.Graphics.FillRectangle(new SolidBrush(BackColor), outside);
             // draw the progress
@@ -101,6 +124,31 @@ namespace MissionPlanner.Controls
         protected override void OnPaintBackground(PaintEventArgs pevent)
         {
             base.OnPaintBackground(pevent);
+        }
+
+        ProgressBarStyle _style = ProgressBarStyle.Continuous;
+        public ProgressBarStyle Style
+        {
+            get 
+            { 
+                return _style; 
+            }
+            set
+            {
+                _style = value;
+                if (_style == ProgressBarStyle.Marquee)
+                {
+                    if (!marquee.Enabled)
+                        marquee.Start();
+                }
+                else
+                {
+                    if (marquee.Enabled)
+                        marquee.Stop(); 
+                }
+
+                this.Invalidate();
+            }
         }
     }
 }

@@ -312,6 +312,12 @@
     <Compile Include="Controls\ModifyandSet.Designer.cs">
       <DependentUpon>ModifyandSet.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Waypoints\Command.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Waypoints\Command.Designer.cs">
+      <DependentUpon>Command.cs</DependentUpon>
+    </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigCameraStab.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -428,6 +434,63 @@
     <Compile Include="Utilities\ParameterMetaDataRepositoryAutoTest.cs" />
     <Compile Include="Utilities\Firmware.cs" />
     <Compile Include="Utilities\ImageOverFilter.cs" />
+    <None Include="aircraft\arducopter\data\rw_generic_pylon.ac">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="aircraft\arducopter\Models\arducopter.ac">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="aircraft\arducopter\Models\plus_quad.ac">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="aircraft\arducopter\Models\plus_quad2.ac">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="aircraft\arducopter\Models\quad.3ds">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="aircraft\arducopter\Models\shareware_output.3ds">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="aircraft\arducopter\Models\Untitled.ac">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="aircraft\arducopter\Models\Y6_test.ac">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="aircraft\arducopter\quad.nas">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="aircraft\arducopter\README">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="aircraft\Rascal\Models\Rascal.rgb">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="aircraft\Rascal\Models\Rascal110-000-013.ac">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="aircraft\Rascal\Models\Trajectory-Marker.ac">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="aircraft\Rascal\Rascal110-splash.rgb">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="aircraft\Rascal\README.Rascal">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="aircraft\Rascal\Systems\airdata.nas">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="aircraft\Rascal\Systems\main.nas">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="aircraft\Rascal\Systems\ugear.nas">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="flightgear.zip">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
     <Compile Include="Utilities\Password.cs" />
     <Compile Include="Utilities\StringRedirectWriter.cs" />
@@ -554,6 +617,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ConnectionControl.resx">
       <DependentUpon>ConnectionControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Waypoints\Command.resx">
+      <DependentUpon>Command.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAP_Limits.it-IT.resx">
       <DependentUpon>ConfigAP_Limits.cs</DependentUpon>
@@ -1855,12 +1921,97 @@
     <None Include="block_plane_0.dae">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Resources\Welcome_to_Michael_Oborne.rtf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <None Include="Resources\Welcome_to_Michael_Oborne.rtf" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="acsimplepids.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="aircraft\arducopter\arducopter-set.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="aircraft\arducopter\arducopter.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="aircraft\arducopter\arducopter.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="aircraft\arducopter\data\arducopter_half_step.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="aircraft\arducopter\data\arducopter_step.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="aircraft\arducopter\Engines\a2830-12.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="aircraft\arducopter\Engines\prop10x4.5.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="aircraft\arducopter\initfile.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="aircraft\arducopter\Models\arducopter.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="aircraft\arducopter\Models\plus_quad2.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="aircraft\arducopter\plus_quad2-set.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="aircraft\arducopter\plus_quad2.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="aircraft\placeholder.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="aircraft\Rascal\Dialogs\config.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="aircraft\Rascal\Engines\18x8.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="aircraft\Rascal\Engines\Zenoah_G-26A.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="aircraft\Rascal\Models\Rascal110.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="aircraft\Rascal\Models\smoke.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="aircraft\Rascal\Models\smokeW.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="aircraft\Rascal\Models\Trajectory-Marker.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="aircraft\Rascal\Rascal-keyboard.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="aircraft\Rascal\Rascal-submodels.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="aircraft\Rascal\Rascal.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="aircraft\Rascal\Rascal110-JSBSim-set.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="aircraft\Rascal\Rascal110-JSBSim.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="aircraft\Rascal\reset_CMAC.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="aircraft\Rascal\Systems\110-autopilot.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="aircraft\Rascal\Systems\electrical.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="aircraft\Rascal\thumbnail.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="ArduCopterConfig.xml">
@@ -1898,6 +2049,12 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="JSBSim.exe" />
+    <Content Include="jsbsim\fgout.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="jsbsim\rascal_test.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="mavcmd.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
@@ -2072,9 +2229,7 @@
     <None Include="Resources\apm1.jpg" />
     <None Include="Resources\apm2.5.jpg" />
     <None Include="Resources\apm2.jpg" />
-    <Content Include="Resources\aw.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Resources\aw.png" />
     <Content Include="Resources\MAVCmd.zh-Hans.txt" />
     <None Include="Resources\MAVParam.txt" />
     <Content Include="Resources\MAVParam.zh-Hans.txt" />

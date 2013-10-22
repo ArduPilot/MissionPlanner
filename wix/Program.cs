@@ -351,7 +351,7 @@ data = @"
 </ProgId>");
 
                 } else {
-                    sw.WriteLine("<File Id=\"" + fixname(Path.GetFileName(filepath))+ "_" + no + "\" Source=\"" + filepath + "\" />");
+                    sw.WriteLine("<File Id=\"_" + fixname(Path.GetFileName(filepath))+ "_" + no + "\" Source=\"" + filepath + "\" />");
                 }
             }
 

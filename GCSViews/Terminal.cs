@@ -357,7 +357,12 @@ namespace MissionPlanner.GCSViews
                         {
                             log.Info("no packet - sending reboot via console");
                             TXT_terminal.AppendText("Via Console\n");
-                            mine.BaseStream.Write("exit\rreboot\r");
+                            try
+                            {
+                                mine.BaseStream.Write("reboot\r");
+                                mine.BaseStream.Write("exit\rreboot\r");
+                            }
+                            catch { }
                             try
                             {
                                 mine.BaseStream.Close();
@@ -416,6 +421,8 @@ namespace MissionPlanner.GCSViews
                     threadrun = true;
 
                     Console.WriteLine("Terminal thread start run run " + threadrun + " " + comPort.IsOpen);
+
+                    comPort.Write("\r");
 
                     // 10 sec
                         waitandsleep(10000);

@@ -34,25 +34,13 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             this.CHK_altmode = new System.Windows.Forms.CheckBox();
             this.Commands = new System.Windows.Forms.DataGridView();
-            this.Command = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.Param1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Param2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Param3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Param4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Lat = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Lon = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Alt = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Delete = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.Up = new System.Windows.Forms.DataGridViewImageColumn();
-            this.Down = new System.Windows.Forms.DataGridViewImageColumn();
-            this.Grad = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CHK_geheight = new System.Windows.Forms.CheckBox();
             this.TXT_WPRad = new System.Windows.Forms.TextBox();
             this.TXT_DefaultAlt = new System.Windows.Forms.TextBox();
@@ -128,6 +116,7 @@
             this.setRallyPointToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.getRallyPointsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveRallyPointsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.clearRallyPointsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.geoFenceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
@@ -158,7 +147,18 @@
             this.panelBASE = new System.Windows.Forms.Panel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.clearRallyPointsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Command = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.Param1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Param2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Param3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Param4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Lat = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Lon = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Alt = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Delete = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.Up = new System.Windows.Forms.DataGridViewImageColumn();
+            this.Down = new System.Windows.Forms.DataGridViewImageColumn();
+            this.Grad = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.Commands)).BeginInit();
             this.panel5.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -223,97 +223,6 @@
             this.Commands.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.Commands_RowEnter);
             this.Commands.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.Commands_RowsAdded);
             this.Commands.RowValidating += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.Commands_RowValidating);
-            // 
-            // Command
-            // 
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(67)))), ((int)(((byte)(68)))), ((int)(((byte)(69)))));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
-            this.Command.DefaultCellStyle = dataGridViewCellStyle2;
-            this.Command.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
-            resources.ApplyResources(this.Command, "Command");
-            this.Command.Name = "Command";
-            // 
-            // Param1
-            // 
-            this.Param1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCellsExceptHeader;
-            resources.ApplyResources(this.Param1, "Param1");
-            this.Param1.Name = "Param1";
-            this.Param1.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.Param1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // Param2
-            // 
-            this.Param2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCellsExceptHeader;
-            resources.ApplyResources(this.Param2, "Param2");
-            this.Param2.Name = "Param2";
-            this.Param2.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.Param2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // Param3
-            // 
-            this.Param3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCellsExceptHeader;
-            resources.ApplyResources(this.Param3, "Param3");
-            this.Param3.Name = "Param3";
-            this.Param3.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.Param3.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // Param4
-            // 
-            this.Param4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCellsExceptHeader;
-            resources.ApplyResources(this.Param4, "Param4");
-            this.Param4.Name = "Param4";
-            this.Param4.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.Param4.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // Lat
-            // 
-            this.Lat.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCellsExceptHeader;
-            resources.ApplyResources(this.Lat, "Lat");
-            this.Lat.Name = "Lat";
-            this.Lat.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // Lon
-            // 
-            this.Lon.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCellsExceptHeader;
-            resources.ApplyResources(this.Lon, "Lon");
-            this.Lon.Name = "Lon";
-            this.Lon.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // Alt
-            // 
-            this.Alt.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCellsExceptHeader;
-            resources.ApplyResources(this.Alt, "Alt");
-            this.Alt.Name = "Alt";
-            this.Alt.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // Delete
-            // 
-            resources.ApplyResources(this.Delete, "Delete");
-            this.Delete.Name = "Delete";
-            this.Delete.Text = "X";
-            // 
-            // Up
-            // 
-            this.Up.DefaultCellStyle = dataGridViewCellStyle3;
-            resources.ApplyResources(this.Up, "Up");
-            this.Up.Image = global::MissionPlanner.Properties.Resources.up;
-            this.Up.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
-            this.Up.Name = "Up";
-            // 
-            // Down
-            // 
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.Down.DefaultCellStyle = dataGridViewCellStyle4;
-            resources.ApplyResources(this.Down, "Down");
-            this.Down.Image = global::MissionPlanner.Properties.Resources.down;
-            this.Down.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
-            this.Down.Name = "Down";
-            // 
-            // Grad
-            // 
-            resources.ApplyResources(this.Grad, "Grad");
-            this.Grad.Name = "Grad";
-            this.Grad.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // CHK_geheight
             // 
@@ -897,6 +806,12 @@
             resources.ApplyResources(this.saveRallyPointsToolStripMenuItem, "saveRallyPointsToolStripMenuItem");
             this.saveRallyPointsToolStripMenuItem.Click += new System.EventHandler(this.saveRallyPointsToolStripMenuItem_Click);
             // 
+            // clearRallyPointsToolStripMenuItem
+            // 
+            this.clearRallyPointsToolStripMenuItem.Name = "clearRallyPointsToolStripMenuItem";
+            resources.ApplyResources(this.clearRallyPointsToolStripMenuItem, "clearRallyPointsToolStripMenuItem");
+            this.clearRallyPointsToolStripMenuItem.Click += new System.EventHandler(this.clearRallyPointsToolStripMenuItem_Click);
+            // 
             // geoFenceToolStripMenuItem
             // 
             this.geoFenceToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -1096,11 +1011,96 @@
             this.timer1.Interval = 1000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // clearRallyPointsToolStripMenuItem
+            // Command
             // 
-            this.clearRallyPointsToolStripMenuItem.Name = "clearRallyPointsToolStripMenuItem";
-            resources.ApplyResources(this.clearRallyPointsToolStripMenuItem, "clearRallyPointsToolStripMenuItem");
-            this.clearRallyPointsToolStripMenuItem.Click += new System.EventHandler(this.clearRallyPointsToolStripMenuItem_Click);
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(67)))), ((int)(((byte)(68)))), ((int)(((byte)(69)))));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
+            this.Command.DefaultCellStyle = dataGridViewCellStyle2;
+            this.Command.DisplayStyle = System.Windows.Forms.DataGridViewComboBoxDisplayStyle.ComboBox;
+            resources.ApplyResources(this.Command, "Command");
+            this.Command.Name = "Command";
+            // 
+            // Param1
+            // 
+            this.Param1.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCellsExceptHeader;
+            resources.ApplyResources(this.Param1, "Param1");
+            this.Param1.Name = "Param1";
+            this.Param1.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Param1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // Param2
+            // 
+            this.Param2.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCellsExceptHeader;
+            resources.ApplyResources(this.Param2, "Param2");
+            this.Param2.Name = "Param2";
+            this.Param2.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Param2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // Param3
+            // 
+            this.Param3.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCellsExceptHeader;
+            resources.ApplyResources(this.Param3, "Param3");
+            this.Param3.Name = "Param3";
+            this.Param3.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Param3.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // Param4
+            // 
+            this.Param4.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCellsExceptHeader;
+            resources.ApplyResources(this.Param4, "Param4");
+            this.Param4.Name = "Param4";
+            this.Param4.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.Param4.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // Lat
+            // 
+            this.Lat.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCellsExceptHeader;
+            resources.ApplyResources(this.Lat, "Lat");
+            this.Lat.Name = "Lat";
+            this.Lat.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // Lon
+            // 
+            this.Lon.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCellsExceptHeader;
+            resources.ApplyResources(this.Lon, "Lon");
+            this.Lon.Name = "Lon";
+            this.Lon.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // Alt
+            // 
+            this.Alt.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCellsExceptHeader;
+            resources.ApplyResources(this.Alt, "Alt");
+            this.Alt.Name = "Alt";
+            this.Alt.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // Delete
+            // 
+            resources.ApplyResources(this.Delete, "Delete");
+            this.Delete.Name = "Delete";
+            this.Delete.Text = "X";
+            // 
+            // Up
+            // 
+            this.Up.DefaultCellStyle = dataGridViewCellStyle3;
+            resources.ApplyResources(this.Up, "Up");
+            this.Up.Image = global::MissionPlanner.Properties.Resources.up;
+            this.Up.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
+            this.Up.Name = "Up";
+            // 
+            // Down
+            // 
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.Down.DefaultCellStyle = dataGridViewCellStyle4;
+            resources.ApplyResources(this.Down, "Down");
+            this.Down.Image = global::MissionPlanner.Properties.Resources.down;
+            this.Down.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
+            this.Down.Name = "Down";
+            // 
+            // Grad
+            // 
+            resources.ApplyResources(this.Grad, "Grad");
+            this.Grad.Name = "Grad";
+            this.Grad.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // FlightPlanner
             // 
@@ -1234,6 +1234,13 @@
         private System.Windows.Forms.TextBox txt_mouse_utmzone;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.TextBox txt_mouse_mgrs;
+        private System.Windows.Forms.CheckBox chk_grid;
+        private System.Windows.Forms.ToolStripMenuItem insertWpToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem rallyPointsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem getRallyPointsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveRallyPointsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem setRallyPointToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem clearRallyPointsToolStripMenuItem;
         private System.Windows.Forms.DataGridViewComboBoxColumn Command;
         private System.Windows.Forms.DataGridViewTextBoxColumn Param1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Param2;
@@ -1246,12 +1253,5 @@
         private System.Windows.Forms.DataGridViewImageColumn Up;
         private System.Windows.Forms.DataGridViewImageColumn Down;
         private System.Windows.Forms.DataGridViewTextBoxColumn Grad;
-        private System.Windows.Forms.CheckBox chk_grid;
-        private System.Windows.Forms.ToolStripMenuItem insertWpToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem rallyPointsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem getRallyPointsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem saveRallyPointsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem setRallyPointToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem clearRallyPointsToolStripMenuItem;
     }
 }

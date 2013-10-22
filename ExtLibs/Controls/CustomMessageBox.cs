@@ -119,6 +119,8 @@ namespace System
 
             msgBoxFrm.Controls.Add(lblMessage);
 
+            msgBoxFrm.Width = lblMessage.Right + 50;
+
             if (link != "" && linktext != "")
             {
                 var linklbl = new LinkLabel { Left = lblMessage.Left, Top = lblMessage.Bottom, Width = lblMessage.Width, Height = 15, Text = linktext, Tag = link };
@@ -221,8 +223,8 @@ namespace System
                                   {
                                       Size = new Size(75, 23),
                                       Text = "OK",
-                                      Left = msgBoxFrm.Width - 75 - FORM_X_MARGIN,
-                                      Top = msgBoxFrm.Height - 23 - FORM_Y_MARGIN - titleHeight
+                                      Left = msgBoxFrm.Width - 100 - FORM_X_MARGIN,
+                                      Top = msgBoxFrm.Height - 40 - FORM_Y_MARGIN - titleHeight
                                   };
 
                     but.Click += delegate { _state = DialogResult.OK; msgBoxFrm.Close(); };

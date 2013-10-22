@@ -39,7 +39,8 @@ namespace MissionPlanner
         {
             try
             {
-                joystick.Unacquire();
+                if (joystick != null)
+                    joystick.Unacquire();
             }
             catch { }
         }
@@ -334,15 +335,18 @@ namespace MissionPlanner
                         if (but.buttonno != -1 && getButtonState(but.buttonno))
                         {
                             string mode = but.mode;
-                            MainV2.instance.BeginInvoke((System.Windows.Forms.MethodInvoker)delegate()
+                            if (mode != null)
                             {
-                                try
+                                MainV2.instance.BeginInvoke((System.Windows.Forms.MethodInvoker)delegate()
                                 {
-                                    MainV2.comPort.setMode(mode); 
+                                    try
+                                    {
+                                        MainV2.comPort.setMode(mode);
 
-                                }
-                                catch { CustomMessageBox.Show("Failed to change Modes"); }
-                            });
+                                    }
+                                    catch { CustomMessageBox.Show("Failed to change Modes"); }
+                                });
+                            }
                         }
                     }
 
@@ -450,6 +454,8 @@ namespace MissionPlanner
 
         public void UnAcquireJoyStick()
         {
+            if (joystick == null)
+                return;
             joystick.Unacquire();
         }
 
@@ -466,6 +472,8 @@ namespace MissionPlanner
 
         public int getNumButtons()
         {
+            if (joystick == null)
+                return 0;
             return joystick.Caps.NumberButtons;
         }
 
@@ -490,6 +498,9 @@ namespace MissionPlanner
 
         public ushort getValueForChannel(int channel, string name)
         {
+            if (joystick == null)
+                return 0;
+
                 joystick.Poll();
 
                 state = joystick.CurrentJoystickState;

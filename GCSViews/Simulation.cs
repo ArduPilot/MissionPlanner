@@ -645,7 +645,7 @@ namespace MissionPlanner.GCSViews
 
                     MainV2.comPort.MAV.cs.UpdateCurrentSettings(null); // when true this uses alot more cpu time
 
-                    if ((DateTime.Now - simsendtime).TotalMilliseconds > 4 && chkSITL.Checked ||(DateTime.Now - simsendtime).TotalMilliseconds > 19)
+                    if ((DateTime.Now - simsendtime).TotalMilliseconds > 4 && chkSITL.Checked ||(DateTime.Now - simsendtime).TotalMilliseconds > 25)
                     {
                         //hzcount++;
                         simsendtime = DateTime.Now;
@@ -658,7 +658,7 @@ namespace MissionPlanner.GCSViews
 
                 if (hzcounttime.Second != DateTime.Now.Second)
                 {
-                    Console.WriteLine("SIM hz {0}", hzcount);
+                    Console.WriteLine("SIM recv hz {0}", hzcount);
                     hzcount = 0;
                     hzcounttime = DateTime.Now;
                 }
@@ -1249,19 +1249,23 @@ namespace MissionPlanner.GCSViews
                         hilstate.pitch = (float)quad.pitch;
                         hilstate.yaw = (float)quad.yaw;
 
-                        //  Vector3 earth_rates = Utils.BodyRatesToEarthRates(dcm, gyro);
+                          //Vector3 earth_rates2 = Utils.BodyRatesToEarthRates(quad.dcm, quad.gyro);
 
                         hilstate.rollspeed = (float)quad.gyro.x;
                         hilstate.pitchspeed = (float)quad.gyro.y;
                         hilstate.yawspeed = (float)quad.gyro.z;
 
+                        //hilstate.rollspeed = (float)earth_rates2.x;
+                        //hilstate.pitchspeed = (float)earth_rates2.y;
+                        //hilstate.yawspeed = (float)earth_rates2.z;
+
                         hilstate.vx = (short)(quad.velocity.y * 100); // m/s * 100
                         hilstate.vy = (short)(quad.velocity.x * 100); // m/s * 100
                         hilstate.vz = (short)(quad.velocity.z * 100); // m/s * 100
 
-                        hilstate.xacc = (short)(quad.accelerometer.x * 1000); // (mg)
-                        hilstate.yacc = (short)(quad.accelerometer.y * 1000); // (mg)
-                        hilstate.zacc = (short)(quad.accelerometer.z * 1000); // (mg)
+                        hilstate.xacc = (short)(quad.accelerometer.x * 100); // (mg)
+                        hilstate.yacc = (short)(quad.accelerometer.y * 100); // (mg)
+                        hilstate.zacc = (short)(quad.accelerometer.z * 100); // (mg)
 
                         MainV2.comPort.sendPacket(hilstate);
                     }

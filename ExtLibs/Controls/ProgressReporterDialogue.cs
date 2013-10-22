@@ -38,6 +38,7 @@ namespace MissionPlanner.Controls
             doWorkArgs = new ProgressWorkerEventArgs();
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.btnClose.Visible = false;
+
         }
 
         /// <summary>

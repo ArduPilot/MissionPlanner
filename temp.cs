@@ -1098,8 +1098,7 @@ namespace MissionPlanner
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            windDir1.Direction++;
-            windDir1.Speed = 10;
+    
         }
     }
 }

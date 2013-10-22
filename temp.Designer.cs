@@ -62,7 +62,6 @@
             this.BUT_driverclean = new MissionPlanner.Controls.MyButton();
             this.but_compassrotation = new MissionPlanner.Controls.MyButton();
             this.BUT_sorttlogs = new MissionPlanner.Controls.MyButton();
-            this.windDir1 = new MissionPlanner.Controls.WindDir();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
@@ -390,15 +389,6 @@
             this.BUT_sorttlogs.UseVisualStyleBackColor = true;
             this.BUT_sorttlogs.Click += new System.EventHandler(this.BUT_sorttlogs_Click);
             // 
-            // windDir1
-            // 
-            this.windDir1.Direction = 0D;
-            this.windDir1.Location = new System.Drawing.Point(168, 338);
-            this.windDir1.Name = "windDir1";
-            this.windDir1.Size = new System.Drawing.Size(100, 100);
-            this.windDir1.Speed = 0D;
-            this.windDir1.TabIndex = 39;
-            // 
             // timer1
             // 
             this.timer1.Enabled = true;
@@ -409,7 +399,6 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(685, 450);
-            this.Controls.Add(this.windDir1);
             this.Controls.Add(this.BUT_sorttlogs);
             this.Controls.Add(this.but_compassrotation);
             this.Controls.Add(this.BUT_driverclean);
@@ -486,7 +475,6 @@
         private Controls.MyButton BUT_driverclean;
         private Controls.MyButton but_compassrotation;
         private Controls.MyButton BUT_sorttlogs;
-        private Controls.WindDir windDir1;
         private System.Windows.Forms.Timer timer1;
     }
 }

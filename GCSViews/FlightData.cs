@@ -23,6 +23,7 @@ using MissionPlanner.Controls.BackstageView;
 //using Crom.Controls.Docking;
 using log4net;
 using System.Reflection;
+using MissionPlanner.Log;
 
 // written by michael oborne
 namespace MissionPlanner.GCSViews
@@ -2910,6 +2911,34 @@ print 'Roll complete'
         private void BUT_mountmode_Click(object sender, EventArgs e)
         {
             MainV2.comPort.setParam("MNT_MODE",(int)CMB_mountmode.SelectedValue);
+        }
+
+        private void but_bintolog_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "Binary Log|*.bin";
+
+            ofd.ShowDialog();
+
+            if (File.Exists(ofd.FileName))
+            {
+                List<string> log = BinaryLog.ReadLog(ofd.FileName);
+
+                SaveFileDialog sfd = new SaveFileDialog();
+                sfd.Filter = "log|*.log";
+
+                DialogResult res = sfd.ShowDialog();
+
+                if (res == System.Windows.Forms.DialogResult.OK)
+                {
+                    StreamWriter sw = new StreamWriter(sfd.OpenFile());
+                    foreach (string line in log)
+                    {
+                        sw.Write(line);
+                    }
+                    sw.Close();
+                }
+            }
         }
     }
 }

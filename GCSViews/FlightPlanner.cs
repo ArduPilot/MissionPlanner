@@ -1067,7 +1067,7 @@ namespace MissionPlanner.GCSViews
                 try
                 {
                     if (lla.Tag != null && lla.Tag != "Home")
-                        Commands.Rows[int.Parse(lla.Tag) - 1].Cells[Grad.Index].Value = (((lla.Alt - last.Alt) / (lla.GetDistance(last) * MainV2.comPort.MAV.cs.multiplierdist)) * 100).ToString();
+                        Commands.Rows[int.Parse(lla.Tag) - 1].Cells[Grad.Index].Value = (((lla.Alt - last.Alt) / (lla.GetDistance(last) * MainV2.comPort.MAV.cs.multiplierdist)) * 100).ToString("0.0");
                 }
                 catch { }
                 a++;
@@ -1187,7 +1187,7 @@ namespace MissionPlanner.GCSViews
 
                 log.Info("Done");
             }
-            catch (Exception ex) { error = 1; CustomMessageBox.Show("Error : " + ex.ToString()); }
+            catch (Exception ex) { error = 1; throw; }
             try
             {
                 this.Invoke((MethodInvoker)delegate()
@@ -1668,6 +1668,7 @@ namespace MissionPlanner.GCSViews
                     Commands.Rows.Insert(e.RowIndex + 1, myrow);
                     writeKML();
                 }
+                setgrad();
             }
             catch (Exception) { CustomMessageBox.Show("Row error"); }
         }
@@ -2554,6 +2555,8 @@ namespace MissionPlanner.GCSViews
         private void Commands_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             Commands_RowEnter(null, new DataGridViewCellEventArgs(Commands.CurrentCell.ColumnIndex, Commands.CurrentCell.RowIndex));
+
+            writeKML();
         }
 
         private void MainMap_Resize(object sender, EventArgs e)

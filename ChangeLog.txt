@@ -1,5 +1,20 @@
-﻿* Mission Planner 1.2.83.x
+﻿* Mission Planner 1.2.84
 add new winddir
+fix px4 uploader same fw error
+update parammetadatabackup.xml
+move log sorting to bg thread
+add null checking in joystick
+modify hb search to only find mav.
+add null and blank check to setmode
+reformat grad sig figures
+limit hillstate output to 40 hz, 50 hz floods serial link
+quad hil in flightgear working.
+fix the way reboot is issued on terminal connect, incase we are at nsh shell
+update gmap to top the 404's
+add Marquee support to my progressbar
+fix spaces in matlab names
+speed up bin log browse
+add bin to log on FD screen
 
 * Mission Planner 1.2.83
 add log sorting
