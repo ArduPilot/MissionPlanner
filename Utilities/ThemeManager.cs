@@ -205,7 +205,6 @@ namespace MissionPlanner.Utilities
             {
                 lock (locker)
                 {
-
                     Type ty = control.GetType();
 
                     StreamWriter st = new StreamWriter(File.Open(ty.FullName + ".xaml",FileMode.Create));

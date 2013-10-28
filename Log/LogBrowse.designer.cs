@@ -151,7 +151,7 @@
             this.myGMAP1.RetryLoadTile = 0;
             this.myGMAP1.RoutesEnabled = true;
             this.myGMAP1.ShowTileGridLines = false;
-            this.myGMAP1.streamjpg = ((System.IO.MemoryStream)(resources.GetObject("myGMAP1.streamjpg")));
+            
             this.myGMAP1.Zoom = 0D;
             // 
             // CHK_map

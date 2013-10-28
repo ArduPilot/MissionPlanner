@@ -218,9 +218,7 @@ namespace MissionPlanner
 
             Form splash = Program.Splash;
 
-            string strVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
-            splash.Text = "Mission Planner " + Application.ProductVersion + " build " + strVersion;
 
 
             splash.Refresh();
@@ -472,7 +470,7 @@ namespace MissionPlanner
             }
 
 
-            splash.Close();
+           
         }
 
 
@@ -1203,6 +1201,8 @@ namespace MissionPlanner
 
             bool armedstatus = false;
 
+            string lastmessagehigh = "";
+
             DateTime speechcustomtime = DateTime.Now;
 
             DateTime speechbatterytime = DateTime.Now;
@@ -1228,12 +1228,15 @@ namespace MissionPlanner
                     // 30 seconds interval speech options
                     if (speechEnable && speechEngine != null && (DateTime.Now - speechcustomtime).TotalSeconds > 30 && (MainV2.comPort.logreadmode || comPort.BaseStream.IsOpen))
                     {
-                        if (MainV2.getConfig("speechcustomenabled") == "True")
+                        if (MainV2.speechEngine.State == SynthesizerState.Ready)
                         {
-                            MainV2.speechEngine.SpeakAsync(Common.speechConversion(MainV2.getConfig("speechcustom")));
-                        }
+                            if (MainV2.getConfig("speechcustomenabled") == "True")
+                            {
+                                MainV2.speechEngine.SpeakAsync(Common.speechConversion(MainV2.getConfig("speechcustom")));
+                            }
 
-                        speechcustomtime = DateTime.Now;
+                            speechcustomtime = DateTime.Now;
+                        }
                     }
 
                     // speech for battery alerts
@@ -1247,19 +1250,25 @@ namespace MissionPlanner
 
                         if (MainV2.getConfig("speechbatteryenabled") == "True" && MainV2.comPort.MAV.cs.battery_voltage <= warnvolt && MainV2.comPort.MAV.cs.battery_voltage >= 5.0)
                         {
-                            MainV2.speechEngine.SpeakAsync(Common.speechConversion(MainV2.getConfig("speechbattery")));
-                            speechbatterytime = DateTime.Now;
+                            if (MainV2.speechEngine.State == SynthesizerState.Ready)
+                            {
+                                MainV2.speechEngine.SpeakAsync(Common.speechConversion(MainV2.getConfig("speechbattery")));
+                                speechbatterytime = DateTime.Now;
+                            }
                         }
                         else if (MainV2.getConfig("speechbatteryenabled") == "True" && (MainV2.comPort.MAV.cs.battery_remaining) < warnpercent && MainV2.comPort.MAV.cs.battery_voltage >= 5.0 && MainV2.comPort.MAV.cs.battery_remaining != 0.0)
                         {
-                            MainV2.speechEngine.SpeakAsync(Common.speechConversion(MainV2.getConfig("speechbattery")));
-                            speechbatterytime = DateTime.Now;
+                            if (MainV2.speechEngine.State == SynthesizerState.Ready)
+                            {
+                                MainV2.speechEngine.SpeakAsync(Common.speechConversion(MainV2.getConfig("speechbattery")));
+                                speechbatterytime = DateTime.Now;
+                            }
                         }
 
 
                     }
 
-                    // speech altitude warning.
+                    // speech altitude warning - message high warning
                     if (speechEnable && speechEngine != null && (MainV2.comPort.logreadmode || comPort.BaseStream.IsOpen))
                     {
                         float warnalt = float.MaxValue;
@@ -1273,6 +1282,17 @@ namespace MissionPlanner
                             }
                         }
                         catch { } // silent fail
+
+
+                        try
+                        {
+                            if (MainV2.speechEngine.State == SynthesizerState.Ready && lastmessagehigh != MainV2.comPort.MAV.cs.messageHigh)
+                            {
+                                MainV2.speechEngine.SpeakAsync(MainV2.comPort.MAV.cs.messageHigh);
+                                lastmessagehigh = MainV2.comPort.MAV.cs.messageHigh;
+                            }
+                        }
+                        catch { }
                     }
 
                     // make sure we attenuate the link quality if we dont see any valid packets
@@ -1562,6 +1582,8 @@ namespace MissionPlanner
                 Plugin.PluginLoader.LoadAll();
             }
             catch (Exception ex) { log.Error(ex); }
+
+            Program.Splash.Close();
 
             MissionPlanner.Utilities.Tracking.AddTiming("AppLoad", "Load Time", (DateTime.Now - Program.starttime).TotalMilliseconds, "");
 

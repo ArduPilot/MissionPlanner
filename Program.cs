@@ -52,6 +52,12 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
             MissionPlanner.Controls.InputBox.ApplyTheme += MissionPlanner.Utilities.ThemeManager.ApplyThemeTo;
             MissionPlanner.Comms.CommsBase.Settings += CommsBase_Settings;
 
+            // set the cache provider to my custom version
+            GMap.NET.GMaps.Instance.PrimaryCache = new Maps.MyImageCache();
+            // add my 2 custom map providers
+            GMap.NET.MapProviders.GMapProviders.List.Add(Maps.WMSProvider.Instance);
+            GMap.NET.MapProviders.GMapProviders.List.Add(Maps.Custom.Instance);
+
        //     string[] files = Directory.GetFiles(@"C:\Users\hog\Documents\apm logs\","*.tlog");
 
        //     foreach (string file in files) {
@@ -177,6 +183,8 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
             }
 
             Splash = new MissionPlanner.Splash();
+            string strVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            Splash.Text = "Mission Planner " + Application.ProductVersion + " build " + strVersion;
             Splash.Show();
 
             Application.DoEvents();
@@ -185,6 +193,15 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
             {
                 Thread.CurrentThread.Name = "Base Thread";
                 Application.Run(new MainV2());
+
+              //  var temp = new MainV2();
+               // temp.Show();
+
+              //  while (temp != null)
+                {
+                  //  System.Threading.Thread.Sleep(10);
+                  //  Application.DoEvents();
+                }
             }
             catch (Exception ex)
             {

@@ -18,6 +18,7 @@ using log4net;
 using System.Security.Permissions;
 using MissionPlanner.Arduino;
 using MissionPlanner.Utilities;
+using GMap.NET;
 
 namespace MissionPlanner
 {
@@ -800,8 +801,9 @@ namespace MissionPlanner
 
         private void BUT_geinjection_Click(object sender, EventArgs e)
         {
-            GMapControl MainMap = new GMapControl();   
-            MainMap.MapType = GMap.NET.MapType.GoogleSatellite;
+            GMapControl MainMap = new GMapControl();
+
+            MainMap.MapProvider = GMap.NET.MapProviders.GoogleSatelliteMapProvider.Instance;
 
             MainMap.CacheLocation = Path.GetDirectoryName(Application.ExecutablePath) + "/gmapcache/";
 
@@ -816,7 +818,8 @@ namespace MissionPlanner
             if (fbd.ShowDialog() != System.Windows.Forms.DialogResult.OK)
                 return;
 
-            if (fbd.SelectedPath != "") {
+            if (fbd.SelectedPath != "") 
+            {
 
                 string[] files = Directory.GetFiles(fbd.SelectedPath,"*.jpg",SearchOption.AllDirectories);
                 string[] files1 = Directory.GetFiles(fbd.SelectedPath, "*.png", SearchOption.AllDirectories);
@@ -854,12 +857,11 @@ namespace MissionPlanner
 
                     Application.DoEvents();
 
-                    MainMap.Manager.ImageCacheLocal.PutImageToCache(tile, GMap.NET.MapType.Custom, pnt, int.Parse(mat.Groups[1].Value)); 
+                    GMaps.Instance.PrimaryCache.PutImageToCache(tile.ToArray(), Maps.Custom.Instance.DbId, pnt, int.Parse(mat.Groups[1].Value)); 
 
                    // Application.DoEvents();
                 }
             }
-          
         }
 
         private string getfilepath(int x, int y, int zoom)
@@ -879,16 +881,11 @@ namespace MissionPlanner
         private void BUT_clearcustommaps_Click(object sender, EventArgs e)
         {
             GMapControl MainMap = new GMapControl();
-            MainMap.MapType = GMap.NET.MapType.GoogleSatellite;
+            MainMap.MapProvider = GMap.NET.MapProviders.GoogleSatelliteMapProvider.Instance;
 
-            MainMap.CacheLocation = Path.GetDirectoryName(Application.ExecutablePath) + "/gmapcache/";
+            int removed = MainMap.Manager.PrimaryCache.DeleteOlderThan(DateTime.Now, Maps.Custom.Instance.DbId);
 
-            int removed =  ((GMap.NET.CacheProviders.myPureImageCache)MainMap.Manager.ImageCacheLocal).DeleteOlderThan(DateTime.Now, GMap.NET.MapType.Custom);
-
-            CustomMessageBox.Show("Removed "+removed + " images\nshrinking file next");
-
-            GMap.NET.CacheProviders.myPureImageCache.VacuumDb(MainMap.CacheLocation + @"\TileDBv3\en\Data.gmdb");
-
+            CustomMessageBox.Show("Removed "+removed + " images");
 
             log.InfoFormat("Removed {0} images", removed);
         }

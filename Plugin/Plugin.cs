@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using GMap.NET;
+using GMap.NET.MapProviders;
 using GMap.NET.WindowsForms;
 using MissionPlanner;
 using MissionPlanner.GCSViews;
@@ -101,7 +102,7 @@ namespace MissionPlanner.Plugin
         /// </summary>
         public PointLatLng FDMenuMapPosition { get { return MainV2.instance.FlightData.gotolocation; } }
 
-        public MapType FDMapType { get { return FlightData.mymap.MapType; } }
+        public GMapProvider FDMapType { get { return FlightData.mymap.MapProvider; } }
 
         /// <summary>
         /// add things to flightdata hud menu

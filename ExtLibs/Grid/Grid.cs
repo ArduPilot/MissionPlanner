@@ -43,9 +43,9 @@ namespace MissionPlanner
         static void addtomap(linelatlng pos)
         {
             return;
-            List<PointLatLng> list = new List<PointLatLng>();
-            list.Add(pos.p1.ToLLA());
-            list.Add(pos.p2.ToLLA());
+            //List<PointLatLng> list = new List<PointLatLng>();
+            //list.Add(pos.p1.ToLLA());
+            //list.Add(pos.p2.ToLLA());
 
          //   polygons.Routes.Add(new GMapRoute(list, "test") { Stroke = new System.Drawing.Pen(System.Drawing.Color.Yellow,4) });
             

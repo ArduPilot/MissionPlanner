@@ -32,6 +32,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="GMap.NET.Core, Version=1.7.0.0, Culture=neutral, PublicKeyToken=b85b9027b614afef, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Desktop\DIYDrones\greatmaps_09991dd06609\Demo.WindowsForms\bin\Debug\GMap.NET.Core.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -69,11 +73,6 @@
     <ProjectReference Include="..\..\ExtLibs\GeoUtility\GeoUtility.csproj">
       <Project>{7f7994ce-823f-4a04-bbea-d0a3808ff56d}</Project>
       <Name>GeoUtility</Name>
-      <Private>False</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\..\ExtLibs\GMap.NET.Core\GMap.NET.Core.csproj">
-      <Project>{d0c39d9d-bed0-418b-9a5e-713176caf40c}</Project>
-      <Name>GMap.NET.Core</Name>
       <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\..\ExtLibs\Utilities\MissionPlanner.Utilities.csproj">

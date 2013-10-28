@@ -229,8 +229,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                                 thisctl.Minimum = 0;
                             } else if (thisctl.Name.EndsWith("_IMAX"))
                             {
-                                thisctl.Maximum = 180;
-                                thisctl.Minimum = -180;
+                                thisctl.Maximum = 1800;
+                                thisctl.Minimum = -1800;
                             }
 
                             thisctl.Enabled = true;

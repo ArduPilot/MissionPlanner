@@ -1,4 +1,16 @@
-﻿* Mission Planner 1.2.84
+﻿* Mission Planner 1.2.85
+update map library - this will invalidate your map prefetch
+remove arial narrow and Century Gothic font issues
+add ability to load a kml linestring as a mission
+add kmz overlay and import support
+fix AC imax limits
+add view flightplan as kml
+fix speech over speak
+fix bad first packet in mavlink logs
+support now DF log gps line
+modify getParam timeout from 0.2 to 0.7
+
+* Mission Planner 1.2.84
 add new winddir
 fix px4 uploader same fw error
 update parammetadatabackup.xml

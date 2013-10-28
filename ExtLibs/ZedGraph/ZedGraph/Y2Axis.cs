@@ -54,7 +54,7 @@ namespace ZedGraph
 			/// Determines if a line will be drawn at the zero value for the 
 			/// <see cref="Y2Axis"/>, that is, a line that
 			/// divides the negative values from positive values.
-			/// <seealso cref="MajorGrid.IsZeroLine"/>.
+			/// <seealso cref="MajorGrid.IsEmptyLine"/>.
 			/// </summary>
 			public static bool IsZeroLine = true;
 		}
@@ -81,7 +81,7 @@ namespace ZedGraph
 			: base( title )
 		{
 			_isVisible = Default.IsVisible;
-			_majorGrid._isZeroLine = Default.IsZeroLine;
+            _majorGrid._isZeroLine = Default.IsZeroLine;
 			_scale._fontSpec.Angle = -90.0F;
 		}
 

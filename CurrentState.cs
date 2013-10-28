@@ -671,6 +671,19 @@ enum gcs_severity {
                         //MAVLink.packets[(byte)MAVLink.MSG_NAMES.HIL_CONTROLS] = null;
                     }
 
+                    bytearray = mavinterface.MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.SYSTEM_TIME];
+
+                    if (bytearray != null)
+                    {
+                        var systime = bytearray.ByteArrayToStructure<MAVLink.mavlink_system_time_t>(6);
+
+                        DateTime newtime = DateTime.Now;
+
+                          //UInt64 ms_per_week = 7000ULL*86400ULL;
+     //UInt64 unix_offset = 17000ULL*86400ULL + 52*10*7000ULL*86400ULL - 15000ULL;
+    //UInt64 fix_time_ms = unix_offset + time_week*ms_per_week + time_week_ms;
+                    }
+
                     bytearray = mavinterface.MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.HWSTATUS];
 
                     if (bytearray != null)
@@ -809,6 +822,11 @@ enum gcs_severity {
                         else if (sensors_health.optical_flow != sensors_enabled.optical_flow)
                         {
                             messageHigh = "Bad OptFlow Health";
+                            messageHighTime = DateTime.Now;
+                        }
+                        else if (sensors_present.rc_receiver != sensors_enabled.rc_receiver)
+                        {
+                            messageHigh = "NO RC Receiver";
                             messageHighTime = DateTime.Now;
                         }
                         
@@ -1202,6 +1220,7 @@ enum gcs_severity {
             public bool altitude_control { get { return bitArray[13]; } set { bitArray[13] = value; } }
             public bool xy_position_control { get { return bitArray[14]; } set { bitArray[14] = value; } }
             public bool motor_control { get { return bitArray[15]; } set { bitArray[15] = value; } }
+            public bool rc_receiver { get { return bitArray[16]; } set { bitArray[16] = value; } }
 
             public int Value
             {

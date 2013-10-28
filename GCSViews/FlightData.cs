@@ -220,9 +220,7 @@ namespace MissionPlanner.GCSViews
 
             // config map      
             log.Info("Map Setup");
-            gMapControl1.MapType = MapType.GoogleSatellite;
-            gMapControl1.MinZoom = 1;
-            gMapControl1.CacheLocation = Path.GetDirectoryName(Application.ExecutablePath) + "/gmapcache/";
+            gMapControl1.MapProvider = GMap.NET.MapProviders.GoogleSatelliteMapProvider.Instance;
 
             gMapControl1.OnMapZoomChanged += new MapZoomChanged(gMapControl1_OnMapZoomChanged);
 
@@ -231,16 +229,16 @@ namespace MissionPlanner.GCSViews
             gMapControl1.RoutesEnabled = true;
             gMapControl1.PolygonsEnabled = true;
 
-            kmlpolygons = new GMapOverlay(gMapControl1, "kmlpolygons");
+            kmlpolygons = new GMapOverlay( "kmlpolygons");
             gMapControl1.Overlays.Add(kmlpolygons);
 
-            geofence = new GMapOverlay(gMapControl1, "geofence");
+            geofence = new GMapOverlay( "geofence");
             gMapControl1.Overlays.Add(geofence);
 
-            polygons = new GMapOverlay(gMapControl1, "polygons");
+            polygons = new GMapOverlay( "polygons");
             gMapControl1.Overlays.Add(polygons);
 
-            routes = new GMapOverlay(gMapControl1, "routes");
+            routes = new GMapOverlay( "routes");
             gMapControl1.Overlays.Add(routes);
 
             try
@@ -496,14 +494,14 @@ namespace MissionPlanner.GCSViews
         {
             System.Threading.ThreadPool.QueueUserWorkItem(mainloop);
 
-            TRK_zoom.Minimum = gMapControl1.MinZoom;
-            TRK_zoom.Maximum = gMapControl1.MaxZoom + 1;
+            TRK_zoom.Minimum = gMapControl1.MapProvider.MinZoom;
+            TRK_zoom.Maximum = (float)24;
             TRK_zoom.Value = (float)gMapControl1.Zoom;
 
-            gMapControl1.EmptytileBrush = Brushes.Gray;
+            gMapControl1.EmptyTileColor = Color.Gray;
 
-            Zoomlevel.Minimum = gMapControl1.MinZoom;
-            Zoomlevel.Maximum = gMapControl1.MaxZoom + 1;
+            Zoomlevel.Minimum = gMapControl1.MapProvider.MinZoom;
+            Zoomlevel.Maximum = (decimal)24;
             Zoomlevel.Value = Convert.ToDecimal(gMapControl1.Zoom);
 
             CMB_mountmode.DataSource = Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("MNT_MODE");
@@ -788,7 +786,7 @@ namespace MissionPlanner.GCSViews
                     }
 
                     // update map
-                    if (tracklast.AddSeconds(1.2) < DateTime.Now)
+                    if (tracklast.AddSeconds(1.2) < DateTime.Now && gMapControl1.Visible)
                     {
                         if (MainV2.config["CHK_maprotation"] != null && MainV2.config["CHK_maprotation"].ToString() == "True")
                         {
@@ -888,7 +886,7 @@ namespace MissionPlanner.GCSViews
                                 if (routes.Markers.Count != 1)
                                 {
                                     routes.Markers.Clear();
-                                    routes.Markers.Add(new GMapMarkerCross(currentloc));
+                                    routes.Markers.Add(new GMarkerGoogle(currentloc,GMarkerGoogleType.none));
                                 }
 
                                 if (MainV2.comPort.MAV.cs.mode.ToLower() == "guided" && MainV2.comPort.MAV.GuidedMode.x != 0)
@@ -919,7 +917,7 @@ namespace MissionPlanner.GCSViews
                                     PointLatLng portlocation = new PointLatLng(port.MAV.cs.lat, port.MAV.cs.lng);
 
                                     while (routes.Markers.Count < (a+1))
-                                        routes.Markers.Add(new GMapMarkerCross(portlocation));
+                                        routes.Markers.Add(new GMarkerGoogle(portlocation,GMarkerGoogleType.none));
 
                                     if (port.MAV.cs.firmware == MainV2.Firmwares.ArduPlane || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.Ateryx)
                                     {
@@ -1128,7 +1126,7 @@ namespace MissionPlanner.GCSViews
             try
             {
                 PointLatLng point = new PointLatLng(lat, lng);
-                GMapMarkerGoogleGreen m = new GMapMarkerGoogleGreen(point);
+                GMarkerGoogle m = new GMarkerGoogle(point,GMarkerGoogleType.green);
                 m.ToolTipMode = MarkerTooltipMode.Always;
                 m.ToolTipText = tag;
                 m.Tag = tag;
@@ -1159,7 +1157,7 @@ namespace MissionPlanner.GCSViews
             try
             {
                 PointLatLng point = new PointLatLng(lat, lng);
-                GMapMarkerGoogleRed m = new GMapMarkerGoogleRed(point);
+                GMarkerGoogle m = new GMarkerGoogle(point,GMarkerGoogleType.red);
                 m.ToolTipMode = MarkerTooltipMode.Always;
                 m.ToolTipText = tag;
                 m.Tag = tag;
@@ -1205,6 +1203,7 @@ namespace MissionPlanner.GCSViews
                 polygon.Points.AddRange(polygonPoints);
 
                 polygon.Stroke = new Pen(Color.Yellow, 4);
+                polygon.Fill = Brushes.Transparent;
 
                 if (polygons.Polygons.Count == 0)
                 {
@@ -1494,7 +1493,7 @@ namespace MissionPlanner.GCSViews
                     marker = new GMapMarkerRect(point);
                     marker.ToolTip = new GMapToolTip(marker);
                     marker.ToolTipMode = MarkerTooltipMode.Always;
-                    marker.ToolTipText = "Dist to Home: " + ((gMapControl1.Manager.GetDistance(point, MainV2.comPort.MAV.cs.HomeLocation.Point()) * 1000) * MainV2.comPort.MAV.cs.multiplierdist).ToString("0");
+                    marker.ToolTipText = "Dist to Home: " + ((gMapControl1.MapProvider.Projection.GetDistance(point, MainV2.comPort.MAV.cs.HomeLocation.Point()) * 1000) * MainV2.comPort.MAV.cs.multiplierdist).ToString("0");
 
                     routes.Markers.Add(marker);
                 }
@@ -2898,7 +2897,7 @@ print 'Roll complete'
         {
             CustomMessageBox.Show("Not implemented yet");
             return;
-            MainV2.comPort.getWP(0);
+            //MainV2.comPort.getWP(0);
 
             //MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_HOME, 0, 0, 0, 0, gotolocation.Lat, gotolocation.Lng, 0);
         }

@@ -70,14 +70,15 @@ namespace MissionPlanner
             if (Pen.Color == Color.Blue)
                 Pen.Color = Color.White;
 
-            double width = (Overlay.Control.Manager.GetDistance(Overlay.Control.FromLocalToLatLng(0, 0), Overlay.Control.FromLocalToLatLng(Overlay.Control.Width, 0)) * 1000.0);
-            double height = (Overlay.Control.Manager.GetDistance(Overlay.Control.FromLocalToLatLng(0, 0), Overlay.Control.FromLocalToLatLng(Overlay.Control.Height, 0)) * 1000.0);
+            double width = (Overlay.Control.MapProvider.Projection.GetDistance(Overlay.Control.FromLocalToLatLng(0, 0), Overlay.Control.FromLocalToLatLng(Overlay.Control.Width, 0)) * 1000.0);
+            double height = (Overlay.Control.MapProvider.Projection.GetDistance(Overlay.Control.FromLocalToLatLng(0, 0), Overlay.Control.FromLocalToLatLng(Overlay.Control.Height, 0)) * 1000.0);
             double m2pixelwidth = Overlay.Control.Width / width;
             double m2pixelheight = Overlay.Control.Height / height;
 
             GPoint loc = new GPoint((int)(LocalPosition.X - (m2pixelwidth * wprad * 2)), LocalPosition.Y);// MainMap.FromLatLngToLocal(wpradposition);
 
-            g.DrawArc(Pen, new System.Drawing.Rectangle(LocalPosition.X - Offset.X - (Math.Abs(loc.X - LocalPosition.X) / 2), LocalPosition.Y - Offset.Y - Math.Abs(loc.X - LocalPosition.X) / 2, Math.Abs(loc.X - LocalPosition.X), Math.Abs(loc.X - LocalPosition.X)), 0, 360);
+            if (m2pixelheight > 0.5)
+                g.DrawArc(Pen, new System.Drawing.Rectangle(LocalPosition.X - Offset.X - (int)(Math.Abs(loc.X - LocalPosition.X) / 2), LocalPosition.Y - Offset.Y - (int)Math.Abs(loc.X - LocalPosition.X) / 2, (int)Math.Abs(loc.X - LocalPosition.X), (int)Math.Abs(loc.X - LocalPosition.X)), 0, 360);
        
         }
     }
@@ -180,7 +181,7 @@ namespace MissionPlanner
                 float desired_lead_dist = 100;
 
 
-                double width = (Overlay.Control.Manager.GetDistance(Overlay.Control.FromLocalToLatLng(0, 0), Overlay.Control.FromLocalToLatLng(Overlay.Control.Width, 0)) * 1000.0);
+                double width = (Overlay.Control.MapProvider.Projection.GetDistance(Overlay.Control.FromLocalToLatLng(0, 0), Overlay.Control.FromLocalToLatLng(Overlay.Control.Width, 0)) * 1000.0);
                 double m2pixelwidth = Overlay.Control.Width / width;
 
                 float alpha = ((desired_lead_dist * (float)m2pixelwidth) / MainV2.comPort.MAV.cs.radius) * rad2deg;

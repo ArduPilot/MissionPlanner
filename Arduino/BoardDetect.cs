@@ -109,8 +109,6 @@ namespace MissionPlanner.Arduino
                         return boards.b2560;
                     }
                 }
-
-                return boards.none;
             }
 
             if (serialPort.IsOpen)
@@ -232,8 +230,6 @@ namespace MissionPlanner.Arduino
                     return boards.b2560;
                 }
             }
-
-            return boards.none;
         }
 
         public enum ap_var_type

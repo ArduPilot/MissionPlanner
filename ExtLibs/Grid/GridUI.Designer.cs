@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GridUI));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label3 = new System.Windows.Forms.Label();
             this.NUM_spacing = new System.Windows.Forms.NumericUpDown();
@@ -965,10 +964,11 @@
             this.map.Bearing = 0F;
             this.map.CanDragMap = true;
             this.map.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.map.EmptyTileColor = System.Drawing.Color.Gray;
             this.map.GrayScaleMode = false;
+            this.map.HelperLineOption = GMap.NET.WindowsForms.HelperLineOptions.DontShow;
             this.map.LevelsKeepInMemmory = 5;
             this.map.Location = new System.Drawing.Point(0, 0);
-            this.map.MapType = GMap.NET.MapType.GoogleSatellite;
             this.map.MarkersEnabled = true;
             this.map.MaxZoom = 19;
             this.map.MinZoom = 2;
@@ -978,9 +978,10 @@
             this.map.PolygonsEnabled = true;
             this.map.RetryLoadTile = 0;
             this.map.RoutesEnabled = true;
+            this.map.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Fractional;
+            this.map.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
             this.map.ShowTileGridLines = false;
             this.map.Size = new System.Drawing.Size(755, 457);
-            this.map.streamjpg = ((System.IO.MemoryStream)(resources.GetObject("map.streamjpg")));
             this.map.TabIndex = 0;
             this.map.Zoom = 3D;
             // 

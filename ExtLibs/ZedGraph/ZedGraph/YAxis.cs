@@ -54,7 +54,7 @@ namespace ZedGraph
 			/// Determines if a line will be drawn at the zero value for the 
 			/// <see cref="YAxis"/>, that is, a line that
 			/// divides the negative values from positive values.
-			/// <seealso cref="MajorGrid.IsZeroLine"/>.
+			/// <seealso cref="MajorGrid.IsEmptyLine"/>.
 			/// </summary>
 			public static bool IsZeroLine = true;
 		}

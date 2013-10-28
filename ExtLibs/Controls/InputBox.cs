@@ -26,7 +26,7 @@ namespace MissionPlanner.Controls
             // ensure we run this on the right thread - mono - mac
             if (Application.OpenForms.Count > 0 && Application.OpenForms[0].InvokeRequired)
             {
-                Application.OpenForms[0].Invoke((Action)delegate
+                Application.OpenForms[0].Invoke((MethodInvoker)delegate
                 {
                     answer = ShowUI(title, promptText, passin, password);
                 });
@@ -90,12 +90,13 @@ namespace MissionPlanner.Controls
 
             DialogResult dialogResult = DialogResult.Cancel;
 
-            Console.WriteLine("Input Box");
+            Console.WriteLine("Input Box " + System.Threading.Thread.CurrentThread.Name);
+
+            Application.DoEvents();
 
             form.ShowDialog();
 
-
-            Console.WriteLine("Input Box 2");
+            Console.WriteLine("Input Box 2 " + System.Threading.Thread.CurrentThread.Name);
 
             dialogResult = form.DialogResult;
 

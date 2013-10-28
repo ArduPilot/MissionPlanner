@@ -288,15 +288,15 @@ namespace MissionPlanner
 
         void FrmProgressReporterDoWorkAndParams(object sender, ProgressWorkerEventArgs e, object passdata = null)
         {
-            OpenBg(true, e);
+            OpenBg(sender,true, e);
         }
 
         void FrmProgressReporterDoWorkNOParams(object sender, ProgressWorkerEventArgs e, object passdata = null)
         {
-            OpenBg(false, e);
+            OpenBg(sender,false, e);
         }
 
-        private void OpenBg(bool getparams, ProgressWorkerEventArgs progressWorkerEventArgs)
+        private void OpenBg(object PRsender, bool getparams, ProgressWorkerEventArgs progressWorkerEventArgs)
         {
             frmProgressReporter.UpdateProgressAndStatus(-1, "Mavlink Connecting...");
 
@@ -325,7 +325,7 @@ namespace MissionPlanner
 
                     BaseStream.DiscardInBuffer();
 
-                    Thread.Sleep(1000);
+                    Thread.Sleep(500);
                 }
 
                 byte[] buffer = new byte[0];
@@ -535,26 +535,12 @@ Please check the following
             {
                 byte[] data;
 
-                if (mavlinkversion == 3)
-                {
-                    data = MavlinkUtil.StructureToByteArray(indata);
-                }
-                else
-                {
-                    data = MavlinkUtil.StructureToByteArrayBigEndian(indata);
-                }
+                data = MavlinkUtil.StructureToByteArray(indata);
 
                 //Console.WriteLine(DateTime.Now + " PC Doing req "+ messageType + " " + this.BytesToRead);
                 byte[] packet = new byte[data.Length + 6 + 2];
 
-                if (mavlinkversion == 3)
-                {
-                    packet[0] = 254;
-                }
-                else if (mavlinkversion == 2)
-                {
-                    packet[0] = (byte)'U';
-                }
+                packet[0] = 254;    
                 packet[1] = (byte)data.Length;
                 packet[2] = (byte)packetcount;
 
@@ -573,10 +559,7 @@ Please check the following
 
                 ushort checksum = MavlinkCRC.crc_calculate(packet, packet[1] + 6);
 
-                if (mavlinkversion == 3)
-                {
                     checksum = MavlinkCRC.crc_accumulate(MAVLINK_MESSAGE_CRCS[messageType], checksum);
-                }
 
                 byte ck_a = (byte)(checksum & 0xFF); ///< High byte
                 byte ck_b = (byte)(checksum >> 8); ///< Low byte
@@ -820,17 +803,34 @@ Please check the following
                     {
                         if (!indexsreceived.Contains(i))
                         {
+                            if (frmProgressReporter.doWorkArgs.CancelRequested)
+                            {
+                                frmProgressReporter.doWorkArgs.CancelAcknowledged = true;
+                                giveComport = false;
+                                frmProgressReporter.doWorkArgs.ErrorMessage = "User Canceled";
+                                return MAV.param;
+                            }
+
                             // prevent dropping out of this get params loop
                             try
                             {
                                 GetParam(i);
                                 param_count++;
                                 indexsreceived.Add(i);
+
+                                this.frmProgressReporter.UpdateProgressAndStatus((indexsreceived.Count * 100) / param_total, "Got param index " + i);
                             }
                             catch
                             {
+                                try
+                                {
+                                    GetParam(i);
+                                    param_count++;
+                                    indexsreceived.Add(i);
+                                }
+                                catch { }
                                 // fail over to full list
-                                break;
+                                //break;
                             }
                         }
                     }
@@ -976,7 +976,7 @@ Please check the following
 
             while (true)
             {
-                if (!(start.AddMilliseconds(200) > DateTime.Now))
+                if (!(start.AddMilliseconds(700) > DateTime.Now))
                 {
                     if (retrys > 0)
                     {

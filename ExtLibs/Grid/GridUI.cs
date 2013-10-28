@@ -52,9 +52,9 @@ namespace MissionPlanner
 
             InitializeComponent();
 
-            map.MapType = plugin.Host.FDMapType;
+            map.MapProvider = plugin.Host.FDMapType;
 
-            layerpolygons = new GMapOverlay(map, "polygons");
+            layerpolygons = new GMapOverlay( "polygons");
             map.Overlays.Add(layerpolygons);
 
             CMB_startfrom.DataSource = Enum.GetNames(typeof(Grid.StartPosition));
@@ -69,12 +69,13 @@ namespace MissionPlanner
 
         void AddDrawPolygon()
         {
-            
             layerpolygons.Polygons.Add(plugin.Host.FPDrawnPolygon);
+
+            layerpolygons.Polygons[0].Fill = Brushes.Transparent;
 
             foreach (var item in plugin.Host.FPDrawnPolygon.Points)
             {
-                layerpolygons.Markers.Add(new GMapMarkerGoogleRed(item));
+                layerpolygons.Markers.Add(new GMarkerGoogle(item,GMarkerGoogleType.red));
             }
         }
 
@@ -137,7 +138,7 @@ namespace MissionPlanner
 
                     if (chk_internals.Checked)
                     {
-                        layerpolygons.Markers.Add(new GMapMarkerGoogleGreen(item) { ToolTipText = a.ToString(), ToolTipMode = MarkerTooltipMode.OnMouseOver });
+                        layerpolygons.Markers.Add(new GMarkerGoogle(item,GMarkerGoogleType.green) { ToolTipText = a.ToString(), ToolTipMode = MarkerTooltipMode.OnMouseOver });
                         a++;
                     }
                     try
@@ -179,7 +180,7 @@ namespace MissionPlanner
                 {
                     strips++;
                     if (chk_markers.Checked)
-                        layerpolygons.Markers.Add(new GMapMarkerGoogleGreen(item) { ToolTipText = a.ToString(), ToolTipMode = MarkerTooltipMode.Always });
+                        layerpolygons.Markers.Add(new GMarkerGoogle(item,GMarkerGoogleType.green) { ToolTipText = a.ToString(), ToolTipMode = MarkerTooltipMode.Always });
 
                     a++;
                 }
@@ -189,6 +190,7 @@ namespace MissionPlanner
             // add wp polygon
             wppoly = new GMapPolygon(list2, "Grid");
             wppoly.Stroke.Color = Color.Yellow;
+            wppoly.Fill = Brushes.Transparent;
             wppoly.Stroke.Width = 4;
             if (chk_grid.Checked)
                 layerpolygons.Polygons.Add(wppoly);

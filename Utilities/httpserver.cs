@@ -12,6 +12,7 @@ using System.Web.Script.Serialization;
 using System.Windows.Forms;
 using log4net;
 using MissionPlanner.Utilities;
+using SharpKml.Base;
 
 namespace MissionPlanner.Utilities
 {
@@ -112,7 +113,6 @@ namespace MissionPlanner.Utilities
                     //client.NoDelay = true;
 
                     // makesure we have valid image
-                    GCSViews.FlightData.mymap.streamjpgenable = true;
                     GCSViews.FlightData.myhud.streamjpgenable = true;
 
                     NetworkStream stream = client.GetStream();
@@ -208,8 +208,6 @@ namespace MissionPlanner.Utilities
                     }
                     else if (url.Contains("network.kml"))
                     {
-
-
                         SharpKml.Dom.Document kml = new SharpKml.Dom.Document();
 
                         SharpKml.Dom.Placemark pmplane = new SharpKml.Dom.Placemark();
@@ -260,22 +258,43 @@ namespace MissionPlanner.Utilities
                             Range = 50
                         };
 
-                        kml.Viewpoint = la;
-
-                        kml.AddFeature(pmplane);
+                        if (loc.Latitude.Value != 0 && loc.Longitude.Value != 0)
+                        {
+                            kml.Viewpoint = la;
+                            kml.AddFeature(pmplane);
+                        }
 
                         SharpKml.Dom.CoordinateCollection coords = new SharpKml.Dom.CoordinateCollection();
 
-                        foreach (var point in MainV2.comPort.MAV.wps.Values)
+                        if (loc.Latitude.Value != 0 && loc.Longitude.Value != 0)
                         {
-                            coords.Add(new SharpKml.Base.Vector(point.x, point.y, point.z));
+                            foreach (var point in MainV2.comPort.MAV.wps.Values)
+                            {
+                                coords.Add(new SharpKml.Base.Vector(point.x, point.y, point.z));
+                            }
+                        }
+                        else
+                        {
+                            foreach (var point in GCSViews.FlightPlanner.instance.pointlist)
+                            {
+                                coords.Add(new SharpKml.Base.Vector(point.Lat, point.Lng, point.Alt));
+
+                                SharpKml.Dom.Placemark wp = new SharpKml.Dom.Placemark();
+                                wp.Name = point.Tag;
+                                SharpKml.Dom.Point wppoint = new SharpKml.Dom.Point();
+                                var altmode = SharpKml.Dom.AltitudeMode.RelativeToGround;
+                                wppoint.AltitudeMode = altmode;
+                                wppoint.Coordinate = new Vector() { Latitude = point.Lat, Longitude = point.Lng, Altitude = point.Alt };
+                                wp.Geometry = wppoint;
+                                kml.AddFeature(wp);
+                            }
                         }
 
                         SharpKml.Dom.LineString ls = new SharpKml.Dom.LineString();
                         ls.AltitudeMode = SharpKml.Dom.AltitudeMode.RelativeToGround;
                         ls.Coordinates = coords;
 
-                        SharpKml.Dom.Placemark pm = new SharpKml.Dom.Placemark() { Geometry = ls };
+                        SharpKml.Dom.Placemark pm = new SharpKml.Dom.Placemark() { Geometry = ls, Name = "WPs" };
 
                         kml.AddFeature(pm);
 
@@ -343,35 +362,10 @@ namespace MissionPlanner.Utilities
                             System.Threading.Thread.Sleep(200); // 5hz
                             byte[] data = null;
 
-                            if (url.ToLower().Contains("hud"))
-                            {
+                        
                                 GCSViews.FlightData.myhud.streamjpgenable = true;
                                 data = GCSViews.FlightData.myhud.streamjpg.ToArray();
-                            }
-                            else if (url.ToLower().Contains("map"))
-                            {
-                                GCSViews.FlightData.mymap.streamjpgenable = true;
-                                data = GCSViews.FlightData.mymap.streamjpg.ToArray();
-                            }
-                            else
-                            {
-                                GCSViews.FlightData.mymap.streamjpgenable = true;
-                                GCSViews.FlightData.myhud.streamjpgenable = true;
-                                Image img1 = Image.FromStream(GCSViews.FlightData.myhud.streamjpg);
-                                Image img2 = Image.FromStream(GCSViews.FlightData.mymap.streamjpg);
-                                int bigger = img1.Height > img2.Height ? img1.Height : img2.Height;
-                                Image imgout = new Bitmap(img1.Width + img2.Width, bigger);
-
-                                Graphics grap = Graphics.FromImage(imgout);
-
-                                grap.DrawImageUnscaled(img1, 0, 0);
-                                grap.DrawImageUnscaled(img2, img1.Width, 0);
-
-                                MemoryStream streamjpg = new MemoryStream();
-                                imgout.Save(streamjpg, System.Drawing.Imaging.ImageFormat.Jpeg);
-                                data = streamjpg.ToArray();
-
-                            }
+                           
 
                             header = "Content-Type: image/jpeg\r\nContent-Length: " + data.Length + "\r\n\r\n";
                             temp = asciiEncoding.GetBytes(header);
@@ -384,7 +378,6 @@ namespace MissionPlanner.Utilities
                             stream.Write(temp, 0, temp.Length);
 
                         }
-                        GCSViews.FlightData.mymap.streamjpgenable = false;
                         GCSViews.FlightData.myhud.streamjpgenable = false;
                         stream.Close();
 

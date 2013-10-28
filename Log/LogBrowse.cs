@@ -83,9 +83,9 @@ namespace MissionPlanner.Log
         {
             InitializeComponent();
 
-             mapoverlay = new GMapOverlay(myGMAP1,"overlay");
+             mapoverlay = new GMapOverlay("overlay");
 
-             myGMAP1.MapType = MapType.GoogleSatellite;
+             myGMAP1.MapProvider = GMap.NET.MapProviders.GoogleSatelliteMapProvider.Instance;
 
              myGMAP1.Overlays.Add(mapoverlay);
         }

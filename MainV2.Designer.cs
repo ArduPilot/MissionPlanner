@@ -232,7 +232,6 @@ namespace MissionPlanner
             // 
             this.toolStripConnectionControl.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.toolStripConnectionControl.BackgroundImage = global::MissionPlanner.Properties.Resources.bgdark;
-            this.toolStripConnectionControl.Font = new System.Drawing.Font("Arial Narrow", 8.25F);
             this.toolStripConnectionControl.ForeColor = System.Drawing.Color.Black;
             this.toolStripConnectionControl.Margin = new System.Windows.Forms.Padding(0);
             this.toolStripConnectionControl.Name = "toolStripConnectionControl";

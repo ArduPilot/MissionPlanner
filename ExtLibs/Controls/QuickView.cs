@@ -91,7 +91,7 @@ namespace MissionPlanner.Controls
 
             //SizeF extenttest2 = Graphics.FromHwnd(this.Handle).MeasureString(labelWithPseudoOpacity2.Text, this.Font);
 
-            //SizeF extent = Measure.MeasureString(Graphics.FromHwnd(this.Handle), this.Font, labelWithPseudoOpacity2.Text);
+         //   SizeF extent2 = Measure.MeasureString(Graphics.FromHwnd(this.Handle), this.Font, labelWithPseudoOpacity2.Text);
 
            // extent = extenttest;
 

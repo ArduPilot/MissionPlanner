@@ -146,7 +146,6 @@ namespace MissionPlanner.Log
             {
                 log.Error("Error opening comport", ex);
                 CustomMessageBox.Show("Error opening comport");
-                this.Close();
                 return;
             }
 
@@ -477,8 +476,27 @@ namespace MissionPlanner.Log
                     lastline = line;
 
                 }
+                //FMT, 130, 37, GPS, BIHBcLLeeEe, Status,TimeMS,Week,NSats,HDop,Lat,Lng,RelAlt,Alt,Spd,GCrs
+                //GPS, 3, 14716600, 1764, 9, 2.15, 36.3242566, 138.6393205, -0.04, 940.95, 0.02, 138.00
+                if (items[0].Contains("GPS") && items[1] == "3" && items[6] != "0" && items[6] != "-1" && lastline != line && items.Length == 12)
+                {
+                    if (position[positionindex] == null)
+                        position[positionindex] = new List<Point3D>();
+
+                    //  if (double.Parse(items[4], new System.Globalization.CultureInfo("en-US")) == 0)
+                    //     return;
+
+                    // 8 agl
+                    // 9 asl...
+                    double alt = double.Parse(items[9], new System.Globalization.CultureInfo("en-US"));
+
+                    position[positionindex].Add(new Point3D(double.Parse(items[7], new System.Globalization.CultureInfo("en-US")), double.Parse(items[6], new System.Globalization.CultureInfo("en-US")), alt));
+                    oldlastpos = lastpos;
+                    lastpos = (position[positionindex][position[positionindex].Count - 1]);
+                    lastline = line;
+                }
                 //GPS, 1, 15691, 10, 0.00, -35.3629379, 149.1650850, -0.08, 585.41, 0.00, 126.89
-                if (items[0].Contains("GPS") && items[1] == "3" && items[4] != "0" && items[4] != "-1" && lastline != line) // check gps line and fixed status
+                if (items[0].Contains("GPS") && items[1] == "3" && items[4] != "0" && items[4] != "-1" && lastline != line && items.Length == 11) // check gps line and fixed status
                 {
                     if (position[positionindex] == null)
                         position[positionindex] = new List<Point3D>();

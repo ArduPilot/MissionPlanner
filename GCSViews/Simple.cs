@@ -151,7 +151,7 @@ namespace MissionPlanner.GCSViews
             CreateChart(zg1);
 
             // config map             
-            gMapControl1.MapType = MapType.GoogleSatellite;
+            gMapControl1.MapProvider = GMap.NET.MapProviders.GoogleSatelliteMapProvider.Instance;
             gMapControl1.MinZoom = 1;
             gMapControl1.CacheLocation = Path.GetDirectoryName(Application.ExecutablePath) + "/gmapcache/";
 
@@ -162,16 +162,16 @@ namespace MissionPlanner.GCSViews
             gMapControl1.RoutesEnabled = true;
             gMapControl1.PolygonsEnabled = true;
 
-            kmlpolygons = new GMapOverlay(gMapControl1, "kmlpolygons");
+            kmlpolygons = new GMapOverlay( "kmlpolygons");
             gMapControl1.Overlays.Add(kmlpolygons);
 
-            geofence = new GMapOverlay(gMapControl1, "geofence");
+            geofence = new GMapOverlay( "geofence");
             gMapControl1.Overlays.Add(geofence);
 
-            polygons = new GMapOverlay(gMapControl1, "polygons");
+            polygons = new GMapOverlay( "polygons");
             gMapControl1.Overlays.Add(polygons);
 
-            routes = new GMapOverlay(gMapControl1, "routes");
+            routes = new GMapOverlay( "routes");
             gMapControl1.Overlays.Add(routes);
 
 
@@ -510,7 +510,7 @@ namespace MissionPlanner.GCSViews
                                 if (routes.Markers.Count != 1)
                                 {
                                     routes.Markers.Clear();
-                                    routes.Markers.Add(new GMapMarkerCross(currentloc));
+                                    routes.Markers.Add(new GMarkerGoogle(currentloc,GMarkerGoogleType.none));
                                 }
 
                                 if (MainV2.comPort.MAV.cs.mode.ToLower() == "guided" && MainV2.comPort.MAV.GuidedMode.x != 0)
@@ -641,7 +641,7 @@ namespace MissionPlanner.GCSViews
             try
             {
                 PointLatLng point = new PointLatLng(lat, lng);
-                GMapMarkerGoogleGreen m = new GMapMarkerGoogleGreen(point);
+                GMarkerGoogle m = new GMarkerGoogle(point,GMarkerGoogleType.green);
                 m.ToolTipMode = MarkerTooltipMode.Always;
                 m.ToolTipText = tag;
                 m.Tag = tag;
@@ -672,7 +672,7 @@ namespace MissionPlanner.GCSViews
             try
             {
                 PointLatLng point = new PointLatLng(lat, lng);
-                GMapMarkerGoogleRed m = new GMapMarkerGoogleRed(point);
+                GMarkerGoogle m = new GMarkerGoogle(point,GMarkerGoogleType.red);
                 m.ToolTipMode = MarkerTooltipMode.Always;
                 m.ToolTipText = tag;
                 m.Tag = tag;
@@ -1002,7 +1002,7 @@ namespace MissionPlanner.GCSViews
                     marker = new GMapMarkerRect(point);
                     marker.ToolTip = new GMapToolTip(marker);
                     marker.ToolTipMode = MarkerTooltipMode.Always;
-                    marker.ToolTipText = "Dist to Home: " + ((gMapControl1.Manager.GetDistance(point, MainV2.comPort.MAV.cs.HomeLocation.Point()) * 1000) * MainV2.comPort.MAV.cs.multiplierdist).ToString("0");
+                    marker.ToolTipText = "Dist to Home: " + ((gMapControl1.MapProvider.Projection.GetDistance(point, MainV2.comPort.MAV.cs.HomeLocation.Point()) * 1000) * MainV2.comPort.MAV.cs.multiplierdist).ToString("0");
 
                     routes.Markers.Add(marker);
                 }

@@ -59,7 +59,7 @@ namespace MissionPlanner
             {
                 Form gridui = new GridUI(this);
                 MissionPlanner.Utilities.ThemeManager.ApplyThemeTo(gridui);
-                gridui.Show();
+                gridui.ShowDialog();
             }
             else
             {
