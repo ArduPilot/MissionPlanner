@@ -47,6 +47,11 @@ namespace MissionPlanner.Controls
         public void RunBackgroundOperationAsync()
         {
             ThreadPool.QueueUserWorkItem(RunBackgroundOperation);
+
+            var t = Type.GetType("Mono.Runtime");
+            if ((t != null))
+                this.Height += 25;
+
             this.ShowDialog();
         }
 

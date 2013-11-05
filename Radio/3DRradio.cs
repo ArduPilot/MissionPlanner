@@ -40,20 +40,20 @@ namespace MissionPlanner
             RS3.DataSource = Enumerable.Range(0, 500).ToArray();
         }
 
-        bool getFirmware(uploader.Uploader.Code device)
+        bool getFirmware(uploader.Uploader.Board device)
         {
             // was https://raw.github.com/tridge/SiK/master/Firmware/dst/radio.hm_trp.hex
             // now http://www.samba.org/tridge/UAV/3DR/radio.hm_trp.hex
 
-            if (device == uploader.Uploader.Code.DEVICE_ID_HM_TRP)
+            if (device == uploader.Uploader.Board.DEVICE_ID_HM_TRP)
             {
                 return Common.getFilefromNet("http://www.samba.org/tridge/UAV/3DR/radio.hm_trp.hex", firmwarefile);
             }
-            else if (device == uploader.Uploader.Code.DEVICE_ID_RFD900)
+            else if (device == uploader.Uploader.Board.DEVICE_ID_RFD900)
             {
                 return Common.getFilefromNet("http://rfdesign.com.au/firmware/radio.rfd900.hex", firmwarefile);
             }
-            else if (device == uploader.Uploader.Code.DEVICE_ID_RFD900A)
+            else if (device == uploader.Uploader.Board.DEVICE_ID_RFD900A)
             {
                 int fixme;
                 int fixme23;
@@ -149,8 +149,8 @@ namespace MissionPlanner
                     catch { }
                 }
 
-                global::uploader.Uploader.Code device = global::uploader.Uploader.Code.FAILED;
-                global::uploader.Uploader.Code freq = global::uploader.Uploader.Code.FAILED;
+                global::uploader.Uploader.Board device = global::uploader.Uploader.Board.FAILED;
+                global::uploader.Uploader.Frequency freq = global::uploader.Uploader.Frequency.FAILED;
 
                 // get the device type and frequency in the bootloader
                 uploader.getDevice(ref device, ref freq);
@@ -466,19 +466,27 @@ namespace MissionPlanner
 
                 RTI.Text = doCommand(comPort, "RTI");
 
-                    uploader.Uploader.Code freq = (uploader.Uploader.Code)Enum.Parse(typeof(uploader.Uploader.Code), doCommand(comPort, "ATI3"));
-                    uploader.Uploader.Code board = (uploader.Uploader.Code)Enum.Parse(typeof(uploader.Uploader.Code), doCommand(comPort, "ATI2"));
+                uploader.Uploader.Frequency freq = (uploader.Uploader.Frequency)Enum.Parse(typeof(uploader.Uploader.Frequency), doCommand(comPort, "ATI3"));
+                uploader.Uploader.Board board = (uploader.Uploader.Board)Enum.Parse(typeof(uploader.Uploader.Board), doCommand(comPort, "ATI2"));
 
                     ATI3.Text = freq.ToString();
+
+                    ATI2.Text = board.ToString();
+                    try
+                    {
+                        RTI2.Text = ((uploader.Uploader.Board)Enum.Parse(typeof(uploader.Uploader.Board), doCommand(comPort, "RTI2"))).ToString();
+                    }
+                    catch { }
                 // 8 and 9
-                    if (freq == uploader.Uploader.Code.FREQ_915) {
+                    if (freq == uploader.Uploader.Frequency.FREQ_915)
+                    {
                         S8.DataSource = Range(895000, 1000, 935000);
                         RS8.DataSource = Range(895000, 1000, 935000);
 
                         S9.DataSource = Range(895000, 1000, 935000);
                         RS9.DataSource = Range(895000, 1000, 935000);
                     }
-                    else if (freq == uploader.Uploader.Code.FREQ_433)
+                    else if (freq == uploader.Uploader.Frequency.FREQ_433)
                     {
                         S8.DataSource = Range(414000, 100, 454000);
                         RS8.DataSource = Range(414000, 100, 454000);
@@ -486,7 +494,7 @@ namespace MissionPlanner
                         S9.DataSource = Range(414000, 100, 454000);
                         RS9.DataSource = Range(414000, 100, 454000);
                     }
-                    else if (freq == uploader.Uploader.Code.FREQ_868) 
+                    else if (freq == uploader.Uploader.Frequency.FREQ_868) 
                     {
                         S8.DataSource = Range(849000, 1000, 889000);
                         RS8.DataSource = Range(849000, 1000, 889000);
@@ -495,7 +503,7 @@ namespace MissionPlanner
                         RS9.DataSource = Range(849000, 1000, 889000);
                     }
 
-                    if (board == uploader.Uploader.Code.DEVICE_ID_RFD900 || board == uploader.Uploader.Code.DEVICE_ID_RFD900A)
+                    if (board == uploader.Uploader.Board.DEVICE_ID_RFD900 || board == uploader.Uploader.Board.DEVICE_ID_RFD900A)
                     {
                         S4.DataSource = Range(1, 1, 30);
                         RS4.DataSource = Range(1, 1, 30);

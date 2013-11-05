@@ -7,7 +7,7 @@ using System.Net.Sockets;
 
 namespace MissionPlanner.HIL
 {
-    public class XPlane : Hil
+    public class XPlane : Hil, IDisposable
     {
         Socket SimulatorRECV;
         UdpClient XplanesSEND;
@@ -400,6 +400,12 @@ namespace MissionPlanner.HIL
             }
             catch (Exception e) { log.Info("Xplanes udp send error " + e.Message); }
 
+        }
+
+        public void Dispose()
+        {
+            if (SimulatorRECV != null)
+                SimulatorRECV.Dispose();
         }
     }
 }

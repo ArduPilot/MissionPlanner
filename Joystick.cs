@@ -9,7 +9,7 @@ using System.Reflection;
 
 namespace MissionPlanner
 {
-    public class Joystick
+    public class Joystick: IDisposable
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         Device joystick;
@@ -696,6 +696,12 @@ namespace MissionPlanner
             working = Math.Min(max, working);
 
             return (ushort)working;
+        }
+
+        public void Dispose()
+        {
+            if (joystick != null)
+                joystick.Dispose();
         }
     }
 }

@@ -75,10 +75,10 @@
             this.ATI = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
-            this.BUT_savesettings = new Controls.MyButton();
-            this.BUT_getcurrent = new Controls.MyButton();
+            this.BUT_savesettings = new MissionPlanner.Controls.MyButton();
+            this.BUT_getcurrent = new MissionPlanner.Controls.MyButton();
             this.lbl_status = new System.Windows.Forms.Label();
-            this.BUT_upload = new Controls.MyButton();
+            this.BUT_upload = new MissionPlanner.Controls.MyButton();
             this.label13 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
@@ -103,13 +103,15 @@
             this.label18 = new System.Windows.Forms.Label();
             this.SPLIT_remote = new System.Windows.Forms.SplitContainer();
             this.CHK_advanced = new System.Windows.Forms.CheckBox();
-            this.BUT_Syncoptions = new Controls.MyButton();
+            this.BUT_Syncoptions = new MissionPlanner.Controls.MyButton();
             this.ATI3 = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
-            this.BUT_resettodefault = new Controls.MyButton();
+            this.BUT_resettodefault = new MissionPlanner.Controls.MyButton();
+            this.ATI2 = new System.Windows.Forms.TextBox();
+            this.RTI2 = new System.Windows.Forms.TextBox();
             this.SPLIT_local.Panel1.SuspendLayout();
             this.SPLIT_local.Panel2.SuspendLayout();
             this.SPLIT_local.SuspendLayout();
@@ -934,6 +936,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.ATI2);
             this.groupBox1.Controls.Add(this.SPLIT_local);
             this.groupBox1.Controls.Add(this.ATI3);
             this.groupBox1.Controls.Add(this.label11);
@@ -946,6 +949,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.RTI2);
             this.groupBox2.Controls.Add(this.label9);
             this.groupBox2.Controls.Add(this.SPLIT_remote);
             this.groupBox2.Controls.Add(this.RTI);
@@ -969,6 +973,18 @@
             this.BUT_resettodefault.Name = "BUT_resettodefault";
             this.BUT_resettodefault.UseVisualStyleBackColor = true;
             this.BUT_resettodefault.Click += new System.EventHandler(this.BUT_resettodefault_Click);
+            // 
+            // ATI2
+            // 
+            resources.ApplyResources(this.ATI2, "ATI2");
+            this.ATI2.Name = "ATI2";
+            this.ATI2.ReadOnly = true;
+            // 
+            // RTI2
+            // 
+            resources.ApplyResources(this.RTI2, "RTI2");
+            this.RTI2.Name = "RTI2";
+            this.RTI2.ReadOnly = true;
             // 
             // _3DRradio
             // 
@@ -1089,5 +1105,7 @@
         private System.Windows.Forms.ComboBox S16;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.ComboBox S15;
+        private System.Windows.Forms.TextBox ATI2;
+        private System.Windows.Forms.TextBox RTI2;
     }
 }

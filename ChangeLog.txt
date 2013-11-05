@@ -1,4 +1,28 @@
-﻿* Mission Planner 1.2.85
+﻿* Mission Planner 1.2.86
+spline display support
+doublebuffer quick view
+move hud message text to bottom of hud & always ontop
+fix processreporterdialog size on mono
+add iris defaults to full param list
+fix rally point alt
+close comport on log download close
+close logbrowse on no file picked
+add internal plla to vector3
+make mavlink log selection form close on new log load
+increase multiple timeouts on mavlink interface - ms
+- setparam 500 > 700
+- get wp count 500 > 700
+- set wp 150 > 700
+- get fence point 500 > 700
+- get rally point 500 > 700
+add better high prio severity message parsing.
+fix 3dr radio config device id
+update H frame icons to I
+tweak wizard connect
+increase connect time - other boards compatability
+remove no rc receiver temp
+
+* Mission Planner 1.2.85
 update map library - this will invalidate your map prefetch
 remove arial narrow and Century Gothic font issues
 add ability to load a kml linestring as a mission

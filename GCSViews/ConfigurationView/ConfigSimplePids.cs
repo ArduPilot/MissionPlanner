@@ -24,7 +24,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         int y = 10;
 
-        class configitem
+        class configitem: IDisposable
         {
             public string title;
             public string desc;
@@ -39,6 +39,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             public Label lbl_max = new Label();
             // use increments
 
+
+            public void Dispose()
+            {
+                lbl_max.Dispose();
+                lbl_min.Dispose();
+            }
         }
 
         class relationitem

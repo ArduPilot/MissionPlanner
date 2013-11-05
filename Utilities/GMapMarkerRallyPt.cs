@@ -18,6 +18,8 @@ namespace MissionPlanner.Utilities
       //static Bitmap localcache1 = Resources.shadow50;
       static Bitmap localcache2 = Resources.marker_02;
 
+      public int Alt { get; set; }
+
       public GMapMarkerRallyPt(PointLatLng p)
          : base(p)
       {

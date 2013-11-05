@@ -9,6 +9,7 @@ using MissionPlanner.Utilities;
 using log4net;
 using MissionPlanner.Controls;
 using System.Collections.Generic;
+using System.Net;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
@@ -126,42 +127,47 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             if (dr == DialogResult.OK)
             {
-                Hashtable param2 = loadParamFile(ofd.FileName);
+                loadparamsfromfile(ofd.FileName);
+            }
+        }
 
-                foreach (string name in param2.Keys)
+        void loadparamsfromfile(string fn)
+        {
+            Hashtable param2 = loadParamFile(fn);
+
+            foreach (string name in param2.Keys)
+            {
+                string value = param2[name].ToString();
+                // set param table as well
+                foreach (DataGridViewRow row in Params.Rows)
                 {
-                    string value = param2[name].ToString();
-                    // set param table as well
-                    foreach (DataGridViewRow row in Params.Rows)
+                    if (name == "SYSID_SW_MREV")
+                        continue;
+                    if (name == "WP_TOTAL")
+                        continue;
+                    if (name == "CMD_TOTAL")
+                        continue;
+                    if (name == "FENCE_TOTAL")
+                        continue;
+                    if (name == "SYS_NUM_RESETS")
+                        continue;
+                    if (name == "ARSPD_OFFSET")
+                        continue;
+                    if (name == "GND_ABS_PRESS")
+                        continue;
+                    if (name == "GND_TEMP")
+                        continue;
+                    if (name == "CMD_INDEX")
+                        continue;
+                    if (name == "LOG_LASTFILE")
+                        continue;
+                    if (name == "FORMAT_VERSION")
+                        continue;
+                    if (row.Cells[0].Value.ToString() == name)
                     {
-                        if (name == "SYSID_SW_MREV")
-                            continue;
-                        if (name == "WP_TOTAL")
-                            continue;
-                        if (name == "CMD_TOTAL")
-                            continue;
-                        if (name == "FENCE_TOTAL")
-                            continue;
-                        if (name == "SYS_NUM_RESETS")
-                            continue;
-                        if (name == "ARSPD_OFFSET")
-                            continue;
-                        if (name == "GND_ABS_PRESS")
-                            continue;
-                        if (name == "GND_TEMP")
-                            continue;
-                        if (name == "CMD_INDEX")
-                            continue;
-                        if (name == "LOG_LASTFILE")
-                            continue;
-                        if (name == "FORMAT_VERSION")
-                            continue;
-                        if (row.Cells[0].Value.ToString() == name)
-                        {
-                            if (row.Cells[1].Value.ToString() != value.ToString())
-                                row.Cells[1].Value = value;
-                            break;
-                        }
+                        if (row.Cells[1].Value.ToString() != value.ToString())
+                            row.Cells[1].Value = value;
+                        break;
                     }
                 }
             }
@@ -487,6 +493,26 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     }
                 }
             }
+        }
+
+        private void but_iris_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string filepath = Application.StartupPath + Path.DirectorySeparatorChar + "Iris.param";
+
+                if (Common.getFilefromNet("https://github.com/diydrones/ardupilot/raw/master/Tools/Frame_params/Iris.param", filepath))
+                {
+                    loadparamsfromfile(filepath);
+
+                    CustomMessageBox.Show("Loaded parameters, please make sure you write them!","Loaded");
+                }
+                else
+                {
+                    CustomMessageBox.Show("Error getting Iris param file");
+                }
+            }
+            catch (Exception ex) { CustomMessageBox.Show("Error getting Iris param file" + ex.ToString()); }
         }
     }
 }

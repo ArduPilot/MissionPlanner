@@ -15,6 +15,7 @@ namespace MissionPlanner
         protected override void Dispose(bool disposing)
         {
             Console.WriteLine("mainv2_Dispose");
+            PluginThreadrunner.Dispose();
             if (disposing && (components != null))
             {
                 components.Dispose();

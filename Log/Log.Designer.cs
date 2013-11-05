@@ -30,15 +30,15 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Log));
             this.TXT_seriallog = new System.Windows.Forms.TextBox();
-            this.BUT_DLall = new Controls.MyButton();
-            this.BUT_DLthese = new Controls.MyButton();
-            this.BUT_clearlogs = new Controls.MyButton();
+            this.BUT_DLall = new MissionPlanner.Controls.MyButton();
+            this.BUT_DLthese = new MissionPlanner.Controls.MyButton();
+            this.BUT_clearlogs = new MissionPlanner.Controls.MyButton();
             this.CHK_logs = new System.Windows.Forms.CheckedListBox();
             this.TXT_status = new System.Windows.Forms.TextBox();
-            this.BUT_redokml = new Controls.MyButton();
-            this.BUT_firstperson = new Controls.MyButton();
-            this.BUT_dumpdf = new Controls.MyButton();
-            this.BUT_bintolog = new Controls.MyButton();
+            this.BUT_redokml = new MissionPlanner.Controls.MyButton();
+            this.BUT_firstperson = new MissionPlanner.Controls.MyButton();
+            this.BUT_dumpdf = new MissionPlanner.Controls.MyButton();
+            this.BUT_bintolog = new MissionPlanner.Controls.MyButton();
             this.CHK_arducopter = new System.Windows.Forms.RadioButton();
             this.CHK_arduplane = new System.Windows.Forms.RadioButton();
             this.CHK_ardurover = new System.Windows.Forms.RadioButton();
@@ -52,34 +52,22 @@
             // 
             // BUT_DLall
             // 
-            this.BUT_DLall.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
-            this.BUT_DLall.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
             resources.ApplyResources(this.BUT_DLall, "BUT_DLall");
             this.BUT_DLall.Name = "BUT_DLall";
-            this.BUT_DLall.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
-            this.BUT_DLall.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_DLall.UseVisualStyleBackColor = true;
             this.BUT_DLall.Click += new System.EventHandler(this.BUT_DLall_Click);
             // 
             // BUT_DLthese
             // 
-            this.BUT_DLthese.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
-            this.BUT_DLthese.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
             resources.ApplyResources(this.BUT_DLthese, "BUT_DLthese");
             this.BUT_DLthese.Name = "BUT_DLthese";
-            this.BUT_DLthese.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
-            this.BUT_DLthese.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_DLthese.UseVisualStyleBackColor = true;
             this.BUT_DLthese.Click += new System.EventHandler(this.BUT_DLthese_Click);
             // 
             // BUT_clearlogs
             // 
-            this.BUT_clearlogs.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
-            this.BUT_clearlogs.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
             resources.ApplyResources(this.BUT_clearlogs, "BUT_clearlogs");
             this.BUT_clearlogs.Name = "BUT_clearlogs";
-            this.BUT_clearlogs.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
-            this.BUT_clearlogs.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_clearlogs.UseVisualStyleBackColor = true;
             this.BUT_clearlogs.Click += new System.EventHandler(this.BUT_clearlogs_Click);
             // 
@@ -99,45 +87,29 @@
             // 
             // BUT_redokml
             // 
-            this.BUT_redokml.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
-            this.BUT_redokml.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
             resources.ApplyResources(this.BUT_redokml, "BUT_redokml");
             this.BUT_redokml.Name = "BUT_redokml";
-            this.BUT_redokml.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
-            this.BUT_redokml.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_redokml.UseVisualStyleBackColor = true;
             this.BUT_redokml.Click += new System.EventHandler(this.BUT_redokml_Click);
             // 
             // BUT_firstperson
             // 
-            this.BUT_firstperson.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
-            this.BUT_firstperson.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
             resources.ApplyResources(this.BUT_firstperson, "BUT_firstperson");
             this.BUT_firstperson.Name = "BUT_firstperson";
-            this.BUT_firstperson.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
-            this.BUT_firstperson.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_firstperson.UseVisualStyleBackColor = true;
             this.BUT_firstperson.Click += new System.EventHandler(this.BUT_firstperson_Click);
             // 
             // BUT_dumpdf
             // 
-            this.BUT_dumpdf.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
-            this.BUT_dumpdf.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
             resources.ApplyResources(this.BUT_dumpdf, "BUT_dumpdf");
             this.BUT_dumpdf.Name = "BUT_dumpdf";
-            this.BUT_dumpdf.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
-            this.BUT_dumpdf.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_dumpdf.UseVisualStyleBackColor = true;
             this.BUT_dumpdf.Click += new System.EventHandler(this.BUT_dumpdf_Click);
             // 
             // BUT_bintolog
             // 
-            this.BUT_bintolog.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
-            this.BUT_bintolog.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
             resources.ApplyResources(this.BUT_bintolog, "BUT_bintolog");
             this.BUT_bintolog.Name = "BUT_bintolog";
-            this.BUT_bintolog.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
-            this.BUT_bintolog.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_bintolog.UseVisualStyleBackColor = true;
             this.BUT_bintolog.Click += new System.EventHandler(this.BUT_bintolog_Click);
             // 

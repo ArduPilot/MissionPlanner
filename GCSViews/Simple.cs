@@ -94,8 +94,25 @@ namespace MissionPlanner.GCSViews
         {
             threadrun = 0;
             MainV2.comPort.logreadmode = false;
-  
+
             System.Threading.Thread.Sleep(100);
+
+            if (routes != null)
+                route.Dispose();
+            if (routes != null)
+                routes.Dispose();
+            if (swlog != null)
+                swlog.Dispose();
+            if (polygon != null)
+                polygon.Dispose();
+            if (polygons != null)
+                polygons.Dispose();
+            if (marker != null)
+                marker.Dispose();
+
+            if (components != null)
+                components.Dispose();
+
             base.Dispose(disposing);
         }
 

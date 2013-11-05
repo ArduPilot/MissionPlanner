@@ -322,6 +322,8 @@
     <Compile Include="Controls\Waypoints\Command.Designer.cs">
       <DependentUpon>Command.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Waypoints\Spline.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Maps\Custom.cs" />
     <Compile Include="Maps\MyImageCache.cs" />
     <Compile Include="Maps\WMSProvider.cs" />

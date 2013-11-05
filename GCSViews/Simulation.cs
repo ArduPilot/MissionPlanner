@@ -20,7 +20,7 @@ using MissionPlanner.HIL;
 // Written by Michael Oborne
 namespace MissionPlanner.GCSViews
 {
-    public partial class Simulation : MyUserControl, IActivate
+    public partial class Simulation : MyUserControl
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         MAVLinkInterface comPort = MainV2.comPort;
@@ -242,18 +242,17 @@ namespace MissionPlanner.GCSViews
             if (threadrun == 1)
                 ConnectComPort_Click(new object(), new EventArgs());
 
+            this.Dispose(false);
+
             MavLink = null;
             XplanesSEND = null;
             SimulatorRECV = null;
+            SITLSEND = null;
         }
 
         public Simulation()
         {
             InitializeComponent();
-        }
-
-        public void Activate()
-        {
         }
 
         private void Simulation_Load(object sender, EventArgs e)

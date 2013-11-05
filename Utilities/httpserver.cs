@@ -438,18 +438,17 @@ namespace MissionPlanner.Utilities
                                 byte[] temp = asciiEncoding.GetBytes(header);
                                 stream.Write(temp, 0, temp.Length);
 
-                                BinaryReader file = new BinaryReader(memstream);
-                                byte[] buffer = new byte[1024];
-                                while (file.BaseStream.Position < file.BaseStream.Length)
+                                using (BinaryReader file = new BinaryReader(memstream))
                                 {
+                                    byte[] buffer = new byte[1024];
+                                    while (file.BaseStream.Position < file.BaseStream.Length)
+                                    {
 
-                                    int leng = file.Read(buffer, 0, buffer.Length);
+                                        int leng = file.Read(buffer, 0, buffer.Length);
 
-                                    stream.Write(buffer, 0, leng);
+                                        stream.Write(buffer, 0, leng);
+                                    }
                                 }
-                                file.Close();
-                                resi.Dispose();
-                                orig.Dispose();
                             }
 
                             goto again;
@@ -667,8 +666,6 @@ namespace MissionPlanner.Utilities
 ";
                         temp = asciiEncoding.GetBytes(content);
                         stream.Write(temp, 0, temp.Length);
-
-                        stream.Close();
                     }
 
                     stream.Close();
@@ -676,11 +673,6 @@ namespace MissionPlanner.Utilities
                 catch (Exception ee)
                 {
                     log.Error("Failed http ", ee);
-                    try
-                    {
-                        client.Close();
-                    }
-                    catch { }
                 }
             }
         }

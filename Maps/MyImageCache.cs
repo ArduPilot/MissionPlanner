@@ -68,8 +68,6 @@ namespace MissionPlanner.Maps
                     using (BinaryWriter sw = new BinaryWriter(File.OpenWrite(file)))
                     {
                         sw.Write(tile.ToArray());
-
-                        sw.Close();
                     }
                 }
                 catch (Exception ex)
@@ -103,7 +101,6 @@ namespace MissionPlanner.Maps
                         {
                             ret.Data = stm;
                         }
-                        sr.Close();
                     }
                 }
             }

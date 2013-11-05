@@ -54,7 +54,7 @@ namespace MissionPlanner
         private bool m_bRunning = false;
 
         /// <summary> Dimensions of the image, calculated once in constructor. </summary>
-        public IntPtr m_handle = IntPtr.Zero;
+        private IntPtr m_handle = IntPtr.Zero;
         private int m_videoWidth;
         private int m_videoHeight;
         private int m_stride;
@@ -95,7 +95,6 @@ namespace MissionPlanner
                     sw.WriteLine(txtAviFileName.Text);
                     sw.WriteLine(txt_tlog.Text);
                     sw.WriteLine(trackBar1.Value);
-                    sw.Close();
                 }
             }
             catch { }
@@ -110,7 +109,6 @@ namespace MissionPlanner
                     txtAviFileName.Text = sr.ReadLine();
                     txt_tlog.Text = sr.ReadLine();
                     trackBar1.Value = int.Parse(sr.ReadLine());
-                    sr.Close();
                 }
             }
             catch { }

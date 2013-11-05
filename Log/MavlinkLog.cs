@@ -651,11 +651,15 @@ namespace MissionPlanner
         0x600000,0x006000,0x000060,0x606000,0x600060,0x006060,  
         0xA00000,0x00A000,0x0000A0,0xA0A000,0xA000A0,0x00A0A0, 
         0xE00000,0x00E000,0x0000E0,0xE0E000,0xE000E0,0x00E0E0,  */
-    }; 
+    };
+        Form selectform;
 
         private List<string> GetLogFileValidFields(string logfile)
         {
-            Form selectform = SelectDataToGraphForm();
+            if (selectform != null && !selectform.IsDisposed)
+                selectform.Close();
+
+            selectform = SelectDataToGraphForm();
 
             Hashtable seenIt = new Hashtable();
 
@@ -967,7 +971,7 @@ namespace MissionPlanner
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error:  An exception occurred while executing the script", ex);
+                Console.WriteLine("Error: An exception occurred while executing the script\n{0}", ex);
             }
             return null;
         }

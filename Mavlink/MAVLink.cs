@@ -19,7 +19,7 @@ using System.Windows.Forms;
 
 namespace MissionPlanner
 {
-    public class MAVLinkInterface: MAVLink, IDisposable
+    public class  MAVLinkInterface: MAVLink, IDisposable
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         public ICommsSerial BaseStream { get; set; }
@@ -325,7 +325,8 @@ namespace MissionPlanner
 
                     BaseStream.DiscardInBuffer();
 
-                    Thread.Sleep(500);
+                    // other boards seem to have issues if there is no delay? posible bootloader timeout issue
+                    Thread.Sleep(1000);
                 }
 
                 byte[] buffer = new byte[0];
@@ -673,7 +674,7 @@ Please check the following
 
             while (true)
             {
-                if (!(start.AddMilliseconds(500) > DateTime.Now))
+                if (!(start.AddMilliseconds(700) > DateTime.Now))
                 {
                     if (retrys > 0)
                     {
@@ -1457,7 +1458,7 @@ Please check the following
 
             while (true)
             {
-                if (!(start.AddMilliseconds(500) > DateTime.Now))
+                if (!(start.AddMilliseconds(700) > DateTime.Now))
                 {
                     if (retrys > 0)
                     {
@@ -1858,7 +1859,7 @@ Please check the following
 
             while (true)
             {
-                if (!(start.AddMilliseconds(150) > DateTime.Now))
+                if (!(start.AddMilliseconds(700) > DateTime.Now))
                 {
                     if (retrys > 0)
                     {
@@ -2441,17 +2442,26 @@ Please check the following
 
                     if (buffer[5] == (byte)MAVLink.MAVLINK_MSG_ID.STATUSTEXT) // status text
                     {
+                        var msg = MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.STATUSTEXT].ByteArrayToStructure<MAVLink.mavlink_statustext_t>(6);
+
+                        byte sev = msg.severity;
+
                         string logdata = Encoding.ASCII.GetString(buffer, 7, buffer.Length - 7);
                         int ind = logdata.IndexOf('\0');
                         if (ind != -1)
                             logdata = logdata.Substring(0, ind);
                         log.Info(DateTime.Now + " " + logdata);
 
-                        if (MainV2.speechEngine != null && MainV2.config["speechenable"] != null && MainV2.config["speechenable"].ToString() == "True")
+                        if (sev >= 3)
                         {
-                            //MainV2.talk.SpeakAsync(logdata);
-                        }
+                            MAV.cs.messageHigh = logdata;
+                            MAV.cs.messageHighTime = DateTime.Now;
 
+                            if (MainV2.speechEngine != null && MainV2.speechEngine.State == System.Speech.Synthesis.SynthesizerState.Ready && MainV2.config["speechenable"] != null && MainV2.config["speechenable"].ToString() == "True")
+                            {
+                                MainV2.speechEngine.SpeakAsync(logdata);
+                            }
+                        }
                     }
 
                     // set ap type
@@ -2597,7 +2607,7 @@ Please check the following
 
             while (true)
             {
-                if (!(start.AddMilliseconds(500) > DateTime.Now))
+                if (!(start.AddMilliseconds(700) > DateTime.Now))
                 {
                     if (retrys > 0)
                     {
@@ -2675,7 +2685,7 @@ Please check the following
 
             while (true)
             {
-                if (!(start.AddMilliseconds(500) > DateTime.Now))
+                if (!(start.AddMilliseconds(700) > DateTime.Now))
                 {
                     if (retrys > 0)
                     {
@@ -2981,6 +2991,10 @@ Please check the following
 
         public void Dispose()
         {
+            if (_bytesReceivedSubj != null)
+                _bytesReceivedSubj.Dispose();
+            if (_bytesSentSubj != null)
+                _bytesSentSubj.Dispose();
             this.Close();
         }
     }

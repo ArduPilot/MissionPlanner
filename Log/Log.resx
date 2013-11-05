@@ -112,16 +112,20 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="TXT_seriallog.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="TXT_seriallog.Location" type="System.Drawing.Point, System.Drawing">
     <value>135, 43</value>
   </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="TXT_seriallog.Multiline" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -135,7 +139,7 @@
     <value>TXT_seriallog</value>
   </data>
   <data name="&gt;&gt;TXT_seriallog.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;TXT_seriallog.Parent" xml:space="preserve">
     <value>$this</value>
@@ -159,7 +163,7 @@
     <value>BUT_DLall</value>
   </data>
   <data name="&gt;&gt;BUT_DLall.Type" xml:space="preserve">
-    <value>Controls.MyButton, MissionPlanner.lanner10, Version=1.1.4932.13202, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_DLall.Parent" xml:space="preserve">
     <value>$this</value>
@@ -183,7 +187,7 @@
     <value>BUT_DLthese</value>
   </data>
   <data name="&gt;&gt;BUT_DLthese.Type" xml:space="preserve">
-    <value>Controls.MyButton, MissionPlanner.lanner10, Version=1.1.4932.13202, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_DLthese.Parent" xml:space="preserve">
     <value>$this</value>
@@ -207,7 +211,7 @@
     <value>BUT_clearlogs</value>
   </data>
   <data name="&gt;&gt;BUT_clearlogs.Type" xml:space="preserve">
-    <value>Controls.MyButton, MissionPlanner.lanner10, Version=1.1.4932.13202, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_clearlogs.Parent" xml:space="preserve">
     <value>$this</value>
@@ -228,7 +232,7 @@
     <value>CHK_logs</value>
   </data>
   <data name="&gt;&gt;CHK_logs.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckedListBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.CheckedListBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;CHK_logs.Parent" xml:space="preserve">
     <value>$this</value>
@@ -252,7 +256,7 @@
     <value>TXT_status</value>
   </data>
   <data name="&gt;&gt;TXT_status.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;TXT_status.Parent" xml:space="preserve">
     <value>$this</value>
@@ -276,7 +280,7 @@
     <value>BUT_redokml</value>
   </data>
   <data name="&gt;&gt;BUT_redokml.Type" xml:space="preserve">
-    <value>Controls.MyButton, MissionPlanner.lanner10, Version=1.1.4932.13202, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_redokml.Parent" xml:space="preserve">
     <value>$this</value>
@@ -300,7 +304,7 @@
     <value>BUT_firstperson</value>
   </data>
   <data name="&gt;&gt;BUT_firstperson.Type" xml:space="preserve">
-    <value>Controls.MyButton, MissionPlanner.lanner10, Version=1.1.4932.13202, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_firstperson.Parent" xml:space="preserve">
     <value>$this</value>
@@ -308,7 +312,6 @@
   <data name="&gt;&gt;BUT_firstperson.ZOrder" xml:space="preserve">
     <value>6</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="BUT_dumpdf.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -328,7 +331,7 @@
     <value>BUT_dumpdf</value>
   </data>
   <data name="&gt;&gt;BUT_dumpdf.Type" xml:space="preserve">
-    <value>Controls.MyButton, MissionPlanner.lanner10, Version=1.1.4932.13202, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_dumpdf.Parent" xml:space="preserve">
     <value>$this</value>
@@ -355,7 +358,7 @@
     <value>BUT_bintolog</value>
   </data>
   <data name="&gt;&gt;BUT_bintolog.Type" xml:space="preserve">
-    <value>Controls.MyButton, MissionPlanner.lanner10, Version=1.1.4932.13202, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_bintolog.Parent" xml:space="preserve">
     <value>$this</value>
@@ -385,7 +388,7 @@
     <value>CHK_arducopter</value>
   </data>
   <data name="&gt;&gt;CHK_arducopter.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;CHK_arducopter.Parent" xml:space="preserve">
     <value>$this</value>
@@ -415,7 +418,7 @@
     <value>CHK_arduplane</value>
   </data>
   <data name="&gt;&gt;CHK_arduplane.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;CHK_arduplane.Parent" xml:space="preserve">
     <value>$this</value>
@@ -445,7 +448,7 @@
     <value>CHK_ardurover</value>
   </data>
   <data name="&gt;&gt;CHK_ardurover.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;CHK_ardurover.Parent" xml:space="preserve">
     <value>$this</value>
@@ -472,7 +475,7 @@
     <value>label1</value>
   </data>
   <data name="&gt;&gt;label1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label1.Parent" xml:space="preserve">
     <value>$this</value>
@@ -480,7 +483,7 @@
   <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
@@ -572,6 +575,6 @@
     <value>Log</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

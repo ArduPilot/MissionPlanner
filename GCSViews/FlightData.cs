@@ -119,6 +119,19 @@ namespace MissionPlanner.GCSViews
             }
             catch { }
 
+            if (polygons != null)
+                polygons.Dispose();
+            if (routes != null)
+                routes.Dispose();
+            if (route != null)
+                route.Dispose();
+            if (polygon != null)
+                polygon.Dispose();
+            if (marker != null)
+                marker.Dispose();
+            if (aviwriter != null)
+                aviwriter.Dispose();
+
             if (disposing && (components != null))
             {
                 components.Dispose();

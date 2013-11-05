@@ -849,7 +849,7 @@ namespace MissionPlanner.Log
             System.Threading.Thread.Sleep(500);
             if (comPort.IsOpen)
             {
-                //comPort.Close();
+                comPort.Close();
             }
         }
 

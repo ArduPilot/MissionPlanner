@@ -553,21 +553,17 @@ namespace MissionPlanner.Utilities
             }
 
             byte[] FLASH = new byte[1];
-            StreamReader sr = null;
             try
             {
                 updateProgress(0, "Reading Hex File");
-                sr = new StreamReader(filename);
-                FLASH = readIntelHEXv2(sr);
-                sr.Close();
+                using (StreamReader sr = new StreamReader(filename))
+                {
+                    FLASH = readIntelHEXv2(sr);
+                }
                 log.InfoFormat("\n\nSize: {0}\n\n", FLASH.Length);
             }
             catch (Exception ex)
             {
-                if (sr != null)
-                {
-                    sr.Dispose();
-                }
                 updateProgress(0, "Failed read HEX");
                 CustomMessageBox.Show("Failed to read firmware.hex : " + ex.Message);
                 return false;

@@ -250,12 +250,14 @@
             // labelfm6
             // 
             this.labelfm6.AutoSize = true;
+            this.labelfm6.Dock = System.Windows.Forms.DockStyle.Fill;
             this.labelfm6.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.labelfm6.Location = new System.Drawing.Point(3, 140);
             this.labelfm6.Name = "labelfm6";
-            this.labelfm6.Size = new System.Drawing.Size(71, 13);
+            this.labelfm6.Size = new System.Drawing.Size(88, 28);
             this.labelfm6.TabIndex = 131;
             this.labelfm6.Text = "Flight Mode 6";
+            this.labelfm6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // CMB_fmode6
             // 
@@ -271,12 +273,14 @@
             // labelfm5
             // 
             this.labelfm5.AutoSize = true;
+            this.labelfm5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.labelfm5.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.labelfm5.Location = new System.Drawing.Point(3, 112);
             this.labelfm5.Name = "labelfm5";
-            this.labelfm5.Size = new System.Drawing.Size(71, 13);
+            this.labelfm5.Size = new System.Drawing.Size(88, 28);
             this.labelfm5.TabIndex = 129;
             this.labelfm5.Text = "Flight Mode 5";
+            this.labelfm5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // CMB_fmode5
             // 
@@ -292,12 +296,14 @@
             // labelfm4
             // 
             this.labelfm4.AutoSize = true;
+            this.labelfm4.Dock = System.Windows.Forms.DockStyle.Fill;
             this.labelfm4.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.labelfm4.Location = new System.Drawing.Point(3, 84);
             this.labelfm4.Name = "labelfm4";
-            this.labelfm4.Size = new System.Drawing.Size(71, 13);
+            this.labelfm4.Size = new System.Drawing.Size(88, 28);
             this.labelfm4.TabIndex = 127;
             this.labelfm4.Text = "Flight Mode 4";
+            this.labelfm4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // CMB_fmode4
             // 
@@ -313,12 +319,14 @@
             // labelfm3
             // 
             this.labelfm3.AutoSize = true;
+            this.labelfm3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.labelfm3.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.labelfm3.Location = new System.Drawing.Point(3, 56);
             this.labelfm3.Name = "labelfm3";
-            this.labelfm3.Size = new System.Drawing.Size(71, 13);
+            this.labelfm3.Size = new System.Drawing.Size(88, 28);
             this.labelfm3.TabIndex = 125;
             this.labelfm3.Text = "Flight Mode 3";
+            this.labelfm3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // CMB_fmode3
             // 
@@ -334,12 +342,14 @@
             // labelfm2
             // 
             this.labelfm2.AutoSize = true;
+            this.labelfm2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.labelfm2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.labelfm2.Location = new System.Drawing.Point(3, 28);
             this.labelfm2.Name = "labelfm2";
-            this.labelfm2.Size = new System.Drawing.Size(71, 13);
+            this.labelfm2.Size = new System.Drawing.Size(88, 28);
             this.labelfm2.TabIndex = 123;
             this.labelfm2.Text = "Flight Mode 2";
+            this.labelfm2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // CMB_fmode2
             // 
@@ -355,12 +365,14 @@
             // labelfm1
             // 
             this.labelfm1.AutoSize = true;
+            this.labelfm1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.labelfm1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.labelfm1.Location = new System.Drawing.Point(3, 0);
             this.labelfm1.Name = "labelfm1";
-            this.labelfm1.Size = new System.Drawing.Size(71, 13);
+            this.labelfm1.Size = new System.Drawing.Size(88, 28);
             this.labelfm1.TabIndex = 121;
             this.labelfm1.Text = "Flight Mode 1";
+            this.labelfm1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // CMB_fmode1
             // 

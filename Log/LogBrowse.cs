@@ -147,6 +147,7 @@ namespace MissionPlanner.Log
             }
             else
             {
+                this.Close();
                 return;
             }
         }

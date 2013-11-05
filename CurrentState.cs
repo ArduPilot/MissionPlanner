@@ -826,8 +826,9 @@ enum gcs_severity {
                         }
                         else if (sensors_present.rc_receiver != sensors_enabled.rc_receiver)
                         {
-                            messageHigh = "NO RC Receiver";
-                            messageHighTime = DateTime.Now;
+                            int fixme;
+                            //messageHigh = "NO RC Receiver";
+                            //messageHighTime = DateTime.Now;
                         }
                         
 

@@ -171,9 +171,10 @@ namespace MissionPlanner.Controls.BackstageView
                            {
                                Page =
                                    {
-                                       Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top,
-                                       Location = new Point(pnlMenu.Width, 0),
-                                       Dock = DockStyle.Fill
+                                       //Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top,
+                                       Location = new Point(0, 0),
+                                       Dock = DockStyle.Fill,
+                                       Visible = false,
                                    }
                            };
 
@@ -423,6 +424,7 @@ namespace MissionPlanner.Controls.BackstageView
             MissionPlanner.Utilities.Tracking.AddPage(associatedPage.Page.GetType().ToString(), associatedPage.LinkText);
 
             this.SuspendLayout();
+            associatedPage.Page.SuspendLayout();
 
             DrawMenu(associatedPage , false);
 
@@ -458,6 +460,10 @@ namespace MissionPlanner.Controls.BackstageView
                 ((IActivate)(associatedPage.Page)).Activate();
             }
 
+            //this.PerformLayout();
+
+            associatedPage.Page.ResumeLayout();
+            this.ResumeLayout();
             // show it
             associatedPage.Page.Visible = true;
 
@@ -469,8 +475,6 @@ namespace MissionPlanner.Controls.BackstageView
             catch { }
 
             _activePage = associatedPage;
-
-            this.ResumeLayout();
         }
 
         public void Close()

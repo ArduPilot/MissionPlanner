@@ -6,12 +6,14 @@ using System.Windows.Forms;
 using System.ComponentModel;
 using log4net;
 using System.Reflection;
+using System.Runtime.InteropServices;
 
 namespace System.Windows.Forms
 {
     /// <summary>
     /// This is a mono fix, windows handles this error, mono crashs
     /// </summary>
+    //[assembly: ComVisible(true)]
     public class MyUserControl : System.Windows.Forms.UserControl
     {
         /// <summary>

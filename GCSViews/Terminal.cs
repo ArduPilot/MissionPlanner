@@ -591,6 +591,9 @@ namespace MissionPlanner.GCSViews
 
         private void BUT_RebootAPM_Click(object sender, EventArgs e)
         {
+            if (MainV2.comPort.BaseStream.IsOpen)
+                MainV2.comPort.BaseStream.Close();
+
             if (comPort.IsOpen)
             {
                 BUT_disconnect.Enabled = true;

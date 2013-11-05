@@ -33,7 +33,7 @@ namespace MissionPlanner.Wizard
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.radialGradientBG1 = new Controls.GradientBG();
+            this.radialGradientBG1 = new MissionPlanner.Controls.GradientBG();
             this.panel4 = new System.Windows.Forms.Panel();
             this.CMB_port = new System.Windows.Forms.ComboBox();
             this.label7 = new System.Windows.Forms.Label();
@@ -143,7 +143,7 @@ namespace MissionPlanner.Wizard
             this.CMB_port.FormattingEnabled = true;
             this.CMB_port.Location = new System.Drawing.Point(338, 44);
             this.CMB_port.Name = "CMB_port";
-            this.CMB_port.Size = new System.Drawing.Size(153, 21);
+            this.CMB_port.Size = new System.Drawing.Size(163, 21);
             this.CMB_port.TabIndex = 4;
             this.CMB_port.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.CMB_port_DrawItem);
             this.CMB_port.Click += new System.EventHandler(this.CMB_port_Click);
@@ -159,7 +159,7 @@ namespace MissionPlanner.Wizard
             this.label7.Size = new System.Drawing.Size(327, 123);
             this.label7.TabIndex = 3;
             this.label7.Text = "Please select your comport from the list.\r\n\r\nThe correct comport will apear as \"A" +
-    "rduino Mega 2560\"\r\n\r\n";
+    "rduino Mega 2560\" or \"PX4 FMU\"\r\n\r\n";
             // 
             // label8
             // 
@@ -170,6 +170,7 @@ namespace MissionPlanner.Wizard
             this.label8.Size = new System.Drawing.Size(198, 22);
             this.label8.TabIndex = 1;
             this.label8.Text = "SELECT COM PORT";
+            this.label8.Click += new System.EventHandler(this.label8_Click);
             // 
             // _3ConnectAP
             // 

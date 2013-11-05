@@ -333,18 +333,9 @@ namespace MissionPlanner.Utilities
                      {
                         // Store the data to return
                         data = reader.ReadToEnd();
-
-                        // Close the reader
-                        reader.Close();
                      }
-
-                     // Close the datastream
-                     dataStream.Close();
                   }
                }
-
-               // Close the response
-               response.Close();
             }
 
             cache[address] = data;

@@ -131,14 +131,13 @@ namespace MissionPlanner.Controls
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.lblProgressMessage);
             this.Controls.Add(this.progressBar1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ProgressReporterDialogue";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Progress";
-            this.TopMost = true;
             this.Load += new System.EventHandler(this.ProgressReporterDialogue_Load);
             ((System.ComponentModel.ISupportInitialize)(this.imgWarning)).EndInit();
             this.ResumeLayout(false);

@@ -43,6 +43,7 @@ namespace MissionPlanner.GCSViews
         bool isonline = true;
         bool sethome = false;
         bool polygongridmode = false;
+        bool splinemode = false;
         Hashtable param = new Hashtable();
 
         bool grid = false;
@@ -299,6 +300,7 @@ namespace MissionPlanner.GCSViews
             InitializeComponent();
 
             // config map             
+            MainMap.MapProvider = GoogleSatelliteMapProvider.Instance;
             MainMap.CacheLocation = Path.GetDirectoryName(Application.ExecutablePath) + "/gmapcache/";
 
             // map events
@@ -393,7 +395,10 @@ namespace MissionPlanner.GCSViews
             {
                 try
                 {
-                    comboBoxMapType.SelectedIndex = GMapProviders.List.FindIndex(x =>  (x.Name == MainV2.getConfig("MapType")) );
+                    var index = GMapProviders.List.FindIndex(x =>  (x.Name == MainV2.getConfig("MapType")) );
+
+                    if (index != -1)
+                        comboBoxMapType.SelectedIndex = index;
                 }
                 catch { }
             }
@@ -1022,6 +1027,9 @@ namespace MissionPlanner.GCSViews
                 }
 
                 RegeneratePolygon();
+
+                if (splinemode)
+                    dospline();
 
                 if (wppolygon != null && wppolygon.Points.Count > 0)
                 {
@@ -2431,7 +2439,7 @@ namespace MissionPlanner.GCSViews
                 FlightData.mymap.MapProvider = (GMapProvider)comboBoxMapType.SelectedItem;
                 MainV2.config["MapType"] = comboBoxMapType.Text;
             }
-            catch { CustomMessageBox.Show("Map change failed. try zomming out first."); }
+            catch { CustomMessageBox.Show("Map change failed. try zooming out first."); }
         }
 
         private void Commands_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
@@ -4768,7 +4776,7 @@ namespace MissionPlanner.GCSViews
                 try
                 {
                     PointLatLngAlt plla = MainV2.comPort.getRallyPoint(a, ref count);
-                    rallypointoverlay.Markers.Add(new GMapMarkerRallyPt(new PointLatLng(plla.Lat, plla.Lng)) { ToolTipMode = MarkerTooltipMode.OnMouseOver, ToolTipText = "Rally Point" });
+                    rallypointoverlay.Markers.Add(new GMapMarkerRallyPt(new PointLatLng(plla.Lat, plla.Lng)) { Alt = (int)plla.Alt, ToolTipMode = MarkerTooltipMode.OnMouseOver, ToolTipText = "Rally Point" });
                 }
                 catch { CustomMessageBox.Show("Failed to get rally point", "Error"); return; }
             }
@@ -4784,11 +4792,11 @@ namespace MissionPlanner.GCSViews
 
             MainV2.comPort.setParam("RALLY_TOTAL", rallypointoverlay.Markers.Count );
 
-            foreach (var pnt in rallypointoverlay.Markers)
+            foreach (GMapMarkerRallyPt pnt in rallypointoverlay.Markers)
             {
                 try
                 {
-                    MainV2.comPort.setRallyPoint(count, new PointLatLngAlt(pnt.Position) { Alt = int.Parse(TXT_DefaultAlt.Text) }, (short)int.Parse(TXT_DefaultAlt.Text), 0, 0, (byte)(float)MainV2.comPort.MAV.param["RALLY_TOTAL"]);
+                    MainV2.comPort.setRallyPoint(count, new PointLatLngAlt(pnt.Position) { Alt = pnt.Alt }, (short)pnt.Alt, 0, 0, (byte)(float)MainV2.comPort.MAV.param["RALLY_TOTAL"]);
                     count++;
                 }
                 catch { CustomMessageBox.Show("Failed to save rally point", "Error"); return; }
@@ -4797,15 +4805,29 @@ namespace MissionPlanner.GCSViews
 
         private void setRallyPointToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            PointLatLngAlt rallypt = new PointLatLngAlt(MouseDownStart.Lat, MouseDownStart.Lng, int.Parse(TXT_DefaultAlt.Text), "Rally Point");
-            rallypointoverlay.Markers.Add(
-                    new GMapMarkerRallyPt(rallypt)
-                    {
-                        ToolTipMode = MarkerTooltipMode.OnMouseOver,
-                        ToolTipText = "Rally Point",
-                        Tag = rallypointoverlay.Markers.Count,
-                    }
-            );
+            string altstring = TXT_DefaultAlt.Text;
+
+            InputBox.Show("Altitude", "Altitude", ref altstring);
+
+            int alt = 0;
+
+            if (int.TryParse(altstring, out alt))
+            {
+                PointLatLngAlt rallypt = new PointLatLngAlt(MouseDownStart.Lat, MouseDownStart.Lng, alt * MainV2.comPort.MAV.cs.multiplierdist, "Rally Point");
+                rallypointoverlay.Markers.Add(
+                        new GMapMarkerRallyPt(rallypt)
+                        {
+                            ToolTipMode = MarkerTooltipMode.OnMouseOver,
+                            ToolTipText = "Rally Point" + "\nAlt: " + alt,
+                            Tag = rallypointoverlay.Markers.Count,
+                            Alt = alt,
+                        }
+                );
+            }
+            else
+            {
+                CustomMessageBox.Show("Bad Altitude","error");
+            }
         }
 
         private void clearRallyPointsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -4923,6 +4945,32 @@ namespace MissionPlanner.GCSViews
         private void lnk_kml_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             System.Diagnostics.Process.Start("http://127.0.0.1:56781/network.kml");
+        }
+
+        private void splineToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            splinemode = !splinemode;
+
+            dospline();
+        }
+
+        void dospline()
+        {
+            if (pointlist.Count > 3 && pointlist[0] != pointlist[pointlist.Count - 1])
+                pointlist.Add(pointlist[0]);
+
+            MissionPlanner.Controls.Waypoints.Spline sp = new Controls.Waypoints.Spline();
+
+            List<PointLatLngAlt> spline = sp.doit(pointlist, 10);
+
+            List<PointLatLng> list = new List<PointLatLng>();
+            spline.ForEach(x => { list.Add(x); });
+
+            polygonsoverlay.Routes.Clear();
+
+            polygonsoverlay.Routes.Add(new GMapRoute(list, "spline") { Stroke = Pens.Yellow });
+
+            polygonsoverlay.Polygons.Clear();
         }
 
     }

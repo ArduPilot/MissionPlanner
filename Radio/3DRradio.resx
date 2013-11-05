@@ -140,6 +140,9 @@
   <data name="&gt;&gt;Progressbar.ZOrder" xml:space="preserve">
     <value>10</value>
   </data>
+  <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
   <data name="S1.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
@@ -179,9 +182,6 @@
   <data name="S1.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
   </data>
-  <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
   <data name="S1.ToolTip" xml:space="preserve">
     <value>Serial baud rate in rounded kbps. So 57 means 57600. 
 </value>
@@ -754,6 +754,9 @@
   <data name="&gt;&gt;S7.ZOrder" xml:space="preserve">
     <value>14</value>
   </data>
+  <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
   <data name="RS7.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
@@ -1129,7 +1132,7 @@
     <value>1</value>
   </data>
   <data name="RSSI.Location" type="System.Drawing.Point, System.Drawing">
-    <value>82, 38</value>
+    <value>59, 38</value>
   </data>
   <data name="RSSI.Multiline" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1160,7 +1163,7 @@ which result in a valid packet CRC
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;RSSI.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="S10.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -2073,10 +2076,10 @@ red LED solid - in firmware update mode</value>
     <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;RTI.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="ATI.Location" type="System.Drawing.Point, System.Drawing">
-    <value>82, 12</value>
+    <value>59, 12</value>
   </data>
   <data name="ATI.Size" type="System.Drawing.Size, System.Drawing">
     <value>147, 20</value>
@@ -2094,7 +2097,7 @@ red LED solid - in firmware update mode</value>
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;ATI.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="label11.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2121,7 +2124,7 @@ red LED solid - in firmware update mode</value>
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;label11.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="label12.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2148,7 +2151,7 @@ red LED solid - in firmware update mode</value>
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;label12.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="BUT_savesettings.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -2169,7 +2172,7 @@ red LED solid - in firmware update mode</value>
     <value>BUT_savesettings</value>
   </data>
   <data name="&gt;&gt;BUT_savesettings.Type" xml:space="preserve">
-    <value>Controls.MyButton, 3DRRadio, Version=0.0.4897.38272, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_savesettings.Parent" xml:space="preserve">
     <value>$this</value>
@@ -2193,7 +2196,7 @@ red LED solid - in firmware update mode</value>
     <value>BUT_getcurrent</value>
   </data>
   <data name="&gt;&gt;BUT_getcurrent.Type" xml:space="preserve">
-    <value>Controls.MyButton, 3DRRadio, Version=0.0.4897.38272, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_getcurrent.Parent" xml:space="preserve">
     <value>$this</value>
@@ -2238,7 +2241,7 @@ red LED solid - in firmware update mode</value>
     <value>BUT_upload</value>
   </data>
   <data name="&gt;&gt;BUT_upload.Type" xml:space="preserve">
-    <value>Controls.MyButton, 3DRRadio, Version=0.0.4897.38272, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_upload.Parent" xml:space="preserve">
     <value>$this</value>
@@ -2929,7 +2932,7 @@ red LED solid - in firmware update mode</value>
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;SPLIT_local.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="SPLIT_remote.IsSplitterFixed" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2983,7 +2986,7 @@ red LED solid - in firmware update mode</value>
     <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;SPLIT_remote.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="CHK_advanced.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3037,7 +3040,7 @@ red LED solid - in firmware update mode</value>
     <value>BUT_Syncoptions</value>
   </data>
   <data name="&gt;&gt;BUT_Syncoptions.Type" xml:space="preserve">
-    <value>Controls.MyButton, 3DRRadio, Version=0.0.4897.38272, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_Syncoptions.Parent" xml:space="preserve">
     <value>$this</value>
@@ -3046,7 +3049,7 @@ red LED solid - in firmware update mode</value>
     <value>5</value>
   </data>
   <data name="ATI3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>230, 12</value>
+    <value>207, 12</value>
   </data>
   <data name="ATI3.Size" type="System.Drawing.Size, System.Drawing">
     <value>102, 20</value>
@@ -3064,7 +3067,31 @@ red LED solid - in firmware update mode</value>
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;ATI3.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
+  </data>
+  <data name="ATI2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>315, 12</value>
+  </data>
+  <data name="ATI2.Multiline" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="ATI2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>61, 65</value>
+  </data>
+  <data name="ATI2.TabIndex" type="System.Int32, mscorlib">
+    <value>80</value>
+  </data>
+  <data name="&gt;&gt;ATI2.Name" xml:space="preserve">
+    <value>ATI2</value>
+  </data>
+  <data name="&gt;&gt;ATI2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ATI2.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;ATI2.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 48</value>
@@ -3089,6 +3116,30 @@ red LED solid - in firmware update mode</value>
   </data>
   <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
     <value>4</value>
+  </data>
+  <data name="RTI2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>246, 12</value>
+  </data>
+  <data name="RTI2.Multiline" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="RTI2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>61, 65</value>
+  </data>
+  <data name="RTI2.TabIndex" type="System.Int32, mscorlib">
+    <value>81</value>
+  </data>
+  <data name="&gt;&gt;RTI2.Name" xml:space="preserve">
+    <value>RTI2</value>
+  </data>
+  <data name="&gt;&gt;RTI2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RTI2.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;RTI2.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="label9.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3118,7 +3169,7 @@ red LED solid - in firmware update mode</value>
     <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;label9.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="groupBox2.Location" type="System.Drawing.Point, System.Drawing">
     <value>400, 48</value>
@@ -3190,7 +3241,7 @@ red LED solid - in firmware update mode</value>
     <value>BUT_resettodefault</value>
   </data>
   <data name="&gt;&gt;BUT_resettodefault.Type" xml:space="preserve">
-    <value>Controls.MyButton, 3DRRadio, Version=0.0.4897.38272, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_resettodefault.Parent" xml:space="preserve">
     <value>$this</value>

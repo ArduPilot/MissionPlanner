@@ -79,6 +79,9 @@ namespace MissionPlanner.Controls
             // find next screen
             Screen nextscreen = screens.Single(s => s.Name == name);
 
+            MainControl.SuspendLayout();
+            nextscreen.Control.SuspendLayout();
+
             nextscreen.Control.Location = new Point(0, 0);
 
             nextscreen.Control.AutoScaleMode = AutoScaleMode.None;
@@ -87,12 +90,7 @@ namespace MissionPlanner.Controls
 
             nextscreen.Control.Dock = DockStyle.Fill;
 
-            nextscreen.Control.PerformLayout();
-
             MissionPlanner.Utilities.Tracking.AddPage(nextscreen.Control.GetType().ToString(), name);
-
-            MainControl.SuspendLayout();
-            nextscreen.Control.SuspendLayout();
 
             if (nextscreen.Control is IActivate)
             {
@@ -104,8 +102,8 @@ namespace MissionPlanner.Controls
 
             MainControl.Controls.Add(nextscreen.Control);
 
+            nextscreen.Control.ResumeLayout();
             MainControl.ResumeLayout();
-			nextscreen.Control.ResumeLayout();
 
             nextscreen.Visible = true;
 

@@ -37,19 +37,32 @@ namespace uploader
 			PROG_MULTI_MAX	= 32,	// maximum number of bytes in a PROG_MULTI command
 			READ_MULTI_MAX	= 255,	// largest read that can be requested
 			
-			// device IDs XXX should come with the firmware image...
-			DEVICE_ID_RF50	= 0x4d,
-			DEVICE_ID_HM_TRP= 0x4e,
+
+		};
+
+        public enum Board : byte
+        {
+            // device IDs XXX should come with the firmware image...
+            DEVICE_ID_RF50 = 0x4d,
+            DEVICE_ID_HM_TRP = 0x4e,
             DEVICE_ID_RFD900 = 0X42,
             DEVICE_ID_RFD900A = 0X43,
-			
-			// frequency code bytes XXX should come with the firmware image...
-			FREQ_NONE		= 0xf0,
-			FREQ_433		= 0x43,
-			FREQ_470		= 0x47,
-			FREQ_868		= 0x86,
-			FREQ_915		= 0x91,
-		};
+
+            FAILED = 0x11,
+        }
+
+        public enum Frequency : byte
+        {
+            // frequency code bytes XXX should come with the firmware image...
+            FREQ_NONE = 0xf0,
+            FREQ_433 = 0x43,
+            FREQ_470 = 0x47,
+            FREQ_868 = 0x86,
+            FREQ_915 = 0x91,
+
+            FAILED = 0x11,
+        }
+
 		
 		public Uploader ()
 		{
@@ -75,7 +88,7 @@ namespace uploader
 			} catch (Exception e) {
 				if (port.IsOpen)
 					port.Close ();
-				throw e;
+				throw;
 			}
 		}
 			
@@ -312,33 +325,34 @@ namespace uploader
 		{
 			send (Code.REBOOT);
 		}
-		
-		private void checkDevice ()
-		{
-			Code id, freq;
-			
-			send (Code.GET_DEVICE);
-			send (Code.EOC);
-			
-			id = (Code)recv ();
-			freq = (Code)recv ();
-			
-			// XXX should be getting valid board/frequency data from firmware file
-            if ((id != Code.DEVICE_ID_HM_TRP) && (id != Code.DEVICE_ID_RF50) && (id != Code.DEVICE_ID_RFD900) && (id != Code.DEVICE_ID_RFD900A))
-				throw new Exception ("bootloader device ID mismatch - device:" + id.ToString());
-			
-			getSync ();
-		}
 
-        public void getDevice(ref Code device, ref Code freq)
+        private void checkDevice()
+        {
+            Board id;
+            Frequency freq;
+
+            send(Code.GET_DEVICE);
+            send(Code.EOC);
+
+            id = (Board)recv();
+            freq = (Frequency)recv();
+
+            // XXX should be getting valid board/frequency data from firmware file
+            if ((id != Board.DEVICE_ID_HM_TRP) && (id != Board.DEVICE_ID_RF50) && (id != Board.DEVICE_ID_RFD900) && (id != Board.DEVICE_ID_RFD900A))
+                throw new Exception("bootloader device ID mismatch - device:" + id.ToString());
+
+            getSync();
+        }
+
+        public void getDevice(ref Board device, ref Frequency freq)
         {
             connect_and_sync();
 
             send(Code.GET_DEVICE);
             send(Code.EOC);
 
-            device = (Code)recv();
-            freq = (Code)recv();
+            device = (Board)recv();
+            freq = (Frequency)recv();
 
             getSync();
         }
