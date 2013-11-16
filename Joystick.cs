@@ -57,13 +57,13 @@ namespace MissionPlanner
 
         JoyChannel[] JoyChannels = new JoyChannel[9]; // we are base 1
         JoyButton[] JoyButtons = new JoyButton[128]; // base 0
-        JoyHatSwitch JoyHatSwitches = new JoyHatSwitch;
+        JoyHatSwitch JoyHatSwitches = new JoyHatSwitch();
 
         public static DeviceList getDevices()
         {
             return Manager.GetDevices(DeviceClass.GameControl, EnumDevicesFlags.AttachedOnly);
         }
-
+        
         public bool start(string name)
         {
             self.name = name;
@@ -227,7 +227,7 @@ namespace MissionPlanner
                 JoystickState nextstate = joystick.CurrentJoystickState;
 
                 byte[] buttons = nextstate.GetButtons();
-
+                
                 for (int a = 0; a < joystick.Caps.NumberButtons; a++)
                 {
                     if (buttons[a] > 0)
@@ -704,9 +704,14 @@ namespace MissionPlanner
             return (ushort)working;
         }
         
-        public int GetHatSwitchDirection()
+        public int getHatSwitchDirection()
         {
-            return state.GetPointOfView();
+            return (state.GetPointOfView())[0];
+        }
+
+        public int getNumberPOV()
+        {
+            return joystick.Caps.NumberPointOfViews;
         }
     }
 }
