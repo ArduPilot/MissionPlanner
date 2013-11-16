@@ -34,11 +34,6 @@ namespace MissionPlanner
             public int buttonno;
             public string mode;
         }
-        
-        struct JoyHatSwitch
-        {
-            public int direction;
-        }
 
         ~Joystick()
         {
@@ -57,7 +52,6 @@ namespace MissionPlanner
 
         JoyChannel[] JoyChannels = new JoyChannel[9]; // we are base 1
         JoyButton[] JoyButtons = new JoyButton[128]; // base 0
-        JoyHatSwitch JoyHatSwitches = new JoyHatSwitch();
 
         public static DeviceList getDevices()
         {
