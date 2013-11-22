@@ -371,7 +371,7 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
                 }
                 catch
                 {
-                    CustomMessageBox.Show("Error sending Error report!! Youre most likerly are not on the internet");
+                    CustomMessageBox.Show("Could not send report! Typically due to lack of internet connection.");
                 }
             }
         }
