@@ -413,7 +413,7 @@ format with no scaling</value>
     <value>NoControl</value>
   </data>
   <data name="but_iris.Location" type="System.Drawing.Point, System.Drawing">
-    <value>631, 276</value>
+    <value>631, 228</value>
   </data>
   <data name="but_iris.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>

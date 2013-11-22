@@ -1,4 +1,6 @@
-﻿1.02 - fix frequency display and add device id
+﻿1.2 - fix file already exists error
+1.1 - add custom fw upload & change stable fw download urls
+1.02 - fix frequency display and add device id
 1.0a - fix 868 freq range
 1.0 - added rf freeq for 868
 0.9 - added rfd900a

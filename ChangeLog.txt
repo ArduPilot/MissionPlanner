@@ -1,4 +1,22 @@
-﻿* Mission Planner 1.2.86
+﻿* Mission Planner 1.2.87
+add asratio
+change load iris defaults to use compare
+add okcancel to custom mesagebox
+add partial refresh to pid config screens
+add ability to load default params for frames.
+add rally point display in FD
+add df log to kml in FD
+add grad + dist to FP
+add load and save rally points to file
+interface out df to kml generation
+tweak get params on mavlink log
+fix rally point alt when loading from mav
+update 3drradio config - custom fw, new url, new extension, new max window
+add gpstime
+tweak paramcompare
+add accel scan in control-f
+
+* Mission Planner 1.2.86
 spline display support
 doublebuffer quick view
 move hud message text to bottom of hud & always ontop

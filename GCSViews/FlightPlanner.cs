@@ -319,6 +319,8 @@ namespace MissionPlanner.GCSViews
             MainMap.MapScaleInfoEnabled = false;
             MainMap.ScalePen = new Pen(Color.Red);
 
+            MainMap.DisableFocusOnMouseEnter = true;
+
             MainMap.ForceDoubleBuffer = false;
 
             //WebRequest.DefaultWebProxy.Credentials = System.Net.CredentialCache.DefaultCredentials;
@@ -687,7 +689,7 @@ namespace MissionPlanner.GCSViews
                 //Console.WriteLine("editformat " + option + " value " + cmd);
                 ChangeColumnHeader(cmd);
 
-                setgrad();
+                setgradanddist();
 
                 //  writeKML();
             }
@@ -1046,7 +1048,7 @@ namespace MissionPlanner.GCSViews
                     lbl_distance.Text = rm.GetString("lbl_distance.Text") + ": " + FormatDistance(wppolygon.Distance + homedist, false);
                 }
 
-                setgrad();
+                setgradanddist();
             }
             catch (Exception ex)
             {
@@ -1056,7 +1058,7 @@ namespace MissionPlanner.GCSViews
             System.Diagnostics.Debug.WriteLine(DateTime.Now);
         }
         
-        void setgrad()
+        void setgradanddist()
         {
             int a = 0;
             PointLatLngAlt last = MainV2.comPort.MAV.cs.HomeLocation;
@@ -1065,7 +1067,11 @@ namespace MissionPlanner.GCSViews
                 try
                 {
                     if (lla.Tag != null && lla.Tag != "Home")
+                    {
                         Commands.Rows[int.Parse(lla.Tag) - 1].Cells[Grad.Index].Value = (((lla.Alt - last.Alt) / (lla.GetDistance(last) * MainV2.comPort.MAV.cs.multiplierdist)) * 100).ToString("0.0");
+
+                        Commands.Rows[int.Parse(lla.Tag) - 1].Cells[Dist.Index].Value = (lla.GetDistance(last) * MainV2.comPort.MAV.cs.multiplierdist).ToString("0.0");
+                    }
                 }
                 catch { }
                 a++;
@@ -1133,6 +1139,14 @@ namespace MissionPlanner.GCSViews
         /// <param name="e"></param>
         internal void BUT_read_Click(object sender, EventArgs e)
         {
+            if (Commands.Rows.Count > 0)
+            {
+                if (CustomMessageBox.Show("This will clear your existing planned mission, Continue?", "Confirm", MessageBoxButtons.OKCancel) != DialogResult.OK)
+                {
+                    return;
+                }
+            }
+
             Controls.ProgressReporterDialogue frmProgressReporter = new Controls.ProgressReporterDialogue
             {
                 StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen,
@@ -1666,7 +1680,7 @@ namespace MissionPlanner.GCSViews
                     Commands.Rows.Insert(e.RowIndex + 1, myrow);
                     writeKML();
                 }
-                setgrad();
+                setgradanddist();
             }
             catch (Exception) { CustomMessageBox.Show("Row error"); }
         }
@@ -4776,7 +4790,7 @@ namespace MissionPlanner.GCSViews
                 try
                 {
                     PointLatLngAlt plla = MainV2.comPort.getRallyPoint(a, ref count);
-                    rallypointoverlay.Markers.Add(new GMapMarkerRallyPt(new PointLatLng(plla.Lat, plla.Lng)) { Alt = (int)plla.Alt, ToolTipMode = MarkerTooltipMode.OnMouseOver, ToolTipText = "Rally Point" });
+                    rallypointoverlay.Markers.Add(new GMapMarkerRallyPt(new PointLatLng(plla.Lat, plla.Lng)) { Alt = (int)plla.Alt, ToolTipMode = MarkerTooltipMode.OnMouseOver, ToolTipText = "Rally Point" + "\nAlt: " + plla.Alt });
                 }
                 catch { CustomMessageBox.Show("Failed to get rally point", "Error"); return; }
             }
@@ -4796,7 +4810,7 @@ namespace MissionPlanner.GCSViews
             {
                 try
                 {
-                    MainV2.comPort.setRallyPoint(count, new PointLatLngAlt(pnt.Position) { Alt = pnt.Alt }, (short)pnt.Alt, 0, 0, (byte)(float)MainV2.comPort.MAV.param["RALLY_TOTAL"]);
+                    MainV2.comPort.setRallyPoint(count, new PointLatLngAlt(pnt.Position) { Alt = pnt.Alt }, 0, 0, 0, (byte)(float)MainV2.comPort.MAV.param["RALLY_TOTAL"]);
                     count++;
                 }
                 catch { CustomMessageBox.Show("Failed to save rally point", "Error"); return; }
@@ -4956,6 +4970,9 @@ namespace MissionPlanner.GCSViews
 
         void dospline()
         {
+            if (pointlist == null || pointlist.Count <= 3)
+                return;
+
             if (pointlist.Count > 3 && pointlist[0] != pointlist[pointlist.Count - 1])
                 pointlist.Add(pointlist[0]);
 
@@ -4971,6 +4988,107 @@ namespace MissionPlanner.GCSViews
             polygonsoverlay.Routes.Add(new GMapRoute(list, "spline") { Stroke = Pens.Yellow });
 
             polygonsoverlay.Polygons.Clear();
+        }
+
+        private void modifyAltToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string altdif = "0";
+            InputBox.Show("Alt Change","Please enter the alitude change you require.",ref altdif);
+
+            int altchange = int.Parse(altdif);
+
+
+            foreach (DataGridViewRow line in Commands.Rows)
+            {
+                line.Cells[Alt.Index].Value = (int)(float.Parse(line.Cells[Alt.Index].Value.ToString()) + altchange);
+            }
+        }
+
+        private void saveToFileToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            if (rallypointoverlay.Markers.Count == 0)
+            {
+                CustomMessageBox.Show("Please set some rally points");
+                return;
+            }
+            /*
+Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND in the future)
+ Column 2,3: Lat, lon
+ Column 4: Loiter altitude
+ Column 5: Break altitude (when landing from rally is implemented, this is the altitude to break out of loiter from)
+ Column 6: Landing heading (also for future when landing from rally is implemented)
+ Column 7: Flags (just 0 for now, also future use).
+             */
+
+            SaveFileDialog sf = new SaveFileDialog();
+            sf.Filter = "Rally (*.ral)|*.ral";
+            sf.ShowDialog();
+            if (sf.FileName != "")
+            {
+                try
+                {
+                    using (StreamWriter sw = new StreamWriter(sf.OpenFile()))
+                    {
+
+                        sw.WriteLine("#saved by Mission Planner " + Application.ProductVersion);
+
+
+                        foreach (GMapMarkerRallyPt mark in rallypointoverlay.Markers)
+                        {
+                            sw.WriteLine(string.Format("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}", "RALLY", mark.Position.Lat, mark.Position.Lng, mark.Alt, 0, 0, 0));
+                        }
+                    }
+                }
+                catch { CustomMessageBox.Show("Failed to write rally file"); }
+            }
+        }
+
+        private void loadFromFileToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog fd = new OpenFileDialog();
+            fd.Filter = "Rally (*.ral)|*.ral";
+            fd.ShowDialog();
+            if (File.Exists(fd.FileName))
+            {
+                StreamReader sr = new StreamReader(fd.OpenFile());
+
+                int a = 0;
+
+                while (!sr.EndOfStream)
+                {
+                    string line = sr.ReadLine();
+                    if (line.StartsWith("#"))
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        string[] items = line.Split(new char[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
+
+                        MAVLink.mavlink_rally_point_t rally = new MAVLink.mavlink_rally_point_t();
+
+                        rally.lat = (int)(float.Parse(items[1]) * 1e7);
+                        rally.lng = (int)(float.Parse(items[2]) * 1e7);
+                        rally.alt = (short)float.Parse(items[3]);
+                        rally.break_alt = (short)float.Parse(items[4]);
+                        rally.land_dir = (ushort)float.Parse(items[5]);
+                        rally.flags = byte.Parse(items[6]);
+
+                        if (a == 0)
+                        {
+                            rallypointoverlay.Markers.Clear();
+
+                            rallypointoverlay.Markers.Add(new GMapMarkerRallyPt(rally));
+                        }
+                        else
+                        {
+                            rallypointoverlay.Markers.Add(new GMapMarkerRallyPt(rally));
+                        }
+                        a++;
+                    }
+                }
+                MainMap.Invalidate();
+            }
         }
 
     }

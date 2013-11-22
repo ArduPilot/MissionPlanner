@@ -53,6 +53,7 @@
             this.Up = new System.Windows.Forms.DataGridViewImageColumn();
             this.Down = new System.Windows.Forms.DataGridViewImageColumn();
             this.Grad = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Dist = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CHK_geheight = new System.Windows.Forms.CheckBox();
             this.TXT_WPRad = new System.Windows.Forms.TextBox();
             this.TXT_DefaultAlt = new System.Windows.Forms.TextBox();
@@ -156,12 +157,15 @@
             this.loadKMLFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.trackerHomeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.flyToHereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.splineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.modifyAltToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.trackBar1 = new MissionPlanner.Controls.MyTrackBar();
             this.label11 = new System.Windows.Forms.Label();
             this.panelBASE = new System.Windows.Forms.Panel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.splineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveToFileToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.loadFromFileToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.Commands)).BeginInit();
             this.panel5.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -205,7 +209,8 @@
             this.Delete,
             this.Up,
             this.Down,
-            this.Grad});
+            this.Grad,
+            this.Dist});
             this.Commands.Name = "Commands";
             dataGridViewCellStyle13.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle13.BackColor = System.Drawing.SystemColors.Control;
@@ -316,7 +321,15 @@
             // 
             resources.ApplyResources(this.Grad, "Grad");
             this.Grad.Name = "Grad";
+            this.Grad.ReadOnly = true;
             this.Grad.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // Dist
+            // 
+            resources.ApplyResources(this.Dist, "Dist");
+            this.Dist.Name = "Dist";
+            this.Dist.ReadOnly = true;
+            this.Dist.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // CHK_geheight
             // 
@@ -710,6 +723,7 @@
             this.MainMap.Bearing = 0F;
             this.MainMap.CanDragMap = true;
             this.MainMap.ContextMenuStrip = this.contextMenuStrip1;
+            this.MainMap.Cursor = System.Windows.Forms.Cursors.Default;
             this.MainMap.EmptyTileColor = System.Drawing.Color.Gray;
             this.MainMap.GrayScaleMode = false;
             this.MainMap.HelperLineOption = GMap.NET.WindowsForms.HelperLineOptions.DontShow;
@@ -750,7 +764,8 @@
             this.fileLoadSaveToolStripMenuItem,
             this.trackerHomeToolStripMenuItem,
             this.flyToHereToolStripMenuItem,
-            this.splineToolStripMenuItem});
+            this.splineToolStripMenuItem,
+            this.modifyAltToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             resources.ApplyResources(this.contextMenuStrip1, "contextMenuStrip1");
             this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
@@ -889,7 +904,9 @@
             this.setRallyPointToolStripMenuItem,
             this.getRallyPointsToolStripMenuItem,
             this.saveRallyPointsToolStripMenuItem,
-            this.clearRallyPointsToolStripMenuItem});
+            this.clearRallyPointsToolStripMenuItem,
+            this.saveToFileToolStripMenuItem1,
+            this.loadFromFileToolStripMenuItem1});
             this.rallyPointsToolStripMenuItem.Name = "rallyPointsToolStripMenuItem";
             resources.ApplyResources(this.rallyPointsToolStripMenuItem, "rallyPointsToolStripMenuItem");
             // 
@@ -1090,6 +1107,18 @@
             this.flyToHereToolStripMenuItem.Name = "flyToHereToolStripMenuItem";
             resources.ApplyResources(this.flyToHereToolStripMenuItem, "flyToHereToolStripMenuItem");
             // 
+            // splineToolStripMenuItem
+            // 
+            this.splineToolStripMenuItem.Name = "splineToolStripMenuItem";
+            resources.ApplyResources(this.splineToolStripMenuItem, "splineToolStripMenuItem");
+            this.splineToolStripMenuItem.Click += new System.EventHandler(this.splineToolStripMenuItem_Click);
+            // 
+            // modifyAltToolStripMenuItem
+            // 
+            this.modifyAltToolStripMenuItem.Name = "modifyAltToolStripMenuItem";
+            resources.ApplyResources(this.modifyAltToolStripMenuItem, "modifyAltToolStripMenuItem");
+            this.modifyAltToolStripMenuItem.Click += new System.EventHandler(this.modifyAltToolStripMenuItem_Click);
+            // 
             // trackBar1
             // 
             resources.ApplyResources(this.trackBar1, "trackBar1");
@@ -1123,11 +1152,17 @@
             this.timer1.Interval = 1200;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // splineToolStripMenuItem
+            // saveToFileToolStripMenuItem1
             // 
-            this.splineToolStripMenuItem.Name = "splineToolStripMenuItem";
-            resources.ApplyResources(this.splineToolStripMenuItem, "splineToolStripMenuItem");
-            this.splineToolStripMenuItem.Click += new System.EventHandler(this.splineToolStripMenuItem_Click);
+            this.saveToFileToolStripMenuItem1.Name = "saveToFileToolStripMenuItem1";
+            resources.ApplyResources(this.saveToFileToolStripMenuItem1, "saveToFileToolStripMenuItem1");
+            this.saveToFileToolStripMenuItem1.Click += new System.EventHandler(this.saveToFileToolStripMenuItem1_Click);
+            // 
+            // loadFromFileToolStripMenuItem1
+            // 
+            this.loadFromFileToolStripMenuItem1.Name = "loadFromFileToolStripMenuItem1";
+            resources.ApplyResources(this.loadFromFileToolStripMenuItem1, "loadFromFileToolStripMenuItem1");
+            this.loadFromFileToolStripMenuItem1.Click += new System.EventHandler(this.loadFromFileToolStripMenuItem1_Click);
             // 
             // FlightPlanner
             // 
@@ -1268,6 +1303,10 @@
         private System.Windows.Forms.ToolStripMenuItem saveRallyPointsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem setRallyPointToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem clearRallyPointsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem loadKMLFileToolStripMenuItem;
+        private System.Windows.Forms.LinkLabel lnk_kml;
+        private System.Windows.Forms.ToolStripMenuItem splineToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem modifyAltToolStripMenuItem;
         private System.Windows.Forms.DataGridViewComboBoxColumn Command;
         private System.Windows.Forms.DataGridViewTextBoxColumn Param1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Param2;
@@ -1280,8 +1319,8 @@
         private System.Windows.Forms.DataGridViewImageColumn Up;
         private System.Windows.Forms.DataGridViewImageColumn Down;
         private System.Windows.Forms.DataGridViewTextBoxColumn Grad;
-        private System.Windows.Forms.ToolStripMenuItem loadKMLFileToolStripMenuItem;
-        private System.Windows.Forms.LinkLabel lnk_kml;
-        private System.Windows.Forms.ToolStripMenuItem splineToolStripMenuItem;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Dist;
+        private System.Windows.Forms.ToolStripMenuItem saveToFileToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem loadFromFileToolStripMenuItem1;
     }
 }

@@ -83,6 +83,7 @@
             this.label13 = new System.Windows.Forms.Label();
             this.NAVL1_PERIOD = new System.Windows.Forms.NumericUpDown();
             this.label18 = new System.Windows.Forms.Label();
+            this.BUT_refreshpart = new MissionPlanner.Controls.MyButton();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.FS_THR_VALUE)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.THR_MAX)).BeginInit();
@@ -433,10 +434,18 @@
             resources.ApplyResources(this.label18, "label18");
             this.label18.Name = "label18";
             // 
+            // BUT_refreshpart
+            // 
+            resources.ApplyResources(this.BUT_refreshpart, "BUT_refreshpart");
+            this.BUT_refreshpart.Name = "BUT_refreshpart";
+            this.BUT_refreshpart.UseVisualStyleBackColor = true;
+            this.BUT_refreshpart.Click += new System.EventHandler(this.BUT_refreshpart_Click);
+            // 
             // ConfigArdurover
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.BUT_refreshpart);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBox5);
@@ -533,5 +542,6 @@
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.NumericUpDown NAVL1_PERIOD;
         private System.Windows.Forms.Label label18;
+        private Controls.MyButton BUT_refreshpart;
     }
 }

@@ -294,6 +294,12 @@
   <data name="Grad.HeaderText" xml:space="preserve">
     <value>Grad %</value>
   </data>
+  <metadata name="Dist.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="Dist.HeaderText" xml:space="preserve">
+    <value>Dist</value>
+  </data>
   <data name="Commands.Location" type="System.Drawing.Point, System.Drawing">
     <value>3, 55</value>
   </data>
@@ -1974,6 +1980,42 @@
   <data name="polygonToolStripMenuItem.Text" xml:space="preserve">
     <value>Draw Polygon</value>
   </data>
+  <data name="setRallyPointToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>178, 22</value>
+  </data>
+  <data name="setRallyPointToolStripMenuItem.Text" xml:space="preserve">
+    <value>Set Rally Point</value>
+  </data>
+  <data name="getRallyPointsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>178, 22</value>
+  </data>
+  <data name="getRallyPointsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Download</value>
+  </data>
+  <data name="saveRallyPointsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>178, 22</value>
+  </data>
+  <data name="saveRallyPointsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Upload</value>
+  </data>
+  <data name="clearRallyPointsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>178, 22</value>
+  </data>
+  <data name="clearRallyPointsToolStripMenuItem.Text" xml:space="preserve">
+    <value>Clear Rally Points</value>
+  </data>
+  <data name="saveToFileToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>178, 22</value>
+  </data>
+  <data name="saveToFileToolStripMenuItem1.Text" xml:space="preserve">
+    <value>Save Rally to File</value>
+  </data>
+  <data name="loadFromFileToolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>178, 22</value>
+  </data>
+  <data name="loadFromFileToolStripMenuItem1.Text" xml:space="preserve">
+    <value>Load Rally from File</value>
+  </data>
   <data name="rallyPointsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>152, 22</value>
   </data>
@@ -2025,8 +2067,14 @@
   <data name="splineToolStripMenuItem.Text" xml:space="preserve">
     <value>View As Spline</value>
   </data>
+  <data name="modifyAltToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 22</value>
+  </data>
+  <data name="modifyAltToolStripMenuItem.Text" xml:space="preserve">
+    <value>Modify Alt</value>
+  </data>
   <data name="contextMenuStrip1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>153, 428</value>
+    <value>153, 450</value>
   </data>
   <data name="&gt;&gt;contextMenuStrip1.Name" xml:space="preserve">
     <value>contextMenuStrip1</value>
@@ -2201,30 +2249,6 @@
   </data>
   <data name="loadPolygonToolStripMenuItem.Text" xml:space="preserve">
     <value>Load Polygon</value>
-  </data>
-  <data name="setRallyPointToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>165, 22</value>
-  </data>
-  <data name="setRallyPointToolStripMenuItem.Text" xml:space="preserve">
-    <value>Set Rally Point</value>
-  </data>
-  <data name="getRallyPointsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>165, 22</value>
-  </data>
-  <data name="getRallyPointsToolStripMenuItem.Text" xml:space="preserve">
-    <value>Download</value>
-  </data>
-  <data name="saveRallyPointsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>165, 22</value>
-  </data>
-  <data name="saveRallyPointsToolStripMenuItem.Text" xml:space="preserve">
-    <value>Upload</value>
-  </data>
-  <data name="clearRallyPointsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>165, 22</value>
-  </data>
-  <data name="clearRallyPointsToolStripMenuItem.Text" xml:space="preserve">
-    <value>Clear Rally Points</value>
   </data>
   <data name="toolStripMenuItem1.Size" type="System.Drawing.Size, System.Drawing">
     <value>177, 22</value>
@@ -2455,6 +2479,12 @@
     <value>Grad</value>
   </data>
   <data name="&gt;&gt;Grad.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Dist.Name" xml:space="preserve">
+    <value>Dist</value>
+  </data>
+  <data name="&gt;&gt;Dist.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;dataGridViewImageColumn1.Name" xml:space="preserve">
@@ -2775,6 +2805,18 @@
   <data name="&gt;&gt;flyToHereToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="&gt;&gt;splineToolStripMenuItem.Name" xml:space="preserve">
+    <value>splineToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;splineToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;modifyAltToolStripMenuItem.Name" xml:space="preserve">
+    <value>modifyAltToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;modifyAltToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="&gt;&gt;toolTip1.Name" xml:space="preserve">
     <value>toolTip1</value>
   </data>
@@ -2787,10 +2829,16 @@
   <data name="&gt;&gt;timer1.Type" xml:space="preserve">
     <value>System.Windows.Forms.Timer, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;splineToolStripMenuItem.Name" xml:space="preserve">
-    <value>splineToolStripMenuItem</value>
+  <data name="&gt;&gt;saveToFileToolStripMenuItem1.Name" xml:space="preserve">
+    <value>saveToFileToolStripMenuItem1</value>
   </data>
-  <data name="&gt;&gt;splineToolStripMenuItem.Type" xml:space="preserve">
+  <data name="&gt;&gt;saveToFileToolStripMenuItem1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;loadFromFileToolStripMenuItem1.Name" xml:space="preserve">
+    <value>loadFromFileToolStripMenuItem1</value>
+  </data>
+  <data name="&gt;&gt;loadFromFileToolStripMenuItem1.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">

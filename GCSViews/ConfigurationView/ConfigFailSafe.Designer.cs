@@ -49,7 +49,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.mavlinkCheckBoxFS_GCS_ENABLE = new MissionPlanner.Controls.MavlinkCheckBox();
             this.mavlinkCheckBoxfs_gps_enable = new MissionPlanner.Controls.MavlinkCheckBox();
-            this.mavlinkCheckBoxfs_batt_enable = new MissionPlanner.Controls.MavlinkCheckBox();
             this.pnlmah = new System.Windows.Forms.Panel();
             this.label5 = new System.Windows.Forms.Label();
             this.mavlinkNumericUpDownFS_BATT_MAH = new MissionPlanner.Controls.MavlinkNumericUpDown();
@@ -57,6 +56,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.label4 = new System.Windows.Forms.Label();
             this.PNL_thr_fs_value = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
+            this.mavlinkCheckBoxfs_batt_enable = new MissionPlanner.Controls.MavlinkCheckBox();
             this.lbl_armed = new MissionPlanner.Controls.MyLabel();
             this.lbl_gpslock = new MissionPlanner.Controls.MyLabel();
             this.horizontalProgressBar9 = new MissionPlanner.Controls.HorizontalProgressBar();
@@ -233,8 +233,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.groupBox1.Controls.Add(this.mavlinkCheckBoxFS_GCS_ENABLE);
             this.groupBox1.Controls.Add(this.mavlinkCheckBoxfs_gps_enable);
             this.groupBox1.Controls.Add(this.pnlmah);
-            this.groupBox1.Controls.Add(this.PNL_low_bat);
             this.groupBox1.Controls.Add(this.PNL_thr_fs_value);
+            this.groupBox1.Controls.Add(this.PNL_low_bat);
             this.groupBox1.Controls.Add(this.mavlinkCheckBoxfs_batt_enable);
             this.groupBox1.Controls.Add(this.mavlinkCheckBoxlong_fs);
             this.groupBox1.Controls.Add(this.mavlinkCheckBoxshort_fs);
@@ -265,16 +265,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.mavlinkCheckBoxfs_gps_enable.param = null;
             this.mavlinkCheckBoxfs_gps_enable.ParamName = null;
             this.mavlinkCheckBoxfs_gps_enable.UseVisualStyleBackColor = true;
-            // 
-            // mavlinkCheckBoxfs_batt_enable
-            // 
-            resources.ApplyResources(this.mavlinkCheckBoxfs_batt_enable, "mavlinkCheckBoxfs_batt_enable");
-            this.mavlinkCheckBoxfs_batt_enable.Name = "mavlinkCheckBoxfs_batt_enable";
-            this.mavlinkCheckBoxfs_batt_enable.OffValue = 0F;
-            this.mavlinkCheckBoxfs_batt_enable.OnValue = 1F;
-            this.mavlinkCheckBoxfs_batt_enable.param = null;
-            this.mavlinkCheckBoxfs_batt_enable.ParamName = null;
-            this.mavlinkCheckBoxfs_batt_enable.UseVisualStyleBackColor = true;
             // 
             // pnlmah
             // 
@@ -332,6 +322,16 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             resources.ApplyResources(this.label3, "label3");
             this.label3.Name = "label3";
+            // 
+            // mavlinkCheckBoxfs_batt_enable
+            // 
+            resources.ApplyResources(this.mavlinkCheckBoxfs_batt_enable, "mavlinkCheckBoxfs_batt_enable");
+            this.mavlinkCheckBoxfs_batt_enable.Name = "mavlinkCheckBoxfs_batt_enable";
+            this.mavlinkCheckBoxfs_batt_enable.OffValue = 0F;
+            this.mavlinkCheckBoxfs_batt_enable.OnValue = 1F;
+            this.mavlinkCheckBoxfs_batt_enable.param = null;
+            this.mavlinkCheckBoxfs_batt_enable.ParamName = null;
+            this.mavlinkCheckBoxfs_batt_enable.UseVisualStyleBackColor = true;
             // 
             // lbl_armed
             // 

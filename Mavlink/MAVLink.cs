@@ -797,7 +797,7 @@ Please check the following
                 }
 
                 // 4 seconds between valid packets
-                if (!(start.AddMilliseconds(4000) > DateTime.Now))
+                if (!(start.AddMilliseconds(4000) > DateTime.Now) && !logreadmode)
                 {
                     // try getting individual params
                     for (short i = 0; i <= (param_total - 1); i++)
@@ -825,9 +825,9 @@ Please check the following
                             {
                                 try
                                 {
-                                    GetParam(i);
-                                    param_count++;
-                                    indexsreceived.Add(i);
+                                   // GetParam(i);
+                                   // param_count++;
+                                   // indexsreceived.Add(i);
                                 }
                                 catch { }
                                 // fail over to full list
@@ -923,6 +923,10 @@ Please check the following
                     //stopwatch.Stop();
                     // Console.WriteLine("Time elapsed: {0}", stopwatch.Elapsed);
                     // Console.WriteLine(DateTime.Now.Millisecond + " gp4 " + BaseStream.BytesToRead);
+                }
+                if (logreadmode && logplaybackfile.BaseStream.Position >= logplaybackfile.BaseStream.Length)
+                {
+                    break;
                 }
             } while (indexsreceived.Count < param_total);
 
@@ -2711,6 +2715,7 @@ Please check the following
                         plla.Lat = fp.lat / t7;
                         plla.Lng = fp.lng / t7;
                         plla.Tag = fp.idx.ToString();
+                        plla.Alt = fp.alt;
 
                         total = fp.count;
 

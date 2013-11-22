@@ -63,6 +63,7 @@
             this.but_compassrotation = new MissionPlanner.Controls.MyButton();
             this.BUT_sorttlogs = new MissionPlanner.Controls.MyButton();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.BUT_accellogs = new MissionPlanner.Controls.MyButton();
             this.SuspendLayout();
             // 
             // label1
@@ -394,11 +395,22 @@
             this.timer1.Enabled = true;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // BUT_accellogs
+            // 
+            this.BUT_accellogs.Location = new System.Drawing.Point(429, 380);
+            this.BUT_accellogs.Name = "BUT_accellogs";
+            this.BUT_accellogs.Size = new System.Drawing.Size(75, 23);
+            this.BUT_accellogs.TabIndex = 39;
+            this.BUT_accellogs.Text = "Find High Accel";
+            this.BUT_accellogs.UseVisualStyleBackColor = true;
+            this.BUT_accellogs.Click += new System.EventHandler(this.BUT_accellogs_Click);
+            // 
             // temp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(685, 450);
+            this.Controls.Add(this.BUT_accellogs);
             this.Controls.Add(this.BUT_sorttlogs);
             this.Controls.Add(this.but_compassrotation);
             this.Controls.Add(this.BUT_driverclean);
@@ -476,5 +488,6 @@
         private Controls.MyButton but_compassrotation;
         private Controls.MyButton BUT_sorttlogs;
         private System.Windows.Forms.Timer timer1;
+        private Controls.MyButton BUT_accellogs;
     }
 }

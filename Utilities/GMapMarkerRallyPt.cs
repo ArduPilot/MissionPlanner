@@ -27,14 +27,22 @@ namespace MissionPlanner.Utilities
          Offset = new Point(-10, -40);
       }
 
+      public GMapMarkerRallyPt(MAVLink.mavlink_rally_point_t mark)
+          : base(new PointLatLng(mark.lat / 1e7, mark.lng / 1e7))
+      {
+          Size = SizeSt;
+          Offset = new Point(-10, -40);
+          Alt = mark.alt;
+          Alt = (int)mark.alt; 
+          ToolTipMode = MarkerTooltipMode.OnMouseOver;
+          ToolTipText = "Rally Point" + "\nAlt: " + mark.alt;
+      }
+
       static readonly Point[] Arrow = new Point[] { new Point(-7, 7), new Point(0, -22), new Point(7, 7), new Point(0, 2) };
 
       public override void OnRender(Graphics g)
       {
-#if !PocketPC
- 
-
-      
+#if !PocketPC      
              g.DrawImageUnscaled(localcache2, LocalPosition.X, LocalPosition.Y);
      
 #else

@@ -147,13 +147,13 @@
     </Reference>
     <Reference Include="DirectShowLib-2005">
     </Reference>
-    <Reference Include="GMap.NET.Core, Version=1.5.5.5, Culture=neutral, PublicKeyToken=b85b9027b614afef, processorArchitecture=MSIL">
+    <Reference Include="GMap.NET.Core, Version=1.7.0.0, Culture=neutral, PublicKeyToken=b85b9027b614afef, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\Desktop\DIYDrones\greatmaps_09991dd06609\Demo.WindowsForms\bin\Debug\GMap.NET.Core.dll</HintPath>
+      <HintPath>..\..\..\..\..\Desktop\DIYDrones\greatmaps_09991dd06609\Build\Release-NETv2.0\GMap.NET.Core.dll</HintPath>
     </Reference>
-    <Reference Include="GMap.NET.WindowsForms, Version=1.5.5.5, Culture=neutral, PublicKeyToken=b85b9027b614afef, processorArchitecture=MSIL">
+    <Reference Include="GMap.NET.WindowsForms, Version=1.7.0.0, Culture=neutral, PublicKeyToken=b85b9027b614afef, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\Desktop\DIYDrones\greatmaps_09991dd06609\Demo.WindowsForms\bin\Debug\GMap.NET.WindowsForms.dll</HintPath>
+      <HintPath>..\..\..\..\..\Desktop\DIYDrones\greatmaps_09991dd06609\Build\Release-NETv2.0\GMap.NET.WindowsForms.dll</HintPath>
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
     </Reference>
@@ -323,7 +323,8 @@
       <DependentUpon>Command.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\Waypoints\Spline.cs" />
-    <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Log\LogOutput.cs" />
+    <Compile Include="Log\Scan.cs" />
     <Compile Include="Maps\Custom.cs" />
     <Compile Include="Maps\MyImageCache.cs" />
     <Compile Include="Maps\WMSProvider.cs" />
@@ -439,6 +440,7 @@
       <DependentUpon>FollowPathControl.cs</DependentUpon>
     </Compile>
     <Compile Include="System.cs" />
+    <Compile Include="Utilities\GitHubContent.cs" />
     <Compile Include="Utilities\GMapMarkerRallyPt.cs" />
     <Compile Include="Utilities\ParameterMetaDataRepositoryAutoTest.cs" />
     <Compile Include="Utilities\Firmware.cs" />
@@ -501,6 +503,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />
+    <Compile Include="Utilities\ParamFile.cs" />
     <Compile Include="Utilities\Password.cs" />
     <Compile Include="Utilities\StringRedirectWriter.cs" />
     <Compile Include="Utilities\Update.cs" />

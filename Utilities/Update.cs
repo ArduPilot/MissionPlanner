@@ -101,7 +101,7 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
 
             // Create a request using a URL that can receive a post. 
             string requestUriString = baseurl + Path.GetFileName(path);
-            log.Debug("Checking for update at: " + requestUriString);
+            log.Info("Checking for update at: " + requestUriString);
             var webRequest = WebRequest.Create(requestUriString);
             webRequest.Timeout = 5000;
 

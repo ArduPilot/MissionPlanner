@@ -379,13 +379,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             MainV2.comPort.setParam(((CheckBox)sender).Name, ((CheckBox)sender).Checked == true ? 1.0f : 0.0f);
         }
 
-        public enum rsc_mode
-        {
-            Disable = 0,
-            Mode_1=1,
-            Mode_2=2
-        }
-
         public void Activate()
         {
 
@@ -415,7 +408,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             H_STAB_COL_MIN.setup(0, 50, 1, 1, "H_STAB_COL_MIN", MainV2.comPort.MAV.param);
             H_COLYAW.setup(0, 5, 1, 1, "H_COLYAW", MainV2.comPort.MAV.param);
             H_RSC_RATE.setup(0, 60, 100, 1, "H_RSC_RATE", MainV2.comPort.MAV.param);
-            H_RSC_MODE.setup(typeof(rsc_mode),"H_RSC_MODE", MainV2.comPort.MAV.param);
+            H_RSC_MODE.setup(Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("H_RSC_MODE"), "H_RSC_MODE", MainV2.comPort.MAV.param);
             H_GOV_SETPOINT.setup(800, 2200, 1, 1, "H_GOV_SETPOINT", MainV2.comPort.MAV.param);
 
             startup = true;

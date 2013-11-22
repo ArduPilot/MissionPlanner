@@ -139,7 +139,7 @@ namespace MissionPlanner.Controls
       protected void trackBar1_ValueChanged(object sender, EventArgs e)
       {
           numericUpDown1.Value = map(trackBar1.Value, 0, 100, numericUpDown1.Minimum, numericUpDown1.Maximum);
-         numericUpDown1.Text = (numericUpDown1.Value).ToString();
+         //numericUpDown1.Text = (numericUpDown1.Value).ToString();
 
          if (ValueChanged != null)
              ValueChanged(this,Name, Value);

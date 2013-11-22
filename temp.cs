@@ -1097,5 +1097,12 @@ namespace MissionPlanner
         {
     
         }
+
+        private void BUT_accellogs_Click(object sender, EventArgs e)
+        {
+            CustomMessageBox.Show("This scan may take some time.");
+            Log.Scan.ScanAccel();
+            CustomMessageBox.Show("Scan Complete");
+        }
     }
 }

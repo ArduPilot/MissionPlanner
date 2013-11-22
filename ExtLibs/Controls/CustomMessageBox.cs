@@ -262,6 +262,36 @@ namespace System
                     msgBoxFrm.CancelButton = butno;
                     break;
 
+                case MessageBoxButtons.OKCancel:
+
+                    if (msgBoxFrm.Width < (75 * 2 + FORM_X_MARGIN * 3))
+                        msgBoxFrm.Width = (75 * 2 + FORM_X_MARGIN * 3);
+
+                    var butok = new MyButton
+                    {
+                        Size = new Size(75, 23),
+                        Text = "OK",
+                        Left = msgBoxFrm.Width - 75 * 2 - FORM_X_MARGIN * 2,
+                        Top = msgBoxFrm.Height - 23 - FORM_Y_MARGIN - titleHeight
+                    };
+
+                    butok.Click += delegate { _state = DialogResult.OK; msgBoxFrm.Close(); };
+                    msgBoxFrm.Controls.Add(butok);
+                    msgBoxFrm.AcceptButton = butok;
+
+                    var butcancel = new MyButton
+                    {
+                        Size = new Size(75, 23),
+                        Text = "Cancel",
+                        Left = msgBoxFrm.Width - 75 - FORM_X_MARGIN,
+                        Top = msgBoxFrm.Height - 23 - FORM_Y_MARGIN - titleHeight
+                    };
+
+                    butcancel.Click += delegate { _state = DialogResult.Cancel; msgBoxFrm.Close(); };
+                    msgBoxFrm.Controls.Add(butcancel);
+                    msgBoxFrm.CancelButton = butcancel;
+                    break;
+
                 default:
                     throw new NotImplementedException("Only MessageBoxButtons.OK and YesNo supported at this time");
             }

@@ -106,12 +106,15 @@
             this.BUT_Syncoptions = new MissionPlanner.Controls.MyButton();
             this.ATI3 = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.ATI2 = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.RTI2 = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.BUT_resettodefault = new MissionPlanner.Controls.MyButton();
-            this.ATI2 = new System.Windows.Forms.TextBox();
-            this.RTI2 = new System.Windows.Forms.TextBox();
+            this.BUT_loadcustom = new MissionPlanner.Controls.MyButton();
+            this.label34 = new System.Windows.Forms.Label();
+            this.RS15 = new System.Windows.Forms.ComboBox();
             this.SPLIT_local.Panel1.SuspendLayout();
             this.SPLIT_local.Panel2.SuspendLayout();
             this.SPLIT_local.SuspendLayout();
@@ -126,6 +129,7 @@
             // 
             resources.ApplyResources(this.Progressbar, "Progressbar");
             this.Progressbar.Name = "Progressbar";
+            this.Progressbar.Click += new System.EventHandler(this.Progressbar_Click);
             // 
             // S1
             // 
@@ -903,6 +907,8 @@
             // 
             // SPLIT_remote.Panel2
             // 
+            this.SPLIT_remote.Panel2.Controls.Add(this.label34);
+            this.SPLIT_remote.Panel2.Controls.Add(this.RS15);
             this.SPLIT_remote.Panel2.Controls.Add(this.label24);
             this.SPLIT_remote.Panel2.Controls.Add(this.RS9);
             this.SPLIT_remote.Panel2.Controls.Add(this.RS10);
@@ -947,6 +953,12 @@
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
             // 
+            // ATI2
+            // 
+            resources.ApplyResources(this.ATI2, "ATI2");
+            this.ATI2.Name = "ATI2";
+            this.ATI2.ReadOnly = true;
+            // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.RTI2);
@@ -956,6 +968,12 @@
             resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.TabStop = false;
+            // 
+            // RTI2
+            // 
+            resources.ApplyResources(this.RTI2, "RTI2");
+            this.RTI2.Name = "RTI2";
+            this.RTI2.ReadOnly = true;
             // 
             // label9
             // 
@@ -974,22 +992,62 @@
             this.BUT_resettodefault.UseVisualStyleBackColor = true;
             this.BUT_resettodefault.Click += new System.EventHandler(this.BUT_resettodefault_Click);
             // 
-            // ATI2
+            // BUT_loadcustom
             // 
-            resources.ApplyResources(this.ATI2, "ATI2");
-            this.ATI2.Name = "ATI2";
-            this.ATI2.ReadOnly = true;
+            resources.ApplyResources(this.BUT_loadcustom, "BUT_loadcustom");
+            this.BUT_loadcustom.Name = "BUT_loadcustom";
+            this.BUT_loadcustom.UseVisualStyleBackColor = true;
+            this.BUT_loadcustom.Click += new System.EventHandler(this.BUT_loadcustom_Click);
             // 
-            // RTI2
+            // label34
             // 
-            resources.ApplyResources(this.RTI2, "RTI2");
-            this.RTI2.Name = "RTI2";
-            this.RTI2.ReadOnly = true;
+            resources.ApplyResources(this.label34, "label34");
+            this.label34.Name = "label34";
+            // 
+            // RS15
+            // 
+            resources.ApplyResources(this.RS15, "RS15");
+            this.RS15.FormattingEnabled = true;
+            this.RS15.Items.AddRange(new object[] {
+            resources.GetString("RS15.Items"),
+            resources.GetString("RS15.Items1"),
+            resources.GetString("RS15.Items2"),
+            resources.GetString("RS15.Items3"),
+            resources.GetString("RS15.Items4"),
+            resources.GetString("RS15.Items5"),
+            resources.GetString("RS15.Items6"),
+            resources.GetString("RS15.Items7"),
+            resources.GetString("RS15.Items8"),
+            resources.GetString("RS15.Items9"),
+            resources.GetString("RS15.Items10"),
+            resources.GetString("RS15.Items11"),
+            resources.GetString("RS15.Items12"),
+            resources.GetString("RS15.Items13"),
+            resources.GetString("RS15.Items14"),
+            resources.GetString("RS15.Items15"),
+            resources.GetString("RS15.Items16"),
+            resources.GetString("RS15.Items17"),
+            resources.GetString("RS15.Items18"),
+            resources.GetString("RS15.Items19"),
+            resources.GetString("RS15.Items20"),
+            resources.GetString("RS15.Items21"),
+            resources.GetString("RS15.Items22"),
+            resources.GetString("RS15.Items23"),
+            resources.GetString("RS15.Items24"),
+            resources.GetString("RS15.Items25"),
+            resources.GetString("RS15.Items26"),
+            resources.GetString("RS15.Items27"),
+            resources.GetString("RS15.Items28"),
+            resources.GetString("RS15.Items29"),
+            resources.GetString("RS15.Items30")});
+            this.RS15.Name = "RS15";
+            this.toolTip1.SetToolTip(this.RS15, resources.GetString("RS15.ToolTip"));
             // 
             // _3DRradio
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.BUT_loadcustom);
             this.Controls.Add(this.BUT_resettodefault);
             this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.label10);
@@ -1107,5 +1165,8 @@
         private System.Windows.Forms.ComboBox S15;
         private System.Windows.Forms.TextBox ATI2;
         private System.Windows.Forms.TextBox RTI2;
+        private Controls.MyButton BUT_loadcustom;
+        private System.Windows.Forms.Label label34;
+        private System.Windows.Forms.ComboBox RS15;
     }
 }

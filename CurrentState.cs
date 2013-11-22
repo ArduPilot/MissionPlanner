@@ -87,6 +87,8 @@ namespace MissionPlanner
         public float airspeed { get { return _airspeed * multiplierspeed; } set { _airspeed = value; } }
         [DisplayText("Airspeed Target (speed)")]
         public float targetairspeed { get { return _targetairspeed; } }
+        [DisplayText("Airspeed Ratio")]
+        public float asratio { get; set; }
         [DisplayText("GroundSpeed (speed)")]
         public float groundspeed { get { return _groundspeed * multiplierspeed; } set { _groundspeed = value; } }
         float _airspeed;
@@ -437,6 +439,7 @@ namespace MissionPlanner
 
         // reference
         public DateTime datetime { get; set; }
+        public DateTime gpstime { get; set; }
 
         // HIL
         public int hilch1 { get; set; }
@@ -671,17 +674,26 @@ enum gcs_severity {
                         //MAVLink.packets[(byte)MAVLink.MSG_NAMES.HIL_CONTROLS] = null;
                     }
 
+                    bytearray = mavinterface.MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.AIRSPEED_AUTOCAL];
+
+                    if (bytearray != null)
+                    {
+                        var asac = bytearray.ByteArrayToStructure<MAVLink.mavlink_airspeed_autocal_t>(6);
+
+                        asratio = asac.ratio;
+                    }
+
                     bytearray = mavinterface.MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.SYSTEM_TIME];
 
                     if (bytearray != null)
                     {
                         var systime = bytearray.ByteArrayToStructure<MAVLink.mavlink_system_time_t>(6);
 
-                        DateTime newtime = DateTime.Now;
+                        DateTime date1 = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
-                          //UInt64 ms_per_week = 7000ULL*86400ULL;
-     //UInt64 unix_offset = 17000ULL*86400ULL + 52*10*7000ULL*86400ULL - 15000ULL;
-    //UInt64 fix_time_ms = unix_offset + time_week*ms_per_week + time_week_ms;
+                        date1 = date1.AddMilliseconds(systime.time_unix_usec / 1000);
+
+                        gpstime = date1;
                     }
 
                     bytearray = mavinterface.MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.HWSTATUS];

@@ -978,8 +978,7 @@ namespace MissionPlanner
         /// </summary>
         private void joysticksend()
         {
-
-            float rate = 50;
+            float rate = 50; // 1000 / 50 = 20 hz
             int count = 0;
 
             DateTime lastratechange = DateTime.Now;

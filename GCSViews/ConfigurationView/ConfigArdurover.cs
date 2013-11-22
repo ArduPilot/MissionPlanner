@@ -340,6 +340,41 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             this.Activate();
         }
+        private void BUT_refreshpart_Click(object sender, EventArgs e)
+        {
+            if (!MainV2.comPort.BaseStream.IsOpen)
+                return;
+
+            ((Control)sender).Enabled = false;
+
+
+            updateparam(this);
+
+            ((Control)sender).Enabled = true;
+
+
+            this.Activate();
+        }
+
+        void updateparam(Control parentctl)
+        {
+            foreach (Control ctl in parentctl.Controls)
+            {
+                if (typeof(NumericUpDown) == ctl.GetType() || typeof(ComboBox) == ctl.GetType())
+                {
+                    try
+                    {
+                        MainV2.comPort.GetParam(ctl.Name);
+                    }
+                    catch { }
+                }
+
+                if (ctl.Controls.Count > 0)
+                {
+                    updateparam(ctl);
+                }
+            }
+        }
 
     }
 }

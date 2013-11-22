@@ -104,22 +104,26 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (!MainV2.comPort.BaseStream.IsOpen)
                 return;
 
-            ((Control)sender).Enabled = false;
-
-            try
+            if (DialogResult.OK == CustomMessageBox.Show("Update Params\nDON'T DO THIS IF YOU ARE IN THE AIR\n", "Error", MessageBoxButtons.OKCancel))
             {
-                MainV2.comPort.getParamList();
+
+                ((Control)sender).Enabled = false;
+
+                try
+                {
+                    MainV2.comPort.getParamList();
+                }
+                catch (Exception ex)
+                {
+                    log.Error("Exception getting param list", ex);
+                    CustomMessageBox.Show("Error: getting param list", "Error");
+                }
+
+
+                ((Control)sender).Enabled = true;
+
+                this.Activate();
             }
-            catch (Exception ex)
-            {
-                log.Error("Exception getting param list", ex);
-                CustomMessageBox.Show("Error: getting param list", "Error");
-            }
-
-
-            ((Control)sender).Enabled = true;
-
-            this.Activate();
         }
 
         /// <summary>

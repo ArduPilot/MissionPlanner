@@ -130,6 +130,7 @@
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
             this.dataGridViewImageColumn2 = new System.Windows.Forms.DataGridViewImageColumn();
             this.bindingSourceStatusTab = new System.Windows.Forms.BindingSource(this.components);
+            this.but_dflogtokml = new MissionPlanner.Controls.MyButton();
             this.contextMenuStripMap.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MainH)).BeginInit();
             this.MainH.Panel1.SuspendLayout();
@@ -1324,6 +1325,7 @@
             // 
             // tablogbrowse
             // 
+            this.tablogbrowse.Controls.Add(this.but_dflogtokml);
             this.tablogbrowse.Controls.Add(this.but_bintolog);
             this.tablogbrowse.Controls.Add(this.BUT_matlab);
             this.tablogbrowse.Controls.Add(this.BUT_logbrowse);
@@ -1661,6 +1663,13 @@
             // 
             this.bindingSourceStatusTab.DataSource = typeof(MissionPlanner.CurrentState);
             // 
+            // but_dflogtokml
+            // 
+            resources.ApplyResources(this.but_dflogtokml, "but_dflogtokml");
+            this.but_dflogtokml.Name = "but_dflogtokml";
+            this.but_dflogtokml.UseVisualStyleBackColor = true;
+            this.but_dflogtokml.Click += new System.EventHandler(this.but_dflogtokml_Click);
+            // 
             // FlightData
             // 
             resources.ApplyResources(this, "$this");
@@ -1838,6 +1847,7 @@
         private Controls.MyButton BUT_mountmode;
         private Controls.WindDir windDir1;
         private Controls.MyButton but_bintolog;
+        private Controls.MyButton but_dflogtokml;
 
     }
 }

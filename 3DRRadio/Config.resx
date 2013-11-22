@@ -405,13 +405,13 @@
     <value>RSSI</value>
   </data>
   <data name="helpToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>140, 22</value>
+    <value>152, 22</value>
   </data>
   <data name="helpToolStripMenuItem.Text" xml:space="preserve">
     <value>Help</value>
   </data>
   <data name="projectPageToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>140, 22</value>
+    <value>152, 22</value>
   </data>
   <data name="projectPageToolStripMenuItem.Text" xml:space="preserve">
     <value>Project Page</value>
@@ -1591,7 +1591,7 @@
 </value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>3DRRadio Config 1.02</value>
+    <value>3DRRadio Config 1.2 - by Michael Oborne</value>
   </data>
   <data name="&gt;&gt;settingsToolStripMenuItem.Name" xml:space="preserve">
     <value>settingsToolStripMenuItem</value>

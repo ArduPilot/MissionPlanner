@@ -69,6 +69,7 @@ namespace MissionPlanner.GCSViews
 
         internal static GMapOverlay kmlpolygons;
         internal static GMapOverlay geofence;
+        internal static GMapOverlay rallypointoverlay;
 
         Dictionary<Guid, Form> formguids = new Dictionary<Guid, Form>();
 
@@ -237,6 +238,8 @@ namespace MissionPlanner.GCSViews
 
             gMapControl1.OnMapZoomChanged += new MapZoomChanged(gMapControl1_OnMapZoomChanged);
 
+            gMapControl1.DisableFocusOnMouseEnter = true;
+
             gMapControl1.Zoom = 3;
 
             gMapControl1.RoutesEnabled = true;
@@ -253,6 +256,9 @@ namespace MissionPlanner.GCSViews
 
             routes = new GMapOverlay( "routes");
             gMapControl1.Overlays.Add(routes);
+
+            rallypointoverlay = new GMapOverlay("rally points");
+            gMapControl1.Overlays.Add(rallypointoverlay);
 
             try
             {
@@ -887,6 +893,15 @@ namespace MissionPlanner.GCSViews
                                 }
 
                                 RegeneratePolygon();
+
+                                // update rally points
+
+                                rallypointoverlay.Markers.Clear();
+
+                                foreach (var mark in MainV2.comPort.MAV.rallypoints.Values)
+                                {
+                                    rallypointoverlay.Markers.Add(new GMapMarkerRallyPt(mark));
+                                }
 
                                 waypoints = DateTime.Now;
                             }
@@ -2109,7 +2124,7 @@ namespace MissionPlanner.GCSViews
         {
             setupPropertyInfo(ref cust.Item, (sender).Name, MainV2.comPort.MAV.cs);
 
-            hud1.CustomItems.Add((sender).Name, cust);
+            hud1.CustomItems[(sender).Name] = cust;
 
             hud1.Invalidate();
         }
@@ -2949,6 +2964,45 @@ print 'Roll complete'
                         sw.Write(line);
                     }
                     sw.Close();
+                }
+            }
+        }
+
+        private void but_dflogtokml_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog1 = new OpenFileDialog();
+            openFileDialog1.Filter = "*.log|*.log";
+            openFileDialog1.FilterIndex = 2;
+            openFileDialog1.RestoreDirectory = true;
+            openFileDialog1.Multiselect = true;
+            try
+            {
+                openFileDialog1.InitialDirectory = MainV2.LogDir + Path.DirectorySeparatorChar;
+            }
+            catch { } // incase dir doesnt exist
+
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                DialogResult copterlog = CustomMessageBox.Show("Is this a Copter Log?", "", MessageBoxButtons.YesNo);
+
+                foreach (string logfile in openFileDialog1.FileNames)
+                {
+                    LogOutput lo = new LogOutput();
+                    try
+                    {
+                        TextReader tr = new StreamReader(logfile);
+
+                        while (tr.Peek() != -1)
+                        {
+                            lo.processLine(tr.ReadLine(), copterlog == DialogResult.Yes);
+                        }
+
+                        tr.Close();
+                    }
+                    catch (Exception ex) { CustomMessageBox.Show("Error processing file. Make sure the file is not in use.\n" + ex.ToString()); }
+
+                    lo.writeKML(logfile + ".kml");
+
                 }
             }
         }

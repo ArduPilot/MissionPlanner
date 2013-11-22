@@ -27,6 +27,26 @@ namespace MissionPlanner
 
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
+        /*
+ATI5
+S0: FORMAT=25
+S1: SERIAL_SPEED=57
+S2: AIR_SPEED=64
+S3: NETID=40
+S4: TXPOWER=30
+S5: ECC=1
+S6: MAVLINK=1
+S7: OPPRESEND=1
+S8: MIN_FREQ=915000
+S9: MAX_FREQ=928000
+S10: NUM_CHANNELS=50
+S11: DUTY_CYCLE=100
+S12: LBT_RSSI=0
+S13: MANCHESTER=0
+S14: RTSCTS=0
+S15: MAX_WINDOW=131
+         */
+
         public _3DRradio()
         {
             InitializeComponent();
@@ -40,32 +60,76 @@ namespace MissionPlanner
             RS3.DataSource = Enumerable.Range(0, 500).ToArray();
         }
 
-        bool getFirmware(uploader.Uploader.Board device)
+        bool getFirmware(uploader.Uploader.Board device, bool custom = false)
         {
             // was https://raw.github.com/tridge/SiK/master/Firmware/dst/radio.hm_trp.hex
-            // now http://www.samba.org/tridge/UAV/3DR/radio.hm_trp.hex
+            // was http://www.samba.org/tridge/UAV/3DR/radio.hm_trp.hex
+            // now http://firmware.diydrones.com/SiK/stable/
+
+            if (custom)
+            {
+                return getFirmwareLocal(device);
+            }
 
             if (device == uploader.Uploader.Board.DEVICE_ID_HM_TRP)
             {
-                return Common.getFilefromNet("http://www.samba.org/tridge/UAV/3DR/radio.hm_trp.hex", firmwarefile);
+                if (beta)
+                { return Common.getFilefromNet("http://firmware.diydrones.com/SiK/beta/radio~hm_trp.ihx", firmwarefile); }
+                else
+                {
+                    return Common.getFilefromNet("http://firmware.diydrones.com/SiK/stable/radio~hm_trp.ihx", firmwarefile);
+                }
             }
             else if (device == uploader.Uploader.Board.DEVICE_ID_RFD900)
             {
-                return Common.getFilefromNet("http://rfdesign.com.au/firmware/radio.rfd900.hex", firmwarefile);
+                if (beta)
+                {
+                    return Common.getFilefromNet("http://firmware.diydrones.com/SiK/beta/radio~rfd900.ihx", firmwarefile);
+                }
+                else
+                {
+                    return Common.getFilefromNet("http://firmware.diydrones.com/SiK/stable/radio~rfd900.ihx", firmwarefile);
+                }
             }
             else if (device == uploader.Uploader.Board.DEVICE_ID_RFD900A)
             {
                 int fixme;
                 int fixme23;
 
-              //  return Common.getFilefromNet("http://rfdesign.com.au/firmware/MPSiK%20V2.2%20radio~rfd900a.ihx", firmwarefile);
+                //  return Common.getFilefromNet("http://rfdesign.com.au/firmware/MPSik%20V2.3%20radio~rfd900a.ihx", firmwarefile);
+                if (beta)
+                {
+                    return Common.getFilefromNet("http://firmware.diydrones.com/SiK/beta/radio~rfd900a.ihx", firmwarefile);
+                }
+                else
+                {
+                    return Common.getFilefromNet("http://firmware.diydrones.com/SiK/stable/radio~rfd900a.ihx", firmwarefile);
+                }
 
-                return Common.getFilefromNet("http://rfdesign.com.au/firmware/radio.rfd900a.hex", firmwarefile);
             }
             else
             {
                 return false;
             }
+        }
+
+bool beta = false;
+
+        bool getFirmwareLocal(uploader.Uploader.Board device)
+        {
+            OpenFileDialog openFileDialog1 = new OpenFileDialog();
+
+            openFileDialog1.Filter = "Firmware|*.hex;*.ihx";
+            openFileDialog1.RestoreDirectory = true;
+            openFileDialog1.Multiselect = false;
+
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                File.Copy(openFileDialog1.FileName, firmwarefile,true);
+                return true;
+            }
+
+            return false;
         }
 
         void Sleep(int mstimeout)
@@ -80,6 +144,11 @@ namespace MissionPlanner
         }
 
         private void BUT_upload_Click(object sender, EventArgs e)
+        {
+            UploadFW(false);
+        }
+
+        private void UploadFW(bool custom = false) 
         {
             ArduinoSTK comPort = new ArduinoSTK();
 
@@ -156,7 +225,7 @@ namespace MissionPlanner
                 uploader.getDevice(ref device, ref freq);
 
                 // get firmware for this device
-                if (getFirmware(device))
+                if (getFirmware(device, custom))
                 {
                     // load the hex
                     try
@@ -752,6 +821,7 @@ namespace MissionPlanner
             RS8.Text = S8.Text;
             RS9.Text = S9.Text;
             RS10.Text = S10.Text;
+            RS15.Text = S15.Text;
         }
 
         private void CHK_advanced_CheckedChanged(object sender, EventArgs e)
@@ -821,6 +891,17 @@ red LED solid - in firmware update mode");
 
             if (comPort.IsOpen)
                 comPort.Close();
+        }
+
+        private void BUT_loadcustom_Click(object sender, EventArgs e)
+        {
+            UploadFW(true);
+        }
+
+        private void Progressbar_Click(object sender, EventArgs e)
+        {
+            beta = !beta;
+            CustomMessageBox.Show("Beta set to " + beta.ToString());
         }
     }
 }
