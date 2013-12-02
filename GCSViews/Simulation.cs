@@ -1062,7 +1062,7 @@ namespace MissionPlanner.GCSViews
 
             MAVLink.mavlink_hil_state_t hilstate = new MAVLink.mavlink_hil_state_t();
 
-            hilstate.time_usec = (UInt64)DateTime.Now.Ticks; // microsec
+            hilstate.time_usec = (UInt64)(DateTime.Now.Ticks * 10); // microsec
             
             hilstate.lat = (int)(oldgps.latitude * 1e7); // * 1E7
             hilstate.lon = (int)(oldgps.longitude * 1e7); // * 1E7

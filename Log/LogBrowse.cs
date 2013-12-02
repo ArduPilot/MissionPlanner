@@ -27,20 +27,6 @@ namespace MissionPlanner.Log
         List<PointPairList> listdata = new List<PointPairList>();
         GMapOverlay mapoverlay;
 
-
-        public struct Label
-        {
-            public int Id;
-            public string Format;
-            public string[] FieldNames;
-
-            public int Length;
-            public string Name;
-        }
-
-
-        Dictionary<string, Label> logformat = new Dictionary<string, Label>();
-
         /*  
     105    +Format characters in the format string for binary log messages  
     106    +  b   : int8_t  
@@ -81,7 +67,7 @@ namespace MissionPlanner.Log
 
         public LogBrowse()
         {
-            InitializeComponent();
+             InitializeComponent();
 
              mapoverlay = new GMapOverlay("overlay");
 
@@ -157,13 +143,18 @@ namespace MissionPlanner.Log
             System.IO.StreamReader srdr = new System.IO.StreamReader(strm);
             String strLine = String.Empty;
             Int32 iLineCount = 0;
-            logformat.Clear();
+            DFLog.Clear();
+
             do
             {
                 strLine = srdr.ReadLine();
                 if (strLine == null)
                 {
                     break;
+                }
+                else if (strLine == "")
+                {
+                   // continue;
                 }
                 if (0 == iLineCount++)
                 {
@@ -196,22 +187,14 @@ namespace MissionPlanner.Log
                     }
                 }
 
-
                 if (items[0].Contains("FMT"))
                 {
                     try
                     {
-                        string[] names = new string[items.Length - 5];
-                        Array.ConstrainedCopy(items, 5, names, 0, names.Length);
-
-                        Label lbl = new Label() { Name = items[3], Id = int.Parse(items[1]), Format = items[4], Length = int.Parse(items[2]), FieldNames = names };
-
-                        logformat[lbl.Name] = lbl;
+                        DFLog.FMTLine(strLine);
                     }
                     catch { }
                 }
-
-
             } while (true);
         }
 
@@ -267,10 +250,10 @@ namespace MissionPlanner.Log
                 string option = dataGridView1[1, e.RowIndex].EditedFormattedValue.ToString();
 
                 // new self describing log
-                if (logformat.ContainsKey(option))
+                if (DFLog.logformat.ContainsKey(option))
                 {
                     int a = 2;
-                    foreach (string name in logformat[option].FieldNames)
+                    foreach (string name in DFLog.logformat[option].FieldNames)
                     {
                         dataGridView1.Columns[a].HeaderText = name;
                         a++;
@@ -512,10 +495,10 @@ namespace MissionPlanner.Log
             {
                 if (datarow.Cells[1].Value.ToString() == "GPS")
                 {
-                    if (!logformat.ContainsKey("GPS"))
+                    if (!DFLog.logformat.ContainsKey("GPS"))
                         break;
 
-                    int index = FindInArray(logformat["GPS"].FieldNames,"Time");
+                    int index = FindInArray(DFLog.logformat["GPS"].FieldNames, "Time");
                     if (index == -1)
                     {
                         a++;
@@ -563,24 +546,24 @@ namespace MissionPlanner.Log
                 {
                     if (datarow.Cells[1].Value.ToString() == "GPS")
                     {
-                        if (!logformat.ContainsKey("GPS"))
+                        if (!DFLog.logformat.ContainsKey("GPS"))
                             break;
 
-                        int index = FindInArray(logformat["GPS"].FieldNames, "Lat");
+                        int index = FindInArray(DFLog.logformat["GPS"].FieldNames, "Lat");
                         if (index == -1)
                         {
                             a++;
                             continue;
                         }
 
-                        int index2 = FindInArray(logformat["GPS"].FieldNames, "Lng");
+                        int index2 = FindInArray(DFLog.logformat["GPS"].FieldNames, "Lng");
                         if (index2 == -1)
                         {
                             a++;
                             continue;
                         }
 
-                        int index3 = FindInArray(logformat["GPS"].FieldNames, "Status");
+                        int index3 = FindInArray(DFLog.logformat["GPS"].FieldNames, "Status");
                         if (index3 == -1)
                         {
                             a++;

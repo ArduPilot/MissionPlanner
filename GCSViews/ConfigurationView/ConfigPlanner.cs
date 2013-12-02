@@ -191,6 +191,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 CHK_speechcustom.Visible = true;
                 CHK_speechmode.Visible = true;
                 CHK_speecharmdisarm.Visible = true;
+                CHK_speechlowspeed.Visible = true;
             }
             else
             {
@@ -200,6 +201,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 CHK_speechcustom.Visible = false;
                 CHK_speechmode.Visible = false;
                 CHK_speecharmdisarm.Visible = false;
+                CHK_speechlowspeed.Visible = false;
             }
         }
 
@@ -582,6 +584,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             SetCheckboxFromConfig("speechbatteryenabled", CHK_speechbattery);
             SetCheckboxFromConfig("speechaltenabled", CHK_speechaltwarning);
             SetCheckboxFromConfig("speecharmenabled", CHK_speecharmdisarm);
+            SetCheckboxFromConfig("speechlowspeedenabled", CHK_speechlowspeed);
             SetCheckboxFromConfig("beta_updates", CHK_beta);
             SetCheckboxFromConfig("password_protect", CHK_Password);            
 
@@ -724,6 +727,44 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (CHK_Password.Checked == true)
             {
                 Password.EnterPassword(); 
+            }
+        }
+
+        private void CHK_speechlowspeed_CheckedChanged(object sender, EventArgs e)
+        {
+            if (startup)
+                return;
+            MainV2.config["speechlowspeedenabled"] = ((CheckBox)sender).Checked.ToString();
+
+            if (((CheckBox)sender).Checked)
+            {
+                string speechstring = "Low Ground Speed {gsp}";
+                if (MainV2.config["speechlowgroundspeed"] != null)
+                    speechstring = MainV2.config["speechlowgroundspeed"].ToString();
+                if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Ground Speed", "What do you want it to say?", ref speechstring))
+                    return;
+                MainV2.config["speechlowgroundspeed"] = speechstring;
+
+                speechstring = "0";
+                if (MainV2.config["speechlowgroundspeedtrigger"] != null)
+                    speechstring = MainV2.config["speechlowgroundspeedtrigger"].ToString();
+                if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("speed trigger", "What speed do you want to warn at (m/s)?", ref speechstring))
+                    return;
+                MainV2.config["speechlowgroundspeedtrigger"] = speechstring;
+
+                speechstring = "Low Air Speed {asp}";
+                if (MainV2.config["speechlowairspeed"] != null)
+                    speechstring = MainV2.config["speechlowairspeed"].ToString();
+                if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Air Speed", "What do you want it to say?", ref speechstring))
+                    return;
+                MainV2.config["speechlowairspeed"] = speechstring;
+
+                speechstring = "0";
+                if (MainV2.config["speechlowairspeedtrigger"] != null)
+                    speechstring = MainV2.config["speechlowairspeedtrigger"].ToString();
+                if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("speed trigger", "What speed do you want to warn at (m/s)?", ref speechstring))
+                    return;
+                MainV2.config["speechlowairspeedtrigger"] = speechstring;
             }
         }
     }

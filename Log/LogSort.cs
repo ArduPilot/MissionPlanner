@@ -65,7 +65,7 @@ namespace MissionPlanner.Log
                         catch { }
                     }
                 }
-                catch (Exception ex) { continue; }
+                catch { continue; }
             }
         }
     }

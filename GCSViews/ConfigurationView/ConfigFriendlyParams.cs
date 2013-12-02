@@ -79,7 +79,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 try
                 {
-                    MainV2.comPort.setParam(x.Key, float.Parse(x.Value));
+                    MainV2.comPort.setParam(x.Key, float.Parse(x.Value, CultureInfo.InvariantCulture));
                 }
                 catch
                 {
@@ -254,7 +254,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 {
                     bool controlAdded = false;
 
-                    string value = ((float)MainV2.comPort.MAV.param[x.Key]).ToString("0.###", CultureInfo.InvariantCulture);
+                    string value = ((float)MainV2.comPort.MAV.param[x.Key]).ToString("0.###");
                     string description = ParameterMetaDataRepository.GetParameterMetaData(x.Key, ParameterMetaDataConstants.Description);
                     string displayName = x.Value + " (" + x.Key + ")";
                     string units = ParameterMetaDataRepository.GetParameterMetaData(x.Key, ParameterMetaDataConstants.Units);
@@ -287,16 +287,17 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     if (!String.IsNullOrEmpty(rangeRaw) && !String.IsNullOrEmpty(incrementRaw))
                     {
                         float increment, intValue;
-                        float.TryParse(incrementRaw, out increment);
+                        float.TryParse(incrementRaw, NumberStyles.Float,CultureInfo.InvariantCulture, out increment);
+                        // this is in local culture
                         float.TryParse(value, out intValue);
 
                         string[] rangeParts = rangeRaw.Split(new[] { ' ' });
                         if (rangeParts.Count() == 2 && increment > 0)
                         {
                             float lowerRange;
-                            float.TryParse(rangeParts[0], out lowerRange);
+                            float.TryParse(rangeParts[0], NumberStyles.Float, CultureInfo.InvariantCulture, out lowerRange);
                             float upperRange;
-                            float.TryParse(rangeParts[1], out upperRange);
+                            float.TryParse(rangeParts[1], NumberStyles.Float, CultureInfo.InvariantCulture, out upperRange);
 
                             float displayscale = 1;
 

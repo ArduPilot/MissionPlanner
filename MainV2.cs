@@ -34,14 +34,6 @@ namespace MissionPlanner
         private static readonly ILog log =
             LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public static void testthread(object crap = null)
-        {
-            string test = "";
-            //CustomMessageBox.Show("test");
-            //InputBox.Show("test", "test", ref test);
- 
-        }
-
         private static class NativeMethods
         {
             // used to hide/show console window
@@ -1205,6 +1197,7 @@ namespace MissionPlanner
             DateTime speechcustomtime = DateTime.Now;
 
             DateTime speechbatterytime = DateTime.Now;
+            DateTime speechlowspeedtime = DateTime.Now;
 
             DateTime linkqualitytime = DateTime.Now;
 
@@ -1263,8 +1256,36 @@ namespace MissionPlanner
                                 speechbatterytime = DateTime.Now;
                             }
                         }
+                    }
 
+                    // speech for airspeed alerts
+                    if (speechEnable && speechEngine != null && (DateTime.Now - speechlowspeedtime).TotalSeconds > 10 && (MainV2.comPort.logreadmode || comPort.BaseStream.IsOpen))
+                    {
+                        float warngroundspeed = 0;
+                        float.TryParse(MainV2.getConfig("speechlowgroundspeedtrigger"), out warngroundspeed);
+                        float warnairspeed = 0;
+                        float.TryParse(MainV2.getConfig("speechlowairspeedtrigger"), out warnairspeed);
 
+                        if (MainV2.comPort.MAV.cs.airspeed < warnairspeed)
+                        {
+                            if (MainV2.speechEngine.State == SynthesizerState.Ready)
+                            {
+                                MainV2.speechEngine.SpeakAsync(Common.speechConversion(MainV2.getConfig("speechlowairspeed")));
+                                speechlowspeedtime = DateTime.Now;
+                            }
+                        }
+                        else if (MainV2.comPort.MAV.cs.groundspeed < warngroundspeed)
+                        {
+                            if (MainV2.speechEngine.State == SynthesizerState.Ready) 
+                            {
+                                MainV2.speechEngine.SpeakAsync(Common.speechConversion(MainV2.getConfig("speechlowgroundspeed")));
+                                speechlowspeedtime = DateTime.Now;
+                            }
+                        }
+                        else
+                        {
+                            speechlowspeedtime = DateTime.Now;
+                        }
                     }
 
                     // speech altitude warning - message high warning
@@ -1474,8 +1495,6 @@ namespace MissionPlanner
 
         private void MainV2_Load(object sender, EventArgs e)
         {
-            System.Threading.ThreadPool.QueueUserWorkItem(MainV2.testthread);
-
             // check if its defined, and force to show it if not known about
             if (config["menu_autohide"] == null)
             {

@@ -108,6 +108,8 @@ namespace MissionPlanner.Controls
         float _targetalt = 0;
         float _groundspeed = 0;
         float _airspeed = 0;
+        bool _lowgroundspeed = false;
+        bool _lowairspeed = false;
         float _targetspeed = 0;
         float _batterylevel = 0;
         float _current = 0;
@@ -144,6 +146,10 @@ namespace MissionPlanner.Controls
         public float groundspeed { get { return _groundspeed; } set { if (_groundspeed != value) { _groundspeed = value; this.Invalidate(); } } }
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
         public float airspeed { get { return _airspeed; } set { if (_airspeed != value) { _airspeed = value; this.Invalidate(); } } }
+        [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
+        public bool lowgroundspeed { get { return _lowgroundspeed; } set { if (_lowgroundspeed != value) { _lowgroundspeed = value; this.Invalidate(); } } }
+        [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
+        public bool lowairspeed { get { return _lowairspeed; } set { if (_lowairspeed != value) { _lowairspeed = value; this.Invalidate(); } } }
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
         public float targetspeed { get { return _targetspeed; } set { if (_targetspeed != value) { _targetspeed = value; this.Invalidate(); } } }
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
@@ -1277,8 +1283,23 @@ namespace MissionPlanner.Controls
 
                 // extra text data
 
-                drawstring(graphicsObject, "AS " + _airspeed.ToString("0.0"), font, fontsize, whiteBrush, 1, scrollbg.Bottom + 5);
-                drawstring(graphicsObject, "GS " + _groundspeed.ToString("0.0"), font, fontsize, whiteBrush, 1, scrollbg.Bottom + fontsize + 2 + 10);
+                if (_lowairspeed)
+                {
+                    drawstring(graphicsObject, "AS " + _airspeed.ToString("0.0"), font, fontsize, (SolidBrush)Brushes.Red, 1, scrollbg.Bottom + 5);
+                }
+                else
+                {
+                    drawstring(graphicsObject, "AS " + _airspeed.ToString("0.0"), font, fontsize, whiteBrush, 1, scrollbg.Bottom + 5);
+                }
+
+                if (_lowgroundspeed)
+                {
+                    drawstring(graphicsObject, "GS " + _groundspeed.ToString("0.0"), font, fontsize, (SolidBrush)Brushes.Red, 1, scrollbg.Bottom + fontsize + 2 + 10);
+                }
+                else
+                {
+                    drawstring(graphicsObject, "GS " + _groundspeed.ToString("0.0"), font, fontsize, whiteBrush, 1, scrollbg.Bottom + fontsize + 2 + 10);
+                }
 
                 //drawstring(e,, new Font("Arial", fontsize + 2), whiteBrush, 1, scrollbg.Bottom + fontsize + 2 + 10);
 

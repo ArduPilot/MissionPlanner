@@ -199,7 +199,7 @@
             // 
             this.NUM_overshoot2.Location = new System.Drawing.Point(143, 66);
             this.NUM_overshoot2.Maximum = new decimal(new int[] {
-            500,
+            9999,
             0,
             0,
             0});
@@ -287,7 +287,7 @@
             // 
             this.NUM_overshoot.Location = new System.Drawing.Point(143, 40);
             this.NUM_overshoot.Maximum = new decimal(new int[] {
-            500,
+            9999,
             0,
             0,
             0});
@@ -309,7 +309,7 @@
             // 
             this.NUM_Distance.Location = new System.Drawing.Point(143, 14);
             this.NUM_Distance.Maximum = new decimal(new int[] {
-            500,
+            9999,
             0,
             0,
             0});
@@ -378,7 +378,7 @@
             0});
             this.NUM_altitude.Location = new System.Drawing.Point(142, 40);
             this.NUM_altitude.Maximum = new decimal(new int[] {
-            500,
+            9999,
             0,
             0,
             0});

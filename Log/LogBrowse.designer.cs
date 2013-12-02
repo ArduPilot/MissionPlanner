@@ -38,15 +38,16 @@
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.zg1 = new ZedGraph.ZedGraphControl();
             this.myGMAP1 = new MissionPlanner.Controls.myGMAP();
+            this.BUT_removeitem = new MissionPlanner.Controls.MyButton();
             this.CHK_map = new System.Windows.Forms.CheckBox();
             this.BUT_Graphit_R = new MissionPlanner.Controls.MyButton();
-            this.BUT_removeitem = new MissionPlanner.Controls.MyButton();
+            this.CMB_preselect = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
@@ -98,6 +99,7 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.CMB_preselect);
             this.splitContainer1.Panel2.Controls.Add(this.BUT_removeitem);
             this.splitContainer1.Panel2.Controls.Add(this.CHK_map);
             this.splitContainer1.Panel2.Controls.Add(this.BUT_Graphit_R);
@@ -139,7 +141,9 @@
             this.myGMAP1.Bearing = 0F;
             this.myGMAP1.CanDragMap = true;
             resources.ApplyResources(this.myGMAP1, "myGMAP1");
+            this.myGMAP1.EmptyTileColor = System.Drawing.Color.Navy;
             this.myGMAP1.GrayScaleMode = false;
+            this.myGMAP1.HelperLineOption = GMap.NET.WindowsForms.HelperLineOptions.DontShow;
             this.myGMAP1.LevelsKeepInMemmory = 5;
             this.myGMAP1.MarkersEnabled = true;
             this.myGMAP1.MaxZoom = 19;
@@ -150,9 +154,17 @@
             this.myGMAP1.PolygonsEnabled = true;
             this.myGMAP1.RetryLoadTile = 0;
             this.myGMAP1.RoutesEnabled = true;
+            this.myGMAP1.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
+            this.myGMAP1.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
             this.myGMAP1.ShowTileGridLines = false;
-            
             this.myGMAP1.Zoom = 0D;
+            // 
+            // BUT_removeitem
+            // 
+            resources.ApplyResources(this.BUT_removeitem, "BUT_removeitem");
+            this.BUT_removeitem.Name = "BUT_removeitem";
+            this.BUT_removeitem.UseVisualStyleBackColor = true;
+            this.BUT_removeitem.Click += new System.EventHandler(this.BUT_removeitem_Click);
             // 
             // CHK_map
             // 
@@ -168,12 +180,11 @@
             this.BUT_Graphit_R.UseVisualStyleBackColor = true;
             this.BUT_Graphit_R.Click += new System.EventHandler(this.BUT_Graphit_R_Click);
             // 
-            // BUT_removeitem
+            // CMB_preselect
             // 
-            resources.ApplyResources(this.BUT_removeitem, "BUT_removeitem");
-            this.BUT_removeitem.Name = "BUT_removeitem";
-            this.BUT_removeitem.UseVisualStyleBackColor = true;
-            this.BUT_removeitem.Click += new System.EventHandler(this.BUT_removeitem_Click);
+            this.CMB_preselect.FormattingEnabled = true;
+            resources.ApplyResources(this.CMB_preselect, "CMB_preselect");
+            this.CMB_preselect.Name = "CMB_preselect";
             // 
             // LogBrowse
             // 
@@ -186,11 +197,11 @@
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.Panel2.PerformLayout();
-         
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel2.ResumeLayout(false);
-        
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -209,6 +220,7 @@
         private Controls.myGMAP myGMAP1;
         private System.Windows.Forms.CheckBox CHK_map;
         private Controls.MyButton BUT_removeitem;
+        private System.Windows.Forms.ComboBox CMB_preselect;
     }
 }
 

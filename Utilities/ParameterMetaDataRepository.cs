@@ -33,7 +33,7 @@ namespace MissionPlanner.Utilities
               if (File.Exists(paramMetaDataXMLFileName))
                   _parameterMetaDataXML = XDocument.Load(paramMetaDataXMLFileName);
           }
-          catch { } // Exception System.Xml.XmlException: Root element is missing.
+          catch (Exception ex) { Console.WriteLine(ex.ToString()); } // Exception System.Xml.XmlException: Root element is missing.
 
           try
           {

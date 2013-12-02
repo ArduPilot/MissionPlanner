@@ -38,20 +38,20 @@ namespace MissionPlanner.Log
             public int datetime;
         }
 
-        public void processLine(string line, bool arducopter)
+        public void processLine(string line)
         {
-            if (arducopter)
-            {
-                MainV2.comPort.MAV.cs.firmware = MainV2.Firmwares.ArduCopter2;
-            }
-            else
-            {
-                MainV2.comPort.MAV.cs.firmware = MainV2.Firmwares.ArduPlane;
-            }
-
             try
             {
                 Application.DoEvents();
+
+                if (line.ToLower().Contains("ArduCopter"))
+                {
+                    MainV2.comPort.MAV.cs.firmware = MainV2.Firmwares.ArduCopter2;
+                }
+                if (line.ToLower().Contains("ArduPlane"))
+                {
+                    MainV2.comPort.MAV.cs.firmware = MainV2.Firmwares.ArduPlane;
+                }
 
                 line = line.Replace(", ", ",");
                 line = line.Replace(": ", ":");

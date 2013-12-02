@@ -85,7 +85,7 @@ namespace uploader
 				connect_and_sync ();
 				upload_and_verify (image_data);
 				cmdReboot ();
-			} catch (Exception e) {
+			} catch {
 				if (port.IsOpen)
 					port.Close ();
 				throw;

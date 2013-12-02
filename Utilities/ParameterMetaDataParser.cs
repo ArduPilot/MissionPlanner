@@ -164,6 +164,8 @@ namespace MissionPlanner.Utilities
          {
             parsedInformation.ForEach(node =>
             {
+               parameterPrefix = parameterPrefix.Replace('(','_');
+               parameterPrefix = parameterPrefix.Replace(')','_');
                objXmlTextWriter.WriteStartElement(String.Format("{0}{1}", parameterPrefix, node.Key));
                if (node.Value != null && node.Value.Count > 0)
                {

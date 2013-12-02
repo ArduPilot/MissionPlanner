@@ -250,6 +250,12 @@ namespace MissionPlanner.Wizard
             if (MainV2.comPort.BaseStream.IsOpen)
                 MainV2.comPort.BaseStream.Close();
 
+            if (CMB_port.Text == "")
+            {
+                CustomMessageBox.Show("Please pick a port");
+                return;
+            }
+
             MainV2.comPort.BaseStream.PortName = CMB_port.Text;
             MainV2.comPort.BaseStream.BaudRate = 115200;
 

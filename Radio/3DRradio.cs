@@ -94,7 +94,6 @@ S15: MAX_WINDOW=131
             else if (device == uploader.Uploader.Board.DEVICE_ID_RFD900A)
             {
                 int fixme;
-                int fixme23;
 
                 //  return Common.getFilefromNet("http://rfdesign.com.au/firmware/MPSik%20V2.3%20radio~rfd900a.ihx", firmwarefile);
                 if (beta)
@@ -185,7 +184,11 @@ bool beta = false;
                 // cleanup bootloader mode fail, and try firmware mode
                 comPort.Close();
                 comPort.BaudRate = MainV2.comPort.BaseStream.BaudRate;
-                comPort.Open();
+                try
+                {
+                    comPort.Open();
+                }
+                catch { CustomMessageBox.Show("Error opening port", "error"); return; }
 
                 uploader.ProgressEvent += new ProgressEventHandler(uploader_ProgressEvent);
                 uploader.LogEvent += new LogEventHandler(uploader_LogEvent);

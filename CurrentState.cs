@@ -87,10 +87,12 @@ namespace MissionPlanner
         public float airspeed { get { return _airspeed * multiplierspeed; } set { _airspeed = value; } }
         [DisplayText("Airspeed Target (speed)")]
         public float targetairspeed { get { return _targetairspeed; } }
+        public bool lowairspeed { get; set; }
         [DisplayText("Airspeed Ratio")]
         public float asratio { get; set; }
         [DisplayText("GroundSpeed (speed)")]
         public float groundspeed { get { return _groundspeed * multiplierspeed; } set { _groundspeed = value; } }
+        public bool lowgroundspeed { get; set; }
         float _airspeed;
         float _groundspeed;
         float _verticalspeed;
@@ -272,6 +274,8 @@ namespace MissionPlanner
 
         public float HomeAlt { get { return (float)HomeLocation.Alt; } set { } }
         public PointLatLngAlt HomeLocation = new PointLatLngAlt();
+
+        public PointLatLngAlt MovingBase = null;
 
         PointLatLngAlt _trackerloc = new PointLatLngAlt();
         public PointLatLngAlt TrackerLocation { get { if (_trackerloc.Lng != 0) return _trackerloc; return HomeLocation; } set { _trackerloc = value; } }
@@ -902,10 +906,9 @@ enum gcs_severity {
                             lat = gps.lat * 1.0e-7f;
                             lng = gps.lon * 1.0e-7f;
 
+                            altasl = gps.alt / 1000.0f;
                            // alt = gps.alt; // using vfr as includes baro calc
                         }
-
-                        altasl = gps.alt / 1000.0f;
 
                         gpsstatus = gps.fix_type;
                         //                    Console.WriteLine("gpsfix {0}",gpsstatus);
@@ -962,6 +965,7 @@ enum gcs_severity {
 
                         alt = loc.relative_alt / 1000.0f;
 
+
                         useLocation = true;
                         if (loc.lat == 0 && loc.lon == 0)
                         {
@@ -971,6 +975,8 @@ enum gcs_severity {
                         {
                             lat = loc.lat / 10000000.0f;
                             lng = loc.lon / 10000000.0f;
+
+                            altasl = loc.alt / 1000.0f;
                         }
                     }
 
@@ -1127,7 +1133,7 @@ enum gcs_severity {
                             //bs.Clear();
                         }
                         bs.Add(this);
-
+                        /*
                         return;
 
                         bs.DataSource = this;
@@ -1160,7 +1166,7 @@ enum gcs_severity {
                         sw.Stop();
                         elaps = sw.Elapsed;
                         Console.WriteLine("3 " + elaps.ToString("0.#####") + " done ");
-
+                        */
                     }
                 }
                 catch { log.InfoFormat("CurrentState Binding error"); }

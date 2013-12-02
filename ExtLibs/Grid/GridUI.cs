@@ -67,6 +67,66 @@ namespace MissionPlanner
 
         }
 
+        void loadsettings()
+        {
+            if (plugin.Host.config.ContainsKey("grid_camera"))
+            {
+                loadsetting("grid_camera", CMB_camera);
+                loadsetting("grid_alt", NUM_altitude);
+                loadsetting("grid_angle", NUM_angle);
+                loadsetting("grid_camdir", CHK_camdirection);
+
+                loadsetting("grid_dist", NUM_Distance);
+                loadsetting("grid_overshoot1", NUM_overshoot);
+                loadsetting("grid_overshoot2", NUM_overshoot2);
+                loadsetting("grid_overlap", num_overlap);
+                loadsetting("grid_sidelap", num_sidelap);
+                loadsetting("grid_spacing", NUM_spacing);
+
+                loadsetting("grid_advanced", CHK_advanced); 
+            }
+        }
+
+        void loadsetting(string key, Control item)
+        {
+            if (plugin.Host.config.ContainsKey(key))
+            {
+                if (item is NumericUpDown)
+                {
+                    ((NumericUpDown)item).Value = decimal.Parse(plugin.Host.config[key].ToString());
+                }
+                else if (item is ComboBox)
+                {
+                    ((ComboBox)item).Text = plugin.Host.config[key].ToString();
+                }
+                else if (item is CheckBox)
+                {
+                    ((CheckBox)item).Checked = bool.Parse(plugin.Host.config[key].ToString());
+                }
+                else if (item is RadioButton)
+                {
+                    ((RadioButton)item).Checked = bool.Parse(plugin.Host.config[key].ToString());
+                }
+            }
+        }
+
+        void savesettings()
+        {
+            plugin.Host.config["grid_camera"] = CMB_camera.Text;
+            plugin.Host.config["grid_alt"] = NUM_altitude.Value.ToString();
+            plugin.Host.config["grid_angle"] = NUM_angle.Value.ToString();
+            plugin.Host.config["grid_camdir"] = CHK_camdirection.Checked.ToString();
+
+            plugin.Host.config["grid_dist"] = NUM_Distance.Value.ToString();
+            plugin.Host.config["grid_overshoot1"] = NUM_overshoot.Value.ToString();
+            plugin.Host.config["grid_overshoot2"] = NUM_overshoot2.Value.ToString();
+            plugin.Host.config["grid_overlap"] = num_overlap.Value.ToString();
+            plugin.Host.config["grid_sidelap"] = num_sidelap.Value.ToString();
+            plugin.Host.config["grid_spacing"] = NUM_spacing.Value.ToString();
+
+            plugin.Host.config["grid_advanced"] = CHK_advanced.Checked.ToString();       
+        }
+
         void AddDrawPolygon()
         {
             layerpolygons.Polygons.Add(plugin.Host.FPDrawnPolygon);
@@ -300,6 +360,8 @@ namespace MissionPlanner
                         plugin.Host.AddWPtoList(MAVLink.MAV_CMD.WAYPOINT, 0, 0, 0, 0, plla.Lng, plla.Lat, plla.Alt);
                     }
                 });
+
+                savesettings();
 
                 this.Close();
             }
@@ -541,7 +603,9 @@ namespace MissionPlanner
         {
             xmlcamera(false, "camerasBuiltin.xml");
 
-            xmlcamera(false);                
+            xmlcamera(false);
+
+            loadsettings();
 
             CHK_advanced_CheckedChanged(null, null);
         }

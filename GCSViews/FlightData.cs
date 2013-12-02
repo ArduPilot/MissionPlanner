@@ -866,7 +866,7 @@ namespace MissionPlanner.GCSViews
                             if (waypoints.AddSeconds(5) < DateTime.Now)
                             {
                                 //Console.WriteLine("Doing FD WP's");
-                                updateMissionRouteMarkers();
+                                updateClearMissionRouteMarkers();
 
                                 foreach (MAVLink.mavlink_mission_item_t plla in MainV2.comPort.MAV.wps.Values)
                                 {
@@ -914,7 +914,7 @@ namespace MissionPlanner.GCSViews
                                 if (routes.Markers.Count != 1)
                                 {
                                     routes.Markers.Clear();
-                                    routes.Markers.Add(new GMarkerGoogle(currentloc,GMarkerGoogleType.none));
+                                    routes.Markers.Add(new GMarkerGoogle(currentloc, GMarkerGoogleType.none));
                                 }
 
                                 if (MainV2.comPort.MAV.cs.mode.ToLower() == "guided" && MainV2.comPort.MAV.GuidedMode.x != 0)
@@ -944,12 +944,12 @@ namespace MissionPlanner.GCSViews
 
                                     PointLatLng portlocation = new PointLatLng(port.MAV.cs.lat, port.MAV.cs.lng);
 
-                                    while (routes.Markers.Count < (a+1))
-                                        routes.Markers.Add(new GMarkerGoogle(portlocation,GMarkerGoogleType.none));
+                                    while (routes.Markers.Count < (a + 1))
+                                        routes.Markers.Add(new GMarkerGoogle(portlocation, GMarkerGoogleType.none));
 
                                     if (port.MAV.cs.firmware == MainV2.Firmwares.ArduPlane || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.Ateryx)
                                     {
-                                        routes.Markers[a] = (new GMapMarkerPlane(portlocation, port.MAV.cs.yaw, port.MAV.cs.groundcourse, port.MAV.cs.nav_bearing, port.MAV.cs.target_bearing) { ToolTipText = "MAV: " + a + " " +port.MAV.cs.alt.ToString("0"), ToolTipMode = MarkerTooltipMode.Always });
+                                        routes.Markers[a] = (new GMapMarkerPlane(portlocation, port.MAV.cs.yaw, port.MAV.cs.groundcourse, port.MAV.cs.nav_bearing, port.MAV.cs.target_bearing) { ToolTipText = "MAV: " + a + " " + port.MAV.cs.alt.ToString("0"), ToolTipMode = MarkerTooltipMode.Always });
                                     }
                                     else if (port.MAV.cs.firmware == MainV2.Firmwares.ArduRover)
                                     {
@@ -974,6 +974,12 @@ namespace MissionPlanner.GCSViews
                                     updateMapZoom(17);
                                     //gMapControl1.ZoomAndCenterMarkers("routes");// ZoomAndCenterRoutes("routes");
                                 }
+                            }
+
+                            // add this after the mav icons are drawn
+                            if (MainV2.comPort.MAV.cs.MovingBase != null)
+                            {
+                                routes.Markers.Add(new GMarkerGoogle(currentloc, GMarkerGoogleType.blue_dot) { Position = MainV2.comPort.MAV.cs.MovingBase, ToolTipText = "Moving Base", ToolTipMode = MarkerTooltipMode.OnMouseOver });
                             }
 
                             gMapControl1.HoldInvalidation = false;
@@ -1010,7 +1016,7 @@ namespace MissionPlanner.GCSViews
         }
 
         // to prevent cross thread calls while in a draw and exception
-        private void updateMissionRouteMarkers()
+        private void updateClearMissionRouteMarkers()
         {
             // not async
             this.Invoke((System.Windows.Forms.MethodInvoker)delegate()
@@ -2744,8 +2750,12 @@ print 'Roll complete'
         {
             if (marker != null)
             {
-                if (routes.Markers.Contains(marker))
-                    routes.Markers.Remove(marker);
+                try
+                {
+                    if (routes.Markers.Contains(marker))
+                        routes.Markers.Remove(marker);
+                }
+                catch { }
             }
         }
 
@@ -2983,8 +2993,6 @@ print 'Roll complete'
 
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                DialogResult copterlog = CustomMessageBox.Show("Is this a Copter Log?", "", MessageBoxButtons.YesNo);
-
                 foreach (string logfile in openFileDialog1.FileNames)
                 {
                     LogOutput lo = new LogOutput();
@@ -2994,7 +3002,7 @@ print 'Roll complete'
 
                         while (tr.Peek() != -1)
                         {
-                            lo.processLine(tr.ReadLine(), copterlog == DialogResult.Yes);
+                            lo.processLine(tr.ReadLine());
                         }
 
                         tr.Close();
@@ -3002,6 +3010,8 @@ print 'Roll complete'
                     catch (Exception ex) { CustomMessageBox.Show("Error processing file. Make sure the file is not in use.\n" + ex.ToString()); }
 
                     lo.writeKML(logfile + ".kml");
+
+                    lo.writeGPX(logfile + ".gpx");
 
                 }
             }

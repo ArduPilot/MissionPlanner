@@ -93,6 +93,11 @@ namespace MissionPlanner.Plugin
         public MAVLinkInterface comPort { get { return MainV2.comPort; } }
 
         /// <summary>
+        /// access to mp settings
+        /// </summary>
+        public Hashtable config { get { return MainV2.config; } }
+
+        /// <summary>
         /// add things to flightdata map menu
         /// </summary>
         public ContextMenuStrip FDMenuMap { get { return MainV2.instance.FlightData.contextMenuStripMap; } }

@@ -1104,5 +1104,12 @@ namespace MissionPlanner
             Log.Scan.ScanAccel();
             CustomMessageBox.Show("Scan Complete");
         }
+
+        private void BUT_movingbase_Click(object sender, EventArgs e)
+        {
+            MovingBase si = new MovingBase();
+            ThemeManager.ApplyThemeTo((Form)si);
+            si.Show();
+        }
     }
 }

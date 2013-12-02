@@ -1199,7 +1199,7 @@ namespace MissionPlanner.GCSViews
 
                 log.Info("Done");
             }
-            catch (Exception ex) { error = 1; throw; }
+            catch { error = 1; throw; }
             try
             {
                 this.Invoke((MethodInvoker)delegate()
@@ -2479,7 +2479,7 @@ namespace MissionPlanner.GCSViews
                 // default takeoff to non 0 alt
                 if (((ComboBox)sender).Text == "TAKEOFF")
                 {
-                    if (Commands.Rows[selectedrow].Cells[Alt.Index].Value == "0")
+                    if (Commands.Rows[selectedrow].Cells[Alt.Index].Value != null && Commands.Rows[selectedrow].Cells[Alt.Index].Value.ToString() == "0")
                         Commands.Rows[selectedrow].Cells[Alt.Index].Value = TXT_DefaultAlt.Text;
                 }
 
@@ -3093,17 +3093,6 @@ namespace MissionPlanner.GCSViews
             catch
             {
                 CustomMessageBox.Show("Failed to set min/max fence alt");
-                return;
-            }
-
-            try
-            {
-                if (MainV2.comPort.MAV.param["FENCE_ACTION"].ToString() != "0")
-                    MainV2.comPort.setParam("FENCE_ACTION", 0);
-            }
-            catch
-            {
-                CustomMessageBox.Show("Failed to set FENCE_ACTION");
                 return;
             }
 
@@ -4269,6 +4258,61 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        private void FetchPath()
+        {
+            PointLatLngAlt lastpnt = null;
+
+            foreach (var pnt in pointlist)
+            {
+                if (lastpnt == null)
+                {
+                    lastpnt = pnt;
+                    continue;
+                }
+
+                RectLatLng area = new RectLatLng();
+                double top = Math.Max(lastpnt.Lat, pnt.Lat);
+                double left = Math.Min(lastpnt.Lng, pnt.Lng);
+                double bottom = Math.Min(lastpnt.Lat, pnt.Lat);
+                double right = Math.Max(lastpnt.Lng, pnt.Lng);
+
+                area.LocationTopLeft = new PointLatLng(top, left);
+                area.HeightLat = top - bottom;
+                area.WidthLng = right - left;
+
+                DialogResult res = CustomMessageBox.Show("Ready ripp WP " + lastpnt.Tag +" to " +pnt.Tag+ " at Zoom = " + (int)MainMap.Zoom + " ?", "GMap.NET", MessageBoxButtons.YesNo);
+
+                int todo;
+                // todo
+                // split up pull area to smaller chunks
+
+                for (int i = 1; i <= MainMap.MaxZoom; i++)
+                {
+                    if (res == DialogResult.Yes)
+                    {
+                        TilePrefetcher obj = new TilePrefetcher();
+                        obj.ShowCompleteMessage = false;
+                        obj.Start(area, i, MainMap.MapProvider, 100, 0);
+                    }
+                    else if (res == DialogResult.No)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+
+                if (res == DialogResult.Cancel || res == DialogResult.None)
+                {
+                    break;
+                }
+
+                lastpnt = pnt;
+            }
+        }
+
         private void prefetchToolStripMenuItem_Click(object sender, EventArgs e)
         {
             RectLatLng area = MainMap.SelectedArea;
@@ -4965,7 +5009,15 @@ namespace MissionPlanner.GCSViews
         {
             splinemode = !splinemode;
 
-            dospline();
+            if (splinemode)
+            {
+                dospline();
+            }
+            else
+            {
+                polygonsoverlay.Routes.Clear();
+                writeKML();
+            }
         }
 
         void dospline()
@@ -5089,6 +5141,11 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                 }
                 MainMap.Invalidate();
             }
+        }
+
+        private void prefetchWPPathToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FetchPath();
         }
 
     }

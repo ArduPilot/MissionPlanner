@@ -208,7 +208,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                 float incrementf = 0.01f;
                 if (increment.Length > 0)
-                    float.TryParse(increment, out incrementf);
+                    float.TryParse(increment,NumberStyles.Float, CultureInfo.InvariantCulture, out incrementf);
 
                 Controls.RangeControl RNG = new Controls.RangeControl(item.paramname, item.desc, item.title, incrementf, 1, item.min, item.max, value.ToString());
                 RNG.Tag = item;

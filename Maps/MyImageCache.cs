@@ -44,7 +44,11 @@ namespace MissionPlanner.Maps
                 // precreate dir
                 if (!Directory.Exists(dir))
                 {
-                    Directory.CreateDirectory(dir);
+                    try
+                    {
+                        Directory.CreateDirectory(dir);
+                    }
+                    catch { CustomMessageBox.Show("Error creating cache directory " + dir + ", the program will now exit."); Application.Exit(); }
                 }
 
                 Created = true;

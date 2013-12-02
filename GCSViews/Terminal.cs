@@ -422,7 +422,11 @@ namespace MissionPlanner.GCSViews
 
                     Console.WriteLine("Terminal thread start run run " + threadrun + " " + comPort.IsOpen);
 
-                    comPort.Write("\r");
+                    try
+                    {
+                        comPort.Write("\r");
+                    }
+                    catch { }
 
                     // 10 sec
                         waitandsleep(10000);
@@ -576,7 +580,7 @@ namespace MissionPlanner.GCSViews
         {
             inlogview = true;
             System.Threading.Thread.Sleep(300);
-            Form Log = new MissionPlanner.Log.Log();
+            Form Log = new MissionPlanner.Log.LogDownload();
             ThemeManager.ApplyThemeTo(Log);
             Log.ShowDialog();
             inlogview = false;

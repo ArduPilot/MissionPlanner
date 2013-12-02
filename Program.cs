@@ -173,11 +173,11 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
 
             //Utilities.GitHubContent.GetFileContent("diydrones", "ardupilot", "/Tools/Frame_params/Iris.param");
 
-            
+           // ParameterMetaDataParser.GetParameterInformation();
 
-            //return;
-            int fixme;
+           // var test = ParameterMetaDataRepository.GetParameterOptionsInt("CH7_OPT").ToList(); 
 
+          //  return;
   
 
            // ThemeManager.doxamlgen();

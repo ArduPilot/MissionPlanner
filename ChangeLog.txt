@@ -1,4 +1,16 @@
-﻿* Mission Planner 1.2.87
+﻿* Mission Planner 1.2.88
+add movingbase display - using nmea gps
+tweak wizard connect
+update sr3 to include sr1
+update h frame
+fix culture issuis on standard and advanced view
+fix spline view/remove
+add prefetch wp path
+add settings load and save for grid
+add low airspeed/groundspeed warnings
+address , vs .
+
+* Mission Planner 1.2.87
 add asratio
 change load iris defaults to use compare
 add okcancel to custom mesagebox

@@ -30,7 +30,7 @@ namespace MissionPlanner.Controls
           {
               _increment = value;
               numericUpDown1.Increment = (decimal)_increment;
-              numericUpDown1.DecimalPlaces = _increment.ToString(CultureInfo.InvariantCulture).Length - 1;
+              numericUpDown1.DecimalPlaces = _increment.ToString().Length - 1;
           }
       }
       public float DisplayScale { get; set; }
@@ -44,7 +44,7 @@ namespace MissionPlanner.Controls
 
       public string Value
       {
-          get { return ((float)numericUpDown1.Value * DisplayScale).ToString(CultureInfo.InvariantCulture); } 
+          get { return ((float)numericUpDown1.Value * DisplayScale).ToString(); } 
          set
          {
              float back1 = _minrange;
@@ -139,7 +139,7 @@ namespace MissionPlanner.Controls
       protected void trackBar1_ValueChanged(object sender, EventArgs e)
       {
           numericUpDown1.Value = map(trackBar1.Value, 0, 100, numericUpDown1.Minimum, numericUpDown1.Maximum);
-         //numericUpDown1.Text = (numericUpDown1.Value).ToString();
+         numericUpDown1.Text = (numericUpDown1.Value).ToString();
 
          if (ValueChanged != null)
              ValueChanged(this,Name, Value);

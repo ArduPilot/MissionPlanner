@@ -64,6 +64,7 @@
             this.BUT_sorttlogs = new MissionPlanner.Controls.MyButton();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.BUT_accellogs = new MissionPlanner.Controls.MyButton();
+            this.BUT_movingbase = new MissionPlanner.Controls.MyButton();
             this.SuspendLayout();
             // 
             // label1
@@ -405,11 +406,22 @@
             this.BUT_accellogs.UseVisualStyleBackColor = true;
             this.BUT_accellogs.Click += new System.EventHandler(this.BUT_accellogs_Click);
             // 
+            // BUT_movingbase
+            // 
+            this.BUT_movingbase.Location = new System.Drawing.Point(576, 183);
+            this.BUT_movingbase.Name = "BUT_movingbase";
+            this.BUT_movingbase.Size = new System.Drawing.Size(75, 23);
+            this.BUT_movingbase.TabIndex = 40;
+            this.BUT_movingbase.Text = "Moving Base";
+            this.BUT_movingbase.UseVisualStyleBackColor = true;
+            this.BUT_movingbase.Click += new System.EventHandler(this.BUT_movingbase_Click);
+            // 
             // temp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(685, 450);
+            this.Controls.Add(this.BUT_movingbase);
             this.Controls.Add(this.BUT_accellogs);
             this.Controls.Add(this.BUT_sorttlogs);
             this.Controls.Add(this.but_compassrotation);
@@ -489,5 +501,6 @@
         private Controls.MyButton BUT_sorttlogs;
         private System.Windows.Forms.Timer timer1;
         private Controls.MyButton BUT_accellogs;
+        private Controls.MyButton BUT_movingbase;
     }
 }

@@ -198,7 +198,7 @@ namespace MissionPlanner.Log
             {
                 mine.logplaybackfile = new BinaryReader(File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.Read));
             }
-            catch (Exception ex) { CustomMessageBox.Show("Log Can not be opened. Are you still connected?"); return; }
+            catch { CustomMessageBox.Show("Log Can not be opened. Are you still connected?"); return; }
             mine.logreadmode = true;
 
             mine.MAV.packets.Initialize(); // clear
