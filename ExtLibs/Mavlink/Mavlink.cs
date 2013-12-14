@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 public partial class MAVLink
 {
-    public const string MAVLINK_BUILD_DATE = "Fri Oct 11 18:57:48 2013";
+    public const string MAVLINK_BUILD_DATE = "Wed Dec 11 06:37:07 2013";
     public const string MAVLINK_WIRE_PROTOCOL_VERSION = "1.0";
     public const int MAVLINK_MAX_DIALECT_PAYLOAD_SIZE = 254;
 
@@ -22,11 +22,11 @@ public partial class MAVLink
 
     public const bool MAVLINK_NEED_BYTE_SWAP = (MAVLINK_ENDIAN == MAVLINK_LITTLE_ENDIAN);
 
-    public static readonly byte[] MAVLINK_MESSAGE_LENGTHS = new byte[] { 9, 31, 12, 0, 14, 28, 3, 32, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 20, 2, 25, 23, 30, 101, 22, 26, 16, 14, 28, 32, 28, 28, 22, 22, 21, 6, 6, 37, 4, 4, 2, 2, 4, 2, 2, 3, 13, 12, 19, 17, 15, 15, 27, 25, 18, 18, 20, 20, 9, 34, 26, 46, 36, 0, 6, 4, 0, 11, 18, 0, 0, 0, 20, 0, 33, 3, 0, 0, 20, 22, 0, 0, 0, 0, 0, 0, 0, 28, 56, 42, 33, 0, 0, 0, 0, 0, 0, 0, 26, 32, 32, 20, 32, 62, 54, 64, 84, 9, 254, 249, 9, 36, 26, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 16, 33, 25, 42, 8, 4, 12, 15, 13, 6, 15, 14, 0, 12, 3, 8, 28, 44, 3, 9, 22, 12, 18, 34, 66, 98, 8, 48, 19, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 36, 30, 18, 18, 51, 9, 0 };
+    public static readonly byte[] MAVLINK_MESSAGE_LENGTHS = new byte[] { 9, 31, 12, 0, 14, 28, 3, 32, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 20, 2, 25, 23, 30, 101, 22, 26, 16, 14, 28, 32, 28, 28, 22, 22, 21, 6, 6, 37, 4, 4, 2, 2, 4, 2, 2, 3, 13, 12, 19, 17, 15, 15, 27, 25, 18, 18, 20, 20, 9, 34, 26, 46, 36, 0, 6, 4, 0, 11, 18, 0, 0, 0, 20, 0, 33, 3, 0, 0, 20, 22, 0, 0, 0, 0, 0, 0, 0, 28, 56, 42, 33, 0, 0, 0, 0, 0, 0, 0, 26, 32, 32, 20, 32, 62, 54, 64, 84, 9, 254, 249, 9, 36, 26, 64, 22, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 24, 33, 25, 42, 8, 4, 12, 15, 13, 6, 15, 14, 0, 12, 3, 8, 28, 44, 3, 9, 22, 12, 18, 34, 66, 98, 8, 48, 19, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 36, 30, 18, 18, 51, 9, 0 };
 
-    public static readonly byte[] MAVLINK_MESSAGE_CRCS = new byte[] { 50, 124, 137, 0, 237, 217, 104, 119, 0, 0, 0, 89, 0, 0, 0, 0, 0, 0, 0, 0, 214, 159, 220, 168, 24, 23, 170, 144, 67, 115, 39, 246, 185, 104, 237, 244, 222, 212, 9, 254, 230, 28, 28, 132, 221, 232, 11, 153, 41, 39, 214, 223, 141, 33, 15, 3, 100, 24, 239, 238, 30, 240, 183, 130, 130, 0, 148, 21, 0, 243, 124, 0, 0, 0, 20, 0, 152, 143, 0, 0, 127, 106, 0, 0, 0, 0, 0, 0, 0, 231, 183, 63, 54, 0, 0, 0, 0, 0, 0, 0, 175, 102, 158, 208, 56, 93, 211, 108, 32, 185, 235, 93, 124, 124, 119, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 42, 241, 15, 134, 219, 208, 188, 84, 22, 19, 21, 134, 0, 78, 68, 189, 127, 154, 21, 21, 144, 1, 234, 73, 181, 22, 83, 167, 138, 234, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 204, 49, 170, 44, 83, 46, 0 };
+    public static readonly byte[] MAVLINK_MESSAGE_CRCS = new byte[] { 50, 124, 137, 0, 237, 217, 104, 119, 0, 0, 0, 89, 0, 0, 0, 0, 0, 0, 0, 0, 214, 159, 220, 168, 24, 23, 170, 144, 67, 115, 39, 246, 185, 104, 237, 244, 222, 212, 9, 254, 230, 28, 28, 132, 221, 232, 11, 153, 41, 39, 214, 223, 141, 33, 15, 3, 100, 24, 239, 238, 30, 240, 183, 130, 130, 0, 148, 21, 0, 243, 124, 0, 0, 0, 20, 0, 152, 143, 0, 0, 127, 106, 0, 0, 0, 0, 0, 0, 0, 231, 183, 63, 54, 0, 0, 0, 0, 0, 0, 0, 175, 102, 158, 208, 56, 93, 211, 108, 32, 185, 235, 93, 124, 124, 119, 4, 76, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 177, 241, 15, 134, 219, 208, 188, 84, 22, 19, 21, 134, 0, 78, 68, 189, 127, 154, 21, 21, 144, 1, 234, 73, 181, 22, 83, 167, 138, 234, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 204, 49, 170, 44, 83, 46, 0 };
 
-    public static readonly Type[] MAVLINK_MESSAGE_INFO = new Type[] { typeof(mavlink_heartbeat_t), typeof(mavlink_sys_status_t), typeof(mavlink_system_time_t), null, typeof(mavlink_ping_t), typeof(mavlink_change_operator_control_t), typeof(mavlink_change_operator_control_ack_t), typeof(mavlink_auth_key_t), null, null, null, typeof(mavlink_set_mode_t), null, null, null, null, null, null, null, null, typeof(mavlink_param_request_read_t), typeof(mavlink_param_request_list_t), typeof(mavlink_param_value_t), typeof(mavlink_param_set_t), typeof(mavlink_gps_raw_int_t), typeof(mavlink_gps_status_t), typeof(mavlink_scaled_imu_t), typeof(mavlink_raw_imu_t), typeof(mavlink_raw_pressure_t), typeof(mavlink_scaled_pressure_t), typeof(mavlink_attitude_t), typeof(mavlink_attitude_quaternion_t), typeof(mavlink_local_position_ned_t), typeof(mavlink_global_position_int_t), typeof(mavlink_rc_channels_scaled_t), typeof(mavlink_rc_channels_raw_t), typeof(mavlink_servo_output_raw_t), typeof(mavlink_mission_request_partial_list_t), typeof(mavlink_mission_write_partial_list_t), typeof(mavlink_mission_item_t), typeof(mavlink_mission_request_t), typeof(mavlink_mission_set_current_t), typeof(mavlink_mission_current_t), typeof(mavlink_mission_request_list_t), typeof(mavlink_mission_count_t), typeof(mavlink_mission_clear_all_t), typeof(mavlink_mission_item_reached_t), typeof(mavlink_mission_ack_t), typeof(mavlink_set_gps_global_origin_t), typeof(mavlink_gps_global_origin_t), typeof(mavlink_set_local_position_setpoint_t), typeof(mavlink_local_position_setpoint_t), typeof(mavlink_global_position_setpoint_int_t), typeof(mavlink_set_global_position_setpoint_int_t), typeof(mavlink_safety_set_allowed_area_t), typeof(mavlink_safety_allowed_area_t), typeof(mavlink_set_roll_pitch_yaw_thrust_t), typeof(mavlink_set_roll_pitch_yaw_speed_thrust_t), typeof(mavlink_roll_pitch_yaw_thrust_setpoint_t), typeof(mavlink_roll_pitch_yaw_speed_thrust_setpoint_t), typeof(mavlink_set_quad_motors_setpoint_t), typeof(mavlink_set_quad_swarm_roll_pitch_yaw_thrust_t), typeof(mavlink_nav_controller_output_t), typeof(mavlink_set_quad_swarm_led_roll_pitch_yaw_thrust_t), typeof(mavlink_state_correction_t), null, typeof(mavlink_request_data_stream_t), typeof(mavlink_data_stream_t), null, typeof(mavlink_manual_control_t), typeof(mavlink_rc_channels_override_t), null, null, null, typeof(mavlink_vfr_hud_t), null, typeof(mavlink_command_long_t), typeof(mavlink_command_ack_t), null, null, typeof(mavlink_roll_pitch_yaw_rates_thrust_setpoint_t), typeof(mavlink_manual_setpoint_t), null, null, null, null, null, null, null, typeof(mavlink_local_position_ned_system_global_offset_t), typeof(mavlink_hil_state_t), typeof(mavlink_hil_controls_t), typeof(mavlink_hil_rc_inputs_raw_t), null, null, null, null, null, null, null, typeof(mavlink_optical_flow_t), typeof(mavlink_global_vision_position_estimate_t), typeof(mavlink_vision_position_estimate_t), typeof(mavlink_vision_speed_estimate_t), typeof(mavlink_vicon_position_estimate_t), typeof(mavlink_highres_imu_t), typeof(mavlink_omnidirectional_flow_t), typeof(mavlink_hil_sensor_t), typeof(mavlink_sim_state_t), typeof(mavlink_radio_status_t), typeof(mavlink_file_transfer_start_t), typeof(mavlink_file_transfer_dir_list_t), typeof(mavlink_file_transfer_res_t), typeof(mavlink_hil_gps_t), typeof(mavlink_hil_optical_flow_t), typeof(mavlink_hil_state_quaternion_t), null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, typeof(mavlink_battery_status_t), typeof(mavlink_setpoint_8dof_t), typeof(mavlink_setpoint_6dof_t), typeof(mavlink_sensor_offsets_t), typeof(mavlink_set_mag_offsets_t), typeof(mavlink_meminfo_t), typeof(mavlink_ap_adc_t), typeof(mavlink_digicam_configure_t), typeof(mavlink_digicam_control_t), typeof(mavlink_mount_configure_t), typeof(mavlink_mount_control_t), typeof(mavlink_mount_status_t), null, typeof(mavlink_fence_point_t), typeof(mavlink_fence_fetch_point_t), typeof(mavlink_fence_status_t), typeof(mavlink_ahrs_t), typeof(mavlink_simstate_t), typeof(mavlink_hwstatus_t), typeof(mavlink_radio_t), typeof(mavlink_limits_status_t), typeof(mavlink_wind_t), typeof(mavlink_data16_t), typeof(mavlink_data32_t), typeof(mavlink_data64_t), typeof(mavlink_data96_t), typeof(mavlink_rangefinder_t), typeof(mavlink_airspeed_autocal_t), typeof(mavlink_rally_point_t), typeof(mavlink_rally_fetch_point_t), null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, typeof(mavlink_memory_vect_t), typeof(mavlink_debug_vect_t), typeof(mavlink_named_value_float_t), typeof(mavlink_named_value_int_t), typeof(mavlink_statustext_t), typeof(mavlink_debug_t), null };
+    public static readonly Type[] MAVLINK_MESSAGE_INFO = new Type[] { typeof(mavlink_heartbeat_t), typeof(mavlink_sys_status_t), typeof(mavlink_system_time_t), null, typeof(mavlink_ping_t), typeof(mavlink_change_operator_control_t), typeof(mavlink_change_operator_control_ack_t), typeof(mavlink_auth_key_t), null, null, null, typeof(mavlink_set_mode_t), null, null, null, null, null, null, null, null, typeof(mavlink_param_request_read_t), typeof(mavlink_param_request_list_t), typeof(mavlink_param_value_t), typeof(mavlink_param_set_t), typeof(mavlink_gps_raw_int_t), typeof(mavlink_gps_status_t), typeof(mavlink_scaled_imu_t), typeof(mavlink_raw_imu_t), typeof(mavlink_raw_pressure_t), typeof(mavlink_scaled_pressure_t), typeof(mavlink_attitude_t), typeof(mavlink_attitude_quaternion_t), typeof(mavlink_local_position_ned_t), typeof(mavlink_global_position_int_t), typeof(mavlink_rc_channels_scaled_t), typeof(mavlink_rc_channels_raw_t), typeof(mavlink_servo_output_raw_t), typeof(mavlink_mission_request_partial_list_t), typeof(mavlink_mission_write_partial_list_t), typeof(mavlink_mission_item_t), typeof(mavlink_mission_request_t), typeof(mavlink_mission_set_current_t), typeof(mavlink_mission_current_t), typeof(mavlink_mission_request_list_t), typeof(mavlink_mission_count_t), typeof(mavlink_mission_clear_all_t), typeof(mavlink_mission_item_reached_t), typeof(mavlink_mission_ack_t), typeof(mavlink_set_gps_global_origin_t), typeof(mavlink_gps_global_origin_t), typeof(mavlink_set_local_position_setpoint_t), typeof(mavlink_local_position_setpoint_t), typeof(mavlink_global_position_setpoint_int_t), typeof(mavlink_set_global_position_setpoint_int_t), typeof(mavlink_safety_set_allowed_area_t), typeof(mavlink_safety_allowed_area_t), typeof(mavlink_set_roll_pitch_yaw_thrust_t), typeof(mavlink_set_roll_pitch_yaw_speed_thrust_t), typeof(mavlink_roll_pitch_yaw_thrust_setpoint_t), typeof(mavlink_roll_pitch_yaw_speed_thrust_setpoint_t), typeof(mavlink_set_quad_motors_setpoint_t), typeof(mavlink_set_quad_swarm_roll_pitch_yaw_thrust_t), typeof(mavlink_nav_controller_output_t), typeof(mavlink_set_quad_swarm_led_roll_pitch_yaw_thrust_t), typeof(mavlink_state_correction_t), null, typeof(mavlink_request_data_stream_t), typeof(mavlink_data_stream_t), null, typeof(mavlink_manual_control_t), typeof(mavlink_rc_channels_override_t), null, null, null, typeof(mavlink_vfr_hud_t), null, typeof(mavlink_command_long_t), typeof(mavlink_command_ack_t), null, null, typeof(mavlink_roll_pitch_yaw_rates_thrust_setpoint_t), typeof(mavlink_manual_setpoint_t), null, null, null, null, null, null, null, typeof(mavlink_local_position_ned_system_global_offset_t), typeof(mavlink_hil_state_t), typeof(mavlink_hil_controls_t), typeof(mavlink_hil_rc_inputs_raw_t), null, null, null, null, null, null, null, typeof(mavlink_optical_flow_t), typeof(mavlink_global_vision_position_estimate_t), typeof(mavlink_vision_position_estimate_t), typeof(mavlink_vision_speed_estimate_t), typeof(mavlink_vicon_position_estimate_t), typeof(mavlink_highres_imu_t), typeof(mavlink_omnidirectional_flow_t), typeof(mavlink_hil_sensor_t), typeof(mavlink_sim_state_t), typeof(mavlink_radio_status_t), typeof(mavlink_file_transfer_start_t), typeof(mavlink_file_transfer_dir_list_t), typeof(mavlink_file_transfer_res_t), typeof(mavlink_hil_gps_t), typeof(mavlink_hil_optical_flow_t), typeof(mavlink_hil_state_quaternion_t), typeof(mavlink_scaled_imu2_t), null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, typeof(mavlink_battery_status_t), typeof(mavlink_setpoint_8dof_t), typeof(mavlink_setpoint_6dof_t), typeof(mavlink_sensor_offsets_t), typeof(mavlink_set_mag_offsets_t), typeof(mavlink_meminfo_t), typeof(mavlink_ap_adc_t), typeof(mavlink_digicam_configure_t), typeof(mavlink_digicam_control_t), typeof(mavlink_mount_configure_t), typeof(mavlink_mount_control_t), typeof(mavlink_mount_status_t), null, typeof(mavlink_fence_point_t), typeof(mavlink_fence_fetch_point_t), typeof(mavlink_fence_status_t), typeof(mavlink_ahrs_t), typeof(mavlink_simstate_t), typeof(mavlink_hwstatus_t), typeof(mavlink_radio_t), typeof(mavlink_limits_status_t), typeof(mavlink_wind_t), typeof(mavlink_data16_t), typeof(mavlink_data32_t), typeof(mavlink_data64_t), typeof(mavlink_data96_t), typeof(mavlink_rangefinder_t), typeof(mavlink_airspeed_autocal_t), typeof(mavlink_rally_point_t), typeof(mavlink_rally_fetch_point_t), null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, typeof(mavlink_memory_vect_t), typeof(mavlink_debug_vect_t), typeof(mavlink_named_value_float_t), typeof(mavlink_named_value_int_t), typeof(mavlink_statustext_t), typeof(mavlink_debug_t), null };
 
     public const byte MAVLINK_VERSION = 2;
 
@@ -114,6 +114,7 @@ public partial class MAVLink
         HIL_GPS = 113,
         HIL_OPTICAL_FLOW = 114,
         HIL_STATE_QUATERNION = 115,
+        SCALED_IMU2 = 116,
         BATTERY_STATUS = 147,
         SETPOINT_8DOF = 148,
         SETPOINT_6DOF = 149,
@@ -253,8 +254,10 @@ public partial class MAVLink
         MISSION_START = 300,
         ///<summary> Arms / Disarms a component |1 to arm, 0 to disarm|  </summary>
         COMPONENT_ARM_DISARM = 400,
+        ///<summary> Starts receiver pairing |0:Spektrum| 0:Spektrum DSM2, 1:Spektrum DSMX|  </summary>
+        START_RX_PAIR = 500,
         ///<summary>  | </summary>
-        ENUM_END = 401,
+        ENUM_END = 501,
 
     };
 
@@ -371,8 +374,12 @@ public partial class MAVLink
         SMACCMPILOT = 13,
         ///<summary> AutoQuad -- http://autoquad.org | </summary>
         AUTOQUAD = 14,
+        ///<summary> Armazila -- http://armazila.com | </summary>
+        ARMAZILA = 15,
+        ///<summary> Aerob -- http://aerob.ru | </summary>
+        AEROB = 16,
         ///<summary>  | </summary>
-        ENUM_END = 15,
+        ENUM_END = 17,
 
     };
 
@@ -633,8 +640,10 @@ public partial class MAVLink
         XY_POSITION_CONTROL = 16384,
         ///<summary> 0x8000 motor outputs / control | </summary>
         MOTOR_OUTPUTS = 32768,
+        ///<summary> 0x10000 rc receiver | </summary>
+        RC_RECEIVER = 65536,
         ///<summary>  | </summary>
-        ENUM_END = 32769,
+        ENUM_END = 65537,
 
     };
 
@@ -1555,7 +1564,7 @@ public partial class MAVLink
         public Int32 alt;
         /// <summary> GPS HDOP horizontal dilution of position in cm (m*100). If unknown, set to: UINT16_MAX </summary>
         public UInt16 eph;
-        /// <summary> GPS VDOP horizontal dilution of position in cm (m*100). If unknown, set to: UINT16_MAX </summary>
+        /// <summary> GPS VDOP vertical dilution of position in cm (m*100). If unknown, set to: UINT16_MAX </summary>
         public UInt16 epv;
         /// <summary> GPS ground speed (m/s * 100). If unknown, set to: UINT16_MAX </summary>
         public UInt16 vel;
@@ -2968,7 +2977,7 @@ public partial class MAVLink
         public Int32 alt;
         /// <summary> GPS HDOP horizontal dilution of position in cm (m*100). If unknown, set to: 65535 </summary>
         public UInt16 eph;
-        /// <summary> GPS VDOP horizontal dilution of position in cm (m*100). If unknown, set to: 65535 </summary>
+        /// <summary> GPS VDOP vertical dilution of position in cm (m*100). If unknown, set to: 65535 </summary>
         public UInt16 epv;
         /// <summary> GPS ground speed (m/s * 100). If unknown, set to: 65535 </summary>
         public UInt16 vel;
@@ -3051,9 +3060,40 @@ public partial class MAVLink
     };
 
 
-    [StructLayout(LayoutKind.Sequential, Pack = 1, Size = 16)]
+    [StructLayout(LayoutKind.Sequential, Pack = 1, Size = 22)]
+    public struct mavlink_scaled_imu2_t
+    {
+        /// <summary> Timestamp (milliseconds since system boot) </summary>
+        public UInt32 time_boot_ms;
+        /// <summary> X acceleration (mg) </summary>
+        public Int16 xacc;
+        /// <summary> Y acceleration (mg) </summary>
+        public Int16 yacc;
+        /// <summary> Z acceleration (mg) </summary>
+        public Int16 zacc;
+        /// <summary> Angular speed around X axis (millirad /sec) </summary>
+        public Int16 xgyro;
+        /// <summary> Angular speed around Y axis (millirad /sec) </summary>
+        public Int16 ygyro;
+        /// <summary> Angular speed around Z axis (millirad /sec) </summary>
+        public Int16 zgyro;
+        /// <summary> X Magnetic field (milli tesla) </summary>
+        public Int16 xmag;
+        /// <summary> Y Magnetic field (milli tesla) </summary>
+        public Int16 ymag;
+        /// <summary> Z Magnetic field (milli tesla) </summary>
+        public Int16 zmag;
+
+    };
+
+
+    [StructLayout(LayoutKind.Sequential, Pack = 1, Size = 24)]
     public struct mavlink_battery_status_t
     {
+        /// <summary> Consumed charge, in milliampere hours (1 = 1 mAh), -1: autopilot does not provide mAh consumption estimate </summary>
+        public Int32 current_consumed;
+        /// <summary> Consumed energy, in 100*Joules (intergrated U*I*dt)  (1 = 100 Joule), -1: autopilot does not provide energy consumption estimate </summary>
+        public Int32 energy_consumed;
         /// <summary> Battery voltage of cell 1, in millivolts (1 = 1 millivolt) </summary>
         public UInt16 voltage_cell_1;
         /// <summary> Battery voltage of cell 2, in millivolts (1 = 1 millivolt), -1: no cell </summary>

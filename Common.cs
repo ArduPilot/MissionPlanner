@@ -474,6 +474,9 @@ namespace MissionPlanner
 
                 byte[] buf1 = new byte[1024];
 
+                if (!Directory.Exists(Path.GetDirectoryName(saveto)))
+                    Directory.CreateDirectory(Path.GetDirectoryName(saveto));
+
                 FileStream fs = new FileStream(saveto + ".new", FileMode.Create);
 
                 DateTime dt = DateTime.Now;

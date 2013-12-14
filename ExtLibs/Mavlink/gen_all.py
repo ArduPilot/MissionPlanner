@@ -24,7 +24,7 @@ class options:
 protocols = [ '1.0' ]
 
 for protocol in protocols :
-    xml_directory = './message_definitions/v'+protocol
+    xml_directory = './message_definitions'
     print "xml_directory is", xml_directory
     xml_file_names = glob.glob(xml_directory+'/*.xml')
 

@@ -23,26 +23,39 @@ namespace MissionPlanner.Log
         string lastline = "";
         string[] ctunlast = new string[] { "", "", "", "", "", "", "", "", "", "", "", "", "", "" };
         string[] ntunlast = new string[] { "", "", "", "", "", "", "", "", "", "", "", "", "", "" };
+
+        // wp list
         List<PointLatLngAlt> cmd = new List<PointLatLngAlt>();
+
         Point3D oldlastpos = new Point3D();
         Point3D lastpos = new Point3D();
         List<Data> flightdata = new List<Data>();
         Model runmodel = new Model();
+        List<string> modelist = new List<string>();
 
+        List<Core.Geometry.Point3D>[] position = new List<Core.Geometry.Point3D>[200];
+        int positionindex = 0;
+
+        int doevent = 0;
 
         public struct Data
         {
             public Model model;
             public string[] ntun;
             public string[] ctun;
-            public int datetime;
+            public DateTime datetime;
+            public string mode;
         }
 
         public void processLine(string line)
         {
             try
             {
-                Application.DoEvents();
+                doevent++;
+                if ((doevent % 10) == 0)
+                    Application.DoEvents();
+
+                DateTime start = DateTime.Now;
 
                 if (line.ToLower().Contains("ArduCopter"))
                 {
@@ -58,6 +71,14 @@ namespace MissionPlanner.Log
 
                 string[] items = line.Split(',', ':');
 
+                if (items[0].Contains("FMT"))
+                {
+                    try
+                    {
+                        DFLog.FMTLine(line);
+                    }
+                    catch { }
+                } else 
                 if (items[0].Contains("CMD"))
                 {
                     if (flightdata.Count == 0)
@@ -69,13 +90,24 @@ namespace MissionPlanner.Log
                         }
                     }
                 }
+                else
                 if (items[0].Contains("MOD"))
                 {
                     positionindex++;
-                    modelist.Add(""); // i cant be bothered doing this properly
-                    modelist.Add("");
-                    modelist[positionindex] = (items[1]);
+
+                    while (modelist.Count < positionindex + 1)
+                        modelist.Add("");
+
+                    if (items.Length == 4)
+                    {
+                        modelist[positionindex] = (items[2]);
+                    }
+                    else
+                    {
+                        modelist[positionindex] = (items[1]);
+                    }
                 }
+                else
                 //GPS, 1, 15691, 10, 0.00, -35.3629379, 149.1650850, -0.08, 585.41, 0.00, 126.89
                 if (items[0].Contains("GPS") && items[2] == "1" && items[4] != "0" && items[4] != "-1" && lastline != line) // check gps line and fixed status
                 {
@@ -100,6 +132,7 @@ namespace MissionPlanner.Log
                     lastpos = (position[positionindex][position[positionindex].Count - 1]);
                     lastline = line;
                 }
+                else
                 if (items[0].Contains("GPS") && items[4] != "0" && items[4] != "-1" && items.Length <= 9) // AC
                 {
                     MainV2.comPort.MAV.cs.firmware = MainV2.Firmwares.ArduCopter2;
@@ -118,9 +151,11 @@ namespace MissionPlanner.Log
                     lastline = line;
 
                 }
+                else
                 //FMT, 130, 37, GPS, BIHBcLLeeEe, Status,TimeMS,Week,NSats,HDop,Lat,Lng,RelAlt,Alt,Spd,GCrs
                 //GPS, 3, 14716600, 1764, 9, 2.15, 36.3242566, 138.6393205, -0.04, 940.95, 0.02, 138.00
-                if (items[0].Contains("GPS") && items[1] == "3" && items[6] != "0" && items[6] != "-1" && lastline != line && items.Length == 12)
+                if ((items[0].Contains("GPS") && items[1] == "3" && items[6] != "0" && items[6] != "-1" && lastline != line && items.Length == 12) ||
+                    (items[0].Contains("GPS") && items[1] == "3" && items[6] != "0" && items[6] != "-1" && lastline != line && items.Length == 14))
                 {
                     if (position[positionindex] == null)
                         position[positionindex] = new List<Point3D>();
@@ -137,6 +172,7 @@ namespace MissionPlanner.Log
                     lastpos = (position[positionindex][position[positionindex].Count - 1]);
                     lastline = line;
                 }
+                else
                 //GPS, 1, 15691, 10, 0.00, -35.3629379, 149.1650850, -0.08, 585.41, 0.00, 126.89
                 if (items[0].Contains("GPS") && items[1] == "3" && items[4] != "0" && items[4] != "-1" && lastline != line && items.Length == 11) // check gps line and fixed status
                 {
@@ -155,10 +191,12 @@ namespace MissionPlanner.Log
                     lastpos = (position[positionindex][position[positionindex].Count - 1]);
                     lastline = line;
                 }
+                else
                 if (items[0].Contains("CTUN"))
                 {
                     ctunlast = items;
                 }
+                else
                 if (items[0].Contains("NTUN"))
                 {
                     ntunlast = items;
@@ -169,6 +207,7 @@ namespace MissionPlanner.Log
                     }
                     catch { }
                 }
+                else
                 if (items[0].Contains("ATT"))
                 {
                     try
@@ -179,7 +218,7 @@ namespace MissionPlanner.Log
 
                             try
                             {
-                                dat.datetime = int.Parse(lastline.Split(',', ':')[2]);
+                                dat.datetime = DFLog.GetTimeGPS(lastline);
                             }
                             catch { }
 
@@ -191,9 +230,9 @@ namespace MissionPlanner.Log
 
                             oldlastpos = lastpos;
 
-                            runmodel.Orientation.roll = double.Parse(items[1], new System.Globalization.CultureInfo("en-US")) / -1;
-                            runmodel.Orientation.tilt = double.Parse(items[2], new System.Globalization.CultureInfo("en-US")) / -1;
-                            runmodel.Orientation.heading = double.Parse(items[3], new System.Globalization.CultureInfo("en-US")) / 1;
+                            runmodel.Orientation.roll = double.Parse(items[DFLog.FindInArray(DFLog.logformat["ATT"].FieldNames,"Roll")], new System.Globalization.CultureInfo("en-US")) / -1;
+                            runmodel.Orientation.tilt = double.Parse(items[DFLog.FindInArray(DFLog.logformat["ATT"].FieldNames,"Pitch")], new System.Globalization.CultureInfo("en-US")) / -1;
+                            runmodel.Orientation.heading = double.Parse(items[DFLog.FindInArray(DFLog.logformat["ATT"].FieldNames,"Yaw")], new System.Globalization.CultureInfo("en-US")) / 1;
 
                             dat.model = runmodel;
                             dat.ctun = ctunlast;
@@ -202,7 +241,12 @@ namespace MissionPlanner.Log
                             flightdata.Add(dat);
                         }
                     }
-                    catch { }
+                    catch (Exception ex) { }
+                }
+
+                if ((DateTime.Now - start).TotalMilliseconds > 5)
+                {
+                    Console.WriteLine(line);
                 }
             }
             catch (Exception)
@@ -210,10 +254,6 @@ namespace MissionPlanner.Log
                 // if items is to short or parse fails.. ignore
             }
         }
-
-        List<string> modelist = new List<string>();
-        List<Core.Geometry.Point3D>[] position = new List<Core.Geometry.Point3D>[200];
-        int positionindex = 0;
 
         public void writeKMLFirstPerson(string filename)
         {
@@ -351,7 +391,7 @@ namespace MissionPlanner.Log
                 xw.WriteAttributeString("lon", mod.model.Location.longitude.ToString(new System.Globalization.CultureInfo("en-US")));
 
                 xw.WriteElementString("ele", mod.model.Location.altitude.ToString(new System.Globalization.CultureInfo("en-US")));
-                xw.WriteElementString("time", start.AddMilliseconds(mod.datetime).ToString("yyyy-MM-ddTHH:mm:sszzzzzz"));
+                xw.WriteElementString("time", mod.datetime.ToString("yyyy-MM-ddTHH:mm:sszzzzzz"));
                 xw.WriteElementString("course", (mod.model.Orientation.heading).ToString(new System.Globalization.CultureInfo("en-US")));
 
                 xw.WriteElementString("roll", mod.model.Orientation.roll.ToString(new System.Globalization.CultureInfo("en-US")));

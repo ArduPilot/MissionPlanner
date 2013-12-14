@@ -65,6 +65,7 @@
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.BUT_accellogs = new MissionPlanner.Controls.MyButton();
             this.BUT_movingbase = new MissionPlanner.Controls.MyButton();
+            this.but_getfw = new MissionPlanner.Controls.MyButton();
             this.SuspendLayout();
             // 
             // label1
@@ -416,11 +417,22 @@
             this.BUT_movingbase.UseVisualStyleBackColor = true;
             this.BUT_movingbase.Click += new System.EventHandler(this.BUT_movingbase_Click);
             // 
+            // but_getfw
+            // 
+            this.but_getfw.Location = new System.Drawing.Point(121, 380);
+            this.but_getfw.Name = "but_getfw";
+            this.but_getfw.Size = new System.Drawing.Size(75, 23);
+            this.but_getfw.TabIndex = 41;
+            this.but_getfw.Text = "rip all fw";
+            this.but_getfw.UseVisualStyleBackColor = true;
+            this.but_getfw.Click += new System.EventHandler(this.but_getfw_Click);
+            // 
             // temp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(685, 450);
+            this.Controls.Add(this.but_getfw);
             this.Controls.Add(this.BUT_movingbase);
             this.Controls.Add(this.BUT_accellogs);
             this.Controls.Add(this.BUT_sorttlogs);
@@ -502,5 +514,6 @@
         private System.Windows.Forms.Timer timer1;
         private Controls.MyButton BUT_accellogs;
         private Controls.MyButton BUT_movingbase;
+        private Controls.MyButton but_getfw;
     }
 }

@@ -79,11 +79,6 @@ namespace MissionPlanner.GCSViews
                         AddBackstageViewPage(new ConfigArducopter(), "APM:Copter Pids");
                     }
 
-                    if (MainV2.comPort.MAV.param["H_SWASH_TYPE"] != null)
-                    {
-                        AddBackstageViewPage(new ConfigTradHeli(), "Heli Setup");
-                    }
-
                     AddBackstageViewPage(new ConfigFriendlyParams { ParameterMode = ParameterMetaDataConstants.Standard }, "Standard Params");
                     AddBackstageViewPage(new ConfigFriendlyParams { ParameterMode = ParameterMetaDataConstants.Advanced }, "Advanced Params");
                     AddBackstageViewPage(new ConfigRawParams(), "Full Parameter List");

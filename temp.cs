@@ -19,6 +19,7 @@ using System.Security.Permissions;
 using MissionPlanner.Arduino;
 using MissionPlanner.Utilities;
 using GMap.NET;
+using System.Xml;
 
 namespace MissionPlanner
 {
@@ -1110,6 +1111,66 @@ namespace MissionPlanner
             MovingBase si = new MovingBase();
             ThemeManager.ApplyThemeTo((Form)si);
             si.Show();
+        }
+
+        private void but_getfw_Click(object sender, EventArgs e)
+        {
+            string basedir = Application.StartupPath + Path.DirectorySeparatorChar + "History";
+
+            Directory.CreateDirectory(basedir);
+
+            Firmware fw = new Firmware();
+
+            var list = fw.getFWList();
+
+            using (XmlTextWriter xmlwriter = new XmlTextWriter(basedir + Path.DirectorySeparatorChar + @"firmware2.xml", Encoding.ASCII))
+            {
+                xmlwriter.Formatting = Formatting.Indented;
+
+                xmlwriter.WriteStartDocument();
+
+                xmlwriter.WriteStartElement("options");
+
+                foreach (var software in list)
+                {
+                    xmlwriter.WriteStartElement("Firmware");
+
+                    xmlwriter.WriteElementString("url", new Uri(software.url).LocalPath.TrimStart('/','\\'));
+                    xmlwriter.WriteElementString("url2560", new Uri(software.url2560).LocalPath.TrimStart('/', '\\'));
+                    xmlwriter.WriteElementString("url2560-2", new Uri(software.url2560_2).LocalPath.TrimStart('/', '\\'));
+                    xmlwriter.WriteElementString("urlpx4", new Uri(software.urlpx4v1).LocalPath.TrimStart('/', '\\'));
+                    xmlwriter.WriteElementString("urlpx4v2", new Uri(software.urlpx4v2).LocalPath.TrimStart('/', '\\'));
+                    xmlwriter.WriteElementString("name", software.name);
+                    xmlwriter.WriteElementString("desc", software.desc);
+                    xmlwriter.WriteElementString("format_version", software.k_format_version.ToString());
+
+                    xmlwriter.WriteEndElement();
+
+                    if (software.url != "")
+                    {
+                        Common.getFilefromNet(software.url, basedir + new Uri(software.url).LocalPath);
+                    }
+                    if (software.url2560 != "")
+                    {
+                        Common.getFilefromNet(software.url2560, basedir + new Uri(software.url2560).LocalPath);
+                    }
+                    if (software.url2560_2 != "")
+                    {
+                        Common.getFilefromNet(software.url2560_2, basedir + new Uri(software.url2560_2).LocalPath);
+                    }
+                    if (software.urlpx4v1 != "")
+                    {
+                        Common.getFilefromNet(software.urlpx4v1, basedir + new Uri(software.urlpx4v1).LocalPath);
+                    }
+                    if (software.urlpx4v2 != "")
+                    {
+                        Common.getFilefromNet(software.urlpx4v2, basedir + new Uri(software.urlpx4v2).LocalPath);
+                    }
+                }
+
+                xmlwriter.WriteEndElement();
+                xmlwriter.WriteEndDocument();
+            }
         }
     }
 }

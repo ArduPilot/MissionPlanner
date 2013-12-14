@@ -56,6 +56,11 @@ namespace MissionPlanner.GCSViews
 
                     start = mandatoryhardware;
 
+                    if (MainV2.comPort.MAV.param["H_SWASH_TYPE"] != null)
+                    {
+                        AddBackstageViewPage(new ConfigTradHeli(), "Heli Setup", mandatoryhardware);
+                    }
+
                     if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
                     {
                         AddBackstageViewPage(new ConfigFrameType(), "Frame Type", mandatoryhardware);

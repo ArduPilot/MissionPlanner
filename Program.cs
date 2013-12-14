@@ -184,6 +184,11 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
 
             //testMissionPlanner.Wizard._1Intro test = new testMissionPlanner.Wizard._1Intro();
 
+            //Console.WriteLine(DateTime.Now.ToString());
+            //var test1 = Log.DFLog.ReadLog(@"C:\Users\hog\Downloads\ArduPlane.log");
+            //Console.WriteLine(DateTime.Now.ToString());
+            //var test2 = Log.DFLog.ReadLog(@"C:\Users\hog\Downloads\ArduCopter.log");
+            //Console.WriteLine(DateTime.Now.ToString());
 
             if (File.Exists("simple.txt"))
             {

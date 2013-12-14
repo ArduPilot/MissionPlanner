@@ -1,4 +1,19 @@
-﻿* Mission Planner 1.2.88
+﻿* Mission Planner 1.2.89
+fix kml/gpx creation
+log browser mod
+df log renaming based on gps time
+fix fw history
+add time from DF logs
+rework logbrowse internals
+rework log downloader
+fix logic error in wizard connect
+update 3drradio config
+regen mavlink headers
+add lock to aviwritter
+move heli setup screen
+modify ac upload fw message
+
+* Mission Planner 1.2.88
 add movingbase display - using nmea gps
 tweak wizard connect
 update sr3 to include sr1

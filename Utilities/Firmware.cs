@@ -35,8 +35,31 @@ namespace MissionPlanner.Utilities
         string[] gholdurls = new string[] { };
         public List<KeyValuePair<string, string>> niceNames = new List<KeyValuePair<string, string>>();
 
+        List<software> softwares = new List<software>();
+
+        public struct software
+        {
+            public string url;
+            public string url2560;
+            public string url2560_2;
+            public string urlpx4v1;
+            public string urlpx4v2;
+            public string name;
+            public string desc;
+            public int k_format_version;
+        }
+
         public string getUrl(string hash, string filename)
         {
+            if (hash.ToLower().StartsWith("http"))
+            {
+                if (filename == "")
+                    return hash;
+
+                var url = new Uri(hash);
+                return new Uri(url, filename, true).AbsoluteUri;
+            }
+
             foreach (string x in gholdurls)
             {
                 if (x == hash)
@@ -63,19 +86,8 @@ namespace MissionPlanner.Utilities
             }
             return "";
         }
-        List<software> softwares = new List<software>();
 
-        public struct software
-        {
-            public string url;
-            public string url2560;
-            public string url2560_2;
-            public string urlpx4v1;
-            public string urlpx4v2;
-            public string name;
-            public string desc;
-            public int k_format_version;
-        }
+
 
         /// <summary>
         /// Load firmware history from file
@@ -94,19 +106,27 @@ namespace MissionPlanner.Utilities
             int a = 0;
             foreach (string gh in gholdurls)
             {
-                gholdurls[a] = gh.Trim().Substring(0,40);
-
-                try
+                if (gh.Length > 40)
                 {
-                    if (gh.Length > 42) {
-                        niceNames.Add(new KeyValuePair<string,string>(gholdurls[a],gh.Substring(41).Trim()));
-                    } else {
-                        niceNames.Add(new KeyValuePair<string, string>(gholdurls[a], gholdurls[a]));
-                    }
-                }
-                catch { niceNames.Add(new KeyValuePair<string,string>(gholdurls[a],gholdurls[a])); }
+                    int index = gh.IndexOf(' ');
 
-                a++;
+                    if (index >= 40)
+                    {
+                        gholdurls[a] = gh.Trim().Substring(0, index);
+                    }
+                    else
+                    {
+                        continue;
+                    }
+
+                    try
+                    {
+                            niceNames.Add(new KeyValuePair<string, string>(gholdurls[a], gh.Substring(index+1).Trim()));
+                    }
+                    catch { niceNames.Add(new KeyValuePair<string, string>(gholdurls[a], gholdurls[a])); }
+
+                    a++;
+                }
             }
         }
 
@@ -276,7 +296,7 @@ namespace MissionPlanner.Utilities
         /// </summary>
         /// <param name="temp"></param>
         /// <param name="historyhash"></param>
-        public bool update(string comport, software temp)
+        public bool update(string comport, software temp, string historyhash)
         {
             BoardDetect.boards board = BoardDetect.boards.none;
 
@@ -344,6 +364,9 @@ namespace MissionPlanner.Utilities
                     CustomMessageBox.Show("Invalid Board Type");
                     return false;
                 }
+
+                if (historyhash != "")
+                    baseurl = getUrl(historyhash, baseurl);
 
                 log.Info("Using " + baseurl);
 

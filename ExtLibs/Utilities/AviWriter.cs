@@ -194,12 +194,15 @@ SizeConst = 4)]
 
     public void avi_close()
     {
-        if (fd != null)
+        lock (indexs)
         {
-            avi_end(width,height,targetfps);
-            writeindexs();
-            fd.Close();
-            fd.Dispose();
+            if (fd != null)
+            {
+                avi_end(width, height, targetfps);
+                writeindexs();
+                fd.Close();
+                fd.Dispose();
+            }
         }
         fd = null;
     }
@@ -224,31 +227,32 @@ SizeConst = 4)]
     /* add a jpeg frame to an AVI file */
     public void avi_add(u8[] buf, uint size)
     {
-        uint osize = size;
-        Console.WriteLine(DateTime.Now.Millisecond + " avi frame");
-        db_head db = new db_head { db = "00dc".ToCharArray(), size = size };
-        fd.Write(StructureToByteArray(db), 0, Marshal.SizeOf(db));
-        uint offset = (uint)fd.Position;
-        fd.Write(buf, 0, (int)size);
-
-        indexs.Add(new AVIINDEXENTRY() { ckid = "00dc".ToCharArray(), dwChunkLength = size, dwChunkOffset = (offset - 8212 + 4), dwFlags = 0x10 });
-
-        while (fd.Position % 2 != 0)
+        lock (indexs)
         {
-            size++;
-            fd.WriteByte(0);
-            //fd.Seek(1, SeekOrigin.Current);
-        }
-        nframes++;
-        totalsize += size;
+            uint osize = size;
+            Console.WriteLine(DateTime.Now.Millisecond + " avi frame");
+            db_head db = new db_head { db = "00dc".ToCharArray(), size = size };
+            fd.Write(StructureToByteArray(db), 0, Marshal.SizeOf(db));
+            uint offset = (uint)fd.Position;
+            fd.Write(buf, 0, (int)size);
 
-        if (((DateTime.Now - start).TotalSeconds * targetfps) > nframes)
-        {
-            avi_add(buf, osize);
-            Console.WriteLine("Extra frame");
-        }
+            indexs.Add(new AVIINDEXENTRY() { ckid = "00dc".ToCharArray(), dwChunkLength = size, dwChunkOffset = (offset - 8212 + 4), dwFlags = 0x10 });
 
-        
+            while (fd.Position % 2 != 0)
+            {
+                size++;
+                fd.WriteByte(0);
+                //fd.Seek(1, SeekOrigin.Current);
+            }
+            nframes++;
+            totalsize += size;
+
+            if (((DateTime.Now - start).TotalSeconds * targetfps) > nframes)
+            {
+                avi_add(buf, osize);
+                Console.WriteLine("Extra frame");
+            }
+        }        
     }
 
     void strcpy(ref char[] to,string orig)

@@ -216,9 +216,6 @@
   <data name="&gt;&gt;lbl_currentmode.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
-  <metadata name="currentStateBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
   <data name="LNK_wiki.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
   </data>
@@ -274,7 +271,7 @@
     <value>mavlinkNumericUpDownlow_voltage</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownlow_voltage.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5065.12818, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5093.13133, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownlow_voltage.Parent" xml:space="preserve">
     <value>PNL_low_bat</value>
@@ -316,7 +313,7 @@
     <value>mavlinkCheckBoxlong_fs</value>
   </data>
   <data name="&gt;&gt;mavlinkCheckBoxlong_fs.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5065.12818, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5093.13133, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkCheckBoxlong_fs.Parent" xml:space="preserve">
     <value>groupBox1</value>
@@ -358,7 +355,7 @@
     <value>mavlinkCheckBoxshort_fs</value>
   </data>
   <data name="&gt;&gt;mavlinkCheckBoxshort_fs.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5065.12818, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5093.13133, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkCheckBoxshort_fs.Parent" xml:space="preserve">
     <value>groupBox1</value>
@@ -400,7 +397,7 @@
     <value>mavlinkCheckBoxgcs_fs</value>
   </data>
   <data name="&gt;&gt;mavlinkCheckBoxgcs_fs.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5065.12818, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5093.13133, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkCheckBoxgcs_fs.Parent" xml:space="preserve">
     <value>groupBox1</value>
@@ -443,7 +440,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>mavlinkCheckBoxthr_fs_action</value>
   </data>
   <data name="&gt;&gt;mavlinkCheckBoxthr_fs_action.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5065.12818, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5093.13133, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkCheckBoxthr_fs_action.Parent" xml:space="preserve">
     <value>groupBox1</value>
@@ -476,7 +473,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>mavlinkNumericUpDownfs_thr_value</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownfs_thr_value.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5065.12818, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5093.13133, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownfs_thr_value.Parent" xml:space="preserve">
     <value>PNL_thr_fs_value</value>
@@ -509,7 +506,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>mavlinkNumericUpDownthr_fs_value</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownthr_fs_value.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5065.12818, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5093.13133, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownthr_fs_value.Parent" xml:space="preserve">
     <value>PNL_thr_fs_value</value>
@@ -551,7 +548,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>mavlinkCheckBoxthr_fs</value>
   </data>
   <data name="&gt;&gt;mavlinkCheckBoxthr_fs.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5065.12818, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5093.13133, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkCheckBoxthr_fs.Parent" xml:space="preserve">
     <value>groupBox1</value>
@@ -587,7 +584,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>mavlinkComboBox_fs_thr_enable</value>
   </data>
   <data name="&gt;&gt;mavlinkComboBox_fs_thr_enable.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.5065.12818, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.5093.13133, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkComboBox_fs_thr_enable.Parent" xml:space="preserve">
     <value>groupBox1</value>
@@ -626,7 +623,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>mavlinkCheckBoxFS_GCS_ENABLE</value>
   </data>
   <data name="&gt;&gt;mavlinkCheckBoxFS_GCS_ENABLE.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5065.12818, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5093.13133, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkCheckBoxFS_GCS_ENABLE.Parent" xml:space="preserve">
     <value>groupBox1</value>
@@ -665,241 +662,13 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>mavlinkCheckBoxfs_gps_enable</value>
   </data>
   <data name="&gt;&gt;mavlinkCheckBoxfs_gps_enable.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5065.12818, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5093.13133, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkCheckBoxfs_gps_enable.Parent" xml:space="preserve">
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;mavlinkCheckBoxfs_gps_enable.ZOrder" xml:space="preserve">
     <value>1</value>
-  </data>
-  <data name="&gt;&gt;label5.Name" xml:space="preserve">
-    <value>label5</value>
-  </data>
-  <data name="&gt;&gt;label5.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label5.Parent" xml:space="preserve">
-    <value>pnlmah</value>
-  </data>
-  <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownFS_BATT_MAH.Name" xml:space="preserve">
-    <value>mavlinkNumericUpDownFS_BATT_MAH</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownFS_BATT_MAH.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5065.12818, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownFS_BATT_MAH.Parent" xml:space="preserve">
-    <value>pnlmah</value>
-  </data>
-  <data name="&gt;&gt;mavlinkNumericUpDownFS_BATT_MAH.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="pnlmah.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Top</value>
-  </data>
-  <data name="pnlmah.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 187</value>
-  </data>
-  <data name="pnlmah.Size" type="System.Drawing.Size, System.Drawing">
-    <value>199, 23</value>
-  </data>
-  <data name="pnlmah.TabIndex" type="System.Int32, mscorlib">
-    <value>157</value>
-  </data>
-  <data name="pnlmah.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;pnlmah.Name" xml:space="preserve">
-    <value>pnlmah</value>
-  </data>
-  <data name="&gt;&gt;pnlmah.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;pnlmah.Parent" xml:space="preserve">
-    <value>groupBox1</value>
-  </data>
-  <data name="&gt;&gt;pnlmah.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="label3.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="label3.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Left</value>
-  </data>
-  <data name="label3.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>46, 13</value>
-  </data>
-  <data name="label3.TabIndex" type="System.Int32, mscorlib">
-    <value>148</value>
-  </data>
-  <data name="label3.Text" xml:space="preserve">
-    <value>FS Pwm</value>
-  </data>
-  <data name="&gt;&gt;label3.Name" xml:space="preserve">
-    <value>label3</value>
-  </data>
-  <data name="&gt;&gt;label3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label3.Parent" xml:space="preserve">
-    <value>PNL_thr_fs_value</value>
-  </data>
-  <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="PNL_thr_fs_value.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Top</value>
-  </data>
-  <data name="PNL_thr_fs_value.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 162</value>
-  </data>
-  <data name="PNL_thr_fs_value.Size" type="System.Drawing.Size, System.Drawing">
-    <value>199, 25</value>
-  </data>
-  <data name="PNL_thr_fs_value.TabIndex" type="System.Int32, mscorlib">
-    <value>149</value>
-  </data>
-  <data name="&gt;&gt;PNL_thr_fs_value.Name" xml:space="preserve">
-    <value>PNL_thr_fs_value</value>
-  </data>
-  <data name="&gt;&gt;PNL_thr_fs_value.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;PNL_thr_fs_value.Parent" xml:space="preserve">
-    <value>groupBox1</value>
-  </data>
-  <data name="&gt;&gt;PNL_thr_fs_value.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="label4.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="label4.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 3</value>
-  </data>
-  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>63, 13</value>
-  </data>
-  <data name="label4.TabIndex" type="System.Int32, mscorlib">
-    <value>154</value>
-  </data>
-  <data name="label4.Text" xml:space="preserve">
-    <value>Low Battery</value>
-  </data>
-  <data name="&gt;&gt;label4.Name" xml:space="preserve">
-    <value>label4</value>
-  </data>
-  <data name="&gt;&gt;label4.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label4.Parent" xml:space="preserve">
-    <value>PNL_low_bat</value>
-  </data>
-  <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="PNL_low_bat.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Top</value>
-  </data>
-  <data name="PNL_low_bat.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 139</value>
-  </data>
-  <data name="PNL_low_bat.Size" type="System.Drawing.Size, System.Drawing">
-    <value>199, 23</value>
-  </data>
-  <data name="PNL_low_bat.TabIndex" type="System.Int32, mscorlib">
-    <value>154</value>
-  </data>
-  <data name="PNL_low_bat.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;PNL_low_bat.Name" xml:space="preserve">
-    <value>PNL_low_bat</value>
-  </data>
-  <data name="&gt;&gt;PNL_low_bat.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;PNL_low_bat.Parent" xml:space="preserve">
-    <value>groupBox1</value>
-  </data>
-  <data name="&gt;&gt;PNL_low_bat.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="mavlinkCheckBoxfs_batt_enable.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="mavlinkCheckBoxfs_batt_enable.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Top</value>
-  </data>
-  <data name="mavlinkCheckBoxfs_batt_enable.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="mavlinkCheckBoxfs_batt_enable.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="mavlinkCheckBoxfs_batt_enable.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 122</value>
-  </data>
-  <data name="mavlinkCheckBoxfs_batt_enable.Size" type="System.Drawing.Size, System.Drawing">
-    <value>199, 17</value>
-  </data>
-  <data name="mavlinkCheckBoxfs_batt_enable.TabIndex" type="System.Int32, mscorlib">
-    <value>150</value>
-  </data>
-  <data name="mavlinkCheckBoxfs_batt_enable.Text" xml:space="preserve">
-    <value>Battery Failsafe</value>
-  </data>
-  <data name="mavlinkCheckBoxfs_batt_enable.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;mavlinkCheckBoxfs_batt_enable.Name" xml:space="preserve">
-    <value>mavlinkCheckBoxfs_batt_enable</value>
-  </data>
-  <data name="&gt;&gt;mavlinkCheckBoxfs_batt_enable.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5065.12818, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;mavlinkCheckBoxfs_batt_enable.Parent" xml:space="preserve">
-    <value>groupBox1</value>
-  </data>
-  <data name="&gt;&gt;mavlinkCheckBoxfs_batt_enable.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>480, 174</value>
-  </data>
-  <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>205, 257</value>
-  </data>
-  <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
-    <value>148</value>
-  </data>
-  <data name="groupBox1.Text" xml:space="preserve">
-    <value>FailSafe Options</value>
-  </data>
-  <data name="&gt;&gt;groupBox1.Name" xml:space="preserve">
-    <value>groupBox1</value>
-  </data>
-  <data name="&gt;&gt;groupBox1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;groupBox1.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
-    <value>2</value>
   </data>
   <data name="label5.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -947,13 +716,217 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>mavlinkNumericUpDownFS_BATT_MAH</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownFS_BATT_MAH.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5065.12818, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5093.13133, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownFS_BATT_MAH.Parent" xml:space="preserve">
     <value>pnlmah</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownFS_BATT_MAH.ZOrder" xml:space="preserve">
     <value>1</value>
+  </data>
+  <data name="pnlmah.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="pnlmah.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 187</value>
+  </data>
+  <data name="pnlmah.Size" type="System.Drawing.Size, System.Drawing">
+    <value>199, 23</value>
+  </data>
+  <data name="pnlmah.TabIndex" type="System.Int32, mscorlib">
+    <value>157</value>
+  </data>
+  <data name="pnlmah.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;pnlmah.Name" xml:space="preserve">
+    <value>pnlmah</value>
+  </data>
+  <data name="&gt;&gt;pnlmah.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;pnlmah.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;pnlmah.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="label4.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label4.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 3</value>
+  </data>
+  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>63, 13</value>
+  </data>
+  <data name="label4.TabIndex" type="System.Int32, mscorlib">
+    <value>154</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>Low Battery</value>
+  </data>
+  <data name="&gt;&gt;label4.Name" xml:space="preserve">
+    <value>label4</value>
+  </data>
+  <data name="&gt;&gt;label4.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label4.Parent" xml:space="preserve">
+    <value>PNL_low_bat</value>
+  </data>
+  <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="PNL_low_bat.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="PNL_low_bat.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 164</value>
+  </data>
+  <data name="PNL_low_bat.Size" type="System.Drawing.Size, System.Drawing">
+    <value>199, 23</value>
+  </data>
+  <data name="PNL_low_bat.TabIndex" type="System.Int32, mscorlib">
+    <value>154</value>
+  </data>
+  <data name="PNL_low_bat.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;PNL_low_bat.Name" xml:space="preserve">
+    <value>PNL_low_bat</value>
+  </data>
+  <data name="&gt;&gt;PNL_low_bat.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;PNL_low_bat.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;PNL_low_bat.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="mavlinkCheckBoxfs_batt_enable.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="mavlinkCheckBoxfs_batt_enable.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="mavlinkCheckBoxfs_batt_enable.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="mavlinkCheckBoxfs_batt_enable.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="mavlinkCheckBoxfs_batt_enable.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 147</value>
+  </data>
+  <data name="mavlinkCheckBoxfs_batt_enable.Size" type="System.Drawing.Size, System.Drawing">
+    <value>199, 17</value>
+  </data>
+  <data name="mavlinkCheckBoxfs_batt_enable.TabIndex" type="System.Int32, mscorlib">
+    <value>150</value>
+  </data>
+  <data name="mavlinkCheckBoxfs_batt_enable.Text" xml:space="preserve">
+    <value>Battery Failsafe</value>
+  </data>
+  <data name="mavlinkCheckBoxfs_batt_enable.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;mavlinkCheckBoxfs_batt_enable.Name" xml:space="preserve">
+    <value>mavlinkCheckBoxfs_batt_enable</value>
+  </data>
+  <data name="&gt;&gt;mavlinkCheckBoxfs_batt_enable.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5093.13133, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;mavlinkCheckBoxfs_batt_enable.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;mavlinkCheckBoxfs_batt_enable.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="label3.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label3.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Left</value>
+  </data>
+  <data name="label3.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>46, 13</value>
+  </data>
+  <data name="label3.TabIndex" type="System.Int32, mscorlib">
+    <value>148</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>FS Pwm</value>
+  </data>
+  <data name="&gt;&gt;label3.Name" xml:space="preserve">
+    <value>label3</value>
+  </data>
+  <data name="&gt;&gt;label3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label3.Parent" xml:space="preserve">
+    <value>PNL_thr_fs_value</value>
+  </data>
+  <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="PNL_thr_fs_value.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="PNL_thr_fs_value.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 122</value>
+  </data>
+  <data name="PNL_thr_fs_value.Size" type="System.Drawing.Size, System.Drawing">
+    <value>199, 25</value>
+  </data>
+  <data name="PNL_thr_fs_value.TabIndex" type="System.Int32, mscorlib">
+    <value>149</value>
+  </data>
+  <data name="&gt;&gt;PNL_thr_fs_value.Name" xml:space="preserve">
+    <value>PNL_thr_fs_value</value>
+  </data>
+  <data name="&gt;&gt;PNL_thr_fs_value.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;PNL_thr_fs_value.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;PNL_thr_fs_value.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>480, 174</value>
+  </data>
+  <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>205, 257</value>
+  </data>
+  <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
+    <value>148</value>
+  </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>FailSafe Options</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Name" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
+    <value>2</value>
   </data>
   <data name="lbl_armed.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 26.25pt</value>

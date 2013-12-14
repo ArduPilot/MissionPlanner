@@ -210,12 +210,15 @@ namespace MissionPlanner.GCSViews
                 catch { }
                 fw.Progress -= fw_Progress;
                 fw.Progress += fw_Progress1;
-                bool updated = fw.update(MainV2.comPortName, fwtoupload);
+
+                string history = (CMB_history.SelectedValue == null) ? "" : CMB_history.SelectedValue.ToString();
+
+                bool updated = fw.update(MainV2.comPortName, fwtoupload, history);
 
                 if (updated)
                 {
                     if (fwtoupload.url2560_2 != null && fwtoupload.url2560_2.ToLower().Contains("copter"))
-                        CustomMessageBox.Show("Please ensure you do a live compass calibration after installing arducopter V 3.x", "Compass");
+                        CustomMessageBox.Show("Warning, as of AC 3.1 motors will spin when armed, configurable through the MOT_SPIN_ARMED parameter", "Warning");
                 }
                 else
                 {
@@ -279,9 +282,9 @@ namespace MissionPlanner.GCSViews
             CMB_history.Items.Clear();
             //CMB_history.Items.AddRange(fw.gholdurls);
             //CMB_history.Items.AddRange(fw.gcoldurls);
-            CMB_history.DataSource = fw.niceNames;
             CMB_history.DisplayMember = "Value";
             CMB_history.ValueMember = "Key";
+            CMB_history.DataSource = fw.niceNames;        
 
             CMB_history.Enabled = true;
             CMB_history.Visible = true;

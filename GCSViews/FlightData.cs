@@ -2397,6 +2397,9 @@ namespace MissionPlanner.GCSViews
 # Script.SendRC(channel,pwm,sendnow)
 # 
 
+import sys
+sys.path.append('c:\python27\lib')
+
 print 'Start Script'
 for chan in range(1,9):
     Script.SendRC(chan,1500,False)
@@ -2998,9 +3001,9 @@ print 'Roll complete'
                     LogOutput lo = new LogOutput();
                     try
                     {
-                        TextReader tr = new StreamReader(logfile);
+                        StreamReader tr = new StreamReader(logfile);
 
-                        while (tr.Peek() != -1)
+                        while (!tr.EndOfStream)
                         {
                             lo.processLine(tr.ReadLine());
                         }
@@ -3010,8 +3013,6 @@ print 'Roll complete'
                     catch (Exception ex) { CustomMessageBox.Show("Error processing file. Make sure the file is not in use.\n" + ex.ToString()); }
 
                     lo.writeKML(logfile + ".kml");
-
-                    lo.writeGPX(logfile + ".gpx");
 
                 }
             }

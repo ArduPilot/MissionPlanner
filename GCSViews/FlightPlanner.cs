@@ -249,7 +249,14 @@ namespace MissionPlanner.GCSViews
             txt_mouse_utmy.Text = mouseposdisplay.ToUTM(zone)[1].ToString("#.###");
             txt_mouse_utmzone.Text = zone.ToString("0N;0S");
 
-            txt_mouse_mgrs.Text = mouseposdisplay.GetMGRS();
+            if (Math.Abs(lat) < 80)
+            {
+                txt_mouse_mgrs.Text = mouseposdisplay.GetMGRS();
+            }
+            else
+            {
+                txt_mouse_mgrs.Text = "Invalid";
+            }
 
             try
             {

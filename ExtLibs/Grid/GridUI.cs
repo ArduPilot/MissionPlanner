@@ -71,7 +71,7 @@ namespace MissionPlanner
         {
             if (plugin.Host.config.ContainsKey("grid_camera"))
             {
-                loadsetting("grid_camera", CMB_camera);
+                
                 loadsetting("grid_alt", NUM_altitude);
                 loadsetting("grid_angle", NUM_angle);
                 loadsetting("grid_camdir", CHK_camdirection);
@@ -83,7 +83,10 @@ namespace MissionPlanner
                 loadsetting("grid_sidelap", num_sidelap);
                 loadsetting("grid_spacing", NUM_spacing);
 
-                loadsetting("grid_advanced", CHK_advanced); 
+                loadsetting("grid_advanced", CHK_advanced);
+
+                // camera last to it invokes a reload
+                loadsetting("grid_camera", CMB_camera);
             }
         }
 

@@ -1261,30 +1261,33 @@ namespace MissionPlanner
                     // speech for airspeed alerts
                     if (speechEnable && speechEngine != null && (DateTime.Now - speechlowspeedtime).TotalSeconds > 10 && (MainV2.comPort.logreadmode || comPort.BaseStream.IsOpen))
                     {
-                        float warngroundspeed = 0;
-                        float.TryParse(MainV2.getConfig("speechlowgroundspeedtrigger"), out warngroundspeed);
-                        float warnairspeed = 0;
-                        float.TryParse(MainV2.getConfig("speechlowairspeedtrigger"), out warnairspeed);
+                        if (MainV2.getConfig("speechlowspeedenabled") == "True")
+                        {
+                            float warngroundspeed = 0;
+                            float.TryParse(MainV2.getConfig("speechlowgroundspeedtrigger"), out warngroundspeed);
+                            float warnairspeed = 0;
+                            float.TryParse(MainV2.getConfig("speechlowairspeedtrigger"), out warnairspeed);
 
-                        if (MainV2.comPort.MAV.cs.airspeed < warnairspeed)
-                        {
-                            if (MainV2.speechEngine.State == SynthesizerState.Ready)
+                            if (MainV2.comPort.MAV.cs.airspeed < warnairspeed)
                             {
-                                MainV2.speechEngine.SpeakAsync(Common.speechConversion(MainV2.getConfig("speechlowairspeed")));
+                                if (MainV2.speechEngine.State == SynthesizerState.Ready)
+                                {
+                                    MainV2.speechEngine.SpeakAsync(Common.speechConversion(MainV2.getConfig("speechlowairspeed")));
+                                    speechlowspeedtime = DateTime.Now;
+                                }
+                            }
+                            else if (MainV2.comPort.MAV.cs.groundspeed < warngroundspeed)
+                            {
+                                if (MainV2.speechEngine.State == SynthesizerState.Ready)
+                                {
+                                    MainV2.speechEngine.SpeakAsync(Common.speechConversion(MainV2.getConfig("speechlowgroundspeed")));
+                                    speechlowspeedtime = DateTime.Now;
+                                }
+                            }
+                            else
+                            {
                                 speechlowspeedtime = DateTime.Now;
                             }
-                        }
-                        else if (MainV2.comPort.MAV.cs.groundspeed < warngroundspeed)
-                        {
-                            if (MainV2.speechEngine.State == SynthesizerState.Ready) 
-                            {
-                                MainV2.speechEngine.SpeakAsync(Common.speechConversion(MainV2.getConfig("speechlowgroundspeed")));
-                                speechlowspeedtime = DateTime.Now;
-                            }
-                        }
-                        else
-                        {
-                            speechlowspeedtime = DateTime.Now;
                         }
                     }
 

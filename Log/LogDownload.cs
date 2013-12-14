@@ -256,6 +256,9 @@ namespace MissionPlanner.Log
 
                                 System.Threading.Thread.Sleep(500);
 
+                                // clear history
+                                TXT_seriallog.Clear();
+
                                 comPort.Write("logs\r");
                                 status = serialstatus.Done;
                             }
@@ -263,7 +266,14 @@ namespace MissionPlanner.Log
                         case serialstatus.Closefile:
                             sw.Close();
 
-                            int todo;
+                            DateTime logtime = DFLog.GetFirstGpsTime(logfile);
+
+                            if (logtime != DateTime.MinValue)
+                            {
+                                string newlogfilename = MainV2.LogDir + Path.DirectorySeparatorChar + logtime.ToString("yyyy-MM-dd HH-mm") + ".log";
+                                File.Move(logfile, newlogfilename);
+                                logfile = newlogfilename;
+                            }
 
                             TextReader tr = new StreamReader(logfile);
 

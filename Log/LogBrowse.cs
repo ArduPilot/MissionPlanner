@@ -14,6 +14,7 @@ using System.Collections;
 using MissionPlanner.Controls;
 using GMap.NET;
 using GMap.NET.WindowsForms;
+using GMap.NET.WindowsForms.Markers;
 
 namespace MissionPlanner.Log
 {
@@ -23,6 +24,8 @@ namespace MissionPlanner.Log
         int m_iColumnCount = 0;
         int rowno = 1;
         DataTable m_dtCSV = new DataTable();
+
+        const int typecoloum = 2;
 
         List<PointPairList> listdata = new List<PointPairList>();
         GMapOverlay mapoverlay;
@@ -110,14 +113,49 @@ namespace MissionPlanner.Log
                         stream = File.Open(openFileDialog1.FileName, FileMode.Open,FileAccess.Read,FileShare.Read);
                     }
 
-                    this.Text = "Log Browser - " + Path.GetFileName(openFileDialog1.FileName);
+                    var logdata = DFLog.ReadLog(stream);
                     
-                    PopulateDataTableFromUploadedFile(stream);
+                    this.Text = "Log Browser - " + Path.GetFileName(openFileDialog1.FileName);
+                    m_dtCSV = new DataTable();
+
+                    log.Info("process to datagrid");
+                    
+                    foreach (var item in logdata)
+                    {
+                        if (item.items != null)
+                        {
+                            while (m_dtCSV.Columns.Count < (item.items.Length + typecoloum))
+                            {
+                                m_dtCSV.Columns.Add();
+                            }
+
+                            DataRow dr = m_dtCSV.NewRow();
+
+                            dr[0] = item.lineno;
+                            dr[1] = item.time.ToString("yyyy-MM-dd HH:mm:ss.fff");
+
+                            for (int a = 0; a < item.items.Length; a++)
+                            {
+                                dr[a + typecoloum] = item.items[a];
+                            }
+
+                            m_dtCSV.Rows.Add(dr);
+                        }
+                    }
+
+                    log.Info("Done");
+                    
+                    //PopulateDataTableFromUploadedFile(stream);
+
                     stream.Close();
+
+                    log.Info("set dgv datasourse");
 
                     dataGridView1.DataSource = m_dtCSV;
 
                     dataGridView1.Columns[0].Visible = false;
+
+                    log.Info("datasource set");
 
                 }
                 catch (Exception ex) { CustomMessageBox.Show("Failed to read File: " + ex.ToString()); }
@@ -127,7 +165,11 @@ namespace MissionPlanner.Log
                     column.SortMode = DataGridViewColumnSortMode.NotSortable;
                 }
 
+                log.Info("Get map");
+
                 DrawMap();
+
+                log.Info("map done");
 
                 CreateChart(zg1);
             }
@@ -236,7 +278,7 @@ namespace MissionPlanner.Log
             try
             {
                 // number the coloums
-                int a = -1;
+                int a = -typecoloum;
                 foreach (DataGridViewColumn col in dataGridView1.Columns)
                 {
                         col.HeaderText = a.ToString();
@@ -247,12 +289,12 @@ namespace MissionPlanner.Log
             try
             {
                 // process the line type
-                string option = dataGridView1[1, e.RowIndex].EditedFormattedValue.ToString();
+                string option = dataGridView1[typecoloum, e.RowIndex].EditedFormattedValue.ToString();
 
                 // new self describing log
                 if (DFLog.logformat.ContainsKey(option))
                 {
-                    int a = 2;
+                    int a = typecoloum+1;
                     foreach (string name in DFLog.logformat[option].FieldNames)
                     {
                         dataGridView1.Columns[a].HeaderText = name;
@@ -262,6 +304,20 @@ namespace MissionPlanner.Log
                     {
                         dataGridView1.Columns[a].HeaderText = "";
                     }
+
+                    // display current gps point
+                    var ans = getPointLatLng(dataGridView1.Rows[e.RowIndex]);
+                    if (ans.HasValue)
+                    {
+                        mapoverlay.Markers.Clear();
+                        mapoverlay.Markers.Add(new GMarkerGoogle(ans.Value, GMarkerGoogleType.red));
+                        myGMAP1.MarkersEnabled = true;
+                    }
+                    else
+                    {
+                       // mapoverlay.Markers.Clear();
+                    }
+
                     return;
                 }
 
@@ -394,7 +450,7 @@ namespace MissionPlanner.Log
                 
             int col = dataGridView1.CurrentCell.ColumnIndex;
             int row = dataGridView1.CurrentCell.RowIndex;
-            string type = dataGridView1[1, row].Value.ToString();
+            string type = dataGridView1[typecoloum, row].Value.ToString();
             double a = 0; // row counter
 
             if (col == 0)
@@ -411,12 +467,16 @@ namespace MissionPlanner.Log
 
             foreach (DataGridViewRow datarow in dataGridView1.Rows)
             {
-                if (datarow.Cells[1].Value.ToString() == type)
+                if (datarow.Cells[typecoloum].Value.ToString() == type)
                 {
                     try
                     {                   
                             double value = double.Parse(datarow.Cells[col].Value.ToString(), new System.Globalization.CultureInfo("en-US"));
                             header = dataGridView1.Columns[col].HeaderText;
+                            
+
+                           // XDate time = new XDate(DateTime.Parse(datarow.Cells[1].Value.ToString()));
+
                             list1.Add(a, value);
                     }
                     catch { error++; log.Info("Bad Data : " + type + " " + col + " " + a); if (error >= 500) { CustomMessageBox.Show("There is to much bad data - failing"); break; } }
@@ -462,9 +522,18 @@ namespace MissionPlanner.Log
 
             foreach (DataGridViewRow datarow in dataGridView1.Rows)
             {
-                if (datarow.Cells[1].Value.ToString() == "MODE")
+                if (datarow.Cells[typecoloum].Value.ToString() == "MODE")
                 {
-                    string mode = datarow.Cells[2].Value.ToString();
+                    if (!DFLog.logformat.ContainsKey("MODE"))
+                        return;
+
+                    int index = FindInArray(DFLog.logformat["MODE"].FieldNames, "Mode");
+                    if (index == -1)
+                    {
+                        continue;
+                    }
+
+                    string mode = datarow.Cells[typecoloum + index + 1].Value.ToString().Trim();
                     if (top)
                     {
                         zg1.GraphPane.GraphObjList.Add(new TextObj(mode, a, zg1.GraphPane.YAxis.Scale.Min, CoordType.AxisXYScale, AlignH.Left, AlignV.Top));
@@ -493,19 +562,19 @@ namespace MissionPlanner.Log
 
             foreach (DataGridViewRow datarow in dataGridView1.Rows)
             {
-                if (datarow.Cells[1].Value.ToString() == "GPS")
+                if (datarow.Cells[typecoloum].Value.ToString() == "GPS")
                 {
                     if (!DFLog.logformat.ContainsKey("GPS"))
                         break;
 
-                    int index = FindInArray(DFLog.logformat["GPS"].FieldNames, "Time");
+                    int index = FindInArray(DFLog.logformat["GPS"].FieldNames, "TimeMS");
                     if (index == -1)
                     {
                         a++;
                         continue;
                     }
 
-                    string time = datarow.Cells[index + 2].Value.ToString();
+                    string time = datarow.Cells[index + typecoloum + 1].Value.ToString();
                     int temp;
                     if (int.TryParse(time, out temp))
                     {
@@ -544,53 +613,17 @@ namespace MissionPlanner.Log
 
                 foreach (DataGridViewRow datarow in dataGridView1.Rows)
                 {
-                    if (datarow.Cells[1].Value.ToString() == "GPS")
+                    var ans = getPointLatLng(datarow);
+
+                    if (ans.HasValue)
                     {
-                        if (!DFLog.logformat.ContainsKey("GPS"))
-                            break;
-
-                        int index = FindInArray(DFLog.logformat["GPS"].FieldNames, "Lat");
-                        if (index == -1)
-                        {
-                            a++;
-                            continue;
-                        }
-
-                        int index2 = FindInArray(DFLog.logformat["GPS"].FieldNames, "Lng");
-                        if (index2 == -1)
-                        {
-                            a++;
-                            continue;
-                        }
-
-                        int index3 = FindInArray(DFLog.logformat["GPS"].FieldNames, "Status");
-                        if (index3 == -1)
-                        {
-                            a++;
-                            continue;
-                        }
-
-                        try
-                        {
-                            if (double.Parse(datarow.Cells[index3 + 2].Value.ToString(), System.Globalization.CultureInfo.InvariantCulture) != 3)
-                            {
-                                a++;
-                                continue;
-                            }
-
-                            string lat = datarow.Cells[index + 2].Value.ToString();
-                            string lng = datarow.Cells[index2 + 2].Value.ToString();
-
-                            PointLatLng pnt = new PointLatLng() { };
-                            pnt.Lat = double.Parse(lat, System.Globalization.CultureInfo.InvariantCulture);
-                            pnt.Lng = double.Parse(lng, System.Globalization.CultureInfo.InvariantCulture);
-
-                            routelist.Add(pnt);
-                        }
-                        catch { }
+                        routelist.Add(ans.Value);
                     }
+
                     a++;
                 }
+
+                mapoverlay.Routes.Clear();
 
                 GMapRoute route = new GMapRoute(routelist, "route");
                 mapoverlay.Routes.Add(route);
@@ -598,6 +631,53 @@ namespace MissionPlanner.Log
                 myGMAP1.RoutesEnabled = true;
             }
             catch { }
+        }
+
+        PointLatLng? getPointLatLng(DataGridViewRow datarow) 
+        {
+            if (datarow.Cells[typecoloum].Value.ToString() == "GPS")
+            {
+                if (!DFLog.logformat.ContainsKey("GPS"))
+                    return null;
+
+                int index = FindInArray(DFLog.logformat["GPS"].FieldNames, "Lat");
+                if (index == -1)
+                {
+                    return null;
+                }
+
+                int index2 = FindInArray(DFLog.logformat["GPS"].FieldNames, "Lng");
+                if (index2 == -1)
+                {
+                    return null;
+                }
+
+                int index3 = FindInArray(DFLog.logformat["GPS"].FieldNames, "Status");
+                if (index3 == -1)
+                {
+                    return null;
+                }
+
+                try
+                {
+                    if (double.Parse(datarow.Cells[index3 + typecoloum + 1].Value.ToString(), System.Globalization.CultureInfo.InvariantCulture) != 3)
+                    {
+                        return null;
+                    }
+
+                    string lat = datarow.Cells[index + typecoloum + 1].Value.ToString();
+                    string lng = datarow.Cells[index2 + typecoloum + 1].Value.ToString();
+
+                    PointLatLng pnt = new PointLatLng() { };
+                    pnt.Lat = double.Parse(lat, System.Globalization.CultureInfo.InvariantCulture);
+                    pnt.Lng = double.Parse(lng, System.Globalization.CultureInfo.InvariantCulture);
+
+                    return pnt;
+                }
+                catch { }
+            }
+
+            return null;
         }
 
         int FindInArray(string[] array, string find)
@@ -654,7 +734,7 @@ namespace MissionPlanner.Log
 
             foreach (DataRow datarow in m_dtCSV.Rows)
             {
-                string celldata = datarow.ItemArray[1].ToString().Trim();
+                string celldata = datarow.ItemArray[typecoloum].ToString().Trim();
                 if (!options.Contains(celldata))
                 {
                     options.Add(celldata);
@@ -674,7 +754,7 @@ namespace MissionPlanner.Log
 
             if (opt.SelectedItem != "")
             {
-                (dataGridView1.DataSource as DataTable).DefaultView.RowFilter = "col0 like '" + opt.SelectedItem + "'";
+                (dataGridView1.DataSource as DataTable).DefaultView.RowFilter =  dataGridView1.Columns[typecoloum].Name +" like '" + opt.SelectedItem + "'";
             }
             else
             {

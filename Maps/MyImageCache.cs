@@ -129,6 +129,11 @@ namespace MissionPlanner.Maps
 
             string file = CacheLocation + Path.DirectorySeparatorChar + GMapProviders.TryGetProvider(type.Value).Name + Path.DirectorySeparatorChar;
 
+            if (!Directory.Exists(file)) 
+            {
+                return 0;
+            }
+
             string[] files = Directory.GetFiles(file,"*.jpg",SearchOption.AllDirectories);
 
             foreach (var filen in files)

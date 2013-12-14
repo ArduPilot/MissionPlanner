@@ -112,16 +112,16 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="&gt;&gt;panel1.Name" xml:space="preserve">
     <value>panel1</value>
   </data>
   <data name="&gt;&gt;panel1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;panel1.Parent" xml:space="preserve">
     <value>groupBox5</value>
@@ -133,7 +133,7 @@
     <value>H_SWASH_TYPE</value>
   </data>
   <data name="&gt;&gt;H_SWASH_TYPE.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;H_SWASH_TYPE.Parent" xml:space="preserve">
     <value>groupBox5</value>
@@ -145,7 +145,7 @@
     <value>CCPM</value>
   </data>
   <data name="&gt;&gt;CCPM.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;CCPM.Parent" xml:space="preserve">
     <value>groupBox5</value>
@@ -153,14 +153,14 @@
   <data name="&gt;&gt;CCPM.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="groupBox5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>263, 3</value>
+    <value>20, 3</value>
   </data>
   <data name="groupBox5.Size" type="System.Drawing.Size, System.Drawing">
     <value>126, 60</value>
   </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="groupBox5.TabIndex" type="System.Int32, mscorlib">
     <value>169</value>
   </data>
@@ -171,7 +171,7 @@
     <value>groupBox5</value>
   </data>
   <data name="&gt;&gt;groupBox5.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;groupBox5.Parent" xml:space="preserve">
     <value>$this</value>
@@ -183,25 +183,13 @@
     <value>fbl_modeFBL</value>
   </data>
   <data name="&gt;&gt;fbl_modeFBL.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;fbl_modeFBL.Parent" xml:space="preserve">
     <value>panel1</value>
   </data>
   <data name="&gt;&gt;fbl_modeFBL.ZOrder" xml:space="preserve">
     <value>0</value>
-  </data>
-  <data name="&gt;&gt;Flybar_mode_flybar.Name" xml:space="preserve">
-    <value>Flybar_mode_flybar</value>
-  </data>
-  <data name="&gt;&gt;Flybar_mode_flybar.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Flybar_mode_flybar.Parent" xml:space="preserve">
-    <value>panel1</value>
-  </data>
-  <data name="&gt;&gt;Flybar_mode_flybar.ZOrder" xml:space="preserve">
-    <value>1</value>
   </data>
   <data name="panel1.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 36</value>
@@ -216,7 +204,7 @@
     <value>panel1</value>
   </data>
   <data name="&gt;&gt;panel1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;panel1.Parent" xml:space="preserve">
     <value>groupBox5</value>
@@ -227,7 +215,7 @@
   <data name="fbl_modeFBL.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="fbl_modeFBL.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -235,55 +223,25 @@
     <value>3, 3</value>
   </data>
   <data name="fbl_modeFBL.Size" type="System.Drawing.Size, System.Drawing">
-    <value>44, 17</value>
+    <value>72, 17</value>
   </data>
   <data name="fbl_modeFBL.TabIndex" type="System.Int32, mscorlib">
     <value>138</value>
   </data>
   <data name="fbl_modeFBL.Text" xml:space="preserve">
-    <value>FBL</value>
+    <value>Flybarless</value>
   </data>
   <data name="&gt;&gt;fbl_modeFBL.Name" xml:space="preserve">
     <value>fbl_modeFBL</value>
   </data>
   <data name="&gt;&gt;fbl_modeFBL.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;fbl_modeFBL.Parent" xml:space="preserve">
     <value>panel1</value>
   </data>
   <data name="&gt;&gt;fbl_modeFBL.ZOrder" xml:space="preserve">
     <value>0</value>
-  </data>
-  <data name="Flybar_mode_flybar.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="Flybar_mode_flybar.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="Flybar_mode_flybar.Location" type="System.Drawing.Point, System.Drawing">
-    <value>53, 3</value>
-  </data>
-  <data name="Flybar_mode_flybar.Size" type="System.Drawing.Size, System.Drawing">
-    <value>53, 17</value>
-  </data>
-  <data name="Flybar_mode_flybar.TabIndex" type="System.Int32, mscorlib">
-    <value>137</value>
-  </data>
-  <data name="Flybar_mode_flybar.Text" xml:space="preserve">
-    <value>Flybar</value>
-  </data>
-  <data name="&gt;&gt;Flybar_mode_flybar.Name" xml:space="preserve">
-    <value>Flybar_mode_flybar</value>
-  </data>
-  <data name="&gt;&gt;Flybar_mode_flybar.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Flybar_mode_flybar.Parent" xml:space="preserve">
-    <value>panel1</value>
-  </data>
-  <data name="&gt;&gt;Flybar_mode_flybar.ZOrder" xml:space="preserve">
-    <value>1</value>
   </data>
   <data name="H_SWASH_TYPE.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -304,7 +262,7 @@
     <value>H_SWASH_TYPE</value>
   </data>
   <data name="&gt;&gt;H_SWASH_TYPE.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;H_SWASH_TYPE.Parent" xml:space="preserve">
     <value>groupBox5</value>
@@ -334,7 +292,7 @@
     <value>CCPM</value>
   </data>
   <data name="&gt;&gt;CCPM.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;CCPM.Parent" xml:space="preserve">
     <value>groupBox5</value>
@@ -364,7 +322,7 @@
     <value>label41</value>
   </data>
   <data name="&gt;&gt;label41.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label41.Parent" xml:space="preserve">
     <value>groupBox1</value>
@@ -372,71 +330,83 @@
   <data name="&gt;&gt;label41.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="&gt;&gt;mavlinkNumericUpDown1.Name" xml:space="preserve">
+    <value>mavlinkNumericUpDown1</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDown1.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5093.13133, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDown1.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDown1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;label6.Name" xml:space="preserve">
+    <value>label6</value>
+  </data>
+  <data name="&gt;&gt;label6.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label6.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;label6.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;mavlinkComboBoxTailType.Name" xml:space="preserve">
+    <value>mavlinkComboBoxTailType</value>
+  </data>
+  <data name="&gt;&gt;mavlinkComboBoxTailType.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.5093.13133, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;mavlinkComboBoxTailType.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;mavlinkComboBoxTailType.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
   <data name="&gt;&gt;label46.Name" xml:space="preserve">
     <value>label46</value>
   </data>
   <data name="&gt;&gt;label46.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label46.Parent" xml:space="preserve">
     <value>groupBox3</value>
   </data>
   <data name="&gt;&gt;label46.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;label45.Name" xml:space="preserve">
-    <value>label45</value>
-  </data>
-  <data name="&gt;&gt;label45.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label45.Parent" xml:space="preserve">
-    <value>groupBox3</value>
-  </data>
-  <data name="&gt;&gt;label45.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;H_GYR_ENABLE.Name" xml:space="preserve">
-    <value>H_GYR_ENABLE</value>
-  </data>
-  <data name="&gt;&gt;H_GYR_ENABLE.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;H_GYR_ENABLE.Parent" xml:space="preserve">
-    <value>groupBox3</value>
-  </data>
-  <data name="&gt;&gt;H_GYR_ENABLE.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="&gt;&gt;H_GYR_GAIN.Name" xml:space="preserve">
     <value>H_GYR_GAIN</value>
   </data>
   <data name="&gt;&gt;H_GYR_GAIN.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;H_GYR_GAIN.Parent" xml:space="preserve">
     <value>groupBox3</value>
   </data>
   <data name="&gt;&gt;H_GYR_GAIN.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="groupBox3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>599, 314</value>
+    <value>599, 254</value>
   </data>
   <data name="groupBox3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>101, 63</value>
+    <value>127, 80</value>
   </data>
   <data name="groupBox3.TabIndex" type="System.Int32, mscorlib">
     <value>168</value>
   </data>
   <data name="groupBox3.Text" xml:space="preserve">
-    <value>External Gyro</value>
+    <value>Tail Type</value>
   </data>
   <data name="&gt;&gt;groupBox3.Name" xml:space="preserve">
     <value>groupBox3</value>
   </data>
   <data name="&gt;&gt;groupBox3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;groupBox3.Parent" xml:space="preserve">
     <value>$this</value>
@@ -451,7 +421,7 @@
     <value>NoControl</value>
   </data>
   <data name="label46.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 38</value>
+    <value>6, 40</value>
   </data>
   <data name="label46.Size" type="System.Drawing.Size, System.Drawing">
     <value>29, 13</value>
@@ -466,73 +436,16 @@
     <value>label46</value>
   </data>
   <data name="&gt;&gt;label46.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label46.Parent" xml:space="preserve">
     <value>groupBox3</value>
   </data>
   <data name="&gt;&gt;label46.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="label45.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="label45.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="label45.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 19</value>
-  </data>
-  <data name="label45.Size" type="System.Drawing.Size, System.Drawing">
-    <value>40, 13</value>
-  </data>
-  <data name="label45.TabIndex" type="System.Int32, mscorlib">
-    <value>136</value>
-  </data>
-  <data name="label45.Text" xml:space="preserve">
-    <value>Enable</value>
-  </data>
-  <data name="&gt;&gt;label45.Name" xml:space="preserve">
-    <value>label45</value>
-  </data>
-  <data name="&gt;&gt;label45.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label45.Parent" xml:space="preserve">
-    <value>groupBox3</value>
-  </data>
-  <data name="&gt;&gt;label45.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="H_GYR_ENABLE.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="H_GYR_ENABLE.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="H_GYR_ENABLE.Location" type="System.Drawing.Point, System.Drawing">
-    <value>57, 19</value>
-  </data>
-  <data name="H_GYR_ENABLE.Size" type="System.Drawing.Size, System.Drawing">
-    <value>15, 14</value>
-  </data>
-  <data name="H_GYR_ENABLE.TabIndex" type="System.Int32, mscorlib">
-    <value>118</value>
-  </data>
-  <data name="&gt;&gt;H_GYR_ENABLE.Name" xml:space="preserve">
-    <value>H_GYR_ENABLE</value>
-  </data>
-  <data name="&gt;&gt;H_GYR_ENABLE.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;H_GYR_ENABLE.Parent" xml:space="preserve">
-    <value>groupBox3</value>
-  </data>
-  <data name="&gt;&gt;H_GYR_ENABLE.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="H_GYR_GAIN.Location" type="System.Drawing.Point, System.Drawing">
-    <value>41, 35</value>
+    <value>70, 37</value>
   </data>
   <data name="H_GYR_GAIN.Size" type="System.Drawing.Size, System.Drawing">
     <value>47, 20</value>
@@ -547,13 +460,13 @@
     <value>H_GYR_GAIN</value>
   </data>
   <data name="&gt;&gt;H_GYR_GAIN.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;H_GYR_GAIN.Parent" xml:space="preserve">
     <value>groupBox3</value>
   </data>
   <data name="&gt;&gt;H_GYR_GAIN.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="label21.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -577,7 +490,7 @@
     <value>label21</value>
   </data>
   <data name="&gt;&gt;label21.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label21.Parent" xml:space="preserve">
     <value>groupBox1</value>
@@ -604,7 +517,7 @@
     <value>H_COL_MIN</value>
   </data>
   <data name="&gt;&gt;H_COL_MIN.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;H_COL_MIN.Parent" xml:space="preserve">
     <value>groupBox1</value>
@@ -616,7 +529,7 @@
     <value>H_COL_MID</value>
   </data>
   <data name="&gt;&gt;H_COL_MID.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;H_COL_MID.Parent" xml:space="preserve">
     <value>groupBox1</value>
@@ -628,7 +541,7 @@
     <value>H_COL_MAX</value>
   </data>
   <data name="&gt;&gt;H_COL_MAX.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;H_COL_MAX.Parent" xml:space="preserve">
     <value>groupBox1</value>
@@ -640,7 +553,7 @@
     <value>BUT_0collective</value>
   </data>
   <data name="&gt;&gt;BUT_0collective.Type" xml:space="preserve">
-    <value>Controls.MyButton, MissionPlanner.lanner10, Version=1.1.4783.12716, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_0collective.Parent" xml:space="preserve">
     <value>groupBox1</value>
@@ -649,7 +562,7 @@
     <value>5</value>
   </data>
   <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>309, 95</value>
+    <value>309, 35</value>
   </data>
   <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 209</value>
@@ -661,7 +574,7 @@
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;groupBox1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;groupBox1.Parent" xml:space="preserve">
     <value>$this</value>
@@ -688,7 +601,7 @@
     <value>H_COL_MID</value>
   </data>
   <data name="&gt;&gt;H_COL_MID.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;H_COL_MID.Parent" xml:space="preserve">
     <value>groupBox1</value>
@@ -715,7 +628,7 @@
     <value>H_COL_MAX</value>
   </data>
   <data name="&gt;&gt;H_COL_MAX.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;H_COL_MAX.Parent" xml:space="preserve">
     <value>groupBox1</value>
@@ -745,7 +658,7 @@
     <value>BUT_0collective</value>
   </data>
   <data name="&gt;&gt;BUT_0collective.Type" xml:space="preserve">
-    <value>Controls.MyButton, MissionPlanner.lanner10, Version=1.1.4783.12716, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_0collective.Parent" xml:space="preserve">
     <value>groupBox1</value>
@@ -757,7 +670,7 @@
     <value>label24</value>
   </data>
   <data name="&gt;&gt;label24.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label24.Parent" xml:space="preserve">
     <value>groupBox2</value>
@@ -769,7 +682,7 @@
     <value>HS4_MIN</value>
   </data>
   <data name="&gt;&gt;HS4_MIN.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;HS4_MIN.Parent" xml:space="preserve">
     <value>groupBox2</value>
@@ -781,7 +694,7 @@
     <value>HS4_MAX</value>
   </data>
   <data name="&gt;&gt;HS4_MAX.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;HS4_MAX.Parent" xml:space="preserve">
     <value>groupBox2</value>
@@ -793,7 +706,7 @@
     <value>label40</value>
   </data>
   <data name="&gt;&gt;label40.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label40.Parent" xml:space="preserve">
     <value>groupBox2</value>
@@ -802,7 +715,7 @@
     <value>3</value>
   </data>
   <data name="groupBox2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>525, 186</value>
+    <value>525, 126</value>
   </data>
   <data name="groupBox2.Size" type="System.Drawing.Size, System.Drawing">
     <value>169, 78</value>
@@ -814,7 +727,7 @@
     <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;groupBox2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;groupBox2.Parent" xml:space="preserve">
     <value>$this</value>
@@ -844,7 +757,7 @@
     <value>label24</value>
   </data>
   <data name="&gt;&gt;label24.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label24.Parent" xml:space="preserve">
     <value>groupBox2</value>
@@ -871,7 +784,7 @@
     <value>HS4_MIN</value>
   </data>
   <data name="&gt;&gt;HS4_MIN.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;HS4_MIN.Parent" xml:space="preserve">
     <value>groupBox2</value>
@@ -898,7 +811,7 @@
     <value>HS4_MAX</value>
   </data>
   <data name="&gt;&gt;HS4_MAX.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;HS4_MAX.Parent" xml:space="preserve">
     <value>groupBox2</value>
@@ -928,7 +841,7 @@
     <value>label40</value>
   </data>
   <data name="&gt;&gt;label40.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label40.Parent" xml:space="preserve">
     <value>groupBox2</value>
@@ -949,7 +862,7 @@
     <value>HS3_TRIM</value>
   </data>
   <data name="&gt;&gt;HS3_TRIM.Type" xml:space="preserve">
-    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;HS3_TRIM.Parent" xml:space="preserve">
     <value>$this</value>
@@ -970,7 +883,7 @@
     <value>HS2_TRIM</value>
   </data>
   <data name="&gt;&gt;HS2_TRIM.Type" xml:space="preserve">
-    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;HS2_TRIM.Parent" xml:space="preserve">
     <value>$this</value>
@@ -991,7 +904,7 @@
     <value>HS1_TRIM</value>
   </data>
   <data name="&gt;&gt;HS1_TRIM.Type" xml:space="preserve">
-    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;HS1_TRIM.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1021,7 +934,7 @@
     <value>label39</value>
   </data>
   <data name="&gt;&gt;label39.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label39.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1051,7 +964,7 @@
     <value>label38</value>
   </data>
   <data name="&gt;&gt;label38.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label38.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1081,7 +994,7 @@
     <value>label37</value>
   </data>
   <data name="&gt;&gt;label37.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label37.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1111,7 +1024,7 @@
     <value>label36</value>
   </data>
   <data name="&gt;&gt;label36.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label36.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1141,7 +1054,7 @@
     <value>label26</value>
   </data>
   <data name="&gt;&gt;label26.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label26.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1171,7 +1084,7 @@
     <value>label25</value>
   </data>
   <data name="&gt;&gt;label25.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label25.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1186,7 +1099,7 @@
     <value>NoControl</value>
   </data>
   <data name="label23.Location" type="System.Drawing.Point, System.Drawing">
-    <value>568, 66</value>
+    <value>568, 6</value>
   </data>
   <data name="label23.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 13</value>
@@ -1201,7 +1114,7 @@
     <value>label23</value>
   </data>
   <data name="&gt;&gt;label23.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label23.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1216,7 +1129,7 @@
     <value>NoControl</value>
   </data>
   <data name="label22.Location" type="System.Drawing.Point, System.Drawing">
-    <value>248, 66</value>
+    <value>248, 6</value>
   </data>
   <data name="label22.Size" type="System.Drawing.Size, System.Drawing">
     <value>72, 13</value>
@@ -1231,7 +1144,7 @@
     <value>label22</value>
   </data>
   <data name="&gt;&gt;label22.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label22.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1261,7 +1174,7 @@
     <value>label20</value>
   </data>
   <data name="&gt;&gt;label20.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label20.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1291,7 +1204,7 @@
     <value>label19</value>
   </data>
   <data name="&gt;&gt;label19.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label19.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1321,7 +1234,7 @@
     <value>label18</value>
   </data>
   <data name="&gt;&gt;label18.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label18.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1345,7 +1258,7 @@
     <value>H_SV3_POS</value>
   </data>
   <data name="&gt;&gt;H_SV3_POS.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;H_SV3_POS.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1369,7 +1282,7 @@
     <value>H_SV2_POS</value>
   </data>
   <data name="&gt;&gt;H_SV2_POS.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;H_SV2_POS.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1393,7 +1306,7 @@
     <value>H_SV1_POS</value>
   </data>
   <data name="&gt;&gt;H_SV1_POS.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;H_SV1_POS.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1420,7 +1333,7 @@
     <value>HS3_REV</value>
   </data>
   <data name="&gt;&gt;HS3_REV.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;HS3_REV.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1447,7 +1360,7 @@
     <value>HS2_REV</value>
   </data>
   <data name="&gt;&gt;HS2_REV.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;HS2_REV.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1474,7 +1387,7 @@
     <value>HS1_REV</value>
   </data>
   <data name="&gt;&gt;HS1_REV.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;HS1_REV.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1504,7 +1417,7 @@
     <value>label17</value>
   </data>
   <data name="&gt;&gt;label17.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label17.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1519,7 +1432,7 @@
     <value>NoControl</value>
   </data>
   <data name="label44.Location" type="System.Drawing.Point, System.Drawing">
-    <value>617, 268</value>
+    <value>617, 208</value>
   </data>
   <data name="label44.Size" type="System.Drawing.Size, System.Drawing">
     <value>27, 13</value>
@@ -1534,7 +1447,7 @@
     <value>label44</value>
   </data>
   <data name="&gt;&gt;label44.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label44.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1549,7 +1462,7 @@
     <value>NoControl</value>
   </data>
   <data name="label43.Location" type="System.Drawing.Point, System.Drawing">
-    <value>584, 268</value>
+    <value>584, 208</value>
   </data>
   <data name="label43.Size" type="System.Drawing.Size, System.Drawing">
     <value>27, 13</value>
@@ -1564,7 +1477,7 @@
     <value>label43</value>
   </data>
   <data name="&gt;&gt;label43.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label43.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1579,7 +1492,7 @@
     <value>NoControl</value>
   </data>
   <data name="label42.Location" type="System.Drawing.Point, System.Drawing">
-    <value>536, 288</value>
+    <value>536, 228</value>
   </data>
   <data name="label42.Size" type="System.Drawing.Size, System.Drawing">
     <value>42, 13</value>
@@ -1594,7 +1507,7 @@
     <value>label42</value>
   </data>
   <data name="&gt;&gt;label42.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label42.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1603,7 +1516,7 @@
     <value>19</value>
   </data>
   <data name="HS4_TRIM.Location" type="System.Drawing.Point, System.Drawing">
-    <value>620, 284</value>
+    <value>620, 224</value>
   </data>
   <data name="HS4_TRIM.Size" type="System.Drawing.Size, System.Drawing">
     <value>44, 20</value>
@@ -1615,7 +1528,7 @@
     <value>HS4_TRIM</value>
   </data>
   <data name="&gt;&gt;HS4_TRIM.Type" xml:space="preserve">
-    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;HS4_TRIM.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1630,7 +1543,7 @@
     <value>NoControl</value>
   </data>
   <data name="HS4_REV.Location" type="System.Drawing.Point, System.Drawing">
-    <value>587, 287</value>
+    <value>587, 227</value>
   </data>
   <data name="HS4_REV.Size" type="System.Drawing.Size, System.Drawing">
     <value>15, 14</value>
@@ -1642,7 +1555,7 @@
     <value>HS4_REV</value>
   </data>
   <data name="&gt;&gt;HS4_REV.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;HS4_REV.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1672,7 +1585,7 @@
     <value>label1</value>
   </data>
   <data name="&gt;&gt;label1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label1.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1702,7 +1615,7 @@
     <value>label2</value>
   </data>
   <data name="&gt;&gt;label2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label2.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1726,7 +1639,7 @@
     <value>mavlinkNumericUpDown3max</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDown3max.Type" xml:space="preserve">
-    <value>Controls.MavlinkNumericUpDown, MissionPlanner.lanner10, Version=1.1.4783.12716, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5093.13133, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDown3max.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1750,7 +1663,7 @@
     <value>mavlinkNumericUpDown3min</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDown3min.Type" xml:space="preserve">
-    <value>Controls.MavlinkNumericUpDown, MissionPlanner.lanner10, Version=1.1.4783.12716, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5093.13133, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDown3min.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1774,7 +1687,7 @@
     <value>mavlinkNumericUpDown2max</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDown2max.Type" xml:space="preserve">
-    <value>Controls.MavlinkNumericUpDown, MissionPlanner.lanner10, Version=1.1.4783.12716, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5093.13133, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDown2max.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1798,7 +1711,7 @@
     <value>mavlinkNumericUpDown2min</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDown2min.Type" xml:space="preserve">
-    <value>Controls.MavlinkNumericUpDown, MissionPlanner.lanner10, Version=1.1.4783.12716, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5093.13133, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDown2min.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1822,7 +1735,7 @@
     <value>mavlinkNumericUpDown1max</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDown1max.Type" xml:space="preserve">
-    <value>Controls.MavlinkNumericUpDown, MissionPlanner.lanner10, Version=1.1.4783.12716, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5093.13133, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDown1max.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1846,7 +1759,7 @@
     <value>mavlinkNumericUpDown1min</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDown1min.Type" xml:space="preserve">
-    <value>Controls.MavlinkNumericUpDown, MissionPlanner.lanner10, Version=1.1.4783.12716, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5093.13133, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDown1min.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1858,7 +1771,7 @@
     <value>NoControl</value>
   </data>
   <data name="BUT_swash_manual.Location" type="System.Drawing.Point, System.Drawing">
-    <value>314, 83</value>
+    <value>314, 23</value>
   </data>
   <data name="BUT_swash_manual.Size" type="System.Drawing.Size, System.Drawing">
     <value>69, 23</value>
@@ -1873,7 +1786,7 @@
     <value>BUT_swash_manual</value>
   </data>
   <data name="&gt;&gt;BUT_swash_manual.Type" xml:space="preserve">
-    <value>Controls.MyButton, MissionPlanner.lanner10, Version=1.1.4783.12716, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_swash_manual.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1885,7 +1798,7 @@
     <value>NoControl</value>
   </data>
   <data name="BUT_HS4save.Location" type="System.Drawing.Point, System.Drawing">
-    <value>571, 174</value>
+    <value>571, 114</value>
   </data>
   <data name="BUT_HS4save.Size" type="System.Drawing.Size, System.Drawing">
     <value>69, 23</value>
@@ -1900,7 +1813,7 @@
     <value>BUT_HS4save</value>
   </data>
   <data name="&gt;&gt;BUT_HS4save.Type" xml:space="preserve">
-    <value>Controls.MyButton, MissionPlanner.lanner10, Version=1.1.4783.12716, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_HS4save.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1908,11 +1821,11 @@
   <data name="&gt;&gt;BUT_HS4save.ZOrder" xml:space="preserve">
     <value>25</value>
   </data>
-  <metadata name="currentStateBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <metadata name="currentStateBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
   <data name="HS4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>484, 93</value>
+    <value>484, 33</value>
   </data>
   <data name="HS4.Size" type="System.Drawing.Size, System.Drawing">
     <value>242, 42</value>
@@ -1924,7 +1837,7 @@
     <value>HS4</value>
   </data>
   <data name="&gt;&gt;HS4.Type" xml:space="preserve">
-    <value>MissionPlanner.HorizontalProgressBar2, MissionPlanner.lanner10, Version=1.1.4783.12716, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.HorizontalProgressBar2, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;HS4.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1932,11 +1845,11 @@
   <data name="&gt;&gt;HS4.ZOrder" xml:space="preserve">
     <value>49</value>
   </data>
-  <metadata name="currentStateBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <metadata name="currentStateBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
   <data name="HS3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>251, 95</value>
+    <value>251, 35</value>
   </data>
   <data name="HS3.Size" type="System.Drawing.Size, System.Drawing">
     <value>42, 213</value>
@@ -1948,7 +1861,7 @@
     <value>HS3</value>
   </data>
   <data name="&gt;&gt;HS3.Type" xml:space="preserve">
-    <value>MissionPlanner.VerticalProgressBar2, MissionPlanner.lanner10, Version=1.1.4783.12716, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.VerticalProgressBar2, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;HS3.Parent" xml:space="preserve">
     <value>$this</value>
@@ -1978,7 +1891,7 @@
     <value>Gservoloc</value>
   </data>
   <data name="&gt;&gt;Gservoloc.Type" xml:space="preserve">
-    <value>AGaugeApp.AGauge, MissionPlanner.lanner10, Version=1.1.4783.12716, Culture=neutral, PublicKeyToken=null</value>
+    <value>AGaugeApp.AGauge, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;Gservoloc.Parent" xml:space="preserve">
     <value>$this</value>
@@ -2002,7 +1915,7 @@
     <value>mavlinkNumericUpDownrollmax</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownrollmax.Type" xml:space="preserve">
-    <value>Controls.MavlinkNumericUpDown, MissionPlanner.lanner10, Version=1.1.4783.12716, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5093.13133, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownrollmax.Parent" xml:space="preserve">
     <value>$this</value>
@@ -2026,7 +1939,7 @@
     <value>mavlinkNumericUpDownpitchmax</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownpitchmax.Type" xml:space="preserve">
-    <value>Controls.MavlinkNumericUpDown, MissionPlanner.lanner10, Version=1.1.4783.12716, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5093.13133, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownpitchmax.Parent" xml:space="preserve">
     <value>$this</value>
@@ -2038,7 +1951,7 @@
     <value>NoControl</value>
   </data>
   <data name="BUT_reset_swash.Location" type="System.Drawing.Point, System.Drawing">
-    <value>357, 312</value>
+    <value>357, 252</value>
   </data>
   <data name="BUT_reset_swash.Size" type="System.Drawing.Size, System.Drawing">
     <value>69, 23</value>
@@ -2053,7 +1966,7 @@
     <value>BUT_reset_swash</value>
   </data>
   <data name="&gt;&gt;BUT_reset_swash.Type" xml:space="preserve">
-    <value>Controls.MyButton, MissionPlanner.lanner10, Version=1.1.4783.12716, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_reset_swash.Parent" xml:space="preserve">
     <value>$this</value>
@@ -2065,7 +1978,7 @@
     <value>H_COLYAW</value>
   </data>
   <data name="&gt;&gt;H_COLYAW.Type" xml:space="preserve">
-    <value>Controls.MavlinkNumericUpDown, MissionPlanner.lanner10, Version=1.1.4783.12716, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5093.13133, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;H_COLYAW.Parent" xml:space="preserve">
     <value>groupBox4</value>
@@ -2074,7 +1987,7 @@
     <value>0</value>
   </data>
   <data name="groupBox4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>505, 314</value>
+    <value>505, 254</value>
   </data>
   <data name="groupBox4.Size" type="System.Drawing.Size, System.Drawing">
     <value>88, 63</value>
@@ -2089,7 +2002,7 @@
     <value>groupBox4</value>
   </data>
   <data name="&gt;&gt;groupBox4.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;groupBox4.Parent" xml:space="preserve">
     <value>$this</value>
@@ -2116,7 +2029,7 @@
     <value>H_COLYAW</value>
   </data>
   <data name="&gt;&gt;H_COLYAW.Type" xml:space="preserve">
-    <value>Controls.MavlinkNumericUpDown, MissionPlanner.lanner10, Version=1.1.4783.12716, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5093.13133, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;H_COLYAW.Parent" xml:space="preserve">
     <value>groupBox4</value>
@@ -2128,7 +2041,7 @@
     <value>label3</value>
   </data>
   <data name="&gt;&gt;label3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label3.Parent" xml:space="preserve">
     <value>groupBox6</value>
@@ -2140,7 +2053,7 @@
     <value>label4</value>
   </data>
   <data name="&gt;&gt;label4.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label4.Parent" xml:space="preserve">
     <value>groupBox6</value>
@@ -2152,7 +2065,7 @@
     <value>H_STAB_COL_MIN</value>
   </data>
   <data name="&gt;&gt;H_STAB_COL_MIN.Type" xml:space="preserve">
-    <value>Controls.MavlinkNumericUpDown, MissionPlanner.lanner10, Version=1.1.4783.12716, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5093.13133, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;H_STAB_COL_MIN.Parent" xml:space="preserve">
     <value>groupBox6</value>
@@ -2164,7 +2077,7 @@
     <value>H_STAB_COL_MAX</value>
   </data>
   <data name="&gt;&gt;H_STAB_COL_MAX.Type" xml:space="preserve">
-    <value>Controls.MavlinkNumericUpDown, MissionPlanner.lanner10, Version=1.1.4783.12716, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5093.13133, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;H_STAB_COL_MAX.Parent" xml:space="preserve">
     <value>groupBox6</value>
@@ -2173,7 +2086,7 @@
     <value>3</value>
   </data>
   <data name="groupBox6.Location" type="System.Drawing.Point, System.Drawing">
-    <value>395, 95</value>
+    <value>395, 35</value>
   </data>
   <data name="groupBox6.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 209</value>
@@ -2188,7 +2101,7 @@
     <value>groupBox6</value>
   </data>
   <data name="&gt;&gt;groupBox6.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;groupBox6.Parent" xml:space="preserve">
     <value>$this</value>
@@ -2218,7 +2131,7 @@
     <value>label3</value>
   </data>
   <data name="&gt;&gt;label3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label3.Parent" xml:space="preserve">
     <value>groupBox6</value>
@@ -2248,7 +2161,7 @@
     <value>label4</value>
   </data>
   <data name="&gt;&gt;label4.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label4.Parent" xml:space="preserve">
     <value>groupBox6</value>
@@ -2272,7 +2185,7 @@
     <value>H_STAB_COL_MIN</value>
   </data>
   <data name="&gt;&gt;H_STAB_COL_MIN.Type" xml:space="preserve">
-    <value>Controls.MavlinkNumericUpDown, MissionPlanner.lanner10, Version=1.1.4783.12716, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5093.13133, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;H_STAB_COL_MIN.Parent" xml:space="preserve">
     <value>groupBox6</value>
@@ -2296,7 +2209,7 @@
     <value>H_STAB_COL_MAX</value>
   </data>
   <data name="&gt;&gt;H_STAB_COL_MAX.Type" xml:space="preserve">
-    <value>Controls.MavlinkNumericUpDown, MissionPlanner.lanner10, Version=1.1.4783.12716, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5093.13133, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;H_STAB_COL_MAX.Parent" xml:space="preserve">
     <value>groupBox6</value>
@@ -2304,20 +2217,32 @@
   <data name="&gt;&gt;H_STAB_COL_MAX.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
+  <data name="&gt;&gt;label5.Name" xml:space="preserve">
+    <value>label5</value>
+  </data>
+  <data name="&gt;&gt;label5.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label5.Parent" xml:space="preserve">
+    <value>groupBox7</value>
+  </data>
+  <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <data name="&gt;&gt;H_RSC_RATE.Name" xml:space="preserve">
     <value>H_RSC_RATE</value>
   </data>
   <data name="&gt;&gt;H_RSC_RATE.Type" xml:space="preserve">
-    <value>Controls.MavlinkNumericUpDown, MissionPlanner.lanner10, Version=1.1.4783.12716, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5093.13133, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;H_RSC_RATE.Parent" xml:space="preserve">
     <value>groupBox7</value>
   </data>
   <data name="&gt;&gt;H_RSC_RATE.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="groupBox7.Location" type="System.Drawing.Point, System.Drawing">
-    <value>743, 314</value>
+    <value>743, 203</value>
   </data>
   <data name="groupBox7.Size" type="System.Drawing.Size, System.Drawing">
     <value>105, 63</value>
@@ -2332,7 +2257,7 @@
     <value>groupBox7</value>
   </data>
   <data name="&gt;&gt;groupBox7.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;groupBox7.Parent" xml:space="preserve">
     <value>$this</value>
@@ -2359,19 +2284,19 @@
     <value>H_RSC_RATE</value>
   </data>
   <data name="&gt;&gt;H_RSC_RATE.Type" xml:space="preserve">
-    <value>Controls.MavlinkNumericUpDown, MissionPlanner.lanner10, Version=1.1.4783.12716, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5093.13133, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;H_RSC_RATE.Parent" xml:space="preserve">
     <value>groupBox7</value>
   </data>
   <data name="&gt;&gt;H_RSC_RATE.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="&gt;&gt;H_GOV_SETPOINT.Name" xml:space="preserve">
     <value>H_GOV_SETPOINT</value>
   </data>
   <data name="&gt;&gt;H_GOV_SETPOINT.Type" xml:space="preserve">
-    <value>Controls.MavlinkNumericUpDown, MissionPlanner.lanner10, Version=1.1.4783.12716, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5093.13133, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;H_GOV_SETPOINT.Parent" xml:space="preserve">
     <value>groupBox8</value>
@@ -2380,7 +2305,7 @@
     <value>0</value>
   </data>
   <data name="groupBox8.Location" type="System.Drawing.Point, System.Drawing">
-    <value>743, 245</value>
+    <value>743, 134</value>
   </data>
   <data name="groupBox8.Size" type="System.Drawing.Size, System.Drawing">
     <value>105, 63</value>
@@ -2395,7 +2320,7 @@
     <value>groupBox8</value>
   </data>
   <data name="&gt;&gt;groupBox8.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;groupBox8.Parent" xml:space="preserve">
     <value>$this</value>
@@ -2422,13 +2347,49 @@
     <value>H_GOV_SETPOINT</value>
   </data>
   <data name="&gt;&gt;H_GOV_SETPOINT.Type" xml:space="preserve">
-    <value>Controls.MavlinkNumericUpDown, MissionPlanner.lanner10, Version=1.1.4783.12716, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5093.13133, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;H_GOV_SETPOINT.Parent" xml:space="preserve">
     <value>groupBox8</value>
   </data>
   <data name="&gt;&gt;H_GOV_SETPOINT.ZOrder" xml:space="preserve">
     <value>0</value>
+  </data>
+  <data name="&gt;&gt;H_RSC_MODE.Name" xml:space="preserve">
+    <value>H_RSC_MODE</value>
+  </data>
+  <data name="&gt;&gt;H_RSC_MODE.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.5093.13133, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;H_RSC_MODE.Parent" xml:space="preserve">
+    <value>groupBox9</value>
+  </data>
+  <data name="&gt;&gt;H_RSC_MODE.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="groupBox9.Location" type="System.Drawing.Point, System.Drawing">
+    <value>743, 66</value>
+  </data>
+  <data name="groupBox9.Size" type="System.Drawing.Size, System.Drawing">
+    <value>105, 62</value>
+  </data>
+  <data name="groupBox9.TabIndex" type="System.Int32, mscorlib">
+    <value>187</value>
+  </data>
+  <data name="groupBox9.Text" xml:space="preserve">
+    <value>Rotor Speed Control</value>
+  </data>
+  <data name="&gt;&gt;groupBox9.Name" xml:space="preserve">
+    <value>groupBox9</value>
+  </data>
+  <data name="&gt;&gt;groupBox9.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox9.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;groupBox9.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <data name="H_RSC_MODE.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -2446,37 +2407,13 @@
     <value>H_RSC_MODE</value>
   </data>
   <data name="&gt;&gt;H_RSC_MODE.Type" xml:space="preserve">
-    <value>Controls.MavlinkComboBox, MissionPlanner.lanner10, Version=1.1.4783.12716, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.5093.13133, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;H_RSC_MODE.Parent" xml:space="preserve">
     <value>groupBox9</value>
   </data>
   <data name="&gt;&gt;H_RSC_MODE.ZOrder" xml:space="preserve">
     <value>0</value>
-  </data>
-  <data name="groupBox9.Location" type="System.Drawing.Point, System.Drawing">
-    <value>743, 177</value>
-  </data>
-  <data name="groupBox9.Size" type="System.Drawing.Size, System.Drawing">
-    <value>105, 62</value>
-  </data>
-  <data name="groupBox9.TabIndex" type="System.Int32, mscorlib">
-    <value>187</value>
-  </data>
-  <data name="groupBox9.Text" xml:space="preserve">
-    <value>Rotor Speed Control</value>
-  </data>
-  <data name="&gt;&gt;groupBox9.Name" xml:space="preserve">
-    <value>groupBox9</value>
-  </data>
-  <data name="&gt;&gt;groupBox9.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;groupBox9.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;groupBox9.ZOrder" xml:space="preserve">
-    <value>1</value>
   </data>
   <data name="label5.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2485,7 +2422,7 @@
     <value>NoControl</value>
   </data>
   <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>790, 349</value>
+    <value>49, 34</value>
   </data>
   <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
     <value>49, 13</value>
@@ -2500,15 +2437,144 @@
     <value>label5</value>
   </data>
   <data name="&gt;&gt;label5.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label5.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>groupBox7</value>
   </data>
   <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="mavlinkComboBoxTailType.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="mavlinkComboBoxTailType.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 14</value>
+  </data>
+  <data name="mavlinkComboBoxTailType.Size" type="System.Drawing.Size, System.Drawing">
+    <value>112, 21</value>
+  </data>
+  <data name="mavlinkComboBoxTailType.TabIndex" type="System.Int32, mscorlib">
+    <value>138</value>
+  </data>
+  <data name="&gt;&gt;mavlinkComboBoxTailType.Name" xml:space="preserve">
+    <value>mavlinkComboBoxTailType</value>
+  </data>
+  <data name="&gt;&gt;mavlinkComboBoxTailType.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.5093.13133, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;mavlinkComboBoxTailType.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;mavlinkComboBoxTailType.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="label6.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label6.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label6.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 62</value>
+  </data>
+  <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>58, 13</value>
+  </data>
+  <data name="label6.TabIndex" type="System.Int32, mscorlib">
+    <value>140</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>Tail Speed</value>
+  </data>
+  <data name="&gt;&gt;label6.Name" xml:space="preserve">
+    <value>label6</value>
+  </data>
+  <data name="&gt;&gt;label6.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label6.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;label6.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="mavlinkNumericUpDown1.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="mavlinkNumericUpDown1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>70, 57</value>
+  </data>
+  <data name="mavlinkNumericUpDown1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>47, 20</value>
+  </data>
+  <data name="mavlinkNumericUpDown1.TabIndex" type="System.Int32, mscorlib">
+    <value>141</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDown1.Name" xml:space="preserve">
+    <value>mavlinkNumericUpDown1</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDown1.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5093.13133, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDown1.Parent" xml:space="preserve">
+    <value>groupBox3</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDown1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="mavlinkNumericUpDownland_col_min.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="mavlinkNumericUpDownland_col_min.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 37</value>
+  </data>
+  <data name="mavlinkNumericUpDownland_col_min.Size" type="System.Drawing.Size, System.Drawing">
+    <value>68, 20</value>
+  </data>
+  <data name="mavlinkNumericUpDownland_col_min.TabIndex" type="System.Int32, mscorlib">
+    <value>119</value>
+  </data>
+  <data name="mavlinkNumericUpDownland_col_min.TextAlign" type="System.Windows.Forms.HorizontalAlignment, System.Windows.Forms">
+    <value>Center</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownland_col_min.Name" xml:space="preserve">
+    <value>mavlinkNumericUpDownland_col_min</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownland_col_min.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5093.13133, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownland_col_min.Parent" xml:space="preserve">
+    <value>groupBox10</value>
+  </data>
+  <data name="&gt;&gt;mavlinkNumericUpDownland_col_min.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="groupBox10.Location" type="System.Drawing.Point, System.Drawing">
+    <value>395, 286</value>
+  </data>
+  <data name="groupBox10.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 63</value>
+  </data>
+  <data name="groupBox10.TabIndex" type="System.Int32, mscorlib">
+    <value>170</value>
+  </data>
+  <data name="groupBox10.Text" xml:space="preserve">
+    <value>Land Col Min</value>
+  </data>
+  <data name="&gt;&gt;groupBox10.Name" xml:space="preserve">
+    <value>groupBox10</value>
+  </data>
+  <data name="&gt;&gt;groupBox10.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox10.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;groupBox10.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
@@ -2521,12 +2587,12 @@
     <value>currentStateBindingSource</value>
   </data>
   <data name="&gt;&gt;currentStateBindingSource.Type" xml:space="preserve">
-    <value>System.Windows.Forms.BindingSource, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.BindingSource, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>ConfigTradHeli</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

@@ -195,7 +195,6 @@ namespace MissionPlanner
                 MainV2.comPort.sendPacket(rc);
                 System.Threading.Thread.Sleep(20);
                 MainV2.comPort.sendPacket(rc);
-                MainV2.comPort.sendPacket(rc);
             }
 
             return true;

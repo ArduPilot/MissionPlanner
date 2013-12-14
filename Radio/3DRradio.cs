@@ -27,6 +27,13 @@ namespace MissionPlanner
 
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
+        enum mavlink_option: int
+        {
+            RawData = 0,
+            Mavlink = 1,
+            LowLatency = 2,
+        }
+
         /*
 ATI5
 S0: FORMAT=25
@@ -58,6 +65,20 @@ S15: MAX_WINDOW=131
             // setup netid
             S3.DataSource = Enumerable.Range(0, 500).ToArray();
             RS3.DataSource = Enumerable.Range(0, 500).ToArray();
+
+            var dict = Enum.GetValues(typeof(mavlink_option))
+               .Cast<mavlink_option>()
+               .ToDictionary(t => (int)t, t => t.ToString());
+
+            S6.DisplayMember = "Value";
+            S6.ValueMember = "Key";
+            S6.DataSource = dict.ToArray();
+            RS6.DisplayMember = "Value";
+            RS6.ValueMember = "Key";
+            RS6.DataSource = dict.ToArray();
+
+            S15.DataSource = Enumerable.Range(33, 131 - 32).ToArray();
+            RS15.DataSource = Enumerable.Range(33, 131 - 32).ToArray();
         }
 
         bool getFirmware(uploader.Uploader.Board device, bool custom = false)
@@ -383,21 +404,48 @@ bool beta = false;
                                     }
                                     else
                                     {
-                                        if (controls[0].Text != values[2].Trim() && controls[0].Text != "")
+                                        if (controls[0] is TextBox)
                                         {
-                                            string cmdanswer = doCommand(comPort, "RT" + values[0].Trim() + "=" + controls[0].Text + "\r");
 
-                                            if (cmdanswer.Contains("OK"))
+                                        }
+                                        else
+                                        {
+                                            if (((ComboBox)controls[0]).SelectedValue != null)
                                             {
+                                                if (((ComboBox)controls[0]).SelectedValue.ToString() != values[2].Trim())
+                                                {
+                                                    string cmdanswer = doCommand(comPort, "RT" + values[0].Trim() + "=" + ((ComboBox)controls[0]).SelectedValue + "\r");
 
+                                                    if (cmdanswer.Contains("OK"))
+                                                    {
+
+                                                    }
+                                                    else
+                                                    {
+                                                        CustomMessageBox.Show("Set Command error");
+                                                    }
+                                                }
                                             }
-                                            else
+                                            else if (controls[0].Text != values[2].Trim() && controls[0].Text != "")
                                             {
-                                                CustomMessageBox.Show("Set Command error");
+                                                string cmdanswer = doCommand(comPort, "RT" + values[0].Trim() + "=" + controls[0].Text + "\r");
+
+                                                if (cmdanswer.Contains("OK"))
+                                                {
+
+                                                }
+                                                else
+                                                {
+                                                    CustomMessageBox.Show("Set Command error");
+                                                }
                                             }
                                         }
                                     }
                                 }
+                            }
+                            else
+                            {
+                                // bad ?ti5 line
                             }
                         }
                     }
@@ -450,17 +498,40 @@ bool beta = false;
                                     }
                                     else
                                     {
-                                        if (controls[0].Text != values[2].Trim())
+                                        if (controls[0] is TextBox)
                                         {
-                                            string cmdanswer = doCommand(comPort, "AT" + values[0].Trim() + "=" + controls[0].Text + "\r");
 
-                                            if (cmdanswer.Contains("OK"))
+                                        }
+                                        else 
+                                        {
+                                            if (((ComboBox)controls[0]).SelectedValue != null)
                                             {
+                                                if (((ComboBox)controls[0]).SelectedValue.ToString() != values[2].Trim())
+                                                {
+                                                    string cmdanswer = doCommand(comPort, "AT" + values[0].Trim() + "=" + ((ComboBox)controls[0]).SelectedValue + "\r");
 
+                                                    if (cmdanswer.Contains("OK"))
+                                                    {
+
+                                                    }
+                                                    else
+                                                    {
+                                                        CustomMessageBox.Show("Set Command error");
+                                                    }
+                                                }
                                             }
-                                            else
+                                            else if (controls[0].Text != values[2].Trim() && controls[0].Text != "")
                                             {
-                                                CustomMessageBox.Show("Set Command error");
+                                                string cmdanswer = doCommand(comPort, "AT" + values[0].Trim() + "=" + controls[0].Text + "\r");
+
+                                                if (cmdanswer.Contains("OK"))
+                                                {
+
+                                                }
+                                                else
+                                                {
+                                                    CustomMessageBox.Show("Set Command error");
+                                                }
                                             }
                                         }
                                     }
@@ -604,13 +675,22 @@ bool beta = false;
                             {
                                 controls[0].Enabled = true;
 
-                                if (controls[0].GetType() == typeof(CheckBox))
+                                if (controls[0] is CheckBox)
                                 {
                                     ((CheckBox)controls[0]).Checked = values[2].Trim() == "1";
                                 }
-                                else
+                                else if (controls[0] is TextBox)
                                 {
-                                    controls[0].Text = values[2].Trim();
+                                    ((TextBox)controls[0]).Text = values[2].Trim();
+                                }
+                                else if (controls[0].Name.Contains("S6")) //
+                                {
+                                    var ans = Enum.Parse(typeof(mavlink_option), values[2].Trim());
+                                    ((ComboBox)controls[0]).Text = ans.ToString();
+                                }
+                                else if (controls[0] is ComboBox)
+                                {
+                                    ((ComboBox)controls[0]).Text = values[2].Trim();
                                 }
                             }
                         }
@@ -623,7 +703,6 @@ bool beta = false;
                     if (ctl.Name.StartsWith("RS") && ctl.Name != "RSSI")
                         ctl.ResetText();
                 }
-
 
                 comPort.DiscardInBuffer();
 
@@ -648,21 +727,38 @@ bool beta = false;
 
                             controls[0].Enabled = true;
 
-                            if (controls[0].GetType() == typeof(CheckBox))
+                            if (controls[0] is CheckBox)
                             {
                                 ((CheckBox)controls[0]).Checked = values[2].Trim() == "1";
                             }
-                            else if (controls[0].GetType() == typeof(TextBox))
+                            else if (controls[0] is TextBox)
                             {
                                 ((TextBox)controls[0]).Text = values[2].Trim();
                             }
-                            else if (controls[0].GetType() == typeof(ComboBox))
+                            else if (controls[0].Name.Contains("S6")) //
+                            {
+                                var ans = Enum.Parse(typeof(mavlink_option), values[2].Trim());
+                                ((ComboBox)controls[0]).Text = ans.ToString();
+                            }
+                            else if (controls[0] is ComboBox)
                             {
                                 ((ComboBox)controls[0]).Text = values[2].Trim();
                             }
                         }
                         else
                         {
+                            /*
+                            if (item.Contains("S15"))
+                            {
+                                answer = doCommand(comPort, "RTS15?");
+                                int rts15 = 0;
+                                if (int.TryParse(answer, out rts15))
+                                {
+                                    RS15.Enabled = true;
+                                    RS15.Text = rts15.ToString();
+                                }
+                            }
+                            */
                             log.Info("Odd config line :" + item);
                         }
                     }
@@ -746,7 +842,7 @@ bool beta = false;
                 catch { ans = ans + comPort.ReadExisting() + "\n"; }
                 Sleep(50);
 
-                if (ans.Length > 500)
+                if (ans.Length > 1024)
                 {
                     break;
                 }
@@ -821,6 +917,7 @@ bool beta = false;
             RS2.Text = S2.Text;
             RS3.Text = S3.Text;
             RS5.Checked = S5.Checked;
+            RS6.Text = S6.Text;
             RS8.Text = S8.Text;
             RS9.Text = S9.Text;
             RS10.Text = S10.Text;
@@ -905,6 +1002,25 @@ red LED solid - in firmware update mode");
         {
             beta = !beta;
             CustomMessageBox.Show("Beta set to " + beta.ToString());
+        }
+
+        private void linkLabel_mavlink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            S6.SelectedValue = 1;
+            S15.Text = (131).ToString();
+
+            RS6.SelectedValue = 1;
+            RS15.Text = (131).ToString();
+
+        }
+
+        private void linkLabel_lowlatency_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            S6.SelectedValue = 2;
+            S15.Text = (33).ToString();
+
+            RS6.SelectedValue = 2;
+            RS15.Text = (33).ToString();
         }
     }
 }

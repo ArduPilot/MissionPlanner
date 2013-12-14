@@ -102,11 +102,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             catch { CustomMessageBox.Show("Failed to set H_SV_MAN"); }
         }
 
-        private void tabHeli_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void HS4_Paint(object sender, PaintEventArgs e)
         {
             try
@@ -394,8 +389,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             timer.Interval = 100;
             timer.Start();
 
-            mavlinkNumericUpDown1min.setup(800,1400,1,1,"HS1_MIN",MainV2.comPort.MAV.param);
-            mavlinkNumericUpDown1max.setup(1600,2200,1,1,"HS1_MAX",MainV2.comPort.MAV.param);
+            // swash servo pos
+            mavlinkNumericUpDown1min.setup(800, 1400, 1, 1, "HS1_MIN", MainV2.comPort.MAV.param);
+            mavlinkNumericUpDown1max.setup(1600, 2200, 1, 1, "HS1_MAX", MainV2.comPort.MAV.param);
             mavlinkNumericUpDown2min.setup(800, 1400, 1, 1, "HS2_MIN", MainV2.comPort.MAV.param);
             mavlinkNumericUpDown2max.setup(1600, 2200, 1, 1, "HS2_MAX", MainV2.comPort.MAV.param);
             mavlinkNumericUpDown3min.setup(800, 1400, 1, 1, "HS3_MIN", MainV2.comPort.MAV.param);
@@ -404,7 +400,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             mavlinkNumericUpDownpitchmax.setup(10, 65, 100, 1, "H_PIT_MAX", MainV2.comPort.MAV.param);
             mavlinkNumericUpDownrollmax.setup(10, 65, 100, 1, "H_ROL_MAX", MainV2.comPort.MAV.param);
 
-            H_STAB_COL_MAX.setup(50, 100, 1, 1, "H_STAB_COL_MAX",MainV2.comPort.MAV.param);
+            mavlinkComboBoxTailType.setup(Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("H_TAIL_TYPE"), "H_TAIL_TYPE", MainV2.comPort.MAV.param);
+
+            mavlinkNumericUpDownland_col_min.setup(0,1000,1,1, "H_LAND_COL_MIN", MainV2.comPort.MAV.param);
+
+            H_STAB_COL_MAX.setup(50, 100, 1, 1, "H_STAB_COL_MAX", MainV2.comPort.MAV.param);
             H_STAB_COL_MIN.setup(0, 50, 1, 1, "H_STAB_COL_MIN", MainV2.comPort.MAV.param);
             H_COLYAW.setup(0, 5, 1, 1, "H_COLYAW", MainV2.comPort.MAV.param);
             H_RSC_RATE.setup(0, 60, 100, 1, "H_RSC_RATE", MainV2.comPort.MAV.param);
@@ -423,7 +423,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 if (MainV2.comPort.MAV.param.ContainsKey("H_FLYBAR_MODE"))
                 {
                     fbl_modeFBL.Checked = MainV2.comPort.MAV.param["H_FLYBAR_MODE"].ToString() == "0" ? true : false;
-                    Flybar_mode_flybar.Checked = !fbl_modeFBL.Checked;
                 }
 
                 foreach (string value in MainV2.comPort.MAV.param.Keys)
@@ -548,9 +547,5 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             catch { CustomMessageBox.Show("Set H_FLYBAR_MODE Failed"); }
         }
 
-        private void Flybar_mode_flybar_CheckedChanged(object sender, EventArgs e)
-        {
-            fbl_modeFBL_CheckedChanged(sender, e);
-        }
     }
 }

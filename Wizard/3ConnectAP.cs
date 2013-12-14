@@ -101,7 +101,7 @@ namespace MissionPlanner.Wizard
             if (pdr.doWorkArgs.CancelRequested || !string.IsNullOrEmpty(pdr.doWorkArgs.ErrorMessage))
                 return 0;
 
-            if (!MainV2.comPort.BaseStream.IsOpen)
+            if (MainV2.comPort.BaseStream.IsOpen)
                 MainV2.comPort.BaseStream.Close();
             
                 MainV2.comPort.BaseStream.BaudRate = 115200;

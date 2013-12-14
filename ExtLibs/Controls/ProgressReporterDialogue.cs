@@ -74,12 +74,16 @@ namespace MissionPlanner.Controls
 
             log.Info("Focus ctl");
 
-            this.Invoke((MethodInvoker)delegate
-         {
-             // if this windows isnt the current active windows, popups inherit the wrong parent.
-             this.Focus();
-             Application.DoEvents();
-         });
+            try
+            {
+                this.Invoke((MethodInvoker)delegate
+             {
+                 // if this windows isnt the current active windows, popups inherit the wrong parent.
+                 this.Focus();
+                 Application.DoEvents();
+             });
+            }
+            catch { Running = false; return; }
 
             try
             {
@@ -163,17 +167,20 @@ namespace MissionPlanner.Controls
         // - Signal that we can close
         private void ShowDone()
         {
-            this.Invoke((MethodInvoker) delegate
+            if (!this.IsHandleCreated)
+                return;
+
+            this.Invoke((MethodInvoker)delegate
                 {
                     this.progressBar1.Style = ProgressBarStyle.Continuous;
                     this.progressBar1.Value = 100;
                     this.btnCancel.Visible = false;
                     this.btnClose.Visible = false;
                 });
-           
+
             Thread.Sleep(1000);
 
-            this.BeginInvoke((MethodInvoker) this.Close);
+            this.BeginInvoke((MethodInvoker)this.Close);
         }
 
         // Called as a possible last operation of the bg thread
