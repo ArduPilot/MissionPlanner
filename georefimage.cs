@@ -151,7 +151,7 @@ namespace MissionPlanner
 
             if (fn.ToLower().EndsWith("tlog"))
             {
-                MAVLink mine = new MAVLink();
+                MAVLinkInterface mine = new MAVLinkInterface();
                 mine.logplaybackfile = new BinaryReader(File.Open(fn, FileMode.Open, FileAccess.Read, FileShare.Read));
                 mine.logreadmode = true;
 
@@ -480,10 +480,6 @@ namespace MissionPlanner
 
                                 if (dooffset)
                                 {
-                                    swlockml.Close();
-                                    swloctel.Close();
-                                    swloctxt.Close();
-                                    swlogloccsv.Close();
                                     return;
                                 }
 
@@ -518,9 +514,9 @@ namespace MissionPlanner
 
                                 matchs++;
 
-                               //  int fixme;
-                               //  if (matchs < 150 || matchs > 170)
-                               //     break; ;
+                                //  int fixme;
+                                //  if (matchs < 150 || matchs > 170)
+                                //     break; ;
 
                                 SharpKml.Dom.Timestamp tstamp = new SharpKml.Dom.Timestamp();
 
@@ -623,23 +619,16 @@ namespace MissionPlanner
                             //Console.WriteLine(crap);
                         }
                     }
-
-
-                }
-
-                
+                }                
 
                 Serializer serializer = new Serializer();
                 serializer.Serialize(kml);
                 swlockml.Write(serializer.Xml);
-                swlockml.Close();
 
                 Utilities.httpserver.georefkml = serializer.Xml;
                 Utilities.httpserver.georefimagepath = dirWithImages + Path.DirectorySeparatorChar;
 
                 writeGPX(dirWithImages + Path.DirectorySeparatorChar + "location.gpx");
-
-                swlogloccsv.Close();
 
                 // flightmission
                 GenFlightMission(swloctrim);
@@ -647,9 +636,6 @@ namespace MissionPlanner
                 swloctrim.WriteEndElement(); // fieldbook
                 swloctrim.WriteEndElement(); // job
                 swloctrim.WriteEndDocument();
-
-                swloctxt.Close();
-                swloctel.Close();
 
                 TXT_outputlog.AppendText("Done " + matchs + " matchs");
 
@@ -921,7 +907,6 @@ namespace MissionPlanner
                 xw.WriteEndElement();
                 xw.WriteEndElement();
 
-                xw.Close();
             }
         }
 
@@ -1300,7 +1285,6 @@ namespace MissionPlanner
                             {
                                 TXT_offsetseconds.Text = match.Groups[1].Value;
                             }
-                            sr.Close();
                         }
                     }
                     catch { }                    

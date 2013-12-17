@@ -31,19 +31,23 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LogBrowse));
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.BUT_Graphit = new Controls.MyButton();
-            this.BUT_cleargraph = new Controls.MyButton();
-            this.BUT_loadlog = new Controls.MyButton();
+            this.BUT_Graphit = new MissionPlanner.Controls.MyButton();
+            this.BUT_cleargraph = new MissionPlanner.Controls.MyButton();
+            this.BUT_loadlog = new MissionPlanner.Controls.MyButton();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.zg1 = new ZedGraph.ZedGraphControl();
-            this.myGMAP1 = new Controls.myGMAP();
+            this.myGMAP1 = new MissionPlanner.Controls.myGMAP();
+            this.BUT_removeitem = new MissionPlanner.Controls.MyButton();
             this.CHK_map = new System.Windows.Forms.CheckBox();
-            this.BUT_Graphit_R = new Controls.MyButton();
+            this.BUT_Graphit_R = new MissionPlanner.Controls.MyButton();
+            this.CMB_preselect = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
@@ -65,34 +69,22 @@
             // 
             // BUT_Graphit
             // 
-            this.BUT_Graphit.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
-            this.BUT_Graphit.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
             resources.ApplyResources(this.BUT_Graphit, "BUT_Graphit");
             this.BUT_Graphit.Name = "BUT_Graphit";
-            this.BUT_Graphit.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
-            this.BUT_Graphit.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_Graphit.UseVisualStyleBackColor = true;
             this.BUT_Graphit.Click += new System.EventHandler(this.Graphit_Click);
             // 
             // BUT_cleargraph
             // 
-            this.BUT_cleargraph.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
-            this.BUT_cleargraph.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
             resources.ApplyResources(this.BUT_cleargraph, "BUT_cleargraph");
             this.BUT_cleargraph.Name = "BUT_cleargraph";
-            this.BUT_cleargraph.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
-            this.BUT_cleargraph.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_cleargraph.UseVisualStyleBackColor = true;
             this.BUT_cleargraph.Click += new System.EventHandler(this.BUT_cleargraph_Click);
             // 
             // BUT_loadlog
             // 
-            this.BUT_loadlog.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
-            this.BUT_loadlog.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
             resources.ApplyResources(this.BUT_loadlog, "BUT_loadlog");
             this.BUT_loadlog.Name = "BUT_loadlog";
-            this.BUT_loadlog.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
-            this.BUT_loadlog.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_loadlog.UseVisualStyleBackColor = true;
             this.BUT_loadlog.Click += new System.EventHandler(this.BUT_loadlog_Click);
             // 
@@ -107,6 +99,8 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.CMB_preselect);
+            this.splitContainer1.Panel2.Controls.Add(this.BUT_removeitem);
             this.splitContainer1.Panel2.Controls.Add(this.CHK_map);
             this.splitContainer1.Panel2.Controls.Add(this.BUT_Graphit_R);
             this.splitContainer1.Panel2.Controls.Add(this.BUT_Graphit);
@@ -147,7 +141,9 @@
             this.myGMAP1.Bearing = 0F;
             this.myGMAP1.CanDragMap = true;
             resources.ApplyResources(this.myGMAP1, "myGMAP1");
+            this.myGMAP1.EmptyTileColor = System.Drawing.Color.Navy;
             this.myGMAP1.GrayScaleMode = false;
+            this.myGMAP1.HelperLineOption = GMap.NET.WindowsForms.HelperLineOptions.DontShow;
             this.myGMAP1.LevelsKeepInMemmory = 5;
             this.myGMAP1.MarkersEnabled = true;
             this.myGMAP1.MaxZoom = 19;
@@ -158,9 +154,17 @@
             this.myGMAP1.PolygonsEnabled = true;
             this.myGMAP1.RetryLoadTile = 0;
             this.myGMAP1.RoutesEnabled = true;
+            this.myGMAP1.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
+            this.myGMAP1.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
             this.myGMAP1.ShowTileGridLines = false;
-            this.myGMAP1.streamjpg = ((System.IO.MemoryStream)(resources.GetObject("myGMAP1.streamjpg")));
             this.myGMAP1.Zoom = 0D;
+            // 
+            // BUT_removeitem
+            // 
+            resources.ApplyResources(this.BUT_removeitem, "BUT_removeitem");
+            this.BUT_removeitem.Name = "BUT_removeitem";
+            this.BUT_removeitem.UseVisualStyleBackColor = true;
+            this.BUT_removeitem.Click += new System.EventHandler(this.BUT_removeitem_Click);
             // 
             // CHK_map
             // 
@@ -171,14 +175,16 @@
             // 
             // BUT_Graphit_R
             // 
-            this.BUT_Graphit_R.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
-            this.BUT_Graphit_R.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
             resources.ApplyResources(this.BUT_Graphit_R, "BUT_Graphit_R");
             this.BUT_Graphit_R.Name = "BUT_Graphit_R";
-            this.BUT_Graphit_R.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
-            this.BUT_Graphit_R.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_Graphit_R.UseVisualStyleBackColor = true;
             this.BUT_Graphit_R.Click += new System.EventHandler(this.BUT_Graphit_R_Click);
+            // 
+            // CMB_preselect
+            // 
+            this.CMB_preselect.FormattingEnabled = true;
+            resources.ApplyResources(this.CMB_preselect, "CMB_preselect");
+            this.CMB_preselect.Name = "CMB_preselect";
             // 
             // LogBrowse
             // 
@@ -191,9 +197,11 @@
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -211,6 +219,8 @@
         private ZedGraph.ZedGraphControl zg1;
         private Controls.myGMAP myGMAP1;
         private System.Windows.Forms.CheckBox CHK_map;
+        private Controls.MyButton BUT_removeitem;
+        private System.Windows.Forms.ComboBox CMB_preselect;
     }
 }
 

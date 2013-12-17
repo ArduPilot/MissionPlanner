@@ -27,6 +27,33 @@ namespace MissionPlanner
 
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
+        enum mavlink_option: int
+        {
+            RawData = 0,
+            Mavlink = 1,
+            LowLatency = 2,
+        }
+
+        /*
+ATI5
+S0: FORMAT=25
+S1: SERIAL_SPEED=57
+S2: AIR_SPEED=64
+S3: NETID=40
+S4: TXPOWER=30
+S5: ECC=1
+S6: MAVLINK=1
+S7: OPPRESEND=1
+S8: MIN_FREQ=915000
+S9: MAX_FREQ=928000
+S10: NUM_CHANNELS=50
+S11: DUTY_CYCLE=100
+S12: LBT_RSSI=0
+S13: MANCHESTER=0
+S14: RTSCTS=0
+S15: MAX_WINDOW=131
+         */
+
         public _3DRradio()
         {
             InitializeComponent();
@@ -38,34 +65,91 @@ namespace MissionPlanner
             // setup netid
             S3.DataSource = Enumerable.Range(0, 500).ToArray();
             RS3.DataSource = Enumerable.Range(0, 500).ToArray();
+
+            var dict = Enum.GetValues(typeof(mavlink_option))
+               .Cast<mavlink_option>()
+               .ToDictionary(t => (int)t, t => t.ToString());
+
+            S6.DisplayMember = "Value";
+            S6.ValueMember = "Key";
+            S6.DataSource = dict.ToArray();
+            RS6.DisplayMember = "Value";
+            RS6.ValueMember = "Key";
+            RS6.DataSource = dict.ToArray();
+
+            S15.DataSource = Enumerable.Range(33, 131 - 32).ToArray();
+            RS15.DataSource = Enumerable.Range(33, 131 - 32).ToArray();
         }
 
-        bool getFirmware(uploader.Uploader.Code device)
+        bool getFirmware(uploader.Uploader.Board device, bool custom = false)
         {
             // was https://raw.github.com/tridge/SiK/master/Firmware/dst/radio.hm_trp.hex
-            // now http://www.samba.org/tridge/UAV/3DR/radio.hm_trp.hex
+            // was http://www.samba.org/tridge/UAV/3DR/radio.hm_trp.hex
+            // now http://firmware.diydrones.com/SiK/stable/
 
-            if (device == uploader.Uploader.Code.DEVICE_ID_HM_TRP)
+            if (custom)
             {
-                return Common.getFilefromNet("http://www.samba.org/tridge/UAV/3DR/radio.hm_trp.hex", firmwarefile);
+                return getFirmwareLocal(device);
             }
-            else if (device == uploader.Uploader.Code.DEVICE_ID_RFD900)
+
+            if (device == uploader.Uploader.Board.DEVICE_ID_HM_TRP)
             {
-                return Common.getFilefromNet("http://rfdesign.com.au/firmware/radio.rfd900.hex", firmwarefile);
+                if (beta)
+                { return Common.getFilefromNet("http://firmware.diydrones.com/SiK/beta/radio~hm_trp.ihx", firmwarefile); }
+                else
+                {
+                    return Common.getFilefromNet("http://firmware.diydrones.com/SiK/stable/radio~hm_trp.ihx", firmwarefile);
+                }
             }
-            else if (device == uploader.Uploader.Code.DEVICE_ID_RFD900A)
+            else if (device == uploader.Uploader.Board.DEVICE_ID_RFD900)
+            {
+                if (beta)
+                {
+                    return Common.getFilefromNet("http://firmware.diydrones.com/SiK/beta/radio~rfd900.ihx", firmwarefile);
+                }
+                else
+                {
+                    return Common.getFilefromNet("http://firmware.diydrones.com/SiK/stable/radio~rfd900.ihx", firmwarefile);
+                }
+            }
+            else if (device == uploader.Uploader.Board.DEVICE_ID_RFD900A)
             {
                 int fixme;
-                int fixme23;
 
-              //  return Common.getFilefromNet("http://rfdesign.com.au/firmware/MPSiK%20V2.2%20radio~rfd900a.ihx", firmwarefile);
+                //  return Common.getFilefromNet("http://rfdesign.com.au/firmware/MPSik%20V2.3%20radio~rfd900a.ihx", firmwarefile);
+                if (beta)
+                {
+                    return Common.getFilefromNet("http://firmware.diydrones.com/SiK/beta/radio~rfd900a.ihx", firmwarefile);
+                }
+                else
+                {
+                    return Common.getFilefromNet("http://firmware.diydrones.com/SiK/stable/radio~rfd900a.ihx", firmwarefile);
+                }
 
-                return Common.getFilefromNet("http://rfdesign.com.au/firmware/radio.rfd900a.hex", firmwarefile);
             }
             else
             {
                 return false;
             }
+        }
+
+bool beta = false;
+
+        bool getFirmwareLocal(uploader.Uploader.Board device)
+        {
+            OpenFileDialog openFileDialog1 = new OpenFileDialog();
+
+            openFileDialog1.Filter = "Firmware|*.hex;*.ihx";
+            openFileDialog1.RestoreDirectory = true;
+            openFileDialog1.Multiselect = false;
+
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                File.Copy(openFileDialog1.FileName, firmwarefile,true);
+                return true;
+            }
+
+            return false;
         }
 
         void Sleep(int mstimeout)
@@ -80,6 +164,11 @@ namespace MissionPlanner
         }
 
         private void BUT_upload_Click(object sender, EventArgs e)
+        {
+            UploadFW(false);
+        }
+
+        private void UploadFW(bool custom = false) 
         {
             ArduinoSTK comPort = new ArduinoSTK();
 
@@ -116,7 +205,11 @@ namespace MissionPlanner
                 // cleanup bootloader mode fail, and try firmware mode
                 comPort.Close();
                 comPort.BaudRate = MainV2.comPort.BaseStream.BaudRate;
-                comPort.Open();
+                try
+                {
+                    comPort.Open();
+                }
+                catch { CustomMessageBox.Show("Error opening port", "error"); return; }
 
                 uploader.ProgressEvent += new ProgressEventHandler(uploader_ProgressEvent);
                 uploader.LogEvent += new LogEventHandler(uploader_LogEvent);
@@ -149,14 +242,14 @@ namespace MissionPlanner
                     catch { }
                 }
 
-                global::uploader.Uploader.Code device = global::uploader.Uploader.Code.FAILED;
-                global::uploader.Uploader.Code freq = global::uploader.Uploader.Code.FAILED;
+                global::uploader.Uploader.Board device = global::uploader.Uploader.Board.FAILED;
+                global::uploader.Uploader.Frequency freq = global::uploader.Uploader.Frequency.FAILED;
 
                 // get the device type and frequency in the bootloader
                 uploader.getDevice(ref device, ref freq);
 
                 // get firmware for this device
-                if (getFirmware(device))
+                if (getFirmware(device, custom))
                 {
                     // load the hex
                     try
@@ -311,21 +404,48 @@ namespace MissionPlanner
                                     }
                                     else
                                     {
-                                        if (controls[0].Text != values[2].Trim() && controls[0].Text != "")
+                                        if (controls[0] is TextBox)
                                         {
-                                            string cmdanswer = doCommand(comPort, "RT" + values[0].Trim() + "=" + controls[0].Text + "\r");
 
-                                            if (cmdanswer.Contains("OK"))
+                                        }
+                                        else
+                                        {
+                                            if (((ComboBox)controls[0]).SelectedValue != null)
                                             {
+                                                if (((ComboBox)controls[0]).SelectedValue.ToString() != values[2].Trim())
+                                                {
+                                                    string cmdanswer = doCommand(comPort, "RT" + values[0].Trim() + "=" + ((ComboBox)controls[0]).SelectedValue + "\r");
 
+                                                    if (cmdanswer.Contains("OK"))
+                                                    {
+
+                                                    }
+                                                    else
+                                                    {
+                                                        CustomMessageBox.Show("Set Command error");
+                                                    }
+                                                }
                                             }
-                                            else
+                                            else if (controls[0].Text != values[2].Trim() && controls[0].Text != "")
                                             {
-                                                CustomMessageBox.Show("Set Command error");
+                                                string cmdanswer = doCommand(comPort, "RT" + values[0].Trim() + "=" + controls[0].Text + "\r");
+
+                                                if (cmdanswer.Contains("OK"))
+                                                {
+
+                                                }
+                                                else
+                                                {
+                                                    CustomMessageBox.Show("Set Command error");
+                                                }
                                             }
                                         }
                                     }
                                 }
+                            }
+                            else
+                            {
+                                // bad ?ti5 line
                             }
                         }
                     }
@@ -378,17 +498,40 @@ namespace MissionPlanner
                                     }
                                     else
                                     {
-                                        if (controls[0].Text != values[2].Trim())
+                                        if (controls[0] is TextBox)
                                         {
-                                            string cmdanswer = doCommand(comPort, "AT" + values[0].Trim() + "=" + controls[0].Text + "\r");
 
-                                            if (cmdanswer.Contains("OK"))
+                                        }
+                                        else 
+                                        {
+                                            if (((ComboBox)controls[0]).SelectedValue != null)
                                             {
+                                                if (((ComboBox)controls[0]).SelectedValue.ToString() != values[2].Trim())
+                                                {
+                                                    string cmdanswer = doCommand(comPort, "AT" + values[0].Trim() + "=" + ((ComboBox)controls[0]).SelectedValue + "\r");
 
+                                                    if (cmdanswer.Contains("OK"))
+                                                    {
+
+                                                    }
+                                                    else
+                                                    {
+                                                        CustomMessageBox.Show("Set Command error");
+                                                    }
+                                                }
                                             }
-                                            else
+                                            else if (controls[0].Text != values[2].Trim() && controls[0].Text != "")
                                             {
-                                                CustomMessageBox.Show("Set Command error");
+                                                string cmdanswer = doCommand(comPort, "AT" + values[0].Trim() + "=" + controls[0].Text + "\r");
+
+                                                if (cmdanswer.Contains("OK"))
+                                                {
+
+                                                }
+                                                else
+                                                {
+                                                    CustomMessageBox.Show("Set Command error");
+                                                }
                                             }
                                         }
                                     }
@@ -466,19 +609,27 @@ namespace MissionPlanner
 
                 RTI.Text = doCommand(comPort, "RTI");
 
-                    uploader.Uploader.Code freq = (uploader.Uploader.Code)Enum.Parse(typeof(uploader.Uploader.Code), doCommand(comPort, "ATI3"));
-                    uploader.Uploader.Code board = (uploader.Uploader.Code)Enum.Parse(typeof(uploader.Uploader.Code), doCommand(comPort, "ATI2"));
+                uploader.Uploader.Frequency freq = (uploader.Uploader.Frequency)Enum.Parse(typeof(uploader.Uploader.Frequency), doCommand(comPort, "ATI3"));
+                uploader.Uploader.Board board = (uploader.Uploader.Board)Enum.Parse(typeof(uploader.Uploader.Board), doCommand(comPort, "ATI2"));
 
                     ATI3.Text = freq.ToString();
+
+                    ATI2.Text = board.ToString();
+                    try
+                    {
+                        RTI2.Text = ((uploader.Uploader.Board)Enum.Parse(typeof(uploader.Uploader.Board), doCommand(comPort, "RTI2"))).ToString();
+                    }
+                    catch { }
                 // 8 and 9
-                    if (freq == uploader.Uploader.Code.FREQ_915) {
+                    if (freq == uploader.Uploader.Frequency.FREQ_915)
+                    {
                         S8.DataSource = Range(895000, 1000, 935000);
                         RS8.DataSource = Range(895000, 1000, 935000);
 
                         S9.DataSource = Range(895000, 1000, 935000);
                         RS9.DataSource = Range(895000, 1000, 935000);
                     }
-                    else if (freq == uploader.Uploader.Code.FREQ_433)
+                    else if (freq == uploader.Uploader.Frequency.FREQ_433)
                     {
                         S8.DataSource = Range(414000, 100, 454000);
                         RS8.DataSource = Range(414000, 100, 454000);
@@ -486,7 +637,7 @@ namespace MissionPlanner
                         S9.DataSource = Range(414000, 100, 454000);
                         RS9.DataSource = Range(414000, 100, 454000);
                     }
-                    else if (freq == uploader.Uploader.Code.FREQ_868) 
+                    else if (freq == uploader.Uploader.Frequency.FREQ_868) 
                     {
                         S8.DataSource = Range(849000, 1000, 889000);
                         RS8.DataSource = Range(849000, 1000, 889000);
@@ -495,7 +646,7 @@ namespace MissionPlanner
                         RS9.DataSource = Range(849000, 1000, 889000);
                     }
 
-                    if (board == uploader.Uploader.Code.DEVICE_ID_RFD900 || board == uploader.Uploader.Code.DEVICE_ID_RFD900A)
+                    if (board == uploader.Uploader.Board.DEVICE_ID_RFD900 || board == uploader.Uploader.Board.DEVICE_ID_RFD900A)
                     {
                         S4.DataSource = Range(1, 1, 30);
                         RS4.DataSource = Range(1, 1, 30);
@@ -524,13 +675,22 @@ namespace MissionPlanner
                             {
                                 controls[0].Enabled = true;
 
-                                if (controls[0].GetType() == typeof(CheckBox))
+                                if (controls[0] is CheckBox)
                                 {
                                     ((CheckBox)controls[0]).Checked = values[2].Trim() == "1";
                                 }
-                                else
+                                else if (controls[0] is TextBox)
                                 {
-                                    controls[0].Text = values[2].Trim();
+                                    ((TextBox)controls[0]).Text = values[2].Trim();
+                                }
+                                else if (controls[0].Name.Contains("S6")) //
+                                {
+                                    var ans = Enum.Parse(typeof(mavlink_option), values[2].Trim());
+                                    ((ComboBox)controls[0]).Text = ans.ToString();
+                                }
+                                else if (controls[0] is ComboBox)
+                                {
+                                    ((ComboBox)controls[0]).Text = values[2].Trim();
                                 }
                             }
                         }
@@ -543,7 +703,6 @@ namespace MissionPlanner
                     if (ctl.Name.StartsWith("RS") && ctl.Name != "RSSI")
                         ctl.ResetText();
                 }
-
 
                 comPort.DiscardInBuffer();
 
@@ -568,21 +727,38 @@ namespace MissionPlanner
 
                             controls[0].Enabled = true;
 
-                            if (controls[0].GetType() == typeof(CheckBox))
+                            if (controls[0] is CheckBox)
                             {
                                 ((CheckBox)controls[0]).Checked = values[2].Trim() == "1";
                             }
-                            else if (controls[0].GetType() == typeof(TextBox))
+                            else if (controls[0] is TextBox)
                             {
                                 ((TextBox)controls[0]).Text = values[2].Trim();
                             }
-                            else if (controls[0].GetType() == typeof(ComboBox))
+                            else if (controls[0].Name.Contains("S6")) //
+                            {
+                                var ans = Enum.Parse(typeof(mavlink_option), values[2].Trim());
+                                ((ComboBox)controls[0]).Text = ans.ToString();
+                            }
+                            else if (controls[0] is ComboBox)
                             {
                                 ((ComboBox)controls[0]).Text = values[2].Trim();
                             }
                         }
                         else
                         {
+                            /*
+                            if (item.Contains("S15"))
+                            {
+                                answer = doCommand(comPort, "RTS15?");
+                                int rts15 = 0;
+                                if (int.TryParse(answer, out rts15))
+                                {
+                                    RS15.Enabled = true;
+                                    RS15.Text = rts15.ToString();
+                                }
+                            }
+                            */
                             log.Info("Odd config line :" + item);
                         }
                     }
@@ -666,7 +842,7 @@ namespace MissionPlanner
                 catch { ans = ans + comPort.ReadExisting() + "\n"; }
                 Sleep(50);
 
-                if (ans.Length > 500)
+                if (ans.Length > 1024)
                 {
                     break;
                 }
@@ -741,9 +917,11 @@ namespace MissionPlanner
             RS2.Text = S2.Text;
             RS3.Text = S3.Text;
             RS5.Checked = S5.Checked;
+            RS6.Text = S6.Text;
             RS8.Text = S8.Text;
             RS9.Text = S9.Text;
             RS10.Text = S10.Text;
+            RS15.Text = S15.Text;
         }
 
         private void CHK_advanced_CheckedChanged(object sender, EventArgs e)
@@ -813,6 +991,36 @@ red LED solid - in firmware update mode");
 
             if (comPort.IsOpen)
                 comPort.Close();
+        }
+
+        private void BUT_loadcustom_Click(object sender, EventArgs e)
+        {
+            UploadFW(true);
+        }
+
+        private void Progressbar_Click(object sender, EventArgs e)
+        {
+            beta = !beta;
+            CustomMessageBox.Show("Beta set to " + beta.ToString());
+        }
+
+        private void linkLabel_mavlink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            S6.SelectedValue = 1;
+            S15.Text = (131).ToString();
+
+            RS6.SelectedValue = 1;
+            RS15.Text = (131).ToString();
+
+        }
+
+        private void linkLabel_lowlatency_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            S6.SelectedValue = 2;
+            S15.Text = (33).ToString();
+
+            RS6.SelectedValue = 2;
+            RS15.Text = (33).ToString();
         }
     }
 }

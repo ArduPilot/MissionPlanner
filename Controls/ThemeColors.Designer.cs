@@ -34,12 +34,12 @@
             this.TXT_text = new System.Windows.Forms.TextBox();
             this.TXT_butbg = new System.Windows.Forms.TextBox();
             this.TXT_butbord = new System.Windows.Forms.TextBox();
-            this.BUT_butbord = new Controls.MyButton();
-            this.BUT_butbg = new Controls.MyButton();
-            this.BUT_text = new Controls.MyButton();
-            this.BUT_ctlbg = new Controls.MyButton();
-            this.BUT_bg = new Controls.MyButton();
-            this.BUT_done = new Controls.MyButton();
+            this.BUT_butbord = new MissionPlanner.Controls.MyButton();
+            this.BUT_butbg = new MissionPlanner.Controls.MyButton();
+            this.BUT_text = new MissionPlanner.Controls.MyButton();
+            this.BUT_ctlbg = new MissionPlanner.Controls.MyButton();
+            this.BUT_bg = new MissionPlanner.Controls.MyButton();
+            this.BUT_done = new MissionPlanner.Controls.MyButton();
             this.SuspendLayout();
             // 
             // TXT_bg
@@ -156,6 +156,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "ThemeColors";
             this.Text = "ThemeColors";
+            this.Load += new System.EventHandler(this.ThemeColors_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

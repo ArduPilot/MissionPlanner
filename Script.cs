@@ -37,6 +37,7 @@ namespace MissionPlanner
             scope.SetVariable("cs", MainV2.comPort.MAV.cs);
             scope.SetVariable("Script", this);
             scope.SetVariable("mavutil", this);
+            scope.SetVariable("Joystick", MainV2.joystick);
 
             engine.CreateScriptSourceFromString("print 'hello world from python'").Execute(scope);
             engine.CreateScriptSourceFromString("print cs.roll").Execute(scope);
@@ -100,7 +101,7 @@ namespace MissionPlanner
             }
             catch (Exception e)
             {
-                System.Windows.Forms.CustomMessageBox.Show("Error running script " + e.Message);
+                CustomMessageBox.Show("Error running script " + e.Message);
             }
         }
 
@@ -193,7 +194,6 @@ namespace MissionPlanner
             {
                 MainV2.comPort.sendPacket(rc);
                 System.Threading.Thread.Sleep(20);
-                MainV2.comPort.sendPacket(rc);
                 MainV2.comPort.sendPacket(rc);
             }
 

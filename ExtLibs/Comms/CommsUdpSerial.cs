@@ -3,10 +3,10 @@ using System.Text;
 using System.Net; // dns, ip address
 using System.Net.Sockets; // tcplistner
 using log4net;
-using MissionPlanner.Controls;
 using System.IO.Ports;
 using System.IO;
 using System;
+using MissionPlanner.Controls;
 
 namespace MissionPlanner.Comms
 {
@@ -73,13 +73,25 @@ namespace MissionPlanner.Comms
             set;
         }
 
-        public  void Open()
+        public void Open()
         {
             if (client.Client.Connected)
             {
                 log.Info("udpserial socket already open");
                 return;
             }
+
+            string dest = Port;
+
+            dest = OnSettings("UDP_port", dest);
+
+            if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Listern Port", "Enter Local port (ensure remote end is already sending)", ref dest))
+            {
+                return;
+            }
+            Port = dest;
+
+            OnSettings("UDP_port", Port, true);
 
             ProgressReporterDialogue frmProgressReporter = new ProgressReporterDialogue
             {
@@ -98,18 +110,6 @@ namespace MissionPlanner.Comms
 
         void frmProgressReporter_DoWork(object sender, Controls.ProgressWorkerEventArgs e, object passdata = null)
         {
-            string dest = Port;
-
-            dest = OnSettings("UDP_port", dest);         
-
-            if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Listern Port", "Enter Local port (ensure remote end is already sending)", ref dest))
-            {
-                return;
-            }
-            Port = dest;
-
-            OnSettings("UDP_port", Port, true);
-
             client = new UdpClient(int.Parse(Port));
 
             while (true)
@@ -148,7 +148,7 @@ namespace MissionPlanner.Comms
                     client.Close();
                 }
                 log.Info(ex.ToString());
-                System.Windows.Forms.CustomMessageBox.Show("Please check your Firewall settings\nPlease try running this command\n1.    Run the following command in an elevated command prompt to disable Windows Firewall temporarily:\n    \nNetsh advfirewall set allprofiles state off\n    \nNote: This is just for test; please turn it back on with the command 'Netsh advfirewall set allprofiles state on'.\n", "Error");
+                //CustomMessageBox.Show("Please check your Firewall settings\nPlease try running this command\n1.    Run the following command in an elevated command prompt to disable Windows Firewall temporarily:\n    \nNetsh advfirewall set allprofiles state off\n    \nNote: This is just for test; please turn it back on with the command 'Netsh advfirewall set allprofiles state on'.\n", "Error");
                 throw new Exception("The socket/serialproxy is closed " + e);
             }
         }

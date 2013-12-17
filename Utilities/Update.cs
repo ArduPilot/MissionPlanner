@@ -72,7 +72,9 @@ namespace MissionPlanner.Utilities
                 process.Start();
                 log.Info("Quitting existing process");
 
-                    Application.Exit();
+                frmProgressReporter.BeginInvoke((Action) delegate {
+                Application.Exit();
+                });
             }
             catch (Exception ex)
             {
@@ -99,7 +101,7 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
 
             // Create a request using a URL that can receive a post. 
             string requestUriString = baseurl + Path.GetFileName(path);
-            log.Debug("Checking for update at: " + requestUriString);
+            log.Info("Checking for update at: " + requestUriString);
             var webRequest = WebRequest.Create(requestUriString);
             webRequest.Timeout = 5000;
 
@@ -108,73 +110,77 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
 
             // ((HttpWebRequest)webRequest).IfModifiedSince = File.GetLastWriteTimeUtc(path);
 
-            // Get the response.
-            var response = webRequest.GetResponse();
-            // Display the status.
-            log.Debug("Response status: " + ((HttpWebResponse)response).StatusDescription);
-            // Get the stream containing content returned by the server.
-
             bool updateFound = false;
 
-            if (File.Exists(path))
+            // Get the response.
+            using (var response = webRequest.GetResponse())
             {
-                var fi = new FileInfo(path);
-
-                Version LocalVersion = new Version();
-                Version WebVersion = new Version();
+                // Display the status.
+                log.Debug("Response status: " + ((HttpWebResponse)response).StatusDescription);
+                // Get the stream containing content returned by the server.
 
                 if (File.Exists(path))
                 {
-                    using (Stream fs = File.OpenRead(path))
+                    var fi = new FileInfo(path);
+
+                    Version LocalVersion = new Version();
+                    Version WebVersion = new Version();
+
+                    if (File.Exists(path))
                     {
-                        using (StreamReader sr = new StreamReader(fs))
+                        using (Stream fs = File.OpenRead(path))
                         {
-                            LocalVersion = new Version(sr.ReadLine());
-                            sr.Close();
+                            using (StreamReader sr = new StreamReader(fs))
+                            {
+                                LocalVersion = new Version(sr.ReadLine());
+                            }
                         }
-                        fs.Close();
                     }
-                }
 
-                using (StreamReader sr = new StreamReader(response.GetResponseStream()))
-                {
-                    WebVersion = new Version(sr.ReadLine());
+                    using (StreamReader sr = new StreamReader(response.GetResponseStream()))
+                    {
+                        WebVersion = new Version(sr.ReadLine());
+                    }
 
-                    sr.Close();
-                }
+                    log.Info("New file Check: local " + LocalVersion + " vs Remote " + WebVersion);
 
-                log.Info("New file Check: local " + LocalVersion + " vs Remote " + WebVersion);
-
-                if (LocalVersion < WebVersion)
-                {
-                    updateFound = true;
-                }
-            }
-            else
-            {
-                updateFound = true;
-                log.Info("File does not exist: Getting " + path);
-                // get it
-            }
-
-            response.Close();
-
-            if (updateFound)
-            {
-                string extra = "";
-
-                if (dobeta)
-                    extra = "BETA ";
-
-                var dr = CustomMessageBox.Show(extra + "Update Found\n\nDo you wish to update now? [link;" + baseurl + "/ChangeLog.txt;ChangeLog]", "Update Now", MessageBoxButtons.YesNo);
-                if (dr == DialogResult.Yes)
-                {
-                    DoUpdate();
+                    if (LocalVersion < WebVersion)
+                    {
+                        updateFound = true;
+                    }
                 }
                 else
                 {
-                    return;
+                    updateFound = true;
+                    log.Info("File does not exist: Getting " + path);
+                    // get it
                 }
+            }
+
+            if (updateFound)
+            {
+                // do the update in the main thread
+                MainV2.instance.Invoke((MethodInvoker)delegate
+                {
+                    string extra = "";
+
+                    if (dobeta)
+                        extra = "BETA ";
+
+                    DialogResult dr = DialogResult.Cancel;
+
+
+                    dr = CustomMessageBox.Show(extra + "Update Found\n\nDo you wish to update now? [link;" + baseurl + "/ChangeLog.txt;ChangeLog]", "Update Now", MessageBoxButtons.YesNo);
+
+                    if (dr == DialogResult.Yes)
+                    {
+                        DoUpdate();
+                    }
+                    else
+                    {
+                        return;
+                    }
+                });
             }
         }
 
@@ -263,6 +269,9 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
             {
                 using (var md5 = MD5.Create())
                 {
+                    if (!File.Exists(filename))
+                        return false;
+
                     using (var stream = File.OpenRead(filename))
                     {
                         return hash == BitConverter.ToString(md5.ComputeHash(stream)).Replace("-", "").ToLower();
@@ -310,58 +319,56 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
                     // tell server we allow compress content
                     request.Headers.Add("Accept-Encoding", "gzip,deflate");
                     // Get the response.
-                    WebResponse response = request.GetResponse();
-                    // Display the status.
-                    log.Info(((HttpWebResponse)response).StatusDescription);
-                    // Get the stream containing content returned by the server.
-                    Stream dataStream = response.GetResponseStream();
-
-                    // update status
-                    if (frmProgressReporter != null)
-                        frmProgressReporter.UpdateProgressAndStatus(-1, "Getting " + file);
-
-                    // from head
-                    long bytes = response.ContentLength;
-
-                    long contlen = bytes;
-
-                    byte[] buf1 = new byte[4096];
-
-                    // if the file doesnt exist. just save it inplace
-                    string fn = path + ".new";
-
-                    if (!File.Exists(path))
-                        fn = path;
-
-                    using (FileStream fs = new FileStream(fn, FileMode.Create))
+                    using (WebResponse response = request.GetResponse())
                     {
+                        // Display the status.
+                        log.Info(((HttpWebResponse)response).StatusDescription);
+                        // Get the stream containing content returned by the server.
+                        Stream dataStream = response.GetResponseStream();
 
-                        DateTime dt = DateTime.Now;
+                        // update status
+                        if (frmProgressReporter != null)
+                            frmProgressReporter.UpdateProgressAndStatus(-1, "Getting " + file);
 
-                        while (dataStream.CanRead)
+                        // from head
+                        long bytes = response.ContentLength;
+
+                        long contlen = bytes;
+
+                        byte[] buf1 = new byte[4096];
+
+                        // if the file doesnt exist. just save it inplace
+                        string fn = path + ".new";
+
+                        if (!File.Exists(path))
+                            fn = path;
+
+                        using (FileStream fs = new FileStream(fn, FileMode.Create))
                         {
-                            try
+
+                            DateTime dt = DateTime.Now;
+
+                            while (dataStream.CanRead)
                             {
-                                if (dt.Second != DateTime.Now.Second)
+                                try
                                 {
-                                    if (frmProgressReporter != null)
-                                        frmProgressReporter.UpdateProgressAndStatus((int)(((double)(contlen - bytes) / (double)contlen) * 100), "Getting " + file + ": " + (((double)(contlen - bytes) / (double)contlen) * 100).ToString("0.0") + "%"); //+ Math.Abs(bytes) + " bytes");
-                                    dt = DateTime.Now;
+                                    if (dt.Second != DateTime.Now.Second)
+                                    {
+                                        if (frmProgressReporter != null)
+                                            frmProgressReporter.UpdateProgressAndStatus((int)(((double)(contlen - bytes) / (double)contlen) * 100), "Getting " + file + ": " + (((double)(contlen - bytes) / (double)contlen) * 100).ToString("0.0") + "%"); //+ Math.Abs(bytes) + " bytes");
+                                        dt = DateTime.Now;
+                                    }
                                 }
+                                catch { }
+                                log.Debug(file + " " + bytes);
+                                int len = dataStream.Read(buf1, 0, buf1.Length);
+                                if (len == 0)
+                                    break;
+                                bytes -= len;
+                                fs.Write(buf1, 0, len);
                             }
-                            catch { }
-                            log.Debug(file + " " + bytes);
-                            int len = dataStream.Read(buf1, 0, buf1.Length);
-                            if (len == 0)
-                                break;
-                            bytes -= len;
-                            fs.Write(buf1, 0, len);
                         }
-                        fs.Close();
                     }
-
-                    response.Close();
-
                 }
                 catch (Exception ex) { fail = ex; attempt++; continue; }
 
@@ -418,65 +425,68 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
             // Get the request stream.
             Stream dataStream; //= request.GetRequestStream();
             // Get the response.
-            WebResponse response = request.GetResponse();
-            // Display the status.
-            log.Info(((HttpWebResponse)response).StatusDescription);
-            // Get the stream containing content returned by the server.
-            dataStream = response.GetResponseStream();
-            // Open the stream using a StreamReader for easy access.
-            StreamReader reader = new StreamReader(dataStream);
-            // Read the content.
-            string responseFromServer = reader.ReadToEnd();
-            // Display the content.
-            Regex regex = new Regex("href=\"([^\"]+)\"", RegexOptions.IgnoreCase);
-
-            Uri baseuri = new Uri(baseurl, UriKind.Absolute);
-
-            if (regex.IsMatch(responseFromServer))
+            using (WebResponse response = request.GetResponse())
             {
-                MatchCollection matchs = regex.Matches(responseFromServer);
-                for (int i = 0; i < matchs.Count; i++)
+                // Display the status.
+                log.Info(((HttpWebResponse)response).StatusDescription);
+                // Get the stream containing content returned by the server.
+                using (dataStream = response.GetResponseStream())
                 {
-                    if (matchs[i].Groups[1].Value.ToString().Contains(".."))
-                        continue;
-                    if (matchs[i].Groups[1].Value.ToString().Contains("http"))
-                        continue;
-                    if (matchs[i].Groups[1].Value.ToString().StartsWith("?"))
-                        continue;
-                    if (matchs[i].Groups[1].Value.ToString().ToLower().Contains(".etag"))
-                        continue;
-
-                    //                     
+                    // Open the stream using a StreamReader for easy access.
+                    using (StreamReader reader = new StreamReader(dataStream))
                     {
-                        string url = System.Web.HttpUtility.UrlDecode(matchs[i].Groups[1].Value.ToString());
-                        Uri newuri = new Uri(baseuri, url);
-                        files.Add(baseuri.MakeRelativeUri(newuri).ToString());
-                    }
+                        // Read the content.
+                        string responseFromServer = reader.ReadToEnd();
+                        // Display the content.
+                        Regex regex = new Regex("href=\"([^\"]+)\"", RegexOptions.IgnoreCase);
+
+                        Uri baseuri = new Uri(baseurl, UriKind.Absolute);
+
+                        if (regex.IsMatch(responseFromServer))
+                        {
+                            MatchCollection matchs = regex.Matches(responseFromServer);
+                            for (int i = 0; i < matchs.Count; i++)
+                            {
+                                if (matchs[i].Groups[1].Value.ToString().Contains(".."))
+                                    continue;
+                                if (matchs[i].Groups[1].Value.ToString().Contains("http"))
+                                    continue;
+                                if (matchs[i].Groups[1].Value.ToString().StartsWith("?"))
+                                    continue;
+                                if (matchs[i].Groups[1].Value.ToString().ToLower().Contains(".etag"))
+                                    continue;
+
+                                //                     
+                                {
+                                    string url = System.Web.HttpUtility.UrlDecode(matchs[i].Groups[1].Value.ToString());
+                                    Uri newuri = new Uri(baseuri, url);
+                                    files.Add(baseuri.MakeRelativeUri(newuri).ToString());
+                                }
 
 
-                    // dirs
-                    if (matchs[i].Groups[1].Value.ToString().Contains("tree/master/"))
-                    {
-                        string url = System.Web.HttpUtility.UrlDecode(matchs[i].Groups[1].Value.ToString()) + "/";
-                        Uri newuri = new Uri(baseuri, url);
-                        files.Add(baseuri.MakeRelativeUri(newuri).ToString());
+                                // dirs
+                                if (matchs[i].Groups[1].Value.ToString().Contains("tree/master/"))
+                                {
+                                    string url = System.Web.HttpUtility.UrlDecode(matchs[i].Groups[1].Value.ToString()) + "/";
+                                    Uri newuri = new Uri(baseuri, url);
+                                    files.Add(baseuri.MakeRelativeUri(newuri).ToString());
 
-                    }
-                    // files
-                    if (matchs[i].Groups[1].Value.ToString().Contains("blob/master/"))
-                    {
-                        string url = System.Web.HttpUtility.UrlDecode(matchs[i].Groups[1].Value.ToString());
-                        Uri newuri = new Uri(baseuri, url);
-                        files.Add(System.Web.HttpUtility.UrlDecode(newuri.Segments[newuri.Segments.Length - 1]));
+                                }
+                                // files
+                                if (matchs[i].Groups[1].Value.ToString().Contains("blob/master/"))
+                                {
+                                    string url = System.Web.HttpUtility.UrlDecode(matchs[i].Groups[1].Value.ToString());
+                                    Uri newuri = new Uri(baseuri, url);
+                                    files.Add(System.Web.HttpUtility.UrlDecode(newuri.Segments[newuri.Segments.Length - 1]));
+                                }
+                            }
+                        }
+
+                        //Console.WriteLine(responseFromServer);
+                        // Clean up the streams.
                     }
                 }
             }
-
-            //Console.WriteLine(responseFromServer);
-            // Clean up the streams.
-            reader.Close();
-            dataStream.Close();
-            response.Close();
 
             string dir = Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + subdir;
             if (!Directory.Exists(dir))
@@ -527,119 +537,112 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
                         request.Headers.Add("Accept-Encoding", "gzip,deflate");
 
                         // Get the response.
-                        response = request.GetResponse();
-                        // Display the status.
-                        log.Info(((HttpWebResponse)response).StatusDescription);
-                        // Get the stream containing content returned by the server.
-                        dataStream = response.GetResponseStream();
-                        // Open the stream using a StreamReader for easy access.
-
-                        bool updateThisFile = false;
-
-                        if (File.Exists(path))
+                        using (WebResponse response = request.GetResponse())
                         {
-                            FileInfo fi = new FileInfo(path);
-
-                            //log.Info(response.Headers[HttpResponseHeader.ETag]);
-                            string CurrentEtag = "";
-
-                            if (File.Exists(path + ".etag"))
+                            // Display the status.
+                            log.Info(((HttpWebResponse)response).StatusDescription);
+                            // Get the stream containing content returned by the server.
+                            using (dataStream = response.GetResponseStream())
                             {
-                                using (Stream fs = File.OpenRead(path + ".etag"))
+                                // Open the stream using a StreamReader for easy access.
+
+                                bool updateThisFile = false;
+
+                                if (File.Exists(path))
                                 {
-                                    using (StreamReader sr = new StreamReader(fs))
+                                    FileInfo fi = new FileInfo(path);
+
+                                    //log.Info(response.Headers[HttpResponseHeader.ETag]);
+                                    string CurrentEtag = "";
+
+                                    if (File.Exists(path + ".etag"))
                                     {
-                                        CurrentEtag = sr.ReadLine();
-                                        sr.Close();
-                                    }
-                                    fs.Close();
-                                }
-                            }
-
-                            log.Debug("New file Check: " + fi.Length + " vs " + response.ContentLength + " " + response.Headers[HttpResponseHeader.ETag] + " vs " + CurrentEtag);
-
-                            if (fi.Length != response.ContentLength || response.Headers[HttpResponseHeader.ETag] != CurrentEtag)
-                            {
-                                using (StreamWriter sw = new StreamWriter(path + ".etag.new"))
-                                {
-                                    sw.WriteLine(response.Headers[HttpResponseHeader.ETag]);
-                                    sw.Close();
-                                }
-                                updateThisFile = true;
-                                log.Info("NEW FILE " + file);
-                            }
-                        }
-                        else
-                        {
-                            updateThisFile = true;
-                            log.Info("NEW FILE " + file);
-                            using (StreamWriter sw = new StreamWriter(path + ".etag.new"))
-                            {
-                                sw.WriteLine(response.Headers[HttpResponseHeader.ETag]);
-                                sw.Close();
-                            }
-                            // get it
-                        }
-
-                        if (updateThisFile)
-                        {
-                            if (!update)
-                            {
-                                //DialogResult dr = MessageBox.Show("Update Found\n\nDo you wish to update now?", "Update Now", MessageBoxButtons.YesNo);
-                                //if (dr == DialogResult.Yes)
-                                {
-                                    update = true;
-                                }
-                                //else
-                                {
-                                    //    return;
-                                }
-                            }
-                            if (frmProgressReporter != null)
-                                frmProgressReporter.UpdateProgressAndStatus(-1, "Getting " + file);
-
-                            // from head
-                            long bytes = response.ContentLength;
-
-                            long contlen = bytes;
-
-                            byte[] buf1 = new byte[4096];
-
-                            using (FileStream fs = new FileStream(path + ".new", FileMode.Create))
-                            {
-
-                                DateTime dt = DateTime.Now;
-
-                                //dataStream.ReadTimeout = 30000;
-
-                                while (dataStream.CanRead)
-                                {
-                                    try
-                                    {
-                                        if (dt.Second != DateTime.Now.Second)
+                                        using (Stream fs = File.OpenRead(path + ".etag"))
                                         {
-                                            if (frmProgressReporter != null)
-                                                frmProgressReporter.UpdateProgressAndStatus((int)(((double)(contlen - bytes) / (double)contlen) * 100), "Getting " + file + ": " + (((double)(contlen - bytes) / (double)contlen) * 100).ToString("0.0") + "%"); //+ Math.Abs(bytes) + " bytes");
-                                            dt = DateTime.Now;
+                                            using (StreamReader sr = new StreamReader(fs))
+                                            {
+                                                CurrentEtag = sr.ReadLine();
+                                            }
                                         }
                                     }
-                                    catch { }
-                                    log.Debug(file + " " + bytes);
-                                    int len = dataStream.Read(buf1, 0, buf1.Length);
-                                    if (len == 0)
-                                        break;
-                                    bytes -= len;
-                                    fs.Write(buf1, 0, len);
+
+                                    log.Debug("New file Check: " + fi.Length + " vs " + response.ContentLength + " " + response.Headers[HttpResponseHeader.ETag] + " vs " + CurrentEtag);
+
+                                    if (fi.Length != response.ContentLength || response.Headers[HttpResponseHeader.ETag] != CurrentEtag)
+                                    {
+                                        using (StreamWriter sw = new StreamWriter(path + ".etag.new"))
+                                        {
+                                            sw.WriteLine(response.Headers[HttpResponseHeader.ETag]);
+                                        }
+                                        updateThisFile = true;
+                                        log.Info("NEW FILE " + file);
+                                    }
                                 }
-                                fs.Close();
+                                else
+                                {
+                                    updateThisFile = true;
+                                    log.Info("NEW FILE " + file);
+                                    using (StreamWriter sw = new StreamWriter(path + ".etag.new"))
+                                    {
+                                        sw.WriteLine(response.Headers[HttpResponseHeader.ETag]);
+                                    }
+                                    // get it
+                                }
+
+                                if (updateThisFile)
+                                {
+                                    if (!update)
+                                    {
+                                        //DialogResult dr = MessageBox.Show("Update Found\n\nDo you wish to update now?", "Update Now", MessageBoxButtons.YesNo);
+                                        //if (dr == DialogResult.Yes)
+                                        {
+                                            update = true;
+                                        }
+                                        //else
+                                        {
+                                            //    return;
+                                        }
+                                    }
+                                    if (frmProgressReporter != null)
+                                        frmProgressReporter.UpdateProgressAndStatus(-1, "Getting " + file);
+
+                                    // from head
+                                    long bytes = response.ContentLength;
+
+                                    long contlen = bytes;
+
+                                    byte[] buf1 = new byte[4096];
+
+                                    using (FileStream fs = new FileStream(path + ".new", FileMode.Create))
+                                    {
+
+                                        DateTime dt = DateTime.Now;
+
+                                        //dataStream.ReadTimeout = 30000;
+
+                                        while (dataStream.CanRead)
+                                        {
+                                            try
+                                            {
+                                                if (dt.Second != DateTime.Now.Second)
+                                                {
+                                                    if (frmProgressReporter != null)
+                                                        frmProgressReporter.UpdateProgressAndStatus((int)(((double)(contlen - bytes) / (double)contlen) * 100), "Getting " + file + ": " + (((double)(contlen - bytes) / (double)contlen) * 100).ToString("0.0") + "%"); //+ Math.Abs(bytes) + " bytes");
+                                                    dt = DateTime.Now;
+                                                }
+                                            }
+                                            catch { }
+                                            log.Debug(file + " " + bytes);
+                                            int len = dataStream.Read(buf1, 0, buf1.Length);
+                                            if (len == 0)
+                                                break;
+                                            bytes -= len;
+                                            fs.Write(buf1, 0, len);
+                                        }
+                                    }
+                                }
                             }
                         }
-
-
-                        reader.Close();
-                        //dataStream.Close();
-                        response.Close();
-
                     }
                     catch (Exception ex) { fail = ex; attempt++; update = false; continue; }
 

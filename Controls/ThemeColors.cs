@@ -16,16 +16,6 @@ namespace MissionPlanner.Controls
             InitializeComponent();
 
             Utilities.ThemeManager.ApplyThemeTo(this);
-
-            try
-            {
-                TXT_bg.BackColor = Color.FromArgb(int.Parse(MainV2.config["theme_bg"].ToString()));
-                TXT_ctlbg.BackColor = Color.FromArgb(int.Parse(MainV2.config["theme_ctlbg"].ToString()));
-                TXT_text.BackColor = Color.FromArgb(int.Parse(MainV2.config["theme_text"].ToString()));
-                TXT_butbg.BackColor = Color.FromArgb(int.Parse(MainV2.config["theme_butbg"].ToString()));
-                TXT_butbord.BackColor = Color.FromArgb(int.Parse(MainV2.config["theme_butbord"].ToString()));
-            }
-            catch { }
         }
 
         private void BUT_bg_Click(object sender, EventArgs e)
@@ -86,6 +76,19 @@ namespace MissionPlanner.Controls
         private void BUT_done_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void ThemeColors_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                TXT_bg.BackColor = Color.FromArgb(int.Parse(MainV2.config["theme_bg"].ToString()));
+                TXT_ctlbg.BackColor = Color.FromArgb(int.Parse(MainV2.config["theme_ctlbg"].ToString()));
+                TXT_text.BackColor = Color.FromArgb(int.Parse(MainV2.config["theme_text"].ToString()));
+                TXT_butbg.BackColor = Color.FromArgb(int.Parse(MainV2.config["theme_butbg"].ToString()));
+                TXT_butbord.BackColor = Color.FromArgb(int.Parse(MainV2.config["theme_butbord"].ToString()));
+            }
+            catch { }
         }
     }
 }

@@ -22,7 +22,7 @@ namespace MissionPlanner.Swarm
         icon mouseover = null;
         bool ismousedown = false;
 
-        public delegate void UpdateOffsetsEvent(MAVLink mav,float x, float y, float z, icon ico);
+        public delegate void UpdateOffsetsEvent(MAVLinkInterface mav, float x, float y, float z, icon ico);
 
         public event UpdateOffsetsEvent UpdateOffsets;
 
@@ -125,7 +125,7 @@ namespace MissionPlanner.Swarm
             base.OnResize(e);
         }
 
-        public void UpdateIcon(MAVLink mav,float x, float y, float z, bool movable)
+        public void UpdateIcon(MAVLinkInterface mav, float x, float y, float z, bool movable)
         {
             foreach (var icon in icons)
             {
@@ -238,7 +238,7 @@ namespace MissionPlanner.Swarm
             public RectangleF bounds = new RectangleF();
             public Color Color = Color.Red;
             public String Name = "";
-            public MAVLink interf = null;
+            public MAVLinkInterface interf = null;
             public bool Movable = true;
 
             public void OnPaint(PaintEventArgs e,int xdist, int ydist,int width, int height)

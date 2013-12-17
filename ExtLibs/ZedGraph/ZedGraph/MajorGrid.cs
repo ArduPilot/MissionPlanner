@@ -49,7 +49,7 @@ namespace ZedGraph
 			_penWidth = Default.PenWidth;
 			_isVisible = Default.IsVisible;
 			_color = Default.Color;
-			_isZeroLine = Default.IsZeroLine;
+            _isZeroLine = Default.IsZeroLine;
 		}
 
 		/// <summary>
@@ -91,8 +91,8 @@ namespace ZedGraph
 		/// <remarks>
 		/// The zero line is a line that divides the negative values from the positive values.
 		/// The default is set according to
-		/// <see cref="XAxis.Default.IsZeroLine"/>, <see cref="YAxis.Default.IsZeroLine"/>,
-		/// <see cref="Y2Axis.Default.IsZeroLine"/>,
+		/// <see cref="XAxis.Default.IsEmptyLine"/>, <see cref="YAxis.Default.IsEmptyLine"/>,
+		/// <see cref="Y2Axis.Default.IsEmptyLine"/>,
 		/// </remarks>
 		/// <value>true to show the zero line, false otherwise</value>
 		public bool IsZeroLine
@@ -187,8 +187,8 @@ namespace ZedGraph
 			/// <remarks>
 			/// The zero line is a line that divides the negative values from the positive values.
 			/// The default is set according to
-			/// <see cref="XAxis.Default.IsZeroLine"/>, <see cref="YAxis.Default.IsZeroLine"/>,
-			/// <see cref="Y2Axis.Default.IsZeroLine"/>,
+			/// <see cref="XAxis.Default.IsEmptyLine"/>, <see cref="YAxis.Default.IsEmptyLine"/>,
+			/// <see cref="Y2Axis.Default.IsEmptyLine"/>,
 			/// </remarks>
 			/// <value>true to show the zero line, false otherwise</value>
 			public static bool IsZeroLine = false;

@@ -181,7 +181,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                             float numbervalue = (float)MainV2.comPort.MAV.param[value];
 
-                            MAVLink.modifyParamForDisplay(true, value,ref numbervalue);
+                            MAVLinkInterface.modifyParamForDisplay(true, value, ref numbervalue);
 
                             NumericUpDown thisctl = ((NumericUpDown)ctl);
                             thisctl.Maximum = 9000;
@@ -207,6 +207,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                             }
 
                             thisctl.Enabled = true;
+                            try
+                            {
+                                thisctl.Parent.Visible = true;
+                            }
+                            catch { }
 
                             ThemeManager.ApplyThemeTo(thisctl);
 
@@ -266,7 +271,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 if (sender.GetType() == typeof(NumericUpDown))
                 {
                     value = (float)((NumericUpDown)sender).Value;
-                    MAVLink.modifyParamForDisplay(false, ((Control)sender).Name, ref value);
+                    MAVLinkInterface.modifyParamForDisplay(false, ((Control)sender).Name, ref value);
                     changes[name] = value;
                 }
                 else if (sender.GetType() == typeof(ComboBox))
@@ -339,6 +344,42 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             ((Control)sender).Enabled = true;
 
             this.Activate();
+        }
+
+        private void BUT_refreshpart_Click(object sender, EventArgs e)
+        {
+            if (!MainV2.comPort.BaseStream.IsOpen)
+                return;
+
+            ((Control)sender).Enabled = false;
+
+
+            updateparam(this);
+
+            ((Control)sender).Enabled = true;
+
+
+            this.Activate();
+        }
+
+        void updateparam(Control parentctl)
+        {
+            foreach (Control ctl in parentctl.Controls)
+            {
+                if (typeof(NumericUpDown) == ctl.GetType() || typeof(ComboBox) == ctl.GetType())
+                {
+                    try
+                    {
+                        MainV2.comPort.GetParam(ctl.Name);
+                    }
+                    catch { }
+                }
+
+                if (ctl.Controls.Count > 0)
+                {
+                    updateparam(ctl);
+                }
+            }
         }
 
     }

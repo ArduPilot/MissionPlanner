@@ -138,8 +138,11 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;Progressbar.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>11</value>
   </data>
+  <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
   <data name="S1.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
@@ -179,9 +182,6 @@
   <data name="S1.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
   </data>
-  <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
   <data name="S1.ToolTip" xml:space="preserve">
     <value>Serial baud rate in rounded kbps. So 57 means 57600. 
 </value>
@@ -196,7 +196,7 @@
     <value>SPLIT_local.Panel1</value>
   </data>
   <data name="&gt;&gt;S1.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="label1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -223,7 +223,7 @@
     <value>SPLIT_local.Panel1</value>
   </data>
   <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="S0.Location" type="System.Drawing.Point, System.Drawing">
     <value>81, 3</value>
@@ -244,7 +244,7 @@
     <value>SPLIT_local.Panel1</value>
   </data>
   <data name="&gt;&gt;S0.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="label2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -271,7 +271,7 @@
     <value>SPLIT_local.Panel1</value>
   </data>
   <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="label3.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -298,7 +298,7 @@
     <value>SPLIT_local.Panel1</value>
   </data>
   <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="S2.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -364,7 +364,7 @@
     <value>SPLIT_local.Panel1</value>
   </data>
   <data name="&gt;&gt;S2.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="label4.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -391,7 +391,7 @@
     <value>SPLIT_local.Panel1</value>
   </data>
   <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>8</value>
   </data>
   <data name="S3.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -508,7 +508,7 @@
     <value>SPLIT_local.Panel1</value>
   </data>
   <data name="&gt;&gt;S3.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="label5.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -535,7 +535,7 @@
     <value>SPLIT_local.Panel1</value>
   </data>
   <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>10</value>
   </data>
   <data name="S4.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -587,7 +587,7 @@
     <value>SPLIT_local.Panel1</value>
   </data>
   <data name="&gt;&gt;S4.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>9</value>
   </data>
   <data name="label6.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -614,7 +614,7 @@
     <value>SPLIT_local.Panel1</value>
   </data>
   <data name="&gt;&gt;label6.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>12</value>
   </data>
   <data name="S5.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -642,7 +642,7 @@
     <value>SPLIT_local.Panel1</value>
   </data>
   <data name="&gt;&gt;S5.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>11</value>
   </data>
   <data name="label7.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -671,34 +671,6 @@
   <data name="&gt;&gt;label7.ZOrder" xml:space="preserve">
     <value>15</value>
   </data>
-  <data name="S6.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="S6.Location" type="System.Drawing.Point, System.Drawing">
-    <value>81, 164</value>
-  </data>
-  <data name="S6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>80, 20</value>
-  </data>
-  <data name="S6.TabIndex" type="System.Int32, mscorlib">
-    <value>17</value>
-  </data>
-  <data name="S6.ToolTip" xml:space="preserve">
-    <value>MAVLINK enables/disables MAVLink packet framing. This tries to align radio packets to MAVLink packet boundaries, which makes a big difference to what happens to the MAVLink stream when you lose a packet.
-</value>
-  </data>
-  <data name="&gt;&gt;S6.Name" xml:space="preserve">
-    <value>S6</value>
-  </data>
-  <data name="&gt;&gt;S6.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;S6.Parent" xml:space="preserve">
-    <value>SPLIT_local.Panel1</value>
-  </data>
-  <data name="&gt;&gt;S6.ZOrder" xml:space="preserve">
-    <value>13</value>
-  </data>
   <data name="label8.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -724,7 +696,7 @@
     <value>SPLIT_local.Panel1</value>
   </data>
   <data name="&gt;&gt;label8.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>13</value>
   </data>
   <data name="S7.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -754,6 +726,9 @@
   <data name="&gt;&gt;S7.ZOrder" xml:space="preserve">
     <value>14</value>
   </data>
+  <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
   <data name="RS7.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
@@ -782,34 +757,6 @@
   <data name="&gt;&gt;RS7.ZOrder" xml:space="preserve">
     <value>11</value>
   </data>
-  <data name="RS6.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="RS6.Location" type="System.Drawing.Point, System.Drawing">
-    <value>83, 164</value>
-  </data>
-  <data name="RS6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>80, 20</value>
-  </data>
-  <data name="RS6.TabIndex" type="System.Int32, mscorlib">
-    <value>28</value>
-  </data>
-  <data name="RS6.ToolTip" xml:space="preserve">
-    <value>MAVLINK enables/disables MAVLink packet framing. This tries to align radio packets to MAVLink packet boundaries, which makes a big difference to what happens to the MAVLink stream when you lose a packet.
-</value>
-  </data>
-  <data name="&gt;&gt;RS6.Name" xml:space="preserve">
-    <value>RS6</value>
-  </data>
-  <data name="&gt;&gt;RS6.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;RS6.Parent" xml:space="preserve">
-    <value>SPLIT_remote.Panel1</value>
-  </data>
-  <data name="&gt;&gt;RS6.ZOrder" xml:space="preserve">
-    <value>9</value>
-  </data>
   <data name="RS5.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
@@ -836,7 +783,7 @@
     <value>SPLIT_remote.Panel1</value>
   </data>
   <data name="&gt;&gt;RS5.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>8</value>
   </data>
   <data name="RS4.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -888,7 +835,7 @@
     <value>SPLIT_remote.Panel1</value>
   </data>
   <data name="&gt;&gt;RS4.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="RS3.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1005,7 +952,7 @@
     <value>SPLIT_remote.Panel1</value>
   </data>
   <data name="&gt;&gt;RS3.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="RS2.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1071,7 +1018,7 @@
     <value>SPLIT_remote.Panel1</value>
   </data>
   <data name="&gt;&gt;RS2.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="RS1.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1126,10 +1073,10 @@
     <value>SPLIT_remote.Panel1</value>
   </data>
   <data name="&gt;&gt;RS1.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="RSSI.Location" type="System.Drawing.Point, System.Drawing">
-    <value>82, 38</value>
+    <value>59, 38</value>
   </data>
   <data name="RSSI.Multiline" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1160,7 +1107,7 @@ which result in a valid packet CRC
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;RSSI.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="S10.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1244,7 +1191,7 @@ which result in a valid packet CRC
     <value>SPLIT_local.Panel2</value>
   </data>
   <data name="&gt;&gt;S10.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>6</value>
   </data>
   <data name="S11.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1301,7 +1248,7 @@ which result in a valid packet CRC
     <value>SPLIT_local.Panel2</value>
   </data>
   <data name="&gt;&gt;S11.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>7</value>
   </data>
   <data name="S12.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1334,7 +1281,7 @@ which result in a valid packet CRC
     <value>SPLIT_local.Panel2</value>
   </data>
   <data name="&gt;&gt;S12.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>9</value>
   </data>
   <data name="RS12.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1367,7 +1314,7 @@ which result in a valid packet CRC
     <value>SPLIT_remote.Panel2</value>
   </data>
   <data name="&gt;&gt;RS12.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>6</value>
   </data>
   <data name="RS11.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1424,7 +1371,7 @@ which result in a valid packet CRC
     <value>SPLIT_remote.Panel2</value>
   </data>
   <data name="&gt;&gt;RS11.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>5</value>
   </data>
   <data name="RS10.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1508,7 +1455,7 @@ which result in a valid packet CRC
     <value>SPLIT_remote.Panel2</value>
   </data>
   <data name="&gt;&gt;RS10.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>4</value>
   </data>
   <data name="S9.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1562,7 +1509,7 @@ which result in a valid packet CRC
     <value>SPLIT_local.Panel2</value>
   </data>
   <data name="&gt;&gt;S9.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>5</value>
   </data>
   <data name="S8.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1625,7 +1572,7 @@ which result in a valid packet CRC
     <value>SPLIT_local.Panel2</value>
   </data>
   <data name="&gt;&gt;S8.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>11</value>
   </data>
   <data name="RS8.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1679,7 +1626,7 @@ which result in a valid packet CRC
     <value>SPLIT_remote.Panel2</value>
   </data>
   <data name="&gt;&gt;RS8.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>7</value>
   </data>
   <data name="RS9.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1733,7 +1680,7 @@ which result in a valid packet CRC
     <value>SPLIT_remote.Panel2</value>
   </data>
   <data name="&gt;&gt;RS9.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>3</value>
   </data>
   <data name="linkLabel1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1767,7 +1714,7 @@ red LED solid - in firmware update mode</value>
     <value>$this</value>
   </data>
   <data name="&gt;&gt;linkLabel1.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="S15.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -1887,151 +1834,181 @@ red LED solid - in firmware update mode</value>
     <value>SPLIT_local.Panel2</value>
   </data>
   <data name="&gt;&gt;S15.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="S16.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="S16.Items" xml:space="preserve">
-    <value>65535</value>
-  </data>
-  <data name="S16.Location" type="System.Drawing.Point, System.Drawing">
-    <value>96, 163</value>
-  </data>
-  <data name="S16.Size" type="System.Drawing.Size, System.Drawing">
-    <value>80, 21</value>
-  </data>
-  <data name="S16.TabIndex" type="System.Int32, mscorlib">
-    <value>54</value>
-  </data>
-  <data name="S16.ToolTip" xml:space="preserve">
-    <value>Remote node ID to communicate with. Set the value to 65535 to broadcast to all nodes.</value>
-  </data>
-  <data name="&gt;&gt;S16.Name" xml:space="preserve">
-    <value>S16</value>
-  </data>
-  <data name="&gt;&gt;S16.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;S16.Parent" xml:space="preserve">
-    <value>SPLIT_local.Panel2</value>
-  </data>
-  <data name="&gt;&gt;S16.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="S18.Enabled" type="System.Boolean, mscorlib">
+  <data name="RS15.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="S18.Items" xml:space="preserve">
+  <data name="RS15.Items" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="RS15.Items1" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="RS15.Items2" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="S18.Items1" xml:space="preserve">
+  <data name="RS15.Items3" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="S18.Items2" xml:space="preserve">
+  <data name="RS15.Items4" xml:space="preserve">
     <value>4</value>
   </data>
-  <data name="S18.Items3" xml:space="preserve">
+  <data name="RS15.Items5" xml:space="preserve">
     <value>5</value>
   </data>
-  <data name="S18.Items4" xml:space="preserve">
+  <data name="RS15.Items6" xml:space="preserve">
     <value>6</value>
   </data>
-  <data name="S18.Items5" xml:space="preserve">
+  <data name="RS15.Items7" xml:space="preserve">
     <value>7</value>
   </data>
-  <data name="S18.Items6" xml:space="preserve">
+  <data name="RS15.Items8" xml:space="preserve">
     <value>8</value>
   </data>
-  <data name="S18.Items7" xml:space="preserve">
+  <data name="RS15.Items9" xml:space="preserve">
     <value>9</value>
   </data>
-  <data name="S18.Items8" xml:space="preserve">
+  <data name="RS15.Items10" xml:space="preserve">
     <value>10</value>
   </data>
-  <data name="S18.Items9" xml:space="preserve">
+  <data name="RS15.Items11" xml:space="preserve">
     <value>11</value>
   </data>
-  <data name="S18.Items10" xml:space="preserve">
+  <data name="RS15.Items12" xml:space="preserve">
     <value>12</value>
   </data>
-  <data name="S18.Items11" xml:space="preserve">
+  <data name="RS15.Items13" xml:space="preserve">
     <value>13</value>
   </data>
-  <data name="S18.Items12" xml:space="preserve">
+  <data name="RS15.Items14" xml:space="preserve">
     <value>14</value>
   </data>
-  <data name="S18.Items13" xml:space="preserve">
+  <data name="RS15.Items15" xml:space="preserve">
     <value>15</value>
   </data>
-  <data name="S18.Items14" xml:space="preserve">
+  <data name="RS15.Items16" xml:space="preserve">
     <value>16</value>
   </data>
-  <data name="S18.Items15" xml:space="preserve">
+  <data name="RS15.Items17" xml:space="preserve">
     <value>17</value>
   </data>
-  <data name="S18.Items16" xml:space="preserve">
+  <data name="RS15.Items18" xml:space="preserve">
     <value>18</value>
   </data>
-  <data name="S18.Items17" xml:space="preserve">
+  <data name="RS15.Items19" xml:space="preserve">
     <value>19</value>
   </data>
-  <data name="S18.Items18" xml:space="preserve">
+  <data name="RS15.Items20" xml:space="preserve">
     <value>20</value>
   </data>
-  <data name="S18.Items19" xml:space="preserve">
+  <data name="RS15.Items21" xml:space="preserve">
     <value>21</value>
   </data>
-  <data name="S18.Items20" xml:space="preserve">
+  <data name="RS15.Items22" xml:space="preserve">
     <value>22</value>
   </data>
-  <data name="S18.Items21" xml:space="preserve">
+  <data name="RS15.Items23" xml:space="preserve">
     <value>23</value>
   </data>
-  <data name="S18.Items22" xml:space="preserve">
+  <data name="RS15.Items24" xml:space="preserve">
     <value>24</value>
   </data>
-  <data name="S18.Items23" xml:space="preserve">
+  <data name="RS15.Items25" xml:space="preserve">
     <value>25</value>
   </data>
-  <data name="S18.Items24" xml:space="preserve">
+  <data name="RS15.Items26" xml:space="preserve">
     <value>26</value>
   </data>
-  <data name="S18.Items25" xml:space="preserve">
+  <data name="RS15.Items27" xml:space="preserve">
     <value>27</value>
   </data>
-  <data name="S18.Items26" xml:space="preserve">
+  <data name="RS15.Items28" xml:space="preserve">
     <value>28</value>
   </data>
-  <data name="S18.Items27" xml:space="preserve">
+  <data name="RS15.Items29" xml:space="preserve">
     <value>29</value>
   </data>
-  <data name="S18.Items28" xml:space="preserve">
+  <data name="RS15.Items30" xml:space="preserve">
     <value>30</value>
   </data>
-  <data name="S18.Location" type="System.Drawing.Point, System.Drawing">
-    <value>96, 190</value>
+  <data name="RS15.Location" type="System.Drawing.Point, System.Drawing">
+    <value>97, 136</value>
   </data>
-  <data name="S18.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="RS15.Size" type="System.Drawing.Size, System.Drawing">
     <value>80, 21</value>
   </data>
-  <data name="S18.TabIndex" type="System.Int32, mscorlib">
-    <value>56</value>
+  <data name="RS15.TabIndex" type="System.Int32, mscorlib">
+    <value>64</value>
   </data>
-  <data name="S18.ToolTip" xml:space="preserve">
-    <value>The total number of nodes. In the next version of the firmware, this will be an auto-detect feature.</value>
+  <data name="RS15.ToolTip" xml:space="preserve">
+    <value>Node ID. Base node ID is 0. One node must be acting as a base for a multipoint environment to work. </value>
   </data>
-  <data name="&gt;&gt;S18.Name" xml:space="preserve">
-    <value>S18</value>
+  <data name="&gt;&gt;RS15.Name" xml:space="preserve">
+    <value>RS15</value>
   </data>
-  <data name="&gt;&gt;S18.Type" xml:space="preserve">
+  <data name="&gt;&gt;RS15.Type" xml:space="preserve">
     <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;S18.Parent" xml:space="preserve">
-    <value>SPLIT_local.Panel2</value>
+  <data name="&gt;&gt;RS15.Parent" xml:space="preserve">
+    <value>SPLIT_remote.Panel2</value>
   </data>
-  <data name="&gt;&gt;S18.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;RS15.ZOrder" xml:space="preserve">
     <value>1</value>
+  </data>
+  <data name="S6.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="S6.Location" type="System.Drawing.Point, System.Drawing">
+    <value>81, 164</value>
+  </data>
+  <data name="S6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 21</value>
+  </data>
+  <data name="S6.TabIndex" type="System.Int32, mscorlib">
+    <value>21</value>
+  </data>
+  <data name="S6.ToolTip" xml:space="preserve">
+    <value>AIR_SPEED is the inter-radio data rate in rounded kbps. So 128 means 128kbps. Max is 192, min is 2. I would not recommend values below 16 as the frequency hopping and tdm sync times get too long. </value>
+  </data>
+  <data name="&gt;&gt;S6.Name" xml:space="preserve">
+    <value>S6</value>
+  </data>
+  <data name="&gt;&gt;S6.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;S6.Parent" xml:space="preserve">
+    <value>SPLIT_local.Panel1</value>
+  </data>
+  <data name="&gt;&gt;S6.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="RS6.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="RS6.Location" type="System.Drawing.Point, System.Drawing">
+    <value>83, 163</value>
+  </data>
+  <data name="RS6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 21</value>
+  </data>
+  <data name="RS6.TabIndex" type="System.Int32, mscorlib">
+    <value>22</value>
+  </data>
+  <data name="RS6.ToolTip" xml:space="preserve">
+    <value>AIR_SPEED is the inter-radio data rate in rounded kbps. So 128 means 128kbps. Max is 192, min is 2. I would not recommend values below 16 as the frequency hopping and tdm sync times get too long. </value>
+  </data>
+  <data name="&gt;&gt;RS6.Name" xml:space="preserve">
+    <value>RS6</value>
+  </data>
+  <data name="&gt;&gt;RS6.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RS6.Parent" xml:space="preserve">
+    <value>SPLIT_remote.Panel1</value>
+  </data>
+  <data name="&gt;&gt;RS6.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="RS0.Location" type="System.Drawing.Point, System.Drawing">
     <value>83, 3</value>
@@ -2052,7 +2029,7 @@ red LED solid - in firmware update mode</value>
     <value>SPLIT_remote.Panel1</value>
   </data>
   <data name="&gt;&gt;RS0.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="RTI.Location" type="System.Drawing.Point, System.Drawing">
     <value>138, 12</value>
@@ -2073,10 +2050,10 @@ red LED solid - in firmware update mode</value>
     <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;RTI.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="ATI.Location" type="System.Drawing.Point, System.Drawing">
-    <value>82, 12</value>
+    <value>59, 12</value>
   </data>
   <data name="ATI.Size" type="System.Drawing.Size, System.Drawing">
     <value>147, 20</value>
@@ -2094,7 +2071,7 @@ red LED solid - in firmware update mode</value>
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;ATI.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="label11.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2121,7 +2098,7 @@ red LED solid - in firmware update mode</value>
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;label11.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="label12.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2148,13 +2125,13 @@ red LED solid - in firmware update mode</value>
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;label12.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="BUT_savesettings.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
   <data name="BUT_savesettings.Location" type="System.Drawing.Point, System.Drawing">
-    <value>297, 3</value>
+    <value>237, 3</value>
   </data>
   <data name="BUT_savesettings.Size" type="System.Drawing.Size, System.Drawing">
     <value>69, 39</value>
@@ -2169,16 +2146,16 @@ red LED solid - in firmware update mode</value>
     <value>BUT_savesettings</value>
   </data>
   <data name="&gt;&gt;BUT_savesettings.Type" xml:space="preserve">
-    <value>Controls.MyButton, 3DRRadio, Version=0.0.4897.38272, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_savesettings.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BUT_savesettings.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>8</value>
   </data>
   <data name="BUT_getcurrent.Location" type="System.Drawing.Point, System.Drawing">
-    <value>222, 3</value>
+    <value>162, 3</value>
   </data>
   <data name="BUT_getcurrent.Size" type="System.Drawing.Size, System.Drawing">
     <value>69, 39</value>
@@ -2193,13 +2170,13 @@ red LED solid - in firmware update mode</value>
     <value>BUT_getcurrent</value>
   </data>
   <data name="&gt;&gt;BUT_getcurrent.Type" xml:space="preserve">
-    <value>Controls.MyButton, 3DRRadio, Version=0.0.4897.38272, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_getcurrent.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BUT_getcurrent.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>9</value>
   </data>
   <data name="lbl_status.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 361</value>
@@ -2220,10 +2197,10 @@ red LED solid - in firmware update mode</value>
     <value>$this</value>
   </data>
   <data name="&gt;&gt;lbl_status.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>10</value>
   </data>
   <data name="BUT_upload.Location" type="System.Drawing.Point, System.Drawing">
-    <value>372, 3</value>
+    <value>312, 3</value>
   </data>
   <data name="BUT_upload.Size" type="System.Drawing.Size, System.Drawing">
     <value>121, 39</value>
@@ -2238,13 +2215,13 @@ red LED solid - in firmware update mode</value>
     <value>BUT_upload</value>
   </data>
   <data name="&gt;&gt;BUT_upload.Type" xml:space="preserve">
-    <value>Controls.MyButton, 3DRRadio, Version=0.0.4897.38272, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_upload.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BUT_upload.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>12</value>
   </data>
   <data name="label13.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2275,7 +2252,7 @@ red LED solid - in firmware update mode</value>
     <value>SPLIT_local.Panel2</value>
   </data>
   <data name="&gt;&gt;label13.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>4</value>
   </data>
   <data name="label14.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2305,7 +2282,7 @@ red LED solid - in firmware update mode</value>
     <value>SPLIT_local.Panel2</value>
   </data>
   <data name="&gt;&gt;label14.ZOrder" xml:space="preserve">
-    <value>15</value>
+    <value>13</value>
   </data>
   <data name="label15.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2335,7 +2312,7 @@ red LED solid - in firmware update mode</value>
     <value>SPLIT_local.Panel2</value>
   </data>
   <data name="&gt;&gt;label15.ZOrder" xml:space="preserve">
-    <value>14</value>
+    <value>12</value>
   </data>
   <data name="label16.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2365,7 +2342,7 @@ red LED solid - in firmware update mode</value>
     <value>SPLIT_local.Panel2</value>
   </data>
   <data name="&gt;&gt;label16.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>10</value>
   </data>
   <data name="label17.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2395,7 +2372,7 @@ red LED solid - in firmware update mode</value>
     <value>SPLIT_local.Panel2</value>
   </data>
   <data name="&gt;&gt;label17.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>8</value>
   </data>
   <data name="label20.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2425,7 +2402,7 @@ red LED solid - in firmware update mode</value>
     <value>SPLIT_remote.Panel2</value>
   </data>
   <data name="&gt;&gt;label20.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>11</value>
   </data>
   <data name="label21.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2455,7 +2432,7 @@ red LED solid - in firmware update mode</value>
     <value>SPLIT_remote.Panel2</value>
   </data>
   <data name="&gt;&gt;label21.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>10</value>
   </data>
   <data name="label22.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2485,7 +2462,7 @@ red LED solid - in firmware update mode</value>
     <value>SPLIT_remote.Panel2</value>
   </data>
   <data name="&gt;&gt;label22.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>9</value>
   </data>
   <data name="label23.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2515,7 +2492,7 @@ red LED solid - in firmware update mode</value>
     <value>SPLIT_remote.Panel2</value>
   </data>
   <data name="&gt;&gt;label23.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>8</value>
   </data>
   <data name="label24.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2545,7 +2522,7 @@ red LED solid - in firmware update mode</value>
     <value>SPLIT_remote.Panel2</value>
   </data>
   <data name="&gt;&gt;label24.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>2</value>
   </data>
   <data name="label25.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2575,7 +2552,7 @@ red LED solid - in firmware update mode</value>
     <value>SPLIT_remote.Panel1</value>
   </data>
   <data name="&gt;&gt;label25.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="label26.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2605,7 +2582,7 @@ red LED solid - in firmware update mode</value>
     <value>SPLIT_remote.Panel1</value>
   </data>
   <data name="&gt;&gt;label26.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="label27.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2635,7 +2612,7 @@ red LED solid - in firmware update mode</value>
     <value>SPLIT_remote.Panel1</value>
   </data>
   <data name="&gt;&gt;label27.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>9</value>
   </data>
   <data name="label28.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2805,65 +2782,62 @@ red LED solid - in firmware update mode</value>
   <data name="&gt;&gt;SPLIT_local.Panel1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="label33.AutoSize" type="System.Boolean, mscorlib">
+  <data name="linkLabel_mavlink.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="label33.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+  <data name="linkLabel_mavlink.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="label33.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 193</value>
+  <data name="linkLabel_mavlink.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 185</value>
   </data>
-  <data name="label33.Size" type="System.Drawing.Size, System.Drawing">
-    <value>64, 13</value>
+  <data name="linkLabel_mavlink.Size" type="System.Drawing.Size, System.Drawing">
+    <value>146, 13</value>
   </data>
-  <data name="label33.TabIndex" type="System.Int32, mscorlib">
-    <value>57</value>
-  </data>
-  <data name="label33.Text" xml:space="preserve">
-    <value>Node Count</value>
-  </data>
-  <data name="&gt;&gt;label33.Name" xml:space="preserve">
-    <value>label33</value>
-  </data>
-  <data name="&gt;&gt;label33.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label33.Parent" xml:space="preserve">
-    <value>SPLIT_local.Panel2</value>
-  </data>
-  <data name="&gt;&gt;label33.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="label19.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="label19.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="label19.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 166</value>
-  </data>
-  <data name="label19.Size" type="System.Drawing.Size, System.Drawing">
-    <value>58, 13</value>
-  </data>
-  <data name="label19.TabIndex" type="System.Int32, mscorlib">
+  <data name="linkLabel_mavlink.TabIndex" type="System.Int32, mscorlib">
     <value>55</value>
   </data>
-  <data name="label19.Text" xml:space="preserve">
-    <value>Node Dest</value>
+  <data name="linkLabel_mavlink.Text" xml:space="preserve">
+    <value>Settings for Standard Mavlink</value>
   </data>
-  <data name="&gt;&gt;label19.Name" xml:space="preserve">
-    <value>label19</value>
+  <data name="&gt;&gt;linkLabel_mavlink.Name" xml:space="preserve">
+    <value>linkLabel_mavlink</value>
   </data>
-  <data name="&gt;&gt;label19.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;linkLabel_mavlink.Type" xml:space="preserve">
+    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;label19.Parent" xml:space="preserve">
+  <data name="&gt;&gt;linkLabel_mavlink.Parent" xml:space="preserve">
     <value>SPLIT_local.Panel2</value>
   </data>
-  <data name="&gt;&gt;label19.ZOrder" xml:space="preserve">
-    <value>2</value>
+  <data name="&gt;&gt;linkLabel_mavlink.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="linkLabel_lowlatency.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="linkLabel_lowlatency.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 198</value>
+  </data>
+  <data name="linkLabel_lowlatency.Size" type="System.Drawing.Size, System.Drawing">
+    <value>124, 13</value>
+  </data>
+  <data name="linkLabel_lowlatency.TabIndex" type="System.Int32, mscorlib">
+    <value>54</value>
+  </data>
+  <data name="linkLabel_lowlatency.Text" xml:space="preserve">
+    <value>Settings for Low Latency</value>
+  </data>
+  <data name="&gt;&gt;linkLabel_lowlatency.Name" xml:space="preserve">
+    <value>linkLabel_lowlatency</value>
+  </data>
+  <data name="&gt;&gt;linkLabel_lowlatency.Type" xml:space="preserve">
+    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;linkLabel_lowlatency.Parent" xml:space="preserve">
+    <value>SPLIT_local.Panel2</value>
+  </data>
+  <data name="&gt;&gt;linkLabel_lowlatency.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <data name="label18.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2875,13 +2849,13 @@ red LED solid - in firmware update mode</value>
     <value>4, 139</value>
   </data>
   <data name="label18.Size" type="System.Drawing.Size, System.Drawing">
-    <value>47, 13</value>
+    <value>91, 13</value>
   </data>
   <data name="label18.TabIndex" type="System.Int32, mscorlib">
     <value>53</value>
   </data>
   <data name="label18.Text" xml:space="preserve">
-    <value>Node ID</value>
+    <value>Max Window (ms)</value>
   </data>
   <data name="&gt;&gt;label18.Name" xml:space="preserve">
     <value>label18</value>
@@ -2893,7 +2867,7 @@ red LED solid - in firmware update mode</value>
     <value>SPLIT_local.Panel2</value>
   </data>
   <data name="&gt;&gt;label18.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>2</value>
   </data>
   <data name="&gt;&gt;SPLIT_local.Panel2.Name" xml:space="preserve">
     <value>SPLIT_local.Panel2</value>
@@ -2929,7 +2903,7 @@ red LED solid - in firmware update mode</value>
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;SPLIT_local.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="SPLIT_remote.IsSplitterFixed" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -2947,6 +2921,36 @@ red LED solid - in firmware update mode</value>
     <value>SPLIT_remote</value>
   </data>
   <data name="&gt;&gt;SPLIT_remote.Panel1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="label34.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label34.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label34.Location" type="System.Drawing.Point, System.Drawing">
+    <value>5, 139</value>
+  </data>
+  <data name="label34.Size" type="System.Drawing.Size, System.Drawing">
+    <value>91, 13</value>
+  </data>
+  <data name="label34.TabIndex" type="System.Int32, mscorlib">
+    <value>65</value>
+  </data>
+  <data name="label34.Text" xml:space="preserve">
+    <value>Max Window (ms)</value>
+  </data>
+  <data name="&gt;&gt;label34.Name" xml:space="preserve">
+    <value>label34</value>
+  </data>
+  <data name="&gt;&gt;label34.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label34.Parent" xml:space="preserve">
+    <value>SPLIT_remote.Panel2</value>
+  </data>
+  <data name="&gt;&gt;label34.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <data name="&gt;&gt;SPLIT_remote.Panel2.Name" xml:space="preserve">
@@ -2983,7 +2987,7 @@ red LED solid - in firmware update mode</value>
     <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;SPLIT_remote.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="CHK_advanced.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3013,7 +3017,7 @@ red LED solid - in firmware update mode</value>
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CHK_advanced.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="BUT_Syncoptions.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -3037,16 +3041,16 @@ red LED solid - in firmware update mode</value>
     <value>BUT_Syncoptions</value>
   </data>
   <data name="&gt;&gt;BUT_Syncoptions.Type" xml:space="preserve">
-    <value>Controls.MyButton, 3DRRadio, Version=0.0.4897.38272, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_Syncoptions.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BUT_Syncoptions.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="ATI3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>230, 12</value>
+    <value>207, 12</value>
   </data>
   <data name="ATI3.Size" type="System.Drawing.Size, System.Drawing">
     <value>102, 20</value>
@@ -3064,7 +3068,31 @@ red LED solid - in firmware update mode</value>
     <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;ATI3.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
+  </data>
+  <data name="ATI2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>315, 12</value>
+  </data>
+  <data name="ATI2.Multiline" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="ATI2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>61, 65</value>
+  </data>
+  <data name="ATI2.TabIndex" type="System.Int32, mscorlib">
+    <value>80</value>
+  </data>
+  <data name="&gt;&gt;ATI2.Name" xml:space="preserve">
+    <value>ATI2</value>
+  </data>
+  <data name="&gt;&gt;ATI2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ATI2.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;ATI2.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 48</value>
@@ -3088,7 +3116,79 @@ red LED solid - in firmware update mode</value>
     <value>$this</value>
   </data>
   <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;RTI2.Name" xml:space="preserve">
+    <value>RTI2</value>
+  </data>
+  <data name="&gt;&gt;RTI2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RTI2.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;RTI2.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;label9.Name" xml:space="preserve">
+    <value>label9</value>
+  </data>
+  <data name="&gt;&gt;label9.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label9.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;label9.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="groupBox2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>400, 48</value>
+  </data>
+  <data name="groupBox2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>367, 306</value>
+  </data>
+  <data name="groupBox2.TabIndex" type="System.Int32, mscorlib">
+    <value>81</value>
+  </data>
+  <data name="groupBox2.Text" xml:space="preserve">
+    <value>Remote</value>
+  </data>
+  <data name="&gt;&gt;groupBox2.Name" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;groupBox2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox2.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;groupBox2.ZOrder" xml:space="preserve">
     <value>4</value>
+  </data>
+  <data name="RTI2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>246, 12</value>
+  </data>
+  <data name="RTI2.Multiline" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="RTI2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>61, 65</value>
+  </data>
+  <data name="RTI2.TabIndex" type="System.Int32, mscorlib">
+    <value>81</value>
+  </data>
+  <data name="&gt;&gt;RTI2.Name" xml:space="preserve">
+    <value>RTI2</value>
+  </data>
+  <data name="&gt;&gt;RTI2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RTI2.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;RTI2.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
   <data name="label9.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3118,31 +3218,7 @@ red LED solid - in firmware update mode</value>
     <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;label9.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="groupBox2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>400, 48</value>
-  </data>
-  <data name="groupBox2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>367, 306</value>
-  </data>
-  <data name="groupBox2.TabIndex" type="System.Int32, mscorlib">
-    <value>81</value>
-  </data>
-  <data name="groupBox2.Text" xml:space="preserve">
-    <value>Remote</value>
-  </data>
-  <data name="&gt;&gt;groupBox2.Name" xml:space="preserve">
-    <value>groupBox2</value>
-  </data>
-  <data name="&gt;&gt;groupBox2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;groupBox2.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;groupBox2.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>1</value>
   </data>
   <data name="label10.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -3169,13 +3245,13 @@ red LED solid - in firmware update mode</value>
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label10.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="BUT_resettodefault.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="BUT_resettodefault.Location" type="System.Drawing.Point, System.Drawing">
-    <value>499, 3</value>
+    <value>439, 3</value>
   </data>
   <data name="BUT_resettodefault.Size" type="System.Drawing.Size, System.Drawing">
     <value>82, 39</value>
@@ -3190,12 +3266,39 @@ red LED solid - in firmware update mode</value>
     <value>BUT_resettodefault</value>
   </data>
   <data name="&gt;&gt;BUT_resettodefault.Type" xml:space="preserve">
-    <value>Controls.MyButton, 3DRRadio, Version=0.0.4897.38272, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_resettodefault.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BUT_resettodefault.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="BUT_loadcustom.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="BUT_loadcustom.Location" type="System.Drawing.Point, System.Drawing">
+    <value>527, 3</value>
+  </data>
+  <data name="BUT_loadcustom.Size" type="System.Drawing.Size, System.Drawing">
+    <value>96, 39</value>
+  </data>
+  <data name="BUT_loadcustom.TabIndex" type="System.Int32, mscorlib">
+    <value>85</value>
+  </data>
+  <data name="BUT_loadcustom.Text" xml:space="preserve">
+    <value>Upload Custom Firmware</value>
+  </data>
+  <data name="&gt;&gt;BUT_loadcustom.Name" xml:space="preserve">
+    <value>BUT_loadcustom</value>
+  </data>
+  <data name="&gt;&gt;BUT_loadcustom.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;BUT_loadcustom.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;BUT_loadcustom.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">

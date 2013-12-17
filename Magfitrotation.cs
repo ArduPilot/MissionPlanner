@@ -126,7 +126,7 @@ new     Rotation("ROTATION_ROLL_180_YAW_45",         180,   0,  45),
             // print("Processing log %s" % filename);
             // mlog = mavutil.mavlink_connection(filename, notimestamps=opts.notimestamps);
 
-            MAVLink mavint = new MAVLink();
+            MAVLinkInterface mavint = new MAVLinkInterface();
 
             try
             {
@@ -157,7 +157,7 @@ new     Rotation("ROTATION_ROLL_180_YAW_45",         180,   0,  45),
             return ans;
         }
 
-        static string process(MAVLink mavint)
+        static string process(MAVLinkInterface mavint)
         {
             DateTime Deadline = DateTime.Now.AddSeconds(60);
 

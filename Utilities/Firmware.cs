@@ -35,8 +35,31 @@ namespace MissionPlanner.Utilities
         string[] gholdurls = new string[] { };
         public List<KeyValuePair<string, string>> niceNames = new List<KeyValuePair<string, string>>();
 
+        List<software> softwares = new List<software>();
+
+        public struct software
+        {
+            public string url;
+            public string url2560;
+            public string url2560_2;
+            public string urlpx4v1;
+            public string urlpx4v2;
+            public string name;
+            public string desc;
+            public int k_format_version;
+        }
+
         public string getUrl(string hash, string filename)
         {
+            if (hash.ToLower().StartsWith("http"))
+            {
+                if (filename == "")
+                    return hash;
+
+                var url = new Uri(hash);
+                return new Uri(url, filename, true).AbsoluteUri;
+            }
+
             foreach (string x in gholdurls)
             {
                 if (x == hash)
@@ -63,19 +86,8 @@ namespace MissionPlanner.Utilities
             }
             return "";
         }
-        List<software> softwares = new List<software>();
 
-        public struct software
-        {
-            public string url;
-            public string url2560;
-            public string url2560_2;
-            public string urlpx4v1;
-            public string urlpx4v2;
-            public string name;
-            public string desc;
-            public int k_format_version;
-        }
+
 
         /// <summary>
         /// Load firmware history from file
@@ -94,19 +106,27 @@ namespace MissionPlanner.Utilities
             int a = 0;
             foreach (string gh in gholdurls)
             {
-                gholdurls[a] = gh.Trim().Substring(0,40);
-
-                try
+                if (gh.Length > 40)
                 {
-                    if (gh.Length > 42) {
-                        niceNames.Add(new KeyValuePair<string,string>(gholdurls[a],gh.Substring(41).Trim()));
-                    } else {
-                        niceNames.Add(new KeyValuePair<string, string>(gholdurls[a], gholdurls[a]));
-                    }
-                }
-                catch { niceNames.Add(new KeyValuePair<string,string>(gholdurls[a],gholdurls[a])); }
+                    int index = gh.IndexOf(' ');
 
-                a++;
+                    if (index >= 40)
+                    {
+                        gholdurls[a] = gh.Trim().Substring(0, index);
+                    }
+                    else
+                    {
+                        continue;
+                    }
+
+                    try
+                    {
+                            niceNames.Add(new KeyValuePair<string, string>(gholdurls[a], gh.Substring(index+1).Trim()));
+                    }
+                    catch { niceNames.Add(new KeyValuePair<string, string>(gholdurls[a], gholdurls[a])); }
+
+                    a++;
+                }
             }
         }
 
@@ -276,7 +296,7 @@ namespace MissionPlanner.Utilities
         /// </summary>
         /// <param name="temp"></param>
         /// <param name="historyhash"></param>
-        public bool update(string comport, software temp)
+        public bool update(string comport, software temp, string historyhash)
         {
             BoardDetect.boards board = BoardDetect.boards.none;
 
@@ -344,6 +364,9 @@ namespace MissionPlanner.Utilities
                     CustomMessageBox.Show("Invalid Board Type");
                     return false;
                 }
+
+                if (historyhash != "")
+                    baseurl = getUrl(historyhash, baseurl);
 
                 log.Info("Using " + baseurl);
 
@@ -424,20 +447,30 @@ namespace MissionPlanner.Utilities
         /// <param name="filename"></param>
         public bool UploadPX4(string filename)
         {
-            try
-            {
-//                MainV2.comPort.Open(false);
-//                MainV2.comPort.doReboot(true);
-            }
-            catch { }
 
-            DateTime DEADLINE = DateTime.Now.AddSeconds(30);
 
             Uploader up;
             updateProgress(0, "Reading Hex File");
             px4uploader.Firmware fw = px4uploader.Firmware.ProcessFirmware(filename);
 
-            CustomMessageBox.Show("Please unplug the board, and then press OK and plug back in.\nMission Planner will look for 30 seconds to find the board");
+            try
+            {
+              //  MainV2.comPort.BaseStream.Open();
+               // if (MainV2.comPort.BaseStream.IsOpen)
+                {
+               //     MainV2.comPort.doReboot(true);
+               //     MainV2.comPort.Close();
+                }
+               // else
+                {
+                    CustomMessageBox.Show("Please unplug the board, and then press OK and plug back in.\nMission Planner will look for 30 seconds to find the board");
+                }
+            }
+            catch {
+                // MainV2.comPort.Close();
+            }
+
+            DateTime DEADLINE = DateTime.Now.AddSeconds(30);
 
             updateProgress(0, "Scanning comports");
 
@@ -447,8 +480,7 @@ namespace MissionPlanner.Utilities
 
                 foreach (string port in allports)
                 {
-
-                    Console.WriteLine(DateTime.Now.Millisecond + " Trying Port " + port);
+                    log.Info(DateTime.Now.Millisecond + " Trying Port " + port);
 
                     updateProgress(-1, "Connecting");
 
@@ -467,7 +499,7 @@ namespace MissionPlanner.Utilities
                     {
                         up.identify();
                         updateProgress(-1, "Identify");
-                        Console.WriteLine("Found board type {0} boardrev {1} bl rev {2} fwmax {3} on {4}", up.board_type, up.board_rev, up.bl_rev, up.fw_maxsize, port);
+                        log.InfoFormat("Found board type {0} boardrev {1} bl rev {2} fwmax {3} on {4}", up.board_type, up.board_rev, up.bl_rev, up.fw_maxsize, port);
                     }
                     catch (Exception)
                     {
@@ -479,14 +511,13 @@ namespace MissionPlanner.Utilities
 
                     try
                     {
-
-                        up.verifyotp();
-
                         up.currentChecksum(fw);
                     }
                     catch {
-                        CustomMessageBox.Show("Failed to upload new firmware");
-                        break;
+                        up.__reboot();
+                        up.close();
+                        CustomMessageBox.Show("No need to upload. already on the board");
+                        return true;
                     }
 
                     try
@@ -501,6 +532,7 @@ namespace MissionPlanner.Utilities
                     catch (Exception ex)
                     {
                         updateProgress(0, "ERROR: " + ex.Message);
+                        log.Info(ex);
                         Console.WriteLine(ex.ToString());
 
                     }
@@ -511,6 +543,8 @@ namespace MissionPlanner.Utilities
                     return true;
                 }
             }
+
+            updateProgress(0, "ERROR: No Responce from board");
             return false;
         }
 
@@ -518,6 +552,8 @@ namespace MissionPlanner.Utilities
 
         void up_LogEvent(string message, int level = 0)
         {
+            log.Debug(message);
+
             _message = message;
             updateProgress(-1, message);
         }
@@ -540,21 +576,17 @@ namespace MissionPlanner.Utilities
             }
 
             byte[] FLASH = new byte[1];
-            StreamReader sr = null;
             try
             {
                 updateProgress(0, "Reading Hex File");
-                sr = new StreamReader(filename);
-                FLASH = readIntelHEXv2(sr);
-                sr.Close();
+                using (StreamReader sr = new StreamReader(filename))
+                {
+                    FLASH = readIntelHEXv2(sr);
+                }
                 log.InfoFormat("\n\nSize: {0}\n\n", FLASH.Length);
             }
             catch (Exception ex)
             {
-                if (sr != null)
-                {
-                    sr.Dispose();
-                }
                 updateProgress(0, "Failed read HEX");
                 CustomMessageBox.Show("Failed to read firmware.hex : " + ex.Message);
                 return false;

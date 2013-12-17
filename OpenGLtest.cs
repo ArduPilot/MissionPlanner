@@ -9,6 +9,7 @@ using System.Drawing;
 using GMap.NET;
 using GMap.NET.WindowsForms;
 using MissionPlanner.Utilities;
+using GMap.NET.MapProviders;
 
 namespace MissionPlanner.Controls
 {
@@ -58,17 +59,15 @@ namespace MissionPlanner.Controls
             instance = this;
 
             InitializeComponent();
-
-            GL.GenTextures(1, out texture);
         }
 
         void getImage()
         {
-            MapType type = MapType.GoogleSatellite;
+            GMapProvider type  = GMap.NET.MapProviders.GoogleSatelliteMapProvider.Instance;
             PureProjection prj = null;
             int maxZoom;
 
-            GMaps.Instance.AdjustProjection(type, ref prj, out maxZoom);
+            //GMaps.Instance.AdjustProjection(type, ref prj, out maxZoom);
           //int zoom = 14; // 12
             if (!area.IsEmpty)
             {
@@ -82,7 +81,7 @@ namespace MissionPlanner.Controls
                     //Console.WriteLine("Type: " + type.ToString());
                     //Console.WriteLine("Area: " + area);
 
-                    var types = GMaps.Instance.GetAllLayersOfType(type);
+                    var types = type;// GMaps.Instance.GetAllLayersOfType(type);
 
                     // current area
                     GPoint topLeftPx = prj.FromLatLngToPixel(area.LocationTopLeft, zoom);
@@ -93,7 +92,7 @@ namespace MissionPlanner.Controls
 
                     int padding = 0;
                     {
-                        using (Bitmap bmpDestination = new Bitmap(pxDelta.X + padding * 2, pxDelta.Y + padding * 2))
+                        using (Bitmap bmpDestination = new Bitmap((int)pxDelta.X + padding * 2, (int)pxDelta.Y + padding * 2))
                         {
                             using (Graphics gfx = Graphics.FromImage(bmpDestination))
                             {
@@ -104,7 +103,7 @@ namespace MissionPlanner.Controls
                                 {
                                    Console.WriteLine("Downloading[" + p + "]: " + tileArea.IndexOf(p) + " of " + tileArea.Count);
 
-                                    foreach (MapType tp in types)
+                                    /*foreach (GMapProvider tp in types)
                                     {
                                         Exception ex;
                                         WindowsFormsImage tile = GMaps.Instance.GetImageFrom(tp, p, zoom, out ex) as WindowsFormsImage;
@@ -120,6 +119,7 @@ namespace MissionPlanner.Controls
                                             }
                                         }
                                     }
+                                     * */
                                     if ((DateTime.Now - startimage).TotalMilliseconds > 200)
                                         break;
                                 }
@@ -357,6 +357,8 @@ namespace MissionPlanner.Controls
 
         private void test_Load(object sender, EventArgs e)
         {
+                GL.GenTextures(1, out texture);
+
             GL.Enable(EnableCap.DepthTest);
            // GL.Enable(EnableCap.Light0);
             GL.Enable(EnableCap.Lighting);

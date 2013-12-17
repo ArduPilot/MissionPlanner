@@ -47,7 +47,7 @@ namespace GMap.NET
 
       // Google version strings
       public string VersionGoogleMap = "m@220000000";
-      public string VersionGoogleSatellite = "131";
+      public string VersionGoogleSatellite = "138";
       public string VersionGoogleLabels = "h@220000000";
       public string VersionGoogleTerrain = "t@126,r@151";
       public string SecGoogleWord = "Galileo";
@@ -1289,7 +1289,7 @@ namespace GMap.NET
                string sec2 = ""; // after &zoom=...
                GetSecGoogleWords(pos, out sec1, out sec2);
 
-               return string.Format("https://{0}{1}.{10}/{2}/v={3}&hl={4}&x={5}{6}&y={7}&z={8}&s={9}", server, GetServerNum(pos, 4), request, VersionGoogleSatellite, language, pos.X, sec1, pos.Y, zoom, sec2, GServer);
+               return string.Format("https://{0}{1}.{10}/{2}/v={3}&src=app&x={5}{6}&y={7}&z={8}&s={9}", server, GetServerNum(pos, 2), request, VersionGoogleSatellite, language, pos.X, sec1, pos.Y, zoom, sec2, GServer);
             }
 
             case MapType.GoogleLabels:
@@ -1916,7 +1916,7 @@ namespace GMap.NET
       internal string MakeGeocoderUrl(string keywords, string language)
       {
          string key = keywords.Replace(' ', '+');
-         return string.Format("http://maps.{3}/maps/geo?q={0}&hl={1}&output=csv&key={2}", key, language, GoogleMapsAPIKey, GServer);
+         return string.Format("https://maps.{3}/maps/geo?q={0}&hl={1}&output=csv&key={2}", key, language, GoogleMapsAPIKey, GServer);
       }
 
       /// <summary>
@@ -1927,7 +1927,7 @@ namespace GMap.NET
       /// <returns></returns>
       internal string MakeReverseGeocoderUrl(PointLatLng pt, string language)
       {
-         return string.Format("http://maps.{4}/maps/geo?hl={0}&ll={1},{2}&output=xml&key={3}", language, pt.Lat.ToString(CultureInfo.InvariantCulture), pt.Lng.ToString(CultureInfo.InvariantCulture), GoogleMapsAPIKey, GServer);
+         return string.Format("https://maps.{4}/maps/geo?hl={0}&ll={1},{2}&output=xml&key={3}", language, pt.Lat.ToString(CultureInfo.InvariantCulture), pt.Lng.ToString(CultureInfo.InvariantCulture), GoogleMapsAPIKey, GServer);
       }
 
       /// <summary>
@@ -1942,7 +1942,7 @@ namespace GMap.NET
       {
          string highway = avoidHighways ? "&mra=ls&dirflg=dh" : "&mra=ls&dirflg=d";
 
-         return string.Format("http://maps.{6}/maps?f=q&output=dragdir&doflg=p&hl={0}{1}&q=&saddr=@{2},{3}&daddr=@{4},{5}", language, highway, start.Lat.ToString(CultureInfo.InvariantCulture), start.Lng.ToString(CultureInfo.InvariantCulture), end.Lat.ToString(CultureInfo.InvariantCulture), end.Lng.ToString(CultureInfo.InvariantCulture), GServer);
+         return string.Format("https://maps.{6}/maps?f=q&output=dragdir&doflg=p&hl={0}{1}&q=&saddr=@{2},{3}&daddr=@{4},{5}", language, highway, start.Lat.ToString(CultureInfo.InvariantCulture), start.Lng.ToString(CultureInfo.InvariantCulture), end.Lat.ToString(CultureInfo.InvariantCulture), end.Lng.ToString(CultureInfo.InvariantCulture), GServer);
       }
 
       /// <summary>
@@ -1957,7 +1957,7 @@ namespace GMap.NET
       {
          string highway = avoidHighways ? "&mra=ls&dirflg=dh" : "&mra=ls&dirflg=d";
 
-         return string.Format("http://maps.{4}/maps?f=q&output=dragdir&doflg=p&hl={0}{1}&q=&saddr=@{2}&daddr=@{3}", language, highway, start.Replace(' ', '+'), end.Replace(' ', '+'), GServer);
+         return string.Format("https://maps.{4}/maps?f=q&output=dragdir&doflg=p&hl={0}{1}&q=&saddr=@{2}&daddr=@{3}", language, highway, start.Replace(' ', '+'), end.Replace(' ', '+'), GServer);
       }
 
       /// <summary>
@@ -1972,7 +1972,7 @@ namespace GMap.NET
       {
          string highway = avoidHighways ? "&mra=ls&dirflg=dh" : "&mra=ls&dirflg=d";
 
-         return string.Format("http://maps.{6}/maps?f=q&output=kml&doflg=p&hl={0}{1}&q=&saddr=@{2},{3}&daddr=@{4},{5}", language, highway, start.Lat.ToString(CultureInfo.InvariantCulture), start.Lng.ToString(CultureInfo.InvariantCulture), end.Lat.ToString(CultureInfo.InvariantCulture), end.Lng.ToString(CultureInfo.InvariantCulture), GServer);
+         return string.Format("https://maps.{6}/maps?f=q&output=kml&doflg=p&hl={0}{1}&q=&saddr=@{2},{3}&daddr=@{4},{5}", language, highway, start.Lat.ToString(CultureInfo.InvariantCulture), start.Lng.ToString(CultureInfo.InvariantCulture), end.Lat.ToString(CultureInfo.InvariantCulture), end.Lng.ToString(CultureInfo.InvariantCulture), GServer);
       }
 
       /// <summary>
@@ -1987,7 +1987,7 @@ namespace GMap.NET
       {
          string highway = avoidHighways ? "&mra=ls&dirflg=dh" : "&mra=ls&dirflg=d";
 
-         return string.Format("http://maps.{4}/maps?f=q&output=kml&doflg=p&hl={0}{1}&q=&saddr=@{2}&daddr=@{3}", language, highway, start.Replace(' ', '+'), end.Replace(' ', '+'), GServer);
+         return string.Format("https://maps.{4}/maps?f=q&output=kml&doflg=p&hl={0}{1}&q=&saddr=@{2}&daddr=@{3}", language, highway, start.Replace(' ', '+'), end.Replace(' ', '+'), GServer);
       }
 
       /// <summary>
@@ -2001,7 +2001,7 @@ namespace GMap.NET
       {
          string directions = "&mra=ls&dirflg=w";
 
-         return string.Format("http://maps.{6}/maps?f=q&output=dragdir&doflg=p&hl={0}{1}&q=&saddr=@{2},{3}&daddr=@{4},{5}", language, directions, start.Lat.ToString(CultureInfo.InvariantCulture), start.Lng.ToString(CultureInfo.InvariantCulture), end.Lat.ToString(CultureInfo.InvariantCulture), end.Lng.ToString(CultureInfo.InvariantCulture), GServer);
+         return string.Format("https://maps.{6}/maps?f=q&output=dragdir&doflg=p&hl={0}{1}&q=&saddr=@{2},{3}&daddr=@{4},{5}", language, directions, start.Lat.ToString(CultureInfo.InvariantCulture), start.Lng.ToString(CultureInfo.InvariantCulture), end.Lat.ToString(CultureInfo.InvariantCulture), end.Lng.ToString(CultureInfo.InvariantCulture), GServer);
       }
 
       /// <summary>
@@ -2014,7 +2014,7 @@ namespace GMap.NET
       internal string MakeWalkingRouteUrl(string start, string end, string language)
       {
          string directions = "&mra=ls&dirflg=w";
-         return string.Format("http://maps.{4}/maps?f=q&output=dragdir&doflg=p&hl={0}{1}&q=&saddr=@{2}&daddr=@{3}", language, directions, start.Replace(' ', '+'), end.Replace(' ', '+'), GServer);
+         return string.Format("https://maps.{4}/maps?f=q&output=dragdir&doflg=p&hl={0}{1}&q=&saddr=@{2}&daddr=@{3}", language, directions, start.Replace(' ', '+'), end.Replace(' ', '+'), GServer);
       }
 
       #endregion
@@ -2028,7 +2028,7 @@ namespace GMap.NET
       {
          if(!IsCorrectedGoogleVersions)
          {
-            string url = string.Format("http://maps.{0}", GServer);
+            string url = string.Format("https://maps.{0}", GServer);
             try
             {
                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
@@ -2052,7 +2052,7 @@ namespace GMap.NET
                      {
                         string html = read.ReadToEnd();
 
-                        Regex reg = new Regex(string.Format("\"*http://mt0.{0}/vt/lyrs=m@(\\d*)", GServer), RegexOptions.IgnoreCase);
+                        Regex reg = new Regex(string.Format("\"*https://mts0.{0}/vt/lyrs=m@(\\d*)", GServer), RegexOptions.IgnoreCase);
                         Match mat = reg.Match(html);
                         if(mat.Success)
                         {
@@ -2066,7 +2066,7 @@ namespace GMap.NET
                            }
                         }
 
-                        reg = new Regex(string.Format("\"*http://mt0.{0}/vt/lyrs=h@(\\d*)", GServer), RegexOptions.IgnoreCase);
+                        reg = new Regex(string.Format("\"*https://mts0.{0}/vt/lyrs=h@(\\d*)", GServer), RegexOptions.IgnoreCase);
                         mat = reg.Match(html);
                         if(mat.Success)
                         {
@@ -2080,7 +2080,7 @@ namespace GMap.NET
                            }
                         }
 
-                        reg = new Regex(string.Format("\"*http://khm0.{0}/kh/v=(\\d*)", GServer), RegexOptions.IgnoreCase);
+                        reg = new Regex(string.Format("\"*https://khms0.{0}/kh/v=(\\d*)", GServer), RegexOptions.IgnoreCase);
                         mat = reg.Match(html);
                         if(mat.Success)
                         {
@@ -2095,7 +2095,7 @@ namespace GMap.NET
                            }
                         }
 
-                        reg = new Regex(string.Format("\"*http://mt0.{0}/vt/lyrs=t@(\\d*),r@(\\d*)", GServer), RegexOptions.IgnoreCase);
+                        reg = new Regex(string.Format("\"*https://mts0.{0}/vt/lyrs=t@(\\d*),r@(\\d*)", GServer), RegexOptions.IgnoreCase);
                         mat = reg.Match(html);
                         if(mat.Success)
                         {
@@ -2883,6 +2883,8 @@ namespace GMap.NET
                if(Mode != AccessMode.CacheOnly)
                {
                   string url = MakeImageUrl(type, pos, zoom, LanguageStr);
+
+                  Debug.WriteLine(url);
 
                   HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
                   if(Proxy != null)

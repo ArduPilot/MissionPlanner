@@ -32,21 +32,21 @@ namespace MissionPlanner.Wizard
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(_6CompassCalib));
             this.panel1 = new System.Windows.Forms.Panel();
-            this.BUT_MagCalibrationLive = new Controls.MyButton();
+            this.BUT_MagCalibrationLive = new MissionPlanner.Controls.MyButton();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.radialGradientBG1 = new Controls.GradientBG();
+            this.radialGradientBG1 = new MissionPlanner.Controls.GradientBG();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.BUT_compassorient = new Controls.MyButton();
-            this.pictureBoxMouseOver3 = new Controls.PictureBoxMouseOver();
-            this.pictureBoxMouseOver2 = new Controls.PictureBoxMouseOver();
-            this.pictureBoxMouseOver1 = new Controls.PictureBoxMouseOver();
+            this.BUT_compassorient = new MissionPlanner.Controls.MyButton();
+            this.pictureBoxMouseOver3 = new MissionPlanner.Controls.PictureBoxMouseOver();
+            this.pictureBoxMouseOver2 = new MissionPlanner.Controls.PictureBoxMouseOver();
+            this.pictureBoxMouseOver1 = new MissionPlanner.Controls.PictureBoxMouseOver();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.label6 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.radialGradientBG1.Image)).BeginInit();
             this.panel2.SuspendLayout();
@@ -70,16 +70,12 @@ namespace MissionPlanner.Wizard
             // 
             // BUT_MagCalibrationLive
             // 
-            this.BUT_MagCalibrationLive.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
-            this.BUT_MagCalibrationLive.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
             this.BUT_MagCalibrationLive.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.BUT_MagCalibrationLive.Location = new System.Drawing.Point(115, 106);
             this.BUT_MagCalibrationLive.Name = "BUT_MagCalibrationLive";
-            this.BUT_MagCalibrationLive.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
             this.BUT_MagCalibrationLive.Size = new System.Drawing.Size(66, 27);
             this.BUT_MagCalibrationLive.TabIndex = 86;
             this.BUT_MagCalibrationLive.Text = "Live Calibration";
-            this.BUT_MagCalibrationLive.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_MagCalibrationLive.UseVisualStyleBackColor = true;
             this.BUT_MagCalibrationLive.Click += new System.EventHandler(this.BUT_MagCalibration_Click);
             // 
@@ -165,6 +161,16 @@ namespace MissionPlanner.Wizard
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(740, 219);
             this.panel2.TabIndex = 5;
+            this.panel2.Visible = false;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(210, 170);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(10, 13);
+            this.label6.TabIndex = 9;
+            this.label6.Text = ".";
             // 
             // label5
             // 
@@ -177,15 +183,11 @@ namespace MissionPlanner.Wizard
             // 
             // BUT_compassorient
             // 
-            this.BUT_compassorient.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
-            this.BUT_compassorient.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
             this.BUT_compassorient.Location = new System.Drawing.Point(115, 138);
             this.BUT_compassorient.Name = "BUT_compassorient";
-            this.BUT_compassorient.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
             this.BUT_compassorient.Size = new System.Drawing.Size(75, 23);
             this.BUT_compassorient.TabIndex = 7;
             this.BUT_compassorient.Text = "Start";
-            this.BUT_compassorient.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_compassorient.UseVisualStyleBackColor = true;
             this.BUT_compassorient.Click += new System.EventHandler(this.BUT_compassorient_Click);
             // 
@@ -258,15 +260,6 @@ namespace MissionPlanner.Wizard
             // timer1
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(210, 170);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(10, 13);
-            this.label6.TabIndex = 9;
-            this.label6.Text = ".";
             // 
             // _6CompassCalib
             // 

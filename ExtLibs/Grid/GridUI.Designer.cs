@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GridUI));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label3 = new System.Windows.Forms.Label();
             this.NUM_spacing = new System.Windows.Forms.NumericUpDown();
@@ -44,13 +43,13 @@
             this.NUM_overshoot = new System.Windows.Forms.NumericUpDown();
             this.label2 = new System.Windows.Forms.Label();
             this.NUM_Distance = new System.Windows.Forms.NumericUpDown();
-            this.BUT_Accept = new Controls.MyButton();
+            this.BUT_Accept = new MissionPlanner.Controls.MyButton();
             this.label4 = new System.Windows.Forms.Label();
             this.NUM_angle = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             this.NUM_altitude = new System.Windows.Forms.NumericUpDown();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.BUT_samplephoto = new Controls.MyButton();
+            this.BUT_samplephoto = new MissionPlanner.Controls.MyButton();
             this.label21 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
             this.label20 = new System.Windows.Forms.Label();
@@ -68,7 +67,7 @@
             this.label14 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
-            this.BUT_save = new Controls.MyButton();
+            this.BUT_save = new MissionPlanner.Controls.MyButton();
             this.CHK_camdirection = new System.Windows.Forms.CheckBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.label18 = new System.Windows.Forms.Label();
@@ -86,6 +85,7 @@
             this.label26 = new System.Windows.Forms.Label();
             this.CMB_camera = new System.Windows.Forms.ComboBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.CHK_advanced = new System.Windows.Forms.CheckBox();
             this.chk_footprints = new System.Windows.Forms.CheckBox();
             this.chk_internals = new System.Windows.Forms.CheckBox();
             this.chk_grid = new System.Windows.Forms.CheckBox();
@@ -94,8 +94,16 @@
             this.tabGrid = new System.Windows.Forms.TabPage();
             this.tabTrigger = new System.Windows.Forms.TabPage();
             this.tabCamera = new System.Windows.Forms.TabPage();
-            this.map = new Controls.myGMAP();
+            this.map = new MissionPlanner.Controls.myGMAP();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.lbl_distbetweenlines = new System.Windows.Forms.Label();
+            this.label25 = new System.Windows.Forms.Label();
+            this.lbl_footprint = new System.Windows.Forms.Label();
+            this.label30 = new System.Windows.Forms.Label();
+            this.lbl_strips = new System.Windows.Forms.Label();
+            this.lbl_pictures = new System.Windows.Forms.Label();
+            this.label33 = new System.Windows.Forms.Label();
+            this.label34 = new System.Windows.Forms.Label();
             this.lbl_grndres = new System.Windows.Forms.Label();
             this.label29 = new System.Windows.Forms.Label();
             this.lbl_spacing = new System.Windows.Forms.Label();
@@ -104,7 +112,6 @@
             this.lbl_area = new System.Windows.Forms.Label();
             this.label23 = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
-            this.CHK_advanced = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_spacing)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_overshoot2)).BeginInit();
@@ -192,18 +199,13 @@
             // 
             this.NUM_overshoot2.Location = new System.Drawing.Point(143, 66);
             this.NUM_overshoot2.Maximum = new decimal(new int[] {
-            500,
+            9999,
             0,
             0,
             0});
             this.NUM_overshoot2.Name = "NUM_overshoot2";
             this.NUM_overshoot2.Size = new System.Drawing.Size(51, 20);
             this.NUM_overshoot2.TabIndex = 13;
-            this.NUM_overshoot2.Value = new decimal(new int[] {
-            20,
-            0,
-            0,
-            0});
             this.NUM_overshoot2.ValueChanged += new System.EventHandler(this.domainUpDown1_ValueChanged);
             // 
             // label8
@@ -285,18 +287,13 @@
             // 
             this.NUM_overshoot.Location = new System.Drawing.Point(143, 40);
             this.NUM_overshoot.Maximum = new decimal(new int[] {
-            500,
+            9999,
             0,
             0,
             0});
             this.NUM_overshoot.Name = "NUM_overshoot";
             this.NUM_overshoot.Size = new System.Drawing.Size(51, 20);
             this.NUM_overshoot.TabIndex = 8;
-            this.NUM_overshoot.Value = new decimal(new int[] {
-            20,
-            0,
-            0,
-            0});
             this.NUM_overshoot.ValueChanged += new System.EventHandler(this.domainUpDown1_ValueChanged);
             // 
             // label2
@@ -312,7 +309,7 @@
             // 
             this.NUM_Distance.Location = new System.Drawing.Point(143, 14);
             this.NUM_Distance.Maximum = new decimal(new int[] {
-            500,
+            9999,
             0,
             0,
             0});
@@ -333,15 +330,11 @@
             // 
             // BUT_Accept
             // 
-            this.BUT_Accept.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
-            this.BUT_Accept.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
             this.BUT_Accept.Location = new System.Drawing.Point(81, 133);
             this.BUT_Accept.Name = "BUT_Accept";
-            this.BUT_Accept.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
             this.BUT_Accept.Size = new System.Drawing.Size(75, 23);
             this.BUT_Accept.TabIndex = 22;
             this.BUT_Accept.Text = "Accept";
-            this.BUT_Accept.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_Accept.UseVisualStyleBackColor = true;
             this.BUT_Accept.Click += new System.EventHandler(this.BUT_Accept_Click);
             // 
@@ -372,9 +365,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(6, 42);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(59, 13);
+            this.label1.Size = new System.Drawing.Size(42, 13);
             this.label1.TabIndex = 1;
-            this.label1.Text = "Altitude [m]";
+            this.label1.Text = "Altitude";
             // 
             // NUM_altitude
             // 
@@ -385,7 +378,7 @@
             0});
             this.NUM_altitude.Location = new System.Drawing.Point(142, 40);
             this.NUM_altitude.Maximum = new decimal(new int[] {
-            500,
+            9999,
             0,
             0,
             0});
@@ -435,16 +428,12 @@
             // 
             // BUT_samplephoto
             // 
-            this.BUT_samplephoto.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
-            this.BUT_samplephoto.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
             this.BUT_samplephoto.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.BUT_samplephoto.Location = new System.Drawing.Point(58, 149);
             this.BUT_samplephoto.Name = "BUT_samplephoto";
-            this.BUT_samplephoto.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
             this.BUT_samplephoto.Size = new System.Drawing.Size(110, 23);
             this.BUT_samplephoto.TabIndex = 70;
             this.BUT_samplephoto.Text = "Load Sample Photo";
-            this.BUT_samplephoto.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_samplephoto.UseVisualStyleBackColor = true;
             this.BUT_samplephoto.Click += new System.EventHandler(this.BUT_samplephoto_Click);
             // 
@@ -626,16 +615,12 @@
             // 
             // BUT_save
             // 
-            this.BUT_save.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
-            this.BUT_save.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
             this.BUT_save.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.BUT_save.Location = new System.Drawing.Point(83, 178);
             this.BUT_save.Name = "BUT_save";
-            this.BUT_save.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
             this.BUT_save.Size = new System.Drawing.Size(64, 23);
             this.BUT_save.TabIndex = 45;
             this.BUT_save.Text = "Save";
-            this.BUT_save.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_save.UseVisualStyleBackColor = true;
             this.BUT_save.Click += new System.EventHandler(this.BUT_save_Click);
             // 
@@ -870,6 +855,17 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Display";
             // 
+            // CHK_advanced
+            // 
+            this.CHK_advanced.AutoSize = true;
+            this.CHK_advanced.Location = new System.Drawing.Point(8, 135);
+            this.CHK_advanced.Name = "CHK_advanced";
+            this.CHK_advanced.Size = new System.Drawing.Size(114, 17);
+            this.CHK_advanced.TabIndex = 5;
+            this.CHK_advanced.Text = "Advanced Options";
+            this.CHK_advanced.UseVisualStyleBackColor = true;
+            this.CHK_advanced.CheckedChanged += new System.EventHandler(this.CHK_advanced_CheckedChanged);
+            // 
             // chk_footprints
             // 
             this.chk_footprints.AutoSize = true;
@@ -968,10 +964,11 @@
             this.map.Bearing = 0F;
             this.map.CanDragMap = true;
             this.map.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.map.EmptyTileColor = System.Drawing.Color.Gray;
             this.map.GrayScaleMode = false;
+            this.map.HelperLineOption = GMap.NET.WindowsForms.HelperLineOptions.DontShow;
             this.map.LevelsKeepInMemmory = 5;
             this.map.Location = new System.Drawing.Point(0, 0);
-            this.map.MapType = GMap.NET.MapType.GoogleSatellite;
             this.map.MarkersEnabled = true;
             this.map.MaxZoom = 19;
             this.map.MinZoom = 2;
@@ -981,14 +978,23 @@
             this.map.PolygonsEnabled = true;
             this.map.RetryLoadTile = 0;
             this.map.RoutesEnabled = true;
+            this.map.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Fractional;
+            this.map.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
             this.map.ShowTileGridLines = false;
             this.map.Size = new System.Drawing.Size(755, 457);
-            this.map.streamjpg = ((System.IO.MemoryStream)(resources.GetObject("map.streamjpg")));
             this.map.TabIndex = 0;
             this.map.Zoom = 3D;
             // 
             // groupBox5
             // 
+            this.groupBox5.Controls.Add(this.lbl_distbetweenlines);
+            this.groupBox5.Controls.Add(this.label25);
+            this.groupBox5.Controls.Add(this.lbl_footprint);
+            this.groupBox5.Controls.Add(this.label30);
+            this.groupBox5.Controls.Add(this.lbl_strips);
+            this.groupBox5.Controls.Add(this.lbl_pictures);
+            this.groupBox5.Controls.Add(this.label33);
+            this.groupBox5.Controls.Add(this.label34);
             this.groupBox5.Controls.Add(this.lbl_grndres);
             this.groupBox5.Controls.Add(this.label29);
             this.groupBox5.Controls.Add(this.lbl_spacing);
@@ -1004,6 +1010,78 @@
             this.groupBox5.TabIndex = 20;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Stats";
+            // 
+            // lbl_distbetweenlines
+            // 
+            this.lbl_distbetweenlines.AutoSize = true;
+            this.lbl_distbetweenlines.Location = new System.Drawing.Point(381, 59);
+            this.lbl_distbetweenlines.Name = "lbl_distbetweenlines";
+            this.lbl_distbetweenlines.Size = new System.Drawing.Size(55, 13);
+            this.lbl_distbetweenlines.TabIndex = 15;
+            this.lbl_distbetweenlines.Text = "Distance: ";
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(240, 59);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(96, 13);
+            this.label25.TabIndex = 14;
+            this.label25.Text = "Dist between lines:";
+            // 
+            // lbl_footprint
+            // 
+            this.lbl_footprint.AutoSize = true;
+            this.lbl_footprint.Location = new System.Drawing.Point(381, 46);
+            this.lbl_footprint.Name = "lbl_footprint";
+            this.lbl_footprint.Size = new System.Drawing.Size(55, 13);
+            this.lbl_footprint.TabIndex = 13;
+            this.lbl_footprint.Text = "Distance: ";
+            // 
+            // label30
+            // 
+            this.label30.AutoSize = true;
+            this.label30.Location = new System.Drawing.Point(240, 46);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(51, 13);
+            this.label30.TabIndex = 12;
+            this.label30.Text = "Footprint:";
+            // 
+            // lbl_strips
+            // 
+            this.lbl_strips.AutoSize = true;
+            this.lbl_strips.Location = new System.Drawing.Point(381, 33);
+            this.lbl_strips.Name = "lbl_strips";
+            this.lbl_strips.Size = new System.Drawing.Size(55, 13);
+            this.lbl_strips.TabIndex = 11;
+            this.lbl_strips.Text = "Distance: ";
+            // 
+            // lbl_pictures
+            // 
+            this.lbl_pictures.AutoSize = true;
+            this.lbl_pictures.Location = new System.Drawing.Point(381, 20);
+            this.lbl_pictures.Name = "lbl_pictures";
+            this.lbl_pictures.Size = new System.Drawing.Size(55, 13);
+            this.lbl_pictures.TabIndex = 10;
+            this.lbl_pictures.Text = "Distance: ";
+            // 
+            // label33
+            // 
+            this.label33.AutoSize = true;
+            this.label33.Location = new System.Drawing.Point(240, 33);
+            this.label33.Name = "label33";
+            this.label33.Size = new System.Drawing.Size(65, 13);
+            this.label33.TabIndex = 9;
+            this.label33.Text = "No of Strips:";
+            // 
+            // label34
+            // 
+            this.label34.AutoSize = true;
+            this.label34.Location = new System.Drawing.Point(240, 20);
+            this.label34.Name = "label34";
+            this.label34.Size = new System.Drawing.Size(48, 13);
+            this.label34.TabIndex = 8;
+            this.label34.Text = "Pictures:";
             // 
             // lbl_grndres
             // 
@@ -1076,17 +1154,6 @@
             this.label22.Size = new System.Drawing.Size(35, 13);
             this.label22.TabIndex = 0;
             this.label22.Text = "Area: ";
-            // 
-            // CHK_advanced
-            // 
-            this.CHK_advanced.AutoSize = true;
-            this.CHK_advanced.Location = new System.Drawing.Point(8, 135);
-            this.CHK_advanced.Name = "CHK_advanced";
-            this.CHK_advanced.Size = new System.Drawing.Size(114, 17);
-            this.CHK_advanced.TabIndex = 5;
-            this.CHK_advanced.Text = "Advanced Options";
-            this.CHK_advanced.UseVisualStyleBackColor = true;
-            this.CHK_advanced.CheckedChanged += new System.EventHandler(this.CHK_advanced_CheckedChanged);
             // 
             // GridUI
             // 
@@ -1211,5 +1278,13 @@
         private System.Windows.Forms.Label lbl_grndres;
         private System.Windows.Forms.Label label29;
         private System.Windows.Forms.CheckBox CHK_advanced;
+        private System.Windows.Forms.Label lbl_distbetweenlines;
+        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.Label lbl_footprint;
+        private System.Windows.Forms.Label label30;
+        private System.Windows.Forms.Label lbl_strips;
+        private System.Windows.Forms.Label lbl_pictures;
+        private System.Windows.Forms.Label label33;
+        private System.Windows.Forms.Label label34;
     }
 }

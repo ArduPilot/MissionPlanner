@@ -18,6 +18,7 @@ namespace MissionPlanner
     {
         System.Threading.Thread t12;
         static bool threadrun = false;
+        static FollowMe Instance;
         static internal SerialPort comPort = new SerialPort();
         static internal PointLatLngAlt lastgotolocation = new PointLatLngAlt(0, 0, 0, "Goto last");
         static internal PointLatLngAlt gotolocation = new PointLatLngAlt(0, 0, 0, "Goto");
@@ -26,6 +27,8 @@ namespace MissionPlanner
 
         public FollowMe()
         {
+            Instance = this;
+
             InitializeComponent();
 
             CMB_serialport.DataSource = SerialPort.GetPortNames();
@@ -35,6 +38,9 @@ namespace MissionPlanner
             if (threadrun)
             {
                 BUT_connect.Text = "Stop";
+                CMB_baudrate.Text = comPort.BaudRate.ToString();
+                CMB_serialport.Text = comPort.PortName;
+                CMB_updaterate.Text = updaterate.ToString();
             }
 
             MissionPlanner.Utilities.Tracking.AddPage(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.ToString(), System.Reflection.MethodBase.GetCurrentMethod().Name);
@@ -192,12 +198,14 @@ namespace MissionPlanner
 
         private void updateLocationLabel(Locationwp plla)
         {
-             this.BeginInvoke((MethodInvoker)delegate
-             {
-                 LBL_location.Text = gotolocation.Lat + " " + gotolocation.Lng + " " + gotolocation.Alt +" "+ gotolocation.Tag;
+            if (!Instance.IsDisposed)
+            {
+                Instance.BeginInvoke((MethodInvoker)delegate
+                 {
+                     Instance.LBL_location.Text = gotolocation.Lat + " " + gotolocation.Lng + " " + gotolocation.Alt + " " + gotolocation.Tag;
+                 }
+            );
             }
-        );
-
         }
 
         private void SerialOutput_FormClosing(object sender, FormClosingEventArgs e)

@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.labelWithPseudoOpacity1 = new Controls.LabelWithPseudoOpacity();
+            this.labelWithPseudoOpacity1 = new MissionPlanner.Controls.LabelWithPseudoOpacity();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.labelWithPseudoOpacity2 = new Controls.LabelWithPseudoOpacity();
+            this.labelWithPseudoOpacity2 = new MissionPlanner.Controls.LabelWithPseudoOpacity();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -68,7 +68,7 @@
             // labelWithPseudoOpacity2
             // 
             this.labelWithPseudoOpacity2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelWithPseudoOpacity2.DoubleBuffered = false;
+            this.labelWithPseudoOpacity2.DoubleBuffered = true;
             this.labelWithPseudoOpacity2.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelWithPseudoOpacity2.Location = new System.Drawing.Point(3, 20);
             this.labelWithPseudoOpacity2.Name = "labelWithPseudoOpacity2";
@@ -80,7 +80,6 @@
             // 
             // QuickView
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "QuickView";
             this.Size = new System.Drawing.Size(122, 54);

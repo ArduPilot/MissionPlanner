@@ -1,4 +1,4 @@
 MissionPlanner
 ==============
 
-APM Mission Planner
+Mission Planner

@@ -25,16 +25,16 @@ namespace MissionPlanner.Comms
             running = 0;
             CommsSerialScan.connect = connect;
 
-            List<MAVLink> scanports = new List<MAVLink>();
+            List<MAVLinkInterface> scanports = new List<MAVLinkInterface>();
 
             string[] portlist = SerialPort.GetPortNames();
 
             foreach (string port in portlist)
             {
-                scanports.Add(new MAVLink() { BaseStream = new SerialPort() { PortName = port, BaudRate = bauds[0] } });
+                scanports.Add(new MAVLinkInterface() { BaseStream = new SerialPort() { PortName = port, BaudRate = bauds[0] } });
             }
 
-            foreach (MAVLink inter in scanports)
+            foreach (MAVLinkInterface inter in scanports)
             {
                 System.Threading.ThreadPool.QueueUserWorkItem(doread, inter);
             }
@@ -45,7 +45,7 @@ namespace MissionPlanner.Comms
             run++;
             running++;
 
-            MAVLink port = (MAVLink)o;
+            MAVLinkInterface port = (MAVLinkInterface)o;
 
             try
             {

@@ -8,14 +8,13 @@ using System.Text;
 using System.Windows.Forms;
 using MissionPlanner.Controls.BackstageView;
 using MissionPlanner.Controls;
-using MissionPlanner.Controls;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
     public partial class ConfigHWCompass : UserControl, IActivate
     {
         bool startup = false;
-
+        double[] ans;
         const float rad2deg = (float)(180 / Math.PI);
         const float deg2rad = (float)(1.0 / rad2deg);
 
@@ -35,6 +34,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             prd.DoWork += prd_DoWork;
 
             prd.RunBackgroundOperationAsync();
+
+            if (ans != null)
+                MagCalib.SaveOffsets(ans);
         }
 
         void prd_DoWork(object sender, ProgressWorkerEventArgs e, object passdata = null)
@@ -56,7 +58,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             while (deadline > DateTime.Now)
             {
                 double timeremaining = (deadline - DateTime.Now).TotalSeconds;
-                ((ProgressReporterDialogue)sender).UpdateProgressAndStatus((int)(((60 - timeremaining) / 60) * 100), timeremaining.ToString("0") + " Seconds");
+                ((ProgressReporterDialogue)sender).UpdateProgressAndStatus((int)(((60 - timeremaining) / 60) * 100), timeremaining.ToString("0") + " Seconds - got " + data.Count + " Samples");
 
                 if (e.CancelRequested)
                 {
@@ -89,13 +91,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             if (data.Count < 10)
             {
-                CustomMessageBox.Show("Log does not contain enough data");
+                e.ErrorMessage = "Log does not contain enough data";
+                ans = null;
                 return;
             }
 
-            double[] ans = MagCalib.LeastSq(data);
-
-            MagCalib.SaveOffsets(ans);
+            ans = MagCalib.LeastSq(data);
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -275,10 +276,18 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 CMB_compass_orient.SelectedIndex = (int)Common.Rotation.ROTATION_ROLL_180;
                 MainV2.comPort.setParam("COMPASS_EXTERNAL",1);
             }
-            if (radioButtonpx4.Checked)
+            if (rb_px4pixhawk.Checked)
             {
-                CMB_compass_orient.SelectedIndex = (int)Common.Rotation.ROTATION_ROLL_180;
-                MainV2.comPort.setParam("COMPASS_EXTERNAL", 0);
+                if (CustomMessageBox.Show("is the FW version greater than APM:copter 3.01 or APM:Plane 2.74?", "", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    CMB_compass_orient.SelectedIndex = (int)Common.Rotation.ROTATION_NONE;
+                }
+                else
+                {
+                    CMB_compass_orient.SelectedIndex = (int)Common.Rotation.ROTATION_ROLL_180;
+                    MainV2.comPort.setParam("COMPASS_EXTERNAL", 0);
+                }
+                
             }
         }
     }

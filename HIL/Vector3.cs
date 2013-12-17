@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using MissionPlanner.Utilities;
 
 namespace MissionPlanner.HIL
 {
@@ -33,6 +34,11 @@ namespace MissionPlanner.HIL
             return String.Format("Vector3({0}, {1}, {2})", self.x,
                                                   self.y,
                                                   self.z);
+        }
+
+        public static implicit operator Vector3(PointLatLngAlt a)
+        {
+            return new Vector3(a.Lat,a.Lng,a.Alt);
         }
 
         public static Vector3 operator +(Vector3 self, Vector3 v)

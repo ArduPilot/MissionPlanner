@@ -90,8 +90,8 @@ namespace MissionPlanner
             // initialise motor compensation
             motor_compensation = new Vector3f(0, 0, 0);
 
-            int magseen = MainV2.comPort.MAV.packetseencount[MAVLink.MAVLINK_MSG_ID_RAW_IMU];
-            int rcseen = MainV2.comPort.MAV.packetseencount[MAVLink.MAVLINK_MSG_ID_HIL_RC_INPUTS_RAW];
+            int magseen = MainV2.comPort.MAV.packetseencount[(byte)MAVLink.MAVLINK_MSG_ID.RAW_IMU];
+            int rcseen = MainV2.comPort.MAV.packetseencount[(byte)MAVLink.MAVLINK_MSG_ID.HIL_RC_INPUTS_RAW];
             DateTime deadline = DateTime.Now.AddSeconds(10);
 
             prd.UpdateProgressAndStatus(-1, "Waiting for Mag and RC data");

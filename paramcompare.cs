@@ -57,16 +57,30 @@ namespace MissionPlanner
 
         private void BUT_save_Click(object sender, EventArgs e)
         {
-            foreach (DataGridViewRow row in Params.Rows)
+            if (dgv == null)
             {
-                if ((bool)row.Cells[Use.Index].Value == true)
+                foreach (DataGridViewRow row in Params.Rows)
                 {
-                    foreach (DataGridViewRow dgvr in dgv.Rows)
+                    if ((bool)row.Cells[Use.Index].Value == true)
                     {
-                        if (dgvr.Cells[0].Value.ToString().Trim() == row.Cells[Command.Index].Value.ToString().Trim())
+                        MainV2.comPort.setParam(row.Cells[Command.Index].Value.ToString().Trim(), float.Parse(row.Cells[newvalue.Index].Value.ToString()));
+                    }
+                }
+            }
+            else
+            {
+
+                foreach (DataGridViewRow row in Params.Rows)
+                {
+                    if ((bool)row.Cells[Use.Index].Value == true)
+                    {
+                        foreach (DataGridViewRow dgvr in dgv.Rows)
                         {
-                            dgvr.Cells[1].Value = row.Cells[newvalue.Index].Value.ToString();
-                            break;
+                            if (dgvr.Cells[0].Value.ToString().Trim() == row.Cells[Command.Index].Value.ToString().Trim())
+                            {
+                                dgvr.Cells[1].Value = row.Cells[newvalue.Index].Value.ToString();
+                                break;
+                            }
                         }
                     }
                 }

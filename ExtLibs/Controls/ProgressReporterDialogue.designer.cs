@@ -34,12 +34,12 @@ namespace MissionPlanner.Controls
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.progressBar1 = new MissionPlanner.Controls.MyProgressBar();
             this.lblProgressMessage = new System.Windows.Forms.Label();
-            this.btnCancel = new System.Windows.Forms.Button();
+            this.btnCancel = new MissionPlanner.Controls.MyButton();
             this.imgWarning = new System.Windows.Forms.PictureBox();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
-            this.btnClose = new System.Windows.Forms.Button();
+            this.btnClose = new MissionPlanner.Controls.MyButton();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.imgWarning)).BeginInit();
             this.SuspendLayout();
@@ -48,10 +48,15 @@ namespace MissionPlanner.Controls
             // 
             this.progressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.progressBar1.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(167)))), ((int)(((byte)(42)))));
+            this.progressBar1.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(102)))), ((int)(((byte)(139)))), ((int)(((byte)(26)))));
             this.progressBar1.Location = new System.Drawing.Point(11, 90);
             this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(150)))), ((int)(((byte)(171)))), ((int)(((byte)(112)))));
             this.progressBar1.Size = new System.Drawing.Size(277, 13);
+            this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.progressBar1.TabIndex = 0;
+            this.progressBar1.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(54)))), ((int)(((byte)(8)))));
             // 
             // lblProgressMessage
             // 
@@ -66,6 +71,7 @@ namespace MissionPlanner.Controls
             // 
             // btnCancel
             // 
+            this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.Location = new System.Drawing.Point(213, 109);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
@@ -86,6 +92,7 @@ namespace MissionPlanner.Controls
             // 
             // linkLabel1
             // 
+            this.linkLabel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.linkLabel1.AutoSize = true;
             this.linkLabel1.Location = new System.Drawing.Point(240, 90);
             this.linkLabel1.Name = "linkLabel1";
@@ -98,6 +105,7 @@ namespace MissionPlanner.Controls
             // 
             // btnClose
             // 
+            this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnClose.Location = new System.Drawing.Point(213, 109);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(75, 23);
@@ -114,8 +122,7 @@ namespace MissionPlanner.Controls
             // 
             // ProgressReporterDialogue
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(306, 144);
             this.ControlBox = false;
             this.Controls.Add(this.btnClose);
@@ -124,14 +131,13 @@ namespace MissionPlanner.Controls
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.lblProgressMessage);
             this.Controls.Add(this.progressBar1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ProgressReporterDialogue";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Progress";
-            this.TopMost = true;
             this.Load += new System.EventHandler(this.ProgressReporterDialogue_Load);
             ((System.ComponentModel.ISupportInitialize)(this.imgWarning)).EndInit();
             this.ResumeLayout(false);
@@ -141,12 +147,12 @@ namespace MissionPlanner.Controls
 
         #endregion
 
-        private ProgressBar progressBar1;
+        private MyProgressBar progressBar1;
         private System.Windows.Forms.Label lblProgressMessage;
-        private Button btnCancel;
+        private MyButton btnCancel;
         private PictureBox imgWarning;
         private LinkLabel linkLabel1;
-        private Button btnClose;
+        private MyButton btnClose;
         private Timer timer1;
     }
 }

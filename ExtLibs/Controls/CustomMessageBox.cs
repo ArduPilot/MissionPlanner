@@ -4,8 +4,9 @@ using System.Windows.Forms;
 using System.Text;
 using System.Text.RegularExpressions;
 using MissionPlanner.Controls;
+using System.Threading;
 
-namespace System.Windows.Forms
+namespace System
 {
     public static class CustomMessageBox
     {
@@ -35,6 +36,31 @@ namespace System.Windows.Forms
 
         public static DialogResult Show(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon)
         {
+            DialogResult answer = DialogResult.Cancel;
+
+            Console.WriteLine("CustomMessageBox thread calling " + System.Threading.Thread.CurrentThread.Name);
+
+            // ensure we run this on the right thread - mono - mac
+            if (Application.OpenForms.Count > 0 && Application.OpenForms[0].InvokeRequired)
+            {
+                Application.OpenForms[0].Invoke((Action)delegate
+                {
+                    Console.WriteLine("CustomMessageBox thread running invoke " + System.Threading.Thread.CurrentThread.Name);
+                    answer =  ShowUI(text, caption, buttons, icon);
+                });
+            }
+            else
+            {
+                Console.WriteLine("CustomMessageBox thread running " + System.Threading.Thread.CurrentThread.Name);
+                answer =  ShowUI(text, caption, buttons, icon);
+            }
+
+            return answer;
+        }
+
+        static DialogResult ShowUI(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon)
+        {
+
             if (text == null)
                 text = "";
 
@@ -44,14 +70,15 @@ namespace System.Windows.Forms
             string link = "";
             string linktext = "";
 
-           
+
             Regex linkregex = new Regex(@"(\[link;([^\]]+);([^\]]+)\])", RegexOptions.IgnoreCase);
-                Match match = linkregex.Match(text);
-                if (match.Success) {
-                    link = match.Groups[2].Value;
-                    linktext = match.Groups[3].Value;
-                    text = text.Replace(match.Groups[1].Value,"");
-                }
+            Match match = linkregex.Match(text);
+            if (match.Success)
+            {
+                link = match.Groups[2].Value;
+                linktext = match.Groups[3].Value;
+                text = text.Replace(match.Groups[1].Value, "");
+            }
 
             // ensure we are always in a known state
             _state = DialogResult.None;
@@ -92,6 +119,8 @@ namespace System.Windows.Forms
 
             msgBoxFrm.Controls.Add(lblMessage);
 
+            msgBoxFrm.Width = lblMessage.Right + 50;
+
             if (link != "" && linktext != "")
             {
                 var linklbl = new LinkLabel { Left = lblMessage.Left, Top = lblMessage.Bottom, Width = lblMessage.Width, Height = 15, Text = linktext, Tag = link };
@@ -130,15 +159,7 @@ namespace System.Windows.Forms
 
             DialogResult test;
 
-           // if (Application.OpenForms.Count > 0)
-            {
-                //cross thread issues
-               // test = msgBoxFrm.ShowDialog(Application.OpenForms[Application.OpenForms.Count - 1]);
-            }
-          //  else
-            {
                 test = msgBoxFrm.ShowDialog();
-            }
 
             DialogResult answer = _state;
 
@@ -202,8 +223,8 @@ namespace System.Windows.Forms
                                   {
                                       Size = new Size(75, 23),
                                       Text = "OK",
-                                      Left = msgBoxFrm.Width - 75 - FORM_X_MARGIN,
-                                      Top = msgBoxFrm.Height - 23 - FORM_Y_MARGIN - titleHeight
+                                      Left = msgBoxFrm.Width - 100 - FORM_X_MARGIN,
+                                      Top = msgBoxFrm.Height - 40 - FORM_Y_MARGIN - titleHeight
                                   };
 
                     but.Click += delegate { _state = DialogResult.OK; msgBoxFrm.Close(); };
@@ -239,6 +260,36 @@ namespace System.Windows.Forms
                     butno.Click += delegate { _state = DialogResult.No; msgBoxFrm.Close(); };
                     msgBoxFrm.Controls.Add(butno);
                     msgBoxFrm.CancelButton = butno;
+                    break;
+
+                case MessageBoxButtons.OKCancel:
+
+                    if (msgBoxFrm.Width < (75 * 2 + FORM_X_MARGIN * 3))
+                        msgBoxFrm.Width = (75 * 2 + FORM_X_MARGIN * 3);
+
+                    var butok = new MyButton
+                    {
+                        Size = new Size(75, 23),
+                        Text = "OK",
+                        Left = msgBoxFrm.Width - 75 * 2 - FORM_X_MARGIN * 2,
+                        Top = msgBoxFrm.Height - 23 - FORM_Y_MARGIN - titleHeight
+                    };
+
+                    butok.Click += delegate { _state = DialogResult.OK; msgBoxFrm.Close(); };
+                    msgBoxFrm.Controls.Add(butok);
+                    msgBoxFrm.AcceptButton = butok;
+
+                    var butcancel = new MyButton
+                    {
+                        Size = new Size(75, 23),
+                        Text = "Cancel",
+                        Left = msgBoxFrm.Width - 75 - FORM_X_MARGIN,
+                        Top = msgBoxFrm.Height - 23 - FORM_Y_MARGIN - titleHeight
+                    };
+
+                    butcancel.Click += delegate { _state = DialogResult.Cancel; msgBoxFrm.Close(); };
+                    msgBoxFrm.Controls.Add(butcancel);
+                    msgBoxFrm.CancelButton = butcancel;
                     break;
 
                 default:

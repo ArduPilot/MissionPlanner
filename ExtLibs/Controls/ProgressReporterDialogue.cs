@@ -38,6 +38,7 @@ namespace MissionPlanner.Controls
             doWorkArgs = new ProgressWorkerEventArgs();
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.btnClose.Visible = false;
+
         }
 
         /// <summary>
@@ -46,6 +47,11 @@ namespace MissionPlanner.Controls
         public void RunBackgroundOperationAsync()
         {
             ThreadPool.QueueUserWorkItem(RunBackgroundOperation);
+
+            var t = Type.GetType("Mono.Runtime");
+            if ((t != null))
+                this.Height += 25;
+
             this.ShowDialog();
         }
 
@@ -68,12 +74,16 @@ namespace MissionPlanner.Controls
 
             log.Info("Focus ctl");
 
-            this.Invoke((MethodInvoker)delegate
-         {
-             // if this windows isnt the current active windows, popups inherit the wrong parent.
-             this.Focus();
-             Application.DoEvents();
-         });
+            try
+            {
+                this.Invoke((MethodInvoker)delegate
+             {
+                 // if this windows isnt the current active windows, popups inherit the wrong parent.
+                 this.Focus();
+                 Application.DoEvents();
+             });
+            }
+            catch { Running = false; return; }
 
             try
             {
@@ -94,6 +104,7 @@ namespace MissionPlanner.Controls
 
             // stop the timer
             timer1.Stop();
+
             // run once more to do final message and progressbar
             if (this.IsDisposed || this.Disposing || !this.IsHandleCreated)
             {
@@ -156,17 +167,20 @@ namespace MissionPlanner.Controls
         // - Signal that we can close
         private void ShowDone()
         {
-            this.Invoke((MethodInvoker) delegate
+            if (!this.IsHandleCreated)
+                return;
+
+            this.Invoke((MethodInvoker)delegate
                 {
                     this.progressBar1.Style = ProgressBarStyle.Continuous;
                     this.progressBar1.Value = 100;
                     this.btnCancel.Visible = false;
                     this.btnClose.Visible = false;
                 });
-           
+
             Thread.Sleep(1000);
 
-            this.BeginInvoke((MethodInvoker) this.Close);
+            this.BeginInvoke((MethodInvoker)this.Close);
         }
 
         // Called as a possible last operation of the bg thread
@@ -185,18 +199,22 @@ namespace MissionPlanner.Controls
             
             if (this.InvokeRequired)
             {
-                this.Invoke((MethodInvoker) delegate
-                                                {
-                                                    this.Text = "Error";
-                                                    this.lblProgressMessage.Left = 65;
-                                                    this.lblProgressMessage.Text = errMessage;
-                                                    this.imgWarning.Visible = true;
-                                                    this.progressBar1.Visible = false;
-                                                    this.btnCancel.Visible = false;
-                                                    this.btnClose.Visible = true;
-                                                    this.linkLabel1.Visible = exception != null;
-                                                    this.workerException = exception;
-                                                });
+                try
+                {
+                    this.Invoke((MethodInvoker)delegate
+                                                    {
+                                                        this.Text = "Error";
+                                                        this.lblProgressMessage.Left = 65;
+                                                        this.lblProgressMessage.Text = errMessage;
+                                                        this.imgWarning.Visible = true;
+                                                        this.progressBar1.Visible = false;
+                                                        this.btnCancel.Visible = false;
+                                                        this.btnClose.Visible = true;
+                                                        this.linkLabel1.Visible = exception != null;
+                                                        this.workerException = exception;
+                                                    });
+                }
+                catch { } // disposing
             }
 
         }
@@ -262,6 +280,9 @@ namespace MissionPlanner.Controls
         /// <param name="e"></param>
         private void timer1_Tick(object sender, EventArgs e)
         {
+            if (this.Disposing || this.IsDisposed)
+                return;
+
             int pgv = -1;
             lock (locker)
             {

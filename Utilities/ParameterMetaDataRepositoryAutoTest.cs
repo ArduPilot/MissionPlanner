@@ -13,6 +13,8 @@ namespace MissionPlanner.Utilities
    {
       private static XDocument _parameterMetaDataXML;
 
+      //http://autotest.diydrones.com/Parameters/apm.pdef.xml
+
       /// <summary>
       /// Initializes a new instance of the <see cref="ParameterMetaDataRepository"/> class.
       /// </summary>

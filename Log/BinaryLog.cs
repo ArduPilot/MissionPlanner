@@ -8,6 +8,9 @@ using uint8_t = System.Byte;
 
 namespace MissionPlanner.Log
 {
+    /// <summary>
+    /// Convert a binary log to an assci log
+    /// </summary>
     public class BinaryLog
     {
         const byte HEAD_BYTE1 = 0xA3;    // Decimal 163  

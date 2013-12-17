@@ -52,9 +52,9 @@ namespace MissionPlanner
 
             InitializeComponent();
 
-            map.MapType = MapType.GoogleSatellite;
+            map.MapProvider = plugin.Host.FDMapType;
 
-            layerpolygons = new GMapOverlay(map, "polygons");
+            layerpolygons = new GMapOverlay( "polygons");
             map.Overlays.Add(layerpolygons);
 
             CMB_startfrom.DataSource = Enum.GetNames(typeof(Grid.StartPosition));
@@ -67,14 +67,78 @@ namespace MissionPlanner
 
         }
 
+        void loadsettings()
+        {
+            if (plugin.Host.config.ContainsKey("grid_camera"))
+            {
+                
+                loadsetting("grid_alt", NUM_altitude);
+                loadsetting("grid_angle", NUM_angle);
+                loadsetting("grid_camdir", CHK_camdirection);
+
+                loadsetting("grid_dist", NUM_Distance);
+                loadsetting("grid_overshoot1", NUM_overshoot);
+                loadsetting("grid_overshoot2", NUM_overshoot2);
+                loadsetting("grid_overlap", num_overlap);
+                loadsetting("grid_sidelap", num_sidelap);
+                loadsetting("grid_spacing", NUM_spacing);
+
+                loadsetting("grid_advanced", CHK_advanced);
+
+                // camera last to it invokes a reload
+                loadsetting("grid_camera", CMB_camera);
+            }
+        }
+
+        void loadsetting(string key, Control item)
+        {
+            if (plugin.Host.config.ContainsKey(key))
+            {
+                if (item is NumericUpDown)
+                {
+                    ((NumericUpDown)item).Value = decimal.Parse(plugin.Host.config[key].ToString());
+                }
+                else if (item is ComboBox)
+                {
+                    ((ComboBox)item).Text = plugin.Host.config[key].ToString();
+                }
+                else if (item is CheckBox)
+                {
+                    ((CheckBox)item).Checked = bool.Parse(plugin.Host.config[key].ToString());
+                }
+                else if (item is RadioButton)
+                {
+                    ((RadioButton)item).Checked = bool.Parse(plugin.Host.config[key].ToString());
+                }
+            }
+        }
+
+        void savesettings()
+        {
+            plugin.Host.config["grid_camera"] = CMB_camera.Text;
+            plugin.Host.config["grid_alt"] = NUM_altitude.Value.ToString();
+            plugin.Host.config["grid_angle"] = NUM_angle.Value.ToString();
+            plugin.Host.config["grid_camdir"] = CHK_camdirection.Checked.ToString();
+
+            plugin.Host.config["grid_dist"] = NUM_Distance.Value.ToString();
+            plugin.Host.config["grid_overshoot1"] = NUM_overshoot.Value.ToString();
+            plugin.Host.config["grid_overshoot2"] = NUM_overshoot2.Value.ToString();
+            plugin.Host.config["grid_overlap"] = num_overlap.Value.ToString();
+            plugin.Host.config["grid_sidelap"] = num_sidelap.Value.ToString();
+            plugin.Host.config["grid_spacing"] = NUM_spacing.Value.ToString();
+
+            plugin.Host.config["grid_advanced"] = CHK_advanced.Checked.ToString();       
+        }
+
         void AddDrawPolygon()
         {
-            
             layerpolygons.Polygons.Add(plugin.Host.FPDrawnPolygon);
+
+            layerpolygons.Polygons[0].Fill = Brushes.Transparent;
 
             foreach (var item in plugin.Host.FPDrawnPolygon.Points)
             {
-                layerpolygons.Markers.Add(new GMapMarkerGoogleRed(item));
+                layerpolygons.Markers.Add(new GMarkerGoogle(item,GMarkerGoogleType.red));
             }
         }
 
@@ -125,14 +189,21 @@ namespace MissionPlanner
             if (chk_boundary.Checked)
                 AddDrawPolygon();
 
+            int strips = 0;
+            int images = 0;
             int a = 1;
             PointLatLngAlt prevpoint = grid[0];
             foreach (var item in grid)
             {
                 if (item.Tag == "M")
                 {
+                    images++;
+
                     if (chk_internals.Checked)
-                        layerpolygons.Markers.Add(new GMapMarkerGoogleGreen(item) { ToolTipText = a.ToString(), ToolTipMode = MarkerTooltipMode.OnMouseOver });
+                    {
+                        layerpolygons.Markers.Add(new GMarkerGoogle(item,GMarkerGoogleType.green) { ToolTipText = a.ToString(), ToolTipMode = MarkerTooltipMode.OnMouseOver });
+                        a++;
+                    }
                     try
                     {
                         if (TXT_fovH.Text != "")
@@ -170,16 +241,19 @@ namespace MissionPlanner
                 }
                 else
                 {
+                    strips++;
                     if (chk_markers.Checked)
-                        layerpolygons.Markers.Add(new GMapMarkerGoogleGreen(item) { ToolTipText = a.ToString(), ToolTipMode = MarkerTooltipMode.Always });
+                        layerpolygons.Markers.Add(new GMarkerGoogle(item,GMarkerGoogleType.green) { ToolTipText = a.ToString(), ToolTipMode = MarkerTooltipMode.Always });
+
+                    a++;
                 }
                 prevpoint = item;
-                a++;
             }
 
             // add wp polygon
             wppoly = new GMapPolygon(list2, "Grid");
             wppoly.Stroke.Color = Color.Yellow;
+            wppoly.Fill = Brushes.Transparent;
             wppoly.Stroke.Width = 4;
             if (chk_grid.Checked)
                 layerpolygons.Polygons.Add(wppoly);
@@ -193,6 +267,13 @@ namespace MissionPlanner
             lbl_spacing.Text = NUM_spacing.Value.ToString("#") + " m";
 
             lbl_grndres.Text = TXT_cmpixel.Text;
+
+            lbl_pictures.Text = images.ToString();
+
+            lbl_strips.Text = ((int)(strips / 2)).ToString();
+            lbl_distbetweenlines.Text = NUM_Distance.Value.ToString("0.##") + " m";
+
+            lbl_footprint.Text = TXT_fovH.Text + " x " + TXT_fovV.Text +" m";
 
                 map.HoldInvalidation = false;
 
@@ -255,7 +336,11 @@ namespace MissionPlanner
             {
                 if (rad_trigdist.Checked)
                 {
-                    plugin.Host.comPort.setParam("CAM_TRIGG_DIST",(float)NUM_spacing.Value);
+                    try
+                    {
+                        plugin.Host.comPort.setParam("CAM_TRIGG_DIST", (float)NUM_spacing.Value);
+                    }
+                    catch { CustomMessageBox.Show("Failed to set CAM_TRIGG_DIST", "Error"); }
                 }
 
                 grid.ForEach(plla =>
@@ -264,20 +349,22 @@ namespace MissionPlanner
                     {
                         if (rad_repeatservo.Checked)
                         {
-                            plugin.Host.AddWPtoList(MissionPlanner.MAVLink.MAV_CMD.WAYPOINT, 0, 0, 0, 0, plla.Lng, plla.Lat, plla.Alt);
-                            plugin.Host.AddWPtoList(MissionPlanner.MAVLink.MAV_CMD.DO_REPEAT_SERVO, (float)num_reptservo.Value, (float)num_reptpwm.Value, 999, (float)num_repttime.Value, 0, 0, 0);
+                            plugin.Host.AddWPtoList(MAVLink.MAV_CMD.WAYPOINT, 0, 0, 0, 0, plla.Lng, plla.Lat, plla.Alt);
+                            plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_REPEAT_SERVO, (float)num_reptservo.Value, (float)num_reptpwm.Value, 999, (float)num_repttime.Value, 0, 0, 0);
                         }
                         if (rad_digicam.Checked)
                         {
-                            plugin.Host.AddWPtoList(MissionPlanner.MAVLink.MAV_CMD.WAYPOINT, 0, 0, 0, 0, plla.Lng, plla.Lat, plla.Alt);
-                            plugin.Host.AddWPtoList(MissionPlanner.MAVLink.MAV_CMD.DO_DIGICAM_CONTROL, 0, 0, 0, 0, 0, 0, 0);
+                            plugin.Host.AddWPtoList(MAVLink.MAV_CMD.WAYPOINT, 0, 0, 0, 0, plla.Lng, plla.Lat, plla.Alt);
+                            plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_DIGICAM_CONTROL, 0, 0, 0, 0, 0, 0, 0);
                         }
                     }
                     else
                     {
-                        plugin.Host.AddWPtoList(MissionPlanner.MAVLink.MAV_CMD.WAYPOINT, 0, 0, 0, 0, plla.Lng, plla.Lat, plla.Alt);
+                        plugin.Host.AddWPtoList(MAVLink.MAV_CMD.WAYPOINT, 0, 0, 0, 0, plla.Lng, plla.Lat, plla.Alt);
                     }
                 });
+
+                savesettings();
 
                 this.Close();
             }
@@ -472,6 +559,8 @@ namespace MissionPlanner
                 TXT_imgwidth.Text = camera.imagewidth.ToString();
                 TXT_sensheight.Text = camera.sensorheight.ToString();
                 TXT_senswidth.Text = camera.sensorwidth.ToString();
+
+                NUM_Distance.Enabled = false;
             }
 
             doCalc();
@@ -517,7 +606,9 @@ namespace MissionPlanner
         {
             xmlcamera(false, "camerasBuiltin.xml");
 
-            xmlcamera(false);                
+            xmlcamera(false);
+
+            loadsettings();
 
             CHK_advanced_CheckedChanged(null, null);
         }
@@ -589,8 +680,12 @@ namespace MissionPlanner
 
                     if (lcDirectory.ContainsTag(ExifDirectory.TAG_FOCAL_LENGTH))
                     {
-                        var item = lcDirectory.GetFloat(ExifDirectory.TAG_FOCAL_LENGTH);
-                        num_focallength.Value = (decimal)item;
+                        try
+                        {
+                            var item = lcDirectory.GetFloat(ExifDirectory.TAG_FOCAL_LENGTH);
+                            num_focallength.Value = (decimal)item;
+                        }
+                        catch { }
                     }
                     
 

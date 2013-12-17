@@ -9,6 +9,7 @@ using MissionPlanner.Utilities;
 using log4net;
 using MissionPlanner.Controls;
 using System.Collections.Generic;
+using System.Net;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
@@ -52,66 +53,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             return false;
         }
 
-        Hashtable loadParamFile(string Filename)
-        {
-            Hashtable param = new Hashtable();
-
-            StreamReader sr = new StreamReader(Filename);
-            while (!sr.EndOfStream)
-            {
-                string line = sr.ReadLine();
-
-                if (line.Contains("NOTE:"))
-                {
-                    CustomMessageBox.Show(line, "Saved Note");
-                    continue;
-                }
-
-                if (line.StartsWith("#"))
-                    continue;
-
-                string[] items = line.Split(new char[] { ' ', ',', '\t' }, StringSplitOptions.RemoveEmptyEntries);
-
-                if (items.Length != 2)
-                    continue;
-
-                string name = items[0];
-                float value = 0;
-                try
-                {
-                    value = float.Parse(items[1], System.Globalization.CultureInfo.InvariantCulture);// new System.Globalization.CultureInfo("en-US"));
-                }
-                catch (Exception ex) { log.Error(ex); throw new FormatException("Invalid number on param " + name + " : " + items[1].ToString()); }
-
-                if (name == "SYSID_SW_MREV")
-                    continue;
-                if (name == "WP_TOTAL")
-                    continue;
-                if (name == "CMD_TOTAL")
-                    continue;
-                if (name == "FENCE_TOTAL")
-                    continue;
-                if (name == "SYS_NUM_RESETS")
-                    continue;
-                if (name == "ARSPD_OFFSET")
-                    continue;
-                if (name == "GND_ABS_PRESS")
-                    continue;
-                if (name == "GND_TEMP")
-                    continue;
-                if (name == "CMD_INDEX")
-                    continue;
-                if (name == "LOG_LASTFILE")
-                    continue;
-                if (name == "FORMAT_VERSION")
-                    continue;
-
-                param[name] = value;
-            }
-            sr.Close();
-
-            return param;
-        }
 
         private void BUT_load_Click(object sender, EventArgs e)
         {
@@ -126,42 +67,47 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             if (dr == DialogResult.OK)
             {
-                Hashtable param2 = loadParamFile(ofd.FileName);
+                loadparamsfromfile(ofd.FileName);
+            }
+        }
 
-                foreach (string name in param2.Keys)
+        void loadparamsfromfile(string fn)
+        {
+            Hashtable param2 = Utilities.ParamFile.loadParamFile(fn);
+
+            foreach (string name in param2.Keys)
+            {
+                string value = param2[name].ToString();
+                // set param table as well
+                foreach (DataGridViewRow row in Params.Rows)
                 {
-                    string value = param2[name].ToString();
-                    // set param table as well
-                    foreach (DataGridViewRow row in Params.Rows)
+                    if (name == "SYSID_SW_MREV")
+                        continue;
+                    if (name == "WP_TOTAL")
+                        continue;
+                    if (name == "CMD_TOTAL")
+                        continue;
+                    if (name == "FENCE_TOTAL")
+                        continue;
+                    if (name == "SYS_NUM_RESETS")
+                        continue;
+                    if (name == "ARSPD_OFFSET")
+                        continue;
+                    if (name == "GND_ABS_PRESS")
+                        continue;
+                    if (name == "GND_TEMP")
+                        continue;
+                    if (name == "CMD_INDEX")
+                        continue;
+                    if (name == "LOG_LASTFILE")
+                        continue;
+                    if (name == "FORMAT_VERSION")
+                        continue;
+                    if (row.Cells[0].Value.ToString() == name)
                     {
-                        if (name == "SYSID_SW_MREV")
-                            continue;
-                        if (name == "WP_TOTAL")
-                            continue;
-                        if (name == "CMD_TOTAL")
-                            continue;
-                        if (name == "FENCE_TOTAL")
-                            continue;
-                        if (name == "SYS_NUM_RESETS")
-                            continue;
-                        if (name == "ARSPD_OFFSET")
-                            continue;
-                        if (name == "GND_ABS_PRESS")
-                            continue;
-                        if (name == "GND_TEMP")
-                            continue;
-                        if (name == "CMD_INDEX")
-                            continue;
-                        if (name == "LOG_LASTFILE")
-                            continue;
-                        if (name == "FORMAT_VERSION")
-                            continue;
-                        if (row.Cells[0].Value.ToString() == name)
-                        {
-                            if (row.Cells[1].Value.ToString() != value.ToString())
-                                row.Cells[1].Value = value;
-                            break;
-                        }
+                        if (row.Cells[1].Value.ToString() != value.ToString())
+                            row.Cells[1].Value = value;
+                        break;
                     }
                 }
             }
@@ -180,22 +126,16 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             var dr = sfd.ShowDialog();
             if (dr == DialogResult.OK)
             {
-                StreamWriter sw = new StreamWriter(sfd.OpenFile());
-                string input = DateTime.Now + " Frame : ";
-                if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane)
-                {
-                    input = DateTime.Now + " Plane: Skywalker";
-                }
-                InputBox.Show("Custom Note", "Enter your Notes/Frame Type etc", ref input);
-                if (input != "")
-                    sw.WriteLine("#NOTE: " + input.Replace(',', '|'));
+                Hashtable data = new Hashtable();
                 foreach (DataGridViewRow row in Params.Rows)
                 {
                     float value = float.Parse(row.Cells[1].Value.ToString());
 
-                    sw.WriteLine(row.Cells[0].Value.ToString() + "," + value.ToString(new System.Globalization.CultureInfo("en-US")));
+                    data[row.Cells[0].Value.ToString()] = value;
                 }
-                sw.Close();
+
+                Utilities.ParamFile.SaveParamFile(sfd.FileName,data);
+
             }
         }
 
@@ -262,7 +202,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             var dr = ofd.ShowDialog();
             if (dr == DialogResult.OK)
             {
-                param2 = loadParamFile(ofd.FileName);
+                param2 = Utilities.ParamFile.loadParamFile(ofd.FileName);
 
                 Form paramCompareForm = new ParamCompare(Params, MainV2.comPort.MAV.param, param2);
                 
@@ -277,29 +217,29 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (!MainV2.comPort.BaseStream.IsOpen)
                 return;
 
-            ((Control)sender).Enabled = false;
-            
-            try
+            if (DialogResult.OK == CustomMessageBox.Show("Update Params\nDON'T DO THIS IF YOU ARE IN THE AIR\n", "Error", MessageBoxButtons.OKCancel))
             {
-                MainV2.comPort.getParamList();
-            }
-            catch (Exception ex)
-            {
-                log.Error("Exception getting param list", ex);
-                CustomMessageBox.Show("Error: getting param list");
-            }
+                ((Control)sender).Enabled = false;
+
+                try
+                {
+                    MainV2.comPort.getParamList();
+                }
+                catch (Exception ex)
+                {
+                    log.Error("Exception getting param list", ex);
+                    CustomMessageBox.Show("Error: getting param list", "Error");
+                }
 
 
-            ((Control)sender).Enabled = true;
-            
-            startup = true;
+                ((Control)sender).Enabled = true;
 
-            processToScreen();
+                startup = true;
 
-            startup = false;
-            
-            // Todo: this populates or the combos etc and what not. This shoudl prob be a bsv button
-            
+                processToScreen();
+
+                startup = false;
+            }            
         }
 
         void Params_CellValueChanged(object sender, DataGridViewCellEventArgs e)
@@ -487,6 +427,32 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     }
                 }
             }
+        }
+
+        private void but_iris_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string filepath = Application.StartupPath + Path.DirectorySeparatorChar + "Iris.param";
+
+                if (Common.getFilefromNet("https://github.com/diydrones/ardupilot/raw/master/Tools/Frame_params/Iris.param", filepath))
+                {
+                    Hashtable param2 = Utilities.ParamFile.loadParamFile(filepath);
+
+                    Form paramCompareForm = new ParamCompare(Params, MainV2.comPort.MAV.param, param2);
+
+                    ThemeManager.ApplyThemeTo(paramCompareForm);
+                    paramCompareForm.ShowDialog();
+
+                    CustomMessageBox.Show("Loaded parameters, please make sure you write them!", "Loaded");
+
+                }
+                else
+                {
+                    CustomMessageBox.Show("Error getting Iris param file");
+                }
+            }
+            catch (Exception ex) { CustomMessageBox.Show("Error getting Iris param file" + ex.ToString()); }
         }
     }
 }

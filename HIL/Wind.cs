@@ -89,8 +89,8 @@ namespace MissionPlanner.HIL
         if (d == 0) {
             alpha = 0;
         }else{
-            int checkme; // the python code this was copied from has an error
-            alpha = Utils.acos(((w * velocity).length() / d));
+            //int checkme; // the python code this was copied from has an error
+            //alpha = Utils.acos(((w * velocity).length() / d));
         }
 
         //# Get the relative wind speed and angle from the object.  Note that the

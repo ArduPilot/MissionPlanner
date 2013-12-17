@@ -370,7 +370,7 @@ namespace MissionPlanner
             openFileDialog1.Multiselect = true;
             try
             {
-                openFileDialog1.InitialDirectory = MainV2.LogDir + Path.DirectorySeparatorChar;
+               // openFileDialog1.InitialDirectory = MainV2.LogDir + Path.DirectorySeparatorChar;
             }
             catch { } // incase dir doesnt exist
 
@@ -385,7 +385,7 @@ namespace MissionPlanner
                 foreach (string logfile in openFileDialog1.FileNames)
                 {
 
-                    MAVLink mine = new MAVLink();
+                    MAVLinkInterface mine = new MAVLinkInterface();
                     try
                     {
                         mine.logplaybackfile = new BinaryReader(File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.Read));
@@ -554,7 +554,7 @@ namespace MissionPlanner
                 foreach (string logfile in openFileDialog1.FileNames)
                 {
 
-                    MAVLink mine = new MAVLink();
+                    MAVLinkInterface mine = new MAVLinkInterface();
                     try
                     {
                         mine.logplaybackfile = new BinaryReader(File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.Read));
@@ -644,18 +644,22 @@ namespace MissionPlanner
 
         static int[] ColourValues = new int[] {  
         0xFF0000,0x00FF00,0x0000FF,0xFFFF00,0xFF00FF,0x00FFFF,  
-        0x800000,0x008000,0x000080,0x808000,0x800080,0x008080,  
+        0x800000,0x008000,0x000080,0x808000,/*0x800080,0x008080,  */
         0xC00000,0x00C000,0x0000C0,0xC0C000,0xC000C0,0x00C0C0,  
-        0x400000,0x004000,0x000040,0x404000,0x400040,0x004040, 
-        0x200000,0x002000,0x000020,0x202000,0x200020,0x002020, 
+      /*  0x400000,0x004000,0x000040,0x404000,0x400040,0x004040, 
+       0x200000,0x002000,0x000020,0x202000,0x200020,0x002020, 
         0x600000,0x006000,0x000060,0x606000,0x600060,0x006060,  
         0xA00000,0x00A000,0x0000A0,0xA0A000,0xA000A0,0x00A0A0, 
-        0xE00000,0x00E000,0x0000E0,0xE0E000,0xE000E0,0x00E0E0,  
-    }; 
+        0xE00000,0x00E000,0x0000E0,0xE0E000,0xE000E0,0x00E0E0,  */
+    };
+        Form selectform;
 
         private List<string> GetLogFileValidFields(string logfile)
         {
-            Form selectform = SelectDataToGraphForm();
+            if (selectform != null && !selectform.IsDisposed)
+                selectform.Close();
+
+            selectform = SelectDataToGraphForm();
 
             Hashtable seenIt = new Hashtable();
 
@@ -670,7 +674,7 @@ namespace MissionPlanner
             
             {
 
-                MAVLink MavlinkInterface = new MAVLink();
+                MAVLinkInterface MavlinkInterface = new MAVLinkInterface();
                 try
                 {
                     MavlinkInterface.logplaybackfile = new BinaryReader(File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.Read));
@@ -967,7 +971,7 @@ namespace MissionPlanner
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error:  An exception occurred while executing the script", ex);
+                Console.WriteLine("Error: An exception occurred while executing the script\n{0}", ex);
             }
             return null;
         }
@@ -1137,6 +1141,7 @@ namespace MissionPlanner
 
                 int colorvalue = ColourValues[colorStep % ColourValues.Length];
                 colorStep++;
+                Console.WriteLine("Color " + colorvalue);
 
                 myCurve = zg1.GraphPane.AddCurve(((CheckBox)sender).Name.Replace("mavlink_", ""), (PointPairList)datappl[((CheckBox)sender).Name], Color.FromArgb(unchecked(colorvalue + (int)0xff000000)), SymbolType.None);
 
@@ -1239,7 +1244,7 @@ namespace MissionPlanner
                 foreach (string logfile in openFileDialog1.FileNames)
                 {
 
-                    MAVLink mine = new MAVLink();
+                    MAVLinkInterface mine = new MAVLinkInterface();
                     try
                     {
                         mine.logplaybackfile = new BinaryReader(File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.Read));
@@ -1303,7 +1308,7 @@ namespace MissionPlanner
                 {
                     try
                     {
-                        MAVLink mine = new MAVLink();
+                        MAVLinkInterface mine = new MAVLinkInterface();
                         try
                         {
                             mine.logplaybackfile = new BinaryReader(File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.Read));
@@ -1370,7 +1375,7 @@ namespace MissionPlanner
 
                     int wplists = 0;
 
-                    MAVLink mine = new MAVLink();
+                    MAVLinkInterface mine = new MAVLinkInterface();
                     try
                     {
                         mine.logplaybackfile = new BinaryReader(File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.Read));

@@ -30,10 +30,10 @@ namespace MissionPlanner.Wizard
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
-            this.radialGradientBG1 = new Controls.GradientBG();
-            this.configFlightModes1 = new GCSViews.ConfigurationView.ConfigFlightModes();
             this.label3 = new System.Windows.Forms.Label();
+            this.configFlightModes1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigFlightModes();
+            this.label1 = new System.Windows.Forms.Label();
+            this.radialGradientBG1 = new MissionPlanner.Controls.GradientBG();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.radialGradientBG1.Image)).BeginInit();
             this.SuspendLayout();
@@ -49,6 +49,24 @@ namespace MissionPlanner.Wizard
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(740, 424);
             this.panel1.TabIndex = 1;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(5, 36);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(588, 18);
+            this.label3.TabIndex = 6;
+            this.label3.Text = "Here we select what flight modes you want based on your transmitter switch positi" +
+    "on.";
+            // 
+            // configFlightModes1
+            // 
+            this.configFlightModes1.Location = new System.Drawing.Point(84, 97);
+            this.configFlightModes1.Name = "configFlightModes1";
+            this.configFlightModes1.Size = new System.Drawing.Size(564, 270);
+            this.configFlightModes1.TabIndex = 2;
             // 
             // label1
             // 
@@ -94,25 +112,7 @@ namespace MissionPlanner.Wizard
             this.radialGradientBG1.Size = new System.Drawing.Size(800, 41);
             this.radialGradientBG1.TabIndex = 4;
             // 
-            // configFlightModes1
-            // 
-            this.configFlightModes1.Location = new System.Drawing.Point(121, 97);
-            this.configFlightModes1.Name = "configFlightModes1";
-            this.configFlightModes1.Size = new System.Drawing.Size(500, 270);
-            this.configFlightModes1.TabIndex = 2;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(5, 36);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(588, 18);
-            this.label3.TabIndex = 6;
-            this.label3.Text = "Here we select what flight modes you want based on your transmitter switch positi" +
-    "on.";
-            // 
-            // _9RadioCalibration
+            // _10FlightModes
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
@@ -120,7 +120,7 @@ namespace MissionPlanner.Wizard
             this.Controls.Add(this.radialGradientBG1);
             this.Controls.Add(this.panel1);
             this.ForeColor = System.Drawing.Color.White;
-            this.Name = "_9RadioCalibration";
+            this.Name = "_10FlightModes";
             this.Size = new System.Drawing.Size(800, 500);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();

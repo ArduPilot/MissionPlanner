@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Reactive.Subjects;
 using System.Reflection;
 using log4net;
 using MissionPlanner;
@@ -36,10 +35,10 @@ namespace MissionPlanner.Presenter
         private CameraAxisProperties _pitchAxis;
         private CameraAxisProperties _rollAxis;
 
-        private readonly MAVLink _mavlink;
+        private readonly MAVLinkInterface _mavlink;
         private readonly Dictionary<string, string> _errors;
 
-        public ConfigCameraStabModel(MAVLink mavlink)
+        public ConfigCameraStabModel(MAVLinkInterface mavlink)
         {
             _mavlink = mavlink;
             _errors = new Dictionary<string, string>();

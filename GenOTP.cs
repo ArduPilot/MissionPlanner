@@ -76,8 +76,6 @@ namespace MissionPlanner
 
              //   bw.Seek(32, SeekOrigin.Begin);
                 bw.Write(signedhash);
-
-                bw.Close();
             }
 
             CustomMessageBox.Show("Done");

@@ -1,4 +1,140 @@
-﻿* Mission Planner 1.2.80
+﻿* Mission Planner 1.2.89
+fix kml/gpx creation
+log browser mod
+df log renaming based on gps time
+fix fw history
+add time from DF logs
+rework logbrowse internals
+rework log downloader
+fix logic error in wizard connect
+update 3drradio config
+regen mavlink headers
+add lock to aviwritter
+move heli setup screen
+modify ac upload fw message
+
+* Mission Planner 1.2.88
+add movingbase display - using nmea gps
+tweak wizard connect
+update sr3 to include sr1
+update h frame
+fix culture issuis on standard and advanced view
+fix spline view/remove
+add prefetch wp path
+add settings load and save for grid
+add low airspeed/groundspeed warnings
+address , vs .
+
+* Mission Planner 1.2.87
+add asratio
+change load iris defaults to use compare
+add okcancel to custom mesagebox
+add partial refresh to pid config screens
+add ability to load default params for frames.
+add rally point display in FD
+add df log to kml in FD
+add grad + dist to FP
+add load and save rally points to file
+interface out df to kml generation
+tweak get params on mavlink log
+fix rally point alt when loading from mav
+update 3drradio config - custom fw, new url, new extension, new max window
+add gpstime
+tweak paramcompare
+add accel scan in control-f
+
+* Mission Planner 1.2.86
+spline display support
+doublebuffer quick view
+move hud message text to bottom of hud & always ontop
+fix processreporterdialog size on mono
+add iris defaults to full param list
+fix rally point alt
+close comport on log download close
+close logbrowse on no file picked
+add internal plla to vector3
+make mavlink log selection form close on new log load
+increase multiple timeouts on mavlink interface - ms
+- setparam 500 > 700
+- get wp count 500 > 700
+- set wp 150 > 700
+- get fence point 500 > 700
+- get rally point 500 > 700
+add better high prio severity message parsing.
+fix 3dr radio config device id
+update H frame icons to I
+tweak wizard connect
+increase connect time - other boards compatability
+remove no rc receiver temp
+
+* Mission Planner 1.2.85
+update map library - this will invalidate your map prefetch
+remove arial narrow and Century Gothic font issues
+add ability to load a kml linestring as a mission
+add kmz overlay and import support
+fix AC imax limits
+add view flightplan as kml
+fix speech over speak
+fix bad first packet in mavlink logs
+support now DF log gps line
+modify getParam timeout from 0.2 to 0.7
+
+* Mission Planner 1.2.84
+add new winddir
+fix px4 uploader same fw error
+update parammetadatabackup.xml
+move log sorting to bg thread
+add null checking in joystick
+modify hb search to only find mav.
+add null and blank check to setmode
+reformat grad sig figures
+limit hillstate output to 40 hz, 50 hz floods serial link
+quad hil in flightgear working.
+fix the way reboot is issued on terminal connect, incase we are at nsh shell
+update gmap to top the 404's
+add Marquee support to my progressbar
+fix spaces in matlab names
+speed up bin log browse
+add bin to log on FD screen
+
+* Mission Planner 1.2.83
+add log sorting
+add password protected config
+add pan and remove from log browse
+fix terminal multiple connect clicks
+fix set home alt button to switch between asl and agl
+add more options to failsafe screen
+add password support to inputbox
+fix posible gmap 404 error
+add px4flow driver to msi
+
+* Mission Planner 1.2.82
+address .net update/issues
+add DO_SET_CAM_TRIGG_DIST
+add msi default tlog application
+update px4uploader
+update ardurover pid screen.
+add 3dr 4 in 1 esc
+update mavlink library
+
+* Mission Planner 1.2.81
+fix guage exception
+change mybutton colours back
+add more grid stats
+add grid map type
+extract mavlink library
+prep for AP 2.5 release
+add ability to add wp mid mission (right click)
+move updater to seperate thread
+add sensor checking
+fix speech data warning and voltage
+add rally points
+add super simple
+add new battery param names
+add support for passing tlog at command line.
+add load to current state
+
+* Mission Planner 1.2.80
 exception fixs
 fix mono menu bar color
 fix wizard connect screen - better error handling

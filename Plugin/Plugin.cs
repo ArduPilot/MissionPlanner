@@ -5,8 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using GMap.NET;
+using GMap.NET.MapProviders;
 using GMap.NET.WindowsForms;
 using MissionPlanner;
+using MissionPlanner.GCSViews;
 
 namespace MissionPlanner.Plugin
 {
@@ -88,7 +90,12 @@ namespace MissionPlanner.Plugin
         /// <summary>
         /// access to mavlink functions
         /// </summary>
-        public MAVLink comPort { get { return MainV2.comPort; } }
+        public MAVLinkInterface comPort { get { return MainV2.comPort; } }
+
+        /// <summary>
+        /// access to mp settings
+        /// </summary>
+        public Hashtable config { get { return MainV2.config; } }
 
         /// <summary>
         /// add things to flightdata map menu
@@ -99,6 +106,8 @@ namespace MissionPlanner.Plugin
         /// The point where the menu was drawn
         /// </summary>
         public PointLatLng FDMenuMapPosition { get { return MainV2.instance.FlightData.gotolocation; } }
+
+        public GMapProvider FDMapType { get { return FlightData.mymap.MapProvider; } }
 
         /// <summary>
         /// add things to flightdata hud menu

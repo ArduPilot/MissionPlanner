@@ -12,6 +12,8 @@ namespace MissionPlanner.Wizard
 {
     public partial class _6CompassCalib : MyUserControl, IWizard, IActivate, IDeactivate
     {
+        double[] ans;
+
         public _6CompassCalib()
         {
             InitializeComponent();
@@ -67,6 +69,9 @@ namespace MissionPlanner.Wizard
             prd.DoWork += prd_DoWork;
 
             prd.RunBackgroundOperationAsync();
+
+            if (ans != null)
+                MagCalib.SaveOffsets(ans);
         }
 
         void prd_DoWork(object sender, ProgressWorkerEventArgs e, object passdata = null)
@@ -121,13 +126,12 @@ namespace MissionPlanner.Wizard
 
             if (data.Count < 10)
             {
-                CustomMessageBox.Show("Log does not contain enough data");
+                e.ErrorMessage = "Log does not contain enough data";
+                ans = null;
                 return;
             }
 
-            double[] ans = MagCalib.LeastSq(data);
-
-            MagCalib.SaveOffsets(ans);
+            ans = MagCalib.LeastSq(data);
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

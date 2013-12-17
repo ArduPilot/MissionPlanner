@@ -44,12 +44,10 @@
             this.label6 = new System.Windows.Forms.Label();
             this.S5 = new System.Windows.Forms.CheckBox();
             this.label7 = new System.Windows.Forms.Label();
-            this.S6 = new System.Windows.Forms.CheckBox();
             this.label8 = new System.Windows.Forms.Label();
             this.S7 = new System.Windows.Forms.CheckBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.RS7 = new System.Windows.Forms.CheckBox();
-            this.RS6 = new System.Windows.Forms.CheckBox();
             this.RS5 = new System.Windows.Forms.CheckBox();
             this.RS4 = new System.Windows.Forms.ComboBox();
             this.RS3 = new System.Windows.Forms.ComboBox();
@@ -68,17 +66,18 @@
             this.RS9 = new System.Windows.Forms.ComboBox();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.S15 = new System.Windows.Forms.ComboBox();
-            this.S16 = new System.Windows.Forms.ComboBox();
-            this.S18 = new System.Windows.Forms.ComboBox();
+            this.RS15 = new System.Windows.Forms.ComboBox();
+            this.S6 = new System.Windows.Forms.ComboBox();
+            this.RS6 = new System.Windows.Forms.ComboBox();
             this.RS0 = new System.Windows.Forms.TextBox();
             this.RTI = new System.Windows.Forms.TextBox();
             this.ATI = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
-            this.BUT_savesettings = new Controls.MyButton();
-            this.BUT_getcurrent = new Controls.MyButton();
+            this.BUT_savesettings = new MissionPlanner.Controls.MyButton();
+            this.BUT_getcurrent = new MissionPlanner.Controls.MyButton();
             this.lbl_status = new System.Windows.Forms.Label();
-            this.BUT_upload = new Controls.MyButton();
+            this.BUT_upload = new MissionPlanner.Controls.MyButton();
             this.label13 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
@@ -98,18 +97,22 @@
             this.label31 = new System.Windows.Forms.Label();
             this.label32 = new System.Windows.Forms.Label();
             this.SPLIT_local = new System.Windows.Forms.SplitContainer();
-            this.label33 = new System.Windows.Forms.Label();
-            this.label19 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
             this.SPLIT_remote = new System.Windows.Forms.SplitContainer();
+            this.label34 = new System.Windows.Forms.Label();
             this.CHK_advanced = new System.Windows.Forms.CheckBox();
-            this.BUT_Syncoptions = new Controls.MyButton();
+            this.BUT_Syncoptions = new MissionPlanner.Controls.MyButton();
             this.ATI3 = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.ATI2 = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.RTI2 = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
-            this.BUT_resettodefault = new Controls.MyButton();
+            this.BUT_resettodefault = new MissionPlanner.Controls.MyButton();
+            this.BUT_loadcustom = new MissionPlanner.Controls.MyButton();
+            this.linkLabel_lowlatency = new System.Windows.Forms.LinkLabel();
+            this.linkLabel_mavlink = new System.Windows.Forms.LinkLabel();
             this.SPLIT_local.Panel1.SuspendLayout();
             this.SPLIT_local.Panel2.SuspendLayout();
             this.SPLIT_local.SuspendLayout();
@@ -124,6 +127,7 @@
             // 
             resources.ApplyResources(this.Progressbar, "Progressbar");
             this.Progressbar.Name = "Progressbar";
+            this.Progressbar.Click += new System.EventHandler(this.Progressbar_Click);
             // 
             // S1
             // 
@@ -264,12 +268,6 @@
             resources.ApplyResources(this.label7, "label7");
             this.label7.Name = "label7";
             // 
-            // S6
-            // 
-            resources.ApplyResources(this.S6, "S6");
-            this.S6.Name = "S6";
-            this.toolTip1.SetToolTip(this.S6, resources.GetString("S6.ToolTip"));
-            // 
             // label8
             // 
             resources.ApplyResources(this.label8, "label8");
@@ -286,12 +284,6 @@
             resources.ApplyResources(this.RS7, "RS7");
             this.RS7.Name = "RS7";
             this.toolTip1.SetToolTip(this.RS7, resources.GetString("RS7.ToolTip"));
-            // 
-            // RS6
-            // 
-            resources.ApplyResources(this.RS6, "RS6");
-            this.RS6.Name = "RS6";
-            this.toolTip1.SetToolTip(this.RS6, resources.GetString("RS6.ToolTip"));
             // 
             // RS5
             // 
@@ -626,51 +618,58 @@
             this.S15.Name = "S15";
             this.toolTip1.SetToolTip(this.S15, resources.GetString("S15.ToolTip"));
             // 
-            // S16
+            // RS15
             // 
-            resources.ApplyResources(this.S16, "S16");
-            this.S16.FormattingEnabled = true;
-            this.S16.Items.AddRange(new object[] {
-            resources.GetString("S16.Items")});
-            this.S16.Name = "S16";
-            this.toolTip1.SetToolTip(this.S16, resources.GetString("S16.ToolTip"));
+            resources.ApplyResources(this.RS15, "RS15");
+            this.RS15.FormattingEnabled = true;
+            this.RS15.Items.AddRange(new object[] {
+            resources.GetString("RS15.Items"),
+            resources.GetString("RS15.Items1"),
+            resources.GetString("RS15.Items2"),
+            resources.GetString("RS15.Items3"),
+            resources.GetString("RS15.Items4"),
+            resources.GetString("RS15.Items5"),
+            resources.GetString("RS15.Items6"),
+            resources.GetString("RS15.Items7"),
+            resources.GetString("RS15.Items8"),
+            resources.GetString("RS15.Items9"),
+            resources.GetString("RS15.Items10"),
+            resources.GetString("RS15.Items11"),
+            resources.GetString("RS15.Items12"),
+            resources.GetString("RS15.Items13"),
+            resources.GetString("RS15.Items14"),
+            resources.GetString("RS15.Items15"),
+            resources.GetString("RS15.Items16"),
+            resources.GetString("RS15.Items17"),
+            resources.GetString("RS15.Items18"),
+            resources.GetString("RS15.Items19"),
+            resources.GetString("RS15.Items20"),
+            resources.GetString("RS15.Items21"),
+            resources.GetString("RS15.Items22"),
+            resources.GetString("RS15.Items23"),
+            resources.GetString("RS15.Items24"),
+            resources.GetString("RS15.Items25"),
+            resources.GetString("RS15.Items26"),
+            resources.GetString("RS15.Items27"),
+            resources.GetString("RS15.Items28"),
+            resources.GetString("RS15.Items29"),
+            resources.GetString("RS15.Items30")});
+            this.RS15.Name = "RS15";
+            this.toolTip1.SetToolTip(this.RS15, resources.GetString("RS15.ToolTip"));
             // 
-            // S18
+            // S6
             // 
-            resources.ApplyResources(this.S18, "S18");
-            this.S18.FormattingEnabled = true;
-            this.S18.Items.AddRange(new object[] {
-            resources.GetString("S18.Items"),
-            resources.GetString("S18.Items1"),
-            resources.GetString("S18.Items2"),
-            resources.GetString("S18.Items3"),
-            resources.GetString("S18.Items4"),
-            resources.GetString("S18.Items5"),
-            resources.GetString("S18.Items6"),
-            resources.GetString("S18.Items7"),
-            resources.GetString("S18.Items8"),
-            resources.GetString("S18.Items9"),
-            resources.GetString("S18.Items10"),
-            resources.GetString("S18.Items11"),
-            resources.GetString("S18.Items12"),
-            resources.GetString("S18.Items13"),
-            resources.GetString("S18.Items14"),
-            resources.GetString("S18.Items15"),
-            resources.GetString("S18.Items16"),
-            resources.GetString("S18.Items17"),
-            resources.GetString("S18.Items18"),
-            resources.GetString("S18.Items19"),
-            resources.GetString("S18.Items20"),
-            resources.GetString("S18.Items21"),
-            resources.GetString("S18.Items22"),
-            resources.GetString("S18.Items23"),
-            resources.GetString("S18.Items24"),
-            resources.GetString("S18.Items25"),
-            resources.GetString("S18.Items26"),
-            resources.GetString("S18.Items27"),
-            resources.GetString("S18.Items28")});
-            this.S18.Name = "S18";
-            this.toolTip1.SetToolTip(this.S18, resources.GetString("S18.ToolTip"));
+            resources.ApplyResources(this.S6, "S6");
+            this.S6.FormattingEnabled = true;
+            this.S6.Name = "S6";
+            this.toolTip1.SetToolTip(this.S6, resources.GetString("S6.ToolTip"));
+            // 
+            // RS6
+            // 
+            resources.ApplyResources(this.RS6, "RS6");
+            this.RS6.FormattingEnabled = true;
+            this.RS6.Name = "RS6";
+            this.toolTip1.SetToolTip(this.RS6, resources.GetString("RS6.ToolTip"));
             // 
             // RS0
             // 
@@ -824,6 +823,7 @@
             // 
             // SPLIT_local.Panel1
             // 
+            this.SPLIT_local.Panel1.Controls.Add(this.S6);
             this.SPLIT_local.Panel1.Controls.Add(this.label2);
             this.SPLIT_local.Panel1.Controls.Add(this.S1);
             this.SPLIT_local.Panel1.Controls.Add(this.label1);
@@ -837,16 +837,13 @@
             this.SPLIT_local.Panel1.Controls.Add(this.S5);
             this.SPLIT_local.Panel1.Controls.Add(this.label6);
             this.SPLIT_local.Panel1.Controls.Add(this.label8);
-            this.SPLIT_local.Panel1.Controls.Add(this.S6);
             this.SPLIT_local.Panel1.Controls.Add(this.S7);
             this.SPLIT_local.Panel1.Controls.Add(this.label7);
             // 
             // SPLIT_local.Panel2
             // 
-            this.SPLIT_local.Panel2.Controls.Add(this.label33);
-            this.SPLIT_local.Panel2.Controls.Add(this.S18);
-            this.SPLIT_local.Panel2.Controls.Add(this.label19);
-            this.SPLIT_local.Panel2.Controls.Add(this.S16);
+            this.SPLIT_local.Panel2.Controls.Add(this.linkLabel_mavlink);
+            this.SPLIT_local.Panel2.Controls.Add(this.linkLabel_lowlatency);
             this.SPLIT_local.Panel2.Controls.Add(this.label18);
             this.SPLIT_local.Panel2.Controls.Add(this.S15);
             this.SPLIT_local.Panel2.Controls.Add(this.label13);
@@ -860,16 +857,6 @@
             this.SPLIT_local.Panel2.Controls.Add(this.label15);
             this.SPLIT_local.Panel2.Controls.Add(this.label14);
             // 
-            // label33
-            // 
-            resources.ApplyResources(this.label33, "label33");
-            this.label33.Name = "label33";
-            // 
-            // label19
-            // 
-            resources.ApplyResources(this.label19, "label19");
-            this.label19.Name = "label19";
-            // 
             // label18
             // 
             resources.ApplyResources(this.label18, "label18");
@@ -882,6 +869,7 @@
             // 
             // SPLIT_remote.Panel1
             // 
+            this.SPLIT_remote.Panel1.Controls.Add(this.RS6);
             this.SPLIT_remote.Panel1.Controls.Add(this.RS0);
             this.SPLIT_remote.Panel1.Controls.Add(this.RS1);
             this.SPLIT_remote.Panel1.Controls.Add(this.RS2);
@@ -891,7 +879,6 @@
             this.SPLIT_remote.Panel1.Controls.Add(this.label26);
             this.SPLIT_remote.Panel1.Controls.Add(this.RS5);
             this.SPLIT_remote.Panel1.Controls.Add(this.label27);
-            this.SPLIT_remote.Panel1.Controls.Add(this.RS6);
             this.SPLIT_remote.Panel1.Controls.Add(this.label28);
             this.SPLIT_remote.Panel1.Controls.Add(this.RS7);
             this.SPLIT_remote.Panel1.Controls.Add(this.label29);
@@ -901,6 +888,8 @@
             // 
             // SPLIT_remote.Panel2
             // 
+            this.SPLIT_remote.Panel2.Controls.Add(this.label34);
+            this.SPLIT_remote.Panel2.Controls.Add(this.RS15);
             this.SPLIT_remote.Panel2.Controls.Add(this.label24);
             this.SPLIT_remote.Panel2.Controls.Add(this.RS9);
             this.SPLIT_remote.Panel2.Controls.Add(this.RS10);
@@ -911,6 +900,11 @@
             this.SPLIT_remote.Panel2.Controls.Add(this.label22);
             this.SPLIT_remote.Panel2.Controls.Add(this.label21);
             this.SPLIT_remote.Panel2.Controls.Add(this.label20);
+            // 
+            // label34
+            // 
+            resources.ApplyResources(this.label34, "label34");
+            this.label34.Name = "label34";
             // 
             // CHK_advanced
             // 
@@ -934,6 +928,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.ATI2);
             this.groupBox1.Controls.Add(this.SPLIT_local);
             this.groupBox1.Controls.Add(this.ATI3);
             this.groupBox1.Controls.Add(this.label11);
@@ -944,14 +939,27 @@
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
             // 
+            // ATI2
+            // 
+            resources.ApplyResources(this.ATI2, "ATI2");
+            this.ATI2.Name = "ATI2";
+            this.ATI2.ReadOnly = true;
+            // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.RTI2);
             this.groupBox2.Controls.Add(this.label9);
             this.groupBox2.Controls.Add(this.SPLIT_remote);
             this.groupBox2.Controls.Add(this.RTI);
             resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.TabStop = false;
+            // 
+            // RTI2
+            // 
+            resources.ApplyResources(this.RTI2, "RTI2");
+            this.RTI2.Name = "RTI2";
+            this.RTI2.ReadOnly = true;
             // 
             // label9
             // 
@@ -970,10 +978,32 @@
             this.BUT_resettodefault.UseVisualStyleBackColor = true;
             this.BUT_resettodefault.Click += new System.EventHandler(this.BUT_resettodefault_Click);
             // 
+            // BUT_loadcustom
+            // 
+            resources.ApplyResources(this.BUT_loadcustom, "BUT_loadcustom");
+            this.BUT_loadcustom.Name = "BUT_loadcustom";
+            this.BUT_loadcustom.UseVisualStyleBackColor = true;
+            this.BUT_loadcustom.Click += new System.EventHandler(this.BUT_loadcustom_Click);
+            // 
+            // linkLabel_lowlatency
+            // 
+            resources.ApplyResources(this.linkLabel_lowlatency, "linkLabel_lowlatency");
+            this.linkLabel_lowlatency.Name = "linkLabel_lowlatency";
+            this.linkLabel_lowlatency.TabStop = true;
+            this.linkLabel_lowlatency.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel_lowlatency_LinkClicked);
+            // 
+            // linkLabel_mavlink
+            // 
+            resources.ApplyResources(this.linkLabel_mavlink, "linkLabel_mavlink");
+            this.linkLabel_mavlink.Name = "linkLabel_mavlink";
+            this.linkLabel_mavlink.TabStop = true;
+            this.linkLabel_mavlink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel_mavlink_LinkClicked);
+            // 
             // _3DRradio
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.BUT_loadcustom);
             this.Controls.Add(this.BUT_resettodefault);
             this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.label10);
@@ -1026,13 +1056,11 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.CheckBox S5;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.CheckBox S6;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.CheckBox S7;
         private Controls.MyButton BUT_savesettings;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.CheckBox RS7;
-        private System.Windows.Forms.CheckBox RS6;
         private System.Windows.Forms.CheckBox RS5;
         private System.Windows.Forms.ComboBox RS4;
         private System.Windows.Forms.ComboBox RS3;
@@ -1083,11 +1111,16 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.LinkLabel linkLabel1;
         private Controls.MyButton BUT_resettodefault;
-        private System.Windows.Forms.Label label33;
-        private System.Windows.Forms.ComboBox S18;
-        private System.Windows.Forms.Label label19;
-        private System.Windows.Forms.ComboBox S16;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.ComboBox S15;
+        private System.Windows.Forms.TextBox ATI2;
+        private System.Windows.Forms.TextBox RTI2;
+        private Controls.MyButton BUT_loadcustom;
+        private System.Windows.Forms.Label label34;
+        private System.Windows.Forms.ComboBox RS15;
+        private System.Windows.Forms.ComboBox S6;
+        private System.Windows.Forms.ComboBox RS6;
+        private System.Windows.Forms.LinkLabel linkLabel_mavlink;
+        private System.Windows.Forms.LinkLabel linkLabel_lowlatency;
     }
 }

@@ -13,7 +13,6 @@ using MissionPlanner.Controls.BackstageView;
 using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
 using System.Threading;
-using MissionPlanner.Controls;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
@@ -192,6 +191,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 CHK_speechcustom.Visible = true;
                 CHK_speechmode.Visible = true;
                 CHK_speecharmdisarm.Visible = true;
+                CHK_speechlowspeed.Visible = true;
             }
             else
             {
@@ -201,6 +201,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 CHK_speechcustom.Visible = false;
                 CHK_speechmode.Visible = false;
                 CHK_speecharmdisarm.Visible = false;
+                CHK_speechlowspeed.Visible = false;
             }
         }
 
@@ -365,8 +366,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             MainV2.config[((ComboBox)sender).Name] = ((ComboBox)sender).Text;
             MainV2.comPort.MAV.cs.rateattitude = byte.Parse(((ComboBox)sender).Text);
 
-            MainV2.comPort.requestDatastream(MissionPlanner.MAVLink.MAV_DATA_STREAM.EXTRA1, MainV2.comPort.MAV.cs.rateattitude); // request attitude
-            MainV2.comPort.requestDatastream(MissionPlanner.MAVLink.MAV_DATA_STREAM.EXTRA2, MainV2.comPort.MAV.cs.rateattitude); // request vfr
+            MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTRA1, MainV2.comPort.MAV.cs.rateattitude); // request attitude
+            MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTRA2, MainV2.comPort.MAV.cs.rateattitude); // request vfr
         }
 
         private void CMB_rateposition_SelectedIndexChanged(object sender, EventArgs e)
@@ -376,7 +377,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             MainV2.config[((ComboBox)sender).Name] = ((ComboBox)sender).Text;
             MainV2.comPort.MAV.cs.rateposition = byte.Parse(((ComboBox)sender).Text);
 
-            MainV2.comPort.requestDatastream(MissionPlanner.MAVLink.MAV_DATA_STREAM.POSITION, MainV2.comPort.MAV.cs.rateposition); // request gps
+            MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.POSITION, MainV2.comPort.MAV.cs.rateposition); // request gps
         }
 
         private void CMB_ratestatus_SelectedIndexChanged(object sender, EventArgs e)
@@ -386,7 +387,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             MainV2.config[((ComboBox)sender).Name] = ((ComboBox)sender).Text;
             MainV2.comPort.MAV.cs.ratestatus = byte.Parse(((ComboBox)sender).Text);
 
-            MainV2.comPort.requestDatastream(MissionPlanner.MAVLink.MAV_DATA_STREAM.EXTENDED_STATUS, MainV2.comPort.MAV.cs.ratestatus); // mode
+            MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTENDED_STATUS, MainV2.comPort.MAV.cs.ratestatus); // mode
         }
 
         private void CMB_raterc_SelectedIndexChanged(object sender, EventArgs e)
@@ -396,7 +397,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             MainV2.config[((ComboBox)sender).Name] = ((ComboBox)sender).Text;
             MainV2.comPort.MAV.cs.raterc = byte.Parse(((ComboBox)sender).Text);
 
-            MainV2.comPort.requestDatastream(MissionPlanner.MAVLink.MAV_DATA_STREAM.RC_CHANNELS, MainV2.comPort.MAV.cs.raterc); // request rc info 
+            MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RC_CHANNELS, MainV2.comPort.MAV.cs.raterc); // request rc info 
         }
 
         private void CMB_ratesensors_SelectedIndexChanged(object sender, EventArgs e)
@@ -406,8 +407,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             MainV2.config[((ComboBox)sender).Name] = ((ComboBox)sender).Text;
             MainV2.comPort.MAV.cs.ratesensors = byte.Parse(((ComboBox)sender).Text);
 
-            MainV2.comPort.requestDatastream(MissionPlanner.MAVLink.MAV_DATA_STREAM.EXTRA3, MainV2.comPort.MAV.cs.ratesensors); // request extra stuff - tridge
-            MainV2.comPort.requestDatastream(MissionPlanner.MAVLink.MAV_DATA_STREAM.RAW_SENSORS, MainV2.comPort.MAV.cs.ratesensors); // request raw sensor
+            MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTRA3, MainV2.comPort.MAV.cs.ratesensors); // request extra stuff - tridge
+            MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RAW_SENSORS, MainV2.comPort.MAV.cs.ratesensors); // request raw sensor
         }
 
         private void CHK_mavdebug_CheckedChanged(object sender, EventArgs e)
@@ -583,7 +584,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             SetCheckboxFromConfig("speechbatteryenabled", CHK_speechbattery);
             SetCheckboxFromConfig("speechaltenabled", CHK_speechaltwarning);
             SetCheckboxFromConfig("speecharmenabled", CHK_speecharmdisarm);
+            SetCheckboxFromConfig("speechlowspeedenabled", CHK_speechlowspeed);
             SetCheckboxFromConfig("beta_updates", CHK_beta);
+            SetCheckboxFromConfig("password_protect", CHK_Password);            
 
             // this can't fail because it set at startup
             NUM_tracklength.Value = int.Parse(MainV2.config["NUM_tracklength"].ToString());
@@ -713,6 +716,56 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void CHK_beta_CheckedChanged(object sender, EventArgs e)
         {
             MainV2.config["beta_updates"] = CHK_beta.Checked;
+        }
+
+        private void CHK_Password_CheckedChanged(object sender, EventArgs e)
+        {
+            if (startup)
+                return;
+
+            MainV2.config["password_protect"] = CHK_Password.Checked;
+            if (CHK_Password.Checked == true)
+            {
+                Password.EnterPassword(); 
+            }
+        }
+
+        private void CHK_speechlowspeed_CheckedChanged(object sender, EventArgs e)
+        {
+            if (startup)
+                return;
+            MainV2.config["speechlowspeedenabled"] = ((CheckBox)sender).Checked.ToString();
+
+            if (((CheckBox)sender).Checked)
+            {
+                string speechstring = "Low Ground Speed {gsp}";
+                if (MainV2.config["speechlowgroundspeed"] != null)
+                    speechstring = MainV2.config["speechlowgroundspeed"].ToString();
+                if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Ground Speed", "What do you want it to say?", ref speechstring))
+                    return;
+                MainV2.config["speechlowgroundspeed"] = speechstring;
+
+                speechstring = "0";
+                if (MainV2.config["speechlowgroundspeedtrigger"] != null)
+                    speechstring = MainV2.config["speechlowgroundspeedtrigger"].ToString();
+                if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("speed trigger", "What speed do you want to warn at (m/s)?", ref speechstring))
+                    return;
+                MainV2.config["speechlowgroundspeedtrigger"] = speechstring;
+
+                speechstring = "Low Air Speed {asp}";
+                if (MainV2.config["speechlowairspeed"] != null)
+                    speechstring = MainV2.config["speechlowairspeed"].ToString();
+                if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Air Speed", "What do you want it to say?", ref speechstring))
+                    return;
+                MainV2.config["speechlowairspeed"] = speechstring;
+
+                speechstring = "0";
+                if (MainV2.config["speechlowairspeedtrigger"] != null)
+                    speechstring = MainV2.config["speechlowairspeedtrigger"].ToString();
+                if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("speed trigger", "What speed do you want to warn at (m/s)?", ref speechstring))
+                    return;
+                MainV2.config["speechlowairspeedtrigger"] = speechstring;
+            }
         }
     }
 }

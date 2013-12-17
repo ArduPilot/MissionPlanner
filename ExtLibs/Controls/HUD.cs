@@ -108,6 +108,8 @@ namespace MissionPlanner.Controls
         float _targetalt = 0;
         float _groundspeed = 0;
         float _airspeed = 0;
+        bool _lowgroundspeed = false;
+        bool _lowairspeed = false;
         float _targetspeed = 0;
         float _batterylevel = 0;
         float _current = 0;
@@ -144,6 +146,10 @@ namespace MissionPlanner.Controls
         public float groundspeed { get { return _groundspeed; } set { if (_groundspeed != value) { _groundspeed = value; this.Invalidate(); } } }
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
         public float airspeed { get { return _airspeed; } set { if (_airspeed != value) { _airspeed = value; this.Invalidate(); } } }
+        [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
+        public bool lowgroundspeed { get { return _lowgroundspeed; } set { if (_lowgroundspeed != value) { _lowgroundspeed = value; this.Invalidate(); } } }
+        [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
+        public bool lowairspeed { get { return _lowairspeed; } set { if (_lowairspeed != value) { _lowairspeed = value; this.Invalidate(); } } }
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
         public float targetspeed { get { return _targetspeed; } set { if (_targetspeed != value) { _targetspeed = value; this.Invalidate(); } } }
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
@@ -339,7 +345,6 @@ namespace MissionPlanner.Controls
             started = true;
         }
 
-        object lockit = new object();
         bool inOnPaint = false;
         string otherthread = "";
 
@@ -368,7 +373,7 @@ namespace MissionPlanner.Controls
                 return;              
             }
 
-            lock (lockit)
+            lock (this)
             {
 
                 if (inOnPaint)
@@ -918,45 +923,8 @@ namespace MissionPlanner.Controls
                 graphicsObject.SetClip(new Rectangle(0, this.Height / 14, this.Width, this.Height - this.Height / 14));
 
                 graphicsObject.TranslateTransform(this.Width / 2, this.Height / 2);
-                
+
                 graphicsObject.RotateTransform(-_roll);
-
-
-                // draw armed
-
-                if (status != statuslast)
-                {
-                    armedtimer = DateTime.Now;
-                }
-
-                if (status == false) // not armed
-                {
-                    //if ((armedtimer.AddSeconds(8) > DateTime.Now))
-                    {
-                        drawstring(graphicsObject, "DISARMED", font, fontsize + 10, (SolidBrush)Brushes.Red, -85, halfheight / -3);
-                        statuslast = status;
-                    }
-                }
-                else if (status == true) // armed
-                {
-                    if ((armedtimer.AddSeconds(8) > DateTime.Now))
-                    {
-                        drawstring(graphicsObject, "ARMED", font, fontsize + 20, (SolidBrush)Brushes.Red, -70, halfheight / -3);
-                        statuslast = status;
-                    }
-                }
-
-                if (failsafe == true)
-                {
-                    drawstring(graphicsObject, "FAILSAFE", font, fontsize + 20, (SolidBrush)Brushes.Red, -85, halfheight / -5);
-                    statuslast = status;
-                }
-
-                if (message != "" && messagetime.AddSeconds(20) > DateTime.Now)
-                {
-                    drawstring(graphicsObject, message, font, fontsize + 10, (SolidBrush)Brushes.Red, -halfwidth + 50, halfheight / -2);
-                }
-
 
                 //draw pitch           
 
@@ -1315,8 +1283,23 @@ namespace MissionPlanner.Controls
 
                 // extra text data
 
-                drawstring(graphicsObject, "AS " + _airspeed.ToString("0.0"), font, fontsize, whiteBrush, 1, scrollbg.Bottom + 5);
-                drawstring(graphicsObject, "GS " + _groundspeed.ToString("0.0"), font, fontsize, whiteBrush, 1, scrollbg.Bottom + fontsize + 2 + 10);
+                if (_lowairspeed)
+                {
+                    drawstring(graphicsObject, "AS " + _airspeed.ToString("0.0"), font, fontsize, (SolidBrush)Brushes.Red, 1, scrollbg.Bottom + 5);
+                }
+                else
+                {
+                    drawstring(graphicsObject, "AS " + _airspeed.ToString("0.0"), font, fontsize, whiteBrush, 1, scrollbg.Bottom + 5);
+                }
+
+                if (_lowgroundspeed)
+                {
+                    drawstring(graphicsObject, "GS " + _groundspeed.ToString("0.0"), font, fontsize, (SolidBrush)Brushes.Red, 1, scrollbg.Bottom + fontsize + 2 + 10);
+                }
+                else
+                {
+                    drawstring(graphicsObject, "GS " + _groundspeed.ToString("0.0"), font, fontsize, whiteBrush, 1, scrollbg.Bottom + fontsize + 2 + 10);
+                }
 
                 //drawstring(e,, new Font("Arial", fontsize + 2), whiteBrush, 1, scrollbg.Bottom + fontsize + 2 + 10);
 
@@ -1543,6 +1526,53 @@ namespace MissionPlanner.Controls
                     catch { }
 
                 }
+
+
+
+
+                graphicsObject.TranslateTransform(this.Width / 2, this.Height / 2);
+
+                // draw armed
+
+                if (status != statuslast)
+                {
+                    armedtimer = DateTime.Now;
+                }
+
+                if (status == false) // not armed
+                {
+                    //if ((armedtimer.AddSeconds(8) > DateTime.Now))
+                    {
+                        drawstring(graphicsObject, "DISARMED", font, fontsize + 10, (SolidBrush)Brushes.Red, -85, halfheight / -3);
+                        statuslast = status;
+                    }
+                }
+                else if (status == true) // armed
+                {
+                    if ((armedtimer.AddSeconds(8) > DateTime.Now))
+                    {
+                        drawstring(graphicsObject, "ARMED", font, fontsize + 20, (SolidBrush)Brushes.Red, -70, halfheight / -3);
+                        statuslast = status;
+                    }
+                }
+
+                if (failsafe == true)
+                {
+                    drawstring(graphicsObject, "FAILSAFE", font, fontsize + 20, (SolidBrush)Brushes.Red, -85, halfheight / -5);
+                    statuslast = status;
+                }
+
+                if (message != "" && messagetime.AddSeconds(20) > DateTime.Now)
+                {
+                    drawstring(graphicsObject, message, font, fontsize + 10, (SolidBrush)Brushes.Red, -halfwidth + 50, halfheight / 3);
+                }
+
+
+
+                graphicsObject.ResetTransform();
+
+
+
                 
 
                 if (!opengl)
@@ -1847,7 +1877,7 @@ namespace MissionPlanner.Controls
 
         protected override void OnResize(EventArgs e)
         {
-            if (DesignMode || !started)
+            if (DesignMode || !IsHandleCreated || !started)
                 return;
 
             base.OnResize(e);
@@ -1855,7 +1885,7 @@ namespace MissionPlanner.Controls
             if (SixteenXNine)
             {
                 int ht = (int)(this.Width / 1.777f);
-                if (ht != this.Height)
+                if (ht >= this.Height + 5 || ht <= this.Height - 5)
                 {
                     this.Height = ht;
                     return;
@@ -1865,7 +1895,7 @@ namespace MissionPlanner.Controls
             {
                 // 4x3
                 int ht = (int)(this.Width / 1.333f);
-                if (ht != this.Height)
+                if (ht >= this.Height + 5 || ht <= this.Height - 5)
                 {
                     this.Height = ht;
                     return;

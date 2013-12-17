@@ -14,28 +14,32 @@ using MissionPlanner;
 
 namespace MissionPlanner
 {
-    static class Program
+    public static class Program
     {
         private static readonly ILog log = LogManager.GetLogger("Program");
 
         public static DateTime starttime = DateTime.Now;
 
         public static Splash Splash;
+
+        public static string[] args = new string[]{};
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        public static void Main(string[] args)
         {
-
+            Program.args = args;
             Console.WriteLine("If your error is about Microsoft.DirectX.DirectInput, please install the latest directx redist from here http://www.microsoft.com/en-us/download/details.aspx?id=35 \n\n");
+            Console.WriteLine("Debug under mono    MONO_LOG_LEVEL=debug mono MissionPlanner.exe");
 
-            Application.EnableVisualStyles();
+
+            System.Windows.Forms.Application.EnableVisualStyles();
             XmlConfigurator.Configure();
             log.Info("******************* Logging Configured *******************");
-            Application.SetCompatibleTextRenderingDefault(false);
+            System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
 
-            Application.ThreadException += Application_ThreadException;
+            System.Windows.Forms.Application.ThreadException += Application_ThreadException;
 
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 
@@ -47,6 +51,12 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
             Controls.MainSwitcher.ApplyTheme += MissionPlanner.Utilities.ThemeManager.ApplyThemeTo;
             MissionPlanner.Controls.InputBox.ApplyTheme += MissionPlanner.Utilities.ThemeManager.ApplyThemeTo;
             MissionPlanner.Comms.CommsBase.Settings += CommsBase_Settings;
+
+            // set the cache provider to my custom version
+            GMap.NET.GMaps.Instance.PrimaryCache = new Maps.MyImageCache();
+            // add my 2 custom map providers
+            GMap.NET.MapProviders.GMapProviders.List.Add(Maps.WMSProvider.Instance);
+            GMap.NET.MapProviders.GMapProviders.List.Add(Maps.Custom.Instance);
 
        //     string[] files = Directory.GetFiles(@"C:\Users\hog\Documents\apm logs\","*.tlog");
 
@@ -159,6 +169,27 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
 
          //   return;
 
+            //Utilities.GitHubContent.GetDirContent("diydrones", "ardupilot", "/Tools/Frame_params/");
+
+            //Utilities.GitHubContent.GetFileContent("diydrones", "ardupilot", "/Tools/Frame_params/Iris.param");
+
+           // ParameterMetaDataParser.GetParameterInformation();
+
+           // var test = ParameterMetaDataRepository.GetParameterOptionsInt("CH7_OPT").ToList(); 
+
+          //  return;
+  
+
+           // ThemeManager.doxamlgen();
+
+            //testMissionPlanner.Wizard._1Intro test = new testMissionPlanner.Wizard._1Intro();
+
+            //Console.WriteLine(DateTime.Now.ToString());
+            //var test1 = Log.DFLog.ReadLog(@"C:\Users\hog\Downloads\ArduPlane.log");
+            //Console.WriteLine(DateTime.Now.ToString());
+            //var test2 = Log.DFLog.ReadLog(@"C:\Users\hog\Downloads\ArduCopter.log");
+            //Console.WriteLine(DateTime.Now.ToString());
+
             if (File.Exists("simple.txt"))
             {
                 Application.Run(new GCSViews.Simple());
@@ -166,6 +197,8 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
             }
 
             Splash = new MissionPlanner.Splash();
+            string strVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            Splash.Text = "Mission Planner " + Application.ProductVersion + " build " + strVersion;
             Splash.Show();
 
             Application.DoEvents();
@@ -174,6 +207,15 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
             {
                 Thread.CurrentThread.Name = "Base Thread";
                 Application.Run(new MainV2());
+
+              //  var temp = new MainV2();
+               // temp.Show();
+
+              //  while (temp != null)
+                {
+                  //  System.Threading.Thread.Sleep(10);
+                  //  Application.DoEvents();
+                }
             }
             catch (Exception ex)
             {
@@ -184,6 +226,8 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
                 Console.ReadLine();
             }
         }
+
+
 
         static string CommsBase_Settings(string name, string value, bool set = false)
         {
@@ -219,11 +263,30 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
             System.Threading.Thread.Sleep(1);
         }
 
+        static string GetStackTrace(Exception e)
+        {
+            StackTrace st = new System.Diagnostics.StackTrace(e);
+            string stackTrace = "";
+            foreach (StackFrame frame in st.GetFrames())
+            {
+                stackTrace = "at " + frame.GetMethod().Module.Name + "." +
+                    frame.GetMethod().ReflectedType.Name + "."
+                    + frame.GetMethod().Name
+                    + "  (IL offset: 0x" + frame.GetILOffset().ToString("x") + ")\n" + stackTrace;
+            }
+            Console.Write(stackTrace);
+            Console.WriteLine("Message: " + e.Message);
+
+            return stackTrace;
+        }
+
         static void handleException(Exception ex)
         {
             MissionPlanner.Utilities.Tracking.AddException(ex);
 
             log.Debug(ex.ToString());
+
+            GetStackTrace(ex);
 
             // hyperlinks error
             if (ex.Message == "Requested registry access is not allowed." || ex.ToString().Contains("System.Windows.Forms.LinkUtilities.GetIELinkBehavior"))
@@ -287,31 +350,33 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
                     // Set the ContentLength property of the WebRequest.
                     request.ContentLength = byteArray.Length;
                     // Get the request stream.
-                    Stream dataStream = request.GetRequestStream();
-                    // Write the data to the request stream.
-                    dataStream.Write(byteArray, 0, byteArray.Length);
-                    // Close the Stream object.
-                    dataStream.Close();
+                    using (Stream dataStream = request.GetRequestStream())
+                    {
+                        // Write the data to the request stream.
+                        dataStream.Write(byteArray, 0, byteArray.Length);
+                    }
                     // Get the response.
-                    WebResponse response = request.GetResponse();
-                    // Display the status.
-                    Console.WriteLine(((HttpWebResponse)response).StatusDescription);
-                    // Get the stream containing content returned by the server.
-                    dataStream = response.GetResponseStream();
-                    // Open the stream using a StreamReader for easy access.
-                    StreamReader reader = new StreamReader(dataStream);
-                    // Read the content.
-                    string responseFromServer = reader.ReadToEnd();
-                    // Display the content.
-                    Console.WriteLine(responseFromServer);
-                    // Clean up the streams.
-                    reader.Close();
-                    dataStream.Close();
-                    response.Close();
+                    using (WebResponse response = request.GetResponse())
+                    {
+                        // Display the status.
+                        Console.WriteLine(((HttpWebResponse)response).StatusDescription);
+                        // Get the stream containing content returned by the server.
+                        using (Stream dataStream = response.GetResponseStream())
+                        {
+                            // Open the stream using a StreamReader for easy access.
+                            using (StreamReader reader = new StreamReader(dataStream))
+                            {
+                                // Read the content.
+                                string responseFromServer = reader.ReadToEnd();
+                                // Display the content.
+                                Console.WriteLine(responseFromServer);
+                            }
+                        }
+                    }
                 }
                 catch
                 {
-                    CustomMessageBox.Show("Error sending Error report!! Youre most likerly are not on the internet");
+                    CustomMessageBox.Show("Could not send report! Typically due to lack of internet connection.");
                 }
             }
         }

@@ -12,6 +12,7 @@ using System.Web.Script.Serialization;
 using System.Windows.Forms;
 using log4net;
 using MissionPlanner.Utilities;
+using SharpKml.Base;
 
 namespace MissionPlanner.Utilities
 {
@@ -50,7 +51,7 @@ namespace MissionPlanner.Utilities
             }
             catch (Exception e)
             {
-                log.Error("Exception starting lister. Possible multiple instances of planner?", e);
+                log.Error("Exception starting listener. Possible multiple instances of planner?", e);
                 return;
             } // in use
             // Enter the listening loop.               
@@ -112,7 +113,6 @@ namespace MissionPlanner.Utilities
                     //client.NoDelay = true;
 
                     // makesure we have valid image
-                    GCSViews.FlightData.mymap.streamjpgenable = true;
                     GCSViews.FlightData.myhud.streamjpgenable = true;
 
                     NetworkStream stream = client.GetStream();
@@ -137,6 +137,8 @@ namespace MissionPlanner.Utilities
                     //url = url.Replace("GET ","");
                     //url = url.Replace(" HTTP/1.0", "");
                     //url = url.Replace(" HTTP/1.1", "");
+
+                    Tracking.AddEvent("HTTPServer", "Get", url, "");
 
                     if (url.Contains("websocket"))
                     {
@@ -206,8 +208,6 @@ namespace MissionPlanner.Utilities
                     }
                     else if (url.Contains("network.kml"))
                     {
-
-
                         SharpKml.Dom.Document kml = new SharpKml.Dom.Document();
 
                         SharpKml.Dom.Placemark pmplane = new SharpKml.Dom.Placemark();
@@ -258,22 +258,43 @@ namespace MissionPlanner.Utilities
                             Range = 50
                         };
 
-                        kml.Viewpoint = la;
-
-                        kml.AddFeature(pmplane);
+                        if (loc.Latitude.Value != 0 && loc.Longitude.Value != 0)
+                        {
+                            kml.Viewpoint = la;
+                            kml.AddFeature(pmplane);
+                        }
 
                         SharpKml.Dom.CoordinateCollection coords = new SharpKml.Dom.CoordinateCollection();
 
-                        foreach (var point in MainV2.comPort.MAV.wps.Values)
+                        if (loc.Latitude.Value != 0 && loc.Longitude.Value != 0)
                         {
-                            coords.Add(new SharpKml.Base.Vector(point.x, point.y, point.z));
+                            foreach (var point in MainV2.comPort.MAV.wps.Values)
+                            {
+                                coords.Add(new SharpKml.Base.Vector(point.x, point.y, point.z));
+                            }
+                        }
+                        else
+                        {
+                            foreach (var point in GCSViews.FlightPlanner.instance.pointlist)
+                            {
+                                coords.Add(new SharpKml.Base.Vector(point.Lat, point.Lng, point.Alt));
+
+                                SharpKml.Dom.Placemark wp = new SharpKml.Dom.Placemark();
+                                wp.Name = point.Tag;
+                                SharpKml.Dom.Point wppoint = new SharpKml.Dom.Point();
+                                var altmode = SharpKml.Dom.AltitudeMode.RelativeToGround;
+                                wppoint.AltitudeMode = altmode;
+                                wppoint.Coordinate = new Vector() { Latitude = point.Lat, Longitude = point.Lng, Altitude = point.Alt };
+                                wp.Geometry = wppoint;
+                                kml.AddFeature(wp);
+                            }
                         }
 
                         SharpKml.Dom.LineString ls = new SharpKml.Dom.LineString();
                         ls.AltitudeMode = SharpKml.Dom.AltitudeMode.RelativeToGround;
                         ls.Coordinates = coords;
 
-                        SharpKml.Dom.Placemark pm = new SharpKml.Dom.Placemark() { Geometry = ls };
+                        SharpKml.Dom.Placemark pm = new SharpKml.Dom.Placemark() { Geometry = ls, Name = "WPs" };
 
                         kml.AddFeature(pm);
 
@@ -341,35 +362,10 @@ namespace MissionPlanner.Utilities
                             System.Threading.Thread.Sleep(200); // 5hz
                             byte[] data = null;
 
-                            if (url.ToLower().Contains("hud"))
-                            {
+                        
                                 GCSViews.FlightData.myhud.streamjpgenable = true;
                                 data = GCSViews.FlightData.myhud.streamjpg.ToArray();
-                            }
-                            else if (url.ToLower().Contains("map"))
-                            {
-                                GCSViews.FlightData.mymap.streamjpgenable = true;
-                                data = GCSViews.FlightData.mymap.streamjpg.ToArray();
-                            }
-                            else
-                            {
-                                GCSViews.FlightData.mymap.streamjpgenable = true;
-                                GCSViews.FlightData.myhud.streamjpgenable = true;
-                                Image img1 = Image.FromStream(GCSViews.FlightData.myhud.streamjpg);
-                                Image img2 = Image.FromStream(GCSViews.FlightData.mymap.streamjpg);
-                                int bigger = img1.Height > img2.Height ? img1.Height : img2.Height;
-                                Image imgout = new Bitmap(img1.Width + img2.Width, bigger);
-
-                                Graphics grap = Graphics.FromImage(imgout);
-
-                                grap.DrawImageUnscaled(img1, 0, 0);
-                                grap.DrawImageUnscaled(img2, img1.Width, 0);
-
-                                MemoryStream streamjpg = new MemoryStream();
-                                imgout.Save(streamjpg, System.Drawing.Imaging.ImageFormat.Jpeg);
-                                data = streamjpg.ToArray();
-
-                            }
+                           
 
                             header = "Content-Type: image/jpeg\r\nContent-Length: " + data.Length + "\r\n\r\n";
                             temp = asciiEncoding.GetBytes(header);
@@ -382,7 +378,6 @@ namespace MissionPlanner.Utilities
                             stream.Write(temp, 0, temp.Length);
 
                         }
-                        GCSViews.FlightData.mymap.streamjpgenable = false;
                         GCSViews.FlightData.myhud.streamjpgenable = false;
                         stream.Close();
 
@@ -443,18 +438,17 @@ namespace MissionPlanner.Utilities
                                 byte[] temp = asciiEncoding.GetBytes(header);
                                 stream.Write(temp, 0, temp.Length);
 
-                                BinaryReader file = new BinaryReader(memstream);
-                                byte[] buffer = new byte[1024];
-                                while (file.BaseStream.Position < file.BaseStream.Length)
+                                using (BinaryReader file = new BinaryReader(memstream))
                                 {
+                                    byte[] buffer = new byte[1024];
+                                    while (file.BaseStream.Position < file.BaseStream.Length)
+                                    {
 
-                                    int leng = file.Read(buffer, 0, buffer.Length);
+                                        int leng = file.Read(buffer, 0, buffer.Length);
 
-                                    stream.Write(buffer, 0, leng);
+                                        stream.Write(buffer, 0, leng);
+                                    }
                                 }
-                                file.Close();
-                                resi.Dispose();
-                                orig.Dispose();
                             }
 
                             goto again;
@@ -565,22 +559,22 @@ namespace MissionPlanner.Utilities
                         Messagejson message = new Messagejson();
 
 
-                        if (MainV2.comPort.MAV.packets[MAVLink.MAVLINK_MSG_ID_ATTITUDE] != null)
-                            message.ATTITUDE = new Message2() { index = MainV2.comPort.MAV.packetseencount[MAVLink.MAVLINK_MSG_ID_ATTITUDE], msg = MainV2.comPort.MAV.packets[MAVLink.MAVLINK_MSG_ID_ATTITUDE].ByteArrayToStructure<MAVLink.mavlink_attitude_t>(6) };
-                        if (MainV2.comPort.MAV.packets[MAVLink.MAVLINK_MSG_ID_VFR_HUD] != null)
-                            message.VFR_HUD = new Message2() { index = MainV2.comPort.MAV.packetseencount[MAVLink.MAVLINK_MSG_ID_VFR_HUD], msg = MainV2.comPort.MAV.packets[MAVLink.MAVLINK_MSG_ID_VFR_HUD].ByteArrayToStructure<MAVLink.mavlink_vfr_hud_t>(6) };
-                        if (MainV2.comPort.MAV.packets[MAVLink.MAVLINK_MSG_ID_NAV_CONTROLLER_OUTPUT] != null)
-                            message.NAV_CONTROLLER_OUTPUT = new Message2() { index = MainV2.comPort.MAV.packetseencount[MAVLink.MAVLINK_MSG_ID_NAV_CONTROLLER_OUTPUT], msg = MainV2.comPort.MAV.packets[MAVLink.MAVLINK_MSG_ID_NAV_CONTROLLER_OUTPUT].ByteArrayToStructure<MAVLink.mavlink_nav_controller_output_t>(6) };
-                        if (MainV2.comPort.MAV.packets[MAVLink.MAVLINK_MSG_ID_GPS_RAW_INT] != null)
-                            message.GPS_RAW_INT = new Message2() { index = MainV2.comPort.MAV.packetseencount[MAVLink.MAVLINK_MSG_ID_GPS_RAW_INT], msg = MainV2.comPort.MAV.packets[MAVLink.MAVLINK_MSG_ID_GPS_RAW_INT].ByteArrayToStructure<MAVLink.mavlink_gps_raw_int_t>(6) };
-                        if (MainV2.comPort.MAV.packets[MAVLink.MAVLINK_MSG_ID_HEARTBEAT] != null)
-                            message.HEARTBEAT = new Message2() { index = MainV2.comPort.MAV.packetseencount[MAVLink.MAVLINK_MSG_ID_HEARTBEAT], msg = MainV2.comPort.MAV.packets[MAVLink.MAVLINK_MSG_ID_HEARTBEAT].ByteArrayToStructure<MAVLink.mavlink_heartbeat_t>(6) };
-                        if (MainV2.comPort.MAV.packets[MAVLink.MAVLINK_MSG_ID_GPS_STATUS] != null)
-                            message.GPS_STATUS = new Message2() { index = MainV2.comPort.MAV.packetseencount[MAVLink.MAVLINK_MSG_ID_GPS_STATUS], msg = MainV2.comPort.MAV.packets[MAVLink.MAVLINK_MSG_ID_GPS_STATUS].ByteArrayToStructure<MAVLink.mavlink_gps_status_t>(6) };
-                        if (MainV2.comPort.MAV.packets[MAVLink.MAVLINK_MSG_ID_STATUSTEXT] != null)
-                            message.STATUSTEXT = new Message2() { index = MainV2.comPort.MAV.packetseencount[MAVLink.MAVLINK_MSG_ID_STATUSTEXT], msg = MainV2.comPort.MAV.packets[MAVLink.MAVLINK_MSG_ID_STATUSTEXT].ByteArrayToStructure<MAVLink.mavlink_statustext_t>(6) };
-                        if (MainV2.comPort.MAV.packets[MAVLink.MAVLINK_MSG_ID_SYS_STATUS] != null)
-                            message.SYS_STATUS = new Message2() { index = MainV2.comPort.MAV.packetseencount[MAVLink.MAVLINK_MSG_ID_SYS_STATUS], msg = MainV2.comPort.MAV.packets[MAVLink.MAVLINK_MSG_ID_SYS_STATUS].ByteArrayToStructure<MAVLink.mavlink_sys_status_t>(6) };
+                        if (MainV2.comPort.MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.ATTITUDE] != null)
+                            message.ATTITUDE = new Message2() { index = MainV2.comPort.MAV.packetseencount[(byte)MAVLink.MAVLINK_MSG_ID.ATTITUDE], msg = MainV2.comPort.MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.ATTITUDE].ByteArrayToStructure<MAVLink.mavlink_attitude_t>(6) };
+                        if (MainV2.comPort.MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.VFR_HUD] != null)
+                            message.VFR_HUD = new Message2() { index = MainV2.comPort.MAV.packetseencount[(byte)MAVLink.MAVLINK_MSG_ID.VFR_HUD], msg = MainV2.comPort.MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.VFR_HUD].ByteArrayToStructure<MAVLink.mavlink_vfr_hud_t>(6) };
+                        if (MainV2.comPort.MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.NAV_CONTROLLER_OUTPUT] != null)
+                            message.NAV_CONTROLLER_OUTPUT = new Message2() { index = MainV2.comPort.MAV.packetseencount[(byte)MAVLink.MAVLINK_MSG_ID.NAV_CONTROLLER_OUTPUT], msg = MainV2.comPort.MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.NAV_CONTROLLER_OUTPUT].ByteArrayToStructure<MAVLink.mavlink_nav_controller_output_t>(6) };
+                        if (MainV2.comPort.MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.GPS_RAW_INT] != null)
+                            message.GPS_RAW_INT = new Message2() { index = MainV2.comPort.MAV.packetseencount[(byte)MAVLink.MAVLINK_MSG_ID.GPS_RAW_INT], msg = MainV2.comPort.MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.GPS_RAW_INT].ByteArrayToStructure<MAVLink.mavlink_gps_raw_int_t>(6) };
+                        if (MainV2.comPort.MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.HEARTBEAT] != null)
+                            message.HEARTBEAT = new Message2() { index = MainV2.comPort.MAV.packetseencount[(byte)MAVLink.MAVLINK_MSG_ID.HEARTBEAT], msg = MainV2.comPort.MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.HEARTBEAT].ByteArrayToStructure<MAVLink.mavlink_heartbeat_t>(6) };
+                        if (MainV2.comPort.MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.GPS_STATUS] != null)
+                            message.GPS_STATUS = new Message2() { index = MainV2.comPort.MAV.packetseencount[(byte)MAVLink.MAVLINK_MSG_ID.GPS_STATUS], msg = MainV2.comPort.MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.GPS_STATUS].ByteArrayToStructure<MAVLink.mavlink_gps_status_t>(6) };
+                        if (MainV2.comPort.MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.STATUSTEXT] != null)
+                            message.STATUSTEXT = new Message2() { index = MainV2.comPort.MAV.packetseencount[(byte)MAVLink.MAVLINK_MSG_ID.STATUSTEXT], msg = MainV2.comPort.MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.STATUSTEXT].ByteArrayToStructure<MAVLink.mavlink_statustext_t>(6) };
+                        if (MainV2.comPort.MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.SYS_STATUS] != null)
+                            message.SYS_STATUS = new Message2() { index = MainV2.comPort.MAV.packetseencount[(byte)MAVLink.MAVLINK_MSG_ID.SYS_STATUS], msg = MainV2.comPort.MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.SYS_STATUS].ByteArrayToStructure<MAVLink.mavlink_sys_status_t>(6) };
 
                         message.META_LINKQUALITY = message.SYS_STATUS = new Message2() { index = packetindex, time_usec = 0, msg = new META_LINKQUALITY() { master_in = (int)MainV2.comPort.packetsnotlost, mavpackettype = "META_LINKQUALITY", master_out = MainV2.comPort.packetcount, packet_loss = 100 - MainV2.comPort.MAV.cs.linkqualitygcs, mav_loss = 0 } };
 
@@ -672,20 +666,13 @@ namespace MissionPlanner.Utilities
 ";
                         temp = asciiEncoding.GetBytes(content);
                         stream.Write(temp, 0, temp.Length);
-
-                        stream.Close();
                     }
 
                     stream.Close();
                 }
                 catch (Exception ee)
                 {
-                    log.Error("Failed mjpg ", ee);
-                    try
-                    {
-                        client.Close();
-                    }
-                    catch { }
+                    log.Error("Failed http ", ee);
                 }
             }
         }

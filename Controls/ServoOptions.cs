@@ -28,7 +28,7 @@ namespace MissionPlanner.Controls
 
             servo++;
 
-            TXT_rcchannel.BackColor = Color.Silver;
+            TXT_rcchannel.BackColor = Color.Gray;
         }
 
         void loadSettings()

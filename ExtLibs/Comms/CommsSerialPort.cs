@@ -18,7 +18,7 @@ namespace MissionPlanner.Comms
 
         public new bool DtrEnable { get { return base.DtrEnable; } set { if (ispx4(base.PortName)) return; base.DtrEnable = value; } }
         public new bool RtsEnable { get { return base.RtsEnable; } set { if (ispx4(base.PortName)) return; base.RtsEnable = value; } }
-        /*
+        
         protected override void Dispose(bool disposing)
         {
             try
@@ -39,12 +39,12 @@ namespace MissionPlanner.Comms
                         stream = null;
                     }
                 }
-                catch { }
+                catch (Exception ex) { Console.WriteLine(ex.ToString()); }
 
                 base.Dispose(disposing);
             }
-            catch { }
-        }*/
+            catch (Exception ex) { Console.WriteLine(ex.ToString()); }
+        }
 
         public new void Open()
         {
@@ -61,6 +61,10 @@ namespace MissionPlanner.Comms
               //  Console.WriteLine("Done SerialPortFixer");
             }
             catch (Exception ex) { Console.WriteLine(ex.ToString()); }
+
+            if (PortName.StartsWith("/"))
+                if (!File.Exists(PortName))
+                    throw new Exception("No such device");
 
             base.Open();
         }
@@ -114,6 +118,7 @@ namespace MissionPlanner.Comms
                 allPorts.AddRange(Directory.GetFiles("/dev/", "ttyACM*"));
                 allPorts.AddRange(Directory.GetFiles("/dev/", "ttyUSB*"));
                 allPorts.AddRange(Directory.GetFiles("/dev/", "rfcomm*"));
+                allPorts.AddRange(Directory.GetFiles("/dev/", "*usb*"));
             }
 
             string[] ports = System.IO.Ports.SerialPort.GetPortNames()

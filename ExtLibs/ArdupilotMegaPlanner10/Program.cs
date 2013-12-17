@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 
 namespace ArdupilotMega
 {
@@ -9,13 +11,17 @@ namespace ArdupilotMega
     {
         static void Main(string[] args)
         {
-            var t = Type.GetType("Mono.Runtime");
-            bool MONO = (t != null);
+            try
+            {
+                var t = Type.GetType("Mono.Runtime");
+                bool MONO = (t != null);
 
-            if (!MONO)
-                System.Diagnostics.Process.Start("MissionPlanner.exe");
-            else
-                System.Diagnostics.Process.Start("mono MissionPlanner.exe");    
+                if (!MONO)
+                    System.Diagnostics.Process.Start(Application.StartupPath + Path.DirectorySeparatorChar + "MissionPlanner.exe");
+                else
+                    System.Diagnostics.Process.Start("mono MissionPlanner.exe");
+            }
+            catch (Exception ex) { Console.WriteLine(ex.ToString()); Console.ReadLine(); }
         }
     }
 }

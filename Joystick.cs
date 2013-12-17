@@ -9,7 +9,7 @@ using System.Reflection;
 
 namespace MissionPlanner
 {
-    public class Joystick
+    public class Joystick : IDisposable
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         Device joystick;
@@ -39,7 +39,8 @@ namespace MissionPlanner
         {
             try
             {
-                joystick.Unacquire();
+                if (joystick != null)
+                    joystick.Unacquire();
             }
             catch { }
         }
@@ -82,11 +83,12 @@ namespace MissionPlanner
 
             enabled = true;
 
-            System.Threading.Thread t11 = new System.Threading.Thread(new System.Threading.ThreadStart(mainloop)) {
-            Name = "Joystick loop",
-            Priority = System.Threading.ThreadPriority.AboveNormal,
-            IsBackground = true
-        };
+            System.Threading.Thread t11 = new System.Threading.Thread(new System.Threading.ThreadStart(mainloop))
+            {
+                Name = "Joystick loop",
+                Priority = System.Threading.ThreadPriority.AboveNormal,
+                IsBackground = true
+            };
             t11.Start();
 
             return true;
@@ -117,14 +119,14 @@ namespace MissionPlanner
 
             joystick.Acquire();
 
-            System.Windows.Forms.CustomMessageBox.Show("Please ensure you have calibrated your joystick in Windows first");
+            CustomMessageBox.Show("Please ensure you have calibrated your joystick in Windows first");
 
             joystick.Poll();
 
             JoystickState obj = joystick.CurrentJoystickState;
             Hashtable values = new Hashtable();
 
-            Type type = obj.GetType(); 
+            Type type = obj.GetType();
             PropertyInfo[] properties = type.GetProperties();
             foreach (PropertyInfo property in properties)
             {
@@ -133,7 +135,7 @@ namespace MissionPlanner
             values["Slider1"] = obj.GetSlider()[0];
             values["Slider2"] = obj.GetSlider()[1];
 
-            System.Windows.Forms.CustomMessageBox.Show("Please move the joystick axis you want assigned to this function after clicking ok");
+            CustomMessageBox.Show("Please move the joystick axis you want assigned to this function after clicking ok");
 
             DateTime start = DateTime.Now;
 
@@ -144,7 +146,7 @@ namespace MissionPlanner
 
                 int[] slider = nextstate.GetSlider();
 
-                type = nextstate.GetType(); 
+                type = nextstate.GetType();
                 properties = type.GetProperties();
                 foreach (PropertyInfo property in properties)
                 {
@@ -178,8 +180,8 @@ namespace MissionPlanner
                 }
             }
 
-            System.Windows.Forms.CustomMessageBox.Show("No valid option was detected");
-            
+            CustomMessageBox.Show("No valid option was detected");
+
             return joystickaxis.None;
         }
 
@@ -210,7 +212,7 @@ namespace MissionPlanner
 
             joystick.Poll();
 
-            System.Windows.Forms.CustomMessageBox.Show("Please press the joystick button you want assigned to this function after clicking ok");
+            CustomMessageBox.Show("Please press the joystick button you want assigned to this function after clicking ok");
 
             DateTime start = DateTime.Now;
 
@@ -228,7 +230,7 @@ namespace MissionPlanner
                 }
             }
 
-            System.Windows.Forms.CustomMessageBox.Show("No valid option was detected");
+            CustomMessageBox.Show("No valid option was detected");
 
             return -1;
         }
@@ -254,7 +256,7 @@ namespace MissionPlanner
             JoyChannels[channel] = joy;
         }
 
-        public void setButton(int arrayoffset,int buttonid,string mode1)
+        public void setButton(int arrayoffset, int buttonid, string mode1)
         {
             JoyButtons[arrayoffset] = new JoyButton()
             {
@@ -266,6 +268,16 @@ namespace MissionPlanner
         public void changeButton(int buttonid, int newid)
         {
             JoyButtons[buttonid].buttonno = newid;
+        }
+
+        public int getHatSwitchDirection()
+        {
+            return (state.GetPointOfView())[0];
+        }
+
+        public int getNumberPOV()
+        {
+            return joystick.Caps.NumberPointOfViews;
         }
 
         int BOOL_TO_SIGN(bool input)
@@ -298,8 +310,8 @@ namespace MissionPlanner
 
                     if (elevons)
                     {
-//g.channel_roll.set_pwm(BOOL_TO_SIGN(g.reverse_elevons) * (BOOL_TO_SIGN(g.reverse_ch2_elevon) * int(ch2_temp - elevon2_trim) - BOOL_TO_SIGN(g.reverse_ch1_elevon) * int(ch1_temp - elevon1_trim)) / 2 + 1500);
-//g.channel_pitch.set_pwm(                                 (BOOL_TO_SIGN(g.reverse_ch2_elevon) * int(ch2_temp - elevon2_trim) + BOOL_TO_SIGN(g.reverse_ch1_elevon) * int(ch1_temp - elevon1_trim)) / 2 + 1500);
+                        //g.channel_roll.set_pwm(BOOL_TO_SIGN(g.reverse_elevons) * (BOOL_TO_SIGN(g.reverse_ch2_elevon) * int(ch2_temp - elevon2_trim) - BOOL_TO_SIGN(g.reverse_ch1_elevon) * int(ch1_temp - elevon1_trim)) / 2 + 1500);
+                        //g.channel_pitch.set_pwm(                                 (BOOL_TO_SIGN(g.reverse_ch2_elevon) * int(ch2_temp - elevon2_trim) + BOOL_TO_SIGN(g.reverse_ch1_elevon) * int(ch1_temp - elevon1_trim)) / 2 + 1500);
                         ushort roll = pickchannel(1, JoyChannels[1].axis, false, JoyChannels[1].expo);
                         ushort pitch = pickchannel(2, JoyChannels[2].axis, false, JoyChannels[2].expo);
 
@@ -334,21 +346,24 @@ namespace MissionPlanner
                         if (but.buttonno != -1 && getButtonState(but.buttonno))
                         {
                             string mode = but.mode;
-                            MainV2.instance.BeginInvoke((System.Windows.Forms.MethodInvoker)delegate()
+                            if (mode != null)
                             {
-                                try
+                                MainV2.instance.BeginInvoke((System.Windows.Forms.MethodInvoker)delegate()
                                 {
-                                    MainV2.comPort.setMode(mode); 
+                                    try
+                                    {
+                                        MainV2.comPort.setMode(mode);
 
-                                }
-                                catch { System.Windows.Forms.CustomMessageBox.Show("Failed to change Modes"); }
-                            });
+                                    }
+                                    catch { CustomMessageBox.Show("Failed to change Modes"); }
+                                });
+                            }
                         }
                     }
 
                     //Console.WriteLine("{0} {1} {2} {3}", MainV2.comPort.MAV.cs.rcoverridech1, MainV2.comPort.MAV.cs.rcoverridech2, MainV2.comPort.MAV.cs.rcoverridech3, MainV2.comPort.MAV.cs.rcoverridech4);
                 }
-                catch (Exception ex) { log.Info("Joystick thread error "+ex.ToString()); } // so we cant fall out
+                catch (Exception ex) { log.Info("Joystick thread error " + ex.ToString()); } // so we cant fall out
             }
         }
 
@@ -450,6 +465,8 @@ namespace MissionPlanner
 
         public void UnAcquireJoyStick()
         {
+            if (joystick == null)
+                return;
             joystick.Unacquire();
         }
 
@@ -466,6 +483,8 @@ namespace MissionPlanner
 
         public int getNumButtons()
         {
+            if (joystick == null)
+                return 0;
             return joystick.Caps.NumberButtons;
         }
 
@@ -490,13 +509,16 @@ namespace MissionPlanner
 
         public ushort getValueForChannel(int channel, string name)
         {
-                joystick.Poll();
+            if (joystick == null)
+                return 0;
 
-                state = joystick.CurrentJoystickState;
+            joystick.Poll();
 
-                ushort ans = pickchannel(channel, JoyChannels[channel].axis, JoyChannels[channel].reverse, JoyChannels[channel].expo);
-                log.DebugFormat("{0} = {1} = {2}",channel,ans, state.X);
-                return ans;
+            state = joystick.CurrentJoystickState;
+
+            ushort ans = pickchannel(channel, JoyChannels[channel].axis, JoyChannels[channel].reverse, JoyChannels[channel].expo);
+            log.DebugFormat("{0} = {1} = {2}", channel, ans, state.X);
+            return ans;
         }
 
         ushort pickchannel(int chan, joystickaxis axis, bool rev, int expo)
@@ -511,7 +533,8 @@ namespace MissionPlanner
                     max = (int)(float)(MainV2.comPort.MAV.param["RC" + chan + "_MAX"]);
                     trim = (int)(float)(MainV2.comPort.MAV.param["RC" + chan + "_TRIM"]);
                 }
-                catch {
+                catch
+                {
                     min = 1000;
                     max = 2000;
                     trim = 1500;
@@ -526,11 +549,11 @@ namespace MissionPlanner
             if (chan == 3)
             {
                 trim = (min + max) / 2;
-//                trim = min; // throttle
+                //                trim = min; // throttle
             }
-            
+
             int range = Math.Abs(max - min);
-            
+
             int working = 0;
 
             switch (axis)
@@ -661,7 +684,7 @@ namespace MissionPlanner
 
 
             double B = 4 * (expo / 100.0);
-            double A = 1 - 0.25*B;
+            double A = 1 - 0.25 * B;
 
             double t_in = working / 1000.0;
             double t_out = 0;
@@ -671,7 +694,7 @@ namespace MissionPlanner
 
             t_out = mid + t_out * scale;
 
-//            Console.WriteLine("tin {0} tout {1}",t_in,t_out);
+            //            Console.WriteLine("tin {0} tout {1}",t_in,t_out);
 
             working = (int)(t_out * 1000);
 
@@ -685,6 +708,12 @@ namespace MissionPlanner
             working = Math.Min(max, working);
 
             return (ushort)working;
+        }
+
+        public void Dispose()
+        {
+            if (joystick != null)
+                joystick.Dispose();
         }
     }
 }

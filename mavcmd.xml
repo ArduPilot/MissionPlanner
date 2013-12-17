@@ -146,6 +146,15 @@
       <Y></Y>
       <Z></Z>
     </DO_SET_HOME>
+    <DO_SET_CAM_TRIGG_DIST>
+      <P1>Dist (m)</P1>
+      <P2></P2>
+      <P3></P3>
+      <P4></P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </DO_SET_CAM_TRIGG_DIST>
     <DO_SET_RELAY>
       <P1>off(0)/on(1)</P1>
       <P2>Delay (s)</P2>
@@ -330,6 +339,15 @@
       <Y></Y>
       <Z></Z>
     </DO_SET_MODE>
+    <DO_SET_CAM_TRIGG_DIST>
+      <P1>Dist (m)</P1>
+      <P2></P2>
+      <P3></P3>
+      <P4></P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </DO_SET_CAM_TRIGG_DIST>
     <DO_JUMP>
       <P1>WP #</P1>
       <P2>Repeat#</P2>
@@ -558,6 +576,15 @@
       <Y></Y>
       <Z></Z>
     </DO_SET_MODE>
+    <DO_SET_CAM_TRIGG_DIST>
+      <P1>Dist (m)</P1>
+      <P2></P2>
+      <P3></P3>
+      <P4></P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </DO_SET_CAM_TRIGG_DIST>
     <DO_JUMP>
       <P1>WP #</P1>
       <P2>Repeat#</P2>

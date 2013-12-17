@@ -19,6 +19,7 @@ namespace MissionPlanner.Wizard
         List<KeyValuePair<string, string>> fwmap = new List<KeyValuePair<string, string>>();
         ProgressReporterDialogue pdr;
         string comport = "";
+        private bool usebeta;
 
         public _3ConnectAP()
         {
@@ -97,10 +98,10 @@ namespace MissionPlanner.Wizard
 
             pdr.RunBackgroundOperationAsync();
 
-            if (pdr.doWorkArgs.CancelRequested || pdr.doWorkArgs.ErrorMessage != "")
+            if (pdr.doWorkArgs.CancelRequested || !string.IsNullOrEmpty(pdr.doWorkArgs.ErrorMessage))
                 return 0;
 
-            if (!MainV2.comPort.BaseStream.IsOpen)
+            if (MainV2.comPort.BaseStream.IsOpen)
                 MainV2.comPort.BaseStream.Close();
             
                 MainV2.comPort.BaseStream.BaudRate = 115200;
@@ -131,7 +132,11 @@ namespace MissionPlanner.Wizard
             
             Utilities.Firmware fw = new Utilities.Firmware();
             fw.Progress += fw_Progress;
-            List<Utilities.Firmware.software> swlist = fw.getFWList();
+            string firmwareurl = "";
+            if (usebeta)
+                firmwareurl = "https://raw.github.com/diydrones/binary/master/dev/firmware2.xml";
+
+            List<Utilities.Firmware.software> swlist = fw.getFWList(firmwareurl);
 
             if (swlist.Count == 0)
             {
@@ -167,7 +172,8 @@ namespace MissionPlanner.Wizard
                     {
                         try
                         {
-                            fwdone = fw.update(comport, sw);
+                            //fwdone = fw.update(comport, sw);
+                            fwdone = true;
                         }
                         catch { }
                         if (fwdone == false)
@@ -241,9 +247,27 @@ namespace MissionPlanner.Wizard
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
+            if (MainV2.comPort.BaseStream.IsOpen)
+                MainV2.comPort.BaseStream.Close();
+
+            if (CMB_port.Text == "")
+            {
+                CustomMessageBox.Show("Please pick a port");
+                return;
+            }
+
+            MainV2.comPort.BaseStream.PortName = CMB_port.Text;
+            MainV2.comPort.BaseStream.BaudRate = 115200;
+
             if (!MainV2.comPort.BaseStream.IsOpen)
                 MainV2.comPort.Open(true);
             Wizard.instance.GoNext(1);
+        }
+
+        private void label8_Click(object sender, EventArgs e)
+        {
+            usebeta = true;
+            CustomMessageBox.Show("Using beta FW");
         }
     }
 }

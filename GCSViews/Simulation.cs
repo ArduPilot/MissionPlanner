@@ -15,16 +15,15 @@ using MissionPlanner;
 using System.Reflection;
 using MissionPlanner.Controls;
 using System.Drawing.Drawing2D;
-
 using MissionPlanner.HIL;
 
 // Written by Michael Oborne
 namespace MissionPlanner.GCSViews
 {
-    public partial class Simulation : MyUserControl, IActivate
+    public partial class Simulation : MyUserControl
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        MAVLink comPort = MainV2.comPort;
+        MAVLinkInterface comPort = MainV2.comPort;
         UdpClient XplanesSEND;
         UdpClient MavLink;
         Socket SimulatorRECV;
@@ -243,18 +242,17 @@ namespace MissionPlanner.GCSViews
             if (threadrun == 1)
                 ConnectComPort_Click(new object(), new EventArgs());
 
+            this.Dispose(false);
+
             MavLink = null;
             XplanesSEND = null;
             SimulatorRECV = null;
+            SITLSEND = null;
         }
 
         public Simulation()
         {
             InitializeComponent();
-        }
-
-        public void Activate()
-        {
         }
 
         private void Simulation_Load(object sender, EventArgs e)
@@ -595,22 +593,23 @@ namespace MissionPlanner.GCSViews
 
                         if (CHK_quad.Checked && !RAD_aerosimrc.Checked)// || chkSensor.Checked && RAD_JSBSim.Checked)
                         {
-                            //comPort.requestDatastream(MissionPlanner.MAVLink.MAV_DATA_STREAM.RAW_CONTROLLER, 0); // request servoout
-                            comPort.requestDatastream(MissionPlanner.MAVLink.MAV_DATA_STREAM.RAW_CONTROLLER, 50); // request servoout
+                            //comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RAW_CONTROLLER, 0); // request servoout
+                            comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RAW_CONTROLLER, 50); // request servoout
                         }
                         else
                         {
-                            comPort.requestDatastream(MissionPlanner.MAVLink.MAV_DATA_STREAM.RAW_CONTROLLER, 50); // request servoout
+                            comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RAW_CONTROLLER, 50); // request servoout
                         }
                     }
                     catch { }
                     lastdata = DateTime.Now; // prevent flooding
                 }
-                if (SimulatorRECV != null && SimulatorRECV.Connected && SimulatorRECV.Available > 0)
+                try
                 {
-                    udpdata = new byte[udpdata.Length];
-                    try
+                    if (SimulatorRECV != null && SimulatorRECV.Available > 0)
                     {
+                        udpdata = new byte[udpdata.Length];
+
                         while (SimulatorRECV.Available > 0)
                         {
                             int recv = SimulatorRECV.ReceiveFrom(udpdata, ref Remote);
@@ -619,30 +618,33 @@ namespace MissionPlanner.GCSViews
 
                             hzcount++;
                         }
-                    }
-                    catch
-                    { //OutputLog.AppendText("Xplanes Data Problem - You need DATA IN/OUT 3, 4, 17, 18, 19, 20\n" + ex.Message + "\n");
+
                     }
                 }
-                if (MavLink != null && MavLink.Client != null && MavLink.Client.Connected && MavLink.Available > 0)
+                catch
+                { //OutputLog.AppendText("Xplanes Data Problem - You need DATA IN/OUT 3, 4, 17, 18, 19, 20\n" + ex.Message + "\n");
+                }
+                try
                 {
-                    IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
-                    try
+                    if (MavLink != null && MavLink.Client != null && MavLink.Client.Connected && MavLink.Available > 0)
                     {
+                        IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
+
                         Byte[] receiveBytes = MavLink.Receive(ref RemoteIpEndPoint);
 
 
                         comPort.BaseStream.Write(receiveBytes, 0, receiveBytes.Length);
+
                     }
-                    catch { }
                 }
+                catch { }
                 //if (comPort.BaseStream.IsOpen == false) { break; }
                 try
                 {
 
                     MainV2.comPort.MAV.cs.UpdateCurrentSettings(null); // when true this uses alot more cpu time
 
-                    if ((DateTime.Now - simsendtime).TotalMilliseconds > 4 && chkSITL.Checked ||(DateTime.Now - simsendtime).TotalMilliseconds > 19)
+                    if ((DateTime.Now - simsendtime).TotalMilliseconds > 4 && chkSITL.Checked ||(DateTime.Now - simsendtime).TotalMilliseconds > 25)
                     {
                         //hzcount++;
                         simsendtime = DateTime.Now;
@@ -655,7 +657,7 @@ namespace MissionPlanner.GCSViews
 
                 if (hzcounttime.Second != DateTime.Now.Second)
                 {
-                    Console.WriteLine("SIM hz {0}", hzcount);
+                    Console.WriteLine("SIM recv hz {0}", hzcount);
                     hzcount = 0;
                     hzcounttime = DateTime.Now;
                 }
@@ -751,7 +753,7 @@ namespace MissionPlanner.GCSViews
         /// <param name="data">Packet</param>
         /// <param name="receviedbytes">Length</param>
         /// <param name="comPort">Com Port</param>
-        private void RECVprocess(byte[] data, int receviedbytes, MAVLink comPort)
+        private void RECVprocess(byte[] data, int receviedbytes, MAVLinkInterface comPort)
         {
             sitl_fdm sitldata = new sitl_fdm();
 
@@ -1060,7 +1062,7 @@ namespace MissionPlanner.GCSViews
 
             MAVLink.mavlink_hil_state_t hilstate = new MAVLink.mavlink_hil_state_t();
 
-            hilstate.time_usec = (UInt64)DateTime.Now.Ticks; // microsec
+            hilstate.time_usec = (UInt64)(DateTime.Now.Ticks * 10); // microsec
             
             hilstate.lat = (int)(oldgps.latitude * 1e7); // * 1E7
             hilstate.lon = (int)(oldgps.longitude * 1e7); // * 1E7
@@ -1246,19 +1248,23 @@ namespace MissionPlanner.GCSViews
                         hilstate.pitch = (float)quad.pitch;
                         hilstate.yaw = (float)quad.yaw;
 
-                        //  Vector3 earth_rates = Utils.BodyRatesToEarthRates(dcm, gyro);
+                          //Vector3 earth_rates2 = Utils.BodyRatesToEarthRates(quad.dcm, quad.gyro);
 
                         hilstate.rollspeed = (float)quad.gyro.x;
                         hilstate.pitchspeed = (float)quad.gyro.y;
                         hilstate.yawspeed = (float)quad.gyro.z;
 
+                        //hilstate.rollspeed = (float)earth_rates2.x;
+                        //hilstate.pitchspeed = (float)earth_rates2.y;
+                        //hilstate.yawspeed = (float)earth_rates2.z;
+
                         hilstate.vx = (short)(quad.velocity.y * 100); // m/s * 100
                         hilstate.vy = (short)(quad.velocity.x * 100); // m/s * 100
                         hilstate.vz = (short)(quad.velocity.z * 100); // m/s * 100
 
-                        hilstate.xacc = (short)(quad.accelerometer.x * 1000); // (mg)
-                        hilstate.yacc = (short)(quad.accelerometer.y * 1000); // (mg)
-                        hilstate.zacc = (short)(quad.accelerometer.z * 1000); // (mg)
+                        hilstate.xacc = (short)(quad.accelerometer.x * 100); // (mg)
+                        hilstate.yacc = (short)(quad.accelerometer.y * 100); // (mg)
+                        hilstate.zacc = (short)(quad.accelerometer.z * 100); // (mg)
 
                         MainV2.comPort.sendPacket(hilstate);
                     }

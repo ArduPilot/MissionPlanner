@@ -7,6 +7,7 @@ using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.IO;
+using System.Windows.Forms;
 
 namespace MissionPlanner.Stats
 {
@@ -68,7 +69,16 @@ namespace MissionPlanner.Stats
 
         void men_Click(object sender, EventArgs e)
         {
-            
+            FolderBrowserDialog ofd = new FolderBrowserDialog();
+
+            ofd.ShowDialog();
+
+            if (Directory.Exists(ofd.SelectedPath))
+            {
+                string[] files = Directory.GetFiles(ofd.SelectedPath,"*.tlog");
+
+
+            }
         }
 
         public override bool Loaded()

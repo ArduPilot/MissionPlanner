@@ -193,12 +193,12 @@ namespace MissionPlanner.Log
         {
             List<MLArray> mlList = new List<MLArray>();
 
-            MAVLink mine = new MAVLink();
+            MAVLinkInterface mine = new MAVLinkInterface();
             try
             {
                 mine.logplaybackfile = new BinaryReader(File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.Read));
             }
-            catch (Exception ex) { CustomMessageBox.Show("Log Can not be opened. Are you still connected?"); return; }
+            catch { CustomMessageBox.Show("Log Can not be opened. Are you still connected?"); return; }
             mine.logreadmode = true;
 
             mine.MAV.packets.Initialize(); // clear
@@ -223,6 +223,8 @@ namespace MissionPlanner.Log
 
                 DateTime time = mine.lastlogread;
 
+                double matlabtime = GetMatLabSerialDate(time);
+
                 try
                 {
 
@@ -237,54 +239,54 @@ namespace MissionPlanner.Log
                         }
                         else
                         {
-                            if (!datappl.ContainsKey(field.Name + " " + field.DeclaringType.Name))
+                            if (!datappl.ContainsKey(field.Name + "_" + field.DeclaringType.Name))
                             {
-                                datappl[field.Name + " " + field.DeclaringType.Name] = new List<double[]>();
+                                datappl[field.Name + "_" + field.DeclaringType.Name] = new List<double[]>();
                             }
 
-                            List<double[]> list = ((List<double[]>)datappl[field.Name + " " + field.DeclaringType.Name]);
+                            List<double[]> list = ((List<double[]>)datappl[field.Name + "_" + field.DeclaringType.Name]);
 
                             object value = fieldValue;
 
                             if (value.GetType() == typeof(Single))
                             {
-                                list.Add(new double[] { time.ToFileTime(), (double)(Single)field.GetValue(data) });
+                                list.Add(new double[] { matlabtime, (double)(Single)field.GetValue(data) });
                             }
                             else if (value.GetType() == typeof(short))
                             {
-                                list.Add(new double[] { time.ToFileTime(), (double)(short)field.GetValue(data) });
+                                list.Add(new double[] { matlabtime, (double)(short)field.GetValue(data) });
                             }
                             else if (value.GetType() == typeof(ushort))
                             {
-                                list.Add(new double[] { time.ToFileTime(), (double)(ushort)field.GetValue(data) });
+                                list.Add(new double[] { matlabtime, (double)(ushort)field.GetValue(data) });
                             }
                             else if (value.GetType() == typeof(byte))
                             {
-                                list.Add(new double[] { time.ToFileTime(), (double)(byte)field.GetValue(data) });
+                                list.Add(new double[] { matlabtime, (double)(byte)field.GetValue(data) });
                             }
                             else if (value.GetType() == typeof(sbyte))
                             {
-                                list.Add(new double[] { time.ToFileTime(), (double)(sbyte)field.GetValue(data) });
+                                list.Add(new double[] { matlabtime, (double)(sbyte)field.GetValue(data) });
                             }
                             else if (value.GetType() == typeof(Int32))
                             {
-                                list.Add(new double[] { time.ToFileTime(), (double)(Int32)field.GetValue(data) });
+                                list.Add(new double[] { matlabtime, (double)(Int32)field.GetValue(data) });
                             }
                             else if (value.GetType() == typeof(UInt32))
                             {
-                                list.Add(new double[] { time.ToFileTime(), (double)(UInt32)field.GetValue(data) });
+                                list.Add(new double[] { matlabtime, (double)(UInt32)field.GetValue(data) });
                             }
                             else if (value.GetType() == typeof(ulong))
                             {
-                                list.Add(new double[] { time.ToFileTime(), (double)(ulong)field.GetValue(data) });
+                                list.Add(new double[] { matlabtime, (double)(ulong)field.GetValue(data) });
                             }
                             else if (value.GetType() == typeof(long))
                             {
-                                list.Add(new double[] { time.ToFileTime(), (double)(long)field.GetValue(data) });
+                                list.Add(new double[] { matlabtime, (double)(long)field.GetValue(data) });
                             }
                             else if (value.GetType() == typeof(double))
                             {
-                                list.Add(new double[] { time.ToFileTime(), (double)(double)field.GetValue(data) });
+                                list.Add(new double[] { matlabtime, (double)(double)field.GetValue(data) });
                             }
                             else
                             {
@@ -304,7 +306,7 @@ namespace MissionPlanner.Log
             foreach (string item in datappl.Keys)
             {
                 double[][] temp = ((List<double[]>)datappl[item]).ToArray();
-                MLArray dbarray = new MLDouble(item, temp);
+                MLArray dbarray = new MLDouble(item.Replace(" ","_"), temp);
                 mlList.Add(dbarray);
             }
 
@@ -318,6 +320,23 @@ namespace MissionPlanner.Log
                     "MAT-File Creation Error!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
+        }
+
+        /// <summary>
+        /// http://www.mathworks.com.au/help/matlab/matlab_prog/represent-date-and-times-in-MATLAB.html#bth57t1-1
+        /// MATLAB also uses serial time to represent fractions of days beginning at midnight; for example, 6 p.m. equals 0.75 serial days.
+        /// So the string '31-Oct-2003, 6:00 PM' in MATLAB is date number 731885.75.
+        /// </summary>
+        /// <param name="dt"></param>
+        /// <returns></returns>
+        public static double GetMatLabSerialDate(DateTime dt)
+        {
+            // in c# i cant represent year 0000, so we add one year and the leap year
+            DateTime timebase = new DateTime(1, 1, 1); // = 1
+
+            double answer = (dt.AddYears(1).AddDays(1) - timebase).TotalDays;
+
+            return answer;
         }
     }
 }

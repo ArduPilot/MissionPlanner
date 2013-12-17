@@ -44,6 +44,17 @@ namespace MissionPlanner.GCSViews
 
         public void Deactivate()
         {
+            try
+            {
+                if (comPort.IsOpen)
+                {
+                    comPort.Write("\rexit\rreboot\r");
+
+                    comPort.Close();
+                }
+            }
+            catch { }
+
             MainV2.instance.MenuConnect.Visible = true;
         }
 
@@ -276,8 +287,8 @@ namespace MissionPlanner.GCSViews
             if (comPort == null)
             {
                 comPort = new MissionPlanner.Comms.SerialPort();
-                comPort.BaudRate = MainV2.comPort.BaseStream.BaudRate;
                 comPort.PortName = MainV2.comPortName;
+                comPort.BaudRate = int.Parse(MainV2._connectionControl.CMB_baudrate.Text);
                 comPort.ReadBufferSize = 1024 * 1024 * 4;
             }
         }
@@ -316,42 +327,48 @@ namespace MissionPlanner.GCSViews
 
                 if (px4)
                 {
-                    TXT_terminal.AppendText("Rebooting\n");
+                    TXT_terminal.AppendText("Rebooting " + MainV2.comPortName + " at " + comPort.BaudRate + "\n");
                     // keep it local
-                    MAVLink mine = new MAVLink();
-
-                    mine.BaseStream.PortName = MainV2.comPortName;
-                    mine.BaseStream.BaudRate = comPort.BaudRate;
-
-                    mine.giveComport = true;
-                    mine.BaseStream.Open();
-
-                    // check if we are a mavlink stream
-                    byte[] buffer = mine.readPacket();
-
-                    if (buffer.Length > 0)
+                    using (MAVLinkInterface mine = new MAVLinkInterface())
                     {
-                        log.Info("got packet - sending reboot via mavlink");
-                        TXT_terminal.AppendText("Via Mavlink\n");
-                        mine.doReboot(false);
-                        try
-                        {
-                            mine.BaseStream.Close();
-                        }
-                        catch { }
 
-                    }
-                    else
-                    {
-                        log.Info("no packet - sending reboot via console");
-                        TXT_terminal.AppendText("Via Console\n");
-                        MainV2.comPort.BaseStream.Write("exit\rreboot\r");
-                        try
-                        {
-                            MainV2.comPort.BaseStream.Close();
-                        }
-                        catch { }
+                        mine.BaseStream.PortName = MainV2.comPortName;
+                        mine.BaseStream.BaudRate = comPort.BaudRate;
 
+                        mine.giveComport = true;
+                        mine.BaseStream.Open();
+
+                        // check if we are a mavlink stream
+                        byte[] buffer = mine.readPacket();
+
+                        if (buffer.Length > 0)
+                        {
+                            log.Info("got packet - sending reboot via mavlink");
+                            TXT_terminal.AppendText("Via Mavlink\n");
+                            mine.doReboot(false);
+                            try
+                            {
+                                mine.BaseStream.Close();
+                            }
+                            catch { }
+
+                        }
+                        else
+                        {
+                            log.Info("no packet - sending reboot via console");
+                            TXT_terminal.AppendText("Via Console\n");
+                            try
+                            {
+                                mine.BaseStream.Write("reboot\r");
+                                mine.BaseStream.Write("exit\rreboot\r");
+                            }
+                            catch { }
+                            try
+                            {
+                                mine.BaseStream.Close();
+                            }
+                            catch { }
+                        }
                     }
 
                     TXT_terminal.AppendText("Waiting for reboot\n");
@@ -404,6 +421,12 @@ namespace MissionPlanner.GCSViews
                     threadrun = true;
 
                     Console.WriteLine("Terminal thread start run run " + threadrun + " " + comPort.IsOpen);
+
+                    try
+                    {
+                        comPort.Write("\r");
+                    }
+                    catch { }
 
                     // 10 sec
                         waitandsleep(10000);
@@ -557,7 +580,7 @@ namespace MissionPlanner.GCSViews
         {
             inlogview = true;
             System.Threading.Thread.Sleep(300);
-            Form Log = new MissionPlanner.Log.Log();
+            Form Log = new MissionPlanner.Log.LogDownload();
             ThemeManager.ApplyThemeTo(Log);
             Log.ShowDialog();
             inlogview = false;
@@ -572,6 +595,15 @@ namespace MissionPlanner.GCSViews
 
         private void BUT_RebootAPM_Click(object sender, EventArgs e)
         {
+            if (MainV2.comPort.BaseStream.IsOpen)
+                MainV2.comPort.BaseStream.Close();
+
+            if (comPort.IsOpen)
+            {
+                BUT_disconnect.Enabled = true;
+                return;
+            }
+
             if (CMB_boardtype.Text.Contains("APM"))
                 start_Terminal(false);
             if (CMB_boardtype.Text.Contains("PX4"))
