@@ -190,6 +190,15 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
             //var test2 = Log.DFLog.ReadLog(@"C:\Users\hog\Downloads\ArduCopter.log");
             //Console.WriteLine(DateTime.Now.ToString());
 
+            try
+            {
+
+//                DateTime logtime = MissionPlanner.Log.DFLog.GetFirstGpsTime(@"C:\Users\hog\Documents\Visual Studio 2010\Projects\ArdupilotMega\ArdupilotMega\bin\Debug\logs\2013-12-15 21-25.log");
+
+//                string newlogfilename = MainV2.LogDir + Path.DirectorySeparatorChar + logtime.ToString("yyyy-MM-dd HH-mm") + ".log";
+            }
+            catch { }
+
             if (File.Exists("simple.txt"))
             {
                 Application.Run(new GCSViews.Simple());

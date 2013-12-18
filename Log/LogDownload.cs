@@ -249,15 +249,18 @@ namespace MissionPlanner.Log
                             {
                                 try
                                 {
-                                    System.Threading.Thread.Sleep(200);
-                                    comPort.Write("\n\n\n\n");
+                                    //System.Threading.Thread.Sleep(200);
+                                    //comPort.Write("\n\n\n\n");
                                 }
                                 catch { }
 
                                 System.Threading.Thread.Sleep(500);
 
                                 // clear history
-                                TXT_seriallog.Clear();
+                                this.Invoke((System.Windows.Forms.MethodInvoker)delegate()
+{
+    TXT_seriallog.Clear();
+});
 
                                 comPort.Write("logs\r");
                                 status = serialstatus.Done;

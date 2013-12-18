@@ -608,9 +608,12 @@ namespace MissionPlanner
 
             xmlcamera(false);
 
+            // setup state before settings load
+            CHK_advanced_CheckedChanged(null, null);
+
             loadsettings();
 
-            CHK_advanced_CheckedChanged(null, null);
+            //CHK_advanced_CheckedChanged(null, null);
         }
 
         private void TXT_TextChanged(object sender, EventArgs e)

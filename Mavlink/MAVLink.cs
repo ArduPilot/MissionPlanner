@@ -2646,6 +2646,152 @@ Please check the following
             }
         }
 
+        public MemoryStream GetLog(ushort no)
+        {
+            MemoryStream ms = new MemoryStream();
+
+            giveComport = true;
+            byte[] buffer;
+
+            uint ofs = 0;
+            uint count = 90;
+
+            mavlink_log_request_data_t req = new mavlink_log_request_data_t();
+
+            req.target_component = MAV.compid;
+            req.target_system = MAV.sysid;
+            req.id = no;
+            req.ofs = ofs;
+            req.count = count;
+
+            // request point
+            generatePacket((byte)MAVLINK_MSG_ID.LOG_REQUEST_DATA, req);
+
+            DateTime start = DateTime.Now;
+            int retrys = 3;
+
+            while (true)
+            {
+                if (!(start.AddMilliseconds(700) > DateTime.Now))
+                {
+                    if (retrys > 0)
+                    {
+                        log.Info("GetLog Retry " + retrys + " - giv com " + giveComport);
+                        generatePacket((byte)MAVLINK_MSG_ID.LOG_REQUEST_DATA, req);
+                        start = DateTime.Now;
+                        retrys--;
+                        continue;
+                    }
+                    giveComport = false;
+                    throw new Exception("Timeout on read - GetLog");
+                }
+
+                buffer = readPacket();
+                if (buffer.Length > 5)
+                {
+                    if (buffer[5] == (byte)MAVLINK_MSG_ID.LOG_DATA)
+                    {
+                        // reset retrys
+                        retrys = 3;
+                        start = DateTime.Now;
+
+                        var data = buffer.ByteArrayToStructure<mavlink_log_data_t>();
+
+                        ms.Seek((long)data.ofs, SeekOrigin.Begin);
+                        ms.Write(data.data, 0, data.count);
+
+                        if (data.count < count || data.count == 0)
+                        {
+                            giveComport = false;
+                            return ms;
+                        }
+                        else
+                        {
+                            if (data.ofs < req.ofs)
+                                continue;
+
+                            req.ofs = data.ofs + data.count;
+                            Console.WriteLine("req "+ req.ofs + " " + req.count);
+                            generatePacket((byte)MAVLINK_MSG_ID.LOG_REQUEST_DATA, req);
+                        }
+                    }
+                }
+            }
+
+            giveComport = false;
+            return null;
+        }
+
+        public List<mavlink_log_entry_t> GetLogList()
+        {
+            List<mavlink_log_entry_t> ans = new List<mavlink_log_entry_t>();
+
+            mavlink_log_entry_t entry1 = GetLogEntry(0, ushort.MaxValue);
+
+            ans.Add(entry1);
+
+            for (ushort a = (ushort)((entry1.last_log_num - entry1.num_logs) + 1); a < entry1.last_log_num; a++)
+            {
+                mavlink_log_entry_t entry = GetLogEntry(a, a);
+
+                ans.Add(entry);
+            }
+
+            return ans;
+        }
+
+        public mavlink_log_entry_t GetLogEntry(ushort startno = 0, ushort endno = ushort.MaxValue)
+        {
+            giveComport = true;
+            byte[] buffer;
+
+            mavlink_log_request_list_t req = new mavlink_log_request_list_t();
+
+            req.target_component = MAV.compid;
+            req.target_system = MAV.sysid;
+            req.start = startno;
+            req.end = endno;
+
+            // request point
+            generatePacket((byte)MAVLINK_MSG_ID.LOG_REQUEST_LIST, req);
+
+            DateTime start = DateTime.Now;
+            int retrys = 3;
+
+            while (true)
+            {
+                if (!(start.AddMilliseconds(700) > DateTime.Now))
+                {
+                    if (retrys > 0)
+                    {
+                        log.Info("GetLogList Retry " + retrys + " - giv com " + giveComport);
+                        generatePacket((byte)MAVLINK_MSG_ID.LOG_REQUEST_LIST, req);
+                        start = DateTime.Now;
+                        retrys--;
+                        continue;
+                    }
+                    giveComport = false;
+                    throw new Exception("Timeout on read - GetLogList");
+                }
+
+                buffer = readPacket();
+                if (buffer.Length > 5)
+                {
+                    if (buffer[5] == (byte)MAVLINK_MSG_ID.LOG_ENTRY)
+                    {
+                        giveComport = false;
+
+                        return buffer.ByteArrayToStructure<mavlink_log_entry_t>();
+                    }
+                }
+            }
+        }
+
+        public void EraseLog()
+        {
+
+        }
+
         public List<PointLatLngAlt> getRallyPoints()
         {
             List<PointLatLngAlt> points = new List<PointLatLngAlt>();

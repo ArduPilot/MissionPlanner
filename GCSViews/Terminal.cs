@@ -403,6 +403,8 @@ namespace MissionPlanner.GCSViews
 
                     comPort.Open();
 
+                    log.Info("toggle dtr");
+
                     comPort.toggleDTR();
                 }
 

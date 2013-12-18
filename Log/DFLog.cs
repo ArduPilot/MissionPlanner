@@ -95,69 +95,77 @@ namespace MissionPlanner.Log
             {
                 while (!sr.EndOfStream)
                 {
-                    string line = sr.ReadLine();
-
-                    lineno++;
-
-                    line = line.Replace(",", ",");
-                    line = line.Replace(":", ":");
-
-                    string[] items = line.Split(new char[] { ',', ':' }, StringSplitOptions.RemoveEmptyEntries);
-
-                    if (line.StartsWith("FMT"))
-                    {
-                        FMTLine(line);
-                    }
-                    else if (line.StartsWith("GPS"))
-                    {
-                        gpstime = GetTimeGPS(line);
-                        lasttime = gpstime;
-
-                        int indextimems = FindInArray(logformat["GPS"].FieldNames, "T");
-
-                        if (indextimems != -1)
-                        {
-                            msoffset = int.Parse(items[indextimems]);
-                        }
-                    }
-
-                    DFItem item = new DFItem();
                     try
                     {
-                        item.lineno = lineno;
+                        string line = sr.ReadLine();
 
-                        if (items.Length > 0)
+                        lineno++;
+
+                        line = line.Replace(",", ",");
+                        line = line.Replace(":", ":");
+
+                        string[] items = line.Split(new char[] { ',', ':' }, StringSplitOptions.RemoveEmptyEntries);
+
+                        if (line.StartsWith("FMT"))
                         {
-                            item.msgtype = items[0];
-                            item.items = items;
+                            FMTLine(line);
+                        }
+                        else if (line.StartsWith("GPS"))
+                        {
+                            gpstime = GetTimeGPS(line);
+                            lasttime = gpstime;
 
-                            if (line.StartsWith("GPS"))
+                            int indextimems = FindInArray(logformat["GPS"].FieldNames, "T");
+
+                            if (indextimems != -1)
                             {
-                                item.time = gpstime;
+                                try
+                                {
+                                    msoffset = int.Parse(items[indextimems]);
+                                }
+                                catch { }
                             }
-                            else
+                        }
+
+                        DFItem item = new DFItem();
+                        try
+                        {
+                            item.lineno = lineno;
+
+                            if (items.Length > 0)
                             {
+                                item.msgtype = items[0];
+                                item.items = items;
 
-                                int indextimems = FindInArray(logformat[item.msgtype].FieldNames, "TimeMS");
-
-                                if (indextimems != -1)
+                                if (line.StartsWith("GPS"))
                                 {
-                                    item.timems = int.Parse(items[indextimems]);
-
-                                    item.time = gpstime.AddMilliseconds(item.timems - msoffset);
-
-                                    lasttime = item.time;
-                                } 
-                                else 
+                                    item.time = gpstime;
+                                }
+                                else
                                 {
-                                    item.time = lasttime;
+
+                                    int indextimems = FindInArray(logformat[item.msgtype].FieldNames, "TimeMS");
+
+                                    if (indextimems != -1)
+                                    {
+                                        item.timems = int.Parse(items[indextimems]);
+
+                                        item.time = gpstime.AddMilliseconds(item.timems - msoffset);
+
+                                        lasttime = item.time;
+                                    }
+                                    else
+                                    {
+                                        item.time = lasttime;
+                                    }
                                 }
                             }
                         }
+                        catch { }
+
+                        answer.Add(item);
                     }
                     catch { }
-
-                    answer.Add(item);
                 }
             }
 
@@ -204,7 +212,7 @@ namespace MissionPlanner.Log
 
                 if (indexstatus != -1)
                 {
-                    if (items[indexstatus].Trim() != "3")
+                    if (items[indexstatus].Trim() != "3" && items[indexstatus].Trim() != "2")
                         return DateTime.MinValue;
                 }
 
@@ -227,8 +235,12 @@ namespace MissionPlanner.Log
         {
             int leap = 16;
 
-            // not correct for leap seconds
-            return new DateTime(1980, 1, 6).AddSeconds(86400 * 7 * week + (sec - leap));
+            // not correct for leap seconds                   day   days  weeks  seconds
+            var basetime = new DateTime(1980, 1, 6, 0, 0, 0, DateTimeKind.Local);
+            basetime = basetime.AddDays(week * 7);
+            basetime = basetime.AddSeconds((sec - leap));
+
+            return basetime;
         }
 
         public static int FindInArray(string[] array, string find)

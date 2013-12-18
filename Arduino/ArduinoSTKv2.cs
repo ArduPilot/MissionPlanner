@@ -253,7 +253,7 @@ namespace MissionPlanner.Arduino
 
                 byte[] command = new byte[] { (byte)0x13, (byte)(sending >> 8), (byte)(sending & 0xff) };
 
-                log.InfoFormat((startfrom + (length - totalleft)) + " - " + sending);
+                //log.InfoFormat((startfrom + (length - totalleft)) + " - " + sending);
 
                 Array.Resize<byte>(ref command, sending + 10); // sending + head
 
@@ -293,7 +293,7 @@ namespace MissionPlanner.Arduino
                 throw new Exception("Address must be an even number");
             }
                 
-            log.InfoFormat("Sending address   " + ((address / 2)));
+            //log.InfoFormat("Sending address   " + ((address / 2)));
 
             int tempstart = address / 2; // words
             byte[] temp = new byte[] { 0x6, (byte)((tempstart >> 24) & 0xff), (byte)((tempstart >> 16) & 0xff), (byte)((tempstart >> 8) & 0xff), (byte)((tempstart >> 0) & 0xff) };

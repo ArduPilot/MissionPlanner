@@ -35,6 +35,8 @@ namespace MissionPlanner.Utilities
         string[] gholdurls = new string[] { };
         public List<KeyValuePair<string, string>> niceNames = new List<KeyValuePair<string, string>>();
 
+        int ingetapmversion = 0;
+
         List<software> softwares = new List<software>();
 
         public struct software
@@ -212,9 +214,12 @@ namespace MissionPlanner.Utilities
                                         {
                                             if (!url2560.Contains("github"))
                                             {
-                                                name = getAPMVersion(temp.url2560);
-                                                if (name != "")
-                                                    temp.name = name;
+                                                //name = 
+
+                                                System.Threading.ThreadPool.QueueUserWorkItem(getAPMVersion, temp);
+
+                                                //if (name != "")
+                                                    //temp.name = name;
                                             }
                                         }
                                         catch { }
@@ -245,6 +250,10 @@ namespace MissionPlanner.Utilities
                 //CustomMessageBox.Show("Failed to get Firmware List : " + ex.Message);
                 throw;
             }
+
+            while (ingetapmversion > 0)
+                System.Threading.Thread.Sleep(100);
+
             log.Info("load done");
 
             updateProgress(-1, "Received List");
@@ -263,32 +272,60 @@ namespace MissionPlanner.Utilities
         /// </summary>
         /// <param name="fwurl"></param>
         /// <returns></returns>
-        string getAPMVersion(string fwurl)
+        void getAPMVersion(object tempin)
         {
-            Uri url = new Uri(new Uri(fwurl), "git-version.txt");
-
-            log.Info("Get url " + url.ToString());
-
-            updateProgress(-1, "Getting FW Version");
-
-            WebRequest wr = WebRequest.Create(url);
-            WebResponse wresp = wr.GetResponse();
-
-            StreamReader sr = new StreamReader(wresp.GetResponseStream());
-
-            while (!sr.EndOfStream)
+            lock (this)
             {
-                string line = sr.ReadLine();
-
-                if (line.Contains("APMVERSION:"))
-                {
-                    log.Info(line);
-                    return line.Substring(line.IndexOf(':') + 2);
-                }
+                ingetapmversion++;
             }
 
-            log.Info("no answer");
-            return "";
+            try
+            {
+
+                software temp = (software)tempin;
+
+                Uri url = new Uri(new Uri(temp.url2560_2), "git-version.txt");
+
+                log.Info("Get url " + url.ToString());
+
+                updateProgress(-1, "Getting FW Version");
+
+                WebRequest wr = WebRequest.Create(url);
+                WebResponse wresp = wr.GetResponse();
+
+                StreamReader sr = new StreamReader(wresp.GetResponseStream());
+
+                while (!sr.EndOfStream)
+                {
+                    string line = sr.ReadLine();
+
+                    if (line.Contains("APMVERSION:"))
+                    {
+                        log.Info(line);
+
+                        // get index
+                        var index = softwares.IndexOf(temp);
+                        // get item to modify
+                        var item = softwares[index];
+                        // change name
+                        item.name = line.Substring(line.IndexOf(':') + 2);
+                        // save back to list
+                        softwares[index] = item;
+
+                        return;
+                    }
+                }
+
+                log.Info("no answer");
+            }
+            catch (Exception ex) { log.Error(ex); }
+            finally
+            {
+                lock (this)
+                {
+                    ingetapmversion--;
+                }
+            }
         }
 
         /// <summary>
@@ -655,7 +692,7 @@ namespace MissionPlanner.Utilities
                     {
                         updateProgress((int)((start / (float)FLASH.Length) * 100), "Verify Firmware");
                         port.setaddress(start);
-                        log.Info("Downloading " + length + " at " + start);
+                        //log.Info("Downloading " + length + " at " + start);
                         port.downloadflash(length).CopyTo(flashverify, start);
                         start += length;
                     }

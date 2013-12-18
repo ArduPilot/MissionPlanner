@@ -1794,12 +1794,24 @@ namespace MissionPlanner
             }
             if (keyData == (Keys.Control | Keys.J)) // for jani
             {
-                string data = "!!";
-                if (System.Windows.Forms.DialogResult.OK == InputBox.Show("inject", "enter data to be written", ref data))
+
+                int fixme;
+
+                var test = MainV2.comPort.GetLogList();
+
+                foreach (var item in test)
                 {
-                    MainV2.comPort.Write(data + "\r");
+                    var ms = comPort.GetLog(item.id);
+
+                    using (BinaryWriter bw = new BinaryWriter(File.OpenWrite("test" + item.id + ".bin")))
+                    {
+                        bw.Write(ms.ToArray());
+                    }
+
+                    var temp1 = Log.BinaryLog.ReadLog("test" + item.id + ".bin");
+
+                    File.WriteAllLines("test" + item.id + ".log", temp1);
                 }
-                return true;
             }
             return base.ProcessCmdKey(ref msg, keyData);
         }
@@ -1920,6 +1932,9 @@ namespace MissionPlanner
             log.Info("save config");
             // save config
             xmlconfig(true);
+
+            httpserver.run = false;
+            httpserver.tcpClientConnected.Set();
             
             Console.WriteLine(httpthread.IsAlive);
             Console.WriteLine(joystickthread.IsAlive);

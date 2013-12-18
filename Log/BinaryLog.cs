@@ -40,62 +40,63 @@ namespace MissionPlanner.Log
         {
             List<string> lines = new List<string>();
 
-            BinaryReader br = new BinaryReader(File.OpenRead(fn));
-
-            int log_step = 0;
-
-            while (br.BaseStream.Position < br.BaseStream.Length)
+            using (BinaryReader br = new BinaryReader(File.OpenRead(fn)))
             {
-                byte data = br.ReadByte();
+                int log_step = 0;
 
-                switch (log_step)
+                while (br.BaseStream.Position < br.BaseStream.Length)
                 {
-                    case 0:
-                        if (data == HEAD_BYTE1)
-                        {
-                            log_step++;
-                        }
-                        break;
+                    byte data = br.ReadByte();
 
-                    case 1:
-                        if (data == HEAD_BYTE2)
-                        {
-                            log_step++;
-                        }
-                        else
-                        {
+                    switch (log_step)
+                    {
+                        case 0:
+                            if (data == HEAD_BYTE1)
+                            {
+                                log_step++;
+                            }
+                            break;
+
+                        case 1:
+                            if (data == HEAD_BYTE2)
+                            {
+                                log_step++;
+                            }
+                            else
+                            {
+                                log_step = 0;
+                            }
+                            break;
+
+                        case 2:
                             log_step = 0;
-                        }
-                        break;
+                            try
+                            {
+                                string line = logEntry(data, br);
 
-                    case 2:
-                        log_step = 0;
-                        try
-                        {
-                            string line = logEntry(data, br);
+                                // we need to know the mav type to use the correct mode list.
+                                if (line.Contains("PARM, RATE_RLL_P"))
+                                {
+                                    MainV2.comPort.MAV.cs.firmware = MainV2.Firmwares.ArduCopter2;
+                                }
+                                else if ((line.Contains("PARM, H_SWASH_PLATE")))
+                                {
+                                    MainV2.comPort.MAV.cs.firmware = MainV2.Firmwares.ArduCopter2;
+                                }
+                                else if (line.Contains("PARM, PTCH2SRV_P"))
+                                {
+                                    MainV2.comPort.MAV.cs.firmware = MainV2.Firmwares.ArduPlane;
+                                }
+                                else if (line.Contains("PARM, SKID_STEER_OUT"))
+                                {
+                                    MainV2.comPort.MAV.cs.firmware = MainV2.Firmwares.ArduRover;
+                                }
 
-                            // we need to know the mav type to use the correct mode list.
-                            if (line.Contains("PARM, RATE_RLL_P"))
-                            {
-                                MainV2.comPort.MAV.cs.firmware = MainV2.Firmwares.ArduCopter2;
+                                lines.Add(line);
                             }
-                            else if ((line.Contains("PARM, H_SWASH_PLATE")))
-                            {
-                                MainV2.comPort.MAV.cs.firmware = MainV2.Firmwares.ArduCopter2;
-                            }
-                            else if (line.Contains("PARM, PTCH2SRV_P"))
-                            {
-                                MainV2.comPort.MAV.cs.firmware = MainV2.Firmwares.ArduPlane;
-                            }
-                            else if (line.Contains("PARM, SKID_STEER_OUT"))
-                            {
-                                MainV2.comPort.MAV.cs.firmware = MainV2.Firmwares.ArduRover;
-                            }
-
-                            lines.Add(line);
-                        }
-                        catch { Console.WriteLine("Bad Binary log line {0}", data); }
-                        break;
+                            catch { Console.WriteLine("Bad Binary log line {0}", data); }
+                            break;
+                    }
                 }
             }
 

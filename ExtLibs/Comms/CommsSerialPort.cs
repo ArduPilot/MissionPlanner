@@ -27,23 +27,27 @@ namespace MissionPlanner.Comms
                 {
                     Type mytype = typeof(System.IO.Ports.SerialPort);
                     FieldInfo field = mytype.GetField("internalSerialStream", BindingFlags.Instance | BindingFlags.NonPublic);
-                    Stream stream = (Stream)field.GetValue(this);
 
-                    if (stream != null)
+                    if (field != null)
                     {
-                        try
+                        Stream stream = (Stream)field.GetValue(this);
+
+                        if (stream != null)
                         {
-                            stream.Dispose();
+                            try
+                            {
+                                stream.Dispose();
+                            }
+                            catch (Exception ex) { Console.WriteLine("1 " + ex.ToString()); }
+                            stream = null;
                         }
-                        catch (Exception ex) { Console.WriteLine(ex.ToString()); }
-                        stream = null;
                     }
                 }
-                catch (Exception ex) { Console.WriteLine(ex.ToString()); }
+                catch (Exception ex) { Console.WriteLine("2 " + ex.ToString()); }
 
                 base.Dispose(disposing);
             }
-            catch (Exception ex) { Console.WriteLine(ex.ToString()); }
+            catch (Exception ex) { Console.WriteLine("3 " + ex.ToString()); }
         }
 
         public new void Open()

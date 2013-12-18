@@ -1,4 +1,13 @@
-﻿* Mission Planner 1.2.89
+﻿* Mission Planner 1.2.90
+new df over mavlink
+fix grid advanced button
+remove arduino verbose logging
+update mavlink headers (df over mavlink)
+better error handling of bad log lines in DF log
+fix posible log dl issue
+thread fw version download
+
+* Mission Planner 1.2.89
 fix kml/gpx creation
 log browser mod
 df log renaming based on gps time

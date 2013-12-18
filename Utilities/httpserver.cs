@@ -35,8 +35,16 @@ namespace MissionPlanner.Utilities
         public static string mavelous_web = Application.StartupPath + Path.DirectorySeparatorChar + @"mavelous_web\";
         public static string georefimagepath = "";
 
+        public static bool run = true;
+
         private static readonly ILog log =
     LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
+        ~httpserver()
+        {
+            tcpClientConnected.Set();
+            run = false;
+        }
 
         /// <summary>          
         /// little web server for sending network link kml's          
@@ -55,7 +63,7 @@ namespace MissionPlanner.Utilities
                 return;
             } // in use
             // Enter the listening loop.               
-            while (true)
+            while (run)
             {
                 // Perform a blocking call to accept requests.           
                 // You could also user server.AcceptSocket() here.               
