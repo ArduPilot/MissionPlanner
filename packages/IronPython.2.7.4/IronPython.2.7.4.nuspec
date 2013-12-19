@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>IronPython</id>
+    <version>2.7.4</version>
+    <title>IronPython</title>
+    <authors>IronPython Contributors, Microsoft</authors>
+    <owners>IronPython Contributors, Microsoft</owners>
+    <licenseUrl>http://ironpython.codeplex.com/license</licenseUrl>
+    <projectUrl>http://ironpython.net/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>IronPython is an open-source implementation of the Python programming language which is tightly integrated with the .NET Framework. IronPython can use the .NET Framework and Python libraries, and other .NET languages can use Python code just as easily.</description>
+    <summary>IronPython is an open-source implementation of the Python programming language which is tightly integrated with the .NET Framework.</summary>
+    <releaseNotes />
+    <copyright />
+    <language>en-US</language>
+    <tags>ironpython python dynamic dlr</tags>
+  </metadata>
+</package>

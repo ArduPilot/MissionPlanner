@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>IronPython.SQLite</name>
+    </assembly>
+    <members>
+        <member name="F:Community.CsharpSqlite.Sqlite3.etRADIX">
+            * The rest are extensions, not normally found in printf() */
+        </member>
+        <member name="F:Community.CsharpSqlite.Sqlite3.SQLITE_OK">
+            * beginning-of-error-codes */
+        </member>
+        <member name="F:Community.CsharpSqlite.Sqlite3.SQLITE_CONFIG_SINGLETHREAD">
+            * previously SQLITE_CONFIG_CHUNKALLOC 12 which is now unused. */ 
+        </member>
+        <member name="M:Community.CsharpSqlite.Sqlite3.sqlite3GetToken(System.String,System.Int32,System.Int32@)">
+            * x0 x1 x2 x3 x4 x5 x6 x7 x8 x9 xA xB xC xD xE xF */
+        </member>
+        <member name="T:Community.CsharpSqlite.Sqlite3.LockingStrategy">
+            <summary>
+            Basic locking strategy for Console/Winform applications
+            </summary>
+        </member>
+        <member name="T:Community.CsharpSqlite.Sqlite3.MediumTrustLockingStrategy">
+            <summary>
+            Locking strategy for Medium Trust. It uses the same trick used in the native code for WIN_CE
+            which doesn't support LockFileEx as well.
+            </summary>
+        </member>
+        <member name="T:Community.CsharpSqlite.Sqlite3.sqlite3_module">
+            * The methods above are in version 1 of the sqlite_module object. Those 
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,373 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Microsoft.Scripting.Metadata</name>
+    </assembly>
+    <members>
+        <member name="T:Microsoft.Scripting.Metadata.MemoryBlock">
+            <summary>
+            Represents a block in memory.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Scripting.Metadata.MemoryReader">
+            <summary>
+            Reads data from a memory block. Maintains a position.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Scripting.Metadata.MemoryReader.ReadAscii(System.Int32)">
+            <summary>
+            Reads zero terminated sequence of bytes of given maximal length and converts it into an ASCII string.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Scripting.Metadata.MetadataName">
+            <summary>
+            Zero terminated, UTF8 encoded sequence of bytes representing a name in metadata (a type name, a member name, etc).
+            The name is bound to the module it was retrieved from. The module is kept alive until all its metadata names are collected.
+            Doesn't cache hashcode, byte or character count.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Scripting.Metadata.MetadataTables.Module">
+            <summary>
+            Gets the module whose metadata tables this instance represents.
+            Null if the tables reflect unloaded module file.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Scripting.Metadata.MetadataTables.Path">
+            <summary>
+            Gets the path of the module whose metadata tables this instance represents.
+            Null for in-memory modules that are not backed by a file.
+            </summary>
+            <exception cref="T:System.Security.SecurityException">The path is not accessible in partial trust.</exception>
+        </member>
+        <member name="P:Microsoft.Scripting.Metadata.MetadataTables.AssemblyDef">
+            <summary>
+            Returns AssemblyDef for manifest modules, null token otherwise.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Scripting.Metadata.MetadataRecord.IsValid">
+            <summary>
+            Token is null or represents a row in a metadata table.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Scripting.Metadata.MetadataTableView.GetCount">
+            <summary>
+            Gets the number of records in the view.
+            If the view is over an entire table this operation is O(1), 
+            otherwise it might take up to O(log(#records in the table)).
+            </summary>
+        </member>
+        <member name="T:Microsoft.Scripting.Metadata.ModuleDef">
+            <summary>
+            Module table entry (0x00 tokens).
+            </summary>
+        </member>
+        <member name="T:Microsoft.Scripting.Metadata.TypeRef">
+            <summary>
+            TypeRef table entry (0x01 tokens).
+            </summary>
+        </member>
+        <member name="P:Microsoft.Scripting.Metadata.TypeRef.ResolutionScope">
+            <summary>
+            AssemblyRef:
+              If the target type is defined in a different Assembly from the current module.
+            TypeRef:
+              Target type is nested in TypeRef.
+            ModuleRef:
+              Target type is defined in another module within the same Assembly as this one.
+            ModuleDef:
+              If the target type is defined in the current module (this should not occur in a CLI "compressed metadata" module).
+            Null token:
+              There shall be a row in the ExportedType table for this Type - its Implementation field shall contain 
+              a File token or an AssemblyRef token that says where the type is defined.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Scripting.Metadata.TypeDef">
+            <summary>
+            TypeDef table entry (0x02 tokens).
+            </summary>
+        </member>
+        <member name="M:Microsoft.Scripting.Metadata.TypeDef.FindDeclaringType">
+            <summary>
+            Finds a nesting type-def. The search time is logarithmic in the number of nested types defined in the owning module.
+            Returns a null token if this is not a nested type-def.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Scripting.Metadata.TypeDef.GetGenericParameterCount">
+            <summary>
+            O(log(#generic parameters in module))
+            </summary>
+        </member>
+        <member name="P:Microsoft.Scripting.Metadata.TypeDef.Attributes">
+            <summary>
+            Flags field in TypeDef table.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Scripting.Metadata.TypeDef.IsGlobal">
+            <summary>
+            This typedef represents a container of global functions and fields (manufactured &lt;Module&gt; type).
+            </summary>
+        </member>
+        <member name="T:Microsoft.Scripting.Metadata.FieldDef">
+            <summary>
+            Combines Field (0x04 tokens), FieldRVA (0x1d tokens) and Constant (0x0B) table entries.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Scripting.Metadata.FieldDef.GetDefaultValue">
+            <summary>
+            O(log(#fields, parameters and properties with default value)).
+            Returns <see cref="F:System.Reflection.Missing.Value"/> if the field doesn't have a default value.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Scripting.Metadata.FieldDef.GetData(System.Int32)">
+            <summary>
+            Returns null reference iff the field has no RVA.
+            If size is 0 the memory block will span over the rest of the data section.
+            O(log(#fields with RVAs)).
+            </summary>
+        </member>
+        <member name="M:Microsoft.Scripting.Metadata.FieldDef.FindDeclaringType">
+            <summary>
+            Finds type-def that declares this field. The search time is logarithmic in the number of types defined in the owning module.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Scripting.Metadata.FieldDef.Attributes">
+            <summary>
+            Flags field in the Field table.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Scripting.Metadata.MethodDef">
+            <summary>
+            MethodDef table entry (0x06 tokens).
+            </summary>
+        </member>
+        <member name="M:Microsoft.Scripting.Metadata.MethodDef.GetBody">
+            <summary>
+            Returns a null reference iff the method has no body.
+            If size is 0 the memory block will span over the rest of the data section.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Scripting.Metadata.MethodDef.FindDeclaringType">
+            <summary>
+            Finds type-def that declares this method. The search time is logarithmic in the number of types defined in the owning module.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Scripting.Metadata.MethodDef.GetGenericParameterCount">
+            <summary>
+            O(log(#generic parameters in module))
+            </summary>
+        </member>
+        <member name="P:Microsoft.Scripting.Metadata.MethodDef.ImplAttributes">
+            <summary>
+            ImplFlags field in the MethodDef table.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Scripting.Metadata.MethodDef.Attributes">
+            <summary>
+            Flags field in the MethodDef table.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Scripting.Metadata.ParamDef">
+            <summary>
+            Param table entry (0x08 tokens).
+            </summary>
+        </member>
+        <member name="M:Microsoft.Scripting.Metadata.ParamDef.GetDefaultValue">
+            <summary>
+            O(log(#fields, parameters and properties with default value)).
+            Returns <see cref="F:System.Reflection.Missing.Value"/> if the field doesn't have a default value.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Scripting.Metadata.ParamDef.FindDeclaringMethod">
+            <summary>
+            Binary searches MethodDef table for a method that declares this parameter.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Scripting.Metadata.ParamDef.Index">
+            <summary>
+            Value greater or equal to zero and less than or equal to the number of parameters in owner method. 
+            A value of 0 refers to the owner method's return type; its parameters are then numbered from 1 onwards.
+            Not all parameters need to have a corresponding ParamDef entry.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Scripting.Metadata.InterfaceImpl">
+            <summary>
+            InterfaceImpl table entry (0x09 tokens).
+            TODO: we might not need this - TypeDef.ImplementedInterfaces might be a special enumerator that directly returns InterfaceType tokens.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Scripting.Metadata.InterfaceImpl.ImplementingType">
+            <summary>
+            Could be a null token in EnC scenarios.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Scripting.Metadata.InterfaceImpl.InterfaceType">
+            <summary>
+            TypeDef, TypeRef, or TypeSpec.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Scripting.Metadata.MemberRef">
+            <summary>
+            MemberRef table entry (0x0A tokens).
+            Stores MethodRefs and FieldRefs.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Scripting.Metadata.MemberRef.Class">
+            <summary>
+            TypeRef or TypeDef:
+              If the class that defines the member is defined in another module. 
+              Note that it is unusual, but valid, to use a TypeRef token when the member is defined in this same module, 
+              in which case, its TypeDef token can be used instead.
+            ModuleRef:
+              If the member is defined, in another module of the same assembly, as a global function or variable.
+            MethodDef: 
+              When used to supply a call-site signature for a vararg method that is defined in this module. 
+              The Name shall match the Name in the corresponding MethodDef row. 
+              The Signature shall match the Signature in the target method definition
+            TypeSpec:
+              If the member is a member of a generic type
+            </summary>
+        </member>
+        <member name="T:Microsoft.Scripting.Metadata.CustomAttributeDef">
+            <summary>
+            CustomAttribute table entry (0x0C tokens).
+            </summary>
+        </member>
+        <member name="P:Microsoft.Scripting.Metadata.CustomAttributeDef.Parent">
+            <summary>
+            Any token except the CustomAttribute.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Scripting.Metadata.CustomAttributeDef.Constructor">
+            <summary>
+            Returns the value of Type column in the CustomAttribute table.
+            MethodDef or MemberRef.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Scripting.Metadata.CustomAttributeDef.Value">
+            <summary>
+            Value blob.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Scripting.Metadata.SignatureDef">
+            <summary>
+            StandAloneSig table entry (0x11 token).
+            </summary>
+        </member>
+        <member name="T:Microsoft.Scripting.Metadata.PropertyDef">
+            <summary>
+            Combines information from PropertyMap (0x15), MethodSemantics (0x18) and Property (0x17) tables.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Scripting.Metadata.PropertyDef.GetDefaultValue">
+            <summary>
+            O(log(#fields, parameters and properties with default value)).
+            Returns <see cref="F:System.Reflection.Missing.Value"/> if the field doesn't have a default value.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Scripting.Metadata.PropertyDef.FindDeclaringType">
+            <summary>
+            Finds type-def that declares this property. The search time is logarithmic in the number of types with properties defined in the owning module.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Scripting.Metadata.EventDef">
+            <summary>
+            Combines information from EventMap (0x15), MethodSemantics (0x18) and Event (0x17) tables.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Scripting.Metadata.EventDef.FindDeclaringType">
+            <summary>
+            Finds type-def that declares this event. The search time is logarithmic in the number of types with events defined in the owning module.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Scripting.Metadata.ModuleRef">
+            <summary>
+            ModuleRef table entry (0x1A tokens).
+            </summary>
+        </member>
+        <member name="T:Microsoft.Scripting.Metadata.TypeSpec">
+            <summary>
+            TypeSpec table entry (0x1B tokens).
+            </summary>
+        </member>
+        <member name="T:Microsoft.Scripting.Metadata.AssemblyDef">
+            <summary>
+            Assembly table entry (0x20 tokens).
+            </summary>
+        </member>
+        <member name="T:Microsoft.Scripting.Metadata.AssemblyRef">
+            <summary>
+            Assembly table entry (0x23 tokens).
+            </summary>
+        </member>
+        <member name="T:Microsoft.Scripting.Metadata.FileDef">
+            <summary>
+            File table entry (0x26 tokens).
+            </summary>
+        </member>
+        <member name="T:Microsoft.Scripting.Metadata.TypeExport">
+            <summary>
+            ExportedType table entry (0x27 tokens).
+            </summary>
+        </member>
+        <member name="P:Microsoft.Scripting.Metadata.TypeExport.Implementation">
+            <summary>
+            Forwarded type: AssemblyRef
+            Nested types: ExportedType
+            Type in another module of this assembly: FileDef
+            </summary>
+        </member>
+        <member name="T:Microsoft.Scripting.Metadata.ManifestResourceDef">
+            <summary>
+            ManifestResource table entry (0x28 tokens).
+            </summary>
+        </member>
+        <member name="T:Microsoft.Scripting.Metadata.TypeNesting">
+            <summary>
+            NestedClass table entry (0x29 tokens).
+            TODO: Don't need if we exposed nested types enumeration on type-def directly and build TypeNesting mapping lazily.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Scripting.Metadata.GenericParamDef">
+            <summary>
+            GenericParam table entry (0x2A tokens).
+            </summary>
+        </member>
+        <member name="P:Microsoft.Scripting.Metadata.GenericParamDef.Index">
+            <summary>
+            Value greater or equal to zero and less than or equal to the number of parameters in owner method/type. 
+            All generic parameters are listed in the table.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Scripting.Metadata.GenericParamDef.Owner">
+            <summary>
+            TypeDef or MethodDef.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Scripting.Metadata.GenericParamConstraint">
+            <summary>
+            GenericParamConstraint table entry (0x2C tokens).
+            </summary>
+        </member>
+        <member name="P:Microsoft.Scripting.Metadata.GenericParamConstraint.Constraint">
+            <summary>
+            TypeDef, TypeRef, or TypeSpec.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Scripting.Metadata.MethodSpec">
+            <summary>
+            MethodSpec table entry (0x2B tokens).
+            Used when decoding IL instructions.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Scripting.Metadata.MethodSpec.GenericMethod">
+            <summary>
+            MethodDef or MethodRef.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Scripting.Metadata.MetadataToken.#ctor(System.Int32)">
+            <summary>
+            We need to be able to construct tokens out of byte-code.
+            </summary>
+        </member>
+    </members>
+</doc>

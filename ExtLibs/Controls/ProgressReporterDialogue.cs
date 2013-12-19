@@ -79,8 +79,11 @@ namespace MissionPlanner.Controls
                 this.Invoke((MethodInvoker)delegate
              {
                  // if this windows isnt the current active windows, popups inherit the wrong parent.
-                 this.Focus();
-                 Application.DoEvents();
+                 if (!this.Focused)
+                 {
+                     this.Focus();
+                     Application.DoEvents();
+                 }
              });
             }
             catch { Running = false; return; }

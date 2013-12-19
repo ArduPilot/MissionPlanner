@@ -271,12 +271,8 @@
     </Compile>
     <Compile Include="Arduino\IArduinoComms.cs" />
     <Compile Include="Arduino\BoardDetect.cs" />
-    <Compile Include="Arduino\ArduinoSTK.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Arduino\ArduinoSTKv2.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="Arduino\ArduinoSTK.cs" />
+    <Compile Include="Arduino\ArduinoSTKv2.cs" />
     <Compile Include="CodeGen.cs" />
     <Compile Include="Comms\CommsSerialScan.cs" />
     <Compile Include="Controls\ConfigPanel.cs">
@@ -352,9 +348,7 @@
     <Compile Include="GCSViews\ConfigurationView\ConfigCameraStab.Designer.cs">
       <DependentUpon>ConfigCameraStab.cs</DependentUpon>
     </Compile>
-    <Compile Include="GCSViews\ConfigurationView\ConfigFrameType.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigFrameType.cs" />
     <Compile Include="GCSViews\ConfigurationView\ConfigFrameType.Designer.cs">
       <DependentUpon>ConfigFrameType.cs</DependentUpon>
     </Compile>
@@ -370,9 +364,7 @@
     <Compile Include="GCSViews\ConfigurationView\ConfigOptional.Designer.cs">
       <DependentUpon>ConfigOptional.cs</DependentUpon>
     </Compile>
-    <Compile Include="GCSViews\ConfigurationView\ConfigSimplePids.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigSimplePids.cs" />
     <Compile Include="GCSViews\ConfigurationView\ConfigSimplePids.Designer.cs">
       <DependentUpon>ConfigSimplePids.cs</DependentUpon>
     </Compile>
@@ -412,15 +404,11 @@
     <Compile Include="GCSViews\ConfigurationView\ConfigHelp.Designer.cs">
       <DependentUpon>ConfigHelp.cs</DependentUpon>
     </Compile>
-    <Compile Include="GCSViews\InitialSetup.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="GCSViews\InitialSetup.cs" />
     <Compile Include="GCSViews\InitialSetup.Designer.cs">
       <DependentUpon>InitialSetup.cs</DependentUpon>
     </Compile>
-    <Compile Include="GCSViews\SoftwareConfig.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="GCSViews\SoftwareConfig.cs" />
     <Compile Include="GCSViews\SoftwareConfig.Designer.cs">
       <DependentUpon>SoftwareConfig.cs</DependentUpon>
     </Compile>
@@ -520,98 +508,71 @@
     <None Include="flightgear.zip">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="MissionPlanner.sh">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
     <Compile Include="Utilities\ParamFile.cs" />
     <Compile Include="Utilities\Password.cs" />
     <Compile Include="Utilities\StringRedirectWriter.cs" />
     <Compile Include="Utilities\Update.cs" />
-    <Compile Include="Wizard\1Intro.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="Wizard\1Intro.cs" />
     <Compile Include="Wizard\1Intro.Designer.cs">
       <DependentUpon>1Intro.cs</DependentUpon>
     </Compile>
-    <Compile Include="Wizard\2FrameFW.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="Wizard\2FrameFW.cs" />
     <Compile Include="Wizard\2FrameFW.Designer.cs">
       <DependentUpon>2FrameFW.cs</DependentUpon>
     </Compile>
-    <Compile Include="Wizard\3ConnectAP.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="Wizard\3ConnectAP.cs" />
     <Compile Include="Wizard\3ConnectAP.Designer.cs">
       <DependentUpon>3ConnectAP.cs</DependentUpon>
     </Compile>
-    <Compile Include="Wizard\4FrameType.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="Wizard\4FrameType.cs" />
     <Compile Include="Wizard\4FrameType.Designer.cs">
       <DependentUpon>4FrameType.cs</DependentUpon>
     </Compile>
-    <Compile Include="Wizard\5AccelCalib.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="Wizard\5AccelCalib.cs" />
     <Compile Include="Wizard\5AccelCalib.Designer.cs">
       <DependentUpon>5AccelCalib.cs</DependentUpon>
     </Compile>
-    <Compile Include="Wizard\6CompassCalib.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="Wizard\6CompassCalib.cs" />
     <Compile Include="Wizard\6CompassCalib.Designer.cs">
       <DependentUpon>6CompassCalib.cs</DependentUpon>
     </Compile>
-    <Compile Include="Wizard\7BatteryMonitor.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="Wizard\7BatteryMonitor.cs" />
     <Compile Include="Wizard\7BatteryMonitor.Designer.cs">
       <DependentUpon>7BatteryMonitor.cs</DependentUpon>
     </Compile>
-    <Compile Include="Wizard\8OptionalItemsAC.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="Wizard\8OptionalItemsAC.cs" />
     <Compile Include="Wizard\8OptionalItemsAC.Designer.cs">
       <DependentUpon>8OptionalItemsAC.cs</DependentUpon>
     </Compile>
-    <Compile Include="Wizard\8OptionalItemsAP.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="Wizard\8OptionalItemsAP.cs" />
     <Compile Include="Wizard\8OptionalItemsAP.Designer.cs">
       <DependentUpon>8OptionalItemsAP.cs</DependentUpon>
     </Compile>
-    <Compile Include="Wizard\9RadioCalibration.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="Wizard\9RadioCalibration.cs" />
     <Compile Include="Wizard\9RadioCalibration.Designer.cs">
       <DependentUpon>9RadioCalibration.cs</DependentUpon>
     </Compile>
-    <Compile Include="Wizard\10FlightModes.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="Wizard\10FlightModes.cs" />
     <Compile Include="Wizard\10FlightModes.Designer.cs">
       <DependentUpon>10FlightModes.cs</DependentUpon>
     </Compile>
-    <Compile Include="Wizard\11Verify.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="Wizard\11Verify.cs" />
     <Compile Include="Wizard\11Verify.Designer.cs">
       <DependentUpon>11Verify.cs</DependentUpon>
     </Compile>
-    <Compile Include="Wizard\12FailSafe.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="Wizard\12FailSafe.cs" />
     <Compile Include="Wizard\12FailSafe.Designer.cs">
       <DependentUpon>12FailSafe.cs</DependentUpon>
     </Compile>
-    <Compile Include="Wizard\13GeoFence.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="Wizard\13GeoFence.cs" />
     <Compile Include="Wizard\13GeoFence.Designer.cs">
       <DependentUpon>13GeoFence.cs</DependentUpon>
     </Compile>
-    <Compile Include="Wizard\98DontForget.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="Wizard\98DontForget.cs" />
     <Compile Include="Wizard\98DontForget.Designer.cs">
       <DependentUpon>98DontForget.cs</DependentUpon>
     </Compile>
@@ -951,9 +912,7 @@
     <Compile Include="HIL\Hil.cs" />
     <Compile Include="HIL\Wind.cs" />
     <Compile Include="HIL\XPlane.cs" />
-    <Compile Include="OpenGLtest.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="OpenGLtest.cs" />
     <Compile Include="OSDVideo.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -1141,15 +1100,11 @@
     <Compile Include="RAW_Sensor.Designer.cs">
       <DependentUpon>RAW_Sensor.cs</DependentUpon>
     </Compile>
-    <Compile Include="GCSViews\Help.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="GCSViews\Help.cs" />
     <Compile Include="GCSViews\Help.Designer.cs">
       <DependentUpon>Help.cs</DependentUpon>
     </Compile>
-    <Compile Include="GCSViews\Terminal.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="GCSViews\Terminal.cs" />
     <Compile Include="GCSViews\Terminal.Designer.cs">
       <DependentUpon>Terminal.cs</DependentUpon>
     </Compile>
@@ -1159,18 +1114,10 @@
     <Compile Include="MainV2.Designer.cs">
       <DependentUpon>MainV2.cs</DependentUpon>
     </Compile>
-    <Compile Include="GCSViews\ConfigurationView\ConfigFirmware.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="GCSViews\FlightData.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="GCSViews\FlightPlanner.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="GCSViews\Simulation.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigFirmware.cs" />
+    <Compile Include="GCSViews\FlightData.cs" />
+    <Compile Include="GCSViews\FlightPlanner.cs" />
+    <Compile Include="GCSViews\Simulation.cs" />
     <Compile Include="GCSViews\Simulation.Designer.cs">
       <DependentUpon>Simulation.cs</DependentUpon>
     </Compile>

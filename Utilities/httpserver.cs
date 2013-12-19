@@ -370,10 +370,33 @@ namespace MissionPlanner.Utilities
                             System.Threading.Thread.Sleep(200); // 5hz
                             byte[] data = null;
 
-                        
+                            if (url.ToLower().Contains("hud"))
+                            {
                                 GCSViews.FlightData.myhud.streamjpgenable = true;
                                 data = GCSViews.FlightData.myhud.streamjpg.ToArray();
-                           
+                            }
+                            else if (url.ToLower().Contains("map"))
+                            {
+                                data = GetControlJpegRaw(GCSViews.FlightData.mymap);
+                            }
+                            else
+                            {
+                                GCSViews.FlightData.myhud.streamjpgenable = true;
+                                Image img1 = Image.FromStream(GCSViews.FlightData.myhud.streamjpg);
+                                Image img2 = GetControlJpeg(GCSViews.FlightData.mymap);
+                                int bigger = img1.Height > img2.Height ? img1.Height : img2.Height;
+                                Image imgout = new Bitmap(img1.Width + img2.Width, bigger);
+
+                                Graphics grap = Graphics.FromImage(imgout);
+
+                                grap.DrawImageUnscaled(img1, 0, 0);
+                                grap.DrawImageUnscaled(img2, img1.Width, 0);
+
+                                MemoryStream streamjpg = new MemoryStream();
+                                imgout.Save(streamjpg, System.Drawing.Imaging.ImageFormat.Jpeg);
+                                data = streamjpg.ToArray();
+
+                            }                           
 
                             header = "Content-Type: image/jpeg\r\nContent-Length: " + data.Length + "\r\n\r\n";
                             temp = asciiEncoding.GetBytes(header);
@@ -683,6 +706,32 @@ namespace MissionPlanner.Utilities
                     log.Error("Failed http ", ee);
                 }
             }
+        }
+
+        public Image GetControlJpeg(Control ctl)
+        {
+            var g = ctl.CreateGraphics();
+
+            Bitmap bmp = new Bitmap(ctl.Width, ctl.Height);
+
+            MainV2.instance.Invoke((MethodInvoker)delegate(){
+                ctl.DrawToBitmap(bmp, new Rectangle(0, 0, ctl.Width, ctl.Height));
+            });
+
+            return bmp;
+        }
+
+        public byte[] GetControlJpegRaw(Control ctl)
+        {
+            Image img = GetControlJpeg(ctl);
+
+            MemoryStream streamjpg = new MemoryStream();
+
+            img.Save(streamjpg, System.Drawing.Imaging.ImageFormat.Jpeg);
+
+            byte[] data = streamjpg.ToArray();
+
+            return data;
         }
 
         public Image ResizeImage(Image image, Size size,
