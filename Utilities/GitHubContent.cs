@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -51,12 +52,24 @@ namespace MissionPlanner.Utilities
                 path = "/contents" + path;
             }
 
+            path = path.TrimEnd('/','\\');
+
             List<FileInfo> answer = new List<FileInfo>();
 
             string url = String.Format("{0}/{1}/{2}{3}",githubapiurl, owner, repo, path);
 
-            WebClient wc = new WebClient();
-            string content = wc.DownloadString(url);
+            WebRequest wr = WebRequest.Create(url);
+            ((HttpWebRequest)wr).AllowAutoRedirect = true;
+            ((HttpWebRequest)wr).UserAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko";
+            var responce = wr.GetResponse();
+            var respstream = responce.GetResponseStream();
+
+            string content = new StreamReader(respstream).ReadToEnd();
+
+            respstream.Close();
+
+            //WebClient wc = new WebClient();
+            //string content = wc.DownloadString(url);
 
             var output = fastJSON.JSON.Instance.ToObject<object[]>(content);
 
@@ -80,8 +93,15 @@ namespace MissionPlanner.Utilities
 
             string url = String.Format("{0}/{1}/{2}{3}", githubapiurl, owner, repo, path);
 
-            WebClient wc = new WebClient();
-            string content = wc.DownloadString(url);
+            WebRequest wr = WebRequest.Create(url);
+            ((HttpWebRequest)wr).AllowAutoRedirect = true;
+            ((HttpWebRequest)wr).UserAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko";
+            var responce = wr.GetResponse();
+            var respstream = responce.GetResponseStream();
+
+            string content = new StreamReader(respstream).ReadToEnd();
+
+            respstream.Close();
 
             Dictionary<string,object> output = (Dictionary<string,object>)fastJSON.JSON.Instance.Parse(content);
 

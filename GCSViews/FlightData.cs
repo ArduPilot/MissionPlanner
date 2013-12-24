@@ -3017,5 +3017,12 @@ print 'Roll complete'
                 }
             }
         }
+
+        private void BUT_DFMavlink_Click(object sender, EventArgs e)
+        {
+            var form = new Log.LogDownloadMavLink();
+
+            form.Show();
+        }
     }
 }

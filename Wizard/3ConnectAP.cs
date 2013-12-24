@@ -19,6 +19,7 @@ namespace MissionPlanner.Wizard
         List<KeyValuePair<string, string>> fwmap = new List<KeyValuePair<string, string>>();
         ProgressReporterDialogue pdr;
         string comport = "";
+        bool fwdone = false;
         private bool usebeta;
 
         public _3ConnectAP()
@@ -90,16 +91,19 @@ namespace MissionPlanner.Wizard
                 return 0;
             }
 
-            pdr = new ProgressReporterDialogue();
+            if (!fwdone)
+            {
+                pdr = new ProgressReporterDialogue();
 
-            pdr.DoWork += pdr_DoWork;
+                pdr.DoWork += pdr_DoWork;
 
-            ThemeManager.ApplyThemeTo(pdr);
+                ThemeManager.ApplyThemeTo(pdr);
 
-            pdr.RunBackgroundOperationAsync();
+                pdr.RunBackgroundOperationAsync();
 
-            if (pdr.doWorkArgs.CancelRequested || !string.IsNullOrEmpty(pdr.doWorkArgs.ErrorMessage))
-                return 0;
+                if (pdr.doWorkArgs.CancelRequested || !string.IsNullOrEmpty(pdr.doWorkArgs.ErrorMessage))
+                    return 0;
+            }
 
             if (MainV2.comPort.BaseStream.IsOpen)
                 MainV2.comPort.BaseStream.Close();
@@ -156,7 +160,7 @@ namespace MissionPlanner.Wizard
             }
 
             string target = Wizard.config["fwframe"].ToString();
-            bool fwdone = false;
+            
 
             if (e.CancelRequested)
             {
@@ -172,8 +176,8 @@ namespace MissionPlanner.Wizard
                     {
                         try
                         {
-                            //fwdone = fw.update(comport, sw);
-                            fwdone = true;
+                            fwdone = fw.update(comport, sw,"");
+                            //fwdone = true;
                         }
                         catch { }
                         if (fwdone == false)

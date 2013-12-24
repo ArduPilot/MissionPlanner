@@ -82,6 +82,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     radioButton_H.Checked = true;
                     SetFrameParam(frame);
                     break;
+                default:
+                    radioButton_Plus.Checked = false;
+                    radioButton_V.Checked = false;
+                    radioButton_X.Checked = false;
+                    radioButton_H.Checked = false;
+                    break;
             }
             indochange = false;
         }

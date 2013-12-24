@@ -69,9 +69,11 @@
   <ItemGroup>
     <Compile Include="..\Arduino\ArduinoSTK.cs">
       <Link>Linked\ArduinoSTK.cs</Link>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="..\Arduino\ArduinoSTKv2.cs">
       <Link>Linked\ArduinoSTKv2.cs</Link>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="..\Arduino\IArduinoComms.cs">
       <Link>Linked\IArduinoComms.cs</Link>

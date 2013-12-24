@@ -1633,7 +1633,7 @@ namespace MissionPlanner
             }
             catch { }
 
-/*
+
             if (getConfig("newuser") == "")
             {
                 if (CustomMessageBox.Show("This is your first run, Do you wish to use the setup wizard?\nRecomended for new users.", "Wizard", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
@@ -1651,7 +1651,7 @@ namespace MissionPlanner
 
                 config["newuser"] = DateTime.Now.ToShortDateString();
             }
-*/
+
         }
 
         private void checkupdate(object stuff)
@@ -2106,7 +2106,9 @@ namespace MissionPlanner
 
         private void MainV2_KeyDown(object sender, KeyEventArgs e)
         {
-            Console.WriteLine(e.ToString());
+            Message temp = new Message();
+            ProcessCmdKey(ref temp, e.KeyData);
+            Console.WriteLine("MainV2_KeyDown " + e.ToString());
         }
 
         private void toolStripMenuItem1_Click(object sender, EventArgs e)

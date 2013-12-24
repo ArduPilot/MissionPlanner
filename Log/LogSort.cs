@@ -14,6 +14,16 @@ namespace MissionPlanner.Log
             {
                 FileInfo info = new FileInfo(logfile);
 
+                if (info.Length == 0)
+                {
+                    try
+                    {
+                        File.Delete(logfile);
+                    }
+                    catch { }
+                    continue;
+                }
+
                 if (info.Length <= 1024)
                 {
                     try
@@ -42,7 +52,16 @@ namespace MissionPlanner.Log
                         byte[] hbpacket = mine.getHeartBeat();
 
                         if (hbpacket.Length == 0)
+                        {
+                            mine.logreadmode = false;
+                            mine.logplaybackfile.Close();
+
+                            if (!Directory.Exists(Path.GetDirectoryName(logfile) + Path.DirectorySeparatorChar + "BAD"))
+                                Directory.CreateDirectory(Path.GetDirectoryName(logfile) + Path.DirectorySeparatorChar + "BAD");
+
+                            File.Move(logfile, Path.GetDirectoryName(logfile) + Path.DirectorySeparatorChar + "BAD" + Path.DirectorySeparatorChar + Path.GetFileName(logfile));
                             continue;
+                        }
 
                         MAVLink.mavlink_heartbeat_t hb = (MAVLink.mavlink_heartbeat_t)mine.DebugPacket(hbpacket);
 

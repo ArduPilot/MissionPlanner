@@ -16,6 +16,7 @@ using log4net;
 using MissionPlanner.Comms;
 using MissionPlanner.Utilities;
 using System.Windows.Forms;
+using MissionPlanner.HIL;
 
 namespace MissionPlanner
 {
@@ -38,6 +39,8 @@ namespace MissionPlanner
 
         internal string plaintxtline = "";
         string buildplaintxtline = "";
+
+        public event ProgressEventHandler Progress;
 
         public MAVState MAV = new MAVState();
 
@@ -2653,8 +2656,15 @@ Please check the following
             giveComport = true;
             byte[] buffer;
 
+            if (Progress != null)
+            {
+                Progress((int)0, "");
+            }
+
             uint ofs = 0;
             uint count = 90;
+            uint bps = 0;
+            DateTime bpstimer = DateTime.Now;
 
             mavlink_log_request_data_t req = new mavlink_log_request_data_t();
 
@@ -2697,11 +2707,18 @@ Please check the following
 
                         var data = buffer.ByteArrayToStructure<mavlink_log_data_t>();
 
+                        bps += data.count;
+
                         ms.Seek((long)data.ofs, SeekOrigin.Begin);
                         ms.Write(data.data, 0, data.count);
 
                         if (data.count < count || data.count == 0)
                         {
+                            if (Progress != null)
+                            {
+                                Progress((int)req.ofs, "");
+                            }
+
                             giveComport = false;
                             return ms;
                         }
@@ -2710,6 +2727,18 @@ Please check the following
                             if (data.ofs < req.ofs)
                                 continue;
 
+                            if (Progress != null)
+                            {
+                                Progress((int)req.ofs,"");
+                            }
+
+                            if (bpstimer.Second != DateTime.Now.Second)
+                            {
+                                Console.WriteLine("log dl bps: "+ bps.ToString());
+                                bpstimer = DateTime.Now;
+                                bps = 0;
+                            }
+
                             req.ofs = data.ofs + data.count;
                             Console.WriteLine("req "+ req.ofs + " " + req.count);
                             generatePacket((byte)MAVLINK_MSG_ID.LOG_REQUEST_DATA, req);
@@ -2717,9 +2746,6 @@ Please check the following
                     }
                 }
             }
-
-            giveComport = false;
-            return null;
         }
 
         public List<mavlink_log_entry_t> GetLogList()
@@ -2789,7 +2815,14 @@ Please check the following
 
         public void EraseLog()
         {
+            mavlink_log_erase_t req = new mavlink_log_erase_t();
 
+            req.target_component = MAV.compid;
+            req.target_system = MAV.sysid;
+
+            // send twice - we have no feedback on this
+            generatePacket((byte)MAVLINK_MSG_ID.LOG_ERASE, req);
+            generatePacket((byte)MAVLINK_MSG_ID.LOG_ERASE, req);
         }
 
         public List<PointLatLngAlt> getRallyPoints()

@@ -1,4 +1,12 @@
-﻿* Mission Planner 1.2.90
+﻿* Mission Planner 1.2.91
+fix non standard frame type
+add DF log download over mavlink
+fix DF to kml/gpx, using FMT now
+add more log sort criteria - 0 byte, and invalid/bad
+fix keyboard shortcuts
+bring the wizard out to play
+
+* Mission Planner 1.2.90
 new df over mavlink
 fix grid advanced button
 remove arduino verbose logging

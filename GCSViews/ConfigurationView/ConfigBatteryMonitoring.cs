@@ -222,7 +222,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 float maxvolt = 50f;
                 float maxamps = 90f;
-                float mvpervolt = 100f;
+                float mvpervolt = 99f;
                 float mvperamp = 55.55f;
 
                 float topvolt = (maxvolt * mvpervolt) / 1000;

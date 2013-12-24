@@ -82,11 +82,16 @@ namespace MissionPlanner.Log
             Clear();
 
             List<DFItem> answer = new List<DFItem>();
+            // current gps time
             DateTime gpstime = DateTime.MinValue;
+            // last time of message
+            DateTime lasttime = DateTime.MinValue;
+            // first valid gpstime
+            DateTime gpsstarttime = DateTime.MinValue;
 
             int lineno = 0;
             int msoffset = 0;
-            DateTime lasttime = DateTime.MinValue;
+            
 
             log.Info("loading log");
            
@@ -112,18 +117,21 @@ namespace MissionPlanner.Log
                         }
                         else if (line.StartsWith("GPS"))
                         {
-                            gpstime = GetTimeGPS(line);
-                            lasttime = gpstime;
-
-                            int indextimems = FindInArray(logformat["GPS"].FieldNames, "T");
-
-                            if (indextimems != -1)
+                           // if (gpsstarttime == DateTime.MinValue)
                             {
-                                try
+                                gpsstarttime = GetTimeGPS(line);
+                                lasttime = gpsstarttime;
+
+                                int indextimems = FindInArray(logformat["GPS"].FieldNames, "T");
+
+                                if (indextimems != -1)
                                 {
-                                    msoffset = int.Parse(items[indextimems]);
+                                    try
+                                    {
+                                        msoffset = int.Parse(items[indextimems]);
+                                    }
+                                    catch { }
                                 }
-                                catch { }
                             }
                         }
 
@@ -139,7 +147,7 @@ namespace MissionPlanner.Log
 
                                 if (line.StartsWith("GPS"))
                                 {
-                                    item.time = gpstime;
+                                    item.time = GetTimeGPS(line);
                                 }
                                 else
                                 {
@@ -150,7 +158,7 @@ namespace MissionPlanner.Log
                                     {
                                         item.timems = int.Parse(items[indextimems]);
 
-                                        item.time = gpstime.AddMilliseconds(item.timems - msoffset);
+                                        item.time = gpsstarttime.AddMilliseconds(item.timems - msoffset);
 
                                         lasttime = item.time;
                                     }
@@ -236,11 +244,11 @@ namespace MissionPlanner.Log
             int leap = 16;
 
             // not correct for leap seconds                   day   days  weeks  seconds
-            var basetime = new DateTime(1980, 1, 6, 0, 0, 0, DateTimeKind.Local);
+            var basetime = new DateTime(1980, 1, 6, 0, 0, 0, DateTimeKind.Utc);
             basetime = basetime.AddDays(week * 7);
             basetime = basetime.AddSeconds((sec - leap));
 
-            return basetime;
+            return basetime.ToLocalTime();
         }
 
         public static int FindInArray(string[] array, string find)

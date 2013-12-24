@@ -169,7 +169,7 @@ namespace MissionPlanner.Log
                     } // cant exit unless told to
                 }
                 log.Info("Comport thread close");
-            }) {Name = "comport reader", IsBackground = true };
+            }) { Name = "comport reader", IsBackground = true };
             t11.Start();
 
             // doesnt seem to work on mac

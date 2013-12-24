@@ -55,6 +55,9 @@ namespace MissionPlanner.Log
                 if ((doevent % 10) == 0)
                     Application.DoEvents();
 
+                if (line.Length == 0)
+                    return;
+
                 DateTime start = DateTime.Now;
 
                 if (line.ToLower().Contains("ArduCopter"))
@@ -78,8 +81,8 @@ namespace MissionPlanner.Log
                         DFLog.FMTLine(line);
                     }
                     catch { }
-                } else 
-                if (items[0].Contains("CMD"))
+                }
+                else if (items[0].Contains("CMD"))
                 {
                     if (flightdata.Count == 0)
                     {
@@ -90,8 +93,7 @@ namespace MissionPlanner.Log
                         }
                     }
                 }
-                else
-                if (items[0].Contains("MOD"))
+                else if (items[0].Contains("MOD"))
                 {
                     positionindex++;
 
@@ -107,9 +109,30 @@ namespace MissionPlanner.Log
                         modelist[positionindex] = (items[1]);
                     }
                 }
-                else
-                //GPS, 1, 15691, 10, 0.00, -35.3629379, 149.1650850, -0.08, 585.41, 0.00, 126.89
-                if (items[0].Contains("GPS") && items[2] == "1" && items[4] != "0" && items[4] != "-1" && lastline != line) // check gps line and fixed status
+                else if (items[0].Contains("GPS") && DFLog.logformat.ContainsKey("GPS"))
+                {
+                    if (items[DFLog.FindInArray(DFLog.logformat["GPS"].FieldNames, "Status")] != "3")
+                        return;
+
+                    if (position[positionindex] == null)
+                        position[positionindex] = new List<Point3D>();
+
+                    //  if (double.Parse(items[4], new System.Globalization.CultureInfo("en-US")) == 0)
+                    //     return;
+
+                    // 7 agl
+                    // 8 asl...
+                    double alt = double.Parse(items[DFLog.FindInArray(DFLog.logformat["GPS"].FieldNames, "Alt")], new System.Globalization.CultureInfo("en-US"));
+
+                    position[positionindex].Add(new Point3D(double.Parse(items[DFLog.FindInArray(DFLog.logformat["GPS"].FieldNames, "Lng")],
+                        new System.Globalization.CultureInfo("en-US")),
+                        double.Parse(items[DFLog.FindInArray(DFLog.logformat["GPS"].FieldNames, "Lat")],
+                        new System.Globalization.CultureInfo("en-US")), alt));
+                    oldlastpos = lastpos;
+                    lastpos = (position[positionindex][position[positionindex].Count - 1]);
+                    lastline = line;
+                }
+                else if (items[0].Contains("GPS") && items[2] == "1" && items[4] != "0" && items[4] != "-1" && lastline != line) // check gps line and fixed status
                 {
                     MainV2.comPort.MAV.cs.firmware = MainV2.Firmwares.ArduPlane;
 
@@ -132,8 +155,7 @@ namespace MissionPlanner.Log
                     lastpos = (position[positionindex][position[positionindex].Count - 1]);
                     lastline = line;
                 }
-                else
-                if (items[0].Contains("GPS") && items[4] != "0" && items[4] != "-1" && items.Length <= 9) // AC
+                else if (items[0].Contains("GPS") && items[4] != "0" && items[4] != "-1" && items.Length <= 9) // AC
                 {
                     MainV2.comPort.MAV.cs.firmware = MainV2.Firmwares.ArduCopter2;
 
@@ -151,11 +173,8 @@ namespace MissionPlanner.Log
                     lastline = line;
 
                 }
-                else
-                //FMT, 130, 37, GPS, BIHBcLLeeEe, Status,TimeMS,Week,NSats,HDop,Lat,Lng,RelAlt,Alt,Spd,GCrs
-                //GPS, 3, 14716600, 1764, 9, 2.15, 36.3242566, 138.6393205, -0.04, 940.95, 0.02, 138.00
-                if ((items[0].Contains("GPS") && items[1] == "3" && items[6] != "0" && items[6] != "-1" && lastline != line && items.Length == 12) ||
-                    (items[0].Contains("GPS") && items[1] == "3" && items[6] != "0" && items[6] != "-1" && lastline != line && items.Length == 14))
+                else if ((items[0].Contains("GPS") && items[1] == "3" && items[6] != "0" && items[6] != "-1" && lastline != line && items.Length == 12) ||
+                        (items[0].Contains("GPS") && items[1] == "3" && items[6] != "0" && items[6] != "-1" && lastline != line && items.Length == 14))
                 {
                     if (position[positionindex] == null)
                         position[positionindex] = new List<Point3D>();
@@ -172,9 +191,7 @@ namespace MissionPlanner.Log
                     lastpos = (position[positionindex][position[positionindex].Count - 1]);
                     lastline = line;
                 }
-                else
-                //GPS, 1, 15691, 10, 0.00, -35.3629379, 149.1650850, -0.08, 585.41, 0.00, 126.89
-                if (items[0].Contains("GPS") && items[1] == "3" && items[4] != "0" && items[4] != "-1" && lastline != line && items.Length == 11) // check gps line and fixed status
+                else if (items[0].Contains("GPS") && items[1] == "3" && items[4] != "0" && items[4] != "-1" && lastline != line && items.Length == 11) // check gps line and fixed status
                 {
                     if (position[positionindex] == null)
                         position[positionindex] = new List<Point3D>();
@@ -191,13 +208,11 @@ namespace MissionPlanner.Log
                     lastpos = (position[positionindex][position[positionindex].Count - 1]);
                     lastline = line;
                 }
-                else
-                if (items[0].Contains("CTUN"))
+                else if (items[0].Contains("CTUN"))
                 {
                     ctunlast = items;
                 }
-                else
-                if (items[0].Contains("NTUN"))
+                else if (items[0].Contains("NTUN"))
                 {
                     ntunlast = items;
                     try
@@ -207,8 +222,7 @@ namespace MissionPlanner.Log
                     }
                     catch { }
                 }
-                else
-                if (items[0].Contains("ATT"))
+                else if (items[0].Contains("ATT"))
                 {
                     try
                     {
@@ -230,9 +244,9 @@ namespace MissionPlanner.Log
 
                             oldlastpos = lastpos;
 
-                            runmodel.Orientation.roll = double.Parse(items[DFLog.FindInArray(DFLog.logformat["ATT"].FieldNames,"Roll")], new System.Globalization.CultureInfo("en-US")) / -1;
-                            runmodel.Orientation.tilt = double.Parse(items[DFLog.FindInArray(DFLog.logformat["ATT"].FieldNames,"Pitch")], new System.Globalization.CultureInfo("en-US")) / -1;
-                            runmodel.Orientation.heading = double.Parse(items[DFLog.FindInArray(DFLog.logformat["ATT"].FieldNames,"Yaw")], new System.Globalization.CultureInfo("en-US")) / 1;
+                            runmodel.Orientation.roll = double.Parse(items[DFLog.FindInArray(DFLog.logformat["ATT"].FieldNames, "Roll")], new System.Globalization.CultureInfo("en-US")) / -1;
+                            runmodel.Orientation.tilt = double.Parse(items[DFLog.FindInArray(DFLog.logformat["ATT"].FieldNames, "Pitch")], new System.Globalization.CultureInfo("en-US")) / -1;
+                            runmodel.Orientation.heading = double.Parse(items[DFLog.FindInArray(DFLog.logformat["ATT"].FieldNames, "Yaw")], new System.Globalization.CultureInfo("en-US")) / 1;
 
                             dat.model = runmodel;
                             dat.ctun = ctunlast;

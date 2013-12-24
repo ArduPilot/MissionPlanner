@@ -203,7 +203,7 @@ namespace wix
 
         <PropertyRef Id=""NETFRAMEWORK35"" />
 
-        <Condition Message=""This application requires .NET Framework 3.5. Please install the .NET Framework then run this installer again.""><![CDATA[Installed OR NETFRAMEWORK35]]></Condition>
+        <Condition Message=""This application requires .NET Framework 4.0. Please install the .NET Framework then run this installer again.""><![CDATA[Installed OR NETFRAMEWORK35]]></Condition>
 
         <Media Id=""1"" Cabinet=""product.cab"" EmbedCab=""yes"" />
 
