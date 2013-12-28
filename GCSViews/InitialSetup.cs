@@ -47,9 +47,14 @@ namespace MissionPlanner.GCSViews
             try
             {
                 BackstageView.BackstageViewPage start;
+
+                
+
                 if (MainV2.comPort.BaseStream.IsOpen)
                 {
                     AddBackstageViewPage(new MissionPlanner.GCSViews.ConfigurationView.ConfigFirmwareDisabled(), "Install Firmware");
+
+                    AddBackstageViewPage(new MissionPlanner.GCSViews.ConfigurationView.ConfigWizard(), "Wizard");
 
                     BackstageView.BackstageViewPage mandatoryhardware = AddBackstageViewPage(new ConfigMandatory(), "Mandatory Hardware", null);
                     BackstageView.BackstageViewPage optionalhardware = AddBackstageViewPage(new ConfigOptional(), "Optional Hardware", null);
@@ -102,6 +107,7 @@ namespace MissionPlanner.GCSViews
                 else
                 {
                     AddBackstageViewPage(new MissionPlanner.GCSViews.ConfigFirmware(), "Install Firmware");
+                    AddBackstageViewPage(new MissionPlanner.GCSViews.ConfigurationView.ConfigWizard(), "Wizard");
                     AddBackstageViewPage(new MissionPlanner._3DRradio(), "3DR Radio");
                     AddBackstageViewPage(new MissionPlanner.Antenna.Tracker(), "Antenna Tracker");
                 }

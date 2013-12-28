@@ -169,9 +169,9 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
 
          //   return;
 
-            Utilities.GitHubContent.GetDirContent("diydrones", "ardupilot", "/Tools/Frame_params");
+         //   Utilities.GitHubContent.GetDirContent("diydrones", "ardupilot", "/Tools/Frame_params");
 
-            Utilities.GitHubContent.GetFileContent("diydrones", "ardupilot", "/Tools/Frame_params/Iris.param");
+         //   Utilities.GitHubContent.GetFileContent("diydrones", "ardupilot", "/Tools/Frame_params/Iris.param");
 
            // ParameterMetaDataParser.GetParameterInformation();
 

@@ -62,12 +62,18 @@ namespace MissionPlanner.Log
                 return;
             }
 
-            var list = MainV2.comPort.GetLogList();
-
-            foreach (var item in list)
+            try
             {
-                genchkcombo(item.id);
+                var list = MainV2.comPort.GetLogList();
+
+                foreach (var item in list)
+                {
+                    genchkcombo(item.id);
+
+                    TXT_seriallog.AppendText(item.id + " " + new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(item.time_utc).ToLocalTime() + " est size: " + item.size +"\n");
+                }
             }
+            catch { CustomMessageBox.Show("Cannot get log list.","Error"); this.Close(); }
 
             status = serialstatus.Done;
         }
@@ -94,6 +100,9 @@ namespace MissionPlanner.Log
 
         void updateDisplay()
         {
+            if (this.IsDisposed)
+                return;
+
             if (start.Second != DateTime.Now.Second)
             {
                 this.BeginInvoke((System.Windows.Forms.MethodInvoker)delegate()
@@ -145,7 +154,7 @@ namespace MissionPlanner.Log
 
             logfile = MainV2.LogDir + Path.DirectorySeparatorChar
              + MainV2.comPort.MAV.aptype.ToString() + Path.DirectorySeparatorChar
-             + hbpacket[3] + Path.DirectorySeparatorChar + DateTime.Now.ToString("yyyy-MM-dd HH-mm") + " " + currentlog + ".bin";
+             + hbpacket[3] + Path.DirectorySeparatorChar + DateTime.Now.ToString("yyyy-MM-dd HH-mm") + " " + no + ".bin";
 
             // make log dir
             Directory.CreateDirectory(Path.GetDirectoryName(logfile));

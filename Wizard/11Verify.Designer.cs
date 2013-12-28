@@ -31,21 +31,25 @@ namespace MissionPlanner.Wizard
         {
             this.components = new System.ComponentModel.Container();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.BUT_start_test = new Controls.MyButton();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.chk_perarm = new System.Windows.Forms.CheckBox();
+            this.chk_rc = new System.Windows.Forms.CheckBox();
+            this.chk_compass = new System.Windows.Forms.CheckBox();
+            this.chk_accel = new System.Windows.Forms.CheckBox();
             this.label10 = new System.Windows.Forms.Label();
             this.lbl_prearm = new System.Windows.Forms.Label();
-            this.lbl_rc = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
+            this.lbl_rc = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.lbl_compass = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.lbl_accel = new System.Windows.Forms.Label();
             this.lbl_gps = new System.Windows.Forms.Label();
+            this.chk_gps = new System.Windows.Forms.CheckBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.radialGradientBG1 = new Controls.GradientBG();
+            this.radialGradientBG1 = new MissionPlanner.Controls.GradientBG();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.panel1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -56,7 +60,6 @@ namespace MissionPlanner.Wizard
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(24)))), ((int)(((byte)(24)))));
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Controls.Add(this.BUT_start_test);
             this.panel1.Controls.Add(this.tableLayoutPanel1);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.label1);
@@ -65,35 +68,27 @@ namespace MissionPlanner.Wizard
             this.panel1.Size = new System.Drawing.Size(740, 424);
             this.panel1.TabIndex = 1;
             // 
-            // BUT_start_test
-            // 
-            this.BUT_start_test.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
-            this.BUT_start_test.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
-            this.BUT_start_test.Location = new System.Drawing.Point(326, 93);
-            this.BUT_start_test.Name = "BUT_start_test";
-            this.BUT_start_test.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
-            this.BUT_start_test.Size = new System.Drawing.Size(75, 23);
-            this.BUT_start_test.TabIndex = 16;
-            this.BUT_start_test.Text = "Start Tests";
-            this.BUT_start_test.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
-            this.BUT_start_test.UseVisualStyleBackColor = true;
-            this.BUT_start_test.Click += new System.EventHandler(this.BUT_start_test_Click);
-            // 
             // tableLayoutPanel1
             // 
-            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnCount = 3;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 49.91482F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.08518F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel1.Controls.Add(this.chk_perarm, 2, 4);
+            this.tableLayoutPanel1.Controls.Add(this.chk_rc, 2, 3);
+            this.tableLayoutPanel1.Controls.Add(this.chk_compass, 2, 2);
+            this.tableLayoutPanel1.Controls.Add(this.chk_accel, 2, 1);
             this.tableLayoutPanel1.Controls.Add(this.label10, 0, 4);
             this.tableLayoutPanel1.Controls.Add(this.lbl_prearm, 0, 4);
-            this.tableLayoutPanel1.Controls.Add(this.lbl_rc, 0, 3);
             this.tableLayoutPanel1.Controls.Add(this.label8, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.lbl_rc, 0, 3);
             this.tableLayoutPanel1.Controls.Add(this.label2, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.label4, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.lbl_compass, 1, 2);
             this.tableLayoutPanel1.Controls.Add(this.label5, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.lbl_accel, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.lbl_gps, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.chk_gps, 2, 0);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(68, 133);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 5;
@@ -105,6 +100,54 @@ namespace MissionPlanner.Wizard
             this.tableLayoutPanel1.Size = new System.Drawing.Size(587, 256);
             this.tableLayoutPanel1.TabIndex = 15;
             // 
+            // chk_perarm
+            // 
+            this.chk_perarm.AutoSize = true;
+            this.chk_perarm.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.chk_perarm.Location = new System.Drawing.Point(569, 207);
+            this.chk_perarm.Name = "chk_perarm";
+            this.chk_perarm.Size = new System.Drawing.Size(15, 46);
+            this.chk_perarm.TabIndex = 24;
+            this.chk_perarm.Text = "checkBox5";
+            this.chk_perarm.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.chk_perarm.UseVisualStyleBackColor = true;
+            // 
+            // chk_rc
+            // 
+            this.chk_rc.AutoSize = true;
+            this.chk_rc.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.chk_rc.Location = new System.Drawing.Point(569, 156);
+            this.chk_rc.Name = "chk_rc";
+            this.chk_rc.Size = new System.Drawing.Size(15, 45);
+            this.chk_rc.TabIndex = 23;
+            this.chk_rc.Text = "checkBox4";
+            this.chk_rc.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.chk_rc.UseVisualStyleBackColor = true;
+            // 
+            // chk_compass
+            // 
+            this.chk_compass.AutoSize = true;
+            this.chk_compass.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.chk_compass.Location = new System.Drawing.Point(569, 105);
+            this.chk_compass.Name = "chk_compass";
+            this.chk_compass.Size = new System.Drawing.Size(15, 45);
+            this.chk_compass.TabIndex = 22;
+            this.chk_compass.Text = "checkBox3";
+            this.chk_compass.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.chk_compass.UseVisualStyleBackColor = true;
+            // 
+            // chk_accel
+            // 
+            this.chk_accel.AutoSize = true;
+            this.chk_accel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.chk_accel.Location = new System.Drawing.Point(569, 54);
+            this.chk_accel.Name = "chk_accel";
+            this.chk_accel.Size = new System.Drawing.Size(15, 45);
+            this.chk_accel.TabIndex = 21;
+            this.chk_accel.Text = "checkBox2";
+            this.chk_accel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.chk_accel.UseVisualStyleBackColor = true;
+            // 
             // label10
             // 
             this.label10.AutoSize = true;
@@ -112,7 +155,7 @@ namespace MissionPlanner.Wizard
             this.label10.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label10.Location = new System.Drawing.Point(3, 204);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(287, 52);
+            this.label10.Size = new System.Drawing.Size(277, 52);
             this.label10.TabIndex = 19;
             this.label10.Text = "Verify Pre-Arm Test";
             this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -122,24 +165,12 @@ namespace MissionPlanner.Wizard
             this.lbl_prearm.AutoSize = true;
             this.lbl_prearm.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbl_prearm.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_prearm.Location = new System.Drawing.Point(296, 204);
+            this.lbl_prearm.Location = new System.Drawing.Point(286, 204);
             this.lbl_prearm.Name = "lbl_prearm";
-            this.lbl_prearm.Size = new System.Drawing.Size(288, 52);
+            this.lbl_prearm.Size = new System.Drawing.Size(277, 52);
             this.lbl_prearm.TabIndex = 18;
             this.lbl_prearm.Text = "Can you arm the autopilot?\r\nPlease try arming with your transmitter.";
             this.lbl_prearm.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lbl_rc
-            // 
-            this.lbl_rc.AutoSize = true;
-            this.lbl_rc.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lbl_rc.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_rc.Location = new System.Drawing.Point(296, 153);
-            this.lbl_rc.Name = "lbl_rc";
-            this.lbl_rc.Size = new System.Drawing.Size(288, 51);
-            this.lbl_rc.TabIndex = 17;
-            this.lbl_rc.Text = "Have you configured your RC transmitter?";
-            this.lbl_rc.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label8
             // 
@@ -148,10 +179,22 @@ namespace MissionPlanner.Wizard
             this.label8.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.Location = new System.Drawing.Point(3, 153);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(287, 51);
+            this.label8.Size = new System.Drawing.Size(277, 51);
             this.label8.TabIndex = 16;
             this.label8.Text = "Verify RC";
             this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lbl_rc
+            // 
+            this.lbl_rc.AutoSize = true;
+            this.lbl_rc.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbl_rc.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_rc.Location = new System.Drawing.Point(286, 153);
+            this.lbl_rc.Name = "lbl_rc";
+            this.lbl_rc.Size = new System.Drawing.Size(277, 51);
+            this.lbl_rc.TabIndex = 17;
+            this.lbl_rc.Text = "Have you configured your RC transmitter?";
+            this.lbl_rc.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label2
             // 
@@ -160,7 +203,7 @@ namespace MissionPlanner.Wizard
             this.label2.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(3, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(287, 51);
+            this.label2.Size = new System.Drawing.Size(277, 51);
             this.label2.TabIndex = 7;
             this.label2.Text = "Verify GPS";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -172,7 +215,7 @@ namespace MissionPlanner.Wizard
             this.label4.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.Location = new System.Drawing.Point(3, 51);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(287, 51);
+            this.label4.Size = new System.Drawing.Size(277, 51);
             this.label4.TabIndex = 8;
             this.label4.Text = "Verify Accel";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -182,9 +225,9 @@ namespace MissionPlanner.Wizard
             this.lbl_compass.AutoSize = true;
             this.lbl_compass.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbl_compass.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_compass.Location = new System.Drawing.Point(296, 102);
+            this.lbl_compass.Location = new System.Drawing.Point(286, 102);
             this.lbl_compass.Name = "lbl_compass";
-            this.lbl_compass.Size = new System.Drawing.Size(288, 51);
+            this.lbl_compass.Size = new System.Drawing.Size(277, 51);
             this.lbl_compass.TabIndex = 13;
             this.lbl_compass.Text = "Have you completed a compass calibration?";
             this.lbl_compass.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -196,7 +239,7 @@ namespace MissionPlanner.Wizard
             this.label5.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.Location = new System.Drawing.Point(3, 102);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(287, 51);
+            this.label5.Size = new System.Drawing.Size(277, 51);
             this.label5.TabIndex = 9;
             this.label5.Text = "Verify Compass";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -206,9 +249,9 @@ namespace MissionPlanner.Wizard
             this.lbl_accel.AutoSize = true;
             this.lbl_accel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbl_accel.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_accel.Location = new System.Drawing.Point(296, 51);
+            this.lbl_accel.Location = new System.Drawing.Point(286, 51);
             this.lbl_accel.Name = "lbl_accel";
-            this.lbl_accel.Size = new System.Drawing.Size(288, 51);
+            this.lbl_accel.Size = new System.Drawing.Size(277, 51);
             this.lbl_accel.TabIndex = 12;
             this.lbl_accel.Text = "Have you completed an accel calibration?";
             this.lbl_accel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -218,12 +261,24 @@ namespace MissionPlanner.Wizard
             this.lbl_gps.AutoSize = true;
             this.lbl_gps.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lbl_gps.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_gps.Location = new System.Drawing.Point(296, 0);
+            this.lbl_gps.Location = new System.Drawing.Point(286, 0);
             this.lbl_gps.Name = "lbl_gps";
-            this.lbl_gps.Size = new System.Drawing.Size(288, 51);
+            this.lbl_gps.Size = new System.Drawing.Size(277, 51);
             this.lbl_gps.TabIndex = 11;
             this.lbl_gps.Text = "Does the autopilot have gps lock?";
             this.lbl_gps.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // chk_gps
+            // 
+            this.chk_gps.AutoSize = true;
+            this.chk_gps.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.chk_gps.Location = new System.Drawing.Point(569, 3);
+            this.chk_gps.Name = "chk_gps";
+            this.chk_gps.Size = new System.Drawing.Size(15, 45);
+            this.chk_gps.TabIndex = 20;
+            this.chk_gps.Text = "checkBox1";
+            this.chk_gps.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.chk_gps.UseVisualStyleBackColor = true;
             // 
             // label3
             // 
@@ -323,7 +378,11 @@ namespace MissionPlanner.Wizard
         private Label label8;
         private Label label10;
         private Label lbl_prearm;
-        private Controls.MyButton BUT_start_test;
+        private CheckBox chk_perarm;
+        private CheckBox chk_rc;
+        private CheckBox chk_compass;
+        private CheckBox chk_accel;
+        private CheckBox chk_gps;
 
     }
 }

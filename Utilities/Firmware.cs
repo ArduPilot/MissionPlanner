@@ -488,7 +488,15 @@ namespace MissionPlanner.Utilities
 
             Uploader up;
             updateProgress(0, "Reading Hex File");
-            px4uploader.Firmware fw = px4uploader.Firmware.ProcessFirmware(filename);
+            px4uploader.Firmware fw;
+            try
+            {
+                fw = px4uploader.Firmware.ProcessFirmware(filename);
+            }
+            catch (Exception ex) { 
+                CustomMessageBox.Show("Error loading firmware file\n\n"+ ex.ToString(),"Error"); 
+                return false;
+            }
 
             try
             {
@@ -575,7 +583,7 @@ namespace MissionPlanner.Utilities
                     }
                     up.close();
 
-                    CustomMessageBox.Show("Please unplug, and plug back in your px4, before you try connecting");
+                    CustomMessageBox.Show("Please unplug, and plug back in your px4 NOW, and wait for the musical tones before clicking OK");
 
                     return true;
                 }

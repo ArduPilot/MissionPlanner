@@ -38,7 +38,7 @@ namespace MissionPlanner.Wizard
             this.CMB_apmversion = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.radialGradientBG1 = new Controls.GradientBG();
+            this.radialGradientBG1 = new MissionPlanner.Controls.GradientBG();
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
@@ -120,7 +120,8 @@ namespace MissionPlanner.Wizard
             "0: APM1",
             "1: APM2 - 2.5 non 3DR",
             "2: APM2.5 - 3DR Power Module",
-            "3: PX4"});
+            "3: PX4",
+            "4: PixHawk"});
             this.CMB_apmversion.Location = new System.Drawing.Point(347, 41);
             this.CMB_apmversion.Name = "CMB_apmversion";
             this.CMB_apmversion.Size = new System.Drawing.Size(182, 21);

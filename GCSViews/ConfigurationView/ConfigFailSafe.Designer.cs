@@ -48,7 +48,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.mavlinkComboBox_fs_thr_enable = new MissionPlanner.Controls.MavlinkComboBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.mavlinkCheckBoxFS_GCS_ENABLE = new MissionPlanner.Controls.MavlinkCheckBox();
-            this.mavlinkCheckBoxfs_gps_enable = new MissionPlanner.Controls.MavlinkCheckBox();
             this.pnlmah = new System.Windows.Forms.Panel();
             this.label5 = new System.Windows.Forms.Label();
             this.mavlinkNumericUpDownFS_BATT_MAH = new MissionPlanner.Controls.MavlinkNumericUpDown();
@@ -231,7 +230,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.mavlinkCheckBoxFS_GCS_ENABLE);
-            this.groupBox1.Controls.Add(this.mavlinkCheckBoxfs_gps_enable);
             this.groupBox1.Controls.Add(this.pnlmah);
             this.groupBox1.Controls.Add(this.PNL_low_bat);
             this.groupBox1.Controls.Add(this.mavlinkCheckBoxfs_batt_enable);
@@ -255,16 +253,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.mavlinkCheckBoxFS_GCS_ENABLE.param = null;
             this.mavlinkCheckBoxFS_GCS_ENABLE.ParamName = null;
             this.mavlinkCheckBoxFS_GCS_ENABLE.UseVisualStyleBackColor = true;
-            // 
-            // mavlinkCheckBoxfs_gps_enable
-            // 
-            resources.ApplyResources(this.mavlinkCheckBoxfs_gps_enable, "mavlinkCheckBoxfs_gps_enable");
-            this.mavlinkCheckBoxfs_gps_enable.Name = "mavlinkCheckBoxfs_gps_enable";
-            this.mavlinkCheckBoxfs_gps_enable.OffValue = 0F;
-            this.mavlinkCheckBoxfs_gps_enable.OnValue = 1F;
-            this.mavlinkCheckBoxfs_gps_enable.param = null;
-            this.mavlinkCheckBoxfs_gps_enable.ParamName = null;
-            this.mavlinkCheckBoxfs_gps_enable.UseVisualStyleBackColor = true;
             // 
             // pnlmah
             // 
@@ -661,7 +649,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private System.Windows.Forms.Panel PNL_low_bat;
         private System.Windows.Forms.Label label4;
         private MavlinkCheckBox mavlinkCheckBoxFS_GCS_ENABLE;
-        private MavlinkCheckBox mavlinkCheckBoxfs_gps_enable;
         private System.Windows.Forms.Panel pnlmah;
         private System.Windows.Forms.Label label5;
         private MavlinkNumericUpDown mavlinkNumericUpDownFS_BATT_MAH;

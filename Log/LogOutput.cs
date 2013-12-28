@@ -255,7 +255,7 @@ namespace MissionPlanner.Log
                             flightdata.Add(dat);
                         }
                     }
-                    catch (Exception ex) { }
+                    catch (Exception ex) { log.Error(ex); }
                 }
 
                 if ((DateTime.Now - start).TotalMilliseconds > 5)

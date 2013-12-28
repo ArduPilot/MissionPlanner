@@ -88,7 +88,7 @@ namespace MissionPlanner.Wizard
             }
             else
             {
-                BUT_Next.Text = "NEXT >>";
+                BUT_Next.Text = "Next >>";
             }
         }
 

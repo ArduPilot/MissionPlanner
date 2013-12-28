@@ -1,4 +1,16 @@
-﻿* Mission Planner 1.2.91
+﻿* Mission Planner 1.2.92
+sort saved param list
+wizard tweaks
+remove FS_GPS_ENABLE from FS screen
+add bin file support to most DF log functions
+add wizard to initial setup
+add date timestamp to df over mavlink
+ensure .bin support for matlab file generation.
+fix posible get mavlink param issue.
+add checkbox's to wizard verify
+speedup df over mavlink log dl
+
+* Mission Planner 1.2.91
 fix non standard frame type
 add DF log download over mavlink
 fix DF to kml/gpx, using FMT now

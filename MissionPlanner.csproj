@@ -334,6 +334,12 @@
       <DependentUpon>Command.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\Waypoints\Spline.cs" />
+    <Compile Include="GCSViews\ConfigurationView\ConfigWizard.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigWizard.Designer.cs">
+      <DependentUpon>ConfigWizard.cs</DependentUpon>
+    </Compile>
     <Compile Include="Log\LogDownloadMavLink.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -659,6 +665,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\Waypoints\Command.resx">
       <DependentUpon>Command.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigWizard.resx">
+      <DependentUpon>ConfigWizard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Log\LogDownloadMavLink.de-DE.resx">
       <DependentUpon>LogDownloadMavLink.cs</DependentUpon>

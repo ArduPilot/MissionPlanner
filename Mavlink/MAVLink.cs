@@ -318,7 +318,7 @@ namespace MissionPlanner
 
             try
             {
-                BaseStream.ReadBufferSize = 4 * 1024;
+                BaseStream.ReadBufferSize = 16 * 1024;
 
                 lock (objlock) // so we dont have random traffic
                 {
@@ -1007,13 +1007,6 @@ Please check the following
 
                         mavlink_param_value_t par = buffer.ByteArrayToStructure<mavlink_param_value_t>(6);
 
-                        // not the correct id
-                        if (!(par.param_index == index || ASCIIEncoding.ASCII.GetString(par.param_id) == ASCIIEncoding.ASCII.GetString(req.param_id)))
-                        {
-                            Console.WriteLine("Wrong Answer {0} - {1} - {2}", par.param_index, ASCIIEncoding.ASCII.GetString(par.param_id), par.param_value);
-                            continue;
-                        }
-
                         string st = System.Text.ASCIIEncoding.ASCII.GetString(par.param_id);
 
                         int pos = st.IndexOf('\0');
@@ -1021,6 +1014,13 @@ Please check the following
                         if (pos != -1)
                         {
                             st = st.Substring(0, pos);
+                        }
+
+                        // not the correct id
+                        if (!(par.param_index == index || st == name))
+                        {
+                            Console.WriteLine("Wrong Answer {0} - {1} - {2}    --- '{3}' vs '{4}'", par.param_index, ASCIIEncoding.ASCII.GetString(par.param_id), par.param_value, ASCIIEncoding.ASCII.GetString(req.param_id).TrimEnd(), st);
+                            continue;
                         }
 
                         // update table
@@ -2652,6 +2652,7 @@ Please check the following
         public MemoryStream GetLog(ushort no)
         {
             MemoryStream ms = new MemoryStream();
+            Hashtable set = new Hashtable();
 
             giveComport = true;
             byte[] buffer;
@@ -2661,8 +2662,9 @@ Please check the following
                 Progress((int)0, "");
             }
 
+            bool fillin = false;
+            uint totallength = 0;
             uint ofs = 0;
-            uint count = 90;
             uint bps = 0;
             DateTime bpstimer = DateTime.Now;
 
@@ -2672,7 +2674,8 @@ Please check the following
             req.target_system = MAV.sysid;
             req.id = no;
             req.ofs = ofs;
-            req.count = count;
+            // entire log
+            req.count = 0xFFFFFFFF;
 
             // request point
             generatePacket((byte)MAVLINK_MSG_ID.LOG_REQUEST_DATA, req);
@@ -2701,47 +2704,109 @@ Please check the following
                 {
                     if (buffer[5] == (byte)MAVLINK_MSG_ID.LOG_DATA)
                     {
+                        var data = buffer.ByteArrayToStructure<mavlink_log_data_t>();
+
                         // reset retrys
                         retrys = 3;
                         start = DateTime.Now;
 
-                        var data = buffer.ByteArrayToStructure<mavlink_log_data_t>();
-
                         bps += data.count;
+
+                        // record what we have received
+                        set[(data.ofs / 90).ToString()] = 1;
 
                         ms.Seek((long)data.ofs, SeekOrigin.Begin);
                         ms.Write(data.data, 0, data.count);
 
-                        if (data.count < count || data.count == 0)
+                        // update new start point
+                        req.ofs = data.ofs + data.count;
+
+                        if (bpstimer.Second != DateTime.Now.Second)
                         {
                             if (Progress != null)
                             {
                                 Progress((int)req.ofs, "");
                             }
 
-                            giveComport = false;
-                            return ms;
+                            Console.WriteLine("log dl bps: " + bps.ToString());
+                            bpstimer = DateTime.Now;
+                            bps = 0;
                         }
-                        else
-                        {
-                            if (data.ofs < req.ofs)
-                                continue;
 
+                        // if data is less than max packet size or 0 > exit
+                        if (data.count < 90 || data.count == 0)
+                        {
+                            totallength = data.ofs + data.count;
+                            fillin = true;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            while (true)
+            {
+
+                if (totallength == ms.Length && ((totallength) / 90 + 1) >= set.Count)
+                {
+                    giveComport = false;
+                    return ms;
+                }
+
+                if (!(start.AddMilliseconds(200) > DateTime.Now))
+                {
+                    for (int a = 0; a < ((totallength) / 90 + 1); a++)
+                    {
+                        if (!set.ContainsKey(a.ToString()))
+                        {
+                            req.ofs = (uint)(a * 90);
+                            req.count = 90;
+                            Console.WriteLine("req missing " + req.ofs + " " + req.count);
+                            generatePacket((byte)MAVLINK_MSG_ID.LOG_REQUEST_DATA, req);
+                            break;
+                        }
+                    }
+
+                }
+
+                buffer = readPacket();
+                if (buffer.Length > 5)
+                {
+                    if (buffer[5] == (byte)MAVLINK_MSG_ID.LOG_DATA)
+                    {
+                        var data = buffer.ByteArrayToStructure<mavlink_log_data_t>();
+
+                        // reset retrys
+                        retrys = 3;
+                        start = DateTime.Now;
+
+                        bps += data.count;
+
+                        // record what we have received
+                        set[(data.ofs / 90).ToString()] = 1;
+
+                        ms.Seek((long)data.ofs, SeekOrigin.Begin);
+                        ms.Write(data.data, 0, data.count);
+
+                        // update new start point
+                        req.ofs = data.ofs + data.count;
+
+                        if (bpstimer.Second != DateTime.Now.Second)
+                        {
                             if (Progress != null)
                             {
-                                Progress((int)req.ofs,"");
+                                Progress((int)req.ofs, "");
                             }
 
-                            if (bpstimer.Second != DateTime.Now.Second)
-                            {
-                                Console.WriteLine("log dl bps: "+ bps.ToString());
-                                bpstimer = DateTime.Now;
-                                bps = 0;
-                            }
+                            Console.WriteLine("log dl bps: " + bps.ToString());
+                            bpstimer = DateTime.Now;
+                            bps = 0;
+                        }
 
-                            req.ofs = data.ofs + data.count;
-                            Console.WriteLine("req "+ req.ofs + " " + req.count);
-                            generatePacket((byte)MAVLINK_MSG_ID.LOG_REQUEST_DATA, req);
+                        // if data is less than max packet size or 0 > exit
+                        if (data.count < 90 || data.count == 0)
+                        {
+                            continue;
                         }
                     }
                 }

@@ -38,7 +38,7 @@ namespace MissionPlanner.Log
         public static void ProcessLog()
         {
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
-            openFileDialog1.Filter = "*.log|*.log";
+            openFileDialog1.Filter = "Log Files|*.log;*.bin";
             openFileDialog1.FilterIndex = 2;
             openFileDialog1.RestoreDirectory = true;
             openFileDialog1.Multiselect = true;
@@ -67,8 +67,17 @@ namespace MissionPlanner.Log
 
         public static void log(string fn)
         {
-            // read the file
-            string[] filelines = File.ReadAllLines(fn);
+            string[] filelines;
+
+            if (fn.ToLower().EndsWith(".bin"))
+            {
+                filelines = BinaryLog.ReadLog(fn).ToArray();
+            }
+            else
+            {
+                // read the file
+                filelines = File.ReadAllLines(fn);
+            }
 
             // store all the arrays
             List<MLArray> mlList = new List<MLArray>();

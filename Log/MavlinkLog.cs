@@ -823,10 +823,16 @@ namespace MissionPlanner
                 {
 
                     dospecial("GPS_RAW");
-
+                }
+                catch (Exception ex) { log.Info(ex.ToString()); }
+                try
+                {
 
                     addMagField();
-
+                }
+                catch (Exception ex) { log.Info(ex.ToString()); }
+                try
+                {
                     addDistHome();
 
                 }

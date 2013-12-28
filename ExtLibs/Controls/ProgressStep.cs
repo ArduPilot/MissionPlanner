@@ -14,7 +14,7 @@ namespace MissionPlanner.Controls
         public int Maximum { get { return _maximum; } set { _maximum = value; progressBar1.Maximum = value; this.Invalidate(); } }
         public int Step { 
             get { return _step; } 
-            set { _step = value; progressBar1.Value = value; label1.Text = string.Format("PROGRESS... {0} of {1}", value, _maximum); this.Invalidate(); } 
+            set { _step = value; progressBar1.Value = value; label1.Text = string.Format("Progress... {0} of {1}", value, _maximum); this.Invalidate(); } 
         }
 
         int _maximum = 0;

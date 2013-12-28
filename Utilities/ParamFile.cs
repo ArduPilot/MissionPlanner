@@ -86,7 +86,10 @@ namespace MissionPlanner.Utilities
             InputBox.Show("Custom Note", "Enter your Notes/Frame Type etc", ref input);
             if (input != "")
                 sw.WriteLine("#NOTE: " + input.Replace(',', '|'));
-            foreach (var item in paramlist.Keys)
+
+            var list = new SortedList(paramlist);
+
+            foreach (var item in list.Keys)
             {
                 float value = float.Parse(paramlist[item].ToString());
 

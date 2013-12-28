@@ -103,8 +103,16 @@ namespace MissionPlanner.Wizard
             startup = true;
 
             CMB_sensor.DataSource = sensorlist;
+            try
+            {
+                if (!MainV2.comPort.MAV.param.ContainsKey("BATT_CAPACITY"))
+                {
+                    CustomMessageBox.Show("Missing BATT_CAPACITY param, somethign is wrong.", "Error"); MainV2.comPort.getParamList();
+                }
 
-            txt_mah.Text = MainV2.comPort.MAV.param["BATT_CAPACITY"].ToString();
+                txt_mah.Text = MainV2.comPort.MAV.param["BATT_CAPACITY"].ToString();
+            }
+            catch { Console.WriteLine("no BATT_CAPACITY param"); this.Close(); }
 
             startup = false;
         }
@@ -114,7 +122,8 @@ namespace MissionPlanner.Wizard
             try
             {
                 float batterysize = float.Parse(txt_mah.Text);
-                MainV2.comPort.setParam("BATT_CAPACITY", batterysize);
+                if (!MainV2.comPort.setParam("BATT_CAPACITY", batterysize))
+                    throw new Exception("BATT_CAPACITY Not Set");
             }
             catch { CustomMessageBox.Show("Failed to set battery size, please check your input"); return 0; }
 
@@ -156,7 +165,7 @@ namespace MissionPlanner.Wizard
                 }
                 else if (selection == 4)
                 {
-                    //px4
+                    //pixhawk
                     MainV2.comPort.setParam("BATT_VOLT_PIN", 2);
                     MainV2.comPort.setParam("BATT_CURR_PIN", 3);
                 }

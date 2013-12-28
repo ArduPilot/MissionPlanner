@@ -2966,6 +2966,7 @@ print 'Roll complete'
 
                 SaveFileDialog sfd = new SaveFileDialog();
                 sfd.Filter = "log|*.log";
+                sfd.FileName = Path.GetFileNameWithoutExtension(ofd.FileName) + ".log";
 
                 DialogResult res = sfd.ShowDialog();
 
@@ -2984,7 +2985,7 @@ print 'Roll complete'
         private void but_dflogtokml_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
-            openFileDialog1.Filter = "*.log|*.log";
+            openFileDialog1.Filter = "Log Files|*.log;*.bin";
             openFileDialog1.FilterIndex = 2;
             openFileDialog1.RestoreDirectory = true;
             openFileDialog1.Multiselect = true;
@@ -3001,7 +3002,22 @@ print 'Roll complete'
                     LogOutput lo = new LogOutput();
                     try
                     {
-                        StreamReader tr = new StreamReader(logfile);
+                        StreamReader tr;
+
+                        if (logfile.ToLower().EndsWith(".bin"))
+                        {
+                            var ms = new MemoryStream();
+                            var lines = BinaryLog.ReadLog(logfile);
+                            foreach (var line in lines) {
+                                ms.Write(ASCIIEncoding.ASCII.GetBytes(line),0,line.Length);
+                            }
+                            ms.Seek(0, SeekOrigin.Begin);
+                            tr = new StreamReader(ms);
+                        }
+                        else
+                        {
+                            tr = new StreamReader(logfile);
+                        }
 
                         while (!tr.EndOfStream)
                         {

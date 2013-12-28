@@ -63,7 +63,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
 
             mavlinkNumericUpDownFS_BATT_MAH.setup(1000, 99999, 1, 1, "FS_BATT_MAH", MainV2.comPort.MAV.param, pnlmah);
-            mavlinkCheckBoxfs_gps_enable.setup(1, 0, "FS_GPS_ENABLE", MainV2.comPort.MAV.param);
+
+            // removed at randys request
+            //mavlinkCheckBoxfs_gps_enable.setup(1, 0, "FS_GPS_ENABLE", MainV2.comPort.MAV.param);
             mavlinkCheckBoxFS_GCS_ENABLE.setup(1, 0, "FS_GCS_ENABLE", MainV2.comPort.MAV.param);
 
             // plane

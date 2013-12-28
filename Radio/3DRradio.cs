@@ -114,8 +114,6 @@ S15: MAX_WINDOW=131
             }
             else if (device == uploader.Uploader.Board.DEVICE_ID_RFD900A)
             {
-                int fixme;
-
                 //  return Common.getFilefromNet("http://rfdesign.com.au/firmware/MPSik%20V2.3%20radio~rfd900a.ihx", firmwarefile);
                 if (beta)
                 {

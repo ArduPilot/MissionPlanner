@@ -1794,9 +1794,6 @@ namespace MissionPlanner
             }
             if (keyData == (Keys.Control | Keys.J)) // for jani
             {
-
-                int fixme;
-
                 var test = MainV2.comPort.GetLogList();
 
                 foreach (var item in test)
