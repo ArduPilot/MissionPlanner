@@ -24,6 +24,11 @@ namespace MissionPlanner.Wizard
             return 1;
         }
 
+        public bool WizardBusy()
+        {
+            return false;
+        }
+
         public void Activate()
         { 
             timer1.Start(); 

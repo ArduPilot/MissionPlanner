@@ -21,9 +21,13 @@ namespace MissionPlanner.Wizard
 
         public int WizardValidate()
         {
-                return 1;
+            return BUT_start.Enabled ? 1:0;
         }
 
+        public bool WizardBusy()
+        {
+            return !BUT_start.Enabled;
+        }
 
         private void BUT_start_Click(object sender, EventArgs e)
         {
@@ -71,6 +75,8 @@ namespace MissionPlanner.Wizard
                 {
                     //local.imageLabel1.Text = "Done";
                     local.BUT_continue.Enabled = false;
+                    local.BUT_start.Enabled = true;
+                    local.count = 0;
                 });
             }
             catch { }

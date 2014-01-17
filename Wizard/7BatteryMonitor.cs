@@ -130,6 +130,11 @@ namespace MissionPlanner.Wizard
             return 1;
         }
 
+        public bool WizardBusy()
+        {
+            return false;
+        }
+
         private void CMB_apmversion_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (startup)

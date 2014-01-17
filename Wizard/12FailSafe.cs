@@ -152,5 +152,10 @@ namespace MissionPlanner.Wizard
         {
             return 1;
         }
+
+        public bool WizardBusy()
+        {
+            return false;
+        }
     }
 }

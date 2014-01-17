@@ -130,6 +130,11 @@ namespace MissionPlanner.Wizard
             return 0;
         }
 
+        public bool WizardBusy()
+        {
+            return false;
+        }
+
         void pdr_DoWork(object sender, Controls.ProgressWorkerEventArgs e, object passdata = null)
         {
             // upload fw

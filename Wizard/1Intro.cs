@@ -32,6 +32,11 @@ namespace MissionPlanner.Wizard
             return 0;
         }
 
+        public bool WizardBusy()
+        {
+            return false;
+        }
+
         void setfwtype(object sender)
         {
             // only remembers the last selected item

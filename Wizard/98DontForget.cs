@@ -33,6 +33,11 @@ namespace MissionPlanner.Wizard
             return 1;
         }
 
+        public bool WizardBusy()
+        {
+            return false;
+        }
+
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             System.Diagnostics.Process.Start(((LinkLabel)sender).Tag.ToString());

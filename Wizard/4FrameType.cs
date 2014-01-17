@@ -27,6 +27,11 @@ namespace MissionPlanner.Wizard
             return 0;
         }
 
+        public bool WizardBusy()
+        {
+            return false;
+        }
+
         void setframeType(object sender)
         {
             string option = (sender as PictureBoxMouseOver).Tag.ToString();

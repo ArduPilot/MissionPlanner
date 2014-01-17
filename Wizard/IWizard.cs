@@ -12,5 +12,11 @@ namespace MissionPlanner.Wizard
         /// </summary>
         /// <returns></returns>
         int WizardValidate();
+
+        /// <summary>
+        /// returns if we can leave (back or next)
+        /// </summary>
+        /// <returns></returns>
+        bool WizardBusy();
     }
 }

@@ -33,6 +33,11 @@ namespace MissionPlanner.Wizard
             return 1;
         }
 
+        public bool WizardBusy()
+        {
+            return false;
+        }
+
         private void BUT_continue_Click(object sender, EventArgs e)
         {
             label3.Visible = false;

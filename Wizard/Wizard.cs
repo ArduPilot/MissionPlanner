@@ -112,6 +112,16 @@ namespace MissionPlanner.Wizard
 
         private void BUT_Back_Click(object sender, EventArgs e)
         {
+            // do the current page busy check
+            if (wiz_main.current.Control is IWizard)
+            {
+                bool busy = ((IWizard)(wiz_main.current.Control)).WizardBusy();
+                if (busy)
+                {
+                    return;
+                }
+            }
+
             GoBack();
         }
 
