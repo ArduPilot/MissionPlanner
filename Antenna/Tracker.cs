@@ -225,6 +225,8 @@ namespace MissionPlanner.Antenna
 
             int.TryParse(TXT_panrange.Text, out range);
 
+            range = 360;
+
             TRK_pantrim.Minimum = range / 2 * -1;
             TRK_pantrim.Maximum = range / 2;
         }

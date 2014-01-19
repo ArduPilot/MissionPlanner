@@ -681,21 +681,25 @@ namespace ZedGraph
 
 				SetCursor( mousePt );
 
-				// If the mouse is being dragged,
-				// undraw and redraw the rectangle as the mouse moves.
-				if ( _isZooming )
-					HandleZoomDrag( mousePt );
-				else if ( _isPanning )
-					HandlePanDrag( mousePt );
-				else if ( _isEditing )
-					HandleEditDrag( mousePt );
-				else if ( _isShowCursorValues )
-					HandleCursorValues( mousePt );
-				else if ( _isShowPointValues )
-					HandlePointValues( mousePt );
-				//Revision: JCarpenter 10/06
-				else if ( _isSelecting )
-					HandleZoomDrag( mousePt );
+                try
+                {
+                    // If the mouse is being dragged,
+                    // undraw and redraw the rectangle as the mouse moves.
+                    if (_isZooming)
+                        HandleZoomDrag(mousePt);
+                    else if (_isPanning)
+                        HandlePanDrag(mousePt);
+                    else if (_isEditing)
+                        HandleEditDrag(mousePt);
+                    else if (_isShowCursorValues)
+                        HandleCursorValues(mousePt);
+                    else if (_isShowPointValues)
+                        HandlePointValues(mousePt);
+                    //Revision: JCarpenter 10/06
+                    else if (_isSelecting)
+                        HandleZoomDrag(mousePt);
+                }
+                catch { }
 			}
 		}
 

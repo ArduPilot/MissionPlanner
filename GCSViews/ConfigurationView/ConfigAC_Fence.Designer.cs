@@ -129,11 +129,21 @@
             this.mavlinkNumericUpDown2.Location = new System.Drawing.Point(136, 119);
             this.mavlinkNumericUpDown2.Max = 1F;
             this.mavlinkNumericUpDown2.Min = 0F;
+            this.mavlinkNumericUpDown2.Minimum = new decimal(new int[] {
+            30,
+            0,
+            0,
+            0});
             this.mavlinkNumericUpDown2.Name = "mavlinkNumericUpDown2";
             this.mavlinkNumericUpDown2.param = null;
             this.mavlinkNumericUpDown2.ParamName = null;
             this.mavlinkNumericUpDown2.Size = new System.Drawing.Size(120, 20);
             this.mavlinkNumericUpDown2.TabIndex = 87;
+            this.mavlinkNumericUpDown2.Value = new decimal(new int[] {
+            30,
+            0,
+            0,
+            0});
             // 
             // mavlinkCheckBox1
             // 

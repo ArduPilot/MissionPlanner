@@ -34,6 +34,41 @@ namespace MissionPlanner.Log
             public int lineno;
         }
 
+        public enum error_subsystem
+        {
+            MAIN = 1,
+            RADIO = 2,
+            COMPASS = 3,
+            OPTFLOW = 4,
+            FAILSAFE_RADIO = 5,
+            FAILSAFE_BATT = 6,
+            FAILSAFE_GPS = 7,
+            FAILSAFE_GCS = 8,
+            FAILSAFE_FENCE = 9,
+            FLIGHT_MODE = 10,
+            GPS = 11,
+            CRASH_CHECK = 12
+        }
+
+        public enum error_code
+        {
+            ERROR_RESOLVED = 0,
+            FAILED_TO_INITIALISE = 1,
+            // subsystem specific error codes -- radio
+            RADIO_LATE_FRAME = 2,
+            // subsystem specific error codes -- failsafe_thr, batt, gps
+            FAILSAFE_RESOLVED = 0,
+            FAILSAFE_OCCURRED = 1,
+            // subsystem specific error codes -- compass
+            COMPASS_FAILED_TO_READ = 2,
+            // subsystem specific error codes -- gps
+            GPS_GLITCH = 2,
+            // subsystem specific error codes -- main
+            MAIN_INS_DELAY = 1,
+            // subsystem specific error codes -- crash checker
+            CRASH_CHECK_CRASH = 1,
+        }
+
         public static Dictionary<string, Label> logformat = new Dictionary<string, Label>();
 
         public static void Clear()

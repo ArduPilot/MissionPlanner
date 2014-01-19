@@ -294,6 +294,32 @@ namespace resedit
 
             CustomMessageBox.Show("Loaded Existing");
         }
+
+
+        private void BUT_clipboard_Click(object sender, EventArgs e)
+        {
+            string ApiKey = "AIzaSyDW05vWXeNIfZAN4Ter8gf4YLg8rPHZToc";
+
+            string sb = "";
+
+            foreach (DataGridViewRow row in dataGridView1.Rows)
+            {
+                string lastitem = "";
+                foreach (DataGridViewCell item in row.Cells)
+                {
+                    lastitem = item.Value.ToString();
+                    sb += '"'+item.Value.ToString()+'"' + ",";
+                }
+                //sb += new StreamReader(WebRequest.Create("https://www.googleapis.com/language/translate/v2?q=" + lastitem + "&target=zh&source=en&key=" + ApiKey).GetResponse().GetResponseStream()).ReadToEnd();
+                sb += "\n";
+            }
+
+            Clipboard.SetText(sb);
+        }
+
+        /*
+
+         */
     }
 }
 

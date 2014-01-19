@@ -38,6 +38,7 @@ namespace MissionPlanner
             ToolStripMenuItem but = new ToolStripMenuItem("Survey (Grid)");
             but.Click += but_Click;
 
+            bool hit = false;
             ToolStripItemCollection col = Host.FPMenuMap.Items;
             int index = col.Count;
             foreach (ToolStripItem item in col)
@@ -46,9 +47,13 @@ namespace MissionPlanner
                 {
                     index = col.IndexOf(item);
                     ((ToolStripMenuItem)item).DropDownItems.Add(but);
+                    hit = true;
                     break;
                 }
             }
+
+            if (hit == false)
+                col.Add(but);
 
             return true;
         }

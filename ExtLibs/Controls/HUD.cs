@@ -210,7 +210,20 @@ namespace MissionPlanner.Controls
             //public float FontSize;
             public string Header;
             public System.Reflection.PropertyInfo Item;
-            public float GetValue { get { return (float)Item.GetValue(src, null); } }
+            public double GetValue
+            {
+                get
+                {
+                    if (Item.PropertyType == typeof(Single))
+                    {
+                        return (double)(float)Item.GetValue(src, null);
+                    }
+                    //if (src is double)
+                    {
+                        return (double)Item.GetValue(src, null);
+                    }
+                }
+            }
             public object src { get; set; }
         }
 
@@ -1520,7 +1533,7 @@ namespace MissionPlanner.Controls
                         Custom item = (Custom)CustomItems[key];
                         if (item.Item == null)
                             continue;
-                        drawstring(graphicsObject, item.Header + item.GetValue.ToString("0.##"), font, fontsize + 2, whiteBrush, this.Width / 8, height);
+                        drawstring(graphicsObject, item.Header + item.GetValue.ToString("0.#######"), font, fontsize + 2, whiteBrush, this.Width / 8, height);
                         height -= fontsize+5;
                     }
                     catch { }

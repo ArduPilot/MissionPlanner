@@ -24,6 +24,7 @@ namespace MissionPlanner
         static internal PointLatLngAlt gotolocation = new PointLatLngAlt(0, 0, 0, "Goto");
         static internal int intalt = 100;
         static float updaterate = 0.5f;
+        static bool updaterallypnt = false;
 
         public MovingBase()
         {
@@ -34,6 +35,8 @@ namespace MissionPlanner
             CMB_serialport.DataSource = SerialPort.GetPortNames();
 
             CMB_updaterate.SelectedItem = updaterate;
+
+            CHK_updateRallyPnt.Checked = updaterallypnt;
 
             if (threadrun)
             {
@@ -85,6 +88,8 @@ namespace MissionPlanner
         void mainloop()
         {
             DateTime nextsend = DateTime.Now;
+
+            DateTime nextrallypntupdate = DateTime.Now;
 
             StreamWriter sw = new StreamWriter(File.OpenWrite("MovingBase.txt"));
 
@@ -156,6 +161,16 @@ namespace MissionPlanner
 
                         MainV2.comPort.MAV.cs.MovingBase = gotolocation;
 
+                        // plane only
+                        if (updaterallypnt && DateTime.Now > nextrallypntupdate)
+                        {
+                            nextrallypntupdate = DateTime.Now.AddSeconds(5);
+                            try
+                            {
+                                MainV2.comPort.setRallyPoint(0, new PointLatLngAlt(gotolocation) { Alt = gotolocation.Alt + double.Parse(MainV2.config["TXT_DefaultAlt"].ToString()) }, 0, 0, 0, (byte)(float)MainV2.comPort.MAV.param["RALLY_TOTAL"]);
+                            }
+                            catch (Exception ex) { Console.WriteLine(ex.ToString()); }
+                        }
                     }
                 }
                 catch { System.Threading.Thread.Sleep((int)(1000 / updaterate)); }
@@ -222,6 +237,11 @@ namespace MissionPlanner
                 updaterate = float.Parse(CMB_updaterate.Text.Replace("hz", ""));
             }
             catch { CustomMessageBox.Show("Bad Update Rate", "Error"); }
+        }
+
+        private void CHK_updateRallyPnt_CheckedChanged(object sender, EventArgs e)
+        {
+            updaterallypnt = CHK_updateRallyPnt.Checked;
         }
 
     }

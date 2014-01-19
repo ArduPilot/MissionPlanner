@@ -783,30 +783,32 @@ namespace MissionPlanner.GCSViews
 
                         double time = (Environment.TickCount - tickStart) / 1000.0;
                         if (list1item != null)
-                            list1.Add(time, (float)list1item.GetValue((object)MainV2.comPort.MAV.cs, null));
+                            list1.Add(time, ConvertToDouble(list1item.GetValue((object)MainV2.comPort.MAV.cs, null)));
                         if (list2item != null)
-                            list2.Add(time, (float)list2item.GetValue((object)MainV2.comPort.MAV.cs, null));
+                            list2.Add(time, ConvertToDouble(list2item.GetValue((object)MainV2.comPort.MAV.cs, null)));
                         if (list3item != null)
-                            list3.Add(time, (float)list3item.GetValue((object)MainV2.comPort.MAV.cs, null));
+                            list3.Add(time, ConvertToDouble(list3item.GetValue((object)MainV2.comPort.MAV.cs, null)));
                         if (list4item != null)
-                            list4.Add(time, (float)list4item.GetValue((object)MainV2.comPort.MAV.cs, null));
+                            list4.Add(time, ConvertToDouble(list4item.GetValue((object)MainV2.comPort.MAV.cs, null)));
                         if (list5item != null)
-                            list5.Add(time, (float)list5item.GetValue((object)MainV2.comPort.MAV.cs, null));
+                            list5.Add(time, ConvertToDouble(list5item.GetValue((object)MainV2.comPort.MAV.cs, null)));
                         if (list6item != null)
-                            list6.Add(time, (float)list6item.GetValue((object)MainV2.comPort.MAV.cs, null));
+                            list6.Add(time, ConvertToDouble(list6item.GetValue((object)MainV2.comPort.MAV.cs, null)));
                         if (list7item != null)
-                            list7.Add(time, (float)list7item.GetValue((object)MainV2.comPort.MAV.cs, null));
+                            list7.Add(time, ConvertToDouble(list7item.GetValue((object)MainV2.comPort.MAV.cs, null)));
                         if (list8item != null)
-                            list8.Add(time, (float)list8item.GetValue((object)MainV2.comPort.MAV.cs, null));
+                            list8.Add(time, ConvertToDouble(list8item.GetValue((object)MainV2.comPort.MAV.cs, null)));
                         if (list9item != null)
-                            list9.Add(time, (float)list9item.GetValue((object)MainV2.comPort.MAV.cs, null));
+                            list9.Add(time, ConvertToDouble(list9item.GetValue((object)MainV2.comPort.MAV.cs, null)));
                         if (list10item != null)
-                            list10.Add(time, (float)list10item.GetValue((object)MainV2.comPort.MAV.cs, null));
+                            list10.Add(time, ConvertToDouble(list10item.GetValue((object)MainV2.comPort.MAV.cs, null)));
                     }
 
                     // update map
                     if (tracklast.AddSeconds(1.2) < DateTime.Now && gMapControl1.Visible)
                     {
+                        if (threadrun == 0) { return; }
+
                         if (MainV2.config["CHK_maprotation"] != null && MainV2.config["CHK_maprotation"].ToString() == "True")
                         {
                             // dont holdinvalidation here
@@ -831,6 +833,8 @@ namespace MissionPlanner.GCSViews
                             cnt++;
                         }
 
+                        if (threadrun == 0) { return; }
+
                         // maintain route history length
                         if (route.Points.Count > int.Parse(MainV2.config["NUM_tracklength"].ToString()))
                         {
@@ -852,6 +856,8 @@ namespace MissionPlanner.GCSViews
                                 cnt++;
                             }
 
+                            if (threadrun == 0) { return; }
+
                             //route = new GMapRoute(route.Points, "track");
                             //track.Stroke = Pens.Red;
                             //route.Stroke = new Pen(Color.FromArgb(144, Color.Red));
@@ -865,6 +871,8 @@ namespace MissionPlanner.GCSViews
                             // update programed wp course
                             if (waypoints.AddSeconds(5) < DateTime.Now)
                             {
+                                if (threadrun == 0) { return; }
+
                                 //Console.WriteLine("Doing FD WP's");
                                 updateClearMissionRouteMarkers();
 
@@ -982,6 +990,16 @@ namespace MissionPlanner.GCSViews
                                 routes.Markers.Add(new GMarkerGoogle(currentloc, GMarkerGoogleType.blue_dot) { Position = MainV2.comPort.MAV.cs.MovingBase, ToolTipText = "Moving Base", ToolTipMode = MarkerTooltipMode.OnMouseOver });
                             }
 
+                            lock(MainV2.instance.adsbPlanes) 
+                            {
+                                foreach (PointLatLngAlt plla in MainV2.instance.adsbPlanes.Values)
+                                {
+                                    // 30 seconds
+                                    if (((DateTime)MainV2.instance.adsbPlaneAge[plla.Tag]) > DateTime.Now.AddSeconds(-30))
+                                        routes.Markers.Add(new GMarkerGoogle(plla, GMarkerGoogleType.red_pushpin) { ToolTipText = "ICAO: " + plla.Tag, ToolTipMode = MarkerTooltipMode.OnMouseOver });
+                                }
+                            }
+
                             gMapControl1.HoldInvalidation = false;
 
                             gMapControl1.Invalidate();
@@ -993,6 +1011,22 @@ namespace MissionPlanner.GCSViews
                 catch (Exception ex) { Console.WriteLine("FD Main loop exception " + ex.ToString()); }
             }
             Console.WriteLine("FD Main loop exit");
+        }
+
+        private double ConvertToDouble(object input)
+        {
+            if (input.GetType() == typeof(float))
+            {
+                return (double)(float)input;
+            }
+            if (input.GetType() == typeof(double))
+            {
+                return (double)input;
+            }
+            //if (input.GetType() == typeof(int))
+            {
+                return (double)(int)input;
+            }
         }
 
         private void setMapBearing()
@@ -2006,7 +2040,7 @@ namespace MissionPlanner.GCSViews
                 }
                 catch { continue; }
 
-                if (!(typeCode == TypeCode.Single))
+                if (!(typeCode == TypeCode.Single || typeCode == TypeCode.Double))
                     continue;
 
                 CheckBox chk_box = new CheckBox();
@@ -2090,7 +2124,7 @@ namespace MissionPlanner.GCSViews
                 }
                 catch { continue; }
 
-                if (!(typeCode == TypeCode.Single))
+                if (!(typeCode == TypeCode.Single || typeCode == TypeCode.Double))
                     continue;
 
                 CheckBox chk_box = new CheckBox();

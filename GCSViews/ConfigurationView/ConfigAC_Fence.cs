@@ -35,7 +35,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 3
             mavlinkNumericUpDown1.setup(10, 1000, (float)MainV2.comPort.MAV.cs.fromDistDisplayUnit(1), 1, "FENCE_ALT_MAX", MainV2.comPort.MAV.param);
 
-            mavlinkNumericUpDown2.setup(0, 65536, (float)MainV2.comPort.MAV.cs.fromDistDisplayUnit(1), 1, "FENCE_RADIUS", MainV2.comPort.MAV.param);
+            mavlinkNumericUpDown2.setup(30, 65536, (float)MainV2.comPort.MAV.cs.fromDistDisplayUnit(1), 1, "FENCE_RADIUS", MainV2.comPort.MAV.param);
 
             mavlinkNumericUpDown3.setup(1, 500, (float)MainV2.comPort.MAV.cs.fromDistDisplayUnit(100), 1, "RTL_ALT", MainV2.comPort.MAV.param);
         }

@@ -1135,11 +1135,16 @@ namespace MissionPlanner
                 {
                     xmlwriter.WriteStartElement("Firmware");
 
-                    xmlwriter.WriteElementString("url", new Uri(software.url).LocalPath.TrimStart('/','\\'));
-                    xmlwriter.WriteElementString("url2560", new Uri(software.url2560).LocalPath.TrimStart('/', '\\'));
-                    xmlwriter.WriteElementString("url2560-2", new Uri(software.url2560_2).LocalPath.TrimStart('/', '\\'));
-                    xmlwriter.WriteElementString("urlpx4", new Uri(software.urlpx4v1).LocalPath.TrimStart('/', '\\'));
-                    xmlwriter.WriteElementString("urlpx4v2", new Uri(software.urlpx4v2).LocalPath.TrimStart('/', '\\'));
+                    if (software.url != "")
+                        xmlwriter.WriteElementString("url", new Uri(software.url).LocalPath.TrimStart('/','\\'));
+                    if (software.url2560 != "")
+                        xmlwriter.WriteElementString("url2560", new Uri(software.url2560).LocalPath.TrimStart('/', '\\'));
+                    if (software.url2560_2 != "")
+                        xmlwriter.WriteElementString("url2560-2", new Uri(software.url2560_2).LocalPath.TrimStart('/', '\\'));
+                    if (software.urlpx4v1 != "")
+                        xmlwriter.WriteElementString("urlpx4", new Uri(software.urlpx4v1).LocalPath.TrimStart('/', '\\'));
+                    if (software.urlpx4v2 != "")
+                        xmlwriter.WriteElementString("urlpx4v2", new Uri(software.urlpx4v2).LocalPath.TrimStart('/', '\\'));
                     xmlwriter.WriteElementString("name", software.name);
                     xmlwriter.WriteElementString("desc", software.desc);
                     xmlwriter.WriteElementString("format_version", software.k_format_version.ToString());

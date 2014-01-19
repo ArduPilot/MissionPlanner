@@ -42,11 +42,21 @@ namespace MissionPlanner
     {
         public Pen Pen = new Pen(Brushes.White, 2);
 
-        public Color Color { get { return Pen.Color; } set { Pen.Color = value; } }
+        public Color Color { get { return Pen.Color; } set { if (!initcolor.HasValue) initcolor = value; Pen.Color = value; } }
+
+        Color? initcolor = null;
 
         public GMapMarker InnerMarker;
 
         public int wprad = 0;
+
+        public void ResetColor()
+        {
+            if (initcolor.HasValue)
+                Color = initcolor.Value;
+            else
+                Color = Color.White;
+        }
 
         public GMapMarkerRect(PointLatLng p)
             : base(p)
@@ -66,9 +76,13 @@ namespace MissionPlanner
             if (wprad == 0 || Overlay.Control == null)
                 return;
 
+            // if we have drawn it, then keep that color
+            if (!initcolor.HasValue)
+                Color = Color.White;
+
             // undo autochange in mouse over
-            if (Pen.Color == Color.Blue)
-                Pen.Color = Color.White;
+            //if (Pen.Color == Color.Blue)
+              //  Pen.Color = Color.White;
 
             double width = (Overlay.Control.MapProvider.Projection.GetDistance(Overlay.Control.FromLocalToLatLng(0, 0), Overlay.Control.FromLocalToLatLng(Overlay.Control.Width, 0)) * 1000.0);
             double height = (Overlay.Control.MapProvider.Projection.GetDistance(Overlay.Control.FromLocalToLatLng(0, 0), Overlay.Control.FromLocalToLatLng(Overlay.Control.Height, 0)) * 1000.0);

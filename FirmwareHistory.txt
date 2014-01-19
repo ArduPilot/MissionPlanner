@@ -1,4 +1,5 @@
-﻿https://github.com/diydrones/binary/raw/85f1137fd85fa14c95a2528e706602aa0128037e/History/firmware2.xml AR2.43 AP 2.76 AC 3.0.1
+﻿https://github.com/diydrones/binary/raw/5e9a29f1fb67c9def103872300511953c28d4e2f/History/firmware2.xml AR2.44 AP 2.76 AC 3.1
+https://github.com/diydrones/binary/raw/85f1137fd85fa14c95a2528e706602aa0128037e/History/firmware2.xml AR2.43 AP 2.76 AC 3.0.1
 06a4bdb5b6b6513ffa85f184d9afa04adcf1ef25 AR2.42 AP 2.74 AC 2.9.1b
 79d0ba5c7752f958920abab7bf3e45e9d565a2d2 AR2.42 AP 2.73 AC 2.9.1b
 c0a8fbd91629946b9655e5b274cacb4b49594219 AR2.41 AP 2.73 AC 2.9.1b

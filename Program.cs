@@ -11,6 +11,7 @@ using System.Diagnostics;
 using System.Linq;
 using MissionPlanner.Utilities;
 using MissionPlanner;
+using System.Drawing;
 
 namespace MissionPlanner
 {
@@ -19,6 +20,9 @@ namespace MissionPlanner
         private static readonly ILog log = LogManager.GetLogger("Program");
 
         public static DateTime starttime = DateTime.Now;
+
+        public static bool vvvvz = false;
+        public static Image Logo = null;
 
         public static Splash Splash;
 
@@ -57,6 +61,17 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
             // add my 2 custom map providers
             GMap.NET.MapProviders.GMapProviders.List.Add(Maps.WMSProvider.Instance);
             GMap.NET.MapProviders.GMapProviders.List.Add(Maps.Custom.Instance);
+
+            string name = "Mission Planner";
+
+            if (File.Exists(Application.StartupPath + Path.DirectorySeparatorChar + "logo.txt"))
+                name = File.ReadAllText(Application.StartupPath + Path.DirectorySeparatorChar + "logo.txt", Encoding.UTF8);
+
+            if (File.Exists(Application.StartupPath + Path.DirectorySeparatorChar + "logo.png"))
+                Logo = new Bitmap(Application.StartupPath + Path.DirectorySeparatorChar + "logo.png");
+
+            if (name == "VVVVZ")
+                vvvvz = true;
 
        //     string[] files = Directory.GetFiles(@"C:\Users\hog\Documents\apm logs\","*.tlog");
 
@@ -189,6 +204,13 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
             //Console.WriteLine(DateTime.Now.ToString());
             //var test2 = Log.DFLog.ReadLog(@"C:\Users\hog\Downloads\ArduCopter.log");
             //Console.WriteLine(DateTime.Now.ToString());
+            try
+            {
+              //  Utilities.adsb.ReadMessage(File.OpenRead(@"C:\Users\hog\Downloads\rtl1090log3.log"));
+
+            }
+            catch { }
+
 
             try
             {
@@ -207,7 +229,7 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
 
             Splash = new MissionPlanner.Splash();
             string strVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
-            Splash.Text = "Mission Planner " + Application.ProductVersion + " build " + strVersion;
+            Splash.Text = name+" " + Application.ProductVersion + " build " + strVersion;
             Splash.Show();
 
             Application.DoEvents();

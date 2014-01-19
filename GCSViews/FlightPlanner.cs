@@ -698,6 +698,11 @@ namespace MissionPlanner.GCSViews
 
                 setgradanddist();
 
+                if (cmd == "WAYPOINT")
+                {
+
+                }
+
                 //  writeKML();
             }
             catch (Exception ex) { CustomMessageBox.Show(ex.ToString()); }
@@ -1260,11 +1265,24 @@ namespace MissionPlanner.GCSViews
                 for (int b = 0; b < Commands.ColumnCount - 0; b++)
                 {
                     double answer;
-                    if (b >= 1 && b <= 4)
+                    if (b >= 1 && b <= 7)
                     {
                         if (!double.TryParse(Commands[b, a].Value.ToString(), out answer))
                         {
                             CustomMessageBox.Show("There are errors in your mission");
+                            return;
+                        }
+                    }
+
+                    byte cmd = (byte)(int)Enum.Parse(typeof(MAVLink.MAV_CMD), Commands.Rows[a].Cells[Command.Index].Value.ToString(), false);
+
+                    if (cmd < (byte)MAVLink.MAV_CMD.LAST && double.Parse(Commands[Alt.Index,a].Value.ToString()) < double.Parse(TXT_altwarn.Text))
+                    {
+                        if (cmd != (byte)MAVLink.MAV_CMD.TAKEOFF &&
+                            cmd != (byte)MAVLink.MAV_CMD.LAND &&
+                            cmd != (byte)MAVLink.MAV_CMD.RETURN_TO_LAUNCH)
+                        {
+                            CustomMessageBox.Show("Low alt on WP#" + (a + 1) + "\nPlease reduce the alt warning, or increase the altitude");
                             return;
                         }
                     }
@@ -1352,6 +1370,16 @@ namespace MissionPlanner.GCSViews
                     temp.p4 = (float)(double.Parse(Commands.Rows[a].Cells[Param4.Index].Value.ToString()));
 
                     MAVLink.MAV_MISSION_RESULT ans = port.setWP(temp, (ushort)(a + 1), frame, 0);
+
+                    // we timed out while uploading wps
+                    if (ans == MAVLink.MAV_MISSION_RESULT.MAV_MISSION_ERROR)
+                    {
+                        // resend for partial upload
+                        port.setWPPartialUpdate((short)(a + 1), (short)(Commands.Rows.Count + 1));
+                        // reupload this point.
+                        ans = port.setWP(temp, (ushort)(a + 1), frame, 0);
+                    }
+
                     // invalid sequence can only occur if we failed to see a responce from the apm when we sent the request.
                     // therefore it did see the request and has moved on that step, and so do we.
                     if (ans != MAVLink.MAV_MISSION_RESULT.MAV_MISSION_ACCEPTED && ans != MAVLink.MAV_MISSION_RESULT.MAV_MISSION_INVALID_SEQUENCE)
@@ -1372,7 +1400,7 @@ namespace MissionPlanner.GCSViews
 
                 try
                 {
-                    port.setParam(new string[] {"LOITER_RAD","WP_LOITER_RAD"}, (byte)(int.Parse(TXT_loiterrad.Text) / MainV2.comPort.MAV.cs.multiplierdist));
+                    port.setParam(new string[] {"LOITER_RAD","WP_LOITER_RAD"}, (float)(int.Parse(TXT_loiterrad.Text) / MainV2.comPort.MAV.cs.multiplierdist));
                 }
                 catch
                 {
@@ -1381,7 +1409,7 @@ namespace MissionPlanner.GCSViews
 
                 ((Controls.ProgressReporterDialogue)sender).UpdateProgressAndStatus(100, "Done.");
             }
-            catch (Exception) { MainV2.comPort.giveComport = false; throw; }
+            catch (Exception ex) { log.Error(ex); MainV2.comPort.giveComport = false; throw; }
 
             MainV2.comPort.giveComport = false;
         }
@@ -1568,6 +1596,8 @@ namespace MissionPlanner.GCSViews
 
                 MissionPlanner.MainV2.config["CHK_altmode"] = CHK_altmode.Checked;
 
+                MissionPlanner.MainV2.config["fpminaltwarning"] = TXT_altwarn.Text;
+
             }
             else
             {
@@ -1588,6 +1618,9 @@ namespace MissionPlanner.GCSViews
                             break;
                         case "CHK_altmode":
                             CHK_altmode.Checked = false;//bool.Parse(MissionPlanner.MainV2.config[key].ToString());
+                            break;
+                        case "fpminaltwarning":
+                            TXT_altwarn.Text = MainV2.getConfig("fpminaltwarning");
                             break;
                         default:
                             break;
@@ -1625,6 +1658,10 @@ namespace MissionPlanner.GCSViews
             int isNumber = 0;
             if (e.KeyChar.ToString() == "\b")
                 return;
+
+            if (e.KeyChar == '-')
+                return;
+
             e.Handled = !int.TryParse(e.KeyChar.ToString(), out isNumber);
         }
 
@@ -1935,7 +1972,7 @@ namespace MissionPlanner.GCSViews
                 {
                     CurentRectMarker = null;
                     GMapMarkerRect rc = item as GMapMarkerRect;
-                    rc.Pen.Color = Color.Blue;
+                    rc.ResetColor();
                     MainMap.Invalidate(false);
                 }
                 if (item is GMapMarkerRallyPt) {
@@ -3489,6 +3526,12 @@ namespace MissionPlanner.GCSViews
 
         private void setROIToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (!cmdParamNames.ContainsKey("DO_SET_ROI"))
+            {
+                CustomMessageBox.Show("Command not supported","Error");
+                return;
+            }
+
             selectedrow = Commands.Rows.Add();
 
             Commands.Rows[selectedrow].Cells[Command.Index].Value = MAVLink.MAV_CMD.DO_SET_ROI.ToString();
@@ -4531,7 +4574,7 @@ namespace MissionPlanner.GCSViews
             {
                 string top = "15";
 
-                if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Takeoff Pitch", "Please enter your takeoff pitch", ref alt))
+                if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Takeoff Pitch", "Please enter your takeoff pitch", ref top))
                     return;
 
                 if (!int.TryParse(top, out topi))

@@ -49,9 +49,13 @@ namespace MissionPlanner.Controls
             } 
             else  if (System == CoordsSystems.UTM.ToString())
             {
-                UTM utm = (UTM)point;
-                //utm.East.ToString("0.00") + " " + utm.North.ToString("0.00")
-                e.Graphics.DrawString(utm.ToString() + "   " + Alt.ToString("0.00"), this.Font, new SolidBrush(this.ForeColor), text, StringFormat.GenericDefault);
+                try
+                {
+                    UTM utm = (UTM)point;
+                    //utm.East.ToString("0.00") + " " + utm.North.ToString("0.00")
+                    e.Graphics.DrawString(utm.ToString() + "   " + Alt.ToString("0.00"), this.Font, new SolidBrush(this.ForeColor), text, StringFormat.GenericDefault);
+                }
+                catch { }
             }
             else if (System == CoordsSystems.MGRS.ToString())
             {

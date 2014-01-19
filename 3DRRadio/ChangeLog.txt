@@ -1,4 +1,5 @@
-﻿1.3 - add new max_window, mavlink framing types
+﻿1.3.1 - fix setting wrong setting on not in datasource. (broke in 1.3)
+1.3 - add new max_window, mavlink framing types
 1.2 - fix file already exists error
 1.1 - add custom fw upload & change stable fw download urls
 1.02 - fix frequency display and add device id

@@ -482,6 +482,7 @@ namespace MissionPlanner
 
                 xw.WriteElementString("roll", cs.roll.ToString(new System.Globalization.CultureInfo("en-US")));
                 xw.WriteElementString("pitch", cs.pitch.ToString(new System.Globalization.CultureInfo("en-US")));
+                xw.WriteElementString("mode", cs.mode.ToString(new System.Globalization.CultureInfo("en-US")));
                 //xw.WriteElementString("speed", mod.model.Orientation.);
                 //xw.WriteElementString("fix", cs.altitude);
 

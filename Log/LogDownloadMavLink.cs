@@ -185,10 +185,14 @@ namespace MissionPlanner.Log
                 string newlogfilename = MainV2.LogDir + Path.DirectorySeparatorChar
              + MainV2.comPort.MAV.aptype.ToString() + Path.DirectorySeparatorChar
              + hbpacket[3] + Path.DirectorySeparatorChar + logtime.ToString("yyyy-MM-dd HH-mm") + ".log";
-                File.Move(logfile, newlogfilename);
-                // rename bin as well
-                File.Move(logfile.Replace(".log", ""), newlogfilename.Replace(".log", ".bin"));
-                logfile = newlogfilename;
+                try
+                {
+                    File.Move(logfile, newlogfilename);
+                    // rename bin as well
+                    File.Move(logfile.Replace(".log", ""), newlogfilename.Replace(".log", ".bin"));
+                    logfile = newlogfilename;
+                }
+                catch (Exception ex) { CustomMessageBox.Show("Failed to rename file " + logfile + "\nto " + newlogfilename, "Error"); }
             }
 
             return logfile;

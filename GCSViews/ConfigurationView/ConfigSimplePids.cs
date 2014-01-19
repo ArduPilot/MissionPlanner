@@ -232,7 +232,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             TXT_info.Clear();
 
-            float value = float.Parse(Value,CultureInfo.InvariantCulture);
+            float value = float.Parse(Value);
 
             Controls.RangeControl rc = ((Controls.RangeControl)sender);
             log.Info(rc.Name + " " + rc.Value);

@@ -251,6 +251,9 @@ namespace MissionPlanner.Utilities
                 throw;
             }
 
+            // allow threads to start
+            System.Threading.Thread.Sleep(500);
+
             while (ingetapmversion > 0)
                 System.Threading.Thread.Sleep(100);
 

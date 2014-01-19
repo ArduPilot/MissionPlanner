@@ -110,7 +110,7 @@ namespace MissionPlanner.Wizard
 
         void valueControl_ValueChanged(object sender, string Name, string Value)
         {
-            MainV2.comPort.setParam(Name, float.Parse(Value, CultureInfo.InvariantCulture));
+            MainV2.comPort.setParam(Name, float.Parse(Value));
         }
 
         /// <summary>

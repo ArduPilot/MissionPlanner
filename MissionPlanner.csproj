@@ -694,6 +694,9 @@
     <EmbeddedResource Include="Log\LogDownloadMavLink.zh-TW.resx">
       <DependentUpon>LogDownloadMavLink.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="MainV2.zh-Hans.resx">
+      <DependentUpon>MainV2.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MovingBase.de-DE.resx">
       <DependentUpon>MovingBase.cs</DependentUpon>
     </EmbeddedResource>
@@ -2708,6 +2711,9 @@
     <None Include="Resources\quadhover_12.png" />
     <None Include="Resources\quadhover_14.png" />
     <None Include="Resources\maggps.png" />
+    <Content Include="mono_instructions.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="mpdesktop.ico" />
     <Content Include="ParameterMetaDataBackup.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -2944,6 +2950,7 @@
     <PreBuildEvent>
     </PreBuildEvent>
   </PropertyGroup>
+
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

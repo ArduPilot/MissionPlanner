@@ -410,6 +410,8 @@ namespace MissionPlanner.Log
 
                 xw.WriteElementString("roll", mod.model.Orientation.roll.ToString(new System.Globalization.CultureInfo("en-US")));
                 xw.WriteElementString("pitch", mod.model.Orientation.tilt.ToString(new System.Globalization.CultureInfo("en-US")));
+                xw.WriteElementString("mode", mod.mode);
+
                 //xw.WriteElementString("speed", mod.model.Orientation.);
                 //xw.WriteElementString("fix", mod.model.Location.altitude);
 

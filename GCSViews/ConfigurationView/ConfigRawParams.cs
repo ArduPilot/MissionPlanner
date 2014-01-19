@@ -50,6 +50,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 return true;
             }
 
+            if (keyData == (Keys.Control | Keys.F))
+            {
+                BUT_find_Click(null, null);
+                return true;
+            }
+
             return false;
         }
 
@@ -353,7 +359,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                 Params.Rows.Add();
                 Params.Rows[Params.RowCount - 1].Cells[Command.Index].Value = value;
-                Params.Rows[Params.RowCount - 1].Cells[Value.Index].Value = ((float)MainV2.comPort.MAV.param[value]).ToString("0.###");
+                Params.Rows[Params.RowCount - 1].Cells[Value.Index].Value = ((float)MainV2.comPort.MAV.param[value]).ToString();
                 try
                 {
                     string metaDataDescription = ParameterMetaDataRepository.GetParameterMetaData(value, ParameterMetaDataConstants.Description);

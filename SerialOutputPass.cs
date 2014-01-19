@@ -23,7 +23,7 @@ namespace MissionPlanner
             InitializeComponent();
 
             CMB_serialport.Items.AddRange(SerialPort.GetPortNames());
-            CMB_serialport.Items.Add("TCP Host");
+            CMB_serialport.Items.Add("TCP Host - 14550");
             CMB_serialport.Items.Add("TCP Client");
 
             if (MainV2.comPort.MirrorStream != null && MainV2.comPort.MirrorStream.IsOpen || listener != null)
@@ -45,6 +45,7 @@ namespace MissionPlanner
                 {
                     switch (CMB_serialport.Text)
                     {
+                        case "TCP Host - 14550":
                         case "TCP Host":
                             MainV2.comPort.MirrorStream = new TcpSerial();
                             listener = new TcpListener(System.Net.IPAddress.Any,14550);

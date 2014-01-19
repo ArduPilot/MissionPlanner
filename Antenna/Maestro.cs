@@ -140,8 +140,30 @@ namespace MissionPlanner.Antenna
 
         public bool PanAndTilt(double pan, double tilt)
         {
-            if (Tilt(tilt) && Pan(pan))
-                return true;
+            // check if we are using 180 + 180 servos
+            if (Math.Abs(this.TiltStartRange - this.TiltEndRange) > 120)
+            {
+                double target = wrap_180(pan - TrimPan);
+
+                Console.WriteLine(target);
+
+                // target > +-90
+                if (Math.Abs(target) > 90)
+                {
+                    if (Tilt(180 - tilt) && Pan(target))
+                        return true;
+                }
+                else
+                {
+                    if (Tilt(tilt) && Pan(pan))
+                        return true;
+                }
+            }
+            else
+            {
+                if (Tilt(tilt) && Pan(pan))
+                    return true;
+            }
 
             return false;
         }

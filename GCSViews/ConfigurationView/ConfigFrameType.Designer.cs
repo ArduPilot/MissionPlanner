@@ -35,19 +35,24 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.radioButton_X = new System.Windows.Forms.RadioButton();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.pictureBoxPlus = new Controls.PictureBoxWithPseudoOpacity();
-            this.pictureBoxX = new Controls.PictureBoxWithPseudoOpacity();
+            this.pictureBoxPlus = new MissionPlanner.Controls.PictureBoxWithPseudoOpacity();
+            this.pictureBoxX = new MissionPlanner.Controls.PictureBoxWithPseudoOpacity();
             this.label6 = new System.Windows.Forms.Label();
             this.radioButton_V = new System.Windows.Forms.RadioButton();
-            this.pictureBoxV = new Controls.PictureBoxWithPseudoOpacity();
+            this.pictureBoxV = new MissionPlanner.Controls.PictureBoxWithPseudoOpacity();
             this.label1 = new System.Windows.Forms.Label();
             this.radioButton_H = new System.Windows.Forms.RadioButton();
-            this.pictureBoxH = new Controls.PictureBoxWithPseudoOpacity();
+            this.pictureBoxH = new MissionPlanner.Controls.PictureBoxWithPseudoOpacity();
             this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.radioButton_Y = new System.Windows.Forms.RadioButton();
+            this.pictureBoxY = new MissionPlanner.Controls.PictureBoxWithPseudoOpacity();
+            this.label7 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPlus)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxV)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxH)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxY)).BeginInit();
             this.SuspendLayout();
             // 
             // radioButton_Plus
@@ -143,10 +148,40 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             resources.ApplyResources(this.label4, "label4");
             this.label4.Name = "label4";
             // 
+            // label5
+            // 
+            resources.ApplyResources(this.label5, "label5");
+            this.label5.Name = "label5";
+            // 
+            // radioButton_Y
+            // 
+            resources.ApplyResources(this.radioButton_Y, "radioButton_Y");
+            this.radioButton_Y.Name = "radioButton_Y";
+            this.radioButton_Y.TabStop = true;
+            this.radioButton_Y.UseVisualStyleBackColor = true;
+            this.radioButton_Y.CheckedChanged += new System.EventHandler(this.radioButton_Y_CheckedChanged);
+            // 
+            // pictureBoxY
+            // 
+            this.pictureBoxY.Cursor = System.Windows.Forms.Cursors.Hand;
+            resources.ApplyResources(this.pictureBoxY, "pictureBoxY");
+            this.pictureBoxY.Name = "pictureBoxY";
+            this.pictureBoxY.TabStop = false;
+            this.pictureBoxY.Click += new System.EventHandler(this.pictureBoxY_Click);
+            // 
+            // label7
+            // 
+            resources.ApplyResources(this.label7, "label7");
+            this.label7.Name = "label7";
+            // 
             // ConfigFrameType
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.radioButton_Y);
+            this.Controls.Add(this.pictureBoxY);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.radioButton_H);
@@ -165,6 +200,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxX)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxV)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxH)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxY)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -185,5 +221,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private System.Windows.Forms.RadioButton radioButton_H;
         private PictureBoxWithPseudoOpacity pictureBoxH;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.RadioButton radioButton_Y;
+        private PictureBoxWithPseudoOpacity pictureBoxY;
+        private System.Windows.Forms.Label label7;
     }
 }

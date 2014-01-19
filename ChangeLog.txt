@@ -1,4 +1,30 @@
-﻿* Mission Planner 1.2.92
+﻿* Mission Planner 1.2.93
+add ERR to DF log
+add treeview to log browser (will break old DF logs)
+add double support to user hud item
+add ctrl-f in raw param screen (find)
+add double support to realtime graphing
+add df log saved views as per randys problem page.
+tweak DF over mavlink
+tweak 433 3drradio max freq. 454 > 460
+fix min fence value 30m
+fix 4 in 1 esc bat mon load for ',' users
+add new Y frame
+fix param rounding
+add adsb - wip
+add modes to gpx files
+add low pass on bat voltage
+fix min alt alert to not trigger on startup
+tweak wp upload timeout 700ms > 400ms
+tweak wp retry via partial list.
+modify maestro antenna tracking for 180,180 servos
+allow negative loiter radius
+add joystick hat switch usage
+add a few exception handles
+add color to loiter type wp's
+fix takeoff pitch.
+
+* Mission Planner 1.2.92
 sort saved param list
 wizard tweaks
 remove FS_GPS_ENABLE from FS screen

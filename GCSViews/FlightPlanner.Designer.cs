@@ -95,6 +95,8 @@
             this.lbl_status = new System.Windows.Forms.Label();
             this.panelWaypoints = new BSE.Windows.Forms.Panel();
             this.splitter1 = new BSE.Windows.Forms.Splitter();
+            this.label17 = new System.Windows.Forms.Label();
+            this.TXT_altwarn = new System.Windows.Forms.TextBox();
             this.BUT_Add = new MissionPlanner.Controls.MyButton();
             this.panelAction = new BSE.Windows.Forms.Panel();
             this.lnk_kml = new System.Windows.Forms.LinkLabel();
@@ -149,6 +151,7 @@
             this.rotateMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.zoomToToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.prefetchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.prefetchWPPathToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.kMLOverlayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.elevationGraphToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reverseWPsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -166,7 +169,6 @@
             this.panelBASE = new System.Windows.Forms.Panel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.prefetchWPPathToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.Commands)).BeginInit();
             this.panel5.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -584,6 +586,8 @@
             this.panelWaypoints.CaptionFont = new System.Drawing.Font("Segoe UI", 11.75F, System.Drawing.FontStyle.Bold);
             this.panelWaypoints.CaptionHeight = 21;
             this.panelWaypoints.ColorScheme = BSE.Windows.Forms.ColorScheme.Custom;
+            this.panelWaypoints.Controls.Add(this.label17);
+            this.panelWaypoints.Controls.Add(this.TXT_altwarn);
             this.panelWaypoints.Controls.Add(this.CHK_altmode);
             this.panelWaypoints.Controls.Add(this.LBL_WPRad);
             this.panelWaypoints.Controls.Add(this.label5);
@@ -622,6 +626,16 @@
             resources.ApplyResources(this.splitter1, "splitter1");
             this.splitter1.Name = "splitter1";
             this.splitter1.TabStop = false;
+            // 
+            // label17
+            // 
+            resources.ApplyResources(this.label17, "label17");
+            this.label17.Name = "label17";
+            // 
+            // TXT_altwarn
+            // 
+            resources.ApplyResources(this.TXT_altwarn, "TXT_altwarn");
+            this.TXT_altwarn.Name = "TXT_altwarn";
             // 
             // BUT_Add
             // 
@@ -1058,6 +1072,12 @@
             resources.ApplyResources(this.prefetchToolStripMenuItem, "prefetchToolStripMenuItem");
             this.prefetchToolStripMenuItem.Click += new System.EventHandler(this.prefetchToolStripMenuItem_Click);
             // 
+            // prefetchWPPathToolStripMenuItem
+            // 
+            this.prefetchWPPathToolStripMenuItem.Name = "prefetchWPPathToolStripMenuItem";
+            resources.ApplyResources(this.prefetchWPPathToolStripMenuItem, "prefetchWPPathToolStripMenuItem");
+            this.prefetchWPPathToolStripMenuItem.Click += new System.EventHandler(this.prefetchWPPathToolStripMenuItem_Click);
+            // 
             // kMLOverlayToolStripMenuItem
             // 
             this.kMLOverlayToolStripMenuItem.Name = "kMLOverlayToolStripMenuItem";
@@ -1165,12 +1185,6 @@
             // 
             this.timer1.Interval = 1200;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
-            // prefetchWPPathToolStripMenuItem
-            // 
-            this.prefetchWPPathToolStripMenuItem.Name = "prefetchWPPathToolStripMenuItem";
-            resources.ApplyResources(this.prefetchWPPathToolStripMenuItem, "prefetchWPPathToolStripMenuItem");
-            this.prefetchWPPathToolStripMenuItem.Click += new System.EventHandler(this.prefetchWPPathToolStripMenuItem_Click);
             // 
             // FlightPlanner
             // 
@@ -1331,5 +1345,7 @@
         private System.Windows.Forms.ToolStripMenuItem saveToFileToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem loadFromFileToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem prefetchWPPathToolStripMenuItem;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.TextBox TXT_altwarn;
     }
 }

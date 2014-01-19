@@ -38,6 +38,7 @@
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.button3 = new System.Windows.Forms.Button();
+            this.BUT_clipboard = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -128,11 +129,23 @@
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
+            // BUT_clipboard
+            // 
+            this.BUT_clipboard.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.BUT_clipboard.Location = new System.Drawing.Point(12, 459);
+            this.BUT_clipboard.Name = "BUT_clipboard";
+            this.BUT_clipboard.Size = new System.Drawing.Size(106, 23);
+            this.BUT_clipboard.TabIndex = 6;
+            this.BUT_clipboard.Text = "Copy Clipboard";
+            this.BUT_clipboard.UseVisualStyleBackColor = true;
+            this.BUT_clipboard.Click += new System.EventHandler(this.BUT_clipboard_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(868, 484);
+            this.Controls.Add(this.BUT_clipboard);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.comboBox1);
@@ -157,6 +170,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colEnglish;
         private System.Windows.Forms.DataGridViewTextBoxColumn colOtherLang;
         private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button BUT_clipboard;
     }
 }
 

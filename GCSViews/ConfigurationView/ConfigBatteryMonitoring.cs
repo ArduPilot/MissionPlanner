@@ -233,8 +233,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
             else if (selection == 5) // 3dr esc
             {
-                TXT_divider.Text = "12.02";
-                TXT_ampspervolt.Text = "17";
+                TXT_divider.Text = (12.02).ToString();
+                TXT_ampspervolt.Text = (17).ToString();
             }
 
             // enable to update
@@ -271,7 +271,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             startup = true;
             if (MainV2.comPort.MAV.param["BATT_MONITOR"] != null)
             {
-                if (MainV2.comPort.MAV.param["BATT_MONITOR"].ToString() != "0.0")
+                if ((float)MainV2.comPort.MAV.param["BATT_MONITOR"] != 0)
                 {
                     CMB_batmontype.SelectedIndex = getIndex(CMB_batmontype, (int)float.Parse(MainV2.comPort.MAV.param["BATT_MONITOR"].ToString()));
                 }
@@ -321,6 +321,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             else if (TXT_ampspervolt.Text == (18.0018).ToString() && TXT_divider.Text == (10).ToString())
             {
                 CMB_batmonsensortype.SelectedIndex = 4;
+            }
+            else if (TXT_ampspervolt.Text == (17).ToString() && TXT_divider.Text == (12.02).ToString())
+            {
+                CMB_batmonsensortype.SelectedIndex = 5;
             }
             else
             {

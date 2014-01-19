@@ -21,6 +21,13 @@ namespace MissionPlanner
 
         public static Joystick self;
 
+        // set to default midpoint
+        int hat1 = 65535 / 2;
+        int hat2 = 65535 / 2;
+        int custom1 = 65535 / 2;
+        int custom2 = 65535 / 2;
+
+
         struct JoyChannel
         {
             public int channel;
@@ -81,6 +88,8 @@ namespace MissionPlanner
 
             joystick.Acquire();
 
+            System.Threading.Thread.Sleep(100);
+
             enabled = true;
 
             System.Threading.Thread t11 = new System.Threading.Thread(new System.Threading.ThreadStart(mainloop))
@@ -119,13 +128,19 @@ namespace MissionPlanner
 
             joystick.Acquire();
 
-            CustomMessageBox.Show("Please ensure you have calibrated your joystick in Windows first");
+           // CustomMessageBox.Show("Please ensure you have calibrated your joystick in Windows first");
+
+            // need a pause between aquire and poll
+            System.Threading.Thread.Sleep(100);
 
             joystick.Poll();
+
+            System.Threading.Thread.Sleep(50);
 
             JoystickState obj = joystick.CurrentJoystickState;
             Hashtable values = new Hashtable();
 
+            // get the state of the joystick before.
             Type type = obj.GetType();
             PropertyInfo[] properties = type.GetProperties();
             foreach (PropertyInfo property in properties)
@@ -134,6 +149,10 @@ namespace MissionPlanner
             }
             values["Slider1"] = obj.GetSlider()[0];
             values["Slider2"] = obj.GetSlider()[1];
+            values["Hatud1"] = obj.GetPointOfView()[0];
+            values["Hatlr2"] = obj.GetPointOfView()[0];
+            values["Custom1"] = 0;
+            values["Custom2"] = 0;
 
             CustomMessageBox.Show("Please move the joystick axis you want assigned to this function after clicking ok");
 
@@ -142,9 +161,12 @@ namespace MissionPlanner
             while (start.AddSeconds(10) > DateTime.Now)
             {
                 joystick.Poll();
+                System.Threading.Thread.Sleep(50);
                 JoystickState nextstate = joystick.CurrentJoystickState;
 
                 int[] slider = nextstate.GetSlider();
+
+                int[] hat1 = nextstate.GetPointOfView();
 
                 type = nextstate.GetType();
                 properties = type.GetProperties();
@@ -153,7 +175,7 @@ namespace MissionPlanner
                     //Console.WriteLine("Name: " + property.Name + ", Value: " + property.GetValue(obj, null));
 
                     log.InfoFormat("test name {0} old {1} new {2} ", property.Name, values[property.Name], int.Parse(property.GetValue(nextstate, null).ToString()));
-                    log.InfoFormat("{0}  {1}", (int)values[property.Name], (int.Parse(property.GetValue(nextstate, null).ToString()) + threshold));
+                    log.InfoFormat("{0}  {1} {2}", property.Name, (int)values[property.Name], (int.Parse(property.GetValue(nextstate, null).ToString()) + threshold));
                     if ((int)values[property.Name] > (int.Parse(property.GetValue(nextstate, null).ToString()) + threshold) ||
                         (int)values[property.Name] < (int.Parse(property.GetValue(nextstate, null).ToString()) - threshold))
                     {
@@ -177,6 +199,20 @@ namespace MissionPlanner
                 {
                     joystick.Unacquire();
                     return joystickaxis.Slider2;
+                }
+
+                // Hatud1
+                if ((int)values["Hatud1"] != (hat1[0]))
+                {
+                    joystick.Unacquire();
+                    return joystickaxis.Hatud1;
+                }
+
+                // Hatlr2
+                if ((int)values["Hatlr2"] != (hat1[0]))
+                {
+                    joystick.Unacquire();
+                    return joystickaxis.Hatlr2;
                 }
             }
 
@@ -210,7 +246,13 @@ namespace MissionPlanner
 
             joystick.Acquire();
 
+            System.Threading.Thread.Sleep(500);
+
             joystick.Poll();
+
+            JoystickState obj = joystick.CurrentJoystickState;
+
+            byte[] buttonsbefore = obj.GetButtons();
 
             CustomMessageBox.Show("Please press the joystick button you want assigned to this function after clicking ok");
 
@@ -225,7 +267,7 @@ namespace MissionPlanner
 
                 for (int a = 0; a < joystick.Caps.NumberButtons; a++)
                 {
-                    if (buttons[a] > 0)
+                    if (buttons[a] != buttonsbefore[a])
                         return a;
                 }
             }
@@ -306,7 +348,30 @@ namespace MissionPlanner
                     joystick.Poll();
                     state = joystick.CurrentJoystickState;
 
-                    int[] slider = state.GetSlider();
+                    Console.WriteLine(state);
+
+                    int[] pov = state.GetPointOfView();
+
+                    if (pov[0] != -1)
+                    {
+                        int angle = pov[0] / 100;
+
+                        //0 = down = 18000
+                        //0 = up = 0
+
+                        // 0
+                        if (angle > 270 || angle < 90)
+                            hat1 += 500;
+                        // 180
+                        if (angle > 90 && angle < 270)
+                            hat1 -= 500;
+                        // 90
+                        if (angle > 0 && angle < 180)
+                            hat2 += 500;
+                        // 270
+                        if (angle > 180 && angle < 360)
+                            hat2 -= 500;
+                    }
 
                     if (elevons)
                     {
@@ -396,7 +461,11 @@ namespace MissionPlanner
             Y,
             Z,
             Slider1,
-            Slider2
+            Slider2,
+            Hatud1,
+            Hatlr2,
+            Custom1,
+            Custom2
         }
 
         const int RESXu = 1024;
@@ -459,6 +528,10 @@ namespace MissionPlanner
             joystick.SetDataFormat(DeviceDataFormat.Joystick);
 
             joystick.Acquire();
+
+            System.Threading.Thread.Sleep(100);
+
+            joystick.Poll();
 
             return joystick;
         }
@@ -669,6 +742,26 @@ namespace MissionPlanner
                     int[] slider1 = state.GetSlider();
                     working = slider1[1];
                     break;
+
+                case joystickaxis.Hatud1:
+                    hat1 = (int)Constrain(hat1, 0, 65535);
+                    working = hat1;
+                    break;
+
+                case joystickaxis.Hatlr2:
+                    hat2 = (int)Constrain(hat2, 0, 65535);
+                    working = hat2;
+                    break;
+
+                case joystickaxis.Custom1:
+                    custom1 = (int)Constrain(custom1, 0, 65535);
+                    working = custom1;
+                    break;
+
+                case joystickaxis.Custom2:
+                    custom2 = (int)Constrain(custom2, 0, 65535);
+                    working = custom2;
+                    break;
             }
             // between 0 and 65535 - convert to int -500 to 500
             working = (int)(working / 65.535) - 500;
@@ -708,6 +801,15 @@ namespace MissionPlanner
             working = Math.Min(max, working);
 
             return (ushort)working;
+        }
+
+        double Constrain(double value, double min, double max)
+        {
+            if (value > max)
+                return max;
+            if (value < min)
+                return min;
+            return value;
         }
 
         public void Dispose()

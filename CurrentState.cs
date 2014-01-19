@@ -137,6 +137,8 @@ namespace MissionPlanner
         public float magfield { get { return (float)Math.Sqrt(Math.Pow(mx, 2) + Math.Pow(my, 2) + Math.Pow(mz, 2)); } }
         [DisplayText("Accel Strength")]
         public float accelsq { get { return (float)Math.Sqrt(Math.Pow(ax, 2) + Math.Pow(ay, 2) + Math.Pow(az, 2)) / 1000.0f /*980.665f*/; } }
+        [DisplayText("Gyro Strength")]
+        public float gyrosq { get { return (float)Math.Sqrt(Math.Pow(gx, 2) + Math.Pow(gy, 2) + Math.Pow(gz, 2)); } }
 
         [DisplayText("Failsafe")]
         public bool failsafe { get; set; }
@@ -260,7 +262,7 @@ namespace MissionPlanner
 
         //battery
         [DisplayText("Bat Voltage (V)")]
-        public float battery_voltage { get { return _battery_voltage; } set { _battery_voltage = value; } }
+        public float battery_voltage { get { return _battery_voltage; } set { if (_battery_voltage == 0) _battery_voltage = value; _battery_voltage = value * 0.2f + _battery_voltage * 0.8f; } }
         private float _battery_voltage;
         [DisplayText("Bat Remaining (%)")]
         public float battery_remaining { get { return _battery_remaining; } set { _battery_remaining = value; if (_battery_remaining < 0 || _battery_remaining > 100) _battery_remaining = 0; } }

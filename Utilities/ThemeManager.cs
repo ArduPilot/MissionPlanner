@@ -842,7 +842,12 @@ mc:Ignorable=""d""
 
             foreach (Control ctl in temp.Controls)
             {
-                if (ctl.GetType() == typeof(Panel))
+                if (ctl.GetType() == typeof(TreeView))
+                {
+                    ctl.BackColor = BGColor;
+                    ctl.ForeColor = TextColor;
+                } 
+                else if (ctl.GetType() == typeof(Panel))
                 {
                     ctl.BackColor = BGColor;
                     ctl.ForeColor = TextColor;

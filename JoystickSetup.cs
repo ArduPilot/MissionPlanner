@@ -252,6 +252,8 @@ namespace MissionPlanner
 
                         noButtons = joy.getNumButtons();
 
+                        noButtons = Math.Min(15, noButtons);
+
                         for (int f = 0; f < noButtons; f++)
                         {
                             string name = (f + 1).ToString();
@@ -457,7 +459,8 @@ namespace MissionPlanner
             if (MainV2.config["butaction" + name] != null)
                 cmbaction.Text = MainV2.config["butaction" + name].ToString();
 
-            this.Height += 25;
+            if ((y+30) > this.Height)
+                this.Height += 25;
         }
 
         private void CMB_joysticks_SelectedIndexChanged(object sender, EventArgs e)

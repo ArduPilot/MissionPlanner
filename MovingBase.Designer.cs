@@ -37,6 +37,7 @@
             this.CMB_updaterate = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.BUT_connect = new MissionPlanner.Controls.MyButton();
+            this.CHK_updateRallyPnt = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // CMB_serialport
@@ -128,11 +129,23 @@
             this.BUT_connect.UseVisualStyleBackColor = true;
             this.BUT_connect.Click += new System.EventHandler(this.BUT_connect_Click);
             // 
+            // CHK_updateRallyPnt
+            // 
+            this.CHK_updateRallyPnt.AutoSize = true;
+            this.CHK_updateRallyPnt.Location = new System.Drawing.Point(140, 44);
+            this.CHK_updateRallyPnt.Name = "CHK_updateRallyPnt";
+            this.CHK_updateRallyPnt.Size = new System.Drawing.Size(123, 17);
+            this.CHK_updateRallyPnt.TabIndex = 8;
+            this.CHK_updateRallyPnt.Text = "Update Rally Point 0";
+            this.CHK_updateRallyPnt.UseVisualStyleBackColor = true;
+            this.CHK_updateRallyPnt.CheckedChanged += new System.EventHandler(this.CHK_updateRallyPnt_CheckedChanged);
+            // 
             // MovingBase
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(440, 300);
+            this.Controls.Add(this.CHK_updateRallyPnt);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.CMB_updaterate);
             this.Controls.Add(this.textBox1);
@@ -160,5 +173,6 @@
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.ComboBox CMB_updaterate;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.CheckBox CHK_updateRallyPnt;
     }
 }

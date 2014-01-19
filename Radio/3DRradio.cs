@@ -364,7 +364,6 @@ bool beta = false;
 
                 if (RTI.Text != "")
                 {
-
                     // remote
                     string answer = doCommand(comPort, "RTI5");
 
@@ -400,43 +399,37 @@ bool beta = false;
                                             }
                                         }
                                     }
-                                    else
+                                    else if (controls[0] is TextBox)
                                     {
-                                        if (controls[0] is TextBox)
+
+                                    }
+                                    else if (controls[0].Name.Contains("S6")) //
+                                    {
+                                        if (((ComboBox)controls[0]).SelectedValue.ToString() != values[2].Trim())
+                                        {
+                                            string cmdanswer = doCommand(comPort, "RT" + values[0].Trim() + "=" + ((ComboBox)controls[0]).SelectedValue + "\r");
+
+                                            if (cmdanswer.Contains("OK"))
+                                            {
+
+                                            }
+                                            else
+                                            {
+                                                CustomMessageBox.Show("Set Command error");
+                                            }
+                                        }
+                                    }
+                                    else if (controls[0] is ComboBox)
+                                    {
+                                        string cmdanswer = doCommand(comPort, "RT" + values[0].Trim() + "=" + controls[0].Text + "\r");
+
+                                        if (cmdanswer.Contains("OK"))
                                         {
 
                                         }
                                         else
                                         {
-                                            if (((ComboBox)controls[0]).SelectedValue != null)
-                                            {
-                                                if (((ComboBox)controls[0]).SelectedValue.ToString() != values[2].Trim())
-                                                {
-                                                    string cmdanswer = doCommand(comPort, "RT" + values[0].Trim() + "=" + ((ComboBox)controls[0]).SelectedValue + "\r");
-
-                                                    if (cmdanswer.Contains("OK"))
-                                                    {
-
-                                                    }
-                                                    else
-                                                    {
-                                                        CustomMessageBox.Show("Set Command error");
-                                                    }
-                                                }
-                                            }
-                                            else if (controls[0].Text != values[2].Trim() && controls[0].Text != "")
-                                            {
-                                                string cmdanswer = doCommand(comPort, "RT" + values[0].Trim() + "=" + controls[0].Text + "\r");
-
-                                                if (cmdanswer.Contains("OK"))
-                                                {
-
-                                                }
-                                                else
-                                                {
-                                                    CustomMessageBox.Show("Set Command error");
-                                                }
-                                            }
+                                            CustomMessageBox.Show("Set Command error");
                                         }
                                     }
                                 }
@@ -494,42 +487,39 @@ bool beta = false;
                                             }
                                         }
                                     }
-                                    else
+                                    else if (controls[0] is TextBox)
                                     {
-                                        if (controls[0] is TextBox)
-                                        {
 
-                                        }
-                                        else 
+                                    }
+                                    else if (controls[0].Name.Contains("S6")) //
+                                    {
+                                        if (((ComboBox)controls[0]).SelectedValue.ToString() != values[2].Trim())
                                         {
-                                            if (((ComboBox)controls[0]).SelectedValue != null)
+                                            string cmdanswer = doCommand(comPort, "AT" + values[0].Trim() + "=" + ((ComboBox)controls[0]).SelectedValue + "\r");
+
+                                            if (cmdanswer.Contains("OK"))
                                             {
-                                                if (((ComboBox)controls[0]).SelectedValue.ToString() != values[2].Trim())
-                                                {
-                                                    string cmdanswer = doCommand(comPort, "AT" + values[0].Trim() + "=" + ((ComboBox)controls[0]).SelectedValue + "\r");
 
-                                                    if (cmdanswer.Contains("OK"))
-                                                    {
-
-                                                    }
-                                                    else
-                                                    {
-                                                        CustomMessageBox.Show("Set Command error");
-                                                    }
-                                                }
                                             }
-                                            else if (controls[0].Text != values[2].Trim() && controls[0].Text != "")
+                                            else
                                             {
-                                                string cmdanswer = doCommand(comPort, "AT" + values[0].Trim() + "=" + controls[0].Text + "\r");
+                                                CustomMessageBox.Show("Set Command error");
+                                            }
+                                        }
+                                    }
+                                    else if (controls[0] is ComboBox)
+                                    {
+                                        if (controls[0].Text != values[2].Trim())
+                                        {
+                                            string cmdanswer = doCommand(comPort, "AT" + values[0].Trim() + "=" + controls[0].Text + "\r");
 
-                                                if (cmdanswer.Contains("OK"))
-                                                {
+                                            if (cmdanswer.Contains("OK"))
+                                            {
 
-                                                }
-                                                else
-                                                {
-                                                    CustomMessageBox.Show("Set Command error");
-                                                }
+                                            }
+                                            else
+                                            {
+                                                CustomMessageBox.Show("Set Command error");
                                             }
                                         }
                                     }
@@ -629,11 +619,11 @@ bool beta = false;
                     }
                     else if (freq == uploader.Uploader.Frequency.FREQ_433)
                     {
-                        S8.DataSource = Range(414000, 100, 454000);
-                        RS8.DataSource = Range(414000, 100, 454000);
+                        S8.DataSource = Range(414000, 50, 460000);
+                        RS8.DataSource = Range(414000, 50, 460000);
 
-                        S9.DataSource = Range(414000, 100, 454000);
-                        RS9.DataSource = Range(414000, 100, 454000);
+                        S9.DataSource = Range(414000, 50, 460000);
+                        RS9.DataSource = Range(414000, 50, 460000);
                     }
                     else if (freq == uploader.Uploader.Frequency.FREQ_868) 
                     {

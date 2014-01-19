@@ -274,8 +274,12 @@ namespace MissionPlanner.Log
                             if (logtime != DateTime.MinValue)
                             {
                                 string newlogfilename = MainV2.LogDir + Path.DirectorySeparatorChar + logtime.ToString("yyyy-MM-dd HH-mm") + ".log";
-                                File.Move(logfile, newlogfilename);
-                                logfile = newlogfilename;
+                                try
+                                {
+                                    File.Move(logfile, newlogfilename);
+                                    logfile = newlogfilename;
+                                }
+                                catch (Exception ex) { CustomMessageBox.Show("Failed to rename file " + logfile + "\nto " + newlogfilename,"Error"); }
                             }
 
                             TextReader tr = new StreamReader(logfile);

@@ -38,10 +38,11 @@
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.zg1 = new ZedGraph.ZedGraphControl();
             this.myGMAP1 = new MissionPlanner.Controls.myGMAP();
+            this.treeView1 = new System.Windows.Forms.TreeView();
+            this.CMB_preselect = new System.Windows.Forms.ComboBox();
             this.BUT_removeitem = new MissionPlanner.Controls.MyButton();
             this.CHK_map = new System.Windows.Forms.CheckBox();
             this.BUT_Graphit_R = new MissionPlanner.Controls.MyButton();
-            this.CMB_preselect = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -99,6 +100,7 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.treeView1);
             this.splitContainer1.Panel2.Controls.Add(this.CMB_preselect);
             this.splitContainer1.Panel2.Controls.Add(this.BUT_removeitem);
             this.splitContainer1.Panel2.Controls.Add(this.CHK_map);
@@ -134,7 +136,6 @@
             this.zg1.ScrollMinY = 0D;
             this.zg1.ScrollMinY2 = 0D;
             this.zg1.ZoomEvent += new ZedGraph.ZedGraphControl.ZoomEventHandler(this.zg1_ZoomEvent);
-            this.zg1.Paint += new System.Windows.Forms.PaintEventHandler(this.zg1_Paint);
             // 
             // myGMAP1
             // 
@@ -159,6 +160,26 @@
             this.myGMAP1.ShowTileGridLines = false;
             this.myGMAP1.Zoom = 0D;
             // 
+            // treeView1
+            // 
+            resources.ApplyResources(this.treeView1, "treeView1");
+            this.treeView1.CheckBoxes = true;
+            this.treeView1.DrawMode = System.Windows.Forms.TreeViewDrawMode.OwnerDrawText;
+            this.treeView1.Name = "treeView1";
+            this.treeView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
+            ((System.Windows.Forms.TreeNode)(resources.GetObject("treeView1.Nodes"))),
+            ((System.Windows.Forms.TreeNode)(resources.GetObject("treeView1.Nodes1")))});
+            this.treeView1.DrawNode += new System.Windows.Forms.DrawTreeNodeEventHandler(this.treeView1_DrawNode);
+            this.treeView1.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView1_NodeMouseClick);
+            this.treeView1.DoubleClick += new System.EventHandler(this.treeView1_DoubleClick);
+            // 
+            // CMB_preselect
+            // 
+            this.CMB_preselect.FormattingEnabled = true;
+            resources.ApplyResources(this.CMB_preselect, "CMB_preselect");
+            this.CMB_preselect.Name = "CMB_preselect";
+            this.CMB_preselect.SelectedIndexChanged += new System.EventHandler(this.CMB_preselect_SelectedIndexChanged);
+            // 
             // BUT_removeitem
             // 
             resources.ApplyResources(this.BUT_removeitem, "BUT_removeitem");
@@ -179,12 +200,6 @@
             this.BUT_Graphit_R.Name = "BUT_Graphit_R";
             this.BUT_Graphit_R.UseVisualStyleBackColor = true;
             this.BUT_Graphit_R.Click += new System.EventHandler(this.BUT_Graphit_R_Click);
-            // 
-            // CMB_preselect
-            // 
-            this.CMB_preselect.FormattingEnabled = true;
-            resources.ApplyResources(this.CMB_preselect, "CMB_preselect");
-            this.CMB_preselect.Name = "CMB_preselect";
             // 
             // LogBrowse
             // 
@@ -221,6 +236,7 @@
         private System.Windows.Forms.CheckBox CHK_map;
         private Controls.MyButton BUT_removeitem;
         private System.Windows.Forms.ComboBox CMB_preselect;
+        private System.Windows.Forms.TreeView treeView1;
     }
 }
 
