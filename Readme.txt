@@ -1,10 +1,30 @@
-﻿to compile you need
-CSharp 2010-2012
+﻿
+1. Install software
 
-ensure you have an installed copy, and the source.
+- Git
+  http://code.google.com/p/msysgit/downloads/list
+  Select a file summarized as "Full installer for official Git for Windows"
+   with the highest version
+- TortuiseGit
+  http://code.google.com/p/tortoisegit/wiki/Download
+- Visual Studio
+  http://www.visualstudio.com/downloads/download-visual-studio-vs
+  Select "Visual Studio Express 2013 for Windows Desktop"
+- DirectInput fix
+  http://www.microsoft.com/en-us/download/details.aspx?id=35
 
-Please see the compile1.png to compile4.png
-in the project properties set a "reference path" to the installed mp directory.
+2. Check out
+
+- Create an empty folder anywhere
+- In explorer left click and select "Git Clone"
+  set URL https://github.com/diydrones/MissionPlanner
+  OK
+
+3. Build
+
+- Open ArdupilotMega.sln with Visual Studio 2010-2013
+- Follow compile1.jpg in the code tree
+
 
 For Mono please install
 sudo apt-get install mono-runtime libmono-system-windows-forms4.0-cil libmono-system-core4.0-cil libmono-winforms2.0-cil libmono-corlib2.0-cil libmono-system-management4.0-cil
