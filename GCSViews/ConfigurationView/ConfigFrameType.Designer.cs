@@ -164,6 +164,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // pictureBoxY
             // 
             this.pictureBoxY.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pictureBoxY.Image = global::MissionPlanner.Properties.Resources.y6b;
             resources.ApplyResources(this.pictureBoxY, "pictureBoxY");
             this.pictureBoxY.Name = "pictureBoxY";
             this.pictureBoxY.TabStop = false;

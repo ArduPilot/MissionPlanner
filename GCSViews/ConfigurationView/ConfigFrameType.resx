@@ -127,7 +127,7 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="radioButton_Plus.Location" type="System.Drawing.Point, System.Drawing">
-    <value>46, 33</value>
+    <value>65, 33</value>
   </data>
   <data name="radioButton_Plus.Size" type="System.Drawing.Size, System.Drawing">
     <value>14, 13</value>
@@ -154,7 +154,7 @@
     <value>NoControl</value>
   </data>
   <data name="radioButton_X.Location" type="System.Drawing.Point, System.Drawing">
-    <value>46, 120</value>
+    <value>65, 120</value>
   </data>
   <data name="radioButton_X.Size" type="System.Drawing.Size, System.Drawing">
     <value>14, 13</value>
@@ -181,7 +181,7 @@
     <value>NoControl</value>
   </data>
   <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 33</value>
+    <value>28, 33</value>
   </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
     <value>31, 13</value>
@@ -211,16 +211,16 @@
     <value>NoControl</value>
   </data>
   <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 120</value>
+    <value>11, 120</value>
   </data>
   <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>18, 13</value>
+    <value>51, 13</value>
   </data>
   <data name="label3.TabIndex" type="System.Int32, mscorlib">
     <value>69</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
-    <value>'X'</value>
+    <value>'X' , 'Y6A'</value>
   </data>
   <data name="&gt;&gt;label3.Name" xml:space="preserve">
     <value>label3</value>
@@ -295,7 +295,7 @@
     <value>NoControl</value>
   </data>
   <data name="label6.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 212</value>
+    <value>41, 212</value>
   </data>
   <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
     <value>18, 13</value>
@@ -325,7 +325,7 @@
     <value>NoControl</value>
   </data>
   <data name="radioButton_V.Location" type="System.Drawing.Point, System.Drawing">
-    <value>46, 212</value>
+    <value>65, 212</value>
   </data>
   <data name="radioButton_V.Size" type="System.Drawing.Size, System.Drawing">
     <value>14, 13</value>
@@ -379,7 +379,7 @@
     <value>NoControl</value>
   </data>
   <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 303</value>
+    <value>41, 303</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
     <value>19, 13</value>
@@ -409,7 +409,7 @@
     <value>NoControl</value>
   </data>
   <data name="radioButton_H.Location" type="System.Drawing.Point, System.Drawing">
-    <value>46, 303</value>
+    <value>65, 303</value>
   </data>
   <data name="radioButton_H.Size" type="System.Drawing.Size, System.Drawing">
     <value>14, 13</value>
@@ -487,16 +487,16 @@
     <value>NoControl</value>
   </data>
   <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 394</value>
+    <value>22, 394</value>
   </data>
   <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>43, 13</value>
+    <value>31, 13</value>
   </data>
   <data name="label5.TabIndex" type="System.Int32, mscorlib">
     <value>93</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
-    <value>New 'Y'</value>
+    <value>'Y6B'</value>
   </data>
   <data name="&gt;&gt;label5.Name" xml:space="preserve">
     <value>label5</value>
@@ -517,7 +517,7 @@
     <value>NoControl</value>
   </data>
   <data name="radioButton_Y.Location" type="System.Drawing.Point, System.Drawing">
-    <value>46, 394</value>
+    <value>65, 394</value>
   </data>
   <data name="radioButton_Y.Size" type="System.Drawing.Size, System.Drawing">
     <value>14, 13</value>
@@ -577,7 +577,7 @@
     <value>94</value>
   </data>
   <data name="label7.Text" xml:space="preserve">
-    <value>NOTE: This is the NEW Y and prop rotation changes from the old Y (for old Y use 'X')</value>
+    <value>NOTE: This is the Y6B and prop rotation changes from the old Y6A</value>
   </data>
   <data name="&gt;&gt;label7.Name" xml:space="preserve">
     <value>label7</value>

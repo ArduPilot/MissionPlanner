@@ -8,13 +8,17 @@ using System.Management;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using Microsoft.Win32.SafeHandles;
+using System.Threading;
+using log4net;
 
 namespace MissionPlanner.Comms
 {
 
     public class SerialPort : System.IO.Ports.SerialPort, ICommsSerial
     {
-        static bool serialportproblem = false;
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
+        static object locker = new object();
 
         public new bool DtrEnable { get { return base.DtrEnable; } set { if (ispx4(base.PortName)) return; base.DtrEnable = value; } }
         public new bool RtsEnable { get { return base.RtsEnable; } set { if (ispx4(base.PortName)) return; base.RtsEnable = value; } }
@@ -113,34 +117,55 @@ namespace MissionPlanner.Comms
 
         public new static string[] GetPortNames()
         {
-            List<string> allPorts = new List<string>();
-
-            if (Directory.Exists("/dev/"))
+            // prevent hammering
+            lock (locker)
             {
-                if (Directory.Exists("/dev/serial/by-id/"))
-                    allPorts.AddRange(Directory.GetFiles("/dev/serial/by-id/", "*"));
-                allPorts.AddRange(Directory.GetFiles("/dev/", "ttyACM*"));
-                allPorts.AddRange(Directory.GetFiles("/dev/", "ttyUSB*"));
-                allPorts.AddRange(Directory.GetFiles("/dev/", "rfcomm*"));
-                allPorts.AddRange(Directory.GetFiles("/dev/", "*usb*"));
+                List<string> allPorts = new List<string>();
+
+                if (Directory.Exists("/dev/"))
+                {
+                    if (Directory.Exists("/dev/serial/by-id/"))
+                        allPorts.AddRange(Directory.GetFiles("/dev/serial/by-id/", "*"));
+                    allPorts.AddRange(Directory.GetFiles("/dev/", "ttyACM*"));
+                    allPorts.AddRange(Directory.GetFiles("/dev/", "ttyUSB*"));
+                    allPorts.AddRange(Directory.GetFiles("/dev/", "rfcomm*"));
+                    allPorts.AddRange(Directory.GetFiles("/dev/", "*usb*"));
+                }
+
+                string[] ports = System.IO.Ports.SerialPort.GetPortNames()
+                .Select(p => p.TrimEnd())
+                .Select(FixBlueToothPortNameBug)
+                .ToArray();
+
+                allPorts.AddRange(ports);
+
+                return allPorts.ToArray();
             }
-
-            string[] ports = System.IO.Ports.SerialPort.GetPortNames()
-            .Select(p => p.TrimEnd())
-            .Select(FixBlueToothPortNameBug)
-            .ToArray();
-
-            allPorts.AddRange(ports);
-
-            return allPorts.ToArray();
         }
 
         public static string GetNiceName(string port)
         {
-            if (serialportproblem)
-                return "";
+            // make sure we are exclusive
+            lock (portnamenice)
+            {
+                log.Info("start GetNiceName " + port);
+                portnamenice = "";
+                try
+                {
+                    CallWithTimeout(new Action<string>(GetName), 1000, port);
+                }
+                catch
+                {
+                }
+                log.Info("done GetNiceName " + port + " = " + portnamenice);
+                return (string)portnamenice.Clone();
+            }
+        }
 
-            DateTime start = DateTime.Now;
+        static string portnamenice = "";
+
+        static void GetName(string port)
+        {
             try
             {
                 ObjectQuery query = new ObjectQuery("SELECT * FROM Win32_SerialPort"); // Win32_USBControllerDevice
@@ -150,18 +175,35 @@ namespace MissionPlanner.Comms
                     //DeviceID                     
                     if (obj2.Properties["DeviceID"].Value.ToString().ToUpper() == port.ToUpper())
                     {
-                        DateTime end = DateTime.Now;
-
-                        if ((end - start).TotalSeconds > 5)
-                            serialportproblem = true;
-
-                        return obj2.Properties["Name"].Value.ToString();
+                        portnamenice = obj2.Properties["Name"].Value.ToString();
+                        return;
                     }
                 }
             }
             catch { }
 
-            return "";
+            portnamenice = "";
+        }
+
+        static void CallWithTimeout(Action<string> action, int timeoutMilliseconds, string data)
+        {
+            Thread threadToKill = null;
+            Action wrappedAction = () =>
+            {
+                threadToKill = Thread.CurrentThread;
+                action(data);
+            };
+
+            IAsyncResult result = wrappedAction.BeginInvoke(null, null);
+            if (result.AsyncWaitHandle.WaitOne(timeoutMilliseconds))
+            {
+                wrappedAction.EndInvoke(result);
+            }
+            else
+            {
+                threadToKill.Abort();
+                throw new TimeoutException();
+            }
         }
 
         internal bool ispx4(string port)

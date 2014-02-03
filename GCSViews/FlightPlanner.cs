@@ -4308,12 +4308,23 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        bool fetchpathrip = false;
+
         private void FetchPath()
         {
             PointLatLngAlt lastpnt = null;
 
+            DialogResult res = CustomMessageBox.Show("Ready ripp WP Path at Zoom = " + (int)MainMap.Zoom + " ?", "GMap.NET", MessageBoxButtons.YesNo);
+
+            fetchpathrip = true;
+
             foreach (var pnt in pointlist)
             {
+                // exit if reqested
+                if (!fetchpathrip)
+                    break;
+
+                // setup initial enviroment
                 if (lastpnt == null)
                 {
                     lastpnt = pnt;
@@ -4330,19 +4341,21 @@ namespace MissionPlanner.GCSViews
                 area.HeightLat = top - bottom;
                 area.WidthLng = right - left;
 
-                DialogResult res = CustomMessageBox.Show("Ready ripp WP " + lastpnt.Tag +" to " +pnt.Tag+ " at Zoom = " + (int)MainMap.Zoom + " ?", "GMap.NET", MessageBoxButtons.YesNo);
+               
 
                 int todo;
                 // todo
                 // split up pull area to smaller chunks
-
+                 
                 for (int i = 1; i <= MainMap.MaxZoom; i++)
                 {
                     if (res == DialogResult.Yes)
                     {
                         TilePrefetcher obj = new TilePrefetcher();
+                        obj.KeyDown += obj_KeyDown;
                         obj.ShowCompleteMessage = false;
                         obj.Start(area, i, MainMap.MapProvider, 100, 0);
+                        
                     }
                     else if (res == DialogResult.No)
                     {
@@ -4360,6 +4373,14 @@ namespace MissionPlanner.GCSViews
                 }
 
                 lastpnt = pnt;
+            }
+        }
+
+        void obj_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+            {
+                fetchpathrip = false;
             }
         }
 

@@ -12,7 +12,7 @@ using System.Runtime.InteropServices;
 using System.Xml;
 using System.Net;
 
-namespace MissionPlanner.GCSViews
+namespace MissionPlanner.GCSViews.ConfigurationView
 {
     partial class ConfigFirmware : MyUserControl
     {
@@ -131,7 +131,7 @@ namespace MissionPlanner.GCSViews
             // pictureBoxY6
             // 
             this.pictureBoxY6.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pictureBoxY6.Image = global::MissionPlanner.Properties.Resources.y6;
+            this.pictureBoxY6.Image = global::MissionPlanner.Properties.Resources.y6a;
             resources.ApplyResources(this.pictureBoxY6, "pictureBoxY6");
             this.pictureBoxY6.Name = "pictureBoxY6";
             this.pictureBoxY6.TabStop = false;
@@ -322,7 +322,6 @@ namespace MissionPlanner.GCSViews
             this.Controls.Add(this.pictureBoxQuad);
             this.Controls.Add(this.pictureBoxAPM);
             this.Name = "ConfigFirmware";
-            this.Load += new System.EventHandler(this.Firmware_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxHilimage)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAPHil)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxACHil)).EndInit();

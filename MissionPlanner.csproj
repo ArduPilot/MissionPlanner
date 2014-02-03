@@ -334,6 +334,12 @@
       <DependentUpon>Command.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\Waypoints\Spline.cs" />
+    <Compile Include="GCSViews\ConfigurationView\ConfigDefaultSettings.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigDefaultSettings.Designer.cs">
+      <DependentUpon>ConfigDefaultSettings.cs</DependentUpon>
+    </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigWizard.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -347,6 +353,7 @@
       <DependentUpon>LogDownloadMavLink.cs</DependentUpon>
     </Compile>
     <Compile Include="Log\DFLog.cs" />
+    <Compile Include="Maps\Earthbuilder.cs" />
     <Compile Include="MovingBase.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -475,6 +482,30 @@
     <Compile Include="Utilities\ParameterMetaDataRepositoryAutoTest.cs" />
     <Compile Include="Utilities\Firmware.cs" />
     <Compile Include="Utilities\ImageOverFilter.cs" />
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAP_Limits.zh-Hans.resx">
+      <DependentUpon>ConfigAP_Limits.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigArducopter.zh-Hans.resx">
+      <DependentUpon>ConfigArducopter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigArduplane.zh-Hans.resx">
+      <DependentUpon>ConfigArduplane.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigArdurover.zh-Hans.resx">
+      <DependentUpon>ConfigArdurover.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAteryx.zh-Hans.resx">
+      <DependentUpon>ConfigAteryx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigRawParams.zh-Hans.resx">
+      <DependentUpon>ConfigRawParams.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Radio\3DRradio.it-IT.resx">
+      <DependentUpon>3DRradio.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\Wizard.zh-Hans.resx">
+      <DependentUpon>Wizard.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="aircraft\arducopter\data\rw_generic_pylon.ac">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -666,8 +697,23 @@
     <EmbeddedResource Include="Controls\Waypoints\Command.resx">
       <DependentUpon>Command.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FollowMe.it-IT.resx">
+      <DependentUpon>FollowMe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FollowMe.zh-Hans.resx">
+      <DependentUpon>FollowMe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigDefaultSettings.resx">
+      <DependentUpon>ConfigDefaultSettings.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigWizard.resx">
       <DependentUpon>ConfigWizard.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Georefimage.it-IT.resx">
+      <DependentUpon>georefimage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Georefimage.zh-Hans.resx">
+      <DependentUpon>georefimage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Log\LogDownloadMavLink.de-DE.resx">
       <DependentUpon>LogDownloadMavLink.cs</DependentUpon>
@@ -704,6 +750,9 @@
       <DependentUpon>MovingBase.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MovingBase.fr.resx">
+      <DependentUpon>MovingBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MovingBase.it-IT.resx">
       <DependentUpon>MovingBase.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MovingBase.pl.resx">
@@ -886,41 +935,95 @@
     <EmbeddedResource Include="GenOTP.resx">
       <DependentUpon>GenOTP.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="MovingBase.zh-Hans.resx">
+      <DependentUpon>MovingBase.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Plugin\PluginUI.resx">
       <DependentUpon>PluginUI.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="RAW_Sensor.zh-Hans.resx">
+      <DependentUpon>RAW_Sensor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="resedit.zh-Hans.resx">
+      <DependentUpon>ResEdit.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ScriptConsole.resx">
+      <DependentUpon>ScriptConsole.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ScriptConsole.zh-Hans.resx">
       <DependentUpon>ScriptConsole.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Swarm\FollowPathControl.resx">
       <DependentUpon>FollowPathControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\10FlightModes.zh-Hans.resx">
+      <DependentUpon>10FlightModes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\11Verify.zh-Hans.resx">
+      <DependentUpon>11Verify.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\12FailSafe.zh-Hans.resx">
+      <DependentUpon>12FailSafe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\13GeoFence.zh-Hans.resx">
+      <DependentUpon>13GeoFence.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Wizard\1Intro.resx">
+      <DependentUpon>1Intro.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\1Intro.zh-Hans.resx">
       <DependentUpon>1Intro.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\2FrameFW.resx">
       <DependentUpon>2FrameFW.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\2FrameFW.zh-Hans.resx">
+      <DependentUpon>2FrameFW.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Wizard\3ConnectAP.resx">
+      <DependentUpon>3ConnectAP.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\3ConnectAP.zh-Hans.resx">
       <DependentUpon>3ConnectAP.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\4FrameType.resx">
       <DependentUpon>4FrameType.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\4FrameType.zh-Hans.resx">
+      <DependentUpon>4FrameType.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Wizard\5AccelCalib.resx">
+      <DependentUpon>5AccelCalib.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\5AccelCalib.zh-Hans.resx">
       <DependentUpon>5AccelCalib.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\6CompassCalib.resx">
       <DependentUpon>6CompassCalib.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\6CompassCalib.zh-Hans.resx">
+      <DependentUpon>6CompassCalib.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Wizard\7BatteryMonitor.resx">
+      <DependentUpon>7BatteryMonitor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\7BatteryMonitor.zh-Hans.resx">
       <DependentUpon>7BatteryMonitor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\8OptionalItemsAC.resx">
       <DependentUpon>8OptionalItemsAC.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\8OptionalItemsAC.zh-Hans.resx">
+      <DependentUpon>8OptionalItemsAC.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Wizard\8OptionalItemsAP.resx">
       <DependentUpon>8OptionalItemsAP.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\8OptionalItemsAP.zh-Hans.resx">
+      <DependentUpon>8OptionalItemsAP.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\98DontForget.zh-Hans.resx">
+      <DependentUpon>98DontForget.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\9RadioCalibration.resx">
       <DependentUpon>9RadioCalibration.cs</DependentUpon>
@@ -939,6 +1042,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\98DontForget.resx">
       <DependentUpon>98DontForget.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Wizard\9RadioCalibration.zh-Hans.resx">
+      <DependentUpon>9RadioCalibration.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Wizard\Wizard.resx">
       <DependentUpon>Wizard.cs</DependentUpon>
@@ -1249,6 +1355,8 @@
     <Compile Include="SerialOutputNMEA.Designer.cs">
       <DependentUpon>SerialOutputNMEA.cs</DependentUpon>
     </Compile>
+    <None Include="Properties\DataSources\MissionPlanner.GCSViews.InitialSetup.datasource" />
+    <None Include="Properties\DataSources\MissionPlanner.GCSViews.SoftwareConfig.datasource" />
     <None Include="README.md" />
     <Compile Include="Splash.cs">
       <SubType>Form</SubType>
@@ -2711,9 +2819,6 @@
     <None Include="Resources\quadhover_12.png" />
     <None Include="Resources\quadhover_14.png" />
     <None Include="Resources\maggps.png" />
-    <Content Include="mono_instructions.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="mpdesktop.ico" />
     <Content Include="ParameterMetaDataBackup.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -2736,6 +2841,7 @@
     <None Include="Resources\calibration05.jpg" />
     <None Include="Resources\calibration06.jpg" />
     <None Include="Resources\calibration07.jpg" />
+    <None Include="Resources\FW icons Y6.png" />
     <Content Include="Resources\guagebg.jpg" />
     <None Include="Resources\Hframe.png" />
     <None Include="Resources\Hframelight.png" />
@@ -2950,7 +3056,6 @@
     <PreBuildEvent>
     </PreBuildEvent>
   </PropertyGroup>
-
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

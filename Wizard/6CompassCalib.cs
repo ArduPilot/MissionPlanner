@@ -28,7 +28,6 @@ namespace MissionPlanner.Wizard
         {
             return false;
         }
-
         public void Activate()
         { 
             timer1.Start(); 

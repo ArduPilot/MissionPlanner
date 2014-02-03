@@ -130,7 +130,7 @@
     <value>100</value>
   </data>
   <data name="dataGridView1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>564, 251</value>
+    <value>564, 249</value>
   </data>
   <data name="dataGridView1.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -161,9 +161,6 @@
   </data>
   <data name="BUT_Graphit.Text" xml:space="preserve">
     <value>Graph this data Left</value>
-  </data>
-  <data name="BUT_Graphit.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
   </data>
   <data name="&gt;&gt;BUT_Graphit.Name" xml:space="preserve">
     <value>BUT_Graphit</value>
@@ -262,7 +259,7 @@
     <value>zg1</value>
   </data>
   <data name="&gt;&gt;zg1.Type" xml:space="preserve">
-    <value>ZedGraph.ZedGraphControl, ZedGraph, Version=5.1.5.12179, Culture=neutral, PublicKeyToken=null</value>
+    <value>ZedGraph.ZedGraphControl, ZedGraph, Version=5.1.5.35278, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;zg1.Parent" xml:space="preserve">
     <value>splitContainer2.Panel1</value>
@@ -289,7 +286,7 @@
     <value>0, 0</value>
   </data>
   <data name="myGMAP1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>558, 238</value>
+    <value>584, 238</value>
   </data>
   <data name="myGMAP1.TabIndex" type="System.Int32, mscorlib">
     <value>31</value>
@@ -394,7 +391,7 @@
 </value>
   </data>
   <data name="treeView1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>131, 250</value>
+    <value>131, 248</value>
   </data>
   <data name="treeView1.TabIndex" type="System.Int32, mscorlib">
     <value>38</value>
@@ -503,9 +500,6 @@
   </data>
   <data name="BUT_Graphit_R.Text" xml:space="preserve">
     <value>Graph this data Right</value>
-  </data>
-  <data name="BUT_Graphit_R.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
   </data>
   <data name="&gt;&gt;BUT_Graphit_R.Name" xml:space="preserve">
     <value>BUT_Graphit_R</value>

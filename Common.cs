@@ -82,7 +82,7 @@ namespace MissionPlanner
 
             // undo autochange in mouse over
             //if (Pen.Color == Color.Blue)
-              //  Pen.Color = Color.White;
+            //  Pen.Color = Color.White;
 
             double width = (Overlay.Control.MapProvider.Projection.GetDistance(Overlay.Control.FromLocalToLatLng(0, 0), Overlay.Control.FromLocalToLatLng(Overlay.Control.Width, 0)) * 1000.0);
             double height = (Overlay.Control.MapProvider.Projection.GetDistance(Overlay.Control.FromLocalToLatLng(0, 0), Overlay.Control.FromLocalToLatLng(Overlay.Control.Height, 0)) * 1000.0);
@@ -93,9 +93,45 @@ namespace MissionPlanner
 
             if (m2pixelheight > 0.5)
                 g.DrawArc(Pen, new System.Drawing.Rectangle(LocalPosition.X - Offset.X - (int)(Math.Abs(loc.X - LocalPosition.X) / 2), LocalPosition.Y - Offset.Y - (int)Math.Abs(loc.X - LocalPosition.X) / 2, (int)Math.Abs(loc.X - LocalPosition.X), (int)Math.Abs(loc.X - LocalPosition.X)), 0, 360);
-       
+
         }
     }
+
+    public class GMapMarkerADSBPlane : GMapMarker
+    {
+        const float rad2deg = (float)(180 / Math.PI);
+        const float deg2rad = (float)(1.0 / rad2deg);
+
+        private readonly Bitmap icon = global::MissionPlanner.Properties.Resources.FW_icons_2013_logos_01;
+
+        float heading = 0;
+
+        public GMapMarkerADSBPlane(PointLatLng p, float heading)
+            : base(p)
+        {
+            icon = new Bitmap(icon, new Size(59, 59));
+            this.heading = heading;
+            Size = icon.Size;
+        }
+
+        public override void OnRender(Graphics g)
+        {
+            Matrix temp = g.Transform;
+            g.TranslateTransform(LocalPosition.X, LocalPosition.Y);
+
+            g.RotateTransform(-Overlay.Control.Bearing);
+
+            try
+            {
+                g.RotateTransform(heading);
+            }
+            catch { }
+            g.DrawImageUnscaled(icon, icon.Width / -2, icon.Height / -2);
+
+            g.Transform = temp;
+        }
+    }
+
 
     public class GMapMarkerRover : GMapMarker
     {
@@ -160,8 +196,8 @@ namespace MissionPlanner
         float cog = -1;
         float target = -1;
         float nav_bearing = -1;
-        
-        public GMapMarkerPlane(PointLatLng p, float heading, float cog, float nav_bearing,float target)
+
+        public GMapMarkerPlane(PointLatLng p, float heading, float cog, float nav_bearing, float target)
             : base(p)
         {
             this.heading = heading;
@@ -179,7 +215,7 @@ namespace MissionPlanner
             g.RotateTransform(-Overlay.Control.Bearing);
 
             int length = 500;
-// anti NaN
+            // anti NaN
             try
             {
                 g.DrawLine(new Pen(Color.Red, 2), 0.0f, 0.0f, (float)Math.Cos((heading - 90) * deg2rad) * length, (float)Math.Sin((heading - 90) * deg2rad) * length);
@@ -188,7 +224,7 @@ namespace MissionPlanner
             g.DrawLine(new Pen(Color.Green, 2), 0.0f, 0.0f, (float)Math.Cos((nav_bearing - 90) * deg2rad) * length, (float)Math.Sin((nav_bearing - 90) * deg2rad) * length);
             g.DrawLine(new Pen(Color.Black, 2), 0.0f, 0.0f, (float)Math.Cos((cog - 90) * deg2rad) * length, (float)Math.Sin((cog - 90) * deg2rad) * length);
             g.DrawLine(new Pen(Color.Orange, 2), 0.0f, 0.0f, (float)Math.Cos((target - 90) * deg2rad) * length, (float)Math.Sin((target - 90) * deg2rad) * length);
-// anti NaN
+            // anti NaN
             try
             {
 
@@ -228,9 +264,11 @@ namespace MissionPlanner
             catch { }
 
 
-            try {
-            g.RotateTransform(heading);
-            } catch{}
+            try
+            {
+                g.RotateTransform(heading);
+            }
+            catch { }
             g.DrawImageUnscaled(icon, icon.Width / -2, icon.Height / -2);
 
             g.Transform = temp;
@@ -264,7 +302,7 @@ namespace MissionPlanner
             g.TranslateTransform(LocalPosition.X, LocalPosition.Y);
 
             int length = 500;
-// anti NaN
+            // anti NaN
             try
             {
                 g.DrawLine(new Pen(Color.Red, 2), 0.0f, 0.0f, (float)Math.Cos((heading - 90) * deg2rad) * length, (float)Math.Sin((heading - 90) * deg2rad) * length);
@@ -273,7 +311,7 @@ namespace MissionPlanner
             //g.DrawLine(new Pen(Color.Green, 2), 0.0f, 0.0f, (float)Math.Cos((nav_bearing - 90) * deg2rad) * length, (float)Math.Sin((nav_bearing - 90) * deg2rad) * length);
             g.DrawLine(new Pen(Color.Black, 2), 0.0f, 0.0f, (float)Math.Cos((cog - 90) * deg2rad) * length, (float)Math.Sin((cog - 90) * deg2rad) * length);
             g.DrawLine(new Pen(Color.Orange, 2), 0.0f, 0.0f, (float)Math.Cos((target - 90) * deg2rad) * length, (float)Math.Sin((target - 90) * deg2rad) * length);
-// anti NaN
+            // anti NaN
             try
             {
                 g.RotateTransform(heading);
@@ -291,7 +329,7 @@ namespace MissionPlanner
         {
             return true;
         }
-    } 
+    }
 
 
     public class Common
@@ -459,8 +497,9 @@ namespace MissionPlanner
 			TOY = 11
         }
         */
-  
-        public static bool getFilefromNet(string url,string saveto) {
+
+        public static bool getFilefromNet(string url, string saveto)
+        {
             try
             {
                 // this is for mono to a ssl server
@@ -516,7 +555,7 @@ namespace MissionPlanner
             catch (Exception ex) { log.Info("getFilefromNet(): " + ex.ToString()); return false; }
         }
 
-        public static List<KeyValuePair<int,string>> getModesList(CurrentState cs)
+        public static List<KeyValuePair<int, string>> getModesList(CurrentState cs)
         {
             log.Info("getModesList Called");
 
@@ -526,7 +565,7 @@ namespace MissionPlanner
             if (cs.firmware == MainV2.Firmwares.ArduPlane)
             {
                 var flightModes = Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("FLTMODE1");
-                flightModes.Add(new KeyValuePair<int,string>(16,"INITIALISING"));
+                flightModes.Add(new KeyValuePair<int, string>(16, "INITIALISING"));
                 return flightModes;
             }
             else if (cs.firmware == MainV2.Firmwares.Ateryx)
@@ -591,11 +630,11 @@ namespace MissionPlanner
             form.Text = title;
             label.Text = promptText;
 
-            chk.Tag = ("SHOWAGAIN_" + title.Replace(" ","_"));
+            chk.Tag = ("SHOWAGAIN_" + title.Replace(" ", "_"));
             chk.AutoSize = true;
             chk.Text = "Show me again?";
             chk.Checked = true;
-            chk.Location = new Point(9,80);
+            chk.Location = new Point(9, 80);
 
             if (MainV2.config[(string)chk.Tag] != null && (string)MainV2.config[(string)chk.Tag] == "False") // skip it
             {
@@ -610,7 +649,7 @@ namespace MissionPlanner
 
             buttonOk.Text = "OK";
             buttonOk.DialogResult = DialogResult.OK;
-            buttonOk.Location = new Point(form.Right - 100 ,80);
+            buttonOk.Location = new Point(form.Right - 100, 80);
 
             label.SetBounds(9, 40, 372, 13);
 
@@ -626,7 +665,7 @@ namespace MissionPlanner
 
             ThemeManager.ApplyThemeTo(form);
 
-            DialogResult dialogResult =form.ShowDialog();
+            DialogResult dialogResult = form.ShowDialog();
 
             form.Dispose();
 
@@ -670,9 +709,4 @@ namespace MissionPlanner
             return input;
         }
     }
-
-
-
-
-
 }

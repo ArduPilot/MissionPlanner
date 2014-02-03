@@ -581,7 +581,7 @@ namespace MissionPlanner
                         }
 
                         // throttle is up, or groundspeed is > 3 m/s
-                        if (ch3percent > 12 || _groundspeed > 3.0) 
+                        if (ch3percent > 12 || _groundspeed > 3.0)
                             timeInAir++;
 
                         if (!gotwind)
@@ -1088,6 +1088,10 @@ enum gcs_severity {
                         ay = imu.yacc;
                         az = imu.zacc;
 
+                        mx = imu.xmag;
+                        my = imu.ymag;
+                        mz = imu.zmag;
+
                         //MAVLink.packets[(byte)MAVLink.MSG_NAMES.RAW_IMU] = null;
                     }
 
@@ -1097,7 +1101,8 @@ enum gcs_severity {
                     {
                         var vfr = bytearray.ByteArrayToStructure<MAVLink.mavlink_vfr_hud_t>(6);
 
-                        //groundspeed = vfr.groundspeed;
+                        groundspeed = vfr.groundspeed;
+
                         airspeed = vfr.airspeed;
 
                         //alt = vfr.alt; // this might include baro
@@ -1107,6 +1112,8 @@ enum gcs_severity {
                         //Console.WriteLine(alt);
 
                         //climbrate = vfr.climb;
+
+                        // heading = vfr.heading;
 
  
 

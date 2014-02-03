@@ -1091,7 +1091,7 @@ namespace MissionPlanner.GCSViews
 
         private void BUT_log2kml_Click(object sender, EventArgs e)
         {
-            Form frm = new MavlinkLog();
+            Form frm = new Log.MavlinkLog();
             ThemeManager.ApplyThemeTo(frm);
             frm.ShowDialog();
         }

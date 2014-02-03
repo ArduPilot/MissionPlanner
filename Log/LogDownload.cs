@@ -262,7 +262,7 @@ namespace MissionPlanner.Log
     TXT_seriallog.Clear();
 });
 
-                                comPort.Write("logs\r");
+                               // comPort.Write("logs\r");
                                 status = serialstatus.Done;
                             }
                             break;

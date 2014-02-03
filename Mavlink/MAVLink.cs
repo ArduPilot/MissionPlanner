@@ -56,8 +56,17 @@ namespace MissionPlanner
                 this.aptype = 0;
                 this.apname = 0;
                 this.recvpacketcount = 0;
+                this.VersionString = "";
+                this.SoftwareVersions = "";
+                this.SerialString = "";
             }
 
+            // all
+            public string VersionString { get; set; }
+            // px4+ only
+            public string SoftwareVersions { get; set; }
+            // px4+ only
+            public string SerialString { get; set; }
             /// <summary>
             /// the static global state of the currently connected MAV
             /// </summary>
@@ -84,6 +93,7 @@ namespace MissionPlanner
             /// </summary>
             public MAV_TYPE aptype { get; set; }
             public MAV_AUTOPILOT apname { get; set; }
+            public int Product_ID { get { if (param.ContainsKey("PRODUCT_ID")) return (int)(float)param["PRODUCT_ID"]; return -1; } }
             /// <summary>
             /// used as a snapshot of what is loaded on the ap atm. - derived from the stream
             /// </summary>
@@ -313,6 +323,9 @@ namespace MissionPlanner
             MAV.compid = 0;
             MAV.param = new Hashtable();
             MAV.packets.Initialize();
+            MAV.VersionString = "";
+            MAV.SoftwareVersions = "";
+            MAV.SerialString = "";
 
             bool hbseen = false;
 
@@ -747,6 +760,13 @@ Please check the following
             {
                 ParamListChanged(this, null);
             }
+
+            // nan check
+            foreach (string item in MAV.param.Keys)
+            {
+                if (float.IsNaN((float)MAV.param[item]))
+                    CustomMessageBox.Show("BAD PARAM, "+item+" = NAN \n Fix this NOW!!","Error");
+            }
         }
 
         void FrmProgressReporterGetParams(object sender, ProgressWorkerEventArgs e, object passdata = null)
@@ -922,6 +942,29 @@ Please check the following
                         // we hit the last param - lets escape eq total = 176 index = 0-175
                         if (par.param_index == (param_total - 1))
                             start = DateTime.MinValue;
+                    }
+                    if (buffer[5] == (byte)MAVLINK_MSG_ID.STATUSTEXT) 
+                    {
+                        var msg = MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.STATUSTEXT].ByteArrayToStructure<MAVLink.mavlink_statustext_t>(6);
+
+                        string logdata = Encoding.ASCII.GetString(msg.text);
+
+                        int ind = logdata.IndexOf('\0');
+                        if (ind != -1)
+                            logdata = logdata.Substring(0, ind);
+
+                        if (logdata.ToLower().Contains("copter")||logdata.ToLower().Contains("rover")||logdata.ToLower().Contains("plane"))
+                        {
+                            MAV.VersionString = logdata;
+                        }
+                        else if (logdata.ToLower().Contains("nuttx")) 
+                        {
+                            MAV.SoftwareVersions = logdata;
+                        }
+                        else if (logdata.ToLower().Contains("px4v2"))
+                        {
+                            MAV.SerialString = logdata;
+                        }
                     }
                     //stopwatch.Stop();
                     // Console.WriteLine("Time elapsed: {0}", stopwatch.Elapsed);

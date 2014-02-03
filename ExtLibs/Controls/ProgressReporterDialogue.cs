@@ -72,19 +72,31 @@ namespace MissionPlanner.Controls
                 System.Threading.Thread.Sleep(100);
             }
 
-            log.Info("Focus ctl");
+            
+            try
+            {
+                this.Invoke((MethodInvoker)delegate
+                {
+            // make sure its drawn
+            this.Refresh();
+                });
+            }
+            catch { Running = false; return; }
+
+            log.Info("Focus ctl ");
 
             try
             {
                 this.Invoke((MethodInvoker)delegate
-             {
-                 // if this windows isnt the current active windows, popups inherit the wrong parent.
-                 if (!this.Focused)
-                 {
-                     this.Focus();
-                     Application.DoEvents();
-                 }
-             });
+                {
+                    log.Info("in focus invoke");
+                     // if this windows isnt the current active windows, popups inherit the wrong parent.
+                     if (!this.Focused)
+                     {
+                         this.Focus();
+                         Application.DoEvents();
+                     }
+                });
             }
             catch { Running = false; return; }
 

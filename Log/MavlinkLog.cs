@@ -31,7 +31,7 @@ using MissionPlanner.Utilities;
 using System.CodeDom.Compiler;
 using MissionPlanner;
 
-namespace MissionPlanner
+namespace MissionPlanner.Log
 {
     public partial class MavlinkLog : Form
     {
@@ -1275,7 +1275,7 @@ namespace MissionPlanner
                         string text = "";
                         mine.DebugPacket(packet, ref text,true,",");
 
-                        sw.Write(mine.lastlogread.ToString("yyyy-MM-ddTHH:mm:ss") +"."+ mine.lastlogread.Millisecond.ToString() + "," + text);
+                        sw.Write(mine.lastlogread.ToString("yyyy-MM-ddTHH:mm:ss.fff") + "," + text);
                     }
 
                     sw.Close();

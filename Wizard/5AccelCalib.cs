@@ -13,6 +13,7 @@ namespace MissionPlanner.Wizard
     public partial class _5AccelCalib : MyUserControl, IWizard
     {
         byte count = 0;
+        static bool busy = false;
 
         public _5AccelCalib()
         {
@@ -21,18 +22,20 @@ namespace MissionPlanner.Wizard
 
         public int WizardValidate()
         {
-            return BUT_start.Enabled ? 1:0;
+            return 1;
         }
 
         public bool WizardBusy()
         {
-            return !BUT_start.Enabled;
+            return busy;
         }
 
         private void BUT_start_Click(object sender, EventArgs e)
         {
             ((MyButton)sender).Enabled = false;
             BUT_continue.Enabled = true;
+
+            busy = true;
 
             // start the process off
             MainV2.comPort.doCommand(MAVLink.MAV_CMD.PREFLIGHT_CALIBRATION, 0, 0, 0, 0, 1, 0, 0);
@@ -67,6 +70,8 @@ namespace MissionPlanner.Wizard
                 catch { break; }
             }
 
+            busy = false;
+
             MainV2.comPort.giveComport = false;
 
             try
@@ -75,8 +80,6 @@ namespace MissionPlanner.Wizard
                 {
                     //local.imageLabel1.Text = "Done";
                     local.BUT_continue.Enabled = false;
-                    local.BUT_start.Enabled = true;
-                    local.count = 0;
                 });
             }
             catch { }

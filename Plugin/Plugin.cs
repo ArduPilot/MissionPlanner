@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
 using GMap.NET;
@@ -14,6 +15,8 @@ namespace MissionPlanner.Plugin
 {
     public abstract class Plugin
     {
+        public Assembly Assembly = null;
+
         public PluginHost Host { get; internal set; }
 
         public abstract string Name { get; }

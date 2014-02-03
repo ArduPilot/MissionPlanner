@@ -112,68 +112,51 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="label31.Size" type="System.Drawing.Size, System.Drawing">
-    <value>93, 13</value>
+  <data name="CHK_speechbattery.Text" xml:space="preserve">
+    <value>低电量时MP警告 </value>
   </data>
-  <data name="label31.Text" xml:space="preserve">
-    <value>1. APM输入电压:</value>
+  <data name="label2.Text" xml:space="preserve">
+    <value>mAh</value>
   </data>
-  <data name="label32.Size" type="System.Drawing.Size, System.Drawing">
-    <value>106, 13</value>
+  <data name="label3.Text" xml:space="preserve">
+    <value>4. 测量电流：</value>
   </data>
-  <data name="label32.Text" xml:space="preserve">
-    <value>2. 测量的电池电压:</value>
-  </data>
-  <data name="label33.Size" type="System.Drawing.Size, System.Drawing">
-    <value>115, 13</value>
-  </data>
-  <data name="label33.Text" xml:space="preserve">
-    <value>3. 电池电压 (计算值):</value>
-  </data>
-  <data name="label34.Size" type="System.Drawing.Size, System.Drawing">
-    <value>109, 13</value>
-  </data>
-  <data name="label34.Text" xml:space="preserve">
-    <value>4. 分 压 比 (计算值):</value>
-  </data>
-  <data name="label35.Size" type="System.Drawing.Size, System.Drawing">
-    <value>82, 13</value>
-  </data>
-  <data name="label35.Text" xml:space="preserve">
-    <value>5. 安培每伏特:</value>
-  </data>
-  <data name="groupBox4.Text" xml:space="preserve">
-    <value>校准</value>
-  </data>
-  <data name="label47.Size" type="System.Drawing.Size, System.Drawing">
-    <value>48, 18</value>
-  </data>
-  <data name="label47.Text" xml:space="preserve">
-    <value>传感器</value>
-  </data>
-  <data name="textBox3.Text" xml:space="preserve">
-    <value>电压传感器校准:
-要校准你的传感器，使用一个万用表测量你的电调BEC电路（即给APM板供电的三线电缆中的红线和黑线）的电压，然后减去0.3v，输入左侧第一项中</value>
-  </data>
-  <data name="label29.Size" type="System.Drawing.Size, System.Drawing">
-    <value>55, 13</value>
+  <data name="label1.Text" xml:space="preserve">
+    <value>APM版本</value>
   </data>
   <data name="label29.Text" xml:space="preserve">
     <value>电池容量</value>
   </data>
-  <data name="label30.Size" type="System.Drawing.Size, System.Drawing">
-    <value>48, 13</value>
+  <data name="groupBox4.Text" xml:space="preserve">
+    <value>校准</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>5. 电流(计算过)</value>
+  </data>
+  <data name="TXT_battcapacity.Text" xml:space="preserve">
+    <value>2200</value>
   </data>
   <data name="label30.Text" xml:space="preserve">
     <value>监控器</value>
   </data>
-  <data name="label1.Text" xml:space="preserve">
-    <value>APM版本</value>
+  <data name="label32.Text" xml:space="preserve">
+    <value>1. 测量电池电压：</value>
+  </data>
+  <data name="label34.Text" xml:space="preserve">
+    <value>3. 电压分压器（计算过）：</value>
+  </data>
+  <data name="label33.Text" xml:space="preserve">
+    <value>2. 电池电压（计算过）：</value>
+  </data>
+  <data name="label35.Text" xml:space="preserve">
+    <value>6. 安培每伏：</value>
+  </data>
+  <data name="label47.Text" xml:space="preserve">
+    <value>传感器</value>
   </data>
 </root>

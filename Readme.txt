@@ -26,5 +26,12 @@
 - Follow compile1.jpg in the code tree
 
 
-For Mono please install
+-----------MONO-------------
+run using 
+mono MissionPlanner.exe
+
+run debuging
+MONO_LOG_LEVEL=debug mono MissionPlanner.exe
+
+you need prereq's
 sudo apt-get install mono-runtime libmono-system-windows-forms4.0-cil libmono-system-core4.0-cil libmono-winforms2.0-cil libmono-corlib2.0-cil libmono-system-management4.0-cil

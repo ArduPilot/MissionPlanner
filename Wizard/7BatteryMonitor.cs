@@ -134,7 +134,6 @@ namespace MissionPlanner.Wizard
         {
             return false;
         }
-
         private void CMB_apmversion_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (startup)

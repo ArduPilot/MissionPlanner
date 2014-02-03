@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
+using log4net;
 
 namespace MissionPlanner.Utilities
 {
@@ -16,6 +17,8 @@ namespace MissionPlanner.Utilities
         //http://adsb.tc.faa.gov/WG3_Meetings/Meeting9/1090-WP-9-14.pdf
         //*8D75804B580FF2CF7E9BA6F701D0
         //*8D75804B580FF6B283EB7A157117
+
+        private static readonly ILog log =        LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         /// <summary>
         /// When a plane position has been updated. you will need to age your own entries
@@ -32,6 +35,8 @@ namespace MissionPlanner.Utilities
 
         void TryConnect(object obj)
         {
+            System.Threading.Thread.CurrentThread.IsBackground = true;
+
             while (true)
             {
                 //custom
@@ -43,10 +48,12 @@ namespace MissionPlanner.Utilities
 
                         cl.Connect(server, serverport);
 
+                        log.Info("Connected " + server + ":" + serverport);
+
                         ReadMessage(cl.GetStream());
                     }
                 }
-                catch { }
+                catch (Exception ex) {  }
 
                 // dump1090 sbs
                 try
@@ -55,9 +62,11 @@ namespace MissionPlanner.Utilities
 
                     cl.Connect(System.Net.IPAddress.Loopback, 30003);
 
+                    log.Info("Connected loopback:30003");
+
                     ReadMessage(cl.GetStream());
                 }
-                catch { }
+                catch (Exception ex) {  }
 
                 // dump1090 avr
                 try
@@ -66,20 +75,39 @@ namespace MissionPlanner.Utilities
 
                     cl.Connect(System.Net.IPAddress.Loopback, 30002);
 
+                    log.Info("Connected loopback:30002");
+
                     ReadMessage(cl.GetStream());
                 }
-                catch { }
+                catch (Exception ex) {  }
 
-                // rtl1090
+
+                // rtl1090 -sbs1
+                try
+                {
+                    TcpClient cl = new TcpClient();
+
+                    cl.Connect(System.Net.IPAddress.Loopback, 31004);
+
+                    log.Info("Connected loopback:31004");
+
+                    ReadMessage(cl.GetStream());
+                }
+                catch (Exception ex) { }
+
+                // rtl1090 - avr
                 try
                 {
                     TcpClient cl = new TcpClient();
 
                     cl.Connect(System.Net.IPAddress.Loopback, 31001);
 
+                    log.Info("Connected loopback:31001");
+
                     ReadMessage(cl.GetStream());
                 }
-                catch { }
+                catch (Exception ex) {  }
+
 
                 // adsb#
                 try
@@ -88,9 +116,11 @@ namespace MissionPlanner.Utilities
 
                     cl.Connect(System.Net.IPAddress.Loopback, 47806);
 
+                    log.Info("Connected loopback:47806");
+
                     ReadMessage(cl.GetStream());
                 }
-                catch { }
+                catch (Exception ex) {  }
 
 
                 System.Threading.Thread.Sleep(1000);
@@ -556,7 +586,8 @@ namespace MissionPlanner.Utilities
                         Plane plane = ReadMessage('*' + new StreamReader(st).ReadLine());                        
                         if (plane != null)
                         {
-                            PointLatLngAlt plla = plane.plla();
+                            PointLatLngAltHdg plla = (PointLatLngAltHdg)plane.plla();
+                            plla.Heading = (float)plane.heading;
                             if (UpdatePlanePosition != null && plla != null)
                                 UpdatePlanePosition(plla, new EventArgs());
                             //Console.WriteLine(plane.pllalocal(plane.llaeven));
@@ -564,9 +595,9 @@ namespace MissionPlanner.Utilities
                         }
                     }
                 }
-                else if (by == 'M') 
+                else if (by == 'M' || by == 'S' || by == 'A' || by == 'I' || by == 'C') // msg clk sta air id sel
                 {
-                    string line = "M"+new StreamReader(st).ReadLine();
+                    string line = ((char)by) + new StreamReader(st).ReadLine();
 
                     if (line.StartsWith("MSG"))
                     {
@@ -594,9 +625,10 @@ namespace MissionPlanner.Utilities
                                 int ground_speed = int.Parse(strArray[12], CultureInfo.InvariantCulture);// Integer. Speed over ground. 
                             }
                             catch { }
+                            int track = -1;
                             try
                             {
-                                int track = int.Parse(strArray[13], CultureInfo.InvariantCulture);//Integer. Ground track angle. 
+                                track = int.Parse(strArray[13], CultureInfo.InvariantCulture);//Integer. Ground track angle. 
                             }
                             catch { }
                             double lat = 0;
@@ -625,7 +657,7 @@ namespace MissionPlanner.Utilities
                             Plane plane = ((Plane)Planes[hex_ident]);
 
                             if (UpdatePlanePosition != null)
-                                UpdatePlanePosition(new PointLatLngAlt(lat, lon, altitude, hex_ident), new EventArgs());
+                                UpdatePlanePosition(new PointLatLngAltHdg(lat, lon, altitude, (float)track, hex_ident), new EventArgs());
                         }
                     }
                 }
@@ -654,7 +686,8 @@ namespace MissionPlanner.Utilities
                             Plane plane = ReadMessage(buffer);
                             if (plane != null)
                             {
-                                PointLatLngAlt plla = plane.plla();
+                                PointLatLngAltHdg plla = (PointLatLngAltHdg)plane.plla();
+                                plla.Heading = (float)plane.heading;
                                 if (UpdatePlanePosition != null && plla != null)
                                     UpdatePlanePosition(plla, new EventArgs());
                                 //Console.WriteLine(plane.pllalocal(plane.llaeven));
@@ -735,7 +768,6 @@ namespace MissionPlanner.Utilities
             adsbmess.recvtime = DateTime.Now;
 
             // check parity
-            int todo;
             Crc32ModeS crc = new Crc32ModeS();
             byte[] pidata = crc.ComputeChecksumBytes(data, 0, data.Length - 3, false);
 
@@ -868,6 +900,26 @@ namespace MissionPlanner.Utilities
             }
 
             return HexAsBytes;
+        }
+
+        public class PointLatLngAltHdg : PointLatLngAlt
+        {
+
+            public PointLatLngAltHdg(double lat, double lng, double alt, float heading, string tag)
+            {
+                this.Lat = lat;
+                this.Lng = lng;
+                this.Alt = alt;
+                this.Heading = heading;
+                this.Tag = tag;
+            }
+
+            public float Heading { get; set; }
+
+            //public static explicit operator PointLatLngAltHdg(PointLatLngAlt a)
+            //{
+                //return new PointLatLngAltHdg(a.Lat,a.Lng,a.Alt,-1,a.Tag);
+            //}
         }
     }
 }

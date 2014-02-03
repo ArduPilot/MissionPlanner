@@ -49,6 +49,8 @@ namespace MissionPlanner.Plugin
                     Object o = Activator.CreateInstance(pluginInfo);
                     Plugin plugin = (Plugin)o;
 
+                    plugin.Assembly = asm;
+
                     plugin.Host = new PluginHost();
 
                     if (plugin.Init())

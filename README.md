@@ -1,4 +1,4 @@
 MissionPlanner
 ==============
 
-Mission Planner
+please see readme.txt

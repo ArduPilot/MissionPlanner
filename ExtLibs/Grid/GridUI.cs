@@ -73,7 +73,7 @@ namespace MissionPlanner
             {
                 
                 loadsetting("grid_alt", NUM_altitude);
-                loadsetting("grid_angle", NUM_angle);
+              //  loadsetting("grid_angle", NUM_angle);
                 loadsetting("grid_camdir", CHK_camdirection);
 
                 loadsetting("grid_dist", NUM_Distance);
@@ -157,7 +157,7 @@ namespace MissionPlanner
                  last = item;
             }
 
-            return angle;
+            return (angle + 360) % 360;
         }
 
         private void domainUpDown1_ValueChanged(object sender, EventArgs e)

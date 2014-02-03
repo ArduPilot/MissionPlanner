@@ -112,133 +112,159 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="groupBox5.Text" xml:space="preserve">
-    <value>斜盘类型</value>
-  </data>
-  <data name="BUT_swash_manual.Text" xml:space="preserve">
-    <value>手动</value>
-  </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="label41.Size" type="System.Drawing.Size, System.Drawing">
-    <value>31, 13</value>
-  </data>
-  <data name="label41.Text" xml:space="preserve">
-    <value>最低</value>
-  </data>
-  <data name="groupBox3.Text" xml:space="preserve">
-    <value>陀螺仪</value>
-  </data>
-  <data name="label46.Size" type="System.Drawing.Size, System.Drawing">
-    <value>31, 13</value>
-  </data>
-  <data name="label46.Text" xml:space="preserve">
-    <value>感度</value>
-  </data>
-  <data name="label45.Size" type="System.Drawing.Size, System.Drawing">
-    <value>31, 13</value>
-  </data>
-  <data name="label45.Text" xml:space="preserve">
-    <value>启用</value>
-  </data>
   <data name="BUT_HS4save.Text" xml:space="preserve">
     <value>手动</value>
   </data>
-  <data name="label21.Size" type="System.Drawing.Size, System.Drawing">
-    <value>31, 13</value>
+  <data name="H_SV3_POS.Text" xml:space="preserve">
+    <value>180</value>
+  </data>
+  <data name="label17.Text" xml:space="preserve">
+    <value>十字盘舵机位置</value>
+  </data>
+  <data name="label18.Text" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="label19.Text" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="label20.Text" xml:space="preserve">
+    <value>3</value>
   </data>
   <data name="label21.Text" xml:space="preserve">
-    <value>最高</value>
+    <value>上</value>
   </data>
-  <data name="BUT_0collective.Text" xml:space="preserve">
-    <value>0度</value>
+  <data name="label22.Text" xml:space="preserve">
+    <value>十字盘行程</value>
   </data>
-  <data name="label24.Size" type="System.Drawing.Size, System.Drawing">
-    <value>31, 13</value>
+  <data name="label23.Text" xml:space="preserve">
+    <value>尾舵行程</value>
   </data>
   <data name="label24.Text" xml:space="preserve">
     <value>最大</value>
   </data>
-  <data name="label40.Size" type="System.Drawing.Size, System.Drawing">
-    <value>31, 13</value>
+  <data name="label2.Text" xml:space="preserve">
+    <value>最大</value>
   </data>
-  <data name="label40.Text" xml:space="preserve">
+  <data name="label25.Text" xml:space="preserve">
+    <value>最大Roll</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>下 %</value>
+  </data>
+  <data name="label26.Text" xml:space="preserve">
+    <value>最大Pitch</value>
+  </data>
+  <data name="groupBox8.Text" xml:space="preserve">
+    <value>日本手设定点</value>
+  </data>
+  <data name="groupBox9.Text" xml:space="preserve">
+    <value>旋翼速度控制</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
     <value>最小</value>
   </data>
-  <data name="label39.Size" type="System.Drawing.Size, System.Drawing">
-    <value>31, 13</value>
+  <data name="groupBox6.Text" xml:space="preserve">
+    <value>自稳最小/最大总距</value>
   </data>
-  <data name="label39.Text" xml:space="preserve">
-    <value>微调</value>
+  <data name="H_GYR_GAIN.Text" xml:space="preserve">
+    <value>1000</value>
   </data>
-  <data name="label38.Size" type="System.Drawing.Size, System.Drawing">
-    <value>31, 13</value>
+  <data name="label6.Text" xml:space="preserve">
+    <value>尾旋翼速度</value>
   </data>
-  <data name="label38.Text" xml:space="preserve">
-    <value>逆转</value>
+  <data name="groupBox7.Text" xml:space="preserve">
+    <value>RSC爬升率</value>
   </data>
-  <data name="label37.Size" type="System.Drawing.Size, System.Drawing">
-    <value>31, 13</value>
+  <data name="groupBox4.Text" xml:space="preserve">
+    <value>总距补偿</value>
   </data>
-  <data name="label37.Text" xml:space="preserve">
-    <value>位置</value>
+  <data name="HS4_MIN.Text" xml:space="preserve">
+    <value>1500</value>
   </data>
-  <data name="label36.Size" type="System.Drawing.Size, System.Drawing">
-    <value>31, 13</value>
+  <data name="label4.Text" xml:space="preserve">
+    <value>上 %</value>
+  </data>
+  <data name="groupBox5.Text" xml:space="preserve">
+    <value>十字盘类型</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>秒</value>
+  </data>
+  <data name="groupBox3.Text" xml:space="preserve">
+    <value>尾旋翼类型</value>
+  </data>
+  <data name="HS4_MAX.Text" xml:space="preserve">
+    <value>1500</value>
+  </data>
+  <data name="BUT_0collective.Text" xml:space="preserve">
+    <value>零</value>
+  </data>
+  <data name="groupBox10.Text" xml:space="preserve">
+    <value>着陆最小总距</value>
   </data>
   <data name="label36.Text" xml:space="preserve">
     <value>舵机</value>
   </data>
-  <data name="label26.Size" type="System.Drawing.Size, System.Drawing">
-    <value>55, 13</value>
+  <data name="H_SV2_POS.Text" xml:space="preserve">
+    <value>60</value>
   </data>
-  <data name="label26.Text" xml:space="preserve">
-    <value>最大俯仰</value>
+  <data name="label38.Text" xml:space="preserve">
+    <value>反转</value>
   </data>
-  <data name="label25.Size" type="System.Drawing.Size, System.Drawing">
-    <value>55, 13</value>
+  <data name="label37.Text" xml:space="preserve">
+    <value>位置</value>
   </data>
-  <data name="label25.Text" xml:space="preserve">
-    <value>最大侧倾</value>
+  <data name="fbl_modeFBL.Text" xml:space="preserve">
+    <value>无副翼</value>
   </data>
-  <data name="label23.Size" type="System.Drawing.Size, System.Drawing">
-    <value>55, 13</value>
+  <data name="label39.Text" xml:space="preserve">
+    <value>微调</value>
   </data>
-  <data name="label23.Text" xml:space="preserve">
-    <value>舵机行程</value>
+  <data name="BUT_reset_swash.Text" xml:space="preserve">
+    <value>重置十字盘</value>
   </data>
-  <data name="label22.Size" type="System.Drawing.Size, System.Drawing">
-    <value>79, 13</value>
+  <data name="H_COL_MAX.Text" xml:space="preserve">
+    <value>1500</value>
   </data>
-  <data name="label22.Text" xml:space="preserve">
-    <value>斜盘水平微调</value>
+  <data name="CCPM.Text" xml:space="preserve">
+    <value>CCPM</value>
   </data>
-  <data name="label17.Size" type="System.Drawing.Size, System.Drawing">
-    <value>79, 13</value>
+  <data name="H_SV1_POS.Text" xml:space="preserve">
+    <value>-60</value>
   </data>
-  <data name="label17.Text" xml:space="preserve">
-    <value>斜盘舵机位置</value>
+  <data name="H_SWASH_TYPE.Text" xml:space="preserve">
+    <value>H1</value>
   </data>
-  <data name="label44.Size" type="System.Drawing.Size, System.Drawing">
-    <value>31, 13</value>
+  <data name="H_COL_MIN.Text" xml:space="preserve">
+    <value>1500</value>
+  </data>
+  <data name="H_COL_MID.Text" xml:space="preserve">
+    <value>1500</value>
+  </data>
+  <data name="label46.Text" xml:space="preserve">
+    <value>增益</value>
   </data>
   <data name="label44.Text" xml:space="preserve">
     <value>微调</value>
   </data>
-  <data name="label43.Size" type="System.Drawing.Size, System.Drawing">
-    <value>31, 13</value>
-  </data>
-  <data name="label43.Text" xml:space="preserve">
-    <value>逆转</value>
-  </data>
-  <data name="label42.Size" type="System.Drawing.Size, System.Drawing">
-    <value>43, 13</value>
+  <data name="BUT_swash_manual.Text" xml:space="preserve">
+    <value>手动</value>
   </data>
   <data name="label42.Text" xml:space="preserve">
-    <value>方向舵</value>
+    <value>尾舵</value>
+  </data>
+  <data name="label43.Text" xml:space="preserve">
+    <value>反转</value>
+  </data>
+  <data name="label40.Text" xml:space="preserve">
+    <value>最小</value>
+  </data>
+  <data name="label41.Text" xml:space="preserve">
+    <value>下</value>
   </data>
 </root>

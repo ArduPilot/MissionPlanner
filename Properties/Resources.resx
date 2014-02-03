@@ -259,7 +259,7 @@
   <data name="airspeed" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\BR-0004-03-2.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="y6" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="y6a" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\y6.png;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Hframelight" type="System.Resources.ResXFileRef, System.Windows.Forms">
@@ -551,7 +551,7 @@ Please visit {\field{\*\fldinst{HYPERLINK "www.diydrones.com"}}{\fldrslt{\ul\cf2
   <data name="bg" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\bg.jpg;System.Drawing.Bitmap, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="Gaugebg" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAm4AAAJuCAYAAAAJqI4TAAAABGdBTUEAALGOfPtRkwAAACBjSFJNAACH
@@ -1627,5 +1627,8 @@ Please visit {\field{\*\fldinst{HYPERLINK "www.diydrones.com"}}{\fldrslt{\ul\cf2
   </data>
   <data name="pixhawk" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\pixhawk.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="y6b" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\FW icons Y6.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

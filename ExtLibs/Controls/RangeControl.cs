@@ -39,6 +39,7 @@ namespace MissionPlanner.Controls
       float _minrange = 0;
       float _maxrange = 10;
       float _increment = 1;
+       bool intrackbarchange = false;
 
       #region Interface Properties
 
@@ -122,7 +123,13 @@ namespace MissionPlanner.Controls
 
       protected void numericUpDown1_ValueChanged(object sender, EventArgs e)
       {
-          trackBar1.Value = (int)map(numericUpDown1.Value, numericUpDown1.Minimum, numericUpDown1.Maximum, 0, 100);
+          // update trackbar value
+          if (!intrackbarchange)
+            trackBar1.Value = (int)map(numericUpDown1.Value, numericUpDown1.Minimum, numericUpDown1.Maximum, 0, 1000);
+
+          // if the increment is 1, its most likerly a int on the ap, so treat it as such
+          if (Increment == 1.0)
+              numericUpDown1.Value = (int)(numericUpDown1.Value);
 
          numericUpDown1.BackColor = Color.Green;
 
@@ -138,11 +145,9 @@ namespace MissionPlanner.Controls
 
       protected void trackBar1_ValueChanged(object sender, EventArgs e)
       {
-          numericUpDown1.Value = map(trackBar1.Value, 0, 100, numericUpDown1.Minimum, numericUpDown1.Maximum);
-         numericUpDown1.Text = (numericUpDown1.Value).ToString();
-
-         if (ValueChanged != null)
-             ValueChanged(this,Name, Value);
+          intrackbarchange = true;
+          numericUpDown1.Value = map(trackBar1.Value, 0, 1000, numericUpDown1.Minimum, numericUpDown1.Maximum);
+          intrackbarchange = false;
       }
 
       #endregion

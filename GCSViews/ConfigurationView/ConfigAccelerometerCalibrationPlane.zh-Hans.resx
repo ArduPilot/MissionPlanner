@@ -112,40 +112,24 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>86, 20</value>
-  </data>
-  <data name="label5.Text" xml:space="preserve">
-    <value>飞行模式 5</value>
-  </data>
-  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>86, 20</value>
-  </data>
-  <data name="label1.Text" xml:space="preserve">
-    <value>飞行模式 1</value>
-  </data>
-  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>17, 13</value>
-  </data>
-  <data name="label2.Text" xml:space="preserve">
-    <value>'+'</value>
-  </data>
-  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>247, 13</value>
-  </data>
-  <data name="label4.Text" xml:space="preserve">
-    <value>将多旋翼水平放置以设置加速度计默认偏移量</value>
-  </data>
   <data name="BUT_calib_accell.Text" xml:space="preserve">
     <value>校准加速度计</value>
   </data>
-  <data name="BUT_levelac2.Text" xml:space="preserve">
-    <value>立即校准</value>
+  <data name="label1.Text" xml:space="preserve">
+    <value>把你的飞机放置水平设置默认偏移(1轴)。这需要你把你的自动驾驶仪放在水平的平面上。</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>把你的飞机放置水平设置默认偏移(3轴)。这会让你把自动驾驶仪每一面都放置一次。</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>加速度计校准</value>
+  </data>
+  <data name="BUT_level.Text" xml:space="preserve">
+    <value>校准水平</value>
   </data>
 </root>

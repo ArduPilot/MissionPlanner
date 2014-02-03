@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ThemeColors));
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.TXT_bg = new System.Windows.Forms.TextBox();
             this.TXT_ctlbg = new System.Windows.Forms.TextBox();
@@ -44,104 +45,75 @@
             // 
             // TXT_bg
             // 
-            this.TXT_bg.Location = new System.Drawing.Point(93, 14);
+            resources.ApplyResources(this.TXT_bg, "TXT_bg");
             this.TXT_bg.Name = "TXT_bg";
-            this.TXT_bg.Size = new System.Drawing.Size(100, 20);
-            this.TXT_bg.TabIndex = 4;
             // 
             // TXT_ctlbg
             // 
-            this.TXT_ctlbg.Location = new System.Drawing.Point(93, 43);
+            resources.ApplyResources(this.TXT_ctlbg, "TXT_ctlbg");
             this.TXT_ctlbg.Name = "TXT_ctlbg";
-            this.TXT_ctlbg.Size = new System.Drawing.Size(100, 20);
-            this.TXT_ctlbg.TabIndex = 5;
             // 
             // TXT_text
             // 
-            this.TXT_text.Location = new System.Drawing.Point(93, 72);
+            resources.ApplyResources(this.TXT_text, "TXT_text");
             this.TXT_text.Name = "TXT_text";
-            this.TXT_text.Size = new System.Drawing.Size(100, 20);
-            this.TXT_text.TabIndex = 6;
             // 
             // TXT_butbg
             // 
-            this.TXT_butbg.Location = new System.Drawing.Point(93, 101);
+            resources.ApplyResources(this.TXT_butbg, "TXT_butbg");
             this.TXT_butbg.Name = "TXT_butbg";
-            this.TXT_butbg.Size = new System.Drawing.Size(100, 20);
-            this.TXT_butbg.TabIndex = 7;
             // 
             // TXT_butbord
             // 
-            this.TXT_butbord.Location = new System.Drawing.Point(93, 130);
+            resources.ApplyResources(this.TXT_butbord, "TXT_butbord");
             this.TXT_butbord.Name = "TXT_butbord";
-            this.TXT_butbord.Size = new System.Drawing.Size(100, 20);
-            this.TXT_butbord.TabIndex = 9;
             // 
             // BUT_butbord
             // 
-            this.BUT_butbord.Location = new System.Drawing.Point(12, 128);
+            resources.ApplyResources(this.BUT_butbord, "BUT_butbord");
             this.BUT_butbord.Name = "BUT_butbord";
-            this.BUT_butbord.Size = new System.Drawing.Size(75, 23);
-            this.BUT_butbord.TabIndex = 8;
-            this.BUT_butbord.Text = "Button Border";
             this.BUT_butbord.UseVisualStyleBackColor = true;
             this.BUT_butbord.Click += new System.EventHandler(this.BUT_butbord_Click);
             // 
             // BUT_butbg
             // 
-            this.BUT_butbg.Location = new System.Drawing.Point(12, 99);
+            resources.ApplyResources(this.BUT_butbg, "BUT_butbg");
             this.BUT_butbg.Name = "BUT_butbg";
-            this.BUT_butbg.Size = new System.Drawing.Size(75, 23);
-            this.BUT_butbg.TabIndex = 3;
-            this.BUT_butbg.Text = "Button BG";
             this.BUT_butbg.UseVisualStyleBackColor = true;
             this.BUT_butbg.Click += new System.EventHandler(this.BUT_butbg_Click);
             // 
             // BUT_text
             // 
-            this.BUT_text.Location = new System.Drawing.Point(12, 70);
+            resources.ApplyResources(this.BUT_text, "BUT_text");
             this.BUT_text.Name = "BUT_text";
-            this.BUT_text.Size = new System.Drawing.Size(75, 23);
-            this.BUT_text.TabIndex = 2;
-            this.BUT_text.Text = "Text";
             this.BUT_text.UseVisualStyleBackColor = true;
             this.BUT_text.Click += new System.EventHandler(this.BUT_text_Click);
             // 
             // BUT_ctlbg
             // 
-            this.BUT_ctlbg.Location = new System.Drawing.Point(12, 41);
+            resources.ApplyResources(this.BUT_ctlbg, "BUT_ctlbg");
             this.BUT_ctlbg.Name = "BUT_ctlbg";
-            this.BUT_ctlbg.Size = new System.Drawing.Size(75, 23);
-            this.BUT_ctlbg.TabIndex = 1;
-            this.BUT_ctlbg.Text = "Control BG";
             this.BUT_ctlbg.UseVisualStyleBackColor = true;
             this.BUT_ctlbg.Click += new System.EventHandler(this.BUT_ctlbg_Click);
             // 
             // BUT_bg
             // 
-            this.BUT_bg.Location = new System.Drawing.Point(12, 12);
+            resources.ApplyResources(this.BUT_bg, "BUT_bg");
             this.BUT_bg.Name = "BUT_bg";
-            this.BUT_bg.Size = new System.Drawing.Size(75, 23);
-            this.BUT_bg.TabIndex = 0;
-            this.BUT_bg.Text = "Background";
             this.BUT_bg.UseVisualStyleBackColor = true;
             this.BUT_bg.Click += new System.EventHandler(this.BUT_bg_Click);
             // 
             // BUT_done
             // 
-            this.BUT_done.Location = new System.Drawing.Point(63, 154);
+            resources.ApplyResources(this.BUT_done, "BUT_done");
             this.BUT_done.Name = "BUT_done";
-            this.BUT_done.Size = new System.Drawing.Size(75, 23);
-            this.BUT_done.TabIndex = 10;
-            this.BUT_done.Text = "Done";
             this.BUT_done.UseVisualStyleBackColor = true;
             this.BUT_done.Click += new System.EventHandler(this.BUT_done_Click);
             // 
             // ThemeColors
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(206, 189);
             this.Controls.Add(this.BUT_done);
             this.Controls.Add(this.TXT_butbord);
             this.Controls.Add(this.BUT_butbord);
@@ -155,7 +127,6 @@
             this.Controls.Add(this.BUT_bg);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "ThemeColors";
-            this.Text = "ThemeColors";
             this.Load += new System.EventHandler(this.ThemeColors_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

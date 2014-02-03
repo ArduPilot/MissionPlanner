@@ -29,6 +29,7 @@ namespace MissionPlanner.Wizard
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(_7BatteryMonitor));
             this.panel1 = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.Label();
             this.txt_mah = new System.Windows.Forms.TextBox();
@@ -57,96 +58,64 @@ namespace MissionPlanner.Wizard
             this.panel1.Controls.Add(this.CMB_apmversion);
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Location = new System.Drawing.Point(30, 65);
+            resources.ApplyResources(this.panel1, "panel1");
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(740, 148);
-            this.panel1.TabIndex = 1;
             // 
             // label4
             // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(5, 98);
+            resources.ApplyResources(this.label4, "label4");
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(284, 18);
-            this.label4.TabIndex = 45;
-            this.label4.Text = "What size batterys are you using (mah)?";
             // 
             // txt_mah
             // 
-            this.txt_mah.Location = new System.Drawing.Point(347, 96);
+            resources.ApplyResources(this.txt_mah, "txt_mah");
             this.txt_mah.Name = "txt_mah";
-            this.txt_mah.Size = new System.Drawing.Size(182, 20);
-            this.txt_mah.TabIndex = 44;
             // 
             // pictureBox5
             // 
             this.pictureBox5.BackColor = System.Drawing.Color.White;
             this.pictureBox5.BackgroundImage = global::MissionPlanner.Properties.Resources.BR_APMPWRDEAN_2;
-            this.pictureBox5.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            resources.ApplyResources(this.pictureBox5, "pictureBox5");
             this.pictureBox5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox5.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.pictureBox5.Location = new System.Drawing.Point(535, 16);
             this.pictureBox5.Name = "pictureBox5";
-            this.pictureBox5.Size = new System.Drawing.Size(189, 116);
-            this.pictureBox5.TabIndex = 43;
             this.pictureBox5.TabStop = false;
             // 
             // label2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(5, 71);
+            resources.ApplyResources(this.label2, "label2");
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(200, 18);
-            this.label2.TabIndex = 8;
-            this.label2.Text = "What sensor are you using?";
             // 
             // CMB_sensor
             // 
             this.CMB_sensor.FormattingEnabled = true;
             this.CMB_sensor.Items.AddRange(new object[] {
-            "AUTOFILLED"});
-            this.CMB_sensor.Location = new System.Drawing.Point(347, 68);
+            resources.GetString("CMB_sensor.Items")});
+            resources.ApplyResources(this.CMB_sensor, "CMB_sensor");
             this.CMB_sensor.Name = "CMB_sensor";
-            this.CMB_sensor.Size = new System.Drawing.Size(182, 21);
-            this.CMB_sensor.TabIndex = 7;
             this.CMB_sensor.SelectedIndexChanged += new System.EventHandler(this.CMB_sensor_SelectedIndexChanged);
             // 
             // CMB_apmversion
             // 
             this.CMB_apmversion.FormattingEnabled = true;
             this.CMB_apmversion.Items.AddRange(new object[] {
-            "0: APM1",
-            "1: APM2 - 2.5 non 3DR",
-            "2: APM2.5 - 3DR Power Module",
-            "3: PX4",
-            "4: PixHawk"});
-            this.CMB_apmversion.Location = new System.Drawing.Point(347, 41);
+            resources.GetString("CMB_apmversion.Items"),
+            resources.GetString("CMB_apmversion.Items1"),
+            resources.GetString("CMB_apmversion.Items2"),
+            resources.GetString("CMB_apmversion.Items3"),
+            resources.GetString("CMB_apmversion.Items4")});
+            resources.ApplyResources(this.CMB_apmversion, "CMB_apmversion");
             this.CMB_apmversion.Name = "CMB_apmversion";
-            this.CMB_apmversion.Size = new System.Drawing.Size(182, 21);
-            this.CMB_apmversion.TabIndex = 6;
             this.CMB_apmversion.SelectedIndexChanged += new System.EventHandler(this.CMB_apmversion_SelectedIndexChanged);
             // 
             // label3
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(5, 44);
+            resources.ApplyResources(this.label3, "label3");
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(252, 18);
-            this.label3.TabIndex = 5;
-            this.label3.Text = "What autopilot version do you own?";
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(4, 4);
+            resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(286, 22);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Battery Monitor Configuration";
             // 
             // radialGradientBG1
             // 
@@ -156,41 +125,36 @@ namespace MissionPlanner.Wizard
             // 
             // 
             this.radialGradientBG1.Image.BackColor = System.Drawing.Color.Transparent;
-            this.radialGradientBG1.Image.Location = new System.Drawing.Point(38, 10);
-            this.radialGradientBG1.Image.MaximumSize = new System.Drawing.Size(288, 72);
-            this.radialGradientBG1.Image.MinimumSize = new System.Drawing.Size(288, 72);
+            this.radialGradientBG1.Image.Location = ((System.Drawing.Point)(resources.GetObject("radialGradientBG1.Image.Location")));
+            this.radialGradientBG1.Image.MaximumSize = ((System.Drawing.Size)(resources.GetObject("radialGradientBG1.Image.MaximumSize")));
+            this.radialGradientBG1.Image.MinimumSize = ((System.Drawing.Size)(resources.GetObject("radialGradientBG1.Image.MinimumSize")));
             this.radialGradientBG1.Image.Name = "_Image";
-            this.radialGradientBG1.Image.Size = new System.Drawing.Size(288, 72);
-            this.radialGradientBG1.Image.TabIndex = 0;
+            this.radialGradientBG1.Image.Size = ((System.Drawing.Size)(resources.GetObject("radialGradientBG1.Image.Size")));
+            this.radialGradientBG1.Image.TabIndex = ((int)(resources.GetObject("radialGradientBG1.Image.TabIndex")));
             this.radialGradientBG1.Image.TabStop = false;
-            this.radialGradientBG1.Image.Visible = false;
+            this.radialGradientBG1.Image.Visible = ((bool)(resources.GetObject("radialGradientBG1.Image.Visible")));
             // 
             // 
             // 
-            this.radialGradientBG1.Label.AutoSize = true;
+            this.radialGradientBG1.Label.AutoSize = ((bool)(resources.GetObject("radialGradientBG1.Label.AutoSize")));
             this.radialGradientBG1.Label.BackColor = System.Drawing.Color.Transparent;
-            this.radialGradientBG1.Label.Font = new System.Drawing.Font("Arial", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.radialGradientBG1.Label.Font = ((System.Drawing.Font)(resources.GetObject("radialGradientBG1.Label.Font")));
             this.radialGradientBG1.Label.ForeColor = System.Drawing.Color.Black;
-            this.radialGradientBG1.Label.Location = new System.Drawing.Point(30, 5);
+            this.radialGradientBG1.Label.Location = ((System.Drawing.Point)(resources.GetObject("radialGradientBG1.Label.Location")));
             this.radialGradientBG1.Label.Name = "_Label";
-            this.radialGradientBG1.Label.Size = new System.Drawing.Size(191, 29);
-            this.radialGradientBG1.Label.TabIndex = 1;
-            this.radialGradientBG1.Label.Text = "Battery Monitor";
-            this.radialGradientBG1.Location = new System.Drawing.Point(0, 0);
+            this.radialGradientBG1.Label.Size = ((System.Drawing.Size)(resources.GetObject("radialGradientBG1.Label.Size")));
+            this.radialGradientBG1.Label.TabIndex = ((int)(resources.GetObject("radialGradientBG1.Label.TabIndex")));
+            this.radialGradientBG1.Label.Text = resources.GetString("radialGradientBG1.Label.Text");
+            resources.ApplyResources(this.radialGradientBG1, "radialGradientBG1");
             this.radialGradientBG1.Name = "radialGradientBG1";
             this.radialGradientBG1.OutsideColor = System.Drawing.Color.FromArgb(((int)(((byte)(67)))), ((int)(((byte)(107)))), ((int)(((byte)(10)))));
-            this.radialGradientBG1.Size = new System.Drawing.Size(800, 41);
-            this.radialGradientBG1.TabIndex = 4;
             // 
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(24)))), ((int)(((byte)(24)))));
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel2.Location = new System.Drawing.Point(30, 306);
+            resources.ApplyResources(this.panel2, "panel2");
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(740, 162);
-            this.panel2.TabIndex = 5;
-            this.panel2.Visible = false;
             // 
             // _7BatteryMonitor
             // 
@@ -202,7 +166,7 @@ namespace MissionPlanner.Wizard
             this.Controls.Add(this.panel1);
             this.ForeColor = System.Drawing.Color.White;
             this.Name = "_7BatteryMonitor";
-            this.Size = new System.Drawing.Size(800, 500);
+            resources.ApplyResources(this, "$this");
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();

@@ -29,6 +29,7 @@ namespace MissionPlanner.Wizard
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(_10FlightModes));
             this.panel1 = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
             this.configFlightModes1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigFlightModes();
@@ -45,38 +46,23 @@ namespace MissionPlanner.Wizard
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.configFlightModes1);
             this.panel1.Controls.Add(this.label1);
-            this.panel1.Location = new System.Drawing.Point(30, 60);
+            resources.ApplyResources(this.panel1, "panel1");
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(740, 424);
-            this.panel1.TabIndex = 1;
             // 
             // label3
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(5, 36);
+            resources.ApplyResources(this.label3, "label3");
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(588, 18);
-            this.label3.TabIndex = 6;
-            this.label3.Text = "Here we select what flight modes you want based on your transmitter switch positi" +
-    "on.";
             // 
             // configFlightModes1
             // 
-            this.configFlightModes1.Location = new System.Drawing.Point(84, 97);
+            resources.ApplyResources(this.configFlightModes1, "configFlightModes1");
             this.configFlightModes1.Name = "configFlightModes1";
-            this.configFlightModes1.Size = new System.Drawing.Size(564, 270);
-            this.configFlightModes1.TabIndex = 2;
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(4, 4);
+            resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(210, 22);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Flight Mode Selection";
             // 
             // radialGradientBG1
             // 
@@ -86,31 +72,29 @@ namespace MissionPlanner.Wizard
             // 
             // 
             this.radialGradientBG1.Image.BackColor = System.Drawing.Color.Transparent;
-            this.radialGradientBG1.Image.Location = new System.Drawing.Point(38, 10);
-            this.radialGradientBG1.Image.MaximumSize = new System.Drawing.Size(288, 72);
-            this.radialGradientBG1.Image.MinimumSize = new System.Drawing.Size(288, 72);
+            this.radialGradientBG1.Image.Location = ((System.Drawing.Point)(resources.GetObject("radialGradientBG1.Image.Location")));
+            this.radialGradientBG1.Image.MaximumSize = ((System.Drawing.Size)(resources.GetObject("radialGradientBG1.Image.MaximumSize")));
+            this.radialGradientBG1.Image.MinimumSize = ((System.Drawing.Size)(resources.GetObject("radialGradientBG1.Image.MinimumSize")));
             this.radialGradientBG1.Image.Name = "_Image";
-            this.radialGradientBG1.Image.Size = new System.Drawing.Size(288, 72);
-            this.radialGradientBG1.Image.TabIndex = 0;
+            this.radialGradientBG1.Image.Size = ((System.Drawing.Size)(resources.GetObject("radialGradientBG1.Image.Size")));
+            this.radialGradientBG1.Image.TabIndex = ((int)(resources.GetObject("radialGradientBG1.Image.TabIndex")));
             this.radialGradientBG1.Image.TabStop = false;
-            this.radialGradientBG1.Image.Visible = false;
+            this.radialGradientBG1.Image.Visible = ((bool)(resources.GetObject("radialGradientBG1.Image.Visible")));
             // 
             // 
             // 
-            this.radialGradientBG1.Label.AutoSize = true;
+            this.radialGradientBG1.Label.AutoSize = ((bool)(resources.GetObject("radialGradientBG1.Label.AutoSize")));
             this.radialGradientBG1.Label.BackColor = System.Drawing.Color.Transparent;
-            this.radialGradientBG1.Label.Font = new System.Drawing.Font("Arial", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.radialGradientBG1.Label.Font = ((System.Drawing.Font)(resources.GetObject("radialGradientBG1.Label.Font")));
             this.radialGradientBG1.Label.ForeColor = System.Drawing.Color.Black;
-            this.radialGradientBG1.Label.Location = new System.Drawing.Point(30, 5);
+            this.radialGradientBG1.Label.Location = ((System.Drawing.Point)(resources.GetObject("radialGradientBG1.Label.Location")));
             this.radialGradientBG1.Label.Name = "_Label";
-            this.radialGradientBG1.Label.Size = new System.Drawing.Size(164, 29);
-            this.radialGradientBG1.Label.TabIndex = 1;
-            this.radialGradientBG1.Label.Text = "Flight Modes";
-            this.radialGradientBG1.Location = new System.Drawing.Point(0, 0);
+            this.radialGradientBG1.Label.Size = ((System.Drawing.Size)(resources.GetObject("radialGradientBG1.Label.Size")));
+            this.radialGradientBG1.Label.TabIndex = ((int)(resources.GetObject("radialGradientBG1.Label.TabIndex")));
+            this.radialGradientBG1.Label.Text = resources.GetString("radialGradientBG1.Label.Text");
+            resources.ApplyResources(this.radialGradientBG1, "radialGradientBG1");
             this.radialGradientBG1.Name = "radialGradientBG1";
             this.radialGradientBG1.OutsideColor = System.Drawing.Color.FromArgb(((int)(((byte)(67)))), ((int)(((byte)(107)))), ((int)(((byte)(10)))));
-            this.radialGradientBG1.Size = new System.Drawing.Size(800, 41);
-            this.radialGradientBG1.TabIndex = 4;
             // 
             // _10FlightModes
             // 
@@ -121,7 +105,7 @@ namespace MissionPlanner.Wizard
             this.Controls.Add(this.panel1);
             this.ForeColor = System.Drawing.Color.White;
             this.Name = "_10FlightModes";
-            this.Size = new System.Drawing.Size(800, 500);
+            resources.ApplyResources(this, "$this");
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.radialGradientBG1.Image)).EndInit();

@@ -69,6 +69,49 @@ namespace MissionPlanner.Log
             CRASH_CHECK_CRASH = 1,
         }
 
+        public enum events
+        {
+            DATA_MAVLINK_FLOAT = 1,
+            DATA_MAVLINK_INT32 = 2,
+            DATA_MAVLINK_INT16 = 3,
+            DATA_MAVLINK_INT8 = 4,
+            DATA_AP_STATE = 7,
+            DATA_INIT_SIMPLE_BEARING = 9,
+            DATA_ARMED = 10,
+            DATA_DISARMED = 11,
+            DATA_AUTO_ARMED = 15,
+            DATA_TAKEOFF = 16,
+            DATA_LAND_COMPLETE = 18,
+            DATA_NOT_LANDED = 28,
+            DATA_LOST_GPS = 19,
+            DATA_BEGIN_FLIP = 21,
+            DATA_END_FLIP = 22,
+            DATA_EXIT_FLIP = 23,
+            DATA_SET_HOME = 25,
+            DATA_SET_SIMPLE_ON = 26,
+            DATA_SET_SIMPLE_OFF = 27,
+            DATA_SET_SUPERSIMPLE_ON = 29,
+            DATA_AUTOTUNE_INITIALISED = 30,
+            DATA_AUTOTUNE_OFF = 31,
+            DATA_AUTOTUNE_RESTART = 32,
+            DATA_AUTOTUNE_COMPLETE = 33,
+            DATA_AUTOTUNE_ABANDONED = 34,
+            DATA_AUTOTUNE_REACHED_LIMIT = 35,
+            DATA_AUTOTUNE_TESTING = 36,
+            DATA_AUTOTUNE_SAVEDGAINS = 37,
+            DATA_SAVE_TRIM = 38,
+            DATA_SAVEWP_ADD_WP = 39,
+            DATA_SAVEWP_CLEAR_MISSION_RTL = 40,
+            DATA_FENCE_ENABLE = 41,
+            DATA_FENCE_DISABLE = 42,
+            DATA_ACRO_TRAINER_DISABLED = 43,
+            DATA_ACRO_TRAINER_LEVELING = 44,
+            DATA_ACRO_TRAINER_LIMITED = 45,
+            DATA_EPM_ON = 46,
+            DATA_EPM_OFF = 47,
+            DATA_EPM_NEUTRAL = 48,
+        }
+
         public static Dictionary<string, Label> logformat = new Dictionary<string, Label>();
 
         public static void Clear()
@@ -126,9 +169,9 @@ namespace MissionPlanner.Log
 
             int lineno = 0;
             int msoffset = 0;
-            
 
-            log.Info("loading log");
+
+            log.Info("loading log " + (GC.GetTotalMemory(false) / 1024.0));
            
 
             using (StreamReader sr = new StreamReader(fn))
@@ -168,6 +211,42 @@ namespace MissionPlanner.Log
                                     catch { }
                                 }
                             }
+                        }
+                        else if (line.StartsWith("ERR"))
+                        {
+                            Array.Resize(ref items, items.Length + 2);
+                            try
+                            {
+                                int index = FindInArray(DFLog.logformat["ERR"].FieldNames, "Subsys");
+                                if (index == -1)
+                                {
+                                    throw new ArgumentNullException();
+                                }
+
+                                int index2 = FindInArray(DFLog.logformat["ERR"].FieldNames, "ECode");
+                                if (index2 == -1)
+                                {
+                                    throw new ArgumentNullException();
+                                }
+
+                                items[items.Length - 2] = ""+(DFLog.error_subsystem)int.Parse(items[index]);
+                            }
+                            catch { }
+                        }
+                        else if (line.StartsWith("EV"))
+                        {
+                            Array.Resize(ref items, items.Length + 1);
+                            try
+                            {
+                                int index = FindInArray(DFLog.logformat["EV"].FieldNames, "Id");
+                                if (index == -1)
+                                {
+                                    throw new ArgumentNullException();
+                                }
+
+                                items[items.Length - 1] = "" + (DFLog.events)int.Parse(items[index]);
+                            }
+                            catch { }
                         }
 
                         DFItem item = new DFItem();
@@ -212,7 +291,7 @@ namespace MissionPlanner.Log
                 }
             }
 
-            log.Info("loaded log");
+            log.Info("loaded log " + (GC.GetTotalMemory(false) / 1024.0));
 
             return answer;
         }
