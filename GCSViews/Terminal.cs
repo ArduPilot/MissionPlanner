@@ -79,7 +79,7 @@ namespace MissionPlanner.GCSViews
 
                         buffer[a] = indata;
 
-                        if (buffer[a] >= 0x20 && buffer[a] < 0x7f || buffer[a] == (int)'\n' || buffer[a] == (int)'\r')
+                        if (buffer[a] >= 0x20 && buffer[a] < 0x7f || buffer[a] == (int)'\n' /*|| buffer[a] == (int)'\r'*/)
                         {
                             a++;
                         }
@@ -125,15 +125,16 @@ namespace MissionPlanner.GCSViews
         private void TXT_terminal_Click(object sender, EventArgs e)
         {
             // auto scroll
-            TXT_terminal.SelectionStart = TXT_terminal.Text.Length;
+            //TXT_terminal.SelectionStart = TXT_terminal.Text.Length;
 
-            TXT_terminal.ScrollToCaret();
+            //TXT_terminal.ScrollToCaret();
 
-            TXT_terminal.Refresh();
+            //TXT_terminal.Refresh();
         }
 
         private void TXT_terminal_KeyDown(object sender, KeyEventArgs e)
         {
+            TXT_terminal.SelectionStart = TXT_terminal.Text.Length;
             /*    if (e.KeyData == Keys.Up || e.KeyData == Keys.Down || e.KeyData == Keys.Left || e.KeyData == Keys.Right)
                 {
                     e.Handled = true; // ignore it

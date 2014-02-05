@@ -43,10 +43,10 @@ namespace MissionPlanner.Log
         enum serialstatus
         {
             Connecting,
+            ReceiveListing,
             Createfile,
             Closefile,
             Reading,
-            Waiting,
             Done
         }
 
@@ -69,6 +69,7 @@ namespace MissionPlanner.Log
                     }
                 }
                 catch { threadrun = false; return; }
+                System.Threading.Thread.Sleep(1);
             }
         }
 
@@ -86,11 +87,13 @@ namespace MissionPlanner.Log
                     }
                 }
                 catch { threadrun = false; return; }
+                System.Threading.Thread.Sleep(1);
             }
         }
 
         private void Log_Load(object sender, EventArgs e)
         {
+            Console.WriteLine("state ->Connecting\r");
             status = serialstatus.Connecting;
 
             comPort = GCSViews.Terminal.comPort;
@@ -103,24 +106,16 @@ namespace MissionPlanner.Log
                     comPort.Open();
 
                 //Console.WriteLine("Log dtr");
-
                 //comPort.toggleDTR();
 
                 Console.WriteLine("Log discard");
-
                 comPort.DiscardInBuffer();
 
                 Console.WriteLine("Log w&sleep");
 
-                try
-                {
-                    // try provoke a responce
-                    comPort.Write("\n\n?\r\n\n");
-                }
-                catch
-                {
-                }
-
+                // exit to main
+                comPort.Write("exit\r");
+                
                 // 10 sec
                 waitandsleep(10000);
             }
@@ -137,13 +132,10 @@ namespace MissionPlanner.Log
 
                 threadrun = true;
 
-                if (comPort.IsOpen)
-                    readandsleep(100);
-
                 try
                 {
                     if (comPort.IsOpen)
-                        comPort.Write("\n\n\n\nexit\r\nlogs\r\n"); // more in "connecting"
+                        comPort.Write("\nlogs\r"); // more in "connecting"
                 }
                 catch
                 {
@@ -226,7 +218,7 @@ namespace MissionPlanner.Log
                     comPort.ReadTimeout = 500;
                     try
                     {
-                        line = comPort.ReadLine(); //readline(comPort);
+                        line = comPort.ReadLine();
                         if (!line.Contains("\n"))
                             line = line + "\n";
                     }
@@ -245,26 +237,22 @@ namespace MissionPlanner.Log
                     {
                         case serialstatus.Connecting:
 
-                            if (line.Contains("ENTER") || line.Contains("GROUND START") || line.Contains("reset to FLY") || line.Contains("interactive setup") || line.Contains("CLI") || line.Contains("Ardu"))
+                            if (line.Contains("Log]"))
                             {
-                                try
-                                {
-                                    //System.Threading.Thread.Sleep(200);
-                                    //comPort.Write("\n\n\n\n");
-                                }
-                                catch { }
 
                                 System.Threading.Thread.Sleep(500);
 
                                 // clear history
-                                this.Invoke((System.Windows.Forms.MethodInvoker)delegate()
+/*                                this.Invoke((System.Windows.Forms.MethodInvoker)delegate()
 {
     TXT_seriallog.Clear();
-});
+});*/
 
-                                comPort.Write("logs\r");
-                                status = serialstatus.Done;
+                                Console.WriteLine("state ->ReceiveListing\r");
+                                status = serialstatus.ReceiveListing;
                             }
+                            break;
+                        case serialstatus.Done:
                             break;
                         case serialstatus.Closefile:
                             sw.Close();
@@ -273,7 +261,7 @@ namespace MissionPlanner.Log
 
                             if (logtime != DateTime.MinValue)
                             {
-                                string newlogfilename = MainV2.LogDir + Path.DirectorySeparatorChar + logtime.ToString("yyyy-MM-dd HH-mm") + ".log";
+                                string newlogfilename = MainV2.LogDir + Path.DirectorySeparatorChar + logtime.ToString("yyyy-MM-dd HH-mm-ss") + ".log";
                                 try
                                 {
                                     File.Move(logfile, newlogfilename);
@@ -283,8 +271,6 @@ namespace MissionPlanner.Log
                             }
 
                             TextReader tr = new StreamReader(logfile);
-
-                            //
 
                             this.Invoke((System.Windows.Forms.MethodInvoker)delegate()
 {
@@ -305,15 +291,16 @@ namespace MissionPlanner.Log
                                 lo.writeKML(logfile + ".kml");
                             }
                             catch { } // usualy invalid lat long error
-                            status = serialstatus.Done;
-                            comPort.DiscardInBuffer();
+
+                            Console.WriteLine("state ->ReceiveListing\r");
+                            status = serialstatus.ReceiveListing;
                             break;
                         case serialstatus.Createfile:
                             receivedbytes = 0;
                             Directory.CreateDirectory(MainV2.LogDir);
-                            logfile = MainV2.LogDir + Path.DirectorySeparatorChar + DateTime.Now.ToString("yyyy-MM-dd HH-mm") + " " + currentlog + ".log";
+                            logfile = MainV2.LogDir + Path.DirectorySeparatorChar + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + " " + currentlog + ".log";
                             sw = new StreamWriter(logfile);
-                            status = serialstatus.Waiting;
+
                             lock (thisLock)
                             {
                                 this.Invoke((System.Windows.Forms.MethodInvoker)delegate()
@@ -321,14 +308,11 @@ namespace MissionPlanner.Log
     TXT_seriallog.Clear();
 });
                             }
-                            //if (line.Contains("Dumping Log"))
-                            {
-                                status = serialstatus.Reading;
-                            }
+
+                            Console.WriteLine("state ->Reading\r");
+                            status = serialstatus.Reading;
                             break;
-                        case serialstatus.Done:
-                            // 
-                           // if (line.Contains("start") && line.Contains("end"))
+                        case serialstatus.ReceiveListing:
                             {
                                 Regex regex2 = new Regex(@"^Log ([0-9]+)[,\s]", RegexOptions.IgnoreCase);
                                 if (regex2.IsMatch(line))
@@ -336,30 +320,23 @@ namespace MissionPlanner.Log
                                     MatchCollection matchs = regex2.Matches(line);
                                     logcount = int.Parse(matchs[0].Groups[1].Value);
                                     genchkcombo(logcount);
-                                    //status = serialstatus.Done;
                                 }
                             }
-                            if (line.Contains("No logs"))
+                            if (line.Contains("Log]"))
                             {
+                                Console.WriteLine("state ->Done\r");
                                 status = serialstatus.Done;
                             }
                             break;
                         case serialstatus.Reading:
                             if (line.Contains("packets read") || line.Contains("Done") || line.Contains("logs enabled"))
                             {
+                                Console.WriteLine("state ->Closefile\r");
                                 status = serialstatus.Closefile;
-                                Console.Write("CloseFile: " +line);
                                 break;
                             }
                             sw.Write(line);
                             continue;
-                        case serialstatus.Waiting:
-                            if (line.Contains("Dumping Log") || line.Contains("GPS:") || line.Contains("NTUN:") || line.Contains("CTUN:") || line.Contains("PM:"))
-                            {
-                                status = serialstatus.Reading;
-                                Console.Write("Reading: " + line);
-                            }
-                            break;
                     }
                     lock (thisLock)
                     {
@@ -383,8 +360,6 @@ namespace MissionPlanner.Log
                             TXT_seriallog.Refresh();
 
                         });
-
-
 
                     }
                 }
@@ -433,19 +408,18 @@ namespace MissionPlanner.Log
             {
                 for (int a = startlognum; a <= endlognum; a++)
                 {
-                    currentlog = a;
-                    System.Threading.Thread.Sleep(1100);
-                    comPort.Write("dump ");
-                    System.Threading.Thread.Sleep(100);
-                    comPort.Write(a.ToString() + "\r");
-                    comPort.DiscardInBuffer();
-                    status = serialstatus.Createfile;
-
                     while (status != serialstatus.Done)
                     {
                         System.Threading.Thread.Sleep(100);
                     }
 
+                    currentlog = a;
+                    System.Threading.Thread.Sleep(1100);
+                    comPort.Write("dump ");
+                    comPort.Write(a.ToString() + "\r");
+
+                    Console.WriteLine("state ->Createfile\r");
+                    status = serialstatus.Createfile;
                 }
 
                 Console.Beep();
@@ -461,18 +435,18 @@ namespace MissionPlanner.Log
                 {
                     int a = (int)CHK_logs.CheckedItems[i];
                     {
-                        currentlog = a;
-                        System.Threading.Thread.Sleep(1100);
-                        comPort.Write("dump ");
-                        System.Threading.Thread.Sleep(100);
-                        comPort.Write(a.ToString() + "\r");
-                        comPort.DiscardInBuffer();
-                        status = serialstatus.Createfile;
-
                         while (status != serialstatus.Done)
                         {
                             System.Threading.Thread.Sleep(100);
                         }
+
+                        currentlog = a;
+                        System.Threading.Thread.Sleep(1100);
+                        comPort.Write("dump ");
+                        comPort.Write(a.ToString() + "\r");
+
+                        Console.WriteLine("state ->Createfile\r");
+                        status = serialstatus.Createfile;
                     }
                 }
 
