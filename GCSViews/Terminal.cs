@@ -134,6 +134,12 @@ namespace MissionPlanner.GCSViews
 
         private void TXT_terminal_KeyDown(object sender, KeyEventArgs e)
         {
+            if ((e.Modifiers & Keys.Control) !=0)
+            {
+                if (e.KeyValue == (int)Keys.X)
+                    e.Handled = true; // ignore it, to prevent 'cut' action
+                return; //let it be handled by the system, for example ctrl+c for copy
+            }
             TXT_terminal.SelectionStart = TXT_terminal.Text.Length;
             /*    if (e.KeyData == Keys.Up || e.KeyData == Keys.Down || e.KeyData == Keys.Left || e.KeyData == Keys.Right)
                 {
@@ -423,7 +429,7 @@ namespace MissionPlanner.GCSViews
                 {
                     threadrun = true;
 
-                    Console.WriteLine("Terminal thread start run run " + threadrun + " " + comPort.IsOpen);
+                    Console.WriteLine("Terminal thread start run " + threadrun + " " + comPort.IsOpen);
 
                     try
                     {
