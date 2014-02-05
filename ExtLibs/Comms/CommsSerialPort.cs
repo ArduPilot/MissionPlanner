@@ -22,7 +22,7 @@ namespace MissionPlanner.Comms
 
         public new bool DtrEnable { get { return base.DtrEnable; } set { if (ispx4(base.PortName)) return; base.DtrEnable = value; } }
         public new bool RtsEnable { get { return base.RtsEnable; } set { if (ispx4(base.PortName)) return; base.RtsEnable = value; } }
-        
+        /*
         protected override void Dispose(bool disposing)
         {
             try
@@ -53,7 +53,7 @@ namespace MissionPlanner.Comms
             }
             catch (Exception ex) { Console.WriteLine("3 " + ex.ToString()); }
         }
-
+        */
         public new void Open()
         {
             // 500ms write timeout - win32 api default

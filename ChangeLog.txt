@@ -1,4 +1,14 @@
-﻿* Mission Planner 1.2.94
+﻿* Mission Planner 1.2.95
+move Advanced view to a higher function
+modify georef as per new offsets, and made tlog the same
+add filter to .param file listing
+terminal, filter '\r's
+add advanced view option to friendly params view
+hide advanced option on firmware screen
+add reload option to mainswitcher
+adsb process more sbs messages
+
+* Mission Planner 1.2.94
 add default settings
 fix battery show on hud
 add new y6b to wizard and frame type screen

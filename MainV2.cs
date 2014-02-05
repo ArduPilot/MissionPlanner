@@ -86,6 +86,23 @@ namespace MissionPlanner
 
         Controls.MainSwitcher MyView;
 
+        static bool _advanced = false;
+        /// <summary>
+        /// Control what is displayed
+        /// </summary>
+        public static Boolean Advanced
+        {
+            get
+            {
+                return _advanced;
+            }
+            set
+            {
+                _advanced = value;
+                MissionPlanner.Controls.BackstageView.BackstageView.Advanced = value;
+            }
+        }
+
         /// <summary>
         /// Active Comport interface
         /// </summary>
@@ -419,7 +436,18 @@ namespace MissionPlanner
                     MissionPlanner.Utilities.Tracking.OptOut = bool.Parse(config["analyticsoptout"].ToString());
 
                 if (MainV2.config["advancedview"] != null)
-                    MissionPlanner.Controls.BackstageView.BackstageView.Advanced = bool.Parse(config["advancedview"].ToString());
+                {
+                    MainV2.Advanced = bool.Parse(config["advancedview"].ToString());
+                }
+                else
+                {
+                    // existing user - enable advanced view
+                    if (MainV2.config.Count > 3)
+                    {
+                        config["advancedview"] = true.ToString();
+                        MainV2.Advanced = true;
+                    }
+                }
 
                 try
                 {

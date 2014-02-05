@@ -23,6 +23,8 @@ namespace MissionPlanner.Controls
         public ProgressStep()
         {
             InitializeComponent();
+
+           this.BackColor = Color.Transparent;
         }
     }
 }

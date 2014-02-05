@@ -772,7 +772,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void CHK_advancedview_CheckedChanged(object sender, EventArgs e)
         {
             MainV2.config["advancedview"] = CHK_advancedview.Checked.ToString();
-            MissionPlanner.Controls.BackstageView.BackstageView.Advanced = CHK_advancedview.Checked;
+            MainV2.Advanced = CHK_advancedview.Checked;
         }
     }
 }

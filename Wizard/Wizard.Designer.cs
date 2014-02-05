@@ -39,6 +39,7 @@ namespace MissionPlanner.Wizard
             // 
             // panel1
             // 
+            this.panel1.BackColor = System.Drawing.Color.Transparent;
             resources.ApplyResources(this.panel1, "panel1");
             this.panel1.Name = "panel1";
             // 
@@ -68,6 +69,7 @@ namespace MissionPlanner.Wizard
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
             this.Controls.Add(this.progressStep1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.BUT_Next);

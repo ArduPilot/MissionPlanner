@@ -45,7 +45,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private System.Windows.Forms.ProgressBar progress;
         private System.Windows.Forms.Label label2;
         private Controls.ImageLabel pictureBoxHeli;
-        private Controls.MyButton BUT_setup;
         private PictureBox pictureBoxHilimage;
         private PictureBox pictureBoxAPHil;
         private PictureBox pictureBoxACHil;
@@ -66,7 +65,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.progress = new System.Windows.Forms.ProgressBar();
             this.label2 = new System.Windows.Forms.Label();
             this.pictureBoxHeli = new MissionPlanner.Controls.ImageLabel();
-            this.BUT_setup = new MissionPlanner.Controls.MyButton();
             this.pictureBoxHilimage = new System.Windows.Forms.PictureBox();
             this.pictureBoxAPHil = new System.Windows.Forms.PictureBox();
             this.pictureBoxACHil = new System.Windows.Forms.PictureBox();
@@ -163,12 +161,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.pictureBoxHeli.TabStop = false;
             this.pictureBoxHeli.Tag = "";
             this.pictureBoxHeli.Click += new System.EventHandler(this.pictureBoxFW_Click);
-            // 
-            // BUT_setup
-            // 
-            resources.ApplyResources(this.BUT_setup, "BUT_setup");
-            this.BUT_setup.Name = "BUT_setup";
-            this.BUT_setup.UseVisualStyleBackColor = true;
             // 
             // pictureBoxHilimage
             // 
@@ -305,7 +297,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.Controls.Add(this.pictureBoxRover);
             this.Controls.Add(this.CMB_history);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.BUT_setup);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.lbl_status);
             this.Controls.Add(this.progress);

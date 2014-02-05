@@ -171,9 +171,9 @@
             // 
             this.CMB_fmode6.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.CMB_fmode6.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            resources.ApplyResources(this.CMB_fmode6, "CMB_fmode6");
             this.CMB_fmode6.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CMB_fmode6.FormattingEnabled = true;
-            resources.ApplyResources(this.CMB_fmode6, "CMB_fmode6");
             this.CMB_fmode6.Name = "CMB_fmode6";
             // 
             // labelfm5
@@ -185,9 +185,9 @@
             // 
             this.CMB_fmode5.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.CMB_fmode5.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            resources.ApplyResources(this.CMB_fmode5, "CMB_fmode5");
             this.CMB_fmode5.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CMB_fmode5.FormattingEnabled = true;
-            resources.ApplyResources(this.CMB_fmode5, "CMB_fmode5");
             this.CMB_fmode5.Name = "CMB_fmode5";
             // 
             // labelfm4
@@ -199,9 +199,9 @@
             // 
             this.CMB_fmode4.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.CMB_fmode4.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            resources.ApplyResources(this.CMB_fmode4, "CMB_fmode4");
             this.CMB_fmode4.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CMB_fmode4.FormattingEnabled = true;
-            resources.ApplyResources(this.CMB_fmode4, "CMB_fmode4");
             this.CMB_fmode4.Name = "CMB_fmode4";
             // 
             // labelfm3
@@ -213,9 +213,9 @@
             // 
             this.CMB_fmode3.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.CMB_fmode3.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            resources.ApplyResources(this.CMB_fmode3, "CMB_fmode3");
             this.CMB_fmode3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CMB_fmode3.FormattingEnabled = true;
-            resources.ApplyResources(this.CMB_fmode3, "CMB_fmode3");
             this.CMB_fmode3.Name = "CMB_fmode3";
             // 
             // labelfm2
@@ -227,9 +227,9 @@
             // 
             this.CMB_fmode2.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.CMB_fmode2.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            resources.ApplyResources(this.CMB_fmode2, "CMB_fmode2");
             this.CMB_fmode2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CMB_fmode2.FormattingEnabled = true;
-            resources.ApplyResources(this.CMB_fmode2, "CMB_fmode2");
             this.CMB_fmode2.Name = "CMB_fmode2";
             // 
             // labelfm1
@@ -241,9 +241,9 @@
             // 
             this.CMB_fmode1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.CMB_fmode1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            resources.ApplyResources(this.CMB_fmode1, "CMB_fmode1");
             this.CMB_fmode1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CMB_fmode1.FormattingEnabled = true;
-            resources.ApplyResources(this.CMB_fmode1, "CMB_fmode1");
             this.CMB_fmode1.Name = "CMB_fmode1";
             // 
             // BUT_SaveModes

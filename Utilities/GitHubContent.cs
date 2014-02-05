@@ -50,7 +50,7 @@ namespace MissionPlanner.Utilities
             return (T)obj;
         }
 
-        public static List<FileInfo> GetDirContent(string owner, string repo, string path)
+        public static List<FileInfo> GetDirContent(string owner, string repo, string path, string filter = "")
         {
             if (path != "") {
                 path = "/contents" + path;
@@ -82,7 +82,11 @@ namespace MissionPlanner.Utilities
                 FileInfo fi = (FileInfo)GetObject<FileInfo>(item);
              //   string t1 = item["type"].ToString();
              //   string t2 =item["path"].ToString();
-                answer.Add(fi);
+
+                if (fi.name.ToLower().Contains(filter.ToLower()))
+                {
+                    answer.Add(fi);
+                }
                 log.Info(fi.name);
             }
 

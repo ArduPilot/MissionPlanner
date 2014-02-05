@@ -553,6 +553,12 @@ namespace MissionPlanner.GCSViews
             //System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en-US");
             //System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
 
+            try
+            {
+                System.Threading.Thread.CurrentThread.Name = "FD Mainloop";
+            }
+            catch { }
+
             System.Threading.Thread.CurrentThread.IsBackground = true;
 
             threadrun = 1;

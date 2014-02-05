@@ -36,7 +36,7 @@ namespace MissionPlanner
         //GPS, 3, 122732, 10, 0.00, -35.3628880, 149.1621961, 808.90, 810.30, 23.30, 94.04
 
         int timepos = 2;
-        int latpos = 5, lngpos = 6, altpos = 7, cogpos = 10, pitchATT = 12, rollATT = 11, yawATT = 13;
+        int latpos = 6, lngpos = 7, altpos = 8, cogpos = 10, pitchATT = 12, rollATT = 11, yawATT = 13;
         private NumericUpDown NUM_latpos;
         private NumericUpDown NUM_lngpos;
         private NumericUpDown NUM_altpos;
@@ -176,8 +176,10 @@ namespace MissionPlanner
                     //Status,Time,NSats,HDop,Lat,Lng,RelAlt,Alt,Spd,GCrs
                     //GPS, 3, 122732, 10, 0.00, -35.3628880, 149.1621961, 808.90, 810.30, 23.30, 94.04
 
-                    string[] vals = new string[] { "GPS", "3",  (cs.datetime.ToUniversalTime() - new DateTime(cs.datetime.Year,cs.datetime.Month,cs.datetime.Day,0,0,0,DateTimeKind.Utc)).TotalMilliseconds.ToString(),
-                    cs.satcount.ToString(),cs.gpshdop.ToString(),cs.lat.ToString(),cs.lng.ToString(),cs.altasl.ToString(),cs.altasl.ToString(),cs.groundspeed.ToString(),cs.yaw.ToString()};
+                    //FMT, 130, 45, GPS, BIHBcLLeeEefI, Status,TimeMS,Week,NSats,HDop,Lat,Lng,RelAlt,Alt,Spd,GCrs,VZ,T
+
+                    string[] vals = new string[] { "GPS", "3", (cs.datetime.ToUniversalTime() - new DateTime(cs.datetime.Year,cs.datetime.Month,cs.datetime.Day,0,0,0,DateTimeKind.Utc)).TotalMilliseconds.ToString(),"0",
+                    cs.satcount.ToString(),cs.gpshdop.ToString(),cs.lat.ToString(),cs.lng.ToString(),cs.altasl.ToString(),cs.altasl.ToString(),cs.groundspeed.ToString(),cs.yaw.ToString(),"0","0"};
 
                     if (oldvalues.Length > 2 && oldvalues[latpos] == vals[latpos]
                         && oldvalues[lngpos] == vals[lngpos]
@@ -920,11 +922,11 @@ namespace MissionPlanner
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.TXT_outputlog = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.BUT_Geotagimages = new Controls.MyButton();
-            this.BUT_estoffset = new Controls.MyButton();
-            this.BUT_doit = new Controls.MyButton();
-            this.BUT_browsedir = new Controls.MyButton();
-            this.BUT_browselog = new Controls.MyButton();
+            this.BUT_Geotagimages = new MissionPlanner.Controls.MyButton();
+            this.BUT_estoffset = new MissionPlanner.Controls.MyButton();
+            this.BUT_doit = new MissionPlanner.Controls.MyButton();
+            this.BUT_browsedir = new MissionPlanner.Controls.MyButton();
+            this.BUT_browselog = new MissionPlanner.Controls.MyButton();
             this.NUM_latpos = new System.Windows.Forms.NumericUpDown();
             this.NUM_lngpos = new System.Windows.Forms.NumericUpDown();
             this.NUM_altpos = new System.Windows.Forms.NumericUpDown();
@@ -934,7 +936,7 @@ namespace MissionPlanner
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.BUT_networklinkgeoref = new Controls.MyButton();
+            this.BUT_networklinkgeoref = new MissionPlanner.Controls.MyButton();
             this.num_vfov = new System.Windows.Forms.NumericUpDown();
             this.num_hfov = new System.Windows.Forms.NumericUpDown();
             this.label7 = new System.Windows.Forms.Label();
@@ -986,56 +988,36 @@ namespace MissionPlanner
             // 
             // BUT_Geotagimages
             // 
-            this.BUT_Geotagimages.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
-            this.BUT_Geotagimages.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
             resources.ApplyResources(this.BUT_Geotagimages, "BUT_Geotagimages");
             this.BUT_Geotagimages.Name = "BUT_Geotagimages";
-            this.BUT_Geotagimages.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
-            this.BUT_Geotagimages.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_Geotagimages.UseVisualStyleBackColor = true;
             this.BUT_Geotagimages.Click += new System.EventHandler(this.BUT_Geotagimages_Click);
             // 
             // BUT_estoffset
             // 
-            this.BUT_estoffset.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
-            this.BUT_estoffset.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
             resources.ApplyResources(this.BUT_estoffset, "BUT_estoffset");
             this.BUT_estoffset.Name = "BUT_estoffset";
-            this.BUT_estoffset.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
-            this.BUT_estoffset.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_estoffset.UseVisualStyleBackColor = true;
             this.BUT_estoffset.Click += new System.EventHandler(this.BUT_estoffset_Click);
             // 
             // BUT_doit
             // 
-            this.BUT_doit.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
-            this.BUT_doit.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
             resources.ApplyResources(this.BUT_doit, "BUT_doit");
             this.BUT_doit.Name = "BUT_doit";
-            this.BUT_doit.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
-            this.BUT_doit.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_doit.UseVisualStyleBackColor = true;
             this.BUT_doit.Click += new System.EventHandler(this.BUT_doit_Click);
             // 
             // BUT_browsedir
             // 
-            this.BUT_browsedir.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
-            this.BUT_browsedir.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
             resources.ApplyResources(this.BUT_browsedir, "BUT_browsedir");
             this.BUT_browsedir.Name = "BUT_browsedir";
-            this.BUT_browsedir.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
-            this.BUT_browsedir.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_browsedir.UseVisualStyleBackColor = true;
             this.BUT_browsedir.Click += new System.EventHandler(this.BUT_browsedir_Click);
             // 
             // BUT_browselog
             // 
-            this.BUT_browselog.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
-            this.BUT_browselog.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
             resources.ApplyResources(this.BUT_browselog, "BUT_browselog");
             this.BUT_browselog.Name = "BUT_browselog";
-            this.BUT_browselog.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
-            this.BUT_browselog.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_browselog.UseVisualStyleBackColor = true;
             this.BUT_browselog.Click += new System.EventHandler(this.BUT_browselog_Click);
             // 
@@ -1044,7 +1026,7 @@ namespace MissionPlanner
             resources.ApplyResources(this.NUM_latpos, "NUM_latpos");
             this.NUM_latpos.Name = "NUM_latpos";
             this.NUM_latpos.Value = new decimal(new int[] {
-            3,
+            6,
             0,
             0,
             0});
@@ -1054,7 +1036,7 @@ namespace MissionPlanner
             resources.ApplyResources(this.NUM_lngpos, "NUM_lngpos");
             this.NUM_lngpos.Name = "NUM_lngpos";
             this.NUM_lngpos.Value = new decimal(new int[] {
-            4,
+            7,
             0,
             0,
             0});
@@ -1064,7 +1046,7 @@ namespace MissionPlanner
             resources.ApplyResources(this.NUM_altpos, "NUM_altpos");
             this.NUM_altpos.Name = "NUM_altpos";
             this.NUM_altpos.Value = new decimal(new int[] {
-            5,
+            8,
             0,
             0,
             0});
@@ -1106,12 +1088,8 @@ namespace MissionPlanner
             // 
             // BUT_networklinkgeoref
             // 
-            this.BUT_networklinkgeoref.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
-            this.BUT_networklinkgeoref.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
             resources.ApplyResources(this.BUT_networklinkgeoref, "BUT_networklinkgeoref");
             this.BUT_networklinkgeoref.Name = "BUT_networklinkgeoref";
-            this.BUT_networklinkgeoref.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
-            this.BUT_networklinkgeoref.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_networklinkgeoref.UseVisualStyleBackColor = true;
             this.BUT_networklinkgeoref.Click += new System.EventHandler(this.BUT_networklinkgeoref_Click);
             // 

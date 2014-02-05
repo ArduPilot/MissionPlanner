@@ -35,6 +35,11 @@ namespace MissionPlanner.Utilities
 
         void TryConnect(object obj)
         {
+            try
+            {
+                System.Threading.Thread.CurrentThread.Name = "ADSB Reader";
+            }
+            catch { }
             System.Threading.Thread.CurrentThread.IsBackground = true;
 
             while (true)
@@ -135,6 +140,7 @@ namespace MissionPlanner.Utilities
             internal ModeSMessage llaodd;
 
             public string ID;
+            public string CallSign;
 
             static double[] _NLTable;
             const int NZ = 15;
@@ -620,17 +626,7 @@ namespace MissionPlanner.Utilities
                                 altitude = int.Parse(strArray[11], CultureInfo.InvariantCulture);// Integer. Mode C Altitude relative to 1013 mb (29.92" Hg). 
                             }
                             catch { }
-                            try
-                            {
-                                int ground_speed = int.Parse(strArray[12], CultureInfo.InvariantCulture);// Integer. Speed over ground. 
-                            }
-                            catch { }
-                            int track = -1;
-                            try
-                            {
-                                track = int.Parse(strArray[13], CultureInfo.InvariantCulture);//Integer. Ground track angle. 
-                            }
-                            catch { }
+                           
                             double lat = 0;
                             try
                             {
@@ -643,21 +639,50 @@ namespace MissionPlanner.Utilities
                                 lon = double.Parse(strArray[15], CultureInfo.InvariantCulture);//Float. Longitude 
                             }
                             catch { }
-                            try
-                            {
-                                int vertical_rate = int.Parse(strArray[16], CultureInfo.InvariantCulture);// Integer. Climb rate. 
-                            }
-                            catch { }
-                            string squawk = strArray[17];//String. Assigned Mode A squawk code. 
-                            bool alert = strArray[18] != "0";//Boolean. Flag to indicate that squawk has changed. 
-                            bool emergency = strArray[19] != "0";//Boolean. Flag to indicate emergency code has been set. 
-                            bool spi = strArray[20] != "0";//Boolean. Flag to indicate Special Position Indicator has been set. 
+
                             bool is_on_ground = strArray[21] != "0";//Boolean. Flag to indicate ground squat switch is active. 
 
                             Plane plane = ((Plane)Planes[hex_ident]);
 
                             if (UpdatePlanePosition != null)
-                                UpdatePlanePosition(new PointLatLngAltHdg(lat, lon, altitude, (float)track, hex_ident), new EventArgs());
+                                UpdatePlanePosition(new PointLatLngAltHdg(lat, lon, altitude, (float)plane.heading, hex_ident), new EventArgs());
+                        }
+                        else if (strArray[1] == "4")
+                        {
+                            String session_id = strArray[2];// String. Database session record number. 
+                            String aircraft_id = strArray[3];// String. Database aircraft record number. 
+                            String hex_ident = strArray[4];//String. 24-bit ICACO ID, in hex. 
+                            String flight_id = strArray[5];//String. Database flight record number. 
+                            String generated_date = strArray[6];// String. Date the message was generated. 
+                            String generated_time = strArray[7];//String. Time the message was generated. 
+                            String logged_date = strArray[8];//String. Date the message was logged. 
+                            String logged_time = strArray[9];//String. Time the message was logged. 
+
+                            try
+                            {
+                                int ground_speed = int.Parse(strArray[12], CultureInfo.InvariantCulture);// Integer. Speed over ground. 
+                            }
+                            catch { }
+                            try
+                            {
+                                ((Plane)Planes[hex_ident]).heading = int.Parse(strArray[13], CultureInfo.InvariantCulture);//Integer. Ground track angle. 
+                            }
+                            catch { }
+
+                        }
+                        else if (strArray[1] == "1")
+                        {
+                            String session_id = strArray[2];// String. Database session record number. 
+                            String aircraft_id = strArray[3];// String. Database aircraft record number. 
+                            String hex_ident = strArray[4];//String. 24-bit ICACO ID, in hex. 
+                            String flight_id = strArray[5];//String. Database flight record number. 
+                            String generated_date = strArray[6];// String. Date the message was generated. 
+                            String generated_time = strArray[7];//String. Time the message was generated. 
+                            String logged_date = strArray[8];//String. Date the message was logged. 
+                            String logged_time = strArray[9];//String. Time the message was logged. 
+                            String callsign = strArray[10];//String. Eight character flight ID or callsign. 
+
+                            ((Plane)Planes[hex_ident]).CallSign = callsign;
                         }
                     }
                 }

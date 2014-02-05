@@ -39,6 +39,7 @@
             // 
             // MyProgressBar
             // 
+            this.BackColor = System.Drawing.Color.Transparent;
             this.Name = "MyProgressBar";
             this.Size = new System.Drawing.Size(208, 29);
             this.ResumeLayout(false);
