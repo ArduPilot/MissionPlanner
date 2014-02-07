@@ -26,7 +26,7 @@
 
 4. Contribute
 
-see Readme_pullrequest.txt
+- See Readme_pullrequest.txt
 
 -----------MONO-------------
 run using 
