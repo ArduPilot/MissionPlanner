@@ -1480,9 +1480,9 @@ namespace MissionPlanner.Controls
                 {
                     graphicsObject.ResetTransform();
 
-                    string text = "Bat " + _batterylevel.ToString("0.00v") + " " + _current.ToString("0 A");
+                    string text = "Bat " + _batterylevel.ToString("0.00v") + " " + _current.ToString("0.0 A");
 
-                    text = "Bat " + _batterylevel.ToString("0.00v") + " " + _current.ToString("0 A") + " " + (_batteryremaining) + "%";
+                    text = "Bat " + _batterylevel.ToString("0.00v") + " " + _current.ToString("0.0 A") + " " + (_batteryremaining) + "%";
 
                     if (lowvoltagealert)
                     {
@@ -1533,7 +1533,14 @@ namespace MissionPlanner.Controls
                         Custom item = (Custom)CustomItems[key];
                         if (item.Item == null)
                             continue;
-                        drawstring(graphicsObject, item.Header + item.GetValue.ToString("0.#######"), font, fontsize + 2, whiteBrush, this.Width / 8, height);
+                        if (item.Item.Name == "lat" || item.Item.Name == "lng") 
+                        {
+                            drawstring(graphicsObject, item.Header + item.GetValue.ToString("0.#######"), font, fontsize + 2, whiteBrush, this.Width / 8, height);
+                        }
+                        else
+                        {
+                            drawstring(graphicsObject, item.Header + item.GetValue.ToString("0.##"), font, fontsize + 2, whiteBrush, this.Width / 8, height);
+                        }
                         height -= fontsize+5;
                     }
                     catch { }
@@ -1575,7 +1582,7 @@ namespace MissionPlanner.Controls
                     statuslast = status;
                 }
 
-                if (message != "" && messagetime.AddSeconds(20) > DateTime.Now)
+                if (message != "" && messagetime.AddSeconds(15) > DateTime.Now)
                 {
                     drawstring(graphicsObject, message, font, fontsize + 10, (SolidBrush)Brushes.Red, -halfwidth + 50, halfheight / 3);
                 }

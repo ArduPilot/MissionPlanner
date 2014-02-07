@@ -60,6 +60,16 @@ namespace MissionPlanner.Wizard
 
         public void GoNext(int progresspages, bool saveinhistory = true)
         {
+            // do the current page busy check
+            if (wiz_main.current.Control is IWizard)
+            {
+                bool busy = ((IWizard)(wiz_main.current.Control)).WizardBusy();
+                if (busy)
+                {
+                    return;
+                }
+            }
+
             if (wiz_main.screens.IndexOf(wiz_main.current) ==( wiz_main.screens.Count-1))
             {
                 this.Close();

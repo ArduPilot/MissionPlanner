@@ -51,6 +51,9 @@ namespace MissionPlanner.Wizard
                 case "h":
                     MainV2.comPort.setParam("FRAME", 3);
                     break;
+                case "y6b":
+                    MainV2.comPort.setParam("FRAME", 10);
+                    break;
             }
         }
 

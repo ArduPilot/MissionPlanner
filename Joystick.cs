@@ -39,7 +39,25 @@ namespace MissionPlanner
         struct JoyButton
         {
             public int buttonno;
+            public buttonfunction function;
             public string mode;
+            public float p1;
+            public float p2;
+            public float p3;
+            public float p4;
+        }
+
+        public enum buttonfunction
+        {
+            ChangeMode,
+            Do_Set_Relay,
+            Do_Repeat_Relay,
+            Do_Set_Servo,
+            Do_Repeat_Servo,
+            Arm,
+            Disarm,
+            Digicam_Control,
+            Mount_Control
         }
 
         ~Joystick()
@@ -298,11 +316,12 @@ namespace MissionPlanner
             JoyChannels[channel] = joy;
         }
 
-        public void setButton(int arrayoffset, int buttonid, string mode1)
+        public void setButton(int arrayoffset, int buttonid, buttonfunction butfunction, string mode1)
         {
             JoyButtons[arrayoffset] = new JoyButton()
             {
                 buttonno = buttonid,
+                function = butfunction,
                 mode = mode1
             };
         }
@@ -350,27 +369,31 @@ namespace MissionPlanner
 
                     Console.WriteLine(state);
 
-                    int[] pov = state.GetPointOfView();
-
-                    if (pov[0] != -1)
+                    if (getNumberPOV() > 0)
                     {
-                        int angle = pov[0] / 100;
 
-                        //0 = down = 18000
-                        //0 = up = 0
+                        int pov = getHatSwitchDirection();
 
-                        // 0
-                        if (angle > 270 || angle < 90)
-                            hat1 += 500;
-                        // 180
-                        if (angle > 90 && angle < 270)
-                            hat1 -= 500;
-                        // 90
-                        if (angle > 0 && angle < 180)
-                            hat2 += 500;
-                        // 270
-                        if (angle > 180 && angle < 360)
-                            hat2 -= 500;
+                        if (pov != -1)
+                        {
+                            int angle = pov / 100;
+
+                            //0 = down = 18000
+                            //0 = up = 0
+
+                            // 0
+                            if (angle > 270 || angle < 90)
+                                hat1 += 500;
+                            // 180
+                            if (angle > 90 && angle < 270)
+                                hat1 -= 500;
+                            // 90
+                            if (angle > 0 && angle < 180)
+                                hat2 += 500;
+                            // 270
+                            if (angle > 180 && angle < 360)
+                                hat2 -= 500;
+                        }
                     }
 
                     if (elevons)

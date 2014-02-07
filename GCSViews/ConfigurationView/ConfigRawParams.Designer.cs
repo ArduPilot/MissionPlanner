@@ -47,7 +47,8 @@
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.label1 = new System.Windows.Forms.Label();
             this.BUT_find = new MissionPlanner.Controls.MyButton();
-            this.but_iris = new MissionPlanner.Controls.MyButton();
+            this.BUT_paramfileload = new MissionPlanner.Controls.MyButton();
+            this.CMB_paramfiles = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.Params)).BeginInit();
             this.SuspendLayout();
             // 
@@ -170,17 +171,25 @@
             this.BUT_find.UseVisualStyleBackColor = true;
             this.BUT_find.Click += new System.EventHandler(this.BUT_find_Click);
             // 
-            // but_iris
+            // BUT_paramfileload
             // 
-            resources.ApplyResources(this.but_iris, "but_iris");
-            this.but_iris.Name = "but_iris";
-            this.but_iris.UseVisualStyleBackColor = true;
-            this.but_iris.Click += new System.EventHandler(this.but_iris_Click);
+            resources.ApplyResources(this.BUT_paramfileload, "BUT_paramfileload");
+            this.BUT_paramfileload.Name = "BUT_paramfileload";
+            this.BUT_paramfileload.UseVisualStyleBackColor = true;
+            this.BUT_paramfileload.Click += new System.EventHandler(this.BUT_paramfileload_Click);
+            // 
+            // CMB_paramfiles
+            // 
+            resources.ApplyResources(this.CMB_paramfiles, "CMB_paramfiles");
+            this.CMB_paramfiles.FormattingEnabled = true;
+            this.CMB_paramfiles.Name = "CMB_paramfiles";
+            this.CMB_paramfiles.SelectedIndexChanged += new System.EventHandler(this.CMB_paramfiles_SelectedIndexChanged);
             // 
             // ConfigRawParams
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.Controls.Add(this.but_iris);
+            this.Controls.Add(this.BUT_paramfileload);
+            this.Controls.Add(this.CMB_paramfiles);
             this.Controls.Add(this.BUT_find);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.BUT_compare);
@@ -213,6 +222,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Options;
         private System.Windows.Forms.DataGridViewTextBoxColumn Desc;
         private Controls.MyButton BUT_find;
-        private Controls.MyButton but_iris;
+        private Controls.MyButton BUT_paramfileload;
+        private System.Windows.Forms.ComboBox CMB_paramfiles;
     }
 }

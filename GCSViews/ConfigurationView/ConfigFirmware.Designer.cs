@@ -12,7 +12,7 @@ using System.Runtime.InteropServices;
 using System.Xml;
 using System.Net;
 
-namespace MissionPlanner.GCSViews
+namespace MissionPlanner.GCSViews.ConfigurationView
 {
     partial class ConfigFirmware : MyUserControl
     {
@@ -45,7 +45,6 @@ namespace MissionPlanner.GCSViews
         private System.Windows.Forms.ProgressBar progress;
         private System.Windows.Forms.Label label2;
         private Controls.ImageLabel pictureBoxHeli;
-        private Controls.MyButton BUT_setup;
         private PictureBox pictureBoxHilimage;
         private PictureBox pictureBoxAPHil;
         private PictureBox pictureBoxACHil;
@@ -66,7 +65,6 @@ namespace MissionPlanner.GCSViews
             this.progress = new System.Windows.Forms.ProgressBar();
             this.label2 = new System.Windows.Forms.Label();
             this.pictureBoxHeli = new MissionPlanner.Controls.ImageLabel();
-            this.BUT_setup = new MissionPlanner.Controls.MyButton();
             this.pictureBoxHilimage = new System.Windows.Forms.PictureBox();
             this.pictureBoxAPHil = new System.Windows.Forms.PictureBox();
             this.pictureBoxACHil = new System.Windows.Forms.PictureBox();
@@ -131,7 +129,7 @@ namespace MissionPlanner.GCSViews
             // pictureBoxY6
             // 
             this.pictureBoxY6.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pictureBoxY6.Image = global::MissionPlanner.Properties.Resources.y6;
+            this.pictureBoxY6.Image = global::MissionPlanner.Properties.Resources.y6a;
             resources.ApplyResources(this.pictureBoxY6, "pictureBoxY6");
             this.pictureBoxY6.Name = "pictureBoxY6";
             this.pictureBoxY6.TabStop = false;
@@ -163,12 +161,6 @@ namespace MissionPlanner.GCSViews
             this.pictureBoxHeli.TabStop = false;
             this.pictureBoxHeli.Tag = "";
             this.pictureBoxHeli.Click += new System.EventHandler(this.pictureBoxFW_Click);
-            // 
-            // BUT_setup
-            // 
-            resources.ApplyResources(this.BUT_setup, "BUT_setup");
-            this.BUT_setup.Name = "BUT_setup";
-            this.BUT_setup.UseVisualStyleBackColor = true;
             // 
             // pictureBoxHilimage
             // 
@@ -305,7 +297,6 @@ namespace MissionPlanner.GCSViews
             this.Controls.Add(this.pictureBoxRover);
             this.Controls.Add(this.CMB_history);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.BUT_setup);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.lbl_status);
             this.Controls.Add(this.progress);
@@ -322,7 +313,6 @@ namespace MissionPlanner.GCSViews
             this.Controls.Add(this.pictureBoxQuad);
             this.Controls.Add(this.pictureBoxAPM);
             this.Name = "ConfigFirmware";
-            this.Load += new System.EventHandler(this.Firmware_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxHilimage)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAPHil)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxACHil)).EndInit();

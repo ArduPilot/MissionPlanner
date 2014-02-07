@@ -79,10 +79,14 @@ namespace MissionPlanner.GCSViews
 
                         buffer[a] = indata;
 
-                        if (buffer[a] >= 0x20 && buffer[a] < 0x7f || buffer[a] == (int)'\n' /*|| buffer[a] == (int)'\r'*/)
+                        if (buffer[a] >= 0x20 && buffer[a] < 0x7f || buffer[a] == (int)'\n')// || buffer[a] == (int)'\r')
                         {
                             a++;
                         }
+
+                        if (indata == '\n')
+                            break;
+
                         if (a == (buffer.Length-1))
                             break;
                     }

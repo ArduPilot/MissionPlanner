@@ -23,6 +23,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         static Hashtable tooltips = new Hashtable();
 
+        List<GitHubContent.FileInfo> paramfiles;
+
         // ?
         internal bool startup = true;
 
@@ -410,7 +412,34 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             this.ResumeLayout();
 
+
+            CMB_paramfiles.Enabled = false;
+            BUT_paramfileload.Enabled = false;
+
+
+            System.Threading.ThreadPool.QueueUserWorkItem(updatedefaultlist);
+
             startup = false;
+        }
+
+        void updatedefaultlist(object crap)
+        {
+            try
+            {
+                if (paramfiles == null)
+                {
+                    paramfiles = GitHubContent.GetDirContent("diydrones", "ardupilot", "/Tools/Frame_params/",".param");
+                }
+
+                this.BeginInvoke((Action)delegate
+                {
+                    CMB_paramfiles.DataSource = paramfiles.ToArray();
+                    CMB_paramfiles.DisplayMember = "name";
+                    CMB_paramfiles.Enabled = true;
+                    BUT_paramfileload.Enabled = true;
+                });
+            }
+            catch (Exception ex) { log.Error(ex); }
         }
 
         private void BUT_find_Click(object sender, EventArgs e)
@@ -435,30 +464,29 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
-        private void but_iris_Click(object sender, EventArgs e)
+        private void BUT_paramfileload_Click(object sender, EventArgs e)
         {
-            try
-            {
-                string filepath = Application.StartupPath + Path.DirectorySeparatorChar + "Iris.param";
+            string filepath = Application.StartupPath + Path.DirectorySeparatorChar + CMB_paramfiles.Text;
 
-                if (Common.getFilefromNet("https://github.com/diydrones/ardupilot/raw/master/Tools/Frame_params/Iris.param", filepath))
-                {
-                    Hashtable param2 = Utilities.ParamFile.loadParamFile(filepath);
+            byte[] data = GitHubContent.GetFileContent("diydrones", "ardupilot", ((GitHubContent.FileInfo)CMB_paramfiles.SelectedValue).path);
 
-                    Form paramCompareForm = new ParamCompare(Params, MainV2.comPort.MAV.param, param2);
+            File.WriteAllBytes(filepath, data);
 
-                    ThemeManager.ApplyThemeTo(paramCompareForm);
-                    paramCompareForm.ShowDialog();
+            Hashtable param2 = Utilities.ParamFile.loadParamFile(filepath);
 
-                    CustomMessageBox.Show("Loaded parameters, please make sure you write them!", "Loaded");
+            Form paramCompareForm = new ParamCompare(Params, MainV2.comPort.MAV.param, param2);
 
-                }
-                else
-                {
-                    CustomMessageBox.Show("Error getting Iris param file");
-                }
-            }
-            catch (Exception ex) { CustomMessageBox.Show("Error getting Iris param file" + ex.ToString()); }
+            ThemeManager.ApplyThemeTo(paramCompareForm);
+            paramCompareForm.ShowDialog();
+
+            CustomMessageBox.Show("Loaded parameters, please make sure you write them!", "Loaded");
+
+            this.Activate();
+        }
+
+        private void CMB_paramfiles_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -191,7 +191,6 @@
             // 
             resources.ApplyResources(this.rb_px4pixhawk, "rb_px4pixhawk");
             this.rb_px4pixhawk.Name = "rb_px4pixhawk";
-            this.rb_px4pixhawk.TabStop = true;
             this.rb_px4pixhawk.UseVisualStyleBackColor = true;
             this.rb_px4pixhawk.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
             // 
@@ -206,6 +205,7 @@
             // radioButtonmanual
             // 
             resources.ApplyResources(this.radioButtonmanual, "radioButtonmanual");
+            this.radioButtonmanual.Checked = true;
             this.radioButtonmanual.Name = "radioButtonmanual";
             this.radioButtonmanual.TabStop = true;
             this.radioButtonmanual.UseVisualStyleBackColor = true;
@@ -215,7 +215,6 @@
             // 
             resources.ApplyResources(this.radioButton_external, "radioButton_external");
             this.radioButton_external.Name = "radioButton_external";
-            this.radioButton_external.TabStop = true;
             this.radioButton_external.UseVisualStyleBackColor = true;
             this.radioButton_external.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
             // 
@@ -231,7 +230,6 @@
             // 
             resources.ApplyResources(this.radioButton_onboard, "radioButton_onboard");
             this.radioButton_onboard.Name = "radioButton_onboard";
-            this.radioButton_onboard.TabStop = true;
             this.radioButton_onboard.UseVisualStyleBackColor = true;
             this.radioButton_onboard.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
             // 

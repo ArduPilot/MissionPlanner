@@ -11,6 +11,8 @@ namespace MissionPlanner
     {
         public static MissionPlanner.Plugin.PluginHost Host2;
 
+        ToolStripMenuItem but;
+
         public override string Name
         {
             get { return "Grid"; }
@@ -35,7 +37,7 @@ namespace MissionPlanner
         {
             Host2 = Host;
 
-            ToolStripMenuItem but = new ToolStripMenuItem("Survey (Grid)");
+            but = new ToolStripMenuItem("Survey (Grid)");
             but.Click += but_Click;
 
             bool hit = false;

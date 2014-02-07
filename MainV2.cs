@@ -86,6 +86,23 @@ namespace MissionPlanner
 
         Controls.MainSwitcher MyView;
 
+        static bool _advanced = false;
+        /// <summary>
+        /// Control what is displayed
+        /// </summary>
+        public static Boolean Advanced
+        {
+            get
+            {
+                return _advanced;
+            }
+            set
+            {
+                _advanced = value;
+                MissionPlanner.Controls.BackstageView.BackstageView.Advanced = value;
+            }
+        }
+
         /// <summary>
         /// Active Comport interface
         /// </summary>
@@ -418,6 +435,20 @@ namespace MissionPlanner
                 if (MainV2.config["analyticsoptout"] != null)
                     MissionPlanner.Utilities.Tracking.OptOut = bool.Parse(config["analyticsoptout"].ToString());
 
+                if (MainV2.config["advancedview"] != null)
+                {
+                    MainV2.Advanced = bool.Parse(config["advancedview"].ToString());
+                }
+                else
+                {
+                    // existing user - enable advanced view
+                    if (MainV2.config.Count > 3)
+                    {
+                        config["advancedview"] = true.ToString();
+                        MainV2.Advanced = true;
+                    }
+                }
+
                 try
                 {
                     if (config["TXT_homelat"] != null)
@@ -460,10 +491,13 @@ namespace MissionPlanner
                 }
             }
 
-            if (Program.Logo != null && Program.vvvvz)
+            if (Program.Logo != null)
             {
                 this.Icon = Icon.FromHandle(((Bitmap)Program.Logo).GetHicon());
+            }
 
+            if (Program.Logo != null && Program.vvvvz)
+            {
                 MenuDonate.Click -= this.toolStripMenuItem1_Click;
                 MenuDonate.Text = "";
                 MenuDonate.Image = Program.Logo;
@@ -529,8 +563,8 @@ namespace MissionPlanner
         {
             lock (adsbPlanes)
             {
-                adsbPlanes[((PointLatLngAlt)sender).Tag] = ((PointLatLngAlt)sender);
-                adsbPlaneAge[((PointLatLngAlt)sender).Tag] = DateTime.Now;
+                adsbPlanes[((MissionPlanner.Utilities.adsb.PointLatLngAltHdg)sender).Tag] = ((MissionPlanner.Utilities.adsb.PointLatLngAltHdg)sender);
+                adsbPlaneAge[((MissionPlanner.Utilities.adsb.PointLatLngAltHdg)sender).Tag] = DateTime.Now;
             }
         }
 
@@ -817,25 +851,60 @@ namespace MissionPlanner
                     comPort.Open(true);
 
                     // detect firmware we are conected to.
-                    if (comPort.MAV.param["SYSID_SW_TYPE"] != null)
-                    {
-                        if (float.Parse(comPort.MAV.param["SYSID_SW_TYPE"].ToString()) == 10)
+                        if (comPort.MAV.cs.firmware == Firmwares.ArduCopter2)
                         {
                             _connectionControl.TOOL_APMFirmware.SelectedIndex = _connectionControl.TOOL_APMFirmware.Items.IndexOf(Firmwares.ArduCopter2);
                         }
-                        else if (float.Parse(comPort.MAV.param["SYSID_SW_TYPE"].ToString()) == 7)
+                        else if (comPort.MAV.cs.firmware == Firmwares.Ateryx)
                         {
                             _connectionControl.TOOL_APMFirmware.SelectedIndex = _connectionControl.TOOL_APMFirmware.Items.IndexOf(Firmwares.Ateryx);
                         }
-                        else if (float.Parse(comPort.MAV.param["SYSID_SW_TYPE"].ToString()) == 20)
+                        else if (comPort.MAV.cs.firmware == Firmwares.ArduRover)
                         {
                             _connectionControl.TOOL_APMFirmware.SelectedIndex = _connectionControl.TOOL_APMFirmware.Items.IndexOf(Firmwares.ArduRover);
                         }
-                        else if (float.Parse(comPort.MAV.param["SYSID_SW_TYPE"].ToString()) == 0)
+                        else if (comPort.MAV.cs.firmware == Firmwares.ArduPlane)
                         {
                             _connectionControl.TOOL_APMFirmware.SelectedIndex = _connectionControl.TOOL_APMFirmware.Items.IndexOf(Firmwares.ArduPlane);
                         }
-                    }
+
+                    // check for newer firmware
+                      var softwares = Firmware.LoadSoftwares();
+
+                      if (softwares.Count > 0)
+                      {
+                          try
+                          {
+                              string[] fields1 = comPort.MAV.VersionString.Split(' ');
+
+                              foreach (Firmware.software item in softwares)
+                              {
+                                  string[] fields2 = item.name.Split(' ');
+
+                                  if (fields1[0] == fields2[0])
+                                  {
+                                      string vsport = fields1[1];
+                                      string vsxml = fields2[1];
+
+                                      vsport = vsport.TrimStart('V').Replace("-rc", ".");
+                                      vsxml = vsxml.TrimStart('V').Replace("-rc", ".");
+
+                                      Version ver1 = new Version(vsport);
+                                      Version ver2 = new Version(vsxml);
+
+                                      if (ver2 > ver1)
+                                      {
+                                          Common.MessageShowAgain("New Firmware","New firmware available\n" + item.name + "\nPlease upgrade");
+                                          break;
+                                      }
+
+                                  }
+                              }
+                          }
+                          catch (Exception ex) { log.Error(ex); }
+                      }
+
+                    FlightData.CheckBatteryShow();
 
                     MissionPlanner.Utilities.Tracking.AddEvent("Connect", "Connect", comPort.MAV.cs.firmware.ToString(), comPort.MAV.param.Count.ToString());
                     MissionPlanner.Utilities.Tracking.AddTiming("Connect", "Connect Time", (DateTime.Now - connecttime).TotalMilliseconds, "");
@@ -875,7 +944,7 @@ namespace MissionPlanner
                         comPort.Close();
                     }
                     catch { }
-                    CustomMessageBox.Show(@"Can not establish a connection\n\n" + ex.Message);
+                    CustomMessageBox.Show("Can not establish a connection\n\n" + ex.Message);
                     return;
                 }
             }
@@ -1666,19 +1735,16 @@ namespace MissionPlanner
 
             try
             {
-                // if (!System.Diagnostics.Debugger.IsAttached)
+                // single update check per day - in a seperate thread
+                if (getConfig("update_check") != DateTime.Now.ToShortDateString())
                 {
-                    // single update check per day - in a seperate thread
-                    if (getConfig("update_check") != DateTime.Now.ToShortDateString())
-                    {
-                        System.Threading.ThreadPool.QueueUserWorkItem(checkupdate);
-                        config["update_check"] = DateTime.Now.ToShortDateString();
-                    }
-                    else if (getConfig("beta_updates") == "True")
-                    {
-                        MissionPlanner.Utilities.Update.dobeta = true;
-                        System.Threading.ThreadPool.QueueUserWorkItem(checkupdate);
-                    }
+                    System.Threading.ThreadPool.QueueUserWorkItem(checkupdate);
+                    config["update_check"] = DateTime.Now.ToShortDateString();
+                }
+                else if (getConfig("beta_updates") == "True")
+                {
+                    MissionPlanner.Utilities.Update.dobeta = true;
+                    System.Threading.ThreadPool.QueueUserWorkItem(checkupdate);
                 }
             }
             catch (Exception ex)
@@ -1708,7 +1774,7 @@ namespace MissionPlanner
                 }
             }
 
-
+            // sort tlogs
             try
             {
                 System.Threading.ThreadPool.QueueUserWorkItem((WaitCallback)delegate
@@ -1717,13 +1783,31 @@ namespace MissionPlanner
                     {
                         MissionPlanner.Log.LogSort.SortLogs(Directory.GetFiles(MainV2.LogDir, "*.tlog"));
                     }
-                    catch { }
+                    catch (Exception ex) { log.Error(ex); }
                 }
                 );
             }
             catch { }
 
+            // update firmware version list
+            try
+            {
+                System.Threading.ThreadPool.QueueUserWorkItem((WaitCallback)delegate
+                {
+                    try
+                    {
+                        var fw = new Firmware();
+                        var list = fw.getFWList();
+                        if (list.Count > 1)
+                            Firmware.SaveSoftwares(list);
+                    }
+                    catch (Exception ex) { log.Error(ex); }
+                }
+                );
+            }
+            catch { }
 
+            // show wizard on first use
             if (getConfig("newuser") == "")
             {
                 if (CustomMessageBox.Show("This is your first run, Do you wish to use the setup wizard?\nRecomended for new users.", "Wizard", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
@@ -1732,12 +1816,9 @@ namespace MissionPlanner
 
                     wiz.ShowDialog(this);
 
-                    CustomMessageBox.Show("To use the wizard again please goto the help screen, and click the wizard icon.", "Wizard");
                 }
-                else
-                {
-                    CustomMessageBox.Show("To use the wizard please goto the help screen, and click the wizard icon.", "Wizard");
-                }
+
+                CustomMessageBox.Show("To use the wizard please goto the initial setup screen, and click the wizard icon.", "Wizard");
 
                 config["newuser"] = DateTime.Now.ToShortDateString();
             }
@@ -1924,7 +2005,9 @@ namespace MissionPlanner
                     {
                         ComponentResourceManager rm = new ComponentResourceManager(view.GetType());
                         foreach (Control ctrl in view.Controls)
+                        {
                             rm.ApplyResource(ctrl);
+                        }
                         rm.ApplyResources(view, "$this");
                     }
                 }
@@ -2133,7 +2216,8 @@ namespace MissionPlanner
 
         private void CMB_serialport_Enter(object sender, EventArgs e)
         {
-            CMB_serialport_Click(sender, e);
+            int whywasthishere;
+           // CMB_serialport_Click(sender, e);
         }
 
         private void MainMenu_MouseLeave(object sender, EventArgs e)

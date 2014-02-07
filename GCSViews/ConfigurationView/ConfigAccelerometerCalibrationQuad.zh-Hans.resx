@@ -112,40 +112,27 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>86, 20</value>
-  </data>
-  <data name="label5.Text" xml:space="preserve">
-    <value>飞行模式 5</value>
-  </data>
-  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>86, 20</value>
-  </data>
-  <data name="label1.Text" xml:space="preserve">
-    <value>飞行模式 1</value>
-  </data>
-  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>17, 13</value>
-  </data>
-  <data name="label2.Text" xml:space="preserve">
-    <value>'+'</value>
-  </data>
-  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>247, 13</value>
-  </data>
-  <data name="label4.Text" xml:space="preserve">
-    <value>将多旋翼水平放置以设置加速度计默认偏移量</value>
-  </data>
   <data name="BUT_calib_accell.Text" xml:space="preserve">
     <value>校准加速度计</value>
   </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>放平你的多轴飞行器来设定默认加速度计偏移</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>加速度计校准</value>
+  </data>
+  <data name="CHK_acversion.Text" xml:space="preserve">
+    <value>AC 3.0+</value>
+  </data>
+  <data name="lbl_Accel_user.Text" xml:space="preserve">
+    <value>ArduCopter 2.9+</value>
+  </data>
   <data name="BUT_levelac2.Text" xml:space="preserve">
-    <value>立即校准</value>
+    <value>现在校准</value>
   </data>
 </root>

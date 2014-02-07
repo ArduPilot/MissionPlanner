@@ -30,11 +30,11 @@ namespace MissionPlanner.GCSViews
         {
         }
 
-        private BackstageView.BackstageViewPage AddBackstageViewPage(UserControl userControl, string headerText, BackstageView.BackstageViewPage Parent = null)
+        private BackstageViewPage AddBackstageViewPage(UserControl userControl, string headerText, BackstageViewPage Parent = null, bool advanced = false)
         {
             try
             {
-                return backstageView.AddPage(userControl, headerText, Parent);
+                return backstageView.AddPage(userControl, headerText, Parent, advanced);
             }
             catch (Exception ex) { log.Error(ex); return null; }
         }
@@ -43,7 +43,7 @@ namespace MissionPlanner.GCSViews
         {
             try
             {
-                BackstageView.BackstageViewPage start = null;
+                BackstageViewPage start = null;
 
                 if (MainV2.comPort.BaseStream.IsOpen)
                 {
@@ -54,34 +54,25 @@ namespace MissionPlanner.GCSViews
 
                     if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
                     {
-                        start = AddBackstageViewPage(new ConfigSimplePids(), "Basic Pids");
+                        start = AddBackstageViewPage(new ConfigSimplePids(), "Basic Tuning");
 
-                        //     AddBackstageViewPage(new ConfigSimplePidsV2(), "Basic Pids V2");
+                        AddBackstageViewPage(new ConfigArducopter(), "Extended Tuning");
                     }
 
                     if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane)
                     {
-                        start = AddBackstageViewPage(new ConfigArduplane(), "APM:Plane Pids");
+                        start = AddBackstageViewPage(new ConfigArduplane(), "Basic Tuning");
 
                     }
 
                     if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduRover)
                     {
-                        start = AddBackstageViewPage(new ConfigArdurover(), "APM:Rover Pids");
-
-                    }
-
-                    if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
-                    {
-                        // var configpanel = new Controls.ConfigPanel(Application.StartupPath + System.IO.Path.DirectorySeparatorChar + "ArduCopterConfig.xml");
-                        // AddBackstageViewPage(configpanel, "ArduCopter Pids");
-
-                        AddBackstageViewPage(new ConfigArducopter(), "APM:Copter Pids");
+                        start = AddBackstageViewPage(new ConfigArdurover(), "Basic Tuning");
                     }
 
                     AddBackstageViewPage(new ConfigFriendlyParams { ParameterMode = ParameterMetaDataConstants.Standard }, "Standard Params");
-                    AddBackstageViewPage(new ConfigFriendlyParams { ParameterMode = ParameterMetaDataConstants.Advanced }, "Advanced Params");
-                    AddBackstageViewPage(new ConfigRawParams(), "Full Parameter List");
+                    AddBackstageViewPage(new ConfigFriendlyParams { ParameterMode = ParameterMetaDataConstants.Advanced }, "Advanced Params",null,true);
+                    AddBackstageViewPage(new ConfigRawParams(), "Full Parameter List", null, true);
 
 
 
@@ -102,7 +93,7 @@ namespace MissionPlanner.GCSViews
                 AddBackstageViewPage(new ConfigHelp(), "Help");
 
                 // remeber last page accessed
-                foreach (BackstageView.BackstageViewPage page in backstageView.Pages)
+                foreach (BackstageViewPage page in backstageView.Pages)
                 {
                     if (page.LinkText == lastpagename)
                     {

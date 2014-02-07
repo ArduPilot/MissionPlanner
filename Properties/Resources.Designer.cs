@@ -1527,9 +1527,19 @@ namespace MissionPlanner.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap y6 {
+        internal static System.Drawing.Bitmap y6a {
             get {
-                object obj = ResourceManager.GetObject("y6", resourceCulture);
+                object obj = ResourceManager.GetObject("y6a", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap y6b {
+            get {
+                object obj = ResourceManager.GetObject("y6b", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

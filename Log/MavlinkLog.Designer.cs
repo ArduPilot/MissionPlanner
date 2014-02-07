@@ -1,4 +1,4 @@
-﻿namespace MissionPlanner
+﻿namespace MissionPlanner.Log
 {
     partial class MavlinkLog
     {

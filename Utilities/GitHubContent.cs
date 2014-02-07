@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Text;
+using log4net;
 
 namespace MissionPlanner.Utilities
 {
     public class GitHubContent
     {
+        internal static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         //http://developer.github.com/v3/repos/contents/#get-contents
         //GET /repos/:owner/:repo/contents/:path
         public static string githubapiurl = "https://api.github.com/repos";
@@ -46,7 +50,7 @@ namespace MissionPlanner.Utilities
             return (T)obj;
         }
 
-        public static List<FileInfo> GetDirContent(string owner, string repo, string path)
+        public static List<FileInfo> GetDirContent(string owner, string repo, string path, string filter = "")
         {
             if (path != "") {
                 path = "/contents" + path;
@@ -78,7 +82,12 @@ namespace MissionPlanner.Utilities
                 FileInfo fi = (FileInfo)GetObject<FileInfo>(item);
              //   string t1 = item["type"].ToString();
              //   string t2 =item["path"].ToString();
-                answer.Add(fi);
+
+                if (fi.name.ToLower().Contains(filter.ToLower()))
+                {
+                    answer.Add(fi);
+                }
+                log.Info(fi.name);
             }
 
             return answer;

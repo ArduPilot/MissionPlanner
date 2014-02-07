@@ -28,25 +28,21 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigOptional));
             this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(25, 25);
+            resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(246, 78);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "The following pages are OPTIONAL configure them is you have aditional hardware, o" +
-    "r other requirements.";
             // 
             // ConfigOptional
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.label1);
             this.Name = "ConfigOptional";
-            this.Size = new System.Drawing.Size(350, 225);
             this.ResumeLayout(false);
 
         }

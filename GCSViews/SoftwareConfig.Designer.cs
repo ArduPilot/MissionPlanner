@@ -28,19 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.backstageView = new Controls.BackstageView.BackstageView();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SoftwareConfig));
+            this.backstageView = new MissionPlanner.Controls.BackstageView.BackstageView();
             this.SuspendLayout();
             // 
             // backstageView
             // 
-            this.backstageView.Dock = System.Windows.Forms.DockStyle.Fill;
+            resources.ApplyResources(this.backstageView, "backstageView");
             this.backstageView.HighlightColor1 = System.Drawing.SystemColors.Highlight;
             this.backstageView.HighlightColor2 = System.Drawing.SystemColors.MenuHighlight;
-            this.backstageView.Location = new System.Drawing.Point(0, 0);
-            this.backstageView.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.backstageView.Name = "backstageView";
-            this.backstageView.Size = new System.Drawing.Size(1000, 450);
-            this.backstageView.TabIndex = 1;
             this.backstageView.WidthMenu = 172;
             // 
             // SoftwareConfig
@@ -49,7 +46,7 @@
             this.Controls.Add(this.backstageView);
             this.MinimumSize = new System.Drawing.Size(1000, 450);
             this.Name = "SoftwareConfig";
-            this.Size = new System.Drawing.Size(1000, 450);
+            resources.ApplyResources(this, "$this");
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SoftwareConfig_FormClosing);
             this.Load += new System.EventHandler(this.SoftwareConfig_Load);
             this.ResumeLayout(false);

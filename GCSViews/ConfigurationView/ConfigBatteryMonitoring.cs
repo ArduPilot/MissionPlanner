@@ -268,12 +268,22 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         public void Activate()
         {
+            if (!MainV2.comPort.BaseStream.IsOpen)
+            {
+                this.Enabled = false;
+                return;
+            }
+
             startup = true;
             if (MainV2.comPort.MAV.param["BATT_MONITOR"] != null)
             {
                 if ((float)MainV2.comPort.MAV.param["BATT_MONITOR"] != 0)
                 {
                     CMB_batmontype.SelectedIndex = getIndex(CMB_batmontype, (int)float.Parse(MainV2.comPort.MAV.param["BATT_MONITOR"].ToString()));
+                }
+                else
+                {
+                    CMB_batmontype.SelectedIndex = 0;
                 }
             }
 
@@ -352,6 +362,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 else if (value == 100) // px4
                 {
                     CMB_apmversion.SelectedIndex = 3;
+                }
+                else if (value == 2)
+                { // pixhawk
+                    CMB_apmversion.SelectedIndex = 4;
                 }
             }
             else

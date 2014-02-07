@@ -46,6 +46,12 @@ namespace MissionPlanner.Utilities
             if (ctrl.ContextMenu != null)
                 ApplyResource(rm, ctrl.ContextMenu);
 
+            if (ctrl is MenuStrip)
+            {
+                foreach (ToolStripItem item in (ctrl as MenuStrip).Items)
+                    rm.ApplyResources(item, item.Name);
+            }
+
 
             if (ctrl is DataGridView)
             {

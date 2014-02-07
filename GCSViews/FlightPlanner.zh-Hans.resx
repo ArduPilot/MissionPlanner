@@ -133,7 +133,7 @@
     <value>跟踪器首页</value>
   </data>
   <data name="label12.Text" xml:space="preserve">
-    <value>Ÿ</value>
+    <value>Y</value>
   </data>
   <data name="label10.Text" xml:space="preserve">
     <value>纬度</value>
@@ -148,7 +148,7 @@
     <value>从文件加载拉力赛</value>
   </data>
   <data name="label16.Text" xml:space="preserve">
-    <value>MGRS（测试）</value>
+    <value>MGRS（测试中）</value>
   </data>
   <data name="lbl_prevdist.Text" xml:space="preserve">
     <value>上一页</value>
@@ -175,16 +175,16 @@
     <value>时间</value>
   </data>
   <data name="CHK_altmode.Text" xml:space="preserve">
-    <value>绝对Alt键</value>
+    <value>绝对高度</value>
   </data>
   <data name="label17.Text" xml:space="preserve">
-    <value>ALT警告</value>
+    <value>高度警告</value>
   </data>
   <data name="LBL_defalutalt.Text" xml:space="preserve">
-    <value>默认Alt键</value>
+    <value>默认高度</value>
   </data>
   <data name="label15.Text" xml:space="preserve">
-    <value>区</value>
+    <value>区域</value>
   </data>
   <data name="Param2.HeaderText" xml:space="preserve">
     <value>P2</value>
@@ -199,25 +199,25 @@
     <value>纬度</value>
   </data>
   <data name="autoWPToolStripMenuItem.Text" xml:space="preserve">
-    <value>自动WP</value>
+    <value>自动航点</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>长</value>
+    <value>经度</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
-    <value>Alt键（ABS）</value>
+    <value>高度（ABS）</value>
   </data>
   <data name="mapToolToolStripMenuItem.Text" xml:space="preserve">
     <value>地图工具</value>
   </data>
   <data name="saveRallyPointsToolStripMenuItem.Text" xml:space="preserve">
-    <value>上载</value>
+    <value>上传</value>
   </data>
   <data name="loiterForeverToolStripMenuItem.Text" xml:space="preserve">
     <value>永远</value>
   </data>
   <data name="Alt.HeaderText" xml:space="preserve">
-    <value>ALT</value>
+    <value>高度</value>
   </data>
   <data name="setROIToolStripMenuItem.Text" xml:space="preserve">
     <value>设定投资回报率</value>
@@ -229,19 +229,19 @@
     <value>向上</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
-    <value>归属位置</value>
+    <value>家的位置</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
-    <value>游荡半径</value>
+    <value>悬停半径</value>
   </data>
   <data name="loadWPFileToolStripMenuItem.Text" xml:space="preserve">
-    <value>负载WP文件</value>
+    <value>加载航点文件</value>
   </data>
   <data name="jumpstartToolStripMenuItem.Text" xml:space="preserve">
     <value>开始</value>
   </data>
   <data name="BUT_read.Text" xml:space="preserve">
-    <value>阅读工作准证</value>
+    <value>读取航点</value>
   </data>
   <data name="loadPolygonToolStripMenuItem.Text" xml:space="preserve">
     <value>负载多边形</value>
@@ -253,19 +253,19 @@
     <value>上载</value>
   </data>
   <data name="label8.Text" xml:space="preserve">
-    <value>ALT</value>
+    <value>高度</value>
   </data>
   <data name="LBL_WPRad.Text" xml:space="preserve">
-    <value>WP半径</value>
+    <value>航点半径</value>
   </data>
   <data name="zoomToToolStripMenuItem.Text" xml:space="preserve">
-    <value>放大到</value>
+    <value>放大至</value>
   </data>
   <data name="label9.Text" xml:space="preserve">
-    <value>长</value>
+    <value>经度</value>
   </data>
   <data name="saveToFileToolStripMenuItem1.Text" xml:space="preserve">
-    <value>拉力保存文件到</value>
+    <value>保存集结点至文件</value>
   </data>
   <data name="Command.HeaderText" xml:space="preserve">
     <value>命令</value>
@@ -277,13 +277,13 @@
     <value>状态</value>
   </data>
   <data name="Dist.HeaderText" xml:space="preserve">
-    <value>区</value>
+    <value>距离</value>
   </data>
   <data name="setReturnLocationToolStripMenuItem.Text" xml:space="preserve">
-    <value>设置返回地点</value>
+    <value>设置返回位置</value>
   </data>
   <data name="panelMap.Text" xml:space="preserve">
-    <value>panel6</value>
+    <value>面板6</value>
   </data>
   <data name="clearPolygonToolStripMenuItem.Text" xml:space="preserve">
     <value>清除多边形</value>
@@ -298,13 +298,13 @@
     <value>P1</value>
   </data>
   <data name="chk_grid.Text" xml:space="preserve">
-    <value>格</value>
+    <value>网格</value>
   </data>
   <data name="Delete.ToolTipText" xml:space="preserve">
     <value>删除行</value>
   </data>
   <data name="prefetchWPPathToolStripMenuItem.Text" xml:space="preserve">
-    <value>预取可湿性粉剂路径</value>
+    <value>预读取航点路径</value>
   </data>
   <data name="takeoffToolStripMenuItem.Text" xml:space="preserve">
     <value>起飞</value>
@@ -313,7 +313,7 @@
     <value>添加多边形点</value>
   </data>
   <data name="loiterToolStripMenuItem.Text" xml:space="preserve">
-    <value>游荡</value>
+    <value>悬停</value>
   </data>
   <data name="Command.ToolTipText" xml:space="preserve">
     <value>APM的命令</value>
@@ -322,7 +322,7 @@
     <value>设置集结点</value>
   </data>
   <data name="rallyPointsToolStripMenuItem.Text" xml:space="preserve">
-    <value>拉力赛点</value>
+    <value>集结点</value>
   </data>
   <data name="BUT_Add.Text" xml:space="preserve">
     <value>添加以下</value>
@@ -334,13 +334,13 @@
     <value>距离</value>
   </data>
   <data name="Down.ToolTipText" xml:space="preserve">
-    <value>将排下去</value>
+    <value>将此行下移</value>
   </data>
   <data name="BUT_write.Text" xml:space="preserve">
-    <value>写工作准证</value>
+    <value>写入航点</value>
   </data>
   <data name="modifyAltToolStripMenuItem.Text" xml:space="preserve">
-    <value>修改Alt键</value>
+    <value>修改高度</value>
   </data>
   <data name="dataGridViewImageColumn2.HeaderText" xml:space="preserve">
     <value>向下</value>
@@ -355,7 +355,7 @@
     <value>跳转</value>
   </data>
   <data name="landToolStripMenuItem.Text" xml:space="preserve">
-    <value>土地</value>
+    <value>降落</value>
   </data>
   <data name="fileLoadSaveToolStripMenuItem.Text" xml:space="preserve">
     <value>文件加载/保存</value>
@@ -367,22 +367,22 @@
     <value>100</value>
   </data>
   <data name="geoFenceToolStripMenuItem.Text" xml:space="preserve">
-    <value>电子围栏</value>
+    <value>地理围栏</value>
   </data>
   <data name="saveWPFileToolStripMenuItem.Text" xml:space="preserve">
-    <value>保存文件可湿性粉剂</value>
+    <value>保存航点文件</value>
   </data>
   <data name="saveToFileToolStripMenuItem.Text" xml:space="preserve">
     <value>保存到文件</value>
   </data>
   <data name="insertWpToolStripMenuItem.Text" xml:space="preserve">
-    <value>插入兆瓦级光伏</value>
+    <value>插入航点</value>
   </data>
   <data name="TXT_WPRad.Text" xml:space="preserve">
     <value>30</value>
   </data>
   <data name="Up.ToolTipText" xml:space="preserve">
-    <value>移动的行向上</value>
+    <value>将此行上移</value>
   </data>
   <data name="Up.HeaderText" xml:space="preserve">
     <value>向上</value>
@@ -391,13 +391,13 @@
     <value>删除</value>
   </data>
   <data name="loitercirclesToolStripMenuItem.Text" xml:space="preserve">
-    <value>界</value>
+    <value>绕圈</value>
   </data>
   <data name="jumpwPToolStripMenuItem.Text" xml:space="preserve">
     <value>WP＃</value>
   </data>
   <data name="deleteWPToolStripMenuItem.Text" xml:space="preserve">
-    <value>删除WP</value>
+    <value>删除航点</value>
   </data>
   <data name="panelWaypoints.Text" xml:space="preserve">
     <value>航点</value>
@@ -415,16 +415,16 @@
     <value>从文件加载</value>
   </data>
   <data name="rTLToolStripMenuItem.Text" xml:space="preserve">
-    <value>RTL</value>
+    <value>返航</value>
   </data>
   <data name="clearMissionToolStripMenuItem.Text" xml:space="preserve">
-    <value>清淅</value>
+    <value>清除任务</value>
   </data>
   <data name="BUT_Add.ToolTip" xml:space="preserve">
     <value>添加一行到网格波纹管</value>
   </data>
   <data name="clearRallyPointsToolStripMenuItem.Text" xml:space="preserve">
-    <value>清除拉力赛点</value>
+    <value>清除集结点</value>
   </data>
   <data name="Param3.HeaderText" xml:space="preserve">
     <value>P3</value>
@@ -436,7 +436,7 @@
     <value>保存多边形</value>
   </data>
   <data name="createWpCircleToolStripMenuItem.Text" xml:space="preserve">
-    <value>创建兆瓦级光伏圈</value>
+    <value>创建航点圈</value>
   </data>
   <data name="ContextMeasure.Text" xml:space="preserve">
     <value>测量距离</value>
@@ -448,6 +448,6 @@
     <value>查看KML</value>
   </data>
   <data name="reverseWPsToolStripMenuItem.Text" xml:space="preserve">
-    <value>反向工作准证</value>
+    <value>反转航点</value>
   </data>
 </root>

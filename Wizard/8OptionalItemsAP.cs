@@ -107,7 +107,6 @@ namespace MissionPlanner.Wizard
         {
             return false;
         }
-
         private void timer1_Tick(object sender, EventArgs e)
         {
             LBL_airspeed.Text = MainV2.comPort.MAV.cs.airspeed.ToString("0.00") + " m/s";

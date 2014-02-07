@@ -12,10 +12,11 @@ using MissionPlanner.Comms;
 using log4net;
 using px4uploader;
 using System.Collections;
+using System.Xml.Serialization;
 
 namespace MissionPlanner.Utilities
 {
-    class Firmware
+    public class Firmware
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -39,6 +40,8 @@ namespace MissionPlanner.Utilities
 
         List<software> softwares = new List<software>();
 
+        [Serializable]
+        [XmlType(TypeName = "software")]
         public struct software
         {
             public string url;
@@ -100,7 +103,7 @@ namespace MissionPlanner.Utilities
 
             if (!File.Exists(file))
             {
-                CustomMessageBox.Show("Missing FirmwareHistory.txt file");
+                //CustomMessageBox.Show("Missing FirmwareHistory.txt file");
                 return;
             }
 
@@ -160,7 +163,7 @@ namespace MissionPlanner.Utilities
             //ServicePointManager.CertificatePolicy = new NoCheckCertificatePolicy(); 
             ServicePointManager.ServerCertificateValidationCallback = new System.Net.Security.RemoteCertificateValidationCallback((sender1, certificate, chain, policyErrors) => { return true; });
 
-            updateProgress(-1,"Getting FW List");
+            updateProgress(-1, "Getting FW List");
 
             try
             {
@@ -199,7 +202,7 @@ namespace MissionPlanner.Utilities
                             case "Firmware":
                                 if (!url2560_2.Equals("") && !name.Equals("") && !desc.Equals("Please Update"))
                                 {
-                                    temp.desc = desc;
+                                    temp.desc = desc.Trim();
                                     temp.name = name;
                                     temp.url = url;
                                     temp.url2560 = url2560;
@@ -216,10 +219,15 @@ namespace MissionPlanner.Utilities
                                             {
                                                 //name = 
 
+                                                lock (this)
+                                                {
+                                                    ingetapmversion++;
+                                                }
+
                                                 System.Threading.ThreadPool.QueueUserWorkItem(getAPMVersion, temp);
 
                                                 //if (name != "")
-                                                    //temp.name = name;
+                                                //temp.name = name;
                                             }
                                         }
                                         catch { }
@@ -251,9 +259,6 @@ namespace MissionPlanner.Utilities
                 throw;
             }
 
-            // allow threads to start
-            System.Threading.Thread.Sleep(500);
-
             while (ingetapmversion > 0)
                 System.Threading.Thread.Sleep(100);
 
@@ -262,6 +267,26 @@ namespace MissionPlanner.Utilities
             updateProgress(-1, "Received List");
 
             return softwares;
+        }
+
+        public static void SaveSoftwares(List<software> list)
+        {
+            System.Xml.Serialization.XmlSerializer writer = new System.Xml.Serialization.XmlSerializer(typeof(List<software>), new Type[] { typeof(software) });
+
+            using (StreamWriter sw = new StreamWriter("fwversions.xml"))
+            {
+                    writer.Serialize(sw, list);
+            }
+        }
+
+        public static List<software> LoadSoftwares()
+        {
+            System.Xml.Serialization.XmlSerializer reader = new System.Xml.Serialization.XmlSerializer(typeof(List<software>), new Type[] { typeof(software) });
+
+            using (StreamReader sr = new StreamReader("fwversions.xml"))
+            {
+                return (List<software>)reader.Deserialize(sr);
+            }
         }
 
         void updateProgress(int percent, string status)
@@ -277,11 +302,6 @@ namespace MissionPlanner.Utilities
         /// <returns></returns>
         void getAPMVersion(object tempin)
         {
-            lock (this)
-            {
-                ingetapmversion++;
-            }
-
             try
             {
 
@@ -504,18 +524,17 @@ namespace MissionPlanner.Utilities
             try
             {
               //  MainV2.comPort.BaseStream.Open();
-               // if (MainV2.comPort.BaseStream.IsOpen)
+                if (MainV2.comPort.BaseStream.IsOpen)
                 {
-               //     MainV2.comPort.doReboot(true);
-               //     MainV2.comPort.Close();
+                    MainV2.comPort.doReboot(true);
+                    MainV2.comPort.Close();
                 }
-               // else
+                else
                 {
                     CustomMessageBox.Show("Please unplug the board, and then press OK and plug back in.\nMission Planner will look for 30 seconds to find the board");
                 }
             }
             catch {
-                // MainV2.comPort.Close();
             }
 
             DateTime DEADLINE = DateTime.Now.AddSeconds(30);
@@ -582,9 +601,12 @@ namespace MissionPlanner.Utilities
                         updateProgress(0, "ERROR: " + ex.Message);
                         log.Info(ex);
                         Console.WriteLine(ex.ToString());
-
+                        return false;
                     }
-                    up.close();
+                    finally
+                    {
+                        up.close();
+                    }
 
                     CustomMessageBox.Show("Please unplug, and plug back in your px4 NOW, and wait for the musical tones before clicking OK");
 

@@ -30,7 +30,6 @@ namespace MissionPlanner.Wizard
         {
             return false;
         }
-
         void setfwframe(object sender)
         {
             // only remembers the last selected item

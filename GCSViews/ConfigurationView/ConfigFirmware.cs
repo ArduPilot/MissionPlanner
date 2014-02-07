@@ -16,15 +16,17 @@ using px4uploader;
 using MissionPlanner.Controls;
 using System.Collections;
 
-namespace MissionPlanner.GCSViews
+namespace MissionPlanner.GCSViews.ConfigurationView
 {
-    partial class ConfigFirmware : MyUserControl
+    partial class ConfigFirmware : MyUserControl, IActivate
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         string firmwareurl = "";
 
         Utilities.Firmware fw = new Utilities.Firmware();
+
+        bool firstrun = true;
 
         ProgressReporterDialogue pdr;
 
@@ -39,7 +41,7 @@ namespace MissionPlanner.GCSViews
                 CustomMessageBox.Show("These are the latest trunk firmware, use at your own risk!!!", "trunk");
                 firmwareurl = "https://raw.github.com/diydrones/binary/master/dev/firmwarelatest.xml";
                 softwares.Clear();
-                Firmware_Load(null, null);
+                UpdateFWList();
                 CMB_history.Visible = false;
             }
 
@@ -55,9 +57,38 @@ namespace MissionPlanner.GCSViews
 
             WebRequest.DefaultWebProxy.Credentials = System.Net.CredentialCache.DefaultCredentials;
 
+           
         }
 
-        internal void Firmware_Load(object sender, EventArgs e)
+        public void Activate()
+        {
+            if (firstrun)
+            {
+                UpdateFWList();
+                firstrun = false;
+            }
+
+            if (MainV2.Advanced)
+            {
+                lbl_px4bl.Visible = true;
+                lbl_devfw.Visible = true;
+                lbl_Custom_firmware_label.Visible = true;
+                lbl_px4io.Visible = true;
+                lbl_dlfw.Visible = true;
+                CMB_history_label.Visible = true;
+            }
+            else
+            {
+                lbl_px4bl.Visible = false;
+                lbl_devfw.Visible = false;
+                lbl_Custom_firmware_label.Visible = false;
+                lbl_px4io.Visible = false;
+                lbl_dlfw.Visible = false;
+                CMB_history_label.Visible = false;
+            }
+        }
+
+        void UpdateFWList() 
         {
             pdr = new ProgressReporterDialogue();
 
@@ -271,7 +302,7 @@ namespace MissionPlanner.GCSViews
             firmwareurl = fw.getUrl(CMB_history.SelectedValue.ToString(), "");
 
             softwares.Clear();
-            Firmware_Load(null, null);
+            UpdateFWList();
         }
 
         //Show list of previous firmware versions (old CTRL+O shortcut)
@@ -321,7 +352,7 @@ namespace MissionPlanner.GCSViews
             CustomMessageBox.Show("These are beta firmware, use at your own risk!!!", "Beta");
             firmwareurl = "https://raw.github.com/diydrones/binary/master/dev/firmware2.xml";
             softwares.Clear();
-            Firmware_Load(null, null);
+            UpdateFWList();
             CMB_history.Visible = false;
         }
 

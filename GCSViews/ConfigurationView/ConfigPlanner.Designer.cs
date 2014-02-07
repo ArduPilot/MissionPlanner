@@ -91,6 +91,7 @@
             this.CHK_beta = new System.Windows.Forms.CheckBox();
             this.CHK_Password = new System.Windows.Forms.CheckBox();
             this.CHK_speechlowspeed = new System.Windows.Forms.CheckBox();
+            this.CHK_advancedview = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_tracklength)).BeginInit();
             this.SuspendLayout();
             // 
@@ -578,10 +579,18 @@
             this.CHK_speechlowspeed.UseVisualStyleBackColor = true;
             this.CHK_speechlowspeed.CheckedChanged += new System.EventHandler(this.CHK_speechlowspeed_CheckedChanged);
             // 
+            // CHK_advancedview
+            // 
+            resources.ApplyResources(this.CHK_advancedview, "CHK_advancedview");
+            this.CHK_advancedview.Name = "CHK_advancedview";
+            this.CHK_advancedview.UseVisualStyleBackColor = true;
+            this.CHK_advancedview.CheckedChanged += new System.EventHandler(this.CHK_advancedview_CheckedChanged);
+            // 
             // ConfigPlanner
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.CHK_advancedview);
             this.Controls.Add(this.CHK_speechlowspeed);
             this.Controls.Add(this.CHK_Password);
             this.Controls.Add(this.CHK_beta);
@@ -716,5 +725,6 @@
         private System.Windows.Forms.CheckBox CHK_beta;
         private System.Windows.Forms.CheckBox CHK_Password;
         private System.Windows.Forms.CheckBox CHK_speechlowspeed;
+        private System.Windows.Forms.CheckBox CHK_advancedview;
     }
 }

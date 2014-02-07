@@ -14,7 +14,7 @@ namespace MissionPlanner.Controls.BackstageView
     /// <remarks>
     /// 'Tabs' are added as a control in a <see cref="BackstageViewPage"/>
     /// </remarks>
-    public partial class BackstageView : UserControl
+    public partial class BackstageView : UserControl, IContainerControl
     {
         private Color _buttonsAreaBgColor = Color.White;
         private Color _buttonsAreaPencilColor = Color.DarkGray;
@@ -23,26 +23,34 @@ namespace MissionPlanner.Controls.BackstageView
         private Color _highlightColor1 = SystemColors.Highlight;
         private Color _highlightColor2 = SystemColors.MenuHighlight;
 
-        private readonly List<BackstageViewItem> _items = new List<BackstageViewItem>();
+        private readonly BackstageViewCollection _items = new BackstageViewCollection();
         private BackstageViewPage _activePage;
-        private const int ButtonSpacing = 30;
+
         private const int ButtonHeight = 30;
 
         private List<BackstageViewPage> expanded = new List<BackstageViewPage>();
 
         public BackstageViewPage SelectedPage { get { return _activePage; } }
-        
-        public List<BackstageViewPage> Pages { get { return _items.OfType<BackstageViewPage>().ToList(); } }
+
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public BackstageViewCollection Pages { get { return _items; } }
+
+        bool firstrun = true;
+
+        /// <summary>
+        /// Show advanced items or not
+        /// </summary>
+        public static bool Advanced { get; set; }
 
         public int WidthMenu
         {
-            get 
-            { 
+            get
+            {
                 return pnlMenu.Width;
             }
             set
             {
-                int delta = value - pnlMenu.Width; 
+                int delta = value - pnlMenu.Width;
                 pnlMenu.Width = value;
                 pnlPages.Location = new Point(pnlPages.Location.X + delta, pnlPages.Location.Y);
                 pnlPages.Width -= delta;
@@ -67,6 +75,25 @@ namespace MissionPlanner.Controls.BackstageView
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
         }
 
+        public void UpdateDisplay()
+        {
+            foreach (BackstageViewPage itemType in _items)
+            {
+                if (!itemType.Show)
+                    continue;
+
+
+                if (itemType.Page != null)
+                {
+                    itemType.Page.Location = new Point(0, 0);
+                    itemType.Page.Dock = DockStyle.Fill;
+                    itemType.Page.Visible = false;
+
+                    this.pnlPages.Controls.Add(itemType.Page);
+                }
+            }
+        }
+
         public override Color BackColor
         {
             get
@@ -82,7 +109,7 @@ namespace MissionPlanner.Controls.BackstageView
         }
 
         [Description("Background pencil line color for the content region"), Category("Appearance")]
-        [DefaultValue(typeof(Color),"DarkGray")]
+        [DefaultValue(typeof(Color), "DarkGray")]
         public Color ButtonsAreaPencilColor
         {
             get { return _buttonsAreaPencilColor; }
@@ -98,7 +125,7 @@ namespace MissionPlanner.Controls.BackstageView
 
 
         [Description("Background color for the buttons region"), Category("Appearance")]
-        [DefaultValue(typeof(Color),"White")]
+        [DefaultValue(typeof(Color), "White")]
         public Color ButtonsAreaBgColor
         {
             get { return _buttonsAreaBgColor; }
@@ -161,13 +188,13 @@ namespace MissionPlanner.Controls.BackstageView
                 Invalidate();
             }
         }
-          
+
         /// <summary>
         /// Add a page (tab) to this backstage view. Will be added at the end/bottom
         /// </summary>
-        public BackstageViewPage AddPage(UserControl userControl, string headerText, BackstageViewPage Parent)
+        public BackstageViewPage AddPage(UserControl userControl, string headerText, BackstageViewPage Parent, bool advanced)
         {
-            var page = new BackstageViewPage(userControl, headerText, Parent)
+            var page = new BackstageViewPage(userControl, headerText, Parent, advanced)
                            {
                                Page =
                                    {
@@ -180,19 +207,9 @@ namespace MissionPlanner.Controls.BackstageView
 
             _items.Add(page);
 
-            //CreateLinkButton(page);
-            //DrawMenu(page);
-
             page.Page.Visible = false;
-            
+
             this.pnlPages.Controls.Add(page.Page);
-
-            if (_activePage == null)
-            {
-              //  _activePage = page;
-
-             //   ActivatePage(page);
-            }
 
             return page;
         }
@@ -203,12 +220,16 @@ namespace MissionPlanner.Controls.BackstageView
         /// <param name="spacerheight">the amount to space by</param>
         public void AddSpacer(int spacerheight)
         {
-            _items.Add(new BackstageViewSpacer(spacerheight));
+            ButtonTopPos += spacerheight;
         }
 
-        private void CreateLinkButton(BackstageViewPage page,bool haschild = false, bool child = false)
+        private void CreateLinkButton(BackstageViewPage page, bool haschild = false, bool child = false)
         {
+            if (!page.Show)
+                return;
+
             string label = page.LinkText;
+            int heightextra = 0;
 
             if (haschild)
             {
@@ -216,7 +237,9 @@ namespace MissionPlanner.Controls.BackstageView
             }
             if (child)
             {
-                label = "      " + label;
+                int count = label.Split('\n').Count();
+                label = "      " + label.Replace("\n", "\n      ");
+                heightextra = 15 * (count - 1);
             }
 
             var lnkButton = new BackstageViewButton
@@ -224,9 +247,9 @@ namespace MissionPlanner.Controls.BackstageView
                                     Text = label,
                                     Tag = page,
                                     Top = ButtonTopPos,
-                       // Top = _items.TakeWhile(i => i != page).Sum(i => i.Spacing),
+                                    // Top = _items.TakeWhile(i => i != page).Sum(i => i.Spacing),
                                     Width = this.pnlMenu.Width,
-                                    Height = ButtonHeight,
+                                    Height = ButtonHeight + heightextra,
                                     ContentPageColor = this.BackColor,
                                     PencilBorderColor = _buttonsAreaPencilColor,
                                     SelectedTextColor = _selectedTextColor,
@@ -249,7 +272,11 @@ namespace MissionPlanner.Controls.BackstageView
             {
                 if (_activePage == CurrentPage || CurrentPage == null)
                 {
-                    return;
+                    bool children = PageHasChildren(CurrentPage);
+                    if (!children)
+                    {
+                        return;
+                    }
                 }
             }
 
@@ -261,10 +288,16 @@ namespace MissionPlanner.Controls.BackstageView
             // reset back to 0
             ButtonTopPos = 0;
 
-            foreach (BackstageViewItem page in _items) 
+            foreach (BackstageViewPage page in _items)
             {
                 if (page.GetType() == typeof(BackstageViewPage))
                 {
+                    // skip advanced pages if we are not advanced
+                    if (page.Advanced && !Advanced)
+                    {
+                        continue;
+                    }
+
                     // its a base item. we want it
                     if (((BackstageViewPage)page).Parent == null)
                     {
@@ -286,7 +319,7 @@ namespace MissionPlanner.Controls.BackstageView
                         }
 
                         // check for children
-                        foreach (BackstageViewItem childrenpage in _items)
+                        foreach (BackstageViewPage childrenpage in _items)
                         {
                             if (childrenpage.GetType() == typeof(BackstageViewPage))
                             {
@@ -296,11 +329,11 @@ namespace MissionPlanner.Controls.BackstageView
                                     if (CurrentPage == childrenpage && !expanded.Contains((BackstageViewPage)page))
                                     {
                                         expanded.Add((BackstageViewPage)page);
-                                        DrawMenu(CurrentPage,true);
+                                        DrawMenu(CurrentPage, true);
                                         return;
                                     }
                                     // draw all the siblings
-                                    if (expanded.Contains((BackstageViewPage)page))
+                                    if (expanded.Contains((BackstageViewPage)page) || this.DesignMode)
                                     {
                                         CreateLinkButton((BackstageViewPage)childrenpage, false, true);
                                     }
@@ -322,10 +355,10 @@ namespace MissionPlanner.Controls.BackstageView
             pnlMenu.Visible = true;
         }
 
-        private bool PageHasChildren(BackstageViewItem parent)
+        private bool PageHasChildren(BackstageViewPage parent)
         {
             // check for children
-            foreach (BackstageViewItem child in _items)
+            foreach (BackstageViewPage child in _items)
             {
                 if (child.GetType() == typeof(BackstageViewPage))
                 {
@@ -358,7 +391,7 @@ namespace MissionPlanner.Controls.BackstageView
          * Experimental - double clicking a button will spawn it out into a new form
          * Care must be given to lifecycle here - two pages can now be interacted with 
          * 'simultaneously'
-         */ 
+         */
         private void lnkButton_DoubleClick(object sender, EventArgs e)
         {
             var backstageViewButton = ((BackstageViewButton)sender);
@@ -407,7 +440,7 @@ namespace MissionPlanner.Controls.BackstageView
 
         private void ButtonClick(object sender, EventArgs e)
         {
-            var backstageViewButton = ((BackstageViewButton) sender);
+            var backstageViewButton = ((BackstageViewButton)sender);
             var associatedPage = backstageViewButton.Tag as BackstageViewPage;
             this.ActivatePage(associatedPage);
         }
@@ -416,6 +449,8 @@ namespace MissionPlanner.Controls.BackstageView
         {
             if (associatedPage == null)
             {
+                if (associatedPage.Page == null)
+                    return;
                 if (_activePage == null)
                     DrawMenu(null, true);
                 return;
@@ -426,7 +461,7 @@ namespace MissionPlanner.Controls.BackstageView
             this.SuspendLayout();
             associatedPage.Page.SuspendLayout();
 
-            DrawMenu(associatedPage , false);
+            DrawMenu(associatedPage, false);
 
             // Deactivate old page
             if (_activePage != null && _activePage.Page is IDeactivate)
@@ -437,7 +472,7 @@ namespace MissionPlanner.Controls.BackstageView
             // deactivate the old page - obsolete way of notifying activation
             //_activePage.Page.Close();
 
-            foreach (var p in Pages)
+            foreach (BackstageViewPage p in Pages)
             {
                 if (p.Page.Visible != false)
                     p.Page.Visible = false;
@@ -484,7 +519,7 @@ namespace MissionPlanner.Controls.BackstageView
                 if (popoutPage != null && popoutPage == page)
                     continue;
 
-                if (page is BackstageViewSpacer)
+                if (((BackstageViewPage)page).Page == null)
                     continue;
 
                 if (((BackstageViewPage)page).Page is IDeactivate)
@@ -499,67 +534,10 @@ namespace MissionPlanner.Controls.BackstageView
             }
         }
 
-        public abstract class BackstageViewItem
+        private void BackstageView_Load(object sender, EventArgs e)
         {
-            public abstract int Spacing { get; set; }
-        }
-
-        /// <summary>
-        /// Place-holder for a bit of blank space in a <see cref="BackstageView"/>
-        /// Used to visually seperate logically related groups of link buttons
-        /// </summary>
-        public class BackstageViewSpacer : BackstageViewItem
-        {
-            private int _spacing;
-
-            public BackstageViewSpacer(int spacerheight)
-            {
-                _spacing = spacerheight;
-            }
-
-            // How much (vertical) space the thing takes up in the button menu
-            public override int Spacing
-            {
-                get { return _spacing; }
-                set { _spacing = value; }
-            }
-        }
-
-
-        /// <summary>
-        /// Data structure to hold information about a 'tab' in the <see cref="BackstageView"/>
-        /// </summary>
-        public class BackstageViewPage : BackstageViewItem
-        {
-            public BackstageViewPage(UserControl page, string linkText, BackstageViewPage parent = null)
-            {
-                Page = page;
-                LinkText = linkText;
-                Parent = parent;
-            }
-
-            /// <summary>
-            /// The user content of the tab
-            /// </summary>
-            public UserControl Page { get; set; }
-
-            /// <summary>
-            /// The text to go in the 'tab header'
-            /// </summary>
-            public string LinkText { get; set; }
-
-            public BackstageViewPage Parent { get; internal set; }
-
-            private int _spaceoverride = -1;
-
-            public override int Spacing
-            {
-                get { if (_spaceoverride != -1) return _spaceoverride; return ButtonSpacing; }
-                set { _spaceoverride = value; }
-            }
+            UpdateDisplay();
+            DrawMenu(_activePage, false);
         }
     }
-
-
-  
 }

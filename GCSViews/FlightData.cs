@@ -428,15 +428,7 @@ namespace MissionPlanner.GCSViews
                 }
             }
 
-            // ensure battery display is on - also set in hud if current is updated
-            if (MainV2.comPort.MAV.param.ContainsKey("BATT_MONITOR") && (float)MainV2.comPort.MAV.param["BATT_MONITOR"] != 0)
-            {
-                hud1.batteryon = true;
-            }
-            else
-            {
-                hud1.batteryon = false;
-            }
+            CheckBatteryShow();
 
             if (MainV2.getConfig("maplast_lat") != "")
             {
@@ -459,6 +451,19 @@ namespace MissionPlanner.GCSViews
             }
 
             hud1.doResize();
+        }
+
+        public void CheckBatteryShow()
+        {
+            // ensure battery display is on - also set in hud if current is updated
+            if (MainV2.comPort.MAV.param.ContainsKey("BATT_MONITOR") && (float)MainV2.comPort.MAV.param["BATT_MONITOR"] != 0)
+            {
+                hud1.batteryon = true;
+            }
+            else
+            {
+                hud1.batteryon = false;
+            }
         }
 
         public void Deactivate()
@@ -547,6 +552,12 @@ namespace MissionPlanner.GCSViews
         {
             //System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en-US");
             //System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
+
+            try
+            {
+                System.Threading.Thread.CurrentThread.Name = "FD Mainloop";
+            }
+            catch { }
 
             System.Threading.Thread.CurrentThread.IsBackground = true;
 
@@ -992,11 +1003,13 @@ namespace MissionPlanner.GCSViews
 
                             lock(MainV2.instance.adsbPlanes) 
                             {
-                                foreach (PointLatLngAlt plla in MainV2.instance.adsbPlanes.Values)
+                                //routes.Markers.ForEach(x => { if (x.ToolTipText.ToString().Contains("ICAO")) routes.Markers.Remove(x); });
+
+                                foreach (MissionPlanner.Utilities.adsb.PointLatLngAltHdg plla in MainV2.instance.adsbPlanes.Values)
                                 {
                                     // 30 seconds
                                     if (((DateTime)MainV2.instance.adsbPlaneAge[plla.Tag]) > DateTime.Now.AddSeconds(-30))
-                                        routes.Markers.Add(new GMarkerGoogle(plla, GMarkerGoogleType.red_pushpin) { ToolTipText = "ICAO: " + plla.Tag, ToolTipMode = MarkerTooltipMode.OnMouseOver });
+                                        routes.Markers.Add(new GMapMarkerADSBPlane(plla,plla.Heading) { ToolTipText = "ICAO: " + plla.Tag, ToolTipMode = MarkerTooltipMode.OnMouseOver });
                                 }
                             }
 
@@ -1008,7 +1021,7 @@ namespace MissionPlanner.GCSViews
                         tracklast = DateTime.Now;
                     }
                 }
-                catch (Exception ex) { Console.WriteLine("FD Main loop exception " + ex.ToString()); }
+                catch (Exception ex) { log.Error(ex); Console.WriteLine("FD Main loop exception " + ex.ToString()); }
             }
             Console.WriteLine("FD Main loop exit");
         }
@@ -2040,7 +2053,7 @@ namespace MissionPlanner.GCSViews
                 }
                 catch { continue; }
 
-                if (!(typeCode == TypeCode.Single || typeCode == TypeCode.Double))
+                if (!(typeCode == TypeCode.Single || typeCode == TypeCode.Double || typeCode == TypeCode.Int32 || typeCode == TypeCode.UInt16))
                     continue;
 
                 CheckBox chk_box = new CheckBox();
@@ -2124,7 +2137,7 @@ namespace MissionPlanner.GCSViews
                 }
                 catch { continue; }
 
-                if (!(typeCode == TypeCode.Single || typeCode == TypeCode.Double))
+                if (!(typeCode == TypeCode.Single || typeCode == TypeCode.Double || typeCode == TypeCode.Int32 || typeCode == TypeCode.UInt16))
                     continue;
 
                 CheckBox chk_box = new CheckBox();
@@ -2586,7 +2599,7 @@ print 'Roll complete'
                 }
                 catch { continue; }
 
-                if (!(typeCode == TypeCode.Single))
+                if (!(typeCode == TypeCode.Single || typeCode == TypeCode.Double || typeCode == TypeCode.Int32 || typeCode == TypeCode.UInt16))
                     continue;
 
                 CheckBox chk_box = new CheckBox();
@@ -2911,6 +2924,12 @@ print 'Roll complete'
             BUT_edit_selected.Enabled = false;
             scriptChecker.Enabled = true;
             checkBoxRedirectOutput.Enabled = false;
+
+            while (script == null)
+            {
+            }
+
+            scriptChecker_Tick(null, null);
         }
 
         void run_selected_script()

@@ -586,7 +586,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             SetCheckboxFromConfig("speecharmenabled", CHK_speecharmdisarm);
             SetCheckboxFromConfig("speechlowspeedenabled", CHK_speechlowspeed);
             SetCheckboxFromConfig("beta_updates", CHK_beta);
-            SetCheckboxFromConfig("password_protect", CHK_Password);            
+            SetCheckboxFromConfig("password_protect", CHK_Password);
+            SetCheckboxFromConfig("advancedview", CHK_advancedview);
 
             // this can't fail because it set at startup
             NUM_tracklength.Value = int.Parse(MainV2.config["NUM_tracklength"].ToString());
@@ -766,6 +767,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     return;
                 MainV2.config["speechlowairspeedtrigger"] = speechstring;
             }
+        }
+
+        private void CHK_advancedview_CheckedChanged(object sender, EventArgs e)
+        {
+            MainV2.config["advancedview"] = CHK_advancedview.Checked.ToString();
+            MainV2.Advanced = CHK_advancedview.Checked;
         }
     }
 }

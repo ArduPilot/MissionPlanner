@@ -80,6 +80,11 @@ namespace wix
             //Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar+ 
             string file = "installer.wxs";
 
+            string outputfilename = "MissionPlanner";
+
+            if (args.Length > 1)
+                outputfilename = args[1];
+
             sw = new StreamWriter(file);
 
             header();
@@ -117,7 +122,7 @@ namespace wix
 
             System.Diagnostics.FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(exepath);
 
-            string fn = "MissionPlanner-" + fvi.FileVersion;
+            string fn = outputfilename+"-" + fvi.FileVersion;
 
             StreamWriter st = new StreamWriter("create.bat", false);
 
@@ -125,9 +130,9 @@ namespace wix
 
             st.WriteLine(@"""%wix%\bin\candle"" installer.wxs -ext WiXNetFxExtension -ext WixDifxAppExtension -ext WixUIExtension.dll -ext WixUtilExtension -ext WixIisExtension");
 
-            st.WriteLine(@"""%wix%\bin\light"" installer.wixobj ""%wix%\bin\difxapp_x86.wixlib"" -o MissionPlanner-" + fvi.FileVersion + ".msi -ext WiXNetFxExtension -ext WixDifxAppExtension -ext WixUIExtension.dll -ext WixUtilExtension -ext WixIisExtension");
+            st.WriteLine(@"""%wix%\bin\light"" installer.wixobj ""%wix%\bin\difxapp_x86.wixlib"" -o " + fn + ".msi -ext WiXNetFxExtension -ext WixDifxAppExtension -ext WixUIExtension.dll -ext WixUtilExtension -ext WixIisExtension");
 
-            st.WriteLine(@"""C:\Program Files\7-Zip\7z.exe"" a -tzip -xr!*.log -xr!ArdupilotPlanner.log* -xr!cameras.xml -xr!firmware.hex -xr!*.zip -xr!stats.xml -xr!ParameterMetaData.xml -xr!*.etag -xr!*.rlog -xr!*.tlog -xr!config.xml -xr!gmapcache -xr!eeprom.bin -xr!dataflash.bin -xr!*.new " + fn + @".zip ..\bin\release\*");
+            st.WriteLine(@"""C:\Program Files\7-Zip\7z.exe"" a -tzip -xr!*.log -xr!ArdupilotPlanner.log* -xr!cameras.xml -xr!firmware.hex -xr!*.zip -xr!stats.xml -xr!ParameterMetaData.xml -xr!*.etag -xr!*.rlog -xr!*.tlog -xr!config.xml -xr!gmapcache -xr!eeprom.bin -xr!dataflash.bin -xr!*.new " + fn + @".zip " + path + "*");
 
             st.WriteLine("pause");
 
@@ -135,8 +140,8 @@ namespace wix
 
             //st.WriteLine("googlecode_upload.py -s \"Mission Planner installer\" -p ardupilot-mega " + fn + ".msi");
 
-            st.WriteLine(@"c:\cygwin\bin\ln.exe -f -s " + fn + ".zip MissionPlanner-latest.zip");
-            st.WriteLine(@"c:\cygwin\bin\ln.exe -f -s " + fn + ".msi MissionPlanner-latest.msi");
+            st.WriteLine(@"c:\cygwin\bin\ln.exe -f -s " + fn + ".zip " + outputfilename + "-latest.zip");
+            st.WriteLine(@"c:\cygwin\bin\ln.exe -f -s " + fn + ".msi " + outputfilename + "-latest.msi");
 
             st.WriteLine(@"c:\cygwin\bin\rsync.exe -Pv --password-file=/cygdrive/c/users/hog/diyrsync.txt " + fn + ".zip michael@firmware.diydrones.com::MissionPlanner/");
             st.WriteLine(@"c:\cygwin\bin\rsync.exe -Pv --password-file=/cygdrive/c/users/hog/diyrsync.txt " + fn + ".msi michael@firmware.diydrones.com::MissionPlanner/");
@@ -201,9 +206,9 @@ namespace wix
 </InstallExecuteSequence>
 
 
-        <PropertyRef Id=""NETFRAMEWORK35"" />
+        <PropertyRef Id=""NETFRAMEWORK40FULL"" />
 
-        <Condition Message=""This application requires .NET Framework 4.0. Please install the .NET Framework then run this installer again.""><![CDATA[Installed OR NETFRAMEWORK35]]></Condition>
+        <Condition Message=""This application requires .NET Framework 4.0. Please install the .NET Framework then run this installer again.""><![CDATA[Installed OR NETFRAMEWORK40FULL]]></Condition>
 
         <Media Id=""1"" Cabinet=""product.cab"" EmbedCab=""yes"" />
 

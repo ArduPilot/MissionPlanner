@@ -1,4 +1,38 @@
-﻿* Mission Planner 1.2.93
+﻿* Mission Planner 1.2.95
+move Advanced view to a higher function
+modify georef as per new offsets, and made tlog the same
+add filter to .param file listing
+terminal, filter '\r's
+add advanced view option to friendly params view
+hide advanced option on firmware screen
+add reload option to mainswitcher
+adsb process more sbs messages
+
+* Mission Planner 1.2.94
+add default settings
+fix battery show on hud
+add new y6b to wizard and frame type screen
+add wizard busy by Ronnie Hedlund
+change hud user items back to 2 decimals.
+add error message decoding in df logs.
+move load default params from pid screen to full param screen.
+rejig df browse, to not colapse tree on clear.
+add ability for 2 line buttons in backstage
+add timeout to serialport nice name, as can hang some machines for a while
+remove rotatemap, as no longer works
+test new menu system, that should allow localization
+add simple/advanced view (shows/hides tabs) Planner settings > advanced to get it back
+add firmware version checking on connect
+update translation zh-hans
+backstage view modification
+fix grid angle auto select
+more adsb wip
+modify rip path
+fix/add press_temp to realtime graphing + other int32 and uint16
+add custom earthbuilder map. (western australia only)
+add fw version extraction
+
+* Mission Planner 1.2.93
 add ERR to DF log
 add treeview to log browser (will break old DF logs)
 add double support to user hud item

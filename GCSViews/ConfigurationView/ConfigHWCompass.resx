@@ -250,7 +250,7 @@
     <value>CHK_enablecompass</value>
   </data>
   <data name="&gt;&gt;CHK_enablecompass.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5030.12989, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5140.22787, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_enablecompass.Parent" xml:space="preserve">
     <value>$this</value>
@@ -412,7 +412,7 @@
     <value>CMB_compass_orient</value>
   </data>
   <data name="&gt;&gt;CMB_compass_orient.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.5030.12989, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.5140.22787, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CMB_compass_orient.Parent" xml:space="preserve">
     <value>groupBox1</value>

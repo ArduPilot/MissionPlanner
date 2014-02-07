@@ -58,9 +58,10 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
 
             // set the cache provider to my custom version
             GMap.NET.GMaps.Instance.PrimaryCache = new Maps.MyImageCache();
-            // add my 2 custom map providers
+            // add my custom map providers
             GMap.NET.MapProviders.GMapProviders.List.Add(Maps.WMSProvider.Instance);
             GMap.NET.MapProviders.GMapProviders.List.Add(Maps.Custom.Instance);
+            GMap.NET.MapProviders.GMapProviders.List.Add(Maps.Earthbuilder.Instance);
 
             string name = "Mission Planner";
 
@@ -207,6 +208,9 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
             try
             {
               //  Utilities.adsb.ReadMessage(File.OpenRead(@"C:\Users\hog\Downloads\rtl1090log3.log"));
+
+                //adsb.server = "lab.heavymeta.org";
+                //adsb.serverport = 30003;
 
             }
             catch { }

@@ -28,8 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ModifyandSet));
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-            this.myButton1 = new Controls.MyButton();
+            this.myButton1 = new MissionPlanner.Controls.MyButton();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.flowLayoutPanel1.SuspendLayout();
@@ -37,15 +38,13 @@
             // 
             // numericUpDown1
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(3, 3);
+            resources.ApplyResources(this.numericUpDown1, "numericUpDown1");
             this.numericUpDown1.Maximum = new decimal(new int[] {
             1000,
             0,
             0,
             0});
             this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(47, 20);
-            this.numericUpDown1.TabIndex = 0;
             this.numericUpDown1.Value = new decimal(new int[] {
             1000,
             0,
@@ -55,11 +54,8 @@
             // 
             // myButton1
             // 
-            this.myButton1.Location = new System.Drawing.Point(56, 3);
+            resources.ApplyResources(this.myButton1, "myButton1");
             this.myButton1.Name = "myButton1";
-            this.myButton1.Size = new System.Drawing.Size(52, 23);
-            this.myButton1.TabIndex = 1;
-            this.myButton1.Text = "Set to This";
             this.myButton1.UseVisualStyleBackColor = true;
             this.myButton1.Click += new System.EventHandler(this.myButton1_Click);
             // 
@@ -67,19 +63,15 @@
             // 
             this.flowLayoutPanel1.Controls.Add(this.numericUpDown1);
             this.flowLayoutPanel1.Controls.Add(this.myButton1);
-            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            resources.ApplyResources(this.flowLayoutPanel1, "flowLayoutPanel1");
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(114, 29);
-            this.flowLayoutPanel1.TabIndex = 2;
             // 
             // ModifyandSet
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.flowLayoutPanel1);
             this.Name = "ModifyandSet";
-            this.Size = new System.Drawing.Size(114, 29);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.flowLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);

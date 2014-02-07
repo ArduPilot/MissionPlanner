@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.pnlPages = new System.Windows.Forms.Panel();
-            this.pnlMenu = new Controls.BackstageView.BackStageViewMenuPanel();
+            this.pnlMenu = new MissionPlanner.Controls.BackstageView.BackStageViewMenuPanel();
             this.SuspendLayout();
             // 
             // pnlPages
@@ -62,6 +62,7 @@
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "BackstageView";
             this.Size = new System.Drawing.Size(597, 236);
+            this.Load += new System.EventHandler(this.BackstageView_Load);
             this.ResumeLayout(false);
 
         }
