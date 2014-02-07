@@ -16,15 +16,17 @@
 2. Check out
 
 - Create an empty folder anywhere
-- In explorer left click and select "Git Clone"
+- In explorer right click and select "Git Clone"
   set URL https://github.com/diydrones/MissionPlanner
-  OK
 
 3. Build
 
 - Open ArdupilotMega.sln with Visual Studio 2010-2013
 - Follow compile1.jpg in the code tree
 
+4. Contribute
+
+see Readme_pullrequest.txt
 
 -----------MONO-------------
 run using 
