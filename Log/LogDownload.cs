@@ -26,6 +26,7 @@ namespace MissionPlanner.Log
     public partial class LogDownload : Form
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         ICommsSerial comPort;
         int logcount = 0;
         StreamWriter sw;
@@ -72,7 +73,7 @@ namespace MissionPlanner.Log
 
         private void Log_Load(object sender, EventArgs e)
         {
-            Console.WriteLine("state ->Connecting\r");
+            log.Info("state ->Connecting\r");
             status = serialstatus.Connecting;
             connect_substate = 0;
 
@@ -91,9 +92,9 @@ namespace MissionPlanner.Log
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("state ->Error\r");
+                    log.Info("state ->Error\r");
                     status = serialstatus.Error;
-                    log.Error("Error in comport reader " + ex);
+                    log.Error("Error in comport thread " + ex);
                     errorcount++;
                 }
 
@@ -112,15 +113,17 @@ namespace MissionPlanner.Log
                     catch (Exception ex)
                     {
                         if (errorcount == 0) {
-                            Console.WriteLine("state ->Error\r");
+                            log.Info("state ->Error\r");
                             status = serialstatus.Error;
-                            log.Error("Error in comport reader " + ex);
+                            log.Error("Error in comport thread " + ex);
                             errorcount++;
                         }
                     } // cant exit unless told to
                 }
                 log.Info("Comport thread close");
-            }) { Name = "comport reader", IsBackground = true };
+            });
+            t11.IsBackground = true;
+            t11.Name = "Log serial thread";
             t11.Start();
 
             // doesnt seem to work on mac
@@ -227,7 +230,7 @@ namespace MissionPlanner.Log
                                     TXT_seriallog.Clear();
                                 });
 
-                                Console.WriteLine("state ->ReceiveListing\r");
+                                log.Info("state ->ReceiveListing\r");
                                 status = serialstatus.ReceiveListing;
                             }
                             break;
@@ -271,7 +274,7 @@ namespace MissionPlanner.Log
                             }
                             catch { } // usualy invalid lat long error
 
-                            Console.WriteLine("state ->ReceiveListing\r");
+                            log.Info("state ->ReceiveListing\r");
                             status = serialstatus.ReceiveListing;
                             break;
                         case serialstatus.Createfile:
@@ -280,7 +283,7 @@ namespace MissionPlanner.Log
                             logfile = MainV2.LogDir + Path.DirectorySeparatorChar + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + " " + currentlog + ".log";
                             sw = new StreamWriter(logfile);
 
-                            Console.WriteLine("state ->Reading\r");
+                            log.Info("state ->Reading\r");
                             status = serialstatus.Reading;
                             break;
                         case serialstatus.ReceiveListing:
@@ -295,14 +298,14 @@ namespace MissionPlanner.Log
                             }
                             if (line.Contains("Log]"))
                             {
-                                Console.WriteLine("state ->Done\r");
+                                log.Info("state ->Done\r");
                                 status = serialstatus.Done;
                             }
                             break;
                         case serialstatus.Reading:
                             if (line.Contains("packets read") || line.Contains("Done") || line.Contains("logs enabled"))
                             {
-                                Console.WriteLine("state ->Closefile\r");
+                                log.Info("state ->Closefile\r");
                                 status = serialstatus.Closefile;
                                 break;
                             }
@@ -311,7 +314,7 @@ namespace MissionPlanner.Log
                         case serialstatus.Erasing:
                             if (line.Contains("Log]"))
                             {
-                                Console.WriteLine("state ->ReceiveListing\r");
+                                log.Info("state ->ReceiveListing\r");
                                 status = serialstatus.ReceiveListing;
                             }
                             break;
@@ -346,7 +349,10 @@ namespace MissionPlanner.Log
                 }
 
             }
-            catch (Exception ex) { /*CustomMessageBox.Show("Error reading data" + ex.ToString());*/ }
+            catch (Exception ex)
+            {
+                //CustomMessageBox.Show("Error reading data" + ex.ToString());
+            }
         }
 
    
@@ -368,7 +374,7 @@ namespace MissionPlanner.Log
                     catch { }
                     try
                     {
-                        Console.WriteLine("Log forced closing of port");
+                        log.Info("Log forced closing of port");
                         comPort.Close();
                     }
                     catch { }
@@ -377,7 +383,7 @@ namespace MissionPlanner.Log
             }
             threadrun = false;
             t11.Join();
-            Console.WriteLine("Log form closed");
+            log.Info("Log form closed");
         }
 
         private void CHK_logs_Click(object sender, EventArgs e)
@@ -471,7 +477,7 @@ namespace MissionPlanner.Log
                     comPort.Write("dump ");
                     comPort.Write(items[i].ToString() + "\r");
 
-                    Console.WriteLine("state ->Createfile\r");
+                    log.Info("state ->Createfile\r");
                     status = serialstatus.Createfile;
                 }
 
@@ -485,7 +491,7 @@ namespace MissionPlanner.Log
         {
             try
             {
-                Console.WriteLine("state ->Erasing\r");
+                log.Info("state ->Erasing\r");
                 status = serialstatus.Erasing;
                 comPort.Write("erase\r");
                 System.Threading.Thread.Sleep(100);
@@ -526,7 +532,10 @@ namespace MissionPlanner.Log
 
                         tr.Close();
                     }
-                    catch (Exception ex) { CustomMessageBox.Show("Error processing file. Make sure the file is not in use.\n"+ex.ToString()); }
+                    catch (Exception ex)
+                    {
+                        CustomMessageBox.Show("Error processing file. Make sure the file is not in use.\n"+ex.ToString());
+                    }
 
                     lo.writeKML(logfile + ".kml");
 
@@ -569,7 +578,11 @@ namespace MissionPlanner.Log
 
                         tr.Close();
                     }
-                    catch (Exception ex) { CustomMessageBox.Show("Error processing log. Is it still downloading? " + ex.Message); continue; }
+                    catch (Exception ex)
+                    {
+                        CustomMessageBox.Show("Error processing log. Is it still downloading? " + ex.Message);
+                        continue;
+                    }
 
                     lo.writeKMLFirstPerson(logfile + "-fp.kml");
 

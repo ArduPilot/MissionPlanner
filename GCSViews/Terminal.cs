@@ -85,35 +85,31 @@ namespace MissionPlanner.GCSViews
             // if btr > 0 then this shouldnt happen
             comPort.ReadTimeout = 300;
 
-            try
+            lock (thisLock)
             {
-                lock (thisLock)
+                byte[] buffer = new byte[256];
+                int a = 0;
+
+                while (comPort.IsOpen && comPort.BytesToRead > 0 && threadrun)
                 {
-                    byte[] buffer = new byte[256];
-                    int a = 0;
+                    byte indata = (byte)comPort.ReadByte();
 
-                    while (comPort.IsOpen && comPort.BytesToRead > 0 && threadrun)
+                    buffer[a] = indata;
+
+                    if (buffer[a] >= 0x20 && buffer[a] < 0x7f || buffer[a] == (int)'\n')// || buffer[a] == (int)'\r')
                     {
-                        byte indata = (byte)comPort.ReadByte();
-
-                        buffer[a] = indata;
-
-                        if (buffer[a] >= 0x20 && buffer[a] < 0x7f || buffer[a] == (int)'\n')// || buffer[a] == (int)'\r')
-                        {
-                            a++;
-                        }
-
-                        if (indata == '\n')
-                            break;
-
-                        if (a == (buffer.Length-1))
-                            break;
+                        a++;
                     }
 
-                    addText(ASCIIEncoding.ASCII.GetString(buffer,0,a+1));
+                    if (indata == '\n')
+                        break;
+
+                    if (a == (buffer.Length-1))
+                        break;
                 }
+
+                addText(ASCIIEncoding.ASCII.GetString(buffer,0,a+1));
             }
-            catch (Exception ex) { Console.WriteLine(ex.ToString()); if (!threadrun) return; TXT_terminal.AppendText("Error reading com port\r\n"); }
         }
 
         void addText(string data)
@@ -395,7 +391,7 @@ namespace MissionPlanner.GCSViews
 
                     comPort.Open();
 
-                    log.Info("toggle dtr");
+                    log.Info("Toggle dtr");
 
                     comPort.toggleDTR();
                 }
@@ -484,11 +480,10 @@ namespace MissionPlanner.GCSViews
                     catch { }
                     try
                     {
-                        Console.WriteLine("term thread close run " + threadrun + " " + comPort.IsOpen);
+                        Console.WriteLine("Terminal thread close run " + threadrun + " " + comPort.IsOpen);
                         comPort.Close();
                     }
                     catch { }
-                    Console.WriteLine("Comport thread close run " + threadrun);
 
                     apmConnected = false;
                     setButtonState(false);
@@ -497,6 +492,7 @@ namespace MissionPlanner.GCSViews
                         //stay in thread if apmError
                         System.Threading.Thread.Sleep(10);
                     }
+                    log.Info("Terminal thread exit");
                 });
                 t11.IsBackground = true;
                 t11.Name = "Terminal serial thread";
@@ -513,7 +509,7 @@ namespace MissionPlanner.GCSViews
             catch (Exception ex)
             {
                 log.Error(ex);
-                TXT_terminal.AppendText("Cant open serial port\r\n");
+                TXT_terminal.AppendText("Cant open com port\r\n");
                 return;
             }
 
