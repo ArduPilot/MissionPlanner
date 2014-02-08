@@ -491,6 +491,7 @@ namespace MissionPlanner.GCSViews
                     Console.WriteLine("Comport thread close run " + threadrun);
 
                     apmConnected = false;
+                    setButtonState(false);
                     while (threadrun)
                     {
                         //stay in thread if apmError

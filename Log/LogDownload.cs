@@ -85,7 +85,6 @@ namespace MissionPlanner.Log
 
                 threadrun = true;
 
-
                 try
                 {
                     comPort.Write("exit\rlogs\r"); // more in "connecting"
@@ -347,20 +346,38 @@ namespace MissionPlanner.Log
                 }
 
             }
-            catch (Exception ex) { CustomMessageBox.Show("Error reading data" + ex.ToString()); }
+            catch (Exception ex) { /*CustomMessageBox.Show("Error reading data" + ex.ToString());*/ }
         }
 
    
         private void Log_FormClosing(object sender, FormClosingEventArgs e)
         {
-            //controlled exit from logview
+            //try controlled exit from logview
+            DateTime start = DateTime.Now;
             exitpending = true;
             while (status != serialstatus.Done && status != serialstatus.Error)
             {
                 System.Threading.Thread.Sleep(10);
+                if((DateTime.Now - start).TotalMilliseconds>20000)
+                {
+                    //forced exit from logview
+                    try
+                    {
+                        comPort.DtrEnable = false;
+                    }
+                    catch { }
+                    try
+                    {
+                        Console.WriteLine("Log forced closing of port");
+                        comPort.Close();
+                    }
+                    catch { }
+                    break;
+                }
             }
             threadrun = false;
             t11.Join();
+            Console.WriteLine("Log form closed");
         }
 
         private void CHK_logs_Click(object sender, EventArgs e)
