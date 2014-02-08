@@ -28,7 +28,7 @@ namespace MissionPlanner.GCSViews
         int history = 0;
         int inputStartPos = 0;
 
-        //thread control variables
+        //state control variables
         bool inlogview = false;
         bool apmError = true;
         bool apmConnected = false;

@@ -33,13 +33,14 @@ namespace MissionPlanner.Log
         string logfile = "";
         int receivedbytes = 0;
         
-        //thread control variables
+        //state control variables
         serialstatus status = serialstatus.Connecting;
         int connect_substate = 0;
         bool threadrun = true;
         bool exitpending = false;
+        bool downloading = false;
         System.Threading.Thread t11;
-
+        
         bool lastbuttonstate = true;
 
         Object thisLock = new Object();
@@ -53,7 +54,15 @@ namespace MissionPlanner.Log
             Closefile,
             Reading,
             Done,
-            Error
+            Error,
+            Erasing
+        }
+
+        enum dltype
+        {
+            All,
+            Selected,
+            MinusOne
         }
 
         public LogDownload()
@@ -300,9 +309,16 @@ namespace MissionPlanner.Log
                             }
                             sw.Write(line);
                             continue;
+                        case serialstatus.Erasing:
+                            if (line.Contains("Log]"))
+                            {
+                                Console.WriteLine("state ->ReceiveListing\r");
+                                status = serialstatus.ReceiveListing;
+                            }
+                            break;
                     }
 
-                    setButtonState(status == serialstatus.Done);
+                    setButtonState(status == serialstatus.Done && !downloading);
 
                     lock (thisLock)
                     {
@@ -355,99 +371,94 @@ namespace MissionPlanner.Log
 
         private void BUT_DLall_Click(object sender, EventArgs e)
         {
-            if (status == serialstatus.Done)
+            if (CHK_logs.Items.Count == 0)
             {
-                if (CHK_logs.Items.Count == 0)
-                {
-                    CustomMessageBox.Show("Nothing to download");
-                    return;
-                }
-
-                System.Threading.Thread t11 = new System.Threading.Thread(delegate()
-                {
-                    downloadthread(int.Parse(CHK_logs.Items[0].ToString()), int.Parse(CHK_logs.Items[CHK_logs.Items.Count - 1].ToString()));
-                });
-                t11.Name = "Log Download All thread";
-                t11.Start();
+                CustomMessageBox.Show("Nothing to download");
+                return;
             }
+
+            System.Threading.Thread t11 = new System.Threading.Thread(delegate()
+            {
+                downloadthread(dltype.All);
+            });
+            t11.Name = "Log download All thread";
+            t11.Start();
         }
 
         private void BUT_DLthese_Click(object sender, EventArgs e)
         {
-            if (status == serialstatus.Done)
+            if (CHK_logs.CheckedItems.Count == 0)
             {
-                System.Threading.Thread t11 = new System.Threading.Thread(delegate()
-                {
-                    downloadsinglethread();
-                });
-                t11.Name = "Log download single thread";
-                t11.Start();
+                CustomMessageBox.Show("Nothing to download");
+                return;
             }
+
+            System.Threading.Thread t11 = new System.Threading.Thread(delegate()
+            {
+                downloadthread(dltype.Selected);
+            });
+            t11.Name = "Log download Selected thread";
+            t11.Start();
         }
 
         private void BUT_dumpdf_Click(object sender, EventArgs e)
         {
-            if (status == serialstatus.Done)
+            /*if (CHK_logs.Items.Count == 0)
             {
-                // add -1 entry
-                CHK_logs.Items.Add(-1, true);
+                CustomMessageBox.Show("Nothing to download");
+                return;
+            }*/
 
-                System.Threading.Thread t11 = new System.Threading.Thread(delegate() {
-                    downloadsinglethread();
-                });
-                t11.Name = "Log download single thread";
-                t11.Start();
-            }
+            System.Threading.Thread t11 = new System.Threading.Thread(delegate() {
+                downloadthread(dltype.MinusOne);
+            });
+            t11.Name = "Log download MinusOne thread";
+            t11.Start();
         }
 
-        private void downloadthread(int startlognum, int endlognum)
+        private void downloadthread(dltype type)
         {
             try
             {
-                for (int a = startlognum; a <= endlognum; a++)
+                downloading = true;
+
+                List<int> items = new List<int>();
+                switch(type)
+                {
+                    case dltype.All:
+                        for (int i = 0; i < CHK_logs.Items.Count; ++i)
+                            items.Add((int)CHK_logs.Items[i]);
+                        break;
+                    case dltype.Selected:
+                        for (int i = 0; i < CHK_logs.CheckedItems.Count; ++i)
+                            items.Add((int)CHK_logs.CheckedItems[i]);
+                        break;
+                    case dltype.MinusOne:
+                        items.Add(-1);
+                        break;
+                }
+
+                for (int i = 0; i < items.Count; ++i)
                 {
                     while (status != serialstatus.Done && status != serialstatus.Error)
                     {
                         System.Threading.Thread.Sleep(10);
                     }
-                    if (exitpending || status == serialstatus.Error) return;
+                    if (exitpending || status == serialstatus.Error)
+                    {
+                        downloading = false;
+                        return;
+                    }
 
-                    currentlog = a;
+                    currentlog = items[i];
                     comPort.Write("dump ");
-                    comPort.Write(a.ToString() + "\r");
+                    comPort.Write(items[i].ToString() + "\r");
 
                     Console.WriteLine("state ->Createfile\r");
                     status = serialstatus.Createfile;
                 }
 
-                Console.Beep();
-            }
-            catch (Exception ex) { CustomMessageBox.Show(ex.Message,"Error"); }
-        }
-
-        private void downloadsinglethread()
-        {
-            try
-            {
-                for (int i = 0; i < CHK_logs.CheckedItems.Count; ++i)
-                {
-                    int a = (int)CHK_logs.CheckedItems[i];
-                    {
-                        while (status != serialstatus.Done && status != serialstatus.Error)
-                        {
-                            System.Threading.Thread.Sleep(10);
-                        }
-                        if (exitpending || status == serialstatus.Error) return;
-
-                        currentlog = a;
-                        comPort.Write("dump ");
-                        comPort.Write(a.ToString() + "\r");
-
-                        Console.WriteLine("state ->Createfile\r");
-                        status = serialstatus.Createfile;
-                    }
-                }
-
+                downloading = false;
                 Console.Beep();
             }
             catch (Exception ex) { CustomMessageBox.Show(ex.Message, "Error"); }
@@ -457,10 +468,11 @@ namespace MissionPlanner.Log
         {
             try
             {
+                Console.WriteLine("state ->Erasing\r");
+                status = serialstatus.Erasing;
                 comPort.Write("erase\r");
                 System.Threading.Thread.Sleep(100);
                 TXT_seriallog.AppendText("!!Allow 30-90 seconds for erase\n");
-                status = serialstatus.Done;
                 CHK_logs.Items.Clear();
             }
             catch (Exception ex) { CustomMessageBox.Show(ex.Message, "Error"); }
