@@ -466,6 +466,8 @@ namespace MissionPlanner.Log
                     log.Info("state ->Createfile\r");
                     status = serialstatus.Createfile;
 
+                    if (i==items.Count-1) downloading = false;
+
                     while (status != serialstatus.Done && status != serialstatus.Error)
                     {
                         System.Threading.Thread.Sleep(10);
@@ -477,7 +479,6 @@ namespace MissionPlanner.Log
                     }
                 }
 
-                downloading = false;
                 Console.Beep();
             }
             catch (Exception ex)
