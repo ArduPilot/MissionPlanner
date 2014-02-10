@@ -30,8 +30,7 @@ namespace MissionPlanner.GCSViews
 
         //state control variables
         bool inlogview = false;
-        bool apmError = true;
-        bool apmConnected = false;
+        bool threaderror = false;
         bool threadrun = false;
         System.Threading.Thread t11;
 
@@ -72,9 +71,6 @@ namespace MissionPlanner.GCSViews
                 threadrun = false;
                 t11.Join();
             }
-            ChangeConnectStatus(false);
-
-            TXT_terminal.AppendText("Closed\n");
         }
 
         void comPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
@@ -197,7 +193,6 @@ namespace MissionPlanner.GCSViews
 
         private void Terminal_FormClosing(object sender, FormClosingEventArgs e)
         {
-            ExitThread();
         }
 
         private void TXT_terminal_KeyPress(object sender, KeyPressEventArgs e)
@@ -282,8 +277,6 @@ namespace MissionPlanner.GCSViews
 
         private void Terminal_Load(object sender, EventArgs e)
         {
-            setcomport();
-
             setButtonState(false);
         }
 
@@ -292,10 +285,10 @@ namespace MissionPlanner.GCSViews
             if (comPort == null)
             {
                 comPort = new MissionPlanner.Comms.SerialPort();
-                comPort.PortName = MainV2.comPortName;
-                comPort.BaudRate = int.Parse(MainV2._connectionControl.CMB_baudrate.Text);
-                comPort.ReadBufferSize = 1024 * 1024 * 4;
+                comPort.ReadBufferSize = 1024 * 1024 * 4;                
             }
+            comPort.PortName = MainV2.comPortName;
+            comPort.BaudRate = int.Parse(MainV2._connectionControl.CMB_baudrate.Text);
         }
 
         private void start_Terminal(bool px4)
@@ -306,13 +299,6 @@ namespace MissionPlanner.GCSViews
                     MainV2.comPort.BaseStream.Close();
 
                 setcomport();
-
-                comPort.ReadBufferSize = 1024 * 1024 * 4;
-
-                comPort.PortName = MainV2.comPortName;
-
-                // test moving baud rate line
-                comPort.BaudRate = int.Parse(MainV2._connectionControl.CMB_baudrate.Text);
 
                 if (px4)
                 {
@@ -406,7 +392,7 @@ namespace MissionPlanner.GCSViews
 
                 t11 = new System.Threading.Thread(delegate()
                 {
-                    apmError = false;
+                    threaderror = false;
                     threadrun = true;
 
                     Console.WriteLine("Terminal thread start run " + threadrun + " " + comPort.IsOpen);
@@ -426,7 +412,7 @@ namespace MissionPlanner.GCSViews
                     catch (Exception ex)
                     {
                         Console.WriteLine("Terminal thread 2 " + ex.ToString());
-                        apmError = true;
+                        threaderror = true;
                     }
                     Console.WriteLine("Terminal thread 2 run " + threadrun + " " + comPort.IsOpen);
 
@@ -441,16 +427,15 @@ namespace MissionPlanner.GCSViews
                     }
                     catch (Exception ex)
                     {
-                        if(!apmError)
+                        if (!threaderror)
                             Console.WriteLine("Terminal thread 3 " + ex.ToString());
-                        apmError = true;
+                        threaderror = true;
                     }
                     Console.WriteLine("Terminal thread 3 run " + threadrun + " " + comPort.IsOpen);
 
-                    apmConnected = true;
-                    setButtonState(true);
+                    if (!threaderror) setButtonState(true);
 
-                    while (threadrun)
+                    while (threadrun && !threaderror)
                     {
                         try
                         {
@@ -466,10 +451,8 @@ namespace MissionPlanner.GCSViews
                         }
                         catch (Exception ex)
                         {
-                            if(!apmError)
-                                Console.WriteLine("Terminal thread 4 " + ex.ToString());
-                            apmError = true;
-                            break;
+                            Console.WriteLine("Terminal thread 4 " + ex.ToString());
+                            threaderror = true;
                         }
                     }
 
@@ -485,11 +468,10 @@ namespace MissionPlanner.GCSViews
                     }
                     catch { }
 
-                    apmConnected = false;
                     setButtonState(false);
                     while (threadrun)
                     {
-                        //stay in thread if apmError
+                        //stay in thread if threaderror
                         System.Threading.Thread.Sleep(10);
                     }
                     log.Info("Terminal thread exit");
@@ -501,6 +483,7 @@ namespace MissionPlanner.GCSViews
                 // doesnt seem to work on mac
                 //comPort.DataReceived += new SerialDataReceivedEventHandler(comPort_DataReceived);
 
+                BUT_ConnectAPM.Enabled = false;
                 BUT_disconnect.Enabled = true;
                 TXT_terminal.AppendText("Opened com port\r\n");
 
@@ -514,23 +497,6 @@ namespace MissionPlanner.GCSViews
             }
 
             TXT_terminal.Focus();
-        }
-
-        void ChangeConnectStatus(bool connected) 
-        {
-            if (this.IsDisposed || this.Disposing)
-                return;
-
-            this.Invoke((System.Windows.Forms.MethodInvoker)delegate()
-            {
-                if (connected && BUT_disconnect.Enabled == false) {
-                    BUT_disconnect.Enabled = true;
-                }
-                else if (!connected && BUT_disconnect.Enabled == true)
-                {
-                    BUT_disconnect.Enabled = false;
-                }
-            });
         }
 
         void setButtonState(bool state)
@@ -615,12 +581,6 @@ namespace MissionPlanner.GCSViews
             if (MainV2.comPort.BaseStream.IsOpen)
                 MainV2.comPort.BaseStream.Close();
 
-            if (comPort.IsOpen)
-            {
-                BUT_disconnect.Enabled = true;
-                return;
-            }
-
             if (CMB_boardtype.Text.Contains("APM"))
                 start_Terminal(false);
             if (CMB_boardtype.Text.Contains("PX4"))
@@ -631,7 +591,10 @@ namespace MissionPlanner.GCSViews
         {
             ExitThread();
 
-            setButtonState(false);
+            BUT_ConnectAPM.Enabled = true;
+            BUT_disconnect.Enabled = false;
+
+            TXT_terminal.AppendText("Closed\n");
         }
 
     }

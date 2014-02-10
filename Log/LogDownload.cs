@@ -82,7 +82,7 @@ namespace MissionPlanner.Log
             t11 = new System.Threading.Thread(delegate()
             {
                 var start = DateTime.Now;
-                int errorcount = 0;
+                bool threaderror = false;
 
                 threadrun = true;
 
@@ -95,7 +95,7 @@ namespace MissionPlanner.Log
                     log.Info("state ->Error\r");
                     status = serialstatus.Error;
                     log.Error("Error in comport thread " + ex);
-                    errorcount++;
+                    threaderror = true;
                 }
 
                 while (threadrun)
@@ -112,11 +112,12 @@ namespace MissionPlanner.Log
                     }
                     catch (Exception ex)
                     {
-                        if (errorcount == 0) {
+                        if (!threaderror)
+                        {
                             log.Info("state ->Error\r");
                             status = serialstatus.Error;
                             log.Error("Error in comport thread " + ex);
-                            errorcount++;
+                            threaderror = true;
                         }
                     } // cant exit unless told to
                 }
