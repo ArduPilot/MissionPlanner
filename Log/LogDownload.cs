@@ -28,7 +28,6 @@ namespace MissionPlanner.Log
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         ICommsSerial comPort;
-        int logcount = 0;
         StreamWriter sw;
         int currentlog = 0;
         string logfile = "";
@@ -131,13 +130,13 @@ namespace MissionPlanner.Log
             //comPort.DataReceived += new SerialDataReceivedEventHandler(comPort_DataReceived);
         }
 
-        void genchkcombo(int logcount)
+        void genchkcombo(int lognr)
         {
             MethodInvoker m = delegate()
             {
-                if (!CHK_logs.Items.Contains(logcount))
+                if (!CHK_logs.Items.Contains(lognr))
                 {
-                    CHK_logs.Items.Add(logcount);
+                    CHK_logs.Items.Add(lognr);
                 }
             };
             try
@@ -157,8 +156,7 @@ namespace MissionPlanner.Log
                 {
                     try
                     {
-                        if (comPort.IsOpen)
-                        TXT_status.Text = status.ToString() + " " + receivedbytes + " " + comPort.BytesToRead;
+                        TXT_status.Text = status.ToString() + " " + receivedbytes;
                     }
                     catch { }
                 });
@@ -253,27 +251,7 @@ namespace MissionPlanner.Log
                                 catch (Exception ex) { CustomMessageBox.Show("Failed to rename file " + logfile + "\nto " + newlogfilename,"Error"); }
                             }
 
-                            TextReader tr = new StreamReader(logfile);
-
-                            this.BeginInvoke((System.Windows.Forms.MethodInvoker)delegate()
-                            {
-                                TXT_seriallog.AppendText("Creating KML for " + logfile);
-                            });
-
-                            LogOutput lo = new LogOutput();
-
-                            while (tr.Peek() != -1)
-                            {
-                                lo.processLine(tr.ReadLine());
-                            }
-
-                            tr.Close();
-
-                            try
-                            {
-                                lo.writeKML(logfile + ".kml");
-                            }
-                            catch { } // usualy invalid lat long error
+                            CreateLog(logfile);
 
                             log.Info("state ->ReceiveListing\r");
                             status = serialstatus.ReceiveListing;
@@ -293,8 +271,8 @@ namespace MissionPlanner.Log
                                 if (regex2.IsMatch(line))
                                 {
                                     MatchCollection matchs = regex2.Matches(line);
-                                    logcount = int.Parse(matchs[0].Groups[1].Value);
-                                    genchkcombo(logcount);
+                                    int lognr = int.Parse(matchs[0].Groups[1].Value);
+                                    genchkcombo(lognr);
                                 }
                             }
                             if (line.Contains("Log]"))
@@ -327,7 +305,6 @@ namespace MissionPlanner.Log
                     {
                         this.BeginInvoke((MethodInvoker)delegate()
                         {
-
                             Console.Write(line);
 
                             TXT_seriallog.AppendText(line.Replace((char)0x0,' '));
@@ -343,7 +320,6 @@ namespace MissionPlanner.Log
                             TXT_seriallog.ScrollToCaret();
 
                             TXT_seriallog.Refresh();
-
                         });
 
                     }
@@ -387,10 +363,29 @@ namespace MissionPlanner.Log
             log.Info("Log form closed");
         }
 
-        private void CHK_logs_Click(object sender, EventArgs e)
+        void CreateLog(string logfile)
         {
-            ListBox lb = sender as ListBox;
+            TextReader tr = new StreamReader(logfile);
 
+            this.BeginInvoke((System.Windows.Forms.MethodInvoker)delegate()
+            {
+                TXT_seriallog.AppendText("Creating KML for " + logfile + "\n");
+            });
+
+            LogOutput lo = new LogOutput();
+
+            while (tr.Peek() != -1)
+            {
+                lo.processLine(tr.ReadLine());
+            }
+
+            tr.Close();
+
+            try
+            {
+                lo.writeKML(logfile + ".kml");
+            }
+            catch { } // usualy invalid lat long error
         }
 
         private void BUT_DLall_Click(object sender, EventArgs e)
@@ -427,11 +422,11 @@ namespace MissionPlanner.Log
 
         private void BUT_dumpdf_Click(object sender, EventArgs e)
         {
-            /*if (CHK_logs.Items.Count == 0)
+            if (CHK_logs.Items.Count == 0)
             {
                 CustomMessageBox.Show("Nothing to download");
                 return;
-            }*/
+            }
 
             System.Threading.Thread t11 = new System.Threading.Thread(delegate() {
                 downloadthread(dltype.MinusOne);
@@ -464,6 +459,13 @@ namespace MissionPlanner.Log
 
                 for (int i = 0; i < items.Count; ++i)
                 {
+                    currentlog = items[i];
+                    comPort.Write("dump ");
+                    comPort.Write(items[i].ToString() + "\r");
+
+                    log.Info("state ->Createfile\r");
+                    status = serialstatus.Createfile;
+
                     while (status != serialstatus.Done && status != serialstatus.Error)
                     {
                         System.Threading.Thread.Sleep(10);
@@ -473,19 +475,15 @@ namespace MissionPlanner.Log
                         downloading = false;
                         return;
                     }
-
-                    currentlog = items[i];
-                    comPort.Write("dump ");
-                    comPort.Write(items[i].ToString() + "\r");
-
-                    log.Info("state ->Createfile\r");
-                    status = serialstatus.Createfile;
                 }
 
                 downloading = false;
                 Console.Beep();
             }
-            catch (Exception ex) { CustomMessageBox.Show(ex.Message, "Error"); }
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show(ex.Message, "Error in log " + currentlog);
+            }
         }
 
         private void BUT_clearlogs_Click(object sender, EventArgs e)
@@ -535,7 +533,7 @@ namespace MissionPlanner.Log
                     }
                     catch (Exception ex)
                     {
-                        CustomMessageBox.Show("Error processing file. Make sure the file is not in use.\n"+ex.ToString());
+                        CustomMessageBox.Show("Error processing file. Make sure the file is not in use.\n" + ex.ToString());
                     }
 
                     lo.writeKML(logfile + ".kml");

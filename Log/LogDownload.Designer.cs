@@ -73,7 +73,6 @@
             this.CHK_logs.FormattingEnabled = true;
             resources.ApplyResources(this.CHK_logs, "CHK_logs");
             this.CHK_logs.Name = "CHK_logs";
-            this.CHK_logs.Click += new System.EventHandler(this.CHK_logs_Click);
             // 
             // TXT_status
             // 
