@@ -47,7 +47,6 @@
             this.TXT_terminal.BackColor = System.Drawing.Color.Black;
             this.TXT_terminal.ForeColor = System.Drawing.Color.White;
             this.TXT_terminal.Name = "TXT_terminal";
-            this.TXT_terminal.Click += new System.EventHandler(this.TXT_terminal_Click);
             this.TXT_terminal.KeyDown += new System.Windows.Forms.KeyEventHandler(this.TXT_terminal_KeyDown);
             this.TXT_terminal.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TXT_terminal_KeyPress);
             // 

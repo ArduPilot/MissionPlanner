@@ -50,17 +50,6 @@ namespace MissionPlanner.GCSViews
         {
             ExitThread();
 
-            try
-            {
-                if (comPort.IsOpen)
-                {
-                    comPort.Write("\rexit\rreboot\r");
-
-                    comPort.Close();
-                }
-            }
-            catch { }
-
             MainV2.instance.MenuConnect.Visible = true;
         }
 
@@ -137,16 +126,6 @@ namespace MissionPlanner.GCSViews
 
         }
 
-        private void TXT_terminal_Click(object sender, EventArgs e)
-        {
-            // auto scroll
-            //TXT_terminal.SelectionStart = TXT_terminal.Text.Length;
-
-            //TXT_terminal.ScrollToCaret();
-
-            //TXT_terminal.Refresh();
-        }
-
         private void TXT_terminal_KeyDown(object sender, KeyEventArgs e)
         {
             if ((e.Modifiers & Keys.Control) !=0)
@@ -193,6 +172,11 @@ namespace MissionPlanner.GCSViews
 
         private void Terminal_FormClosing(object sender, FormClosingEventArgs e)
         {
+            //done by Deactivate()
+
+            //ExitThread();
+
+            //MainV2.instance.MenuConnect.Visible = true;
         }
 
         private void TXT_terminal_KeyPress(object sender, KeyPressEventArgs e)
@@ -458,6 +442,7 @@ namespace MissionPlanner.GCSViews
 
                     try
                     {
+                        //comPort.Write("\rexit\rreboot\r");
                         comPort.DtrEnable = false;
                     }
                     catch { }
