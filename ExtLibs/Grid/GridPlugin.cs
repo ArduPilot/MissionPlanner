@@ -37,7 +37,7 @@ namespace MissionPlanner
         {
             Host2 = Host;
 
-            but = new ToolStripMenuItem("Survey (Grid)");
+            but = new ToolStripMenuItem("Hemav GRID");
             but.Click += but_Click;
 
             bool hit = false;
