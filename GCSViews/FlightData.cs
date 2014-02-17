@@ -240,7 +240,9 @@ namespace MissionPlanner.GCSViews
 
             gMapControl1.DisableFocusOnMouseEnter = true;
 
-            gMapControl1.Zoom = 3;
+            gMapControl1.Zoom = 10;
+
+            gMapControl1.Position = new PointLatLng(41.4037486430615, 2.02977776527405);
 
             gMapControl1.RoutesEnabled = true;
             gMapControl1.PolygonsEnabled = true;

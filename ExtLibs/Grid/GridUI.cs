@@ -722,6 +722,11 @@ namespace MissionPlanner
 
         }
 
+        private void label24_Click(object sender, EventArgs e)
+        {
+
+        }
+
 
     }
 }

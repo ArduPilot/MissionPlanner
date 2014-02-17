@@ -114,6 +114,8 @@
             this.label23 = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
             this.gMapControl1 = new GMap.NET.WindowsForms.GMapControl();
+            this.label24 = new System.Windows.Forms.Label();
+            this.PlatSel = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_spacing)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_overshoot2)).BeginInit();
@@ -621,6 +623,8 @@
             // 
             // groupBox6
             // 
+            this.groupBox6.Controls.Add(this.PlatSel);
+            this.groupBox6.Controls.Add(this.label24);
             this.groupBox6.Controls.Add(this.label26);
             this.groupBox6.Controls.Add(this.label4);
             this.groupBox6.Controls.Add(this.NUM_angle);
@@ -874,6 +878,22 @@
             this.gMapControl1.Zoom = 0D;
             this.gMapControl1.Load += new System.EventHandler(this.gMapControl1_Load);
             // 
+            // label24
+            // 
+            resources.ApplyResources(this.label24, "label24");
+            this.label24.Name = "label24";
+            this.label24.Click += new System.EventHandler(this.label24_Click);
+            // 
+            // PlatSel
+            // 
+            this.PlatSel.FormattingEnabled = true;
+            this.PlatSel.Items.AddRange(new object[] {
+            resources.GetString("PlatSel.Items"),
+            resources.GetString("PlatSel.Items1"),
+            resources.GetString("PlatSel.Items2")});
+            resources.ApplyResources(this.PlatSel, "PlatSel");
+            this.PlatSel.Name = "PlatSel";
+            // 
             // GridUI
             // 
             resources.ApplyResources(this, "$this");
@@ -1005,5 +1025,7 @@
         private System.Windows.Forms.Label label33;
         private System.Windows.Forms.Label label34;
         private GMap.NET.WindowsForms.GMapControl gMapControl1;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.ComboBox PlatSel;
     }
 }
