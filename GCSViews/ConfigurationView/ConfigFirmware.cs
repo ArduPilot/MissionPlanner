@@ -30,6 +30,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         ProgressReporterDialogue pdr;
 
+        string custom_fw_dir = "";
+
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             //CTRL+R moved to pictureBoxRover_Click
@@ -326,9 +328,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void Custom_firmware_label_Click(object sender, EventArgs e)
         {
             var fd = new OpenFileDialog { Filter = "Firmware (*.hex;*.px4)|*.hex;*.px4" };
+            fd.InitialDirectory = custom_fw_dir;
             fd.ShowDialog();
             if (File.Exists(fd.FileName))
             {
+                custom_fw_dir = Path.GetDirectoryName(fd.FileName);
+
                 fw.Progress -= fw_Progress;
                 fw.Progress += fw_Progress1;
 
