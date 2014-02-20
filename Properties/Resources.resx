@@ -1634,4 +1634,28 @@ Please visit {\field{\*\fldinst{HYPERLINK "www.diydrones.com"}}{\fldrslt{\ul\cf2
   <data name="HemavLogo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\HemavLogo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="HemavMarker" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAACIAAAAsCAYAAAAATWqyAAAABGdBTUEAALGeYUxB9wAAACBjSFJNAACH
+        EAAAjBIAAP1NAACBPgAAWesAARIPAAA85gAAGc66ySIyAAABK2lDQ1BQaG90b3Nob3AgSUNDIHByb2Zp
+        bGUAACjPY2BgMnB0cXJlEmBgyM0rKQpyd1KIiIxSYD/PwMbAzAAGicnFBY4BAT4gdl5+XioDBvh2jYER
+        RF/WBZnFQBrgSi4oKgHSf4DYKCW1OJmBgdEAyM4uLykAijPOAbJFkrLB7A0gdlFIkDOQfQTI5kuHsK+A
+        2EkQ9hMQuwjoCSD7C0h9OpjNxAE2B8KWAbFLUitA9jI45xdUFmWmZ5QoGFpaWio4puQnpSoEVxaXpOYW
+        K3jmJecXFeQXJZakpgDVQtwHBoIQhaAQ0wBqtNBkoDIAxQOE9TkQHL6MYmcQYgiQXFpUBmUyMhkT5iPM
+        mCPBwOC/lIGB5Q9CzKSXgWGBDgMD/1SEmJohA4OAPgPDvjkAwMZP/eeaqagAAAAJcEhZcwAACxMAAAsT
+        AQCanBgAAALbSURBVFhHxdhJqE5hHMfxY7hKRFeJktlCGRZISbEwFqVY6LIgQsrtKilTIjOxYKEMSZK7
+        YGEhZGEoiRQiIplLCHUNmS6+v7f3vJ33ef/nvWd4Lr/6bM7wf05neIYTpEwPzMRuXMBjvC96govYi9no
+        Be8ZicN4gz8JfcBxjEXudMMh/IDVWFInkPkOjcZ9WIWzeIYJSJVZaIJVMA/d2QVIlMn4DqtQ6Dce4CR2
+        YgcacRc/YZ0TNQdV0w/vYJ0s+jr2QC9vB7hph2HYgtewashn6DgzNbgE60Q5hQFIGr2cR2DVEt29TqjI
+        fFgniPqGrNkIq6asQFl0N/TMrYMPIm/0Dlm1X6ErSlFPaB14Dx2RN21xGVYbDSjlNKyDpsJXRqEZbhtX
+        oCcS1MLqum+hDXxGY5Hbjr6g4QjGFDe4NsB3lsFqax4KnYu10+djCTMUv+C2tQnBqsiGkHrW/vAdfSFW
+        h3kAhatxd3xCd/iOOjB9sm57R1HoVNwduiN94Ttd8BZue/sRTI9siJoI3xkMa1BciWAQvhU3RK2F7yyG
+        245G8ikojJi34R5wHb5zDm47T1F6H7fDPUBXOh6+omHfmnJqKlqKDrK+75toDx85C7e+TEJZ4galXcib
+        1bBq34EGxLLE9bCyGVljdQ+helSkMzTTtk4QzUvSdHLqRbUQs2rJR8TWWwTrpNBzrMFAxKUPluMRrBqh
+        dYiNJkEvYJ0Y9QXXoNXfNmyFxgvNLZIsQzQJ1/SjaqxOx7f1aDGaDN2AVcCHh0g8/dQiyyriQx1S5Ris
+        QnmcR0W/0VJ6Qr8WrIJZfIUG2ExZAqtoFole0Go5A6twGlehUT5XeiPNnyKX+pwh8JK4lWASS+E1+2A1
+        VI3+mXiPnrG6datBi357mb8dfESf30tYDUdpZB2BVo2WqFqvWhcgmum1xirRzAxYK3tZiH+auVBvGV6A
+        LkyL7P+ScdDvC/1tmqYN2RIEfwE8+HZt1oNmoQAAAABJRU5ErkJggg==
+</value>
+  </data>
 </root>

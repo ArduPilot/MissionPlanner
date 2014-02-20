@@ -136,9 +136,11 @@ namespace MissionPlanner
 
             layerpolygons.Polygons[0].Fill = Brushes.Transparent;
 
+            
+
             foreach (var item in plugin.Host.FPDrawnPolygon.Points)
             {
-                layerpolygons.Markers.Add(new GMarkerGoogle(item,GMarkerGoogleType.red));
+                layerpolygons.Markers.Add(new GMarkerGoogle(item,MarkerHemav ));
             }
         }
 
@@ -201,7 +203,8 @@ namespace MissionPlanner
 
                     if (chk_internals.Checked)
                     {
-                        layerpolygons.Markers.Add(new GMarkerGoogle(item,GMarkerGoogleType.green) { ToolTipText = a.ToString(), ToolTipMode = MarkerTooltipMode.OnMouseOver });
+                        layerpolygons.Markers.Add(new GMarkerGoogle(item,MarkerHemav) 
+                        { ToolTipText = a.ToString(), ToolTipMode = MarkerTooltipMode.OnMouseOver });
                         a++;
                     }
                     try
@@ -243,7 +246,7 @@ namespace MissionPlanner
                 {
                     strips++;
                     if (chk_markers.Checked)
-                        layerpolygons.Markers.Add(new GMarkerGoogle(item,GMarkerGoogleType.green) { ToolTipText = a.ToString(), ToolTipMode = MarkerTooltipMode.Always });
+                        layerpolygons.Markers.Add(new GMarkerGoogle(item,MarkerHemav) { ToolTipText = a.ToString(), ToolTipMode = MarkerTooltipMode.Always });
 
                     a++;
                 }
@@ -727,7 +730,7 @@ namespace MissionPlanner
 
         }
 
-
+        Bitmap MarkerHemav = new Bitmap(Properties.Resources.HemavMarker);
     }
 }
 

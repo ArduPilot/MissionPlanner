@@ -83,6 +83,8 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabSimple = new System.Windows.Forms.TabPage();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.PlatSel = new System.Windows.Forms.ComboBox();
+            this.label24 = new System.Windows.Forms.Label();
             this.label26 = new System.Windows.Forms.Label();
             this.CMB_camera = new System.Windows.Forms.ComboBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
@@ -113,9 +115,6 @@
             this.lbl_area = new System.Windows.Forms.Label();
             this.label23 = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
-            this.gMapControl1 = new GMap.NET.WindowsForms.GMapControl();
-            this.label24 = new System.Windows.Forms.Label();
-            this.PlatSel = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_spacing)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_overshoot2)).BeginInit();
@@ -636,6 +635,22 @@
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.TabStop = false;
             // 
+            // PlatSel
+            // 
+            this.PlatSel.FormattingEnabled = true;
+            this.PlatSel.Items.AddRange(new object[] {
+            resources.GetString("PlatSel.Items"),
+            resources.GetString("PlatSel.Items1"),
+            resources.GetString("PlatSel.Items2")});
+            resources.ApplyResources(this.PlatSel, "PlatSel");
+            this.PlatSel.Name = "PlatSel";
+            // 
+            // label24
+            // 
+            resources.ApplyResources(this.label24, "label24");
+            this.label24.Name = "label24";
+            this.label24.Click += new System.EventHandler(this.label24_Click);
+            // 
             // label26
             // 
             resources.ApplyResources(this.label26, "label26");
@@ -854,51 +869,10 @@
             resources.ApplyResources(this.label22, "label22");
             this.label22.Name = "label22";
             // 
-            // gMapControl1
-            // 
-            this.gMapControl1.Bearing = 0F;
-            this.gMapControl1.CanDragMap = true;
-            this.gMapControl1.EmptyTileColor = System.Drawing.Color.Navy;
-            this.gMapControl1.GrayScaleMode = false;
-            this.gMapControl1.HelperLineOption = GMap.NET.WindowsForms.HelperLineOptions.DontShow;
-            this.gMapControl1.LevelsKeepInMemmory = 5;
-            resources.ApplyResources(this.gMapControl1, "gMapControl1");
-            this.gMapControl1.MarkersEnabled = true;
-            this.gMapControl1.MaxZoom = 2;
-            this.gMapControl1.MinZoom = 2;
-            this.gMapControl1.MouseWheelZoomType = GMap.NET.MouseWheelZoomType.MousePositionAndCenter;
-            this.gMapControl1.Name = "gMapControl1";
-            this.gMapControl1.NegativeMode = false;
-            this.gMapControl1.PolygonsEnabled = true;
-            this.gMapControl1.RetryLoadTile = 0;
-            this.gMapControl1.RoutesEnabled = true;
-            this.gMapControl1.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
-            this.gMapControl1.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
-            this.gMapControl1.ShowTileGridLines = false;
-            this.gMapControl1.Zoom = 0D;
-            this.gMapControl1.Load += new System.EventHandler(this.gMapControl1_Load);
-            // 
-            // label24
-            // 
-            resources.ApplyResources(this.label24, "label24");
-            this.label24.Name = "label24";
-            this.label24.Click += new System.EventHandler(this.label24_Click);
-            // 
-            // PlatSel
-            // 
-            this.PlatSel.FormattingEnabled = true;
-            this.PlatSel.Items.AddRange(new object[] {
-            resources.GetString("PlatSel.Items"),
-            resources.GetString("PlatSel.Items1"),
-            resources.GetString("PlatSel.Items2")});
-            resources.ApplyResources(this.PlatSel, "PlatSel");
-            this.PlatSel.Name = "PlatSel";
-            // 
             // GridUI
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.gMapControl1);
             this.Controls.Add(this.map);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.tabControl1);
@@ -1024,7 +998,6 @@
         private System.Windows.Forms.Label lbl_pictures;
         private System.Windows.Forms.Label label33;
         private System.Windows.Forms.Label label34;
-        private GMap.NET.WindowsForms.GMapControl gMapControl1;
         private System.Windows.Forms.Label label24;
         private System.Windows.Forms.ComboBox PlatSel;
     }
