@@ -24,13 +24,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         string firmwareurl = "";
 
+        string custom_fw_dir = "";
+        
         Utilities.Firmware fw = new Utilities.Firmware();
 
         bool firstrun = true;
 
         ProgressReporterDialogue pdr;
-
-        string custom_fw_dir = "";
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
@@ -312,7 +312,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             CMB_history.Enabled = false;
 
-            CMB_history.Items.Clear();
+            //CMB_history.Items.Clear();
             //CMB_history.Items.AddRange(fw.gholdurls);
             //CMB_history.Items.AddRange(fw.gcoldurls);
             CMB_history.DisplayMember = "Value";
@@ -328,7 +328,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void Custom_firmware_label_Click(object sender, EventArgs e)
         {
             var fd = new OpenFileDialog { Filter = "Firmware (*.hex;*.px4)|*.hex;*.px4" };
-            fd.InitialDirectory = custom_fw_dir;
+            if (Directory.Exists(custom_fw_dir))
+                fd.InitialDirectory = custom_fw_dir;
             fd.ShowDialog();
             if (File.Exists(fd.FileName))
             {

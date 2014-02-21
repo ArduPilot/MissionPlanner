@@ -141,7 +141,7 @@ namespace MissionPlanner.Log
 
             logfile = MainV2.LogDir + Path.DirectorySeparatorChar
              + MainV2.comPort.MAV.aptype.ToString() + Path.DirectorySeparatorChar
-             + hbpacket[3] + Path.DirectorySeparatorChar + DateTime.Now.ToString("yyyy-MM-dd HH-mm") + " " + no + ".bin";
+             + hbpacket[3] + Path.DirectorySeparatorChar + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + " " + no + ".bin";
 
             // make log dir
             Directory.CreateDirectory(Path.GetDirectoryName(logfile));
@@ -171,7 +171,7 @@ namespace MissionPlanner.Log
             {
                 string newlogfilename = MainV2.LogDir + Path.DirectorySeparatorChar
              + MainV2.comPort.MAV.aptype.ToString() + Path.DirectorySeparatorChar
-             + hbpacket[3] + Path.DirectorySeparatorChar + logtime.ToString("yyyy-MM-dd HH-mm") + ".log";
+             + hbpacket[3] + Path.DirectorySeparatorChar + logtime.ToString("yyyy-MM-dd HH-mm-ss") + ".log";
                 try
                 {
                     File.Move(logfile, newlogfilename);

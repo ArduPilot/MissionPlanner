@@ -81,7 +81,7 @@ namespace MissionPlanner.GCSViews
 
                     buffer[a] = indata;
 
-                    if (buffer[a] >= 0x20 && buffer[a] < 0x7f || buffer[a] == (int)'\n')// || buffer[a] == (int)'\r')
+                    if (buffer[a] >= 0x20 && buffer[a] < 0x7f || buffer[a] == (int)'\n' || buffer[a] == 0x1b)
                     {
                         a++;
                     }
@@ -106,19 +106,20 @@ namespace MissionPlanner.GCSViews
 
                 TXT_terminal.SelectionStart = TXT_terminal.Text.Length;
 
-                data = data.Replace("U3","");
-                data = data.Replace("U$", "");
-                data = data.Replace(@"U""","");
-                data = data.Replace("d'`F", "");
-                data = data.Replace("U.", "");
-                data = data.Replace("'`","");
-
                 data = data.TrimEnd('\r'); // else added \n all by itself
                 data = data.Replace("\0", "");
+                data = data.Replace((char)0x1b+"[K",""); // remove control code
                 TXT_terminal.AppendText(data);
+
                 if (data.Contains("\b"))
                 {
                     TXT_terminal.Text = TXT_terminal.Text.Remove(TXT_terminal.Text.IndexOf('\b'));
+                    TXT_terminal.SelectionStart = TXT_terminal.Text.Length;
+                }
+               
+                // erase to end of line. in our case jump to end of line
+                if (data.Contains((char)0x1b + "[K"))
+                {
                     TXT_terminal.SelectionStart = TXT_terminal.Text.Length;
                 }
                 inputStartPos = TXT_terminal.SelectionStart;
@@ -334,7 +335,7 @@ namespace MissionPlanner.GCSViews
 
                     // wait 7 seconds for px4 reboot
                     log.Info("waiting for reboot");
-                    DateTime deadline = DateTime.Now.AddSeconds(8);
+                    DateTime deadline = DateTime.Now.AddSeconds(9);
                     while (DateTime.Now < deadline)
                     {
                         System.Threading.Thread.Sleep(500);
@@ -379,7 +380,7 @@ namespace MissionPlanner.GCSViews
                     threaderror = false;
                     threadrun = true;
 
-                    Console.WriteLine("Terminal thread start run " + threadrun + " " + comPort.IsOpen);
+                    Console.WriteLine("Terminal thread startup 1 " + threadrun + " " + comPort.IsOpen);
 
                     try
                     {
@@ -388,17 +389,17 @@ namespace MissionPlanner.GCSViews
                         // 10 sec
                         waitandsleep(10000);
 
-                        Console.WriteLine("Terminal thread 1 run " + threadrun + " " + comPort.IsOpen);
+                        Console.WriteLine("Terminal thread startup 2 " + threadrun + " " + comPort.IsOpen);
 
                         // 100 ms
                         readandsleep(100);
                     }
                     catch (Exception ex)
                     {
-                        Console.WriteLine("Terminal thread 2 " + ex.ToString());
+                        Console.WriteLine("Terminal thread error 3 " + ex.ToString());
                         threaderror = true;
                     }
-                    Console.WriteLine("Terminal thread 2 run " + threadrun + " " + comPort.IsOpen);
+                    Console.WriteLine("Terminal thread startup 3 " + threadrun + " " + comPort.IsOpen);
 
                     try
                     {
@@ -412,10 +413,10 @@ namespace MissionPlanner.GCSViews
                     catch (Exception ex)
                     {
                         if (!threaderror)
-                            Console.WriteLine("Terminal thread 3 " + ex.ToString());
+                            Console.WriteLine("Terminal thread error 4 " + ex.ToString());
                         threaderror = true;
                     }
-                    Console.WriteLine("Terminal thread 3 run " + threadrun + " " + comPort.IsOpen);
+                    Console.WriteLine("Terminal thread startup 4 " + threadrun + " " + comPort.IsOpen);
 
                     if (!threaderror) setButtonState(true);
 
@@ -435,20 +436,20 @@ namespace MissionPlanner.GCSViews
                         }
                         catch (Exception ex)
                         {
-                            Console.WriteLine("Terminal thread 4 " + ex.ToString());
+                            Console.WriteLine("Terminal thread error 5 " + ex.ToString());
                             threaderror = true;
                         }
                     }
 
                     try
                     {
-                        //comPort.Write("\rexit\rreboot\r");
+                        //comPort.Write("\rreboot\r");
                         comPort.DtrEnable = false;
                     }
                     catch { }
                     try
                     {
-                        Console.WriteLine("Terminal thread close run " + threadrun + " " + comPort.IsOpen);
+                        Console.WriteLine("Terminal thread close port");
                         comPort.Close();
                     }
                     catch { }

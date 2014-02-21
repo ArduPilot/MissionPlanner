@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{28D0BEF6-D69C-43AB-A22C-724F116D50EA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MissionPlanner</RootNamespace>
+    <AssemblyName>MissionPlanner.SimpleGrid</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\bin\Debug\plugins\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\bin\Release\plugins\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AStar">
+      <HintPath>..\..\Lib\AStar.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="GMap.NET.Core">
+      <HintPath>..\..\Lib\GMap.NET.Core.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="GMap.NET.WindowsForms">
+      <HintPath>..\..\Lib\GMap.NET.WindowsForms.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Lib\log4net.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="ProjNet">
+      <HintPath>..\..\Lib\ProjNet.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="SimpleGrid.cs" />
+    <Compile Include="SimpleGridUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SimpleGridUI.Designer.cs">
+      <DependentUpon>SimpleGridUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SimpleGridPlugin.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\MissionPlanner.csproj">
+      <Project>{a2e22272-95fe-47b6-b050-9ae7e2055bf5}</Project>
+      <Name>MissionPlanner</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Comms\MissionPlanner.Comms.csproj">
+      <Project>{825e7a10-390c-4a2b-b3a8-491d14966912}</Project>
+      <Name>MissionPlanner.Comms</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Controls\MissionPlanner.Controls.csproj">
+      <Project>{c8b88795-6d01-494d-83ad-6944bd4c5023}</Project>
+      <Name>MissionPlanner.Controls</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\GeoUtility\GeoUtility.csproj">
+      <Project>{7f7994ce-823f-4a04-bbea-d0a3808ff56d}</Project>
+      <Name>GeoUtility</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Mavlink\MAVLink.csproj">
+      <Project>{20296734-5f3c-4593-a0d5-dd20b440b13a}</Project>
+      <Name>MAVLink</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\MetaDataExtractorCSharp240d\MetaDataExtractor.csproj">
+      <Project>{b46f6c6c-9184-41af-8f8b-e0084752ca7c}</Project>
+      <Name>MetaDataExtractor</Name>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\Utilities\MissionPlanner.Utilities.csproj">
+      <Project>{1378a66c-38e4-46f5-a05f-dc04ef7d4d16}</Project>
+      <Name>MissionPlanner.Utilities</Name>
+      <Private>False</Private>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SimpleGridUI.resx">
+      <DependentUpon>SimpleGridUI.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

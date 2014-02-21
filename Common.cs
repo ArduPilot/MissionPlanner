@@ -421,82 +421,12 @@ namespace MissionPlanner
             [DisplayText("APM2 D8")]
             AP_PRODUCT_ID_APM2_REV_D8 = 0x58,	// APM2 with MPU6000_REV_D8 	
             [DisplayText("APM2 D9")]
-            AP_PRODUCT_ID_APM2_REV_D9 = 0x59	// APM2 with MPU6000_REV_D9 
+            AP_PRODUCT_ID_APM2_REV_D9 = 0x59,	// APM2 with MPU6000_REV_D9 
+            [DisplayText("FlyMaple")]
+            AP_PRODUCT_ID_FLYMAPLE = 0x100,   // Flymaple with ITG3205, ADXL345, HMC5883, BMP085
+            [DisplayText("Linux")]
+            AP_PRODUCT_ID_L3G4200D = 0x101,   // Linux with L3G4200D and ADXL345
         }
-        /*
-        public enum apmmodes
-        {
-            [DisplayText("Manual")]
-            MANUAL = 0,
-            [DisplayText("Circle")]
-            CIRCLE = 1,
-            [DisplayText("Stabilize")]
-            STABILIZE = 2,
-            [DisplayText("Training")]
-            TRAINING = 3,
-            [DisplayText("FBW A")]
-            FLY_BY_WIRE_A = 5,
-            [DisplayText("FBW B")]
-            FLY_BY_WIRE_B = 6,
-            [DisplayText("Auto")]
-            AUTO = 10,
-            [DisplayText("RTL")]
-            RTL = 11,
-            [DisplayText("Loiter")]
-            LOITER = 12,
-            [DisplayText("Guided")]
-            GUIDED = 15,
-
-            TAKEOFF = 99
-        }
-
-        public enum aprovermodes
-        {
-            [DisplayText("Manual")]
-            MANUAL = 0,
-            [DisplayText("Learning")]
-            LEARNING = 2,
-            [DisplayText("Steering")]
-            STEERING = 3,
-            [DisplayText("Hold")]
-            HOLD = 4,
-            [DisplayText("Auto")]
-            AUTO = 10,
-            [DisplayText("RTL")]
-            RTL = 11,
-            [DisplayText("Guided")]
-            GUIDED = 15,
-            [DisplayText("Initialising")]
-            INITIALISING = 16
-        }
-
-        public enum ac2modes
-        {
-            [DisplayText("Stabilize")]
-            STABILIZE = 0,			// hold level position
-            [DisplayText("Acro")]
-            ACRO = 1,			// rate control
-            [DisplayText("Alt Hold")]
-            ALT_HOLD = 2,		// AUTO control
-            [DisplayText("Auto")]
-            AUTO = 3,			// AUTO control
-            [DisplayText("Guided")]
-            GUIDED = 4,		// AUTO control
-            [DisplayText("Loiter")]
-            LOITER = 5,		// Hold a single location
-            [DisplayText("RTL")]
-            RTL = 6,				// AUTO control
-            [DisplayText("Circle")]
-            CIRCLE = 7,
-            [DisplayText("Pos Hold")]
-            POSITION = 8,
-            [DisplayText("Land")]
-            LAND = 9,				// AUTO control
-            OF_LOITER = 10,
-            [DisplayText("Toy")]
-			TOY = 11
-        }
-        */
 
         public static bool getFilefromNet(string url, string saveto)
         {

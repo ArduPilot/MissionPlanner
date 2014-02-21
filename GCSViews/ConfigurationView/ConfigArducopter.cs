@@ -101,6 +101,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         void readToolTips()
         {
+            return;
+
             string data = global::MissionPlanner.Properties.Resources.MAVParam;
 
             string[] tips = data.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);

@@ -316,8 +316,6 @@ namespace resedit
 
         private void BUT_clipboard_Click(object sender, EventArgs e)
         {
-            string ApiKey = "AIzaSyDW05vWXeNIfZAN4Ter8gf4YLg8rPHZToc";
-
             string sb = "";
 
             foreach (DataGridViewRow row in dataGridView1.Rows)

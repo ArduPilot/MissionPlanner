@@ -21,8 +21,6 @@ namespace MissionPlanner.Log
     public partial class LogBrowse : Form
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        int m_iColumnCount = 0;
-        int rowno = 1;
         DataTable m_dtCSV = new DataTable();
 
         List<DFLog.DFItem> logdata;
@@ -115,8 +113,6 @@ namespace MissionPlanner.Log
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            rowno = 1;
-
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
             openFileDialog1.Filter = "Log Files|*.log;*.bin";
             openFileDialog1.FilterIndex = 2;
@@ -424,15 +420,15 @@ namespace MissionPlanner.Log
 
         void graphit_clickprocess(bool left = true)
         {
-            if (dataGridView1.RowCount == 0 || dataGridView1.ColumnCount == 0)
+            if (dataGridView1 == null || dataGridView1.RowCount == 0 || dataGridView1.ColumnCount == 0)
             {
-                CustomMessageBox.Show("Please load a valid file");
+                CustomMessageBox.Show("Please load a valid file", "Error");
                 return;
             }
 
             if (dataGridView1.CurrentCell == null)
             {
-                CustomMessageBox.Show("Please select a cell first");
+                CustomMessageBox.Show("Please select a cell first", "Error");
                 return;
             }
 
@@ -442,7 +438,13 @@ namespace MissionPlanner.Log
 
             if (col == 0)
             {
-                CustomMessageBox.Show("Please pick another column, Highlight the cell you wish to graph");
+                CustomMessageBox.Show("Please pick another column, Highlight the cell you wish to graph", "Error");
+                return;
+            }
+
+            if (!DFLog.logformat.ContainsKey(type))
+            {
+                CustomMessageBox.Show("Your log file doesnt contain the required FMT messages","Error");
                 return;
             }
 
@@ -778,8 +780,6 @@ namespace MissionPlanner.Log
 
         private void BUT_loadlog_Click(object sender, EventArgs e)
         {
-            // reset column count
-            m_iColumnCount = 0;
             // clear existing lists
             zg1.GraphPane.CurveList.Clear();
             // reload
@@ -968,14 +968,19 @@ namespace MissionPlanner.Log
                 }
                 else
                 {
+                    List<CurveItem> removeitems = new List<CurveItem>();
+
                     foreach (var item in zg1.GraphPane.CurveList)
                     {
                         if (item.Label.Text.StartsWith(e.Node.Text))
                         {
-                            zg1.GraphPane.CurveList.Remove(item);
-                            break;
+                            removeitems.Add(item);
+                            //break;
                         }
                     }
+
+                    foreach (var item in removeitems)
+                        zg1.GraphPane.CurveList.Remove(item);
                 }
 
                 zg1.Invalidate();
@@ -1004,33 +1009,27 @@ namespace MissionPlanner.Log
 
         private void treeView1_DrawNode(object sender, DrawTreeNodeEventArgs e)
         {
+            var area = e.Node.Bounds;
+
             if (e.Node.Parent == null)
             {
-
-                var area = e.Node.Bounds;
-
                 area.X -= 17;
                 area.Width += 17;
 
-                using (SolidBrush brush = new SolidBrush(treeView1.BackColor))
-                {
-                    e.Graphics.FillRectangle(brush, area);
-                }
-
-
-
-                TextRenderer.DrawText(e.Graphics, e.Node.Text, treeView1.Font, e.Node.Bounds, treeView1.ForeColor, treeView1.BackColor);
-
-                if ((e.State & TreeNodeStates.Focused) == TreeNodeStates.Focused)
-                {
-                    ControlPaint.DrawFocusRectangle(e.Graphics, e.Node.Bounds, treeView1.ForeColor, treeView1.BackColor);
-                }
-
-                e.DrawDefault = true;
             }
-            else
+
+            using (SolidBrush brush = new SolidBrush(treeView1.BackColor))
             {
-                e.DrawDefault = true;
+                e.Graphics.FillRectangle(brush, area);
+            }
+
+
+
+            TextRenderer.DrawText(e.Graphics, e.Node.Text, treeView1.Font, e.Node.Bounds, treeView1.ForeColor, treeView1.BackColor);
+
+            if ((e.State & TreeNodeStates.Focused) == TreeNodeStates.Focused)
+            {
+                ControlPaint.DrawFocusRectangle(e.Graphics, e.Node.Bounds, treeView1.ForeColor, treeView1.BackColor);
             }
         }
 

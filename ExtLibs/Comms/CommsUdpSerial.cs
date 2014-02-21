@@ -110,6 +110,15 @@ namespace MissionPlanner.Comms
 
         void frmProgressReporter_DoWork(object sender, Controls.ProgressWorkerEventArgs e, object passdata = null)
         {
+            try
+            {
+                if (client != null)
+                {
+                    client.Close();
+                }
+            }
+            catch { }
+
             client = new UdpClient(int.Parse(Port));
 
             while (true)
