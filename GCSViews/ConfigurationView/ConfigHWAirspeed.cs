@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using MissionPlanner.Controls.BackstageView;
 using MissionPlanner.Controls;
+using MissionPlanner.Utilities;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
@@ -59,6 +60,25 @@ namespace MissionPlanner.GCSViews.ConfigurationView
        
             CHK_airspeeduse.setup(1, 0, "ARSPD_USE", MainV2.comPort.MAV.param);
             CHK_enableairspeed.setup(1, 0, "ARSPD_ENABLE", MainV2.comPort.MAV.param);
+
+            List<KeyValuePair<int, string>> options = new List<KeyValuePair<int, string>>();
+            options.Add(new KeyValuePair<int, string>(0, "APM 2 analog pin 0"));
+            options.Add(new KeyValuePair<int, string>(1, "APM 2 analog pin 1"));
+            options.Add(new KeyValuePair<int, string>(2, "APM 2 analog pin 2"));
+            options.Add(new KeyValuePair<int, string>(3, "APM 2 analog pin 3"));
+            options.Add(new KeyValuePair<int, string>(4, "APM 2 analog pin 4"));
+            options.Add(new KeyValuePair<int, string>(5, "APM 2 analog pin 5"));
+            options.Add(new KeyValuePair<int, string>(6, "APM 2 analog pin 6"));
+            options.Add(new KeyValuePair<int, string>(7, "APM 2 analog pin 7"));
+            options.Add(new KeyValuePair<int, string>(8, "APM 2 analog pin 8"));
+            options.Add(new KeyValuePair<int, string>(9, "APM 2 analog pin 9"));
+
+            options.Add(new KeyValuePair<int, string>(64, "APM 1 AS Port"));
+
+            options.Add(new KeyValuePair<int, string>(11, "PX4 Analog AS Port"));
+            options.Add(new KeyValuePair<int, string>(15, "Pixhawk EagleTree or MEAS I2C AS Sensor"));
+
+            mavlinkCheckBoxAirspeed_pin.setup(options, "ARSPD_PIN", MainV2.comPort.MAV.param);
           
 
             startup = false;

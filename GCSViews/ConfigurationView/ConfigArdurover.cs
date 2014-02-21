@@ -80,6 +80,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         void readToolTips()
         {
+            return;
+
             string data = global::MissionPlanner.Properties.Resources.MAVParam;
             
 

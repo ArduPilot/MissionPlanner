@@ -239,7 +239,15 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
                     string file = matchs[i].Groups[2].Value.ToString();
 
                     if (file.ToLower().EndsWith(".etag"))
+                    {
+                        try
+                        {
+                            // remove all etags
+                            File.Delete(file);
+                        }
+                        catch { }
                         continue;
+                    }
 
                     if (!MD5File(file, hash))
                     {
@@ -251,6 +259,11 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
                         string subdir = Path.GetDirectoryName(file) + Path.DirectorySeparatorChar;
 
                         GetNewFile(frmProgressReporter, baseurl + subdir.Replace('\\', '/'), subdir, Path.GetFileName(file));
+
+                        if (!MD5File(file + ".new", hash))
+                        {
+                            throw new Exception("File downloaded does not match hash");
+                        }
                     }
                     else
                     {

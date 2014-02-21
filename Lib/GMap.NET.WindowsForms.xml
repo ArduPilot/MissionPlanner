@@ -4,85 +4,6 @@
         <name>GMap.NET.WindowsForms</name>
     </assembly>
     <members>
-        <member name="T:GMap.NET.TilePrefetcher">
-            <summary>
-            form helping to prefetch tiles on local db
-            </summary>
-        </member>
-        <member name="F:GMap.NET.TilePrefetcher.components">
-            <summary>
-            Required designer variable.
-            </summary>
-        </member>
-        <member name="M:GMap.NET.TilePrefetcher.Dispose(System.Boolean)">
-            <summary>
-            Clean up any resources being used.
-            </summary>
-            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        </member>
-        <member name="M:GMap.NET.TilePrefetcher.InitializeComponent">
-            <summary>
-            Required method for Designer support - do not modify
-            the contents of this method with the code editor.
-            </summary>
-        </member>
-        <member name="T:GMap.NET.WindowsForms.ToolTips.GMapRoundedToolTip">
-            <summary>
-            GMap.NET marker
-            </summary>
-        </member>
-        <member name="T:GMap.NET.WindowsForms.GMapToolTip">
-            <summary>
-            GMap.NET marker
-            </summary>
-        </member>
-        <member name="F:GMap.NET.WindowsForms.GMapToolTip.Format">
-            <summary>
-            string format
-            </summary>
-        </member>
-        <member name="F:GMap.NET.WindowsForms.GMapToolTip.Font">
-            <summary>
-            font
-            </summary>
-        </member>
-        <member name="F:GMap.NET.WindowsForms.GMapToolTip.Stroke">
-            <summary>
-            specifies how the outline is painted
-            </summary>
-        </member>
-        <member name="F:GMap.NET.WindowsForms.GMapToolTip.Fill">
-            <summary>
-            background color
-            </summary>
-        </member>
-        <member name="F:GMap.NET.WindowsForms.GMapToolTip.Foreground">
-            <summary>
-            text foreground
-            </summary>
-        </member>
-        <member name="F:GMap.NET.WindowsForms.GMapToolTip.TextPadding">
-            <summary>
-            text padding
-            </summary>
-        </member>
-        <member name="M:GMap.NET.WindowsForms.GMapToolTip.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
-            <summary>
-            Initializes a new instance of the <see cref="T:GMap.NET.WindowsForms.GMapToolTip"/> class.
-            </summary>
-            <param name="info">The info.</param>
-            <param name="context">The context.</param>
-        </member>
-        <member name="M:GMap.NET.WindowsForms.GMapToolTip.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
-            <summary>
-            Populates a <see cref="T:System.Runtime.Serialization.SerializationInfo"/> with the data needed to serialize the target object.
-            </summary>
-            <param name="info">The <see cref="T:System.Runtime.Serialization.SerializationInfo"/> to populate with data.</param>
-            <param name="context">The destination (see <see cref="T:System.Runtime.Serialization.StreamingContext"/>) for this serialization.</param>
-            <exception cref="T:System.Security.SecurityException">
-            The caller does not have the required permission.
-            </exception>
-        </member>
         <member name="T:GMap.NET.WindowsForms.GMapPolygon">
             <summary>
             GMap.NET polygon
@@ -152,22 +73,6 @@
             is mouse over
             </summary>
         </member>
-        <member name="T:System.Windows.Forms.Properties.Resources">
-            <summary>
-              A strongly-typed resource class, for looking up localized strings, etc.
-            </summary>
-        </member>
-        <member name="P:System.Windows.Forms.Properties.Resources.ResourceManager">
-            <summary>
-              Returns the cached ResourceManager instance used by this class.
-            </summary>
-        </member>
-        <member name="P:System.Windows.Forms.Properties.Resources.Culture">
-            <summary>
-              Overrides the current thread's CurrentUICulture property for all
-              resource lookups using this strongly typed resource class.
-            </summary>
-        </member>
         <member name="T:GMap.NET.WindowsForms.GMapMarker">
             <summary>
             GMap.NET marker
@@ -220,9 +125,190 @@
             is mouse over marker
             </summary>
         </member>
+        <member name="M:GMap.NET.WindowsForms.Markers.GMarkerGoogle.#ctor(GMap.NET.PointLatLng,System.Drawing.Bitmap)">
+            <summary>
+            marker using manual bitmap, NonSerialized
+            </summary>
+            <param name="p"></param>
+            <param name="Bitmap"></param>
+        </member>
+        <member name="T:GMap.NET.WindowsForms.ToolTips.GMapBaloonToolTip">
+            <summary>
+            GMap.NET marker
+            </summary>
+        </member>
+        <member name="T:GMap.NET.WindowsForms.GMapToolTip">
+            <summary>
+            GMap.NET marker
+            </summary>
+        </member>
+        <member name="F:GMap.NET.WindowsForms.GMapToolTip.Format">
+            <summary>
+            string format
+            </summary>
+        </member>
+        <member name="F:GMap.NET.WindowsForms.GMapToolTip.Font">
+            <summary>
+            font
+            </summary>
+        </member>
+        <member name="F:GMap.NET.WindowsForms.GMapToolTip.Stroke">
+            <summary>
+            specifies how the outline is painted
+            </summary>
+        </member>
+        <member name="F:GMap.NET.WindowsForms.GMapToolTip.Fill">
+            <summary>
+            background color
+            </summary>
+        </member>
+        <member name="F:GMap.NET.WindowsForms.GMapToolTip.Foreground">
+            <summary>
+            text foreground
+            </summary>
+        </member>
+        <member name="F:GMap.NET.WindowsForms.GMapToolTip.TextPadding">
+            <summary>
+            text padding
+            </summary>
+        </member>
+        <member name="M:GMap.NET.WindowsForms.GMapToolTip.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Initializes a new instance of the <see cref="T:GMap.NET.WindowsForms.GMapToolTip"/> class.
+            </summary>
+            <param name="info">The info.</param>
+            <param name="context">The context.</param>
+        </member>
+        <member name="M:GMap.NET.WindowsForms.GMapToolTip.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Populates a <see cref="T:System.Runtime.Serialization.SerializationInfo"/> with the data needed to serialize the target object.
+            </summary>
+            <param name="info">The <see cref="T:System.Runtime.Serialization.SerializationInfo"/> to populate with data.</param>
+            <param name="context">The destination (see <see cref="T:System.Runtime.Serialization.StreamingContext"/>) for this serialization.</param>
+            <exception cref="T:System.Security.SecurityException">
+            The caller does not have the required permission.
+            </exception>
+        </member>
+        <member name="T:GMap.NET.WindowsForms.ToolTips.GMapRoundedToolTip">
+            <summary>
+            GMap.NET marker
+            </summary>
+        </member>
+        <member name="T:GMap.NET.TilePrefetcher">
+            <summary>
+            form helping to prefetch tiles on local db
+            </summary>
+        </member>
+        <member name="F:GMap.NET.TilePrefetcher.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:GMap.NET.TilePrefetcher.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:GMap.NET.TilePrefetcher.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
         <member name="T:GMap.NET.WindowsForms.MarkerTooltipMode">
             <summary>
             modeof tooltip
+            </summary>
+        </member>
+        <member name="T:GMap.NET.WindowsForms.GMapOverlay">
+            <summary>
+            GMap.NET overlay
+            </summary>
+        </member>
+        <member name="F:GMap.NET.WindowsForms.GMapOverlay.Id">
+            <summary>
+            overlay Id
+            </summary>
+        </member>
+        <member name="F:GMap.NET.WindowsForms.GMapOverlay.Markers">
+            <summary>
+            list of markers, should be thread safe
+            </summary>
+        </member>
+        <member name="F:GMap.NET.WindowsForms.GMapOverlay.Routes">
+            <summary>
+            list of routes, should be thread safe
+            </summary>
+        </member>
+        <member name="F:GMap.NET.WindowsForms.GMapOverlay.Polygons">
+            <summary>
+            list of polygons, should be thread safe
+            </summary>
+        </member>
+        <member name="M:GMap.NET.WindowsForms.GMapOverlay.ForceUpdate">
+            <summary>
+            updates local positions of objects
+            </summary>
+        </member>
+        <member name="M:GMap.NET.WindowsForms.GMapOverlay.OnRender(System.Drawing.Graphics)">
+            <summary>
+            renders objects/routes/polygons
+            </summary>
+            <param name="g"></param>
+        </member>
+        <member name="M:GMap.NET.WindowsForms.GMapOverlay.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Populates a <see cref="T:System.Runtime.Serialization.SerializationInfo"/> with the data needed to serialize the target object.
+            </summary>
+            <param name="info">The <see cref="T:System.Runtime.Serialization.SerializationInfo"/> to populate with data.</param>
+            <param name="context">The destination (see <see cref="T:System.Runtime.Serialization.StreamingContext"/>) for this serialization.</param>
+            <exception cref="T:System.Security.SecurityException">
+            The caller does not have the required permission.
+            </exception>
+        </member>
+        <member name="M:GMap.NET.WindowsForms.GMapOverlay.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Initializes a new instance of the <see cref="T:GMap.NET.WindowsForms.GMapOverlay"/> class.
+            </summary>
+            <param name="info">The info.</param>
+            <param name="context">The context.</param>
+        </member>
+        <member name="M:GMap.NET.WindowsForms.GMapOverlay.OnDeserialization(System.Object)">
+            <summary>
+            Runs when the entire object graph has been deserialized.
+            </summary>
+            <param name="sender">The object that initiated the callback. The functionality for this parameter is not currently implemented.</param>
+        </member>
+        <member name="P:GMap.NET.WindowsForms.GMapOverlay.IsVisibile">
+            <summary>
+            is overlay visible
+            </summary>
+        </member>
+        <member name="T:GMap.NET.WindowsForms.GMapImage">
+            <summary>
+            image abstraction
+            </summary>
+        </member>
+        <member name="T:GMap.NET.WindowsForms.GMapImageProxy">
+            <summary>
+            image abstraction proxy
+            </summary>
+        </member>
+        <member name="T:System.Windows.Forms.Properties.Resources">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:System.Windows.Forms.Properties.Resources.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:System.Windows.Forms.Properties.Resources.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
             </summary>
         </member>
         <member name="T:GMap.NET.WindowsForms.GMapRoute">
@@ -279,11 +365,6 @@
         <member name="P:GMap.NET.WindowsForms.GMapRoute.IsMouseOver">
             <summary>
             is mouse over
-            </summary>
-        </member>
-        <member name="T:GMap.NET.WindowsForms.ToolTips.GMapBaloonToolTip">
-            <summary>
-            GMap.NET marker
             </summary>
         </member>
         <member name="T:GMap.NET.WindowsForms.GMapControl">
@@ -782,87 +863,6 @@
             scales to fractional level, CURRENT VERSION DOESN'T HANDLE OBJECT POSITIONS CORRECLTY, 
             http://greatmaps.codeplex.com/workitem/16046
             </summary>
-        </member>
-        <member name="T:GMap.NET.WindowsForms.GMapImage">
-            <summary>
-            image abstraction
-            </summary>
-        </member>
-        <member name="T:GMap.NET.WindowsForms.GMapImageProxy">
-            <summary>
-            image abstraction proxy
-            </summary>
-        </member>
-        <member name="T:GMap.NET.WindowsForms.GMapOverlay">
-            <summary>
-            GMap.NET overlay
-            </summary>
-        </member>
-        <member name="F:GMap.NET.WindowsForms.GMapOverlay.Id">
-            <summary>
-            overlay Id
-            </summary>
-        </member>
-        <member name="F:GMap.NET.WindowsForms.GMapOverlay.Markers">
-            <summary>
-            list of markers, should be thread safe
-            </summary>
-        </member>
-        <member name="F:GMap.NET.WindowsForms.GMapOverlay.Routes">
-            <summary>
-            list of routes, should be thread safe
-            </summary>
-        </member>
-        <member name="F:GMap.NET.WindowsForms.GMapOverlay.Polygons">
-            <summary>
-            list of polygons, should be thread safe
-            </summary>
-        </member>
-        <member name="M:GMap.NET.WindowsForms.GMapOverlay.ForceUpdate">
-            <summary>
-            updates local positions of objects
-            </summary>
-        </member>
-        <member name="M:GMap.NET.WindowsForms.GMapOverlay.OnRender(System.Drawing.Graphics)">
-            <summary>
-            renders objects/routes/polygons
-            </summary>
-            <param name="g"></param>
-        </member>
-        <member name="M:GMap.NET.WindowsForms.GMapOverlay.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
-            <summary>
-            Populates a <see cref="T:System.Runtime.Serialization.SerializationInfo"/> with the data needed to serialize the target object.
-            </summary>
-            <param name="info">The <see cref="T:System.Runtime.Serialization.SerializationInfo"/> to populate with data.</param>
-            <param name="context">The destination (see <see cref="T:System.Runtime.Serialization.StreamingContext"/>) for this serialization.</param>
-            <exception cref="T:System.Security.SecurityException">
-            The caller does not have the required permission.
-            </exception>
-        </member>
-        <member name="M:GMap.NET.WindowsForms.GMapOverlay.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
-            <summary>
-            Initializes a new instance of the <see cref="T:GMap.NET.WindowsForms.GMapOverlay"/> class.
-            </summary>
-            <param name="info">The info.</param>
-            <param name="context">The context.</param>
-        </member>
-        <member name="M:GMap.NET.WindowsForms.GMapOverlay.OnDeserialization(System.Object)">
-            <summary>
-            Runs when the entire object graph has been deserialized.
-            </summary>
-            <param name="sender">The object that initiated the callback. The functionality for this parameter is not currently implemented.</param>
-        </member>
-        <member name="P:GMap.NET.WindowsForms.GMapOverlay.IsVisibile">
-            <summary>
-            is overlay visible
-            </summary>
-        </member>
-        <member name="M:GMap.NET.WindowsForms.Markers.GMarkerGoogle.#ctor(GMap.NET.PointLatLng,System.Drawing.Bitmap)">
-            <summary>
-            marker using manual bitmap, NonSerialized
-            </summary>
-            <param name="p"></param>
-            <param name="Bitmap"></param>
         </member>
     </members>
 </doc>

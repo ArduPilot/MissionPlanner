@@ -154,7 +154,7 @@
     <value>configFirmware1</value>
   </data>
   <data name="&gt;&gt;configFirmware1.Type" xml:space="preserve">
-    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigFirmware, MissionPlanner, Version=1.1.5141.13109, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigFirmware, MissionPlanner, Version=1.1.5162.13359, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="backstageViewPagefw.Text" xml:space="preserve">
     <value>Install Firmware</value>
@@ -178,7 +178,7 @@
     <value>configFirmwareDisabled1</value>
   </data>
   <data name="&gt;&gt;configFirmwareDisabled1.Type" xml:space="preserve">
-    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigFirmwareDisabled, MissionPlanner, Version=1.1.5141.13109, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigFirmwareDisabled, MissionPlanner, Version=1.1.5162.13359, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="backstageViewPagefwdisabled.Text" xml:space="preserve">
     <value>Install Firmware</value>
@@ -202,7 +202,7 @@
     <value>configWizard1</value>
   </data>
   <data name="&gt;&gt;configWizard1.Type" xml:space="preserve">
-    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigWizard, MissionPlanner, Version=1.1.5141.13109, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigWizard, MissionPlanner, Version=1.1.5162.13359, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="backstageViewPagewizard.Text" xml:space="preserve">
     <value>Wizard</value>
@@ -226,7 +226,7 @@
     <value>configMandatory1</value>
   </data>
   <data name="&gt;&gt;configMandatory1.Type" xml:space="preserve">
-    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigMandatory, MissionPlanner, Version=1.1.5141.13109, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigMandatory, MissionPlanner, Version=1.1.5162.13359, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="backstageViewPagemand.Text" xml:space="preserve">
     <value>Mandatory Hardware</value>
@@ -250,35 +250,10 @@
     <value>configTradHeli1</value>
   </data>
   <data name="&gt;&gt;configTradHeli1.Type" xml:space="preserve">
-    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigTradHeli, MissionPlanner, Version=1.1.5141.13109, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigTradHeli, MissionPlanner, Version=1.1.5162.13359, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="backstageViewPagetradheli.Text" xml:space="preserve">
     <value>Heli Setup</value>
-  </data>
-  <metadata name="backstageViewPagedefaults.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>847, 17</value>
-  </metadata>
-  <data name="configDefaultSettings1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>Fill</value>
-  </data>
-  <data name="configDefaultSettings1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="configDefaultSettings1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>334, 177</value>
-  </data>
-  <data name="configDefaultSettings1.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
-  </data>
-  <data name="&gt;&gt;configDefaultSettings1.Name" xml:space="preserve">
-    <value>configDefaultSettings1</value>
-  </data>
-  <data name="&gt;&gt;configDefaultSettings1.Type" xml:space="preserve">
-    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigDefaultSettings, MissionPlanner, Version=1.1.5141.13109, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="backstageViewPagedefaults.Text" xml:space="preserve">
-    <value>Load default params
-for standard frames</value>
   </data>
   <metadata name="backstageViewPageframetype.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>1013, 17</value>
@@ -299,7 +274,7 @@ for standard frames</value>
     <value>configFrameType1</value>
   </data>
   <data name="&gt;&gt;configFrameType1.Type" xml:space="preserve">
-    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigFrameType, MissionPlanner, Version=1.1.5141.13109, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigFrameType, MissionPlanner, Version=1.1.5162.13359, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="backstageViewPageframetype.Text" xml:space="preserve">
     <value>Frame Type</value>
@@ -323,7 +298,7 @@ for standard frames</value>
     <value>configHWCompass1</value>
   </data>
   <data name="&gt;&gt;configHWCompass1.Type" xml:space="preserve">
-    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigHWCompass, MissionPlanner, Version=1.1.5141.13109, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigHWCompass, MissionPlanner, Version=1.1.5162.13359, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="backstageViewPagecompass.Text" xml:space="preserve">
     <value>Compass</value>
@@ -347,7 +322,7 @@ for standard frames</value>
     <value>configAccelerometerCalibrationQuad1</value>
   </data>
   <data name="&gt;&gt;configAccelerometerCalibrationQuad1.Type" xml:space="preserve">
-    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigAccelerometerCalibrationQuad, MissionPlanner, Version=1.1.5141.13109, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigAccelerometerCalibrationQuad, MissionPlanner, Version=1.1.5162.13359, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="backstageViewPageaccelquad.Text" xml:space="preserve">
     <value>Accel Calibration</value>
@@ -371,7 +346,7 @@ for standard frames</value>
     <value>configAccelerometerCalibrationPlane1</value>
   </data>
   <data name="&gt;&gt;configAccelerometerCalibrationPlane1.Type" xml:space="preserve">
-    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigAccelerometerCalibrationPlane, MissionPlanner, Version=1.1.5141.13109, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigAccelerometerCalibrationPlane, MissionPlanner, Version=1.1.5162.13359, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="backstageViewPageaccelplane.Text" xml:space="preserve">
     <value>Accel Calibration</value>
@@ -395,7 +370,7 @@ for standard frames</value>
     <value>configRadioInput1</value>
   </data>
   <data name="&gt;&gt;configRadioInput1.Type" xml:space="preserve">
-    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigRadioInput, MissionPlanner, Version=1.1.5141.13109, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigRadioInput, MissionPlanner, Version=1.1.5162.13359, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="backstageViewPageradio.Text" xml:space="preserve">
     <value>Radio Calibration</value>
@@ -419,7 +394,7 @@ for standard frames</value>
     <value>configFlightModes1</value>
   </data>
   <data name="&gt;&gt;configFlightModes1.Type" xml:space="preserve">
-    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigFlightModes, MissionPlanner, Version=1.1.5141.13109, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigFlightModes, MissionPlanner, Version=1.1.5162.13359, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="backstageViewPageflmode.Text" xml:space="preserve">
     <value>Flight Modes</value>
@@ -443,7 +418,7 @@ for standard frames</value>
     <value>configFailSafe1</value>
   </data>
   <data name="&gt;&gt;configFailSafe1.Type" xml:space="preserve">
-    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigFailSafe, MissionPlanner, Version=1.1.5141.13109, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigFailSafe, MissionPlanner, Version=1.1.5162.13359, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="backstageViewPagefs.Text" xml:space="preserve">
     <value>FailSafe</value>
@@ -467,7 +442,7 @@ for standard frames</value>
     <value>configOptional1</value>
   </data>
   <data name="&gt;&gt;configOptional1.Type" xml:space="preserve">
-    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigOptional, MissionPlanner, Version=1.1.5141.13109, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigOptional, MissionPlanner, Version=1.1.5162.13359, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="backstageViewPageopt.Text" xml:space="preserve">
     <value>Optional Hardware</value>
@@ -494,7 +469,7 @@ for standard frames</value>
     <value>_3DRradio1</value>
   </data>
   <data name="&gt;&gt;_3DRradio1.Type" xml:space="preserve">
-    <value>MissionPlanner._3DRradio, MissionPlanner, Version=1.1.5141.13109, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner._3DRradio, MissionPlanner, Version=1.1.5162.13359, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="backstageViewPage3drradio.Text" xml:space="preserve">
     <value>3DR Radio</value>
@@ -518,10 +493,34 @@ for standard frames</value>
     <value>configBatteryMonitoring1</value>
   </data>
   <data name="&gt;&gt;configBatteryMonitoring1.Type" xml:space="preserve">
-    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigBatteryMonitoring, MissionPlanner, Version=1.1.5141.13109, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigBatteryMonitoring, MissionPlanner, Version=1.1.5162.13359, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="backstageViewPagebatmon.Text" xml:space="preserve">
     <value>Battery Monitor</value>
+  </data>
+  <metadata name="backstageViewPagecompassmot.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>380, 99</value>
+  </metadata>
+  <data name="configCompassMot1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="configCompassMot1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="configCompassMot1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>508, 260</value>
+  </data>
+  <data name="configCompassMot1.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;configCompassMot1.Name" xml:space="preserve">
+    <value>configCompassMot1</value>
+  </data>
+  <data name="&gt;&gt;configCompassMot1.Type" xml:space="preserve">
+    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigCompassMot, MissionPlanner, Version=1.1.5162.13359, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="backstageViewPagecompassmot.Text" xml:space="preserve">
+    <value>Compass/Motor Calib</value>
   </data>
   <metadata name="backstageViewPagesonar.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 70</value>
@@ -542,7 +541,7 @@ for standard frames</value>
     <value>configHWSonar1</value>
   </data>
   <data name="&gt;&gt;configHWSonar1.Type" xml:space="preserve">
-    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigHWSonar, MissionPlanner, Version=1.1.5141.13109, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigHWSonar, MissionPlanner, Version=1.1.5162.13359, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="backstageViewPagesonar.Text" xml:space="preserve">
     <value>Sonar</value>
@@ -566,7 +565,7 @@ for standard frames</value>
     <value>configHWAirspeed1</value>
   </data>
   <data name="&gt;&gt;configHWAirspeed1.Type" xml:space="preserve">
-    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigHWAirspeed, MissionPlanner, Version=1.1.5141.13109, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigHWAirspeed, MissionPlanner, Version=1.1.5162.13359, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="backstageViewPageairspeed.Text" xml:space="preserve">
     <value>Airspeed</value>
@@ -590,7 +589,7 @@ for standard frames</value>
     <value>configHWOptFlow1</value>
   </data>
   <data name="&gt;&gt;configHWOptFlow1.Type" xml:space="preserve">
-    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigHWOptFlow, MissionPlanner, Version=1.1.5141.13109, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigHWOptFlow, MissionPlanner, Version=1.1.5162.13359, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="backstageViewPageoptflow.Text" xml:space="preserve">
     <value>Optical Flow</value>
@@ -614,7 +613,7 @@ for standard frames</value>
     <value>configHWOSD1</value>
   </data>
   <data name="&gt;&gt;configHWOSD1.Type" xml:space="preserve">
-    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigHWOSD, MissionPlanner, Version=1.1.5141.13109, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigHWOSD, MissionPlanner, Version=1.1.5162.13359, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="backstageViewPageosd.Text" xml:space="preserve">
     <value>OSD</value>
@@ -638,7 +637,7 @@ for standard frames</value>
     <value>configMount1</value>
   </data>
   <data name="&gt;&gt;configMount1.Type" xml:space="preserve">
-    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigMount, MissionPlanner, Version=1.1.5141.13109, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigMount, MissionPlanner, Version=1.1.5162.13359, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="backstageViewPagegimbal.Text" xml:space="preserve">
     <value>Camera Gimbal</value>
@@ -662,7 +661,7 @@ for standard frames</value>
     <value>tracker1</value>
   </data>
   <data name="&gt;&gt;tracker1.Type" xml:space="preserve">
-    <value>MissionPlanner.Antenna.Tracker, MissionPlanner, Version=1.1.5141.13109, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Antenna.Tracker, MissionPlanner, Version=1.1.5162.13359, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="backstageViewPageAntTrack.Text" xml:space="preserve">
     <value>Antenna tracker</value>
@@ -684,6 +683,24 @@ for standard frames</value>
   </data>
   <data name="&gt;&gt;backstageView.ZOrder" xml:space="preserve">
     <value>0</value>
+  </data>
+  <data name="configDefaultSettings1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="configDefaultSettings1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="configDefaultSettings1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>334, 177</value>
+  </data>
+  <data name="configDefaultSettings1.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="&gt;&gt;configDefaultSettings1.Name" xml:space="preserve">
+    <value>configDefaultSettings1</value>
+  </data>
+  <data name="&gt;&gt;configDefaultSettings1.Type" xml:space="preserve">
+    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigDefaultSettings, MissionPlanner, Version=1.1.5162.13359, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <metadata name="backstageViewPageinstfw.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
@@ -734,12 +751,6 @@ for standard frames</value>
     <value>backstageViewPagetradheli</value>
   </data>
   <data name="&gt;&gt;backstageViewPagetradheli.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.BackstageView.BackstageViewPage, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;backstageViewPagedefaults.Name" xml:space="preserve">
-    <value>backstageViewPagedefaults</value>
-  </data>
-  <data name="&gt;&gt;backstageViewPagedefaults.Type" xml:space="preserve">
     <value>MissionPlanner.Controls.BackstageView.BackstageViewPage, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;backstageViewPageframetype.Name" xml:space="preserve">
@@ -800,6 +811,12 @@ for standard frames</value>
     <value>backstageViewPagebatmon</value>
   </data>
   <data name="&gt;&gt;backstageViewPagebatmon.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.BackstageView.BackstageViewPage, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPagecompassmot.Name" xml:space="preserve">
+    <value>backstageViewPagecompassmot</value>
+  </data>
+  <data name="&gt;&gt;backstageViewPagecompassmot.Type" xml:space="preserve">
     <value>MissionPlanner.Controls.BackstageView.BackstageViewPage, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;backstageViewPagesonar.Name" xml:space="preserve">

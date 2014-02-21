@@ -336,11 +336,7 @@ namespace MissionPlanner
             {
                 if (rad_trigdist.Checked)
                 {
-                    try
-                    {
-                        plugin.Host.comPort.setParam("CAM_TRIGG_DIST", (float)NUM_spacing.Value);
-                    }
-                    catch { CustomMessageBox.Show("Failed to set CAM_TRIGG_DIST", "Error"); }
+                    plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_SET_CAM_TRIGG_DIST, (float)NUM_spacing.Value, 0, 0, 0, 0, 0, 0);
                 }
 
                 grid.ForEach(plla =>
@@ -363,6 +359,11 @@ namespace MissionPlanner
                         plugin.Host.AddWPtoList(MAVLink.MAV_CMD.WAYPOINT, 0, 0, 0, 0, plla.Lng, plla.Lat, plla.Alt);
                     }
                 });
+
+                if (rad_trigdist.Checked)
+                {
+                    plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_SET_CAM_TRIGG_DIST, 0, 0, 0, 0, 0, 0, 0);
+                }
 
                 savesettings();
 

@@ -69,6 +69,8 @@
             this.RS15 = new System.Windows.Forms.ComboBox();
             this.S6 = new System.Windows.Forms.ComboBox();
             this.RS6 = new System.Windows.Forms.ComboBox();
+            this.S14 = new System.Windows.Forms.CheckBox();
+            this.RS14 = new System.Windows.Forms.CheckBox();
             this.RS0 = new System.Windows.Forms.TextBox();
             this.RTI = new System.Windows.Forms.TextBox();
             this.ATI = new System.Windows.Forms.TextBox();
@@ -97,10 +99,13 @@
             this.label31 = new System.Windows.Forms.Label();
             this.label32 = new System.Windows.Forms.Label();
             this.SPLIT_local = new System.Windows.Forms.SplitContainer();
+            this.label19 = new System.Windows.Forms.Label();
+            this.linkLabel_mavlink = new System.Windows.Forms.LinkLabel();
+            this.linkLabel_lowlatency = new System.Windows.Forms.LinkLabel();
             this.label18 = new System.Windows.Forms.Label();
             this.SPLIT_remote = new System.Windows.Forms.SplitContainer();
+            this.label33 = new System.Windows.Forms.Label();
             this.label34 = new System.Windows.Forms.Label();
-            this.CHK_advanced = new System.Windows.Forms.CheckBox();
             this.BUT_Syncoptions = new MissionPlanner.Controls.MyButton();
             this.ATI3 = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -111,8 +116,6 @@
             this.label10 = new System.Windows.Forms.Label();
             this.BUT_resettodefault = new MissionPlanner.Controls.MyButton();
             this.BUT_loadcustom = new MissionPlanner.Controls.MyButton();
-            this.linkLabel_lowlatency = new System.Windows.Forms.LinkLabel();
-            this.linkLabel_mavlink = new System.Windows.Forms.LinkLabel();
             this.SPLIT_local.Panel1.SuspendLayout();
             this.SPLIT_local.Panel2.SuspendLayout();
             this.SPLIT_local.SuspendLayout();
@@ -671,6 +674,18 @@
             this.RS6.Name = "RS6";
             this.toolTip1.SetToolTip(this.RS6, resources.GetString("RS6.ToolTip"));
             // 
+            // S14
+            // 
+            resources.ApplyResources(this.S14, "S14");
+            this.S14.Name = "S14";
+            this.toolTip1.SetToolTip(this.S14, resources.GetString("S14.ToolTip"));
+            // 
+            // RS14
+            // 
+            resources.ApplyResources(this.RS14, "RS14");
+            this.RS14.Name = "RS14";
+            this.toolTip1.SetToolTip(this.RS14, resources.GetString("RS14.ToolTip"));
+            // 
             // RS0
             // 
             resources.ApplyResources(this.RS0, "RS0");
@@ -842,6 +857,8 @@
             // 
             // SPLIT_local.Panel2
             // 
+            this.SPLIT_local.Panel2.Controls.Add(this.S14);
+            this.SPLIT_local.Panel2.Controls.Add(this.label19);
             this.SPLIT_local.Panel2.Controls.Add(this.linkLabel_mavlink);
             this.SPLIT_local.Panel2.Controls.Add(this.linkLabel_lowlatency);
             this.SPLIT_local.Panel2.Controls.Add(this.label18);
@@ -856,6 +873,25 @@
             this.SPLIT_local.Panel2.Controls.Add(this.S8);
             this.SPLIT_local.Panel2.Controls.Add(this.label15);
             this.SPLIT_local.Panel2.Controls.Add(this.label14);
+            // 
+            // label19
+            // 
+            resources.ApplyResources(this.label19, "label19");
+            this.label19.Name = "label19";
+            // 
+            // linkLabel_mavlink
+            // 
+            resources.ApplyResources(this.linkLabel_mavlink, "linkLabel_mavlink");
+            this.linkLabel_mavlink.Name = "linkLabel_mavlink";
+            this.linkLabel_mavlink.TabStop = true;
+            this.linkLabel_mavlink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel_mavlink_LinkClicked);
+            // 
+            // linkLabel_lowlatency
+            // 
+            resources.ApplyResources(this.linkLabel_lowlatency, "linkLabel_lowlatency");
+            this.linkLabel_lowlatency.Name = "linkLabel_lowlatency";
+            this.linkLabel_lowlatency.TabStop = true;
+            this.linkLabel_lowlatency.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel_lowlatency_LinkClicked);
             // 
             // label18
             // 
@@ -888,6 +924,8 @@
             // 
             // SPLIT_remote.Panel2
             // 
+            this.SPLIT_remote.Panel2.Controls.Add(this.RS14);
+            this.SPLIT_remote.Panel2.Controls.Add(this.label33);
             this.SPLIT_remote.Panel2.Controls.Add(this.label34);
             this.SPLIT_remote.Panel2.Controls.Add(this.RS15);
             this.SPLIT_remote.Panel2.Controls.Add(this.label24);
@@ -901,17 +939,15 @@
             this.SPLIT_remote.Panel2.Controls.Add(this.label21);
             this.SPLIT_remote.Panel2.Controls.Add(this.label20);
             // 
+            // label33
+            // 
+            resources.ApplyResources(this.label33, "label33");
+            this.label33.Name = "label33";
+            // 
             // label34
             // 
             resources.ApplyResources(this.label34, "label34");
             this.label34.Name = "label34";
-            // 
-            // CHK_advanced
-            // 
-            resources.ApplyResources(this.CHK_advanced, "CHK_advanced");
-            this.CHK_advanced.Name = "CHK_advanced";
-            this.CHK_advanced.UseVisualStyleBackColor = true;
-            this.CHK_advanced.CheckedChanged += new System.EventHandler(this.CHK_advanced_CheckedChanged);
             // 
             // BUT_Syncoptions
             // 
@@ -985,20 +1021,6 @@
             this.BUT_loadcustom.UseVisualStyleBackColor = true;
             this.BUT_loadcustom.Click += new System.EventHandler(this.BUT_loadcustom_Click);
             // 
-            // linkLabel_lowlatency
-            // 
-            resources.ApplyResources(this.linkLabel_lowlatency, "linkLabel_lowlatency");
-            this.linkLabel_lowlatency.Name = "linkLabel_lowlatency";
-            this.linkLabel_lowlatency.TabStop = true;
-            this.linkLabel_lowlatency.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel_lowlatency_LinkClicked);
-            // 
-            // linkLabel_mavlink
-            // 
-            resources.ApplyResources(this.linkLabel_mavlink, "linkLabel_mavlink");
-            this.linkLabel_mavlink.Name = "linkLabel_mavlink";
-            this.linkLabel_mavlink.TabStop = true;
-            this.linkLabel_mavlink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel_mavlink_LinkClicked);
-            // 
             // _3DRradio
             // 
             resources.ApplyResources(this, "$this");
@@ -1010,7 +1032,6 @@
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.BUT_Syncoptions);
-            this.Controls.Add(this.CHK_advanced);
             this.Controls.Add(this.BUT_savesettings);
             this.Controls.Add(this.BUT_getcurrent);
             this.Controls.Add(this.lbl_status);
@@ -1102,7 +1123,6 @@
         private System.Windows.Forms.Label label32;
         private System.Windows.Forms.SplitContainer SPLIT_local;
         private System.Windows.Forms.SplitContainer SPLIT_remote;
-        private System.Windows.Forms.CheckBox CHK_advanced;
         private Controls.MyButton BUT_Syncoptions;
         private System.Windows.Forms.TextBox ATI3;
         private System.Windows.Forms.GroupBox groupBox1;
@@ -1122,5 +1142,9 @@
         private System.Windows.Forms.ComboBox RS6;
         private System.Windows.Forms.LinkLabel linkLabel_mavlink;
         private System.Windows.Forms.LinkLabel linkLabel_lowlatency;
+        private System.Windows.Forms.CheckBox S14;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.CheckBox RS14;
+        private System.Windows.Forms.Label label33;
     }
 }

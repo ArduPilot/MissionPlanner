@@ -10,7 +10,7 @@ using MissionPlanner.Controls;
 
 namespace MissionPlanner.Wizard
 {
-    public partial class _4FrameType : MyUserControl, IWizard
+    public partial class _4FrameType : MyUserControl, IWizard, IActivate
     {
         bool selected = false;
 
@@ -71,6 +71,33 @@ namespace MissionPlanner.Wizard
                 if (ctl.GetType() == typeof(PictureBoxMouseOver))
                 {
                     (ctl as PictureBoxMouseOver).selected = false;
+                }
+            }
+        }
+
+        public void Activate()
+        {
+            if (MainV2.comPort.MAV.param.ContainsKey("FRAME")) 
+            {
+                int frame = (int)(float)MainV2.comPort.MAV.param["FRAME"];
+
+                switch (frame)
+                {
+                    case 0:
+                        pictureBox_Click(pictureBoxMouseOverX, new EventArgs());
+                        break;
+                    case 1:
+                        pictureBox_Click(pictureBoxMouseOverplus, new EventArgs());
+                        break;
+                    case 2:
+                        pictureBox_Click(pictureBoxMouseOvertrap, new EventArgs());
+                        break;
+                    case 3:
+                        pictureBox_Click(pictureBoxMouseOverH, new EventArgs());
+                        break;
+                    case 10:
+                        pictureBox_Click(pictureBoxMouseOverY, new EventArgs());
+                        break;
                 }
             }
         }
