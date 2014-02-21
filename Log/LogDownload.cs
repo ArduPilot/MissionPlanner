@@ -273,7 +273,7 @@ namespace MissionPlanner.Log
 
                             if (logtime != DateTime.MinValue)
                             {
-                                string newlogfilename = MainV2.LogDir + Path.DirectorySeparatorChar + logtime.ToString("yyyy-MM-dd HH-mm") + ".log";
+                                string newlogfilename = MainV2.LogDir + Path.DirectorySeparatorChar + logtime.ToString("yyyy-MM-dd HH-mm-ss") + ".log";
                                 try
                                 {
                                     File.Move(logfile, newlogfilename);
@@ -311,7 +311,7 @@ namespace MissionPlanner.Log
                         case serialstatus.Createfile:
                             receivedbytes = 0;
                             Directory.CreateDirectory(MainV2.LogDir);
-                            logfile = MainV2.LogDir + Path.DirectorySeparatorChar + DateTime.Now.ToString("yyyy-MM-dd HH-mm") + " " + currentlog + ".log";
+                            logfile = MainV2.LogDir + Path.DirectorySeparatorChar + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + " " + currentlog + ".log";
                             sw = new StreamWriter(logfile);
                             status = serialstatus.Waiting;
                             lock (thisLock)

@@ -14,7 +14,7 @@ namespace MissionPlanner.Controls
         // start at 5 increment each instance
         static int servo = 5;
 
-        int thisservo = 0;
+        public int thisservo { get; set; }
 
         public ServoOptions()
         {
@@ -37,6 +37,9 @@ namespace MissionPlanner.Controls
             string low = MainV2.getConfig("Servo" + thisservo + "_low");
             string high = MainV2.getConfig("Servo" + thisservo + "_high");
 
+            string highdesc = MainV2.getConfig("Servo" + thisservo + "_highdesc");
+            string lowdesc = MainV2.getConfig("Servo" + thisservo + "_lowdesc");
+
             if (low != "")
             {
                 TXT_pwm_low.Text = low;
@@ -50,6 +53,16 @@ namespace MissionPlanner.Controls
             if (desc != "")
             {
                 TXT_rcchannel.Text = desc;
+            }
+
+            if (highdesc != "")
+            {
+                BUT_High.Text = highdesc;
+            }
+
+            if (lowdesc != "")
+            {
+                BUT_Low.Text = lowdesc;
             }
         }
 
@@ -126,10 +139,24 @@ namespace MissionPlanner.Controls
 
         private void renameToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string desc = TXT_rcchannel.Text;
+            Control sourcectl = ((ContextMenuStrip)renameToolStripMenuItem.Owner).SourceControl;
+
+            string desc = sourcectl.Text;
             MissionPlanner.Controls.InputBox.Show("Description", "Enter new Description", ref desc);
-            TXT_rcchannel.Text = desc;
-            MainV2.config["Servo" + thisservo + "_desc"] = desc;
+            sourcectl.Text = desc;
+
+            if (sourcectl == BUT_High)
+            {
+                MainV2.config["Servo" + thisservo + "_highdesc"] = desc;
+            }
+            else if (sourcectl == BUT_Low)
+            {
+                MainV2.config["Servo" + thisservo + "_lowdesc"] = desc;
+            }
+            else if (sourcectl == TXT_rcchannel)
+            {
+                MainV2.config["Servo" + thisservo + "_desc"] = desc;
+            }
         }
     }
 }

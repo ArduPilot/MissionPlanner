@@ -20,6 +20,8 @@ using MissionPlanner.Arduino;
 using MissionPlanner.Utilities;
 using GMap.NET;
 using System.Xml;
+using IronPython.Hosting;
+using IronPython.Runtime.Operations;
 
 namespace MissionPlanner
 {
@@ -1175,6 +1177,50 @@ namespace MissionPlanner
 
                 xmlwriter.WriteEndElement();
                 xmlwriter.WriteEndDocument();
+            }
+        }
+
+        private void but_loganalysis_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+
+            ofd.ShowDialog();
+
+            if (ofd.FileName != "")
+            {
+
+                var engine = Python.CreateEngine();
+                var scope = engine.CreateScope();
+
+                var all = System.Reflection.Assembly.GetExecutingAssembly();
+                engine.Runtime.LoadAssembly(all);
+
+                engine.CreateScriptSourceFromString("print 'hello world from python'").Execute(scope);
+
+                List<string> paths = new List<string>();
+
+                paths.Add(Path.GetDirectoryName(@"C:\Users\hog\Desktop\DIYDrones\loganalysiscommon\Tools\LogAnalyzer\LogAnalyzer.py"));
+                paths.Add(Application.StartupPath + Path.DirectorySeparatorChar + "lib");
+
+                engine.SetSearchPaths(paths);
+
+                //  engine.CreateScriptSourceFromFile(@"C:\Users\hog\Desktop\DIYDrones\loganalysiscommon\Tools\LogAnalyzer\LogAnalyzer.py");
+
+
+                string bootloader = @"
+import LogAnalyzer
+
+import sys
+
+sys.argv.append('"+ofd.FileName+@"')
+
+print sys.argv
+
+LogAnalyzer.main()
+
+";
+
+                engine.CreateScriptSourceFromString(bootloader).Execute(scope);
             }
         }
     }

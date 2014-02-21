@@ -338,7 +338,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void BUT_Joystick_Click(object sender, EventArgs e)
         {
-            Form joy = new JoystickSetup();
+            Form joy = new Joystick.JoystickSetup();
             ThemeManager.ApplyThemeTo(joy);
             joy.Show();
         }

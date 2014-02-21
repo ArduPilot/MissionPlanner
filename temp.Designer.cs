@@ -66,6 +66,7 @@
             this.BUT_accellogs = new MissionPlanner.Controls.MyButton();
             this.BUT_movingbase = new MissionPlanner.Controls.MyButton();
             this.but_getfw = new MissionPlanner.Controls.MyButton();
+            this.but_loganalysis = new MissionPlanner.Controls.MyButton();
             this.SuspendLayout();
             // 
             // label1
@@ -427,11 +428,22 @@
             this.but_getfw.UseVisualStyleBackColor = true;
             this.but_getfw.Click += new System.EventHandler(this.but_getfw_Click);
             // 
+            // but_loganalysis
+            // 
+            this.but_loganalysis.Location = new System.Drawing.Point(121, 338);
+            this.but_loganalysis.Name = "but_loganalysis";
+            this.but_loganalysis.Size = new System.Drawing.Size(75, 23);
+            this.but_loganalysis.TabIndex = 42;
+            this.but_loganalysis.Text = "Log Analyser";
+            this.but_loganalysis.UseVisualStyleBackColor = true;
+            this.but_loganalysis.Click += new System.EventHandler(this.but_loganalysis_Click);
+            // 
             // temp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(685, 450);
+            this.Controls.Add(this.but_loganalysis);
             this.Controls.Add(this.but_getfw);
             this.Controls.Add(this.BUT_movingbase);
             this.Controls.Add(this.BUT_accellogs);
@@ -515,5 +527,6 @@
         private Controls.MyButton BUT_accellogs;
         private Controls.MyButton BUT_movingbase;
         private Controls.MyButton but_getfw;
+        private Controls.MyButton but_loganalysis;
     }
 }

@@ -25,12 +25,19 @@ namespace MissionPlanner.Utilities
         /// </summary>
         public static event EventHandler UpdatePlanePosition;
 
+        static bool run = true;
+
         public static string server = "";
         public static int serverport = 0;
 
         public adsb()
         {
             System.Threading.ThreadPool.QueueUserWorkItem(TryConnect);
+        }
+
+        public static void Stop()
+        {
+            run = false;
         }
 
         void TryConnect(object obj)
@@ -42,7 +49,7 @@ namespace MissionPlanner.Utilities
             catch { }
             System.Threading.Thread.CurrentThread.IsBackground = true;
 
-            while (true)
+            while (run)
             {
                 //custom
                 try
@@ -128,7 +135,7 @@ namespace MissionPlanner.Utilities
                 catch (Exception ex) {  }
 
 
-                System.Threading.Thread.Sleep(1000);
+                System.Threading.Thread.Sleep(5000);
             }
         }
 
@@ -623,7 +630,7 @@ namespace MissionPlanner.Utilities
                             int altitude = 0;
                             try
                             {
-                                altitude = int.Parse(strArray[11], CultureInfo.InvariantCulture);// Integer. Mode C Altitude relative to 1013 mb (29.92" Hg). 
+                                altitude = (int)double.Parse(strArray[11], CultureInfo.InvariantCulture);// Integer. Mode C Altitude relative to 1013 mb (29.92" Hg). 
                             }
                             catch { }
                            
@@ -660,12 +667,12 @@ namespace MissionPlanner.Utilities
 
                             try
                             {
-                                int ground_speed = int.Parse(strArray[12], CultureInfo.InvariantCulture);// Integer. Speed over ground. 
+                                int ground_speed = (int)double.Parse(strArray[12], CultureInfo.InvariantCulture);// Integer. Speed over ground. 
                             }
                             catch { }
                             try
                             {
-                                ((Plane)Planes[hex_ident]).heading = int.Parse(strArray[13], CultureInfo.InvariantCulture);//Integer. Ground track angle. 
+                                ((Plane)Planes[hex_ident]).heading = (int)double.Parse(strArray[13], CultureInfo.InvariantCulture);//Integer. Ground track angle. 
                             }
                             catch { }
 

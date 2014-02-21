@@ -61,7 +61,8 @@ namespace MissionPlanner.Wizard
                 {
                     System.Threading.Thread.Sleep(10);
                     // read the message
-                    MainV2.comPort.readPacket();
+                    if (MainV2.comPort.BaseStream.BytesToRead > 4)
+                        MainV2.comPort.readPacket();
                     // update cs with the message
                     MainV2.comPort.MAV.cs.UpdateCurrentSettings(null);
                     // update user display
@@ -129,6 +130,8 @@ namespace MissionPlanner.Wizard
                     imageLabel1.Image = MissionPlanner.Properties.Resources.calibration01;
                     imageLabel1.Text = MainV2.comPort.MAV.cs.message;
                 }
+
+                imageLabel1.Refresh();
             });
         }
 

@@ -110,7 +110,11 @@ namespace MissionPlanner.Wizard
 
         void valueControl_ValueChanged(object sender, string Name, string Value)
         {
-            MainV2.comPort.setParam(Name, float.Parse(Value));
+            try
+            {
+                MainV2.comPort.setParam(Name, float.Parse(Value));
+            }
+            catch (Exception ex) { CustomMessageBox.Show("Failed to set Param " + Name + ", Check your autopilot.\n"+ex.ToString(),"Error"); }
         }
 
         /// <summary>

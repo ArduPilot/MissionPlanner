@@ -33,6 +33,7 @@ namespace MissionPlanner.GCSViews
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         public static int threadrun = 0;
+        static int mainloopexitsignal = 0;
         int tickStart = 0;
         RollingPointPairList list1 = new RollingPointPairList(1200);
         RollingPointPairList list2 = new RollingPointPairList(1200);
@@ -112,11 +113,14 @@ namespace MissionPlanner.GCSViews
 
         protected override void Dispose(bool disposing)
         {
+            base.Dispose(disposing);
+
             threadrun = 0;
             MainV2.comPort.logreadmode = false;
             try
             {
-                MainV2.config["FlightSplitter"] = hud1.Width;
+                if (hud1 != null)
+                    MainV2.config["FlightSplitter"] = hud1.Width;
             }
             catch { }
 
@@ -142,7 +146,7 @@ namespace MissionPlanner.GCSViews
             //System.Threading.Thread.Sleep(200);
             //Application.DoEvents();
 
-            base.Dispose(disposing);
+           
         }
 
         public FlightData()
@@ -234,6 +238,7 @@ namespace MissionPlanner.GCSViews
 
             // config map      
             log.Info("Map Setup");
+            gMapControl1.CacheLocation = Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar+ "gmapcache"+ Path.DirectorySeparatorChar;
             gMapControl1.MapProvider = GMap.NET.MapProviders.GoogleSatelliteMapProvider.Instance;
 
             gMapControl1.OnMapZoomChanged += new MapZoomChanged(gMapControl1_OnMapZoomChanged);
@@ -317,11 +322,17 @@ namespace MissionPlanner.GCSViews
                 MyLabel lbl2 = new MyLabel();
                 try
                 {
-                    lbl1 = (MyLabel)tabStatus.Controls.Find(field.Name, false)[0];
+                    var temp = tabStatus.Controls.Find(field.Name, false);
 
-                    lbl2 = (MyLabel)tabStatus.Controls.Find(field.Name + "value", false)[0];
+                    if (temp.Length > 0)
+                        lbl1 = (MyLabel)temp[0];
 
-                    add = false;
+                    var temp2 = tabStatus.Controls.Find(field.Name + "value", false);
+
+                    if (temp2.Length > 0)
+                        lbl2 = (MyLabel)temp2[0];
+
+                    //add = false;
                 }
                 catch { }
 
@@ -338,6 +349,7 @@ namespace MissionPlanner.GCSViews
                     lbl2.Location = new Point(lbl1.Right + 5, y);
                     lbl2.Size = new System.Drawing.Size(50, 13);
                     //if (lbl2.Name == "")
+                    lbl2.DataBindings.Clear();
                     lbl2.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.bindingSourceStatusTab, field.Name, false, System.Windows.Forms.DataSourceUpdateMode.Never, "0"));
                     lbl2.Name = field.Name + "value";
                     lbl2.Visible = true;
@@ -754,10 +766,13 @@ namespace MissionPlanner.GCSViews
 
                 try
                 {
+                    if (threadrun == 0) { return; }
                      //Console.WriteLine(DateTime.Now.Millisecond);
                     //int fixme;
                     updateBindingSource();
                     // Console.WriteLine(DateTime.Now.Millisecond + " done ");
+
+                    if (threadrun == 0) { return; }
 
                     // battery warning.
                     float warnvolt = 0;
@@ -1024,6 +1039,7 @@ namespace MissionPlanner.GCSViews
                 catch (Exception ex) { log.Error(ex); Console.WriteLine("FD Main loop exception " + ex.ToString()); }
             }
             Console.WriteLine("FD Main loop exit");
+            mainloopexitsignal = 1;
         }
 
         private double ConvertToDouble(object input)
@@ -1036,10 +1052,20 @@ namespace MissionPlanner.GCSViews
             {
                 return (double)input;
             }
-            //if (input.GetType() == typeof(int))
+            if (input.GetType() == typeof(int))
             {
                 return (double)(int)input;
             }
+            if (input.GetType() == typeof(ushort))
+            {
+                return (double)(ushort)input;
+            }
+            if (input.GetType() == typeof(bool))
+            {
+                return (bool)input ? 1 : 0;
+            }
+
+            throw new Exception("Bad Type");
         }
 
         private void setMapBearing()
@@ -1127,15 +1153,15 @@ namespace MissionPlanner.GCSViews
                             MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSourceHud);
                             //Console.WriteLine("DONE ");
 
-                            if (tabControl1.SelectedTab == tabStatus)
+                            if (tabControlactions.SelectedTab == tabStatus)
                             {
                                 MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSourceStatusTab);
                             }
-                            else if (tabControl1.SelectedTab == tabQuick)
+                            else if (tabControlactions.SelectedTab == tabQuick)
                             {
                                 MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSourceQuickTab);
                             }
-                            else if (tabControl1.SelectedTab == tabGauges)
+                            else if (tabControlactions.SelectedTab == tabGauges)
                             {
                                 MainV2.comPort.MAV.cs.UpdateCurrentSettings(bindingSourceGaugesTab);
                             }
@@ -1403,6 +1429,13 @@ namespace MissionPlanner.GCSViews
                 }
             }
             catch { }
+
+            // allow time for thread to finish
+            DateTime deadline = DateTime.Now.AddSeconds(5);
+            while (mainloopexitsignal == 0 && DateTime.Now < deadline)
+            {
+                System.Threading.Thread.Sleep(50);
+            }
         }
 
         private void BUT_clear_track_Click(object sender, EventArgs e)
@@ -1872,7 +1905,7 @@ namespace MissionPlanner.GCSViews
 
         private void BUT_joystick_Click(object sender, EventArgs e)
         {
-            Form joy = new JoystickSetup();
+            Form joy = new Joystick.JoystickSetup();
             ThemeManager.ApplyThemeTo(joy);
             joy.Show();
         }
@@ -1938,7 +1971,7 @@ namespace MissionPlanner.GCSViews
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (tabControl1.SelectedTab == tabStatus)
+            if (tabControlactions.SelectedTab == tabStatus)
             {
                 tabStatus_Resize(sender, e);
             }
@@ -1951,7 +1984,7 @@ namespace MissionPlanner.GCSViews
                     //  tabStatus.Controls.Remove(temp);
                // }
 
-                if (tabControl1.SelectedTab == tabQuick)
+                if (tabControlactions.SelectedTab == tabQuick)
                 {
 
                 }
@@ -2319,17 +2352,10 @@ namespace MissionPlanner.GCSViews
                 string selected = "";
                 try
                 {
-                    selected = selected + zg1.GraphPane.CurveList[0].Label.Text + "|";
-                    selected = selected + zg1.GraphPane.CurveList[1].Label.Text + "|";
-                    selected = selected + zg1.GraphPane.CurveList[2].Label.Text + "|";
-                    selected = selected + zg1.GraphPane.CurveList[3].Label.Text + "|";
-                    selected = selected + zg1.GraphPane.CurveList[4].Label.Text + "|";
-                    selected = selected + zg1.GraphPane.CurveList[5].Label.Text + "|";
-                    selected = selected + zg1.GraphPane.CurveList[6].Label.Text + "|";
-                    selected = selected + zg1.GraphPane.CurveList[7].Label.Text + "|";
-                    selected = selected + zg1.GraphPane.CurveList[8].Label.Text + "|";
-                    selected = selected + zg1.GraphPane.CurveList[9].Label.Text + "|";
-                    selected = selected + zg1.GraphPane.CurveList[10].Label.Text + "|";
+                    foreach (var curve in zg1.GraphPane.CurveList)
+                    {
+                        selected = selected + curve.Label.Text + "|";
+                    }
                 }
                 catch { }
                 MainV2.config["Tuning_Graph_Selected"] = selected;
@@ -3009,7 +3035,7 @@ print 'Roll complete'
         private void but_bintolog_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = "Binary Log|*.bin";
+            ofd.Filter = "Binary Log|*.bin;*.BIN";
 
             ofd.ShowDialog();
 
