@@ -232,7 +232,7 @@ namespace MissionPlanner.GCSViews
             e.Handled = true;*/
         }
 
-        private void waitandsleep(int time)
+        private bool waitandsleep(int time)
         {
             DateTime start = DateTime.Now;
 
@@ -240,9 +240,11 @@ namespace MissionPlanner.GCSViews
             {
                 if (!threadrun || comPort.BytesToRead > 0)
                 {
-                    return;
+                    return true;
                 }
+                System.Threading.Thread.Sleep(10);
             }
+            return false; //waited full time
         }
 
         private void readandsleep(int time)
@@ -257,6 +259,7 @@ namespace MissionPlanner.GCSViews
                 {
                     comPort_DataReceived((object)null, (SerialDataReceivedEventArgs)null);
                 }
+                System.Threading.Thread.Sleep(10);
             }
         }
 

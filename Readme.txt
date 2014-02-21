@@ -24,9 +24,6 @@
 - Open ArdupilotMega.sln with Visual Studio 2010-2013
 - Follow compile1.jpg in the code tree
 
-4. Contribute
-
-- See Readme_pullrequest.txt
 
 -----------MONO-------------
 run using 
