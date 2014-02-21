@@ -9,6 +9,22 @@
     <senw>6.16</senw>
   </Camera>
   <Camera>
+    <name>HEMAV GOPRO 3 BLACK</name>
+    <flen>4.2</flen>
+    <imgh>3000</imgh>
+    <imgw>4000</imgw>
+    <senh>4.62</senh>
+    <senw>6.16</senw>
+  </Camera>
+  <Camera>
+    <name>HEMAV HDWIN</name>
+    <flen>9.2</flen>
+    <imgh>3000</imgh>
+    <imgw>4000</imgw>
+    <senh>4.29</senh>
+    <senw>5.76</senw>
+  </Camera>
+  <Camera>
     <name>Canon SX230 HS</name>
     <flen>5</flen>
     <imgh>3000</imgh>

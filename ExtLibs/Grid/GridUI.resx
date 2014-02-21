@@ -496,7 +496,7 @@
     <value>0</value>
   </data>
   <data name="BUT_Accept.Location" type="System.Drawing.Point, System.Drawing">
-    <value>81, 133</value>
+    <value>82, 162</value>
   </data>
   <data name="BUT_Accept.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
@@ -523,7 +523,7 @@
     <value>True</value>
   </data>
   <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 68</value>
+    <value>9, 102</value>
   </data>
   <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
     <value>61, 13</value>
@@ -544,10 +544,10 @@
     <value>groupBox6</value>
   </data>
   <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>3</value>
   </data>
   <data name="NUM_angle.Location" type="System.Drawing.Point, System.Drawing">
-    <value>142, 66</value>
+    <value>145, 99</value>
   </data>
   <data name="NUM_angle.Size" type="System.Drawing.Size, System.Drawing">
     <value>51, 20</value>
@@ -565,13 +565,13 @@
     <value>groupBox6</value>
   </data>
   <data name="&gt;&gt;NUM_angle.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>4</value>
   </data>
   <data name="label1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 42</value>
+    <value>9, 76</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
     <value>42, 13</value>
@@ -592,10 +592,10 @@
     <value>groupBox6</value>
   </data>
   <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>8</value>
   </data>
   <data name="NUM_altitude.Location" type="System.Drawing.Point, System.Drawing">
-    <value>142, 40</value>
+    <value>145, 73</value>
   </data>
   <data name="NUM_altitude.Size" type="System.Drawing.Size, System.Drawing">
     <value>51, 20</value>
@@ -613,7 +613,7 @@
     <value>groupBox6</value>
   </data>
   <data name="&gt;&gt;NUM_altitude.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>7</value>
   </data>
   <data name="groupBox2.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -1153,7 +1153,7 @@
     <value>NoControl</value>
   </data>
   <data name="CHK_camdirection.Location" type="System.Drawing.Point, System.Drawing">
-    <value>43, 92</value>
+    <value>46, 125</value>
   </data>
   <data name="CHK_camdirection.Size" type="System.Drawing.Size, System.Drawing">
     <value>150, 17</value>
@@ -1174,7 +1174,7 @@
     <value>groupBox6</value>
   </data>
   <data name="&gt;&gt;CHK_camdirection.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>6</value>
   </data>
   <data name="label18.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1428,11 +1428,71 @@
   <data name="&gt;&gt;groupBox3.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="PlatSel.Items" xml:space="preserve">
+    <value>BEGA</value>
+  </data>
+  <data name="PlatSel.Items1" xml:space="preserve">
+    <value>ISIS</value>
+  </data>
+  <data name="PlatSel.Items2" xml:space="preserve">
+    <value>HORUS</value>
+  </data>
+  <data name="PlatSel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>108, 21</value>
+  </data>
+  <data name="PlatSel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>117, 21</value>
+  </data>
+  <data name="PlatSel.TabIndex" type="System.Int32, mscorlib">
+    <value>62</value>
+  </data>
+  <data name="&gt;&gt;PlatSel.Name" xml:space="preserve">
+    <value>PlatSel</value>
+  </data>
+  <data name="&gt;&gt;PlatSel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ComboBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;PlatSel.Parent" xml:space="preserve">
+    <value>groupBox6</value>
+  </data>
+  <data name="&gt;&gt;PlatSel.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="label24.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label24.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label24.Location" type="System.Drawing.Point, System.Drawing">
+    <value>9, 24</value>
+  </data>
+  <data name="label24.Size" type="System.Drawing.Size, System.Drawing">
+    <value>82, 13</value>
+  </data>
+  <data name="label24.TabIndex" type="System.Int32, mscorlib">
+    <value>61</value>
+  </data>
+  <data name="label24.Text" xml:space="preserve">
+    <value>Hemav Platform</value>
+  </data>
+  <data name="&gt;&gt;label24.Name" xml:space="preserve">
+    <value>label24</value>
+  </data>
+  <data name="&gt;&gt;label24.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label24.Parent" xml:space="preserve">
+    <value>groupBox6</value>
+  </data>
+  <data name="&gt;&gt;label24.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
   <data name="label26.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="label26.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 16</value>
+    <value>9, 50</value>
   </data>
   <data name="label26.Size" type="System.Drawing.Size, System.Drawing">
     <value>43, 13</value>
@@ -1453,10 +1513,10 @@
     <value>groupBox6</value>
   </data>
   <data name="&gt;&gt;label26.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>2</value>
   </data>
   <data name="CMB_camera.Location" type="System.Drawing.Point, System.Drawing">
-    <value>105, 13</value>
+    <value>108, 46</value>
   </data>
   <data name="CMB_camera.Size" type="System.Drawing.Size, System.Drawing">
     <value>117, 21</value>
@@ -1474,13 +1534,13 @@
     <value>groupBox6</value>
   </data>
   <data name="&gt;&gt;CMB_camera.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>5</value>
   </data>
   <data name="groupBox6.Location" type="System.Drawing.Point, System.Drawing">
     <value>6, 6</value>
   </data>
   <data name="groupBox6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>236, 121</value>
+    <value>236, 150</value>
   </data>
   <data name="groupBox6.TabIndex" type="System.Int32, mscorlib">
     <value>61</value>
@@ -2308,7 +2368,7 @@
     <value>1008, 537</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Survey (Grid)</value>
+    <value>Hemav GRID</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>GridUI</value>

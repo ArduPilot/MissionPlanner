@@ -2471,5 +2471,10 @@ namespace MissionPlanner
             //MainMenu.BackColor = Color.Black;
             //MainMenu.BackgroundImage = MissionPlanner.Properties.Resources.bgdark;
         }
+
+        private void LogoHemav_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

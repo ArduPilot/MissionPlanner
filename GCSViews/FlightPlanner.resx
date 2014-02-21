@@ -1432,7 +1432,7 @@
     <value>0, 327</value>
   </data>
   <data name="panelWaypoints.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>21, 21</value>
+    <value>16, 17</value>
   </data>
   <data name="panelWaypoints.Size" type="System.Drawing.Size, System.Drawing">
     <value>617, 134</value>
@@ -1495,7 +1495,7 @@
     <value>True</value>
   </data>
   <data name="chk_grid.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 239</value>
+    <value>9, 239</value>
   </data>
   <data name="chk_grid.Size" type="System.Drawing.Size, System.Drawing">
     <value>45, 17</value>
@@ -1552,7 +1552,7 @@
     <value>617, 0</value>
   </data>
   <data name="panelAction.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>21, 21</value>
+    <value>16, 17</value>
   </data>
   <data name="panelAction.Size" type="System.Drawing.Size, System.Drawing">
     <value>130, 461</value>
@@ -1672,13 +1672,13 @@
     <value>17, 17</value>
   </metadata>
   <data name="deleteWPToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>150, 22</value>
   </data>
   <data name="deleteWPToolStripMenuItem.Text" xml:space="preserve">
     <value>Delete WP</value>
   </data>
   <data name="insertWpToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>150, 22</value>
   </data>
   <data name="insertWpToolStripMenuItem.Text" xml:space="preserve">
     <value>Insert Wp</value>
@@ -1702,7 +1702,7 @@
     <value>Circles</value>
   </data>
   <data name="loiterToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>150, 22</value>
   </data>
   <data name="loiterToolStripMenuItem.Text" xml:space="preserve">
     <value>Loiter</value>
@@ -1720,43 +1720,43 @@
     <value>WP #</value>
   </data>
   <data name="jumpToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>150, 22</value>
   </data>
   <data name="jumpToolStripMenuItem.Text" xml:space="preserve">
     <value>Jump</value>
   </data>
   <data name="rTLToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>150, 22</value>
   </data>
   <data name="rTLToolStripMenuItem.Text" xml:space="preserve">
     <value>RTL</value>
   </data>
   <data name="landToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>150, 22</value>
   </data>
   <data name="landToolStripMenuItem.Text" xml:space="preserve">
     <value>Land</value>
   </data>
   <data name="takeoffToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>150, 22</value>
   </data>
   <data name="takeoffToolStripMenuItem.Text" xml:space="preserve">
     <value>Takeoff</value>
   </data>
   <data name="setROIToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>150, 22</value>
   </data>
   <data name="setROIToolStripMenuItem.Text" xml:space="preserve">
     <value>Set ROI</value>
   </data>
   <data name="clearMissionToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>150, 22</value>
   </data>
   <data name="clearMissionToolStripMenuItem.Text" xml:space="preserve">
     <value>Clear Mission</value>
   </data>
   <data name="toolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>149, 6</value>
+    <value>147, 6</value>
   </data>
   <data name="addPolygonPointToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>174, 22</value>
@@ -1783,7 +1783,7 @@
     <value>Load Polygon</value>
   </data>
   <data name="polygonToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>150, 22</value>
   </data>
   <data name="polygonToolStripMenuItem.Text" xml:space="preserve">
     <value>Draw Polygon</value>
@@ -1825,7 +1825,7 @@
     <value>Load Rally from File</value>
   </data>
   <data name="rallyPointsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>150, 22</value>
   </data>
   <data name="rallyPointsToolStripMenuItem.Text" xml:space="preserve">
     <value>Rally Points</value>
@@ -1870,7 +1870,7 @@
     <value>Save to File</value>
   </data>
   <data name="geoFenceToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>150, 22</value>
   </data>
   <data name="geoFenceToolStripMenuItem.Text" xml:space="preserve">
     <value>Geo-Fence</value>
@@ -1888,7 +1888,7 @@
     <value>Area</value>
   </data>
   <data name="autoWPToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>150, 22</value>
   </data>
   <data name="autoWPToolStripMenuItem.Text" xml:space="preserve">
     <value>Auto WP</value>
@@ -1945,7 +1945,7 @@
     <value>Reverse WPs</value>
   </data>
   <data name="mapToolToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>150, 22</value>
   </data>
   <data name="mapToolToolStripMenuItem.Text" xml:space="preserve">
     <value>Map Tool</value>
@@ -1975,19 +1975,19 @@
     <value>Load KML File</value>
   </data>
   <data name="fileLoadSaveToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>150, 22</value>
   </data>
   <data name="fileLoadSaveToolStripMenuItem.Text" xml:space="preserve">
     <value>File Load/Save</value>
   </data>
   <data name="trackerHomeToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>150, 22</value>
   </data>
   <data name="trackerHomeToolStripMenuItem.Text" xml:space="preserve">
     <value>Tracker Home</value>
   </data>
   <data name="flyToHereToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>150, 22</value>
   </data>
   <data name="flyToHereToolStripMenuItem.Text" xml:space="preserve">
     <value>Fly To Here</value>
@@ -1996,19 +1996,19 @@
     <value>False</value>
   </data>
   <data name="splineToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>150, 22</value>
   </data>
   <data name="splineToolStripMenuItem.Text" xml:space="preserve">
     <value>View As Spline</value>
   </data>
   <data name="modifyAltToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>150, 22</value>
   </data>
   <data name="modifyAltToolStripMenuItem.Text" xml:space="preserve">
     <value>Modify Alt</value>
   </data>
   <data name="contextMenuStrip1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>153, 450</value>
+    <value>151, 428</value>
   </data>
   <data name="&gt;&gt;contextMenuStrip1.Name" xml:space="preserve">
     <value>contextMenuStrip1</value>
