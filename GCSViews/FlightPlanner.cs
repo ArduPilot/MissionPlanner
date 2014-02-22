@@ -1091,7 +1091,7 @@ namespace MissionPlanner.GCSViews
             {
                 try
                 {
-                    if (lla.Tag != null && lla.Tag != "Home")
+                    if (lla.Tag != null && lla.Tag != "Home" && !lla.Tag.Contains("ROI"))
                     {
                         Commands.Rows[int.Parse(lla.Tag) - 1].Cells[Grad.Index].Value = (((lla.Alt - last.Alt) / (lla.GetDistance(last) * MainV2.comPort.MAV.cs.multiplierdist)) * 100).ToString("0.0");
 

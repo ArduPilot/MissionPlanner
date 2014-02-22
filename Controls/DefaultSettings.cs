@@ -6,13 +6,12 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using MissionPlanner.Controls;
 using System.IO;
 using MissionPlanner.Utilities;
 using System.Collections;
 using log4net;
 
-namespace MissionPlanner.GCSViews.ConfigurationView
+namespace MissionPlanner.Controls
 {
     public partial class ConfigDefaultSettings : UserControl, IActivate
     {
@@ -75,6 +74,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             CustomMessageBox.Show("Loaded parameters!", "Loaded");
 
             this.Activate();
+        }
+
+        private void ConfigDefaultSettings_Load(object sender, EventArgs e)
+        {
+            Activate();
         }
     }
 }
