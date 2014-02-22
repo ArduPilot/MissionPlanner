@@ -48,7 +48,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.radioButton_Y = new System.Windows.Forms.RadioButton();
             this.pictureBoxY = new MissionPlanner.Controls.PictureBoxWithPseudoOpacity();
             this.label7 = new System.Windows.Forms.Label();
-            this.configDefaultSettings1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigDefaultSettings();
+            this.configDefaultSettings1 = new MissionPlanner.Controls.ConfigDefaultSettings();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPlus)).BeginInit();

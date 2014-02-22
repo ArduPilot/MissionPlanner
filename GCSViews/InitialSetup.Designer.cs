@@ -76,7 +76,6 @@
             this.configMount1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigMount();
             this.backstageViewPageAntTrack = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
             this.tracker1 = new MissionPlanner.Antenna.Tracker();
-            this.configDefaultSettings1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigDefaultSettings();
             this.backstageViewPageinstfw = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
             ((System.ComponentModel.ISupportInitialize)(this.initialSetupBindingSource)).BeginInit();
             this.SuspendLayout();
@@ -460,11 +459,7 @@
             resources.ApplyResources(this.tracker1, "tracker1");
             this.tracker1.ForeColor = System.Drawing.Color.White;
             this.tracker1.Name = "tracker1";
-            // 
-            // configDefaultSettings1
-            // 
-            resources.ApplyResources(this.configDefaultSettings1, "configDefaultSettings1");
-            this.configDefaultSettings1.Name = "configDefaultSettings1";
+            
             // 
             // backstageViewPageinstfw
             // 
@@ -500,7 +495,6 @@
         private ConfigurationView.ConfigMandatory configMandatory1;
         private ConfigurationView.ConfigOptional configOptional1;
         private ConfigurationView.ConfigTradHeli configTradHeli1;
-        private ConfigurationView.ConfigDefaultSettings configDefaultSettings1;
         private ConfigurationView.ConfigFrameType configFrameType1;
         private ConfigurationView.ConfigHWCompass configHWCompass1;
         private ConfigurationView.ConfigAccelerometerCalibrationQuad configAccelerometerCalibrationQuad1;

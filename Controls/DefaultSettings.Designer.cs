@@ -1,4 +1,4 @@
-﻿namespace MissionPlanner.GCSViews.ConfigurationView
+﻿namespace MissionPlanner.Controls
 {
     partial class ConfigDefaultSettings
     {
@@ -61,6 +61,7 @@
             this.Controls.Add(this.CMB_paramfiles);
             this.Controls.Add(this.textBox1);
             this.Name = "ConfigDefaultSettings";
+            this.Load += new System.EventHandler(this.ConfigDefaultSettings_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

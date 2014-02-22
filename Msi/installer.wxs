@@ -32,7 +32,7 @@
                             <Permission User="Everyone" GenericAll="yes" /> 
                         </CreateFolder>
                     </Component>
-<Component Id="_1" Guid="da432ce6-1019-4583-af79-15c32c1b2780">
+<Component Id="_1" Guid="54306516-0cb1-491f-a523-9ee860e4fc70">
 <File Id="_acsimplepids_xml_2" Source="..\bin\release\acsimplepids.xml" />
 <File Id="_alglibnet2_dll_3" Source="..\bin\release\alglibnet2.dll" />
 <File Id="_aotall_4" Source="..\bin\release\aotall" />
@@ -146,11 +146,11 @@
 <File Id="_zlib_net_dll_107" Source="..\bin\release\zlib.net.dll" />
 </Component>
 <Directory Id="aircraft107" Name="aircraft">
-<Component Id="aircraft_108" Guid="eb4c5470-4c9f-4836-a834-402e698ea7c5">
+<Component Id="aircraft_108" Guid="fb1670c8-e7c3-4309-bd4b-9642cb23483f">
 <File Id="_placeholder_txt_109" Source="..\bin\release\aircraft\placeholder.txt" />
 </Component>
 <Directory Id="arducopter109" Name="arducopter">
-<Component Id="arducopter_110" Guid="b5ae75b3-93f9-404e-9003-148f7dc49b21">
+<Component Id="arducopter_110" Guid="d6576dd2-f3e8-4f94-90ae-4f6e36339c9d">
 <File Id="_arducopter_set_xml_111" Source="..\bin\release\aircraft\arducopter\arducopter-set.xml" />
 <File Id="_arducopter_jpg_112" Source="..\bin\release\aircraft\arducopter\arducopter.jpg" />
 <File Id="_arducopter_xml_113" Source="..\bin\release\aircraft\arducopter\arducopter.xml" />
@@ -161,20 +161,20 @@
 <File Id="_README_118" Source="..\bin\release\aircraft\arducopter\README" />
 </Component>
 <Directory Id="data118" Name="data">
-<Component Id="data_119" Guid="94a079dd-f906-47bf-b62f-1a405835d4e5">
+<Component Id="data_119" Guid="13649902-f750-4913-881a-44cc4a1f93da">
 <File Id="_arducopter_half_step_txt_120" Source="..\bin\release\aircraft\arducopter\data\arducopter_half_step.txt" />
 <File Id="_arducopter_step_txt_121" Source="..\bin\release\aircraft\arducopter\data\arducopter_step.txt" />
 <File Id="_rw_generic_pylon_ac_122" Source="..\bin\release\aircraft\arducopter\data\rw_generic_pylon.ac" />
 </Component>
 </Directory>
 <Directory Id="Engines122" Name="Engines">
-<Component Id="Engines_123" Guid="b6c8eb6a-4e1f-4627-b1eb-8ea37a23fb66">
+<Component Id="Engines_123" Guid="66cfe0ce-a09c-4e7d-bd6d-3260a4b4457f">
 <File Id="_a2830_12_xml_124" Source="..\bin\release\aircraft\arducopter\Engines\a2830-12.xml" />
 <File Id="_prop10x4_5_xml_125" Source="..\bin\release\aircraft\arducopter\Engines\prop10x4.5.xml" />
 </Component>
 </Directory>
 <Directory Id="Models125" Name="Models">
-<Component Id="Models_126" Guid="886cd801-6462-40bf-b172-168d112eb21d">
+<Component Id="Models_126" Guid="b0547daf-bf61-4ddc-a1b6-348e8d121505">
 <File Id="_arducopter_ac_127" Source="..\bin\release\aircraft\arducopter\Models\arducopter.ac" />
 <File Id="_arducopter_xml_128" Source="..\bin\release\aircraft\arducopter\Models\arducopter.xml" />
 <File Id="_plus_quad_ac_129" Source="..\bin\release\aircraft\arducopter\Models\plus_quad.ac" />
@@ -188,7 +188,7 @@
 </Directory>
 </Directory>
 <Directory Id="Rascal135" Name="Rascal">
-<Component Id="Rascal_136" Guid="5c11d879-a9a5-45b2-8409-70fc945e6830">
+<Component Id="Rascal_136" Guid="dcf2a0cc-aaed-4605-82e7-53eda729d8c2">
 <File Id="_Rascal_keyboard_xml_137" Source="..\bin\release\aircraft\Rascal\Rascal-keyboard.xml" />
 <File Id="_Rascal_submodels_xml_138" Source="..\bin\release\aircraft\Rascal\Rascal-submodels.xml" />
 <File Id="_Rascal_xml_139" Source="..\bin\release\aircraft\Rascal\Rascal.xml" />
@@ -200,13 +200,13 @@
 <File Id="_thumbnail_jpg_145" Source="..\bin\release\aircraft\Rascal\thumbnail.jpg" />
 </Component>
 <Directory Id="Engines145" Name="Engines">
-<Component Id="Engines_146" Guid="5906cb29-f6a7-4c9f-9e0e-e99a7d1f2eaa">
+<Component Id="Engines_146" Guid="bdfbaf0f-28f3-466c-a371-c44b7de26721">
 <File Id="_18x8_xml_147" Source="..\bin\release\aircraft\Rascal\Engines\18x8.xml" />
 <File Id="_Zenoah_G_26A_xml_148" Source="..\bin\release\aircraft\Rascal\Engines\Zenoah_G-26A.xml" />
 </Component>
 </Directory>
 <Directory Id="Models148" Name="Models">
-<Component Id="Models_149" Guid="b0c40650-7b31-4d40-b3b7-ff4855a87230">
+<Component Id="Models_149" Guid="204801e3-703b-4d68-a7af-fe66dd82044e">
 <File Id="_Rascal_rgb_150" Source="..\bin\release\aircraft\Rascal\Models\Rascal.rgb" />
 <File Id="_Rascal110_000_013_ac_151" Source="..\bin\release\aircraft\Rascal\Models\Rascal110-000-013.ac" />
 <File Id="_Rascal110_xml_152" Source="..\bin\release\aircraft\Rascal\Models\Rascal110.xml" />
@@ -217,7 +217,7 @@
 </Component>
 </Directory>
 <Directory Id="Systems156" Name="Systems">
-<Component Id="Systems_157" Guid="06829176-ade5-461a-bf37-3a0e48b4b861">
+<Component Id="Systems_157" Guid="f8fe3997-48f2-4e18-ab63-6fd559d2323f">
 <File Id="_110_autopilot_xml_158" Source="..\bin\release\aircraft\Rascal\Systems\110-autopilot.xml" />
 <File Id="_airdata_nas_159" Source="..\bin\release\aircraft\Rascal\Systems\airdata.nas" />
 <File Id="_electrical_xml_160" Source="..\bin\release\aircraft\Rascal\Systems\electrical.xml" />
@@ -228,12 +228,12 @@
 </Directory>
 </Directory>
 <Directory Id="de_DE162" Name="de-DE">
-<Component Id="de_DE_163" Guid="94d2c37d-ed12-4b16-9182-8a1298e2932d">
+<Component Id="de_DE_163" Guid="3b1e227f-2aa1-4c9a-b14c-5fe4db6664d4">
 <File Id="_MissionPlanner_resources_dll_164" Source="..\bin\release\de-DE\MissionPlanner.resources.dll" />
 </Component>
 </Directory>
 <Directory Id="Driver164" Name="Driver">
-<Component Id="Driver_165" Guid="1f0e558d-6dec-43d0-bd2a-a0737d8eba5a">
+<Component Id="Driver_165" Guid="fe3698a1-8ea3-466d-9de4-e5c0023aa2c5">
 <File Id="_arduinomega2560_cat_166" Source="..\bin\release\Driver\arduinomega2560.cat" />
 <File Id="_ArduinoMEGA2560_inf_167" Source="..\bin\release\Driver\ArduinoMEGA2560.inf" />
 <File Id="_dpinst_xml_168" Source="..\bin\release\Driver\dpinst.xml" />
@@ -247,28 +247,28 @@
 </Component>
 </Directory>
 <Directory Id="es_ES175" Name="es-ES">
-<Component Id="es_ES_176" Guid="a37b5baf-e50b-46be-936b-5415229db185">
+<Component Id="es_ES_176" Guid="b6eb3ec4-f112-4c40-970c-1a52339fdff8">
 <File Id="_MissionPlanner_resources_dll_177" Source="..\bin\release\es-ES\MissionPlanner.resources.dll" />
 </Component>
 </Directory>
 <Directory Id="fr177" Name="fr">
-<Component Id="fr_178" Guid="96eb5cf3-615f-4330-8340-1e946314d606">
+<Component Id="fr_178" Guid="f8bce455-3465-4bfd-b340-dcbacccc6bea">
 <File Id="_MissionPlanner_resources_dll_179" Source="..\bin\release\fr\MissionPlanner.resources.dll" />
 </Component>
 </Directory>
 <Directory Id="it_IT179" Name="it-IT">
-<Component Id="it_IT_180" Guid="9b5ecd94-cfdf-4574-b157-f4fc85fab0ed">
+<Component Id="it_IT_180" Guid="42d9c039-c721-41bd-9074-2b93b9ecfe9d">
 <File Id="_MissionPlanner_resources_dll_181" Source="..\bin\release\it-IT\MissionPlanner.resources.dll" />
 </Component>
 </Directory>
 <Directory Id="jsbsim181" Name="jsbsim">
-<Component Id="jsbsim_182" Guid="a421595c-ac42-4cce-acd7-2d8a34256fde">
+<Component Id="jsbsim_182" Guid="d3fe94ff-6f66-4080-8b30-7e4cb689af09">
 <File Id="_fgout_xml_183" Source="..\bin\release\jsbsim\fgout.xml" />
 <File Id="_rascal_test_xml_184" Source="..\bin\release\jsbsim\rascal_test.xml" />
 </Component>
 </Directory>
 <Directory Id="Lib184" Name="Lib">
-<Component Id="Lib_185" Guid="38a8f502-00b4-4eb2-801f-3f4166887754">
+<Component Id="Lib_185" Guid="803a264c-1560-4c8d-8cb6-beaf628372b3">
 <File Id="_abc_py_186" Source="..\bin\release\Lib\abc.py" />
 <File Id="_aifc_py_187" Source="..\bin\release\Lib\aifc.py" />
 <File Id="_antigravity_py_188" Source="..\bin\release\Lib\antigravity.py" />
@@ -465,14 +465,14 @@
 <File Id="___phello___foo_py_379" Source="..\bin\release\Lib\__phello__.foo.py" />
 </Component>
 <Directory Id="ctypes379" Name="ctypes">
-<Component Id="ctypes_380" Guid="f8633999-0575-4704-a956-7467899df7fb">
+<Component Id="ctypes_380" Guid="6704bfda-af02-4a31-bae1-9a132cea02e0">
 <File Id="_util_py_381" Source="..\bin\release\Lib\ctypes\util.py" />
 <File Id="_wintypes_py_382" Source="..\bin\release\Lib\ctypes\wintypes.py" />
 <File Id="__endian_py_383" Source="..\bin\release\Lib\ctypes\_endian.py" />
 <File Id="___init___py_384" Source="..\bin\release\Lib\ctypes\__init__.py" />
 </Component>
 <Directory Id="macholib384" Name="macholib">
-<Component Id="macholib_385" Guid="cf9c1c0a-0f16-422f-ba4a-5146f93dbb97">
+<Component Id="macholib_385" Guid="c2b46bab-bd4e-4320-86e2-71c3d0a17268">
 <File Id="_dyld_py_386" Source="..\bin\release\Lib\ctypes\macholib\dyld.py" />
 <File Id="_dylib_py_387" Source="..\bin\release\Lib\ctypes\macholib\dylib.py" />
 <File Id="_framework_py_388" Source="..\bin\release\Lib\ctypes\macholib\framework.py" />
@@ -481,7 +481,7 @@
 </Directory>
 </Directory>
 <Directory Id="distutils389" Name="distutils">
-<Component Id="distutils_390" Guid="ed193235-a877-4f46-85c5-c2dae7c285ab">
+<Component Id="distutils_390" Guid="4cd4590d-8db9-4a42-9a3f-8a41eba6316e">
 <File Id="_archive_util_py_391" Source="..\bin\release\Lib\distutils\archive_util.py" />
 <File Id="_bcppcompiler_py_392" Source="..\bin\release\Lib\distutils\bcppcompiler.py" />
 <File Id="_ccompiler_py_393" Source="..\bin\release\Lib\distutils\ccompiler.py" />
@@ -511,7 +511,7 @@
 <File Id="___init___py_417" Source="..\bin\release\Lib\distutils\__init__.py" />
 </Component>
 <Directory Id="command417" Name="command">
-<Component Id="command_418" Guid="deb46903-7ce1-43c0-8599-c924ca2724ce">
+<Component Id="command_418" Guid="8d23ff22-ed7e-4446-95e3-9f51f2612211">
 <File Id="_bdist_py_419" Source="..\bin\release\Lib\distutils\command\bdist.py" />
 <File Id="_bdist_dumb_py_420" Source="..\bin\release\Lib\distutils\command\bdist_dumb.py" />
 <File Id="_bdist_rpm_py_421" Source="..\bin\release\Lib\distutils\command\bdist_rpm.py" />
@@ -538,7 +538,7 @@
 </Directory>
 </Directory>
 <Directory Id="email440" Name="email">
-<Component Id="email_441" Guid="7128be64-c2b5-434e-b091-5ca64d229bc9">
+<Component Id="email_441" Guid="70305a2a-fe87-4f7e-aa64-9971672770d2">
 <File Id="_base64mime_py_442" Source="..\bin\release\Lib\email\base64mime.py" />
 <File Id="_charset_py_443" Source="..\bin\release\Lib\email\charset.py" />
 <File Id="_encoders_py_444" Source="..\bin\release\Lib\email\encoders.py" />
@@ -555,7 +555,7 @@
 <File Id="___init___py_455" Source="..\bin\release\Lib\email\__init__.py" />
 </Component>
 <Directory Id="mime455" Name="mime">
-<Component Id="mime_456" Guid="dc06566e-bc02-413a-8da0-2cb2a83fc5e9">
+<Component Id="mime_456" Guid="74e4a6db-e888-4301-b2b4-5b6761cccbd7">
 <File Id="_application_py_457" Source="..\bin\release\Lib\email\mime\application.py" />
 <File Id="_audio_py_458" Source="..\bin\release\Lib\email\mime\audio.py" />
 <File Id="_base_py_459" Source="..\bin\release\Lib\email\mime\base.py" />
@@ -569,7 +569,7 @@
 </Directory>
 </Directory>
 <Directory Id="encodings465" Name="encodings">
-<Component Id="encodings_466" Guid="dc0b109a-be92-4336-b995-247b7f5bd746">
+<Component Id="encodings_466" Guid="54376ebe-df3f-415f-9a87-670b1a48cc8b">
 <File Id="_aliases_py_467" Source="..\bin\release\Lib\encodings\aliases.py" />
 <File Id="_ascii_py_468" Source="..\bin\release\Lib\encodings\ascii.py" />
 <File Id="_base64_codec_py_469" Source="..\bin\release\Lib\encodings\base64_codec.py" />
@@ -666,12 +666,12 @@
 </Component>
 </Directory>
 <Directory Id="importlib559" Name="importlib">
-<Component Id="importlib_560" Guid="61a56b5b-7373-4800-a4c9-cdc88b017fff">
+<Component Id="importlib_560" Guid="97db4899-9a01-4f67-860f-ae4717f97313">
 <File Id="___init___py_561" Source="..\bin\release\Lib\importlib\__init__.py" />
 </Component>
 </Directory>
 <Directory Id="json561" Name="json">
-<Component Id="json_562" Guid="8ba0d1e6-66f6-4814-b189-cf0d076dd9de">
+<Component Id="json_562" Guid="89ab7ee6-a513-4085-9435-6bd17e57d408">
 <File Id="_decoder_py_563" Source="..\bin\release\Lib\json\decoder.py" />
 <File Id="_encoder_py_564" Source="..\bin\release\Lib\json\encoder.py" />
 <File Id="_scanner_py_565" Source="..\bin\release\Lib\json\scanner.py" />
@@ -680,7 +680,7 @@
 </Component>
 </Directory>
 <Directory Id="lib2to3567" Name="lib2to3">
-<Component Id="lib2to3_568" Guid="73166f6a-bcac-4574-b1c0-23c6b0004696">
+<Component Id="lib2to3_568" Guid="1c9c02f4-9ffd-4ae2-a661-eeec6d183899">
 <File Id="_btm_matcher_py_569" Source="..\bin\release\Lib\lib2to3\btm_matcher.py" />
 <File Id="_btm_utils_py_570" Source="..\bin\release\Lib\lib2to3\btm_utils.py" />
 <File Id="_fixer_base_py_571" Source="..\bin\release\Lib\lib2to3\fixer_base.py" />
@@ -694,7 +694,7 @@
 <File Id="___main___py_579" Source="..\bin\release\Lib\lib2to3\__main__.py" />
 </Component>
 <Directory Id="fixes579" Name="fixes">
-<Component Id="fixes_580" Guid="c823373b-956f-4be8-a315-5bac997ed2c9">
+<Component Id="fixes_580" Guid="cc88b340-d852-4924-881d-e905aff60792">
 <File Id="_fix_apply_py_581" Source="..\bin\release\Lib\lib2to3\fixes\fix_apply.py" />
 <File Id="_fix_basestring_py_582" Source="..\bin\release\Lib\lib2to3\fixes\fix_basestring.py" />
 <File Id="_fix_buffer_py_583" Source="..\bin\release\Lib\lib2to3\fixes\fix_buffer.py" />
@@ -750,7 +750,7 @@
 </Component>
 </Directory>
 <Directory Id="pgen2632" Name="pgen2">
-<Component Id="pgen2_633" Guid="961f85a9-2cb0-4adb-9dcc-667ed0be6cb0">
+<Component Id="pgen2_633" Guid="d9ae074c-2205-4bed-88fd-475a113aeb8d">
 <File Id="_conv_py_634" Source="..\bin\release\Lib\lib2to3\pgen2\conv.py" />
 <File Id="_driver_py_635" Source="..\bin\release\Lib\lib2to3\pgen2\driver.py" />
 <File Id="_grammar_py_636" Source="..\bin\release\Lib\lib2to3\pgen2\grammar.py" />
@@ -764,27 +764,27 @@
 </Directory>
 </Directory>
 <Directory Id="logging642" Name="logging">
-<Component Id="logging_643" Guid="34cfee7e-a95c-4f41-946e-0f074b935a85">
+<Component Id="logging_643" Guid="7b51b407-b4be-4ba9-b21a-62bc97d2aaea">
 <File Id="_config_py_644" Source="..\bin\release\Lib\logging\config.py" />
 <File Id="_handlers_py_645" Source="..\bin\release\Lib\logging\handlers.py" />
 <File Id="___init___py_646" Source="..\bin\release\Lib\logging\__init__.py" />
 </Component>
 </Directory>
 <Directory Id="pydoc_data646" Name="pydoc_data">
-<Component Id="pydoc_data_647" Guid="c07d2873-3e65-4a47-953c-1223a5d5efa1">
+<Component Id="pydoc_data_647" Guid="2b3e720d-46d5-4c25-b20b-767a9233665c">
 <File Id="_topics_py_648" Source="..\bin\release\Lib\pydoc_data\topics.py" />
 <File Id="___init___py_649" Source="..\bin\release\Lib\pydoc_data\__init__.py" />
 </Component>
 </Directory>
 <Directory Id="sqlite3649" Name="sqlite3">
-<Component Id="sqlite3_650" Guid="99e4a0df-e131-4b30-822a-f9bf7f2557ae">
+<Component Id="sqlite3_650" Guid="b5f7e81a-f755-44c5-aba0-90bd55b8a22f">
 <File Id="_dbapi2_py_651" Source="..\bin\release\Lib\sqlite3\dbapi2.py" />
 <File Id="_dump_py_652" Source="..\bin\release\Lib\sqlite3\dump.py" />
 <File Id="___init___py_653" Source="..\bin\release\Lib\sqlite3\__init__.py" />
 </Component>
 </Directory>
 <Directory Id="unittest653" Name="unittest">
-<Component Id="unittest_654" Guid="c2bd208d-eb57-4da3-95c1-dfcfac551c94">
+<Component Id="unittest_654" Guid="05c87e37-c00c-4fa2-8fd5-92282d7582ec">
 <File Id="_case_py_655" Source="..\bin\release\Lib\unittest\case.py" />
 <File Id="_loader_py_656" Source="..\bin\release\Lib\unittest\loader.py" />
 <File Id="_main_py_657" Source="..\bin\release\Lib\unittest\main.py" />
@@ -798,7 +798,7 @@
 </Component>
 </Directory>
 <Directory Id="wsgiref664" Name="wsgiref">
-<Component Id="wsgiref_665" Guid="b082713a-8ac8-4865-9177-af88a63ec109">
+<Component Id="wsgiref_665" Guid="590bba2c-b187-429a-8dbb-78e7f044595b">
 <File Id="_handlers_py_666" Source="..\bin\release\Lib\wsgiref\handlers.py" />
 <File Id="_headers_py_667" Source="..\bin\release\Lib\wsgiref\headers.py" />
 <File Id="_simple_server_py_668" Source="..\bin\release\Lib\wsgiref\simple_server.py" />
@@ -808,11 +808,11 @@
 </Component>
 </Directory>
 <Directory Id="xml671" Name="xml">
-<Component Id="xml_672" Guid="c7555a0a-eb4b-46f2-8681-ec27da6f8642">
+<Component Id="xml_672" Guid="90cf1875-2a57-4c10-a48b-97071d895d43">
 <File Id="___init___py_673" Source="..\bin\release\Lib\xml\__init__.py" />
 </Component>
 <Directory Id="dom673" Name="dom">
-<Component Id="dom_674" Guid="47ca46d3-2936-48da-8a58-62cfa84dd78b">
+<Component Id="dom_674" Guid="4f503455-48dc-48b0-9d6b-22569ea35abc">
 <File Id="_domreg_py_675" Source="..\bin\release\Lib\xml\dom\domreg.py" />
 <File Id="_minicompat_py_676" Source="..\bin\release\Lib\xml\dom\minicompat.py" />
 <File Id="_minidom_py_677" Source="..\bin\release\Lib\xml\dom\minidom.py" />
@@ -823,7 +823,7 @@
 </Component>
 </Directory>
 <Directory Id="etree681" Name="etree">
-<Component Id="etree_682" Guid="91d39f94-5425-4793-a0a4-c020e605c3ff">
+<Component Id="etree_682" Guid="4cb5e2a7-a257-4c3c-a88d-7277b173b762">
 <File Id="_ElementInclude_py_683" Source="..\bin\release\Lib\xml\etree\ElementInclude.py" />
 <File Id="_ElementPath_py_684" Source="..\bin\release\Lib\xml\etree\ElementPath.py" />
 <File Id="_ElementTree_py_685" Source="..\bin\release\Lib\xml\etree\ElementTree.py" />
@@ -832,12 +832,12 @@
 </Component>
 </Directory>
 <Directory Id="parsers687" Name="parsers">
-<Component Id="parsers_688" Guid="06029a1f-4bef-4da9-8c87-50b1ae8e909e">
+<Component Id="parsers_688" Guid="49b21027-ef01-47e7-b5d8-5b48d5f2c167">
 <File Id="___init___py_689" Source="..\bin\release\Lib\xml\parsers\__init__.py" />
 </Component>
 </Directory>
 <Directory Id="sax689" Name="sax">
-<Component Id="sax_690" Guid="6c24a689-5dcf-4a96-b1f6-09e9ca043caa">
+<Component Id="sax_690" Guid="d847dd52-4330-46ff-992d-a5976e55a59c">
 <File Id="_handler_py_691" Source="..\bin\release\Lib\xml\sax\handler.py" />
 <File Id="_saxutils_py_692" Source="..\bin\release\Lib\xml\sax\saxutils.py" />
 <File Id="_xmlreader_py_693" Source="..\bin\release\Lib\xml\sax\xmlreader.py" />
@@ -848,7 +848,7 @@
 </Directory>
 </Directory>
 <Directory Id="m3u695" Name="m3u">
-<Component Id="m3u_696" Guid="754d3a6f-87c3-4162-8b98-610be32770cf">
+<Component Id="m3u_696" Guid="ed9aad52-50cc-41e7-a7be-2c9cff2897dc">
 <File Id="_both_m3u_697" Source="..\bin\release\m3u\both.m3u" />
 <File Id="_GeoRefnetworklink_kml_698" Source="..\bin\release\m3u\GeoRefnetworklink.kml" />
 <File Id="_hud_m3u_699" Source="..\bin\release\m3u\hud.m3u" />
@@ -857,17 +857,17 @@
 </Component>
 </Directory>
 <Directory Id="mavelous_web701" Name="mavelous_web">
-<Component Id="mavelous_web_702" Guid="22849637-3c90-4354-87d5-fe64a4f95404">
+<Component Id="mavelous_web_702" Guid="1fc53c46-5cd6-4cc4-ac9f-b7ce4b48a5ab">
 <File Id="_index_html_703" Source="..\bin\release\mavelous_web\index.html" />
 </Component>
 </Directory>
 <Directory Id="pl703" Name="pl">
-<Component Id="pl_704" Guid="b43b905a-cdd3-4a6d-9cc5-c684b82aa436">
+<Component Id="pl_704" Guid="15fe392a-9f19-40c6-8239-6e35a2b6fabf">
 <File Id="_MissionPlanner_resources_dll_705" Source="..\bin\release\pl\MissionPlanner.resources.dll" />
 </Component>
 </Directory>
 <Directory Id="plugins705" Name="plugins">
-<Component Id="plugins_706" Guid="b618f420-5a36-4488-9eee-05ac1b625af1">
+<Component Id="plugins_706" Guid="aaeeacdb-ff51-469d-bc35-d2d3c743a58c">
 <File Id="_MissionPlanner_Grid_dll_707" Source="..\bin\release\plugins\MissionPlanner.Grid.dll" />
 <File Id="_MissionPlanner_Grid_pdb_708" Source="..\bin\release\plugins\MissionPlanner.Grid.pdb" />
 <File Id="_MissionPlanner_SimpleGrid_dll_709" Source="..\bin\release\plugins\MissionPlanner.SimpleGrid.dll" />
@@ -879,22 +879,22 @@
 </Component>
 </Directory>
 <Directory Id="Resources714" Name="Resources">
-<Component Id="Resources_715" Guid="e43ef9e0-f4da-466a-89ad-b41185d6441d">
+<Component Id="Resources_715" Guid="88fb11b3-f84f-47f1-94f7-b0071aab877d">
 <File Id="_MAVCmd_txt_716" Source="..\bin\release\Resources\MAVCmd.txt" />
 </Component>
 </Directory>
 <Directory Id="ru_RU716" Name="ru-RU">
-<Component Id="ru_RU_717" Guid="7891d34d-7307-43f5-8ab7-218a654ca5d6">
+<Component Id="ru_RU_717" Guid="85eac8b3-68c6-4ed6-a4b0-807e869a3c44">
 <File Id="_MissionPlanner_resources_dll_718" Source="..\bin\release\ru-RU\MissionPlanner.resources.dll" />
 </Component>
 </Directory>
 <Directory Id="zh_Hans718" Name="zh-Hans">
-<Component Id="zh_Hans_719" Guid="56d7b5cc-4f37-4a0b-a778-f2b2e76e9d98">
+<Component Id="zh_Hans_719" Guid="b043a485-f530-4ed8-9d73-485e75e4e386">
 <File Id="_MissionPlanner_resources_dll_720" Source="..\bin\release\zh-Hans\MissionPlanner.resources.dll" />
 </Component>
 </Directory>
 <Directory Id="zh_TW720" Name="zh-TW">
-<Component Id="zh_TW_721" Guid="98a75ead-0387-4843-a88d-3cc8911c2e08">
+<Component Id="zh_TW_721" Guid="6397a6d8-0727-4c6e-8203-2c92a69b8e1f">
 <File Id="_MissionPlanner_resources_dll_722" Source="..\bin\release\zh-TW\MissionPlanner.resources.dll" />
 </Component>
 </Directory>

@@ -265,20 +265,22 @@ namespace MissionPlanner.Log
                                 }
                                 else
                                 {
-
-                                    int indextimems = FindInArray(logformat[item.msgtype].FieldNames, "TimeMS");
-
-                                    if (indextimems != -1)
+                                    if (logformat.ContainsKey(item.msgtype))
                                     {
-                                        item.timems = int.Parse(items[indextimems]);
+                                        int indextimems = FindInArray(logformat[item.msgtype].FieldNames, "TimeMS");
 
-                                        item.time = gpsstarttime.AddMilliseconds(item.timems - msoffset);
+                                        if (indextimems != -1)
+                                        {
+                                            item.timems = int.Parse(items[indextimems]);
 
-                                        lasttime = item.time;
-                                    }
-                                    else
-                                    {
-                                        item.time = lasttime;
+                                            item.time = gpsstarttime.AddMilliseconds(item.timems - msoffset);
+
+                                            lasttime = item.time;
+                                        }
+                                        else
+                                        {
+                                            item.time = lasttime;
+                                        }
                                     }
                                 }
                             }

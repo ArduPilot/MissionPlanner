@@ -107,8 +107,8 @@ namespace MissionPlanner.Log
 
             myGMAP1.Overlays.Add(mapoverlay);
 
+            //CMB_preselect.DisplayMember = "Name";
             CMB_preselect.DataSource = graphs;
-            CMB_preselect.DisplayMember = "Name";
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -448,6 +448,18 @@ namespace MissionPlanner.Log
                 return;
             }
 
+            if ((col - typecoloum - 1) < 0)
+            {
+                CustomMessageBox.Show("Cannot graph this field", "Error");
+                return;
+            }
+
+            if (DFLog.logformat[type].FieldNames.Length <= (col - typecoloum - 1))
+            {
+                CustomMessageBox.Show("Invalid Field (not in FMT)", "Error");
+                return;
+            }
+
             string fieldname = DFLog.logformat[type].FieldNames[col - typecoloum - 1];
 
             GraphItem(type, fieldname, left);
@@ -474,7 +486,17 @@ namespace MissionPlanner.Log
                 }
             }
 
+            if (!DFLog.logformat.ContainsKey(type))
+            {
+                CustomMessageBox.Show("No FMT message for "+type + " - " + fieldname,"Error");
+                return;
+            }
+
             int col = FindInArray(DFLog.logformat[type].FieldNames, fieldname) + 1;
+
+            // field does not exist
+            if (col == 0)
+                return;
 
             PointPairList list1 = new PointPairList();
 
