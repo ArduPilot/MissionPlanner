@@ -43,6 +43,7 @@
             // 
             // BUT_Low
             // 
+            this.BUT_Low.ContextMenuStrip = this.contextMenuStrip1;
             resources.ApplyResources(this.BUT_Low, "BUT_Low");
             this.BUT_Low.Name = "BUT_Low";
             this.BUT_Low.UseVisualStyleBackColor = true;
@@ -50,6 +51,7 @@
             // 
             // BUT_High
             // 
+            this.BUT_High.ContextMenuStrip = this.contextMenuStrip1;
             resources.ApplyResources(this.BUT_High, "BUT_High");
             this.BUT_High.Name = "BUT_High";
             this.BUT_High.UseVisualStyleBackColor = true;

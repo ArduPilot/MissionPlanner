@@ -42,8 +42,6 @@
             this.configMandatory1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigMandatory();
             this.backstageViewPagetradheli = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
             this.configTradHeli1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigTradHeli();
-            this.backstageViewPagedefaults = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
-            this.configDefaultSettings1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigDefaultSettings();
             this.backstageViewPageframetype = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
             this.configFrameType1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigFrameType();
             this.backstageViewPagecompass = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
@@ -64,6 +62,8 @@
             this._3DRradio1 = new MissionPlanner._3DRradio();
             this.backstageViewPagebatmon = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
             this.configBatteryMonitoring1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigBatteryMonitoring();
+            this.backstageViewPagecompassmot = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
+            this.configCompassMot1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigCompassMot();
             this.backstageViewPagesonar = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
             this.configHWSonar1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigHWSonar();
             this.backstageViewPageairspeed = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
@@ -91,7 +91,6 @@
             this.backstageView.Pages.Add(this.backstageViewPagewizard);
             this.backstageView.Pages.Add(this.backstageViewPagemand);
             this.backstageView.Pages.Add(this.backstageViewPagetradheli);
-            this.backstageView.Pages.Add(this.backstageViewPagedefaults);
             this.backstageView.Pages.Add(this.backstageViewPageframetype);
             this.backstageView.Pages.Add(this.backstageViewPagecompass);
             this.backstageView.Pages.Add(this.backstageViewPageaccelquad);
@@ -102,6 +101,7 @@
             this.backstageView.Pages.Add(this.backstageViewPageopt);
             this.backstageView.Pages.Add(this.backstageViewPage3drradio);
             this.backstageView.Pages.Add(this.backstageViewPagebatmon);
+            this.backstageView.Pages.Add(this.backstageViewPagecompassmot);
             this.backstageView.Pages.Add(this.backstageViewPagesonar);
             this.backstageView.Pages.Add(this.backstageViewPageairspeed);
             this.backstageView.Pages.Add(this.backstageViewPageoptflow);
@@ -193,24 +193,10 @@
             resources.ApplyResources(this.configTradHeli1, "configTradHeli1");
             this.configTradHeli1.Name = "configTradHeli1";
             // 
-            // backstageViewPagedefaults
-            // 
-            this.backstageViewPagedefaults.Advanced = false;
-            this.backstageViewPagedefaults.LinkText = "Load default params\r\nfor standard frames";
-            this.backstageViewPagedefaults.Page = this.configDefaultSettings1;
-            this.backstageViewPagedefaults.Parent = this.backstageViewPagemand;
-            this.backstageViewPagedefaults.Show = true;
-            this.backstageViewPagedefaults.Spacing = 30;
-            resources.ApplyResources(this.backstageViewPagedefaults, "backstageViewPagedefaults");
-            // 
-            // configDefaultSettings1
-            // 
-            resources.ApplyResources(this.configDefaultSettings1, "configDefaultSettings1");
-            this.configDefaultSettings1.Name = "configDefaultSettings1";
-            // 
             // backstageViewPageframetype
             // 
             this.backstageViewPageframetype.Advanced = false;
+            this.backstageViewPageframetype.DataBindings.Add(new System.Windows.Forms.Binding("Show", this.initialSetupBindingSource, "isCopter", true));
             this.backstageViewPageframetype.LinkText = "Frame Type";
             this.backstageViewPageframetype.Page = this.configFrameType1;
             this.backstageViewPageframetype.Parent = this.backstageViewPagemand;
@@ -361,6 +347,22 @@
             resources.ApplyResources(this.configBatteryMonitoring1, "configBatteryMonitoring1");
             this.configBatteryMonitoring1.Name = "configBatteryMonitoring1";
             // 
+            // backstageViewPagecompassmot
+            // 
+            this.backstageViewPagecompassmot.Advanced = false;
+            this.backstageViewPagecompassmot.DataBindings.Add(new System.Windows.Forms.Binding("Show", this.initialSetupBindingSource, "isCopter", true));
+            this.backstageViewPagecompassmot.LinkText = "Compass/Motor Calib";
+            this.backstageViewPagecompassmot.Page = this.configCompassMot1;
+            this.backstageViewPagecompassmot.Parent = this.backstageViewPageopt;
+            this.backstageViewPagecompassmot.Show = true;
+            this.backstageViewPagecompassmot.Spacing = 30;
+            resources.ApplyResources(this.backstageViewPagecompassmot, "backstageViewPagecompassmot");
+            // 
+            // configCompassMot1
+            // 
+            resources.ApplyResources(this.configCompassMot1, "configCompassMot1");
+            this.configCompassMot1.Name = "configCompassMot1";
+            // 
             // backstageViewPagesonar
             // 
             this.backstageViewPagesonar.Advanced = false;
@@ -457,6 +459,7 @@
             resources.ApplyResources(this.tracker1, "tracker1");
             this.tracker1.ForeColor = System.Drawing.Color.White;
             this.tracker1.Name = "tracker1";
+            
             // 
             // backstageViewPageinstfw
             // 
@@ -492,7 +495,6 @@
         private ConfigurationView.ConfigMandatory configMandatory1;
         private ConfigurationView.ConfigOptional configOptional1;
         private ConfigurationView.ConfigTradHeli configTradHeli1;
-        private ConfigurationView.ConfigDefaultSettings configDefaultSettings1;
         private ConfigurationView.ConfigFrameType configFrameType1;
         private ConfigurationView.ConfigHWCompass configHWCompass1;
         private ConfigurationView.ConfigAccelerometerCalibrationQuad configAccelerometerCalibrationQuad1;
@@ -513,7 +515,6 @@
         private Controls.BackstageView.BackstageViewPage backstageViewPagemand;
         private Controls.BackstageView.BackstageViewPage backstageViewPageopt;
         private Controls.BackstageView.BackstageViewPage backstageViewPagetradheli;
-        private Controls.BackstageView.BackstageViewPage backstageViewPagedefaults;
         private Controls.BackstageView.BackstageViewPage backstageViewPageframetype;
         private Controls.BackstageView.BackstageViewPage backstageViewPagecompass;
         private Controls.BackstageView.BackstageViewPage backstageViewPageaccelquad;
@@ -532,5 +533,7 @@
         private Controls.BackstageView.BackstageViewPage backstageViewPagefwdisabled;
         private Controls.BackstageView.BackstageViewPage backstageViewPagefw;
         private System.Windows.Forms.BindingSource initialSetupBindingSource;
+        private Controls.BackstageView.BackstageViewPage backstageViewPagecompassmot;
+        private ConfigurationView.ConfigCompassMot configCompassMot1;
     }
 }

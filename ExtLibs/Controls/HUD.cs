@@ -218,10 +218,16 @@ namespace MissionPlanner.Controls
                     {
                         return (double)(float)Item.GetValue(src, null);
                     }
-                    //if (src is double)
+                    if (Item.PropertyType == typeof(Int32))
+                    {
+                        return (double)(int)Item.GetValue(src, null);
+                    }
+                    if (Item.PropertyType == typeof(double))
                     {
                         return (double)Item.GetValue(src, null);
                     }
+
+                    throw new Exception("Bad data type");
                 }
             }
             public object src { get; set; }
@@ -1536,6 +1542,10 @@ namespace MissionPlanner.Controls
                         if (item.Item.Name == "lat" || item.Item.Name == "lng") 
                         {
                             drawstring(graphicsObject, item.Header + item.GetValue.ToString("0.#######"), font, fontsize + 2, whiteBrush, this.Width / 8, height);
+                        }
+                        else if (item.Item.Name == "battery_usedmah")
+                        {
+                            drawstring(graphicsObject, item.Header + item.GetValue.ToString("0"), font, fontsize + 2, whiteBrush, this.Width / 8, height);
                         }
                         else
                         {

@@ -21,8 +21,6 @@ namespace MissionPlanner.Log
     public partial class LogBrowse : Form
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        int m_iColumnCount = 0;
-        int rowno = 1;
         DataTable m_dtCSV = new DataTable();
 
         List<DFLog.DFItem> logdata;
@@ -109,14 +107,12 @@ namespace MissionPlanner.Log
 
             myGMAP1.Overlays.Add(mapoverlay);
 
+            //CMB_preselect.DisplayMember = "Name";
             CMB_preselect.DataSource = graphs;
-            CMB_preselect.DisplayMember = "Name";
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            rowno = 1;
-
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
             openFileDialog1.Filter = "Log Files|*.log;*.bin";
             openFileDialog1.FilterIndex = 2;
@@ -187,7 +183,28 @@ namespace MissionPlanner.Log
 
                     log.Info("set dgv datasourse " + (GC.GetTotalMemory(false) / 1024.0));
 
-                    dataGridView1.DataSource = m_dtCSV;
+                    if (MainV2.MONO)
+                    {
+                        if (m_dtCSV.Rows.Count > 5000)
+                        {
+                            CustomMessageBox.Show("This log apears to be a large log, the grid view will be disabled.\nAll graphing will still work however", "Large Log");
+                            dataGridView1.Visible = false;
+                        }
+                        else
+                        {
+                            BindingSource bs = new BindingSource();
+                            bs.DataSource = m_dtCSV;
+                            dataGridView1.DataSource = bs;
+                        }
+                    }
+                    else
+                    {
+                        dataGridView1.VirtualMode = true;
+                        dataGridView1.RowCount = m_dtCSV.Rows.Count;
+                        dataGridView1.ColumnCount = m_dtCSV.Columns.Count;
+                    }
+
+        
 
                     dataGridView1.Columns[0].Visible = false;
 
@@ -255,6 +272,9 @@ namespace MissionPlanner.Log
 
         private void dataGridView1_RowEnter(object sender, DataGridViewCellEventArgs e)
         {
+            if (dataGridView1.ColumnCount < typecoloum)
+                return;
+
             try
             {
                 // number the coloums
@@ -424,15 +444,15 @@ namespace MissionPlanner.Log
 
         void graphit_clickprocess(bool left = true)
         {
-            if (dataGridView1.RowCount == 0 || dataGridView1.ColumnCount == 0)
+            if (dataGridView1 == null || dataGridView1.RowCount == 0 || dataGridView1.ColumnCount == 0)
             {
-                CustomMessageBox.Show("Please load a valid file");
+                CustomMessageBox.Show("Please load a valid file", "Error");
                 return;
             }
 
             if (dataGridView1.CurrentCell == null)
             {
-                CustomMessageBox.Show("Please select a cell first");
+                CustomMessageBox.Show("Please select a cell first", "Error");
                 return;
             }
 
@@ -442,7 +462,25 @@ namespace MissionPlanner.Log
 
             if (col == 0)
             {
-                CustomMessageBox.Show("Please pick another column, Highlight the cell you wish to graph");
+                CustomMessageBox.Show("Please pick another column, Highlight the cell you wish to graph", "Error");
+                return;
+            }
+
+            if (!DFLog.logformat.ContainsKey(type))
+            {
+                CustomMessageBox.Show("Your log file doesnt contain the required FMT messages","Error");
+                return;
+            }
+
+            if ((col - typecoloum - 1) < 0)
+            {
+                CustomMessageBox.Show("Cannot graph this field", "Error");
+                return;
+            }
+
+            if (DFLog.logformat[type].FieldNames.Length <= (col - typecoloum - 1))
+            {
+                CustomMessageBox.Show("Invalid Field (not in FMT)", "Error");
                 return;
             }
 
@@ -472,7 +510,17 @@ namespace MissionPlanner.Log
                 }
             }
 
+            if (!DFLog.logformat.ContainsKey(type))
+            {
+                CustomMessageBox.Show("No FMT message for "+type + " - " + fieldname,"Error");
+                return;
+            }
+
             int col = FindInArray(DFLog.logformat[type].FieldNames, fieldname) + 1;
+
+            // field does not exist
+            if (col == 0)
+                return;
 
             PointPairList list1 = new PointPairList();
 
@@ -778,8 +826,6 @@ namespace MissionPlanner.Log
 
         private void BUT_loadlog_Click(object sender, EventArgs e)
         {
-            // reset column count
-            m_iColumnCount = 0;
             // clear existing lists
             zg1.GraphPane.CurveList.Clear();
             // reload
@@ -968,14 +1014,19 @@ namespace MissionPlanner.Log
                 }
                 else
                 {
+                    List<CurveItem> removeitems = new List<CurveItem>();
+
                     foreach (var item in zg1.GraphPane.CurveList)
                     {
                         if (item.Label.Text.StartsWith(e.Node.Text))
                         {
-                            zg1.GraphPane.CurveList.Remove(item);
-                            break;
+                            removeitems.Add(item);
+                            //break;
                         }
                     }
+
+                    foreach (var item in removeitems)
+                        zg1.GraphPane.CurveList.Remove(item);
                 }
 
                 zg1.Invalidate();
@@ -1004,33 +1055,27 @@ namespace MissionPlanner.Log
 
         private void treeView1_DrawNode(object sender, DrawTreeNodeEventArgs e)
         {
+            var area = e.Node.Bounds;
+
             if (e.Node.Parent == null)
             {
-
-                var area = e.Node.Bounds;
-
                 area.X -= 17;
                 area.Width += 17;
 
-                using (SolidBrush brush = new SolidBrush(treeView1.BackColor))
-                {
-                    e.Graphics.FillRectangle(brush, area);
-                }
-
-
-
-                TextRenderer.DrawText(e.Graphics, e.Node.Text, treeView1.Font, e.Node.Bounds, treeView1.ForeColor, treeView1.BackColor);
-
-                if ((e.State & TreeNodeStates.Focused) == TreeNodeStates.Focused)
-                {
-                    ControlPaint.DrawFocusRectangle(e.Graphics, e.Node.Bounds, treeView1.ForeColor, treeView1.BackColor);
-                }
-
-                e.DrawDefault = true;
             }
-            else
+
+            using (SolidBrush brush = new SolidBrush(treeView1.BackColor))
             {
-                e.DrawDefault = true;
+                e.Graphics.FillRectangle(brush, area);
+            }
+
+
+
+            TextRenderer.DrawText(e.Graphics, e.Node.Text, treeView1.Font, e.Node.Bounds, treeView1.ForeColor, treeView1.BackColor);
+
+            if ((e.State & TreeNodeStates.Focused) == TreeNodeStates.Focused)
+            {
+                ControlPaint.DrawFocusRectangle(e.Graphics, e.Node.Bounds, treeView1.ForeColor, treeView1.BackColor);
             }
         }
 
@@ -1041,6 +1086,11 @@ namespace MissionPlanner.Log
             dataGridView1.DataSource = null;
             mapoverlay = null;
             GC.Collect();
+        }
+
+        private void dataGridView1_CellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
+        {
+            e.Value = m_dtCSV.Rows[e.RowIndex].ItemArray[e.ColumnIndex].ToString();
         }
     }
 }

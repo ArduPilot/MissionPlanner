@@ -48,11 +48,16 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.radioButton_Y = new System.Windows.Forms.RadioButton();
             this.pictureBoxY = new MissionPlanner.Controls.PictureBoxWithPseudoOpacity();
             this.label7 = new System.Windows.Forms.Label();
+            this.configDefaultSettings1 = new MissionPlanner.Controls.ConfigDefaultSettings();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPlus)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxV)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxH)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxY)).BeginInit();
+            this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // radioButton_Plus
@@ -175,35 +180,57 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             resources.ApplyResources(this.label7, "label7");
             this.label7.Name = "label7";
             // 
+            // configDefaultSettings1
+            // 
+            resources.ApplyResources(this.configDefaultSettings1, "configDefaultSettings1");
+            this.configDefaultSettings1.Name = "configDefaultSettings1";
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.configDefaultSettings1);
+            resources.ApplyResources(this.groupBox1, "groupBox1");
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.TabStop = false;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.pictureBoxPlus);
+            this.groupBox2.Controls.Add(this.pictureBoxX);
+            this.groupBox2.Controls.Add(this.label7);
+            this.groupBox2.Controls.Add(this.radioButton_Plus);
+            this.groupBox2.Controls.Add(this.label5);
+            this.groupBox2.Controls.Add(this.radioButton_X);
+            this.groupBox2.Controls.Add(this.radioButton_Y);
+            this.groupBox2.Controls.Add(this.label2);
+            this.groupBox2.Controls.Add(this.pictureBoxY);
+            this.groupBox2.Controls.Add(this.label3);
+            this.groupBox2.Controls.Add(this.label4);
+            this.groupBox2.Controls.Add(this.pictureBoxV);
+            this.groupBox2.Controls.Add(this.label1);
+            this.groupBox2.Controls.Add(this.radioButton_V);
+            this.groupBox2.Controls.Add(this.radioButton_H);
+            this.groupBox2.Controls.Add(this.label6);
+            this.groupBox2.Controls.Add(this.pictureBoxH);
+            resources.ApplyResources(this.groupBox2, "groupBox2");
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.TabStop = false;
+            // 
             // ConfigFrameType
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.label7);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.radioButton_Y);
-            this.Controls.Add(this.pictureBoxY);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.radioButton_H);
-            this.Controls.Add(this.pictureBoxH);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this.radioButton_V);
-            this.Controls.Add(this.pictureBoxV);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.radioButton_X);
-            this.Controls.Add(this.radioButton_Plus);
-            this.Controls.Add(this.pictureBoxPlus);
-            this.Controls.Add(this.pictureBoxX);
+            this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.groupBox1);
             this.Name = "ConfigFrameType";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPlus)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxX)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxV)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxH)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxY)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -226,5 +253,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private System.Windows.Forms.RadioButton radioButton_Y;
         private PictureBoxWithPseudoOpacity pictureBoxY;
         private System.Windows.Forms.Label label7;
+        private ConfigDefaultSettings configDefaultSettings1;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox groupBox2;
     }
 }

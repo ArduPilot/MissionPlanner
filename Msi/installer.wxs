@@ -2,14 +2,14 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension" xmlns:difx="http://schemas.microsoft.com/wix/DifxAppExtension" xmlns:iis='http://schemas.microsoft.com/wix/IIsExtension' >
 
 
-    <Product Id="*" Name="Mission Planner" Language="1033" Version="1.2.95" Manufacturer="Michael Oborne" UpgradeCode="{625389D7-EB3C-4d77-A5F6-A285CF99437D}">
+    <Product Id="*" Name="Mission Planner" Language="1033" Version="1.2.97" Manufacturer="Michael Oborne" UpgradeCode="{625389D7-EB3C-4d77-A5F6-A285CF99437D}">
 
         <Package Description="Mission Planner Installer" Comments="Mission Planner Installer" Manufacturer="Michael Oborne" InstallerVersion="200" Compressed="yes" />
 
 
 <Upgrade Id="{625389D7-EB3C-4d77-A5F6-A285CF99437D}">
-    <UpgradeVersion OnlyDetect="yes" Minimum="1.2.95" Property="NEWERVERSIONDETECTED" IncludeMinimum="no" />
-    <UpgradeVersion OnlyDetect="no" Minimum="0.0.0" Maximum="1.2.95" Property="OLDERVERSIONBEINGUPGRADED" IncludeMinimum="yes" IncludeMaximum="yes" />
+    <UpgradeVersion OnlyDetect="yes" Minimum="1.2.97" Property="NEWERVERSIONDETECTED" IncludeMinimum="no" />
+    <UpgradeVersion OnlyDetect="no" Minimum="0.0.0" Maximum="1.2.97" Property="OLDERVERSIONBEINGUPGRADED" IncludeMinimum="yes" IncludeMaximum="yes" />
 </Upgrade>
 
 <InstallExecuteSequence>
@@ -32,7 +32,7 @@
                             <Permission User="Everyone" GenericAll="yes" /> 
                         </CreateFolder>
                     </Component>
-<Component Id="_1" Guid="f0f9685a-9eff-40ff-8084-8b206d23a8b4">
+<Component Id="_1" Guid="ce62533d-685e-4a80-b53b-68e860e5d1eb">
 <File Id="_acsimplepids_xml_2" Source="..\bin\release\acsimplepids.xml" />
 <File Id="_alglibnet2_dll_3" Source="..\bin\release\alglibnet2.dll" />
 <File Id="_aotall_4" Source="..\bin\release\aotall" />
@@ -58,264 +58,262 @@
 <File Id="_DirectShowLib_2005_dll_24" Source="..\bin\release\DirectShowLib-2005.dll" />
 <File Id="_exif_xslt_25" Source="..\bin\release\exif.xslt" />
 <File Id="_FirmwareHistory_txt_26" Source="..\bin\release\FirmwareHistory.txt" />
-<File Id="_GeoUtility_dll_27" Source="..\bin\release\GeoUtility.dll" />
-<File Id="_GeoUtility_pdb_28" Source="..\bin\release\GeoUtility.pdb" />
-<File Id="_GeoUtility_xml_29" Source="..\bin\release\GeoUtility.xml" />
-<File Id="_GMap_NET_Core_dll_30" Source="..\bin\release\GMap.NET.Core.dll" />
-<File Id="_GMap_NET_WindowsForms_dll_31" Source="..\bin\release\GMap.NET.WindowsForms.dll" />
-<File Id="_hud_html_32" Source="..\bin\release\hud.html" />
-<File Id="_ICSharpCode_SharpZipLib_dll_33" Source="..\bin\release\ICSharpCode.SharpZipLib.dll" />
-<File Id="_Ionic_Zip_Reduced_dll_34" Source="..\bin\release\Ionic.Zip.Reduced.dll" />
-<File Id="_IronPython_dll_35" Source="..\bin\release\IronPython.dll" />
-<File Id="_IronPython_Modules_dll_36" Source="..\bin\release\IronPython.Modules.dll" />
-<File Id="_IronPython_Modules_xml_37" Source="..\bin\release\IronPython.Modules.xml" />
-<File Id="_IronPython_SQLite_dll_38" Source="..\bin\release\IronPython.SQLite.dll" />
-<File Id="_IronPython_SQLite_xml_39" Source="..\bin\release\IronPython.SQLite.xml" />
-<File Id="_IronPython_xml_40" Source="..\bin\release\IronPython.xml" />
-<File Id="_KMLib_dll_41" Source="..\bin\release\KMLib.dll" />
-<File Id="_KMLib_pdb_42" Source="..\bin\release\KMLib.pdb" />
-<File Id="_log4net_dll_43" Source="..\bin\release\log4net.dll" />
-<File Id="_mavcmd_xml_44" Source="..\bin\release\mavcmd.xml" />
-<File Id="_MAVLink_dll_45" Source="..\bin\release\MAVLink.dll" />
-<File Id="_MAVLink_pdb_46" Source="..\bin\release\MAVLink.pdb" />
-<File Id="_MAVLink_xml_47" Source="..\bin\release\MAVLink.xml" />
-<File Id="_MetaDataExtractor_dll_48" Source="..\bin\release\MetaDataExtractor.dll" />
-<File Id="_MetadataExtractor_dtd_49" Source="..\bin\release\MetadataExtractor.dtd" />
-<File Id="_MetadataExtractorNew_dtd_50" Source="..\bin\release\MetadataExtractorNew.dtd" />
-<File Id="_Microsoft_DirectX_DirectInput_dll_51" Source="..\bin\release\Microsoft.DirectX.DirectInput.dll" />
-<File Id="_Microsoft_DirectX_dll_52" Source="..\bin\release\Microsoft.DirectX.dll" />
-<File Id="_Microsoft_Dynamic_dll_53" Source="..\bin\release\Microsoft.Dynamic.dll" />
-<File Id="_Microsoft_Dynamic_xml_54" Source="..\bin\release\Microsoft.Dynamic.xml" />
-<File Id="_Microsoft_Scripting_AspNet_dll_55" Source="..\bin\release\Microsoft.Scripting.AspNet.dll" />
-<File Id="_Microsoft_Scripting_AspNet_xml_56" Source="..\bin\release\Microsoft.Scripting.AspNet.xml" />
-<File Id="_Microsoft_Scripting_Core_dll_57" Source="..\bin\release\Microsoft.Scripting.Core.dll" />
-<File Id="_Microsoft_Scripting_Debugging_dll_58" Source="..\bin\release\Microsoft.Scripting.Debugging.dll" />
-<File Id="_Microsoft_Scripting_dll_59" Source="..\bin\release\Microsoft.Scripting.dll" />
-<File Id="_Microsoft_Scripting_ExtensionAttribute_dll_60" Source="..\bin\release\Microsoft.Scripting.ExtensionAttribute.dll" />
-<File Id="_Microsoft_Scripting_Metadata_dll_61" Source="..\bin\release\Microsoft.Scripting.Metadata.dll" />
-<File Id="_Microsoft_Scripting_Metadata_xml_62" Source="..\bin\release\Microsoft.Scripting.Metadata.xml" />
-<File Id="_Microsoft_Scripting_xml_63" Source="..\bin\release\Microsoft.Scripting.xml" />
-<File Id="_MissionPlanner_application_64" Source="..\bin\release\MissionPlanner.application" />
-<File Id="_MissionPlanner_Comms_dll_65" Source="..\bin\release\MissionPlanner.Comms.dll" />
-<File Id="_MissionPlanner_Comms_pdb_66" Source="..\bin\release\MissionPlanner.Comms.pdb" />
-<File Id="_MissionPlanner_Controls_dll_67" Source="..\bin\release\MissionPlanner.Controls.dll" />
-<File Id="_MissionPlanner_Controls_pdb_68" Source="..\bin\release\MissionPlanner.Controls.pdb" />
-<File Id="_69" Source="..\bin\release\MissionPlanner.exe" ><netfx:NativeImage Id="ngen_MissionPlannerexe"/> </File>
+<File Id="_fwversions_xml_27" Source="..\bin\release\fwversions.xml" />
+<File Id="_GeoUtility_dll_28" Source="..\bin\release\GeoUtility.dll" />
+<File Id="_GeoUtility_pdb_29" Source="..\bin\release\GeoUtility.pdb" />
+<File Id="_GeoUtility_xml_30" Source="..\bin\release\GeoUtility.xml" />
+<File Id="_GMap_NET_Core_dll_31" Source="..\bin\release\GMap.NET.Core.dll" />
+<File Id="_GMap_NET_WindowsForms_dll_32" Source="..\bin\release\GMap.NET.WindowsForms.dll" />
+<File Id="_hud_html_33" Source="..\bin\release\hud.html" />
+<File Id="_ICSharpCode_SharpZipLib_dll_34" Source="..\bin\release\ICSharpCode.SharpZipLib.dll" />
+<File Id="_Ionic_Zip_Reduced_dll_35" Source="..\bin\release\Ionic.Zip.Reduced.dll" />
+<File Id="_IronPython_dll_36" Source="..\bin\release\IronPython.dll" />
+<File Id="_IronPython_Modules_dll_37" Source="..\bin\release\IronPython.Modules.dll" />
+<File Id="_IronPython_Modules_xml_38" Source="..\bin\release\IronPython.Modules.xml" />
+<File Id="_IronPython_SQLite_dll_39" Source="..\bin\release\IronPython.SQLite.dll" />
+<File Id="_IronPython_SQLite_xml_40" Source="..\bin\release\IronPython.SQLite.xml" />
+<File Id="_IronPython_xml_41" Source="..\bin\release\IronPython.xml" />
+<File Id="_KMLib_dll_42" Source="..\bin\release\KMLib.dll" />
+<File Id="_KMLib_pdb_43" Source="..\bin\release\KMLib.pdb" />
+<File Id="_log4net_dll_44" Source="..\bin\release\log4net.dll" />
+<File Id="_mavcmd_xml_45" Source="..\bin\release\mavcmd.xml" />
+<File Id="_MAVLink_dll_46" Source="..\bin\release\MAVLink.dll" />
+<File Id="_MAVLink_pdb_47" Source="..\bin\release\MAVLink.pdb" />
+<File Id="_MAVLink_xml_48" Source="..\bin\release\MAVLink.xml" />
+<File Id="_MetaDataExtractor_dll_49" Source="..\bin\release\MetaDataExtractor.dll" />
+<File Id="_MetadataExtractor_dtd_50" Source="..\bin\release\MetadataExtractor.dtd" />
+<File Id="_MetadataExtractorNew_dtd_51" Source="..\bin\release\MetadataExtractorNew.dtd" />
+<File Id="_Microsoft_DirectX_DirectInput_dll_52" Source="..\bin\release\Microsoft.DirectX.DirectInput.dll" />
+<File Id="_Microsoft_DirectX_dll_53" Source="..\bin\release\Microsoft.DirectX.dll" />
+<File Id="_Microsoft_Dynamic_dll_54" Source="..\bin\release\Microsoft.Dynamic.dll" />
+<File Id="_Microsoft_Dynamic_xml_55" Source="..\bin\release\Microsoft.Dynamic.xml" />
+<File Id="_Microsoft_Scripting_Core_dll_56" Source="..\bin\release\Microsoft.Scripting.Core.dll" />
+<File Id="_Microsoft_Scripting_Debugging_dll_57" Source="..\bin\release\Microsoft.Scripting.Debugging.dll" />
+<File Id="_Microsoft_Scripting_dll_58" Source="..\bin\release\Microsoft.Scripting.dll" />
+<File Id="_Microsoft_Scripting_ExtensionAttribute_dll_59" Source="..\bin\release\Microsoft.Scripting.ExtensionAttribute.dll" />
+<File Id="_Microsoft_Scripting_Metadata_dll_60" Source="..\bin\release\Microsoft.Scripting.Metadata.dll" />
+<File Id="_Microsoft_Scripting_Metadata_xml_61" Source="..\bin\release\Microsoft.Scripting.Metadata.xml" />
+<File Id="_Microsoft_Scripting_xml_62" Source="..\bin\release\Microsoft.Scripting.xml" />
+<File Id="_MissionPlanner_Comms_dll_63" Source="..\bin\release\MissionPlanner.Comms.dll" />
+<File Id="_MissionPlanner_Comms_pdb_64" Source="..\bin\release\MissionPlanner.Comms.pdb" />
+<File Id="_MissionPlanner_Controls_dll_65" Source="..\bin\release\MissionPlanner.Controls.dll" />
+<File Id="_MissionPlanner_Controls_pdb_66" Source="..\bin\release\MissionPlanner.Controls.pdb" />
+<File Id="_67" Source="..\bin\release\MissionPlanner.exe" ><netfx:NativeImage Id="ngen_MissionPlannerexe"/> </File>
 <ProgId Id='MissionPlanner.tlog' Description='Telemetry Log'>
   <Extension Id='tlog' ContentType='application/tlog'>
-     <Verb Id='open' Command='Open' TargetFile='_69' Argument='"%1"' />
+     <Verb Id='open' Command='Open' TargetFile='_67' Argument='"%1"' />
   </Extension>
 </ProgId>
-<File Id="_MissionPlanner_exe_config_70" Source="..\bin\release\MissionPlanner.exe.config" />
-<File Id="_MissionPlanner_exe_manifest_71" Source="..\bin\release\MissionPlanner.exe.manifest" />
-<File Id="_MissionPlanner_pdb_72" Source="..\bin\release\MissionPlanner.pdb" />
-<File Id="_MissionPlanner_sh_73" Source="..\bin\release\MissionPlanner.sh" />
-<File Id="_MissionPlanner_Utilities_dll_74" Source="..\bin\release\MissionPlanner.Utilities.dll" />
-<File Id="_MissionPlanner_Utilities_pdb_75" Source="..\bin\release\MissionPlanner.Utilities.pdb" />
-<File Id="_MissionPlanner_vshost_application_76" Source="..\bin\release\MissionPlanner.vshost.application" />
-<File Id="_MissionPlanner_vshost_exe_77" Source="..\bin\release\MissionPlanner.vshost.exe" />
-<File Id="_MissionPlanner_vshost_exe_config_78" Source="..\bin\release\MissionPlanner.vshost.exe.config" />
-<File Id="_MissionPlanner_vshost_exe_manifest_79" Source="..\bin\release\MissionPlanner.vshost.exe.manifest" />
-<File Id="_netDxf_dll_80" Source="..\bin\release\netDxf.dll" />
-<File Id="_network_log_81" Source="..\bin\release\network.log" />
-<File Id="_OpenTK_dll_82" Source="..\bin\release\OpenTK.dll" />
-<File Id="_OpenTK_GLControl_dll_83" Source="..\bin\release\OpenTK.GLControl.dll" />
-<File Id="_OpenTK_GLControl_xml_84" Source="..\bin\release\OpenTK.GLControl.xml" />
-<File Id="_ParameterMetaDataBackup_xml_85" Source="..\bin\release\ParameterMetaDataBackup.xml" />
-<File Id="_ProjNet_dll_86" Source="..\bin\release\ProjNet.dll" />
-<File Id="_px4uploader_exe_87" Source="..\bin\release\px4uploader.exe" />
-<File Id="_quadhil_xml_88" Source="..\bin\release\quadhil.xml" />
-<File Id="_sampleFile_xml_89" Source="..\bin\release\sampleFile.xml" />
-<File Id="_SharpKml_dll_90" Source="..\bin\release\SharpKml.dll" />
-<File Id="_SharpKml_pdb_91" Source="..\bin\release\SharpKml.pdb" />
-<File Id="_SharpKml_xml_92" Source="..\bin\release\SharpKml.xml" />
-<File Id="_System_Reactive_Core_dll_93" Source="..\bin\release\System.Reactive.Core.dll" />
-<File Id="_System_Reactive_Core_xml_94" Source="..\bin\release\System.Reactive.Core.xml" />
-<File Id="_System_Reactive_Interfaces_dll_95" Source="..\bin\release\System.Reactive.Interfaces.dll" />
-<File Id="_System_Reactive_Interfaces_xml_96" Source="..\bin\release\System.Reactive.Interfaces.xml" />
-<File Id="_System_Reactive_Linq_dll_97" Source="..\bin\release\System.Reactive.Linq.dll" />
-<File Id="_System_Reactive_Linq_xml_98" Source="..\bin\release\System.Reactive.Linq.xml" />
-<File Id="_System_Speech_dll_99" Source="..\bin\release\System.Speech.dll" />
-<File Id="_Transitions_dll_100" Source="..\bin\release\Transitions.dll" />
-<File Id="_Updater_exe_101" Source="..\bin\release\Updater.exe" />
-<File Id="_Updater_exe_config_102" Source="..\bin\release\Updater.exe.config" />
-<File Id="_Updater_vshost_exe_103" Source="..\bin\release\Updater.vshost.exe" />
-<File Id="_version_exe_104" Source="..\bin\release\version.exe" />
-<File Id="_version_txt_105" Source="..\bin\release\version.txt" />
-<File Id="_ZedGraph_dll_106" Source="..\bin\release\ZedGraph.dll" />
-<File Id="_ZedGraph_pdb_107" Source="..\bin\release\ZedGraph.pdb" />
-<File Id="_ZedGraph_xml_108" Source="..\bin\release\ZedGraph.xml" />
-<File Id="_zlib_net_dll_109" Source="..\bin\release\zlib.net.dll" />
+<File Id="_MissionPlanner_exe_config_68" Source="..\bin\release\MissionPlanner.exe.config" />
+<File Id="_MissionPlanner_log_69" Source="..\bin\release\MissionPlanner.log" />
+<File Id="_MissionPlanner_pdb_70" Source="..\bin\release\MissionPlanner.pdb" />
+<File Id="_MissionPlanner_sh_71" Source="..\bin\release\MissionPlanner.sh" />
+<File Id="_MissionPlanner_Utilities_dll_72" Source="..\bin\release\MissionPlanner.Utilities.dll" />
+<File Id="_MissionPlanner_Utilities_pdb_73" Source="..\bin\release\MissionPlanner.Utilities.pdb" />
+<File Id="_MissionPlanner_vshost_exe_74" Source="..\bin\release\MissionPlanner.vshost.exe" />
+<File Id="_MissionPlanner_vshost_exe_config_75" Source="..\bin\release\MissionPlanner.vshost.exe.config" />
+<File Id="_netDxf_dll_76" Source="..\bin\release\netDxf.dll" />
+<File Id="_network_log_77" Source="..\bin\release\network.log" />
+<File Id="_OpenTK_dll_78" Source="..\bin\release\OpenTK.dll" />
+<File Id="_OpenTK_GLControl_dll_79" Source="..\bin\release\OpenTK.GLControl.dll" />
+<File Id="_OpenTK_GLControl_xml_80" Source="..\bin\release\OpenTK.GLControl.xml" />
+<File Id="_ParameterMetaDataBackup_xml_81" Source="..\bin\release\ParameterMetaDataBackup.xml" />
+<File Id="_ProjNet_dll_82" Source="..\bin\release\ProjNet.dll" />
+<File Id="_px4uploader_exe_83" Source="..\bin\release\px4uploader.exe" />
+<File Id="_quadhil_xml_84" Source="..\bin\release\quadhil.xml" />
+<File Id="_sampleFile_xml_85" Source="..\bin\release\sampleFile.xml" />
+<File Id="_SharpKml_dll_86" Source="..\bin\release\SharpKml.dll" />
+<File Id="_SharpKml_pdb_87" Source="..\bin\release\SharpKml.pdb" />
+<File Id="_SharpKml_xml_88" Source="..\bin\release\SharpKml.xml" />
+<File Id="_System_Reactive_Core_dll_89" Source="..\bin\release\System.Reactive.Core.dll" />
+<File Id="_System_Reactive_Core_xml_90" Source="..\bin\release\System.Reactive.Core.xml" />
+<File Id="_System_Reactive_Interfaces_dll_91" Source="..\bin\release\System.Reactive.Interfaces.dll" />
+<File Id="_System_Reactive_Interfaces_xml_92" Source="..\bin\release\System.Reactive.Interfaces.xml" />
+<File Id="_System_Reactive_Linq_dll_93" Source="..\bin\release\System.Reactive.Linq.dll" />
+<File Id="_System_Reactive_Linq_xml_94" Source="..\bin\release\System.Reactive.Linq.xml" />
+<File Id="_System_Speech_dll_95" Source="..\bin\release\System.Speech.dll" />
+<File Id="_Transitions_dll_96" Source="..\bin\release\Transitions.dll" />
+<File Id="_Updater_exe_97" Source="..\bin\release\Updater.exe" />
+<File Id="_Updater_exe_config_98" Source="..\bin\release\Updater.exe.config" />
+<File Id="_Updater_vshost_exe_99" Source="..\bin\release\Updater.vshost.exe" />
+<File Id="_version_exe_100" Source="..\bin\release\version.exe" />
+<File Id="_version_txt_101" Source="..\bin\release\version.txt" />
+<File Id="_ZedGraph_dll_102" Source="..\bin\release\ZedGraph.dll" />
+<File Id="_ZedGraph_pdb_103" Source="..\bin\release\ZedGraph.pdb" />
+<File Id="_ZedGraph_xml_104" Source="..\bin\release\ZedGraph.xml" />
+<File Id="_zlib_net_dll_105" Source="..\bin\release\zlib.net.dll" />
 </Component>
-<Directory Id="aircraft109" Name="aircraft">
-<Component Id="aircraft_110" Guid="d42adce6-ec72-4faa-a354-e33c0823479a">
-<File Id="_placeholder_txt_111" Source="..\bin\release\aircraft\placeholder.txt" />
+<Directory Id="aircraft105" Name="aircraft">
+<Component Id="aircraft_106" Guid="b2f8f8c1-1306-49b1-8359-d89351ec5982">
+<File Id="_placeholder_txt_107" Source="..\bin\release\aircraft\placeholder.txt" />
 </Component>
-<Directory Id="arducopter111" Name="arducopter">
-<Component Id="arducopter_112" Guid="7e3c06be-9bc7-4f6e-bb67-980f08f833aa">
-<File Id="_arducopter_set_xml_113" Source="..\bin\release\aircraft\arducopter\arducopter-set.xml" />
-<File Id="_arducopter_jpg_114" Source="..\bin\release\aircraft\arducopter\arducopter.jpg" />
-<File Id="_arducopter_xml_115" Source="..\bin\release\aircraft\arducopter\arducopter.xml" />
-<File Id="_initfile_xml_116" Source="..\bin\release\aircraft\arducopter\initfile.xml" />
-<File Id="_plus_quad2_set_xml_117" Source="..\bin\release\aircraft\arducopter\plus_quad2-set.xml" />
-<File Id="_plus_quad2_xml_118" Source="..\bin\release\aircraft\arducopter\plus_quad2.xml" />
-<File Id="_quad_nas_119" Source="..\bin\release\aircraft\arducopter\quad.nas" />
-<File Id="_README_120" Source="..\bin\release\aircraft\arducopter\README" />
+<Directory Id="arducopter107" Name="arducopter">
+<Component Id="arducopter_108" Guid="69b1ae95-358d-4adb-9402-838237fa81e6">
+<File Id="_arducopter_set_xml_109" Source="..\bin\release\aircraft\arducopter\arducopter-set.xml" />
+<File Id="_arducopter_jpg_110" Source="..\bin\release\aircraft\arducopter\arducopter.jpg" />
+<File Id="_arducopter_xml_111" Source="..\bin\release\aircraft\arducopter\arducopter.xml" />
+<File Id="_initfile_xml_112" Source="..\bin\release\aircraft\arducopter\initfile.xml" />
+<File Id="_plus_quad2_set_xml_113" Source="..\bin\release\aircraft\arducopter\plus_quad2-set.xml" />
+<File Id="_plus_quad2_xml_114" Source="..\bin\release\aircraft\arducopter\plus_quad2.xml" />
+<File Id="_quad_nas_115" Source="..\bin\release\aircraft\arducopter\quad.nas" />
+<File Id="_README_116" Source="..\bin\release\aircraft\arducopter\README" />
 </Component>
-<Directory Id="data120" Name="data">
-<Component Id="data_121" Guid="22570fd5-fac8-41e1-9014-a2fd4105bdc5">
-<File Id="_arducopter_half_step_txt_122" Source="..\bin\release\aircraft\arducopter\data\arducopter_half_step.txt" />
-<File Id="_arducopter_step_txt_123" Source="..\bin\release\aircraft\arducopter\data\arducopter_step.txt" />
-<File Id="_rw_generic_pylon_ac_124" Source="..\bin\release\aircraft\arducopter\data\rw_generic_pylon.ac" />
+<Directory Id="data116" Name="data">
+<Component Id="data_117" Guid="ce4393b3-506e-42d9-9a06-fa9b99309c5a">
+<File Id="_arducopter_half_step_txt_118" Source="..\bin\release\aircraft\arducopter\data\arducopter_half_step.txt" />
+<File Id="_arducopter_step_txt_119" Source="..\bin\release\aircraft\arducopter\data\arducopter_step.txt" />
+<File Id="_rw_generic_pylon_ac_120" Source="..\bin\release\aircraft\arducopter\data\rw_generic_pylon.ac" />
 </Component>
 </Directory>
-<Directory Id="Engines124" Name="Engines">
-<Component Id="Engines_125" Guid="30197ceb-df47-4a06-9aff-e4201603be1a">
-<File Id="_a2830_12_xml_126" Source="..\bin\release\aircraft\arducopter\Engines\a2830-12.xml" />
-<File Id="_prop10x4_5_xml_127" Source="..\bin\release\aircraft\arducopter\Engines\prop10x4.5.xml" />
+<Directory Id="Engines120" Name="Engines">
+<Component Id="Engines_121" Guid="a21c186e-b069-4664-8f7e-6c88db980596">
+<File Id="_a2830_12_xml_122" Source="..\bin\release\aircraft\arducopter\Engines\a2830-12.xml" />
+<File Id="_prop10x4_5_xml_123" Source="..\bin\release\aircraft\arducopter\Engines\prop10x4.5.xml" />
 </Component>
 </Directory>
-<Directory Id="Models127" Name="Models">
-<Component Id="Models_128" Guid="060bf3d5-1130-4080-bd8d-cc7ac0647460">
-<File Id="_arducopter_ac_129" Source="..\bin\release\aircraft\arducopter\Models\arducopter.ac" />
-<File Id="_arducopter_xml_130" Source="..\bin\release\aircraft\arducopter\Models\arducopter.xml" />
-<File Id="_plus_quad_ac_131" Source="..\bin\release\aircraft\arducopter\Models\plus_quad.ac" />
-<File Id="_plus_quad2_ac_132" Source="..\bin\release\aircraft\arducopter\Models\plus_quad2.ac" />
-<File Id="_plus_quad2_xml_133" Source="..\bin\release\aircraft\arducopter\Models\plus_quad2.xml" />
-<File Id="_quad_3ds_134" Source="..\bin\release\aircraft\arducopter\Models\quad.3ds" />
-<File Id="_shareware_output_3ds_135" Source="..\bin\release\aircraft\arducopter\Models\shareware_output.3ds" />
-<File Id="_Untitled_ac_136" Source="..\bin\release\aircraft\arducopter\Models\Untitled.ac" />
-<File Id="_Y6_test_ac_137" Source="..\bin\release\aircraft\arducopter\Models\Y6_test.ac" />
+<Directory Id="Models123" Name="Models">
+<Component Id="Models_124" Guid="6af2cf01-7cf2-48a6-adad-4dfb75e33aa2">
+<File Id="_arducopter_ac_125" Source="..\bin\release\aircraft\arducopter\Models\arducopter.ac" />
+<File Id="_arducopter_xml_126" Source="..\bin\release\aircraft\arducopter\Models\arducopter.xml" />
+<File Id="_plus_quad_ac_127" Source="..\bin\release\aircraft\arducopter\Models\plus_quad.ac" />
+<File Id="_plus_quad2_ac_128" Source="..\bin\release\aircraft\arducopter\Models\plus_quad2.ac" />
+<File Id="_plus_quad2_xml_129" Source="..\bin\release\aircraft\arducopter\Models\plus_quad2.xml" />
+<File Id="_quad_3ds_130" Source="..\bin\release\aircraft\arducopter\Models\quad.3ds" />
+<File Id="_shareware_output_3ds_131" Source="..\bin\release\aircraft\arducopter\Models\shareware_output.3ds" />
+<File Id="_Untitled_ac_132" Source="..\bin\release\aircraft\arducopter\Models\Untitled.ac" />
+<File Id="_Y6_test_ac_133" Source="..\bin\release\aircraft\arducopter\Models\Y6_test.ac" />
 </Component>
 </Directory>
 </Directory>
-<Directory Id="Rascal137" Name="Rascal">
-<Component Id="Rascal_138" Guid="c682d65a-d850-473e-b30e-454bcfe85abd">
-<File Id="_Rascal_keyboard_xml_139" Source="..\bin\release\aircraft\Rascal\Rascal-keyboard.xml" />
-<File Id="_Rascal_submodels_xml_140" Source="..\bin\release\aircraft\Rascal\Rascal-submodels.xml" />
-<File Id="_Rascal_xml_141" Source="..\bin\release\aircraft\Rascal\Rascal.xml" />
-<File Id="_Rascal110_JSBSim_set_xml_142" Source="..\bin\release\aircraft\Rascal\Rascal110-JSBSim-set.xml" />
-<File Id="_Rascal110_JSBSim_xml_143" Source="..\bin\release\aircraft\Rascal\Rascal110-JSBSim.xml" />
-<File Id="_Rascal110_splash_rgb_144" Source="..\bin\release\aircraft\Rascal\Rascal110-splash.rgb" />
-<File Id="_README_Rascal_145" Source="..\bin\release\aircraft\Rascal\README.Rascal" />
-<File Id="_reset_CMAC_xml_146" Source="..\bin\release\aircraft\Rascal\reset_CMAC.xml" />
-<File Id="_thumbnail_jpg_147" Source="..\bin\release\aircraft\Rascal\thumbnail.jpg" />
+<Directory Id="Rascal133" Name="Rascal">
+<Component Id="Rascal_134" Guid="518b7f88-72ce-466d-94e3-208fc0355390">
+<File Id="_Rascal_keyboard_xml_135" Source="..\bin\release\aircraft\Rascal\Rascal-keyboard.xml" />
+<File Id="_Rascal_submodels_xml_136" Source="..\bin\release\aircraft\Rascal\Rascal-submodels.xml" />
+<File Id="_Rascal_xml_137" Source="..\bin\release\aircraft\Rascal\Rascal.xml" />
+<File Id="_Rascal110_JSBSim_set_xml_138" Source="..\bin\release\aircraft\Rascal\Rascal110-JSBSim-set.xml" />
+<File Id="_Rascal110_JSBSim_xml_139" Source="..\bin\release\aircraft\Rascal\Rascal110-JSBSim.xml" />
+<File Id="_Rascal110_splash_rgb_140" Source="..\bin\release\aircraft\Rascal\Rascal110-splash.rgb" />
+<File Id="_README_Rascal_141" Source="..\bin\release\aircraft\Rascal\README.Rascal" />
+<File Id="_reset_CMAC_xml_142" Source="..\bin\release\aircraft\Rascal\reset_CMAC.xml" />
+<File Id="_thumbnail_jpg_143" Source="..\bin\release\aircraft\Rascal\thumbnail.jpg" />
 </Component>
-<Directory Id="Engines147" Name="Engines">
-<Component Id="Engines_148" Guid="ded9137c-8a68-4b17-a3f4-6991d98d230e">
-<File Id="_18x8_xml_149" Source="..\bin\release\aircraft\Rascal\Engines\18x8.xml" />
-<File Id="_Zenoah_G_26A_xml_150" Source="..\bin\release\aircraft\Rascal\Engines\Zenoah_G-26A.xml" />
-</Component>
-</Directory>
-<Directory Id="Models150" Name="Models">
-<Component Id="Models_151" Guid="2705c840-b18f-4ed2-8eaa-a7cb5577118f">
-<File Id="_Rascal_rgb_152" Source="..\bin\release\aircraft\Rascal\Models\Rascal.rgb" />
-<File Id="_Rascal110_000_013_ac_153" Source="..\bin\release\aircraft\Rascal\Models\Rascal110-000-013.ac" />
-<File Id="_Rascal110_xml_154" Source="..\bin\release\aircraft\Rascal\Models\Rascal110.xml" />
-<File Id="_smoke_png_155" Source="..\bin\release\aircraft\Rascal\Models\smoke.png" />
-<File Id="_smokeW_xml_156" Source="..\bin\release\aircraft\Rascal\Models\smokeW.xml" />
-<File Id="_Trajectory_Marker_ac_157" Source="..\bin\release\aircraft\Rascal\Models\Trajectory-Marker.ac" />
-<File Id="_Trajectory_Marker_xml_158" Source="..\bin\release\aircraft\Rascal\Models\Trajectory-Marker.xml" />
+<Directory Id="Engines143" Name="Engines">
+<Component Id="Engines_144" Guid="3dfdf5f1-1ca5-430d-bd84-cb7690c1a45b">
+<File Id="_18x8_xml_145" Source="..\bin\release\aircraft\Rascal\Engines\18x8.xml" />
+<File Id="_Zenoah_G_26A_xml_146" Source="..\bin\release\aircraft\Rascal\Engines\Zenoah_G-26A.xml" />
 </Component>
 </Directory>
-<Directory Id="Systems158" Name="Systems">
-<Component Id="Systems_159" Guid="ba2071be-aa9f-4879-bf81-24c0f97f5114">
-<File Id="_110_autopilot_xml_160" Source="..\bin\release\aircraft\Rascal\Systems\110-autopilot.xml" />
-<File Id="_airdata_nas_161" Source="..\bin\release\aircraft\Rascal\Systems\airdata.nas" />
-<File Id="_electrical_xml_162" Source="..\bin\release\aircraft\Rascal\Systems\electrical.xml" />
-<File Id="_main_nas_163" Source="..\bin\release\aircraft\Rascal\Systems\main.nas" />
-<File Id="_ugear_nas_164" Source="..\bin\release\aircraft\Rascal\Systems\ugear.nas" />
+<Directory Id="Models146" Name="Models">
+<Component Id="Models_147" Guid="836fc892-c5b8-4861-bfe0-9948abe631df">
+<File Id="_Rascal_rgb_148" Source="..\bin\release\aircraft\Rascal\Models\Rascal.rgb" />
+<File Id="_Rascal110_000_013_ac_149" Source="..\bin\release\aircraft\Rascal\Models\Rascal110-000-013.ac" />
+<File Id="_Rascal110_xml_150" Source="..\bin\release\aircraft\Rascal\Models\Rascal110.xml" />
+<File Id="_smoke_png_151" Source="..\bin\release\aircraft\Rascal\Models\smoke.png" />
+<File Id="_smokeW_xml_152" Source="..\bin\release\aircraft\Rascal\Models\smokeW.xml" />
+<File Id="_Trajectory_Marker_ac_153" Source="..\bin\release\aircraft\Rascal\Models\Trajectory-Marker.ac" />
+<File Id="_Trajectory_Marker_xml_154" Source="..\bin\release\aircraft\Rascal\Models\Trajectory-Marker.xml" />
+</Component>
+</Directory>
+<Directory Id="Systems154" Name="Systems">
+<Component Id="Systems_155" Guid="41b88f64-fae8-481c-a994-22ea60d1de9f">
+<File Id="_110_autopilot_xml_156" Source="..\bin\release\aircraft\Rascal\Systems\110-autopilot.xml" />
+<File Id="_airdata_nas_157" Source="..\bin\release\aircraft\Rascal\Systems\airdata.nas" />
+<File Id="_electrical_xml_158" Source="..\bin\release\aircraft\Rascal\Systems\electrical.xml" />
+<File Id="_main_nas_159" Source="..\bin\release\aircraft\Rascal\Systems\main.nas" />
+<File Id="_ugear_nas_160" Source="..\bin\release\aircraft\Rascal\Systems\ugear.nas" />
 </Component>
 </Directory>
 </Directory>
 </Directory>
-<Directory Id="de_DE164" Name="de-DE">
-<Component Id="de_DE_165" Guid="c8184044-dd10-4858-bc92-a1b3a4bd36e1">
-<File Id="_MissionPlanner_resources_dll_166" Source="..\bin\release\de-DE\MissionPlanner.resources.dll" />
+<Directory Id="de_DE160" Name="de-DE">
+<Component Id="de_DE_161" Guid="77a5defb-be81-4066-9c15-c6017db6ccea">
+<File Id="_MissionPlanner_resources_dll_162" Source="..\bin\release\de-DE\MissionPlanner.resources.dll" />
 </Component>
 </Directory>
-<Directory Id="Driver166" Name="Driver">
-<Component Id="Driver_167" Guid="71841e20-809c-49f3-b1eb-2350ec4c6871">
-<File Id="_arduinomega2560_cat_168" Source="..\bin\release\Driver\arduinomega2560.cat" />
-<File Id="_ArduinoMEGA2560_inf_169" Source="..\bin\release\Driver\ArduinoMEGA2560.inf" />
-<File Id="_dpinst_xml_170" Source="..\bin\release\Driver\dpinst.xml" />
-<File Id="_DPInstx64_exe_171" Source="..\bin\release\Driver\DPInstx64.exe" />
-<File Id="_DPInstx86_exe_172" Source="..\bin\release\Driver\DPInstx86.exe" />
-<File Id="_px4flow_cat_173" Source="..\bin\release\Driver\px4flow.cat" />
-<File Id="_px4flow_inf_174" Source="..\bin\release\Driver\px4flow.inf" />
-<File Id="_px4fmu_cat_175" Source="..\bin\release\Driver\px4fmu.cat" />
-<File Id="_px4fmu_inf_176" Source="..\bin\release\Driver\px4fmu.inf" />
-<File Id="_signed_cer_177" Source="..\bin\release\Driver\signed.cer" />
+<Directory Id="Driver162" Name="Driver">
+<Component Id="Driver_163" Guid="7d37b186-cc0e-43c5-9d26-986233726992">
+<File Id="_arduinomega2560_cat_164" Source="..\bin\release\Driver\arduinomega2560.cat" />
+<File Id="_ArduinoMEGA2560_inf_165" Source="..\bin\release\Driver\ArduinoMEGA2560.inf" />
+<File Id="_dpinst_xml_166" Source="..\bin\release\Driver\dpinst.xml" />
+<File Id="_DPInstx64_exe_167" Source="..\bin\release\Driver\DPInstx64.exe" />
+<File Id="_DPInstx86_exe_168" Source="..\bin\release\Driver\DPInstx86.exe" />
+<File Id="_px4flow_cat_169" Source="..\bin\release\Driver\px4flow.cat" />
+<File Id="_px4flow_inf_170" Source="..\bin\release\Driver\px4flow.inf" />
+<File Id="_px4fmu_cat_171" Source="..\bin\release\Driver\px4fmu.cat" />
+<File Id="_px4fmu_inf_172" Source="..\bin\release\Driver\px4fmu.inf" />
+<File Id="_signed_cer_173" Source="..\bin\release\Driver\signed.cer" />
 </Component>
 </Directory>
-<Directory Id="es_ES177" Name="es-ES">
-<Component Id="es_ES_178" Guid="38a25304-7e38-48fd-8cd7-ddfc4cda5e7a">
-<File Id="_MissionPlanner_resources_dll_179" Source="..\bin\release\es-ES\MissionPlanner.resources.dll" />
+<Directory Id="es_ES173" Name="es-ES">
+<Component Id="es_ES_174" Guid="f0228dfb-1b58-4232-83ae-d5d3eee84218">
+<File Id="_MissionPlanner_resources_dll_175" Source="..\bin\release\es-ES\MissionPlanner.resources.dll" />
 </Component>
 </Directory>
-<Directory Id="fr179" Name="fr">
-<Component Id="fr_180" Guid="b4bfed37-076a-4737-9fbd-e591038a23cc">
-<File Id="_MissionPlanner_resources_dll_181" Source="..\bin\release\fr\MissionPlanner.resources.dll" />
+<Directory Id="fr175" Name="fr">
+<Component Id="fr_176" Guid="f2e89736-c415-4b29-95f9-7f5769781cdd">
+<File Id="_MissionPlanner_resources_dll_177" Source="..\bin\release\fr\MissionPlanner.resources.dll" />
 </Component>
 </Directory>
-<Directory Id="it_IT181" Name="it-IT">
-<Component Id="it_IT_182" Guid="d7f1532b-bcd8-4354-83e0-986c8e633e98">
-<File Id="_MissionPlanner_resources_dll_183" Source="..\bin\release\it-IT\MissionPlanner.resources.dll" />
+<Directory Id="it_IT177" Name="it-IT">
+<Component Id="it_IT_178" Guid="f03f34f9-ce52-471d-b511-8d5cc4d57577">
+<File Id="_MissionPlanner_resources_dll_179" Source="..\bin\release\it-IT\MissionPlanner.resources.dll" />
 </Component>
 </Directory>
-<Directory Id="jsbsim183" Name="jsbsim">
-<Component Id="jsbsim_184" Guid="861e6ed3-9629-4bfb-8194-28166a567638">
-<File Id="_fgout_xml_185" Source="..\bin\release\jsbsim\fgout.xml" />
-<File Id="_rascal_test_xml_186" Source="..\bin\release\jsbsim\rascal_test.xml" />
+<Directory Id="jsbsim179" Name="jsbsim">
+<Component Id="jsbsim_180" Guid="02e1b808-121e-47fe-90a8-e11ee4cee809">
+<File Id="_fgout_xml_181" Source="..\bin\release\jsbsim\fgout.xml" />
+<File Id="_rascal_test_xml_182" Source="..\bin\release\jsbsim\rascal_test.xml" />
 </Component>
 </Directory>
-<Directory Id="m3u186" Name="m3u">
-<Component Id="m3u_187" Guid="0344f361-5125-4f69-a43c-1db85a7e1aac">
-<File Id="_both_m3u_188" Source="..\bin\release\m3u\both.m3u" />
-<File Id="_GeoRefnetworklink_kml_189" Source="..\bin\release\m3u\GeoRefnetworklink.kml" />
-<File Id="_hud_m3u_190" Source="..\bin\release\m3u\hud.m3u" />
-<File Id="_map_m3u_191" Source="..\bin\release\m3u\map.m3u" />
-<File Id="_networklink_kml_192" Source="..\bin\release\m3u\networklink.kml" />
+<Directory Id="m3u182" Name="m3u">
+<Component Id="m3u_183" Guid="db143b4f-082a-4b24-a159-fb5b880521e5">
+<File Id="_both_m3u_184" Source="..\bin\release\m3u\both.m3u" />
+<File Id="_GeoRefnetworklink_kml_185" Source="..\bin\release\m3u\GeoRefnetworklink.kml" />
+<File Id="_hud_m3u_186" Source="..\bin\release\m3u\hud.m3u" />
+<File Id="_map_m3u_187" Source="..\bin\release\m3u\map.m3u" />
+<File Id="_networklink_kml_188" Source="..\bin\release\m3u\networklink.kml" />
 </Component>
 </Directory>
-<Directory Id="mavelous_web192" Name="mavelous_web">
-<Component Id="mavelous_web_193" Guid="8edf3cf3-220a-458a-a32d-490ebccfa457">
-<File Id="_index_html_194" Source="..\bin\release\mavelous_web\index.html" />
+<Directory Id="mavelous_web188" Name="mavelous_web">
+<Component Id="mavelous_web_189" Guid="85315809-711b-4684-8ecb-ba14acf76c1b">
+<File Id="_index_html_190" Source="..\bin\release\mavelous_web\index.html" />
 </Component>
 </Directory>
-<Directory Id="pl194" Name="pl">
-<Component Id="pl_195" Guid="c9844949-1394-41cc-9385-eac946ab4c59">
-<File Id="_MissionPlanner_resources_dll_196" Source="..\bin\release\pl\MissionPlanner.resources.dll" />
+<Directory Id="pl190" Name="pl">
+<Component Id="pl_191" Guid="0743f932-31bf-4ffb-b009-1488a0e5e206">
+<File Id="_MissionPlanner_resources_dll_192" Source="..\bin\release\pl\MissionPlanner.resources.dll" />
 </Component>
 </Directory>
-<Directory Id="plugins196" Name="plugins">
-<Component Id="plugins_197" Guid="2c837f07-fc68-4b1a-b679-b1b0a90210d9">
-<File Id="_MissionPlanner_Grid_dll_198" Source="..\bin\release\plugins\MissionPlanner.Grid.dll" />
-<File Id="_MissionPlanner_Grid_pdb_199" Source="..\bin\release\plugins\MissionPlanner.Grid.pdb" />
-<File Id="_MissionPlanner_Stats_dll_200" Source="..\bin\release\plugins\MissionPlanner.Stats.dll" />
-<File Id="_MissionPlanner_Stats_pdb_201" Source="..\bin\release\plugins\MissionPlanner.Stats.pdb" />
-<File Id="_TrackerHome_dll_202" Source="..\bin\release\plugins\TrackerHome.dll" />
-<File Id="_TrackerHome_pdb_203" Source="..\bin\release\plugins\TrackerHome.pdb" />
+<Directory Id="plugins192" Name="plugins">
+<Component Id="plugins_193" Guid="a4c99cbe-bf2f-40e8-959e-8e864f6e4994">
+<File Id="_MissionPlanner_Grid_dll_194" Source="..\bin\release\plugins\MissionPlanner.Grid.dll" />
+<File Id="_MissionPlanner_Grid_pdb_195" Source="..\bin\release\plugins\MissionPlanner.Grid.pdb" />
+<File Id="_MissionPlanner_SimpleGrid_dll_196" Source="..\bin\release\plugins\MissionPlanner.SimpleGrid.dll" />
+<File Id="_MissionPlanner_SimpleGrid_pdb_197" Source="..\bin\release\plugins\MissionPlanner.SimpleGrid.pdb" />
+<File Id="_MissionPlanner_Stats_dll_198" Source="..\bin\release\plugins\MissionPlanner.Stats.dll" />
+<File Id="_MissionPlanner_Stats_pdb_199" Source="..\bin\release\plugins\MissionPlanner.Stats.pdb" />
+<File Id="_TrackerHome_dll_200" Source="..\bin\release\plugins\TrackerHome.dll" />
+<File Id="_TrackerHome_pdb_201" Source="..\bin\release\plugins\TrackerHome.pdb" />
 </Component>
 </Directory>
-<Directory Id="Resources203" Name="Resources">
-<Component Id="Resources_204" Guid="c1bedb44-2094-49fd-af79-9c89ada548bb">
-<File Id="_MAVCmd_txt_205" Source="..\bin\release\Resources\MAVCmd.txt" />
+<Directory Id="Resources201" Name="Resources">
+<Component Id="Resources_202" Guid="f9f8b653-c4a6-4cb9-bc4e-860c9813a657">
+<File Id="_MAVCmd_txt_203" Source="..\bin\release\Resources\MAVCmd.txt" />
 </Component>
 </Directory>
-<Directory Id="ru_RU205" Name="ru-RU">
-<Component Id="ru_RU_206" Guid="b0c3f867-ddf1-4f6f-bbe7-676e7c98bb04">
-<File Id="_MissionPlanner_resources_dll_207" Source="..\bin\release\ru-RU\MissionPlanner.resources.dll" />
+<Directory Id="ru_RU203" Name="ru-RU">
+<Component Id="ru_RU_204" Guid="eaa6d5e6-83ee-4f59-952a-d7ca40308a6e">
+<File Id="_MissionPlanner_resources_dll_205" Source="..\bin\release\ru-RU\MissionPlanner.resources.dll" />
 </Component>
 </Directory>
-<Directory Id="zh_Hans207" Name="zh-Hans">
-<Component Id="zh_Hans_208" Guid="9cc816bb-9767-455d-b3f5-ac8c3ddc6fb1">
-<File Id="_MissionPlanner_resources_dll_209" Source="..\bin\release\zh-Hans\MissionPlanner.resources.dll" />
+<Directory Id="zh_Hans205" Name="zh-Hans">
+<Component Id="zh_Hans_206" Guid="bce83efd-8e97-435c-9152-c62981dd55da">
+<File Id="_MissionPlanner_resources_dll_207" Source="..\bin\release\zh-Hans\MissionPlanner.resources.dll" />
 </Component>
 </Directory>
-<Directory Id="zh_TW209" Name="zh-TW">
-<Component Id="zh_TW_210" Guid="08014605-7975-48a2-a6f0-28bf0bf0b939">
-<File Id="_MissionPlanner_resources_dll_211" Source="..\bin\release\zh-TW\MissionPlanner.resources.dll" />
+<Directory Id="zh_TW207" Name="zh-TW">
+<Component Id="zh_TW_208" Guid="c7693de6-2365-4a18-a92a-50ec67ad736b">
+<File Id="_MissionPlanner_resources_dll_209" Source="..\bin\release\zh-TW\MissionPlanner.resources.dll" />
 </Component>
 </Directory>
 
@@ -377,29 +375,29 @@
             <ComponentRef Id="InstallDirPermissions" />
 
 <ComponentRef Id="_1" />
-<ComponentRef Id="aircraft_110" />
-<ComponentRef Id="arducopter_112" />
-<ComponentRef Id="data_121" />
-<ComponentRef Id="Engines_125" />
-<ComponentRef Id="Models_128" />
-<ComponentRef Id="Rascal_138" />
-<ComponentRef Id="Engines_148" />
-<ComponentRef Id="Models_151" />
-<ComponentRef Id="Systems_159" />
-<ComponentRef Id="de_DE_165" />
-<ComponentRef Id="Driver_167" />
-<ComponentRef Id="es_ES_178" />
-<ComponentRef Id="fr_180" />
-<ComponentRef Id="it_IT_182" />
-<ComponentRef Id="jsbsim_184" />
-<ComponentRef Id="m3u_187" />
-<ComponentRef Id="mavelous_web_193" />
-<ComponentRef Id="pl_195" />
-<ComponentRef Id="plugins_197" />
-<ComponentRef Id="Resources_204" />
-<ComponentRef Id="ru_RU_206" />
-<ComponentRef Id="zh_Hans_208" />
-<ComponentRef Id="zh_TW_210" />
+<ComponentRef Id="aircraft_106" />
+<ComponentRef Id="arducopter_108" />
+<ComponentRef Id="data_117" />
+<ComponentRef Id="Engines_121" />
+<ComponentRef Id="Models_124" />
+<ComponentRef Id="Rascal_134" />
+<ComponentRef Id="Engines_144" />
+<ComponentRef Id="Models_147" />
+<ComponentRef Id="Systems_155" />
+<ComponentRef Id="de_DE_161" />
+<ComponentRef Id="Driver_163" />
+<ComponentRef Id="es_ES_174" />
+<ComponentRef Id="fr_176" />
+<ComponentRef Id="it_IT_178" />
+<ComponentRef Id="jsbsim_180" />
+<ComponentRef Id="m3u_183" />
+<ComponentRef Id="mavelous_web_189" />
+<ComponentRef Id="pl_191" />
+<ComponentRef Id="plugins_193" />
+<ComponentRef Id="Resources_202" />
+<ComponentRef Id="ru_RU_204" />
+<ComponentRef Id="zh_Hans_206" />
+<ComponentRef Id="zh_TW_208" />
 
             
             <ComponentRef Id="ApplicationShortcut" />
@@ -421,7 +419,7 @@
     <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Launch Mission Planner" />
 
     <!-- Step 3: Include the custom action -->
-    <Property Id="WixShellExecTarget" Value="[#_69]" />
+    <Property Id="WixShellExecTarget" Value="[#_67]" />
     <CustomAction Id="LaunchApplication" 
         BinaryKey="WixCA" 
         DllEntry="WixShellExec"

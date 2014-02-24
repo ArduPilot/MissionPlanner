@@ -47,6 +47,9 @@ namespace resedit
 
             foreach (string file in test)
             {
+                if (!file.EndsWith(".resources"))
+                    continue;
+
                 Stream rgbxml = thisAssembly.GetManifestResourceStream(
             file);
                 try
@@ -55,6 +58,9 @@ namespace resedit
                     IDictionaryEnumerator dict = res.GetEnumerator();
                     while (dict.MoveNext())
                     {
+                        if (dict.Value == null)
+                            continue;
+
                         Console.WriteLine("   {0}: '{1}' (Type {2})",
                                           dict.Key, dict.Value, dict.Value.GetType().Name);
 
@@ -265,11 +271,15 @@ namespace resedit
                 }
             }
 
-            Assembly thisAssembly;
+            Assembly thisAssembly = null;
 
             try
             {
-                thisAssembly = Assembly.LoadFile(Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + ci + Path.DirectorySeparatorChar + "MissionPlanner.resources.dll");
+                string fn = Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + ci + Path.DirectorySeparatorChar + "MissionPlanner.resources.dll";
+                if (File.Exists(fn))
+                    thisAssembly = Assembly.LoadFile(fn);
+                else
+                    return;
             }
             catch { return; }
 
@@ -316,8 +326,6 @@ namespace resedit
 
         private void BUT_clipboard_Click(object sender, EventArgs e)
         {
-            string ApiKey = "AIzaSyDW05vWXeNIfZAN4Ter8gf4YLg8rPHZToc";
-
             string sb = "";
 
             foreach (DataGridViewRow row in dataGridView1.Rows)

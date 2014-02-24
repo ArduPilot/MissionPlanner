@@ -144,7 +144,7 @@ namespace MissionPlanner
         public bool failsafe { get; set; }
 
         [DisplayText("RX Rssi")]
-        public float rxrssi { get; set; }
+        public int rxrssi { get; set; }
         //radio
         public float ch1in { get; set; }
         public float ch2in { get; set; }
@@ -251,8 +251,6 @@ namespace MissionPlanner
 
         //airspeed_error = (airspeed_error - airspeed);
 
-
-
         //message
         public List<string> messages { get; set; }
         internal string message { get { if (messages.Count == 0) return ""; return messages[messages.Count - 1]; } }
@@ -262,13 +260,13 @@ namespace MissionPlanner
 
         //battery
         [DisplayText("Bat Voltage (V)")]
-        public float battery_voltage { get { return _battery_voltage; } set { if (_battery_voltage == 0) _battery_voltage = value; _battery_voltage = value * 0.2f + _battery_voltage * 0.8f; } }
+        public float battery_voltage { get { return _battery_voltage; } set { if (_battery_voltage == 0) _battery_voltage = value; _battery_voltage = value * 0.1f + _battery_voltage * 0.9f; } }
         private float _battery_voltage;
         [DisplayText("Bat Remaining (%)")]
-        public float battery_remaining { get { return _battery_remaining; } set { _battery_remaining = value; if (_battery_remaining < 0 || _battery_remaining > 100) _battery_remaining = 0; } }
-        private float _battery_remaining;
+        public int battery_remaining { get { return _battery_remaining; } set { _battery_remaining = value; if (_battery_remaining < 0 || _battery_remaining > 100) _battery_remaining = 0; } }
+        private int _battery_remaining;
         [DisplayText("Bat Current (Amps)")]
-        public float current { get { return _current; } set { if (value < 0) return; if (_lastcurrent == DateTime.MinValue) _lastcurrent = datetime; battery_usedmah += (value * 1000) * (float)(datetime - _lastcurrent).TotalHours; _current = value; _lastcurrent = datetime; } }
+        public float current { get { return _current; } set { if (value < 0) return; if (_lastcurrent == DateTime.MinValue) _lastcurrent = datetime; battery_usedmah += (float)((value * 1000.0) * (datetime - _lastcurrent).TotalHours); _current = value; _lastcurrent = datetime; } }
         private float _current;
         private DateTime _lastcurrent = DateTime.MinValue;
         [DisplayText("Bat used EST (mah)")]
@@ -372,7 +370,7 @@ namespace MissionPlanner
         public float sonarvoltage { get; set; }
 
         // current firmware
-        public MainV2.Firmwares firmware = MainV2.Firmwares.ArduPlane;
+        public MainV2.Firmwares firmware = MainV2.Firmwares.ArduCopter2;
         public float freemem { get; set; }
         public float load { get; set; }
         public float brklevel { get; set; }
@@ -563,9 +561,9 @@ namespace MissionPlanner
                     if (mavinterface != null && mavinterface.packetsnotlost != 0)
                         linkqualitygcs = (ushort)((mavinterface.packetsnotlost / (mavinterface.packetsnotlost + mavinterface.packetslost)) * 100.0);
 
-                    if (DateTime.Now.Second != lastsecondcounter.Second)
+                    if (datetime.Second != lastsecondcounter.Second)
                     {
-                        lastsecondcounter = DateTime.Now;
+                        lastsecondcounter = datetime;
 
                         if (lastpos.Lat != 0 && lastpos.Lng != 0 && armed)
                         {
@@ -586,48 +584,6 @@ namespace MissionPlanner
 
                         if (!gotwind)
                             dowindcalc();
-                    }
-
-                    if (mavinterface.MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.STATUSTEXT] != null) // status text 
-                    {
-
-                        var msg = mavinterface.MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.STATUSTEXT].ByteArrayToStructure<MAVLink.mavlink_statustext_t>(6);
-
-                        /*
-enum gcs_severity {
-    SEVERITY_LOW=1,
-    SEVERITY_MEDIUM,
-    SEVERITY_HIGH,
-    SEVERITY_CRITICAL
-};
-                         */
-
-                       byte sev = msg.severity;
-
-                        string logdata = Encoding.ASCII.GetString(mavinterface.MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.STATUSTEXT], 6, mavinterface.MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.STATUSTEXT].Length - 6);
-
-                        int ind = logdata.IndexOf('\0');
-                        if (ind != -1)
-                            logdata = logdata.Substring(0, ind);
-
-                        if (sev >= 3)
-                        {
-                            messageHigh = logdata;
-                            messageHighTime = DateTime.Now;
-                        }
-
-                        try
-                        {
-                            while (messages.Count > 50)
-                            {
-                                messages.RemoveAt(0);
-                            }
-                            messages.Add(logdata + "\n");
-
-                        }
-                        catch { }
-
-                        mavinterface.MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.STATUSTEXT] = null;
                     }
 
                     byte[] bytearray = mavinterface.MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.RC_CHANNELS_SCALED];
@@ -803,7 +759,7 @@ enum gcs_severity {
                         load = (float)sysstatus.load / 10.0f;
 
                         battery_voltage = (float)sysstatus.voltage_battery / 1000.0f;
-                        battery_remaining = (float)sysstatus.battery_remaining;
+                        battery_remaining = sysstatus.battery_remaining;
                         current = (float)sysstatus.current_battery / 100.0f;
 
                         packetdropremote = sysstatus.drop_rate_comm;
@@ -1032,7 +988,7 @@ enum gcs_severity {
                         ch8in = rcin.chan8_raw;
 
                         //percent
-                        rxrssi = (float)((rcin.rssi / 255.0) * 100.0);
+                        rxrssi = (int)((rcin.rssi / 255.0) * 100.0);
 
                         //MAVLink.packets[(byte)MAVLink.MSG_NAMES.RC_CHANNELS_RAW] = null;
                     }

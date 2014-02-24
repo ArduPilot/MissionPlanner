@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using MissionPlanner;
 using csmatio.io;
 using csmatio.types;
+using System.Globalization;
 
 namespace MissionPlanner.Log
 {
@@ -126,7 +127,11 @@ namespace MissionPlanner.Log
                 } // process param messages
                 else if (line.StartsWith("PARM"))
                 {
-                    param[items[1]] = double.Parse(items[2]);
+                    try
+                    {
+                        param[items[1]] = double.Parse(items[2], CultureInfo.InvariantCulture);
+                    }
+                    catch { }
                 }// everyting else is generic
                 else
                 {
@@ -152,7 +157,7 @@ namespace MissionPlanner.Log
                     {
                         try
                         {
-                            dbarray[n] = double.Parse(items[n]);
+                            dbarray[n] = double.Parse(items[n], CultureInfo.InvariantCulture);
                         }
                         catch { }
                     }

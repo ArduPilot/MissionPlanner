@@ -27,7 +27,7 @@ namespace MissionPlanner
 
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        enum mavlink_option: int
+        enum mavlink_option : int
         {
             RawData = 0,
             Mavlink = 1,
@@ -131,7 +131,7 @@ S15: MAX_WINDOW=131
             }
         }
 
-bool beta = false;
+        bool beta = false;
 
         bool getFirmwareLocal(uploader.Uploader.Board device)
         {
@@ -143,7 +143,7 @@ bool beta = false;
 
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                File.Copy(openFileDialog1.FileName, firmwarefile,true);
+                File.Copy(openFileDialog1.FileName, firmwarefile, true);
                 return true;
             }
 
@@ -166,7 +166,7 @@ bool beta = false;
             UploadFW(false);
         }
 
-        private void UploadFW(bool custom = false) 
+        private void UploadFW(bool custom = false)
         {
             ArduinoSTK comPort = new ArduinoSTK();
 
@@ -552,7 +552,7 @@ bool beta = false;
             comPort.Close();
         }
 
-        public static IEnumerable<int> Range(int start,int step, int end)
+        public static IEnumerable<int> Range(int start, int step, int end)
         {
             List<int> list = new List<int>();
 
@@ -600,45 +600,45 @@ bool beta = false;
                 uploader.Uploader.Frequency freq = (uploader.Uploader.Frequency)Enum.Parse(typeof(uploader.Uploader.Frequency), doCommand(comPort, "ATI3"));
                 uploader.Uploader.Board board = (uploader.Uploader.Board)Enum.Parse(typeof(uploader.Uploader.Board), doCommand(comPort, "ATI2"));
 
-                    ATI3.Text = freq.ToString();
+                ATI3.Text = freq.ToString();
 
-                    ATI2.Text = board.ToString();
-                    try
-                    {
-                        RTI2.Text = ((uploader.Uploader.Board)Enum.Parse(typeof(uploader.Uploader.Board), doCommand(comPort, "RTI2"))).ToString();
-                    }
-                    catch { }
+                ATI2.Text = board.ToString();
+                try
+                {
+                    RTI2.Text = ((uploader.Uploader.Board)Enum.Parse(typeof(uploader.Uploader.Board), doCommand(comPort, "RTI2"))).ToString();
+                }
+                catch { }
                 // 8 and 9
-                    if (freq == uploader.Uploader.Frequency.FREQ_915)
-                    {
-                        S8.DataSource = Range(895000, 1000, 935000);
-                        RS8.DataSource = Range(895000, 1000, 935000);
+                if (freq == uploader.Uploader.Frequency.FREQ_915)
+                {
+                    S8.DataSource = Range(895000, 1000, 935000);
+                    RS8.DataSource = Range(895000, 1000, 935000);
 
-                        S9.DataSource = Range(895000, 1000, 935000);
-                        RS9.DataSource = Range(895000, 1000, 935000);
-                    }
-                    else if (freq == uploader.Uploader.Frequency.FREQ_433)
-                    {
-                        S8.DataSource = Range(414000, 50, 460000);
-                        RS8.DataSource = Range(414000, 50, 460000);
+                    S9.DataSource = Range(895000, 1000, 935000);
+                    RS9.DataSource = Range(895000, 1000, 935000);
+                }
+                else if (freq == uploader.Uploader.Frequency.FREQ_433)
+                {
+                    S8.DataSource = Range(414000, 50, 460000);
+                    RS8.DataSource = Range(414000, 50, 460000);
 
-                        S9.DataSource = Range(414000, 50, 460000);
-                        RS9.DataSource = Range(414000, 50, 460000);
-                    }
-                    else if (freq == uploader.Uploader.Frequency.FREQ_868) 
-                    {
-                        S8.DataSource = Range(849000, 1000, 889000);
-                        RS8.DataSource = Range(849000, 1000, 889000);
+                    S9.DataSource = Range(414000, 50, 460000);
+                    RS9.DataSource = Range(414000, 50, 460000);
+                }
+                else if (freq == uploader.Uploader.Frequency.FREQ_868)
+                {
+                    S8.DataSource = Range(849000, 1000, 889000);
+                    RS8.DataSource = Range(849000, 1000, 889000);
 
-                        S9.DataSource = Range(849000, 1000, 889000);
-                        RS9.DataSource = Range(849000, 1000, 889000);
-                    }
+                    S9.DataSource = Range(849000, 1000, 889000);
+                    RS9.DataSource = Range(849000, 1000, 889000);
+                }
 
-                    if (board == uploader.Uploader.Board.DEVICE_ID_RFD900 || board == uploader.Uploader.Board.DEVICE_ID_RFD900A)
-                    {
-                        S4.DataSource = Range(1, 1, 30);
-                        RS4.DataSource = Range(1, 1, 30);
-                    }
+                if (board == uploader.Uploader.Board.DEVICE_ID_RFD900 || board == uploader.Uploader.Board.DEVICE_ID_RFD900A)
+                {
+                    S4.DataSource = Range(1, 1, 30);
+                    RS4.DataSource = Range(1, 1, 30);
+                }
 
 
                 RSSI.Text = doCommand(comPort, "ATI7").Trim();
@@ -838,13 +838,13 @@ bool beta = false;
 
             log.Info("responce " + level + " " + ans.Replace('\0', ' '));
 
-            Regex pattern = new Regex(@"^\[([0-9+])\]\s+",RegexOptions.Multiline);
+            Regex pattern = new Regex(@"^\[([0-9+])\]\s+", RegexOptions.Multiline);
 
             if (pattern.IsMatch(ans))
             {
                 Match mat = pattern.Match(ans);
 
-                ans = pattern.Replace(ans,"");
+                ans = pattern.Replace(ans, "");
             }
 
             // try again
@@ -912,12 +912,6 @@ bool beta = false;
             RS15.Text = S15.Text;
         }
 
-        private void CHK_advanced_CheckedChanged(object sender, EventArgs e)
-        {
-            SPLIT_local.Panel2Collapsed = !CHK_advanced.Checked;
-            SPLIT_remote.Panel2Collapsed = !CHK_advanced.Checked;
-        }
-
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             CustomMessageBox.Show(@"The 3DR Radios have 2 status LEDs, one red and one green.
@@ -929,7 +923,7 @@ red LED solid - in firmware update mode");
 
         private void BUT_resettodefault_Click(object sender, EventArgs e)
         {
-             ICommsSerial comPort = new SerialPort();
+            ICommsSerial comPort = new SerialPort();
 
             try
             {

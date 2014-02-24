@@ -60,6 +60,7 @@ namespace MissionPlanner.Log
             zg1.GraphPane.XAxis.Scale.Format = "HH:mm:ss";
             zg1.GraphPane.XAxis.Scale.MajorUnit = DateUnit.Minute;
             zg1.GraphPane.XAxis.Scale.MinorUnit = DateUnit.Second;
+            zg1.PointDateFormat = "HH:mm:ss";
         }
 
         private void writeKML(string filename)

@@ -1,4 +1,35 @@
-﻿* Mission Planner 1.2.95
+﻿* Mission Planner 1.2.97
+change log browse to virtualmode. much faster on windows
+fix for posible future update bug
+
+* Mission Planner 1.2.96
+add ability to change text on buttons in servo tab
+modify some hud user item decimal places
+update mavlink
+add compassmot via mavlink
+add simplegrid
+fix current sensor loading
+add bearing to FP tab, for last wp and mouse pos.
+fix ft/m issue with rallypoints
+add more errorchecking to dflog browse (logs without FMT  messages)
+fix mono check box drawing issue in log browse
+add hh:mm:ss to mavlink log review data points
+tweak df log download over mavlink
+add rts/cts to 3dr radio config
+add better version detection
+fix timeinair counter when playing back log at something other than 1x
+update fw historys
+remove default setings, moved to frame type
+add serial port nice name cache
+cleanup udp on 2nd connect 
+modify gridui to put cam trig distance as part of mission.
+add new AS sensor support.
+fix a few exceptions
+add reboot command to end of terminal
+try simplefy pixhawk fw upload.
+BG work on joystick
+
+* Mission Planner 1.2.95
 move Advanced view to a higher function
 modify georef as per new offsets, and made tlog the same
 add filter to .param file listing

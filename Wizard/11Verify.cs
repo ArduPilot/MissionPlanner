@@ -13,8 +13,6 @@ namespace MissionPlanner.Wizard
 {
     public partial class _11Verify : MyUserControl, IWizard, IDeactivate, IActivate
     {
-        int stage = 0;
-
         public _11Verify()
         {
             InitializeComponent();
@@ -67,7 +65,6 @@ namespace MissionPlanner.Wizard
                     {
                         lbl_accel.BackColor = Color.Green;
                         chk_accel.Checked = true;
-                        stage = 2;
                     }
                     else
                     {
@@ -83,7 +80,6 @@ namespace MissionPlanner.Wizard
             {
                 lbl_compass.BackColor = Color.Green;
                 chk_compass.Checked = true;
-                stage = 3;
             }
             else
             {
@@ -103,7 +99,6 @@ namespace MissionPlanner.Wizard
 
                     lbl_rc.BackColor = Color.Green;
                     chk_rc.Checked = true;
-                    stage = 4;
                 }
                 else
                 {
@@ -123,7 +118,6 @@ namespace MissionPlanner.Wizard
                 lbl_prearm.BackColor = Color.Green;
                 MainV2.comPort.doARM(false);
                 chk_perarm.Checked = true;
-                stage = 5;
             }
             else
             {
