@@ -93,7 +93,7 @@ namespace MissionPlanner
             /// </summary>
             public MAV_TYPE aptype { get; set; }
             public MAV_AUTOPILOT apname { get; set; }
-            public int Product_ID { get { if (param.ContainsKey("PRODUCT_ID")) return (int)(float)param["PRODUCT_ID"]; return -1; } }
+            public Common.ap_product Product_ID { get { if (param.ContainsKey("INS_PRODUCT_ID")) return (Common.ap_product)(float)param["INS_PRODUCT_ID"]; return Common.ap_product.AP_PRODUCT_ID_NONE; } }
             /// <summary>
             /// used as a snapshot of what is loaded on the ap atm. - derived from the stream
             /// </summary>
@@ -492,6 +492,7 @@ Please check the following
 
         public byte[] getHeartBeat()
         {
+            giveComport = true;
             DateTime start = DateTime.Now;
             int readcount = 0;
             while (true)
@@ -507,12 +508,16 @@ Please check the following
 
                         if (hb.type != (byte)MAVLink.MAV_TYPE.GCS)
                         {
+                            giveComport = false;
                             return buffer;
                         }
                     }
                 }
                 if (DateTime.Now > start.AddMilliseconds(2200) || readcount > 200) // was 1200 , now 2.2 sec
+                {
+                    giveComport = false;
                     return new byte[0];
+                }
             }
         }
 
@@ -1081,6 +1086,7 @@ Please check the following
 
         public static void modifyParamForDisplay(bool fromapm, string paramname, ref float value)
         {
+            int planforremoval;
 
             if (paramname.ToUpper().EndsWith("_IMAX") || paramname.ToUpper().EndsWith("ALT_HOLD_RTL") || paramname.ToUpper().EndsWith("APPROACH_ALT") || paramname.ToUpper().EndsWith("TRIM_ARSPD_CM") || paramname.ToUpper().EndsWith("MIN_GNDSPD_CM")
                 || paramname.ToUpper().EndsWith("XTRK_ANGLE_CD") || paramname.ToUpper().EndsWith("LIM_PITCH_MAX") || paramname.ToUpper().EndsWith("LIM_PITCH_MIN")
@@ -1305,6 +1311,13 @@ Please check the following
                 // 10 seconds as may need an imu calib
                 timeout = 10000;
             }
+            else if (actionid == MAV_CMD.PREFLIGHT_CALIBRATION && p6 == 1)
+            { // compassmot
+                // send again just incase
+                generatePacket((byte)MAVLINK_MSG_ID.COMMAND_LONG, req);
+                giveComport = false;
+                return true;
+            }
 
             while (true)
             {
@@ -1345,6 +1358,18 @@ Please check the following
                     }
                 }
             }
+        }
+
+        public void SendAck()
+        {
+            mavlink_command_ack_t ack = new mavlink_command_ack_t();
+            ack.command = (byte)MAV_CMD.PREFLIGHT_CALIBRATION;
+            ack.result = 0;
+
+            // send twice
+            generatePacket((byte)MAVLINK_MSG_ID.COMMAND_ACK,ack);
+            System.Threading.Thread.Sleep(20);
+            generatePacket((byte)MAVLINK_MSG_ID.COMMAND_ACK, ack);
         }
 
         public void requestDatastream(MAVLink.MAV_DATA_STREAM id, byte hzrate)
@@ -2452,11 +2477,13 @@ Please check the following
 
                         byte sev = msg.severity;
 
-                        string logdata = Encoding.ASCII.GetString(buffer, 7, buffer.Length - 7);
+                        string logdata = Encoding.ASCII.GetString(msg.text);
                         int ind = logdata.IndexOf('\0');
                         if (ind != -1)
                             logdata = logdata.Substring(0, ind);
                         log.Info(DateTime.Now + " " + logdata);
+
+                        MAV.cs.messages.Add(logdata);
 
                         if (sev >= 3)
                         {
@@ -2661,7 +2688,8 @@ Please check the following
                 Progress((int)0, "");
             }
 
-            bool fillin = false;
+            int z = 0;
+
             uint totallength = 0;
             uint ofs = 0;
             uint bps = 0;
@@ -2705,12 +2733,23 @@ Please check the following
                     {
                         var data = buffer.ByteArrayToStructure<mavlink_log_data_t>();
 
+                        if (data.id != no)
+                            continue;
+
                         // reset retrys
                         retrys = 3;
                         start = DateTime.Now;
 
                         bps += data.count;
 
+                        z++;
+
+                        // random loss
+                        int fixme;
+
+                        //if ((z % 21) == 0)
+                          //  continue;
+                        
                         // record what we have received
                         set[(data.ofs / 90).ToString()] = 1;
 
@@ -2727,7 +2766,7 @@ Please check the following
                                 Progress((int)req.ofs, "");
                             }
 
-                            Console.WriteLine("log dl bps: " + bps.ToString());
+                            //Console.WriteLine("log dl bps: " + bps.ToString());
                             bpstimer = DateTime.Now;
                             bps = 0;
                         }
@@ -2736,17 +2775,22 @@ Please check the following
                         if (data.count < 90 || data.count == 0)
                         {
                             totallength = data.ofs + data.count;
-                            fillin = true;
+                            log.Info("start fillin len " + totallength + " count " + set.Count + " datalen " + data.count);
                             break;
                         }
                     }
                 }
             }
 
+            log.Info("set count " + set.Count);
+            log.Info("count total " + ((totallength) / 90 + 1));
+            log.Info("totallength " + totallength);
+            log.Info("current length " + ms.Length);
+
             while (true)
             {
 
-                if (totallength == ms.Length && ((totallength) / 90 + 1) >= set.Count)
+                if (totallength == ms.Length && set.Count >= ((totallength) / 90 + 1))
                 {
                     giveComport = false;
                     return ms;
@@ -2758,10 +2802,20 @@ Please check the following
                     {
                         if (!set.ContainsKey(a.ToString()))
                         {
+                            // request large chunk if they are back to back
+                            uint bytereq = 90;
+                            int b = a + 1;
+                            while (!set.ContainsKey(b.ToString()))
+                            {
+                                bytereq += 90;
+                                b++;
+                            }
+
                             req.ofs = (uint)(a * 90);
-                            req.count = 90;
-                            Console.WriteLine("req missing " + req.ofs + " " + req.count);
+                            req.count = bytereq;
+                            log.Info("req missing " + req.ofs + " " + req.count);
                             generatePacket((byte)MAVLINK_MSG_ID.LOG_REQUEST_DATA, req);
+                            start = DateTime.Now;
                             break;
                         }
                     }
@@ -2775,6 +2829,9 @@ Please check the following
                     {
                         var data = buffer.ByteArrayToStructure<mavlink_log_data_t>();
 
+                        if (data.id != no)
+                            continue;
+
                         // reset retrys
                         retrys = 3;
                         start = DateTime.Now;
@@ -2797,9 +2854,15 @@ Please check the following
                                 Progress((int)req.ofs, "");
                             }
 
-                            Console.WriteLine("log dl bps: " + bps.ToString());
+                            //Console.WriteLine("log dl bps: " + bps.ToString());
                             bpstimer = DateTime.Now;
                             bps = 0;
+                        }
+
+                        // check if we have next set and invalidate to request next packets
+                        if (set.ContainsKey(((data.ofs / 90) + 1).ToString()))
+                        {
+                            start = DateTime.MinValue;
                         }
 
                         // if data is less than max packet size or 0 > exit

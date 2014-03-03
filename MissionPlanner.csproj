@@ -88,7 +88,7 @@
     </ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <GenerateManifests>true</GenerateManifests>
+    <GenerateManifests>false</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
     <SignManifests>true</SignManifests>
@@ -173,6 +173,7 @@
       <HintPath>packages\IronPython.2.7.4\lib\Net40\IronPython.SQLite.dll</HintPath>
     </Reference>
     <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.DirectX, Version=1.0.2902.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
       <SpecificVersion>False</SpecificVersion>
       <Private>True</Private>
@@ -188,9 +189,6 @@
     <Reference Include="Microsoft.Scripting, Version=1.1.0.20, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>packages\IronPython.2.7.4\lib\Net40\Microsoft.Scripting.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Scripting.AspNet">
-      <HintPath>packages\IronPython.2.7.4\lib\Net40\Microsoft.Scripting.AspNet.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Scripting.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -334,11 +332,17 @@
       <DependentUpon>Command.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\Waypoints\Spline.cs" />
-    <Compile Include="GCSViews\ConfigurationView\ConfigDefaultSettings.cs">
+    <Compile Include="GCSViews\ConfigurationView\ConfigCompassMot.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="GCSViews\ConfigurationView\ConfigDefaultSettings.Designer.cs">
-      <DependentUpon>ConfigDefaultSettings.cs</DependentUpon>
+    <Compile Include="GCSViews\ConfigurationView\ConfigCompassMot.Designer.cs">
+      <DependentUpon>ConfigCompassMot.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\DefaultSettings.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\DefaultSettings.Designer.cs">
+      <DependentUpon>DefaultSettings.cs</DependentUpon>
     </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigWizard.cs">
       <SubType>UserControl</SubType>
@@ -425,12 +429,6 @@
     <Compile Include="GCSViews\ConfigurationView\ConfigFirmwareDisabled.Designer.cs">
       <DependentUpon>ConfigFirmwareDisabled.cs</DependentUpon>
     </Compile>
-    <Compile Include="GCSViews\ConfigurationView\ConfigHelp.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="GCSViews\ConfigurationView\ConfigHelp.Designer.cs">
-      <DependentUpon>ConfigHelp.cs</DependentUpon>
-    </Compile>
     <Compile Include="GCSViews\InitialSetup.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -496,6 +494,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAteryx.zh-Hans.resx">
       <DependentUpon>ConfigAteryx.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigCompassMot.resx">
+      <DependentUpon>ConfigCompassMot.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigRawParams.zh-Hans.resx">
       <DependentUpon>ConfigRawParams.cs</DependentUpon>
@@ -571,6 +572,7 @@
     <Compile Include="Utilities\Password.cs" />
     <Compile Include="Utilities\StringRedirectWriter.cs" />
     <Compile Include="Utilities\Update.cs" />
+    <Compile Include="Utilities\VersionDetection.cs" />
     <Compile Include="Wizard\1Intro.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -703,8 +705,8 @@
     <EmbeddedResource Include="FollowMe.zh-Hans.resx">
       <DependentUpon>FollowMe.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigDefaultSettings.resx">
-      <DependentUpon>ConfigDefaultSettings.cs</DependentUpon>
+    <EmbeddedResource Include="Controls\DefaultSettings.resx">
+      <DependentUpon>DefaultSettings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigWizard.resx">
       <DependentUpon>ConfigWizard.cs</DependentUpon>
@@ -922,9 +924,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFirmwareDisabled.resx">
       <DependentUpon>ConfigFirmwareDisabled.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHelp.resx">
-      <DependentUpon>ConfigHelp.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\InitialSetup.resx">
       <DependentUpon>InitialSetup.cs</DependentUpon>
@@ -1273,11 +1272,11 @@
     <Compile Include="GCSViews\FlightPlanner.Designer.cs">
       <DependentUpon>FlightPlanner.cs</DependentUpon>
     </Compile>
-    <Compile Include="Joystick.cs" />
-    <Compile Include="JoystickSetup.cs">
+    <Compile Include="Joystick\Joystick.cs" />
+    <Compile Include="Joystick\JoystickSetup.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="JoystickSetup.Designer.cs">
+    <Compile Include="Joystick\JoystickSetup.Designer.cs">
       <DependentUpon>JoystickSetup.cs</DependentUpon>
     </Compile>
     <Compile Include="Common.cs" />
@@ -1566,6 +1565,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\FlightPlanner.de-DE.resx">
       <DependentUpon>FlightPlanner.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\Help.de-DE.resx">
       <DependentUpon>Help.cs</DependentUpon>
@@ -1580,7 +1580,7 @@
     <EmbeddedResource Include="Georefimage.de-DE.resx">
       <DependentUpon>georefimage.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="JoystickSetup.de-DE.resx">
+    <EmbeddedResource Include="Joystick\JoystickSetup.de-DE.resx">
       <DependentUpon>JoystickSetup.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Log\LogDownload.de-DE.resx">
@@ -1810,7 +1810,7 @@
     <EmbeddedResource Include="GCSViews\Terminal.es-ES.resx">
       <DependentUpon>Terminal.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="JoystickSetup.es-ES.resx">
+    <EmbeddedResource Include="Joystick\JoystickSetup.es-ES.resx">
       <DependentUpon>JoystickSetup.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Log\LogDownload.es-ES.resx">
@@ -1913,16 +1913,16 @@
     <EmbeddedResource Include="georefimage.resx">
       <DependentUpon>georefimage.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="JoystickSetup.fr.resx">
+    <EmbeddedResource Include="Joystick\JoystickSetup.fr.resx">
       <DependentUpon>JoystickSetup.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="JoystickSetup.it-IT.resx">
+    <EmbeddedResource Include="Joystick\JoystickSetup.it-IT.resx">
       <DependentUpon>JoystickSetup.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="JoystickSetup.pl.resx">
+    <EmbeddedResource Include="Joystick\JoystickSetup.pl.resx">
       <DependentUpon>JoystickSetup.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="JoystickSetup.zh-TW.resx">
+    <EmbeddedResource Include="Joystick\JoystickSetup.zh-TW.resx">
       <DependentUpon>JoystickSetup.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Log\LogDownload.fr.resx">
@@ -1988,7 +1988,7 @@
     <EmbeddedResource Include="GCSViews\Terminal.ru-RU.resx">
       <DependentUpon>Terminal.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="JoystickSetup.ru-RU.resx">
+    <EmbeddedResource Include="Joystick\JoystickSetup.ru-RU.resx">
       <DependentUpon>JoystickSetup.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Log\LogDownload.zh-Hans.resx">
@@ -2040,11 +2040,11 @@
     <EmbeddedResource Include="GCSViews\Terminal.zh-Hans.resx">
       <DependentUpon>Terminal.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="JoystickSetup.resx">
+    <EmbeddedResource Include="Joystick\JoystickSetup.resx">
       <DependentUpon>JoystickSetup.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="JoystickSetup.zh-Hans.resx">
+    <EmbeddedResource Include="Joystick\JoystickSetup.zh-Hans.resx">
       <DependentUpon>JoystickSetup.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainV2.resx">
@@ -2249,494 +2249,1471 @@
     <Content Include="jsbsim\rascal_test.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Lib\abc.py" />
-    <Content Include="Lib\aifc.py" />
-    <Content Include="Lib\antigravity.py" />
-    <Content Include="Lib\anydbm.py" />
-    <Content Include="Lib\argparse.py" />
-    <Content Include="Lib\ast.py" />
-    <Content Include="Lib\asynchat.py" />
-    <Content Include="Lib\asyncore.py" />
-    <Content Include="Lib\atexit.py" />
-    <Content Include="Lib\audiodev.py" />
-    <Content Include="Lib\base64.py" />
-    <Content Include="Lib\BaseHTTPServer.py" />
-    <Content Include="Lib\Bastion.py" />
-    <Content Include="Lib\bdb.py" />
-    <Content Include="Lib\binhex.py" />
-    <Content Include="Lib\bisect.py" />
-    <Content Include="Lib\calendar.py" />
-    <Content Include="Lib\cgi.py" />
-    <Content Include="Lib\CGIHTTPServer.py" />
-    <Content Include="Lib\cgitb.py" />
-    <Content Include="Lib\chunk.py" />
-    <Content Include="Lib\cmd.py" />
-    <Content Include="Lib\code.py" />
-    <Content Include="Lib\codecs.py" />
-    <Content Include="Lib\codeop.py" />
-    <Content Include="Lib\collections.py" />
-    <Content Include="Lib\colorsys.py" />
-    <Content Include="Lib\commands.py" />
-    <Content Include="Lib\compileall.py" />
-    <Content Include="Lib\ConfigParser.py" />
-    <Content Include="Lib\contextlib.py" />
-    <Content Include="Lib\Cookie.py" />
-    <Content Include="Lib\cookielib.py" />
-    <Content Include="Lib\copy.py" />
-    <Content Include="Lib\csv.py" />
-    <Content Include="Lib\ctypes\macholib\dyld.py" />
-    <Content Include="Lib\ctypes\macholib\dylib.py" />
-    <Content Include="Lib\ctypes\macholib\framework.py" />
-    <Content Include="Lib\ctypes\macholib\__init__.py" />
-    <Content Include="Lib\ctypes\util.py" />
-    <Content Include="Lib\ctypes\wintypes.py" />
-    <Content Include="Lib\ctypes\_endian.py" />
-    <Content Include="Lib\ctypes\__init__.py" />
-    <Content Include="Lib\decimal.py" />
-    <Content Include="Lib\difflib.py" />
-    <Content Include="Lib\dircache.py" />
-    <Content Include="Lib\distutils\archive_util.py" />
-    <Content Include="Lib\distutils\bcppcompiler.py" />
-    <Content Include="Lib\distutils\ccompiler.py" />
-    <Content Include="Lib\distutils\cmd.py" />
-    <Content Include="Lib\distutils\command\bdist.py" />
-    <Content Include="Lib\distutils\command\bdist_dumb.py" />
-    <Content Include="Lib\distutils\command\bdist_rpm.py" />
-    <Content Include="Lib\distutils\command\bdist_wininst.py" />
-    <Content Include="Lib\distutils\command\build.py" />
-    <Content Include="Lib\distutils\command\build_clib.py" />
-    <Content Include="Lib\distutils\command\build_ext.py" />
-    <Content Include="Lib\distutils\command\build_py.py" />
-    <Content Include="Lib\distutils\command\build_scripts.py" />
-    <Content Include="Lib\distutils\command\check.py" />
-    <Content Include="Lib\distutils\command\clean.py" />
-    <Content Include="Lib\distutils\command\config.py" />
-    <Content Include="Lib\distutils\command\install.py" />
-    <Content Include="Lib\distutils\command\install_data.py" />
-    <Content Include="Lib\distutils\command\install_egg_info.py" />
-    <Content Include="Lib\distutils\command\install_headers.py" />
-    <Content Include="Lib\distutils\command\install_lib.py" />
-    <Content Include="Lib\distutils\command\install_scripts.py" />
-    <Content Include="Lib\distutils\command\register.py" />
-    <Content Include="Lib\distutils\command\sdist.py" />
-    <Content Include="Lib\distutils\command\upload.py" />
-    <Content Include="Lib\distutils\command\__init__.py" />
-    <Content Include="Lib\distutils\config.py" />
-    <Content Include="Lib\distutils\core.py" />
-    <Content Include="Lib\distutils\cygwinccompiler.py" />
-    <Content Include="Lib\distutils\debug.py" />
-    <Content Include="Lib\distutils\dep_util.py" />
-    <Content Include="Lib\distutils\dir_util.py" />
-    <Content Include="Lib\distutils\dist.py" />
-    <Content Include="Lib\distutils\emxccompiler.py" />
-    <Content Include="Lib\distutils\errors.py" />
-    <Content Include="Lib\distutils\extension.py" />
-    <Content Include="Lib\distutils\fancy_getopt.py" />
-    <Content Include="Lib\distutils\filelist.py" />
-    <Content Include="Lib\distutils\file_util.py" />
-    <Content Include="Lib\distutils\log.py" />
-    <Content Include="Lib\distutils\msvccompiler.py" />
-    <Content Include="Lib\distutils\spawn.py" />
-    <Content Include="Lib\distutils\sysconfig.py" />
-    <Content Include="Lib\distutils\text_file.py" />
-    <Content Include="Lib\distutils\unixccompiler.py" />
-    <Content Include="Lib\distutils\util.py" />
-    <Content Include="Lib\distutils\version.py" />
-    <Content Include="Lib\distutils\versionpredicate.py" />
-    <Content Include="Lib\distutils\__init__.py" />
-    <Content Include="Lib\doctest.py" />
-    <Content Include="Lib\DocXMLRPCServer.py" />
-    <Content Include="Lib\dumbdbm.py" />
-    <Content Include="Lib\dummy_thread.py" />
-    <Content Include="Lib\dummy_threading.py" />
-    <Content Include="Lib\email\base64mime.py" />
-    <Content Include="Lib\email\charset.py" />
-    <Content Include="Lib\email\encoders.py" />
-    <Content Include="Lib\email\errors.py" />
-    <Content Include="Lib\email\feedparser.py" />
-    <Content Include="Lib\email\generator.py" />
-    <Content Include="Lib\email\header.py" />
-    <Content Include="Lib\email\iterators.py" />
-    <Content Include="Lib\email\message.py" />
-    <Content Include="Lib\email\mime\application.py" />
-    <Content Include="Lib\email\mime\audio.py" />
-    <Content Include="Lib\email\mime\base.py" />
-    <Content Include="Lib\email\mime\image.py" />
-    <Content Include="Lib\email\mime\message.py" />
-    <Content Include="Lib\email\mime\multipart.py" />
-    <Content Include="Lib\email\mime\nonmultipart.py" />
-    <Content Include="Lib\email\mime\text.py" />
-    <Content Include="Lib\email\mime\__init__.py" />
-    <Content Include="Lib\email\parser.py" />
-    <Content Include="Lib\email\quoprimime.py" />
-    <Content Include="Lib\email\utils.py" />
-    <Content Include="Lib\email\_parseaddr.py" />
-    <Content Include="Lib\email\__init__.py" />
-    <Content Include="Lib\encodings\aliases.py" />
-    <Content Include="Lib\encodings\ascii.py" />
-    <Content Include="Lib\encodings\base64_codec.py" />
-    <Content Include="Lib\encodings\charmap.py" />
-    <Content Include="Lib\encodings\cp037.py" />
-    <Content Include="Lib\encodings\cp1006.py" />
-    <Content Include="Lib\encodings\cp1026.py" />
-    <Content Include="Lib\encodings\cp1140.py" />
-    <Content Include="Lib\encodings\cp1250.py" />
-    <Content Include="Lib\encodings\cp1251.py" />
-    <Content Include="Lib\encodings\cp1252.py" />
-    <Content Include="Lib\encodings\cp1253.py" />
-    <Content Include="Lib\encodings\cp1254.py" />
-    <Content Include="Lib\encodings\cp1255.py" />
-    <Content Include="Lib\encodings\cp1256.py" />
-    <Content Include="Lib\encodings\cp1257.py" />
-    <Content Include="Lib\encodings\cp1258.py" />
-    <Content Include="Lib\encodings\cp424.py" />
-    <Content Include="Lib\encodings\cp437.py" />
-    <Content Include="Lib\encodings\cp500.py" />
-    <Content Include="Lib\encodings\cp720.py" />
-    <Content Include="Lib\encodings\cp737.py" />
-    <Content Include="Lib\encodings\cp775.py" />
-    <Content Include="Lib\encodings\cp850.py" />
-    <Content Include="Lib\encodings\cp852.py" />
-    <Content Include="Lib\encodings\cp855.py" />
-    <Content Include="Lib\encodings\cp856.py" />
-    <Content Include="Lib\encodings\cp857.py" />
-    <Content Include="Lib\encodings\cp858.py" />
-    <Content Include="Lib\encodings\cp860.py" />
-    <Content Include="Lib\encodings\cp861.py" />
-    <Content Include="Lib\encodings\cp862.py" />
-    <Content Include="Lib\encodings\cp863.py" />
-    <Content Include="Lib\encodings\cp864.py" />
-    <Content Include="Lib\encodings\cp865.py" />
-    <Content Include="Lib\encodings\cp866.py" />
-    <Content Include="Lib\encodings\cp869.py" />
-    <Content Include="Lib\encodings\cp874.py" />
-    <Content Include="Lib\encodings\cp875.py" />
-    <Content Include="Lib\encodings\hex_codec.py" />
-    <Content Include="Lib\encodings\hp_roman8.py" />
-    <Content Include="Lib\encodings\iso8859_1.py" />
-    <Content Include="Lib\encodings\iso8859_10.py" />
-    <Content Include="Lib\encodings\iso8859_11.py" />
-    <Content Include="Lib\encodings\iso8859_13.py" />
-    <Content Include="Lib\encodings\iso8859_14.py" />
-    <Content Include="Lib\encodings\iso8859_15.py" />
-    <Content Include="Lib\encodings\iso8859_16.py" />
-    <Content Include="Lib\encodings\iso8859_2.py" />
-    <Content Include="Lib\encodings\iso8859_3.py" />
-    <Content Include="Lib\encodings\iso8859_4.py" />
-    <Content Include="Lib\encodings\iso8859_5.py" />
-    <Content Include="Lib\encodings\iso8859_6.py" />
-    <Content Include="Lib\encodings\iso8859_7.py" />
-    <Content Include="Lib\encodings\iso8859_8.py" />
-    <Content Include="Lib\encodings\iso8859_9.py" />
-    <Content Include="Lib\encodings\koi8_r.py" />
-    <Content Include="Lib\encodings\koi8_u.py" />
-    <Content Include="Lib\encodings\latin_1.py" />
-    <Content Include="Lib\encodings\mac_arabic.py" />
-    <Content Include="Lib\encodings\mac_centeuro.py" />
-    <Content Include="Lib\encodings\mac_croatian.py" />
-    <Content Include="Lib\encodings\mac_cyrillic.py" />
-    <Content Include="Lib\encodings\mac_farsi.py" />
-    <Content Include="Lib\encodings\mac_greek.py" />
-    <Content Include="Lib\encodings\mac_iceland.py" />
-    <Content Include="Lib\encodings\mac_latin2.py" />
-    <Content Include="Lib\encodings\mac_roman.py" />
-    <Content Include="Lib\encodings\mac_romanian.py" />
-    <Content Include="Lib\encodings\mac_turkish.py" />
-    <Content Include="Lib\encodings\mbcs.py" />
-    <Content Include="Lib\encodings\palmos.py" />
-    <Content Include="Lib\encodings\ptcp154.py" />
-    <Content Include="Lib\encodings\punycode.py" />
-    <Content Include="Lib\encodings\quopri_codec.py" />
-    <Content Include="Lib\encodings\raw_unicode_escape.py" />
-    <Content Include="Lib\encodings\rot_13.py" />
-    <Content Include="Lib\encodings\string_escape.py" />
-    <Content Include="Lib\encodings\tis_620.py" />
-    <Content Include="Lib\encodings\undefined.py" />
-    <Content Include="Lib\encodings\unicode_escape.py" />
-    <Content Include="Lib\encodings\unicode_internal.py" />
-    <Content Include="Lib\encodings\utf_16.py" />
-    <Content Include="Lib\encodings\utf_16_be.py" />
-    <Content Include="Lib\encodings\utf_16_le.py" />
-    <Content Include="Lib\encodings\utf_32.py" />
-    <Content Include="Lib\encodings\utf_32_le.py" />
-    <Content Include="Lib\encodings\utf_7.py" />
-    <Content Include="Lib\encodings\utf_8.py" />
-    <Content Include="Lib\encodings\utf_8_sig.py" />
-    <Content Include="Lib\encodings\uu_codec.py" />
-    <Content Include="Lib\encodings\zlib_codec.py" />
-    <Content Include="Lib\encodings\__init__.py" />
-    <Content Include="Lib\filecmp.py" />
-    <Content Include="Lib\fileinput.py" />
-    <Content Include="Lib\fnmatch.py" />
-    <Content Include="Lib\formatter.py" />
-    <Content Include="Lib\fpformat.py" />
-    <Content Include="Lib\fractions.py" />
-    <Content Include="Lib\ftplib.py" />
-    <Content Include="Lib\functools.py" />
-    <Content Include="Lib\genericpath.py" />
-    <Content Include="Lib\getopt.py" />
-    <Content Include="Lib\getpass.py" />
-    <Content Include="Lib\gettext.py" />
-    <Content Include="Lib\glob.py" />
-    <Content Include="Lib\gzip.py" />
-    <Content Include="Lib\hashlib.py" />
-    <Content Include="Lib\heapq.py" />
-    <Content Include="Lib\hmac.py" />
-    <Content Include="Lib\htmlentitydefs.py" />
-    <Content Include="Lib\htmllib.py" />
-    <Content Include="Lib\HTMLParser.py" />
-    <Content Include="Lib\httplib.py" />
-    <Content Include="Lib\ihooks.py" />
-    <Content Include="Lib\imaplib.py" />
-    <Content Include="Lib\imghdr.py" />
-    <Content Include="Lib\importlib\__init__.py" />
-    <Content Include="Lib\imputil.py" />
-    <Content Include="Lib\inspect.py" />
-    <Content Include="Lib\io.py" />
-    <Content Include="Lib\json\decoder.py" />
-    <Content Include="Lib\json\encoder.py" />
-    <Content Include="Lib\json\scanner.py" />
-    <Content Include="Lib\json\tool.py" />
-    <Content Include="Lib\json\__init__.py" />
-    <Content Include="Lib\keyword.py" />
-    <Content Include="Lib\lib2to3\btm_matcher.py" />
-    <Content Include="Lib\lib2to3\btm_utils.py" />
-    <Content Include="Lib\lib2to3\fixer_base.py" />
-    <Content Include="Lib\lib2to3\fixer_util.py" />
-    <Content Include="Lib\lib2to3\fixes\fix_apply.py" />
-    <Content Include="Lib\lib2to3\fixes\fix_basestring.py" />
-    <Content Include="Lib\lib2to3\fixes\fix_buffer.py" />
-    <Content Include="Lib\lib2to3\fixes\fix_callable.py" />
-    <Content Include="Lib\lib2to3\fixes\fix_dict.py" />
-    <Content Include="Lib\lib2to3\fixes\fix_except.py" />
-    <Content Include="Lib\lib2to3\fixes\fix_exec.py" />
-    <Content Include="Lib\lib2to3\fixes\fix_execfile.py" />
-    <Content Include="Lib\lib2to3\fixes\fix_exitfunc.py" />
-    <Content Include="Lib\lib2to3\fixes\fix_filter.py" />
-    <Content Include="Lib\lib2to3\fixes\fix_funcattrs.py" />
-    <Content Include="Lib\lib2to3\fixes\fix_future.py" />
-    <Content Include="Lib\lib2to3\fixes\fix_getcwdu.py" />
-    <Content Include="Lib\lib2to3\fixes\fix_has_key.py" />
-    <Content Include="Lib\lib2to3\fixes\fix_idioms.py" />
-    <Content Include="Lib\lib2to3\fixes\fix_import.py" />
-    <Content Include="Lib\lib2to3\fixes\fix_imports.py" />
-    <Content Include="Lib\lib2to3\fixes\fix_imports2.py" />
-    <Content Include="Lib\lib2to3\fixes\fix_input.py" />
-    <Content Include="Lib\lib2to3\fixes\fix_intern.py" />
-    <Content Include="Lib\lib2to3\fixes\fix_isinstance.py" />
-    <Content Include="Lib\lib2to3\fixes\fix_itertools.py" />
-    <Content Include="Lib\lib2to3\fixes\fix_itertools_imports.py" />
-    <Content Include="Lib\lib2to3\fixes\fix_long.py" />
-    <Content Include="Lib\lib2to3\fixes\fix_map.py" />
-    <Content Include="Lib\lib2to3\fixes\fix_metaclass.py" />
-    <Content Include="Lib\lib2to3\fixes\fix_methodattrs.py" />
-    <Content Include="Lib\lib2to3\fixes\fix_ne.py" />
-    <Content Include="Lib\lib2to3\fixes\fix_next.py" />
-    <Content Include="Lib\lib2to3\fixes\fix_nonzero.py" />
-    <Content Include="Lib\lib2to3\fixes\fix_numliterals.py" />
-    <Content Include="Lib\lib2to3\fixes\fix_operator.py" />
-    <Content Include="Lib\lib2to3\fixes\fix_paren.py" />
-    <Content Include="Lib\lib2to3\fixes\fix_print.py" />
-    <Content Include="Lib\lib2to3\fixes\fix_raise.py" />
-    <Content Include="Lib\lib2to3\fixes\fix_raw_input.py" />
-    <Content Include="Lib\lib2to3\fixes\fix_reduce.py" />
-    <Content Include="Lib\lib2to3\fixes\fix_renames.py" />
-    <Content Include="Lib\lib2to3\fixes\fix_repr.py" />
-    <Content Include="Lib\lib2to3\fixes\fix_set_literal.py" />
-    <Content Include="Lib\lib2to3\fixes\fix_standarderror.py" />
-    <Content Include="Lib\lib2to3\fixes\fix_sys_exc.py" />
-    <Content Include="Lib\lib2to3\fixes\fix_throw.py" />
-    <Content Include="Lib\lib2to3\fixes\fix_tuple_params.py" />
-    <Content Include="Lib\lib2to3\fixes\fix_types.py" />
-    <Content Include="Lib\lib2to3\fixes\fix_unicode.py" />
-    <Content Include="Lib\lib2to3\fixes\fix_urllib.py" />
-    <Content Include="Lib\lib2to3\fixes\fix_ws_comma.py" />
-    <Content Include="Lib\lib2to3\fixes\fix_xrange.py" />
-    <Content Include="Lib\lib2to3\fixes\fix_xreadlines.py" />
-    <Content Include="Lib\lib2to3\fixes\fix_zip.py" />
-    <Content Include="Lib\lib2to3\fixes\__init__.py" />
-    <Content Include="Lib\lib2to3\main.py" />
-    <Content Include="Lib\lib2to3\patcomp.py" />
-    <Content Include="Lib\lib2to3\pgen2\conv.py" />
-    <Content Include="Lib\lib2to3\pgen2\driver.py" />
-    <Content Include="Lib\lib2to3\pgen2\grammar.py" />
-    <Content Include="Lib\lib2to3\pgen2\literals.py" />
-    <Content Include="Lib\lib2to3\pgen2\parse.py" />
-    <Content Include="Lib\lib2to3\pgen2\pgen.py" />
-    <Content Include="Lib\lib2to3\pgen2\token.py" />
-    <Content Include="Lib\lib2to3\pgen2\tokenize.py" />
-    <Content Include="Lib\lib2to3\pgen2\__init__.py" />
-    <Content Include="Lib\lib2to3\pygram.py" />
-    <Content Include="Lib\lib2to3\pytree.py" />
-    <Content Include="Lib\lib2to3\refactor.py" />
-    <Content Include="Lib\lib2to3\__init__.py" />
-    <Content Include="Lib\lib2to3\__main__.py" />
-    <Content Include="Lib\linecache.py" />
-    <Content Include="Lib\locale.py" />
-    <Content Include="Lib\logging\config.py" />
-    <Content Include="Lib\logging\handlers.py" />
-    <Content Include="Lib\logging\__init__.py" />
-    <Content Include="Lib\macpath.py" />
-    <Content Include="Lib\macurl2path.py" />
-    <Content Include="Lib\mailbox.py" />
-    <Content Include="Lib\mailcap.py" />
-    <Content Include="Lib\markupbase.py" />
-    <Content Include="Lib\md5.py" />
-    <Content Include="Lib\mhlib.py" />
-    <Content Include="Lib\mimetools.py" />
-    <Content Include="Lib\mimetypes.py" />
-    <Content Include="Lib\MimeWriter.py" />
-    <Content Include="Lib\mimify.py" />
-    <Content Include="Lib\modulefinder.py" />
-    <Content Include="Lib\multifile.py" />
-    <Content Include="Lib\mutex.py" />
-    <Content Include="Lib\netrc.py" />
-    <Content Include="Lib\new.py" />
-    <Content Include="Lib\nntplib.py" />
-    <Content Include="Lib\ntpath.py" />
-    <Content Include="Lib\nturl2path.py" />
-    <Content Include="Lib\numbers.py" />
-    <Content Include="Lib\opcode.py" />
-    <Content Include="Lib\optparse.py" />
-    <Content Include="Lib\os.py" />
-    <Content Include="Lib\os2emxpath.py" />
-    <Content Include="Lib\pdb.py" />
-    <Content Include="Lib\pickle.py" />
-    <Content Include="Lib\pickletools.py" />
-    <Content Include="Lib\pipes.py" />
-    <Content Include="Lib\pkgutil.py" />
-    <Content Include="Lib\platform.py" />
-    <Content Include="Lib\plistlib.py" />
-    <Content Include="Lib\popen2.py" />
-    <Content Include="Lib\poplib.py" />
-    <Content Include="Lib\posixfile.py" />
-    <Content Include="Lib\posixpath.py" />
-    <Content Include="Lib\pprint.py" />
-    <Content Include="Lib\profile.py" />
-    <Content Include="Lib\pstats.py" />
-    <Content Include="Lib\pyclbr.py" />
-    <Content Include="Lib\pydoc.py" />
-    <Content Include="Lib\pydoc_data\topics.py" />
-    <Content Include="Lib\pydoc_data\__init__.py" />
-    <Content Include="Lib\py_compile.py" />
-    <Content Include="Lib\Queue.py" />
-    <Content Include="Lib\quopri.py" />
-    <Content Include="Lib\random.py" />
-    <Content Include="Lib\repr.py" />
-    <Content Include="Lib\rexec.py" />
-    <Content Include="Lib\rfc822.py" />
-    <Content Include="Lib\rlcompleter.py" />
-    <Content Include="Lib\robotparser.py" />
-    <Content Include="Lib\runpy.py" />
-    <Content Include="Lib\sched.py" />
-    <Content Include="Lib\sets.py" />
-    <Content Include="Lib\sgmllib.py" />
-    <Content Include="Lib\sha.py" />
-    <Content Include="Lib\shelve.py" />
-    <Content Include="Lib\shlex.py" />
-    <Content Include="Lib\shutil.py" />
-    <Content Include="Lib\SimpleHTTPServer.py" />
-    <Content Include="Lib\SimpleXMLRPCServer.py" />
+    <Content Include="Lib\abc.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\aifc.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\antigravity.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\anydbm.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\argparse.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\ast.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\asynchat.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\asyncore.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\atexit.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\audiodev.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\base64.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\BaseHTTPServer.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\Bastion.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\bdb.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\binhex.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\bisect.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\calendar.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\cgi.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\CGIHTTPServer.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\cgitb.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\chunk.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\cmd.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\code.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\codecs.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\codeop.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\collections.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\colorsys.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\commands.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\compileall.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\ConfigParser.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\contextlib.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\Cookie.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\cookielib.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\copy.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\csv.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\ctypes\macholib\dyld.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\ctypes\macholib\dylib.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\ctypes\macholib\framework.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\ctypes\macholib\__init__.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\ctypes\util.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\ctypes\wintypes.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\ctypes\_endian.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\ctypes\__init__.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\decimal.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\difflib.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\dircache.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\dis.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\archive_util.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\bcppcompiler.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\ccompiler.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\cmd.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\command\bdist.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\command\bdist_dumb.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\command\bdist_rpm.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\command\bdist_wininst.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\command\build.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\command\build_clib.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\command\build_ext.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\command\build_py.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\command\build_scripts.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\command\check.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\command\clean.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\command\config.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\command\install.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\command\install_data.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\command\install_egg_info.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\command\install_headers.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\command\install_lib.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\command\install_scripts.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\command\register.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\command\sdist.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\command\upload.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\command\__init__.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\config.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\core.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\cygwinccompiler.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\debug.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\dep_util.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\dir_util.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\dist.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\emxccompiler.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\errors.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\extension.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\fancy_getopt.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\filelist.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\file_util.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\log.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\msvccompiler.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\spawn.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\sysconfig.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\text_file.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\unixccompiler.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\util.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\version.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\versionpredicate.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\__init__.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\doctest.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\DocXMLRPCServer.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\dumbdbm.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\dummy_thread.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\dummy_threading.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\email\base64mime.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\email\charset.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\email\encoders.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\email\errors.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\email\feedparser.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\email\generator.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\email\header.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\email\iterators.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\email\message.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\email\mime\application.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\email\mime\audio.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\email\mime\base.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\email\mime\image.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\email\mime\message.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\email\mime\multipart.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\email\mime\nonmultipart.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\email\mime\text.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\email\mime\__init__.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\email\parser.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\email\quoprimime.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\email\utils.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\email\_parseaddr.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\email\__init__.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\aliases.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\ascii.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\base64_codec.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\charmap.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp037.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp1006.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp1026.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp1140.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp1250.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp1251.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp1252.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp1253.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp1254.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp1255.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp1256.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp1257.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp1258.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp424.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp437.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp500.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp720.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp737.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp775.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp850.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp852.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp855.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp856.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp857.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp858.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp860.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp861.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp862.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp863.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp864.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp865.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp866.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp869.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp874.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp875.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\hex_codec.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\hp_roman8.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\iso8859_1.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\iso8859_10.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\iso8859_11.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\iso8859_13.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\iso8859_14.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\iso8859_15.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\iso8859_16.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\iso8859_2.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\iso8859_3.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\iso8859_4.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\iso8859_5.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\iso8859_6.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\iso8859_7.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\iso8859_8.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\iso8859_9.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\koi8_r.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\koi8_u.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\latin_1.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\mac_arabic.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\mac_centeuro.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\mac_croatian.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\mac_cyrillic.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\mac_farsi.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\mac_greek.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\mac_iceland.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\mac_latin2.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\mac_roman.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\mac_romanian.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\mac_turkish.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\mbcs.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\palmos.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\ptcp154.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\punycode.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\quopri_codec.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\raw_unicode_escape.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\rot_13.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\string_escape.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\tis_620.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\undefined.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\unicode_escape.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\unicode_internal.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\utf_16.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\utf_16_be.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\utf_16_le.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\utf_32.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\utf_32_le.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\utf_7.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\utf_8.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\utf_8_sig.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\uu_codec.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\zlib_codec.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\__init__.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\filecmp.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\fileinput.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\fnmatch.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\formatter.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\fpformat.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\fractions.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\ftplib.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\functools.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\genericpath.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\getopt.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\getpass.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\gettext.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\glob.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\gzip.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\hashlib.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\heapq.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\hmac.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\htmlentitydefs.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\htmllib.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\HTMLParser.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\httplib.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\ihooks.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\imaplib.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\imghdr.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\importlib\__init__.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\imputil.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\inspect.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\io.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\json\decoder.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\json\encoder.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\json\scanner.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\json\tool.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\json\__init__.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\keyword.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\btm_matcher.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\btm_utils.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixer_base.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixer_util.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_apply.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_basestring.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_buffer.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_callable.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_dict.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_except.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_exec.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_execfile.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_exitfunc.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_filter.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_funcattrs.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_future.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_getcwdu.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_has_key.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_idioms.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_import.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_imports.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_imports2.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_input.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_intern.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_isinstance.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_itertools.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_itertools_imports.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_long.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_map.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_metaclass.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_methodattrs.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_ne.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_next.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_nonzero.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_numliterals.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_operator.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_paren.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_print.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_raise.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_raw_input.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_reduce.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_renames.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_repr.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_set_literal.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_standarderror.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_sys_exc.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_throw.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_tuple_params.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_types.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_unicode.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_urllib.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_ws_comma.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_xrange.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_xreadlines.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_zip.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\__init__.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\main.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\patcomp.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\pgen2\conv.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\pgen2\driver.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\pgen2\grammar.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\pgen2\literals.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\pgen2\parse.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\pgen2\pgen.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\pgen2\token.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\pgen2\tokenize.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\pgen2\__init__.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\pygram.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\pytree.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\refactor.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\__init__.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\__main__.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\linecache.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\locale.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\logging\config.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\logging\handlers.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\logging\__init__.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\macpath.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\macurl2path.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\mailbox.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\mailcap.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\markupbase.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\md5.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\mhlib.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\mimetools.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\mimetypes.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\MimeWriter.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\mimify.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\modulefinder.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\multifile.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\mutex.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\netrc.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\new.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\nntplib.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\ntpath.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\nturl2path.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\numbers.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\opcode.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\optparse.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\os.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\os2emxpath.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\pdb.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\pickle.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\pickletools.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\pipes.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\pkgutil.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\platform.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\plistlib.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\popen2.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\poplib.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\posixfile.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\posixpath.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\pprint.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\profile.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\pstats.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\pyclbr.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\pydoc.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\pydoc_data\topics.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\pydoc_data\__init__.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\py_compile.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\Queue.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\quopri.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\random.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\repr.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\rexec.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\rfc822.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\rlcompleter.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\robotparser.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\runpy.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\sched.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\sets.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\sgmllib.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\sha.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\shelve.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\shlex.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\shutil.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\SimpleHTTPServer.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\SimpleXMLRPCServer.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Lib\site-packages\README.txt" />
-    <Content Include="Lib\site.py" />
-    <Content Include="Lib\smtpd.py" />
-    <Content Include="Lib\smtplib.py" />
-    <Content Include="Lib\sndhdr.py" />
-    <Content Include="Lib\SocketServer.py" />
-    <Content Include="Lib\sqlite3\dbapi2.py" />
-    <Content Include="Lib\sqlite3\dump.py" />
-    <Content Include="Lib\sqlite3\__init__.py" />
-    <Content Include="Lib\sre_compile.py" />
-    <Content Include="Lib\sre_constants.py" />
-    <Content Include="Lib\sre_parse.py" />
-    <Content Include="Lib\ssl.py" />
-    <Content Include="Lib\stat.py" />
-    <Content Include="Lib\statvfs.py" />
-    <Content Include="Lib\string.py" />
-    <Content Include="Lib\StringIO.py" />
-    <Content Include="Lib\stringold.py" />
-    <Content Include="Lib\struct.py" />
-    <Content Include="Lib\subprocess.py" />
-    <Content Include="Lib\sunau.py" />
-    <Content Include="Lib\sunaudio.py" />
-    <Content Include="Lib\symbol.py" />
-    <Content Include="Lib\sysconfig.py" />
-    <Content Include="Lib\tabnanny.py" />
-    <Content Include="Lib\tarfile.py" />
-    <Content Include="Lib\telnetlib.py" />
-    <Content Include="Lib\tempfile.py" />
-    <Content Include="Lib\textwrap.py" />
-    <Content Include="Lib\this.py" />
-    <Content Include="Lib\threading.py" />
-    <Content Include="Lib\timeit.py" />
-    <Content Include="Lib\toaiff.py" />
-    <Content Include="Lib\token.py" />
-    <Content Include="Lib\tokenize.py" />
-    <Content Include="Lib\trace.py" />
-    <Content Include="Lib\traceback.py" />
-    <Content Include="Lib\types.py" />
-    <Content Include="Lib\unittest\case.py" />
-    <Content Include="Lib\unittest\loader.py" />
-    <Content Include="Lib\unittest\main.py" />
-    <Content Include="Lib\unittest\result.py" />
-    <Content Include="Lib\unittest\runner.py" />
-    <Content Include="Lib\unittest\signals.py" />
-    <Content Include="Lib\unittest\suite.py" />
-    <Content Include="Lib\unittest\util.py" />
-    <Content Include="Lib\unittest\__init__.py" />
-    <Content Include="Lib\unittest\__main__.py" />
-    <Content Include="Lib\urllib.py" />
-    <Content Include="Lib\urllib2.py" />
-    <Content Include="Lib\urlparse.py" />
-    <Content Include="Lib\user.py" />
-    <Content Include="Lib\UserDict.py" />
-    <Content Include="Lib\UserList.py" />
-    <Content Include="Lib\UserString.py" />
-    <Content Include="Lib\uu.py" />
-    <Content Include="Lib\uuid.py" />
-    <Content Include="Lib\warnings.py" />
-    <Content Include="Lib\wave.py" />
-    <Content Include="Lib\weakref.py" />
-    <Content Include="Lib\webbrowser.py" />
-    <Content Include="Lib\whichdb.py" />
-    <Content Include="Lib\wsgiref\handlers.py" />
-    <Content Include="Lib\wsgiref\headers.py" />
-    <Content Include="Lib\wsgiref\simple_server.py" />
-    <Content Include="Lib\wsgiref\util.py" />
-    <Content Include="Lib\wsgiref\validate.py" />
-    <Content Include="Lib\wsgiref\__init__.py" />
-    <Content Include="Lib\xdrlib.py" />
-    <Content Include="Lib\xmllib.py" />
-    <Content Include="Lib\xmlrpclib.py" />
-    <Content Include="Lib\xml\dom\domreg.py" />
-    <Content Include="Lib\xml\dom\minicompat.py" />
-    <Content Include="Lib\xml\dom\minidom.py" />
-    <Content Include="Lib\xml\dom\NodeFilter.py" />
-    <Content Include="Lib\xml\dom\pulldom.py" />
-    <Content Include="Lib\xml\dom\xmlbuilder.py" />
-    <Content Include="Lib\xml\dom\__init__.py" />
-    <Content Include="Lib\xml\etree\ElementInclude.py" />
-    <Content Include="Lib\xml\etree\ElementPath.py" />
-    <Content Include="Lib\xml\etree\ElementTree.py" />
-    <Content Include="Lib\xml\etree\SimpleXMLTreeBuilder.py" />
-    <Content Include="Lib\xml\etree\__init__.py" />
-    <Content Include="Lib\xml\parsers\__init__.py" />
-    <Content Include="Lib\xml\sax\handler.py" />
-    <Content Include="Lib\xml\sax\saxutils.py" />
-    <Content Include="Lib\xml\sax\xmlreader.py" />
-    <Content Include="Lib\xml\sax\_exceptions.py" />
-    <Content Include="Lib\xml\sax\__init__.py" />
-    <Content Include="Lib\xml\__init__.py" />
-    <Content Include="Lib\zipfile.py" />
-    <Content Include="Lib\_abcoll.py" />
-    <Content Include="Lib\_LWPCookieJar.py" />
-    <Content Include="Lib\_MozillaCookieJar.py" />
-    <Content Include="Lib\_pyio.py" />
-    <Content Include="Lib\_strptime.py" />
-    <Content Include="Lib\_threading_local.py" />
-    <Content Include="Lib\_weakrefset.py" />
-    <Content Include="Lib\__future__.py" />
-    <Content Include="Lib\__phello__.foo.py" />
+    <Content Include="Lib\site.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\smtpd.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\smtplib.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\sndhdr.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\SocketServer.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\sqlite3\dbapi2.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\sqlite3\dump.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\sqlite3\__init__.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\sre_compile.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\sre_constants.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\sre_parse.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\ssl.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\stat.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\statvfs.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\string.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\StringIO.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\stringold.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\struct.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\subprocess.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\sunau.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\sunaudio.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\symbol.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\sysconfig.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\tabnanny.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\tarfile.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\telnetlib.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\tempfile.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\textwrap.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\this.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\threading.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\timeit.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\toaiff.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\token.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\tokenize.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\trace.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\traceback.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\types.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\unittest\case.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\unittest\loader.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\unittest\main.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\unittest\result.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\unittest\runner.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\unittest\signals.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\unittest\suite.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\unittest\util.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\unittest\__init__.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\unittest\__main__.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\urllib.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\urllib2.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\urlparse.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\user.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\UserDict.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\UserList.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\UserString.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\uu.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\uuid.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\warnings.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\wave.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\weakref.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\webbrowser.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\whichdb.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\wsgiref\handlers.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\wsgiref\headers.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\wsgiref\simple_server.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\wsgiref\util.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\wsgiref\validate.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\wsgiref\__init__.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\xdrlib.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\xmllib.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\xmlrpclib.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\xml\dom\domreg.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\xml\dom\minicompat.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\xml\dom\minidom.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\xml\dom\NodeFilter.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\xml\dom\pulldom.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\xml\dom\xmlbuilder.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\xml\dom\__init__.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\xml\etree\ElementInclude.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\xml\etree\ElementPath.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\xml\etree\ElementTree.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\xml\etree\SimpleXMLTreeBuilder.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\xml\etree\__init__.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\xml\parsers\__init__.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\xml\sax\handler.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\xml\sax\saxutils.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\xml\sax\xmlreader.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\xml\sax\_exceptions.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\xml\sax\__init__.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\xml\__init__.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\zipfile.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\_abcoll.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\_LWPCookieJar.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\_MozillaCookieJar.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\_pyio.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\_strptime.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\_threading_local.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\_weakrefset.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\__future__.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\__phello__.foo.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="mavcmd.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>

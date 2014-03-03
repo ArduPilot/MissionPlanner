@@ -50,7 +50,29 @@ namespace MissionPlanner.Wizard
 
             wiz_main.AddScreen(new MainSwitcher.Screen("DontForget", new _98DontForget(), true));
 
-            wiz_main.ShowScreen("Intro");
+            if (MainV2.comPort.BaseStream.IsOpen)
+            {
+                if (MainV2.comPort.MAV.aptype == MAVLink.MAV_TYPE.FIXED_WING)
+                {
+                    wiz_main.ShowScreen("AccelCalib");
+                }
+                else if (MainV2.comPort.MAV.aptype == MAVLink.MAV_TYPE.HELICOPTER ||
+                      MainV2.comPort.MAV.aptype == MAVLink.MAV_TYPE.HEXAROTOR ||
+                      MainV2.comPort.MAV.aptype == MAVLink.MAV_TYPE.OCTOROTOR ||
+                      MainV2.comPort.MAV.aptype == MAVLink.MAV_TYPE.QUADROTOR ||
+                      MainV2.comPort.MAV.aptype == MAVLink.MAV_TYPE.TRICOPTER)
+                {
+                    wiz_main.ShowScreen("FrameType");
+                }
+                else
+                {
+                    wiz_main.ShowScreen("Intro");
+                }
+            }
+            else
+            {
+                wiz_main.ShowScreen("Intro");
+            }
 
             history.Add(wiz_main.current.Name);
 
@@ -104,6 +126,12 @@ namespace MissionPlanner.Wizard
 
         public void GoBack()
         {
+            if (history.Count == 1)
+            {
+                BUT_Back.Enabled = false;
+                return;
+            }
+
             // show the last page in history
             wiz_main.ShowScreen(history[history.Count - 2]);
 

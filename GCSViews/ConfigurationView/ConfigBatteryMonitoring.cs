@@ -328,7 +328,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 CMB_batmonsensortype.SelectedIndex = 3;
             }
-            else if (TXT_ampspervolt.Text == (18.0018).ToString() && TXT_divider.Text == (10).ToString())
+            else if (TXT_ampspervolt.Text == (18.0018).ToString() && TXT_divider.Text == (10.10101).ToString())
             {
                 CMB_batmonsensortype.SelectedIndex = 4;
             }

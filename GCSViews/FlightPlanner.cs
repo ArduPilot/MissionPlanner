@@ -262,7 +262,14 @@ namespace MissionPlanner.GCSViews
             {
                 double lastdist = MainMap.MapProvider.Projection.GetDistance(wppolygon.Points[wppolygon.Points.Count - 1], currentMarker.Position);
 
-                lbl_prevdist.Text = rm.GetString("lbl_prevdist.Text") + ": " + FormatDistance(lastdist, true);
+                double lastbearing = 0;
+
+                if (wppolygon.Points.Count > 0)
+                {
+                            lastbearing = MainMap.MapProvider.Projection.GetBearing(wppolygon.Points[wppolygon.Points.Count - 1], currentMarker.Position);
+                }
+
+                lbl_prevdist.Text = rm.GetString("lbl_prevdist.Text") + ": " + FormatDistance(lastdist, true) + " AZ: " + lastbearing.ToString("0");
 
                 double homedist = MainMap.MapProvider.Projection.GetDistance(currentMarker.Position, wppolygon.Points[0]);
 
@@ -307,8 +314,8 @@ namespace MissionPlanner.GCSViews
             InitializeComponent();
 
             // config map             
+            MainMap.CacheLocation = Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + "gmapcache" + Path.DirectorySeparatorChar;
             MainMap.MapProvider = GoogleSatelliteMapProvider.Instance;
-            MainMap.CacheLocation = Path.GetDirectoryName(Application.ExecutablePath) + "/gmapcache/";
 
             // map events
             MainMap.OnPositionChanged += new PositionChanged(MainMap_OnCurrentPositionChanged);
@@ -418,7 +425,7 @@ namespace MissionPlanner.GCSViews
             Down.Image = global::MissionPlanner.Properties.Resources.down;
         }
 
-        public void updateCMDParams()
+        void updateCMDParams()
         {
             cmdParamNames = readCMDXML();
 
@@ -572,11 +579,13 @@ namespace MissionPlanner.GCSViews
             List<PointLatLng> polygonPoints = new List<PointLatLng>();
             geofencepolygon = new GMapPolygon(polygonPoints, "geofence");
             geofencepolygon.Stroke = new Pen(Color.Pink, 5);
+            geofencepolygon.Fill = Brushes.Transparent;
 
             //setup drawnpolgon
             List<PointLatLng> polygonPoints2 = new List<PointLatLng>();
             drawnpolygon = new GMapPolygon(polygonPoints2, "drawnpoly");
             drawnpolygon.Stroke = new Pen(Color.Red, 2);
+            drawnpolygon.Fill = Brushes.Transparent;
 
             updateCMDParams();
 
@@ -696,7 +705,7 @@ namespace MissionPlanner.GCSViews
                 //Console.WriteLine("editformat " + option + " value " + cmd);
                 ChangeColumnHeader(cmd);
 
-                setgradanddist();
+                setgradanddistandaz();
 
                 if (cmd == "WAYPOINT")
                 {
@@ -740,14 +749,18 @@ namespace MissionPlanner.GCSViews
             {
                 Commands.CurrentCell = Commands.Rows[e.RowIndex].Cells[0];
 
-                if (Commands.Rows[e.RowIndex - 1].Cells[Command.Index].Value.ToString() == "WAYPOINT")
+                if (Commands.Rows.Count > 1)
                 {
-                    Commands.Rows[e.RowIndex].Selected = true; // highlight row
-                }
-                else
-                {
-                    Commands.CurrentCell = Commands[1, e.RowIndex - 1];
-                    //Commands_RowEnter(sender, new DataGridViewCellEventArgs(0, e.RowIndex-1));
+
+                    if (Commands.Rows[e.RowIndex - 1].Cells[Command.Index].Value.ToString() == "WAYPOINT")
+                    {
+                        Commands.Rows[e.RowIndex].Selected = true; // highlight row
+                    }
+                    else
+                    {
+                        Commands.CurrentCell = Commands[1, e.RowIndex - 1];
+                        //Commands_RowEnter(sender, new DataGridViewCellEventArgs(0, e.RowIndex-1));
+                    }
                 }
             }
             catch (Exception) { }
@@ -1060,7 +1073,7 @@ namespace MissionPlanner.GCSViews
                     lbl_distance.Text = rm.GetString("lbl_distance.Text") + ": " + FormatDistance(wppolygon.Distance + homedist, false);
                 }
 
-                setgradanddist();
+                setgradanddistandaz();
             }
             catch (Exception ex)
             {
@@ -1070,7 +1083,7 @@ namespace MissionPlanner.GCSViews
             System.Diagnostics.Debug.WriteLine(DateTime.Now);
         }
         
-        void setgradanddist()
+        void setgradanddistandaz()
         {
             int a = 0;
             PointLatLngAlt last = MainV2.comPort.MAV.cs.HomeLocation;
@@ -1083,6 +1096,8 @@ namespace MissionPlanner.GCSViews
                         Commands.Rows[int.Parse(lla.Tag) - 1].Cells[Grad.Index].Value = (((lla.Alt - last.Alt) / (lla.GetDistance(last) * MainV2.comPort.MAV.cs.multiplierdist)) * 100).ToString("0.0");
 
                         Commands.Rows[int.Parse(lla.Tag) - 1].Cells[Dist.Index].Value = (lla.GetDistance(last) * MainV2.comPort.MAV.cs.multiplierdist).ToString("0.0");
+
+                        Commands.Rows[int.Parse(lla.Tag) - 1].Cells[AZ.Index].Value = ((lla.GetBearing(last) + 180) % 360 ).ToString("0");
                     }
                 }
                 catch { }
@@ -1273,6 +1288,9 @@ namespace MissionPlanner.GCSViews
                             return;
                         }
                     }
+
+                    if (TXT_altwarn.Text == "")
+                        TXT_altwarn.Text = (0).ToString();
 
                     byte cmd = (byte)(int)Enum.Parse(typeof(MAVLink.MAV_CMD), Commands.Rows[a].Cells[Command.Index].Value.ToString(), false);
 
@@ -1724,7 +1742,7 @@ namespace MissionPlanner.GCSViews
                     Commands.Rows.Insert(e.RowIndex + 1, myrow);
                     writeKML();
                 }
-                setgradanddist();
+                setgradanddistandaz();
             }
             catch (Exception) { CustomMessageBox.Show("Row error"); }
         }
@@ -3227,8 +3245,10 @@ namespace MissionPlanner.GCSViews
             // update flight data
             FlightData.geofence.Markers.Clear();
             FlightData.geofence.Polygons.Clear();
-            FlightData.geofence.Polygons.Add(new GMapPolygon(geofencepolygon.Points, "gf fd") { Stroke = geofencepolygon.Stroke });
-            FlightData.geofence.Markers.Add(new GMarkerGoogle(geofenceoverlay.Markers[0].Position, MarkerHemav) { ToolTipText = geofenceoverlay.Markers[0].ToolTipText, ToolTipMode = geofenceoverlay.Markers[0].ToolTipMode });
+
+            FlightData.geofence.Polygons.Add(new GMapPolygon(geofencepolygon.Points, "gf fd") { Stroke = geofencepolygon.Stroke, Fill = Brushes.Transparent });
+            FlightData.geofence.Markers.Add(new GMarkerGoogle(geofenceoverlay.Markers[0].Position, GMarkerGoogleType.red) { ToolTipText = geofenceoverlay.Markers[0].ToolTipText, ToolTipMode = geofenceoverlay.Markers[0].ToolTipMode });
+
 
             MainMap.UpdatePolygonLocalPosition(geofencepolygon);
             MainMap.UpdateMarkerLocalPosition(geofenceoverlay.Markers[0]);
@@ -3398,9 +3418,14 @@ namespace MissionPlanner.GCSViews
             if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Points", "Direction of circle (-1 or 1)", ref Directionin))
                 return;
 
+            string startanglein = "0";
+            if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("angle", "Angle of first point (whole degrees)", ref startanglein))
+                return;
+
             int Points = 0;
             int Radius = 0;
             int Direction = 1;
+            int startangle = 0;
 
             if (!int.TryParse(RadiusIn, out Radius))
             {
@@ -3420,17 +3445,23 @@ namespace MissionPlanner.GCSViews
                 return;
             }
 
-            double a = 0;
+            if (!int.TryParse(startanglein, out startangle))
+            {
+                CustomMessageBox.Show("Bad start angle value");
+                return;
+            }
+
+            double a = startangle;
             double step = 360.0f / Points;
             if (Direction == -1)
             {
-                a = 360;
+                a += 360;
                 step *= -1;
             }
 
             quickadd = true;
 
-            for (; a <= 360 && a >= 0; a += step)
+            for (; a <= (startangle+360) && a >= 0; a += step)
             {
 
                 selectedrow = Commands.Rows.Add();
@@ -3475,6 +3506,8 @@ namespace MissionPlanner.GCSViews
             updateHome();
 
             setWPParams();
+
+            updateCMDParams();
 
             try
             {
@@ -4905,7 +4938,7 @@ namespace MissionPlanner.GCSViews
                 try
                 {
                     PointLatLngAlt plla = MainV2.comPort.getRallyPoint(a, ref count);
-                    rallypointoverlay.Markers.Add(new GMapMarkerRallyPt(new PointLatLng(plla.Lat, plla.Lng)) { Alt = (int)plla.Alt, ToolTipMode = MarkerTooltipMode.OnMouseOver, ToolTipText = "Rally Point" + "\nAlt: " + plla.Alt });
+                    rallypointoverlay.Markers.Add(new GMapMarkerRallyPt(new PointLatLng(plla.Lat, plla.Lng)) { Alt = (int)plla.Alt, ToolTipMode = MarkerTooltipMode.OnMouseOver, ToolTipText = "Rally Point" + "\nAlt: " + (plla.Alt / MainV2.comPort.MAV.cs.multiplierdist) });
                 }
                 catch { CustomMessageBox.Show("Failed to get rally point", "Error"); return; }
             }
@@ -4949,7 +4982,7 @@ namespace MissionPlanner.GCSViews
                             ToolTipMode = MarkerTooltipMode.OnMouseOver,
                             ToolTipText = "Rally Point" + "\nAlt: " + alt,
                             Tag = rallypointoverlay.Markers.Count,
-                            Alt = alt,
+                            Alt = (int)rallypt.Alt,
                         }
                 );
             }

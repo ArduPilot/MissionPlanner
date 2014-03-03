@@ -29,11 +29,13 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigHWAirspeed));
-            this.CHK_enableairspeed = new Controls.MavlinkCheckBox();
+            this.CHK_enableairspeed = new MissionPlanner.Controls.MavlinkCheckBox();
             this.pictureBox4 = new System.Windows.Forms.PictureBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.CHK_airspeeduse = new Controls.MavlinkCheckBox();
+            this.CHK_airspeeduse = new MissionPlanner.Controls.MavlinkCheckBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.mavlinkCheckBoxAirspeed_pin = new MissionPlanner.Controls.MavlinkComboBox();
+            this.lbl_airspeed_pin = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             this.SuspendLayout();
             // 
@@ -78,10 +80,26 @@
             resources.ApplyResources(this.label2, "label2");
             this.label2.Name = "label2";
             // 
+            // mavlinkCheckBoxAirspeed_pin
+            // 
+            this.mavlinkCheckBoxAirspeed_pin.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.mavlinkCheckBoxAirspeed_pin.DropDownWidth = 200;
+            resources.ApplyResources(this.mavlinkCheckBoxAirspeed_pin, "mavlinkCheckBoxAirspeed_pin");
+            this.mavlinkCheckBoxAirspeed_pin.Name = "mavlinkCheckBoxAirspeed_pin";
+            this.mavlinkCheckBoxAirspeed_pin.param = null;
+            this.mavlinkCheckBoxAirspeed_pin.ParamName = null;
+            // 
+            // lbl_airspeed_pin
+            // 
+            resources.ApplyResources(this.lbl_airspeed_pin, "lbl_airspeed_pin");
+            this.lbl_airspeed_pin.Name = "lbl_airspeed_pin";
+            // 
             // ConfigHWAirspeed
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.lbl_airspeed_pin);
+            this.Controls.Add(this.mavlinkCheckBoxAirspeed_pin);
             this.Controls.Add(this.CHK_airspeeduse);
             this.Controls.Add(this.CHK_enableairspeed);
             this.Controls.Add(this.label2);
@@ -90,6 +108,7 @@
             this.Name = "ConfigHWAirspeed";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -100,5 +119,7 @@
         private System.Windows.Forms.GroupBox groupBox3;
         private Controls.MavlinkCheckBox CHK_airspeeduse;
         private System.Windows.Forms.Label label2;
+        private Controls.MavlinkComboBox mavlinkCheckBoxAirspeed_pin;
+        private System.Windows.Forms.Label lbl_airspeed_pin;
     }
 }

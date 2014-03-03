@@ -1060,13 +1060,7 @@ namespace MissionPlanner.Properties {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a == MAVLink Parameters == (this is a copy fo the wiki page FYI)
-        ///
-        ///This is a list of all the user-modifiable MAVLink parameters and what they do. You can modify them via the MAVLink parameters window in any compatible GCS, such as the Mission Planner, HK GCS or !QGroundControl.
-        ///
-        ///It includes both fixed wing (APM) and rotary wing (!ArduCopter) parameters. Some may only be relevant for one platform or another.
-        ///
-        ///|| *EEPROM variable name* || *Min* || *Max* || *Default* || *Multiplier* || *Enabled (0 = no, 1 = [resto de la cadena truncado]&quot;;.
+
         /// </summary>
         internal static string MAVParam {
             get {
