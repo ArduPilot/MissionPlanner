@@ -183,7 +183,28 @@ namespace MissionPlanner.Log
 
                     log.Info("set dgv datasourse " + (GC.GetTotalMemory(false) / 1024.0));
 
-                    dataGridView1.DataSource = m_dtCSV;
+                    if (MainV2.MONO)
+                    {
+                        if (m_dtCSV.Rows.Count > 5000)
+                        {
+                            CustomMessageBox.Show("This log apears to be a large log, the grid view will be disabled.\nAll graphing will still work however", "Large Log");
+                            dataGridView1.Visible = false;
+                        }
+                        else
+                        {
+                            BindingSource bs = new BindingSource();
+                            bs.DataSource = m_dtCSV;
+                            dataGridView1.DataSource = bs;
+                        }
+                    }
+                    else
+                    {
+                        dataGridView1.VirtualMode = true;
+                        dataGridView1.RowCount = m_dtCSV.Rows.Count;
+                        dataGridView1.ColumnCount = m_dtCSV.Columns.Count;
+                    }
+
+        
 
                     dataGridView1.Columns[0].Visible = false;
 
@@ -251,6 +272,9 @@ namespace MissionPlanner.Log
 
         private void dataGridView1_RowEnter(object sender, DataGridViewCellEventArgs e)
         {
+            if (dataGridView1.ColumnCount < typecoloum)
+                return;
+
             try
             {
                 // number the coloums
@@ -1062,6 +1086,11 @@ namespace MissionPlanner.Log
             dataGridView1.DataSource = null;
             mapoverlay = null;
             GC.Collect();
+        }
+
+        private void dataGridView1_CellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
+        {
+            e.Value = m_dtCSV.Rows[e.RowIndex].ItemArray[e.ColumnIndex].ToString();
         }
     }
 }

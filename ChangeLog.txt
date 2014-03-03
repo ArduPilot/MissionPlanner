@@ -1,4 +1,8 @@
-﻿* Mission Planner 1.2.96
+﻿* Mission Planner 1.2.97
+change log browse to virtualmode. much faster on windows
+fix for posible future update bug
+
+* Mission Planner 1.2.96
 add ability to change text on buttons in servo tab
 modify some hud user item decimal places
 update mavlink
