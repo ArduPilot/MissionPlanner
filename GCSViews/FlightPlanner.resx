@@ -2154,11 +2154,12 @@
   <data name="loitercirclesToolStripMenuItem.Text" xml:space="preserve">
     <value>Circles</value>
   </data>
-<<<<<<< HEAD
+
   <data name="loiterToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-=======
+    <value>150, 22</value>
+  </data>
+
   <data name="jumpToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
->>>>>>> 3b542617b17f342382ed99344700452b8a7d5c7b
     <value>150, 22</value>
   </data>
   <data name="jumpToolStripMenuItem.Text" xml:space="preserve">
@@ -2176,15 +2177,14 @@
   <data name="jumpwPToolStripMenuItem.Text" xml:space="preserve">
     <value>WP #</value>
   </data>
-<<<<<<< HEAD
+
   <data name="jumpToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>150, 22</value>
   </data>
   <data name="jumpToolStripMenuItem.Text" xml:space="preserve">
     <value>Jump</value>
   </data>
-=======
->>>>>>> 3b542617b17f342382ed99344700452b8a7d5c7b
+
   <data name="rTLToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>150, 22</value>
   </data>
@@ -2217,15 +2217,14 @@
   </data>
   <data name="toolStripSeparator1.Size" type="System.Drawing.Size, System.Drawing">
     <value>147, 6</value>
-<<<<<<< HEAD
-=======
+
   </data>
   <data name="polygonToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>150, 22</value>
   </data>
   <data name="polygonToolStripMenuItem.Text" xml:space="preserve">
     <value>Draw Polygon</value>
->>>>>>> 3b542617b17f342382ed99344700452b8a7d5c7b
+
   </data>
   <data name="addPolygonPointToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>174, 22</value>
@@ -2251,11 +2250,11 @@
   <data name="loadPolygonToolStripMenuItem.Text" xml:space="preserve">
     <value>Load Polygon</value>
   </data>
-<<<<<<< HEAD
+
   <data name="polygonToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-=======
+    <value>150, 22</value>
+  </data>
   <data name="rallyPointsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
->>>>>>> 3b542617b17f342382ed99344700452b8a7d5c7b
     <value>150, 22</value>
   </data>
   <data name="rallyPointsToolStripMenuItem.Text" xml:space="preserve">
@@ -2297,11 +2296,11 @@
   <data name="loadFromFileToolStripMenuItem1.Text" xml:space="preserve">
     <value>Load Rally from File</value>
   </data>
-<<<<<<< HEAD
+
   <data name="rallyPointsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-=======
+    <value>150, 22</value>
+  </data>
   <data name="geoFenceToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
->>>>>>> 3b542617b17f342382ed99344700452b8a7d5c7b
     <value>150, 22</value>
   </data>
   <data name="geoFenceToolStripMenuItem.Text" xml:space="preserve">
@@ -2346,11 +2345,12 @@
   <data name="saveToFileToolStripMenuItem.Text" xml:space="preserve">
     <value>Save to File</value>
   </data>
-<<<<<<< HEAD
+
   <data name="geoFenceToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-=======
+    <value>150, 22</value>
+  </data>
   <data name="autoWPToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
->>>>>>> 3b542617b17f342382ed99344700452b8a7d5c7b
+
     <value>150, 22</value>
   </data>
   <data name="autoWPToolStripMenuItem.Text" xml:space="preserve">
@@ -2368,11 +2368,9 @@
   <data name="areaToolStripMenuItem.Text" xml:space="preserve">
     <value>Area</value>
   </data>
-<<<<<<< HEAD
-  <data name="autoWPToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-=======
+
   <data name="mapToolToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
->>>>>>> 3b542617b17f342382ed99344700452b8a7d5c7b
+
     <value>150, 22</value>
   </data>
   <data name="mapToolToolStripMenuItem.Text" xml:space="preserve">
@@ -2429,11 +2427,9 @@
   <data name="reverseWPsToolStripMenuItem.Text" xml:space="preserve">
     <value>Reverse WPs</value>
   </data>
-<<<<<<< HEAD
-  <data name="mapToolToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-=======
+
   <data name="fileLoadSaveToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
->>>>>>> 3b542617b17f342382ed99344700452b8a7d5c7b
+
     <value>150, 22</value>
   </data>
   <data name="fileLoadSaveToolStripMenuItem.Text" xml:space="preserve">
@@ -2463,15 +2459,7 @@
   <data name="loadKMLFileToolStripMenuItem.Text" xml:space="preserve">
     <value>Load KML File</value>
   </data>
-<<<<<<< HEAD
-  <data name="fileLoadSaveToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>150, 22</value>
-  </data>
-  <data name="fileLoadSaveToolStripMenuItem.Text" xml:space="preserve">
-    <value>File Load/Save</value>
-  </data>
-=======
->>>>>>> 3b542617b17f342382ed99344700452b8a7d5c7b
+
   <data name="trackerHomeToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>150, 22</value>
   </data>
@@ -2499,7 +2487,7 @@
   <data name="modifyAltToolStripMenuItem.Text" xml:space="preserve">
     <value>Modify Alt</value>
   </data>
-<<<<<<< HEAD
+
   <data name="contextMenuStrip1.Size" type="System.Drawing.Size, System.Drawing">
     <value>151, 428</value>
   </data>
@@ -2530,8 +2518,7 @@
   <data name="&gt;&gt;MainMap.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-=======
->>>>>>> 3b542617b17f342382ed99344700452b8a7d5c7b
+
   <data name="trackBar1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Right</value>
   </data>
