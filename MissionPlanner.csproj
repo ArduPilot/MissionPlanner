@@ -2373,6 +2373,8 @@
     <None Include="Resources\marker_05.png" />
     <None Include="Resources\marker_06.png" />
     <None Include="Resources\marker_07.png" />
+    <None Include="Resources\HemavLogo.png" />
+    <None Include="Resources\HemavMarker.png" />
     <Content Include="Resources\MAVCmd.zh-TW.txt" />
     <Content Include="Resources\MAVParam.zh-TW.txt" />
     <Content Include="Resources\new frames-01.png" />
@@ -2562,7 +2564,8 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>"$(TargetDir)version.exe" "$(TargetPath)" &gt; "$(TargetDir)version.txt"</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>

@@ -48,9 +48,11 @@ namespace MissionPlanner
             this.MenuDonate = new System.Windows.Forms.ToolStripMenuItem();
             this.menu = new MissionPlanner.Controls.MyButton();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.LogoHemav = new System.Windows.Forms.PictureBox();
             this.MainMenu.SuspendLayout();
             this.CTX_mainmenu.SuspendLayout();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.LogoHemav)).BeginInit();
             this.SuspendLayout();
             // 
             // MainMenu
@@ -191,10 +193,19 @@ namespace MissionPlanner
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.White;
+            this.panel1.Controls.Add(this.LogoHemav);
             this.panel1.Controls.Add(this.MainMenu);
             resources.ApplyResources(this.panel1, "panel1");
             this.panel1.Name = "panel1";
             this.panel1.MouseLeave += new System.EventHandler(this.MainMenu_MouseLeave);
+            // 
+            // LogoHemav
+            // 
+            this.LogoHemav.Image = global::MissionPlanner.Properties.Resources.HemavLogo;
+            resources.ApplyResources(this.LogoHemav, "LogoHemav");
+            this.LogoHemav.Name = "LogoHemav";
+            this.LogoHemav.TabStop = false;
+            this.LogoHemav.Click += new System.EventHandler(this.LogoHemav_Click);
             // 
             // MainV2
             // 
@@ -215,6 +226,7 @@ namespace MissionPlanner
             this.CTX_mainmenu.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.LogoHemav)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -237,5 +249,6 @@ namespace MissionPlanner
         private System.Windows.Forms.ToolStripMenuItem autoHideToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem MenuDonate;
         public System.Windows.Forms.MenuStrip MainMenu;
+        private System.Windows.Forms.PictureBox LogoHemav;
     }
 }
