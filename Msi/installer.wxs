@@ -2,14 +2,14 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension" xmlns:difx="http://schemas.microsoft.com/wix/DifxAppExtension" xmlns:iis='http://schemas.microsoft.com/wix/IIsExtension' >
 
 
-    <Product Id="*" Name="Mission Planner" Language="1033" Version="1.2.96" Manufacturer="Michael Oborne" UpgradeCode="{625389D7-EB3C-4d77-A5F6-A285CF99437D}">
+    <Product Id="*" Name="Mission Planner" Language="1033" Version="1.2.97" Manufacturer="Michael Oborne" UpgradeCode="{625389D7-EB3C-4d77-A5F6-A285CF99437D}">
 
         <Package Description="Mission Planner Installer" Comments="Mission Planner Installer" Manufacturer="Michael Oborne" InstallerVersion="200" Compressed="yes" />
 
 
 <Upgrade Id="{625389D7-EB3C-4d77-A5F6-A285CF99437D}">
-    <UpgradeVersion OnlyDetect="yes" Minimum="1.2.96" Property="NEWERVERSIONDETECTED" IncludeMinimum="no" />
-    <UpgradeVersion OnlyDetect="no" Minimum="0.0.0" Maximum="1.2.96" Property="OLDERVERSIONBEINGUPGRADED" IncludeMinimum="yes" IncludeMaximum="yes" />
+    <UpgradeVersion OnlyDetect="yes" Minimum="1.2.97" Property="NEWERVERSIONDETECTED" IncludeMinimum="no" />
+    <UpgradeVersion OnlyDetect="no" Minimum="0.0.0" Maximum="1.2.97" Property="OLDERVERSIONBEINGUPGRADED" IncludeMinimum="yes" IncludeMaximum="yes" />
 </Upgrade>
 
 <InstallExecuteSequence>
@@ -32,7 +32,7 @@
                             <Permission User="Everyone" GenericAll="yes" /> 
                         </CreateFolder>
                     </Component>
-<Component Id="_1" Guid="54306516-0cb1-491f-a523-9ee860e4fc70">
+<Component Id="_1" Guid="ce62533d-685e-4a80-b53b-68e860e5d1eb">
 <File Id="_acsimplepids_xml_2" Source="..\bin\release\acsimplepids.xml" />
 <File Id="_alglibnet2_dll_3" Source="..\bin\release\alglibnet2.dll" />
 <File Id="_aotall_4" Source="..\bin\release\aotall" />
@@ -58,844 +58,262 @@
 <File Id="_DirectShowLib_2005_dll_24" Source="..\bin\release\DirectShowLib-2005.dll" />
 <File Id="_exif_xslt_25" Source="..\bin\release\exif.xslt" />
 <File Id="_FirmwareHistory_txt_26" Source="..\bin\release\FirmwareHistory.txt" />
-<File Id="_GeoUtility_dll_27" Source="..\bin\release\GeoUtility.dll" />
-<File Id="_GeoUtility_pdb_28" Source="..\bin\release\GeoUtility.pdb" />
-<File Id="_GeoUtility_xml_29" Source="..\bin\release\GeoUtility.xml" />
-<File Id="_GMap_NET_Core_dll_30" Source="..\bin\release\GMap.NET.Core.dll" />
-<File Id="_GMap_NET_Core_xml_31" Source="..\bin\release\GMap.NET.Core.xml" />
+<File Id="_fwversions_xml_27" Source="..\bin\release\fwversions.xml" />
+<File Id="_GeoUtility_dll_28" Source="..\bin\release\GeoUtility.dll" />
+<File Id="_GeoUtility_pdb_29" Source="..\bin\release\GeoUtility.pdb" />
+<File Id="_GeoUtility_xml_30" Source="..\bin\release\GeoUtility.xml" />
+<File Id="_GMap_NET_Core_dll_31" Source="..\bin\release\GMap.NET.Core.dll" />
 <File Id="_GMap_NET_WindowsForms_dll_32" Source="..\bin\release\GMap.NET.WindowsForms.dll" />
-<File Id="_GMap_NET_WindowsForms_xml_33" Source="..\bin\release\GMap.NET.WindowsForms.xml" />
-<File Id="_hud_html_34" Source="..\bin\release\hud.html" />
-<File Id="_ICSharpCode_SharpZipLib_dll_35" Source="..\bin\release\ICSharpCode.SharpZipLib.dll" />
-<File Id="_Ionic_Zip_Reduced_dll_36" Source="..\bin\release\Ionic.Zip.Reduced.dll" />
-<File Id="_IronPython_dll_37" Source="..\bin\release\IronPython.dll" />
-<File Id="_IronPython_Modules_dll_38" Source="..\bin\release\IronPython.Modules.dll" />
-<File Id="_IronPython_Modules_xml_39" Source="..\bin\release\IronPython.Modules.xml" />
-<File Id="_IronPython_SQLite_dll_40" Source="..\bin\release\IronPython.SQLite.dll" />
-<File Id="_IronPython_SQLite_xml_41" Source="..\bin\release\IronPython.SQLite.xml" />
-<File Id="_IronPython_xml_42" Source="..\bin\release\IronPython.xml" />
-<File Id="_KMLib_dll_43" Source="..\bin\release\KMLib.dll" />
-<File Id="_KMLib_pdb_44" Source="..\bin\release\KMLib.pdb" />
-<File Id="_log4net_dll_45" Source="..\bin\release\log4net.dll" />
-<File Id="_mavcmd_xml_46" Source="..\bin\release\mavcmd.xml" />
-<File Id="_MAVLink_dll_47" Source="..\bin\release\MAVLink.dll" />
-<File Id="_MAVLink_pdb_48" Source="..\bin\release\MAVLink.pdb" />
-<File Id="_MAVLink_xml_49" Source="..\bin\release\MAVLink.xml" />
-<File Id="_MetaDataExtractor_dll_50" Source="..\bin\release\MetaDataExtractor.dll" />
-<File Id="_MetadataExtractor_dtd_51" Source="..\bin\release\MetadataExtractor.dtd" />
-<File Id="_MetadataExtractorNew_dtd_52" Source="..\bin\release\MetadataExtractorNew.dtd" />
-<File Id="_Microsoft_DirectX_DirectInput_dll_53" Source="..\bin\release\Microsoft.DirectX.DirectInput.dll" />
-<File Id="_Microsoft_DirectX_dll_54" Source="..\bin\release\Microsoft.DirectX.dll" />
-<File Id="_Microsoft_Dynamic_dll_55" Source="..\bin\release\Microsoft.Dynamic.dll" />
-<File Id="_Microsoft_Dynamic_xml_56" Source="..\bin\release\Microsoft.Dynamic.xml" />
-<File Id="_Microsoft_Scripting_Core_dll_57" Source="..\bin\release\Microsoft.Scripting.Core.dll" />
-<File Id="_Microsoft_Scripting_Debugging_dll_58" Source="..\bin\release\Microsoft.Scripting.Debugging.dll" />
-<File Id="_Microsoft_Scripting_dll_59" Source="..\bin\release\Microsoft.Scripting.dll" />
-<File Id="_Microsoft_Scripting_ExtensionAttribute_dll_60" Source="..\bin\release\Microsoft.Scripting.ExtensionAttribute.dll" />
-<File Id="_Microsoft_Scripting_Metadata_dll_61" Source="..\bin\release\Microsoft.Scripting.Metadata.dll" />
-<File Id="_Microsoft_Scripting_Metadata_xml_62" Source="..\bin\release\Microsoft.Scripting.Metadata.xml" />
-<File Id="_Microsoft_Scripting_xml_63" Source="..\bin\release\Microsoft.Scripting.xml" />
-<File Id="_MissionPlanner_Comms_dll_64" Source="..\bin\release\MissionPlanner.Comms.dll" />
-<File Id="_MissionPlanner_Comms_pdb_65" Source="..\bin\release\MissionPlanner.Comms.pdb" />
-<File Id="_MissionPlanner_Controls_dll_66" Source="..\bin\release\MissionPlanner.Controls.dll" />
-<File Id="_MissionPlanner_Controls_pdb_67" Source="..\bin\release\MissionPlanner.Controls.pdb" />
-<File Id="_68" Source="..\bin\release\MissionPlanner.exe" ><netfx:NativeImage Id="ngen_MissionPlannerexe"/> </File>
+<File Id="_hud_html_33" Source="..\bin\release\hud.html" />
+<File Id="_ICSharpCode_SharpZipLib_dll_34" Source="..\bin\release\ICSharpCode.SharpZipLib.dll" />
+<File Id="_Ionic_Zip_Reduced_dll_35" Source="..\bin\release\Ionic.Zip.Reduced.dll" />
+<File Id="_IronPython_dll_36" Source="..\bin\release\IronPython.dll" />
+<File Id="_IronPython_Modules_dll_37" Source="..\bin\release\IronPython.Modules.dll" />
+<File Id="_IronPython_Modules_xml_38" Source="..\bin\release\IronPython.Modules.xml" />
+<File Id="_IronPython_SQLite_dll_39" Source="..\bin\release\IronPython.SQLite.dll" />
+<File Id="_IronPython_SQLite_xml_40" Source="..\bin\release\IronPython.SQLite.xml" />
+<File Id="_IronPython_xml_41" Source="..\bin\release\IronPython.xml" />
+<File Id="_KMLib_dll_42" Source="..\bin\release\KMLib.dll" />
+<File Id="_KMLib_pdb_43" Source="..\bin\release\KMLib.pdb" />
+<File Id="_log4net_dll_44" Source="..\bin\release\log4net.dll" />
+<File Id="_mavcmd_xml_45" Source="..\bin\release\mavcmd.xml" />
+<File Id="_MAVLink_dll_46" Source="..\bin\release\MAVLink.dll" />
+<File Id="_MAVLink_pdb_47" Source="..\bin\release\MAVLink.pdb" />
+<File Id="_MAVLink_xml_48" Source="..\bin\release\MAVLink.xml" />
+<File Id="_MetaDataExtractor_dll_49" Source="..\bin\release\MetaDataExtractor.dll" />
+<File Id="_MetadataExtractor_dtd_50" Source="..\bin\release\MetadataExtractor.dtd" />
+<File Id="_MetadataExtractorNew_dtd_51" Source="..\bin\release\MetadataExtractorNew.dtd" />
+<File Id="_Microsoft_DirectX_DirectInput_dll_52" Source="..\bin\release\Microsoft.DirectX.DirectInput.dll" />
+<File Id="_Microsoft_DirectX_dll_53" Source="..\bin\release\Microsoft.DirectX.dll" />
+<File Id="_Microsoft_Dynamic_dll_54" Source="..\bin\release\Microsoft.Dynamic.dll" />
+<File Id="_Microsoft_Dynamic_xml_55" Source="..\bin\release\Microsoft.Dynamic.xml" />
+<File Id="_Microsoft_Scripting_Core_dll_56" Source="..\bin\release\Microsoft.Scripting.Core.dll" />
+<File Id="_Microsoft_Scripting_Debugging_dll_57" Source="..\bin\release\Microsoft.Scripting.Debugging.dll" />
+<File Id="_Microsoft_Scripting_dll_58" Source="..\bin\release\Microsoft.Scripting.dll" />
+<File Id="_Microsoft_Scripting_ExtensionAttribute_dll_59" Source="..\bin\release\Microsoft.Scripting.ExtensionAttribute.dll" />
+<File Id="_Microsoft_Scripting_Metadata_dll_60" Source="..\bin\release\Microsoft.Scripting.Metadata.dll" />
+<File Id="_Microsoft_Scripting_Metadata_xml_61" Source="..\bin\release\Microsoft.Scripting.Metadata.xml" />
+<File Id="_Microsoft_Scripting_xml_62" Source="..\bin\release\Microsoft.Scripting.xml" />
+<File Id="_MissionPlanner_Comms_dll_63" Source="..\bin\release\MissionPlanner.Comms.dll" />
+<File Id="_MissionPlanner_Comms_pdb_64" Source="..\bin\release\MissionPlanner.Comms.pdb" />
+<File Id="_MissionPlanner_Controls_dll_65" Source="..\bin\release\MissionPlanner.Controls.dll" />
+<File Id="_MissionPlanner_Controls_pdb_66" Source="..\bin\release\MissionPlanner.Controls.pdb" />
+<File Id="_67" Source="..\bin\release\MissionPlanner.exe" ><netfx:NativeImage Id="ngen_MissionPlannerexe"/> </File>
 <ProgId Id='MissionPlanner.tlog' Description='Telemetry Log'>
   <Extension Id='tlog' ContentType='application/tlog'>
-     <Verb Id='open' Command='Open' TargetFile='_68' Argument='"%1"' />
+     <Verb Id='open' Command='Open' TargetFile='_67' Argument='"%1"' />
   </Extension>
 </ProgId>
-<File Id="_MissionPlanner_exe_config_69" Source="..\bin\release\MissionPlanner.exe.config" />
+<File Id="_MissionPlanner_exe_config_68" Source="..\bin\release\MissionPlanner.exe.config" />
+<File Id="_MissionPlanner_log_69" Source="..\bin\release\MissionPlanner.log" />
 <File Id="_MissionPlanner_pdb_70" Source="..\bin\release\MissionPlanner.pdb" />
 <File Id="_MissionPlanner_sh_71" Source="..\bin\release\MissionPlanner.sh" />
 <File Id="_MissionPlanner_Utilities_dll_72" Source="..\bin\release\MissionPlanner.Utilities.dll" />
 <File Id="_MissionPlanner_Utilities_pdb_73" Source="..\bin\release\MissionPlanner.Utilities.pdb" />
-<File Id="_MissionPlanner_vshost_application_74" Source="..\bin\release\MissionPlanner.vshost.application" />
-<File Id="_MissionPlanner_vshost_exe_75" Source="..\bin\release\MissionPlanner.vshost.exe" />
-<File Id="_MissionPlanner_vshost_exe_config_76" Source="..\bin\release\MissionPlanner.vshost.exe.config" />
-<File Id="_MissionPlanner_vshost_exe_manifest_77" Source="..\bin\release\MissionPlanner.vshost.exe.manifest" />
-<File Id="_netDxf_dll_78" Source="..\bin\release\netDxf.dll" />
-<File Id="_network_log_79" Source="..\bin\release\network.log" />
-<File Id="_OpenTK_dll_80" Source="..\bin\release\OpenTK.dll" />
-<File Id="_OpenTK_GLControl_dll_81" Source="..\bin\release\OpenTK.GLControl.dll" />
-<File Id="_OpenTK_GLControl_xml_82" Source="..\bin\release\OpenTK.GLControl.xml" />
-<File Id="_ParameterMetaDataBackup_xml_83" Source="..\bin\release\ParameterMetaDataBackup.xml" />
-<File Id="_ProjNet_dll_84" Source="..\bin\release\ProjNet.dll" />
-<File Id="_px4uploader_exe_85" Source="..\bin\release\px4uploader.exe" />
-<File Id="_quadhil_xml_86" Source="..\bin\release\quadhil.xml" />
-<File Id="_sampleFile_xml_87" Source="..\bin\release\sampleFile.xml" />
-<File Id="_SharpKml_dll_88" Source="..\bin\release\SharpKml.dll" />
-<File Id="_SharpKml_pdb_89" Source="..\bin\release\SharpKml.pdb" />
-<File Id="_SharpKml_xml_90" Source="..\bin\release\SharpKml.xml" />
-<File Id="_System_Reactive_Core_dll_91" Source="..\bin\release\System.Reactive.Core.dll" />
-<File Id="_System_Reactive_Core_xml_92" Source="..\bin\release\System.Reactive.Core.xml" />
-<File Id="_System_Reactive_Interfaces_dll_93" Source="..\bin\release\System.Reactive.Interfaces.dll" />
-<File Id="_System_Reactive_Interfaces_xml_94" Source="..\bin\release\System.Reactive.Interfaces.xml" />
-<File Id="_System_Reactive_Linq_dll_95" Source="..\bin\release\System.Reactive.Linq.dll" />
-<File Id="_System_Reactive_Linq_xml_96" Source="..\bin\release\System.Reactive.Linq.xml" />
-<File Id="_System_Speech_dll_97" Source="..\bin\release\System.Speech.dll" />
-<File Id="_Transitions_dll_98" Source="..\bin\release\Transitions.dll" />
-<File Id="_Updater_exe_99" Source="..\bin\release\Updater.exe" />
-<File Id="_Updater_exe_config_100" Source="..\bin\release\Updater.exe.config" />
-<File Id="_Updater_vshost_exe_101" Source="..\bin\release\Updater.vshost.exe" />
-<File Id="_version_exe_102" Source="..\bin\release\version.exe" />
-<File Id="_version_txt_103" Source="..\bin\release\version.txt" />
-<File Id="_ZedGraph_dll_104" Source="..\bin\release\ZedGraph.dll" />
-<File Id="_ZedGraph_pdb_105" Source="..\bin\release\ZedGraph.pdb" />
-<File Id="_ZedGraph_xml_106" Source="..\bin\release\ZedGraph.xml" />
-<File Id="_zlib_net_dll_107" Source="..\bin\release\zlib.net.dll" />
+<File Id="_MissionPlanner_vshost_exe_74" Source="..\bin\release\MissionPlanner.vshost.exe" />
+<File Id="_MissionPlanner_vshost_exe_config_75" Source="..\bin\release\MissionPlanner.vshost.exe.config" />
+<File Id="_netDxf_dll_76" Source="..\bin\release\netDxf.dll" />
+<File Id="_network_log_77" Source="..\bin\release\network.log" />
+<File Id="_OpenTK_dll_78" Source="..\bin\release\OpenTK.dll" />
+<File Id="_OpenTK_GLControl_dll_79" Source="..\bin\release\OpenTK.GLControl.dll" />
+<File Id="_OpenTK_GLControl_xml_80" Source="..\bin\release\OpenTK.GLControl.xml" />
+<File Id="_ParameterMetaDataBackup_xml_81" Source="..\bin\release\ParameterMetaDataBackup.xml" />
+<File Id="_ProjNet_dll_82" Source="..\bin\release\ProjNet.dll" />
+<File Id="_px4uploader_exe_83" Source="..\bin\release\px4uploader.exe" />
+<File Id="_quadhil_xml_84" Source="..\bin\release\quadhil.xml" />
+<File Id="_sampleFile_xml_85" Source="..\bin\release\sampleFile.xml" />
+<File Id="_SharpKml_dll_86" Source="..\bin\release\SharpKml.dll" />
+<File Id="_SharpKml_pdb_87" Source="..\bin\release\SharpKml.pdb" />
+<File Id="_SharpKml_xml_88" Source="..\bin\release\SharpKml.xml" />
+<File Id="_System_Reactive_Core_dll_89" Source="..\bin\release\System.Reactive.Core.dll" />
+<File Id="_System_Reactive_Core_xml_90" Source="..\bin\release\System.Reactive.Core.xml" />
+<File Id="_System_Reactive_Interfaces_dll_91" Source="..\bin\release\System.Reactive.Interfaces.dll" />
+<File Id="_System_Reactive_Interfaces_xml_92" Source="..\bin\release\System.Reactive.Interfaces.xml" />
+<File Id="_System_Reactive_Linq_dll_93" Source="..\bin\release\System.Reactive.Linq.dll" />
+<File Id="_System_Reactive_Linq_xml_94" Source="..\bin\release\System.Reactive.Linq.xml" />
+<File Id="_System_Speech_dll_95" Source="..\bin\release\System.Speech.dll" />
+<File Id="_Transitions_dll_96" Source="..\bin\release\Transitions.dll" />
+<File Id="_Updater_exe_97" Source="..\bin\release\Updater.exe" />
+<File Id="_Updater_exe_config_98" Source="..\bin\release\Updater.exe.config" />
+<File Id="_Updater_vshost_exe_99" Source="..\bin\release\Updater.vshost.exe" />
+<File Id="_version_exe_100" Source="..\bin\release\version.exe" />
+<File Id="_version_txt_101" Source="..\bin\release\version.txt" />
+<File Id="_ZedGraph_dll_102" Source="..\bin\release\ZedGraph.dll" />
+<File Id="_ZedGraph_pdb_103" Source="..\bin\release\ZedGraph.pdb" />
+<File Id="_ZedGraph_xml_104" Source="..\bin\release\ZedGraph.xml" />
+<File Id="_zlib_net_dll_105" Source="..\bin\release\zlib.net.dll" />
 </Component>
-<Directory Id="aircraft107" Name="aircraft">
-<Component Id="aircraft_108" Guid="fb1670c8-e7c3-4309-bd4b-9642cb23483f">
-<File Id="_placeholder_txt_109" Source="..\bin\release\aircraft\placeholder.txt" />
+<Directory Id="aircraft105" Name="aircraft">
+<Component Id="aircraft_106" Guid="b2f8f8c1-1306-49b1-8359-d89351ec5982">
+<File Id="_placeholder_txt_107" Source="..\bin\release\aircraft\placeholder.txt" />
 </Component>
-<Directory Id="arducopter109" Name="arducopter">
-<Component Id="arducopter_110" Guid="d6576dd2-f3e8-4f94-90ae-4f6e36339c9d">
-<File Id="_arducopter_set_xml_111" Source="..\bin\release\aircraft\arducopter\arducopter-set.xml" />
-<File Id="_arducopter_jpg_112" Source="..\bin\release\aircraft\arducopter\arducopter.jpg" />
-<File Id="_arducopter_xml_113" Source="..\bin\release\aircraft\arducopter\arducopter.xml" />
-<File Id="_initfile_xml_114" Source="..\bin\release\aircraft\arducopter\initfile.xml" />
-<File Id="_plus_quad2_set_xml_115" Source="..\bin\release\aircraft\arducopter\plus_quad2-set.xml" />
-<File Id="_plus_quad2_xml_116" Source="..\bin\release\aircraft\arducopter\plus_quad2.xml" />
-<File Id="_quad_nas_117" Source="..\bin\release\aircraft\arducopter\quad.nas" />
-<File Id="_README_118" Source="..\bin\release\aircraft\arducopter\README" />
+<Directory Id="arducopter107" Name="arducopter">
+<Component Id="arducopter_108" Guid="69b1ae95-358d-4adb-9402-838237fa81e6">
+<File Id="_arducopter_set_xml_109" Source="..\bin\release\aircraft\arducopter\arducopter-set.xml" />
+<File Id="_arducopter_jpg_110" Source="..\bin\release\aircraft\arducopter\arducopter.jpg" />
+<File Id="_arducopter_xml_111" Source="..\bin\release\aircraft\arducopter\arducopter.xml" />
+<File Id="_initfile_xml_112" Source="..\bin\release\aircraft\arducopter\initfile.xml" />
+<File Id="_plus_quad2_set_xml_113" Source="..\bin\release\aircraft\arducopter\plus_quad2-set.xml" />
+<File Id="_plus_quad2_xml_114" Source="..\bin\release\aircraft\arducopter\plus_quad2.xml" />
+<File Id="_quad_nas_115" Source="..\bin\release\aircraft\arducopter\quad.nas" />
+<File Id="_README_116" Source="..\bin\release\aircraft\arducopter\README" />
 </Component>
-<Directory Id="data118" Name="data">
-<Component Id="data_119" Guid="13649902-f750-4913-881a-44cc4a1f93da">
-<File Id="_arducopter_half_step_txt_120" Source="..\bin\release\aircraft\arducopter\data\arducopter_half_step.txt" />
-<File Id="_arducopter_step_txt_121" Source="..\bin\release\aircraft\arducopter\data\arducopter_step.txt" />
-<File Id="_rw_generic_pylon_ac_122" Source="..\bin\release\aircraft\arducopter\data\rw_generic_pylon.ac" />
+<Directory Id="data116" Name="data">
+<Component Id="data_117" Guid="ce4393b3-506e-42d9-9a06-fa9b99309c5a">
+<File Id="_arducopter_half_step_txt_118" Source="..\bin\release\aircraft\arducopter\data\arducopter_half_step.txt" />
+<File Id="_arducopter_step_txt_119" Source="..\bin\release\aircraft\arducopter\data\arducopter_step.txt" />
+<File Id="_rw_generic_pylon_ac_120" Source="..\bin\release\aircraft\arducopter\data\rw_generic_pylon.ac" />
 </Component>
 </Directory>
-<Directory Id="Engines122" Name="Engines">
-<Component Id="Engines_123" Guid="66cfe0ce-a09c-4e7d-bd6d-3260a4b4457f">
-<File Id="_a2830_12_xml_124" Source="..\bin\release\aircraft\arducopter\Engines\a2830-12.xml" />
-<File Id="_prop10x4_5_xml_125" Source="..\bin\release\aircraft\arducopter\Engines\prop10x4.5.xml" />
+<Directory Id="Engines120" Name="Engines">
+<Component Id="Engines_121" Guid="a21c186e-b069-4664-8f7e-6c88db980596">
+<File Id="_a2830_12_xml_122" Source="..\bin\release\aircraft\arducopter\Engines\a2830-12.xml" />
+<File Id="_prop10x4_5_xml_123" Source="..\bin\release\aircraft\arducopter\Engines\prop10x4.5.xml" />
 </Component>
 </Directory>
-<Directory Id="Models125" Name="Models">
-<Component Id="Models_126" Guid="b0547daf-bf61-4ddc-a1b6-348e8d121505">
-<File Id="_arducopter_ac_127" Source="..\bin\release\aircraft\arducopter\Models\arducopter.ac" />
-<File Id="_arducopter_xml_128" Source="..\bin\release\aircraft\arducopter\Models\arducopter.xml" />
-<File Id="_plus_quad_ac_129" Source="..\bin\release\aircraft\arducopter\Models\plus_quad.ac" />
-<File Id="_plus_quad2_ac_130" Source="..\bin\release\aircraft\arducopter\Models\plus_quad2.ac" />
-<File Id="_plus_quad2_xml_131" Source="..\bin\release\aircraft\arducopter\Models\plus_quad2.xml" />
-<File Id="_quad_3ds_132" Source="..\bin\release\aircraft\arducopter\Models\quad.3ds" />
-<File Id="_shareware_output_3ds_133" Source="..\bin\release\aircraft\arducopter\Models\shareware_output.3ds" />
-<File Id="_Untitled_ac_134" Source="..\bin\release\aircraft\arducopter\Models\Untitled.ac" />
-<File Id="_Y6_test_ac_135" Source="..\bin\release\aircraft\arducopter\Models\Y6_test.ac" />
+<Directory Id="Models123" Name="Models">
+<Component Id="Models_124" Guid="6af2cf01-7cf2-48a6-adad-4dfb75e33aa2">
+<File Id="_arducopter_ac_125" Source="..\bin\release\aircraft\arducopter\Models\arducopter.ac" />
+<File Id="_arducopter_xml_126" Source="..\bin\release\aircraft\arducopter\Models\arducopter.xml" />
+<File Id="_plus_quad_ac_127" Source="..\bin\release\aircraft\arducopter\Models\plus_quad.ac" />
+<File Id="_plus_quad2_ac_128" Source="..\bin\release\aircraft\arducopter\Models\plus_quad2.ac" />
+<File Id="_plus_quad2_xml_129" Source="..\bin\release\aircraft\arducopter\Models\plus_quad2.xml" />
+<File Id="_quad_3ds_130" Source="..\bin\release\aircraft\arducopter\Models\quad.3ds" />
+<File Id="_shareware_output_3ds_131" Source="..\bin\release\aircraft\arducopter\Models\shareware_output.3ds" />
+<File Id="_Untitled_ac_132" Source="..\bin\release\aircraft\arducopter\Models\Untitled.ac" />
+<File Id="_Y6_test_ac_133" Source="..\bin\release\aircraft\arducopter\Models\Y6_test.ac" />
 </Component>
 </Directory>
 </Directory>
-<Directory Id="Rascal135" Name="Rascal">
-<Component Id="Rascal_136" Guid="dcf2a0cc-aaed-4605-82e7-53eda729d8c2">
-<File Id="_Rascal_keyboard_xml_137" Source="..\bin\release\aircraft\Rascal\Rascal-keyboard.xml" />
-<File Id="_Rascal_submodels_xml_138" Source="..\bin\release\aircraft\Rascal\Rascal-submodels.xml" />
-<File Id="_Rascal_xml_139" Source="..\bin\release\aircraft\Rascal\Rascal.xml" />
-<File Id="_Rascal110_JSBSim_set_xml_140" Source="..\bin\release\aircraft\Rascal\Rascal110-JSBSim-set.xml" />
-<File Id="_Rascal110_JSBSim_xml_141" Source="..\bin\release\aircraft\Rascal\Rascal110-JSBSim.xml" />
-<File Id="_Rascal110_splash_rgb_142" Source="..\bin\release\aircraft\Rascal\Rascal110-splash.rgb" />
-<File Id="_README_Rascal_143" Source="..\bin\release\aircraft\Rascal\README.Rascal" />
-<File Id="_reset_CMAC_xml_144" Source="..\bin\release\aircraft\Rascal\reset_CMAC.xml" />
-<File Id="_thumbnail_jpg_145" Source="..\bin\release\aircraft\Rascal\thumbnail.jpg" />
+<Directory Id="Rascal133" Name="Rascal">
+<Component Id="Rascal_134" Guid="518b7f88-72ce-466d-94e3-208fc0355390">
+<File Id="_Rascal_keyboard_xml_135" Source="..\bin\release\aircraft\Rascal\Rascal-keyboard.xml" />
+<File Id="_Rascal_submodels_xml_136" Source="..\bin\release\aircraft\Rascal\Rascal-submodels.xml" />
+<File Id="_Rascal_xml_137" Source="..\bin\release\aircraft\Rascal\Rascal.xml" />
+<File Id="_Rascal110_JSBSim_set_xml_138" Source="..\bin\release\aircraft\Rascal\Rascal110-JSBSim-set.xml" />
+<File Id="_Rascal110_JSBSim_xml_139" Source="..\bin\release\aircraft\Rascal\Rascal110-JSBSim.xml" />
+<File Id="_Rascal110_splash_rgb_140" Source="..\bin\release\aircraft\Rascal\Rascal110-splash.rgb" />
+<File Id="_README_Rascal_141" Source="..\bin\release\aircraft\Rascal\README.Rascal" />
+<File Id="_reset_CMAC_xml_142" Source="..\bin\release\aircraft\Rascal\reset_CMAC.xml" />
+<File Id="_thumbnail_jpg_143" Source="..\bin\release\aircraft\Rascal\thumbnail.jpg" />
 </Component>
-<Directory Id="Engines145" Name="Engines">
-<Component Id="Engines_146" Guid="bdfbaf0f-28f3-466c-a371-c44b7de26721">
-<File Id="_18x8_xml_147" Source="..\bin\release\aircraft\Rascal\Engines\18x8.xml" />
-<File Id="_Zenoah_G_26A_xml_148" Source="..\bin\release\aircraft\Rascal\Engines\Zenoah_G-26A.xml" />
-</Component>
-</Directory>
-<Directory Id="Models148" Name="Models">
-<Component Id="Models_149" Guid="204801e3-703b-4d68-a7af-fe66dd82044e">
-<File Id="_Rascal_rgb_150" Source="..\bin\release\aircraft\Rascal\Models\Rascal.rgb" />
-<File Id="_Rascal110_000_013_ac_151" Source="..\bin\release\aircraft\Rascal\Models\Rascal110-000-013.ac" />
-<File Id="_Rascal110_xml_152" Source="..\bin\release\aircraft\Rascal\Models\Rascal110.xml" />
-<File Id="_smoke_png_153" Source="..\bin\release\aircraft\Rascal\Models\smoke.png" />
-<File Id="_smokeW_xml_154" Source="..\bin\release\aircraft\Rascal\Models\smokeW.xml" />
-<File Id="_Trajectory_Marker_ac_155" Source="..\bin\release\aircraft\Rascal\Models\Trajectory-Marker.ac" />
-<File Id="_Trajectory_Marker_xml_156" Source="..\bin\release\aircraft\Rascal\Models\Trajectory-Marker.xml" />
+<Directory Id="Engines143" Name="Engines">
+<Component Id="Engines_144" Guid="3dfdf5f1-1ca5-430d-bd84-cb7690c1a45b">
+<File Id="_18x8_xml_145" Source="..\bin\release\aircraft\Rascal\Engines\18x8.xml" />
+<File Id="_Zenoah_G_26A_xml_146" Source="..\bin\release\aircraft\Rascal\Engines\Zenoah_G-26A.xml" />
 </Component>
 </Directory>
-<Directory Id="Systems156" Name="Systems">
-<Component Id="Systems_157" Guid="f8fe3997-48f2-4e18-ab63-6fd559d2323f">
-<File Id="_110_autopilot_xml_158" Source="..\bin\release\aircraft\Rascal\Systems\110-autopilot.xml" />
-<File Id="_airdata_nas_159" Source="..\bin\release\aircraft\Rascal\Systems\airdata.nas" />
-<File Id="_electrical_xml_160" Source="..\bin\release\aircraft\Rascal\Systems\electrical.xml" />
-<File Id="_main_nas_161" Source="..\bin\release\aircraft\Rascal\Systems\main.nas" />
-<File Id="_ugear_nas_162" Source="..\bin\release\aircraft\Rascal\Systems\ugear.nas" />
+<Directory Id="Models146" Name="Models">
+<Component Id="Models_147" Guid="836fc892-c5b8-4861-bfe0-9948abe631df">
+<File Id="_Rascal_rgb_148" Source="..\bin\release\aircraft\Rascal\Models\Rascal.rgb" />
+<File Id="_Rascal110_000_013_ac_149" Source="..\bin\release\aircraft\Rascal\Models\Rascal110-000-013.ac" />
+<File Id="_Rascal110_xml_150" Source="..\bin\release\aircraft\Rascal\Models\Rascal110.xml" />
+<File Id="_smoke_png_151" Source="..\bin\release\aircraft\Rascal\Models\smoke.png" />
+<File Id="_smokeW_xml_152" Source="..\bin\release\aircraft\Rascal\Models\smokeW.xml" />
+<File Id="_Trajectory_Marker_ac_153" Source="..\bin\release\aircraft\Rascal\Models\Trajectory-Marker.ac" />
+<File Id="_Trajectory_Marker_xml_154" Source="..\bin\release\aircraft\Rascal\Models\Trajectory-Marker.xml" />
+</Component>
+</Directory>
+<Directory Id="Systems154" Name="Systems">
+<Component Id="Systems_155" Guid="41b88f64-fae8-481c-a994-22ea60d1de9f">
+<File Id="_110_autopilot_xml_156" Source="..\bin\release\aircraft\Rascal\Systems\110-autopilot.xml" />
+<File Id="_airdata_nas_157" Source="..\bin\release\aircraft\Rascal\Systems\airdata.nas" />
+<File Id="_electrical_xml_158" Source="..\bin\release\aircraft\Rascal\Systems\electrical.xml" />
+<File Id="_main_nas_159" Source="..\bin\release\aircraft\Rascal\Systems\main.nas" />
+<File Id="_ugear_nas_160" Source="..\bin\release\aircraft\Rascal\Systems\ugear.nas" />
 </Component>
 </Directory>
 </Directory>
 </Directory>
-<Directory Id="de_DE162" Name="de-DE">
-<Component Id="de_DE_163" Guid="3b1e227f-2aa1-4c9a-b14c-5fe4db6664d4">
-<File Id="_MissionPlanner_resources_dll_164" Source="..\bin\release\de-DE\MissionPlanner.resources.dll" />
+<Directory Id="de_DE160" Name="de-DE">
+<Component Id="de_DE_161" Guid="77a5defb-be81-4066-9c15-c6017db6ccea">
+<File Id="_MissionPlanner_resources_dll_162" Source="..\bin\release\de-DE\MissionPlanner.resources.dll" />
 </Component>
 </Directory>
-<Directory Id="Driver164" Name="Driver">
-<Component Id="Driver_165" Guid="fe3698a1-8ea3-466d-9de4-e5c0023aa2c5">
-<File Id="_arduinomega2560_cat_166" Source="..\bin\release\Driver\arduinomega2560.cat" />
-<File Id="_ArduinoMEGA2560_inf_167" Source="..\bin\release\Driver\ArduinoMEGA2560.inf" />
-<File Id="_dpinst_xml_168" Source="..\bin\release\Driver\dpinst.xml" />
-<File Id="_DPInstx64_exe_169" Source="..\bin\release\Driver\DPInstx64.exe" />
-<File Id="_DPInstx86_exe_170" Source="..\bin\release\Driver\DPInstx86.exe" />
-<File Id="_px4flow_cat_171" Source="..\bin\release\Driver\px4flow.cat" />
-<File Id="_px4flow_inf_172" Source="..\bin\release\Driver\px4flow.inf" />
-<File Id="_px4fmu_cat_173" Source="..\bin\release\Driver\px4fmu.cat" />
-<File Id="_px4fmu_inf_174" Source="..\bin\release\Driver\px4fmu.inf" />
-<File Id="_signed_cer_175" Source="..\bin\release\Driver\signed.cer" />
+<Directory Id="Driver162" Name="Driver">
+<Component Id="Driver_163" Guid="7d37b186-cc0e-43c5-9d26-986233726992">
+<File Id="_arduinomega2560_cat_164" Source="..\bin\release\Driver\arduinomega2560.cat" />
+<File Id="_ArduinoMEGA2560_inf_165" Source="..\bin\release\Driver\ArduinoMEGA2560.inf" />
+<File Id="_dpinst_xml_166" Source="..\bin\release\Driver\dpinst.xml" />
+<File Id="_DPInstx64_exe_167" Source="..\bin\release\Driver\DPInstx64.exe" />
+<File Id="_DPInstx86_exe_168" Source="..\bin\release\Driver\DPInstx86.exe" />
+<File Id="_px4flow_cat_169" Source="..\bin\release\Driver\px4flow.cat" />
+<File Id="_px4flow_inf_170" Source="..\bin\release\Driver\px4flow.inf" />
+<File Id="_px4fmu_cat_171" Source="..\bin\release\Driver\px4fmu.cat" />
+<File Id="_px4fmu_inf_172" Source="..\bin\release\Driver\px4fmu.inf" />
+<File Id="_signed_cer_173" Source="..\bin\release\Driver\signed.cer" />
 </Component>
 </Directory>
-<Directory Id="es_ES175" Name="es-ES">
-<Component Id="es_ES_176" Guid="b6eb3ec4-f112-4c40-970c-1a52339fdff8">
-<File Id="_MissionPlanner_resources_dll_177" Source="..\bin\release\es-ES\MissionPlanner.resources.dll" />
+<Directory Id="es_ES173" Name="es-ES">
+<Component Id="es_ES_174" Guid="f0228dfb-1b58-4232-83ae-d5d3eee84218">
+<File Id="_MissionPlanner_resources_dll_175" Source="..\bin\release\es-ES\MissionPlanner.resources.dll" />
 </Component>
 </Directory>
-<Directory Id="fr177" Name="fr">
-<Component Id="fr_178" Guid="f8bce455-3465-4bfd-b340-dcbacccc6bea">
-<File Id="_MissionPlanner_resources_dll_179" Source="..\bin\release\fr\MissionPlanner.resources.dll" />
+<Directory Id="fr175" Name="fr">
+<Component Id="fr_176" Guid="f2e89736-c415-4b29-95f9-7f5769781cdd">
+<File Id="_MissionPlanner_resources_dll_177" Source="..\bin\release\fr\MissionPlanner.resources.dll" />
 </Component>
 </Directory>
-<Directory Id="it_IT179" Name="it-IT">
-<Component Id="it_IT_180" Guid="42d9c039-c721-41bd-9074-2b93b9ecfe9d">
-<File Id="_MissionPlanner_resources_dll_181" Source="..\bin\release\it-IT\MissionPlanner.resources.dll" />
+<Directory Id="it_IT177" Name="it-IT">
+<Component Id="it_IT_178" Guid="f03f34f9-ce52-471d-b511-8d5cc4d57577">
+<File Id="_MissionPlanner_resources_dll_179" Source="..\bin\release\it-IT\MissionPlanner.resources.dll" />
 </Component>
 </Directory>
-<Directory Id="jsbsim181" Name="jsbsim">
-<Component Id="jsbsim_182" Guid="d3fe94ff-6f66-4080-8b30-7e4cb689af09">
-<File Id="_fgout_xml_183" Source="..\bin\release\jsbsim\fgout.xml" />
-<File Id="_rascal_test_xml_184" Source="..\bin\release\jsbsim\rascal_test.xml" />
+<Directory Id="jsbsim179" Name="jsbsim">
+<Component Id="jsbsim_180" Guid="02e1b808-121e-47fe-90a8-e11ee4cee809">
+<File Id="_fgout_xml_181" Source="..\bin\release\jsbsim\fgout.xml" />
+<File Id="_rascal_test_xml_182" Source="..\bin\release\jsbsim\rascal_test.xml" />
 </Component>
 </Directory>
-<Directory Id="Lib184" Name="Lib">
-<Component Id="Lib_185" Guid="803a264c-1560-4c8d-8cb6-beaf628372b3">
-<File Id="_abc_py_186" Source="..\bin\release\Lib\abc.py" />
-<File Id="_aifc_py_187" Source="..\bin\release\Lib\aifc.py" />
-<File Id="_antigravity_py_188" Source="..\bin\release\Lib\antigravity.py" />
-<File Id="_anydbm_py_189" Source="..\bin\release\Lib\anydbm.py" />
-<File Id="_argparse_py_190" Source="..\bin\release\Lib\argparse.py" />
-<File Id="_ast_py_191" Source="..\bin\release\Lib\ast.py" />
-<File Id="_asynchat_py_192" Source="..\bin\release\Lib\asynchat.py" />
-<File Id="_asyncore_py_193" Source="..\bin\release\Lib\asyncore.py" />
-<File Id="_atexit_py_194" Source="..\bin\release\Lib\atexit.py" />
-<File Id="_audiodev_py_195" Source="..\bin\release\Lib\audiodev.py" />
-<File Id="_base64_py_196" Source="..\bin\release\Lib\base64.py" />
-<File Id="_BaseHTTPServer_py_197" Source="..\bin\release\Lib\BaseHTTPServer.py" />
-<File Id="_Bastion_py_198" Source="..\bin\release\Lib\Bastion.py" />
-<File Id="_bdb_py_199" Source="..\bin\release\Lib\bdb.py" />
-<File Id="_binhex_py_200" Source="..\bin\release\Lib\binhex.py" />
-<File Id="_bisect_py_201" Source="..\bin\release\Lib\bisect.py" />
-<File Id="_calendar_py_202" Source="..\bin\release\Lib\calendar.py" />
-<File Id="_cgi_py_203" Source="..\bin\release\Lib\cgi.py" />
-<File Id="_CGIHTTPServer_py_204" Source="..\bin\release\Lib\CGIHTTPServer.py" />
-<File Id="_cgitb_py_205" Source="..\bin\release\Lib\cgitb.py" />
-<File Id="_chunk_py_206" Source="..\bin\release\Lib\chunk.py" />
-<File Id="_cmd_py_207" Source="..\bin\release\Lib\cmd.py" />
-<File Id="_code_py_208" Source="..\bin\release\Lib\code.py" />
-<File Id="_codecs_py_209" Source="..\bin\release\Lib\codecs.py" />
-<File Id="_codeop_py_210" Source="..\bin\release\Lib\codeop.py" />
-<File Id="_collections_py_211" Source="..\bin\release\Lib\collections.py" />
-<File Id="_colorsys_py_212" Source="..\bin\release\Lib\colorsys.py" />
-<File Id="_commands_py_213" Source="..\bin\release\Lib\commands.py" />
-<File Id="_compileall_py_214" Source="..\bin\release\Lib\compileall.py" />
-<File Id="_ConfigParser_py_215" Source="..\bin\release\Lib\ConfigParser.py" />
-<File Id="_contextlib_py_216" Source="..\bin\release\Lib\contextlib.py" />
-<File Id="_Cookie_py_217" Source="..\bin\release\Lib\Cookie.py" />
-<File Id="_cookielib_py_218" Source="..\bin\release\Lib\cookielib.py" />
-<File Id="_copy_py_219" Source="..\bin\release\Lib\copy.py" />
-<File Id="_csv_py_220" Source="..\bin\release\Lib\csv.py" />
-<File Id="_decimal_py_221" Source="..\bin\release\Lib\decimal.py" />
-<File Id="_difflib_py_222" Source="..\bin\release\Lib\difflib.py" />
-<File Id="_dircache_py_223" Source="..\bin\release\Lib\dircache.py" />
-<File Id="_dis_py_224" Source="..\bin\release\Lib\dis.py" />
-<File Id="_doctest_py_225" Source="..\bin\release\Lib\doctest.py" />
-<File Id="_DocXMLRPCServer_py_226" Source="..\bin\release\Lib\DocXMLRPCServer.py" />
-<File Id="_dumbdbm_py_227" Source="..\bin\release\Lib\dumbdbm.py" />
-<File Id="_dummy_thread_py_228" Source="..\bin\release\Lib\dummy_thread.py" />
-<File Id="_dummy_threading_py_229" Source="..\bin\release\Lib\dummy_threading.py" />
-<File Id="_filecmp_py_230" Source="..\bin\release\Lib\filecmp.py" />
-<File Id="_fileinput_py_231" Source="..\bin\release\Lib\fileinput.py" />
-<File Id="_fnmatch_py_232" Source="..\bin\release\Lib\fnmatch.py" />
-<File Id="_formatter_py_233" Source="..\bin\release\Lib\formatter.py" />
-<File Id="_fpformat_py_234" Source="..\bin\release\Lib\fpformat.py" />
-<File Id="_fractions_py_235" Source="..\bin\release\Lib\fractions.py" />
-<File Id="_ftplib_py_236" Source="..\bin\release\Lib\ftplib.py" />
-<File Id="_functools_py_237" Source="..\bin\release\Lib\functools.py" />
-<File Id="_genericpath_py_238" Source="..\bin\release\Lib\genericpath.py" />
-<File Id="_getopt_py_239" Source="..\bin\release\Lib\getopt.py" />
-<File Id="_getpass_py_240" Source="..\bin\release\Lib\getpass.py" />
-<File Id="_gettext_py_241" Source="..\bin\release\Lib\gettext.py" />
-<File Id="_glob_py_242" Source="..\bin\release\Lib\glob.py" />
-<File Id="_gzip_py_243" Source="..\bin\release\Lib\gzip.py" />
-<File Id="_hashlib_py_244" Source="..\bin\release\Lib\hashlib.py" />
-<File Id="_heapq_py_245" Source="..\bin\release\Lib\heapq.py" />
-<File Id="_hmac_py_246" Source="..\bin\release\Lib\hmac.py" />
-<File Id="_htmlentitydefs_py_247" Source="..\bin\release\Lib\htmlentitydefs.py" />
-<File Id="_htmllib_py_248" Source="..\bin\release\Lib\htmllib.py" />
-<File Id="_HTMLParser_py_249" Source="..\bin\release\Lib\HTMLParser.py" />
-<File Id="_httplib_py_250" Source="..\bin\release\Lib\httplib.py" />
-<File Id="_ihooks_py_251" Source="..\bin\release\Lib\ihooks.py" />
-<File Id="_imaplib_py_252" Source="..\bin\release\Lib\imaplib.py" />
-<File Id="_imghdr_py_253" Source="..\bin\release\Lib\imghdr.py" />
-<File Id="_imputil_py_254" Source="..\bin\release\Lib\imputil.py" />
-<File Id="_inspect_py_255" Source="..\bin\release\Lib\inspect.py" />
-<File Id="_io_py_256" Source="..\bin\release\Lib\io.py" />
-<File Id="_keyword_py_257" Source="..\bin\release\Lib\keyword.py" />
-<File Id="_linecache_py_258" Source="..\bin\release\Lib\linecache.py" />
-<File Id="_locale_py_259" Source="..\bin\release\Lib\locale.py" />
-<File Id="_macpath_py_260" Source="..\bin\release\Lib\macpath.py" />
-<File Id="_macurl2path_py_261" Source="..\bin\release\Lib\macurl2path.py" />
-<File Id="_mailbox_py_262" Source="..\bin\release\Lib\mailbox.py" />
-<File Id="_mailcap_py_263" Source="..\bin\release\Lib\mailcap.py" />
-<File Id="_markupbase_py_264" Source="..\bin\release\Lib\markupbase.py" />
-<File Id="_md5_py_265" Source="..\bin\release\Lib\md5.py" />
-<File Id="_mhlib_py_266" Source="..\bin\release\Lib\mhlib.py" />
-<File Id="_mimetools_py_267" Source="..\bin\release\Lib\mimetools.py" />
-<File Id="_mimetypes_py_268" Source="..\bin\release\Lib\mimetypes.py" />
-<File Id="_MimeWriter_py_269" Source="..\bin\release\Lib\MimeWriter.py" />
-<File Id="_mimify_py_270" Source="..\bin\release\Lib\mimify.py" />
-<File Id="_modulefinder_py_271" Source="..\bin\release\Lib\modulefinder.py" />
-<File Id="_multifile_py_272" Source="..\bin\release\Lib\multifile.py" />
-<File Id="_mutex_py_273" Source="..\bin\release\Lib\mutex.py" />
-<File Id="_netrc_py_274" Source="..\bin\release\Lib\netrc.py" />
-<File Id="_new_py_275" Source="..\bin\release\Lib\new.py" />
-<File Id="_nntplib_py_276" Source="..\bin\release\Lib\nntplib.py" />
-<File Id="_ntpath_py_277" Source="..\bin\release\Lib\ntpath.py" />
-<File Id="_nturl2path_py_278" Source="..\bin\release\Lib\nturl2path.py" />
-<File Id="_numbers_py_279" Source="..\bin\release\Lib\numbers.py" />
-<File Id="_opcode_py_280" Source="..\bin\release\Lib\opcode.py" />
-<File Id="_optparse_py_281" Source="..\bin\release\Lib\optparse.py" />
-<File Id="_os_py_282" Source="..\bin\release\Lib\os.py" />
-<File Id="_os2emxpath_py_283" Source="..\bin\release\Lib\os2emxpath.py" />
-<File Id="_pdb_py_284" Source="..\bin\release\Lib\pdb.py" />
-<File Id="_pickle_py_285" Source="..\bin\release\Lib\pickle.py" />
-<File Id="_pickletools_py_286" Source="..\bin\release\Lib\pickletools.py" />
-<File Id="_pipes_py_287" Source="..\bin\release\Lib\pipes.py" />
-<File Id="_pkgutil_py_288" Source="..\bin\release\Lib\pkgutil.py" />
-<File Id="_platform_py_289" Source="..\bin\release\Lib\platform.py" />
-<File Id="_plistlib_py_290" Source="..\bin\release\Lib\plistlib.py" />
-<File Id="_popen2_py_291" Source="..\bin\release\Lib\popen2.py" />
-<File Id="_poplib_py_292" Source="..\bin\release\Lib\poplib.py" />
-<File Id="_posixfile_py_293" Source="..\bin\release\Lib\posixfile.py" />
-<File Id="_posixpath_py_294" Source="..\bin\release\Lib\posixpath.py" />
-<File Id="_pprint_py_295" Source="..\bin\release\Lib\pprint.py" />
-<File Id="_profile_py_296" Source="..\bin\release\Lib\profile.py" />
-<File Id="_pstats_py_297" Source="..\bin\release\Lib\pstats.py" />
-<File Id="_pyclbr_py_298" Source="..\bin\release\Lib\pyclbr.py" />
-<File Id="_pydoc_py_299" Source="..\bin\release\Lib\pydoc.py" />
-<File Id="_py_compile_py_300" Source="..\bin\release\Lib\py_compile.py" />
-<File Id="_Queue_py_301" Source="..\bin\release\Lib\Queue.py" />
-<File Id="_quopri_py_302" Source="..\bin\release\Lib\quopri.py" />
-<File Id="_random_py_303" Source="..\bin\release\Lib\random.py" />
-<File Id="_repr_py_304" Source="..\bin\release\Lib\repr.py" />
-<File Id="_rexec_py_305" Source="..\bin\release\Lib\rexec.py" />
-<File Id="_rfc822_py_306" Source="..\bin\release\Lib\rfc822.py" />
-<File Id="_rlcompleter_py_307" Source="..\bin\release\Lib\rlcompleter.py" />
-<File Id="_robotparser_py_308" Source="..\bin\release\Lib\robotparser.py" />
-<File Id="_runpy_py_309" Source="..\bin\release\Lib\runpy.py" />
-<File Id="_sched_py_310" Source="..\bin\release\Lib\sched.py" />
-<File Id="_sets_py_311" Source="..\bin\release\Lib\sets.py" />
-<File Id="_sgmllib_py_312" Source="..\bin\release\Lib\sgmllib.py" />
-<File Id="_sha_py_313" Source="..\bin\release\Lib\sha.py" />
-<File Id="_shelve_py_314" Source="..\bin\release\Lib\shelve.py" />
-<File Id="_shlex_py_315" Source="..\bin\release\Lib\shlex.py" />
-<File Id="_shutil_py_316" Source="..\bin\release\Lib\shutil.py" />
-<File Id="_SimpleHTTPServer_py_317" Source="..\bin\release\Lib\SimpleHTTPServer.py" />
-<File Id="_SimpleXMLRPCServer_py_318" Source="..\bin\release\Lib\SimpleXMLRPCServer.py" />
-<File Id="_site_py_319" Source="..\bin\release\Lib\site.py" />
-<File Id="_smtpd_py_320" Source="..\bin\release\Lib\smtpd.py" />
-<File Id="_smtplib_py_321" Source="..\bin\release\Lib\smtplib.py" />
-<File Id="_sndhdr_py_322" Source="..\bin\release\Lib\sndhdr.py" />
-<File Id="_SocketServer_py_323" Source="..\bin\release\Lib\SocketServer.py" />
-<File Id="_sre_compile_py_324" Source="..\bin\release\Lib\sre_compile.py" />
-<File Id="_sre_constants_py_325" Source="..\bin\release\Lib\sre_constants.py" />
-<File Id="_sre_parse_py_326" Source="..\bin\release\Lib\sre_parse.py" />
-<File Id="_ssl_py_327" Source="..\bin\release\Lib\ssl.py" />
-<File Id="_stat_py_328" Source="..\bin\release\Lib\stat.py" />
-<File Id="_statvfs_py_329" Source="..\bin\release\Lib\statvfs.py" />
-<File Id="_string_py_330" Source="..\bin\release\Lib\string.py" />
-<File Id="_StringIO_py_331" Source="..\bin\release\Lib\StringIO.py" />
-<File Id="_stringold_py_332" Source="..\bin\release\Lib\stringold.py" />
-<File Id="_struct_py_333" Source="..\bin\release\Lib\struct.py" />
-<File Id="_subprocess_py_334" Source="..\bin\release\Lib\subprocess.py" />
-<File Id="_sunau_py_335" Source="..\bin\release\Lib\sunau.py" />
-<File Id="_sunaudio_py_336" Source="..\bin\release\Lib\sunaudio.py" />
-<File Id="_symbol_py_337" Source="..\bin\release\Lib\symbol.py" />
-<File Id="_sysconfig_py_338" Source="..\bin\release\Lib\sysconfig.py" />
-<File Id="_tabnanny_py_339" Source="..\bin\release\Lib\tabnanny.py" />
-<File Id="_tarfile_py_340" Source="..\bin\release\Lib\tarfile.py" />
-<File Id="_telnetlib_py_341" Source="..\bin\release\Lib\telnetlib.py" />
-<File Id="_tempfile_py_342" Source="..\bin\release\Lib\tempfile.py" />
-<File Id="_textwrap_py_343" Source="..\bin\release\Lib\textwrap.py" />
-<File Id="_this_py_344" Source="..\bin\release\Lib\this.py" />
-<File Id="_threading_py_345" Source="..\bin\release\Lib\threading.py" />
-<File Id="_timeit_py_346" Source="..\bin\release\Lib\timeit.py" />
-<File Id="_toaiff_py_347" Source="..\bin\release\Lib\toaiff.py" />
-<File Id="_token_py_348" Source="..\bin\release\Lib\token.py" />
-<File Id="_tokenize_py_349" Source="..\bin\release\Lib\tokenize.py" />
-<File Id="_trace_py_350" Source="..\bin\release\Lib\trace.py" />
-<File Id="_traceback_py_351" Source="..\bin\release\Lib\traceback.py" />
-<File Id="_types_py_352" Source="..\bin\release\Lib\types.py" />
-<File Id="_urllib_py_353" Source="..\bin\release\Lib\urllib.py" />
-<File Id="_urllib2_py_354" Source="..\bin\release\Lib\urllib2.py" />
-<File Id="_urlparse_py_355" Source="..\bin\release\Lib\urlparse.py" />
-<File Id="_user_py_356" Source="..\bin\release\Lib\user.py" />
-<File Id="_UserDict_py_357" Source="..\bin\release\Lib\UserDict.py" />
-<File Id="_UserList_py_358" Source="..\bin\release\Lib\UserList.py" />
-<File Id="_UserString_py_359" Source="..\bin\release\Lib\UserString.py" />
-<File Id="_uu_py_360" Source="..\bin\release\Lib\uu.py" />
-<File Id="_uuid_py_361" Source="..\bin\release\Lib\uuid.py" />
-<File Id="_warnings_py_362" Source="..\bin\release\Lib\warnings.py" />
-<File Id="_wave_py_363" Source="..\bin\release\Lib\wave.py" />
-<File Id="_weakref_py_364" Source="..\bin\release\Lib\weakref.py" />
-<File Id="_webbrowser_py_365" Source="..\bin\release\Lib\webbrowser.py" />
-<File Id="_whichdb_py_366" Source="..\bin\release\Lib\whichdb.py" />
-<File Id="_xdrlib_py_367" Source="..\bin\release\Lib\xdrlib.py" />
-<File Id="_xmllib_py_368" Source="..\bin\release\Lib\xmllib.py" />
-<File Id="_xmlrpclib_py_369" Source="..\bin\release\Lib\xmlrpclib.py" />
-<File Id="_zipfile_py_370" Source="..\bin\release\Lib\zipfile.py" />
-<File Id="__abcoll_py_371" Source="..\bin\release\Lib\_abcoll.py" />
-<File Id="__LWPCookieJar_py_372" Source="..\bin\release\Lib\_LWPCookieJar.py" />
-<File Id="__MozillaCookieJar_py_373" Source="..\bin\release\Lib\_MozillaCookieJar.py" />
-<File Id="__pyio_py_374" Source="..\bin\release\Lib\_pyio.py" />
-<File Id="__strptime_py_375" Source="..\bin\release\Lib\_strptime.py" />
-<File Id="__threading_local_py_376" Source="..\bin\release\Lib\_threading_local.py" />
-<File Id="__weakrefset_py_377" Source="..\bin\release\Lib\_weakrefset.py" />
-<File Id="___future___py_378" Source="..\bin\release\Lib\__future__.py" />
-<File Id="___phello___foo_py_379" Source="..\bin\release\Lib\__phello__.foo.py" />
-</Component>
-<Directory Id="ctypes379" Name="ctypes">
-<Component Id="ctypes_380" Guid="6704bfda-af02-4a31-bae1-9a132cea02e0">
-<File Id="_util_py_381" Source="..\bin\release\Lib\ctypes\util.py" />
-<File Id="_wintypes_py_382" Source="..\bin\release\Lib\ctypes\wintypes.py" />
-<File Id="__endian_py_383" Source="..\bin\release\Lib\ctypes\_endian.py" />
-<File Id="___init___py_384" Source="..\bin\release\Lib\ctypes\__init__.py" />
-</Component>
-<Directory Id="macholib384" Name="macholib">
-<Component Id="macholib_385" Guid="c2b46bab-bd4e-4320-86e2-71c3d0a17268">
-<File Id="_dyld_py_386" Source="..\bin\release\Lib\ctypes\macholib\dyld.py" />
-<File Id="_dylib_py_387" Source="..\bin\release\Lib\ctypes\macholib\dylib.py" />
-<File Id="_framework_py_388" Source="..\bin\release\Lib\ctypes\macholib\framework.py" />
-<File Id="___init___py_389" Source="..\bin\release\Lib\ctypes\macholib\__init__.py" />
+<Directory Id="m3u182" Name="m3u">
+<Component Id="m3u_183" Guid="db143b4f-082a-4b24-a159-fb5b880521e5">
+<File Id="_both_m3u_184" Source="..\bin\release\m3u\both.m3u" />
+<File Id="_GeoRefnetworklink_kml_185" Source="..\bin\release\m3u\GeoRefnetworklink.kml" />
+<File Id="_hud_m3u_186" Source="..\bin\release\m3u\hud.m3u" />
+<File Id="_map_m3u_187" Source="..\bin\release\m3u\map.m3u" />
+<File Id="_networklink_kml_188" Source="..\bin\release\m3u\networklink.kml" />
 </Component>
 </Directory>
-</Directory>
-<Directory Id="distutils389" Name="distutils">
-<Component Id="distutils_390" Guid="4cd4590d-8db9-4a42-9a3f-8a41eba6316e">
-<File Id="_archive_util_py_391" Source="..\bin\release\Lib\distutils\archive_util.py" />
-<File Id="_bcppcompiler_py_392" Source="..\bin\release\Lib\distutils\bcppcompiler.py" />
-<File Id="_ccompiler_py_393" Source="..\bin\release\Lib\distutils\ccompiler.py" />
-<File Id="_cmd_py_394" Source="..\bin\release\Lib\distutils\cmd.py" />
-<File Id="_config_py_395" Source="..\bin\release\Lib\distutils\config.py" />
-<File Id="_core_py_396" Source="..\bin\release\Lib\distutils\core.py" />
-<File Id="_cygwinccompiler_py_397" Source="..\bin\release\Lib\distutils\cygwinccompiler.py" />
-<File Id="_debug_py_398" Source="..\bin\release\Lib\distutils\debug.py" />
-<File Id="_dep_util_py_399" Source="..\bin\release\Lib\distutils\dep_util.py" />
-<File Id="_dir_util_py_400" Source="..\bin\release\Lib\distutils\dir_util.py" />
-<File Id="_dist_py_401" Source="..\bin\release\Lib\distutils\dist.py" />
-<File Id="_emxccompiler_py_402" Source="..\bin\release\Lib\distutils\emxccompiler.py" />
-<File Id="_errors_py_403" Source="..\bin\release\Lib\distutils\errors.py" />
-<File Id="_extension_py_404" Source="..\bin\release\Lib\distutils\extension.py" />
-<File Id="_fancy_getopt_py_405" Source="..\bin\release\Lib\distutils\fancy_getopt.py" />
-<File Id="_filelist_py_406" Source="..\bin\release\Lib\distutils\filelist.py" />
-<File Id="_file_util_py_407" Source="..\bin\release\Lib\distutils\file_util.py" />
-<File Id="_log_py_408" Source="..\bin\release\Lib\distutils\log.py" />
-<File Id="_msvccompiler_py_409" Source="..\bin\release\Lib\distutils\msvccompiler.py" />
-<File Id="_spawn_py_410" Source="..\bin\release\Lib\distutils\spawn.py" />
-<File Id="_sysconfig_py_411" Source="..\bin\release\Lib\distutils\sysconfig.py" />
-<File Id="_text_file_py_412" Source="..\bin\release\Lib\distutils\text_file.py" />
-<File Id="_unixccompiler_py_413" Source="..\bin\release\Lib\distutils\unixccompiler.py" />
-<File Id="_util_py_414" Source="..\bin\release\Lib\distutils\util.py" />
-<File Id="_version_py_415" Source="..\bin\release\Lib\distutils\version.py" />
-<File Id="_versionpredicate_py_416" Source="..\bin\release\Lib\distutils\versionpredicate.py" />
-<File Id="___init___py_417" Source="..\bin\release\Lib\distutils\__init__.py" />
-</Component>
-<Directory Id="command417" Name="command">
-<Component Id="command_418" Guid="8d23ff22-ed7e-4446-95e3-9f51f2612211">
-<File Id="_bdist_py_419" Source="..\bin\release\Lib\distutils\command\bdist.py" />
-<File Id="_bdist_dumb_py_420" Source="..\bin\release\Lib\distutils\command\bdist_dumb.py" />
-<File Id="_bdist_rpm_py_421" Source="..\bin\release\Lib\distutils\command\bdist_rpm.py" />
-<File Id="_bdist_wininst_py_422" Source="..\bin\release\Lib\distutils\command\bdist_wininst.py" />
-<File Id="_build_py_423" Source="..\bin\release\Lib\distutils\command\build.py" />
-<File Id="_build_clib_py_424" Source="..\bin\release\Lib\distutils\command\build_clib.py" />
-<File Id="_build_ext_py_425" Source="..\bin\release\Lib\distutils\command\build_ext.py" />
-<File Id="_build_py_py_426" Source="..\bin\release\Lib\distutils\command\build_py.py" />
-<File Id="_build_scripts_py_427" Source="..\bin\release\Lib\distutils\command\build_scripts.py" />
-<File Id="_check_py_428" Source="..\bin\release\Lib\distutils\command\check.py" />
-<File Id="_clean_py_429" Source="..\bin\release\Lib\distutils\command\clean.py" />
-<File Id="_config_py_430" Source="..\bin\release\Lib\distutils\command\config.py" />
-<File Id="_install_py_431" Source="..\bin\release\Lib\distutils\command\install.py" />
-<File Id="_install_data_py_432" Source="..\bin\release\Lib\distutils\command\install_data.py" />
-<File Id="_install_egg_info_py_433" Source="..\bin\release\Lib\distutils\command\install_egg_info.py" />
-<File Id="_install_headers_py_434" Source="..\bin\release\Lib\distutils\command\install_headers.py" />
-<File Id="_install_lib_py_435" Source="..\bin\release\Lib\distutils\command\install_lib.py" />
-<File Id="_install_scripts_py_436" Source="..\bin\release\Lib\distutils\command\install_scripts.py" />
-<File Id="_register_py_437" Source="..\bin\release\Lib\distutils\command\register.py" />
-<File Id="_sdist_py_438" Source="..\bin\release\Lib\distutils\command\sdist.py" />
-<File Id="_upload_py_439" Source="..\bin\release\Lib\distutils\command\upload.py" />
-<File Id="___init___py_440" Source="..\bin\release\Lib\distutils\command\__init__.py" />
+<Directory Id="mavelous_web188" Name="mavelous_web">
+<Component Id="mavelous_web_189" Guid="85315809-711b-4684-8ecb-ba14acf76c1b">
+<File Id="_index_html_190" Source="..\bin\release\mavelous_web\index.html" />
 </Component>
 </Directory>
-</Directory>
-<Directory Id="email440" Name="email">
-<Component Id="email_441" Guid="70305a2a-fe87-4f7e-aa64-9971672770d2">
-<File Id="_base64mime_py_442" Source="..\bin\release\Lib\email\base64mime.py" />
-<File Id="_charset_py_443" Source="..\bin\release\Lib\email\charset.py" />
-<File Id="_encoders_py_444" Source="..\bin\release\Lib\email\encoders.py" />
-<File Id="_errors_py_445" Source="..\bin\release\Lib\email\errors.py" />
-<File Id="_feedparser_py_446" Source="..\bin\release\Lib\email\feedparser.py" />
-<File Id="_generator_py_447" Source="..\bin\release\Lib\email\generator.py" />
-<File Id="_header_py_448" Source="..\bin\release\Lib\email\header.py" />
-<File Id="_iterators_py_449" Source="..\bin\release\Lib\email\iterators.py" />
-<File Id="_message_py_450" Source="..\bin\release\Lib\email\message.py" />
-<File Id="_parser_py_451" Source="..\bin\release\Lib\email\parser.py" />
-<File Id="_quoprimime_py_452" Source="..\bin\release\Lib\email\quoprimime.py" />
-<File Id="_utils_py_453" Source="..\bin\release\Lib\email\utils.py" />
-<File Id="__parseaddr_py_454" Source="..\bin\release\Lib\email\_parseaddr.py" />
-<File Id="___init___py_455" Source="..\bin\release\Lib\email\__init__.py" />
-</Component>
-<Directory Id="mime455" Name="mime">
-<Component Id="mime_456" Guid="74e4a6db-e888-4301-b2b4-5b6761cccbd7">
-<File Id="_application_py_457" Source="..\bin\release\Lib\email\mime\application.py" />
-<File Id="_audio_py_458" Source="..\bin\release\Lib\email\mime\audio.py" />
-<File Id="_base_py_459" Source="..\bin\release\Lib\email\mime\base.py" />
-<File Id="_image_py_460" Source="..\bin\release\Lib\email\mime\image.py" />
-<File Id="_message_py_461" Source="..\bin\release\Lib\email\mime\message.py" />
-<File Id="_multipart_py_462" Source="..\bin\release\Lib\email\mime\multipart.py" />
-<File Id="_nonmultipart_py_463" Source="..\bin\release\Lib\email\mime\nonmultipart.py" />
-<File Id="_text_py_464" Source="..\bin\release\Lib\email\mime\text.py" />
-<File Id="___init___py_465" Source="..\bin\release\Lib\email\mime\__init__.py" />
+<Directory Id="pl190" Name="pl">
+<Component Id="pl_191" Guid="0743f932-31bf-4ffb-b009-1488a0e5e206">
+<File Id="_MissionPlanner_resources_dll_192" Source="..\bin\release\pl\MissionPlanner.resources.dll" />
 </Component>
 </Directory>
-</Directory>
-<Directory Id="encodings465" Name="encodings">
-<Component Id="encodings_466" Guid="54376ebe-df3f-415f-9a87-670b1a48cc8b">
-<File Id="_aliases_py_467" Source="..\bin\release\Lib\encodings\aliases.py" />
-<File Id="_ascii_py_468" Source="..\bin\release\Lib\encodings\ascii.py" />
-<File Id="_base64_codec_py_469" Source="..\bin\release\Lib\encodings\base64_codec.py" />
-<File Id="_charmap_py_470" Source="..\bin\release\Lib\encodings\charmap.py" />
-<File Id="_cp037_py_471" Source="..\bin\release\Lib\encodings\cp037.py" />
-<File Id="_cp1006_py_472" Source="..\bin\release\Lib\encodings\cp1006.py" />
-<File Id="_cp1026_py_473" Source="..\bin\release\Lib\encodings\cp1026.py" />
-<File Id="_cp1140_py_474" Source="..\bin\release\Lib\encodings\cp1140.py" />
-<File Id="_cp1250_py_475" Source="..\bin\release\Lib\encodings\cp1250.py" />
-<File Id="_cp1251_py_476" Source="..\bin\release\Lib\encodings\cp1251.py" />
-<File Id="_cp1252_py_477" Source="..\bin\release\Lib\encodings\cp1252.py" />
-<File Id="_cp1253_py_478" Source="..\bin\release\Lib\encodings\cp1253.py" />
-<File Id="_cp1254_py_479" Source="..\bin\release\Lib\encodings\cp1254.py" />
-<File Id="_cp1255_py_480" Source="..\bin\release\Lib\encodings\cp1255.py" />
-<File Id="_cp1256_py_481" Source="..\bin\release\Lib\encodings\cp1256.py" />
-<File Id="_cp1257_py_482" Source="..\bin\release\Lib\encodings\cp1257.py" />
-<File Id="_cp1258_py_483" Source="..\bin\release\Lib\encodings\cp1258.py" />
-<File Id="_cp424_py_484" Source="..\bin\release\Lib\encodings\cp424.py" />
-<File Id="_cp437_py_485" Source="..\bin\release\Lib\encodings\cp437.py" />
-<File Id="_cp500_py_486" Source="..\bin\release\Lib\encodings\cp500.py" />
-<File Id="_cp720_py_487" Source="..\bin\release\Lib\encodings\cp720.py" />
-<File Id="_cp737_py_488" Source="..\bin\release\Lib\encodings\cp737.py" />
-<File Id="_cp775_py_489" Source="..\bin\release\Lib\encodings\cp775.py" />
-<File Id="_cp850_py_490" Source="..\bin\release\Lib\encodings\cp850.py" />
-<File Id="_cp852_py_491" Source="..\bin\release\Lib\encodings\cp852.py" />
-<File Id="_cp855_py_492" Source="..\bin\release\Lib\encodings\cp855.py" />
-<File Id="_cp856_py_493" Source="..\bin\release\Lib\encodings\cp856.py" />
-<File Id="_cp857_py_494" Source="..\bin\release\Lib\encodings\cp857.py" />
-<File Id="_cp858_py_495" Source="..\bin\release\Lib\encodings\cp858.py" />
-<File Id="_cp860_py_496" Source="..\bin\release\Lib\encodings\cp860.py" />
-<File Id="_cp861_py_497" Source="..\bin\release\Lib\encodings\cp861.py" />
-<File Id="_cp862_py_498" Source="..\bin\release\Lib\encodings\cp862.py" />
-<File Id="_cp863_py_499" Source="..\bin\release\Lib\encodings\cp863.py" />
-<File Id="_cp864_py_500" Source="..\bin\release\Lib\encodings\cp864.py" />
-<File Id="_cp865_py_501" Source="..\bin\release\Lib\encodings\cp865.py" />
-<File Id="_cp866_py_502" Source="..\bin\release\Lib\encodings\cp866.py" />
-<File Id="_cp869_py_503" Source="..\bin\release\Lib\encodings\cp869.py" />
-<File Id="_cp874_py_504" Source="..\bin\release\Lib\encodings\cp874.py" />
-<File Id="_cp875_py_505" Source="..\bin\release\Lib\encodings\cp875.py" />
-<File Id="_hex_codec_py_506" Source="..\bin\release\Lib\encodings\hex_codec.py" />
-<File Id="_hp_roman8_py_507" Source="..\bin\release\Lib\encodings\hp_roman8.py" />
-<File Id="_iso8859_1_py_508" Source="..\bin\release\Lib\encodings\iso8859_1.py" />
-<File Id="_iso8859_10_py_509" Source="..\bin\release\Lib\encodings\iso8859_10.py" />
-<File Id="_iso8859_11_py_510" Source="..\bin\release\Lib\encodings\iso8859_11.py" />
-<File Id="_iso8859_13_py_511" Source="..\bin\release\Lib\encodings\iso8859_13.py" />
-<File Id="_iso8859_14_py_512" Source="..\bin\release\Lib\encodings\iso8859_14.py" />
-<File Id="_iso8859_15_py_513" Source="..\bin\release\Lib\encodings\iso8859_15.py" />
-<File Id="_iso8859_16_py_514" Source="..\bin\release\Lib\encodings\iso8859_16.py" />
-<File Id="_iso8859_2_py_515" Source="..\bin\release\Lib\encodings\iso8859_2.py" />
-<File Id="_iso8859_3_py_516" Source="..\bin\release\Lib\encodings\iso8859_3.py" />
-<File Id="_iso8859_4_py_517" Source="..\bin\release\Lib\encodings\iso8859_4.py" />
-<File Id="_iso8859_5_py_518" Source="..\bin\release\Lib\encodings\iso8859_5.py" />
-<File Id="_iso8859_6_py_519" Source="..\bin\release\Lib\encodings\iso8859_6.py" />
-<File Id="_iso8859_7_py_520" Source="..\bin\release\Lib\encodings\iso8859_7.py" />
-<File Id="_iso8859_8_py_521" Source="..\bin\release\Lib\encodings\iso8859_8.py" />
-<File Id="_iso8859_9_py_522" Source="..\bin\release\Lib\encodings\iso8859_9.py" />
-<File Id="_koi8_r_py_523" Source="..\bin\release\Lib\encodings\koi8_r.py" />
-<File Id="_koi8_u_py_524" Source="..\bin\release\Lib\encodings\koi8_u.py" />
-<File Id="_latin_1_py_525" Source="..\bin\release\Lib\encodings\latin_1.py" />
-<File Id="_mac_arabic_py_526" Source="..\bin\release\Lib\encodings\mac_arabic.py" />
-<File Id="_mac_centeuro_py_527" Source="..\bin\release\Lib\encodings\mac_centeuro.py" />
-<File Id="_mac_croatian_py_528" Source="..\bin\release\Lib\encodings\mac_croatian.py" />
-<File Id="_mac_cyrillic_py_529" Source="..\bin\release\Lib\encodings\mac_cyrillic.py" />
-<File Id="_mac_farsi_py_530" Source="..\bin\release\Lib\encodings\mac_farsi.py" />
-<File Id="_mac_greek_py_531" Source="..\bin\release\Lib\encodings\mac_greek.py" />
-<File Id="_mac_iceland_py_532" Source="..\bin\release\Lib\encodings\mac_iceland.py" />
-<File Id="_mac_latin2_py_533" Source="..\bin\release\Lib\encodings\mac_latin2.py" />
-<File Id="_mac_roman_py_534" Source="..\bin\release\Lib\encodings\mac_roman.py" />
-<File Id="_mac_romanian_py_535" Source="..\bin\release\Lib\encodings\mac_romanian.py" />
-<File Id="_mac_turkish_py_536" Source="..\bin\release\Lib\encodings\mac_turkish.py" />
-<File Id="_mbcs_py_537" Source="..\bin\release\Lib\encodings\mbcs.py" />
-<File Id="_palmos_py_538" Source="..\bin\release\Lib\encodings\palmos.py" />
-<File Id="_ptcp154_py_539" Source="..\bin\release\Lib\encodings\ptcp154.py" />
-<File Id="_punycode_py_540" Source="..\bin\release\Lib\encodings\punycode.py" />
-<File Id="_quopri_codec_py_541" Source="..\bin\release\Lib\encodings\quopri_codec.py" />
-<File Id="_raw_unicode_escape_py_542" Source="..\bin\release\Lib\encodings\raw_unicode_escape.py" />
-<File Id="_rot_13_py_543" Source="..\bin\release\Lib\encodings\rot_13.py" />
-<File Id="_string_escape_py_544" Source="..\bin\release\Lib\encodings\string_escape.py" />
-<File Id="_tis_620_py_545" Source="..\bin\release\Lib\encodings\tis_620.py" />
-<File Id="_undefined_py_546" Source="..\bin\release\Lib\encodings\undefined.py" />
-<File Id="_unicode_escape_py_547" Source="..\bin\release\Lib\encodings\unicode_escape.py" />
-<File Id="_unicode_internal_py_548" Source="..\bin\release\Lib\encodings\unicode_internal.py" />
-<File Id="_utf_16_py_549" Source="..\bin\release\Lib\encodings\utf_16.py" />
-<File Id="_utf_16_be_py_550" Source="..\bin\release\Lib\encodings\utf_16_be.py" />
-<File Id="_utf_16_le_py_551" Source="..\bin\release\Lib\encodings\utf_16_le.py" />
-<File Id="_utf_32_py_552" Source="..\bin\release\Lib\encodings\utf_32.py" />
-<File Id="_utf_32_le_py_553" Source="..\bin\release\Lib\encodings\utf_32_le.py" />
-<File Id="_utf_7_py_554" Source="..\bin\release\Lib\encodings\utf_7.py" />
-<File Id="_utf_8_py_555" Source="..\bin\release\Lib\encodings\utf_8.py" />
-<File Id="_utf_8_sig_py_556" Source="..\bin\release\Lib\encodings\utf_8_sig.py" />
-<File Id="_uu_codec_py_557" Source="..\bin\release\Lib\encodings\uu_codec.py" />
-<File Id="_zlib_codec_py_558" Source="..\bin\release\Lib\encodings\zlib_codec.py" />
-<File Id="___init___py_559" Source="..\bin\release\Lib\encodings\__init__.py" />
+<Directory Id="plugins192" Name="plugins">
+<Component Id="plugins_193" Guid="a4c99cbe-bf2f-40e8-959e-8e864f6e4994">
+<File Id="_MissionPlanner_Grid_dll_194" Source="..\bin\release\plugins\MissionPlanner.Grid.dll" />
+<File Id="_MissionPlanner_Grid_pdb_195" Source="..\bin\release\plugins\MissionPlanner.Grid.pdb" />
+<File Id="_MissionPlanner_SimpleGrid_dll_196" Source="..\bin\release\plugins\MissionPlanner.SimpleGrid.dll" />
+<File Id="_MissionPlanner_SimpleGrid_pdb_197" Source="..\bin\release\plugins\MissionPlanner.SimpleGrid.pdb" />
+<File Id="_MissionPlanner_Stats_dll_198" Source="..\bin\release\plugins\MissionPlanner.Stats.dll" />
+<File Id="_MissionPlanner_Stats_pdb_199" Source="..\bin\release\plugins\MissionPlanner.Stats.pdb" />
+<File Id="_TrackerHome_dll_200" Source="..\bin\release\plugins\TrackerHome.dll" />
+<File Id="_TrackerHome_pdb_201" Source="..\bin\release\plugins\TrackerHome.pdb" />
 </Component>
 </Directory>
-<Directory Id="importlib559" Name="importlib">
-<Component Id="importlib_560" Guid="97db4899-9a01-4f67-860f-ae4717f97313">
-<File Id="___init___py_561" Source="..\bin\release\Lib\importlib\__init__.py" />
+<Directory Id="Resources201" Name="Resources">
+<Component Id="Resources_202" Guid="f9f8b653-c4a6-4cb9-bc4e-860c9813a657">
+<File Id="_MAVCmd_txt_203" Source="..\bin\release\Resources\MAVCmd.txt" />
 </Component>
 </Directory>
-<Directory Id="json561" Name="json">
-<Component Id="json_562" Guid="89ab7ee6-a513-4085-9435-6bd17e57d408">
-<File Id="_decoder_py_563" Source="..\bin\release\Lib\json\decoder.py" />
-<File Id="_encoder_py_564" Source="..\bin\release\Lib\json\encoder.py" />
-<File Id="_scanner_py_565" Source="..\bin\release\Lib\json\scanner.py" />
-<File Id="_tool_py_566" Source="..\bin\release\Lib\json\tool.py" />
-<File Id="___init___py_567" Source="..\bin\release\Lib\json\__init__.py" />
+<Directory Id="ru_RU203" Name="ru-RU">
+<Component Id="ru_RU_204" Guid="eaa6d5e6-83ee-4f59-952a-d7ca40308a6e">
+<File Id="_MissionPlanner_resources_dll_205" Source="..\bin\release\ru-RU\MissionPlanner.resources.dll" />
 </Component>
 </Directory>
-<Directory Id="lib2to3567" Name="lib2to3">
-<Component Id="lib2to3_568" Guid="1c9c02f4-9ffd-4ae2-a661-eeec6d183899">
-<File Id="_btm_matcher_py_569" Source="..\bin\release\Lib\lib2to3\btm_matcher.py" />
-<File Id="_btm_utils_py_570" Source="..\bin\release\Lib\lib2to3\btm_utils.py" />
-<File Id="_fixer_base_py_571" Source="..\bin\release\Lib\lib2to3\fixer_base.py" />
-<File Id="_fixer_util_py_572" Source="..\bin\release\Lib\lib2to3\fixer_util.py" />
-<File Id="_main_py_573" Source="..\bin\release\Lib\lib2to3\main.py" />
-<File Id="_patcomp_py_574" Source="..\bin\release\Lib\lib2to3\patcomp.py" />
-<File Id="_pygram_py_575" Source="..\bin\release\Lib\lib2to3\pygram.py" />
-<File Id="_pytree_py_576" Source="..\bin\release\Lib\lib2to3\pytree.py" />
-<File Id="_refactor_py_577" Source="..\bin\release\Lib\lib2to3\refactor.py" />
-<File Id="___init___py_578" Source="..\bin\release\Lib\lib2to3\__init__.py" />
-<File Id="___main___py_579" Source="..\bin\release\Lib\lib2to3\__main__.py" />
-</Component>
-<Directory Id="fixes579" Name="fixes">
-<Component Id="fixes_580" Guid="cc88b340-d852-4924-881d-e905aff60792">
-<File Id="_fix_apply_py_581" Source="..\bin\release\Lib\lib2to3\fixes\fix_apply.py" />
-<File Id="_fix_basestring_py_582" Source="..\bin\release\Lib\lib2to3\fixes\fix_basestring.py" />
-<File Id="_fix_buffer_py_583" Source="..\bin\release\Lib\lib2to3\fixes\fix_buffer.py" />
-<File Id="_fix_callable_py_584" Source="..\bin\release\Lib\lib2to3\fixes\fix_callable.py" />
-<File Id="_fix_dict_py_585" Source="..\bin\release\Lib\lib2to3\fixes\fix_dict.py" />
-<File Id="_fix_except_py_586" Source="..\bin\release\Lib\lib2to3\fixes\fix_except.py" />
-<File Id="_fix_exec_py_587" Source="..\bin\release\Lib\lib2to3\fixes\fix_exec.py" />
-<File Id="_fix_execfile_py_588" Source="..\bin\release\Lib\lib2to3\fixes\fix_execfile.py" />
-<File Id="_fix_exitfunc_py_589" Source="..\bin\release\Lib\lib2to3\fixes\fix_exitfunc.py" />
-<File Id="_fix_filter_py_590" Source="..\bin\release\Lib\lib2to3\fixes\fix_filter.py" />
-<File Id="_fix_funcattrs_py_591" Source="..\bin\release\Lib\lib2to3\fixes\fix_funcattrs.py" />
-<File Id="_fix_future_py_592" Source="..\bin\release\Lib\lib2to3\fixes\fix_future.py" />
-<File Id="_fix_getcwdu_py_593" Source="..\bin\release\Lib\lib2to3\fixes\fix_getcwdu.py" />
-<File Id="_fix_has_key_py_594" Source="..\bin\release\Lib\lib2to3\fixes\fix_has_key.py" />
-<File Id="_fix_idioms_py_595" Source="..\bin\release\Lib\lib2to3\fixes\fix_idioms.py" />
-<File Id="_fix_import_py_596" Source="..\bin\release\Lib\lib2to3\fixes\fix_import.py" />
-<File Id="_fix_imports_py_597" Source="..\bin\release\Lib\lib2to3\fixes\fix_imports.py" />
-<File Id="_fix_imports2_py_598" Source="..\bin\release\Lib\lib2to3\fixes\fix_imports2.py" />
-<File Id="_fix_input_py_599" Source="..\bin\release\Lib\lib2to3\fixes\fix_input.py" />
-<File Id="_fix_intern_py_600" Source="..\bin\release\Lib\lib2to3\fixes\fix_intern.py" />
-<File Id="_fix_isinstance_py_601" Source="..\bin\release\Lib\lib2to3\fixes\fix_isinstance.py" />
-<File Id="_fix_itertools_py_602" Source="..\bin\release\Lib\lib2to3\fixes\fix_itertools.py" />
-<File Id="_fix_itertools_imports_py_603" Source="..\bin\release\Lib\lib2to3\fixes\fix_itertools_imports.py" />
-<File Id="_fix_long_py_604" Source="..\bin\release\Lib\lib2to3\fixes\fix_long.py" />
-<File Id="_fix_map_py_605" Source="..\bin\release\Lib\lib2to3\fixes\fix_map.py" />
-<File Id="_fix_metaclass_py_606" Source="..\bin\release\Lib\lib2to3\fixes\fix_metaclass.py" />
-<File Id="_fix_methodattrs_py_607" Source="..\bin\release\Lib\lib2to3\fixes\fix_methodattrs.py" />
-<File Id="_fix_ne_py_608" Source="..\bin\release\Lib\lib2to3\fixes\fix_ne.py" />
-<File Id="_fix_next_py_609" Source="..\bin\release\Lib\lib2to3\fixes\fix_next.py" />
-<File Id="_fix_nonzero_py_610" Source="..\bin\release\Lib\lib2to3\fixes\fix_nonzero.py" />
-<File Id="_fix_numliterals_py_611" Source="..\bin\release\Lib\lib2to3\fixes\fix_numliterals.py" />
-<File Id="_fix_operator_py_612" Source="..\bin\release\Lib\lib2to3\fixes\fix_operator.py" />
-<File Id="_fix_paren_py_613" Source="..\bin\release\Lib\lib2to3\fixes\fix_paren.py" />
-<File Id="_fix_print_py_614" Source="..\bin\release\Lib\lib2to3\fixes\fix_print.py" />
-<File Id="_fix_raise_py_615" Source="..\bin\release\Lib\lib2to3\fixes\fix_raise.py" />
-<File Id="_fix_raw_input_py_616" Source="..\bin\release\Lib\lib2to3\fixes\fix_raw_input.py" />
-<File Id="_fix_reduce_py_617" Source="..\bin\release\Lib\lib2to3\fixes\fix_reduce.py" />
-<File Id="_fix_renames_py_618" Source="..\bin\release\Lib\lib2to3\fixes\fix_renames.py" />
-<File Id="_fix_repr_py_619" Source="..\bin\release\Lib\lib2to3\fixes\fix_repr.py" />
-<File Id="_fix_set_literal_py_620" Source="..\bin\release\Lib\lib2to3\fixes\fix_set_literal.py" />
-<File Id="_fix_standarderror_py_621" Source="..\bin\release\Lib\lib2to3\fixes\fix_standarderror.py" />
-<File Id="_fix_sys_exc_py_622" Source="..\bin\release\Lib\lib2to3\fixes\fix_sys_exc.py" />
-<File Id="_fix_throw_py_623" Source="..\bin\release\Lib\lib2to3\fixes\fix_throw.py" />
-<File Id="_fix_tuple_params_py_624" Source="..\bin\release\Lib\lib2to3\fixes\fix_tuple_params.py" />
-<File Id="_fix_types_py_625" Source="..\bin\release\Lib\lib2to3\fixes\fix_types.py" />
-<File Id="_fix_unicode_py_626" Source="..\bin\release\Lib\lib2to3\fixes\fix_unicode.py" />
-<File Id="_fix_urllib_py_627" Source="..\bin\release\Lib\lib2to3\fixes\fix_urllib.py" />
-<File Id="_fix_ws_comma_py_628" Source="..\bin\release\Lib\lib2to3\fixes\fix_ws_comma.py" />
-<File Id="_fix_xrange_py_629" Source="..\bin\release\Lib\lib2to3\fixes\fix_xrange.py" />
-<File Id="_fix_xreadlines_py_630" Source="..\bin\release\Lib\lib2to3\fixes\fix_xreadlines.py" />
-<File Id="_fix_zip_py_631" Source="..\bin\release\Lib\lib2to3\fixes\fix_zip.py" />
-<File Id="___init___py_632" Source="..\bin\release\Lib\lib2to3\fixes\__init__.py" />
+<Directory Id="zh_Hans205" Name="zh-Hans">
+<Component Id="zh_Hans_206" Guid="bce83efd-8e97-435c-9152-c62981dd55da">
+<File Id="_MissionPlanner_resources_dll_207" Source="..\bin\release\zh-Hans\MissionPlanner.resources.dll" />
 </Component>
 </Directory>
-<Directory Id="pgen2632" Name="pgen2">
-<Component Id="pgen2_633" Guid="d9ae074c-2205-4bed-88fd-475a113aeb8d">
-<File Id="_conv_py_634" Source="..\bin\release\Lib\lib2to3\pgen2\conv.py" />
-<File Id="_driver_py_635" Source="..\bin\release\Lib\lib2to3\pgen2\driver.py" />
-<File Id="_grammar_py_636" Source="..\bin\release\Lib\lib2to3\pgen2\grammar.py" />
-<File Id="_literals_py_637" Source="..\bin\release\Lib\lib2to3\pgen2\literals.py" />
-<File Id="_parse_py_638" Source="..\bin\release\Lib\lib2to3\pgen2\parse.py" />
-<File Id="_pgen_py_639" Source="..\bin\release\Lib\lib2to3\pgen2\pgen.py" />
-<File Id="_token_py_640" Source="..\bin\release\Lib\lib2to3\pgen2\token.py" />
-<File Id="_tokenize_py_641" Source="..\bin\release\Lib\lib2to3\pgen2\tokenize.py" />
-<File Id="___init___py_642" Source="..\bin\release\Lib\lib2to3\pgen2\__init__.py" />
-</Component>
-</Directory>
-</Directory>
-<Directory Id="logging642" Name="logging">
-<Component Id="logging_643" Guid="7b51b407-b4be-4ba9-b21a-62bc97d2aaea">
-<File Id="_config_py_644" Source="..\bin\release\Lib\logging\config.py" />
-<File Id="_handlers_py_645" Source="..\bin\release\Lib\logging\handlers.py" />
-<File Id="___init___py_646" Source="..\bin\release\Lib\logging\__init__.py" />
-</Component>
-</Directory>
-<Directory Id="pydoc_data646" Name="pydoc_data">
-<Component Id="pydoc_data_647" Guid="2b3e720d-46d5-4c25-b20b-767a9233665c">
-<File Id="_topics_py_648" Source="..\bin\release\Lib\pydoc_data\topics.py" />
-<File Id="___init___py_649" Source="..\bin\release\Lib\pydoc_data\__init__.py" />
-</Component>
-</Directory>
-<Directory Id="sqlite3649" Name="sqlite3">
-<Component Id="sqlite3_650" Guid="b5f7e81a-f755-44c5-aba0-90bd55b8a22f">
-<File Id="_dbapi2_py_651" Source="..\bin\release\Lib\sqlite3\dbapi2.py" />
-<File Id="_dump_py_652" Source="..\bin\release\Lib\sqlite3\dump.py" />
-<File Id="___init___py_653" Source="..\bin\release\Lib\sqlite3\__init__.py" />
-</Component>
-</Directory>
-<Directory Id="unittest653" Name="unittest">
-<Component Id="unittest_654" Guid="05c87e37-c00c-4fa2-8fd5-92282d7582ec">
-<File Id="_case_py_655" Source="..\bin\release\Lib\unittest\case.py" />
-<File Id="_loader_py_656" Source="..\bin\release\Lib\unittest\loader.py" />
-<File Id="_main_py_657" Source="..\bin\release\Lib\unittest\main.py" />
-<File Id="_result_py_658" Source="..\bin\release\Lib\unittest\result.py" />
-<File Id="_runner_py_659" Source="..\bin\release\Lib\unittest\runner.py" />
-<File Id="_signals_py_660" Source="..\bin\release\Lib\unittest\signals.py" />
-<File Id="_suite_py_661" Source="..\bin\release\Lib\unittest\suite.py" />
-<File Id="_util_py_662" Source="..\bin\release\Lib\unittest\util.py" />
-<File Id="___init___py_663" Source="..\bin\release\Lib\unittest\__init__.py" />
-<File Id="___main___py_664" Source="..\bin\release\Lib\unittest\__main__.py" />
-</Component>
-</Directory>
-<Directory Id="wsgiref664" Name="wsgiref">
-<Component Id="wsgiref_665" Guid="590bba2c-b187-429a-8dbb-78e7f044595b">
-<File Id="_handlers_py_666" Source="..\bin\release\Lib\wsgiref\handlers.py" />
-<File Id="_headers_py_667" Source="..\bin\release\Lib\wsgiref\headers.py" />
-<File Id="_simple_server_py_668" Source="..\bin\release\Lib\wsgiref\simple_server.py" />
-<File Id="_util_py_669" Source="..\bin\release\Lib\wsgiref\util.py" />
-<File Id="_validate_py_670" Source="..\bin\release\Lib\wsgiref\validate.py" />
-<File Id="___init___py_671" Source="..\bin\release\Lib\wsgiref\__init__.py" />
-</Component>
-</Directory>
-<Directory Id="xml671" Name="xml">
-<Component Id="xml_672" Guid="90cf1875-2a57-4c10-a48b-97071d895d43">
-<File Id="___init___py_673" Source="..\bin\release\Lib\xml\__init__.py" />
-</Component>
-<Directory Id="dom673" Name="dom">
-<Component Id="dom_674" Guid="4f503455-48dc-48b0-9d6b-22569ea35abc">
-<File Id="_domreg_py_675" Source="..\bin\release\Lib\xml\dom\domreg.py" />
-<File Id="_minicompat_py_676" Source="..\bin\release\Lib\xml\dom\minicompat.py" />
-<File Id="_minidom_py_677" Source="..\bin\release\Lib\xml\dom\minidom.py" />
-<File Id="_NodeFilter_py_678" Source="..\bin\release\Lib\xml\dom\NodeFilter.py" />
-<File Id="_pulldom_py_679" Source="..\bin\release\Lib\xml\dom\pulldom.py" />
-<File Id="_xmlbuilder_py_680" Source="..\bin\release\Lib\xml\dom\xmlbuilder.py" />
-<File Id="___init___py_681" Source="..\bin\release\Lib\xml\dom\__init__.py" />
-</Component>
-</Directory>
-<Directory Id="etree681" Name="etree">
-<Component Id="etree_682" Guid="4cb5e2a7-a257-4c3c-a88d-7277b173b762">
-<File Id="_ElementInclude_py_683" Source="..\bin\release\Lib\xml\etree\ElementInclude.py" />
-<File Id="_ElementPath_py_684" Source="..\bin\release\Lib\xml\etree\ElementPath.py" />
-<File Id="_ElementTree_py_685" Source="..\bin\release\Lib\xml\etree\ElementTree.py" />
-<File Id="_SimpleXMLTreeBuilder_py_686" Source="..\bin\release\Lib\xml\etree\SimpleXMLTreeBuilder.py" />
-<File Id="___init___py_687" Source="..\bin\release\Lib\xml\etree\__init__.py" />
-</Component>
-</Directory>
-<Directory Id="parsers687" Name="parsers">
-<Component Id="parsers_688" Guid="49b21027-ef01-47e7-b5d8-5b48d5f2c167">
-<File Id="___init___py_689" Source="..\bin\release\Lib\xml\parsers\__init__.py" />
-</Component>
-</Directory>
-<Directory Id="sax689" Name="sax">
-<Component Id="sax_690" Guid="d847dd52-4330-46ff-992d-a5976e55a59c">
-<File Id="_handler_py_691" Source="..\bin\release\Lib\xml\sax\handler.py" />
-<File Id="_saxutils_py_692" Source="..\bin\release\Lib\xml\sax\saxutils.py" />
-<File Id="_xmlreader_py_693" Source="..\bin\release\Lib\xml\sax\xmlreader.py" />
-<File Id="__exceptions_py_694" Source="..\bin\release\Lib\xml\sax\_exceptions.py" />
-<File Id="___init___py_695" Source="..\bin\release\Lib\xml\sax\__init__.py" />
-</Component>
-</Directory>
-</Directory>
-</Directory>
-<Directory Id="m3u695" Name="m3u">
-<Component Id="m3u_696" Guid="ed9aad52-50cc-41e7-a7be-2c9cff2897dc">
-<File Id="_both_m3u_697" Source="..\bin\release\m3u\both.m3u" />
-<File Id="_GeoRefnetworklink_kml_698" Source="..\bin\release\m3u\GeoRefnetworklink.kml" />
-<File Id="_hud_m3u_699" Source="..\bin\release\m3u\hud.m3u" />
-<File Id="_map_m3u_700" Source="..\bin\release\m3u\map.m3u" />
-<File Id="_networklink_kml_701" Source="..\bin\release\m3u\networklink.kml" />
-</Component>
-</Directory>
-<Directory Id="mavelous_web701" Name="mavelous_web">
-<Component Id="mavelous_web_702" Guid="1fc53c46-5cd6-4cc4-ac9f-b7ce4b48a5ab">
-<File Id="_index_html_703" Source="..\bin\release\mavelous_web\index.html" />
-</Component>
-</Directory>
-<Directory Id="pl703" Name="pl">
-<Component Id="pl_704" Guid="15fe392a-9f19-40c6-8239-6e35a2b6fabf">
-<File Id="_MissionPlanner_resources_dll_705" Source="..\bin\release\pl\MissionPlanner.resources.dll" />
-</Component>
-</Directory>
-<Directory Id="plugins705" Name="plugins">
-<Component Id="plugins_706" Guid="aaeeacdb-ff51-469d-bc35-d2d3c743a58c">
-<File Id="_MissionPlanner_Grid_dll_707" Source="..\bin\release\plugins\MissionPlanner.Grid.dll" />
-<File Id="_MissionPlanner_Grid_pdb_708" Source="..\bin\release\plugins\MissionPlanner.Grid.pdb" />
-<File Id="_MissionPlanner_SimpleGrid_dll_709" Source="..\bin\release\plugins\MissionPlanner.SimpleGrid.dll" />
-<File Id="_MissionPlanner_SimpleGrid_pdb_710" Source="..\bin\release\plugins\MissionPlanner.SimpleGrid.pdb" />
-<File Id="_MissionPlanner_Stats_dll_711" Source="..\bin\release\plugins\MissionPlanner.Stats.dll" />
-<File Id="_MissionPlanner_Stats_pdb_712" Source="..\bin\release\plugins\MissionPlanner.Stats.pdb" />
-<File Id="_TrackerHome_dll_713" Source="..\bin\release\plugins\TrackerHome.dll" />
-<File Id="_TrackerHome_pdb_714" Source="..\bin\release\plugins\TrackerHome.pdb" />
-</Component>
-</Directory>
-<Directory Id="Resources714" Name="Resources">
-<Component Id="Resources_715" Guid="88fb11b3-f84f-47f1-94f7-b0071aab877d">
-<File Id="_MAVCmd_txt_716" Source="..\bin\release\Resources\MAVCmd.txt" />
-</Component>
-</Directory>
-<Directory Id="ru_RU716" Name="ru-RU">
-<Component Id="ru_RU_717" Guid="85eac8b3-68c6-4ed6-a4b0-807e869a3c44">
-<File Id="_MissionPlanner_resources_dll_718" Source="..\bin\release\ru-RU\MissionPlanner.resources.dll" />
-</Component>
-</Directory>
-<Directory Id="zh_Hans718" Name="zh-Hans">
-<Component Id="zh_Hans_719" Guid="b043a485-f530-4ed8-9d73-485e75e4e386">
-<File Id="_MissionPlanner_resources_dll_720" Source="..\bin\release\zh-Hans\MissionPlanner.resources.dll" />
-</Component>
-</Directory>
-<Directory Id="zh_TW720" Name="zh-TW">
-<Component Id="zh_TW_721" Guid="6397a6d8-0727-4c6e-8203-2c92a69b8e1f">
-<File Id="_MissionPlanner_resources_dll_722" Source="..\bin\release\zh-TW\MissionPlanner.resources.dll" />
+<Directory Id="zh_TW207" Name="zh-TW">
+<Component Id="zh_TW_208" Guid="c7693de6-2365-4a18-a92a-50ec67ad736b">
+<File Id="_MissionPlanner_resources_dll_209" Source="..\bin\release\zh-TW\MissionPlanner.resources.dll" />
 </Component>
 </Directory>
 
@@ -957,52 +375,29 @@
             <ComponentRef Id="InstallDirPermissions" />
 
 <ComponentRef Id="_1" />
-<ComponentRef Id="aircraft_108" />
-<ComponentRef Id="arducopter_110" />
-<ComponentRef Id="data_119" />
-<ComponentRef Id="Engines_123" />
-<ComponentRef Id="Models_126" />
-<ComponentRef Id="Rascal_136" />
-<ComponentRef Id="Engines_146" />
-<ComponentRef Id="Models_149" />
-<ComponentRef Id="Systems_157" />
-<ComponentRef Id="de_DE_163" />
-<ComponentRef Id="Driver_165" />
-<ComponentRef Id="es_ES_176" />
-<ComponentRef Id="fr_178" />
-<ComponentRef Id="it_IT_180" />
-<ComponentRef Id="jsbsim_182" />
-<ComponentRef Id="Lib_185" />
-<ComponentRef Id="ctypes_380" />
-<ComponentRef Id="macholib_385" />
-<ComponentRef Id="distutils_390" />
-<ComponentRef Id="command_418" />
-<ComponentRef Id="email_441" />
-<ComponentRef Id="mime_456" />
-<ComponentRef Id="encodings_466" />
-<ComponentRef Id="importlib_560" />
-<ComponentRef Id="json_562" />
-<ComponentRef Id="lib2to3_568" />
-<ComponentRef Id="fixes_580" />
-<ComponentRef Id="pgen2_633" />
-<ComponentRef Id="logging_643" />
-<ComponentRef Id="pydoc_data_647" />
-<ComponentRef Id="sqlite3_650" />
-<ComponentRef Id="unittest_654" />
-<ComponentRef Id="wsgiref_665" />
-<ComponentRef Id="xml_672" />
-<ComponentRef Id="dom_674" />
-<ComponentRef Id="etree_682" />
-<ComponentRef Id="parsers_688" />
-<ComponentRef Id="sax_690" />
-<ComponentRef Id="m3u_696" />
-<ComponentRef Id="mavelous_web_702" />
-<ComponentRef Id="pl_704" />
-<ComponentRef Id="plugins_706" />
-<ComponentRef Id="Resources_715" />
-<ComponentRef Id="ru_RU_717" />
-<ComponentRef Id="zh_Hans_719" />
-<ComponentRef Id="zh_TW_721" />
+<ComponentRef Id="aircraft_106" />
+<ComponentRef Id="arducopter_108" />
+<ComponentRef Id="data_117" />
+<ComponentRef Id="Engines_121" />
+<ComponentRef Id="Models_124" />
+<ComponentRef Id="Rascal_134" />
+<ComponentRef Id="Engines_144" />
+<ComponentRef Id="Models_147" />
+<ComponentRef Id="Systems_155" />
+<ComponentRef Id="de_DE_161" />
+<ComponentRef Id="Driver_163" />
+<ComponentRef Id="es_ES_174" />
+<ComponentRef Id="fr_176" />
+<ComponentRef Id="it_IT_178" />
+<ComponentRef Id="jsbsim_180" />
+<ComponentRef Id="m3u_183" />
+<ComponentRef Id="mavelous_web_189" />
+<ComponentRef Id="pl_191" />
+<ComponentRef Id="plugins_193" />
+<ComponentRef Id="Resources_202" />
+<ComponentRef Id="ru_RU_204" />
+<ComponentRef Id="zh_Hans_206" />
+<ComponentRef Id="zh_TW_208" />
 
             
             <ComponentRef Id="ApplicationShortcut" />
@@ -1024,7 +419,7 @@
     <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Launch Mission Planner" />
 
     <!-- Step 3: Include the custom action -->
-    <Property Id="WixShellExecTarget" Value="[#_68]" />
+    <Property Id="WixShellExecTarget" Value="[#_67]" />
     <CustomAction Id="LaunchApplication" 
         BinaryKey="WixCA" 
         DllEntry="WixShellExec"
