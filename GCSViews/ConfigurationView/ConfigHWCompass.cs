@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using MissionPlanner.Controls.BackstageView;
 using MissionPlanner.Controls;
+using netDxf;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
@@ -97,6 +98,53 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
 
             ans = MagCalib.LeastSq(data);
+
+            //find the mean radius
+            Vector3f centre = new Vector3f((float)-ans[0], (float)-ans[1], (float)-ans[2]);
+            Vector3f point;
+            float radius = 0;
+            for(int i = 0; i < data.Count; i++) {
+                point = new Vector3f(data[i].Item1, data[i].Item2, data[i].Item3);
+                radius += Vector3f.Distance(point, centre);
+            }
+            radius /= data.Count;
+
+            //test that we can find one point near a set of points all around the sphere surface
+            int factor = 10;
+            float max_distance = radius / 3; //pretty generouse
+            for (int j = 0; j < factor; j++)
+            {
+                double theta = (Math.PI * (j+0.5)) / factor;
+
+                for(int i = 0; i < factor; i++)
+                {
+                    double phi = (2 * Math.PI * i) / factor;
+
+                    Vector3f point_sphere = new Vector3f(
+                        (float)(Math.Sin(theta) * Math.Cos(phi) * radius),
+                        (float)(Math.Sin(theta) * Math.Sin(phi) * radius),
+                        (float)(Math.Cos(theta) * radius)) + centre;
+
+                    bool found = false;
+                    for(int k = 0; k < data.Count; k++)
+                    {
+                        point = new Vector3f(data[i].Item1, data[i].Item2, data[i].Item3);
+                        double d = Vector3f.Distance(point_sphere, point);
+                        if (d < max_distance)
+                        {
+                            found = true;
+                            break;
+                        }
+                    }
+                    if(!found)
+                    {
+                        e.ErrorMessage = "Data missing for some directions";
+                        ans = null;
+                        return;
+                    }
+                }
+            }
+
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -234,7 +282,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (((CheckBox)sender).Checked == true)
             {
                 TXT_declination_deg.Enabled = false;
-
                 TXT_declination_min.Enabled = false;
             }
             else

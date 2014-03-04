@@ -53,7 +53,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 MainV2.comPort.MAV.cs.messages.Clear();
                 interference.Clear();
                 current.Clear();
-                MainV2.comPort.doCommand(MAVLink.MAV_CMD.PREFLIGHT_CALIBRATION, 0, 0, 0, 0, 0, 1, 0);
+                try
+                {
+                    MainV2.comPort.doCommand(MAVLink.MAV_CMD.PREFLIGHT_CALIBRATION, 0, 0, 0, 0, 0, 1, 0);
+                }
+                catch
+                {
+                    CustomMessageBox.Show("Compassmot requires AC 3.2+","Error");
+                }
                 incompassmot = true;
             }
         }
@@ -63,8 +70,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             BUT_compassmot.Text = label2.Text;
             DoCompassMot();
             timer1.Start();
-
-
         }
 
         void setupgraph()

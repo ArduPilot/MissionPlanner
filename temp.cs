@@ -1197,10 +1197,14 @@ namespace MissionPlanner
 
                 engine.CreateScriptSourceFromString("print 'hello world from python'").Execute(scope);
 
-                List<string> paths = new List<string>();
+                List<string> paths = new List<string>(engine.GetSearchPaths());
 
-                paths.Add(Path.GetDirectoryName(@"C:\Users\hog\Desktop\DIYDrones\loganalysiscommon\Tools\LogAnalyzer\LogAnalyzer.py"));
-                paths.Add(Application.StartupPath + Path.DirectorySeparatorChar + "lib");
+                paths.Add(Environment.CurrentDirectory);
+
+                paths.Add(Path.GetDirectoryName(Application.StartupPath + Path.DirectorySeparatorChar + "LogAnalyzer" + Path.DirectorySeparatorChar + "LogAnalyzer.py"));
+                paths.Add(Application.StartupPath + Path.DirectorySeparatorChar + "lib" + Path.DirectorySeparatorChar + "site-packages");
+
+                paths.AddRange(Directory.GetDirectories(Application.StartupPath + Path.DirectorySeparatorChar + "lib" + Path.DirectorySeparatorChar + "site-packages","*",SearchOption.AllDirectories));
 
                 engine.SetSearchPaths(paths);
 
@@ -1208,11 +1212,15 @@ namespace MissionPlanner
 
 
                 string bootloader = @"
+import mtrand
+
+import numpy
+
 import LogAnalyzer
 
 import sys
 
-sys.argv.append('"+ofd.FileName+@"')
+sys.argv.append('" + ofd.FileName+@"')
 
 print sys.argv
 

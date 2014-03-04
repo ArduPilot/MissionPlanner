@@ -262,7 +262,7 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
 
                         if (!MD5File(file + ".new", hash))
                         {
-                            throw new Exception("File downloaded does not match hash");
+                            throw new Exception("File downloaded does not match hash: " + file);
                         }
                     }
                     else
@@ -352,9 +352,6 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
 
                         // if the file doesnt exist. just save it inplace
                         string fn = path + ".new";
-
-                        if (!File.Exists(path))
-                            fn = path;
 
                         using (FileStream fs = new FileStream(fn, FileMode.Create))
                         {
