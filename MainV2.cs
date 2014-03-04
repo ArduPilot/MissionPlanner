@@ -43,26 +43,6 @@ namespace MissionPlanner
             [DllImport("user32.dll")]
             public static extern int ShowWindow(int Handle, int showState);
 
-            [StructLayout(LayoutKind.Sequential)]
-            public struct SMALL_RECT {
-                public Int16 x;
-                public Int16 y;
-                public Int16 x2;
-                public Int16 y2;
-            }
-            [StructLayout(LayoutKind.Sequential)]
-            public struct COORD {
-                public Int16 x;
-                public Int16 y;
-            }
-            public const int STD_OUTPUT_HANDLE = -11;
-            [DllImport("kernel32.dll")]
-            public static extern int GetStdHandle(int nStdHandle); 
-            [DllImport("kernel32.dll")]
-            public static extern int SetConsoleScreenBufferSize(int Handle, [MarshalAs(UnmanagedType.Struct)] COORD bufferSize); //int bufferSize
-            [DllImport("kernel32.dll")]
-            public static extern int SetConsoleWindowInfo(int Handle, int absolute, [MarshalAs(UnmanagedType.Struct)] ref SMALL_RECT windowSize);
-
             [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
             internal static extern IntPtr RegisterDeviceNotification
             (IntPtr hRecipient,
@@ -355,16 +335,6 @@ namespace MissionPlanner
             {
                 if (MainV2.config["showconsole"] != null && MainV2.config["showconsole"].ToString() == "True")
                 {
-                    NativeMethods.SMALL_RECT windowSize = new NativeMethods.SMALL_RECT();
-                    windowSize.x = windowSize.y = 0;
-                    windowSize.x2 = 132 - 1;
-                    windowSize.y2 = 60 - 1;
-                    NativeMethods.COORD bufferSize = new NativeMethods.COORD();
-                    bufferSize.x = 132;
-                    bufferSize.y = 4000;
-                    int win = NativeMethods.GetStdHandle(NativeMethods.STD_OUTPUT_HANDLE);
-                    NativeMethods.SetConsoleScreenBufferSize(win, bufferSize);
-                    NativeMethods.SetConsoleWindowInfo(win, 1, ref windowSize);
                 }
                 else
                 {
