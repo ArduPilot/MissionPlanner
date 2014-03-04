@@ -26,28 +26,43 @@ namespace MissionPlanner.Log
     public partial class LogDownload : Form
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         ICommsSerial comPort;
-        int logcount = 0;
-        serialstatus status = serialstatus.Connecting;
         StreamWriter sw;
         int currentlog = 0;
-        bool threadrun = true;
         string logfile = "";
         int receivedbytes = 0;
+        
+        //state control variables
+        serialstatus status = serialstatus.Connecting;
+        int connect_substate = 0;
+        bool threadrun = true;
+        bool exitpending = false;
+        bool downloading = false;
+        System.Threading.Thread t11;
+        
+        bool lastbuttonstate = true;
 
-        //List<Model> orientation = new List<Model>();
- 
         Object thisLock = new Object();
         DateTime start = DateTime.Now;
 
         enum serialstatus
         {
             Connecting,
+            ReceiveListing,
             Createfile,
             Closefile,
             Reading,
-            Waiting,
-            Done
+            Done,
+            Error,
+            Erasing
+        }
+
+        enum dltype
+        {
+            All,
+            Selected,
+            MinusOne
         }
 
         public LogDownload()
@@ -55,98 +70,31 @@ namespace MissionPlanner.Log
             InitializeComponent();
         }
 
-        private void waitandsleep(int time)
-        {
-            DateTime start = DateTime.Now;
-
-            while ((DateTime.Now - start).TotalMilliseconds < time)
-            {
-                try
-                {
-                    if (comPort.BytesToRead > 0)
-                    {
-                        return;
-                    }
-                }
-                catch { threadrun = false; return; }
-            }
-        }
-
-        private void readandsleep(int time)
-        {
-            DateTime start = DateTime.Now;
-
-            while ((DateTime.Now - start).TotalMilliseconds < time)
-            {
-                try
-                {
-                    if (comPort.BytesToRead > 0)
-                    {
-                        comPort_DataReceived((object)null, (SerialDataReceivedEventArgs)null);
-                    }
-                }
-                catch { threadrun = false; return; }
-            }
-        }
-
         private void Log_Load(object sender, EventArgs e)
         {
+            log.Info("state ->Connecting\r");
             status = serialstatus.Connecting;
+            connect_substate = 0;
 
             comPort = GCSViews.Terminal.comPort;
 
-            try
-            {
-                Console.WriteLine("Log_load " + comPort.IsOpen);
-
-                if (!comPort.IsOpen)
-                    comPort.Open();
-
-                //Console.WriteLine("Log dtr");
-
-                //comPort.toggleDTR();
-
-                Console.WriteLine("Log discard");
-
-                comPort.DiscardInBuffer();
-
-                Console.WriteLine("Log w&sleep");
-
-                try
-                {
-                    // try provoke a responce
-                    comPort.Write("\n\n?\r\n\n");
-                }
-                catch
-                {
-                }
-
-                // 10 sec
-                waitandsleep(10000);
-            }
-            catch (Exception ex)
-            {
-                log.Error("Error opening comport", ex);
-                CustomMessageBox.Show("Error opening comport");
-                return;
-            }
-
-            var t11 = new System.Threading.Thread(delegate()
+            t11 = new System.Threading.Thread(delegate()
             {
                 var start = DateTime.Now;
+                bool threaderror = false;
 
                 threadrun = true;
 
-                if (comPort.IsOpen)
-                    readandsleep(100);
-
                 try
                 {
-                    if (comPort.IsOpen)
-                        comPort.Write("\n\n\n\nexit\r\nlogs\r\n"); // more in "connecting"
+                    comPort.Write("exit\rlogs\r"); // more in "connecting"
                 }
-                catch
+                catch (Exception ex)
                 {
+                    log.Info("state ->Error\r");
+                    status = serialstatus.Error;
+                    log.Error("Error in comport thread " + ex);
+                    threaderror = true;
                 }
 
                 while (threadrun)
@@ -156,35 +104,39 @@ namespace MissionPlanner.Log
                         updateDisplay();
 
                         System.Threading.Thread.Sleep(1);
-                        if (!comPort.IsOpen)
-                            break;
-                        while (comPort.BytesToRead >= 4)
+                        while (comPort.BytesToRead > 0)
                         {
                             comPort_DataReceived((object)null, (SerialDataReceivedEventArgs)null);
                         }
                     }
                     catch (Exception ex)
                     {
-                        log.Error("crash in comport reader " + ex);
+                        if (!threaderror)
+                        {
+                            log.Info("state ->Error\r");
+                            status = serialstatus.Error;
+                            log.Error("Error in comport thread " + ex);
+                            threaderror = true;
+                        }
                     } // cant exit unless told to
                 }
                 log.Info("Comport thread close");
-            }) { Name = "comport reader", IsBackground = true };
+            });
+            t11.IsBackground = true;
+            t11.Name = "Log serial thread";
             t11.Start();
 
             // doesnt seem to work on mac
             //comPort.DataReceived += new SerialDataReceivedEventHandler(comPort_DataReceived);
         }
 
-        void genchkcombo(int logcount)
+        void genchkcombo(int lognr)
         {
             MethodInvoker m = delegate()
             {
-                //CHK_logs.Items.Clear();
-                //for (int a = 1; a <= logcount; a++)
-                if (!CHK_logs.Items.Contains(logcount))
+                if (!CHK_logs.Items.Contains(lognr))
                 {
-                    CHK_logs.Items.Add(logcount);
+                    CHK_logs.Items.Add(lognr);
                 }
             };
             try
@@ -201,15 +153,32 @@ namespace MissionPlanner.Log
             if (start.Second != DateTime.Now.Second)
             {
                 this.BeginInvoke((System.Windows.Forms.MethodInvoker)delegate()
-{
-    try
-    {
-        if (comPort.IsOpen)
-        TXT_status.Text = status.ToString() + " " + receivedbytes + " " + comPort.BytesToRead;
-    }
-    catch { }
-});
+                {
+                    try
+                    {
+                        TXT_status.Text = status.ToString() + " " + receivedbytes;
+                    }
+                    catch { }
+                });
                 start = DateTime.Now;
+            }
+        }
+
+        void setButtonState(bool state)
+        {
+            if (state != lastbuttonstate)
+            {
+                lastbuttonstate = state;
+                this.BeginInvoke((System.Windows.Forms.MethodInvoker)delegate()
+                {
+                    this.BUT_dumpdf.Enabled = state;
+                    this.BUT_DLthese.Enabled = state;
+                    this.BUT_DLall.Enabled = state;
+                    this.BUT_clearlogs.Enabled = state;
+                    //this.BUT_bintolog.Enabled = state;
+                    //this.BUT_firstperson.Enabled = state;
+                    //this.BUT_redokml.Enabled = state;
+                });
             }
         }
 
@@ -226,15 +195,13 @@ namespace MissionPlanner.Log
                     comPort.ReadTimeout = 500;
                     try
                     {
-                        line = comPort.ReadLine(); //readline(comPort);
+                        line = comPort.ReadLine();
                         if (!line.Contains("\n"))
                             line = line + "\n";
                     }
                     catch
                     {
                         line = comPort.ReadExisting();
-                        //byte[] data = readline(comPort);
-                        //line = Encoding.ASCII.GetString(data, 0, data.Length);
                     }
 
                     receivedbytes += line.Length;
@@ -244,27 +211,29 @@ namespace MissionPlanner.Log
                     switch (status)
                     {
                         case serialstatus.Connecting:
-
-                            if (line.Contains("ENTER") || line.Contains("GROUND START") || line.Contains("reset to FLY") || line.Contains("interactive setup") || line.Contains("CLI") || line.Contains("Ardu"))
+                            if (connect_substate==0 && line.Contains("] logs"))
                             {
-                                try
-                                {
-                                    //System.Threading.Thread.Sleep(200);
-                                    //comPort.Write("\n\n\n\n");
-                                }
-                                catch { }
-
-                                System.Threading.Thread.Sleep(500);
-
-                                // clear history
-                                this.Invoke((System.Windows.Forms.MethodInvoker)delegate()
-{
-    TXT_seriallog.Clear();
-});
-
-                               // comPort.Write("logs\r");
-                                status = serialstatus.Done;
+                                connect_substate++;
+                                break;
                             }
+                            if (connect_substate == 1 && line.Contains("Log]"))
+                            {
+                                connect_substate++;
+                            }
+
+                            if (connect_substate == 2)
+                            {
+                                // clear history
+                                this.BeginInvoke((System.Windows.Forms.MethodInvoker)delegate()
+                                {
+                                    TXT_seriallog.Clear();
+                                });
+
+                                log.Info("state ->ReceiveListing\r");
+                                status = serialstatus.ReceiveListing;
+                            }
+                            break;
+                        case serialstatus.Done:
                             break;
                         case serialstatus.Closefile:
                             sw.Close();
@@ -282,96 +251,66 @@ namespace MissionPlanner.Log
                                 catch (Exception ex) { CustomMessageBox.Show("Failed to rename file " + logfile + "\nto " + newlogfilename,"Error"); }
                             }
 
-                            TextReader tr = new StreamReader(logfile);
+                            CreateLog(logfile);
 
-                            //
-
-                            this.Invoke((System.Windows.Forms.MethodInvoker)delegate()
-{
-    TXT_seriallog.AppendText("Creating KML for " + logfile);
-});
-
-                            LogOutput lo = new LogOutput();
-
-                            while (tr.Peek() != -1)
-                            {
-                                lo.processLine(tr.ReadLine());
-                            }
-
-                            tr.Close();
-
-                            try
-                            {
-                                lo.writeKML(logfile + ".kml");
-                            }
-                            catch { } // usualy invalid lat long error
-                            status = serialstatus.Done;
-                            comPort.DiscardInBuffer();
+                            log.Info("state ->ReceiveListing\r");
+                            status = serialstatus.ReceiveListing;
                             break;
                         case serialstatus.Createfile:
                             receivedbytes = 0;
                             Directory.CreateDirectory(MainV2.LogDir);
                             logfile = MainV2.LogDir + Path.DirectorySeparatorChar + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + " " + currentlog + ".log";
                             sw = new StreamWriter(logfile);
-                            status = serialstatus.Waiting;
-                            lock (thisLock)
-                            {
-                                this.Invoke((System.Windows.Forms.MethodInvoker)delegate()
-{
-    TXT_seriallog.Clear();
-});
-                            }
-                            //if (line.Contains("Dumping Log"))
-                            {
-                                status = serialstatus.Reading;
-                            }
+
+                            log.Info("state ->Reading\r");
+                            status = serialstatus.Reading;
                             break;
-                        case serialstatus.Done:
-                            // 
-                           // if (line.Contains("start") && line.Contains("end"))
+                        case serialstatus.ReceiveListing:
                             {
                                 Regex regex2 = new Regex(@"^Log ([0-9]+)[,\s]", RegexOptions.IgnoreCase);
                                 if (regex2.IsMatch(line))
                                 {
                                     MatchCollection matchs = regex2.Matches(line);
-                                    logcount = int.Parse(matchs[0].Groups[1].Value);
-                                    genchkcombo(logcount);
-                                    //status = serialstatus.Done;
+                                    int lognr = int.Parse(matchs[0].Groups[1].Value);
+                                    genchkcombo(lognr);
                                 }
                             }
-                            if (line.Contains("No logs"))
+                            if (line.Contains("Log]"))
                             {
+                                log.Info("state ->Done\r");
                                 status = serialstatus.Done;
                             }
                             break;
                         case serialstatus.Reading:
                             if (line.Contains("packets read") || line.Contains("Done") || line.Contains("logs enabled"))
                             {
+                                log.Info("state ->Closefile\r");
                                 status = serialstatus.Closefile;
-                                Console.Write("CloseFile: " +line);
                                 break;
                             }
                             sw.Write(line);
                             continue;
-                        case serialstatus.Waiting:
-                            if (line.Contains("Dumping Log") || line.Contains("GPS:") || line.Contains("NTUN:") || line.Contains("CTUN:") || line.Contains("PM:"))
+                        case serialstatus.Erasing:
+                            if (line.Contains("Log]"))
                             {
-                                status = serialstatus.Reading;
-                                Console.Write("Reading: " + line);
+                                log.Info("state ->ReceiveListing\r");
+                                status = serialstatus.ReceiveListing;
                             }
                             break;
                     }
+
+                    setButtonState(status == serialstatus.Done && !downloading);
+
                     lock (thisLock)
                     {
                         this.BeginInvoke((MethodInvoker)delegate()
                         {
-
                             Console.Write(line);
 
                             TXT_seriallog.AppendText(line.Replace((char)0x0,' '));
 
                             // auto scroll
-                            if (TXT_seriallog.TextLength >= 10000)
+                            if (TXT_seriallog.TextLength >= 50000)
                             {
                                 TXT_seriallog.Text = TXT_seriallog.Text.Substring(TXT_seriallog.TextLength / 2);
                             }
@@ -381,113 +320,170 @@ namespace MissionPlanner.Log
                             TXT_seriallog.ScrollToCaret();
 
                             TXT_seriallog.Refresh();
-
                         });
-
-
 
                     }
                 }
 
-                //log.Info("exit while");
             }
-            catch (Exception ex) { CustomMessageBox.Show("Error reading data" + ex.ToString()); }
+            catch (Exception ex)
+            {
+                //CustomMessageBox.Show("Error reading data" + ex.ToString());
+            }
         }
 
    
         private void Log_FormClosing(object sender, FormClosingEventArgs e)
         {
-            threadrun = false;
-            System.Threading.Thread.Sleep(500);
-            if (comPort.IsOpen)
+            //try controlled exit from logview
+            DateTime start = DateTime.Now;
+            exitpending = true;
+            while (status != serialstatus.Done && status != serialstatus.Error)
             {
-                comPort.Close();
+                System.Threading.Thread.Sleep(10);
+                if((DateTime.Now - start).TotalMilliseconds>20000)
+                {
+                    //forced exit from logview
+                    try
+                    {
+                        comPort.DtrEnable = false;
+                    }
+                    catch { }
+                    try
+                    {
+                        log.Info("Log forced closing of port");
+                        comPort.Close();
+                    }
+                    catch { }
+                    break;
+                }
             }
+            threadrun = false;
+            t11.Join();
+            log.Info("Log form closed");
         }
 
-        private void CHK_logs_Click(object sender, EventArgs e)
+        void CreateLog(string logfile)
         {
-            ListBox lb = sender as ListBox;
+            TextReader tr = new StreamReader(logfile);
 
+            this.BeginInvoke((System.Windows.Forms.MethodInvoker)delegate()
+            {
+                TXT_seriallog.AppendText("Creating KML for " + logfile + "\n");
+            });
+
+            LogOutput lo = new LogOutput();
+
+            while (tr.Peek() != -1)
+            {
+                lo.processLine(tr.ReadLine());
+            }
+
+            tr.Close();
+
+            try
+            {
+                lo.writeKML(logfile + ".kml");
+            }
+            catch { } // usualy invalid lat long error
         }
 
         private void BUT_DLall_Click(object sender, EventArgs e)
         {
-            if (status == serialstatus.Done)
+            if (CHK_logs.Items.Count == 0)
             {
-                if (CHK_logs.Items.Count == 0)
-                {
-                    CustomMessageBox.Show("Nothing to download");
-                    return;
-                }
-
-                System.Threading.Thread t11 = new System.Threading.Thread(delegate() { downloadthread(int.Parse(CHK_logs.Items[0].ToString()), int.Parse(CHK_logs.Items[CHK_logs.Items.Count - 1].ToString())); });
-                t11.Name = "Log Download All thread";
-                t11.Start();
+                CustomMessageBox.Show("Nothing to download");
+                return;
             }
-        }
 
-        private void downloadthread(int startlognum, int endlognum)
-        {
-            try
+            System.Threading.Thread t11 = new System.Threading.Thread(delegate()
             {
-                for (int a = startlognum; a <= endlognum; a++)
-                {
-                    currentlog = a;
-                    System.Threading.Thread.Sleep(1100);
-                    comPort.Write("dump ");
-                    System.Threading.Thread.Sleep(100);
-                    comPort.Write(a.ToString() + "\r");
-                    comPort.DiscardInBuffer();
-                    status = serialstatus.Createfile;
-
-                    while (status != serialstatus.Done)
-                    {
-                        System.Threading.Thread.Sleep(100);
-                    }
-
-                }
-
-                Console.Beep();
-            }
-            catch (Exception ex) { CustomMessageBox.Show(ex.Message,"Error"); }
-        }
-
-        private void downloadsinglethread()
-        {
-            try
-            {
-                for (int i = 0; i < CHK_logs.CheckedItems.Count; ++i)
-                {
-                    int a = (int)CHK_logs.CheckedItems[i];
-                    {
-                        currentlog = a;
-                        System.Threading.Thread.Sleep(1100);
-                        comPort.Write("dump ");
-                        System.Threading.Thread.Sleep(100);
-                        comPort.Write(a.ToString() + "\r");
-                        comPort.DiscardInBuffer();
-                        status = serialstatus.Createfile;
-
-                        while (status != serialstatus.Done)
-                        {
-                            System.Threading.Thread.Sleep(100);
-                        }
-                    }
-                }
-
-                Console.Beep();
-            }
-            catch (Exception ex) { CustomMessageBox.Show(ex.Message, "Error"); }
+                downloadthread(dltype.All);
+            });
+            t11.Name = "Log download All thread";
+            t11.Start();
         }
 
         private void BUT_DLthese_Click(object sender, EventArgs e)
         {
-            if (status == serialstatus.Done)
+            if (CHK_logs.CheckedItems.Count == 0)
             {
-                System.Threading.Thread t11 = new System.Threading.Thread(delegate() { downloadsinglethread(); });
-                t11.Name = "Log download single thread";
-                t11.Start();
+                CustomMessageBox.Show("Nothing to download");
+                return;
+            }
+
+            System.Threading.Thread t11 = new System.Threading.Thread(delegate()
+            {
+                downloadthread(dltype.Selected);
+            });
+            t11.Name = "Log download Selected thread";
+            t11.Start();
+        }
+
+        private void BUT_dumpdf_Click(object sender, EventArgs e)
+        {
+            if (CHK_logs.Items.Count == 0)
+            {
+                CustomMessageBox.Show("Nothing to download");
+                return;
+            }
+
+            System.Threading.Thread t11 = new System.Threading.Thread(delegate() {
+                downloadthread(dltype.MinusOne);
+            });
+            t11.Name = "Log download MinusOne thread";
+            t11.Start();
+        }
+
+        private void downloadthread(dltype type)
+        {
+            try
+            {
+                downloading = true;
+
+                List<int> items = new List<int>();
+                switch(type)
+                {
+                    case dltype.All:
+                        for (int i = 0; i < CHK_logs.Items.Count; ++i)
+                            items.Add((int)CHK_logs.Items[i]);
+                        break;
+                    case dltype.Selected:
+                        for (int i = 0; i < CHK_logs.CheckedItems.Count; ++i)
+                            items.Add((int)CHK_logs.CheckedItems[i]);
+                        break;
+                    case dltype.MinusOne:
+                        items.Add(-1);
+                        break;
+                }
+
+                for (int i = 0; i < items.Count; ++i)
+                {
+                    currentlog = items[i];
+                    comPort.Write("dump ");
+                    comPort.Write(items[i].ToString() + "\r");
+
+                    log.Info("state ->Createfile\r");
+                    status = serialstatus.Createfile;
+
+                    if (i==items.Count-1) downloading = false;
+
+                    while (status != serialstatus.Done && status != serialstatus.Error)
+                    {
+                        System.Threading.Thread.Sleep(10);
+                    }
+                    if (exitpending || status == serialstatus.Error)
+                    {
+                        downloading = false;
+                        return;
+                    }
+                }
+
+                Console.Beep();
+            }
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show(ex.Message, "Error in log " + currentlog);
             }
         }
 
@@ -495,11 +491,11 @@ namespace MissionPlanner.Log
         {
             try
             {
-                System.Threading.Thread.Sleep(500);
+                log.Info("state ->Erasing\r");
+                status = serialstatus.Erasing;
                 comPort.Write("erase\r");
                 System.Threading.Thread.Sleep(100);
                 TXT_seriallog.AppendText("!!Allow 30-90 seconds for erase\n");
-                status = serialstatus.Done;
                 CHK_logs.Items.Clear();
             }
             catch (Exception ex) { CustomMessageBox.Show(ex.Message, "Error"); }
@@ -536,7 +532,10 @@ namespace MissionPlanner.Log
 
                         tr.Close();
                     }
-                    catch (Exception ex) { CustomMessageBox.Show("Error processing file. Make sure the file is not in use.\n"+ex.ToString()); }
+                    catch (Exception ex)
+                    {
+                        CustomMessageBox.Show("Error processing file. Make sure the file is not in use.\n" + ex.ToString());
+                    }
 
                     lo.writeKML(logfile + ".kml");
 
@@ -572,8 +571,6 @@ namespace MissionPlanner.Log
                     {
                         TextReader tr = new StreamReader(logfile);
 
-                        
-
                         while (tr.Peek() != -1)
                         {
                             lo.processLine(tr.ReadLine());
@@ -581,26 +578,16 @@ namespace MissionPlanner.Log
 
                         tr.Close();
                     }
-                    catch (Exception ex) { CustomMessageBox.Show("Error processing log. Is it still downloading? " + ex.Message); continue; }
+                    catch (Exception ex)
+                    {
+                        CustomMessageBox.Show("Error processing log. Is it still downloading? " + ex.Message);
+                        continue;
+                    }
 
                     lo.writeKMLFirstPerson(logfile + "-fp.kml");
 
                     TXT_seriallog.AppendText("Done\n");
                 }
-            }
-        }
-
- 
-        private void BUT_dumpdf_Click(object sender, EventArgs e)
-        {
-            if (status == serialstatus.Done)
-            {
-                // add -1 entry
-                CHK_logs.Items.Add(-1, true);
-
-                System.Threading.Thread t11 = new System.Threading.Thread(delegate() { downloadsinglethread(); });
-                t11.Name = "Log download single thread";
-                t11.Start();
             }
         }
 

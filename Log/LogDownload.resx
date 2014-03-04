@@ -316,7 +316,7 @@
     <value>NoControl</value>
   </data>
   <data name="BUT_dumpdf.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 243</value>
+    <value>13, 243</value>
   </data>
   <data name="BUT_dumpdf.Size" type="System.Drawing.Size, System.Drawing">
     <value>116, 33</value>
@@ -343,7 +343,7 @@
     <value>NoControl</value>
   </data>
   <data name="BUT_bintolog.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 340</value>
+    <value>13, 340</value>
   </data>
   <data name="BUT_bintolog.Size" type="System.Drawing.Size, System.Drawing">
     <value>116, 23</value>
@@ -455,7 +455,7 @@
     <value>Log</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
-    <value>Log</value>
+    <value>LogDownload</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
     <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>

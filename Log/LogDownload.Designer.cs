@@ -45,6 +45,7 @@
             // 
             resources.ApplyResources(this.TXT_seriallog, "TXT_seriallog");
             this.TXT_seriallog.Name = "TXT_seriallog";
+            this.TXT_seriallog.ReadOnly = true;
             // 
             // BUT_DLall
             // 
@@ -73,7 +74,6 @@
             this.CHK_logs.FormattingEnabled = true;
             resources.ApplyResources(this.CHK_logs, "CHK_logs");
             this.CHK_logs.Name = "CHK_logs";
-            this.CHK_logs.Click += new System.EventHandler(this.CHK_logs_Click);
             // 
             // TXT_status
             // 
@@ -109,7 +109,7 @@
             this.BUT_bintolog.UseVisualStyleBackColor = true;
             this.BUT_bintolog.Click += new System.EventHandler(this.BUT_bintolog_Click);
             // 
-            // Log
+            // LogDownload
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -123,7 +123,7 @@
             this.Controls.Add(this.BUT_DLthese);
             this.Controls.Add(this.BUT_DLall);
             this.Controls.Add(this.TXT_seriallog);
-            this.Name = "Log";
+            this.Name = "LogDownload";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Log_FormClosing);
             this.Load += new System.EventHandler(this.Log_Load);
             this.ResumeLayout(false);

@@ -26,12 +26,13 @@ namespace MissionPlanner.Log
     public partial class LogDownloadMavLink : Form
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        serialstatus status = serialstatus.Connecting;
+
         int currentlog = 0;
         string logfile = "";
         int receivedbytes = 0;
-
-        //List<Model> orientation = new List<Model>();
+        
+        //state control variables
+        serialstatus status = serialstatus.Connecting;
 
         Object thisLock = new Object();
         DateTime start = DateTime.Now;
@@ -42,8 +43,13 @@ namespace MissionPlanner.Log
             Createfile,
             Closefile,
             Reading,
-            Waiting,
             Done
+        }
+
+        enum dltype
+        {
+            All,
+            Selected
         }
 
         public LogDownloadMavLink()
@@ -78,15 +84,13 @@ namespace MissionPlanner.Log
             status = serialstatus.Done;
         }
 
-        void genchkcombo(int logcount)
+        void genchkcombo(int lognr)
         {
             MethodInvoker m = delegate()
             {
-                //CHK_logs.Items.Clear();
-                //for (int a = 1; a <= logcount; a++)
-                if (!CHK_logs.Items.Contains(logcount))
+                if (!CHK_logs.Items.Contains(lognr))
                 {
-                    CHK_logs.Items.Add(logcount);
+                    CHK_logs.Items.Add(lognr);
                 }
             };
             try
@@ -106,34 +110,17 @@ namespace MissionPlanner.Log
             if (start.Second != DateTime.Now.Second)
             {
                 this.BeginInvoke((System.Windows.Forms.MethodInvoker)delegate()
-{
-    try
-    {
-
-        TXT_status.Text = status.ToString() + " " + receivedbytes;
-    }
-    catch { }
-});
+                {
+                    try
+                    {
+                        TXT_status.Text = status.ToString() + " " + receivedbytes;
+                    }
+                    catch { }
+                });
                 start = DateTime.Now;
             }
         }
       
-        private void BUT_DLall_Click(object sender, EventArgs e)
-        {
-            if (status == serialstatus.Done)
-            {
-                if (CHK_logs.Items.Count == 0)
-                {
-                    CustomMessageBox.Show("Nothing to download");
-                    return;
-                }
-
-                System.Threading.Thread t11 = new System.Threading.Thread(delegate() { downloadthread(int.Parse(CHK_logs.Items[0].ToString()), int.Parse(CHK_logs.Items[CHK_logs.Items.Count - 1].ToString())); });
-                t11.Name = "Log Download All thread";
-                t11.Start();
-            }
-        }
-
         string GetLog(ushort no)
         {
             MainV2.comPort.Progress += comPort_Progress;
@@ -207,7 +194,6 @@ namespace MissionPlanner.Log
         void CreateLog(string logfile)
         {
             TextReader tr = new StreamReader(logfile);
-            //
 
             this.Invoke((System.Windows.Forms.MethodInvoker)delegate()
             {
@@ -228,55 +214,78 @@ namespace MissionPlanner.Log
                 lo.writeKML(logfile + ".kml");
             }
             catch { } // usualy invalid lat long error
-            status = serialstatus.Done;
         }
 
-        private void downloadthread(int startlognum, int endlognum)
+        private void BUT_DLall_Click(object sender, EventArgs e)
         {
-            try
+            if (status == serialstatus.Done)
             {
-                for (int a = startlognum; a <= endlognum; a++)
+                if (CHK_logs.Items.Count == 0)
                 {
-                    currentlog = a;
-
-                    var logname = GetLog((ushort)a);
-
-                    CreateLog(logname);
+                    CustomMessageBox.Show("Nothing to download");
+                    return;
                 }
 
-                Console.Beep();
-            }
-            catch (Exception ex) { CustomMessageBox.Show(ex.Message, "Error in log " + currentlog); }
-        }
-
-        private void downloadsinglethread()
-        {
-            try
-            {
-                for (int i = 0; i < CHK_logs.CheckedItems.Count; ++i)
+                System.Threading.Thread t11 = new System.Threading.Thread(delegate()
                 {
-                    int a = (int)CHK_logs.CheckedItems[i];
-                    {
-                        currentlog = a;
-
-                        var logname = GetLog((ushort)a);
-
-                        CreateLog(logname);
-                    }
-                }
-
-                Console.Beep();
+                    downloadthread(dltype.All);
+                });
+                t11.Name = "Log Download All thread";
+                t11.Start();
             }
-            catch (Exception ex) { CustomMessageBox.Show(ex.Message, "Error in log " + currentlog); }
         }
 
         private void BUT_DLthese_Click(object sender, EventArgs e)
         {
             if (status == serialstatus.Done)
             {
-                System.Threading.Thread t11 = new System.Threading.Thread(delegate() { downloadsinglethread(); });
-                t11.Name = "Log download single thread";
+                if (CHK_logs.CheckedItems.Count == 0)
+                {
+                    CustomMessageBox.Show("Nothing to download");
+                    return;
+                }
+
+                System.Threading.Thread t11 = new System.Threading.Thread(delegate()
+                {
+                    downloadthread(dltype.Selected);
+                });
+                t11.Name = "Log download Selected thread";
                 t11.Start();
+            }
+        }
+
+        private void downloadthread(dltype type)
+        {
+            try
+            {
+                List<int> items = new List<int>();
+                switch(type)
+                {
+                    case dltype.All:
+                        for (int i = 0; i < CHK_logs.Items.Count; ++i)
+                            items.Add((int)CHK_logs.Items[i]);
+                        break;
+                    case dltype.Selected:
+                        for (int i = 0; i < CHK_logs.CheckedItems.Count; ++i)
+                            items.Add((int)CHK_logs.CheckedItems[i]);
+                        break;
+                }
+
+                for (int i = 0; i < items.Count; ++i)
+                {
+                    currentlog = items[i];
+
+                    var logname = GetLog((ushort)currentlog);
+
+                    CreateLog(logname);
+                }
+                status = serialstatus.Done;
+
+                Console.Beep();
+            }
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show(ex.Message, "Error in log " + currentlog);
             }
         }
 
@@ -323,7 +332,10 @@ namespace MissionPlanner.Log
 
                         tr.Close();
                     }
-                    catch (Exception ex) { CustomMessageBox.Show("Error processing file. Make sure the file is not in use.\n" + ex.ToString()); }
+                    catch (Exception ex)
+                    {
+                        CustomMessageBox.Show("Error processing file. Make sure the file is not in use.\n" + ex.ToString());
+                    }
 
                     lo.writeKML(logfile + ".kml");
 
@@ -366,7 +378,11 @@ namespace MissionPlanner.Log
 
                         tr.Close();
                     }
-                    catch (Exception ex) { CustomMessageBox.Show("Error processing log. Is it still downloading? " + ex.Message); continue; }
+                    catch (Exception ex)
+                    {
+                        CustomMessageBox.Show("Error processing log. Is it still downloading? " + ex.Message);
+                        continue;
+                    }
 
                     lo.writeKMLFirstPerson(logfile + "-fp.kml");
 
@@ -402,5 +418,6 @@ namespace MissionPlanner.Log
                 }
             }
         }
+
     }
 }

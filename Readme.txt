@@ -16,9 +16,8 @@
 2. Check out
 
 - Create an empty folder anywhere
-- In explorer left click and select "Git Clone"
+- In explorer right click and select "Git Clone"
   set URL https://github.com/diydrones/MissionPlanner
-  OK
 
 3. Build
 
