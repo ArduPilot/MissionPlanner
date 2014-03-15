@@ -121,8 +121,9 @@ namespace MissionPlanner.Wizard
             }
             else
             {
-                lbl_prearm.BackColor = Color.Red;
-                chk_perarm.Checked = false;
+                if (!chk_perarm.Checked)
+                    lbl_prearm.BackColor = Color.Red;
+                //chk_perarm.Checked = false;
             }
         }
 

@@ -297,23 +297,30 @@ namespace resedit
                     IDictionaryEnumerator dict = res.GetEnumerator();
                     while (dict.MoveNext())
                     {
-                        Console.WriteLine("   {0}: '{1}' (Type {2})",
-                                          dict.Key, dict.Value, dict.Value.GetType().Name);
-
-                        string thing = (string)dict.Value;
-
-//                            dataGridView1.Rows[0].Cells[colOtherLang.Index].Value = dict.Value.ToString();
-                        foreach (DataGridViewRow row in dataGridView1.Rows)
+                        try
                         {
-                            string t2 = file.Replace(ci + ".", "");
+                            Console.WriteLine("   {0}: '{1}' (Type {2})",
+                                              dict.Key, dict.Value, dict.Value.GetType().Name);
 
-                            if (row.Cells[0].Value.ToString() == t2 && row.Cells[1].Value.ToString() == dict.Key.ToString())
+                            if (dict.Value is Size)
+                                continue;
+
+                            string thing = (string)dict.Value;
+
+                            //                            dataGridView1.Rows[0].Cells[colOtherLang.Index].Value = dict.Value.ToString();
+                            foreach (DataGridViewRow row in dataGridView1.Rows)
                             {
-                                row.Cells[3].Value = thing;
+                                string t2 = file.Replace(ci + ".", "");
+
+                                if (row.Cells[0].Value.ToString() == t2 && row.Cells[1].Value.ToString() == dict.Key.ToString())
+                                {
+                                    row.Cells[3].Value = thing;
+                                }
+
+
                             }
-
-
                         }
+                        catch { }
                     }
 
                 }

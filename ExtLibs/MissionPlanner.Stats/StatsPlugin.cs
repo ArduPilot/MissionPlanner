@@ -8,6 +8,7 @@ using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.IO;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace MissionPlanner.Stats
 {
@@ -39,6 +40,7 @@ namespace MissionPlanner.Stats
             get { return "Michael Oborne"; }
         }
 
+        //[DebuggerHidden]
         public override bool Init()
         {
             loopratehz = 1;

@@ -483,7 +483,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             CustomMessageBox.Show("Loaded parameters, please make sure you write them!", "Loaded");
 
-            this.Activate();
+            // no activate the user needs to click write.
+            //this.Activate();
         }
 
         private void CMB_paramfiles_SelectedIndexChanged(object sender, EventArgs e)

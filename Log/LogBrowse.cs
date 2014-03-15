@@ -185,12 +185,12 @@ namespace MissionPlanner.Log
 
                     if (MainV2.MONO)
                     {
-                        if (m_dtCSV.Rows.Count > 5000)
-                        {
-                            CustomMessageBox.Show("This log apears to be a large log, the grid view will be disabled.\nAll graphing will still work however", "Large Log");
-                            dataGridView1.Visible = false;
-                        }
-                        else
+                        //if (m_dtCSV.Rows.Count > 5000)
+                       // {
+                       //     CustomMessageBox.Show("This log apears to be a large log, the grid view will be disabled.\nAll graphing will still work however", "Large Log");
+                       //     dataGridView1.Visible = false;
+                       // }
+                       // else
                         {
                             BindingSource bs = new BindingSource();
                             bs.DataSource = m_dtCSV;
@@ -860,11 +860,25 @@ namespace MissionPlanner.Log
 
             if (opt.SelectedItem != "")
             {
-                (dataGridView1.DataSource as DataTable).DefaultView.RowFilter = dataGridView1.Columns[typecoloum].Name + " like '" + opt.SelectedItem + "'";
+                m_dtCSV.DefaultView.RowFilter = m_dtCSV.Columns[typecoloum].ColumnName + " like '" + opt.SelectedItem + "'";
+
+                if (!MainV2.MONO)
+                {
+                    dataGridView1.VirtualMode = true;
+                    dataGridView1.Rows.Clear();
+                    dataGridView1.RowCount = m_dtCSV.DefaultView.Count;
+                }
             }
             else
             {
-                (dataGridView1.DataSource as DataTable).DefaultView.RowFilter = "";
+                m_dtCSV.DefaultView.RowFilter = "";
+
+                if (!MainV2.MONO)
+                {
+                    dataGridView1.VirtualMode = true;
+                    dataGridView1.Rows.Clear();
+                    dataGridView1.RowCount = m_dtCSV.DefaultView.Count;
+                }
             }
 
             /*
@@ -887,6 +901,7 @@ namespace MissionPlanner.Log
 
             dataGridView1.ResumeLayout();
              * */
+            dataGridView1.Invalidate();
         }
 
         void BUT_go_Click(object sender, EventArgs e)
@@ -1090,7 +1105,11 @@ namespace MissionPlanner.Log
 
         private void dataGridView1_CellValueNeeded(object sender, DataGridViewCellValueEventArgs e)
         {
-            e.Value = m_dtCSV.Rows[e.RowIndex].ItemArray[e.ColumnIndex].ToString();
+            try
+            {
+                e.Value = m_dtCSV.DefaultView[e.RowIndex][e.ColumnIndex].ToString();
+            }
+            catch { }
         }
     }
 }

@@ -134,10 +134,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 var status = bytearray.ByteArrayToStructure<MAVLink.mavlink_compassmot_status_t>(6);
 
-                lbl_status.Text = "Current: " + status.current.ToString("0.00") + "\nx,y,z " + status.CompensationX.ToString("0.00") + "," + status.CompensationY.ToString("0.00") + "," + status.CompensationZ.ToString("0.00") + "\nThrottle: " + status.throttle + "\nInterference: " + status.interference;
+                lbl_status.Text = "Current: " + status.current.ToString("0.00") + "\nx,y,z " + status.CompensationX.ToString("0.00") + "," + status.CompensationY.ToString("0.00") + "," + status.CompensationZ.ToString("0.00") + "\nThrottle: " + (status.throttle / 10.0) + "\nInterference: " + status.interference;
 
-                interferencelist.Add(status.throttle, status.interference);
-                currentlist.Add(status.throttle, status.current);
+                interferencelist.Add(status.throttle / 10.0, status.interference);
+                currentlist.Add(status.throttle / 10.0, status.current);
 
                 interferencelist.Sort();
                 currentlist.Sort();

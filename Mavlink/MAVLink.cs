@@ -2533,7 +2533,7 @@ Please check the following
                         }
 
                     }
-                    catch { }
+                    catch (Exception ex) { log.Error(ex); }
 
                     try
                     {

@@ -141,7 +141,7 @@
             this.BUT_outputMD.Name = "BUT_outputMD";
             this.BUT_outputMD.Size = new System.Drawing.Size(75, 23);
             this.BUT_outputMD.TabIndex = 21;
-            this.BUT_outputMD.Text = "MD";
+            this.BUT_outputMD.Text = "MicroDrone";
             this.BUT_outputMD.UseVisualStyleBackColor = true;
             this.BUT_outputMD.Click += new System.EventHandler(this.myButton1_Click);
             // 

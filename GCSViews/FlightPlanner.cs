@@ -39,7 +39,7 @@ namespace MissionPlanner.GCSViews
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         int selectedrow = 0;
-        bool quickadd = false;
+        public bool quickadd = false;
         bool isonline = true;
         bool sethome = false;
         bool polygongridmode = false;
@@ -376,7 +376,7 @@ namespace MissionPlanner.GCSViews
             drawnpolygonsoverlay = new GMapOverlay("drawnpolygons");
             MainMap.Overlays.Add(drawnpolygonsoverlay);
 
-
+            MainMap.Overlays.Add(poioverlay);
 
             top = new GMapOverlay("top");
             //MainMap.Overlays.Add(top);
@@ -858,22 +858,25 @@ namespace MissionPlanner.GCSViews
                 // thread for updateing row numbers
                 for (int a = 0; a < Commands.Rows.Count - 0; a++)
                 {
-                    try
+                    this.BeginInvoke((MethodInvoker)delegate
                     {
-                        if (Commands.Rows[a].HeaderCell.Value == null)
+                        try
                         {
-                            Commands.Rows[a].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
-                            Commands.Rows[a].HeaderCell.Value = (a + 1).ToString();
+                            if (Commands.Rows[a].HeaderCell.Value == null)
+                            {
+                                Commands.Rows[a].HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleLeft;
+                                Commands.Rows[a].HeaderCell.Value = (a + 1).ToString();
+                            }
+                            // skip rows with the correct number
+                            string rowno = Commands.Rows[a].HeaderCell.Value.ToString();
+                            if (!rowno.Equals((a + 1).ToString()))
+                            {
+                                // this code is where the delay is when deleting.
+                                Commands.Rows[a].HeaderCell.Value = (a + 1).ToString();
+                            }
                         }
-                        // skip rows with the correct number
-                        string rowno = Commands.Rows[a].HeaderCell.Value.ToString();
-                        if (!rowno.Equals((a + 1).ToString()))
-                        {
-                            // this code is where the delay is when deleting.
-                            Commands.Rows[a].HeaderCell.Value = (a + 1).ToString();
-                        }
-                    }
-                    catch (Exception) { }
+                        catch (Exception) { }
+                    });
                 }
             });
             t1.Name = "Row number updater";
@@ -884,7 +887,7 @@ namespace MissionPlanner.GCSViews
         /// <summary>
         /// used to write a KML, update the Map view polygon, and update the row headers
         /// </summary>
-        private void writeKML()
+        public void writeKML()
         {
             // quickadd is for when loading wps from eeprom or file, to prevent slow, loading times
             if (quickadd)
@@ -927,7 +930,7 @@ namespace MissionPlanner.GCSViews
                 double homealt = 0;
                 try
                 {
-                    if (TXT_homealt.Text != null)
+                    if (!String.IsNullOrEmpty(TXT_homealt.Text))
                         homealt = (int)double.Parse(TXT_homealt.Text);
                 }
                 catch { }
@@ -1964,6 +1967,7 @@ namespace MissionPlanner.GCSViews
         public static GMapOverlay objectsoverlay; // where the markers a drawn
         public static GMapOverlay routesoverlay;// static so can update from gcs
         public static GMapOverlay polygonsoverlay; // where the track is drawn
+        public static GMapOverlay poioverlay = new GMapOverlay("POI"); // poi layer
         GMapOverlay drawnpolygonsoverlay;
         GMapOverlay kmlpolygonsoverlay;
         GMapOverlay geofenceoverlay;
@@ -1974,6 +1978,7 @@ namespace MissionPlanner.GCSViews
         string mobileGpsLog = string.Empty;
         GMapMarkerRect CurentRectMarker = null;
         GMapMarkerRallyPt CurrentRallyPt = null;
+        GMapMarker CurrentGMapMarker = null;
         bool isMouseDown = false;
         bool isMouseDraging = false;
         PointLatLng MouseDownStart;
@@ -1995,7 +2000,13 @@ namespace MissionPlanner.GCSViews
                 }
                 if (item is GMapMarkerRallyPt) {
                     CurrentRallyPt = null;
-                }               
+                }
+                if (item is GMapMarker)
+                {
+                    // when you click the context menu this triggers and causes problems
+                    CurrentGMapMarker = null;
+                }
+
             }
         }
 
@@ -2027,9 +2038,9 @@ namespace MissionPlanner.GCSViews
                 {
                     CurrentRallyPt = item as GMapMarkerRallyPt;
                 }
-                else
+                if (item is GMapMarker)
                 {
-
+                    CurrentGMapMarker = item as GMapMarker;
                 }
             }
         }
@@ -2353,6 +2364,12 @@ namespace MissionPlanner.GCSViews
                     {
                         CurentRectMarker.InnerMarker.Position = pnew;
                     }
+                }
+                else if (CurrentGMapMarker != null)
+                {
+                    PointLatLng pnew = MainMap.FromLocalToLatLng(e.X, e.Y);
+
+                    CurrentGMapMarker.Position = pnew;
                 }
                 else // left click pan
                 {
@@ -5248,6 +5265,82 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
         private void prefetchWPPathToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FetchPath();
+        }
+
+        private void poiaddToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            PointLatLngAlt pnt = MouseDownStart;
+
+            string output = "";
+
+            if (DialogResult.OK != InputBox.Show("POI", "Enter ID", ref output))
+                return;
+
+            pnt.Tag = output;
+
+            MainV2.POIs.Add(pnt);
+
+            poioverlay.Markers.Add(new GMarkerGoogle(pnt, GMarkerGoogleType.red_dot) { ToolTipMode = MarkerTooltipMode.OnMouseOver, ToolTipText = pnt.Tag });
+        }
+
+        private void poideleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            poioverlay.Markers.Remove(CurrentGMapMarker);
+
+            for (int a = 0; a < MainV2.POIs.Count; a++)
+            {
+                if (MainV2.POIs[a].Point() == CurrentGMapMarker.Position)
+                {
+                    MainV2.POIs.RemoveAt(a);
+                    return;
+                }
+            }
+        }
+
+        private void poieditToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string output = "";
+
+            if (DialogResult.OK != InputBox.Show("POI", "Enter ID", ref output))
+                return;
+
+            for (int a = 0; a < MainV2.POIs.Count; a++)
+            {
+                if (MainV2.POIs[a].Point() == CurrentGMapMarker.Position)
+                {
+                    MainV2.POIs[a].Tag = output;
+                    CurrentGMapMarker.ToolTipText = output;
+                    MainMap.Invalidate();
+                    return;
+                }
+            }
+        }
+
+        static string zone = "50s";
+
+        private void enterUTMCoordToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string easting = "578994";
+            string northing = "6126244";
+
+            InputBox.Show("Zone", "Enter Zone. (eg 50S, 11N)", ref zone);
+            InputBox.Show("Easting", "", ref easting);
+            InputBox.Show("Northing", "", ref northing);
+
+            string newzone = zone.ToLower().Replace('s',' ');
+            newzone = newzone.ToLower().Replace('n',' ');
+
+            int zoneint = int.Parse(newzone);
+
+            GeoUtility.GeoSystem.UTM utm = new GeoUtility.GeoSystem.UTM(zoneint, double.Parse(easting), double.Parse(northing), zone.ToLower().Contains("N") ? GeoUtility.GeoSystem.Base.Geocentric.Hemisphere.North : GeoUtility.GeoSystem.Base.Geocentric.Hemisphere.South);
+
+            PointLatLngAlt ans = ((GeoUtility.GeoSystem.Geographic)utm);
+
+            selectedrow = Commands.Rows.Add();
+
+            ChangeColumnHeader(MAVLink.MAV_CMD.WAYPOINT.ToString());
+
+            setfromMap(ans.Lat, ans.Lng, (int)ans.Alt);
         }
 
     }

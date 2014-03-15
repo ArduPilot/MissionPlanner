@@ -1,6 +1,6 @@
 ﻿namespace MissionPlanner.Controls
 {
-    partial class ConfigDefaultSettings
+    partial class DefaultSettings
     {
         /// <summary> 
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigDefaultSettings));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DefaultSettings));
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.BUT_paramfileload = new MissionPlanner.Controls.MyButton();
             this.CMB_paramfiles = new System.Windows.Forms.ComboBox();

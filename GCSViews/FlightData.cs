@@ -24,6 +24,7 @@ using MissionPlanner.Controls.BackstageView;
 using log4net;
 using System.Reflection;
 using MissionPlanner.Log;
+using GMap.NET.MapProviders;
 
 // written by michael oborne
 namespace MissionPlanner.GCSViews
@@ -238,14 +239,17 @@ namespace MissionPlanner.GCSViews
 
             // config map      
             log.Info("Map Setup");
-            gMapControl1.CacheLocation = Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar+ "gmapcache"+ Path.DirectorySeparatorChar;
-            gMapControl1.MapProvider = GMap.NET.MapProviders.GoogleSatelliteMapProvider.Instance;
+            gMapControl1.CacheLocation = Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + "gmapcache" + Path.DirectorySeparatorChar;
+            gMapControl1.MapProvider = GMapProviders.GoogleSatelliteMap;
+            gMapControl1.MinZoom = 0;
+            gMapControl1.MaxZoom = 24;
+            gMapControl1.Zoom = 3;
 
             gMapControl1.OnMapZoomChanged += new MapZoomChanged(gMapControl1_OnMapZoomChanged);
 
             gMapControl1.DisableFocusOnMouseEnter = true;
 
-            gMapControl1.Zoom = 3;
+            
 
             gMapControl1.RoutesEnabled = true;
             gMapControl1.PolygonsEnabled = true;
@@ -1900,7 +1904,7 @@ namespace MissionPlanner.GCSViews
         {
             Form frm = new MavlinkLog();
             ThemeManager.ApplyThemeTo(frm);
-            frm.ShowDialog();
+            frm.Show();
         }
 
         private void BUT_joystick_Click(object sender, EventArgs e)
@@ -1971,18 +1975,24 @@ namespace MissionPlanner.GCSViews
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
+            Messagetabtimer.Stop();
+
             if (tabControlactions.SelectedTab == tabStatus)
             {
                 tabStatus_Resize(sender, e);
             }
+            else if (tabControlactions.SelectedTab == tabPagemessages)
+            {
+                Messagetabtimer.Start();
+            }
             else
             {
-               // foreach (Control temp in tabStatus.Controls)
-               // {
-                    //   temp.DataBindings.Clear();
-                    //  temp.Dispose();
-                    //  tabStatus.Controls.Remove(temp);
-               // }
+                // foreach (Control temp in tabStatus.Controls)
+                // {
+                //   temp.DataBindings.Clear();
+                //  temp.Dispose();
+                //  tabStatus.Controls.Remove(temp);
+                // }
 
                 if (tabControlactions.SelectedTab == tabQuick)
                 {
@@ -3118,6 +3128,19 @@ print 'Roll complete'
             var form = new Log.LogDownloadMavLink();
 
             form.Show();
+        }
+
+        int messagecount = 0;
+        private void Messagetabtimer_Tick(object sender, EventArgs e)
+        {
+            if (messagecount != MainV2.comPort.MAV.cs.messages.Count)
+            {
+                StringBuilder message = new StringBuilder();
+                MainV2.comPort.MAV.cs.messages.ForEach(x => { message.AppendLine(x); });
+                txt_messagebox.Text = message.ToString();
+
+                messagecount = MainV2.comPort.MAV.cs.messages.Count;
+            }
         }
     }
 }

@@ -149,11 +149,11 @@
     </Reference>
     <Reference Include="GMap.NET.Core, Version=1.7.0.0, Culture=neutral, PublicKeyToken=b85b9027b614afef, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Lib\GMap.NET.Core.dll</HintPath>
+      <HintPath>ExtLibs\GMap.NET.Core.dll</HintPath>
     </Reference>
     <Reference Include="GMap.NET.WindowsForms, Version=1.7.0.0, Culture=neutral, PublicKeyToken=b85b9027b614afef, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Lib\GMap.NET.WindowsForms.dll</HintPath>
+      <HintPath>ExtLibs\GMap.NET.WindowsForms.dll</HintPath>
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
     </Reference>
@@ -162,15 +162,19 @@
       <HintPath>Lib\Ionic.Zip.Reduced.dll</HintPath>
     </Reference>
     <Reference Include="IronPython, Version=2.7.0.40, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
-      <Private>True</Private>
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>packages\IronPython.2.7.4\lib\Net40\IronPython.dll</HintPath>
     </Reference>
     <Reference Include="IronPython.Modules, Version=2.7.0.40, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
-      <Private>True</Private>
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>packages\IronPython.2.7.4\lib\Net40\IronPython.Modules.dll</HintPath>
     </Reference>
-    <Reference Include="IronPython.SQLite">
+    <Reference Include="IronPython.SQLite, Version=2.7.0.40, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>packages\IronPython.2.7.4\lib\Net40\IronPython.SQLite.dll</HintPath>
+    </Reference>
+    <Reference Include="IronPython.Wpf">
+      <HintPath>packages\IronPython.2.7.4\lib\Net40\IronPython.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.CSharp" />
@@ -183,23 +187,15 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Dynamic, Version=1.1.0.20, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
-      <Private>True</Private>
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>packages\IronPython.2.7.4\lib\Net40\Microsoft.Dynamic.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Scripting, Version=1.1.0.20, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
-      <Private>True</Private>
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>packages\IronPython.2.7.4\lib\Net40\Microsoft.Scripting.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Scripting.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Lib\Microsoft.Scripting.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Scripting.Debugging, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Lib\Microsoft.Scripting.Debugging.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Scripting.Metadata, Version=1.1.0.20, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
-      <Private>True</Private>
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>packages\IronPython.2.7.4\lib\Net40\Microsoft.Scripting.Metadata.dll</HintPath>
     </Reference>
     <Reference Include="netDxf, Version=0.1.2.0, Culture=neutral, PublicKeyToken=1c75adeaa4c98f42, processorArchitecture=MSIL">
@@ -349,6 +345,36 @@
     </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigWizard.Designer.cs">
       <DependentUpon>ConfigWizard.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Joystick\Joy_Do_Repeat_Servo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Joystick\Joy_Do_Repeat_Servo.Designer.cs">
+      <DependentUpon>Joy_Do_Repeat_Servo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Joystick\Joy_Do_Set_Servo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Joystick\Joy_Do_Set_Servo.Designer.cs">
+      <DependentUpon>Joy_Do_Set_Servo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Joystick\Joy_Do_Repeat_Relay.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Joystick\Joy_Do_Repeat_Relay.Designer.cs">
+      <DependentUpon>Joy_Do_Repeat_Relay.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Joystick\Joy_ChangeMode.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Joystick\Joy_ChangeMode.Designer.cs">
+      <DependentUpon>Joy_ChangeMode.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Joystick\Joy_Do_Set_Relay.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Joystick\Joy_Do_Set_Relay.Designer.cs">
+      <DependentUpon>Joy_Do_Set_Relay.cs</DependentUpon>
     </Compile>
     <Compile Include="Log\LogDownloadMavLink.cs">
       <SubType>Form</SubType>
@@ -501,6 +527,24 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigRawParams.zh-Hans.resx">
       <DependentUpon>ConfigRawParams.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\FlightPlanner.zh-Hant.resx">
+      <DependentUpon>FlightPlanner.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Joystick\Joy_ChangeMode.resx">
+      <DependentUpon>Joy_ChangeMode.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Joystick\Joy_Do_Repeat_Relay.resx">
+      <DependentUpon>Joy_Do_Repeat_Relay.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Joystick\Joy_Do_Repeat_Servo.resx">
+      <DependentUpon>Joy_Do_Repeat_Servo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Joystick\Joy_Do_Set_Relay.resx">
+      <DependentUpon>Joy_Do_Set_Relay.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Joystick\Joy_Do_Set_Servo.resx">
+      <DependentUpon>Joy_Do_Set_Servo.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Radio\3DRradio.it-IT.resx">
       <DependentUpon>3DRradio.cs</DependentUpon>
     </EmbeddedResource>
@@ -561,9 +605,43 @@
     <None Include="aircraft\Rascal\Systems\ugear.nas">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Drivers\amd64\ftd2xx.lib">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Drivers\amd64\ftdibus.sys">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Drivers\amd64\ftser2k.sys">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Drivers\ftdibus.cat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Drivers\ftdiport.cat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Drivers\i386\ftd2xx.lib">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Drivers\i386\ftdibus.sys">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Drivers\i386\ftser2k.sys">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Drivers\Static\amd64\ftd2xx.lib">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Drivers\Static\i386\ftd2xx.lib">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="flightgear.zip">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Lib\site-packages\scipy\fftpack\tests\fftw_double_ref.npz" />
+    <None Include="Lib\site-packages\scipy\fftpack\tests\fftw_single_ref.npz" />
+    <None Include="Lib\site-packages\scipy\fftpack\tests\test.npz" />
+    <None Include="Lib\site-packages\scipy\special\tests\data\boost.npz" />
     <None Include="MissionPlanner.sh">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -684,7 +762,7 @@
       <DependentUpon>Status.cs</DependentUpon>
     </Compile>
     <Compile Include="Utilities\httpserver.cs" />
-    <None Include="Driver\arduinomega2560.cat">
+    <None Include="Drivers\arduinomega2560.cat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <EmbeddedResource Include="Antenna\Tracker.it-IT.resx">
@@ -1054,13 +1132,13 @@
     <EmbeddedResource Include="Swarm\Status.resx">
       <DependentUpon>Status.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="Driver\px4flow.cat">
+    <None Include="Drivers\px4flow.cat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Driver\px4fmu.cat">
+    <None Include="Drivers\px4fmu.cat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Driver\signed.cer">
+    <None Include="Drivers\signed.cer">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <Compile Include="GCSViews\ConfigurationView\ConfigPlannerAdv.cs">
@@ -2217,24 +2295,66 @@
     <Content Include="ChangeLog.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <None Include="Driver\ArduinoMEGA2560.inf">
+    <None Include="Drivers\ArduinoMEGA2560.inf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Driver\dpinst.xml">
+    <None Include="Drivers\dpinst.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Driver\DPInstx64.exe">
+    <None Include="Drivers\DPInstx64.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Driver\DPInstx86.exe">
+    <None Include="Drivers\DPInstx86.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Driver\px4flow.inf">
+    <None Include="Drivers\px4flow.inf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Driver\px4fmu.inf">
+    <None Include="Drivers\px4fmu.inf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Content Include="Drivers\amd64\ftbusui.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Drivers\amd64\ftcserco.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Drivers\amd64\ftd2xx64.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Drivers\amd64\ftlang.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Drivers\amd64\ftserui2.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Drivers\ftd2xx.h">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Drivers\ftdibus.inf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Drivers\ftdiport.inf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Drivers\i386\ftbusui.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Drivers\i386\ftcserco.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Drivers\i386\ftd2xx.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Drivers\i386\ftlang.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Drivers\i386\ftserui2.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Drivers\Static\PlaceHolder.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="FirmwareHistory.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -2247,6 +2367,2103 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="jsbsim\rascal_test.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\abc.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\aifc.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\antigravity.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\anydbm.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\argparse.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\ast.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\asynchat.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\asyncore.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\atexit.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\audiodev.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\base64.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\BaseHTTPServer.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\Bastion.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\bdb.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\binhex.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\bisect.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\calendar.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\cgi.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\CGIHTTPServer.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\cgitb.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\chunk.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\cmd.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\code.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\codecs.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\codeop.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\collections.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\colorsys.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\commands.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\compileall.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\ConfigParser.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\contextlib.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\Cookie.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\cookielib.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\copy.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\csv.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\ctypes\macholib\dyld.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\ctypes\macholib\dylib.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\ctypes\macholib\framework.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\ctypes\macholib\__init__.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\ctypes\util.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\ctypes\wintypes.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\ctypes\_endian.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\ctypes\__init__.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\decimal.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\difflib.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\dircache.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\dis.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\archive_util.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\bcppcompiler.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\ccompiler.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\cmd.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\command\bdist.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\command\bdist_dumb.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\command\bdist_rpm.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\command\bdist_wininst.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\command\build.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\command\build_clib.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\command\build_ext.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\command\build_py.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\command\build_scripts.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\command\check.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\command\clean.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\command\config.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\command\install.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\command\install_data.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\command\install_egg_info.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\command\install_headers.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\command\install_lib.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\command\install_scripts.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\command\register.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\command\sdist.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\command\upload.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\command\__init__.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\config.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\core.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\cygwinccompiler.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\debug.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\dep_util.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\dir_util.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\dist.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\emxccompiler.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\errors.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\extension.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\fancy_getopt.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\filelist.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\file_util.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\log.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\msvccompiler.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\spawn.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\sysconfig.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\text_file.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\unixccompiler.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\util.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\version.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\versionpredicate.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\distutils\__init__.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\doctest.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\DocXMLRPCServer.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\dumbdbm.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\dummy_thread.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\dummy_threading.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\email\base64mime.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\email\charset.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\email\encoders.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\email\errors.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\email\feedparser.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\email\generator.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\email\header.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\email\iterators.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\email\message.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\email\mime\application.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\email\mime\audio.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\email\mime\base.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\email\mime\image.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\email\mime\message.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\email\mime\multipart.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\email\mime\nonmultipart.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\email\mime\text.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\email\mime\__init__.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\email\parser.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\email\quoprimime.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\email\utils.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\email\_parseaddr.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\email\__init__.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\aliases.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\ascii.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\base64_codec.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\charmap.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp037.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp1006.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp1026.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp1140.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp1250.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp1251.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp1252.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp1253.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp1254.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp1255.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp1256.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp1257.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp1258.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp424.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp437.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp500.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp720.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp737.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp775.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp850.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp852.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp855.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp856.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp857.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp858.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp860.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp861.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp862.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp863.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp864.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp865.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp866.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp869.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp874.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\cp875.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\hex_codec.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\hp_roman8.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\iso8859_1.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\iso8859_10.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\iso8859_11.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\iso8859_13.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\iso8859_14.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\iso8859_15.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\iso8859_16.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\iso8859_2.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\iso8859_3.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\iso8859_4.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\iso8859_5.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\iso8859_6.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\iso8859_7.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\iso8859_8.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\iso8859_9.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\koi8_r.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\koi8_u.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\latin_1.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\mac_arabic.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\mac_centeuro.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\mac_croatian.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\mac_cyrillic.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\mac_farsi.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\mac_greek.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\mac_iceland.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\mac_latin2.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\mac_roman.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\mac_romanian.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\mac_turkish.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\mbcs.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\palmos.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\ptcp154.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\punycode.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\quopri_codec.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\raw_unicode_escape.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\rot_13.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\string_escape.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\tis_620.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\undefined.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\unicode_escape.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\unicode_internal.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\utf_16.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\utf_16_be.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\utf_16_le.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\utf_32.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\utf_32_le.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\utf_7.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\utf_8.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\utf_8_sig.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\uu_codec.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\zlib_codec.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\encodings\__init__.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\filecmp.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\fileinput.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\fnmatch.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\formatter.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\fpformat.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\fractions.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\ftplib.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\functools.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\genericpath.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\getopt.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\getpass.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\gettext.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\glob.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\gzip.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\hashlib.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\heapq.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\hmac.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\htmlentitydefs.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\htmllib.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\HTMLParser.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\httplib.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\ihooks.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\imaplib.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\imghdr.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\importlib\__init__.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\imputil.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\inspect.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\io.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\json\decoder.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\json\encoder.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\json\scanner.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\json\tool.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\json\__init__.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\keyword.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\btm_matcher.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\btm_utils.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixer_base.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixer_util.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_apply.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_basestring.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_buffer.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_callable.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_dict.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_except.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_exec.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_execfile.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_exitfunc.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_filter.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_funcattrs.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_future.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_getcwdu.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_has_key.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_idioms.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_import.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_imports.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_imports2.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_input.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_intern.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_isinstance.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_itertools.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_itertools_imports.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_long.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_map.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_metaclass.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_methodattrs.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_ne.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_next.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_nonzero.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_numliterals.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_operator.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_paren.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_print.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_raise.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_raw_input.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_reduce.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_renames.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_repr.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_set_literal.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_standarderror.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_sys_exc.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_throw.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_tuple_params.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_types.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_unicode.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_urllib.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_ws_comma.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_xrange.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_xreadlines.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\fix_zip.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\fixes\__init__.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\main.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\patcomp.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\pgen2\conv.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\pgen2\driver.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\pgen2\grammar.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\pgen2\literals.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\pgen2\parse.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\pgen2\pgen.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\pgen2\token.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\pgen2\tokenize.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\pgen2\__init__.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\pygram.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\pytree.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\refactor.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\__init__.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\lib2to3\__main__.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\linecache.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\locale.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\logging\config.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\logging\handlers.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\logging\__init__.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\macpath.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\macurl2path.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\mailbox.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\mailcap.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\markupbase.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\md5.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\mhlib.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\mimetools.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\mimetypes.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\MimeWriter.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\mimify.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\modulefinder.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\multifile.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\mutex.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\netrc.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\new.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\nntplib.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\ntpath.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\nturl2path.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\numbers.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\opcode.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\optparse.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\os.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\os2emxpath.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\pdb.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\pickle.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\pickletools.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\pipes.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\pkgutil.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\platform.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\plistlib.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\popen2.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\poplib.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\posixfile.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\posixpath.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\pprint.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\profile.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\pstats.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\pyclbr.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\pydoc.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\pydoc_data\topics.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\pydoc_data\__init__.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\py_compile.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\Queue.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\quopri.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\random.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\repr.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\rexec.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\rfc822.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\rlcompleter.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\robotparser.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\runpy.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\sched.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\sets.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\sgmllib.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\sha.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\shelve.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\shlex.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\shutil.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\SimpleHTTPServer.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\SimpleXMLRPCServer.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\site-packages\numpy\add_newdocs.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\compat\py3k.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\compat\setup.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\compat\setupscons.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\compat\_inspect.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\compat\__init__.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\core\arrayprint.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\core\code_generators\cversions.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\core\code_generators\genapi.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\core\code_generators\genapi2.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\core\code_generators\generate_numpy_api.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\core\code_generators\generate_ufunc_api.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\core\code_generators\generate_umath.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\core\code_generators\numpy_api.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\core\code_generators\ufunc_docstrings.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\core\code_generators\__init__.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\core\defchararray.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\core\fromnumeric.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\core\function_base.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\core\getlimits.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\core\info.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\core\machar.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\core\memmap.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\core\multiarray.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\core\numeric.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\core\numerictypes.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\core\records.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\core\scons_support.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\core\setup.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\core\setupscons.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\core\setup_common.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\core\shape_base.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\core\src\multiarray\testcalcs.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\core\tests\test_arrayprint.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\core\tests\test_blasdot.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\core\tests\test_datetime.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\core\tests\test_defchararray.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\core\tests\test_dtype.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\core\tests\test_errstate.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\core\tests\test_function_base.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\core\tests\test_getlimits.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\core\tests\test_iterators.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\core\tests\test_loops.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\core\tests\test_machar.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\core\tests\test_memmap.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\core\tests\test_methods.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\core\tests\test_multiarray.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\core\tests\test_npy_arraytypes.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\core\tests\test_numeric.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\core\tests\test_numerictypes.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\core\tests\test_print.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\core\tests\test_records.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\core\tests\test_regression.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\core\tests\test_scalarmath.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\core\tests\test_scalartypes.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\core\tests\test_shape_base.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\core\tests\test_ufunc.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\core\tests\test_umath.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\core\tests\test_umath_complex.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\core\tests\test_unicode.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\core\umath.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\core\_internal.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\core\_mx_datetime_parser.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\core\__init__.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\ctypeslib.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\ccompiler.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\command\autodist.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\command\bdist_rpm.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\command\build.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\command\build_clib.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\command\build_ext.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\command\build_py.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\command\build_scripts.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\command\build_src.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\command\config.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\command\config_compiler.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\command\develop.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\command\egg_info.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\command\install.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\command\install_clib.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\command\install_data.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\command\install_headers.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\command\scons.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\command\sdist.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\command\__init__.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\compat.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\conv_template.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\core.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\cpuinfo.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\environment.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\exec_command.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\extension.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\fcompiler\absoft.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\fcompiler\compaq.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\fcompiler\g95.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\fcompiler\gnu.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\fcompiler\hpux.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\fcompiler\ibm.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\fcompiler\intel.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\fcompiler\lahey.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\fcompiler\mips.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\fcompiler\nag.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\fcompiler\none.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\fcompiler\pg.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\fcompiler\sun.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\fcompiler\vast.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\fcompiler\__init__.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\from_template.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\info.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\intelccompiler.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\interactive.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\lib2def.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\line_endings.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\log.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\mingw32ccompiler.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\misc_util.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\npy_pkg_config.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\numpy_distribution.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\setup.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\setupscons.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\system_info.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\tests\f2py_ext\setup.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\tests\f2py_ext\tests\test_fib2.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\tests\f2py_ext\__init__.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\tests\f2py_f90_ext\setup.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\tests\f2py_f90_ext\tests\test_foo.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\tests\f2py_f90_ext\__init__.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\tests\gen_ext\setup.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\tests\gen_ext\tests\test_fib3.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\tests\gen_ext\__init__.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\tests\pyrex_ext\setup.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\tests\pyrex_ext\tests\test_primes.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\tests\pyrex_ext\__init__.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\tests\setup.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\tests\swig_ext\setup.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\tests\swig_ext\tests\test_example.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\tests\swig_ext\tests\test_example2.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\tests\swig_ext\__init__.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\tests\test_fcompiler_gnu.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\tests\test_misc_util.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\tests\test_npy_pkg_config.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\unixccompiler.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\__init__.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\distutils\__version__.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\doc\basics.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\doc\broadcasting.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\doc\byteswapping.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\doc\constants.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\doc\creation.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\doc\glossary.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\doc\howtofind.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\doc\indexing.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\doc\internals.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\doc\io.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\doc\jargon.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\doc\methods_vs_functions.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\doc\misc.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\doc\performance.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\doc\structured_arrays.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\doc\subclassing.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\doc\ufuncs.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\doc\__init__.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\dual.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\f2py\auxfuncs.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\f2py\capi_maps.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\f2py\cb_rules.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\f2py\cfuncs.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\f2py\common_rules.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\f2py\crackfortran.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\f2py\diagnose.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\f2py\docs\pytest.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\f2py\docs\usersguide\setup_example.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\f2py\doc\collectinput.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\f2py\f2py2e.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\f2py\f2py_testing.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\f2py\f90mod_rules.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\f2py\func2subr.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\f2py\info.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\f2py\rules.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\f2py\setup.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\f2py\setupscons.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\f2py\tests\test_array_from_pyobj.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\f2py\tests\test_callback.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\f2py\tests\test_mixed.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\f2py\tests\test_return_character.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\f2py\tests\test_return_complex.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\f2py\tests\test_return_integer.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\f2py\tests\test_return_logical.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\f2py\tests\test_return_real.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\f2py\tests\util.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\f2py\use_rules.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\f2py\__init__.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\f2py\__version__.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\fft\fftpack.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\fft\fftpack_lite.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\fft\helper.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\fft\info.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\fft\setup.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\fft\setupscons.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\fft\tests\test_fftpack.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\fft\tests\test_helper.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\fft\__init__.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\lib\arraysetops.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\lib\arrayterator.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\lib\benchmarks\bench_arraysetops.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\lib\financial.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\lib\format.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\lib\function_base.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\lib\index_tricks.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\lib\info.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\lib\npyio.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\lib\polynomial.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\lib\recfunctions.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\lib\scimath.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\lib\setup.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\lib\setupscons.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\lib\shape_base.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\lib\stride_tricks.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\lib\tests\test_arraysetops.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\lib\tests\test_arrayterator.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\lib\tests\test_financial.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\lib\tests\test_format.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\lib\tests\test_function_base.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\lib\tests\test_index_tricks.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\lib\tests\test_io.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\lib\tests\test_polynomial.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\lib\tests\test_recfunctions.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\lib\tests\test_regression.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\lib\tests\test_shape_base.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\lib\tests\test_stride_tricks.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\lib\tests\test_twodim_base.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\lib\tests\test_type_check.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\lib\tests\test_ufunclike.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\lib\tests\test_utils.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\lib\tests\test__datasource.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\lib\tests\test__iotools.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\lib\twodim_base.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\lib\type_check.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\lib\ufunclike.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\lib\user_array.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\lib\utils.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\lib\_datasource.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\lib\_iotools.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\lib\__init__.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\linalg\info.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\linalg\lapack_lite.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\linalg\linalg.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\linalg\setup.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\linalg\setupscons.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\linalg\tests\test_build.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\linalg\tests\test_linalg.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\linalg\tests\test_regression.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\linalg\__init__.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\matlib.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\matrixlib\defmatrix.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\matrixlib\setup.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\matrixlib\setupscons.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\matrixlib\tests\test_defmatrix.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\matrixlib\tests\test_multiarray.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\matrixlib\tests\test_numeric.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\matrixlib\tests\test_regression.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\matrixlib\__init__.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\ma\bench.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\ma\core.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\ma\extras.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\ma\mrecords.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\ma\setup.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\ma\setupscons.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\ma\tests\test_core.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\ma\tests\test_extras.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\ma\tests\test_mrecords.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\ma\tests\test_old_ma.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\ma\tests\test_regression.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\ma\tests\test_subclassing.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\ma\testutils.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\ma\timer_comparison.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\ma\version.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\ma\__init__.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\numarray\alter_code1.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\numarray\alter_code2.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\numarray\compat.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\numarray\convolve.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\numarray\fft.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\numarray\functions.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\numarray\image.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\numarray\linear_algebra.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\numarray\ma.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\numarray\matrix.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\numarray\mlab.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\numarray\nd_image.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\numarray\numerictypes.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\numarray\random_array.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\numarray\session.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\numarray\setup.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\numarray\setupscons.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\numarray\ufuncs.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\numarray\util.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\numarray\__init__.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\NumpyDotNet\benchmark.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\NumpyDotNet\bin\Tests\test_dtype.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\NumpyDotNet\bin\Tests\test_multiarray.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\NumpyDotNet\Release\Tests\test_dtype.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\NumpyDotNet\Release\Tests\test_multiarray.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\NumpyDotNet\tests\test_dtype.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\NumpyDotNet\tests\test_multiarray.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\oldnumeric\alter_code1.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\oldnumeric\alter_code2.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\oldnumeric\arrayfns.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\oldnumeric\array_printer.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\oldnumeric\compat.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\oldnumeric\fft.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\oldnumeric\fix_default_axis.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\oldnumeric\functions.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\oldnumeric\linear_algebra.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\oldnumeric\ma.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\oldnumeric\matrix.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\oldnumeric\misc.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\oldnumeric\mlab.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\oldnumeric\precision.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\oldnumeric\random_array.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\oldnumeric\rng.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\oldnumeric\rng_stats.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\oldnumeric\setup.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\oldnumeric\setupscons.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\oldnumeric\tests\test_oldnumeric.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\oldnumeric\tests\test_regression.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\oldnumeric\typeconv.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\oldnumeric\ufuncs.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\oldnumeric\user_array.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\oldnumeric\__init__.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\polynomial\chebyshev.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\polynomial\legendre.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\polynomial\polynomial.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\polynomial\polytemplate.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\polynomial\polyutils.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\polynomial\setup.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\polynomial\tests\test_chebyshev.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\polynomial\tests\test_legendre.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\polynomial\tests\test_polynomial.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\polynomial\tests\test_polyutils.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\polynomial\__init__.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\random\info.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\random\mtrand\generate_mtrand_c.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\random\setup.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\random\setupscons.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\random\tests\test_random.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\random\__init__.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\setup.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\setupscons.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\testing\decorators.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\testing\noseclasses.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\testing\nosetester.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\testing\nulltester.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\testing\numpytest.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\testing\setup.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\testing\setupscons.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\testing\tests\test_decorators.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\testing\tests\test_utils.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\testing\utils.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\testing\__init__.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\tests\test_ctypeslib.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\tests\test_matlib.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\version.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\_import_tools.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\__config__.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\numpy\__init__.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\README.txt" />
+    <Content Include="Lib\site-packages\scipy\cluster\doc\ex1.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\cluster\hierarchy.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\cluster\info.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\cluster\setup.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\cluster\setupscons.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\cluster\tests\test_hierarchy.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\cluster\tests\test_vq.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\cluster\tests\vq_test.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\cluster\vq.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\cluster\__init__.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\constants\codata.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\constants\constants.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\constants\setup.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\constants\tests\test_codata.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\constants\tests\test_constants.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\constants\__init__.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\fftpack\basic.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\fftpack\benchmarks\bench_basic.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\fftpack\benchmarks\bench_pseudo_diffs.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\fftpack\convolve.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\fftpack\fftpack_version.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\fftpack\helper.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\fftpack\info.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\fftpack\pseudo_diffs.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\fftpack\realtransforms.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\fftpack\setup.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\fftpack\setupscons.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\fftpack\tests\gendata.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\fftpack\tests\gen_fftw_ref.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\fftpack\tests\test_basic.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\fftpack\tests\test_convolve.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\fftpack\tests\test_helper.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\fftpack\tests\test_pseudo_diffs.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\fftpack\tests\test_real_transforms.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\fftpack\_fftpack.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\fftpack\__init__.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\integrate\info.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\integrate\ode.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\integrate\odepack.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\integrate\quadpack.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\integrate\quadrature.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\integrate\setup.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\integrate\setupscons.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\integrate\tests\test.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\integrate\tests\test_integrate.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\integrate\tests\test_quadpack.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\integrate\tests\test_quadrature.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\integrate\vode.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\integrate\_dop.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\integrate\_odepack.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\integrate\_quadpack.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\integrate\__init__.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\lib\blas\info.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\lib\blas\scons_support.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\lib\blas\setup.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\lib\blas\setupscons.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\lib\blas\tests\test_blas.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\lib\blas\tests\test_fblas.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\lib\blas\__init__.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\lib\info.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\lib\lapack\info.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\lib\lapack\scons_support.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\lib\lapack\setup.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\lib\lapack\setupscons.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\lib\lapack\tests\common.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\lib\lapack\tests\test_esv.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\lib\lapack\tests\test_gesv.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\lib\lapack\tests\test_lapack.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\lib\lapack\__init__.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\lib\setup.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\lib\setupscons.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\lib\__init__.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\linalg\basic.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\linalg\benchmarks\bench_basic.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\linalg\benchmarks\bench_decom.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\linalg\blas.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\linalg\calc_lwork.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\linalg\decomp.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\linalg\decomp_cholesky.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\linalg\decomp_lu.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\linalg\decomp_qr.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\linalg\decomp_schur.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\linalg\decomp_svd.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\linalg\fblas.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\linalg\flapack.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\linalg\flinalg.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\linalg\funcinfo.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\linalg\info.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\linalg\interface_gen.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\linalg\lapack.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\linalg\linalg_version.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\linalg\matfuncs.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\linalg\misc.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\linalg\scons_support.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\linalg\setup.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\linalg\setupscons.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\linalg\setup_atlas_version.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\linalg\special_matrices.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\linalg\tests\test_atlas_version.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\linalg\tests\test_basic.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\linalg\tests\test_blas.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\linalg\tests\test_build.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\linalg\tests\test_decomp.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\linalg\tests\test_decomp_cholesky.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\linalg\tests\test_fblas.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\linalg\tests\test_lapack.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\linalg\tests\test_matfuncs.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\linalg\tests\test_special_matrices.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\linalg\_flinalg.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\linalg\_testutils.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\linalg\__init__.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\misc\common.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\misc\doccer.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\misc\info.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\misc\pilutil.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\misc\setup.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\misc\setupscons.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\misc\tests\test_doccer.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\misc\tests\test_pilutil.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\misc\__init__.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\ndimage\filters.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\ndimage\fourier.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\ndimage\info.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\ndimage\interpolation.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\ndimage\io.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\ndimage\measurements.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\ndimage\morphology.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\ndimage\setup.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\ndimage\setupscons.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\ndimage\tests\test_filters.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\ndimage\tests\test_io.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\ndimage\tests\test_measurements.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\ndimage\tests\test_ndimage.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\ndimage\tests\test_regression.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\ndimage\_nd_image.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\ndimage\_ni_support.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\ndimage\__init__.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\odr\info.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\odr\models.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\odr\odrpack.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\odr\setup.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\odr\setupscons.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\odr\tests\test_odr.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\odr\__init__.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\odr\__odrpack.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\optimize\anneal.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\optimize\benchmarks\bench_zeros.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\optimize\cobyla.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\optimize\info.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\optimize\lbfgsb.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\optimize\linesearch.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\optimize\minpack.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\optimize\minpack2.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\optimize\moduleTNC.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\optimize\nnls.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\optimize\nonlin.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\optimize\optimize.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\optimize\setup.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\optimize\setupscons.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\optimize\slsqp.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\optimize\tests\test_cobyla.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\optimize\tests\test_linesearch.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\optimize\tests\test_minpack.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\optimize\tests\test_nnls.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\optimize\tests\test_nonlin.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\optimize\tests\test_optimize.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\optimize\tests\test_regression.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\optimize\tests\test_slsqp.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\optimize\tests\test_zeros.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\optimize\tnc.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\optimize\tnc\example.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\optimize\zeros.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\optimize\_cobyla.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\optimize\_lbfgsb.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\optimize\_minpack.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\optimize\_nnls.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\optimize\_slsqp.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\optimize\_tstutils.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\optimize\_zeros.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\optimize\__init__.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\setup.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\setupscons.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\signal\bsplines.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\signal\correlate_nd.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\signal\filter_design.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\signal\fir_filter_design.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\signal\info.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\signal\lfilter.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\signal\ltisys.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\signal\mytempita.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\signal\setup.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\signal\setupscons.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\signal\signaltools.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\signal\sigtools.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\signal\spectral.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\signal\spline.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\signal\tests\test_filter_design.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\signal\tests\test_fir_filter_design.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\signal\tests\test_ltisys.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\signal\tests\test_signaltools.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\signal\tests\test_spectral.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\signal\tests\test_waveforms.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\signal\tests\test_wavelets.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\signal\tests\test_windows.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\signal\waveforms.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\signal\wavelets.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\signal\windows.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\signal\__init__.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\special\amos\setup.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\special\basic.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\special\docs\cephestest.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\special\gendoc.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\special\info.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\special\lambertw.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\special\orthogonal.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\special\orthogonal_eval.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\special\setup.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\special\setupscons.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\special\specfun.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\special\special_version.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\special\spfun_stats.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\special\tests\test_basic.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\special\tests\test_data.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\special\tests\test_lambertw.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\special\tests\test_mpmath.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\special\tests\test_orthogonal.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\special\tests\test_orthogonal_eval.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\special\tests\test_specfun.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\special\tests\test_spfun_stats.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\special\utils\convert.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\special\utils\datafunc.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\special\utils\makenpz.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\special\_cephes.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\special\_testutils.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\special\__init__.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\stats\distributions.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\stats\futil.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\stats\info.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\stats\kde.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\stats\morestats.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\stats\mstats.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\stats\mstats_basic.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\stats\mstats_extras.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\stats\mvn.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\stats\rv.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\stats\setup.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\stats\setupscons.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\stats\statlib.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\stats\stats.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\stats\tests\test_continuous_basic.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\stats\tests\test_continuous_extra.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\stats\tests\test_discrete_basic.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\stats\tests\test_distributions.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\stats\tests\test_fit.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\stats\tests\test_kdeoth.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\stats\tests\test_morestats.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\stats\tests\test_mstats_basic.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\stats\tests\test_mstats_extras.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\stats\tests\test_stats.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\stats\vonmises.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\stats\vonmises_cython.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\stats\_support.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\stats\__init__.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\version.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\__config__.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site-packages\scipy\__init__.py"> <CopyToOutputDirectory>Always</CopyToOutputDirectory></Content>
+    <Content Include="Lib\site.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\smtpd.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\smtplib.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\sndhdr.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\SocketServer.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\sqlite3\dbapi2.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\sqlite3\dump.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\sqlite3\__init__.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\sre_compile.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\sre_constants.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\sre_parse.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\ssl.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\stat.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\statvfs.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\string.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\StringIO.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\stringold.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\struct.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\subprocess.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\sunau.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\sunaudio.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\symbol.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\sysconfig.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\tabnanny.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\tarfile.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\telnetlib.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\tempfile.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\textwrap.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\this.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\threading.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\timeit.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\toaiff.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\token.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\tokenize.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\trace.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\traceback.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\types.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\unittest\case.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\unittest\loader.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\unittest\main.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\unittest\result.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\unittest\runner.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\unittest\signals.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\unittest\suite.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\unittest\util.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\unittest\__init__.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\unittest\__main__.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\urllib.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\urllib2.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\urlparse.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\user.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\UserDict.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\UserList.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\UserString.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\uu.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\uuid.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\warnings.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\wave.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\weakref.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\webbrowser.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\whichdb.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\wsgiref\handlers.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\wsgiref\headers.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\wsgiref\simple_server.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\wsgiref\util.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\wsgiref\validate.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\wsgiref\__init__.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\xdrlib.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\xmllib.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\xmlrpclib.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\xml\dom\domreg.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\xml\dom\minicompat.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\xml\dom\minidom.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\xml\dom\NodeFilter.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\xml\dom\pulldom.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\xml\dom\xmlbuilder.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\xml\dom\__init__.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\xml\etree\ElementInclude.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\xml\etree\ElementPath.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\xml\etree\ElementTree.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\xml\etree\SimpleXMLTreeBuilder.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\xml\etree\__init__.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\xml\parsers\__init__.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\xml\sax\handler.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\xml\sax\saxutils.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\xml\sax\xmlreader.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\xml\sax\_exceptions.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\xml\sax\__init__.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\xml\__init__.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\zipfile.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\_abcoll.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\_LWPCookieJar.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\_MozillaCookieJar.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\_pyio.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\_strptime.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\_threading_local.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\_weakrefset.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\__future__.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Lib\__phello__.foo.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="mavcmd.xml">
@@ -2387,8 +4604,12 @@
     <None Include="Resources\pixhawk.jpg" />
     <Content Include="Resources\rover.png" />
     <Content Include="Resources\splash.jpg" />
-    <Content Include="Scripts\rc.py" />
-    <Content Include="Scripts\example1.py" />
+    <Content Include="Scripts\rc.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\example1.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="version.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

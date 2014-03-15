@@ -1192,6 +1192,9 @@ namespace MissionPlanner
                 var engine = Python.CreateEngine();
                 var scope = engine.CreateScope();
 
+                //engine.Runtime.IO.SetErrorOutput(new MemoryStream(), UnicodeEncoding.Unicode);
+                //engine.Runtime.IO.SetOutput(new MemoryStream(), UnicodeEncoding.Unicode);
+
                 var all = System.Reflection.Assembly.GetExecutingAssembly();
                 engine.Runtime.LoadAssembly(all);
 
@@ -1204,14 +1207,22 @@ namespace MissionPlanner
                 paths.Add(Path.GetDirectoryName(Application.StartupPath + Path.DirectorySeparatorChar + "LogAnalyzer" + Path.DirectorySeparatorChar + "LogAnalyzer.py"));
                 paths.Add(Application.StartupPath + Path.DirectorySeparatorChar + "lib" + Path.DirectorySeparatorChar + "site-packages");
 
-                paths.AddRange(Directory.GetDirectories(Application.StartupPath + Path.DirectorySeparatorChar + "lib" + Path.DirectorySeparatorChar + "site-packages","*",SearchOption.AllDirectories));
-
                 engine.SetSearchPaths(paths);
 
                 //  engine.CreateScriptSourceFromFile(@"C:\Users\hog\Desktop\DIYDrones\loganalysiscommon\Tools\LogAnalyzer\LogAnalyzer.py");
 
 
                 string bootloader = @"
+
+import clr
+clr.AddReference('mtrand.dll')
+
+import numpy
+#import scipy
+
+print numpy.__version__
+#print scipy.__version__
+
 import mtrand
 
 import numpy
@@ -1220,15 +1231,21 @@ import LogAnalyzer
 
 import sys
 
-sys.argv.append('" + ofd.FileName+@"')
+sys.argv.append('-x')
+sys.argv.append('" + ofd.FileName.Replace('\\', '/') + @".xml')
+sys.argv.append('-s')
+sys.argv.append('" + ofd.FileName.Replace('\\','/') + @"')
 
 print sys.argv
 
 LogAnalyzer.main()
 
 ";
-
-                engine.CreateScriptSourceFromString(bootloader).Execute(scope);
+                try
+                {
+                    engine.CreateScriptSourceFromString(bootloader).Execute(scope);
+                }
+                catch (Exception ex) { log.Error(ex); CustomMessageBox.Show(ex.Message, "Error"); }
             }
         }
     }

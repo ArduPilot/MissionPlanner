@@ -44,6 +44,7 @@
             // 
             resources.ApplyResources(this.TXT_seriallog, "TXT_seriallog");
             this.TXT_seriallog.Name = "TXT_seriallog";
+            this.TXT_seriallog.ReadOnly = true;
             // 
             // BUT_DLall
             // 
@@ -78,6 +79,7 @@
             resources.ApplyResources(this.TXT_status, "TXT_status");
             this.TXT_status.ForeColor = System.Drawing.Color.Red;
             this.TXT_status.Name = "TXT_status";
+            this.TXT_status.ReadOnly = true;
             // 
             // BUT_redokml
             // 

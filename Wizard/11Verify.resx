@@ -311,7 +311,8 @@
   </data>
   <data name="lbl_prearm.Text" xml:space="preserve">
     <value>Can you arm the autopilot?
-Please try arming with your transmitter.</value>
+Please try arming with your transmitter.
+NOTE: Props may spin!</value>
   </data>
   <data name="lbl_prearm.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>MiddleCenter</value>
@@ -686,7 +687,7 @@ Please try arming with your transmitter.</value>
     <value>5, 36</value>
   </data>
   <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>637, 54</value>
+    <value>664, 54</value>
   </data>
   <data name="label3.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -694,7 +695,7 @@ Please try arming with your transmitter.</value>
   <data name="label3.Text" xml:space="preserve">
     <value>Use this screen to verify that you meet all the basic requirements to arm and fly the autopilot.
 
-NOTE: this test will attempt to arm your autopilot, please remove any props.</value>
+NOTE: this test will attempt to arm your autopilot and props may spin, please remove any props.</value>
   </data>
   <data name="&gt;&gt;label3.Name" xml:space="preserve">
     <value>label3</value>

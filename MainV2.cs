@@ -27,6 +27,7 @@ using System.Web.Script.Serialization;
 using System.Speech.Synthesis;
 using MissionPlanner;
 using MissionPlanner.Joystick;
+using System.Collections.ObjectModel;
 
 namespace MissionPlanner
 {
@@ -126,7 +127,7 @@ namespace MissionPlanner
         /// <summary>
         /// Store points of interest
         /// </summary>
-        public List<PointLatLngAlt> POIs = new List<PointLatLngAlt>();
+        public static ObservableCollection<PointLatLngAlt> POIs = new ObservableCollection<PointLatLngAlt>();
 
         /// <summary>
         /// Comport name
@@ -256,6 +257,13 @@ namespace MissionPlanner
             MyView = new MainSwitcher(this);
 
             View = MyView;
+
+            POIs.CollectionChanged += POIs_CollectionChanged;
+
+            // full screen
+            //this.TopMost = true;
+            //this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            //this.WindowState = FormWindowState.Maximized;
 
             _connectionControl = toolStripConnectionControl.ConnectionControl;
             _connectionControl.CMB_baudrate.TextChanged += this.CMB_baudrate_TextChanged;
@@ -540,6 +548,11 @@ namespace MissionPlanner
 
 
 
+        }
+
+        void POIs_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+           
         }
 
         void MenuCustom_Click(object sender, EventArgs e)
@@ -1466,24 +1479,18 @@ namespace MissionPlanner
                         catch { }
                     }
 
-                    // make sure we attenuate the link quality if we dont see any valid packets
-                    if ((DateTime.Now - comPort.lastvalidpacket).TotalSeconds > 10)
-                    {
-                        MainV2.comPort.MAV.cs.linkqualitygcs = 0;
-                    }
-
-                    // attenuate the link qualty over time
-                    if ((DateTime.Now - comPort.lastvalidpacket).TotalSeconds >= 1)
-                    {
-                        if (linkqualitytime.Second != DateTime.Now.Second)
+                        // attenuate the link qualty over time
+                        if ((DateTime.Now - comPort.lastvalidpacket).TotalSeconds >= 1)
                         {
-                            MainV2.comPort.MAV.cs.linkqualitygcs = (ushort)(MainV2.comPort.MAV.cs.linkqualitygcs * 0.8f);
-                            linkqualitytime = DateTime.Now;
+                            if (linkqualitytime.Second != DateTime.Now.Second)
+                            {
+                                MainV2.comPort.MAV.cs.linkqualitygcs = (ushort)(MainV2.comPort.MAV.cs.linkqualitygcs * 0.8f);
+                                linkqualitytime = DateTime.Now;
 
-                            // force redraw is no other packets are being read
-                            GCSViews.FlightData.myhud.Invalidate();
+                                // force redraw is no other packets are being read
+                                GCSViews.FlightData.myhud.Invalidate();
+                            }
                         }
-                    }
 
                     // data loss warning - wait min of 10 seconds, ignore first 30 seconds of connect, repeat at 5 seconds interval
                     if ((DateTime.Now - comPort.lastvalidpacket).TotalSeconds > 10
@@ -1788,17 +1795,22 @@ namespace MissionPlanner
             }
             catch { }
 
-            // update firmware version list
+            // update firmware version list - only once per day
             try
             {
                 System.Threading.ThreadPool.QueueUserWorkItem((WaitCallback)delegate
                 {
                     try
                     {
-                        var fw = new Firmware();
-                        var list = fw.getFWList();
-                        if (list.Count > 1)
-                            Firmware.SaveSoftwares(list);
+                        if (getConfig("fw_check") != DateTime.Now.ToShortDateString())
+                        {
+                            var fw = new Firmware();
+                            var list = fw.getFWList();
+                            if (list.Count > 1)
+                                Firmware.SaveSoftwares(list);
+
+                            config["fw_check"] = DateTime.Now.ToShortDateString();
+                        }
                     }
                     catch (Exception ex) { log.Error(ex); }
                 }
@@ -1807,7 +1819,7 @@ namespace MissionPlanner
             catch { }
 
             // show wizard on first use
-            if (getConfig("newuser") == "")
+          /*  if (getConfig("newuser") == "")
             {
                 if (CustomMessageBox.Show("This is your first run, Do you wish to use the setup wizard?\nRecomended for new users.", "Wizard", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
                 {
@@ -1821,7 +1833,7 @@ namespace MissionPlanner
 
                 config["newuser"] = DateTime.Now.ToShortDateString();
             }
-
+            */
         }
 
         private void checkupdate(object stuff)

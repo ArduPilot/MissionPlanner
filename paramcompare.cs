@@ -38,15 +38,18 @@ namespace MissionPlanner
                 //System.Diagnostics.Debug.WriteLine("Doing: " + value);
                 try
                 {
-                    if (param[value].ToString() != param2[value].ToString()) // this will throw is there is no matching key
+                    if (param.ContainsKey(value) && param2.ContainsKey(value))
                     {
-                        Console.WriteLine("{0} {1} vs {2}", value, param[value], param2[value]);
-                        Params.Rows.Add();
-                        Params.Rows[Params.RowCount - 1].Cells[Command.Index].Value = value;
-                        Params.Rows[Params.RowCount - 1].Cells[Value.Index].Value = param[value].ToString();
+                        if (param[value].ToString() != param2[value].ToString()) // this will throw is there is no matching key
+                        {
+                            Console.WriteLine("{0} {1} vs {2}", value, param[value], param2[value]);
+                            Params.Rows.Add();
+                            Params.Rows[Params.RowCount - 1].Cells[Command.Index].Value = value;
+                            Params.Rows[Params.RowCount - 1].Cells[Value.Index].Value = param[value].ToString();
 
-                        Params.Rows[Params.RowCount - 1].Cells[newvalue.Index].Value = param2[value].ToString();
-                        Params.Rows[Params.RowCount - 1].Cells[Use.Index].Value = true;
+                            Params.Rows[Params.RowCount - 1].Cells[newvalue.Index].Value = param2[value].ToString();
+                            Params.Rows[Params.RowCount - 1].Cells[Use.Index].Value = true;
+                        }
                     }
                 }
                 catch { };//if (Params.RowCount > 1) { Params.Rows.RemoveAt(Params.RowCount - 1); } }

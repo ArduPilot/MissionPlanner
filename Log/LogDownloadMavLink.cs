@@ -144,6 +144,7 @@ namespace MissionPlanner.Log
             var ms = MainV2.comPort.GetLog(no);
 
             status = serialstatus.Done;
+            updateDisplay();
 
             MainV2.comPort.Progress -= comPort_Progress;
 
@@ -174,7 +175,14 @@ namespace MissionPlanner.Log
             logfile = logfile + ".log";
 
             // write assci log
-            File.WriteAllLines(logfile, temp1);
+            using (StreamWriter sw = new StreamWriter(logfile))
+            {
+                foreach (string line in temp1)
+                {
+                    sw.Write(line);
+                }
+                sw.Close();
+            }
 
             // get gps time of assci log
             DateTime logtime = DFLog.GetFirstGpsTime(logfile);
@@ -229,6 +237,7 @@ namespace MissionPlanner.Log
             }
             catch { } // usualy invalid lat long error
             status = serialstatus.Done;
+            updateDisplay();
         }
 
         private void downloadthread(int startlognum, int endlognum)
@@ -243,6 +252,9 @@ namespace MissionPlanner.Log
 
                     CreateLog(logname);
                 }
+
+                status = serialstatus.Done;
+                updateDisplay();
 
                 Console.Beep();
             }
@@ -264,6 +276,9 @@ namespace MissionPlanner.Log
                         CreateLog(logname);
                     }
                 }
+
+                status = serialstatus.Done;
+                updateDisplay();
 
                 Console.Beep();
             }
@@ -287,6 +302,7 @@ namespace MissionPlanner.Log
                 MainV2.comPort.EraseLog();
                 TXT_seriallog.AppendText("!!Allow 30-90 seconds for erase\n");
                 status = serialstatus.Done;
+                updateDisplay();
                 CHK_logs.Items.Clear();
             }
             catch (Exception ex) { CustomMessageBox.Show(ex.Message, "Error"); }

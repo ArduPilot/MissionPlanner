@@ -98,7 +98,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
 
             ans = MagCalib.LeastSq(data);
-
+/*
             //find the mean radius
             Vector3f centre = new Vector3f((float)-ans[0], (float)-ans[1], (float)-ans[2]);
             Vector3f point;
@@ -144,7 +144,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     }
                 }
             }
-
+ */
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -282,6 +282,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (((CheckBox)sender).Checked == true)
             {
                 TXT_declination_deg.Enabled = false;
+
                 TXT_declination_min.Enabled = false;
             }
             else

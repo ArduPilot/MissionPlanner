@@ -61,7 +61,14 @@ namespace MissionPlanner.Wizard
         {
             DeselectAll();
             (sender as PictureBoxMouseOver).selected = true;
-            setframeType(sender);
+            try
+            {
+                setframeType(sender);
+            }
+            catch { 
+                CustomMessageBox.Show("Error setting frame type, ensure your autopilot is still connected. Exiting wizard","Error");
+                Wizard.instance.Close();
+            }
         }
 
         void DeselectAll()

@@ -47,6 +47,8 @@ namespace MissionPlanner
             log.Info("******************* Logging Configured *******************");
             System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
 
+            ServicePointManager.DefaultConnectionLimit = 10;
+
             System.Windows.Forms.Application.ThreadException += Application_ThreadException;
 
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);

@@ -83,6 +83,8 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabSimple = new System.Windows.Forms.TabPage();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.label24 = new System.Windows.Forms.Label();
+            this.numericUpDownFlySpeed = new System.Windows.Forms.NumericUpDown();
             this.label26 = new System.Windows.Forms.Label();
             this.CMB_camera = new System.Windows.Forms.ComboBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
@@ -97,6 +99,8 @@
             this.tabCamera = new System.Windows.Forms.TabPage();
             this.map = new MissionPlanner.Controls.myGMAP();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.label28 = new System.Windows.Forms.Label();
+            this.label31 = new System.Windows.Forms.Label();
             this.lbl_distbetweenlines = new System.Windows.Forms.Label();
             this.label25 = new System.Windows.Forms.Label();
             this.lbl_footprint = new System.Windows.Forms.Label();
@@ -113,6 +117,8 @@
             this.lbl_area = new System.Windows.Forms.Label();
             this.label23 = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
+            this.label32 = new System.Windows.Forms.Label();
+            this.label35 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_spacing)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_overshoot2)).BeginInit();
@@ -131,6 +137,7 @@
             this.tabControl1.SuspendLayout();
             this.tabSimple.SuspendLayout();
             this.groupBox6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownFlySpeed)).BeginInit();
             this.groupBox4.SuspendLayout();
             this.tabGrid.SuspendLayout();
             this.tabTrigger.SuspendLayout();
@@ -620,6 +627,8 @@
             // 
             // groupBox6
             // 
+            this.groupBox6.Controls.Add(this.label24);
+            this.groupBox6.Controls.Add(this.numericUpDownFlySpeed);
             this.groupBox6.Controls.Add(this.label26);
             this.groupBox6.Controls.Add(this.label4);
             this.groupBox6.Controls.Add(this.NUM_angle);
@@ -630,6 +639,27 @@
             resources.ApplyResources(this.groupBox6, "groupBox6");
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.TabStop = false;
+            // 
+            // label24
+            // 
+            resources.ApplyResources(this.label24, "label24");
+            this.label24.Name = "label24";
+            // 
+            // numericUpDownFlySpeed
+            // 
+            resources.ApplyResources(this.numericUpDownFlySpeed, "numericUpDownFlySpeed");
+            this.numericUpDownFlySpeed.Maximum = new decimal(new int[] {
+            360,
+            0,
+            0,
+            0});
+            this.numericUpDownFlySpeed.Name = "numericUpDownFlySpeed";
+            this.numericUpDownFlySpeed.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            this.numericUpDownFlySpeed.ValueChanged += new System.EventHandler(this.domainUpDown1_ValueChanged);
             // 
             // label26
             // 
@@ -749,6 +779,10 @@
             // 
             // groupBox5
             // 
+            this.groupBox5.Controls.Add(this.label32);
+            this.groupBox5.Controls.Add(this.label35);
+            this.groupBox5.Controls.Add(this.label28);
+            this.groupBox5.Controls.Add(this.label31);
             this.groupBox5.Controls.Add(this.lbl_distbetweenlines);
             this.groupBox5.Controls.Add(this.label25);
             this.groupBox5.Controls.Add(this.lbl_footprint);
@@ -768,6 +802,16 @@
             resources.ApplyResources(this.groupBox5, "groupBox5");
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.TabStop = false;
+            // 
+            // label28
+            // 
+            resources.ApplyResources(this.label28, "label28");
+            this.label28.Name = "label28";
+            // 
+            // label31
+            // 
+            resources.ApplyResources(this.label31, "label31");
+            this.label31.Name = "label31";
             // 
             // lbl_distbetweenlines
             // 
@@ -849,10 +893,20 @@
             resources.ApplyResources(this.label22, "label22");
             this.label22.Name = "label22";
             // 
+            // label32
+            // 
+            resources.ApplyResources(this.label32, "label32");
+            this.label32.Name = "label32";
+            // 
+            // label35
+            // 
+            resources.ApplyResources(this.label35, "label35");
+            this.label35.Name = "label35";
+            // 
             // GridUI
             // 
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             resources.ApplyResources(this, "$this");
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.map);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.tabControl1);
@@ -881,6 +935,7 @@
             this.tabSimple.ResumeLayout(false);
             this.groupBox6.ResumeLayout(false);
             this.groupBox6.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownFlySpeed)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             this.tabGrid.ResumeLayout(false);
@@ -978,5 +1033,11 @@
         private System.Windows.Forms.Label lbl_pictures;
         private System.Windows.Forms.Label label33;
         private System.Windows.Forms.Label label34;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.NumericUpDown numericUpDownFlySpeed;
+        private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.Label label31;
+        private System.Windows.Forms.Label label32;
+        private System.Windows.Forms.Label label35;
     }
 }

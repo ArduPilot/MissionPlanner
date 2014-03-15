@@ -275,10 +275,41 @@ namespace MissionPlanner
 
             lbl_footprint.Text = TXT_fovH.Text + " x " + TXT_fovV.Text +" m";
 
+            double seconds = ((wppoly.Distance * 1000.0) / ((double)numericUpDownFlySpeed.Value * 0.8));
+            // reduce flying speed by 20 %
+            label28.Text = secondsToNice(seconds);
+
+            seconds = ((wppoly.Distance * 1000.0) / ((double)numericUpDownFlySpeed.Value));
+
+            label32.Text = secondsToNice(((double)NUM_spacing.Value / (double)numericUpDownFlySpeed.Value));
+
                 map.HoldInvalidation = false;
 
             map.ZoomAndCenterMarkers("polygons");
 
+        }
+
+        string secondsToNice(double seconds)
+        {
+            if (seconds < 0)
+                return "Infinity Seconds";
+
+            double secs = seconds % 60;
+            int mins = (int)(seconds / 60) % 60;
+            int hours = (int)(seconds / 3600) % 24;
+
+            if (hours > 0)
+            {
+                return hours + ":" + mins.ToString("00") + ":" + secs.ToString("00") + " Hours";
+            }
+            else if (mins > 0)
+            {
+                return mins + ":" + secs.ToString("00") + " Minutes";
+            }
+            else
+            {
+                return secs.ToString("0.00") + " Seconds";
+            }
         }
 
         double calcpolygonarea(List<PointLatLng> polygon)
@@ -334,6 +365,8 @@ namespace MissionPlanner
         {
             if (grid != null && grid.Count > 0)
             {
+                MainV2.instance.FlightPlanner.quickadd = true;
+
                 if (rad_trigdist.Checked)
                 {
                     plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_SET_CAM_TRIGG_DIST, (float)NUM_spacing.Value, 0, 0, 0, 0, 0, 0);
@@ -366,6 +399,10 @@ namespace MissionPlanner
                 }
 
                 savesettings();
+
+                MainV2.instance.FlightPlanner.quickadd = false;
+
+                MainV2.instance.FlightPlanner.writeKML();
 
                 this.Close();
             }
@@ -717,8 +754,6 @@ namespace MissionPlanner
                 tabControl1.TabPages.Remove(tabTrigger);
             }
         }
-
-
     }
 }
 

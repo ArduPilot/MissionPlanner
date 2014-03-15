@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
+using log4net;
 
 namespace MissionPlanner.Utilities
 {
     class VersionDetection
     {
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         public static Version GetVersion(string input)
         {
             Regex versionregex = new Regex(@"([0-9]+)\.([0-9]+)(\.([0-9]+)|-rc([0-9]+)|([a-z]))*");
@@ -15,6 +19,8 @@ namespace MissionPlanner.Utilities
             //            string ans = mat1.Groups[1].Value.ToString() + mat1.Groups[2].Value.ToString() + mat1.Groups[4].Value.ToString() + mat1.Groups[5].Value.ToString() + mat1.Groups[6].Value.ToString();
 
             var match = versionregex.Match(input);
+
+            log.Info(input);
 
             if (match.Success)
             {
@@ -37,6 +43,8 @@ namespace MissionPlanner.Utilities
                 }
 
                 Version version = new Version(verstring);
+
+                log.Info(version.ToString());
 
                 return version;
             }

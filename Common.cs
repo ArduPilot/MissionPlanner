@@ -438,6 +438,7 @@ namespace MissionPlanner
                 ServicePointManager.ServerCertificateValidationCallback =
     new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate, chain, policyErrors) => { return true; });
 
+                log.Info(url);
                 // Create a request using a URL that can receive a post. 
                 WebRequest request = WebRequest.Create(url);
                 request.Timeout = 10000;

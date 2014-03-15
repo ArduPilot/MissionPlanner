@@ -73,10 +73,13 @@ namespace MissionPlanner.Wizard
         {
             foreach (var port in CMB_port.Items)
             {
-              //  if (SerialPort.GetNiceName((string)port).ToLower().Contains("arduino") || SerialPort.GetNiceName((string)port).ToLower().Contains("px4"))
+                if (CMB_port.Text == "")
                 {
-                  //  CMB_port.Text = port.ToString();
-                    break;
+                    if (SerialPort.GetNiceName((string)port).ToLower().Contains("arduino") || SerialPort.GetNiceName((string)port).ToLower().Contains("px4"))
+                    {
+                        CMB_port.Text = port.ToString();
+                        break;
+                    }
                 }
             }
         }
@@ -87,7 +90,7 @@ namespace MissionPlanner.Wizard
 
             if (comport == "")
             {
-                CustomMessageBox.Show("Please select a comport","error");
+                CustomMessageBox.Show("Please select a comport", "error");
                 return 0;
             }
 
@@ -107,12 +110,20 @@ namespace MissionPlanner.Wizard
 
             if (MainV2.comPort.BaseStream.IsOpen)
                 MainV2.comPort.BaseStream.Close();
-            
-                MainV2.comPort.BaseStream.BaudRate = 115200;
-                MainV2.comPort.BaseStream.PortName = comport;
-            
+
+            // setup for over usb
+            MainV2.comPort.BaseStream.BaudRate = 115200;
+            MainV2.comPort.BaseStream.PortName = comport;
+
 
             MainV2.comPort.Open(true);
+
+            // try again
+            if (!MainV2.comPort.BaseStream.IsOpen)
+            {
+                CustomMessageBox.Show("Error connecting. Please unplug, plug back in, wait 10 seconds, and click OK","Try Again");
+                MainV2.comPort.Open(true);
+            }
 
             if (!MainV2.comPort.BaseStream.IsOpen)
                 return 0;

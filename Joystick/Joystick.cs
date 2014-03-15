@@ -6,6 +6,7 @@ using System.Text;
 using log4net;
 using Microsoft.DirectX.DirectInput;
 using System.Reflection;
+using System.IO;
 
 namespace MissionPlanner.Joystick
 {
@@ -28,7 +29,7 @@ namespace MissionPlanner.Joystick
         int custom2 = 65535 / 2;
 
 
-        struct JoyChannel
+        public struct JoyChannel
         {
             public int channel;
             public joystickaxis axis;
@@ -36,7 +37,7 @@ namespace MissionPlanner.Joystick
             public int expo;
         }
 
-        struct JoyButton
+        public struct JoyButton
         {
             /// <summary>
             /// System button number
@@ -67,7 +68,7 @@ namespace MissionPlanner.Joystick
             /// </summary>
             public float p4;
             /// <summary>
-            /// Currnet state of relay
+            /// Relay state
             /// </summary>
             public bool state;
         }
@@ -90,14 +91,68 @@ namespace MissionPlanner.Joystick
             try
             {
                 if (joystick != null)
-                    joystick.Unacquire();
+                    if (joystick.Properties != null)
+                        joystick.Unacquire();
             }
-            catch { }
+            catch { }       
         }
 
         public Joystick()
         {
             self = this;
+
+            for (int a = 0; a < JoyButtons.Length; a++)
+                JoyButtons[a].buttonno = -1;
+
+            loadconfig();
+        }
+
+        public void loadconfig() 
+        {
+
+            // load config
+            if (File.Exists("joystickbuttons.xml") && File.Exists("joystickaxis.xml"))
+            {
+                try
+                {
+                    System.Xml.Serialization.XmlSerializer reader = new System.Xml.Serialization.XmlSerializer(typeof(JoyButton[]), new Type[] { typeof(JoyButton) });
+
+                    using (StreamReader sr = new StreamReader("joystickbuttons.xml"))
+                    {
+                        JoyButtons = (JoyButton[])reader.Deserialize(sr);
+                    }
+                }
+                catch { }
+
+                try
+                {
+                    System.Xml.Serialization.XmlSerializer reader = new System.Xml.Serialization.XmlSerializer(typeof(JoyChannel[]), new Type[] { typeof(JoyChannel) });
+
+                    using (StreamReader sr = new StreamReader("joystickaxis.xml"))
+                    {
+                        JoyChannels = (JoyChannel[])reader.Deserialize(sr);
+                    }
+                }
+                catch { }
+            }
+        }
+
+        public void saveconfig()
+        {
+            // save config
+            System.Xml.Serialization.XmlSerializer writer = new System.Xml.Serialization.XmlSerializer(typeof(JoyButton[]), new Type[] { typeof(JoyButton) });
+
+            using (StreamWriter sw = new StreamWriter("joystickbuttons.xml"))
+            {
+                writer.Serialize(sw, JoyButtons);
+            }
+
+            writer = new System.Xml.Serialization.XmlSerializer(typeof(JoyChannel[]), new Type[] { typeof(JoyChannel) });
+
+            using (StreamWriter sw = new StreamWriter("joystickaxis.xml"))
+            {
+                writer.Serialize(sw, JoyChannels);
+            }
         }
 
         JoyChannel[] JoyChannels = new JoyChannel[9]; // we are base 1
@@ -341,14 +396,24 @@ namespace MissionPlanner.Joystick
             JoyChannels[channel] = joy;
         }
 
-        public void setButton(int arrayoffset, int buttonid, buttonfunction butfunction, string mode1)
+        public void setChannel(JoyChannel chan)
         {
-            JoyButtons[arrayoffset] = new JoyButton()
-            {
-                buttonno = buttonid,
-                function = butfunction,
-                mode = mode1
-            };
+            JoyChannels[chan.channel] = chan;
+        }
+
+        public JoyChannel getChannel(int channel)
+        {
+            return JoyChannels[channel];
+        }
+
+        public void setButton(int arrayoffset, JoyButton buttonconfig)
+        {
+            JoyButtons[arrayoffset] = buttonconfig;
+        }
+
+        public JoyButton getButton(int arrayoffset)
+        {
+            return JoyButtons[arrayoffset];
         }
 
         public void changeButton(int buttonid, int newid)
@@ -392,7 +457,7 @@ namespace MissionPlanner.Joystick
                     joystick.Poll();
                     state = joystick.CurrentJoystickState;
 
-                    Console.WriteLine(state);
+                    //Console.WriteLine(state);
 
                     if (getNumberPOV() > 0)
                     {
@@ -466,55 +531,109 @@ namespace MissionPlanner.Joystick
         {
             foreach (JoyButton but in JoyButtons)
             {
-                if (but.buttonno != -1 && getButtonState(but.buttonno))
+                if (but.buttonno != -1)
                 {
-                    switch (but.function)
-                    {
-                        case buttonfunction.ChangeMode:
-                            string mode = but.mode;
-                            if (mode != null)
-                            {
-                                MainV2.instance.BeginInvoke((System.Windows.Forms.MethodInvoker)delegate()
-                                {
-                                    try
-                                    {
-                                        MainV2.comPort.setMode(mode);
+                    getButtonState(but, but.buttonno);
+                }
+            }
+        }
 
-                                    }
-                                    catch { CustomMessageBox.Show("Failed to change Modes"); }
-                                });
-                            }
-                            break;
-                        case buttonfunction.Arm:
-                            MainV2.comPort.doARM(true);
-                            break;
-                        case buttonfunction.Disarm:
-                            MainV2.comPort.doARM(false);
-                            break;
-                        case buttonfunction.Do_Set_Relay:
-                            int number = (int)but.p1;
-                            int state = (int)but.p2;
-                            MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_RELAY, number,state, 0, 0, 0, 0, 0);
-                            break;
-                        case buttonfunction.Do_Repeat_Relay:
-                            int relaynumber = (int)but.p1;
-                            int repeat = (int)but.p2;
-                            int time = (int)but.p3;
-                            MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_REPEAT_RELAY, relaynumber, repeat, time, 0, 0, 0, 0);
-                            break;
-                        case buttonfunction.Do_Set_Servo:
-                            int channel = (int)but.p1;
-                            int pwm = (int)but.p2;
-                            MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_SERVO, channel, pwm, 0, 0, 0, 0, 0);
-                            break;
-                        case buttonfunction.Do_Repeat_Servo:
-                            int channelno = (int)but.p1;
-                            int pwmvalue = (int)but.p2;
-                            int repeattime = (int)but.p3;
-                            int delay_ms = (int)but.p4;
-                            MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_REPEAT_SERVO, channelno, pwmvalue, repeattime, delay_ms, 0, 0, 0);
-                            break;
-                    }
+        void ProcessButtonEvent(JoyButton but, bool buttondown)
+        {
+            if (but.buttonno != -1)
+            {
+                // only do_set_relay uses the button up option
+                if (buttondown == false)
+                 if (but.function != buttonfunction.Do_Set_Relay)
+                    return;
+
+                switch (but.function)
+                {
+                    case buttonfunction.ChangeMode:
+                        string mode = but.mode;
+                        if (mode != null)
+                        {
+                            MainV2.instance.BeginInvoke((System.Windows.Forms.MethodInvoker)delegate()
+                            {
+                                try
+                                {
+                                    MainV2.comPort.setMode(mode);
+                                }
+                                catch { CustomMessageBox.Show("Failed to change Modes"); }
+                            });
+                        }
+                        break;
+                    case buttonfunction.Arm:
+                        MainV2.instance.BeginInvoke((System.Windows.Forms.MethodInvoker)delegate()
+                            {
+                                try
+                                {
+                                    MainV2.comPort.doARM(true);
+                                }
+                                catch { CustomMessageBox.Show("Failed to Arm"); }
+                            });
+                        break;
+                    case buttonfunction.Disarm:
+                        MainV2.instance.BeginInvoke((System.Windows.Forms.MethodInvoker)delegate()
+                            {
+                                try
+                                {
+                                    MainV2.comPort.doARM(false);
+                                }
+                                catch { CustomMessageBox.Show("Failed to Disarm"); }
+                            });
+                        break;
+                    case buttonfunction.Do_Set_Relay:
+                        MainV2.instance.BeginInvoke((System.Windows.Forms.MethodInvoker)delegate()
+                         {
+                             try
+                             {
+                                 int number = (int)but.p1;
+                                 int state = buttondown == true ? 1 : 0;
+                                 MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_RELAY, number, state, 0, 0, 0, 0, 0);
+                             }
+                             catch { CustomMessageBox.Show("Failed to DO_SET_RELAY"); }
+                         });
+                        break;
+                    case buttonfunction.Do_Repeat_Relay:
+                        MainV2.instance.BeginInvoke((System.Windows.Forms.MethodInvoker)delegate()
+                            {
+                                try
+                                {
+                                    int relaynumber = (int)but.p1;
+                                    int repeat = (int)but.p2;
+                                    int time = (int)but.p3;
+                                    MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_REPEAT_RELAY, relaynumber, repeat, time, 0, 0, 0, 0);
+                                }
+                                catch { CustomMessageBox.Show("Failed to DO_REPEAT_RELAY"); }
+                            });
+                        break;
+                    case buttonfunction.Do_Set_Servo:
+                        MainV2.instance.BeginInvoke((System.Windows.Forms.MethodInvoker)delegate()
+                           {
+                               try
+                               {
+                                   int channel = (int)but.p1;
+                                   int pwm = (int)but.p2;
+                                   MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_SERVO, channel, pwm, 0, 0, 0, 0, 0);
+                               }
+                               catch { CustomMessageBox.Show("Failed to DO_SET_SERVO"); }
+                           });
+                        break;
+                    case buttonfunction.Do_Repeat_Servo:
+                        MainV2.instance.BeginInvoke((System.Windows.Forms.MethodInvoker)delegate()
+                           {
+                               try
+                               {
+                                   int channelno = (int)but.p1;
+                                   int pwmvalue = (int)but.p2;
+                                   int repeattime = (int)but.p3;
+                                   int delay_ms = (int)but.p4;
+                                   MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_REPEAT_SERVO, channelno, pwmvalue, repeattime, delay_ms, 0, 0, 0);
+                               }
+                               catch { CustomMessageBox.Show("Failed to DO_REPEAT_SERVO"); }
+                           });
+                        break;
                 }
             }
         }
@@ -616,7 +735,7 @@ namespace MissionPlanner.Joystick
 
             joystick.Acquire();
 
-            System.Threading.Thread.Sleep(100);
+            System.Threading.Thread.Sleep(500);
 
             joystick.Poll();
 
@@ -630,15 +749,38 @@ namespace MissionPlanner.Joystick
             joystick.Unacquire();
         }
 
-        bool getButtonState(int buttonno)
+        /// <summary>
+        /// Button press check with debounce
+        /// </summary>
+        /// <param name="buttonno"></param>
+        /// <returns></returns>
+        bool getButtonState(JoyButton but, int buttonno)
         {
             byte[] buts = state.GetButtons();
 
+            // button down
             bool ans = buts[buttonno] > 0 && buttonpressed[buttonno] == 0; // press check + debounce
+            if (ans)
+                ButtonDown(but);
+
+            // button up
+            ans = buts[buttonno] == 0 && buttonpressed[buttonno] > 0;
+            if (ans)
+                ButtonUp(but);
 
             buttonpressed[buttonno] = buts[buttonno]; // set only this button
 
             return ans;
+        }
+
+        void ButtonDown(JoyButton but)
+        {
+            ProcessButtonEvent(but, true);
+        }
+
+        void ButtonUp(JoyButton but)
+        {
+            ProcessButtonEvent(but, false);
         }
 
         public int getNumButtons()
@@ -689,9 +831,18 @@ namespace MissionPlanner.Joystick
             {
                 try
                 {
-                    min = (int)(float)(MainV2.comPort.MAV.param["RC" + chan + "_MIN"]);
-                    max = (int)(float)(MainV2.comPort.MAV.param["RC" + chan + "_MAX"]);
-                    trim = (int)(float)(MainV2.comPort.MAV.param["RC" + chan + "_TRIM"]);
+                    if (MainV2.comPort.MAV.param.ContainsKey("RC" + chan + "_MIN"))
+                    {
+                        min = (int)(float)(MainV2.comPort.MAV.param["RC" + chan + "_MIN"]);
+                        max = (int)(float)(MainV2.comPort.MAV.param["RC" + chan + "_MAX"]);
+                        trim = (int)(float)(MainV2.comPort.MAV.param["RC" + chan + "_TRIM"]);
+                    }
+                    else
+                    {
+                        min = 1000;
+                        max = 2000;
+                        trim = 1500;
+                    }
                 }
                 catch
                 {

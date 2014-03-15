@@ -123,6 +123,9 @@ namespace MissionPlanner
                     row = (int)(((float)(lat - y)) * (size * 1));
                     row = size - row;
 
+                    if (row == size)
+                        row--;
+
                     return cache[filename][posx, row];
                 }
 

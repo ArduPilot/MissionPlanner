@@ -418,9 +418,21 @@ namespace MissionPlanner.Log
                 xw.WriteEndElement();
             }
 
-            xw.WriteEndElement();
-            xw.WriteEndElement();
-            xw.WriteEndElement();
+
+            xw.WriteEndElement(); // trkseg
+            xw.WriteEndElement(); // trk
+
+            int a = 0;
+            foreach (Data mod in flightdata)
+            {
+                xw.WriteStartElement("wpt");
+                xw.WriteAttributeString("lat", mod.model.Location.latitude.ToString(new System.Globalization.CultureInfo("en-US")));
+                xw.WriteAttributeString("lon", mod.model.Location.longitude.ToString(new System.Globalization.CultureInfo("en-US")));
+                xw.WriteElementString("name", (a++).ToString());
+                xw.WriteEndElement();//wpt
+            }
+
+            xw.WriteEndElement(); // gpx
 
             xw.Close();
         }

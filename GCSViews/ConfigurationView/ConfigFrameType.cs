@@ -26,6 +26,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public ConfigFrameType()
         {
             InitializeComponent();
+
+            configDefaultSettings1.OnChange += configDefaultSettings1_OnChange;
+        }
+
+        void configDefaultSettings1_OnChange(object sender, EventArgs e)
+        {
+            this.Activate();
         }
 
         bool indochange = false;

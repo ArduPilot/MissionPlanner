@@ -1,4 +1,36 @@
-﻿* Mission Planner 1.2.97
+﻿* Mission Planner 1.2.98
+update default settings to refresh tab on use
+add additional drivers
+add translation to grid
+add est flight times to grid interface
+fix srtm exception
+fix throttle scaling on compass mot
+add mag calib mod from rh-galaxy
+remove mag calib test code until properly tested
+add messagetab
+add simple poi (WIP)
+add ability to enter wp in UTM coords
+joystick mods - add arm,disarm,servo,relay,mode changes. also hat switch to axis mapping
+mod logbrowse - needs work for ubuntu memory usage.
+fix DF log broswe header filter click
+fix mavlink log dl extra line feeds
+mod gpx outputs to include wpt
+modify update check to reduce dupe dl on fail
+modify update check to use random query string to stop proxys
+add more logging to version detect.
+update wix installer
+wizard - auto select correct comport on load.
+wizard - add connect retry on fail
+wizard - fail wizard on serialport drop.
+wizard - fix arm check to stay green and add warnings about prop spin
+fix link quality indicator on link loss
+add more fw history
+decrease frequency of new fw check
+remove wizard from first time use.
+allow more http requests
+add initial loganlysis code. (WIP)
+
+* Mission Planner 1.2.97
 change log browse to virtualmode. much faster on windows
 fix for posible future update bug
 

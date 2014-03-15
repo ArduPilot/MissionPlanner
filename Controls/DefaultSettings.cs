@@ -13,14 +13,16 @@ using log4net;
 
 namespace MissionPlanner.Controls
 {
-    public partial class ConfigDefaultSettings : UserControl, IActivate
+    public partial class DefaultSettings : UserControl, IActivate
     {
         private static readonly ILog log =
          LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         List<GitHubContent.FileInfo> paramfiles;
 
-        public ConfigDefaultSettings()
+        public event EventHandler OnChange;
+
+        public DefaultSettings()
         {
             InitializeComponent();
         }
@@ -72,6 +74,12 @@ namespace MissionPlanner.Controls
             paramCompareForm.ShowDialog();
 
             CustomMessageBox.Show("Loaded parameters!", "Loaded");
+
+            if (OnChange != null)
+            {
+                OnChange(null, null);
+                return;
+            }
 
             this.Activate();
         }

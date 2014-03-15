@@ -559,7 +559,16 @@ namespace MissionPlanner
 
                     //check if valid mavinterface
                     if (mavinterface != null && mavinterface.packetsnotlost != 0)
-                        linkqualitygcs = (ushort)((mavinterface.packetsnotlost / (mavinterface.packetsnotlost + mavinterface.packetslost)) * 100.0);
+                    {
+                        if ((DateTime.Now - mavinterface.lastvalidpacket).TotalSeconds > 10)
+                        {
+                            linkqualitygcs = 0;
+                        }
+                        else
+                        {
+                            linkqualitygcs = (ushort)((mavinterface.packetsnotlost / (mavinterface.packetsnotlost + mavinterface.packetslost)) * 100.0);
+                        }
+                    }
 
                     if (datetime.Second != lastsecondcounter.Second)
                     {

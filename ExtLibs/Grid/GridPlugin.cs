@@ -37,7 +37,10 @@ namespace MissionPlanner
         {
             Host2 = Host;
 
-            but = new ToolStripMenuItem("Survey (Grid)");
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GridUI));
+            var temp = (string)(resources.GetObject("$this.Text"));
+
+            but = new ToolStripMenuItem(temp);
             but.Click += but_Click;
 
             bool hit = false;

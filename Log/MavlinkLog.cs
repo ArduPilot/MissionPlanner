@@ -377,12 +377,6 @@ namespace MissionPlanner.Log
 
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                if (MainV2.comPort.logplaybackfile != null)
-                {
-                    MainV2.comPort.logreadmode = false;
-                    MainV2.comPort.logplaybackfile.Close();
-                }
-
                 foreach (string logfile in openFileDialog1.FileNames)
                 {
 
@@ -492,6 +486,17 @@ namespace MissionPlanner.Log
 
             xw.WriteEndElement();
             xw.WriteEndElement();
+
+            int a = 0;
+            foreach (CurrentState cs in flightdata)
+            {
+                xw.WriteStartElement("wpt");
+                xw.WriteAttributeString("lat", cs.lat.ToString(new System.Globalization.CultureInfo("en-US")));
+                xw.WriteAttributeString("lon", cs.lng.ToString(new System.Globalization.CultureInfo("en-US")));
+                xw.WriteElementString("name", (a++).ToString());
+                xw.WriteEndElement();//wpt
+            }
+
             xw.WriteEndElement();
 
             xw.Close();
@@ -547,12 +552,6 @@ namespace MissionPlanner.Log
 
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                if (MainV2.comPort.logplaybackfile != null)
-                {
-                    MainV2.comPort.logreadmode = false;
-                    MainV2.comPort.logplaybackfile.Close();
-                }
-
                 foreach (string logfile in openFileDialog1.FileNames)
                 {
 
@@ -620,12 +619,6 @@ namespace MissionPlanner.Log
 
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                if (MainV2.comPort.logplaybackfile != null)
-                {
-                    MainV2.comPort.logreadmode = false;
-                    MainV2.comPort.logplaybackfile.Close();
-                }
-
                 List<string> fields = GetLogFileValidFields(openFileDialog1.FileName);
 
                 zg1.GraphPane.CurveList.Clear();
@@ -644,16 +637,16 @@ namespace MissionPlanner.Log
             }
         }
 
-        static int[] ColourValues = new int[] {  
-        0xFF0000,0x00FF00,0x0000FF,0xFFFF00,0xFF00FF,0x00FFFF,  
-        0x800000,0x008000,0x000080,0x808000,/*0x800080,0x008080,  */
-        0xC00000,0x00C000,0x0000C0,0xC0C000,0xC000C0,0x00C0C0,  
-      /*  0x400000,0x004000,0x000040,0x404000,0x400040,0x004040, 
-       0x200000,0x002000,0x000020,0x202000,0x200020,0x002020, 
-        0x600000,0x006000,0x000060,0x606000,0x600060,0x006060,  
-        0xA00000,0x00A000,0x0000A0,0xA0A000,0xA000A0,0x00A0A0, 
-        0xE00000,0x00E000,0x0000E0,0xE0E000,0xE000E0,0x00E0E0,  */
-    };
+        static int[] ColourValues = new int[] { 
+            0xFF0000,0x00FF00,0x0000FF,0xFFFF00,0xFF00FF,0x00FFFF,
+            0x800000,0x008000,0x000080,0x808000,/*0x800080,0x008080,  */
+            0xC00000,0x00C000,0x0000C0,0xC0C000,0xC000C0,0x00C0C0,
+          /*  0x400000,0x004000,0x000040,0x404000,0x400040,0x004040, 
+           0x200000,0x002000,0x000020,0x202000,0x200020,0x002020, 
+            0x600000,0x006000,0x000060,0x606000,0x600060,0x006060,  
+            0xA00000,0x00A000,0x0000A0,0xA0A000,0xA000A0,0x00A0A0, 
+            0xE00000,0x00E000,0x0000E0,0xE0E000,0xE000E0,0x00E0E0,  */
+        };
         Form selectform;
 
         private List<string> GetLogFileValidFields(string logfile)
@@ -1306,12 +1299,6 @@ namespace MissionPlanner.Log
 
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                if (MainV2.comPort.logplaybackfile != null)
-                {
-                    MainV2.comPort.logreadmode = false;
-                    MainV2.comPort.logplaybackfile.Close();
-                }
-
                 foreach (string logfile in openFileDialog1.FileNames)
                 {
                     try
@@ -1372,12 +1359,6 @@ namespace MissionPlanner.Log
 
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                if (MainV2.comPort.logplaybackfile != null)
-                {
-                    MainV2.comPort.logreadmode = false;
-                    MainV2.comPort.logplaybackfile.Close();
-                }
-
                 foreach (string logfile in openFileDialog1.FileNames)
                 {
 

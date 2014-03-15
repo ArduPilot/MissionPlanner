@@ -2,14 +2,14 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension" xmlns:difx="http://schemas.microsoft.com/wix/DifxAppExtension" xmlns:iis='http://schemas.microsoft.com/wix/IIsExtension' >
 
 
-    <Product Id="*" Name="Mission Planner" Language="1033" Version="1.2.97" Manufacturer="Michael Oborne" UpgradeCode="{625389D7-EB3C-4d77-A5F6-A285CF99437D}">
+    <Product Id="*" Name="Mission Planner" Language="1033" Version="1.2.98" Manufacturer="Michael Oborne" UpgradeCode="{625389D7-EB3C-4d77-A5F6-A285CF99437D}">
 
         <Package Description="Mission Planner Installer" Comments="Mission Planner Installer" Manufacturer="Michael Oborne" InstallerVersion="200" Compressed="yes" />
 
 
 <Upgrade Id="{625389D7-EB3C-4d77-A5F6-A285CF99437D}">
-    <UpgradeVersion OnlyDetect="yes" Minimum="1.2.97" Property="NEWERVERSIONDETECTED" IncludeMinimum="no" />
-    <UpgradeVersion OnlyDetect="no" Minimum="0.0.0" Maximum="1.2.97" Property="OLDERVERSIONBEINGUPGRADED" IncludeMinimum="yes" IncludeMaximum="yes" />
+    <UpgradeVersion OnlyDetect="yes" Minimum="1.2.98" Property="NEWERVERSIONDETECTED" IncludeMinimum="no" />
+    <UpgradeVersion OnlyDetect="no" Minimum="0.0.0" Maximum="1.2.98" Property="OLDERVERSIONBEINGUPGRADED" IncludeMinimum="yes" IncludeMaximum="yes" />
 </Upgrade>
 
 <InstallExecuteSequence>
@@ -31,47 +31,47 @@
                         <CreateFolder> 
                             <Permission User="Everyone" GenericAll="yes" /> 
                         </CreateFolder>
-                    </Component>
-<Component Id="_1" Guid="ce62533d-685e-4a80-b53b-68e860e5d1eb">
+</Component>
+<Component Id="_1" Guid="5a88cf81-8a1c-4fb1-8430-39d7eb499a83">
 <File Id="_acsimplepids_xml_2" Source="..\bin\release\acsimplepids.xml" />
 <File Id="_alglibnet2_dll_3" Source="..\bin\release\alglibnet2.dll" />
-<File Id="_aotall_4" Source="..\bin\release\aotall" />
-<File Id="_ArduCopterConfig_xml_5" Source="..\bin\release\ArduCopterConfig.xml" />
-<File Id="_ArdupilotMegaPlanner10_exe_6" Source="..\bin\release\ArdupilotMegaPlanner10.exe" />
-<File Id="_ArdupilotMegaPlanner10_exe_config_7" Source="..\bin\release\ArdupilotMegaPlanner10.exe.config" />
-<File Id="_ArdupilotMegaPlanner10_pdb_8" Source="..\bin\release\ArdupilotMegaPlanner10.pdb" />
-<File Id="_AviFile_dll_9" Source="..\bin\release\AviFile.dll" />
-<File Id="_AWSSDK_dll_10" Source="..\bin\release\AWSSDK.dll" />
-<File Id="_BaseClassesNET_dll_11" Source="..\bin\release\BaseClassesNET.dll" />
-<File Id="_BaseClassesNET_pdb_12" Source="..\bin\release\BaseClassesNET.pdb" />
-<File Id="_beta_bat_13" Source="..\bin\release\beta.bat" />
-<File Id="_block_plane_0_dae_14" Source="..\bin\release\block_plane_0.dae" />
-<File Id="_BouncyCastle_Crypto_dll_15" Source="..\bin\release\BouncyCastle.Crypto.dll" />
-<File Id="_BSE_Windows_Forms_dll_16" Source="..\bin\release\BSE.Windows.Forms.dll" />
-<File Id="_cameras_xml_17" Source="..\bin\release\cameras.xml" />
-<File Id="_camerasBuiltin_xml_18" Source="..\bin\release\camerasBuiltin.xml" />
-<File Id="_ChangeLog_txt_19" Source="..\bin\release\ChangeLog.txt" />
-<File Id="_Core_dll_20" Source="..\bin\release\Core.dll" />
-<File Id="_Core_pdb_21" Source="..\bin\release\Core.pdb" />
-<File Id="_csmatio_dll_22" Source="..\bin\release\csmatio.dll" />
-<File Id="_dataflashlog_xml_23" Source="..\bin\release\dataflashlog.xml" />
-<File Id="_DirectShowLib_2005_dll_24" Source="..\bin\release\DirectShowLib-2005.dll" />
-<File Id="_exif_xslt_25" Source="..\bin\release\exif.xslt" />
-<File Id="_FirmwareHistory_txt_26" Source="..\bin\release\FirmwareHistory.txt" />
-<File Id="_fwversions_xml_27" Source="..\bin\release\fwversions.xml" />
-<File Id="_GeoUtility_dll_28" Source="..\bin\release\GeoUtility.dll" />
-<File Id="_GeoUtility_pdb_29" Source="..\bin\release\GeoUtility.pdb" />
-<File Id="_GeoUtility_xml_30" Source="..\bin\release\GeoUtility.xml" />
-<File Id="_GMap_NET_Core_dll_31" Source="..\bin\release\GMap.NET.Core.dll" />
-<File Id="_GMap_NET_WindowsForms_dll_32" Source="..\bin\release\GMap.NET.WindowsForms.dll" />
-<File Id="_hud_html_33" Source="..\bin\release\hud.html" />
-<File Id="_ICSharpCode_SharpZipLib_dll_34" Source="..\bin\release\ICSharpCode.SharpZipLib.dll" />
-<File Id="_Ionic_Zip_Reduced_dll_35" Source="..\bin\release\Ionic.Zip.Reduced.dll" />
-<File Id="_IronPython_dll_36" Source="..\bin\release\IronPython.dll" />
-<File Id="_IronPython_Modules_dll_37" Source="..\bin\release\IronPython.Modules.dll" />
-<File Id="_IronPython_Modules_xml_38" Source="..\bin\release\IronPython.Modules.xml" />
-<File Id="_IronPython_SQLite_dll_39" Source="..\bin\release\IronPython.SQLite.dll" />
-<File Id="_IronPython_SQLite_xml_40" Source="..\bin\release\IronPython.SQLite.xml" />
+<File Id="_ArduCopterConfig_xml_4" Source="..\bin\release\ArduCopterConfig.xml" />
+<File Id="_ArdupilotMegaPlanner10_exe_5" Source="..\bin\release\ArdupilotMegaPlanner10.exe" />
+<File Id="_ArdupilotMegaPlanner10_exe_config_6" Source="..\bin\release\ArdupilotMegaPlanner10.exe.config" />
+<File Id="_ArdupilotMegaPlanner10_pdb_7" Source="..\bin\release\ArdupilotMegaPlanner10.pdb" />
+<File Id="_AviFile_dll_8" Source="..\bin\release\AviFile.dll" />
+<File Id="_AWSSDK_dll_9" Source="..\bin\release\AWSSDK.dll" />
+<File Id="_BaseClassesNET_dll_10" Source="..\bin\release\BaseClassesNET.dll" />
+<File Id="_BaseClassesNET_pdb_11" Source="..\bin\release\BaseClassesNET.pdb" />
+<File Id="_beta_bat_12" Source="..\bin\release\beta.bat" />
+<File Id="_block_plane_0_dae_13" Source="..\bin\release\block_plane_0.dae" />
+<File Id="_BouncyCastle_Crypto_dll_14" Source="..\bin\release\BouncyCastle.Crypto.dll" />
+<File Id="_BSE_Windows_Forms_dll_15" Source="..\bin\release\BSE.Windows.Forms.dll" />
+<File Id="_camerasBuiltin_xml_16" Source="..\bin\release\camerasBuiltin.xml" />
+<File Id="_ChangeLog_txt_17" Source="..\bin\release\ChangeLog.txt" />
+<File Id="_Core_dll_18" Source="..\bin\release\Core.dll" />
+<File Id="_Core_pdb_19" Source="..\bin\release\Core.pdb" />
+<File Id="_csmatio_dll_20" Source="..\bin\release\csmatio.dll" />
+<File Id="_dataflashlog_xml_21" Source="..\bin\release\dataflashlog.xml" />
+<File Id="_DirectShowLib_2005_dll_22" Source="..\bin\release\DirectShowLib-2005.dll" />
+<File Id="_exif_xslt_23" Source="..\bin\release\exif.xslt" />
+<File Id="_FirmwareHistory_txt_24" Source="..\bin\release\FirmwareHistory.txt" />
+<File Id="_fwversions_xml_25" Source="..\bin\release\fwversions.xml" />
+<File Id="_GeoUtility_dll_26" Source="..\bin\release\GeoUtility.dll" />
+<File Id="_GeoUtility_pdb_27" Source="..\bin\release\GeoUtility.pdb" />
+<File Id="_GeoUtility_xml_28" Source="..\bin\release\GeoUtility.xml" />
+<File Id="_GMap_NET_Core_dll_29" Source="..\bin\release\GMap.NET.Core.dll" />
+<File Id="_GMap_NET_WindowsForms_dll_30" Source="..\bin\release\GMap.NET.WindowsForms.dll" />
+<File Id="_hud_html_31" Source="..\bin\release\hud.html" />
+<File Id="_ICSharpCode_SharpZipLib_dll_32" Source="..\bin\release\ICSharpCode.SharpZipLib.dll" />
+<File Id="_Ionic_Zip_Reduced_dll_33" Source="..\bin\release\Ionic.Zip.Reduced.dll" />
+<File Id="_IronPython_dll_34" Source="..\bin\release\IronPython.dll" />
+<File Id="_IronPython_Modules_dll_35" Source="..\bin\release\IronPython.Modules.dll" />
+<File Id="_IronPython_Modules_xml_36" Source="..\bin\release\IronPython.Modules.xml" />
+<File Id="_IronPython_SQLite_dll_37" Source="..\bin\release\IronPython.SQLite.dll" />
+<File Id="_IronPython_SQLite_xml_38" Source="..\bin\release\IronPython.SQLite.xml" />
+<File Id="_IronPython_Wpf_dll_39" Source="..\bin\release\IronPython.Wpf.dll" />
+<File Id="_IronPython_Wpf_xml_40" Source="..\bin\release\IronPython.Wpf.xml" />
 <File Id="_IronPython_xml_41" Source="..\bin\release\IronPython.xml" />
 <File Id="_KMLib_dll_42" Source="..\bin\release\KMLib.dll" />
 <File Id="_KMLib_pdb_43" Source="..\bin\release\KMLib.pdb" />
@@ -87,33 +87,33 @@
 <File Id="_Microsoft_DirectX_dll_53" Source="..\bin\release\Microsoft.DirectX.dll" />
 <File Id="_Microsoft_Dynamic_dll_54" Source="..\bin\release\Microsoft.Dynamic.dll" />
 <File Id="_Microsoft_Dynamic_xml_55" Source="..\bin\release\Microsoft.Dynamic.xml" />
-<File Id="_Microsoft_Scripting_Core_dll_56" Source="..\bin\release\Microsoft.Scripting.Core.dll" />
-<File Id="_Microsoft_Scripting_Debugging_dll_57" Source="..\bin\release\Microsoft.Scripting.Debugging.dll" />
-<File Id="_Microsoft_Scripting_dll_58" Source="..\bin\release\Microsoft.Scripting.dll" />
-<File Id="_Microsoft_Scripting_ExtensionAttribute_dll_59" Source="..\bin\release\Microsoft.Scripting.ExtensionAttribute.dll" />
-<File Id="_Microsoft_Scripting_Metadata_dll_60" Source="..\bin\release\Microsoft.Scripting.Metadata.dll" />
-<File Id="_Microsoft_Scripting_Metadata_xml_61" Source="..\bin\release\Microsoft.Scripting.Metadata.xml" />
-<File Id="_Microsoft_Scripting_xml_62" Source="..\bin\release\Microsoft.Scripting.xml" />
-<File Id="_MissionPlanner_Comms_dll_63" Source="..\bin\release\MissionPlanner.Comms.dll" />
-<File Id="_MissionPlanner_Comms_pdb_64" Source="..\bin\release\MissionPlanner.Comms.pdb" />
-<File Id="_MissionPlanner_Controls_dll_65" Source="..\bin\release\MissionPlanner.Controls.dll" />
-<File Id="_MissionPlanner_Controls_pdb_66" Source="..\bin\release\MissionPlanner.Controls.pdb" />
-<File Id="_67" Source="..\bin\release\MissionPlanner.exe" ><netfx:NativeImage Id="ngen_MissionPlannerexe"/> </File>
+<File Id="_Microsoft_Scripting_dll_56" Source="..\bin\release\Microsoft.Scripting.dll" />
+<File Id="_Microsoft_Scripting_Metadata_dll_57" Source="..\bin\release\Microsoft.Scripting.Metadata.dll" />
+<File Id="_Microsoft_Scripting_Metadata_xml_58" Source="..\bin\release\Microsoft.Scripting.Metadata.xml" />
+<File Id="_Microsoft_Scripting_xml_59" Source="..\bin\release\Microsoft.Scripting.xml" />
+<File Id="_MissionPlanner_Comms_dll_60" Source="..\bin\release\MissionPlanner.Comms.dll" />
+<File Id="_MissionPlanner_Comms_pdb_61" Source="..\bin\release\MissionPlanner.Comms.pdb" />
+<File Id="_MissionPlanner_Controls_dll_62" Source="..\bin\release\MissionPlanner.Controls.dll" />
+<File Id="_MissionPlanner_Controls_pdb_63" Source="..\bin\release\MissionPlanner.Controls.pdb" />
+<File Id="_64" Source="..\bin\release\MissionPlanner.exe" ><netfx:NativeImage Id="ngen_MissionPlannerexe"/> </File>
 <ProgId Id='MissionPlanner.tlog' Description='Telemetry Log'>
   <Extension Id='tlog' ContentType='application/tlog'>
-     <Verb Id='open' Command='Open' TargetFile='_67' Argument='"%1"' />
+     <Verb Id='open' Command='Open' TargetFile='_64' Argument='"%1"' />
   </Extension>
 </ProgId>
-<File Id="_MissionPlanner_exe_config_68" Source="..\bin\release\MissionPlanner.exe.config" />
-<File Id="_MissionPlanner_log_69" Source="..\bin\release\MissionPlanner.log" />
+<File Id="_MissionPlanner_exe_config_65" Source="..\bin\release\MissionPlanner.exe.config" />
+<File Id="_MissionPlanner_log_66" Source="..\bin\release\MissionPlanner.log" />
+<File Id="_MissionPlanner_log_1_67" Source="..\bin\release\MissionPlanner.log.1" />
+<File Id="_MissionPlanner_log_2014_02_23_68" Source="..\bin\release\MissionPlanner.log.2014-02-23" />
+<File Id="_MissionPlanner_log_2014_02_24_69" Source="..\bin\release\MissionPlanner.log.2014-02-24" />
 <File Id="_MissionPlanner_pdb_70" Source="..\bin\release\MissionPlanner.pdb" />
 <File Id="_MissionPlanner_sh_71" Source="..\bin\release\MissionPlanner.sh" />
 <File Id="_MissionPlanner_Utilities_dll_72" Source="..\bin\release\MissionPlanner.Utilities.dll" />
 <File Id="_MissionPlanner_Utilities_pdb_73" Source="..\bin\release\MissionPlanner.Utilities.pdb" />
 <File Id="_MissionPlanner_vshost_exe_74" Source="..\bin\release\MissionPlanner.vshost.exe" />
 <File Id="_MissionPlanner_vshost_exe_config_75" Source="..\bin\release\MissionPlanner.vshost.exe.config" />
-<File Id="_netDxf_dll_76" Source="..\bin\release\netDxf.dll" />
-<File Id="_network_log_77" Source="..\bin\release\network.log" />
+<File Id="_MissionPlanner_vshost_exe_manifest_76" Source="..\bin\release\MissionPlanner.vshost.exe.manifest" />
+<File Id="_netDxf_dll_77" Source="..\bin\release\netDxf.dll" />
 <File Id="_OpenTK_dll_78" Source="..\bin\release\OpenTK.dll" />
 <File Id="_OpenTK_GLControl_dll_79" Source="..\bin\release\OpenTK.GLControl.dll" />
 <File Id="_OpenTK_GLControl_xml_80" Source="..\bin\release\OpenTK.GLControl.xml" />
@@ -126,216 +126,1884 @@
 <File Id="_SharpKml_pdb_87" Source="..\bin\release\SharpKml.pdb" />
 <File Id="_SharpKml_xml_88" Source="..\bin\release\SharpKml.xml" />
 <File Id="_System_Reactive_Core_dll_89" Source="..\bin\release\System.Reactive.Core.dll" />
-<File Id="_System_Reactive_Core_xml_90" Source="..\bin\release\System.Reactive.Core.xml" />
-<File Id="_System_Reactive_Interfaces_dll_91" Source="..\bin\release\System.Reactive.Interfaces.dll" />
-<File Id="_System_Reactive_Interfaces_xml_92" Source="..\bin\release\System.Reactive.Interfaces.xml" />
-<File Id="_System_Reactive_Linq_dll_93" Source="..\bin\release\System.Reactive.Linq.dll" />
-<File Id="_System_Reactive_Linq_xml_94" Source="..\bin\release\System.Reactive.Linq.xml" />
-<File Id="_System_Speech_dll_95" Source="..\bin\release\System.Speech.dll" />
-<File Id="_Transitions_dll_96" Source="..\bin\release\Transitions.dll" />
-<File Id="_Updater_exe_97" Source="..\bin\release\Updater.exe" />
-<File Id="_Updater_exe_config_98" Source="..\bin\release\Updater.exe.config" />
-<File Id="_Updater_vshost_exe_99" Source="..\bin\release\Updater.vshost.exe" />
-<File Id="_version_exe_100" Source="..\bin\release\version.exe" />
-<File Id="_version_txt_101" Source="..\bin\release\version.txt" />
-<File Id="_ZedGraph_dll_102" Source="..\bin\release\ZedGraph.dll" />
-<File Id="_ZedGraph_pdb_103" Source="..\bin\release\ZedGraph.pdb" />
-<File Id="_ZedGraph_xml_104" Source="..\bin\release\ZedGraph.xml" />
-<File Id="_zlib_net_dll_105" Source="..\bin\release\zlib.net.dll" />
+<File Id="_System_Reactive_Interfaces_dll_90" Source="..\bin\release\System.Reactive.Interfaces.dll" />
+<File Id="_System_Reactive_Linq_dll_91" Source="..\bin\release\System.Reactive.Linq.dll" />
+<File Id="_System_Speech_dll_92" Source="..\bin\release\System.Speech.dll" />
+<File Id="_Transitions_dll_93" Source="..\bin\release\Transitions.dll" />
+<File Id="_Updater_exe_94" Source="..\bin\release\Updater.exe" />
+<File Id="_Updater_exe_config_95" Source="..\bin\release\Updater.exe.config" />
+<File Id="_version_exe_96" Source="..\bin\release\version.exe" />
+<File Id="_version_txt_97" Source="..\bin\release\version.txt" />
+<File Id="_ZedGraph_dll_98" Source="..\bin\release\ZedGraph.dll" />
+<File Id="_ZedGraph_pdb_99" Source="..\bin\release\ZedGraph.pdb" />
+<File Id="_ZedGraph_xml_100" Source="..\bin\release\ZedGraph.xml" />
+<File Id="_zlib_net_dll_101" Source="..\bin\release\zlib.net.dll" />
 </Component>
-<Directory Id="aircraft105" Name="aircraft">
-<Component Id="aircraft_106" Guid="b2f8f8c1-1306-49b1-8359-d89351ec5982">
-<File Id="_placeholder_txt_107" Source="..\bin\release\aircraft\placeholder.txt" />
+<Directory Id="aircraft" Name="aircraft">
+<Component Id="aircraft_102" Guid="dee8f433-80da-45e1-8236-7701cb82eee4">
+<File Id="_placeholder_txt_103" Source="..\bin\release\aircraft\placeholder.txt" />
 </Component>
-<Directory Id="arducopter107" Name="arducopter">
-<Component Id="arducopter_108" Guid="69b1ae95-358d-4adb-9402-838237fa81e6">
-<File Id="_arducopter_set_xml_109" Source="..\bin\release\aircraft\arducopter\arducopter-set.xml" />
-<File Id="_arducopter_jpg_110" Source="..\bin\release\aircraft\arducopter\arducopter.jpg" />
-<File Id="_arducopter_xml_111" Source="..\bin\release\aircraft\arducopter\arducopter.xml" />
-<File Id="_initfile_xml_112" Source="..\bin\release\aircraft\arducopter\initfile.xml" />
-<File Id="_plus_quad2_set_xml_113" Source="..\bin\release\aircraft\arducopter\plus_quad2-set.xml" />
-<File Id="_plus_quad2_xml_114" Source="..\bin\release\aircraft\arducopter\plus_quad2.xml" />
-<File Id="_quad_nas_115" Source="..\bin\release\aircraft\arducopter\quad.nas" />
-<File Id="_README_116" Source="..\bin\release\aircraft\arducopter\README" />
+<Directory Id="arducopter" Name="arducopter">
+<Component Id="arducopter_104" Guid="afb2736b-84de-4c75-a0fd-7997ede3ff2f">
+<File Id="_arducopter_set_xml_105" Source="..\bin\release\aircraft\arducopter\arducopter-set.xml" />
+<File Id="_arducopter_jpg_106" Source="..\bin\release\aircraft\arducopter\arducopter.jpg" />
+<File Id="_arducopter_xml_107" Source="..\bin\release\aircraft\arducopter\arducopter.xml" />
+<File Id="_initfile_xml_108" Source="..\bin\release\aircraft\arducopter\initfile.xml" />
+<File Id="_plus_quad2_set_xml_109" Source="..\bin\release\aircraft\arducopter\plus_quad2-set.xml" />
+<File Id="_plus_quad2_xml_110" Source="..\bin\release\aircraft\arducopter\plus_quad2.xml" />
+<File Id="_quad_nas_111" Source="..\bin\release\aircraft\arducopter\quad.nas" />
+<File Id="_README_112" Source="..\bin\release\aircraft\arducopter\README" />
 </Component>
-<Directory Id="data116" Name="data">
-<Component Id="data_117" Guid="ce4393b3-506e-42d9-9a06-fa9b99309c5a">
-<File Id="_arducopter_half_step_txt_118" Source="..\bin\release\aircraft\arducopter\data\arducopter_half_step.txt" />
-<File Id="_arducopter_step_txt_119" Source="..\bin\release\aircraft\arducopter\data\arducopter_step.txt" />
-<File Id="_rw_generic_pylon_ac_120" Source="..\bin\release\aircraft\arducopter\data\rw_generic_pylon.ac" />
+<Directory Id="data" Name="data">
+<Component Id="data_113" Guid="bea5a679-b614-4f34-b4fb-b72fa5e2fe21">
+<File Id="_arducopter_half_step_txt_114" Source="..\bin\release\aircraft\arducopter\data\arducopter_half_step.txt" />
+<File Id="_arducopter_step_txt_115" Source="..\bin\release\aircraft\arducopter\data\arducopter_step.txt" />
+<File Id="_rw_generic_pylon_ac_116" Source="..\bin\release\aircraft\arducopter\data\rw_generic_pylon.ac" />
 </Component>
 </Directory>
-<Directory Id="Engines120" Name="Engines">
-<Component Id="Engines_121" Guid="a21c186e-b069-4664-8f7e-6c88db980596">
-<File Id="_a2830_12_xml_122" Source="..\bin\release\aircraft\arducopter\Engines\a2830-12.xml" />
-<File Id="_prop10x4_5_xml_123" Source="..\bin\release\aircraft\arducopter\Engines\prop10x4.5.xml" />
+<Directory Id="Engines" Name="Engines">
+<Component Id="Engines_117" Guid="ba8f5053-c318-489d-a1f5-5474eb31d56c">
+<File Id="_a2830_12_xml_118" Source="..\bin\release\aircraft\arducopter\Engines\a2830-12.xml" />
+<File Id="_prop10x4_5_xml_119" Source="..\bin\release\aircraft\arducopter\Engines\prop10x4.5.xml" />
 </Component>
 </Directory>
-<Directory Id="Models123" Name="Models">
-<Component Id="Models_124" Guid="6af2cf01-7cf2-48a6-adad-4dfb75e33aa2">
-<File Id="_arducopter_ac_125" Source="..\bin\release\aircraft\arducopter\Models\arducopter.ac" />
-<File Id="_arducopter_xml_126" Source="..\bin\release\aircraft\arducopter\Models\arducopter.xml" />
-<File Id="_plus_quad_ac_127" Source="..\bin\release\aircraft\arducopter\Models\plus_quad.ac" />
-<File Id="_plus_quad2_ac_128" Source="..\bin\release\aircraft\arducopter\Models\plus_quad2.ac" />
-<File Id="_plus_quad2_xml_129" Source="..\bin\release\aircraft\arducopter\Models\plus_quad2.xml" />
-<File Id="_quad_3ds_130" Source="..\bin\release\aircraft\arducopter\Models\quad.3ds" />
-<File Id="_shareware_output_3ds_131" Source="..\bin\release\aircraft\arducopter\Models\shareware_output.3ds" />
-<File Id="_Untitled_ac_132" Source="..\bin\release\aircraft\arducopter\Models\Untitled.ac" />
-<File Id="_Y6_test_ac_133" Source="..\bin\release\aircraft\arducopter\Models\Y6_test.ac" />
+<Directory Id="Models" Name="Models">
+<Component Id="Models_120" Guid="825b8077-b4c1-4cf0-b87e-745f7fc76be9">
+<File Id="_arducopter_ac_121" Source="..\bin\release\aircraft\arducopter\Models\arducopter.ac" />
+<File Id="_arducopter_xml_122" Source="..\bin\release\aircraft\arducopter\Models\arducopter.xml" />
+<File Id="_plus_quad_ac_123" Source="..\bin\release\aircraft\arducopter\Models\plus_quad.ac" />
+<File Id="_plus_quad2_ac_124" Source="..\bin\release\aircraft\arducopter\Models\plus_quad2.ac" />
+<File Id="_plus_quad2_xml_125" Source="..\bin\release\aircraft\arducopter\Models\plus_quad2.xml" />
+<File Id="_quad_3ds_126" Source="..\bin\release\aircraft\arducopter\Models\quad.3ds" />
+<File Id="_shareware_output_3ds_127" Source="..\bin\release\aircraft\arducopter\Models\shareware_output.3ds" />
+<File Id="_Untitled_ac_128" Source="..\bin\release\aircraft\arducopter\Models\Untitled.ac" />
+<File Id="_Y6_test_ac_129" Source="..\bin\release\aircraft\arducopter\Models\Y6_test.ac" />
 </Component>
 </Directory>
 </Directory>
-<Directory Id="Rascal133" Name="Rascal">
-<Component Id="Rascal_134" Guid="518b7f88-72ce-466d-94e3-208fc0355390">
-<File Id="_Rascal_keyboard_xml_135" Source="..\bin\release\aircraft\Rascal\Rascal-keyboard.xml" />
-<File Id="_Rascal_submodels_xml_136" Source="..\bin\release\aircraft\Rascal\Rascal-submodels.xml" />
-<File Id="_Rascal_xml_137" Source="..\bin\release\aircraft\Rascal\Rascal.xml" />
-<File Id="_Rascal110_JSBSim_set_xml_138" Source="..\bin\release\aircraft\Rascal\Rascal110-JSBSim-set.xml" />
-<File Id="_Rascal110_JSBSim_xml_139" Source="..\bin\release\aircraft\Rascal\Rascal110-JSBSim.xml" />
-<File Id="_Rascal110_splash_rgb_140" Source="..\bin\release\aircraft\Rascal\Rascal110-splash.rgb" />
-<File Id="_README_Rascal_141" Source="..\bin\release\aircraft\Rascal\README.Rascal" />
-<File Id="_reset_CMAC_xml_142" Source="..\bin\release\aircraft\Rascal\reset_CMAC.xml" />
-<File Id="_thumbnail_jpg_143" Source="..\bin\release\aircraft\Rascal\thumbnail.jpg" />
+<Directory Id="Rascal" Name="Rascal">
+<Component Id="Rascal_130" Guid="2542289a-d08f-49d3-bdf0-b379a1cddb7b">
+<File Id="_Rascal_keyboard_xml_131" Source="..\bin\release\aircraft\Rascal\Rascal-keyboard.xml" />
+<File Id="_Rascal_submodels_xml_132" Source="..\bin\release\aircraft\Rascal\Rascal-submodels.xml" />
+<File Id="_Rascal_xml_133" Source="..\bin\release\aircraft\Rascal\Rascal.xml" />
+<File Id="_Rascal110_JSBSim_set_xml_134" Source="..\bin\release\aircraft\Rascal\Rascal110-JSBSim-set.xml" />
+<File Id="_Rascal110_JSBSim_xml_135" Source="..\bin\release\aircraft\Rascal\Rascal110-JSBSim.xml" />
+<File Id="_Rascal110_splash_rgb_136" Source="..\bin\release\aircraft\Rascal\Rascal110-splash.rgb" />
+<File Id="_README_Rascal_137" Source="..\bin\release\aircraft\Rascal\README.Rascal" />
+<File Id="_reset_CMAC_xml_138" Source="..\bin\release\aircraft\Rascal\reset_CMAC.xml" />
+<File Id="_thumbnail_jpg_139" Source="..\bin\release\aircraft\Rascal\thumbnail.jpg" />
 </Component>
-<Directory Id="Engines143" Name="Engines">
-<Component Id="Engines_144" Guid="3dfdf5f1-1ca5-430d-bd84-cb7690c1a45b">
-<File Id="_18x8_xml_145" Source="..\bin\release\aircraft\Rascal\Engines\18x8.xml" />
-<File Id="_Zenoah_G_26A_xml_146" Source="..\bin\release\aircraft\Rascal\Engines\Zenoah_G-26A.xml" />
-</Component>
-</Directory>
-<Directory Id="Models146" Name="Models">
-<Component Id="Models_147" Guid="836fc892-c5b8-4861-bfe0-9948abe631df">
-<File Id="_Rascal_rgb_148" Source="..\bin\release\aircraft\Rascal\Models\Rascal.rgb" />
-<File Id="_Rascal110_000_013_ac_149" Source="..\bin\release\aircraft\Rascal\Models\Rascal110-000-013.ac" />
-<File Id="_Rascal110_xml_150" Source="..\bin\release\aircraft\Rascal\Models\Rascal110.xml" />
-<File Id="_smoke_png_151" Source="..\bin\release\aircraft\Rascal\Models\smoke.png" />
-<File Id="_smokeW_xml_152" Source="..\bin\release\aircraft\Rascal\Models\smokeW.xml" />
-<File Id="_Trajectory_Marker_ac_153" Source="..\bin\release\aircraft\Rascal\Models\Trajectory-Marker.ac" />
-<File Id="_Trajectory_Marker_xml_154" Source="..\bin\release\aircraft\Rascal\Models\Trajectory-Marker.xml" />
+<Directory Id="Engines139" Name="Engines">
+<Component Id="Engines_140" Guid="a7e98094-2852-4ca7-8f37-159d0b816f33">
+<File Id="_18x8_xml_141" Source="..\bin\release\aircraft\Rascal\Engines\18x8.xml" />
+<File Id="_Zenoah_G_26A_xml_142" Source="..\bin\release\aircraft\Rascal\Engines\Zenoah_G-26A.xml" />
 </Component>
 </Directory>
-<Directory Id="Systems154" Name="Systems">
-<Component Id="Systems_155" Guid="41b88f64-fae8-481c-a994-22ea60d1de9f">
-<File Id="_110_autopilot_xml_156" Source="..\bin\release\aircraft\Rascal\Systems\110-autopilot.xml" />
-<File Id="_airdata_nas_157" Source="..\bin\release\aircraft\Rascal\Systems\airdata.nas" />
-<File Id="_electrical_xml_158" Source="..\bin\release\aircraft\Rascal\Systems\electrical.xml" />
-<File Id="_main_nas_159" Source="..\bin\release\aircraft\Rascal\Systems\main.nas" />
-<File Id="_ugear_nas_160" Source="..\bin\release\aircraft\Rascal\Systems\ugear.nas" />
+<Directory Id="Models142" Name="Models">
+<Component Id="Models_143" Guid="bb539861-a384-43ad-8756-36af52f5cb38">
+<File Id="_Rascal_rgb_144" Source="..\bin\release\aircraft\Rascal\Models\Rascal.rgb" />
+<File Id="_Rascal110_000_013_ac_145" Source="..\bin\release\aircraft\Rascal\Models\Rascal110-000-013.ac" />
+<File Id="_Rascal110_xml_146" Source="..\bin\release\aircraft\Rascal\Models\Rascal110.xml" />
+<File Id="_smoke_png_147" Source="..\bin\release\aircraft\Rascal\Models\smoke.png" />
+<File Id="_smokeW_xml_148" Source="..\bin\release\aircraft\Rascal\Models\smokeW.xml" />
+<File Id="_Trajectory_Marker_ac_149" Source="..\bin\release\aircraft\Rascal\Models\Trajectory-Marker.ac" />
+<File Id="_Trajectory_Marker_xml_150" Source="..\bin\release\aircraft\Rascal\Models\Trajectory-Marker.xml" />
+</Component>
+</Directory>
+<Directory Id="Systems" Name="Systems">
+<Component Id="Systems_151" Guid="89fdbb5b-1e9e-452b-aad2-6b983f4efd4f">
+<File Id="_110_autopilot_xml_152" Source="..\bin\release\aircraft\Rascal\Systems\110-autopilot.xml" />
+<File Id="_airdata_nas_153" Source="..\bin\release\aircraft\Rascal\Systems\airdata.nas" />
+<File Id="_electrical_xml_154" Source="..\bin\release\aircraft\Rascal\Systems\electrical.xml" />
+<File Id="_main_nas_155" Source="..\bin\release\aircraft\Rascal\Systems\main.nas" />
+<File Id="_ugear_nas_156" Source="..\bin\release\aircraft\Rascal\Systems\ugear.nas" />
 </Component>
 </Directory>
 </Directory>
 </Directory>
-<Directory Id="de_DE160" Name="de-DE">
-<Component Id="de_DE_161" Guid="77a5defb-be81-4066-9c15-c6017db6ccea">
-<File Id="_MissionPlanner_resources_dll_162" Source="..\bin\release\de-DE\MissionPlanner.resources.dll" />
+<Directory Id="de_DE" Name="de-DE">
+<Component Id="de_DE_157" Guid="9ce188f2-43e1-4d3b-9559-3edbaa736279">
+<File Id="_MissionPlanner_resources_dll_158" Source="..\bin\release\de-DE\MissionPlanner.resources.dll" />
 </Component>
 </Directory>
-<Directory Id="Driver162" Name="Driver">
-<Component Id="Driver_163" Guid="7d37b186-cc0e-43c5-9d26-986233726992">
-<File Id="_arduinomega2560_cat_164" Source="..\bin\release\Driver\arduinomega2560.cat" />
-<File Id="_ArduinoMEGA2560_inf_165" Source="..\bin\release\Driver\ArduinoMEGA2560.inf" />
-<File Id="_dpinst_xml_166" Source="..\bin\release\Driver\dpinst.xml" />
-<File Id="_DPInstx64_exe_167" Source="..\bin\release\Driver\DPInstx64.exe" />
-<File Id="_DPInstx86_exe_168" Source="..\bin\release\Driver\DPInstx86.exe" />
-<File Id="_px4flow_cat_169" Source="..\bin\release\Driver\px4flow.cat" />
-<File Id="_px4flow_inf_170" Source="..\bin\release\Driver\px4flow.inf" />
-<File Id="_px4fmu_cat_171" Source="..\bin\release\Driver\px4fmu.cat" />
-<File Id="_px4fmu_inf_172" Source="..\bin\release\Driver\px4fmu.inf" />
-<File Id="_signed_cer_173" Source="..\bin\release\Driver\signed.cer" />
+<Directory Id="DLLs" Name="DLLs">
+<Component Id="DLLs_159" Guid="91d2ac43-6906-449e-aaff-f6c23f908ece">
+<File Id="_fftpack_lite_dll_160" Source="..\bin\release\DLLs\fftpack_lite.dll" />
+<File Id="_lapack_lite_dll_161" Source="..\bin\release\DLLs\lapack_lite.dll" />
+<File Id="_msvcp100_dll_162" Source="..\bin\release\DLLs\msvcp100.dll" />
+<File Id="_msvcr100_dll_163" Source="..\bin\release\DLLs\msvcr100.dll" />
+<File Id="_mtrand_dll_164" Source="..\bin\release\DLLs\mtrand.dll" />
+<File Id="_ndarray_dll_165" Source="..\bin\release\DLLs\ndarray.dll" />
+<File Id="_NpyAccessLib_dll_166" Source="..\bin\release\DLLs\NpyAccessLib.dll" />
+<File Id="_NumpyDotNet_dll_167" Source="..\bin\release\DLLs\NumpyDotNet.dll" />
 </Component>
 </Directory>
-<Directory Id="es_ES173" Name="es-ES">
-<Component Id="es_ES_174" Guid="f0228dfb-1b58-4232-83ae-d5d3eee84218">
-<File Id="_MissionPlanner_resources_dll_175" Source="..\bin\release\es-ES\MissionPlanner.resources.dll" />
+<Directory Id="Drivers" Name="Drivers">
+<Component Id="Drivers_168" Guid="e66eee84-5942-43c4-a92b-0bf933adce52">
+<File Id="_arduinomega2560_cat_169" Source="..\bin\release\Drivers\arduinomega2560.cat" />
+<File Id="_ArduinoMEGA2560_inf_170" Source="..\bin\release\Drivers\ArduinoMEGA2560.inf" />
+<File Id="_dpinst_xml_171" Source="..\bin\release\Drivers\dpinst.xml" />
+<File Id="_DPInstx64_exe_172" Source="..\bin\release\Drivers\DPInstx64.exe" />
+<File Id="_DPInstx86_exe_173" Source="..\bin\release\Drivers\DPInstx86.exe" />
+<File Id="_ftd2xx_h_174" Source="..\bin\release\Drivers\ftd2xx.h" />
+<File Id="_ftdibus_cat_175" Source="..\bin\release\Drivers\ftdibus.cat" />
+<File Id="_ftdibus_inf_176" Source="..\bin\release\Drivers\ftdibus.inf" />
+<File Id="_ftdiport_cat_177" Source="..\bin\release\Drivers\ftdiport.cat" />
+<File Id="_ftdiport_inf_178" Source="..\bin\release\Drivers\ftdiport.inf" />
+<File Id="_px4flow_cat_179" Source="..\bin\release\Drivers\px4flow.cat" />
+<File Id="_px4flow_inf_180" Source="..\bin\release\Drivers\px4flow.inf" />
+<File Id="_px4fmu_cat_181" Source="..\bin\release\Drivers\px4fmu.cat" />
+<File Id="_px4fmu_inf_182" Source="..\bin\release\Drivers\px4fmu.inf" />
+<File Id="_signed_cer_183" Source="..\bin\release\Drivers\signed.cer" />
+</Component>
+<Directory Id="amd64" Name="amd64">
+<Component Id="amd64_184" Guid="7c5ff096-4b86-4cf1-9e60-628111fdd2de">
+<File Id="_ftbusui_dll_185" Source="..\bin\release\Drivers\amd64\ftbusui.dll" />
+<File Id="_ftcserco_dll_186" Source="..\bin\release\Drivers\amd64\ftcserco.dll" />
+<File Id="_ftd2xx_lib_187" Source="..\bin\release\Drivers\amd64\ftd2xx.lib" />
+<File Id="_ftd2xx64_dll_188" Source="..\bin\release\Drivers\amd64\ftd2xx64.dll" />
+<File Id="_ftdibus_sys_189" Source="..\bin\release\Drivers\amd64\ftdibus.sys" />
+<File Id="_ftlang_dll_190" Source="..\bin\release\Drivers\amd64\ftlang.dll" />
+<File Id="_ftser2k_sys_191" Source="..\bin\release\Drivers\amd64\ftser2k.sys" />
+<File Id="_ftserui2_dll_192" Source="..\bin\release\Drivers\amd64\ftserui2.dll" />
 </Component>
 </Directory>
-<Directory Id="fr175" Name="fr">
-<Component Id="fr_176" Guid="f2e89736-c415-4b29-95f9-7f5769781cdd">
-<File Id="_MissionPlanner_resources_dll_177" Source="..\bin\release\fr\MissionPlanner.resources.dll" />
+<Directory Id="i386" Name="i386">
+<Component Id="i386_193" Guid="8333eaf6-ce87-4848-b85d-0012555d0520">
+<File Id="_ftbusui_dll_194" Source="..\bin\release\Drivers\i386\ftbusui.dll" />
+<File Id="_ftcserco_dll_195" Source="..\bin\release\Drivers\i386\ftcserco.dll" />
+<File Id="_ftd2xx_dll_196" Source="..\bin\release\Drivers\i386\ftd2xx.dll" />
+<File Id="_ftd2xx_lib_197" Source="..\bin\release\Drivers\i386\ftd2xx.lib" />
+<File Id="_ftdibus_sys_198" Source="..\bin\release\Drivers\i386\ftdibus.sys" />
+<File Id="_ftlang_dll_199" Source="..\bin\release\Drivers\i386\ftlang.dll" />
+<File Id="_ftser2k_sys_200" Source="..\bin\release\Drivers\i386\ftser2k.sys" />
+<File Id="_ftserui2_dll_201" Source="..\bin\release\Drivers\i386\ftserui2.dll" />
 </Component>
 </Directory>
-<Directory Id="it_IT177" Name="it-IT">
-<Component Id="it_IT_178" Guid="f03f34f9-ce52-471d-b511-8d5cc4d57577">
-<File Id="_MissionPlanner_resources_dll_179" Source="..\bin\release\it-IT\MissionPlanner.resources.dll" />
+<Directory Id="Static" Name="Static">
+<Component Id="Static_202" Guid="80ded3ed-c83a-45b1-9808-37ab00d7dbd2">
+<File Id="_PlaceHolder_txt_203" Source="..\bin\release\Drivers\Static\PlaceHolder.txt" />
+</Component>
+<Directory Id="amd64203" Name="amd64">
+<Component Id="amd64_204" Guid="5bc6c305-1b17-41c2-b665-6372bd87f2f4">
+<File Id="_ftd2xx_lib_205" Source="..\bin\release\Drivers\Static\amd64\ftd2xx.lib" />
 </Component>
 </Directory>
-<Directory Id="jsbsim179" Name="jsbsim">
-<Component Id="jsbsim_180" Guid="02e1b808-121e-47fe-90a8-e11ee4cee809">
-<File Id="_fgout_xml_181" Source="..\bin\release\jsbsim\fgout.xml" />
-<File Id="_rascal_test_xml_182" Source="..\bin\release\jsbsim\rascal_test.xml" />
+<Directory Id="i386205" Name="i386">
+<Component Id="i386_206" Guid="e5cb7e43-2638-423e-b781-468b8690ce45">
+<File Id="_ftd2xx_lib_207" Source="..\bin\release\Drivers\Static\i386\ftd2xx.lib" />
 </Component>
 </Directory>
-<Directory Id="m3u182" Name="m3u">
-<Component Id="m3u_183" Guid="db143b4f-082a-4b24-a159-fb5b880521e5">
-<File Id="_both_m3u_184" Source="..\bin\release\m3u\both.m3u" />
-<File Id="_GeoRefnetworklink_kml_185" Source="..\bin\release\m3u\GeoRefnetworklink.kml" />
-<File Id="_hud_m3u_186" Source="..\bin\release\m3u\hud.m3u" />
-<File Id="_map_m3u_187" Source="..\bin\release\m3u\map.m3u" />
-<File Id="_networklink_kml_188" Source="..\bin\release\m3u\networklink.kml" />
+</Directory>
+</Directory>
+<Directory Id="es_ES" Name="es-ES">
+<Component Id="es_ES_208" Guid="9a443cfa-0ac8-43ff-9f15-33d7e70743b2">
+<File Id="_MissionPlanner_resources_dll_209" Source="..\bin\release\es-ES\MissionPlanner.resources.dll" />
 </Component>
 </Directory>
-<Directory Id="mavelous_web188" Name="mavelous_web">
-<Component Id="mavelous_web_189" Guid="85315809-711b-4684-8ecb-ba14acf76c1b">
-<File Id="_index_html_190" Source="..\bin\release\mavelous_web\index.html" />
+<Directory Id="fr" Name="fr">
+<Component Id="fr_210" Guid="9bd30db3-4067-4db3-8a67-4e7756f99e03">
+<File Id="_MissionPlanner_resources_dll_211" Source="..\bin\release\fr\MissionPlanner.resources.dll" />
 </Component>
 </Directory>
-<Directory Id="pl190" Name="pl">
-<Component Id="pl_191" Guid="0743f932-31bf-4ffb-b009-1488a0e5e206">
-<File Id="_MissionPlanner_resources_dll_192" Source="..\bin\release\pl\MissionPlanner.resources.dll" />
+<Directory Id="it_IT" Name="it-IT">
+<Component Id="it_IT_212" Guid="92d09a38-ddfe-4829-b99a-10a4df384da1">
+<File Id="_MissionPlanner_resources_dll_213" Source="..\bin\release\it-IT\MissionPlanner.resources.dll" />
 </Component>
 </Directory>
-<Directory Id="plugins192" Name="plugins">
-<Component Id="plugins_193" Guid="a4c99cbe-bf2f-40e8-959e-8e864f6e4994">
-<File Id="_MissionPlanner_Grid_dll_194" Source="..\bin\release\plugins\MissionPlanner.Grid.dll" />
-<File Id="_MissionPlanner_Grid_pdb_195" Source="..\bin\release\plugins\MissionPlanner.Grid.pdb" />
-<File Id="_MissionPlanner_SimpleGrid_dll_196" Source="..\bin\release\plugins\MissionPlanner.SimpleGrid.dll" />
-<File Id="_MissionPlanner_SimpleGrid_pdb_197" Source="..\bin\release\plugins\MissionPlanner.SimpleGrid.pdb" />
-<File Id="_MissionPlanner_Stats_dll_198" Source="..\bin\release\plugins\MissionPlanner.Stats.dll" />
-<File Id="_MissionPlanner_Stats_pdb_199" Source="..\bin\release\plugins\MissionPlanner.Stats.pdb" />
-<File Id="_TrackerHome_dll_200" Source="..\bin\release\plugins\TrackerHome.dll" />
-<File Id="_TrackerHome_pdb_201" Source="..\bin\release\plugins\TrackerHome.pdb" />
+<Directory Id="jsbsim" Name="jsbsim">
+<Component Id="jsbsim_214" Guid="bc0f634c-904c-4086-a5f6-108021775d35">
+<File Id="_fgout_xml_215" Source="..\bin\release\jsbsim\fgout.xml" />
+<File Id="_rascal_test_xml_216" Source="..\bin\release\jsbsim\rascal_test.xml" />
 </Component>
 </Directory>
-<Directory Id="Resources201" Name="Resources">
-<Component Id="Resources_202" Guid="f9f8b653-c4a6-4cb9-bc4e-860c9813a657">
-<File Id="_MAVCmd_txt_203" Source="..\bin\release\Resources\MAVCmd.txt" />
+<Directory Id="Lib" Name="Lib">
+<Component Id="Lib_217" Guid="c7efd0ee-57cf-40d5-b076-9e298efe77c3">
+<File Id="_abc_py_218" Source="..\bin\release\Lib\abc.py" />
+<File Id="_aifc_py_219" Source="..\bin\release\Lib\aifc.py" />
+<File Id="_antigravity_py_220" Source="..\bin\release\Lib\antigravity.py" />
+<File Id="_anydbm_py_221" Source="..\bin\release\Lib\anydbm.py" />
+<File Id="_argparse_py_222" Source="..\bin\release\Lib\argparse.py" />
+<File Id="_ast_py_223" Source="..\bin\release\Lib\ast.py" />
+<File Id="_asynchat_py_224" Source="..\bin\release\Lib\asynchat.py" />
+<File Id="_asyncore_py_225" Source="..\bin\release\Lib\asyncore.py" />
+<File Id="_atexit_py_226" Source="..\bin\release\Lib\atexit.py" />
+<File Id="_audiodev_py_227" Source="..\bin\release\Lib\audiodev.py" />
+<File Id="_base64_py_228" Source="..\bin\release\Lib\base64.py" />
+<File Id="_BaseHTTPServer_py_229" Source="..\bin\release\Lib\BaseHTTPServer.py" />
+<File Id="_Bastion_py_230" Source="..\bin\release\Lib\Bastion.py" />
+<File Id="_bdb_py_231" Source="..\bin\release\Lib\bdb.py" />
+<File Id="_binhex_py_232" Source="..\bin\release\Lib\binhex.py" />
+<File Id="_bisect_py_233" Source="..\bin\release\Lib\bisect.py" />
+<File Id="_calendar_py_234" Source="..\bin\release\Lib\calendar.py" />
+<File Id="_cgi_py_235" Source="..\bin\release\Lib\cgi.py" />
+<File Id="_CGIHTTPServer_py_236" Source="..\bin\release\Lib\CGIHTTPServer.py" />
+<File Id="_cgitb_py_237" Source="..\bin\release\Lib\cgitb.py" />
+<File Id="_chunk_py_238" Source="..\bin\release\Lib\chunk.py" />
+<File Id="_cmd_py_239" Source="..\bin\release\Lib\cmd.py" />
+<File Id="_code_py_240" Source="..\bin\release\Lib\code.py" />
+<File Id="_codecs_py_241" Source="..\bin\release\Lib\codecs.py" />
+<File Id="_codeop_py_242" Source="..\bin\release\Lib\codeop.py" />
+<File Id="_collections_py_243" Source="..\bin\release\Lib\collections.py" />
+<File Id="_colorsys_py_244" Source="..\bin\release\Lib\colorsys.py" />
+<File Id="_commands_py_245" Source="..\bin\release\Lib\commands.py" />
+<File Id="_compileall_py_246" Source="..\bin\release\Lib\compileall.py" />
+<File Id="_ConfigParser_py_247" Source="..\bin\release\Lib\ConfigParser.py" />
+<File Id="_contextlib_py_248" Source="..\bin\release\Lib\contextlib.py" />
+<File Id="_Cookie_py_249" Source="..\bin\release\Lib\Cookie.py" />
+<File Id="_cookielib_py_250" Source="..\bin\release\Lib\cookielib.py" />
+<File Id="_copy_py_251" Source="..\bin\release\Lib\copy.py" />
+<File Id="_csv_py_252" Source="..\bin\release\Lib\csv.py" />
+<File Id="_decimal_py_253" Source="..\bin\release\Lib\decimal.py" />
+<File Id="_difflib_py_254" Source="..\bin\release\Lib\difflib.py" />
+<File Id="_dircache_py_255" Source="..\bin\release\Lib\dircache.py" />
+<File Id="_dis_py_256" Source="..\bin\release\Lib\dis.py" />
+<File Id="_doctest_py_257" Source="..\bin\release\Lib\doctest.py" />
+<File Id="_DocXMLRPCServer_py_258" Source="..\bin\release\Lib\DocXMLRPCServer.py" />
+<File Id="_dumbdbm_py_259" Source="..\bin\release\Lib\dumbdbm.py" />
+<File Id="_dummy_thread_py_260" Source="..\bin\release\Lib\dummy_thread.py" />
+<File Id="_dummy_threading_py_261" Source="..\bin\release\Lib\dummy_threading.py" />
+<File Id="_filecmp_py_262" Source="..\bin\release\Lib\filecmp.py" />
+<File Id="_fileinput_py_263" Source="..\bin\release\Lib\fileinput.py" />
+<File Id="_fnmatch_py_264" Source="..\bin\release\Lib\fnmatch.py" />
+<File Id="_formatter_py_265" Source="..\bin\release\Lib\formatter.py" />
+<File Id="_fpformat_py_266" Source="..\bin\release\Lib\fpformat.py" />
+<File Id="_fractions_py_267" Source="..\bin\release\Lib\fractions.py" />
+<File Id="_ftplib_py_268" Source="..\bin\release\Lib\ftplib.py" />
+<File Id="_functools_py_269" Source="..\bin\release\Lib\functools.py" />
+<File Id="_genericpath_py_270" Source="..\bin\release\Lib\genericpath.py" />
+<File Id="_getopt_py_271" Source="..\bin\release\Lib\getopt.py" />
+<File Id="_getpass_py_272" Source="..\bin\release\Lib\getpass.py" />
+<File Id="_gettext_py_273" Source="..\bin\release\Lib\gettext.py" />
+<File Id="_glob_py_274" Source="..\bin\release\Lib\glob.py" />
+<File Id="_gzip_py_275" Source="..\bin\release\Lib\gzip.py" />
+<File Id="_hashlib_py_276" Source="..\bin\release\Lib\hashlib.py" />
+<File Id="_heapq_py_277" Source="..\bin\release\Lib\heapq.py" />
+<File Id="_hmac_py_278" Source="..\bin\release\Lib\hmac.py" />
+<File Id="_htmlentitydefs_py_279" Source="..\bin\release\Lib\htmlentitydefs.py" />
+<File Id="_htmllib_py_280" Source="..\bin\release\Lib\htmllib.py" />
+<File Id="_HTMLParser_py_281" Source="..\bin\release\Lib\HTMLParser.py" />
+<File Id="_httplib_py_282" Source="..\bin\release\Lib\httplib.py" />
+<File Id="_ihooks_py_283" Source="..\bin\release\Lib\ihooks.py" />
+<File Id="_imaplib_py_284" Source="..\bin\release\Lib\imaplib.py" />
+<File Id="_imghdr_py_285" Source="..\bin\release\Lib\imghdr.py" />
+<File Id="_imputil_py_286" Source="..\bin\release\Lib\imputil.py" />
+<File Id="_inspect_py_287" Source="..\bin\release\Lib\inspect.py" />
+<File Id="_io_py_288" Source="..\bin\release\Lib\io.py" />
+<File Id="_keyword_py_289" Source="..\bin\release\Lib\keyword.py" />
+<File Id="_linecache_py_290" Source="..\bin\release\Lib\linecache.py" />
+<File Id="_locale_py_291" Source="..\bin\release\Lib\locale.py" />
+<File Id="_macpath_py_292" Source="..\bin\release\Lib\macpath.py" />
+<File Id="_macurl2path_py_293" Source="..\bin\release\Lib\macurl2path.py" />
+<File Id="_mailbox_py_294" Source="..\bin\release\Lib\mailbox.py" />
+<File Id="_mailcap_py_295" Source="..\bin\release\Lib\mailcap.py" />
+<File Id="_markupbase_py_296" Source="..\bin\release\Lib\markupbase.py" />
+<File Id="_md5_py_297" Source="..\bin\release\Lib\md5.py" />
+<File Id="_mhlib_py_298" Source="..\bin\release\Lib\mhlib.py" />
+<File Id="_mimetools_py_299" Source="..\bin\release\Lib\mimetools.py" />
+<File Id="_mimetypes_py_300" Source="..\bin\release\Lib\mimetypes.py" />
+<File Id="_MimeWriter_py_301" Source="..\bin\release\Lib\MimeWriter.py" />
+<File Id="_mimify_py_302" Source="..\bin\release\Lib\mimify.py" />
+<File Id="_modulefinder_py_303" Source="..\bin\release\Lib\modulefinder.py" />
+<File Id="_multifile_py_304" Source="..\bin\release\Lib\multifile.py" />
+<File Id="_mutex_py_305" Source="..\bin\release\Lib\mutex.py" />
+<File Id="_netrc_py_306" Source="..\bin\release\Lib\netrc.py" />
+<File Id="_new_py_307" Source="..\bin\release\Lib\new.py" />
+<File Id="_nntplib_py_308" Source="..\bin\release\Lib\nntplib.py" />
+<File Id="_ntpath_py_309" Source="..\bin\release\Lib\ntpath.py" />
+<File Id="_nturl2path_py_310" Source="..\bin\release\Lib\nturl2path.py" />
+<File Id="_numbers_py_311" Source="..\bin\release\Lib\numbers.py" />
+<File Id="_opcode_py_312" Source="..\bin\release\Lib\opcode.py" />
+<File Id="_optparse_py_313" Source="..\bin\release\Lib\optparse.py" />
+<File Id="_os_py_314" Source="..\bin\release\Lib\os.py" />
+<File Id="_os2emxpath_py_315" Source="..\bin\release\Lib\os2emxpath.py" />
+<File Id="_pdb_py_316" Source="..\bin\release\Lib\pdb.py" />
+<File Id="_pickle_py_317" Source="..\bin\release\Lib\pickle.py" />
+<File Id="_pickletools_py_318" Source="..\bin\release\Lib\pickletools.py" />
+<File Id="_pipes_py_319" Source="..\bin\release\Lib\pipes.py" />
+<File Id="_pkgutil_py_320" Source="..\bin\release\Lib\pkgutil.py" />
+<File Id="_platform_py_321" Source="..\bin\release\Lib\platform.py" />
+<File Id="_plistlib_py_322" Source="..\bin\release\Lib\plistlib.py" />
+<File Id="_popen2_py_323" Source="..\bin\release\Lib\popen2.py" />
+<File Id="_poplib_py_324" Source="..\bin\release\Lib\poplib.py" />
+<File Id="_posixfile_py_325" Source="..\bin\release\Lib\posixfile.py" />
+<File Id="_posixpath_py_326" Source="..\bin\release\Lib\posixpath.py" />
+<File Id="_pprint_py_327" Source="..\bin\release\Lib\pprint.py" />
+<File Id="_profile_py_328" Source="..\bin\release\Lib\profile.py" />
+<File Id="_pstats_py_329" Source="..\bin\release\Lib\pstats.py" />
+<File Id="_pyclbr_py_330" Source="..\bin\release\Lib\pyclbr.py" />
+<File Id="_pydoc_py_331" Source="..\bin\release\Lib\pydoc.py" />
+<File Id="_py_compile_py_332" Source="..\bin\release\Lib\py_compile.py" />
+<File Id="_Queue_py_333" Source="..\bin\release\Lib\Queue.py" />
+<File Id="_quopri_py_334" Source="..\bin\release\Lib\quopri.py" />
+<File Id="_random_py_335" Source="..\bin\release\Lib\random.py" />
+<File Id="_repr_py_336" Source="..\bin\release\Lib\repr.py" />
+<File Id="_rexec_py_337" Source="..\bin\release\Lib\rexec.py" />
+<File Id="_rfc822_py_338" Source="..\bin\release\Lib\rfc822.py" />
+<File Id="_rlcompleter_py_339" Source="..\bin\release\Lib\rlcompleter.py" />
+<File Id="_robotparser_py_340" Source="..\bin\release\Lib\robotparser.py" />
+<File Id="_runpy_py_341" Source="..\bin\release\Lib\runpy.py" />
+<File Id="_sched_py_342" Source="..\bin\release\Lib\sched.py" />
+<File Id="_sets_py_343" Source="..\bin\release\Lib\sets.py" />
+<File Id="_sgmllib_py_344" Source="..\bin\release\Lib\sgmllib.py" />
+<File Id="_sha_py_345" Source="..\bin\release\Lib\sha.py" />
+<File Id="_shelve_py_346" Source="..\bin\release\Lib\shelve.py" />
+<File Id="_shlex_py_347" Source="..\bin\release\Lib\shlex.py" />
+<File Id="_shutil_py_348" Source="..\bin\release\Lib\shutil.py" />
+<File Id="_SimpleHTTPServer_py_349" Source="..\bin\release\Lib\SimpleHTTPServer.py" />
+<File Id="_SimpleXMLRPCServer_py_350" Source="..\bin\release\Lib\SimpleXMLRPCServer.py" />
+<File Id="_site_py_351" Source="..\bin\release\Lib\site.py" />
+<File Id="_smtpd_py_352" Source="..\bin\release\Lib\smtpd.py" />
+<File Id="_smtplib_py_353" Source="..\bin\release\Lib\smtplib.py" />
+<File Id="_sndhdr_py_354" Source="..\bin\release\Lib\sndhdr.py" />
+<File Id="_SocketServer_py_355" Source="..\bin\release\Lib\SocketServer.py" />
+<File Id="_sre_compile_py_356" Source="..\bin\release\Lib\sre_compile.py" />
+<File Id="_sre_constants_py_357" Source="..\bin\release\Lib\sre_constants.py" />
+<File Id="_sre_parse_py_358" Source="..\bin\release\Lib\sre_parse.py" />
+<File Id="_ssl_py_359" Source="..\bin\release\Lib\ssl.py" />
+<File Id="_stat_py_360" Source="..\bin\release\Lib\stat.py" />
+<File Id="_statvfs_py_361" Source="..\bin\release\Lib\statvfs.py" />
+<File Id="_string_py_362" Source="..\bin\release\Lib\string.py" />
+<File Id="_StringIO_py_363" Source="..\bin\release\Lib\StringIO.py" />
+<File Id="_stringold_py_364" Source="..\bin\release\Lib\stringold.py" />
+<File Id="_struct_py_365" Source="..\bin\release\Lib\struct.py" />
+<File Id="_subprocess_py_366" Source="..\bin\release\Lib\subprocess.py" />
+<File Id="_sunau_py_367" Source="..\bin\release\Lib\sunau.py" />
+<File Id="_sunaudio_py_368" Source="..\bin\release\Lib\sunaudio.py" />
+<File Id="_symbol_py_369" Source="..\bin\release\Lib\symbol.py" />
+<File Id="_sysconfig_py_370" Source="..\bin\release\Lib\sysconfig.py" />
+<File Id="_tabnanny_py_371" Source="..\bin\release\Lib\tabnanny.py" />
+<File Id="_tarfile_py_372" Source="..\bin\release\Lib\tarfile.py" />
+<File Id="_telnetlib_py_373" Source="..\bin\release\Lib\telnetlib.py" />
+<File Id="_tempfile_py_374" Source="..\bin\release\Lib\tempfile.py" />
+<File Id="_textwrap_py_375" Source="..\bin\release\Lib\textwrap.py" />
+<File Id="_this_py_376" Source="..\bin\release\Lib\this.py" />
+<File Id="_threading_py_377" Source="..\bin\release\Lib\threading.py" />
+<File Id="_timeit_py_378" Source="..\bin\release\Lib\timeit.py" />
+<File Id="_toaiff_py_379" Source="..\bin\release\Lib\toaiff.py" />
+<File Id="_token_py_380" Source="..\bin\release\Lib\token.py" />
+<File Id="_tokenize_py_381" Source="..\bin\release\Lib\tokenize.py" />
+<File Id="_trace_py_382" Source="..\bin\release\Lib\trace.py" />
+<File Id="_traceback_py_383" Source="..\bin\release\Lib\traceback.py" />
+<File Id="_types_py_384" Source="..\bin\release\Lib\types.py" />
+<File Id="_urllib_py_385" Source="..\bin\release\Lib\urllib.py" />
+<File Id="_urllib2_py_386" Source="..\bin\release\Lib\urllib2.py" />
+<File Id="_urlparse_py_387" Source="..\bin\release\Lib\urlparse.py" />
+<File Id="_user_py_388" Source="..\bin\release\Lib\user.py" />
+<File Id="_UserDict_py_389" Source="..\bin\release\Lib\UserDict.py" />
+<File Id="_UserList_py_390" Source="..\bin\release\Lib\UserList.py" />
+<File Id="_UserString_py_391" Source="..\bin\release\Lib\UserString.py" />
+<File Id="_uu_py_392" Source="..\bin\release\Lib\uu.py" />
+<File Id="_uuid_py_393" Source="..\bin\release\Lib\uuid.py" />
+<File Id="_warnings_py_394" Source="..\bin\release\Lib\warnings.py" />
+<File Id="_wave_py_395" Source="..\bin\release\Lib\wave.py" />
+<File Id="_weakref_py_396" Source="..\bin\release\Lib\weakref.py" />
+<File Id="_webbrowser_py_397" Source="..\bin\release\Lib\webbrowser.py" />
+<File Id="_whichdb_py_398" Source="..\bin\release\Lib\whichdb.py" />
+<File Id="_xdrlib_py_399" Source="..\bin\release\Lib\xdrlib.py" />
+<File Id="_xmllib_py_400" Source="..\bin\release\Lib\xmllib.py" />
+<File Id="_xmlrpclib_py_401" Source="..\bin\release\Lib\xmlrpclib.py" />
+<File Id="_zipfile_py_402" Source="..\bin\release\Lib\zipfile.py" />
+<File Id="__abcoll_py_403" Source="..\bin\release\Lib\_abcoll.py" />
+<File Id="__LWPCookieJar_py_404" Source="..\bin\release\Lib\_LWPCookieJar.py" />
+<File Id="__MozillaCookieJar_py_405" Source="..\bin\release\Lib\_MozillaCookieJar.py" />
+<File Id="__pyio_py_406" Source="..\bin\release\Lib\_pyio.py" />
+<File Id="__strptime_py_407" Source="..\bin\release\Lib\_strptime.py" />
+<File Id="__threading_local_py_408" Source="..\bin\release\Lib\_threading_local.py" />
+<File Id="__weakrefset_py_409" Source="..\bin\release\Lib\_weakrefset.py" />
+<File Id="___future___py_410" Source="..\bin\release\Lib\__future__.py" />
+<File Id="___phello___foo_py_411" Source="..\bin\release\Lib\__phello__.foo.py" />
+</Component>
+<Directory Id="ctypes" Name="ctypes">
+<Component Id="ctypes_412" Guid="7e3891f8-f2e5-4d2b-9f35-962d9f5e87af">
+<File Id="_util_py_413" Source="..\bin\release\Lib\ctypes\util.py" />
+<File Id="_wintypes_py_414" Source="..\bin\release\Lib\ctypes\wintypes.py" />
+<File Id="__endian_py_415" Source="..\bin\release\Lib\ctypes\_endian.py" />
+<File Id="___init___py_416" Source="..\bin\release\Lib\ctypes\__init__.py" />
+</Component>
+<Directory Id="macholib" Name="macholib">
+<Component Id="macholib_417" Guid="08c4b590-8711-4b6d-a976-5d8244a772ae">
+<File Id="_dyld_py_418" Source="..\bin\release\Lib\ctypes\macholib\dyld.py" />
+<File Id="_dylib_py_419" Source="..\bin\release\Lib\ctypes\macholib\dylib.py" />
+<File Id="_framework_py_420" Source="..\bin\release\Lib\ctypes\macholib\framework.py" />
+<File Id="___init___py_421" Source="..\bin\release\Lib\ctypes\macholib\__init__.py" />
 </Component>
 </Directory>
-<Directory Id="ru_RU203" Name="ru-RU">
-<Component Id="ru_RU_204" Guid="eaa6d5e6-83ee-4f59-952a-d7ca40308a6e">
-<File Id="_MissionPlanner_resources_dll_205" Source="..\bin\release\ru-RU\MissionPlanner.resources.dll" />
+</Directory>
+<Directory Id="distutils" Name="distutils">
+<Component Id="distutils_422" Guid="9b611c3a-dee8-47ce-8dbd-c64c1afe8b7e">
+<File Id="_archive_util_py_423" Source="..\bin\release\Lib\distutils\archive_util.py" />
+<File Id="_bcppcompiler_py_424" Source="..\bin\release\Lib\distutils\bcppcompiler.py" />
+<File Id="_ccompiler_py_425" Source="..\bin\release\Lib\distutils\ccompiler.py" />
+<File Id="_cmd_py_426" Source="..\bin\release\Lib\distutils\cmd.py" />
+<File Id="_config_py_427" Source="..\bin\release\Lib\distutils\config.py" />
+<File Id="_core_py_428" Source="..\bin\release\Lib\distutils\core.py" />
+<File Id="_cygwinccompiler_py_429" Source="..\bin\release\Lib\distutils\cygwinccompiler.py" />
+<File Id="_debug_py_430" Source="..\bin\release\Lib\distutils\debug.py" />
+<File Id="_dep_util_py_431" Source="..\bin\release\Lib\distutils\dep_util.py" />
+<File Id="_dir_util_py_432" Source="..\bin\release\Lib\distutils\dir_util.py" />
+<File Id="_dist_py_433" Source="..\bin\release\Lib\distutils\dist.py" />
+<File Id="_emxccompiler_py_434" Source="..\bin\release\Lib\distutils\emxccompiler.py" />
+<File Id="_errors_py_435" Source="..\bin\release\Lib\distutils\errors.py" />
+<File Id="_extension_py_436" Source="..\bin\release\Lib\distutils\extension.py" />
+<File Id="_fancy_getopt_py_437" Source="..\bin\release\Lib\distutils\fancy_getopt.py" />
+<File Id="_filelist_py_438" Source="..\bin\release\Lib\distutils\filelist.py" />
+<File Id="_file_util_py_439" Source="..\bin\release\Lib\distutils\file_util.py" />
+<File Id="_log_py_440" Source="..\bin\release\Lib\distutils\log.py" />
+<File Id="_msvccompiler_py_441" Source="..\bin\release\Lib\distutils\msvccompiler.py" />
+<File Id="_spawn_py_442" Source="..\bin\release\Lib\distutils\spawn.py" />
+<File Id="_sysconfig_py_443" Source="..\bin\release\Lib\distutils\sysconfig.py" />
+<File Id="_text_file_py_444" Source="..\bin\release\Lib\distutils\text_file.py" />
+<File Id="_unixccompiler_py_445" Source="..\bin\release\Lib\distutils\unixccompiler.py" />
+<File Id="_util_py_446" Source="..\bin\release\Lib\distutils\util.py" />
+<File Id="_version_py_447" Source="..\bin\release\Lib\distutils\version.py" />
+<File Id="_versionpredicate_py_448" Source="..\bin\release\Lib\distutils\versionpredicate.py" />
+<File Id="___init___py_449" Source="..\bin\release\Lib\distutils\__init__.py" />
+</Component>
+<Directory Id="command" Name="command">
+<Component Id="command_450" Guid="dc6ca441-41d3-4188-b701-011ae658a84e">
+<File Id="_bdist_py_451" Source="..\bin\release\Lib\distutils\command\bdist.py" />
+<File Id="_bdist_dumb_py_452" Source="..\bin\release\Lib\distutils\command\bdist_dumb.py" />
+<File Id="_bdist_rpm_py_453" Source="..\bin\release\Lib\distutils\command\bdist_rpm.py" />
+<File Id="_bdist_wininst_py_454" Source="..\bin\release\Lib\distutils\command\bdist_wininst.py" />
+<File Id="_build_py_455" Source="..\bin\release\Lib\distutils\command\build.py" />
+<File Id="_build_clib_py_456" Source="..\bin\release\Lib\distutils\command\build_clib.py" />
+<File Id="_build_ext_py_457" Source="..\bin\release\Lib\distutils\command\build_ext.py" />
+<File Id="_build_py_py_458" Source="..\bin\release\Lib\distutils\command\build_py.py" />
+<File Id="_build_scripts_py_459" Source="..\bin\release\Lib\distutils\command\build_scripts.py" />
+<File Id="_check_py_460" Source="..\bin\release\Lib\distutils\command\check.py" />
+<File Id="_clean_py_461" Source="..\bin\release\Lib\distutils\command\clean.py" />
+<File Id="_config_py_462" Source="..\bin\release\Lib\distutils\command\config.py" />
+<File Id="_install_py_463" Source="..\bin\release\Lib\distutils\command\install.py" />
+<File Id="_install_data_py_464" Source="..\bin\release\Lib\distutils\command\install_data.py" />
+<File Id="_install_egg_info_py_465" Source="..\bin\release\Lib\distutils\command\install_egg_info.py" />
+<File Id="_install_headers_py_466" Source="..\bin\release\Lib\distutils\command\install_headers.py" />
+<File Id="_install_lib_py_467" Source="..\bin\release\Lib\distutils\command\install_lib.py" />
+<File Id="_install_scripts_py_468" Source="..\bin\release\Lib\distutils\command\install_scripts.py" />
+<File Id="_register_py_469" Source="..\bin\release\Lib\distutils\command\register.py" />
+<File Id="_sdist_py_470" Source="..\bin\release\Lib\distutils\command\sdist.py" />
+<File Id="_upload_py_471" Source="..\bin\release\Lib\distutils\command\upload.py" />
+<File Id="___init___py_472" Source="..\bin\release\Lib\distutils\command\__init__.py" />
 </Component>
 </Directory>
-<Directory Id="zh_Hans205" Name="zh-Hans">
-<Component Id="zh_Hans_206" Guid="bce83efd-8e97-435c-9152-c62981dd55da">
-<File Id="_MissionPlanner_resources_dll_207" Source="..\bin\release\zh-Hans\MissionPlanner.resources.dll" />
+</Directory>
+<Directory Id="email" Name="email">
+<Component Id="email_473" Guid="9bdbaf05-139e-4323-86c2-7be1da85bb9c">
+<File Id="_base64mime_py_474" Source="..\bin\release\Lib\email\base64mime.py" />
+<File Id="_charset_py_475" Source="..\bin\release\Lib\email\charset.py" />
+<File Id="_encoders_py_476" Source="..\bin\release\Lib\email\encoders.py" />
+<File Id="_errors_py_477" Source="..\bin\release\Lib\email\errors.py" />
+<File Id="_feedparser_py_478" Source="..\bin\release\Lib\email\feedparser.py" />
+<File Id="_generator_py_479" Source="..\bin\release\Lib\email\generator.py" />
+<File Id="_header_py_480" Source="..\bin\release\Lib\email\header.py" />
+<File Id="_iterators_py_481" Source="..\bin\release\Lib\email\iterators.py" />
+<File Id="_message_py_482" Source="..\bin\release\Lib\email\message.py" />
+<File Id="_parser_py_483" Source="..\bin\release\Lib\email\parser.py" />
+<File Id="_quoprimime_py_484" Source="..\bin\release\Lib\email\quoprimime.py" />
+<File Id="_utils_py_485" Source="..\bin\release\Lib\email\utils.py" />
+<File Id="__parseaddr_py_486" Source="..\bin\release\Lib\email\_parseaddr.py" />
+<File Id="___init___py_487" Source="..\bin\release\Lib\email\__init__.py" />
+</Component>
+<Directory Id="mime" Name="mime">
+<Component Id="mime_488" Guid="3abb605e-f8d5-4ff5-8f6a-24f3a6eebbac">
+<File Id="_application_py_489" Source="..\bin\release\Lib\email\mime\application.py" />
+<File Id="_audio_py_490" Source="..\bin\release\Lib\email\mime\audio.py" />
+<File Id="_base_py_491" Source="..\bin\release\Lib\email\mime\base.py" />
+<File Id="_image_py_492" Source="..\bin\release\Lib\email\mime\image.py" />
+<File Id="_message_py_493" Source="..\bin\release\Lib\email\mime\message.py" />
+<File Id="_multipart_py_494" Source="..\bin\release\Lib\email\mime\multipart.py" />
+<File Id="_nonmultipart_py_495" Source="..\bin\release\Lib\email\mime\nonmultipart.py" />
+<File Id="_text_py_496" Source="..\bin\release\Lib\email\mime\text.py" />
+<File Id="___init___py_497" Source="..\bin\release\Lib\email\mime\__init__.py" />
 </Component>
 </Directory>
-<Directory Id="zh_TW207" Name="zh-TW">
-<Component Id="zh_TW_208" Guid="c7693de6-2365-4a18-a92a-50ec67ad736b">
-<File Id="_MissionPlanner_resources_dll_209" Source="..\bin\release\zh-TW\MissionPlanner.resources.dll" />
+</Directory>
+<Directory Id="encodings" Name="encodings">
+<Component Id="encodings_498" Guid="fbac9649-4719-4dfc-9e84-9b036dfa9f39">
+<File Id="_aliases_py_499" Source="..\bin\release\Lib\encodings\aliases.py" />
+<File Id="_ascii_py_500" Source="..\bin\release\Lib\encodings\ascii.py" />
+<File Id="_base64_codec_py_501" Source="..\bin\release\Lib\encodings\base64_codec.py" />
+<File Id="_charmap_py_502" Source="..\bin\release\Lib\encodings\charmap.py" />
+<File Id="_cp037_py_503" Source="..\bin\release\Lib\encodings\cp037.py" />
+<File Id="_cp1006_py_504" Source="..\bin\release\Lib\encodings\cp1006.py" />
+<File Id="_cp1026_py_505" Source="..\bin\release\Lib\encodings\cp1026.py" />
+<File Id="_cp1140_py_506" Source="..\bin\release\Lib\encodings\cp1140.py" />
+<File Id="_cp1250_py_507" Source="..\bin\release\Lib\encodings\cp1250.py" />
+<File Id="_cp1251_py_508" Source="..\bin\release\Lib\encodings\cp1251.py" />
+<File Id="_cp1252_py_509" Source="..\bin\release\Lib\encodings\cp1252.py" />
+<File Id="_cp1253_py_510" Source="..\bin\release\Lib\encodings\cp1253.py" />
+<File Id="_cp1254_py_511" Source="..\bin\release\Lib\encodings\cp1254.py" />
+<File Id="_cp1255_py_512" Source="..\bin\release\Lib\encodings\cp1255.py" />
+<File Id="_cp1256_py_513" Source="..\bin\release\Lib\encodings\cp1256.py" />
+<File Id="_cp1257_py_514" Source="..\bin\release\Lib\encodings\cp1257.py" />
+<File Id="_cp1258_py_515" Source="..\bin\release\Lib\encodings\cp1258.py" />
+<File Id="_cp424_py_516" Source="..\bin\release\Lib\encodings\cp424.py" />
+<File Id="_cp437_py_517" Source="..\bin\release\Lib\encodings\cp437.py" />
+<File Id="_cp500_py_518" Source="..\bin\release\Lib\encodings\cp500.py" />
+<File Id="_cp720_py_519" Source="..\bin\release\Lib\encodings\cp720.py" />
+<File Id="_cp737_py_520" Source="..\bin\release\Lib\encodings\cp737.py" />
+<File Id="_cp775_py_521" Source="..\bin\release\Lib\encodings\cp775.py" />
+<File Id="_cp850_py_522" Source="..\bin\release\Lib\encodings\cp850.py" />
+<File Id="_cp852_py_523" Source="..\bin\release\Lib\encodings\cp852.py" />
+<File Id="_cp855_py_524" Source="..\bin\release\Lib\encodings\cp855.py" />
+<File Id="_cp856_py_525" Source="..\bin\release\Lib\encodings\cp856.py" />
+<File Id="_cp857_py_526" Source="..\bin\release\Lib\encodings\cp857.py" />
+<File Id="_cp858_py_527" Source="..\bin\release\Lib\encodings\cp858.py" />
+<File Id="_cp860_py_528" Source="..\bin\release\Lib\encodings\cp860.py" />
+<File Id="_cp861_py_529" Source="..\bin\release\Lib\encodings\cp861.py" />
+<File Id="_cp862_py_530" Source="..\bin\release\Lib\encodings\cp862.py" />
+<File Id="_cp863_py_531" Source="..\bin\release\Lib\encodings\cp863.py" />
+<File Id="_cp864_py_532" Source="..\bin\release\Lib\encodings\cp864.py" />
+<File Id="_cp865_py_533" Source="..\bin\release\Lib\encodings\cp865.py" />
+<File Id="_cp866_py_534" Source="..\bin\release\Lib\encodings\cp866.py" />
+<File Id="_cp869_py_535" Source="..\bin\release\Lib\encodings\cp869.py" />
+<File Id="_cp874_py_536" Source="..\bin\release\Lib\encodings\cp874.py" />
+<File Id="_cp875_py_537" Source="..\bin\release\Lib\encodings\cp875.py" />
+<File Id="_hex_codec_py_538" Source="..\bin\release\Lib\encodings\hex_codec.py" />
+<File Id="_hp_roman8_py_539" Source="..\bin\release\Lib\encodings\hp_roman8.py" />
+<File Id="_iso8859_1_py_540" Source="..\bin\release\Lib\encodings\iso8859_1.py" />
+<File Id="_iso8859_10_py_541" Source="..\bin\release\Lib\encodings\iso8859_10.py" />
+<File Id="_iso8859_11_py_542" Source="..\bin\release\Lib\encodings\iso8859_11.py" />
+<File Id="_iso8859_13_py_543" Source="..\bin\release\Lib\encodings\iso8859_13.py" />
+<File Id="_iso8859_14_py_544" Source="..\bin\release\Lib\encodings\iso8859_14.py" />
+<File Id="_iso8859_15_py_545" Source="..\bin\release\Lib\encodings\iso8859_15.py" />
+<File Id="_iso8859_16_py_546" Source="..\bin\release\Lib\encodings\iso8859_16.py" />
+<File Id="_iso8859_2_py_547" Source="..\bin\release\Lib\encodings\iso8859_2.py" />
+<File Id="_iso8859_3_py_548" Source="..\bin\release\Lib\encodings\iso8859_3.py" />
+<File Id="_iso8859_4_py_549" Source="..\bin\release\Lib\encodings\iso8859_4.py" />
+<File Id="_iso8859_5_py_550" Source="..\bin\release\Lib\encodings\iso8859_5.py" />
+<File Id="_iso8859_6_py_551" Source="..\bin\release\Lib\encodings\iso8859_6.py" />
+<File Id="_iso8859_7_py_552" Source="..\bin\release\Lib\encodings\iso8859_7.py" />
+<File Id="_iso8859_8_py_553" Source="..\bin\release\Lib\encodings\iso8859_8.py" />
+<File Id="_iso8859_9_py_554" Source="..\bin\release\Lib\encodings\iso8859_9.py" />
+<File Id="_koi8_r_py_555" Source="..\bin\release\Lib\encodings\koi8_r.py" />
+<File Id="_koi8_u_py_556" Source="..\bin\release\Lib\encodings\koi8_u.py" />
+<File Id="_latin_1_py_557" Source="..\bin\release\Lib\encodings\latin_1.py" />
+<File Id="_mac_arabic_py_558" Source="..\bin\release\Lib\encodings\mac_arabic.py" />
+<File Id="_mac_centeuro_py_559" Source="..\bin\release\Lib\encodings\mac_centeuro.py" />
+<File Id="_mac_croatian_py_560" Source="..\bin\release\Lib\encodings\mac_croatian.py" />
+<File Id="_mac_cyrillic_py_561" Source="..\bin\release\Lib\encodings\mac_cyrillic.py" />
+<File Id="_mac_farsi_py_562" Source="..\bin\release\Lib\encodings\mac_farsi.py" />
+<File Id="_mac_greek_py_563" Source="..\bin\release\Lib\encodings\mac_greek.py" />
+<File Id="_mac_iceland_py_564" Source="..\bin\release\Lib\encodings\mac_iceland.py" />
+<File Id="_mac_latin2_py_565" Source="..\bin\release\Lib\encodings\mac_latin2.py" />
+<File Id="_mac_roman_py_566" Source="..\bin\release\Lib\encodings\mac_roman.py" />
+<File Id="_mac_romanian_py_567" Source="..\bin\release\Lib\encodings\mac_romanian.py" />
+<File Id="_mac_turkish_py_568" Source="..\bin\release\Lib\encodings\mac_turkish.py" />
+<File Id="_mbcs_py_569" Source="..\bin\release\Lib\encodings\mbcs.py" />
+<File Id="_palmos_py_570" Source="..\bin\release\Lib\encodings\palmos.py" />
+<File Id="_ptcp154_py_571" Source="..\bin\release\Lib\encodings\ptcp154.py" />
+<File Id="_punycode_py_572" Source="..\bin\release\Lib\encodings\punycode.py" />
+<File Id="_quopri_codec_py_573" Source="..\bin\release\Lib\encodings\quopri_codec.py" />
+<File Id="_raw_unicode_escape_py_574" Source="..\bin\release\Lib\encodings\raw_unicode_escape.py" />
+<File Id="_rot_13_py_575" Source="..\bin\release\Lib\encodings\rot_13.py" />
+<File Id="_string_escape_py_576" Source="..\bin\release\Lib\encodings\string_escape.py" />
+<File Id="_tis_620_py_577" Source="..\bin\release\Lib\encodings\tis_620.py" />
+<File Id="_undefined_py_578" Source="..\bin\release\Lib\encodings\undefined.py" />
+<File Id="_unicode_escape_py_579" Source="..\bin\release\Lib\encodings\unicode_escape.py" />
+<File Id="_unicode_internal_py_580" Source="..\bin\release\Lib\encodings\unicode_internal.py" />
+<File Id="_utf_16_py_581" Source="..\bin\release\Lib\encodings\utf_16.py" />
+<File Id="_utf_16_be_py_582" Source="..\bin\release\Lib\encodings\utf_16_be.py" />
+<File Id="_utf_16_le_py_583" Source="..\bin\release\Lib\encodings\utf_16_le.py" />
+<File Id="_utf_32_py_584" Source="..\bin\release\Lib\encodings\utf_32.py" />
+<File Id="_utf_32_le_py_585" Source="..\bin\release\Lib\encodings\utf_32_le.py" />
+<File Id="_utf_7_py_586" Source="..\bin\release\Lib\encodings\utf_7.py" />
+<File Id="_utf_8_py_587" Source="..\bin\release\Lib\encodings\utf_8.py" />
+<File Id="_utf_8_sig_py_588" Source="..\bin\release\Lib\encodings\utf_8_sig.py" />
+<File Id="_uu_codec_py_589" Source="..\bin\release\Lib\encodings\uu_codec.py" />
+<File Id="_zlib_codec_py_590" Source="..\bin\release\Lib\encodings\zlib_codec.py" />
+<File Id="___init___py_591" Source="..\bin\release\Lib\encodings\__init__.py" />
+</Component>
+</Directory>
+<Directory Id="importlib" Name="importlib">
+<Component Id="importlib_592" Guid="1cbcee3f-4e6e-4d37-ae4e-f8ac18ba55bc">
+<File Id="___init___py_593" Source="..\bin\release\Lib\importlib\__init__.py" />
+</Component>
+</Directory>
+<Directory Id="json" Name="json">
+<Component Id="json_594" Guid="cda6481b-4b97-4e9f-9f56-fd1936a2b4f9">
+<File Id="_decoder_py_595" Source="..\bin\release\Lib\json\decoder.py" />
+<File Id="_encoder_py_596" Source="..\bin\release\Lib\json\encoder.py" />
+<File Id="_scanner_py_597" Source="..\bin\release\Lib\json\scanner.py" />
+<File Id="_tool_py_598" Source="..\bin\release\Lib\json\tool.py" />
+<File Id="___init___py_599" Source="..\bin\release\Lib\json\__init__.py" />
+</Component>
+</Directory>
+<Directory Id="lib2to3" Name="lib2to3">
+<Component Id="lib2to3_600" Guid="3b14cc06-1acd-4e4e-af19-4ae59dd44bf5">
+<File Id="_btm_matcher_py_601" Source="..\bin\release\Lib\lib2to3\btm_matcher.py" />
+<File Id="_btm_utils_py_602" Source="..\bin\release\Lib\lib2to3\btm_utils.py" />
+<File Id="_fixer_base_py_603" Source="..\bin\release\Lib\lib2to3\fixer_base.py" />
+<File Id="_fixer_util_py_604" Source="..\bin\release\Lib\lib2to3\fixer_util.py" />
+<File Id="_main_py_605" Source="..\bin\release\Lib\lib2to3\main.py" />
+<File Id="_patcomp_py_606" Source="..\bin\release\Lib\lib2to3\patcomp.py" />
+<File Id="_pygram_py_607" Source="..\bin\release\Lib\lib2to3\pygram.py" />
+<File Id="_pytree_py_608" Source="..\bin\release\Lib\lib2to3\pytree.py" />
+<File Id="_refactor_py_609" Source="..\bin\release\Lib\lib2to3\refactor.py" />
+<File Id="___init___py_610" Source="..\bin\release\Lib\lib2to3\__init__.py" />
+<File Id="___main___py_611" Source="..\bin\release\Lib\lib2to3\__main__.py" />
+</Component>
+<Directory Id="fixes" Name="fixes">
+<Component Id="fixes_612" Guid="46e5ee6e-a9b9-48ba-bb30-216b9fb839b4">
+<File Id="_fix_apply_py_613" Source="..\bin\release\Lib\lib2to3\fixes\fix_apply.py" />
+<File Id="_fix_basestring_py_614" Source="..\bin\release\Lib\lib2to3\fixes\fix_basestring.py" />
+<File Id="_fix_buffer_py_615" Source="..\bin\release\Lib\lib2to3\fixes\fix_buffer.py" />
+<File Id="_fix_callable_py_616" Source="..\bin\release\Lib\lib2to3\fixes\fix_callable.py" />
+<File Id="_fix_dict_py_617" Source="..\bin\release\Lib\lib2to3\fixes\fix_dict.py" />
+<File Id="_fix_except_py_618" Source="..\bin\release\Lib\lib2to3\fixes\fix_except.py" />
+<File Id="_fix_exec_py_619" Source="..\bin\release\Lib\lib2to3\fixes\fix_exec.py" />
+<File Id="_fix_execfile_py_620" Source="..\bin\release\Lib\lib2to3\fixes\fix_execfile.py" />
+<File Id="_fix_exitfunc_py_621" Source="..\bin\release\Lib\lib2to3\fixes\fix_exitfunc.py" />
+<File Id="_fix_filter_py_622" Source="..\bin\release\Lib\lib2to3\fixes\fix_filter.py" />
+<File Id="_fix_funcattrs_py_623" Source="..\bin\release\Lib\lib2to3\fixes\fix_funcattrs.py" />
+<File Id="_fix_future_py_624" Source="..\bin\release\Lib\lib2to3\fixes\fix_future.py" />
+<File Id="_fix_getcwdu_py_625" Source="..\bin\release\Lib\lib2to3\fixes\fix_getcwdu.py" />
+<File Id="_fix_has_key_py_626" Source="..\bin\release\Lib\lib2to3\fixes\fix_has_key.py" />
+<File Id="_fix_idioms_py_627" Source="..\bin\release\Lib\lib2to3\fixes\fix_idioms.py" />
+<File Id="_fix_import_py_628" Source="..\bin\release\Lib\lib2to3\fixes\fix_import.py" />
+<File Id="_fix_imports_py_629" Source="..\bin\release\Lib\lib2to3\fixes\fix_imports.py" />
+<File Id="_fix_imports2_py_630" Source="..\bin\release\Lib\lib2to3\fixes\fix_imports2.py" />
+<File Id="_fix_input_py_631" Source="..\bin\release\Lib\lib2to3\fixes\fix_input.py" />
+<File Id="_fix_intern_py_632" Source="..\bin\release\Lib\lib2to3\fixes\fix_intern.py" />
+<File Id="_fix_isinstance_py_633" Source="..\bin\release\Lib\lib2to3\fixes\fix_isinstance.py" />
+<File Id="_fix_itertools_py_634" Source="..\bin\release\Lib\lib2to3\fixes\fix_itertools.py" />
+<File Id="_fix_itertools_imports_py_635" Source="..\bin\release\Lib\lib2to3\fixes\fix_itertools_imports.py" />
+<File Id="_fix_long_py_636" Source="..\bin\release\Lib\lib2to3\fixes\fix_long.py" />
+<File Id="_fix_map_py_637" Source="..\bin\release\Lib\lib2to3\fixes\fix_map.py" />
+<File Id="_fix_metaclass_py_638" Source="..\bin\release\Lib\lib2to3\fixes\fix_metaclass.py" />
+<File Id="_fix_methodattrs_py_639" Source="..\bin\release\Lib\lib2to3\fixes\fix_methodattrs.py" />
+<File Id="_fix_ne_py_640" Source="..\bin\release\Lib\lib2to3\fixes\fix_ne.py" />
+<File Id="_fix_next_py_641" Source="..\bin\release\Lib\lib2to3\fixes\fix_next.py" />
+<File Id="_fix_nonzero_py_642" Source="..\bin\release\Lib\lib2to3\fixes\fix_nonzero.py" />
+<File Id="_fix_numliterals_py_643" Source="..\bin\release\Lib\lib2to3\fixes\fix_numliterals.py" />
+<File Id="_fix_operator_py_644" Source="..\bin\release\Lib\lib2to3\fixes\fix_operator.py" />
+<File Id="_fix_paren_py_645" Source="..\bin\release\Lib\lib2to3\fixes\fix_paren.py" />
+<File Id="_fix_print_py_646" Source="..\bin\release\Lib\lib2to3\fixes\fix_print.py" />
+<File Id="_fix_raise_py_647" Source="..\bin\release\Lib\lib2to3\fixes\fix_raise.py" />
+<File Id="_fix_raw_input_py_648" Source="..\bin\release\Lib\lib2to3\fixes\fix_raw_input.py" />
+<File Id="_fix_reduce_py_649" Source="..\bin\release\Lib\lib2to3\fixes\fix_reduce.py" />
+<File Id="_fix_renames_py_650" Source="..\bin\release\Lib\lib2to3\fixes\fix_renames.py" />
+<File Id="_fix_repr_py_651" Source="..\bin\release\Lib\lib2to3\fixes\fix_repr.py" />
+<File Id="_fix_set_literal_py_652" Source="..\bin\release\Lib\lib2to3\fixes\fix_set_literal.py" />
+<File Id="_fix_standarderror_py_653" Source="..\bin\release\Lib\lib2to3\fixes\fix_standarderror.py" />
+<File Id="_fix_sys_exc_py_654" Source="..\bin\release\Lib\lib2to3\fixes\fix_sys_exc.py" />
+<File Id="_fix_throw_py_655" Source="..\bin\release\Lib\lib2to3\fixes\fix_throw.py" />
+<File Id="_fix_tuple_params_py_656" Source="..\bin\release\Lib\lib2to3\fixes\fix_tuple_params.py" />
+<File Id="_fix_types_py_657" Source="..\bin\release\Lib\lib2to3\fixes\fix_types.py" />
+<File Id="_fix_unicode_py_658" Source="..\bin\release\Lib\lib2to3\fixes\fix_unicode.py" />
+<File Id="_fix_urllib_py_659" Source="..\bin\release\Lib\lib2to3\fixes\fix_urllib.py" />
+<File Id="_fix_ws_comma_py_660" Source="..\bin\release\Lib\lib2to3\fixes\fix_ws_comma.py" />
+<File Id="_fix_xrange_py_661" Source="..\bin\release\Lib\lib2to3\fixes\fix_xrange.py" />
+<File Id="_fix_xreadlines_py_662" Source="..\bin\release\Lib\lib2to3\fixes\fix_xreadlines.py" />
+<File Id="_fix_zip_py_663" Source="..\bin\release\Lib\lib2to3\fixes\fix_zip.py" />
+<File Id="___init___py_664" Source="..\bin\release\Lib\lib2to3\fixes\__init__.py" />
+</Component>
+</Directory>
+<Directory Id="pgen2" Name="pgen2">
+<Component Id="pgen2_665" Guid="77d5b2e8-26ef-402e-a57d-4e4e9cac1a25">
+<File Id="_conv_py_666" Source="..\bin\release\Lib\lib2to3\pgen2\conv.py" />
+<File Id="_driver_py_667" Source="..\bin\release\Lib\lib2to3\pgen2\driver.py" />
+<File Id="_grammar_py_668" Source="..\bin\release\Lib\lib2to3\pgen2\grammar.py" />
+<File Id="_literals_py_669" Source="..\bin\release\Lib\lib2to3\pgen2\literals.py" />
+<File Id="_parse_py_670" Source="..\bin\release\Lib\lib2to3\pgen2\parse.py" />
+<File Id="_pgen_py_671" Source="..\bin\release\Lib\lib2to3\pgen2\pgen.py" />
+<File Id="_token_py_672" Source="..\bin\release\Lib\lib2to3\pgen2\token.py" />
+<File Id="_tokenize_py_673" Source="..\bin\release\Lib\lib2to3\pgen2\tokenize.py" />
+<File Id="___init___py_674" Source="..\bin\release\Lib\lib2to3\pgen2\__init__.py" />
+</Component>
+</Directory>
+</Directory>
+<Directory Id="logging" Name="logging">
+<Component Id="logging_675" Guid="f44dace4-82f5-40ae-b707-6ec2c44eaf94">
+<File Id="_config_py_676" Source="..\bin\release\Lib\logging\config.py" />
+<File Id="_handlers_py_677" Source="..\bin\release\Lib\logging\handlers.py" />
+<File Id="___init___py_678" Source="..\bin\release\Lib\logging\__init__.py" />
+</Component>
+</Directory>
+<Directory Id="pydoc_data" Name="pydoc_data">
+<Component Id="pydoc_data_679" Guid="36877f06-7216-48c2-a25e-a92532ae36ce">
+<File Id="_topics_py_680" Source="..\bin\release\Lib\pydoc_data\topics.py" />
+<File Id="___init___py_681" Source="..\bin\release\Lib\pydoc_data\__init__.py" />
+</Component>
+</Directory>
+<Directory Id="site_packages" Name="site-packages">
+<Component Id="site_packages_682" Guid="0bef357b-3a8c-431c-8c5c-e73e98b57ff1">
+<File Id="_placeholder_txt_683" Source="..\bin\release\Lib\site-packages\placeholder.txt" />
+</Component>
+<Directory Id="numpy" Name="numpy">
+<Component Id="numpy_684" Guid="6782351d-fc85-46c5-afe0-eef934b5e69a">
+<File Id="_add_newdocs_py_685" Source="..\bin\release\Lib\site-packages\numpy\add_newdocs.py" />
+<File Id="_ctypeslib_py_686" Source="..\bin\release\Lib\site-packages\numpy\ctypeslib.py" />
+<File Id="_dual_py_687" Source="..\bin\release\Lib\site-packages\numpy\dual.py" />
+<File Id="_matlib_py_688" Source="..\bin\release\Lib\site-packages\numpy\matlib.py" />
+<File Id="_setup_py_689" Source="..\bin\release\Lib\site-packages\numpy\setup.py" />
+<File Id="_setupscons_py_690" Source="..\bin\release\Lib\site-packages\numpy\setupscons.py" />
+<File Id="_version_py_691" Source="..\bin\release\Lib\site-packages\numpy\version.py" />
+<File Id="__import_tools_py_692" Source="..\bin\release\Lib\site-packages\numpy\_import_tools.py" />
+<File Id="___config___py_693" Source="..\bin\release\Lib\site-packages\numpy\__config__.py" />
+<File Id="___init___py_694" Source="..\bin\release\Lib\site-packages\numpy\__init__.py" />
+</Component>
+<Directory Id="compat" Name="compat">
+<Component Id="compat_695" Guid="83e9bb60-4b73-469e-91ba-8e9116006ceb">
+<File Id="_py3k_py_696" Source="..\bin\release\Lib\site-packages\numpy\compat\py3k.py" />
+<File Id="_setup_py_697" Source="..\bin\release\Lib\site-packages\numpy\compat\setup.py" />
+<File Id="_setupscons_py_698" Source="..\bin\release\Lib\site-packages\numpy\compat\setupscons.py" />
+<File Id="__inspect_py_699" Source="..\bin\release\Lib\site-packages\numpy\compat\_inspect.py" />
+<File Id="___init___py_700" Source="..\bin\release\Lib\site-packages\numpy\compat\__init__.py" />
+</Component>
+</Directory>
+<Directory Id="core" Name="core">
+<Component Id="core_701" Guid="871fede7-19c9-4cd1-b516-c919e09157f2">
+<File Id="_arrayprint_py_702" Source="..\bin\release\Lib\site-packages\numpy\core\arrayprint.py" />
+<File Id="_defchararray_py_703" Source="..\bin\release\Lib\site-packages\numpy\core\defchararray.py" />
+<File Id="_fromnumeric_py_704" Source="..\bin\release\Lib\site-packages\numpy\core\fromnumeric.py" />
+<File Id="_function_base_py_705" Source="..\bin\release\Lib\site-packages\numpy\core\function_base.py" />
+<File Id="_getlimits_py_706" Source="..\bin\release\Lib\site-packages\numpy\core\getlimits.py" />
+<File Id="_info_py_707" Source="..\bin\release\Lib\site-packages\numpy\core\info.py" />
+<File Id="_machar_py_708" Source="..\bin\release\Lib\site-packages\numpy\core\machar.py" />
+<File Id="_memmap_py_709" Source="..\bin\release\Lib\site-packages\numpy\core\memmap.py" />
+<File Id="_multiarray_py_710" Source="..\bin\release\Lib\site-packages\numpy\core\multiarray.py" />
+<File Id="_numeric_py_711" Source="..\bin\release\Lib\site-packages\numpy\core\numeric.py" />
+<File Id="_numerictypes_py_712" Source="..\bin\release\Lib\site-packages\numpy\core\numerictypes.py" />
+<File Id="_records_py_713" Source="..\bin\release\Lib\site-packages\numpy\core\records.py" />
+<File Id="_scons_support_py_714" Source="..\bin\release\Lib\site-packages\numpy\core\scons_support.py" />
+<File Id="_setup_py_715" Source="..\bin\release\Lib\site-packages\numpy\core\setup.py" />
+<File Id="_setupscons_py_716" Source="..\bin\release\Lib\site-packages\numpy\core\setupscons.py" />
+<File Id="_setup_common_py_717" Source="..\bin\release\Lib\site-packages\numpy\core\setup_common.py" />
+<File Id="_shape_base_py_718" Source="..\bin\release\Lib\site-packages\numpy\core\shape_base.py" />
+<File Id="_umath_py_719" Source="..\bin\release\Lib\site-packages\numpy\core\umath.py" />
+<File Id="__internal_py_720" Source="..\bin\release\Lib\site-packages\numpy\core\_internal.py" />
+<File Id="__mx_datetime_parser_py_721" Source="..\bin\release\Lib\site-packages\numpy\core\_mx_datetime_parser.py" />
+<File Id="___init___py_722" Source="..\bin\release\Lib\site-packages\numpy\core\__init__.py" />
+</Component>
+<Directory Id="code_generators" Name="code_generators">
+<Component Id="code_generators_723" Guid="748467d5-198f-4056-8259-3436c9501189">
+<File Id="_cversions_py_724" Source="..\bin\release\Lib\site-packages\numpy\core\code_generators\cversions.py" />
+<File Id="_genapi_py_725" Source="..\bin\release\Lib\site-packages\numpy\core\code_generators\genapi.py" />
+<File Id="_genapi2_py_726" Source="..\bin\release\Lib\site-packages\numpy\core\code_generators\genapi2.py" />
+<File Id="_generate_numpy_api_py_727" Source="..\bin\release\Lib\site-packages\numpy\core\code_generators\generate_numpy_api.py" />
+<File Id="_generate_ufunc_api_py_728" Source="..\bin\release\Lib\site-packages\numpy\core\code_generators\generate_ufunc_api.py" />
+<File Id="_generate_umath_py_729" Source="..\bin\release\Lib\site-packages\numpy\core\code_generators\generate_umath.py" />
+<File Id="_numpy_api_py_730" Source="..\bin\release\Lib\site-packages\numpy\core\code_generators\numpy_api.py" />
+<File Id="_ufunc_docstrings_py_731" Source="..\bin\release\Lib\site-packages\numpy\core\code_generators\ufunc_docstrings.py" />
+<File Id="___init___py_732" Source="..\bin\release\Lib\site-packages\numpy\core\code_generators\__init__.py" />
+</Component>
+</Directory>
+<Directory Id="src" Name="src">
+<Component Id="src_733" Guid="d9707560-3bac-4a26-9de3-9f2619b3b08e">
+<File Id="_placeholder_733" Source="..\bin\release\\aircraft/placeholder.txt" />
+</Component>
+<Directory Id="multiarray" Name="multiarray">
+<Component Id="multiarray_735" Guid="fa9cbe58-47bd-4e40-bfcb-6d854f87bc47">
+<File Id="_testcalcs_py_736" Source="..\bin\release\Lib\site-packages\numpy\core\src\multiarray\testcalcs.py" />
+</Component>
+</Directory>
+</Directory>
+<Directory Id="tests" Name="tests">
+<Component Id="tests_737" Guid="8f597d63-806e-4087-bb6f-d3f86553b58c">
+<File Id="_test_arrayprint_py_738" Source="..\bin\release\Lib\site-packages\numpy\core\tests\test_arrayprint.py" />
+<File Id="_test_blasdot_py_739" Source="..\bin\release\Lib\site-packages\numpy\core\tests\test_blasdot.py" />
+<File Id="_test_datetime_py_740" Source="..\bin\release\Lib\site-packages\numpy\core\tests\test_datetime.py" />
+<File Id="_test_defchararray_py_741" Source="..\bin\release\Lib\site-packages\numpy\core\tests\test_defchararray.py" />
+<File Id="_test_dtype_py_742" Source="..\bin\release\Lib\site-packages\numpy\core\tests\test_dtype.py" />
+<File Id="_test_errstate_py_743" Source="..\bin\release\Lib\site-packages\numpy\core\tests\test_errstate.py" />
+<File Id="_test_function_base_py_744" Source="..\bin\release\Lib\site-packages\numpy\core\tests\test_function_base.py" />
+<File Id="_test_getlimits_py_745" Source="..\bin\release\Lib\site-packages\numpy\core\tests\test_getlimits.py" />
+<File Id="_test_iterators_py_746" Source="..\bin\release\Lib\site-packages\numpy\core\tests\test_iterators.py" />
+<File Id="_test_loops_py_747" Source="..\bin\release\Lib\site-packages\numpy\core\tests\test_loops.py" />
+<File Id="_test_machar_py_748" Source="..\bin\release\Lib\site-packages\numpy\core\tests\test_machar.py" />
+<File Id="_test_memmap_py_749" Source="..\bin\release\Lib\site-packages\numpy\core\tests\test_memmap.py" />
+<File Id="_test_methods_py_750" Source="..\bin\release\Lib\site-packages\numpy\core\tests\test_methods.py" />
+<File Id="_test_multiarray_py_751" Source="..\bin\release\Lib\site-packages\numpy\core\tests\test_multiarray.py" />
+<File Id="_test_npy_arraytypes_py_752" Source="..\bin\release\Lib\site-packages\numpy\core\tests\test_npy_arraytypes.py" />
+<File Id="_test_numeric_py_753" Source="..\bin\release\Lib\site-packages\numpy\core\tests\test_numeric.py" />
+<File Id="_test_numerictypes_py_754" Source="..\bin\release\Lib\site-packages\numpy\core\tests\test_numerictypes.py" />
+<File Id="_test_print_py_755" Source="..\bin\release\Lib\site-packages\numpy\core\tests\test_print.py" />
+<File Id="_test_records_py_756" Source="..\bin\release\Lib\site-packages\numpy\core\tests\test_records.py" />
+<File Id="_test_regression_py_757" Source="..\bin\release\Lib\site-packages\numpy\core\tests\test_regression.py" />
+<File Id="_test_scalarmath_py_758" Source="..\bin\release\Lib\site-packages\numpy\core\tests\test_scalarmath.py" />
+<File Id="_test_scalartypes_py_759" Source="..\bin\release\Lib\site-packages\numpy\core\tests\test_scalartypes.py" />
+<File Id="_test_shape_base_py_760" Source="..\bin\release\Lib\site-packages\numpy\core\tests\test_shape_base.py" />
+<File Id="_test_ufunc_py_761" Source="..\bin\release\Lib\site-packages\numpy\core\tests\test_ufunc.py" />
+<File Id="_test_umath_py_762" Source="..\bin\release\Lib\site-packages\numpy\core\tests\test_umath.py" />
+<File Id="_test_umath_complex_py_763" Source="..\bin\release\Lib\site-packages\numpy\core\tests\test_umath_complex.py" />
+<File Id="_test_unicode_py_764" Source="..\bin\release\Lib\site-packages\numpy\core\tests\test_unicode.py" />
+</Component>
+</Directory>
+</Directory>
+<Directory Id="distutils764" Name="distutils">
+<Component Id="distutils_765" Guid="01434566-ef98-4909-8575-77919e9b5d58">
+<File Id="_ccompiler_py_766" Source="..\bin\release\Lib\site-packages\numpy\distutils\ccompiler.py" />
+<File Id="_compat_py_767" Source="..\bin\release\Lib\site-packages\numpy\distutils\compat.py" />
+<File Id="_conv_template_py_768" Source="..\bin\release\Lib\site-packages\numpy\distutils\conv_template.py" />
+<File Id="_core_py_769" Source="..\bin\release\Lib\site-packages\numpy\distutils\core.py" />
+<File Id="_cpuinfo_py_770" Source="..\bin\release\Lib\site-packages\numpy\distutils\cpuinfo.py" />
+<File Id="_environment_py_771" Source="..\bin\release\Lib\site-packages\numpy\distutils\environment.py" />
+<File Id="_exec_command_py_772" Source="..\bin\release\Lib\site-packages\numpy\distutils\exec_command.py" />
+<File Id="_extension_py_773" Source="..\bin\release\Lib\site-packages\numpy\distutils\extension.py" />
+<File Id="_from_template_py_774" Source="..\bin\release\Lib\site-packages\numpy\distutils\from_template.py" />
+<File Id="_info_py_775" Source="..\bin\release\Lib\site-packages\numpy\distutils\info.py" />
+<File Id="_intelccompiler_py_776" Source="..\bin\release\Lib\site-packages\numpy\distutils\intelccompiler.py" />
+<File Id="_interactive_py_777" Source="..\bin\release\Lib\site-packages\numpy\distutils\interactive.py" />
+<File Id="_lib2def_py_778" Source="..\bin\release\Lib\site-packages\numpy\distutils\lib2def.py" />
+<File Id="_line_endings_py_779" Source="..\bin\release\Lib\site-packages\numpy\distutils\line_endings.py" />
+<File Id="_log_py_780" Source="..\bin\release\Lib\site-packages\numpy\distutils\log.py" />
+<File Id="_mingw32ccompiler_py_781" Source="..\bin\release\Lib\site-packages\numpy\distutils\mingw32ccompiler.py" />
+<File Id="_misc_util_py_782" Source="..\bin\release\Lib\site-packages\numpy\distutils\misc_util.py" />
+<File Id="_npy_pkg_config_py_783" Source="..\bin\release\Lib\site-packages\numpy\distutils\npy_pkg_config.py" />
+<File Id="_numpy_distribution_py_784" Source="..\bin\release\Lib\site-packages\numpy\distutils\numpy_distribution.py" />
+<File Id="_setup_py_785" Source="..\bin\release\Lib\site-packages\numpy\distutils\setup.py" />
+<File Id="_setupscons_py_786" Source="..\bin\release\Lib\site-packages\numpy\distutils\setupscons.py" />
+<File Id="_system_info_py_787" Source="..\bin\release\Lib\site-packages\numpy\distutils\system_info.py" />
+<File Id="_unixccompiler_py_788" Source="..\bin\release\Lib\site-packages\numpy\distutils\unixccompiler.py" />
+<File Id="___init___py_789" Source="..\bin\release\Lib\site-packages\numpy\distutils\__init__.py" />
+<File Id="___version___py_790" Source="..\bin\release\Lib\site-packages\numpy\distutils\__version__.py" />
+</Component>
+<Directory Id="command790" Name="command">
+<Component Id="command_791" Guid="06159744-a7fd-41d2-914e-2ef14d922ec4">
+<File Id="_autodist_py_792" Source="..\bin\release\Lib\site-packages\numpy\distutils\command\autodist.py" />
+<File Id="_bdist_rpm_py_793" Source="..\bin\release\Lib\site-packages\numpy\distutils\command\bdist_rpm.py" />
+<File Id="_build_py_794" Source="..\bin\release\Lib\site-packages\numpy\distutils\command\build.py" />
+<File Id="_build_clib_py_795" Source="..\bin\release\Lib\site-packages\numpy\distutils\command\build_clib.py" />
+<File Id="_build_ext_py_796" Source="..\bin\release\Lib\site-packages\numpy\distutils\command\build_ext.py" />
+<File Id="_build_py_py_797" Source="..\bin\release\Lib\site-packages\numpy\distutils\command\build_py.py" />
+<File Id="_build_scripts_py_798" Source="..\bin\release\Lib\site-packages\numpy\distutils\command\build_scripts.py" />
+<File Id="_build_src_py_799" Source="..\bin\release\Lib\site-packages\numpy\distutils\command\build_src.py" />
+<File Id="_config_py_800" Source="..\bin\release\Lib\site-packages\numpy\distutils\command\config.py" />
+<File Id="_config_compiler_py_801" Source="..\bin\release\Lib\site-packages\numpy\distutils\command\config_compiler.py" />
+<File Id="_develop_py_802" Source="..\bin\release\Lib\site-packages\numpy\distutils\command\develop.py" />
+<File Id="_egg_info_py_803" Source="..\bin\release\Lib\site-packages\numpy\distutils\command\egg_info.py" />
+<File Id="_install_py_804" Source="..\bin\release\Lib\site-packages\numpy\distutils\command\install.py" />
+<File Id="_install_clib_py_805" Source="..\bin\release\Lib\site-packages\numpy\distutils\command\install_clib.py" />
+<File Id="_install_data_py_806" Source="..\bin\release\Lib\site-packages\numpy\distutils\command\install_data.py" />
+<File Id="_install_headers_py_807" Source="..\bin\release\Lib\site-packages\numpy\distutils\command\install_headers.py" />
+<File Id="_scons_py_808" Source="..\bin\release\Lib\site-packages\numpy\distutils\command\scons.py" />
+<File Id="_sdist_py_809" Source="..\bin\release\Lib\site-packages\numpy\distutils\command\sdist.py" />
+<File Id="___init___py_810" Source="..\bin\release\Lib\site-packages\numpy\distutils\command\__init__.py" />
+</Component>
+</Directory>
+<Directory Id="fcompiler" Name="fcompiler">
+<Component Id="fcompiler_811" Guid="8489d7ee-aeea-49ec-ab36-354e02548707">
+<File Id="_absoft_py_812" Source="..\bin\release\Lib\site-packages\numpy\distutils\fcompiler\absoft.py" />
+<File Id="_compaq_py_813" Source="..\bin\release\Lib\site-packages\numpy\distutils\fcompiler\compaq.py" />
+<File Id="_g95_py_814" Source="..\bin\release\Lib\site-packages\numpy\distutils\fcompiler\g95.py" />
+<File Id="_gnu_py_815" Source="..\bin\release\Lib\site-packages\numpy\distutils\fcompiler\gnu.py" />
+<File Id="_hpux_py_816" Source="..\bin\release\Lib\site-packages\numpy\distutils\fcompiler\hpux.py" />
+<File Id="_ibm_py_817" Source="..\bin\release\Lib\site-packages\numpy\distutils\fcompiler\ibm.py" />
+<File Id="_intel_py_818" Source="..\bin\release\Lib\site-packages\numpy\distutils\fcompiler\intel.py" />
+<File Id="_lahey_py_819" Source="..\bin\release\Lib\site-packages\numpy\distutils\fcompiler\lahey.py" />
+<File Id="_mips_py_820" Source="..\bin\release\Lib\site-packages\numpy\distutils\fcompiler\mips.py" />
+<File Id="_nag_py_821" Source="..\bin\release\Lib\site-packages\numpy\distutils\fcompiler\nag.py" />
+<File Id="_none_py_822" Source="..\bin\release\Lib\site-packages\numpy\distutils\fcompiler\none.py" />
+<File Id="_pg_py_823" Source="..\bin\release\Lib\site-packages\numpy\distutils\fcompiler\pg.py" />
+<File Id="_sun_py_824" Source="..\bin\release\Lib\site-packages\numpy\distutils\fcompiler\sun.py" />
+<File Id="_vast_py_825" Source="..\bin\release\Lib\site-packages\numpy\distutils\fcompiler\vast.py" />
+<File Id="___init___py_826" Source="..\bin\release\Lib\site-packages\numpy\distutils\fcompiler\__init__.py" />
+</Component>
+</Directory>
+<Directory Id="tests826" Name="tests">
+<Component Id="tests_827" Guid="44a2cd37-a024-4600-a671-58a60ba58c44">
+<File Id="_setup_py_828" Source="..\bin\release\Lib\site-packages\numpy\distutils\tests\setup.py" />
+<File Id="_test_fcompiler_gnu_py_829" Source="..\bin\release\Lib\site-packages\numpy\distutils\tests\test_fcompiler_gnu.py" />
+<File Id="_test_misc_util_py_830" Source="..\bin\release\Lib\site-packages\numpy\distutils\tests\test_misc_util.py" />
+<File Id="_test_npy_pkg_config_py_831" Source="..\bin\release\Lib\site-packages\numpy\distutils\tests\test_npy_pkg_config.py" />
+</Component>
+<Directory Id="f2py_ext" Name="f2py_ext">
+<Component Id="f2py_ext_832" Guid="66ce361b-f9c8-4b1b-a3bc-b01837599873">
+<File Id="_setup_py_833" Source="..\bin\release\Lib\site-packages\numpy\distutils\tests\f2py_ext\setup.py" />
+<File Id="___init___py_834" Source="..\bin\release\Lib\site-packages\numpy\distutils\tests\f2py_ext\__init__.py" />
+</Component>
+<Directory Id="tests834" Name="tests">
+<Component Id="tests_835" Guid="859b6b1b-999d-46f3-aba9-1b090ebeebfe">
+<File Id="_test_fib2_py_836" Source="..\bin\release\Lib\site-packages\numpy\distutils\tests\f2py_ext\tests\test_fib2.py" />
+</Component>
+</Directory>
+</Directory>
+<Directory Id="f2py_f90_ext" Name="f2py_f90_ext">
+<Component Id="f2py_f90_ext_837" Guid="7d032dd8-4f8d-44fe-876a-2320c6bc87ab">
+<File Id="_setup_py_838" Source="..\bin\release\Lib\site-packages\numpy\distutils\tests\f2py_f90_ext\setup.py" />
+<File Id="___init___py_839" Source="..\bin\release\Lib\site-packages\numpy\distutils\tests\f2py_f90_ext\__init__.py" />
+</Component>
+<Directory Id="tests839" Name="tests">
+<Component Id="tests_840" Guid="b912ba8d-fcc1-4b70-b722-05b9c3ca9b75">
+<File Id="_test_foo_py_841" Source="..\bin\release\Lib\site-packages\numpy\distutils\tests\f2py_f90_ext\tests\test_foo.py" />
+</Component>
+</Directory>
+</Directory>
+<Directory Id="gen_ext" Name="gen_ext">
+<Component Id="gen_ext_842" Guid="7df9a909-7b89-4ee5-8277-2cb82cf7fdcc">
+<File Id="_setup_py_843" Source="..\bin\release\Lib\site-packages\numpy\distutils\tests\gen_ext\setup.py" />
+<File Id="___init___py_844" Source="..\bin\release\Lib\site-packages\numpy\distutils\tests\gen_ext\__init__.py" />
+</Component>
+<Directory Id="tests844" Name="tests">
+<Component Id="tests_845" Guid="418076b1-8bb6-4c4f-b153-0b07aabdab76">
+<File Id="_test_fib3_py_846" Source="..\bin\release\Lib\site-packages\numpy\distutils\tests\gen_ext\tests\test_fib3.py" />
+</Component>
+</Directory>
+</Directory>
+<Directory Id="pyrex_ext" Name="pyrex_ext">
+<Component Id="pyrex_ext_847" Guid="31194b13-7166-4dca-95d1-9465274450d4">
+<File Id="_setup_py_848" Source="..\bin\release\Lib\site-packages\numpy\distutils\tests\pyrex_ext\setup.py" />
+<File Id="___init___py_849" Source="..\bin\release\Lib\site-packages\numpy\distutils\tests\pyrex_ext\__init__.py" />
+</Component>
+<Directory Id="tests849" Name="tests">
+<Component Id="tests_850" Guid="63de44a2-06bd-4804-9bf6-5a13ffa47969">
+<File Id="_test_primes_py_851" Source="..\bin\release\Lib\site-packages\numpy\distutils\tests\pyrex_ext\tests\test_primes.py" />
+</Component>
+</Directory>
+</Directory>
+<Directory Id="swig_ext" Name="swig_ext">
+<Component Id="swig_ext_852" Guid="20c14a6c-734c-46fd-869c-71cadfe2c5fb">
+<File Id="_setup_py_853" Source="..\bin\release\Lib\site-packages\numpy\distutils\tests\swig_ext\setup.py" />
+<File Id="___init___py_854" Source="..\bin\release\Lib\site-packages\numpy\distutils\tests\swig_ext\__init__.py" />
+</Component>
+<Directory Id="tests854" Name="tests">
+<Component Id="tests_855" Guid="4bc1fb4d-4d50-47ef-8aee-e25bc78e0bde">
+<File Id="_test_example_py_856" Source="..\bin\release\Lib\site-packages\numpy\distutils\tests\swig_ext\tests\test_example.py" />
+<File Id="_test_example2_py_857" Source="..\bin\release\Lib\site-packages\numpy\distutils\tests\swig_ext\tests\test_example2.py" />
+</Component>
+</Directory>
+</Directory>
+</Directory>
+</Directory>
+<Directory Id="doc" Name="doc">
+<Component Id="doc_858" Guid="4c719295-80ec-4df2-83e7-5f9d3bdb582e">
+<File Id="_basics_py_859" Source="..\bin\release\Lib\site-packages\numpy\doc\basics.py" />
+<File Id="_broadcasting_py_860" Source="..\bin\release\Lib\site-packages\numpy\doc\broadcasting.py" />
+<File Id="_byteswapping_py_861" Source="..\bin\release\Lib\site-packages\numpy\doc\byteswapping.py" />
+<File Id="_constants_py_862" Source="..\bin\release\Lib\site-packages\numpy\doc\constants.py" />
+<File Id="_creation_py_863" Source="..\bin\release\Lib\site-packages\numpy\doc\creation.py" />
+<File Id="_glossary_py_864" Source="..\bin\release\Lib\site-packages\numpy\doc\glossary.py" />
+<File Id="_howtofind_py_865" Source="..\bin\release\Lib\site-packages\numpy\doc\howtofind.py" />
+<File Id="_indexing_py_866" Source="..\bin\release\Lib\site-packages\numpy\doc\indexing.py" />
+<File Id="_internals_py_867" Source="..\bin\release\Lib\site-packages\numpy\doc\internals.py" />
+<File Id="_io_py_868" Source="..\bin\release\Lib\site-packages\numpy\doc\io.py" />
+<File Id="_jargon_py_869" Source="..\bin\release\Lib\site-packages\numpy\doc\jargon.py" />
+<File Id="_methods_vs_functions_py_870" Source="..\bin\release\Lib\site-packages\numpy\doc\methods_vs_functions.py" />
+<File Id="_misc_py_871" Source="..\bin\release\Lib\site-packages\numpy\doc\misc.py" />
+<File Id="_performance_py_872" Source="..\bin\release\Lib\site-packages\numpy\doc\performance.py" />
+<File Id="_structured_arrays_py_873" Source="..\bin\release\Lib\site-packages\numpy\doc\structured_arrays.py" />
+<File Id="_subclassing_py_874" Source="..\bin\release\Lib\site-packages\numpy\doc\subclassing.py" />
+<File Id="_ufuncs_py_875" Source="..\bin\release\Lib\site-packages\numpy\doc\ufuncs.py" />
+<File Id="___init___py_876" Source="..\bin\release\Lib\site-packages\numpy\doc\__init__.py" />
+</Component>
+</Directory>
+<Directory Id="f2py" Name="f2py">
+<Component Id="f2py_877" Guid="a0430220-5694-436d-b768-013e9b3afc53">
+<File Id="_auxfuncs_py_878" Source="..\bin\release\Lib\site-packages\numpy\f2py\auxfuncs.py" />
+<File Id="_capi_maps_py_879" Source="..\bin\release\Lib\site-packages\numpy\f2py\capi_maps.py" />
+<File Id="_cb_rules_py_880" Source="..\bin\release\Lib\site-packages\numpy\f2py\cb_rules.py" />
+<File Id="_cfuncs_py_881" Source="..\bin\release\Lib\site-packages\numpy\f2py\cfuncs.py" />
+<File Id="_common_rules_py_882" Source="..\bin\release\Lib\site-packages\numpy\f2py\common_rules.py" />
+<File Id="_crackfortran_py_883" Source="..\bin\release\Lib\site-packages\numpy\f2py\crackfortran.py" />
+<File Id="_diagnose_py_884" Source="..\bin\release\Lib\site-packages\numpy\f2py\diagnose.py" />
+<File Id="_f2py2e_py_885" Source="..\bin\release\Lib\site-packages\numpy\f2py\f2py2e.py" />
+<File Id="_f2py_testing_py_886" Source="..\bin\release\Lib\site-packages\numpy\f2py\f2py_testing.py" />
+<File Id="_f90mod_rules_py_887" Source="..\bin\release\Lib\site-packages\numpy\f2py\f90mod_rules.py" />
+<File Id="_func2subr_py_888" Source="..\bin\release\Lib\site-packages\numpy\f2py\func2subr.py" />
+<File Id="_info_py_889" Source="..\bin\release\Lib\site-packages\numpy\f2py\info.py" />
+<File Id="_rules_py_890" Source="..\bin\release\Lib\site-packages\numpy\f2py\rules.py" />
+<File Id="_setup_py_891" Source="..\bin\release\Lib\site-packages\numpy\f2py\setup.py" />
+<File Id="_setupscons_py_892" Source="..\bin\release\Lib\site-packages\numpy\f2py\setupscons.py" />
+<File Id="_use_rules_py_893" Source="..\bin\release\Lib\site-packages\numpy\f2py\use_rules.py" />
+<File Id="___init___py_894" Source="..\bin\release\Lib\site-packages\numpy\f2py\__init__.py" />
+<File Id="___version___py_895" Source="..\bin\release\Lib\site-packages\numpy\f2py\__version__.py" />
+</Component>
+<Directory Id="doc895" Name="doc">
+<Component Id="doc_896" Guid="79f5971e-56c3-4f78-a55c-db1a3c227fa3">
+<File Id="_collectinput_py_897" Source="..\bin\release\Lib\site-packages\numpy\f2py\doc\collectinput.py" />
+</Component>
+</Directory>
+<Directory Id="docs" Name="docs">
+<Component Id="docs_898" Guid="4c50af9a-9030-400c-876e-ca07837624a1">
+<File Id="_pytest_py_899" Source="..\bin\release\Lib\site-packages\numpy\f2py\docs\pytest.py" />
+</Component>
+<Directory Id="usersguide" Name="usersguide">
+<Component Id="usersguide_900" Guid="c4e22e7b-c09e-4400-8838-ebb5ed06de79">
+<File Id="_setup_example_py_901" Source="..\bin\release\Lib\site-packages\numpy\f2py\docs\usersguide\setup_example.py" />
+</Component>
+</Directory>
+</Directory>
+<Directory Id="tests901" Name="tests">
+<Component Id="tests_902" Guid="e6ed7ec8-e6a6-4e3b-9783-3c37bcab9ff5">
+<File Id="_test_array_from_pyobj_py_903" Source="..\bin\release\Lib\site-packages\numpy\f2py\tests\test_array_from_pyobj.py" />
+<File Id="_test_callback_py_904" Source="..\bin\release\Lib\site-packages\numpy\f2py\tests\test_callback.py" />
+<File Id="_test_mixed_py_905" Source="..\bin\release\Lib\site-packages\numpy\f2py\tests\test_mixed.py" />
+<File Id="_test_return_character_py_906" Source="..\bin\release\Lib\site-packages\numpy\f2py\tests\test_return_character.py" />
+<File Id="_test_return_complex_py_907" Source="..\bin\release\Lib\site-packages\numpy\f2py\tests\test_return_complex.py" />
+<File Id="_test_return_integer_py_908" Source="..\bin\release\Lib\site-packages\numpy\f2py\tests\test_return_integer.py" />
+<File Id="_test_return_logical_py_909" Source="..\bin\release\Lib\site-packages\numpy\f2py\tests\test_return_logical.py" />
+<File Id="_test_return_real_py_910" Source="..\bin\release\Lib\site-packages\numpy\f2py\tests\test_return_real.py" />
+<File Id="_util_py_911" Source="..\bin\release\Lib\site-packages\numpy\f2py\tests\util.py" />
+</Component>
+</Directory>
+</Directory>
+<Directory Id="fft" Name="fft">
+<Component Id="fft_912" Guid="a0483046-8f32-40de-8dfa-4104d01905fe">
+<File Id="_fftpack_py_913" Source="..\bin\release\Lib\site-packages\numpy\fft\fftpack.py" />
+<File Id="_fftpack_lite_py_914" Source="..\bin\release\Lib\site-packages\numpy\fft\fftpack_lite.py" />
+<File Id="_helper_py_915" Source="..\bin\release\Lib\site-packages\numpy\fft\helper.py" />
+<File Id="_info_py_916" Source="..\bin\release\Lib\site-packages\numpy\fft\info.py" />
+<File Id="_setup_py_917" Source="..\bin\release\Lib\site-packages\numpy\fft\setup.py" />
+<File Id="_setupscons_py_918" Source="..\bin\release\Lib\site-packages\numpy\fft\setupscons.py" />
+<File Id="___init___py_919" Source="..\bin\release\Lib\site-packages\numpy\fft\__init__.py" />
+</Component>
+<Directory Id="tests919" Name="tests">
+<Component Id="tests_920" Guid="4852f385-449c-4d2d-88c9-d700b48ae1f2">
+<File Id="_test_fftpack_py_921" Source="..\bin\release\Lib\site-packages\numpy\fft\tests\test_fftpack.py" />
+<File Id="_test_helper_py_922" Source="..\bin\release\Lib\site-packages\numpy\fft\tests\test_helper.py" />
+</Component>
+</Directory>
+</Directory>
+<Directory Id="lib" Name="lib">
+<Component Id="lib_923" Guid="0e06be8a-5998-4969-95e5-c345e8d61cb2">
+<File Id="_arraysetops_py_924" Source="..\bin\release\Lib\site-packages\numpy\lib\arraysetops.py" />
+<File Id="_arrayterator_py_925" Source="..\bin\release\Lib\site-packages\numpy\lib\arrayterator.py" />
+<File Id="_financial_py_926" Source="..\bin\release\Lib\site-packages\numpy\lib\financial.py" />
+<File Id="_format_py_927" Source="..\bin\release\Lib\site-packages\numpy\lib\format.py" />
+<File Id="_function_base_py_928" Source="..\bin\release\Lib\site-packages\numpy\lib\function_base.py" />
+<File Id="_index_tricks_py_929" Source="..\bin\release\Lib\site-packages\numpy\lib\index_tricks.py" />
+<File Id="_info_py_930" Source="..\bin\release\Lib\site-packages\numpy\lib\info.py" />
+<File Id="_npyio_py_931" Source="..\bin\release\Lib\site-packages\numpy\lib\npyio.py" />
+<File Id="_polynomial_py_932" Source="..\bin\release\Lib\site-packages\numpy\lib\polynomial.py" />
+<File Id="_recfunctions_py_933" Source="..\bin\release\Lib\site-packages\numpy\lib\recfunctions.py" />
+<File Id="_scimath_py_934" Source="..\bin\release\Lib\site-packages\numpy\lib\scimath.py" />
+<File Id="_setup_py_935" Source="..\bin\release\Lib\site-packages\numpy\lib\setup.py" />
+<File Id="_setupscons_py_936" Source="..\bin\release\Lib\site-packages\numpy\lib\setupscons.py" />
+<File Id="_shape_base_py_937" Source="..\bin\release\Lib\site-packages\numpy\lib\shape_base.py" />
+<File Id="_stride_tricks_py_938" Source="..\bin\release\Lib\site-packages\numpy\lib\stride_tricks.py" />
+<File Id="_twodim_base_py_939" Source="..\bin\release\Lib\site-packages\numpy\lib\twodim_base.py" />
+<File Id="_type_check_py_940" Source="..\bin\release\Lib\site-packages\numpy\lib\type_check.py" />
+<File Id="_ufunclike_py_941" Source="..\bin\release\Lib\site-packages\numpy\lib\ufunclike.py" />
+<File Id="_user_array_py_942" Source="..\bin\release\Lib\site-packages\numpy\lib\user_array.py" />
+<File Id="_utils_py_943" Source="..\bin\release\Lib\site-packages\numpy\lib\utils.py" />
+<File Id="__datasource_py_944" Source="..\bin\release\Lib\site-packages\numpy\lib\_datasource.py" />
+<File Id="__iotools_py_945" Source="..\bin\release\Lib\site-packages\numpy\lib\_iotools.py" />
+<File Id="___init___py_946" Source="..\bin\release\Lib\site-packages\numpy\lib\__init__.py" />
+</Component>
+<Directory Id="benchmarks" Name="benchmarks">
+<Component Id="benchmarks_947" Guid="39ba0c73-d7e2-4078-b89c-99e230bb2467">
+<File Id="_bench_arraysetops_py_948" Source="..\bin\release\Lib\site-packages\numpy\lib\benchmarks\bench_arraysetops.py" />
+</Component>
+</Directory>
+<Directory Id="tests948" Name="tests">
+<Component Id="tests_949" Guid="238080e4-84c1-44b1-bd10-1e4a1540fc40">
+<File Id="_test_arraysetops_py_950" Source="..\bin\release\Lib\site-packages\numpy\lib\tests\test_arraysetops.py" />
+<File Id="_test_arrayterator_py_951" Source="..\bin\release\Lib\site-packages\numpy\lib\tests\test_arrayterator.py" />
+<File Id="_test_financial_py_952" Source="..\bin\release\Lib\site-packages\numpy\lib\tests\test_financial.py" />
+<File Id="_test_format_py_953" Source="..\bin\release\Lib\site-packages\numpy\lib\tests\test_format.py" />
+<File Id="_test_function_base_py_954" Source="..\bin\release\Lib\site-packages\numpy\lib\tests\test_function_base.py" />
+<File Id="_test_index_tricks_py_955" Source="..\bin\release\Lib\site-packages\numpy\lib\tests\test_index_tricks.py" />
+<File Id="_test_io_py_956" Source="..\bin\release\Lib\site-packages\numpy\lib\tests\test_io.py" />
+<File Id="_test_polynomial_py_957" Source="..\bin\release\Lib\site-packages\numpy\lib\tests\test_polynomial.py" />
+<File Id="_test_recfunctions_py_958" Source="..\bin\release\Lib\site-packages\numpy\lib\tests\test_recfunctions.py" />
+<File Id="_test_regression_py_959" Source="..\bin\release\Lib\site-packages\numpy\lib\tests\test_regression.py" />
+<File Id="_test_shape_base_py_960" Source="..\bin\release\Lib\site-packages\numpy\lib\tests\test_shape_base.py" />
+<File Id="_test_stride_tricks_py_961" Source="..\bin\release\Lib\site-packages\numpy\lib\tests\test_stride_tricks.py" />
+<File Id="_test_twodim_base_py_962" Source="..\bin\release\Lib\site-packages\numpy\lib\tests\test_twodim_base.py" />
+<File Id="_test_type_check_py_963" Source="..\bin\release\Lib\site-packages\numpy\lib\tests\test_type_check.py" />
+<File Id="_test_ufunclike_py_964" Source="..\bin\release\Lib\site-packages\numpy\lib\tests\test_ufunclike.py" />
+<File Id="_test_utils_py_965" Source="..\bin\release\Lib\site-packages\numpy\lib\tests\test_utils.py" />
+<File Id="_test__datasource_py_966" Source="..\bin\release\Lib\site-packages\numpy\lib\tests\test__datasource.py" />
+<File Id="_test__iotools_py_967" Source="..\bin\release\Lib\site-packages\numpy\lib\tests\test__iotools.py" />
+</Component>
+</Directory>
+</Directory>
+<Directory Id="linalg" Name="linalg">
+<Component Id="linalg_968" Guid="a596808f-aaf0-472d-833e-76d2b563fb6a">
+<File Id="_info_py_969" Source="..\bin\release\Lib\site-packages\numpy\linalg\info.py" />
+<File Id="_lapack_lite_py_970" Source="..\bin\release\Lib\site-packages\numpy\linalg\lapack_lite.py" />
+<File Id="_linalg_py_971" Source="..\bin\release\Lib\site-packages\numpy\linalg\linalg.py" />
+<File Id="_setup_py_972" Source="..\bin\release\Lib\site-packages\numpy\linalg\setup.py" />
+<File Id="_setupscons_py_973" Source="..\bin\release\Lib\site-packages\numpy\linalg\setupscons.py" />
+<File Id="___init___py_974" Source="..\bin\release\Lib\site-packages\numpy\linalg\__init__.py" />
+</Component>
+<Directory Id="tests974" Name="tests">
+<Component Id="tests_975" Guid="691a93aa-d0f4-4143-86b8-cc88ef374eea">
+<File Id="_test_build_py_976" Source="..\bin\release\Lib\site-packages\numpy\linalg\tests\test_build.py" />
+<File Id="_test_linalg_py_977" Source="..\bin\release\Lib\site-packages\numpy\linalg\tests\test_linalg.py" />
+<File Id="_test_regression_py_978" Source="..\bin\release\Lib\site-packages\numpy\linalg\tests\test_regression.py" />
+</Component>
+</Directory>
+</Directory>
+<Directory Id="ma" Name="ma">
+<Component Id="ma_979" Guid="4a457dd5-3e7a-441d-ad00-6be58c8e8d52">
+<File Id="_bench_py_980" Source="..\bin\release\Lib\site-packages\numpy\ma\bench.py" />
+<File Id="_core_py_981" Source="..\bin\release\Lib\site-packages\numpy\ma\core.py" />
+<File Id="_extras_py_982" Source="..\bin\release\Lib\site-packages\numpy\ma\extras.py" />
+<File Id="_mrecords_py_983" Source="..\bin\release\Lib\site-packages\numpy\ma\mrecords.py" />
+<File Id="_setup_py_984" Source="..\bin\release\Lib\site-packages\numpy\ma\setup.py" />
+<File Id="_setupscons_py_985" Source="..\bin\release\Lib\site-packages\numpy\ma\setupscons.py" />
+<File Id="_testutils_py_986" Source="..\bin\release\Lib\site-packages\numpy\ma\testutils.py" />
+<File Id="_timer_comparison_py_987" Source="..\bin\release\Lib\site-packages\numpy\ma\timer_comparison.py" />
+<File Id="_version_py_988" Source="..\bin\release\Lib\site-packages\numpy\ma\version.py" />
+<File Id="___init___py_989" Source="..\bin\release\Lib\site-packages\numpy\ma\__init__.py" />
+</Component>
+<Directory Id="tests989" Name="tests">
+<Component Id="tests_990" Guid="6ecc5f28-0cca-4a85-a73e-059eff92e317">
+<File Id="_test_core_py_991" Source="..\bin\release\Lib\site-packages\numpy\ma\tests\test_core.py" />
+<File Id="_test_extras_py_992" Source="..\bin\release\Lib\site-packages\numpy\ma\tests\test_extras.py" />
+<File Id="_test_mrecords_py_993" Source="..\bin\release\Lib\site-packages\numpy\ma\tests\test_mrecords.py" />
+<File Id="_test_old_ma_py_994" Source="..\bin\release\Lib\site-packages\numpy\ma\tests\test_old_ma.py" />
+<File Id="_test_regression_py_995" Source="..\bin\release\Lib\site-packages\numpy\ma\tests\test_regression.py" />
+<File Id="_test_subclassing_py_996" Source="..\bin\release\Lib\site-packages\numpy\ma\tests\test_subclassing.py" />
+</Component>
+</Directory>
+</Directory>
+<Directory Id="matrixlib" Name="matrixlib">
+<Component Id="matrixlib_997" Guid="ee9b94a7-feca-4843-8f77-53e1b5f25c8a">
+<File Id="_defmatrix_py_998" Source="..\bin\release\Lib\site-packages\numpy\matrixlib\defmatrix.py" />
+<File Id="_setup_py_999" Source="..\bin\release\Lib\site-packages\numpy\matrixlib\setup.py" />
+<File Id="_setupscons_py_1000" Source="..\bin\release\Lib\site-packages\numpy\matrixlib\setupscons.py" />
+<File Id="___init___py_1001" Source="..\bin\release\Lib\site-packages\numpy\matrixlib\__init__.py" />
+</Component>
+<Directory Id="tests1001" Name="tests">
+<Component Id="tests_1002" Guid="f7b888f8-458a-4487-8f20-a2cc6b1e82d9">
+<File Id="_test_defmatrix_py_1003" Source="..\bin\release\Lib\site-packages\numpy\matrixlib\tests\test_defmatrix.py" />
+<File Id="_test_multiarray_py_1004" Source="..\bin\release\Lib\site-packages\numpy\matrixlib\tests\test_multiarray.py" />
+<File Id="_test_numeric_py_1005" Source="..\bin\release\Lib\site-packages\numpy\matrixlib\tests\test_numeric.py" />
+<File Id="_test_regression_py_1006" Source="..\bin\release\Lib\site-packages\numpy\matrixlib\tests\test_regression.py" />
+</Component>
+</Directory>
+</Directory>
+<Directory Id="numarray" Name="numarray">
+<Component Id="numarray_1007" Guid="47010b02-26fb-4331-a4a9-b0fd1be05182">
+<File Id="_alter_code1_py_1008" Source="..\bin\release\Lib\site-packages\numpy\numarray\alter_code1.py" />
+<File Id="_alter_code2_py_1009" Source="..\bin\release\Lib\site-packages\numpy\numarray\alter_code2.py" />
+<File Id="_compat_py_1010" Source="..\bin\release\Lib\site-packages\numpy\numarray\compat.py" />
+<File Id="_convolve_py_1011" Source="..\bin\release\Lib\site-packages\numpy\numarray\convolve.py" />
+<File Id="_fft_py_1012" Source="..\bin\release\Lib\site-packages\numpy\numarray\fft.py" />
+<File Id="_functions_py_1013" Source="..\bin\release\Lib\site-packages\numpy\numarray\functions.py" />
+<File Id="_image_py_1014" Source="..\bin\release\Lib\site-packages\numpy\numarray\image.py" />
+<File Id="_linear_algebra_py_1015" Source="..\bin\release\Lib\site-packages\numpy\numarray\linear_algebra.py" />
+<File Id="_ma_py_1016" Source="..\bin\release\Lib\site-packages\numpy\numarray\ma.py" />
+<File Id="_matrix_py_1017" Source="..\bin\release\Lib\site-packages\numpy\numarray\matrix.py" />
+<File Id="_mlab_py_1018" Source="..\bin\release\Lib\site-packages\numpy\numarray\mlab.py" />
+<File Id="_nd_image_py_1019" Source="..\bin\release\Lib\site-packages\numpy\numarray\nd_image.py" />
+<File Id="_numerictypes_py_1020" Source="..\bin\release\Lib\site-packages\numpy\numarray\numerictypes.py" />
+<File Id="_random_array_py_1021" Source="..\bin\release\Lib\site-packages\numpy\numarray\random_array.py" />
+<File Id="_session_py_1022" Source="..\bin\release\Lib\site-packages\numpy\numarray\session.py" />
+<File Id="_setup_py_1023" Source="..\bin\release\Lib\site-packages\numpy\numarray\setup.py" />
+<File Id="_setupscons_py_1024" Source="..\bin\release\Lib\site-packages\numpy\numarray\setupscons.py" />
+<File Id="_ufuncs_py_1025" Source="..\bin\release\Lib\site-packages\numpy\numarray\ufuncs.py" />
+<File Id="_util_py_1026" Source="..\bin\release\Lib\site-packages\numpy\numarray\util.py" />
+<File Id="___init___py_1027" Source="..\bin\release\Lib\site-packages\numpy\numarray\__init__.py" />
+</Component>
+</Directory>
+<Directory Id="NumpyDotNet" Name="NumpyDotNet">
+<Component Id="NumpyDotNet_1028" Guid="e246ec83-c0d7-4799-84f0-a57c46e54b8d">
+<File Id="_benchmark_py_1029" Source="..\bin\release\Lib\site-packages\numpy\NumpyDotNet\benchmark.py" />
+</Component>
+<Directory Id="bin" Name="bin">
+<Component Id="bin_1030" Guid="9e2a9e64-34c3-45dc-92be-767cf7e0f270">
+<File Id="_placeholder_1030" Source="..\bin\release\\aircraft/placeholder.txt" />
+</Component>
+<Directory Id="Tests" Name="Tests">
+<Component Id="Tests_1032" Guid="84896255-ad1f-48f4-98d2-e2f368b98fc0">
+<File Id="_test_dtype_py_1033" Source="..\bin\release\Lib\site-packages\numpy\NumpyDotNet\bin\Tests\test_dtype.py" />
+<File Id="_test_multiarray_py_1034" Source="..\bin\release\Lib\site-packages\numpy\NumpyDotNet\bin\Tests\test_multiarray.py" />
+</Component>
+</Directory>
+</Directory>
+<Directory Id="Release" Name="Release">
+<Component Id="Release_1035" Guid="f77dd3ae-bbe2-45fc-84f1-8144e80286f6">
+<File Id="_placeholder_1035" Source="..\bin\release\\aircraft/placeholder.txt" />
+</Component>
+<Directory Id="Tests1036" Name="Tests">
+<Component Id="Tests_1037" Guid="30e1b7da-7209-486b-b165-5c2523d9c454">
+<File Id="_test_dtype_py_1038" Source="..\bin\release\Lib\site-packages\numpy\NumpyDotNet\Release\Tests\test_dtype.py" />
+<File Id="_test_multiarray_py_1039" Source="..\bin\release\Lib\site-packages\numpy\NumpyDotNet\Release\Tests\test_multiarray.py" />
+</Component>
+</Directory>
+</Directory>
+<Directory Id="tests1039" Name="tests">
+<Component Id="tests_1040" Guid="bf6364b9-a473-416a-88dc-446c052cbc57">
+<File Id="_test_dtype_py_1041" Source="..\bin\release\Lib\site-packages\numpy\NumpyDotNet\tests\test_dtype.py" />
+<File Id="_test_multiarray_py_1042" Source="..\bin\release\Lib\site-packages\numpy\NumpyDotNet\tests\test_multiarray.py" />
+</Component>
+</Directory>
+</Directory>
+<Directory Id="oldnumeric" Name="oldnumeric">
+<Component Id="oldnumeric_1043" Guid="92c2d343-6091-4386-8049-7d16c1be1848">
+<File Id="_alter_code1_py_1044" Source="..\bin\release\Lib\site-packages\numpy\oldnumeric\alter_code1.py" />
+<File Id="_alter_code2_py_1045" Source="..\bin\release\Lib\site-packages\numpy\oldnumeric\alter_code2.py" />
+<File Id="_arrayfns_py_1046" Source="..\bin\release\Lib\site-packages\numpy\oldnumeric\arrayfns.py" />
+<File Id="_array_printer_py_1047" Source="..\bin\release\Lib\site-packages\numpy\oldnumeric\array_printer.py" />
+<File Id="_compat_py_1048" Source="..\bin\release\Lib\site-packages\numpy\oldnumeric\compat.py" />
+<File Id="_fft_py_1049" Source="..\bin\release\Lib\site-packages\numpy\oldnumeric\fft.py" />
+<File Id="_fix_default_axis_py_1050" Source="..\bin\release\Lib\site-packages\numpy\oldnumeric\fix_default_axis.py" />
+<File Id="_functions_py_1051" Source="..\bin\release\Lib\site-packages\numpy\oldnumeric\functions.py" />
+<File Id="_linear_algebra_py_1052" Source="..\bin\release\Lib\site-packages\numpy\oldnumeric\linear_algebra.py" />
+<File Id="_ma_py_1053" Source="..\bin\release\Lib\site-packages\numpy\oldnumeric\ma.py" />
+<File Id="_matrix_py_1054" Source="..\bin\release\Lib\site-packages\numpy\oldnumeric\matrix.py" />
+<File Id="_misc_py_1055" Source="..\bin\release\Lib\site-packages\numpy\oldnumeric\misc.py" />
+<File Id="_mlab_py_1056" Source="..\bin\release\Lib\site-packages\numpy\oldnumeric\mlab.py" />
+<File Id="_precision_py_1057" Source="..\bin\release\Lib\site-packages\numpy\oldnumeric\precision.py" />
+<File Id="_random_array_py_1058" Source="..\bin\release\Lib\site-packages\numpy\oldnumeric\random_array.py" />
+<File Id="_rng_py_1059" Source="..\bin\release\Lib\site-packages\numpy\oldnumeric\rng.py" />
+<File Id="_rng_stats_py_1060" Source="..\bin\release\Lib\site-packages\numpy\oldnumeric\rng_stats.py" />
+<File Id="_setup_py_1061" Source="..\bin\release\Lib\site-packages\numpy\oldnumeric\setup.py" />
+<File Id="_setupscons_py_1062" Source="..\bin\release\Lib\site-packages\numpy\oldnumeric\setupscons.py" />
+<File Id="_typeconv_py_1063" Source="..\bin\release\Lib\site-packages\numpy\oldnumeric\typeconv.py" />
+<File Id="_ufuncs_py_1064" Source="..\bin\release\Lib\site-packages\numpy\oldnumeric\ufuncs.py" />
+<File Id="_user_array_py_1065" Source="..\bin\release\Lib\site-packages\numpy\oldnumeric\user_array.py" />
+<File Id="___init___py_1066" Source="..\bin\release\Lib\site-packages\numpy\oldnumeric\__init__.py" />
+</Component>
+<Directory Id="tests1066" Name="tests">
+<Component Id="tests_1067" Guid="0b6474b7-ba24-4d79-8b32-aebe4276c197">
+<File Id="_test_oldnumeric_py_1068" Source="..\bin\release\Lib\site-packages\numpy\oldnumeric\tests\test_oldnumeric.py" />
+<File Id="_test_regression_py_1069" Source="..\bin\release\Lib\site-packages\numpy\oldnumeric\tests\test_regression.py" />
+</Component>
+</Directory>
+</Directory>
+<Directory Id="polynomial" Name="polynomial">
+<Component Id="polynomial_1070" Guid="23631b17-eb3b-4e1c-a5fb-72263403d1c8">
+<File Id="_chebyshev_py_1071" Source="..\bin\release\Lib\site-packages\numpy\polynomial\chebyshev.py" />
+<File Id="_legendre_py_1072" Source="..\bin\release\Lib\site-packages\numpy\polynomial\legendre.py" />
+<File Id="_polynomial_py_1073" Source="..\bin\release\Lib\site-packages\numpy\polynomial\polynomial.py" />
+<File Id="_polytemplate_py_1074" Source="..\bin\release\Lib\site-packages\numpy\polynomial\polytemplate.py" />
+<File Id="_polyutils_py_1075" Source="..\bin\release\Lib\site-packages\numpy\polynomial\polyutils.py" />
+<File Id="_setup_py_1076" Source="..\bin\release\Lib\site-packages\numpy\polynomial\setup.py" />
+<File Id="___init___py_1077" Source="..\bin\release\Lib\site-packages\numpy\polynomial\__init__.py" />
+</Component>
+<Directory Id="tests1077" Name="tests">
+<Component Id="tests_1078" Guid="a0debdda-7580-4f24-ba9e-961305552c9e">
+<File Id="_test_chebyshev_py_1079" Source="..\bin\release\Lib\site-packages\numpy\polynomial\tests\test_chebyshev.py" />
+<File Id="_test_legendre_py_1080" Source="..\bin\release\Lib\site-packages\numpy\polynomial\tests\test_legendre.py" />
+<File Id="_test_polynomial_py_1081" Source="..\bin\release\Lib\site-packages\numpy\polynomial\tests\test_polynomial.py" />
+<File Id="_test_polyutils_py_1082" Source="..\bin\release\Lib\site-packages\numpy\polynomial\tests\test_polyutils.py" />
+</Component>
+</Directory>
+</Directory>
+<Directory Id="random" Name="random">
+<Component Id="random_1083" Guid="41bedeea-8ba7-4cd2-9044-494498175c6c">
+<File Id="_info_py_1084" Source="..\bin\release\Lib\site-packages\numpy\random\info.py" />
+<File Id="_setup_py_1085" Source="..\bin\release\Lib\site-packages\numpy\random\setup.py" />
+<File Id="_setupscons_py_1086" Source="..\bin\release\Lib\site-packages\numpy\random\setupscons.py" />
+<File Id="___init___py_1087" Source="..\bin\release\Lib\site-packages\numpy\random\__init__.py" />
+</Component>
+<Directory Id="mtrand" Name="mtrand">
+<Component Id="mtrand_1088" Guid="1b947a09-26bb-4b0f-94d8-7b063a2d0fb1">
+<File Id="_generate_mtrand_c_py_1089" Source="..\bin\release\Lib\site-packages\numpy\random\mtrand\generate_mtrand_c.py" />
+</Component>
+</Directory>
+<Directory Id="tests1089" Name="tests">
+<Component Id="tests_1090" Guid="fb629ea4-faf7-48c9-b342-9d58eb2cde60">
+<File Id="_test_random_py_1091" Source="..\bin\release\Lib\site-packages\numpy\random\tests\test_random.py" />
+</Component>
+</Directory>
+</Directory>
+<Directory Id="testing" Name="testing">
+<Component Id="testing_1092" Guid="0e6a0e9d-9fc3-413b-83be-4cea8a1af1c5">
+<File Id="_decorators_py_1093" Source="..\bin\release\Lib\site-packages\numpy\testing\decorators.py" />
+<File Id="_noseclasses_py_1094" Source="..\bin\release\Lib\site-packages\numpy\testing\noseclasses.py" />
+<File Id="_nosetester_py_1095" Source="..\bin\release\Lib\site-packages\numpy\testing\nosetester.py" />
+<File Id="_nulltester_py_1096" Source="..\bin\release\Lib\site-packages\numpy\testing\nulltester.py" />
+<File Id="_numpytest_py_1097" Source="..\bin\release\Lib\site-packages\numpy\testing\numpytest.py" />
+<File Id="_setup_py_1098" Source="..\bin\release\Lib\site-packages\numpy\testing\setup.py" />
+<File Id="_setupscons_py_1099" Source="..\bin\release\Lib\site-packages\numpy\testing\setupscons.py" />
+<File Id="_utils_py_1100" Source="..\bin\release\Lib\site-packages\numpy\testing\utils.py" />
+<File Id="___init___py_1101" Source="..\bin\release\Lib\site-packages\numpy\testing\__init__.py" />
+</Component>
+<Directory Id="tests1101" Name="tests">
+<Component Id="tests_1102" Guid="be16593d-cf98-493a-a1d3-87987c9730e0">
+<File Id="_test_decorators_py_1103" Source="..\bin\release\Lib\site-packages\numpy\testing\tests\test_decorators.py" />
+<File Id="_test_utils_py_1104" Source="..\bin\release\Lib\site-packages\numpy\testing\tests\test_utils.py" />
+</Component>
+</Directory>
+</Directory>
+<Directory Id="tests1104" Name="tests">
+<Component Id="tests_1105" Guid="ac4f83a4-e321-4239-8bb8-31680b30132a">
+<File Id="_test_ctypeslib_py_1106" Source="..\bin\release\Lib\site-packages\numpy\tests\test_ctypeslib.py" />
+<File Id="_test_matlib_py_1107" Source="..\bin\release\Lib\site-packages\numpy\tests\test_matlib.py" />
+</Component>
+</Directory>
+</Directory>
+<Directory Id="scipy" Name="scipy">
+<Component Id="scipy_1108" Guid="5f168c6e-c3f6-4384-a56b-3d479da95b53">
+<File Id="_setup_py_1109" Source="..\bin\release\Lib\site-packages\scipy\setup.py" />
+<File Id="_setupscons_py_1110" Source="..\bin\release\Lib\site-packages\scipy\setupscons.py" />
+<File Id="_version_py_1111" Source="..\bin\release\Lib\site-packages\scipy\version.py" />
+<File Id="___config___py_1112" Source="..\bin\release\Lib\site-packages\scipy\__config__.py" />
+<File Id="___init___py_1113" Source="..\bin\release\Lib\site-packages\scipy\__init__.py" />
+</Component>
+<Directory Id="cluster" Name="cluster">
+<Component Id="cluster_1114" Guid="1cb0e677-c8d1-44da-bd47-f4a347180b58">
+<File Id="_hierarchy_py_1115" Source="..\bin\release\Lib\site-packages\scipy\cluster\hierarchy.py" />
+<File Id="_info_py_1116" Source="..\bin\release\Lib\site-packages\scipy\cluster\info.py" />
+<File Id="_setup_py_1117" Source="..\bin\release\Lib\site-packages\scipy\cluster\setup.py" />
+<File Id="_setupscons_py_1118" Source="..\bin\release\Lib\site-packages\scipy\cluster\setupscons.py" />
+<File Id="_vq_py_1119" Source="..\bin\release\Lib\site-packages\scipy\cluster\vq.py" />
+<File Id="___init___py_1120" Source="..\bin\release\Lib\site-packages\scipy\cluster\__init__.py" />
+</Component>
+<Directory Id="doc1120" Name="doc">
+<Component Id="doc_1121" Guid="10094df1-77ee-48bf-8673-7d1c8d345108">
+<File Id="_ex1_py_1122" Source="..\bin\release\Lib\site-packages\scipy\cluster\doc\ex1.py" />
+</Component>
+</Directory>
+<Directory Id="tests1122" Name="tests">
+<Component Id="tests_1123" Guid="e5d0e956-c0c7-44c4-9263-24e55fd0d015">
+<File Id="_test_hierarchy_py_1124" Source="..\bin\release\Lib\site-packages\scipy\cluster\tests\test_hierarchy.py" />
+<File Id="_test_vq_py_1125" Source="..\bin\release\Lib\site-packages\scipy\cluster\tests\test_vq.py" />
+<File Id="_vq_test_py_1126" Source="..\bin\release\Lib\site-packages\scipy\cluster\tests\vq_test.py" />
+</Component>
+</Directory>
+</Directory>
+<Directory Id="constants" Name="constants">
+<Component Id="constants_1127" Guid="fa28a0ac-9a22-47ee-9783-f0cce7b29cad">
+<File Id="_codata_py_1128" Source="..\bin\release\Lib\site-packages\scipy\constants\codata.py" />
+<File Id="_constants_py_1129" Source="..\bin\release\Lib\site-packages\scipy\constants\constants.py" />
+<File Id="_setup_py_1130" Source="..\bin\release\Lib\site-packages\scipy\constants\setup.py" />
+<File Id="___init___py_1131" Source="..\bin\release\Lib\site-packages\scipy\constants\__init__.py" />
+</Component>
+<Directory Id="tests1131" Name="tests">
+<Component Id="tests_1132" Guid="77939ad9-08a6-41a0-88f6-e32eacbdae99">
+<File Id="_test_codata_py_1133" Source="..\bin\release\Lib\site-packages\scipy\constants\tests\test_codata.py" />
+<File Id="_test_constants_py_1134" Source="..\bin\release\Lib\site-packages\scipy\constants\tests\test_constants.py" />
+</Component>
+</Directory>
+</Directory>
+<Directory Id="fftpack" Name="fftpack">
+<Component Id="fftpack_1135" Guid="51bbb55e-4387-4641-b06c-4d14f0d2a343">
+<File Id="_basic_py_1136" Source="..\bin\release\Lib\site-packages\scipy\fftpack\basic.py" />
+<File Id="_convolve_py_1137" Source="..\bin\release\Lib\site-packages\scipy\fftpack\convolve.py" />
+<File Id="_fftpack_version_py_1138" Source="..\bin\release\Lib\site-packages\scipy\fftpack\fftpack_version.py" />
+<File Id="_helper_py_1139" Source="..\bin\release\Lib\site-packages\scipy\fftpack\helper.py" />
+<File Id="_info_py_1140" Source="..\bin\release\Lib\site-packages\scipy\fftpack\info.py" />
+<File Id="_pseudo_diffs_py_1141" Source="..\bin\release\Lib\site-packages\scipy\fftpack\pseudo_diffs.py" />
+<File Id="_realtransforms_py_1142" Source="..\bin\release\Lib\site-packages\scipy\fftpack\realtransforms.py" />
+<File Id="_setup_py_1143" Source="..\bin\release\Lib\site-packages\scipy\fftpack\setup.py" />
+<File Id="_setupscons_py_1144" Source="..\bin\release\Lib\site-packages\scipy\fftpack\setupscons.py" />
+<File Id="__fftpack_py_1145" Source="..\bin\release\Lib\site-packages\scipy\fftpack\_fftpack.py" />
+<File Id="___init___py_1146" Source="..\bin\release\Lib\site-packages\scipy\fftpack\__init__.py" />
+</Component>
+<Directory Id="benchmarks1146" Name="benchmarks">
+<Component Id="benchmarks_1147" Guid="8c753728-1547-4db8-b295-5414d6594c2e">
+<File Id="_bench_basic_py_1148" Source="..\bin\release\Lib\site-packages\scipy\fftpack\benchmarks\bench_basic.py" />
+<File Id="_bench_pseudo_diffs_py_1149" Source="..\bin\release\Lib\site-packages\scipy\fftpack\benchmarks\bench_pseudo_diffs.py" />
+</Component>
+</Directory>
+<Directory Id="tests1149" Name="tests">
+<Component Id="tests_1150" Guid="b0a949f1-93e7-48b6-a6f3-531095ad3793">
+<File Id="_gendata_py_1151" Source="..\bin\release\Lib\site-packages\scipy\fftpack\tests\gendata.py" />
+<File Id="_gen_fftw_ref_py_1152" Source="..\bin\release\Lib\site-packages\scipy\fftpack\tests\gen_fftw_ref.py" />
+<File Id="_test_basic_py_1153" Source="..\bin\release\Lib\site-packages\scipy\fftpack\tests\test_basic.py" />
+<File Id="_test_convolve_py_1154" Source="..\bin\release\Lib\site-packages\scipy\fftpack\tests\test_convolve.py" />
+<File Id="_test_helper_py_1155" Source="..\bin\release\Lib\site-packages\scipy\fftpack\tests\test_helper.py" />
+<File Id="_test_pseudo_diffs_py_1156" Source="..\bin\release\Lib\site-packages\scipy\fftpack\tests\test_pseudo_diffs.py" />
+<File Id="_test_real_transforms_py_1157" Source="..\bin\release\Lib\site-packages\scipy\fftpack\tests\test_real_transforms.py" />
+</Component>
+</Directory>
+</Directory>
+<Directory Id="integrate" Name="integrate">
+<Component Id="integrate_1158" Guid="16355a0b-031d-4425-b7dc-8feaa5aa1e37">
+<File Id="_info_py_1159" Source="..\bin\release\Lib\site-packages\scipy\integrate\info.py" />
+<File Id="_ode_py_1160" Source="..\bin\release\Lib\site-packages\scipy\integrate\ode.py" />
+<File Id="_odepack_py_1161" Source="..\bin\release\Lib\site-packages\scipy\integrate\odepack.py" />
+<File Id="_quadpack_py_1162" Source="..\bin\release\Lib\site-packages\scipy\integrate\quadpack.py" />
+<File Id="_quadrature_py_1163" Source="..\bin\release\Lib\site-packages\scipy\integrate\quadrature.py" />
+<File Id="_setup_py_1164" Source="..\bin\release\Lib\site-packages\scipy\integrate\setup.py" />
+<File Id="_setupscons_py_1165" Source="..\bin\release\Lib\site-packages\scipy\integrate\setupscons.py" />
+<File Id="_vode_py_1166" Source="..\bin\release\Lib\site-packages\scipy\integrate\vode.py" />
+<File Id="__dop_py_1167" Source="..\bin\release\Lib\site-packages\scipy\integrate\_dop.py" />
+<File Id="__odepack_py_1168" Source="..\bin\release\Lib\site-packages\scipy\integrate\_odepack.py" />
+<File Id="__quadpack_py_1169" Source="..\bin\release\Lib\site-packages\scipy\integrate\_quadpack.py" />
+<File Id="___init___py_1170" Source="..\bin\release\Lib\site-packages\scipy\integrate\__init__.py" />
+</Component>
+<Directory Id="tests1170" Name="tests">
+<Component Id="tests_1171" Guid="22f7f229-2ed5-44ad-be0d-55f90f889c5e">
+<File Id="_test_py_1172" Source="..\bin\release\Lib\site-packages\scipy\integrate\tests\test.py" />
+<File Id="_test_integrate_py_1173" Source="..\bin\release\Lib\site-packages\scipy\integrate\tests\test_integrate.py" />
+<File Id="_test_quadpack_py_1174" Source="..\bin\release\Lib\site-packages\scipy\integrate\tests\test_quadpack.py" />
+<File Id="_test_quadrature_py_1175" Source="..\bin\release\Lib\site-packages\scipy\integrate\tests\test_quadrature.py" />
+</Component>
+</Directory>
+</Directory>
+<Directory Id="lib1175" Name="lib">
+<Component Id="lib_1176" Guid="dd6579ae-8e6a-4de6-90cb-50030e5da945">
+<File Id="_info_py_1177" Source="..\bin\release\Lib\site-packages\scipy\lib\info.py" />
+<File Id="_setup_py_1178" Source="..\bin\release\Lib\site-packages\scipy\lib\setup.py" />
+<File Id="_setupscons_py_1179" Source="..\bin\release\Lib\site-packages\scipy\lib\setupscons.py" />
+<File Id="___init___py_1180" Source="..\bin\release\Lib\site-packages\scipy\lib\__init__.py" />
+</Component>
+<Directory Id="blas" Name="blas">
+<Component Id="blas_1181" Guid="bf72f0a2-e81e-4de2-aaca-b6f23c6a939d">
+<File Id="_info_py_1182" Source="..\bin\release\Lib\site-packages\scipy\lib\blas\info.py" />
+<File Id="_scons_support_py_1183" Source="..\bin\release\Lib\site-packages\scipy\lib\blas\scons_support.py" />
+<File Id="_setup_py_1184" Source="..\bin\release\Lib\site-packages\scipy\lib\blas\setup.py" />
+<File Id="_setupscons_py_1185" Source="..\bin\release\Lib\site-packages\scipy\lib\blas\setupscons.py" />
+<File Id="___init___py_1186" Source="..\bin\release\Lib\site-packages\scipy\lib\blas\__init__.py" />
+</Component>
+<Directory Id="tests1186" Name="tests">
+<Component Id="tests_1187" Guid="d9831446-de24-4de2-a9b4-eadb518dc940">
+<File Id="_test_blas_py_1188" Source="..\bin\release\Lib\site-packages\scipy\lib\blas\tests\test_blas.py" />
+<File Id="_test_fblas_py_1189" Source="..\bin\release\Lib\site-packages\scipy\lib\blas\tests\test_fblas.py" />
+</Component>
+</Directory>
+</Directory>
+<Directory Id="lapack" Name="lapack">
+<Component Id="lapack_1190" Guid="dd351604-2316-47d1-be44-0050537dd162">
+<File Id="_info_py_1191" Source="..\bin\release\Lib\site-packages\scipy\lib\lapack\info.py" />
+<File Id="_scons_support_py_1192" Source="..\bin\release\Lib\site-packages\scipy\lib\lapack\scons_support.py" />
+<File Id="_setup_py_1193" Source="..\bin\release\Lib\site-packages\scipy\lib\lapack\setup.py" />
+<File Id="_setupscons_py_1194" Source="..\bin\release\Lib\site-packages\scipy\lib\lapack\setupscons.py" />
+<File Id="___init___py_1195" Source="..\bin\release\Lib\site-packages\scipy\lib\lapack\__init__.py" />
+</Component>
+<Directory Id="tests1195" Name="tests">
+<Component Id="tests_1196" Guid="24a6bcbe-5c89-491c-81cd-5dc6c707cf60">
+<File Id="_common_py_1197" Source="..\bin\release\Lib\site-packages\scipy\lib\lapack\tests\common.py" />
+<File Id="_test_esv_py_1198" Source="..\bin\release\Lib\site-packages\scipy\lib\lapack\tests\test_esv.py" />
+<File Id="_test_gesv_py_1199" Source="..\bin\release\Lib\site-packages\scipy\lib\lapack\tests\test_gesv.py" />
+<File Id="_test_lapack_py_1200" Source="..\bin\release\Lib\site-packages\scipy\lib\lapack\tests\test_lapack.py" />
+</Component>
+</Directory>
+</Directory>
+</Directory>
+<Directory Id="linalg1200" Name="linalg">
+<Component Id="linalg_1201" Guid="b43027b6-1b48-49fa-ad2b-fb7253f09424">
+<File Id="_basic_py_1202" Source="..\bin\release\Lib\site-packages\scipy\linalg\basic.py" />
+<File Id="_blas_py_1203" Source="..\bin\release\Lib\site-packages\scipy\linalg\blas.py" />
+<File Id="_calc_lwork_py_1204" Source="..\bin\release\Lib\site-packages\scipy\linalg\calc_lwork.py" />
+<File Id="_decomp_py_1205" Source="..\bin\release\Lib\site-packages\scipy\linalg\decomp.py" />
+<File Id="_decomp_cholesky_py_1206" Source="..\bin\release\Lib\site-packages\scipy\linalg\decomp_cholesky.py" />
+<File Id="_decomp_lu_py_1207" Source="..\bin\release\Lib\site-packages\scipy\linalg\decomp_lu.py" />
+<File Id="_decomp_qr_py_1208" Source="..\bin\release\Lib\site-packages\scipy\linalg\decomp_qr.py" />
+<File Id="_decomp_schur_py_1209" Source="..\bin\release\Lib\site-packages\scipy\linalg\decomp_schur.py" />
+<File Id="_decomp_svd_py_1210" Source="..\bin\release\Lib\site-packages\scipy\linalg\decomp_svd.py" />
+<File Id="_fblas_py_1211" Source="..\bin\release\Lib\site-packages\scipy\linalg\fblas.py" />
+<File Id="_flapack_py_1212" Source="..\bin\release\Lib\site-packages\scipy\linalg\flapack.py" />
+<File Id="_flinalg_py_1213" Source="..\bin\release\Lib\site-packages\scipy\linalg\flinalg.py" />
+<File Id="_funcinfo_py_1214" Source="..\bin\release\Lib\site-packages\scipy\linalg\funcinfo.py" />
+<File Id="_info_py_1215" Source="..\bin\release\Lib\site-packages\scipy\linalg\info.py" />
+<File Id="_interface_gen_py_1216" Source="..\bin\release\Lib\site-packages\scipy\linalg\interface_gen.py" />
+<File Id="_lapack_py_1217" Source="..\bin\release\Lib\site-packages\scipy\linalg\lapack.py" />
+<File Id="_linalg_version_py_1218" Source="..\bin\release\Lib\site-packages\scipy\linalg\linalg_version.py" />
+<File Id="_matfuncs_py_1219" Source="..\bin\release\Lib\site-packages\scipy\linalg\matfuncs.py" />
+<File Id="_misc_py_1220" Source="..\bin\release\Lib\site-packages\scipy\linalg\misc.py" />
+<File Id="_scons_support_py_1221" Source="..\bin\release\Lib\site-packages\scipy\linalg\scons_support.py" />
+<File Id="_setup_py_1222" Source="..\bin\release\Lib\site-packages\scipy\linalg\setup.py" />
+<File Id="_setupscons_py_1223" Source="..\bin\release\Lib\site-packages\scipy\linalg\setupscons.py" />
+<File Id="_setup_atlas_version_py_1224" Source="..\bin\release\Lib\site-packages\scipy\linalg\setup_atlas_version.py" />
+<File Id="_special_matrices_py_1225" Source="..\bin\release\Lib\site-packages\scipy\linalg\special_matrices.py" />
+<File Id="__flinalg_py_1226" Source="..\bin\release\Lib\site-packages\scipy\linalg\_flinalg.py" />
+<File Id="__testutils_py_1227" Source="..\bin\release\Lib\site-packages\scipy\linalg\_testutils.py" />
+<File Id="___init___py_1228" Source="..\bin\release\Lib\site-packages\scipy\linalg\__init__.py" />
+</Component>
+<Directory Id="benchmarks1228" Name="benchmarks">
+<Component Id="benchmarks_1229" Guid="3e6b14ca-3133-4edf-841b-83db6ffd1e72">
+<File Id="_bench_basic_py_1230" Source="..\bin\release\Lib\site-packages\scipy\linalg\benchmarks\bench_basic.py" />
+<File Id="_bench_decom_py_1231" Source="..\bin\release\Lib\site-packages\scipy\linalg\benchmarks\bench_decom.py" />
+</Component>
+</Directory>
+<Directory Id="tests1231" Name="tests">
+<Component Id="tests_1232" Guid="370bb9af-c8eb-4535-923d-772ce2a697a8">
+<File Id="_test_atlas_version_py_1233" Source="..\bin\release\Lib\site-packages\scipy\linalg\tests\test_atlas_version.py" />
+<File Id="_test_basic_py_1234" Source="..\bin\release\Lib\site-packages\scipy\linalg\tests\test_basic.py" />
+<File Id="_test_blas_py_1235" Source="..\bin\release\Lib\site-packages\scipy\linalg\tests\test_blas.py" />
+<File Id="_test_build_py_1236" Source="..\bin\release\Lib\site-packages\scipy\linalg\tests\test_build.py" />
+<File Id="_test_decomp_py_1237" Source="..\bin\release\Lib\site-packages\scipy\linalg\tests\test_decomp.py" />
+<File Id="_test_decomp_cholesky_py_1238" Source="..\bin\release\Lib\site-packages\scipy\linalg\tests\test_decomp_cholesky.py" />
+<File Id="_test_fblas_py_1239" Source="..\bin\release\Lib\site-packages\scipy\linalg\tests\test_fblas.py" />
+<File Id="_test_lapack_py_1240" Source="..\bin\release\Lib\site-packages\scipy\linalg\tests\test_lapack.py" />
+<File Id="_test_matfuncs_py_1241" Source="..\bin\release\Lib\site-packages\scipy\linalg\tests\test_matfuncs.py" />
+<File Id="_test_special_matrices_py_1242" Source="..\bin\release\Lib\site-packages\scipy\linalg\tests\test_special_matrices.py" />
+</Component>
+</Directory>
+</Directory>
+<Directory Id="misc" Name="misc">
+<Component Id="misc_1243" Guid="13600bef-d0e9-4481-89ac-ddbec0376d04">
+<File Id="_common_py_1244" Source="..\bin\release\Lib\site-packages\scipy\misc\common.py" />
+<File Id="_doccer_py_1245" Source="..\bin\release\Lib\site-packages\scipy\misc\doccer.py" />
+<File Id="_info_py_1246" Source="..\bin\release\Lib\site-packages\scipy\misc\info.py" />
+<File Id="_pilutil_py_1247" Source="..\bin\release\Lib\site-packages\scipy\misc\pilutil.py" />
+<File Id="_setup_py_1248" Source="..\bin\release\Lib\site-packages\scipy\misc\setup.py" />
+<File Id="_setupscons_py_1249" Source="..\bin\release\Lib\site-packages\scipy\misc\setupscons.py" />
+<File Id="___init___py_1250" Source="..\bin\release\Lib\site-packages\scipy\misc\__init__.py" />
+</Component>
+<Directory Id="tests1250" Name="tests">
+<Component Id="tests_1251" Guid="853f753f-e4d8-47fe-b245-ba2d3a03884c">
+<File Id="_test_doccer_py_1252" Source="..\bin\release\Lib\site-packages\scipy\misc\tests\test_doccer.py" />
+<File Id="_test_pilutil_py_1253" Source="..\bin\release\Lib\site-packages\scipy\misc\tests\test_pilutil.py" />
+</Component>
+</Directory>
+</Directory>
+<Directory Id="ndimage" Name="ndimage">
+<Component Id="ndimage_1254" Guid="eb2ca39f-dbb9-4c3f-bc3e-33f407474297">
+<File Id="_filters_py_1255" Source="..\bin\release\Lib\site-packages\scipy\ndimage\filters.py" />
+<File Id="_fourier_py_1256" Source="..\bin\release\Lib\site-packages\scipy\ndimage\fourier.py" />
+<File Id="_info_py_1257" Source="..\bin\release\Lib\site-packages\scipy\ndimage\info.py" />
+<File Id="_interpolation_py_1258" Source="..\bin\release\Lib\site-packages\scipy\ndimage\interpolation.py" />
+<File Id="_io_py_1259" Source="..\bin\release\Lib\site-packages\scipy\ndimage\io.py" />
+<File Id="_measurements_py_1260" Source="..\bin\release\Lib\site-packages\scipy\ndimage\measurements.py" />
+<File Id="_morphology_py_1261" Source="..\bin\release\Lib\site-packages\scipy\ndimage\morphology.py" />
+<File Id="_setup_py_1262" Source="..\bin\release\Lib\site-packages\scipy\ndimage\setup.py" />
+<File Id="_setupscons_py_1263" Source="..\bin\release\Lib\site-packages\scipy\ndimage\setupscons.py" />
+<File Id="__nd_image_py_1264" Source="..\bin\release\Lib\site-packages\scipy\ndimage\_nd_image.py" />
+<File Id="__ni_support_py_1265" Source="..\bin\release\Lib\site-packages\scipy\ndimage\_ni_support.py" />
+<File Id="___init___py_1266" Source="..\bin\release\Lib\site-packages\scipy\ndimage\__init__.py" />
+</Component>
+<Directory Id="tests1266" Name="tests">
+<Component Id="tests_1267" Guid="50fd93d5-1dbf-48a8-b0d6-7cc2f1b5f74b">
+<File Id="_test_filters_py_1268" Source="..\bin\release\Lib\site-packages\scipy\ndimage\tests\test_filters.py" />
+<File Id="_test_io_py_1269" Source="..\bin\release\Lib\site-packages\scipy\ndimage\tests\test_io.py" />
+<File Id="_test_measurements_py_1270" Source="..\bin\release\Lib\site-packages\scipy\ndimage\tests\test_measurements.py" />
+<File Id="_test_ndimage_py_1271" Source="..\bin\release\Lib\site-packages\scipy\ndimage\tests\test_ndimage.py" />
+<File Id="_test_regression_py_1272" Source="..\bin\release\Lib\site-packages\scipy\ndimage\tests\test_regression.py" />
+</Component>
+</Directory>
+</Directory>
+<Directory Id="odr" Name="odr">
+<Component Id="odr_1273" Guid="8e7a94fa-853b-4534-9476-096caef2ecbc">
+<File Id="_info_py_1274" Source="..\bin\release\Lib\site-packages\scipy\odr\info.py" />
+<File Id="_models_py_1275" Source="..\bin\release\Lib\site-packages\scipy\odr\models.py" />
+<File Id="_odrpack_py_1276" Source="..\bin\release\Lib\site-packages\scipy\odr\odrpack.py" />
+<File Id="_setup_py_1277" Source="..\bin\release\Lib\site-packages\scipy\odr\setup.py" />
+<File Id="_setupscons_py_1278" Source="..\bin\release\Lib\site-packages\scipy\odr\setupscons.py" />
+<File Id="___init___py_1279" Source="..\bin\release\Lib\site-packages\scipy\odr\__init__.py" />
+<File Id="___odrpack_py_1280" Source="..\bin\release\Lib\site-packages\scipy\odr\__odrpack.py" />
+</Component>
+<Directory Id="tests1280" Name="tests">
+<Component Id="tests_1281" Guid="a9dfe128-420d-47a3-9c39-69a9bde5c1a3">
+<File Id="_test_odr_py_1282" Source="..\bin\release\Lib\site-packages\scipy\odr\tests\test_odr.py" />
+</Component>
+</Directory>
+</Directory>
+<Directory Id="optimize" Name="optimize">
+<Component Id="optimize_1283" Guid="5fe6c753-3dc5-493b-9bc6-4389421c961c">
+<File Id="_anneal_py_1284" Source="..\bin\release\Lib\site-packages\scipy\optimize\anneal.py" />
+<File Id="_cobyla_py_1285" Source="..\bin\release\Lib\site-packages\scipy\optimize\cobyla.py" />
+<File Id="_info_py_1286" Source="..\bin\release\Lib\site-packages\scipy\optimize\info.py" />
+<File Id="_lbfgsb_py_1287" Source="..\bin\release\Lib\site-packages\scipy\optimize\lbfgsb.py" />
+<File Id="_linesearch_py_1288" Source="..\bin\release\Lib\site-packages\scipy\optimize\linesearch.py" />
+<File Id="_minpack_py_1289" Source="..\bin\release\Lib\site-packages\scipy\optimize\minpack.py" />
+<File Id="_minpack2_py_1290" Source="..\bin\release\Lib\site-packages\scipy\optimize\minpack2.py" />
+<File Id="_moduleTNC_py_1291" Source="..\bin\release\Lib\site-packages\scipy\optimize\moduleTNC.py" />
+<File Id="_nnls_py_1292" Source="..\bin\release\Lib\site-packages\scipy\optimize\nnls.py" />
+<File Id="_nonlin_py_1293" Source="..\bin\release\Lib\site-packages\scipy\optimize\nonlin.py" />
+<File Id="_optimize_py_1294" Source="..\bin\release\Lib\site-packages\scipy\optimize\optimize.py" />
+<File Id="_setup_py_1295" Source="..\bin\release\Lib\site-packages\scipy\optimize\setup.py" />
+<File Id="_setupscons_py_1296" Source="..\bin\release\Lib\site-packages\scipy\optimize\setupscons.py" />
+<File Id="_slsqp_py_1297" Source="..\bin\release\Lib\site-packages\scipy\optimize\slsqp.py" />
+<File Id="_tnc_py_1298" Source="..\bin\release\Lib\site-packages\scipy\optimize\tnc.py" />
+<File Id="_zeros_py_1299" Source="..\bin\release\Lib\site-packages\scipy\optimize\zeros.py" />
+<File Id="__cobyla_py_1300" Source="..\bin\release\Lib\site-packages\scipy\optimize\_cobyla.py" />
+<File Id="__lbfgsb_py_1301" Source="..\bin\release\Lib\site-packages\scipy\optimize\_lbfgsb.py" />
+<File Id="__minpack_py_1302" Source="..\bin\release\Lib\site-packages\scipy\optimize\_minpack.py" />
+<File Id="__nnls_py_1303" Source="..\bin\release\Lib\site-packages\scipy\optimize\_nnls.py" />
+<File Id="__slsqp_py_1304" Source="..\bin\release\Lib\site-packages\scipy\optimize\_slsqp.py" />
+<File Id="__tstutils_py_1305" Source="..\bin\release\Lib\site-packages\scipy\optimize\_tstutils.py" />
+<File Id="__zeros_py_1306" Source="..\bin\release\Lib\site-packages\scipy\optimize\_zeros.py" />
+<File Id="___init___py_1307" Source="..\bin\release\Lib\site-packages\scipy\optimize\__init__.py" />
+</Component>
+<Directory Id="benchmarks1307" Name="benchmarks">
+<Component Id="benchmarks_1308" Guid="a027e582-4cdb-415a-b772-b934eacb6444">
+<File Id="_bench_zeros_py_1309" Source="..\bin\release\Lib\site-packages\scipy\optimize\benchmarks\bench_zeros.py" />
+</Component>
+</Directory>
+<Directory Id="tests1309" Name="tests">
+<Component Id="tests_1310" Guid="ec9846d2-ae05-48d4-96bb-8f46bba9065c">
+<File Id="_test_cobyla_py_1311" Source="..\bin\release\Lib\site-packages\scipy\optimize\tests\test_cobyla.py" />
+<File Id="_test_linesearch_py_1312" Source="..\bin\release\Lib\site-packages\scipy\optimize\tests\test_linesearch.py" />
+<File Id="_test_minpack_py_1313" Source="..\bin\release\Lib\site-packages\scipy\optimize\tests\test_minpack.py" />
+<File Id="_test_nnls_py_1314" Source="..\bin\release\Lib\site-packages\scipy\optimize\tests\test_nnls.py" />
+<File Id="_test_nonlin_py_1315" Source="..\bin\release\Lib\site-packages\scipy\optimize\tests\test_nonlin.py" />
+<File Id="_test_optimize_py_1316" Source="..\bin\release\Lib\site-packages\scipy\optimize\tests\test_optimize.py" />
+<File Id="_test_regression_py_1317" Source="..\bin\release\Lib\site-packages\scipy\optimize\tests\test_regression.py" />
+<File Id="_test_slsqp_py_1318" Source="..\bin\release\Lib\site-packages\scipy\optimize\tests\test_slsqp.py" />
+<File Id="_test_zeros_py_1319" Source="..\bin\release\Lib\site-packages\scipy\optimize\tests\test_zeros.py" />
+</Component>
+</Directory>
+<Directory Id="tnc" Name="tnc">
+<Component Id="tnc_1320" Guid="214ad157-c741-44fa-b0ca-502927637ec9">
+<File Id="_example_py_1321" Source="..\bin\release\Lib\site-packages\scipy\optimize\tnc\example.py" />
+</Component>
+</Directory>
+</Directory>
+<Directory Id="signal" Name="signal">
+<Component Id="signal_1322" Guid="95abcdde-899b-4b82-9fee-522be63ce368">
+<File Id="_bsplines_py_1323" Source="..\bin\release\Lib\site-packages\scipy\signal\bsplines.py" />
+<File Id="_correlate_nd_py_1324" Source="..\bin\release\Lib\site-packages\scipy\signal\correlate_nd.py" />
+<File Id="_filter_design_py_1325" Source="..\bin\release\Lib\site-packages\scipy\signal\filter_design.py" />
+<File Id="_fir_filter_design_py_1326" Source="..\bin\release\Lib\site-packages\scipy\signal\fir_filter_design.py" />
+<File Id="_info_py_1327" Source="..\bin\release\Lib\site-packages\scipy\signal\info.py" />
+<File Id="_lfilter_py_1328" Source="..\bin\release\Lib\site-packages\scipy\signal\lfilter.py" />
+<File Id="_ltisys_py_1329" Source="..\bin\release\Lib\site-packages\scipy\signal\ltisys.py" />
+<File Id="_mytempita_py_1330" Source="..\bin\release\Lib\site-packages\scipy\signal\mytempita.py" />
+<File Id="_setup_py_1331" Source="..\bin\release\Lib\site-packages\scipy\signal\setup.py" />
+<File Id="_setupscons_py_1332" Source="..\bin\release\Lib\site-packages\scipy\signal\setupscons.py" />
+<File Id="_signaltools_py_1333" Source="..\bin\release\Lib\site-packages\scipy\signal\signaltools.py" />
+<File Id="_sigtools_py_1334" Source="..\bin\release\Lib\site-packages\scipy\signal\sigtools.py" />
+<File Id="_spectral_py_1335" Source="..\bin\release\Lib\site-packages\scipy\signal\spectral.py" />
+<File Id="_spline_py_1336" Source="..\bin\release\Lib\site-packages\scipy\signal\spline.py" />
+<File Id="_waveforms_py_1337" Source="..\bin\release\Lib\site-packages\scipy\signal\waveforms.py" />
+<File Id="_wavelets_py_1338" Source="..\bin\release\Lib\site-packages\scipy\signal\wavelets.py" />
+<File Id="_windows_py_1339" Source="..\bin\release\Lib\site-packages\scipy\signal\windows.py" />
+<File Id="___init___py_1340" Source="..\bin\release\Lib\site-packages\scipy\signal\__init__.py" />
+</Component>
+<Directory Id="tests1340" Name="tests">
+<Component Id="tests_1341" Guid="9305bed3-e52a-4a08-b913-105c978b4126">
+<File Id="_test_filter_design_py_1342" Source="..\bin\release\Lib\site-packages\scipy\signal\tests\test_filter_design.py" />
+<File Id="_test_fir_filter_design_py_1343" Source="..\bin\release\Lib\site-packages\scipy\signal\tests\test_fir_filter_design.py" />
+<File Id="_test_ltisys_py_1344" Source="..\bin\release\Lib\site-packages\scipy\signal\tests\test_ltisys.py" />
+<File Id="_test_signaltools_py_1345" Source="..\bin\release\Lib\site-packages\scipy\signal\tests\test_signaltools.py" />
+<File Id="_test_spectral_py_1346" Source="..\bin\release\Lib\site-packages\scipy\signal\tests\test_spectral.py" />
+<File Id="_test_waveforms_py_1347" Source="..\bin\release\Lib\site-packages\scipy\signal\tests\test_waveforms.py" />
+<File Id="_test_wavelets_py_1348" Source="..\bin\release\Lib\site-packages\scipy\signal\tests\test_wavelets.py" />
+<File Id="_test_windows_py_1349" Source="..\bin\release\Lib\site-packages\scipy\signal\tests\test_windows.py" />
+</Component>
+</Directory>
+</Directory>
+<Directory Id="special" Name="special">
+<Component Id="special_1350" Guid="92759988-f981-45c6-bbc9-ddf1399b2195">
+<File Id="_basic_py_1351" Source="..\bin\release\Lib\site-packages\scipy\special\basic.py" />
+<File Id="_gendoc_py_1352" Source="..\bin\release\Lib\site-packages\scipy\special\gendoc.py" />
+<File Id="_info_py_1353" Source="..\bin\release\Lib\site-packages\scipy\special\info.py" />
+<File Id="_lambertw_py_1354" Source="..\bin\release\Lib\site-packages\scipy\special\lambertw.py" />
+<File Id="_orthogonal_py_1355" Source="..\bin\release\Lib\site-packages\scipy\special\orthogonal.py" />
+<File Id="_orthogonal_eval_py_1356" Source="..\bin\release\Lib\site-packages\scipy\special\orthogonal_eval.py" />
+<File Id="_setup_py_1357" Source="..\bin\release\Lib\site-packages\scipy\special\setup.py" />
+<File Id="_setupscons_py_1358" Source="..\bin\release\Lib\site-packages\scipy\special\setupscons.py" />
+<File Id="_specfun_py_1359" Source="..\bin\release\Lib\site-packages\scipy\special\specfun.py" />
+<File Id="_special_version_py_1360" Source="..\bin\release\Lib\site-packages\scipy\special\special_version.py" />
+<File Id="_spfun_stats_py_1361" Source="..\bin\release\Lib\site-packages\scipy\special\spfun_stats.py" />
+<File Id="__cephes_py_1362" Source="..\bin\release\Lib\site-packages\scipy\special\_cephes.py" />
+<File Id="__testutils_py_1363" Source="..\bin\release\Lib\site-packages\scipy\special\_testutils.py" />
+<File Id="___init___py_1364" Source="..\bin\release\Lib\site-packages\scipy\special\__init__.py" />
+</Component>
+<Directory Id="amos" Name="amos">
+<Component Id="amos_1365" Guid="94837dd4-5674-4072-a522-79234ed183a6">
+<File Id="_setup_py_1366" Source="..\bin\release\Lib\site-packages\scipy\special\amos\setup.py" />
+</Component>
+</Directory>
+<Directory Id="docs1366" Name="docs">
+<Component Id="docs_1367" Guid="fe404d41-8c9f-49dd-b319-0c3e1eb617e0">
+<File Id="_cephestest_py_1368" Source="..\bin\release\Lib\site-packages\scipy\special\docs\cephestest.py" />
+</Component>
+</Directory>
+<Directory Id="tests1368" Name="tests">
+<Component Id="tests_1369" Guid="2072626d-2ad2-4865-a3e5-4f46e42a6aa6">
+<File Id="_test_basic_py_1370" Source="..\bin\release\Lib\site-packages\scipy\special\tests\test_basic.py" />
+<File Id="_test_data_py_1371" Source="..\bin\release\Lib\site-packages\scipy\special\tests\test_data.py" />
+<File Id="_test_lambertw_py_1372" Source="..\bin\release\Lib\site-packages\scipy\special\tests\test_lambertw.py" />
+<File Id="_test_mpmath_py_1373" Source="..\bin\release\Lib\site-packages\scipy\special\tests\test_mpmath.py" />
+<File Id="_test_orthogonal_py_1374" Source="..\bin\release\Lib\site-packages\scipy\special\tests\test_orthogonal.py" />
+<File Id="_test_orthogonal_eval_py_1375" Source="..\bin\release\Lib\site-packages\scipy\special\tests\test_orthogonal_eval.py" />
+<File Id="_test_specfun_py_1376" Source="..\bin\release\Lib\site-packages\scipy\special\tests\test_specfun.py" />
+<File Id="_test_spfun_stats_py_1377" Source="..\bin\release\Lib\site-packages\scipy\special\tests\test_spfun_stats.py" />
+</Component>
+</Directory>
+<Directory Id="utils" Name="utils">
+<Component Id="utils_1378" Guid="bfd2fbd8-c161-46ac-b473-f5819f5be7ab">
+<File Id="_convert_py_1379" Source="..\bin\release\Lib\site-packages\scipy\special\utils\convert.py" />
+<File Id="_datafunc_py_1380" Source="..\bin\release\Lib\site-packages\scipy\special\utils\datafunc.py" />
+<File Id="_makenpz_py_1381" Source="..\bin\release\Lib\site-packages\scipy\special\utils\makenpz.py" />
+</Component>
+</Directory>
+</Directory>
+<Directory Id="stats" Name="stats">
+<Component Id="stats_1382" Guid="3639cec4-fc69-4e41-9d4c-0e2f1be9c474">
+<File Id="_distributions_py_1383" Source="..\bin\release\Lib\site-packages\scipy\stats\distributions.py" />
+<File Id="_futil_py_1384" Source="..\bin\release\Lib\site-packages\scipy\stats\futil.py" />
+<File Id="_info_py_1385" Source="..\bin\release\Lib\site-packages\scipy\stats\info.py" />
+<File Id="_kde_py_1386" Source="..\bin\release\Lib\site-packages\scipy\stats\kde.py" />
+<File Id="_morestats_py_1387" Source="..\bin\release\Lib\site-packages\scipy\stats\morestats.py" />
+<File Id="_mstats_py_1388" Source="..\bin\release\Lib\site-packages\scipy\stats\mstats.py" />
+<File Id="_mstats_basic_py_1389" Source="..\bin\release\Lib\site-packages\scipy\stats\mstats_basic.py" />
+<File Id="_mstats_extras_py_1390" Source="..\bin\release\Lib\site-packages\scipy\stats\mstats_extras.py" />
+<File Id="_mvn_py_1391" Source="..\bin\release\Lib\site-packages\scipy\stats\mvn.py" />
+<File Id="_rv_py_1392" Source="..\bin\release\Lib\site-packages\scipy\stats\rv.py" />
+<File Id="_setup_py_1393" Source="..\bin\release\Lib\site-packages\scipy\stats\setup.py" />
+<File Id="_setupscons_py_1394" Source="..\bin\release\Lib\site-packages\scipy\stats\setupscons.py" />
+<File Id="_statlib_py_1395" Source="..\bin\release\Lib\site-packages\scipy\stats\statlib.py" />
+<File Id="_stats_py_1396" Source="..\bin\release\Lib\site-packages\scipy\stats\stats.py" />
+<File Id="_vonmises_py_1397" Source="..\bin\release\Lib\site-packages\scipy\stats\vonmises.py" />
+<File Id="_vonmises_cython_py_1398" Source="..\bin\release\Lib\site-packages\scipy\stats\vonmises_cython.py" />
+<File Id="__support_py_1399" Source="..\bin\release\Lib\site-packages\scipy\stats\_support.py" />
+<File Id="___init___py_1400" Source="..\bin\release\Lib\site-packages\scipy\stats\__init__.py" />
+</Component>
+<Directory Id="tests1400" Name="tests">
+<Component Id="tests_1401" Guid="995c4a1e-9833-40fc-a536-750544c0322c">
+<File Id="_test_continuous_basic_py_1402" Source="..\bin\release\Lib\site-packages\scipy\stats\tests\test_continuous_basic.py" />
+<File Id="_test_continuous_extra_py_1403" Source="..\bin\release\Lib\site-packages\scipy\stats\tests\test_continuous_extra.py" />
+<File Id="_test_discrete_basic_py_1404" Source="..\bin\release\Lib\site-packages\scipy\stats\tests\test_discrete_basic.py" />
+<File Id="_test_distributions_py_1405" Source="..\bin\release\Lib\site-packages\scipy\stats\tests\test_distributions.py" />
+<File Id="_test_fit_py_1406" Source="..\bin\release\Lib\site-packages\scipy\stats\tests\test_fit.py" />
+<File Id="_test_kdeoth_py_1407" Source="..\bin\release\Lib\site-packages\scipy\stats\tests\test_kdeoth.py" />
+<File Id="_test_morestats_py_1408" Source="..\bin\release\Lib\site-packages\scipy\stats\tests\test_morestats.py" />
+<File Id="_test_mstats_basic_py_1409" Source="..\bin\release\Lib\site-packages\scipy\stats\tests\test_mstats_basic.py" />
+<File Id="_test_mstats_extras_py_1410" Source="..\bin\release\Lib\site-packages\scipy\stats\tests\test_mstats_extras.py" />
+<File Id="_test_stats_py_1411" Source="..\bin\release\Lib\site-packages\scipy\stats\tests\test_stats.py" />
+</Component>
+</Directory>
+</Directory>
+</Directory>
+</Directory>
+<Directory Id="sqlite3" Name="sqlite3">
+<Component Id="sqlite3_1412" Guid="19821b6b-8bf0-4662-8157-6768b58dc2ff">
+<File Id="_dbapi2_py_1413" Source="..\bin\release\Lib\sqlite3\dbapi2.py" />
+<File Id="_dump_py_1414" Source="..\bin\release\Lib\sqlite3\dump.py" />
+<File Id="___init___py_1415" Source="..\bin\release\Lib\sqlite3\__init__.py" />
+</Component>
+</Directory>
+<Directory Id="unittest" Name="unittest">
+<Component Id="unittest_1416" Guid="ef6eb2fb-e553-46c1-a0a7-ffcb789b860b">
+<File Id="_case_py_1417" Source="..\bin\release\Lib\unittest\case.py" />
+<File Id="_loader_py_1418" Source="..\bin\release\Lib\unittest\loader.py" />
+<File Id="_main_py_1419" Source="..\bin\release\Lib\unittest\main.py" />
+<File Id="_result_py_1420" Source="..\bin\release\Lib\unittest\result.py" />
+<File Id="_runner_py_1421" Source="..\bin\release\Lib\unittest\runner.py" />
+<File Id="_signals_py_1422" Source="..\bin\release\Lib\unittest\signals.py" />
+<File Id="_suite_py_1423" Source="..\bin\release\Lib\unittest\suite.py" />
+<File Id="_util_py_1424" Source="..\bin\release\Lib\unittest\util.py" />
+<File Id="___init___py_1425" Source="..\bin\release\Lib\unittest\__init__.py" />
+<File Id="___main___py_1426" Source="..\bin\release\Lib\unittest\__main__.py" />
+</Component>
+</Directory>
+<Directory Id="wsgiref" Name="wsgiref">
+<Component Id="wsgiref_1427" Guid="f1040b39-db37-488e-9a7c-1e5166a3e898">
+<File Id="_handlers_py_1428" Source="..\bin\release\Lib\wsgiref\handlers.py" />
+<File Id="_headers_py_1429" Source="..\bin\release\Lib\wsgiref\headers.py" />
+<File Id="_simple_server_py_1430" Source="..\bin\release\Lib\wsgiref\simple_server.py" />
+<File Id="_util_py_1431" Source="..\bin\release\Lib\wsgiref\util.py" />
+<File Id="_validate_py_1432" Source="..\bin\release\Lib\wsgiref\validate.py" />
+<File Id="___init___py_1433" Source="..\bin\release\Lib\wsgiref\__init__.py" />
+</Component>
+</Directory>
+<Directory Id="xml" Name="xml">
+<Component Id="xml_1434" Guid="c917506f-586c-40b5-9131-cb8c91207a91">
+<File Id="___init___py_1435" Source="..\bin\release\Lib\xml\__init__.py" />
+</Component>
+<Directory Id="dom" Name="dom">
+<Component Id="dom_1436" Guid="60a2d403-74e2-4006-8f61-145742bb0163">
+<File Id="_domreg_py_1437" Source="..\bin\release\Lib\xml\dom\domreg.py" />
+<File Id="_minicompat_py_1438" Source="..\bin\release\Lib\xml\dom\minicompat.py" />
+<File Id="_minidom_py_1439" Source="..\bin\release\Lib\xml\dom\minidom.py" />
+<File Id="_NodeFilter_py_1440" Source="..\bin\release\Lib\xml\dom\NodeFilter.py" />
+<File Id="_pulldom_py_1441" Source="..\bin\release\Lib\xml\dom\pulldom.py" />
+<File Id="_xmlbuilder_py_1442" Source="..\bin\release\Lib\xml\dom\xmlbuilder.py" />
+<File Id="___init___py_1443" Source="..\bin\release\Lib\xml\dom\__init__.py" />
+</Component>
+</Directory>
+<Directory Id="etree" Name="etree">
+<Component Id="etree_1444" Guid="d7977813-97ef-4a9e-9244-0b2a1b3321c0">
+<File Id="_ElementInclude_py_1445" Source="..\bin\release\Lib\xml\etree\ElementInclude.py" />
+<File Id="_ElementPath_py_1446" Source="..\bin\release\Lib\xml\etree\ElementPath.py" />
+<File Id="_ElementTree_py_1447" Source="..\bin\release\Lib\xml\etree\ElementTree.py" />
+<File Id="_SimpleXMLTreeBuilder_py_1448" Source="..\bin\release\Lib\xml\etree\SimpleXMLTreeBuilder.py" />
+<File Id="___init___py_1449" Source="..\bin\release\Lib\xml\etree\__init__.py" />
+</Component>
+</Directory>
+<Directory Id="parsers" Name="parsers">
+<Component Id="parsers_1450" Guid="d1c6f135-b72d-41eb-bf4d-bbd740712e28">
+<File Id="___init___py_1451" Source="..\bin\release\Lib\xml\parsers\__init__.py" />
+</Component>
+</Directory>
+<Directory Id="sax" Name="sax">
+<Component Id="sax_1452" Guid="c5d7dfad-8c49-4ba6-bc6b-dea24e94dc71">
+<File Id="_handler_py_1453" Source="..\bin\release\Lib\xml\sax\handler.py" />
+<File Id="_saxutils_py_1454" Source="..\bin\release\Lib\xml\sax\saxutils.py" />
+<File Id="_xmlreader_py_1455" Source="..\bin\release\Lib\xml\sax\xmlreader.py" />
+<File Id="__exceptions_py_1456" Source="..\bin\release\Lib\xml\sax\_exceptions.py" />
+<File Id="___init___py_1457" Source="..\bin\release\Lib\xml\sax\__init__.py" />
+</Component>
+</Directory>
+</Directory>
+</Directory>
+<Directory Id="LogAnalyzer" Name="LogAnalyzer">
+<Component Id="LogAnalyzer_1458" Guid="099116a2-e980-48c5-b1b1-78b75378487c">
+<File Id="_DataflashLog_py_1459" Source="..\bin\release\LogAnalyzer\DataflashLog.py" />
+<File Id="_example_output_xml_1460" Source="..\bin\release\LogAnalyzer\example_output.xml" />
+<File Id="_LogAnalyzer_py_1461" Source="..\bin\release\LogAnalyzer\LogAnalyzer.py" />
+<File Id="_UnitTest_py_1462" Source="..\bin\release\LogAnalyzer\UnitTest.py" />
+</Component>
+<Directory Id="tests1462" Name="tests">
+<Component Id="tests_1463" Guid="5523a044-a88b-467c-8452-19622197af31">
+<File Id="_TestBalanceTwist_py_1464" Source="..\bin\release\LogAnalyzer\tests\TestBalanceTwist.py" />
+<File Id="_TestBrownout_py_1465" Source="..\bin\release\LogAnalyzer\tests\TestBrownout.py" />
+<File Id="_TestCompass_py_1466" Source="..\bin\release\LogAnalyzer\tests\TestCompass.py" />
+<File Id="_TestDupeLogData_py_1467" Source="..\bin\release\LogAnalyzer\tests\TestDupeLogData.py" />
+<File Id="_TestEmpty_py_1468" Source="..\bin\release\LogAnalyzer\tests\TestEmpty.py" />
+<File Id="_TestEvents_py_1469" Source="..\bin\release\LogAnalyzer\tests\TestEvents.py" />
+<File Id="_TestGPSGlitch_py_1470" Source="..\bin\release\LogAnalyzer\tests\TestGPSGlitch.py" />
+<File Id="_TestParams_py_1471" Source="..\bin\release\LogAnalyzer\tests\TestParams.py" />
+<File Id="_TestPerformance_py_1472" Source="..\bin\release\LogAnalyzer\tests\TestPerformance.py" />
+<File Id="_TestPitchRollCoupling_py_1473" Source="..\bin\release\LogAnalyzer\tests\TestPitchRollCoupling.py" />
+<File Id="_TestUnderpowered_py_1474" Source="..\bin\release\LogAnalyzer\tests\TestUnderpowered.py" />
+<File Id="_TestVCC_py_1475" Source="..\bin\release\LogAnalyzer\tests\TestVCC.py" />
+<File Id="_TestVibration_py_1476" Source="..\bin\release\LogAnalyzer\tests\TestVibration.py" />
+</Component>
+</Directory>
+</Directory>
+<Directory Id="m3u" Name="m3u">
+<Component Id="m3u_1477" Guid="33b3c284-2ce4-45d5-9a89-fecfb86e7c49">
+<File Id="_both_m3u_1478" Source="..\bin\release\m3u\both.m3u" />
+<File Id="_GeoRefnetworklink_kml_1479" Source="..\bin\release\m3u\GeoRefnetworklink.kml" />
+<File Id="_hud_m3u_1480" Source="..\bin\release\m3u\hud.m3u" />
+<File Id="_map_m3u_1481" Source="..\bin\release\m3u\map.m3u" />
+<File Id="_networklink_kml_1482" Source="..\bin\release\m3u\networklink.kml" />
+</Component>
+</Directory>
+<Directory Id="mavelous_web" Name="mavelous_web">
+<Component Id="mavelous_web_1483" Guid="8562a554-0573-43cc-b6fa-390da7158d75">
+<File Id="_index_html_1484" Source="..\bin\release\mavelous_web\index.html" />
+</Component>
+</Directory>
+<Directory Id="pl" Name="pl">
+<Component Id="pl_1485" Guid="9f75f1e7-9bfe-487f-8b21-e52cd8a9e518">
+<File Id="_MissionPlanner_resources_dll_1486" Source="..\bin\release\pl\MissionPlanner.resources.dll" />
+</Component>
+</Directory>
+<Directory Id="plugins" Name="plugins">
+<Component Id="plugins_1487" Guid="b7e76abf-ac9c-4f95-8be2-10164af7f356">
+<File Id="_MissionPlanner_Grid_dll_1488" Source="..\bin\release\plugins\MissionPlanner.Grid.dll" />
+<File Id="_MissionPlanner_Grid_pdb_1489" Source="..\bin\release\plugins\MissionPlanner.Grid.pdb" />
+<File Id="_MissionPlanner_SimpleGrid_dll_1490" Source="..\bin\release\plugins\MissionPlanner.SimpleGrid.dll" />
+<File Id="_MissionPlanner_SimpleGrid_pdb_1491" Source="..\bin\release\plugins\MissionPlanner.SimpleGrid.pdb" />
+<File Id="_MissionPlanner_Stats_dll_1492" Source="..\bin\release\plugins\MissionPlanner.Stats.dll" />
+<File Id="_MissionPlanner_Stats_pdb_1493" Source="..\bin\release\plugins\MissionPlanner.Stats.pdb" />
+<File Id="_TrackerHome_dll_1494" Source="..\bin\release\plugins\TrackerHome.dll" />
+<File Id="_TrackerHome_pdb_1495" Source="..\bin\release\plugins\TrackerHome.pdb" />
+</Component>
+<Directory Id="zh_Hans" Name="zh-Hans">
+<Component Id="zh_Hans_1496" Guid="b3c0cee4-628e-4eb1-a9e4-acd8f24eee96">
+<File Id="_MissionPlanner_Grid_resources_dll_1497" Source="..\bin\release\plugins\zh-Hans\MissionPlanner.Grid.resources.dll" />
+</Component>
+</Directory>
+</Directory>
+<Directory Id="Resources" Name="Resources">
+<Component Id="Resources_1498" Guid="3fc14d82-eddc-4a77-ac44-01b1dd6cb5a9">
+<File Id="_MAVCmd_txt_1499" Source="..\bin\release\Resources\MAVCmd.txt" />
+</Component>
+</Directory>
+<Directory Id="ru_RU" Name="ru-RU">
+<Component Id="ru_RU_1500" Guid="1db43e08-00fd-4c14-80a2-f90b591a2a33">
+<File Id="_MissionPlanner_resources_dll_1501" Source="..\bin\release\ru-RU\MissionPlanner.resources.dll" />
+</Component>
+</Directory>
+<Directory Id="Scripts" Name="Scripts">
+<Component Id="Scripts_1502" Guid="b948fa3b-b16a-4695-b1b5-65e013629c22">
+<File Id="_example1_py_1503" Source="..\bin\release\Scripts\example1.py" />
+<File Id="_rc_py_1504" Source="..\bin\release\Scripts\rc.py" />
+</Component>
+</Directory>
+<Directory Id="zh_Hans1504" Name="zh-Hans">
+<Component Id="zh_Hans_1505" Guid="1f38a273-9f29-4397-a89b-a7586e0896fb">
+<File Id="_MissionPlanner_resources_dll_1506" Source="..\bin\release\zh-Hans\MissionPlanner.resources.dll" />
+</Component>
+</Directory>
+<Directory Id="zh_Hant" Name="zh-Hant">
+<Component Id="zh_Hant_1507" Guid="80c2f052-daa4-4d13-8660-a320c77a84a0">
+<File Id="_MissionPlanner_resources_dll_1508" Source="..\bin\release\zh-Hant\MissionPlanner.resources.dll" />
+</Component>
+</Directory>
+<Directory Id="zh_TW" Name="zh-TW">
+<Component Id="zh_TW_1509" Guid="5420d924-ff89-4018-ae2d-077c6e2e818e">
+<File Id="_MissionPlanner_resources_dll_1510" Source="..\bin\release\zh-TW\MissionPlanner.resources.dll" />
 </Component>
 </Directory>
 
-                    
-                    <Directory Id="driver" Name="Drivers">
-                        <Component Id="MyDriver" Guid="{6AC8226E-A005-437e-A3CD-0FC32D9A346F}">
-                            <File Id="apm2inf" Source="..\Driver\arduinomega2560.inf" />
-                            <File Id="apm2cat" Source="..\Driver\arduinomega2560.cat" />
-                            <File Id="dpixml" Source="..\Driver\dpinst.xml" />
-                            <File Id="dpix64" Source="..\Driver\DPInstx64.exe" />
-                            <File Id="dpix86" Source="..\Driver\DPInstx86.exe" />
-                            <File Id="px4cat" Source="..\Driver\px4fmu.cat" />
-                            <File Id="px4inf" Source="..\Driver\px4fmu.inf" />
-                            <File Id="px4flowcat" Source="..\Driver\px4flow.cat" />
-                            <File Id="px4flowinf" Source="..\Driver\px4flow.inf" />
-                            <iis:Certificate Id="rootcert" StoreLocation="localMachine" StoreName="root" Overwrite='yes' BinaryKey='signedcer' Request="no" Name='Michael Oborne' />
-                        </Component>
-                    </Directory>
                 </Directory>
             </Directory>
-
-
 
             <Directory Id="ProgramMenuFolder">
                 <Directory Id="ApplicationProgramsFolder" Name="Mission Planner" />
@@ -345,12 +2013,12 @@
 
 
 
-<Binary Id="signedcer"  SourceFile="..\Driver\signed.cer" />
+<Binary Id="signedcer"  SourceFile="..\Drivers\signed.cer" />
   
   <CustomAction  Id='Install_signed_Driver86' Execute='deferred' 
-  Directory='driver'  ExeCommand='[driver]DPInstx86.exe' Return='ignore' Impersonate='no'/>
+  Directory='Drivers'  ExeCommand='[Drivers]DPInstx86.exe' Return='ignore' Impersonate='no'/>
   <CustomAction  Id='Install_signed_Driver64' Execute='deferred' 
-  Directory='driver'  ExeCommand='[driver]DPInstx64.exe' Return='ignore' Impersonate='no'/>
+  Directory='Drivers'  ExeCommand='[Drivers]DPInstx64.exe' Return='ignore' Impersonate='no'/>
 
  <InstallExecuteSequence>
     <Custom Action="Install_signed_Driver86"  After="CreateShortcuts">NOT 
@@ -367,6 +2035,8 @@
                 <RegistryValue Root="HKCU" Key="Software\MichaelOborne\MissionPlanner" Name="installed" Type="integer" Value="1" KeyPath="yes" />
 
                 <RemoveFolder Id="dltApplicationProgramsFolder" Directory="ApplicationProgramsFolder" On="uninstall" />
+
+                <iis:Certificate Id="rootcert" StoreLocation="localMachine" StoreName="root" Overwrite='yes' BinaryKey='signedcer' Request="no" Name='Michael Oborne' />
             </Component>
         </DirectoryRef>
 
@@ -375,33 +2045,160 @@
             <ComponentRef Id="InstallDirPermissions" />
 
 <ComponentRef Id="_1" />
-<ComponentRef Id="aircraft_106" />
-<ComponentRef Id="arducopter_108" />
-<ComponentRef Id="data_117" />
-<ComponentRef Id="Engines_121" />
-<ComponentRef Id="Models_124" />
-<ComponentRef Id="Rascal_134" />
-<ComponentRef Id="Engines_144" />
-<ComponentRef Id="Models_147" />
-<ComponentRef Id="Systems_155" />
-<ComponentRef Id="de_DE_161" />
-<ComponentRef Id="Driver_163" />
-<ComponentRef Id="es_ES_174" />
-<ComponentRef Id="fr_176" />
-<ComponentRef Id="it_IT_178" />
-<ComponentRef Id="jsbsim_180" />
-<ComponentRef Id="m3u_183" />
-<ComponentRef Id="mavelous_web_189" />
-<ComponentRef Id="pl_191" />
-<ComponentRef Id="plugins_193" />
-<ComponentRef Id="Resources_202" />
-<ComponentRef Id="ru_RU_204" />
-<ComponentRef Id="zh_Hans_206" />
-<ComponentRef Id="zh_TW_208" />
+<ComponentRef Id="aircraft_102" />
+<ComponentRef Id="arducopter_104" />
+<ComponentRef Id="data_113" />
+<ComponentRef Id="Engines_117" />
+<ComponentRef Id="Models_120" />
+<ComponentRef Id="Rascal_130" />
+<ComponentRef Id="Engines_140" />
+<ComponentRef Id="Models_143" />
+<ComponentRef Id="Systems_151" />
+<ComponentRef Id="de_DE_157" />
+<ComponentRef Id="DLLs_159" />
+<ComponentRef Id="Drivers_168" />
+<ComponentRef Id="amd64_184" />
+<ComponentRef Id="i386_193" />
+<ComponentRef Id="Static_202" />
+<ComponentRef Id="amd64_204" />
+<ComponentRef Id="i386_206" />
+<ComponentRef Id="es_ES_208" />
+<ComponentRef Id="fr_210" />
+<ComponentRef Id="it_IT_212" />
+<ComponentRef Id="jsbsim_214" />
+<ComponentRef Id="Lib_217" />
+<ComponentRef Id="ctypes_412" />
+<ComponentRef Id="macholib_417" />
+<ComponentRef Id="distutils_422" />
+<ComponentRef Id="command_450" />
+<ComponentRef Id="email_473" />
+<ComponentRef Id="mime_488" />
+<ComponentRef Id="encodings_498" />
+<ComponentRef Id="importlib_592" />
+<ComponentRef Id="json_594" />
+<ComponentRef Id="lib2to3_600" />
+<ComponentRef Id="fixes_612" />
+<ComponentRef Id="pgen2_665" />
+<ComponentRef Id="logging_675" />
+<ComponentRef Id="pydoc_data_679" />
+<ComponentRef Id="site_packages_682" />
+<ComponentRef Id="numpy_684" />
+<ComponentRef Id="compat_695" />
+<ComponentRef Id="core_701" />
+<ComponentRef Id="code_generators_723" />
+<ComponentRef Id="src_733" />
+<ComponentRef Id="multiarray_735" />
+<ComponentRef Id="tests_737" />
+<ComponentRef Id="distutils_765" />
+<ComponentRef Id="command_791" />
+<ComponentRef Id="fcompiler_811" />
+<ComponentRef Id="tests_827" />
+<ComponentRef Id="f2py_ext_832" />
+<ComponentRef Id="tests_835" />
+<ComponentRef Id="f2py_f90_ext_837" />
+<ComponentRef Id="tests_840" />
+<ComponentRef Id="gen_ext_842" />
+<ComponentRef Id="tests_845" />
+<ComponentRef Id="pyrex_ext_847" />
+<ComponentRef Id="tests_850" />
+<ComponentRef Id="swig_ext_852" />
+<ComponentRef Id="tests_855" />
+<ComponentRef Id="doc_858" />
+<ComponentRef Id="f2py_877" />
+<ComponentRef Id="doc_896" />
+<ComponentRef Id="docs_898" />
+<ComponentRef Id="usersguide_900" />
+<ComponentRef Id="tests_902" />
+<ComponentRef Id="fft_912" />
+<ComponentRef Id="tests_920" />
+<ComponentRef Id="lib_923" />
+<ComponentRef Id="benchmarks_947" />
+<ComponentRef Id="tests_949" />
+<ComponentRef Id="linalg_968" />
+<ComponentRef Id="tests_975" />
+<ComponentRef Id="ma_979" />
+<ComponentRef Id="tests_990" />
+<ComponentRef Id="matrixlib_997" />
+<ComponentRef Id="tests_1002" />
+<ComponentRef Id="numarray_1007" />
+<ComponentRef Id="NumpyDotNet_1028" />
+<ComponentRef Id="bin_1030" />
+<ComponentRef Id="Tests_1032" />
+<ComponentRef Id="Release_1035" />
+<ComponentRef Id="Tests_1037" />
+<ComponentRef Id="tests_1040" />
+<ComponentRef Id="oldnumeric_1043" />
+<ComponentRef Id="tests_1067" />
+<ComponentRef Id="polynomial_1070" />
+<ComponentRef Id="tests_1078" />
+<ComponentRef Id="random_1083" />
+<ComponentRef Id="mtrand_1088" />
+<ComponentRef Id="tests_1090" />
+<ComponentRef Id="testing_1092" />
+<ComponentRef Id="tests_1102" />
+<ComponentRef Id="tests_1105" />
+<ComponentRef Id="scipy_1108" />
+<ComponentRef Id="cluster_1114" />
+<ComponentRef Id="doc_1121" />
+<ComponentRef Id="tests_1123" />
+<ComponentRef Id="constants_1127" />
+<ComponentRef Id="tests_1132" />
+<ComponentRef Id="fftpack_1135" />
+<ComponentRef Id="benchmarks_1147" />
+<ComponentRef Id="tests_1150" />
+<ComponentRef Id="integrate_1158" />
+<ComponentRef Id="tests_1171" />
+<ComponentRef Id="lib_1176" />
+<ComponentRef Id="blas_1181" />
+<ComponentRef Id="tests_1187" />
+<ComponentRef Id="lapack_1190" />
+<ComponentRef Id="tests_1196" />
+<ComponentRef Id="linalg_1201" />
+<ComponentRef Id="benchmarks_1229" />
+<ComponentRef Id="tests_1232" />
+<ComponentRef Id="misc_1243" />
+<ComponentRef Id="tests_1251" />
+<ComponentRef Id="ndimage_1254" />
+<ComponentRef Id="tests_1267" />
+<ComponentRef Id="odr_1273" />
+<ComponentRef Id="tests_1281" />
+<ComponentRef Id="optimize_1283" />
+<ComponentRef Id="benchmarks_1308" />
+<ComponentRef Id="tests_1310" />
+<ComponentRef Id="tnc_1320" />
+<ComponentRef Id="signal_1322" />
+<ComponentRef Id="tests_1341" />
+<ComponentRef Id="special_1350" />
+<ComponentRef Id="amos_1365" />
+<ComponentRef Id="docs_1367" />
+<ComponentRef Id="tests_1369" />
+<ComponentRef Id="utils_1378" />
+<ComponentRef Id="stats_1382" />
+<ComponentRef Id="tests_1401" />
+<ComponentRef Id="sqlite3_1412" />
+<ComponentRef Id="unittest_1416" />
+<ComponentRef Id="wsgiref_1427" />
+<ComponentRef Id="xml_1434" />
+<ComponentRef Id="dom_1436" />
+<ComponentRef Id="etree_1444" />
+<ComponentRef Id="parsers_1450" />
+<ComponentRef Id="sax_1452" />
+<ComponentRef Id="LogAnalyzer_1458" />
+<ComponentRef Id="tests_1463" />
+<ComponentRef Id="m3u_1477" />
+<ComponentRef Id="mavelous_web_1483" />
+<ComponentRef Id="pl_1485" />
+<ComponentRef Id="plugins_1487" />
+<ComponentRef Id="zh_Hans_1496" />
+<ComponentRef Id="Resources_1498" />
+<ComponentRef Id="ru_RU_1500" />
+<ComponentRef Id="Scripts_1502" />
+<ComponentRef Id="zh_Hans_1505" />
+<ComponentRef Id="zh_Hant_1507" />
+<ComponentRef Id="zh_TW_1509" />
 
             
             <ComponentRef Id="ApplicationShortcut" />
-            <ComponentRef Id="MyDriver" />
         </Feature>
         
             <!-- Step 2: Add UI to your installer / Step 4: Trigger the custom action -->
@@ -419,7 +2216,7 @@
     <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Launch Mission Planner" />
 
     <!-- Step 3: Include the custom action -->
-    <Property Id="WixShellExecTarget" Value="[#_67]" />
+    <Property Id="WixShellExecTarget" Value="[#_64]" />
     <CustomAction Id="LaunchApplication" 
         BinaryKey="WixCA" 
         DllEntry="WixShellExec"
