@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using YLScsDrawing.Drawing3d;
 using MissionPlanner.HIL;
 
 namespace MissionPlanner.HIL

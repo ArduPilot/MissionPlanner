@@ -62,6 +62,12 @@ namespace MissionPlanner.Controls
         {
             string filepath = Application.StartupPath + Path.DirectorySeparatorChar + CMB_paramfiles.Text;
 
+            if (CMB_paramfiles.SelectedValue == null)
+            {
+                CustomMessageBox.Show("Please select an option first");
+                return;
+            }
+
             byte[] data = GitHubContent.GetFileContent("diydrones", "ardupilot", ((GitHubContent.FileInfo)CMB_paramfiles.SelectedValue).path);
 
             File.WriteAllBytes(filepath, data);

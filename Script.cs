@@ -11,7 +11,7 @@ namespace MissionPlanner
     public class Script
     {
         DateTime timeout = DateTime.Now;
-        List<string> items = new List<string>();
+        //List<string> items = new List<string>();
         static Microsoft.Scripting.Hosting.ScriptEngine engine;
         static Microsoft.Scripting.Hosting.ScriptScope scope;
 
@@ -53,7 +53,7 @@ namespace MissionPlanner
             else
                 OutputWriter = null;
 
-
+            /*
             object thisBoxed = MainV2.comPort.MAV.cs;
             Type test = thisBoxed.GetType();
 
@@ -72,6 +72,7 @@ namespace MissionPlanner
 
                 items.Add(field.Name);
             }
+             */
         }
 
         public object mavlink_connection(string device, int baud = 115200, int source_system = 255,
@@ -97,7 +98,9 @@ namespace MissionPlanner
         {
             try
             {
+                Console.WriteLine("Run Script " + scope);
                 engine.CreateScriptSourceFromString(script).Execute(scope);
+                Console.WriteLine("Run Script Done");
             }
             catch (Exception e)
             {

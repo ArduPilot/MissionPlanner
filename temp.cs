@@ -1064,13 +1064,6 @@ namespace MissionPlanner
             new Swarm.FollowPathControl().Show();
         }
 
-        private void BUT_compassmot_Click(object sender, EventArgs e)
-        {
-            MissionPlanner.MagMotor mot = new MissionPlanner.MagMotor();
-
-            mot.StartCalibration();
-        }
-
         private void BUT_driverclean_Click(object sender, EventArgs e)
         {
             MissionPlanner.Utilities.CleanDrivers.Clean();

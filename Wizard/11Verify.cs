@@ -116,7 +116,11 @@ namespace MissionPlanner.Wizard
             if (MainV2.comPort.MAV.cs.armed)
             {
                 lbl_prearm.BackColor = Color.Green;
-                MainV2.comPort.doARM(false);
+                try
+                {
+                    MainV2.comPort.doARM(false);
+                }
+                catch { }
                 chk_perarm.Checked = true;
             }
             else

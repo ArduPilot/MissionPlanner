@@ -274,6 +274,9 @@
     <EmbeddedResource Include="ValuesControl.resx">
       <DependentUpon>ValuesControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="WindDir.resx">
+      <DependentUpon>WindDir.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\iconWarning32.png" />

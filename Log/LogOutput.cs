@@ -111,7 +111,7 @@ namespace MissionPlanner.Log
                 }
                 else if (items[0].Contains("GPS") && DFLog.logformat.ContainsKey("GPS"))
                 {
-                    if (items[DFLog.FindInArray(DFLog.logformat["GPS"].FieldNames, "Status")] != "3")
+                    if (items[DFLog.FindMessageOffset("GPS", "Status")] != "3")
                         return;
 
                     if (position[positionindex] == null)
@@ -122,11 +122,11 @@ namespace MissionPlanner.Log
 
                     // 7 agl
                     // 8 asl...
-                    double alt = double.Parse(items[DFLog.FindInArray(DFLog.logformat["GPS"].FieldNames, "Alt")], new System.Globalization.CultureInfo("en-US"));
+                    double alt = double.Parse(items[DFLog.FindMessageOffset("GPS", "Alt")], new System.Globalization.CultureInfo("en-US"));
 
-                    position[positionindex].Add(new Point3D(double.Parse(items[DFLog.FindInArray(DFLog.logformat["GPS"].FieldNames, "Lng")],
+                    position[positionindex].Add(new Point3D(double.Parse(items[DFLog.FindMessageOffset("GPS", "Lng")],
                         new System.Globalization.CultureInfo("en-US")),
-                        double.Parse(items[DFLog.FindInArray(DFLog.logformat["GPS"].FieldNames, "Lat")],
+                        double.Parse(items[DFLog.FindMessageOffset("GPS", "Lat")],
                         new System.Globalization.CultureInfo("en-US")), alt));
                     oldlastpos = lastpos;
                     lastpos = (position[positionindex][position[positionindex].Count - 1]);
@@ -244,9 +244,9 @@ namespace MissionPlanner.Log
 
                             oldlastpos = lastpos;
 
-                            runmodel.Orientation.roll = double.Parse(items[DFLog.FindInArray(DFLog.logformat["ATT"].FieldNames, "Roll")], new System.Globalization.CultureInfo("en-US")) / -1;
-                            runmodel.Orientation.tilt = double.Parse(items[DFLog.FindInArray(DFLog.logformat["ATT"].FieldNames, "Pitch")], new System.Globalization.CultureInfo("en-US")) / -1;
-                            runmodel.Orientation.heading = double.Parse(items[DFLog.FindInArray(DFLog.logformat["ATT"].FieldNames, "Yaw")], new System.Globalization.CultureInfo("en-US")) / 1;
+                            runmodel.Orientation.roll = double.Parse(items[DFLog.FindMessageOffset("ATT", "Roll")], new System.Globalization.CultureInfo("en-US")) / -1;
+                            runmodel.Orientation.tilt = double.Parse(items[DFLog.FindMessageOffset("ATT", "Pitch")], new System.Globalization.CultureInfo("en-US")) / -1;
+                            runmodel.Orientation.heading = double.Parse(items[DFLog.FindMessageOffset("ATT", "Yaw")], new System.Globalization.CultureInfo("en-US")) / 1;
 
                             dat.model = runmodel;
                             dat.ctun = ctunlast;
@@ -649,7 +649,7 @@ namespace MissionPlanner.Log
 
             // create kmz - aka zip file
 
-            FileStream fs = File.Open(filename.Replace(".log.kml", ".kmz"), FileMode.Create);
+            FileStream fs = File.Open(filename.ToLower().Replace(".log.kml", ".kmz").Replace(".bin.kml", ".kmz"), FileMode.Create);
             ZipOutputStream zipStream = new ZipOutputStream(fs);
             zipStream.SetLevel(9); //0-9, 9 being the highest level of compression
             zipStream.UseZip64 = UseZip64.Off; // older zipfile

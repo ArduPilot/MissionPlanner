@@ -118,6 +118,8 @@ namespace MissionPlanner.GCSViews
         {
             InitializeComponent();
 
+            MissionPlanner.Utilities.Tracking.AddPage(this.GetType().ToString(), this.Text);
+
             instance = this;
             //    _serializer = new DockStateSerializer(dockContainer1);
             //    _serializer.SavePath = Application.StartupPath + Path.DirectorySeparatorChar + "FDscreen.xml";

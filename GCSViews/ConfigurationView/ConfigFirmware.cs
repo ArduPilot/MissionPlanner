@@ -56,10 +56,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public ConfigFirmware()
         {
             InitializeComponent();
-
-            WebRequest.DefaultWebProxy.Credentials = System.Net.CredentialCache.DefaultCredentials;
-
-           
         }
 
         public void Activate()
@@ -72,10 +68,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             if (MainV2.Advanced)
             {
-                lbl_px4bl.Visible = true;
+                lbl_px4bl.Visible = false;
                 lbl_devfw.Visible = true;
                 lbl_Custom_firmware_label.Visible = true;
-                lbl_px4io.Visible = true;
+                lbl_px4io.Visible = false;
                 lbl_dlfw.Visible = true;
                 CMB_history_label.Visible = true;
             }

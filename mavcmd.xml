@@ -14,7 +14,7 @@
     <LOITER_TURNS>
       <P1>Turns</P1>
       <P2></P2>
-      <P3></P3>
+      <P3>Dir 1=CW</P3>
       <P4></P4>
       <X>Lat</X>
       <Y>Long</Y>

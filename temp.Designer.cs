@@ -58,7 +58,6 @@
             this.BUT_outputMavlink = new MissionPlanner.Controls.MyButton();
             this.BUT_simmulti = new MissionPlanner.Controls.MyButton();
             this.BUT_followleader = new MissionPlanner.Controls.MyButton();
-            this.BUT_compassmot = new MissionPlanner.Controls.MyButton();
             this.BUT_driverclean = new MissionPlanner.Controls.MyButton();
             this.but_compassrotation = new MissionPlanner.Controls.MyButton();
             this.BUT_sorttlogs = new MissionPlanner.Controls.MyButton();
@@ -67,6 +66,7 @@
             this.BUT_movingbase = new MissionPlanner.Controls.MyButton();
             this.but_getfw = new MissionPlanner.Controls.MyButton();
             this.but_loganalysis = new MissionPlanner.Controls.MyButton();
+            this.BUT_magfit = new MissionPlanner.Controls.MyButton();
             this.SuspendLayout();
             // 
             // label1
@@ -353,16 +353,6 @@
             this.BUT_followleader.UseVisualStyleBackColor = true;
             this.BUT_followleader.Click += new System.EventHandler(this.BUT_followleader_Click);
             // 
-            // BUT_compassmot
-            // 
-            this.BUT_compassmot.Location = new System.Drawing.Point(461, 338);
-            this.BUT_compassmot.Name = "BUT_compassmot";
-            this.BUT_compassmot.Size = new System.Drawing.Size(75, 23);
-            this.BUT_compassmot.TabIndex = 35;
-            this.BUT_compassmot.Text = "CompassMot";
-            this.BUT_compassmot.UseVisualStyleBackColor = true;
-            this.BUT_compassmot.Click += new System.EventHandler(this.BUT_compassmot_Click);
-            // 
             // BUT_driverclean
             // 
             this.BUT_driverclean.Location = new System.Drawing.Point(526, 380);
@@ -438,11 +428,22 @@
             this.but_loganalysis.UseVisualStyleBackColor = true;
             this.but_loganalysis.Click += new System.EventHandler(this.but_loganalysis_Click);
             // 
+            // BUT_magfit
+            // 
+            this.BUT_magfit.Location = new System.Drawing.Point(461, 287);
+            this.BUT_magfit.Name = "BUT_magfit";
+            this.BUT_magfit.Size = new System.Drawing.Size(75, 23);
+            this.BUT_magfit.TabIndex = 43;
+            this.BUT_magfit.Text = "magfit";
+            this.BUT_magfit.UseVisualStyleBackColor = true;
+            this.BUT_magfit.Click += new System.EventHandler(this.BUT_magfit_Click);
+            // 
             // temp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(685, 450);
+            this.Controls.Add(this.BUT_magfit);
             this.Controls.Add(this.but_loganalysis);
             this.Controls.Add(this.but_getfw);
             this.Controls.Add(this.BUT_movingbase);
@@ -450,7 +451,6 @@
             this.Controls.Add(this.BUT_sorttlogs);
             this.Controls.Add(this.but_compassrotation);
             this.Controls.Add(this.BUT_driverclean);
-            this.Controls.Add(this.BUT_compassmot);
             this.Controls.Add(this.BUT_followleader);
             this.Controls.Add(this.BUT_simmulti);
             this.Controls.Add(this.BUT_outputMavlink);
@@ -519,7 +519,6 @@
         private Controls.MyButton BUT_outputMavlink;
         private Controls.MyButton BUT_simmulti;
         private Controls.MyButton BUT_followleader;
-        private Controls.MyButton BUT_compassmot;
         private Controls.MyButton BUT_driverclean;
         private Controls.MyButton but_compassrotation;
         private Controls.MyButton BUT_sorttlogs;
@@ -528,5 +527,6 @@
         private Controls.MyButton BUT_movingbase;
         private Controls.MyButton but_getfw;
         private Controls.MyButton but_loganalysis;
+        private Controls.MyButton BUT_magfit;
     }
 }

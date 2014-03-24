@@ -1282,6 +1282,8 @@ Please check the following
             req.param6 = p6;
             req.param7 = p7;
 
+            log.InfoFormat("doCommand cmd {0} {1} {2} {3} {4} {5} {6} {7}",actionid.ToString(),p1,p2,p3,p4,p5,p6,p7);
+
             generatePacket((byte)MAVLINK_MSG_ID.COMMAND_LONG, req);
 
             DateTime start = DateTime.Now;
@@ -2687,9 +2689,7 @@ Please check the following
             {
                 Progress((int)0, "");
             }
-
-            int z = 0;
-
+            
             uint totallength = 0;
             uint ofs = 0;
             uint bps = 0;
@@ -2742,14 +2742,6 @@ Please check the following
 
                         bps += data.count;
 
-                        z++;
-
-                        // random loss
-                        int fixme;
-
-                        //if ((z % 21) == 0)
-                          //  continue;
-                        
                         // record what we have received
                         set[(data.ofs / 90).ToString()] = 1;
 

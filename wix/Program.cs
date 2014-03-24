@@ -363,6 +363,7 @@ data = @"
             // put placeholder into dir
             if (files.Length == 0)
             {
+                File.WriteAllText(basedir + Path.DirectorySeparatorChar + "aircraft/placeholder.txt", "");
                 sw.WriteLine("<File Id=\"_placeholder_" + no + "\" Source=\"" + basedir + Path.DirectorySeparatorChar + "aircraft/placeholder.txt" + "\" />");
                 no++;
             }

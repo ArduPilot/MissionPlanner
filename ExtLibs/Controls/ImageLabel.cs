@@ -21,6 +21,9 @@ namespace MissionPlanner.Controls
         public ImageLabel()
         {
             InitializeComponent();
+
+            PictureBox.Image = PictureBox.InitialImage;
+            PictureBox.WaitOnLoad = true;
         }
 
         public void setImageandText(Image image, string text)

@@ -62,13 +62,17 @@ namespace MissionPlanner
         {
             if (dgv == null)
             {
-                foreach (DataGridViewRow row in Params.Rows)
+                try
                 {
-                    if ((bool)row.Cells[Use.Index].Value == true)
+                    foreach (DataGridViewRow row in Params.Rows)
                     {
-                        MainV2.comPort.setParam(row.Cells[Command.Index].Value.ToString().Trim(), float.Parse(row.Cells[newvalue.Index].Value.ToString()));
+                        if ((bool)row.Cells[Use.Index].Value == true)
+                        {
+                            MainV2.comPort.setParam(row.Cells[Command.Index].Value.ToString().Trim(), float.Parse(row.Cells[newvalue.Index].Value.ToString()));
+                        }
                     }
                 }
+                catch { CustomMessageBox.Show("Error setting parameter, are you still connected?", "Error"); return; }
             }
             else
             {

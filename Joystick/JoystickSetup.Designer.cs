@@ -89,6 +89,7 @@ namespace MissionPlanner.Joystick
             this.ProgressBarCH6 = new MissionPlanner.Controls.HorizontalProgressBar();
             this.BUT_detch7 = new MissionPlanner.Controls.MyButton();
             this.ProgressBarCH7 = new MissionPlanner.Controls.HorizontalProgressBar();
+            this.label14 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // CMB_joysticks
@@ -534,10 +535,16 @@ namespace MissionPlanner.Joystick
             this.ProgressBarCH7.Name = "ProgressBarCH7";
             this.ProgressBarCH7.Value = 800;
             // 
+            // label14
+            // 
+            resources.ApplyResources(this.label14, "label14");
+            this.label14.Name = "label14";
+            // 
             // JoystickSetup
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.label14);
             this.Controls.Add(this.BUT_detch8);
             this.Controls.Add(this.revCH8);
             this.Controls.Add(this.label13);
@@ -663,5 +670,6 @@ namespace MissionPlanner.Joystick
         private System.Windows.Forms.TextBox expo_ch8;
         private HorizontalProgressBar ProgressBarCH8;
         private System.Windows.Forms.ComboBox CMB_CH8;
+        private System.Windows.Forms.Label label14;
     }
 }

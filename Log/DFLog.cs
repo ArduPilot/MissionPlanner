@@ -200,7 +200,7 @@ namespace MissionPlanner.Log
                                 gpsstarttime = GetTimeGPS(line);
                                 lasttime = gpsstarttime;
 
-                                int indextimems = FindInArray(logformat["GPS"].FieldNames, "T");
+                                int indextimems = FindMessageOffset("GPS", "T");
 
                                 if (indextimems != -1)
                                 {
@@ -217,13 +217,13 @@ namespace MissionPlanner.Log
                             Array.Resize(ref items, items.Length + 2);
                             try
                             {
-                                int index = FindInArray(DFLog.logformat["ERR"].FieldNames, "Subsys");
+                                int index = FindMessageOffset("ERR", "Subsys");
                                 if (index == -1)
                                 {
                                     throw new ArgumentNullException();
                                 }
 
-                                int index2 = FindInArray(DFLog.logformat["ERR"].FieldNames, "ECode");
+                                int index2 = FindMessageOffset("ERR", "ECode");
                                 if (index2 == -1)
                                 {
                                     throw new ArgumentNullException();
@@ -238,7 +238,7 @@ namespace MissionPlanner.Log
                             Array.Resize(ref items, items.Length + 1);
                             try
                             {
-                                int index = FindInArray(DFLog.logformat["EV"].FieldNames, "Id");
+                                int index = FindMessageOffset("EV", "Id");
                                 if (index == -1)
                                 {
                                     throw new ArgumentNullException();
@@ -267,7 +267,7 @@ namespace MissionPlanner.Log
                                 {
                                     if (logformat.ContainsKey(item.msgtype))
                                     {
-                                        int indextimems = FindInArray(logformat[item.msgtype].FieldNames, "TimeMS");
+                                        int indextimems = FindMessageOffset(item.msgtype, "TimeMS");
 
                                         if (indextimems != -1)
                                         {
@@ -332,7 +332,7 @@ namespace MissionPlanner.Log
                 string[] items = strLine.Split(',', ':');
 
                 // check its a valid lock
-                int indexstatus = FindInArray(logformat["GPS"].FieldNames, "Status");
+                int indexstatus = FindMessageOffset("GPS", "Status");
 
                 if (indexstatus != -1)
                 {
@@ -341,10 +341,10 @@ namespace MissionPlanner.Log
                 }
 
                 // get time since start of week
-                int indextimems = FindInArray(logformat["GPS"].FieldNames, "TimeMS");
+                int indextimems = FindMessageOffset("GPS", "TimeMS");
 
                 // get week number
-                int indexweek = FindInArray(logformat["GPS"].FieldNames, "Week");
+                int indexweek = FindMessageOffset("GPS", "Week");
 
                 if (indextimems == -1 || indexweek == -1)
                     return DateTime.MinValue;
@@ -365,6 +365,14 @@ namespace MissionPlanner.Log
             basetime = basetime.AddSeconds((sec - leap));
 
             return basetime.ToLocalTime();
+        }
+
+        public static int FindMessageOffset(string linetype,string find)
+        {
+            if (logformat.ContainsKey(linetype))
+                return Log.DFLog.FindInArray(logformat[linetype].FieldNames, find);
+
+            return -1;
         }
 
         public static int FindInArray(string[] array, string find)

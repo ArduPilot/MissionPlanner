@@ -22,6 +22,8 @@ namespace MissionPlanner.Joystick
         public JoystickSetup()
         {
             InitializeComponent();
+
+            MissionPlanner.Utilities.Tracking.AddPage(this.GetType().ToString(), this.Text);
         }
 
         private void Joystick_Load(object sender, EventArgs e)
@@ -87,6 +89,8 @@ namespace MissionPlanner.Joystick
             catch { } // IF 1 DOESNT EXIST NONE WILL
 
             var tempjoystick = new Joystick();
+
+            label14.Text += " "+MainV2.comPort.MAV.cs.firmware.ToString();
 
             for (int a = 1; a <= 8; a++) 
             {

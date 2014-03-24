@@ -273,7 +273,7 @@ namespace MissionPlanner.Utilities
         {
             System.Xml.Serialization.XmlSerializer writer = new System.Xml.Serialization.XmlSerializer(typeof(List<software>), new Type[] { typeof(software) });
 
-            using (StreamWriter sw = new StreamWriter("fwversions.xml"))
+            using (StreamWriter sw = new StreamWriter(Application.StartupPath + Path.DirectorySeparatorChar + "fwversions.xml"))
             {
                 writer.Serialize(sw, list);
             }
@@ -283,7 +283,7 @@ namespace MissionPlanner.Utilities
         {
             System.Xml.Serialization.XmlSerializer reader = new System.Xml.Serialization.XmlSerializer(typeof(List<software>), new Type[] { typeof(software) });
 
-            using (StreamReader sr = new StreamReader("fwversions.xml"))
+            using (StreamReader sr = new StreamReader(Application.StartupPath + Path.DirectorySeparatorChar + "fwversions.xml"))
             {
                 return (List<software>)reader.Deserialize(sr);
             }

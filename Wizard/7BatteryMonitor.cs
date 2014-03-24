@@ -204,21 +204,26 @@ namespace MissionPlanner.Wizard
         {
             sensor sensorselected = ((sensor)((ComboBox)sender).SelectedValue);
 
-            if (sensorselected.Name != "None")
+            try
             {
 
-                MainV2.comPort.setParam("BATT_AMP_PERVOLT", sensorselected.ampspervolt);
+                if (sensorselected.Name != "None")
+                {
 
-                MainV2.comPort.setParam("BATT_VOLT_MULT", sensorselected.voltspervolt);
+                    MainV2.comPort.setParam("BATT_AMP_PERVOLT", sensorselected.ampspervolt);
 
-                // enable volt and current
-                MainV2.comPort.setParam("BATT_MONITOR", 4);
+                    MainV2.comPort.setParam("BATT_VOLT_MULT", sensorselected.voltspervolt);
+
+                    // enable volt and current
+                    MainV2.comPort.setParam("BATT_MONITOR", 4);
+                }
+                else
+                {
+                    // disable volt and current
+                    MainV2.comPort.setParam("BATT_MONITOR", 0);
+                }
             }
-            else
-            {
-                // disable volt and current
-                MainV2.comPort.setParam("BATT_MONITOR", 0);
-            }
+            catch { CustomMessageBox.Show("Set BATT_MONITOR Failed"); }
         }
     }
 }

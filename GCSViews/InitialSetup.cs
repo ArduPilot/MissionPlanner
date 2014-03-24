@@ -43,18 +43,6 @@ namespace MissionPlanner.GCSViews
             initialSetupBindingSource.DataSource = this;
         }
 
-        private BackstageViewPage AddBackstageViewPage(UserControl userControl, string headerText, BackstageViewPage Parent = null, bool advanced = false)
-        {
-            try
-            {
-                log.Debug("adding page "+ headerText);
-                var obj = backstageView.AddPage(userControl, headerText, Parent, advanced);
-                log.Debug("done page " + headerText);
-                return obj;
-            }
-            catch (Exception ex) { log.Error(ex); return null; }
-        }
-
         private void HardwareConfig_Load(object sender, EventArgs e)
         {
             // remeber last page accessed

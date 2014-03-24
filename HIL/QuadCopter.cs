@@ -4,7 +4,6 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using log4net;
-using YLScsDrawing.Drawing3d;
 using MissionPlanner.HIL;
 using MissionPlanner.GCSViews;
 
@@ -126,7 +125,7 @@ namespace MissionPlanner.HIL
 
         DateTime last_time;
 
-        public MultiCopter(string frame = "quad")
+        public MultiCopter(string frame = "quadx")
         {
             self = this;
 

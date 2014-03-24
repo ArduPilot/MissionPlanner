@@ -51,6 +51,8 @@ namespace MissionPlanner
             gelocs = getGEAltPath(planlocs);
 
             frm.Close();
+
+            MissionPlanner.Utilities.Tracking.AddPage(this.GetType().ToString(), this.Text);
         }
 
         private void ElevationProfile_Load(object sender, EventArgs e)

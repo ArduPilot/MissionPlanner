@@ -307,6 +307,25 @@ namespace MissionPlanner.GCSViews
             setfromMap(lat, lng, alt);
         }
 
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            // open wp file
+            if (keyData == (Keys.Control | Keys.O))
+            {
+                loadWPFileToolStripMenuItem_Click(null, null);
+                return true;
+            }
+
+            // save wp file
+            if (keyData == (Keys.Control | Keys.S))
+            {
+                saveWPFileToolStripMenuItem_Click(null,null);
+                return true;
+            }
+
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+
         public FlightPlanner()
         {
             instance = this;
@@ -858,7 +877,7 @@ namespace MissionPlanner.GCSViews
                 // thread for updateing row numbers
                 for (int a = 0; a < Commands.Rows.Count - 0; a++)
                 {
-                    this.BeginInvoke((MethodInvoker)delegate
+                   // this.BeginInvoke((MethodInvoker)delegate
                     {
                         try
                         {
@@ -876,7 +895,7 @@ namespace MissionPlanner.GCSViews
                             }
                         }
                         catch (Exception) { }
-                    });
+                    }//);
                 }
             });
             t1.Name = "Row number updater";
@@ -1336,7 +1355,7 @@ namespace MissionPlanner.GCSViews
 
                 if (!port.BaseStream.IsOpen)
                 {
-                    throw new Exception("Please Connect First!");
+                    throw new Exception("Please connect first!");
                 }
 
                 MainV2.comPort.giveComport = true;
@@ -1352,11 +1371,62 @@ namespace MissionPlanner.GCSViews
                 }
                 catch { throw new Exception("Your home location is invalid"); }
 
-                ((Controls.ProgressReporterDialogue)sender).UpdateProgressAndStatus(0, "Set Total WPs ");
+                log.Info("wps values " + MainV2.comPort.MAV.wps.Values.Count);
+                log.Info("cmd rows " +(Commands.Rows.Count + 1)); // + home
+
+                if (MainV2.comPort.MAV.wps.Values.Count == (Commands.Rows.Count + 1))
+                {
+                    Hashtable wpstoupload = new Hashtable();
+
+                    int a = -1;
+                    foreach (var item in MainV2.comPort.MAV.wps.Values)
+                    {
+                        // skip home
+                        if (a == -1)
+                        {
+                            a++;
+                            continue;
+                        }
+
+                        MAVLink.mavlink_mission_item_t temp = new MAVLink.mavlink_mission_item_t();
+                        temp.command = (byte)(int)Enum.Parse(typeof(MAVLink.MAV_CMD), Commands.Rows[a].Cells[Command.Index].Value.ToString(), false);
+                        temp.z = (float)(double.Parse(Commands.Rows[a].Cells[Alt.Index].Value.ToString()) / MainV2.comPort.MAV.cs.multiplierdist);
+                        temp.x = (float)(double.Parse(Commands.Rows[a].Cells[Lat.Index].Value.ToString()));
+                        temp.y = (float)(double.Parse(Commands.Rows[a].Cells[Lon.Index].Value.ToString()));
+                        temp.param1 = float.Parse(Commands.Rows[a].Cells[Param1.Index].Value.ToString());
+                        temp.param2 = (float)(double.Parse(Commands.Rows[a].Cells[Param2.Index].Value.ToString()));
+                        temp.param3 = (float)(double.Parse(Commands.Rows[a].Cells[Param3.Index].Value.ToString()));
+                        temp.param4 = (float)(double.Parse(Commands.Rows[a].Cells[Param4.Index].Value.ToString()));
+
+                    
+
+                        if (temp.command == item.command &&
+                            temp.x == item.x &&
+                            temp.y == item.y &&
+                            temp.z == item.z &&
+                            temp.param1 == item.param1 &&
+                            temp.param2 == item.param2 &&
+                            temp.param3 == item.param3 &&
+                            temp.param4 == item.param4
+                            )
+                        {
+                            log.Info("wp match " + (a + 1));
+                        }
+                        else
+                        {
+                            log.Info("wp no match" + (a + 1));
+                            wpstoupload[a] = "";
+                        }
+
+                        a++;
+                    }
+                }
+
+                ((Controls.ProgressReporterDialogue)sender).UpdateProgressAndStatus(0, "Set total wps ");
 
                 port.setWPTotal((ushort)(Commands.Rows.Count + 1)); // + home
 
-                ((Controls.ProgressReporterDialogue)sender).UpdateProgressAndStatus(0, "Set Home");
+                ((Controls.ProgressReporterDialogue)sender).UpdateProgressAndStatus(0, "Set home");
 
                 port.setWP(home, (ushort)0, MAVLink.MAV_FRAME.GLOBAL, 0);
 
@@ -1392,26 +1462,39 @@ namespace MissionPlanner.GCSViews
 
                     MAVLink.MAV_MISSION_RESULT ans = port.setWP(temp, (ushort)(a + 1), frame, 0);
 
-                    // we timed out while uploading wps
+                    // we timed out while uploading wps/ command wasnt replaced/ command wasnt added
                     if (ans == MAVLink.MAV_MISSION_RESULT.MAV_MISSION_ERROR)
                     {
                         // resend for partial upload
                         port.setWPPartialUpdate((short)(a + 1), (short)(Commands.Rows.Count + 1));
                         // reupload this point.
                         ans = port.setWP(temp, (ushort)(a + 1), frame, 0);
-                    }
-
-                    // invalid sequence can only occur if we failed to see a responce from the apm when we sent the request.
-                    // therefore it did see the request and has moved on that step, and so do we.
-                    if (ans != MAVLink.MAV_MISSION_RESULT.MAV_MISSION_ACCEPTED && ans != MAVLink.MAV_MISSION_RESULT.MAV_MISSION_INVALID_SEQUENCE)
+                    } 
+                    else if (ans == MAVLink.MAV_MISSION_RESULT.MAV_MISSION_NO_SPACE) 
                     {
-                        throw new Exception("Upload WPs Failed " + Commands.Rows[a].Cells[Command.Index].Value.ToString() + " " + Enum.Parse(typeof(MAVLink.MAV_MISSION_RESULT), ans.ToString()));
+                        e.ErrorMessage = "Upload failed, please reduce the number of wp's";
+                        return;
+                    }
+                    else if (ans == MAVLink.MAV_MISSION_RESULT.MAV_MISSION_INVALID)
+                    {
+                        e.ErrorMessage = "Upload failed, mission item had a bad option wp# " + Commands.Rows[a].Cells[Command.Index].Value.ToString();
+                        return;
+                    }
+                    else if (ans == MAVLink.MAV_MISSION_RESULT.MAV_MISSION_INVALID_SEQUENCE)
+                    {
+                        // invalid sequence can only occur if we failed to see a responce from the apm when we sent the request.
+                        // therefore it did see the request and has moved on that step, and so do we.
+                    }
+                    else if (ans != MAVLink.MAV_MISSION_RESULT.MAV_MISSION_ACCEPTED)
+                    {
+                        e.ErrorMessage = "Upload wps failed " + Commands.Rows[a].Cells[Command.Index].Value.ToString() + " " + Enum.Parse(typeof(MAVLink.MAV_MISSION_RESULT), ans.ToString());
+                        return;
                     }
                 }
 
                 port.setWPACK();
 
-                ((Controls.ProgressReporterDialogue)sender).UpdateProgressAndStatus(95, "Setting Params");
+                ((Controls.ProgressReporterDialogue)sender).UpdateProgressAndStatus(95, "Setting params");
 
                 // m
                 port.setParam("WP_RADIUS", (byte)int.Parse(TXT_WPRad.Text) / MainV2.comPort.MAV.cs.multiplierdist);
@@ -5164,14 +5247,23 @@ namespace MissionPlanner.GCSViews
         private void modifyAltToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string altdif = "0";
-            InputBox.Show("Alt Change","Please enter the alitude change you require.",ref altdif);
+            InputBox.Show("Alt Change","Please enter the alitude change you require.\n(20 = up 20, *2 = up by alt * 2)",ref altdif);
 
-            int altchange = int.Parse(altdif);
+            int altchange = 0;
+            float multiplyer = 1;
 
+            if (altdif.Contains("*"))
+            {
+                multiplyer = float.Parse(altdif.Replace('*', ' '));
+            }
+            else
+            {
+                altchange = int.Parse(altdif);
+            }
 
             foreach (DataGridViewRow line in Commands.Rows)
             {
-                line.Cells[Alt.Index].Value = (int)(float.Parse(line.Cells[Alt.Index].Value.ToString()) + altchange);
+                line.Cells[Alt.Index].Value = (int)(float.Parse(line.Cells[Alt.Index].Value.ToString()) * multiplyer + altchange);
             }
         }
 

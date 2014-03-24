@@ -53,6 +53,8 @@ namespace MissionPlanner.Log
         public LogDownload()
         {
             InitializeComponent();
+
+            MissionPlanner.Utilities.Tracking.AddPage(this.GetType().ToString(), this.Text);
         }
 
         private void waitandsleep(int time)
@@ -279,7 +281,7 @@ namespace MissionPlanner.Log
                                     File.Move(logfile, newlogfilename);
                                     logfile = newlogfilename;
                                 }
-                                catch (Exception ex) { CustomMessageBox.Show("Failed to rename file " + logfile + "\nto " + newlogfilename,"Error"); }
+                                catch (Exception ex) { log.Error(ex); CustomMessageBox.Show("Failed to rename file " + logfile + "\nto " + newlogfilename, "Error"); }
                             }
 
                             TextReader tr = new StreamReader(logfile);

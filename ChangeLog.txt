@@ -1,4 +1,25 @@
-﻿* Mission Planner 1.2.98
+﻿* Mission Planner 1.2.99
+fix error in selection in default settings
+update ftdi drivers
+tweak imagelabel to prevent exception
+add arrow to winddir
+update mavlink from upstream
+remove all legacy tooltip code
+remove legacy io/bl options
+add control-o/s in flight planner. load/save
+ap-mission prep for partial wp uploading support (only changed wp's)
+ap-mission add more error handeling on wp upload
+add support for global alt change by + and *
+tested MP with sitl, fixed any issues, for quad/flightgear
+add seperate joystick configs based on connect model type.
+fix kmz creation from px4 bin file (thanks randy)
+add fmt filtering to logbrowse. only shows messages that exist in log.
+add more exceptions handleing in wizard
+magcalib add support for log files. using mag and mag2
+magcalib add support for mag offsets and scaling. (not yet used)
+add Fullscreen option. (right click menu bar)
+
+* Mission Planner 1.2.98
 update default settings to refresh tab on use
 add additional drivers
 add translation to grid

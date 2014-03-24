@@ -109,10 +109,14 @@ namespace MissionPlanner.Log
 
             //CMB_preselect.DisplayMember = "Name";
             CMB_preselect.DataSource = graphs;
+
+            MissionPlanner.Utilities.Tracking.AddPage(this.GetType().ToString(), this.Text);
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            Hashtable seenmessagetypes = new Hashtable();
+
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
             openFileDialog1.Filter = "Log Files|*.log;*.bin";
             openFileDialog1.FilterIndex = 2;
@@ -160,6 +164,8 @@ namespace MissionPlanner.Log
                             {
                                 m_dtCSV.Columns.Add();
                             }
+
+                            seenmessagetypes[item.msgtype] = "";
 
                             DataRow dr = m_dtCSV.NewRow();
 
@@ -221,7 +227,7 @@ namespace MissionPlanner.Log
 
                 CreateChart(zg1);
 
-                ResetTreeView();
+                ResetTreeView(seenmessagetypes);
 
                 if (DFLog.logformat.Count == 0)
                 {
@@ -253,7 +259,7 @@ namespace MissionPlanner.Log
             }
         }
 
-        private void ResetTreeView()
+        private void ResetTreeView(Hashtable seenmessagetypes)
         {
             treeView1.Nodes.Clear();
 
@@ -262,10 +268,14 @@ namespace MissionPlanner.Log
             foreach (DFLog.Label item in sorted.Values)
             {
                 TreeNode tn = new TreeNode(item.Name);
-                treeView1.Nodes.Add(tn);
-                foreach (var item1 in item.FieldNames)
+
+                if (seenmessagetypes.ContainsKey(item.Name))
                 {
-                    tn.Nodes.Add(item1);
+                    treeView1.Nodes.Add(tn);
+                    foreach (var item1 in item.FieldNames)
+                    {
+                        tn.Nodes.Add(item1);
+                    }
                 }
             }
         }
@@ -516,10 +526,10 @@ namespace MissionPlanner.Log
                 return;
             }
 
-            int col = FindInArray(DFLog.logformat[type].FieldNames, fieldname) + 1;
+            int col = DFLog.FindMessageOffset(type, fieldname);
 
             // field does not exist
-            if (col == 0)
+            if (col == -1)
                 return;
 
             PointPairList list1 = new PointPairList();
@@ -589,13 +599,13 @@ namespace MissionPlanner.Log
                     if (!DFLog.logformat.ContainsKey("ERR"))
                         return;
 
-                    int index = FindInArray(DFLog.logformat["ERR"].FieldNames, "Subsys") + 1;
+                    int index = DFLog.FindMessageOffset("ERR", "Subsys");
                     if (index == -1)
                     {
                         continue;
                     }
 
-                    int index2 = FindInArray(DFLog.logformat["ERR"].FieldNames, "ECode") + 1;
+                    int index2 = DFLog.FindMessageOffset("ERR", "ECode");
                     if (index2 == -1)
                     {
                         continue;
@@ -634,7 +644,7 @@ namespace MissionPlanner.Log
                     if (!DFLog.logformat.ContainsKey("MODE"))
                         return;
 
-                    int index = FindInArray(DFLog.logformat["MODE"].FieldNames, "Mode") + 1;
+                    int index = DFLog.FindMessageOffset("MODE", "Mode");
                     if (index == -1)
                     {
                         continue;
@@ -674,7 +684,7 @@ namespace MissionPlanner.Log
                     if (!DFLog.logformat.ContainsKey("GPS"))
                         break;
 
-                    int index = FindInArray(DFLog.logformat["GPS"].FieldNames, "TimeMS") + 1;
+                    int index = DFLog.FindMessageOffset("GPS", "TimeMS");
                     if (index == -1)
                     {
                         a++;
@@ -746,19 +756,19 @@ namespace MissionPlanner.Log
                 if (!DFLog.logformat.ContainsKey("GPS"))
                     return null;
 
-                int index = FindInArray(DFLog.logformat["GPS"].FieldNames, "Lat") + 1;
+                int index = DFLog.FindMessageOffset("GPS", "Lat");
                 if (index == -1)
                 {
                     return null;
                 }
 
-                int index2 = FindInArray(DFLog.logformat["GPS"].FieldNames, "Lng") + 1;
+                int index2 = DFLog.FindMessageOffset("GPS", "Lng");
                 if (index2 == -1)
                 {
                     return null;
                 }
 
-                int index3 = FindInArray(DFLog.logformat["GPS"].FieldNames, "Status") + 1;
+                int index3 = DFLog.FindMessageOffset("GPS", "Status");
                 if (index3 == -1)
                 {
                     return null;

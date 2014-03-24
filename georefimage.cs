@@ -67,6 +67,8 @@ namespace MissionPlanner
             NUM_altpos.Value = altpos;
 
             NUM_headingpos.Value = cogpos;
+
+            MissionPlanner.Utilities.Tracking.AddPage(this.GetType().ToString(), this.Text);
         }
 
         Hashtable filedatecache = new Hashtable();

@@ -2484,5 +2484,23 @@ namespace MissionPlanner
             //MainMenu.BackColor = Color.Black;
             //MainMenu.BackgroundImage = MissionPlanner.Properties.Resources.bgdark;
         }
+
+        private void fullScreenToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // full screen
+            if (fullScreenToolStripMenuItem.Checked)
+            {
+                this.TopMost = true;
+                this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+                this.WindowState = FormWindowState.Normal;
+                this.WindowState = FormWindowState.Maximized;
+            }
+            else
+            {
+                this.TopMost = false;
+                this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+                this.WindowState = FormWindowState.Maximized;
+            }
+        }
     }
 }

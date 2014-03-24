@@ -22,6 +22,9 @@ namespace MissionPlanner.Joystick
 
         public static Joystick self;
 
+        string joystickconfigbutton = "joystickbuttons.xml";
+        string joystickconfigaxis = "joystickaxis.xml";
+
         // set to default midpoint
         int hat1 = 65535 / 2;
         int hat2 = 65535 / 2;
@@ -82,7 +85,7 @@ namespace MissionPlanner.Joystick
             Do_Repeat_Servo,
             Arm,
             Disarm,
-       //     Digicam_Control,
+            Digicam_Control,
        //     Mount_Control
         }
 
@@ -104,20 +107,40 @@ namespace MissionPlanner.Joystick
             for (int a = 0; a < JoyButtons.Length; a++)
                 JoyButtons[a].buttonno = -1;
 
-            loadconfig();
+            if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane)
+            {
+                loadconfig("joystickbuttons" + MainV2.comPort.MAV.cs.firmware + ".xml", "joystickaxis" + MainV2.comPort.MAV.cs.firmware + ".xml");
+            }
+            else if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
+            {
+                loadconfig("joystickbuttons" + MainV2.comPort.MAV.cs.firmware + ".xml", "joystickaxis" + MainV2.comPort.MAV.cs.firmware + ".xml");
+            }
+            else if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduRover)
+            {
+                loadconfig("joystickbuttons" + MainV2.comPort.MAV.cs.firmware + ".xml", "joystickaxis" + MainV2.comPort.MAV.cs.firmware + ".xml");
+            }
+            else
+            {
+                loadconfig();
+            }
         }
 
-        public void loadconfig() 
+        public void loadconfig(string joystickconfigbutton = "joystickbuttons.xml", string joystickconfigaxis = "joystickaxis.xml") 
         {
+            log.Info("Loading joystick config files " + joystickconfigbutton + " " + joystickconfigaxis);
+
+            // save for later
+            this.joystickconfigbutton = joystickconfigbutton;
+            this.joystickconfigaxis = joystickconfigaxis;
 
             // load config
-            if (File.Exists("joystickbuttons.xml") && File.Exists("joystickaxis.xml"))
+            if (File.Exists(joystickconfigbutton) && File.Exists(joystickconfigaxis))
             {
                 try
                 {
                     System.Xml.Serialization.XmlSerializer reader = new System.Xml.Serialization.XmlSerializer(typeof(JoyButton[]), new Type[] { typeof(JoyButton) });
 
-                    using (StreamReader sr = new StreamReader("joystickbuttons.xml"))
+                    using (StreamReader sr = new StreamReader(joystickconfigbutton))
                     {
                         JoyButtons = (JoyButton[])reader.Deserialize(sr);
                     }
@@ -128,7 +151,7 @@ namespace MissionPlanner.Joystick
                 {
                     System.Xml.Serialization.XmlSerializer reader = new System.Xml.Serialization.XmlSerializer(typeof(JoyChannel[]), new Type[] { typeof(JoyChannel) });
 
-                    using (StreamReader sr = new StreamReader("joystickaxis.xml"))
+                    using (StreamReader sr = new StreamReader(joystickconfigaxis))
                     {
                         JoyChannels = (JoyChannel[])reader.Deserialize(sr);
                     }
@@ -139,17 +162,19 @@ namespace MissionPlanner.Joystick
 
         public void saveconfig()
         {
+            log.Info("Saving joystick config files " + joystickconfigbutton + " " + joystickconfigaxis);
+
             // save config
             System.Xml.Serialization.XmlSerializer writer = new System.Xml.Serialization.XmlSerializer(typeof(JoyButton[]), new Type[] { typeof(JoyButton) });
 
-            using (StreamWriter sw = new StreamWriter("joystickbuttons.xml"))
+            using (StreamWriter sw = new StreamWriter(joystickconfigbutton))
             {
                 writer.Serialize(sw, JoyButtons);
             }
 
             writer = new System.Xml.Serialization.XmlSerializer(typeof(JoyChannel[]), new Type[] { typeof(JoyChannel) });
 
-            using (StreamWriter sw = new StreamWriter("joystickaxis.xml"))
+            using (StreamWriter sw = new StreamWriter(joystickconfigaxis))
             {
                 writer.Serialize(sw, JoyChannels);
             }
@@ -594,6 +619,9 @@ namespace MissionPlanner.Joystick
                              }
                              catch { CustomMessageBox.Show("Failed to DO_SET_RELAY"); }
                          });
+                        break;
+                    case buttonfunction.Digicam_Control:
+                        MainV2.comPort.setDigicamControl(true);
                         break;
                     case buttonfunction.Do_Repeat_Relay:
                         MainV2.instance.BeginInvoke((System.Windows.Forms.MethodInvoker)delegate()

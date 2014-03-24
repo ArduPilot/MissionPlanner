@@ -57,6 +57,12 @@ namespace MissionPlanner.Wizard
 
         private void BUT_MagCalibration_Click(object sender, EventArgs e)
         {
+            if (!MainV2.comPort.BaseStream.IsOpen)
+            {
+                CustomMessageBox.Show("You are no longer connected to the board\n the wizard will now exit","Error");
+                Wizard.instance.Close();
+            }
+
             MainV2.comPort.MAV.cs.ratesensors = 2;
 
             MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTRA3, MainV2.comPort.MAV.cs.ratesensors);
@@ -140,7 +146,11 @@ namespace MissionPlanner.Wizard
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            System.Diagnostics.Process.Start("https://www.youtube.com/watch?v=DmsueBS0J3E");
+            try
+            {
+                System.Diagnostics.Process.Start("https://www.youtube.com/watch?v=DmsueBS0J3E");
+            }
+            catch { CustomMessageBox.Show("Your default http association is not set correctly."); }
         }
 
         int step = 0;

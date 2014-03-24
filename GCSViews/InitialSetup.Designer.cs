@@ -459,7 +459,6 @@
             resources.ApplyResources(this.tracker1, "tracker1");
             this.tracker1.ForeColor = System.Drawing.Color.White;
             this.tracker1.Name = "tracker1";
-            
             // 
             // backstageViewPageinstfw
             // 

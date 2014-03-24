@@ -675,6 +675,9 @@
   <data name="lbl_px4io.Text" xml:space="preserve">
     <value>PX4IO Firmware</value>
   </data>
+  <data name="lbl_px4io.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <data name="&gt;&gt;lbl_px4io.Name" xml:space="preserve">
     <value>lbl_px4io</value>
   </data>
@@ -734,6 +737,9 @@
   </data>
   <data name="lbl_px4bl.Text" xml:space="preserve">
     <value>PX4 Bootloader</value>
+  </data>
+  <data name="lbl_px4bl.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
   <data name="&gt;&gt;lbl_px4bl.Name" xml:space="preserve">
     <value>lbl_px4bl</value>
