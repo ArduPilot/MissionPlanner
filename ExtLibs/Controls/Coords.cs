@@ -18,6 +18,9 @@ namespace MissionPlanner.Controls
         public double Lng { get { return point.Longitude; } set { point.Longitude = value; this.Invalidate(); } }
         public double Alt { get { return _alt; } set { _alt = value; this.Invalidate(); } }
 
+        [System.ComponentModel.Browsable(true)]
+        public bool Vertical { get; set; }
+
         double _alt = 0;
         Geographic point = new Geographic();
 
@@ -30,6 +33,8 @@ namespace MissionPlanner.Controls
 
         public Coords()
         {
+            Vertical = false;
+
             InitializeComponent();
             this.DoubleBuffered = true;
             CMB_coordsystem.DataSource = Enum.GetNames(typeof(CoordsSystems));
@@ -41,27 +46,59 @@ namespace MissionPlanner.Controls
 
             PointF text = new PointF(CMB_coordsystem.Right + 3, 3);
 
-            //Enum.GetValues(typeof(CoordsSystems), CMB_coordsystem.Text);
-
             if (System == CoordsSystems.GEO.ToString())
             {
-                e.Graphics.DrawString(Lat.ToString("0.000000") + " " + Lng.ToString("0.000000") + "   " + Alt.ToString("0.00"), this.Font, new SolidBrush(this.ForeColor), text, StringFormat.GenericDefault);
+                if (Vertical)
+                {
+                    e.Graphics.DrawString(Lat.ToString("0.000000") + "\n" + Lng.ToString("0.000000") + "\n" + Alt.ToString("0.00"), this.Font, new SolidBrush(this.ForeColor), text, StringFormat.GenericDefault);
+                }
+                else
+                {
+                    e.Graphics.DrawString(Lat.ToString("0.000000") + " " + Lng.ToString("0.000000") + "   " + Alt.ToString("0.00"), this.Font, new SolidBrush(this.ForeColor), text, StringFormat.GenericDefault);
+                }
             } 
             else  if (System == CoordsSystems.UTM.ToString())
             {
                 try
                 {
+                    if (point.Latitude > 84 || point.Latitude < -80 || point.Longitude >= 180 || point.Longitude <= -180)
+                        return;
+
                     UTM utm = (UTM)point;
                     //utm.East.ToString("0.00") + " " + utm.North.ToString("0.00")
-                    e.Graphics.DrawString(utm.ToString() + "   " + Alt.ToString("0.00"), this.Font, new SolidBrush(this.ForeColor), text, StringFormat.GenericDefault);
+                    string[] parts = utm.ToString().Split(new char[] {' '}, StringSplitOptions.RemoveEmptyEntries);
+
+                    if (Vertical)
+                    {
+                        e.Graphics.DrawString(parts[0] + "\n" + parts[1] + "\n" + parts[2] + "\n" + Alt.ToString("0.00"), this.Font, new SolidBrush(this.ForeColor), text, StringFormat.GenericDefault);
+                    }
+                    else
+                    {
+                        e.Graphics.DrawString(utm.ToString() + "   " + Alt.ToString("0.00"), this.Font, new SolidBrush(this.ForeColor), text, StringFormat.GenericDefault);
+                    }
                 }
                 catch { }
             }
             else if (System == CoordsSystems.MGRS.ToString())
             {
-                MGRS mgrs = (MGRS)point;
-                mgrs.Precision = 5;
-                e.Graphics.DrawString(mgrs.ToString() + "   " + Alt.ToString("0.00"), this.Font, new SolidBrush(this.ForeColor), text, StringFormat.GenericDefault);
+                try
+                {
+                    if (point.Latitude > 84 || point.Latitude < -80 || point.Longitude >= 180 || point.Longitude <= -180)
+                        return;
+
+                    MGRS mgrs = (MGRS)point;
+                    mgrs.Precision = 5;
+
+                    if (Vertical)
+                    {
+                        e.Graphics.DrawString(mgrs.ToString() + "\n" + Alt.ToString("0.00"), this.Font, new SolidBrush(this.ForeColor), new Point(5, CMB_coordsystem.Bottom + 2), StringFormat.GenericDefault);
+                    }
+                    else
+                    {
+                        e.Graphics.DrawString(mgrs.ToString() + "   " + Alt.ToString("0.00"), this.Font, new SolidBrush(this.ForeColor), text, StringFormat.GenericDefault);
+                    }
+                }
+                catch { }
             }  
         }
 

@@ -1,4 +1,38 @@
-﻿* Mission Planner 1.2.99
+﻿* Mission Planner 1.2.99.1
+add MAVLinkSerialPort (serial tunnel)
+add spline support
+fix end dialog on default params when canceled
+add vertical support to coords control
+add gpsfix type 4,5 to hud
+add formated timeinair to hud
+allow 2 line input box
+add sphere and progressreportersphere
+add takeoff and land to gridui
+update mavlink library (rc_channels)
+add circularbuffer lib
+fix pointlatlongalt get bearing (deg-rad issue)
+make pointlatlngalt comparable via tag
+add 1 arc seconds srtm downloading (USA)
+add intopolated elevation from srtm
+add simple max value cheking.
+implement more advanced/simple mode.
+if offline, mp uses srtm for elevation verification.
+fix max zoom in flightplanner
+fix loading newer qgc mission files
+support do_jump commands in Flightplanner
+support splines in Flightplanner.
+support full path distance in Flightplanner (ie including jumps)
+add load shape file support, for missions. (needs attributes "wp","ELEVATION" and in lat,long)
+add joystick packet throttleing
+add subscription system to mavlink interface
+update 3dr radio uploader to support MAVLinkSerialPort
+enable row colours in DGV
+add RC Feel Roll/Pitch to simple pids
+add magcalib ellipsoid support.
+add new warnings engine.
+fix osdvideo.
+
+* Mission Planner 1.2.99
 fix error in selection in default settings
 update ftdi drivers
 tweak imagelabel to prevent exception

@@ -34,9 +34,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.lbl_Accel_user = new System.Windows.Forms.Label();
-            this.BUT_calib_accell = new Controls.MyButton();
-            this.lineSeparator2 = new Controls.LineSeparator();
-            this.BUT_levelac2 = new Controls.MyButton();
+            this.BUT_calib_accell = new MissionPlanner.Controls.MyButton();
+            this.lineSeparator2 = new MissionPlanner.Controls.LineSeparator();
+            this.BUT_levelac2 = new MissionPlanner.Controls.MyButton();
             this.CHK_acversion = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 

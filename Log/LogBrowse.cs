@@ -132,17 +132,29 @@ namespace MissionPlanner.Log
 
                     if (openFileDialog1.FileName.ToLower().EndsWith(".bin"))
                     {
-                        // extract log
-                        List<string> loglines = BinaryLog.ReadLog(openFileDialog1.FileName);
-                        // convert log to memory stream;
-                        stream = new MemoryStream();
-                        // create single string with entire log
+                        log.Info("before " + (GC.GetTotalMemory(false) / 1024.0 / 1024.0));
+                        // extract log - converts to assci lines
+                        var loglines = BinaryLog.ReadLog(openFileDialog1.FileName);
+                        log.Info("loglines " + (GC.GetTotalMemory(false) / 1024.0 / 1024.0));
+                        GC.Collect();
+                        log.Info("loglines2 " + (GC.GetTotalMemory(false) / 1024.0 / 1024.0));
+                        // create temp file 
+                        string tempfile = Path.GetTempFileName();
+                        log.Info("temp file "+tempfile);
+                        stream = File.Open(tempfile,FileMode.Create,FileAccess.ReadWrite,FileShare.Delete);
+                        // save ascii lines to file
                         foreach (string line in loglines)
                         {
                             stream.Write(ASCIIEncoding.ASCII.GetBytes(line), 0, line.Length);
                         }
+                        stream.Flush();
                         // back to stream start
                         stream.Seek(0, SeekOrigin.Begin);
+                        loglines.Clear();
+                        loglines = null;
+                        // force memory reclaim after loglines clear
+                        GC.Collect();
+                        log.Info("loglines.clear " + (GC.GetTotalMemory(false) / 1024.0 / 1024.0));
                     }
                     else
                     {
@@ -152,12 +164,16 @@ namespace MissionPlanner.Log
                     logdata = DFLog.ReadLog(stream);
 
                     this.Text = "Log Browser - " + Path.GetFileName(openFileDialog1.FileName);
+                    log.Info("about to create DataTable " + (GC.GetTotalMemory(false) / 1024.0 / 1024.0));
                     m_dtCSV = new DataTable();
 
-                    log.Info("process to datagrid " + (GC.GetTotalMemory(false)/1024.0));
+                    log.Info("process to datagrid " + (GC.GetTotalMemory(false)/1024.0/1024.0));
+
+                    bool largelog = logdata.Count > 500000 ? true : false;
 
                     foreach (var item in logdata)
                     {
+
                         if (item.items != null)
                         {
                             while (m_dtCSV.Columns.Count < (item.items.Length + typecoloum))
@@ -166,6 +182,9 @@ namespace MissionPlanner.Log
                             }
 
                             seenmessagetypes[item.msgtype] = "";
+
+                            if (largelog)
+                                continue;
 
                             DataRow dr = m_dtCSV.NewRow();
 
@@ -181,13 +200,13 @@ namespace MissionPlanner.Log
                         }
                     }
 
-                    log.Info("Done " + (GC.GetTotalMemory(false) / 1024.0));
+                    log.Info("Done " + (GC.GetTotalMemory(false) / 1024.0 / 1024.0));
 
                     //PopulateDataTableFromUploadedFile(stream);
 
                     stream.Close();
 
-                    log.Info("set dgv datasourse " + (GC.GetTotalMemory(false) / 1024.0));
+                    log.Info("set dgv datasourse " + (GC.GetTotalMemory(false) / 1024.0 / 1024.0));
 
                     if (MainV2.MONO)
                     {
@@ -206,7 +225,7 @@ namespace MissionPlanner.Log
                     else
                     {
                         dataGridView1.VirtualMode = true;
-                        dataGridView1.RowCount = m_dtCSV.Rows.Count;
+                        dataGridView1.RowCount = logdata.Count;
                         dataGridView1.ColumnCount = m_dtCSV.Columns.Count;
                     }
 
@@ -214,7 +233,7 @@ namespace MissionPlanner.Log
 
                     dataGridView1.Columns[0].Visible = false;
 
-                    log.Info("datasource set " + (GC.GetTotalMemory(false) / 1024.0));
+                    log.Info("datasource set " + (GC.GetTotalMemory(false) / 1024.0 / 1024.0));
 
                 }
                 catch (Exception ex) { CustomMessageBox.Show("Failed to read File: " + ex.ToString()); }
@@ -1117,7 +1136,23 @@ namespace MissionPlanner.Log
         {
             try
             {
-                e.Value = m_dtCSV.DefaultView[e.RowIndex][e.ColumnIndex].ToString();
+                if (e.ColumnIndex == 0)
+                {
+                    e.Value = logdata[e.RowIndex].lineno;
+                }
+                else if (e.ColumnIndex == 1)
+                {
+                    e.Value = logdata[e.RowIndex].time.ToString("yyyy-MM-dd HH:mm:ss.fff");
+                }
+                else if (e.ColumnIndex < logdata[e.RowIndex].items.Length + 2)
+                {
+                    e.Value = logdata[e.RowIndex].items[e.ColumnIndex - 2];
+                }
+                else
+                {
+                    e.Value = null;
+                }
+            
             }
             catch { }
         }

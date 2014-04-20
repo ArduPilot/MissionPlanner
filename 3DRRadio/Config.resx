@@ -1591,7 +1591,7 @@
 </value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>3DRRadio Config 1.3 - by Michael Oborne</value>
+    <value>3DRRadio Config 1.3.1 - by Michael Oborne</value>
   </data>
   <data name="&gt;&gt;settingsToolStripMenuItem.Name" xml:space="preserve">
     <value>settingsToolStripMenuItem</value>

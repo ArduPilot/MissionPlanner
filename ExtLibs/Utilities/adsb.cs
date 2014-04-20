@@ -51,6 +51,7 @@ namespace MissionPlanner.Utilities
 
             while (run)
             {
+                log.Info("adsb connect loop");
                 //custom
                 try
                 {
@@ -65,7 +66,7 @@ namespace MissionPlanner.Utilities
                         ReadMessage(cl.GetStream());
                     }
                 }
-                catch (Exception ex) {  }
+                catch (Exception ex) { log.Error(ex); }
 
                 // dump1090 sbs
                 try
@@ -170,7 +171,7 @@ namespace MissionPlanner.Utilities
                 if (llaodd == null || llaeven == null)
                     return PointLatLngAlt.Zero;
 
-                if (Math.Abs((llaeven.recvtime - llaodd.recvtime).TotalSeconds) > 10)
+                if (Math.Abs((llaeven.recvtime - llaodd.recvtime).TotalSeconds) > 30)
                     return PointLatLngAlt.Zero;
 
                 //A.1.7.7 Globally Unambiguous Airborne Position Decoding
@@ -226,7 +227,7 @@ namespace MissionPlanner.Utilities
                     reflng = rlng[1];
                 }
 
-                return new PointLatLngAlt(reflat, reflng, llaodd.alt * 0.3048, ID + " " + (llaodd.alt * 0.3048));
+                return new PointLatLngAlt(reflat, reflng, llaodd.alt * 0.3048, ID);
             }
 
             public PointLatLngAlt pllalocal(ModeSMessage newmsg)
@@ -575,16 +576,19 @@ namespace MissionPlanner.Utilities
             }
         }
 
-        public static void ReadMessage(Stream st)
+        public static void ReadMessage(Stream st1)
         {
             bool avr = false;
+            bool binary = false;
             int avrcount = 0;
+
+            st1.ReadTimeout = 10000;
 
             //st.ReadTimeout = 5000;
 
             while (true)
             {
-                int by = st.ReadByte();
+                int by = st1.ReadByte();
                 if (by == -1)
                     break;
 
@@ -596,11 +600,13 @@ namespace MissionPlanner.Utilities
 
                     if (avr)
                     {
-                        Plane plane = ReadMessage('*' + new StreamReader(st).ReadLine());                        
+                        Plane plane = ReadMessage('*' + ReadLine(st1));                        
                         if (plane != null)
                         {
-                            PointLatLngAltHdg plla = (PointLatLngAltHdg)plane.plla();
+                            PointLatLngAltHdg plla = new PointLatLngAltHdg(plane.plla());
                             plla.Heading = (float)plane.heading;
+                            if (plla.Lat == 0 && plla.Lng == 0)
+                                continue;
                             if (UpdatePlanePosition != null && plla != null)
                                 UpdatePlanePosition(plla, new EventArgs());
                             //Console.WriteLine(plane.pllalocal(plane.llaeven));
@@ -608,9 +614,9 @@ namespace MissionPlanner.Utilities
                         }
                     }
                 }
-                else if (by == 'M' || by == 'S' || by == 'A' || by == 'I' || by == 'C') // msg clk sta air id sel
+                else if ((by == 'M' || by == 'S' || by == 'A' || by == 'I' || by == 'C') && !binary) // msg clk sta air id sel
                 {
-                    string line = ((char)by) + new StreamReader(st).ReadLine();
+                    string line = ((char)by) +ReadLine(st1);
 
                     if (line.StartsWith("MSG"))
                     {
@@ -649,10 +655,16 @@ namespace MissionPlanner.Utilities
 
                             bool is_on_ground = strArray[21] != "0";//Boolean. Flag to indicate ground squat switch is active. 
 
+                            if (Planes[hex_ident] == null)
+                                Planes[hex_ident] = new Plane();
+
                             Plane plane = ((Plane)Planes[hex_ident]);
 
-                            if (UpdatePlanePosition != null)
-                                UpdatePlanePosition(new PointLatLngAltHdg(lat, lon, altitude, (float)plane.heading, hex_ident), new EventArgs());
+                            if (lat == 0 && lon == 0)
+                                continue;
+
+                            if (UpdatePlanePosition != null && plane != null)
+                                UpdatePlanePosition(new PointLatLngAltHdg(lat, lon, altitude / 3.048, (float)plane.heading, hex_ident), new EventArgs());
                         }
                         else if (strArray[1] == "4")
                         {
@@ -692,6 +704,11 @@ namespace MissionPlanner.Utilities
                             ((Plane)Planes[hex_ident]).CallSign = callsign;
                         }
                     }
+                    else
+                    {
+                        log.Info(line);
+
+                    }
                 }
                 else if (by == 0x1a)
                 {
@@ -700,25 +717,33 @@ namespace MissionPlanner.Utilities
                     byte[] buffer = new byte[24];
                     buffer[0] = (byte)by;
 
-                    int type = st.ReadByte();
+                    int type = st1.ReadByte();
                     buffer[1] = (byte)type;
-                    st.Read(buffer, 2, 7);
+                    st1.Read(buffer, 2, 7);
 
                     switch (type)
                     {
                         case '1': // mode-ac
                             // 2 bytes
-                            st.Read(buffer, 9, 2);
+                            st1.Read(buffer, 9, 2);
+                            //log.Info("1");
                             break;
                         case '2': // mode-s short
-                            st.Read(buffer, 9, 7);
+                            st1.Read(buffer, 9, 7);
+                            //log.Info("2");
                             break;
                         case '3': // mode-s long
-                            st.Read(buffer, 9, 14);
+                            st1.Read(buffer, 9, 14);
+                            //log.Info("3");
                             Plane plane = ReadMessage(buffer);
                             if (plane != null)
                             {
-                                PointLatLngAltHdg plla = (PointLatLngAltHdg)plane.plla();
+                                binary = true;
+                                PointLatLngAltHdg plla = new PointLatLngAltHdg(plane.plla());
+                                if (plla == null)
+                                    break;
+                                if (plla.Lat == 0 && plla.Lng == 0)
+                                    continue;
                                 plla.Heading = (float)plane.heading;
                                 if (UpdatePlanePosition != null && plla != null)
                                     UpdatePlanePosition(plla, new EventArgs());
@@ -732,9 +757,22 @@ namespace MissionPlanner.Utilities
                 }
                 else
                 {
-                    Console.WriteLine("bad sync 0x" + by.ToString("X2"));
+                    log.Info("bad sync 0x" + by.ToString("X2") + " " + (char)by);
                 }
             }
+        }
+
+        private static string ReadLine(Stream st1)
+        {
+            string answer = "";
+            char let;
+            do
+            {
+                let = (char)st1.ReadByte();
+                answer += let;
+            } while (let != '\n');
+
+            return answer;
         }
 
         /// <summary>
@@ -777,6 +815,8 @@ namespace MissionPlanner.Utilities
         {
             if (!avrline.StartsWith("*"))
                 return null;
+
+            log.Debug(avrline);
 
             avrline = avrline.Trim().TrimEnd(';');
 
@@ -936,6 +976,14 @@ namespace MissionPlanner.Utilities
 
         public class PointLatLngAltHdg : PointLatLngAlt
         {
+            public PointLatLngAltHdg(PointLatLngAlt plla)
+            {
+                this.Lat = plla.Lat;
+                this.Lng = plla.Lng;
+                this.Alt = plla.Alt;
+                this.Heading = -1;
+                this.Tag = plla.Tag;
+            }
 
             public PointLatLngAltHdg(double lat, double lng, double alt, float heading, string tag)
             {
@@ -948,9 +996,9 @@ namespace MissionPlanner.Utilities
 
             public float Heading { get; set; }
 
-            //public static explicit operator PointLatLngAltHdg(PointLatLngAlt a)
+            //public static implicit operator PointLatLngAltHdg(PointLatLngAlt a)
             //{
-                //return new PointLatLngAltHdg(a.Lat,a.Lng,a.Alt,-1,a.Tag);
+              //  return new PointLatLngAltHdg(a.Lat,a.Lng,a.Alt,-1,a.Tag);
             //}
         }
     }

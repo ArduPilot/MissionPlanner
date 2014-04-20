@@ -100,6 +100,10 @@ namespace MissionPlanner
                 System.Configuration.ConfigurationManager.AppSettings["UpdateLocationVersion"] = "";
             }
 
+            //adsb.server = "64.93.124.152";
+            //adsb.serverport = 31001;
+            //adsb.serverport = 30003;
+
             /*
             Arduino.ArduinoSTKv2 comport = new Arduino.ArduinoSTKv2();
 

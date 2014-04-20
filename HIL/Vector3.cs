@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using GMap.NET;
 using MissionPlanner.Utilities;
 
 namespace MissionPlanner.HIL
@@ -39,6 +40,16 @@ namespace MissionPlanner.HIL
         public static implicit operator Vector3(PointLatLngAlt a)
         {
             return new Vector3(a.Lat,a.Lng,a.Alt);
+        }
+
+        public static implicit operator Vector3(PointLatLng a)
+        {
+            return new Vector3(a.Lat, a.Lng, 0);
+        }
+
+        public static implicit operator PointLatLng(Vector3 a)
+        {
+            return new PointLatLng(a.x,a.y);
         }
 
         public static Vector3 operator +(Vector3 self, Vector3 v)

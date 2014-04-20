@@ -270,10 +270,10 @@ namespace MissionPlanner.Controls
             for (double z = (area.Bottom - cleanup); z < area.Top - step; z += increment)
             {
                 //Makes OpenGL draw a triangle at every three consecutive vertices
-                GL.Begin(BeginMode.TriangleStrip);
+                GL.Begin(PrimitiveType.TriangleStrip);
                 for (double x = (area.Left - cleanup2); x < area.Right - step; x += increment)
                 {
-                    int heightl = srtm.getAltitude(z, area.Right + area.Left - x, 20);
+                    double heightl = srtm.getAltitude(z, area.Right + area.Left - x, 20);
 
                   //  Console.WriteLine(x + " " + z);
 

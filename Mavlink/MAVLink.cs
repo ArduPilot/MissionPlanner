@@ -1374,6 +1374,48 @@ Please check the following
             generatePacket((byte)MAVLINK_MSG_ID.COMMAND_ACK, ack);
         }
 
+        public void SendSerialControl(SERIAL_CONTROL_DEV port, ushort timeoutms, byte[] data, uint baudrate = 0,bool close = false)
+        {
+            mavlink_serial_control_t ctl = new mavlink_serial_control_t();
+
+            ctl.baudrate = baudrate; // no change
+            ctl.device = (byte)port;
+            ctl.timeout = timeoutms;
+            ctl.data = new byte[70];
+            ctl.count = 0;
+            if (close)
+            {
+                ctl.flags = 0;
+            }
+            else
+            {
+                ctl.flags = (byte)(SERIAL_CONTROL_FLAG.EXCLUSIVE | SERIAL_CONTROL_FLAG.RESPOND);
+            }
+
+            if (data != null && data.Length != 0)
+            {
+                int len = data.Length;
+                while (len > 0)
+                {
+                    byte n = (byte)Math.Min(70, len);
+
+                    ctl.count = n;
+                    Array.Copy(data, data.Length - len, ctl.data, 0, n);
+
+                    // dont flod the port
+                    System.Threading.Thread.Sleep(10);
+
+                    generatePacket((byte)MAVLINK_MSG_ID.SERIAL_CONTROL, ctl);
+
+                    len -= n;
+                } 
+            }
+            else
+            {
+                generatePacket((byte)MAVLINK_MSG_ID.SERIAL_CONTROL, ctl);
+            }
+        }
+
         public void requestDatastream(MAVLink.MAV_DATA_STREAM id, byte hzrate)
         {
 
@@ -1555,9 +1597,6 @@ Please check the following
                 {
                     if (buffer[5] == (byte)MAVLINK_MSG_ID.MISSION_COUNT)
                     {
-
-
-
                         var count = buffer.ByteArrayToStructure<mavlink_mission_count_t>(6);
 
 
@@ -2470,6 +2509,8 @@ Please check the following
                         MAV.packetseencount[buffer[5]]++;
                     }
 
+                    PacketReceived(buffer);
+
                     if (debugmavlink)
                         DebugPacket(buffer);
 
@@ -2573,6 +2614,65 @@ Please check the following
             //   Console.WriteLine(DateTime.Now.Millisecond + " SR4 " + BaseStream.BytesToRead);
 
             return buffer;
+        }
+
+        private void PacketReceived(byte[] buffer)
+        {
+            MAVLINK_MSG_ID type = (MAVLINK_MSG_ID)buffer[5];
+
+            lock (Subscriptions)
+            {
+                foreach (var item in Subscriptions)
+                {
+                    if (item.Key == type)
+                    {
+                        try
+                        {
+                            item.Value(buffer);
+                        }
+                        catch (Exception ex)
+                        {
+                            log.Error(ex);
+                        }
+                    }
+                }
+            }
+        }
+
+        List<KeyValuePair<MAVLINK_MSG_ID,Func<byte[],bool>>> Subscriptions = new List<KeyValuePair<MAVLINK_MSG_ID,Func<byte[],bool>>>();
+
+        public KeyValuePair<MAVLINK_MSG_ID, Func<byte[], bool>> SubscribeToPacketType(MAVLINK_MSG_ID type, Func<byte[], bool> function, bool exclusive = false)
+        {
+            var item = new KeyValuePair<MAVLINK_MSG_ID,Func<byte[],bool>>(type,function);
+
+            lock (Subscriptions)
+            {
+                if (exclusive) {
+                    foreach (var subitem in Subscriptions)
+                    {
+                        if (subitem.Key == item.Key)
+                        {
+                            Subscriptions.Remove(subitem);
+                            break;
+                        }
+                    }
+                }
+
+                log.Info("SubscribeToPacketType " + item.Key + " " + item.Value);
+
+                Subscriptions.Add(item);
+            }
+
+            return item;
+        }
+
+        public void UnSubscribeToPacketType(KeyValuePair<MAVLINK_MSG_ID, Func<byte[], bool>> item)
+        {
+            lock (Subscriptions)
+            {
+                log.Info("UnSubscribeToPacketType " + item.Key + " " + item.Value);
+                Subscriptions.Remove(item);
+            }
         }
 
         /// <summary>

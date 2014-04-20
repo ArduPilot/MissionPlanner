@@ -1,4 +1,6 @@
 ﻿using System.Windows.Forms;
+using MissionPlanner;
+
 namespace MissionPlanner.Wizard
 {
     partial class _6CompassCalib

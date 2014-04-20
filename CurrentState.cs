@@ -1184,12 +1184,16 @@ namespace MissionPlanner
             //low pass the outputs for better results!
         }
 
+        /// <summary>
+        /// derived from MAV_SYS_STATUS_SENSOR
+        /// </summary>
         public class Mavlink_Sensors
         {
             BitArray bitArray = new BitArray(32);
 
             public Mavlink_Sensors()
             {
+                //var imte = MAVLink.MAV_SYS_STATUS_SENSOR._3D_ACCEL;
             }
 
             public Mavlink_Sensors(uint p)
@@ -1204,9 +1208,9 @@ namespace MissionPlanner
             public bool differential_pressure { get { return bitArray[4]; } set { bitArray[4] = value; } }
             public bool gps { get { return bitArray[5]; } set { bitArray[5] = value; } }
             public bool optical_flow { get { return bitArray[6]; } set { bitArray[6] = value; } }
-            public bool unused_7 { get { return bitArray[7]; } set { bitArray[7] = value; } }
-            public bool unused_8 { get { return bitArray[8]; } set { bitArray[8] = value; } }
-            public bool unused_9 { get { return bitArray[9]; } set { bitArray[9] = value; } }
+            public bool VISION_POSITION { get { return bitArray[7]; } set { bitArray[7] = value; } }
+            public bool LASER_POSITION { get { return bitArray[8]; } set { bitArray[8] = value; } }
+            public bool GROUND_TRUTH { get { return bitArray[9]; } set { bitArray[9] = value; } }
             public bool rate_control { get { return bitArray[10]; } set { bitArray[10] = value; } }
             public bool attitude_stabilization { get { return bitArray[11]; } set { bitArray[11] = value; } }
             public bool yaw_position { get { return bitArray[12]; } set { bitArray[12] = value; } }
@@ -1214,6 +1218,9 @@ namespace MissionPlanner
             public bool xy_position_control { get { return bitArray[14]; } set { bitArray[14] = value; } }
             public bool motor_control { get { return bitArray[15]; } set { bitArray[15] = value; } }
             public bool rc_receiver { get { return bitArray[16]; } set { bitArray[16] = value; } }
+            public bool gyro2 { get { return bitArray[17]; } set { bitArray[17] = value; } }
+            public bool accel2 { get { return bitArray[18]; } set { bitArray[18] = value; } }
+            public bool mag2 { get { return bitArray[19]; } set { bitArray[19] = value; } }
 
             public int Value
             {

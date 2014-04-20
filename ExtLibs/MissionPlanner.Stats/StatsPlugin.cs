@@ -170,7 +170,7 @@ connecttime {9} disconnecttime {10} maxspeed {11} avgspeed {12}"
             }
 
             // distance traveled
-            if (Host.cs.armed && Host.cs.gpsstatus == 3 && (Host.cs.ch3percent > 12 || Host.cs.groundspeed > 3.0))
+            if (Host.cs.armed && Host.cs.gpsstatus >= 3 && (Host.cs.ch3percent > 12 || Host.cs.groundspeed > 3.0))
             {
                 stats.timeInAir++;
 
@@ -191,7 +191,7 @@ connecttime {9} disconnecttime {10} maxspeed {11} avgspeed {12}"
             }
 
             // altitude gained
-            if (Host.cs.armed && Host.cs.gpsstatus == 3)
+            if (Host.cs.armed && Host.cs.gpsstatus >= 3)
             {
                 stats.maxalt = Math.Max(Host.cs.altasl,stats.maxalt);
 
@@ -203,7 +203,7 @@ connecttime {9} disconnecttime {10} maxspeed {11} avgspeed {12}"
             }
 
             // gps lock time
-            if (Host.cs.gpsstatus == 3) {
+            if (Host.cs.gpsstatus >= 3) {
                 stats.gpslocktime++;
             }
 

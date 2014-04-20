@@ -48,6 +48,7 @@ namespace MissionPlanner.Controls
             // 
             this.progressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.progressBar1.BackColor = System.Drawing.Color.Transparent;
             this.progressBar1.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(127)))), ((int)(((byte)(167)))), ((int)(((byte)(42)))));
             this.progressBar1.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(102)))), ((int)(((byte)(139)))), ((int)(((byte)(26)))));
             this.progressBar1.Location = new System.Drawing.Point(11, 90);
@@ -125,12 +126,12 @@ namespace MissionPlanner.Controls
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(306, 144);
             this.ControlBox = false;
-            this.Controls.Add(this.btnClose);
             this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.imgWarning);
-            this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.lblProgressMessage);
             this.Controls.Add(this.progressBar1);
+            this.Controls.Add(this.btnClose);
+            this.Controls.Add(this.btnCancel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -149,7 +150,7 @@ namespace MissionPlanner.Controls
 
         private MyProgressBar progressBar1;
         private System.Windows.Forms.Label lblProgressMessage;
-        private MyButton btnCancel;
+        public MyButton btnCancel;
         private PictureBox imgWarning;
         private LinkLabel linkLabel1;
         private MyButton btnClose;

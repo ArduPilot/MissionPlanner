@@ -145,7 +145,7 @@
     <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;radioButton_Plus.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>6</value>
   </data>
   <data name="radioButton_X.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -172,7 +172,7 @@
     <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;radioButton_X.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>8</value>
   </data>
   <data name="label2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -202,7 +202,7 @@
     <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>10</value>
   </data>
   <data name="label3.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -232,7 +232,7 @@
     <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>12</value>
   </data>
   <data name="pictureBoxPlus.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -259,7 +259,7 @@
     <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;pictureBoxPlus.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>3</value>
   </data>
   <data name="pictureBoxX.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -286,7 +286,7 @@
     <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;pictureBoxX.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>4</value>
   </data>
   <data name="label6.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -316,7 +316,7 @@
     <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;label6.ZOrder" xml:space="preserve">
-    <value>15</value>
+    <value>18</value>
   </data>
   <data name="radioButton_V.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -343,7 +343,7 @@
     <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;radioButton_V.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>16</value>
   </data>
   <data name="pictureBoxV.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -352,7 +352,7 @@
     <value>83, 187</value>
   </data>
   <data name="pictureBoxV.Size" type="System.Drawing.Size, System.Drawing">
-    <value>248, 85</value>
+    <value>111, 85</value>
   </data>
   <data name="pictureBoxV.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
     <value>Zoom</value>
@@ -370,7 +370,7 @@
     <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;pictureBoxV.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>14</value>
   </data>
   <data name="label1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -400,7 +400,7 @@
     <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>15</value>
   </data>
   <data name="radioButton_H.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -427,7 +427,7 @@
     <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;radioButton_H.ZOrder" xml:space="preserve">
-    <value>14</value>
+    <value>17</value>
   </data>
   <data name="pictureBoxH.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -436,7 +436,7 @@
     <value>83, 278</value>
   </data>
   <data name="pictureBoxH.Size" type="System.Drawing.Size, System.Drawing">
-    <value>248, 85</value>
+    <value>111, 85</value>
   </data>
   <data name="pictureBoxH.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
     <value>Zoom</value>
@@ -454,13 +454,13 @@
     <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;pictureBoxH.ZOrder" xml:space="preserve">
-    <value>16</value>
+    <value>19</value>
   </data>
   <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>337, 299</value>
+    <value>200, 295</value>
   </data>
   <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>142, 47</value>
+    <value>131, 47</value>
   </data>
   <data name="label4.TabIndex" type="System.Int32, mscorlib">
     <value>90</value>
@@ -478,7 +478,7 @@
     <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>13</value>
   </data>
   <data name="label5.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -508,7 +508,7 @@
     <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>7</value>
   </data>
   <data name="radioButton_Y.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -535,7 +535,7 @@
     <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;radioButton_Y.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>9</value>
   </data>
   <data name="pictureBoxY.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -544,7 +544,7 @@
     <value>83, 369</value>
   </data>
   <data name="pictureBoxY.Size" type="System.Drawing.Size, System.Drawing">
-    <value>248, 83</value>
+    <value>111, 83</value>
   </data>
   <data name="pictureBoxY.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
     <value>Zoom</value>
@@ -562,16 +562,16 @@
     <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;pictureBoxY.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>11</value>
   </data>
   <data name="label7.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="label7.Location" type="System.Drawing.Point, System.Drawing">
-    <value>337, 386</value>
+    <value>200, 386</value>
   </data>
   <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>142, 66</value>
+    <value>142, 47</value>
   </data>
   <data name="label7.TabIndex" type="System.Int32, mscorlib">
     <value>94</value>
@@ -589,7 +589,7 @@
     <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;label7.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>5</value>
   </data>
   <data name="configDefaultSettings1.Location" type="System.Drawing.Point, System.Drawing">
     <value>6, 19</value>
@@ -604,7 +604,7 @@
     <value>configDefaultSettings1</value>
   </data>
   <data name="&gt;&gt;configDefaultSettings1.Type" xml:space="preserve">
-    <value>MissionPlanner.GCSViews.ConfigurationView.ConfigDefaultSettings, MissionPlanner, Version=1.1.5162.13304, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.DefaultSettings, MissionPlanner, Version=1.1.5217.13218, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;configDefaultSettings1.Parent" xml:space="preserve">
     <value>groupBox1</value>
@@ -635,6 +635,90 @@
   </data>
   <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
     <value>1</value>
+  </data>
+  <data name="label9.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label9.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label9.Location" type="System.Drawing.Point, System.Drawing">
+    <value>313, 220</value>
+  </data>
+  <data name="label9.Size" type="System.Drawing.Size, System.Drawing">
+    <value>38, 13</value>
+  </data>
+  <data name="label9.TabIndex" type="System.Int32, mscorlib">
+    <value>97</value>
+  </data>
+  <data name="label9.Text" xml:space="preserve">
+    <value>'V Tail'</value>
+  </data>
+  <data name="&gt;&gt;label9.Name" xml:space="preserve">
+    <value>label9</value>
+  </data>
+  <data name="&gt;&gt;label9.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label9.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;label9.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="radioButton_VTail.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="radioButton_VTail.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="radioButton_VTail.Location" type="System.Drawing.Point, System.Drawing">
+    <value>357, 220</value>
+  </data>
+  <data name="radioButton_VTail.Size" type="System.Drawing.Size, System.Drawing">
+    <value>14, 13</value>
+  </data>
+  <data name="radioButton_VTail.TabIndex" type="System.Int32, mscorlib">
+    <value>96</value>
+  </data>
+  <data name="&gt;&gt;radioButton_VTail.Name" xml:space="preserve">
+    <value>radioButton_VTail</value>
+  </data>
+  <data name="&gt;&gt;radioButton_VTail.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;radioButton_VTail.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;radioButton_VTail.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="pictureBoxVTail.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="pictureBoxVTail.Location" type="System.Drawing.Point, System.Drawing">
+    <value>378, 187</value>
+  </data>
+  <data name="pictureBoxVTail.Size" type="System.Drawing.Size, System.Drawing">
+    <value>111, 85</value>
+  </data>
+  <data name="pictureBoxVTail.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
+    <value>Zoom</value>
+  </data>
+  <data name="pictureBoxVTail.TabIndex" type="System.Int32, mscorlib">
+    <value>95</value>
+  </data>
+  <data name="&gt;&gt;pictureBoxVTail.Name" xml:space="preserve">
+    <value>pictureBoxVTail</value>
+  </data>
+  <data name="&gt;&gt;pictureBoxVTail.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.PictureBoxWithPseudoOpacity, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;pictureBoxVTail.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;pictureBoxVTail.ZOrder" xml:space="preserve">
+    <value>2</value>
   </data>
   <data name="groupBox2.Location" type="System.Drawing.Point, System.Drawing">
     <value>3, 3</value>

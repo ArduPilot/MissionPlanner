@@ -168,9 +168,16 @@ S15: MAX_WINDOW=131
 
         private void UploadFW(bool custom = false)
         {
-            ArduinoSTK comPort = new ArduinoSTK();
+            ICommsSerial comPort = new SerialPort();
 
             uploader.Uploader uploader = new uploader.Uploader();
+
+            if (MainV2.comPort.BaseStream.IsOpen)
+            {
+                comPort = new MAVLinkSerialPort(MainV2.comPort, 0);//MAVLink.SERIAL_CONTROL_DEV.TELEM1);
+
+                uploader.PROG_MULTI_MAX = 64;
+            }
 
             try
             {
@@ -181,6 +188,13 @@ S15: MAX_WINDOW=131
 
             }
             catch { CustomMessageBox.Show("Invalid ComPort or in use"); return; }
+
+            // prep what we are going to upload
+            uploader.IHex iHex = new uploader.IHex();
+
+            iHex.LogEvent += new LogEventHandler(iHex_LogEvent);
+
+            iHex.ProgressEvent += new ProgressEventHandler(iHex_ProgressEvent);
 
             bool bootloadermode = false;
 
@@ -202,7 +216,14 @@ S15: MAX_WINDOW=131
             {
                 // cleanup bootloader mode fail, and try firmware mode
                 comPort.Close();
-                comPort.BaudRate = MainV2.comPort.BaseStream.BaudRate;
+                if (MainV2.comPort.BaseStream.IsOpen)
+                {
+                    int fixme;
+                    // default baud... guess
+                    comPort.BaudRate = 57600;
+                } else {
+                    comPort.BaudRate = MainV2.comPort.BaseStream.BaudRate;
+                }
                 try
                 {
                     comPort.Open();
@@ -219,13 +240,6 @@ S15: MAX_WINDOW=131
             // check for either already bootloadermode, or if we can do a ATI to ID the firmware 
             if (bootloadermode || doConnect(comPort))
             {
-
-                uploader.IHex iHex = new uploader.IHex();
-
-                iHex.LogEvent += new LogEventHandler(iHex_LogEvent);
-
-                iHex.ProgressEvent += new ProgressEventHandler(iHex_ProgressEvent);
-
                 // put into bootloader mode/udpate mode
                 if (!bootloadermode)
                 {
@@ -239,6 +253,9 @@ S15: MAX_WINDOW=131
                     }
                     catch { }
                 }
+
+                // force sync after changing baudrate
+                uploader.connect_and_sync();
 
                 global::uploader.Uploader.Board device = global::uploader.Uploader.Board.FAILED;
                 global::uploader.Uploader.Frequency freq = global::uploader.Uploader.Frequency.FAILED;
@@ -340,8 +357,17 @@ S15: MAX_WINDOW=131
 
             try
             {
-                comPort.PortName = MainV2.comPort.BaseStream.PortName;
-                comPort.BaudRate = MainV2.comPort.BaseStream.BaudRate;
+                if (MainV2.comPort.BaseStream.IsOpen)
+                {
+                    comPort = new MAVLinkSerialPort(MainV2.comPort, 0);//MAVLink.SERIAL_CONTROL_DEV.TELEM1);
+
+                    comPort.BaudRate = 57600;
+                }
+                else
+                {
+                    comPort.PortName = MainV2.comPort.BaseStream.PortName;
+                    comPort.BaudRate = MainV2.comPort.BaseStream.BaudRate;
+                }
 
                 comPort.ReadTimeout = 4000;
 
@@ -569,10 +595,21 @@ S15: MAX_WINDOW=131
         {
             ICommsSerial comPort = new SerialPort();
 
+
+
             try
             {
-                comPort.PortName = MainV2.comPort.BaseStream.PortName;
-                comPort.BaudRate = MainV2.comPort.BaseStream.BaudRate;
+                if (MainV2.comPort.BaseStream.IsOpen)
+                {
+                    comPort = new MAVLinkSerialPort(MainV2.comPort, 0);//MAVLink.SERIAL_CONTROL_DEV.TELEM1);
+
+                    comPort.BaudRate = 57600;
+                }
+                else
+                {
+                    comPort.PortName = MainV2.comPort.BaseStream.PortName;
+                    comPort.BaudRate = MainV2.comPort.BaseStream.BaudRate;
+                }
 
                 comPort.ReadTimeout = 4000;
 
@@ -801,9 +838,12 @@ S15: MAX_WINDOW=131
             comPort.ReadTimeout = 1000;
             // setup to known state
             comPort.Write("\r\n");
-            // alow some time to gather thoughts
-            Sleep(100);
-            // ignore all existing data
+            try
+            {
+                var temp1 = Serial_ReadLine(comPort);
+            }
+            catch { comPort.ReadExisting(); }
+            Sleep(50);
             comPort.DiscardInBuffer();
             lbl_status.Text = "Doing Command " + cmd;
             log.Info("Doing Command " + cmd);
@@ -817,8 +857,8 @@ S15: MAX_WINDOW=131
             }
             catch { temp = comPort.ReadExisting(); }
             log.Info("cmd " + cmd + " echo " + temp);
-            // delay for command
-            Sleep(500);
+            // give time for que to fill
+            Sleep(100);
             // get responce
             string ans = "";
             while (comPort.BytesToRead > 0)
@@ -858,19 +898,21 @@ S15: MAX_WINDOW=131
         {
             try
             {
-                // clear buffer
-                comPort.DiscardInBuffer();
+                Console.WriteLine("doConnect");
+
                 // setup a known enviroment
-                comPort.Write("\r\n");
+                comPort.Write("ATO\r\n");
                 // wait
                 Sleep(1100);
+                comPort.DiscardInBuffer();
                 // send config string
                 comPort.Write("+++");
-                // wait
-                Sleep(1100);
                 // check for config responce "OK"
                 log.Info("Connect btr " + comPort.BytesToRead + " baud " + comPort.BaudRate);
-                string conn = comPort.ReadExisting();
+
+                byte[] buffer = new byte[20];
+                int len = comPort.Read(buffer, 0, buffer.Length);
+                string conn = ASCIIEncoding.ASCII.GetString(buffer, 0, len);
                 log.Info("Connect first responce " + conn.Replace('\0', ' ') + " " + conn.Length);
                 if (conn.Contains("OK"))
                 {

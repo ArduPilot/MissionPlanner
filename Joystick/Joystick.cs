@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using log4net;
 using Microsoft.DirectX.DirectInput;
+//using OpenTK.Input;
 using System.Reflection;
 using System.IO;
 

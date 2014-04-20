@@ -984,6 +984,8 @@ mc:Ignorable=""d""
                     rs.ForeColor = TextColor;
                     dgv.RowsDefaultCellStyle = rs;
 
+                    dgv.AlternatingRowsDefaultCellStyle.BackColor = BGColor;
+
                     DataGridViewCellStyle hs = new DataGridViewCellStyle(dgv.ColumnHeadersDefaultCellStyle);
                     hs.BackColor = BGColor;
                     hs.ForeColor = TextColor;

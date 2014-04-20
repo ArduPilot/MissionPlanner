@@ -22,6 +22,7 @@ using GMap.NET;
 using System.Xml;
 using IronPython.Hosting;
 using IronPython.Runtime.Operations;
+using System.Net.Sockets;
 
 namespace MissionPlanner
 {
@@ -1040,7 +1041,7 @@ namespace MissionPlanner
 
             if (File.Exists(ofd.FileName))
             {
-                List<string> log = Log.BinaryLog.ReadLog(ofd.FileName);
+                var log = Log.BinaryLog.ReadLog(ofd.FileName);
 
                 SaveFileDialog sfd = new SaveFileDialog();
                 sfd.Filter = "log|*.log";
@@ -1181,64 +1182,94 @@ namespace MissionPlanner
 
             if (ofd.FileName != "")
             {
+                string xmlfile = LogAnalyzer.CheckLogFile(ofd.FileName);
 
-                var engine = Python.CreateEngine();
-                var scope = engine.CreateScope();
-
-                //engine.Runtime.IO.SetErrorOutput(new MemoryStream(), UnicodeEncoding.Unicode);
-                //engine.Runtime.IO.SetOutput(new MemoryStream(), UnicodeEncoding.Unicode);
-
-                var all = System.Reflection.Assembly.GetExecutingAssembly();
-                engine.Runtime.LoadAssembly(all);
-
-                engine.CreateScriptSourceFromString("print 'hello world from python'").Execute(scope);
-
-                List<string> paths = new List<string>(engine.GetSearchPaths());
-
-                paths.Add(Environment.CurrentDirectory);
-
-                paths.Add(Path.GetDirectoryName(Application.StartupPath + Path.DirectorySeparatorChar + "LogAnalyzer" + Path.DirectorySeparatorChar + "LogAnalyzer.py"));
-                paths.Add(Application.StartupPath + Path.DirectorySeparatorChar + "lib" + Path.DirectorySeparatorChar + "site-packages");
-
-                engine.SetSearchPaths(paths);
-
-                //  engine.CreateScriptSourceFromFile(@"C:\Users\hog\Desktop\DIYDrones\loganalysiscommon\Tools\LogAnalyzer\LogAnalyzer.py");
-
-
-                string bootloader = @"
-
-import clr
-clr.AddReference('mtrand.dll')
-
-import numpy
-#import scipy
-
-print numpy.__version__
-#print scipy.__version__
-
-import mtrand
-
-import numpy
-
-import LogAnalyzer
-
-import sys
-
-sys.argv.append('-x')
-sys.argv.append('" + ofd.FileName.Replace('\\', '/') + @".xml')
-sys.argv.append('-s')
-sys.argv.append('" + ofd.FileName.Replace('\\','/') + @"')
-
-print sys.argv
-
-LogAnalyzer.main()
-
-";
-                try
+                if (File.Exists(xmlfile))
                 {
-                    engine.CreateScriptSourceFromString(bootloader).Execute(scope);
+                    var out1 = LogAnalyzer.Results(xmlfile);
+
+                    MissionPlanner.Controls.LogAnalyzer frm = new Controls.LogAnalyzer(out1);
+
+                    frm.Show();
                 }
-                catch (Exception ex) { log.Error(ex); CustomMessageBox.Show(ex.Message, "Error"); }
+                else
+                {
+                    CustomMessageBox.Show("Bad input file");
+                }
+            }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            Warnings.WarningsManager frm = new Warnings.WarningsManager();
+
+            frm.Show();
+        }
+		
+        Comms.MAVLinkSerialPort comport;
+
+        TcpListener listener;
+
+        private void but_mavserialport_Click(object sender, EventArgs e)
+        {
+            comport = new Comms.MAVLinkSerialPort(MainV2.comPort, MAVLink.SERIAL_CONTROL_DEV.GPS1);
+
+            if (listener != null)
+            {
+                listener.Stop();
+                listener = null;
+            }
+
+            listener = new TcpListener(IPAddress.Any,500);
+
+            listener.Start();
+
+            listener.BeginAcceptTcpClient(new AsyncCallback(DoAcceptTcpClientCallback), listener);
+        }
+
+        private void DoAcceptTcpClientCallback(IAsyncResult ar)
+        {
+                   // Get the listener that handles the client request.
+            TcpListener listener = (TcpListener)ar.AsyncState;
+
+            // End the operation and display the received data on  
+            // the console.
+            using (
+            TcpClient client = listener.EndAcceptTcpClient(ar))
+            {
+                NetworkStream stream = client.GetStream();
+
+                comport.Open();
+
+                while (true)
+                {
+
+                    while (stream.DataAvailable)
+                    {
+                        var data = new byte[4096];
+                        try
+                        {
+                            int len = stream.Read(data, 0, data.Length);
+
+                            comport.Write(data, 0, len);
+                        }
+                        catch { }
+                    }
+
+                    while (comport.BytesToRead > 0)
+                    {
+                        var data = new byte[4096];
+                        try
+                        {
+                        int len = comport.Read(data, 0, data.Length);
+
+                        stream.Write(data, 0, len);
+                        }
+                        catch { }
+                    }
+
+                   // System.Threading.Thread.Sleep(1);
+                }
             }
         }
     }

@@ -112,28 +112,16 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="MVCHK_thr_Acc_enable.Text" xml:space="preserve">
-    <value>Enable</value>
-  </data>
   <data name="label10.Text" xml:space="preserve">
     <value>D</value>
   </data>
-  <data name="label13.Text" xml:space="preserve">
-    <value>IMAX</value>
-  </data>
-  <data name="label16.Text" xml:space="preserve">
-    <value>P</value>
-  </data>
   <data name="label11.Text" xml:space="preserve">
     <value>D</value>
-  </data>
-  <data name="label14.Text" xml:space="preserve">
-    <value>IMAX</value>
   </data>
   <data name="label17.Text" xml:space="preserve">
     <value>D</value>
@@ -141,23 +129,8 @@
   <data name="label88.Text" xml:space="preserve">
     <value>IMAX</value>
   </data>
-  <data name="label15.Text" xml:space="preserve">
-    <value>I</value>
-  </data>
-  <data name="label18.Text" xml:space="preserve">
-    <value>Verstärkung</value>
-  </data>
-  <data name="label19.Text" xml:space="preserve">
-    <value>IMAX</value>
-  </data>
   <data name="label82.Text" xml:space="preserve">
     <value>P</value>
-  </data>
-  <data name="label20.Text" xml:space="preserve">
-    <value>I</value>
-  </data>
-  <data name="label21.Text" xml:space="preserve">
-    <value>I</value>
   </data>
   <data name="label22.Text" xml:space="preserve">
     <value>P</value>
@@ -167,6 +140,9 @@
   </data>
   <data name="label87.Text" xml:space="preserve">
     <value>P</value>
+  </data>
+  <data name="myLabel4.Text" xml:space="preserve">
+    <value>Ch8 Opt</value>
   </data>
   <data name="label84.Text" xml:space="preserve">
     <value>IMAX</value>
@@ -186,17 +162,8 @@
   <data name="myLabel3.Text" xml:space="preserve">
     <value>Min</value>
   </data>
-  <data name="label27.Text" xml:space="preserve">
-    <value>D</value>
-  </data>
   <data name="label1.Text" xml:space="preserve">
     <value>D</value>
-  </data>
-  <data name="label28.Text" xml:space="preserve">
-    <value>IMAX</value>
-  </data>
-  <data name="groupBox6.Text" xml:space="preserve">
-    <value>Crosstrack Korrektur</value>
   </data>
   <data name="myLabel1.Text" xml:space="preserve">
     <value>Ch7 Opt</value>
@@ -212,9 +179,6 @@
   </data>
   <data name="label7.Text" xml:space="preserve">
     <value>I</value>
-  </data>
-  <data name="groupBox4.Text" xml:space="preserve">
-    <value>Nav WP</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
     <value>P</value>
@@ -234,32 +198,14 @@
   <data name="groupBox1.Text" xml:space="preserve">
     <value>Rate Loiter</value>
   </data>
-  <data name="label9.Text" xml:space="preserve">
-    <value>m/s</value>
-  </data>
-  <data name="groupBox19.Text" xml:space="preserve">
-    <value>Loiter Speed</value>
-  </data>
-  <data name="label30.Text" xml:space="preserve">
-    <value>I</value>
-  </data>
   <data name="label90.Text" xml:space="preserve">
     <value>I</value>
-  </data>
-  <data name="label32.Text" xml:space="preserve">
-    <value>IMAX </value>
   </data>
   <data name="label31.Text" xml:space="preserve">
     <value>P</value>
   </data>
   <data name="label91.Text" xml:space="preserve">
     <value>P</value>
-  </data>
-  <data name="label34.Text" xml:space="preserve">
-    <value>I</value>
-  </data>
-  <data name="label36.Text" xml:space="preserve">
-    <value>IMAX</value>
   </data>
   <data name="label35.Text" xml:space="preserve">
     <value>P</value>
@@ -291,23 +237,17 @@
   <data name="BUT_writePIDS.Text" xml:space="preserve">
     <value>Parameter speichern</value>
   </data>
+  <data name="BUT_refreshpart.Text" xml:space="preserve">
+    <value>Refresh Screen</value>
+  </data>
   <data name="label46.Text" xml:space="preserve">
     <value>P</value>
   </data>
   <data name="label47.Text" xml:space="preserve">
     <value>IMAX</value>
   </data>
-  <data name="label45.Text" xml:space="preserve">
-    <value>I</value>
-  </data>
   <data name="label42.Text" xml:space="preserve">
     <value>P</value>
-  </data>
-  <data name="label43.Text" xml:space="preserve">
-    <value>IMAX</value>
-  </data>
-  <data name="label41.Text" xml:space="preserve">
-    <value>I</value>
   </data>
   <data name="BUT_rerequestparams.Text" xml:space="preserve">
     <value>Parameter aktualisieren</value>

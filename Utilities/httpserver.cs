@@ -285,6 +285,9 @@ namespace MissionPlanner.Utilities
                         {
                             foreach (var point in GCSViews.FlightPlanner.instance.pointlist)
                             {
+                                if (point == null)
+                                    continue;
+
                                 coords.Add(new SharpKml.Base.Vector(point.Lat, point.Lng, point.Alt));
 
                                 SharpKml.Dom.Placemark wp = new SharpKml.Dom.Placemark();

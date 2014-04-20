@@ -424,13 +424,13 @@
     <value>5, 36</value>
   </data>
   <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>507, 36</value>
+    <value>512, 36</value>
   </data>
   <data name="label3.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
-    <value>Here are some links to additional information that may be relivant to you. 
+    <value>Here are some links to additional information that may be relevant to you. 
 Check them out!!
 </value>
   </data>

@@ -26,9 +26,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void BUT_MagCalibration_Click(object sender, EventArgs e)
         {
-            CustomMessageBox.Show("Data will be collected for 60 seconds, Please click ok and move the apm around all axises");
+            CustomMessageBox.Show("Please click ok and move the apm around all axises");
 
-            ProgressReporterDialogue prd = new ProgressReporterDialogue();
+            ProgressReporterSphere prd = new ProgressReporterSphere();
+
+            prd.btnCancel.Text = "Done";
 
             Utilities.ThemeManager.ApplyThemeTo(prd);
 
@@ -50,16 +52,15 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             MainV2.comPort.MAV.cs.ratesensors = 10;
             MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RAW_SENSORS, MainV2.comPort.MAV.cs.ratesensors); // mag captures at 10 hz
 
-            DateTime deadline = DateTime.Now.AddSeconds(60);
-
             float oldmx = 0;
             float oldmy = 0;
             float oldmz = 0;
 
-            while (deadline > DateTime.Now)
+            ((ProgressReporterSphere)sender).sphere1.Clear();
+
+            while (true)
             {
-                double timeremaining = (deadline - DateTime.Now).TotalSeconds;
-                ((ProgressReporterDialogue)sender).UpdateProgressAndStatus((int)(((60 - timeremaining) / 60) * 100), timeremaining.ToString("0") + " Seconds - got " + data.Count + " Samples");
+                ((ProgressReporterDialogue)sender).UpdateProgressAndStatus(-1, "Got " + data.Count + " Samples");
 
                 if (e.CancelRequested)
                 {
@@ -67,8 +68,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     MainV2.comPort.MAV.cs.ratesensors = backupratesens;
                     MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RAW_SENSORS, MainV2.comPort.MAV.cs.ratesensors);
 
-                    e.CancelAcknowledged = true;
-                    return;
+                    e.CancelAcknowledged = false;
+                    e.CancelRequested = false;
+                    break;
                 }
 
                 if (oldmx != MainV2.comPort.MAV.cs.mx &&
@@ -83,6 +85,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     oldmx = MainV2.comPort.MAV.cs.mx;
                     oldmy = MainV2.comPort.MAV.cs.my;
                     oldmz = MainV2.comPort.MAV.cs.mz;
+
+                    ((ProgressReporterSphere)sender).sphere1.AddPoint(new OpenTK.Vector3(oldmx, oldmy, oldmz));
                 }
             }
 
@@ -97,20 +101,27 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 return;
             }
 
-            ans = MagCalib.LeastSq(data);
-/*
+            bool ellipsoid = false;
+
+            if (MainV2.comPort.MAV.param.ContainsKey("MAG_DIA"))
+            {
+                ellipsoid = true;
+            }
+
+            ans = MagCalib.LeastSq(data, ellipsoid);
+
             //find the mean radius
-            Vector3f centre = new Vector3f((float)-ans[0], (float)-ans[1], (float)-ans[2]);
-            Vector3f point;
+            HIL.Vector3 centre = new HIL.Vector3((float)-ans[0], (float)-ans[1], (float)-ans[2]);
+            HIL.Vector3 point;
             float radius = 0;
             for(int i = 0; i < data.Count; i++) {
-                point = new Vector3f(data[i].Item1, data[i].Item2, data[i].Item3);
-                radius += Vector3f.Distance(point, centre);
+                point = new HIL.Vector3(data[i].Item1, data[i].Item2, data[i].Item3);
+                radius += (float)(point - centre).length();
             }
             radius /= data.Count;
 
             //test that we can find one point near a set of points all around the sphere surface
-            int factor = 10;
+            int factor = 3; // 9 point check 3x3
             float max_distance = radius / 3; //pretty generouse
             for (int j = 0; j < factor; j++)
             {
@@ -120,16 +131,18 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 {
                     double phi = (2 * Math.PI * i) / factor;
 
-                    Vector3f point_sphere = new Vector3f(
+                    HIL.Vector3 point_sphere = new HIL.Vector3(
                         (float)(Math.Sin(theta) * Math.Cos(phi) * radius),
                         (float)(Math.Sin(theta) * Math.Sin(phi) * radius),
                         (float)(Math.Cos(theta) * radius)) + centre;
 
+                    Console.WriteLine("{0} {1}",theta * rad2deg,phi* rad2deg);
+
                     bool found = false;
                     for(int k = 0; k < data.Count; k++)
                     {
-                        point = new Vector3f(data[i].Item1, data[i].Item2, data[i].Item3);
-                        double d = Vector3f.Distance(point_sphere, point);
+                        point = new HIL.Vector3(data[k].Item1, data[k].Item2, data[k].Item3);
+                        double d = (point_sphere - point).length();
                         if (d < max_distance)
                         {
                             found = true;
@@ -144,7 +157,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     }
                 }
             }
- */
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -237,6 +249,17 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             else
             {
                 this.Enabled = true;
+            }
+
+            if (!MainV2.Advanced)
+            {
+                BUT_MagCalibrationLog.Visible = false;
+                label4.Visible = false;
+            }
+            else
+            {
+                BUT_MagCalibrationLog.Visible = true;
+                label4.Visible = true;
             }
 
             startup = true;

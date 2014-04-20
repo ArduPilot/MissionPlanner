@@ -6,6 +6,7 @@ using System.Xml.Linq;
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace MissionPlanner.Utilities
 {
@@ -137,6 +138,32 @@ namespace MissionPlanner.Utilities
           }
 
           return new List<KeyValuePair<int, string>>();
+      }
+
+      public static bool GetParameterRange(string nodeKey, ref double min, ref double max)
+      {
+          CheckLoad();
+
+          string rangeRaw = ParameterMetaDataRepository.GetParameterMetaData(nodeKey, ParameterMetaDataConstants.Range);
+
+          string[] rangeParts = rangeRaw.Split(new[] { ' ' });
+          if (rangeParts.Count() == 2)
+          {
+              float lowerRange;
+              if (float.TryParse(rangeParts[0], NumberStyles.Float, CultureInfo.InvariantCulture, out lowerRange))
+              {
+                  float upperRange;
+                  if (float.TryParse(rangeParts[1], NumberStyles.Float, CultureInfo.InvariantCulture, out upperRange))
+                  {
+                      min = lowerRange;
+                      max = upperRange;
+
+                      return true;
+                  }
+              }
+          }
+
+          return false;
       }
    }
 }

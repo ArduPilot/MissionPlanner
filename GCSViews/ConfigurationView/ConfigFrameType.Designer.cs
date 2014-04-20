@@ -51,6 +51,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.configDefaultSettings1 = new MissionPlanner.Controls.DefaultSettings();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.radioButton_VTail = new System.Windows.Forms.RadioButton();
+            this.pictureBoxVTail = new MissionPlanner.Controls.PictureBoxWithPseudoOpacity();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPlus)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxV)).BeginInit();
@@ -58,6 +61,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxY)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxVTail)).BeginInit();
             this.SuspendLayout();
             // 
             // radioButton_Plus
@@ -194,6 +198,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.label9);
+            this.groupBox2.Controls.Add(this.radioButton_VTail);
+            this.groupBox2.Controls.Add(this.pictureBoxVTail);
             this.groupBox2.Controls.Add(this.pictureBoxPlus);
             this.groupBox2.Controls.Add(this.pictureBoxX);
             this.groupBox2.Controls.Add(this.label7);
@@ -215,6 +222,27 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.TabStop = false;
             // 
+            // label9
+            // 
+            resources.ApplyResources(this.label9, "label9");
+            this.label9.Name = "label9";
+            // 
+            // radioButton_VTail
+            // 
+            resources.ApplyResources(this.radioButton_VTail, "radioButton_VTail");
+            this.radioButton_VTail.Name = "radioButton_VTail";
+            this.radioButton_VTail.TabStop = true;
+            this.radioButton_VTail.UseVisualStyleBackColor = true;
+            this.radioButton_VTail.CheckedChanged += new System.EventHandler(this.radioButton_VTail_CheckedChanged);
+            // 
+            // pictureBoxVTail
+            // 
+            this.pictureBoxVTail.Cursor = System.Windows.Forms.Cursors.Hand;
+            resources.ApplyResources(this.pictureBoxVTail, "pictureBoxVTail");
+            this.pictureBoxVTail.Name = "pictureBoxVTail";
+            this.pictureBoxVTail.TabStop = false;
+            this.pictureBoxVTail.Click += new System.EventHandler(this.pictureBoxVTail_Click);
+            // 
             // ConfigFrameType
             // 
             resources.ApplyResources(this, "$this");
@@ -230,6 +258,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxVTail)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -256,5 +285,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private DefaultSettings configDefaultSettings1;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.RadioButton radioButton_VTail;
+        private PictureBoxWithPseudoOpacity pictureBoxVTail;
     }
 }

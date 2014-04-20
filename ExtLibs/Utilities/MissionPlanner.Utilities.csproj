@@ -81,6 +81,8 @@
     <Compile Include="BigInteger.cs" />
     <Compile Include="Capture.cs" />
     <Compile Include="CaptureMJPEG.cs" />
+    <Compile Include="CircularBuffer.cs" />
+    <Compile Include="CircularStream.cs" />
     <Compile Include="CleanDrivers.cs" />
     <Compile Include="CollectionExtensions.cs" />
     <Compile Include="EnumTranslator.cs" />

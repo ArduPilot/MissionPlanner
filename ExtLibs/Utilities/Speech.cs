@@ -52,6 +52,8 @@ namespace MissionPlanner.Utilities
 
         public void SpeakAsync(string text)
         {
+            text = text.Replace("PreArm", "Pre Arm");
+
             if (MONO)
             {
                 try

@@ -29,7 +29,7 @@ namespace MissionPlanner
 
         static Dictionary<string, short[,]> cache = new Dictionary<string, short[,]>();
 
-        public static int getAltitude(double lat, double lng, double zoom)
+        public static double getAltitude(double lat, double lng, double zoom = 16)
         {
             short alt = 0;
 
@@ -40,7 +40,7 @@ namespace MissionPlanner
             //		lng	117.94178754638671	double
             // 		alt	70	short
 
-            int x = (lng < 0) ? (int)(lng-1) : (int)lng;//(int)Math.Floor(lng);
+            int x = (lng < 0) ? (int)(lng - 1) : (int)lng;//(int)Math.Floor(lng);
             int y = (lat < 0) ? (int)(lat - 1) : (int)lat; ;//(int)Math.Floor(lat);
 
             string ns;
@@ -70,6 +70,7 @@ namespace MissionPlanner
 
                     int size = -1;
 
+                    // add to cache
                     if (!cache.ContainsKey(filename))
                     {
                         FileStream fs = new FileStream(datadirectory + Path.DirectorySeparatorChar + filename, FileMode.Open, FileAccess.Read, FileShare.Read);
@@ -78,10 +79,12 @@ namespace MissionPlanner
                         {
                             size = 1201;
                         }
-                        else
+                        else if (fs.Length == (3601 * 3601 * 2))
                         {
                             size = 3601;
                         }
+                        else 
+                            return -1;
 
                         byte[] altbytes = new byte[2];
                         short[,] altdata = new short[size, size];
@@ -111,22 +114,38 @@ namespace MissionPlanner
                     {
                         size = 1201;
                     }
-                    else
+                    else if (cache[filename].Length == (3601 * 3601))
                     {
                         size = 3601;
                     }
+                    else
+                        return -1;
 
-                    int posx = 0;
-                    int row = 0;
+                    // remove the base lat long
+                    lat -= y;
+                    lng -= x;
 
-                    posx = (int)(((float)(lng - x)) * (size * 1));
-                    row = (int)(((float)(lat - y)) * (size * 1));
-                    row = size - row;
+                    double xf = lng * (size - 1);
+                    double yf = lat * (size - 1);
 
-                    if (row == size)
-                        row--;
+                    int x_int = (int)xf;
+                    double x_frac = xf - x_int;
 
-                    return cache[filename][posx, row];
+                    int y_int = (int)yf;
+                    double y_frac = yf - y_int;
+
+                    y_int = (size - 1) - y_int;
+
+                    double alt00 = GetAlt(filename, x_int, y_int);
+                    double alt10 = GetAlt(filename, x_int + 1, y_int);
+                    double alt01 = GetAlt(filename, x_int, y_int + 1);
+                    double alt11 = GetAlt(filename, x_int + 1, y_int + 1);
+
+                    double v1 = avg(alt00, alt10, x_frac);
+                    double v2 = avg(alt01, alt11, x_frac);
+                    double v = avg(v1, v2, y_frac);
+
+                    return v;
                 }
 
                 string filename2 = "srtm_" + Math.Round((lng + 2.5 + 180) / 5, 0).ToString("00") + "_" + Math.Round((60 - lat + 2.5) / 5, 0).ToString("00") + ".asc";
@@ -219,7 +238,7 @@ namespace MissionPlanner
                 }
                 else // get something
                 {
-                    if (zoom >= 15)
+                    if (zoom >= 12)
                     {
                         if (!Directory.Exists(datadirectory))
                             Directory.CreateDirectory(datadirectory);
@@ -252,6 +271,16 @@ namespace MissionPlanner
             catch { alt = 0; }
 
             return alt;
+        }
+
+        static double GetAlt(string filename, int x, int y)
+        {
+            return cache[filename][x-1, y-1];
+        }
+
+        static double avg(double v1, double v2, double weight)
+        {
+            return v2 * weight + v1 * (1 - weight);
         }
 
         static MemoryStream readFile(string filename)
@@ -306,6 +335,7 @@ namespace MissionPlanner
 
         static void get3secfile(object name)
         {
+            string baseurl1sec = "http://dds.cr.usgs.gov/srtm/version2_1/SRTM1/";
             string baseurl = "http://dds.cr.usgs.gov/srtm/version2_1/SRTM3/";
 
             // check file doesnt already exist
@@ -316,7 +346,10 @@ namespace MissionPlanner
                     return;
             }
 
-            List<string> list = getListing(baseurl);
+            // load 1 arc seconds first
+            List<string> list = getListing(baseurl1sec);
+            // load 3 arc second
+            list.AddRange(getListing(baseurl));
 
             foreach (string item in list)
             {

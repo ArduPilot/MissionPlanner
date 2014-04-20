@@ -99,6 +99,8 @@
             this.tabCamera = new System.Windows.Forms.TabPage();
             this.map = new MissionPlanner.Controls.myGMAP();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.label32 = new System.Windows.Forms.Label();
+            this.label35 = new System.Windows.Forms.Label();
             this.label28 = new System.Windows.Forms.Label();
             this.label31 = new System.Windows.Forms.Label();
             this.lbl_distbetweenlines = new System.Windows.Forms.Label();
@@ -117,8 +119,7 @@
             this.lbl_area = new System.Windows.Forms.Label();
             this.label23 = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
-            this.label32 = new System.Windows.Forms.Label();
-            this.label35 = new System.Windows.Forms.Label();
+            this.CHK_toandland = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_spacing)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_overshoot2)).BeginInit();
@@ -627,6 +628,7 @@
             // 
             // groupBox6
             // 
+            this.groupBox6.Controls.Add(this.CHK_toandland);
             this.groupBox6.Controls.Add(this.label24);
             this.groupBox6.Controls.Add(this.numericUpDownFlySpeed);
             this.groupBox6.Controls.Add(this.label26);
@@ -803,6 +805,16 @@
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.TabStop = false;
             // 
+            // label32
+            // 
+            resources.ApplyResources(this.label32, "label32");
+            this.label32.Name = "label32";
+            // 
+            // label35
+            // 
+            resources.ApplyResources(this.label35, "label35");
+            this.label35.Name = "label35";
+            // 
             // label28
             // 
             resources.ApplyResources(this.label28, "label28");
@@ -893,15 +905,13 @@
             resources.ApplyResources(this.label22, "label22");
             this.label22.Name = "label22";
             // 
-            // label32
+            // CHK_toandland
             // 
-            resources.ApplyResources(this.label32, "label32");
-            this.label32.Name = "label32";
-            // 
-            // label35
-            // 
-            resources.ApplyResources(this.label35, "label35");
-            this.label35.Name = "label35";
+            resources.ApplyResources(this.CHK_toandland, "CHK_toandland");
+            this.CHK_toandland.Checked = true;
+            this.CHK_toandland.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_toandland.Name = "CHK_toandland";
+            this.CHK_toandland.UseVisualStyleBackColor = true;
             // 
             // GridUI
             // 
@@ -1039,5 +1049,6 @@
         private System.Windows.Forms.Label label31;
         private System.Windows.Forms.Label label32;
         private System.Windows.Forms.Label label35;
+        private System.Windows.Forms.CheckBox CHK_toandland;
     }
 }

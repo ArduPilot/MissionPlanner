@@ -77,9 +77,10 @@ namespace MissionPlanner.Controls
             Form paramCompareForm = new ParamCompare(null, MainV2.comPort.MAV.param, param2);
 
             ThemeManager.ApplyThemeTo(paramCompareForm);
-            paramCompareForm.ShowDialog();
-
-            CustomMessageBox.Show("Loaded parameters!", "Loaded");
+            if (paramCompareForm.ShowDialog() == DialogResult.OK)
+            {
+                CustomMessageBox.Show("Loaded parameters!", "Loaded");
+            }
 
             if (OnChange != null)
             {

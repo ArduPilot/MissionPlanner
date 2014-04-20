@@ -19,8 +19,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             Plus = 0,
             X = 1,
             V = 2,
-            H=3,
-            Y=10
+            H = 3,
+            VTail = 4,
+            Y = 10,            
         }
 
         public ConfigFrameType()
@@ -52,6 +53,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     FadePicBoxes(pictureBoxV, DisabledOpacity);
                     FadePicBoxes(pictureBoxH, DisabledOpacity);
                     FadePicBoxes(pictureBoxY, DisabledOpacity);
+                    FadePicBoxes(pictureBoxVTail, DisabledOpacity);
+                    radioButton_VTail.Checked = false;
                     radioButton_Plus.Checked = true;
                     radioButton_V.Checked = false;
                     radioButton_X.Checked = false;
@@ -65,6 +68,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     FadePicBoxes(pictureBoxV, DisabledOpacity);
                     FadePicBoxes(pictureBoxH, DisabledOpacity);
                     FadePicBoxes(pictureBoxY, DisabledOpacity);
+                    FadePicBoxes(pictureBoxVTail, DisabledOpacity);
+                    radioButton_VTail.Checked = false;
                     radioButton_Plus.Checked = false;
                     radioButton_V.Checked = false;
                     radioButton_X.Checked = true;
@@ -78,6 +83,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     FadePicBoxes(pictureBoxV, EnabledOpacity);
                     FadePicBoxes(pictureBoxH, DisabledOpacity);
                     FadePicBoxes(pictureBoxY, DisabledOpacity);
+                    FadePicBoxes(pictureBoxVTail, DisabledOpacity);
+                    radioButton_VTail.Checked = false;
                     radioButton_Plus.Checked = false;
                     radioButton_V.Checked = true;
                     radioButton_X.Checked = false;
@@ -91,6 +98,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     FadePicBoxes(pictureBoxV, DisabledOpacity);
                     FadePicBoxes(pictureBoxH, EnabledOpacity);
                     FadePicBoxes(pictureBoxY, DisabledOpacity);
+                    FadePicBoxes(pictureBoxVTail, DisabledOpacity);
+                    radioButton_VTail.Checked = false;
                     radioButton_Plus.Checked = false;
                     radioButton_V.Checked = false;
                     radioButton_X.Checked = false;
@@ -104,11 +113,28 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     FadePicBoxes(pictureBoxV, DisabledOpacity);
                     FadePicBoxes(pictureBoxH, DisabledOpacity);
                     FadePicBoxes(pictureBoxY, EnabledOpacity);
+                    FadePicBoxes(pictureBoxVTail, DisabledOpacity);
+                    radioButton_VTail.Checked = false;
                     radioButton_Plus.Checked = false;
                     radioButton_V.Checked = false;
                     radioButton_X.Checked = false;
                     radioButton_H.Checked = false;
                     radioButton_Y.Checked = true;
+                    SetFrameParam(frame);
+                    break;
+                case Frame.VTail:
+                    FadePicBoxes(pictureBoxPlus, DisabledOpacity);
+                    FadePicBoxes(pictureBoxX, DisabledOpacity);
+                    FadePicBoxes(pictureBoxV, DisabledOpacity);
+                    FadePicBoxes(pictureBoxH, DisabledOpacity);
+                    FadePicBoxes(pictureBoxY, DisabledOpacity);
+                    FadePicBoxes(pictureBoxVTail, EnabledOpacity);
+                    radioButton_VTail.Checked = true;
+                    radioButton_Plus.Checked = false;
+                    radioButton_V.Checked = false;
+                    radioButton_X.Checked = false;
+                    radioButton_H.Checked = false;
+                    radioButton_Y.Checked = false;
                     SetFrameParam(frame);
                     break;
                 default:
@@ -208,6 +234,16 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void radioButton_Y_CheckedChanged(object sender, EventArgs e)
         {
             DoChange(Frame.Y);
+        }
+
+        private void radioButton_VTail_CheckedChanged(object sender, EventArgs e)
+        {
+            DoChange(Frame.VTail);
+        }
+
+        private void pictureBoxVTail_Click(object sender, EventArgs e)
+        {
+            DoChange(Frame.VTail);
         }
 
     }

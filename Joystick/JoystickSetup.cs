@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using Microsoft.DirectX.DirectInput;
+using OpenTK.Input;
 using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
 

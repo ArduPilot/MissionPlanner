@@ -76,23 +76,7 @@
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
             this.dataGridViewImageColumn2 = new System.Windows.Forms.DataGridViewImageColumn();
             this.label6 = new System.Windows.Forms.Label();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.label16 = new System.Windows.Forms.Label();
-            this.txt_mouse_mgrs = new System.Windows.Forms.TextBox();
-            this.label15 = new System.Windows.Forms.Label();
-            this.txt_mouse_utmzone = new System.Windows.Forms.TextBox();
-            this.label14 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
-            this.label13 = new System.Windows.Forms.Label();
-            this.txt_mouse_utmy = new System.Windows.Forms.TextBox();
-            this.txt_mouse_utmx = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.TXT_mousealt = new System.Windows.Forms.TextBox();
-            this.TXT_mouselong = new System.Windows.Forms.TextBox();
-            this.TXT_mouselat = new System.Windows.Forms.TextBox();
+            this.coords1 = new MissionPlanner.Controls.Coords();
             this.lbl_status = new System.Windows.Forms.Label();
             this.panelWaypoints = new BSE.Windows.Forms.Panel();
             this.splitter1 = new BSE.Windows.Forms.Splitter();
@@ -100,6 +84,8 @@
             this.TXT_altwarn = new System.Windows.Forms.TextBox();
             this.BUT_Add = new MissionPlanner.Controls.MyButton();
             this.panelAction = new BSE.Windows.Forms.Panel();
+            this.BUT_saveWPFile = new MissionPlanner.Controls.MyButton();
+            this.BUT_loadwpfile = new MissionPlanner.Controls.MyButton();
             this.lnk_kml = new System.Windows.Forms.LinkLabel();
             this.chk_grid = new System.Windows.Forms.CheckBox();
             this.comboBoxMapType = new System.Windows.Forms.ComboBox();
@@ -161,24 +147,23 @@
             this.loadAndAppendToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveWPFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadKMLFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.loadSHPFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pOIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.poiaddToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.poideleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.poieditToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.trackerHomeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.flyToHereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.splineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.modifyAltToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.enterUTMCoordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.trackBar1 = new MissionPlanner.Controls.MyTrackBar();
             this.label11 = new System.Windows.Forms.Label();
             this.panelBASE = new System.Windows.Forms.Panel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.enterUTMCoordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.Commands)).BeginInit();
             this.panel5.SuspendLayout();
             this.panel1.SuspendLayout();
-            this.panel2.SuspendLayout();
             this.panelWaypoints.SuspendLayout();
             this.panelAction.SuspendLayout();
             this.panelMap.SuspendLayout();
@@ -314,7 +299,7 @@
             // 
             this.Up.DefaultCellStyle = dataGridViewCellStyle3;
             resources.ApplyResources(this.Up, "Up");
-            this.Up.Image = global::MissionPlanner.Properties.Resources.up;
+            this.Up.Image = ((System.Drawing.Image)(resources.GetObject("Up.Image")));
             this.Up.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
             this.Up.Name = "Up";
             // 
@@ -323,7 +308,7 @@
             dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             this.Down.DefaultCellStyle = dataGridViewCellStyle4;
             resources.ApplyResources(this.Down, "Down");
-            this.Down.Image = global::MissionPlanner.Properties.Resources.down;
+            this.Down.Image = ((System.Drawing.Image)(resources.GetObject("Down.Image")));
             this.Down.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
             this.Down.Name = "Down";
             // 
@@ -469,7 +454,7 @@
             dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             this.dataGridViewImageColumn1.DefaultCellStyle = dataGridViewCellStyle7;
             resources.ApplyResources(this.dataGridViewImageColumn1, "dataGridViewImageColumn1");
-            this.dataGridViewImageColumn1.Image = global::MissionPlanner.Properties.Resources.up;
+            this.dataGridViewImageColumn1.Image = ((System.Drawing.Image)(resources.GetObject("dataGridViewImageColumn1.Image")));
             this.dataGridViewImageColumn1.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
             this.dataGridViewImageColumn1.Name = "dataGridViewImageColumn1";
             // 
@@ -478,7 +463,7 @@
             dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             this.dataGridViewImageColumn2.DefaultCellStyle = dataGridViewCellStyle8;
             resources.ApplyResources(this.dataGridViewImageColumn2, "dataGridViewImageColumn2");
-            this.dataGridViewImageColumn2.Image = global::MissionPlanner.Properties.Resources.down;
+            this.dataGridViewImageColumn2.Image = ((System.Drawing.Image)(resources.GetObject("dataGridViewImageColumn2.Image")));
             this.dataGridViewImageColumn2.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
             this.dataGridViewImageColumn2.Name = "dataGridViewImageColumn2";
             // 
@@ -487,106 +472,14 @@
             resources.ApplyResources(this.label6, "label6");
             this.label6.Name = "label6";
             // 
-            // panel2
+            // coords1
             // 
-            resources.ApplyResources(this.panel2, "panel2");
-            this.panel2.Controls.Add(this.label16);
-            this.panel2.Controls.Add(this.txt_mouse_mgrs);
-            this.panel2.Controls.Add(this.label15);
-            this.panel2.Controls.Add(this.txt_mouse_utmzone);
-            this.panel2.Controls.Add(this.label14);
-            this.panel2.Controls.Add(this.label12);
-            this.panel2.Controls.Add(this.label13);
-            this.panel2.Controls.Add(this.txt_mouse_utmy);
-            this.panel2.Controls.Add(this.txt_mouse_utmx);
-            this.panel2.Controls.Add(this.label7);
-            this.panel2.Controls.Add(this.label8);
-            this.panel2.Controls.Add(this.label9);
-            this.panel2.Controls.Add(this.label10);
-            this.panel2.Controls.Add(this.TXT_mousealt);
-            this.panel2.Controls.Add(this.TXT_mouselong);
-            this.panel2.Controls.Add(this.TXT_mouselat);
-            this.panel2.Name = "panel2";
-            // 
-            // label16
-            // 
-            resources.ApplyResources(this.label16, "label16");
-            this.label16.Name = "label16";
-            // 
-            // txt_mouse_mgrs
-            // 
-            resources.ApplyResources(this.txt_mouse_mgrs, "txt_mouse_mgrs");
-            this.txt_mouse_mgrs.Name = "txt_mouse_mgrs";
-            // 
-            // label15
-            // 
-            resources.ApplyResources(this.label15, "label15");
-            this.label15.Name = "label15";
-            // 
-            // txt_mouse_utmzone
-            // 
-            resources.ApplyResources(this.txt_mouse_utmzone, "txt_mouse_utmzone");
-            this.txt_mouse_utmzone.Name = "txt_mouse_utmzone";
-            // 
-            // label14
-            // 
-            resources.ApplyResources(this.label14, "label14");
-            this.label14.Name = "label14";
-            // 
-            // label12
-            // 
-            resources.ApplyResources(this.label12, "label12");
-            this.label12.Name = "label12";
-            // 
-            // label13
-            // 
-            resources.ApplyResources(this.label13, "label13");
-            this.label13.Name = "label13";
-            // 
-            // txt_mouse_utmy
-            // 
-            resources.ApplyResources(this.txt_mouse_utmy, "txt_mouse_utmy");
-            this.txt_mouse_utmy.Name = "txt_mouse_utmy";
-            // 
-            // txt_mouse_utmx
-            // 
-            resources.ApplyResources(this.txt_mouse_utmx, "txt_mouse_utmx");
-            this.txt_mouse_utmx.Name = "txt_mouse_utmx";
-            // 
-            // label7
-            // 
-            resources.ApplyResources(this.label7, "label7");
-            this.label7.Name = "label7";
-            // 
-            // label8
-            // 
-            resources.ApplyResources(this.label8, "label8");
-            this.label8.Name = "label8";
-            // 
-            // label9
-            // 
-            resources.ApplyResources(this.label9, "label9");
-            this.label9.Name = "label9";
-            // 
-            // label10
-            // 
-            resources.ApplyResources(this.label10, "label10");
-            this.label10.Name = "label10";
-            // 
-            // TXT_mousealt
-            // 
-            resources.ApplyResources(this.TXT_mousealt, "TXT_mousealt");
-            this.TXT_mousealt.Name = "TXT_mousealt";
-            // 
-            // TXT_mouselong
-            // 
-            resources.ApplyResources(this.TXT_mouselong, "TXT_mouselong");
-            this.TXT_mouselong.Name = "TXT_mouselong";
-            // 
-            // TXT_mouselat
-            // 
-            resources.ApplyResources(this.TXT_mouselat, "TXT_mouselat");
-            this.TXT_mouselat.Name = "TXT_mouselat";
+            this.coords1.Alt = 0D;
+            this.coords1.Lat = 0D;
+            this.coords1.Lng = 0D;
+            resources.ApplyResources(this.coords1, "coords1");
+            this.coords1.Name = "coords1";
+            this.coords1.Vertical = true;
             // 
             // lbl_status
             // 
@@ -666,11 +559,13 @@
             this.panelAction.CaptionFont = new System.Drawing.Font("Segoe UI", 11.75F, System.Drawing.FontStyle.Bold);
             this.panelAction.CaptionHeight = 21;
             this.panelAction.ColorScheme = BSE.Windows.Forms.ColorScheme.Custom;
+            this.panelAction.Controls.Add(this.BUT_saveWPFile);
+            this.panelAction.Controls.Add(this.BUT_loadwpfile);
+            this.panelAction.Controls.Add(this.coords1);
             this.panelAction.Controls.Add(this.lnk_kml);
             this.panelAction.Controls.Add(this.chk_grid);
             this.panelAction.Controls.Add(this.panel5);
             this.panelAction.Controls.Add(this.panel1);
-            this.panelAction.Controls.Add(this.panel2);
             this.panelAction.Controls.Add(this.comboBoxMapType);
             this.panelAction.Controls.Add(this.lbl_status);
             this.panelAction.CustomColors.BorderColor = System.Drawing.Color.Black;
@@ -695,6 +590,20 @@
             this.panelAction.ToolTipTextExpandIconPanelCollapsed = null;
             this.panelAction.ToolTipTextExpandIconPanelExpanded = null;
             // 
+            // BUT_saveWPFile
+            // 
+            resources.ApplyResources(this.BUT_saveWPFile, "BUT_saveWPFile");
+            this.BUT_saveWPFile.Name = "BUT_saveWPFile";
+            this.BUT_saveWPFile.UseVisualStyleBackColor = true;
+            this.BUT_saveWPFile.Click += new System.EventHandler(this.BUT_saveWPFile_Click);
+            // 
+            // BUT_loadwpfile
+            // 
+            resources.ApplyResources(this.BUT_loadwpfile, "BUT_loadwpfile");
+            this.BUT_loadwpfile.Name = "BUT_loadwpfile";
+            this.BUT_loadwpfile.UseVisualStyleBackColor = true;
+            this.BUT_loadwpfile.Click += new System.EventHandler(this.BUT_loadwpfile_Click);
+            // 
             // lnk_kml
             // 
             resources.ApplyResources(this.lnk_kml, "lnk_kml");
@@ -711,9 +620,9 @@
             // 
             // comboBoxMapType
             // 
-            resources.ApplyResources(this.comboBoxMapType, "comboBoxMapType");
             this.comboBoxMapType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxMapType.FormattingEnabled = true;
+            resources.ApplyResources(this.comboBoxMapType, "comboBoxMapType");
             this.comboBoxMapType.Name = "comboBoxMapType";
             this.toolTip1.SetToolTip(this.comboBoxMapType, resources.GetString("comboBoxMapType.ToolTip"));
             // 
@@ -794,7 +703,6 @@
             this.pOIToolStripMenuItem,
             this.trackerHomeToolStripMenuItem,
             this.flyToHereToolStripMenuItem,
-            this.splineToolStripMenuItem,
             this.modifyAltToolStripMenuItem,
             this.enterUTMCoordToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
@@ -1118,7 +1026,8 @@
             this.loadWPFileToolStripMenuItem,
             this.loadAndAppendToolStripMenuItem,
             this.saveWPFileToolStripMenuItem,
-            this.loadKMLFileToolStripMenuItem});
+            this.loadKMLFileToolStripMenuItem,
+            this.loadSHPFileToolStripMenuItem});
             this.fileLoadSaveToolStripMenuItem.Name = "fileLoadSaveToolStripMenuItem";
             resources.ApplyResources(this.fileLoadSaveToolStripMenuItem, "fileLoadSaveToolStripMenuItem");
             // 
@@ -1145,6 +1054,12 @@
             this.loadKMLFileToolStripMenuItem.Name = "loadKMLFileToolStripMenuItem";
             resources.ApplyResources(this.loadKMLFileToolStripMenuItem, "loadKMLFileToolStripMenuItem");
             this.loadKMLFileToolStripMenuItem.Click += new System.EventHandler(this.loadKMLFileToolStripMenuItem_Click);
+            // 
+            // loadSHPFileToolStripMenuItem
+            // 
+            this.loadSHPFileToolStripMenuItem.Name = "loadSHPFileToolStripMenuItem";
+            resources.ApplyResources(this.loadSHPFileToolStripMenuItem, "loadSHPFileToolStripMenuItem");
+            this.loadSHPFileToolStripMenuItem.Click += new System.EventHandler(this.loadSHPFileToolStripMenuItem_Click);
             // 
             // pOIToolStripMenuItem
             // 
@@ -1184,23 +1099,23 @@
             this.flyToHereToolStripMenuItem.Name = "flyToHereToolStripMenuItem";
             resources.ApplyResources(this.flyToHereToolStripMenuItem, "flyToHereToolStripMenuItem");
             // 
-            // splineToolStripMenuItem
-            // 
-            this.splineToolStripMenuItem.Name = "splineToolStripMenuItem";
-            resources.ApplyResources(this.splineToolStripMenuItem, "splineToolStripMenuItem");
-            this.splineToolStripMenuItem.Click += new System.EventHandler(this.splineToolStripMenuItem_Click);
-            // 
             // modifyAltToolStripMenuItem
             // 
             this.modifyAltToolStripMenuItem.Name = "modifyAltToolStripMenuItem";
             resources.ApplyResources(this.modifyAltToolStripMenuItem, "modifyAltToolStripMenuItem");
             this.modifyAltToolStripMenuItem.Click += new System.EventHandler(this.modifyAltToolStripMenuItem_Click);
             // 
+            // enterUTMCoordToolStripMenuItem
+            // 
+            this.enterUTMCoordToolStripMenuItem.Name = "enterUTMCoordToolStripMenuItem";
+            resources.ApplyResources(this.enterUTMCoordToolStripMenuItem, "enterUTMCoordToolStripMenuItem");
+            this.enterUTMCoordToolStripMenuItem.Click += new System.EventHandler(this.enterUTMCoordToolStripMenuItem_Click);
+            // 
             // trackBar1
             // 
             resources.ApplyResources(this.trackBar1, "trackBar1");
             this.trackBar1.LargeChange = 0.005F;
-            this.trackBar1.Maximum = 19F;
+            this.trackBar1.Maximum = 24F;
             this.trackBar1.Minimum = 1F;
             this.trackBar1.Name = "trackBar1";
             this.trackBar1.SmallChange = 0.001F;
@@ -1229,12 +1144,6 @@
             this.timer1.Interval = 1200;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // enterUTMCoordToolStripMenuItem
-            // 
-            this.enterUTMCoordToolStripMenuItem.Name = "enterUTMCoordToolStripMenuItem";
-            resources.ApplyResources(this.enterUTMCoordToolStripMenuItem, "enterUTMCoordToolStripMenuItem");
-            this.enterUTMCoordToolStripMenuItem.Click += new System.EventHandler(this.enterUTMCoordToolStripMenuItem_Click);
-            // 
             // FlightPlanner
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1249,8 +1158,6 @@
             this.panel5.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
             this.panelWaypoints.ResumeLayout(false);
             this.panelWaypoints.PerformLayout();
             this.panelAction.ResumeLayout(false);
@@ -1280,14 +1187,6 @@
         private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn1;
         private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn2;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.TextBox TXT_mousealt;
-        private System.Windows.Forms.TextBox TXT_mouselong;
-        private System.Windows.Forms.TextBox TXT_mouselat;
         private System.Windows.Forms.Label lbl_status;
         private System.Windows.Forms.DataGridView Commands;
         private System.Windows.Forms.CheckBox CHK_geheight;
@@ -1358,15 +1257,6 @@
         private System.Windows.Forms.ToolStripMenuItem loadPolygonToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem areaToolStripMenuItem;
         public System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
-        private System.Windows.Forms.Label label14;
-        private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.TextBox txt_mouse_utmy;
-        private System.Windows.Forms.TextBox txt_mouse_utmx;
-        private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.TextBox txt_mouse_utmzone;
-        private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.TextBox txt_mouse_mgrs;
         private System.Windows.Forms.CheckBox chk_grid;
         private System.Windows.Forms.ToolStripMenuItem insertWpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem rallyPointsToolStripMenuItem;
@@ -1376,7 +1266,6 @@
         private System.Windows.Forms.ToolStripMenuItem clearRallyPointsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem loadKMLFileToolStripMenuItem;
         private System.Windows.Forms.LinkLabel lnk_kml;
-        private System.Windows.Forms.ToolStripMenuItem splineToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem modifyAltToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveToFileToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem loadFromFileToolStripMenuItem1;
@@ -1402,5 +1291,9 @@
         private System.Windows.Forms.ToolStripMenuItem poideleteToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem poieditToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem enterUTMCoordToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem loadSHPFileToolStripMenuItem;
+        private Controls.Coords coords1;
+        private Controls.MyButton BUT_loadwpfile;
+        private Controls.MyButton BUT_saveWPFile;
     }
 }

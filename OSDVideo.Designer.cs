@@ -34,13 +34,15 @@
             this.txt_tlog = new System.Windows.Forms.TextBox();
             this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.trackBar_mediapos = new System.Windows.Forms.TrackBar();
-            this.BUT_tlogfile = new Controls.MyButton();
-            this.hud1 = new Controls.HUD();
+            this.BUT_tlogfile = new MissionPlanner.Controls.MyButton();
+            this.hud1 = new MissionPlanner.Controls.HUD();
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
-            this.BUT_start = new Controls.MyButton();
-            this.BUT_vidfile = new Controls.MyButton();
+            this.BUT_start = new MissionPlanner.Controls.MyButton();
+            this.BUT_vidfile = new MissionPlanner.Controls.MyButton();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.CHK_fullres = new System.Windows.Forms.CheckBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar_mediapos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
@@ -85,15 +87,11 @@
             // 
             // BUT_tlogfile
             // 
-            this.BUT_tlogfile.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
-            this.BUT_tlogfile.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
             this.BUT_tlogfile.Location = new System.Drawing.Point(334, 38);
             this.BUT_tlogfile.Name = "BUT_tlogfile";
-            this.BUT_tlogfile.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
             this.BUT_tlogfile.Size = new System.Drawing.Size(75, 19);
             this.BUT_tlogfile.TabIndex = 6;
             this.BUT_tlogfile.Text = "Browse Tlog";
-            this.BUT_tlogfile.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_tlogfile.UseVisualStyleBackColor = true;
             this.BUT_tlogfile.Click += new System.EventHandler(this.BUT_tlogfile_Click);
             // 
@@ -107,6 +105,7 @@
             this.hud1.BackColor = System.Drawing.Color.Black;
             this.hud1.batterylevel = 0F;
             this.hud1.batteryremaining = 0F;
+            this.hud1.connected = false;
             this.hud1.current = 0F;
             this.hud1.DataBindings.Add(new System.Windows.Forms.Binding("airspeed", this.bindingSource1, "airspeed", true));
             this.hud1.DataBindings.Add(new System.Windows.Forms.Binding("alt", this.bindingSource1, "alt", true));
@@ -147,8 +146,11 @@
             this.hud1.hudcolor = System.Drawing.Color.White;
             this.hud1.linkqualitygcs = 100F;
             this.hud1.Location = new System.Drawing.Point(13, 115);
+            this.hud1.lowairspeed = false;
+            this.hud1.lowgroundspeed = false;
             this.hud1.lowvoltagealert = false;
             this.hud1.message = "";
+            this.hud1.messagetime = new System.DateTime(((long)(0)));
             this.hud1.mode = "Manual";
             this.hud1.Name = "hud1";
             this.hud1.navpitch = 0F;
@@ -156,6 +158,7 @@
             this.hud1.opengl = true;
             this.hud1.pitch = 0F;
             this.hud1.roll = 0F;
+            this.hud1.Russian = false;
             this.hud1.Size = new System.Drawing.Size(832, 448);
             this.hud1.status = false;
             this.hud1.streamjpg = ((System.IO.MemoryStream)(resources.GetObject("hud1.streamjpg")));
@@ -175,29 +178,21 @@
             // 
             // BUT_start
             // 
-            this.BUT_start.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
-            this.BUT_start.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
             this.BUT_start.Location = new System.Drawing.Point(772, 29);
             this.BUT_start.Name = "BUT_start";
-            this.BUT_start.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
             this.BUT_start.Size = new System.Drawing.Size(75, 19);
             this.BUT_start.TabIndex = 3;
             this.BUT_start.Text = "Start";
-            this.BUT_start.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_start.UseVisualStyleBackColor = true;
             this.BUT_start.Click += new System.EventHandler(this.BUT_start_Click);
             // 
             // BUT_vidfile
             // 
-            this.BUT_vidfile.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
-            this.BUT_vidfile.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
             this.BUT_vidfile.Location = new System.Drawing.Point(334, 13);
             this.BUT_vidfile.Name = "BUT_vidfile";
-            this.BUT_vidfile.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
             this.BUT_vidfile.Size = new System.Drawing.Size(75, 19);
             this.BUT_vidfile.TabIndex = 2;
             this.BUT_vidfile.Text = "Browse Video";
-            this.BUT_vidfile.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_vidfile.UseVisualStyleBackColor = true;
             this.BUT_vidfile.Click += new System.EventHandler(this.BUT_vidfile_Click);
             // 
@@ -208,6 +203,7 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(118, 294);
             this.textBox1.TabIndex = 9;
+            this.textBox1.Text = "Please make sure you have installed\r\nffdshow\r\nand haali media splitter.";
             // 
             // CHK_fullres
             // 
@@ -220,11 +216,31 @@
             this.CHK_fullres.UseVisualStyleBackColor = true;
             this.CHK_fullres.CheckedChanged += new System.EventHandler(this.CHK_fullres_CheckedChanged);
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(574, 45);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(109, 13);
+            this.label1.TabIndex = 11;
+            this.label1.Text = "time offset in seconds";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(413, 96);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(88, 13);
+            this.label2.TabIndex = 12;
+            this.label2.Text = "playback timeline";
+            // 
             // OSDVideo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(984, 574);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.CHK_fullres);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.trackBar_mediapos);
@@ -259,5 +275,7 @@
         private System.Windows.Forms.TrackBar trackBar_mediapos;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.CheckBox CHK_fullres;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
     }
 }

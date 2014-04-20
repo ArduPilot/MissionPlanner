@@ -37,7 +37,7 @@
     <ApplicationIcon>3dr.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>TRACE;DEBUG</DefineConstants>
     <UseVSHostingProcess>true</UseVSHostingProcess>
@@ -98,6 +98,9 @@
     </Compile>
     <Compile Include="Config.Designer.cs">
       <DependentUpon>Config.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MAVLinkSerialPort.cs">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="MainV2.cs" />
     <Compile Include="Program.cs" />

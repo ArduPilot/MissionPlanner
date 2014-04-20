@@ -70,11 +70,13 @@ namespace MissionPlanner.Wizard
 
             MainV2.comPort.setParam("MAG_ENABLE", 1);
 
-            CustomMessageBox.Show("Data will be collected for 60 seconds, Please click ok and move the apm around all axises");
+            CustomMessageBox.Show("Please click ok and move the apm around all axises");
 
-            ProgressReporterDialogue prd = new ProgressReporterDialogue();
+            ProgressReporterSphere prd = new ProgressReporterSphere();
 
             Utilities.ThemeManager.ApplyThemeTo(prd);
+
+            prd.btnCancel.Text = "Done";
 
             prd.DoWork += prd_DoWork;
 
@@ -100,6 +102,8 @@ namespace MissionPlanner.Wizard
             float oldmy = 0;
             float oldmz = 0;
 
+            ((ProgressReporterSphere)sender).sphere1.Clear();
+
             while (deadline > DateTime.Now)
             {
                 double timeremaining = (deadline - DateTime.Now).TotalSeconds;
@@ -111,8 +115,9 @@ namespace MissionPlanner.Wizard
                     MainV2.comPort.MAV.cs.ratesensors = backupratesens;
                     MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RAW_SENSORS, MainV2.comPort.MAV.cs.ratesensors);
 
-                    e.CancelAcknowledged = true;
-                    return;
+                    e.CancelAcknowledged = false;
+                    e.CancelRequested = false;
+                    break;
                 }
 
                 if (oldmx != MainV2.comPort.MAV.cs.mx &&
@@ -127,6 +132,8 @@ namespace MissionPlanner.Wizard
                     oldmx = MainV2.comPort.MAV.cs.mx;
                     oldmy = MainV2.comPort.MAV.cs.my;
                     oldmz = MainV2.comPort.MAV.cs.mz;
+
+                    ((ProgressReporterSphere)sender).sphere1.AddPoint(new OpenTK.Vector3(oldmx,oldmy,oldmz));
                 }
             }
 
@@ -141,7 +148,63 @@ namespace MissionPlanner.Wizard
                 return;
             }
 
-            ans = MagCalib.LeastSq(data);
+            bool ellipsoid = false;
+
+            if (MainV2.comPort.MAV.param.ContainsKey("MAG_DIA"))
+            {
+                ellipsoid = true;
+            }
+
+            ans = MagCalib.LeastSq(data, ellipsoid);
+
+            //find the mean radius
+            HIL.Vector3 centre = new HIL.Vector3((float)-ans[0], (float)-ans[1], (float)-ans[2]);
+            HIL.Vector3 point;
+            float radius = 0;
+            for (int i = 0; i < data.Count; i++)
+            {
+                point = new HIL.Vector3(data[i].Item1, data[i].Item2, data[i].Item3);
+                radius += (float)(point - centre).length();
+            }
+            radius /= data.Count;
+
+            //test that we can find one point near a set of points all around the sphere surface
+            int factor = 3; // 9 point check 3x3
+            float max_distance = radius / 3; //pretty generouse
+            for (int j = 0; j < factor; j++)
+            {
+                double theta = (Math.PI * (j + 0.5)) / factor;
+
+                for (int i = 0; i < factor; i++)
+                {
+                    double phi = (2 * Math.PI * i) / factor;
+
+                    HIL.Vector3 point_sphere = new HIL.Vector3(
+                        (float)(Math.Sin(theta) * Math.Cos(phi) * radius),
+                        (float)(Math.Sin(theta) * Math.Sin(phi) * radius),
+                        (float)(Math.Cos(theta) * radius)) + centre;
+
+                    Console.WriteLine("{0} {1}", theta * rad2deg, phi * rad2deg);
+
+                    bool found = false;
+                    for (int k = 0; k < data.Count; k++)
+                    {
+                        point = new HIL.Vector3(data[k].Item1, data[k].Item2, data[k].Item3);
+                        double d = (point_sphere - point).length();
+                        if (d < max_distance)
+                        {
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found)
+                    {
+                        e.ErrorMessage = "Data missing for some directions";
+                        ans = null;
+                        return;
+                    }
+                }
+            }
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

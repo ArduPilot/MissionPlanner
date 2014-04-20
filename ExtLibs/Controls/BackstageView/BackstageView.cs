@@ -35,8 +35,6 @@ namespace MissionPlanner.Controls.BackstageView
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
         public BackstageViewCollection Pages { get { return _items; } }
 
-        bool firstrun = true;
-
         /// <summary>
         /// Show advanced items or not
         /// </summary>

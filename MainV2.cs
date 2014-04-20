@@ -102,8 +102,13 @@ namespace MissionPlanner
             {
                 _advanced = value;
                 MissionPlanner.Controls.BackstageView.BackstageView.Advanced = value;
+
+                if (AdvancedChanged != null)
+                    AdvancedChanged(null ,new EventArgs());
             }
         }
+
+        public static event EventHandler AdvancedChanged;
 
         /// <summary>
         /// Active Comport interface
@@ -240,6 +245,20 @@ namespace MissionPlanner
         /// </summary>
         static internal ConnectionControl _connectionControl;
 
+        public void updateAdvanced(object sender, EventArgs e)
+        {
+            if (Advanced == false)
+            {
+                MenuTerminal.Visible = false;
+                MenuSimulation.Visible = false;
+            }
+            else
+            {
+                MenuTerminal.Visible = true;
+                MenuSimulation.Visible = true;
+            }
+        }
+
         public MainV2()
         {
             log.Info("Mainv2 ctor");
@@ -260,6 +279,8 @@ namespace MissionPlanner
 
             POIs.CollectionChanged += POIs_CollectionChanged;
 
+            AdvancedChanged += updateAdvanced;
+
             // full screen
             //this.TopMost = true;
             //this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -268,7 +289,6 @@ namespace MissionPlanner
             _connectionControl = toolStripConnectionControl.ConnectionControl;
             _connectionControl.CMB_baudrate.TextChanged += this.CMB_baudrate_TextChanged;
             _connectionControl.CMB_serialport.SelectedIndexChanged += this.CMB_serialport_SelectedIndexChanged;
-            _connectionControl.CMB_serialport.Enter += this.CMB_serialport_Enter;
             _connectionControl.CMB_serialport.Click += this.CMB_serialport_Click;
             _connectionControl.TOOL_APMFirmware.SelectedIndexChanged += this.TOOL_APMFirmware_SelectedIndexChanged;
 
@@ -279,6 +299,9 @@ namespace MissionPlanner
             MONO = (t != null);
 
             speechEngine = new Speech();
+
+            Warnings.CustomWarning.defaultsrc = comPort.MAV.cs;
+            Warnings.WarningEngine.Start();
 
             // proxy loader - dll load now instead of on config form load
             new Transition(new TransitionType_EaseInEaseOut(2000));
@@ -371,6 +394,26 @@ namespace MissionPlanner
                 }
             }
 
+            // load this before the other screens get loaded
+            if (MainV2.config["advancedview"] != null)
+            {
+                MainV2.Advanced = bool.Parse(config["advancedview"].ToString());
+            }
+            else
+            {
+                // existing user - enable advanced view
+                if (MainV2.config.Count > 3)
+                {
+                    config["advancedview"] = true.ToString();
+                    MainV2.Advanced = true;
+                }
+                else
+                {
+                    config["advancedview"] = false.ToString();
+                }
+            }
+
+
             try
             {
                 log.Info("Create FD");
@@ -448,24 +491,6 @@ namespace MissionPlanner
 
                 if (MainV2.config["analyticsoptout"] != null)
                     MissionPlanner.Utilities.Tracking.OptOut = bool.Parse(config["analyticsoptout"].ToString());
-
-                if (MainV2.config["advancedview"] != null)
-                {
-                    MainV2.Advanced = bool.Parse(config["advancedview"].ToString());
-                }
-                else
-                {
-                    // existing user - enable advanced view
-                    if (MainV2.config.Count > 3)
-                    {
-                        config["advancedview"] = true.ToString();
-                        MainV2.Advanced = true;
-                    }
-                    else
-                    {
-                        config["advancedview"] = false.ToString();
-                    }
-                }
 
                 try
                 {
@@ -944,8 +969,12 @@ namespace MissionPlanner
                     // load wps on connect option.
                     if (config["loadwpsonconnect"] != null && bool.Parse(config["loadwpsonconnect"].ToString()) == true)
                     {
-                        MenuFlightPlanner_Click(null, null);
-                        FlightPlanner.BUT_read_Click(null, null);
+                        // only do it if we are connected.
+                        if (comPort.BaseStream.IsOpen)
+                        {
+                            MenuFlightPlanner_Click(null, null);
+                            FlightPlanner.BUT_read_Click(null, null);
+                        }
                     }
 
                     // set connected icon
@@ -1195,9 +1224,15 @@ namespace MissionPlanner
                                 }
                                 */
                                 //                                Console.WriteLine(DateTime.Now.Millisecond + " {0} {1} {2} {3} {4}", rc.chan1_raw, rc.chan2_raw, rc.chan3_raw, rc.chan4_raw,rate);
-                                comPort.sendPacket(rc);
-                                count++;
-                                lastjoystick = DateTime.Now;
+
+                                Console.WriteLine("Joystick btw " + comPort.BaseStream.BytesToWrite);
+
+                                if (comPort.BaseStream.BytesToWrite < 50)
+                                {
+                                    comPort.sendPacket(rc);
+                                    count++;
+                                    lastjoystick = DateTime.Now;
+                                }
                             }
 
                         }
@@ -2052,6 +2087,8 @@ namespace MissionPlanner
 
             Utilities.adsb.Stop();
 
+            Warnings.WarningEngine.Stop();
+
             // shutdown threads
             GCSViews.FlightData.threadrun = 0;
 
@@ -2066,7 +2103,7 @@ namespace MissionPlanner
             // shutdown local thread
             serialThread = false;
 
-            SerialThreadrunner.WaitOne();
+          //  SerialThreadrunner.WaitOne();
 
             joystickthreadrun = false;
 
@@ -2225,12 +2262,6 @@ namespace MissionPlanner
             catch (Exception)
             {
             }
-        }
-
-        private void CMB_serialport_Enter(object sender, EventArgs e)
-        {
-            int whywasthishere;
-           // CMB_serialport_Click(sender, e);
         }
 
         private void MainMenu_MouseLeave(object sender, EventArgs e)

@@ -10,6 +10,7 @@ using log4net;
 using MissionPlanner.Controls;
 using System.Collections.Generic;
 using System.Net;
+using System.Globalization;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
@@ -262,8 +263,26 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         Params[e.ColumnIndex, e.RowIndex].Value = "-1";
                 }
 
+                double min = 0;
+                double max = 0;
+
+                string value = (string)Params[e.ColumnIndex, e.RowIndex].Value;
+
+                float newvalue = float.Parse(value.Replace(',', '.'), CultureInfo.InvariantCulture);
+
+                if (ParameterMetaDataRepository.GetParameterRange(Params[Command.Index, e.RowIndex].Value.ToString(), ref min, ref max))
+                {
+                    if (newvalue > max || newvalue < min)
+                    {
+                        if (CustomMessageBox.Show(Params[Command.Index, e.RowIndex].Value.ToString()+ " value is out of range. Do you want to continue?", "Out of range", MessageBoxButtons.YesNo) == DialogResult.No)
+                        {
+                            return;
+                        }
+                    }
+                }
+
                 Params[e.ColumnIndex, e.RowIndex].Style.BackColor = Color.Green;
-                _changes[Params[0, e.RowIndex].Value] = float.Parse(((string)Params[e.ColumnIndex, e.RowIndex].Value).ToString());
+                _changes[Params[Command.Index, e.RowIndex].Value] = float.Parse(((string)Params[e.ColumnIndex, e.RowIndex].Value).ToString());
             }
             catch (Exception)
             {
@@ -343,7 +362,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         string units = ParameterMetaDataRepository.GetParameterMetaData(value, ParameterMetaDataConstants.Units);
 
                         Params.Rows[Params.RowCount - 1].Cells[Units.Index].Value = units;
-                        Params.Rows[Params.RowCount - 1].Cells[Options.Index].Value = range + options;
+                        Params.Rows[Params.RowCount - 1].Cells[Options.Index].Value = range + options.Replace(","," ");
                         Params.Rows[Params.RowCount - 1].Cells[Desc.Index].Value = metaDataDescription;
 
                     }
@@ -376,6 +395,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             this.ResumeLayout();
 
+            Common.MessageShowAgain("Raw Param Warning", "All values on this screen are not min/max checked. Please double check your input.\n Please use Standard/Advanced Params for the safe settings");
 
             CMB_paramfiles.Enabled = false;
             BUT_paramfileload.Enabled = false;
@@ -441,9 +461,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             Form paramCompareForm = new ParamCompare(Params, MainV2.comPort.MAV.param, param2);
 
             ThemeManager.ApplyThemeTo(paramCompareForm);
-            paramCompareForm.ShowDialog();
-
-            CustomMessageBox.Show("Loaded parameters, please make sure you write them!", "Loaded");
+            if (paramCompareForm.ShowDialog() == DialogResult.OK)
+            {
+                CustomMessageBox.Show("Loaded parameters, please make sure you write them!", "Loaded");
+            }
 
             // no activate the user needs to click write.
             //this.Activate();

@@ -279,6 +279,11 @@ namespace MissionPlanner.GCSViews
             catch { }
 
             MainV2.comPort.ParamListChanged += FlightData_ParentChanged;
+
+            MainV2.AdvancedChanged += MainV2_AdvancedChanged;
+
+            // first run
+            MainV2_AdvancedChanged(null, null);
         }
    
         void tabStatus_Resize(object sender, EventArgs e)
@@ -386,6 +391,35 @@ namespace MissionPlanner.GCSViews
             ThemeManager.ApplyThemeTo(tabStatus);
 
             //   tabStatus.ResumeLayout();
+        }
+
+        private void MainV2_AdvancedChanged(object sender, EventArgs e)
+        {
+            if (!MainV2.Advanced)
+            {
+                if (!tabControlactions.TabPages.Contains(tabActionsSimple))
+                    tabControlactions.TabPages.Add(tabActionsSimple);
+                tabControlactions.TabPages.Remove(tabGauges);
+                tabControlactions.TabPages.Remove(tabActions);
+                tabControlactions.TabPages.Remove(tabStatus);
+                tabControlactions.TabPages.Remove(tabServo);
+                tabControlactions.TabPages.Remove(tabScripts);
+
+                tabControlactions.Invalidate();
+            }
+            else
+            {
+                tabControlactions.TabPages.Remove(tabGauges);
+                tabControlactions.TabPages.Remove(tabActionsSimple);
+                if (!tabControlactions.TabPages.Contains(tabActions))
+                    tabControlactions.TabPages.Add(tabActions);
+                if (!tabControlactions.TabPages.Contains(tabStatus))
+                    tabControlactions.TabPages.Add(tabStatus);
+                if (!tabControlactions.TabPages.Contains(tabServo))
+                    tabControlactions.TabPages.Add(tabServo);
+                if (!tabControlactions.TabPages.Contains(tabScripts))
+                    tabControlactions.TabPages.Add(tabScripts);
+            }
         }
 
         public void Activate()
@@ -1022,13 +1056,19 @@ namespace MissionPlanner.GCSViews
 
                             lock(MainV2.instance.adsbPlanes) 
                             {
-                                //routes.Markers.ForEach(x => { if (x.ToolTipText.ToString().Contains("ICAO")) routes.Markers.Remove(x); });
+                                for (int a = (routes.Markers.Count-1); a >= 0; a--)
+                                {
+                                    if (routes.Markers[a].ToolTipText != null && routes.Markers[a].ToolTipText.ToString().Contains("ICAO"))
+                                    {
+                                        routes.Markers.RemoveAt(a);
+                                    }
+                                }
 
                                 foreach (MissionPlanner.Utilities.adsb.PointLatLngAltHdg plla in MainV2.instance.adsbPlanes.Values)
                                 {
                                     // 30 seconds
                                     if (((DateTime)MainV2.instance.adsbPlaneAge[plla.Tag]) > DateTime.Now.AddSeconds(-30))
-                                        routes.Markers.Add(new GMapMarkerADSBPlane(plla,plla.Heading) { ToolTipText = "ICAO: " + plla.Tag, ToolTipMode = MarkerTooltipMode.OnMouseOver });
+                                        routes.Markers.Add(new GMapMarkerADSBPlane(plla,plla.Heading) { ToolTipText = "ICAO: " + plla.Tag + " " + plla.Alt.ToString("0"), ToolTipMode = MarkerTooltipMode.OnMouseOver });
                                 }
                             }
 
@@ -3051,7 +3091,7 @@ print 'Roll complete'
 
             if (File.Exists(ofd.FileName))
             {
-                List<string> log = BinaryLog.ReadLog(ofd.FileName);
+                var log = BinaryLog.ReadLog(ofd.FileName);
 
                 SaveFileDialog sfd = new SaveFileDialog();
                 sfd.Filter = "log|*.log";
@@ -3140,6 +3180,36 @@ print 'Roll complete'
                 txt_messagebox.Text = message.ToString();
 
                 messagecount = MainV2.comPort.MAV.cs.messages.Count;
+            }
+        }
+
+        private void dropOutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void BUT_loganalysis_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "*.log|*.log";
+            ofd.ShowDialog();
+
+            if (ofd.FileName != "")
+            {
+                string xmlfile = MissionPlanner.Utilities.LogAnalyzer.CheckLogFile(ofd.FileName);
+
+                if (File.Exists(xmlfile))
+                {
+                    var out1 = MissionPlanner.Utilities.LogAnalyzer.Results(xmlfile);
+
+                    MissionPlanner.Controls.LogAnalyzer frm = new Controls.LogAnalyzer(out1);
+
+                    frm.Show();
+                }
+                else
+                {
+                    CustomMessageBox.Show("Bad input file");
+                }
             }
         }
     }

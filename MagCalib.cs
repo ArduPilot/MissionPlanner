@@ -11,6 +11,7 @@ using netDxf.Tables;
 using netDxf.Header;
 using System.Reflection;
 using log4net;
+using MissionPlanner.HIL;
 
 namespace MissionPlanner
 {
@@ -24,7 +25,7 @@ namespace MissionPlanner
         public static void ProcessLog(int throttleThreshold = 0)
         {
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
-            openFileDialog1.Filter = "*.tlog|*.tlog|*.log|*.log";
+            openFileDialog1.Filter = "Log Files|*.tlog;*.log";
             openFileDialog1.FilterIndex = 2;
             openFileDialog1.RestoreDirectory = true;
             openFileDialog1.Multiselect = true;
@@ -58,6 +59,10 @@ namespace MissionPlanner
 
         public static double[] getOffsetsLog(string fn)
         {
+            // this is for a dxf
+            Polyline3dVertex vertex;
+            List<Polyline3dVertex> vertexes = new List<Polyline3dVertex>();
+
             List<Tuple<float, float, float>> data = new List<Tuple<float, float, float>>();
 
             List<Tuple<float, float, float>> data2 = new List<Tuple<float, float, float>>();
@@ -94,6 +99,13 @@ namespace MissionPlanner
                                magx - offsetx,
                                magy - offsety,
                                magz - offsetz));
+
+                            // fox dxf
+                            vertex = new Polyline3dVertex(new Vector3f(magx - offsetx,
+                               magy - offsety,
+                               magz - offsetz)
+                                );
+                            vertexes.Add(vertex);
                         }
                         else if (line.msgtype == "MAG2")
                         {
@@ -111,6 +123,8 @@ namespace MissionPlanner
             double[] x2 = LeastSq(data2);
 
             log.Info("Least Sq Done " + DateTime.Now);
+
+            doDXF(vertexes, x);
 
             Array.Resize<double>(ref x, 3);
 
@@ -277,6 +291,15 @@ namespace MissionPlanner
 
             log.Info("Least Sq Done " + DateTime.Now);
 
+            doDXF(vertexes, x);
+
+            Array.Resize<double>(ref x, 3);
+
+            return x;
+        }
+
+        static void doDXF(List<Polyline3dVertex> vertexes, double[] x)
+        {
             // create a dxf for those who want to "see" the calibration
             DxfDocument dxf = new DxfDocument();
 
@@ -285,12 +308,7 @@ namespace MissionPlanner
             polyline.Layer.Color.Index = 24;
             dxf.AddEntity(polyline);
 
-            Point pnt = new Point(new Vector3f(-offset.Item1, -offset.Item2, -offset.Item3));
-            pnt.Layer = new Layer("old offset");
-            pnt.Layer.Color.Index = 22;
-            dxf.AddEntity(pnt);
-
-            pnt = new Point(new Vector3f(-(float)x[0], -(float)x[1], -(float)x[2]));
+            var pnt = new Point(new Vector3f(-(float)x[0], -(float)x[1], -(float)x[2]));
             pnt.Layer = new Layer("new offset");
             pnt.Layer.Color.Index = 21;
             dxf.AddEntity(pnt);
@@ -298,10 +316,6 @@ namespace MissionPlanner
             dxf.Save("magoffset.dxf", DxfVersion.AutoCad2000);
 
             log.Info("dxf Done " + DateTime.Now);
-
-            Array.Resize<double>(ref x, 3);
-
-            return x;
         }
 
         static double avg_samples = 0;
@@ -311,13 +325,8 @@ namespace MissionPlanner
         /// </summary>
         /// <param name="data">list of x,y,z data</param>
         /// <returns>offsets</returns>
-        public static double[] LeastSq(List<Tuple<float, float, float>> data)
+        public static double[] LeastSq(List<Tuple<float, float, float>> data, bool ellipsoid = false)
         {
-            double epsg = 0.00000001;
-            double epsf = 0;
-            double epsx = 0;
-            int maxits = 0;
-
             avg_samples = 0;
             foreach (var item in data)
             {
@@ -328,19 +337,55 @@ namespace MissionPlanner
 
             log.Info("lsq avg " + avg_samples + " count " + data.Count);
 
-            double[] x = new double[] { 0, 0, 0, 1, 1, 1, avg_samples };
+            double[] x;
+
+            //
+            x = new double[] { 0, 0, 0, 0 };
+
+            x = doLSQ(data, sphere_error, x);
+
+            rad = x[3];
+
+            log.Info("lsq rad " + rad);
+
+            if (ellipsoid)
+            {
+                // offsets + diagonals
+                x = new double[] { x[0],x[1],x[2] ,1,1,1 };
+
+                x = doLSQ(data, sphere_ellipsoid_error, x);
+
+                // offsets + diagonals + offdiagonals
+                x = new double[] { x[0], x[1], x[2], x[3], x[4], x[5],0,0,0 };
+
+                x = doLSQ(data, sphere_ellipsoid_error, x);
+            }
+
+            return x;
+        }
+
+        static double[] doLSQ(List<Tuple<float, float, float>> data,Action<double[],double[],object> fitalgo, double[] x) 
+        {
+            double epsg = 0.00000001;
+            double epsf = 0;
+            double epsx = 0;
+            int maxits = 0;
 
             alglib.minlmstate state;
             alglib.minlmreport rep;
 
             alglib.minlmcreatev(data.Count, x, 100, out state);
             alglib.minlmsetcond(state, epsg, epsf, epsx, maxits);
-            alglib.minlmoptimize(state, sphere_scale_error, null, data);
+
+            var t1 = new alglib.ndimensional_fvec(fitalgo);
+
+            alglib.minlmoptimize(state, t1, null, data);
+
             alglib.minlmresults(state, out x, out rep);
 
             log.InfoFormat("passes {0}", rep.iterationscount);
             log.InfoFormat("term type {0}", rep.terminationtype);
-            log.InfoFormat("ans {0}", alglib.ap.format(x, 2));
+            log.InfoFormat("ans {0}", alglib.ap.format(x, 4));
 
             return x;
         }
@@ -362,12 +407,13 @@ namespace MissionPlanner
                     MainV2.comPort.setParam("COMPASS_OFS_Y", (float)ofs[1]);
                     MainV2.comPort.setParam("COMPASS_OFS_Z", (float)ofs[2]);
                 }
-                catch { 
-                    CustomMessageBox.Show("Set Compass offset failed"); 
-                    return; 
+                catch
+                {
+                    CustomMessageBox.Show("Set Compass offset failed");
+                    return;
                 }
 
-                CustomMessageBox.Show("New offsets are " + ofs[0].ToString("0") + " " + ofs[1].ToString("0") + " " + ofs[2].ToString("0") +"\nThese have been saved for you.", "New Mag Offsets");
+                CustomMessageBox.Show("New offsets are " + ofs[0].ToString("0") + " " + ofs[1].ToString("0") + " " + ofs[2].ToString("0") + "\nThese have been saved for you.", "New Mag Offsets");
             }
             else
             {
@@ -380,12 +426,47 @@ namespace MissionPlanner
         /// <param name="value">value to process</param>
         /// <param name="min">current min</param>
         /// <param name="max">current max</param>
-        private static void setMinorMax(float value, ref float min, ref float max) 
+        private static void setMinorMax(float value, ref float min, ref float max)
         {
-            if (value > max)         
+            if (value > max)
                 max = value;
             if (value < min)
                 min = value;
+        }
+
+        static double rad = 0;
+
+        static void sphere_ellipsoid_error(double[] p1, double[] fi, object obj)
+        {
+            var offsets = new Vector3(p1[0], p1[1], p1[2]);
+            var diagonals = new Vector3(1.0, 1.0, 1.0);
+            var offdiagonals = new Vector3(0.0, 0.0, 0.0);
+            if (p1.Length >= 6)
+                diagonals = new Vector3(p1[3], p1[4], p1[5]);
+            if (p1.Length >= 8)
+                offdiagonals = new Vector3(p1[6], p1[7], p1[8]);
+
+            diagonals.x = 1.0;
+
+            int a = 0;
+            foreach (var d in (List<Tuple<float, float, float>>)obj)
+            {
+                var mag = new Vector3(d.Item1, d.Item2, d.Item3);
+                double err = rad - radius(mag, offsets, diagonals, offdiagonals);
+                fi[a] = err;
+                a++;
+            }
+        }
+
+        static double radius(Vector3 mag, Vector3 offsets, Vector3 diagonals, Vector3 offdiagonals)
+        {
+            //'''return radius give data point and offsets'''
+            Vector3 mag2 = mag + offsets;
+            var rot = new Matrix3(new Vector3(diagonals.x, offdiagonals.x, offdiagonals.y),
+                           new Vector3(offdiagonals.x, diagonals.y, offdiagonals.z),
+                           new Vector3(offdiagonals.y, offdiagonals.z, diagonals.z));
+            mag2 = rot * mag2;
+            return mag2.length();
         }
 
 
@@ -415,7 +496,11 @@ namespace MissionPlanner
             double xscale = xi[3];
             double yscale = xi[4];
             double zscale = xi[5];
-           // double avg_samples = xi[6];
+            // double avg_samples = xi[6];
+
+            // scale out of range
+            //if (xscale < 0.8 || yscale < 0.8 || zscale < 0.8)
+            //  xscale = yscale = zscale = 1;
 
             int a = 0;
             foreach (var d in (List<Tuple<float, float, float>>)obj)

@@ -462,6 +462,8 @@ namespace MissionPlanner.Log
             System.Xml.XmlTextWriter xw = new System.Xml.XmlTextWriter(Path.GetDirectoryName(filename) + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(filename) + ".gpx", Encoding.ASCII);
 
             xw.WriteStartElement("gpx");
+            xw.WriteAttributeString("creator", MainV2.instance.Text);
+            xw.WriteAttributeString("xmlns", "http://www.topografix.com/GPX/1/1");
 
             xw.WriteStartElement("trk");
 
@@ -490,12 +492,24 @@ namespace MissionPlanner.Log
             xw.WriteEndElement();
 
             int a = 0;
+            DateTime lastsample = DateTime.MinValue;
             foreach (CurrentState cs in flightdata)
             {
+                if (cs.datetime.Second != lastsample.Second)
+                {
+                    lastsample = cs.datetime;
+                }
+                else
+                {
+                    //continue;
+                }
+
                 xw.WriteStartElement("wpt");
                 xw.WriteAttributeString("lat", cs.lat.ToString(new System.Globalization.CultureInfo("en-US")));
                 xw.WriteAttributeString("lon", cs.lng.ToString(new System.Globalization.CultureInfo("en-US")));
                 xw.WriteElementString("name", (a++).ToString());
+                xw.WriteElementString("time", cs.datetime.ToString("yyyy-MM-ddTHH:mm:sszzzzzz"));
+                xw.WriteElementString("ele", cs.altasl.ToString(new System.Globalization.CultureInfo("en-US")));
                 xw.WriteEndElement();//wpt
             }
 
@@ -1396,9 +1410,19 @@ namespace MissionPlanner.Log
                             continue;
                         }
 
+
+                    
                         StreamWriter sw = new StreamWriter(Path.GetDirectoryName(logfile) + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(logfile) + "-" + wplists + ".txt");
 
                         sw.WriteLine("QGC WPL 110");
+                        try
+                        {
+                            //get mission count info 
+                            var item = mine.MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.MISSION_COUNT].ByteArrayToStructure<MAVLink.mavlink_mission_count_t>();
+                            mine.MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.MISSION_COUNT] = null;
+                            sw.WriteLine("# count packet sent to comp " + item.target_component + " sys " + item.target_system);
+                        }
+                        catch { }
                         for (ushort a = 0; a < count; a++)
                         {
                             Locationwp wp = mine.getWP(a);

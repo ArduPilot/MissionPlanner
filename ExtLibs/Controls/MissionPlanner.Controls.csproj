@@ -46,6 +46,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Lib\OpenTK.dll</HintPath>
     </Reference>
+    <Reference Include="OpenTK.GLControl, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\OpenTK.GLControl.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -171,6 +175,9 @@
     <Compile Include="ProgressReporterDialogue.designer.cs">
       <DependentUpon>ProgressReporterDialogue.cs</DependentUpon>
     </Compile>
+    <Compile Include="ProgressReporterSphere.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="ProgressStep.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -201,6 +208,9 @@
     </Compile>
     <Compile Include="RangeControl.Designer.cs">
       <DependentUpon>RangeControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Sphere.cs">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="ValuesControl.cs">
       <SubType>UserControl</SubType>
@@ -255,6 +265,9 @@
     <EmbeddedResource Include="ProgressReporterDialogue.resx">
       <DependentUpon>ProgressReporterDialogue.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ProgressReporterSphere.resx">
+      <DependentUpon>ProgressReporterSphere.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ProgressStep.resx">
       <DependentUpon>ProgressStep.cs</DependentUpon>
     </EmbeddedResource>
@@ -292,10 +305,6 @@
     <ProjectReference Include="..\GeoUtility\GeoUtility.csproj">
       <Project>{7f7994ce-823f-4a04-bbea-d0a3808ff56d}</Project>
       <Name>GeoUtility</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\GLControl\OpenTK.GLControl.csproj">
-      <Project>{a625be88-0000-0000-0000-000000000000}</Project>
-      <Name>OpenTK.GLControl</Name>
     </ProjectReference>
     <ProjectReference Include="..\Utilities\MissionPlanner.Utilities.csproj">
       <Project>{1378a66c-38e4-46f5-a05f-dc04ef7d4d16}</Project>

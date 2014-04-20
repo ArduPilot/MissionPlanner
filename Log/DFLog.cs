@@ -158,6 +158,7 @@ namespace MissionPlanner.Log
         public static List<DFItem> ReadLog(Stream fn)
         {
             Clear();
+            GC.Collect();
 
             List<DFItem> answer = new List<DFItem>();
             // current gps time
@@ -171,7 +172,7 @@ namespace MissionPlanner.Log
             int msoffset = 0;
 
 
-            log.Info("loading log " + (GC.GetTotalMemory(false) / 1024.0));
+            log.Info("loading log " + (GC.GetTotalMemory(false) / 1024.0/1024.0));
            
 
             using (StreamReader sr = new StreamReader(fn))
@@ -184,8 +185,8 @@ namespace MissionPlanner.Log
 
                         lineno++;
 
-                        line = line.Replace(",", ",");
-                        line = line.Replace(":", ":");
+                        //line = line.Replace(",", ",");
+                        //line = line.Replace(":", ":");
 
                         string[] items = line.Split(new char[] { ',', ':' }, StringSplitOptions.RemoveEmptyEntries);
 
@@ -293,7 +294,7 @@ namespace MissionPlanner.Log
                 }
             }
 
-            log.Info("loaded log " + (GC.GetTotalMemory(false) / 1024.0));
+            log.Info("loaded log " + (GC.GetTotalMemory(false) / 1024.0 / 1024.0));
 
             return answer;
         }

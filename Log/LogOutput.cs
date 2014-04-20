@@ -391,6 +391,8 @@ namespace MissionPlanner.Log
             System.Xml.XmlTextWriter xw = new System.Xml.XmlTextWriter(Path.GetDirectoryName(filename) + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(filename) + ".gpx", Encoding.ASCII);
 
             xw.WriteStartElement("gpx");
+            xw.WriteAttributeString("creator", MainV2.instance.Text);
+            xw.WriteAttributeString("xmlns", "http://www.topografix.com/GPX/1/1");
 
             xw.WriteStartElement("trk");
 

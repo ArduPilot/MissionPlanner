@@ -32,6 +32,7 @@ namespace MissionPlanner
         GMapOverlay layerpolygons;
         GMapPolygon wppoly;
         private GridPlugin plugin;
+        List<PointLatLngAlt> list = new List<PointLatLngAlt>();
         List<PointLatLngAlt> grid;
 
         Dictionary<string, camerainfo> cameras = new Dictionary<string, camerainfo>();
@@ -57,12 +58,12 @@ namespace MissionPlanner
             layerpolygons = new GMapOverlay( "polygons");
             map.Overlays.Add(layerpolygons);
 
+            plugin.Host.FPDrawnPolygon.Points.ForEach(x => { list.Add(x); });
+
             CMB_startfrom.DataSource = Enum.GetNames(typeof(Grid.StartPosition));
             CMB_startfrom.SelectedIndex = 0;
 
             // set and angle that is good
-            List<PointLatLngAlt> list = new List<PointLatLngAlt>();
-            plugin.Host.FPDrawnPolygon.Points.ForEach(x => { list.Add(x); });
             NUM_angle.Value = (decimal)((getAngleOfLongestSide(list) + 360) % 360);
 
         }
@@ -82,6 +83,10 @@ namespace MissionPlanner
                 loadsetting("grid_overlap", num_overlap);
                 loadsetting("grid_sidelap", num_sidelap);
                 loadsetting("grid_spacing", NUM_spacing);
+
+                loadsetting("grid_startfrom",CMB_startfrom);
+
+                loadsetting("grid_autotakeoff", CHK_toandland);
 
                 loadsetting("grid_advanced", CHK_advanced);
 
@@ -127,16 +132,152 @@ namespace MissionPlanner
             plugin.Host.config["grid_sidelap"] = num_sidelap.Value.ToString();
             plugin.Host.config["grid_spacing"] = NUM_spacing.Value.ToString();
 
+            plugin.Host.config["grid_startfrom"] = CMB_startfrom.Text;
+
+            plugin.Host.config["grid_autotakeoff"] = CHK_toandland.Checked.ToString();
+
             plugin.Host.config["grid_advanced"] = CHK_advanced.Checked.ToString();       
+        }
+
+        public struct GridData
+        {
+            public List<PointLatLngAlt> poly;
+            public string camera;
+            public decimal alt;
+            public decimal angle;
+            public bool camdir;
+            public decimal dist;
+            public decimal overshoot1;
+            public decimal overshoot2;
+            public decimal overlap;
+            public decimal sidelap;
+            public decimal spacing;
+            public string startfrom;
+            public bool autotakeoff;
+            public bool advanced;
+        }
+
+        GridData savegriddata()
+        {
+            GridData griddata = new GridData();
+
+            griddata.poly = list;
+
+            griddata.camera = CMB_camera.Text;
+            griddata.alt = NUM_altitude.Value;
+            griddata.angle = NUM_angle.Value;
+            griddata.camdir = CHK_camdirection.Checked;
+
+            griddata.dist = NUM_Distance.Value;
+            griddata.overshoot1 = NUM_overshoot.Value;
+            griddata.overshoot2 = NUM_overshoot2.Value;
+            griddata.overlap = num_overlap.Value;
+            griddata.sidelap = num_sidelap.Value;
+            griddata.spacing = NUM_spacing.Value;
+
+            griddata.startfrom = CMB_startfrom.Text;
+
+            griddata.autotakeoff = CHK_toandland.Checked;
+
+            griddata.advanced = CHK_advanced.Checked;
+
+            return griddata;
+        }
+
+        void loadgriddata(GridData griddata)
+        {
+            list = griddata.poly;
+
+            CMB_camera.Text = griddata.camera;
+            NUM_altitude.Value = griddata.alt;
+            NUM_angle.Value = griddata.angle;
+            CHK_camdirection.Checked = griddata.camdir;
+
+            NUM_Distance.Value = griddata.dist;
+            NUM_overshoot.Value = griddata.overshoot1;
+            NUM_overshoot2.Value = griddata.overshoot2;
+            num_overlap.Value = griddata.overlap;
+            num_sidelap.Value = griddata.sidelap;
+            NUM_spacing.Value = griddata.spacing;
+
+            CMB_startfrom.Text = griddata.startfrom;
+
+            CHK_toandland.Checked = griddata.autotakeoff;
+
+            CHK_advanced.Checked = griddata.advanced;
+        }
+
+        public void LoadGrid()
+        {
+            System.Xml.Serialization.XmlSerializer reader = new System.Xml.Serialization.XmlSerializer(typeof(GridData));
+
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "*.grid|*.grid";
+            ofd.ShowDialog();
+
+            if (File.Exists(ofd.FileName))
+            {
+                using (StreamReader sr = new StreamReader(ofd.FileName))
+                {
+                    var test = (GridData)reader.Deserialize(sr);
+
+                    loadgriddata(test);
+                }
+            }
+        }
+
+        public void SaveGrid()
+        {
+            System.Xml.Serialization.XmlSerializer writer = new System.Xml.Serialization.XmlSerializer(typeof(GridData));
+
+            var griddata = savegriddata();
+
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "*.grid|*.grid";
+            sfd.ShowDialog();
+
+            if (sfd.FileName != "")
+            {
+                using (StreamWriter sw = new StreamWriter(sfd.FileName))
+                {
+                    writer.Serialize(sw, griddata);
+                }
+            }
+        }
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == (Keys.Control | Keys.O))
+            {
+                LoadGrid();
+
+                return true;
+            }
+            if (keyData == (Keys.Control | Keys.S))
+            {
+                SaveGrid();
+
+                return true;
+            }
+
+            return base.ProcessCmdKey(ref msg, keyData);
         }
 
         void AddDrawPolygon()
         {
-            layerpolygons.Polygons.Add(plugin.Host.FPDrawnPolygon);
+            List<PointLatLng> list2 = new List<PointLatLng>();
 
-            layerpolygons.Polygons[0].Fill = Brushes.Transparent;
+            list.ForEach(x => { list2.Add(x); });
 
-            foreach (var item in plugin.Host.FPDrawnPolygon.Points)
+            var poly = new GMapPolygon(list2, "poly");
+            poly.Stroke.Brush = Brushes.Red;
+            poly.Stroke.Color = Color.Red;
+            poly.Fill = Brushes.Transparent;
+
+            layerpolygons.Polygons.Add(poly);
+        
+
+            foreach (var item in list)
             {
                 layerpolygons.Markers.Add(new GMarkerGoogle(item,GMarkerGoogleType.red));
             }
@@ -144,6 +285,8 @@ namespace MissionPlanner
 
         double getAngleOfLongestSide(List<PointLatLngAlt> list)
         {
+            if (list.Count == 0)
+                return 0;
             double angle = 0;
             double maxdist = 0;
             PointLatLngAlt last = list[list.Count - 1];
@@ -166,9 +309,6 @@ namespace MissionPlanner
                 doCalc();
 
             // new grid system test
-            List<PointLatLngAlt> list = new List<PointLatLngAlt>();
-
-            plugin.Host.FPDrawnPolygon.Points.ForEach(x => { list.Add(x); });
 
             grid = Grid.CreateGrid(list, (double)NUM_altitude.Value, (double)NUM_Distance.Value, (double)NUM_spacing.Value, (double)NUM_angle.Value, (double)NUM_overshoot.Value, (double)NUM_overshoot2.Value, (Grid.StartPosition)Enum.Parse(typeof(Grid.StartPosition), CMB_startfrom.Text), false);
 
@@ -260,7 +400,7 @@ namespace MissionPlanner
 
             Console.WriteLine("Poly Dist " + wppoly.Distance);
 
-            lbl_area.Text = calcpolygonarea(plugin.Host.FPDrawnPolygon.Points).ToString("#") + " m^2";
+            lbl_area.Text = calcpolygonarea(list).ToString("#") + " m^2";
 
             lbl_distance.Text = wppoly.Distance.ToString("0.##") + " km";
 
@@ -312,7 +452,7 @@ namespace MissionPlanner
             }
         }
 
-        double calcpolygonarea(List<PointLatLng> polygon)
+        double calcpolygonarea(List<PointLatLngAlt> polygon)
         {
             // should be a closed polygon
             // coords are in lat long
@@ -367,6 +507,18 @@ namespace MissionPlanner
             {
                 MainV2.instance.FlightPlanner.quickadd = true;
 
+                if (CHK_toandland.Checked)
+                {
+                    if (plugin.Host.cs.firmware == MainV2.Firmwares.ArduCopter2)
+                    {
+                        plugin.Host.AddWPtoList(MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0, 0, 30);
+                    }
+                    else
+                    {
+                        plugin.Host.AddWPtoList(MAVLink.MAV_CMD.TAKEOFF, 20, 0, 0, 0, 0, 0, 30);
+                    }
+                }
+
                 if (rad_trigdist.Checked)
                 {
                     plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_SET_CAM_TRIGG_DIST, (float)NUM_spacing.Value, 0, 0, 0, 0, 0, 0);
@@ -396,6 +548,11 @@ namespace MissionPlanner
                 if (rad_trigdist.Checked)
                 {
                     plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_SET_CAM_TRIGG_DIST, 0, 0, 0, 0, 0, 0, 0);
+                }
+
+                if (CHK_toandland.Checked)
+                {
+                    plugin.Host.AddWPtoList(MAVLink.MAV_CMD.LAND, 0, 0, 0, 0, plugin.Host.cs.HomeLocation.Lng,plugin.Host.cs.HomeLocation.Lat, 0);
                 }
 
                 savesettings();
@@ -535,7 +692,8 @@ namespace MissionPlanner
                 // populate list
                 foreach (var camera in cameras.Values)
                 {
-                    CMB_camera.Items.Add(camera.name);
+                    if (!CMB_camera.Items.Contains(camera.name))
+                        CMB_camera.Items.Add(camera.name);
                 }
             }
         }
@@ -557,9 +715,10 @@ namespace MissionPlanner
                 int sidelap = (int)num_sidelap.Value;
 
 
-                // scale
-                float flscale = 1000 * flyalt / focallen;
+                // scale      mm / mm
+                float flscale = (1000 * flyalt) / focallen;
 
+                //   mm * mm / 1000
                 float viewwidth = (sensorwidth * flscale / 1000);
                 float viewheight = (sensorheight * flscale / 1000);
 
@@ -569,6 +728,7 @@ namespace MissionPlanner
                 float fovh = (float)(Math.Atan(sensorwidth / (2 * focallen)) * rad2deg * 2);
                 float fovv = (float)(Math.Atan(sensorheight / (2 * focallen)) * rad2deg * 2);
 
+                //    mm  / pixels * 100
                 TXT_cmpixel.Text = ((viewheight / imageheight) * 100).ToString("0.00 cm");
 
                 if (CHK_camdirection.Checked)
