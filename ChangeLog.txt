@@ -1,4 +1,7 @@
-﻿* Mission Planner 1.2.99.1
+﻿* Mission Planner 1.3.0.x
+add test flight planner dock switch
+
+* Mission Planner 1.3.0
 add MAVLinkSerialPort (serial tunnel)
 add spline support
 fix end dialog on default params when canceled

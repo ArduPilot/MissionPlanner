@@ -34,24 +34,24 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AStar">
-      <HintPath>..\..\Lib\AStar.dll</HintPath>
+      <HintPath>..\..\extLibs\AStar.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="GMap.NET.Core">
-      <HintPath>..\..\Lib\GMap.NET.Core.dll</HintPath>
+      <HintPath>..\..\extLibs\GMap.NET.Core.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="GMap.NET.WindowsForms">
-      <HintPath>..\..\Lib\GMap.NET.WindowsForms.dll</HintPath>
+      <HintPath>..\..\extLibs\GMap.NET.WindowsForms.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Lib\log4net.dll</HintPath>
+      <HintPath>..\..\extLibs\log4net.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ProjNet">
-      <HintPath>..\..\Lib\ProjNet.dll</HintPath>
+      <HintPath>..\..\extLibs\ProjNet.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />

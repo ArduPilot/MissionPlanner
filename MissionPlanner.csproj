@@ -134,16 +134,16 @@
     </Reference>
     <Reference Include="AWSSDK, Version=1.5.18.0, Culture=neutral, PublicKeyToken=9f476d3089b52be3, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Lib\AWSSDK.dll</HintPath>
+      <HintPath>extLibs\AWSSDK.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="BouncyCastle.Crypto, Version=1.7.4114.6375, Culture=neutral, PublicKeyToken=0e99375e54769942">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Lib\BouncyCastle.Crypto.dll</HintPath>
+      <HintPath>extLibs\BouncyCastle.Crypto.dll</HintPath>
     </Reference>
     <Reference Include="csmatio, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Lib\csmatio.dll</HintPath>
+      <HintPath>extLibs\csmatio.dll</HintPath>
     </Reference>
     <Reference Include="DirectShowLib-2005">
     </Reference>
@@ -177,7 +177,7 @@
     </Reference>
     <Reference Include="Ionic.Zip.Reduced, Version=1.9.1.5, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Lib\Ionic.Zip.Reduced.dll</HintPath>
+      <HintPath>extLibs\Ionic.Zip.Reduced.dll</HintPath>
     </Reference>
     <Reference Include="IronPython, Version=2.7.0.40, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
       <HintPath>packages\IronPython.2.7.5-beta1\lib\Net40\IronPython.dll</HintPath>
@@ -214,11 +214,11 @@
     </Reference>
     <Reference Include="netDxf, Version=0.1.2.0, Culture=neutral, PublicKeyToken=1c75adeaa4c98f42, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Lib\netDxf.dll</HintPath>
+      <HintPath>extLibs\netDxf.dll</HintPath>
     </Reference>
     <Reference Include="OpenTK, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Lib\OpenTK.dll</HintPath>
+      <HintPath>extLibs\OpenTK.dll</HintPath>
     </Reference>
     <Reference Include="OpenTK.GLControl, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -263,11 +263,11 @@
     </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="Transitions">
-      <HintPath>Lib\Transitions.dll</HintPath>
+      <HintPath>extLibs\Transitions.dll</HintPath>
     </Reference>
     <Reference Include="zlib.net, Version=1.0.3.0, Culture=neutral, PublicKeyToken=47d7877cb3620160">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Lib\zlib.net.dll</HintPath>
+      <HintPath>extLibs\zlib.net.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
