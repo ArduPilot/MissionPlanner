@@ -3723,6 +3723,8 @@ namespace MissionPlanner.GCSViews
                 CHK_altmode.Visible = true;
             }
 
+            //switchDockingToolStripMenuItem_Click(null, null);
+
             updateHome();
 
             setWPParams();
