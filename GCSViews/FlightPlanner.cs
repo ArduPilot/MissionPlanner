@@ -1639,22 +1639,22 @@ namespace MissionPlanner.GCSViews
                         // reupload this point.
                         ans = port.setWP(temp, (ushort)(a + 1), frame, 0);
                     } 
-                    else if (ans == MAVLink.MAV_MISSION_RESULT.MAV_MISSION_NO_SPACE) 
+                    if (ans == MAVLink.MAV_MISSION_RESULT.MAV_MISSION_NO_SPACE) 
                     {
                         e.ErrorMessage = "Upload failed, please reduce the number of wp's";
                         return;
                     }
-                    else if (ans == MAVLink.MAV_MISSION_RESULT.MAV_MISSION_INVALID)
+                    if (ans == MAVLink.MAV_MISSION_RESULT.MAV_MISSION_INVALID)
                     {
                         e.ErrorMessage = "Upload failed, mission item had a bad option wp# " + Commands.Rows[a].Cells[Command.Index].Value.ToString();
                         return;
                     }
-                    else if (ans == MAVLink.MAV_MISSION_RESULT.MAV_MISSION_INVALID_SEQUENCE)
+                    if (ans == MAVLink.MAV_MISSION_RESULT.MAV_MISSION_INVALID_SEQUENCE)
                     {
                         // invalid sequence can only occur if we failed to see a responce from the apm when we sent the request.
                         // therefore it did see the request and has moved on that step, and so do we.
                     }
-                    else if (ans != MAVLink.MAV_MISSION_RESULT.MAV_MISSION_ACCEPTED)
+                    if (ans != MAVLink.MAV_MISSION_RESULT.MAV_MISSION_ACCEPTED)
                     {
                         e.ErrorMessage = "Upload wps failed " + Commands.Rows[a].Cells[Command.Index].Value.ToString() + " " + Enum.Parse(typeof(MAVLink.MAV_MISSION_RESULT), ans.ToString());
                         return;
