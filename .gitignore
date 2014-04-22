@@ -3,10 +3,8 @@
 *.user
 bin/
 obj/
-
 /CustomImages
 /APMPlannerXplanes/APMPlannerXplanes/Debug
-
 /APMPlannerXplanes/Debug
 /Driver/makecert.exe
 /Drivers/gencert.bat
@@ -14,3 +12,4 @@ obj/
 /Drivers/makecert.exe
 /Drivers/signing.url
 /Msi
+*.psess
