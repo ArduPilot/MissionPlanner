@@ -431,7 +431,12 @@ namespace MissionPlanner
         // stats
         public ushort packetdropremote { get; set; }
         public ushort linkqualitygcs { get; set; }
+        [DisplayText("HW Voltage")]
         public float hwvoltage { get; set; }
+        [DisplayText("Board Voltage")]
+        public float boardvoltage { get; set; }
+        [DisplayText("Serov Rail Voltage")]
+        public float servovoltage { get; set; }
         public ushort i2cerrors { get; set; }
 
         // requested stream rates
@@ -687,6 +692,16 @@ namespace MissionPlanner
                         sonarrange = sonar.distance;
                         sonarvoltage = sonar.voltage;
                     }
+
+                    bytearray = mavinterface.MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.POWER_STATUS];
+                    if (bytearray != null)
+                    {
+                        var power = bytearray.ByteArrayToStructure<MAVLink.mavlink_power_status_t>(6);
+
+                        boardvoltage = power.Vcc;
+                        servovoltage = power.Vservo;
+                    }
+                    
 
                     bytearray = mavinterface.MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.WIND];
                     if (bytearray != null)
