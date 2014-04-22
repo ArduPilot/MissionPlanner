@@ -94,12 +94,12 @@ namespace MissionPlanner
             System.Threading.Thread.Sleep(ms);
         }
 
-        public void runScript(string script)
+        public void runScript(string filename)
         {
             try
             {
                 Console.WriteLine("Run Script " + scope);
-                engine.CreateScriptSourceFromString(script).Execute(scope);
+                engine.CreateScriptSourceFromFile(filename).Execute(scope);
                 Console.WriteLine("Run Script Done");
             }
             catch (Exception e)
