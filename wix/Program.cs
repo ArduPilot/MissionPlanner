@@ -285,6 +285,8 @@ data = @"
             <!-- Step 2: Add UI to your installer / Step 4: Trigger the custom action -->
     <Property Id=""WIXUI_INSTALLDIR"" Value=""MissionPlanner"" />
 
+<Property Id=""ApplicationFolderName"" Value=""MissionPlanner"" /> 
+
 <WixVariable Id=""WixUILicenseRtf"" Value=""licence.rtf"" />
 
     <UI>
