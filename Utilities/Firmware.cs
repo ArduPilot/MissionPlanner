@@ -586,6 +586,12 @@ namespace MissionPlanner.Utilities
 
                     try
                     {
+                        up.verifyotp();
+                    }
+                    catch { CustomMessageBox.Show("This board does not contain a valid certificate of authenticity.", "Invalid Cert"); up.__reboot(); up.close(); return false; }
+
+                    try
+                    {
                         up.currentChecksum(fw);
                     }
                     catch
