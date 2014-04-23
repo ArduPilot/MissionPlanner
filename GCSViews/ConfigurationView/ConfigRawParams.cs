@@ -379,7 +379,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         //Params.Rows[Params.RowCount - 1].Cells[Value.Index].Value = float.Parse(Params.Rows[Params.RowCount - 1].Cells[RawValue.Index].Value.ToString()) / float.Parse(Params.Rows[Params.RowCount - 1].Cells[mavScale.Index].Value.ToString());
                     }
                 }
-                catch { }
+                catch (Exception ex) { log.Error(ex); }
 
             }
             //Params.Sort(Params.Columns[0], ListSortDirection.Ascending);
