@@ -135,7 +135,8 @@ namespace MissionPlanner.Utilities
                 }
                 catch (Exception ex) {  }
 
-
+                // cleanup any sockets that might be outstanding.
+                GC.Collect();
                 System.Threading.Thread.Sleep(5000);
             }
         }
