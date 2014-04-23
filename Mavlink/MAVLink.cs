@@ -827,6 +827,7 @@ Please check the following
                 // 4 seconds between valid packets
                 if (!(start.AddMilliseconds(4000) > DateTime.Now) && !logreadmode)
                 {
+                    log.Info("Get param 1 by 1 - got " + indexsreceived.Count + " of " + param_total);
                     // try getting individual params
                     for (short i = 0; i <= (param_total - 1); i++)
                     {
@@ -849,8 +850,9 @@ Please check the following
 
                                 this.frmProgressReporter.UpdateProgressAndStatus((indexsreceived.Count * 100) / param_total, "Got param index " + i);
                             }
-                            catch
+                            catch (Exception excp)
                             {
+                                log.Info("GetParam Failed index: " + i + " " + excp);
                                 try
                                 {
                                    // GetParam(i);
@@ -1010,7 +1012,7 @@ Please check the following
             if (name == "" && index == -1)
                 return 0;
 
-            log.Info("GetParam name: " + name + " index: " + index);
+            log.Info("GetParam name: '" + name + "' or index: " + index);
 
             giveComport = true;
             byte[] buffer;
@@ -1019,11 +1021,13 @@ Please check the following
             req.target_system = MAV.sysid;
             req.target_component = MAV.compid;
             req.param_index = index;
+            req.param_id = new byte[] {0x0};
             if (index == -1)
             {
                 req.param_id = System.Text.ASCIIEncoding.ASCII.GetBytes(name);
-                Array.Resize(ref req.param_id, 16);
             }
+
+            Array.Resize(ref req.param_id, 16);
 
             generatePacket((byte)MAVLINK_MSG_ID.PARAM_REQUEST_READ, req);
 
@@ -1067,7 +1071,7 @@ Please check the following
                         // not the correct id
                         if (!(par.param_index == index || st == name))
                         {
-                            Console.WriteLine("Wrong Answer {0} - {1} - {2}    --- '{3}' vs '{4}'", par.param_index, ASCIIEncoding.ASCII.GetString(par.param_id), par.param_value, ASCIIEncoding.ASCII.GetString(req.param_id).TrimEnd(), st);
+                            log.ErrorFormat("Wrong Answer {0} - {1} - {2}    --- '{3}' vs '{4}'", par.param_index, ASCIIEncoding.ASCII.GetString(par.param_id), par.param_value, ASCIIEncoding.ASCII.GetString(req.param_id).TrimEnd(), st);
                             continue;
                         }
 
