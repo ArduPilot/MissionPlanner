@@ -1902,7 +1902,7 @@ namespace MissionPlanner.Controls
                     base.OnHandleCreated(e);
                 }
             }
-            catch (Exception ex) { log.Info(ex.ToString()); opengl = false; } // macs fail here
+            catch (Exception ex) { log.Error(ex); opengl = false; } // macs fail here
         }
 
         protected override void OnHandleDestroyed(EventArgs e)
