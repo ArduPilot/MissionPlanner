@@ -836,6 +836,7 @@ S15: MAX_WINDOW=131
                 return "";
 
             comPort.ReadTimeout = 1000;
+            comPort.DiscardInBuffer();
             // setup to known state
             comPort.Write("\r\n");
             try
@@ -843,7 +844,7 @@ S15: MAX_WINDOW=131
                 var temp1 = Serial_ReadLine(comPort);
             }
             catch { comPort.ReadExisting(); }
-            Sleep(50);
+            Sleep(100);
             comPort.DiscardInBuffer();
             lbl_status.Text = "Doing Command " + cmd;
             log.Info("Doing Command " + cmd);
@@ -857,11 +858,10 @@ S15: MAX_WINDOW=131
             }
             catch { temp = comPort.ReadExisting(); }
             log.Info("cmd " + cmd + " echo " + temp);
-            // give time for que to fill
-            Sleep(100);
             // get responce
             string ans = "";
-            while (comPort.BytesToRead > 0)
+            DateTime deadline = DateTime.Now.AddMilliseconds(500);
+            while (comPort.BytesToRead > 0 || DateTime.Now < deadline)
             {
                 try
                 {
