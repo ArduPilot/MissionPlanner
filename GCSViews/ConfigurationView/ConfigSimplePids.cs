@@ -165,6 +165,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             try
             {
+                if (!MainV2.comPort.MAV.param.ContainsKey(item.paramname))
+                    return;
+
                 float value = (float)MainV2.comPort.MAV.param[item.paramname];
 
                 if (value < item.min)
