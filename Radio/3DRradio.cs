@@ -150,7 +150,7 @@ S15: MAX_WINDOW=131
             return false;
         }
 
-        void Sleep(int mstimeout)
+        void Sleep(int mstimeout, ICommsSerial comPort = null)
         {
             DateTime endtime = DateTime.Now.AddMilliseconds(mstimeout);
 
@@ -158,6 +158,12 @@ S15: MAX_WINDOW=131
             {
                 System.Threading.Thread.Sleep(1);
                 Application.DoEvents();
+
+                // prime the mavlinkserial loop with data.
+                if (comPort != null) { 
+                    int test = comPort.BytesToRead;
+                    test++;
+                }
             }
         }
 
@@ -393,7 +399,7 @@ S15: MAX_WINDOW=131
                     // remote
                     string answer = doCommand(comPort, "RTI5");
 
-                    string[] items = answer.Split('\n');
+                    string[] items = answer.Split(new char[] {'\n'},StringSplitOptions.RemoveEmptyEntries);
 
                     foreach (string item in items)
                     {
@@ -447,6 +453,7 @@ S15: MAX_WINDOW=131
                                     }
                                     else if (controls[0] is ComboBox)
                                     {
+                                        if (controls[0].Text != values[2].Trim()) {
                                         string cmdanswer = doCommand(comPort, "RT" + values[0].Trim() + "=" + controls[0].Text + "\r");
 
                                         if (cmdanswer.Contains("OK"))
@@ -457,6 +464,7 @@ S15: MAX_WINDOW=131
                                         {
                                             CustomMessageBox.Show("Set Command error");
                                         }
+                                    }
                                     }
                                 }
                             }
@@ -481,7 +489,7 @@ S15: MAX_WINDOW=131
                     //local
                     string answer = doCommand(comPort, "ATI5");
 
-                    string[] items = answer.Split('\n');
+                    string[] items = answer.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
 
                     foreach (string item in items)
                     {
@@ -860,7 +868,7 @@ S15: MAX_WINDOW=131
             log.Info("cmd " + cmd + " echo " + temp);
             // get responce
             string ans = "";
-            DateTime deadline = DateTime.Now.AddMilliseconds(500);
+            DateTime deadline = DateTime.Now.AddMilliseconds(200);
             while (comPort.BytesToRead > 0 || DateTime.Now < deadline)
             {
                 try
@@ -903,12 +911,15 @@ S15: MAX_WINDOW=131
                 // setup a known enviroment
                 comPort.Write("ATO\r\n");
                 // wait
-                Sleep(1100);
+                Sleep(1100, comPort);
                 comPort.DiscardInBuffer();
                 // send config string
                 comPort.Write("+++");
+                Sleep(1100,comPort);
                 // check for config responce "OK"
                 log.Info("Connect btr " + comPort.BytesToRead + " baud " + comPort.BaudRate);
+                // allow time for data/responce
+                
 
                 byte[] buffer = new byte[20];
                 int len = comPort.Read(buffer, 0, buffer.Length);
