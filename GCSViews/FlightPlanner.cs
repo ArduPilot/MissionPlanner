@@ -1639,6 +1639,9 @@ namespace MissionPlanner.GCSViews
                         // reupload this point.
                         ans = port.setWP(temp, (ushort)(a + 1), frame, 0);
                     } 
+
+
+
                     if (ans == MAVLink.MAV_MISSION_RESULT.MAV_MISSION_NO_SPACE) 
                     {
                         e.ErrorMessage = "Upload failed, please reduce the number of wp's";
@@ -1653,7 +1656,8 @@ namespace MissionPlanner.GCSViews
                     {
                         // invalid sequence can only occur if we failed to see a responce from the apm when we sent the request.
                         // therefore it did see the request and has moved on that step, and so do we.
-                    }
+                        continue;
+                    } 
                     if (ans != MAVLink.MAV_MISSION_RESULT.MAV_MISSION_ACCEPTED)
                     {
                         e.ErrorMessage = "Upload wps failed " + Commands.Rows[a].Cells[Command.Index].Value.ToString() + " " + Enum.Parse(typeof(MAVLink.MAV_MISSION_RESULT), ans.ToString());

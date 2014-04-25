@@ -1876,6 +1876,8 @@ Please check the following
                                 MAV.param["WP_TOTAL"] = (float)wp_total - 1;
                             if (MAV.param["CMD_TOTAL"] != null)
                                 MAV.param["CMD_TOTAL"] = (float)wp_total - 1;
+                            if (MAV.param["MIS_TOTAL"] != null)
+                                MAV.param["MIS_TOTAL"] = (float)wp_total - 1;
 
                             MAV.wps.Clear();
 
