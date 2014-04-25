@@ -1694,8 +1694,12 @@ namespace MissionPlanner.GCSViews
         {
             quickadd = true;
 
+
+            // mono fix
+            Commands.CurrentCell = null;
+
             while (Commands.Rows.Count > 0 && !append)
-                Commands.Rows.RemoveAt(0);
+                Commands.Rows.Clear();
 
             if (cmds.Count == 0)
             {
@@ -3070,11 +3074,10 @@ namespace MissionPlanner.GCSViews
         {
             quickadd = true;
 
-            try
-            {
-                Commands.Rows.Clear();
-            }
-            catch { } // this fails on mono - Exception System.ArgumentOutOfRangeException: Index is less than 0 or more than or equal to the list count. Parameter name: index
+            // mono fix
+            Commands.CurrentCell = null;
+
+            Commands.Rows.Clear();
 
             selectedrow = 0;
             quickadd = false;
