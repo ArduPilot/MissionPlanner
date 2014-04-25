@@ -4,24 +4,6 @@
     <version>3.0</version>
 
     <param>
-      <title>RC Feel Roll/Pitch</title>
-      <desc>RC feel for roll/pitch which controls vehicle response to user input with 0 being extremely soft and 100 begin crisp</desc>
-      <name>RC_FEEL_RP</name>
-      <value>100</value>
-      <min>0</min>
-      <max>100</max>
-    </param>
-    
-    <param>
-      <title>Throttle Hover:</title>
-      <desc> How much throttle is needed to maintain a steady hover. </desc>
-      <name>THR_MID</name>
-      <value>480</value>
-      <min>200</min>
-      <max>800</max>
-    </param>
-    
-    <param>
       <title>Roll/Pitch Sensitivity:</title>
       <desc>Slide to the right if the copter is sluggish or slide to the left if the copter is twitchy.</desc>
       <name>RATE_RLL_P</name>
@@ -40,6 +22,24 @@
         <param>RATE_PIT_I</param>
         <multiplier>1</multiplier>
       </relation>
+    </param>
+    
+    <param>
+      <title>RC Feel Roll/Pitch</title>
+      <desc>RC feel for roll/pitch which controls vehicle response to user input with 0 being extremely soft and 100 begin crisp</desc>
+      <name>RC_FEEL_RP</name>
+      <value>100</value>
+      <min>0</min>
+      <max>100</max>
+    </param>
+    
+    <param>
+      <title>Throttle Hover:</title>
+      <desc> How much throttle is needed to maintain a steady hover. </desc>
+      <name>THR_MID</name>
+      <value>480</value>
+      <min>200</min>
+      <max>800</max>
     </param>
 
     <param>
