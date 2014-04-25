@@ -1773,6 +1773,7 @@ namespace MissionPlanner
             };
             pluginthread.Start();
 
+            Program.Splash.Close();
 
             try
             {
@@ -1801,7 +1802,7 @@ namespace MissionPlanner
             }
             catch (Exception ex) { log.Error(ex); }
 
-            Program.Splash.Close();
+
 
             MissionPlanner.Utilities.Tracking.AddTiming("AppLoad", "Load Time", (DateTime.Now - Program.starttime).TotalMilliseconds, "");
 
