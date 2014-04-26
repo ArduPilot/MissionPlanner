@@ -98,8 +98,6 @@ namespace MissionPlanner.Log
                             break;
                     }
                 }
-
-                br.Close();
             }
 
             return lines;

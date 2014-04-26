@@ -99,6 +99,7 @@
     <Compile Include="Config.Designer.cs">
       <DependentUpon>Config.cs</DependentUpon>
     </Compile>
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="MAVLinkSerialPort.cs">
       <SubType>Component</SubType>
     </Compile>

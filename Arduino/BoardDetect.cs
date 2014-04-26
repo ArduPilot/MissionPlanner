@@ -143,7 +143,8 @@ namespace MissionPlanner.Arduino
                 }
             }
 
-            serialPort.Close();
+            if (serialPort.IsOpen)
+                serialPort.Close();
 
             log.Warn("Not a 1280");
 

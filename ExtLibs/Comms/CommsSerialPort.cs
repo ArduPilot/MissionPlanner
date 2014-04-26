@@ -179,7 +179,7 @@ namespace MissionPlanner.Comms
         public static string GetNiceName(string port)
         {
             // make sure we are exclusive
-            lock (portnamenice)
+            lock (locker)
             {
                 log.Info("start GetNiceName " + port);
                 portnamenice = "";
@@ -292,7 +292,7 @@ namespace MissionPlanner.Comms
         }
     }
 
-    public class SerialPortFixer : IDisposable
+    public sealed class SerialPortFixer : IDisposable
     {
         public static void Execute(string portName)
         {
@@ -309,6 +309,7 @@ namespace MissionPlanner.Comms
                 m_Handle.Close();
                 m_Handle = null;
             }
+            GC.SuppressFinalize(this);
         }
 
         #endregion

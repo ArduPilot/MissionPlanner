@@ -10,7 +10,7 @@ using MissionPlanner.Controls;
 
 namespace MissionPlanner.Comms
 {
-    public class UdpSerial : CommsBase, ICommsSerial
+    public class UdpSerial : CommsBase, ICommsSerial, IDisposable
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         UdpClient client = new UdpClient();
@@ -22,12 +22,6 @@ namespace MissionPlanner.Comms
         public int WriteTimeout { get; set; }
         public bool RtsEnable { get; set; }
         public Stream BaseStream { get { return this.BaseStream; } }
-
-        ~UdpSerial()
-        {
-            this.Close();
-            client = null;
-        }
 
         public UdpSerial()
         {
@@ -308,6 +302,23 @@ namespace MissionPlanner.Comms
             }
 
             client = new UdpClient();
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                // dispose managed resources
+                this.Close();
+                client = null;
+            }
+            // free native resources
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }

@@ -277,7 +277,6 @@ namespace MissionPlanner.Utilities
 
                     streamWriter.Write(data);
                     streamWriter.Flush();
-                    streamWriter.Close();
 
                     var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
                     if (httpResponse.StatusCode >= HttpStatusCode.OK && (int)httpResponse.StatusCode < 300)

@@ -17,6 +17,26 @@
             {
                 components.Dispose();
             }
+
+            if (currentMarker != null)
+                currentMarker.Dispose();
+            if (drawnpolygon != null)
+                drawnpolygon.Dispose();
+            if (kmlpolygonsoverlay != null)
+                kmlpolygonsoverlay.Dispose();
+            if (wppolygon != null)
+                wppolygon.Dispose();
+            if (top != null)
+                top.Dispose();
+            if (geofencepolygon != null)
+                geofencepolygon.Dispose();
+            if (geofenceoverlay != null)
+                geofenceoverlay.Dispose();
+            if (drawnpolygonsoverlay != null)
+                drawnpolygonsoverlay.Dispose();
+            if (center != null)
+                center.Dispose(); 
+
             base.Dispose(disposing);
         }
 

@@ -38,6 +38,7 @@ namespace MissionPlanner
     /// <summary>
     /// used to override the drawing of the waypoint box bounding
     /// </summary>
+    [Serializable]
     public class GMapMarkerRect : GMapMarker
     {
         public Pen Pen = new Pen(Brushes.White, 2);
@@ -96,7 +97,7 @@ namespace MissionPlanner
 
         }
     }
-
+    [Serializable]
     public class GMapMarkerADSBPlane : GMapMarker
     {
         const float rad2deg = (float)(180 / Math.PI);
@@ -132,7 +133,7 @@ namespace MissionPlanner
         }
     }
 
-
+    [Serializable]
     public class GMapMarkerRover : GMapMarker
     {
         const float rad2deg = (float)(180 / Math.PI);
@@ -184,7 +185,7 @@ namespace MissionPlanner
         }
     }
 
-
+    [Serializable]
     public class GMapMarkerPlane : GMapMarker
     {
         const float rad2deg = (float)(180 / Math.PI);
@@ -275,7 +276,7 @@ namespace MissionPlanner
         }
     }
 
-
+    [Serializable]
     public class GMapMarkerQuad : GMapMarker
     {
         const float rad2deg = (float)(180 / Math.PI);

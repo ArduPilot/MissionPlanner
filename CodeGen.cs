@@ -196,7 +196,7 @@ namespace MissionPlanner
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error:  An exception occurred while executing the script", ex);
+                Console.WriteLine("Error:  An exception occurred while executing the script {0}", ex);
             }
         }
 
@@ -236,7 +236,7 @@ namespace MissionPlanner
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error:  An exception occurred while executing the script", ex);
+                Console.WriteLine("Error:  An exception occurred while executing the script {0}", ex);
             }
             return "";
         }

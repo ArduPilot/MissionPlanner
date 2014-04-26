@@ -10,7 +10,7 @@ using System.IO;
 
 namespace MissionPlanner.Utilities
 {
-    public class S3Uploader
+    public class S3Uploader: IDisposable
     {
         private string bucketName;
         private Amazon.S3.Transfer.TransferUtility transferUtility;
@@ -83,9 +83,7 @@ namespace MissionPlanner.Utilities
             {
               
                 streamWriter.Write(json);
-                streamWriter.Flush();
-                streamWriter.Close();
-               
+                streamWriter.Flush();              
 
                 var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
 
@@ -113,5 +111,13 @@ namespace MissionPlanner.Utilities
             }
         }
 
+
+        public void Dispose()
+        {
+            if (transferUtility != null)
+                transferUtility.Dispose();
+
+            GC.SuppressFinalize(this);
+        }
     }
 }

@@ -150,6 +150,8 @@ namespace MissionPlanner.Controls
             }
 
             MainControl.Dispose();
+
+            GC.SuppressFinalize(this);
         }
     }
 }
