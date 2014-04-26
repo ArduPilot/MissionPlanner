@@ -1195,6 +1195,8 @@ namespace MissionPlanner.Log
                 selection.Remove(((CheckBox)sender).Name);
                 foreach (var item in zg1.GraphPane.CurveList)
                 {
+                    if (item.Tag == null)
+                        continue;
                     if (item.Tag.ToString() == ((CheckBox)sender).Name)
                     {
                         zg1.GraphPane.CurveList.Remove(item);
