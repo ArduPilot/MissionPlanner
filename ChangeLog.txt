@@ -1,5 +1,15 @@
-﻿* Mission Planner 1.3.0.x
+﻿* Mission Planner 1.3.1
 add test flight planner dock switch
+add more error handleing in varius locations.
+improve wp uploading
+switch order on simple pids screen.
+fix 3drradio config screen.
+fix mavlink getparam bug.
+fix updater forground issue #423
+fix datagridview clear issue on mono #426
+add filtering on basic tuning to fix #424
+update python script examples.
+add board voltage and servo rail voltage to status.
 
 * Mission Planner 1.3.0
 add MAVLinkSerialPort (serial tunnel)
