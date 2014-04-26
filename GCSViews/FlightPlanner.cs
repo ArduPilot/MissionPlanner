@@ -5517,9 +5517,12 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             string easting = "578994";
             string northing = "6126244";
 
-            InputBox.Show("Zone", "Enter Zone. (eg 50S, 11N)", ref zone);
-            InputBox.Show("Easting", "", ref easting);
-            InputBox.Show("Northing", "", ref northing);
+            if (InputBox.Show("Zone", "Enter Zone. (eg 50S, 11N)", ref zone) != DialogResult.OK)
+                return;
+            if (InputBox.Show("Easting", "Easting", ref easting)!= DialogResult.OK)
+                return;
+            if (InputBox.Show("Northing", "Northing", ref northing) != DialogResult.OK)
+                return;
 
             string newzone = zone.ToLower().Replace('s',' ');
             newzone = newzone.ToLower().Replace('n',' ');
