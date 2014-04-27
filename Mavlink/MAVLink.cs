@@ -2979,7 +2979,7 @@ Please check the following
 
             mavlink_log_entry_t entry1 = GetLogEntry(0, ushort.MaxValue);
 
-            log.Info("id "+entry1.id + " lln " + entry1.last_log_num + " logs " + entry1.num_logs + " size " + entry1.size);
+            log.Info("id "+entry1.id + " lastllogno " + entry1.last_log_num + " #logs " + entry1.num_logs + " size " + entry1.size);
             //ans.Add(entry1);
 
             for (ushort a = (ushort)(entry1.last_log_num - entry1.num_logs + 1); a <= entry1.last_log_num; a++)
@@ -3002,6 +3002,8 @@ Please check the following
             req.target_system = MAV.sysid;
             req.start = startno;
             req.end = endno;
+
+            log.Info("GetLogEntry " + startno + "-" + endno);
 
             // request point
             generatePacket((byte)MAVLINK_MSG_ID.LOG_REQUEST_LIST, req);
