@@ -34,9 +34,11 @@ namespace MissionPlanner
 
         //Status,Time,NSats,HDop,Lat,Lng,RelAlt,Alt,Spd,GCrs
         //GPS, 3, 122732, 10, 0.00, -35.3628880, 149.1621961, 808.90, 810.30, 23.30, 94.04
+        //GPS, 3, 23524837, 1790, 10, 0.00, -35.3629379, 149.165085, 2.09, 585.41, 0.00, 129.86, 0, 4001
+        // 0   1     2         3   4    5         6           7        8      9     10     11    12  13
 
-        int timepos = 2;
-        int latpos = 6, lngpos = 7, altpos = 8, cogpos = 10, pitchATT = 12, rollATT = 11, yawATT = 13;
+        int timepos = 2, latpos = 6, lngpos = 7, altpos = 9, cogpos = 11, pitchATT = 12, rollATT = 11, yawATT = 13;
+
         private NumericUpDown NUM_latpos;
         private NumericUpDown NUM_lngpos;
         private NumericUpDown NUM_altpos;
@@ -146,7 +148,7 @@ namespace MissionPlanner
 
         List<string[]> readLog(string fn)
         {
-            if (logcache.Count > 0)
+            if (logcache.Count > 50)
                 return logcache;
 
             List<string[]> list = new List<string[]>();
@@ -160,6 +162,8 @@ namespace MissionPlanner
                 mine.MAV.packets.Initialize(); // clear
 
                 CurrentState cs = new CurrentState();
+
+                List<string> loglist = new List<string>();
 
                 string[] oldvalues = {""};
 
@@ -180,8 +184,8 @@ namespace MissionPlanner
 
                     //FMT, 130, 45, GPS, BIHBcLLeeEefI, Status,TimeMS,Week,NSats,HDop,Lat,Lng,RelAlt,Alt,Spd,GCrs,VZ,T
 
-                    string[] vals = new string[] { "GPS", "3", (cs.datetime.ToUniversalTime() - new DateTime(cs.datetime.Year,cs.datetime.Month,cs.datetime.Day,0,0,0,DateTimeKind.Utc)).TotalMilliseconds.ToString(),"0",
-                    cs.satcount.ToString(),cs.gpshdop.ToString(),cs.lat.ToString(),cs.lng.ToString(),cs.altasl.ToString(),cs.altasl.ToString(),cs.groundspeed.ToString(),cs.yaw.ToString(),"0","0"};
+                    string[] vals = new string[] { "GPS", "3", (cs.datetime.ToUniversalTime() - new DateTime(cs.datetime.Year,cs.datetime.Month,cs.datetime.Day,0,0,0,DateTimeKind.Utc)).TotalMilliseconds.ToString(),
+                       cs.satcount.ToString(),cs.gpshdop.ToString(),cs.lat.ToString(),cs.lng.ToString(),cs.alt.ToString(),cs.altasl.ToString(),cs.groundspeed.ToString(),cs.yaw.ToString(),"0","0"};
 
                     if (oldvalues.Length > 2 && oldvalues[latpos] == vals[latpos]
                         && oldvalues[lngpos] == vals[lngpos]
@@ -190,7 +194,7 @@ namespace MissionPlanner
 
                     oldvalues = vals;
 
-                    list.Add(vals);
+                    loglist.Add(String.Join(",", vals));
                     // 4 5 7
                     Console.Write((mine.logplaybackfile.BaseStream.Position * 100 / mine.logplaybackfile.BaseStream.Length) + "    \r");
                     
@@ -198,9 +202,11 @@ namespace MissionPlanner
 
                 mine.logplaybackfile.Close();
 
-                logcache = list;
+                fn = fn + ".log";
 
-                return list;
+                File.WriteAllLines(fn, loglist.ToArray());
+
+                CustomMessageBox.Show("Created log file from tlog: "+ fn);
             }
 
             StreamReader sr = new StreamReader(fn);
@@ -243,6 +249,7 @@ namespace MissionPlanner
 
         public void dowork(string logFile, string dirWithImages, float offsetseconds, bool dooffset)
         {
+            TXT_outputlog.Clear();
 
             timepos = (int)NUM_time.Value;
 
@@ -266,19 +273,22 @@ namespace MissionPlanner
             imagetotime = new Hashtable();
 
             //logFile = @"C:\Users\hog\Pictures\farm 1-10-2011\100SSCAM\2011-10-01 11-48 1.log";
-            TXT_outputlog.AppendText("Read Log\n");
+            TXT_outputlog.AppendText("Read Log\r\n");
 
             List<string[]> list = readLog(logFile);
 
-            TXT_outputlog.AppendText("Log Read\n");
+            TXT_outputlog.AppendText("Log Read "+list.Count+" lines\r\n");
+
+            if (list.Count > 0)
+                TXT_outputlog.AppendText("First GPS line\r\nUse to check log offsets\r\n"+String.Join(",", list[0])+"\r\n");
 
             //dirWithImages = @"C:\Users\hog\Pictures\farm 1-10-2011\100SSCAM";
 
-            TXT_outputlog.AppendText("Read images\n");
+            TXT_outputlog.AppendText("Read images\r\n");
 
             string[] files = Directory.GetFiles(dirWithImages);
 
-            TXT_outputlog.AppendText("images read\n");
+            TXT_outputlog.AppendText("images read\r\n");
 
             Document kml = new Document();
 
@@ -432,7 +442,7 @@ namespace MissionPlanner
 
                 int lastmatchindex = 0;
 
-                TXT_outputlog.AppendText("start Processing\n");
+                TXT_outputlog.AppendText("start Processing\r\n");
 
                 foreach (string filename in files)
                 {
@@ -456,10 +466,10 @@ namespace MissionPlanner
                             }
 
                             log.InfoFormat("min " + localmin + " max " + localmax);
-                            TXT_outputlog.AppendText("Log min " + localmin + " max " + localmax + "\r\n");
+                            TXT_outputlog.AppendText("Log start time " + localmin + " end time " + localmax + "\r\r\n");
                         }
 
-                        TXT_outputlog.AppendText("Photo  " + Path.GetFileNameWithoutExtension(filename) + " time  " + photodt + "\r\n");
+                        TXT_outputlog.AppendText("Photo " + Path.GetFileNameWithoutExtension(filename) + " time  " + photodt + "\r\r\n");
                         //Application.DoEvents();
 
                         int a = 0;
@@ -478,9 +488,9 @@ namespace MissionPlanner
 
                             if (first == 0)
                             {
-                                TXT_outputlog.AppendText("Photo " + Path.GetFileNameWithoutExtension(filename) + " " + photodt + " vs Log " + logdt + "\r\n");
+                                TXT_outputlog.AppendText("Photo " + Path.GetFileNameWithoutExtension(filename) + " " + photodt + " vs Log " + logdt + "\r\r\n");
 
-                                TXT_outputlog.AppendText("offset should be about " + (photodt - logdt).TotalSeconds + "\r\n");
+                                TXT_outputlog.AppendText("offset should be about " + (photodt - logdt).TotalSeconds + "\r\r\n");
 
                                 if (dooffset)
                                 {
@@ -504,9 +514,10 @@ namespace MissionPlanner
 
 
 
-                            timecoordcache[(long)(logdt.AddSeconds(-offsetseconds) - DateTime.MinValue).TotalSeconds] = new double[] {
-                            double.Parse(arr[latpos]), double.Parse(arr[lngpos]), double.Parse(arr[altpos]) 
-                        };
+                            timecoordcache[(long)(logdt.AddSeconds(-offsetseconds) - DateTime.MinValue).TotalSeconds] = new double[] 
+                            {
+                             double.Parse(arr[latpos]), double.Parse(arr[lngpos]), double.Parse(arr[altpos]) 
+                            };
 
                             swlogloccsv.WriteLine("ph " + filename + " " + photodt + " log " + logdt);
 
@@ -514,7 +525,7 @@ namespace MissionPlanner
                             {
                                 lastmatchindex = a;
 
-                                TXT_outputlog.AppendText("MATCH Photo " + Path.GetFileNameWithoutExtension(filename) + " " + photodt + "\r\n");
+                                TXT_outputlog.AppendText("MATCH Photo " + Path.GetFileNameWithoutExtension(filename) + " " + photodt + "\r\r\n");
 
                                 matchs++;
 
@@ -537,7 +548,7 @@ namespace MissionPlanner
                                         },
                                         Description = new Description()
                                         {
-                                            Text = "<table><tr><td><img src=\"" + Path.GetFileName(filename).ToLower() + "\" width=500 /></td></tr></table>"
+                                            Text = "<table><tr><td><img src=\"" + filename.ToLower() + "\" width=500 /></td></tr></table>"
                                         },
                                         StyleSelector = new Style()
                                         {
@@ -549,11 +560,11 @@ namespace MissionPlanner
                                 double lat = double.Parse(arr[latpos]);
                                 double lng = double.Parse(arr[lngpos]);
                                 double alpha = 0;
-                                if (arr.Length > yawATT)
+                               // if (arr.Length > yawATT)
                                 {
-                                    alpha = ((double.Parse(arr[yawATT]) / 100.0) + 180) + (double)num_camerarotation.Value;
+                               //     alpha = ((double.Parse(arr[yawATT]) / 100.0) + 180) + (double)num_camerarotation.Value;
                                 }
-                                else
+                               // else
                                 {
                                     alpha = double.Parse(arr[cogpos]) + (double)num_camerarotation.Value;
                                 }
@@ -574,7 +585,7 @@ namespace MissionPlanner
 
                                      swjpw.Close();
                                  }*/
-
+                                
                                 kml.AddFeature(
                                  new GroundOverlay()
                                  {
@@ -592,25 +603,22 @@ namespace MissionPlanner
                                      },
                                      Icon = new SharpKml.Dom.Icon()
                                      {
-                                         Href = new Uri(Path.GetFileName(filename).ToLower(), UriKind.Relative),
+                                         Href = new Uri(filename.ToLower(), UriKind.Relative),
                                      },
                                  }
                                 );
-
+                                
 
 
                                 photocoords[filename] = new double[] { double.Parse(arr[latpos]), double.Parse(arr[lngpos]), double.Parse(arr[altpos]), double.Parse(arr[cogpos]) };
 
                                 imagetotime[filename] = (long)(logdt.AddSeconds(-offsetseconds) - DateTime.MinValue).TotalSeconds;
 
-                                if (arr.Length > yawATT)
-                                {
-                                    swloctxt.WriteLine(Path.GetFileName(filename) + " " + arr[lngpos] + " " + arr[latpos] + " " + arr[altpos] + " " + ((double.Parse(arr[yawATT]) / 100.0) + 180) % 360 + " " + ((double.Parse(arr[pitchATT]) / 100.0)) + " " + (-double.Parse(arr[rollATT]) / 100.0));
-                                }
-                                else
-                                {
+
+                                  //  swloctxt.WriteLine(Path.GetFileName(filename) + " " + arr[lngpos] + " " + arr[latpos] + " " + arr[altpos] + " " + ((double.Parse(arr[yawATT]) / 100.0) + 180) % 360 + " " + ((double.Parse(arr[pitchATT]) / 100.0)) + " " + (-double.Parse(arr[rollATT]) / 100.0));
+
                                     swloctxt.WriteLine(Path.GetFileName(filename) + " " + arr[lngpos] + " " + arr[latpos] + " " + arr[altpos]);
-                                }
+                                
                                 swloctel.WriteLine(Path.GetFileName(filename) + "\t" + logdt.ToString("yyyy:MM:dd HH:mm:ss") + "\t" + arr[lngpos] + "\t" + arr[latpos] + "\t" + arr[altpos]);
                                 swloctel.Flush();
                                 swloctxt.Flush();
@@ -1027,41 +1035,21 @@ namespace MissionPlanner
             // 
             resources.ApplyResources(this.NUM_latpos, "NUM_latpos");
             this.NUM_latpos.Name = "NUM_latpos";
-            this.NUM_latpos.Value = new decimal(new int[] {
-            6,
-            0,
-            0,
-            0});
             // 
             // NUM_lngpos
             // 
             resources.ApplyResources(this.NUM_lngpos, "NUM_lngpos");
             this.NUM_lngpos.Name = "NUM_lngpos";
-            this.NUM_lngpos.Value = new decimal(new int[] {
-            7,
-            0,
-            0,
-            0});
             // 
             // NUM_altpos
             // 
             resources.ApplyResources(this.NUM_altpos, "NUM_altpos");
             this.NUM_altpos.Name = "NUM_altpos";
-            this.NUM_altpos.Value = new decimal(new int[] {
-            8,
-            0,
-            0,
-            0});
             // 
             // NUM_headingpos
             // 
             resources.ApplyResources(this.NUM_headingpos, "NUM_headingpos");
             this.NUM_headingpos.Name = "NUM_headingpos";
-            this.NUM_headingpos.Value = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
             // 
             // label2
             // 
@@ -1164,11 +1152,6 @@ namespace MissionPlanner
             // 
             resources.ApplyResources(this.NUM_time, "NUM_time");
             this.NUM_time.Name = "NUM_time";
-            this.NUM_time.Value = new decimal(new int[] {
-            2,
-            0,
-            0,
-            0});
             // 
             // label10
             // 
@@ -1287,7 +1270,7 @@ namespace MissionPlanner
             {
                 dowork(TXT_logfile.Text, TXT_jpgdir.Text, seconds, false);
             }
-            catch (Exception ex) { TXT_outputlog.AppendText("Error " + ex.ToString()); }
+            catch (Exception ex) { log.Error(ex); TXT_outputlog.AppendText("Error " + ex.ToString()); }
             BUT_doit.Enabled = true;
             BUT_Geotagimages.Enabled = true;
         }
@@ -1336,7 +1319,7 @@ namespace MissionPlanner
         {
             using (MemoryStream ms = new MemoryStream(File.ReadAllBytes(Filename)))
             {
-                TXT_outputlog.AppendText("GeoTagging "+Filename + "\n");
+                TXT_outputlog.AppendText("GeoTagging "+Filename + "\r\n");
                 Application.DoEvents();
 
                 using (Image Pic = Image.FromStream(ms))
@@ -1400,7 +1383,8 @@ namespace MissionPlanner
 
         private void BUT_networklinkgeoref_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start(Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + "m3u" + Path.DirectorySeparatorChar + "GeoRefnetworklink.kml");
+            System.Diagnostics.Process.Start("http://127.0.0.1:56781/georefnetwork.kml");
+            //System.Diagnostics.Process.Start(Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + "m3u" + Path.DirectorySeparatorChar + "GeoRefnetworklink.kml");
         }
 
         private void TXT_logfile_TextChanged(object sender, EventArgs e)
