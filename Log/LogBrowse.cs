@@ -24,6 +24,7 @@ namespace MissionPlanner.Log
         DataTable m_dtCSV = new DataTable();
 
         List<DFLog.DFItem> logdata;
+        Hashtable logdatafilter = new Hashtable();
 
         const int typecoloum = 2;
 
@@ -867,9 +868,12 @@ namespace MissionPlanner.Log
 
             List<string> options = new List<string>();
 
-            foreach (DataRow datarow in m_dtCSV.Rows)
+            foreach (var item in logdata)
             {
-                string celldata = datarow.ItemArray[typecoloum].ToString().Trim();
+                if (item.msgtype == null)
+                    continue;
+    
+                string celldata = item.msgtype.Trim();
                 if (!options.Contains(celldata))
                 {
                     options.Add(celldata);
@@ -889,25 +893,22 @@ namespace MissionPlanner.Log
 
             if (opt.SelectedItem != "")
             {
-                m_dtCSV.DefaultView.RowFilter = m_dtCSV.Columns[typecoloum].ColumnName + " like '" + opt.SelectedItem + "'";
+                int a = 0;
+                foreach (var item in logdata)
+                {
+                    if (item.msgtype == opt.SelectedItem) 
+                    {
+                        logdatafilter.Add(a,item);
+                        a++; 
+                    }                                   
+                }
 
                 if (!MainV2.MONO)
-                {
-                    dataGridView1.VirtualMode = true;
-                    dataGridView1.Rows.Clear();
-                    dataGridView1.RowCount = m_dtCSV.DefaultView.Count;
-                }
+                    dataGridView1.RowCount = logdatafilter.Count;
             }
             else
             {
-                m_dtCSV.DefaultView.RowFilter = "";
-
-                if (!MainV2.MONO)
-                {
-                    dataGridView1.VirtualMode = true;
-                    dataGridView1.Rows.Clear();
-                    dataGridView1.RowCount = m_dtCSV.DefaultView.Count;
-                }
+                logdatafilter.Clear();
             }
 
             /*
@@ -1136,17 +1137,24 @@ namespace MissionPlanner.Log
         {
             try
             {
+                var item = logdata[e.RowIndex];
+
+                if (logdatafilter.Count > 0)
+                {
+                    item = (DFLog.DFItem)logdatafilter[e.RowIndex];
+                }
+
                 if (e.ColumnIndex == 0)
                 {
-                    e.Value = logdata[e.RowIndex].lineno;
+                    e.Value = item.lineno;
                 }
                 else if (e.ColumnIndex == 1)
                 {
-                    e.Value = logdata[e.RowIndex].time.ToString("yyyy-MM-dd HH:mm:ss.fff");
+                    e.Value = item.time.ToString("yyyy-MM-dd HH:mm:ss.fff");
                 }
-                else if (e.ColumnIndex < logdata[e.RowIndex].items.Length + 2)
+                else if (item.items != null && e.ColumnIndex < item.items.Length + 2)
                 {
-                    e.Value = logdata[e.RowIndex].items[e.ColumnIndex - 2];
+                    e.Value = item.items[e.ColumnIndex - 2];
                 }
                 else
                 {
