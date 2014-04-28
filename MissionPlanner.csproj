@@ -524,6 +524,7 @@
       <DependentUpon>FollowPathControl.cs</DependentUpon>
     </Compile>
     <Compile Include="System.cs" />
+    <Compile Include="Utilities\Airports.cs" />
     <Compile Include="Utilities\GitHubContent.cs" />
     <Compile Include="Utilities\GMapMarkerRallyPt.cs" />
     <Compile Include="Utilities\LogAnalyzer.cs" />
@@ -636,6 +637,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="aircraft\Rascal\Systems\ugear.nas">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="airports.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Drivers\amd64\ftd2xx.lib">
@@ -1675,6 +1679,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\Simple.zh-TW.resx">
       <DependentUpon>Simple.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFirmware.de-DE.resx">
       <DependentUpon>ConfigFirmware.cs</DependentUpon>
@@ -1979,6 +1984,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\FlightData.zh-TW.resx">
       <DependentUpon>FlightData.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\FlightPlanner.fr.resx">
       <DependentUpon>FlightPlanner.cs</DependentUpon>
