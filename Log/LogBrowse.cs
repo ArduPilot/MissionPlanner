@@ -904,7 +904,10 @@ namespace MissionPlanner.Log
                 }
 
                 if (!MainV2.MONO)
+                {
+                    dataGridView1.Rows.Clear();
                     dataGridView1.RowCount = logdatafilter.Count;
+                }
             }
             else
             {

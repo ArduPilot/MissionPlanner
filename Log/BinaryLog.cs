@@ -267,7 +267,20 @@ namespace MissionPlanner.Log
                         offset += 16;
                         break;
                     case 'M':
-                        line.Append( ", " + Common.getModesList(MainV2.comPort.MAV.cs)[message[offset]].Value);
+                        int modeno = message[offset];
+                        var modes = Common.getModesList(MainV2.comPort.MAV.cs);
+                        string currentmode = "";
+
+                        foreach (var mode in modes) 
+                        {
+                            if (mode.Key == modeno)
+                            {
+                                currentmode = mode.Value;
+                                break;
+                            }
+                        }
+
+                        line.Append(", " + currentmode);
                         offset++;
                         break;
                     case 'Z':
