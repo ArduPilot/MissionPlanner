@@ -89,6 +89,28 @@
 	      <param index="7">Empty</param>
         </entry>
 
+      <entry name="MAV_CMD_DO_PARACHUTE" value="208">
+          <description>Mission command to trigger a parachute</description>
+          <param index="1">action (0=disable, 1=enable, 2=release, See PARACHUTE_ACTION enum)</param>
+          <param index="2">Empty</param>
+          <param index="3">Empty</param>
+          <param index="4">Empty</param>
+          <param index="5">Empty</param>
+          <param index="6">Empty</param>
+          <param index="7">Empty</param>
+      </entry>
+
+      <entry name="MAV_CMD_DO_MOTOR_TEST" value="209">
+          <description>Mission command to perform motor test</description>
+          <param index="1">motor sequence number (a number from 1 to max number of motors on the vehicle)</param>
+          <param index="2">throttle type (0=throttle percentage, 1=PWM, 2=pilot throttle channel pass-through. See MOTOR_TEST_THROTTLE_TYPE enum)</param>
+          <param index="3">throttle</param>
+          <param index="4">timeout (in seconds)</param>
+          <param index="5">Empty</param>
+          <param index="6">Empty</param>
+          <param index="7">Empty</param>
+      </entry>
+
 	  </enum>
 
 	  <!-- fenced mode enums -->
@@ -145,6 +167,32 @@
           <entry name="FAVORABLE_WIND" value="1"> <description>Flag set when requiring favorable winds for landing. </description></entry>
           <entry name="LAND_IMMEDIATELY" value="2"> <description>Flag set when plane is to immediately descend to break altitude and land without GCS intervention.  Flag not set when plane is to loiter at Rally point until commanded to land.</description></entry>
 	</enum>
+
+    <!-- parachute action enum -->
+    <enum name="PARACHUTE_ACTION">
+        <entry name="PARACHUTE_DISABLE" value="0">
+        <description>Disable parachute release</description>
+        </entry>
+        <entry name="PARACHUTE_ENABLE" value="1">
+        <description>Enable parachute release</description>
+        </entry>
+        <entry name="PARACHUTE_RELEASE" value="2">
+        <description>Release parachute</description>
+        </entry>
+    </enum>
+
+    <!-- motor test type enum -->
+    <enum name="MOTOR_TEST_THROTTLE_TYPE">
+        <entry name="MOTOR_TEST_THROTTLE_PERCENT" value="0">
+        <description>throttle as a percentage from 0 ~ 100</description>
+        </entry>
+        <entry name="MOTOR_TEST_THROTTLE_PWM" value="1">
+        <description>throttle as an absolute PWM value (normally in range of 1000~2000)</description>
+        </entry>
+        <entry name="MOTOR_TEST_THROTTLE_PILOT" value="2">
+        <description>throttle pass-through from pilot's transmitter</description>
+        </entry>
+    </enum>
 
       </enums>
 

@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 public partial class MAVLink
 {
-        public const string MAVLINK_BUILD_DATE = "Sat Apr 05 09:01:58 2014";
+        public const string MAVLINK_BUILD_DATE = "Tue Apr 29 18:17:52 2014";
         public const string MAVLINK_WIRE_PROTOCOL_VERSION = "1.0";
         public const int MAVLINK_MAX_DIALECT_PAYLOAD_SIZE = 255;
 
@@ -259,6 +259,10 @@ DEBUG = 254,
             DO_SET_CAM_TRIGG_DIST=206, 
         	///<summary> Mission command to enable the geofence |enable? (0=disable, 1=enable)| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
             DO_FENCE_ENABLE=207, 
+        	///<summary> Mission command to trigger a parachute |action (0=disable, 1=enable, 2=release, See PARACHUTE_ACTION enum)| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
+            DO_PARACHUTE=208, 
+        	///<summary> Mission command to perform motor test |motor sequence number (a number from 1 to max number of motors on the vehicle)| throttle type (0=throttle percentage, 1=PWM, 2=pilot throttle channel pass-through. See MOTOR_TEST_THROTTLE_TYPE enum)| throttle| timeout (in seconds)| Empty| Empty| Empty|  </summary>
+            DO_MOTOR_TEST=209, 
         	///<summary> NOP - This command is only used to mark the upper limit of the DO commands in the enumeration |Empty| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
             DO_LAST=240, 
         	///<summary> Trigger calibration. This command will be only accepted if in pre-flight mode. |Gyro calibration: 0: no, 1: yes| Magnetometer calibration: 0: no, 1: yes| Ground pressure: 0: no, 1: yes| Radio calibration: 0: no, 1: yes| Accelerometer calibration: 0: no, 1: yes| Compass/Motor interference calibration: 0: no, 1: yes| Empty|  </summary>
@@ -355,6 +359,34 @@ DEBUG = 254,
             FAVORABLE_WIND=1, 
         	///<summary> Flag set when plane is to immediately descend to break altitude and land without GCS intervention.  Flag not set when plane is to loiter at Rally point until commanded to land. | </summary>
             LAND_IMMEDIATELY=2, 
+        	///<summary>  | </summary>
+            ENUM_END=3, 
+        
+        };
+        
+        ///<summary>  </summary>
+        public enum PARACHUTE_ACTION
+        {
+    	///<summary> Disable parachute release | </summary>
+            PARACHUTE_DISABLE=0, 
+        	///<summary> Enable parachute release | </summary>
+            PARACHUTE_ENABLE=1, 
+        	///<summary> Release parachute | </summary>
+            PARACHUTE_RELEASE=2, 
+        	///<summary>  | </summary>
+            ENUM_END=3, 
+        
+        };
+        
+        ///<summary>  </summary>
+        public enum MOTOR_TEST_THROTTLE_TYPE
+        {
+    	///<summary> throttle as a percentage from 0 ~ 100 | </summary>
+            MOTOR_TEST_THROTTLE_PERCENT=0, 
+        	///<summary> throttle as an absolute PWM value (normally in range of 1000~2000) | </summary>
+            MOTOR_TEST_THROTTLE_PWM=1, 
+        	///<summary> throttle pass-through from pilot's transmitter | </summary>
+            MOTOR_TEST_THROTTLE_PILOT=2, 
         	///<summary>  | </summary>
             ENUM_END=3, 
         
