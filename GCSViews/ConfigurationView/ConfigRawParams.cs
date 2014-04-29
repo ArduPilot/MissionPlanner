@@ -474,5 +474,18 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
 
         }
+
+        private void BUT_reset_params_Click(object sender, EventArgs e)
+        {
+            if (CustomMessageBox.Show("Reset all parameters to default\nAre you sure!!", "Reset", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                MainV2.comPort.setParam("FORMAT_VERSION", 0);
+                System.Threading.Thread.Sleep(100);
+                MainV2.comPort.doReboot(false);
+                MainV2.comPort.BaseStream.Close();
+
+                CustomMessageBox.Show("Your board is now rebooting, You will be required to reconnect to the autopilot.");
+            }
+        }
     }
 }
