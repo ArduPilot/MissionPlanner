@@ -109,7 +109,7 @@ namespace px4uploader
                     {
                         up.verifyotp();
                     }
-                    catch (Exception ex) { up.close(); return false; }
+                    catch { up.close(); return false; }
 
                     try
                     {
@@ -131,11 +131,9 @@ namespace px4uploader
                     return true;
                 }
             }
-
-            return false;
         }
 
-        public new static string[] GetPortNames()
+        public static string[] GetPortNames()
         {
             List<string> allPorts = new List<string>();
 
