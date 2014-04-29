@@ -230,11 +230,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>packages\ProjNet.1.2\lib\net20\ProjNet.dll</HintPath>
     </Reference>
-    <Reference Include="px4uploader, Version=1.0.4855.33293, Culture=neutral, processorArchitecture=x86">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\px4uploader\bin\Release\px4uploader.exe</HintPath>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-    </Reference>
     <Reference Include="System">
       <Private>False</Private>
     </Reference>
@@ -6079,6 +6074,10 @@
     <ProjectReference Include="ExtLibs\MetaDataExtractorCSharp240d\MetaDataExtractor.csproj">
       <Project>{b46f6c6c-9184-41af-8f8b-e0084752ca7c}</Project>
       <Name>MetaDataExtractor</Name>
+    </ProjectReference>
+    <ProjectReference Include="ExtLibs\px4uploader\px4uploader.csproj">
+      <Project>{664fc484-2a94-4b0d-808f-a71f88e06b11}</Project>
+      <Name>px4uploader</Name>
     </ProjectReference>
     <ProjectReference Include="ExtLibs\SharpKml\SharpKml.csproj">
       <Project>{53F12A60-E9CC-44BC-8366-1AE3AB2B547D}</Project>
