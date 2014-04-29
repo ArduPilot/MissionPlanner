@@ -76,6 +76,8 @@
             this.configMount1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigMount();
             this.backstageViewPageAntTrack = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
             this.tracker1 = new MissionPlanner.Antenna.Tracker();
+            this.backstageViewPageMotorTest = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
+            this.configMotor1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigMotorTest();
             this.backstageViewPageinstfw = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
             ((System.ComponentModel.ISupportInitialize)(this.initialSetupBindingSource)).BeginInit();
             this.SuspendLayout();
@@ -108,6 +110,7 @@
             this.backstageView.Pages.Add(this.backstageViewPageosd);
             this.backstageView.Pages.Add(this.backstageViewPagegimbal);
             this.backstageView.Pages.Add(this.backstageViewPageAntTrack);
+            this.backstageView.Pages.Add(this.backstageViewPageMotorTest);
             this.backstageView.WidthMenu = 172;
             // 
             // backstageViewPagefw
@@ -460,6 +463,22 @@
             this.tracker1.ForeColor = System.Drawing.Color.White;
             this.tracker1.Name = "tracker1";
             // 
+            // backstageViewPageMotorTest
+            // 
+            this.backstageViewPageMotorTest.Advanced = false;
+            this.backstageViewPageMotorTest.DataBindings.Add(new System.Windows.Forms.Binding("Show", this.initialSetupBindingSource, "isCopter", true));
+            this.backstageViewPageMotorTest.LinkText = "Motor Test";
+            this.backstageViewPageMotorTest.Page = this.configMotor1;
+            this.backstageViewPageMotorTest.Parent = this.backstageViewPageopt;
+            this.backstageViewPageMotorTest.Show = true;
+            this.backstageViewPageMotorTest.Spacing = 30;
+            resources.ApplyResources(this.backstageViewPageMotorTest, "backstageViewPageMotorTest");
+            // 
+            // configMotor1
+            // 
+            resources.ApplyResources(this.configMotor1, "configMotor1");
+            this.configMotor1.Name = "configMotor1";
+            // 
             // backstageViewPageinstfw
             // 
             this.backstageViewPageinstfw.Advanced = false;
@@ -508,6 +527,7 @@
         private ConfigurationView.ConfigHWOptFlow configHWOptFlow1;
         private ConfigurationView.ConfigHWOSD configHWOSD1;
         private ConfigurationView.ConfigMount configMount1;
+        private ConfigurationView.ConfigMotorTest configMotor1;
         private Antenna.Tracker tracker1;
         private Controls.BackstageView.BackstageViewPage backstageViewPageinstfw;
         private Controls.BackstageView.BackstageViewPage backstageViewPagewizard;
@@ -534,5 +554,6 @@
         private System.Windows.Forms.BindingSource initialSetupBindingSource;
         private Controls.BackstageView.BackstageViewPage backstageViewPagecompassmot;
         private ConfigurationView.ConfigCompassMot configCompassMot1;
+        private Controls.BackstageView.BackstageViewPage backstageViewPageMotorTest;
     }
 }
