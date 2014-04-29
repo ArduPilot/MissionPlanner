@@ -912,6 +912,11 @@ namespace MissionPlanner.Log
             else
             {
                 logdatafilter.Clear();
+                if (!MainV2.MONO)
+                {
+                    dataGridView1.Rows.Clear();
+                    dataGridView1.RowCount = logdata.Count;
+                }
             }
 
             /*
