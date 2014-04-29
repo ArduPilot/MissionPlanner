@@ -5,7 +5,7 @@
 
     <param>
       <title>RC Feel Roll/Pitch</title>
-      <desc>RC feel for roll/pitch which controls vehicle response to user input with 0 being extremely soft and 100 begin crisp</desc>
+      <desc>Slide to the left for softer response to user RC input or slide to the right for crisper response.</desc>
       <name>RC_FEEL_RP</name>
       <value>100</value>
       <min>0</min>
