@@ -588,7 +588,7 @@ namespace MissionPlanner.Utilities
                     {
                         up.verifyotp();
                     }
-                    catch { CustomMessageBox.Show("This board does not contain a valid certificate of authenticity.", "Invalid Cert"); up.__reboot(); up.close(); return false; }
+                    catch { CustomMessageBox.Show("You are using unsupported hardware.\nThis board does not contain a valid certificate of authenticity.\nPlease contact your hardware vendor about signing your hardware.", "Invalid Cert"); up.skipotp = true; }
 
                     try
                     {
