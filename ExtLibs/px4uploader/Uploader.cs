@@ -10,6 +10,8 @@ using System.Security.Cryptography;
 using Org.BouncyCastle.Security;
 using System.Runtime.InteropServices;
 using System.Reflection;
+using System.Xml;
+using System.Windows.Forms;
 
 namespace px4uploader
 {
@@ -85,6 +87,11 @@ namespace px4uploader
             public byte[] signature;
         }
 
+        static Uploader()
+        {
+            readcerts();
+        }
+
         public Uploader(string port, int baudrate)
         {
             self = this;
@@ -145,6 +152,46 @@ namespace px4uploader
             Marshal.FreeHGlobal(i);
         }
 
+        static List<KeyValuePair<string, string>> certs = new List<KeyValuePair<string, string>>();
+
+        public static void readcerts()
+        {
+            string vendor = "";
+            string publickey = "";
+
+            using (XmlTextReader xmlreader = new XmlTextReader(Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + @"validcertificates.xml"))
+            {
+                while (xmlreader.Read())
+                {
+                    if (xmlreader.ReadToFollowing("CERTIFICATE"))
+                    {
+                        var xmlreader2 = xmlreader.ReadSubtree();
+
+                        while (xmlreader2.Read())
+                        {
+                            switch (xmlreader2.Name)
+                            {
+                                case "VENDOR":
+                                    vendor = xmlreader2.ReadString();
+                                    break;
+                                case "PUBLICKEY":
+                                    publickey = xmlreader2.ReadString();
+                                    break;
+                            }
+                        }
+
+                        if (vendor != "")
+                        {
+                            certs.Add(new KeyValuePair<string, string>(vendor, publickey));
+
+                            vendor = "";
+                            publickey = "";
+                        }
+                    }
+                }
+            }
+        }
+
         public bool verifyotp()
         {
             if (skipotp)
@@ -201,31 +248,29 @@ namespace px4uploader
 
                         //   RSAParameters rsapublic = rsa.ExportParameters(false);
 
-                        byte[] pubpem = Convert.FromBase64String(@"
-MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDqi8E6EdZ11iE7nAc95bjdUTwd
-/gLetSAAx8X9jgjInz5j47DIcDqFVFKEFZWiAc3AxJE/fNrPQey16SfI0FyDAX/U
-4jyGIv9w+M1dKgUPI8UdpEMS2w1YnfzW0GO3PX0SBL6pctEIdXr0NGsFFaqU9Yz4
-DbgBdR6wBz9qdfRRoQIDAQAB");
-                        AsymmetricKeyParameter asymmetricKeyParameter = PublicKeyFactory.CreateKey(pubpem);
-                        RsaKeyParameters rsaKeyParameters = (RsaKeyParameters)asymmetricKeyParameter;
-                        RSAParameters rsaParameters = new RSAParameters();
-                        rsaParameters.Modulus = rsaKeyParameters.Modulus.ToByteArrayUnsigned();
-                        rsaParameters.Exponent = rsaKeyParameters.Exponent.ToByteArrayUnsigned();
-                        RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
-                        rsa.ImportParameters(rsaParameters);
-
-                        bool valid = rsa.VerifyHash(sn, CryptoConfig.MapNameToOID("SHA1"), otp.signature);
-
-                        if (valid)
+                        foreach (var cert in certs)
                         {
-                            print("Valid Key");
-                            return true;
+                            byte[] pubpem = Convert.FromBase64String(cert.Value);
+
+                            AsymmetricKeyParameter asymmetricKeyParameter = PublicKeyFactory.CreateKey(pubpem);
+                            RsaKeyParameters rsaKeyParameters = (RsaKeyParameters)asymmetricKeyParameter;
+                            RSAParameters rsaParameters = new RSAParameters();
+                            rsaParameters.Modulus = rsaKeyParameters.Modulus.ToByteArrayUnsigned();
+                            rsaParameters.Exponent = rsaKeyParameters.Exponent.ToByteArrayUnsigned();
+                            RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
+                            rsa.ImportParameters(rsaParameters);
+
+                            bool valid = rsa.VerifyHash(sn, CryptoConfig.MapNameToOID("SHA1"), otp.signature);
+
+                            if (valid)
+                            {
+                                print("Valid Key");
+                                return true;
+                            }
                         }
-                        else
-                        {
-                            print("Invalid Key");
-                            throw new Exception("Invalid Board");
-                        }
+
+                        print("Invalid Key");
+                        throw new Exception("Invalid Board");
                     }
                     else
                     {
@@ -234,7 +279,10 @@ DbgBdR6wBz9qdfRRoQIDAQAB");
                     }
 
                 }
-                catch { print("Failed to read OTP"); }
+                catch 
+                { 
+                    print("Failed to read OTP"); 
+                }
                 throw new Exception("Failed to read OTP");
             }
 
