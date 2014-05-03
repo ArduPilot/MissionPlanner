@@ -47,7 +47,7 @@ namespace MissionPlanner.Utilities
                     double lng = double.Parse(items[5 + latOffset].Trim('"'), CultureInfo.InvariantCulture);
                     double alt = 0;
 
-                    //double alt = double.Parse(items[6].Trim('"')) * 0.3048;
+                    //double alt = double.Parse(items[6 + latOffset].Trim('"')) * 0.3048;
 
                     var newap = new PointLatLngAlt(lat, lng, alt, name);
 
