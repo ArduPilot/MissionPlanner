@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Globalization;
 
 namespace MissionPlanner.Utilities
 {
@@ -34,10 +35,16 @@ namespace MissionPlanner.Utilities
                 try
                 {
 
-                    string name = items[3].Trim('"');
-
-                    double lat = double.Parse(items[4].Trim('"'));
-                    double lng = double.Parse(items[5].Trim('"'));
+                    string name = items[3];
+                    int latOffset = 0;
+                    while (name[0] == '"' && name[name.Length - 1] != '"')
+                    {
+                        latOffset += 1;
+                        name = name + "," + items[3 + latOffset];
+                    }
+                    name.Trim('"');
+                    double lat = double.Parse(items[4 + latOffset].Trim('"'), CultureInfo.InvariantCulture);
+                    double lng = double.Parse(items[5 + latOffset].Trim('"'), CultureInfo.InvariantCulture);
                     double alt = 0;
 
                     //double alt = double.Parse(items[6].Trim('"')) * 0.3048;
