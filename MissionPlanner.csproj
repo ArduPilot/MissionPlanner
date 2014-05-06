@@ -177,6 +177,9 @@
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
     </Reference>
+    <Reference Include="Ionic.Zip">
+      <HintPath>packages\DotNetZip.1.9.2\lib\net20\Ionic.Zip.dll</HintPath>
+    </Reference>
     <Reference Include="Ionic.Zip.Reduced, Version=1.9.1.5, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>extLibs\Ionic.Zip.Reduced.dll</HintPath>
@@ -193,7 +196,9 @@
     <Reference Include="IronPython.Wpf, Version=2.7.0.40, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
       <HintPath>packages\IronPython.2.7.5-beta1\lib\Net40\IronPython.Wpf.dll</HintPath>
     </Reference>
-    <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL" />
+    <Reference Include="log4net">
+      <HintPath>packages\log4net.2.0.0\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.DirectX, Version=1.0.2902.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
       <SpecificVersion>False</SpecificVersion>
       <Private>True</Private>
@@ -246,9 +251,18 @@
     <Reference Include="System.Management">
       <Private>False</Private>
     </Reference>
-    <Reference Include="System.Reactive.Core, Version=2.0.20823.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
-    <Reference Include="System.Reactive.Interfaces, Version=2.0.20823.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
-    <Reference Include="System.Reactive.Linq, Version=2.0.20823.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Reactive.Core">
+      <HintPath>packages\Rx-Core.2.2.4\lib\net40\System.Reactive.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Interfaces">
+      <HintPath>packages\Rx-Interfaces.2.2.4\lib\net40\System.Reactive.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Linq">
+      <HintPath>packages\Rx-Linq.2.2.4\lib\net40\System.Reactive.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.PlatformServices">
+      <HintPath>packages\Rx-PlatformServices.2.2.4\lib\net40\System.Reactive.PlatformServices.dll</HintPath>
+    </Reference>
     <Reference Include="System.Security" />
     <Reference Include="System.Speech">
       <Private>True</Private>

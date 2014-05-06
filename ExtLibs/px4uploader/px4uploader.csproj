@@ -51,10 +51,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="BouncyCastle.Crypto">
-      <HintPath>..\ArdupilotMega\ArdupilotMega\Lib\BouncyCastle.Crypto.dll</HintPath>
+      <HintPath>..\..\packages\BouncyCastle.1.7.0\lib\Net20\BouncyCastle.Crypto.dll</HintPath>
     </Reference>
-    <Reference Include="Ionic.Zip.Reduced">
-      <HintPath>..\ArdupilotMega\ArdupilotMega\Lib\Ionic.Zip.Reduced.dll</HintPath>
+    <Reference Include="Ionic.Zip">
+      <HintPath>..\..\packages\DotNetZip.1.9.2\lib\net20\Ionic.Zip.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -81,6 +81,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
