@@ -131,8 +131,8 @@
     <ManifestTimestampUrl>http://timestamp.verisign.com/scripts/timestamp.dll</ManifestTimestampUrl>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="alglibnet2, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="alglibnet2">
+      <HintPath>ExtLibs\alglibnet2.dll</HintPath>
     </Reference>
     <Reference Include="AWSSDK, Version=1.5.18.0, Culture=neutral, PublicKeyToken=9f476d3089b52be3, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -148,6 +148,7 @@
       <HintPath>extLibs\csmatio.dll</HintPath>
     </Reference>
     <Reference Include="DirectShowLib-2005">
+      <HintPath>ExtLibs\DirectShowLib-2005.dll</HintPath>
     </Reference>
     <Reference Include="DotSpatial.Data">
       <HintPath>packages\DotSpatial.Data.1.6.0.0\lib\net40-Client\DotSpatial.Data.dll</HintPath>
@@ -176,13 +177,10 @@
       <HintPath>ExtLibs\GMap.NET.WindowsForms.dll</HintPath>
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
     <Reference Include="Ionic.Zip">
       <HintPath>packages\DotNetZip.1.9.2\lib\net20\Ionic.Zip.dll</HintPath>
-    </Reference>
-    <Reference Include="Ionic.Zip.Reduced, Version=1.9.1.5, Culture=neutral, PublicKeyToken=edbe51ad942a3f5c, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>extLibs\Ionic.Zip.Reduced.dll</HintPath>
     </Reference>
     <Reference Include="IronPython, Version=2.7.0.40, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
       <HintPath>packages\IronPython.2.7.5-beta1\lib\Net40\IronPython.dll</HintPath>
