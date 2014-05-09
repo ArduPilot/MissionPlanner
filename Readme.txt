@@ -23,9 +23,8 @@
 
 3. Build
 
-- Open ArdupilotMega.sln with Visual Studio 2010-2013
-- Follow compile1.jpg in the code tree
-- apply compile1.jpg to all problem projects.
+- Open ArdupilotMega.sln with Visual Studio express 2013 for windows desktop.
+- Compile.
 
 
 -----------MONO-------------
