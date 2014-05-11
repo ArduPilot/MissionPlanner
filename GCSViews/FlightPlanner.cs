@@ -1123,6 +1123,12 @@ namespace MissionPlanner.GCSViews
                 }
 
                 setgradanddistandaz();
+
+                foreach (var item in Utilities.Airports.airports)
+                {
+                    if (item.GetDistance(MainMap.Position) < 100000)
+                        polygonsoverlay.Markers.Add(new GMarkerGoogle(item, GMarkerGoogleType.black_small) { ToolTipText = item.Tag, ToolTipMode = MarkerTooltipMode.Always });
+                }
             }
             catch (Exception ex)
             {

@@ -1072,13 +1072,6 @@ namespace MissionPlanner.GCSViews
 
                            // routes.Markers.Clear();
 
-                            foreach (var item in Utilities.Airports.airports)
-                            {
-
-                                if (item.GetDistance(gMapControl1.Position) < 100000)
-                                    polygons.Markers.Add(new GMarkerGoogle(item, GMarkerGoogleType.black_small) { ToolTipText = item.Tag, ToolTipMode = MarkerTooltipMode.Always });
-                            }
-
                             gMapControl1.HoldInvalidation = false;
 
                             gMapControl1.Invalidate();

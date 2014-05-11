@@ -16,7 +16,46 @@ namespace MissionPlanner.Utilities
 
         //http://ourairports.com/data/
 
+        //http://openflights.org/data.html
+
         public static List<PointLatLngAlt> airports = new List<PointLatLngAlt>();
+
+        public static void ReadOpenflights(string fn)
+        {
+            string[] lines = File.ReadAllLines(fn);
+
+            foreach (var line in lines)
+            {
+                string[] items = line.Split(',');
+
+                if (items.Length == 0)
+                    continue;
+
+                try
+                {
+
+                    string name = items[1];
+                    int latOffset = 0;
+                    while (name[0] == '"' && name[name.Length - 1] != '"')
+                    {
+                        latOffset += 1;
+                        name = name + "," + items[2 + latOffset];
+                    }
+                    name = name.Trim('"');
+                    double lat = double.Parse(items[6 + latOffset].Trim('"'), CultureInfo.InvariantCulture);
+                    double lng = double.Parse(items[7 + latOffset].Trim('"'), CultureInfo.InvariantCulture);
+                    double alt = 0;
+
+                    //double alt = double.Parse(items[8 + latOffset].Trim('"')) * 0.3048;
+
+                    var newap = new PointLatLngAlt(lat, lng, alt, name);
+
+                    airports.Add(newap);
+                    Console.WriteLine(newap);
+                }
+                catch { }
+            }
+        }
 
         public static void ReadOurairports(string fn)
         {
@@ -42,7 +81,7 @@ namespace MissionPlanner.Utilities
                         latOffset += 1;
                         name = name + "," + items[3 + latOffset];
                     }
-                    name.Trim('"');
+                    name = name.Trim('"');
                     double lat = double.Parse(items[4 + latOffset].Trim('"'), CultureInfo.InvariantCulture);
                     double lng = double.Parse(items[5 + latOffset].Trim('"'), CultureInfo.InvariantCulture);
                     double alt = 0;
