@@ -224,7 +224,8 @@ namespace MissionPlanner.Controls
 
                 GL.End();
 
-                GL.PointSize(8);
+                // 8
+                GL.PointSize(12);
 
                 GL.Begin(PrimitiveType.Points);
 
