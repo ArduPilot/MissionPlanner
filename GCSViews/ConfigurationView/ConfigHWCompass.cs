@@ -121,7 +121,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             radius /= data.Count;
 
             //test that we can find one point near a set of points all around the sphere surface
-            int factor = 3; // 9 point check 3x3
+            int factor = 2; // 4 point check 2x2
             float max_distance = radius / 3; //pretty generouse
             for (int j = 0; j < factor; j++)
             {
