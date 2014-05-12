@@ -17,9 +17,161 @@ using System.Text.RegularExpressions;
 
 namespace MissionPlanner
 {
-    public class Georefimage : Form
+    public class Georefimage : Form 
     {
+        enum PROCESSING_MODE
+        { 
+            TIME_OFFSET,
+            CAM_MSG
+        }
+
+        public class PictureInformation : SingleLocation
+        {
+            string path;
+
+            public string Path
+            {
+                get { return path; }
+                set { path = value; }
+            }
+
+            DateTime shotTimeReportedByCamera;
+
+            public DateTime ShotTimeReportedByCamera
+            {
+                get { return shotTimeReportedByCamera; }
+                set { shotTimeReportedByCamera = value; }
+            }
+
+            int width;
+            public int Width
+            {
+                get { return width; }
+                set { width = value; }
+            }
+
+            int height;
+            public int Height
+            {
+                get { return height; }
+                set { height = value; }
+            }
+
+            public PictureInformation()
+            {
+                width = 3200;
+                height = 2400;
+            }
+        }
+
+        public class SingleLocation
+        {
+            
+            DateTime time;
+
+            public DateTime Time
+            {
+                get { return time; }
+                set { time = value; }
+            }
+
+            double lat;
+
+            public double Lat
+            {
+                get { return lat; }
+                set { lat = value; }
+            }
+            double lon;
+
+            public double Lon
+            {
+                get { return lon; }
+                set { lon = value; }
+            }
+            double altAMSL;
+
+            public double AltAMSL
+            {
+                get { return altAMSL; }
+                set { altAMSL = value; }
+            }
+
+            double relAlt;
+
+            public double RelAlt
+            {
+                get { return relAlt; }
+                set { relAlt = value; }
+            }
+
+            float roll;
+
+            public float Roll
+            {
+                get { return roll; }
+                set { roll = value; }
+            }
+            float pitch;
+
+            public float Pitch
+            {
+                get { return pitch; }
+                set { pitch = value; }
+            }
+            float yaw;
+
+            public float Yaw
+            {
+                get { return yaw; }
+                set { yaw = value; }
+            }
+
+            public double getAltitude(bool AMSL)
+            {
+                return (AMSL ? AltAMSL : RelAlt);
+            }
+        }
+
+        public class VehicleLocation : SingleLocation
+        {
+            
+        }
+
+        private const string PHOTO_FILES_FILTER = "*.jpg";
+        private const int JXL_ID_OFFSET = 10;
+
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
+        // CONSTS
+        const float rad2deg = (float)(180 / Math.PI);
+        const float deg2rad = (float)(1.0 / rad2deg);
+
+        // GPS Log positions
+        //Status,Time,NSats,HDop,Lat,Lng,RelAlt,Alt,Spd,GCrs
+        //GPS, 3, 122732, 10, 0.00, -35.3628880, 149.1621961, 808.90, 810.30, 23.30, 94.04
+        //GPS, 3, 23524837, 1790, 10, 0.00, -35.3629379, 149.165085, 2.09, 585.41, 0.00, 129.86, 0, 4001
+        // 0   1     2         3   4    5         6           7        8      9     10     11    12  13
+		int gpsweekpos = 3, timepos = 2, latpos = 6, lngpos = 7, altpos = 8, altAMSLpos = 9;
+        
+        // ATT Msg Positions
+        // ATT, 199361, 0.00, -0.40, 0.00, -3.01, 103.03, 103.03
+        int pitchATT = 5, rollATT = 3, yawATT = 7;
+        
+        // CAM Log positions
+        //CAM, 36028400, 1790, 37.4155135, -3.8520916, 69.93, -3.61, -3.82, 62.93
+        int timeCAMpos = 1, weekCAMPos = 2, latCAMpos = 3, lngCAMpos = 4, altCAMpos = 5, pitchCAMATT = 6, rollCAMATT = 7, yawCAMATT = 8;
+
+        #region GraphicalStuff
+        private Label label6;
+        private Panel panel2;
+        private NumericUpDown NUM_ATT_Roll;
+        private Label label25;
+        private NumericUpDown NUM_ATT_Pitch;
+        private Label label24;
+        private CheckBox CHECK_AMSLAlt_Use;
+        private Label label23;
+        private NumericUpDown NUM_GPS_Week;
         private OpenFileDialog openFileDialog1;
         private Controls.MyButton BUT_browselog;
         private Controls.MyButton BUT_browsedir;
@@ -31,55 +183,107 @@ namespace MissionPlanner
         private Label label1;
         private TextBox TXT_outputlog;
         private Controls.MyButton BUT_estoffset;
-
-        //Status,Time,NSats,HDop,Lat,Lng,RelAlt,Alt,Spd,GCrs
-        //GPS, 3, 122732, 10, 0.00, -35.3628880, 149.1621961, 808.90, 810.30, 23.30, 94.04
-        //GPS, 3, 23524837, 1790, 10, 0.00, -35.3629379, 149.165085, 2.09, 585.41, 0.00, 129.86, 0, 4001
-        // 0   1     2         3   4    5         6           7        8      9     10     11    12  13
-
-        int timepos = 2, latpos = 6, lngpos = 7, altpos = 9, cogpos = 11, pitchATT = 12, rollATT = 11, yawATT = 13;
-
-        private NumericUpDown NUM_latpos;
-        private NumericUpDown NUM_lngpos;
-        private NumericUpDown NUM_altpos;
-        private NumericUpDown NUM_headingpos;
         private Label label2;
         private Label label3;
         private Label label4;
         private Label label5;
-        private Label label6;
-        private Controls.MyButton BUT_networklinkgeoref;
-        private NumericUpDown num_vfov;
-        private NumericUpDown num_hfov;
-        private Label label7;
-        private Label label8;
-        private NumericUpDown num_camerarotation;
-        private Label label9;
-        private NumericUpDown NUM_time;
         private Label label10;
+        private Label label11;
+        private Label label12;
+        private Label label13;
+        private Label label14;
+        private Label label15;
+        private Label label16;
+        private Label label9;
+        private Label label8;
+        private Label label7;
+        private Label label20;
+        private Label label19;
+        private Label label18;
+        private Label label17;
+        private Label label21;
+        private Label label22;
+        private NumericUpDown NUM_latpos;
+        private NumericUpDown NUM_lngpos;
+        private NumericUpDown NUM_altpos;
+        private NumericUpDown NUM_ATT_Heading;
+        private Controls.MyButton BUT_networklinkgeoref;
+        private NumericUpDown NUM_time;
+        private RadioButton RDIO_TimeOffset;
+        private RadioButton RDIO_CAMMsgSynchro;
+        private Panel PANEL_TIME_OFFSET;
+        private NumericUpDown NUM_CAM_Alt;
+        private NumericUpDown NUM_CAM_Lon;
+        private NumericUpDown NUM_CAM_Lat;
+        private Panel PANEL_CAM;
+        private NumericUpDown num_camerarotation;
+        private NumericUpDown num_hfov;
+        private NumericUpDown num_vfov;
+        private Panel panel3;
         private Controls.MyButton BUT_Geotagimages;
+        private PROCESSING_MODE selectedProcessingMode;
+        private NumericUpDown NUM_CAM_Pitch;
+        private NumericUpDown NUM_CAM_Roll;
+        private NumericUpDown NUM_CAM_Heading;
+        private NumericUpDown NUM_GPS_AMSL_Alt;
+        private NumericUpDown NUM_CAM_Time;
+        private Panel panel1;
+        #endregion
+        
+        // Key = path of file, Value = object with picture information
+        Dictionary<string, PictureInformation> picturesInfo;
+
+        // Key = time in milliseconds, Value = object with location info and attitude
+        Dictionary<long, VehicleLocation> vehicleLocations;
+
+        bool useAMSLAlt;
+
+        Hashtable filedatecache = new Hashtable();
+        private NumericUpDown NUM_CAM_Week;
+        private Label label26;
+        List<int> JXL_StationIDs = new List<int>();
 
         internal Georefimage() {
             InitializeComponent();
 
-            NUM_time.Value = timepos;
 
+            CHECK_AMSLAlt_Use.Checked = true;
+            PANEL_TIME_OFFSET.Enabled = false;
+
+            useAMSLAlt = CHECK_AMSLAlt_Use.Checked;
+
+            JXL_StationIDs = new List<int>();
+
+            selectedProcessingMode = PROCESSING_MODE.CAM_MSG;
+
+            // Graphic init
+            // GPS
+            NUM_GPS_Week.Value = gpsweekpos;
+            NUM_time.Value = timepos;
             NUM_latpos.Value = latpos;
             NUM_lngpos.Value = lngpos;
             NUM_altpos.Value = altpos;
+            NUM_GPS_AMSL_Alt.Value = altAMSLpos;
 
-            NUM_headingpos.Value = cogpos;
+            // ATT 
+            NUM_ATT_Heading.Value = yawATT;
+            NUM_ATT_Pitch.Value = pitchATT;
+            NUM_ATT_Roll.Value = rollATT;
+
+            // CAM
+            NUM_CAM_Time.Value = timeCAMpos;
+            NUM_CAM_Week.Value = weekCAMPos;
+            NUM_CAM_Lat.Value = latCAMpos;
+            NUM_CAM_Lon.Value = lngCAMpos;
+            NUM_CAM_Alt.Value = altCAMpos;
+
+            NUM_CAM_Heading.Value = yawCAMATT;
+            NUM_CAM_Roll.Value = rollCAMATT;
+            NUM_CAM_Pitch.Value = pitchCAMATT;
 
             MissionPlanner.Utilities.Tracking.AddPage(this.GetType().ToString(), this.Text);
+
         }
-
-        Hashtable filedatecache = new Hashtable();
-        Hashtable photocoords = new Hashtable();
-
-        Hashtable timecoordcache = new Hashtable();
-        Hashtable imagetotime = new Hashtable();
-
-        List<string[]> logcache = new List<string[]>();
 
         DateTime getPhotoTime(string fn)
         {
@@ -146,13 +350,12 @@ namespace MissionPlanner
             return dtaken;
         }
 
-        List<string[]> readLog(string fn)
+        // Return List with all GPS Messages splitted in string arrays
+        Dictionary<long, VehicleLocation> readGPSMsgInLog(string fn)
         {
-            if (logcache.Count > 50)
-                return logcache;
+            Dictionary<long, VehicleLocation> vehiclePositionList = new Dictionary<long,VehicleLocation>();
 
-            List<string[]> list = new List<string[]>();
-
+            // Telemetry Log
             if (fn.ToLower().EndsWith("tlog"))
             {
                 MAVLinkInterface mine = new MAVLinkInterface();
@@ -163,140 +366,187 @@ namespace MissionPlanner
 
                 CurrentState cs = new CurrentState();
 
-                List<string> loglist = new List<string>();
-
-                string[] oldvalues = {""};
-
                 while (mine.logplaybackfile.BaseStream.Position < mine.logplaybackfile.BaseStream.Length)
                 {
-
                     byte[] packet = mine.readPacket();
 
                     cs.datetime = mine.lastlogread;
 
                     cs.UpdateCurrentSettings(null, true, mine);
 
-                    // old
-                    //		line	"GPS: 82686250, 1, 8, -34.1406480, 118.5441900, 0.0000, 309.1900, 315.9500, 0.0000, 279.1200"	string
+                    VehicleLocation location = new VehicleLocation();
+                    location.Time = cs.datetime;
+                    location.Lat = cs.lat;
+                    location.Lon = cs.lng;
+                    location.RelAlt = cs.alt;
+                    location.AltAMSL = cs.altasl;
 
-                    //Status,Time,NSats,HDop,Lat,Lng,RelAlt,Alt,Spd,GCrs
-                    //GPS, 3, 122732, 10, 0.00, -35.3628880, 149.1621961, 808.90, 810.30, 23.30, 94.04
+                    location.Roll = cs.roll;
+                    location.Pitch = cs.pitch;
+                    location.Yaw = cs.yaw;
 
-                    //FMT, 130, 45, GPS, BIHBcLLeeEefI, Status,TimeMS,Week,NSats,HDop,Lat,Lng,RelAlt,Alt,Spd,GCrs,VZ,T
-
-                    string[] vals = new string[] { "GPS", "3", (cs.datetime.ToUniversalTime() - new DateTime(cs.datetime.Year,cs.datetime.Month,cs.datetime.Day,0,0,0,DateTimeKind.Utc)).TotalMilliseconds.ToString(),
-                       cs.satcount.ToString(),cs.gpshdop.ToString(),cs.lat.ToString(),cs.lng.ToString(),cs.alt.ToString(),cs.altasl.ToString(),cs.groundspeed.ToString(),cs.yaw.ToString(),"0","0"};
-
-                    if (oldvalues.Length > 2 && oldvalues[latpos] == vals[latpos]
-                        && oldvalues[lngpos] == vals[lngpos]
-                        && oldvalues[altpos] == vals[altpos])
-                        continue;
-
-                    oldvalues = vals;
-
-                    loglist.Add(String.Join(",", vals));
+                    vehiclePositionList.Add(ToMilliseconds(location.Time), location);
                     // 4 5 7
                     Console.Write((mine.logplaybackfile.BaseStream.Position * 100 / mine.logplaybackfile.BaseStream.Length) + "    \r");
-                    
+                }
+                mine.logplaybackfile.Close();
+            }
+            // DataFlash Log
+            else
+            {
+                StreamReader sr = new StreamReader(fn);
+
+                // Will hold the last seen Attitude information in order to incorporate them into the GPS Info
+                float currentYaw = 0f;
+                float currentRoll = 0f;
+                float currentPitch = 0f;
+
+                while (!sr.EndOfStream)
+                {
+                    string line = sr.ReadLine();
+
+                    // Look for GPS Messages. However GPS Messages do not have Roll, Pitch and Yaw
+                    // So we have to look for one ATT message after having read a GPS one
+                    if (line.ToLower().StartsWith("gps"))
+                    {
+                        VehicleLocation location = new VehicleLocation();
+
+                        string[] gpsLineValues = line.Split(new char[] { ',', ':' });
+
+                        location.Time = GetTimeFromGps(int.Parse(gpsLineValues[gpsweekpos]), int.Parse(gpsLineValues[timepos]) );
+                        location.Lat = double.Parse(gpsLineValues[latpos]);
+                        location.Lon = double.Parse(gpsLineValues[lngpos]);
+                        location.RelAlt = double.Parse(gpsLineValues[altpos]);
+                        location.AltAMSL = double.Parse(gpsLineValues[altAMSLpos]);
+
+                        location.Roll = currentRoll;
+                        location.Pitch = currentPitch;
+                        location.Yaw = currentYaw;
+
+                        long millis = ToMilliseconds(location.Time);
+
+                        if (!vehiclePositionList.ContainsKey(millis))
+                            vehiclePositionList.Add(millis, location);
+                    }
+                    else if (line.ToLower().StartsWith("att"))
+                    {
+                        string[] attLineValues = line.Split(new char[] { ',', ':' });
+
+                        currentRoll = float.Parse(attLineValues[rollATT]);
+                        currentPitch = float.Parse(attLineValues[pitchATT]);
+                        currentYaw = float.Parse(attLineValues[yawATT]);
+
+                    }
+
+
                 }
 
-                mine.logplaybackfile.Close();
+                sr.Close();
 
-                fn = fn + ".log";
-
-                File.WriteAllLines(fn, loglist.ToArray());
-
-                CustomMessageBox.Show("Created log file from tlog: "+ fn);
             }
 
-            StreamReader sr = new StreamReader(fn);
+            return vehiclePositionList;
+        }
 
-            string lasttime = "0";
+        // Return List with all CAMs messages splitted in string arrays
+        List<string[]> readCAMMsgInLog(string fn)
+        {
+            List<string[]> list = new List<string[]>();
+
+            if (fn.ToLower().EndsWith("tlog"))
+                return null;
+
+            StreamReader sr = new StreamReader(fn);
 
             while (!sr.EndOfStream)
             {
                 string line = sr.ReadLine();
 
-                if (line.ToLower().StartsWith("gps"))
+                if (line.ToLower().StartsWith("cam"))
                 {
-                    if (!sr.EndOfStream)
-					{
-                        string line2 = sr.ReadLine();
-                        if (line2.ToLower().StartsWith("att"))
-						{
-							line = string.Concat(line, ",", line2);
-						}
-					}
-                    string[] vals = line.Split(new char[] {',',':'});
-
-                    if (lasttime == vals[timepos])
-                        continue;
-
-                    lasttime = vals[timepos];
+                    string[] vals = line.Split(new char[] { ',', ':' });
 
                     list.Add(vals);
                 }
-
-
             }
 
             sr.Close();
-
-            logcache = list;
-
             return list;
         }
 
-        public void dowork(string logFile, string dirWithImages, float offsetseconds, bool dooffset)
+        #region HelperMethods
+        public DateTime FromUTCTimeMilliseconds(long milliseconds)
         {
-            TXT_outputlog.Clear();
+            var epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            return epoch.AddMilliseconds(milliseconds);
+        }
 
-            timepos = (int)NUM_time.Value;
+        public DateTime GetTimeFromGps(int weeknumber, int milliseconds)
+        {
+            int LEAP_SECONDS = 25;
 
-            latpos = (int)NUM_latpos.Value;
-            lngpos = (int)NUM_lngpos.Value;
-            altpos = (int)NUM_altpos.Value;
+            DateTime datum = new DateTime(1980,1,6,0,0,0);
+            DateTime week = datum.AddDays(weeknumber * 7);
+            DateTime time = week.AddMilliseconds(milliseconds);
 
-            cogpos = (int)NUM_headingpos.Value;
+            time.AddSeconds(-LEAP_SECONDS);
 
-            DateTime localmin = DateTime.MaxValue;
-            DateTime localmax = DateTime.MinValue;
+            return time;
+        }
+        public long ToMilliseconds(DateTime date)
+        {
+            var epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            return Convert.ToInt64((date - epoch).TotalMilliseconds);
+        }
 
-            DateTime startTime = DateTime.MinValue;
+        #endregion
 
-            recordno = 10;
+        private float EstimateOffset(string logFile, string dirWithImages)
+        {
+            if (vehicleLocations == null || vehicleLocations.Count <= 0)
+                vehicleLocations = readGPSMsgInLog(logFile);
 
-            photostnrecord = new List<int>();
+            if (vehicleLocations == null || vehicleLocations.Count <= 0)
+                return -1;
 
-            photocoords = new Hashtable();
-            timecoordcache = new Hashtable();
-            imagetotime = new Hashtable();
+            string[] files = Directory.GetFiles(dirWithImages, PHOTO_FILES_FILTER);
 
-            //logFile = @"C:\Users\hog\Pictures\farm 1-10-2011\100SSCAM\2011-10-01 11-48 1.log";
-            TXT_outputlog.AppendText("Read Log\r\n");
+            if (files == null || files.Length == 0)
+                return -1;
 
-            List<string[]> list = readLog(logFile);
+            Array.Sort(files, Comparer.DefaultInvariant);
 
-            TXT_outputlog.AppendText("Log Read "+list.Count+" lines\r\n");
+            // First Photo time
+            string firstPhoto = files[0];
 
-            if (list.Count > 0)
-                TXT_outputlog.AppendText("First GPS line\r\nUse to check log offsets\r\n"+String.Join(",", list[0])+"\r\n");
+            DateTime photoTime = getPhotoTime(firstPhoto);
 
-            //dirWithImages = @"C:\Users\hog\Pictures\farm 1-10-2011\100SSCAM";
+            TXT_outputlog.AppendText("First Picture " + Path.GetFileNameWithoutExtension(firstPhoto) + "with DateTime: " + photoTime.ToString("yyyy:MM:dd HH:mm:ss") + "\n");
 
-            TXT_outputlog.AppendText("Read images\r\n");
+            // First GPS Message in Log time
+            var e = vehicleLocations.Keys.GetEnumerator(); 
+            e.MoveNext();
+            long firstTimeInGPSMsg = e.Current;
+            DateTime logTime = FromUTCTimeMilliseconds(firstTimeInGPSMsg);
 
-            string[] files = Directory.GetFiles(dirWithImages);
+            TXT_outputlog.AppendText("First GPS Log Msg: " + logTime.ToString("yyyy:MM:dd HH:mm:ss") + "\n");
 
-            TXT_outputlog.AppendText("images read\r\n");
+            return (float)(photoTime - logTime).TotalSeconds;
+        }
 
+        private void CreateReportFiles(Dictionary<string, PictureInformation> listPhotosWithInfo, string dirWithImages, float offset)
+        {
+            // Write report files
             Document kml = new Document();
 
-            using (StreamWriter swlogloccsv = new StreamWriter(dirWithImages + Path.DirectorySeparatorChar + "loglocation.csv"))
+            // Clear Stations IDs
+            JXL_StationIDs.Clear();
+
+            using (StreamWriter swlogloccsv = new StreamWriter(dirWithImages + Path.DirectorySeparatorChar + "loglocation.csv")) 
             using (StreamWriter swlockml = new StreamWriter(dirWithImages + Path.DirectorySeparatorChar + "location.kml"))
             using (StreamWriter swloctxt = new StreamWriter(dirWithImages + Path.DirectorySeparatorChar + "location.txt"))
             using (StreamWriter swloctel = new StreamWriter(dirWithImages + Path.DirectorySeparatorChar + "location.tel"))
-            using (XmlTextWriter swloctrim = new XmlTextWriter(dirWithImages + Path.DirectorySeparatorChar + "location.jxl",Encoding.ASCII))
+            using (XmlTextWriter swloctrim = new XmlTextWriter(dirWithImages + Path.DirectorySeparatorChar + "location.jxl", Encoding.ASCII))
             {
                 swloctrim.Formatting = Formatting.Indented;
                 swloctrim.WriteStartDocument(false);
@@ -353,55 +603,55 @@ namespace MissionPlanner
                 swloctrim.WriteElementString("Scale", "");
                 swloctrim.WriteEndElement();
 
-                swloctrim.WriteEndElement(); 
+                swloctrim.WriteEndElement();
                 swloctrim.WriteEndElement();
 
                 // fieldbook
                 swloctrim.WriteStartElement("FieldBook");
 
                 swloctrim.WriteRaw(@"   <CameraDesignRecord ID='00000001'>
-      <Type>GoPro   </Type>
-      <HeightPixels>2400</HeightPixels>
-      <WidthPixels>3200</WidthPixels>
-      <PixelSize>0.0000022</PixelSize>
-      <LensModel>Rectilinear</LensModel>
-      <NominalFocalLength>0.002</NominalFocalLength>
-    </CameraDesignRecord>
-    <CameraRecord2 ID='00000002'>
-      <CameraDesignID>00000001</CameraDesignID>
-      <CameraPosition>01</CameraPosition>
-      <Optics>
-        <IdealAngularMagnification>1.0</IdealAngularMagnification>
-        <AngleSymmetricDistortion>
-          <Order3>-0.35</Order3>
-          <Order5>0.15</Order5>
-          <Order7>-0.033</Order7>
-          <Order9> 0</Order9>
-        </AngleSymmetricDistortion>
-        <AngleDecenteringDistortion>
-          <Column>0</Column>
-          <Row>0</Row>
-        </AngleDecenteringDistortion>
-      </Optics>
-      <Geometry>
-        <PerspectiveCenterPixels>
-          <PrincipalPointColumn>-1615.5</PrincipalPointColumn>
-          <PrincipalPointRow>-1187.5</PrincipalPointRow>
-          <PrincipalDistance>-2102</PrincipalDistance>
-        </PerspectiveCenterPixels>
-        <VectorOffset>
-          <X>0</X>
-          <Y>0</Y>
-          <Z>0</Z>
-        </VectorOffset>
-        <BiVectorAngle>
-          <XX>0</XX>
-          <YY>0</YY>
-          <ZZ>-1.5707963268</ZZ>
-        </BiVectorAngle>
-      </Geometry>
-    </CameraRecord2>");
-                
+                                      <Type>GoPro   </Type>
+                                      <HeightPixels>2400</HeightPixels>
+                                      <WidthPixels>3200</WidthPixels>
+                                      <PixelSize>0.0000022</PixelSize>
+                                      <LensModel>Rectilinear</LensModel>
+                                      <NominalFocalLength>0.002</NominalFocalLength>
+                                    </CameraDesignRecord>
+                                    <CameraRecord2 ID='00000002'>
+                                      <CameraDesignID>00000001</CameraDesignID>
+                                      <CameraPosition>01</CameraPosition>
+                                      <Optics>
+                                        <IdealAngularMagnification>1.0</IdealAngularMagnification>
+                                        <AngleSymmetricDistortion>
+                                          <Order3>-0.35</Order3>
+                                          <Order5>0.15</Order5>
+                                          <Order7>-0.033</Order7>
+                                          <Order9> 0</Order9>
+                                        </AngleSymmetricDistortion>
+                                        <AngleDecenteringDistortion>
+                                          <Column>0</Column>
+                                          <Row>0</Row>
+                                        </AngleDecenteringDistortion>
+                                      </Optics>
+                                      <Geometry>
+                                        <PerspectiveCenterPixels>
+                                          <PrincipalPointColumn>-1615.5</PrincipalPointColumn>
+                                          <PrincipalPointRow>-1187.5</PrincipalPointRow>
+                                          <PrincipalDistance>-2102</PrincipalDistance>
+                                        </PerspectiveCenterPixels>
+                                        <VectorOffset>
+                                          <X>0</X>
+                                          <Y>0</Y>
+                                          <Z>0</Z>
+                                        </VectorOffset>
+                                        <BiVectorAngle>
+                                          <XX>0</XX>
+                                          <YY>0</YY>
+                                          <ZZ>-1.5707963268</ZZ>
+                                        </BiVectorAngle>
+                                      </Geometry>
+                                    </CameraRecord2>");
+
                 // 2mm fl
                 // res 2400 * 3200 = 7,680,000
                 // sensor size = 1/2.5" - 5.70 × 4.28 mm
@@ -430,208 +680,103 @@ namespace MissionPlanner
 
                 swloctel.WriteLine("version=1");
 
-                swloctel.WriteLine("#seconds offset - " + TXT_offsetseconds.Text);
+                swloctel.WriteLine("#seconds offset - " + offset);
                 swloctel.WriteLine("#longitude and latitude - in degrees");
                 swloctel.WriteLine("#name	utc	longitude	latitude	height");
 
                 swloctxt.WriteLine("#name longitude/X latitude/Y height/Z yaw pitch roll");
-                swloctxt.WriteLine("#seconds_offset: " + TXT_offsetseconds.Text);
 
-                int first = 0;
-                int matchs = 0;
+                TXT_outputlog.AppendText("Start Processing\n");
 
-                int lastmatchindex = 0;
+                // Dont know why but it was 10 in the past so let it be. Used to generate jxl file simulating x100 from trimble
+                int lastRecordN = JXL_ID_OFFSET; 
 
-                TXT_outputlog.AppendText("start Processing\r\n");
-
-                foreach (string filename in files)
+                foreach (PictureInformation picInfo in listPhotosWithInfo.Values)
                 {
-                    if (filename.ToLower().EndsWith(".jpg") && !filename.ToLower().Contains("_geotag"))
-                    {
-                        DateTime photodt = getPhotoTime(filename);
+                    string filename = Path.GetFileName(picInfo.Path);
+                    string filenameWithoutExt = Path.GetFileNameWithoutExtension(picInfo.Path);
 
-                        // get log min and max time
-                        if (startTime == DateTime.MinValue)
+                    SharpKml.Dom.Timestamp tstamp = new SharpKml.Dom.Timestamp();
+
+                    tstamp.When = picInfo.Time;
+
+                    kml.AddFeature(
+
+                        new Placemark()
                         {
-                            startTime = new DateTime(photodt.Year, photodt.Month, photodt.Day, 0, 0, 0, 0, DateTimeKind.Utc).ToLocalTime();
-
-                            foreach (string[] arr in list)
+                            Time = tstamp,
+                            Name = filenameWithoutExt,
+                            Geometry = new SharpKml.Dom.Point()
                             {
-                                DateTime crap = startTime.AddMilliseconds(int.Parse(arr[timepos])).AddSeconds(offsetseconds);
-
-                                if (localmin > crap)
-                                    localmin = crap;
-                                if (localmax < crap)
-                                    localmax = crap;
+                                Coordinate = new Vector(picInfo.Lat, picInfo.Lon, picInfo.RelAlt)
+                            },
+                            Description = new Description()
+                            {
+                                Text = "<table><tr><td><img src=\"" + filename.ToLower() + "\" width=500 /></td></tr></table>"
+                            },
+                            StyleSelector = new Style()
+                            {
+                                Balloon = new BalloonStyle() { Text = "$[name]<br>$[description]" }
                             }
-
-                            log.InfoFormat("min " + localmin + " max " + localmax);
-                            TXT_outputlog.AppendText("Log start time " + localmin + " end time " + localmax + "\r\r\n");
                         }
+                    );
 
-                        TXT_outputlog.AppendText("Photo " + Path.GetFileNameWithoutExtension(filename) + " time  " + photodt + "\r\r\n");
-                        //Application.DoEvents();
+                    double lat = picInfo.Lat;
+                    double lng = picInfo.Lon;
+                    double alpha = picInfo.Yaw + (double)num_camerarotation.Value;;
 
-                        int a = 0;
+                    RectangleF rect = getboundingbox(lat, lng, alpha, (double)num_hfov.Value, (double)num_vfov.Value);
 
-                        foreach (string[] arr in list)
+                    Console.WriteLine(rect);
+
+                    //http://en.wikipedia.org/wiki/World_file
+                    /* using (StreamWriter swjpw = new StreamWriter(dirWithImages + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(filename) + ".jgw"))
                         {
-                            a++;
+                            swjpw.WriteLine((rect.Height / 2448.0).ToString("0.00000000000000000"));
+                            swjpw.WriteLine((0).ToString("0.00000000000000000")); // 
+                            swjpw.WriteLine((0).ToString("0.00000000000000000")); //
+                            swjpw.WriteLine((rect.Width / -3264.0).ToString("0.00000000000000000")); // distance per pixel
+                            swjpw.WriteLine((rect.Left).ToString("0.00000000000000000"));
+                            swjpw.WriteLine((rect.Top).ToString("0.00000000000000000"));
 
-                            if (lastmatchindex > (a))
-                                continue;
+                            swjpw.Close();
+                        }*/
 
-                            if (a % 1000 == 0)
-                                Application.DoEvents();
-
-                            DateTime logdt = startTime.AddMilliseconds(int.Parse(arr[timepos])).AddSeconds(offsetseconds);
-
-                            if (first == 0)
+                    kml.AddFeature(
+                        new GroundOverlay()
+                        {
+                            Name = filenameWithoutExt,
+                            Visibility = false,
+                            Time = tstamp,
+                            AltitudeMode = AltitudeMode.ClampToGround,
+                            Bounds = new LatLonBox()
                             {
-                                TXT_outputlog.AppendText("Photo " + Path.GetFileNameWithoutExtension(filename) + " " + photodt + " vs Log " + logdt + "\r\r\n");
-
-                                TXT_outputlog.AppendText("offset should be about " + (photodt - logdt).TotalSeconds + "\r\r\n");
-
-                                if (dooffset)
-                                {
-                                    return;
-                                }
-
-                                first++;
-                            }
-
-                            // time has past, logs are in time order
-                            if (photodt < logdt.AddSeconds(-1))
+                                Rotation = -alpha % 360,
+                                North = rect.Bottom,
+                                East = rect.Right,
+                                West = rect.Left,
+                                South = rect.Top,
+                            },
+                            Icon = new SharpKml.Dom.Icon()
                             {
-                                lastmatchindex = a;
-                                break;
-                            }
-
-                            //Console.Write("ph " + dt + " log " + crap + "         \r");
-
-
-
-
-
-
-                            timecoordcache[(long)(logdt.AddSeconds(-offsetseconds) - DateTime.MinValue).TotalSeconds] = new double[] 
-                            {
-                             double.Parse(arr[latpos]), double.Parse(arr[lngpos]), double.Parse(arr[altpos]) 
-                            };
-
-                            swlogloccsv.WriteLine("ph " + filename + " " + photodt + " log " + logdt);
-
-                            if (photodt.ToString("yyyy-MM-ddTHH:mm:ss") == logdt.ToString("yyyy-MM-ddTHH:mm:ss"))
-                            {
-                                lastmatchindex = a;
-
-                                TXT_outputlog.AppendText("MATCH Photo " + Path.GetFileNameWithoutExtension(filename) + " " + photodt + "\r\r\n");
-
-                                matchs++;
-
-                                //  int fixme;
-                                //  if (matchs < 150 || matchs > 170)
-                                //     break; ;
-
-                                SharpKml.Dom.Timestamp tstamp = new SharpKml.Dom.Timestamp();
-
-                                tstamp.When = photodt;
-
-                                kml.AddFeature(
-                                    new Placemark()
-                                    {
-                                        Time = tstamp,
-                                        Name = Path.GetFileNameWithoutExtension(filename),
-                                        Geometry = new SharpKml.Dom.Point()
-                                        {
-                                            Coordinate = new Vector(double.Parse(arr[latpos]), double.Parse(arr[lngpos]), double.Parse(arr[altpos]))
-                                        },
-                                        Description = new Description()
-                                        {
-                                            Text = "<table><tr><td><img src=\"" + filename.ToLower() + "\" width=500 /></td></tr></table>"
-                                        },
-                                        StyleSelector = new Style()
-                                        {
-                                            Balloon = new BalloonStyle() { Text = "$[name]<br>$[description]" }
-                                        }
-                                    }
-                                );
-
-                                double lat = double.Parse(arr[latpos]);
-                                double lng = double.Parse(arr[lngpos]);
-                                double alpha = 0;
-                               // if (arr.Length > yawATT)
-                                {
-                               //     alpha = ((double.Parse(arr[yawATT]) / 100.0) + 180) + (double)num_camerarotation.Value;
-                                }
-                               // else
-                                {
-                                    alpha = double.Parse(arr[cogpos]) + (double)num_camerarotation.Value;
-                                }
-
-                                RectangleF rect = getboundingbox(lat, lng, alpha, (double)num_hfov.Value, (double)num_vfov.Value);
-
-                                Console.WriteLine(rect);
-
-                                //http://en.wikipedia.org/wiki/World_file
-                                /* using (StreamWriter swjpw = new StreamWriter(dirWithImages + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(filename) + ".jgw"))
-                                 {
-                                     swjpw.WriteLine((rect.Height / 2448.0).ToString("0.00000000000000000"));
-                                     swjpw.WriteLine((0).ToString("0.00000000000000000")); // 
-                                     swjpw.WriteLine((0).ToString("0.00000000000000000")); //
-                                     swjpw.WriteLine((rect.Width / -3264.0).ToString("0.00000000000000000")); // distance per pixel
-                                     swjpw.WriteLine((rect.Left).ToString("0.00000000000000000"));
-                                     swjpw.WriteLine((rect.Top).ToString("0.00000000000000000"));
-
-                                     swjpw.Close();
-                                 }*/
-                                
-                                kml.AddFeature(
-                                 new GroundOverlay()
-                                 {
-                                     Name = Path.GetFileNameWithoutExtension(filename),
-                                     Visibility = false,
-                                     Time = tstamp,
-                                     AltitudeMode = AltitudeMode.ClampToGround,
-                                     Bounds = new LatLonBox()
-                                     {
-                                         Rotation = -alpha % 360,
-                                         North = rect.Bottom,
-                                         East = rect.Right,
-                                         West = rect.Left,
-                                         South = rect.Top,
-                                     },
-                                     Icon = new SharpKml.Dom.Icon()
-                                     {
-                                         Href = new Uri(filename.ToLower(), UriKind.Relative),
-                                     },
-                                 }
-                                );
-                                
-
-
-                                photocoords[filename] = new double[] { double.Parse(arr[latpos]), double.Parse(arr[lngpos]), double.Parse(arr[altpos]), double.Parse(arr[cogpos]) };
-
-                                imagetotime[filename] = (long)(logdt.AddSeconds(-offsetseconds) - DateTime.MinValue).TotalSeconds;
-
-
-                                  //  swloctxt.WriteLine(Path.GetFileName(filename) + " " + arr[lngpos] + " " + arr[latpos] + " " + arr[altpos] + " " + ((double.Parse(arr[yawATT]) / 100.0) + 180) % 360 + " " + ((double.Parse(arr[pitchATT]) / 100.0)) + " " + (-double.Parse(arr[rollATT]) / 100.0));
-
-                                    swloctxt.WriteLine(Path.GetFileName(filename) + " " + arr[lngpos] + " " + arr[latpos] + " " + arr[altpos]);
-                                
-                                swloctel.WriteLine(Path.GetFileName(filename) + "\t" + logdt.ToString("yyyy:MM:dd HH:mm:ss") + "\t" + arr[lngpos] + "\t" + arr[latpos] + "\t" + arr[altpos]);
-                                swloctel.Flush();
-                                swloctxt.Flush();
-
-                                GenPhotoStationRecord(swloctrim, filename, double.Parse(arr[latpos]), double.Parse(arr[lngpos]), double.Parse(arr[altpos]), 0, 0, double.Parse(arr[cogpos]), 3200, 2400);
-
-                                log.InfoFormat(Path.GetFileName(filename) + " " + arr[lngpos] + " " + arr[latpos] + " " + arr[altpos] + "           ");
-                                break;
-                            }
-                            //Console.WriteLine(crap);
+                                Href = new Uri(filename.ToLower(), UriKind.Relative),
+                            },
                         }
-                    }
-                }                
+                    );
+
+
+
+                    swloctxt.WriteLine(filename + " " + picInfo.Lat + " " + picInfo.Lon + " " + picInfo.getAltitude(useAMSLAlt) + " " + picInfo.Yaw + " " + picInfo.Pitch + " " + picInfo.Roll);
+
+
+                    swloctel.WriteLine(filename + "\t" + picInfo.Time.ToString("yyyy:MM:dd HH:mm:ss") + "\t" + picInfo.Lon + "\t" + picInfo.Lat + "\t" + picInfo.getAltitude(useAMSLAlt));
+                    swloctel.Flush();
+                    swloctxt.Flush();
+
+                    lastRecordN = GenPhotoStationRecord(swloctrim, picInfo.Path, picInfo.Lat, picInfo.Lon, picInfo.getAltitude(useAMSLAlt), 0, 0, picInfo.Yaw, picInfo.Width, picInfo.Height, lastRecordN);
+
+                    log.InfoFormat(filename + " " + picInfo.Lon + " " + picInfo.Lat + " " + picInfo.getAltitude(useAMSLAlt) + "           ");
+                }
 
                 Serializer serializer = new Serializer();
                 serializer.Serialize(kml);
@@ -640,28 +785,247 @@ namespace MissionPlanner
                 Utilities.httpserver.georefkml = serializer.Xml;
                 Utilities.httpserver.georefimagepath = dirWithImages + Path.DirectorySeparatorChar;
 
-                writeGPX(dirWithImages + Path.DirectorySeparatorChar + "location.gpx");
+                writeGPX(dirWithImages + Path.DirectorySeparatorChar + "location.gpx", listPhotosWithInfo);
 
                 // flightmission
-                GenFlightMission(swloctrim);
+                GenFlightMission(swloctrim, lastRecordN);
 
                 swloctrim.WriteEndElement(); // fieldbook
                 swloctrim.WriteEndElement(); // job
                 swloctrim.WriteEndDocument();
 
-                TXT_outputlog.AppendText("Done " + matchs + " matchs");
+                TXT_outputlog.AppendText("Done \n\n");
 
             }
         }
 
-        int recordno = 10;
+        private VehicleLocation LookForLocation(DateTime t, Dictionary<long, VehicleLocation> listLocations)
+        {
+            long time = ToMilliseconds(t);
 
-        List<int> photostnrecord = new List<int>();
+            // Flatten time to 100 millis
+            long flattenTime = (time / 100) * 100;
+            int millisSTEP = 100;
 
-        void GenFlightMission(XmlTextWriter swloctrim)
+            // 2 seconds in the log as absolute maximum
+            int maxIteration = 20;
+
+            bool found = false;
+            int iteration = 0;
+            VehicleLocation location = null;
+
+            while (!found && iteration < maxIteration)
+            {
+                found = listLocations.ContainsKey(flattenTime);
+                if (found)
+                {
+                    location = listLocations[flattenTime];
+                }
+                else
+                {
+                    flattenTime += millisSTEP;
+                    iteration++;
+                }
+            }
+
+            return location;
+        }
+
+        public Dictionary<string, PictureInformation> doworkGPSOFFSET(string logFile, string dirWithImages, float offset)
+        {
+            // Lets start over 
+            Dictionary<string, PictureInformation> picturesInformationTemp = new Dictionary<string, PictureInformation>();
+
+            //logFile = @"C:\Users\hog\Pictures\farm 1-10-2011\100SSCAM\2011-10-01 11-48 1.log";
+            TXT_outputlog.AppendText("Reading log for GPS-ATT Messages\n");
+
+            // Read Vehicle Locations from log. GPS Messages. Will have to do it anyway
+            if (vehicleLocations == null || vehicleLocations.Count <= 0)
+                vehicleLocations = readGPSMsgInLog(logFile);
+
+            if (vehicleLocations == null)
+            {
+                TXT_outputlog.AppendText("Log file problem. Aborting....\n");
+                return null;
+            }
+
+            //dirWithImages = @"C:\Users\hog\Pictures\farm 1-10-2011\100SSCAM";
+
+            TXT_outputlog.AppendText("Read images\n");
+
+            string[] files = Directory.GetFiles(dirWithImages, "*.jpg");
+
+            TXT_outputlog.AppendText("Images read : " + files.Length + "\n");
+
+            // Check that we have at least one picture
+            if (files.Length <= 0)
+            {
+                TXT_outputlog.AppendText("Not enought files found.  Aborting..... \n");
+                return null;
+            }
+
+            Array.Sort(files, Comparer.DefaultInvariant);
+
+            // Each file corresponds to one CAM message
+            // We assume that picture names are in ascending order in time
+            for (int i = 0; i < files.Length; i++)
+            {
+                string filename = files[i];
+
+                PictureInformation p = new PictureInformation();
+
+                // Fill shot time in Picture
+                p.ShotTimeReportedByCamera = getPhotoTime(filename);
+
+                // Lookfor corresponding Location in vehicleLocationList
+                VehicleLocation shotLocation = LookForLocation(p.ShotTimeReportedByCamera.AddSeconds(-offset), vehicleLocations);
+
+                if (shotLocation == null)
+                {
+                    TXT_outputlog.AppendText("File time not found in Log.  Aborting..... \n");
+                    return null; 
+                }
+
+                p.Lat = shotLocation.Lat;
+                p.Lon = shotLocation.Lon;
+                p.AltAMSL = shotLocation.AltAMSL;
+
+                p.RelAlt = shotLocation.RelAlt;
+
+                p.Pitch = shotLocation.Pitch;
+                p.Roll = shotLocation.Roll;
+                p.Yaw = shotLocation.Yaw;
+
+                p.Time = shotLocation.Time;
+
+                p.Path = filename;
+
+
+                picturesInformationTemp.Add(filename, p);
+
+                TXT_outputlog.AppendText("Photo " + filename + " processed\n");
+
+            }
+
+            return picturesInformationTemp;
+        }
+
+
+        private void GuessImageDimensions(string imagePath, out int imageWidth, out int imageHeight)
+        {
+            MemoryStream ms = new MemoryStream(File.ReadAllBytes(imagePath));
+
+            Image picture = Image.FromStream(ms);
+
+            imageHeight = picture.Height;
+            imageWidth = picture.Width;
+        }
+
+        public Dictionary<string, PictureInformation> doworkCAM(string logFile, string dirWithImages)
+        {
+            // Lets start over 
+            Dictionary<string, PictureInformation> picturesInformationTemp = new Dictionary<string,PictureInformation>();
+
+            TXT_outputlog.AppendText("Using AMSL Altitude " + useAMSLAlt + "\n");
+
+            // If we are required to use AMSL then GPS messages should be used until CAM messages includes AMSL in the coming AC versions
+            if (useAMSLAlt)
+            {
+                TXT_outputlog.AppendText("Reading log for GPS Messages in order to get AMSL Altitude\n");
+                if (vehicleLocations == null || vehicleLocations.Count <= 0)
+                {
+                    vehicleLocations = readGPSMsgInLog(logFile);
+                
+                    if (vehicleLocations == null || vehicleLocations.Count <= 0)
+                    {
+                        TXT_outputlog.AppendText("Log file problem. Aborting....\n");
+                        return null;
+                    }
+                }
+                TXT_outputlog.AppendText("Log Read for GPS Messages\n");
+            }
+
+
+            //logFile = @"C:\Users\hog\Pictures\farm 1-10-2011\100SSCAM\2011-10-01 11-48 1.log";
+            TXT_outputlog.AppendText("Reading log for CAM Messages\n");
+
+            List<string[]> list = readCAMMsgInLog(logFile);
+
+            if (list == null)
+            {
+                TXT_outputlog.AppendText("Log file problem. Aborting....\n");
+                return null;
+            }
+
+            TXT_outputlog.AppendText("Log Read with - " + list.Count + " - CAM Messages found\n");
+
+            //dirWithImages = @"C:\Users\hog\Pictures\farm 1-10-2011\100SSCAM";
+
+            TXT_outputlog.AppendText("Read images\n");
+
+            string[] files = Directory.GetFiles(dirWithImages, "*.jpg");
+
+            TXT_outputlog.AppendText("Images read : "  + files.Length + "\n");
+
+            // Check that we have same number of CAMs than files
+            if (files.Length != list.Count)
+            {
+                TXT_outputlog.AppendText("CAM Msgs and Files discrepancy. Check it!  Aborting..... \n");
+                return null;
+            }
+
+            Array.Sort(files, Comparer.DefaultInvariant);
+
+            // Each file corresponds to one CAM message
+            // We assume that picture names are in ascending order in time
+            for (int i = 0; i < list.Count; i++)
+            {
+                string[] currentCAM = list[i];
+
+                PictureInformation p = new PictureInformation();
+
+                 // Lets puts GPS time
+                p.Time = GetTimeFromGps(int.Parse(currentCAM[weekCAMPos]), int.Parse(currentCAM[timeCAMpos]));
+
+                p.Lat = double.Parse(currentCAM[latCAMpos]);
+                p.Lon = double.Parse(currentCAM[lngCAMpos]);
+                p.AltAMSL = double.Parse(currentCAM[altCAMpos]);
+                p.RelAlt = double.Parse(currentCAM[altCAMpos]);
+
+                VehicleLocation cameraLocationFromGPSMsg = null;
+                if (useAMSLAlt)
+                {
+                    cameraLocationFromGPSMsg = LookForLocation(p.Time, vehicleLocations);
+                    if (cameraLocationFromGPSMsg != null)
+                        p.AltAMSL = cameraLocationFromGPSMsg.AltAMSL;
+                }
+               
+
+               
+
+                p.Pitch = float.Parse(currentCAM[pitchCAMATT]);
+                p.Roll = float.Parse(currentCAM[rollCAMATT]);
+                p.Yaw = float.Parse(currentCAM[yawCAMATT]);
+
+                p.Path = files[i];
+
+               
+
+                string picturePath = files[i];
+
+                picturesInformationTemp.Add(picturePath, p);
+
+                TXT_outputlog.AppendText("Photo " + picturePath + " processed\n");
+
+            }
+
+            return picturesInformationTemp;
+        }
+
+        void GenFlightMission(XmlTextWriter swloctrim, int lastRecordN)
         {
             swloctrim.WriteStartElement("FlightMissionRecord");
-            swloctrim.WriteAttributeString("ID", (recordno++).ToString("0000000"));
+            swloctrim.WriteAttributeString("ID", (lastRecordN++).ToString("0000000"));
             swloctrim.WriteElementString("Name", "MP");
             swloctrim.WriteStartElement("FlightBlock");
             swloctrim.WriteStartElement("FlightPlan");
@@ -674,7 +1038,7 @@ namespace MissionPlanner
             //swloctrim.WriteElementString("Node", "");
             swloctrim.WriteEndElement();
             swloctrim.WriteStartElement("StationList");
-            foreach (int station in photostnrecord)
+            foreach (int station in JXL_StationIDs)
             {
                 swloctrim.WriteElementString("StationID", station.ToString("0000000"));
             }
@@ -683,17 +1047,21 @@ namespace MissionPlanner
             swloctrim.WriteEndElement();
         }
 
-        void GenPhotoStationRecord(XmlTextWriter swloctrim, string imgname, double lat, double lng, double alt, double roll, double pitch, double yaw, int imgwidth, int imgheight)
+        int GenPhotoStationRecord(XmlTextWriter swloctrim, string imgname, double lat, double lng, double alt, double roll, double pitch, double yaw, int imgwidth, int imgheight, int lastRecordN)
         {
             Console.WriteLine("yaw {0}",yaw);
+
+            int photoStationID = lastRecordN++;
+            int pointRecordID = lastRecordN++;
+            int imageRecordID = lastRecordN++;
+
+            JXL_StationIDs.Add(photoStationID);
 
             // conver tto rads
             yaw = -yaw * deg2rad;
 
             swloctrim.WriteStartElement("PhotoStationRecord");
-            swloctrim.WriteAttributeString("ID", (recordno++).ToString("0000000"));
-
-            photostnrecord.Add(recordno-1);
+            swloctrim.WriteAttributeString("ID", (photoStationID).ToString("0000000"));
 
             swloctrim.WriteElementString("StationName", Path.GetFileNameWithoutExtension(imgname));
             swloctrim.WriteElementString("InstrumentHeight", "");
@@ -724,7 +1092,7 @@ namespace MissionPlanner
             // pointrecord
 
             swloctrim.WriteStartElement("PointRecord");
-            swloctrim.WriteAttributeString("ID", (recordno++).ToString("0000000"));
+            swloctrim.WriteAttributeString("ID", (pointRecordID).ToString("0000000"));
 
             swloctrim.WriteElementString("Name", Path.GetFileNameWithoutExtension(imgname));
             swloctrim.WriteElementString("Code", "");
@@ -743,8 +1111,8 @@ namespace MissionPlanner
 
             // imagerecord
             swloctrim.WriteStartElement("ImageRecord");
-            swloctrim.WriteAttributeString("ID", (recordno++).ToString("0000000"));
-            swloctrim.WriteElementString("StationID", (recordno - 3).ToString("0000000"));
+            swloctrim.WriteAttributeString("ID", (imageRecordID).ToString("0000000"));
+            swloctrim.WriteElementString("StationID", (photoStationID).ToString("0000000"));
             swloctrim.WriteElementString("BackBearingID", "");
             swloctrim.WriteElementString("CameraID", "00000002");
             swloctrim.WriteElementString("PointRecordID", "");
@@ -775,6 +1143,8 @@ namespace MissionPlanner
       <SourceHeight>2736</SourceHeight>
     </ImageRecord>
              * */
+
+            return lastRecordN;
 
         }
 
@@ -839,9 +1209,6 @@ namespace MissionPlanner
             return new RectangleF((float)miny, (float)minx, (float)(maxy - miny), (float)(maxx - minx));
         }
 
-        const float rad2deg = (float)(180 / Math.PI);
-        const float deg2rad = (float)(1.0 / rad2deg);
-
         public static double radians(double val)
         {
             return val * deg2rad;
@@ -874,7 +1241,7 @@ namespace MissionPlanner
             //return (degrees(lat2), degrees(lon2));
         }
 
-        private void writeGPX(string filename)
+        private void writeGPX(string filename, Dictionary<string, PictureInformation> pictureList)
         {
 
             using (System.Xml.XmlTextWriter xw = new System.Xml.XmlTextWriter(Path.GetDirectoryName(filename) + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(filename) + ".gpx", Encoding.ASCII))
@@ -886,31 +1253,22 @@ namespace MissionPlanner
 
                 xw.WriteStartElement("trkseg");
 
-                List<string> items = new List<string>();
-
-                foreach (string photo in photocoords.Keys)
-                {
-                    items.Add(photo);
-                }
-
-                items.Sort();
-
-                foreach (string photo in items)
+                foreach (PictureInformation p in pictureList.Values)
                 {
 
 
                     xw.WriteStartElement("trkpt");
-                    xw.WriteAttributeString("lat", ((double[])photocoords[photo])[0].ToString(new System.Globalization.CultureInfo("en-US")));
-                    xw.WriteAttributeString("lon", ((double[])photocoords[photo])[1].ToString(new System.Globalization.CultureInfo("en-US")));
+                    xw.WriteAttributeString("lat", p.Lat.ToString(new System.Globalization.CultureInfo("en-US")));
+                    xw.WriteAttributeString("lon", p.Lon.ToString(new System.Globalization.CultureInfo("en-US")));
 
                     // must stay as above
 
-                    xw.WriteElementString("time", ((DateTime)filedatecache[photo]).ToString("yyyy-MM-ddTHH:mm:ssZ"));
+                    xw.WriteElementString("time", p.Time.ToString("yyyy-MM-ddTHH:mm:ssZ"));
 
-                    xw.WriteElementString("ele", ((double[])photocoords[photo])[2].ToString(new System.Globalization.CultureInfo("en-US")));
-                    xw.WriteElementString("course", ((double[])photocoords[photo])[3].ToString(new System.Globalization.CultureInfo("en-US")));
+                    xw.WriteElementString("ele", p.RelAlt.ToString(new System.Globalization.CultureInfo("en-US")));
+                    xw.WriteElementString("course", p.Yaw.ToString(new System.Globalization.CultureInfo("en-US")));
 
-                    xw.WriteElementString("compass", ((double[])photocoords[photo])[3].ToString(new System.Globalization.CultureInfo("en-US")));
+                    xw.WriteElementString("compass", p.Yaw.ToString(new System.Globalization.CultureInfo("en-US")));
 
                     xw.WriteEndElement();
                 }
@@ -940,29 +1298,80 @@ namespace MissionPlanner
             this.NUM_latpos = new System.Windows.Forms.NumericUpDown();
             this.NUM_lngpos = new System.Windows.Forms.NumericUpDown();
             this.NUM_altpos = new System.Windows.Forms.NumericUpDown();
-            this.NUM_headingpos = new System.Windows.Forms.NumericUpDown();
+            this.NUM_ATT_Heading = new System.Windows.Forms.NumericUpDown();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
             this.BUT_networklinkgeoref = new MissionPlanner.Controls.MyButton();
-            this.num_vfov = new System.Windows.Forms.NumericUpDown();
-            this.num_hfov = new System.Windows.Forms.NumericUpDown();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.num_camerarotation = new System.Windows.Forms.NumericUpDown();
-            this.label9 = new System.Windows.Forms.Label();
             this.NUM_time = new System.Windows.Forms.NumericUpDown();
             this.label10 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.RDIO_TimeOffset = new System.Windows.Forms.RadioButton();
+            this.RDIO_CAMMsgSynchro = new System.Windows.Forms.RadioButton();
+            this.PANEL_TIME_OFFSET = new System.Windows.Forms.Panel();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.NUM_CAM_Alt = new System.Windows.Forms.NumericUpDown();
+            this.label15 = new System.Windows.Forms.Label();
+            this.NUM_CAM_Lon = new System.Windows.Forms.NumericUpDown();
+            this.NUM_CAM_Lat = new System.Windows.Forms.NumericUpDown();
+            this.label16 = new System.Windows.Forms.Label();
+            this.PANEL_CAM = new System.Windows.Forms.Panel();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.NUM_ATT_Roll = new System.Windows.Forms.NumericUpDown();
+            this.label25 = new System.Windows.Forms.Label();
+            this.NUM_ATT_Pitch = new System.Windows.Forms.NumericUpDown();
+            this.label24 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label23 = new System.Windows.Forms.Label();
+            this.NUM_GPS_Week = new System.Windows.Forms.NumericUpDown();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.NUM_CAM_Time = new System.Windows.Forms.NumericUpDown();
+            this.label22 = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
+            this.NUM_GPS_AMSL_Alt = new System.Windows.Forms.NumericUpDown();
+            this.label20 = new System.Windows.Forms.Label();
+            this.NUM_CAM_Pitch = new System.Windows.Forms.NumericUpDown();
+            this.label19 = new System.Windows.Forms.Label();
+            this.NUM_CAM_Roll = new System.Windows.Forms.NumericUpDown();
+            this.label18 = new System.Windows.Forms.Label();
+            this.NUM_CAM_Heading = new System.Windows.Forms.NumericUpDown();
+            this.label17 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.num_camerarotation = new System.Windows.Forms.NumericUpDown();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.num_hfov = new System.Windows.Forms.NumericUpDown();
+            this.num_vfov = new System.Windows.Forms.NumericUpDown();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.CHECK_AMSLAlt_Use = new System.Windows.Forms.CheckBox();
+            this.NUM_CAM_Week = new System.Windows.Forms.NumericUpDown();
+            this.label26 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_latpos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_lngpos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_altpos)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUM_headingpos)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.num_vfov)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.num_hfov)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.num_camerarotation)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_ATT_Heading)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_time)).BeginInit();
+            this.PANEL_TIME_OFFSET.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_CAM_Alt)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_CAM_Lon)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_CAM_Lat)).BeginInit();
+            this.PANEL_CAM.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_ATT_Roll)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_ATT_Pitch)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_GPS_Week)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_CAM_Time)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_GPS_AMSL_Alt)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_CAM_Pitch)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_CAM_Roll)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_CAM_Heading)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_camerarotation)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_hfov)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_vfov)).BeginInit();
+            this.panel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_CAM_Week)).BeginInit();
             this.SuspendLayout();
             // 
             // openFileDialog1
@@ -1035,21 +1444,45 @@ namespace MissionPlanner
             // 
             resources.ApplyResources(this.NUM_latpos, "NUM_latpos");
             this.NUM_latpos.Name = "NUM_latpos";
+            this.NUM_latpos.Value = new decimal(new int[] {
+            6,
+            0,
+            0,
+            0});
+            this.NUM_latpos.ValueChanged += new System.EventHandler(this.NUM_latpos_ValueChanged);
             // 
             // NUM_lngpos
             // 
             resources.ApplyResources(this.NUM_lngpos, "NUM_lngpos");
             this.NUM_lngpos.Name = "NUM_lngpos";
+            this.NUM_lngpos.Value = new decimal(new int[] {
+            7,
+            0,
+            0,
+            0});
+            this.NUM_lngpos.ValueChanged += new System.EventHandler(this.NUM_lngpos_ValueChanged);
             // 
             // NUM_altpos
             // 
             resources.ApplyResources(this.NUM_altpos, "NUM_altpos");
             this.NUM_altpos.Name = "NUM_altpos";
+            this.NUM_altpos.Value = new decimal(new int[] {
+            8,
+            0,
+            0,
+            0});
+            this.NUM_altpos.ValueChanged += new System.EventHandler(this.NUM_altpos_ValueChanged);
             // 
-            // NUM_headingpos
+            // NUM_ATT_Heading
             // 
-            resources.ApplyResources(this.NUM_headingpos, "NUM_headingpos");
-            this.NUM_headingpos.Name = "NUM_headingpos";
+            resources.ApplyResources(this.NUM_ATT_Heading, "NUM_ATT_Heading");
+            this.NUM_ATT_Heading.Name = "NUM_ATT_Heading";
+            this.NUM_ATT_Heading.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.NUM_ATT_Heading.ValueChanged += new System.EventHandler(this.NUM_ATT_Heading_ValueChanged);
             // 
             // label2
             // 
@@ -1071,11 +1504,6 @@ namespace MissionPlanner
             resources.ApplyResources(this.label5, "label5");
             this.label5.Name = "label5";
             // 
-            // label6
-            // 
-            resources.ApplyResources(this.label6, "label6");
-            this.label6.Name = "label6";
-            // 
             // BUT_networklinkgeoref
             // 
             resources.ApplyResources(this.BUT_networklinkgeoref, "BUT_networklinkgeoref");
@@ -1083,45 +1511,309 @@ namespace MissionPlanner
             this.BUT_networklinkgeoref.UseVisualStyleBackColor = true;
             this.BUT_networklinkgeoref.Click += new System.EventHandler(this.BUT_networklinkgeoref_Click);
             // 
-            // num_vfov
+            // NUM_time
             // 
-            resources.ApplyResources(this.num_vfov, "num_vfov");
-            this.num_vfov.Maximum = new decimal(new int[] {
-            900,
+            resources.ApplyResources(this.NUM_time, "NUM_time");
+            this.NUM_time.Name = "NUM_time";
+            this.NUM_time.Value = new decimal(new int[] {
+            2,
             0,
             0,
             0});
-            this.num_vfov.Name = "num_vfov";
-            this.num_vfov.Value = new decimal(new int[] {
-            130,
+            this.NUM_time.ValueChanged += new System.EventHandler(this.NUM_time_ValueChanged);
+            // 
+            // label10
+            // 
+            resources.ApplyResources(this.label10, "label10");
+            this.label10.Name = "label10";
+            // 
+            // label11
+            // 
+            resources.ApplyResources(this.label11, "label11");
+            this.label11.Name = "label11";
+            // 
+            // label12
+            // 
+            resources.ApplyResources(this.label12, "label12");
+            this.label12.Name = "label12";
+            // 
+            // RDIO_TimeOffset
+            // 
+            resources.ApplyResources(this.RDIO_TimeOffset, "RDIO_TimeOffset");
+            this.RDIO_TimeOffset.Name = "RDIO_TimeOffset";
+            this.RDIO_TimeOffset.UseVisualStyleBackColor = true;
+            this.RDIO_TimeOffset.CheckedChanged += new System.EventHandler(this.ProcessType_CheckedChanged);
+            // 
+            // RDIO_CAMMsgSynchro
+            // 
+            resources.ApplyResources(this.RDIO_CAMMsgSynchro, "RDIO_CAMMsgSynchro");
+            this.RDIO_CAMMsgSynchro.Checked = true;
+            this.RDIO_CAMMsgSynchro.Name = "RDIO_CAMMsgSynchro";
+            this.RDIO_CAMMsgSynchro.TabStop = true;
+            this.RDIO_CAMMsgSynchro.UseVisualStyleBackColor = true;
+            this.RDIO_CAMMsgSynchro.CheckedChanged += new System.EventHandler(this.ProcessType_CheckedChanged);
+            // 
+            // PANEL_TIME_OFFSET
+            // 
+            this.PANEL_TIME_OFFSET.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PANEL_TIME_OFFSET.Controls.Add(this.BUT_estoffset);
+            this.PANEL_TIME_OFFSET.Controls.Add(this.TXT_offsetseconds);
+            this.PANEL_TIME_OFFSET.Controls.Add(this.label1);
+            resources.ApplyResources(this.PANEL_TIME_OFFSET, "PANEL_TIME_OFFSET");
+            this.PANEL_TIME_OFFSET.Name = "PANEL_TIME_OFFSET";
+            // 
+            // label13
+            // 
+            resources.ApplyResources(this.label13, "label13");
+            this.label13.Name = "label13";
+            // 
+            // label14
+            // 
+            resources.ApplyResources(this.label14, "label14");
+            this.label14.Name = "label14";
+            // 
+            // NUM_CAM_Alt
+            // 
+            resources.ApplyResources(this.NUM_CAM_Alt, "NUM_CAM_Alt");
+            this.NUM_CAM_Alt.Name = "NUM_CAM_Alt";
+            this.NUM_CAM_Alt.Value = new decimal(new int[] {
+            5,
             0,
             0,
             0});
+            this.NUM_CAM_Alt.ValueChanged += new System.EventHandler(this.NUM_CAM_Alt_ValueChanged);
             // 
-            // num_hfov
+            // label15
             // 
-            resources.ApplyResources(this.num_hfov, "num_hfov");
-            this.num_hfov.Maximum = new decimal(new int[] {
-            900,
+            resources.ApplyResources(this.label15, "label15");
+            this.label15.Name = "label15";
+            // 
+            // NUM_CAM_Lon
+            // 
+            resources.ApplyResources(this.NUM_CAM_Lon, "NUM_CAM_Lon");
+            this.NUM_CAM_Lon.Name = "NUM_CAM_Lon";
+            this.NUM_CAM_Lon.Value = new decimal(new int[] {
+            4,
             0,
             0,
             0});
-            this.num_hfov.Name = "num_hfov";
-            this.num_hfov.Value = new decimal(new int[] {
-            200,
+            this.NUM_CAM_Lon.ValueChanged += new System.EventHandler(this.NUM_CAM_Lon_ValueChanged);
+            // 
+            // NUM_CAM_Lat
+            // 
+            resources.ApplyResources(this.NUM_CAM_Lat, "NUM_CAM_Lat");
+            this.NUM_CAM_Lat.Name = "NUM_CAM_Lat";
+            this.NUM_CAM_Lat.Value = new decimal(new int[] {
+            3,
             0,
             0,
             0});
+            this.NUM_CAM_Lat.ValueChanged += new System.EventHandler(this.NUM_CAM_Lat_ValueChanged);
             // 
-            // label7
+            // label16
             // 
-            resources.ApplyResources(this.label7, "label7");
-            this.label7.Name = "label7";
+            resources.ApplyResources(this.label16, "label16");
+            this.label16.Name = "label16";
             // 
-            // label8
+            // PANEL_CAM
             // 
-            resources.ApplyResources(this.label8, "label8");
-            this.label8.Name = "label8";
+            this.PANEL_CAM.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PANEL_CAM.Controls.Add(this.NUM_CAM_Week);
+            this.PANEL_CAM.Controls.Add(this.label26);
+            this.PANEL_CAM.Controls.Add(this.panel2);
+            this.PANEL_CAM.Controls.Add(this.NUM_ATT_Roll);
+            this.PANEL_CAM.Controls.Add(this.label25);
+            this.PANEL_CAM.Controls.Add(this.NUM_ATT_Pitch);
+            this.PANEL_CAM.Controls.Add(this.label24);
+            this.PANEL_CAM.Controls.Add(this.label6);
+            this.PANEL_CAM.Controls.Add(this.label23);
+            this.PANEL_CAM.Controls.Add(this.NUM_GPS_Week);
+            this.PANEL_CAM.Controls.Add(this.panel1);
+            this.PANEL_CAM.Controls.Add(this.NUM_latpos);
+            this.PANEL_CAM.Controls.Add(this.NUM_CAM_Time);
+            this.PANEL_CAM.Controls.Add(this.NUM_lngpos);
+            this.PANEL_CAM.Controls.Add(this.label22);
+            this.PANEL_CAM.Controls.Add(this.label10);
+            this.PANEL_CAM.Controls.Add(this.label21);
+            this.PANEL_CAM.Controls.Add(this.NUM_altpos);
+            this.PANEL_CAM.Controls.Add(this.NUM_GPS_AMSL_Alt);
+            this.PANEL_CAM.Controls.Add(this.NUM_time);
+            this.PANEL_CAM.Controls.Add(this.label20);
+            this.PANEL_CAM.Controls.Add(this.NUM_ATT_Heading);
+            this.PANEL_CAM.Controls.Add(this.label2);
+            this.PANEL_CAM.Controls.Add(this.NUM_CAM_Pitch);
+            this.PANEL_CAM.Controls.Add(this.label3);
+            this.PANEL_CAM.Controls.Add(this.label19);
+            this.PANEL_CAM.Controls.Add(this.label4);
+            this.PANEL_CAM.Controls.Add(this.NUM_CAM_Roll);
+            this.PANEL_CAM.Controls.Add(this.label5);
+            this.PANEL_CAM.Controls.Add(this.label18);
+            this.PANEL_CAM.Controls.Add(this.NUM_CAM_Heading);
+            this.PANEL_CAM.Controls.Add(this.label17);
+            this.PANEL_CAM.Controls.Add(this.label16);
+            this.PANEL_CAM.Controls.Add(this.NUM_CAM_Lat);
+            this.PANEL_CAM.Controls.Add(this.NUM_CAM_Lon);
+            this.PANEL_CAM.Controls.Add(this.label15);
+            this.PANEL_CAM.Controls.Add(this.NUM_CAM_Alt);
+            this.PANEL_CAM.Controls.Add(this.label14);
+            this.PANEL_CAM.Controls.Add(this.label13);
+            resources.ApplyResources(this.PANEL_CAM, "PANEL_CAM");
+            this.PANEL_CAM.Name = "PANEL_CAM";
+            // 
+            // panel2
+            // 
+            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            resources.ApplyResources(this.panel2, "panel2");
+            this.panel2.Name = "panel2";
+            // 
+            // NUM_ATT_Roll
+            // 
+            resources.ApplyResources(this.NUM_ATT_Roll, "NUM_ATT_Roll");
+            this.NUM_ATT_Roll.Name = "NUM_ATT_Roll";
+            this.NUM_ATT_Roll.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.NUM_ATT_Roll.ValueChanged += new System.EventHandler(this.NUM_ATT_Roll_ValueChanged);
+            // 
+            // label25
+            // 
+            resources.ApplyResources(this.label25, "label25");
+            this.label25.Name = "label25";
+            // 
+            // NUM_ATT_Pitch
+            // 
+            resources.ApplyResources(this.NUM_ATT_Pitch, "NUM_ATT_Pitch");
+            this.NUM_ATT_Pitch.Name = "NUM_ATT_Pitch";
+            this.NUM_ATT_Pitch.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.NUM_ATT_Pitch.ValueChanged += new System.EventHandler(this.NUM_ATT_Pitch_ValueChanged);
+            // 
+            // label24
+            // 
+            resources.ApplyResources(this.label24, "label24");
+            this.label24.Name = "label24";
+            // 
+            // label6
+            // 
+            resources.ApplyResources(this.label6, "label6");
+            this.label6.Name = "label6";
+            // 
+            // label23
+            // 
+            resources.ApplyResources(this.label23, "label23");
+            this.label23.Name = "label23";
+            // 
+            // NUM_GPS_Week
+            // 
+            resources.ApplyResources(this.NUM_GPS_Week, "NUM_GPS_Week");
+            this.NUM_GPS_Week.Name = "NUM_GPS_Week";
+            this.NUM_GPS_Week.Value = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
+            this.NUM_GPS_Week.ValueChanged += new System.EventHandler(this.NUM_GPS_Week_ValueChanged);
+            // 
+            // panel1
+            // 
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            resources.ApplyResources(this.panel1, "panel1");
+            this.panel1.Name = "panel1";
+            // 
+            // NUM_CAM_Time
+            // 
+            resources.ApplyResources(this.NUM_CAM_Time, "NUM_CAM_Time");
+            this.NUM_CAM_Time.Name = "NUM_CAM_Time";
+            this.NUM_CAM_Time.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.NUM_CAM_Time.ValueChanged += new System.EventHandler(this.NUM_CAM_Time_ValueChanged);
+            // 
+            // label22
+            // 
+            resources.ApplyResources(this.label22, "label22");
+            this.label22.Name = "label22";
+            // 
+            // label21
+            // 
+            resources.ApplyResources(this.label21, "label21");
+            this.label21.Name = "label21";
+            // 
+            // NUM_GPS_AMSL_Alt
+            // 
+            resources.ApplyResources(this.NUM_GPS_AMSL_Alt, "NUM_GPS_AMSL_Alt");
+            this.NUM_GPS_AMSL_Alt.Name = "NUM_GPS_AMSL_Alt";
+            this.NUM_GPS_AMSL_Alt.Value = new decimal(new int[] {
+            9,
+            0,
+            0,
+            0});
+            this.NUM_GPS_AMSL_Alt.ValueChanged += new System.EventHandler(this.NUM_GPS_AMSL_Alt_ValueChanged);
+            // 
+            // label20
+            // 
+            resources.ApplyResources(this.label20, "label20");
+            this.label20.Name = "label20";
+            // 
+            // NUM_CAM_Pitch
+            // 
+            resources.ApplyResources(this.NUM_CAM_Pitch, "NUM_CAM_Pitch");
+            this.NUM_CAM_Pitch.Name = "NUM_CAM_Pitch";
+            this.NUM_CAM_Pitch.Value = new decimal(new int[] {
+            8,
+            0,
+            0,
+            0});
+            this.NUM_CAM_Pitch.ValueChanged += new System.EventHandler(this.NUM_CAM_Pitch_ValueChanged);
+            // 
+            // label19
+            // 
+            resources.ApplyResources(this.label19, "label19");
+            this.label19.Name = "label19";
+            // 
+            // NUM_CAM_Roll
+            // 
+            resources.ApplyResources(this.NUM_CAM_Roll, "NUM_CAM_Roll");
+            this.NUM_CAM_Roll.Name = "NUM_CAM_Roll";
+            this.NUM_CAM_Roll.Value = new decimal(new int[] {
+            7,
+            0,
+            0,
+            0});
+            this.NUM_CAM_Roll.ValueChanged += new System.EventHandler(this.NUM_CAM_Roll_ValueChanged);
+            // 
+            // label18
+            // 
+            resources.ApplyResources(this.label18, "label18");
+            this.label18.Name = "label18";
+            // 
+            // NUM_CAM_Heading
+            // 
+            resources.ApplyResources(this.NUM_CAM_Heading, "NUM_CAM_Heading");
+            this.NUM_CAM_Heading.Name = "NUM_CAM_Heading";
+            this.NUM_CAM_Heading.Value = new decimal(new int[] {
+            6,
+            0,
+            0,
+            0});
+            this.NUM_CAM_Heading.ValueChanged += new System.EventHandler(this.NUM_CAM_Heading_ValueChanged);
+            // 
+            // label17
+            // 
+            resources.ApplyResources(this.label17, "label17");
+            this.label17.Name = "label17";
+            // 
+            // label9
+            // 
+            resources.ApplyResources(this.label9, "label9");
+            this.label9.Name = "label9";
             // 
             // num_camerarotation
             // 
@@ -1143,48 +1835,98 @@ namespace MissionPlanner
             0,
             0});
             // 
-            // label9
+            // label8
             // 
-            resources.ApplyResources(this.label9, "label9");
-            this.label9.Name = "label9";
+            resources.ApplyResources(this.label8, "label8");
+            this.label8.Name = "label8";
             // 
-            // NUM_time
+            // label7
             // 
-            resources.ApplyResources(this.NUM_time, "NUM_time");
-            this.NUM_time.Name = "NUM_time";
+            resources.ApplyResources(this.label7, "label7");
+            this.label7.Name = "label7";
             // 
-            // label10
+            // num_hfov
             // 
-            resources.ApplyResources(this.label10, "label10");
-            this.label10.Name = "label10";
+            resources.ApplyResources(this.num_hfov, "num_hfov");
+            this.num_hfov.Maximum = new decimal(new int[] {
+            900,
+            0,
+            0,
+            0});
+            this.num_hfov.Name = "num_hfov";
+            this.num_hfov.Value = new decimal(new int[] {
+            200,
+            0,
+            0,
+            0});
+            // 
+            // num_vfov
+            // 
+            resources.ApplyResources(this.num_vfov, "num_vfov");
+            this.num_vfov.Maximum = new decimal(new int[] {
+            900,
+            0,
+            0,
+            0});
+            this.num_vfov.Name = "num_vfov";
+            this.num_vfov.Value = new decimal(new int[] {
+            130,
+            0,
+            0,
+            0});
+            // 
+            // panel3
+            // 
+            this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel3.Controls.Add(this.CHECK_AMSLAlt_Use);
+            this.panel3.Controls.Add(this.label8);
+            this.panel3.Controls.Add(this.label9);
+            this.panel3.Controls.Add(this.num_vfov);
+            this.panel3.Controls.Add(this.num_camerarotation);
+            this.panel3.Controls.Add(this.num_hfov);
+            this.panel3.Controls.Add(this.label7);
+            resources.ApplyResources(this.panel3, "panel3");
+            this.panel3.Name = "panel3";
+            // 
+            // CHECK_AMSLAlt_Use
+            // 
+            resources.ApplyResources(this.CHECK_AMSLAlt_Use, "CHECK_AMSLAlt_Use");
+            this.CHECK_AMSLAlt_Use.Checked = true;
+            this.CHECK_AMSLAlt_Use.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHECK_AMSLAlt_Use.Name = "CHECK_AMSLAlt_Use";
+            this.CHECK_AMSLAlt_Use.UseVisualStyleBackColor = true;
+            this.CHECK_AMSLAlt_Use.CheckedChanged += new System.EventHandler(this.CHECK_AMSLAlt_Use_CheckedChanged);
+            // 
+            // NUM_CAM_Week
+            // 
+            resources.ApplyResources(this.NUM_CAM_Week, "NUM_CAM_Week");
+            this.NUM_CAM_Week.Name = "NUM_CAM_Week";
+            this.NUM_CAM_Week.Value = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.NUM_CAM_Week.ValueChanged += new System.EventHandler(this.NUM_CAM_Week_ValueChanged);
+            // 
+            // label26
+            // 
+            resources.ApplyResources(this.label26, "label26");
+            this.label26.Name = "label26";
             // 
             // Georefimage
             // 
             resources.ApplyResources(this, "$this");
-            this.Controls.Add(this.label10);
-            this.Controls.Add(this.NUM_time);
-            this.Controls.Add(this.label9);
-            this.Controls.Add(this.num_camerarotation);
-            this.Controls.Add(this.label8);
-            this.Controls.Add(this.label7);
-            this.Controls.Add(this.num_hfov);
-            this.Controls.Add(this.num_vfov);
+            this.Controls.Add(this.panel3);
+            this.Controls.Add(this.PANEL_CAM);
+            this.Controls.Add(this.PANEL_TIME_OFFSET);
+            this.Controls.Add(this.RDIO_CAMMsgSynchro);
+            this.Controls.Add(this.RDIO_TimeOffset);
+            this.Controls.Add(this.label12);
+            this.Controls.Add(this.label11);
             this.Controls.Add(this.BUT_networklinkgeoref);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.NUM_headingpos);
-            this.Controls.Add(this.NUM_altpos);
-            this.Controls.Add(this.NUM_lngpos);
-            this.Controls.Add(this.NUM_latpos);
             this.Controls.Add(this.BUT_Geotagimages);
-            this.Controls.Add(this.BUT_estoffset);
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.TXT_outputlog);
             this.Controls.Add(this.BUT_doit);
-            this.Controls.Add(this.TXT_offsetseconds);
             this.Controls.Add(this.TXT_jpgdir);
             this.Controls.Add(this.TXT_logfile);
             this.Controls.Add(this.BUT_browsedir);
@@ -1193,11 +1935,29 @@ namespace MissionPlanner
             ((System.ComponentModel.ISupportInitialize)(this.NUM_latpos)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_lngpos)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_altpos)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUM_headingpos)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.num_vfov)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.num_hfov)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.num_camerarotation)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_ATT_Heading)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_time)).EndInit();
+            this.PANEL_TIME_OFFSET.ResumeLayout(false);
+            this.PANEL_TIME_OFFSET.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_CAM_Alt)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_CAM_Lon)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_CAM_Lat)).EndInit();
+            this.PANEL_CAM.ResumeLayout(false);
+            this.PANEL_CAM.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_ATT_Roll)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_ATT_Pitch)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_GPS_Week)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_CAM_Time)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_GPS_AMSL_Alt)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_CAM_Pitch)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_CAM_Roll)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_CAM_Heading)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_camerarotation)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_hfov)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.num_vfov)).EndInit();
+            this.panel3.ResumeLayout(false);
+            this.panel3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_CAM_Week)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1205,8 +1965,6 @@ namespace MissionPlanner
 
         private void BUT_browselog_Click(object sender, EventArgs e)
         {
-            logcache.Clear();
-
             openFileDialog1.Filter = "Logs|*.log;*.tlog";
             openFileDialog1.ShowDialog();
 
@@ -1257,36 +2015,77 @@ namespace MissionPlanner
 
         private void BUT_doit_Click(object sender, EventArgs e)
         {
-            if (!File.Exists(TXT_logfile.Text))
+            string dirPictures = TXT_jpgdir.Text;
+            string logFilePath = TXT_logfile.Text;
+
+            if (!File.Exists(logFilePath))
                 return;
-            if (!Directory.Exists(TXT_jpgdir.Text))
-                return;
-            float seconds;
-            if (float.TryParse(TXT_offsetseconds.Text, out seconds) == false)
+            if (!Directory.Exists(dirPictures))
                 return;
 
+            float seconds = 0;
+            if (selectedProcessingMode == PROCESSING_MODE.TIME_OFFSET)
+            {
+                if (float.TryParse(TXT_offsetseconds.Text, out seconds) == false)
+                    return;
+            }
+
             BUT_doit.Enabled = false;
+
             try
             {
-                dowork(TXT_logfile.Text, TXT_jpgdir.Text, seconds, false);
+                switch (selectedProcessingMode)
+                {
+                    case PROCESSING_MODE.TIME_OFFSET:
+                        picturesInfo = doworkGPSOFFSET(logFilePath, dirPictures, seconds);
+                        if (picturesInfo != null)
+                            CreateReportFiles(picturesInfo, dirPictures, seconds);
+                        break;
+                    case PROCESSING_MODE.CAM_MSG:
+                        {
+                            picturesInfo = doworkCAM(logFilePath, dirPictures);
+                            if (picturesInfo != null)
+                                CreateReportFiles(picturesInfo, dirPictures, seconds);
+                            break;
+                        }
+                }
             }
-            catch (Exception ex) { log.Error(ex); TXT_outputlog.AppendText("Error " + ex.ToString()); }
+            catch (Exception ex) { TXT_outputlog.AppendText("Error " + ex.ToString()); }
+            
             BUT_doit.Enabled = true;
             BUT_Geotagimages.Enabled = true;
         }
 
         private void BUT_estoffset_Click(object sender, EventArgs e)
         {
-            dowork(TXT_logfile.Text, TXT_jpgdir.Text, 0, true);
+            //doworkLegacy(TXT_logfile.Text, TXT_jpgdir.Text, 0, true);
+            float offset = EstimateOffset(TXT_logfile.Text, TXT_jpgdir.Text);
+
+            TXT_outputlog.AppendText("Offset around : "  + offset + "\n\n");
         }
 
         private void BUT_Geotagimages_Click(object sender, EventArgs e)
         {
+            // Save file into Geotag folder
+            string rootFolder = TXT_jpgdir.Text;
+            string geoTagFolder = rootFolder + Path.DirectorySeparatorChar + "geotagged";
 
-            foreach (string file in photocoords.Keys)
+            bool isExists = System.IO.Directory.Exists(geoTagFolder);
+
+            // delete old files and folder
+            if (isExists)
+                Directory.Delete(geoTagFolder, true);
+
+            // create it again
+            System.IO.Directory.CreateDirectory(geoTagFolder);
+
+            foreach (PictureInformation picInfo in picturesInfo.Values)
             {
-                WriteCoordinatesToImage(file, ((double[])photocoords[file])[0], ((double[])photocoords[file])[1], ((double[])photocoords[file])[2]);
+                WriteCoordinatesToImage(picInfo.Path, picInfo.Lat, picInfo.Lon, picInfo.AltAMSL);
             }
+
+            TXT_outputlog.AppendText("GeoTagging FINISHED \n\n");
+            
 
         }
 
@@ -1319,7 +2118,7 @@ namespace MissionPlanner
         {
             using (MemoryStream ms = new MemoryStream(File.ReadAllBytes(Filename)))
             {
-                TXT_outputlog.AppendText("GeoTagging "+Filename + "\r\n");
+                TXT_outputlog.AppendText("GeoTagging "+Filename + "\n");
                 Application.DoEvents();
 
                 using (Image Pic = Image.FromStream(ms))
@@ -1347,6 +2146,7 @@ namespace MissionPlanner
                     pi[0].Id = 1;
                     pi[0].Len = 2;
                     pi[0].Type = 2;
+
                     if (dLat < 0)
                     {
                         pi[0].Value = new byte[] { (byte)'S', 0 };
@@ -1355,6 +2155,7 @@ namespace MissionPlanner
                     {
                         pi[0].Value = new byte[] { (byte)'N', 0 };
                     }
+
                     Pic.SetPropertyItem(pi[0]);
 
                     pi[0].Id = 3;
@@ -1370,10 +2171,13 @@ namespace MissionPlanner
                     }
                     Pic.SetPropertyItem(pi[0]);
 
+                    // Save file into Geotag folder
+                    string rootFolder = TXT_jpgdir.Text;
+                    string geoTagFolder = rootFolder + Path.DirectorySeparatorChar + "geotagged";
 
+                    string outputfilename = geoTagFolder + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(Filename) + "_geotag" + Path.GetExtension(Filename);
 
-                    string outputfilename = Path.GetDirectoryName(Filename) + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(Filename) + "_geotag" + Path.GetExtension(Filename);
-
+                    // Just in case
                     File.Delete(outputfilename);
 
                     Pic.Save(outputfilename);
@@ -1383,14 +2187,125 @@ namespace MissionPlanner
 
         private void BUT_networklinkgeoref_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start("http://127.0.0.1:56781/georefnetwork.kml");
-            //System.Diagnostics.Process.Start(Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + "m3u" + Path.DirectorySeparatorChar + "GeoRefnetworklink.kml");
+            System.Diagnostics.Process.Start(Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + "m3u" + Path.DirectorySeparatorChar + "GeoRefnetworklink.kml");
         }
 
         private void TXT_logfile_TextChanged(object sender, EventArgs e)
         {
-            logcache.Clear();
+            if (vehicleLocations != null)
+                vehicleLocations.Clear();
+            if (picturesInfo != null)
+                picturesInfo.Clear();
+
+            BUT_Geotagimages.Enabled = false;
         }
+
+        private void ProcessType_CheckedChanged(object sender, EventArgs e)
+        {
+            if (RDIO_CAMMsgSynchro.Checked)
+            {
+                selectedProcessingMode = PROCESSING_MODE.CAM_MSG;
+                PANEL_TIME_OFFSET.Enabled = false;
+            }
+            else
+            {
+                selectedProcessingMode = PROCESSING_MODE.TIME_OFFSET;
+                PANEL_TIME_OFFSET.Enabled = true;
+            }
+        }
+
+        #region GraphicalSetterEvents
+        private void CHECK_AMSLAlt_Use_CheckedChanged(object sender, EventArgs e)
+        {
+            useAMSLAlt = ((CheckBox)sender).Checked;
+        }
+
+        private void NUM_CAM_Time_ValueChanged(object sender, EventArgs e)
+        {
+            timeCAMpos = (int)((NumericUpDown)sender).Value;
+        }
+
+        private void NUM_CAM_Lat_ValueChanged(object sender, EventArgs e)
+        {
+            latCAMpos = (int)((NumericUpDown)sender).Value;
+        }
+
+        private void NUM_CAM_Lon_ValueChanged(object sender, EventArgs e)
+        {
+            lngCAMpos = (int)((NumericUpDown)sender).Value;
+        }
+
+        private void NUM_CAM_Alt_ValueChanged(object sender, EventArgs e)
+        {
+            altCAMpos = (int)((NumericUpDown)sender).Value;
+        }
+
+        private void NUM_CAM_Heading_ValueChanged(object sender, EventArgs e)
+        {
+            yawCAMATT = (int)((NumericUpDown)sender).Value;
+        }
+
+        private void NUM_CAM_Roll_ValueChanged(object sender, EventArgs e)
+        {
+            rollCAMATT = (int)((NumericUpDown)sender).Value;
+        }
+
+        private void NUM_CAM_Pitch_ValueChanged(object sender, EventArgs e)
+        {
+            pitchCAMATT = (int)((NumericUpDown)sender).Value;
+        }
+
+        private void NUM_time_ValueChanged(object sender, EventArgs e)
+        {
+            timepos = (int)((NumericUpDown)sender).Value;
+        }
+
+        private void NUM_GPS_Week_ValueChanged(object sender, EventArgs e)
+        {
+            gpsweekpos = (int)((NumericUpDown)sender).Value;
+        }
+
+        private void NUM_GPS_AMSL_Alt_ValueChanged(object sender, EventArgs e)
+        {
+            altAMSLpos = (int)((NumericUpDown)sender).Value;
+        }
+
+        private void NUM_latpos_ValueChanged(object sender, EventArgs e)
+        {
+            latpos  = (int)((NumericUpDown)sender).Value;
+        }
+
+        private void NUM_lngpos_ValueChanged(object sender, EventArgs e)
+        {
+            lngpos = (int)((NumericUpDown)sender).Value;
+        }
+
+        private void NUM_altpos_ValueChanged(object sender, EventArgs e)
+        {
+            altpos = (int)((NumericUpDown)sender).Value;
+        }
+
+        private void NUM_ATT_Heading_ValueChanged(object sender, EventArgs e)
+        {
+            yawATT  = (int)((NumericUpDown)sender).Value;
+        }
+
+        private void NUM_ATT_Roll_ValueChanged(object sender, EventArgs e)
+        {
+            rollATT = (int)((NumericUpDown)sender).Value;
+        }
+
+        private void NUM_ATT_Pitch_ValueChanged(object sender, EventArgs e)
+        {
+            pitchATT = (int)((NumericUpDown)sender).Value;
+        }
+       
+
+        private void NUM_CAM_Week_ValueChanged(object sender, EventArgs e)
+        {
+            weekCAMPos = (int)((NumericUpDown)sender).Value;
+        }
+        #endregion
     }
 
     public class Rational
