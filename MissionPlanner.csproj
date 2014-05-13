@@ -139,10 +139,6 @@
       <HintPath>extLibs\AWSSDK.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="BouncyCastle.Crypto, Version=1.7.4114.6375, Culture=neutral, PublicKeyToken=0e99375e54769942">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>extLibs\BouncyCastle.Crypto.dll</HintPath>
-    </Reference>
     <Reference Include="csmatio, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>extLibs\csmatio.dll</HintPath>
