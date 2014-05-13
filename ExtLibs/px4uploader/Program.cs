@@ -15,6 +15,17 @@ using System.Diagnostics;
 
 namespace px4uploader
 {
+    /// <summary>
+    /// otp signing process
+    /// create yourself a 1024 bit private key - do not distribute and keep safe.
+    /// put that key in pem format on the px4 sd card, in base64 encoding.
+    /// goto the nuttx shell
+    /// ensure private key is on sd card, and is readable by auth.
+    /// run auth, and follow instructions. "auth -e -t -l" or "auth -v -l"
+    /// 
+    /// remove the sd card before distribution.
+    /// 
+    /// </summary>
     class Program
     {
         [STAThread]
