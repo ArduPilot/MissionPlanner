@@ -22,6 +22,11 @@ namespace MissionPlanner.Arduino
             b2560v2, // apm 2+
             px4, // px3
             px4v2, // pixhawk
+            vrbrainv40,
+            vrbrainv45,
+            vrbrainv50,
+            vrbrainv51,
+            vrherov10,
         }
 
         /// <summary>
@@ -83,6 +88,36 @@ namespace MissionPlanner.Arduino
                     }
 
                     //|| obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_26AC&PID_0012") || obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_26AC&PID_0013") || obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_26AC&PID_0014") || obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_26AC&PID_0015") || obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_26AC&PID_0016")
+
+                    if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_27AC&PID_1140"))
+                    {
+                        log.Info("is a vrbrain 4.0 bootloader");
+                        return boards.vrbrainv40;
+                    }
+
+                    if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_27AC&PID_1145"))
+                    {
+                        log.Info("is a vrbrain 4.5 bootloader");
+                        return boards.vrbrainv45;
+                    }
+
+                    if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_27AC&PID_1150"))
+                    {
+                        log.Info("is a vrbrain 5.0 bootloader");
+                        return boards.vrbrainv50;
+                    }
+
+                    if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_27AC&PID_1151"))
+                    {
+                        log.Info("is a vrbrain 5.1 bootloader");
+                        return boards.vrbrainv51;
+                    }
+
+                    if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_27AC&PID_1210"))
+                    {
+                        log.Info("is a vrhero 1.0 bootloader");
+                        return boards.vrherov10;
+                    }
 
                 }
 

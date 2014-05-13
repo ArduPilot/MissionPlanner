@@ -23,6 +23,8 @@ namespace MissionPlanner.Utilities
         public event ProgressEventHandler Progress;
 
         string firmwareurl = "https://raw.github.com/diydrones/binary/master/Firmware/firmware2.xml";
+		
+		//string firmwareurl = "http://www.radionav.it/portale/MissionPlanner/firmware2.xml";
 
         // ap 2.5 - ac 2.7
         //"https://meee146-planner.googlecode.com/git-history/dfc5737c5efc1e7b78e908829a097624c273d9d7/Tools/MissionPlanner.lanner/Firmware/firmware2.xml";
@@ -49,6 +51,11 @@ namespace MissionPlanner.Utilities
             public string url2560_2;
             public string urlpx4v1;
             public string urlpx4v2;
+            public string urlvrbrainv40;
+            public string urlvrbrainv45;
+            public string urlvrbrainv50;
+            public string urlvrbrainv51;
+            public string urlvrherov10;
             public string name;
             public string desc;
             public int k_format_version;
@@ -151,6 +158,11 @@ namespace MissionPlanner.Utilities
             string url2560_2 = "";
             string px4 = "";
             string px4v2 = "";
+            string vrbrainv40 = "";
+            string vrbrainv45 = "";
+            string vrbrainv50 = "";
+            string vrbrainv51 = "";
+            string vrherov10 = "";
             string name = "";
             string desc = "";
             int k_format_version = 0;
@@ -190,6 +202,21 @@ namespace MissionPlanner.Utilities
                             case "urlpx4v2":
                                 px4v2 = xmlreader.ReadString();
                                 break;
+                            case "urlvrbrainv40":
+                                vrbrainv40 = xmlreader.ReadString();
+                                break;
+                            case "urlvrbrainv45":
+                                vrbrainv45 = xmlreader.ReadString();
+                                break;
+                            case "urlvrbrainv50":
+                                vrbrainv50 = xmlreader.ReadString();
+                                break;
+                            case "urlvrbrainv51":
+                                vrbrainv51 = xmlreader.ReadString();
+                                break;
+                            case "urlvrherov10":
+                                vrherov10 = xmlreader.ReadString();
+                                break;
                             case "name":
                                 name = xmlreader.ReadString();
                                 break;
@@ -209,6 +236,11 @@ namespace MissionPlanner.Utilities
                                     temp.url2560_2 = url2560_2;
                                     temp.urlpx4v1 = px4;
                                     temp.urlpx4v2 = px4v2;
+                                    temp.urlvrbrainv40 = vrbrainv40;
+                                    temp.urlvrbrainv45 = vrbrainv45;
+                                    temp.urlvrbrainv50 = vrbrainv50;
+                                    temp.urlvrbrainv51 = vrbrainv51;
+                                    temp.urlvrherov10 = vrherov10;
                                     temp.k_format_version = k_format_version;
 
                                     try
@@ -241,6 +273,11 @@ namespace MissionPlanner.Utilities
                                 url2560_2 = "";
                                 px4 = "";
                                 px4v2 = "";
+                                vrbrainv40 = "";
+                                vrbrainv45 = "";
+                                vrbrainv50 = "";
+                                vrbrainv51 = "";
+                                vrherov10 = "";
                                 name = "";
                                 desc = "";
                                 k_format_version = 0;
@@ -374,7 +411,7 @@ namespace MissionPlanner.Utilities
 
                 int apmformat_version = -1; // fail continue
 
-                if (board != BoardDetect.boards.px4 && board != BoardDetect.boards.px4v2)
+                if (board != BoardDetect.boards.px4 && board != BoardDetect.boards.px4v2 && board != BoardDetect.boards.vrbrainv40 && board != BoardDetect.boards.vrbrainv45 && board != BoardDetect.boards.vrbrainv50 && board != BoardDetect.boards.vrbrainv51 && board != BoardDetect.boards.vrherov10)
                 {
                     try
                     {
@@ -418,6 +455,26 @@ namespace MissionPlanner.Utilities
                 else if (board == BoardDetect.boards.px4v2)
                 {
                     baseurl = temp.urlpx4v2.ToString();
+                }
+                else if (board == BoardDetect.boards.vrbrainv40)
+                {
+                    baseurl = temp.urlvrbrainv40.ToString();
+                }
+                else if (board == BoardDetect.boards.vrbrainv45)
+                {
+                    baseurl = temp.urlvrbrainv45.ToString();
+                }
+                else if (board == BoardDetect.boards.vrbrainv50)
+                {
+                    baseurl = temp.urlvrbrainv50.ToString();
+                }
+                else if (board == BoardDetect.boards.vrbrainv51)
+                {
+                    baseurl = temp.urlvrbrainv51.ToString();
+                }
+                else if (board == BoardDetect.boards.vrherov10)
+                {
+                    baseurl = temp.urlvrherov10.ToString();
                 }
                 else
                 {
@@ -634,6 +691,139 @@ namespace MissionPlanner.Utilities
             return false;
         }
 
+        /// <summary>
+        /// upload to vrbrain standalone
+        /// </summary>
+        /// <param name="filename"></param>
+        public bool UploadVRBRAIN(string filename)
+        {
+
+
+            vrbrainuploader.Uploader up;
+            updateProgress(0, "Reading Hex File");
+            vrbrainuploader.Firmware fw;
+            try
+            {
+                fw = vrbrainuploader.Firmware.ProcessFirmware(filename);
+            }
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show("Error loading firmware file\n\n" + ex.ToString(), "Error");
+                return false;
+            }
+
+            try
+            {
+                // check if we are seeing heartbeats
+                MainV2.comPort.BaseStream.Open();
+                MainV2.comPort.giveComport = true;
+
+                if (MainV2.comPort.getHeartBeat().Length > 0)
+                {
+                    MainV2.comPort.doReboot(true);
+                    MainV2.comPort.Close();
+                }
+                else
+                {
+                    MainV2.comPort.BaseStream.Close();
+                    CustomMessageBox.Show("Please unplug the board, and then press OK and plug back in.\nMission Planner will look for 30 seconds to find the board");
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+                CustomMessageBox.Show("Please unplug the board, and then press OK and plug back in.\nMission Planner will look for 30 seconds to find the board");
+            }
+
+            DateTime DEADLINE = DateTime.Now.AddSeconds(30);
+
+            updateProgress(0, "Scanning comports");
+
+            while (DateTime.Now < DEADLINE)
+            {
+                string[] allports = SerialPort.GetPortNames();
+
+                foreach (string port in allports)
+                {
+                    log.Info(DateTime.Now.Millisecond + " Trying Port " + port);
+
+                    updateProgress(-1, "Connecting");
+
+                    try
+                    {
+                        up = new vrbrainuploader.Uploader(port, 115200);
+                    }
+                    catch (Exception ex)
+                    {
+                        //System.Threading.Thread.Sleep(50);
+                        Console.WriteLine(ex.Message);
+                        continue;
+                    }
+
+                    try
+                    {
+                        up.identify();
+                        updateProgress(-1, "Identify");
+                        log.InfoFormat("Found board type {0} boardrev {1} bl rev {2} fwmax {3} on {4}", up.board_type, up.board_rev, up.bl_rev, up.fw_maxsize, port);
+                    }
+                    catch (Exception)
+                    {
+                        Console.WriteLine("Not There..");
+                        //Console.WriteLine(ex.Message);
+                        up.close();
+                        continue;
+                    }
+
+                    try
+                    {
+                        up.verifyotp();
+                    }
+                    catch { CustomMessageBox.Show("You are using unsupported hardware.\nThis board does not contain a valid certificate of authenticity.\nPlease contact your hardware vendor about signing your hardware.", "Invalid Cert"); up.skipotp = true; }
+
+                    try
+                    {
+                        up.currentChecksum(fw);
+                    }
+                    catch
+                    {
+                        up.__reboot();
+                        up.close();
+                        CustomMessageBox.Show("No need to upload. already on the board");
+                        return true;
+                    }
+
+                    try
+                    {
+                        up.ProgressEvent += new vrbrainuploader.Uploader.ProgressEventHandler(up_ProgressEvent);
+                        up.LogEvent += new vrbrainuploader.Uploader.LogEventHandler(up_LogEvent);
+
+                        updateProgress(0, "Upload");
+                        up.upload(fw);
+                        updateProgress(100, "Upload Done");
+                    }
+                    catch (Exception ex)
+                    {
+                        updateProgress(0, "ERROR: " + ex.Message);
+                        log.Info(ex);
+                        Console.WriteLine(ex.ToString());
+                        return false;
+                    }
+                    finally
+                    {
+                        up.close();
+                    }
+
+                    // wait for IO firmware upgrade and boot to a mavlink state
+                    CustomMessageBox.Show("Please wait for the musical tones to finish before clicking OK");
+
+                    return true;
+                }
+            }
+
+            updateProgress(0, "ERROR: No Responce from board");
+            return false;
+        }
+
         string _message = "";
 
         void up_LogEvent(string message, int level = 0)
@@ -659,6 +849,11 @@ namespace MissionPlanner.Utilities
             if (board == BoardDetect.boards.px4 || board == BoardDetect.boards.px4v2)
             {
                 return UploadPX4(filename);
+            }
+
+            if (board == BoardDetect.boards.vrbrainv40 || board == BoardDetect.boards.vrbrainv45 || board == BoardDetect.boards.vrbrainv50 || board == BoardDetect.boards.vrbrainv51 || board == BoardDetect.boards.vrherov10)
+            {
+                return UploadVRBRAIN(filename);
             }
 
             byte[] FLASH = new byte[1];
