@@ -698,13 +698,12 @@ namespace MissionPlanner.Utilities
         public bool UploadVRBRAIN(string filename)
         {
 
-
-            vrbrainuploader.Uploader up;
+            px4uploader.Uploader up;
             updateProgress(0, "Reading Hex File");
-            vrbrainuploader.Firmware fw;
+            px4uploader.Firmware fw;
             try
             {
-                fw = vrbrainuploader.Firmware.ProcessFirmware(filename);
+                fw = px4uploader.Firmware.ProcessFirmware(filename);
             }
             catch (Exception ex)
             {
@@ -751,7 +750,7 @@ namespace MissionPlanner.Utilities
 
                     try
                     {
-                        up = new vrbrainuploader.Uploader(port, 115200);
+                        up = new px4uploader.Uploader(port, 115200);
                     }
                     catch (Exception ex)
                     {
@@ -774,11 +773,7 @@ namespace MissionPlanner.Utilities
                         continue;
                     }
 
-                    try
-                    {
-                        up.verifyotp();
-                    }
-                    catch { CustomMessageBox.Show("You are using unsupported hardware.\nThis board does not contain a valid certificate of authenticity.\nPlease contact your hardware vendor about signing your hardware.", "Invalid Cert"); up.skipotp = true; }
+                    up.skipotp = true;
 
                     try
                     {
@@ -794,8 +789,8 @@ namespace MissionPlanner.Utilities
 
                     try
                     {
-                        up.ProgressEvent += new vrbrainuploader.Uploader.ProgressEventHandler(up_ProgressEvent);
-                        up.LogEvent += new vrbrainuploader.Uploader.LogEventHandler(up_LogEvent);
+                        up.ProgressEvent += new px4uploader.Uploader.ProgressEventHandler(up_ProgressEvent);
+                        up.LogEvent += new px4uploader.Uploader.LogEventHandler(up_LogEvent);
 
                         updateProgress(0, "Upload");
                         up.upload(fw);
