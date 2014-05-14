@@ -115,6 +115,8 @@ namespace MissionPlanner
                 Utilities.Airports.ReadOurairports(Application.StartupPath + Path.DirectorySeparatorChar + "airports.csv");
 
                 Utilities.Airports.ReadOpenflights(Application.StartupPath + Path.DirectorySeparatorChar + "airports.dat");
+
+                log.Info("Loaded " + Utilities.Airports.airports.Count + " airports");
             }
             catch { }
 

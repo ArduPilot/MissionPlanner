@@ -20,6 +20,19 @@ namespace MissionPlanner.Utilities
 
         public static List<PointLatLngAlt> airports = new List<PointLatLngAlt>();
 
+        public static void AddAirport(PointLatLngAlt plla)
+        {
+           // foreach (PointLatLngAlt item in airports)
+            {
+              //  if (item.GetDistance(plla) < 200)
+                {
+              //      return;
+                }
+            }
+
+            airports.Add(plla);
+        }
+
         public static void ReadOpenflights(string fn)
         {
             string[] lines = File.ReadAllLines(fn);
@@ -50,7 +63,7 @@ namespace MissionPlanner.Utilities
 
                     var newap = new PointLatLngAlt(lat, lng, alt, name);
 
-                    airports.Add(newap);
+                    AddAirport(newap);
                     Console.WriteLine(newap);
                 }
                 catch { }
@@ -90,7 +103,7 @@ namespace MissionPlanner.Utilities
 
                     var newap = new PointLatLngAlt(lat, lng, alt, name);
 
-                    airports.Add(newap);
+                    AddAirport(newap);
                     Console.WriteLine(newap);
                 }
                 catch { }
@@ -135,7 +148,7 @@ namespace MissionPlanner.Utilities
 
                 var newap = new PointLatLngAlt(lat, lng, 0, name);
 
-                airports.Add(newap);
+                AddAirport(newap);
                 Console.WriteLine(newap);
             }
         }
@@ -175,7 +188,7 @@ namespace MissionPlanner.Utilities
 
                 var newap = new PointLatLngAlt(northing, easting, 0, name);
 
-                airports.Add(newap);
+                AddAirport(newap);
                 Console.WriteLine(newap);
             }
         }

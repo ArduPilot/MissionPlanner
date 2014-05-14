@@ -535,6 +535,7 @@
     <Compile Include="System.cs" />
     <Compile Include="Utilities\Airports.cs" />
     <Compile Include="Utilities\GitHubContent.cs" />
+    <Compile Include="Utilities\GMapMarkerAirport.cs" />
     <Compile Include="Utilities\GMapMarkerRallyPt.cs" />
     <Compile Include="Utilities\LogAnalyzer.cs" />
     <Compile Include="Utilities\ParameterMetaDataRepositoryAutoTest.cs" />
