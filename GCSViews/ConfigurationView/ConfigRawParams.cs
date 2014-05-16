@@ -452,22 +452,30 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             string filepath = Application.StartupPath + Path.DirectorySeparatorChar + CMB_paramfiles.Text;
 
-            byte[] data = GitHubContent.GetFileContent("diydrones", "ardupilot", ((GitHubContent.FileInfo)CMB_paramfiles.SelectedValue).path);
-
-            File.WriteAllBytes(filepath, data);
-
-            Hashtable param2 = Utilities.ParamFile.loadParamFile(filepath);
-
-            Form paramCompareForm = new ParamCompare(Params, MainV2.comPort.MAV.param, param2);
-
-            ThemeManager.ApplyThemeTo(paramCompareForm);
-            if (paramCompareForm.ShowDialog() == DialogResult.OK)
+            try
             {
-                CustomMessageBox.Show("Loaded parameters, please make sure you write them!", "Loaded");
-            }
 
-            // no activate the user needs to click write.
-            //this.Activate();
+                byte[] data = GitHubContent.GetFileContent("diydrones", "ardupilot", ((GitHubContent.FileInfo)CMB_paramfiles.SelectedValue).path);
+
+                File.WriteAllBytes(filepath, data);
+
+                Hashtable param2 = Utilities.ParamFile.loadParamFile(filepath);
+
+                Form paramCompareForm = new ParamCompare(Params, MainV2.comPort.MAV.param, param2);
+
+                ThemeManager.ApplyThemeTo(paramCompareForm);
+                if (paramCompareForm.ShowDialog() == DialogResult.OK)
+                {
+                    CustomMessageBox.Show("Loaded parameters, please make sure you write them!", "Loaded");
+                }
+
+                // no activate the user needs to click write.
+                //this.Activate();
+            }
+            catch (Exception ex) 
+            { 
+                CustomMessageBox.Show("Failed to load file.\n" + ex);
+            }
         }
 
         private void CMB_paramfiles_SelectedIndexChanged(object sender, EventArgs e)

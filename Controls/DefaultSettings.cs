@@ -68,27 +68,34 @@ namespace MissionPlanner.Controls
                 return;
             }
 
-            byte[] data = GitHubContent.GetFileContent("diydrones", "ardupilot", ((GitHubContent.FileInfo)CMB_paramfiles.SelectedValue).path);
-
-            File.WriteAllBytes(filepath, data);
-
-            Hashtable param2 = Utilities.ParamFile.loadParamFile(filepath);
-
-            Form paramCompareForm = new ParamCompare(null, MainV2.comPort.MAV.param, param2);
-
-            ThemeManager.ApplyThemeTo(paramCompareForm);
-            if (paramCompareForm.ShowDialog() == DialogResult.OK)
+            try
             {
-                CustomMessageBox.Show("Loaded parameters!", "Loaded");
-            }
+                byte[] data = GitHubContent.GetFileContent("diydrones", "ardupilot", ((GitHubContent.FileInfo)CMB_paramfiles.SelectedValue).path);
 
-            if (OnChange != null)
-            {
-                OnChange(null, null);
-                return;
-            }
+                File.WriteAllBytes(filepath, data);
 
-            this.Activate();
+                Hashtable param2 = Utilities.ParamFile.loadParamFile(filepath);
+
+                Form paramCompareForm = new ParamCompare(null, MainV2.comPort.MAV.param, param2);
+
+                ThemeManager.ApplyThemeTo(paramCompareForm);
+                if (paramCompareForm.ShowDialog() == DialogResult.OK)
+                {
+                    CustomMessageBox.Show("Loaded parameters!", "Loaded");
+                }
+
+                if (OnChange != null)
+                {
+                    OnChange(null, null);
+                    return;
+                }
+
+                this.Activate();
+            }
+            catch (Exception ex)
+            { 
+                CustomMessageBox.Show("Failed to load file.\n" + ex); 
+            }
         }
 
         private void ConfigDefaultSettings_Load(object sender, EventArgs e)
