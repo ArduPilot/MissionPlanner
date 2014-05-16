@@ -344,6 +344,18 @@ namespace MissionPlanner
             splash.Refresh();
             Application.DoEvents();
 
+            // read airport list
+            try
+            {
+
+                Utilities.Airports.ReadOurairports(Application.StartupPath + Path.DirectorySeparatorChar + "airports.csv");
+
+                Utilities.Airports.ReadOpenflights(Application.StartupPath + Path.DirectorySeparatorChar + "airports.dat");
+
+                log.Info("Loaded " + Utilities.Airports.airports.Count + " airports");
+            }
+            catch { }
+
             // set this before we reset it
             MainV2.config["NUM_tracklength"] = "200";
 
