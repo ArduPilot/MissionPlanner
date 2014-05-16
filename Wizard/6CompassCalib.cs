@@ -70,20 +70,7 @@ namespace MissionPlanner.Wizard
 
             MainV2.comPort.setParam("MAG_ENABLE", 1);
 
-            CustomMessageBox.Show("Please click ok and move the apm around all axises");
-
-            ProgressReporterSphere prd = new ProgressReporterSphere();
-
-            Utilities.ThemeManager.ApplyThemeTo(prd);
-
-            prd.btnCancel.Text = "Done";
-
-            prd.DoWork += prd_DoWork;
-
-            prd.RunBackgroundOperationAsync();
-
-            if (ans != null)
-                MagCalib.SaveOffsets(ans);
+            MagCalib.DoGUIMagCalib();
         }
 
         void prd_DoWork(object sender, ProgressWorkerEventArgs e, object passdata = null)
