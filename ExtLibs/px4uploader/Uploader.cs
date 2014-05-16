@@ -465,8 +465,13 @@ namespace px4uploader
 
         public void __reboot()
         {
-            self.__send(new byte[] { (byte)Code.REBOOT, (byte)Code.EOC });
-            self.port.DiscardInBuffer();
+            // silent fail
+            try
+            {
+                self.__send(new byte[] { (byte)Code.REBOOT, (byte)Code.EOC });
+                self.port.DiscardInBuffer();
+            }
+            catch { }
         }
 
         public List<Byte[]> __split_len(byte[] seq, int length)

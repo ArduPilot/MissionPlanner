@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using MissionPlanner.Controls;
+using System.IO;
 
 namespace MissionPlanner.Wizard
 {
@@ -139,7 +140,11 @@ namespace MissionPlanner.Wizard
         {
             count++;
 
-            MainV2.comPort.sendPacket(new MAVLink.mavlink_command_ack_t() { command = 1, result = count });
+            try
+            {
+                MainV2.comPort.sendPacket(new MAVLink.mavlink_command_ack_t() { command = 1, result = count });
+            }
+            catch (IOException ex) { CustomMessageBox.Show("Failed to ack command.\n" + ex); Wizard.instance.Close(); }
         }
     }
 }

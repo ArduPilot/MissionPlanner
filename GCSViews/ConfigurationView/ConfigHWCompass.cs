@@ -207,6 +207,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
+            if (!MainV2.comPort.BaseStream.IsOpen)
+            {
+                CustomMessageBox.Show("you are not connected");
+                MainV2.View.Reload();
+                return;
+            }
+
             if (radioButton_onboard.Checked)
             {
                 CMB_compass_orient.SelectedIndex =  (int)Common.Rotation.ROTATION_NONE;
