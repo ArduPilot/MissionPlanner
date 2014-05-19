@@ -11,7 +11,7 @@ using System.Collections;
 
 namespace MissionPlanner
 {
-    public class srtm
+    public class srtm: IDisposable
     {
         public static string datadirectory = "./srtm/";
 
@@ -20,6 +20,8 @@ namespace MissionPlanner
         static object objlock = new object();
 
         static Thread requestThread;
+
+        static bool requestThreadrun = false;
 
         static List<string> queue = new List<string>();
 
@@ -306,7 +308,9 @@ namespace MissionPlanner
 
         static void requestRunner()
         {
-            while (true)
+            requestThreadrun = true;
+
+            while (requestThreadrun)
             {
                 try
                 {
@@ -465,6 +469,11 @@ namespace MissionPlanner
             catch { }
 
             return list;
+        }
+
+        public void Dispose()
+        {
+            requestThreadrun = false;
         }
     }
 }
