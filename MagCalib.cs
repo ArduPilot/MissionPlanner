@@ -89,6 +89,14 @@ namespace MissionPlanner
             // list of x,y,z 's
             List<Tuple<float, float, float>> data = new List<Tuple<float, float, float>>();
 
+            // old method
+            float minx = 0;
+            float maxx = 0;
+            float miny = 0;
+            float maxy = 0;
+            float minz = 0;
+            float maxz = 0;
+
             // backup current rate and set to 10 hz
             byte backupratesens = MainV2.comPort.MAV.cs.ratesensors;
             MainV2.comPort.MAV.cs.ratesensors = 10;
@@ -97,6 +105,10 @@ namespace MissionPlanner
             float oldmx = 0;
             float oldmy = 0;
             float oldmz = 0;
+
+            // filter data points to only x number per quadrant
+            int div = 20;
+            Hashtable filter = new Hashtable();
 
             string extramsg = "";
 
@@ -121,20 +133,43 @@ namespace MissionPlanner
                     oldmy != MainV2.comPort.MAV.cs.my &&
                     oldmz != MainV2.comPort.MAV.cs.mz)
                 {
+                    // for new lease sq
+                    string item = (int)(MainV2.comPort.MAV.cs.mx / div) + "," +
+                        (int)(MainV2.comPort.MAV.cs.my / div) + "," +
+                        (int)(MainV2.comPort.MAV.cs.mz / div);
+
+                    if (filter.ContainsKey(item))
+                    {
+                        filter[item] = (int)filter[item] + 1;
+
+                        if ((int)filter[item] > 3)
+                            continue;
+                    }
+                    else
+                    {
+                        filter[item] = 1;
+                    }
+
+                    // add data
                     data.Add(new Tuple<float, float, float>(
-                        MainV2.comPort.MAV.cs.mx - (float)MainV2.comPort.MAV.cs.mag_ofs_x,
-                        MainV2.comPort.MAV.cs.my - (float)MainV2.comPort.MAV.cs.mag_ofs_y,
-                        MainV2.comPort.MAV.cs.mz - (float)MainV2.comPort.MAV.cs.mag_ofs_z));
+    MainV2.comPort.MAV.cs.mx - (float)MainV2.comPort.MAV.cs.mag_ofs_x,
+    MainV2.comPort.MAV.cs.my - (float)MainV2.comPort.MAV.cs.mag_ofs_y,
+    MainV2.comPort.MAV.cs.mz - (float)MainV2.comPort.MAV.cs.mag_ofs_z));
 
                     oldmx = MainV2.comPort.MAV.cs.mx;
                     oldmy = MainV2.comPort.MAV.cs.my;
                     oldmz = MainV2.comPort.MAV.cs.mz;
 
                     ((ProgressReporterSphere)sender).sphere1.AddPoint(new OpenTK.Vector3(oldmx, oldmy, oldmz));
+
+                    // for old method
+                    setMinorMax(MainV2.comPort.MAV.cs.mx - (float)MainV2.comPort.MAV.cs.mag_ofs_x, ref minx, ref maxx);
+                    setMinorMax(MainV2.comPort.MAV.cs.my - (float)MainV2.comPort.MAV.cs.mag_ofs_y, ref miny, ref maxy);
+                    setMinorMax(MainV2.comPort.MAV.cs.mz - (float)MainV2.comPort.MAV.cs.mag_ofs_z, ref minz, ref maxz);
                 }
 
                 //find the mean radius
-                HIL.Vector3 centre = new HIL.Vector3(); //new HIL.Vector3((float)-ans[0], (float)-ans[1], (float)-ans[2]);
+                HIL.Vector3 centre = new HIL.Vector3();  //new HIL.Vector3((float)-((maxx + minx) / 2), (float)-((maxy + miny) / 2), (float)-((maxz + minz) / 2));
                 HIL.Vector3 point;
                 float radius = 0;
                 for (int i = 0; i < data.Count; i++)
@@ -190,11 +225,18 @@ namespace MissionPlanner
                 }
             }
 
+            if (minx > 0 && maxx > 0 || minx < 0 && maxx < 0 ||miny > 0 && maxy > 0 || miny < 0 && maxy < 0 ||minz > 0 && maxz > 0 || minz < 0 && maxz < 0)
+            {
+                e.ErrorMessage = "Bad compass raw values. Check for magnetic interferance.";
+                ans = null;
+                return;
+            }
+
             // restore old sensor rate
             MainV2.comPort.MAV.cs.ratesensors = backupratesens;
             MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RAW_SENSORS, MainV2.comPort.MAV.cs.ratesensors);
 
-            if (data.Count < 10)
+            if (data.Count < 10 || extramsg != "")
             {
                 e.ErrorMessage = "Log does not contain enough data";
                 ans = null;
@@ -560,6 +602,10 @@ namespace MissionPlanner
                     MainV2.comPort.setParam("COMPASS_OFS_X", (float)ofs[0]);
                     MainV2.comPort.setParam("COMPASS_OFS_Y", (float)ofs[1]);
                     MainV2.comPort.setParam("COMPASS_OFS_Z", (float)ofs[2]);
+                    if (ofs.Length > 3)
+                    {
+                        // ellipsoid
+                    }
                 }
                 catch
                 {
