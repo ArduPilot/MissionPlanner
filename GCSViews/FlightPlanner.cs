@@ -1124,10 +1124,9 @@ namespace MissionPlanner.GCSViews
 
                 setgradanddistandaz();
 
-                foreach (var item in Utilities.Airports.airports)
+                foreach (var item in Utilities.Airports.getAirports(MainMap.Position))
                 {
-                    if (item.GetDistance(MainMap.Position) < 100000)
-                        polygonsoverlay.Markers.Add(new GMapMarkerAirport(item) { ToolTipText = item.Tag, ToolTipMode = MarkerTooltipMode.Always });
+                    polygonsoverlay.Markers.Add(new GMapMarkerAirport(item) { ToolTipText = item.Tag, ToolTipMode = MarkerTooltipMode.Always });
                 }
             }
             catch (Exception ex)
@@ -2311,6 +2310,11 @@ namespace MissionPlanner.GCSViews
                 if (item is GMapMarkerRallyPt)
                 {
                     CurrentRallyPt = item as GMapMarkerRallyPt;
+                }
+                if (item is GMapMarkerAirport)
+                {
+                    // do nothing - readonly
+                    return;
                 }
                 if (item is GMapMarker)
                 {

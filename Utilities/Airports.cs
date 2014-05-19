@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Globalization;
+using log4net;
+using System.Reflection;
 
 namespace MissionPlanner.Utilities
 {
@@ -18,7 +20,46 @@ namespace MissionPlanner.Utilities
 
         //http://openflights.org/data.html
 
-        public static List<PointLatLngAlt> airports = new List<PointLatLngAlt>();
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
+        static List<PointLatLngAlt> airports = new List<PointLatLngAlt>();
+
+        public static int GetAirportCount { get { return airports.Count; } }
+
+        static PointLatLngAlt currentcenter = PointLatLngAlt.Zero;
+
+        // 100km
+        public static int proximity = 100000; 
+
+        static List<PointLatLngAlt> cache = new List<PointLatLngAlt>();
+
+        public static List<PointLatLngAlt> getAirports(PointLatLngAlt centerpoint)
+        {
+            log.Info("getAirports " + centerpoint);
+
+            // check if we have moved 66% from our last cache center point
+            if (currentcenter.GetDistance(centerpoint) < ((proximity/3)*2)) 
+            {
+                 return cache;
+            }
+
+            log.Info("getAirports - regen list");
+
+            // generate a new list
+            currentcenter = centerpoint;
+
+            cache.Clear();
+
+            foreach (PointLatLngAlt item in airports)
+            {
+                if (item.GetDistance(centerpoint) < proximity) 
+                {
+                    cache.Add(item);                
+                }
+            }
+
+            return cache;
+        }
 
         public static void AddAirport(PointLatLngAlt plla)
         {

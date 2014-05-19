@@ -352,7 +352,7 @@ namespace MissionPlanner
 
                 Utilities.Airports.ReadOpenflights(Application.StartupPath + Path.DirectorySeparatorChar + "airports.dat");
 
-                log.Info("Loaded " + Utilities.Airports.airports.Count + " airports");
+                log.Info("Loaded " + Utilities.Airports.GetAirportCount + " airports");
             }
             catch { }
 
