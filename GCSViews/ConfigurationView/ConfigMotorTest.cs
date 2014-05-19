@@ -17,6 +17,25 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             InitializeComponent();
         }
 
+        /*
+#if (FRAME_CONFIG == QUAD_FRAME)
+        MAV_TYPE_QUADROTOR,
+#elif (FRAME_CONFIG == TRI_FRAME)
+        MAV_TYPE_TRICOPTER,
+#elif (FRAME_CONFIG == HEXA_FRAME || FRAME_CONFIG == Y6_FRAME)
+        MAV_TYPE_HEXAROTOR,
+#elif (FRAME_CONFIG == OCTA_FRAME || FRAME_CONFIG == OCTA_QUAD_FRAME)
+        MAV_TYPE_OCTOROTOR,
+#elif (FRAME_CONFIG == HELI_FRAME)
+        MAV_TYPE_HELICOPTER,
+#elif (FRAME_CONFIG == SINGLE_FRAME)  //because mavlink did not define a singlecopter, we use a rocket
+        MAV_TYPE_ROCKET,
+#elif (FRAME_CONFIG == COAX_FRAME)  //because mavlink did not define a singlecopter, we use a rocket
+        MAV_TYPE_ROCKET,
+#else
+  #error Unrecognised frame type
+#endif*/
+
         public void Activate()
         {
             int x = 20;
@@ -24,24 +43,31 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             int motormax = 8;
 
-            //HIL.Motor.build_motors("");
+            HIL.Motor[] motors = new HIL.Motor[0];
 
+            if (MainV2.comPort.MAV.aptype == MAVLink.MAV_TYPE.TRICOPTER)
+            {
+                motormax = 3;
 
-            if (MainV2.comPort.MAV.aptype == MAVLink.MAV_TYPE.QUADROTOR)
+                motors = HIL.Motor.build_motors(MAVLink.MAV_TYPE.TRICOPTER, (int)(float)MainV2.comPort.MAV.param["FRAME"]);
+            }
+            else if (MainV2.comPort.MAV.aptype == MAVLink.MAV_TYPE.QUADROTOR)
             {
                 motormax = 4;
+
+                motors = HIL.Motor.build_motors(MAVLink.MAV_TYPE.QUADROTOR, (int)(float)MainV2.comPort.MAV.param["FRAME"]);
             }
             else if (MainV2.comPort.MAV.aptype == MAVLink.MAV_TYPE.HEXAROTOR)
             {
                 motormax = 6;
+
+                motors = HIL.Motor.build_motors(MAVLink.MAV_TYPE.HEXAROTOR, (int)(float)MainV2.comPort.MAV.param["FRAME"]);
             }
             else if (MainV2.comPort.MAV.aptype == MAVLink.MAV_TYPE.OCTOROTOR)
             {
                 motormax = 8;
-            }
-            else if (MainV2.comPort.MAV.aptype == MAVLink.MAV_TYPE.TRICOPTER)
-            {
-                motormax = 3;
+
+                motors = HIL.Motor.build_motors(MAVLink.MAV_TYPE.OCTOROTOR, (int)(float)MainV2.comPort.MAV.param["FRAME"]);
             }
             else if (MainV2.comPort.MAV.aptype == MAVLink.MAV_TYPE.HELICOPTER)
             {
@@ -80,6 +106,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         bool doaction(int motor, MAVLink.MOTOR_TEST_THROTTLE_TYPE thr_type, int throttle, int timeout)
         {
             return MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_MOTOR_TEST, (float)motor, (float)(byte)thr_type, (float)throttle, (float)timeout, 0, 0, 0);
+        }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("http://copter.ardupilot.com/wiki/connecting-your-rc-input-and-motors/");
         }
     }
 }
