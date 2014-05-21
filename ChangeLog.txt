@@ -1,4 +1,32 @@
-﻿* Mission Planner 1.3.1
+﻿* Mission Planner 1.3.2
+add exception handlers
+fix github failed dl exception
+tweak mag calib settings
+add airport 3nm ring
+update px4uploader comments
+vrbrain update
+Images GeoRef Tool Update (CAM Msg + CleanUp)
+add clear logs verify
+reduce mag calib point count requirement
+fix reset to defaults
+increase sphere point size
+Fix Ourairports parsing routine
+px4uploader xml file intergration
+OTP update
+clickonce updates
+initial motor test work
+update mavlink specs
+Fix type in basic tuning
+move RP_feel back to top of simple pids
+Change Nmea output to use alt ASL
+fix bad mode in binary log conversion
+fix logbrowse filter
+Add new Airports function
+Update georef format
+tweak mavlink log download status
+allow revert of switch docking on FP screen
+
+* Mission Planner 1.3.1
 add test flight planner dock switch
 add more error handleing in varius locations.
 improve wp uploading
