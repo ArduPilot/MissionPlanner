@@ -144,6 +144,15 @@
   <data name="cmb_Baud.Items8" xml:space="preserve">
     <value>115200</value>
   </data>
+  <data name="cmb_Baud.Items9" xml:space="preserve">
+    <value>500000</value>
+  </data>
+  <data name="cmb_Baud.Items10" xml:space="preserve">
+    <value>921600</value>
+  </data>
+  <data name="cmb_Baud.Items11" xml:space="preserve">
+    <value>1500000</value>
+  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="cmb_Baud.Location" type="System.Drawing.Point, System.Drawing">
     <value>130, 4</value>

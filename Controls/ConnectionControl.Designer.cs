@@ -50,7 +50,10 @@
             resources.GetString("cmb_Baud.Items5"),
             resources.GetString("cmb_Baud.Items6"),
             resources.GetString("cmb_Baud.Items7"),
-            resources.GetString("cmb_Baud.Items8")});
+            resources.GetString("cmb_Baud.Items8"),
+            resources.GetString("cmb_Baud.Items9"),
+            resources.GetString("cmb_Baud.Items10"),
+            resources.GetString("cmb_Baud.Items11")});
             resources.ApplyResources(this.cmb_Baud, "cmb_Baud");
             this.cmb_Baud.Name = "cmb_Baud";
             // 
