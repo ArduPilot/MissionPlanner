@@ -61,19 +61,20 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(324, 5);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(214, 26);
+            this.label2.Size = new System.Drawing.Size(214, 52);
             this.label2.TabIndex = 2;
-            this.label2.Text = "NOTE: PLEASE HOLD DOWN YOUR UAV\r\nThis will test your motors are working.";
+            this.label2.Text = "NOTE: PLEASE HOLD DOWN YOUR UAV\r\nThis will test your motors are working.\r\nMotors " +
+    "are tested in a circle rotation \r\nstarting at the front left.";
             // 
             // linkLabel1
             // 
             this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Location = new System.Drawing.Point(324, 41);
+            this.linkLabel1.Location = new System.Drawing.Point(324, 65);
             this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(215, 13);
+            this.linkLabel1.Size = new System.Drawing.Size(218, 26);
             this.linkLabel1.TabIndex = 3;
             this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "Please click here to see your motor numbers";
+            this.linkLabel1.Text = "Please click here to see your motor numbers,\r\nscroll to the bottom of the page";
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
             // ConfigMotorTest
