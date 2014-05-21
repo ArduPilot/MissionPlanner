@@ -2054,6 +2054,11 @@ Please check the following
             {
                 gotohere.id = (byte)MAV_CMD.WAYPOINT;
 
+                int fixme;
+                // fix for followme change
+                if (MAV.cs.mode.ToUpper() != "GUIDED")
+                    setMode("GUIDED");
+
                 MAV_MISSION_RESULT ans = setWP(gotohere, 0, MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT, (byte)2);
 
                 if (ans != MAV_MISSION_RESULT.MAV_MISSION_ACCEPTED)
