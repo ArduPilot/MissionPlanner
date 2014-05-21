@@ -316,7 +316,7 @@ namespace MissionPlanner
             giveComport = true;
 
             // allow settings to settle - previous dtr 
-            System.Threading.Thread.Sleep(500);
+            System.Threading.Thread.Sleep(1000);
 
             // reset
             MAV.sysid = 0;
