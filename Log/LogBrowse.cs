@@ -893,6 +893,8 @@ namespace MissionPlanner.Log
 
             if (opt.SelectedItem != "")
             {
+                logdatafilter.Clear();
+
                 int a = 0;
                 foreach (var item in logdata)
                 {
