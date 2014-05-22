@@ -12,8 +12,6 @@ namespace MissionPlanner.Wizard
 {
     public partial class _6CompassCalib : MyUserControl, IWizard, IActivate, IDeactivate
     {
-        double[] ans;
-
         public _6CompassCalib()
         {
             InitializeComponent();

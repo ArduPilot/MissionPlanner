@@ -301,6 +301,7 @@ namespace MissionPlanner.Joystick
             }
             catch (InputLostException ex) 
             {
+                ex.ToString();
                 if (MainV2.joystick != null && MainV2.joystick.enabled == true)
                 {
                     BUT_enable_Click(null, null);
