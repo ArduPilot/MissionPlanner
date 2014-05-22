@@ -30,8 +30,15 @@ namespace MissionPlanner.Utilities
 
         static object locker = new object();
 
-        // 100km
-        public static int proximity = 100000; 
+        /// <summary>
+        /// the cache zone radius in m, based on the centerpoint provided
+        /// </summary>
+        public static int proximity = 100000;
+
+        /// <summary>
+        /// used to track is more airports have been loaded, and the cache needs refreshing
+        /// </summary>
+        static bool newairports = false;
 
         static List<PointLatLngAlt> cache = new List<PointLatLngAlt>();
 
@@ -44,8 +51,11 @@ namespace MissionPlanner.Utilities
                 // check if we have moved 66% from our last cache center point
                 if (currentcenter.GetDistance(centerpoint) < ((proximity / 3) * 2))
                 {
-                    return cache;
+                    if (!newairports)
+                        return cache;
                 }
+
+                newairports = false;
 
                 log.Info("getAirports - regen list");
 
@@ -79,6 +89,8 @@ namespace MissionPlanner.Utilities
                 }
 
                 airports.Add(plla);
+
+                newairports = true;
             }
         }
 
