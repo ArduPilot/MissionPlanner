@@ -136,8 +136,14 @@
   <data name="fullScreenToolStripMenuItem.Text" xml:space="preserve">
     <value>Full Screen</value>
   </data>
+  <data name="readonlyToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>152, 22</value>
+  </data>
+  <data name="readonlyToolStripMenuItem.Text" xml:space="preserve">
+    <value>Readonly</value>
+  </data>
   <data name="CTX_mainmenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>153, 70</value>
+    <value>153, 92</value>
   </data>
   <data name="&gt;&gt;CTX_mainmenu.Name" xml:space="preserve">
     <value>CTX_mainmenu</value>
@@ -2473,12 +2479,18 @@
     <value>toolStripConnectionControl</value>
   </data>
   <data name="&gt;&gt;toolStripConnectionControl.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.ToolStripConnectionControl, MissionPlanner, Version=1.1.5187.21816, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.ToolStripConnectionControl, MissionPlanner, Version=1.1.5255.32685, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;MenuDonate.Name" xml:space="preserve">
     <value>MenuDonate</value>
   </data>
   <data name="&gt;&gt;MenuDonate.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;readonlyToolStripMenuItem.Name" xml:space="preserve">
+    <value>readonlyToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;readonlyToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">

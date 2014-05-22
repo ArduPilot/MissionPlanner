@@ -40,6 +40,8 @@ namespace MissionPlanner
         internal string plaintxtline = "";
         string buildplaintxtline = "";
 
+        public bool ReadOnly = false;
+
         public event ProgressEventHandler Progress;
 
         public MAVState MAV = new MAVState();
@@ -551,6 +553,26 @@ Please check the following
             if (!BaseStream.IsOpen)
             {
                 return;
+            }
+
+            if (ReadOnly) 
+            {
+                // allow these messages
+                if (messageType == (byte)MAVLink.MAVLINK_MSG_ID.MISSION_REQUEST_LIST || 
+                    messageType == (byte)MAVLink.MAVLINK_MSG_ID.MISSION_REQUEST_PARTIAL_LIST ||
+                    messageType == (byte)MAVLink.MAVLINK_MSG_ID.MISSION_REQUEST ||
+                    messageType == (byte)MAVLink.MAVLINK_MSG_ID.PARAM_REQUEST_LIST || 
+                    messageType == (byte)MAVLink.MAVLINK_MSG_ID.PARAM_REQUEST_READ ||
+                    messageType == (byte)MAVLink.MAVLINK_MSG_ID.RALLY_FETCH_POINT ||
+                    messageType == (byte)MAVLink.MAVLINK_MSG_ID.FENCE_FETCH_POINT
+                    )
+                {
+
+                }
+                else 
+                {
+                    return;
+                }                
             }
 
             lock (objlock)
@@ -3074,7 +3096,7 @@ Please check the following
             {
                 try
                 {
-                    PointLatLngAlt plla = MainV2.comPort.getRallyPoint(a, ref count);
+                    PointLatLngAlt plla = getRallyPoint(a, ref count);
                     points.Add(plla);
                 }
                 catch { return points; }
