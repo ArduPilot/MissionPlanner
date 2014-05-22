@@ -5696,5 +5696,24 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                 panelWaypoints.Width = this.Width / 2;
             }
         }
+
+        private void insertSplineWPToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string wpno = "1";
+            if (InputBox.Show("Insert WP", "Insert WP after wp#", ref wpno) == DialogResult.OK)
+            {
+                try
+                {
+                    Commands.Rows.Insert(int.Parse(wpno), 1);
+                }
+                catch { CustomMessageBox.Show("Invalid insert position", "Error"); return; }
+
+                selectedrow = int.Parse(wpno);
+
+                ChangeColumnHeader(MAVLink.MAV_CMD.SPLINE_WAYPOINT.ToString());
+
+                setfromMap(MouseDownStart.Lat, MouseDownStart.Lng, (int)float.Parse(TXT_DefaultAlt.Text));
+            }
+        }
     }
 }

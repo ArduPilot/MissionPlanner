@@ -104,6 +104,7 @@
             this.TXT_altwarn = new System.Windows.Forms.TextBox();
             this.BUT_Add = new MissionPlanner.Controls.MyButton();
             this.panelAction = new BSE.Windows.Forms.Panel();
+            this.splitter2 = new BSE.Windows.Forms.Splitter();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.panel4 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
@@ -186,7 +187,7 @@
             this.panelBASE = new System.Windows.Forms.Panel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.splitter2 = new BSE.Windows.Forms.Splitter();
+            this.insertSplineWPToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.Commands)).BeginInit();
             this.panel5.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -612,6 +613,13 @@
             this.panelAction.ToolTipTextExpandIconPanelCollapsed = null;
             this.panelAction.ToolTipTextExpandIconPanelExpanded = null;
             // 
+            // splitter2
+            // 
+            this.splitter2.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.splitter2, "splitter2");
+            this.splitter2.Name = "splitter2";
+            this.splitter2.TabStop = false;
+            // 
             // flowLayoutPanel1
             // 
             this.flowLayoutPanel1.Controls.Add(this.panel4);
@@ -740,6 +748,7 @@
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.deleteWPToolStripMenuItem,
             this.insertWpToolStripMenuItem,
+            this.insertSplineWPToolStripMenuItem,
             this.loiterToolStripMenuItem,
             this.jumpToolStripMenuItem,
             this.rTLToolStripMenuItem,
@@ -1206,12 +1215,11 @@
             this.timer1.Interval = 1200;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // splitter2
+            // insertSplineWPToolStripMenuItem
             // 
-            this.splitter2.BackColor = System.Drawing.Color.Transparent;
-            resources.ApplyResources(this.splitter2, "splitter2");
-            this.splitter2.Name = "splitter2";
-            this.splitter2.TabStop = false;
+            this.insertSplineWPToolStripMenuItem.Name = "insertSplineWPToolStripMenuItem";
+            resources.ApplyResources(this.insertSplineWPToolStripMenuItem, "insertSplineWPToolStripMenuItem");
+            this.insertSplineWPToolStripMenuItem.Click += new System.EventHandler(this.insertSplineWPToolStripMenuItem_Click);
             // 
             // FlightPlanner
             // 
@@ -1374,5 +1382,6 @@
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.ToolStripMenuItem switchDockingToolStripMenuItem;
         private BSE.Windows.Forms.Splitter splitter2;
+        private System.Windows.Forms.ToolStripMenuItem insertSplineWPToolStripMenuItem;
     }
 }
