@@ -1124,9 +1124,13 @@ namespace MissionPlanner.GCSViews
 
                 setgradanddistandaz();
 
-                foreach (var item in Utilities.Airports.getAirports(MainMap.Position))
+                // always show on planner.
+                //if (MainV2.ShowAirports)
                 {
-                    polygonsoverlay.Markers.Add(new GMapMarkerAirport(item) { ToolTipText = item.Tag, ToolTipMode = MarkerTooltipMode.Always });
+                    foreach (var item in Utilities.Airports.getAirports(MainMap.Position))
+                    {
+                        polygonsoverlay.Markers.Add(new GMapMarkerAirport(item) { ToolTipText = item.Tag, ToolTipMode = MarkerTooltipMode.Always });
+                    }
                 }
             }
             catch (Exception ex)

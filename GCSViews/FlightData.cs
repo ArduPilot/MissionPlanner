@@ -973,12 +973,15 @@ namespace MissionPlanner.GCSViews
                                     rallypointoverlay.Markers.Add(new GMapMarkerRallyPt(mark));
                                 }
 
-                                // airports
-                                foreach (var item in Utilities.Airports.getAirports(gMapControl1.Position))
+                                // optional on Flight data
+                                if (MainV2.ShowAirports)
                                 {
-                                    rallypointoverlay.Markers.Add(new GMapMarkerAirport(item) { ToolTipText = item.Tag, ToolTipMode = MarkerTooltipMode.Always });
+                                    // airports
+                                    foreach (var item in Utilities.Airports.getAirports(gMapControl1.Position))
+                                    {
+                                        rallypointoverlay.Markers.Add(new GMapMarkerAirport(item) { ToolTipText = item.Tag, ToolTipMode = MarkerTooltipMode.Always });
+                                    }
                                 }
-
                                 waypoints = DateTime.Now;
                             }
 

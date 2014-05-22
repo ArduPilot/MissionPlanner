@@ -92,6 +92,7 @@
             this.CHK_Password = new System.Windows.Forms.CheckBox();
             this.CHK_speechlowspeed = new System.Windows.Forms.CheckBox();
             this.CHK_advancedview = new System.Windows.Forms.CheckBox();
+            this.CHK_showairports = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_tracklength)).BeginInit();
             this.SuspendLayout();
             // 
@@ -586,10 +587,20 @@
             this.CHK_advancedview.UseVisualStyleBackColor = true;
             this.CHK_advancedview.CheckedChanged += new System.EventHandler(this.CHK_advancedview_CheckedChanged);
             // 
+            // CHK_showairports
+            // 
+            resources.ApplyResources(this.CHK_showairports, "CHK_showairports");
+            this.CHK_showairports.Checked = true;
+            this.CHK_showairports.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_showairports.Name = "CHK_showairports";
+            this.CHK_showairports.UseVisualStyleBackColor = true;
+            this.CHK_showairports.CheckedChanged += new System.EventHandler(this.CHK_showairports_CheckedChanged);
+            // 
             // ConfigPlanner
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.CHK_showairports);
             this.Controls.Add(this.CHK_advancedview);
             this.Controls.Add(this.CHK_speechlowspeed);
             this.Controls.Add(this.CHK_Password);
@@ -726,5 +737,6 @@
         private System.Windows.Forms.CheckBox CHK_Password;
         private System.Windows.Forms.CheckBox CHK_speechlowspeed;
         private System.Windows.Forms.CheckBox CHK_advancedview;
+        private System.Windows.Forms.CheckBox CHK_showairports;
     }
 }

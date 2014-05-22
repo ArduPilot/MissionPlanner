@@ -40,12 +40,16 @@ namespace MissionPlanner.Utilities
         /// </summary>
         static bool newairports = false;
 
+        public static bool checkdups = false;
+
         static List<PointLatLngAlt> cache = new List<PointLatLngAlt>();
 
         public static List<PointLatLngAlt> getAirports(PointLatLngAlt centerpoint)
         {
             lock (locker)
             {
+                DateTime start = DateTime.Now;
+
                 log.Info("getAirports " + centerpoint);
 
                 // check if we have moved 66% from our last cache center point
@@ -72,6 +76,8 @@ namespace MissionPlanner.Utilities
                     }
                 }
 
+                log.Info("getAirports done " + (DateTime.Now - start).TotalSeconds + " sec");
+
                 return cache;
             }
         }
@@ -80,11 +86,14 @@ namespace MissionPlanner.Utilities
         {
             lock (locker)
             {
-                // foreach (PointLatLngAlt item in airports)
+                if (checkdups)
                 {
-                    //  if (item.GetDistance(plla) < 200)
+                    foreach (PointLatLngAlt item in airports)
                     {
-                        //      return;
+                        if (item.GetDistance(plla) < 200)
+                        {
+                            return;
+                        }
                     }
                 }
 
@@ -125,7 +134,7 @@ namespace MissionPlanner.Utilities
                     var newap = new PointLatLngAlt(lat, lng, alt, name);
 
                     AddAirport(newap);
-                    Console.WriteLine(newap);
+                    //Console.WriteLine(newap);
                 }
                 catch { }
             }
@@ -165,7 +174,7 @@ namespace MissionPlanner.Utilities
                     var newap = new PointLatLngAlt(lat, lng, alt, name);
 
                     AddAirport(newap);
-                    Console.WriteLine(newap);
+                    //Console.WriteLine(newap);
                 }
                 catch { }
             }

@@ -588,6 +588,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             SetCheckboxFromConfig("beta_updates", CHK_beta);
             SetCheckboxFromConfig("password_protect", CHK_Password);
             SetCheckboxFromConfig("advancedview", CHK_advancedview);
+            SetCheckboxFromConfig("showairports", CHK_showairports);
 
             // this can't fail because it set at startup
             NUM_tracklength.Value = int.Parse(MainV2.config["NUM_tracklength"].ToString());
@@ -773,6 +774,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             MainV2.config["advancedview"] = CHK_advancedview.Checked.ToString();
             MainV2.Advanced = CHK_advancedview.Checked;
+        }
+
+        private void CHK_showairports_CheckedChanged(object sender, EventArgs e)
+        {
+            MainV2.config["showairports"] = CHK_showairports.Checked.ToString();
+            MainV2.ShowAirports = CHK_showairports.Checked;
         }
     }
 }

@@ -108,6 +108,8 @@ namespace MissionPlanner
             }
         }
 
+        public static bool ShowAirports { get; set; }
+
         public static event EventHandler AdvancedChanged;
 
         /// <summary>
@@ -263,6 +265,8 @@ namespace MissionPlanner
         {
             log.Info("Mainv2 ctor");
 
+            ShowAirports = true;
+
             Form splash = Program.Splash;
 
             splash.Refresh();
@@ -392,6 +396,11 @@ namespace MissionPlanner
                     }
                     catch { log.Error("Bad Custom theme - reset to standard"); ThemeManager.SetTheme(ThemeManager.Themes.BurntKermit); }
                 }
+            }
+
+            if (MainV2.config["showairports"] != null)
+            {
+                MainV2.ShowAirports = bool.Parse(config["showairports"].ToString());
             }
 
             // load this before the other screens get loaded
@@ -580,8 +589,9 @@ namespace MissionPlanner
             // read airport list
             try
             {
-
                 Utilities.Airports.ReadOurairports(Application.StartupPath + Path.DirectorySeparatorChar + "airports.csv");
+
+                Utilities.Airports.checkdups = true;
 
                 Utilities.Airports.ReadOpenflights(Application.StartupPath + Path.DirectorySeparatorChar + "airports.dat");
 
@@ -2556,5 +2566,7 @@ namespace MissionPlanner
         {
             MainV2.comPort.ReadOnly = readonlyToolStripMenuItem.Checked;
         }
+
+     
     }
 }
