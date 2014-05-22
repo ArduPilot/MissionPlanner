@@ -385,7 +385,7 @@ namespace MissionPlanner
                     location.Pitch = cs.pitch;
                     location.Yaw = cs.yaw;
 
-                    vehiclePositionList.Add(ToMilliseconds(location.Time), location);
+                    vehiclePositionList[ToMilliseconds(location.Time)] = location;
                     // 4 5 7
                     Console.Write((mine.logplaybackfile.BaseStream.Position * 100 / mine.logplaybackfile.BaseStream.Length) + "    \r");
                 }
@@ -426,7 +426,7 @@ namespace MissionPlanner
                         long millis = ToMilliseconds(location.Time);
 
                         if (!vehiclePositionList.ContainsKey(millis))
-                            vehiclePositionList.Add(millis, location);
+                            vehiclePositionList[millis] = location;
                     }
                     else if (line.ToLower().StartsWith("att"))
                     {
