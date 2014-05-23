@@ -90,7 +90,7 @@ namespace MissionPlanner.Utilities
                 {
                     foreach (PointLatLngAlt item in airports)
                     {
-                        if (item.GetDistance(plla) < 200)
+                        if (item.GetDistance(plla) < 1000) // 1000m
                         {
                             return;
                         }
@@ -116,6 +116,7 @@ namespace MissionPlanner.Utilities
 
                 try
                 {
+                    
 
                     string name = items[1];
                     int latOffset = 0;
@@ -125,6 +126,10 @@ namespace MissionPlanner.Utilities
                         name = name + "," + items[2 + latOffset];
                     }
                     name = name.Trim('"');
+
+                    if (items[5 + latOffset].Length != 6)
+                        continue;
+
                     double lat = double.Parse(items[6 + latOffset].Trim('"'), CultureInfo.InvariantCulture);
                     double lng = double.Parse(items[7 + latOffset].Trim('"'), CultureInfo.InvariantCulture);
                     double alt = 0;
@@ -151,14 +156,18 @@ namespace MissionPlanner.Utilities
                 if (items.Length == 0)
                     continue;
 
-                if (items[0] == "\"id\"")
-                    continue;
-
-                if (items[2].Contains("small_airport") || items[2].Contains("heliport"))
-                    continue;
 
                 try
                 {
+                    if (items[0] == "\"id\"")
+                        continue;
+
+                    if (items[1].Length != 6) // "xxxx"
+                        continue;
+
+                    if (items[2].Contains("small_airport") || items[2].Contains("heliport"))
+                        continue;
+
 
                     string name = items[3];
                     int latOffset = 0;

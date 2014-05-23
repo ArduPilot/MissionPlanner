@@ -372,6 +372,9 @@ namespace MissionPlanner.GCSViews
             polygonsoverlay = new GMapOverlay("polygons");
             MainMap.Overlays.Add(polygonsoverlay);
 
+            airportsoverlay = new GMapOverlay("airports");
+            MainMap.Overlays.Add(airportsoverlay);
+
             objectsoverlay = new GMapOverlay("objects");
             MainMap.Overlays.Add(objectsoverlay);
 
@@ -1123,15 +1126,6 @@ namespace MissionPlanner.GCSViews
                 }
 
                 setgradanddistandaz();
-
-                // always show on planner.
-                //if (MainV2.ShowAirports)
-                {
-                    foreach (var item in Utilities.Airports.getAirports(MainMap.Position))
-                    {
-                        polygonsoverlay.Markers.Add(new GMapMarkerAirport(item) { ToolTipText = item.Tag, ToolTipMode = MarkerTooltipMode.Always });
-                    }
-                }
             }
             catch (Exception ex)
             {
@@ -2244,6 +2238,7 @@ namespace MissionPlanner.GCSViews
         public static GMapOverlay objectsoverlay; // where the markers a drawn
         public static GMapOverlay routesoverlay;// static so can update from gcs
         public static GMapOverlay polygonsoverlay; // where the track is drawn
+        public static GMapOverlay airportsoverlay; 
         public static GMapOverlay poioverlay = new GMapOverlay("POI"); // poi layer
         GMapOverlay drawnpolygonsoverlay;
         GMapOverlay kmlpolygonsoverlay;
@@ -2736,6 +2731,16 @@ namespace MissionPlanner.GCSViews
 
             coords1.Lat = point.Lat;
             coords1.Lng = point.Lng;
+
+            // always show on planner view
+            //if (MainV2.ShowAirports)
+            {
+                airportsoverlay.Clear();
+                foreach (var item in Utilities.Airports.getAirports(MainMap.Position))
+                {
+                    airportsoverlay.Markers.Add(new GMapMarkerAirport(item) { ToolTipText = item.Tag, ToolTipMode = MarkerTooltipMode.Always });
+                }
+            }
         }
 
         // center markers on start
