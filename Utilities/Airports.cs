@@ -154,6 +154,9 @@ namespace MissionPlanner.Utilities
                 if (items[0] == "\"id\"")
                     continue;
 
+                if (items[2].Contains("small_airport") || items[2].Contains("heliport"))
+                    continue;
+
                 try
                 {
 
