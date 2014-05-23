@@ -44,6 +44,7 @@ namespace MissionPlanner.GCSViews
         bool sethome = false;
         bool polygongridmode = false;
         Hashtable param = new Hashtable();
+        bool splinemode = false;
 
         bool grid = false;
 
@@ -284,8 +285,17 @@ namespace MissionPlanner.GCSViews
             // creating a WP
 
             selectedrow = Commands.Rows.Add();
-            //   Commands.CurrentCell = Commands.Rows[selectedrow].Cells[Param1.Index];
-            ChangeColumnHeader(MAVLink.MAV_CMD.WAYPOINT.ToString());
+
+            if (splinemode)
+            {
+                Commands.Rows[selectedrow].Cells[Command.Index].Value = MAVLink.MAV_CMD.SPLINE_WAYPOINT.ToString();
+                ChangeColumnHeader(MAVLink.MAV_CMD.SPLINE_WAYPOINT.ToString());
+            }
+            else
+            {
+                Commands.Rows[selectedrow].Cells[Command.Index].Value = MAVLink.MAV_CMD.WAYPOINT.ToString();
+                ChangeColumnHeader(MAVLink.MAV_CMD.WAYPOINT.ToString());
+            }
 
             setfromMap(lat, lng, alt);
         }
@@ -5723,6 +5733,11 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
                 setfromMap(MouseDownStart.Lat, MouseDownStart.Lng, (int)float.Parse(TXT_DefaultAlt.Text));
             }
+        }
+
+        private void CHK_splinedefault_CheckedChanged(object sender, EventArgs e)
+        {
+            splinemode = CHK_splinedefault.Checked;
         }
     }
 }
