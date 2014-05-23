@@ -2748,7 +2748,7 @@ namespace MissionPlanner.GCSViews
                 airportsoverlay.Clear();
                 foreach (var item in Utilities.Airports.getAirports(MainMap.Position))
                 {
-                    airportsoverlay.Markers.Add(new GMapMarkerAirport(item) { ToolTipText = item.Tag, ToolTipMode = MarkerTooltipMode.Always });
+                    airportsoverlay.Markers.Add(new GMapMarkerAirport(item) { ToolTipText = item.Tag, ToolTipMode = MarkerTooltipMode.OnMouseOver });
                 }
             }
         }

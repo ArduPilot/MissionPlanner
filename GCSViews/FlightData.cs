@@ -979,7 +979,7 @@ namespace MissionPlanner.GCSViews
                                     // airports
                                     foreach (var item in Utilities.Airports.getAirports(gMapControl1.Position))
                                     {
-                                        rallypointoverlay.Markers.Add(new GMapMarkerAirport(item) { ToolTipText = item.Tag, ToolTipMode = MarkerTooltipMode.Always });
+                                        rallypointoverlay.Markers.Add(new GMapMarkerAirport(item) { ToolTipText = item.Tag, ToolTipMode = MarkerTooltipMode.OnMouseOver });
                                     }
                                 }
                                 waypoints = DateTime.Now;

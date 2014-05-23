@@ -156,7 +156,6 @@ namespace MissionPlanner.Utilities
                 if (items.Length == 0)
                     continue;
 
-
                 try
                 {
                     if (items[0] == "\"id\"")
@@ -165,7 +164,7 @@ namespace MissionPlanner.Utilities
                     if (items[1].Length != 6) // "xxxx"
                         continue;
 
-                    if (items[2].Contains("small_airport") || items[2].Contains("heliport"))
+                    if (items[2].Contains("small_airport") || items[2].Contains("heliport") || items[2].Contains("closed"))
                         continue;
 
 
