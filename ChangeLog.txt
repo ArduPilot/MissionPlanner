@@ -1,4 +1,12 @@
-﻿* Mission Planner 1.3.2
+﻿* Mission Planner 1.3.3
+airport bg loading
+airport display filtering.
+add spline options.
+fix adsb exception when using sbs
+fix exceptions on georef and log filter change
+add connect in readonly mode. (right click header bar)
+
+* Mission Planner 1.3.2
 add exception handlers
 fix github failed dl exception
 tweak mag calib settings
