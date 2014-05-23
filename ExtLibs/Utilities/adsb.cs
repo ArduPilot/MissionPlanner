@@ -678,6 +678,9 @@ namespace MissionPlanner.Utilities
                             String logged_date = strArray[8];//String. Date the message was logged. 
                             String logged_time = strArray[9];//String. Time the message was logged. 
 
+                            if (Planes[hex_ident] == null)
+                                Planes[hex_ident] = new Plane();
+
                             try
                             {
                                 int ground_speed = (int)double.Parse(strArray[12], CultureInfo.InvariantCulture);// Integer. Speed over ground. 
@@ -702,6 +705,9 @@ namespace MissionPlanner.Utilities
                             String logged_time = strArray[9];//String. Time the message was logged. 
                             String callsign = strArray[10];//String. Eight character flight ID or callsign. 
 
+                            if (Planes[hex_ident] == null)
+                                Planes[hex_ident] = new Plane();
+                            
                             ((Plane)Planes[hex_ident]).CallSign = callsign;
                         }
                     }
