@@ -160,66 +160,70 @@ namespace MissionPlanner
                     oldmy = MainV2.comPort.MAV.cs.my;
                     oldmz = MainV2.comPort.MAV.cs.mz;
 
-                    ((ProgressReporterSphere)sender).sphere1.AddPoint(new OpenTK.Vector3(oldmx, oldmy, oldmz));
-
                     // for old method
                     setMinorMax(MainV2.comPort.MAV.cs.mx - (float)MainV2.comPort.MAV.cs.mag_ofs_x, ref minx, ref maxx);
                     setMinorMax(MainV2.comPort.MAV.cs.my - (float)MainV2.comPort.MAV.cs.mag_ofs_y, ref miny, ref maxy);
                     setMinorMax(MainV2.comPort.MAV.cs.mz - (float)MainV2.comPort.MAV.cs.mag_ofs_z, ref minz, ref maxz);
-                }
 
-                //find the mean radius
-                HIL.Vector3 centre = new HIL.Vector3();  //new HIL.Vector3((float)-((maxx + minx) / 2), (float)-((maxy + miny) / 2), (float)-((maxz + minz) / 2));
-                HIL.Vector3 point;
-                float radius = 0;
-                for (int i = 0; i < data.Count; i++)
-                {
-                    point = new HIL.Vector3(data[i].Item1, data[i].Item2, data[i].Item3);
-                    radius += (float)(point - centre).length();
-                }
-                radius /= data.Count;
+                    // get the current estimated centerpoint
+                    HIL.Vector3 centre = new HIL.Vector3((float)-((maxx + minx) / 2), (float)-((maxy + miny) / 2), (float)-((maxz + minz) / 2));
+                    HIL.Vector3 point;
 
-                //test that we can find one point near a set of points all around the sphere surface
-                int factor = 4; // 4 point check 2x2
-                float max_distance = radius / 3; //pretty generouse
-                for (int j = 0; j < factor; j++)
-                {
-                    double theta = (Math.PI * (j + 0.5)) / factor;
+                    // add to sphere after trnslating the centre point
+                    point = new HIL.Vector3(oldmx, oldmy, oldmz) - centre;
+                    ((ProgressReporterSphere)sender).sphere1.AddPoint(new OpenTK.Vector3((float)point.x, (float)point.y, (float)point.z));
 
-                    for (int i = 0; i < factor; i++)
+                    //find the mean radius                    
+                    float radius = 0;
+                    for (int i = 0; i < data.Count; i++)
                     {
-                        double phi = (2 * Math.PI * i) / factor;
+                        point = new HIL.Vector3(data[i].Item1, data[i].Item2, data[i].Item3);
+                        radius += (float)(point - centre).length();
+                    }
+                    radius /= data.Count;
 
-                        HIL.Vector3 point_sphere = new HIL.Vector3(
-                            (float)(Math.Sin(theta) * Math.Cos(phi) * radius),
-                            (float)(Math.Sin(theta) * Math.Sin(phi) * radius),
-                            (float)(Math.Cos(theta) * radius)) + centre;
+                    //test that we can find one point near a set of points all around the sphere surface
+                    int factor = 4; // 4 point check 16 points
+                    float max_distance = radius / 3; //pretty generouse
+                    for (int j = 0; j < factor; j++)
+                    {
+                        double theta = (Math.PI * (j + 0.5)) / factor;
 
-                        //Console.WriteLine("{0} {1}", theta * rad2deg, phi * rad2deg);
-
-                        bool found = false;
-                        for (int k = 0; k < data.Count; k++)
+                        for (int i = 0; i < factor; i++)
                         {
-                            point = new HIL.Vector3(data[k].Item1, data[k].Item2, data[k].Item3);
-                            double d = (point_sphere - point).length();
-                            if (d < max_distance)
+                            double phi = (2 * Math.PI * i) / factor;
+
+                            HIL.Vector3 point_sphere = new HIL.Vector3(
+                                (float)(Math.Sin(theta) * Math.Cos(phi) * radius),
+                                (float)(Math.Sin(theta) * Math.Sin(phi) * radius),
+                                (float)(Math.Cos(theta) * radius)) + centre;
+
+                            //log.DebugFormat("magcalib check - {0} {1} dist {2}", theta * rad2deg, phi * rad2deg, max_distance);
+
+                            bool found = false;
+                            for (int k = 0; k < data.Count; k++)
                             {
-                                found = true;
+                                point = new HIL.Vector3(data[k].Item1, data[k].Item2, data[k].Item3);
+                                double d = (point_sphere - point).length();
+                                if (d < max_distance)
+                                {
+                                    found = true;
+                                    break;
+                                }
+                            }
+                            if (!found)
+                            {
+                                extramsg = "more data needed";
+                                //e.ErrorMessage = "Data missing for some directions";
+                                //ans = null;
+                                //return;
+                                j = factor;
                                 break;
                             }
-                        }
-                        if (!found)
-                        {
-                            extramsg = "more data needed";
-                            //e.ErrorMessage = "Data missing for some directions";
-                            //ans = null;
-                            //return;
-                            j = factor;
-                            break;
-                        }
-                        else
-                        {
-                            extramsg = "";
+                            else
+                            {
+                                extramsg = "";
+                            }
                         }
                     }
                 }
