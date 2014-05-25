@@ -52,6 +52,7 @@ namespace MissionPlanner.GCSViews
 
         public List<PointLatLngAlt> pointlist = new List<PointLatLngAlt>(); // used to calc distance
         public List<PointLatLngAlt> fullpointlist = new List<PointLatLngAlt>();
+        public GMapRoute route = new GMapRoute("wp route");
         static public Object thisLock = new Object();
         private ComponentResourceManager rm = new ComponentResourceManager(typeof(FlightPlanner));
 
@@ -1154,7 +1155,9 @@ namespace MissionPlanner.GCSViews
 
         private void RegenerateWPRoute(List<PointLatLngAlt> fullpointlist)
         {
-            GMapRoute route = new GMapRoute("wp route");
+            
+
+            route.Clear();
 
             polygonsoverlay.Routes.Clear();
 

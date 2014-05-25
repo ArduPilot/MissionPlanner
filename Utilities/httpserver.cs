@@ -283,12 +283,20 @@ namespace MissionPlanner.Utilities
                         }
                         else
                         {
+                            // draw track
+                            try
+                            {
+                                foreach (var point in GCSViews.FlightPlanner.instance.route)
+                                {
+                                    coords.Add(new SharpKml.Base.Vector(point.Lat, point.Lng, 0));
+                                }
+                            }
+                            catch { }
+
                             foreach (var point in GCSViews.FlightPlanner.instance.pointlist)
                             {
                                 if (point == null)
                                     continue;
-
-                                coords.Add(new SharpKml.Base.Vector(point.Lat, point.Lng, point.Alt));
 
                                 SharpKml.Dom.Placemark wp = new SharpKml.Dom.Placemark();
                                 wp.Name = point.Tag;
