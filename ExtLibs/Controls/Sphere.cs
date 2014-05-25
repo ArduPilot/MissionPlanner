@@ -35,15 +35,6 @@ namespace MissionPlanner.Controls
 
         public void AddPoint(Vector3 point)
         {
-            lock (points)
-            {
-                point.Normalize();
-
-                point *= scale;
-
-                points.Add(point);
-            }
-
             minx = (float)Math.Min(minx, point.X);
             maxx = (float)Math.Max(maxx, point.X);
 
@@ -52,6 +43,15 @@ namespace MissionPlanner.Controls
 
             minz = (float)Math.Min(minz, point.Z);
             maxz = (float)Math.Max(maxz, point.Z);
+
+            lock (points)
+            {
+                point.Normalize();
+
+                point *= scale;
+
+                points.Add(point);
+            }
 
             this.Invalidate();
         }
@@ -106,9 +106,7 @@ namespace MissionPlanner.Controls
 
             GL.MatrixMode(MatrixMode.Projection);
 
-            double max = Math.Max(maxx, scale);
-            max = Math.Max(maxy, max);
-            max = Math.Max(maxz, max);
+            double max = scale;
 
             if (points.Count > 0)
             {
