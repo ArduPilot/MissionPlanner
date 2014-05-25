@@ -243,7 +243,18 @@ namespace MissionPlanner
             MainV2.comPort.MAV.cs.ratesensors = backupratesens;
             MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RAW_SENSORS, MainV2.comPort.MAV.cs.ratesensors);
 
-            if (data.Count < 10 || extramsg != "")
+            if (extramsg != "")
+            {
+                if (CustomMessageBox.Show("You are missing data points. do you want to run the calibration anyway?", "run anyway", MessageBoxButtons.YesNo) == DialogResult.No)
+                {
+                    e.CancelAcknowledged = true;
+                    e.CancelRequested = true;
+                    ans = null;
+                    return;
+                }
+            }
+
+            if (data.Count < 10)
             {
                 e.ErrorMessage = "Log does not contain enough data";
                 ans = null;

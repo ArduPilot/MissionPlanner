@@ -1314,5 +1314,10 @@ namespace MissionPlanner
                 }
             }
         }
+
+        private void BUT_magfit2_Click(object sender, EventArgs e)
+        {
+            MagCalib.ProcessLog(0);
+        }
     }
 }
