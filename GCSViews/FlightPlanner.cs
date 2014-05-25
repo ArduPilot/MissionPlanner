@@ -51,6 +51,7 @@ namespace MissionPlanner.GCSViews
         public static FlightPlanner instance = null;
 
         public List<PointLatLngAlt> pointlist = new List<PointLatLngAlt>(); // used to calc distance
+        public List<PointLatLngAlt> fullpointlist = new List<PointLatLngAlt>();
         static public Object thisLock = new Object();
         private ComponentResourceManager rm = new ComponentResourceManager(typeof(FlightPlanner));
 
@@ -613,6 +614,12 @@ namespace MissionPlanner.GCSViews
 
             panelWaypoints.Expand = false;
 
+            // switch the action and wp table
+            if (MainV2.getConfig("FP_docking") == "Bottom")
+            {
+                switchDockingToolStripMenuItem_Click(null, null);
+            }
+
             timer1.Start();
         }
 
@@ -911,7 +918,7 @@ namespace MissionPlanner.GCSViews
             // this is to share the current mission with the data tab
             pointlist = new List<PointLatLngAlt>();
 
-            List<PointLatLngAlt> fullpointlist = new List<PointLatLngAlt>();
+            fullpointlist.Clear();
 
             System.Diagnostics.Debug.WriteLine(DateTime.Now);
             try
@@ -5158,7 +5165,7 @@ namespace MissionPlanner.GCSViews
 
         private void insertWpToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string wpno = "1";
+            string wpno = (selectedrow + 1).ToString("0");
             if (InputBox.Show("Insert WP", "Insert WP after wp#", ref wpno) == DialogResult.OK)
             {
                 try
@@ -5708,17 +5715,18 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             }
             else
             {
-
                 panelAction.Dock = DockStyle.Bottom;
                 panelAction.Height = 120;
                 panelWaypoints.Dock = DockStyle.Right;
                 panelWaypoints.Width = this.Width / 2;
             }
+
+            MainV2.config["FP_docking"] = panelAction.Dock;
         }
 
         private void insertSplineWPToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string wpno = "1";
+            string wpno = (selectedrow+1).ToString("0");
             if (InputBox.Show("Insert WP", "Insert WP after wp#", ref wpno) == DialogResult.OK)
             {
                 try
@@ -5728,6 +5736,12 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                 catch { CustomMessageBox.Show("Invalid insert position", "Error"); return; }
 
                 selectedrow = int.Parse(wpno);
+
+                try
+                {
+                    Commands.Rows[selectedrow].Cells[Command.Index].Value = MAVLink.MAV_CMD.SPLINE_WAYPOINT.ToString();
+                }
+                catch { CustomMessageBox.Show("SPLINE_WAYPOINT command not supported."); Commands.Rows.RemoveAt(selectedrow); return; }
 
                 ChangeColumnHeader(MAVLink.MAV_CMD.SPLINE_WAYPOINT.ToString());
 
