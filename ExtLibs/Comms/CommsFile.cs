@@ -12,19 +12,41 @@ namespace MissionPlanner.Comms
         // Methods
         public void Close() { BaseStream.Close(); }
         public void DiscardInBuffer() { }
+
+        public int bps { get; set; }
+        int currentbps = 0;
+        int sleepvalue = 1;
+        DateTime lastread = DateTime.MinValue;
+
         //void DiscardOutBuffer();
         public void Open(string filename)
         {
+            bps = 3000;
             PortName = filename;
             BaseStream = File.OpenRead(PortName);
         }
 
         public void Open()
         {
+            bps = 3000;
             BaseStream = File.OpenRead(PortName);
         }
         public int Read(byte[] buffer, int offset, int count)
         {
+            if (count > 1)
+                System.Threading.Thread.Sleep(sleepvalue);
+
+            if (currentbps > bps)
+                sleepvalue++;
+
+            if (lastread.Second != DateTime.Now.Second)
+            {
+                Console.WriteLine("commfile read bps {0} - {1}", currentbps, sleepvalue);
+                currentbps = 0;
+                lastread = DateTime.Now;
+                sleepvalue = 1;
+            }
+            currentbps += count;
             return BaseStream.Read(buffer, offset, count);
         }
         //int Read(char[] buffer, int offset, int count);
