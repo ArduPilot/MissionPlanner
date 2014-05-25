@@ -76,7 +76,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             options.Add(new KeyValuePair<int, string>(64, "APM 1 AS Port"));
 
             options.Add(new KeyValuePair<int, string>(11, "PX4 Analog AS Port"));
-            options.Add(new KeyValuePair<int, string>(15, "Pixhawk EagleTree or MEAS I2C AS Sensor"));
+            options.Add(new KeyValuePair<int, string>(15, "Pixhawk Analog AS Port"));
+            options.Add(new KeyValuePair<int, string>(65, "PX4/Pixhawk EagleTree or MEAS I2C AS Sensor"));
 
             mavlinkCheckBoxAirspeed_pin.setup(options, "ARSPD_PIN", MainV2.comPort.MAV.param);
           
