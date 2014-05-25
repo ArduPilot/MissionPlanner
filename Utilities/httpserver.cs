@@ -286,7 +286,7 @@ namespace MissionPlanner.Utilities
                             // draw track
                             try
                             {
-                                foreach (var point in GCSViews.FlightPlanner.instance.route)
+                                foreach (var point in GCSViews.FlightPlanner.instance.route.Points)
                                 {
                                     coords.Add(new SharpKml.Base.Vector(point.Lat, point.Lng, 0));
                                 }
