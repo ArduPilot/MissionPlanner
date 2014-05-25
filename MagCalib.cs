@@ -116,6 +116,9 @@ namespace MissionPlanner
 
             while (true)
             {
+                // slow down execution
+                System.Threading.Thread.Sleep(1);
+
                 ((ProgressReporterDialogue)sender).UpdateProgressAndStatus(-1, "Got " + data.Count + " Samples " + extramsg);
 
                 if (e.CancelRequested)
@@ -196,7 +199,7 @@ namespace MissionPlanner
                             HIL.Vector3 point_sphere = new HIL.Vector3(
                                 (float)(Math.Sin(theta) * Math.Cos(phi) * radius),
                                 (float)(Math.Sin(theta) * Math.Sin(phi) * radius),
-                                (float)(Math.Cos(theta) * radius)) + centre;
+                                (float)(Math.Cos(theta) * radius)) - centre;
 
                             //log.DebugFormat("magcalib check - {0} {1} dist {2}", theta * rad2deg, phi * rad2deg, max_distance);
 
@@ -213,7 +216,7 @@ namespace MissionPlanner
                             }
                             if (!found)
                             {
-                                extramsg = "more data needed";
+                                extramsg = "more data needed " + (theta * rad2deg).ToString("0") + " " + (phi * rad2deg).ToString("0");
                                 //e.ErrorMessage = "Data missing for some directions";
                                 //ans = null;
                                 //return;

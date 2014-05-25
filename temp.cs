@@ -955,7 +955,19 @@ namespace MissionPlanner
 
         private void BUT_magfit_Click(object sender, EventArgs e)
         {
-            MagCalib.ProcessLog(0);
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "t Log|*.tlog";
+
+            ofd.ShowDialog();
+
+            var com = new Comms.CommsFile();
+            com.Open(ofd.FileName);
+
+            MainV2.comPort.BaseStream = com;
+
+            MagCalib.DoGUIMagCalib();
+
+            //MagCalib.ProcessLog(0);
         }
 
         private void but_multimav_Click(object sender, EventArgs e)
