@@ -116,7 +116,7 @@ namespace MissionPlanner.Controls
                                         }
                                     }
                                     
-                                    if ((DateTime.Now - startimage).TotalMilliseconds > 200)
+                                    if ((DateTime.Now - startimage).TotalMilliseconds > 100)
                                         break;
                                 }
                             }
@@ -330,9 +330,15 @@ namespace MissionPlanner.Controls
 
             Console.WriteLine("GL  "+sw.ElapsedMilliseconds);
 
+            try
+            {
+
             this.SwapBuffers();
 
-            Context.MakeCurrent(null);
+          
+                Context.MakeCurrent(null);
+            }
+            catch { }
 
             //this.Invalidate();
         }
