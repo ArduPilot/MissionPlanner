@@ -15,36 +15,62 @@ namespace MissionPlanner.Comms
 
         public int bps { get; set; }
         int currentbps = 0;
+        int bytecredit = 0;
         int sleepvalue = 1;
         DateTime lastread = DateTime.MinValue;
+        int lastsecond = 0;
 
         //void DiscardOutBuffer();
         public void Open(string filename)
         {
-            bps = 3000;
+            bps = 6000;
             PortName = filename;
             BaseStream = File.OpenRead(PortName);
         }
 
         public void Open()
         {
-            bps = 3000;
+            bps = 6000;
             BaseStream = File.OpenRead(PortName);
         }
         public int Read(byte[] buffer, int offset, int count)
         {
-            if (count > 1)
-                System.Threading.Thread.Sleep(sleepvalue);
-
-            if (currentbps > bps)
-                sleepvalue++;
-
-            if (lastread.Second != DateTime.Now.Second)
+            while (true) 
             {
-                Console.WriteLine("commfile read bps {0} - {1}", currentbps, sleepvalue);
+                // check if we have credit and continue
+                if (count < bytecredit)
+                {
+                    bytecredit -= count;
+                    break;
+                }
+
+                // get the time taken since last read in seconds
+                double LapsedSinceLastRead = (DateTime.Now - lastread).TotalSeconds;
+
+                // escape if we are out of range
+                if (LapsedSinceLastRead < 0 || LapsedSinceLastRead > 2)
+                    break;
+
+                // get our target bps for this time slice.
+                int targetbps = (int)(bps * LapsedSinceLastRead) + bytecredit;
+
+                // check if out target+count is less than our required bps
+                if (count < targetbps)
+                {
+                    bytecredit = targetbps - count;
+                    break;
+                }
+
+               // System.Threading.Thread.Sleep(1);      
+            }
+
+            lastread = DateTime.Now;
+
+            if (lastsecond != DateTime.Now.Second)
+            {
+                Console.WriteLine("CommsFile Read bps {0}", currentbps);
                 currentbps = 0;
-                lastread = DateTime.Now;
-                sleepvalue = 1;
+                lastsecond = DateTime.Now.Second;
             }
             currentbps += count;
             return BaseStream.Read(buffer, offset, count);
