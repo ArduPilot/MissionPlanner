@@ -173,7 +173,7 @@ namespace MissionPlanner
                     HIL.Vector3 point;
 
                     // add to sphere after trnslating the centre point
-                    point = new HIL.Vector3(oldmx, oldmy, oldmz) - centre;
+                    point = new HIL.Vector3(oldmx, oldmy, oldmz) + centre;
                     ((ProgressReporterSphere)sender).sphere1.AddPoint(new OpenTK.Vector3((float)point.x, (float)point.y, (float)point.z));
 
                     //find the mean radius                    
@@ -216,7 +216,7 @@ namespace MissionPlanner
                             }
                             if (!found)
                             {
-                                extramsg = "more data needed " + (theta * rad2deg).ToString("0") + " " + (phi * rad2deg).ToString("0");
+                                extramsg = "more data needed";
                                 //e.ErrorMessage = "Data missing for some directions";
                                 //ans = null;
                                 //return;
