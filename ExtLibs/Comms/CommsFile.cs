@@ -73,7 +73,9 @@ namespace MissionPlanner.Comms
                 lastsecond = DateTime.Now.Second;
             }
             currentbps += count;
-            return BaseStream.Read(buffer, offset, count);
+            int ret = BaseStream.Read(buffer, offset, count);
+
+            return ret;
         }
         //int Read(char[] buffer, int offset, int count);
         public int ReadByte() { return BaseStream.ReadByte(); }

@@ -136,7 +136,12 @@ namespace MissionPlanner
                     oldmy != MainV2.comPort.MAV.cs.my &&
                     oldmz != MainV2.comPort.MAV.cs.mz)
                 {
-                    // for new lease sq
+                    // update olds
+                    oldmx = MainV2.comPort.MAV.cs.mx;
+                    oldmy = MainV2.comPort.MAV.cs.my;
+                    oldmz = MainV2.comPort.MAV.cs.mz;
+
+                    // filter dataset
                     string item = (int)(MainV2.comPort.MAV.cs.mx / div) + "," +
                         (int)(MainV2.comPort.MAV.cs.my / div) + "," +
                         (int)(MainV2.comPort.MAV.cs.mz / div);
@@ -153,27 +158,25 @@ namespace MissionPlanner
                         filter[item] = 1;
                     }
 
+                    // values
+                    float rawmx = MainV2.comPort.MAV.cs.mx - (float)MainV2.comPort.MAV.cs.mag_ofs_x;
+                    float rawmy = MainV2.comPort.MAV.cs.my - (float)MainV2.comPort.MAV.cs.mag_ofs_y;
+                    float rawmz = MainV2.comPort.MAV.cs.mz - (float)MainV2.comPort.MAV.cs.mag_ofs_z;
+
                     // add data
-                    data.Add(new Tuple<float, float, float>(
-    MainV2.comPort.MAV.cs.mx - (float)MainV2.comPort.MAV.cs.mag_ofs_x,
-    MainV2.comPort.MAV.cs.my - (float)MainV2.comPort.MAV.cs.mag_ofs_y,
-    MainV2.comPort.MAV.cs.mz - (float)MainV2.comPort.MAV.cs.mag_ofs_z));
-
-                    oldmx = MainV2.comPort.MAV.cs.mx;
-                    oldmy = MainV2.comPort.MAV.cs.my;
-                    oldmz = MainV2.comPort.MAV.cs.mz;
-
+                    data.Add(new Tuple<float, float, float>(rawmx,rawmy,rawmz));
+    
                     // for old method
-                    setMinorMax(MainV2.comPort.MAV.cs.mx - (float)MainV2.comPort.MAV.cs.mag_ofs_x, ref minx, ref maxx);
-                    setMinorMax(MainV2.comPort.MAV.cs.my - (float)MainV2.comPort.MAV.cs.mag_ofs_y, ref miny, ref maxy);
-                    setMinorMax(MainV2.comPort.MAV.cs.mz - (float)MainV2.comPort.MAV.cs.mag_ofs_z, ref minz, ref maxz);
+                    setMinorMax(rawmx, ref minx, ref maxx);
+                    setMinorMax(rawmy, ref miny, ref maxy);
+                    setMinorMax(rawmz, ref minz, ref maxz);
 
                     // get the current estimated centerpoint
                     HIL.Vector3 centre = new HIL.Vector3((float)-((maxx + minx) / 2), (float)-((maxy + miny) / 2), (float)-((maxz + minz) / 2));
                     HIL.Vector3 point;
 
-                    // add to sphere after trnslating the centre point
-                    point = new HIL.Vector3(oldmx, oldmy, oldmz) + centre;
+                    // add to sphere with center correction
+                    point = new HIL.Vector3(rawmx, rawmy, rawmz) + centre;
                     ((ProgressReporterSphere)sender).sphere1.AddPoint(new OpenTK.Vector3((float)point.x, (float)point.y, (float)point.z));
 
                     //find the mean radius                    
@@ -181,7 +184,7 @@ namespace MissionPlanner
                     for (int i = 0; i < data.Count; i++)
                     {
                         point = new HIL.Vector3(data[i].Item1, data[i].Item2, data[i].Item3);
-                        radius += (float)(point - centre).length();
+                        radius += (float)(point + centre).length();
                     }
                     radius /= data.Count;
 
