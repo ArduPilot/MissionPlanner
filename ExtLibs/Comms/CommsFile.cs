@@ -20,17 +20,19 @@ namespace MissionPlanner.Comms
         DateTime lastread = DateTime.MinValue;
         int lastsecond = 0;
 
+        int step = 0;
+
         //void DiscardOutBuffer();
         public void Open(string filename)
         {
-            bps = 6000;
+            bps = 60000;
             PortName = filename;
             BaseStream = File.OpenRead(PortName);
         }
 
         public void Open()
         {
-            bps = 6000;
+            bps = 60000;
             BaseStream = File.OpenRead(PortName);
         }
         public int Read(byte[] buffer, int offset, int count)
@@ -61,7 +63,7 @@ namespace MissionPlanner.Comms
                     break;
                 }
 
-               // System.Threading.Thread.Sleep(1);      
+                System.Threading.Thread.Sleep(1);      
             }
 
             lastread = DateTime.Now;
@@ -74,6 +76,17 @@ namespace MissionPlanner.Comms
             }
             currentbps += count;
             int ret = BaseStream.Read(buffer, offset, count);
+
+            if (buffer[0] != 254 && offset == 0)
+                return 0;
+            if (buffer[0] == 254 && offset == 1)
+                step = buffer[1] + 5 + 2; // + header + checksum
+
+            step -= ret;
+
+            // read the timestamp
+            if (step == 0)
+                BaseStream.Read(new byte[8], 0, 8);
 
             return ret;
         }
