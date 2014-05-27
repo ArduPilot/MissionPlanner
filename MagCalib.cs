@@ -67,6 +67,8 @@ namespace MissionPlanner
         public static void DoGUIMagCalib()
         {
             ans = null;
+            filter.Clear();
+            data.Clear();
 
             CustomMessageBox.Show("Please click ok and move the autopilot around all axises in a circular motion");
 
@@ -84,11 +86,53 @@ namespace MissionPlanner
                 MagCalib.SaveOffsets(ans);
         }
 
+        // filter data points to only x number per quadrant
+        static int div = 20;
+        static Hashtable filter = new Hashtable();
+
+        // list of x,y,z 's
+        static List<Tuple<float, float, float>> data = new List<Tuple<float, float, float>>();
+        static object locker = new object();
+
+
+        static bool ReceviedPacket(byte[] rawpacket)
+        {
+            MAVLink.mavlink_raw_imu_t packet = rawpacket.ByteArrayToStructure<MAVLink.mavlink_raw_imu_t>();
+
+
+            // filter dataset
+            string item = (int)(packet.xmag / div) + "," +
+                (int)(packet.ymag / div) + "," +
+                (int)(packet.zmag / div);
+
+            if (filter.ContainsKey(item))
+            {
+                filter[item] = (int)filter[item] + 1;
+
+                if ((int)filter[item] > 3)
+                    return false;
+            }
+            else
+            {
+                filter[item] = 1;
+            }
+
+            // values
+            float rawmx = packet.xmag - (float)MainV2.comPort.MAV.cs.mag_ofs_x;
+            float rawmy = packet.ymag - (float)MainV2.comPort.MAV.cs.mag_ofs_y;
+            float rawmz = packet.zmag - (float)MainV2.comPort.MAV.cs.mag_ofs_z;
+
+            // add data
+            lock (locker)
+            {
+                data.Add(new Tuple<float, float, float>(rawmx, rawmy, rawmz));
+            }
+
+            return true;
+        }
+
         static void prd_DoWork(object sender, ProgressWorkerEventArgs e, object passdata = null)
         {
-            // list of x,y,z 's
-            List<Tuple<float, float, float>> data = new List<Tuple<float, float, float>>();
-
             // old method
             float minx = 0;
             float maxx = 0;
@@ -102,22 +146,18 @@ namespace MissionPlanner
             MainV2.comPort.MAV.cs.ratesensors = 10;
             MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RAW_SENSORS, MainV2.comPort.MAV.cs.ratesensors); // mag captures at 10 hz
 
-            float oldmx = 0;
-            float oldmy = 0;
-            float oldmz = 0;
-
-            // filter data points to only x number per quadrant
-            int div = 20;
-            Hashtable filter = new Hashtable();
+            var sub = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.RAW_IMU, ReceviedPacket);
 
             string extramsg = "";
 
             ((ProgressReporterSphere)sender).sphere1.Clear();
 
+            int lastcount = 0;
+
             while (true)
             {
                 // slow down execution
-                System.Threading.Thread.Sleep(1);
+                System.Threading.Thread.Sleep(20);
 
                 ((ProgressReporterDialogue)sender).UpdateProgressAndStatus(-1, "Got " + data.Count + " Samples " + extramsg);
 
@@ -132,110 +172,93 @@ namespace MissionPlanner
                     break;
                 }
 
-                if (oldmx != MainV2.comPort.MAV.cs.mx &&
-                    oldmy != MainV2.comPort.MAV.cs.my &&
-                    oldmz != MainV2.comPort.MAV.cs.mz)
+             
+                    if (data.Count == 0)
+                        continue;
+                
+
+                // dont use dup data
+                if (lastcount == data.Count)
+                    continue;
+
+                lastcount = data.Count;
+
+                float rawmx = data[data.Count - 1].Item1;
+                float rawmy = data[data.Count - 1].Item2;
+                float rawmz = data[data.Count - 1].Item3;
+
+
+                // for old method
+                setMinorMax(rawmx, ref minx, ref maxx);
+                setMinorMax(rawmy, ref miny, ref maxy);
+                setMinorMax(rawmz, ref minz, ref maxz);
+
+                // get the current estimated centerpoint
+                HIL.Vector3 centre = new HIL.Vector3((float)-((maxx + minx) / 2), (float)-((maxy + miny) / 2), (float)-((maxz + minz) / 2));
+                HIL.Vector3 point;
+
+                // add to sphere with center correction
+                point = new HIL.Vector3(rawmx, rawmy, rawmz) + centre;
+                ((ProgressReporterSphere)sender).sphere1.AddPoint(new OpenTK.Vector3((float)point.x, (float)point.y, (float)point.z));
+
+                //find the mean radius                    
+                float radius = 0;
+                for (int i = 0; i < data.Count; i++)
                 {
-                    // update olds
-                    oldmx = MainV2.comPort.MAV.cs.mx;
-                    oldmy = MainV2.comPort.MAV.cs.my;
-                    oldmz = MainV2.comPort.MAV.cs.mz;
+                    point = new HIL.Vector3(data[i].Item1, data[i].Item2, data[i].Item3);
+                    radius += (float)(point + centre).length();
+                }
+                radius /= data.Count;
 
-                    // filter dataset
-                    string item = (int)(MainV2.comPort.MAV.cs.mx / div) + "," +
-                        (int)(MainV2.comPort.MAV.cs.my / div) + "," +
-                        (int)(MainV2.comPort.MAV.cs.mz / div);
+                //test that we can find one point near a set of points all around the sphere surface
+                int factor = 4; // 4 point check 16 points
+                float max_distance = radius / 3; //pretty generouse
+                for (int j = 0; j < factor; j++)
+                {
+                    double theta = (Math.PI * (j + 0.5)) / factor;
 
-                    if (filter.ContainsKey(item))
+                    for (int i = 0; i < factor; i++)
                     {
-                        filter[item] = (int)filter[item] + 1;
+                        double phi = (2 * Math.PI * i) / factor;
 
-                        if ((int)filter[item] > 3)
-                            continue;
-                    }
-                    else
-                    {
-                        filter[item] = 1;
-                    }
+                        HIL.Vector3 point_sphere = new HIL.Vector3(
+                            (float)(Math.Sin(theta) * Math.Cos(phi) * radius),
+                            (float)(Math.Sin(theta) * Math.Sin(phi) * radius),
+                            (float)(Math.Cos(theta) * radius)) - centre;
 
-                    // values
-                    float rawmx = MainV2.comPort.MAV.cs.mx - (float)MainV2.comPort.MAV.cs.mag_ofs_x;
-                    float rawmy = MainV2.comPort.MAV.cs.my - (float)MainV2.comPort.MAV.cs.mag_ofs_y;
-                    float rawmz = MainV2.comPort.MAV.cs.mz - (float)MainV2.comPort.MAV.cs.mag_ofs_z;
+                        //log.DebugFormat("magcalib check - {0} {1} dist {2}", theta * rad2deg, phi * rad2deg, max_distance);
 
-                    // add data
-                    data.Add(new Tuple<float, float, float>(rawmx,rawmy,rawmz));
-    
-                    // for old method
-                    setMinorMax(rawmx, ref minx, ref maxx);
-                    setMinorMax(rawmy, ref miny, ref maxy);
-                    setMinorMax(rawmz, ref minz, ref maxz);
-
-                    // get the current estimated centerpoint
-                    HIL.Vector3 centre = new HIL.Vector3((float)-((maxx + minx) / 2), (float)-((maxy + miny) / 2), (float)-((maxz + minz) / 2));
-                    HIL.Vector3 point;
-
-                    // add to sphere with center correction
-                    point = new HIL.Vector3(rawmx, rawmy, rawmz) + centre;
-                    ((ProgressReporterSphere)sender).sphere1.AddPoint(new OpenTK.Vector3((float)point.x, (float)point.y, (float)point.z));
-
-                    //find the mean radius                    
-                    float radius = 0;
-                    for (int i = 0; i < data.Count; i++)
-                    {
-                        point = new HIL.Vector3(data[i].Item1, data[i].Item2, data[i].Item3);
-                        radius += (float)(point + centre).length();
-                    }
-                    radius /= data.Count;
-
-                    //test that we can find one point near a set of points all around the sphere surface
-                    int factor = 4; // 4 point check 16 points
-                    float max_distance = radius / 3; //pretty generouse
-                    for (int j = 0; j < factor; j++)
-                    {
-                        double theta = (Math.PI * (j + 0.5)) / factor;
-
-                        for (int i = 0; i < factor; i++)
+                        bool found = false;
+                        for (int k = 0; k < data.Count; k++)
                         {
-                            double phi = (2 * Math.PI * i) / factor;
-
-                            HIL.Vector3 point_sphere = new HIL.Vector3(
-                                (float)(Math.Sin(theta) * Math.Cos(phi) * radius),
-                                (float)(Math.Sin(theta) * Math.Sin(phi) * radius),
-                                (float)(Math.Cos(theta) * radius)) - centre;
-
-                            //log.DebugFormat("magcalib check - {0} {1} dist {2}", theta * rad2deg, phi * rad2deg, max_distance);
-
-                            bool found = false;
-                            for (int k = 0; k < data.Count; k++)
+                            point = new HIL.Vector3(data[k].Item1, data[k].Item2, data[k].Item3);
+                            double d = (point_sphere - point).length();
+                            if (d < max_distance)
                             {
-                                point = new HIL.Vector3(data[k].Item1, data[k].Item2, data[k].Item3);
-                                double d = (point_sphere - point).length();
-                                if (d < max_distance)
-                                {
-                                    found = true;
-                                    break;
-                                }
-                            }
-                            if (!found)
-                            {
-                                extramsg = "more data needed";
-                                //e.ErrorMessage = "Data missing for some directions";
-                                //ans = null;
-                                //return;
-                                j = factor;
+                                found = true;
                                 break;
                             }
-                            else
-                            {
-                                extramsg = "";
-                            }
+                        }
+                        if (!found)
+                        {
+                            extramsg = "more data needed";
+                            //e.ErrorMessage = "Data missing for some directions";
+                            //ans = null;
+                            //return;
+                            j = factor;
+                            break;
+                        }
+                        else
+                        {
+                            extramsg = "";
                         }
                     }
                 }
             }
 
-            if (minx > 0 && maxx > 0 || minx < 0 && maxx < 0 ||miny > 0 && maxy > 0 || miny < 0 && maxy < 0 ||minz > 0 && maxz > 0 || minz < 0 && maxz < 0)
+            MainV2.comPort.UnSubscribeToPacketType(sub);
+
+            if (minx > 0 && maxx > 0 || minx < 0 && maxx < 0 || miny > 0 && maxy > 0 || miny < 0 && maxy < 0 || minz > 0 && maxz > 0 || minz < 0 && maxz < 0)
             {
                 e.ErrorMessage = "Bad compass raw values. Check for magnetic interferance.";
                 ans = null;
@@ -257,6 +280,9 @@ namespace MissionPlanner
                 }
             }
 
+            // remove outlyers
+            RemoveOutliers(ref data);
+
             if (data.Count < 10)
             {
                 e.ErrorMessage = "Log does not contain enough data";
@@ -272,6 +298,26 @@ namespace MissionPlanner
             }
 
             ans = MagCalib.LeastSq(data, ellipsoid);
+        }
+
+        static void RemoveOutliers(ref List<Tuple<float, float, float>> data)
+        {
+            // remove outlyers
+            data.Sort(
+         delegate(Tuple<float, float, float> d1, Tuple<float, float, float> d2)
+         {
+             // get distance from 0,0,0
+             double ans1 = Math.Sqrt(d1.Item1 * d1.Item1 + d1.Item2 * d1.Item2 + d1.Item3 * d1.Item3);
+             double ans2 = Math.Sqrt(d2.Item1 * d2.Item1 + d2.Item2 * d2.Item2 + d2.Item3 * d2.Item3);
+             if (ans1 > ans2)
+                 return 1;
+             if (ans1 < ans2)
+                 return -1;
+             return 0;
+         }
+         );
+
+            data.RemoveRange(data.Count - (data.Count / 16), data.Count / 16);
         }
 
         public static double[] getOffsetsLog(string fn)
@@ -568,12 +614,12 @@ namespace MissionPlanner
             if (ellipsoid)
             {
                 // offsets + diagonals
-                x = new double[] { x[0],x[1],x[2] ,1,1,1 };
+                x = new double[] { x[0], x[1], x[2], 1, 1, 1 };
 
                 x = doLSQ(data, sphere_ellipsoid_error, x);
 
                 // offsets + diagonals + offdiagonals
-                x = new double[] { x[0], x[1], x[2], x[3], x[4], x[5],0,0,0 };
+                x = new double[] { x[0], x[1], x[2], x[3], x[4], x[5], 0, 0, 0 };
 
                 x = doLSQ(data, sphere_ellipsoid_error, x);
             }
@@ -581,7 +627,7 @@ namespace MissionPlanner
             return x;
         }
 
-        static double[] doLSQ(List<Tuple<float, float, float>> data,Action<double[],double[],object> fitalgo, double[] x) 
+        static double[] doLSQ(List<Tuple<float, float, float>> data, Action<double[], double[], object> fitalgo, double[] x)
         {
             double epsg = 0.00000001;
             double epsf = 0;
