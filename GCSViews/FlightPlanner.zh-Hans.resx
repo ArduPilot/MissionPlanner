@@ -316,7 +316,7 @@
     <value>经度</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
-    <value>高度（ABS）</value>
+    <value>绝对高度</value>
   </data>
   <data name="Lat.HeaderText" xml:space="preserve">
     <value>纬度</value>
