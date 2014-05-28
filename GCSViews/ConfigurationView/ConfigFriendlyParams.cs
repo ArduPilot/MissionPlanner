@@ -143,6 +143,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         public void Activate()
         {
+            // update status
+            if (MainV2.Advanced)
+                chk_advview.Checked = MainV2.Advanced;
+
             y = 10;
 
             Console.WriteLine("Activate " + DateTime.Now.ToString("mm.fff"));
@@ -473,5 +477,16 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
+        private void chk_advview_CheckedChanged(object sender, EventArgs e)
+        {
+            // check for change
+            if (MainV2.Advanced != chk_advview.Checked)
+            {
+                MainV2.config["advancedview"] = chk_advview.Checked.ToString();
+                MainV2.Advanced = chk_advview.Checked;
+
+                MainV2.View.Reload();
+            }
+        }
     }
 }

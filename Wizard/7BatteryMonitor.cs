@@ -114,6 +114,29 @@ namespace MissionPlanner.Wizard
             }
             catch { Console.WriteLine("no BATT_CAPACITY param"); this.Close(); }
 
+            switch (MainV2.comPort.MAV.Product_ID)
+            {
+                case Common.ap_product.AP_PRODUCT_ID_APM1_1280:
+                    CMB_apmversion.SelectedIndex = 0;
+                    break;
+                case Common.ap_product.AP_PRODUCT_ID_APM1_2560:
+                    CMB_apmversion.SelectedIndex = 0;
+                    break;
+                case Common.ap_product.AP_PRODUCT_ID_PX4:
+                    CMB_apmversion.SelectedIndex = 3;
+                    break;
+                case Common.ap_product.AP_PRODUCT_ID_PX4_V2:
+                    CMB_apmversion.SelectedIndex = 4;
+                    break;
+                case Common.ap_product.AP_PRODUCT_ID_SITL:
+                    CMB_apmversion.SelectedIndex = 1;
+                    break;
+                default:
+                    if (MainV2.comPort.MAV.Product_ID >= Common.ap_product.AP_PRODUCT_ID_APM2_REV_C4 && MainV2.comPort.MAV.Product_ID <= Common.ap_product.AP_PRODUCT_ID_APM2_REV_D9)
+                        CMB_apmversion.SelectedIndex = 2;
+                    break;
+            }
+
             startup = false;
         }
 
@@ -134,7 +157,6 @@ namespace MissionPlanner.Wizard
         {
             return false;
         }
-
         private void CMB_apmversion_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (startup)
@@ -182,21 +204,26 @@ namespace MissionPlanner.Wizard
         {
             sensor sensorselected = ((sensor)((ComboBox)sender).SelectedValue);
 
-            if (sensorselected.Name != "None")
+            try
             {
 
-                MainV2.comPort.setParam("AMP_PER_VOLT", sensorselected.ampspervolt);
+                if (sensorselected.Name != "None")
+                {
 
-                MainV2.comPort.setParam("VOLT_DIVIDER", sensorselected.voltspervolt);
+                    MainV2.comPort.setParam("BATT_AMP_PERVOLT", sensorselected.ampspervolt);
 
-                // enable volt and current
-                MainV2.comPort.setParam("BATT_MONITOR", 4);
+                    MainV2.comPort.setParam("BATT_VOLT_MULT", sensorselected.voltspervolt);
+
+                    // enable volt and current
+                    MainV2.comPort.setParam("BATT_MONITOR", 4);
+                }
+                else
+                {
+                    // disable volt and current
+                    MainV2.comPort.setParam("BATT_MONITOR", 0);
+                }
             }
-            else
-            {
-                // disable volt and current
-                MainV2.comPort.setParam("BATT_MONITOR", 0);
-            }
+            catch { CustomMessageBox.Show("Set BATT_MONITOR Failed"); }
         }
     }
 }

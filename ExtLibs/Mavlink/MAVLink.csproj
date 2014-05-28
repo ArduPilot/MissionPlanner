@@ -46,7 +46,24 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="gen_all.py" />
+    <Content Include="mavcrc.py" />
+    <Content Include="mavextra.py" />
+    <Content Include="mavgen.py" />
+    <Content Include="mavgen_c.py" />
     <Content Include="mavgen_csharp.py" />
+    <Content Include="mavgen_python.py" />
+    <Content Include="mavlink.py" />
+    <Content Include="mavparse.py" />
+    <Content Include="mavtemplate.py" />
+    <Content Include="mavtestgen.py" />
+    <Content Include="mavutil.py" />
+    <Content Include="message_definitions\ardupilotmega.xml" />
+    <Content Include="message_definitions\common.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="mavschema.xsd">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

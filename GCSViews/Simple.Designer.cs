@@ -230,7 +230,7 @@
             // TRK_zoom
             // 
             resources.ApplyResources(this.TRK_zoom, "TRK_zoom");
-            this.TRK_zoom.Maximum = 18f;
+            this.TRK_zoom.Maximum = 24f;
             this.TRK_zoom.Minimum = 1f;
             this.TRK_zoom.Name = "TRK_zoom";
             this.TRK_zoom.TickFrequency = 1;

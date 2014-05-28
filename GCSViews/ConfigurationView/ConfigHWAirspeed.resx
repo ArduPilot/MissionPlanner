@@ -112,20 +112,20 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="CHK_enableairspeed.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="CHK_enableairspeed.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="CHK_enableairspeed.Location" type="System.Drawing.Point, System.Drawing">
     <value>92, 34</value>
   </data>
@@ -142,13 +142,13 @@
     <value>CHK_enableairspeed</value>
   </data>
   <data name="&gt;&gt;CHK_enableairspeed.Type" xml:space="preserve">
-    <value>Controls.MavlinkCheckBox, MissionPlanner.lanner10, Version=1.1.4915.32079, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5257.37829, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_enableairspeed.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CHK_enableairspeed.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>3</value>
   </data>
   <data name="pictureBox4.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
     <value>Zoom</value>
@@ -169,13 +169,13 @@
     <value>pictureBox4</value>
   </data>
   <data name="&gt;&gt;pictureBox4.Type" xml:space="preserve">
-    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;pictureBox4.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;pictureBox4.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>6</value>
   </data>
   <data name="groupBox3.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
@@ -193,13 +193,13 @@
     <value>groupBox3</value>
   </data>
   <data name="&gt;&gt;groupBox3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;groupBox3.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;groupBox3.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>5</value>
   </data>
   <data name="CHK_airspeeduse.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -223,13 +223,13 @@
     <value>CHK_airspeeduse</value>
   </data>
   <data name="&gt;&gt;CHK_airspeeduse.Type" xml:space="preserve">
-    <value>Controls.MavlinkCheckBox, MissionPlanner.lanner10, Version=1.1.4915.32079, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5257.37829, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;CHK_airspeeduse.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CHK_airspeeduse.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>2</value>
   </data>
   <data name="label2.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 12pt</value>
@@ -253,15 +253,72 @@
     <value>label2</value>
   </data>
   <data name="&gt;&gt;label2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label2.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>4</value>
   </data>
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="mavlinkCheckBoxAirspeed_pin.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="mavlinkCheckBoxAirspeed_pin.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="mavlinkCheckBoxAirspeed_pin.Location" type="System.Drawing.Point, System.Drawing">
+    <value>165, 58</value>
+  </data>
+  <data name="mavlinkCheckBoxAirspeed_pin.Size" type="System.Drawing.Size, System.Drawing">
+    <value>161, 21</value>
+  </data>
+  <data name="mavlinkCheckBoxAirspeed_pin.TabIndex" type="System.Int32, mscorlib">
+    <value>74</value>
+  </data>
+  <data name="&gt;&gt;mavlinkCheckBoxAirspeed_pin.Name" xml:space="preserve">
+    <value>mavlinkCheckBoxAirspeed_pin</value>
+  </data>
+  <data name="&gt;&gt;mavlinkCheckBoxAirspeed_pin.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.5257.37829, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;mavlinkCheckBoxAirspeed_pin.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;mavlinkCheckBoxAirspeed_pin.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="lbl_airspeed_pin.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lbl_airspeed_pin.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="lbl_airspeed_pin.Location" type="System.Drawing.Point, System.Drawing">
+    <value>93, 61</value>
+  </data>
+  <data name="lbl_airspeed_pin.Size" type="System.Drawing.Size, System.Drawing">
+    <value>66, 13</value>
+  </data>
+  <data name="lbl_airspeed_pin.TabIndex" type="System.Int32, mscorlib">
+    <value>75</value>
+  </data>
+  <data name="lbl_airspeed_pin.Text" xml:space="preserve">
+    <value>Airspeed Pin</value>
+  </data>
+  <data name="&gt;&gt;lbl_airspeed_pin.Name" xml:space="preserve">
+    <value>lbl_airspeed_pin</value>
+  </data>
+  <data name="&gt;&gt;lbl_airspeed_pin.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lbl_airspeed_pin.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;lbl_airspeed_pin.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
@@ -274,6 +331,6 @@
     <value>ConfigHWAirspeed</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.UserControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

@@ -75,19 +75,19 @@ namespace MissionPlanner.Log
                                 string line = logEntry(data, br);
 
                                 // we need to know the mav type to use the correct mode list.
-                                if (line.Contains("PARM, RATE_RLL_P"))
+                                if (line.Contains("PARM, RATE_RLL_P") || line.Contains("ArduCopter"))
                                 {
                                     MainV2.comPort.MAV.cs.firmware = MainV2.Firmwares.ArduCopter2;
                                 }
-                                else if ((line.Contains("PARM, H_SWASH_PLATE")))
+                                else if ((line.Contains("PARM, H_SWASH_PLATE")) || line.Contains("ArduCopter"))
                                 {
                                     MainV2.comPort.MAV.cs.firmware = MainV2.Firmwares.ArduCopter2;
                                 }
-                                else if (line.Contains("PARM, PTCH2SRV_P"))
+                                else if (line.Contains("PARM, PTCH2SRV_P") || line.Contains("ArduPlane"))
                                 {
                                     MainV2.comPort.MAV.cs.firmware = MainV2.Firmwares.ArduPlane;
                                 }
-                                else if (line.Contains("PARM, SKID_STEER_OUT"))
+                                else if (line.Contains("PARM, SKID_STEER_OUT") || line.Contains("ArduRover"))
                                 {
                                     MainV2.comPort.MAV.cs.firmware = MainV2.Firmwares.ArduRover;
                                 }
@@ -204,74 +204,87 @@ namespace MissionPlanner.Log
 
             int offset = 0;
 
-            string line = name;
+            StringBuilder line = new StringBuilder(name);
 
             foreach (char ch in form)
             {
                 switch (ch)
                 {
                     case 'b':
-                        line += ", " + (sbyte)message[offset];
+                        line.Append(", " + (sbyte)message[offset]);
                         offset++;
                         break;
                     case 'B':
-                        line += ", " + message[offset];
+                        line.Append( ", " + message[offset]);
                         offset++;
                         break;
                     case 'h':
-                        line += ", " + BitConverter.ToInt16(message, offset).ToString(System.Globalization.CultureInfo.InvariantCulture);
+                        line.Append(", " + BitConverter.ToInt16(message, offset).ToString(System.Globalization.CultureInfo.InvariantCulture));
                         offset += 2;
                         break;
                     case 'H':
-                        line += ", " + BitConverter.ToUInt16(message, offset).ToString(System.Globalization.CultureInfo.InvariantCulture);
+                        line.Append( ", " + BitConverter.ToUInt16(message, offset).ToString(System.Globalization.CultureInfo.InvariantCulture));
                         offset += 2;
                         break;
                     case 'i':
-                        line += ", " + BitConverter.ToInt32(message, offset).ToString(System.Globalization.CultureInfo.InvariantCulture);
+                        line.Append( ", " + BitConverter.ToInt32(message, offset).ToString(System.Globalization.CultureInfo.InvariantCulture));
                         offset += 4;
                         break;
                     case 'I':
-                        line += ", " + BitConverter.ToUInt32(message, offset).ToString(System.Globalization.CultureInfo.InvariantCulture);
+                        line.Append( ", " + BitConverter.ToUInt32(message, offset).ToString(System.Globalization.CultureInfo.InvariantCulture));
                         offset += 4;
                         break;
                     case 'f':
-                        line += ", " + BitConverter.ToSingle(message, offset).ToString(System.Globalization.CultureInfo.InvariantCulture);
+                        line.Append( ", " + BitConverter.ToSingle(message, offset).ToString(System.Globalization.CultureInfo.InvariantCulture));
                         offset += 4;
                         break;
                     case 'c':
-                        line += ", " + (BitConverter.ToInt16(message, offset) / 100.0).ToString("0.00", System.Globalization.CultureInfo.InvariantCulture);
+                        line.Append( ", " + (BitConverter.ToInt16(message, offset) / 100.0).ToString("0.00", System.Globalization.CultureInfo.InvariantCulture));
                         offset += 2;
                         break;
                     case 'C':
-                        line += ", " + (BitConverter.ToUInt16(message, offset) / 100.0).ToString("0.00", System.Globalization.CultureInfo.InvariantCulture);
+                        line.Append( ", " + (BitConverter.ToUInt16(message, offset) / 100.0).ToString("0.00", System.Globalization.CultureInfo.InvariantCulture));
                         offset += 2;
                         break;
                     case 'e':
-                        line += ", " + (BitConverter.ToInt32(message, offset) / 100.0).ToString("0.00", System.Globalization.CultureInfo.InvariantCulture);
+                        line.Append( ", " + (BitConverter.ToInt32(message, offset) / 100.0).ToString("0.00", System.Globalization.CultureInfo.InvariantCulture));
                         offset += 4;
                         break;
                     case 'E':
-                        line += ", " + (BitConverter.ToUInt32(message, offset) / 100.0).ToString("0.00", System.Globalization.CultureInfo.InvariantCulture);
+                        line.Append( ", " + (BitConverter.ToUInt32(message, offset) / 100.0).ToString("0.00", System.Globalization.CultureInfo.InvariantCulture));
                         offset += 4;
                         break;
                     case 'L':
-                        line += ", " + ((double)BitConverter.ToInt32(message, offset) / 10000000.0).ToString(System.Globalization.CultureInfo.InvariantCulture);
+                        line.Append( ", " + ((double)BitConverter.ToInt32(message, offset) / 10000000.0).ToString(System.Globalization.CultureInfo.InvariantCulture));
                         offset += 4;
                         break;
                     case 'n':
-                        line += ", " + ASCIIEncoding.ASCII.GetString(message, offset, 4).Trim(new char[] { '\0' });
+                        line.Append( ", " + ASCIIEncoding.ASCII.GetString(message, offset, 4).Trim(new char[] { '\0' }));
                         offset += 4;
                         break;
                     case 'N':
-                        line += ", " + ASCIIEncoding.ASCII.GetString(message, offset, 16).Trim(new char[] { '\0' });
+                        line.Append( ", " + ASCIIEncoding.ASCII.GetString(message, offset, 16).Trim(new char[] { '\0' }));
                         offset += 16;
                         break;
                     case 'M':
-                        line += ", " + Common.getModesList(MainV2.comPort.MAV.cs)[message[offset]].Value;
+                        int modeno = message[offset];
+                        var modes = Common.getModesList(MainV2.comPort.MAV.cs);
+                        string currentmode = "";
+
+                        foreach (var mode in modes) 
+                        {
+                            if (mode.Key == modeno)
+                            {
+                                currentmode = mode.Value;
+                                break;
+                            }
+                        }
+
+                        line.Append(", " + currentmode);
                         offset++;
                         break;
                     case 'Z':
-                        line += ", " + ASCIIEncoding.ASCII.GetString(message, offset, 64).Trim(new char[] { '\0' });
+                        line.Append( ", " + ASCIIEncoding.ASCII.GetString(message, offset, 64).Trim(new char[] { '\0' }));
                         offset += 64;
                         break;
                     default:
@@ -280,7 +293,8 @@ namespace MissionPlanner.Log
                 }
             }
 
-            return line + "\r\n";
+            line.Append("\r\n");
+            return line.ToString();
         }
     }
 }

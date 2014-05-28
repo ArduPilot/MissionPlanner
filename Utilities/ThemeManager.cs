@@ -174,7 +174,6 @@ namespace MissionPlanner.Utilities
             temp.Add(new GCSViews.ConfigurationView.ConfigFlightModes());
             temp.Add(new GCSViews.ConfigurationView.ConfigFrameType());
             temp.Add(new GCSViews.ConfigurationView.ConfigFriendlyParams());
-            temp.Add(new GCSViews.ConfigurationView.ConfigHelp());
             temp.Add(new GCSViews.ConfigurationView.ConfigHWAirspeed());
             temp.Add(new GCSViews.ConfigurationView.ConfigHWCompass());
             temp.Add(new GCSViews.ConfigurationView.ConfigHWOptFlow());
@@ -405,6 +404,13 @@ mc:Ignorable=""d""
                 {
                     ctl.BackColor = BGColor;
                     ctl.ForeColor = TextColor;
+                }
+                else if (ctl.GetType() == typeof(TreeView))
+                {
+                    ctl.BackColor = BGColor;
+                    ctl.ForeColor = TextColor;
+                    TreeView txtr = (TreeView)ctl;
+                    txtr.LineColor = TextColor;
                 }
                 else if (ctl.GetType() == typeof(MyLabel))
                 {
@@ -846,6 +852,8 @@ mc:Ignorable=""d""
                 {
                     ctl.BackColor = BGColor;
                     ctl.ForeColor = TextColor;
+                    TreeView txtr = (TreeView)ctl;
+                    txtr.LineColor = TextColor;
                 } 
                 else if (ctl.GetType() == typeof(Panel))
                 {
@@ -895,8 +903,12 @@ mc:Ignorable=""d""
                     zg1.GraphPane.Chart.Fill = new ZedGraph.Fill(Color.FromArgb(0x1f, 0x1f, 0x20));
                     zg1.GraphPane.Fill = new ZedGraph.Fill(Color.FromArgb(0x37, 0x37, 0x38));
 
-                    foreach (ZedGraph.LineItem li in zg1.GraphPane.CurveList)
-                        li.Line.Width = 2;
+                    try
+                    {
+                        foreach (ZedGraph.LineItem li in zg1.GraphPane.CurveList)
+                            li.Line.Width = 2;
+                    }
+                    catch { }
 
                     zg1.GraphPane.Title.FontSpec.FontColor = TextColor;
 
@@ -971,6 +983,8 @@ mc:Ignorable=""d""
                     rs.BackColor = ControlBGColor;
                     rs.ForeColor = TextColor;
                     dgv.RowsDefaultCellStyle = rs;
+
+                    dgv.AlternatingRowsDefaultCellStyle.BackColor = BGColor;
 
                     DataGridViewCellStyle hs = new DataGridViewCellStyle(dgv.ColumnHeadersDefaultCellStyle);
                     hs.BackColor = BGColor;

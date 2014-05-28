@@ -38,6 +38,9 @@ namespace MissionPlanner
             PointLatLngAlt lastloc = null;
             foreach (PointLatLngAlt loc in planlocs)
             {
+                if (loc == null)
+                    continue;
+
                 if (lastloc != null) {
                     distance += (int)loc.GetDistance(lastloc);
                 }
@@ -51,6 +54,8 @@ namespace MissionPlanner
             gelocs = getGEAltPath(planlocs);
 
             frm.Close();
+
+            MissionPlanner.Utilities.Tracking.AddPage(this.GetType().ToString(), this.Text);
         }
 
         private void ElevationProfile_Load(object sender, EventArgs e)
@@ -66,6 +71,9 @@ namespace MissionPlanner
 
             foreach (PointLatLngAlt geloc in gelocs)
             {
+                if (geloc == null)
+                    continue;
+
                 list2.Add(a,geloc.Alt);
 
                 Console.WriteLine(geloc.Lng + "," + geloc.Lat + "," + geloc.Alt);
@@ -78,6 +86,9 @@ namespace MissionPlanner
             PointLatLngAlt lastloc = null;
             foreach (PointLatLngAlt planloc in planlocs)
             {
+                if (planloc == null)
+                    continue;
+
                 if (lastloc != null)
                 {
                     a += planloc.GetDistance(lastloc);
@@ -108,6 +119,9 @@ namespace MissionPlanner
 
             foreach (PointLatLngAlt loc in list)
             {
+                if (loc == null)
+                    continue;
+
                 coords = coords + loc.Lat.ToString(new System.Globalization.CultureInfo("en-US")) + "," + loc.Lng.ToString(new System.Globalization.CultureInfo("en-US")) + "|";
             }
             coords = coords.Remove(coords.Length - 1);

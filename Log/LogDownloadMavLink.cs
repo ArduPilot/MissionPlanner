@@ -51,6 +51,8 @@ namespace MissionPlanner.Log
             InitializeComponent();
 
             ThemeManager.ApplyThemeTo(this);
+
+            MissionPlanner.Utilities.Tracking.AddPage(this.GetType().ToString(), this.Text);
         }
 
         private void Log_Load(object sender, EventArgs e)
@@ -70,7 +72,12 @@ namespace MissionPlanner.Log
                 {
                     genchkcombo(item.id);
 
-                    TXT_seriallog.AppendText(item.id + " " + new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(item.time_utc).ToLocalTime() + " est size: " + item.size +"\n");
+                    TXT_seriallog.AppendText(item.id + "\t" + new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).AddSeconds(item.time_utc).ToLocalTime() + "\test size:\t" + item.size +"\r\n");
+                }
+
+                if (list.Count == 0)
+                {
+                    TXT_seriallog.AppendText("No logs to download");
                 }
             }
             catch { CustomMessageBox.Show("Cannot get log list.","Error"); this.Close(); }
@@ -144,6 +151,7 @@ namespace MissionPlanner.Log
             var ms = MainV2.comPort.GetLog(no);
 
             status = serialstatus.Done;
+            updateDisplay();
 
             MainV2.comPort.Progress -= comPort_Progress;
 
@@ -154,7 +162,7 @@ namespace MissionPlanner.Log
 
             logfile = MainV2.LogDir + Path.DirectorySeparatorChar
              + MainV2.comPort.MAV.aptype.ToString() + Path.DirectorySeparatorChar
-             + hbpacket[3] + Path.DirectorySeparatorChar + DateTime.Now.ToString("yyyy-MM-dd HH-mm") + " " + no + ".bin";
+             + hbpacket[3] + Path.DirectorySeparatorChar + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + " " + no + ".bin";
 
             // make log dir
             Directory.CreateDirectory(Path.GetDirectoryName(logfile));
@@ -174,7 +182,14 @@ namespace MissionPlanner.Log
             logfile = logfile + ".log";
 
             // write assci log
-            File.WriteAllLines(logfile, temp1);
+            using (StreamWriter sw = new StreamWriter(logfile))
+            {
+                foreach (string line in temp1)
+                {
+                    sw.Write(line);
+                }
+                sw.Close();
+            }
 
             // get gps time of assci log
             DateTime logtime = DFLog.GetFirstGpsTime(logfile);
@@ -184,7 +199,7 @@ namespace MissionPlanner.Log
             {
                 string newlogfilename = MainV2.LogDir + Path.DirectorySeparatorChar
              + MainV2.comPort.MAV.aptype.ToString() + Path.DirectorySeparatorChar
-             + hbpacket[3] + Path.DirectorySeparatorChar + logtime.ToString("yyyy-MM-dd HH-mm") + ".log";
+             + hbpacket[3] + Path.DirectorySeparatorChar + logtime.ToString("yyyy-MM-dd HH-mm-ss") + ".log";
                 try
                 {
                     File.Move(logfile, newlogfilename);
@@ -192,7 +207,7 @@ namespace MissionPlanner.Log
                     File.Move(logfile.Replace(".log", ""), newlogfilename.Replace(".log", ".bin"));
                     logfile = newlogfilename;
                 }
-                catch (Exception ex) { CustomMessageBox.Show("Failed to rename file " + logfile + "\nto " + newlogfilename, "Error"); }
+                catch  { CustomMessageBox.Show("Failed to rename file " + logfile + "\nto " + newlogfilename, "Error"); }
             }
 
             return logfile;
@@ -211,7 +226,7 @@ namespace MissionPlanner.Log
 
             this.Invoke((System.Windows.Forms.MethodInvoker)delegate()
             {
-                TXT_seriallog.AppendText("Creating KML for " + logfile);
+                TXT_seriallog.AppendText("Creating KML for " + logfile + "\n");
             });
 
             LogOutput lo = new LogOutput();
@@ -229,6 +244,7 @@ namespace MissionPlanner.Log
             }
             catch { } // usualy invalid lat long error
             status = serialstatus.Done;
+            updateDisplay();
         }
 
         private void downloadthread(int startlognum, int endlognum)
@@ -243,6 +259,9 @@ namespace MissionPlanner.Log
 
                     CreateLog(logname);
                 }
+
+                status = serialstatus.Done;
+                updateDisplay();
 
                 Console.Beep();
             }
@@ -265,6 +284,9 @@ namespace MissionPlanner.Log
                     }
                 }
 
+                status = serialstatus.Done;
+                updateDisplay();
+
                 Console.Beep();
             }
             catch (Exception ex) { CustomMessageBox.Show(ex.Message, "Error in log " + currentlog); }
@@ -282,14 +304,18 @@ namespace MissionPlanner.Log
 
         private void BUT_clearlogs_Click(object sender, EventArgs e)
         {
-            try
+            if (CustomMessageBox.Show("Are you sure?", "sure", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
             {
-                MainV2.comPort.EraseLog();
-                TXT_seriallog.AppendText("!!Allow 30-90 seconds for erase\n");
-                status = serialstatus.Done;
-                CHK_logs.Items.Clear();
+                try
+                {
+                    MainV2.comPort.EraseLog();
+                    TXT_seriallog.AppendText("!!Allow 30-90 seconds for erase\n");
+                    status = serialstatus.Done;
+                    updateDisplay();
+                    CHK_logs.Items.Clear();
+                }
+                catch (Exception ex) { CustomMessageBox.Show(ex.Message, "Error"); }
             }
-            catch (Exception ex) { CustomMessageBox.Show(ex.Message, "Error"); }
         }
 
         private void BUT_redokml_Click(object sender, EventArgs e)
@@ -384,7 +410,7 @@ namespace MissionPlanner.Log
 
             if (File.Exists(ofd.FileName))
             {
-                List<string> log = BinaryLog.ReadLog(ofd.FileName);
+                var log = BinaryLog.ReadLog(ofd.FileName);
 
                 SaveFileDialog sfd = new SaveFileDialog();
                 sfd.Filter = "log|*.log";

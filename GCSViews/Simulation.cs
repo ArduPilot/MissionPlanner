@@ -594,7 +594,8 @@ namespace MissionPlanner.GCSViews
                         if (CHK_quad.Checked && !RAD_aerosimrc.Checked)// || chkSensor.Checked && RAD_JSBSim.Checked)
                         {
                             //comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RAW_CONTROLLER, 0); // request servoout
-                            comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RAW_CONTROLLER, 50); // request servoout
+                            comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RC_CHANNELS, 50); // request servoout
+                            comPort.MAV.cs.raterc = 50;
                         }
                         else
                         {
@@ -642,11 +643,11 @@ namespace MissionPlanner.GCSViews
                 try
                 {
 
-                    MainV2.comPort.MAV.cs.UpdateCurrentSettings(null); // when true this uses alot more cpu time
+                    MainV2.comPort.MAV.cs.UpdateCurrentSettings(null,true,MainV2.comPort); // when true this uses alot more cpu time
 
-                    if ((DateTime.Now - simsendtime).TotalMilliseconds > 4 && chkSITL.Checked ||(DateTime.Now - simsendtime).TotalMilliseconds > 25)
+                    if ((DateTime.Now - simsendtime).TotalMilliseconds > 19 && chkSITL.Checked ||(DateTime.Now - simsendtime).TotalMilliseconds > 25)
                     {
-                        //hzcount++;
+                        hzcount2++;
                         simsendtime = DateTime.Now;
 
                         if (comPort.BaseStream.IsOpen == true)
@@ -657,22 +658,24 @@ namespace MissionPlanner.GCSViews
 
                 if (hzcounttime.Second != DateTime.Now.Second)
                 {
-                    Console.WriteLine("SIM recv hz {0}", hzcount);
+                    Console.WriteLine("SIM recv hz {0} processArduPilot hz {1}", hzcount,hzcount2);
                     hzcount = 0;
+                    hzcount2 = 0;
                     hzcounttime = DateTime.Now;
                 }
 
 
 
-             //   System.Threading.Thread.Sleep(1); // this controls send speed  to sim     
+                System.Threading.Thread.Sleep(1); // this controls send speed  to sim     
 
                 if (this.Disposing)
                     threadrun = 0;
             }
-
+            comPort.MAV.cs.raterc = 2;
         }
 
         int hzcount = 0;
+        int hzcount2 = 0;
         DateTime hzcounttime = DateTime.Now;
 
         DateTime simsendtime = DateTime.Now;
@@ -1062,7 +1065,8 @@ namespace MissionPlanner.GCSViews
 
             MAVLink.mavlink_hil_state_t hilstate = new MAVLink.mavlink_hil_state_t();
 
-            hilstate.time_usec = (UInt64)(DateTime.Now.Ticks * 10); // microsec
+            DateTime epochBegin = new DateTime(1980, 1, 6, 0, 0, 0, DateTimeKind.Utc);
+            hilstate.time_usec = (UInt64)((DateTime.Now.Ticks - epochBegin.Ticks) / 10); // microsec
             
             hilstate.lat = (int)(oldgps.latitude * 1e7); // * 1E7
             hilstate.lon = (int)(oldgps.longitude * 1e7); // * 1E7
@@ -1168,9 +1172,12 @@ namespace MissionPlanner.GCSViews
             if (CHK_quad.Checked && !RAD_aerosimrc.Checked)
             {
 
-                double[] m = new double[4];
+                double[] m = new double[4]; // 11
 
-                m[0] = (ushort)MainV2.comPort.MAV.cs.ch1out;
+                for (int a = 0; a < m.Length; a++)
+                    m[a] = 0;
+
+                    m[0] = (ushort)MainV2.comPort.MAV.cs.ch1out;
                 m[1] = (ushort)MainV2.comPort.MAV.cs.ch2out;
                 m[2] = (ushort)MainV2.comPort.MAV.cs.ch3out;
                 m[3] = (ushort)MainV2.comPort.MAV.cs.ch4out;
@@ -1191,11 +1198,9 @@ namespace MissionPlanner.GCSViews
 
                     quad.update(ref m, lastfdmdata);
 
-                    double roll = 0;
-                    double pitch = 0;
-                    double yaw = 0;
                     Vector3 earth_rates = Utils.BodyRatesToEarthRates(quad.dcm, quad.gyro);
-                    quad.dcm.to_euler(ref roll, ref pitch, ref yaw);
+                    quad.dcm.to_euler(ref quad.roll, ref quad.pitch, ref quad.yaw);
+                    //quad.dcm.to_euler(ref roll, ref pitch, ref yaw);
 
                     if (chkSITL.Checked)
                     {
@@ -1205,16 +1210,16 @@ namespace MissionPlanner.GCSViews
                         sitldata.latitude = quad.latitude;
                         sitldata.longitude = quad.longitude;
                         sitldata.altitude = quad.altitude;
-                        sitldata.heading = yaw;
+                        sitldata.heading = quad.yaw;
                         sitldata.speedN = quad.velocity.x;
                         sitldata.speedE = quad.velocity.y;
                         sitldata.speedD = quad.velocity.z;
                         sitldata.xAccel = quad.accelerometer.x;
                         sitldata.yAccel = quad.accelerometer.y;
                         sitldata.zAccel = quad.accelerometer.z;
-                        sitldata.rollDeg = roll * rad2deg;
-                        sitldata.pitchDeg = pitch * rad2deg;
-                        sitldata.yawDeg = yaw * rad2deg;
+                        sitldata.rollDeg = quad.roll * rad2deg;
+                        sitldata.pitchDeg = quad.pitch * rad2deg;
+                        sitldata.yawDeg = quad.yaw * rad2deg;
                         sitldata.rollRate = earth_rates.x * rad2deg;
                         sitldata.pitchRate = earth_rates.y * rad2deg;
                         sitldata.yawRate = earth_rates.z * rad2deg;
@@ -1225,6 +1230,18 @@ namespace MissionPlanner.GCSViews
                         byte[] sendme = StructureToByteArray(sitldata);
 
                         SITLSEND.Send(sendme, sendme.Length);
+
+                        byte[] rcreceiver = new byte[2 * 8];
+                        Array.ConstrainedCopy(BitConverter.GetBytes((ushort)MainV2.comPort.MAV.cs.rcoverridech1), 0, rcreceiver, 0, 2);
+                        Array.ConstrainedCopy(BitConverter.GetBytes((ushort)MainV2.comPort.MAV.cs.rcoverridech2), 0, rcreceiver, 2, 2);
+                        Array.ConstrainedCopy(BitConverter.GetBytes((ushort)MainV2.comPort.MAV.cs.rcoverridech3), 0, rcreceiver, 4, 2);
+                        Array.ConstrainedCopy(BitConverter.GetBytes((ushort)MainV2.comPort.MAV.cs.rcoverridech4), 0, rcreceiver, 6, 2);
+                        Array.ConstrainedCopy(BitConverter.GetBytes((ushort)1505), 0, rcreceiver, 8, 2);
+                        Array.ConstrainedCopy(BitConverter.GetBytes((ushort)1506), 0, rcreceiver, 10, 2);
+                        Array.ConstrainedCopy(BitConverter.GetBytes((ushort)1507), 0, rcreceiver, 12, 2);
+                        Array.ConstrainedCopy(BitConverter.GetBytes((ushort)1508), 0, rcreceiver, 14, 2);
+
+                        SITLSEND.Send(rcreceiver, rcreceiver.Length);
                     }
                     else
                     {

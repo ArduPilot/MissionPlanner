@@ -79,10 +79,14 @@ namespace MissionPlanner.GCSViews
 
                         buffer[a] = indata;
 
-                        if (buffer[a] >= 0x20 && buffer[a] < 0x7f || buffer[a] == (int)'\n' || buffer[a] == (int)'\r')
+                        if (buffer[a] >= 0x20 && buffer[a] < 0x7f || buffer[a] == (int)'\n' || buffer[a] == 0x1b)
                         {
                             a++;
                         }
+
+                        if (indata == '\n')
+                            break;
+
                         if (a == (buffer.Length-1))
                             break;
                     }
@@ -102,19 +106,20 @@ namespace MissionPlanner.GCSViews
 
                 TXT_terminal.SelectionStart = TXT_terminal.Text.Length;
 
-                data = data.Replace("U3","");
-                data = data.Replace("U$", "");
-                data = data.Replace(@"U""","");
-                data = data.Replace("d'`F", "");
-                data = data.Replace("U.", "");
-                data = data.Replace("'`","");
-
                 data = data.TrimEnd('\r'); // else added \n all by itself
                 data = data.Replace("\0", "");
+                data = data.Replace((char)0x1b+"[K",""); // remove control code
                 TXT_terminal.AppendText(data);
+
                 if (data.Contains("\b"))
                 {
                     TXT_terminal.Text = TXT_terminal.Text.Remove(TXT_terminal.Text.IndexOf('\b'));
+                    TXT_terminal.SelectionStart = TXT_terminal.Text.Length;
+                }
+               
+                // erase to end of line. in our case jump to end of line
+                if (data.Contains((char)0x1b + "[K"))
+                {
                     TXT_terminal.SelectionStart = TXT_terminal.Text.Length;
                 }
                 inputStartPos = TXT_terminal.SelectionStart;
@@ -125,15 +130,16 @@ namespace MissionPlanner.GCSViews
         private void TXT_terminal_Click(object sender, EventArgs e)
         {
             // auto scroll
-            TXT_terminal.SelectionStart = TXT_terminal.Text.Length;
+            //TXT_terminal.SelectionStart = TXT_terminal.Text.Length;
 
-            TXT_terminal.ScrollToCaret();
+            //TXT_terminal.ScrollToCaret();
 
-            TXT_terminal.Refresh();
+            //TXT_terminal.Refresh();
         }
 
         private void TXT_terminal_KeyDown(object sender, KeyEventArgs e)
         {
+            TXT_terminal.SelectionStart = TXT_terminal.Text.Length;
             /*    if (e.KeyData == Keys.Up || e.KeyData == Keys.Down || e.KeyData == Keys.Left || e.KeyData == Keys.Right)
                 {
                     e.Handled = true; // ignore it
@@ -375,7 +381,7 @@ namespace MissionPlanner.GCSViews
 
                     // wait 7 seconds for px4 reboot
                     log.Info("waiting for reboot");
-                    DateTime deadline = DateTime.Now.AddSeconds(8);
+                    DateTime deadline = DateTime.Now.AddSeconds(9);
                     while (DateTime.Now < deadline)
                     {
                         System.Threading.Thread.Sleep(500);
@@ -616,6 +622,11 @@ namespace MissionPlanner.GCSViews
         {
             try
             {
+                try
+                {
+                    comPort.Write("reboot\n");
+                }
+                catch { }
                 comPort.Close();
                 TXT_terminal.AppendText("Closed\n");
             }

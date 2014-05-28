@@ -73,6 +73,9 @@ namespace MissionPlanner
             if (spacing < 10 && spacing != 0)
                 spacing = 10;
 
+            if (polygon.Count == 0)
+                return new List<PointLatLngAlt>();
+
             List<PointLatLngAlt> ans = new List<PointLatLngAlt>();
 
             int utmzone = polygon[0].GetUTMZone();

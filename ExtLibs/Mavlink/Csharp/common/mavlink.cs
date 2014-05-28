@@ -5,9 +5,9 @@ using System.Runtime.InteropServices;
 
 public partial class MAVLink
 {
-        public const string MAVLINK_BUILD_DATE = "Mon Dec 16 18:05:35 2013";
+        public const string MAVLINK_BUILD_DATE = "Tue Apr 29 18:17:52 2014";
         public const string MAVLINK_WIRE_PROTOCOL_VERSION = "1.0";
-        public const int MAVLINK_MAX_DIALECT_PAYLOAD_SIZE = 254;
+        public const int MAVLINK_MAX_DIALECT_PAYLOAD_SIZE = 255;
 
         public const int MAVLINK_LITTLE_ENDIAN = 1;
         public const int MAVLINK_BIG_ENDIAN = 0;
@@ -22,11 +22,13 @@ public partial class MAVLink
         
         public const bool MAVLINK_NEED_BYTE_SWAP = (MAVLINK_ENDIAN == MAVLINK_LITTLE_ENDIAN);
         
-        public static readonly byte[] MAVLINK_MESSAGE_LENGTHS = new byte[] {9, 31, 12, 0, 14, 28, 3, 32, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 20, 2, 25, 23, 30, 101, 22, 26, 16, 14, 28, 32, 28, 28, 22, 22, 21, 6, 6, 37, 4, 4, 2, 2, 4, 2, 2, 3, 13, 12, 19, 17, 15, 15, 27, 25, 18, 18, 20, 20, 9, 34, 26, 46, 36, 0, 6, 4, 0, 11, 18, 0, 0, 0, 20, 0, 33, 3, 0, 0, 20, 22, 0, 0, 0, 0, 0, 0, 0, 28, 56, 42, 33, 0, 0, 0, 0, 0, 0, 0, 26, 32, 32, 20, 32, 62, 54, 64, 84, 9, 254, 249, 9, 36, 26, 64, 22, 6, 14, 12, 97, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 24, 33, 25, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 36, 30, 18, 18, 51, 9, 0};
+        public static readonly byte[] MAVLINK_MESSAGE_LENGTHS = new byte[] {9, 31, 12, 0, 14, 28, 3, 32, 0, 0, 0, 6, 0, 0, 0, 0, 0, 0, 0, 0, 20, 2, 25, 23, 30, 101, 22, 26, 16, 14, 28, 32, 28, 28, 22, 22, 21, 6, 6, 37, 4, 4, 2, 2, 4, 2, 2, 3, 13, 12, 19, 17, 15, 15, 27, 25, 18, 18, 20, 20, 9, 34, 26, 46, 36, 42, 6, 4, 0, 11, 18, 0, 0, 0, 20, 0, 33, 3, 0, 0, 20, 22, 0, 0, 0, 0, 0, 0, 0, 28, 56, 42, 33, 0, 0, 0, 0, 0, 0, 0, 26, 32, 32, 20, 32, 62, 54, 64, 84, 9, 254, 249, 9, 36, 26, 64, 22, 6, 14, 12, 97, 2, 2, 113, 35, 6, 79, 0, 0, 0, 13, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 24, 33, 25, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 36, 30, 18, 18, 51, 9, 0};
 
-        public static readonly byte[] MAVLINK_MESSAGE_CRCS = new byte[] {50, 124, 137, 0, 237, 217, 104, 119, 0, 0, 0, 89, 0, 0, 0, 0, 0, 0, 0, 0, 214, 159, 220, 168, 24, 23, 170, 144, 67, 115, 39, 246, 185, 104, 237, 244, 222, 212, 9, 254, 230, 28, 28, 132, 221, 232, 11, 153, 41, 39, 214, 223, 141, 33, 15, 3, 100, 24, 239, 238, 30, 240, 183, 130, 130, 0, 148, 21, 0, 243, 124, 0, 0, 0, 20, 0, 152, 143, 0, 0, 127, 106, 0, 0, 0, 0, 0, 0, 0, 231, 183, 63, 54, 0, 0, 0, 0, 0, 0, 0, 175, 102, 158, 208, 56, 93, 211, 108, 32, 185, 235, 93, 124, 124, 119, 4, 76, 128, 56, 116, 134, 237, 203, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 177, 241, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 204, 49, 170, 44, 83, 46, 0};
+        public static readonly byte[] MAVLINK_MESSAGE_CRCS = new byte[] {50, 124, 137, 0, 237, 217, 104, 119, 0, 0, 0, 89, 0, 0, 0, 0, 0, 0, 0, 0, 214, 159, 220, 168, 24, 23, 170, 144, 67, 115, 39, 246, 185, 104, 237, 244, 222, 212, 9, 254, 230, 28, 28, 132, 221, 232, 11, 153, 41, 39, 214, 223, 141, 33, 15, 3, 100, 24, 239, 238, 30, 240, 183, 130, 130, 118, 148, 21, 0, 243, 124, 0, 0, 0, 20, 0, 152, 143, 0, 0, 127, 106, 0, 0, 0, 0, 0, 0, 0, 231, 183, 63, 54, 0, 0, 0, 0, 0, 0, 0, 175, 102, 158, 208, 56, 93, 211, 108, 32, 185, 235, 93, 124, 124, 119, 4, 76, 128, 56, 116, 134, 237, 203, 250, 87, 203, 220, 0, 0, 0, 29, 223, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 177, 241, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 204, 49, 170, 44, 83, 46, 0};
 
-        public static readonly Type[] MAVLINK_MESSAGE_INFO = new Type[] {typeof( mavlink_heartbeat_t ), typeof( mavlink_sys_status_t ), typeof( mavlink_system_time_t ), null, typeof( mavlink_ping_t ), typeof( mavlink_change_operator_control_t ), typeof( mavlink_change_operator_control_ack_t ), typeof( mavlink_auth_key_t ), null, null, null, typeof( mavlink_set_mode_t ), null, null, null, null, null, null, null, null, typeof( mavlink_param_request_read_t ), typeof( mavlink_param_request_list_t ), typeof( mavlink_param_value_t ), typeof( mavlink_param_set_t ), typeof( mavlink_gps_raw_int_t ), typeof( mavlink_gps_status_t ), typeof( mavlink_scaled_imu_t ), typeof( mavlink_raw_imu_t ), typeof( mavlink_raw_pressure_t ), typeof( mavlink_scaled_pressure_t ), typeof( mavlink_attitude_t ), typeof( mavlink_attitude_quaternion_t ), typeof( mavlink_local_position_ned_t ), typeof( mavlink_global_position_int_t ), typeof( mavlink_rc_channels_scaled_t ), typeof( mavlink_rc_channels_raw_t ), typeof( mavlink_servo_output_raw_t ), typeof( mavlink_mission_request_partial_list_t ), typeof( mavlink_mission_write_partial_list_t ), typeof( mavlink_mission_item_t ), typeof( mavlink_mission_request_t ), typeof( mavlink_mission_set_current_t ), typeof( mavlink_mission_current_t ), typeof( mavlink_mission_request_list_t ), typeof( mavlink_mission_count_t ), typeof( mavlink_mission_clear_all_t ), typeof( mavlink_mission_item_reached_t ), typeof( mavlink_mission_ack_t ), typeof( mavlink_set_gps_global_origin_t ), typeof( mavlink_gps_global_origin_t ), typeof( mavlink_set_local_position_setpoint_t ), typeof( mavlink_local_position_setpoint_t ), typeof( mavlink_global_position_setpoint_int_t ), typeof( mavlink_set_global_position_setpoint_int_t ), typeof( mavlink_safety_set_allowed_area_t ), typeof( mavlink_safety_allowed_area_t ), typeof( mavlink_set_roll_pitch_yaw_thrust_t ), typeof( mavlink_set_roll_pitch_yaw_speed_thrust_t ), typeof( mavlink_roll_pitch_yaw_thrust_setpoint_t ), typeof( mavlink_roll_pitch_yaw_speed_thrust_setpoint_t ), typeof( mavlink_set_quad_motors_setpoint_t ), typeof( mavlink_set_quad_swarm_roll_pitch_yaw_thrust_t ), typeof( mavlink_nav_controller_output_t ), typeof( mavlink_set_quad_swarm_led_roll_pitch_yaw_thrust_t ), typeof( mavlink_state_correction_t ), null, typeof( mavlink_request_data_stream_t ), typeof( mavlink_data_stream_t ), null, typeof( mavlink_manual_control_t ), typeof( mavlink_rc_channels_override_t ), null, null, null, typeof( mavlink_vfr_hud_t ), null, typeof( mavlink_command_long_t ), typeof( mavlink_command_ack_t ), null, null, typeof( mavlink_roll_pitch_yaw_rates_thrust_setpoint_t ), typeof( mavlink_manual_setpoint_t ), null, null, null, null, null, null, null, typeof( mavlink_local_position_ned_system_global_offset_t ), typeof( mavlink_hil_state_t ), typeof( mavlink_hil_controls_t ), typeof( mavlink_hil_rc_inputs_raw_t ), null, null, null, null, null, null, null, typeof( mavlink_optical_flow_t ), typeof( mavlink_global_vision_position_estimate_t ), typeof( mavlink_vision_position_estimate_t ), typeof( mavlink_vision_speed_estimate_t ), typeof( mavlink_vicon_position_estimate_t ), typeof( mavlink_highres_imu_t ), typeof( mavlink_omnidirectional_flow_t ), typeof( mavlink_hil_sensor_t ), typeof( mavlink_sim_state_t ), typeof( mavlink_radio_status_t ), typeof( mavlink_file_transfer_start_t ), typeof( mavlink_file_transfer_dir_list_t ), typeof( mavlink_file_transfer_res_t ), typeof( mavlink_hil_gps_t ), typeof( mavlink_hil_optical_flow_t ), typeof( mavlink_hil_state_quaternion_t ), typeof( mavlink_scaled_imu2_t ), typeof( mavlink_log_request_list_t ), typeof( mavlink_log_entry_t ), typeof( mavlink_log_request_data_t ), typeof( mavlink_log_data_t ), typeof( mavlink_log_erase_t ), typeof( mavlink_log_request_end_t ), null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, typeof( mavlink_battery_status_t ), typeof( mavlink_setpoint_8dof_t ), typeof( mavlink_setpoint_6dof_t ), null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, typeof( mavlink_memory_vect_t ), typeof( mavlink_debug_vect_t ), typeof( mavlink_named_value_float_t ), typeof( mavlink_named_value_int_t ), typeof( mavlink_statustext_t ), typeof( mavlink_debug_t ), null};
+        public static readonly Type[] MAVLINK_MESSAGE_INFO = new Type[] {typeof( mavlink_heartbeat_t ), typeof( mavlink_sys_status_t ), typeof( mavlink_system_time_t ), null, typeof( mavlink_ping_t ), typeof( mavlink_change_operator_control_t ), typeof( mavlink_change_operator_control_ack_t ), typeof( mavlink_auth_key_t ), null, null, null, typeof( mavlink_set_mode_t ), null, null, null, null, null, null, null, null, typeof( mavlink_param_request_read_t ), typeof( mavlink_param_request_list_t ), typeof( mavlink_param_value_t ), typeof( mavlink_param_set_t ), typeof( mavlink_gps_raw_int_t ), typeof( mavlink_gps_status_t ), typeof( mavlink_scaled_imu_t ), typeof( mavlink_raw_imu_t ), typeof( mavlink_raw_pressure_t ), typeof( mavlink_scaled_pressure_t ), typeof( mavlink_attitude_t ), typeof( mavlink_attitude_quaternion_t ), typeof( mavlink_local_position_ned_t ), typeof( mavlink_global_position_int_t ), typeof( mavlink_rc_channels_scaled_t ), typeof( mavlink_rc_channels_raw_t ), typeof( mavlink_servo_output_raw_t ), typeof( mavlink_mission_request_partial_list_t ), typeof( mavlink_mission_write_partial_list_t ), typeof( mavlink_mission_item_t ), typeof( mavlink_mission_request_t ), typeof( mavlink_mission_set_current_t ), typeof( mavlink_mission_current_t ), typeof( mavlink_mission_request_list_t ), typeof( mavlink_mission_count_t ), typeof( mavlink_mission_clear_all_t ), typeof( mavlink_mission_item_reached_t ), typeof( mavlink_mission_ack_t ), typeof( mavlink_set_gps_global_origin_t ), typeof( mavlink_gps_global_origin_t ), typeof( mavlink_set_local_position_setpoint_t ), typeof( mavlink_local_position_setpoint_t ), typeof( mavlink_global_position_setpoint_int_t ), typeof( mavlink_set_global_position_setpoint_int_t ), typeof( mavlink_safety_set_allowed_area_t ), typeof( mavlink_safety_allowed_area_t ), typeof( mavlink_set_roll_pitch_yaw_thrust_t ), typeof( mavlink_set_roll_pitch_yaw_speed_thrust_t ), typeof( mavlink_roll_pitch_yaw_thrust_setpoint_t ), typeof( mavlink_roll_pitch_yaw_speed_thrust_setpoint_t ), typeof( mavlink_set_quad_motors_setpoint_t ), typeof( mavlink_set_quad_swarm_roll_pitch_yaw_thrust_t ), typeof( mavlink_nav_controller_output_t ), typeof( mavlink_set_quad_swarm_led_roll_pitch_yaw_thrust_t ), typeof( mavlink_state_correction_t ), typeof( mavlink_rc_channels_t ), typeof( mavlink_request_data_stream_t ), typeof( mavlink_data_stream_t ), null, typeof( mavlink_manual_control_t ), typeof( mavlink_rc_channels_override_t ), null, null, null, typeof( mavlink_vfr_hud_t ), null, typeof( mavlink_command_long_t ), typeof( mavlink_command_ack_t ), null, null, typeof( mavlink_roll_pitch_yaw_rates_thrust_setpoint_t ), typeof( mavlink_manual_setpoint_t ), null, null, null, null, null, null, null, typeof( mavlink_local_position_ned_system_global_offset_t ), typeof( mavlink_hil_state_t ), typeof( mavlink_hil_controls_t ), typeof( mavlink_hil_rc_inputs_raw_t ), null, null, null, null, null, null, null, typeof( mavlink_optical_flow_t ), typeof( mavlink_global_vision_position_estimate_t ), typeof( mavlink_vision_position_estimate_t ), typeof( mavlink_vision_speed_estimate_t ), typeof( mavlink_vicon_position_estimate_t ), typeof( mavlink_highres_imu_t ), typeof( mavlink_omnidirectional_flow_t ), typeof( mavlink_hil_sensor_t ), typeof( mavlink_sim_state_t ), typeof( mavlink_radio_status_t ), typeof( mavlink_file_transfer_start_t ), typeof( mavlink_file_transfer_dir_list_t ), typeof( mavlink_file_transfer_res_t ), typeof( mavlink_hil_gps_t ), typeof( mavlink_hil_optical_flow_t ), typeof( mavlink_hil_state_quaternion_t ), typeof( mavlink_scaled_imu2_t ), typeof( mavlink_log_request_list_t ), typeof( mavlink_log_entry_t ), typeof( mavlink_log_request_data_t ), typeof( mavlink_log_data_t ), typeof( mavlink_log_erase_t ), typeof( mavlink_log_request_end_t ), typeof( mavlink_gps_inject_data_t ), typeof( mavlink_gps2_raw_t ), typeof( mavlink_power_status_t ), typeof( mavlink_serial_control_t ), null, null, null, typeof( mavlink_data_transmission_handshake_t ), typeof( mavlink_encapsulated_data_t ), null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, typeof( mavlink_battery_status_t ), typeof( mavlink_setpoint_8dof_t ), typeof( mavlink_setpoint_6dof_t ), null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, typeof( mavlink_memory_vect_t ), typeof( mavlink_debug_vect_t ), typeof( mavlink_named_value_float_t ), typeof( mavlink_named_value_int_t ), typeof( mavlink_statustext_t ), typeof( mavlink_debug_t ), null};
+
+		public static readonly string[] MAVLINK_NAMES = new string[] {"HEARTBEAT", "SYS_STATUS", "SYSTEM_TIME", null, "PING", "CHANGE_OPERATOR_CONTROL", "CHANGE_OPERATOR_CONTROL_ACK", "AUTH_KEY", null, null, null, "SET_MODE", null, null, null, null, null, null, null, null, "PARAM_REQUEST_READ", "PARAM_REQUEST_LIST", "PARAM_VALUE", "PARAM_SET", "GPS_RAW_INT", "GPS_STATUS", "SCALED_IMU", "RAW_IMU", "RAW_PRESSURE", "SCALED_PRESSURE", "ATTITUDE", "ATTITUDE_QUATERNION", "LOCAL_POSITION_NED", "GLOBAL_POSITION_INT", "RC_CHANNELS_SCALED", "RC_CHANNELS_RAW", "SERVO_OUTPUT_RAW", "MISSION_REQUEST_PARTIAL_LIST", "MISSION_WRITE_PARTIAL_LIST", "MISSION_ITEM", "MISSION_REQUEST", "MISSION_SET_CURRENT", "MISSION_CURRENT", "MISSION_REQUEST_LIST", "MISSION_COUNT", "MISSION_CLEAR_ALL", "MISSION_ITEM_REACHED", "MISSION_ACK", "SET_GPS_GLOBAL_ORIGIN", "GPS_GLOBAL_ORIGIN", "SET_LOCAL_POSITION_SETPOINT", "LOCAL_POSITION_SETPOINT", "GLOBAL_POSITION_SETPOINT_INT", "SET_GLOBAL_POSITION_SETPOINT_INT", "SAFETY_SET_ALLOWED_AREA", "SAFETY_ALLOWED_AREA", "SET_ROLL_PITCH_YAW_THRUST", "SET_ROLL_PITCH_YAW_SPEED_THRUST", "ROLL_PITCH_YAW_THRUST_SETPOINT", "ROLL_PITCH_YAW_SPEED_THRUST_SETPOINT", "SET_QUAD_MOTORS_SETPOINT", "SET_QUAD_SWARM_ROLL_PITCH_YAW_THRUST", "NAV_CONTROLLER_OUTPUT", "SET_QUAD_SWARM_LED_ROLL_PITCH_YAW_THRUST", "STATE_CORRECTION", "RC_CHANNELS", "REQUEST_DATA_STREAM", "DATA_STREAM", null, "MANUAL_CONTROL", "RC_CHANNELS_OVERRIDE", null, null, null, "VFR_HUD", null, "COMMAND_LONG", "COMMAND_ACK", null, null, "ROLL_PITCH_YAW_RATES_THRUST_SETPOINT", "MANUAL_SETPOINT", null, null, null, null, null, null, null, "LOCAL_POSITION_NED_SYSTEM_GLOBAL_OFFSET", "HIL_STATE", "HIL_CONTROLS", "HIL_RC_INPUTS_RAW", null, null, null, null, null, null, null, "OPTICAL_FLOW", "GLOBAL_VISION_POSITION_ESTIMATE", "VISION_POSITION_ESTIMATE", "VISION_SPEED_ESTIMATE", "VICON_POSITION_ESTIMATE", "HIGHRES_IMU", "OMNIDIRECTIONAL_FLOW", "HIL_SENSOR", "SIM_STATE", "RADIO_STATUS", "FILE_TRANSFER_START", "FILE_TRANSFER_DIR_LIST", "FILE_TRANSFER_RES", "HIL_GPS", "HIL_OPTICAL_FLOW", "HIL_STATE_QUATERNION", "SCALED_IMU2", "LOG_REQUEST_LIST", "LOG_ENTRY", "LOG_REQUEST_DATA", "LOG_DATA", "LOG_ERASE", "LOG_REQUEST_END", "GPS_INJECT_DATA", "GPS2_RAW", "POWER_STATUS", "SERIAL_CONTROL", null, null, null, "DATA_TRANSMISSION_HANDSHAKE", "ENCAPSULATED_DATA", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, "BATTERY_STATUS", "SETPOINT_8DOF", "SETPOINT_6DOF", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, "MEMORY_VECT", "DEBUG_VECT", "NAMED_VALUE_FLOAT", "NAMED_VALUE_INT", "STATUSTEXT", "DEBUG", null};
 
         public const byte MAVLINK_VERSION = 3;
 
@@ -85,6 +87,7 @@ SET_QUAD_SWARM_ROLL_PITCH_YAW_THRUST = 61,
 NAV_CONTROLLER_OUTPUT = 62,
 SET_QUAD_SWARM_LED_ROLL_PITCH_YAW_THRUST = 63,
 STATE_CORRECTION = 64,
+RC_CHANNELS = 65,
 REQUEST_DATA_STREAM = 66,
 DATA_STREAM = 67,
 MANUAL_CONTROL = 69,
@@ -121,6 +124,12 @@ LOG_REQUEST_DATA = 119,
 LOG_DATA = 120,
 LOG_ERASE = 121,
 LOG_REQUEST_END = 122,
+GPS_INJECT_DATA = 123,
+GPS2_RAW = 124,
+POWER_STATUS = 125,
+SERIAL_CONTROL = 126,
+DATA_TRANSMISSION_HANDSHAKE = 130,
+ENCAPSULATED_DATA = 131,
 BATTERY_STATUS = 147,
 SETPOINT_8DOF = 148,
 SETPOINT_6DOF = 149,
@@ -216,8 +225,10 @@ DEBUG = 254,
             FLAPPING_WING=16, 
         	///<summary> Flapping wing | </summary>
             KITE=17, 
+        	///<summary> Onboard companion controller | </summary>
+            ONBOARD_CONTROLLER=18, 
         	///<summary>  | </summary>
-            ENUM_END=18, 
+            ENUM_END=19, 
         
         };
         
@@ -442,8 +453,10 @@ DEBUG = 254,
             _3D_ACCEL2=262144, 
         	///<summary> 0x80000 2nd 3D magnetometer | </summary>
             _3D_MAG2=524288, 
+        	///<summary> 0x100000 geofence | </summary>
+            MAV_SYS_STATUS_GEOFENCE=1048576, 
         	///<summary>  | </summary>
-            ENUM_END=524289, 
+            ENUM_END=1048577, 
         
         };
         
@@ -506,6 +519,8 @@ DEBUG = 254,
             ROI=80, 
         	///<summary> Control autonomous path planning on the MAV. |0: Disable local obstacle avoidance / local path planning (without resetting map), 1: Enable local path planning, 2: Enable and reset local path planning| 0: Disable full path planning (without resetting map), 1: Enable, 2: Enable and reset map/occupancy grid, 3: Enable and reset planned route, but not occupancy grid| Empty| Yaw angle at goal, in compass degrees, [0..360]| Latitude/X of goal| Longitude/Y of goal| Altitude/Z of goal|  </summary>
             PATHPLANNING=81, 
+        	///<summary> Navigate to MISSION using a spline path. |Hold time in decimal seconds. (ignored by fixed wing, time to stay at MISSION for rotary wing)| Empty| Empty| Empty| Latitude/X of goal| Longitude/Y of goal| Altitude/Z of goal|  </summary>
+            SPLINE_WAYPOINT=82, 
         	///<summary> NOP - This command is only used to mark the upper limit of the NAV/ACTION commands in the enumeration |Empty| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
             LAST=95, 
         	///<summary> Delay mission state machine. |Delay in seconds (decimal)| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
@@ -542,7 +557,7 @@ DEBUG = 254,
             DO_SET_ROI=201, 
         	///<summary> NOP - This command is only used to mark the upper limit of the DO commands in the enumeration |Empty| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
             DO_LAST=240, 
-        	///<summary> Trigger calibration. This command will be only accepted if in pre-flight mode. |Gyro calibration: 0: no, 1: yes| Magnetometer calibration: 0: no, 1: yes| Ground pressure: 0: no, 1: yes| Radio calibration: 0: no, 1: yes| Accelerometer calibration: 0: no, 1: yes| Empty| Empty|  </summary>
+        	///<summary> Trigger calibration. This command will be only accepted if in pre-flight mode. |Gyro calibration: 0: no, 1: yes| Magnetometer calibration: 0: no, 1: yes| Ground pressure: 0: no, 1: yes| Radio calibration: 0: no, 1: yes| Accelerometer calibration: 0: no, 1: yes| Compass/Motor interference calibration: 0: no, 1: yes| Empty|  </summary>
             PREFLIGHT_CALIBRATION=241, 
         	///<summary> Set sensor offsets. This command will be only accepted if in pre-flight mode. |Sensor to adjust the offsets for: 0: gyros, 1: accelerometer, 2: magnetometer, 3: barometer, 4: optical flow| X axis offset (or generic dimension 1), in the sensor's raw units| Y axis offset (or generic dimension 2), in the sensor's raw units| Z axis offset (or generic dimension 3), in the sensor's raw units| Generic dimension 4, in the sensor's raw units| Generic dimension 5, in the sensor's raw units| Generic dimension 6, in the sensor's raw units|  </summary>
             PREFLIGHT_SET_SENSOR_OFFSETS=242, 
@@ -738,6 +753,60 @@ DEBUG = 254,
             DEBUG=7, 
         	///<summary>  | </summary>
             ENUM_END=8, 
+        
+        };
+        
+        ///<summary> Power supply status flags (bitmask) </summary>
+        public enum MAV_POWER_STATUS
+        {
+    	///<summary> main brick power supply valid | </summary>
+            BRICK_VALID=1, 
+        	///<summary> main servo power supply valid for FMU | </summary>
+            SERVO_VALID=2, 
+        	///<summary> USB power is connected | </summary>
+            USB_CONNECTED=4, 
+        	///<summary> peripheral supply is in over-current state | </summary>
+            PERIPH_OVERCURRENT=8, 
+        	///<summary> hi-power peripheral supply is in over-current state | </summary>
+            PERIPH_HIPOWER_OVERCURRENT=16, 
+        	///<summary> Power status has changed since boot | </summary>
+            CHANGED=32, 
+        	///<summary>  | </summary>
+            ENUM_END=33, 
+        
+        };
+        
+        ///<summary> SERIAL_CONTROL device types </summary>
+        public enum SERIAL_CONTROL_DEV
+        {
+    	///<summary> First telemetry port | </summary>
+            TELEM1=0, 
+        	///<summary> Second telemetry port | </summary>
+            TELEM2=1, 
+        	///<summary> First GPS port | </summary>
+            GPS1=2, 
+        	///<summary> Second GPS port | </summary>
+            GPS2=3, 
+        	///<summary>  | </summary>
+            ENUM_END=4, 
+        
+        };
+        
+        ///<summary> SERIAL_CONTROL flags (bitmask) </summary>
+        public enum SERIAL_CONTROL_FLAG
+        {
+    	///<summary> Set if this is a reply | </summary>
+            REPLY=1, 
+        	///<summary> Set if the sender wants the receiver to send a response as another SERIAL_CONTROL message | </summary>
+            RESPOND=2, 
+        	///<summary> Set if access to the serial port should be removed from whatever driver is currently using it, giving exclusive access to the SERIAL_CONTROL protocol. The port can be handed back by sending a request without this flag set | </summary>
+            EXCLUSIVE=4, 
+        	///<summary> Block on writes to the serial port | </summary>
+            BLOCKING=8, 
+        	///<summary> Send multiple replies until port is drained | </summary>
+            MULTI=16, 
+        	///<summary>  | </summary>
+            ENUM_END=17, 
         
         };
         
@@ -1281,19 +1350,19 @@ DEBUG = 254,
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=37)]
     public struct mavlink_mission_item_t
     {
-        /// <summary> PARAM1 / For NAV command MISSIONs: Radius in which the MISSION is accepted as reached, in meters </summary>
+        /// <summary> PARAM1, see MAV_CMD enum </summary>
         public  Single param1;
-            /// <summary> PARAM2 / For NAV command MISSIONs: Time that the MAV should stay inside the PARAM1 radius before advancing, in milliseconds </summary>
+            /// <summary> PARAM2, see MAV_CMD enum </summary>
         public  Single param2;
-            /// <summary> PARAM3 / For LOITER command MISSIONs: Orbit to circle around the MISSION, in meters. If positive the orbit direction should be clockwise, if negative the orbit direction should be counter-clockwise. </summary>
+            /// <summary> PARAM3, see MAV_CMD enum </summary>
         public  Single param3;
-            /// <summary> PARAM4 / For NAV and LOITER command MISSIONs: Yaw orientation in degrees, [0..360] 0 = NORTH </summary>
+            /// <summary> PARAM4, see MAV_CMD enum </summary>
         public  Single param4;
             /// <summary> PARAM5 / local: x position, global: latitude </summary>
         public  Single x;
             /// <summary> PARAM6 / y position: global: longitude </summary>
         public  Single y;
-            /// <summary> PARAM7 / z position: global: altitude </summary>
+            /// <summary> PARAM7 / z position: global: altitude (relative or absolute, depending on frame. </summary>
         public  Single z;
             /// <summary> Sequence </summary>
         public  UInt16 seq;
@@ -1739,6 +1808,55 @@ DEBUG = 254,
         public  Single vyErr;
             /// <summary> z velocity </summary>
         public  Single vzErr;
+    
+    };
+
+
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=42)]
+    public struct mavlink_rc_channels_t
+    {
+        /// <summary> Timestamp (milliseconds since system boot) </summary>
+        public  UInt32 time_boot_ms;
+            /// <summary> RC channel 1 value, in microseconds. A value of UINT16_MAX implies the channel is unused. </summary>
+        public  UInt16 chan1_raw;
+            /// <summary> RC channel 2 value, in microseconds. A value of UINT16_MAX implies the channel is unused. </summary>
+        public  UInt16 chan2_raw;
+            /// <summary> RC channel 3 value, in microseconds. A value of UINT16_MAX implies the channel is unused. </summary>
+        public  UInt16 chan3_raw;
+            /// <summary> RC channel 4 value, in microseconds. A value of UINT16_MAX implies the channel is unused. </summary>
+        public  UInt16 chan4_raw;
+            /// <summary> RC channel 5 value, in microseconds. A value of UINT16_MAX implies the channel is unused. </summary>
+        public  UInt16 chan5_raw;
+            /// <summary> RC channel 6 value, in microseconds. A value of UINT16_MAX implies the channel is unused. </summary>
+        public  UInt16 chan6_raw;
+            /// <summary> RC channel 7 value, in microseconds. A value of UINT16_MAX implies the channel is unused. </summary>
+        public  UInt16 chan7_raw;
+            /// <summary> RC channel 8 value, in microseconds. A value of UINT16_MAX implies the channel is unused. </summary>
+        public  UInt16 chan8_raw;
+            /// <summary> RC channel 9 value, in microseconds. A value of UINT16_MAX implies the channel is unused. </summary>
+        public  UInt16 chan9_raw;
+            /// <summary> RC channel 10 value, in microseconds. A value of UINT16_MAX implies the channel is unused. </summary>
+        public  UInt16 chan10_raw;
+            /// <summary> RC channel 11 value, in microseconds. A value of UINT16_MAX implies the channel is unused. </summary>
+        public  UInt16 chan11_raw;
+            /// <summary> RC channel 12 value, in microseconds. A value of UINT16_MAX implies the channel is unused. </summary>
+        public  UInt16 chan12_raw;
+            /// <summary> RC channel 13 value, in microseconds. A value of UINT16_MAX implies the channel is unused. </summary>
+        public  UInt16 chan13_raw;
+            /// <summary> RC channel 14 value, in microseconds. A value of UINT16_MAX implies the channel is unused. </summary>
+        public  UInt16 chan14_raw;
+            /// <summary> RC channel 15 value, in microseconds. A value of UINT16_MAX implies the channel is unused. </summary>
+        public  UInt16 chan15_raw;
+            /// <summary> RC channel 16 value, in microseconds. A value of UINT16_MAX implies the channel is unused. </summary>
+        public  UInt16 chan16_raw;
+            /// <summary> RC channel 17 value, in microseconds. A value of UINT16_MAX implies the channel is unused. </summary>
+        public  UInt16 chan17_raw;
+            /// <summary> RC channel 18 value, in microseconds. A value of UINT16_MAX implies the channel is unused. </summary>
+        public  UInt16 chan18_raw;
+            /// <summary> Total number of RC channels being received. This can be larger than 18, indicating that more channels are available but not given in this message. This value should be 0 when no RC channels are available. </summary>
+        public  byte chancount;
+            /// <summary> Receive signal strength indicator, 0: 0%, 100: 100%, 255: invalid/unknown. </summary>
+        public  byte rssi;
     
     };
 
@@ -2555,6 +2673,119 @@ DEBUG = 254,
         public  byte target_system;
             /// <summary> Component ID </summary>
         public  byte target_component;
+    
+    };
+
+
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=113)]
+    public struct mavlink_gps_inject_data_t
+    {
+        /// <summary> System ID </summary>
+        public  byte target_system;
+            /// <summary> Component ID </summary>
+        public  byte target_component;
+            /// <summary> data length </summary>
+        public  byte len;
+            /// <summary> raw data (110 is enough for 12 satellites of RTCMv2) </summary>
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=110)]
+		public byte[] data;
+    
+    };
+
+
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=35)]
+    public struct mavlink_gps2_raw_t
+    {
+        /// <summary> Timestamp (microseconds since UNIX epoch or microseconds since system boot) </summary>
+        public  UInt64 time_usec;
+            /// <summary> Latitude (WGS84), in degrees * 1E7 </summary>
+        public  Int32 lat;
+            /// <summary> Longitude (WGS84), in degrees * 1E7 </summary>
+        public  Int32 lon;
+            /// <summary> Altitude (WGS84), in meters * 1000 (positive for up) </summary>
+        public  Int32 alt;
+            /// <summary> Age of DGPS info </summary>
+        public  UInt32 dgps_age;
+            /// <summary> GPS HDOP horizontal dilution of position in cm (m*100). If unknown, set to: UINT16_MAX </summary>
+        public  UInt16 eph;
+            /// <summary> GPS VDOP vertical dilution of position in cm (m*100). If unknown, set to: UINT16_MAX </summary>
+        public  UInt16 epv;
+            /// <summary> GPS ground speed (m/s * 100). If unknown, set to: UINT16_MAX </summary>
+        public  UInt16 vel;
+            /// <summary> Course over ground (NOT heading, but direction of movement) in degrees * 100, 0.0..359.99 degrees. If unknown, set to: UINT16_MAX </summary>
+        public  UInt16 cog;
+            /// <summary> 0-1: no fix, 2: 2D fix, 3: 3D fix. Some applications will not use the value of this field unless it is at least two, so always correctly fill in the fix. </summary>
+        public  byte fix_type;
+            /// <summary> Number of satellites visible. If unknown, set to 255 </summary>
+        public  byte satellites_visible;
+            /// <summary> Number of DGPS satellites </summary>
+        public  byte dgps_numch;
+    
+    };
+
+
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=6)]
+    public struct mavlink_power_status_t
+    {
+        /// <summary> 5V rail voltage in millivolts </summary>
+        public  UInt16 Vcc;
+            /// <summary> servo rail voltage in millivolts </summary>
+        public  UInt16 Vservo;
+            /// <summary> power supply status flags (see MAV_POWER_STATUS enum) </summary>
+        public  UInt16 flags;
+    
+    };
+
+
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=79)]
+    public struct mavlink_serial_control_t
+    {
+        /// <summary> Baudrate of transfer. Zero means no change. </summary>
+        public  UInt32 baudrate;
+            /// <summary> Timeout for reply data in milliseconds </summary>
+        public  UInt16 timeout;
+            /// <summary> See SERIAL_CONTROL_DEV enum </summary>
+        public  byte device;
+            /// <summary> See SERIAL_CONTROL_FLAG enum </summary>
+        public  byte flags;
+            /// <summary> how many bytes in this transfer </summary>
+        public  byte count;
+            /// <summary> serial data </summary>
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=70)]
+		public byte[] data;
+    
+    };
+
+
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=13)]
+    public struct mavlink_data_transmission_handshake_t
+    {
+        /// <summary> total data size in bytes (set on ACK only) </summary>
+        public  UInt32 size;
+            /// <summary> Width of a matrix or image </summary>
+        public  UInt16 width;
+            /// <summary> Height of a matrix or image </summary>
+        public  UInt16 height;
+            /// <summary> number of packets beeing sent (set on ACK only) </summary>
+        public  UInt16 packets;
+            /// <summary> type of requested/acknowledged data (as defined in ENUM DATA_TYPES in mavlink/include/mavlink_types.h) </summary>
+        public  byte type;
+            /// <summary> payload size per packet (normally 253 byte, see DATA field size in message ENCAPSULATED_DATA) (set on ACK only) </summary>
+        public  byte payload;
+            /// <summary> JPEG quality out of [1,100] </summary>
+        public  byte jpg_quality;
+    
+    };
+
+
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=255)]
+    public struct mavlink_encapsulated_data_t
+    {
+        /// <summary> sequence number (starting with 0 on every transmission) </summary>
+        public  UInt16 seqnr;
+            /// <summary> image data bytes </summary>
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=253)]
+		public byte[] data;
     
     };
 

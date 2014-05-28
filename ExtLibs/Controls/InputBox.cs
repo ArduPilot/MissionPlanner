@@ -65,8 +65,8 @@ namespace MissionPlanner.Controls
             buttonOk.DialogResult = DialogResult.OK;
             buttonCancel.DialogResult = DialogResult.Cancel;
 
-            label.SetBounds(9, 20, 372, 13);
-            textBox.SetBounds(12, 36, 372, 20);
+            label.SetBounds(9, 10, 372, 26);
+            textBox.SetBounds(12, 46, 372, 20);
             buttonOk.SetBounds(228, 72, 75, 23);
             buttonCancel.SetBounds(309, 72, 75, 23);
 

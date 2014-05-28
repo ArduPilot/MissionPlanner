@@ -112,329 +112,276 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="recordHudToAVIToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>128, 22</value>
-  </data>
-  <data name="recordHudToAVIToolStripMenuItem.Text" xml:space="preserve">
-    <value>录制为AVI</value>
-  </data>
-  <data name="stopRecordToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>128, 22</value>
-  </data>
-  <data name="stopRecordToolStripMenuItem.Text" xml:space="preserve">
-    <value>停止录制</value>
-  </data>
-  <data name="contextMenuStrip2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>129, 48</value>
-  </data>
-  <data name="tabQuick.Text" xml:space="preserve">
-    <value>快捷</value>
-  </data>
-  <data name="BUT_script.Text" xml:space="preserve">
-    <value>脚本</value>
-  </data>
-  <data name="BUT_joystick.Text" xml:space="preserve">
-    <value>飞行摇杆</value>
-  </data>
-  <data name="BUT_quickmanual.Text" xml:space="preserve">
-    <value>手动</value>
-  </data>
-  <data name="BUT_quickmanual.ToolTip" xml:space="preserve">
-    <value>更改为手动/稳定模式</value>
-  </data>
-  <data name="BUT_quickrtl.Text" xml:space="preserve">
-    <value>返航</value>
-  </data>
-  <data name="BUT_quickrtl.ToolTip" xml:space="preserve">
-    <value>更改为返航模式</value>
-  </data>
-  <data name="BUT_quickauto.Text" xml:space="preserve">
-    <value>自动</value>
-  </data>
-  <data name="BUT_quickauto.ToolTip" xml:space="preserve">
-    <value>更改为自动模式</value>
-  </data>
-  <data name="BUT_setwp.Text" xml:space="preserve">
-    <value>设置航点</value>
-  </data>
-  <data name="BUT_setwp.ToolTip" xml:space="preserve">
-    <value>更改当前目标航点</value>
-  </data>
-  <data name="BUT_setmode.Text" xml:space="preserve">
-    <value>设置模式</value>
+  <data name="pointCameraHereToolStripMenuItem.Text" xml:space="preserve">
+    <value>在此放置相机</value>
   </data>
   <data name="BUT_setmode.ToolTip" xml:space="preserve">
     <value>更改为左侧的模式</value>
   </data>
-  <data name="BUT_clear_track.Text" xml:space="preserve">
-    <value>清除路径</value>
+  <data name="BUT_edit_selected.Text" xml:space="preserve">
+    <value>编辑所选脚本</value>
   </data>
-  <data name="BUT_clear_track.ToolTip" xml:space="preserve">
-    <value>清空地图上记录的路径</value>
+  <data name="BUT_abort_script.Text" xml:space="preserve">
+    <value>忽略运行中的脚本</value>
   </data>
-  <data name="BUT_Homealt.Text" xml:space="preserve">
-    <value>设置起始高度</value>
+  <data name="BUT_quickmanual.Text" xml:space="preserve">
+    <value>手动</value>
   </data>
-  <data name="BUT_Homealt.ToolTip" xml:space="preserve">
-    <value>将当前高度设为0，即起始点高度显示为0</value>
-  </data>
-  <data name="BUT_RAWSensor.Text" xml:space="preserve">
-    <value>传感器原始数据</value>
-  </data>
-  <data name="BUT_RAWSensor.ToolTip" xml:space="preserve">
-    <value>查看原始陀螺仪和加速度计数据，和原始遥控输入/输出</value>
-  </data>
-  <data name="BUTrestartmission.Text" xml:space="preserve">
-    <value>重启任务</value>
-  </data>
-  <data name="BUTrestartmission.ToolTip" xml:space="preserve">
-    <value>从头重新开始任务</value>
-  </data>
-  <data name="BUTactiondo.Text" xml:space="preserve">
-    <value>执　　行</value>
-  </data>
-  <data name="BUTactiondo.ToolTip" xml:space="preserve">
-    <value>执行左侧的动作</value>
-  </data>
-  <data name="tabActions.Text" xml:space="preserve">
-    <value>动作</value>
-  </data>
-  <data name="Gspeed.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="tabGauges.Text" xml:space="preserve">
-    <value>仪表</value>
-  </data>
-  <data name="tabStatus.Text" xml:space="preserve">
-    <value>状态</value>
-  </data>
-  <data name="BUT_log2kml.Text" xml:space="preserve">
-    <value>Tlog &gt; Kml 或图表</value>
+  <data name="tabServo.Text" xml:space="preserve">
+    <value>舵机</value>
   </data>
   <data name="BUT_playlog.Text" xml:space="preserve">
     <value>播放/暂停</value>
   </data>
-  <data name="BUT_loadtelem.Text" xml:space="preserve">
-    <value>加载记录</value>
+  <data name="BUT_setwp.ToolTip" xml:space="preserve">
+    <value>更改当前目标航点</value>
   </data>
-  <data name="tabTLogs.Text" xml:space="preserve">
-    <value>遥测记录</value>
+  <data name="BUT_quickauto.ToolTip" xml:space="preserve">
+    <value>更改为自动模式</value>
   </data>
   <data name="goHereToolStripMenuItem.Text" xml:space="preserve">
-    <value>飞到这里</value>
+    <value>飞行至此</value>
   </data>
-  <data name="lbl_winddir.Size" type="System.Drawing.Size, System.Drawing">
-    <value>43, 13</value>
+  <data name="BUT_speed1_10.Text" xml:space="preserve">
+    <value>1/10</value>
   </data>
-  <data name="lbl_winddir.Text" xml:space="preserve">
-    <value>风向: 0</value>
+  <data name="quickView1.ToolTip" xml:space="preserve">
+    <value>双击我修改</value>
   </data>
-  <data name="lbl_winddir.ToolTip" xml:space="preserve">
-    <value>估计的风向</value>
+  <data name="checkBoxRedirectOutput.Text" xml:space="preserve">
+    <value>Redirect 程序输出</value>
   </data>
-  <data name="lbl_windvel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>43, 13</value>
+  <data name="BUT_RAWSensor.Text" xml:space="preserve">
+    <value>原始传感器查看</value>
   </data>
-  <data name="lbl_windvel.Text" xml:space="preserve">
-    <value>风速: 0</value>
+  <data name="but_bintolog.Text" xml:space="preserve">
+    <value>PX4 .Bin 转 .Log</value>
   </data>
-  <data name="lbl_windvel.ToolTip" xml:space="preserve">
-    <value>估计的风速</value>
+  <data name="BUTrestartmission.ToolTip" xml:space="preserve">
+    <value>重新从头开始任务</value>
   </data>
-  <data name="gMapControl1.streamjpg" mimetype="application/x-microsoft.net.object.binary.base64">
-    <value>
-        AAEAAAD/////AQAAAAAAAAAEAQAAABZTeXN0ZW0uSU8uTWVtb3J5U3RyZWFtCgAAAAdfYnVmZmVyB19v
-        cmlnaW4JX3Bvc2l0aW9uB19sZW5ndGgJX2NhcGFjaXR5C19leHBhbmRhYmxlCV93cml0YWJsZQpfZXhw
-        b3NhYmxlB19pc09wZW4dTWFyc2hhbEJ5UmVmT2JqZWN0K19faWRlbnRpdHkHAAAAAAAAAAACAggICAgB
-        AQEBCQIAAAAAAAAADhIAAA4SAAAAIAAAAQEBAQoPAgAAAAAgAAAC/9j/4AAQSkZJRgABAQEAYABgAAD/
-        2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1x
-        eXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2Nj
-        Y2NjY2NjY2NjY2NjY2NjY2P/wAARCAGtAkkDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAEC
-        AwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS
-        0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqD
-        hIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo
-        6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcF
-        BAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2
-        Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaan
-        qKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEA
-        PwDu6KKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAo
-        oooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAo
-        oooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAo
-        oooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAo
-        oooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAo
-        oooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAo
-        oooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAo
-        oooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAo
-        oooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAo
-        oooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAo
-        oooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAo
-        oooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAo
-        oooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAo
-        oooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAo
-        oooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAo
-        oooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAo
-        oooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAo
-        oooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAo
-        oooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAo
-        oooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAo
-        oooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAo
-        oooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAo
-        oooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAo
-        oooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAo
-        oooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAo
-        oooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAo
-        oooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAo
-        oooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAo
-        oooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAo
-        oooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAo
-        oooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAo
-        oooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAo
-        oooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAo
-        oooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAo
-        oooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAo
-        oooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAo
-        oooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAo
-        oooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAo
-        oooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAo
-        oooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAo
-        oooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAo
-        oooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAo
-        oooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAo
-        oooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAo
-        oooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAo
-        oooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAo
-        oooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAo
-        oooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAo
-        oooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAo
-        oooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAo
-        oooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAo
-        oooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAo
-        oooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAo
-        oooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAo
-        oooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAo
-        oooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAo
-        oooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAo
-        oooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAo
-        oooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAo
-        oooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAo
-        oooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAo
-        oooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAo
-        oooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAo
-        oooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAo
-        oooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAo
-        oooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAo
-        oooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooA/9kAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-        AAAAAAAAAAAAAAAL
-</value>
+  <data name="BUT_clear_track.ToolTip" xml:space="preserve">
+    <value>在地图上清除记录路径</value>
   </data>
-  <data name="TXT_lat.Size" type="System.Drawing.Size, System.Drawing">
-    <value>80, 13</value>
+  <data name="CB_tuning.ToolTip" xml:space="preserve">
+    <value>显示调试图表，咬合目标高度和实际高度</value>
   </data>
-  <data name="Zoomlevel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>474, 7</value>
+  <data name="russianHudToolStripMenuItem.Text" xml:space="preserve">
+    <value>俄国Hud</value>
   </data>
-  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>440, 10</value>
+  <data name="lbl_hdop.Text" xml:space="preserve">
+    <value>hdop: 0</value>
   </data>
-  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>31, 13</value>
+  <data name="label2.Text" xml:space="preserve">
+    <value>速度</value>
+  </data>
+  <data name="BUT_ARM.ToolTip" xml:space="preserve">
+    <value>解锁Mav</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>直达当前航点</value>
+  </data>
+  <data name="BUT_log2kml.Text" xml:space="preserve">
+    <value>Tlog &gt; Kml 或图像</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
     <value>缩放</value>
   </data>
-  <data name="TXT_long.Location" type="System.Drawing.Point, System.Drawing">
-    <value>90, 10</value>
+  <data name="BUT_clear_track.Text" xml:space="preserve">
+    <value>清楚追踪</value>
   </data>
-  <data name="TXT_long.Size" type="System.Drawing.Size, System.Drawing">
-    <value>80, 13</value>
+  <data name="label6.Text" xml:space="preserve">
+    <value>GPS追踪（黑）</value>
   </data>
-  <data name="TXT_alt.Location" type="System.Drawing.Point, System.Drawing">
-    <value>170, 10</value>
+  <data name="BUT_ARM.Text" xml:space="preserve">
+    <value>解锁/锁定</value>
   </data>
-  <data name="TXT_alt.Size" type="System.Drawing.Size, System.Drawing">
-    <value>80, 13</value>
+  <data name="dataGridViewImageColumn1.HeaderText" xml:space="preserve">
+    <value>上</value>
   </data>
-  <data name="CHK_autopan.Location" type="System.Drawing.Point, System.Drawing">
-    <value>339, 9</value>
+  <data name="label4.Text" xml:space="preserve">
+    <value>当前指向</value>
   </data>
-  <data name="CHK_autopan.Size" type="System.Drawing.Size, System.Drawing">
-    <value>98, 17</value>
+  <data name="label5.Text" xml:space="preserve">
+    <value>目标指向</value>
+  </data>
+  <data name="userItemsToolStripMenuItem.Text" xml:space="preserve">
+    <value>使用项目</value>
+  </data>
+  <data name="BUT_DFMavlink.Text" xml:space="preserve">
+    <value>通过Mavlink下载闪存日志</value>
+  </data>
+  <data name="CHK_autopan.ToolTip" xml:space="preserve">
+    <value>根据当前位置自动平移地图</value>
+  </data>
+  <data name="BUT_quickrtl.ToolTip" xml:space="preserve">
+    <value>改变模式为返航</value>
+  </data>
+  <data name="tablogbrowse.Text" xml:space="preserve">
+    <value>数据闪存日志</value>
+  </data>
+  <data name="BUT_mountmode.ToolTip" xml:space="preserve">
+    <value>改变为左侧的模式</value>
+  </data>
+  <data name="tabGauges.Text" xml:space="preserve">
+    <value>仪表</value>
   </data>
   <data name="CHK_autopan.Text" xml:space="preserve">
-    <value>自动平移地图</value>
+    <value>自动平移</value>
   </data>
-  <data name="CB_tuning.Location" type="System.Drawing.Point, System.Drawing">
-    <value>250, 9</value>
+  <data name="setMJPEGSourceToolStripMenuItem.Text" xml:space="preserve">
+    <value>设置MJPEG源</value>
   </data>
-  <data name="CB_tuning.Size" type="System.Drawing.Size, System.Drawing">
-    <value>74, 17</value>
+  <data name="BUT_joystick.Text" xml:space="preserve">
+    <value>游戏摇杆</value>
+  </data>
+  <data name="Zoomlevel.ToolTip" xml:space="preserve">
+    <value>改变放大级别</value>
   </data>
   <data name="CB_tuning.Text" xml:space="preserve">
-    <value>舵机调整</value>
+    <value>调试</value>
+  </data>
+  <data name="BUT_speed10.Text" xml:space="preserve">
+    <value>10x</value>
+  </data>
+  <data name="triggerCameraToolStripMenuItem.Text" xml:space="preserve">
+    <value>现在按下相机快门</value>
+  </data>
+  <data name="BUT_run_script.Text" xml:space="preserve">
+    <value>运行脚本</value>
+  </data>
+  <data name="tabScripts.Text" xml:space="preserve">
+    <value>脚本</value>
+  </data>
+  <data name="dataGridViewImageColumn2.HeaderText" xml:space="preserve">
+    <value>下</value>
+  </data>
+  <data name="lbl_sats.Text" xml:space="preserve">
+    <value>星: 0</value>
+  </data>
+  <data name="BUTactiondo.Text" xml:space="preserve">
+    <value>执行动作</value>
+  </data>
+  <data name="BUTrestartmission.Text" xml:space="preserve">
+    <value>重新开始任务</value>
+  </data>
+  <data name="BUT_quickmanual.ToolTip" xml:space="preserve">
+    <value>改变模式为手动/自稳</value>
+  </data>
+  <data name="BUT_speed1_2.Text" xml:space="preserve">
+    <value>1/2</value>
+  </data>
+  <data name="BUT_RAWSensor.ToolTip" xml:space="preserve">
+    <value>查看陀螺仪和加速度计原始数据，及数传原始收发</value>
+  </data>
+  <data name="setAspectRatioToolStripMenuItem.Text" xml:space="preserve">
+    <value>设置宽高比</value>
+  </data>
+  <data name="BUT_speed1_4.Text" xml:space="preserve">
+    <value>1/4</value>
+  </data>
+  <data name="BUT_matlab.Text" xml:space="preserve">
+    <value>创建Matlab文件</value>
+  </data>
+  <data name="Gspeed.ToolTip" xml:space="preserve">
+    <value>双击我改变最大值</value>
+  </data>
+  <data name="labelScriptStatus.Text" xml:space="preserve">
+    <value>脚本状态：没有脚本正在运行</value>
+  </data>
+  <data name="but_dflogtokml.Text" xml:space="preserve">
+    <value>创建KML + gpx</value>
+  </data>
+  <data name="tabActions.Text" xml:space="preserve">
+    <value>动作</value>
+  </data>
+  <data name="BUTactiondo.ToolTip" xml:space="preserve">
+    <value>预先在左侧形成动作</value>
+  </data>
+  <data name="BUT_Homealt.Text" xml:space="preserve">
+    <value>设置家的高度</value>
+  </data>
+  <data name="setHomeHereToolStripMenuItem.Text" xml:space="preserve">
+    <value>设置家在此</value>
+  </data>
+  <data name="labelSelectedScript.Text" xml:space="preserve">
+    <value>所选脚本：无</value>
+  </data>
+  <data name="tabQuick.Text" xml:space="preserve">
+    <value>快速</value>
+  </data>
+  <data name="BUT_speed5.Text" xml:space="preserve">
+    <value>5x</value>
+  </data>
+  <data name="BUT_loadtelem.Text" xml:space="preserve">
+    <value>加载日志</value>
+  </data>
+  <data name="BUT_joystick.ToolTip" xml:space="preserve">
+    <value>设置与启用你的游戏摇杆</value>
+  </data>
+  <data name="BUT_Homealt.ToolTip" xml:space="preserve">
+    <value>设置当前显示高度为0，或者家的高度显示为0</value>
+  </data>
+  <data name="BUT_speed2.Text" xml:space="preserve">
+    <value>2x</value>
+  </data>
+  <data name="BUT_speed1.Text" xml:space="preserve">
+    <value>1x</value>
+  </data>
+  <data name="recordHudToAVIToolStripMenuItem.Text" xml:space="preserve">
+    <value>录制Hud至AVI</value>
+  </data>
+  <data name="tabStatus.Text" xml:space="preserve">
+    <value>状态</value>
+  </data>
+  <data name="BUT_quickauto.Text" xml:space="preserve">
+    <value>自动</value>
+  </data>
+  <data name="BUT_setwp.Text" xml:space="preserve">
+    <value>设定航点</value>
+  </data>
+  <data name="BUT_select_script.Text" xml:space="preserve">
+    <value>选择脚本</value>
+  </data>
+  <data name="tabTLogs.Text" xml:space="preserve">
+    <value>遥测日志</value>
+  </data>
+  <data name="lbl_logpercent.Text" xml:space="preserve">
+    <value>0.00 %</value>
+  </data>
+  <data name="flightPlannerToolStripMenuItem.Text" xml:space="preserve">
+    <value>飞行规划器</value>
+  </data>
+  <data name="BUT_mountmode.Text" xml:space="preserve">
+    <value>设置挂载</value>
+  </data>
+  <data name="BUT_setmode.Text" xml:space="preserve">
+    <value>设置模式</value>
+  </data>
+  <data name="lbl_playbackspeed.Text" xml:space="preserve">
+    <value>x 1.0</value>
+  </data>
+  <data name="BUT_logbrowse.Text" xml:space="preserve">
+    <value>回顾日志</value>
+  </data>
+  <data name="stopRecordToolStripMenuItem.Text" xml:space="preserve">
+    <value>停止记录</value>
+  </data>
+  <data name="BUT_quickrtl.Text" xml:space="preserve">
+    <value>返航</value>
+  </data>
+  <data name="flyToHereAltToolStripMenuItem.Text" xml:space="preserve">
+    <value>飞行至此高度</value>
+  </data>
+  <data name="lbl_sats.ToolTip" xml:space="preserve">
+    <value>卫星数量</value>
+  </data>
+  <data name="lbl_hdop.ToolTip" xml:space="preserve">
+    <value>gps hdop</value>
   </data>
 </root>

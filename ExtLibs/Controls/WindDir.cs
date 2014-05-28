@@ -16,6 +16,7 @@ namespace MissionPlanner.Controls
             InitializeComponent();
             this.BackColor = Color.Transparent;
             this.DoubleBuffered = true;
+
         }
 
         const float rad2deg = (float)(180 / Math.PI);
@@ -24,9 +25,9 @@ namespace MissionPlanner.Controls
         double _speed = 0;
 
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Options")]
-        public double Direction { get { return _direction; } set { _direction = value; this.Invalidate(); } }
+        public double Direction { get { return _direction; } set { if (_direction == (value + 180)) return; _direction = (value + 180); this.Invalidate(); } }
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Options")]
-        public double Speed { get { return _speed; } set { _speed = value; this.Invalidate(); } }
+        public double Speed { get { return _speed; } set { if (_speed == value) return; _speed = value; this.Invalidate(); } }
 
         Pen blackpen = new Pen(Color.Black,2);
         Pen redpen = new Pen(Color.Red, 2);
@@ -34,6 +35,21 @@ namespace MissionPlanner.Controls
         protected override void OnPaint(PaintEventArgs e)
         {
            // e.Graphics.Clear(Color.Transparent);
+
+            try
+            {
+
+               // Bitmap bg = new Bitmap(this.Width, this.Height);
+
+                //this.Visible = false;
+
+               // this.Parent.DrawToBitmap(bg, this.ClientRectangle);
+
+               // this.BackgroundImage = bg;
+
+                //this.Visible = true;
+            }
+            catch { }
 
             if (_direction > 360)
                 _direction = _direction % 360;
@@ -58,8 +74,27 @@ namespace MissionPlanner.Controls
             y = y/10 * Speed;
 
             if (x != 0 || y != 0)
-                e.Graphics.DrawLine(redpen, this.Width / 2, this.Height / 2, (float)(this.Width / 2 + x), (float)(this.Height / 2 + y));
-            e.Graphics.DrawString(Speed.ToString("0"), this.Font, Brushes.Red, (float)(this.Width / 2), (float)(this.Height / 2));
+            {
+                float outx =  (float)(this.Width / 2 + x);
+                float outy =  (float)(this.Height / 2 + y);
+
+                //line
+                e.Graphics.DrawLine(redpen, this.Width / 2, this.Height / 2,outx,outy);
+
+                // arrow
+
+                float x1 = (this.Width / 7) * (float)Math.Cos((_direction - 60) * deg2rad);
+                float y1 = (this.Height / 7) * (float)Math.Sin((_direction - 60) * deg2rad);
+
+                e.Graphics.DrawLine(redpen, outx, outy, outx - x1, outy - y1);
+
+                x1 = (this.Width / 7) * (float)Math.Cos((_direction + 60 + 180) * deg2rad);
+                y1 = (this.Height / 7) * (float)Math.Sin((_direction + 60 + 180) * deg2rad);
+                
+                e.Graphics.DrawLine(redpen, outx, outy, outx - x1, outy - y1);
+            }
+
+            e.Graphics.DrawString(Speed.ToString("0"), this.Font, Brushes.Red, (float)0, (float)0);
         }
 
         protected override void OnPaintBackground(PaintEventArgs e)

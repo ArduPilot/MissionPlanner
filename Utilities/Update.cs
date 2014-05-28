@@ -239,18 +239,39 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
                     string file = matchs[i].Groups[2].Value.ToString();
 
                     if (file.ToLower().EndsWith(".etag"))
+                    {
+                        try
+                        {
+                            // remove all etags
+                            File.Delete(file);
+                        }
+                        catch { }
                         continue;
+                    }
 
+                    // check if existing matchs hash
                     if (!MD5File(file, hash))
                     {
                         log.Info("Newer File " + file);
 
-                        if (frmProgressReporter != null)
-                            frmProgressReporter.UpdateProgressAndStatus(-1, "Getting " + file);
+                        // check is we have already downloaded and matchs hash
+                        if (!MD5File(file + ".new", hash))
+                        {
+                            if (frmProgressReporter != null)
+                                frmProgressReporter.UpdateProgressAndStatus(-1, "Getting " + file);
 
-                        string subdir = Path.GetDirectoryName(file) + Path.DirectorySeparatorChar;
+                            string subdir = Path.GetDirectoryName(file) + Path.DirectorySeparatorChar;
 
-                        GetNewFile(frmProgressReporter, baseurl + subdir.Replace('\\', '/'), subdir, Path.GetFileName(file));
+                            GetNewFile(frmProgressReporter, baseurl + subdir.Replace('\\', '/'), subdir, Path.GetFileName(file));
+
+                            // check the new downloaded file matchs hash
+                            if (!MD5File(file + ".new", hash))
+                            {
+                                throw new Exception("File downloaded does not match hash: " + file);
+                            }
+                        } else {
+							log.Info("already got new File " + file);
+						}
                     }
                     else
                     {
@@ -309,9 +330,10 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
                 try
                 {
 
+                    string url = baseurl + file + "?" + new Random().Next();
                     // Create a request using a URL that can receive a post. 
-                    WebRequest request = WebRequest.Create(baseurl + file);
-                    log.Info("get " + baseurl + file + " ");
+                    WebRequest request = WebRequest.Create(url);
+                    log.Info("GetNewFile " + url);
                     // Set the Method property of the request to GET.
                     request.Method = "GET";
                     // Allow compressed content
@@ -339,9 +361,6 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
 
                         // if the file doesnt exist. just save it inplace
                         string fn = path + ".new";
-
-                        if (!File.Exists(path))
-                            fn = path;
 
                         using (FileStream fs = new FileStream(fn, FileMode.Create))
                         {

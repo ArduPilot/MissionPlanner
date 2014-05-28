@@ -43,6 +43,11 @@ namespace MissionPlanner.Controls
             Screen.Control.Visible = false;
         }
 
+        public void Reload()
+        {
+            ShowScreen(current.Name);
+        }
+
         public void ShowScreen(string name)
         {
             if (current != null)
@@ -145,6 +150,8 @@ namespace MissionPlanner.Controls
             }
 
             MainControl.Dispose();
+
+            GC.SuppressFinalize(this);
         }
     }
 }

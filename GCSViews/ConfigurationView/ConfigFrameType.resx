@@ -127,7 +127,7 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="radioButton_Plus.Location" type="System.Drawing.Point, System.Drawing">
-    <value>46, 33</value>
+    <value>62, 41</value>
   </data>
   <data name="radioButton_Plus.Size" type="System.Drawing.Size, System.Drawing">
     <value>14, 13</value>
@@ -142,10 +142,10 @@
     <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;radioButton_Plus.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;radioButton_Plus.ZOrder" xml:space="preserve">
-    <value>14</value>
+    <value>6</value>
   </data>
   <data name="radioButton_X.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -154,7 +154,7 @@
     <value>NoControl</value>
   </data>
   <data name="radioButton_X.Location" type="System.Drawing.Point, System.Drawing">
-    <value>46, 120</value>
+    <value>62, 128</value>
   </data>
   <data name="radioButton_X.Size" type="System.Drawing.Size, System.Drawing">
     <value>14, 13</value>
@@ -169,10 +169,10 @@
     <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;radioButton_X.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;radioButton_X.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>8</value>
   </data>
   <data name="label2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -181,7 +181,7 @@
     <value>NoControl</value>
   </data>
   <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>9, 33</value>
+    <value>25, 41</value>
   </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
     <value>31, 13</value>
@@ -199,10 +199,10 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label2.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>10</value>
   </data>
   <data name="label3.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -211,16 +211,16 @@
     <value>NoControl</value>
   </data>
   <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 120</value>
+    <value>8, 128</value>
   </data>
   <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>18, 13</value>
+    <value>51, 13</value>
   </data>
   <data name="label3.TabIndex" type="System.Int32, mscorlib">
     <value>69</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
-    <value>'X'</value>
+    <value>'X' , 'Y6A'</value>
   </data>
   <data name="&gt;&gt;label3.Name" xml:space="preserve">
     <value>label3</value>
@@ -229,16 +229,16 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label3.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>12</value>
   </data>
   <data name="pictureBoxPlus.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="pictureBoxPlus.Location" type="System.Drawing.Point, System.Drawing">
-    <value>86, 2</value>
+    <value>83, 10</value>
   </data>
   <data name="pictureBoxPlus.Size" type="System.Drawing.Size, System.Drawing">
     <value>248, 81</value>
@@ -256,16 +256,16 @@
     <value>MissionPlanner.Controls.PictureBoxWithPseudoOpacity, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pictureBoxPlus.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;pictureBoxPlus.ZOrder" xml:space="preserve">
-    <value>15</value>
+    <value>3</value>
   </data>
   <data name="pictureBoxX.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="pictureBoxX.Location" type="System.Drawing.Point, System.Drawing">
-    <value>86, 87</value>
+    <value>83, 95</value>
   </data>
   <data name="pictureBoxX.Size" type="System.Drawing.Size, System.Drawing">
     <value>406, 85</value>
@@ -283,10 +283,10 @@
     <value>MissionPlanner.Controls.PictureBoxWithPseudoOpacity, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pictureBoxX.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;pictureBoxX.ZOrder" xml:space="preserve">
-    <value>16</value>
+    <value>4</value>
   </data>
   <data name="label6.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -295,7 +295,7 @@
     <value>NoControl</value>
   </data>
   <data name="label6.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 212</value>
+    <value>38, 220</value>
   </data>
   <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
     <value>18, 13</value>
@@ -313,10 +313,10 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label6.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;label6.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>18</value>
   </data>
   <data name="radioButton_V.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -325,7 +325,7 @@
     <value>NoControl</value>
   </data>
   <data name="radioButton_V.Location" type="System.Drawing.Point, System.Drawing">
-    <value>46, 212</value>
+    <value>62, 220</value>
   </data>
   <data name="radioButton_V.Size" type="System.Drawing.Size, System.Drawing">
     <value>14, 13</value>
@@ -340,19 +340,19 @@
     <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;radioButton_V.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;radioButton_V.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>16</value>
   </data>
   <data name="pictureBoxV.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="pictureBoxV.Location" type="System.Drawing.Point, System.Drawing">
-    <value>86, 179</value>
+    <value>83, 187</value>
   </data>
   <data name="pictureBoxV.Size" type="System.Drawing.Size, System.Drawing">
-    <value>248, 85</value>
+    <value>111, 85</value>
   </data>
   <data name="pictureBoxV.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
     <value>Zoom</value>
@@ -367,10 +367,10 @@
     <value>MissionPlanner.Controls.PictureBoxWithPseudoOpacity, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pictureBoxV.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;pictureBoxV.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>14</value>
   </data>
   <data name="label1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -379,7 +379,7 @@
     <value>NoControl</value>
   </data>
   <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 303</value>
+    <value>38, 311</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
     <value>19, 13</value>
@@ -397,10 +397,10 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label1.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>15</value>
   </data>
   <data name="radioButton_H.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -409,7 +409,7 @@
     <value>NoControl</value>
   </data>
   <data name="radioButton_H.Location" type="System.Drawing.Point, System.Drawing">
-    <value>46, 303</value>
+    <value>62, 311</value>
   </data>
   <data name="radioButton_H.Size" type="System.Drawing.Size, System.Drawing">
     <value>14, 13</value>
@@ -424,19 +424,19 @@
     <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;radioButton_H.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;radioButton_H.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>17</value>
   </data>
   <data name="pictureBoxH.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="pictureBoxH.Location" type="System.Drawing.Point, System.Drawing">
-    <value>86, 270</value>
+    <value>83, 278</value>
   </data>
   <data name="pictureBoxH.Size" type="System.Drawing.Size, System.Drawing">
-    <value>248, 85</value>
+    <value>111, 85</value>
   </data>
   <data name="pictureBoxH.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
     <value>Zoom</value>
@@ -451,16 +451,16 @@
     <value>MissionPlanner.Controls.PictureBoxWithPseudoOpacity, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pictureBoxH.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;pictureBoxH.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>19</value>
   </data>
   <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>340, 291</value>
+    <value>200, 295</value>
   </data>
   <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>142, 47</value>
+    <value>131, 47</value>
   </data>
   <data name="label4.TabIndex" type="System.Int32, mscorlib">
     <value>90</value>
@@ -475,10 +475,10 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label4.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>13</value>
   </data>
   <data name="label5.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -487,16 +487,16 @@
     <value>NoControl</value>
   </data>
   <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 394</value>
+    <value>19, 402</value>
   </data>
   <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>43, 13</value>
+    <value>31, 13</value>
   </data>
   <data name="label5.TabIndex" type="System.Int32, mscorlib">
     <value>93</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
-    <value>New 'Y'</value>
+    <value>'Y6B'</value>
   </data>
   <data name="&gt;&gt;label5.Name" xml:space="preserve">
     <value>label5</value>
@@ -505,10 +505,10 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label5.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>7</value>
   </data>
   <data name="radioButton_Y.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -517,7 +517,7 @@
     <value>NoControl</value>
   </data>
   <data name="radioButton_Y.Location" type="System.Drawing.Point, System.Drawing">
-    <value>46, 394</value>
+    <value>62, 402</value>
   </data>
   <data name="radioButton_Y.Size" type="System.Drawing.Size, System.Drawing">
     <value>14, 13</value>
@@ -532,19 +532,19 @@
     <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;radioButton_Y.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;radioButton_Y.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>9</value>
   </data>
   <data name="pictureBoxY.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="pictureBoxY.Location" type="System.Drawing.Point, System.Drawing">
-    <value>86, 361</value>
+    <value>83, 369</value>
   </data>
   <data name="pictureBoxY.Size" type="System.Drawing.Size, System.Drawing">
-    <value>248, 85</value>
+    <value>111, 83</value>
   </data>
   <data name="pictureBoxY.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
     <value>Zoom</value>
@@ -559,25 +559,25 @@
     <value>MissionPlanner.Controls.PictureBoxWithPseudoOpacity, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;pictureBoxY.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;pictureBoxY.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>11</value>
   </data>
   <data name="label7.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="label7.Location" type="System.Drawing.Point, System.Drawing">
-    <value>340, 378</value>
+    <value>200, 386</value>
   </data>
   <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>142, 68</value>
+    <value>142, 47</value>
   </data>
   <data name="label7.TabIndex" type="System.Int32, mscorlib">
     <value>94</value>
   </data>
   <data name="label7.Text" xml:space="preserve">
-    <value>NOTE: This is the NEW Y and prop rotation changes from the old Y (for old Y use 'X')</value>
+    <value>NOTE: This is the Y6B and prop rotation changes from the old Y6A</value>
   </data>
   <data name="&gt;&gt;label7.Name" xml:space="preserve">
     <value>label7</value>
@@ -586,9 +586,162 @@
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label7.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>groupBox2</value>
   </data>
   <data name="&gt;&gt;label7.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="configDefaultSettings1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 19</value>
+  </data>
+  <data name="configDefaultSettings1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>255, 96</value>
+  </data>
+  <data name="configDefaultSettings1.TabIndex" type="System.Int32, mscorlib">
+    <value>95</value>
+  </data>
+  <data name="&gt;&gt;configDefaultSettings1.Name" xml:space="preserve">
+    <value>configDefaultSettings1</value>
+  </data>
+  <data name="&gt;&gt;configDefaultSettings1.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.DefaultSettings, MissionPlanner, Version=1.1.5217.13218, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;configDefaultSettings1.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;configDefaultSettings1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>513, 3</value>
+  </data>
+  <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>263, 121</value>
+  </data>
+  <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
+    <value>96</value>
+  </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>Default Settings</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Name" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="label9.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label9.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label9.Location" type="System.Drawing.Point, System.Drawing">
+    <value>313, 220</value>
+  </data>
+  <data name="label9.Size" type="System.Drawing.Size, System.Drawing">
+    <value>38, 13</value>
+  </data>
+  <data name="label9.TabIndex" type="System.Int32, mscorlib">
+    <value>97</value>
+  </data>
+  <data name="label9.Text" xml:space="preserve">
+    <value>'V Tail'</value>
+  </data>
+  <data name="&gt;&gt;label9.Name" xml:space="preserve">
+    <value>label9</value>
+  </data>
+  <data name="&gt;&gt;label9.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label9.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;label9.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="radioButton_VTail.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="radioButton_VTail.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="radioButton_VTail.Location" type="System.Drawing.Point, System.Drawing">
+    <value>357, 220</value>
+  </data>
+  <data name="radioButton_VTail.Size" type="System.Drawing.Size, System.Drawing">
+    <value>14, 13</value>
+  </data>
+  <data name="radioButton_VTail.TabIndex" type="System.Int32, mscorlib">
+    <value>96</value>
+  </data>
+  <data name="&gt;&gt;radioButton_VTail.Name" xml:space="preserve">
+    <value>radioButton_VTail</value>
+  </data>
+  <data name="&gt;&gt;radioButton_VTail.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;radioButton_VTail.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;radioButton_VTail.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="pictureBoxVTail.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="pictureBoxVTail.Location" type="System.Drawing.Point, System.Drawing">
+    <value>378, 187</value>
+  </data>
+  <data name="pictureBoxVTail.Size" type="System.Drawing.Size, System.Drawing">
+    <value>111, 85</value>
+  </data>
+  <data name="pictureBoxVTail.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
+    <value>Zoom</value>
+  </data>
+  <data name="pictureBoxVTail.TabIndex" type="System.Int32, mscorlib">
+    <value>95</value>
+  </data>
+  <data name="&gt;&gt;pictureBoxVTail.Name" xml:space="preserve">
+    <value>pictureBoxVTail</value>
+  </data>
+  <data name="&gt;&gt;pictureBoxVTail.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.PictureBoxWithPseudoOpacity, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;pictureBoxVTail.Parent" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;pictureBoxVTail.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="groupBox2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 3</value>
+  </data>
+  <data name="groupBox2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>504, 455</value>
+  </data>
+  <data name="groupBox2.TabIndex" type="System.Int32, mscorlib">
+    <value>97</value>
+  </data>
+  <data name="groupBox2.Text" xml:space="preserve">
+    <value>Frame Type</value>
+  </data>
+  <data name="&gt;&gt;groupBox2.Name" xml:space="preserve">
+    <value>groupBox2</value>
+  </data>
+  <data name="&gt;&gt;groupBox2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox2.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;groupBox2.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
@@ -598,7 +751,7 @@
     <value>6, 13</value>
   </data>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>495, 453</value>
+    <value>787, 461</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>ConfigFrameType</value>

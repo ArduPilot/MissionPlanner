@@ -28,6 +28,8 @@ namespace MissionPlanner.Swarm
             CMB_mavs.DataSource = bindingSource1;
 
             MessageBox.Show("this is beta, use at own risk");
+
+            MissionPlanner.Utilities.Tracking.AddPage(this.GetType().ToString(), this.Text);
         }
 
         private void CMB_mavs_SelectedIndexChanged(object sender, EventArgs e)
@@ -170,7 +172,7 @@ namespace MissionPlanner.Swarm
                     if (ctl is Status && ctl.Tag == port)
                     {
                         exists = true;
-                        ((Status)ctl).GPS.Text = port.MAV.cs.gpsstatus == 3 ? "OK" : "Bad";
+                        ((Status)ctl).GPS.Text = port.MAV.cs.gpsstatus >= 3 ? "OK" : "Bad";
                         ((Status)ctl).Armed.Text = port.MAV.cs.armed.ToString();
                         ((Status)ctl).Mode.Text = port.MAV.cs.mode;
                         ((Status)ctl).MAV.Text = port.ToString();

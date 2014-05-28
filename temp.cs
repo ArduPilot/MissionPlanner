@@ -20,6 +20,9 @@ using MissionPlanner.Arduino;
 using MissionPlanner.Utilities;
 using GMap.NET;
 using System.Xml;
+using IronPython.Hosting;
+using IronPython.Runtime.Operations;
+using System.Net.Sockets;
 
 namespace MissionPlanner
 {
@@ -952,7 +955,19 @@ namespace MissionPlanner
 
         private void BUT_magfit_Click(object sender, EventArgs e)
         {
-            MagCalib.ProcessLog(0);
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "t Log|*.tlog";
+
+            ofd.ShowDialog();
+
+            var com = new Comms.CommsFile();
+            com.Open(ofd.FileName);
+
+            MainV2.comPort.BaseStream = com;
+
+            MagCalib.DoGUIMagCalib();
+
+            //MagCalib.ProcessLog(0);
         }
 
         private void but_multimav_Click(object sender, EventArgs e)
@@ -1038,7 +1053,7 @@ namespace MissionPlanner
 
             if (File.Exists(ofd.FileName))
             {
-                List<string> log = Log.BinaryLog.ReadLog(ofd.FileName);
+                var log = Log.BinaryLog.ReadLog(ofd.FileName);
 
                 SaveFileDialog sfd = new SaveFileDialog();
                 sfd.Filter = "log|*.log";
@@ -1060,13 +1075,6 @@ namespace MissionPlanner
         private void BUT_followleader_Click(object sender, EventArgs e)
         {
             new Swarm.FollowPathControl().Show();
-        }
-
-        private void BUT_compassmot_Click(object sender, EventArgs e)
-        {
-            MissionPlanner.MagMotor mot = new MissionPlanner.MagMotor();
-
-            mot.StartCalibration();
         }
 
         private void BUT_driverclean_Click(object sender, EventArgs e)
@@ -1145,6 +1153,16 @@ namespace MissionPlanner
                         xmlwriter.WriteElementString("urlpx4", new Uri(software.urlpx4v1).LocalPath.TrimStart('/', '\\'));
                     if (software.urlpx4v2 != "")
                         xmlwriter.WriteElementString("urlpx4v2", new Uri(software.urlpx4v2).LocalPath.TrimStart('/', '\\'));
+                    if (software.urlvrbrainv40 != "")
+                        xmlwriter.WriteElementString("urlvrbrainv40", new Uri(software.urlvrbrainv40).LocalPath.TrimStart('/', '\\'));
+                    if (software.urlvrbrainv45 != "")
+                        xmlwriter.WriteElementString("urlvrbrainv45", new Uri(software.urlvrbrainv45).LocalPath.TrimStart('/', '\\'));
+                    if (software.urlvrbrainv50 != "")
+                        xmlwriter.WriteElementString("urlvrbrainv50", new Uri(software.urlvrbrainv50).LocalPath.TrimStart('/', '\\'));
+                    if (software.urlvrbrainv51 != "")
+                        xmlwriter.WriteElementString("urlvrbrainv51", new Uri(software.urlvrbrainv51).LocalPath.TrimStart('/', '\\'));
+                    if (software.urlvrherov10 != "")
+                        xmlwriter.WriteElementString("urlvrherov10", new Uri(software.urlvrherov10).LocalPath.TrimStart('/', '\\'));
                     xmlwriter.WriteElementString("name", software.name);
                     xmlwriter.WriteElementString("desc", software.desc);
                     xmlwriter.WriteElementString("format_version", software.k_format_version.ToString());
@@ -1171,11 +1189,135 @@ namespace MissionPlanner
                     {
                         Common.getFilefromNet(software.urlpx4v2, basedir + new Uri(software.urlpx4v2).LocalPath);
                     }
+                    if (software.urlvrbrainv40 != "")
+                    {
+                        Common.getFilefromNet(software.urlvrbrainv40, basedir + new Uri(software.urlvrbrainv40).LocalPath);
+                    }
+                    if (software.urlvrbrainv45 != "")
+                    {
+                        Common.getFilefromNet(software.urlvrbrainv45, basedir + new Uri(software.urlvrbrainv45).LocalPath);
+                    }
+                    if (software.urlvrbrainv50 != "")
+                    {
+                        Common.getFilefromNet(software.urlvrbrainv50, basedir + new Uri(software.urlvrbrainv50).LocalPath);
+                    }
+                    if (software.urlvrbrainv51 != "")
+                    {
+                        Common.getFilefromNet(software.urlvrbrainv51, basedir + new Uri(software.urlvrbrainv51).LocalPath);
+                    }
+                    if (software.urlvrherov10 != "")
+                    {
+                        Common.getFilefromNet(software.urlvrherov10, basedir + new Uri(software.urlvrherov10).LocalPath);
+                    }
                 }
 
                 xmlwriter.WriteEndElement();
                 xmlwriter.WriteEndDocument();
             }
+        }
+
+        private void but_loganalysis_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+
+            ofd.ShowDialog();
+
+            if (ofd.FileName != "")
+            {
+                string xmlfile = LogAnalyzer.CheckLogFile(ofd.FileName);
+
+                if (File.Exists(xmlfile))
+                {
+                    var out1 = LogAnalyzer.Results(xmlfile);
+
+                    MissionPlanner.Controls.LogAnalyzer frm = new Controls.LogAnalyzer(out1);
+
+                    frm.Show();
+                }
+                else
+                {
+                    CustomMessageBox.Show("Bad input file");
+                }
+            }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            Warnings.WarningsManager frm = new Warnings.WarningsManager();
+
+            frm.Show();
+        }
+		
+        Comms.MAVLinkSerialPort comport;
+
+        TcpListener listener;
+
+        private void but_mavserialport_Click(object sender, EventArgs e)
+        {
+            comport = new Comms.MAVLinkSerialPort(MainV2.comPort, MAVLink.SERIAL_CONTROL_DEV.GPS1);
+
+            if (listener != null)
+            {
+                listener.Stop();
+                listener = null;
+            }
+
+            listener = new TcpListener(IPAddress.Any,500);
+
+            listener.Start();
+
+            listener.BeginAcceptTcpClient(new AsyncCallback(DoAcceptTcpClientCallback), listener);
+        }
+
+        private void DoAcceptTcpClientCallback(IAsyncResult ar)
+        {
+                   // Get the listener that handles the client request.
+            TcpListener listener = (TcpListener)ar.AsyncState;
+
+            // End the operation and display the received data on  
+            // the console.
+            using (
+            TcpClient client = listener.EndAcceptTcpClient(ar))
+            {
+                NetworkStream stream = client.GetStream();
+
+                comport.Open();
+
+                while (true)
+                {
+
+                    while (stream.DataAvailable)
+                    {
+                        var data = new byte[4096];
+                        try
+                        {
+                            int len = stream.Read(data, 0, data.Length);
+
+                            comport.Write(data, 0, len);
+                        }
+                        catch { }
+                    }
+
+                    while (comport.BytesToRead > 0)
+                    {
+                        var data = new byte[4096];
+                        try
+                        {
+                        int len = comport.Read(data, 0, data.Length);
+
+                        stream.Write(data, 0, len);
+                        }
+                        catch { }
+                    }
+
+                   // System.Threading.Thread.Sleep(1);
+                }
+            }
+        }
+
+        private void BUT_magfit2_Click(object sender, EventArgs e)
+        {
+            MagCalib.ProcessLog(0);
         }
     }
 }

@@ -46,6 +46,15 @@ def generate_message_header(f, xml):
         xml.message_crcs_array += '%u, ' % crc
     xml.message_crcs_array = xml.message_crcs_array[:-2]
 
+	# and message names array
+    xml.message_names_array = ''
+    for name in xml.message_names:
+        if name is not None:
+            xml.message_names_array += '"%s", ' % name.upper()
+        else:
+            xml.message_names_array += 'null, '
+    xml.message_names_array = xml.message_names_array[:-2]
+
 	# and message names enum
     xml.message_names_enum = ''
     count = 0
@@ -108,6 +117,8 @@ public partial class MAVLink
         public static readonly byte[] MAVLINK_MESSAGE_CRCS = new byte[] {${message_crcs_array}};
 
         public static readonly Type[] MAVLINK_MESSAGE_INFO = new Type[] {${message_info_array}};
+
+		public static readonly string[] MAVLINK_NAMES = new string[] {${message_names_array}};
 
         public const byte MAVLINK_VERSION = ${version};
 

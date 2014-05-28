@@ -35,8 +35,6 @@
             this.TUNE = new System.Windows.Forms.ComboBox();
             this.CH7_OPT = new System.Windows.Forms.ComboBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.THR_RATE_D = new System.Windows.Forms.NumericUpDown();
-            this.label29 = new System.Windows.Forms.Label();
             this.THR_RATE_P = new System.Windows.Forms.NumericUpDown();
             this.label25 = new System.Windows.Forms.Label();
             this.CHK_lockrollpitch = new System.Windows.Forms.CheckBox();
@@ -123,7 +121,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.TUNE_LOW)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TUNE_HIGH)).BeginInit();
             this.groupBox5.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.THR_RATE_D)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.THR_RATE_P)).BeginInit();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.WPNAV_SPEED_UP)).BeginInit();
@@ -196,23 +193,11 @@
             // 
             // groupBox5
             // 
-            this.groupBox5.Controls.Add(this.THR_RATE_D);
-            this.groupBox5.Controls.Add(this.label29);
             this.groupBox5.Controls.Add(this.THR_RATE_P);
             this.groupBox5.Controls.Add(this.label25);
             resources.ApplyResources(this.groupBox5, "groupBox5");
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.TabStop = false;
-            // 
-            // THR_RATE_D
-            // 
-            resources.ApplyResources(this.THR_RATE_D, "THR_RATE_D");
-            this.THR_RATE_D.Name = "THR_RATE_D";
-            // 
-            // label29
-            // 
-            resources.ApplyResources(this.label29, "label29");
-            this.label29.Name = "label29";
             // 
             // THR_RATE_P
             // 
@@ -755,7 +740,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.TUNE_LOW)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.TUNE_HIGH)).EndInit();
             this.groupBox5.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.THR_RATE_D)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.THR_RATE_P)).EndInit();
             this.groupBox4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.WPNAV_SPEED_UP)).EndInit();
@@ -813,8 +797,6 @@
         private Controls.MyLabel myLabel1;
         private System.Windows.Forms.ComboBox CH7_OPT;
         private System.Windows.Forms.GroupBox groupBox5;
-        private System.Windows.Forms.NumericUpDown THR_RATE_D;
-        private System.Windows.Forms.Label label29;
         private System.Windows.Forms.NumericUpDown THR_RATE_P;
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.CheckBox CHK_lockrollpitch;

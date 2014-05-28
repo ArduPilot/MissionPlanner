@@ -4,7 +4,6 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using log4net;
-using YLScsDrawing.Drawing3d;
 using MissionPlanner.HIL;
 using MissionPlanner.GCSViews;
 
@@ -13,6 +12,30 @@ namespace MissionPlanner.HIL
 {
     public class Motor : Utils
     {
+        // offsets for motors in motor_out, _motor_filtered and _motor_to_channel_map arrays
+        const int AP_MOTORS_MOT_1 = 0;
+        const int AP_MOTORS_MOT_2 = 1;
+        const int AP_MOTORS_MOT_3 = 2;
+        const int AP_MOTORS_MOT_4 = 3;
+        const int AP_MOTORS_MOT_5 = 4;
+        const int AP_MOTORS_MOT_6 = 5;
+        const int AP_MOTORS_MOT_7 = 6;
+        const int AP_MOTORS_MOT_8 = 7;
+
+        // frame definitions
+        const int AP_MOTORS_PLUS_FRAME = 0;
+        const int AP_MOTORS_X_FRAME = 1;
+        const int AP_MOTORS_V_FRAME = 2;
+        const int AP_MOTORS_H_FRAME = 3;   // same as X frame but motors spin in opposite direction
+        const int AP_MOTORS_VTAIL_FRAME = 4;   // Lynxmotion Hunter VTail 400/500
+        const int AP_MOTORS_NEW_PLUS_FRAME = 10;  // NEW frames are same as original 4 but with motor orders changed to be clockwise from the front
+        const int AP_MOTORS_NEW_X_FRAME = 11;
+        const int AP_MOTORS_NEW_V_FRAME = 12;
+        const int AP_MOTORS_NEW_H_FRAME = 13;   // same as X frame but motors spin in opposite direction
+
+        const int AP_MOTORS_MATRIX_YAW_FACTOR_CW = -1;
+        const int AP_MOTORS_MATRIX_YAW_FACTOR_CCW = 1;
+
         new const bool True = true;
         new const bool False = false;
 
@@ -20,86 +43,286 @@ namespace MissionPlanner.HIL
         public double angle;
         public bool clockwise;
         public double servo;
+        public int testing_order;
 
-        public Motor(double angle, bool clockwise, double servo)
+        static Motor[] motors;
+
+        public Motor(double angle, bool clockwise, double servo, int testing_order)
         {
             self = this;
-            self.angle = angle;
+            self.angle = (angle + 360) % 360;
             self.clockwise = clockwise;
             self.servo = servo;
+            self.testing_order = testing_order;
         }
 
-        public static Motor[] build_motors(string frame)
+        public static Motor[] build_motors(MAVLink.MAV_TYPE frame, int frame_orientation)
         {
-            Motor[] motors = new HIL.Motor[8];
-            frame = frame.ToLower();
-            if (frame.Contains("quad") || frame.Contains("quadx"))
+            motors = new Motor[0];
+
+            if (frame == MAVLink.MAV_TYPE.HEXAROTOR) // y6
             {
-                motors = new HIL.Motor[] {
-            new Motor(90,  False,  1),
-            new Motor(270, False,  2),
-            new Motor(0,   True,   3),
-            new Motor(180, True,   4),
-                };
-                if (frame.Contains("quadx"))
+                // hard coded config for supported frames
+                if (frame_orientation == AP_MOTORS_PLUS_FRAME)
                 {
-                    foreach (int i in range(4))
-                        motors[i].angle -= 45.0;
+                    // plus frame set-up
+                    add_motor(AP_MOTORS_MOT_1, 0, AP_MOTORS_MATRIX_YAW_FACTOR_CW, 1);
+                    add_motor(AP_MOTORS_MOT_2, 180, AP_MOTORS_MATRIX_YAW_FACTOR_CCW, 4);
+                    add_motor(AP_MOTORS_MOT_3, -120, AP_MOTORS_MATRIX_YAW_FACTOR_CW, 5);
+                    add_motor(AP_MOTORS_MOT_4, 60, AP_MOTORS_MATRIX_YAW_FACTOR_CCW, 2);
+                    add_motor(AP_MOTORS_MOT_5, -60, AP_MOTORS_MATRIX_YAW_FACTOR_CCW, 6);
+                    add_motor(AP_MOTORS_MOT_6, 120, AP_MOTORS_MATRIX_YAW_FACTOR_CW, 3);
+                }
+                else
+                {
+                    // X frame set-up
+                    add_motor(AP_MOTORS_MOT_1, 90, AP_MOTORS_MATRIX_YAW_FACTOR_CW, 2);
+                    add_motor(AP_MOTORS_MOT_2, -90, AP_MOTORS_MATRIX_YAW_FACTOR_CCW, 5);
+                    add_motor(AP_MOTORS_MOT_3, -30, AP_MOTORS_MATRIX_YAW_FACTOR_CW, 6);
+                    add_motor(AP_MOTORS_MOT_4, 150, AP_MOTORS_MATRIX_YAW_FACTOR_CCW, 3);
+                    add_motor(AP_MOTORS_MOT_5, 30, AP_MOTORS_MATRIX_YAW_FACTOR_CCW, 1);
+                    add_motor(AP_MOTORS_MOT_6, -150, AP_MOTORS_MATRIX_YAW_FACTOR_CW, 4);
                 }
             }
-
-            else if (frame.Contains("y6"))
+            else if (frame == MAVLink.MAV_TYPE.HEXAROTOR && false) // y6
             {
-                motors = new HIL.Motor[] {
-            new Motor(60,   False, 1),
-            new Motor(60,   True,  7),
-            new Motor(180,  True,  4),
-            new Motor(180,  False, 8),
-            new Motor(-60,  True,  2),
-            new Motor(-60,  False, 3),
-            };
-            }
-            else if (frame.Contains("hexa") || frame.Contains("hexax"))
-            {
-                motors = new HIL.Motor[] {
-            new Motor(0,   True,  1),
-            new Motor(60,  False, 4),
-            new Motor(120, True,  8),
-            new Motor(180, False, 2),
-            new Motor(240, True,  3),
-            new Motor(300, False, 7),
-           };
-            }
-            else if (frame.Contains("hexax"))
-            {
-                motors = new HIL.Motor[] {
-            new Motor(30,  False,  7),
-            new Motor(90,  True,   1),
-            new Motor(150, False,  4),
-            new Motor(210, True,   8),
-            new Motor(270, False,  2),
-            new Motor(330, True,   3),
-           };
-            }
-            else if (frame.Contains("octa") || frame.Contains("octax"))
-            {
-                motors = new HIL.Motor[] {
-            new Motor(0,    True,  1),
-            new Motor(180,  True,  2),
-            new Motor(45,   False, 3),
-            new Motor(135,  False, 4),
-            new Motor(-45,  False, 7),
-            new Motor(-135, False, 8),
-            new Motor(270,  True, 10),
-            new Motor(90,   True, 11),
-        };
-                if (frame.Contains("octax"))
+                if (frame_orientation >= AP_MOTORS_NEW_PLUS_FRAME)
                 {
-                    foreach (int i in range(8))
-                        motors[i].angle += 22.5;
+                    // Y6 motor definition with all top motors spinning clockwise, all bottom motors counter clockwise
+                    add_motor_raw(AP_MOTORS_MOT_1, -1.0, 0.500, AP_MOTORS_MATRIX_YAW_FACTOR_CW, 1);
+                    add_motor_raw(AP_MOTORS_MOT_2, -1.0, 0.500, AP_MOTORS_MATRIX_YAW_FACTOR_CCW, 2);
+                    add_motor_raw(AP_MOTORS_MOT_3, 0.0, -1.000, AP_MOTORS_MATRIX_YAW_FACTOR_CW, 3);
+                    add_motor_raw(AP_MOTORS_MOT_4, 0.0, -1.000, AP_MOTORS_MATRIX_YAW_FACTOR_CCW, 4);
+                    add_motor_raw(AP_MOTORS_MOT_5, 1.0, 0.500, AP_MOTORS_MATRIX_YAW_FACTOR_CW, 5);
+                    add_motor_raw(AP_MOTORS_MOT_6, 1.0, 0.500, AP_MOTORS_MATRIX_YAW_FACTOR_CCW, 6);
+                }
+                else
+                {
+                    // original Y6 motor definition
+                    add_motor_raw(AP_MOTORS_MOT_1, -1.0, 0.666, AP_MOTORS_MATRIX_YAW_FACTOR_CCW, 2);
+                    add_motor_raw(AP_MOTORS_MOT_2, 1.0, 0.666, AP_MOTORS_MATRIX_YAW_FACTOR_CW, 5);
+                    add_motor_raw(AP_MOTORS_MOT_3, 1.0, 0.666, AP_MOTORS_MATRIX_YAW_FACTOR_CCW, 6);
+                    add_motor_raw(AP_MOTORS_MOT_4, 0.0, -1.333, AP_MOTORS_MATRIX_YAW_FACTOR_CW, 4);
+                    add_motor_raw(AP_MOTORS_MOT_5, -1.0, 0.666, AP_MOTORS_MATRIX_YAW_FACTOR_CW, 1);
+                    add_motor_raw(AP_MOTORS_MOT_6, 0.0, -1.333, AP_MOTORS_MATRIX_YAW_FACTOR_CCW, 3);
+                }
+            }
+            else if (frame == MAVLink.MAV_TYPE.OCTOROTOR)
+            {
+                // hard coded config for supported frames
+                if (frame_orientation == AP_MOTORS_PLUS_FRAME)
+                {
+                    // plus frame set-up
+                    add_motor(AP_MOTORS_MOT_1, 0, AP_MOTORS_MATRIX_YAW_FACTOR_CW, 1);
+                    add_motor(AP_MOTORS_MOT_2, 180, AP_MOTORS_MATRIX_YAW_FACTOR_CW, 5);
+                    add_motor(AP_MOTORS_MOT_3, 45, AP_MOTORS_MATRIX_YAW_FACTOR_CCW, 2);
+                    add_motor(AP_MOTORS_MOT_4, 135, AP_MOTORS_MATRIX_YAW_FACTOR_CCW, 4);
+                    add_motor(AP_MOTORS_MOT_5, -45, AP_MOTORS_MATRIX_YAW_FACTOR_CCW, 8);
+                    add_motor(AP_MOTORS_MOT_6, -135, AP_MOTORS_MATRIX_YAW_FACTOR_CCW, 6);
+                    add_motor(AP_MOTORS_MOT_7, -90, AP_MOTORS_MATRIX_YAW_FACTOR_CW, 7);
+                    add_motor(AP_MOTORS_MOT_8, 90, AP_MOTORS_MATRIX_YAW_FACTOR_CW, 3);
+
+                }
+                else if (frame_orientation == AP_MOTORS_V_FRAME)
+                {
+                    // V frame set-up
+                    add_motor_raw(AP_MOTORS_MOT_1, 1.0, 0.34, AP_MOTORS_MATRIX_YAW_FACTOR_CW, 7);
+                    add_motor_raw(AP_MOTORS_MOT_2, -1.0, -0.32, AP_MOTORS_MATRIX_YAW_FACTOR_CW, 3);
+                    add_motor_raw(AP_MOTORS_MOT_3, 1.0, -0.32, AP_MOTORS_MATRIX_YAW_FACTOR_CCW, 6);
+                    add_motor_raw(AP_MOTORS_MOT_4, -0.5, -1.0, AP_MOTORS_MATRIX_YAW_FACTOR_CCW, 4);
+                    add_motor_raw(AP_MOTORS_MOT_5, 1.0, 1.0, AP_MOTORS_MATRIX_YAW_FACTOR_CCW, 8);
+                    add_motor_raw(AP_MOTORS_MOT_6, -1.0, 0.34, AP_MOTORS_MATRIX_YAW_FACTOR_CCW, 2);
+                    add_motor_raw(AP_MOTORS_MOT_7, -1.0, 1.0, AP_MOTORS_MATRIX_YAW_FACTOR_CW, 1);
+                    add_motor_raw(AP_MOTORS_MOT_8, 0.5, -1.0, AP_MOTORS_MATRIX_YAW_FACTOR_CW, 5);
+
+                }
+                else
+                {
+                    // X frame set-up
+                    add_motor(AP_MOTORS_MOT_1, 22.5, AP_MOTORS_MATRIX_YAW_FACTOR_CW, 1);
+                    add_motor(AP_MOTORS_MOT_2, -157.5, AP_MOTORS_MATRIX_YAW_FACTOR_CW, 5);
+                    add_motor(AP_MOTORS_MOT_3, 67.5, AP_MOTORS_MATRIX_YAW_FACTOR_CCW, 2);
+                    add_motor(AP_MOTORS_MOT_4, 157.5, AP_MOTORS_MATRIX_YAW_FACTOR_CCW, 4);
+                    add_motor(AP_MOTORS_MOT_5, -22.5, AP_MOTORS_MATRIX_YAW_FACTOR_CCW, 8);
+                    add_motor(AP_MOTORS_MOT_6, -112.5, AP_MOTORS_MATRIX_YAW_FACTOR_CCW, 6);
+                    add_motor(AP_MOTORS_MOT_7, -67.5, AP_MOTORS_MATRIX_YAW_FACTOR_CW, 7);
+                    add_motor(AP_MOTORS_MOT_8, 112.5, AP_MOTORS_MATRIX_YAW_FACTOR_CW, 3);
+                }
+            }
+            else if (frame == MAVLink.MAV_TYPE.OCTOROTOR && false) // octaquad
+            {
+                // hard coded config for supported frames
+                if (frame_orientation == AP_MOTORS_PLUS_FRAME)
+                {
+                    // plus frame set-up
+                    add_motor(AP_MOTORS_MOT_1, 0, AP_MOTORS_MATRIX_YAW_FACTOR_CCW, 1);
+                    add_motor(AP_MOTORS_MOT_2, -90, AP_MOTORS_MATRIX_YAW_FACTOR_CW, 7);
+                    add_motor(AP_MOTORS_MOT_3, 180, AP_MOTORS_MATRIX_YAW_FACTOR_CCW, 5);
+                    add_motor(AP_MOTORS_MOT_4, 90, AP_MOTORS_MATRIX_YAW_FACTOR_CW, 3);
+                    add_motor(AP_MOTORS_MOT_5, -90, AP_MOTORS_MATRIX_YAW_FACTOR_CCW, 8);
+                    add_motor(AP_MOTORS_MOT_6, 0, AP_MOTORS_MATRIX_YAW_FACTOR_CW, 2);
+                    add_motor(AP_MOTORS_MOT_7, 90, AP_MOTORS_MATRIX_YAW_FACTOR_CCW, 4);
+                    add_motor(AP_MOTORS_MOT_8, 180, AP_MOTORS_MATRIX_YAW_FACTOR_CW, 6);
+                }
+                else if (frame_orientation == AP_MOTORS_V_FRAME)
+                {
+                    // V frame set-up
+                    add_motor(AP_MOTORS_MOT_1, 45, 0.7981, 1);
+                    add_motor(AP_MOTORS_MOT_2, -45, -0.7981, 7);
+                    add_motor(AP_MOTORS_MOT_3, -135, 1.0000, 5);
+                    add_motor(AP_MOTORS_MOT_4, 135, -1.0000, 3);
+                    add_motor(AP_MOTORS_MOT_5, -45, 0.7981, 8);
+                    add_motor(AP_MOTORS_MOT_6, 45, -0.7981, 2);
+                    add_motor(AP_MOTORS_MOT_7, 135, 1.0000, 4);
+                    add_motor(AP_MOTORS_MOT_8, -135, -1.0000, 6);
+                }
+                else if (frame_orientation == AP_MOTORS_H_FRAME)
+                {
+                    // H frame set-up - same as X but motors spin in opposite directions
+                    add_motor(AP_MOTORS_MOT_1, 45, AP_MOTORS_MATRIX_YAW_FACTOR_CW, 1);
+                    add_motor(AP_MOTORS_MOT_2, -45, AP_MOTORS_MATRIX_YAW_FACTOR_CCW, 7);
+                    add_motor(AP_MOTORS_MOT_3, -135, AP_MOTORS_MATRIX_YAW_FACTOR_CW, 5);
+                    add_motor(AP_MOTORS_MOT_4, 135, AP_MOTORS_MATRIX_YAW_FACTOR_CCW, 3);
+                    add_motor(AP_MOTORS_MOT_5, -45, AP_MOTORS_MATRIX_YAW_FACTOR_CW, 8);
+                    add_motor(AP_MOTORS_MOT_6, 45, AP_MOTORS_MATRIX_YAW_FACTOR_CCW, 2);
+                    add_motor(AP_MOTORS_MOT_7, 135, AP_MOTORS_MATRIX_YAW_FACTOR_CW, 4);
+                    add_motor(AP_MOTORS_MOT_8, -135, AP_MOTORS_MATRIX_YAW_FACTOR_CCW, 6);
+                }
+                else
+                {
+                    // X frame set-up
+                    add_motor(AP_MOTORS_MOT_1, 45, AP_MOTORS_MATRIX_YAW_FACTOR_CCW, 1);
+                    add_motor(AP_MOTORS_MOT_2, -45, AP_MOTORS_MATRIX_YAW_FACTOR_CW, 7);
+                    add_motor(AP_MOTORS_MOT_3, -135, AP_MOTORS_MATRIX_YAW_FACTOR_CCW, 5);
+                    add_motor(AP_MOTORS_MOT_4, 135, AP_MOTORS_MATRIX_YAW_FACTOR_CW, 3);
+                    add_motor(AP_MOTORS_MOT_5, -45, AP_MOTORS_MATRIX_YAW_FACTOR_CCW, 8);
+                    add_motor(AP_MOTORS_MOT_6, 45, AP_MOTORS_MATRIX_YAW_FACTOR_CW, 2);
+                    add_motor(AP_MOTORS_MOT_7, 135, AP_MOTORS_MATRIX_YAW_FACTOR_CCW, 4);
+                    add_motor(AP_MOTORS_MOT_8, -135, AP_MOTORS_MATRIX_YAW_FACTOR_CW, 6);
+                }
+            }
+            else if (frame == MAVLink.MAV_TYPE.QUADROTOR)
+            {
+                // hard coded config for supported frames
+                if (frame_orientation == AP_MOTORS_PLUS_FRAME)
+                {
+                    // plus frame set-up
+                    add_motor(AP_MOTORS_MOT_1, 90, AP_MOTORS_MATRIX_YAW_FACTOR_CCW, 2);
+                    add_motor(AP_MOTORS_MOT_2, -90, AP_MOTORS_MATRIX_YAW_FACTOR_CCW, 4);
+                    add_motor(AP_MOTORS_MOT_3, 0, AP_MOTORS_MATRIX_YAW_FACTOR_CW, 1);
+                    add_motor(AP_MOTORS_MOT_4, 180, AP_MOTORS_MATRIX_YAW_FACTOR_CW, 3);
+
+                }
+                else if (frame_orientation == AP_MOTORS_V_FRAME)
+                {
+                    // V frame set-up
+                    add_motor(AP_MOTORS_MOT_1, 45, 0.7981, 1);
+                    add_motor(AP_MOTORS_MOT_2, -135, 1.0000, 3);
+                    add_motor(AP_MOTORS_MOT_3, -45, -0.7981, 4);
+                    add_motor(AP_MOTORS_MOT_4, 135, -1.0000, 2);
+
+                }
+                else if (frame_orientation == AP_MOTORS_H_FRAME)
+                {
+                    // H frame set-up - same as X but motors spin in opposite directiSons
+                    add_motor(AP_MOTORS_MOT_1, 45, AP_MOTORS_MATRIX_YAW_FACTOR_CW, 1);
+                    add_motor(AP_MOTORS_MOT_2, -135, AP_MOTORS_MATRIX_YAW_FACTOR_CW, 3);
+                    add_motor(AP_MOTORS_MOT_3, -45, AP_MOTORS_MATRIX_YAW_FACTOR_CCW, 4);
+                    add_motor(AP_MOTORS_MOT_4, 135, AP_MOTORS_MATRIX_YAW_FACTOR_CCW, 2);
+
+                }
+                else if (frame_orientation == AP_MOTORS_VTAIL_FRAME)
+                {
+                    /* Lynxmotion Hunter Vtail 400/500
+
+                       Roll control comes only from the front motors, Yaw control only from the rear motors
+                       roll factor is measured by the angle perpendicular to that of the prop arm to the roll axis (x)
+                       pitch factor is measured by the angle perpendicular to the prop arm to the pitch axis (y)
+
+                       assumptions:
+                                            20      20
+                        \      /          3_____________1
+                         \    /                  |
+                          \  /                   |
+                       40  \/  40            20  |  20
+                          Tail                  / \
+                                               2   4
+
+                       All angles measured from their closest axis
+
+                       Note: if we want the front motors to help with yaw,
+                             motors 1's yaw factor should be changed to sin(radians(40)).  Where "40" is the vtail angle
+                             motors 3's yaw factor should be changed to -sin(radians(40))
+                     */
+
+                    // front right: 70 degrees right of roll axis, 20 degrees up of pitch axis, no yaw
+                    add_motor_raw(AP_MOTORS_MOT_1, cosf(radians(160)), cosf(radians(-70)), 0, 1);
+                    // back left: no roll, 70 degrees down of pitch axis, full yaw
+                    add_motor_raw(AP_MOTORS_MOT_2, 0, cosf(radians(160)), AP_MOTORS_MATRIX_YAW_FACTOR_CCW, 3);
+                    // front left: 70 degrees left of roll axis, 20 degrees up of pitch axis, no yaw
+                    add_motor_raw(AP_MOTORS_MOT_3, cosf(radians(20)), cosf(radians(70)), 0, 4);
+                    // back right: no roll, 70 degrees down of pitch axis, full yaw
+                    add_motor_raw(AP_MOTORS_MOT_4, 0, cosf(radians(-160)), AP_MOTORS_MATRIX_YAW_FACTOR_CW, 2);
+
+                }
+                else
+                {
+                    // X frame set-up
+                    add_motor(AP_MOTORS_MOT_1, 45, AP_MOTORS_MATRIX_YAW_FACTOR_CCW, 1);
+                    add_motor(AP_MOTORS_MOT_2, -135, AP_MOTORS_MATRIX_YAW_FACTOR_CCW, 3);
+                    add_motor(AP_MOTORS_MOT_3, -45, AP_MOTORS_MATRIX_YAW_FACTOR_CW, 4);
+                    add_motor(AP_MOTORS_MOT_4, 135, AP_MOTORS_MATRIX_YAW_FACTOR_CW, 2);
+                }
+            }
+            else if (frame == MAVLink.MAV_TYPE.TRICOPTER)
+            {
+                if (frame_orientation >= AP_MOTORS_NEW_PLUS_FRAME)
+                {
+                    // Y6 motor definition with all top motors spinning clockwise, all bottom motors counter clockwise
+                    add_motor_raw(AP_MOTORS_MOT_1, -1.0, 0.500, AP_MOTORS_MATRIX_YAW_FACTOR_CW, 1);
+                    add_motor_raw(AP_MOTORS_MOT_2, -1.0, 0.500, AP_MOTORS_MATRIX_YAW_FACTOR_CCW, 2);
+                    add_motor_raw(AP_MOTORS_MOT_3, 0.0, -1.000, AP_MOTORS_MATRIX_YAW_FACTOR_CW, 3);
+                    add_motor_raw(AP_MOTORS_MOT_4, 0.0, -1.000, AP_MOTORS_MATRIX_YAW_FACTOR_CCW, 4);
+                    add_motor_raw(AP_MOTORS_MOT_5, 1.0, 0.500, AP_MOTORS_MATRIX_YAW_FACTOR_CW, 5);
+                    add_motor_raw(AP_MOTORS_MOT_6, 1.0, 0.500, AP_MOTORS_MATRIX_YAW_FACTOR_CCW, 6);
+                }
+                else
+                {
+                    // original Y6 motor definition
+                    add_motor_raw(AP_MOTORS_MOT_1, -1.0, 0.666, AP_MOTORS_MATRIX_YAW_FACTOR_CCW, 2);
+                    add_motor_raw(AP_MOTORS_MOT_2, 1.0, 0.666, AP_MOTORS_MATRIX_YAW_FACTOR_CW, 5);
+                    add_motor_raw(AP_MOTORS_MOT_3, 1.0, 0.666, AP_MOTORS_MATRIX_YAW_FACTOR_CCW, 6);
+                    add_motor_raw(AP_MOTORS_MOT_4, 0.0, -1.333, AP_MOTORS_MATRIX_YAW_FACTOR_CW, 4);
+                    add_motor_raw(AP_MOTORS_MOT_5, -1.0, 0.666, AP_MOTORS_MATRIX_YAW_FACTOR_CW, 1);
+                    add_motor_raw(AP_MOTORS_MOT_6, 0.0, -1.333, AP_MOTORS_MATRIX_YAW_FACTOR_CCW, 3);
                 }
             }
             return motors;
+        }
+
+        private static double cosf(double p)
+        {
+            return Math.Cos(p);
+        }
+
+        private static void add_motor_raw(int motor_num, double roll_fac, double pitch_fac, double yaw_fac, int testing_order)
+        {
+            if (motors.Length < (motor_num + 1))
+            {
+                Array.Resize(ref motors, motor_num + 1);
+            }
+
+            motors[motor_num] = new Motor(Math.Atan2(-roll_fac, pitch_fac) * rad2deg, yaw_fac > 0, motor_num, testing_order);
+        }
+
+        private static void add_motor(int motor_num, double angle_degrees, double yaw_factor, int testing_order)
+        {
+            add_motor_raw(
+                motor_num,
+                cosf(radians(angle_degrees + 90)),               // roll factor
+                cosf(radians(angle_degrees)),                    // pitch factor
+                yaw_factor,                                      // yaw factor
+                testing_order);
         }
     }
 
@@ -126,11 +349,11 @@ namespace MissionPlanner.HIL
 
         DateTime last_time;
 
-        public MultiCopter(string frame = "quad")
+        public MultiCopter(string frame = "quadx")
         {
             self = this;
 
-            motors = Motor.build_motors(frame);
+            motors = Motor.build_motors(MAVLink.MAV_TYPE.QUADROTOR, (int)MissionPlanner.GCSViews.ConfigurationView.ConfigFrameType.Frame.X);
             motor_speed = new double[motors.Length];
             mass = 1.5;// # Kg
             frame_height = 0.1;

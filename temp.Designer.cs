@@ -58,7 +58,6 @@
             this.BUT_outputMavlink = new MissionPlanner.Controls.MyButton();
             this.BUT_simmulti = new MissionPlanner.Controls.MyButton();
             this.BUT_followleader = new MissionPlanner.Controls.MyButton();
-            this.BUT_compassmot = new MissionPlanner.Controls.MyButton();
             this.BUT_driverclean = new MissionPlanner.Controls.MyButton();
             this.but_compassrotation = new MissionPlanner.Controls.MyButton();
             this.BUT_sorttlogs = new MissionPlanner.Controls.MyButton();
@@ -66,6 +65,11 @@
             this.BUT_accellogs = new MissionPlanner.Controls.MyButton();
             this.BUT_movingbase = new MissionPlanner.Controls.MyButton();
             this.but_getfw = new MissionPlanner.Controls.MyButton();
+            this.but_loganalysis = new MissionPlanner.Controls.MyButton();
+            this.BUT_magfit = new MissionPlanner.Controls.MyButton();
+            this.but_mavserialport = new MissionPlanner.Controls.MyButton();
+            this.button3 = new System.Windows.Forms.Button();
+            this.BUT_magfit2 = new MissionPlanner.Controls.MyButton();
             this.SuspendLayout();
             // 
             // label1
@@ -140,7 +144,7 @@
             this.BUT_outputMD.Name = "BUT_outputMD";
             this.BUT_outputMD.Size = new System.Drawing.Size(75, 23);
             this.BUT_outputMD.TabIndex = 21;
-            this.BUT_outputMD.Text = "MD";
+            this.BUT_outputMD.Text = "MicroDrone";
             this.BUT_outputMD.UseVisualStyleBackColor = true;
             this.BUT_outputMD.Click += new System.EventHandler(this.myButton1_Click);
             // 
@@ -352,16 +356,6 @@
             this.BUT_followleader.UseVisualStyleBackColor = true;
             this.BUT_followleader.Click += new System.EventHandler(this.BUT_followleader_Click);
             // 
-            // BUT_compassmot
-            // 
-            this.BUT_compassmot.Location = new System.Drawing.Point(461, 338);
-            this.BUT_compassmot.Name = "BUT_compassmot";
-            this.BUT_compassmot.Size = new System.Drawing.Size(75, 23);
-            this.BUT_compassmot.TabIndex = 35;
-            this.BUT_compassmot.Text = "CompassMot";
-            this.BUT_compassmot.UseVisualStyleBackColor = true;
-            this.BUT_compassmot.Click += new System.EventHandler(this.BUT_compassmot_Click);
-            // 
             // BUT_driverclean
             // 
             this.BUT_driverclean.Location = new System.Drawing.Point(526, 380);
@@ -427,18 +421,72 @@
             this.but_getfw.UseVisualStyleBackColor = true;
             this.but_getfw.Click += new System.EventHandler(this.but_getfw_Click);
             // 
+            // but_loganalysis
+            // 
+            this.but_loganalysis.Location = new System.Drawing.Point(121, 338);
+            this.but_loganalysis.Name = "but_loganalysis";
+            this.but_loganalysis.Size = new System.Drawing.Size(75, 23);
+            this.but_loganalysis.TabIndex = 42;
+            this.but_loganalysis.Text = "Log Analyser";
+            this.but_loganalysis.UseVisualStyleBackColor = true;
+            this.but_loganalysis.Click += new System.EventHandler(this.but_loganalysis_Click);
+            // 
+            // BUT_magfit
+            // 
+            this.BUT_magfit.Location = new System.Drawing.Point(389, 287);
+            this.BUT_magfit.Name = "BUT_magfit";
+            this.BUT_magfit.Size = new System.Drawing.Size(75, 23);
+            this.BUT_magfit.TabIndex = 43;
+            this.BUT_magfit.Text = "magfit";
+            this.BUT_magfit.UseVisualStyleBackColor = true;
+            this.BUT_magfit.Click += new System.EventHandler(this.BUT_magfit_Click);
+            // 
+            // but_mavserialport
+            // 
+            this.but_mavserialport.Location = new System.Drawing.Point(216, 360);
+            this.but_mavserialport.Name = "but_mavserialport";
+            this.but_mavserialport.Size = new System.Drawing.Size(75, 23);
+            this.but_mavserialport.TabIndex = 44;
+            this.but_mavserialport.Text = "MAVSerial pass";
+            this.but_mavserialport.UseVisualStyleBackColor = true;
+            this.but_mavserialport.Click += new System.EventHandler(this.but_mavserialport_Click);
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(429, 338);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.TabIndex = 44;
+            this.button3.Text = "button3";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // BUT_magfit2
+            // 
+            this.BUT_magfit2.Location = new System.Drawing.Point(470, 287);
+            this.BUT_magfit2.Name = "BUT_magfit2";
+            this.BUT_magfit2.Size = new System.Drawing.Size(75, 23);
+            this.BUT_magfit2.TabIndex = 45;
+            this.BUT_magfit2.Text = "magfit2";
+            this.BUT_magfit2.UseVisualStyleBackColor = true;
+            this.BUT_magfit2.Click += new System.EventHandler(this.BUT_magfit2_Click);
+            // 
             // temp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(685, 450);
+            this.Controls.Add(this.BUT_magfit2);
+            this.Controls.Add(this.button3);
+            this.Controls.Add(this.but_mavserialport);
+            this.Controls.Add(this.BUT_magfit);
+            this.Controls.Add(this.but_loganalysis);
             this.Controls.Add(this.but_getfw);
             this.Controls.Add(this.BUT_movingbase);
             this.Controls.Add(this.BUT_accellogs);
             this.Controls.Add(this.BUT_sorttlogs);
             this.Controls.Add(this.but_compassrotation);
             this.Controls.Add(this.BUT_driverclean);
-            this.Controls.Add(this.BUT_compassmot);
             this.Controls.Add(this.BUT_followleader);
             this.Controls.Add(this.BUT_simmulti);
             this.Controls.Add(this.BUT_outputMavlink);
@@ -507,7 +555,6 @@
         private Controls.MyButton BUT_outputMavlink;
         private Controls.MyButton BUT_simmulti;
         private Controls.MyButton BUT_followleader;
-        private Controls.MyButton BUT_compassmot;
         private Controls.MyButton BUT_driverclean;
         private Controls.MyButton but_compassrotation;
         private Controls.MyButton BUT_sorttlogs;
@@ -515,5 +562,10 @@
         private Controls.MyButton BUT_accellogs;
         private Controls.MyButton BUT_movingbase;
         private Controls.MyButton but_getfw;
+        private Controls.MyButton but_loganalysis;
+        private Controls.MyButton BUT_magfit;
+        private Controls.MyButton but_mavserialport;
+        System.Windows.Forms.Button button3;
+        private Controls.MyButton BUT_magfit2;
     }
 }

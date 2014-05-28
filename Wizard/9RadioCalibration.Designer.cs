@@ -29,12 +29,13 @@ namespace MissionPlanner.Wizard
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(_9RadioCalibration));
             this.panel1 = new System.Windows.Forms.Panel();
+            this.BUT_continue = new MissionPlanner.Controls.MyButton();
+            this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.configRadioInput1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigRadioInput();
-            this.radialGradientBG1 = new Controls.GradientBG();
-            this.label3 = new System.Windows.Forms.Label();
-            this.BUT_continue = new Controls.MyButton();
+            this.radialGradientBG1 = new MissionPlanner.Controls.GradientBG();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.radialGradientBG1.Image)).BeginInit();
             this.SuspendLayout();
@@ -47,28 +48,30 @@ namespace MissionPlanner.Wizard
             this.panel1.Controls.Add(this.label3);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.configRadioInput1);
-            this.panel1.Location = new System.Drawing.Point(30, 60);
+            resources.ApplyResources(this.panel1, "panel1");
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(740, 424);
-            this.panel1.TabIndex = 1;
+            // 
+            // BUT_continue
+            // 
+            resources.ApplyResources(this.BUT_continue, "BUT_continue");
+            this.BUT_continue.Name = "BUT_continue";
+            this.BUT_continue.UseVisualStyleBackColor = true;
+            this.BUT_continue.Click += new System.EventHandler(this.BUT_continue_Click);
+            // 
+            // label3
+            // 
+            resources.ApplyResources(this.label3, "label3");
+            this.label3.Name = "label3";
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Arial", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(4, 4);
+            resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(258, 22);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Radio Endpoint Calibration";
             // 
             // configRadioInput1
             // 
-            this.configRadioInput1.Location = new System.Drawing.Point(43, 18);
+            resources.ApplyResources(this.configRadioInput1, "configRadioInput1");
             this.configRadioInput1.Name = "configRadioInput1";
-            this.configRadioInput1.Size = new System.Drawing.Size(639, 403);
-            this.configRadioInput1.TabIndex = 2;
-            this.configRadioInput1.Visible = false;
             // 
             // radialGradientBG1
             // 
@@ -78,56 +81,29 @@ namespace MissionPlanner.Wizard
             // 
             // 
             this.radialGradientBG1.Image.BackColor = System.Drawing.Color.Transparent;
-            this.radialGradientBG1.Image.Location = new System.Drawing.Point(38, 10);
-            this.radialGradientBG1.Image.MaximumSize = new System.Drawing.Size(288, 72);
-            this.radialGradientBG1.Image.MinimumSize = new System.Drawing.Size(288, 72);
+            this.radialGradientBG1.Image.Location = ((System.Drawing.Point)(resources.GetObject("radialGradientBG1.Image.Location")));
+            this.radialGradientBG1.Image.MaximumSize = ((System.Drawing.Size)(resources.GetObject("radialGradientBG1.Image.MaximumSize")));
+            this.radialGradientBG1.Image.MinimumSize = ((System.Drawing.Size)(resources.GetObject("radialGradientBG1.Image.MinimumSize")));
             this.radialGradientBG1.Image.Name = "_Image";
-            this.radialGradientBG1.Image.Size = new System.Drawing.Size(288, 72);
-            this.radialGradientBG1.Image.TabIndex = 0;
+            this.radialGradientBG1.Image.Size = ((System.Drawing.Size)(resources.GetObject("radialGradientBG1.Image.Size")));
+            this.radialGradientBG1.Image.TabIndex = ((int)(resources.GetObject("radialGradientBG1.Image.TabIndex")));
             this.radialGradientBG1.Image.TabStop = false;
-            this.radialGradientBG1.Image.Visible = false;
+            this.radialGradientBG1.Image.Visible = ((bool)(resources.GetObject("radialGradientBG1.Image.Visible")));
             // 
             // 
             // 
-            this.radialGradientBG1.Label.AutoSize = true;
+            this.radialGradientBG1.Label.AutoSize = ((bool)(resources.GetObject("radialGradientBG1.Label.AutoSize")));
             this.radialGradientBG1.Label.BackColor = System.Drawing.Color.Transparent;
-            this.radialGradientBG1.Label.Font = new System.Drawing.Font("Arial", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.radialGradientBG1.Label.Font = ((System.Drawing.Font)(resources.GetObject("radialGradientBG1.Label.Font")));
             this.radialGradientBG1.Label.ForeColor = System.Drawing.Color.Black;
-            this.radialGradientBG1.Label.Location = new System.Drawing.Point(30, 5);
+            this.radialGradientBG1.Label.Location = ((System.Drawing.Point)(resources.GetObject("radialGradientBG1.Label.Location")));
             this.radialGradientBG1.Label.Name = "_Label";
-            this.radialGradientBG1.Label.Size = new System.Drawing.Size(213, 29);
-            this.radialGradientBG1.Label.TabIndex = 1;
-            this.radialGradientBG1.Label.Text = "Radio Calibration";
-            this.radialGradientBG1.Location = new System.Drawing.Point(0, 0);
+            this.radialGradientBG1.Label.Size = ((System.Drawing.Size)(resources.GetObject("radialGradientBG1.Label.Size")));
+            this.radialGradientBG1.Label.TabIndex = ((int)(resources.GetObject("radialGradientBG1.Label.TabIndex")));
+            this.radialGradientBG1.Label.Text = resources.GetString("radialGradientBG1.Label.Text");
+            resources.ApplyResources(this.radialGradientBG1, "radialGradientBG1");
             this.radialGradientBG1.Name = "radialGradientBG1";
             this.radialGradientBG1.OutsideColor = System.Drawing.Color.FromArgb(((int)(((byte)(67)))), ((int)(((byte)(107)))), ((int)(((byte)(10)))));
-            this.radialGradientBG1.Size = new System.Drawing.Size(800, 41);
-            this.radialGradientBG1.TabIndex = 4;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(5, 39);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(617, 18);
-            this.label3.TabIndex = 39;
-            this.label3.Text = "Please ensure your receiver is connected to your autopilot, and bound to your tra" +
-    "nsmitter.";
-            // 
-            // BUT_continue
-            // 
-            this.BUT_continue.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
-            this.BUT_continue.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
-            this.BUT_continue.Location = new System.Drawing.Point(8, 61);
-            this.BUT_continue.Name = "BUT_continue";
-            this.BUT_continue.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
-            this.BUT_continue.Size = new System.Drawing.Size(75, 23);
-            this.BUT_continue.TabIndex = 40;
-            this.BUT_continue.Text = "Continue";
-            this.BUT_continue.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
-            this.BUT_continue.UseVisualStyleBackColor = true;
-            this.BUT_continue.Click += new System.EventHandler(this.BUT_continue_Click);
             // 
             // _9RadioCalibration
             // 
@@ -138,7 +114,7 @@ namespace MissionPlanner.Wizard
             this.Controls.Add(this.panel1);
             this.ForeColor = System.Drawing.Color.White;
             this.Name = "_9RadioCalibration";
-            this.Size = new System.Drawing.Size(800, 500);
+            resources.ApplyResources(this, "$this");
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.radialGradientBG1.Image)).EndInit();

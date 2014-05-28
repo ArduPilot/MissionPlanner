@@ -32,6 +32,7 @@ namespace MissionPlanner.Controls
                 string ans = (value).ToString("0.00");
                 if (labelWithPseudoOpacity2.Text == ans) 
                     return;
+                
                 string before = labelWithPseudoOpacity2.Text;
                 labelWithPseudoOpacity2.Text = ans;
 

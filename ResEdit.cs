@@ -39,14 +39,17 @@ namespace resedit
             comboBox1.DataSource = list;
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        void ProcessAssembly(Assembly thisAssembly)
         {
-            Assembly thisAssembly = Assembly.GetExecutingAssembly();
+            Console.WriteLine("Load Assembly "+ thisAssembly.FullName);
 
-            string[] test = Assembly.GetExecutingAssembly().GetManifestResourceNames();
+            string[] test = thisAssembly.GetManifestResourceNames();
 
             foreach (string file in test)
             {
+                if (!file.EndsWith(".resources"))
+                    continue;
+
                 Stream rgbxml = thisAssembly.GetManifestResourceStream(
             file);
                 try
@@ -55,6 +58,9 @@ namespace resedit
                     IDictionaryEnumerator dict = res.GetEnumerator();
                     while (dict.MoveNext())
                     {
+                        if (dict.Value == null)
+                            continue;
+
                         Console.WriteLine("   {0}: '{1}' (Type {2})",
                                           dict.Key, dict.Value, dict.Value.GetType().Name);
 
@@ -70,7 +76,25 @@ namespace resedit
 
                     }
 
-                } catch {}
+                }
+                catch { }
+            }
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            Assembly thisAssembly = Assembly.GetExecutingAssembly();
+
+            ProcessAssembly(thisAssembly);
+
+            foreach (var item in MissionPlanner.Plugin.PluginLoader.Plugins) 
+            {
+                // silent fail
+                try
+                {
+                    ProcessAssembly(item.Assembly);
+                }
+                catch { }
             }
         }
 
@@ -247,11 +271,15 @@ namespace resedit
                 }
             }
 
-            Assembly thisAssembly;
+            Assembly thisAssembly = null;
 
             try
             {
-                thisAssembly = Assembly.LoadFile(Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + ci + Path.DirectorySeparatorChar + "MissionPlanner.resources.dll");
+                string fn = Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + ci + Path.DirectorySeparatorChar + "MissionPlanner.resources.dll";
+                if (File.Exists(fn))
+                    thisAssembly = Assembly.LoadFile(fn);
+                else
+                    return;
             }
             catch { return; }
 
@@ -269,23 +297,30 @@ namespace resedit
                     IDictionaryEnumerator dict = res.GetEnumerator();
                     while (dict.MoveNext())
                     {
-                        Console.WriteLine("   {0}: '{1}' (Type {2})",
-                                          dict.Key, dict.Value, dict.Value.GetType().Name);
-
-                        string thing = (string)dict.Value;
-
-//                            dataGridView1.Rows[0].Cells[colOtherLang.Index].Value = dict.Value.ToString();
-                        foreach (DataGridViewRow row in dataGridView1.Rows)
+                        try
                         {
-                            string t2 = file.Replace(ci + ".", "");
+                            Console.WriteLine("   {0}: '{1}' (Type {2})",
+                                              dict.Key, dict.Value, dict.Value.GetType().Name);
 
-                            if (row.Cells[0].Value.ToString() == t2 && row.Cells[1].Value.ToString() == dict.Key.ToString())
+                            if (dict.Value is Size)
+                                continue;
+
+                            string thing = (string)dict.Value;
+
+                            //                            dataGridView1.Rows[0].Cells[colOtherLang.Index].Value = dict.Value.ToString();
+                            foreach (DataGridViewRow row in dataGridView1.Rows)
                             {
-                                row.Cells[3].Value = thing;
+                                string t2 = file.Replace(ci + ".", "");
+
+                                if (row.Cells[0].Value.ToString() == t2 && row.Cells[1].Value.ToString() == dict.Key.ToString())
+                                {
+                                    row.Cells[3].Value = thing;
+                                }
+
+
                             }
-
-
                         }
+                        catch { }
                     }
 
                 }
@@ -298,8 +333,6 @@ namespace resedit
 
         private void BUT_clipboard_Click(object sender, EventArgs e)
         {
-            string ApiKey = "AIzaSyDW05vWXeNIfZAN4Ter8gf4YLg8rPHZToc";
-
             string sb = "";
 
             foreach (DataGridViewRow row in dataGridView1.Rows)

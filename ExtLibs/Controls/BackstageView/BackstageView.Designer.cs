@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.pnlPages = new System.Windows.Forms.Panel();
-            this.pnlMenu = new Controls.BackstageView.BackStageViewMenuPanel();
+            this.pnlMenu = new MissionPlanner.Controls.BackstageView.BackStageViewMenuPanel();
             this.SuspendLayout();
             // 
             // pnlPages
@@ -41,7 +41,7 @@
             this.pnlPages.Margin = new System.Windows.Forms.Padding(4);
             this.pnlPages.MinimumSize = new System.Drawing.Size(133, 0);
             this.pnlPages.Name = "pnlPages";
-            this.pnlPages.Size = new System.Drawing.Size(388, 236);
+            this.pnlPages.Size = new System.Drawing.Size(448, 422);
             this.pnlPages.TabIndex = 0;
             // 
             // pnlMenu
@@ -51,7 +51,7 @@
             this.pnlMenu.Location = new System.Drawing.Point(0, 0);
             this.pnlMenu.Margin = new System.Windows.Forms.Padding(4);
             this.pnlMenu.Name = "pnlMenu";
-            this.pnlMenu.Size = new System.Drawing.Size(203, 236);
+            this.pnlMenu.Size = new System.Drawing.Size(203, 422);
             this.pnlMenu.TabIndex = 1;
             // 
             // BackstageView
@@ -61,7 +61,8 @@
             this.Controls.Add(this.pnlPages);
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "BackstageView";
-            this.Size = new System.Drawing.Size(597, 236);
+            this.Size = new System.Drawing.Size(657, 422);
+            this.Load += new System.EventHandler(this.BackstageView_Load);
             this.ResumeLayout(false);
 
         }

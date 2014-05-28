@@ -11,8 +11,14 @@ namespace MissionPlanner
         public static portproxy comPort = new portproxy();
     }
 
-    class portproxy
+    class portproxy: IDisposable
     {
         public SerialPort BaseStream = new SerialPort();
+
+        public void Dispose()
+        {
+            BaseStream.Dispose();
+            GC.SuppressFinalize(this);
+        }
     }
 }

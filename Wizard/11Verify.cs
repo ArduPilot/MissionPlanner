@@ -13,8 +13,6 @@ namespace MissionPlanner.Wizard
 {
     public partial class _11Verify : MyUserControl, IWizard, IDeactivate, IActivate
     {
-        int stage = 0;
-
         public _11Verify()
         {
             InitializeComponent();
@@ -40,7 +38,6 @@ namespace MissionPlanner.Wizard
         {
             return false;
         }
-
         private void timer1_Tick(object sender, EventArgs e)
         {
             // GPS - every pass
@@ -68,7 +65,6 @@ namespace MissionPlanner.Wizard
                     {
                         lbl_accel.BackColor = Color.Green;
                         chk_accel.Checked = true;
-                        stage = 2;
                     }
                     else
                     {
@@ -84,7 +80,6 @@ namespace MissionPlanner.Wizard
             {
                 lbl_compass.BackColor = Color.Green;
                 chk_compass.Checked = true;
-                stage = 3;
             }
             else
             {
@@ -104,7 +99,6 @@ namespace MissionPlanner.Wizard
 
                     lbl_rc.BackColor = Color.Green;
                     chk_rc.Checked = true;
-                    stage = 4;
                 }
                 else
                 {
@@ -122,14 +116,18 @@ namespace MissionPlanner.Wizard
             if (MainV2.comPort.MAV.cs.armed)
             {
                 lbl_prearm.BackColor = Color.Green;
-                MainV2.comPort.doARM(false);
+                try
+                {
+                    MainV2.comPort.doARM(false);
+                }
+                catch { }
                 chk_perarm.Checked = true;
-                stage = 5;
             }
             else
             {
-                lbl_prearm.BackColor = Color.Red;
-                chk_perarm.Checked = false;
+                if (!chk_perarm.Checked)
+                    lbl_prearm.BackColor = Color.Red;
+                //chk_perarm.Checked = false;
             }
         }
 

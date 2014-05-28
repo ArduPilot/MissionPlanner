@@ -33,6 +33,8 @@ namespace MissionPlanner.Swarm
             this.MouseWheel += new MouseEventHandler(FollowLeaderControl_MouseWheel);
 
             MessageBox.Show("this is beta, use at own risk");
+
+            MissionPlanner.Utilities.Tracking.AddPage(this.GetType().ToString(), this.Text);
         }
 
         void FollowLeaderControl_MouseWheel(object sender, MouseEventArgs e)
@@ -284,7 +286,7 @@ namespace MissionPlanner.Swarm
                     if (ctl is Status && ctl.Tag == port)
                     {
                         exists = true;
-                        ((Status)ctl).GPS.Text = port.MAV.cs.gpsstatus == 3 ? "OK" : "Bad";
+                        ((Status)ctl).GPS.Text = port.MAV.cs.gpsstatus >= 3 ? "OK" : "Bad";
                         ((Status)ctl).Armed.Text = port.MAV.cs.armed.ToString();
                         ((Status)ctl).Mode.Text = port.MAV.cs.mode;
                         ((Status)ctl).MAV.Text = port.ToString();

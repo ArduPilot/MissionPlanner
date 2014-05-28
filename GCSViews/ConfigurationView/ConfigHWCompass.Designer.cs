@@ -33,13 +33,11 @@
             this.linkLabelmagdec = new System.Windows.Forms.LinkLabel();
             this.label100 = new System.Windows.Forms.Label();
             this.TXT_declination_deg = new System.Windows.Forms.TextBox();
-            this.CHK_enablecompass = new MissionPlanner.Controls.MavlinkCheckBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.BUT_MagCalibrationLog = new MissionPlanner.Controls.MyButton();
             this.CHK_autodec = new System.Windows.Forms.CheckBox();
             this.label5 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.CMB_compass_orient = new MissionPlanner.Controls.MavlinkComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.label1 = new System.Windows.Forms.Label();
@@ -51,11 +49,13 @@
             this.radioButtonmanual = new System.Windows.Forms.RadioButton();
             this.radioButton_external = new System.Windows.Forms.RadioButton();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
+            this.CMB_compass_orient = new MissionPlanner.Controls.MavlinkComboBox();
             this.radioButton_onboard = new System.Windows.Forms.RadioButton();
             this.TXT_declination_min = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.CHK_enablecompass = new MissionPlanner.Controls.MavlinkCheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -89,17 +89,6 @@
             this.TXT_declination_deg.Name = "TXT_declination_deg";
             this.TXT_declination_deg.Validated += new System.EventHandler(this.TXT_declination_Validated);
             // 
-            // CHK_enablecompass
-            // 
-            resources.ApplyResources(this.CHK_enablecompass, "CHK_enablecompass");
-            this.CHK_enablecompass.Name = "CHK_enablecompass";
-            this.CHK_enablecompass.OffValue = 0F;
-            this.CHK_enablecompass.OnValue = 1F;
-            this.CHK_enablecompass.param = null;
-            this.CHK_enablecompass.ParamName = null;
-            this.CHK_enablecompass.UseVisualStyleBackColor = true;
-            this.CHK_enablecompass.CheckedChanged += new System.EventHandler(this.CHK_enablecompass_CheckedChanged);
-            // 
             // pictureBox1
             // 
             this.pictureBox1.BackgroundImage = global::MissionPlanner.Properties.Resources.compass;
@@ -132,15 +121,6 @@
             resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.TabStop = false;
-            // 
-            // CMB_compass_orient
-            // 
-            this.CMB_compass_orient.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            resources.ApplyResources(this.CMB_compass_orient, "CMB_compass_orient");
-            this.CMB_compass_orient.FormattingEnabled = true;
-            this.CMB_compass_orient.Name = "CMB_compass_orient";
-            this.CMB_compass_orient.param = null;
-            this.CMB_compass_orient.ParamName = null;
             // 
             // label4
             // 
@@ -191,7 +171,6 @@
             // 
             resources.ApplyResources(this.rb_px4pixhawk, "rb_px4pixhawk");
             this.rb_px4pixhawk.Name = "rb_px4pixhawk";
-            this.rb_px4pixhawk.TabStop = true;
             this.rb_px4pixhawk.UseVisualStyleBackColor = true;
             this.rb_px4pixhawk.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
             // 
@@ -206,6 +185,7 @@
             // radioButtonmanual
             // 
             resources.ApplyResources(this.radioButtonmanual, "radioButtonmanual");
+            this.radioButtonmanual.Checked = true;
             this.radioButtonmanual.Name = "radioButtonmanual";
             this.radioButtonmanual.TabStop = true;
             this.radioButtonmanual.UseVisualStyleBackColor = true;
@@ -215,7 +195,6 @@
             // 
             resources.ApplyResources(this.radioButton_external, "radioButton_external");
             this.radioButton_external.Name = "radioButton_external";
-            this.radioButton_external.TabStop = true;
             this.radioButton_external.UseVisualStyleBackColor = true;
             this.radioButton_external.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
             // 
@@ -227,11 +206,19 @@
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.TabStop = false;
             // 
+            // CMB_compass_orient
+            // 
+            this.CMB_compass_orient.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            resources.ApplyResources(this.CMB_compass_orient, "CMB_compass_orient");
+            this.CMB_compass_orient.FormattingEnabled = true;
+            this.CMB_compass_orient.Name = "CMB_compass_orient";
+            this.CMB_compass_orient.param = null;
+            this.CMB_compass_orient.ParamName = null;
+            // 
             // radioButton_onboard
             // 
             resources.ApplyResources(this.radioButton_onboard, "radioButton_onboard");
             this.radioButton_onboard.Name = "radioButton_onboard";
-            this.radioButton_onboard.TabStop = true;
             this.radioButton_onboard.UseVisualStyleBackColor = true;
             this.radioButton_onboard.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
             // 
@@ -257,6 +244,17 @@
             resources.ApplyResources(this.groupBox3, "groupBox3");
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.TabStop = false;
+            // 
+            // CHK_enablecompass
+            // 
+            resources.ApplyResources(this.CHK_enablecompass, "CHK_enablecompass");
+            this.CHK_enablecompass.Name = "CHK_enablecompass";
+            this.CHK_enablecompass.OffValue = 0F;
+            this.CHK_enablecompass.OnValue = 1F;
+            this.CHK_enablecompass.param = null;
+            this.CHK_enablecompass.ParamName = null;
+            this.CHK_enablecompass.UseVisualStyleBackColor = true;
+            this.CHK_enablecompass.CheckedChanged += new System.EventHandler(this.CHK_enablecompass_CheckedChanged);
             // 
             // ConfigHWCompass
             // 

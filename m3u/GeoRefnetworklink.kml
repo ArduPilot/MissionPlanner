@@ -11,8 +11,8 @@
 		<Link>
 			<href>http://127.0.0.1:56781/georefnetwork.kml</href>
 			<refreshMode>onInterval</refreshMode>
-			<refreshInterval>2</refreshInterval>
-			<viewRefreshTime>2</viewRefreshTime>
+			<refreshInterval>20</refreshInterval>
+			<viewRefreshTime>20</viewRefreshTime>
 		</Link>
 	</NetworkLink>
 </Folder>

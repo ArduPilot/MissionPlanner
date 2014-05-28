@@ -16,8 +16,7 @@ namespace MissionPlanner.Utilities
    {
       private static readonly Regex _paramMetaRegex = new Regex(String.Format("{0}(?<MetaKey>[^:\\s]+):(?<MetaValue>.+)", ParameterMetaDataConstants.ParamDelimeter));
       private static readonly Regex _parentDirectoryRegex = new Regex("(?<ParentDirectory>[../]*)(?<Path>.+)");
-      private static readonly ILog log =
-         LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+      private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
       static Dictionary<string, string> cache = new Dictionary<string, string>();
 
@@ -299,8 +298,14 @@ namespace MissionPlanner.Utilities
       /// </summary>
       /// <param name="address">The address.</param>
       /// <returns></returns>
-      private static string ReadDataFromAddress(string address)
+      private static string ReadDataFromAddress(string address, int attempt = 0)
       {
+          if (attempt > 2)
+          {
+              log.Error(String.Format("Failed {0}", address));
+              return String.Empty;
+          }
+
          string data = string.Empty;
 
          log.Info(address);
@@ -348,8 +353,9 @@ namespace MissionPlanner.Utilities
          catch (WebException ex)
          {
             log.Error(String.Format("The request to {0} failed.", address), ex);
+
+            return ReadDataFromAddress(address, attempt++);
          }
-         return string.Empty;
       }
    }
 }

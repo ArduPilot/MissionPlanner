@@ -21,6 +21,9 @@ namespace MissionPlanner.Controls
         public ImageLabel()
         {
             InitializeComponent();
+
+            PictureBox.Image = PictureBox.InitialImage;
+            PictureBox.WaitOnLoad = true;
         }
 
         public void setImageandText(Image image, string text)
@@ -32,7 +35,7 @@ namespace MissionPlanner.Controls
         [System.ComponentModel.Browsable(true)]
         public Image Image {
             get { return PictureBox.Image; }
-            set { PictureBox.Image = value; }
+            set { try { PictureBox.Image = value; } catch { try { PictureBox.Image = value; } catch { } } }
         }
 
         [System.ComponentModel.Browsable(true)]

@@ -15,7 +15,8 @@ namespace MissionPlanner
         protected override void Dispose(bool disposing)
         {
             Console.WriteLine("mainv2_Dispose");
-            PluginThreadrunner.Dispose();
+            if (PluginThreadrunner != null)
+                PluginThreadrunner.Dispose();
             if (disposing && (components != null))
             {
                 components.Dispose();
@@ -36,6 +37,7 @@ namespace MissionPlanner
             this.MainMenu = new System.Windows.Forms.MenuStrip();
             this.CTX_mainmenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.autoHideToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.fullScreenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuFlightData = new System.Windows.Forms.ToolStripButton();
             this.MenuFlightPlanner = new System.Windows.Forms.ToolStripButton();
             this.MenuInitConfig = new System.Windows.Forms.ToolStripButton();
@@ -48,6 +50,7 @@ namespace MissionPlanner
             this.MenuDonate = new System.Windows.Forms.ToolStripMenuItem();
             this.menu = new MissionPlanner.Controls.MyButton();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.readonlyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MainMenu.SuspendLayout();
             this.CTX_mainmenu.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -79,18 +82,25 @@ namespace MissionPlanner
             // CTX_mainmenu
             // 
             this.CTX_mainmenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.autoHideToolStripMenuItem});
+            this.autoHideToolStripMenuItem,
+            this.fullScreenToolStripMenuItem,
+            this.readonlyToolStripMenuItem});
             this.CTX_mainmenu.Name = "CTX_mainmenu";
             resources.ApplyResources(this.CTX_mainmenu, "CTX_mainmenu");
             // 
             // autoHideToolStripMenuItem
             // 
-            this.autoHideToolStripMenuItem.Checked = true;
             this.autoHideToolStripMenuItem.CheckOnClick = true;
-            this.autoHideToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.autoHideToolStripMenuItem.Name = "autoHideToolStripMenuItem";
             resources.ApplyResources(this.autoHideToolStripMenuItem, "autoHideToolStripMenuItem");
             this.autoHideToolStripMenuItem.Click += new System.EventHandler(this.autoHideToolStripMenuItem_Click);
+            // 
+            // fullScreenToolStripMenuItem
+            // 
+            this.fullScreenToolStripMenuItem.CheckOnClick = true;
+            this.fullScreenToolStripMenuItem.Name = "fullScreenToolStripMenuItem";
+            resources.ApplyResources(this.fullScreenToolStripMenuItem, "fullScreenToolStripMenuItem");
+            this.fullScreenToolStripMenuItem.Click += new System.EventHandler(this.fullScreenToolStripMenuItem_Click);
             // 
             // MenuFlightData
             // 
@@ -196,6 +206,13 @@ namespace MissionPlanner
             this.panel1.Name = "panel1";
             this.panel1.MouseLeave += new System.EventHandler(this.MainMenu_MouseLeave);
             // 
+            // readonlyToolStripMenuItem
+            // 
+            this.readonlyToolStripMenuItem.CheckOnClick = true;
+            this.readonlyToolStripMenuItem.Name = "readonlyToolStripMenuItem";
+            resources.ApplyResources(this.readonlyToolStripMenuItem, "readonlyToolStripMenuItem");
+            this.readonlyToolStripMenuItem.Click += new System.EventHandler(this.readonlyToolStripMenuItem_Click);
+            // 
             // MainV2
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -237,5 +254,7 @@ namespace MissionPlanner
         private System.Windows.Forms.ToolStripMenuItem autoHideToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem MenuDonate;
         public System.Windows.Forms.MenuStrip MainMenu;
+        private System.Windows.Forms.ToolStripMenuItem fullScreenToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem readonlyToolStripMenuItem;
     }
 }

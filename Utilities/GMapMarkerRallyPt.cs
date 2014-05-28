@@ -9,6 +9,7 @@ using MissionPlanner.Properties;
 
 namespace MissionPlanner.Utilities
 {
+    [Serializable]
     public class GMapMarkerRallyPt : GMapMarker
    {
       public float? Bearing;

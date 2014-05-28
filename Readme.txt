@@ -10,8 +10,9 @@
 - Visual Studio
   http://www.visualstudio.com/downloads/download-visual-studio-vs
   Select "Visual Studio Express 2013 for Windows Desktop"
-- DirectInput fix
+- DirectX Redist
   http://www.microsoft.com/en-us/download/details.aspx?id=35
+- Microsoft .NET 4.0
 
 2. Check out
 
@@ -22,9 +23,17 @@
 
 3. Build
 
-- Open ArdupilotMega.sln with Visual Studio 2010-2013
-- Follow compile1.jpg in the code tree
+- Open ArdupilotMega.sln with Visual Studio express 2013 for windows desktop.
+- Compile.
 
 
-For Mono please install
-sudo apt-get install mono-runtime libmono-system-windows-forms4.0-cil libmono-system-core4.0-cil libmono-winforms2.0-cil libmono-corlib2.0-cil libmono-system-management4.0-cil
+-----------MONO-------------
+run using 
+mono MissionPlanner.exe
+
+run debuging
+MONO_LOG_LEVEL=debug mono MissionPlanner.exe
+
+you need prereq's
+sudo apt-get install mono-runtime libmono-system-windows-forms4.0-cil libmono-system-core4.0-cil libmono-winforms2.0-cil libmono-corlib2.0-cil libmono-system-management4.0-cil libmono-system-xml-linq4.0-cil
+

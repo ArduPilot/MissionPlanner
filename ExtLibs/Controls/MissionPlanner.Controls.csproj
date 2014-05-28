@@ -33,18 +33,22 @@
   <ItemGroup>
     <Reference Include="GMap.NET.Core, Version=1.7.0.0, Culture=neutral, PublicKeyToken=b85b9027b614afef, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Lib\GMap.NET.Core.dll</HintPath>
+      <HintPath>..\..\extLibs\GMap.NET.Core.dll</HintPath>
     </Reference>
     <Reference Include="GMap.NET.WindowsForms, Version=1.7.0.0, Culture=neutral, PublicKeyToken=b85b9027b614afef, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Lib\GMap.NET.WindowsForms.dll</HintPath>
+      <HintPath>..\..\extLibs\GMap.NET.WindowsForms.dll</HintPath>
     </Reference>
     <Reference Include="log4net">
-      <HintPath>..\..\Lib\log4net.dll</HintPath>
+      <HintPath>..\..\extLibs\log4net.dll</HintPath>
     </Reference>
     <Reference Include="OpenTK, Version=1.0.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Lib\OpenTK.dll</HintPath>
+      <HintPath>..\..\extLibs\OpenTK.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK.GLControl, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\OpenTK.GLControl.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -68,7 +72,11 @@
     <Compile Include="BackstageView\BackstageViewButton.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="BackstageView\BackstageViewCollection.cs" />
     <Compile Include="BackstageView\BackStageViewMenuPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="BackstageView\BackstageViewPage.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="ControlExt.cs" />
@@ -167,6 +175,9 @@
     <Compile Include="ProgressReporterDialogue.designer.cs">
       <DependentUpon>ProgressReporterDialogue.cs</DependentUpon>
     </Compile>
+    <Compile Include="ProgressReporterSphere.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="ProgressStep.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -197,6 +208,9 @@
     </Compile>
     <Compile Include="RangeControl.Designer.cs">
       <DependentUpon>RangeControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Sphere.cs">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="ValuesControl.cs">
       <SubType>UserControl</SubType>
@@ -251,6 +265,9 @@
     <EmbeddedResource Include="ProgressReporterDialogue.resx">
       <DependentUpon>ProgressReporterDialogue.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ProgressReporterSphere.resx">
+      <DependentUpon>ProgressReporterSphere.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ProgressStep.resx">
       <DependentUpon>ProgressStep.cs</DependentUpon>
     </EmbeddedResource>
@@ -270,6 +287,9 @@
     <EmbeddedResource Include="ValuesControl.resx">
       <DependentUpon>ValuesControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="WindDir.resx">
+      <DependentUpon>WindDir.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\iconWarning32.png" />
@@ -286,10 +306,6 @@
       <Project>{7f7994ce-823f-4a04-bbea-d0a3808ff56d}</Project>
       <Name>GeoUtility</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GLControl\OpenTK.GLControl.csproj">
-      <Project>{a625be88-0000-0000-0000-000000000000}</Project>
-      <Name>OpenTK.GLControl</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Utilities\MissionPlanner.Utilities.csproj">
       <Project>{1378a66c-38e4-46f5-a05f-dc04ef7d4d16}</Project>
       <Name>MissionPlanner.Utilities</Name>
@@ -300,6 +316,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="readme.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DataGrid\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

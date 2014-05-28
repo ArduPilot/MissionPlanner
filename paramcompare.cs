@@ -38,15 +38,18 @@ namespace MissionPlanner
                 //System.Diagnostics.Debug.WriteLine("Doing: " + value);
                 try
                 {
-                    if (param[value].ToString() != param2[value].ToString()) // this will throw is there is no matching key
+                    if (param.ContainsKey(value) && param2.ContainsKey(value))
                     {
-                        Console.WriteLine("{0} {1} vs {2}", value, param[value], param2[value]);
-                        Params.Rows.Add();
-                        Params.Rows[Params.RowCount - 1].Cells[Command.Index].Value = value;
-                        Params.Rows[Params.RowCount - 1].Cells[Value.Index].Value = param[value].ToString();
+                        if (param[value].ToString() != param2[value].ToString()) // this will throw is there is no matching key
+                        {
+                            Console.WriteLine("{0} {1} vs {2}", value, param[value], param2[value]);
+                            Params.Rows.Add();
+                            Params.Rows[Params.RowCount - 1].Cells[Command.Index].Value = value;
+                            Params.Rows[Params.RowCount - 1].Cells[Value.Index].Value = param[value].ToString();
 
-                        Params.Rows[Params.RowCount - 1].Cells[newvalue.Index].Value = param2[value].ToString();
-                        Params.Rows[Params.RowCount - 1].Cells[Use.Index].Value = true;
+                            Params.Rows[Params.RowCount - 1].Cells[newvalue.Index].Value = param2[value].ToString();
+                            Params.Rows[Params.RowCount - 1].Cells[Use.Index].Value = true;
+                        }
                     }
                 }
                 catch { };//if (Params.RowCount > 1) { Params.Rows.RemoveAt(Params.RowCount - 1); } }
@@ -59,13 +62,17 @@ namespace MissionPlanner
         {
             if (dgv == null)
             {
-                foreach (DataGridViewRow row in Params.Rows)
+                try
                 {
-                    if ((bool)row.Cells[Use.Index].Value == true)
+                    foreach (DataGridViewRow row in Params.Rows)
                     {
-                        MainV2.comPort.setParam(row.Cells[Command.Index].Value.ToString().Trim(), float.Parse(row.Cells[newvalue.Index].Value.ToString()));
+                        if ((bool)row.Cells[Use.Index].Value == true)
+                        {
+                            MainV2.comPort.setParam(row.Cells[Command.Index].Value.ToString().Trim(), float.Parse(row.Cells[newvalue.Index].Value.ToString()));
+                        }
                     }
                 }
+                catch { CustomMessageBox.Show("Error setting parameter, are you still connected?", "Error"); return; }
             }
             else
             {

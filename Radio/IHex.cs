@@ -10,8 +10,12 @@ namespace uploader
         public event _3DRradio.LogEventHandler LogEvent;
 
         public event _3DRradio.ProgressEventHandler ProgressEvent;
+
+        public bool bankingDetected = false;
 		
 		private SortedList<UInt32, UInt32>	merge_index;
+
+        uint upperaddress = 0;
 		
 		public IHex ()
 		{
@@ -42,7 +46,7 @@ namespace uploader
 				// parse the record type and data length, assume ihex8
 				// ignore the checksum
 				byte length = Convert.ToByte (line.Substring (1, 2), 16);
-				UInt32 address = Convert.ToUInt32 (line.Substring (3, 4), 16);
+                UInt32 address = Convert.ToUInt32(line.Substring(3, 4), 16);
 				byte rtype = Convert.ToByte (line.Substring (7, 2), 16);
 				
 				// handle type zero (data) records
@@ -54,13 +58,21 @@ namespace uploader
 					for (int i = 0; i < length; i++) {
 						b [i] = Convert.ToByte (hexbytes.Substring (i * 2, 2), 16);
 					}
+
+                    // add for banking address
+                    address += (upperaddress << 16);
 	
 					log (string.Format ("ihex: 0x{0:X}: {1}\n", address, length), 1);
 					loadedSize += length;
 					
 					// and add to the list of ranges
 					insert (address, b);
-				}
+                }
+                else if (rtype == 4 && length == 2 && address == 0)
+                {
+                    bankingDetected = true;
+                    upperaddress = Convert.ToUInt32(line.Substring(9, 4), 16);
+                }
 			}
 			if (Count < 1)
 				throw new Exception ("no data in IntelHex file");

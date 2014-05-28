@@ -10,7 +10,7 @@ using MissionPlanner.Controls;
 
 namespace MissionPlanner.Wizard
 {
-    public partial class _4FrameType : MyUserControl, IWizard
+    public partial class _4FrameType : MyUserControl, IWizard, IActivate
     {
         bool selected = false;
 
@@ -51,6 +51,9 @@ namespace MissionPlanner.Wizard
                 case "h":
                     MainV2.comPort.setParam("FRAME", 3);
                     break;
+                case "y6b":
+                    MainV2.comPort.setParam("FRAME", 10);
+                    break;
             }
         }
 
@@ -58,7 +61,14 @@ namespace MissionPlanner.Wizard
         {
             DeselectAll();
             (sender as PictureBoxMouseOver).selected = true;
-            setframeType(sender);
+            try
+            {
+                setframeType(sender);
+            }
+            catch { 
+                CustomMessageBox.Show("Error setting frame type, ensure your autopilot is still connected. Exiting wizard","Error");
+                Wizard.instance.Close();
+            }
         }
 
         void DeselectAll()
@@ -68,6 +78,33 @@ namespace MissionPlanner.Wizard
                 if (ctl.GetType() == typeof(PictureBoxMouseOver))
                 {
                     (ctl as PictureBoxMouseOver).selected = false;
+                }
+            }
+        }
+
+        public void Activate()
+        {
+            if (MainV2.comPort.MAV.param.ContainsKey("FRAME")) 
+            {
+                int frame = (int)(float)MainV2.comPort.MAV.param["FRAME"];
+
+                switch (frame)
+                {
+                    case 0:
+                        pictureBox_Click(pictureBoxMouseOverX, new EventArgs());
+                        break;
+                    case 1:
+                        pictureBox_Click(pictureBoxMouseOverplus, new EventArgs());
+                        break;
+                    case 2:
+                        pictureBox_Click(pictureBoxMouseOvertrap, new EventArgs());
+                        break;
+                    case 3:
+                        pictureBox_Click(pictureBoxMouseOverH, new EventArgs());
+                        break;
+                    case 10:
+                        pictureBox_Click(pictureBoxMouseOverY, new EventArgs());
+                        break;
                 }
             }
         }

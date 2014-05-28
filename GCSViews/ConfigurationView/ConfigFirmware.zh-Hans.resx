@@ -112,15 +112,39 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ACSetup.Text" xml:space="preserve">
-    <value>Arducopter首次设置（固件上传后）</value>
+  <data name="CMB_history_label.Text" xml:space="preserve">
+    <value>Pick previous firmware</value>
   </data>
-  <data name="APMSetup.Text" xml:space="preserve">
-    <value>ArduPilot首次设置（固件上传后）</value>
+  <data name="lbl_devfw.Text" xml:space="preserve">
+    <value>Beta firmwares</value>
+  </data>
+  <data name="lbl_dlfw.Text" xml:space="preserve">
+    <value>Download firmwares</value>
+  </data>
+  <data name="lbl_px4io.Text" xml:space="preserve">
+    <value>PX4IO Firmware</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Images by Max Levine</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Please click the images above for "Flight versions"</value>
+  </data>
+  <data name="lbl_status.Text" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="lbl_Custom_firmware_label.Text" xml:space="preserve">
+    <value>Load custom firmware</value>
+  </data>
+  <data name="BUT_setup.Text" xml:space="preserve">
+    <value>APM Setup (Plane and Quad)</value>
+  </data>
+  <data name="lbl_px4bl.Text" xml:space="preserve">
+    <value>PX4 Bootloader</value>
   </data>
 </root>

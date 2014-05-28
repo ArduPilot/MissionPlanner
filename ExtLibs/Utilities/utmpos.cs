@@ -104,7 +104,7 @@ namespace MissionPlanner.Utilities
 
         public static bool operator ==(utmpos left, utmpos right)
         {
-            return ((left.x == right.x) && (left.y == right.y));
+            return ((left.x == right.x) && (left.y == right.y) && (left.zone == right.zone));
         }
 
         public static bool operator !=(utmpos left, utmpos right)

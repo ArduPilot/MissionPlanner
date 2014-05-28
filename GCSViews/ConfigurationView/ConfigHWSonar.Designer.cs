@@ -28,12 +28,18 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigHWSonar));
             this.CMB_sonartype = new System.Windows.Forms.ComboBox();
-            this.CHK_enablesonar = new Controls.MavlinkCheckBox();
+            this.CHK_enablesonar = new MissionPlanner.Controls.MavlinkCheckBox();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.LBL_volt = new System.Windows.Forms.Label();
+            this.LBL_dist = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             this.SuspendLayout();
             // 
@@ -80,10 +86,39 @@
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
             // 
+            // LBL_volt
+            // 
+            resources.ApplyResources(this.LBL_volt, "LBL_volt");
+            this.LBL_volt.Name = "LBL_volt";
+            // 
+            // LBL_dist
+            // 
+            resources.ApplyResources(this.LBL_dist, "LBL_dist");
+            this.LBL_dist.Name = "LBL_dist";
+            // 
+            // label4
+            // 
+            resources.ApplyResources(this.label4, "label4");
+            this.label4.Name = "label4";
+            // 
+            // label2
+            // 
+            resources.ApplyResources(this.label2, "label2");
+            this.label2.Name = "label2";
+            // 
+            // timer1
+            // 
+            this.timer1.Interval = 200;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
             // ConfigHWSonar
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.LBL_volt);
+            this.Controls.Add(this.LBL_dist);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.CHK_enablesonar);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.groupBox1);
@@ -92,6 +127,7 @@
             this.Name = "ConfigHWSonar";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -102,5 +138,10 @@
         private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Label LBL_volt;
+        private System.Windows.Forms.Label LBL_dist;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Timer timer1;
     }
 }

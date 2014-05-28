@@ -47,6 +47,8 @@ namespace MissionPlanner.Utilities
         static string tid = "UA-43098846-1";
         public static Guid cid = new Guid();
 
+        static bool sessionstart = false;
+
         private static readonly Uri trackingEndpoint = new Uri("http://www.google-analytics.com/collect");
         private static readonly Uri secureTrackingEndpoint = new Uri("https://ssl.google-analytics.com/collect");
 
@@ -67,6 +69,12 @@ namespace MissionPlanner.Utilities
 
             param.Add(new KeyValuePair<string, string>("cd", currentscreen));
             param.Add(new KeyValuePair<string, string>("dp", currentscreen));
+
+            if (sessionstart == false)
+            {
+                param.Add(new KeyValuePair<string, string>("sc", "start"));
+                sessionstart = true;
+            }
 
             param.Add(new KeyValuePair<string, string>("ul", Application.CurrentCulture.Name));
             param.Add(new KeyValuePair<string, string>("sd", Screen.PrimaryScreen.BitsPerPixel + "-bits"));
@@ -92,6 +100,12 @@ namespace MissionPlanner.Utilities
             param.Add(new KeyValuePair<string, string>("dp", page));
             param.Add(new KeyValuePair<string, string>("dt", title));
 
+            if (sessionstart == false)
+            {
+                param.Add(new KeyValuePair<string, string>("sc", "start"));
+                sessionstart = true;
+            }
+
             param.Add(new KeyValuePair<string, string>("ul", Application.CurrentCulture.Name));
             param.Add(new KeyValuePair<string, string>("sd", Screen.PrimaryScreen.BitsPerPixel + "-bits"));
             param.Add(new KeyValuePair<string, string>("sr", Screen.PrimaryScreen.Bounds.Width + "x" + Screen.PrimaryScreen.Bounds.Height));
@@ -111,6 +125,12 @@ namespace MissionPlanner.Utilities
             param.Add(new KeyValuePair<string, string>("t", "exception"));
             param.Add(new KeyValuePair<string, string>("an", Application.ProductName));
             param.Add(new KeyValuePair<string, string>("av", Application.ProductVersion));
+
+            if (sessionstart == false)
+            {
+                param.Add(new KeyValuePair<string, string>("sc", "start"));
+                sessionstart = true;
+            }
 
             param.Add(new KeyValuePair<string, string>("cd", currentscreen));
             param.Add(new KeyValuePair<string, string>("dp", currentscreen));
@@ -171,6 +191,12 @@ namespace MissionPlanner.Utilities
             param.Add(new KeyValuePair<string, string>("cd2", name));
             param.Add(new KeyValuePair<string, string>("cd3", board));
 
+            if (sessionstart == false)
+            {
+                param.Add(new KeyValuePair<string, string>("sc", "start"));
+                sessionstart = true;
+            }
+
             param.Add(new KeyValuePair<string, string>("ul", Application.CurrentCulture.Name));
             param.Add(new KeyValuePair<string, string>("sd", Screen.PrimaryScreen.BitsPerPixel + "-bits"));
             param.Add(new KeyValuePair<string, string>("sr", Screen.PrimaryScreen.Bounds.Width + "x" + Screen.PrimaryScreen.Bounds.Height));
@@ -196,6 +222,12 @@ namespace MissionPlanner.Utilities
             param.Add(new KeyValuePair<string, string>("utv", name));
             param.Add(new KeyValuePair<string, string>("utt", ((int)timeinms).ToString()));
             param.Add(new KeyValuePair<string, string>("utl", label));
+
+            if (sessionstart == false)
+            {
+                param.Add(new KeyValuePair<string, string>("sc", "start"));
+                sessionstart = true;
+            }
 
             param.Add(new KeyValuePair<string, string>("ul", Application.CurrentCulture.Name));
             param.Add(new KeyValuePair<string, string>("sd", Screen.PrimaryScreen.BitsPerPixel + "-bits"));
@@ -245,7 +277,6 @@ namespace MissionPlanner.Utilities
 
                     streamWriter.Write(data);
                     streamWriter.Flush();
-                    streamWriter.Close();
 
                     var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
                     if (httpResponse.StatusCode >= HttpStatusCode.OK && (int)httpResponse.StatusCode < 300)

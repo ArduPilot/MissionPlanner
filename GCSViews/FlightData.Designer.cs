@@ -28,7 +28,9 @@
             this.userItemsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.russianHudToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.bindingSourceHud = new System.Windows.Forms.BindingSource(this.components);
-            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabControlactions = new System.Windows.Forms.TabControl();
+            this.contextMenuStripactionstab = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.dropOutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabQuick = new System.Windows.Forms.TabPage();
             this.tableLayoutPanelQuick = new System.Windows.Forms.TableLayoutPanel();
             this.quickView6 = new MissionPlanner.Controls.QuickView();
@@ -58,6 +60,10 @@
             this.BUT_RAWSensor = new MissionPlanner.Controls.MyButton();
             this.BUTrestartmission = new MissionPlanner.Controls.MyButton();
             this.BUTactiondo = new MissionPlanner.Controls.MyButton();
+            this.tabActionsSimple = new System.Windows.Forms.TabPage();
+            this.myButton1 = new MissionPlanner.Controls.MyButton();
+            this.myButton2 = new MissionPlanner.Controls.MyButton();
+            this.myButton3 = new MissionPlanner.Controls.MyButton();
             this.tabGauges = new System.Windows.Forms.TabPage();
             this.Gvspeed = new AGaugeApp.AGauge();
             this.bindingSourceGaugesTab = new System.Windows.Forms.BindingSource(this.components);
@@ -93,6 +99,7 @@
             this.BUT_speed1_4 = new MissionPlanner.Controls.MyButton();
             this.BUT_speed1_10 = new MissionPlanner.Controls.MyButton();
             this.tablogbrowse = new System.Windows.Forms.TabPage();
+            this.BUT_loganalysis = new MissionPlanner.Controls.MyButton();
             this.BUT_DFMavlink = new MissionPlanner.Controls.MyButton();
             this.but_dflogtokml = new MissionPlanner.Controls.MyButton();
             this.but_bintolog = new MissionPlanner.Controls.MyButton();
@@ -106,6 +113,8 @@
             this.BUT_abort_script = new MissionPlanner.Controls.MyButton();
             this.labelScriptStatus = new System.Windows.Forms.Label();
             this.BUT_select_script = new MissionPlanner.Controls.MyButton();
+            this.tabPagemessages = new System.Windows.Forms.TabPage();
+            this.txt_messagebox = new System.Windows.Forms.TextBox();
             this.tableMap = new System.Windows.Forms.TableLayoutPanel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.zg1 = new ZedGraph.ZedGraphControl();
@@ -131,6 +140,7 @@
             this.scriptChecker = new System.Windows.Forms.Timer(this.components);
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
             this.dataGridViewImageColumn2 = new System.Windows.Forms.DataGridViewImageColumn();
+            this.Messagetabtimer = new System.Windows.Forms.Timer(this.components);
             this.bindingSourceStatusTab = new System.Windows.Forms.BindingSource(this.components);
             this.contextMenuStripMap.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MainH)).BeginInit();
@@ -143,11 +153,13 @@
             this.SubMainLeft.SuspendLayout();
             this.contextMenuStripHud.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSourceHud)).BeginInit();
-            this.tabControl1.SuspendLayout();
+            this.tabControlactions.SuspendLayout();
+            this.contextMenuStripactionstab.SuspendLayout();
             this.tabQuick.SuspendLayout();
             this.tableLayoutPanelQuick.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSourceQuickTab)).BeginInit();
             this.tabActions.SuspendLayout();
+            this.tabActionsSimple.SuspendLayout();
             this.tabGauges.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSourceGaugesTab)).BeginInit();
             this.tabServo.SuspendLayout();
@@ -158,6 +170,7 @@
             this.panel2.SuspendLayout();
             this.tablogbrowse.SuspendLayout();
             this.tabScripts.SuspendLayout();
+            this.tabPagemessages.SuspendLayout();
             this.tableMap.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -245,7 +258,7 @@
             // 
             // SubMainLeft.Panel2
             // 
-            this.SubMainLeft.Panel2.Controls.Add(this.tabControl1);
+            this.SubMainLeft.Panel2.Controls.Add(this.tabControlactions);
             // 
             // hud1
             // 
@@ -319,6 +332,7 @@
             this.hud1.targetheading = 0F;
             this.hud1.targetspeed = 0F;
             this.hud1.turnrate = 0F;
+            this.hud1.UseOpenGL = true;
             this.hud1.verticalspeed = 0F;
             this.hud1.VSync = false;
             this.hud1.wpno = 0;
@@ -378,21 +392,37 @@
             // 
             this.bindingSourceHud.DataSource = typeof(MissionPlanner.CurrentState);
             // 
-            // tabControl1
+            // tabControlactions
             // 
-            this.tabControl1.Controls.Add(this.tabQuick);
-            this.tabControl1.Controls.Add(this.tabActions);
-            this.tabControl1.Controls.Add(this.tabGauges);
-            this.tabControl1.Controls.Add(this.tabStatus);
-            this.tabControl1.Controls.Add(this.tabServo);
-            this.tabControl1.Controls.Add(this.tabTLogs);
-            this.tabControl1.Controls.Add(this.tablogbrowse);
-            this.tabControl1.Controls.Add(this.tabScripts);
-            resources.ApplyResources(this.tabControl1, "tabControl1");
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.tabControl1_DrawItem);
-            this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
+            this.tabControlactions.ContextMenuStrip = this.contextMenuStripactionstab;
+            this.tabControlactions.Controls.Add(this.tabQuick);
+            this.tabControlactions.Controls.Add(this.tabActions);
+            this.tabControlactions.Controls.Add(this.tabActionsSimple);
+            this.tabControlactions.Controls.Add(this.tabGauges);
+            this.tabControlactions.Controls.Add(this.tabStatus);
+            this.tabControlactions.Controls.Add(this.tabServo);
+            this.tabControlactions.Controls.Add(this.tabTLogs);
+            this.tabControlactions.Controls.Add(this.tablogbrowse);
+            this.tabControlactions.Controls.Add(this.tabScripts);
+            this.tabControlactions.Controls.Add(this.tabPagemessages);
+            resources.ApplyResources(this.tabControlactions, "tabControlactions");
+            this.tabControlactions.Name = "tabControlactions";
+            this.tabControlactions.SelectedIndex = 0;
+            this.tabControlactions.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.tabControl1_DrawItem);
+            this.tabControlactions.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
+            // 
+            // contextMenuStripactionstab
+            // 
+            this.contextMenuStripactionstab.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.dropOutToolStripMenuItem});
+            this.contextMenuStripactionstab.Name = "contextMenuStripactionstab";
+            resources.ApplyResources(this.contextMenuStripactionstab, "contextMenuStripactionstab");
+            // 
+            // dropOutToolStripMenuItem
+            // 
+            this.dropOutToolStripMenuItem.Name = "dropOutToolStripMenuItem";
+            resources.ApplyResources(this.dropOutToolStripMenuItem, "dropOutToolStripMenuItem");
+            this.dropOutToolStripMenuItem.Click += new System.EventHandler(this.dropOutToolStripMenuItem_Click);
             // 
             // tabQuick
             // 
@@ -664,6 +694,39 @@
             this.toolTip1.SetToolTip(this.BUTactiondo, resources.GetString("BUTactiondo.ToolTip"));
             this.BUTactiondo.UseVisualStyleBackColor = true;
             this.BUTactiondo.Click += new System.EventHandler(this.BUTactiondo_Click);
+            // 
+            // tabActionsSimple
+            // 
+            this.tabActionsSimple.Controls.Add(this.myButton1);
+            this.tabActionsSimple.Controls.Add(this.myButton2);
+            this.tabActionsSimple.Controls.Add(this.myButton3);
+            resources.ApplyResources(this.tabActionsSimple, "tabActionsSimple");
+            this.tabActionsSimple.Name = "tabActionsSimple";
+            this.tabActionsSimple.UseVisualStyleBackColor = true;
+            // 
+            // myButton1
+            // 
+            resources.ApplyResources(this.myButton1, "myButton1");
+            this.myButton1.Name = "myButton1";
+            this.toolTip1.SetToolTip(this.myButton1, resources.GetString("myButton1.ToolTip"));
+            this.myButton1.UseVisualStyleBackColor = true;
+            this.myButton1.Click += new System.EventHandler(this.BUT_quickmanual_Click);
+            // 
+            // myButton2
+            // 
+            resources.ApplyResources(this.myButton2, "myButton2");
+            this.myButton2.Name = "myButton2";
+            this.toolTip1.SetToolTip(this.myButton2, resources.GetString("myButton2.ToolTip"));
+            this.myButton2.UseVisualStyleBackColor = true;
+            this.myButton2.Click += new System.EventHandler(this.BUT_quickrtl_Click);
+            // 
+            // myButton3
+            // 
+            resources.ApplyResources(this.myButton3, "myButton3");
+            this.myButton3.Name = "myButton3";
+            this.toolTip1.SetToolTip(this.myButton3, resources.GetString("myButton3.ToolTip"));
+            this.myButton3.UseVisualStyleBackColor = true;
+            this.myButton3.Click += new System.EventHandler(this.BUT_quickauto_Click);
             // 
             // tabGauges
             // 
@@ -1153,36 +1216,43 @@
             // 
             resources.ApplyResources(this.servoOptions1, "servoOptions1");
             this.servoOptions1.Name = "servoOptions1";
+            this.servoOptions1.thisservo = 5;
             // 
             // servoOptions2
             // 
             resources.ApplyResources(this.servoOptions2, "servoOptions2");
             this.servoOptions2.Name = "servoOptions2";
+            this.servoOptions2.thisservo = 6;
             // 
             // servoOptions3
             // 
             resources.ApplyResources(this.servoOptions3, "servoOptions3");
             this.servoOptions3.Name = "servoOptions3";
+            this.servoOptions3.thisservo = 7;
             // 
             // servoOptions4
             // 
             resources.ApplyResources(this.servoOptions4, "servoOptions4");
             this.servoOptions4.Name = "servoOptions4";
+            this.servoOptions4.thisservo = 8;
             // 
             // servoOptions5
             // 
             resources.ApplyResources(this.servoOptions5, "servoOptions5");
             this.servoOptions5.Name = "servoOptions5";
+            this.servoOptions5.thisservo = 9;
             // 
             // servoOptions6
             // 
             resources.ApplyResources(this.servoOptions6, "servoOptions6");
             this.servoOptions6.Name = "servoOptions6";
+            this.servoOptions6.thisservo = 10;
             // 
             // servoOptions7
             // 
             resources.ApplyResources(this.servoOptions7, "servoOptions7");
             this.servoOptions7.Name = "servoOptions7";
+            this.servoOptions7.thisservo = 11;
             // 
             // tabTLogs
             // 
@@ -1328,6 +1398,7 @@
             // 
             // tablogbrowse
             // 
+            this.tablogbrowse.Controls.Add(this.BUT_loganalysis);
             this.tablogbrowse.Controls.Add(this.BUT_DFMavlink);
             this.tablogbrowse.Controls.Add(this.but_dflogtokml);
             this.tablogbrowse.Controls.Add(this.but_bintolog);
@@ -1336,6 +1407,13 @@
             resources.ApplyResources(this.tablogbrowse, "tablogbrowse");
             this.tablogbrowse.Name = "tablogbrowse";
             this.tablogbrowse.UseVisualStyleBackColor = true;
+            // 
+            // BUT_loganalysis
+            // 
+            resources.ApplyResources(this.BUT_loganalysis, "BUT_loganalysis");
+            this.BUT_loganalysis.Name = "BUT_loganalysis";
+            this.BUT_loganalysis.UseVisualStyleBackColor = true;
+            this.BUT_loganalysis.Click += new System.EventHandler(this.BUT_loganalysis_Click);
             // 
             // BUT_DFMavlink
             // 
@@ -1431,6 +1509,18 @@
             this.BUT_select_script.UseVisualStyleBackColor = true;
             this.BUT_select_script.Click += new System.EventHandler(this.BUT_select_script_Click);
             // 
+            // tabPagemessages
+            // 
+            this.tabPagemessages.Controls.Add(this.txt_messagebox);
+            resources.ApplyResources(this.tabPagemessages, "tabPagemessages");
+            this.tabPagemessages.Name = "tabPagemessages";
+            this.tabPagemessages.UseVisualStyleBackColor = true;
+            // 
+            // txt_messagebox
+            // 
+            resources.ApplyResources(this.txt_messagebox, "txt_messagebox");
+            this.txt_messagebox.Name = "txt_messagebox";
+            // 
             // tableMap
             // 
             resources.ApplyResources(this.tableMap, "tableMap");
@@ -1479,7 +1569,7 @@
             this.windDir1.BackColor = System.Drawing.Color.Transparent;
             this.windDir1.DataBindings.Add(new System.Windows.Forms.Binding("Direction", this.bindingSource1, "wind_dir", true, System.Windows.Forms.DataSourceUpdateMode.Never));
             this.windDir1.DataBindings.Add(new System.Windows.Forms.Binding("Speed", this.bindingSource1, "wind_vel", true, System.Windows.Forms.DataSourceUpdateMode.Never));
-            this.windDir1.Direction = 0D;
+            this.windDir1.Direction = 360D;
             resources.ApplyResources(this.windDir1, "windDir1");
             this.windDir1.Name = "windDir1";
             this.windDir1.Speed = 0D;
@@ -1560,7 +1650,7 @@
             // 
             resources.ApplyResources(this.TRK_zoom, "TRK_zoom");
             this.TRK_zoom.LargeChange = 1F;
-            this.TRK_zoom.Maximum = 18F;
+            this.TRK_zoom.Maximum = 24F;
             this.TRK_zoom.Minimum = 1F;
             this.TRK_zoom.Name = "TRK_zoom";
             this.TRK_zoom.SmallChange = 1F;
@@ -1589,6 +1679,7 @@
             this.coords1.Lng = 0D;
             resources.ApplyResources(this.coords1, "coords1");
             this.coords1.Name = "coords1";
+            this.coords1.Vertical = false;
             // 
             // Zoomlevel
             // 
@@ -1677,6 +1768,11 @@
             this.dataGridViewImageColumn2.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Stretch;
             this.dataGridViewImageColumn2.Name = "dataGridViewImageColumn2";
             // 
+            // Messagetabtimer
+            // 
+            this.Messagetabtimer.Interval = 200;
+            this.Messagetabtimer.Tick += new System.EventHandler(this.Messagetabtimer_Tick);
+            // 
             // bindingSourceStatusTab
             // 
             this.bindingSourceStatusTab.DataSource = typeof(MissionPlanner.CurrentState);
@@ -1703,11 +1799,13 @@
             this.SubMainLeft.ResumeLayout(false);
             this.contextMenuStripHud.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.bindingSourceHud)).EndInit();
-            this.tabControl1.ResumeLayout(false);
+            this.tabControlactions.ResumeLayout(false);
+            this.contextMenuStripactionstab.ResumeLayout(false);
             this.tabQuick.ResumeLayout(false);
             this.tableLayoutPanelQuick.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.bindingSourceQuickTab)).EndInit();
             this.tabActions.ResumeLayout(false);
+            this.tabActionsSimple.ResumeLayout(false);
             this.tabGauges.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.bindingSourceGaugesTab)).EndInit();
             this.tabServo.ResumeLayout(false);
@@ -1721,6 +1819,8 @@
             this.tablogbrowse.ResumeLayout(false);
             this.tabScripts.ResumeLayout(false);
             this.tabScripts.PerformLayout();
+            this.tabPagemessages.ResumeLayout(false);
+            this.tabPagemessages.PerformLayout();
             this.tableMap.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
@@ -1765,7 +1865,7 @@
         private System.Windows.Forms.CheckBox CHK_autopan;
         private Controls.myGMAP gMapControl1;
         private ZedGraph.ZedGraphControl zg1;
-        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabControl tabControlactions;
         private System.Windows.Forms.TabPage tabGauges;
         private System.Windows.Forms.TabPage tabStatus;
         private System.Windows.Forms.TabPage tabActions;
@@ -1860,6 +1960,16 @@
         private Controls.MyButton but_bintolog;
         private Controls.MyButton but_dflogtokml;
         private Controls.MyButton BUT_DFMavlink;
+        private System.Windows.Forms.TabPage tabPagemessages;
+        private System.Windows.Forms.TextBox txt_messagebox;
+        private System.Windows.Forms.Timer Messagetabtimer;
+        private System.Windows.Forms.TabPage tabActionsSimple;
+        private Controls.MyButton myButton1;
+        private Controls.MyButton myButton2;
+        private Controls.MyButton myButton3;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStripactionstab;
+        private System.Windows.Forms.ToolStripMenuItem dropOutToolStripMenuItem;
+        private Controls.MyButton BUT_loganalysis;
 
     }
 }

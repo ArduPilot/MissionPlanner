@@ -8,6 +8,7 @@ using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.IO;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace MissionPlanner.Stats
 {
@@ -39,6 +40,7 @@ namespace MissionPlanner.Stats
             get { return "Michael Oborne"; }
         }
 
+        //[DebuggerHidden]
         public override bool Init()
         {
             loopratehz = 1;
@@ -58,9 +60,14 @@ namespace MissionPlanner.Stats
                 catch { }
             }
 
+            MainV2.instance.Invoke((Action)
+                delegate
+                {
+
             System.Windows.Forms.ToolStripMenuItem men = new System.Windows.Forms.ToolStripMenuItem() { Text = "Stats" };
             men.Click += men_Click;
             Host.FDMenuMap.Items.Add(men);
+            });
 
             statsoverall.appstarts++;
 
@@ -163,7 +170,7 @@ connecttime {9} disconnecttime {10} maxspeed {11} avgspeed {12}"
             }
 
             // distance traveled
-            if (Host.cs.armed && Host.cs.gpsstatus == 3 && (Host.cs.ch3percent > 12 || Host.cs.groundspeed > 3.0))
+            if (Host.cs.armed && Host.cs.gpsstatus >= 3 && (Host.cs.ch3percent > 12 || Host.cs.groundspeed > 3.0))
             {
                 stats.timeInAir++;
 
@@ -184,7 +191,7 @@ connecttime {9} disconnecttime {10} maxspeed {11} avgspeed {12}"
             }
 
             // altitude gained
-            if (Host.cs.armed && Host.cs.gpsstatus == 3)
+            if (Host.cs.armed && Host.cs.gpsstatus >= 3)
             {
                 stats.maxalt = Math.Max(Host.cs.altasl,stats.maxalt);
 
@@ -196,7 +203,7 @@ connecttime {9} disconnecttime {10} maxspeed {11} avgspeed {12}"
             }
 
             // gps lock time
-            if (Host.cs.gpsstatus == 3) {
+            if (Host.cs.gpsstatus >= 3) {
                 stats.gpslocktime++;
             }
 

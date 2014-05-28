@@ -228,36 +228,6 @@
   <data name="&gt;&gt;TXT_declination_deg.ZOrder" xml:space="preserve">
     <value>16</value>
   </data>
-  <data name="CHK_enablecompass.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="CHK_enablecompass.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="CHK_enablecompass.Location" type="System.Drawing.Point, System.Drawing">
-    <value>92, 33</value>
-  </data>
-  <data name="CHK_enablecompass.Size" type="System.Drawing.Size, System.Drawing">
-    <value>82, 17</value>
-  </data>
-  <data name="CHK_enablecompass.TabIndex" type="System.Int32, mscorlib">
-    <value>41</value>
-  </data>
-  <data name="CHK_enablecompass.Text" xml:space="preserve">
-    <value>Enable</value>
-  </data>
-  <data name="&gt;&gt;CHK_enablecompass.Name" xml:space="preserve">
-    <value>CHK_enablecompass</value>
-  </data>
-  <data name="&gt;&gt;CHK_enablecompass.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5030.12989, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;CHK_enablecompass.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;CHK_enablecompass.ZOrder" xml:space="preserve">
-    <value>8</value>
-  </data>
   <data name="pictureBox1.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
     <value>Zoom</value>
   </data>
@@ -295,7 +265,7 @@
     <value>NoControl</value>
   </data>
   <data name="BUT_MagCalibrationLog.Location" type="System.Drawing.Point, System.Drawing">
-    <value>573, 89</value>
+    <value>567, 52</value>
   </data>
   <data name="BUT_MagCalibrationLog.Size" type="System.Drawing.Size, System.Drawing">
     <value>60, 23</value>
@@ -305,6 +275,9 @@
   </data>
   <data name="BUT_MagCalibrationLog.Text" xml:space="preserve">
     <value>Log Calibration</value>
+  </data>
+  <data name="BUT_MagCalibrationLog.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
   <data name="&gt;&gt;BUT_MagCalibrationLog.Name" xml:space="preserve">
     <value>BUT_MagCalibrationLog</value>
@@ -347,6 +320,9 @@
   </data>
   <data name="label5.Font" type="System.Drawing.Font, System.Drawing">
     <value>Microsoft Sans Serif, 12pt</value>
+  </data>
+  <data name="label5.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
     <value>7, 3</value>
@@ -396,30 +372,6 @@
   <data name="&gt;&gt;groupBox2.ZOrder" xml:space="preserve">
     <value>10</value>
   </data>
-  <data name="CMB_compass_orient.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="CMB_compass_orient.Location" type="System.Drawing.Point, System.Drawing">
-    <value>98, 271</value>
-  </data>
-  <data name="CMB_compass_orient.Size" type="System.Drawing.Size, System.Drawing">
-    <value>202, 21</value>
-  </data>
-  <data name="CMB_compass_orient.TabIndex" type="System.Int32, mscorlib">
-    <value>81</value>
-  </data>
-  <data name="&gt;&gt;CMB_compass_orient.Name" xml:space="preserve">
-    <value>CMB_compass_orient</value>
-  </data>
-  <data name="&gt;&gt;CMB_compass_orient.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.5030.12989, Culture=neutral, PublicKeyToken=null</value>
-  </data>
-  <data name="&gt;&gt;CMB_compass_orient.Parent" xml:space="preserve">
-    <value>groupBox1</value>
-  </data>
-  <data name="&gt;&gt;CMB_compass_orient.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
   <data name="label4.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -427,7 +379,7 @@
     <value>NoControl</value>
   </data>
   <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>534, 72</value>
+    <value>528, 35</value>
   </data>
   <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
     <value>116, 13</value>
@@ -437,6 +389,9 @@
   </data>
   <data name="label4.Text" xml:space="preserve">
     <value>Advanced Config Only.</value>
+  </data>
+  <data name="label4.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
   <data name="&gt;&gt;label4.Name" xml:space="preserve">
     <value>label4</value>
@@ -487,7 +442,7 @@
     <value>6, 16</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>290, 102</value>
+    <value>290, 78</value>
   </data>
   <data name="label1.TabIndex" type="System.Int32, mscorlib">
     <value>84</value>
@@ -751,8 +706,35 @@ PX4 with onboard or external Compass: ROTATION_NONE</value>
   <data name="&gt;&gt;pictureBox3.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
+  <data name="CMB_compass_orient.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="CMB_compass_orient.Location" type="System.Drawing.Point, System.Drawing">
+    <value>98, 271</value>
+  </data>
+  <data name="CMB_compass_orient.Size" type="System.Drawing.Size, System.Drawing">
+    <value>202, 21</value>
+  </data>
+  <data name="CMB_compass_orient.TabIndex" type="System.Int32, mscorlib">
+    <value>81</value>
+  </data>
+  <data name="&gt;&gt;CMB_compass_orient.Name" xml:space="preserve">
+    <value>CMB_compass_orient</value>
+  </data>
+  <data name="&gt;&gt;CMB_compass_orient.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.5216.31339, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;CMB_compass_orient.Parent" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;CMB_compass_orient.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
   <data name="radioButton_onboard.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
+  </data>
+  <data name="radioButton_onboard.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="radioButton_onboard.Location" type="System.Drawing.Point, System.Drawing">
     <value>7, 131</value>
@@ -782,7 +764,7 @@ PX4 with onboard or external Compass: ROTATION_NONE</value>
     <value>11, 122</value>
   </data>
   <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>314, 301</value>
+    <value>314, 325</value>
   </data>
   <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
     <value>87</value>
@@ -887,10 +869,10 @@ PX4 with onboard or external Compass: ROTATION_NONE</value>
     <value>1</value>
   </data>
   <data name="groupBox3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>331, 222</value>
+    <value>331, 212</value>
   </data>
   <data name="groupBox3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>302, 121</value>
+    <value>302, 94</value>
   </data>
   <data name="groupBox3.TabIndex" type="System.Int32, mscorlib">
     <value>91</value>
@@ -909,6 +891,36 @@ PX4 with onboard or external Compass: ROTATION_NONE</value>
   </data>
   <data name="&gt;&gt;groupBox3.ZOrder" xml:space="preserve">
     <value>0</value>
+  </data>
+  <data name="CHK_enablecompass.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="CHK_enablecompass.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CHK_enablecompass.Location" type="System.Drawing.Point, System.Drawing">
+    <value>92, 33</value>
+  </data>
+  <data name="CHK_enablecompass.Size" type="System.Drawing.Size, System.Drawing">
+    <value>82, 17</value>
+  </data>
+  <data name="CHK_enablecompass.TabIndex" type="System.Int32, mscorlib">
+    <value>41</value>
+  </data>
+  <data name="CHK_enablecompass.Text" xml:space="preserve">
+    <value>Enable</value>
+  </data>
+  <data name="&gt;&gt;CHK_enablecompass.Name" xml:space="preserve">
+    <value>CHK_enablecompass</value>
+  </data>
+  <data name="&gt;&gt;CHK_enablecompass.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5216.31339, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;CHK_enablecompass.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;CHK_enablecompass.ZOrder" xml:space="preserve">
+    <value>8</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>

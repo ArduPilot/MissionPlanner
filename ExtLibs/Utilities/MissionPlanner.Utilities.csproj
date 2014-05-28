@@ -33,32 +33,31 @@
   <ItemGroup>
     <Reference Include="AWSSDK, Version=1.5.18.0, Culture=neutral, PublicKeyToken=9f476d3089b52be3, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Lib\AWSSDK.dll</HintPath>
+      <HintPath>..\..\extLibs\AWSSDK.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="DirectShowLib-2005">
-      <HintPath>..\..\Lib\DirectShowLib-2005.dll</HintPath>
+      <HintPath>..\..\extLibs\DirectShowLib-2005.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="GMap.NET.Core, Version=1.7.0.0, Culture=neutral, PublicKeyToken=b85b9027b614afef, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Lib\GMap.NET.Core.dll</HintPath>
+      <HintPath>..\..\extLibs\GMap.NET.Core.dll</HintPath>
     </Reference>
     <Reference Include="GMap.NET.WindowsForms, Version=1.7.0.0, Culture=neutral, PublicKeyToken=b85b9027b614afef, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Lib\GMap.NET.WindowsForms.dll</HintPath>
+      <HintPath>..\..\extLibs\GMap.NET.WindowsForms.dll</HintPath>
     </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
-      <HintPath>..\..\Lib\ICSharpCode.SharpZipLib.dll</HintPath>
+      <HintPath>..\..\extLibs\ICSharpCode.SharpZipLib.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="log4net">
-      <HintPath>..\..\Lib\log4net.dll</HintPath>
+      <HintPath>..\..\extLibs\log4net.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ProjNet">
-      <HintPath>..\..\Lib\ProjNet.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>..\..\packages\ProjNet.1.2\lib\net20\ProjNet.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -81,6 +80,8 @@
     <Compile Include="BigInteger.cs" />
     <Compile Include="Capture.cs" />
     <Compile Include="CaptureMJPEG.cs" />
+    <Compile Include="CircularBuffer.cs" />
+    <Compile Include="CircularStream.cs" />
     <Compile Include="CleanDrivers.cs" />
     <Compile Include="CollectionExtensions.cs" />
     <Compile Include="EnumTranslator.cs" />
@@ -109,6 +110,9 @@
       <Project>{7f7994ce-823f-4a04-bbea-d0a3808ff56d}</Project>
       <Name>GeoUtility</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

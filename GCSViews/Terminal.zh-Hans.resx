@@ -112,24 +112,37 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="BUTsetupshow.Text" xml:space="preserve">
-    <value>显示设置</value>
-  </data>
-  <data name="BUTradiosetup.Text" xml:space="preserve">
-    <value>设置遥控</value>
+  <data name="CMB_boardtype.Text" xml:space="preserve">
+    <value>APM</value>
   </data>
   <data name="BUTtests.Text" xml:space="preserve">
     <value>测试</value>
   </data>
+  <data name="BUT_ConnectAPM.Text" xml:space="preserve">
+    <value>连接</value>
+  </data>
   <data name="Logs.Text" xml:space="preserve">
     <value>下载记录</value>
   </data>
+  <data name="BUTradiosetup.Text" xml:space="preserve">
+    <value>设置遥控</value>
+  </data>
+  <data name="BUT_disconnect.Text" xml:space="preserve">
+    <value>断开连接</value>
+  </data>
+  <data name="TXT_terminal.Text" xml:space="preserve">
+    <value>*注意* 请在第一次连接电源时点击
+CLI Works only上方的连接，日志只能通过USB下载</value>
+  </data>
   <data name="BUT_logbrowse.Text" xml:space="preserve">
     <value>浏览记录</value>
+  </data>
+  <data name="BUTsetupshow.Text" xml:space="preserve">
+    <value>显示设置</value>
   </data>
 </root>

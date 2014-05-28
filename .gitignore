@@ -3,3 +3,17 @@
 *.user
 bin/
 obj/
+/CustomImages
+/APMPlannerXplanes/APMPlannerXplanes/Debug
+/APMPlannerXplanes/Debug
+/Driver/makecert.exe
+/Drivers/gencert.bat
+/Drivers/int2cat.bat
+/Drivers/makecert.exe
+/Drivers/signing.url
+/Msi
+/packages
+*.psess
+/copy.bat
+/macos.bat
+/logo.png

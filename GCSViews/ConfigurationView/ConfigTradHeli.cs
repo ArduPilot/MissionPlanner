@@ -402,14 +402,17 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             mavlinkComboBoxTailType.setup(Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("H_TAIL_TYPE"), "H_TAIL_TYPE", MainV2.comPort.MAV.param);
 
+            mavlinkNumericUpDowntailspeed.setup(0,1000,1,1, "H_TAIL_SPEED", MainV2.comPort.MAV.param);
+
             mavlinkNumericUpDownland_col_min.setup(0,1000,1,1, "H_LAND_COL_MIN", MainV2.comPort.MAV.param);
 
             H_STAB_COL_MAX.setup(50, 100, 1, 1, "H_STAB_COL_MAX", MainV2.comPort.MAV.param);
             H_STAB_COL_MIN.setup(0, 50, 1, 1, "H_STAB_COL_MIN", MainV2.comPort.MAV.param);
             H_COLYAW.setup(0, 5, 1, 1, "H_COLYAW", MainV2.comPort.MAV.param);
-            H_RSC_RATE.setup(0, 60, 100, 1, "H_RSC_RATE", MainV2.comPort.MAV.param);
+            mavlinkudH_RSC_RATE.setup(0, 60, 1, 1, "H_RSC_RAMP_TIME", MainV2.comPort.MAV.param);
+            mavlinkNumericUpDownrunuptime.setup(0, 60, 1, 1, "H_RSC_RUNUP_TIME", MainV2.comPort.MAV.param);
             H_RSC_MODE.setup(Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("H_RSC_MODE"), "H_RSC_MODE", MainV2.comPort.MAV.param);
-            H_GOV_SETPOINT.setup(800, 2200, 1, 1, "H_GOV_SETPOINT", MainV2.comPort.MAV.param);
+            mavlinkudH_RSC_SETPOINT.setup(800, 2200, 1, 1, "H_RSC_SETPOINT", MainV2.comPort.MAV.param);
 
             startup = true;
             try

@@ -7,7 +7,7 @@ using log4net;
 
 namespace MissionPlanner.Utilities
 {
-    public class Speech
+    public class Speech: IDisposable
     {
         private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -52,6 +52,11 @@ namespace MissionPlanner.Utilities
 
         public void SpeakAsync(string text)
         {
+            if (text == null)
+                return;
+
+            text = text.Replace("PreArm", "Pre Arm");
+
             if (MONO)
             {
                 try
@@ -114,6 +119,16 @@ namespace MissionPlanner.Utilities
                 }
                 catch { } // System.PlatformNotSupportedException:
             }
+        }
+
+        public void Dispose()
+        {
+            if (_speechwindows != null)
+                _speechwindows.Dispose();
+            if (_speechlinux != null)
+                _speechlinux.Dispose();
+
+            GC.SuppressFinalize(this);
         }
     }
 }

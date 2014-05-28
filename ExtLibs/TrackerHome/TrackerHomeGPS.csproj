@@ -34,7 +34,7 @@
   <ItemGroup>
     <Reference Include="GMap.NET.Core, Version=1.7.0.0, Culture=neutral, PublicKeyToken=b85b9027b614afef, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Lib\GMap.NET.Core.dll</HintPath>
+      <HintPath>..\..\extLibs\GMap.NET.Core.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />

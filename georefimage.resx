@@ -112,22 +112,22 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="openFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <metadata name="openFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="TXT_logfile.Location" type="System.Drawing.Point, System.Drawing">
     <value>28, 14</value>
   </data>
   <data name="TXT_logfile.Size" type="System.Drawing.Size, System.Drawing">
-    <value>317, 20</value>
+    <value>434, 20</value>
   </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="TXT_logfile.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
@@ -135,19 +135,19 @@
     <value>TXT_logfile</value>
   </data>
   <data name="&gt;&gt;TXT_logfile.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;TXT_logfile.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;TXT_logfile.ZOrder" xml:space="preserve">
-    <value>25</value>
+    <value>12</value>
   </data>
   <data name="TXT_jpgdir.Location" type="System.Drawing.Point, System.Drawing">
-    <value>28, 43</value>
+    <value>28, 49</value>
   </data>
   <data name="TXT_jpgdir.Size" type="System.Drawing.Size, System.Drawing">
-    <value>317, 20</value>
+    <value>434, 20</value>
   </data>
   <data name="TXT_jpgdir.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -156,16 +156,16 @@
     <value>TXT_jpgdir</value>
   </data>
   <data name="&gt;&gt;TXT_jpgdir.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;TXT_jpgdir.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;TXT_jpgdir.ZOrder" xml:space="preserve">
-    <value>24</value>
+    <value>11</value>
   </data>
   <data name="TXT_offsetseconds.Location" type="System.Drawing.Point, System.Drawing">
-    <value>180, 69</value>
+    <value>236, 18</value>
   </data>
   <data name="TXT_offsetseconds.Size" type="System.Drawing.Size, System.Drawing">
     <value>100, 20</value>
@@ -180,23 +180,23 @@
     <value>TXT_offsetseconds</value>
   </data>
   <data name="&gt;&gt;TXT_offsetseconds.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;TXT_offsetseconds.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>PANEL_TIME_OFFSET</value>
   </data>
   <data name="&gt;&gt;TXT_offsetseconds.ZOrder" xml:space="preserve">
-    <value>23</value>
+    <value>1</value>
   </data>
-  <metadata name="folderBrowserDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+  <metadata name="folderBrowserDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>297, 17</value>
   </metadata>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="TXT_outputlog.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
   </data>
   <data name="TXT_outputlog.Location" type="System.Drawing.Point, System.Drawing">
-    <value>28, 190</value>
+    <value>28, 494</value>
   </data>
   <data name="TXT_outputlog.Multiline" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -205,7 +205,7 @@
     <value>Both</value>
   </data>
   <data name="TXT_outputlog.Size" type="System.Drawing.Size, System.Drawing">
-    <value>397, 160</value>
+    <value>599, 186</value>
   </data>
   <data name="TXT_outputlog.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -214,19 +214,19 @@
     <value>TXT_outputlog</value>
   </data>
   <data name="&gt;&gt;TXT_outputlog.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;TXT_outputlog.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;TXT_outputlog.ZOrder" xml:space="preserve">
-    <value>21</value>
+    <value>9</value>
   </data>
   <data name="label1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>94, 75</value>
+    <value>150, 24</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
     <value>78, 13</value>
@@ -241,22 +241,22 @@
     <value>label1</value>
   </data>
   <data name="&gt;&gt;label1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label1.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>PANEL_TIME_OFFSET</value>
   </data>
   <data name="&gt;&gt;label1.ZOrder" xml:space="preserve">
-    <value>20</value>
+    <value>2</value>
   </data>
   <data name="BUT_Geotagimages.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
   <data name="BUT_Geotagimages.Location" type="System.Drawing.Point, System.Drawing">
-    <value>259, 161</value>
+    <value>406, 435</value>
   </data>
   <data name="BUT_Geotagimages.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
+    <value>83, 40</value>
   </data>
   <data name="BUT_Geotagimages.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -268,16 +268,16 @@
     <value>BUT_Geotagimages</value>
   </data>
   <data name="&gt;&gt;BUT_Geotagimages.Type" xml:space="preserve">
-    <value>Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_Geotagimages.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BUT_Geotagimages.ZOrder" xml:space="preserve">
-    <value>18</value>
+    <value>8</value>
   </data>
   <data name="BUT_estoffset.Location" type="System.Drawing.Point, System.Drawing">
-    <value>286, 67</value>
+    <value>342, 16</value>
   </data>
   <data name="BUT_estoffset.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
@@ -292,67 +292,67 @@
     <value>BUT_estoffset</value>
   </data>
   <data name="&gt;&gt;BUT_estoffset.Type" xml:space="preserve">
-    <value>Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_estoffset.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>PANEL_TIME_OFFSET</value>
   </data>
   <data name="&gt;&gt;BUT_estoffset.ZOrder" xml:space="preserve">
-    <value>19</value>
+    <value>0</value>
   </data>
   <data name="BUT_doit.Location" type="System.Drawing.Point, System.Drawing">
-    <value>97, 161</value>
+    <value>139, 435</value>
   </data>
   <data name="BUT_doit.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
+    <value>84, 40</value>
   </data>
   <data name="BUT_doit.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
   </data>
   <data name="BUT_doit.Text" xml:space="preserve">
-    <value>Do It</value>
+    <value>Pre-process</value>
   </data>
   <data name="&gt;&gt;BUT_doit.Name" xml:space="preserve">
     <value>BUT_doit</value>
   </data>
   <data name="&gt;&gt;BUT_doit.Type" xml:space="preserve">
-    <value>Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_doit.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BUT_doit.ZOrder" xml:space="preserve">
-    <value>22</value>
+    <value>10</value>
   </data>
   <data name="BUT_browsedir.Location" type="System.Drawing.Point, System.Drawing">
-    <value>351, 41</value>
+    <value>520, 44</value>
   </data>
   <data name="BUT_browsedir.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
+    <value>75, 28</value>
   </data>
   <data name="BUT_browsedir.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
   <data name="BUT_browsedir.Text" xml:space="preserve">
-    <value>Browse Directory</value>
+    <value>Browse Pictures</value>
   </data>
   <data name="&gt;&gt;BUT_browsedir.Name" xml:space="preserve">
     <value>BUT_browsedir</value>
   </data>
   <data name="&gt;&gt;BUT_browsedir.Type" xml:space="preserve">
-    <value>Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_browsedir.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BUT_browsedir.ZOrder" xml:space="preserve">
-    <value>26</value>
+    <value>13</value>
   </data>
   <data name="BUT_browselog.Location" type="System.Drawing.Point, System.Drawing">
-    <value>351, 12</value>
+    <value>520, 9</value>
   </data>
   <data name="BUT_browselog.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
+    <value>75, 29</value>
   </data>
   <data name="BUT_browselog.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -364,16 +364,16 @@
     <value>BUT_browselog</value>
   </data>
   <data name="&gt;&gt;BUT_browselog.Type" xml:space="preserve">
-    <value>Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_browselog.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BUT_browselog.ZOrder" xml:space="preserve">
-    <value>27</value>
+    <value>14</value>
   </data>
   <data name="NUM_latpos.Location" type="System.Drawing.Point, System.Drawing">
-    <value>130, 116</value>
+    <value>237, 92</value>
   </data>
   <data name="NUM_latpos.Size" type="System.Drawing.Size, System.Drawing">
     <value>42, 20</value>
@@ -385,16 +385,16 @@
     <value>NUM_latpos</value>
   </data>
   <data name="&gt;&gt;NUM_latpos.Type" xml:space="preserve">
-    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;NUM_latpos.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>PANEL_CAM</value>
   </data>
   <data name="&gt;&gt;NUM_latpos.ZOrder" xml:space="preserve">
-    <value>17</value>
+    <value>11</value>
   </data>
   <data name="NUM_lngpos.Location" type="System.Drawing.Point, System.Drawing">
-    <value>178, 116</value>
+    <value>294, 92</value>
   </data>
   <data name="NUM_lngpos.Size" type="System.Drawing.Size, System.Drawing">
     <value>42, 20</value>
@@ -406,16 +406,16 @@
     <value>NUM_lngpos</value>
   </data>
   <data name="&gt;&gt;NUM_lngpos.Type" xml:space="preserve">
-    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;NUM_lngpos.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>PANEL_CAM</value>
   </data>
   <data name="&gt;&gt;NUM_lngpos.ZOrder" xml:space="preserve">
-    <value>16</value>
+    <value>13</value>
   </data>
   <data name="NUM_altpos.Location" type="System.Drawing.Point, System.Drawing">
-    <value>226, 116</value>
+    <value>355, 92</value>
   </data>
   <data name="NUM_altpos.Size" type="System.Drawing.Size, System.Drawing">
     <value>42, 20</value>
@@ -427,40 +427,40 @@
     <value>NUM_altpos</value>
   </data>
   <data name="&gt;&gt;NUM_altpos.Type" xml:space="preserve">
-    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;NUM_altpos.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>PANEL_CAM</value>
   </data>
   <data name="&gt;&gt;NUM_altpos.ZOrder" xml:space="preserve">
-    <value>15</value>
+    <value>17</value>
   </data>
-  <data name="NUM_headingpos.Location" type="System.Drawing.Point, System.Drawing">
-    <value>274, 116</value>
+  <data name="NUM_ATT_Heading.Location" type="System.Drawing.Point, System.Drawing">
+    <value>453, 49</value>
   </data>
-  <data name="NUM_headingpos.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="NUM_ATT_Heading.Size" type="System.Drawing.Size, System.Drawing">
     <value>42, 20</value>
   </data>
-  <data name="NUM_headingpos.TabIndex" type="System.Int32, mscorlib">
+  <data name="NUM_ATT_Heading.TabIndex" type="System.Int32, mscorlib">
     <value>13</value>
   </data>
-  <data name="&gt;&gt;NUM_headingpos.Name" xml:space="preserve">
-    <value>NUM_headingpos</value>
+  <data name="&gt;&gt;NUM_ATT_Heading.Name" xml:space="preserve">
+    <value>NUM_ATT_Heading</value>
   </data>
-  <data name="&gt;&gt;NUM_headingpos.Type" xml:space="preserve">
-    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;NUM_ATT_Heading.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;NUM_headingpos.Parent" xml:space="preserve">
-    <value>$this</value>
+  <data name="&gt;&gt;NUM_ATT_Heading.Parent" xml:space="preserve">
+    <value>PANEL_CAM</value>
   </data>
-  <data name="&gt;&gt;NUM_headingpos.ZOrder" xml:space="preserve">
-    <value>14</value>
+  <data name="&gt;&gt;NUM_ATT_Heading.ZOrder" xml:space="preserve">
+    <value>21</value>
   </data>
   <data name="label2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>127, 100</value>
+    <value>237, 76</value>
   </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
     <value>22, 13</value>
@@ -475,19 +475,19 @@
     <value>label2</value>
   </data>
   <data name="&gt;&gt;label2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label2.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>PANEL_CAM</value>
   </data>
   <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>22</value>
   </data>
   <data name="label3.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>175, 100</value>
+    <value>294, 76</value>
   </data>
   <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
     <value>25, 13</value>
@@ -502,19 +502,19 @@
     <value>label3</value>
   </data>
   <data name="&gt;&gt;label3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label3.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>PANEL_CAM</value>
   </data>
   <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>24</value>
   </data>
   <data name="label4.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>223, 100</value>
+    <value>355, 76</value>
   </data>
   <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
     <value>19, 13</value>
@@ -529,73 +529,46 @@
     <value>label4</value>
   </data>
   <data name="&gt;&gt;label4.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label4.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>PANEL_CAM</value>
   </data>
   <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>26</value>
   </data>
   <data name="label5.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>271, 100</value>
+    <value>453, 33</value>
   </data>
   <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>47, 13</value>
+    <value>33, 13</value>
   </data>
   <data name="label5.TabIndex" type="System.Int32, mscorlib">
     <value>17</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
-    <value>Heading</value>
+    <value>Head</value>
   </data>
   <data name="&gt;&gt;label5.Name" xml:space="preserve">
     <value>label5</value>
   </data>
   <data name="&gt;&gt;label5.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label5.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>PANEL_CAM</value>
   </data>
   <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
-    <value>10</value>
-  </data>
-  <data name="label6.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="label6.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 118</value>
-  </data>
-  <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>61, 13</value>
-  </data>
-  <data name="label6.TabIndex" type="System.Int32, mscorlib">
-    <value>18</value>
-  </data>
-  <data name="label6.Text" xml:space="preserve">
-    <value>Log Offsets</value>
-  </data>
-  <data name="&gt;&gt;label6.Name" xml:space="preserve">
-    <value>label6</value>
-  </data>
-  <data name="&gt;&gt;label6.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label6.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;label6.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>28</value>
   </data>
   <data name="BUT_networklinkgeoref.Location" type="System.Drawing.Point, System.Drawing">
-    <value>178, 161</value>
+    <value>270, 435</value>
   </data>
   <data name="BUT_networklinkgeoref.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
+    <value>88, 40</value>
   </data>
   <data name="BUT_networklinkgeoref.TabIndex" type="System.Int32, mscorlib">
     <value>19</value>
@@ -607,169 +580,16 @@
     <value>BUT_networklinkgeoref</value>
   </data>
   <data name="&gt;&gt;BUT_networklinkgeoref.Type" xml:space="preserve">
-    <value>Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_networklinkgeoref.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BUT_networklinkgeoref.ZOrder" xml:space="preserve">
-    <value>8</value>
-  </data>
-  <data name="num_vfov.Location" type="System.Drawing.Point, System.Drawing">
-    <value>351, 116</value>
-  </data>
-  <data name="num_vfov.Size" type="System.Drawing.Size, System.Drawing">
-    <value>42, 20</value>
-  </data>
-  <data name="num_vfov.TabIndex" type="System.Int32, mscorlib">
-    <value>20</value>
-  </data>
-  <data name="&gt;&gt;num_vfov.Name" xml:space="preserve">
-    <value>num_vfov</value>
-  </data>
-  <data name="&gt;&gt;num_vfov.Type" xml:space="preserve">
-    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;num_vfov.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;num_vfov.ZOrder" xml:space="preserve">
     <value>7</value>
   </data>
-  <data name="num_hfov.Location" type="System.Drawing.Point, System.Drawing">
-    <value>398, 116</value>
-  </data>
-  <data name="num_hfov.Size" type="System.Drawing.Size, System.Drawing">
-    <value>42, 20</value>
-  </data>
-  <data name="num_hfov.TabIndex" type="System.Int32, mscorlib">
-    <value>21</value>
-  </data>
-  <data name="&gt;&gt;num_hfov.Name" xml:space="preserve">
-    <value>num_hfov</value>
-  </data>
-  <data name="&gt;&gt;num_hfov.Type" xml:space="preserve">
-    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;num_hfov.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;num_hfov.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="label7.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="label7.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="label7.Location" type="System.Drawing.Point, System.Drawing">
-    <value>348, 100</value>
-  </data>
-  <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>38, 13</value>
-  </data>
-  <data name="label7.TabIndex" type="System.Int32, mscorlib">
-    <value>22</value>
-  </data>
-  <data name="label7.Text" xml:space="preserve">
-    <value>Dir fov</value>
-  </data>
-  <data name="&gt;&gt;label7.Name" xml:space="preserve">
-    <value>label7</value>
-  </data>
-  <data name="&gt;&gt;label7.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label7.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;label7.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="label8.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="label8.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="label8.Location" type="System.Drawing.Point, System.Drawing">
-    <value>395, 100</value>
-  </data>
-  <data name="label8.Size" type="System.Drawing.Size, System.Drawing">
-    <value>51, 13</value>
-  </data>
-  <data name="label8.TabIndex" type="System.Int32, mscorlib">
-    <value>23</value>
-  </data>
-  <data name="label8.Text" xml:space="preserve">
-    <value>Cross fov</value>
-  </data>
-  <data name="&gt;&gt;label8.Name" xml:space="preserve">
-    <value>label8</value>
-  </data>
-  <data name="&gt;&gt;label8.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label8.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;label8.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="num_camerarotation.Location" type="System.Drawing.Point, System.Drawing">
-    <value>398, 155</value>
-  </data>
-  <data name="num_camerarotation.Size" type="System.Drawing.Size, System.Drawing">
-    <value>42, 20</value>
-  </data>
-  <data name="num_camerarotation.TabIndex" type="System.Int32, mscorlib">
-    <value>24</value>
-  </data>
-  <data name="&gt;&gt;num_camerarotation.Name" xml:space="preserve">
-    <value>num_camerarotation</value>
-  </data>
-  <data name="&gt;&gt;num_camerarotation.Type" xml:space="preserve">
-    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;num_camerarotation.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;num_camerarotation.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="label9.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="label9.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="label9.Location" type="System.Drawing.Point, System.Drawing">
-    <value>395, 139</value>
-  </data>
-  <data name="label9.Size" type="System.Drawing.Size, System.Drawing">
-    <value>47, 13</value>
-  </data>
-  <data name="label9.TabIndex" type="System.Int32, mscorlib">
-    <value>25</value>
-  </data>
-  <data name="label9.Text" xml:space="preserve">
-    <value>Rotation</value>
-  </data>
-  <data name="&gt;&gt;label9.Name" xml:space="preserve">
-    <value>label9</value>
-  </data>
-  <data name="&gt;&gt;label9.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label9.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;label9.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
   <data name="NUM_time.Location" type="System.Drawing.Point, System.Drawing">
-    <value>82, 116</value>
+    <value>237, 49</value>
   </data>
   <data name="NUM_time.Size" type="System.Drawing.Size, System.Drawing">
     <value>42, 20</value>
@@ -781,13 +601,13 @@
     <value>NUM_time</value>
   </data>
   <data name="&gt;&gt;NUM_time.Type" xml:space="preserve">
-    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;NUM_time.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>PANEL_CAM</value>
   </data>
   <data name="&gt;&gt;NUM_time.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>19</value>
   </data>
   <data name="label10.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -796,34 +616,1159 @@
     <value>NoControl</value>
   </data>
   <data name="label10.Location" type="System.Drawing.Point, System.Drawing">
-    <value>79, 100</value>
+    <value>237, 33</value>
   </data>
   <data name="label10.Size" type="System.Drawing.Size, System.Drawing">
-    <value>30, 13</value>
+    <value>54, 13</value>
   </data>
   <data name="label10.TabIndex" type="System.Int32, mscorlib">
     <value>27</value>
   </data>
   <data name="label10.Text" xml:space="preserve">
-    <value>Time</value>
+    <value>GPS Millis</value>
   </data>
   <data name="&gt;&gt;label10.Name" xml:space="preserve">
     <value>label10</value>
   </data>
   <data name="&gt;&gt;label10.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label10.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>PANEL_CAM</value>
   </data>
   <data name="&gt;&gt;label10.ZOrder" xml:space="preserve">
+    <value>15</value>
+  </data>
+  <data name="label11.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label11.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 10pt, style=Bold</value>
+  </data>
+  <data name="label11.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label11.Location" type="System.Drawing.Point, System.Drawing">
+    <value>232, 449</value>
+  </data>
+  <data name="label11.Size" type="System.Drawing.Size, System.Drawing">
+    <value>26, 17</value>
+  </data>
+  <data name="label11.TabIndex" type="System.Int32, mscorlib">
+    <value>28</value>
+  </data>
+  <data name="label11.Text" xml:space="preserve">
+    <value>&gt;&gt;</value>
+  </data>
+  <data name="&gt;&gt;label11.Name" xml:space="preserve">
+    <value>label11</value>
+  </data>
+  <data name="&gt;&gt;label11.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label11.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;label11.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="label12.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label12.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Microsoft Sans Serif, 10pt, style=Bold</value>
+  </data>
+  <data name="label12.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label12.Location" type="System.Drawing.Point, System.Drawing">
+    <value>370, 447</value>
+  </data>
+  <data name="label12.Size" type="System.Drawing.Size, System.Drawing">
+    <value>26, 17</value>
+  </data>
+  <data name="label12.TabIndex" type="System.Int32, mscorlib">
+    <value>29</value>
+  </data>
+  <data name="label12.Text" xml:space="preserve">
+    <value>&gt;&gt;</value>
+  </data>
+  <data name="&gt;&gt;label12.Name" xml:space="preserve">
+    <value>label12</value>
+  </data>
+  <data name="&gt;&gt;label12.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label12.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;label12.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="RDIO_TimeOffset.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="RDIO_TimeOffset.Location" type="System.Drawing.Point, System.Drawing">
+    <value>201, 92</value>
+  </data>
+  <data name="RDIO_TimeOffset.Size" type="System.Drawing.Size, System.Drawing">
+    <value>77, 17</value>
+  </data>
+  <data name="RDIO_TimeOffset.TabIndex" type="System.Int32, mscorlib">
+    <value>30</value>
+  </data>
+  <data name="RDIO_TimeOffset.Text" xml:space="preserve">
+    <value>Time offset</value>
+  </data>
+  <data name="&gt;&gt;RDIO_TimeOffset.Name" xml:space="preserve">
+    <value>RDIO_TimeOffset</value>
+  </data>
+  <data name="&gt;&gt;RDIO_TimeOffset.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RDIO_TimeOffset.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;RDIO_TimeOffset.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="RDIO_CAMMsgSynchro.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="RDIO_CAMMsgSynchro.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="RDIO_CAMMsgSynchro.Location" type="System.Drawing.Point, System.Drawing">
+    <value>353, 92</value>
+  </data>
+  <data name="RDIO_CAMMsgSynchro.Size" type="System.Drawing.Size, System.Drawing">
+    <value>136, 17</value>
+  </data>
+  <data name="RDIO_CAMMsgSynchro.TabIndex" type="System.Int32, mscorlib">
+    <value>31</value>
+  </data>
+  <data name="RDIO_CAMMsgSynchro.Text" xml:space="preserve">
+    <value>CAM Message Synchro</value>
+  </data>
+  <data name="&gt;&gt;RDIO_CAMMsgSynchro.Name" xml:space="preserve">
+    <value>RDIO_CAMMsgSynchro</value>
+  </data>
+  <data name="&gt;&gt;RDIO_CAMMsgSynchro.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RDIO_CAMMsgSynchro.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;RDIO_CAMMsgSynchro.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="PANEL_TIME_OFFSET.Location" type="System.Drawing.Point, System.Drawing">
+    <value>32, 130</value>
+  </data>
+  <data name="PANEL_TIME_OFFSET.Size" type="System.Drawing.Size, System.Drawing">
+    <value>597, 55</value>
+  </data>
+  <data name="PANEL_TIME_OFFSET.TabIndex" type="System.Int32, mscorlib">
+    <value>32</value>
+  </data>
+  <data name="&gt;&gt;PANEL_TIME_OFFSET.Name" xml:space="preserve">
+    <value>PANEL_TIME_OFFSET</value>
+  </data>
+  <data name="&gt;&gt;PANEL_TIME_OFFSET.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;PANEL_TIME_OFFSET.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;PANEL_TIME_OFFSET.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="label13.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label13.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label13.Location" type="System.Drawing.Point, System.Drawing">
+    <value>65, 33</value>
+  </data>
+  <data name="label13.Size" type="System.Drawing.Size, System.Drawing">
+    <value>22, 13</value>
+  </data>
+  <data name="label13.TabIndex" type="System.Int32, mscorlib">
+    <value>31</value>
+  </data>
+  <data name="label13.Text" xml:space="preserve">
+    <value>Lat</value>
+  </data>
+  <data name="&gt;&gt;label13.Name" xml:space="preserve">
+    <value>label13</value>
+  </data>
+  <data name="&gt;&gt;label13.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label13.Parent" xml:space="preserve">
+    <value>PANEL_CAM</value>
+  </data>
+  <data name="&gt;&gt;label13.ZOrder" xml:space="preserve">
+    <value>38</value>
+  </data>
+  <data name="label14.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label14.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label14.Location" type="System.Drawing.Point, System.Drawing">
+    <value>113, 33</value>
+  </data>
+  <data name="label14.Size" type="System.Drawing.Size, System.Drawing">
+    <value>25, 13</value>
+  </data>
+  <data name="label14.TabIndex" type="System.Int32, mscorlib">
+    <value>32</value>
+  </data>
+  <data name="label14.Text" xml:space="preserve">
+    <value>Lon</value>
+  </data>
+  <data name="&gt;&gt;label14.Name" xml:space="preserve">
+    <value>label14</value>
+  </data>
+  <data name="&gt;&gt;label14.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label14.Parent" xml:space="preserve">
+    <value>PANEL_CAM</value>
+  </data>
+  <data name="&gt;&gt;label14.ZOrder" xml:space="preserve">
+    <value>37</value>
+  </data>
+  <data name="NUM_CAM_Alt.Location" type="System.Drawing.Point, System.Drawing">
+    <value>164, 49</value>
+  </data>
+  <data name="NUM_CAM_Alt.Size" type="System.Drawing.Size, System.Drawing">
+    <value>42, 20</value>
+  </data>
+  <data name="NUM_CAM_Alt.TabIndex" type="System.Int32, mscorlib">
+    <value>30</value>
+  </data>
+  <data name="&gt;&gt;NUM_CAM_Alt.Name" xml:space="preserve">
+    <value>NUM_CAM_Alt</value>
+  </data>
+  <data name="&gt;&gt;NUM_CAM_Alt.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NUM_CAM_Alt.Parent" xml:space="preserve">
+    <value>PANEL_CAM</value>
+  </data>
+  <data name="&gt;&gt;NUM_CAM_Alt.ZOrder" xml:space="preserve">
+    <value>36</value>
+  </data>
+  <data name="label15.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label15.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label15.Location" type="System.Drawing.Point, System.Drawing">
+    <value>161, 33</value>
+  </data>
+  <data name="label15.Size" type="System.Drawing.Size, System.Drawing">
+    <value>19, 13</value>
+  </data>
+  <data name="label15.TabIndex" type="System.Int32, mscorlib">
+    <value>33</value>
+  </data>
+  <data name="label15.Text" xml:space="preserve">
+    <value>Alt</value>
+  </data>
+  <data name="&gt;&gt;label15.Name" xml:space="preserve">
+    <value>label15</value>
+  </data>
+  <data name="&gt;&gt;label15.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label15.Parent" xml:space="preserve">
+    <value>PANEL_CAM</value>
+  </data>
+  <data name="&gt;&gt;label15.ZOrder" xml:space="preserve">
+    <value>35</value>
+  </data>
+  <data name="NUM_CAM_Lon.Location" type="System.Drawing.Point, System.Drawing">
+    <value>116, 49</value>
+  </data>
+  <data name="NUM_CAM_Lon.Size" type="System.Drawing.Size, System.Drawing">
+    <value>42, 20</value>
+  </data>
+  <data name="NUM_CAM_Lon.TabIndex" type="System.Int32, mscorlib">
+    <value>29</value>
+  </data>
+  <data name="&gt;&gt;NUM_CAM_Lon.Name" xml:space="preserve">
+    <value>NUM_CAM_Lon</value>
+  </data>
+  <data name="&gt;&gt;NUM_CAM_Lon.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NUM_CAM_Lon.Parent" xml:space="preserve">
+    <value>PANEL_CAM</value>
+  </data>
+  <data name="&gt;&gt;NUM_CAM_Lon.ZOrder" xml:space="preserve">
+    <value>34</value>
+  </data>
+  <data name="NUM_CAM_Lat.Location" type="System.Drawing.Point, System.Drawing">
+    <value>68, 49</value>
+  </data>
+  <data name="NUM_CAM_Lat.Size" type="System.Drawing.Size, System.Drawing">
+    <value>42, 20</value>
+  </data>
+  <data name="NUM_CAM_Lat.TabIndex" type="System.Int32, mscorlib">
+    <value>28</value>
+  </data>
+  <data name="&gt;&gt;NUM_CAM_Lat.Name" xml:space="preserve">
+    <value>NUM_CAM_Lat</value>
+  </data>
+  <data name="&gt;&gt;NUM_CAM_Lat.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NUM_CAM_Lat.Parent" xml:space="preserve">
+    <value>PANEL_CAM</value>
+  </data>
+  <data name="&gt;&gt;NUM_CAM_Lat.ZOrder" xml:space="preserve">
+    <value>33</value>
+  </data>
+  <data name="label16.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label16.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label16.Location" type="System.Drawing.Point, System.Drawing">
+    <value>36, 9</value>
+  </data>
+  <data name="label16.Size" type="System.Drawing.Size, System.Drawing">
+    <value>112, 13</value>
+  </data>
+  <data name="label16.TabIndex" type="System.Int32, mscorlib">
+    <value>28</value>
+  </data>
+  <data name="label16.Text" xml:space="preserve">
+    <value>CAM Message Offsets</value>
+  </data>
+  <data name="&gt;&gt;label16.Name" xml:space="preserve">
+    <value>label16</value>
+  </data>
+  <data name="&gt;&gt;label16.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label16.Parent" xml:space="preserve">
+    <value>PANEL_CAM</value>
+  </data>
+  <data name="&gt;&gt;label16.ZOrder" xml:space="preserve">
+    <value>32</value>
+  </data>
+  <data name="NUM_CAM_Week.Location" type="System.Drawing.Point, System.Drawing">
+    <value>13, 93</value>
+  </data>
+  <data name="NUM_CAM_Week.Size" type="System.Drawing.Size, System.Drawing">
+    <value>42, 20</value>
+  </data>
+  <data name="NUM_CAM_Week.TabIndex" type="System.Int32, mscorlib">
+    <value>53</value>
+  </data>
+  <data name="&gt;&gt;NUM_CAM_Week.Name" xml:space="preserve">
+    <value>NUM_CAM_Week</value>
+  </data>
+  <data name="&gt;&gt;NUM_CAM_Week.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NUM_CAM_Week.Parent" xml:space="preserve">
+    <value>PANEL_CAM</value>
+  </data>
+  <data name="&gt;&gt;NUM_CAM_Week.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <data name="label26.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label26.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label26.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 77</value>
+  </data>
+  <data name="label26.Size" type="System.Drawing.Size, System.Drawing">
+    <value>61, 13</value>
+  </data>
+  <data name="label26.TabIndex" type="System.Int32, mscorlib">
+    <value>54</value>
+  </data>
+  <data name="label26.Text" xml:space="preserve">
+    <value>GPS Week</value>
+  </data>
+  <data name="&gt;&gt;label26.Name" xml:space="preserve">
+    <value>label26</value>
+  </data>
+  <data name="&gt;&gt;label26.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label26.Parent" xml:space="preserve">
+    <value>PANEL_CAM</value>
+  </data>
+  <data name="&gt;&gt;label26.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="panel2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>428, 27</value>
+  </data>
+  <data name="panel2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1, 80</value>
+  </data>
+  <data name="panel2.TabIndex" type="System.Int32, mscorlib">
+    <value>46</value>
+  </data>
+  <data name="&gt;&gt;panel2.Name" xml:space="preserve">
+    <value>panel2</value>
+  </data>
+  <data name="&gt;&gt;panel2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panel2.Parent" xml:space="preserve">
+    <value>PANEL_CAM</value>
+  </data>
+  <data name="&gt;&gt;panel2.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="NUM_ATT_Roll.Location" type="System.Drawing.Point, System.Drawing">
+    <value>516, 49</value>
+  </data>
+  <data name="NUM_ATT_Roll.Size" type="System.Drawing.Size, System.Drawing">
+    <value>42, 20</value>
+  </data>
+  <data name="NUM_ATT_Roll.TabIndex" type="System.Int32, mscorlib">
+    <value>51</value>
+  </data>
+  <data name="&gt;&gt;NUM_ATT_Roll.Name" xml:space="preserve">
+    <value>NUM_ATT_Roll</value>
+  </data>
+  <data name="&gt;&gt;NUM_ATT_Roll.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NUM_ATT_Roll.Parent" xml:space="preserve">
+    <value>PANEL_CAM</value>
+  </data>
+  <data name="&gt;&gt;NUM_ATT_Roll.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="label25.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label25.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label25.Location" type="System.Drawing.Point, System.Drawing">
+    <value>516, 33</value>
+  </data>
+  <data name="label25.Size" type="System.Drawing.Size, System.Drawing">
+    <value>25, 13</value>
+  </data>
+  <data name="label25.TabIndex" type="System.Int32, mscorlib">
+    <value>52</value>
+  </data>
+  <data name="label25.Text" xml:space="preserve">
+    <value>Roll</value>
+  </data>
+  <data name="&gt;&gt;label25.Name" xml:space="preserve">
+    <value>label25</value>
+  </data>
+  <data name="&gt;&gt;label25.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label25.Parent" xml:space="preserve">
+    <value>PANEL_CAM</value>
+  </data>
+  <data name="&gt;&gt;label25.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="NUM_ATT_Pitch.Location" type="System.Drawing.Point, System.Drawing">
+    <value>453, 93</value>
+  </data>
+  <data name="NUM_ATT_Pitch.Size" type="System.Drawing.Size, System.Drawing">
+    <value>42, 20</value>
+  </data>
+  <data name="NUM_ATT_Pitch.TabIndex" type="System.Int32, mscorlib">
+    <value>49</value>
+  </data>
+  <data name="&gt;&gt;NUM_ATT_Pitch.Name" xml:space="preserve">
+    <value>NUM_ATT_Pitch</value>
+  </data>
+  <data name="&gt;&gt;NUM_ATT_Pitch.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NUM_ATT_Pitch.Parent" xml:space="preserve">
+    <value>PANEL_CAM</value>
+  </data>
+  <data name="&gt;&gt;NUM_ATT_Pitch.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="label24.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label24.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label24.Location" type="System.Drawing.Point, System.Drawing">
+    <value>453, 77</value>
+  </data>
+  <data name="label24.Size" type="System.Drawing.Size, System.Drawing">
+    <value>31, 13</value>
+  </data>
+  <data name="label24.TabIndex" type="System.Int32, mscorlib">
+    <value>50</value>
+  </data>
+  <data name="label24.Text" xml:space="preserve">
+    <value>Pitch</value>
+  </data>
+  <data name="&gt;&gt;label24.Name" xml:space="preserve">
+    <value>label24</value>
+  </data>
+  <data name="&gt;&gt;label24.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label24.Parent" xml:space="preserve">
+    <value>PANEL_CAM</value>
+  </data>
+  <data name="&gt;&gt;label24.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="label6.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label6.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label6.Location" type="System.Drawing.Point, System.Drawing">
+    <value>458, 9</value>
+  </data>
+  <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>110, 13</value>
+  </data>
+  <data name="label6.TabIndex" type="System.Int32, mscorlib">
+    <value>48</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>ATT Message Offsets</value>
+  </data>
+  <data name="&gt;&gt;label6.Name" xml:space="preserve">
+    <value>label6</value>
+  </data>
+  <data name="&gt;&gt;label6.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label6.Parent" xml:space="preserve">
+    <value>PANEL_CAM</value>
+  </data>
+  <data name="&gt;&gt;label6.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="label23.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label23.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label23.Location" type="System.Drawing.Point, System.Drawing">
+    <value>294, 33</value>
+  </data>
+  <data name="label23.Size" type="System.Drawing.Size, System.Drawing">
+    <value>61, 13</value>
+  </data>
+  <data name="label23.TabIndex" type="System.Int32, mscorlib">
+    <value>47</value>
+  </data>
+  <data name="label23.Text" xml:space="preserve">
+    <value>GPS Week</value>
+  </data>
+  <data name="&gt;&gt;label23.Name" xml:space="preserve">
+    <value>label23</value>
+  </data>
+  <data name="&gt;&gt;label23.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label23.Parent" xml:space="preserve">
+    <value>PANEL_CAM</value>
+  </data>
+  <data name="&gt;&gt;label23.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="NUM_GPS_Week.Location" type="System.Drawing.Point, System.Drawing">
+    <value>294, 49</value>
+  </data>
+  <data name="NUM_GPS_Week.Size" type="System.Drawing.Size, System.Drawing">
+    <value>42, 20</value>
+  </data>
+  <data name="NUM_GPS_Week.TabIndex" type="System.Int32, mscorlib">
+    <value>46</value>
+  </data>
+  <data name="&gt;&gt;NUM_GPS_Week.Name" xml:space="preserve">
+    <value>NUM_GPS_Week</value>
+  </data>
+  <data name="&gt;&gt;NUM_GPS_Week.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NUM_GPS_Week.Parent" xml:space="preserve">
+    <value>PANEL_CAM</value>
+  </data>
+  <data name="&gt;&gt;NUM_GPS_Week.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="panel1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>221, 27</value>
+  </data>
+  <data name="panel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1, 80</value>
+  </data>
+  <data name="panel1.TabIndex" type="System.Int32, mscorlib">
+    <value>45</value>
+  </data>
+  <data name="&gt;&gt;panel1.Name" xml:space="preserve">
+    <value>panel1</value>
+  </data>
+  <data name="&gt;&gt;panel1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panel1.Parent" xml:space="preserve">
+    <value>PANEL_CAM</value>
+  </data>
+  <data name="&gt;&gt;panel1.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="NUM_CAM_Time.Location" type="System.Drawing.Point, System.Drawing">
+    <value>13, 49</value>
+  </data>
+  <data name="NUM_CAM_Time.Size" type="System.Drawing.Size, System.Drawing">
+    <value>42, 20</value>
+  </data>
+  <data name="NUM_CAM_Time.TabIndex" type="System.Int32, mscorlib">
+    <value>43</value>
+  </data>
+  <data name="&gt;&gt;NUM_CAM_Time.Name" xml:space="preserve">
+    <value>NUM_CAM_Time</value>
+  </data>
+  <data name="&gt;&gt;NUM_CAM_Time.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NUM_CAM_Time.Parent" xml:space="preserve">
+    <value>PANEL_CAM</value>
+  </data>
+  <data name="&gt;&gt;NUM_CAM_Time.ZOrder" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="label22.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label22.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label22.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 33</value>
+  </data>
+  <data name="label22.Size" type="System.Drawing.Size, System.Drawing">
+    <value>54, 13</value>
+  </data>
+  <data name="label22.TabIndex" type="System.Int32, mscorlib">
+    <value>44</value>
+  </data>
+  <data name="label22.Text" xml:space="preserve">
+    <value>GPS Millis</value>
+  </data>
+  <data name="&gt;&gt;label22.Name" xml:space="preserve">
+    <value>label22</value>
+  </data>
+  <data name="&gt;&gt;label22.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label22.Parent" xml:space="preserve">
+    <value>PANEL_CAM</value>
+  </data>
+  <data name="&gt;&gt;label22.ZOrder" xml:space="preserve">
+    <value>14</value>
+  </data>
+  <data name="label21.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label21.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label21.Location" type="System.Drawing.Point, System.Drawing">
+    <value>355, 33</value>
+  </data>
+  <data name="label21.Size" type="System.Drawing.Size, System.Drawing">
+    <value>51, 13</value>
+  </data>
+  <data name="label21.TabIndex" type="System.Int32, mscorlib">
+    <value>42</value>
+  </data>
+  <data name="label21.Text" xml:space="preserve">
+    <value>AMSL Alt</value>
+  </data>
+  <data name="&gt;&gt;label21.Name" xml:space="preserve">
+    <value>label21</value>
+  </data>
+  <data name="&gt;&gt;label21.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label21.Parent" xml:space="preserve">
+    <value>PANEL_CAM</value>
+  </data>
+  <data name="&gt;&gt;label21.ZOrder" xml:space="preserve">
+    <value>16</value>
+  </data>
+  <data name="NUM_GPS_AMSL_Alt.Location" type="System.Drawing.Point, System.Drawing">
+    <value>355, 49</value>
+  </data>
+  <data name="NUM_GPS_AMSL_Alt.Size" type="System.Drawing.Size, System.Drawing">
+    <value>42, 20</value>
+  </data>
+  <data name="NUM_GPS_AMSL_Alt.TabIndex" type="System.Int32, mscorlib">
+    <value>41</value>
+  </data>
+  <data name="&gt;&gt;NUM_GPS_AMSL_Alt.Name" xml:space="preserve">
+    <value>NUM_GPS_AMSL_Alt</value>
+  </data>
+  <data name="&gt;&gt;NUM_GPS_AMSL_Alt.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NUM_GPS_AMSL_Alt.Parent" xml:space="preserve">
+    <value>PANEL_CAM</value>
+  </data>
+  <data name="&gt;&gt;NUM_GPS_AMSL_Alt.ZOrder" xml:space="preserve">
+    <value>18</value>
+  </data>
+  <data name="label20.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label20.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label20.Location" type="System.Drawing.Point, System.Drawing">
+    <value>263, 9</value>
+  </data>
+  <data name="label20.Size" type="System.Drawing.Size, System.Drawing">
+    <value>111, 13</value>
+  </data>
+  <data name="label20.TabIndex" type="System.Int32, mscorlib">
+    <value>40</value>
+  </data>
+  <data name="label20.Text" xml:space="preserve">
+    <value>GPS Message Offsets</value>
+  </data>
+  <data name="&gt;&gt;label20.Name" xml:space="preserve">
+    <value>label20</value>
+  </data>
+  <data name="&gt;&gt;label20.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label20.Parent" xml:space="preserve">
+    <value>PANEL_CAM</value>
+  </data>
+  <data name="&gt;&gt;label20.ZOrder" xml:space="preserve">
+    <value>20</value>
+  </data>
+  <data name="NUM_CAM_Pitch.Location" type="System.Drawing.Point, System.Drawing">
+    <value>164, 93</value>
+  </data>
+  <data name="NUM_CAM_Pitch.Size" type="System.Drawing.Size, System.Drawing">
+    <value>42, 20</value>
+  </data>
+  <data name="NUM_CAM_Pitch.TabIndex" type="System.Int32, mscorlib">
+    <value>38</value>
+  </data>
+  <data name="&gt;&gt;NUM_CAM_Pitch.Name" xml:space="preserve">
+    <value>NUM_CAM_Pitch</value>
+  </data>
+  <data name="&gt;&gt;NUM_CAM_Pitch.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NUM_CAM_Pitch.Parent" xml:space="preserve">
+    <value>PANEL_CAM</value>
+  </data>
+  <data name="&gt;&gt;NUM_CAM_Pitch.ZOrder" xml:space="preserve">
+    <value>23</value>
+  </data>
+  <data name="label19.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label19.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label19.Location" type="System.Drawing.Point, System.Drawing">
+    <value>161, 77</value>
+  </data>
+  <data name="label19.Size" type="System.Drawing.Size, System.Drawing">
+    <value>31, 13</value>
+  </data>
+  <data name="label19.TabIndex" type="System.Int32, mscorlib">
+    <value>39</value>
+  </data>
+  <data name="label19.Text" xml:space="preserve">
+    <value>Pitch</value>
+  </data>
+  <data name="&gt;&gt;label19.Name" xml:space="preserve">
+    <value>label19</value>
+  </data>
+  <data name="&gt;&gt;label19.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label19.Parent" xml:space="preserve">
+    <value>PANEL_CAM</value>
+  </data>
+  <data name="&gt;&gt;label19.ZOrder" xml:space="preserve">
+    <value>25</value>
+  </data>
+  <data name="NUM_CAM_Roll.Location" type="System.Drawing.Point, System.Drawing">
+    <value>116, 93</value>
+  </data>
+  <data name="NUM_CAM_Roll.Size" type="System.Drawing.Size, System.Drawing">
+    <value>42, 20</value>
+  </data>
+  <data name="NUM_CAM_Roll.TabIndex" type="System.Int32, mscorlib">
+    <value>36</value>
+  </data>
+  <data name="&gt;&gt;NUM_CAM_Roll.Name" xml:space="preserve">
+    <value>NUM_CAM_Roll</value>
+  </data>
+  <data name="&gt;&gt;NUM_CAM_Roll.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NUM_CAM_Roll.Parent" xml:space="preserve">
+    <value>PANEL_CAM</value>
+  </data>
+  <data name="&gt;&gt;NUM_CAM_Roll.ZOrder" xml:space="preserve">
+    <value>27</value>
+  </data>
+  <data name="label18.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label18.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label18.Location" type="System.Drawing.Point, System.Drawing">
+    <value>113, 77</value>
+  </data>
+  <data name="label18.Size" type="System.Drawing.Size, System.Drawing">
+    <value>25, 13</value>
+  </data>
+  <data name="label18.TabIndex" type="System.Int32, mscorlib">
+    <value>37</value>
+  </data>
+  <data name="label18.Text" xml:space="preserve">
+    <value>Roll</value>
+  </data>
+  <data name="&gt;&gt;label18.Name" xml:space="preserve">
+    <value>label18</value>
+  </data>
+  <data name="&gt;&gt;label18.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label18.Parent" xml:space="preserve">
+    <value>PANEL_CAM</value>
+  </data>
+  <data name="&gt;&gt;label18.ZOrder" xml:space="preserve">
+    <value>29</value>
+  </data>
+  <data name="NUM_CAM_Heading.Location" type="System.Drawing.Point, System.Drawing">
+    <value>68, 93</value>
+  </data>
+  <data name="NUM_CAM_Heading.Size" type="System.Drawing.Size, System.Drawing">
+    <value>42, 20</value>
+  </data>
+  <data name="NUM_CAM_Heading.TabIndex" type="System.Int32, mscorlib">
+    <value>34</value>
+  </data>
+  <data name="&gt;&gt;NUM_CAM_Heading.Name" xml:space="preserve">
+    <value>NUM_CAM_Heading</value>
+  </data>
+  <data name="&gt;&gt;NUM_CAM_Heading.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;NUM_CAM_Heading.Parent" xml:space="preserve">
+    <value>PANEL_CAM</value>
+  </data>
+  <data name="&gt;&gt;NUM_CAM_Heading.ZOrder" xml:space="preserve">
+    <value>30</value>
+  </data>
+  <data name="label17.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label17.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label17.Location" type="System.Drawing.Point, System.Drawing">
+    <value>69, 77</value>
+  </data>
+  <data name="label17.Size" type="System.Drawing.Size, System.Drawing">
+    <value>33, 13</value>
+  </data>
+  <data name="label17.TabIndex" type="System.Int32, mscorlib">
+    <value>35</value>
+  </data>
+  <data name="label17.Text" xml:space="preserve">
+    <value>Head</value>
+  </data>
+  <data name="&gt;&gt;label17.Name" xml:space="preserve">
+    <value>label17</value>
+  </data>
+  <data name="&gt;&gt;label17.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label17.Parent" xml:space="preserve">
+    <value>PANEL_CAM</value>
+  </data>
+  <data name="&gt;&gt;label17.ZOrder" xml:space="preserve">
+    <value>31</value>
+  </data>
+  <data name="PANEL_CAM.Location" type="System.Drawing.Point, System.Drawing">
+    <value>32, 184</value>
+  </data>
+  <data name="PANEL_CAM.Size" type="System.Drawing.Size, System.Drawing">
+    <value>597, 136</value>
+  </data>
+  <data name="PANEL_CAM.TabIndex" type="System.Int32, mscorlib">
+    <value>33</value>
+  </data>
+  <data name="&gt;&gt;PANEL_CAM.Name" xml:space="preserve">
+    <value>PANEL_CAM</value>
+  </data>
+  <data name="&gt;&gt;PANEL_CAM.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;PANEL_CAM.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;PANEL_CAM.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="label9.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label9.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label9.Location" type="System.Drawing.Point, System.Drawing">
+    <value>258, 9</value>
+  </data>
+  <data name="label9.Size" type="System.Drawing.Size, System.Drawing">
+    <value>47, 13</value>
+  </data>
+  <data name="label9.TabIndex" type="System.Int32, mscorlib">
+    <value>39</value>
+  </data>
+  <data name="label9.Text" xml:space="preserve">
+    <value>Rotation</value>
+  </data>
+  <data name="&gt;&gt;label9.Name" xml:space="preserve">
+    <value>label9</value>
+  </data>
+  <data name="&gt;&gt;label9.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label9.Parent" xml:space="preserve">
+    <value>panel3</value>
+  </data>
+  <data name="&gt;&gt;label9.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="num_camerarotation.Location" type="System.Drawing.Point, System.Drawing">
+    <value>311, 25</value>
+  </data>
+  <data name="num_camerarotation.Size" type="System.Drawing.Size, System.Drawing">
+    <value>42, 20</value>
+  </data>
+  <data name="num_camerarotation.TabIndex" type="System.Int32, mscorlib">
+    <value>38</value>
+  </data>
+  <data name="&gt;&gt;num_camerarotation.Name" xml:space="preserve">
+    <value>num_camerarotation</value>
+  </data>
+  <data name="&gt;&gt;num_camerarotation.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;num_camerarotation.Parent" xml:space="preserve">
+    <value>panel3</value>
+  </data>
+  <data name="&gt;&gt;num_camerarotation.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="label8.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label8.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label8.Location" type="System.Drawing.Point, System.Drawing">
+    <value>311, 9</value>
+  </data>
+  <data name="label8.Size" type="System.Drawing.Size, System.Drawing">
+    <value>51, 13</value>
+  </data>
+  <data name="label8.TabIndex" type="System.Int32, mscorlib">
+    <value>37</value>
+  </data>
+  <data name="label8.Text" xml:space="preserve">
+    <value>Cross fov</value>
+  </data>
+  <data name="&gt;&gt;label8.Name" xml:space="preserve">
+    <value>label8</value>
+  </data>
+  <data name="&gt;&gt;label8.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label8.Parent" xml:space="preserve">
+    <value>panel3</value>
+  </data>
+  <data name="&gt;&gt;label8.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="label7.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label7.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="label7.Location" type="System.Drawing.Point, System.Drawing">
+    <value>202, 10</value>
+  </data>
+  <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
+    <value>38, 13</value>
+  </data>
+  <data name="label7.TabIndex" type="System.Int32, mscorlib">
+    <value>36</value>
+  </data>
+  <data name="label7.Text" xml:space="preserve">
+    <value>Dir fov</value>
+  </data>
+  <data name="&gt;&gt;label7.Name" xml:space="preserve">
+    <value>label7</value>
+  </data>
+  <data name="&gt;&gt;label7.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label7.Parent" xml:space="preserve">
+    <value>panel3</value>
+  </data>
+  <data name="&gt;&gt;label7.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="num_hfov.Location" type="System.Drawing.Point, System.Drawing">
+    <value>258, 26</value>
+  </data>
+  <data name="num_hfov.Size" type="System.Drawing.Size, System.Drawing">
+    <value>42, 20</value>
+  </data>
+  <data name="num_hfov.TabIndex" type="System.Int32, mscorlib">
+    <value>35</value>
+  </data>
+  <data name="&gt;&gt;num_hfov.Name" xml:space="preserve">
+    <value>num_hfov</value>
+  </data>
+  <data name="&gt;&gt;num_hfov.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;num_hfov.Parent" xml:space="preserve">
+    <value>panel3</value>
+  </data>
+  <data name="&gt;&gt;num_hfov.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="num_vfov.Location" type="System.Drawing.Point, System.Drawing">
+    <value>205, 26</value>
+  </data>
+  <data name="num_vfov.Size" type="System.Drawing.Size, System.Drawing">
+    <value>42, 20</value>
+  </data>
+  <data name="num_vfov.TabIndex" type="System.Int32, mscorlib">
+    <value>34</value>
+  </data>
+  <data name="&gt;&gt;num_vfov.Name" xml:space="preserve">
+    <value>num_vfov</value>
+  </data>
+  <data name="&gt;&gt;num_vfov.Type" xml:space="preserve">
+    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;num_vfov.Parent" xml:space="preserve">
+    <value>panel3</value>
+  </data>
+  <data name="&gt;&gt;num_vfov.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;CHECK_AMSLAlt_Use.Name" xml:space="preserve">
+    <value>CHECK_AMSLAlt_Use</value>
+  </data>
+  <data name="&gt;&gt;CHECK_AMSLAlt_Use.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CHECK_AMSLAlt_Use.Parent" xml:space="preserve">
+    <value>panel3</value>
+  </data>
+  <data name="&gt;&gt;CHECK_AMSLAlt_Use.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="panel3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>32, 319</value>
+  </data>
+  <data name="panel3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>597, 96</value>
+  </data>
+  <data name="panel3.TabIndex" type="System.Int32, mscorlib">
+    <value>40</value>
+  </data>
+  <data name="&gt;&gt;panel3.Name" xml:space="preserve">
+    <value>panel3</value>
+  </data>
+  <data name="&gt;&gt;panel3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panel3.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;panel3.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="CHECK_AMSLAlt_Use.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CHECK_AMSLAlt_Use.Location" type="System.Drawing.Point, System.Drawing">
+    <value>236, 63</value>
+  </data>
+  <data name="CHECK_AMSLAlt_Use.Size" type="System.Drawing.Size, System.Drawing">
+    <value>92, 17</value>
+  </data>
+  <data name="CHECK_AMSLAlt_Use.TabIndex" type="System.Int32, mscorlib">
+    <value>40</value>
+  </data>
+  <data name="CHECK_AMSLAlt_Use.Text" xml:space="preserve">
+    <value>Use AMSL Alt</value>
+  </data>
+  <data name="&gt;&gt;CHECK_AMSLAlt_Use.Name" xml:space="preserve">
+    <value>CHECK_AMSLAlt_Use</value>
+  </data>
+  <data name="&gt;&gt;CHECK_AMSLAlt_Use.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CHECK_AMSLAlt_Use.Parent" xml:space="preserve">
+    <value>panel3</value>
+  </data>
+  <data name="&gt;&gt;CHECK_AMSLAlt_Use.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
+  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>25</value>
+  </metadata>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>452, 362</value>
+    <value>665, 692</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Geo Ref Images</value>
@@ -832,18 +1777,18 @@
     <value>openFileDialog1</value>
   </data>
   <data name="&gt;&gt;openFileDialog1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.OpenFileDialog, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.OpenFileDialog, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;folderBrowserDialog1.Name" xml:space="preserve">
     <value>folderBrowserDialog1</value>
   </data>
   <data name="&gt;&gt;folderBrowserDialog1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.FolderBrowserDialog, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.FolderBrowserDialog, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>Georefimage</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

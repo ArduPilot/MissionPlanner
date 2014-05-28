@@ -4,17 +4,26 @@
   <AC2>
     <WAYPOINT>
       <P1>Delay</P1>
-      <P2>Hit Rad</P2>
+      <P2></P2>
       <P3></P3>
-      <P4>Yaw Ang</P4>
+      <P4></P4>
       <X>Lat</X>
       <Y>Long</Y>
       <Z>Alt</Z>
     </WAYPOINT>
+    <SPLINE_WAYPOINT>
+      <P1>Delay</P1>
+      <P2></P2>
+      <P3></P3>
+      <P4></P4>
+      <X>Lat</X>
+      <Y>Long</Y>
+      <Z>Alt</Z>      
+    </SPLINE_WAYPOINT>
     <LOITER_TURNS>
       <P1>Turns</P1>
       <P2></P2>
-      <P3></P3>
+      <P3>Dir 1=CW</P3>
       <P4></P4>
       <X>Lat</X>
       <Y>Long</Y>
@@ -52,9 +61,9 @@
       <P2></P2>
       <P3></P3>
       <P4></P4>
-      <X></X>
-      <Y></Y>
-      <Z></Z>
+      <X>Lat</X>
+      <Y>Long</Y>
+      <Z>Alt</Z>
     </LAND>
     <TAKEOFF>
       <P1></P1>
@@ -130,7 +139,7 @@
     </DO_JUMP>
     <DO_CHANGE_SPEED>
       <P1>speed m/s</P1>
-      <P2></P2>
+      <P2>speed m/s</P2>
       <P3></P3>
       <P4></P4>
       <X></X>
@@ -142,9 +151,9 @@
       <P2></P2>
       <P3></P3>
       <P4></P4>
-      <X></X>
-      <Y></Y>
-      <Z></Z>
+      <X>Lat</X>
+      <Y>Long</Y>
+      <Z>Alt</Z>
     </DO_SET_HOME>
     <DO_SET_CAM_TRIGG_DIST>
       <P1>Dist (m)</P1>
@@ -225,7 +234,7 @@
     <LOITER_UNLIM>
       <P1></P1>
       <P2></P2>
-      <P3></P3>
+      <P3>Dir 1=CW</P3>
       <P4></P4>
       <X>Lat</X>
       <Y>Long</Y>
@@ -234,7 +243,7 @@
     <LOITER_TURNS>
       <P1>Turns</P1>
       <P2></P2>
-      <P3></P3>
+      <P3>Dir 1=CW</P3>
       <P4></P4>
       <X>Lat</X>
       <Y>Long</Y>
@@ -243,7 +252,7 @@
     <LOITER_TIME>
       <P1>Time s</P1>
       <P2></P2>
-      <P3></P3>
+      <P3>Dir 1=CW</P3>
       <P4></P4>
       <X>Lat</X>
       <Y>Long</Y>
@@ -353,9 +362,9 @@
       <P2></P2>
       <P3></P3>
       <P4></P4>
-      <X></X>
-      <Y></Y>
-      <Z></Z>
+      <X>Lat</X>
+      <Y>Long</Y>
+      <Z>Alt</Z>
     </DO_SET_HOME>
     <DO_SET_RELAY>
       <P1>off(0)/on(1)</P1>
@@ -444,7 +453,7 @@
     <LOITER_UNLIM>
       <P1></P1>
       <P2></P2>
-      <P3></P3>
+      <P3>Dir 1=CW</P3>
       <P4></P4>
       <X>Lat</X>
       <Y>Long</Y>
@@ -453,7 +462,7 @@
     <LOITER_TURNS>
       <P1>Turns</P1>
       <P2></P2>
-      <P3></P3>
+      <P3>Dir 1=CW</P3>
       <P4></P4>
       <X>Lat</X>
       <Y>Long</Y>
@@ -462,7 +471,7 @@
     <LOITER_TIME>
       <P1>Time s</P1>
       <P2></P2>
-      <P3></P3>
+      <P3>Dir 1=CW</P3>
       <P4></P4>
       <X>Lat</X>
       <Y>Long</Y>
@@ -590,9 +599,9 @@
       <P2></P2>
       <P3></P3>
       <P4></P4>
-      <X></X>
-      <Y></Y>
-      <Z></Z>
+      <X>Lat</X>
+      <Y>Long</Y>
+      <Z>Alt</Z>
     </DO_SET_HOME>
     <DO_SET_RELAY>
       <P1>off(0)/on(1)</P1>

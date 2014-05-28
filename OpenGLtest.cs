@@ -64,11 +64,8 @@ namespace MissionPlanner.Controls
         void getImage()
         {
             GMapProvider type  = GMap.NET.MapProviders.GoogleSatelliteMapProvider.Instance;
-            PureProjection prj = null;
-            int maxZoom;
+            PureProjection prj = type.Projection;
 
-            //GMaps.Instance.AdjustProjection(type, ref prj, out maxZoom);
-          //int zoom = 14; // 12
             if (!area.IsEmpty)
             {
                 try
@@ -103,24 +100,23 @@ namespace MissionPlanner.Controls
                                 {
                                    Console.WriteLine("Downloading[" + p + "]: " + tileArea.IndexOf(p) + " of " + tileArea.Count);
 
-                                    /*foreach (GMapProvider tp in types)
+                                    //foreach (GMapProvider tp in types)
                                     {
-                                        Exception ex;
-                                        WindowsFormsImage tile = GMaps.Instance.GetImageFrom(tp, p, zoom, out ex) as WindowsFormsImage;
+                                        GMapImage tile = type.GetTileImage(p, zoom) as GMapImage;
                                         if (tile != null)
                                         {
                                             using (tile)
                                             {
-                                                int x = p.X * prj.TileSize.Width - topLeftPx.X + padding;
-                                                int y = p.Y * prj.TileSize.Width - topLeftPx.Y + padding;
+                                                long x = p.X * prj.TileSize.Width - topLeftPx.X + padding;
+                                                long y = p.Y * prj.TileSize.Width - topLeftPx.Y + padding;
                                                 {
                                                     gfx.DrawImage(tile.Img, x, y, prj.TileSize.Width, prj.TileSize.Height);
                                                 }
                                             }
                                         }
                                     }
-                                     * */
-                                    if ((DateTime.Now - startimage).TotalMilliseconds > 200)
+                                    
+                                    if ((DateTime.Now - startimage).TotalMilliseconds > 100)
                                         break;
                                 }
                             }
@@ -274,10 +270,10 @@ namespace MissionPlanner.Controls
             for (double z = (area.Bottom - cleanup); z < area.Top - step; z += increment)
             {
                 //Makes OpenGL draw a triangle at every three consecutive vertices
-                GL.Begin(BeginMode.TriangleStrip);
+                GL.Begin(PrimitiveType.TriangleStrip);
                 for (double x = (area.Left - cleanup2); x < area.Right - step; x += increment)
                 {
-                    int heightl = srtm.getAltitude(z, area.Right + area.Left - x, 20);
+                    double heightl = srtm.getAltitude(z, area.Right + area.Left - x, 20);
 
                   //  Console.WriteLine(x + " " + z);
 
@@ -334,9 +330,15 @@ namespace MissionPlanner.Controls
 
             Console.WriteLine("GL  "+sw.ElapsedMilliseconds);
 
+            try
+            {
+
             this.SwapBuffers();
 
-            Context.MakeCurrent(null);
+          
+                Context.MakeCurrent(null);
+            }
+            catch { }
 
             //this.Invalidate();
         }

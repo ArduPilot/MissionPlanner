@@ -38,8 +38,6 @@ namespace MissionPlanner.Utilities
                             {
                                 Console.WriteLine(file);
 
-                                sr.Close();
-
                               //  File.Delete(file);
                             }
                             catch { }

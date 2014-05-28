@@ -38,6 +38,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.CCPM = new System.Windows.Forms.RadioButton();
             this.label41 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.mavlinkNumericUpDowntailspeed = new MissionPlanner.Controls.MavlinkNumericUpDown();
+            this.label6 = new System.Windows.Forms.Label();
+            this.mavlinkComboBoxTailType = new MissionPlanner.Controls.MavlinkComboBox();
             this.label46 = new System.Windows.Forms.Label();
             this.H_GYR_GAIN = new System.Windows.Forms.TextBox();
             this.label21 = new System.Windows.Forms.Label();
@@ -79,6 +82,27 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.HS4_REV = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.H_COLYAW = new MissionPlanner.Controls.MavlinkNumericUpDown();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.H_STAB_COL_MIN = new MissionPlanner.Controls.MavlinkNumericUpDown();
+            this.H_STAB_COL_MAX = new MissionPlanner.Controls.MavlinkNumericUpDown();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.mavlinkNumericUpDownrunuptime = new MissionPlanner.Controls.MavlinkNumericUpDown();
+            this.label5 = new System.Windows.Forms.Label();
+            this.mavlinkudH_RSC_RATE = new MissionPlanner.Controls.MavlinkNumericUpDown();
+            this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.mavlinkudH_RSC_SETPOINT = new MissionPlanner.Controls.MavlinkNumericUpDown();
+            this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.H_RSC_MODE = new MissionPlanner.Controls.MavlinkComboBox();
+            this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.mavlinkNumericUpDownland_col_min = new MissionPlanner.Controls.MavlinkNumericUpDown();
+            this.BUT_reset_swash = new MissionPlanner.Controls.MyButton();
+            this.mavlinkNumericUpDownpitchmax = new MissionPlanner.Controls.MavlinkNumericUpDown();
+            this.mavlinkNumericUpDownrollmax = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.mavlinkNumericUpDown3max = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.mavlinkNumericUpDown3min = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.mavlinkNumericUpDown2max = new MissionPlanner.Controls.MavlinkNumericUpDown();
@@ -91,37 +115,31 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.currentStateBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.HS3 = new MissionPlanner.Controls.VerticalProgressBar2();
             this.Gservoloc = new AGaugeApp.AGauge();
-            this.mavlinkNumericUpDownrollmax = new MissionPlanner.Controls.MavlinkNumericUpDown();
-            this.mavlinkNumericUpDownpitchmax = new MissionPlanner.Controls.MavlinkNumericUpDown();
-            this.BUT_reset_swash = new MissionPlanner.Controls.MyButton();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.H_COLYAW = new MissionPlanner.Controls.MavlinkNumericUpDown();
-            this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.H_STAB_COL_MIN = new MissionPlanner.Controls.MavlinkNumericUpDown();
-            this.H_STAB_COL_MAX = new MissionPlanner.Controls.MavlinkNumericUpDown();
-            this.groupBox7 = new System.Windows.Forms.GroupBox();
-            this.H_RSC_RATE = new MissionPlanner.Controls.MavlinkNumericUpDown();
-            this.groupBox8 = new System.Windows.Forms.GroupBox();
-            this.H_GOV_SETPOINT = new MissionPlanner.Controls.MavlinkNumericUpDown();
-            this.groupBox9 = new System.Windows.Forms.GroupBox();
-            this.H_RSC_MODE = new MissionPlanner.Controls.MavlinkComboBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.mavlinkComboBoxTailType = new MissionPlanner.Controls.MavlinkComboBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.mavlinkNumericUpDown1 = new MissionPlanner.Controls.MavlinkNumericUpDown();
-            this.groupBox10 = new System.Windows.Forms.GroupBox();
-            this.mavlinkNumericUpDownland_col_min = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.groupBox5.SuspendLayout();
             this.panel1.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDowntailspeed)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.HS3_TRIM)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.HS2_TRIM)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.HS1_TRIM)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.HS4_TRIM)).BeginInit();
+            this.groupBox4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.H_COLYAW)).BeginInit();
+            this.groupBox6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.H_STAB_COL_MIN)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.H_STAB_COL_MAX)).BeginInit();
+            this.groupBox7.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDownrunuptime)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mavlinkudH_RSC_RATE)).BeginInit();
+            this.groupBox8.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.mavlinkudH_RSC_SETPOINT)).BeginInit();
+            this.groupBox9.SuspendLayout();
+            this.groupBox10.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDownland_col_min)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDownpitchmax)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDownrollmax)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown3max)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown3min)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown2max)).BeginInit();
@@ -129,21 +147,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown1max)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown1min)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.currentStateBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDownrollmax)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDownpitchmax)).BeginInit();
-            this.groupBox4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.H_COLYAW)).BeginInit();
-            this.groupBox6.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.H_STAB_COL_MIN)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.H_STAB_COL_MAX)).BeginInit();
-            this.groupBox7.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.H_RSC_RATE)).BeginInit();
-            this.groupBox8.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.H_GOV_SETPOINT)).BeginInit();
-            this.groupBox9.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown1)).BeginInit();
-            this.groupBox10.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDownland_col_min)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox5
@@ -190,7 +193,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             // groupBox3
             // 
-            this.groupBox3.Controls.Add(this.mavlinkNumericUpDown1);
+            this.groupBox3.Controls.Add(this.mavlinkNumericUpDowntailspeed);
             this.groupBox3.Controls.Add(this.label6);
             this.groupBox3.Controls.Add(this.mavlinkComboBoxTailType);
             this.groupBox3.Controls.Add(this.label46);
@@ -198,6 +201,29 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             resources.ApplyResources(this.groupBox3, "groupBox3");
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.TabStop = false;
+            // 
+            // mavlinkNumericUpDowntailspeed
+            // 
+            resources.ApplyResources(this.mavlinkNumericUpDowntailspeed, "mavlinkNumericUpDowntailspeed");
+            this.mavlinkNumericUpDowntailspeed.Max = 1F;
+            this.mavlinkNumericUpDowntailspeed.Min = 0F;
+            this.mavlinkNumericUpDowntailspeed.Name = "mavlinkNumericUpDowntailspeed";
+            this.mavlinkNumericUpDowntailspeed.param = null;
+            this.mavlinkNumericUpDowntailspeed.ParamName = null;
+            // 
+            // label6
+            // 
+            resources.ApplyResources(this.label6, "label6");
+            this.label6.Name = "label6";
+            // 
+            // mavlinkComboBoxTailType
+            // 
+            this.mavlinkComboBoxTailType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            resources.ApplyResources(this.mavlinkComboBoxTailType, "mavlinkComboBoxTailType");
+            this.mavlinkComboBoxTailType.FormattingEnabled = true;
+            this.mavlinkComboBoxTailType.Name = "mavlinkComboBoxTailType";
+            this.mavlinkComboBoxTailType.param = null;
+            this.mavlinkComboBoxTailType.ParamName = null;
             // 
             // label46
             // 
@@ -502,6 +528,206 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             resources.ApplyResources(this.label2, "label2");
             this.label2.Name = "label2";
             // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.H_COLYAW);
+            resources.ApplyResources(this.groupBox4, "groupBox4");
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.TabStop = false;
+            // 
+            // H_COLYAW
+            // 
+            resources.ApplyResources(this.H_COLYAW, "H_COLYAW");
+            this.H_COLYAW.Max = 1F;
+            this.H_COLYAW.Min = 0F;
+            this.H_COLYAW.Name = "H_COLYAW";
+            this.H_COLYAW.param = null;
+            this.H_COLYAW.ParamName = null;
+            this.H_COLYAW.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.label3);
+            this.groupBox6.Controls.Add(this.label4);
+            this.groupBox6.Controls.Add(this.H_STAB_COL_MIN);
+            this.groupBox6.Controls.Add(this.H_STAB_COL_MAX);
+            resources.ApplyResources(this.groupBox6, "groupBox6");
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.TabStop = false;
+            // 
+            // label3
+            // 
+            resources.ApplyResources(this.label3, "label3");
+            this.label3.Name = "label3";
+            // 
+            // label4
+            // 
+            resources.ApplyResources(this.label4, "label4");
+            this.label4.Name = "label4";
+            // 
+            // H_STAB_COL_MIN
+            // 
+            resources.ApplyResources(this.H_STAB_COL_MIN, "H_STAB_COL_MIN");
+            this.H_STAB_COL_MIN.Max = 1F;
+            this.H_STAB_COL_MIN.Min = 0F;
+            this.H_STAB_COL_MIN.Name = "H_STAB_COL_MIN";
+            this.H_STAB_COL_MIN.param = null;
+            this.H_STAB_COL_MIN.ParamName = null;
+            this.H_STAB_COL_MIN.Value = new decimal(new int[] {
+            20,
+            0,
+            0,
+            0});
+            // 
+            // H_STAB_COL_MAX
+            // 
+            resources.ApplyResources(this.H_STAB_COL_MAX, "H_STAB_COL_MAX");
+            this.H_STAB_COL_MAX.Max = 1F;
+            this.H_STAB_COL_MAX.Min = 0F;
+            this.H_STAB_COL_MAX.Name = "H_STAB_COL_MAX";
+            this.H_STAB_COL_MAX.param = null;
+            this.H_STAB_COL_MAX.ParamName = null;
+            this.H_STAB_COL_MAX.Value = new decimal(new int[] {
+            80,
+            0,
+            0,
+            0});
+            // 
+            // groupBox7
+            // 
+            this.groupBox7.Controls.Add(this.label7);
+            this.groupBox7.Controls.Add(this.mavlinkNumericUpDownrunuptime);
+            this.groupBox7.Controls.Add(this.label5);
+            this.groupBox7.Controls.Add(this.mavlinkudH_RSC_RATE);
+            resources.ApplyResources(this.groupBox7, "groupBox7");
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.TabStop = false;
+            // 
+            // label7
+            // 
+            resources.ApplyResources(this.label7, "label7");
+            this.label7.Name = "label7";
+            // 
+            // mavlinkNumericUpDownrunuptime
+            // 
+            resources.ApplyResources(this.mavlinkNumericUpDownrunuptime, "mavlinkNumericUpDownrunuptime");
+            this.mavlinkNumericUpDownrunuptime.Max = 1F;
+            this.mavlinkNumericUpDownrunuptime.Min = 0F;
+            this.mavlinkNumericUpDownrunuptime.Name = "mavlinkNumericUpDownrunuptime";
+            this.mavlinkNumericUpDownrunuptime.param = null;
+            this.mavlinkNumericUpDownrunuptime.ParamName = null;
+            this.mavlinkNumericUpDownrunuptime.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            // 
+            // label5
+            // 
+            resources.ApplyResources(this.label5, "label5");
+            this.label5.Name = "label5";
+            // 
+            // mavlinkudH_RSC_RATE
+            // 
+            resources.ApplyResources(this.mavlinkudH_RSC_RATE, "mavlinkudH_RSC_RATE");
+            this.mavlinkudH_RSC_RATE.Max = 1F;
+            this.mavlinkudH_RSC_RATE.Min = 0F;
+            this.mavlinkudH_RSC_RATE.Name = "mavlinkudH_RSC_RATE";
+            this.mavlinkudH_RSC_RATE.param = null;
+            this.mavlinkudH_RSC_RATE.ParamName = null;
+            this.mavlinkudH_RSC_RATE.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            // 
+            // groupBox8
+            // 
+            this.groupBox8.Controls.Add(this.mavlinkudH_RSC_SETPOINT);
+            resources.ApplyResources(this.groupBox8, "groupBox8");
+            this.groupBox8.Name = "groupBox8";
+            this.groupBox8.TabStop = false;
+            // 
+            // mavlinkudH_RSC_SETPOINT
+            // 
+            resources.ApplyResources(this.mavlinkudH_RSC_SETPOINT, "mavlinkudH_RSC_SETPOINT");
+            this.mavlinkudH_RSC_SETPOINT.Max = 1F;
+            this.mavlinkudH_RSC_SETPOINT.Min = 0F;
+            this.mavlinkudH_RSC_SETPOINT.Name = "mavlinkudH_RSC_SETPOINT";
+            this.mavlinkudH_RSC_SETPOINT.param = null;
+            this.mavlinkudH_RSC_SETPOINT.ParamName = null;
+            this.mavlinkudH_RSC_SETPOINT.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            // 
+            // groupBox9
+            // 
+            this.groupBox9.Controls.Add(this.H_RSC_MODE);
+            resources.ApplyResources(this.groupBox9, "groupBox9");
+            this.groupBox9.Name = "groupBox9";
+            this.groupBox9.TabStop = false;
+            // 
+            // H_RSC_MODE
+            // 
+            this.H_RSC_MODE.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            resources.ApplyResources(this.H_RSC_MODE, "H_RSC_MODE");
+            this.H_RSC_MODE.FormattingEnabled = true;
+            this.H_RSC_MODE.Name = "H_RSC_MODE";
+            this.H_RSC_MODE.param = null;
+            this.H_RSC_MODE.ParamName = null;
+            // 
+            // groupBox10
+            // 
+            this.groupBox10.Controls.Add(this.mavlinkNumericUpDownland_col_min);
+            resources.ApplyResources(this.groupBox10, "groupBox10");
+            this.groupBox10.Name = "groupBox10";
+            this.groupBox10.TabStop = false;
+            // 
+            // mavlinkNumericUpDownland_col_min
+            // 
+            resources.ApplyResources(this.mavlinkNumericUpDownland_col_min, "mavlinkNumericUpDownland_col_min");
+            this.mavlinkNumericUpDownland_col_min.Max = 1F;
+            this.mavlinkNumericUpDownland_col_min.Min = 0F;
+            this.mavlinkNumericUpDownland_col_min.Name = "mavlinkNumericUpDownland_col_min";
+            this.mavlinkNumericUpDownland_col_min.param = null;
+            this.mavlinkNumericUpDownland_col_min.ParamName = null;
+            this.mavlinkNumericUpDownland_col_min.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            // 
+            // BUT_reset_swash
+            // 
+            resources.ApplyResources(this.BUT_reset_swash, "BUT_reset_swash");
+            this.BUT_reset_swash.Name = "BUT_reset_swash";
+            this.BUT_reset_swash.UseVisualStyleBackColor = true;
+            this.BUT_reset_swash.Click += new System.EventHandler(this.BUT_reset_swash_Click);
+            // 
+            // mavlinkNumericUpDownpitchmax
+            // 
+            resources.ApplyResources(this.mavlinkNumericUpDownpitchmax, "mavlinkNumericUpDownpitchmax");
+            this.mavlinkNumericUpDownpitchmax.Max = 1F;
+            this.mavlinkNumericUpDownpitchmax.Min = 0F;
+            this.mavlinkNumericUpDownpitchmax.Name = "mavlinkNumericUpDownpitchmax";
+            this.mavlinkNumericUpDownpitchmax.param = null;
+            this.mavlinkNumericUpDownpitchmax.ParamName = null;
+            // 
+            // mavlinkNumericUpDownrollmax
+            // 
+            resources.ApplyResources(this.mavlinkNumericUpDownrollmax, "mavlinkNumericUpDownrollmax");
+            this.mavlinkNumericUpDownrollmax.Max = 1F;
+            this.mavlinkNumericUpDownrollmax.Min = 0F;
+            this.mavlinkNumericUpDownrollmax.Name = "mavlinkNumericUpDownrollmax";
+            this.mavlinkNumericUpDownrollmax.param = null;
+            this.mavlinkNumericUpDownrollmax.ParamName = null;
+            // 
             // mavlinkNumericUpDown3max
             // 
             resources.ApplyResources(this.mavlinkNumericUpDown3max, "mavlinkNumericUpDown3max");
@@ -748,208 +974,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.Gservoloc.Value2 = 180F;
             this.Gservoloc.Value3 = 0F;
             // 
-            // mavlinkNumericUpDownrollmax
-            // 
-            resources.ApplyResources(this.mavlinkNumericUpDownrollmax, "mavlinkNumericUpDownrollmax");
-            this.mavlinkNumericUpDownrollmax.Max = 1F;
-            this.mavlinkNumericUpDownrollmax.Min = 0F;
-            this.mavlinkNumericUpDownrollmax.Name = "mavlinkNumericUpDownrollmax";
-            this.mavlinkNumericUpDownrollmax.param = null;
-            this.mavlinkNumericUpDownrollmax.ParamName = null;
-            // 
-            // mavlinkNumericUpDownpitchmax
-            // 
-            resources.ApplyResources(this.mavlinkNumericUpDownpitchmax, "mavlinkNumericUpDownpitchmax");
-            this.mavlinkNumericUpDownpitchmax.Max = 1F;
-            this.mavlinkNumericUpDownpitchmax.Min = 0F;
-            this.mavlinkNumericUpDownpitchmax.Name = "mavlinkNumericUpDownpitchmax";
-            this.mavlinkNumericUpDownpitchmax.param = null;
-            this.mavlinkNumericUpDownpitchmax.ParamName = null;
-            // 
-            // BUT_reset_swash
-            // 
-            resources.ApplyResources(this.BUT_reset_swash, "BUT_reset_swash");
-            this.BUT_reset_swash.Name = "BUT_reset_swash";
-            this.BUT_reset_swash.UseVisualStyleBackColor = true;
-            this.BUT_reset_swash.Click += new System.EventHandler(this.BUT_reset_swash_Click);
-            // 
-            // groupBox4
-            // 
-            this.groupBox4.Controls.Add(this.H_COLYAW);
-            resources.ApplyResources(this.groupBox4, "groupBox4");
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.TabStop = false;
-            // 
-            // H_COLYAW
-            // 
-            resources.ApplyResources(this.H_COLYAW, "H_COLYAW");
-            this.H_COLYAW.Max = 1F;
-            this.H_COLYAW.Min = 0F;
-            this.H_COLYAW.Name = "H_COLYAW";
-            this.H_COLYAW.param = null;
-            this.H_COLYAW.ParamName = null;
-            this.H_COLYAW.Value = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
-            // 
-            // groupBox6
-            // 
-            this.groupBox6.Controls.Add(this.label3);
-            this.groupBox6.Controls.Add(this.label4);
-            this.groupBox6.Controls.Add(this.H_STAB_COL_MIN);
-            this.groupBox6.Controls.Add(this.H_STAB_COL_MAX);
-            resources.ApplyResources(this.groupBox6, "groupBox6");
-            this.groupBox6.Name = "groupBox6";
-            this.groupBox6.TabStop = false;
-            // 
-            // label3
-            // 
-            resources.ApplyResources(this.label3, "label3");
-            this.label3.Name = "label3";
-            // 
-            // label4
-            // 
-            resources.ApplyResources(this.label4, "label4");
-            this.label4.Name = "label4";
-            // 
-            // H_STAB_COL_MIN
-            // 
-            resources.ApplyResources(this.H_STAB_COL_MIN, "H_STAB_COL_MIN");
-            this.H_STAB_COL_MIN.Max = 1F;
-            this.H_STAB_COL_MIN.Min = 0F;
-            this.H_STAB_COL_MIN.Name = "H_STAB_COL_MIN";
-            this.H_STAB_COL_MIN.param = null;
-            this.H_STAB_COL_MIN.ParamName = null;
-            this.H_STAB_COL_MIN.Value = new decimal(new int[] {
-            20,
-            0,
-            0,
-            0});
-            // 
-            // H_STAB_COL_MAX
-            // 
-            resources.ApplyResources(this.H_STAB_COL_MAX, "H_STAB_COL_MAX");
-            this.H_STAB_COL_MAX.Max = 1F;
-            this.H_STAB_COL_MAX.Min = 0F;
-            this.H_STAB_COL_MAX.Name = "H_STAB_COL_MAX";
-            this.H_STAB_COL_MAX.param = null;
-            this.H_STAB_COL_MAX.ParamName = null;
-            this.H_STAB_COL_MAX.Value = new decimal(new int[] {
-            80,
-            0,
-            0,
-            0});
-            // 
-            // groupBox7
-            // 
-            this.groupBox7.Controls.Add(this.label5);
-            this.groupBox7.Controls.Add(this.H_RSC_RATE);
-            resources.ApplyResources(this.groupBox7, "groupBox7");
-            this.groupBox7.Name = "groupBox7";
-            this.groupBox7.TabStop = false;
-            // 
-            // H_RSC_RATE
-            // 
-            resources.ApplyResources(this.H_RSC_RATE, "H_RSC_RATE");
-            this.H_RSC_RATE.Max = 1F;
-            this.H_RSC_RATE.Min = 0F;
-            this.H_RSC_RATE.Name = "H_RSC_RATE";
-            this.H_RSC_RATE.param = null;
-            this.H_RSC_RATE.ParamName = null;
-            this.H_RSC_RATE.Value = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            // 
-            // groupBox8
-            // 
-            this.groupBox8.Controls.Add(this.H_GOV_SETPOINT);
-            resources.ApplyResources(this.groupBox8, "groupBox8");
-            this.groupBox8.Name = "groupBox8";
-            this.groupBox8.TabStop = false;
-            // 
-            // H_GOV_SETPOINT
-            // 
-            resources.ApplyResources(this.H_GOV_SETPOINT, "H_GOV_SETPOINT");
-            this.H_GOV_SETPOINT.Max = 1F;
-            this.H_GOV_SETPOINT.Min = 0F;
-            this.H_GOV_SETPOINT.Name = "H_GOV_SETPOINT";
-            this.H_GOV_SETPOINT.param = null;
-            this.H_GOV_SETPOINT.ParamName = null;
-            this.H_GOV_SETPOINT.Value = new decimal(new int[] {
-            100,
-            0,
-            0,
-            0});
-            // 
-            // groupBox9
-            // 
-            this.groupBox9.Controls.Add(this.H_RSC_MODE);
-            resources.ApplyResources(this.groupBox9, "groupBox9");
-            this.groupBox9.Name = "groupBox9";
-            this.groupBox9.TabStop = false;
-            // 
-            // H_RSC_MODE
-            // 
-            this.H_RSC_MODE.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            resources.ApplyResources(this.H_RSC_MODE, "H_RSC_MODE");
-            this.H_RSC_MODE.FormattingEnabled = true;
-            this.H_RSC_MODE.Name = "H_RSC_MODE";
-            this.H_RSC_MODE.param = null;
-            this.H_RSC_MODE.ParamName = null;
-            // 
-            // label5
-            // 
-            resources.ApplyResources(this.label5, "label5");
-            this.label5.Name = "label5";
-            // 
-            // mavlinkComboBoxTailType
-            // 
-            this.mavlinkComboBoxTailType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            resources.ApplyResources(this.mavlinkComboBoxTailType, "mavlinkComboBoxTailType");
-            this.mavlinkComboBoxTailType.FormattingEnabled = true;
-            this.mavlinkComboBoxTailType.Name = "mavlinkComboBoxTailType";
-            this.mavlinkComboBoxTailType.param = null;
-            this.mavlinkComboBoxTailType.ParamName = null;
-            // 
-            // label6
-            // 
-            resources.ApplyResources(this.label6, "label6");
-            this.label6.Name = "label6";
-            // 
-            // mavlinkNumericUpDown1
-            // 
-            resources.ApplyResources(this.mavlinkNumericUpDown1, "mavlinkNumericUpDown1");
-            this.mavlinkNumericUpDown1.Max = 1F;
-            this.mavlinkNumericUpDown1.Min = 0F;
-            this.mavlinkNumericUpDown1.Name = "mavlinkNumericUpDown1";
-            this.mavlinkNumericUpDown1.param = null;
-            this.mavlinkNumericUpDown1.ParamName = null;
-            // 
-            // groupBox10
-            // 
-            this.groupBox10.Controls.Add(this.mavlinkNumericUpDownland_col_min);
-            resources.ApplyResources(this.groupBox10, "groupBox10");
-            this.groupBox10.Name = "groupBox10";
-            this.groupBox10.TabStop = false;
-            // 
-            // mavlinkNumericUpDownland_col_min
-            // 
-            resources.ApplyResources(this.mavlinkNumericUpDownland_col_min, "mavlinkNumericUpDownland_col_min");
-            this.mavlinkNumericUpDownland_col_min.Max = 1F;
-            this.mavlinkNumericUpDownland_col_min.Min = 0F;
-            this.mavlinkNumericUpDownland_col_min.Name = "mavlinkNumericUpDownland_col_min";
-            this.mavlinkNumericUpDownland_col_min.param = null;
-            this.mavlinkNumericUpDownland_col_min.ParamName = null;
-            this.mavlinkNumericUpDownland_col_min.Value = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
-            // 
             // ConfigTradHeli
             // 
             resources.ApplyResources(this, "$this");
@@ -1013,6 +1037,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.panel1.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDowntailspeed)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
@@ -1021,15 +1046,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             ((System.ComponentModel.ISupportInitialize)(this.HS2_TRIM)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.HS1_TRIM)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.HS4_TRIM)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown3max)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown3min)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown2max)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown2min)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown1max)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown1min)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.currentStateBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDownrollmax)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDownpitchmax)).EndInit();
             this.groupBox4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.H_COLYAW)).EndInit();
             this.groupBox6.ResumeLayout(false);
@@ -1038,13 +1054,22 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             ((System.ComponentModel.ISupportInitialize)(this.H_STAB_COL_MAX)).EndInit();
             this.groupBox7.ResumeLayout(false);
             this.groupBox7.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.H_RSC_RATE)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDownrunuptime)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mavlinkudH_RSC_RATE)).EndInit();
             this.groupBox8.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.H_GOV_SETPOINT)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mavlinkudH_RSC_SETPOINT)).EndInit();
             this.groupBox9.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown1)).EndInit();
             this.groupBox10.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDownland_col_min)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDownpitchmax)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDownrollmax)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown3max)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown3min)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown2max)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown2min)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown1max)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown1min)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.currentStateBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1123,16 +1148,18 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private Controls.MavlinkNumericUpDown H_STAB_COL_MAX;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.GroupBox groupBox7;
-        private Controls.MavlinkNumericUpDown H_RSC_RATE;
+        private Controls.MavlinkNumericUpDown mavlinkudH_RSC_RATE;
         private System.Windows.Forms.GroupBox groupBox8;
-        private Controls.MavlinkNumericUpDown H_GOV_SETPOINT;
+        private Controls.MavlinkNumericUpDown mavlinkudH_RSC_SETPOINT;
         private System.Windows.Forms.GroupBox groupBox9;
         private System.Windows.Forms.Label label5;
         private Controls.MavlinkComboBox H_RSC_MODE;
         private MavlinkComboBox mavlinkComboBoxTailType;
-        private MavlinkNumericUpDown mavlinkNumericUpDown1;
+        private MavlinkNumericUpDown mavlinkNumericUpDowntailspeed;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.GroupBox groupBox10;
         private MavlinkNumericUpDown mavlinkNumericUpDownland_col_min;
+        private System.Windows.Forms.Label label7;
+        private MavlinkNumericUpDown mavlinkNumericUpDownrunuptime;
     }
 }

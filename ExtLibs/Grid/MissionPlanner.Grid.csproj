@@ -34,25 +34,24 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AStar">
-      <HintPath>..\..\Lib\AStar.dll</HintPath>
+      <HintPath>..\..\extLibs\AStar.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="GMap.NET.Core">
-      <HintPath>..\..\Lib\GMap.NET.Core.dll</HintPath>
+      <HintPath>..\..\extLibs\GMap.NET.Core.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="GMap.NET.WindowsForms">
-      <HintPath>..\..\Lib\GMap.NET.WindowsForms.dll</HintPath>
+      <HintPath>..\..\extLibs\GMap.NET.WindowsForms.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Lib\log4net.dll</HintPath>
+      <HintPath>..\..\extLibs\log4net.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ProjNet">
-      <HintPath>..\..\Lib\ProjNet.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>..\..\packages\ProjNet.1.2\lib\net20\ProjNet.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -115,6 +114,12 @@
     <EmbeddedResource Include="GridUI.resx">
       <DependentUpon>GridUI.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GridUI.zh-Hans.resx">
+      <DependentUpon>GridUI.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

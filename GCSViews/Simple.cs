@@ -10,6 +10,7 @@ using System.Text.RegularExpressions; // regex
 using System.Xml; // GE xml alt reader
 using System.Net; // dns, ip address
 using System.Net.Sockets; // tcplistner
+using System.Threading;
 using GMap.NET;
 using GMap.NET.WindowsForms;
 using System.Globalization; // language
@@ -22,6 +23,7 @@ using MissionPlanner.Controls.BackstageView;
 //using Crom.Controls.Docking;
 using log4net;
 using System.Reflection;
+using MissionPlanner.Log;
 
 // written by michael oborne
 namespace MissionPlanner.GCSViews
@@ -97,10 +99,6 @@ namespace MissionPlanner.GCSViews
 
             System.Threading.Thread.Sleep(100);
 
-            if (routes != null)
-                route.Dispose();
-            if (routes != null)
-                routes.Dispose();
             if (swlog != null)
                 swlog.Dispose();
             if (polygon != null)
@@ -119,6 +117,8 @@ namespace MissionPlanner.GCSViews
         public Simple()
         {
             InitializeComponent();
+
+            MissionPlanner.Utilities.Tracking.AddPage(this.GetType().ToString(), this.Text);
 
             instance = this;
             //    _serializer = new DockStateSerializer(dockContainer1);
@@ -1091,14 +1091,14 @@ namespace MissionPlanner.GCSViews
 
         private void BUT_log2kml_Click(object sender, EventArgs e)
         {
-            Form frm = new MavlinkLog();
+            Form frm = new Log.MavlinkLog();
             ThemeManager.ApplyThemeTo(frm);
             frm.ShowDialog();
         }
 
         private void BUT_joystick_Click(object sender, EventArgs e)
         {
-            Form joy = new JoystickSetup();
+            Form joy = new Joystick.JoystickSetup();
             ThemeManager.ApplyThemeTo(joy);
             joy.Show();
         }
@@ -1320,17 +1320,10 @@ namespace MissionPlanner.GCSViews
                 string selected = "";
                 try
                 {
-                    selected = selected + zg1.GraphPane.CurveList[0].Label.Text + "|";
-                    selected = selected + zg1.GraphPane.CurveList[1].Label.Text + "|";
-                    selected = selected + zg1.GraphPane.CurveList[2].Label.Text + "|";
-                    selected = selected + zg1.GraphPane.CurveList[3].Label.Text + "|";
-                    selected = selected + zg1.GraphPane.CurveList[4].Label.Text + "|";
-                    selected = selected + zg1.GraphPane.CurveList[5].Label.Text + "|";
-                    selected = selected + zg1.GraphPane.CurveList[6].Label.Text + "|";
-                    selected = selected + zg1.GraphPane.CurveList[7].Label.Text + "|";
-                    selected = selected + zg1.GraphPane.CurveList[8].Label.Text + "|";
-                    selected = selected + zg1.GraphPane.CurveList[9].Label.Text + "|";
-                    selected = selected + zg1.GraphPane.CurveList[10].Label.Text + "|";
+                    foreach (var curve in zg1.GraphPane.CurveList)
+                    {
+                        selected = selected + curve.Label.Text + "|";
+                    }
                 }
                 catch { }
                 MainV2.config["Tuning_Graph_Selected"] = selected;
@@ -1419,112 +1412,6 @@ namespace MissionPlanner.GCSViews
             MainV2.comPort.setMountConfigure(MAVLink.MAV_MOUNT_MODE.GPS_POINT, true, true, true);
             MainV2.comPort.setMountControl(gotolocation.Lat, gotolocation.Lng, (int)(intalt / MainV2.comPort.MAV.cs.multiplierdist), true);
 
-        }
-
-        private void BUT_script_Click(object sender, EventArgs e)
-        {
-
-            System.Threading.Thread t11 = new System.Threading.Thread(new System.Threading.ThreadStart(ScriptStart))
-            {
-                IsBackground = true,
-                Name = "Script Thread"
-            };
-            t11.Start();
-        }
-
-        void ScriptStart()
-        {
-            string myscript = @"
-# cs.???? = currentstate, any variable on the status tab in the planner can be used.
-# Script = options are 
-# Script.Sleep(ms)
-# Script.ChangeParam(name,value)
-# Script.GetParam(name)
-# Script.ChangeMode(mode) - same as displayed in mode setup screen 'AUTO'
-# Script.WaitFor(string,timeout)
-# Script.SendRC(channel,pwm,sendnow)
-# 
-
-print 'Start Script'
-for chan in range(1,9):
-    Script.SendRC(chan,1500,False)
-Script.SendRC(3,Script.GetParam('RC3_MIN'),True)
-
-Script.Sleep(5000)
-while cs.lat == 0:
-    print 'Waiting for GPS'
-    Script.Sleep(1000)
-print 'Got GPS'
-jo = 10 * 13
-print jo
-Script.SendRC(3,1000,False)
-Script.SendRC(4,2000,True)
-cs.messages.Clear()
-Script.WaitFor('ARMING MOTORS',30000)
-Script.SendRC(4,1500,True)
-print 'Motors Armed!'
-
-Script.SendRC(3,1700,True)
-while cs.alt < 50:
-    Script.Sleep(50)
-
-Script.SendRC(5,2000,True) # acro
-
-Script.SendRC(1,2000,False) # roll
-Script.SendRC(3,1370,True) # throttle
-while cs.roll > -45: # top hald 0 - 180
-    Script.Sleep(5)
-while cs.roll < -45: # -180 - -45
-    Script.Sleep(5)
-
-Script.SendRC(5,1500,False) # stabalise
-Script.SendRC(1,1500,True) # level roll
-Script.Sleep(2000) # 2 sec to stabalise
-Script.SendRC(3,1300,True) # throttle back to land
-
-thro = 1350 # will decend
-
-while cs.alt > 0.1:
-    Script.Sleep(300)
-
-Script.SendRC(3,1000,False)
-Script.SendRC(4,1000,True)
-Script.WaitFor('DISARMING MOTORS',30000)
-Script.SendRC(4,1500,True)
-
-print 'Roll complete'
-
-";
-
-            //  CustomMessageBox.Show("This is Very ALPHA");
-
-            Form scriptedit = new Form();
-
-            scriptedit.Size = new System.Drawing.Size(500, 500);
-
-            TextBox tb = new TextBox();
-
-            tb.Dock = DockStyle.Fill;
-
-            tb.ScrollBars = ScrollBars.Both;
-            tb.Multiline = true;
-
-            tb.Location = new Point(0, 0);
-            tb.Size = new System.Drawing.Size(scriptedit.Size.Width - 30, scriptedit.Size.Height - 30);
-
-            scriptedit.Controls.Add(tb);
-
-            tb.Text = myscript;
-
-            scriptedit.ShowDialog();
-
-            if (DialogResult.Yes == CustomMessageBox.Show("Run Script", "Run this script?", MessageBoxButtons.YesNo))
-            {
-
-                Script scr = new Script();
-
-                scr.runScript(tb.Text);
-            }
         }
 
         private void CHK_autopan_CheckedChanged(object sender, EventArgs e)

@@ -12,13 +12,14 @@ using GeoUtility.GeoSystem;
 namespace MissionPlanner.Utilities
 {
 
-    public class PointLatLngAlt
+    public class PointLatLngAlt: IComparable
     {
-        public static readonly PointLatLngAlt Zero;
+        public static readonly PointLatLngAlt Zero = new PointLatLngAlt();
         public double Lat = 0;
         public double Lng = 0;
         public double Alt = 0;
         public string Tag = "";
+        public string Tag2 = "";
         public Color color = Color.White;
 
         const float rad2deg = (float)(180 / Math.PI);
@@ -219,14 +220,14 @@ namespace MissionPlanner.Utilities
 
         public double GetBearing(PointLatLngAlt p2)
         {
-            //http://www.movable-type.co.uk/scripts/latlong.html
-            double dLon = this.Lng - p2.Lng;
+            var latitude1 = deg2rad * (this.Lat);
+            var latitude2 = deg2rad * (p2.Lat);
+            var longitudeDifference = deg2rad * (p2.Lng - this.Lng);
 
-            var y = Math.Sin(dLon) * Math.Cos(p2.Lat);
-            var x = Math.Cos(this.Lat) * Math.Sin(p2.Lat) -
-                    Math.Sin(this.Lat) * Math.Cos(p2.Lat) * Math.Cos(dLon);
-            var brng = Math.Atan2(y, x) * rad2deg;
-            return brng;
+            var y = Math.Sin(longitudeDifference) * Math.Cos(latitude2);
+            var x = Math.Cos(latitude1) * Math.Sin(latitude2) - Math.Sin(latitude1) * Math.Cos(latitude2) * Math.Cos(longitudeDifference);
+
+            return (rad2deg * (Math.Atan2(y, x)) + 360) % 360;
         }
 
         /// <summary>
@@ -262,6 +263,35 @@ namespace MissionPlanner.Utilities
             var d = R * c * 1000.0; // M
 
             return d;
+        }
+
+        public int CompareTo(object obj)
+        {
+            PointLatLngAlt pnt = obj as PointLatLngAlt;
+
+            if (pnt == null)
+                return 1;
+
+            double wpno = 0;
+            double wpnothis = 0;
+
+            if (!double.TryParse(this.Tag, out wpnothis))
+            {
+                return 0;
+            }
+
+            if (double.TryParse(pnt.Tag, out wpno))
+            {
+                if (wpno < wpnothis)
+                    return 1;
+                if (wpno > wpnothis)
+                    return -1;
+                return 0;
+            } 
+            else 
+            {
+                return 0;
+            }
         }
     }
 

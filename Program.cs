@@ -12,6 +12,7 @@ using System.Linq;
 using MissionPlanner.Utilities;
 using MissionPlanner;
 using System.Drawing;
+using System.Text.RegularExpressions;
 
 namespace MissionPlanner
 {
@@ -26,6 +27,8 @@ namespace MissionPlanner
 
         public static Splash Splash;
 
+        internal static Thread Thread;
+
         public static string[] args = new string[]{};
         /// <summary>
         /// The main entry point for the application.
@@ -37,30 +40,45 @@ namespace MissionPlanner
             Console.WriteLine("If your error is about Microsoft.DirectX.DirectInput, please install the latest directx redist from here http://www.microsoft.com/en-us/download/details.aspx?id=35 \n\n");
             Console.WriteLine("Debug under mono    MONO_LOG_LEVEL=debug mono MissionPlanner.exe");
 
+            Thread = Thread.CurrentThread;
 
             System.Windows.Forms.Application.EnableVisualStyles();
             XmlConfigurator.Configure();
             log.Info("******************* Logging Configured *******************");
             System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
 
+            ServicePointManager.DefaultConnectionLimit = 10;
+
             System.Windows.Forms.Application.ThreadException += Application_ThreadException;
 
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 
             // fix ssl on mono
-            ServicePointManager.ServerCertificateValidationCallback =
-new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate, chain, policyErrors) => { return true; });
+            ServicePointManager.ServerCertificateValidationCallback = new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate, chain, policyErrors) => { return true; });
 
+            if (args.Length > 0 && args[0] == "/update")
+            {
+                Utilities.Update.DoUpdate();
+            }
+
+            // setup theme provider
             CustomMessageBox.ApplyTheme += MissionPlanner.Utilities.ThemeManager.ApplyThemeTo;
             Controls.MainSwitcher.ApplyTheme += MissionPlanner.Utilities.ThemeManager.ApplyThemeTo;
             MissionPlanner.Controls.InputBox.ApplyTheme += MissionPlanner.Utilities.ThemeManager.ApplyThemeTo;
+
+            // setup settings provider
             MissionPlanner.Comms.CommsBase.Settings += CommsBase_Settings;
 
             // set the cache provider to my custom version
             GMap.NET.GMaps.Instance.PrimaryCache = new Maps.MyImageCache();
-            // add my 2 custom map providers
+            // add my custom map providers
             GMap.NET.MapProviders.GMapProviders.List.Add(Maps.WMSProvider.Instance);
             GMap.NET.MapProviders.GMapProviders.List.Add(Maps.Custom.Instance);
+            GMap.NET.MapProviders.GMapProviders.List.Add(Maps.Earthbuilder.Instance);
+
+            // add proxy settings
+            GMap.NET.MapProviders.GMapProvider.WebProxy = WebRequest.GetSystemWebProxy();
+            GMap.NET.MapProviders.GMapProvider.WebProxy.Credentials = CredentialCache.DefaultCredentials;
 
             string name = "Mission Planner";
 
@@ -71,31 +89,26 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
                 Logo = new Bitmap(Application.StartupPath + Path.DirectorySeparatorChar + "logo.png");
 
             if (name == "VVVVZ")
+            {
                 vvvvz = true;
+                // set pw
+                MainV2.config["password"] = "viDQSk/lmA2qEE8GA7SIHqu0RG2hpkH973MPpYO87CI=";
+                MainV2.config["password_protect"] = "True";
+                // prevent wizard
+                MainV2.config["newuser"] = "11/02/2014";
+                // invalidate update url
+                System.Configuration.ConfigurationManager.AppSettings["UpdateLocationVersion"] = "";
+            }
 
-       //     string[] files = Directory.GetFiles(@"C:\Users\hog\Documents\apm logs\","*.tlog");
+            //adsb.server = "64.93.124.152";
+            //adsb.serverport = 31001;
+            //adsb.serverport = 30003;
 
-       //     foreach (string file in files) {
-          //      Console.WriteLine(Magfitrotation.magfit(file));
-        //    }
-       //     Magfitrotation.magfit(@"C:\Users\hog\Downloads\flight.tlog.raw");
+            //Utilities.Airports.ReadUNLOCODE(@"C:\Users\hog\Desktop\2013-2 UNLOCODE CodeListPart1.csv");
+            //Utilities.Airports.ReadUNLOCODE(@"C:\Users\hog\Desktop\2013-2 UNLOCODE CodeListPart2.csv");
+            //Utilities.Airports.ReadUNLOCODE(@"C:\Users\hog\Desktop\2013-2 UNLOCODE CodeListPart3.csv");
+            //Utilities.Airports.ReadPartow(@"C:\Users\hog\Desktop\GlobalAirportDatabase.txt");
 
-            
-            //return;
-        //    MissionPlanner.Utilities.CleanDrivers.Clean();
-
-            //Application.Idle += Application_Idle;
-
-            //MagCalib.ProcessLog();
-
-            //MessageBox.Show("NOTE: This version may break advanced mission scripting");
-
-            //Common.linearRegression();
-
-            //Console.WriteLine(srtm.getAltitude(-35.115676879882812, 117.94178754638671,20));
-
-           // Console.ReadLine();
-           // return;
 
             /*
             Arduino.ArduinoSTKv2 comport = new Arduino.ArduinoSTKv2();
@@ -158,68 +171,16 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
                 mav.sendPacket(rc);
                 
             }       */
-            /*
-            MAVLink mav = new MAVLink();
-
-            mav.BaseStream = new Comms.CommsFile() 
-            {
-                PortName = @"C:\Users\hog\AppData\Roaming\Skype\My Skype Received Files\2013-06-12 15-11-00.tlog"
-            };
-
-            mav.Open(false);
-
-            while (mav.BaseStream.BytesToRead > 0)
-            {
-
-                byte[] packet = mav.readPacket();
-
-                mav.DebugPacket(packet, true);
-            }
-            */
-
+        
            // return;
           //  OSDVideo vid = new OSDVideo();
 
          //   vid.ShowDialog();
 
          //   return;
-
-         //   Utilities.GitHubContent.GetDirContent("diydrones", "ardupilot", "/Tools/Frame_params");
-
-         //   Utilities.GitHubContent.GetFileContent("diydrones", "ardupilot", "/Tools/Frame_params/Iris.param");
-
-           // ParameterMetaDataParser.GetParameterInformation();
-
-           // var test = ParameterMetaDataRepository.GetParameterOptionsInt("CH7_OPT").ToList(); 
-
-          //  return;
-  
+             
 
            // ThemeManager.doxamlgen();
-
-            //testMissionPlanner.Wizard._1Intro test = new testMissionPlanner.Wizard._1Intro();
-
-            //Console.WriteLine(DateTime.Now.ToString());
-            //var test1 = Log.DFLog.ReadLog(@"C:\Users\hog\Downloads\ArduPlane.log");
-            //Console.WriteLine(DateTime.Now.ToString());
-            //var test2 = Log.DFLog.ReadLog(@"C:\Users\hog\Downloads\ArduCopter.log");
-            //Console.WriteLine(DateTime.Now.ToString());
-            try
-            {
-              //  Utilities.adsb.ReadMessage(File.OpenRead(@"C:\Users\hog\Downloads\rtl1090log3.log"));
-
-            }
-            catch { }
-
-
-            try
-            {
-
-//                DateTime logtime = MissionPlanner.Log.DFLog.GetFirstGpsTime(@"C:\Users\hog\Documents\Visual Studio 2010\Projects\ArdupilotMega\ArdupilotMega\bin\Debug\logs\2013-12-15 21-25.log");
-
-//                string newlogfilename = MainV2.LogDir + Path.DirectorySeparatorChar + logtime.ToString("yyyy-MM-dd HH-mm") + ".log";
-            }
-            catch { }
 
             if (File.Exists("simple.txt"))
             {
@@ -236,17 +197,10 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
 
             try
             {
+                //System.Diagnostics.Process.GetCurrentProcess().PriorityClass = System.Diagnostics.ProcessPriorityClass.RealTime;
+
                 Thread.CurrentThread.Name = "Base Thread";
                 Application.Run(new MainV2());
-
-              //  var temp = new MainV2();
-               // temp.Show();
-
-              //  while (temp != null)
-                {
-                  //  System.Threading.Thread.Sleep(10);
-                  //  Application.DoEvents();
-                }
             }
             catch (Exception ex)
             {
@@ -277,21 +231,6 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
         static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             handleException((Exception)e.ExceptionObject);
-        }
-
-        static DateTime lastidle = DateTime.Now;
-
-        static void Application_Idle(object sender, EventArgs e)
-        {
-            //System.Threading.Thread.Sleep(50);
-            Console.Write("Idle\n");
-            if (lastidle.AddMilliseconds(100) < DateTime.Now)
-            {
-                Application.DoEvents();
-                lastidle = DateTime.Now;
-            }
-
-            System.Threading.Thread.Sleep(1);
         }
 
         static string GetStackTrace(Exception e)
@@ -341,6 +280,7 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
             }
             if (ex.GetType() == typeof(ObjectDisposedException) || ex.GetType() == typeof(InvalidOperationException)) // something is trying to update while the form, is closing.
             {
+                log.Error(ex);
                 return; // ignore
             }
             if (ex.GetType() == typeof(FileNotFoundException) || ex.GetType() == typeof(BadImageFormatException)) // i get alot of error from people who click the exe from inside a zip file.
@@ -348,10 +288,14 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
                 CustomMessageBox.Show("You are missing some DLL's. Please extract the zip file somewhere. OR Use the update feature from the menu " + ex.ToString());
                 // return;
             }
-            if (ex.StackTrace.Contains("System.IO.Ports.SerialStream.Dispose"))
+            // windows and mono
+            if (ex.StackTrace.Contains("System.IO.Ports.SerialStream.Dispose") || ex.StackTrace.Contains("System.IO.Ports.SerialPortStream.Dispose"))
             {
+                log.Error(ex);
                 return; // ignore
             }
+
+            log.Info("Th Name "+Thread.Name);
 
             DialogResult dr = CustomMessageBox.Show("An error has occurred\n" + ex.ToString() + "\n\nReport this Error???", "Send Error", MessageBoxButtons.YesNo);
             if (DialogResult.Yes == dr)
@@ -405,8 +349,10 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
                         }
                     }
                 }
-                catch
+                catch (Exception exp)
                 {
+                    Console.WriteLine(exp.ToString());
+                    log.Error(exp);
                     CustomMessageBox.Show("Could not send report! Typically due to lack of internet connection.");
                 }
             }

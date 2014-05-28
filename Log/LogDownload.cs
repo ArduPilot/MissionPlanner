@@ -53,6 +53,8 @@ namespace MissionPlanner.Log
         public LogDownload()
         {
             InitializeComponent();
+
+            MissionPlanner.Utilities.Tracking.AddPage(this.GetType().ToString(), this.Text);
         }
 
         private void waitandsleep(int time)
@@ -262,7 +264,7 @@ namespace MissionPlanner.Log
     TXT_seriallog.Clear();
 });
 
-                                comPort.Write("logs\r");
+                               // comPort.Write("logs\r");
                                 status = serialstatus.Done;
                             }
                             break;
@@ -273,13 +275,13 @@ namespace MissionPlanner.Log
 
                             if (logtime != DateTime.MinValue)
                             {
-                                string newlogfilename = MainV2.LogDir + Path.DirectorySeparatorChar + logtime.ToString("yyyy-MM-dd HH-mm") + ".log";
+                                string newlogfilename = MainV2.LogDir + Path.DirectorySeparatorChar + logtime.ToString("yyyy-MM-dd HH-mm-ss") + ".log";
                                 try
                                 {
                                     File.Move(logfile, newlogfilename);
                                     logfile = newlogfilename;
                                 }
-                                catch (Exception ex) { CustomMessageBox.Show("Failed to rename file " + logfile + "\nto " + newlogfilename,"Error"); }
+                                catch (Exception ex) { log.Error(ex); CustomMessageBox.Show("Failed to rename file " + logfile + "\nto " + newlogfilename, "Error"); }
                             }
 
                             TextReader tr = new StreamReader(logfile);
@@ -311,7 +313,7 @@ namespace MissionPlanner.Log
                         case serialstatus.Createfile:
                             receivedbytes = 0;
                             Directory.CreateDirectory(MainV2.LogDir);
-                            logfile = MainV2.LogDir + Path.DirectorySeparatorChar + DateTime.Now.ToString("yyyy-MM-dd HH-mm") + " " + currentlog + ".log";
+                            logfile = MainV2.LogDir + Path.DirectorySeparatorChar + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + " " + currentlog + ".log";
                             sw = new StreamWriter(logfile);
                             status = serialstatus.Waiting;
                             lock (thisLock)
@@ -613,7 +615,7 @@ namespace MissionPlanner.Log
 
             if (File.Exists(ofd.FileName))
             {
-                List<string> log = BinaryLog.ReadLog(ofd.FileName);
+                var log = BinaryLog.ReadLog(ofd.FileName);
 
                 SaveFileDialog sfd = new SaveFileDialog();
                 sfd.Filter = "log|*.log";

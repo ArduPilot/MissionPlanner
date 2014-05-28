@@ -69,10 +69,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             changes.Clear();
 
-            // read tooltips
-            if (tooltips.Count == 0)
-                readToolTips();
-
             // ensure the fields are populated before setting them
             CH7_OPT.DataSource = ParameterMetaDataRepository.GetParameterOptionsInt("CH7_OPT").ToList(); 
             CH7_OPT.DisplayMember = "Value";
@@ -95,40 +91,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
 
             startup = false;
-        }
-
-
-
-        void readToolTips()
-        {
-            string data = global::MissionPlanner.Properties.Resources.MAVParam;
-
-            string[] tips = data.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
-
-            foreach (var tip in tips)
-            {
-                if (!tip.StartsWith("||"))
-                    continue;
-
-                string[] cols = tip.Split(new string[] { "||" }, 9, StringSplitOptions.None);
-
-                if (cols.Length >= 8)
-                {
-                    paramsettings param = new paramsettings();
-                    try
-                    {
-                        param.name = cols[1];
-                        param.desc = AddNewLinesForTooltip(cols[7]);
-                        param.scale = float.Parse(cols[5]);
-                        param.minvalue = float.Parse(cols[2]);
-                        param.maxvalue = float.Parse(cols[3]);
-                        param.normalvalue = float.Parse(cols[4]);
-                    }
-                    catch { }
-                    tooltips[cols[1]] = param;
-                }
-
-            }
         }
 
         // from http://stackoverflow.com/questions/2512781/winforms-big-paragraph-tooltip/2512895#2512895
@@ -396,6 +358,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 try
                 {
+                    if ((float)changes[value] > (float)MainV2.comPort.MAV.param[value] * 2.0f)
+                        if (CustomMessageBox.Show(value +" has more than doubled the last input. Are you sure?", "Large Value", MessageBoxButtons.YesNo) == DialogResult.No)
+                            return;
+
                     MainV2.comPort.setParam(value, (float)changes[value]);
 
                     try

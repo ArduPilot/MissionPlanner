@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
+using log4net;
 
 namespace MissionPlanner.Utilities
 {
@@ -17,10 +18,14 @@ namespace MissionPlanner.Utilities
         //*8D75804B580FF2CF7E9BA6F701D0
         //*8D75804B580FF6B283EB7A157117
 
+        private static readonly ILog log =        LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         /// <summary>
         /// When a plane position has been updated. you will need to age your own entries
         /// </summary>
         public static event EventHandler UpdatePlanePosition;
+
+        static bool run = true;
 
         public static string server = "";
         public static int serverport = 0;
@@ -30,10 +35,23 @@ namespace MissionPlanner.Utilities
             System.Threading.ThreadPool.QueueUserWorkItem(TryConnect);
         }
 
+        public static void Stop()
+        {
+            run = false;
+        }
+
         void TryConnect(object obj)
         {
-            while (true)
+            try
             {
+                System.Threading.Thread.CurrentThread.Name = "ADSB Reader";
+            }
+            catch { }
+            System.Threading.Thread.CurrentThread.IsBackground = true;
+
+            while (run)
+            {
+                log.Info("adsb connect loop");
                 //custom
                 try
                 {
@@ -43,10 +61,12 @@ namespace MissionPlanner.Utilities
 
                         cl.Connect(server, serverport);
 
+                        log.Info("Connected " + server + ":" + serverport);
+
                         ReadMessage(cl.GetStream());
                     }
                 }
-                catch { }
+                catch (Exception ex) { log.Error(ex); }
 
                 // dump1090 sbs
                 try
@@ -55,9 +75,11 @@ namespace MissionPlanner.Utilities
 
                     cl.Connect(System.Net.IPAddress.Loopback, 30003);
 
+                    log.Info("Connected loopback:30003");
+
                     ReadMessage(cl.GetStream());
                 }
-                catch { }
+                catch (Exception ex) {  }
 
                 // dump1090 avr
                 try
@@ -66,20 +88,39 @@ namespace MissionPlanner.Utilities
 
                     cl.Connect(System.Net.IPAddress.Loopback, 30002);
 
+                    log.Info("Connected loopback:30002");
+
                     ReadMessage(cl.GetStream());
                 }
-                catch { }
+                catch (Exception ex) {  }
 
-                // rtl1090
+
+                // rtl1090 -sbs1
+                try
+                {
+                    TcpClient cl = new TcpClient();
+
+                    cl.Connect(System.Net.IPAddress.Loopback, 31004);
+
+                    log.Info("Connected loopback:31004");
+
+                    ReadMessage(cl.GetStream());
+                }
+                catch (Exception ex) { }
+
+                // rtl1090 - avr
                 try
                 {
                     TcpClient cl = new TcpClient();
 
                     cl.Connect(System.Net.IPAddress.Loopback, 31001);
 
+                    log.Info("Connected loopback:31001");
+
                     ReadMessage(cl.GetStream());
                 }
-                catch { }
+                catch (Exception ex) {  }
+
 
                 // adsb#
                 try
@@ -88,12 +129,15 @@ namespace MissionPlanner.Utilities
 
                     cl.Connect(System.Net.IPAddress.Loopback, 47806);
 
+                    log.Info("Connected loopback:47806");
+
                     ReadMessage(cl.GetStream());
                 }
-                catch { }
+                catch (Exception ex) {  }
 
-
-                System.Threading.Thread.Sleep(1000);
+                // cleanup any sockets that might be outstanding.
+                GC.Collect();
+                System.Threading.Thread.Sleep(5000);
             }
         }
 
@@ -105,6 +149,7 @@ namespace MissionPlanner.Utilities
             internal ModeSMessage llaodd;
 
             public string ID;
+            public string CallSign;
 
             static double[] _NLTable;
             const int NZ = 15;
@@ -127,7 +172,7 @@ namespace MissionPlanner.Utilities
                 if (llaodd == null || llaeven == null)
                     return PointLatLngAlt.Zero;
 
-                if (Math.Abs((llaeven.recvtime - llaodd.recvtime).TotalSeconds) > 10)
+                if (Math.Abs((llaeven.recvtime - llaodd.recvtime).TotalSeconds) > 30)
                     return PointLatLngAlt.Zero;
 
                 //A.1.7.7 Globally Unambiguous Airborne Position Decoding
@@ -183,7 +228,7 @@ namespace MissionPlanner.Utilities
                     reflng = rlng[1];
                 }
 
-                return new PointLatLngAlt(reflat, reflng, llaodd.alt * 0.3048, ID + " " + (llaodd.alt * 0.3048));
+                return new PointLatLngAlt(reflat, reflng, llaodd.alt * 0.3048, ID);
             }
 
             public PointLatLngAlt pllalocal(ModeSMessage newmsg)
@@ -532,16 +577,19 @@ namespace MissionPlanner.Utilities
             }
         }
 
-        public static void ReadMessage(Stream st)
+        public static void ReadMessage(Stream st1)
         {
             bool avr = false;
+            bool binary = false;
             int avrcount = 0;
+
+            st1.ReadTimeout = 10000;
 
             //st.ReadTimeout = 5000;
 
             while (true)
             {
-                int by = st.ReadByte();
+                int by = st1.ReadByte();
                 if (by == -1)
                     break;
 
@@ -553,10 +601,13 @@ namespace MissionPlanner.Utilities
 
                     if (avr)
                     {
-                        Plane plane = ReadMessage('*' + new StreamReader(st).ReadLine());                        
+                        Plane plane = ReadMessage('*' + ReadLine(st1));                        
                         if (plane != null)
                         {
-                            PointLatLngAlt plla = plane.plla();
+                            PointLatLngAltHdg plla = new PointLatLngAltHdg(plane.plla());
+                            plla.Heading = (float)plane.heading;
+                            if (plla.Lat == 0 && plla.Lng == 0)
+                                continue;
                             if (UpdatePlanePosition != null && plla != null)
                                 UpdatePlanePosition(plla, new EventArgs());
                             //Console.WriteLine(plane.pllalocal(plane.llaeven));
@@ -564,9 +615,9 @@ namespace MissionPlanner.Utilities
                         }
                     }
                 }
-                else if (by == 'M') 
+                else if ((by == 'M' || by == 'S' || by == 'A' || by == 'I' || by == 'C') && !binary) // msg clk sta air id sel
                 {
-                    string line = "M"+new StreamReader(st).ReadLine();
+                    string line = ((char)by) +ReadLine(st1);
 
                     if (line.StartsWith("MSG"))
                     {
@@ -586,19 +637,10 @@ namespace MissionPlanner.Utilities
                             int altitude = 0;
                             try
                             {
-                                altitude = int.Parse(strArray[11], CultureInfo.InvariantCulture);// Integer. Mode C Altitude relative to 1013 mb (29.92" Hg). 
+                                altitude = (int)double.Parse(strArray[11], CultureInfo.InvariantCulture);// Integer. Mode C Altitude relative to 1013 mb (29.92" Hg). 
                             }
                             catch { }
-                            try
-                            {
-                                int ground_speed = int.Parse(strArray[12], CultureInfo.InvariantCulture);// Integer. Speed over ground. 
-                            }
-                            catch { }
-                            try
-                            {
-                                int track = int.Parse(strArray[13], CultureInfo.InvariantCulture);//Integer. Ground track angle. 
-                            }
-                            catch { }
+                           
                             double lat = 0;
                             try
                             {
@@ -611,22 +653,68 @@ namespace MissionPlanner.Utilities
                                 lon = double.Parse(strArray[15], CultureInfo.InvariantCulture);//Float. Longitude 
                             }
                             catch { }
-                            try
-                            {
-                                int vertical_rate = int.Parse(strArray[16], CultureInfo.InvariantCulture);// Integer. Climb rate. 
-                            }
-                            catch { }
-                            string squawk = strArray[17];//String. Assigned Mode A squawk code. 
-                            bool alert = strArray[18] != "0";//Boolean. Flag to indicate that squawk has changed. 
-                            bool emergency = strArray[19] != "0";//Boolean. Flag to indicate emergency code has been set. 
-                            bool spi = strArray[20] != "0";//Boolean. Flag to indicate Special Position Indicator has been set. 
+
                             bool is_on_ground = strArray[21] != "0";//Boolean. Flag to indicate ground squat switch is active. 
+
+                            if (Planes[hex_ident] == null)
+                                Planes[hex_ident] = new Plane();
 
                             Plane plane = ((Plane)Planes[hex_ident]);
 
-                            if (UpdatePlanePosition != null)
-                                UpdatePlanePosition(new PointLatLngAlt(lat, lon, altitude, hex_ident), new EventArgs());
+                            if (lat == 0 && lon == 0)
+                                continue;
+
+                            if (UpdatePlanePosition != null && plane != null)
+                                UpdatePlanePosition(new PointLatLngAltHdg(lat, lon, altitude / 3.048, (float)plane.heading, hex_ident), new EventArgs());
                         }
+                        else if (strArray[1] == "4")
+                        {
+                            String session_id = strArray[2];// String. Database session record number. 
+                            String aircraft_id = strArray[3];// String. Database aircraft record number. 
+                            String hex_ident = strArray[4];//String. 24-bit ICACO ID, in hex. 
+                            String flight_id = strArray[5];//String. Database flight record number. 
+                            String generated_date = strArray[6];// String. Date the message was generated. 
+                            String generated_time = strArray[7];//String. Time the message was generated. 
+                            String logged_date = strArray[8];//String. Date the message was logged. 
+                            String logged_time = strArray[9];//String. Time the message was logged. 
+
+                            if (Planes[hex_ident] == null)
+                                Planes[hex_ident] = new Plane();
+
+                            try
+                            {
+                                int ground_speed = (int)double.Parse(strArray[12], CultureInfo.InvariantCulture);// Integer. Speed over ground. 
+                            }
+                            catch { }
+                            try
+                            {
+                                ((Plane)Planes[hex_ident]).heading = (int)double.Parse(strArray[13], CultureInfo.InvariantCulture);//Integer. Ground track angle. 
+                            }
+                            catch { }
+
+                        }
+                        else if (strArray[1] == "1")
+                        {
+                            String session_id = strArray[2];// String. Database session record number. 
+                            String aircraft_id = strArray[3];// String. Database aircraft record number. 
+                            String hex_ident = strArray[4];//String. 24-bit ICACO ID, in hex. 
+                            String flight_id = strArray[5];//String. Database flight record number. 
+                            String generated_date = strArray[6];// String. Date the message was generated. 
+                            String generated_time = strArray[7];//String. Time the message was generated. 
+                            String logged_date = strArray[8];//String. Date the message was logged. 
+                            String logged_time = strArray[9];//String. Time the message was logged. 
+                            String callsign = strArray[10];//String. Eight character flight ID or callsign. 
+
+                            if (Planes[hex_ident] == null)
+                                Planes[hex_ident] = new Plane();
+                            
+                            ((Plane)Planes[hex_ident]).CallSign = callsign;
+                        }
+                    }
+                    else
+                    {
+                        log.Info(line);
+
                     }
                 }
                 else if (by == 0x1a)
@@ -636,25 +724,34 @@ namespace MissionPlanner.Utilities
                     byte[] buffer = new byte[24];
                     buffer[0] = (byte)by;
 
-                    int type = st.ReadByte();
+                    int type = st1.ReadByte();
                     buffer[1] = (byte)type;
-                    st.Read(buffer, 2, 7);
+                    st1.Read(buffer, 2, 7);
 
                     switch (type)
                     {
                         case '1': // mode-ac
                             // 2 bytes
-                            st.Read(buffer, 9, 2);
+                            st1.Read(buffer, 9, 2);
+                            //log.Info("1");
                             break;
                         case '2': // mode-s short
-                            st.Read(buffer, 9, 7);
+                            st1.Read(buffer, 9, 7);
+                            //log.Info("2");
                             break;
                         case '3': // mode-s long
-                            st.Read(buffer, 9, 14);
+                            st1.Read(buffer, 9, 14);
+                            //log.Info("3");
                             Plane plane = ReadMessage(buffer);
                             if (plane != null)
                             {
-                                PointLatLngAlt plla = plane.plla();
+                                binary = true;
+                                PointLatLngAltHdg plla = new PointLatLngAltHdg(plane.plla());
+                                if (plla == null)
+                                    break;
+                                if (plla.Lat == 0 && plla.Lng == 0)
+                                    continue;
+                                plla.Heading = (float)plane.heading;
                                 if (UpdatePlanePosition != null && plla != null)
                                     UpdatePlanePosition(plla, new EventArgs());
                                 //Console.WriteLine(plane.pllalocal(plane.llaeven));
@@ -667,9 +764,22 @@ namespace MissionPlanner.Utilities
                 }
                 else
                 {
-                    Console.WriteLine("bad sync 0x" + by.ToString("X2"));
+                    log.Info("bad sync 0x" + by.ToString("X2") + " " + (char)by);
                 }
             }
+        }
+
+        private static string ReadLine(Stream st1)
+        {
+            string answer = "";
+            char let;
+            do
+            {
+                let = (char)st1.ReadByte();
+                answer += let;
+            } while (let != '\n');
+
+            return answer;
         }
 
         /// <summary>
@@ -713,6 +823,8 @@ namespace MissionPlanner.Utilities
             if (!avrline.StartsWith("*"))
                 return null;
 
+            log.Debug(avrline);
+
             avrline = avrline.Trim().TrimEnd(';');
 
             ModeSMessage adsbmess = new ModeSMessage();
@@ -735,7 +847,6 @@ namespace MissionPlanner.Utilities
             adsbmess.recvtime = DateTime.Now;
 
             // check parity
-            int todo;
             Crc32ModeS crc = new Crc32ModeS();
             byte[] pidata = crc.ComputeChecksumBytes(data, 0, data.Length - 3, false);
 
@@ -868,6 +979,34 @@ namespace MissionPlanner.Utilities
             }
 
             return HexAsBytes;
+        }
+
+        public class PointLatLngAltHdg : PointLatLngAlt
+        {
+            public PointLatLngAltHdg(PointLatLngAlt plla)
+            {
+                this.Lat = plla.Lat;
+                this.Lng = plla.Lng;
+                this.Alt = plla.Alt;
+                this.Heading = -1;
+                this.Tag = plla.Tag;
+            }
+
+            public PointLatLngAltHdg(double lat, double lng, double alt, float heading, string tag)
+            {
+                this.Lat = lat;
+                this.Lng = lng;
+                this.Alt = alt;
+                this.Heading = heading;
+                this.Tag = tag;
+            }
+
+            public float Heading { get; set; }
+
+            //public static implicit operator PointLatLngAltHdg(PointLatLngAlt a)
+            //{
+              //  return new PointLatLngAltHdg(a.Lat,a.Lng,a.Alt,-1,a.Tag);
+            //}
         }
     }
 }
