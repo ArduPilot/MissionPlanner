@@ -206,12 +206,14 @@ namespace px4uploader
                     // get the device sn
                     byte[] sn = __get_sn();
 
-                    Console.Write("SN: ");
+                    string line = "";
+
+                    line="SN: ";
                     for (int s = 0; s < sn.Length; s += 1)
                     {
-                        Console.Write(sn[s].ToString("X2"));
+                        line += sn[s].ToString("X2");
                     }
-                    Console.WriteLine();
+                    print(line);
 
                     // 20 bytes - sha1
                     Array.Resize(ref sn, 20);
@@ -223,9 +225,9 @@ namespace px4uploader
 
                     otp otp = (otp)obj;
 
-                    Console.WriteLine("id: " + otp.id_type.ToString("X"));
-                    Console.WriteLine("vid: " + otp.vid.ToString("X"));
-                    Console.WriteLine("pid: " + otp.pid.ToString("X"));
+                    print("id: " + otp.id_type.ToString("X"));
+                    print("vid: " + otp.vid.ToString("X"));
+                    print("pid: " + otp.pid.ToString("X"));
 
                     if (otp.h1 == 'P' &&
                         otp.h2 == 'X' &&
@@ -235,11 +237,16 @@ namespace px4uploader
                         // no vendor checks yet
                         byte[] sig = otp.signature;
 
+                        line = "";
+
                         for (int s = 0; s < 512; s += 1)
                         {
-                            Console.Write(test[s].ToString("X2"));
+                            line += test[s].ToString("X2");
                             if (s % 16 == 15)
-                                Console.WriteLine();
+                            {
+                                print(line);
+                                line = "";
+                            }
                         }
                         /*
                                                             byte[] PEMbuffer = Convert.FromBase64String(@"");
@@ -270,20 +277,20 @@ namespace px4uploader
                         }
 
                         print("Invalid Key");
-                        throw new Exception("Invalid Board");
+                        throw new InvalidKeyException("Invalid Board");
                     }
                     else
                     {
                         print("Failed Header Check");
-                        throw new Exception("Failed Header Check");
+                        throw new FormatException("Failed Header Check");
                     }
 
                 }
                 catch 
                 { 
-                    print("Failed to read OTP"); 
+                    print("Failed to read OTP");
+                    throw;
                 }
-                throw new Exception("Failed to read OTP");
             }
 
             // not board type 9

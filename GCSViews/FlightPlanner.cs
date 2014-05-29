@@ -245,13 +245,20 @@ namespace MissionPlanner.GCSViews
             
             try
             {
-                double lastdist = MainMap.MapProvider.Projection.GetDistance(pointlist[pointlist.Count - 1], currentMarker.Position);
+                PointLatLng last;
+
+                if (pointlist[pointlist.Count - 1] == null)
+                    last = pointlist[pointlist.Count - 2];
+                else
+                    last = pointlist[pointlist.Count - 1];
+
+                double lastdist = MainMap.MapProvider.Projection.GetDistance(last, currentMarker.Position);
 
                 double lastbearing = 0;
 
                 if (pointlist.Count > 0)
                 {
-                    lastbearing = MainMap.MapProvider.Projection.GetBearing(pointlist[pointlist.Count - 1], currentMarker.Position);
+                    lastbearing = MainMap.MapProvider.Projection.GetBearing(last, currentMarker.Position);
                 }
 
                 lbl_prevdist.Text = rm.GetString("lbl_prevdist.Text") + ": " + FormatDistance(lastdist, true) + " AZ: " + lastbearing.ToString("0");
@@ -2122,7 +2129,7 @@ namespace MissionPlanner.GCSViews
                     if (line.StartsWith("#"))
                         continue;
 
-                    string[] items = line.Split(new char[] { (char)'\t', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    string[] items = line.Split(new char[] { (char)'\t', ' ', ',' }, StringSplitOptions.RemoveEmptyEntries);
 
                     if (items.Length <= 9)
                         continue;

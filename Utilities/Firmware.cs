@@ -564,8 +564,6 @@ namespace MissionPlanner.Utilities
         /// <param name="filename"></param>
         public bool UploadPX4(string filename)
         {
-
-
             Uploader up;
             updateProgress(0, "Reading Hex File");
             px4uploader.Firmware fw;
@@ -632,6 +630,9 @@ namespace MissionPlanner.Utilities
                         up.identify();
                         updateProgress(-1, "Identify");
                         log.InfoFormat("Found board type {0} boardrev {1} bl rev {2} fwmax {3} on {4}", up.board_type, up.board_rev, up.bl_rev, up.fw_maxsize, port);
+
+                        up.ProgressEvent += new Uploader.ProgressEventHandler(up_ProgressEvent);
+                        up.LogEvent += new Uploader.LogEventHandler(up_LogEvent);
                     }
                     catch (Exception)
                     {
@@ -645,11 +646,43 @@ namespace MissionPlanner.Utilities
                     {
                         up.verifyotp();
                     }
-                    catch { CustomMessageBox.Show("You are using unsupported hardware.\nThis board does not contain a valid certificate of authenticity.\nPlease contact your hardware vendor about signing your hardware.", "Invalid Cert"); up.skipotp = true; }
+                    catch (Org.BouncyCastle.Security.InvalidKeyException ex) 
+                    {
+                        log.Error(ex);
+                        CustomMessageBox.Show("You are using unsupported hardware.\nThis board does not contain a valid certificate of authenticity.\nPlease contact your hardware vendor about signing your hardware.", "Invalid Cert"); 
+                        up.skipotp = true;
+                    }
+                    catch (FormatException ex)
+                    {
+                        log.Error(ex);
+                        CustomMessageBox.Show("You are using unsupported hardware.\nThis board does not contain a valid certificate of authenticity.\nPlease contact your hardware vendor about signing your hardware.", "Invalid Cert");
+                        up.skipotp = true;
+                    }
+                    catch (IOException ex) 
+                    {
+                        log.Error(ex);
+                        CustomMessageBox.Show("lost communication with the board.", "lost comms");
+                        up.close();
+                        return false;
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error(ex);
+                        CustomMessageBox.Show("lost communication with the board. " + ex.ToString(), "lost comms");
+                        up.close();
+                        return false;
+                    }
 
                     try
                     {
                         up.currentChecksum(fw);
+                    }
+                    catch (IOException ex)
+                    {
+                        log.Error(ex);
+                        CustomMessageBox.Show("lost communication with the board.", "lost comms");
+                        up.close();
+                        return false;
                     }
                     catch
                     {
@@ -661,9 +694,6 @@ namespace MissionPlanner.Utilities
 
                     try
                     {
-                        up.ProgressEvent += new Uploader.ProgressEventHandler(up_ProgressEvent);
-                        up.LogEvent += new Uploader.LogEventHandler(up_LogEvent);
-
                         updateProgress(0, "Upload");
                         up.upload(fw);
                         updateProgress(100, "Upload Done");
