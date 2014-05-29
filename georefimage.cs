@@ -163,6 +163,11 @@ namespace MissionPlanner
         int timeCAMpos = 1, weekCAMPos = 2, latCAMpos = 3, lngCAMpos = 4, altCAMpos = 5, pitchCAMATT = 6, rollCAMATT = 7, yawCAMATT = 8;
 
         #region GraphicalStuff
+        private NumericUpDown NUM_CAM_Week;
+        private Label label26;
+        private Panel PANEL_SHUTTER_LAG;
+        private TextBox TXT_shutterLag;
+        private Label label27;
         private Label label6;
         private Panel panel2;
         private NumericUpDown NUM_ATT_Roll;
@@ -237,10 +242,9 @@ namespace MissionPlanner
         Dictionary<long, VehicleLocation> vehicleLocations;
 
         bool useAMSLAlt;
+        int millisShutterLag = 0;
 
         Hashtable filedatecache = new Hashtable();
-        private NumericUpDown NUM_CAM_Week;
-        private Label label26;
         List<int> JXL_StationIDs = new List<int>();
 
         internal Georefimage() {
@@ -413,17 +417,21 @@ namespace MissionPlanner
 
                         string[] gpsLineValues = line.Split(new char[] { ',', ':' });
 
-                        location.Time = GetTimeFromGps(int.Parse(gpsLineValues[gpsweekpos]), int.Parse(gpsLineValues[timepos]) );
-                        location.Lat = double.Parse(gpsLineValues[latpos]);
-                        location.Lon = double.Parse(gpsLineValues[lngpos]);
-                        location.RelAlt = double.Parse(gpsLineValues[altpos]);
-                        location.AltAMSL = double.Parse(gpsLineValues[altAMSLpos]);
+                        location.Time = GetTimeFromGps(int.Parse(getValueFromStringArray(gpsLineValues, gpsweekpos)), int.Parse(getValueFromStringArray(gpsLineValues,timepos)));
+                        location.Lat = double.Parse(getValueFromStringArray(gpsLineValues,latpos));
+                        location.Lon = double.Parse(getValueFromStringArray(gpsLineValues,lngpos));
+                        location.RelAlt = double.Parse(getValueFromStringArray(gpsLineValues,altpos));
+                        location.AltAMSL = double.Parse(getValueFromStringArray(gpsLineValues,altAMSLpos));
 
                         location.Roll = currentRoll;
                         location.Pitch = currentPitch;
                         location.Yaw = currentYaw;
 
+                        
+
                         long millis = ToMilliseconds(location.Time);
+
+                        //System.Diagnostics.Debug.WriteLine("GPS MSG - UTCMillis = " + millis  + "  GPS Week = " + getValueFromStringArray(gpsLineValues, gpsweekpos) + "  TimeMS = " + getValueFromStringArray(gpsLineValues, timepos));
 
                         if (!vehiclePositionList.ContainsKey(millis))
                             vehiclePositionList[millis] = location;
@@ -432,9 +440,9 @@ namespace MissionPlanner
                     {
                         string[] attLineValues = line.Split(new char[] { ',', ':' });
 
-                        currentRoll = float.Parse(attLineValues[rollATT]);
-                        currentPitch = float.Parse(attLineValues[pitchATT]);
-                        currentYaw = float.Parse(attLineValues[yawATT]);
+                        currentRoll = float.Parse(getValueFromStringArray(attLineValues,rollATT));
+                        currentPitch = float.Parse(getValueFromStringArray(attLineValues,pitchATT));
+                        currentYaw = float.Parse(getValueFromStringArray(attLineValues,yawATT));
 
                     }
 
@@ -475,6 +483,17 @@ namespace MissionPlanner
         }
 
         #region HelperMethods
+        
+        // return a value in an array securely
+        public string getValueFromStringArray(string[] array, int position)
+        {
+            string sResult = "-1";
+
+            if (position < array.Length)
+                sResult = array[position];
+
+            return sResult;
+        }
         public DateTime FromUTCTimeMilliseconds(long milliseconds)
         {
             var epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
@@ -501,7 +520,7 @@ namespace MissionPlanner
 
         #endregion
 
-        private float EstimateOffset(string logFile, string dirWithImages)
+        private double EstimateOffset(string logFile, string dirWithImages)
         {
             if (vehicleLocations == null || vehicleLocations.Count <= 0)
                 vehicleLocations = readGPSMsgInLog(logFile);
@@ -521,17 +540,17 @@ namespace MissionPlanner
 
             DateTime photoTime = getPhotoTime(firstPhoto);
 
-            TXT_outputlog.AppendText("First Picture " + Path.GetFileNameWithoutExtension(firstPhoto) + "with DateTime: " + photoTime.ToString("yyyy:MM:dd HH:mm:ss") + "\n");
+            TXT_outputlog.AppendText("First Picture " + Path.GetFileNameWithoutExtension(firstPhoto) + " with DateTime: " + photoTime.ToString("yyyy:MM:dd HH:mm:ss") + "\n");
 
             // First GPS Message in Log time
-            var e = vehicleLocations.Keys.GetEnumerator(); 
-            e.MoveNext();
-            long firstTimeInGPSMsg = e.Current;
+            List<long> times = new List<long>(vehicleLocations.Keys); 
+            times.Sort();
+            long firstTimeInGPSMsg = times[0];
             DateTime logTime = FromUTCTimeMilliseconds(firstTimeInGPSMsg);
 
             TXT_outputlog.AppendText("First GPS Log Msg: " + logTime.ToString("yyyy:MM:dd HH:mm:ss") + "\n");
 
-            return (float)(photoTime - logTime).TotalSeconds;
+            return (double)(photoTime - logTime).TotalSeconds;
         }
 
         private void CreateReportFiles(Dictionary<string, PictureInformation> listPhotosWithInfo, string dirWithImages, float offset)
@@ -803,12 +822,12 @@ namespace MissionPlanner
         {
             long time = ToMilliseconds(t);
 
-            // Flatten time to 100 millis
-            long flattenTime = (time / 100) * 100;
-            int millisSTEP = 100;
+            // Time at which the GPS position is actually search and found
+            long actualTime = time; 
+            int millisSTEP = 1; 
 
-            // 2 seconds in the log as absolute maximum
-            int maxIteration = 20;
+            // 2 seconds (2000 ms) in the log as absolute maximum
+            int maxIteration = 2000; 
 
             bool found = false;
             int iteration = 0;
@@ -816,17 +835,22 @@ namespace MissionPlanner
 
             while (!found && iteration < maxIteration)
             {
-                found = listLocations.ContainsKey(flattenTime);
+                found = listLocations.ContainsKey(actualTime);
                 if (found)
                 {
-                    location = listLocations[flattenTime];
+                    location = listLocations[actualTime];
                 }
                 else
                 {
-                    flattenTime += millisSTEP;
+                    actualTime += millisSTEP;
                     iteration++;
                 }
             }
+
+            /*if (location == null)
+                TXT_outputlog.AppendText("Time not found in log: " + time  + "\n");
+            else
+                TXT_outputlog.AppendText("GPS position found " + (actualTime - time) + " ms away\n");*/
 
             return location;
         }
@@ -878,32 +902,34 @@ namespace MissionPlanner
                 p.ShotTimeReportedByCamera = getPhotoTime(filename);
 
                 // Lookfor corresponding Location in vehicleLocationList
-                VehicleLocation shotLocation = LookForLocation(p.ShotTimeReportedByCamera.AddSeconds(-offset), vehicleLocations);
+                DateTime correctedTime = p.ShotTimeReportedByCamera.AddSeconds(-offset);
+                VehicleLocation shotLocation = LookForLocation(correctedTime, vehicleLocations);
 
                 if (shotLocation == null)
                 {
-                    TXT_outputlog.AppendText("File time not found in Log.  Aborting..... \n");
-                    return null; 
+                    TXT_outputlog.AppendText("Photo " + Path.GetFileNameWithoutExtension(filename) + " NOT PROCESSED. No GPS match in the log file. Please take care\n");
                 }
+                else
+                {
+                    p.Lat = shotLocation.Lat;
+                    p.Lon = shotLocation.Lon;
+                    p.AltAMSL = shotLocation.AltAMSL;
 
-                p.Lat = shotLocation.Lat;
-                p.Lon = shotLocation.Lon;
-                p.AltAMSL = shotLocation.AltAMSL;
+                    p.RelAlt = shotLocation.RelAlt;
 
-                p.RelAlt = shotLocation.RelAlt;
+                    p.Pitch = shotLocation.Pitch;
+                    p.Roll = shotLocation.Roll;
+                    p.Yaw = shotLocation.Yaw;
 
-                p.Pitch = shotLocation.Pitch;
-                p.Roll = shotLocation.Roll;
-                p.Yaw = shotLocation.Yaw;
+                    p.Time = shotLocation.Time;
 
-                p.Time = shotLocation.Time;
-
-                p.Path = filename;
+                    p.Path = filename;
 
 
-                picturesInformationTemp.Add(filename, p);
+                    picturesInformationTemp.Add(filename, p);
 
-                TXT_outputlog.AppendText("Photo " + filename + " processed\n");
+                    TXT_outputlog.AppendText("Photo " + Path.GetFileNameWithoutExtension(filename) + " PROCESSED with GPS position found " + (shotLocation.Time - correctedTime).Milliseconds + " ms away\n");
+                }
 
             }
 
@@ -929,7 +955,8 @@ namespace MissionPlanner
             TXT_outputlog.AppendText("Using AMSL Altitude " + useAMSLAlt + "\n");
 
             // If we are required to use AMSL then GPS messages should be used until CAM messages includes AMSL in the coming AC versions
-            if (useAMSLAlt)
+            // Or if the user enter shutter lag and thus we have to look for GPS messages ahead in time
+            if (useAMSLAlt || millisShutterLag > 0)
             {
                 TXT_outputlog.AppendText("Reading log for GPS Messages in order to get AMSL Altitude\n");
                 if (vehicleLocations == null || vehicleLocations.Count <= 0)
@@ -984,38 +1011,128 @@ namespace MissionPlanner
 
                 PictureInformation p = new PictureInformation();
 
-                 // Lets puts GPS time
-                p.Time = GetTimeFromGps(int.Parse(currentCAM[weekCAMPos]), int.Parse(currentCAM[timeCAMpos]));
+                DateTime dCAMMsgTime = GetTimeFromGps(int.Parse(getValueFromStringArray(currentCAM, weekCAMPos)), int.Parse(getValueFromStringArray(currentCAM, timeCAMpos)));
 
-                p.Lat = double.Parse(currentCAM[latCAMpos]);
-                p.Lon = double.Parse(currentCAM[lngCAMpos]);
-                p.AltAMSL = double.Parse(currentCAM[altCAMpos]);
-                p.RelAlt = double.Parse(currentCAM[altCAMpos]);
-
-                VehicleLocation cameraLocationFromGPSMsg = null;
-                if (useAMSLAlt)
+                if (millisShutterLag == 0)
                 {
-                    cameraLocationFromGPSMsg = LookForLocation(p.Time, vehicleLocations);
-                    if (cameraLocationFromGPSMsg != null)
-                        p.AltAMSL = cameraLocationFromGPSMsg.AltAMSL;
+                    // Lets puts GPS time
+                    p.Time = dCAMMsgTime;
+
+                    p.Lat = double.Parse(getValueFromStringArray(currentCAM, latCAMpos));
+                    p.Lon = double.Parse(getValueFromStringArray(currentCAM, lngCAMpos));
+                    p.AltAMSL = double.Parse(getValueFromStringArray(currentCAM, altCAMpos));
+                    p.RelAlt = double.Parse(getValueFromStringArray(currentCAM, altCAMpos));
+
+                    VehicleLocation cameraLocationFromGPSMsg = null;
+
+                    string logAltMsg = "RelAlt";
+
+                    if (useAMSLAlt)
+                    {
+                        cameraLocationFromGPSMsg = LookForLocation(p.Time, vehicleLocations);
+                        if (cameraLocationFromGPSMsg != null)
+                        {
+                            logAltMsg = "AMSL Alt " + (cameraLocationFromGPSMsg.Time - p.Time).Milliseconds + " ms away";
+                            p.AltAMSL = cameraLocationFromGPSMsg.AltAMSL;
+                        }
+                        else
+                            logAltMsg = "AMSL Alt NOT found";
+                    }
+
+
+                    p.Pitch = float.Parse(getValueFromStringArray(currentCAM, pitchCAMATT));
+                    p.Roll = float.Parse(getValueFromStringArray(currentCAM, rollCAMATT));
+                    p.Yaw = float.Parse(getValueFromStringArray(currentCAM, yawCAMATT));
+
+                    p.Path = files[i];
+
+                    string picturePath = files[i];
+
+                    picturesInformationTemp.Add(picturePath, p);
+
+                    TXT_outputlog.AppendText("Photo " + picturePath + " processed from CAM Msg with " + millisShutterLag +  " ms shutter lag. " + logAltMsg + "\n");
+
                 }
-               
+                else
+                {
+                    // Look fot GPS Message ahead
+                    DateTime dCorrectedWithLagPhotoTime = dCAMMsgTime;
+                    dCorrectedWithLagPhotoTime = dCorrectedWithLagPhotoTime.AddMilliseconds(millisShutterLag);
 
-               
+                    VehicleLocation cameraLocationFromGPSMsg = LookForLocation(dCorrectedWithLagPhotoTime, vehicleLocations);
 
-                p.Pitch = float.Parse(currentCAM[pitchCAMATT]);
-                p.Roll = float.Parse(currentCAM[rollCAMATT]);
-                p.Yaw = float.Parse(currentCAM[yawCAMATT]);
 
-                p.Path = files[i];
+                    // Check which GPS Position is closer in time.
+                    if (cameraLocationFromGPSMsg != null)
+                    {
+                        System.TimeSpan diffGPSTimeCAMTime = cameraLocationFromGPSMsg.Time - dCAMMsgTime;
 
-               
+                        if (diffGPSTimeCAMTime.Milliseconds > 2 * millisShutterLag)
+                        {
+                            // Stay with CAM Message as it is closer to CorrectedTime
+                            p.Time = dCAMMsgTime;
 
-                string picturePath = files[i];
+                            p.Lat = double.Parse(getValueFromStringArray(currentCAM, latCAMpos));
+                            p.Lon = double.Parse(getValueFromStringArray(currentCAM, lngCAMpos));
+                            p.AltAMSL = double.Parse(getValueFromStringArray(currentCAM, altCAMpos));
+                            p.RelAlt = double.Parse(getValueFromStringArray(currentCAM, altCAMpos));
 
-                picturesInformationTemp.Add(picturePath, p);
+                            string logAltMsg = "RelAlt";
 
-                TXT_outputlog.AppendText("Photo " + picturePath + " processed\n");
+                            cameraLocationFromGPSMsg = null;
+                            if (useAMSLAlt)
+                            {
+                                cameraLocationFromGPSMsg = LookForLocation(p.Time, vehicleLocations);
+                                if (cameraLocationFromGPSMsg != null)
+                                {
+                                    logAltMsg = "AMSL Alt " + (cameraLocationFromGPSMsg.Time - p.Time).Milliseconds + " ms away";
+                                    p.AltAMSL = cameraLocationFromGPSMsg.AltAMSL;
+                                }
+                                else
+                                    logAltMsg = "AMSL Alt NOT found";
+                            }
+
+
+                            TXT_outputlog.AppendText("Photo " + files[i] + " processed with CAM Msg. Shutter lag too small. "  + logAltMsg + "\n");
+                        }
+                        else
+                        {
+                            // Get GPS Time as it is closer to CorrectedTime
+                            // Lets puts GPS time
+                            p.Time = cameraLocationFromGPSMsg.Time;
+
+                            p.Lat = cameraLocationFromGPSMsg.Lat;
+                            p.Lon = cameraLocationFromGPSMsg.Lon;
+                            p.AltAMSL = cameraLocationFromGPSMsg.AltAMSL;
+                            p.RelAlt = cameraLocationFromGPSMsg.RelAlt;
+
+                            string logAltMsg = useAMSLAlt ? "AMSL Alt" : "RelAlt";
+
+                            TXT_outputlog.AppendText("Photo " + files[i] + " processed with GPS Msg : " + diffGPSTimeCAMTime.Milliseconds + " ms ahead of CAM Msg. " + logAltMsg + "\n");
+
+                        }
+
+
+                        p.Pitch = float.Parse(getValueFromStringArray(currentCAM, pitchCAMATT));
+                        p.Roll = float.Parse(getValueFromStringArray(currentCAM, rollCAMATT));
+                        p.Yaw = float.Parse(getValueFromStringArray(currentCAM, yawCAMATT));
+
+                        p.Path = files[i];
+
+                        string picturePath = files[i];
+
+                        picturesInformationTemp.Add(picturePath, p);
+
+                        
+
+                    }
+                    else
+                    {
+                        TXT_outputlog.AppendText("Photo " + files[i] + " NOT Processed. Time not found in log. Too large Shutter Lag? Try setting it to 0\n");
+                    }
+
+
+                }
 
             }
 
@@ -1319,6 +1436,8 @@ namespace MissionPlanner
             this.NUM_CAM_Lat = new System.Windows.Forms.NumericUpDown();
             this.label16 = new System.Windows.Forms.Label();
             this.PANEL_CAM = new System.Windows.Forms.Panel();
+            this.NUM_CAM_Week = new System.Windows.Forms.NumericUpDown();
+            this.label26 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.NUM_ATT_Roll = new System.Windows.Forms.NumericUpDown();
             this.label25 = new System.Windows.Forms.Label();
@@ -1347,8 +1466,9 @@ namespace MissionPlanner
             this.num_vfov = new System.Windows.Forms.NumericUpDown();
             this.panel3 = new System.Windows.Forms.Panel();
             this.CHECK_AMSLAlt_Use = new System.Windows.Forms.CheckBox();
-            this.NUM_CAM_Week = new System.Windows.Forms.NumericUpDown();
-            this.label26 = new System.Windows.Forms.Label();
+            this.PANEL_SHUTTER_LAG = new System.Windows.Forms.Panel();
+            this.TXT_shutterLag = new System.Windows.Forms.TextBox();
+            this.label27 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_latpos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_lngpos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_altpos)).BeginInit();
@@ -1359,6 +1479,7 @@ namespace MissionPlanner
             ((System.ComponentModel.ISupportInitialize)(this.NUM_CAM_Lon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_CAM_Lat)).BeginInit();
             this.PANEL_CAM.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_CAM_Week)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_ATT_Roll)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_ATT_Pitch)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_GPS_Week)).BeginInit();
@@ -1371,7 +1492,7 @@ namespace MissionPlanner
             ((System.ComponentModel.ISupportInitialize)(this.num_hfov)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_vfov)).BeginInit();
             this.panel3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NUM_CAM_Week)).BeginInit();
+            this.PANEL_SHUTTER_LAG.SuspendLayout();
             this.SuspendLayout();
             // 
             // openFileDialog1
@@ -1660,6 +1781,22 @@ namespace MissionPlanner
             resources.ApplyResources(this.PANEL_CAM, "PANEL_CAM");
             this.PANEL_CAM.Name = "PANEL_CAM";
             // 
+            // NUM_CAM_Week
+            // 
+            resources.ApplyResources(this.NUM_CAM_Week, "NUM_CAM_Week");
+            this.NUM_CAM_Week.Name = "NUM_CAM_Week";
+            this.NUM_CAM_Week.Value = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.NUM_CAM_Week.ValueChanged += new System.EventHandler(this.NUM_CAM_Week_ValueChanged);
+            // 
+            // label26
+            // 
+            resources.ApplyResources(this.label26, "label26");
+            this.label26.Name = "label26";
+            // 
             // panel2
             // 
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -1897,25 +2034,29 @@ namespace MissionPlanner
             this.CHECK_AMSLAlt_Use.UseVisualStyleBackColor = true;
             this.CHECK_AMSLAlt_Use.CheckedChanged += new System.EventHandler(this.CHECK_AMSLAlt_Use_CheckedChanged);
             // 
-            // NUM_CAM_Week
+            // PANEL_SHUTTER_LAG
             // 
-            resources.ApplyResources(this.NUM_CAM_Week, "NUM_CAM_Week");
-            this.NUM_CAM_Week.Name = "NUM_CAM_Week";
-            this.NUM_CAM_Week.Value = new decimal(new int[] {
-            2,
-            0,
-            0,
-            0});
-            this.NUM_CAM_Week.ValueChanged += new System.EventHandler(this.NUM_CAM_Week_ValueChanged);
+            this.PANEL_SHUTTER_LAG.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.PANEL_SHUTTER_LAG.Controls.Add(this.TXT_shutterLag);
+            this.PANEL_SHUTTER_LAG.Controls.Add(this.label27);
+            resources.ApplyResources(this.PANEL_SHUTTER_LAG, "PANEL_SHUTTER_LAG");
+            this.PANEL_SHUTTER_LAG.Name = "PANEL_SHUTTER_LAG";
             // 
-            // label26
+            // TXT_shutterLag
             // 
-            resources.ApplyResources(this.label26, "label26");
-            this.label26.Name = "label26";
+            resources.ApplyResources(this.TXT_shutterLag, "TXT_shutterLag");
+            this.TXT_shutterLag.Name = "TXT_shutterLag";
+            this.TXT_shutterLag.TextChanged += new System.EventHandler(this.TXT_shutterLag_TextChanged);
+            // 
+            // label27
+            // 
+            resources.ApplyResources(this.label27, "label27");
+            this.label27.Name = "label27";
             // 
             // Georefimage
             // 
             resources.ApplyResources(this, "$this");
+            this.Controls.Add(this.PANEL_SHUTTER_LAG);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.PANEL_CAM);
             this.Controls.Add(this.PANEL_TIME_OFFSET);
@@ -1944,6 +2085,7 @@ namespace MissionPlanner
             ((System.ComponentModel.ISupportInitialize)(this.NUM_CAM_Lat)).EndInit();
             this.PANEL_CAM.ResumeLayout(false);
             this.PANEL_CAM.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_CAM_Week)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_ATT_Roll)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_ATT_Pitch)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_GPS_Week)).EndInit();
@@ -1957,7 +2099,8 @@ namespace MissionPlanner
             ((System.ComponentModel.ISupportInitialize)(this.num_vfov)).EndInit();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NUM_CAM_Week)).EndInit();
+            this.PANEL_SHUTTER_LAG.ResumeLayout(false);
+            this.PANEL_SHUTTER_LAG.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -2031,6 +2174,7 @@ namespace MissionPlanner
             }
 
             BUT_doit.Enabled = false;
+            TXT_outputlog.Clear();
 
             try
             {
@@ -2059,9 +2203,9 @@ namespace MissionPlanner
         private void BUT_estoffset_Click(object sender, EventArgs e)
         {
             //doworkLegacy(TXT_logfile.Text, TXT_jpgdir.Text, 0, true);
-            float offset = EstimateOffset(TXT_logfile.Text, TXT_jpgdir.Text);
+            double offset = EstimateOffset(TXT_logfile.Text, TXT_jpgdir.Text);
 
-            TXT_outputlog.AppendText("Offset around : "  + offset + "\n\n");
+            TXT_outputlog.AppendText("Offset around :  "  + offset + "\n\n");
         }
 
         private void BUT_Geotagimages_Click(object sender, EventArgs e)
@@ -2206,15 +2350,21 @@ namespace MissionPlanner
             {
                 selectedProcessingMode = PROCESSING_MODE.CAM_MSG;
                 PANEL_TIME_OFFSET.Enabled = false;
+                PANEL_SHUTTER_LAG.Enabled = true;
             }
             else
             {
                 selectedProcessingMode = PROCESSING_MODE.TIME_OFFSET;
                 PANEL_TIME_OFFSET.Enabled = true;
+                PANEL_SHUTTER_LAG.Enabled = false;
             }
         }
 
         #region GraphicalSetterEvents
+        private void TXT_shutterLag_TextChanged(object sender, EventArgs e)
+        {
+            int.TryParse(TXT_shutterLag.Text, out millisShutterLag);
+        }
         private void CHECK_AMSLAlt_Use_CheckedChanged(object sender, EventArgs e)
         {
             useAMSLAlt = ((CheckBox)sender).Checked;
@@ -2306,6 +2456,8 @@ namespace MissionPlanner
             weekCAMPos = (int)((NumericUpDown)sender).Value;
         }
         #endregion
+
+
     }
 
     public class Rational
