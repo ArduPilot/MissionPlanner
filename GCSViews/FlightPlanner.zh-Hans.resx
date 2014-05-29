@@ -316,7 +316,7 @@
     <value>经度</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
-    <value>高度（ABS）</value>
+    <value>绝对高度</value>
   </data>
   <data name="Lat.HeaderText" xml:space="preserve">
     <value>纬度</value>
@@ -343,7 +343,7 @@
     <value>视图曲线化</value>
   </data>
   <data name="CHK_geheight.Text" xml:space="preserve">
-    <value>验证身高</value>
+    <value>验证海拔</value>
   </data>
   <data name="flyToHereToolStripMenuItem.Text" xml:space="preserve">
     <value>飞到这里</value>
