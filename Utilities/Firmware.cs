@@ -642,6 +642,9 @@ namespace MissionPlanner.Utilities
                         continue;
                     }
 
+                    // test if pausing here stops - System.TimeoutException: The write timed out.
+                    System.Threading.Thread.Sleep(500);
+
                     try
                     {
                         up.verifyotp();
@@ -659,6 +662,13 @@ namespace MissionPlanner.Utilities
                         up.skipotp = true;
                     }
                     catch (IOException ex) 
+                    {
+                        log.Error(ex);
+                        CustomMessageBox.Show("lost communication with the board.", "lost comms");
+                        up.close();
+                        return false;
+                    }
+                    catch (TimeoutException ex)
                     {
                         log.Error(ex);
                         CustomMessageBox.Show("lost communication with the board.", "lost comms");
