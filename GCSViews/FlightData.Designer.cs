@@ -13,6 +13,7 @@
             this.contextMenuStripMap = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.goHereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.flyToHereAltToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addPoiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pointCameraHereToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.triggerCameraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.flightPlannerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -142,6 +143,7 @@
             this.dataGridViewImageColumn2 = new System.Windows.Forms.DataGridViewImageColumn();
             this.Messagetabtimer = new System.Windows.Forms.Timer(this.components);
             this.bindingSourceStatusTab = new System.Windows.Forms.BindingSource(this.components);
+            this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStripMap.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MainH)).BeginInit();
             this.MainH.Panel1.SuspendLayout();
@@ -188,6 +190,7 @@
             this.contextMenuStripMap.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.goHereToolStripMenuItem,
             this.flyToHereAltToolStripMenuItem,
+            this.addPoiToolStripMenuItem,
             this.pointCameraHereToolStripMenuItem,
             this.triggerCameraToolStripMenuItem,
             this.flightPlannerToolStripMenuItem,
@@ -206,6 +209,14 @@
             this.flyToHereAltToolStripMenuItem.Name = "flyToHereAltToolStripMenuItem";
             resources.ApplyResources(this.flyToHereAltToolStripMenuItem, "flyToHereAltToolStripMenuItem");
             this.flyToHereAltToolStripMenuItem.Click += new System.EventHandler(this.flyToHereAltToolStripMenuItem_Click);
+            // 
+            // addPoiToolStripMenuItem
+            // 
+            this.addPoiToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.deleteToolStripMenuItem});
+            this.addPoiToolStripMenuItem.Name = "addPoiToolStripMenuItem";
+            resources.ApplyResources(this.addPoiToolStripMenuItem, "addPoiToolStripMenuItem");
+            this.addPoiToolStripMenuItem.Click += new System.EventHandler(this.addPoiToolStripMenuItem_Click);
             // 
             // pointCameraHereToolStripMenuItem
             // 
@@ -1777,6 +1788,12 @@
             // 
             this.bindingSourceStatusTab.DataSource = typeof(MissionPlanner.CurrentState);
             // 
+            // deleteToolStripMenuItem
+            // 
+            this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
+            resources.ApplyResources(this.deleteToolStripMenuItem, "deleteToolStripMenuItem");
+            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.deleteToolStripMenuItem_Click);
+            // 
             // FlightData
             // 
             resources.ApplyResources(this, "$this");
@@ -1970,6 +1987,8 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStripactionstab;
         private System.Windows.Forms.ToolStripMenuItem dropOutToolStripMenuItem;
         private Controls.MyButton BUT_loganalysis;
+        private System.Windows.Forms.ToolStripMenuItem addPoiToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
 
     }
 }

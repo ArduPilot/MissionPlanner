@@ -108,7 +108,7 @@ namespace MissionPlanner.Plugin
         /// <summary>
         /// The point where the menu was drawn
         /// </summary>
-        public PointLatLng FDMenuMapPosition { get { return MainV2.instance.FlightData.gotolocation; } }
+        public PointLatLng FDMenuMapPosition { get { return MainV2.instance.FlightData.MouseDownStart; } }
 
         public GMapProvider FDMapType { get { return FlightData.mymap.MapProvider; } }
 

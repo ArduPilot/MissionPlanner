@@ -72,6 +72,7 @@ namespace MissionPlanner.GCSViews
         internal static GMapOverlay kmlpolygons;
         internal static GMapOverlay geofence;
         internal static GMapOverlay rallypointoverlay;
+        internal static GMapOverlay poioverlay = new GMapOverlay("POI"); // poi layer
 
         Dictionary<Guid, Form> formguids = new Dictionary<Guid, Form>();
 
@@ -247,7 +248,8 @@ namespace MissionPlanner.GCSViews
 
             gMapControl1.DisableFocusOnMouseEnter = true;
 
-            
+            gMapControl1.OnMarkerEnter += gMapControl1_OnMarkerEnter;
+            gMapControl1.OnMarkerLeave += gMapControl1_OnMarkerLeave;
 
             gMapControl1.RoutesEnabled = true;
             gMapControl1.PolygonsEnabled = true;
@@ -267,6 +269,8 @@ namespace MissionPlanner.GCSViews
             rallypointoverlay = new GMapOverlay("rally points");
             gMapControl1.Overlays.Add(rallypointoverlay);
 
+            gMapControl1.Overlays.Add(poioverlay);
+
             try
             {
                 if (MainV2.getConfig("GspeedMAX") != "")
@@ -282,6 +286,18 @@ namespace MissionPlanner.GCSViews
 
             // first run
             MainV2_AdvancedChanged(null, null);
+        }
+
+        internal GMapMarker CurrentGMapMarker;
+
+        void gMapControl1_OnMarkerLeave(GMapMarker item)
+        {
+            CurrentGMapMarker = null;
+        }
+
+        void gMapControl1_OnMarkerEnter(GMapMarker item)
+        {
+            CurrentGMapMarker = item;
         }
    
         void tabStatus_Resize(object sender, EventArgs e)
@@ -1564,11 +1580,11 @@ namespace MissionPlanner.GCSViews
 
         }
 
-        internal PointLatLng gotolocation = new PointLatLng();
+        internal PointLatLng MouseDownStart = new PointLatLng();
 
         private void gMapControl1_MouseDown(object sender, MouseEventArgs e)
         {
-            gotolocation = gMapControl1.FromLocalToLatLng(e.X, e.Y);
+            MouseDownStart = gMapControl1.FromLocalToLatLng(e.X, e.Y);
 
             if (Control.ModifierKeys == Keys.Control)
             {
@@ -1592,7 +1608,7 @@ namespace MissionPlanner.GCSViews
                     return;
             }
 
-            if (gotolocation.Lat == 0 || gotolocation.Lng == 0)
+            if (MouseDownStart.Lat == 0 || MouseDownStart.Lng == 0)
             {
                 CustomMessageBox.Show("Bad Lat/Long", "Error");
                 return;
@@ -1602,8 +1618,8 @@ namespace MissionPlanner.GCSViews
 
             gotohere.id = (byte)MAVLink.MAV_CMD.WAYPOINT;
             gotohere.alt = (float)(MainV2.comPort.MAV.GuidedMode.z); // back to m
-            gotohere.lat = (gotolocation.Lat);
-            gotohere.lng = (gotolocation.Lng);
+            gotohere.lat = (MouseDownStart.Lat);
+            gotohere.lng = (MouseDownStart.Lng);
 
             try
             {
@@ -1635,8 +1651,8 @@ namespace MissionPlanner.GCSViews
             {
                 PointLatLng point = gMapControl1.FromLocalToLatLng(e.X, e.Y);
 
-                double latdif = gotolocation.Lat - point.Lat;
-                double lngdif = gotolocation.Lng - point.Lng;
+                double latdif = MouseDownStart.Lat - point.Lat;
+                double lngdif = MouseDownStart.Lng - point.Lng;
 
                 try
                 {
@@ -2503,14 +2519,14 @@ namespace MissionPlanner.GCSViews
                 return;
             }
 
-            if (gotolocation.Lat == 0 || gotolocation.Lng == 0)
+            if (MouseDownStart.Lat == 0 || MouseDownStart.Lng == 0)
             {
                 CustomMessageBox.Show("Bad Lat/Long");
                 return;
             }
 
             MainV2.comPort.setMountConfigure(MAVLink.MAV_MOUNT_MODE.GPS_POINT, true, true, true);
-            MainV2.comPort.setMountControl(gotolocation.Lat, gotolocation.Lng, (int)(intalt / MainV2.comPort.MAV.cs.multiplierdist), true);
+            MainV2.comPort.setMountControl(MouseDownStart.Lat, MouseDownStart.Lng, (int)(intalt / MainV2.comPort.MAV.cs.multiplierdist), true);
 
         }
 
@@ -3119,6 +3135,39 @@ namespace MissionPlanner.GCSViews
                 else
                 {
                     CustomMessageBox.Show("Bad input file");
+                }
+            }
+        }
+
+        private void addPoiToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            PointLatLngAlt pnt = MouseDownStart;
+
+            string output = "";
+
+            if (DialogResult.OK != InputBox.Show("POI", "Enter ID", ref output))
+                return;
+
+            pnt.Tag = output;
+
+            MainV2.POIs.Add(pnt);
+
+            poioverlay.Markers.Add(new GMarkerGoogle(pnt, GMarkerGoogleType.red_dot) { ToolTipMode = MarkerTooltipMode.OnMouseOver, ToolTipText = pnt.Tag });
+       
+        }
+
+        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            poioverlay.Markers.Remove(CurrentGMapMarker);
+
+            if (CurrentGMapMarker != null) {
+                for (int a = 0; a < MainV2.POIs.Count; a++)
+                {
+                    if (MainV2.POIs[a].Point() == CurrentGMapMarker.Position)
+                    {
+                        MainV2.POIs.RemoveAt(a);
+                        return;
+                    }
                 }
             }
         }
