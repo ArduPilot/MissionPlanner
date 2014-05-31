@@ -1768,6 +1768,8 @@ namespace MissionPlanner.GCSViews
 
                     LBL_logfn.Text = Path.GetFileName(file);
 
+                    log.Info("Open logfile " + file);
+
                     tracklog.Value = 0;
                     tracklog.Minimum = 0;
                     tracklog.Maximum = 100;
@@ -3148,7 +3150,7 @@ namespace MissionPlanner.GCSViews
             if (DialogResult.OK != InputBox.Show("POI", "Enter ID", ref output))
                 return;
 
-            pnt.Tag = output;
+            pnt.Tag = output + " "+ pnt.ToString();
 
             MainV2.POIs.Add(pnt);
 

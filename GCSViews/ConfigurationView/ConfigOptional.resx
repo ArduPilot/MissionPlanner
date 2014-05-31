@@ -129,7 +129,7 @@
     <value>1</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>The following pages are OPTIONAL configure them is you have aditional hardware, or other requirements.</value>
+    <value>The following pages are OPTIONAL configure them if you have aditional hardware, or other requirements.</value>
   </data>
   <data name="&gt;&gt;label1.Name" xml:space="preserve">
     <value>label1</value>
