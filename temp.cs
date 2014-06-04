@@ -23,6 +23,7 @@ using System.Xml;
 using IronPython.Hosting;
 using IronPython.Runtime.Operations;
 using System.Net.Sockets;
+using DotSpatial.Projections;
 
 namespace MissionPlanner
 {
@@ -1318,6 +1319,144 @@ namespace MissionPlanner
         private void BUT_magfit2_Click(object sender, EventArgs e)
         {
             MagCalib.ProcessLog(0);
+        }
+
+        private void BUT_shptopoly_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog fd = new OpenFileDialog();
+            fd.Filter = "Shape file|*.shp";
+            DialogResult result = fd.ShowDialog();
+            string file = fd.FileName;
+
+            if (!File.Exists(file))
+                return;
+
+            ProjectionInfo pStart = new ProjectionInfo();
+            ProjectionInfo pESRIEnd = KnownCoordinateSystems.Geographic.World.WGS1984;
+            bool reproject = false;
+
+            if (File.Exists(file))
+            {
+                string prjfile = Path.GetDirectoryName(file) + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(file) + ".prj";
+                if (File.Exists(prjfile))
+                {
+
+                    using (StreamReader re = File.OpenText(Path.GetDirectoryName(file) + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(file) + ".prj"))
+                    {
+                        pStart.ParseEsriString(re.ReadLine());
+
+                        reproject = true;
+                    }
+                }
+
+                DotSpatial.Data.IFeatureSet fs = DotSpatial.Data.FeatureSet.Open(file);
+
+                fs.FillAttributes();
+
+                int rows = fs.NumRows();
+
+                DataTable dtOriginal = fs.DataTable;
+                for (int row = 0; row < dtOriginal.Rows.Count; row++)
+                {
+                    object[] original = dtOriginal.Rows[row].ItemArray;
+                }
+
+                foreach (DataColumn col in dtOriginal.Columns)
+                {
+                    Console.WriteLine(col.ColumnName + " " + col.DataType.ToString());
+                }
+
+                bool dosort = false;
+
+                int a = 1;
+
+                string path = Path.GetDirectoryName(file);
+
+                foreach (var feature in fs.Features)
+                {
+                    StringBuilder sb = new StringBuilder();
+
+                    sb.Append("#Shap to Poly - Mission Planner\r\n");
+                    foreach (var point in feature.Coordinates) {
+                        sb.Append(point.Y.ToString(System.Globalization.CultureInfo.InvariantCulture) + "\t" + point.X.ToString(System.Globalization.CultureInfo.InvariantCulture)+"\r\n");
+                }
+
+                    log.Info("writting poly to " + path + Path.DirectorySeparatorChar + "poly-" + a + ".poly");
+                    File.WriteAllText(path + Path.DirectorySeparatorChar +"poly-"+a+".poly",sb.ToString());
+
+                    a++;
+                }
+
+                return;
+
+                List<PointLatLngAlt> wplist = new List<PointLatLngAlt>();
+
+                for (int row = 0; row < dtOriginal.Rows.Count; row++)
+                {
+                    double x = fs.Vertex[row * 2];
+                    double y = fs.Vertex[row * 2 + 1];
+
+                    double z = -1;
+                    float wp = 0;
+
+                    try
+                    {
+                        if (dtOriginal.Columns.Contains("ELEVATION"))
+                            z = (float)Convert.ChangeType(dtOriginal.Rows[row]["ELEVATION"], TypeCode.Single);
+                    }
+                    catch { }
+
+                    try
+                    {
+                        if (z == -1 && dtOriginal.Columns.Contains("alt"))
+                            z = (float)Convert.ChangeType(dtOriginal.Rows[row]["alt"], TypeCode.Single);
+                    }
+                    catch { }
+
+                    try
+                    {
+                        if (z == -1)
+                            z = fs.Z[row];
+                    }
+                    catch { }
+
+
+                    try
+                    {
+                        if (dtOriginal.Columns.Contains("wp"))
+                        {
+                            wp = (float)Convert.ChangeType(dtOriginal.Rows[row]["wp"], TypeCode.Single);
+                            dosort = true;
+                        }
+                    }
+                    catch { }
+
+                    if (reproject)
+                    {
+                        double[] xyarray = { x, y };
+                        double[] zarray = { z };
+
+                        Reproject.ReprojectPoints(xyarray, zarray, pStart, pESRIEnd, 0, 1);
+
+
+                        x = xyarray[0];
+                        y = xyarray[1];
+                        z = zarray[0];
+                    }
+
+                    PointLatLngAlt pnt = new PointLatLngAlt(x, y, z, wp.ToString());
+
+                    wplist.Add(pnt);
+                }
+
+                if (dosort)
+                    wplist.Sort();
+
+                foreach (var item in wplist)
+                {
+                   // AddCommand(MAVLink.MAV_CMD.WAYPOINT, 0, 0, 0, 0, item.Lat, item.Lng, item.Alt);
+                }
+            }
         }
     }
 }
