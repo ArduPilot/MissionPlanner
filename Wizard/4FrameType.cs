@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using MissionPlanner.Controls;
+using MissionPlanner.GCSViews.ConfigurationView;
 
 namespace MissionPlanner.Wizard
 {
@@ -40,19 +41,19 @@ namespace MissionPlanner.Wizard
 
             switch (option) {
                 case "x":
-                    MainV2.comPort.setParam("FRAME", 1);
+                    MainV2.comPort.setParam("FRAME", (int)ConfigFrameType.Frame.X);
                     break;
                 case "+":
-                    MainV2.comPort.setParam("FRAME", 0);
+                    MainV2.comPort.setParam("FRAME", (int)ConfigFrameType.Frame.Plus);
                     break;
                 case "trap":
-                    MainV2.comPort.setParam("FRAME", 2);
+                    MainV2.comPort.setParam("FRAME", (int)ConfigFrameType.Frame.V);
                     break;
                 case "h":
-                    MainV2.comPort.setParam("FRAME", 3);
+                    MainV2.comPort.setParam("FRAME", (int)ConfigFrameType.Frame.H);
                     break;
                 case "y6b":
-                    MainV2.comPort.setParam("FRAME", 10);
+                    MainV2.comPort.setParam("FRAME", (int)ConfigFrameType.Frame.Y);
                     break;
             }
         }
@@ -84,25 +85,32 @@ namespace MissionPlanner.Wizard
 
         public void Activate()
         {
+            if (!MainV2.comPort.BaseStream.IsOpen)
+            {
+                CustomMessageBox.Show("You are no longer connected to the board\n the wizard will now exit", "Error");
+                Wizard.instance.Close();
+                return;
+            }
+
             if (MainV2.comPort.MAV.param.ContainsKey("FRAME")) 
             {
-                int frame = (int)(float)MainV2.comPort.MAV.param["FRAME"];
+                ConfigFrameType.Frame frame = (ConfigFrameType.Frame)(int)(float)MainV2.comPort.MAV.param["FRAME"];
 
                 switch (frame)
                 {
-                    case 0:
+                    case ConfigFrameType.Frame.X:
                         pictureBox_Click(pictureBoxMouseOverX, new EventArgs());
                         break;
-                    case 1:
+                    case ConfigFrameType.Frame.Plus:
                         pictureBox_Click(pictureBoxMouseOverplus, new EventArgs());
                         break;
-                    case 2:
+                    case ConfigFrameType.Frame.V:
                         pictureBox_Click(pictureBoxMouseOvertrap, new EventArgs());
                         break;
-                    case 3:
+                    case ConfigFrameType.Frame.H:
                         pictureBox_Click(pictureBoxMouseOverH, new EventArgs());
                         break;
-                    case 10:
+                    case ConfigFrameType.Frame.Y:
                         pictureBox_Click(pictureBoxMouseOverY, new EventArgs());
                         break;
                 }
