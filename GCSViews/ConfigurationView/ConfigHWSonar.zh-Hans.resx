@@ -117,10 +117,23 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="CHK_enablesonar.Text" xml:space="preserve">
+    <value>启用</value>
+  </data>
   <data name="label1.Text" xml:space="preserve">
     <value>声呐</value>
   </data>
-  <data name="CHK_enablesonar.Text" xml:space="preserve">
-    <value>启用</value>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>48, 18</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>电压: </value>
+  </data>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>48, 18</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>距离: </value>
   </data>
 </root>

@@ -49,18 +49,18 @@
             // 
             // CMB_paramfiles
             // 
-            this.CMB_paramfiles.FormattingEnabled = true;
             resources.ApplyResources(this.CMB_paramfiles, "CMB_paramfiles");
+            this.CMB_paramfiles.FormattingEnabled = true;
             this.CMB_paramfiles.Name = "CMB_paramfiles";
             // 
-            // ConfigDefaultSettings
+            // DefaultSettings
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.BUT_paramfileload);
             this.Controls.Add(this.CMB_paramfiles);
             this.Controls.Add(this.textBox1);
-            this.Name = "ConfigDefaultSettings";
+            this.Name = "DefaultSettings";
             this.Load += new System.EventHandler(this.ConfigDefaultSettings_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
