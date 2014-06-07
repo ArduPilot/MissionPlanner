@@ -14,6 +14,7 @@ using System.Drawing.Imaging;
 using System.Text;
 using System.Xml;
 using System.Text.RegularExpressions;
+using System.Globalization;
 
 namespace MissionPlanner
 {
@@ -417,11 +418,11 @@ namespace MissionPlanner
 
                         string[] gpsLineValues = line.Split(new char[] { ',', ':' });
 
-                        location.Time = GetTimeFromGps(int.Parse(getValueFromStringArray(gpsLineValues, gpsweekpos)), int.Parse(getValueFromStringArray(gpsLineValues,timepos)));
-                        location.Lat = double.Parse(getValueFromStringArray(gpsLineValues,latpos));
-                        location.Lon = double.Parse(getValueFromStringArray(gpsLineValues,lngpos));
-                        location.RelAlt = double.Parse(getValueFromStringArray(gpsLineValues,altpos));
-                        location.AltAMSL = double.Parse(getValueFromStringArray(gpsLineValues,altAMSLpos));
+                        location.Time = GetTimeFromGps(int.Parse(getValueFromStringArray(gpsLineValues, gpsweekpos), CultureInfo.InvariantCulture), int.Parse(getValueFromStringArray(gpsLineValues, timepos), CultureInfo.InvariantCulture));
+                        location.Lat = double.Parse(getValueFromStringArray(gpsLineValues, latpos), CultureInfo.InvariantCulture);
+                        location.Lon = double.Parse(getValueFromStringArray(gpsLineValues, lngpos), CultureInfo.InvariantCulture);
+                        location.RelAlt = double.Parse(getValueFromStringArray(gpsLineValues, altpos), CultureInfo.InvariantCulture);
+                        location.AltAMSL = double.Parse(getValueFromStringArray(gpsLineValues, altAMSLpos), CultureInfo.InvariantCulture);
 
                         location.Roll = currentRoll;
                         location.Pitch = currentPitch;
@@ -440,9 +441,9 @@ namespace MissionPlanner
                     {
                         string[] attLineValues = line.Split(new char[] { ',', ':' });
 
-                        currentRoll = float.Parse(getValueFromStringArray(attLineValues,rollATT));
-                        currentPitch = float.Parse(getValueFromStringArray(attLineValues,pitchATT));
-                        currentYaw = float.Parse(getValueFromStringArray(attLineValues,yawATT));
+                        currentRoll = float.Parse(getValueFromStringArray(attLineValues, rollATT), CultureInfo.InvariantCulture);
+                        currentPitch = float.Parse(getValueFromStringArray(attLineValues, pitchATT), CultureInfo.InvariantCulture);
+                        currentYaw = float.Parse(getValueFromStringArray(attLineValues, yawATT), CultureInfo.InvariantCulture);
 
                     }
 
@@ -1011,17 +1012,17 @@ namespace MissionPlanner
 
                 PictureInformation p = new PictureInformation();
 
-                DateTime dCAMMsgTime = GetTimeFromGps(int.Parse(getValueFromStringArray(currentCAM, weekCAMPos)), int.Parse(getValueFromStringArray(currentCAM, timeCAMpos)));
+                DateTime dCAMMsgTime = GetTimeFromGps(int.Parse(getValueFromStringArray(currentCAM, weekCAMPos), CultureInfo.InvariantCulture), int.Parse(getValueFromStringArray(currentCAM, timeCAMpos), CultureInfo.InvariantCulture));
 
                 if (millisShutterLag == 0)
                 {
                     // Lets puts GPS time
                     p.Time = dCAMMsgTime;
 
-                    p.Lat = double.Parse(getValueFromStringArray(currentCAM, latCAMpos));
-                    p.Lon = double.Parse(getValueFromStringArray(currentCAM, lngCAMpos));
-                    p.AltAMSL = double.Parse(getValueFromStringArray(currentCAM, altCAMpos));
-                    p.RelAlt = double.Parse(getValueFromStringArray(currentCAM, altCAMpos));
+                    p.Lat = double.Parse(getValueFromStringArray(currentCAM, latCAMpos), CultureInfo.InvariantCulture);
+                    p.Lon = double.Parse(getValueFromStringArray(currentCAM, lngCAMpos), CultureInfo.InvariantCulture);
+                    p.AltAMSL = double.Parse(getValueFromStringArray(currentCAM, altCAMpos), CultureInfo.InvariantCulture);
+                    p.RelAlt = double.Parse(getValueFromStringArray(currentCAM, altCAMpos), CultureInfo.InvariantCulture);
 
                     VehicleLocation cameraLocationFromGPSMsg = null;
 
@@ -1040,9 +1041,9 @@ namespace MissionPlanner
                     }
 
 
-                    p.Pitch = float.Parse(getValueFromStringArray(currentCAM, pitchCAMATT));
-                    p.Roll = float.Parse(getValueFromStringArray(currentCAM, rollCAMATT));
-                    p.Yaw = float.Parse(getValueFromStringArray(currentCAM, yawCAMATT));
+                    p.Pitch = float.Parse(getValueFromStringArray(currentCAM, pitchCAMATT), CultureInfo.InvariantCulture);
+                    p.Roll = float.Parse(getValueFromStringArray(currentCAM, rollCAMATT), CultureInfo.InvariantCulture);
+                    p.Yaw = float.Parse(getValueFromStringArray(currentCAM, yawCAMATT), CultureInfo.InvariantCulture);
 
                     p.Path = files[i];
 
@@ -1050,7 +1051,7 @@ namespace MissionPlanner
 
                     picturesInformationTemp.Add(picturePath, p);
 
-                    TXT_outputlog.AppendText("Photo " + picturePath + " processed from CAM Msg with " + millisShutterLag +  " ms shutter lag. " + logAltMsg + "\n");
+                    TXT_outputlog.AppendText("Photo " + Path.GetFileNameWithoutExtension(picturePath) + " processed from CAM Msg with " + millisShutterLag +  " ms shutter lag. " + logAltMsg + "\n");
 
                 }
                 else
@@ -1072,10 +1073,10 @@ namespace MissionPlanner
                             // Stay with CAM Message as it is closer to CorrectedTime
                             p.Time = dCAMMsgTime;
 
-                            p.Lat = double.Parse(getValueFromStringArray(currentCAM, latCAMpos));
-                            p.Lon = double.Parse(getValueFromStringArray(currentCAM, lngCAMpos));
-                            p.AltAMSL = double.Parse(getValueFromStringArray(currentCAM, altCAMpos));
-                            p.RelAlt = double.Parse(getValueFromStringArray(currentCAM, altCAMpos));
+                            p.Lat = double.Parse(getValueFromStringArray(currentCAM, latCAMpos), CultureInfo.InvariantCulture);
+                            p.Lon = double.Parse(getValueFromStringArray(currentCAM, lngCAMpos), CultureInfo.InvariantCulture);
+                            p.AltAMSL = double.Parse(getValueFromStringArray(currentCAM, altCAMpos), CultureInfo.InvariantCulture);
+                            p.RelAlt = double.Parse(getValueFromStringArray(currentCAM, altCAMpos), CultureInfo.InvariantCulture);
 
                             string logAltMsg = "RelAlt";
 
@@ -1093,7 +1094,7 @@ namespace MissionPlanner
                             }
 
 
-                            TXT_outputlog.AppendText("Photo " + files[i] + " processed with CAM Msg. Shutter lag too small. "  + logAltMsg + "\n");
+                            TXT_outputlog.AppendText("Photo " + Path.GetFileNameWithoutExtension(files[i]) + " processed with CAM Msg. Shutter lag too small. "  + logAltMsg + "\n");
                         }
                         else
                         {
@@ -1108,14 +1109,14 @@ namespace MissionPlanner
 
                             string logAltMsg = useAMSLAlt ? "AMSL Alt" : "RelAlt";
 
-                            TXT_outputlog.AppendText("Photo " + files[i] + " processed with GPS Msg : " + diffGPSTimeCAMTime.Milliseconds + " ms ahead of CAM Msg. " + logAltMsg + "\n");
+                            TXT_outputlog.AppendText("Photo " + Path.GetFileNameWithoutExtension(files[i]) + " processed with GPS Msg : " + diffGPSTimeCAMTime.Milliseconds + " ms ahead of CAM Msg. " + logAltMsg + "\n");
 
                         }
 
 
-                        p.Pitch = float.Parse(getValueFromStringArray(currentCAM, pitchCAMATT));
-                        p.Roll = float.Parse(getValueFromStringArray(currentCAM, rollCAMATT));
-                        p.Yaw = float.Parse(getValueFromStringArray(currentCAM, yawCAMATT));
+                        p.Pitch = float.Parse(getValueFromStringArray(currentCAM, pitchCAMATT), CultureInfo.InvariantCulture);
+                        p.Roll = float.Parse(getValueFromStringArray(currentCAM, rollCAMATT), CultureInfo.InvariantCulture);
+                        p.Yaw = float.Parse(getValueFromStringArray(currentCAM, yawCAMATT), CultureInfo.InvariantCulture);
 
                         p.Path = files[i];
 
@@ -1128,7 +1129,7 @@ namespace MissionPlanner
                     }
                     else
                     {
-                        TXT_outputlog.AppendText("Photo " + files[i] + " NOT Processed. Time not found in log. Too large Shutter Lag? Try setting it to 0\n");
+                        TXT_outputlog.AppendText("Photo " + Path.GetFileNameWithoutExtension(files[i]) + " NOT Processed. Time not found in log. Too large Shutter Lag? Try setting it to 0\n");
                     }
 
 
@@ -2169,8 +2170,11 @@ namespace MissionPlanner
             float seconds = 0;
             if (selectedProcessingMode == PROCESSING_MODE.TIME_OFFSET)
             {
-                if (float.TryParse(TXT_offsetseconds.Text, out seconds) == false)
+                if (float.TryParse(TXT_offsetseconds.Text, NumberStyles.Float, CultureInfo.InvariantCulture, out seconds) == false)
+                {
+                    TXT_outputlog.AppendText("Offset number not in correct format. Use . as decimal separator\n");
                     return;
+                }
             }
 
             BUT_doit.Enabled = false;
@@ -2205,7 +2209,7 @@ namespace MissionPlanner
             //doworkLegacy(TXT_logfile.Text, TXT_jpgdir.Text, 0, true);
             double offset = EstimateOffset(TXT_logfile.Text, TXT_jpgdir.Text);
 
-            TXT_outputlog.AppendText("Offset around :  "  + offset + "\n\n");
+            TXT_outputlog.AppendText("Offset around :  " + offset.ToString(CultureInfo.InvariantCulture) + "\n\n");
         }
 
         private void BUT_Geotagimages_Click(object sender, EventArgs e)
@@ -2262,7 +2266,7 @@ namespace MissionPlanner
         {
             using (MemoryStream ms = new MemoryStream(File.ReadAllBytes(Filename)))
             {
-                TXT_outputlog.AppendText("GeoTagging "+Filename + "\n");
+                TXT_outputlog.AppendText("GeoTagging "+ Filename + "\n");
                 Application.DoEvents();
 
                 using (Image Pic = Image.FromStream(ms))
@@ -2363,7 +2367,10 @@ namespace MissionPlanner
         #region GraphicalSetterEvents
         private void TXT_shutterLag_TextChanged(object sender, EventArgs e)
         {
-            int.TryParse(TXT_shutterLag.Text, out millisShutterLag);
+            bool convertedOK = int.TryParse(TXT_shutterLag.Text, NumberStyles.Integer, CultureInfo.InvariantCulture, out millisShutterLag);
+
+            if (!convertedOK)
+                TXT_shutterLag.Text = "0";
         }
         private void CHECK_AMSLAlt_Use_CheckedChanged(object sender, EventArgs e)
         {
