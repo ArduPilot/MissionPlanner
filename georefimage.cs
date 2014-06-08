@@ -503,15 +503,14 @@ namespace MissionPlanner
 
         public DateTime GetTimeFromGps(int weeknumber, int milliseconds)
         {
-            int LEAP_SECONDS = 25;
+            int LEAP_SECONDS = 16;
 
-            DateTime datum = new DateTime(1980,1,6,0,0,0);
+            DateTime datum = new DateTime(1980, 1, 6, 0, 0, 0, DateTimeKind.Utc);
             DateTime week = datum.AddDays(weeknumber * 7);
             DateTime time = week.AddMilliseconds(milliseconds);
 
-            time.AddSeconds(-LEAP_SECONDS);
+            return time.AddSeconds(-LEAP_SECONDS);
 
-            return time;
         }
         public long ToMilliseconds(DateTime date)
         {
