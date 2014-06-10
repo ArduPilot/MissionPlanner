@@ -650,6 +650,17 @@ namespace MissionPlanner
                         //MAVLink.packets[(byte)MAVLink.MSG_NAMES.HIL_CONTROLS] = null;
                     }
 
+                    bytearray = mavinterface.MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.MOUNT_STATUS];
+
+                    if (bytearray != null)
+                    {
+                        var status = bytearray.ByteArrayToStructure<MAVLink.mavlink_mount_status_t>(6);
+
+                        campointa = status.pointing_a / 100.0f;
+                        campointb = status.pointing_b / 100.0f;
+                        campointc = status.pointing_c / 100.0f;
+                    }
+
                     bytearray = mavinterface.MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.AIRSPEED_AUTOCAL];
 
                     if (bytearray != null)
@@ -1251,5 +1262,11 @@ namespace MissionPlanner
                 }
             }
         }
+
+        public float campointa { get; set; }
+
+        public float campointb { get; set; }
+
+        public float campointc { get; set; }
     }
 }
