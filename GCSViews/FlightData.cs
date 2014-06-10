@@ -111,6 +111,23 @@ namespace MissionPlanner.GCSViews
         //whether or not the output console has already started
         bool outputwindowstarted = false;
 
+
+        private void deleteToolStripMenuItem_Click(object sender, System.EventArgs e)
+        {
+            POI.POIDelete(CurrentGMapMarker.Position);
+        }
+
+        private void addPoiToolStripMenuItem_Click(object sender, System.EventArgs e)
+        {
+            POI.POIAdd(MouseDownStart);
+        }
+
+        private void saveFileToolStripMenuItem_Click(object sender, System.EventArgs e)
+        {
+            POI.POISave();
+        }
+
+
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);
@@ -582,6 +599,8 @@ namespace MissionPlanner.GCSViews
         {
             System.Threading.ThreadPool.QueueUserWorkItem(mainloop);
 
+            POI.POIModified += POI_POIModified;
+
             TRK_zoom.Minimum = gMapControl1.MapProvider.MinZoom;
             TRK_zoom.Maximum = (float)24;
             TRK_zoom.Value = (float)gMapControl1.Zoom;
@@ -610,6 +629,11 @@ namespace MissionPlanner.GCSViews
             }
 
             hud1.doResize();
+        }
+
+        void POI_POIModified(object sender, EventArgs e)
+        {
+            POI.UpdateOverlay(poioverlay);
         }
 
         private void mainloop(object o)
@@ -1076,6 +1100,17 @@ namespace MissionPlanner.GCSViews
                             {
                                 routes.Markers.Add(new GMarkerGoogle(currentloc, GMarkerGoogleType.blue_dot) { Position = MainV2.comPort.MAV.cs.MovingBase, ToolTipText = "Moving Base", ToolTipMode = MarkerTooltipMode.OnMouseOver });
                             }
+
+
+                            // for testing
+                            try
+                            {
+                                int testing;
+                                int fixme;
+                                var marker = MissionPlanner.Utilities.GimbalPoint.ProjectPoint();
+                                routes.Markers.Add(new GMarkerGoogle(marker, GMarkerGoogleType.blue_dot) { ToolTipText = "Camera Target\n"+marker.ToString(), ToolTipMode = MarkerTooltipMode.OnMouseOver });
+                            }
+                            catch { }
 
                             lock(MainV2.instance.adsbPlanes) 
                             {
@@ -3141,37 +3176,5 @@ namespace MissionPlanner.GCSViews
             }
         }
 
-        private void addPoiToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            PointLatLngAlt pnt = MouseDownStart;
-
-            string output = "";
-
-            if (DialogResult.OK != InputBox.Show("POI", "Enter ID", ref output))
-                return;
-
-            pnt.Tag = output + " "+ pnt.ToString();
-
-            MainV2.POIs.Add(pnt);
-
-            poioverlay.Markers.Add(new GMarkerGoogle(pnt, GMarkerGoogleType.red_dot) { ToolTipMode = MarkerTooltipMode.OnMouseOver, ToolTipText = pnt.Tag });
-       
-        }
-
-        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            poioverlay.Markers.Remove(CurrentGMapMarker);
-
-            if (CurrentGMapMarker != null) {
-                for (int a = 0; a < MainV2.POIs.Count; a++)
-                {
-                    if (MainV2.POIs[a].Point() == CurrentGMapMarker.Position)
-                    {
-                        MainV2.POIs.RemoveAt(a);
-                        return;
-                    }
-                }
-            }
-        }
     }
 }

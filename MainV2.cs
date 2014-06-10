@@ -132,11 +132,6 @@ namespace MissionPlanner
         public Hashtable adsbPlaneAge = new Hashtable();
 
         /// <summary>
-        /// Store points of interest
-        /// </summary>
-        public static ObservableCollection<PointLatLngAlt> POIs = new ObservableCollection<PointLatLngAlt>();
-
-        /// <summary>
         /// Comport name
         /// </summary>
         public static string comPortName = "";
@@ -280,8 +275,6 @@ namespace MissionPlanner
             MyView = new MainSwitcher(this);
 
             View = MyView;
-
-            POIs.CollectionChanged += POIs_CollectionChanged;
 
             AdvancedChanged += updateAdvanced;
 
@@ -598,11 +591,6 @@ namespace MissionPlanner
                 log.Info("Loaded " + Utilities.Airports.GetAirportCount + " airports");
             }
             catch { }
-        }
-
-        void POIs_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-
         }
 
         void MenuCustom_Click(object sender, EventArgs e)
