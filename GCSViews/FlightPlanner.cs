@@ -180,7 +180,7 @@ namespace MissionPlanner.GCSViews
                     if (ans == 0 && (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2))
                         cell.Value = 15;
                     //   online          verify height using google
-                    if (isonline && CHK_geheight.Checked)
+                  /*  if (isonline && CHK_geheight.Checked)
                     {
                         if (CHK_altmode.Checked)
                         {
@@ -193,7 +193,7 @@ namespace MissionPlanner.GCSViews
                             cell.Value = ((int)getGEAlt(lat, lng) + int.Parse(TXT_DefaultAlt.Text) - (int)getGEAlt(MainV2.comPort.MAV.cs.HomeLocation.Lat, MainV2.comPort.MAV.cs.HomeLocation.Lng)).ToString();
                         }
                     }
-                    else
+                    else*/
                     {
                         // not online and verify alt via srtm
                         if (CHK_geheight.Checked) // use srtm data
