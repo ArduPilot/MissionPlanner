@@ -1546,7 +1546,7 @@ namespace MissionPlanner.Controls
                         Custom item = (Custom)CustomItems[key];
                         if (item.Item == null)
                             continue;
-                        if (item.Item.Name == "lat" || item.Item.Name == "lng") 
+                        if (item.Item.Name.Contains("lat") || item.Item.Name.Contains("lng")) 
                         {
                             drawstring(graphicsObject, item.Header + item.GetValue.ToString("0.#######"), font, fontsize + 2, whiteBrush, this.Width / 8, height);
                         }

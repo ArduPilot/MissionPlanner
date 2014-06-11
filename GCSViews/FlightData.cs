@@ -1108,6 +1108,9 @@ namespace MissionPlanner.GCSViews
                                 int testing;
                                 int fixme;
                                 var marker = MissionPlanner.Utilities.GimbalPoint.ProjectPoint();
+
+                                MainV2.comPort.MAV.cs.GimbalPoint = marker;
+
                                 routes.Markers.Add(new GMarkerGoogle(marker, GMarkerGoogleType.blue_dot) { ToolTipText = "Camera Target\n"+marker.ToString(), ToolTipMode = MarkerTooltipMode.OnMouseOver });
                             }
                             catch { }

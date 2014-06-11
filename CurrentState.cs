@@ -1268,5 +1268,10 @@ namespace MissionPlanner
         public float campointb { get; set; }
 
         public float campointc { get; set; }
+
+        public PointLatLngAlt GimbalPoint { get; set; }
+
+        public float gimballat { get { if (GimbalPoint == null) return 0; return (float)GimbalPoint.Lat; } }
+        public float gimballng { get { if (GimbalPoint == null) return 0; return (float)GimbalPoint.Lng; } }
     }
 }
