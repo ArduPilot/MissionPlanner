@@ -7,6 +7,7 @@ using MissionPlanner.Controls;
 
 namespace MissionPlanner.Utilities
 {
+    // one way encryption
     public static class Password
     {
         static string pw = "";
