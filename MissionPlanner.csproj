@@ -44,7 +44,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;MAVLINK10</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;MAVLINK10;NETFX_CORE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
@@ -232,6 +232,9 @@
     <Reference Include="ProjNet, Version=1.2.4455.27045, Culture=neutral, PublicKeyToken=a1f5bdcd9c6f5740, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>packages\ProjNet.1.2\lib\net20\ProjNet.dll</HintPath>
+    </Reference>
+    <Reference Include="protobuf-net">
+      <HintPath>packages\protobuf-net.2.0.0.668\lib\net40\protobuf-net.dll</HintPath>
     </Reference>
     <Reference Include="System">
       <Private>False</Private>
@@ -538,6 +541,9 @@
     </Compile>
     <Compile Include="System.cs" />
     <Compile Include="Utilities\Airports.cs" />
+    <Compile Include="Utilities\Crypto.cs" />
+    <Compile Include="Utilities\droneshare.cs" />
+    <Compile Include="Utilities\GimbalPoint.cs" />
     <Compile Include="Utilities\GitHubContent.cs" />
     <Compile Include="Utilities\GMapMarkerAirport.cs" />
     <Compile Include="Utilities\GMapMarkerRallyPt.cs" />
@@ -706,6 +712,7 @@
     <None Include="packages.config" />
     <Compile Include="Utilities\ParamFile.cs" />
     <Compile Include="Utilities\Password.cs" />
+    <Compile Include="Utilities\POI.cs" />
     <Compile Include="Utilities\SignXML.cs" />
     <Compile Include="Utilities\StringRedirectWriter.cs" />
     <Compile Include="Utilities\Update.cs" />
@@ -2264,6 +2271,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="acsimplepids.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="aircraft.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="aircraft\arducopter\arducopter-set.xml">

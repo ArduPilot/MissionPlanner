@@ -71,6 +71,9 @@
             this.button3 = new System.Windows.Forms.Button();
             this.BUT_magfit2 = new MissionPlanner.Controls.MyButton();
             this.BUT_shptopoly = new MissionPlanner.Controls.MyButton();
+            this.but_droneshare = new MissionPlanner.Controls.MyButton();
+            this.but_gimbaltest = new MissionPlanner.Controls.MyButton();
+            this.but_mntstatus = new MissionPlanner.Controls.MyButton();
             this.SuspendLayout();
             // 
             // label1
@@ -482,11 +485,44 @@
             this.BUT_shptopoly.UseVisualStyleBackColor = true;
             this.BUT_shptopoly.Click += new System.EventHandler(this.BUT_shptopoly_Click);
             // 
+            // but_droneshare
+            // 
+            this.but_droneshare.Location = new System.Drawing.Point(324, 380);
+            this.but_droneshare.Name = "but_droneshare";
+            this.but_droneshare.Size = new System.Drawing.Size(75, 23);
+            this.but_droneshare.TabIndex = 47;
+            this.but_droneshare.Text = "test droneshare";
+            this.but_droneshare.UseVisualStyleBackColor = true;
+            this.but_droneshare.Click += new System.EventHandler(this.but_droneshare_Click);
+            // 
+            // but_gimbaltest
+            // 
+            this.but_gimbaltest.Location = new System.Drawing.Point(324, 351);
+            this.but_gimbaltest.Name = "but_gimbaltest";
+            this.but_gimbaltest.Size = new System.Drawing.Size(75, 23);
+            this.but_gimbaltest.TabIndex = 48;
+            this.but_gimbaltest.Text = "gimbal test";
+            this.but_gimbaltest.UseVisualStyleBackColor = true;
+            this.but_gimbaltest.Click += new System.EventHandler(this.but_gimbaltest_Click);
+            // 
+            // but_mntstatus
+            // 
+            this.but_mntstatus.Location = new System.Drawing.Point(227, 389);
+            this.but_mntstatus.Name = "but_mntstatus";
+            this.but_mntstatus.Size = new System.Drawing.Size(75, 23);
+            this.but_mntstatus.TabIndex = 49;
+            this.but_mntstatus.Text = "mount status msg";
+            this.but_mntstatus.UseVisualStyleBackColor = true;
+            this.but_mntstatus.Click += new System.EventHandler(this.but_mntstatus_Click);
+            // 
             // temp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(685, 450);
+            this.Controls.Add(this.but_mntstatus);
+            this.Controls.Add(this.but_gimbaltest);
+            this.Controls.Add(this.but_droneshare);
             this.Controls.Add(this.BUT_shptopoly);
             this.Controls.Add(this.BUT_magfit2);
             this.Controls.Add(this.button3);
@@ -580,5 +616,8 @@
         System.Windows.Forms.Button button3;
         private Controls.MyButton BUT_magfit2;
         private Controls.MyButton BUT_shptopoly;
+        private Controls.MyButton but_droneshare;
+        private Controls.MyButton but_gimbaltest;
+        private Controls.MyButton but_mntstatus;
     }
 }

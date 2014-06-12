@@ -24,6 +24,8 @@ using IronPython.Hosting;
 using IronPython.Runtime.Operations;
 using System.Net.Sockets;
 using DotSpatial.Projections;
+using MissionPlanner.Controls;
+using System.Security;
 
 namespace MissionPlanner
 {
@@ -1225,11 +1227,11 @@ namespace MissionPlanner
 
             if (ofd.FileName != "")
             {
-                string xmlfile = LogAnalyzer.CheckLogFile(ofd.FileName);
+                string xmlfile = MissionPlanner.Utilities.LogAnalyzer.CheckLogFile(ofd.FileName);
 
                 if (File.Exists(xmlfile))
                 {
-                    var out1 = LogAnalyzer.Results(xmlfile);
+                    var out1 = MissionPlanner.Utilities.LogAnalyzer.Results(xmlfile);
 
                     MissionPlanner.Controls.LogAnalyzer frm = new Controls.LogAnalyzer(out1);
 
@@ -1395,6 +1397,76 @@ namespace MissionPlanner
                     a++;
                 }
             }
+        }
+
+        private void but_droneshare_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "tlog|*.tlog";
+            ofd.ShowDialog();
+
+            string droneshareusername = MainV2.getConfig("droneshareusername");
+
+            InputBox.Show("Username", "Username", ref droneshareusername);
+
+            MainV2.config["droneshareusername"] = droneshareusername;
+
+            string dronesharepassword = MainV2.getConfig("dronesharepassword");
+
+            if (dronesharepassword != "")
+            {
+                try
+                {
+                    // fail on bad entry
+                    var crypto = new Crypto();
+                    dronesharepassword = crypto.DecryptString(dronesharepassword);
+                }
+                catch { }
+            }
+
+            InputBox.Show("Password", "Password", ref dronesharepassword,true);
+
+            var crypto2 = new Crypto();
+
+            string encryptedpw = crypto2.EncryptString(dronesharepassword);
+
+            MainV2.config["dronesharepassword"] = encryptedpw;            
+
+            if (File.Exists(ofd.FileName)) 
+            {
+                foreach (var file in ofd.FileNames) 
+                {
+                    string viewurl = Utilities.droneshare.doUpload(file, droneshareusername, dronesharepassword, Guid.NewGuid().ToString(), Utilities.droneshare.APIConstants.apiKey);
+
+                    System.Diagnostics.Process.Start(viewurl);
+                }
+            }
+
+            dronesharepassword = null;
+        }
+
+        String SecureStringToString(SecureString value)
+        {
+            IntPtr valuePtr = IntPtr.Zero;
+            try
+            {
+                valuePtr = Marshal.SecureStringToGlobalAllocUnicode(value);
+                return Marshal.PtrToStringUni(valuePtr);
+            }
+            finally
+            {
+                Marshal.ZeroFreeGlobalAllocUnicode(valuePtr);
+            }
+        }
+
+        private void but_gimbaltest_Click(object sender, EventArgs e)
+        {
+            var answer = GimbalPoint.ProjectPoint();
+        }
+
+        private void but_mntstatus_Click(object sender, EventArgs e)
+        {
+            MainV2.comPort.GetMountStatus();
         }
     }
 }
