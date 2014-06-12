@@ -6,7 +6,7 @@
 	<min_alt_m>7</min_alt_m>
 	<max_alt_m>120</max_alt_m>
 	<min_vel_ms>1</min_vel_ms>
-	<min_vel_ms>16</min_vel_ms>
+	<max_vel_ms>16</max_vel_ms>
   </Vehicle>
 
   <Vehicle>
@@ -15,7 +15,7 @@
 	<min_alt_m>7</min_alt_m>
 	<max_alt_m>120</max_alt_m>
 	<min_vel_ms>1</min_vel_ms>
-	<min_vel_ms>20</min_vel_ms>
+    <max_vel_ms>20</max_vel_ms>
   </Vehicle>
 
   <Vehicle>
@@ -24,8 +24,9 @@
 	<min_alt_m>7</min_alt_m>
 	<max_alt_m>120</max_alt_m>
 	<min_vel_ms>1</min_vel_ms>
-	<min_vel_ms>15</min_vel_ms>
-  </Vehicle>
+    <max_vel_ms>15</max_vel_ms>
+  
+</Vehicle>
 
   <Vehicle>
     <name>3DR_Aero</name>
@@ -33,7 +34,7 @@
 	<min_alt_m>20</min_alt_m>
 	<max_alt_m>120</max_alt_m>
 	<min_vel_ms>9</min_vel_ms>
-	<min_vel_ms>25</min_vel_ms>
+    <max_vel_ms>25</max_vel_ms>
   </Vehicle>
   
   <Vehicle>
@@ -42,7 +43,7 @@
 	<min_alt_m>35</min_alt_m>
 	<max_alt_m>120</max_alt_m>
 	<min_vel_ms>9</min_vel_ms>
-	<min_vel_ms>25</min_vel_ms>
+    <max_vel_ms>25</max_vel_ms>
   </Vehicle>
   
 </Aircraft>

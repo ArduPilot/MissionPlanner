@@ -3157,11 +3157,30 @@ namespace MissionPlanner.GCSViews
         private void BUT_loganalysis_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = "*.log|*.log";
+            ofd.Filter = "*.log|*.log|*.bin|*.bin";
             ofd.ShowDialog();
 
             if (ofd.FileName != "")
             {
+                string newlogfile = null;
+
+                if (ofd.FileName.ToLower().EndsWith(".bin"))
+                {
+                    var log = MissionPlanner.Log.BinaryLog.ReadLog(ofd.FileName);
+
+                    newlogfile = Path.GetTempPath() + Path.DirectorySeparatorChar + Path.GetTempFileName() + ".log";
+
+                    using (StreamWriter sw = new StreamWriter(newlogfile))
+                    {
+                        foreach (string line in log)
+                        {
+                            sw.Write(line);
+                        }
+                    }
+
+                    ofd.FileName = newlogfile;
+                }
+
                 string xmlfile = MissionPlanner.Utilities.LogAnalyzer.CheckLogFile(ofd.FileName);
 
                 if (File.Exists(xmlfile))
@@ -3175,6 +3194,11 @@ namespace MissionPlanner.GCSViews
                 else
                 {
                     CustomMessageBox.Show("Bad input file");
+                }
+
+                if (newlogfile != "")
+                {
+                    File.Delete(newlogfile);
                 }
             }
         }
