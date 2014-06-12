@@ -10,6 +10,10 @@ using GMap.NET;
 using GMap.NET.WindowsForms;
 using MissionPlanner.Utilities;
 using GMap.NET.MapProviders;
+using GMap.NET;
+using GMap.NET.Projections;
+using GMap.NET.WindowsForms;
+using GMap.NET.MapProviders;
 
 namespace MissionPlanner.Controls
 {
@@ -29,6 +33,7 @@ namespace MissionPlanner.Controls
 
         // image zoom level
         int zoom = 14;
+        int verticalscale = 1;
 
         RectLatLng area = new RectLatLng(-35.04286,117.84262,0.1,0.1);
 
@@ -46,7 +51,8 @@ namespace MissionPlanner.Controls
                     return;
 
                 _alt = value.Alt;
-                area = new RectLatLng(value.Lat + 0.15, value.Lng - 0.15, 0.3, 0.3);
+                double size = 0.15;
+                area = new RectLatLng(value.Lat + size, value.Lng - size, size*2,size*2);
                // Console.WriteLine(area.LocationMiddle + " " + value.ToString());
                 this.Invalidate();
             } 
@@ -70,7 +76,6 @@ namespace MissionPlanner.Controls
             {
                 try
                 {
-                    List<GPoint> tileArea = prj.GetAreaTileList(area, zoom, 0);
                     //string bigImage = zoom + "-" + type + "-vilnius.png";
 
                     //Console.WriteLine("Preparing: " + bigImage);
@@ -80,10 +85,27 @@ namespace MissionPlanner.Controls
 
                     var types = type;// GMaps.Instance.GetAllLayersOfType(type);
 
-                    // current area
+                    // max zoom level
+                    zoom = 16;
+
                     GPoint topLeftPx = prj.FromLatLngToPixel(area.LocationTopLeft, zoom);
                     GPoint rightButtomPx = prj.FromLatLngToPixel(area.Bottom, area.Right, zoom);
                     GPoint pxDelta = new GPoint(rightButtomPx.X - topLeftPx.X, rightButtomPx.Y - topLeftPx.Y);
+
+                    // zoom based on pixel density
+                    while (pxDelta.X > 2000)
+                    {
+                        zoom--;
+
+                        // current area
+                        topLeftPx = prj.FromLatLngToPixel(area.LocationTopLeft, zoom);
+                        rightButtomPx = prj.FromLatLngToPixel(area.Bottom, area.Right, zoom);
+                        pxDelta = new GPoint(rightButtomPx.X - topLeftPx.X, rightButtomPx.Y - topLeftPx.Y);
+
+                    }
+
+                    // get type list at new zoom level
+                    List<GPoint> tileArea = prj.GetAreaTileList(area, zoom, 0);
 
                     DateTime startimage = DateTime.Now;
 
@@ -100,9 +122,13 @@ namespace MissionPlanner.Controls
                                 {
                                    Console.WriteLine("Downloading[" + p + "]: " + tileArea.IndexOf(p) + " of " + tileArea.Count);
 
-                                    //foreach (GMapProvider tp in types)
+                                   foreach (var tp in type.Overlays)
                                     {
-                                        GMapImage tile = type.GetTileImage(p, zoom) as GMapImage;
+                                        Exception ex;
+                                        GMapImage tile = GMaps.Instance.GetImageFrom(tp, p, zoom, out ex) as GMapImage;
+                                        //GMapImage tile = type.GetTileImage(p, zoom) as GMapImage;
+                                        //tile.Img.Save(zoom + "-" + p.X + "-" + p.Y + ".bmp");
+
                                         if (tile != null)
                                         {
                                             using (tile)
@@ -115,12 +141,11 @@ namespace MissionPlanner.Controls
                                             }
                                         }
                                     }
-                                    
-                                    if ((DateTime.Now - startimage).TotalMilliseconds > 100)
-                                        break;
                                 }
                             }
-                            _terrain = new Bitmap(bmpDestination, 512, 512);
+                            _terrain = new Bitmap(bmpDestination, 1024*2, 1024*2);
+
+                           // _terrain.Save(zoom +"-map.bmp");
 
 
                             GL.BindTexture(TextureTarget.Texture2D, texture);
@@ -141,16 +166,8 @@ namespace MissionPlanner.Controls
 
                         }
                     }
-                    if ((DateTime.Now - startimage).TotalMilliseconds > 200)
-                    {
-                        zoom--;
-                    }
-                    else
-                    {
-                        //zoom++;
-                    }
                 }
-                catch { }
+                catch (Exception ex) { Console.WriteLine(ex); }
             }
         }
 
@@ -186,15 +203,13 @@ namespace MissionPlanner.Controls
             }
             catch { return;  }
 
-            double heightscale = (step / 90.0) * 1;
-
-            float scale = 1.0f;
+            double heightscale = (step / 90.0) * 3;
 
             float radians = (float)(Math.PI * (rpy.Z * -1) / 180.0f);
 
              //radians = 0;
 
-            float mouseY = (float)(0.1 * scale);
+            float mouseY = (float)(0.1);
  
       cameraX = area.LocationMiddle.Lng;     // multiplying by mouseY makes the
       cameraZ = area.LocationMiddle.Lat;    // camera get closer/farther away with mouseY
@@ -224,7 +239,7 @@ namespace MissionPlanner.Controls
 
             GL.LoadMatrix(ref modelview);
 
-            GL.ClearColor(Color.Blue);
+            GL.ClearColor(Color.LightBlue);
 
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
@@ -250,7 +265,7 @@ namespace MissionPlanner.Controls
 
             sw.Start();
 
-            zoom = 14;
+            //zoom = 14;
 
             getImage();
 
@@ -288,7 +303,7 @@ namespace MissionPlanner.Controls
 
                     double imgx = 1 - scale2;
                     double imgy = 1 - scale3;
-                   // GL.Color3(Color.Red);
+                    //GL.Color3(Color.Red);
 
                     //GL.Color3(_terrain.GetPixel(imgx, imgy));
                     GL.TexCoord2(imgx,imgy);

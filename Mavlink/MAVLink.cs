@@ -3018,6 +3018,15 @@ Please check the following
             return ans;
         }
 
+        public void GetMountStatus()
+        {
+            mavlink_mount_status_t req = new MAVLink.mavlink_mount_status_t();
+            req.target_component = MAV.compid;
+            req.target_system = MAV.sysid;
+
+            generatePacket((byte)MAVLINK_MSG_ID.MOUNT_STATUS, req);
+        }
+
         public mavlink_log_entry_t GetLogEntry(ushort startno = 0, ushort endno = ushort.MaxValue)
         {
             giveComport = true;

@@ -292,8 +292,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             mavlinkNumericUpDownPSM.setup(800, 2200, 1, 1, mavlinkComboBoxPan.Text + "_MIN", MainV2.comPort.MAV.param);
             mavlinkNumericUpDownPSMX.setup(800, 2200, 1, 1, mavlinkComboBoxPan.Text + "_MAX", MainV2.comPort.MAV.param);
-            mavlinkNumericUpDownPAM.setup(-90, 0, 100, 1, ParamHead+"ANGMIN_PAN", MainV2.comPort.MAV.param);
-            mavlinkNumericUpDownPAMX.setup(0, 90, 100, 1, ParamHead+"ANGMAX_PAN", MainV2.comPort.MAV.param);
+            mavlinkNumericUpDownPAM.setup(-180, 0, 100, 1, ParamHead+"ANGMIN_PAN", MainV2.comPort.MAV.param);
+            mavlinkNumericUpDownPAMX.setup(0, 180, 100, 1, ParamHead+"ANGMAX_PAN", MainV2.comPort.MAV.param);
             mavlinkCheckBoxPR.setup(-1, 1, mavlinkComboBoxPan.Text + "_REV", MainV2.comPort.MAV.param);
             CMB_inputch_pan.setup(typeof(Channelinput), ParamHead+"RC_IN_PAN", MainV2.comPort.MAV.param);
         }

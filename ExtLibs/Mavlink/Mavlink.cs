@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 public partial class MAVLink
 {
-        public const string MAVLINK_BUILD_DATE = "Tue Apr 29 18:17:52 2014";
+        public const string MAVLINK_BUILD_DATE = "Thu Jun 05 17:37:34 2014";
         public const string MAVLINK_WIRE_PROTOCOL_VERSION = "1.0";
         public const int MAVLINK_MAX_DIALECT_PAYLOAD_SIZE = 255;
 
@@ -172,24 +172,6 @@ DEBUG = 254,
 
     
         
-        ///<summary> Enumeration of possible mount operation modes </summary>
-        public enum MAV_MOUNT_MODE
-        {
-    	///<summary> Load and keep safe position (Roll,Pitch,Yaw) from EEPROM and stop stabilization | </summary>
-            RETRACT=0, 
-        	///<summary> Load and keep neutral position (Roll,Pitch,Yaw) from EEPROM. | </summary>
-            NEUTRAL=1, 
-        	///<summary> Load neutral position and start MAVLink Roll,Pitch,Yaw control with stabilization | </summary>
-            MAVLINK_TARGETING=2, 
-        	///<summary> Load neutral position and start RC Roll,Pitch,Yaw control with stabilization | </summary>
-            RC_TARGETING=3, 
-        	///<summary> Load neutral position and start to point to Lat,Lon,Alt | </summary>
-            GPS_POINT=4, 
-        	///<summary>  | </summary>
-            ENUM_END=5, 
-        
-        };
-        
         ///<summary>  </summary>
         public enum MAV_CMD
         {
@@ -253,16 +235,20 @@ DEBUG = 254,
             DO_DIGICAM_CONTROL=203, 
         	///<summary> Mission command to configure a camera or antenna mount |Mount operation mode (see MAV_MOUNT_MODE enum)| stabilize roll? (1 = yes, 0 = no)| stabilize pitch? (1 = yes, 0 = no)| stabilize yaw? (1 = yes, 0 = no)| Empty| Empty| Empty|  </summary>
             DO_MOUNT_CONFIGURE=204, 
-        	///<summary> Mission command to control a camera or antenna mount |pitch(deg*100) or lat, depending on mount mode.| roll(deg*100) or lon depending on mount mode| yaw(deg*100) or alt (in cm) depending on mount mode| Empty| Empty| Empty| Empty|  </summary>
+        	///<summary> Mission command to control a camera or antenna mount |pitch or lat in degrees, depending on mount mode.| roll or lon in degrees depending on mount mode| yaw or alt (in meters) depending on mount mode| reserved| reserved| reserved| MAV_MOUNT_MODE enum value|  </summary>
             DO_MOUNT_CONTROL=205, 
         	///<summary> Mission command to set CAM_TRIGG_DIST for this flight |Camera trigger distance (meters)| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
             DO_SET_CAM_TRIGG_DIST=206, 
         	///<summary> Mission command to enable the geofence |enable? (0=disable, 1=enable)| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
             DO_FENCE_ENABLE=207, 
-        	///<summary> Mission command to trigger a parachute |action (0=disable, 1=enable, 2=release, See PARACHUTE_ACTION enum)| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
+        	///<summary> Mission command to trigger a parachute |action (0=disable, 1=enable, 2=release, for some systems see PARACHUTE_ACTION enum, not in general message set.)| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
             DO_PARACHUTE=208, 
         	///<summary> Mission command to perform motor test |motor sequence number (a number from 1 to max number of motors on the vehicle)| throttle type (0=throttle percentage, 1=PWM, 2=pilot throttle channel pass-through. See MOTOR_TEST_THROTTLE_TYPE enum)| throttle| timeout (in seconds)| Empty| Empty| Empty|  </summary>
             DO_MOTOR_TEST=209, 
+        	///<summary> Change to/from inverted flight |inverted (0=normal, 1=inverted)| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
+            DO_INVERTED_FLIGHT=210, 
+        	///<summary> Mission command to control a camera or antenna mount, using a quaternion as reference. |q1 - quaternion param #1| q2 - quaternion param #2| q3 - quaternion param #3| q4 - quaternion param #4| Empty| Empty| Empty|  </summary>
+            DO_MOUNT_CONTROL_QUAT=220, 
         	///<summary> NOP - This command is only used to mark the upper limit of the DO commands in the enumeration |Empty| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
             DO_LAST=240, 
         	///<summary> Trigger calibration. This command will be only accepted if in pre-flight mode. |Gyro calibration: 0: no, 1: yes| Magnetometer calibration: 0: no, 1: yes| Ground pressure: 0: no, 1: yes| Radio calibration: 0: no, 1: yes| Accelerometer calibration: 0: no, 1: yes| Compass/Motor interference calibration: 0: no, 1: yes| Empty|  </summary>
@@ -283,38 +269,6 @@ DEBUG = 254,
             START_RX_PAIR=500, 
         	///<summary>  | </summary>
             ENUM_END=501, 
-        
-        };
-        
-        ///<summary>  </summary>
-        public enum FENCE_ACTION
-        {
-    	///<summary> Disable fenced mode | </summary>
-            NONE=0, 
-        	///<summary> Switched to guided mode to return point (fence point 0) | </summary>
-            GUIDED=1, 
-        	///<summary> Report fence breach, but don't take action | </summary>
-            REPORT=2, 
-        	///<summary> Switched to guided mode to return point (fence point 0) with manual throttle control | </summary>
-            GUIDED_THR_PASS=3, 
-        	///<summary>  | </summary>
-            ENUM_END=4, 
-        
-        };
-        
-        ///<summary>  </summary>
-        public enum FENCE_BREACH
-        {
-    	///<summary> No last fence breach | </summary>
-            NONE=0, 
-        	///<summary> Breached minimum altitude | </summary>
-            MINALT=1, 
-        	///<summary> Breached maximum altitude | </summary>
-            MAXALT=2, 
-        	///<summary> Breached fence boundary | </summary>
-            BOUNDARY=3, 
-        	///<summary>  | </summary>
-            ENUM_END=4, 
         
         };
         
@@ -705,8 +659,10 @@ DEBUG = 254,
             _3D_MAG2=524288, 
         	///<summary> 0x100000 geofence | </summary>
             MAV_SYS_STATUS_GEOFENCE=1048576, 
+        	///<summary> 0x200000 AHRS subsystem health | </summary>
+            MAV_SYS_STATUS_AHRS=2097152, 
         	///<summary>  | </summary>
-            ENUM_END=1048577, 
+            ENUM_END=2097153, 
         
         };
         
@@ -723,8 +679,12 @@ DEBUG = 254,
             GLOBAL_RELATIVE_ALT=3, 
         	///<summary> Local coordinate frame, Z-down (x: east, y: north, z: up) | </summary>
             LOCAL_ENU=4, 
+        	///<summary> Global coordinate frame with some fields as scaled integers, WGS84 coordinate system. First value / x: latitude, second value / y: longitude, third value / z: positive altitude over mean sea level (MSL). Lat / Lon are scaled * 1E7 to avoid floating point accuracy limitations. | </summary>
+            GLOBAL_INT=5, 
+        	///<summary> Global coordinate frame with some fields as scaled integers, WGS84 coordinate system, relative altitude over ground with respect to the home position. First value / x: latitude, second value / y: longitude, third value / z: positive altitude with 0 being at the altitude of the home location. Lat / Lon are scaled * 1E7 to avoid floating point accuracy limitations. | </summary>
+            GLOBAL_RELATIVE_ALT_INT=6, 
         	///<summary>  | </summary>
-            ENUM_END=5, 
+            ENUM_END=7, 
         
         };
         
@@ -745,6 +705,56 @@ DEBUG = 254,
             MAVLINK_DATA_STREAM_IMG_PNG=6, 
         	///<summary>  | </summary>
             ENUM_END=7, 
+        
+        };
+        
+        ///<summary>  </summary>
+        public enum FENCE_ACTION
+        {
+    	///<summary> Disable fenced mode | </summary>
+            NONE=0, 
+        	///<summary> Switched to guided mode to return point (fence point 0) | </summary>
+            GUIDED=1, 
+        	///<summary> Report fence breach, but don't take action | </summary>
+            REPORT=2, 
+        	///<summary> Switched to guided mode to return point (fence point 0) with manual throttle control | </summary>
+            GUIDED_THR_PASS=3, 
+        	///<summary>  | </summary>
+            ENUM_END=4, 
+        
+        };
+        
+        ///<summary>  </summary>
+        public enum FENCE_BREACH
+        {
+    	///<summary> No last fence breach | </summary>
+            NONE=0, 
+        	///<summary> Breached minimum altitude | </summary>
+            MINALT=1, 
+        	///<summary> Breached maximum altitude | </summary>
+            MAXALT=2, 
+        	///<summary> Breached fence boundary | </summary>
+            BOUNDARY=3, 
+        	///<summary>  | </summary>
+            ENUM_END=4, 
+        
+        };
+        
+        ///<summary> Enumeration of possible mount operation modes </summary>
+        public enum MAV_MOUNT_MODE
+        {
+    	///<summary> Load and keep safe position (Roll,Pitch,Yaw) from permant memory and stop stabilization | </summary>
+            RETRACT=0, 
+        	///<summary> Load and keep neutral position (Roll,Pitch,Yaw) from permanent memory. | </summary>
+            NEUTRAL=1, 
+        	///<summary> Load neutral position and start MAVLink Roll,Pitch,Yaw control with stabilization | </summary>
+            MAVLINK_TARGETING=2, 
+        	///<summary> Load neutral position and start RC Roll,Pitch,Yaw control with stabilization | </summary>
+            RC_TARGETING=3, 
+        	///<summary> Load neutral position and start to point to Lat,Lon,Alt | </summary>
+            GPS_POINT=4, 
+        	///<summary>  | </summary>
+            ENUM_END=5, 
         
         };
         
@@ -1522,7 +1532,7 @@ DEBUG = 254,
         public  byte type;
             /// <summary> Autopilot type / class. defined in MAV_AUTOPILOT ENUM </summary>
         public  byte autopilot;
-            /// <summary> System mode bitfield, see MAV_MODE_FLAGS ENUM in mavlink/include/mavlink_types.h </summary>
+            /// <summary> System mode bitfield, see MAV_MODE_FLAG ENUM in mavlink/include/mavlink_types.h </summary>
         public  byte base_mode;
             /// <summary> System status flag, see MAV_STATE ENUM </summary>
         public  byte system_status;

@@ -132,11 +132,6 @@ namespace MissionPlanner
         public Hashtable adsbPlaneAge = new Hashtable();
 
         /// <summary>
-        /// Store points of interest
-        /// </summary>
-        public static ObservableCollection<PointLatLngAlt> POIs = new ObservableCollection<PointLatLngAlt>();
-
-        /// <summary>
         /// Comport name
         /// </summary>
         public static string comPortName = "";
@@ -280,8 +275,6 @@ namespace MissionPlanner
             MyView = new MainSwitcher(this);
 
             View = MyView;
-
-            POIs.CollectionChanged += POIs_CollectionChanged;
 
             AdvancedChanged += updateAdvanced;
 
@@ -600,11 +593,6 @@ namespace MissionPlanner
             catch { }
         }
 
-        void POIs_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-           
-        }
-
         void MenuCustom_Click(object sender, EventArgs e)
         {
             if (getConfig("password_protect") == "" || bool.Parse(getConfig("password_protect")) == false)
@@ -911,6 +899,8 @@ namespace MissionPlanner
                         comPort.logfile = new BufferedStream(File.Open(MainV2.LogDir + Path.DirectorySeparatorChar + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + ".tlog", FileMode.CreateNew, FileAccess.ReadWrite, FileShare.None));
 
                         comPort.rawlogfile = new BufferedStream(File.Open(MainV2.LogDir + Path.DirectorySeparatorChar + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + ".rlog", FileMode.CreateNew, FileAccess.ReadWrite, FileShare.None));
+
+                        log.Info("creating logfile " + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + ".tlog");
                     }
                     catch (Exception exp2) { log.Error(exp2); CustomMessageBox.Show("Failed to create log - wont log this session"); } // soft fail
 
@@ -919,6 +909,9 @@ namespace MissionPlanner
 
                     // do the connect
                     comPort.Open(true);
+
+                    if (!comPort.BaseStream.IsOpen)
+                        throw new Exception("Not connected");
 
                     // detect firmware we are conected to.
                         if (comPort.MAV.cs.firmware == Firmwares.ArduCopter2)

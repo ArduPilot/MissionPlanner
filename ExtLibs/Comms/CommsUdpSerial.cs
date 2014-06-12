@@ -164,24 +164,35 @@ namespace MissionPlanner.Comms
             }
         }
 
-        public  int Read(byte[] readto,int offset,int length)
+        public int Read(byte[] readto,int offset,int length)
         {
             VerifyConnected();
             try
             {
                 if (length < 1) { return 0; }
 
+                // check if we are at the end of our current allocation
                 if (rbufferread == rbuffer.Length)
                 {
                     MemoryStream r = new MemoryStream();
-                    while (client.Available > 0)
+                    do
                     {
-                        Byte[] b = client.Receive(ref RemoteIpEndPoint);
-                        r.Write(b, 0, b.Length);
-                    }
-                    rbuffer = r.ToArray();
-                    rbufferread = 0;
+                        // read more
+                        while (client.Available > 0 && r.Length < (1024 * 1024))
+                        {
+                            Byte[] b = client.Receive(ref RemoteIpEndPoint);
+                            r.Write(b, 0, b.Length);
+                        }
+                        // copy mem stream to byte array.
+                        rbuffer = r.ToArray();
+                        // reset head.
+                        rbufferread = 0;
+                    } while (rbuffer.Length < length);
                 }
+
+                // prevent read past end of array
+                if ((rbuffer.Length - rbufferread) < length)
+                    return 0;
 
                 Array.Copy(rbuffer, rbufferread, readto, offset, length);
 
@@ -189,7 +200,7 @@ namespace MissionPlanner.Comms
 
                 return length;
             }
-            catch { throw new Exception("Socket Closed"); }
+            catch { throw; }
         }
 
         public  int ReadByte()
