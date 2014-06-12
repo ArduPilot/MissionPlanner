@@ -193,7 +193,7 @@
     <value>缩放</value>
   </data>
   <data name="BUT_clear_track.Text" xml:space="preserve">
-    <value>清楚追踪</value>
+    <value>清除追踪</value>
   </data>
   <data name="label6.Text" xml:space="preserve">
     <value>GPS追踪（黑）</value>
