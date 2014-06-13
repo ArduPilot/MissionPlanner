@@ -1402,7 +1402,7 @@ namespace MissionPlanner
         private void but_droneshare_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = "tlog|*.tlog";
+            ofd.Filter = "tlog|*.tlog|*.log|*.log";
             ofd.Multiselect = true;
             ofd.ShowDialog();
 
