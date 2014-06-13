@@ -1403,6 +1403,7 @@ namespace MissionPlanner
         {
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.Filter = "tlog|*.tlog";
+            ofd.Multiselect = true;
             ofd.ShowDialog();
 
             string droneshareusername = MainV2.getConfig("droneshareusername");
@@ -1438,7 +1439,8 @@ namespace MissionPlanner
                 {
                     string viewurl = Utilities.droneshare.doUpload(file, droneshareusername, dronesharepassword, Guid.NewGuid().ToString(), Utilities.droneshare.APIConstants.apiKey);
 
-                    System.Diagnostics.Process.Start(viewurl);
+                    if (viewurl != "")
+                        System.Diagnostics.Process.Start(viewurl);
                 }
             }
 

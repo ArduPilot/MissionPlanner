@@ -60,14 +60,12 @@ namespace MissionPlanner.Utilities
             @params.Add("password", userPass);
             @params.Add("autoCreate", "true");
             String queryParams = ToQueryString(@params);
-            String webAppUploadUrl = String.Format("{0}/api/v1/mission/upload/{1}?{1}", baseUrl, vehicleId, queryParams); // ?{2}
-
-
+            String webAppUploadUrl = String.Format("{0}/api/v1/mission/upload/{1}", baseUrl, vehicleId);
 
             try
             {
                 // http post
-                string JSONresp = UploadFilesToRemoteUrl(webAppUploadUrl,file,"droneshare.log",@params);
+                string JSONresp = UploadFilesToRemoteUrl(webAppUploadUrl, file, @params);
 
                 var JSONnobj = JSON.Instance.ToObject<object>(JSONresp);
 
@@ -114,28 +112,23 @@ namespace MissionPlanner.Utilities
                     return JSONnobj2.ToString();
                 }
                 catch (Exception ex) { Console.WriteLine(ex); }
-
-                /*
-
-                JSONArray missions = new JSONArray(resp);
-                if (missions.length() != 1)
-                    throw new IOException("The server rejected this log file");
-
-
-                JSONObject mission = missions.getJSONObject(0);
-                String viewURL = mission.getString("viewURL");
-
-
-                System.out.println("View URL is " + viewURL);
-                */
             }
-            catch (Exception ex) { Console.WriteLine(ex.ToString()); }
+            catch (WebException ex)
+            {
+                var answer = ex.Response as HttpWebResponse;
+                MessageBox.Show(answer.StatusDescription);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                throw;
+            }
 
             return "";
         }
     
 
-        public static string UploadFilesToRemoteUrl(string url, string file, string logpath, NameValueCollection nvc)
+        public static string UploadFilesToRemoteUrl(string url, string file, NameValueCollection nvc)
         {
 
             long length = 0;
