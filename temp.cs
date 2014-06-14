@@ -1470,5 +1470,16 @@ namespace MissionPlanner
         {
             MainV2.comPort.GetMountStatus();
         }
+
+        private void but_maplogs_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog fbd = new FolderBrowserDialog();
+            fbd.SelectedPath = MainV2.LogDir;
+
+            if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                Log.LogMap.MapLogs(Directory.GetFiles(fbd.SelectedPath, "*.tlog", SearchOption.AllDirectories));
+            }
+        }
     }
 }

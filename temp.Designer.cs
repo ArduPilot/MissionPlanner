@@ -74,6 +74,7 @@
             this.but_droneshare = new MissionPlanner.Controls.MyButton();
             this.but_gimbaltest = new MissionPlanner.Controls.MyButton();
             this.but_mntstatus = new MissionPlanner.Controls.MyButton();
+            this.but_maplogs = new MissionPlanner.Controls.MyButton();
             this.SuspendLayout();
             // 
             // label1
@@ -515,11 +516,22 @@
             this.but_mntstatus.UseVisualStyleBackColor = true;
             this.but_mntstatus.Click += new System.EventHandler(this.but_mntstatus_Click);
             // 
+            // but_maplogs
+            // 
+            this.but_maplogs.Location = new System.Drawing.Point(12, 380);
+            this.but_maplogs.Name = "but_maplogs";
+            this.but_maplogs.Size = new System.Drawing.Size(75, 23);
+            this.but_maplogs.TabIndex = 50;
+            this.but_maplogs.Text = "map logs";
+            this.but_maplogs.UseVisualStyleBackColor = true;
+            this.but_maplogs.Click += new System.EventHandler(this.but_maplogs_Click);
+            // 
             // temp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(685, 450);
+            this.Controls.Add(this.but_maplogs);
             this.Controls.Add(this.but_mntstatus);
             this.Controls.Add(this.but_gimbaltest);
             this.Controls.Add(this.but_droneshare);
@@ -619,5 +631,6 @@
         private Controls.MyButton but_droneshare;
         private Controls.MyButton but_gimbaltest;
         private Controls.MyButton but_mntstatus;
+        private Controls.MyButton but_maplogs;
     }
 }

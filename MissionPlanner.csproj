@@ -423,6 +423,7 @@
       <DependentUpon>LogDownloadMavLink.cs</DependentUpon>
     </Compile>
     <Compile Include="Log\DFLog.cs" />
+    <Compile Include="Log\LogMap.cs" />
     <Compile Include="Maps\Earthbuilder.cs" />
     <Compile Include="MovingBase.cs">
       <SubType>Form</SubType>
@@ -5943,6 +5944,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Scripts\example2.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Scripts\example4.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Scripts\example3.py">
