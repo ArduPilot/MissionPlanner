@@ -134,6 +134,9 @@ namespace MissionPlanner.GCSViews
 
             threadrun = 0;
             MainV2.comPort.logreadmode = false;
+            // this should make the current pending invokes run
+            System.Threading.Thread.Sleep(100);
+            Application.DoEvents();
             try
             {
                 if (hud1 != null)

@@ -40,11 +40,11 @@ namespace MissionPlanner
             //if (System.Diagnostics.Debugger.IsAttached) {
             try
             {
-                Controls.OpenGLtest ogl = new Controls.OpenGLtest();
+                //Controls.OpenGLtest ogl = new Controls.OpenGLtest();
 
-                this.Controls.Add(ogl);
+                //this.Controls.Add(ogl);
 
-                ogl.Dock = DockStyle.Fill;
+                //ogl.Dock = DockStyle.Fill;
             }
             catch { }
            // }
@@ -968,7 +968,7 @@ namespace MissionPlanner
 
             MainV2.comPort.BaseStream = com;
 
-            MagCalib.DoGUIMagCalib();
+            MagCalib.DoGUIMagCalib(false);
 
             //MagCalib.ProcessLog(0);
         }
