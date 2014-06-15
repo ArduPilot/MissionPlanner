@@ -64,13 +64,14 @@ namespace MissionPlanner
         }
 
 
-        public static void DoGUIMagCalib()
+        public static void DoGUIMagCalib(bool dointro = true)
         {
             ans = null;
             filter.Clear();
             data.Clear();
 
-            CustomMessageBox.Show("Please click ok and move the autopilot around all axises in a circular motion");
+            if (dointro)
+                CustomMessageBox.Show("Please click ok and move the autopilot around all axises in a circular motion");
 
             ProgressReporterSphere prd = new ProgressReporterSphere();
 
@@ -153,6 +154,9 @@ namespace MissionPlanner
             ((ProgressReporterSphere)sender).sphere1.Clear();
 
             int lastcount = 0;
+            DateTime lastlsq = DateTime.MinValue;
+
+            HIL.Vector3 centre = new HIL.Vector3();
 
             while (true)
             {
@@ -194,12 +198,31 @@ namespace MissionPlanner
                 setMinorMax(rawmz, ref minz, ref maxz);
 
                 // get the current estimated centerpoint
-                HIL.Vector3 centre = new HIL.Vector3((float)-((maxx + minx) / 2), (float)-((maxy + miny) / 2), (float)-((maxz + minz) / 2));
+                //new HIL.Vector3((float)-((maxx + minx) / 2), (float)-((maxy + miny) / 2), (float)-((maxz + minz) / 2));
+
+                // run lsq every seconds when more than 100 datapoints
+                if (data.Count > 100 && lastlsq.Second != DateTime.Now.Second)
+                {
+                    lastlsq = DateTime.Now;
+                    lock (locker)
+                    {
+                        var lsq = MagCalib.LeastSq(data, false);
+                        // simple validation
+                        if (Math.Abs(lsq[0]) < 999)
+                        {
+                            centre = new HIL.Vector3(lsq[0], lsq[1], lsq[2]);
+                            log.Info("new centre " + centre.ToString());
+
+                            ((ProgressReporterSphere)sender).sphere1.CenterPoint = new OpenTK.Vector3((float)centre.x, (float)centre.y, (float)centre.z);
+                        }
+                    }
+                }
                 HIL.Vector3 point;
 
                 // add to sphere with center correction
                 point = new HIL.Vector3(rawmx, rawmy, rawmz) + centre;
-                ((ProgressReporterSphere)sender).sphere1.AddPoint(new OpenTK.Vector3((float)point.x, (float)point.y, (float)point.z));
+                ((ProgressReporterSphere)sender).sphere1.AddPoint(new OpenTK.Vector3(rawmx, rawmy, rawmz));
+                ((ProgressReporterSphere)sender).sphere1.AimClear();
 
                 //find the mean radius                    
                 float radius = 0;
@@ -211,6 +234,7 @@ namespace MissionPlanner
                 radius /= data.Count;
 
                 //test that we can find one point near a set of points all around the sphere surface
+                string displayresult = "";
                 int factor = 4; // 4 point check 16 points
                 float max_distance = radius / 3; //pretty generouse
                 for (int j = 0; j < factor; j++)
@@ -225,6 +249,8 @@ namespace MissionPlanner
                             (float)(Math.Sin(theta) * Math.Cos(phi) * radius),
                             (float)(Math.Sin(theta) * Math.Sin(phi) * radius),
                             (float)(Math.Cos(theta) * radius)) - centre;
+
+                        
 
                         //log.DebugFormat("magcalib check - {0} {1} dist {2}", theta * rad2deg, phi * rad2deg, max_distance);
 
@@ -241,19 +267,14 @@ namespace MissionPlanner
                         }
                         if (!found)
                         {
-                            extramsg = "more data needed";
-                            //e.ErrorMessage = "Data missing for some directions";
-                            //ans = null;
-                            //return;
-                            j = factor;
+                            displayresult = "more data needed " + (theta * rad2deg).ToString("0") + " " + (phi * rad2deg).ToString("0");
+                            ((ProgressReporterSphere)sender).sphere1.AimFor(new OpenTK.Vector3((float)point_sphere.x, (float)point_sphere.y, (float)point_sphere.z));
+                            //j = factor;
                             break;
-                        }
-                        else
-                        {
-                            extramsg = "";
                         }
                     }
                 }
+                extramsg = displayresult;
             }
 
             MainV2.comPort.UnSubscribeToPacketType(sub);

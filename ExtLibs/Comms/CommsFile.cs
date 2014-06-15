@@ -25,14 +25,14 @@ namespace MissionPlanner.Comms
         //void DiscardOutBuffer();
         public void Open(string filename)
         {
-            bps = 60000;
+            bps = 10000;
             PortName = filename;
             BaseStream = File.OpenRead(PortName);
         }
 
         public void Open()
         {
-            bps = 60000;
+            bps = 10000;
             BaseStream = File.OpenRead(PortName);
         }
         public int Read(byte[] buffer, int offset, int count)

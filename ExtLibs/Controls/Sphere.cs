@@ -15,6 +15,10 @@ namespace MissionPlanner.Controls
 
         List<Vector3> points = new List<Vector3>();
 
+        List<Vector3> aimpoints = new List<Vector3>();
+
+        public Vector3 CenterPoint = new Vector3();
+
         public float scale = 300;
 
         Vector3 eye = new Vector3(1,1,1);
@@ -33,6 +37,26 @@ namespace MissionPlanner.Controls
             }
         }
 
+        public void AimClear()
+        {
+            lock (aimpoints)
+            {
+                aimpoints.Clear();
+            }
+        }
+
+        public void AimFor(Vector3 point)
+        {
+            lock (aimpoints)
+            {
+                //point.Normalize();
+
+                //point *= scale;
+
+                aimpoints.Add(point);
+            }
+        }
+
         public void AddPoint(Vector3 point)
         {
             minx = (float)Math.Min(minx, point.X);
@@ -46,9 +70,9 @@ namespace MissionPlanner.Controls
 
             lock (points)
             {
-                point.Normalize();
+                //point.Normalize();
 
-                point *= scale;
+                //point *= scale;
 
                 points.Add(point);
             }
@@ -106,7 +130,9 @@ namespace MissionPlanner.Controls
 
             GL.MatrixMode(MatrixMode.Projection);
 
-            double max = scale;
+            double max = Math.Max(Math.Max((maxx - minx)/2,(maxy - miny)/2),(maxz - minz)/2);
+
+            max *= 1.3;
 
             if (points.Count > 0)
             {
@@ -123,23 +149,10 @@ namespace MissionPlanner.Controls
 
             // Z X Y
 
-            //eye = Vector3.Transform(eye, Matrix4.RotateZ((float)yaw));
-
-            //eye = Vector3.TransformPerspective(eye, Matrix4.CreateRotationX((float)pitch));
-
             eye = Vector3.TransformPosition(eye, Matrix4.CreateRotationZ((float)yaw));
-
-            //get_pos(eyedist, yaw * rad2deg, pitch * rad2deg, ref eye);
-
-            //eye = Vector3.TransformPosition(eye, Matrix4.CreateRotationY((float)Math.Sin(pitch)));
-            //eye = Vector3.TransformPosition(eye, Matrix4.CreateRotationX((float)Math.Cos(pitch)));
 
             yaw = 0;
             pitch = 0;
-
-           // eye = Vector3.Transform(eye, Matrix4.CreateRotationY((float)-pitch));
-
-
 
             if (float.IsNaN(eye.X))
                 eye = new Vector3(1, 1, 1);
@@ -150,7 +163,7 @@ namespace MissionPlanner.Controls
 
             Console.WriteLine("eye "+ eye.ToString());
             //(maxx + minx) / 2, (maxy + miny) / 2, (maxz + minz) / 2
-            Matrix4 modelview = Matrix4.LookAt(eye.X, eye.Y, eye.Z, 0,0,0, 0, 0, 1);
+            Matrix4 modelview = Matrix4.LookAt(eye.X, eye.Y, eye.Z, 0,0,0, 0, 0, 1); // CenterPoint.X, CenterPoint.Y, CenterPoint.Z
             GL.MatrixMode(MatrixMode.Modelview);
 
             GL.LoadMatrix(ref modelview);
@@ -167,28 +180,28 @@ namespace MissionPlanner.Controls
             // +tivs
             GL.Color3(Color.FromArgb(0,0,255));
             GL.Vertex3(0, 0, 0);
-            GL.Vertex3(0, 0, 300);
+            GL.Vertex3(0, 0, max);
 
             GL.Color3(Color.FromArgb(0, 255, 0));
             GL.Vertex3(0, 0, 0);
-            GL.Vertex3(0, 300, 0);
+            GL.Vertex3(0, max, 0);
 
             GL.Color3(Color.FromArgb(255, 0, 0));
             GL.Vertex3(0, 0, 0);
-            GL.Vertex3(300, 0, 0);
+            GL.Vertex3(max, 0, 0);
 
             // -atives
             GL.Color3(Color.FromArgb(255, 255, 0));
             GL.Vertex3(0, 0, 0);
-            GL.Vertex3(0, 0, -300);
+            GL.Vertex3(0, 0, -max);
 
             GL.Color3(Color.FromArgb(255, 0, 255));
             GL.Vertex3(0, 0, 0);
-            GL.Vertex3(0, -300, 0);
+            GL.Vertex3(0, -max, 0);
 
             GL.Color3(Color.FromArgb(0, 255, 255));
             GL.Vertex3(0, 0, 0);
-            GL.Vertex3(-300, 0, 0);
+            GL.Vertex3(-max, 0, 0);
 
 
             GL.End();
@@ -204,21 +217,31 @@ namespace MissionPlanner.Controls
             {
                 foreach (var item in points)
                 {
-                    float rangex = scale * 2;
-                    float rangey = scale * 2;
-                    float rangez = scale * 2;
+                    float rangex = maxx - minx;
+                    float rangey = maxy - miny;
+                    float rangez = maxz - minz;
 
-                    int valuex = (int)Math.Abs((((item.X + scale) / rangex) * 255) % 255);
-                    int valuey = (int)Math.Abs((((item.Y + scale) / rangey) * 255) % 255);
-                    int valuez = (int)Math.Abs((((item.Z + scale) / rangez) * 255) % 255);
+                    int valuex = (int)Math.Abs((((item.X ) / rangex) * 255)) % 255;
+                    int valuey = (int)Math.Abs((((item.Y ) / rangey) * 255)) % 255;
+                    int valuez = (int)Math.Abs((((item.Z ) / rangez) * 255)) % 255;
 
                     Color col = Color.FromArgb(valuex, valuey, valuez);
 
                     GL.Color3(col);
 
-                    Vector3 vec = new Vector3(item.X, item.Y, item.Z);
+                    Vector3 vec = new Vector3(item.X, item.Y, item.Z) + CenterPoint;
 
                     GL.Vertex3(vec);
+                }
+
+                lock (aimpoints)
+                {
+                    foreach (var aim in aimpoints)
+                    {
+                        GL.PointSize(8);
+                        GL.Color3(Color.White);
+                        GL.Vertex3(new Vector3(aim.X, aim.Y, aim.Z) + CenterPoint);
+                    }
                 }
 
                 GL.End();
@@ -231,7 +254,7 @@ namespace MissionPlanner.Controls
                 GL.Color3(Color.Red);
 
                 if (points.Count > 0)
-                    GL.Vertex3(points[points.Count - 1].X, points[points.Count - 1].Y, points[points.Count - 1].Z);
+                    GL.Vertex3(new Vector3(points[points.Count - 1].X, points[points.Count - 1].Y, points[points.Count - 1].Z) + CenterPoint);
 
             }
 
