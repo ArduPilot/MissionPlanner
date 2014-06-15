@@ -1,4 +1,5 @@
 ﻿using fastJSON;
+using MissionPlanner.Controls;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -49,6 +50,67 @@ namespace MissionPlanner.Utilities
                          select string.Format("{0}={1}", HttpUtility.UrlEncode(key), HttpUtility.UrlEncode(value)))
                 .ToArray();
             return string.Join("&", array);
+        }
+
+        public static void doUserAndPassword()
+        {
+            string droneshareusername = MainV2.getConfig("droneshareusername");
+
+            InputBox.Show("Username", "Username", ref droneshareusername);
+
+            MainV2.config["droneshareusername"] = droneshareusername;
+
+            string dronesharepassword = MainV2.getConfig("dronesharepassword");
+
+            if (dronesharepassword != "")
+            {
+                try
+                {
+                    // fail on bad entry
+                    var crypto = new Crypto();
+                    dronesharepassword = crypto.DecryptString(dronesharepassword);
+                }
+                catch { }
+            }
+
+            InputBox.Show("Password", "Password", ref dronesharepassword,true);
+
+            var crypto2 = new Crypto();
+
+            string encryptedpw = crypto2.EncryptString(dronesharepassword);
+
+            MainV2.config["dronesharepassword"] = encryptedpw;
+        }
+
+        public static void doUpload(string file)
+        {
+            doUserAndPassword();
+
+            string droneshareusername = MainV2.getConfig("droneshareusername");
+
+            string dronesharepassword = MainV2.getConfig("dronesharepassword");
+
+            if (dronesharepassword != "")
+            {
+                try
+                {
+                    // fail on bad entry
+                    var crypto = new Crypto();
+                    dronesharepassword = crypto.DecryptString(dronesharepassword);
+                }
+                catch { }
+            }
+
+            string viewurl = Utilities.droneshare.doUpload(file, droneshareusername, dronesharepassword, Guid.NewGuid().ToString(), Utilities.droneshare.APIConstants.apiKey);
+
+            if (viewurl != "")
+            {
+                try
+                {
+                    System.Diagnostics.Process.Start(viewurl);
+                }
+                catch (Exception ex) { CustomMessageBox.Show("Failed to open url "+ viewurl); }
+            }
         }
 
         public static string doUpload(string file, string userId, string userPass, string vehicleId, string apiKey)
@@ -206,7 +268,6 @@ namespace MissionPlanner.Utilities
             memStream.Close();
             requestStream.Write(tempBuffer, 0, tempBuffer.Length);
             requestStream.Close();
-
 
             WebResponse webResponse2 = httpWebRequest2.GetResponse();
 

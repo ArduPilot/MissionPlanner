@@ -33,13 +33,12 @@ namespace MissionPlanner.Utilities
             {
                 try
                 {
-                    int usethis; //????
-                    var macAddr =
-        (
-            from nic in NetworkInterface.GetAllNetworkInterfaces()
-           // where nic.OperationalStatus == OperationalStatus.Up
-            select nic.GetPhysicalAddress()
-        ).FirstOrDefault();
+                    int usethis; // makes it per machine
+                    var macAddr = (     
+                        from nic in NetworkInterface.GetAllNetworkInterfaces()
+                                                           // where nic.OperationalStatus == OperationalStatus.Up
+                        select nic.GetPhysicalAddress()
+                        ).FirstOrDefault();
 
                     var bytes = macAddr.GetAddressBytes();
 
