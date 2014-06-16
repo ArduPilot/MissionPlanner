@@ -37,14 +37,6 @@
       <HintPath>..\..\extLibs\AStar.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="GMap.NET.Core">
-      <HintPath>..\..\extLibs\GMap.NET.Core.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="GMap.NET.WindowsForms">
-      <HintPath>..\..\extLibs\GMap.NET.WindowsForms.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\extLibs\log4net.dll</HintPath>
@@ -93,6 +85,14 @@
       <Project>{7f7994ce-823f-4a04-bbea-d0a3808ff56d}</Project>
       <Name>GeoUtility</Name>
       <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\GMap.NET.Core\GMap.NET.Core.csproj">
+      <Project>{d0c39d9d-bed0-418b-9a5e-713176caf40c}</Project>
+      <Name>GMap.NET.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GMap.NET.WindowsForms\GMap.NET.WindowsForms.csproj">
+      <Project>{e06def77-f933-42fb-afd7-db2d0d8d6a98}</Project>
+      <Name>GMap.NET.WindowsForms</Name>
     </ProjectReference>
     <ProjectReference Include="..\Mavlink\MAVLink.csproj">
       <Project>{20296734-5f3c-4593-a0d5-dd20b440b13a}</Project>

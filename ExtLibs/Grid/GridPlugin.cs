@@ -9,7 +9,7 @@ namespace MissionPlanner
 {
     public class GridPlugin : MissionPlanner.Plugin.Plugin
     {
-        public static MissionPlanner.Plugin.PluginHost Host2;
+        
 
         ToolStripMenuItem but;
 
@@ -35,7 +35,7 @@ namespace MissionPlanner
 
         public override bool Loaded()
         {
-            Host2 = Host;
+            Grid.Host2 = Host;
 
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GridUI));
             var temp = (string)(resources.GetObject("$this.Text"));
