@@ -31,11 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="AWSSDK, Version=1.5.18.0, Culture=neutral, PublicKeyToken=9f476d3089b52be3, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\extLibs\AWSSDK.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="DirectShowLib-2005">
       <HintPath>..\..\extLibs\DirectShowLib-2005.dll</HintPath>
       <Private>False</Private>
@@ -94,7 +89,6 @@
     <Compile Include="PointLatLngAlt.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rect.cs" />
-    <Compile Include="S3Uploader.cs" />
     <Compile Include="Speech.cs" />
     <Compile Include="srtm.cs" />
     <Compile Include="TCPConsole.cs" />
