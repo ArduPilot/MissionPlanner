@@ -1166,6 +1166,8 @@ namespace MissionPlanner
                         xmlwriter.WriteElementString("urlvrbrainv51", new Uri(software.urlvrbrainv51).LocalPath.TrimStart('/', '\\'));
                     if (software.urlvrherov10 != "")
                         xmlwriter.WriteElementString("urlvrherov10", new Uri(software.urlvrherov10).LocalPath.TrimStart('/', '\\'));
+                    if (software.urlvrubrainv51 != "")
+                        xmlwriter.WriteElementString("urlvrubrainv51", new Uri(software.urlvrubrainv51).LocalPath.TrimStart('/', '\\'));
                     xmlwriter.WriteElementString("name", software.name);
                     xmlwriter.WriteElementString("desc", software.desc);
                     xmlwriter.WriteElementString("format_version", software.k_format_version.ToString());
@@ -1211,6 +1213,10 @@ namespace MissionPlanner
                     if (software.urlvrherov10 != "")
                     {
                         Common.getFilefromNet(software.urlvrherov10, basedir + new Uri(software.urlvrherov10).LocalPath);
+                    }
+                    if (software.urlvrubrainv51 != "")
+                    {
+                        Common.getFilefromNet(software.urlvrubrainv51, basedir + new Uri(software.urlvrubrainv51).LocalPath);
                     }
                 }
 

@@ -27,6 +27,7 @@ namespace MissionPlanner.Arduino
             vrbrainv50,
             vrbrainv51,
             vrherov10,
+            vrubrainv51,
         }
 
         /// <summary>
@@ -117,6 +118,12 @@ namespace MissionPlanner.Arduino
                     {
                         log.Info("is a vrhero 1.0 bootloader");
                         return boards.vrherov10;
+                    }
+
+                    if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_27AC&PID_1351"))
+                    {
+                        log.Info("is a vrubrain 5.1 bootloader");
+                        return boards.vrubrainv51;
                     }
 
                 }
