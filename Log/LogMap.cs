@@ -42,6 +42,9 @@ namespace MissionPlanner.Log
 
                             //Console.Write((mine.logplaybackfile.BaseStream.Position / (double)mine.logplaybackfile.BaseStream.Length) +"\r");
 
+                            if (packet.Length < 5)
+                                continue;
+
                             if (packet[5] == (byte)MAVLink.MAVLINK_MSG_ID.GLOBAL_POSITION_INT)
                             {
                                 var loc = packet.ByteArrayToStructure<MAVLink.mavlink_global_position_int_t>(6);
@@ -143,7 +146,7 @@ namespace MissionPlanner.Log
             // get type list at new zoom level
             List<GPoint> tileArea = prj.GetAreaTileList(area, zoom, 0);
 
-            int padding = 0;
+            int padding = 10;
 
             Bitmap bmpDestination = new Bitmap((int)pxDelta.X + padding * 2, (int)pxDelta.Y + padding * 2);
 

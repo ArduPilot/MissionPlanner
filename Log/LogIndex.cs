@@ -22,14 +22,18 @@ namespace MissionPlanner.Log
 
         private void LogIndex_Load(object sender, EventArgs e)
         {
-            System.Threading.ThreadPool.QueueUserWorkItem(processbg);
+            System.Threading.ThreadPool.QueueUserWorkItem(processbg, MainV2.LogDir);
         }
 
-        void processbg(object crap)
+        void processbg(object directory)
         {
-            string[] files = Directory.GetFiles(MainV2.LogDir, "*.tlog", SearchOption.AllDirectories);
+            objectListView1.Clear();
+
+            string[] files = Directory.GetFiles(directory.ToString(), "*.tlog", SearchOption.AllDirectories);
 
             //objectListView1.VirtualListSize = files.Length;
+
+            List<object> logs = new List<object>();
 
             foreach (var file in files)
             {
@@ -47,8 +51,10 @@ namespace MissionPlanner.Log
                     loginfo.img = new Bitmap(file + ".jpg");
                 }
 
-                objectListView1.AddObject(loginfo);
+                logs.Add(loginfo);
             }
+
+            objectListView1.AddObjects(logs);
         }
 
         public class loginfo
@@ -77,7 +83,7 @@ namespace MissionPlanner.Log
 
             ImageDecoration decoration = new ImageDecoration(new Bitmap(info.img,150,150),255);
             //decoration.ShrinkToWidth = true;
-            decoration.AdornmentCorner = ContentAlignment.BottomCenter;
+            decoration.AdornmentCorner = ContentAlignment.TopCenter;
             decoration.ReferenceCorner = ContentAlignment.TopCenter;
             e.SubItem.Decoration = decoration;
 
@@ -97,6 +103,16 @@ namespace MissionPlanner.Log
             {
                 this.IsItemSelected = false;
                 base.Render(g, r);
+            }
+        }
+
+        private void BUT_changedir_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog fbd = new FolderBrowserDialog();
+
+            if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                System.Threading.ThreadPool.QueueUserWorkItem(processbg, fbd.SelectedPath);
             }
         }
     }

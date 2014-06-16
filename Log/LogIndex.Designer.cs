@@ -33,6 +33,7 @@
             this.olvColumndir = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnName = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
             this.olvColumnduration = ((BrightIdeasSoftware.OLVColumn)(new BrightIdeasSoftware.OLVColumn()));
+            this.BUT_changedir = new MissionPlanner.Controls.MyButton();
             ((System.ComponentModel.ISupportInitialize)(this.objectListView1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -50,17 +51,16 @@
             this.olvColumndir,
             this.olvColumnName,
             this.olvColumnduration});
-            this.objectListView1.Location = new System.Drawing.Point(12, 38);
+            this.objectListView1.Location = new System.Drawing.Point(12, 42);
             this.objectListView1.Name = "objectListView1";
             this.objectListView1.OwnerDraw = true;
             this.objectListView1.RowHeight = 150;
             this.objectListView1.ShowGroups = false;
-            this.objectListView1.Size = new System.Drawing.Size(982, 464);
+            this.objectListView1.Size = new System.Drawing.Size(982, 460);
             this.objectListView1.TabIndex = 0;
             this.objectListView1.UseCellFormatEvents = true;
             this.objectListView1.UseCompatibleStateImageBehavior = false;
             this.objectListView1.View = System.Windows.Forms.View.Details;
-
             this.objectListView1.FormatCell += new System.EventHandler<BrightIdeasSoftware.FormatCellEventArgs>(this.objectListView1_FormatCell);
             // 
             // olvColumnImage
@@ -90,11 +90,22 @@
             this.olvColumnduration.CellPadding = null;
             this.olvColumnduration.Text = "Duration";
             // 
+            // BUT_changedir
+            // 
+            this.BUT_changedir.Location = new System.Drawing.Point(13, 13);
+            this.BUT_changedir.Name = "BUT_changedir";
+            this.BUT_changedir.Size = new System.Drawing.Size(75, 23);
+            this.BUT_changedir.TabIndex = 1;
+            this.BUT_changedir.Text = "Change Directory";
+            this.BUT_changedir.UseVisualStyleBackColor = true;
+            this.BUT_changedir.Click += new System.EventHandler(this.BUT_changedir_Click);
+            // 
             // LogIndex
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1006, 514);
+            this.Controls.Add(this.BUT_changedir);
             this.Controls.Add(this.objectListView1);
             this.Name = "LogIndex";
             this.Text = "LogIndex";
@@ -111,6 +122,7 @@
         private BrightIdeasSoftware.OLVColumn olvColumnName;
         private BrightIdeasSoftware.OLVColumn olvColumnduration;
         private BrightIdeasSoftware.OLVColumn olvColumndir;
+        private Controls.MyButton BUT_changedir;
 
     }
 }
