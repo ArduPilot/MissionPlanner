@@ -1794,6 +1794,8 @@ namespace MissionPlanner
 
             ThreadPool.QueueUserWorkItem(BGLoadAirports);
 
+            ThreadPool.QueueUserWorkItem(BGCreateMaps);
+
             Program.Splash.Close();
 
             try
@@ -1891,6 +1893,11 @@ namespace MissionPlanner
                 config["newuser"] = DateTime.Now.ToShortDateString();
             }
             */
+        }
+
+        private void BGCreateMaps(object state)
+        {
+            Log.LogMap.MapLogs(Directory.GetFiles(MainV2.LogDir, "*.tlog", SearchOption.AllDirectories));
         }
 
         private void checkupdate(object stuff)

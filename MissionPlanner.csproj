@@ -168,14 +168,6 @@
     <Reference Include="DotSpatial.Topology">
       <HintPath>packages\DotSpatial.Topology.1.6.0.0\lib\net40-Client\DotSpatial.Topology.dll</HintPath>
     </Reference>
-    <Reference Include="GMap.NET.Core, Version=1.7.0.0, Culture=neutral, PublicKeyToken=b85b9027b614afef, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>ExtLibs\GMap.NET.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="GMap.NET.WindowsForms, Version=1.7.0.0, Culture=neutral, PublicKeyToken=b85b9027b614afef, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>ExtLibs\GMap.NET.WindowsForms.dll</HintPath>
-    </Reference>
     <Reference Include="ICSharpCode.SharpZipLib">
       <HintPath>packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
@@ -221,6 +213,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>extLibs\netDxf.dll</HintPath>
     </Reference>
+    <Reference Include="ObjectListView">
+      <HintPath>packages\Unofficial.ObjectListView.2.6.0\lib\net20\ObjectListView.dll</HintPath>
+    </Reference>
     <Reference Include="OpenTK, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>extLibs\OpenTK.dll</HintPath>
@@ -246,6 +241,7 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.DirectoryServices" />
     <Reference Include="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
@@ -423,6 +419,12 @@
       <DependentUpon>LogDownloadMavLink.cs</DependentUpon>
     </Compile>
     <Compile Include="Log\DFLog.cs" />
+    <Compile Include="Log\LogIndex.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Log\LogIndex.Designer.cs">
+      <DependentUpon>LogIndex.cs</DependentUpon>
+    </Compile>
     <Compile Include="Log\LogMap.cs" />
     <Compile Include="Maps\Earthbuilder.cs" />
     <Compile Include="MovingBase.cs">
@@ -596,6 +598,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Joystick\Joy_Do_Set_Servo.resx">
       <DependentUpon>Joy_Do_Set_Servo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Log\LogIndex.resx">
+      <DependentUpon>LogIndex.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Radio\3DRradio.it-IT.resx">
       <DependentUpon>3DRradio.cs</DependentUpon>
@@ -6098,6 +6103,14 @@
     <ProjectReference Include="ExtLibs\GeoUtility\GeoUtility.csproj">
       <Project>{7f7994ce-823f-4a04-bbea-d0a3808ff56d}</Project>
       <Name>GeoUtility</Name>
+    </ProjectReference>
+    <ProjectReference Include="ExtLibs\GMap.NET.Core\GMap.NET.Core.csproj">
+      <Project>{d0c39d9d-bed0-418b-9a5e-713176caf40c}</Project>
+      <Name>GMap.NET.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="ExtLibs\GMap.NET.WindowsForms\GMap.NET.WindowsForms.csproj">
+      <Project>{e06def77-f933-42fb-afd7-db2d0d8d6a98}</Project>
+      <Name>GMap.NET.WindowsForms</Name>
     </ProjectReference>
     <ProjectReference Include="ExtLibs\KMLib\KMLib.csproj">
       <Project>{29976BA4-A04D-4A80-A866-098C879C2FDE}</Project>

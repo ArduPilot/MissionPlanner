@@ -86,6 +86,20 @@ namespace MissionPlanner.Log
 
                         map = null;
                     }
+                    else
+                    {
+                        var map = new Bitmap(100, 100);
+
+                        var grap = Graphics.FromImage(map);
+
+                        grap.DrawString("NO MAP", SystemFonts.DefaultFont, Brushes.Red, 0, 0, StringFormat.GenericDefault);
+
+                        map.Save(logfile + ".jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
+
+                        map.Dispose();
+
+                        map = null;
+                    }
                 }
                 catch { continue; }
             }

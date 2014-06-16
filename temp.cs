@@ -1481,5 +1481,12 @@ namespace MissionPlanner
                 Log.LogMap.MapLogs(Directory.GetFiles(fbd.SelectedPath, "*.tlog", SearchOption.AllDirectories));
             }
         }
+
+        private void butlogindex_Click(object sender, EventArgs e)
+        {
+            Log.LogIndex form = new Log.LogIndex();
+
+            form.Show();
+        }
     }
 }
