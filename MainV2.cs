@@ -564,6 +564,7 @@ namespace MissionPlanner
 
             // setup adsb
             Utilities.adsb.UpdatePlanePosition += adsb_UpdatePlanePosition;
+
             new Utilities.adsb();
 
             //int fixmenextrelease;

@@ -19,7 +19,7 @@ namespace GMap.NET.MapProviders
          Instance = new GoogleSatelliteMapProvider();
       }
 
-      public string Version = "145";
+      public string Version = "150";
 
       #region GMapProvider Members
 
@@ -59,8 +59,8 @@ namespace GMap.NET.MapProviders
          return string.Format(UrlFormat, UrlFormatServer, GetServerNum(pos, 4), UrlFormatRequest, Version, language, pos.X, sec1, pos.Y, zoom, sec2, Server);
       }
 
-      static readonly string UrlFormatServer = "khm";
+      static readonly string UrlFormatServer = "khms";
       static readonly string UrlFormatRequest = "kh";
-      static readonly string UrlFormat = "https://{0}{1}.{10}/{2}/v={3}&hl={4}&x={5}{6}&y={7}&z={8}&s={9}";
+      static readonly string UrlFormat = "https://{0}{1}.{10}/{2}/v={3}&x={5}{6}&y={7}&z={8}";
    }
 }

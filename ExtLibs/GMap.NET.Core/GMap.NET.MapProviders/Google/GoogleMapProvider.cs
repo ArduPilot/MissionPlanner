@@ -20,7 +20,7 @@ namespace GMap.NET.MapProviders
         public GoogleMapProviderBase()
         {
             MaxZoom = null;
-            RefererUrl = string.Format("https://maps.{0}/", Server);
+            RefererUrl = "https://www.google.com/maps/preview"; //string.Format("https://maps.{0}/", Server);
             Copyright = string.Format("©{0} Google - Map data ©{0} Tele Atlas, Imagery ©{0} TerraMetrics", DateTime.Today.Year);
         }
 
@@ -89,7 +89,7 @@ namespace GMap.NET.MapProviders
         {
             if (!init && TryCorrectVersion)
             {
-                string url = string.Format("https://maps.{0}", Server);
+                string url = string.Format("http://maps.{0}", Server);
                 try
                 {
                     string html = GMaps.Instance.UseUrlCache ? Cache.Instance.GetContent(url, CacheType.UrlCache, TimeSpan.FromHours(8)) : string.Empty;
@@ -209,6 +209,8 @@ namespace GMap.NET.MapProviders
                 catch (Exception ex)
                 {
                     Debug.WriteLine("TryCorrectGoogleVersions failed: " + ex.ToString());
+                    if (ex.InnerException != null)
+                        Debug.WriteLine(ex.InnerException.ToString());
                 }
             }
         }
@@ -2070,7 +2072,7 @@ namespace GMap.NET.MapProviders
             Instance = new GoogleMapProvider();
         }
 
-        public string Version = "m@249000000";
+        public string Version = "m@264000000";
 
         #region GMapProvider Members
 
@@ -2110,7 +2112,7 @@ namespace GMap.NET.MapProviders
             return string.Format(UrlFormat, UrlFormatServer, GetServerNum(pos, 4), UrlFormatRequest, Version, language, pos.X, sec1, pos.Y, zoom, sec2, Server);
         }
 
-        static readonly string UrlFormatServer = "mt";
+        static readonly string UrlFormatServer = "mts";
         static readonly string UrlFormatRequest = "vt";
         static readonly string UrlFormat = "https://{0}{1}.{10}/{2}/lyrs={3}&hl={4}&x={5}{6}&y={7}&z={8}&s={9}";
     }
