@@ -6,7 +6,7 @@ namespace GMap.NET
    /// <summary>
    /// This enum contains all possible languages for the Google maps. 
    /// You can find latest information about supported languages in the:
-   /// http://tinyurl.com/yh4va36  http://spreadsheets.server.com/pub?key=p9pdwsai2hDMsLkXsoM05KQ&gid=1
+   /// http://tinyurl.com/yh4va36 <- http://spreadsheets.server.com/pub?key=p9pdwsai2hDMsLkXsoM05KQ&gid=1
    /// </summary>
    public enum LanguageType
    {
@@ -147,7 +147,7 @@ namespace GMap.NET
       Serbian,
 
       [Description("sv")]
-      Swedish,  
+      Swedish,
 
       [Description("tl")]
       TAGALOG,

@@ -2,18 +2,21 @@
 namespace GMap.NET
 {
    using System.Globalization;
+   using System;
+    using System.Collections.Generic;
 
    /// <summary>
    /// the point ;}
    /// </summary>
+   [Serializable]
    public struct GPoint
    {
       public static readonly GPoint Empty = new GPoint();
 
-      private int x;
-      private int y;
+      private long x;
+      private long y;
 
-      public GPoint(int x, int y)
+      public GPoint(long x, long y)
       {
          this.x = x;
          this.y = y;
@@ -25,11 +28,11 @@ namespace GMap.NET
          this.y = sz.Height;
       }
 
-      public GPoint(int dw)
-      {
-         this.x = (short) LOWORD(dw);
-         this.y = (short) HIWORD(dw);
-      }
+      //public GPoint(int dw)
+      //{
+      //   this.x = (short) LOWORD(dw);
+      //   this.y = (short) HIWORD(dw);
+      //}
 
       public bool IsEmpty
       {
@@ -39,7 +42,7 @@ namespace GMap.NET
          }
       }
 
-      public int X
+      public long X
       {
          get
          {
@@ -51,7 +54,7 @@ namespace GMap.NET
          }
       }
 
-      public int Y
+      public long Y
       {
          get
          {
@@ -108,10 +111,10 @@ namespace GMap.NET
 
       public override int GetHashCode()
       {
-         return x ^ y;
+         return (int)(x ^ y);
       }
 
-      public void Offset(int dx, int dy)
+      public void Offset(long dx, long dy)
       {
          X += dx;
          Y += dy;
@@ -121,20 +124,37 @@ namespace GMap.NET
       {
          Offset(p.X, p.Y);
       }
+      public void OffsetNegative(GPoint p)
+      {
+         Offset(-p.X, -p.Y);
+      }
 
       public override string ToString()
       {
          return "{X=" + X.ToString(CultureInfo.CurrentCulture) + ",Y=" + Y.ToString(CultureInfo.CurrentCulture) + "}";
       }
 
-      private static int HIWORD(int n)
-      {
-         return (n >> 16) & 0xffff;
-      }
+      //private static int HIWORD(int n)
+      //{
+      //   return (n >> 16) & 0xffff;
+      //}
 
-      private static int LOWORD(int n)
-      {
-         return n & 0xffff;
-      }
+      //private static int LOWORD(int n)
+      //{
+      //   return n & 0xffff;
+      //}
+   }
+
+   internal class GPointComparer : IEqualityComparer<GPoint>
+   {
+       public bool Equals(GPoint x, GPoint y)
+       {
+           return x.X == y.X && x.Y == y.Y;
+       }
+
+       public int GetHashCode(GPoint obj)
+       {
+           return obj.GetHashCode();
+       }
    }
 }

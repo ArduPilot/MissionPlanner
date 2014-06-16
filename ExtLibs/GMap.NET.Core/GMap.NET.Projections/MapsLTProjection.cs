@@ -5,14 +5,17 @@ namespace GMap.NET.Projections
 
    /// <summary>
    /// GEOGCS[\"WGS 84\",DATUM[\"WGS_1984\",SPHEROID[\"WGS 84\",6378137,298.257223563,AUTHORITY[\"EPSG\",\"7030\"]],AUTHORITY[\"EPSG\",\"6326\"]],PRIMEM[\"Greenwich\",0,AUTHORITY[\"EPSG\",\"8901\"]],UNIT[\"degree\",0.01745329251994328,AUTHORITY[\"EPSG\",\"9122\"]],AUTHORITY[\"EPSG\",\"4326\"]]
-   /// PROJCS[\"Lietuvos Koordinoei Sistema 1994\",GEOGCS[\"LKS94 (ETRS89)\",DATUM[\"Lithuania_1994_ETRS89\",SPHEROID[\"GRS 1980\",6378137,298.257222101,AUTHORITY[\"EPSG\",\"7019\"]],TOWGS84[0,0,0,0,0,0,0],AUTHORITY[\"EPSG\",\"6126\"]],PRIMEM[\"Greenwich\",0,AUTHORITY[\"EPSG\",\"8901\"]],UNIT[\"degree\",0.0174532925199433,AUTHORITY[\"EPSG\",\"9108\"]],AUTHORITY[\"EPSG\",\"4126\"]],PROJECTION[\"Transverse_Mercator\"],PARAMETER[\"latitude_of_origin\",0],PARAMETER[\"central_meridian\",24],PARAMETER[\"scale_factor\",0.9998],PARAMETER[\"false_easting\",500000],PARAMETER[\"false_northing\",0],UNIT[\"metre\",1,AUTHORITY[\"EPSG\",\"9001\"]],AUTHORITY[\"EPSG\",\"2600\"]]
+   /// PROJCS["LKS94 / Lithuania TM",GEOGCS["LKS94",DATUM["Lithuania_1994_ETRS89",SPHEROID["GRS 1980",6378137,298.257222101,AUTHORITY["EPSG","7019"]],TOWGS84[0,0,0,0,0,0,0],AUTHORITY["EPSG","6126"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.01745329251994328,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4669"]],UNIT["metre",1,AUTHORITY["EPSG","9001"]],PROJECTION["Transverse_Mercator"],PARAMETER["latitude_of_origin",0],PARAMETER["central_meridian",24],PARAMETER["scale_factor",0.9998],PARAMETER["false_easting",500000],PARAMETER["false_northing",0],AUTHORITY["EPSG","3346"],AXIS["Y",EAST],AXIS["X",NORTH]]
    /// </summary>
    public class LKS94Projection : PureProjection
    {
+      public static readonly LKS94Projection Instance = new LKS94Projection();
+
       static readonly double MinLatitude = 53.33;
       static readonly double MaxLatitude = 56.55;
       static readonly double MinLongitude = 20.22;
       static readonly double MaxLongitude = 27.11;
+
       static readonly double orignX = 5122000;
       static readonly double orignY = 10000100;
 
@@ -27,6 +30,14 @@ namespace GMap.NET.Projections
       static readonly double metersPerUnit = 1.0;
       static readonly double COS_67P5 = 0.38268343236508977; // cosine of 67.5 degrees
       static readonly double AD_C = 1.0026000;               // Toms region 1 constant
+
+      public override RectLatLng Bounds
+      {
+         get
+         {
+            return RectLatLng.FromLTRB(MinLongitude, MaxLatitude, MaxLongitude, MinLatitude);
+         }
+      }
 
       GSize tileSize = new GSize(256, 256);
       public override GSize TileSize
@@ -67,15 +78,15 @@ namespace GMap.NET.Projections
 
          double res = GetTileMatrixResolution(zoom);
 
-         ret.X = (int) Math.Floor((lks[0] + orignX) / res);
-         ret.Y = (int) Math.Floor((orignY - lks[1]) / res);
+         ret.X = (long)Math.Floor((lks[0] + orignX) / res);
+         ret.Y = (long)Math.Floor((orignY - lks[1]) / res);
 
          return ret;
       }
 
-      public override PointLatLng FromPixelToLatLng(int x, int y, int zoom)
+      public override PointLatLng FromPixelToLatLng(long x, long y, int zoom)
       {
-         PointLatLng ret = PointLatLng.Zero;
+         PointLatLng ret = PointLatLng.Empty;
 
          double res = GetTileMatrixResolution(zoom);
 
@@ -433,14 +444,9 @@ namespace GMap.NET.Projections
       }
 
       #region -- levels info --
-      //dojo.io.script.jsonp_dojoIoScript1._jsonpCallback({"serviceDescription":"",
-      //      "mapName":"map","description":"","copyrightText":"",
-      //      "layers":[{"id":0,"name":"lietuva_MAPSLT_DB_GB200_01_P_APSK",
-      //      "parentLayerId":-1,"defaultVisibility":true,"subLayerIds":null}],
-      //      "spatialReference":{"wkid":2600},"singleFusedMapCache":true,
-      //      "tileInfo":{"rows":256,"cols":256,"dpi":96,"format":"PNG8","compressionQuality":0,
-      //      "origin":{"x":-5122000,"y":10000100},"spatialReference":{"wkid":2600},
-      //      "lods":[
+      //"tileInfo":{"rows":256,"cols":256,"dpi":96,"format":"PNG32","compressionQuality":0,
+      //"origin":{"x":-5122000,"y":10000100},"spatialReference":{"wkid":3346},
+
       //{"level":0,"resolution":1587.50317500635,"scale":6000000},
       //{"level":1,"resolution":793.751587503175,"scale":3000000},
       //{"level":2,"resolution":529.167725002117,"scale":2000000},
@@ -452,17 +458,14 @@ namespace GMap.NET.Projections
       //{"level":8,"resolution":6.61459656252646,"scale":25000},
       //{"level":9,"resolution":2.64583862501058,"scale":10000},
       //{"level":10,"resolution":1.32291931250529,"scale":5000},
-      //{"level":11,"resolution":0.529167725002117,"scale":2000}]},
+      //{"level":11,"resolution":0.529167725002117,"scale":2000},
+      //{"level":12,"resolution":0.264583862501058,"scale":1000}]},
 
-      //"initialExtent":{"xmin":-42686.481789127,"ymin":5746881.05416859,
-      //                 "xmax":1029393.00578913,"ymax":6484161.30783141,
-      //"spatialReference":{"wkid":2600}},
-      //"fullExtent":{"xmin":-42686.481789127,"ymin":5746881.05416859,
-      //              "xmax":1029393.00578913,"ymax":6484161.30783141,
-      //"spatialReference":{"wkid":2600}},"units":"esriMeters",
+      //"initialExtent":{"xmin":-412335.466179159,"ymin":5288235.83180987,
+      //                 "xmax":1417335.46617916,"ymax":6965767.82449726,
 
-      //"supportedImageFormatTypes":"PNG24,PNG,JPG,DIB,TIFF,EMF,PS,PDF,GIF,SVG,SVGZ,AI",
-      //"documentInfo":{"Title":"mapslt_minimal","Author":"gstanevicius","Comments":"","Subject":"","Category":"","Keywords":""}}); 
+      //"fullExtent":{"xmin":-45000,"ymin":5750000,
+      //              "xmax":1050000,"ymax":6500000, units":"esriMeters"
       #endregion
 
       public static double GetTileMatrixResolution(int zoom)
@@ -541,6 +544,12 @@ namespace GMap.NET.Projections
             case 11:
             {
                ret = 0.529167725002117;
+            }
+            break;
+
+            case 12:
+            {
+               ret = 0.264583862501058;
             }
             break;
             #endregion
@@ -632,6 +641,13 @@ namespace GMap.NET.Projections
                ret = new GSize(39858, 27514);
             }
             break;
+
+            case 12:
+            {
+               ret = new GSize(79716, 27514);
+            }
+            break;
+            
             #endregion
          }
 
@@ -716,6 +732,13 @@ namespace GMap.NET.Projections
                ret = new GSize(42972, 29831);
             }
             break;
+
+            case 12:
+            {
+               ret = new GSize(85944, 59662);
+            }
+            break;
+
             #endregion
          }
 

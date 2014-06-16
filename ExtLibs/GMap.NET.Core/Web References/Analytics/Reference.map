@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<DiscoveryClientResultsFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <Results>
-    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.ContractReference" url="http://so-s.info/PreEmptive.Web.Services.Messaging/MessagingServiceV2.asmx?wsdl" filename="MessagingServiceV2.wsdl" />
-    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.DiscoveryDocumentReference" url="http://so-s.info/PreEmptive.Web.Services.Messaging/MessagingServiceV2.asmx?disco" filename="MessagingServiceV2.disco" />
-  </Results>
-</DiscoveryClientResultsFile>

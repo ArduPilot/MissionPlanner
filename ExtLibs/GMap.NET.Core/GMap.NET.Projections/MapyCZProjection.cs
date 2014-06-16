@@ -9,6 +9,8 @@ namespace GMap.NET.Projections
    /// </summary>
    public class MapyCZProjection : PureProjection
    {
+      public static readonly MapyCZProjection Instance = new MapyCZProjection();
+
       static readonly double MinLatitude = 26;
       static readonly double MaxLatitude = 76;
       static readonly double MinLongitude = -26;
@@ -42,19 +44,19 @@ namespace GMap.NET.Projections
 
       #region -- WGSToMapyCZ --
 
-      public int[] WGSToPP(double la, double lo)
+      public long[] WGSToPP(double la, double lo)
       {
          var utmEE = wgsToUTM(DegreesToRadians(la), DegreesToRadians(lo), 33);
          var pp = utmEEToPP(utmEE[0], utmEE[1]);
          return pp;
       }
 
-      static int[] utmEEToPP(double east, double north)
+      static long[] utmEEToPP(double east, double north)
       {
          var x = (Math.Round(east) - (-3700000.0)) * Math.Pow(2, 5);
          var y = (Math.Round(north) - (1300000.0)) * Math.Pow(2, 5);
 
-         return new int[] { (int) x, (int) y };
+         return new long[] { (long)x, (long)y };
       }
 
       double[] wgsToUTM(double la, double lo, int zone)
@@ -167,6 +169,14 @@ namespace GMap.NET.Projections
 
       #endregion
 
+      public override RectLatLng Bounds
+      {
+         get
+         {
+            return RectLatLng.FromLTRB(MinLongitude, MaxLatitude, MaxLongitude, MinLatitude);
+         }
+      }
+
       public override GSize TileSize
       {
          get
@@ -201,15 +211,15 @@ namespace GMap.NET.Projections
          var size = GetTileMatrixSizePixel(zoom);
          {
             var l = WGSToPP(lat, lng);
-            ret.X = (int) l[0] >> (20 - zoom);
-            ret.Y = size.Height - ((int) l[1] >> (20 - zoom));
+            ret.X = (long)l[0] >> (20 - zoom);
+            ret.Y = size.Height - ((long)l[1] >> (20 - zoom));
          }
          return ret;
       }
 
-      public override PointLatLng FromPixelToLatLng(int x, int y, int zoom)
+      public override PointLatLng FromPixelToLatLng(long x, long y, int zoom)
       {
-         PointLatLng ret = PointLatLng.Zero;
+         PointLatLng ret = PointLatLng.Empty;
 
          var size = GetTileMatrixSizePixel(zoom);
 
@@ -225,7 +235,7 @@ namespace GMap.NET.Projections
 
       public override GSize GetTileMatrixSizeXY(int zoom)
       {
-         return new GSize((int) Math.Pow(2, zoom), (int) Math.Pow(2, zoom));
+         return new GSize((long)Math.Pow(2, zoom), (long)Math.Pow(2, zoom));
       }
 
       public override GSize GetTileMatrixSizePixel(int zoom)
@@ -236,13 +246,13 @@ namespace GMap.NET.Projections
 
       public override GSize GetTileMatrixMinXY(int zoom)
       {
-         int wh = zoom > 3 ? (3 * (int) Math.Pow(2, zoom - 4)) : 1;
+         long wh = zoom > 3 ? (3 * (long)Math.Pow(2, zoom - 4)) : 1;
          return new GSize(wh, wh);
       }
 
       public override GSize GetTileMatrixMaxXY(int zoom)
       {
-         int wh = (int) Math.Pow(2, zoom) - (int) Math.Pow(2, zoom - 2);
+         long wh = (long)Math.Pow(2, zoom) - (long)Math.Pow(2, zoom - 2);
          return new GSize(wh, wh);
       }
    }

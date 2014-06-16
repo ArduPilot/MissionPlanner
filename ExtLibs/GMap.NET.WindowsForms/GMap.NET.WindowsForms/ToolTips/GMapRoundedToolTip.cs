@@ -3,12 +3,15 @@ namespace GMap.NET.WindowsForms.ToolTips
 {
    using System.Drawing;
    using System.Drawing.Drawing2D;
+   using System;
+   using System.Runtime.Serialization;
 
 #if !PocketPC
    /// <summary>
    /// GMap.NET marker
    /// </summary>
-   public class GMapRoundedToolTip : GMapToolTip
+   [Serializable]
+   public class GMapRoundedToolTip : GMapToolTip, ISerializable
    {
       public float Radius = 10f;
 
@@ -38,7 +41,7 @@ namespace GMap.NET.WindowsForms.ToolTips
          }
       }
 
-      public override void Draw(Graphics g)
+      public override void OnRender(Graphics g)
       {
          System.Drawing.Size st = g.MeasureString(Marker.ToolTipText, Font).ToSize();
 
@@ -59,6 +62,24 @@ namespace GMap.NET.WindowsForms.ToolTips
          g.DrawString(ToolTipText, ToolTipFont, TooltipForeground, rect, ToolTipFormat);
 #endif
       }
+
+
+      #region ISerializable Members
+
+      void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
+      {
+         info.AddValue("Radius", this.Radius);
+
+         base.GetObjectData(info, context);
+      }
+
+      protected GMapRoundedToolTip(SerializationInfo info, StreamingContext context)
+         : base(info, context)
+      {
+         this.Radius = Extensions.GetStruct<float>(info, "Radius", 10f);
+      }
+
+      #endregion
    }
 #endif
 }

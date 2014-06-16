@@ -8,11 +8,11 @@
     <ProjectGuid>{E06DEF77-F933-42FB-AFD7-DB2D0D8D6A98}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GMap.NET</RootNamespace>
+    <RootNamespace>System.Windows.Forms</RootNamespace>
     <AssemblyName>GMap.NET.WindowsForms</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SignAssembly>false</SignAssembly>
+    <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>sn.snk</AssemblyOriginatorKeyFile>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -32,9 +32,8 @@
     <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <CodeAnalysisRuleSetDirectories>$(DevEnvDir)\..\..\Team Tools\Static Analysis Tools\Rule Sets</CodeAnalysisRuleSetDirectories>
-    <CodeAnalysisRuleDirectories>$(DevEnvDir)\..\..\Team Tools\Static Analysis Tools\FxCop\Rules</CodeAnalysisRuleDirectories>
-    <WarningLevel>0</WarningLevel>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
     <OutputPath>bin\Release\</OutputPath>
@@ -48,9 +47,8 @@
     <CodeAnalysisModuleSuppressionsFile>GlobalSuppressions.cs</CodeAnalysisModuleSuppressionsFile>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <CodeAnalysisRuleSetDirectories>$(DevEnvDir)\..\..\Team Tools\Static Analysis Tools\Rule Sets</CodeAnalysisRuleSetDirectories>
-    <CodeAnalysisRuleDirectories>$(DevEnvDir)\..\..\Team Tools\Static Analysis Tools\FxCop\Rules</CodeAnalysisRuleDirectories>
-    <WarningLevel>0</WarningLevel>
+    <CodeAnalysisRuleSetDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\\Rule Sets</CodeAnalysisRuleSetDirectories>
+    <CodeAnalysisRuleDirectories>;C:\Program Files (x86)\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -63,6 +61,7 @@
     </Compile>
     <Compile Include="GMap.NET.WindowsForms\ColorMatrixs.cs" />
     <Compile Include="GMap.NET.WindowsForms\GMapPolygon.cs" />
+    <Compile Include="GMap.NET.WindowsForms\Markers\GMarkerGoogle.cs" />
     <Compile Include="GMap.NET.WindowsForms\ToolTips\GMapBaloonToolTip.cs" />
     <Compile Include="GMap.NET.WindowsForms\ToolTips\GMapRoundedToolTip.cs" />
     <Compile Include="GMap.NET.WindowsForms\GMapToolTip.cs" />
@@ -72,12 +71,10 @@
     <Compile Include="GMap.NET.WindowsForms\TilePrefetcher.Designer.cs">
       <DependentUpon>TilePrefetcher.cs</DependentUpon>
     </Compile>
-    <Compile Include="GMap.NET.WindowsForms\Markers\GMapMarkerGoogleGreen.cs" />
     <Compile Include="GMap.NET.WindowsForms\GMapMarker.cs" />
-    <Compile Include="GMap.NET.WindowsForms\Markers\GMapMarkerGoogleRed.cs" />
-    <Compile Include="GMap.NET.WindowsForms\Markers\GMapMarkerCross.cs" />
+    <Compile Include="GMap.NET.WindowsForms\Markers\GMarkerCross.cs" />
     <Compile Include="GMap.NET.WindowsForms\GMapOverlay.cs" />
-    <Compile Include="GMap.NET.WindowsForms\WindowsFormsImage.cs" />
+    <Compile Include="GMap.NET.WindowsForms\GMapImage.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -96,6 +93,12 @@
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GMap.NET.Core\GMap.NET.Core.csproj">
+      <Project>{D0C39D9D-BED0-418B-9A5E-713176CAF40C}</Project>
+      <Name>GMap.NET.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
     <EmbeddedResource Include="GMap.NET.WindowsForms\TilePrefetcher.resx">
       <DependentUpon>TilePrefetcher.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -106,23 +109,50 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <None Include="Resources\shadow50.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\marker.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\drag_cross_67_16.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\bigMarkerGreen.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\GMap.NET.Core\GMap.NET.Core.csproj">
-      <Project>{D0C39D9D-BED0-418B-9A5E-713176CAF40C}</Project>
-      <Name>GMap.NET.Core</Name>
-    </ProjectReference>
+    <Content Include="Resources\arrow.png" />
+    <Content Include="Resources\arrowshadow.png" />
+    <Content Include="Resources\black_small.png" />
+    <Content Include="Resources\blue-dot.png" />
+    <Content Include="Resources\blue-pushpin.png" />
+    <Content Include="Resources\blue.png" />
+    <Content Include="Resources\blue_small.png" />
+    <Content Include="Resources\brown_small.png" />
+    <Content Include="Resources\drag_cross_67_16.png" />
+    <Content Include="Resources\go-big-green.png" />
+    <Content Include="Resources\gray_small.png" />
+    <Content Include="Resources\green-dot.png" />
+    <Content Include="Resources\green.png" />
+    <Content Include="Resources\green_small.png" />
+    <Content Include="Resources\grn-pushpin.png" />
+    <Content Include="Resources\lightblue.png" />
+    <Content Include="Resources\ltblu-pushpin.png" />
+    <Content Include="Resources\ltblue-dot.png" />
+    <Content Include="Resources\msmarker.shadow.png" />
+    <Content Include="Resources\orange-dot.png" />
+    <Content Include="Resources\orange.png" />
+    <Content Include="Resources\orange_small.png" />
+    <Content Include="Resources\pause-big-red.png" />
+    <Content Include="Resources\pink-dot.png" />
+    <Content Include="Resources\pink-pushpin.png" />
+    <Content Include="Resources\pink.png" />
+    <Content Include="Resources\purple-dot.png" />
+    <Content Include="Resources\purple-pushpin.png" />
+    <Content Include="Resources\purple.png" />
+    <Content Include="Resources\purple_small.png" />
+    <Content Include="Resources\pushpin_shadow.png" />
+    <Content Include="Resources\red-dot.png" />
+    <Content Include="Resources\red-pushpin.png" />
+    <Content Include="Resources\red.png" />
+    <Content Include="Resources\red_small.png" />
+    <Content Include="Resources\shadow_small.png" />
+    <Content Include="Resources\stop-big-red.png" />
+    <Content Include="Resources\white_small.png" />
+    <Content Include="Resources\yellow-dot.png" />
+    <Content Include="Resources\yellow.png" />
+    <Content Include="Resources\yellow_small.png" />
+    <Content Include="Resources\ylw-pushpin.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

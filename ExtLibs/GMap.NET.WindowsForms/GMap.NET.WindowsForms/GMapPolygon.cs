@@ -6,21 +6,23 @@ namespace GMap.NET.WindowsForms
    using System.Drawing.Drawing2D;
    using System.Runtime.Serialization;
    using GMap.NET;
+   using System.Windows.Forms;
+   using System;
 
    /// <summary>
    /// GMap.NET polygon
    /// </summary>
    [System.Serializable]
 #if !PocketPC
-   public class GMapPolygon : MapRoute, ISerializable, IDeserializationCallback
+   public class GMapPolygon : MapRoute, ISerializable, IDeserializationCallback, IDisposable
 #else
-   public class GMapPolygon : MapRoute
+   public class GMapPolygon : MapRoute, IDisposable
 #endif
    {
       private bool visible = true;
 
       /// <summary>
-      /// is marker visible
+      /// is polygon visible
       /// </summary>
       public bool IsVisible
       {
@@ -40,15 +42,47 @@ namespace GMap.NET.WindowsForms
                   {
                      Overlay.Control.UpdatePolygonLocalPosition(this);
                   }
+                  else
+                  {
+                      if (Overlay.Control.IsMouseOverPolygon)
+                      {
+                          Overlay.Control.IsMouseOverPolygon = false;
+#if !PocketPC
+                          Overlay.Control.RestoreCursorOnLeave();
+#endif
+                      }
+                  }
 
                   {
                      if(!Overlay.Control.HoldInvalidation)
                      {
-                        Overlay.Control.Invalidate();
+                        Overlay.Control.Core.Refresh.Set();
                      }
                   }
                }
             }
+         }
+      }
+
+      /// <summary>
+      /// can receive input
+      /// </summary>
+      public bool IsHitTestVisible = false;
+
+      private bool isMouseOver = false;
+
+      /// <summary>
+      /// is mouse over
+      /// </summary>
+      public bool IsMouseOver
+      {
+         get
+         {
+            return isMouseOver;
+         }
+         internal set
+         {
+            isMouseOver = value;
          }
       }
 
@@ -65,6 +99,91 @@ namespace GMap.NET.WindowsForms
          }
       }
 
+#if !PocketPC
+      /// <summary>
+      /// Indicates whether the specified point is contained within this System.Drawing.Drawing2D.GraphicsPath
+      /// </summary>
+      /// <param name="x"></param>
+      /// <param name="y"></param>
+      /// <returns></returns>
+      internal bool IsInsideLocal(int x, int y)
+      {
+          if (graphicsPath != null)
+          {
+              return graphicsPath.IsVisible(x, y);
+          }
+
+          return false;
+      }
+
+      GraphicsPath graphicsPath;
+      internal void UpdateGraphicsPath()
+      {
+          if (graphicsPath == null)
+          {
+              graphicsPath = new GraphicsPath();
+          }
+          else
+          {
+              graphicsPath.Reset();
+          }
+
+          {
+              Point[] pnts = new Point[LocalPoints.Count];
+              for (int i = 0; i < LocalPoints.Count; i++)
+              {
+                  Point p2 = new Point((int)LocalPoints[i].X, (int)LocalPoints[i].Y);
+                  pnts[pnts.Length - 1 - i] = p2;
+              }
+
+              if (pnts.Length > 2)
+              {
+                  graphicsPath.AddPolygon(pnts);
+              }
+              else if (pnts.Length == 2)
+              {
+                  graphicsPath.AddLines(pnts);
+              }
+          }
+      }
+#endif
+
+
+      public virtual void OnRender(Graphics g)
+      {
+#if !PocketPC
+         if(IsVisible)
+         {
+             if (IsVisible)
+             {
+                 if (graphicsPath != null)
+                 {
+                     g.FillPath(Fill, graphicsPath);
+                     g.DrawPath(Stroke, graphicsPath);
+                 }
+             }            
+         }
+#else
+         {
+            if(IsVisible)
+            {
+               Point[] pnts = new Point[LocalPoints.Count];
+               for(int i = 0; i < LocalPoints.Count; i++)
+               {
+                  Point p2 = new Point((int)LocalPoints[i].X, (int)LocalPoints[i].Y);
+                  pnts[pnts.Length - 1 - i] = p2;
+               }
+
+               if(pnts.Length > 1)
+               {
+                  g.FillPolygon(Fill, pnts);
+                  g.DrawPolygon(Stroke, pnts);
+               }
+            }
+         }
+#endif
+      }
+
       //public double Area
       //{
       //   get
@@ -73,35 +192,78 @@ namespace GMap.NET.WindowsForms
       //   }
       //}
 
+#if !PocketPC
+      public static readonly Pen DefaultStroke = new Pen(Color.FromArgb(155, Color.MidnightBlue));
+#else
+      public static readonly Pen DefaultStroke = new Pen(Color.MidnightBlue);
+#endif
+
       /// <summary>
       /// specifies how the outline is painted
       /// </summary>
+      [NonSerialized]
+      public Pen Stroke = DefaultStroke;
+
 #if !PocketPC
-      public Pen Stroke = new Pen(Color.FromArgb(155, Color.MidnightBlue));
+      public static readonly Brush DefaultFill = new SolidBrush(Color.FromArgb(155, Color.AliceBlue));
 #else
-      public Pen Stroke = new Pen(Color.MidnightBlue);
+      public static readonly Brush DefaultFill = new System.Drawing.SolidBrush(Color.AliceBlue);
 #endif
 
       /// <summary>
       /// background color
       /// </summary>
-#if !PocketPC
-      public Brush Fill = new SolidBrush(Color.FromArgb(155, Color.AliceBlue));
-#else
-      public Brush Fill = new System.Drawing.SolidBrush(Color.AliceBlue);
-#endif
+      [NonSerialized]
+      public Brush Fill = DefaultFill;
 
       public readonly List<GPoint> LocalPoints = new List<GPoint>();
+
+      static GMapPolygon()
+      {
+#if !PocketPC
+          DefaultStroke.LineJoin = LineJoin.Round;
+#endif
+          DefaultStroke.Width = 5;
+      }
 
       public GMapPolygon(List<PointLatLng> points, string name)
          : base(points, name)
       {
          LocalPoints.Capacity = Points.Count;
+      }
 
-#if !PocketPC
-         Stroke.LineJoin = LineJoin.Round;
-#endif
-         Stroke.Width = 5;
+      /// <summary>
+      /// checks if point is inside the polygon,
+      /// info.: http://greatmaps.codeplex.com/discussions/279437#post700449
+      /// </summary>
+      /// <param name="p"></param>
+      /// <returns></returns>
+      public bool IsInside(PointLatLng p)
+      {
+         int count = Points.Count;
+
+         if(count < 3)
+         {
+            return false;
+         }
+
+         bool result = false;
+
+         for(int i = 0, j = count - 1; i < count; i++)
+         {
+            var p1 = Points[i];
+            var p2 = Points[j];
+
+            if(p1.Lat < p.Lat && p2.Lat >= p.Lat || p2.Lat < p.Lat && p1.Lat >= p.Lat)
+            {
+               if(p1.Lng + (p.Lat - p1.Lat) / (p2.Lat - p1.Lat) * (p2.Lng - p1.Lng) < p.Lng)
+               {
+                  result = !result;
+               }
+            }
+            j = i;
+         }
+         return result;
       }
 
 #if !PocketPC
@@ -118,9 +280,9 @@ namespace GMap.NET.WindowsForms
       public override void GetObjectData(SerializationInfo info, StreamingContext context)
       {
          base.GetObjectData(info, context);
-         info.AddValue("Stroke", this.Stroke);
-         info.AddValue("Fill", this.Fill);
+
          info.AddValue("LocalPoints", this.LocalPoints.ToArray());
+         info.AddValue("Visible", this.IsVisible);
       }
 
       // Temp store for de-serialization.
@@ -134,9 +296,8 @@ namespace GMap.NET.WindowsForms
       protected GMapPolygon(SerializationInfo info, StreamingContext context)
          : base(info, context)
       {
-         this.Stroke = Extensions.GetValue<Pen>(info, "Stroke", new Pen(Color.FromArgb(155, Color.MidnightBlue)));
-         this.Fill = Extensions.GetValue<Brush>(info, "Fill", new SolidBrush(Color.FromArgb(155, Color.AliceBlue)));
          this.deserializedLocalPoints = Extensions.GetValue<GPoint[]>(info, "LocalPoints");
+         this.IsVisible = Extensions.GetStruct<bool>(info, "Visible", true);
       }
 
       #endregion
@@ -158,5 +319,34 @@ namespace GMap.NET.WindowsForms
 
       #endregion
 #endif
+
+      #region IDisposable Members
+
+      bool disposed = false;
+
+      public virtual void Dispose()
+      {
+         if(!disposed)
+         {
+            disposed = true;
+
+            LocalPoints.Clear();            
+
+#if !PocketPC
+            if (graphicsPath != null)
+            {
+                graphicsPath.Dispose();
+                graphicsPath = null;
+            }
+#endif
+            base.Clear();
+         }
+      }
+
+      #endregion
    }
+
+   public delegate void PolygonClick(GMapPolygon item, MouseEventArgs e);
+   public delegate void PolygonEnter(GMapPolygon item);
+   public delegate void PolygonLeave(GMapPolygon item);
 }

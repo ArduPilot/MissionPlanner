@@ -10,8 +10,8 @@ namespace GMap.NET
    {
       public static readonly GSize Empty = new GSize();
 
-      private int width;
-      private int height;
+      private long width;
+      private long height;
 
       public GSize(GPoint pt)
       {
@@ -19,28 +19,28 @@ namespace GMap.NET
          height = pt.Y;
       }
 
-      public GSize(int width, int height)
+      public GSize(long width, long height)
       {
          this.width = width;
          this.height = height;
       }
 
-      public static GSize operator+(GSize sz1, GSize sz2)
+      public static GSize operator +(GSize sz1, GSize sz2)
       {
          return Add(sz1, sz2);
       }
 
-      public static GSize operator-(GSize sz1, GSize sz2)
+      public static GSize operator -(GSize sz1, GSize sz2)
       {
          return Subtract(sz1, sz2);
       }
 
-      public static bool operator==(GSize sz1, GSize sz2)
+      public static bool operator ==(GSize sz1, GSize sz2)
       {
          return sz1.Width == sz2.Width && sz1.Height == sz2.Height;
       }
 
-      public static bool operator!=(GSize sz1, GSize sz2)
+      public static bool operator !=(GSize sz1, GSize sz2)
       {
          return !(sz1 == sz2);
       }
@@ -58,7 +58,7 @@ namespace GMap.NET
          }
       }
 
-      public int Width
+      public long Width
       {
          get
          {
@@ -70,7 +70,7 @@ namespace GMap.NET
          }
       }
 
-      public int Height
+      public long Height
       {
          get
          {
@@ -97,7 +97,7 @@ namespace GMap.NET
          if(!(obj is GSize))
             return false;
 
-         GSize comp = (GSize) obj;
+         GSize comp = (GSize)obj;
          // Note value types can't have derived classes, so we don't need to
          //
          return (comp.width == this.width) &&

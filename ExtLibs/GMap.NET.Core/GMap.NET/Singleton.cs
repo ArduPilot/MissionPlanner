@@ -2,6 +2,8 @@
 namespace GMap.NET
 {
    using System;
+   using System.Diagnostics;
+   using System.Reflection;
 
    /// <summary>
    /// generic for singletons
@@ -22,6 +24,10 @@ namespace GMap.NET
       {
          get
          {
+            if(SingletonCreator.exception != null)
+            {
+               throw SingletonCreator.exception;
+            }
             return SingletonCreator.instance;
          }
       }
@@ -30,9 +36,25 @@ namespace GMap.NET
       {
          static SingletonCreator()
          {
-
+            try
+            {
+               instance = new T();
+            }
+            catch(Exception ex)
+            {
+               if(ex.InnerException != null)
+               {
+                  exception = ex.InnerException;
+               }
+               else
+               {
+                  exception = ex;
+               }
+               Trace.WriteLine("Singleton: " + exception);
+            }
          }
-         internal static readonly T instance = new T();
+         internal static readonly T instance;
+         internal static readonly Exception exception;
       }
    }
 }

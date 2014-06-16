@@ -10,21 +10,27 @@ namespace GMap.NET
    [Serializable]
    public struct PointLatLng
    {
-      public static readonly PointLatLng Zero;
+      public static readonly PointLatLng Empty = new PointLatLng();
       private double lat;
       private double lng;
+
+      bool NotEmpty;
 
       public PointLatLng(double lat, double lng)
       {
          this.lat = lat;
          this.lng = lng;
+         NotEmpty = true;
       }
 
-      public bool IsZero
+      /// <summary>
+      /// returns true if coordinates wasn't assigned
+      /// </summary>
+      public bool IsEmpty
       {
          get
          {
-            return ((this.lng == 0d) && (this.lat == 0d));
+            return !NotEmpty;
          }
       }
 
@@ -37,6 +43,7 @@ namespace GMap.NET
          set
          {
             this.lat = value;
+            NotEmpty = true;
          }
       }
 
@@ -49,25 +56,26 @@ namespace GMap.NET
          set
          {
             this.lng = value;
+            NotEmpty = true;
          }
       }
 
-      public static PointLatLng operator+(PointLatLng pt, SizeLatLng sz)
+      public static PointLatLng operator +(PointLatLng pt, SizeLatLng sz)
       {
          return Add(pt, sz);
       }
 
-      public static PointLatLng operator-(PointLatLng pt, SizeLatLng sz)
+      public static PointLatLng operator -(PointLatLng pt, SizeLatLng sz)
       {
          return Subtract(pt, sz);
       }
 
-      public static bool operator==(PointLatLng left, PointLatLng right)
+      public static bool operator ==(PointLatLng left, PointLatLng right)
       {
          return ((left.Lng == right.Lng) && (left.Lat == right.Lat));
       }
 
-      public static bool operator!=(PointLatLng left, PointLatLng right)
+      public static bool operator !=(PointLatLng left, PointLatLng right)
       {
          return !(left == right);
       }
@@ -80,7 +88,7 @@ namespace GMap.NET
       public static PointLatLng Subtract(PointLatLng pt, SizeLatLng sz)
       {
          return new PointLatLng(pt.Lat + sz.HeightLat, pt.Lng - sz.WidthLng);
-      }      
+      }
 
       public override bool Equals(object obj)
       {
@@ -88,7 +96,8 @@ namespace GMap.NET
          {
             return false;
          }
-         return (((((PointLatLng)obj).Lng == this.Lng) && (((PointLatLng)obj).Lat == this.Lat)) && obj.GetType().Equals(base.GetType()));
+         PointLatLng tf = (PointLatLng)obj;
+         return (((tf.Lng == this.Lng) && (tf.Lat == this.Lat)) && tf.GetType().Equals(base.GetType()));
       }
 
       public void Offset(PointLatLng pos)
@@ -110,11 +119,6 @@ namespace GMap.NET
       public override string ToString()
       {
          return string.Format(CultureInfo.CurrentCulture, "{{Lat={0}, Lng={1}}}", this.Lat, this.Lng);
-      }
-
-      static PointLatLng()
-      {
-         Zero = new PointLatLng();
       }
    }
 }

@@ -3,29 +3,38 @@ namespace GMap.NET.WindowsForms.ToolTips
 {
    using System.Drawing;
    using System.Drawing.Drawing2D;
+   using System;
+   using System.Runtime.Serialization;
 
 #if !PocketPC
    /// <summary>
    /// GMap.NET marker
    /// </summary>
-   public class GMapBaloonToolTip : GMapToolTip
+   [Serializable]
+   public class GMapBaloonToolTip : GMapToolTip, ISerializable
    {
       public float Radius = 10f;
+
+      public static readonly Pen DefaultStroke = new Pen(Color.FromArgb(140, Color.Navy));
+
+      static GMapBaloonToolTip()
+      {
+          DefaultStroke.Width = 3;
+
+#if !PocketPC
+          DefaultStroke.LineJoin = LineJoin.Round;
+          DefaultStroke.StartCap = LineCap.RoundAnchor;
+#endif
+      }
 
       public GMapBaloonToolTip(GMapMarker marker)
          : base(marker)
       {
-         Stroke = new Pen(Color.FromArgb(140, Color.Navy));
-         Stroke.Width = 3;
-#if !PocketPC
-         this.Stroke.LineJoin = LineJoin.Round;
-         this.Stroke.StartCap = LineCap.RoundAnchor;
-#endif
-
-         Fill = Brushes.Yellow;
+         Stroke = DefaultStroke;
+         Fill = Brushes.Yellow;   
       }
 
-      public override void Draw(Graphics g)
+      public override void OnRender(Graphics g)
       {
          System.Drawing.Size st = g.MeasureString(Marker.ToolTipText, Font).ToSize();
          System.Drawing.Rectangle rect = new System.Drawing.Rectangle(Marker.ToolTipPosition.X, Marker.ToolTipPosition.Y - st.Height, st.Width + TextPadding.Width, st.Height + TextPadding.Height);
@@ -56,6 +65,23 @@ namespace GMap.NET.WindowsForms.ToolTips
          g.DrawString(ToolTipText, ToolTipFont, TooltipForeground, rect, ToolTipFormat);
 #endif
       }
+
+      #region ISerializable Members
+
+      void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context)
+      {
+         info.AddValue("Radius", this.Radius);
+
+         base.GetObjectData(info, context);
+      }
+
+      protected GMapBaloonToolTip(SerializationInfo info, StreamingContext context)
+         : base(info, context)
+      {
+         this.Radius = Extensions.GetStruct<float>(info, "Radius", 10f);
+      }
+
+      #endregion
    }
 #endif
 }

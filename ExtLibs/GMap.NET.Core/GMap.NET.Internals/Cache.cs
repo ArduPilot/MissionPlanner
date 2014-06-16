@@ -1,24 +1,73 @@
 ﻿
 namespace GMap.NET.Internals
 {
-   using System.Collections.Generic;
-   using System.IO;
-   using System.Text;
    using System;
    using System.Diagnostics;
+   using System.IO;
+   using System.Text;
    using GMap.NET.CacheProviders;
-   using System.Globalization;
+    using System.Security.Cryptography;
+
+   internal class CacheLocator
+   {
+      private static string location;
+      public static string Location
+      {
+         get
+         {
+            if(string.IsNullOrEmpty(location))
+            {
+               Reset();
+            }
+
+            return location;
+         }
+         set
+         {
+            if(string.IsNullOrEmpty(value)) // setting to null resets to default
+            {
+               Reset();
+            }
+            else
+            {
+               location = value;
+            }
+
+            if(Delay)
+            {
+               Cache.Instance.CacheLocation = location;
+            }
+         }
+      }
+
+      static void Reset()
+      {
+#if !PocketPC
+         location = System.Environment.GetFolderPath(System.Environment.SpecialFolder.LocalApplicationData) + Path.DirectorySeparatorChar + "GMap.NET" + Path.DirectorySeparatorChar;
+
+         // http://greatmaps.codeplex.com/discussions/403151
+         if(string.IsNullOrEmpty(location)) 
+         {
+            GMaps.Instance.Mode = AccessMode.ServerOnly;
+            GMaps.Instance.UseDirectionsCache = false;
+            GMaps.Instance.UseGeocoderCache = false;
+            GMaps.Instance.UsePlacemarkCache = false;
+            GMaps.Instance.UseRouteCache = false;
+            GMaps.Instance.UseUrlCache = false;
+         }
+#else
+         location = System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData) + Path.DirectorySeparatorChar + "GMap.NET" + Path.DirectorySeparatorChar;
+#endif
+      }
+
+      public static bool Delay = false;
+   }
 
    /// <summary>
    /// cache system for tiles, geocoding, etc...
    /// </summary>
    internal class Cache : Singleton<Cache>
    {
-      string cache;
-      string routeCache;
-      string geoCache;
-      string placemarkCache;
-
       /// <summary>
       /// abstract image cache
       /// </summary>
@@ -28,6 +77,8 @@ namespace GMap.NET.Internals
       /// second level abstract image cache
       /// </summary>
       public PureImageCache ImageCacheSecond;
+
+      string cache;
 
       /// <summary>
       /// local cache location
@@ -41,14 +92,10 @@ namespace GMap.NET.Internals
          set
          {
             cache = value;
-            routeCache = cache + "RouteCache" + Path.DirectorySeparatorChar;
-            geoCache = cache + "GeocoderCache" + Path.DirectorySeparatorChar;
-            placemarkCache = cache + "PlacemarkCache" + Path.DirectorySeparatorChar;
-
 #if SQLite
-            if(ImageCache is myPureImageCache)
+            if(ImageCache is SQLitePureImageCache)
             {
-               (ImageCache as myPureImageCache).CacheLocation = value;
+               (ImageCache as SQLitePureImageCache).CacheLocation = value;
             }
 #else
             if(ImageCache is MsSQLCePureImageCache)
@@ -56,6 +103,7 @@ namespace GMap.NET.Internals
                (ImageCache as MsSQLCePureImageCache).CacheLocation = value;
             }
 #endif
+            CacheLocator.Delay = true;
          }
       }
 
@@ -68,205 +116,149 @@ namespace GMap.NET.Internals
          }
          #endregion
 
+         return;
 #if SQLite
-         ImageCache = new myPureImageCache();
+         ImageCache = new SQLitePureImageCache();
 #else
          // you can use $ms stuff if you like too ;}
          ImageCache = new MsSQLCePureImageCache();
 #endif
 
-         if(string.IsNullOrEmpty(CacheLocation))
+#if PocketPC
+         // use sd card if exist for cache
+         string sd = Native.GetRemovableStorageDirectory();
+         if(!string.IsNullOrEmpty(sd))
+         {
+            CacheLocation = sd + Path.DirectorySeparatorChar +  "GMap.NET" + Path.DirectorySeparatorChar;
+         }
+         else
+#endif
          {
 #if PocketPC
-            // use sd card if exist for cache
-            string sd = Native.GetRemovableStorageDirectory();
-            if(!string.IsNullOrEmpty(sd))
-            {
-               CacheLocation = sd + Path.DirectorySeparatorChar +  "GMap.NET" + Path.DirectorySeparatorChar;
-            }
-            else
-#endif
-            {
-               string oldCache = System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData) + Path.DirectorySeparatorChar + "GMap.NET" + Path.DirectorySeparatorChar;
-#if PocketPC
-               CacheLocation = oldCache;
+            CacheLocation = CacheLocator.Location;
 #else
-               string newCache = System.Environment.GetFolderPath(System.Environment.SpecialFolder.LocalApplicationData) + Path.DirectorySeparatorChar + "GMap.NET" + Path.DirectorySeparatorChar;
+            string newCache = CacheLocator.Location;
 
-               // move database to non-roaming user directory
-               if(Directory.Exists(oldCache))
+            string oldCache = System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData) + Path.DirectorySeparatorChar + "GMap.NET" + Path.DirectorySeparatorChar;
+
+            // move database to non-roaming user directory
+            if(Directory.Exists(oldCache))
+            {
+               try
                {
-                  try
+                  if(Directory.Exists(newCache))
                   {
-                     if(Directory.Exists(newCache))
-                     {
-                        Directory.Delete(oldCache, true);
-                     }
-                     else
-                     {
-                        Directory.Move(oldCache, newCache);
-                     }
-                     CacheLocation = newCache;
+                     Directory.Delete(oldCache, true);
                   }
-                  catch(Exception ex)
+                  else
                   {
-                     CacheLocation = oldCache;
-                     Trace.WriteLine("SQLitePureImageCache, moving data: " + ex.ToString());
+                     Directory.Move(oldCache, newCache);
                   }
-               }
-               else
-               {
                   CacheLocation = newCache;
                }
-#endif
+               catch(Exception ex)
+               {
+                  CacheLocation = oldCache;
+                  Trace.WriteLine("SQLitePureImageCache, moving data: " + ex.ToString());
+               }
             }
+            else
+            {
+               CacheLocation = newCache;
+            }
+#endif
          }
       }
 
       #region -- etc cache --
-      public void CacheGeocoder(string urlEnd, string content)
+
+      static readonly SHA1CryptoServiceProvider HashProvider = new SHA1CryptoServiceProvider();
+
+      void ConvertToHash(ref string s)
+      {
+          s = BitConverter.ToString(HashProvider.ComputeHash(Encoding.Unicode.GetBytes(s)));
+      }
+
+      public void SaveContent(string url, CacheType type, string content)
       {
          try
          {
+            ConvertToHash(ref url);
+
+            string dir = Path.Combine(cache, type.ToString()) + Path.DirectorySeparatorChar;
+
             // precrete dir
-            if(!Directory.Exists(geoCache))
+            if(!Directory.Exists(dir))
             {
-               Directory.CreateDirectory(geoCache);
+               Directory.CreateDirectory(dir);
             }
 
-            StringBuilder file = new StringBuilder(geoCache);
-            file.AppendFormat(CultureInfo.InvariantCulture, "{0}.geo", urlEnd);
+            string file = dir + url + ".txt";
 
-            using(StreamWriter writer = new StreamWriter(file.ToString(), false, Encoding.UTF8))
+            using(StreamWriter writer = new StreamWriter(file, false, Encoding.UTF8))
             {
                writer.Write(content);
             }
          }
-         catch
+         catch(Exception ex)
          {
+            Debug.WriteLine("SaveContent: " + ex);
          }
       }
 
-      public string GetGeocoderFromCache(string urlEnd)
+      public string GetContent(string url, CacheType type, TimeSpan stayInCache)
       {
          string ret = null;
 
          try
          {
-            StringBuilder file = new StringBuilder(geoCache);
-            file.AppendFormat(CultureInfo.InvariantCulture, "{0}.geo", urlEnd);
+            ConvertToHash(ref url);
 
-            if(File.Exists(file.ToString()))
+            if (cache == null)
+                return ret;
+
+            string dir = Path.Combine(cache, type.ToString()) + Path.DirectorySeparatorChar;
+            string file = dir + url + ".txt";
+
+            if(File.Exists(file))
             {
-               using(StreamReader r = new StreamReader(file.ToString(), Encoding.UTF8))
+               var writeTime = File.GetLastWriteTime(file);
+               if (DateTime.Now - writeTime < stayInCache)
                {
-                  ret = r.ReadToEnd();
+                   using (StreamReader r = new StreamReader(file, Encoding.UTF8))
+                   {
+                       ret = r.ReadToEnd();
+                   }
+               }
+               else
+               {
+                   File.Delete(file);
                }
             }
          }
-         catch
+         catch(Exception ex)
          {
             ret = null;
+            Debug.WriteLine("GetContent: " + ex);
          }
 
          return ret;
       }
 
-      public void CachePlacemark(string urlEnd, string content)
+      public string GetContent(string url, CacheType type)
       {
-         try
-         {
-            // precrete dir
-            if(!Directory.Exists(placemarkCache))
-            {
-               Directory.CreateDirectory(placemarkCache);
-            }
-
-            StringBuilder file = new StringBuilder(placemarkCache);
-            file.AppendFormat(CultureInfo.InvariantCulture, "{0}.plc", urlEnd);
-
-            using(StreamWriter writer = new StreamWriter(file.ToString(), false, Encoding.UTF8))
-            {
-               writer.Write(content);
-            }
-         }
-         catch
-         {
-         }
+         return GetContent(url, type, TimeSpan.FromDays(88));
       }
 
-      public string GetPlacemarkFromCache(string urlEnd)
-      {
-         string ret = null;
-
-         try
-         {
-            StringBuilder file = new StringBuilder(placemarkCache);
-            file.AppendFormat(CultureInfo.InvariantCulture, "{0}.plc", urlEnd);
-
-            if(File.Exists(file.ToString()))
-            {
-               using(StreamReader r = new StreamReader(file.ToString(), Encoding.UTF8))
-               {
-                  ret= r.ReadToEnd();
-               }
-            }
-         }
-         catch
-         {
-            ret = null;
-         }
-
-         return ret;
-      }
-
-      public void CacheRoute(string urlEnd, string content)
-      {
-         try
-         {
-            // precrete dir
-            if(!Directory.Exists(routeCache))
-            {
-               Directory.CreateDirectory(routeCache);
-            }
-
-            StringBuilder file = new StringBuilder(routeCache);
-            file.AppendFormat(CultureInfo.InvariantCulture, "{0}.dragdir", urlEnd);
-
-            using(StreamWriter writer = new StreamWriter(file.ToString(), false, Encoding.UTF8))
-            {
-               writer.Write(content);
-            }
-         }
-         catch
-         {
-         }
-      }
-
-      public string GetRouteFromCache(string urlEnd)
-      {
-         string ret = null;
-
-         try
-         {
-            StringBuilder file = new StringBuilder(routeCache);
-            file.AppendFormat(CultureInfo.InvariantCulture, "{0}.dragdir", urlEnd);
-
-            if(File.Exists(file.ToString()))
-            {
-               using(StreamReader r = new StreamReader(file.ToString(), Encoding.UTF8))
-               {
-                  ret= r.ReadToEnd();
-               }
-            }
-         }
-         catch
-         {
-            ret = null;
-         }
-
-         return ret;
-      }
       #endregion
+   }
+
+   internal enum CacheType
+   {
+      GeocoderCache,
+      PlacemarkCache,
+      RouteCache,
+      UrlCache,
+      DirectionsCache,
    }
 }

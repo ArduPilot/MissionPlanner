@@ -9,10 +9,13 @@ namespace GMap.NET.Projections
    /// </summary>
    public class LKS92Projection : PureProjection
    {
+      public static readonly LKS92Projection Instance = new LKS92Projection();
+
       static readonly double MinLatitude = 55.55;
       static readonly double MaxLatitude = 58.58;
       static readonly double MinLongitude = 20.22;
       static readonly double MaxLongitude = 28.28;
+
       static readonly double orignX = 5120900;
       static readonly double orignY = 3998100;
 
@@ -27,6 +30,14 @@ namespace GMap.NET.Projections
       static readonly double metersPerUnit = 1.0;
       static readonly double COS_67P5 = 0.38268343236508977; // cosine of 67.5 degrees
       static readonly double AD_C = 1.0026000;               // Toms region 1 constant
+
+      public override RectLatLng Bounds
+      {
+         get
+         {
+            return RectLatLng.FromLTRB(MinLongitude, MaxLatitude, MaxLongitude, MinLatitude);
+         }
+      }
 
       GSize tileSize = new GSize(256, 256);
       public override GSize TileSize
@@ -67,15 +78,15 @@ namespace GMap.NET.Projections
 
          double res = GetTileMatrixResolution(zoom);
 
-         ret.X = (int) Math.Floor((lks[0] + orignX) / res);
-         ret.Y = (int) Math.Floor((orignY - lks[1]) / res);
+         ret.X = (long)Math.Floor((lks[0] + orignX) / res);
+         ret.Y = (long)Math.Floor((orignY - lks[1]) / res);
 
          return ret;
       }
 
-      public override PointLatLng FromPixelToLatLng(int x, int y, int zoom)
+      public override PointLatLng FromPixelToLatLng(long x, long y, int zoom)
       {
-         PointLatLng ret = PointLatLng.Zero;
+         PointLatLng ret = PointLatLng.Empty;
 
          double res = GetTileMatrixResolution(zoom);
 

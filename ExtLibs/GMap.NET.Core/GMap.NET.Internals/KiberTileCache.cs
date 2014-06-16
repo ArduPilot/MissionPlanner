@@ -4,12 +4,17 @@ namespace GMap.NET.Internals
    using System.Collections.Generic;
    using System.IO;
    using System;
+   using System.Diagnostics;
 
    /// <summary>
    /// kiber speed memory cache for tiles with history support ;}
    /// </summary>
-   internal class KiberTileCache : Dictionary<RawTile, MemoryStream>
+   internal class KiberTileCache : Dictionary<RawTile, byte[]>
    {
+       public KiberTileCache() : base(new RawTileComparer())
+       {
+       }
+
       readonly Queue<RawTile> Queue = new Queue<RawTile>();
 
       /// <summary>
@@ -30,11 +35,11 @@ namespace GMap.NET.Internals
       {
          get
          {
-            return memoryCacheSize/1048576.0;
+            return memoryCacheSize / 1048576.0;
          }
       }
 
-      public new void Add(RawTile key, MemoryStream value)
+      public new void Add(RawTile key, byte[] value)
       {
          Queue.Enqueue(key);
          base.Add(key, value);
@@ -48,6 +53,13 @@ namespace GMap.NET.Internals
 
       }
 
+      public new void Clear()
+      {
+         Queue.Clear();
+         base.Clear();
+         memoryCacheSize = 0;
+      }
+
       internal void RemoveMemoryOverload()
       {
          while(MemoryCacheSize > MemoryCacheCapacity)
@@ -57,14 +69,16 @@ namespace GMap.NET.Internals
                RawTile first = Queue.Dequeue();
                try
                {
-                  using(MemoryStream m = base[first])
+                  var m = base[first];
                   {
                      base.Remove(first);
                      memoryCacheSize -= m.Length;
                   }
+                  m = null;
                }
-               catch
+               catch(Exception ex)
                {
+                   Debug.WriteLine("RemoveMemoryOverload: " + ex);
                }
             }
             else

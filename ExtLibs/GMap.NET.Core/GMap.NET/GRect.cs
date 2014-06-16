@@ -11,12 +11,12 @@ namespace GMap.NET
    {
       public static readonly GRect Empty = new GRect();
 
-      private int x;
-      private int y;
-      private int width;
-      private int height;
+      private long x;
+      private long y;
+      private long width;
+      private long height;
 
-      public GRect(int x, int y, int width, int height)
+      public GRect(long x, long y, long width, long height)
       {
          this.x = x;
          this.y = y;
@@ -53,6 +53,30 @@ namespace GMap.NET
          }
       }
 
+      public GPoint RightBottom
+      {
+         get
+         {
+            return new GPoint(Right, Bottom);
+         }
+      }
+
+      public GPoint RightTop
+      {
+         get
+         {
+            return new GPoint(Right, Top);
+         }
+      }
+
+      public GPoint LeftBottom
+      {
+         get
+         {
+            return new GPoint(Left, Bottom);
+         }
+      }
+
       public GSize Size
       {
          get
@@ -66,7 +90,7 @@ namespace GMap.NET
          }
       }
 
-      public int X
+      public long X
       {
          get
          {
@@ -78,7 +102,7 @@ namespace GMap.NET
          }
       }
 
-      public int Y
+      public long Y
       {
          get
          {
@@ -90,7 +114,7 @@ namespace GMap.NET
          }
       }
 
-      public int Width
+      public long Width
       {
          get
          {
@@ -102,7 +126,7 @@ namespace GMap.NET
          }
       }
 
-      public int Height
+      public long Height
       {
          get
          {
@@ -114,7 +138,7 @@ namespace GMap.NET
          }
       }
 
-      public int Left
+      public long Left
       {
          get
          {
@@ -122,7 +146,7 @@ namespace GMap.NET
          }
       }
 
-      public int Top
+      public long Top
       {
          get
          {
@@ -130,7 +154,7 @@ namespace GMap.NET
          }
       }
 
-      public int Right
+      public long Right
       {
          get
          {
@@ -138,7 +162,7 @@ namespace GMap.NET
          }
       }
 
-      public int Bottom
+      public long Bottom
       {
          get
          {
@@ -180,7 +204,7 @@ namespace GMap.NET
          return !(left == right);
       }
 
-      public bool Contains(int x, int y)
+      public bool Contains(long x, long y)
       {
          return this.X <= x && 
             x < this.X + this.Width &&
@@ -207,10 +231,10 @@ namespace GMap.NET
          {
             return 0;
          }
-         return (((this.X ^ ((this.Y << 13) | (this.Y >> 0x13))) ^ ((this.Width << 0x1a) | (this.Width >> 6))) ^ ((this.Height << 7) | (this.Height >> 0x19)));
+         return (int)(((this.X ^ ((this.Y << 13) | (this.Y >> 0x13))) ^ ((this.Width << 0x1a) | (this.Width >> 6))) ^ ((this.Height << 7) | (this.Height >> 0x19)));
       }
 
-      public void Inflate(int width, int height)
+      public void Inflate(long width, long height)
       {
          this.X -= width;
          this.Y -= height;
@@ -219,12 +243,11 @@ namespace GMap.NET
       }
 
       public void Inflate(GSize size)
-      {
-
+      {    
          Inflate(size.Width, size.Height);
       }
 
-      public static GRect Inflate(GRect rect, int x, int y)
+      public static GRect Inflate(GRect rect, long x, long y)
       {
          GRect r = rect;
          r.Inflate(x, y);
@@ -243,10 +266,10 @@ namespace GMap.NET
 
       public static GRect Intersect(GRect a, GRect b)
       {
-         int x1 = Math.Max(a.X, b.X);
-         int x2 = Math.Min(a.X + a.Width, b.X + b.Width);
-         int y1 = Math.Max(a.Y, b.Y);
-         int y2 = Math.Min(a.Y + a.Height, b.Y + b.Height);
+         long x1 = Math.Max(a.X, b.X);
+         long x2 = Math.Min(a.X + a.Width, b.X + b.Width);
+         long y1 = Math.Max(a.Y, b.Y);
+         long y2 = Math.Min(a.Y + a.Height, b.Y + b.Height);
 
          if(x2 >= x1
                 && y2 >= y1)
@@ -267,10 +290,10 @@ namespace GMap.NET
 
       public static GRect Union(GRect a, GRect b)
       {
-         int x1 = Math.Min(a.X, b.X);
-         int x2 = Math.Max(a.X + a.Width, b.X + b.Width);
-         int y1 = Math.Min(a.Y, b.Y);
-         int y2 = Math.Max(a.Y + a.Height, b.Y + b.Height);
+         long x1 = Math.Min(a.X, b.X);
+         long x2 = Math.Max(a.X + a.Width, b.X + b.Width);
+         long y1 = Math.Min(a.Y, b.Y);
+         long y2 = Math.Max(a.Y + a.Height, b.Y + b.Height);
 
          return new GRect(x1, y1, x2 - x1, y2 - y1);
       }
@@ -280,7 +303,12 @@ namespace GMap.NET
          Offset(pos.X, pos.Y);
       }
 
-      public void Offset(int x, int y)
+      public void OffsetNegative(GPoint pos)
+      {
+         Offset(-pos.X, -pos.Y);
+      }
+
+      public void Offset(long x, long y)
       {
          this.X += x;
          this.Y += y;

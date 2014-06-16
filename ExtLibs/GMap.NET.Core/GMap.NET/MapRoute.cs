@@ -4,6 +4,7 @@ namespace GMap.NET
    using System;
    using System.Collections.Generic;
    using System.Runtime.Serialization;
+   using GMap.NET.MapProviders;
 
    /// <summary>
    /// represents route of map
@@ -18,7 +19,7 @@ namespace GMap.NET
       /// <summary>
       /// points of route
       /// </summary>
-      public readonly List<PointLatLng> Points;
+      public readonly List<PointLatLng> Points = new List<PointLatLng>();
 
       /// <summary>
       /// route info
@@ -62,11 +63,14 @@ namespace GMap.NET
          }
       }
 
-      public MapRoute(List<PointLatLng> points, string name)
+      public MapRoute(string name)
       {
-         Points = new List<PointLatLng>(points);
-         Points.TrimExcess();
+         Name = name;
+      }
 
+      public MapRoute(IEnumerable<PointLatLng> points, string name)
+      {
+         Points.AddRange(points);
          Name = name;
       }
 
@@ -83,12 +87,22 @@ namespace GMap.NET
             {
                for(int i = 1; i < Points.Count; i++)
                {
-                  distance += GMaps.Instance.GetDistance(Points[i - 1], Points[i]);
+                  distance += GMapProviders.EmptyProvider.Projection.GetDistance(Points[i - 1], Points[i]);
                }
             }
 
             return distance;
          }
+      }    
+
+      /// <summary>
+      /// clears points and sets tag and name to null
+      /// </summary>
+      public void Clear()
+      {
+         Points.Clear();
+         Tag = null;
+         Name = null;
       }
 
 #if !PocketPC

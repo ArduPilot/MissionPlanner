@@ -8,11 +8,12 @@ namespace GMap.NET.CacheProviders
    using System.IO;
    using SqlCommand = System.Data.SqlServerCe.SqlCeCommand;
    using SqlConnection = System.Data.SqlServerCe.SqlCeConnection;
+    using GMap.NET.MapProviders;
 
    /// <summary>
    /// image cache for ms sql server
    /// </summary>
-   internal class MsSQLCePureImageCache : PureImageCache, IDisposable
+   public class MsSQLCePureImageCache : PureImageCache, IDisposable
    {
       string cache;
       string gtileCache;
@@ -28,8 +29,8 @@ namespace GMap.NET.CacheProviders
          }
          set
          {
-            cache = value;
-            gtileCache = cache + "TileDBv3" + Path.DirectorySeparatorChar + GMaps.Instance.LanguageStr + Path.DirectorySeparatorChar;
+            cache = value; 
+            gtileCache = Path.Combine(cache, "TileDBv3") + Path.DirectorySeparatorChar + GMapProvider.LanguageStr + Path.DirectorySeparatorChar;
          }
       }
 
@@ -51,7 +52,7 @@ namespace GMap.NET.CacheProviders
       {
          if(!Initialized)
          {
-            #region prepare mssql & cache table
+   #region prepare mssql & cache table
             try
             {
                // precrete dir
@@ -131,12 +132,12 @@ namespace GMap.NET.CacheProviders
                Initialized = false;
                Debug.WriteLine(ex.Message);
             }
-            #endregion
+   #endregion
          }
          return Initialized;
       }
 
-      #region IDisposable Members
+   #region IDisposable Members
       public void Dispose()
       {
          lock(cmdInsert)
@@ -170,10 +171,10 @@ namespace GMap.NET.CacheProviders
          }
          Initialized = false;
       }
-      #endregion
+   #endregion
 
-      #region PureImageCache Members
-      public bool PutImageToCache(MemoryStream tile, MapType type, GPoint pos, int zoom)
+   #region PureImageCache Members
+      public bool PutImageToCache(byte[] tile, int type, GPoint pos, int zoom)
       {
          bool ret = true;
          {
@@ -186,8 +187,8 @@ namespace GMap.NET.CacheProviders
                      cmdInsert.Parameters["@x"].Value = pos.X;
                      cmdInsert.Parameters["@y"].Value = pos.Y;
                      cmdInsert.Parameters["@zoom"].Value = zoom;
-                     cmdInsert.Parameters["@type"].Value = (int)type;
-                     cmdInsert.Parameters["@tile"].Value = tile.GetBuffer();
+                     cmdInsert.Parameters["@type"].Value = type;
+                     cmdInsert.Parameters["@tile"].Value = tile;
                      cmdInsert.ExecuteNonQuery();
                   }
                }
@@ -202,7 +203,7 @@ namespace GMap.NET.CacheProviders
          return ret;
       }
 
-      public PureImage GetImageFromCache(MapType type, GPoint pos, int zoom)
+      public PureImage GetImageFromCache(int type, GPoint pos, int zoom)
       {
          PureImage ret = null;
          {
@@ -216,7 +217,7 @@ namespace GMap.NET.CacheProviders
                      cmdFetch.Parameters["@x"].Value = pos.X;
                      cmdFetch.Parameters["@y"].Value = pos.Y;
                      cmdFetch.Parameters["@zoom"].Value = zoom;
-                     cmdFetch.Parameters["@type"].Value = (int)type;
+                     cmdFetch.Parameters["@type"].Value = type;
                      odata = cmdFetch.ExecuteScalar();
                   }
 
@@ -225,15 +226,9 @@ namespace GMap.NET.CacheProviders
                      byte[] tile = (byte[])odata;
                      if(tile != null && tile.Length > 0)
                      {
-                        if(GMaps.Instance.ImageProxy != null)
+                        if(GMapProvider.TileImageProxy != null)
                         {
-                           MemoryStream stm = new MemoryStream(tile, 0, tile.Length, false, true);
-
-                           ret = GMaps.Instance.ImageProxy.FromStream(stm);
-                           if(ret != null)
-                           {
-                              ret.Data = stm;
-                           }
+                           ret = GMapProvider.TileImageProxy.FromArray(tile);
                         }
                      }
                      tile = null;
@@ -250,11 +245,11 @@ namespace GMap.NET.CacheProviders
          return ret;
       }
 
-      int PureImageCache.DeleteOlderThan(DateTime date)
+      int PureImageCache.DeleteOlderThan(DateTime date, int ? type)
       {
          throw new NotImplementedException();
       }
-      #endregion
+   #endregion
    }
 #endif
 }

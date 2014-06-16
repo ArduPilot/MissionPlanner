@@ -9,10 +9,20 @@ namespace GMap.NET.Projections
    /// </summary>
    public class PlateCarreeProjection : PureProjection
    {
+      public static readonly PlateCarreeProjection Instance = new PlateCarreeProjection();
+
       static readonly double MinLatitude = -85.05112878;
       static readonly double MaxLatitude = 85.05112878;
       static readonly double MinLongitude = -180;
       static readonly double MaxLongitude = 180;
+
+      public override RectLatLng Bounds
+      {
+         get
+         {
+            return RectLatLng.FromLTRB(MinLongitude, MaxLatitude, MaxLongitude, MinLatitude);
+         }
+      }
 
       GSize tileSize = new GSize(512, 512);
       public override GSize TileSize
@@ -52,15 +62,15 @@ namespace GMap.NET.Projections
 
          double scale = 360.0 / mapSizeX;
 
-         ret.Y = (int) ((90.0 - lat) / scale);
-         ret.X = (int) ((lng + 180.0) / scale);
+         ret.Y = (long)((90.0 - lat) / scale);
+         ret.X = (long)((lng + 180.0) / scale);
 
          return ret;
       }
 
-      public override PointLatLng FromPixelToLatLng(int x, int y, int zoom)
+      public override PointLatLng FromPixelToLatLng(long x, long y, int zoom)
       {
-         PointLatLng ret = PointLatLng.Zero;
+         PointLatLng ret = PointLatLng.Empty;
 
          GSize s = GetTileMatrixSizePixel(zoom);
          double mapSizeX = s.Width;
@@ -76,8 +86,8 @@ namespace GMap.NET.Projections
 
       public override GSize GetTileMatrixMaxXY(int zoom)
       {
-         int y = (int) Math.Pow(2, zoom);
-         return new GSize((2*y) - 1, y - 1);
+         long y = (long)Math.Pow(2, zoom);
+         return new GSize((2 * y) - 1, y - 1);
       }
 
       public override GSize GetTileMatrixMinXY(int zoom)

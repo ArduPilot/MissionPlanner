@@ -21,6 +21,7 @@ namespace GMap.NET
          this.lat = lat;
          this.widthLng = widthLng;
          this.heightLat = heightLat;
+         NotEmpty = true;
       }
 
       public RectLatLng(PointLatLng location, SizeLatLng size)
@@ -29,11 +30,12 @@ namespace GMap.NET
          this.lat = location.Lat;
          this.widthLng = size.WidthLng;
          this.heightLat = size.HeightLat;
+         NotEmpty = true;
       }
 
-      public static RectLatLng FromLTRB(double lng, double lat, double rightLng, double bottomLat)
+      public static RectLatLng FromLTRB(double leftLng, double topLat, double rightLng, double bottomLat)
       {
-         return new RectLatLng(lat, lng, rightLng - lng, lat - bottomLat);
+         return new RectLatLng(topLat, leftLng, rightLng - leftLng, topLat - bottomLat);
       }
 
       public PointLatLng LocationTopLeft
@@ -64,7 +66,7 @@ namespace GMap.NET
          get
          {
             PointLatLng ret = new PointLatLng(this.Lat, this.Lng);
-            ret.Offset(HeightLat/2, WidthLng/2);
+            ret.Offset(HeightLat / 2, WidthLng / 2);
             return ret;
          }
       }
@@ -162,16 +164,17 @@ namespace GMap.NET
          }
       }
 
+      bool NotEmpty;
+
+      /// <summary>
+      /// returns true if coordinates wasn't assigned
+      /// </summary>
       public bool IsEmpty
       {
-         get
-         {
-            if(this.WidthLng > 0d)
-            {
-               return (this.HeightLat <= 0d);
-            }
-            return true;
-         }
+          get
+          {
+              return !NotEmpty;
+          }
       }
 
       public override bool Equals(object obj)
@@ -180,16 +183,16 @@ namespace GMap.NET
          {
             return false;
          }
-         RectLatLng ef = (RectLatLng) obj;
+         RectLatLng ef = (RectLatLng)obj;
          return ((((ef.Lng == this.Lng) && (ef.Lat == this.Lat)) && (ef.WidthLng == this.WidthLng)) && (ef.HeightLat == this.HeightLat));
       }
 
-      public static bool operator==(RectLatLng left, RectLatLng right)
+      public static bool operator ==(RectLatLng left, RectLatLng right)
       {
          return ((((left.Lng == right.Lng) && (left.Lat == right.Lat)) && (left.WidthLng == right.WidthLng)) && (left.HeightLat == right.HeightLat));
       }
 
-      public static bool operator!=(RectLatLng left, RectLatLng right)
+      public static bool operator !=(RectLatLng left, RectLatLng right)
       {
          return !(left == right);
       }
@@ -256,10 +259,10 @@ namespace GMap.NET
       public static RectLatLng Intersect(RectLatLng a, RectLatLng b)
       {
          double lng = Math.Max(a.Lng, b.Lng);
-         double num2 = Math.Min((double) (a.Lng + a.WidthLng), (double) (b.Lng + b.WidthLng));
+         double num2 = Math.Min((double)(a.Lng + a.WidthLng), (double)(b.Lng + b.WidthLng));
 
          double lat = Math.Max(a.Lat, b.Lat);
-         double num4 = Math.Min((double) (a.Lat + a.HeightLat), (double) (b.Lat + b.HeightLat));
+         double num4 = Math.Min((double)(a.Lat + a.HeightLat), (double)(b.Lat + b.HeightLat));
 
          if((num2 >= lng) && (num4 >= lat))
          {
@@ -269,19 +272,21 @@ namespace GMap.NET
       }
 
       // ok ???
-      public bool IntersectsWith(RectLatLng rect)
+      // http://greatmaps.codeplex.com/workitem/15981
+      public bool IntersectsWith(RectLatLng a)
       {
-         return ((((rect.Lng < (this.Lng + this.WidthLng)) && (this.Lng < (rect.Lng + rect.WidthLng))) && (rect.Lat < (this.Lat + this.HeightLat))) && (this.Lat < (rect.Lat + rect.HeightLat)));
+         return this.Left < a.Right && this.Top > a.Bottom && this.Right > a.Left && this.Bottom < a.Top;
       }
 
       // ok ???
+      // http://greatmaps.codeplex.com/workitem/15981
       public static RectLatLng Union(RectLatLng a, RectLatLng b)
       {
-         double lng = Math.Min(a.Lng, b.Lng);
-         double num2 = Math.Max((double) (a.Lng + a.WidthLng), (double) (b.Lng + b.WidthLng));
-         double lat = Math.Min(a.Lat, b.Lat);
-         double num4 = Math.Max((double) (a.Lat + a.HeightLat), (double) (b.Lat + b.HeightLat));
-         return new RectLatLng(lng, lat, num2 - lng, num4 - lat);
+         return RectLatLng.FromLTRB(
+            Math.Min(a.Left, b.Left),
+            Math.Max(a.Top, b.Top),
+            Math.Max(a.Right, b.Right),
+            Math.Min(a.Bottom, b.Bottom));
       }
       #endregion
 
