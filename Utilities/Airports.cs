@@ -50,7 +50,7 @@ namespace MissionPlanner.Utilities
             {
                 DateTime start = DateTime.Now;
 
-                log.Info("getAirports " + centerpoint);
+                //log.Info("getAirports " + centerpoint);
 
                 // check if we have moved 66% from our last cache center point
                 if (currentcenter.GetDistance(centerpoint) < ((proximity / 3) * 2))
