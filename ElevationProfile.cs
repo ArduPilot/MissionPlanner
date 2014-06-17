@@ -15,9 +15,11 @@ namespace MissionPlanner
     public partial class ElevationProfile : Form
     {
         List<PointLatLngAlt> gelocs = new List<PointLatLngAlt>();
+        List<PointLatLngAlt> srtmlocs = new List<PointLatLngAlt>();
         List<PointLatLngAlt> planlocs = new List<PointLatLngAlt>();
         PointPairList list1 = new PointPairList();
         PointPairList list2 = new PointPairList();
+        PointPairList list3 = new PointPairList();
         int distance = 0;
         double homealt = 0;
 
@@ -49,9 +51,11 @@ namespace MissionPlanner
 
             this.homealt = homealt / MainV2.comPort.MAV.cs.multiplierdist;
 
-            Form frm = Common.LoadingBox("Loading", "Downloading Google Earth Data");
+            Form frm = Common.LoadingBox("Loading", "using srtm data");//Downloading Google Earth Data
 
             gelocs = getGEAltPath(planlocs);
+
+            srtmlocs = getSRTMAltPath(planlocs);
 
             frm.Close();
 
@@ -76,10 +80,11 @@ namespace MissionPlanner
 
                 list2.Add(a,geloc.Alt);
 
-                Console.WriteLine(geloc.Lng + "," + geloc.Lat + "," + geloc.Alt);
+                Console.WriteLine("GE "+geloc.Lng + "," + geloc.Lat + "," + geloc.Alt);
 
                 a+=increment;
             }
+
             // Planner Plot
             a=0;
             int count = 0;
@@ -101,6 +106,58 @@ namespace MissionPlanner
             }
             // draw graph
             CreateChart(zg1);
+        }
+
+        List<PointLatLngAlt> getSRTMAltPath(List<PointLatLngAlt> list)
+        {
+            List<PointLatLngAlt> answer = new List<PointLatLngAlt>();
+
+            PointLatLngAlt last = null;
+
+            double disttotal = 0;
+
+            foreach (PointLatLngAlt loc in list)
+            {
+                if (last == null)
+                {
+                    last = loc;
+                    continue;
+                }
+
+                double dist = last.GetDistance(loc);
+
+                int points = (int)(dist / 100)+1;
+
+                double deltalat = (last.Lat - loc.Lat);
+                double deltalng = (last.Lng - loc.Lng);
+
+                double steplat = deltalat / points;
+                double steplng = deltalng / points;
+
+                PointLatLngAlt lastpnt = last;
+
+                for (int a = 0; a <= points; a++)
+                {
+                    double lat = last.Lat - steplat * a;
+                    double lng = last.Lng - steplng * a;
+
+                    var newpoint = new PointLatLngAlt(lat, lng, srtm.getAltitude(lat, lng), "");
+
+                    double subdist = lastpnt.GetDistance(newpoint);
+
+                    disttotal += subdist;
+
+                    list3.Add(disttotal, newpoint.Alt);
+
+                    lastpnt = newpoint;
+                }
+
+                answer.Add(new PointLatLngAlt(loc.Lat, loc.Lng, srtm.getAltitude(loc.Lat, loc.Lng), ""));
+
+                last = loc;
+            }
+
+            return answer;
         }
 
         List<PointLatLngAlt> getGEAltPath(List<PointLatLngAlt> list)
@@ -126,7 +183,7 @@ namespace MissionPlanner
             }
             coords = coords.Remove(coords.Length - 1);
 
-            if (list.Count <= 2 || coords.Length > (2048 - 256) || distance > 50000)
+            if (list.Count < 2 || coords.Length > (2048 - 256) || distance > 50000)
             {
                 CustomMessageBox.Show("Too many/few WP's or to Big a Distance " + (distance / 1000) + "km", "Error");
                 return answer;
@@ -178,6 +235,7 @@ namespace MissionPlanner
 
             myCurve = myPane.AddCurve("Planner", list1, Color.Red, SymbolType.None);
             myCurve = myPane.AddCurve("GE", list2, Color.Green, SymbolType.None);
+            myCurve = myPane.AddCurve("SRTM", list3, Color.Blue, SymbolType.None);
 
             foreach (PointPair pp in list1)
             {
