@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 public partial class MAVLink
 {
-        public const string MAVLINK_BUILD_DATE = "Thu Jun 05 17:37:34 2014";
+        public const string MAVLINK_BUILD_DATE = "Sat Jun 21 12:14:05 2014";
         public const string MAVLINK_WIRE_PROTOCOL_VERSION = "1.0";
         public const int MAVLINK_MAX_DIALECT_PAYLOAD_SIZE = 255;
 
@@ -195,6 +195,10 @@ DEBUG = 254,
             PATHPLANNING=81, 
         	///<summary> Navigate to MISSION using a spline path. |Hold time in decimal seconds. (ignored by fixed wing, time to stay at MISSION for rotary wing)| Empty| Empty| Empty| Latitude/X of goal| Longitude/Y of goal| Altitude/Z of goal|  </summary>
             SPLINE_WAYPOINT=82, 
+        	///<summary> Pass control to an external controller. |Timeout in seconds.  The maximum amount of time that the external controller will be allowed to control the vehicle.  0 means no timeout| Altitude min. If vehicle moves below this altitude the command will be aborted and the mission will continue.  0 for no lower alt limit| Altitude max. If vehicle moves above this altitude the command will be aborted and the mission will continue.  0 for no upper alt limit| Horizontal move limit. If vehicle moves more than this distance from it's location at the moment the command was begun, the command will be aborted and the mission will continue.  0 for no horizontal movement limit| Empty| Empty| Empty|  </summary>
+            GUIDED=90, 
+        	///<summary> Navigate at the specified velocity |coordinate_frame - see MAV_FRAME enum| Empty| Empty| Empty| x velocity| y velocity| z velocity|  </summary>
+            VELOCITY=91, 
         	///<summary> NOP - This command is only used to mark the upper limit of the NAV/ACTION commands in the enumeration |Empty| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
             LAST=95, 
         	///<summary> Delay mission state machine. |Delay in seconds (decimal)| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>

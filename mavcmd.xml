@@ -74,6 +74,15 @@
       <Y></Y>
       <Z>Alt</Z>
     </TAKEOFF>
+    <GUIDED>
+    <P1>timeout S</P1>
+      <P2>min alt</P2>
+      <P3>max alt</P3>
+      <P4>max dist</P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </GUIDED>
     <ROI>
       <P1></P1>
       <P2></P2>
