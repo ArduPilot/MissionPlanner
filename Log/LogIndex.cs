@@ -22,12 +22,13 @@ namespace MissionPlanner.Log
 
         private void LogIndex_Load(object sender, EventArgs e)
         {
+            
             System.Threading.ThreadPool.QueueUserWorkItem(processbg, MainV2.LogDir);
         }
 
         void processbg(object directory)
         {
-            objectListView1.Clear();
+            this.Invoke((MethodInvoker)delegate { objectListView1.Clear(); });            
 
             string[] files = Directory.GetFiles(directory.ToString(), "*.tlog", SearchOption.AllDirectories);
 
@@ -54,7 +55,10 @@ namespace MissionPlanner.Log
                 logs.Add(loginfo);
             }
 
-            objectListView1.AddObjects(logs);
+            this.Invoke((MethodInvoker)delegate
+            {
+                objectListView1.AddObjects(logs);
+            });
         }
 
         public class loginfo
@@ -112,7 +116,8 @@ namespace MissionPlanner.Log
 
             if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                System.Threading.ThreadPool.QueueUserWorkItem(processbg, fbd.SelectedPath);
+                processbg(fbd.SelectedPath);
+                //System.Threading.ThreadPool.QueueUserWorkItem(processbg, fbd.SelectedPath);
             }
         }
     }

@@ -633,6 +633,7 @@ namespace MissionPlanner
 
         private void ResetConnectionStats()
         {
+            log.Info("Reset connection stats");
             // If the form has been closed, or never shown before, we need do nothing, as 
             // connection stats will be reset when shown
             if (this.connectionStatsForm != null && connectionStatsForm.Visible)
@@ -738,6 +739,8 @@ namespace MissionPlanner
         {
             comPort.giveComport = false;
 
+            log.Info("MenuConnect Start");
+
             // sanity check
             if (comPort.BaseStream.IsOpen && MainV2.comPort.MAV.cs.groundspeed > 4)
             {
@@ -749,6 +752,7 @@ namespace MissionPlanner
 
             try
             {
+                log.Info("Cleanup last logfiles");
                 // cleanup from any previous sessions
                 if (comPort.logfile != null)
                     comPort.logfile.Close();
@@ -767,6 +771,7 @@ namespace MissionPlanner
             // decide if this is a connect or disconnect
             if (comPort.BaseStream.IsOpen)
             {
+                log.Info("We are disconnecting");
                 try
                 {
                     if (speechEngine != null) // cancel all pending speech
@@ -818,6 +823,7 @@ namespace MissionPlanner
             }
             else
             {
+                log.Info("We are connecting");
                 switch (_connectionControl.CMB_serialport.Text)
                 {
                     case "TCP":
@@ -871,6 +877,7 @@ namespace MissionPlanner
                         _connectionControl.CMB_baudrate.Text = Comms.CommsSerialScan.portinterface.BaudRate.ToString();
                     }
 
+                    log.Info("Set Portname");
                     // set port, then options
                     comPort.BaseStream.PortName = _connectionControl.CMB_serialport.Text;
 
@@ -887,6 +894,7 @@ namespace MissionPlanner
                     // prevent serialreader from doing anything
                     comPort.giveComport = true;
 
+                    log.Info("About to do dtr if needed");
                     // reset on connect logic.
                     if (config["CHK_resetapmonconnect"] == null || bool.Parse(config["CHK_resetapmonconnect"].ToString()) == true)
                         comPort.BaseStream.toggleDTR();
