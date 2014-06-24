@@ -881,12 +881,16 @@ namespace MissionPlanner
                     // set port, then options
                     comPort.BaseStream.PortName = _connectionControl.CMB_serialport.Text;
 
+                    log.Info("Set Baudrate");
                     try
                     {
                         comPort.BaseStream.BaudRate = int.Parse(_connectionControl.CMB_baudrate.Text);
                     }
-                    catch (Exception exp) { log.Error(exp); }
+                    catch (Exception exp) {
+                        log.Error(exp); 
+                    }
 
+                    log.Info("set dtr rts to false");
                     // false here
                     comPort.BaseStream.DtrEnable = false;
                     comPort.BaseStream.RtsEnable = false;
