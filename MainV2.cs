@@ -519,6 +519,10 @@ namespace MissionPlanner
             if (config["logdirectory"] != null)
                 MainV2.LogDir = config["logdirectory"].ToString();
 
+            // create log dir if it doesnt exist
+            if (!Directory.Exists(MainV2.LogDir))
+                Directory.CreateDirectory(MainV2.LogDir);
+
             //System.Threading.Thread.Sleep(2000);
 
             // make sure new enough .net framework is installed
