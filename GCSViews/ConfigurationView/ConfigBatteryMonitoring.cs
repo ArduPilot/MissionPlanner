@@ -231,10 +231,20 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 TXT_divider.Text = (maxvolt / topvolt).ToString();
                 TXT_ampspervolt.Text = (maxamps / topamps).ToString();
             }
-            else if (selection == 5) // 3dr esc
+            else if (selection == 5) // 3dr 4 in one esc
             {
                 TXT_divider.Text = (12.02).ToString();
                 TXT_ampspervolt.Text = (17).ToString();
+            }
+            else if (selection == 6) // hv 3dr apm - what i have
+            {
+                TXT_divider.Text = (12.02).ToString();
+                TXT_ampspervolt.Text = (24).ToString();
+            }
+            else if (selection == 7) // hv 3dr px4
+            {
+                TXT_divider.Text = (12.02).ToString();
+                TXT_ampspervolt.Text = (33.52).ToString();
             }
 
             // enable to update
