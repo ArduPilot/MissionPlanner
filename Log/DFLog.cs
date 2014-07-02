@@ -249,6 +249,15 @@ namespace MissionPlanner.Log
                             }
                             catch { }
                         }
+                        else if (line.StartsWith("MAG"))
+                        {
+                            Array.Resize(ref items, items.Length + 1);
+                            try
+                            {
+                                int fixme;
+                            }
+                            catch { }
+                        }
 
                         DFItem item = new DFItem();
                         try

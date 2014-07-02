@@ -8,6 +8,7 @@ namespace MissionPlanner.Controls
     public class ProgressReporterSphere : ProgressReporterDialogue
     {
         private System.Windows.Forms.CheckBox CHK_rotate;
+        public Sphere sphere2;
         public Sphere sphere1;
 
         public ProgressReporterSphere()
@@ -19,17 +20,18 @@ namespace MissionPlanner.Controls
         {
             this.sphere1 = new MissionPlanner.Controls.Sphere();
             this.CHK_rotate = new System.Windows.Forms.CheckBox();
+            this.sphere2 = new MissionPlanner.Controls.Sphere();
             this.SuspendLayout();
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(199, 411);
+            this.btnCancel.Location = new System.Drawing.Point(472, 411);
             // 
             // sphere1
             // 
             this.sphere1.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.sphere1.BackColor = System.Drawing.Color.Black;
-            this.sphere1.Location = new System.Drawing.Point(13, 141);
+            this.sphere1.Location = new System.Drawing.Point(16, 141);
             this.sphere1.Name = "sphere1";
             this.sphere1.rotatewithdata = true;
             this.sphere1.Size = new System.Drawing.Size(263, 263);
@@ -49,15 +51,28 @@ namespace MissionPlanner.Controls
             this.CHK_rotate.UseVisualStyleBackColor = true;
             this.CHK_rotate.CheckedChanged += new System.EventHandler(this.CHK_rotate_CheckedChanged);
             // 
+            // sphere2
+            // 
+            this.sphere2.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.sphere2.BackColor = System.Drawing.Color.Black;
+            this.sphere2.Location = new System.Drawing.Point(285, 141);
+            this.sphere2.Name = "sphere2";
+            this.sphere2.rotatewithdata = true;
+            this.sphere2.Size = new System.Drawing.Size(263, 263);
+            this.sphere2.TabIndex = 8;
+            this.sphere2.VSync = false;
+            // 
             // ProgressReporterSphere
             // 
-            this.ClientSize = new System.Drawing.Size(292, 446);
+            this.ClientSize = new System.Drawing.Size(565, 446);
+            this.Controls.Add(this.sphere2);
             this.Controls.Add(this.CHK_rotate);
             this.Controls.Add(this.sphere1);
             this.Name = "ProgressReporterSphere";
             this.Controls.SetChildIndex(this.btnCancel, 0);
             this.Controls.SetChildIndex(this.sphere1, 0);
             this.Controls.SetChildIndex(this.CHK_rotate, 0);
+            this.Controls.SetChildIndex(this.sphere2, 0);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -66,6 +81,7 @@ namespace MissionPlanner.Controls
         private void CHK_rotate_CheckedChanged(object sender, EventArgs e)
         {
             sphere1.rotatewithdata = CHK_rotate.Checked;
+            sphere2.rotatewithdata = CHK_rotate.Checked;
         }
     }
 }
