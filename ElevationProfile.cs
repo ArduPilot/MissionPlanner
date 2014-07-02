@@ -183,7 +183,7 @@ namespace MissionPlanner
             }
             coords = coords.Remove(coords.Length - 1);
 
-            if (list.Count < 2 || coords.Length > (2048 - 256) || distance > 50000)
+            if (list.Count < 2 || coords.Length > (2048 - 256))
             {
                 CustomMessageBox.Show("Too many/few WP's or to Big a Distance " + (distance / 1000) + "km", "Error");
                 return answer;
