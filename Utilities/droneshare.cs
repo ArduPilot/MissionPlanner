@@ -24,7 +24,7 @@ namespace MissionPlanner.Utilities
             public static String DEFAULT_SERVER = "api.3drobotics.com";
 
 
-            public static String URL_BASE = "http://" + DEFAULT_SERVER;
+            public static String URL_BASE = "https://" + DEFAULT_SERVER;
 
 
             /**
