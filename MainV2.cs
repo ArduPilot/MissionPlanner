@@ -1072,9 +1072,147 @@ namespace MissionPlanner
             catch { }
         }
 
-        private void MainV2_FormClosed(object sender, FormClosedEventArgs e)
+        
+
+        /// <summary>
+        /// overriding the OnCLosing is a bit cleaner than handling the event, since it 
+        /// is this object.
+        /// 
+        /// This happens before FormClosed
+        /// </summary>
+        /// <param name="e"></param>
+        protected override void OnClosing(CancelEventArgs e)
         {
+            base.OnClosing(e);
+
+            log.Info("MainV2_FormClosing");
+
+            config["MainHeight"] = this.Height;
+            config["MainWidth"] = this.Width;
+            config["MainMaximised"] = this.WindowState.ToString();
+
+            config["MainLocX"] = this.Location.X.ToString();
+            config["MainLocY"] = this.Location.Y.ToString();
+
+            try
+            {
+                comPort.logreadmode = false;
+                if (comPort.logfile != null)
+                    comPort.logfile.Close();
+
+                if (comPort.rawlogfile != null)
+                    comPort.rawlogfile.Close();
+
+                comPort.logfile = null;
+                comPort.rawlogfile = null;
+            }
+            catch { }
+
+            Utilities.adsb.Stop();
+
+            Warnings.WarningEngine.Stop();
+
+            // shutdown threads
+            GCSViews.FlightData.threadrun = 0;
+
+            log.Info("closing pluginthread");
+
+            pluginthreadrun = false;
+
+            PluginThreadrunner.WaitOne();
+
+            log.Info("closing serialthread");
+
+            // shutdown local thread
+            serialThread = false;
+
+          //  SerialThreadrunner.WaitOne();
+
+            joystickthreadrun = false;
+
+            log.Info("sorting tlogs");
+            try
+            {
+                System.Threading.ThreadPool.QueueUserWorkItem((WaitCallback)delegate
+                {
+                    try
+                    {
+                        MissionPlanner.Log.LogSort.SortLogs(Directory.GetFiles(MainV2.LogDir, "*.tlog"));
+                    }
+                    catch { }
+                }
+                );
+            }
+            catch { }
+
+            log.Info("closing MyView");
+
+            // close all tabs
+            MyView.Dispose();
+
+            log.Info("closing fd");
+            try
+            {
+                FlightData.Dispose();
+            }
+            catch { }
+            log.Info("closing fp");
+            try
+            {
+                FlightPlanner.Dispose();
+            }
+            catch { }
+            log.Info("closing sim");
+            try
+            {
+                Simulation.Dispose();
+            }
+            catch { }
+
+            try
+            {
+                if (comPort.BaseStream.IsOpen)
+                    comPort.Close();
+            }
+            catch { } // i get alot of these errors, the port is still open, but not valid - user has unpluged usb
+
+            log.Info("save config");
+            // save config
+            xmlconfig(true);
+
+            httpserver.run = false;
+            httpserver.tcpClientConnected.Set();
+
+            Console.WriteLine(httpthread.IsAlive);
+            Console.WriteLine(joystickthread.IsAlive);
+            Console.WriteLine(serialreaderthread.IsAlive);
+            Console.WriteLine(pluginthread.IsAlive);
+
+            log.Info("MainV2_FormClosing done");
+
+            if (MONO)
+                this.Dispose();
+        }
+
+
+        /// <summary>
+        /// this happens after FormClosing...
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            base.OnFormClosed(e);
+            
             Console.WriteLine("MainV2_FormClosed");
+
+            if (joystick != null)
+            {
+                while (!joysendThreadExited)
+                    Thread.Sleep(10);
+
+                joystick.Dispose();//proper clean up of joystick.
+            }
         }
 
 
@@ -1184,6 +1322,11 @@ namespace MissionPlanner
         }
 
         /// <summary>
+        /// needs to be true by default so that exits properly if no joystick used.
+        /// </summary>
+        volatile private bool joysendThreadExited = true;
+
+        /// <summary>
         /// thread used to send joystick packets to the MAV
         /// </summary>
         private void joysticksend()
@@ -1197,6 +1340,8 @@ namespace MissionPlanner
 
             while (joystickthreadrun)
             {
+                joysendThreadExited = false;
+                //so we know this thread is stil alive.           
                 try
                 {
                     if (MONO)
@@ -1282,6 +1427,7 @@ namespace MissionPlanner
 
                 } // cant fall out
             }
+            joysendThreadExited = true;//so we know this thread exited.    
         }
 
         /// <summary>
@@ -1724,7 +1870,7 @@ namespace MissionPlanner
             SerialThreadrunner.Set();
         }
 
-        private void MainV2_Load(object sender, EventArgs e)
+        protected override void OnLoad(EventArgs e)
         {
             // check if its defined, and force to show it if not known about
             if (config["menu_autohide"] == null)
@@ -1753,13 +1899,13 @@ namespace MissionPlanner
 
             if (Program.Logo != null && Program.vvvvz)
             {
-                MenuFlightPlanner_Click(sender, e);
-                MainMenu_ItemClicked(sender, new ToolStripItemClickedEventArgs(MenuFlightPlanner));
+                MenuFlightPlanner_Click(this, e);
+                MainMenu_ItemClicked(this, new ToolStripItemClickedEventArgs(MenuFlightPlanner));
             }
             else
             {
-                MenuFlightData_Click(sender, e);
-                MainMenu_ItemClicked(sender, new ToolStripItemClickedEventArgs(MenuFlightData));
+                MenuFlightData_Click(this, e);
+                MainMenu_ItemClicked(this, new ToolStripItemClickedEventArgs(MenuFlightData));
             }
 
             this.ResumeLayout();
@@ -2108,116 +2254,6 @@ namespace MissionPlanner
             }
         }
 
-        private void MainV2_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            log.Info("MainV2_FormClosing");
-
-            config["MainHeight"] = this.Height;
-            config["MainWidth"] = this.Width;
-            config["MainMaximised"] = this.WindowState.ToString();
-
-            config["MainLocX"] = this.Location.X.ToString();
-            config["MainLocY"] = this.Location.Y.ToString();
-
-            try
-            {
-                comPort.logreadmode = false;
-                if (comPort.logfile != null)
-                    comPort.logfile.Close();
-
-                if (comPort.rawlogfile != null)
-                    comPort.rawlogfile.Close();
-
-                comPort.logfile = null;
-                comPort.rawlogfile = null;
-            }
-            catch { }
-
-            Utilities.adsb.Stop();
-
-            Warnings.WarningEngine.Stop();
-
-            // shutdown threads
-            GCSViews.FlightData.threadrun = 0;
-
-            log.Info("closing pluginthread");
-
-            pluginthreadrun = false;
-
-            PluginThreadrunner.WaitOne();
-
-            log.Info("closing serialthread");
-
-            // shutdown local thread
-            serialThread = false;
-
-          //  SerialThreadrunner.WaitOne();
-
-            joystickthreadrun = false;
-
-            log.Info("sorting tlogs");
-            try
-            {
-                System.Threading.ThreadPool.QueueUserWorkItem((WaitCallback)delegate
-                {
-                    try
-                    {
-                        MissionPlanner.Log.LogSort.SortLogs(Directory.GetFiles(MainV2.LogDir, "*.tlog"));
-                    }
-                    catch { }
-                }
-                );
-            }
-            catch { }
-
-            log.Info("closing MyView");
-
-            // close all tabs
-            MyView.Dispose();
-
-            log.Info("closing fd");
-            try
-            {
-                FlightData.Dispose();
-            }
-            catch { }
-            log.Info("closing fp");
-            try
-            {
-                FlightPlanner.Dispose();
-            }
-            catch { }
-            log.Info("closing sim");
-            try
-            {
-                Simulation.Dispose();
-            }
-            catch { }
-
-            try
-            {
-                if (comPort.BaseStream.IsOpen)
-                    comPort.Close();
-            }
-            catch { } // i get alot of these errors, the port is still open, but not valid - user has unpluged usb
-
-            log.Info("save config");
-            // save config
-            xmlconfig(true);
-
-            httpserver.run = false;
-            httpserver.tcpClientConnected.Set();
-
-            Console.WriteLine(httpthread.IsAlive);
-            Console.WriteLine(joystickthread.IsAlive);
-            Console.WriteLine(serialreaderthread.IsAlive);
-            Console.WriteLine(pluginthread.IsAlive);
-
-            log.Info("MainV2_FormClosing done");
-
-            if (MONO)
-                this.Dispose();
-        }
 
         public static string getConfig(string paramname)
         {
@@ -2585,8 +2621,6 @@ namespace MissionPlanner
         private void readonlyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MainV2.comPort.ReadOnly = readonlyToolStripMenuItem.Checked;
-        }
-
-     
+        }    
     }
 }
