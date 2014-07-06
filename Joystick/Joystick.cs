@@ -90,16 +90,41 @@ namespace MissionPlanner.Joystick
        //     Mount_Control
         }
 
-        ~Joystick()
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+        /// <summary>
+        /// Implement reccomended best practice dispose pattern
+        /// http://msdn.microsoft.com/en-us/library/b1yfkh5e%28v=vs.110%29.aspx
+        /// </summary>
+        /// <param name="disposing"></param>
+        virtual protected void Dispose(bool disposing)
         {
             try
             {
-                if (joystick != null)
-                    if (joystick.Properties != null)
+                //not sure if this is a problem from the finalizer?
+                if (disposing && joystick != null && joystick.Properties != null)
                         joystick.Unacquire();
             }
-            catch { }       
+            catch { }
+
+            try
+            {
+                if (disposing && joystick != null)
+                    joystick.Dispose();
+            }
+            catch { }
+            
+            //tell gc not to call finalize, this object will be GC'd quicker now.
+            GC.SuppressFinalize(this);
         }
+        //no need for finalizer...
+        //~Joystick()
+        //{
+        //    Dispose(false);
+        //}
 
         public Joystick()
         {
@@ -1079,10 +1104,5 @@ namespace MissionPlanner.Joystick
             return value;
         }
 
-        public void Dispose()
-        {
-            if (joystick != null)
-                joystick.Dispose();
-        }
     }
 }
