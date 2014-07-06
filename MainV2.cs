@@ -894,10 +894,13 @@ namespace MissionPlanner
                         log.Error(exp); 
                     }
 
-                    log.Info("set dtr rts to false");
-                    // false here
-                    comPort.BaseStream.DtrEnable = false;
-                    comPort.BaseStream.RtsEnable = false;
+                    // apm reset preset
+                    if (config["CHK_resetapmonconnect"] == null || bool.Parse(config["CHK_resetapmonconnect"].ToString()) == true)
+                    {
+                        log.Info("set dtr rts to false");
+                        comPort.BaseStream.DtrEnable = false;
+                        comPort.BaseStream.RtsEnable = false;
+                    }
 
                     // prevent serialreader from doing anything
                     comPort.giveComport = true;
