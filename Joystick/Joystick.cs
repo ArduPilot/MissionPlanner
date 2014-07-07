@@ -1103,11 +1103,5 @@ namespace MissionPlanner.Joystick
                 return min;
             return value;
         }
-
-        public void Dispose()
-        {
-            if (joystick != null)
-                joystick.Dispose();
-        }
     }
 }
