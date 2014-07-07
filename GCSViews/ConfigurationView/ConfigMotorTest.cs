@@ -78,7 +78,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
 
                 MyButton but = new MyButton();
-                but.Text = "Test motor " + a;
+                but.Text = "Test motor " + (char)((a-1) + 'A');
                 but.Location = new Point(x,y);
                 but.Click += but_Click;
                 but.Tag = a;
