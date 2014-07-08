@@ -1286,7 +1286,7 @@ namespace MissionPlanner.GCSViews
                         MainV2.comPort.sendPacket(hilstate);
                     }
                 }
-                catch (Exception e) { log.Info("Quad hill error " + e.ToString()); }
+                catch (Exception e) { log.Info("Quad hil error " + e.ToString()); }
 
                 byte[] FlightGear = new byte[8 * 11];// StructureToByteArray(fg);
 

@@ -378,7 +378,7 @@ namespace MissionPlanner.HIL
         {
             for (int i = 0; i < servos.Length; i++)
             {
-                var servo = servos[(int)self.motors[i].servo - 1];
+                var servo = servos[(int)self.motors[i].servo];
                 if (servo <= 0.0)
                 {
                     motor_speed[i] = 0;
