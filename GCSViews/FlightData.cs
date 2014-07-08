@@ -2568,8 +2568,10 @@ namespace MissionPlanner.GCSViews
                 return;
             }
 
-            MainV2.comPort.setMountConfigure(MAVLink.MAV_MOUNT_MODE.GPS_POINT, true, true, true);
-            MainV2.comPort.setMountControl(MouseDownStart.Lat, MouseDownStart.Lng, (int)(intalt / MainV2.comPort.MAV.cs.multiplierdist), true);
+            //MainV2.comPort.setMountConfigure(MAVLink.MAV_MOUNT_MODE.GPS_POINT, true, true, true);
+            //MainV2.comPort.setMountControl(MouseDownStart.Lat, MouseDownStart.Lng, (int)(intalt / MainV2.comPort.MAV.cs.multiplierdist), true);
+
+            MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_ROI, 0, 0, 0, 0, (float)MouseDownStart.Lat, (float)MouseDownStart.Lng, (float)(intalt / MainV2.comPort.MAV.cs.multiplierdist));
 
         }
 
