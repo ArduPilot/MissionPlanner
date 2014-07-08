@@ -1184,6 +1184,20 @@ namespace ZedGraph
 
         private void HandleZoomDrag(Point mousePt)
         {
+            // Hide the previous rectangle by calling the
+            // DrawReversibleFrame method with the same parameters.
+            Rectangle rect = CalcScreenRect(_dragStartPt, _dragEndPt);
+            ControlPaint.DrawReversibleFrame(rect, this.BackColor, FrameStyle.Dashed);
+
+            // Bound the zoom to the ChartRect
+            _dragEndPt = Point.Round(BoundPointToRect(mousePt, _dragPane.Chart._rect));
+            rect = CalcScreenRect(_dragStartPt, _dragEndPt);
+            // Draw the new rectangle by calling DrawReversibleFrame again.
+            ControlPaint.DrawReversibleFrame(rect, this.BackColor, FrameStyle.Dashed);
+        }
+        /*
+        private void HandleZoomDrag(Point mousePt)
+        {
             using (Graphics g = Graphics.FromHwnd(this.Handle))
             {
                 // Hide the previous rectangle by calling the
@@ -1199,7 +1213,7 @@ namespace ZedGraph
                 ReversibleFrame.Draw(g, this.BackColor, rect);
             }
         }
-
+        */
 		private const double ZoomResolution = 1e-300;
 
 		private void HandleZoomFinish( object sender, MouseEventArgs e )
