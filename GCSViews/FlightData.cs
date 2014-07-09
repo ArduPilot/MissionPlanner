@@ -3201,7 +3201,7 @@ namespace MissionPlanner.GCSViews
                     CustomMessageBox.Show("Bad input file");
                 }
 
-                if (newlogfile != "")
+                if (!String.IsNullOrEmpty(newlogfile))
                 {
                     File.Delete(newlogfile);
                 }
