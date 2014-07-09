@@ -1355,6 +1355,7 @@ namespace MissionPlanner.GCSViews
             SaveFileDialog fd = new SaveFileDialog();
             fd.Filter = "Ardupilot Mission (*.txt)|*.*";
             fd.DefaultExt = ".txt";
+            fd.FileName = wpfilename;
             DialogResult result = fd.ShowDialog();
             string file = fd.FileName;
             if (file != "")
@@ -2121,6 +2122,7 @@ namespace MissionPlanner.GCSViews
                 }
                 else
                 {
+                    wpfilename = file;
                     readQGC110wpfile(file);
                 }
             }
@@ -4948,6 +4950,8 @@ namespace MissionPlanner.GCSViews
 
             writeKML();
         }
+
+        internal string wpfilename;
 
         private void loadWPFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
