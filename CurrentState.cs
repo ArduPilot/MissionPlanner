@@ -916,6 +916,24 @@ namespace MissionPlanner
                         //MAVLink.packets[(byte)MAVLink.MSG_NAMES.GPS_RAW] = null;
                     }
 
+                    bytearray = mavinterface.MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.GPS2_RAW];
+                    if (bytearray != null)
+                    {
+                        var gps = bytearray.ByteArrayToStructure<MAVLink.mavlink_gps2_raw_t>(6);
+
+                        lat2 = gps.lat * 1.0e-7f;
+                        lng2 = gps.lon * 1.0e-7f;
+                        altasl2 = gps.alt / 1000.0f;
+
+                        gpsstatus2 = gps.fix_type;
+                        gpshdop2 = (float)Math.Round((double)gps.eph / 100.0, 2);
+
+                        satcount2 = gps.satellites_visible;
+
+                        groundspeed2 = gps.vel * 1.0e-2f;
+                        groundcourse2 = gps.cog * 1.0e-2f;
+                    }
+
                     bytearray = mavinterface.MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.GPS_STATUS];
                     if (bytearray != null)
                     {
@@ -1273,5 +1291,21 @@ namespace MissionPlanner
 
         public float gimballat { get { if (GimbalPoint == null) return 0; return (float)GimbalPoint.Lat; } }
         public float gimballng { get { if (GimbalPoint == null) return 0; return (float)GimbalPoint.Lng; } }
+
+        public float lat2 { get; set; }
+
+        public float lng2 { get; set; }
+
+        public float altasl2 { get; set; }
+
+        public byte gpsstatus2 { get; set; }
+
+        public float gpshdop2 { get; set; }
+
+        public byte satcount2 { get; set; }
+
+        public float groundspeed2 { get; set; }
+
+        public float groundcourse2 { get; set; }
     }
 }
