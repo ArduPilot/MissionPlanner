@@ -70,6 +70,8 @@ namespace MissionPlanner.Utilities
                 //if (m2pixelheight > 0.5)
                     g.DrawArc(Pen, new System.Drawing.Rectangle(LocalPosition.X - Offset.X - (int)(Math.Abs(loc.X - LocalPosition.X) / 2), LocalPosition.Y - Offset.Y - (int)Math.Abs(loc.X - LocalPosition.X) / 2, (int)Math.Abs(loc.X - LocalPosition.X), (int)Math.Abs(loc.X - LocalPosition.X)), 0, 360);
 
+                    g.FillPie(new SolidBrush(Color.FromArgb(25,Color.Red)), LocalPosition.X - Offset.X - (int)(Math.Abs(loc.X - LocalPosition.X) / 2), LocalPosition.Y - Offset.Y - (int)Math.Abs(loc.X - LocalPosition.X) / 2,  Math.Abs(loc.X - LocalPosition.X), Math.Abs(loc.X - LocalPosition.X), 0, 360);
+
             }
         
     }
