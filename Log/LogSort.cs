@@ -1,13 +1,17 @@
-﻿using System;
+﻿using log4net;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace MissionPlanner.Log
 {
     class LogSort
     {
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         public static void SortLogs(string[] logs)
         {
             foreach (var logfile in logs)
@@ -34,6 +38,8 @@ namespace MissionPlanner.Log
                         if (!Directory.Exists(destdir))
                             Directory.CreateDirectory(destdir);
 
+                        log.Info("Move log small " + logfile + " to " + destdir + Path.GetFileName(logfile));
+
                         File.Move(logfile, destdir + Path.GetFileName(logfile));
                         File.Move(logfile.Replace(".tlog", ".rlog"), destdir + Path.GetFileName(logfile).Replace(".tlog", ".rlog"));
                     }
@@ -59,6 +65,8 @@ namespace MissionPlanner.Log
                             if (!Directory.Exists(Path.GetDirectoryName(logfile) + Path.DirectorySeparatorChar + "BAD"))
                                 Directory.CreateDirectory(Path.GetDirectoryName(logfile) + Path.DirectorySeparatorChar + "BAD");
 
+                            log.Info("Move log bad " + logfile + " to " + Path.GetDirectoryName(logfile) + Path.DirectorySeparatorChar + "BAD" + Path.DirectorySeparatorChar + Path.GetFileName(logfile));
+
                             File.Move(logfile, Path.GetDirectoryName(logfile) + Path.DirectorySeparatorChar + "BAD" + Path.DirectorySeparatorChar + Path.GetFileName(logfile));
                             continue;
                         }
@@ -74,6 +82,8 @@ namespace MissionPlanner.Log
 
                         if (!Directory.Exists(destdir))
                             Directory.CreateDirectory(destdir);
+
+                        log.Info("Move log " + logfile + " to " + destdir + Path.GetFileName(logfile));
 
                         File.Move(logfile, destdir + Path.GetFileName(logfile));
 
