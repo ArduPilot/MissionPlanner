@@ -140,7 +140,7 @@ namespace MissionPlanner.SimpleGrid
 
             plugin.Host.FPDrawnPolygon.Points.ForEach(x => { list.Add(x); });
 
-            grid = Grid.CreateGrid(list, (double)NUM_altitude.Value, (double)NUM_Distance.Value, 999999, (double)NUM_angle.Value, (double)NUM_overshoot.Value, (double)NUM_overshoot2.Value, (Grid.StartPosition)Enum.Parse(typeof(Grid.StartPosition), CMB_startfrom.Text), false);
+            grid = Grid.CreateGrid(list, (double)NUM_altitude.Value, (double)NUM_Distance.Value, (double)NUM_spacing.Value, (double)NUM_angle.Value, (double)NUM_overshoot.Value, (double)NUM_overshoot2.Value, (Grid.StartPosition)Enum.Parse(typeof(Grid.StartPosition), CMB_startfrom.Text), false);
 
             List<PointLatLng> list2 = new List<PointLatLng>();
 
@@ -166,6 +166,11 @@ namespace MissionPlanner.SimpleGrid
             {
                 if (item.Tag == "M")
                 {
+                    if (CHK_internals.Checked)
+                    {
+                        layerpolygons.Markers.Add(new GMarkerGoogle(item, GMarkerGoogleType.green) { ToolTipText = a.ToString(), ToolTipMode = MarkerTooltipMode.Always });
+                        a++;
+                    }
                 }
                 else
                 {
@@ -261,6 +266,8 @@ namespace MissionPlanner.SimpleGrid
                 {
                     if (plla.Tag == "M")
                     {
+                        if (CHK_internals.Checked)
+                            plugin.Host.AddWPtoList(MAVLink.MAV_CMD.WAYPOINT, 0, 0, 0, 0, plla.Lng, plla.Lat, plla.Alt);
                     }
                     else
                     {
