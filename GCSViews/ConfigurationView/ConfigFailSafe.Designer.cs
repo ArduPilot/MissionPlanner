@@ -47,13 +47,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.mavlinkCheckBoxthr_fs = new MissionPlanner.Controls.MavlinkCheckBox();
             this.mavlinkComboBox_fs_thr_enable = new MissionPlanner.Controls.MavlinkComboBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.mavlinkComboBoxfs_batt_enable = new MissionPlanner.Controls.MavlinkComboBox();
             this.mavlinkCheckBoxFS_GCS_ENABLE = new MissionPlanner.Controls.MavlinkCheckBox();
             this.pnlmah = new System.Windows.Forms.Panel();
             this.label5 = new System.Windows.Forms.Label();
             this.mavlinkNumericUpDownFS_BATT_MAH = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.PNL_low_bat = new System.Windows.Forms.Panel();
             this.label4 = new System.Windows.Forms.Label();
-            this.mavlinkCheckBoxfs_batt_enable = new MissionPlanner.Controls.MavlinkCheckBox();
             this.PNL_thr_fs_value = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
             this.lbl_armed = new MissionPlanner.Controls.MyLabel();
@@ -229,10 +229,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.mavlinkComboBoxfs_batt_enable);
             this.groupBox1.Controls.Add(this.mavlinkCheckBoxFS_GCS_ENABLE);
             this.groupBox1.Controls.Add(this.pnlmah);
             this.groupBox1.Controls.Add(this.PNL_low_bat);
-            this.groupBox1.Controls.Add(this.mavlinkCheckBoxfs_batt_enable);
             this.groupBox1.Controls.Add(this.PNL_thr_fs_value);
             this.groupBox1.Controls.Add(this.mavlinkCheckBoxlong_fs);
             this.groupBox1.Controls.Add(this.mavlinkCheckBoxshort_fs);
@@ -243,6 +243,15 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
+            // 
+            // mavlinkComboBoxfs_batt_enable
+            // 
+            resources.ApplyResources(this.mavlinkComboBoxfs_batt_enable, "mavlinkComboBoxfs_batt_enable");
+            this.mavlinkComboBoxfs_batt_enable.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.mavlinkComboBoxfs_batt_enable.FormattingEnabled = true;
+            this.mavlinkComboBoxfs_batt_enable.Name = "mavlinkComboBoxfs_batt_enable";
+            this.mavlinkComboBoxfs_batt_enable.param = null;
+            this.mavlinkComboBoxfs_batt_enable.ParamName = null;
             // 
             // mavlinkCheckBoxFS_GCS_ENABLE
             // 
@@ -297,16 +306,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             resources.ApplyResources(this.label4, "label4");
             this.label4.Name = "label4";
-            // 
-            // mavlinkCheckBoxfs_batt_enable
-            // 
-            resources.ApplyResources(this.mavlinkCheckBoxfs_batt_enable, "mavlinkCheckBoxfs_batt_enable");
-            this.mavlinkCheckBoxfs_batt_enable.Name = "mavlinkCheckBoxfs_batt_enable";
-            this.mavlinkCheckBoxfs_batt_enable.OffValue = 0F;
-            this.mavlinkCheckBoxfs_batt_enable.OnValue = 1F;
-            this.mavlinkCheckBoxfs_batt_enable.param = null;
-            this.mavlinkCheckBoxfs_batt_enable.ParamName = null;
-            this.mavlinkCheckBoxfs_batt_enable.UseVisualStyleBackColor = true;
             // 
             // PNL_thr_fs_value
             // 
@@ -642,7 +641,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private Controls.MyLabel lbl_armed;
         private Controls.MyLabel lbl_gpslock;
         private System.Windows.Forms.Panel PNL_thr_fs_value;
-        private Controls.MavlinkCheckBox mavlinkCheckBoxfs_batt_enable;
         private Controls.MavlinkComboBox mavlinkComboBox_fs_thr_enable;
         private Controls.MavlinkNumericUpDown mavlinkNumericUpDownlow_voltage;
         private Controls.MavlinkNumericUpDown mavlinkNumericUpDownfs_thr_value;
@@ -652,5 +650,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private System.Windows.Forms.Panel pnlmah;
         private System.Windows.Forms.Label label5;
         private MavlinkNumericUpDown mavlinkNumericUpDownFS_BATT_MAH;
+        private MavlinkComboBox mavlinkComboBoxfs_batt_enable;
     }
 }
