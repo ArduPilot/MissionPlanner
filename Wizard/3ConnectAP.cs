@@ -133,6 +133,9 @@ namespace MissionPlanner.Wizard
                 if (Wizard.config["fwtype"].ToString() == "copter")
                     // check if its a quad, and show the frame type screen
                     return 1;
+                if (Wizard.config["fwtype"].ToString() == "rover")
+                    // check if its a rover, and show the compass cal screen - skip accel
+                    return 3;
                 else
                     // skip the frame type screen as its not valid for anythine else
                     return 2;
