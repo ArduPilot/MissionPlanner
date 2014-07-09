@@ -310,7 +310,7 @@ namespace MissionPlanner
                 if (dist < 5)
                     return 0;
 
-                float altdiff = (float)(_alt - TrackerLocation.Alt);
+                float altdiff = (float)(_altasl - TrackerLocation.Alt);
 
                 float angle = (float)Math.Atan(altdiff / dist) * rad2deg;
 
