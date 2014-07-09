@@ -759,7 +759,7 @@ namespace MissionPlanner
                 //    mm  / pixels * 100
                 TXT_cmpixel = ((viewheight / imageheight) * 100);
 
-                if (RAD_camdirectionport.Checked)
+                if (!RAD_camdirectionport.Checked)
                 {
                     NUM_spacing = ((1 - (overlap / 100.0f)) * viewheight);
                     NUM_Distance = ((1 - (sidelap / 100.0f)) * viewwidth);
@@ -799,6 +799,8 @@ namespace MissionPlanner
             xmlaircraft();
 
             loadsettings();
+
+            domainUpDown1_ValueChanged(null, null);
         }
 
         private void TXT_TextChanged(object sender, EventArgs e)
@@ -846,6 +848,11 @@ namespace MissionPlanner
             }
 
             doCalc();
+        }
+
+        private void TBAR_zoom_Scroll(object sender, EventArgs e)
+        {
+            NUM_altitude.Value = TBAR_zoom.Value;
         }
     }
 }

@@ -35,8 +35,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.NUM_altitude = new System.Windows.Forms.NumericUpDown();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
+            this.TBAR_zoom = new System.Windows.Forms.TrackBar();
             this.chk_includeland = new System.Windows.Forms.CheckBox();
             this.label24 = new System.Windows.Forms.Label();
             this.numericUpDownFlySpeed = new System.Windows.Forms.NumericUpDown();
@@ -81,9 +80,12 @@
             this.NUM_minspd = new System.Windows.Forms.NumericUpDown();
             this.label2 = new System.Windows.Forms.Label();
             this.CMB_aircraft = new System.Windows.Forms.ComboBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_angle)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_altitude)).BeginInit();
             this.groupBox6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.TBAR_zoom)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownFlySpeed)).BeginInit();
             this.groupBox4.SuspendLayout();
             this.groupBox5.SuspendLayout();
@@ -152,8 +154,9 @@
             // 
             // groupBox6
             // 
-            this.groupBox6.Controls.Add(this.radioButton2);
-            this.groupBox6.Controls.Add(this.radioButton1);
+            this.groupBox6.Controls.Add(this.label7);
+            this.groupBox6.Controls.Add(this.label6);
+            this.groupBox6.Controls.Add(this.TBAR_zoom);
             this.groupBox6.Controls.Add(this.chk_includeland);
             this.groupBox6.Controls.Add(this.label24);
             this.groupBox6.Controls.Add(this.numericUpDownFlySpeed);
@@ -166,21 +169,16 @@
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.TabStop = false;
             // 
-            // radioButton2
+            // TBAR_zoom
             // 
-            resources.ApplyResources(this.radioButton2, "radioButton2");
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.TabStop = true;
-            this.radioButton2.UseVisualStyleBackColor = true;
-            this.radioButton2.CheckedChanged += new System.EventHandler(this.domainUpDown1_ValueChanged);
-            // 
-            // radioButton1
-            // 
-            resources.ApplyResources(this.radioButton1, "radioButton1");
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.TabStop = true;
-            this.radioButton1.UseVisualStyleBackColor = true;
-            this.radioButton1.CheckedChanged += new System.EventHandler(this.domainUpDown1_ValueChanged);
+            resources.ApplyResources(this.TBAR_zoom, "TBAR_zoom");
+            this.TBAR_zoom.Maximum = 400;
+            this.TBAR_zoom.Minimum = 10;
+            this.TBAR_zoom.Name = "TBAR_zoom";
+            this.TBAR_zoom.TickFrequency = 5;
+            this.TBAR_zoom.TickStyle = System.Windows.Forms.TickStyle.TopLeft;
+            this.TBAR_zoom.Value = 100;
+            this.TBAR_zoom.Scroll += new System.EventHandler(this.TBAR_zoom_Scroll);
             // 
             // chk_includeland
             // 
@@ -570,6 +568,16 @@
             this.CMB_aircraft.Name = "CMB_aircraft";
             this.CMB_aircraft.SelectedIndexChanged += new System.EventHandler(this.CMB_aircraft_SelectedIndexChanged);
             // 
+            // label6
+            // 
+            resources.ApplyResources(this.label6, "label6");
+            this.label6.Name = "label6";
+            // 
+            // label7
+            // 
+            resources.ApplyResources(this.label7, "label7");
+            this.label7.Name = "label7";
+            // 
             // GridUIv2
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -585,6 +593,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUM_altitude)).EndInit();
             this.groupBox6.ResumeLayout(false);
             this.groupBox6.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.TBAR_zoom)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownFlySpeed)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
@@ -649,13 +658,14 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.ComboBox CMB_aircraft;
         private System.Windows.Forms.CheckBox chk_includeland;
-        private System.Windows.Forms.RadioButton radioButton1;
-        private System.Windows.Forms.RadioButton radioButton2;
         private System.Windows.Forms.NumericUpDown NUM_maxflttime;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.NumericUpDown NUM_maxspd;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.NumericUpDown NUM_minspd;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TrackBar TBAR_zoom;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label6;
     }
 }
