@@ -1,4 +1,30 @@
-﻿* Mission Planner 1.3.5
+﻿* Mission Planner 1.3.6
+fix otp failure types
+update zh-hans thanks bys1123
+add poi to FD and FP
+fix udp reader for split packets
+add shp to poly converter with reprojection
+update mavlink library
+add DO_INVERTED_FLIGHT
+fix gimbal pan max
+use srtm for verify alt
+add droneshare support
+updated geotag tool by Jesus
+add gimbal point lib
+zedgraph zoom fix
+add maplog generation
+mag calib/sphere updates
+gmaps update
+wip survey grid v2
+add srtm data to elevation graph
+add vrbrain support by lukemike
+add spline circle
+new battery sensor
+fix bluetooth issues by FenomPL
+joystick library disposal fixs by jasells
+change motor numbers to letters in motor test
+
+* Mission Planner 1.3.5
 add magcalib bypass
 fix magcalib
 
