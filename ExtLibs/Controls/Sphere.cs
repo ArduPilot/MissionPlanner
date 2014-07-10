@@ -221,9 +221,9 @@ namespace MissionPlanner.Controls
                     float rangey = maxy - miny;
                     float rangez = maxz - minz;
 
-                    int valuex = (int)Math.Abs((((item.X ) / rangex) * 255)) % 255;
-                    int valuey = (int)Math.Abs((((item.Y ) / rangey) * 255)) % 255;
-                    int valuez = (int)Math.Abs((((item.Z ) / rangez) * 255)) % 255;
+                    int valuex = (int)Math.Abs((((item.X ) / rangex) * 254)) & 0xff;
+                    int valuey = (int)Math.Abs((((item.Y) / rangey) * 254)) & 0xff;
+                    int valuez = (int)Math.Abs((((item.Z) / rangez) * 254)) & 0xff;
 
                     Color col = Color.FromArgb(valuex, valuey, valuez);
 
