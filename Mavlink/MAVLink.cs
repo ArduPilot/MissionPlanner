@@ -3232,6 +3232,21 @@ Please check the following
             return false;
         }
 
+        public enum sensoroffsetsenum
+        {
+            gyro = 0,
+            accelerometer=1,
+            magnetometer=2,
+            barometer=3,
+            optical_flow=4,
+            second_magnetometer=5
+        }
+
+        public bool SetSensorOffsets(sensoroffsetsenum sensor, float x, float y, float z)
+        {
+            return doCommand(MAV_CMD.PREFLIGHT_SET_SENSOR_OFFSETS,(int)sensor,x,y,z,0,0,0);
+        }
+
         byte[] readlogPacket()
         {
             byte[] temp = new byte[300];
