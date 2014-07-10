@@ -744,7 +744,7 @@ namespace MissionPlanner
                             armed = (hb.base_mode & (byte)MAVLink.MAV_MODE_FLAG.SAFETY_ARMED) == (byte)MAVLink.MAV_MODE_FLAG.SAFETY_ARMED;
 
                             // for future use
-                            bool landed = hb.system_status == (byte)MAVLink.MAV_STATE.STANDBY;
+                            landed = hb.system_status == (byte)MAVLink.MAV_STATE.STANDBY;
 
                             failsafe = hb.system_status == (byte)MAVLink.MAV_STATE.CRITICAL;
 
@@ -1307,5 +1307,7 @@ namespace MissionPlanner
         public float groundspeed2 { get; set; }
 
         public float groundcourse2 { get; set; }
+
+        public bool landed { get; set; }
     }
 }
