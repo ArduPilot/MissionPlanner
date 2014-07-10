@@ -377,6 +377,7 @@ namespace MissionPlanner
             {
                 e.ErrorMessage = "Bad compass raw values. Check for magnetic interferance.";
                 ans = null;
+                ans2 = null;
                 return;
             }
 
@@ -391,6 +392,7 @@ namespace MissionPlanner
                     e.CancelAcknowledged = true;
                     e.CancelRequested = true;
                     ans = null;
+                    ans2 = null;
                     return;
                 }
             }
