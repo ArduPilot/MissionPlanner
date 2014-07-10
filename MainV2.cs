@@ -352,6 +352,16 @@ namespace MissionPlanner
 
             MissionPlanner.Utilities.Tracking.cid = new Guid(MainV2.config["guid"].ToString());
 
+            // setup guids for droneshare
+            if (!MainV2.config.ContainsKey("plane_guid"))
+                MainV2.config["plane_guid"] = Guid.NewGuid().ToString();
+
+            if (!MainV2.config.ContainsKey("copter_guid"))
+                MainV2.config["copter_guid"] = Guid.NewGuid().ToString();
+
+            if (!MainV2.config.ContainsKey("rover_guid"))
+                MainV2.config["rover_guid"] = Guid.NewGuid().ToString();
+
             if (config.ContainsKey("language") && !string.IsNullOrEmpty((string)config["language"]))
             {
                 changelanguage(CultureInfoEx.GetCultureInfo((string)config["language"]));

@@ -101,7 +101,29 @@ namespace MissionPlanner.Utilities
                 catch { }
             }
 
-            string viewurl = Utilities.droneshare.doUpload(file, droneshareusername, dronesharepassword, Guid.NewGuid().ToString(), Utilities.droneshare.APIConstants.apiKey);
+            MAVLinkInterface mav = new MAVLinkInterface();
+            mav.BaseStream = new Comms.CommsFile();
+            mav.BaseStream.PortName = file;
+            mav.getHeartBeat();
+            mav.Close();
+
+            string guid = Guid.NewGuid().ToString();
+
+            switch (mav.MAV.cs.firmware)
+            {
+                case MainV2.Firmwares.ArduCopter2:
+                    guid = MainV2.config["copter_guid"].ToString();
+                    break;
+                case MainV2.Firmwares.ArduPlane:
+                    guid = MainV2.config["plane_guid"].ToString();
+                    break;
+                case MainV2.Firmwares.ArduRover:
+                    guid = MainV2.config["rover_guid"].ToString();
+                    break;
+            }
+
+
+            string viewurl = Utilities.droneshare.doUpload(file, droneshareusername, dronesharepassword, guid, Utilities.droneshare.APIConstants.apiKey);
 
             if (viewurl != "")
             {
