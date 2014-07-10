@@ -22,13 +22,13 @@ namespace MissionPlanner.Log
 
         private void LogIndex_Load(object sender, EventArgs e)
         {
-            
+            //processbg(MainV2.LogDir);
             System.Threading.ThreadPool.QueueUserWorkItem(processbg, MainV2.LogDir);
         }
 
         void processbg(object directory)
         {
-            this.Invoke((MethodInvoker)delegate { objectListView1.Clear(); });            
+            //this.Invoke((MethodInvoker)delegate { objectListView1.Clear(); });            
 
             string[] files = Directory.GetFiles(directory.ToString(), "*.tlog", SearchOption.AllDirectories);
 
@@ -51,6 +51,8 @@ namespace MissionPlanner.Log
                 {
                     loginfo.img = new Bitmap(file + ".jpg");
                 }
+
+                //objectListView1.AddObject(loginfo);
 
                 logs.Add(loginfo);
             }

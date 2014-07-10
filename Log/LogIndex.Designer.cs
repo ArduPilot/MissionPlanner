@@ -53,9 +53,7 @@
             this.olvColumnduration});
             this.objectListView1.Location = new System.Drawing.Point(12, 42);
             this.objectListView1.Name = "objectListView1";
-            this.objectListView1.OwnerDraw = true;
             this.objectListView1.RowHeight = 150;
-            this.objectListView1.ShowGroups = false;
             this.objectListView1.Size = new System.Drawing.Size(982, 460);
             this.objectListView1.TabIndex = 0;
             this.objectListView1.UseCellFormatEvents = true;
@@ -86,7 +84,7 @@
             // olvColumnduration
             // 
             this.olvColumnduration.AspectName = "Duration";
-            this.olvColumnduration.AspectToStringFormat = "{0:hh:mm:ss}";
+            this.olvColumnduration.AspectToStringFormat = "{0:hh\\:mm\\:ss}";
             this.olvColumnduration.CellPadding = null;
             this.olvColumnduration.Text = "Duration";
             // 
