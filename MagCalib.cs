@@ -24,6 +24,7 @@ namespace MissionPlanner
         const float deg2rad = (float)(1.0 / rad2deg);
 
         static double[] ans;
+        static double[] ans2;
         
         static float com2ofsx;
         static float com2ofsy; 
@@ -91,6 +92,9 @@ namespace MissionPlanner
 
             if (ans != null)
                 MagCalib.SaveOffsets(ans);
+
+            if (ans2 != null)
+                MagCalib.SaveOffsets2(ans2);
         }
 
         // filter data points to only x number per quadrant
@@ -403,9 +407,14 @@ namespace MissionPlanner
                 ellipsoid = true;
             }
 
+            log.Info("Compass 1");
             ans = MagCalib.LeastSq(datacompass1, ellipsoid);
 
-            double[] ans2 = MagCalib.LeastSq(datacompass2, ellipsoid);
+            if (datacompass2.Count > 10)
+            {
+                log.Info("Compass 2");
+                ans2 = MagCalib.LeastSq(datacompass2, ellipsoid);
+            }
         }
 
         static void RemoveOutliers(ref List<Tuple<float, float, float>> data)
@@ -793,6 +802,37 @@ namespace MissionPlanner
             else
             {
                 CustomMessageBox.Show("New offsets are " + ofs[0].ToString("0") + " " + ofs[1].ToString("0") + " " + ofs[2].ToString("0") + "\n\nPlease write these down for manual entry", "New Mag Offsets");
+            }
+        }
+
+        public static void SaveOffsets2(double[] ofs)
+        {
+            if (MainV2.comPort.MAV.param.ContainsKey("COMPASS_OFS2_X") && MainV2.comPort.BaseStream.IsOpen)
+            {
+                try
+                {
+                    // disable learning
+                    MainV2.comPort.setParam("COMPASS_LEARN", 0);
+                    // set values
+                    MainV2.comPort.setParam("COMPASS_OFS2_X", (float)ofs[0]);
+                    MainV2.comPort.setParam("COMPASS_OFS2_Y", (float)ofs[1]);
+                    MainV2.comPort.setParam("COMPASS_OFS2_Z", (float)ofs[2]);
+                    if (ofs.Length > 3)
+                    {
+                        // ellipsoid
+                    }
+                }
+                catch
+                {
+                    CustomMessageBox.Show("Set Compass2 offset failed");
+                    return;
+                }
+
+                CustomMessageBox.Show("New compass2 offsets are " + ofs[0].ToString("0") + " " + ofs[1].ToString("0") + " " + ofs[2].ToString("0") + "\nThese have been saved for you.", "New Mag Offsets");
+            }
+            else
+            {
+                CustomMessageBox.Show("New compass2 offsets are " + ofs[0].ToString("0") + " " + ofs[1].ToString("0") + " " + ofs[2].ToString("0") + "\n\nPlease write these down for manual entry", "New Mag Offsets");
             }
         }
         /// <summary>
