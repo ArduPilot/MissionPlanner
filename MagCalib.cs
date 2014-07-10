@@ -189,9 +189,15 @@ namespace MissionPlanner
             MainV2.comPort.setParam("COMPASS_LEARN", 0);
 
             //compass2 get mag2 offsets
-            float com2ofsx = MainV2.comPort.GetParam("COMPASS_OFS2_X");
-            float com2ofsy = MainV2.comPort.GetParam("COMPASS_OFS2_Y");
-            float com2ofsz = MainV2.comPort.GetParam("COMPASS_OFS2_Z");
+            float com2ofsx = 0;
+            float com2ofsy = 0;
+            float com2ofsz = 0;
+            if (MainV2.comPort.MAV.param.ContainsKey("COMPASS_OFS2_X"))
+            {
+                com2ofsx = MainV2.comPort.GetParam("COMPASS_OFS2_X");
+                com2ofsy = MainV2.comPort.GetParam("COMPASS_OFS2_Y");
+                com2ofsz = MainV2.comPort.GetParam("COMPASS_OFS2_Z");
+            }
             
             // old method
             float minx = 0;
@@ -410,7 +416,7 @@ namespace MissionPlanner
             log.Info("Compass 1");
             ans = MagCalib.LeastSq(datacompass1, ellipsoid);
 
-            if (datacompass2.Count > 10)
+            if (MainV2.comPort.MAV.param.ContainsKey("COMPASS_OFS2_X"))
             {
                 log.Info("Compass 2");
                 ans2 = MagCalib.LeastSq(datacompass2, ellipsoid);
