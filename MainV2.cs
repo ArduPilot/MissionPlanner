@@ -278,6 +278,9 @@ namespace MissionPlanner
 
             AdvancedChanged += updateAdvanced;
 
+            //startup console
+            TCPConsole.Write((byte)'S');
+
             // full screen
             //this.TopMost = true;
             //this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
