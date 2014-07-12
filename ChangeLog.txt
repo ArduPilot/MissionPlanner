@@ -23,6 +23,10 @@ new battery sensor
 fix bluetooth issues by FenomPL
 joystick library disposal fixs by jasells
 change motor numbers to letters in motor test
+fix antenna tracker alt
+add gimbal pointing
+add gps2
+update gmaps.net
 
 * Mission Planner 1.3.5
 add magcalib bypass
