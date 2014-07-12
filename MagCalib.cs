@@ -188,6 +188,8 @@ namespace MissionPlanner
             // turn learning off
             MainV2.comPort.setParam("COMPASS_LEARN", 0);
 
+            bool havecompass2 = false;
+
             //compass2 get mag2 offsets
             float com2ofsx = 0;
             float com2ofsy = 0;
@@ -197,6 +199,8 @@ namespace MissionPlanner
                 com2ofsx = MainV2.comPort.GetParam("COMPASS_OFS2_X");
                 com2ofsy = MainV2.comPort.GetParam("COMPASS_OFS2_Y");
                 com2ofsz = MainV2.comPort.GetParam("COMPASS_OFS2_Z");
+
+                havecompass2 = true;
             }
             
             // old method
@@ -258,10 +262,6 @@ namespace MissionPlanner
                 float rawmy = datacompass1[datacompass1.Count - 1].Item2;
                 float rawmz = datacompass1[datacompass1.Count - 1].Item3;
 
-                float raw2mx = datacompass2[datacompass2.Count - 1].Item1;
-                float raw2my = datacompass2[datacompass2.Count - 1].Item2;
-                float raw2mz = datacompass2[datacompass2.Count - 1].Item3;
-
                 // for old method
                 setMinorMax(rawmx, ref minx, ref maxx);
                 setMinorMax(rawmy, ref miny, ref maxy);
@@ -313,9 +313,15 @@ namespace MissionPlanner
                 ((ProgressReporterSphere)sender).sphere1.AddPoint(new OpenTK.Vector3(rawmx, rawmy, rawmz));
                 ((ProgressReporterSphere)sender).sphere1.AimClear();
 
-                ((ProgressReporterSphere)sender).sphere2.AddPoint(new OpenTK.Vector3(raw2mx, raw2my, raw2mz));
-                ((ProgressReporterSphere)sender).sphere2.AimClear();
+                if (havecompass2 && datacompass2.Count > 0)
+                {
+                    float raw2mx = datacompass2[datacompass2.Count - 1].Item1;
+                    float raw2my = datacompass2[datacompass2.Count - 1].Item2;
+                    float raw2mz = datacompass2[datacompass2.Count - 1].Item3;
 
+                    ((ProgressReporterSphere)sender).sphere2.AddPoint(new OpenTK.Vector3(raw2mx, raw2my, raw2mz));
+                    ((ProgressReporterSphere)sender).sphere2.AimClear();
+                }
 
                 //find the mean radius                    
                 float radius = 0;
@@ -342,8 +348,6 @@ namespace MissionPlanner
                             (float)(Math.Sin(theta) * Math.Cos(phi) * radius),
                             (float)(Math.Sin(theta) * Math.Sin(phi) * radius),
                             (float)(Math.Cos(theta) * radius)) - centre;
-
-                        
 
                         //log.DebugFormat("magcalib check - {0} {1} dist {2}", theta * rad2deg, phi * rad2deg, max_distance);
 
@@ -399,12 +403,16 @@ namespace MissionPlanner
 
             // remove outlyers
             RemoveOutliers(ref datacompass1);
-            RemoveOutliers(ref datacompass2);
+            if (havecompass2 && datacompass2.Count > 0)
+            {
+                RemoveOutliers(ref datacompass2);
+            }
 
             if (datacompass1.Count < 10)
             {
                 e.ErrorMessage = "Log does not contain enough data";
                 ans = null;
+                ans2 = null;
                 return;
             }
 
@@ -418,7 +426,7 @@ namespace MissionPlanner
             log.Info("Compass 1");
             ans = MagCalib.LeastSq(datacompass1, ellipsoid);
 
-            if (MainV2.comPort.MAV.param.ContainsKey("COMPASS_OFS2_X"))
+            if (havecompass2 && datacompass2.Count > 0)
             {
                 log.Info("Compass 2");
                 ans2 = MagCalib.LeastSq(datacompass2, ellipsoid);
