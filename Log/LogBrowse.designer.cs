@@ -65,6 +65,7 @@
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
             this.dataGridView1.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.dataGridView1_CellValueNeeded);
+			this.dataGridView1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellDoubleClick);
             this.dataGridView1.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView1_ColumnHeaderMouseClick);
             this.dataGridView1.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_RowEnter);
             this.dataGridView1.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.dataGridView1_RowPostPaint);
@@ -137,6 +138,7 @@
             this.zg1.ScrollMinY = 0D;
             this.zg1.ScrollMinY2 = 0D;
             this.zg1.ZoomEvent += new ZedGraph.ZedGraphControl.ZoomEventHandler(this.zg1_ZoomEvent);
+            this.zg1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.zg1_MouseDoubleClick);
             // 
             // myGMAP1
             // 
@@ -160,6 +162,7 @@
             this.myGMAP1.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
             this.myGMAP1.ShowTileGridLines = false;
             this.myGMAP1.Zoom = 0D;
+			this.myGMAP1.OnRouteClick += new GMap.NET.WindowsForms.RouteClick(this.myGMAP1_OnRouteClick);
             // 
             // treeView1
             // 

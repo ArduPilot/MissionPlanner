@@ -28,8 +28,16 @@ namespace MissionPlanner.Log
 
         const int typecoloum = 2;
 
+        int m_timeStart = 0;
+        int m_timeInterval = 100;
+        Dictionary<int, int> m_timeTable = new Dictionary<int, int>();
+        int[] m_timeKeys;
+        int m_currSampleID = 0;
+
         List<PointPairList> listdata = new List<PointPairList>();
         GMapOverlay mapoverlay;
+		GMapOverlay markeroverlay;
+		LineObj m_cursorLine = null;
 
         class displayitem
         {
@@ -102,12 +110,14 @@ namespace MissionPlanner.Log
         {
             InitializeComponent();
 
-            mapoverlay = new GMapOverlay("overlay");
+             mapoverlay = new GMapOverlay("overlay");
+             markeroverlay = new GMapOverlay("markers");
 
             myGMAP1.MapProvider = GMap.NET.MapProviders.GoogleSatelliteMapProvider.Instance;
 
             myGMAP1.Overlays.Add(mapoverlay);
-
+			myGMAP1.Overlays.Add(markeroverlay);
+			
             //CMB_preselect.DisplayMember = "Name";
             CMB_preselect.DataSource = graphs;
 
@@ -117,6 +127,8 @@ namespace MissionPlanner.Log
         private void Form1_Load(object sender, EventArgs e)
         {
             Hashtable seenmessagetypes = new Hashtable();
+            mapoverlay.Clear();
+            markeroverlay.Clear();
 
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
             openFileDialog1.Filter = "Log Files|*.log;*.bin";
@@ -244,6 +256,9 @@ namespace MissionPlanner.Log
                     column.SortMode = DataGridViewColumnSortMode.NotSortable;
                 }
 
+				BuildTimeTable(m_dtCSV, DFLog.logformat);
+
+                DrawMap();
 
                 CreateChart(zg1);
 
@@ -278,6 +293,75 @@ namespace MissionPlanner.Log
                 }
             }
         }
+
+        private void BuildTimeTable(DataTable dt, Dictionary<string, DFLog.Label> logfmt)
+        {
+
+            m_timeStart = 0;
+            m_timeTable.Clear();
+            m_timeInterval = 100;
+
+            int timeIndex = -1;
+            string timeType = "";
+
+            if (logfmt.ContainsKey("IMU"))
+            {
+                if (timeIndex < 0)
+                {
+                    timeIndex = DFLog.FindMessageOffset("IMU", "TimeMS");
+                    if (timeIndex >= 0)
+                        timeType = "IMU";
+                }
+            }
+
+            if (logfmt.ContainsKey("GPS"))
+            {
+                if (timeIndex < 0)
+                {
+                    timeIndex = DFLog.FindMessageOffset("GPS", "TimeMS");
+                    if (timeIndex >= 0)
+                        timeType = "GPS";
+                }
+                if (timeIndex < 0)
+                {
+                    timeIndex = DFLog.FindMessageOffset("GPS", "T");
+                    if (timeIndex >= 0)
+                        timeType = "GPS";
+                }
+            }
+
+
+            if (timeIndex >= 0)
+            {
+                int i = 0;
+                int lastmillis = -1;
+                for (i = 0; i < dt.Rows.Count; i++)
+                {
+                    DataRow datarow = dt.Rows[i];
+                    if (datarow[1].ToString() == timeType)
+                    {
+                        int millis = int.Parse(datarow[timeIndex].ToString());
+
+                        if (m_timeStart == 0)
+                            m_timeStart = millis;
+                        if (millis != lastmillis)
+                        {
+                            int diff = millis - lastmillis;
+                            if (diff > 0)
+                                m_timeInterval = Math.Min(m_timeInterval, diff);
+
+                            m_timeTable.Add(millis, i);
+                            lastmillis = millis;
+                        }
+                    }
+                }
+
+                m_timeKeys = new int[m_timeTable.Count];
+                m_timeTable.Keys.CopyTo(m_timeKeys, 0);
+            }
+
+        }
+
 
         private void ResetTreeView(Hashtable seenmessagetypes)
         {
@@ -733,8 +817,19 @@ namespace MissionPlanner.Log
             }
         }
 
+        class LogRouteInfo
+        {
+            public int firstpoint = 0;
+            public int lastpoint = 0;
+            public List<int> samples = new List<int>();
+        }
+
         void DrawMap()
         {
+            int rtcnt = 0;
+
+            mapoverlay.Routes.Clear();
+            
             try
             {
                 DateTime starttime = DateTime.MinValue;
@@ -743,9 +838,34 @@ namespace MissionPlanner.Log
                 DateTime lastdrawn = DateTime.MinValue;
 
                 List<PointLatLng> routelist = new List<PointLatLng>();
+                List<int> samplelist = new List<int>();
 
                 //zg1.GraphPane.GraphObjList.Clear();
+				
+				//check if GPS data are available
+				if (!DFLog.logformat.ContainsKey("GPS"))
+                    return;
 
+                int index = DFLog.FindMessageOffset("GPS", "Lat");
+                if (index == -1)
+                {
+                    return;
+                }
+
+                int index2 = DFLog.FindMessageOffset("GPS", "Lng");
+                if (index2 == -1)
+                {
+                    return;
+                }
+
+                int index3 = DFLog.FindMessageOffset("GPS", "Status");
+                if (index3 == -1)
+                {
+                    return;
+                }				
+				
+                int i = 0;
+                int firstpoint = 0;
                 foreach (var item in logdata)
                 {
                     if (item.msgtype == "GPS")
@@ -755,18 +875,54 @@ namespace MissionPlanner.Log
                         if (ans.HasValue)
                         {
                             routelist.Add(ans.Value);
+							samplelist.Add(i);
+							
+							
+							if (routelist.Count > 1000)
+                            {
+                                //split the route in several small parts (due to memory errors)
+                                GMapRoute route_part = new GMapRoute(routelist, "route_" + rtcnt);
+                                route_part.Stroke = new Pen(Color.FromArgb(127, Color.Blue), 2);
+
+                                LogRouteInfo lri = new LogRouteInfo();
+                                lri.firstpoint = firstpoint;
+                                lri.lastpoint = i;
+                                lri.samples.AddRange(samplelist);
+                                
+                                route_part.Tag = lri;
+                                route_part.IsHitTestVisible = true;
+                                mapoverlay.Routes.Add(route_part);
+                                rtcnt++;
+
+                                //clear the list and set the last point as first point for the next route
+                                routelist.Clear();
+                                samplelist.Clear();
+                                firstpoint = i;
+                                samplelist.Add(firstpoint);
+                                routelist.Add(ans.Value);
+                            }							
                         }
                     }
+					i++;
                 }
 
-                mapoverlay.Routes.Clear();
+                GMapRoute route = new GMapRoute(routelist, "route_" + rtcnt);
+                route.Stroke = new Pen(Color.FromArgb(127, Color.Blue), 2);
 
-                GMapRoute route = new GMapRoute(routelist, "route");
+                LogRouteInfo lri2 = new LogRouteInfo();
+                lri2.firstpoint = firstpoint;
+                lri2.lastpoint = i;
+                lri2.samples.AddRange(samplelist);
+                route.Tag = lri2;
+                route.IsHitTestVisible = true;
                 mapoverlay.Routes.Add(route);
+                rtcnt++;
                 myGMAP1.ZoomAndCenterRoute(route);
-                myGMAP1.RoutesEnabled = true;
+                
             }
             catch (Exception ex) { log.Error(ex); }
+            if (rtcnt > 0)
+                myGMAP1.RoutesEnabled = true;
         }
 
         PointLatLng? getPointLatLng(DFLog.DFItem item)
@@ -1174,5 +1330,278 @@ namespace MissionPlanner.Log
             }
             catch { }
         }
+        
+
+        private void zg1_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            PointF ptClick = new PointF(e.X, e.Y);
+            double x,y;
+            zg1.GraphPane.ReverseTransform(ptClick, out x, out y);
+
+            GoToSample((int)x, true, false, true);
+
+
+        }
+
+        private void scrollGrid(DataGridView dataGridView, int index)
+        {
+            int halfWay = (dataGridView.DisplayedRowCount(false)/2);
+
+            if ((index < 0) && (dataGridView.SelectedRows.Count > 0))
+            {
+                index = dataGridView.SelectedRows[0].Index;
+            }
+
+            if (dataGridView.FirstDisplayedScrollingRowIndex + halfWay > index ||
+                (dataGridView.FirstDisplayedScrollingRowIndex + dataGridView.DisplayedRowCount(false)-halfWay) <= index)
+            {
+                int targetRow = index;
+               
+                targetRow = Math.Max(targetRow-halfWay, 0);
+                dataGridView.FirstDisplayedScrollingRowIndex = targetRow;
+
+            }
+        }
+
+        bool GetTimeFromRow(int lineNumber, out int millis)
+        {
+            bool ret = false;
+            millis = 0;
+
+            if (!DFLog.logformat.ContainsKey("IMU"))
+                return ret;
+
+            int index = DFLog.FindMessageOffset("IMU", "TimeMS");
+            if (index < 0)
+                return ret;
+
+            const int maxSearch = 100;
+
+
+            for (int i = 0; i < maxSearch; i++)
+            {
+                for (int s = -1; s < 2; s = s + 2)
+                {
+                    int r = lineNumber + s * i;
+                    if ((r >= 0) && (r < m_dtCSV.Rows.Count))
+                    {
+                        DataRow datarow = m_dtCSV.Rows[r];
+
+                        if (datarow[1].ToString() == "IMU")
+                        {
+                            try
+                            {
+
+                                string mil = datarow[index + 2].ToString();
+                                millis = int.Parse(mil);
+                                ret = true;
+                                break;
+
+                            }
+                            catch { }
+                        }
+                    }
+                }
+                if (ret)
+                    break;
+            }
+
+            return ret;
+        }        
+
+        bool GetGPSFromRow(int lineNumber, out PointLatLng pt)
+        {
+            bool ret = false;
+            pt = new PointLatLng();
+
+            if (!DFLog.logformat.ContainsKey("GPS"))
+                return ret;
+
+            int index = DFLog.FindMessageOffset("GPS", "Lat");
+            int index2 = DFLog.FindMessageOffset("GPS", "Lng");
+            int index3 = DFLog.FindMessageOffset("GPS", "Status");
+
+            if ((index < 0) || (index2 < 0) || (index3 < 0))
+                return ret;
+
+            const int maxSearch = 100;
+
+
+            
+
+
+            for (int i = 0; i < maxSearch; i++)
+            {
+                for (int s = -1; s < 2; s = s + 2)
+                {
+                    int r = lineNumber + s * i;
+                    if ((r >= 0) && (r < m_dtCSV.Rows.Count))
+                    {
+                        DataRow datarow = m_dtCSV.Rows[r];
+                        string option = datarow[typecoloum].ToString();
+
+                        if (option == "GPS")
+                        {
+                            try
+                            {
+                                if (double.Parse(datarow[index3 + 2].ToString(), System.Globalization.CultureInfo.InvariantCulture) != 3)
+                                {
+
+                                    continue;
+                                }
+
+                                string lat = datarow[index + 2].ToString();
+                                string lng = datarow[index2 + 2].ToString();
+
+                                //PointLatLng pnt = new PointLatLng() { };
+                                pt.Lat = double.Parse(lat, System.Globalization.CultureInfo.InvariantCulture);
+                                pt.Lng = double.Parse(lng, System.Globalization.CultureInfo.InvariantCulture);
+
+                                ret = true;
+                                break;
+
+                            }
+                            catch { }
+                        }
+                    }
+                }
+                if (ret)
+                    break;
+            }
+
+
+            return ret;
+        }
+        
+        
+
+
+
+
+
+        private void myGMAP1_OnRouteClick(GMapRoute item, MouseEventArgs e)
+        {
+
+            if ((item.Name != null) && (item.Name.StartsWith("route_")))
+            {
+                LogRouteInfo lri = item.Tag as LogRouteInfo;
+                if (lri != null)
+                { 
+                    //cerco il punto più vicino
+                    MissionPlanner.Utilities.PointLatLngAlt pt2 = new MissionPlanner.Utilities.PointLatLngAlt(myGMAP1.FromLocalToLatLng(e.X, e.Y));
+                    double dBest = double.MaxValue;
+                    int nBest = 0;
+                    for (int i = 0; i < item.LocalPoints.Count; i++)
+                    {
+                        PointLatLng pt = item.Points[i];
+                        double d = Math.Sqrt((pt.Lat - pt2.Lat) * (pt.Lat - pt2.Lat) + (pt.Lng - pt2.Lng) * (pt.Lng - pt2.Lng));
+                        if (d < dBest)
+                        {
+                            dBest = d;
+                            nBest = i;
+                        }
+                    }
+                    double perc = (double)nBest / (double) item.LocalPoints.Count;
+                    int SampleID = (int)(lri.firstpoint + (lri.lastpoint - lri.firstpoint) * perc);
+
+                    if ((lri.samples.Count > 0) && (nBest < lri.samples.Count))
+                        SampleID = lri.samples[nBest];
+
+                    GoToSample(SampleID, false, true, true);
+
+                    
+
+                    //debugging route click
+                    //GMapMarker pos2 = new GMarkerGoogle(pt2, GMarkerGoogleType.orange_dot);
+                    //markeroverlay.Markers.Add(pos2);
+
+                }
+
+            }
+        }
+
+        private void GoToSample(int SampleID, bool movemap, bool movegraph, bool movegrid)
+        {
+            bool zoomgraph = false;
+
+            m_currSampleID = SampleID;
+
+            markeroverlay.Markers.Clear();
+
+            PointLatLng pt1;
+            if (GetGPSFromRow(SampleID, out pt1))
+            {
+                MissionPlanner.Utilities.PointLatLngAlt pt3 = new MissionPlanner.Utilities.PointLatLngAlt(pt1);
+                GMapMarker pos3 = new GMarkerGoogle(pt3, GMarkerGoogleType.pink_dot);
+                markeroverlay.Markers.Add(pos3);
+            }
+
+            if (movemap)
+            {
+                //double z = myGMAP1.Zoom;
+                //myGMAP1.ZoomAndCenterMarkers(markeroverlay.Id);
+                //myGMAP1.MarkersEnabled = true;
+                //myGMAP1.Zoom = z;
+                myGMAP1.Position = pt1;
+            }
+
+            //move the graph "cursor"
+            if (m_cursorLine != null)
+            {
+                zg1.GraphPane.GraphObjList.Remove(m_cursorLine);
+            }
+            m_cursorLine = new LineObj(Color.Black, SampleID, 0, SampleID, 1);
+
+            m_cursorLine.Location.CoordinateFrame = CoordType.XScaleYChartFraction; // This do the trick !
+            m_cursorLine.IsClippedToChartRect = true;
+            m_cursorLine.Line.Style = System.Drawing.Drawing2D.DashStyle.Dash;
+            m_cursorLine.Line.Width = 2f;
+            m_cursorLine.Line.Color = Color.LightGray;
+            m_cursorLine.ZOrder = ZOrder.E_BehindCurves;
+            zg1.GraphPane.GraphObjList.Add(m_cursorLine);
+            
+
+            if (movegraph)
+            {
+                double delta = zg1.GraphPane.XAxis.Scale.Max - zg1.GraphPane.XAxis.Scale.Min;
+                if (zoomgraph)
+                {
+                    delta = 2 * 60.0 / 20;
+                    delta = Math.Max(100, delta);
+                }
+                zg1.GraphPane.XAxis.Scale.Min = SampleID - delta / 2;
+                zg1.GraphPane.XAxis.Scale.Max = SampleID + delta / 2;
+                zg1.AxisChange();                
+            }
+            zg1.Invalidate();
+
+
+            if (movegrid)
+            {
+                scrollGrid(dataGridView1, SampleID);
+                dataGridView1.CurrentCell = dataGridView1.Rows[SampleID].Cells[1];
+
+                dataGridView1.ClearSelection();
+                dataGridView1.Rows[(int)SampleID].Selected = true;
+                dataGridView1.Rows[(int)SampleID].Cells[1].Selected = true;
+            }
+
+
+            
+        }
+
+        private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            int x = e.RowIndex;
+            if ((x >= 0) && (x < dataGridView1.Rows.Count))
+            {
+                GoToSample(x, true, true, false);
+            }
+        }
+       
+
+
+
+        
     }
 }
