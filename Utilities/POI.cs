@@ -23,6 +23,9 @@ namespace MissionPlanner.Utilities
 
         public static void POIAdd(PointLatLngAlt Point)
         {
+              if (Point == null)
+                return;
+
             PointLatLngAlt pnt = Point;
 
             string output = "";
@@ -40,6 +43,9 @@ namespace MissionPlanner.Utilities
 
         public static void POIDelete(PointLatLngAlt Point)
         {
+            if (Point == null)
+                return;
+
             for (int a = 0; a < POI.POIs.Count; a++)
             {
                 if (POI.POIs[a].Point() == Point)
@@ -54,6 +60,9 @@ namespace MissionPlanner.Utilities
 
         public static void POIEdit(PointLatLngAlt Point)
         {
+            if (Point == null)
+                return;
+
             string output = "";
 
             if (DialogResult.OK != InputBox.Show("POI", "Enter ID", ref output))
@@ -92,6 +101,9 @@ namespace MissionPlanner.Utilities
 
         public static void UpdateOverlay(GMap.NET.WindowsForms.GMapOverlay poioverlay)
         {
+            if (poioverlay == null)
+                return;
+
             poioverlay.Clear();
 
             foreach (var pnt in POIs)
