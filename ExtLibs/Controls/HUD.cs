@@ -1559,7 +1559,7 @@ namespace MissionPlanner.Controls
                             double stime = item.GetValue;
                             int hrs = (int)(stime / (60 * 60));
                             //stime -= hrs * 60 * 60;
-                            int mins = (int)(stime / (60));
+                            int mins = (int)(stime / (60)) % 60;
                             //stime = mins * 60;
                             int secs = (int)(stime % 60);
                             drawstring(graphicsObject, item.Header + hrs.ToString("00") + ":" + mins.ToString("00") + ":" + secs.ToString("00"), font, fontsize + 2, whiteBrush, this.Width / 8, height);
