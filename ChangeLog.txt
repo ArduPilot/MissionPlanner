@@ -1,4 +1,7 @@
-﻿* Mission Planner 1.3.6
+﻿* Mission Planner 1.3.7
+fix a mag calib issue on apm2
+
+* Mission Planner 1.3.6
 fix otp failure types
 update zh-hans thanks bys1123
 add poi to FD and FP
