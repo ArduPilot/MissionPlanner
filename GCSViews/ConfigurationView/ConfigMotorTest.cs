@@ -91,22 +91,27 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         void but_Click(object sender, EventArgs e)
         {
-            int motor = (int)((MyButton)sender).Tag;
+            try
+            {
 
-            if (doaction(motor, MAVLink.MOTOR_TEST_THROTTLE_TYPE.MOTOR_TEST_THROTTLE_PERCENT, (int)NUM_thr_percent.Value, 2))
-            {
-                
+                int motor = (int)((MyButton)sender).Tag;
+
+                if (MainV2.comPort.doMotorTest(motor, MAVLink.MOTOR_TEST_THROTTLE_TYPE.MOTOR_TEST_THROTTLE_PERCENT, (int)NUM_thr_percent.Value, 2))
+                {
+
+                }
+                else
+                {
+                    CustomMessageBox.Show("Command was denied by the autopilot");
+                }
             }
-            else
+            catch (Exception ex) 
             {
-                CustomMessageBox.Show("Command was denied by the autopilot");
+                CustomMessageBox.Show("Failed to test motor\n" + ex.ToString());
             }
         }
 
-        bool doaction(int motor, MAVLink.MOTOR_TEST_THROTTLE_TYPE thr_type, int throttle, int timeout)
-        {
-            return MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_MOTOR_TEST, (float)motor, (float)(byte)thr_type, (float)throttle, (float)timeout, 0, 0, 0);
-        }
+
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
