@@ -118,6 +118,9 @@ namespace MissionPlanner
 
             foreach (PointLatLngAlt loc in list)
             {
+                if (loc == null)
+                    continue;
+
                 if (last == null)
                 {
                     last = loc;
