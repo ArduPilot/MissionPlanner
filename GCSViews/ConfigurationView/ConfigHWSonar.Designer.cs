@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigHWSonar));
-            this.CMB_sonartype = new System.Windows.Forms.ComboBox();
+            this.CMB_sonartype = new Controls.MavlinkComboBox();
             this.CHK_enablesonar = new MissionPlanner.Controls.MavlinkCheckBox();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -53,7 +53,6 @@
             resources.GetString("CMB_sonartype.Items3")});
             resources.ApplyResources(this.CMB_sonartype, "CMB_sonartype");
             this.CMB_sonartype.Name = "CMB_sonartype";
-            this.CMB_sonartype.SelectedIndexChanged += new System.EventHandler(this.CMB_sonartype_SelectedIndexChanged);
             // 
             // CHK_enablesonar
             // 
@@ -133,7 +132,7 @@
 
         #endregion
 
-        private System.Windows.Forms.ComboBox CMB_sonartype;
+        private Controls.MavlinkComboBox CMB_sonartype;
         private Controls.MavlinkCheckBox CHK_enablesonar;
         private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.Label label1;
