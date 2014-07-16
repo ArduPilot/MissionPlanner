@@ -778,7 +778,7 @@ namespace MissionPlanner
                                 }
                             }
 
-                            if (oldmode != mode && MainV2.speechEnable && MainV2.getConfig("speechmodeenabled") == "True")
+                            if (oldmode != mode && MainV2.speechEnable && MainV2.comPort.MAV.cs == this && MainV2.getConfig("speechmodeenabled") == "True")
                             {
                                 MainV2.speechEngine.SpeakAsync(Common.speechConversion(MainV2.getConfig("speechmode")));
                             }
@@ -1000,7 +1000,7 @@ namespace MissionPlanner
 
                         wpno = wpcur.seq;
 
-                        if (oldwp != wpno && MainV2.speechEnable && MainV2.getConfig("speechwaypointenabled") == "True")
+                        if (oldwp != wpno && MainV2.speechEnable && MainV2.comPort.MAV.cs == this && MainV2.getConfig("speechwaypointenabled") == "True")
                         {
                             MainV2.speechEngine.SpeakAsync(Common.speechConversion(MainV2.getConfig("speechwaypoint")));
                         }

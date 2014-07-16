@@ -45,6 +45,13 @@ namespace MissionPlanner.Log
                             if (packet.Length < 5)
                                 continue;
 
+                            try
+                            {
+                                if (MainV2.speechEngine != null)
+                                    MainV2.speechEngine.SpeakAsyncCancelAll();
+                            }
+                            catch { }
+
                             if (packet[5] == (byte)MAVLink.MAVLINK_MSG_ID.GLOBAL_POSITION_INT)
                             {
                                 var loc = packet.ByteArrayToStructure<MAVLink.mavlink_global_position_int_t>(6);

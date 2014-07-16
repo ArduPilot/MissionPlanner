@@ -1711,18 +1711,18 @@ namespace MissionPlanner
                         catch { }
                     }
 
-                        // attenuate the link qualty over time
-                        if ((DateTime.Now - comPort.lastvalidpacket).TotalSeconds >= 1)
+                    // attenuate the link qualty over time
+                    if ((DateTime.Now - comPort.lastvalidpacket).TotalSeconds >= 1)
+                    {
+                        if (linkqualitytime.Second != DateTime.Now.Second)
                         {
-                            if (linkqualitytime.Second != DateTime.Now.Second)
-                            {
-                                MainV2.comPort.MAV.cs.linkqualitygcs = (ushort)(MainV2.comPort.MAV.cs.linkqualitygcs * 0.8f);
-                                linkqualitytime = DateTime.Now;
+                            MainV2.comPort.MAV.cs.linkqualitygcs = (ushort)(MainV2.comPort.MAV.cs.linkqualitygcs * 0.8f);
+                            linkqualitytime = DateTime.Now;
 
-                                // force redraw is no other packets are being read
-                                GCSViews.FlightData.myhud.Invalidate();
-                            }
+                            // force redraw is no other packets are being read
+                            GCSViews.FlightData.myhud.Invalidate();
                         }
+                    }
 
                     // data loss warning - wait min of 10 seconds, ignore first 30 seconds of connect, repeat at 5 seconds interval
                     if ((DateTime.Now - comPort.lastvalidpacket).TotalSeconds > 10
