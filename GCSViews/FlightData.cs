@@ -2008,9 +2008,9 @@ namespace MissionPlanner.GCSViews
             {
                 ((Button)sender).Enabled = false;
                 if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.Ateryx || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduRover)
-                    MainV2.comPort.setMode("Manual");
+                    MainV2.comPort.setMode("Loiter");
                 if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
-                    MainV2.comPort.setMode("Stabilize");
+                    MainV2.comPort.setMode("Loiter");
 
             }
             catch { CustomMessageBox.Show("The Command failed to execute", "Error"); }
