@@ -287,8 +287,8 @@ namespace px4uploader
 
                 }
                 catch 
-                { 
-                    print("Failed to read OTP");
+                {
+                    print("Failed to read Certificate of Authenticity");
                     throw;
                 }
             }
