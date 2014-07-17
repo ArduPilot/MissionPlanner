@@ -95,6 +95,8 @@ using TrackerHomeGPS;
         void setFromPlannerLocation(object sender, EventArgs e)
         {
             Host.comPort.MAV.cs.TrackerLocation = new PointLatLngAlt(this.Host.FPMenuMapPosition);
+
+            Host.comPort.MAV.cs.TrackerLocation.Alt = srtm.getAltitude(Host.comPort.MAV.cs.TrackerLocation.Lat, Host.comPort.MAV.cs.TrackerLocation.Lng);
         }
 
         void setTrackerHomeFromModule(object sender, EventArgs e)
