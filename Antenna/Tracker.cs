@@ -165,8 +165,16 @@ namespace MissionPlanner.Antenna
 
                     if (TXT_centertilt.Text != tracker.TiltPWMCenter.ToString())
                         TXT_centertilt.Text = tracker.TiltPWMCenter.ToString();
-     
-                    tracker.PanAndTilt(0, 0);
+
+                    try
+                    {
+                        tracker.PanAndTilt(0, 0);
+                    }
+                    catch (Exception ex) { 
+                        CustomMessageBox.Show("Failed to set initial pan and tilt\n" + ex.Message, "Error");
+                        tracker.Close();
+                        return;
+                    }
 
                     foreach (Control ctl in Controls)
                     {
