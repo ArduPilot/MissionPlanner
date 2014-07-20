@@ -542,6 +542,7 @@
     <Compile Include="Utilities\Airports.cs" />
     <Compile Include="Utilities\Crypto.cs" />
     <Compile Include="Utilities\droneshare.cs" />
+    <Compile Include="Utilities\fontgen.cs" />
     <Compile Include="Utilities\GimbalPoint.cs" />
     <Compile Include="Utilities\GitHubContent.cs" />
     <Compile Include="Utilities\GMapMarkerAirport.cs" />
