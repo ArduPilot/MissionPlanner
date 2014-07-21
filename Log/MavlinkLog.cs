@@ -1492,7 +1492,7 @@ namespace MissionPlanner.Log
                 {
                     try
                     {
-                        Utilities.droneshare.doUpload(logfile);
+                        Utilities.DroneApi.droneshare.doUpload(logfile);
                     }
                     catch (Exception ex) { CustomMessageBox.Show(ex.Message); }
                 }

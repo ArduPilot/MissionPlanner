@@ -1443,7 +1443,7 @@ namespace MissionPlanner
             {
                 foreach (var file in ofd.FileNames) 
                 {
-                    string viewurl = Utilities.droneshare.doUpload(file, droneshareusername, dronesharepassword, Guid.NewGuid().ToString(), Utilities.droneshare.APIConstants.apiKey);
+                    string viewurl = Utilities.DroneApi.droneshare.doUpload(file, droneshareusername, dronesharepassword, Guid.NewGuid().ToString(), Utilities.DroneApi.APIConstants.apiKey);
 
                     if (viewurl != "")
                         System.Diagnostics.Process.Start(viewurl);

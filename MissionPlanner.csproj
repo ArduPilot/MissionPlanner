@@ -541,7 +541,10 @@
     <Compile Include="System.cs" />
     <Compile Include="Utilities\Airports.cs" />
     <Compile Include="Utilities\Crypto.cs" />
-    <Compile Include="Utilities\droneshare.cs" />
+    <Compile Include="Utilities\DroneApi\APIConstants.cs" />
+    <Compile Include="Utilities\DroneApi\droneapi-protobuf.cs" />
+    <Compile Include="Utilities\DroneApi\DroneProto.cs" />
+    <Compile Include="Utilities\DroneApi\droneshare.cs" />
     <Compile Include="Utilities\fontgen.cs" />
     <Compile Include="Utilities\GimbalPoint.cs" />
     <Compile Include="Utilities\GitHubContent.cs" />
@@ -5957,6 +5960,9 @@
     <Content Include="Scripts\example1.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Utilities\DroneApi\webapi.proto">
+      <Generator>ProtoBufTool</Generator>
+    </None>
     <None Include="version.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
