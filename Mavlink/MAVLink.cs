@@ -68,7 +68,9 @@ namespace MissionPlanner
             // px4+ only
             public string SoftwareVersions { get; set; }
             // px4+ only
-            public string SerialString { get; set; }
+            public string SerialString            {                get;                set;            }
+
+            public string Guid { get; set; }
             /// <summary>
             /// the static global state of the currently connected MAV
             /// </summary>
@@ -3450,6 +3452,19 @@ Please check the following
                             MAV.cs.firmware = MainV2.Firmwares.Ateryx;
                             break;
                     }
+                    break;
+            }
+
+            switch (MAV.cs.firmware)
+            {
+                case MainV2.Firmwares.ArduCopter2:
+                    MAV.Guid = MainV2.config["copter_guid"].ToString();
+                    break;
+                case MainV2.Firmwares.ArduPlane:
+                    MAV.Guid = MainV2.config["plane_guid"].ToString();
+                    break;
+                case MainV2.Firmwares.ArduRover:
+                    MAV.Guid = MainV2.config["rover_guid"].ToString();
                     break;
             }
         }

@@ -15,7 +15,7 @@ namespace MissionPlanner.Utilities.DroneApi
         TcpClient client = null;
         BufferedStream st = null;
 
-        public void connect()
+        public bool connect()
         {
             client = new TcpClient(APIConstants.DEFAULT_SERVER,APIConstants.DEFAULT_TCP_PORT);
 
@@ -35,14 +35,14 @@ namespace MissionPlanner.Utilities.DroneApi
                 var pingresp = receive(0);
 
                 if (pingresp != null && pingresp.pingResponse != null)
-                    return;
+                    return true;
             }
             
             throw new IOException("No Responce");
 
         }
 
-        public void loginUser(string user, string password)
+        public bool loginUser(string user, string password)
         {
             LoginMsg m = new LoginMsg() { username = user, password = password, code = LoginRequestCode.LOGIN };
 
@@ -56,11 +56,33 @@ namespace MissionPlanner.Utilities.DroneApi
             {
                 Console.WriteLine(loginresp.loginResponse.message + " " + loginresp.loginResponse.code);
                 if (loginresp.loginResponse.code == LoginResponseMsg.ResponseCode.OK)
-                    return;
+                    return true;
 
                 throw new Exception("bad auth");
             }
             throw new IOException("no login responce");
+        }
+
+        public bool startMission()
+        {
+            StartMissionMsg m = new StartMissionMsg() { uuid = Guid.NewGuid().ToString(), keep = false };
+
+            Envelope msg = new Envelope() { startMission = m, type = Envelope.MsgCode.StartMissionMsgCode };
+
+            send(msg);
+
+            return true;
+        }
+
+        public bool setVechileId(string guid, int gcsinterface, int sysid, bool canAcceptCommands = true)
+        {
+            SenderIdMsg m = new SenderIdMsg() { vehicleUUID = guid, gcsInterface = gcsinterface, sysId = sysid, canAcceptCommands = canAcceptCommands };
+
+            Envelope msg = new Envelope() { setSender = m, type = Envelope.MsgCode.SenderIdMsgCode };
+
+            send(msg);
+
+            return true;
         }
 
         public void SendMavlink(byte[] data)
