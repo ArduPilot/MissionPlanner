@@ -361,7 +361,12 @@ namespace MissionPlanner.Log
 
         private void Log_FormClosing(object sender, FormClosingEventArgs e)
         {
-
+            try
+            {
+                if (selectform != null)
+                    selectform.Close();
+            }
+            catch { }
         }
 
         private void BUT_redokml_Click(object sender, EventArgs e)

@@ -268,6 +268,8 @@ namespace MissionPlanner
         [DisplayText("Bat Current (Amps)")]
         public float current { get { return _current; } set { if (value < 0) return; if (_lastcurrent == DateTime.MinValue) _lastcurrent = datetime; battery_usedmah += (float)((value * 1000.0) * (datetime - _lastcurrent).TotalHours); _current = value; _lastcurrent = datetime; } }
         private float _current;
+        [DisplayText("Bat Watts")]
+        public float watts { get { return battery_voltage * current; } }
         private DateTime _lastcurrent = DateTime.MinValue;
         [DisplayText("Bat used EST (mah)")]
         public float battery_usedmah { get; set; }

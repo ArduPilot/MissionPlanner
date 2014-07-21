@@ -536,6 +536,7 @@ namespace MissionPlanner.Controls
                     graphics.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed;
                     graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
                     graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighSpeed;
+                    graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SingleBitPerPixelGridFit;
                     //draw the image into the target bitmap 
                     graphics.DrawImage(img, 0, 0, bitmap.Width, bitmap.Height);
                 }

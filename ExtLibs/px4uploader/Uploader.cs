@@ -192,6 +192,18 @@ namespace px4uploader
             }
         }
 
+        bool ByteArrayCompare(byte[] a1, byte[] a2)
+        {
+            if (a1.Length != a2.Length)
+                return false;
+
+            for (int i = 0; i < a1.Length; i++)
+                if (a1[i] != a2[i])
+                    return false;
+
+            return true;
+        }
+
         public bool verifyotp()
         {
             if (skipotp)
@@ -217,6 +229,11 @@ namespace px4uploader
 
                     // 20 bytes - sha1
                     Array.Resize(ref sn, 20);
+
+                    if (ByteArrayCompare(sn, new byte[] { 0x00, 0x23, 0x00, 0x30, 0x35, 0x32, 0x47, 0x18, 0x36, 0x34, 0x30, 0x32, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 }))
+                    {
+                        print("Libre bootloader");
+                    }
 
                     object obj = new otp();
                     byte[] test = __read_otp();
@@ -248,6 +265,7 @@ namespace px4uploader
                                 line = "";
                             }
                         }
+
                         /*
                                                             byte[] PEMbuffer = Convert.FromBase64String(@"");
                                                             */
