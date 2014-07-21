@@ -45,13 +45,13 @@
             // 
             // CMB_sonartype
             // 
+            resources.ApplyResources(this.CMB_sonartype, "CMB_sonartype");
             this.CMB_sonartype.FormattingEnabled = true;
             this.CMB_sonartype.Items.AddRange(new object[] {
             resources.GetString("CMB_sonartype.Items"),
             resources.GetString("CMB_sonartype.Items1"),
             resources.GetString("CMB_sonartype.Items2"),
             resources.GetString("CMB_sonartype.Items3")});
-            resources.ApplyResources(this.CMB_sonartype, "CMB_sonartype");
             this.CMB_sonartype.Name = "CMB_sonartype";
             // 
             // CHK_enablesonar
@@ -67,9 +67,9 @@
             // 
             // pictureBox3
             // 
+            resources.ApplyResources(this.pictureBox3, "pictureBox3");
             this.pictureBox3.BackColor = System.Drawing.Color.White;
             this.pictureBox3.BackgroundImage = global::MissionPlanner.Properties.Resources.sonar;
-            resources.ApplyResources(this.pictureBox3, "pictureBox3");
             this.pictureBox3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.TabStop = false;

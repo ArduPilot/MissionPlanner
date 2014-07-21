@@ -152,7 +152,7 @@
             // backstageViewPagewizard
             // 
             this.backstageViewPagewizard.Advanced = false;
-            this.backstageViewPagewizard.LinkText = "Wizard";
+            this.backstageViewPagewizard.LinkText = "向导";
             this.backstageViewPagewizard.Page = this.configWizard1;
             this.backstageViewPagewizard.Parent = null;
             this.backstageViewPagewizard.Show = true;
@@ -184,7 +184,7 @@
             // 
             this.backstageViewPagetradheli.Advanced = false;
             this.backstageViewPagetradheli.DataBindings.Add(new System.Windows.Forms.Binding("Show", this.initialSetupBindingSource, "isHeli", true));
-            this.backstageViewPagetradheli.LinkText = "Heli Setup";
+            this.backstageViewPagetradheli.LinkText = "直升机设置";
             this.backstageViewPagetradheli.Page = this.configTradHeli1;
             this.backstageViewPagetradheli.Parent = this.backstageViewPagemand;
             this.backstageViewPagetradheli.Show = true;
@@ -200,7 +200,7 @@
             // 
             this.backstageViewPageframetype.Advanced = false;
             this.backstageViewPageframetype.DataBindings.Add(new System.Windows.Forms.Binding("Show", this.initialSetupBindingSource, "isCopter", true));
-            this.backstageViewPageframetype.LinkText = "Frame Type";
+            this.backstageViewPageframetype.LinkText = "机架类型";
             this.backstageViewPageframetype.Page = this.configFrameType1;
             this.backstageViewPageframetype.Parent = this.backstageViewPagemand;
             this.backstageViewPageframetype.Show = true;
@@ -307,7 +307,7 @@
             // backstageViewPageopt
             // 
             this.backstageViewPageopt.Advanced = false;
-            this.backstageViewPageopt.LinkText = "Optional Hardware";
+            this.backstageViewPageopt.LinkText = "可选硬件";
             this.backstageViewPageopt.Page = this.configOptional1;
             this.backstageViewPageopt.Parent = null;
             this.backstageViewPageopt.Show = true;
@@ -458,8 +458,8 @@
             // 
             // tracker1
             // 
-            this.tracker1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(39)))), ((int)(((byte)(40)))));
             resources.ApplyResources(this.tracker1, "tracker1");
+            this.tracker1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(39)))), ((int)(((byte)(40)))));
             this.tracker1.ForeColor = System.Drawing.Color.White;
             this.tracker1.Name = "tracker1";
             // 
@@ -483,7 +483,7 @@
             // 
             this.backstageViewPageinstfw.Advanced = false;
             this.backstageViewPageinstfw.DataBindings.Add(new System.Windows.Forms.Binding("Show", this.initialSetupBindingSource, "isDisConnected", true));
-            this.backstageViewPageinstfw.LinkText = "Install Firmware";
+            this.backstageViewPageinstfw.LinkText = "安装固件";
             this.backstageViewPageinstfw.Page = this.configFirmware1;
             this.backstageViewPageinstfw.Parent = null;
             this.backstageViewPageinstfw.Show = false;
@@ -492,11 +492,11 @@
             // 
             // InitialSetup
             // 
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.backstageView);
             this.MinimumSize = new System.Drawing.Size(1000, 450);
             this.Name = "InitialSetup";
-            resources.ApplyResources(this, "$this");
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.HardwareConfig_FormClosing);
             this.Load += new System.EventHandler(this.HardwareConfig_Load);
             ((System.ComponentModel.ISupportInitialize)(this.initialSetupBindingSource)).EndInit();

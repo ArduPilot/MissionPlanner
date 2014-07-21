@@ -554,8 +554,20 @@
     <Compile Include="Utilities\ParameterMetaDataRepositoryAutoTest.cs" />
     <Compile Include="Utilities\Firmware.cs" />
     <Compile Include="Utilities\ImageOverFilter.cs" />
+    <EmbeddedResource Include="Controls\ConnectionStats.zh-Hans.resx">
+      <DependentUpon>ConnectionStats.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\DefaultSettings.zh-Hans.resx">
+      <DependentUpon>DefaultSettings.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\LogAnalyzer.resx">
       <DependentUpon>LogAnalyzer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ThemeColors.zh-Hans.resx">
+      <DependentUpon>ThemeColors.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAC_Fence.zh-Hans.resx">
+      <DependentUpon>ConfigAC_Fence.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAP_Limits.zh-Hans.resx">
       <DependentUpon>ConfigAP_Limits.cs</DependentUpon>
@@ -584,6 +596,9 @@
     <EmbeddedResource Include="GCSViews\FlightPlanner.zh-Hant.resx">
       <DependentUpon>FlightPlanner.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\InitialSetup.zh-Hans.resx">
+      <DependentUpon>InitialSetup.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Joystick\Joy_ChangeMode.resx">
       <DependentUpon>Joy_ChangeMode.cs</DependentUpon>
     </EmbeddedResource>
@@ -604,6 +619,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Radio\3DRradio.it-IT.resx">
       <DependentUpon>3DRradio.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SerialOutputPass.zh-Hans.resx">
+      <DependentUpon>SerialOutputPass.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Warnings\WarningControl.resx">
       <DependentUpon>WarningControl.cs</DependentUpon>
