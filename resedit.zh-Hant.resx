@@ -112,15 +112,41 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="CHK_showconsole.Text" xml:space="preserve">
-    <value>顯示控制台視窗（重啟）</value>
+  <data name="button2.Text" xml:space="preserve">
+    <value>儲存檔案</value>
   </data>
-  <data name="BUT_updatecheck.Text" xml:space="preserve">
-    <value>檢查更新</value>
+  <data name="button3.Text" xml:space="preserve">
+    <value>載入翻譯</value>
+  </data>
+  <data name="BUT_clipboard.Text" xml:space="preserve">
+    <value>複製至剪貼簿</value>
+  </data>
+  <data name="colEnglish.HeaderText" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="colFile.HeaderText" xml:space="preserve">
+    <value>檔案</value>
+  </data>
+  <data name="colInternal.HeaderText" xml:space="preserve">
+    <value>Internal</value>
+  </data>
+  <data name="colOtherLang.HeaderText" xml:space="preserve">
+    <value>其他語言</value>
+  </data>
+  <data name="richTextBox1.Text" xml:space="preserve">
+    <value>如何使用:
+
+首先，如果這是您第一次使用，請在下拉選單下先挑選您的語言並且編輯。然後點擊儲存檔案。
+
+其他的使用方法，請選擇您的語言，程式就會下載並自動載入目前已存在的語言
+ 
+如果您才編輯到一半請直接點擊「載入翻譯」的按鈕
+
+注意：自動載入只能在 Michael 已經加入這個語言後才能使用。所以其他的語言你將會需要使用「載入翻譯」的功能。</value>
   </data>
 </root>
