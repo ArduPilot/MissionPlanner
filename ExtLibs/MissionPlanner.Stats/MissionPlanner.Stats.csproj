@@ -35,7 +35,6 @@
     <Reference Include="GMap.NET.Core, Version=1.7.0.0, Culture=neutral, PublicKeyToken=b85b9027b614afef, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\extLibs\GMap.NET.Core.dll</HintPath>
-      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -56,32 +55,32 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\MissionPlanner.csproj">
-      <Project>{a2e22272-95fe-47b6-b050-9ae7e2055bf5}</Project>
+      <Project>{A2E22272-95FE-47B6-B050-9AE7E2055BF5}</Project>
       <Name>MissionPlanner</Name>
       <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\Comms\MissionPlanner.Comms.csproj">
-      <Project>{825e7a10-390c-4a2b-b3a8-491d14966912}</Project>
+      <Project>{825E7A10-390C-4A2B-B3A8-491D14966912}</Project>
       <Name>MissionPlanner.Comms</Name>
       <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\Controls\MissionPlanner.Controls.csproj">
-      <Project>{c8b88795-6d01-494d-83ad-6944bd4c5023}</Project>
+      <Project>{C8B88795-6D01-494D-83AD-6944BD4C5023}</Project>
       <Name>MissionPlanner.Controls</Name>
       <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\GeoUtility\GeoUtility.csproj">
-      <Project>{7f7994ce-823f-4a04-bbea-d0a3808ff56d}</Project>
+      <Project>{7F7994CE-823F-4A04-BBEA-D0A3808FF56D}</Project>
       <Name>GeoUtility</Name>
       <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\Mavlink\MAVLink.csproj">
-      <Project>{20296734-5f3c-4593-a0d5-dd20b440b13a}</Project>
+      <Project>{20296734-5F3C-4593-A0D5-DD20B440B13A}</Project>
       <Name>MAVLink</Name>
       <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\Utilities\MissionPlanner.Utilities.csproj">
-      <Project>{1378a66c-38e4-46f5-a05f-dc04ef7d4d16}</Project>
+      <Project>{1378A66C-38E4-46F5-A05F-DC04EF7D4D16}</Project>
       <Name>MissionPlanner.Utilities</Name>
       <Private>False</Private>
     </ProjectReference>

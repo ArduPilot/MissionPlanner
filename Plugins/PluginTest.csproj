@@ -27,8 +27,6 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>
-    </DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -54,17 +52,17 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MissionPlanner.csproj">
-      <Project>{a2e22272-95fe-47b6-b050-9ae7e2055bf5}</Project>
+      <Project>{A2E22272-95FE-47B6-B050-9AE7E2055BF5}</Project>
       <Name>MissionPlanner</Name>
       <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\ExtLibs\Comms\MissionPlanner.Comms.csproj">
-      <Project>{825e7a10-390c-4a2b-b3a8-491d14966912}</Project>
+      <Project>{825E7A10-390C-4A2B-B3A8-491D14966912}</Project>
       <Name>MissionPlanner.Comms</Name>
       <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\ExtLibs\Controls\MissionPlanner.Controls.csproj">
-      <Project>{c8b88795-6d01-494d-83ad-6944bd4c5023}</Project>
+      <Project>{C8B88795-6D01-494D-83AD-6944BD4C5023}</Project>
       <Name>MissionPlanner.Controls</Name>
       <Private>False</Private>
     </ProjectReference>
