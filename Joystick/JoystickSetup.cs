@@ -185,6 +185,16 @@ namespace MissionPlanner.Joystick
                 MainV2.comPort.sendPacket(rc);
                 System.Threading.Thread.Sleep(20);
                 MainV2.comPort.sendPacket(rc);
+                System.Threading.Thread.Sleep(20);
+                MainV2.comPort.sendPacket(rc);
+                System.Threading.Thread.Sleep(20);
+                MainV2.comPort.sendPacket(rc);
+                System.Threading.Thread.Sleep(20);
+                MainV2.comPort.sendPacket(rc);
+
+                MainV2.comPort.sendPacket(rc);
+                MainV2.comPort.sendPacket(rc);
+                MainV2.comPort.sendPacket(rc);
 
                 //timer1.Stop();
 
