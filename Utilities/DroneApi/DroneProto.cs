@@ -15,11 +15,15 @@ namespace MissionPlanner.Utilities.DroneApi
         TcpClient client = null;
         BufferedStream st = null;
 
+        DateTime start = DateTime.MinValue;
+
         public bool connect()
         {
             client = new TcpClient(APIConstants.DEFAULT_SERVER,APIConstants.DEFAULT_TCP_PORT);
 
             client.NoDelay = true;
+
+            start = DateTime.Now;
 
             st = new BufferedStream(client.GetStream(),8000);
 
@@ -85,11 +89,13 @@ namespace MissionPlanner.Utilities.DroneApi
             return true;
         }
 
-        public void SendMavlink(byte[] data)
+        public void SendMavlink(byte[] data, int gcsinterface)
         {
             var mavmsg = new MavlinkMsg();
 
             mavmsg.packet.Add(data);
+            mavmsg.srcInterface = gcsinterface;
+            //mavmsg.deltaT = (long)((DateTime.Now - start).TotalMilliseconds * 1000);
 
             Envelope msg = new Envelope() { mavlink = mavmsg, type = Envelope.MsgCode.MavlinkMsgCode };
 

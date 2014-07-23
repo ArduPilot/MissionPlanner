@@ -1537,7 +1537,7 @@ namespace MissionPlanner
                     mine.BaseStream.PortName = @"C:\Users\hog\Documents\apm logs\iris 6-4-14\2014-04-06 09-07-32.tlog";
                     mine.BaseStream.Open();
 
-                    comfile.bps = 6000;
+                    comfile.bps = 4000;
 
                     mine.getHeartBeat();
 
@@ -1549,10 +1549,12 @@ namespace MissionPlanner
 
                         byte[] packet = mine.readPacket();
 
-                        dp.SendMavlink(packet);
+                        dp.SendMavlink(packet,0);
 
                         
                     }
+
+                    dp.close();
 
                     mine.Close();
                 }
