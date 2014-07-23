@@ -37,11 +37,6 @@
       <HintPath>..\..\extLibs\AStar.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="log4net, Version=1.2.11.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\extLibs\log4net.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="ProjNet">
       <HintPath>..\..\packages\ProjNet.1.2\lib\net20\ProjNet.dll</HintPath>
     </Reference>
@@ -53,6 +48,10 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="log4net">
+      <HintPath>..\..\extLibs\log4net.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Grid.cs" />
@@ -67,45 +66,45 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\MissionPlanner.csproj">
-      <Project>{a2e22272-95fe-47b6-b050-9ae7e2055bf5}</Project>
+      <Project>{A2E22272-95FE-47B6-B050-9AE7E2055BF5}</Project>
       <Name>MissionPlanner</Name>
       <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\Comms\MissionPlanner.Comms.csproj">
-      <Project>{825e7a10-390c-4a2b-b3a8-491d14966912}</Project>
+      <Project>{825E7A10-390C-4A2B-B3A8-491D14966912}</Project>
       <Name>MissionPlanner.Comms</Name>
       <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\Controls\MissionPlanner.Controls.csproj">
-      <Project>{c8b88795-6d01-494d-83ad-6944bd4c5023}</Project>
+      <Project>{C8B88795-6D01-494D-83AD-6944BD4C5023}</Project>
       <Name>MissionPlanner.Controls</Name>
       <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\GeoUtility\GeoUtility.csproj">
-      <Project>{7f7994ce-823f-4a04-bbea-d0a3808ff56d}</Project>
+      <Project>{7F7994CE-823F-4A04-BBEA-D0A3808FF56D}</Project>
       <Name>GeoUtility</Name>
       <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\GMap.NET.Core\GMap.NET.Core.csproj">
-      <Project>{d0c39d9d-bed0-418b-9a5e-713176caf40c}</Project>
+      <Project>{D0C39D9D-BED0-418B-9A5E-713176CAF40C}</Project>
       <Name>GMap.NET.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\GMap.NET.WindowsForms\GMap.NET.WindowsForms.csproj">
-      <Project>{e06def77-f933-42fb-afd7-db2d0d8d6a98}</Project>
+      <Project>{E06DEF77-F933-42FB-AFD7-DB2D0D8D6A98}</Project>
       <Name>GMap.NET.WindowsForms</Name>
     </ProjectReference>
     <ProjectReference Include="..\Mavlink\MAVLink.csproj">
-      <Project>{20296734-5f3c-4593-a0d5-dd20b440b13a}</Project>
+      <Project>{20296734-5F3C-4593-A0D5-DD20B440B13A}</Project>
       <Name>MAVLink</Name>
       <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\MetaDataExtractorCSharp240d\MetaDataExtractor.csproj">
-      <Project>{b46f6c6c-9184-41af-8f8b-e0084752ca7c}</Project>
+      <Project>{B46F6C6C-9184-41AF-8F8B-E0084752CA7C}</Project>
       <Name>MetaDataExtractor</Name>
       <Private>False</Private>
     </ProjectReference>
     <ProjectReference Include="..\Utilities\MissionPlanner.Utilities.csproj">
-      <Project>{1378a66c-38e4-46f5-a05f-dc04ef7d4d16}</Project>
+      <Project>{1378A66C-38E4-46F5-A05F-DC04EF7D4D16}</Project>
       <Name>MissionPlanner.Utilities</Name>
       <Private>False</Private>
     </ProjectReference>

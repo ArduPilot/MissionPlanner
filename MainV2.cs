@@ -907,21 +907,19 @@ namespace MissionPlanner
                         log.Error(exp); 
                     }
 
-                    // apm reset preset
-                    if (config["CHK_resetapmonconnect"] == null || bool.Parse(config["CHK_resetapmonconnect"].ToString()) == true)
-                    {
-                        log.Info("set dtr rts to false");
-                        comPort.BaseStream.DtrEnable = false;
-                        comPort.BaseStream.RtsEnable = false;
-                    }
-
                     // prevent serialreader from doing anything
                     comPort.giveComport = true;
 
                     log.Info("About to do dtr if needed");
                     // reset on connect logic.
                     if (config["CHK_resetapmonconnect"] == null || bool.Parse(config["CHK_resetapmonconnect"].ToString()) == true)
+                    {
+                        log.Info("set dtr rts to false");
+                        comPort.BaseStream.DtrEnable = false;
+                        comPort.BaseStream.RtsEnable = false;
+
                         comPort.BaseStream.toggleDTR();
+                    }
 
                     comPort.giveComport = false;
 

@@ -49,7 +49,7 @@ namespace MissionPlanner
 
             ServicePointManager.DefaultConnectionLimit = 10;
             ServicePointManager.Expect100Continue = true;
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3;
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls;
 
             System.Windows.Forms.Application.ThreadException += Application_ThreadException;
 
@@ -184,8 +184,8 @@ namespace MissionPlanner
 
          //   return;
              
-
-           // ThemeManager.doxamlgen();
+            if (Debugger.IsAttached)
+                ThemeManager.doxamlgen();
 
             if (File.Exists("simple.txt"))
             {

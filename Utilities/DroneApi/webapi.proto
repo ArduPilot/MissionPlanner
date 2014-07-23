@@ -1,0 +1,314 @@
+/**
+ webapi.proto
+
+ For documentation on this protocol see WIRE-ENCODING.md
+
+ */
+
+/**
+ The privacy level for missions (can be changed later through the web user interface)
+ This code does not affect _storage_ of the flight in the corpus for offline viewing.  That can be set with the
+ StopMissionMsg.keepFlight field.
+ */
+enum AccessCode {
+    // Use whatever privacy level the user selected as their default (stored in the user account on the server)
+    DEFAULT = 0;
+
+    // Only the user can see this mission
+    PRIVATE = 10;
+
+    // Only others with the URL for this mission can see it, mission will not be publically listed
+    SHARED = 20;
+
+    // Academic researchers will have access to this flight
+    RESEARCHER = 30;
+
+    // Anyone can see this flight
+    PUBLIC = 40;
+}
+
+enum LoginRequestCode {
+    // Please log me in
+    LOGIN = 0;
+
+    // Please attempt to create a new user (and log me in)
+    CREATE = 1;
+
+    // Just check if the username is available (return OK or NAME_UNAVAILABLE)
+    CHECK_USERNAME = 2;
+}
+
+/**
+ A login/user-create/passwork-check request.
+
+ Note: These three slightly different operations are overloaded into this one message type because for some platforms
+ there is a fair amount of hand coding for each new message type, and these messages are quite similar.
+
+ A successful login must be completed before any further messages will be accepted by the server.
+ */
+message LoginMsg {
+
+    required LoginRequestCode code = 1;
+
+    // Primary key: a username (such as punkgeek or bob@apple.com)
+    required string username = 2;
+
+    optional string password = 3;
+
+    // Only used if creating a new user record
+    optional string email = 4;
+
+    // If specified this is the clients notion of connection time (in UTC) as usecs since 1970
+    // Later deltaT messages are assumed to be an offset from this time
+    optional int64 startTime = 5;
+
+    // GCS type if known, preferably from the master gcs-types.txt definitions file.
+    // To add new definitions to the file, please submit a github pull-request.
+    optional string gcsName = 6;
+
+    // GCS software version
+    optional string softwareVersion = 7;
+
+    // The version # of this protocol that is being used by this client (new versions of webapi.proto will increment this number)
+    optional int32 protocolVersion = 8 [default = 1];
+
+    // Who can view new missions from this user?
+    // If specified users sharing defaults will be updated
+    optional AccessCode defaultViewPrivacy = 9 [default = PUBLIC];
+
+    // Who can control this vehicle via the web?
+    // If specified users sharing defaults will be updated
+    optional AccessCode defaultControlPrivacy = 10 [default = PRIVATE];
+
+    optional string apiKey = 11;
+}
+
+/**
+ An informational message from the user/GCS to other viewers/for storage in the log file
+ Examples would be "my house is here", "just crashed", etc...
+ */
+message NoteMsg {
+    // The message the user would like to store
+    required string note = 1;
+}
+
+/**
+ Sent from server when it would prefer the GCS to show a message to the user.
+ If the client is a vehicle or has no user interface, these messages can be ignored
+ */
+message ShowMsg {
+    // If specified, server would like to show the indicated message to the user
+    optional string text = 1;
+
+    // If specified, server would like the user to be shown the following HTML content (may be sent even for successful login)
+    optional string url = 2;
+
+    enum Priority {
+        // A minor informational message (on android the best UI element for this would be a Toast)
+        LOW = 0;
+
+        // A message to show the user, but not urgent.
+        // For a text only GCS just print the text, for android use a Notification
+        MEDIUM = 10;
+
+        // This message is urgent, please raise a dialog/pop-up
+        HIGH = 20;
+    }
+    required Priority priority = 3 [default = MEDIUM];
+}
+
+/**
+ Sent from server in response to a LoginMsg
+ */
+message LoginResponseMsg {
+    enum ResponseCode {
+        // You are now logged in, please continue
+        OK = 0;
+
+        // login not found or password invalid
+        BAD_PASSWORD = 1;
+
+        // Server is busy, please call back later
+        CALL_LATER = 2;
+
+        // Someone else has that username
+        NAME_UNAVAILABLE = 3;
+
+        // The server can not speak that version number of the protocol
+        PROTOCOL_INCOMPATIBLE = 4;
+
+        // A bug in the server occurred preventing login
+        SERVER_FAULT = 5;
+    }
+    required ResponseCode code = 1;
+
+    // If specified, server would like to show the indicated message to the user (explains the fault)
+    optional ShowMsg message = 2;
+
+    // If set, the server would like the client to call back this many msecs later
+    optional int32   callbackDelay = 3;
+}
+
+/**
+ Client should send this at the start of a mission. Server will respond with a MissionResponseMsg.
+*/
+message StartMissionMsg {
+    // a user description for this mission (can be added at beginning or end of mission, or never)
+    optional string notes = 1;
+
+    // Who can view this mission
+    optional AccessCode viewPrivacy = 2 [default = DEFAULT];
+
+    // Who can control this vehicle via the web
+    optional AccessCode controlPrivacy = 3 [default = DEFAULT];
+
+    // If true, the file will be stored for future offline viewing.  If client disconnects
+    // before sending the StopMissionMsg, the value for keep that was specified in the StartMissionMsg will be used
+    required bool keep = 4;
+
+    // Client TCP connections might fail at any time.  Missions are tagged with a UUID, if the link goes down the client can resume
+    // a mission by starting a mission with the same UUID as used previously
+    optional string uuid = 5;
+}
+
+/**
+ Client should send this at the end of the mission.  Server will respond with a MissionResponseMsg
+ */
+message StopMissionMsg {
+    // a user description for this mission (can be added at beginning or end of mission, or never)
+    optional string notes = 2;
+
+    // If true, the file will be stored for future offline viewing.  If client disconnects
+    // before sending the StopMissionMsg, the value for keep that was specified in the StartMissionMsg will be used
+    required bool keep = 3;
+}
+
+/**
+ Server sends this message in reply to StartMissionMsg or StopMissionMsg.  The common use-case is so the client can
+ show a notification pointing to the webpage for flight viewing
+*/
+message MissionResponse {
+    // If specified, server would like to show the indicated message to the user (probably a nice URL to view the flight)
+    optional ShowMsg message = 2;
+}
+
+/**
+ A ping message can be sent at any time from either side of the link (no login required).  The other side
+ should respond with a PingResponseMsg
+*/
+message PingMsg {
+    // A code that can be used to uniquely identify this ping
+    required sint32 nonce = 1;
+}
+
+/**
+ A response to a PingMsg message.
+*/
+message PingResponseMsg {
+    required sint32 nonce = 1;
+}
+
+/**
+ A message sent in either direction to indicate mavlink data which was received/sent.
+*/
+message MavlinkMsg {
+    // The interface this packet arrived from, or -1 if generated locally by the GCS
+    required sint32 srcInterface = 1;
+
+    // The mavlink payload (including 0xfe start byte and the two byte CRC)
+    repeated bytes packet = 2;
+
+    // If specified this is the delta time from the original connection time (in usecs)
+    optional int64 deltaT = 3;
+}
+
+// Set the vehicle ID that corresponds to a particular sysId on a particular interface
+// There are three special types of pseudo vehicles (mavlink senders more accurately).  They should register themselves
+// with this same mechanism.
+// * GCSes should use a vehicleType that begins with 'GCS-'
+// * Non GCS controllers of vehicles should use a vehicleType that begins with 'Controller-'
+
+// If the client would like to control vehicles from _other_ connections it can set wantPipe to true (see below for
+// documentation)
+message SenderIdMsg {
+    // The interface the gcs is using to reach this vehicle (to allow clashing sysIds on different radio links)
+    required sint32 gcsInterface = 1;
+
+    // The mavlink sysId the vehicle is appearing as for this session/interface
+    required int32  sysId = 2;
+
+    // vehicleId need only unique for a particular user, and if the client uses a previously unknown vehicle ID a new vehicle
+    // record may be created on the server (underneath that user's account)
+    // GCSes should also be described to the server using this same mechanism but use the special string "GCS" as the UUID
+    required string vehicleUUID = 3;
+
+    // If false the vehicle will not be able to respond to any commands sent from the server (either due to link limitations or the fact
+    // that this is merely a delayed upload of a stored log file)
+    required bool canAcceptCommands = 4;
+
+    // A human readable name for this vehicle (i.e. My Bixler).  This will be used to update vehicle metadata on the server
+    optional string humanName = 5;
+
+    // Vehicle manufacturer if known, preferably from the master vehicle-mfg.txt definitions file.
+    // To add new definitions to the file, please submit a github pull-request.
+    optional string manufacturer = 6;
+
+    // Vehicle type if known, preferably from the master vehicle-types.txt definitions file.
+    // To add new definitions to the file, please submit a github pull-request.
+    optional string vehicleType = 7;
+
+    // Autopilot type if known, preferably from the master autopilot-types.txt definitions file.
+    // To add new definitions to the file, please submit a github pull-request.
+    optional string autopilotType = 8;
+
+    // Autopilot software version #
+    optional string softwareVersion = 9;
+
+    // If present and set to true, the client would like the server to find the specified vehicleUUID on a _different_
+    // client connection and tunnel any mavlink sent on this link to/from that vehicle (translating sysIds as necessary).
+    // This pipe allows an easy mechanism for API clients to have full control of vehicles that have called into the
+    // web server.
+    optional bool wantPipe = 10;
+}
+
+// Envelope to contain all the messages. At any time, ONLY 1 of the optional fields can be used.
+message Envelope {
+    // Enums used to decode the super large envelope variant (not using a variant record is also an option but this made for an easy experiment
+    // similar to how I've used protobufs in the past)
+    enum MsgCode {
+        MavlinkMsgCode = 2;
+
+    	LoginMsgCode = 32;
+    	SenderIdMsgCode = 33;
+    	NoteMsgCode = 34;
+    	StartMissionMsgCode = 35;
+    	StopMissionMsgCode = 36;
+        PingMsgCode = 37;
+
+    	LoginResponseMsgCode = 64;
+    	ShowMsgCode = 65;
+    	MissionResponseCode = 66;
+        PingResponseMsgCode = 67;
+    }
+
+    // Optional optimization: Identifies which field is filled in.  If not specified receiver will need to check each optional payload below.
+    optional MsgCode type = 1;
+
+    // Payloads that can be sent in either direction
+    optional MavlinkMsg mavlink = 2;
+
+    // Client to server payloads
+    optional LoginMsg login = 32;
+    optional SenderIdMsg setSender = 33;
+    optional NoteMsg note = 34;
+    optional StartMissionMsg startMission = 35;
+    optional StopMissionMsg stopMission = 36;
+    optional PingMsg ping = 37;
+
+    // Server to client payloads
+    optional LoginResponseMsg loginResponse = 64;
+    optional ShowMsg show = 65;
+    optional MissionResponse missionResponse = 66;
+    optional PingResponseMsg pingResponse = 67;
+}
+

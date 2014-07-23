@@ -2,9 +2,7 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{B8943726-04B0-4477-BFDA-E156A0CD98A4}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -31,9 +29,6 @@
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject />
-  </PropertyGroup>
-  <PropertyGroup>
     <ApplicationIcon>3dr.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
@@ -41,11 +36,15 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>TRACE;DEBUG</DefineConstants>
     <UseVSHostingProcess>true</UseVSHostingProcess>
+    <WarningLevel>4</WarningLevel>
+    <Optimize>false</Optimize>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
     <PlatformTarget>AnyCPU</PlatformTarget>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <WarningLevel>4</WarningLevel>
+    <Optimize>false</Optimize>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="log4net">
@@ -183,15 +182,15 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ExtLibs\Comms\MissionPlanner.Comms.csproj">
-      <Project>{825e7a10-390c-4a2b-b3a8-491d14966912}</Project>
+      <Project>{825E7A10-390C-4A2B-B3A8-491D14966912}</Project>
       <Name>MissionPlanner.Comms</Name>
     </ProjectReference>
     <ProjectReference Include="..\ExtLibs\Controls\MissionPlanner.Controls.csproj">
-      <Project>{c8b88795-6d01-494d-83ad-6944bd4c5023}</Project>
+      <Project>{C8B88795-6D01-494D-83AD-6944BD4C5023}</Project>
       <Name>MissionPlanner.Controls</Name>
     </ProjectReference>
     <ProjectReference Include="..\ExtLibs\Utilities\MissionPlanner.Utilities.csproj">
-      <Project>{1378a66c-38e4-46f5-a05f-dc04ef7d4d16}</Project>
+      <Project>{1378A66C-38E4-46F5-A05F-DC04EF7D4D16}</Project>
       <Name>MissionPlanner.Utilities</Name>
     </ProjectReference>
   </ItemGroup>

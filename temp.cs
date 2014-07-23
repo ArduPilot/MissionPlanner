@@ -1443,7 +1443,7 @@ namespace MissionPlanner
             {
                 foreach (var file in ofd.FileNames) 
                 {
-                    string viewurl = Utilities.droneshare.doUpload(file, droneshareusername, dronesharepassword, Guid.NewGuid().ToString(), Utilities.droneshare.APIConstants.apiKey);
+                    string viewurl = Utilities.DroneApi.droneshare.doUpload(file, droneshareusername, dronesharepassword, Guid.NewGuid().ToString(), Utilities.DroneApi.APIConstants.apiKey);
 
                     if (viewurl != "")
                         System.Diagnostics.Process.Start(viewurl);
@@ -1493,6 +1493,73 @@ namespace MissionPlanner
             Log.LogIndex form = new Log.LogIndex();
 
             form.Show();
+        }
+
+        private void but_droneapi_Click(object sender, EventArgs e)
+        {
+            
+            string droneshareusername = MainV2.getConfig("droneshareusername");
+
+            InputBox.Show("Username", "Username", ref droneshareusername);
+
+            MainV2.config["droneshareusername"] = droneshareusername;
+
+            string dronesharepassword = MainV2.getConfig("dronesharepassword");
+
+            if (dronesharepassword != "")
+            {
+                try
+                {
+                    // fail on bad entry
+                    var crypto = new Crypto();
+                    dronesharepassword = crypto.DecryptString(dronesharepassword);
+                }
+                catch { }
+            }
+
+            InputBox.Show("Password", "Password", ref dronesharepassword,true);
+
+            var crypto2 = new Crypto();
+
+            string encryptedpw = crypto2.EncryptString(dronesharepassword);
+
+            MainV2.config["dronesharepassword"] = encryptedpw;  
+
+            Utilities.DroneApi.DroneProto dp = new Utilities.DroneApi.DroneProto();
+
+            if (dp.connect())
+            {
+                if (dp.loginUser(droneshareusername, dronesharepassword))
+                {
+                    MAVLinkInterface mine = new MAVLinkInterface();
+                    var comfile = new Comms.CommsFile();
+                    mine.BaseStream = comfile;
+                    mine.BaseStream.PortName = @"C:\Users\hog\Documents\apm logs\iris 6-4-14\2014-04-06 09-07-32.tlog";
+                    mine.BaseStream.Open();
+
+                    comfile.bps = 4000;
+
+                    mine.getHeartBeat();
+
+                    dp.setVechileId(mine.MAV.Guid, 0, mine.MAV.sysid);
+
+                    dp.startMission();
+
+                    while (true) {
+
+                        byte[] packet = mine.readPacket();
+
+                        dp.SendMavlink(packet,0);
+
+                        
+                    }
+
+                    dp.close();
+
+                    mine.Close();
+                }
+            }
+
         }
     }
 }

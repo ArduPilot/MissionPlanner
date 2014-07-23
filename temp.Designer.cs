@@ -76,6 +76,7 @@
             this.but_mntstatus = new MissionPlanner.Controls.MyButton();
             this.but_maplogs = new MissionPlanner.Controls.MyButton();
             this.butlogindex = new MissionPlanner.Controls.MyButton();
+            this.but_droneapi = new MissionPlanner.Controls.MyButton();
             this.SuspendLayout();
             // 
             // label1
@@ -537,11 +538,22 @@
             this.butlogindex.UseVisualStyleBackColor = true;
             this.butlogindex.Click += new System.EventHandler(this.butlogindex_Click);
             // 
+            // but_droneapi
+            // 
+            this.but_droneapi.Location = new System.Drawing.Point(12, 351);
+            this.but_droneapi.Name = "but_droneapi";
+            this.but_droneapi.Size = new System.Drawing.Size(75, 23);
+            this.but_droneapi.TabIndex = 52;
+            this.but_droneapi.Text = "droneapi";
+            this.but_droneapi.UseVisualStyleBackColor = true;
+            this.but_droneapi.Click += new System.EventHandler(this.but_droneapi_Click);
+            // 
             // temp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(685, 450);
+            this.Controls.Add(this.but_droneapi);
             this.Controls.Add(this.butlogindex);
             this.Controls.Add(this.but_maplogs);
             this.Controls.Add(this.but_mntstatus);
@@ -645,5 +657,6 @@
         private Controls.MyButton but_mntstatus;
         private Controls.MyButton but_maplogs;
         private Controls.MyButton butlogindex;
+        private Controls.MyButton but_droneapi;
     }
 }
