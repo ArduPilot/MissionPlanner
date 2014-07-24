@@ -433,7 +433,7 @@ namespace MissionPlanner.GCSViews
             {
                 if (!tabControlactions.TabPages.Contains(tabActionsSimple))
                     tabControlactions.TabPages.Add(tabActionsSimple);
-                tabControlactions.TabPages.Remove(tabGauges);
+                //tabControlactions.TabPages.Remove(tabGauges);
                 tabControlactions.TabPages.Remove(tabActions);
                 tabControlactions.TabPages.Remove(tabStatus);
                 tabControlactions.TabPages.Remove(tabServo);
@@ -443,7 +443,7 @@ namespace MissionPlanner.GCSViews
             }
             else
             {
-                tabControlactions.TabPages.Remove(tabGauges);
+                //tabControlactions.TabPages.Remove(tabGauges);
                 tabControlactions.TabPages.Remove(tabActionsSimple);
                 if (!tabControlactions.TabPages.Contains(tabActions))
                     tabControlactions.TabPages.Add(tabActions);
