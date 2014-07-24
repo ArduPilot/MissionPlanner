@@ -1,0 +1,1164 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="CHKREV_roll.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="CHKREV_roll.Location" type="System.Drawing.Point, System.Drawing">
+    <value>213, 10</value>
+  </data>
+  <data name="CHKREV_roll.Size" type="System.Drawing.Size, System.Drawing">
+    <value>87, 17</value>
+  </data>
+  <data name="CHKREV_roll.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="CHKREV_roll.Text" xml:space="preserve">
+    <value>反轉 Roll</value>
+  </data>
+  <data name="CHKREV_pitch.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CHKREV_pitch.Location" type="System.Drawing.Point, System.Drawing">
+    <value>299, 10</value>
+  </data>
+  <data name="CHKREV_pitch.Size" type="System.Drawing.Size, System.Drawing">
+    <value>93, 17</value>
+  </data>
+  <data name="CHKREV_pitch.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="CHKREV_pitch.Text" xml:space="preserve">
+    <value>反轉 Pitch </value>
+  </data>
+  <data name="CHKREV_rudder.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CHKREV_rudder.Location" type="System.Drawing.Point, System.Drawing">
+    <value>398, 10</value>
+  </data>
+  <data name="CHKREV_rudder.Size" type="System.Drawing.Size, System.Drawing">
+    <value>104, 17</value>
+  </data>
+  <data name="CHKREV_rudder.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="CHKREV_rudder.Text" xml:space="preserve">
+    <value>反轉 Rudder</value>
+  </data>
+  <data name="GPSrate.Items" xml:space="preserve">
+    <value>100</value>
+  </data>
+  <data name="GPSrate.Items1" xml:space="preserve">
+    <value>200</value>
+  </data>
+  <data name="GPSrate.Items2" xml:space="preserve">
+    <value>250</value>
+  </data>
+  <data name="GPSrate.Items3" xml:space="preserve">
+    <value>333</value>
+  </data>
+  <data name="GPSrate.Items4" xml:space="preserve">
+    <value>500</value>
+  </data>
+  <data name="GPSrate.Items5" xml:space="preserve">
+    <value>1000</value>
+  </data>
+  <data name="GPSrate.Items6" xml:space="preserve">
+    <value>30000</value>
+  </data>
+  <data name="GPSrate.Items7" xml:space="preserve">
+    <value>99999</value>
+  </data>
+  <data name="GPSrate.Location" type="System.Drawing.Point, System.Drawing">
+    <value>551, 36</value>
+  </data>
+  <data name="GPSrate.Size" type="System.Drawing.Size, System.Drawing">
+    <value>79, 21</value>
+  </data>
+  <data name="GPSrate.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="ConnectComPort.Location" type="System.Drawing.Point, System.Drawing">
+    <value>26, 13</value>
+  </data>
+  <data name="ConnectComPort.Size" type="System.Drawing.Size, System.Drawing">
+    <value>128, 23</value>
+  </data>
+  <data name="ConnectComPort.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="ConnectComPort.Text" xml:space="preserve">
+    <value>Sim Link Start/Stop</value>
+  </data>
+  <data name="OutputLog.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Lucida Console, 8.25pt</value>
+  </data>
+  <data name="OutputLog.Location" type="System.Drawing.Point, System.Drawing">
+    <value>197, 66</value>
+  </data>
+  <data name="OutputLog.Size" type="System.Drawing.Size, System.Drawing">
+    <value>363, 208</value>
+  </data>
+  <data name="OutputLog.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="OutputLog.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="TXT_roll.Location" type="System.Drawing.Point, System.Drawing">
+    <value>67, 22</value>
+  </data>
+  <data name="TXT_roll.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 20</value>
+  </data>
+  <data name="TXT_roll.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="TXT_pitch.Location" type="System.Drawing.Point, System.Drawing">
+    <value>67, 45</value>
+  </data>
+  <data name="TXT_pitch.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 20</value>
+  </data>
+  <data name="TXT_pitch.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="TXT_heading.Location" type="System.Drawing.Point, System.Drawing">
+    <value>67, 70</value>
+  </data>
+  <data name="TXT_heading.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 20</value>
+  </data>
+  <data name="TXT_heading.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="TXT_wpdist.Location" type="System.Drawing.Point, System.Drawing">
+    <value>75, 24</value>
+  </data>
+  <data name="TXT_wpdist.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 20</value>
+  </data>
+  <data name="TXT_wpdist.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="TXT_bererror.Location" type="System.Drawing.Point, System.Drawing">
+    <value>75, 50</value>
+  </data>
+  <data name="TXT_bererror.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 20</value>
+  </data>
+  <data name="TXT_bererror.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="TXT_alterror.Location" type="System.Drawing.Point, System.Drawing">
+    <value>75, 76</value>
+  </data>
+  <data name="TXT_alterror.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 20</value>
+  </data>
+  <data name="TXT_alterror.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="TXT_lat.Location" type="System.Drawing.Point, System.Drawing">
+    <value>67, 23</value>
+  </data>
+  <data name="TXT_lat.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 20</value>
+  </data>
+  <data name="TXT_lat.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
+  </data>
+  <data name="TXT_long.Location" type="System.Drawing.Point, System.Drawing">
+    <value>67, 49</value>
+  </data>
+  <data name="TXT_long.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 20</value>
+  </data>
+  <data name="TXT_long.TabIndex" type="System.Int32, mscorlib">
+    <value>14</value>
+  </data>
+  <data name="TXT_alt.Location" type="System.Drawing.Point, System.Drawing">
+    <value>67, 75</value>
+  </data>
+  <data name="TXT_alt.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 20</value>
+  </data>
+  <data name="TXT_alt.TabIndex" type="System.Int32, mscorlib">
+    <value>15</value>
+  </data>
+  <data name="SaveSettings.Location" type="System.Drawing.Point, System.Drawing">
+    <value>566, 330</value>
+  </data>
+  <data name="SaveSettings.Size" type="System.Drawing.Size, System.Drawing">
+    <value>64, 34</value>
+  </data>
+  <data name="SaveSettings.TabIndex" type="System.Int32, mscorlib">
+    <value>16</value>
+  </data>
+  <data name="SaveSettings.Text" xml:space="preserve">
+    <value>儲存設定</value>
+  </data>
+  <data name="RAD_softXplanes.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="RAD_softXplanes.Location" type="System.Drawing.Point, System.Drawing">
+    <value>197, 40</value>
+  </data>
+  <data name="RAD_softXplanes.Size" type="System.Drawing.Size, System.Drawing">
+    <value>61, 17</value>
+  </data>
+  <data name="RAD_softXplanes.TabIndex" type="System.Int32, mscorlib">
+    <value>17</value>
+  </data>
+  <data name="RAD_softXplanes.Text" xml:space="preserve">
+    <value>X-plane</value>
+  </data>
+  <data name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing">
+    <value>301, 17</value>
+  </data>
+  <data name="RAD_softXplanes.ToolTip" xml:space="preserve">
+    <value>套件可用於固定翼/多軸</value>
+  </data>
+  <data name="RAD_softFlightGear.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="RAD_softFlightGear.Location" type="System.Drawing.Point, System.Drawing">
+    <value>259, 40</value>
+  </data>
+  <data name="RAD_softFlightGear.Size" type="System.Drawing.Size, System.Drawing">
+    <value>73, 17</value>
+  </data>
+  <data name="RAD_softFlightGear.TabIndex" type="System.Int32, mscorlib">
+    <value>18</value>
+  </data>
+  <data name="RAD_softFlightGear.Text" xml:space="preserve">
+    <value>FlightGear</value>
+  </data>
+  <data name="RAD_softFlightGear.ToolTip" xml:space="preserve">
+    <value>可用於固定翼/多軸</value>
+  </data>
+  <data name="TXT_servoroll.Location" type="System.Drawing.Point, System.Drawing">
+    <value>67, 24</value>
+  </data>
+  <data name="TXT_servoroll.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 20</value>
+  </data>
+  <data name="TXT_servoroll.TabIndex" type="System.Int32, mscorlib">
+    <value>19</value>
+  </data>
+  <data name="TXT_servopitch.Location" type="System.Drawing.Point, System.Drawing">
+    <value>67, 50</value>
+  </data>
+  <data name="TXT_servopitch.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 20</value>
+  </data>
+  <data name="TXT_servopitch.TabIndex" type="System.Int32, mscorlib">
+    <value>20</value>
+  </data>
+  <data name="TXT_servorudder.Location" type="System.Drawing.Point, System.Drawing">
+    <value>67, 76</value>
+  </data>
+  <data name="TXT_servorudder.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 20</value>
+  </data>
+  <data name="TXT_servorudder.TabIndex" type="System.Int32, mscorlib">
+    <value>21</value>
+  </data>
+  <data name="TXT_servothrottle.Location" type="System.Drawing.Point, System.Drawing">
+    <value>67, 102</value>
+  </data>
+  <data name="TXT_servothrottle.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 20</value>
+  </data>
+  <data name="TXT_servothrottle.TabIndex" type="System.Int32, mscorlib">
+    <value>22</value>
+  </data>
+  <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>60, 3</value>
+  </data>
+  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>59, 13</value>
+  </data>
+  <data name="label4.TabIndex" type="System.Int32, mscorlib">
+    <value>19</value>
+  </data>
+  <data name="label4.Text" xml:space="preserve">
+    <value>Plane GPS</value>
+  </data>
+  <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 78</value>
+  </data>
+  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>42, 13</value>
+  </data>
+  <data name="label3.TabIndex" type="System.Int32, mscorlib">
+    <value>18</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>高度</value>
+  </data>
+  <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 52</value>
+  </data>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>54, 13</value>
+  </data>
+  <data name="label2.TabIndex" type="System.Int32, mscorlib">
+    <value>17</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>Longitude</value>
+  </data>
+  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 26</value>
+  </data>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>45, 13</value>
+  </data>
+  <data name="label1.TabIndex" type="System.Int32, mscorlib">
+    <value>16</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Latitude</value>
+  </data>
+  <data name="panel1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>13, 66</value>
+  </data>
+  <data name="panel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>178, 100</value>
+  </data>
+  <data name="panel1.TabIndex" type="System.Int32, mscorlib">
+    <value>23</value>
+  </data>
+  <data name="label30.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 100</value>
+  </data>
+  <data name="label30.Size" type="System.Drawing.Size, System.Drawing">
+    <value>28, 13</value>
+  </data>
+  <data name="label30.TabIndex" type="System.Int32, mscorlib">
+    <value>21</value>
+  </data>
+  <data name="label30.Text" xml:space="preserve">
+    <value>Yaw</value>
+  </data>
+  <data name="TXT_yaw.Location" type="System.Drawing.Point, System.Drawing">
+    <value>67, 93</value>
+  </data>
+  <data name="TXT_yaw.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 20</value>
+  </data>
+  <data name="TXT_yaw.TabIndex" type="System.Int32, mscorlib">
+    <value>20</value>
+  </data>
+  <data name="label11.Location" type="System.Drawing.Point, System.Drawing">
+    <value>60, 4</value>
+  </data>
+  <data name="label11.Size" type="System.Drawing.Size, System.Drawing">
+    <value>57, 13</value>
+  </data>
+  <data name="label11.TabIndex" type="System.Int32, mscorlib">
+    <value>19</value>
+  </data>
+  <data name="label11.Text" xml:space="preserve">
+    <value>Plane IMU</value>
+  </data>
+  <data name="label7.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 77</value>
+  </data>
+  <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
+    <value>47, 13</value>
+  </data>
+  <data name="label7.TabIndex" type="System.Int32, mscorlib">
+    <value>15</value>
+  </data>
+  <data name="label7.Text" xml:space="preserve">
+    <value>Heading</value>
+  </data>
+  <data name="label6.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 52</value>
+  </data>
+  <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>31, 13</value>
+  </data>
+  <data name="label6.TabIndex" type="System.Int32, mscorlib">
+    <value>14</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>Pitch</value>
+  </data>
+  <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 29</value>
+  </data>
+  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>25, 13</value>
+  </data>
+  <data name="label5.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>Roll</value>
+  </data>
+  <data name="panel2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 172</value>
+  </data>
+  <data name="panel2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>178, 116</value>
+  </data>
+  <data name="panel2.TabIndex" type="System.Int32, mscorlib">
+    <value>24</value>
+  </data>
+  <data name="label8.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 27</value>
+  </data>
+  <data name="label8.Size" type="System.Drawing.Size, System.Drawing">
+    <value>43, 13</value>
+  </data>
+  <data name="label8.TabIndex" type="System.Int32, mscorlib">
+    <value>16</value>
+  </data>
+  <data name="label8.Text" xml:space="preserve">
+    <value>航點距離</value>
+  </data>
+  <data name="label9.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 52</value>
+  </data>
+  <data name="label9.Size" type="System.Drawing.Size, System.Drawing">
+    <value>69, 13</value>
+  </data>
+  <data name="label9.TabIndex" type="System.Int32, mscorlib">
+    <value>17</value>
+  </data>
+  <data name="label9.Text" xml:space="preserve">
+    <value>Bearing ERR</value>
+  </data>
+  <data name="label10.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 78</value>
+  </data>
+  <data name="label10.Size" type="System.Drawing.Size, System.Drawing">
+    <value>68, 13</value>
+  </data>
+  <data name="label10.TabIndex" type="System.Int32, mscorlib">
+    <value>18</value>
+  </data>
+  <data name="label10.Text" xml:space="preserve">
+    <value>Altitude ERR</value>
+  </data>
+  <data name="label16.Location" type="System.Drawing.Point, System.Drawing">
+    <value>50, 8</value>
+  </data>
+  <data name="label16.Size" type="System.Drawing.Size, System.Drawing">
+    <value>83, 13</value>
+  </data>
+  <data name="label16.TabIndex" type="System.Int32, mscorlib">
+    <value>27</value>
+  </data>
+  <data name="label16.Text" xml:space="preserve">
+    <value>Ardupilot 輸出</value>
+  </data>
+  <data name="label15.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 104</value>
+  </data>
+  <data name="label15.Size" type="System.Drawing.Size, System.Drawing">
+    <value>43, 13</value>
+  </data>
+  <data name="label15.TabIndex" type="System.Int32, mscorlib">
+    <value>26</value>
+  </data>
+  <data name="label15.Text" xml:space="preserve">
+    <value>油門</value>
+  </data>
+  <data name="label14.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 78</value>
+  </data>
+  <data name="label14.Size" type="System.Drawing.Size, System.Drawing">
+    <value>28, 13</value>
+  </data>
+  <data name="label14.TabIndex" type="System.Int32, mscorlib">
+    <value>25</value>
+  </data>
+  <data name="label14.Text" xml:space="preserve">
+    <value>Yaw</value>
+  </data>
+  <data name="label13.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 52</value>
+  </data>
+  <data name="label13.Size" type="System.Drawing.Size, System.Drawing">
+    <value>31, 13</value>
+  </data>
+  <data name="label13.TabIndex" type="System.Int32, mscorlib">
+    <value>24</value>
+  </data>
+  <data name="label13.Text" xml:space="preserve">
+    <value>Pitch</value>
+  </data>
+  <data name="label12.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 27</value>
+  </data>
+  <data name="label12.Size" type="System.Drawing.Size, System.Drawing">
+    <value>25, 13</value>
+  </data>
+  <data name="label12.TabIndex" type="System.Int32, mscorlib">
+    <value>23</value>
+  </data>
+  <data name="label12.Text" xml:space="preserve">
+    <value>Roll</value>
+  </data>
+  <data name="panel3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>13, 294</value>
+  </data>
+  <data name="panel3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>178, 122</value>
+  </data>
+  <data name="panel3.TabIndex" type="System.Int32, mscorlib">
+    <value>25</value>
+  </data>
+  <data name="label20.Location" type="System.Drawing.Point, System.Drawing">
+    <value>72, 104</value>
+  </data>
+  <data name="label20.Size" type="System.Drawing.Size, System.Drawing">
+    <value>34, 13</value>
+  </data>
+  <data name="label20.TabIndex" type="System.Int32, mscorlib">
+    <value>23</value>
+  </data>
+  <data name="label20.Text" xml:space="preserve">
+    <value>模式</value>
+  </data>
+  <data name="label19.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 104</value>
+  </data>
+  <data name="label19.Size" type="System.Drawing.Size, System.Drawing">
+    <value>25, 13</value>
+  </data>
+  <data name="label19.TabIndex" type="System.Int32, mscorlib">
+    <value>22</value>
+  </data>
+  <data name="label19.Text" xml:space="preserve">
+    <value>航點</value>
+  </data>
+  <data name="TXT_control_mode.Location" type="System.Drawing.Point, System.Drawing">
+    <value>112, 99</value>
+  </data>
+  <data name="TXT_control_mode.Size" type="System.Drawing.Size, System.Drawing">
+    <value>63, 20</value>
+  </data>
+  <data name="TXT_control_mode.TabIndex" type="System.Int32, mscorlib">
+    <value>21</value>
+  </data>
+  <data name="TXT_WP.Location" type="System.Drawing.Point, System.Drawing">
+    <value>38, 98</value>
+  </data>
+  <data name="TXT_WP.Size" type="System.Drawing.Size, System.Drawing">
+    <value>28, 20</value>
+  </data>
+  <data name="TXT_WP.TabIndex" type="System.Int32, mscorlib">
+    <value>20</value>
+  </data>
+  <data name="label18.Location" type="System.Drawing.Point, System.Drawing">
+    <value>50, 8</value>
+  </data>
+  <data name="label18.Size" type="System.Drawing.Size, System.Drawing">
+    <value>81, 13</value>
+  </data>
+  <data name="label18.TabIndex" type="System.Int32, mscorlib">
+    <value>19</value>
+  </data>
+  <data name="label18.Text" xml:space="preserve">
+    <value>Autopilot 狀態</value>
+  </data>
+  <data name="panel4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>197, 294</value>
+  </data>
+  <data name="panel4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>178, 122</value>
+  </data>
+  <data name="panel4.TabIndex" type="System.Int32, mscorlib">
+    <value>26</value>
+  </data>
+  <data name="label17.Location" type="System.Drawing.Point, System.Drawing">
+    <value>535, 9</value>
+  </data>
+  <data name="label17.Size" type="System.Drawing.Size, System.Drawing">
+    <value>95, 13</value>
+  </data>
+  <data name="label17.TabIndex" type="System.Int32, mscorlib">
+    <value>27</value>
+  </data>
+  <data name="label17.Text" xml:space="preserve">
+    <value>GPS 更新率</value>
+  </data>
+  <data name="panel5.Location" type="System.Drawing.Point, System.Drawing">
+    <value>13, 5</value>
+  </data>
+  <data name="panel5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>178, 52</value>
+  </data>
+  <data name="panel5.TabIndex" type="System.Int32, mscorlib">
+    <value>28</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="zg1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="zg1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 420</value>
+  </data>
+  <data name="zg1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>702, 283</value>
+  </data>
+  <data name="zg1.TabIndex" type="System.Int32, mscorlib">
+    <value>29</value>
+  </data>
+  <data name="timer_servo_graph.TrayLocation" type="System.Drawing.Point, System.Drawing">
+    <value>17, 17</value>
+  </data>
+  <data name="label28.Location" type="System.Drawing.Point, System.Drawing">
+    <value>126, 76</value>
+  </data>
+  <data name="label28.Size" type="System.Drawing.Size, System.Drawing">
+    <value>48, 13</value>
+  </data>
+  <data name="label28.TabIndex" type="System.Int32, mscorlib">
+    <value>32</value>
+  </data>
+  <data name="label28.Text" xml:space="preserve">
+    <value>模擬器</value>
+  </data>
+  <data name="label29.Location" type="System.Drawing.Point, System.Drawing">
+    <value>126, 37</value>
+  </data>
+  <data name="label29.Size" type="System.Drawing.Size, System.Drawing">
+    <value>43, 13</value>
+  </data>
+  <data name="label29.TabIndex" type="System.Int32, mscorlib">
+    <value>33</value>
+  </data>
+  <data name="label29.Text" xml:space="preserve">
+    <value>NOTE: </value>
+  </data>
+  <data name="label27.Location" type="System.Drawing.Point, System.Drawing">
+    <value>126, 63</value>
+  </data>
+  <data name="label27.Size" type="System.Drawing.Size, System.Drawing">
+    <value>22, 13</value>
+  </data>
+  <data name="label27.TabIndex" type="System.Int32, mscorlib">
+    <value>31</value>
+  </data>
+  <data name="label27.Text" xml:space="preserve">
+    <value>於</value>
+  </data>
+  <data name="label25.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 104</value>
+  </data>
+  <data name="label25.Size" type="System.Drawing.Size, System.Drawing">
+    <value>68, 13</value>
+  </data>
+  <data name="label25.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="label25.Text" xml:space="preserve">
+    <value>Throttle Gain</value>
+  </data>
+  <data name="TXT_throttlegain.Location" type="System.Drawing.Point, System.Drawing">
+    <value>75, 100</value>
+  </data>
+  <data name="TXT_throttlegain.Size" type="System.Drawing.Size, System.Drawing">
+    <value>45, 20</value>
+  </data>
+  <data name="TXT_throttlegain.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="TXT_throttlegain.Text" xml:space="preserve">
+    <value>10000</value>
+  </data>
+  <data name="label24.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 78</value>
+  </data>
+  <data name="label24.Size" type="System.Drawing.Size, System.Drawing">
+    <value>67, 13</value>
+  </data>
+  <data name="label24.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="label24.Text" xml:space="preserve">
+    <value>Rudder Gain</value>
+  </data>
+  <data name="label23.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 52</value>
+  </data>
+  <data name="label23.Size" type="System.Drawing.Size, System.Drawing">
+    <value>56, 13</value>
+  </data>
+  <data name="label23.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="label23.Text" xml:space="preserve">
+    <value>Pitch Gain</value>
+  </data>
+  <data name="label22.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 27</value>
+  </data>
+  <data name="label22.Size" type="System.Drawing.Size, System.Drawing">
+    <value>50, 13</value>
+  </data>
+  <data name="label22.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="label22.Text" xml:space="preserve">
+    <value>Roll Gain</value>
+  </data>
+  <data name="label21.Location" type="System.Drawing.Point, System.Drawing">
+    <value>2, 7</value>
+  </data>
+  <data name="label21.Size" type="System.Drawing.Size, System.Drawing">
+    <value>169, 13</value>
+  </data>
+  <data name="label21.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="label21.Text" xml:space="preserve">
+    <value>Simulator Authority - For diff planes</value>
+  </data>
+  <data name="TXT_ruddergain.Location" type="System.Drawing.Point, System.Drawing">
+    <value>75, 74</value>
+  </data>
+  <data name="TXT_ruddergain.Size" type="System.Drawing.Size, System.Drawing">
+    <value>45, 20</value>
+  </data>
+  <data name="TXT_ruddergain.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="TXT_ruddergain.Text" xml:space="preserve">
+    <value>10000</value>
+  </data>
+  <data name="TXT_pitchgain.Location" type="System.Drawing.Point, System.Drawing">
+    <value>75, 48</value>
+  </data>
+  <data name="TXT_pitchgain.Size" type="System.Drawing.Size, System.Drawing">
+    <value>45, 20</value>
+  </data>
+  <data name="TXT_pitchgain.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="TXT_pitchgain.Text" xml:space="preserve">
+    <value>10000</value>
+  </data>
+  <data name="TXT_rollgain.Location" type="System.Drawing.Point, System.Drawing">
+    <value>75, 23</value>
+  </data>
+  <data name="TXT_rollgain.Size" type="System.Drawing.Size, System.Drawing">
+    <value>45, 20</value>
+  </data>
+  <data name="TXT_rollgain.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="TXT_rollgain.Text" xml:space="preserve">
+    <value>10000</value>
+  </data>
+  <data name="panel6.Location" type="System.Drawing.Point, System.Drawing">
+    <value>382, 294</value>
+  </data>
+  <data name="panel6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>178, 122</value>
+  </data>
+  <data name="panel6.TabIndex" type="System.Int32, mscorlib">
+    <value>30</value>
+  </data>
+  <data name="label26.Location" type="System.Drawing.Point, System.Drawing">
+    <value>508, 330</value>
+  </data>
+  <data name="label26.Size" type="System.Drawing.Size, System.Drawing">
+    <value>37, 13</value>
+  </data>
+  <data name="label26.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="label26.Text" xml:space="preserve">
+    <value>僅適用</value>
+  </data>
+  <data name="CHKdisplayall.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CHKdisplayall.Location" type="System.Drawing.Point, System.Drawing">
+    <value>471, 41</value>
+  </data>
+  <data name="CHKdisplayall.Size" type="System.Drawing.Size, System.Drawing">
+    <value>74, 17</value>
+  </data>
+  <data name="CHKdisplayall.TabIndex" type="System.Int32, mscorlib">
+    <value>36</value>
+  </data>
+  <data name="CHKdisplayall.Text" xml:space="preserve">
+    <value>Display All</value>
+  </data>
+  <data name="CHKgraphroll.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
+  </data>
+  <data name="CHKgraphroll.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CHKgraphroll.Location" type="System.Drawing.Point, System.Drawing">
+    <value>13, 709</value>
+  </data>
+  <data name="CHKgraphroll.Size" type="System.Drawing.Size, System.Drawing">
+    <value>74, 17</value>
+  </data>
+  <data name="CHKgraphroll.TabIndex" type="System.Int32, mscorlib">
+    <value>37</value>
+  </data>
+  <data name="CHKgraphroll.Text" xml:space="preserve">
+    <value>顯示 Roll</value>
+  </data>
+  <data name="CHKgraphpitch.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
+  </data>
+  <data name="CHKgraphpitch.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CHKgraphpitch.Location" type="System.Drawing.Point, System.Drawing">
+    <value>110, 709</value>
+  </data>
+  <data name="CHKgraphpitch.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 17</value>
+  </data>
+  <data name="CHKgraphpitch.TabIndex" type="System.Int32, mscorlib">
+    <value>38</value>
+  </data>
+  <data name="CHKgraphpitch.Text" xml:space="preserve">
+    <value>顯示 Pitch</value>
+  </data>
+  <data name="CHKgraphrudder.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
+  </data>
+  <data name="CHKgraphrudder.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CHKgraphrudder.Location" type="System.Drawing.Point, System.Drawing">
+    <value>207, 709</value>
+  </data>
+  <data name="CHKgraphrudder.Size" type="System.Drawing.Size, System.Drawing">
+    <value>91, 17</value>
+  </data>
+  <data name="CHKgraphrudder.TabIndex" type="System.Int32, mscorlib">
+    <value>39</value>
+  </data>
+  <data name="CHKgraphrudder.Text" xml:space="preserve">
+    <value>顯示 Rudder</value>
+  </data>
+  <data name="CHKgraphthrottle.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
+  </data>
+  <data name="CHKgraphthrottle.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CHKgraphthrottle.Location" type="System.Drawing.Point, System.Drawing">
+    <value>304, 709</value>
+  </data>
+  <data name="CHKgraphthrottle.Size" type="System.Drawing.Size, System.Drawing">
+    <value>92, 17</value>
+  </data>
+  <data name="CHKgraphthrottle.TabIndex" type="System.Int32, mscorlib">
+    <value>40</value>
+  </data>
+  <data name="CHKgraphthrottle.Text" xml:space="preserve">
+    <value>顯示 Throttle</value>
+  </data>
+  <data name="but_advsettings.Location" type="System.Drawing.Point, System.Drawing">
+    <value>566, 368</value>
+  </data>
+  <data name="but_advsettings.Size" type="System.Drawing.Size, System.Drawing">
+    <value>64, 47</value>
+  </data>
+  <data name="but_advsettings.TabIndex" type="System.Int32, mscorlib">
+    <value>41</value>
+  </data>
+  <data name="but_advsettings.Text" xml:space="preserve">
+    <value>進階網路設定</value>
+  </data>
+  <data name="chkSITL.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="chkSITL.Location" type="System.Drawing.Point, System.Drawing">
+    <value>566, 186</value>
+  </data>
+  <data name="chkSITL.Size" type="System.Drawing.Size, System.Drawing">
+    <value>49, 17</value>
+  </data>
+  <data name="chkSITL.TabIndex" type="System.Int32, mscorlib">
+    <value>42</value>
+  </data>
+  <data name="chkSITL.Text" xml:space="preserve">
+    <value>SITL</value>
+  </data>
+  <data name="CHK_quad.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CHK_quad.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CHK_quad.Location" type="System.Drawing.Point, System.Drawing">
+    <value>566, 203</value>
+  </data>
+  <data name="CHK_quad.Size" type="System.Drawing.Size, System.Drawing">
+    <value>52, 17</value>
+  </data>
+  <data name="CHK_quad.TabIndex" type="System.Int32, mscorlib">
+    <value>43</value>
+  </data>
+  <data name="CHK_quad.Text" xml:space="preserve">
+    <value>四軸飛行器</value>
+  </data>
+  <data name="BUT_startfgquad.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="BUT_startfgquad.Location" type="System.Drawing.Point, System.Drawing">
+    <value>566, 66</value>
+  </data>
+  <data name="BUT_startfgquad.Size" type="System.Drawing.Size, System.Drawing">
+    <value>64, 34</value>
+  </data>
+  <data name="BUT_startfgquad.TabIndex" type="System.Int32, mscorlib">
+    <value>44</value>
+  </data>
+  <data name="BUT_startfgquad.Text" xml:space="preserve">
+    <value>執行 FG 多軸飛行器</value>
+  </data>
+  <data name="BUT_startfgplane.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="BUT_startfgplane.Location" type="System.Drawing.Point, System.Drawing">
+    <value>566, 106</value>
+  </data>
+  <data name="BUT_startfgplane.Size" type="System.Drawing.Size, System.Drawing">
+    <value>64, 34</value>
+  </data>
+  <data name="BUT_startfgplane.TabIndex" type="System.Int32, mscorlib">
+    <value>45</value>
+  </data>
+  <data name="BUT_startfgplane.Text" xml:space="preserve">
+    <value>執行 FG 固定翼飛行器</value>
+  </data>
+  <data name="BUT_startxplane.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="BUT_startxplane.Location" type="System.Drawing.Point, System.Drawing">
+    <value>566, 146</value>
+  </data>
+  <data name="BUT_startxplane.Size" type="System.Drawing.Size, System.Drawing">
+    <value>64, 34</value>
+  </data>
+  <data name="BUT_startxplane.TabIndex" type="System.Int32, mscorlib">
+    <value>46</value>
+  </data>
+  <data name="BUT_startxplane.Text" xml:space="preserve">
+    <value>執行 Xplane</value>
+  </data>
+  <data name="CHK_heli.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CHK_heli.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CHK_heli.Location" type="System.Drawing.Point, System.Drawing">
+    <value>566, 219</value>
+  </data>
+  <data name="CHK_heli.Size" type="System.Drawing.Size, System.Drawing">
+    <value>44, 17</value>
+  </data>
+  <data name="CHK_heli.TabIndex" type="System.Int32, mscorlib">
+    <value>47</value>
+  </data>
+  <data name="CHK_heli.Text" xml:space="preserve">
+    <value>傳統直升機</value>
+  </data>
+  <data name="RAD_aerosimrc.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="RAD_aerosimrc.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="RAD_aerosimrc.Location" type="System.Drawing.Point, System.Drawing">
+    <value>332, 40</value>
+  </data>
+  <data name="RAD_aerosimrc.Size" type="System.Drawing.Size, System.Drawing">
+    <value>79, 17</value>
+  </data>
+  <data name="RAD_aerosimrc.TabIndex" type="System.Int32, mscorlib">
+    <value>48</value>
+  </data>
+  <data name="RAD_aerosimrc.Text" xml:space="preserve">
+    <value>AeroSimRC</value>
+  </data>
+  <data name="RAD_aerosimrc.ToolTip" xml:space="preserve">
+    <value>可用於固定翼/直升機/多軸</value>
+  </data>
+  <data name="RAD_JSBSim.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="RAD_JSBSim.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="RAD_JSBSim.Location" type="System.Drawing.Point, System.Drawing">
+    <value>409, 40</value>
+  </data>
+  <data name="RAD_JSBSim.Size" type="System.Drawing.Size, System.Drawing">
+    <value>61, 17</value>
+  </data>
+  <data name="RAD_JSBSim.TabIndex" type="System.Int32, mscorlib">
+    <value>49</value>
+  </data>
+  <data name="RAD_JSBSim.Text" xml:space="preserve">
+    <value>JSBSim</value>
+  </data>
+  <data name="RAD_JSBSim.ToolTip" xml:space="preserve">
+    <value>可用於固定翼/直升機/多軸</value>
+  </data>
+  <data name="CHK_xplane10.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CHK_xplane10.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CHK_xplane10.Location" type="System.Drawing.Point, System.Drawing">
+    <value>566, 237</value>
+  </data>
+  <data name="CHK_xplane10.Size" type="System.Drawing.Size, System.Drawing">
+    <value>74, 17</value>
+  </data>
+  <data name="CHK_xplane10.TabIndex" type="System.Int32, mscorlib">
+    <value>50</value>
+  </data>
+  <data name="CHK_xplane10.Text" xml:space="preserve">
+    <value>Xplane 10</value>
+  </data>
+  <data name="$this.Localizable" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>6, 13</value>
+  </data>
+  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
+    <value>722, 742</value>
+  </data>
+</root>
