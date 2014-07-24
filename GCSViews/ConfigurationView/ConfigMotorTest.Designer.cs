@@ -64,7 +64,7 @@
             this.label2.Size = new System.Drawing.Size(214, 52);
             this.label2.TabIndex = 2;
             this.label2.Text = "NOTE: PLEASE HOLD DOWN YOUR UAV\r\nThis will test your motors are working.\r\nMotors " +
-    "are tested in a circle rotation \r\nstarting at the front left.";
+    "are tested in a clockwise rotation \r\nstarting at the front right.";
             // 
             // linkLabel1
             // 
