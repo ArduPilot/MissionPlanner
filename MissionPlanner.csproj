@@ -2400,6 +2400,9 @@
     <Content Include="FirmwareHistory.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="githash.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="hud.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
@@ -6115,8 +6118,8 @@
     <PostBuildEvent>"$(TargetDir)version.exe" "$(TargetPath)" &gt; "$(TargetDir)version.txt"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PreBuildEvent>
-    </PreBuildEvent>
+    <PreBuildEvent>cd $(ProjectDir)
+"C:\Program Files (x86)\Git\bin\git.exe" rev-parse HEAD &gt; "$(ProjectDir)\githash.txt"</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
