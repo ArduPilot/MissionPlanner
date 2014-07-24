@@ -385,6 +385,7 @@
       <DependentUpon>LogIndex.cs</DependentUpon>
     </Compile>
     <Compile Include="Log\LogMap.cs" />
+    <Compile Include="Maps\MapboxNoFly.cs" />
     <Compile Include="Maps\Mapbox.cs" />
     <Compile Include="Maps\Earthbuilder.cs" />
     <Compile Include="MovingBase.cs">
