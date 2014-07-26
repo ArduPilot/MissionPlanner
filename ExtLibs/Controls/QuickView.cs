@@ -37,7 +37,7 @@ namespace MissionPlanner.Controls
                 labelWithPseudoOpacity2.Text = ans;
 
                 // only run when needed
-                if (before.Length != ans.Length)
+                if (before.Length < ans.Length)
                     GetFontSize();
             }
         }
