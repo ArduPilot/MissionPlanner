@@ -63,6 +63,8 @@ namespace MissionPlanner.Utilities
                 try
                 {
                    // bmp = new Bitmap(bmp, new Size(8, 16));
+                    if (letter >= ':' && letter <= '@')
+                        continue;
 
                     bmp.Save("!"+letter + ".bmp");                    
 
