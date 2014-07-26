@@ -95,10 +95,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 CHK_revch1.Checked = MainV2.comPort.MAV.param["RC1_REV"].ToString() == "-1";
                 CHK_revch2.Checked = MainV2.comPort.MAV.param["RC2_REV"].ToString() == "-1";
-                CHK_revch3.Checked = MainV2.comPort.MAV.param["RC3_REV"].ToString() == "-1";
-                CHK_revch4.Checked = MainV2.comPort.MAV.param["RC4_REV"].ToString() == "-1";
+                if (MainV2.comPort.MAV.param.ContainsKey("RC3_REV"))
+                {
+
+                    CHK_revch3.Checked = MainV2.comPort.MAV.param["RC3_REV"].ToString() == "-1";
+                    CHK_revch4.Checked = MainV2.comPort.MAV.param["RC4_REV"].ToString() == "-1";
+                }
             }
-            catch {}//(Exception ex) { CustomMessageBox.Show("Missing RC rev Param " + ex.ToString()); }
+            catch { }//(Exception ex) { CustomMessageBox.Show("Missing RC rev Param " + ex.ToString()); }
             startup = false;
         }
 

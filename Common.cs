@@ -515,6 +515,17 @@ namespace MissionPlanner
                 var flightModes = Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("MODE1");
                 return flightModes;
             }
+            else if (cs.firmware == MainV2.Firmwares.ArduTracker)
+            {
+                var temp = new List<KeyValuePair<int, string>>();
+                temp.Add(new KeyValuePair<int, string>(0, "MANUAL"));
+                temp.Add(new KeyValuePair<int, string>(1, "STOP"));
+                temp.Add(new KeyValuePair<int, string>(2, "SCAN"));
+                temp.Add(new KeyValuePair<int, string>(10, "AUTO"));
+                temp.Add(new KeyValuePair<int, string>(16, "INITIALISING"));
+
+                return temp;
+            }
 
             return null;
         }

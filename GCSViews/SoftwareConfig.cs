@@ -83,6 +83,11 @@ namespace MissionPlanner.GCSViews
                         AddBackstageViewPage(new ConfigAteryx(), "Ateryx Pids");
                     }
 
+                    if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduTracker)
+                    {
+                        start = AddBackstageViewPage(new ConfigRawParams(), "Full Parameter List", null, true);
+                    }
+
                     AddBackstageViewPage(new ConfigPlanner(), "Planner");
                 }
                 else
@@ -101,7 +106,7 @@ namespace MissionPlanner.GCSViews
                 }
 
 
-                if (this.backstageView.SelectedPage == null)
+                if (this.backstageView.SelectedPage == null && start != null)
                     backstageView.ActivatePage(start);
 
                 ThemeManager.ApplyThemeTo(this);

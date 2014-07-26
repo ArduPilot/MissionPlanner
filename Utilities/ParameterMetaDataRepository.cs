@@ -67,6 +67,9 @@ namespace MissionPlanner.Utilities
              {
                  MainV2.Firmwares selected = MainV2.comPort.MAV.cs.firmware;
 
+                 if (selected == MainV2.Firmwares.ArduTracker)
+                     selected = MainV2.Firmwares.ArduPlane;
+
                  var element = _parameterMetaDataXML.Element("Params").Element(selected.ToString());
                  if (element != null && element.HasElements)
                  {
