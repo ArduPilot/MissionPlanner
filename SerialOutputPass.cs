@@ -22,6 +22,8 @@ namespace MissionPlanner
         {
             InitializeComponent();
 
+            chk_write.Checked = MainV2.comPort.MirrorStreamWrite;
+
             CMB_serialport.Items.AddRange(SerialPort.GetPortNames());
             CMB_serialport.Items.Add("TCP Host - 14550");
             CMB_serialport.Items.Add("TCP Client");
@@ -90,6 +92,11 @@ namespace MissionPlanner
             ((TcpSerial)MainV2.comPort.MirrorStream).client = client;
 
             listener.BeginAcceptTcpClient(new AsyncCallback(DoAcceptTcpClientCallback), listener);
+        }
+
+        private void chk_write_CheckedChanged(object sender, EventArgs e)
+        {
+            MainV2.comPort.MirrorStreamWrite = chk_write.Checked;
         }
     }
 }

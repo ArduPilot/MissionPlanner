@@ -32,6 +32,7 @@
             this.CMB_serialport = new System.Windows.Forms.ComboBox();
             this.BUT_connect = new MissionPlanner.Controls.MyButton();
             this.CMB_baudrate = new System.Windows.Forms.ComboBox();
+            this.chk_write = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // CMB_serialport
@@ -64,15 +65,24 @@
             resources.ApplyResources(this.CMB_baudrate, "CMB_baudrate");
             this.CMB_baudrate.Name = "CMB_baudrate";
             // 
+            // chk_write
+            // 
+            resources.ApplyResources(this.chk_write, "chk_write");
+            this.chk_write.Name = "chk_write";
+            this.chk_write.UseVisualStyleBackColor = true;
+            this.chk_write.CheckedChanged += new System.EventHandler(this.chk_write_CheckedChanged);
+            // 
             // SerialOutputPass
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.chk_write);
             this.Controls.Add(this.CMB_baudrate);
             this.Controls.Add(this.BUT_connect);
             this.Controls.Add(this.CMB_serialport);
             this.Name = "SerialOutputPass";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -81,5 +91,6 @@
         private System.Windows.Forms.ComboBox CMB_serialport;
         private Controls.MyButton BUT_connect;
         private System.Windows.Forms.ComboBox CMB_baudrate;
+        private System.Windows.Forms.CheckBox chk_write;
     }
 }
