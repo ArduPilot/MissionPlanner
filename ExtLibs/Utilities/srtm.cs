@@ -277,7 +277,11 @@ namespace MissionPlanner
 
         static double GetAlt(string filename, int x, int y)
         {
-            return cache[filename][x-1, y-1];
+            if (x == 1201)
+                x = 1200;
+            if (y == 1201)
+                y = 1200;
+            return cache[filename][x, y];
         }
 
         static double avg(double v1, double v2, double weight)
