@@ -32,8 +32,8 @@
             this.BUT_compassmot = new MissionPlanner.Controls.MyButton();
             this.txt_status = new System.Windows.Forms.TextBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.lbl_start = new System.Windows.Forms.Label();
+            this.lbl_finish = new System.Windows.Forms.Label();
             this.lbl_status = new System.Windows.Forms.Label();
             this.zedGraphControl1 = new ZedGraph.ZedGraphControl();
             this.SuspendLayout();
@@ -60,25 +60,25 @@
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // label1
+            // lbl_start
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(274, 14);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(29, 13);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Start";
-            this.label1.Visible = false;
+            this.lbl_start.AutoSize = true;
+            this.lbl_start.Location = new System.Drawing.Point(274, 14);
+            this.lbl_start.Name = "lbl_start";
+            this.lbl_start.Size = new System.Drawing.Size(29, 13);
+            this.lbl_start.TabIndex = 2;
+            this.lbl_start.Text = "Start";
+            this.lbl_start.Visible = false;
             // 
-            // label2
+            // lbl_finish
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(309, 14);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(34, 13);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "Finish";
-            this.label2.Visible = false;
+            this.lbl_finish.AutoSize = true;
+            this.lbl_finish.Location = new System.Drawing.Point(309, 14);
+            this.lbl_finish.Name = "lbl_finish";
+            this.lbl_finish.Size = new System.Drawing.Size(34, 13);
+            this.lbl_finish.TabIndex = 3;
+            this.lbl_finish.Text = "Finish";
+            this.lbl_finish.Visible = false;
             // 
             // lbl_status
             // 
@@ -112,8 +112,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.zedGraphControl1);
             this.Controls.Add(this.lbl_status);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.lbl_finish);
+            this.Controls.Add(this.lbl_start);
             this.Controls.Add(this.txt_status);
             this.Controls.Add(this.BUT_compassmot);
             this.Name = "ConfigCompassMot";
@@ -128,8 +128,8 @@
         private Controls.MyButton BUT_compassmot;
         private System.Windows.Forms.TextBox txt_status;
         private System.Windows.Forms.Timer timer1;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lbl_start;
+        private System.Windows.Forms.Label lbl_finish;
         private System.Windows.Forms.Label lbl_status;
         private ZedGraph.ZedGraphControl zedGraphControl1;
     }

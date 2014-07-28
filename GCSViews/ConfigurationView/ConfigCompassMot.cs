@@ -29,7 +29,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         public void Activate()
         {
-            BUT_compassmot.Text = label1.Text;
+            BUT_compassmot.Text = lbl_start.Text;
         }
 
         public void Deactivate()
@@ -45,7 +45,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 MainV2.comPort.SendAck();
                 incompassmot = false;
-                BUT_compassmot.Text = label1.Text;
+                BUT_compassmot.Text = lbl_start.Text;
             }
             else
             {
@@ -67,7 +67,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void BUT_compassmot_Click(object sender, EventArgs e)
         {
-            BUT_compassmot.Text = label2.Text;
+            BUT_compassmot.Text = lbl_finish.Text;
             DoCompassMot();
             timer1.Start();
         }
