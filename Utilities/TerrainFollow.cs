@@ -40,8 +40,8 @@ namespace MissionPlanner.Utilities
                     if ((lastrequest.mask & ((ulong)1 << i)) > 0)
                     {
                         // get the requested lat and lon
-                        double lat = lastrequest.lat * 1e7;
-                        double lon = lastrequest.lon * 1e7;
+                        double lat = lastrequest.lat / 1e7;
+                        double lon = lastrequest.lon / 1e7;
 
                         // get the distance between grids
                         int bitgridspacing = lastrequest.grid_spacing * 4;
@@ -69,8 +69,8 @@ namespace MissionPlanner.Utilities
 
             MAVLink.mavlink_terrain_data_t resp = new MAVLink.mavlink_terrain_data_t();
             resp.grid_spacing = grid_spacing;
-            resp.lat = (int)(lat / 1e7);
-            resp.lon = (int)(lon / 1e7);
+            resp.lat = (int)(lat * 1e7);
+            resp.lon = (int)(lon * 1e7);
             resp.gridbit = bit;
             resp.data = new short[16];
 
