@@ -1820,7 +1820,7 @@ Please check the following
                                             }
                                             else
                                             {
-                                                textoutput = textoutput + Convert.ToString(fiel, 16);
+                                                textoutput = textoutput + Convert.ToString(fiel, 16) +"|";
                                             }
                                         }
                                     }

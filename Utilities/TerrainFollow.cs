@@ -57,7 +57,7 @@ namespace MissionPlanner.Utilities
             else if (rawpacket[5] == (byte)MAVLink.MAVLINK_MSG_ID.TERRAIN_REPORT)
             {
                 MAVLink.mavlink_terrain_report_t packet = rawpacket.ByteArrayToStructure<MAVLink.mavlink_terrain_report_t>();
-                log.Info("received TERRAIN_REPORT " + packet.lat / 1e7 + " " + packet.lon / 1e7 + " " + packet.loaded);
+                log.Info("received TERRAIN_REPORT " + packet.lat / 1e7 + " " + packet.lon / 1e7 + " " + packet.loaded + " " + packet.pending);
 
             }
             return false;
@@ -69,8 +69,8 @@ namespace MissionPlanner.Utilities
 
             MAVLink.mavlink_terrain_data_t resp = new MAVLink.mavlink_terrain_data_t();
             resp.grid_spacing = grid_spacing;
-            resp.lat = (int)(lat * 1e7);
-            resp.lon = (int)(lon * 1e7);
+            resp.lat = lastrequest.lat;
+            resp.lon = lastrequest.lon;
             resp.gridbit = bit;
             resp.data = new short[16];
 
