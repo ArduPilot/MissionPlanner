@@ -1564,7 +1564,7 @@ namespace MissionPlanner
 
         private void but_terrain_Click(object sender, EventArgs e)
         {
-            MainV2.comPort.Terrain.checkTerrain(MainV2.comPort.MAV.cs.lat, MainV2.comPort.MAV.cs.lng);
+            MainV2.comPort.Terrain.checkTerrain(MainV2.comPort.MAV.cs.HomeLocation.Lat, MainV2.comPort.MAV.cs.HomeLocation.Lng);
         }
     }
 }

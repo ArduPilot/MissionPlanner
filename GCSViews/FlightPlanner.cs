@@ -1715,6 +1715,9 @@ namespace MissionPlanner.GCSViews
                         e.ErrorMessage = "Upload wps failed " + Commands.Rows[a].Cells[Command.Index].Value.ToString() + " " + Enum.Parse(typeof(MAVLink.MAV_MISSION_RESULT), ans.ToString());
                         return;
                     }
+
+                    if (temp.lat != 0 && temp.lng != 0)
+                        MainV2.comPort.Terrain.checkTerrain(temp.lat,temp.lng);
                 }
 
                 port.setWPACK();

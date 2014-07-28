@@ -13,6 +13,8 @@ namespace MissionPlanner.Utilities
 
         ulong sentbits = 0;
 
+        bool issending = false;
+
         MAVLink.mavlink_terrain_request_t lastrequest;
 
         public TerrainFollow()
@@ -28,31 +30,14 @@ namespace MissionPlanner.Utilities
             {
                 MAVLink.mavlink_terrain_request_t packet = rawpacket.ByteArrayToStructure<MAVLink.mavlink_terrain_request_t>();
 
+                if (issending)
+                    return false;
+
                 lastrequest = packet;
 
                 log.Info("received TERRAIN_REQUEST " + packet.lat / 1e7 + " " + packet.lon / 1e7 + " space " + packet.grid_spacing + " " + Convert.ToString((long)packet.mask, 2));
 
-                // 8 across - 7 down
-                // cycle though the bitmask to check what we need to send (8*7)
-                for (byte i = 0; i < 56; i++)
-                {
-                    // check to see if the ap requested this box.
-                    if ((lastrequest.mask & ((ulong)1 << i)) > 0)
-                    {
-                        // get the requested lat and lon
-                        double lat = lastrequest.lat / 1e7;
-                        double lon = lastrequest.lon / 1e7;
-
-                        // get the distance between grids
-                        int bitgridspacing = lastrequest.grid_spacing * 4;
-
-                        // get the new point, based on our current bit.
-                        var newplla = new PointLatLngAlt(lat, lon).location_offset(bitgridspacing * (i % 8),bitgridspacing * (int)Math.Floor(i / 8.0));
-
-                        // send a 4*4 grid, based on the lat lon of the bitmask
-                        SendGrid(newplla.Lat, newplla.Lng, lastrequest.grid_spacing, i);
-                    }
-                }
+                System.Threading.ThreadPool.QueueUserWorkItem(QueueSendGrid);
             }
             else if (rawpacket[5] == (byte)MAVLink.MAVLINK_MSG_ID.TERRAIN_REPORT)
             {
@@ -61,6 +46,38 @@ namespace MissionPlanner.Utilities
 
             }
             return false;
+        }
+
+        void QueueSendGrid(object nothing)
+        {
+            issending = true;
+
+            // 8 across - 7 down
+            // cycle though the bitmask to check what we need to send (8*7)
+            for (byte i = 0; i < 56; i++)
+            {
+                // check to see if the ap requested this box.
+                if ((lastrequest.mask & ((ulong)1 << i)) > 0)
+                {
+                    // get the requested lat and lon
+                    double lat = lastrequest.lat / 1e7;
+                    double lon = lastrequest.lon / 1e7;
+
+                    // get the distance between grids
+                    int bitgridspacing = lastrequest.grid_spacing * 4;
+
+                    // get the new point, based on our current bit.
+                    var newplla = new PointLatLngAlt(lat, lon).location_offset(bitgridspacing * (i % 8), bitgridspacing * (int)Math.Floor(i / 8.0));
+
+                    // send a 4*4 grid, based on the lat lon of the bitmask
+                    SendGrid(newplla.Lat, newplla.Lng, lastrequest.grid_spacing, i);
+
+                    // 12hz = (43+6) * 12 = 588 bps
+                    System.Threading.Thread.Sleep(1000/12);
+                }
+            }
+
+            issending = false;
         }
 
         void SendGrid(double lat, double lon, ushort grid_spacing, byte bit)
