@@ -26,6 +26,7 @@ namespace MissionPlanner
         public ICommsSerial BaseStream { get; set; }
 
         public ICommsSerial MirrorStream { get; set; }
+        public bool MirrorStreamWrite { get; set; }
 
         public event EventHandler ParamListChanged;
 
@@ -41,6 +42,8 @@ namespace MissionPlanner
         string buildplaintxtline = "";
 
         public bool ReadOnly = false;
+
+        public TerrainFollow Terrain;
 
         public event ProgressEventHandler Progress;
 
@@ -330,6 +333,8 @@ namespace MissionPlanner
             MAV.VersionString = "";
             MAV.SoftwareVersions = "";
             MAV.SerialString = "";
+
+            Terrain = new TerrainFollow();
 
             bool hbseen = false;
 
@@ -2631,7 +2636,8 @@ Please check the following
 
                                 int len = MirrorStream.Read(buf, 0, buf.Length);
 
-                                BaseStream.Write(buf, 0, len);
+                                if (MirrorStreamWrite)
+                                    BaseStream.Write(buf, 0, len);
                             }
                         }
                     }
@@ -3432,6 +3438,9 @@ Please check the following
                             break;
                         case MAVLink.MAV_TYPE.GROUND_ROVER:
                             MAV.cs.firmware = MainV2.Firmwares.ArduRover;
+                            break;
+                        case MAV_TYPE.ANTENNA_TRACKER:
+                            MAV.cs.firmware = MainV2.Firmwares.ArduTracker;
                             break;
                         default:
                             break;

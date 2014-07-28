@@ -1,0 +1,102 @@
+﻿using log4net;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+
+namespace MissionPlanner.Utilities
+{
+    public class TerrainFollow
+    {
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
+        ulong sentbits = 0;
+
+        MAVLink.mavlink_terrain_request_t lastrequest;
+
+        public TerrainFollow()
+        {
+            log.Info("Subscribe to packets");
+            MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.TERRAIN_REQUEST, ReceviedPacket);
+            //MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.TERRAIN_REPORT, ReceviedPacket);
+        }
+
+        bool ReceviedPacket(byte[] rawpacket)
+        {
+            if (rawpacket[5] == (byte)MAVLink.MAVLINK_MSG_ID.TERRAIN_REQUEST)
+            {
+                MAVLink.mavlink_terrain_request_t packet = rawpacket.ByteArrayToStructure<MAVLink.mavlink_terrain_request_t>();
+
+                lastrequest = packet;
+
+                log.Info("received TERRAIN_REQUEST " + packet.lat / 1e7 + " " + packet.lon / 1e7 + " space " + packet.grid_spacing + " " + Convert.ToString((long)packet.mask, 2));
+
+                // 8 across - 7 down
+                // cycle though the bitmask to check what we need to send (8*7)
+                for (byte i = 0; i < 56; i++)
+                {
+                    // check to see if the ap requested this box.
+                    if ((lastrequest.mask & ((ulong)1 << i)) > 0)
+                    {
+                        // get the requested lat and lon
+                        double lat = lastrequest.lat * 1e7;
+                        double lon = lastrequest.lon * 1e7;
+
+                        // get the distance between grids
+                        int bitgridspacing = lastrequest.grid_spacing * 4;
+
+                        // get the new point, based on our current bit.
+                        var newplla = new PointLatLngAlt(lat, lon).location_offset(bitgridspacing * (i % 8),bitgridspacing * (int)Math.Floor(i / 8.0));
+
+                        // send a 4*4 grid, based on the lat lon of the bitmask
+                        SendGrid(newplla.Lat, newplla.Lng, lastrequest.grid_spacing, i);
+                    }
+                }
+            }
+            else if (rawpacket[5] == (byte)MAVLink.MAVLINK_MSG_ID.TERRAIN_REPORT)
+            {
+                MAVLink.mavlink_terrain_report_t packet = rawpacket.ByteArrayToStructure<MAVLink.mavlink_terrain_report_t>();
+                log.Info("received TERRAIN_REPORT " + packet.lat / 1e7 + " " + packet.lon / 1e7 + " " + packet.loaded);
+
+            }
+            return false;
+        }
+
+        void SendGrid(double lat, double lon, ushort grid_spacing, byte bit)
+        {
+            log.Info("SendGrid "+ lat + " " + lon + " space " + grid_spacing + " bit "+ bit);
+
+            MAVLink.mavlink_terrain_data_t resp = new MAVLink.mavlink_terrain_data_t();
+            resp.grid_spacing = grid_spacing;
+            resp.lat = (int)(lat / 1e7);
+            resp.lon = (int)(lon / 1e7);
+            resp.gridbit = bit;
+            resp.data = new short[16];
+
+            for (int i = 0; i < (4 * 4); i++)
+            {
+                int y = i % 4;
+                int x = i / 4;
+
+                PointLatLngAlt plla = new PointLatLngAlt(lat, lon).location_offset(x * grid_spacing, y * grid_spacing);
+
+                double alt = srtm.getAltitude(plla.Lat, plla.Lng);
+
+                resp.data[i] = (short)alt;
+            }
+
+            MainV2.comPort.sendPacket(resp);
+        }
+
+        public void checkTerrain(double lat, double lon)
+        {
+            MAVLink.mavlink_terrain_check_t packet = new MAVLink.mavlink_terrain_check_t();
+
+            packet.lat = (int)(lat * 1e7);
+            packet.lon = (int)(lon * 1e7);
+
+            MainV2.comPort.sendPacket(packet);
+        }
+    }
+}
