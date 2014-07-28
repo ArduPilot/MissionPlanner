@@ -1785,17 +1785,46 @@ Please check the following
                             if (field.FieldType.IsArray)
                             {
                                 textoutput = textoutput + field.Name + delimeter;
-                                byte[] crap = (byte[])fieldValue;
-                                foreach (byte fiel in crap)
+                                if (fieldValue.GetType() == typeof(byte[]))
                                 {
-                                    if (fiel == 0)
+
+                                    try
                                     {
-                                        break;
+                                        byte[] crap = (byte[])fieldValue;
+
+                                        foreach (byte fiel in crap)
+                                        {
+                                            if (fiel == 0)
+                                            {
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                textoutput = textoutput + (char)fiel;
+                                            }
+                                        }
                                     }
-                                    else
+                                    catch { }
+                                }
+                                if (fieldValue.GetType() == typeof(short[]))
+                                {
+                                    try
                                     {
-                                        textoutput = textoutput + (char)fiel;
+                                        short[] crap = (short[])fieldValue;
+
+                                        foreach (short fiel in crap)
+                                        {
+                                            if (fiel == 0)
+                                            {
+                                                break;
+                                            }
+                                            else
+                                            {
+                                                textoutput = textoutput + Convert.ToString(fiel, 16);
+                                            }
+                                        }
                                     }
+                                    catch { }
                                 }
                                 textoutput = textoutput + delimeter;
                             }
