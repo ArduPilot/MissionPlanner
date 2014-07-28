@@ -93,6 +93,7 @@
             this.CHK_speechlowspeed = new System.Windows.Forms.CheckBox();
             this.CHK_advancedview = new System.Windows.Forms.CheckBox();
             this.CHK_showairports = new System.Windows.Forms.CheckBox();
+            this.chk_ADSB = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_tracklength)).BeginInit();
             this.SuspendLayout();
             // 
@@ -596,10 +597,18 @@
             this.CHK_showairports.UseVisualStyleBackColor = true;
             this.CHK_showairports.CheckedChanged += new System.EventHandler(this.CHK_showairports_CheckedChanged);
             // 
+            // chk_ADSB
+            // 
+            resources.ApplyResources(this.chk_ADSB, "chk_ADSB");
+            this.chk_ADSB.Name = "chk_ADSB";
+            this.chk_ADSB.UseVisualStyleBackColor = true;
+            this.chk_ADSB.CheckedChanged += new System.EventHandler(this.chk_ADSB_CheckedChanged);
+            // 
             // ConfigPlanner
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.chk_ADSB);
             this.Controls.Add(this.CHK_showairports);
             this.Controls.Add(this.CHK_advancedview);
             this.Controls.Add(this.CHK_speechlowspeed);
@@ -738,5 +747,6 @@
         private System.Windows.Forms.CheckBox CHK_speechlowspeed;
         private System.Windows.Forms.CheckBox CHK_advancedview;
         private System.Windows.Forms.CheckBox CHK_showairports;
+        private System.Windows.Forms.CheckBox chk_ADSB;
     }
 }

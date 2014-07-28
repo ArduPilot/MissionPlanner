@@ -749,6 +749,7 @@
     <Compile Include="Utilities\POI.cs" />
     <Compile Include="Utilities\SignXML.cs" />
     <Compile Include="Utilities\StringRedirectWriter.cs" />
+    <Compile Include="Utilities\TerrainFollow.cs" />
     <Compile Include="Utilities\Update.cs" />
     <Compile Include="Utilities\VersionDetection.cs" />
     <Compile Include="Warnings\CustomWarning.cs" />

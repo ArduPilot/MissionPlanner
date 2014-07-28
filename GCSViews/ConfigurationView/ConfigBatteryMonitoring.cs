@@ -278,7 +278,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         public void Activate()
         {
-            if (!MainV2.comPort.BaseStream.IsOpen)
+            if (!MainV2.comPort.BaseStream.IsOpen || !MainV2.comPort.MAV.param.ContainsKey("BATT_MONITOR"))
             {
                 this.Enabled = false;
                 return;

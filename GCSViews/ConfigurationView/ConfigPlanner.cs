@@ -589,6 +589,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             SetCheckboxFromConfig("password_protect", CHK_Password);
             SetCheckboxFromConfig("advancedview", CHK_advancedview);
             SetCheckboxFromConfig("showairports", CHK_showairports);
+            SetCheckboxFromConfig("enableadsb", chk_ADSB);
 
             // this can't fail because it set at startup
             NUM_tracklength.Value = int.Parse(MainV2.config["NUM_tracklength"].ToString());
@@ -780,6 +781,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             MainV2.config["showairports"] = CHK_showairports.Checked.ToString();
             MainV2.ShowAirports = CHK_showairports.Checked;
+        }
+
+        private void chk_ADSB_CheckedChanged(object sender, EventArgs e)
+        {
+            MainV2.config["enableadsb"] = chk_ADSB.Checked.ToString();
+            MainV2.EnableADSB = CHK_showairports.Checked;
         }
     }
 }

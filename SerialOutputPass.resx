@@ -138,7 +138,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CMB_serialport.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="BUT_connect.Location" type="System.Drawing.Point, System.Drawing">
     <value>140, 13</value>
@@ -162,7 +162,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BUT_connect.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="CMB_baudrate.Items" xml:space="preserve">
     <value>4800</value>
@@ -207,6 +207,33 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CMB_baudrate.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="chk_write.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="chk_write.Location" type="System.Drawing.Point, System.Drawing">
+    <value>140, 46</value>
+  </data>
+  <data name="chk_write.Size" type="System.Drawing.Size, System.Drawing">
+    <value>88, 17</value>
+  </data>
+  <data name="chk_write.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="chk_write.Text" xml:space="preserve">
+    <value>Write access</value>
+  </data>
+  <data name="&gt;&gt;chk_write.Name" xml:space="preserve">
+    <value>chk_write</value>
+  </data>
+  <data name="&gt;&gt;chk_write.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;chk_write.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;chk_write.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">

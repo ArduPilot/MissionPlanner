@@ -110,6 +110,24 @@ namespace MissionPlanner
 
         public static bool ShowAirports { get; set; }
 
+        private static Utilities.adsb _adsb;
+        public static bool EnableADSB
+        {
+            get { return _adsb != null; }
+            set
+            {
+                if (value == true)
+                {
+                    _adsb = new Utilities.adsb();
+                }
+                else
+                {
+                    Utilities.adsb.Stop();
+                    _adsb = null;
+                }
+            }
+        }
+
         public static event EventHandler AdvancedChanged;
 
         /// <summary>
@@ -220,7 +238,8 @@ namespace MissionPlanner
             ArduCopter2,
             //ArduHeli,
             ArduRover,
-            Ateryx
+            Ateryx,
+            ArduTracker
         }
 
         DateTime connectButtonUpdate = DateTime.Now;
@@ -261,6 +280,9 @@ namespace MissionPlanner
             log.Info("Mainv2 ctor");
 
             ShowAirports = true;
+
+            // setup adsb
+            Utilities.adsb.UpdatePlanePosition += adsb_UpdatePlanePosition;
 
             Form splash = Program.Splash;
 
@@ -407,6 +429,11 @@ namespace MissionPlanner
             if (MainV2.config["showairports"] != null)
             {
                 MainV2.ShowAirports = bool.Parse(config["showairports"].ToString());
+            }
+
+            if (MainV2.config["enableadsb"] != null)
+            {
+                MainV2.EnableADSB = bool.Parse(config["enableadsb"].ToString());
             }
 
             // load this before the other screens get loaded
@@ -578,11 +605,6 @@ namespace MissionPlanner
             Application.DoEvents();
 
             Comports.Add(comPort);
-
-            // setup adsb
-            Utilities.adsb.UpdatePlanePosition += adsb_UpdatePlanePosition;
-
-            new Utilities.adsb();
 
             //int fixmenextrelease;
             // if (MainV2.getConfig("fixparams") == "")

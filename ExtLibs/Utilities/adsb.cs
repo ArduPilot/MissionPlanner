@@ -25,19 +25,27 @@ namespace MissionPlanner.Utilities
         /// </summary>
         public static event EventHandler UpdatePlanePosition;
 
-        static bool run = true;
+        static bool run = false;
+        static bool running = false;
 
         public static string server = "";
         public static int serverport = 0;
 
         public adsb()
         {
+            log.Info("adsb ctor");
             System.Threading.ThreadPool.QueueUserWorkItem(TryConnect);
         }
 
         public static void Stop()
         {
+            log.Info("adsb stop");
             run = false;
+
+            while (running)
+                System.Threading.Thread.Sleep(100);
+
+            log.Info("adsb stopped");
         }
 
         void TryConnect(object obj)
@@ -49,8 +57,11 @@ namespace MissionPlanner.Utilities
             catch { }
             System.Threading.Thread.CurrentThread.IsBackground = true;
 
+            run = true;
+
             while (run)
             {
+                running = true;
                 log.Info("adsb connect loop");
                 //custom
                 try
@@ -139,6 +150,9 @@ namespace MissionPlanner.Utilities
                 GC.Collect();
                 System.Threading.Thread.Sleep(5000);
             }
+
+            log.Info("adsb thread exit");
+            running = false;
         }
 
         static Hashtable Planes = new Hashtable();

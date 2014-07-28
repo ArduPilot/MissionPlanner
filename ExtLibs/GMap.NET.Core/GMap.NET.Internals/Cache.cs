@@ -185,6 +185,9 @@ namespace GMap.NET.Internals
          {
             ConvertToHash(ref url);
 
+            if (cache == null)
+                cache = CacheLocator.Location;
+
             string dir = Path.Combine(cache, type.ToString()) + Path.DirectorySeparatorChar;
 
             // precrete dir
