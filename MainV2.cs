@@ -626,7 +626,7 @@ namespace MissionPlanner
 
                 Utilities.Airports.checkdups = true;
 
-                Utilities.Airports.ReadOpenflights(Application.StartupPath + Path.DirectorySeparatorChar + "airports.dat");
+                //Utilities.Airports.ReadOpenflights(Application.StartupPath + Path.DirectorySeparatorChar + "airports.dat");
 
                 log.Info("Loaded " + Utilities.Airports.GetAirportCount + " airports");
             }
