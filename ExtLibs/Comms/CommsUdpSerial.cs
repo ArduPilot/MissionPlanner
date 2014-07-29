@@ -75,6 +75,9 @@ namespace MissionPlanner.Comms
                 return;
             }
 
+            if (client != null)
+                client.Close();
+
             string dest = Port;
 
             dest = OnSettings("UDP_port", dest);
