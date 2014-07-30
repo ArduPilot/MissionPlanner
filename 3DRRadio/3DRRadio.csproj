@@ -132,6 +132,12 @@
     <EmbeddedResource Include="Config.zh-Hans.resx">
       <DependentUpon>Config.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Config.zh-Hant.resx">
+      <DependentUpon>Config.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Config.zh-TW.resx">
+      <DependentUpon>Config.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -148,10 +154,22 @@
     <EmbeddedResource Include="Rssi.zh-Hans.resx">
       <DependentUpon>Rssi.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Rssi.zh-Hant.resx">
+      <DependentUpon>Rssi.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Rssi.zh-TW.resx">
+      <DependentUpon>Rssi.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Terminal.resx">
       <DependentUpon>Terminal.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Terminal.zh-Hans.resx">
+      <DependentUpon>Terminal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Terminal.zh-Hant.resx">
+      <DependentUpon>Terminal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Terminal.zh-TW.resx">
       <DependentUpon>Terminal.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config" />
