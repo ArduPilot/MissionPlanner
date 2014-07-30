@@ -262,9 +262,9 @@ namespace MissionPlanner.GCSViews
                 PointLatLng last;
 
                 if (pointlist[pointlist.Count - 1] == null)
-                    last = pointlist[pointlist.Count - 2];
-                else
-                    last = pointlist[pointlist.Count - 1];
+                    return;
+                
+                last = pointlist[pointlist.Count - 1];
 
                 double lastdist = MainMap.MapProvider.Projection.GetDistance(last, currentMarker.Position);
 
@@ -1198,6 +1198,9 @@ namespace MissionPlanner.GCSViews
 
             for (int a = 0; a < fullpointlist.Count; a++)
             {
+                if (fullpointlist[a] == null)
+                    continue;
+
                 if (fullpointlist[a].Tag2 == "spline")
                 {
                     if (splinepnts.Count == 0)
