@@ -1035,8 +1035,7 @@ namespace MissionPlanner.GCSViews
                                 // add primary route icon
                                 if (routes.Markers.Count != 1)
                                 {
-                                    routes.Markers.Clear();
-                                    routes.Markers.Add(new GMarkerGoogle(currentloc, GMarkerGoogleType.none));
+                                    updateClearRouteMarker();
                                 }
 
                                 if (MainV2.comPort.MAV.cs.mode.ToLower() == "guided" && MainV2.comPort.MAV.GuidedMode.x != 0)
@@ -1176,6 +1175,15 @@ namespace MissionPlanner.GCSViews
             }
 
             throw new Exception("Bad Type");
+        }
+
+        private void updateClearRouteMarker()
+        {
+            this.Invoke((System.Windows.Forms.MethodInvoker)delegate()
+            {
+                routes.Markers.Clear();
+                routes.Markers.Add(new GMarkerGoogle(currentloc, GMarkerGoogleType.none));
+            });
         }
 
         private void setMapBearing()
