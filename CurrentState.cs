@@ -854,6 +854,17 @@ namespace MissionPlanner
                         press_temp = pres.temperature;
                     }
 
+                    bytearray = mavinterface.MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.TERRAIN_REPORT];
+                    if (bytearray != null)
+                    {
+                        var terrainrep = bytearray.ByteArrayToStructure<MAVLink.mavlink_terrain_report_t>(6);
+                        ter_curalt = terrainrep.current_height;
+                        ter_alt = terrainrep.terrain_height;
+                        ter_load = terrainrep.loaded;
+                        ter_pend = terrainrep.pending;
+                        ter_space = terrainrep.spacing;
+                    }
+
                     bytearray = mavinterface.MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.SENSOR_OFFSETS];
                     if (bytearray != null)
                     {
@@ -1311,5 +1322,15 @@ namespace MissionPlanner
         public float groundcourse2 { get; set; }
 
         public bool landed { get; set; }
+
+        public float ter_curalt { get; set; }
+
+        public float ter_alt { get; set; }
+
+        public ushort ter_load { get; set; }
+
+        public ushort ter_pend { get; set; }
+
+        public ushort ter_space { get; set; }
     }
 }
