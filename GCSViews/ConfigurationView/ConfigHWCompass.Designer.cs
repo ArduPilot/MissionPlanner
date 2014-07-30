@@ -38,7 +38,7 @@
             this.CHK_autodec = new System.Windows.Forms.CheckBox();
             this.label5 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label4 = new System.Windows.Forms.Label();
+            this.lbl_adv_cfg_only = new System.Windows.Forms.Label();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.label1 = new System.Windows.Forms.Label();
             this.imageLabel1 = new MissionPlanner.Controls.ImageLabel();
@@ -122,10 +122,10 @@
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.TabStop = false;
             // 
-            // label4
+            // lbl_adv_cfg_only
             // 
-            resources.ApplyResources(this.label4, "label4");
-            this.label4.Name = "label4";
+            resources.ApplyResources(this.lbl_adv_cfg_only, "lbl_adv_cfg_only");
+            this.lbl_adv_cfg_only.Name = "lbl_adv_cfg_only";
             // 
             // linkLabel1
             // 
@@ -267,7 +267,7 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.imageLabel1);
             this.Controls.Add(this.linkLabel1);
-            this.Controls.Add(this.label4);
+            this.Controls.Add(this.lbl_adv_cfg_only);
             this.Controls.Add(this.CHK_enablecompass);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.groupBox2);
@@ -304,7 +304,7 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.GroupBox groupBox2;
         private Controls.MavlinkComboBox CMB_compass_orient;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label lbl_adv_cfg_only;
         private System.Windows.Forms.LinkLabel linkLabel1;
         private System.Windows.Forms.Label label1;
         private Controls.ImageLabel imageLabel1;
