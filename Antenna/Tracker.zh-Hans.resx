@@ -117,85 +117,119 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="label12.Text" xml:space="preserve">
-    <value>这个界面使用不当会导致舵机损坏，请谨慎使用！！！</value>
-  </data>
-  <data name="label10.Text" xml:space="preserve">
-    <value>角度</value>
-  </data>
-  <data name="label13.Text" xml:space="preserve">
-    <value>中点的PWM</value>
-  </data>
-  <data name="label11.Text" xml:space="preserve">
-    <value>角度</value>
-  </data>
-  <data name="label14.Text" xml:space="preserve">
-    <value>中点的PWM</value>
-  </data>
-  <data name="BUT_find.Text" xml:space="preserve">
-    <value>找到微调Pan（3DR Radio）</value>
-  </data>
-  <data name="LBL_tilttrim.Text" xml:space="preserve">
-    <value>角度</value>
-  </data>
-  <data name="LBL_pantrim.Text" xml:space="preserve">
-    <value>角度</value>
-  </data>
-  <data name="label2.Text" xml:space="preserve">
-    <value>Pan</value>
-  </data>
-  <data name="label3.Text" xml:space="preserve">
-    <value>微调</value>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>31, 13</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
     <value>接口</value>
   </data>
-  <data name="label6.Text" xml:space="preserve">
+  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>31, 13</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
     <value>微调</value>
   </data>
-  <data name="label7.Text" xml:space="preserve">
-    <value>Tilt</value>
+  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>31, 13</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
     <value>范围</value>
   </data>
+  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>31, 13</value>
+  </data>
   <data name="label5.Text" xml:space="preserve">
     <value>范围</value>
   </data>
-  <data name="CMB_interface.Text" xml:space="preserve">
-    <value>大师</value>
+  <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>31, 13</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>微调</value>
+  </data>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>31, 13</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>平摇</value>
+  </data>
+  <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
+    <value>31, 13</value>
+  </data>
+  <data name="label7.Text" xml:space="preserve">
+    <value>俯仰</value>
+  </data>
+  <data name="CHK_revpan.Size" type="System.Drawing.Size, System.Drawing">
+    <value>50, 17</value>
+  </data>
+  <data name="CHK_revpan.Text" xml:space="preserve">
+    <value>反转</value>
+  </data>
+  <data name="CHK_revtilt.Size" type="System.Drawing.Size, System.Drawing">
+    <value>50, 17</value>
+  </data>
+  <data name="CHK_revtilt.Text" xml:space="preserve">
+    <value>反转</value>
+  </data>
+  <data name="label8.Size" type="System.Drawing.Size, System.Drawing">
+    <value>58, 13</value>
   </data>
   <data name="label8.Text" xml:space="preserve">
     <value>PWM范围</value>
   </data>
+  <data name="label9.Size" type="System.Drawing.Size, System.Drawing">
+    <value>58, 13</value>
+  </data>
   <data name="label9.Text" xml:space="preserve">
     <value>PWM范围</value>
   </data>
-  <data name="CHK_revtilt.Text" xml:space="preserve">
-    <value>旋转</value>
+  <data name="label10.Size" type="System.Drawing.Size, System.Drawing">
+    <value>31, 13</value>
   </data>
-  <data name="TXT_pwmrangepan.Text" xml:space="preserve">
-    <value>1000</value>
+  <data name="label10.Text" xml:space="preserve">
+    <value>角度</value>
   </data>
-  <data name="CHK_revpan.Text" xml:space="preserve">
-    <value>旋转</value>
+  <data name="label11.Size" type="System.Drawing.Size, System.Drawing">
+    <value>31, 13</value>
   </data>
-  <data name="TXT_panrange.Text" xml:space="preserve">
-    <value>360</value>
+  <data name="label11.Text" xml:space="preserve">
+    <value>角度</value>
   </data>
-  <data name="TXT_centerpan.Text" xml:space="preserve">
-    <value>1500</value>
+  <data name="label12.Size" type="System.Drawing.Size, System.Drawing">
+    <value>319, 13</value>
+  </data>
+  <data name="label12.Text" xml:space="preserve">
+    <value>这个界面使用不当会导致舵机损坏，请谨慎使用！！！</value>
   </data>
   <data name="BUT_connect.Text" xml:space="preserve">
     <value>连接</value>
   </data>
-  <data name="TXT_centertilt.Text" xml:space="preserve">
-    <value>1500</value>
+  <data name="LBL_pantrim.Size" type="System.Drawing.Size, System.Drawing">
+    <value>31, 13</value>
   </data>
-  <data name="TXT_pwmrangetilt.Text" xml:space="preserve">
-    <value>1000</value>
+  <data name="LBL_pantrim.Text" xml:space="preserve">
+    <value>角度</value>
   </data>
-  <data name="TXT_tiltrange.Text" xml:space="preserve">
-    <value>90</value>
+  <data name="LBL_tilttrim.Size" type="System.Drawing.Size, System.Drawing">
+    <value>31, 13</value>
+  </data>
+  <data name="LBL_tilttrim.Text" xml:space="preserve">
+    <value>角度</value>
+  </data>
+  <data name="BUT_find.Text" xml:space="preserve">
+    <value>找到微调Pan（3DR Radio）</value>
+  </data>
+  <data name="label13.Size" type="System.Drawing.Size, System.Drawing">
+    <value>70, 13</value>
+  </data>
+  <data name="label13.Text" xml:space="preserve">
+    <value>中点的PWM</value>
+  </data>
+  <data name="label14.Size" type="System.Drawing.Size, System.Drawing">
+    <value>70, 13</value>
+  </data>
+  <data name="label14.Text" xml:space="preserve">
+    <value>中点的PWM</value>
   </data>
 </root>

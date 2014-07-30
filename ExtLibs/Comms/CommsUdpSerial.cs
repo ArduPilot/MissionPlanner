@@ -59,7 +59,7 @@ namespace MissionPlanner.Comms
 
         public int BytesToWrite { get {return 0;} }
 
-        public bool IsOpen { get { if (client.Client == null) return false; return client.Client.Connected; } }
+        public bool IsOpen { get { if (client.Client == null) return false; return true; } }
 
         public bool DtrEnable
         {
@@ -74,6 +74,9 @@ namespace MissionPlanner.Comms
                 log.Info("udpserial socket already open");
                 return;
             }
+
+            if (client != null)
+                client.Close();
 
             string dest = Port;
 
@@ -142,7 +145,6 @@ namespace MissionPlanner.Comms
             {
                 client.Receive(ref RemoteIpEndPoint);
                 log.InfoFormat("NetSerial connecting to {0} : {1}", RemoteIpEndPoint.Address, RemoteIpEndPoint.Port);
-                client.Connect(RemoteIpEndPoint);
             }
             catch (Exception ex)
             {
@@ -174,6 +176,8 @@ namespace MissionPlanner.Comms
                 // check if we are at the end of our current allocation
                 if (rbufferread == rbuffer.Length)
                 {
+                    DateTime deadline = DateTime.Now.AddMilliseconds(this.ReadTimeout);
+
                     MemoryStream r = new MemoryStream();
                     do
                     {
@@ -187,7 +191,7 @@ namespace MissionPlanner.Comms
                         rbuffer = r.ToArray();
                         // reset head.
                         rbufferread = 0;
-                    } while (rbuffer.Length < length);
+                    } while (rbuffer.Length < length && DateTime.Now < deadline);
                 }
 
                 // prevent read past end of array
@@ -255,7 +259,7 @@ namespace MissionPlanner.Comms
             VerifyConnected();
             try
             {
-                client.Send(write, length);
+                client.Send(write, length, RemoteIpEndPoint);
             }
             catch { }//throw new Exception("Comport / Socket Closed"); }
         }
