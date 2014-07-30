@@ -59,7 +59,8 @@ namespace MissionPlanner.Comms
 
         public int BytesToWrite { get {return 0;} }
 
-        public bool IsOpen { get { if (client.Client == null) return false; return true; } }
+        private bool _isopen = false;
+        public bool IsOpen { get { if (client.Client == null) return false; return _isopen; } }
 
         public bool DtrEnable
         {
@@ -145,6 +146,7 @@ namespace MissionPlanner.Comms
             {
                 client.Receive(ref RemoteIpEndPoint);
                 log.InfoFormat("NetSerial connecting to {0} : {1}", RemoteIpEndPoint.Address, RemoteIpEndPoint.Port);
+                _isopen = true;
             }
             catch (Exception ex)
             {
@@ -162,6 +164,7 @@ namespace MissionPlanner.Comms
         {
             if (client == null || !IsOpen)
             {
+                this.Close();
                 throw new Exception("The socket/serialproxy is closed");
             }
         }
@@ -310,9 +313,9 @@ namespace MissionPlanner.Comms
 
         public void Close()
         {
-            if (client.Client != null && client.Client.Connected)
+            _isopen = false;
+            if (client != null)
             {
-                client.Client.Close();
                 client.Close();
             }
 
