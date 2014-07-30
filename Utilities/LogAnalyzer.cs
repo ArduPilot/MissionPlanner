@@ -80,6 +80,8 @@ LogAnalyzer.main()
             }
             catch (Exception ex) { log.Error(ex); CustomMessageBox.Show(ex.Message, "Error"); return ""; }
 
+            engine = null;
+
             return FileName + ".xml";
         }
 
