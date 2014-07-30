@@ -1035,7 +1035,7 @@ namespace MissionPlanner.GCSViews
                                 // add primary route icon
                                 if (routes.Markers.Count != 1)
                                 {
-                                    updateClearRouteMarker();
+                                    updateClearRouteMarker(currentloc);
                                 }
 
                                 if (MainV2.comPort.MAV.cs.mode.ToLower() == "guided" && MainV2.comPort.MAV.GuidedMode.x != 0)
@@ -1177,7 +1177,7 @@ namespace MissionPlanner.GCSViews
             throw new Exception("Bad Type");
         }
 
-        private void updateClearRouteMarker()
+        private void updateClearRouteMarker(PointLatLng currentloc)
         {
             this.Invoke((System.Windows.Forms.MethodInvoker)delegate()
             {
