@@ -123,12 +123,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (!MainV2.Advanced)
             {
                 BUT_MagCalibrationLog.Visible = false;
-                label4.Visible = false;
+                lbl_adv_cfg_only.Visible = false;
             }
             else
             {
                 BUT_MagCalibrationLog.Visible = true;
-                label4.Visible = true;
+                lbl_adv_cfg_only.Visible = true;
             }
 
             startup = true;
@@ -213,17 +213,19 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 return;
             }
 
-            if (radioButton_onboard.Checked)
+            if (radioButton_onboard.Checked && sender == radioButton_onboard)
             {
-                CMB_compass_orient.SelectedIndex =  (int)Common.Rotation.ROTATION_NONE;
+                CMB_compass_orient.SelectedIndex = (int)Common.Rotation.ROTATION_NONE;
                 MainV2.comPort.setParam("COMPASS_EXTERNAL", 0);
             }
-            if (radioButton_external.Checked)
+
+            if (radioButton_external.Checked && sender == radioButton_external)
             {
                 CMB_compass_orient.SelectedIndex = (int)Common.Rotation.ROTATION_ROLL_180;
-                MainV2.comPort.setParam("COMPASS_EXTERNAL",1);
+                MainV2.comPort.setParam("COMPASS_EXTERNAL", 1);
             }
-            if (rb_px4pixhawk.Checked)
+
+            if (rb_px4pixhawk.Checked && sender == rb_px4pixhawk)
             {
                 if (CustomMessageBox.Show("is the FW version greater than APM:copter 3.01 or APM:Plane 2.74?", "", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
@@ -234,7 +236,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     CMB_compass_orient.SelectedIndex = (int)Common.Rotation.ROTATION_ROLL_180;
                     MainV2.comPort.setParam("COMPASS_EXTERNAL", 0);
                 }
-                
+
             }
         }
     }
