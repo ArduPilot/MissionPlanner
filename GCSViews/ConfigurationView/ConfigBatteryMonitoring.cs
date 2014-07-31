@@ -451,6 +451,22 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     MainV2.comPort.setParam("BATT_VOLT_PIN", 2);
                     MainV2.comPort.setParam("BATT_CURR_PIN", 3);
                 }
+                else if (selection == 5)
+                {
+                    //vrbrain 5
+                    MainV2.comPort.setParam("BATT_VOLT_PIN", 10);
+                    MainV2.comPort.setParam("BATT_CURR_PIN", 11);
+                    MainV2.comPort.setParam(new string[] { "VOLT_DIVIDER", "BATT_VOLT_MULT" }, 10);
+                    TXT_divider.Text = "10";
+                }
+                else if (selection == 6)
+                {
+                    //vr micro brain 5
+                    MainV2.comPort.setParam("BATT_VOLT_PIN", 10);
+                    MainV2.comPort.setParam("BATT_CURR_PIN", -1);
+                    MainV2.comPort.setParam(new string[] { "VOLT_DIVIDER", "BATT_VOLT_MULT" }, 10);
+                    TXT_divider.Text = "10";
+                }
             }
             catch { CustomMessageBox.Show("Set BATT_????_PIN Failed", "Error"); }
 
