@@ -616,6 +616,8 @@ namespace MissionPlanner.GCSViews
                 start_Terminal(false);
             if (CMB_boardtype.Text.Contains("PX4"))
                 start_Terminal(true);
+            if (CMB_boardtype.Text.Contains("VRX"))
+                start_Terminal(true);
         }
 
         private void BUT_disconnect_Click(object sender, EventArgs e)

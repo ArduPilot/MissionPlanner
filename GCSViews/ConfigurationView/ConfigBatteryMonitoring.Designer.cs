@@ -133,7 +133,9 @@
             resources.GetString("CMB_apmversion.Items1"),
             resources.GetString("CMB_apmversion.Items2"),
             resources.GetString("CMB_apmversion.Items3"),
-            resources.GetString("CMB_apmversion.Items4")});
+            resources.GetString("CMB_apmversion.Items4"),
+            resources.GetString("CMB_apmversion.Items5"),
+            resources.GetString("CMB_apmversion.Items6")});
             resources.ApplyResources(this.CMB_apmversion, "CMB_apmversion");
             this.CMB_apmversion.Name = "CMB_apmversion";
             this.CMB_apmversion.SelectedIndexChanged += new System.EventHandler(this.CMB_apmversion_SelectedIndexChanged);

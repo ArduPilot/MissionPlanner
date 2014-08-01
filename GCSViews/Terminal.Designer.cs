@@ -105,7 +105,8 @@
             this.CMB_boardtype.FormattingEnabled = true;
             this.CMB_boardtype.Items.AddRange(new object[] {
             resources.GetString("CMB_boardtype.Items"),
-            resources.GetString("CMB_boardtype.Items1")});
+            resources.GetString("CMB_boardtype.Items1"),
+            resources.GetString("CMB_boardtype.Items2")});
             resources.ApplyResources(this.CMB_boardtype, "CMB_boardtype");
             this.CMB_boardtype.Name = "CMB_boardtype";
             // 

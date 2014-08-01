@@ -338,6 +338,9 @@ CLI Works only on first connect of power, log download only over USB
   <data name="CMB_boardtype.Items1" xml:space="preserve">
     <value>PX4/PIXHAWK</value>
   </data>
+  <data name="CMB_boardtype.Items2" xml:space="preserve">
+    <value>VRX/VRBRAIN</value>
+  </data>
   <data name="CMB_boardtype.Location" type="System.Drawing.Point, System.Drawing">
     <value>4, 4</value>
   </data>
