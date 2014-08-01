@@ -2309,7 +2309,7 @@ Please check the following
                                 if (DateTime.Now > to)
                                 {
                                     log.InfoFormat("MAVLINK: 1 wait time out btr {0} len {1}", BaseStream.BytesToRead, length);
-                                    throw new Exception("Timeout");
+                                    throw new TimeoutException("Timeout");
                                 }
                                 System.Threading.Thread.Sleep(1);
                                 //Console.WriteLine(DateTime.Now.Millisecond + " SR0b " + BaseStream.BytesToRead);
