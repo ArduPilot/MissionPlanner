@@ -142,6 +142,7 @@ namespace MissionPlanner.Controls
             {
                 //ShowDoneCancelled();
                 Running = false;
+                this.BeginInvoke((MethodInvoker)this.Close);
                 return;
             }
 
