@@ -34,7 +34,7 @@ namespace MissionPlanner
         /// used to prevent comport access for exclusive use
         /// </summary>
         public bool giveComport { get { return _giveComport; } set { _giveComport = value; } }
-        bool _giveComport = false;
+        volatile bool _giveComport = false;
 
         public Dictionary<string, MAV_PARAM_TYPE> param_types = new Dictionary<string, MAV_PARAM_TYPE>();
 
@@ -1656,6 +1656,9 @@ Please check the following
         /// <returns>WP</returns>
         public Locationwp getWP(ushort index)
         {
+            while (giveComport)
+                System.Threading.Thread.Sleep(100);
+
             giveComport = true;
             Locationwp loc = new Locationwp();
             mavlink_mission_request_t req = new mavlink_mission_request_t();
