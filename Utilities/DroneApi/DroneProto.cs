@@ -42,7 +42,7 @@ namespace MissionPlanner.Utilities.DroneApi
                     return true;
             }
             
-            throw new IOException("No Responce");
+            throw new IOException("No Response");
 
         }
 
@@ -64,7 +64,7 @@ namespace MissionPlanner.Utilities.DroneApi
 
                 throw new Exception("bad auth");
             }
-            throw new IOException("no login responce");
+            throw new IOException("no login response");
         }
 
         public bool startMission()

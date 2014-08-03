@@ -2834,7 +2834,7 @@ namespace MissionPlanner.GCSViews
                 if (ans == false)
                     CustomMessageBox.Show("Error: Arm message rejected by MAV", "Error");
             }
-            catch { CustomMessageBox.Show("Error: No responce from MAV", "Error"); }
+            catch { CustomMessageBox.Show("Error: No response from MAV", "Error"); }
 
 
         }

@@ -1712,7 +1712,7 @@ namespace MissionPlanner.GCSViews
                     }
                     if (ans == MAVLink.MAV_MISSION_RESULT.MAV_MISSION_INVALID_SEQUENCE)
                     {
-                        // invalid sequence can only occur if we failed to see a responce from the apm when we sent the request.
+                        // invalid sequence can only occur if we failed to see a response from the apm when we sent the request.
                         // therefore it did see the request and has moved on that step, and so do we.
                         continue;
                     } 

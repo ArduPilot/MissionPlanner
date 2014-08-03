@@ -756,7 +756,7 @@ Please check the following
 
                         if (st != paramname)
                         {
-                            log.InfoFormat("MAVLINK bad param responce - {0} vs {1}", paramname, st);
+                            log.InfoFormat("MAVLINK bad param response - {0} vs {1}", paramname, st);
                             continue;
                         }
 

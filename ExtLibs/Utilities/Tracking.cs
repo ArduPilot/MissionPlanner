@@ -281,7 +281,7 @@ namespace MissionPlanner.Utilities
                     var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
                     if (httpResponse.StatusCode >= HttpStatusCode.OK && (int)httpResponse.StatusCode < 300)
                     {
-                        // responce is a gif file
+                        // response is a gif file
                         log.Debug(httpResponse.StatusCode);
                     }
                     else
