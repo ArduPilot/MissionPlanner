@@ -6,11 +6,15 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.Collections;
+using BrightIdeasSoftware;
 
 namespace MissionPlanner
 {
     public partial class ParamCompare : Form
     {
+        public delegate void dtlvcallbackHandler(string param, float value);
+        public event dtlvcallbackHandler dtlvcallback;
+
         DataGridView dgv;
         Hashtable param = new Hashtable();
         Hashtable param2 = new Hashtable();
@@ -68,7 +72,10 @@ namespace MissionPlanner
                     {
                         if ((bool)row.Cells[Use.Index].Value == true)
                         {
-                            MainV2.comPort.setParam(row.Cells[Command.Index].Value.ToString().Trim(), float.Parse(row.Cells[newvalue.Index].Value.ToString()));
+                            if (dtlvcallback != null)
+                                dtlvcallback(row.Cells[Command.Index].Value.ToString().Trim(), float.Parse(row.Cells[newvalue.Index].Value.ToString()));
+                            else
+                                MainV2.comPort.setParam(row.Cells[Command.Index].Value.ToString().Trim(), float.Parse(row.Cells[newvalue.Index].Value.ToString()));
                         }
                     }
                 }
