@@ -265,7 +265,7 @@ namespace MissionPlanner.Comms
                     }
                 }
             }
-            catch { }
+            catch (Exception ex) { log.Error(ex); }
 
             return false;
         }
