@@ -1669,7 +1669,11 @@ namespace MissionPlanner.GCSViews
                     temp.p1 = float.Parse(Commands.Rows[a].Cells[Param1.Index].Value.ToString());
                     if (temp.id < (byte)MAVLink.MAV_CMD.LAST || temp.id == (byte)MAVLink.MAV_CMD.DO_SET_HOME)
                     {
-                        if (CHK_altmode.Checked)
+                        if (CHK_terrain.Checked)
+                        {
+                            frame = MAVLink.MAV_FRAME.GLOBAL_TERRAIN_ALT;
+                        }
+                        else if (CHK_altmode.Checked)
                         {
                             frame = MAVLink.MAV_FRAME.GLOBAL;
                         }
@@ -5880,6 +5884,11 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             quickadd = false;
             writeKML();
 
+        }
+
+        private void CHK_terrain_CheckedChanged(object sender, EventArgs e)
+        {
+            CHK_altmode.Checked = false;
         }
     }
 }
