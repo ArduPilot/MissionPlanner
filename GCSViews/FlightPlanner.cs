@@ -1165,6 +1165,9 @@ namespace MissionPlanner.GCSViews
 
                     for (int a = 1; a < fullpointlist.Count; a++)
                     {
+                        if (fullpointlist[a - 1] == null)
+                            continue;
+
                         dist += MainMap.MapProvider.Projection.GetDistance(fullpointlist[a - 1], fullpointlist[a]);
                     }
 
