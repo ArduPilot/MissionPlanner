@@ -49,7 +49,7 @@ namespace MissionPlanner
 
             ServicePointManager.DefaultConnectionLimit = 10;
             ServicePointManager.Expect100Continue = true;
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls;
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3;
 
             System.Windows.Forms.Application.ThreadException += Application_ThreadException;
 
