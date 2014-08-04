@@ -334,6 +334,12 @@
     <Compile Include="GCSViews\ConfigurationView\ConfigMotorTest.Designer.cs">
       <DependentUpon>ConfigMotorTest.cs</DependentUpon>
     </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigRawParamsTree.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigRawParamsTree.Designer.cs">
+      <DependentUpon>ConfigRawParamsTree.cs</DependentUpon>
+    </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigWizard.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -605,6 +611,24 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigRawParams.zh-Hant.resx">
       <DependentUpon>ConfigRawParams.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigRawParamsTree.de-DE.resx">
+      <DependentUpon>ConfigRawParamsTree.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigRawParamsTree.fr.resx">
+      <DependentUpon>ConfigRawParamsTree.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigRawParamsTree.it-IT.resx">
+      <DependentUpon>ConfigRawParamsTree.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigRawParamsTree.resx">
+      <DependentUpon>ConfigRawParamsTree.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigRawParamsTree.zh-Hans.resx">
+      <DependentUpon>ConfigRawParamsTree.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigRawParamsTree.zh-Hant.resx">
+      <DependentUpon>ConfigRawParamsTree.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigTradHeli.zh-TW.resx">
       <DependentUpon>ConfigTradHeli.cs</DependentUpon>
