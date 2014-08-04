@@ -334,13 +334,13 @@ namespace MissionPlanner
 
                 //test that we can find one point near a set of points all around the sphere surface
                 string displayresult = "";
-                int factor = 4; // 4 point check 16 points
+                int factor = 3; // 4 point check 16 points
                 float max_distance = radius / 3; //pretty generouse
-                for (int j = 0; j < factor; j++)
+                for (int j = 0; j <= factor; j++)
                 {
-                    double theta = (Math.PI * (j + 0.5)) / factor;
+                    double theta = (Math.PI * (j +0)) / factor;
 
-                    for (int i = 0; i < factor; i++)
+                    for (int i = 0; i <= factor; i++)
                     {
                         double phi = (2 * Math.PI * i) / factor;
 
@@ -362,12 +362,14 @@ namespace MissionPlanner
                                 break;
                             }
                         }
+                        // draw them all
+                        //((ProgressReporterSphere)sender).sphere1.AimFor(new OpenTK.Vector3((float)point_sphere.x, (float)point_sphere.y, (float)point_sphere.z));
                         if (!found)
                         {
                             displayresult = "more data needed " + (theta * rad2deg).ToString("0") + " " + (phi * rad2deg).ToString("0");
                             ((ProgressReporterSphere)sender).sphere1.AimFor(new OpenTK.Vector3((float)point_sphere.x, (float)point_sphere.y, (float)point_sphere.z));
                             //j = factor;
-                            break;
+                            //break;
                         }
                     }
                 }
