@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Globalization;
+using System.Reflection;
 using System.Text;
 using System.Net; // dns, ip address
 using System.Net.Sockets; // tcplistner
@@ -15,6 +16,8 @@ namespace MissionPlanner.Comms
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         UdpClient client = new UdpClient();
         IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
+        IPEndPoint SenderIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
+        private const int DefaultPort = 5009;
         byte[] rbuffer = new byte[0];
         int rbufferread = 0;
 
@@ -28,7 +31,7 @@ namespace MissionPlanner.Comms
             //System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en-US");
             //System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
 
-            Port = "14550";
+            Port = DefaultPort.ToString(CultureInfo.InvariantCulture);
         }
 
         public void toggleDTR()
@@ -145,7 +148,11 @@ namespace MissionPlanner.Comms
             try
             {
                 client.Receive(ref RemoteIpEndPoint);
+                SenderIpEndPoint.Address = RemoteIpEndPoint.Address;
+                int port;
+                SenderIpEndPoint.Port = int.TryParse(Port, out port) ? Convert.ToInt32(Port) : DefaultPort;
                 log.InfoFormat("NetSerial connecting to {0} : {1}", RemoteIpEndPoint.Address, RemoteIpEndPoint.Port);
+                log.InfoFormat("Sender: {0} : {1}", SenderIpEndPoint.Address, SenderIpEndPoint.Port);
                 _isopen = true;
             }
             catch (Exception ex)
@@ -262,7 +269,7 @@ namespace MissionPlanner.Comms
             VerifyConnected();
             try
             {
-                client.Send(write, length, RemoteIpEndPoint);
+                client.Send(write, length, SenderIpEndPoint);
             }
             catch { }//throw new Exception("Comport / Socket Closed"); }
         }
