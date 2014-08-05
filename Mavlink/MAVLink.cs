@@ -34,7 +34,7 @@ namespace MissionPlanner
         /// used to prevent comport access for exclusive use
         /// </summary>
         public bool giveComport { get { return _giveComport; } set { _giveComport = value; } }
-        bool _giveComport = false;
+        volatile bool _giveComport = false;
 
         public Dictionary<string, MAV_PARAM_TYPE> param_types = new Dictionary<string, MAV_PARAM_TYPE>();
 
@@ -756,7 +756,7 @@ Please check the following
 
                         if (st != paramname)
                         {
-                            log.InfoFormat("MAVLINK bad param responce - {0} vs {1}", paramname, st);
+                            log.InfoFormat("MAVLINK bad param response - {0} vs {1}", paramname, st);
                             continue;
                         }
 
@@ -1656,6 +1656,9 @@ Please check the following
         /// <returns>WP</returns>
         public Locationwp getWP(ushort index)
         {
+            while (giveComport)
+                System.Threading.Thread.Sleep(100);
+
             giveComport = true;
             Locationwp loc = new Locationwp();
             mavlink_mission_request_t req = new mavlink_mission_request_t();
@@ -2309,7 +2312,7 @@ Please check the following
                                 if (DateTime.Now > to)
                                 {
                                     log.InfoFormat("MAVLINK: 1 wait time out btr {0} len {1}", BaseStream.BytesToRead, length);
-                                    throw new Exception("Timeout");
+                                    throw new TimeoutException("Timeout");
                                 }
                                 System.Threading.Thread.Sleep(1);
                                 //Console.WriteLine(DateTime.Now.Millisecond + " SR0b " + BaseStream.BytesToRead);

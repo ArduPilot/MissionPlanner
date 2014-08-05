@@ -738,7 +738,7 @@ namespace MissionPlanner.Utilities
                 }
             }
 
-            updateProgress(0, "ERROR: No Responce from board");
+            updateProgress(0, "ERROR: No Response from board");
             return false;
         }
 
@@ -866,7 +866,7 @@ namespace MissionPlanner.Utilities
                 }
             }
 
-            updateProgress(0, "ERROR: No Responce from board");
+            updateProgress(0, "ERROR: No Response from board");
             return false;
         }
 

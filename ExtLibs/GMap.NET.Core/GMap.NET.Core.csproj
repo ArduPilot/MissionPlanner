@@ -37,7 +37,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;MONO; MySQL_disabled; PostgreSQL_disabled; SQLite</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;MONO; MySQL_disabled; PostgreSQL_disabled; noSQLite</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <CodeAnalysisLogFile>bin\x86\Debug\GMap.NET.Core.dll.CodeAnalysisLog.xml</CodeAnalysisLogFile>
@@ -55,7 +55,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;MONO; MySQL_disabled; PostgreSQL_disabled; SQLite</DefineConstants>
+    <DefineConstants>TRACE;MONO; MySQL_disabled; PostgreSQL_disabled; noSQLite</DefineConstants>
     <DocumentationFile>bin\x86\Release\GMap.NET.Core.XML</DocumentationFile>
     <Optimize>true</Optimize>
     <PlatformTarget>AnyCPU</PlatformTarget>

@@ -57,8 +57,8 @@ namespace MissionPlanner
         {
             public string name;
             public float turnrad;
+            public float minalt;
             public float maxalt;
-            public float minlat;
             public float minvel;
             public float maxvel;
         }
@@ -682,7 +682,7 @@ namespace MissionPlanner
                                                     aircraft.turnrad = float.Parse(xmlreader.ReadString(), new System.Globalization.CultureInfo("en-US"));
                                                     break;
                                                 case "min_alt_m":
-                                                    aircraft.minlat = float.Parse(xmlreader.ReadString(), new System.Globalization.CultureInfo("en-US"));
+                                                    aircraft.minalt = float.Parse(xmlreader.ReadString(), new System.Globalization.CultureInfo("en-US"));
                                                     break;
                                                 case "max_alt_m":
                                                     aircraft.maxalt = float.Parse(xmlreader.ReadString(), new System.Globalization.CultureInfo("en-US"));
@@ -845,6 +845,9 @@ namespace MissionPlanner
 
                 NUM_maxspd.Value = (decimal)aircraft.maxvel;
                 NUM_minspd.Value = (decimal)aircraft.minvel;
+
+                TBAR_zoom.Minimum = (int)aircraft.minalt;
+                TBAR_zoom.Maximum = (int)aircraft.maxalt;
             }
 
             doCalc();

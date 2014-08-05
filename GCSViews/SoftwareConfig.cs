@@ -74,6 +74,7 @@ namespace MissionPlanner.GCSViews
                     AddBackstageViewPage(new ConfigFriendlyParams { ParameterMode = ParameterMetaDataConstants.Advanced }, "Advanced Params",null,true);
                     AddBackstageViewPage(new ConfigRawParams(), "Full Parameter List", null, true);
 
+                    AddBackstageViewPage(new ConfigRawParamsTree(), "Full Parameter Tree", null, true);
 
 
                     if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.Ateryx)

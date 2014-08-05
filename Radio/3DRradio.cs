@@ -866,7 +866,7 @@ S15: MAX_WINDOW=131
             }
             catch { temp = comPort.ReadExisting(); }
             log.Info("cmd " + cmd + " echo " + temp);
-            // get responce
+            // get response
             string ans = "";
             DateTime deadline = DateTime.Now.AddMilliseconds(200);
             while (comPort.BytesToRead > 0 || DateTime.Now < deadline)
@@ -884,7 +884,7 @@ S15: MAX_WINDOW=131
                 }
             }
 
-            log.Info("responce " + level + " " + ans.Replace('\0', ' '));
+            log.Info("response " + level + " " + ans.Replace('\0', ' '));
 
             Regex pattern = new Regex(@"^\[([0-9+])\]\s+", RegexOptions.Multiline);
 
@@ -916,15 +916,15 @@ S15: MAX_WINDOW=131
                 // send config string
                 comPort.Write("+++");
                 Sleep(1100,comPort);
-                // check for config responce "OK"
+                // check for config response "OK"
                 log.Info("Connect btr " + comPort.BytesToRead + " baud " + comPort.BaudRate);
-                // allow time for data/responce
+                // allow time for data/response
                 
 
                 byte[] buffer = new byte[20];
                 int len = comPort.Read(buffer, 0, buffer.Length);
                 string conn = ASCIIEncoding.ASCII.GetString(buffer, 0, len);
-                log.Info("Connect first responce " + conn.Replace('\0', ' ') + " " + conn.Length);
+                log.Info("Connect first response " + conn.Replace('\0', ' ') + " " + conn.Length);
                 if (conn.Contains("OK"))
                 {
                     //return true;

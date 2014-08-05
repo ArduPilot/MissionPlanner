@@ -20,8 +20,8 @@ namespace MissionPlanner.Comms
 
         static object locker = new object();
 
-        public new bool DtrEnable { get { return base.DtrEnable; } set { if (ispx4(base.PortName)) return; base.DtrEnable = value; } }
-        public new bool RtsEnable { get { return base.RtsEnable; } set { if (ispx4(base.PortName)) return; base.RtsEnable = value; } }
+        public new bool DtrEnable { get { return base.DtrEnable; } set { log.Info(base.PortName + " DtrEnable " + value); if (base.DtrEnable == value) return; if (ispx4(base.PortName)) return; base.DtrEnable = value; } }
+        public new bool RtsEnable { get { return base.RtsEnable; } set { log.Info(base.PortName + " RtsEnable " + value); if (base.RtsEnable == value) return; if (ispx4(base.PortName)) return; base.RtsEnable = value; } }
         /*
         protected override void Dispose(bool disposing)
         {
@@ -265,7 +265,7 @@ namespace MissionPlanner.Comms
                     }
                 }
             }
-            catch { }
+            catch (Exception ex) { log.Error(ex); }
 
             return false;
         }

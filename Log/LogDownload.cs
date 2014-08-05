@@ -116,7 +116,7 @@ namespace MissionPlanner.Log
 
                 try
                 {
-                    // try provoke a responce
+                    // try provoke a response
                     comPort.Write("\n\n?\r\n\n");
                 }
                 catch

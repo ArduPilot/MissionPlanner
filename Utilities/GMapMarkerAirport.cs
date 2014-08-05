@@ -67,11 +67,18 @@ namespace MissionPlanner.Utilities
 
                 GPoint loc = new GPoint((int)(LocalPosition.X - (m2pixelwidth * wprad * 2)), LocalPosition.Y);// MainMap.FromLatLngToLocal(wpradposition);
 
-                //if (m2pixelheight > 0.5)
-                    g.DrawArc(Pen, new System.Drawing.Rectangle(LocalPosition.X - Offset.X - (int)(Math.Abs(loc.X - LocalPosition.X) / 2), LocalPosition.Y - Offset.Y - (int)Math.Abs(loc.X - LocalPosition.X) / 2, (int)Math.Abs(loc.X - LocalPosition.X), (int)Math.Abs(loc.X - LocalPosition.X)), 0, 360);
+               
+                int x = LocalPosition.X - Offset.X - (int)(Math.Abs(loc.X - LocalPosition.X) / 2);
+                int y = LocalPosition.Y - Offset.Y - (int)Math.Abs(loc.X - LocalPosition.X) / 2;
+                int widtharc = (int)Math.Abs(loc.X - LocalPosition.X);
+                int heightarc = (int)Math.Abs(loc.X - LocalPosition.X);
 
-                    g.FillPie(new SolidBrush(Color.FromArgb(25,Color.Red)), LocalPosition.X - Offset.X - (int)(Math.Abs(loc.X - LocalPosition.X) / 2), LocalPosition.Y - Offset.Y - (int)Math.Abs(loc.X - LocalPosition.X) / 2,  Math.Abs(loc.X - LocalPosition.X), Math.Abs(loc.X - LocalPosition.X), 0, 360);
+                if (widtharc > 0)
+                {
+                    g.DrawArc(Pen, new System.Drawing.Rectangle(x, y, widtharc, heightarc), 0, 360);
 
+                    g.FillPie(new SolidBrush(Color.FromArgb(25, Color.Red)), x, y, widtharc, heightarc, 0, 360);
+                }
             }
         
     }

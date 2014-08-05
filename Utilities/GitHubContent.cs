@@ -65,8 +65,8 @@ namespace MissionPlanner.Utilities
             WebRequest wr = WebRequest.Create(url);
             ((HttpWebRequest)wr).AllowAutoRedirect = true;
             ((HttpWebRequest)wr).UserAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko";
-            var responce = wr.GetResponse();
-            var respstream = responce.GetResponseStream();
+            var response = wr.GetResponse();
+            var respstream = response.GetResponseStream();
 
             string content = new StreamReader(respstream).ReadToEnd();
 
@@ -105,8 +105,8 @@ namespace MissionPlanner.Utilities
             WebRequest wr = WebRequest.Create(url);
             ((HttpWebRequest)wr).AllowAutoRedirect = true;
             ((HttpWebRequest)wr).UserAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko";
-            var responce = wr.GetResponse();
-            var respstream = responce.GetResponseStream();
+            var response = wr.GetResponse();
+            var respstream = response.GetResponseStream();
 
             string content = new StreamReader(respstream).ReadToEnd();
 

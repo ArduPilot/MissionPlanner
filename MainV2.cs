@@ -964,8 +964,18 @@ namespace MissionPlanner
                     comPort.Open(true);
 
                     if (!comPort.BaseStream.IsOpen)
-                        throw new Exception("Not connected");
-
+                    {
+                        log.Info("comport is closed. existing connect");
+                        try
+                        {
+                            _connectionControl.IsConnected(false);
+                            UpdateConnectIcon();
+                            comPort.Close();
+                        }
+                        catch { }
+                        return;
+                    }
+                        
                     // detect firmware we are conected to.
                         if (comPort.MAV.cs.firmware == Firmwares.ArduCopter2)
                         {

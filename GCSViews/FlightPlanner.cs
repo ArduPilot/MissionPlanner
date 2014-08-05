@@ -1165,6 +1165,9 @@ namespace MissionPlanner.GCSViews
 
                     for (int a = 1; a < fullpointlist.Count; a++)
                     {
+                        if (fullpointlist[a - 1] == null)
+                            continue;
+
                         dist += MainMap.MapProvider.Projection.GetDistance(fullpointlist[a - 1], fullpointlist[a]);
                     }
 
@@ -1666,7 +1669,11 @@ namespace MissionPlanner.GCSViews
                     temp.p1 = float.Parse(Commands.Rows[a].Cells[Param1.Index].Value.ToString());
                     if (temp.id < (byte)MAVLink.MAV_CMD.LAST || temp.id == (byte)MAVLink.MAV_CMD.DO_SET_HOME)
                     {
-                        if (CHK_altmode.Checked)
+                        if (CHK_terrain.Checked)
+                        {
+                            frame = MAVLink.MAV_FRAME.GLOBAL_TERRAIN_ALT;
+                        }
+                        else if (CHK_altmode.Checked)
                         {
                             frame = MAVLink.MAV_FRAME.GLOBAL;
                         }
@@ -1709,7 +1716,7 @@ namespace MissionPlanner.GCSViews
                     }
                     if (ans == MAVLink.MAV_MISSION_RESULT.MAV_MISSION_INVALID_SEQUENCE)
                     {
-                        // invalid sequence can only occur if we failed to see a responce from the apm when we sent the request.
+                        // invalid sequence can only occur if we failed to see a response from the apm when we sent the request.
                         // therefore it did see the request and has moved on that step, and so do we.
                         continue;
                     } 
@@ -5877,6 +5884,11 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             quickadd = false;
             writeKML();
 
+        }
+
+        private void CHK_terrain_CheckedChanged(object sender, EventArgs e)
+        {
+            CHK_altmode.Checked = false;
         }
     }
 }

@@ -13,6 +13,7 @@ using System.Windows.Forms;
 using log4net;
 using MissionPlanner.Utilities;
 using SharpKml.Base;
+using SharpKml.Dom;
 
 namespace MissionPlanner.Utilities
 {
@@ -147,7 +148,7 @@ namespace MissionPlanner.Utilities
                     //url = url.Replace(" HTTP/1.1", "");
 
                     Tracking.AddEvent("HTTPServer", "Get", url, "");
-
+/////////////////////////////////////////////////////////////////
                     if (url.Contains("websocket"))
                     {
                         using (var writer = new StreamWriter(stream, Encoding.Default))
@@ -200,6 +201,7 @@ namespace MissionPlanner.Utilities
                             }
                         }
                     }
+                    /////////////////////////////////////////////////////////////////
                     else if (url.Contains("georefnetwork.kml"))
                     {
                         string header = "HTTP/1.1 200 OK\r\nContent-Type: application/vnd.google-earth.kml+xml\r\nContent-Length: " + georefkml.Length + "\r\n\r\n";
@@ -214,6 +216,7 @@ namespace MissionPlanner.Utilities
 
                         //stream.Close();
                     }
+                    /////////////////////////////////////////////////////////////////
                     else if (url.Contains("network.kml"))
                     {
                         SharpKml.Dom.Document kml = new SharpKml.Dom.Document();
@@ -274,32 +277,37 @@ namespace MissionPlanner.Utilities
 
                         SharpKml.Dom.CoordinateCollection coords = new SharpKml.Dom.CoordinateCollection();
 
-                        if (loc.Latitude.Value != 0 && loc.Longitude.Value != 0)
+                        //if (loc.Latitude.Value != 0 && loc.Longitude.Value != 0)
                         {
-                            foreach (var point in MainV2.comPort.MAV.wps.Values)
+                            //foreach (var point in MainV2.comPort.MAV.wps.Values)
                             {
-                                coords.Add(new SharpKml.Base.Vector(point.x, point.y, point.z));
+                            //    coords.Add(new SharpKml.Base.Vector(point.x, point.y, point.z));
                             }
                         }
-                        else
+                        //else
                         {
+                            PointLatLngAlt home = null;
                             // draw track
                             try
                             {
-                                foreach (var point in GCSViews.FlightPlanner.instance.route.Points)
+                                foreach (var point in GCSViews.FlightPlanner.instance.fullpointlist)
                                 {
-                                    coords.Add(new SharpKml.Base.Vector(point.Lat, point.Lng, 0));
+                                    if (point.Tag.ToLower().Contains("home"))
+                                        home = point;
+
+                                    if (point != null)
+                                        coords.Add(new SharpKml.Base.Vector(point.Lat, point.Lng, point.Alt));
                                 }
                             }
                             catch { }
 
-                            foreach (var point in GCSViews.FlightPlanner.instance.pointlist)
+                            foreach (var point in GCSViews.FlightPlanner.instance.fullpointlist)
                             {
                                 if (point == null)
                                     continue;
 
                                 SharpKml.Dom.Placemark wp = new SharpKml.Dom.Placemark();
-                                wp.Name = point.Tag;
+                                wp.Name = "WP "+point.Tag + " Alt: " + point.Alt;
                                 SharpKml.Dom.Point wppoint = new SharpKml.Dom.Point();
                                 var altmode = SharpKml.Dom.AltitudeMode.RelativeToGround;
                                 wppoint.AltitudeMode = altmode;
@@ -312,10 +320,32 @@ namespace MissionPlanner.Utilities
                         SharpKml.Dom.LineString ls = new SharpKml.Dom.LineString();
                         ls.AltitudeMode = SharpKml.Dom.AltitudeMode.RelativeToGround;
                         ls.Coordinates = coords;
+                        ls.Extrude = false;
+                        ls.Tessellate = true;
 
-                        SharpKml.Dom.Placemark pm = new SharpKml.Dom.Placemark() { Geometry = ls, Name = "WPs" };
+                        Style style = new Style();
+                        style.Id = "yellowLineGreenPoly";
+                        style.Line = new LineStyle(new Color32(HexStringToColor("ff00ffff")), 4);
+
+                        Style style2 = new Style();
+                        style2.Id = "yellowLineGreenPoly";
+                        style2.Line = new LineStyle(new Color32(HexStringToColor("7f00ffff")), 4);
+
+                        // above ground
+                        SharpKml.Dom.Placemark pm = new SharpKml.Dom.Placemark() { Geometry = ls, Name = "WPs", StyleSelector = style };
 
                         kml.AddFeature(pm);
+
+                        // on ground
+                        SharpKml.Dom.LineString ls2 = new SharpKml.Dom.LineString();
+                        ls2.Coordinates = coords;
+                        ls2.Extrude = false;
+                        ls2.Tessellate = true;
+                        ls2.AltitudeMode = SharpKml.Dom.AltitudeMode.ClampToGround;
+
+                        SharpKml.Dom.Placemark pm2 = new SharpKml.Dom.Placemark() { Geometry = ls2, Name = "onground", StyleSelector = style2 };
+
+                        kml.AddFeature(pm2);
 
                         SharpKml.Base.Serializer serializer = new SharpKml.Base.Serializer();
                         serializer.Serialize(kml);
@@ -332,6 +362,7 @@ namespace MissionPlanner.Utilities
 
                         //stream.Close();
                     }
+                    /////////////////////////////////////////////////////////////////
                     else if (url.Contains("block_plane_0.dae"))
                     {
                         string header = "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\n\r\n";
@@ -350,6 +381,7 @@ namespace MissionPlanner.Utilities
                         file.Close();
                         stream.Close();
                     }
+                    /////////////////////////////////////////////////////////////////
                     else if (url.Contains("hud.html"))
                     {
                         string header = "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n";
@@ -368,6 +400,7 @@ namespace MissionPlanner.Utilities
                         file.Close();
                         stream.Close();
                     }
+                    /////////////////////////////////////////////////////////////////
                     else if (url.ToLower().Contains("hud.jpg") || url.ToLower().Contains("map.jpg") || url.ToLower().Contains("both.jpg"))
                     {
                         refreshmap();
@@ -424,6 +457,7 @@ namespace MissionPlanner.Utilities
                         stream.Close();
 
                     }
+                    /////////////////////////////////////////////////////////////////
                     else if (url.Contains("/guided?"))
                     {
                         //http://127.0.0.1:56781/guided?lat=-34&lng=117.8&alt=30
@@ -458,6 +492,7 @@ namespace MissionPlanner.Utilities
                         }
                         stream.Close();
                     }
+                    /////////////////////////////////////////////////////////////////
                     else if (url.ToLower().Contains(".jpg"))
                     {
                         Regex rex = new Regex(@"([^\s]+)\s(.+)\sHTTP/1", RegexOptions.IgnoreCase);
@@ -497,6 +532,7 @@ namespace MissionPlanner.Utilities
 
                             //stream.Close();
                         }
+                        /////////////////////////////////////////////////////////////////
                         else
                         {
                             string header = "HTTP/1.1 404 not found\r\nContent-Type: image/jpg\r\n\r\n";
@@ -505,6 +541,7 @@ namespace MissionPlanner.Utilities
                         }
                         stream.Close();
                     }
+                    /////////////////////////////////////////////////////////////////
                     else if (url.ToLower().Contains("post /guide"))
                     {
                         Regex rex = new Regex(@"lat"":([\-\.0-9]+),""lon"":([\-\.0-9]+),""alt"":([\.0-9]+)", RegexOptions.IgnoreCase);
@@ -537,6 +574,7 @@ namespace MissionPlanner.Utilities
                         }
                         stream.Close();
                     }
+                    /////////////////////////////////////////////////////////////////
                     else if (url.ToLower().Contains("/command_long"))
                     {
                         string header = "HTTP/1.1 404 not found\r\nContent-Type: image/jpg\r\n\r\n";
@@ -545,6 +583,7 @@ namespace MissionPlanner.Utilities
 
                         stream.Close();
                     }
+                    /////////////////////////////////////////////////////////////////
                     else if (url.ToLower().Contains("/rcoverride"))
                     {
                         string header = "HTTP/1.1 404 not found\r\nContent-Type: image/jpg\r\n\r\n";
@@ -553,6 +592,7 @@ namespace MissionPlanner.Utilities
 
                         stream.Close();
                     }
+                    /////////////////////////////////////////////////////////////////
                     else if (url.ToLower().Contains("/get_mission"))
                     {
                         string header = "HTTP/1.1 404 not found\r\nContent-Type: image/jpg\r\n\r\n";
@@ -561,6 +601,7 @@ namespace MissionPlanner.Utilities
 
                         stream.Close();
                     }
+                    /////////////////////////////////////////////////////////////////
                     else if (url.ToLower().Contains("/mavlink/"))
                     {
                         /*
@@ -635,6 +676,7 @@ namespace MissionPlanner.Utilities
 
                         //stream.Close();
                     }
+                    /////////////////////////////////////////////////////////////////
                     else if (url.ToLower().Contains("/mav/"))
                     {
                         //C:\Users\hog\Desktop\DIYDrones\mavelous\modules\lib\mavelous_web
@@ -678,6 +720,7 @@ namespace MissionPlanner.Utilities
                             file.Close();
                             stream.Close();
                         }
+                        /////////////////////////////////////////////////////////////////
                         else
                         {
                             string header = "HTTP/1.1 404 not found\r\nContent-Type: image/jpg\r\n\r\n";
@@ -689,6 +732,7 @@ namespace MissionPlanner.Utilities
 
 
                     }
+                    /////////////////////////////////////////////////////////////////
                     else
                     {
                         Console.WriteLine(url);
@@ -717,6 +761,42 @@ namespace MissionPlanner.Utilities
                     log.Error("Failed http ", ee);
                 }
             }
+        }
+
+
+        public static Color HexStringToColor(string hexColor)
+        {
+            string hc = (hexColor);
+            if (hc.Length != 8)
+            {
+                // you can choose whether to throw an exception
+                //throw new ArgumentException("hexColor is not exactly 6 digits.");
+                return Color.Empty;
+            }
+            string a = hc.Substring(0, 2);
+            string r = hc.Substring(6, 2);
+            string g = hc.Substring(4, 2);
+            string b = hc.Substring(2, 2);
+            Color color = Color.Empty;
+            try
+            {
+                int ai
+                   = Int32.Parse(a, System.Globalization.NumberStyles.HexNumber);
+                int ri
+                   = Int32.Parse(r, System.Globalization.NumberStyles.HexNumber);
+                int gi
+                   = Int32.Parse(g, System.Globalization.NumberStyles.HexNumber);
+                int bi
+                   = Int32.Parse(b, System.Globalization.NumberStyles.HexNumber);
+                color = Color.FromArgb(ai, ri, gi, bi);
+            }
+            catch
+            {
+                // you can choose whether to throw an exception
+                //throw new ArgumentException("Conversion failed.");
+                return Color.Empty;
+            }
+            return color;
         }
 
         public Image GetControlJpeg(Control ctl)
