@@ -172,7 +172,7 @@ namespace MissionPlanner
                     return _ch3percent;
                 try
                 {
-                    if (MainV2.comPort.MAV.param.ContainsKey("RC3_MIN"))
+                    if (MainV2.comPort.MAV.param.ContainsKey("RC3_MIN") && MainV2.comPort.MAV.param.ContainsKey("RC3_MAX"))
                     {
                         return (int)(((ch3out - (float)MainV2.comPort.MAV.param["RC3_MIN"]) / ((float)MainV2.comPort.MAV.param["RC3_MAX"] - (float)MainV2.comPort.MAV.param["RC3_MIN"])) * 100);
                     }
