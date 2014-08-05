@@ -17,11 +17,19 @@ namespace MissionPlanner.Utilities
 
         MAVLink.mavlink_terrain_request_t lastrequest;
 
+        KeyValuePair<MAVLink.MAVLINK_MSG_ID, Func<byte[], bool>> subscription;
+
         public TerrainFollow()
         {
             log.Info("Subscribe to packets");
-            MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.TERRAIN_REQUEST, ReceviedPacket);
+            subscription = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.TERRAIN_REQUEST, ReceviedPacket);
             //MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.TERRAIN_REPORT, ReceviedPacket);
+        }
+
+        ~TerrainFollow()
+        {
+            log.Info("unSubscribe to packets");
+            MainV2.comPort.UnSubscribeToPacketType(subscription);
         }
 
         bool ReceviedPacket(byte[] rawpacket)
@@ -99,6 +107,9 @@ namespace MissionPlanner.Utilities
                 PointLatLngAlt plla = new PointLatLngAlt(lat, lon).location_offset(x * grid_spacing, y * grid_spacing);
 
                 double alt = srtm.getAltitude(plla.Lat, plla.Lng);
+
+                if (alt == 0)
+                    return;
 
                 resp.data[i] = (short)alt;
             }
