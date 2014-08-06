@@ -221,10 +221,10 @@ namespace MissionPlanner.Utilities
         /// <summary>
         /// move a point a specific number of meters
         /// </summary>
-        /// <param name="north"></param>
         /// <param name="east"></param>
+        /// <param name="north"></param>
         /// <returns></returns>
-        public PointLatLngAlt gps_offset(double north, double east)
+        public PointLatLngAlt gps_offset(double east, double north)
         {
             double bearing = Math.Atan2(east, north) * rad2deg;
             double distance = Math.Sqrt(Math.Pow(east, 2) + Math.Pow(north, 2));

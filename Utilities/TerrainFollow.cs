@@ -75,7 +75,7 @@ namespace MissionPlanner.Utilities
                     int bitgridspacing = lastrequest.grid_spacing * 4;
 
                     // get the new point, based on our current bit.
-                    var newplla = new PointLatLngAlt(lat, lon).location_offset(bitgridspacing * (i % 8), bitgridspacing * (int)Math.Floor(i / 8.0));
+                    var newplla = new PointLatLngAlt(lat, lon).gps_offset(bitgridspacing * (i % 8), bitgridspacing * (int)Math.Floor(i / 8.0));
 
                     // send a 4*4 grid, based on the lat lon of the bitmask
                     SendGrid(newplla.Lat, newplla.Lng, lastrequest.grid_spacing, i);
@@ -101,8 +101,8 @@ namespace MissionPlanner.Utilities
 
             for (int i = 0; i < (4 * 4); i++)
             {
-                int y = i % 4;
-                int x = i / 4;
+                int x = i % 4;
+                int y = i / 4;
 
                 PointLatLngAlt plla = new PointLatLngAlt(lat, lon).gps_offset(x * grid_spacing, y * grid_spacing);
 
