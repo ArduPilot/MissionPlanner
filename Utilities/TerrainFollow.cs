@@ -104,7 +104,7 @@ namespace MissionPlanner.Utilities
                 int y = i % 4;
                 int x = i / 4;
 
-                PointLatLngAlt plla = new PointLatLngAlt(lat, lon).location_offset(x * grid_spacing, y * grid_spacing);
+                PointLatLngAlt plla = new PointLatLngAlt(lat, lon).gps_offset(x * grid_spacing, y * grid_spacing);
 
                 double alt = srtm.getAltitude(plla.Lat, plla.Lng);
 

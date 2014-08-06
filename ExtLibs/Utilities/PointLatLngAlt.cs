@@ -218,37 +218,18 @@ namespace MissionPlanner.Utilities
             return new PointLatLngAlt(latout, lngout, this.Alt, this.Tag);
         }
 
-        // this is to replicate the function in the autopilot
-
-        // inverse of LOCATION_SCALING_FACTOR
-        const double LOCATION_SCALING_FACTOR_INV = 89.83204953368922;
-
-        public const double DEG_TO_RAD = (1.0 / rad2deg);
-
-        /*
- *  extrapolate latitude/longitude given distances north and east
- *  This function costs about 80 usec on an AVR2560
- */
-    public    PointLatLngAlt location_offset(float ofs_north, float ofs_east)
-{
-    PointLatLngAlt newpos = new PointLatLngAlt(this);
-
-    if (ofs_north != 0 || ofs_east != 0) {
-        double dlat = ofs_north * LOCATION_SCALING_FACTOR_INV;
-        double dlng = (ofs_east * LOCATION_SCALING_FACTOR_INV) / longitude_scale(newpos);
-        newpos.Lat += dlat / 10e7;
-        newpos.Lng += dlng / 10e7;
-    }
-
-    return newpos;
-}
-
-        double longitude_scale(PointLatLngAlt loc)
-{
-    double scale = 1.0;
-    scale = Math.Cos(loc.Lat * DEG_TO_RAD);
-    return scale;
-}
+        /// <summary>
+        /// move a point a specific number of meters
+        /// </summary>
+        /// <param name="north"></param>
+        /// <param name="east"></param>
+        /// <returns></returns>
+        public PointLatLngAlt gps_offset(double north, double east)
+        {
+            double bearing = Math.Atan2(east, north) * rad2deg;
+            double distance = Math.Sqrt(Math.Pow(east, 2) + Math.Pow(north, 2));
+            return newpos(bearing, distance);
+        }
 
         public double GetBearing(PointLatLngAlt p2)
         {
