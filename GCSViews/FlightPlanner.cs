@@ -1702,8 +1702,6 @@ namespace MissionPlanner.GCSViews
                         ans = port.setWP(temp, (ushort)(a + 1), frame, 0);
                     } 
 
-
-
                     if (ans == MAVLink.MAV_MISSION_RESULT.MAV_MISSION_NO_SPACE) 
                     {
                         e.ErrorMessage = "Upload failed, please reduce the number of wp's";
@@ -1725,9 +1723,6 @@ namespace MissionPlanner.GCSViews
                         e.ErrorMessage = "Upload wps failed " + Commands.Rows[a].Cells[Command.Index].Value.ToString() + " " + Enum.Parse(typeof(MAVLink.MAV_MISSION_RESULT), ans.ToString());
                         return;
                     }
-
-                    if (temp.lat != 0 && temp.lng != 0)
-                        MainV2.comPort.Terrain.checkTerrain(temp.lat,temp.lng);
                 }
 
                 port.setWPACK();
@@ -2921,6 +2916,8 @@ namespace MissionPlanner.GCSViews
 
         private void CHK_altmode_CheckedChanged(object sender, EventArgs e)
         {
+            CHK_terrain.Checked = false;
+
             if (Commands.RowCount > 0 && !quickadd)
                 CustomMessageBox.Show("You will need to change your altitudes");
         }
