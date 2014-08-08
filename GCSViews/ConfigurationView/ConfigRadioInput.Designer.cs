@@ -131,7 +131,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             this.BAR8.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(255)))));
             this.BAR8.BorderColor = System.Drawing.SystemColors.ActiveBorder;
-            this.BAR8.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.currentStateBindingSource, "ch8in", true));
+            
             this.BAR8.Label = "Radio 8";
             resources.ApplyResources(this.BAR8, "BAR8");
             this.BAR8.Maximum = 2200;
@@ -150,7 +150,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             this.BAR7.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(255)))));
             this.BAR7.BorderColor = System.Drawing.SystemColors.ActiveBorder;
-            this.BAR7.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.currentStateBindingSource, "ch7in", true));
+            
             this.BAR7.Label = "Radio 7";
             resources.ApplyResources(this.BAR7, "BAR7");
             this.BAR7.Maximum = 2200;
@@ -165,7 +165,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             this.BAR6.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(255)))));
             this.BAR6.BorderColor = System.Drawing.SystemColors.ActiveBorder;
-            this.BAR6.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.currentStateBindingSource, "ch6in", true));
+       
             this.BAR6.Label = "Radio 6";
             resources.ApplyResources(this.BAR6, "BAR6");
             this.BAR6.Maximum = 2200;
@@ -180,7 +180,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             this.BAR5.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(255)))));
             this.BAR5.BorderColor = System.Drawing.SystemColors.ActiveBorder;
-            this.BAR5.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.currentStateBindingSource, "ch5in", true));
+            
             this.BAR5.Label = "Radio 5";
             resources.ApplyResources(this.BAR5, "BAR5");
             this.BAR5.Maximum = 2200;
@@ -195,7 +195,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             this.BARpitch.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(255)))));
             this.BARpitch.BorderColor = System.Drawing.SystemColors.ActiveBorder;
-            this.BARpitch.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.currentStateBindingSource, "ch2in", true));
+
             this.BARpitch.Label = "Pitch";
             resources.ApplyResources(this.BARpitch, "BARpitch");
             this.BARpitch.Maximum = 2200;
@@ -210,7 +210,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             this.BARthrottle.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(67)))), ((int)(((byte)(68)))), ((int)(((byte)(69)))));
             this.BARthrottle.BorderColor = System.Drawing.SystemColors.ActiveBorder;
-            this.BARthrottle.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.currentStateBindingSource, "ch3in", true));
+            
             this.BARthrottle.Label = "Throttle";
             resources.ApplyResources(this.BARthrottle, "BARthrottle");
             this.BARthrottle.Maximum = 2200;
@@ -225,7 +225,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             this.BARyaw.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(255)))));
             this.BARyaw.BorderColor = System.Drawing.SystemColors.ActiveBorder;
-            this.BARyaw.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.currentStateBindingSource, "ch4in", true));
+            
             this.BARyaw.Label = "Yaw";
             resources.ApplyResources(this.BARyaw, "BARyaw");
             this.BARyaw.Maximum = 2200;
@@ -240,7 +240,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             this.BARroll.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(255)))));
             this.BARroll.BorderColor = System.Drawing.SystemColors.ActiveBorder;
-            this.BARroll.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.currentStateBindingSource, "ch1in", true));
+          
             this.BARroll.Label = "Roll";
             resources.ApplyResources(this.BARroll, "BARroll");
             this.BARroll.Maximum = 2200;

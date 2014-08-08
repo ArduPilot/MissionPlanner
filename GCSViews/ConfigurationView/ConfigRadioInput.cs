@@ -34,6 +34,27 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 rctrim[a] = 1500;
             }
 
+            //setup bindings
+            if (MainV2.comPort.MAV.param.ContainsKey("RCMAP_ROLL"))
+            {
+                this.BARroll.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.currentStateBindingSource, "ch" + MainV2.comPort.MAV.param["RCMAP_ROLL"]+ "in", true));
+                this.BARpitch.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.currentStateBindingSource, "ch" + MainV2.comPort.MAV.param["RCMAP_PITCH"] + "in", true));
+                this.BARthrottle.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.currentStateBindingSource, "ch" + MainV2.comPort.MAV.param["RCMAP_THROTTLE"] + "in", true));
+                this.BARyaw.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.currentStateBindingSource, "ch" + MainV2.comPort.MAV.param["RCMAP_YAW"] + "in", true));
+            }
+            else
+            {
+                this.BARroll.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.currentStateBindingSource, "ch1in", true));
+                this.BARpitch.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.currentStateBindingSource, "ch2in", true));
+                this.BARthrottle.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.currentStateBindingSource, "ch3in", true));
+                this.BARyaw.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.currentStateBindingSource, "ch4in", true));
+            }
+
+            this.BAR5.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.currentStateBindingSource, "ch5in", true));
+            this.BAR6.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.currentStateBindingSource, "ch6in", true));
+            this.BAR7.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.currentStateBindingSource, "ch7in", true));
+            this.BAR8.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.currentStateBindingSource, "ch8in", true));
+
             // setup rc update
             timer.Tick += new EventHandler(timer_Tick);
         }
