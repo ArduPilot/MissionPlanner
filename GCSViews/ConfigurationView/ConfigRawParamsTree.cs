@@ -469,6 +469,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     item.Value = value.ToString();
                     _changes[param] = value;
                     Params.RefreshObject(item);
+                    Params.Expand(item);
                     break;
                 }
 
@@ -479,6 +480,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         item2.Value = value.ToString();
                         _changes[param] = value;
                         Params.RefreshObject(item2);
+                        Params.Expand(item2);
                         break;
                     }
                 }
