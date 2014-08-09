@@ -270,7 +270,7 @@ namespace MissionPlanner
                 // get the current estimated centerpoint
                 //new HIL.Vector3((float)-((maxx + minx) / 2), (float)-((maxy + miny) / 2), (float)-((maxz + minz) / 2));
 
-                // run lsq every seconds when more than 100 datapoints
+                // run lsq every second when more than 100 datapoints
                 if (datacompass1.Count > 100 && lastlsq.Second != DateTime.Now.Second)
                 {
                     lastlsq = DateTime.Now;
@@ -288,7 +288,7 @@ namespace MissionPlanner
                     }
                 }
 
-                // run lsq every seconds when more than 100 datapoints
+                // run lsq every second when more than 100 datapoints
                 if (datacompass2.Count > 100 && lastlsq2.Second != DateTime.Now.Second)
                 {
                     lastlsq2 = DateTime.Now;
@@ -306,10 +306,7 @@ namespace MissionPlanner
                     }
                 }
 
-                HIL.Vector3 point;
-
                 // add to sphere with center correction
-                point = new HIL.Vector3(rawmx, rawmy, rawmz) + centre;
                 ((ProgressReporterSphere)sender).sphere1.AddPoint(new OpenTK.Vector3(rawmx, rawmy, rawmz));
                 ((ProgressReporterSphere)sender).sphere1.AimClear();
 
@@ -322,6 +319,10 @@ namespace MissionPlanner
                     ((ProgressReporterSphere)sender).sphere2.AddPoint(new OpenTK.Vector3(raw2mx, raw2my, raw2mz));
                     ((ProgressReporterSphere)sender).sphere2.AimClear();
                 }
+                
+                HIL.Vector3 point;
+
+                point = new HIL.Vector3(rawmx, rawmy, rawmz) + centre;
 
                 //find the mean radius                    
                 float radius = 0;
