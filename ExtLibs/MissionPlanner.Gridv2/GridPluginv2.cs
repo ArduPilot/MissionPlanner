@@ -66,22 +66,8 @@ namespace MissionPlanner
             var gridui = new GridUIv2(this);
             MissionPlanner.Utilities.ThemeManager.ApplyThemeTo(gridui);
 
-            if (Host.FPDrawnPolygon != null && Host.FPDrawnPolygon.Points.Count > 2)
-            {
                 gridui.ShowDialog();
-            }
-            else
-            {
-                if (CustomMessageBox.Show("No polygon defined. Load a file?", "Load File", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                {
-                    gridui.LoadGrid();
-                    gridui.ShowDialog();
-                }
-                else
-                {
-                    CustomMessageBox.Show("Please define a polygon.", "Error");
-                }
-            }
+          
         }
 
         public override bool Exit()
