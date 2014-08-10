@@ -119,6 +119,7 @@
             this.lbl_area = new System.Windows.Forms.Label();
             this.label23 = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
+            this.CHK_usespeed = new System.Windows.Forms.CheckBox();
             this.CHK_toandland = new System.Windows.Forms.CheckBox();
             this.CHK_toandland_RTL = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
@@ -629,6 +630,7 @@
             // 
             // groupBox6
             // 
+            this.groupBox6.Controls.Add(this.CHK_usespeed);
             this.groupBox6.Controls.Add(this.CHK_toandland_RTL);
             this.groupBox6.Controls.Add(this.CHK_toandland);
             this.groupBox6.Controls.Add(this.label24);
@@ -907,6 +909,14 @@
             resources.ApplyResources(this.label22, "label22");
             this.label22.Name = "label22";
             // 
+            // CHK_usespeed
+            // 
+            resources.ApplyResources(this.CHK_usespeed, "CHK_usespeed");
+            this.CHK_usespeed.Checked = true;
+            this.CHK_usespeed.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_usespeed.Name = "CHK_usespeed";
+            this.CHK_usespeed.UseVisualStyleBackColor = true;
+            // 
             // CHK_toandland
             // 
             resources.ApplyResources(this.CHK_toandland, "CHK_toandland");
@@ -1061,5 +1071,6 @@
         private System.Windows.Forms.Label label35;
         private System.Windows.Forms.CheckBox CHK_toandland;
         private System.Windows.Forms.CheckBox CHK_toandland_RTL;
+        private System.Windows.Forms.CheckBox CHK_usespeed;
     }
 }

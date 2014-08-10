@@ -77,6 +77,8 @@ namespace MissionPlanner
               //  loadsetting("grid_angle", NUM_angle);
                 loadsetting("grid_camdir", CHK_camdirection);
 
+                loadsetting("grid_usespeed", CHK_usespeed);
+
                 loadsetting("grid_dist", NUM_Distance);
                 loadsetting("grid_overshoot1", NUM_overshoot);
                 loadsetting("grid_overshoot2", NUM_overshoot2);
@@ -131,6 +133,8 @@ namespace MissionPlanner
             plugin.Host.config["grid_angle"] = NUM_angle.Value.ToString();
             plugin.Host.config["grid_camdir"] = CHK_camdirection.Checked.ToString();
 
+            plugin.Host.config["grid_usespeed"] = CHK_usespeed.Checked.ToString();
+
             plugin.Host.config["grid_dist"] = NUM_Distance.Value.ToString();
             plugin.Host.config["grid_overshoot1"] = NUM_overshoot.Value.ToString();
             plugin.Host.config["grid_overshoot2"] = NUM_overshoot2.Value.ToString();
@@ -156,6 +160,7 @@ namespace MissionPlanner
             public decimal alt;
             public decimal angle;
             public bool camdir;
+            public bool usespeed;
             public decimal dist;
             public decimal overshoot1;
             public decimal overshoot2;
@@ -182,6 +187,8 @@ namespace MissionPlanner
             griddata.alt = NUM_altitude.Value;
             griddata.angle = NUM_angle.Value;
             griddata.camdir = CHK_camdirection.Checked;
+
+            griddata.usespeed = CHK_usespeed.Checked;
 
             griddata.dist = NUM_Distance.Value;
             griddata.overshoot1 = NUM_overshoot.Value;
@@ -212,6 +219,8 @@ namespace MissionPlanner
             NUM_altitude.Value = griddata.alt;
             NUM_angle.Value = griddata.angle;
             CHK_camdirection.Checked = griddata.camdir;
+
+            CHK_usespeed.Checked = griddata.usespeed;
 
             NUM_Distance.Value = griddata.dist;
             NUM_overshoot.Value = griddata.overshoot1;
@@ -544,6 +553,11 @@ namespace MissionPlanner
                     }
                 }
 
+                if (CHK_usespeed.Checked)
+                {
+                    plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_CHANGE_SPEED, 0, (int)numericUpDownFlySpeed.Value, 0, 0, 0, 0, 0);
+                }
+
                 if (rad_trigdist.Checked)
                 {
                     plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_SET_CAM_TRIGG_DIST, (float)NUM_spacing.Value, 0, 0, 0, 0, 0, 0);
@@ -573,6 +587,12 @@ namespace MissionPlanner
                 if (rad_trigdist.Checked)
                 {
                     plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_SET_CAM_TRIGG_DIST, 0, 0, 0, 0, 0, 0, 0);
+                }
+
+                if (CHK_usespeed.Checked)
+                {
+                    // Need to load MP_NAV_SPEED before we can set it back.
+                    //plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_CHANGE_SPEED, 0, 0, 0, 0, 0, 0, 0);
                 }
 
                 if (CHK_toandland.Checked)
@@ -948,4 +968,3 @@ namespace MissionPlanner
         }
     }
 }
-
