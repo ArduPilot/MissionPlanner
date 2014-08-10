@@ -1193,6 +1193,7 @@ namespace MissionPlanner.GCSViews
             polygonsoverlay.Routes.Clear();
 
             PointLatLngAlt lastpnt = fullpointlist[0];
+            PointLatLngAlt lastpnt2 = fullpointlist[0];
             PointLatLngAlt lastnonspline = fullpointlist[0];
             List<PointLatLngAlt> splinepnts = new List<PointLatLngAlt>();
             
@@ -1221,9 +1222,16 @@ namespace MissionPlanner.GCSViews
 
                         MissionPlanner.Controls.Waypoints.Spline2 sp = new Controls.Waypoints.Spline2();
 
-                        sp._origin = sp.pv_location_to_vector(lastpnt);
+                        //sp._flags.segment_type = MissionPlanner.Controls.Waypoints.Spline2.SegmentType.SEGMENT_STRAIGHT;
+                        //sp._flags.reached_destination = true;
+                        //sp._origin = sp.pv_location_to_vector(lastpnt);
+                        //sp._destination = sp.pv_location_to_vector(fullpointlist[0]);
 
                        // sp._spline_origin_vel = sp.pv_location_to_vector(lastpnt) - sp.pv_location_to_vector(lastnonspline);
+
+                        sp.set_wp_origin_and_destination(sp.pv_location_to_vector(lastpnt2), sp.pv_location_to_vector(lastpnt));
+
+                        sp._flags.reached_destination = true;
 
                         for (int no = 1; no < (splinepnts.Count-1); no++)
                         {
@@ -1267,6 +1275,7 @@ namespace MissionPlanner.GCSViews
 
                     route.Points.Add(fullpointlist[a]);
 
+                    lastpnt2 = lastpnt;
                     lastpnt = fullpointlist[a];
                 }
             }
