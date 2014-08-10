@@ -86,8 +86,8 @@
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripButtonpan = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonbox = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtoneditbox = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonmovebox = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtoneditbox = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_angle)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_altitude)).BeginInit();
             this.groupBox6.SuspendLayout();
@@ -612,27 +612,35 @@
             // 
             // toolStripButtonpan
             // 
+            this.toolStripButtonpan.BackColor = System.Drawing.Color.Black;
+            this.toolStripButtonpan.ForeColor = System.Drawing.Color.White;
             resources.ApplyResources(this.toolStripButtonpan, "toolStripButtonpan");
             this.toolStripButtonpan.Name = "toolStripButtonpan";
             this.toolStripButtonpan.Click += new System.EventHandler(this.toolStripButtonpan_Click);
             // 
             // toolStripButtonbox
             // 
+            this.toolStripButtonbox.BackColor = System.Drawing.Color.Black;
+            this.toolStripButtonbox.ForeColor = System.Drawing.Color.White;
             resources.ApplyResources(this.toolStripButtonbox, "toolStripButtonbox");
             this.toolStripButtonbox.Name = "toolStripButtonbox";
             this.toolStripButtonbox.Click += new System.EventHandler(this.toolStripButtonbox_Click);
             // 
-            // toolStripButtoneditbox
-            // 
-            resources.ApplyResources(this.toolStripButtoneditbox, "toolStripButtoneditbox");
-            this.toolStripButtoneditbox.Name = "toolStripButtoneditbox";
-            this.toolStripButtoneditbox.Click += new System.EventHandler(this.toolStripButtoneditbox_Click);
-            // 
             // toolStripButtonmovebox
             // 
+            this.toolStripButtonmovebox.BackColor = System.Drawing.Color.Black;
+            this.toolStripButtonmovebox.ForeColor = System.Drawing.Color.White;
             resources.ApplyResources(this.toolStripButtonmovebox, "toolStripButtonmovebox");
             this.toolStripButtonmovebox.Name = "toolStripButtonmovebox";
             this.toolStripButtonmovebox.Click += new System.EventHandler(this.toolStripButtonmovebox_Click);
+            // 
+            // toolStripButtoneditbox
+            // 
+            this.toolStripButtoneditbox.BackColor = System.Drawing.Color.Black;
+            this.toolStripButtoneditbox.ForeColor = System.Drawing.Color.White;
+            resources.ApplyResources(this.toolStripButtoneditbox, "toolStripButtoneditbox");
+            this.toolStripButtoneditbox.Name = "toolStripButtoneditbox";
+            this.toolStripButtoneditbox.Click += new System.EventHandler(this.toolStripButtoneditbox_Click);
             // 
             // GridUIv2
             // 
