@@ -120,6 +120,7 @@
             this.label23 = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
             this.CHK_toandland = new System.Windows.Forms.CheckBox();
+            this.CHK_toandland_RTL = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_spacing)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_overshoot2)).BeginInit();
@@ -628,6 +629,7 @@
             // 
             // groupBox6
             // 
+            this.groupBox6.Controls.Add(this.CHK_toandland_RTL);
             this.groupBox6.Controls.Add(this.CHK_toandland);
             this.groupBox6.Controls.Add(this.label24);
             this.groupBox6.Controls.Add(this.numericUpDownFlySpeed);
@@ -913,6 +915,14 @@
             this.CHK_toandland.Name = "CHK_toandland";
             this.CHK_toandland.UseVisualStyleBackColor = true;
             // 
+            // CHK_toandland_RTL
+            // 
+            resources.ApplyResources(this.CHK_toandland_RTL, "CHK_toandland_RTL");
+            this.CHK_toandland_RTL.Checked = true;
+            this.CHK_toandland_RTL.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_toandland_RTL.Name = "CHK_toandland_RTL";
+            this.CHK_toandland_RTL.UseVisualStyleBackColor = true;
+            // 
             // GridUI
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1050,5 +1060,6 @@
         private System.Windows.Forms.Label label32;
         private System.Windows.Forms.Label label35;
         private System.Windows.Forms.CheckBox CHK_toandland;
+        private System.Windows.Forms.CheckBox CHK_toandland_RTL;
     }
 }

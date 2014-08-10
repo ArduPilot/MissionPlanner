@@ -87,8 +87,14 @@ namespace MissionPlanner
                 loadsetting("grid_startfrom",CMB_startfrom);
 
                 loadsetting("grid_autotakeoff", CHK_toandland);
+                loadsetting("grid_autotakeoff_RTL", CHK_toandland_RTL);
 
                 loadsetting("grid_advanced", CHK_advanced);
+
+                // Should probably be saved as one setting, and us logic
+                loadsetting("grid_trigdist", rad_trigdist);
+                loadsetting("grid_digicam", rad_digicam);
+                loadsetting("grid_repeatservo", rad_repeatservo);
 
                 // camera last to it invokes a reload
                 loadsetting("grid_camera", CMB_camera);
@@ -135,8 +141,12 @@ namespace MissionPlanner
             plugin.Host.config["grid_startfrom"] = CMB_startfrom.Text;
 
             plugin.Host.config["grid_autotakeoff"] = CHK_toandland.Checked.ToString();
+            plugin.Host.config["grid_autotakeoff_RTL"] = CHK_toandland_RTL.Checked.ToString();
 
             plugin.Host.config["grid_advanced"] = CHK_advanced.Checked.ToString();       
+            plugin.Host.config["grid_trigdist"] = rad_trigdist.Checked.ToString();
+            plugin.Host.config["grid_digicam"] = rad_digicam.Checked.ToString();
+            plugin.Host.config["grid_repeatservo"] = rad_repeatservo.Checked.ToString();
         }
 
         public struct GridData
@@ -154,7 +164,12 @@ namespace MissionPlanner
             public decimal spacing;
             public string startfrom;
             public bool autotakeoff;
+            public bool autotakeoff_RTL;
             public bool advanced;
+
+            public bool trigdist;
+            public bool digicam;
+            public bool repeatservo;
         }
 
         GridData savegriddata()
@@ -178,8 +193,13 @@ namespace MissionPlanner
             griddata.startfrom = CMB_startfrom.Text;
 
             griddata.autotakeoff = CHK_toandland.Checked;
+            griddata.autotakeoff_RTL = CHK_toandland_RTL.Checked;
 
             griddata.advanced = CHK_advanced.Checked;
+
+            griddata.trigdist = rad_trigdist.Checked;
+            griddata.digicam = rad_digicam.Checked;
+            griddata.repeatservo = rad_repeatservo.Checked;
 
             return griddata;
         }
@@ -203,8 +223,13 @@ namespace MissionPlanner
             CMB_startfrom.Text = griddata.startfrom;
 
             CHK_toandland.Checked = griddata.autotakeoff;
+            CHK_toandland_RTL.Checked = griddata.autotakeoff_RTL;
 
             CHK_advanced.Checked = griddata.advanced;
+
+            rad_trigdist.Checked = griddata.trigdist;
+            rad_digicam.Checked = griddata.digicam;
+            rad_repeatservo.Checked = griddata.repeatservo;
         }
 
         public void LoadGrid()
@@ -552,7 +577,14 @@ namespace MissionPlanner
 
                 if (CHK_toandland.Checked)
                 {
-                    plugin.Host.AddWPtoList(MAVLink.MAV_CMD.LAND, 0, 0, 0, 0, plugin.Host.cs.HomeLocation.Lng,plugin.Host.cs.HomeLocation.Lat, 0);
+                    if (CHK_toandland_RTL.Checked)
+                    {
+                        plugin.Host.AddWPtoList(MAVLink.MAV_CMD.RETURN_TO_LAUNCH, 0, 0, 0, 0, 0, 0, 0);
+                    }
+                    else
+                    {
+                        plugin.Host.AddWPtoList(MAVLink.MAV_CMD.LAND, 0, 0, 0, 0, plugin.Host.cs.HomeLocation.Lng, plugin.Host.cs.HomeLocation.Lat, 0);
+                    }
                 }
 
                 savesettings();
