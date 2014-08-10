@@ -31,15 +31,26 @@ namespace MissionPlanner
 
         GMapOverlay layerpolygons;
         GMapPolygon wppoly;
+        GMapPolygon boxpoly;
         private GridPluginv2 plugin;
-        List<PointLatLngAlt> list = new List<PointLatLngAlt>();
+        List<PointLatLng> list = new List<PointLatLng>();
         List<PointLatLngAlt> grid;
+
+        mode currentmode = mode.panmode;
 
         //
         camerainfo camera;
         
 
         Dictionary<string, camerainfo> cameras = new Dictionary<string, camerainfo>();
+
+        enum mode
+        {
+            panmode,
+            drawbox,
+            editbox,
+            movebox,
+        }
 
         public struct camerainfo
         {
@@ -70,6 +81,9 @@ namespace MissionPlanner
             InitializeComponent();
 
             map.MapProvider = plugin.Host.FDMapType;
+
+            map.Position = plugin.Host.FPMenuMapPosition;
+            map.Zoom = 16;
 
             layerpolygons = new GMapOverlay( "polygons");
             map.Overlays.Add(layerpolygons);
@@ -131,7 +145,7 @@ namespace MissionPlanner
 
         public struct GridData
         {
-            public List<PointLatLngAlt> poly;
+            public List<PointLatLng> poly;
             public string camera;
             public decimal alt;
             public decimal angle;
@@ -249,14 +263,14 @@ namespace MissionPlanner
             }
         }
 
-        double getAngleOfLongestSide(List<PointLatLngAlt> list)
+        double getAngleOfLongestSide(List<PointLatLng> list)
         {
             if (list.Count == 0)
                 return 0;
             double angle = 0;
             double maxdist = 0;
             PointLatLngAlt last = list[list.Count - 1];
-            foreach (var item in list)
+            foreach (PointLatLngAlt item in list)
             {
                  if (item.GetDistance(last) > maxdist) 
                  {
@@ -275,8 +289,14 @@ namespace MissionPlanner
                 doCalc();
 
             // new grid system test
+            if (boxpoly == null || boxpoly.Points == null || boxpoly.Points.Count == 0)
+                return;
 
-            grid = Grid.CreateGrid(list, (double)NUM_altitude.Value, (double)NUM_Distance, (double)NUM_spacing, (double)NUM_angle.Value, 0, 0, Grid.StartPosition.Home, false);
+            var newlist = new List<PointLatLngAlt>();
+
+            boxpoly.Points.ForEach(x => { newlist.Add(x); });
+
+            grid = Grid.CreateGrid(newlist, (double)NUM_altitude.Value, (double)NUM_Distance, (double)NUM_spacing, (double)NUM_angle.Value, 0, 0, Grid.StartPosition.Home, false);
 
             List<PointLatLng> list2 = new List<PointLatLng>();
 
@@ -287,13 +307,15 @@ namespace MissionPlanner
             layerpolygons.Polygons.Clear();
             layerpolygons.Markers.Clear();
 
+            layerpolygons.Polygons.Add(boxpoly);
+
             if (grid.Count == 0)
             {
                 return;
             }
 
-            if (chk_boundary.Checked)
-                AddDrawPolygon();
+           // if (chk_boundary.Checked)
+          //      AddDrawPolygon();
 
             int strips = 0;
             int images = 0;
@@ -420,7 +442,7 @@ namespace MissionPlanner
             }
         }
 
-        double calcpolygonarea(List<PointLatLngAlt> polygon)
+        double calcpolygonarea(List<PointLatLng> polygon)
         {
             // should be a closed polygon
             // coords are in lat long
@@ -857,6 +879,219 @@ namespace MissionPlanner
         {
             NUM_altitude.Value = TBAR_zoom.Value;
         }
+
+        bool mousedown = false;
+        bool mousedragging = false;
+        PointLatLng mousestart = PointLatLng.Empty;
+
+        private void map_MouseDown(object sender, MouseEventArgs e)
+        {
+            mousedown = true;
+            mousestart = map.FromLocalToLatLng(e.X, e.Y);
+        }
+
+        private void map_MouseUp(object sender, MouseEventArgs e)
+        {
+            mousedown = false;
+            mousedragging = false;
+
+            domainUpDown1_ValueChanged(null, null);
+        }
+
+        private void map_MouseMove(object sender, MouseEventArgs e)
+        {
+            var mousecurrent = map.FromLocalToLatLng(e.X, e.Y);
+
+            if (mousedown)
+            {
+                mousedragging = true;
+
+                if (currentmode == mode.panmode)
+                {
+                    if (e.Button == MouseButtons.Left)
+                    {
+
+                        double latdif = mousestart.Lat - mousecurrent.Lat;
+                        double lngdif = mousestart.Lng - mousecurrent.Lng;
+
+                        try
+                        {
+                            map.Position = new PointLatLng(map.Position.Lat + latdif, map.Position.Lng + lngdif);
+                        }
+                        catch { }
+                    }
+                }
+                else if (currentmode == mode.drawbox)
+                {
+                    if (e.Button == MouseButtons.Left)
+                    {
+                        var rect = RectangleF.FromLTRB((float)mousestart.Lng, (float)mousestart.Lat, (float)mousecurrent.Lng, (float)mousecurrent.Lat);
+
+                        list.Clear();
+
+                        // tl
+                        list.Add(mousestart);
+                        // tr
+                        list.Add(new PointLatLng(rect.Top, rect.Right));
+                        // br
+                        list.Add(mousecurrent);
+                        // bl
+                        list.Add(new PointLatLng(rect.Bottom, rect.Left));
+
+                        if (boxpoly != null)
+                            layerpolygons.Polygons.Remove(boxpoly);
+
+                        boxpoly = null;
+
+                        boxpoly = new GMapPolygon(list, "boxpoly");
+
+                        boxpoly.IsHitTestVisible = true;
+                        boxpoly.Stroke = new Pen(Color.Red, 2);
+                        boxpoly.Fill = Brushes.Transparent;
+
+                        layerpolygons.Polygons.Add(boxpoly);
+
+                        map.Invalidate();
+                    }
+                }
+                else if (currentmode == mode.movebox)
+                {
+                    //if (mouseinsidepoly)
+                    {
+                        double latdif = mousestart.Lat - mousecurrent.Lat;
+                        double lngdif = mousestart.Lng - mousecurrent.Lng;
+
+                        for (int a = 0; a < boxpoly.Points.Count; a++)
+                        {
+                            boxpoly.Points[a] = new PointLatLng(boxpoly.Points[a].Lat - latdif, boxpoly.Points[a].Lng - lngdif);
+                        }
+
+                        UpdateListFromBox();
+
+                        map.UpdatePolygonLocalPosition(boxpoly);
+                        map.Invalidate();
+
+                        mousestart = mousecurrent;
+                    }
+                }
+                else if (currentmode == mode.editbox)
+                {
+                    double latdif = mousestart.Lat - mousecurrent.Lat;
+                    double lngdif = mousestart.Lng - mousecurrent.Lng;
+
+                    // 2 point the create the lowest crosstrack distance
+                    // extend at 90 degrees to the bearing of the points based on mouse position
+
+                    PointLatLngAlt p0;
+                    PointLatLngAlt p1;
+
+                    PointLatLngAlt bestp0 = PointLatLngAlt.Zero;
+                    PointLatLngAlt bestp1 = PointLatLngAlt.Zero;
+                    double bestcrosstrack = 9999999;
+                    double R = 6371000;
+
+                    for (int a = 0; a < boxpoly.Points.Count; a++)
+                    {
+                        p0 = boxpoly.Points[a];
+                        p1 = boxpoly.Points[(a + 1) % (boxpoly.Points.Count)];
+
+                        var distp0p1 = p0.GetDistance(mousecurrent);
+                        var bearingp0curr = p0.GetBearing(mousecurrent);
+                        var bearringp0p1 = p0.GetBearing(p1);
+
+                        var ct = Math.Asin(Math.Sin(distp0p1 / R) * Math.Sin((bearingp0curr - bearringp0p1) * deg2rad)) * R;
+
+                        if (Math.Abs(ct) < Math.Abs(bestcrosstrack))
+                        {
+                            bestp0 = p0;
+                            bestp1 = p1;
+                            bestcrosstrack = ct;
+                        }
+                    }
+
+                    var bearing = bestp0.GetBearing(bestp1);
+
+                    layerpolygons.Markers.Clear();
+                    layerpolygons.Markers.Add(new GMarkerGoogle(bestp0, GMarkerGoogleType.blue));
+                    layerpolygons.Markers.Add(new GMarkerGoogle(bestp1, GMarkerGoogleType.blue));
+
+                    if (bestcrosstrack > 0) 
+                    {
+                        bearing += 90;
+                        bearing = (bearing + 360) % 360;
+                    }
+                    else
+                    {
+                        bearing -= 90;
+                        bearing = (bearing + 360) % 360;
+                    }
+
+                    bearing = ((PointLatLngAlt)mousestart).GetBearing(mousecurrent);
+
+                    var newposp0 = bestp0.newpos(bearing, Math.Abs(bestcrosstrack));
+                    var newposp1 = bestp1.newpos(bearing, Math.Abs(bestcrosstrack));
+
+                    boxpoly.Points[boxpoly.Points.IndexOf(bestp0)] = newposp0;
+                    boxpoly.Points[boxpoly.Points.IndexOf(bestp1)] = newposp1;
+
+                    UpdateListFromBox();
+
+                    map.UpdatePolygonLocalPosition(boxpoly);
+                    map.Invalidate();
+
+                    mousestart = mousecurrent;
+                }
+            }
+
+            mousedragging = false;
+        }
+
+        private void UpdateListFromBox()
+        {
+            list.Clear();
+
+            foreach (var pnt in boxpoly.Points)
+            {
+                list.Add(pnt);
+            }
+        }
+
+        private void map_OnPolygonEnter(GMapPolygon item)
+        {
+            mouseinsidepoly = true;
+        }
+
+        private void map_OnPolygonLeave(GMapPolygon item)
+        {
+            mouseinsidepoly = false;
+        }
+
+        private void map_OnPolygonClick(GMapPolygon item, MouseEventArgs e)
+        {
+
+        }
+
+        private void toolStripButtonpan_Click(object sender, EventArgs e)
+        {
+            currentmode = mode.panmode;
+        }
+
+        private void toolStripButtonbox_Click(object sender, EventArgs e)
+        {
+            currentmode = mode.drawbox;
+        }
+
+        private void toolStripButtoneditbox_Click(object sender, EventArgs e)
+        {
+            currentmode = mode.editbox;
+        }
+
+        private void toolStripButtonmovebox_Click(object sender, EventArgs e)
+        {
+            currentmode = mode.movebox;
+        }
+
+        public bool mouseinsidepoly { get; set; }
     }
 }
 
