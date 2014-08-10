@@ -47,7 +47,13 @@ namespace MissionPlanner.Log
             FAILSAFE_FENCE = 9,
             FLIGHT_MODE = 10,
             GPS = 11,
-            CRASH_CHECK = 12
+            CRASH_CHECK = 12,
+            ERROR_SUBSYSTEM_FLIP = 13,
+            AUTOTUNE = 14,
+            PARACHUTE = 15,
+            EKF_CHECK = 16,
+            FAILSAFE_EKF = 17,
+            BARO = 18,
         }
 
         public enum error_code
@@ -67,6 +73,18 @@ namespace MissionPlanner.Log
             MAIN_INS_DELAY = 1,
             // subsystem specific error codes -- crash checker
             CRASH_CHECK_CRASH = 1,
+            CRASH_CHECK_LOSS_OF_CONTROL = 2,
+            // subsystem specific error codes -- flip
+            FLIP_ABANDONED = 2,
+            // subsystem specific error codes -- autotune
+            AUTOTUNE_BAD_GAINS = 2,
+            // parachute failed to deploy because of low altitude
+            PARACHUTE_TOO_LOW = 2,
+            // EKF check definitions
+            EKF_CHECK_BAD_VARIANCE = 2,
+            EKF_CHECK_BAD_VARIANCE_CLEARED = 0,
+            // Baro specific error codes
+            BARO_GLITCH = 2,
         }
 
         public enum events
@@ -110,6 +128,9 @@ namespace MissionPlanner.Log
             DATA_EPM_ON = 46,
             DATA_EPM_OFF = 47,
             DATA_EPM_NEUTRAL = 48,
+            DATA_PARACHUTE_DISABLED = 49,
+            DATA_PARACHUTE_ENABLED = 50,
+            DATA_PARACHUTE_RELEASED = 51,
         }
 
         public static Dictionary<string, Label> logformat = new Dictionary<string, Label>();
