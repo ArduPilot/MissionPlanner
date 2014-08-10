@@ -129,7 +129,7 @@ namespace MissionPlanner.GCSViews
         /// <param name="lat"></param>
         /// <param name="lng"></param>
         /// <param name="alt"></param>
-        public void setfromMap(double lat, double lng, int alt)
+        public void setfromMap(double lat, double lng, int alt, int p1 = 0)
         {
             if (selectedrow > Commands.RowCount)
             {
@@ -235,6 +235,15 @@ namespace MissionPlanner.GCSViews
                 }
 
             }
+
+            // Add more for other params
+            if (Commands.Columns[Param1.Index].HeaderText.Equals(cmdParamNames["WAYPOINT"][1]/*"Delay"*/))
+            {
+                cell = Commands.Rows[selectedrow].Cells[Param1.Index] as DataGridViewTextBoxCell;
+                cell.Value = p1;
+                cell.DataGridView.EndEdit();
+            }
+
             writeKML();
             Commands.EndEdit();
         }
@@ -4912,7 +4921,7 @@ namespace MissionPlanner.GCSViews
 
             if (cmd == MAVLink.MAV_CMD.WAYPOINT)
             {
-                setfromMap(y, x, (int)z);
+                setfromMap(y, x, (int)z, (int)p1);
             }
             else
             {

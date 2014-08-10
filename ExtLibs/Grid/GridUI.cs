@@ -100,6 +100,11 @@ namespace MissionPlanner
 
                 // camera last to it invokes a reload
                 loadsetting("grid_camera", CMB_camera);
+
+                // Copter Settings
+                loadsetting("grid_copter_delay", NUM_copter_delay);
+                loadsetting("grid_copter_headinghold_chk", CHK_copter_headinghold);
+                loadsetting("grid_copter_headinghold", NUM_copter_headinghold);
             }
         }
 
@@ -151,6 +156,11 @@ namespace MissionPlanner
             plugin.Host.config["grid_trigdist"] = rad_trigdist.Checked.ToString();
             plugin.Host.config["grid_digicam"] = rad_digicam.Checked.ToString();
             plugin.Host.config["grid_repeatservo"] = rad_repeatservo.Checked.ToString();
+
+            // Copter Settings
+            plugin.Host.config["grid_copter_delay"] = NUM_copter_delay.Value.ToString();
+            plugin.Host.config["grid_copter_headinghold_chk"] = CHK_copter_headinghold.Checked.ToString();
+            plugin.Host.config["grid_copter_headinghold"] = NUM_copter_headinghold.Value.ToString();
         }
 
         public struct GridData
@@ -175,6 +185,11 @@ namespace MissionPlanner
             public bool trigdist;
             public bool digicam;
             public bool repeatservo;
+
+            // Copter Settings
+            public decimal copter_delay;
+            public bool copter_headinghold_chk;
+            public decimal copter_headinghold;
         }
 
         GridData savegriddata()
@@ -208,6 +223,11 @@ namespace MissionPlanner
             griddata.digicam = rad_digicam.Checked;
             griddata.repeatservo = rad_repeatservo.Checked;
 
+            // Copter Settings
+            griddata.copter_delay = NUM_copter_delay.Value;
+            griddata.copter_headinghold_chk = CHK_copter_headinghold.Checked;
+            griddata.copter_headinghold = NUM_spacing.Value;
+
             return griddata;
         }
 
@@ -239,6 +259,11 @@ namespace MissionPlanner
             rad_trigdist.Checked = griddata.trigdist;
             rad_digicam.Checked = griddata.digicam;
             rad_repeatservo.Checked = griddata.repeatservo;
+
+            // Copter Settings
+            NUM_copter_delay.Value = griddata.copter_delay;
+            CHK_copter_headinghold.Checked = griddata.copter_headinghold_chk;
+            NUM_copter_headinghold.Value = griddata.copter_headinghold;
         }
 
         public void LoadGrid()
@@ -569,18 +594,21 @@ namespace MissionPlanner
                     {
                         if (rad_repeatservo.Checked)
                         {
-                            plugin.Host.AddWPtoList(MAVLink.MAV_CMD.WAYPOINT, 0, 0, 0, 0, plla.Lng, plla.Lat, plla.Alt);
+                            AddWP(plla.Lng, plla.Lat, plla.Alt);
+                            //plugin.Host.AddWPtoList(MAVLink.MAV_CMD.WAYPOINT, 0, 0, 0, 0, plla.Lng, plla.Lat, plla.Alt);
                             plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_REPEAT_SERVO, (float)num_reptservo.Value, (float)num_reptpwm.Value, 999, (float)num_repttime.Value, 0, 0, 0);
                         }
                         if (rad_digicam.Checked)
                         {
-                            plugin.Host.AddWPtoList(MAVLink.MAV_CMD.WAYPOINT, 0, 0, 0, 0, plla.Lng, plla.Lat, plla.Alt);
+                            AddWP(plla.Lng, plla.Lat, plla.Alt);
+                            //plugin.Host.AddWPtoList(MAVLink.MAV_CMD.WAYPOINT, 0, 0, 0, 0, plla.Lng, plla.Lat, plla.Alt);
                             plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_DIGICAM_CONTROL, 0, 0, 0, 0, 0, 0, 0);
                         }
                     }
                     else
                     {
-                        plugin.Host.AddWPtoList(MAVLink.MAV_CMD.WAYPOINT, 0, 0, 0, 0, plla.Lng, plla.Lat, plla.Alt);
+                        AddWP(plla.Lng, plla.Lat, plla.Alt);
+                        //plugin.Host.AddWPtoList(MAVLink.MAV_CMD.WAYPOINT, 0, 0, 0, 0, plla.Lng, plla.Lat, plla.Alt);
                     }
                 });
 
@@ -618,6 +646,23 @@ namespace MissionPlanner
             else
             {
                 CustomMessageBox.Show("Bad Grid", "Error");
+            }
+        }
+
+        private void AddWP(double Lng, double Lat, double Alt)
+        {
+            if (CHK_copter_headinghold.Checked)
+            {
+                plugin.Host.AddWPtoList(MAVLink.MAV_CMD.CONDITION_YAW, (int)NUM_copter_headinghold.Value, 0, 0, 0, 0, 0, 0);
+            }
+
+            if ((int)NUM_copter_delay.Value > 0)
+            {
+                plugin.Host.AddWPtoList(MAVLink.MAV_CMD.WAYPOINT, (int)NUM_copter_delay.Value, 0, 0, 0, Lng, Lat, Alt);
+            }
+            else
+            {
+                plugin.Host.AddWPtoList(MAVLink.MAV_CMD.WAYPOINT, 0, 0, 0, 0, Lng, Lat, Alt);
             }
         }
 
@@ -957,13 +1002,13 @@ namespace MissionPlanner
             {
                 tabControl1.TabPages.Add(tabGrid);
                 tabControl1.TabPages.Add(tabCamera);
-                tabControl1.TabPages.Add(tabTrigger);
+                //tabControl1.TabPages.Add(tabTrigger);
             }
             else
             {
                 tabControl1.TabPages.Remove(tabGrid);
                 tabControl1.TabPages.Remove(tabCamera);
-                tabControl1.TabPages.Remove(tabTrigger);
+                //tabControl1.TabPages.Remove(tabTrigger);
             }
         }
     }
