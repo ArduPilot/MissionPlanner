@@ -35,6 +35,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.NUM_altitude = new System.Windows.Forms.NumericUpDown();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
             this.TBAR_zoom = new System.Windows.Forms.TrackBar();
             this.chk_includeland = new System.Windows.Forms.CheckBox();
             this.label24 = new System.Windows.Forms.Label();
@@ -80,8 +82,12 @@
             this.NUM_minspd = new System.Windows.Forms.NumericUpDown();
             this.label2 = new System.Windows.Forms.Label();
             this.CMB_aircraft = new System.Windows.Forms.ComboBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
+            this.LBL_topdock = new System.Windows.Forms.Label();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripButtonpan = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonbox = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonmovebox = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtoneditbox = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_angle)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_altitude)).BeginInit();
             this.groupBox6.SuspendLayout();
@@ -96,6 +102,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUM_maxflttime)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_maxspd)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_minspd)).BeginInit();
+            this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // BUT_Accept
@@ -168,6 +175,16 @@
             resources.ApplyResources(this.groupBox6, "groupBox6");
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.TabStop = false;
+            // 
+            // label7
+            // 
+            resources.ApplyResources(this.label7, "label7");
+            this.label7.Name = "label7";
+            // 
+            // label6
+            // 
+            resources.ApplyResources(this.label6, "label6");
+            this.label6.Name = "label6";
             // 
             // TBAR_zoom
             // 
@@ -298,6 +315,12 @@
             this.map.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
             this.map.ShowTileGridLines = false;
             this.map.Zoom = 3D;
+            this.map.OnPolygonClick += new GMap.NET.WindowsForms.PolygonClick(this.map_OnPolygonClick);
+            this.map.OnPolygonEnter += new GMap.NET.WindowsForms.PolygonEnter(this.map_OnPolygonEnter);
+            this.map.OnPolygonLeave += new GMap.NET.WindowsForms.PolygonLeave(this.map_OnPolygonLeave);
+            this.map.MouseDown += new System.Windows.Forms.MouseEventHandler(this.map_MouseDown);
+            this.map.MouseMove += new System.Windows.Forms.MouseEventHandler(this.map_MouseMove);
+            this.map.MouseUp += new System.Windows.Forms.MouseEventHandler(this.map_MouseUp);
             // 
             // groupBox5
             // 
@@ -406,6 +429,7 @@
             this.quickViewimagecount.Name = "quickViewimagecount";
             this.quickViewimagecount.number = -9999D;
             this.quickViewimagecount.numberColor = System.Drawing.Color.LimeGreen;
+            this.quickViewimagecount.numberformat = "0";
             // 
             // quickViewgroundres
             // 
@@ -414,6 +438,7 @@
             this.quickViewgroundres.Name = "quickViewgroundres";
             this.quickViewgroundres.number = -9999D;
             this.quickViewgroundres.numberColor = System.Drawing.Color.Chocolate;
+            this.quickViewgroundres.numberformat = "0.00";
             // 
             // quickViewflighttime
             // 
@@ -422,6 +447,7 @@
             this.quickViewflighttime.Name = "quickViewflighttime";
             this.quickViewflighttime.number = -9999D;
             this.quickViewflighttime.numberColor = System.Drawing.SystemColors.Highlight;
+            this.quickViewflighttime.numberformat = "0";
             // 
             // quickViewarea
             // 
@@ -430,6 +456,7 @@
             this.quickViewarea.Name = "quickViewarea";
             this.quickViewarea.number = -9999D;
             this.quickViewarea.numberColor = System.Drawing.Color.Red;
+            this.quickViewarea.numberformat = "0.00";
             // 
             // groupBox7
             // 
@@ -568,23 +595,62 @@
             this.CMB_aircraft.Name = "CMB_aircraft";
             this.CMB_aircraft.SelectedIndexChanged += new System.EventHandler(this.CMB_aircraft_SelectedIndexChanged);
             // 
-            // label6
+            // LBL_topdock
             // 
-            resources.ApplyResources(this.label6, "label6");
-            this.label6.Name = "label6";
+            resources.ApplyResources(this.LBL_topdock, "LBL_topdock");
+            this.LBL_topdock.Name = "LBL_topdock";
             // 
-            // label7
+            // toolStrip1
             // 
-            resources.ApplyResources(this.label7, "label7");
-            this.label7.Name = "label7";
+            resources.ApplyResources(this.toolStrip1, "toolStrip1");
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripButtonpan,
+            this.toolStripButtonbox,
+            this.toolStripButtonmovebox,
+            this.toolStripButtoneditbox});
+            this.toolStrip1.Name = "toolStrip1";
+            // 
+            // toolStripButtonpan
+            // 
+            this.toolStripButtonpan.BackColor = System.Drawing.Color.Black;
+            this.toolStripButtonpan.ForeColor = System.Drawing.Color.White;
+            resources.ApplyResources(this.toolStripButtonpan, "toolStripButtonpan");
+            this.toolStripButtonpan.Name = "toolStripButtonpan";
+            this.toolStripButtonpan.Click += new System.EventHandler(this.toolStripButtonpan_Click);
+            // 
+            // toolStripButtonbox
+            // 
+            this.toolStripButtonbox.BackColor = System.Drawing.Color.Black;
+            this.toolStripButtonbox.ForeColor = System.Drawing.Color.White;
+            resources.ApplyResources(this.toolStripButtonbox, "toolStripButtonbox");
+            this.toolStripButtonbox.Name = "toolStripButtonbox";
+            this.toolStripButtonbox.Click += new System.EventHandler(this.toolStripButtonbox_Click);
+            // 
+            // toolStripButtonmovebox
+            // 
+            this.toolStripButtonmovebox.BackColor = System.Drawing.Color.Black;
+            this.toolStripButtonmovebox.ForeColor = System.Drawing.Color.White;
+            resources.ApplyResources(this.toolStripButtonmovebox, "toolStripButtonmovebox");
+            this.toolStripButtonmovebox.Name = "toolStripButtonmovebox";
+            this.toolStripButtonmovebox.Click += new System.EventHandler(this.toolStripButtonmovebox_Click);
+            // 
+            // toolStripButtoneditbox
+            // 
+            this.toolStripButtoneditbox.BackColor = System.Drawing.Color.Black;
+            this.toolStripButtoneditbox.ForeColor = System.Drawing.Color.White;
+            resources.ApplyResources(this.toolStripButtoneditbox, "toolStripButtoneditbox");
+            this.toolStripButtoneditbox.Name = "toolStripButtoneditbox";
+            this.toolStripButtoneditbox.Click += new System.EventHandler(this.toolStripButtoneditbox_Click);
             // 
             // GridUIv2
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             resources.ApplyResources(this, "$this");
+            this.Controls.Add(this.map);
+            this.Controls.Add(this.LBL_topdock);
+            this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.groupBox5);
-            this.Controls.Add(this.map);
             this.Controls.Add(this.panel2);
             this.Name = "GridUIv2";
             this.Load += new System.EventHandler(this.GridUI_Load);
@@ -608,7 +674,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUM_maxflttime)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_maxspd)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_minspd)).EndInit();
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -667,5 +736,11 @@
         private System.Windows.Forms.TrackBar TBAR_zoom;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label LBL_topdock;
+        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStripButton toolStripButtonpan;
+        private System.Windows.Forms.ToolStripButton toolStripButtonbox;
+        private System.Windows.Forms.ToolStripButton toolStripButtoneditbox;
+        private System.Windows.Forms.ToolStripButton toolStripButtonmovebox;
     }
 }

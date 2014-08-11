@@ -799,6 +799,10 @@ namespace MissionPlanner.GCSViews
                     sitldata.yawRate = (DATA[17][2] * rad2deg);
 
                     sitldata.heading = ((float)DATA[19][2]);
+
+                    sitldata.speedN =-DATA[21][5];// (DATA[3][7] * 0.44704 * Math.Sin(sitldata.heading * deg2rad));
+                    sitldata.speedE = DATA[21][3];// (DATA[3][7] * 0.44704 * Math.Cos(sitldata.heading * deg2rad));
+                    sitldata.speedD = -DATA[21][4];
                 }
                 else
                 {
@@ -810,6 +814,11 @@ namespace MissionPlanner.GCSViews
                     sitldata.yawRate = (DATA[16][2] * rad2deg);
 
                     sitldata.heading = (DATA[18][2]); // 18-2
+
+
+                    sitldata.speedN = -DATA[21][5];// (DATA[3][7] * 0.44704 * Math.Sin(sitldata.heading * deg2rad));
+                    sitldata.speedE = DATA[21][3];// (DATA[3][7] * 0.44704 * Math.Cos(sitldata.heading * deg2rad));
+                    sitldata.speedD = -DATA[21][4];
                 }
 
                 sitldata.airspeed = ((DATA[3][5] * .44704));
@@ -818,9 +827,7 @@ namespace MissionPlanner.GCSViews
                 sitldata.longitude = (DATA[20][1]);
                 sitldata.altitude = (DATA[20][2] * ft2m);
 
-                sitldata.speedN = -DATA[21][5];// (DATA[3][7] * 0.44704 * Math.Sin(sitldata.heading * deg2rad));
-                sitldata.speedE = DATA[21][3];// (DATA[3][7] * 0.44704 * Math.Cos(sitldata.heading * deg2rad));
-                sitldata.speedD = -DATA[21][4];
+           
 
                 Matrix3 dcm = new Matrix3();
                 dcm.from_euler(sitldata.rollDeg * deg2rad, sitldata.pitchDeg * deg2rad, sitldata.heading * deg2rad);
@@ -1094,6 +1101,9 @@ namespace MissionPlanner.GCSViews
 
 
             packetcount++;
+
+            if (!comPort.BaseStream.IsOpen)
+                return;
 
             if (comPort.BaseStream.BytesToWrite > 100)
                 return;

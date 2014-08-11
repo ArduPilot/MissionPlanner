@@ -172,7 +172,7 @@ namespace MissionPlanner
                     return _ch3percent;
                 try
                 {
-                    if (MainV2.comPort.MAV.param.ContainsKey("RC3_MIN"))
+                    if (MainV2.comPort.MAV.param.ContainsKey("RC3_MIN") && MainV2.comPort.MAV.param.ContainsKey("RC3_MAX"))
                     {
                         return (int)(((ch3out - (float)MainV2.comPort.MAV.param["RC3_MIN"]) / ((float)MainV2.comPort.MAV.param["RC3_MAX"] - (float)MainV2.comPort.MAV.param["RC3_MIN"])) * 100);
                     }
@@ -835,6 +835,21 @@ namespace MissionPlanner
                             messageHigh = "Bad OptFlow Health";
                             messageHighTime = DateTime.Now;
                         }
+                        else if (sensors_health.terrain != sensors_enabled.terrain)
+                        {
+                            messageHigh = "Bad/No Terrain Data";
+                            messageHighTime = DateTime.Now;
+                        }
+                        else if (sensors_health.geofence != sensors_enabled.geofence)
+                        {
+                            messageHigh = "Geofence Breach";
+                            messageHighTime = DateTime.Now;
+                        }
+                        else if (sensors_health.ahrs != sensors_enabled.ahrs)
+                        {
+                            messageHigh = "Bad AHRS";
+                            messageHighTime = DateTime.Now;
+                        }
                         else if (sensors_present.rc_receiver != sensors_enabled.rc_receiver)
                         {
                             int reenable;
@@ -1250,7 +1265,7 @@ namespace MissionPlanner
 
             public Mavlink_Sensors()
             {
-                //var imte = MAVLink.MAV_SYS_STATUS_SENSOR._3D_ACCEL;
+                var imte = MAVLink.MAV_SYS_STATUS_SENSOR._3D_ACCEL;
             }
 
             public Mavlink_Sensors(uint p)
@@ -1278,6 +1293,10 @@ namespace MissionPlanner
             public bool gyro2 { get { return bitArray[17]; } set { bitArray[17] = value; } }
             public bool accel2 { get { return bitArray[18]; } set { bitArray[18] = value; } }
             public bool mag2 { get { return bitArray[19]; } set { bitArray[19] = value; } }
+
+            public bool geofence { get { return bitArray[20]; } set { bitArray[20] = value; } }
+            public bool ahrs { get { return bitArray[21]; } set { bitArray[21] = value; } }
+            public bool terrain { get { return bitArray[22]; } set { bitArray[22] = value; } }
 
             public int Value
             {

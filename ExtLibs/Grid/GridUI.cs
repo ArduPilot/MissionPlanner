@@ -77,6 +77,8 @@ namespace MissionPlanner
               //  loadsetting("grid_angle", NUM_angle);
                 loadsetting("grid_camdir", CHK_camdirection);
 
+                loadsetting("grid_usespeed", CHK_usespeed);
+
                 loadsetting("grid_dist", NUM_Distance);
                 loadsetting("grid_overshoot1", NUM_overshoot);
                 loadsetting("grid_overshoot2", NUM_overshoot2);
@@ -87,11 +89,22 @@ namespace MissionPlanner
                 loadsetting("grid_startfrom",CMB_startfrom);
 
                 loadsetting("grid_autotakeoff", CHK_toandland);
+                loadsetting("grid_autotakeoff_RTL", CHK_toandland_RTL);
 
                 loadsetting("grid_advanced", CHK_advanced);
 
+                // Should probably be saved as one setting, and us logic
+                loadsetting("grid_trigdist", rad_trigdist);
+                loadsetting("grid_digicam", rad_digicam);
+                loadsetting("grid_repeatservo", rad_repeatservo);
+
                 // camera last to it invokes a reload
                 loadsetting("grid_camera", CMB_camera);
+
+                // Copter Settings
+                loadsetting("grid_copter_delay", NUM_copter_delay);
+                loadsetting("grid_copter_headinghold_chk", CHK_copter_headinghold);
+                loadsetting("grid_copter_headinghold", NUM_copter_headinghold);
             }
         }
 
@@ -125,6 +138,8 @@ namespace MissionPlanner
             plugin.Host.config["grid_angle"] = NUM_angle.Value.ToString();
             plugin.Host.config["grid_camdir"] = CHK_camdirection.Checked.ToString();
 
+            plugin.Host.config["grid_usespeed"] = CHK_usespeed.Checked.ToString();
+
             plugin.Host.config["grid_dist"] = NUM_Distance.Value.ToString();
             plugin.Host.config["grid_overshoot1"] = NUM_overshoot.Value.ToString();
             plugin.Host.config["grid_overshoot2"] = NUM_overshoot2.Value.ToString();
@@ -135,8 +150,17 @@ namespace MissionPlanner
             plugin.Host.config["grid_startfrom"] = CMB_startfrom.Text;
 
             plugin.Host.config["grid_autotakeoff"] = CHK_toandland.Checked.ToString();
+            plugin.Host.config["grid_autotakeoff_RTL"] = CHK_toandland_RTL.Checked.ToString();
 
             plugin.Host.config["grid_advanced"] = CHK_advanced.Checked.ToString();       
+            plugin.Host.config["grid_trigdist"] = rad_trigdist.Checked.ToString();
+            plugin.Host.config["grid_digicam"] = rad_digicam.Checked.ToString();
+            plugin.Host.config["grid_repeatservo"] = rad_repeatservo.Checked.ToString();
+
+            // Copter Settings
+            plugin.Host.config["grid_copter_delay"] = NUM_copter_delay.Value.ToString();
+            plugin.Host.config["grid_copter_headinghold_chk"] = CHK_copter_headinghold.Checked.ToString();
+            plugin.Host.config["grid_copter_headinghold"] = NUM_copter_headinghold.Value.ToString();
         }
 
         public struct GridData
@@ -146,6 +170,7 @@ namespace MissionPlanner
             public decimal alt;
             public decimal angle;
             public bool camdir;
+            public bool usespeed;
             public decimal dist;
             public decimal overshoot1;
             public decimal overshoot2;
@@ -154,7 +179,17 @@ namespace MissionPlanner
             public decimal spacing;
             public string startfrom;
             public bool autotakeoff;
+            public bool autotakeoff_RTL;
             public bool advanced;
+
+            public bool trigdist;
+            public bool digicam;
+            public bool repeatservo;
+
+            // Copter Settings
+            public decimal copter_delay;
+            public bool copter_headinghold_chk;
+            public decimal copter_headinghold;
         }
 
         GridData savegriddata()
@@ -168,6 +203,8 @@ namespace MissionPlanner
             griddata.angle = NUM_angle.Value;
             griddata.camdir = CHK_camdirection.Checked;
 
+            griddata.usespeed = CHK_usespeed.Checked;
+
             griddata.dist = NUM_Distance.Value;
             griddata.overshoot1 = NUM_overshoot.Value;
             griddata.overshoot2 = NUM_overshoot2.Value;
@@ -178,8 +215,18 @@ namespace MissionPlanner
             griddata.startfrom = CMB_startfrom.Text;
 
             griddata.autotakeoff = CHK_toandland.Checked;
+            griddata.autotakeoff_RTL = CHK_toandland_RTL.Checked;
 
             griddata.advanced = CHK_advanced.Checked;
+
+            griddata.trigdist = rad_trigdist.Checked;
+            griddata.digicam = rad_digicam.Checked;
+            griddata.repeatservo = rad_repeatservo.Checked;
+
+            // Copter Settings
+            griddata.copter_delay = NUM_copter_delay.Value;
+            griddata.copter_headinghold_chk = CHK_copter_headinghold.Checked;
+            griddata.copter_headinghold = NUM_spacing.Value;
 
             return griddata;
         }
@@ -193,6 +240,8 @@ namespace MissionPlanner
             NUM_angle.Value = griddata.angle;
             CHK_camdirection.Checked = griddata.camdir;
 
+            CHK_usespeed.Checked = griddata.usespeed;
+
             NUM_Distance.Value = griddata.dist;
             NUM_overshoot.Value = griddata.overshoot1;
             NUM_overshoot2.Value = griddata.overshoot2;
@@ -203,8 +252,18 @@ namespace MissionPlanner
             CMB_startfrom.Text = griddata.startfrom;
 
             CHK_toandland.Checked = griddata.autotakeoff;
+            CHK_toandland_RTL.Checked = griddata.autotakeoff_RTL;
 
             CHK_advanced.Checked = griddata.advanced;
+
+            rad_trigdist.Checked = griddata.trigdist;
+            rad_digicam.Checked = griddata.digicam;
+            rad_repeatservo.Checked = griddata.repeatservo;
+
+            // Copter Settings
+            NUM_copter_delay.Value = griddata.copter_delay;
+            CHK_copter_headinghold.Checked = griddata.copter_headinghold_chk;
+            NUM_copter_headinghold.Value = griddata.copter_headinghold;
         }
 
         public void LoadGrid()
@@ -519,6 +578,11 @@ namespace MissionPlanner
                     }
                 }
 
+                if (CHK_usespeed.Checked)
+                {
+                    plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_CHANGE_SPEED, 0, (int)numericUpDownFlySpeed.Value, 0, 0, 0, 0, 0);
+                }
+
                 if (rad_trigdist.Checked)
                 {
                     plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_SET_CAM_TRIGG_DIST, (float)NUM_spacing.Value, 0, 0, 0, 0, 0, 0);
@@ -530,18 +594,21 @@ namespace MissionPlanner
                     {
                         if (rad_repeatservo.Checked)
                         {
-                            plugin.Host.AddWPtoList(MAVLink.MAV_CMD.WAYPOINT, 0, 0, 0, 0, plla.Lng, plla.Lat, plla.Alt);
+                            AddWP(plla.Lng, plla.Lat, plla.Alt);
+                            //plugin.Host.AddWPtoList(MAVLink.MAV_CMD.WAYPOINT, 0, 0, 0, 0, plla.Lng, plla.Lat, plla.Alt);
                             plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_REPEAT_SERVO, (float)num_reptservo.Value, (float)num_reptpwm.Value, 999, (float)num_repttime.Value, 0, 0, 0);
                         }
                         if (rad_digicam.Checked)
                         {
-                            plugin.Host.AddWPtoList(MAVLink.MAV_CMD.WAYPOINT, 0, 0, 0, 0, plla.Lng, plla.Lat, plla.Alt);
+                            AddWP(plla.Lng, plla.Lat, plla.Alt);
+                            //plugin.Host.AddWPtoList(MAVLink.MAV_CMD.WAYPOINT, 0, 0, 0, 0, plla.Lng, plla.Lat, plla.Alt);
                             plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_DIGICAM_CONTROL, 0, 0, 0, 0, 0, 0, 0);
                         }
                     }
                     else
                     {
-                        plugin.Host.AddWPtoList(MAVLink.MAV_CMD.WAYPOINT, 0, 0, 0, 0, plla.Lng, plla.Lat, plla.Alt);
+                        AddWP(plla.Lng, plla.Lat, plla.Alt);
+                        //plugin.Host.AddWPtoList(MAVLink.MAV_CMD.WAYPOINT, 0, 0, 0, 0, plla.Lng, plla.Lat, plla.Alt);
                     }
                 });
 
@@ -550,9 +617,22 @@ namespace MissionPlanner
                     plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_SET_CAM_TRIGG_DIST, 0, 0, 0, 0, 0, 0, 0);
                 }
 
+                if (CHK_usespeed.Checked)
+                {
+                    // Need to load MP_NAV_SPEED before we can set it back.
+                    //plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_CHANGE_SPEED, 0, 0, 0, 0, 0, 0, 0);
+                }
+
                 if (CHK_toandland.Checked)
                 {
-                    plugin.Host.AddWPtoList(MAVLink.MAV_CMD.LAND, 0, 0, 0, 0, plugin.Host.cs.HomeLocation.Lng,plugin.Host.cs.HomeLocation.Lat, 0);
+                    if (CHK_toandland_RTL.Checked)
+                    {
+                        plugin.Host.AddWPtoList(MAVLink.MAV_CMD.RETURN_TO_LAUNCH, 0, 0, 0, 0, 0, 0, 0);
+                    }
+                    else
+                    {
+                        plugin.Host.AddWPtoList(MAVLink.MAV_CMD.LAND, 0, 0, 0, 0, plugin.Host.cs.HomeLocation.Lng, plugin.Host.cs.HomeLocation.Lat, 0);
+                    }
                 }
 
                 savesettings();
@@ -566,6 +646,23 @@ namespace MissionPlanner
             else
             {
                 CustomMessageBox.Show("Bad Grid", "Error");
+            }
+        }
+
+        private void AddWP(double Lng, double Lat, double Alt)
+        {
+            if (CHK_copter_headinghold.Checked)
+            {
+                plugin.Host.AddWPtoList(MAVLink.MAV_CMD.CONDITION_YAW, (int)NUM_copter_headinghold.Value, 0, 0, 0, 0, 0, 0);
+            }
+
+            if ((int)NUM_copter_delay.Value > 0)
+            {
+                plugin.Host.AddWPtoList(MAVLink.MAV_CMD.WAYPOINT, (int)NUM_copter_delay.Value, 0, 0, 0, Lng, Lat, Alt);
+            }
+            else
+            {
+                plugin.Host.AddWPtoList(MAVLink.MAV_CMD.WAYPOINT, 0, 0, 0, 0, Lng, Lat, Alt);
             }
         }
 
@@ -905,15 +1002,14 @@ namespace MissionPlanner
             {
                 tabControl1.TabPages.Add(tabGrid);
                 tabControl1.TabPages.Add(tabCamera);
-                tabControl1.TabPages.Add(tabTrigger);
+                //tabControl1.TabPages.Add(tabTrigger);
             }
             else
             {
                 tabControl1.TabPages.Remove(tabGrid);
                 tabControl1.TabPages.Remove(tabCamera);
-                tabControl1.TabPages.Remove(tabTrigger);
+                //tabControl1.TabPages.Remove(tabTrigger);
             }
         }
     }
 }
-

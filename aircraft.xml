@@ -44,8 +44,8 @@
     <turn_rad_m>0.1</turn_rad_m>
     <min_alt_m>7</min_alt_m>
     <max_alt_m>120</max_alt_m>
-    <min_vel_mps>1</min_vel_mps>
-    <max_vel_mps>20</max_vel_mps>
+    <min_vel_ms>1</min_vel_ms>
+    <max_vel_ms>20</max_vel_ms>
   </Vehicle>
 
   <Vehicle>
@@ -53,8 +53,8 @@
     <turn_rad_m>50</turn_rad_m>
     <min_alt_m>20</min_alt_m>
     <max_alt_m>120</max_alt_m>
-    <min_vel_mps>10</min_vel_mps>
-    <max_vel_mps>25</max_vel_mps>
+    <min_vel_ms>10</min_vel_ms>
+    <max_vel_ms>25</max_vel_ms>
   </Vehicle>
   
 </Aircraft>

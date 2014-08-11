@@ -1678,7 +1678,7 @@ namespace MissionPlanner
                     // speech for airspeed alerts
                     if (speechEnable && speechEngine != null && (DateTime.Now - speechlowspeedtime).TotalSeconds > 10 && (MainV2.comPort.logreadmode || comPort.BaseStream.IsOpen))
                     {
-                        if (MainV2.getConfig("speechlowspeedenabled") == "True")
+                        if (MainV2.getConfig("speechlowspeedenabled") == "True" && MainV2.comPort.MAV.cs.armed)
                         {
                             float warngroundspeed = 0;
                             float.TryParse(MainV2.getConfig("speechlowgroundspeedtrigger"), out warngroundspeed);
@@ -1718,7 +1718,7 @@ namespace MissionPlanner
                             int todo; // need a reset method
                             altwarningmax = (int)Math.Max(MainV2.comPort.MAV.cs.alt, altwarningmax);
 
-                            if (MainV2.getConfig("speechaltenabled") == "True" && MainV2.comPort.MAV.cs.alt != 0.00 && (MainV2.comPort.MAV.cs.alt <= warnalt))
+                            if (MainV2.getConfig("speechaltenabled") == "True" && MainV2.comPort.MAV.cs.alt != 0.00 && (MainV2.comPort.MAV.cs.alt <= warnalt) && MainV2.comPort.MAV.cs.armed)
                             {
                                 if (altwarningmax > warnalt)
                                 {

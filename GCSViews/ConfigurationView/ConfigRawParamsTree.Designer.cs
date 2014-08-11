@@ -87,7 +87,9 @@
             this.Params.Name = "Params";
             this.Params.OwnerDraw = true;
             this.Params.RootKeyValueString = "";
+            this.Params.RowHeight = 26;
             this.Params.ShowGroups = false;
+            this.Params.UseAlternatingBackColors = true;
             this.Params.UseCompatibleStateImageBehavior = false;
             this.Params.View = System.Windows.Forms.View.Details;
             this.Params.VirtualMode = true;

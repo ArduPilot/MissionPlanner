@@ -129,7 +129,7 @@ namespace MissionPlanner.GCSViews
         /// <param name="lat"></param>
         /// <param name="lng"></param>
         /// <param name="alt"></param>
-        public void setfromMap(double lat, double lng, int alt)
+        public void setfromMap(double lat, double lng, int alt, int p1 = 0)
         {
             if (selectedrow > Commands.RowCount)
             {
@@ -235,6 +235,15 @@ namespace MissionPlanner.GCSViews
                 }
 
             }
+
+            // Add more for other params
+            if (Commands.Columns[Param1.Index].HeaderText.Equals(cmdParamNames["WAYPOINT"][1]/*"Delay"*/))
+            {
+                cell = Commands.Rows[selectedrow].Cells[Param1.Index] as DataGridViewTextBoxCell;
+                cell.Value = p1;
+                cell.DataGridView.EndEdit();
+            }
+
             writeKML();
             Commands.EndEdit();
         }
@@ -1193,6 +1202,7 @@ namespace MissionPlanner.GCSViews
             polygonsoverlay.Routes.Clear();
 
             PointLatLngAlt lastpnt = fullpointlist[0];
+            PointLatLngAlt lastpnt2 = fullpointlist[0];
             PointLatLngAlt lastnonspline = fullpointlist[0];
             List<PointLatLngAlt> splinepnts = new List<PointLatLngAlt>();
             
@@ -1221,9 +1231,16 @@ namespace MissionPlanner.GCSViews
 
                         MissionPlanner.Controls.Waypoints.Spline2 sp = new Controls.Waypoints.Spline2();
 
-                        sp._origin = sp.pv_location_to_vector(lastpnt);
+                        //sp._flags.segment_type = MissionPlanner.Controls.Waypoints.Spline2.SegmentType.SEGMENT_STRAIGHT;
+                        //sp._flags.reached_destination = true;
+                        //sp._origin = sp.pv_location_to_vector(lastpnt);
+                        //sp._destination = sp.pv_location_to_vector(fullpointlist[0]);
 
                        // sp._spline_origin_vel = sp.pv_location_to_vector(lastpnt) - sp.pv_location_to_vector(lastnonspline);
+
+                        sp.set_wp_origin_and_destination(sp.pv_location_to_vector(lastpnt2), sp.pv_location_to_vector(lastpnt));
+
+                        sp._flags.reached_destination = true;
 
                         for (int no = 1; no < (splinepnts.Count-1); no++)
                         {
@@ -1267,6 +1284,7 @@ namespace MissionPlanner.GCSViews
 
                     route.Points.Add(fullpointlist[a]);
 
+                    lastpnt2 = lastpnt;
                     lastpnt = fullpointlist[a];
                 }
             }
@@ -1702,8 +1720,6 @@ namespace MissionPlanner.GCSViews
                         ans = port.setWP(temp, (ushort)(a + 1), frame, 0);
                     } 
 
-
-
                     if (ans == MAVLink.MAV_MISSION_RESULT.MAV_MISSION_NO_SPACE) 
                     {
                         e.ErrorMessage = "Upload failed, please reduce the number of wp's";
@@ -1725,9 +1741,6 @@ namespace MissionPlanner.GCSViews
                         e.ErrorMessage = "Upload wps failed " + Commands.Rows[a].Cells[Command.Index].Value.ToString() + " " + Enum.Parse(typeof(MAVLink.MAV_MISSION_RESULT), ans.ToString());
                         return;
                     }
-
-                    if (temp.lat != 0 && temp.lng != 0)
-                        MainV2.comPort.Terrain.checkTerrain(temp.lat,temp.lng);
                 }
 
                 port.setWPACK();
@@ -2921,6 +2934,8 @@ namespace MissionPlanner.GCSViews
 
         private void CHK_altmode_CheckedChanged(object sender, EventArgs e)
         {
+            CHK_terrain.Checked = false;
+
             if (Commands.RowCount > 0 && !quickadd)
                 CustomMessageBox.Show("You will need to change your altitudes");
         }
@@ -3351,6 +3366,10 @@ namespace MissionPlanner.GCSViews
                 else if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduRover)
                 {
                     routesoverlay.Markers.Add(new GMapMarkerRover(currentloc, MainV2.comPort.MAV.cs.yaw, MainV2.comPort.MAV.cs.groundcourse, MainV2.comPort.MAV.cs.nav_bearing, MainV2.comPort.MAV.cs.target_bearing));
+                }
+                else if (MainV2.comPort.MAV.aptype == MAVLink.MAV_TYPE.HELICOPTER)
+                {
+                    routesoverlay.Markers[0] = (new GMapMarkerHeli(currentloc, MainV2.comPort.MAV.cs.yaw, MainV2.comPort.MAV.cs.groundcourse, MainV2.comPort.MAV.cs.nav_bearing));
                 }
                 else
                 {
@@ -4902,7 +4921,7 @@ namespace MissionPlanner.GCSViews
 
             if (cmd == MAVLink.MAV_CMD.WAYPOINT)
             {
-                setfromMap(y, x, (int)z);
+                setfromMap(y, x, (int)z, (int)p1);
             }
             else
             {

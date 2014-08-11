@@ -6028,6 +6028,7 @@
     <None Include="Resources\marker_05.png" />
     <None Include="Resources\marker_06.png" />
     <None Include="Resources\marker_07.png" />
+    <None Include="Resources\heli.png" />
     <Content Include="Resources\MAVCmd.zh-TW.txt" />
     <Content Include="Resources\MAVParam.zh-TW.txt" />
     <Content Include="Resources\new frames-01.png" />

@@ -81,7 +81,7 @@ namespace MissionPlanner.Arduino
 
             this.ReadTimeout = 1000;
 
-            while (count < a)
+            while (count < a && a < temp.Length)
             {
                 //Console.WriteLine("count {0} a {1} mes leng {2}",count,a,mes.Length);
                 try

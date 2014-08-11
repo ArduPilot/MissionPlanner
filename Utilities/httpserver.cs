@@ -222,14 +222,14 @@ namespace MissionPlanner.Utilities
                         SharpKml.Dom.Document kml = new SharpKml.Dom.Document();
 
                         SharpKml.Dom.Placemark pmplane = new SharpKml.Dom.Placemark();
-                        pmplane.Name = "P/Q ";
+                        pmplane.Name = "P/Q " + MainV2.comPort.MAV.cs.altasl;
 
                         pmplane.Visibility = true;
 
                         SharpKml.Dom.Location loc = new SharpKml.Dom.Location();
                         loc.Latitude = MainV2.comPort.MAV.cs.lat;
                         loc.Longitude = MainV2.comPort.MAV.cs.lng;
-                        loc.Altitude = MainV2.comPort.MAV.cs.alt;
+                        loc.Altitude = MainV2.comPort.MAV.cs.altasl;
 
                         if (loc.Altitude < 0)
                             loc.Altitude = 0.01;
