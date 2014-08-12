@@ -37,6 +37,12 @@ namespace MissionPlanner
 
         Dictionary<string, camerainfo> cameras = new Dictionary<string, camerainfo>();
 
+        // Distance Imperial Units
+        public string DistUnits = MainV2.config["distunits"].ToString();
+        public string inchpixel = "";
+        public string feet_fovH = "";
+        public string feet_fovV = "";
+
         public struct camerainfo
         {
             public string name;
@@ -459,33 +465,36 @@ namespace MissionPlanner
 
             Console.WriteLine("Poly Dist " + wppoly.Distance);
 
-            lbl_area.Text = calcpolygonarea(list).ToString("#") + " m^2";
-
-            lbl_distance.Text = wppoly.Distance.ToString("0.##") + " km";
-
-            lbl_spacing.Text = NUM_spacing.Value.ToString("#") + " m";
-
-            lbl_grndres.Text = TXT_cmpixel.Text;
+            if (DistUnits == "Feet")
+            {
+                float multiplierdist = 3.2808399f;
+                lbl_area.Text = (calcpolygonarea(list) * (double)multiplierdist).ToString("#") + " ft^2";
+                lbl_distance.Text = (wppoly.Distance * 0.621371).ToString("0.##") + " miles";
+                lbl_spacing.Text = (NUM_spacing.Value * (decimal)multiplierdist).ToString("#") + " ft";
+                lbl_grndres.Text = inchpixel;
+                lbl_distbetweenlines.Text = (NUM_Distance.Value * (decimal)multiplierdist).ToString("0.##") + " ft";
+                lbl_footprint.Text = feet_fovH + " x " + feet_fovV + " ft";
+            }
+            else
+            {
+                // Meters
+                lbl_area.Text = calcpolygonarea(list).ToString("#") + " m^2";
+                lbl_distance.Text = wppoly.Distance.ToString("0.##") + " km";
+                lbl_spacing.Text = NUM_spacing.Value.ToString("#") + " m";
+                lbl_grndres.Text = TXT_cmpixel.Text;
+                lbl_distbetweenlines.Text = NUM_Distance.Value.ToString("0.##") + " m";
+                lbl_footprint.Text = TXT_fovH.Text + " x " + TXT_fovV.Text + " m";
+            }
 
             lbl_pictures.Text = images.ToString();
-
             lbl_strips.Text = ((int)(strips / 2)).ToString();
-            lbl_distbetweenlines.Text = NUM_Distance.Value.ToString("0.##") + " m";
-
-            lbl_footprint.Text = TXT_fovH.Text + " x " + TXT_fovV.Text +" m";
-
             double seconds = ((wppoly.Distance * 1000.0) / ((double)numericUpDownFlySpeed.Value * 0.8));
             // reduce flying speed by 20 %
             label28.Text = secondsToNice(seconds);
-
             seconds = ((wppoly.Distance * 1000.0) / ((double)numericUpDownFlySpeed.Value));
-
             label32.Text = secondsToNice(((double)NUM_spacing.Value / (double)numericUpDownFlySpeed.Value));
-
-                map.HoldInvalidation = false;
-
+            map.HoldInvalidation = false;
             map.ZoomAndCenterMarkers("polygons");
-
         }
 
         string secondsToNice(double seconds)
@@ -570,11 +579,11 @@ namespace MissionPlanner
                 {
                     if (plugin.Host.cs.firmware == MainV2.Firmwares.ArduCopter2)
                     {
-                        plugin.Host.AddWPtoList(MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0, 0, 30);
+                        plugin.Host.AddWPtoList(MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0, 0, 30 * MainV2.comPort.MAV.cs.multiplierdist);
                     }
                     else
                     {
-                        plugin.Host.AddWPtoList(MAVLink.MAV_CMD.TAKEOFF, 20, 0, 0, 0, 0, 0, 30);
+                        plugin.Host.AddWPtoList(MAVLink.MAV_CMD.TAKEOFF, 20, 0, 0, 0, 0, 0, 30 * MainV2.comPort.MAV.cs.multiplierdist);
                     }
                 }
 
@@ -595,20 +604,17 @@ namespace MissionPlanner
                         if (rad_repeatservo.Checked)
                         {
                             AddWP(plla.Lng, plla.Lat, plla.Alt);
-                            //plugin.Host.AddWPtoList(MAVLink.MAV_CMD.WAYPOINT, 0, 0, 0, 0, plla.Lng, plla.Lat, plla.Alt);
                             plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_REPEAT_SERVO, (float)num_reptservo.Value, (float)num_reptpwm.Value, 999, (float)num_repttime.Value, 0, 0, 0);
                         }
                         if (rad_digicam.Checked)
                         {
                             AddWP(plla.Lng, plla.Lat, plla.Alt);
-                            //plugin.Host.AddWPtoList(MAVLink.MAV_CMD.WAYPOINT, 0, 0, 0, 0, plla.Lng, plla.Lat, plla.Alt);
                             plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_DIGICAM_CONTROL, 0, 0, 0, 0, 0, 0, 0);
                         }
                     }
                     else
                     {
                         AddWP(plla.Lng, plla.Lat, plla.Alt);
-                        //plugin.Host.AddWPtoList(MAVLink.MAV_CMD.WAYPOINT, 0, 0, 0, 0, plla.Lng, plla.Lat, plla.Alt);
                     }
                 });
 
@@ -658,11 +664,11 @@ namespace MissionPlanner
 
             if ((int)NUM_copter_delay.Value > 0)
             {
-                plugin.Host.AddWPtoList(MAVLink.MAV_CMD.WAYPOINT, (int)NUM_copter_delay.Value, 0, 0, 0, Lng, Lat, Alt);
+                plugin.Host.AddWPtoList(MAVLink.MAV_CMD.WAYPOINT, (int)NUM_copter_delay.Value, 0, 0, 0, Lng, Lat, Alt * MainV2.comPort.MAV.cs.multiplierdist);
             }
             else
             {
-                plugin.Host.AddWPtoList(MAVLink.MAV_CMD.WAYPOINT, 0, 0, 0, 0, Lng, Lat, Alt);
+                plugin.Host.AddWPtoList(MAVLink.MAV_CMD.WAYPOINT, 0, 0, 0, 0, Lng, Lat, Alt * MainV2.comPort.MAV.cs.multiplierdist);
             }
         }
 
@@ -821,12 +827,17 @@ namespace MissionPlanner
 
                 TXT_fovH.Text = viewwidth.ToString("#.#");
                 TXT_fovV.Text = viewheight.ToString("#.#");
+                // Imperial
+                feet_fovH = (viewwidth * 3.2808399f).ToString("#.#");
+                feet_fovV = (viewheight * 3.2808399f).ToString("#.#");
 
                 float fovh = (float)(Math.Atan(sensorwidth / (2 * focallen)) * rad2deg * 2);
                 float fovv = (float)(Math.Atan(sensorheight / (2 * focallen)) * rad2deg * 2);
 
                 //    mm  / pixels * 100
                 TXT_cmpixel.Text = ((viewheight / imageheight) * 100).ToString("0.00 cm");
+                // Imperial
+                inchpixel = (((viewheight / imageheight) * 100) * 0.393701).ToString("0.00 inches");
 
                 if (CHK_camdirection.Checked)
                 {
@@ -1002,13 +1013,11 @@ namespace MissionPlanner
             {
                 tabControl1.TabPages.Add(tabGrid);
                 tabControl1.TabPages.Add(tabCamera);
-                //tabControl1.TabPages.Add(tabTrigger);
             }
             else
             {
                 tabControl1.TabPages.Remove(tabGrid);
                 tabControl1.TabPages.Remove(tabCamera);
-                //tabControl1.TabPages.Remove(tabTrigger);
             }
         }
     }
