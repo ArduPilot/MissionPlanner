@@ -338,10 +338,12 @@ namespace MissionPlanner
             list.ForEach(x => { list2.Add(x); });
 
             var poly = new GMapPolygon(list2, "poly");
-            poly.Stroke = new Pen(Color.Red, 4);
+            poly.Stroke.Brush = Brushes.Red;
+            poly.Stroke.Color = Color.Red;
             poly.Fill = Brushes.Transparent;
 
             layerpolygons.Polygons.Add(poly);
+        
 
             foreach (var item in list)
             {
@@ -436,7 +438,8 @@ namespace MissionPlanner
                             footprint.Add(item.newpos(bearing - angle1, dist1));
 
                             GMapPolygon poly = new GMapPolygon(footprint, a.ToString());
-                            poly.Stroke = new Pen(Color.FromArgb(250 - ((a * 5) % 240), 250 - ((a * 3) % 240), 250 - ((a * 9) % 240)), 1);
+                            poly.Stroke.Color = Color.FromArgb(250 - ((a * 5) % 240), 250 - ((a * 3) % 240), 250 - ((a * 9) % 240));
+                            poly.Stroke.Width = 1;
                             poly.Fill = new SolidBrush(Color.FromArgb(40, Color.Purple));
                             if (chk_footprints.Checked)
                                 layerpolygons.Polygons.Add(poly);
@@ -672,31 +675,7 @@ namespace MissionPlanner
             }
         }
 
-        //Map Left mouse PAN
-        internal PointLatLng MouseDownStart = new PointLatLng();
-
-        private void map_MouseDown(object sender, MouseEventArgs e)
-        {
-            MouseDownStart = map.FromLocalToLatLng(e.X, e.Y);
-        }
-
-        private void map_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
-                PointLatLng point = map.FromLocalToLatLng(e.X, e.Y);
-
-                double latdif = MouseDownStart.Lat - point.Lat;
-                double lngdif = MouseDownStart.Lng - point.Lng;
-
-                try
-                {
-                    map.Position = new PointLatLng(map.Position.Lat + latdif, map.Position.Lng + lngdif);
-                }
-                catch { }
-            }
-        }
-
+        /////////////////////
         // Map Zooming
         private void trackBar1_ValueChanged(object sender, EventArgs e)
         {
@@ -722,6 +701,7 @@ namespace MissionPlanner
             catch { }
         }
 
+        // MapZoomChanged
         void map_OnMapZoomChanged()
         {
             if (map.Zoom > 0)
@@ -731,6 +711,7 @@ namespace MissionPlanner
                     trackBar1.Value = (float)map.Zoom;
                 }
                 catch { }
+                //center.Position = map.Position;
             }
         }
 
