@@ -17,19 +17,11 @@ namespace MissionPlanner.Utilities
 
         MAVLink.mavlink_terrain_request_t lastrequest;
 
-        KeyValuePair<MAVLink.MAVLINK_MSG_ID, Func<byte[], bool>> subscription;
-
         public TerrainFollow()
         {
             log.Info("Subscribe to packets");
-            subscription = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.TERRAIN_REQUEST, ReceviedPacket);
+            MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.TERRAIN_REQUEST, ReceviedPacket);
             //MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.TERRAIN_REPORT, ReceviedPacket);
-        }
-
-        ~TerrainFollow()
-        {
-            log.Info("unSubscribe to packets");
-            MainV2.comPort.UnSubscribeToPacketType(subscription);
         }
 
         bool ReceviedPacket(byte[] rawpacket)
@@ -59,39 +51,33 @@ namespace MissionPlanner.Utilities
         void QueueSendGrid(object nothing)
         {
             issending = true;
-            try
+
+            // 8 across - 7 down
+            // cycle though the bitmask to check what we need to send (8*7)
+            for (byte i = 0; i < 56; i++)
             {
-                // 8 across - 7 down
-                // cycle though the bitmask to check what we need to send (8*7)
-                for (byte i = 0; i < 56; i++)
+                // check to see if the ap requested this box.
+                if ((lastrequest.mask & ((ulong)1 << i)) > 0)
                 {
-                    // check to see if the ap requested this box.
-                    if ((lastrequest.mask & ((ulong)1 << i)) > 0)
-                    {
-                        // get the requested lat and lon
-                        double lat = lastrequest.lat / 1e7;
-                        double lon = lastrequest.lon / 1e7;
+                    // get the requested lat and lon
+                    double lat = lastrequest.lat / 1e7;
+                    double lon = lastrequest.lon / 1e7;
 
-                        // get the distance between grids
-                        int bitgridspacing = lastrequest.grid_spacing * 4;
+                    // get the distance between grids
+                    int bitgridspacing = lastrequest.grid_spacing * 4;
 
-                        // get the new point, based on our current bit.
-                        var newplla = new PointLatLngAlt(lat, lon).gps_offset(bitgridspacing * (i % 8), bitgridspacing * (int)Math.Floor(i / 8.0));
+                    // get the new point, based on our current bit.
+                    var newplla = new PointLatLngAlt(lat, lon).location_offset(bitgridspacing * (i % 8), bitgridspacing * (int)Math.Floor(i / 8.0));
 
-                        // send a 4*4 grid, based on the lat lon of the bitmask
-                        SendGrid(newplla.Lat, newplla.Lng, lastrequest.grid_spacing, i);
+                    // send a 4*4 grid, based on the lat lon of the bitmask
+                    SendGrid(newplla.Lat, newplla.Lng, lastrequest.grid_spacing, i);
 
-                        // 12hz = (43+6) * 12 = 588 bps
-                        System.Threading.Thread.Sleep(1000 / 12);
-                    }
+                    // 12hz = (43+6) * 12 = 588 bps
+                    System.Threading.Thread.Sleep(1000/12);
                 }
             }
-            catch (Exception ex) { log.Error(ex); }
-            finally
-            {
-                issending = false;
 
-            }
+            issending = false;
         }
 
         void SendGrid(double lat, double lon, ushort grid_spacing, byte bit)
@@ -107,15 +93,12 @@ namespace MissionPlanner.Utilities
 
             for (int i = 0; i < (4 * 4); i++)
             {
-                int x = i % 4;
-                int y = i / 4;
+                int y = i % 4;
+                int x = i / 4;
 
-                PointLatLngAlt plla = new PointLatLngAlt(lat, lon).gps_offset(x * grid_spacing, y * grid_spacing);
+                PointLatLngAlt plla = new PointLatLngAlt(lat, lon).location_offset(x * grid_spacing, y * grid_spacing);
 
                 double alt = srtm.getAltitude(plla.Lat, plla.Lng);
-
-                if (alt == 0)
-                    return;
 
                 resp.data[i] = (short)alt;
             }
