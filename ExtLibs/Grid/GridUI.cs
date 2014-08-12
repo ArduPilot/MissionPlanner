@@ -675,31 +675,7 @@ namespace MissionPlanner
             }
         }
 
-        //Map Left mouse PAN
-        internal PointLatLng MouseDownStart = new PointLatLng();
-
-        private void map_MouseDown(object sender, MouseEventArgs e)
-        {
-            MouseDownStart = map.FromLocalToLatLng(e.X, e.Y);
-        }
-
-        private void map_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
-                PointLatLng point = map.FromLocalToLatLng(e.X, e.Y);
-
-                double latdif = MouseDownStart.Lat - point.Lat;
-                double lngdif = MouseDownStart.Lng - point.Lng;
-
-                try
-                {
-                    map.Position = new PointLatLng(map.Position.Lat + latdif, map.Position.Lng + lngdif);
-                }
-                catch { }
-            }
-        }
-
+        /////////////////////
         // Map Zooming
         private void trackBar1_ValueChanged(object sender, EventArgs e)
         {
@@ -725,6 +701,7 @@ namespace MissionPlanner
             catch { }
         }
 
+        // MapZoomChanged
         void map_OnMapZoomChanged()
         {
             if (map.Zoom > 0)
@@ -734,6 +711,7 @@ namespace MissionPlanner
                     trackBar1.Value = (float)map.Zoom;
                 }
                 catch { }
+                //center.Position = map.Position;
             }
         }
 
