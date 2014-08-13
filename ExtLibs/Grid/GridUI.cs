@@ -31,6 +31,7 @@ namespace MissionPlanner
 
         GMapOverlay layerpolygons;
         GMapPolygon wppoly;
+        static public Object thisLock = new Object();
         private GridPlugin plugin;
         List<PointLatLngAlt> list = new List<PointLatLngAlt>();
         List<PointLatLngAlt> grid;
@@ -63,6 +64,8 @@ namespace MissionPlanner
 
             layerpolygons = new GMapOverlay( "polygons");
             map.Overlays.Add(layerpolygons);
+
+            map.OnMapZoomChanged += new MapZoomChanged(map_OnMapZoomChanged);
 
             plugin.Host.FPDrawnPolygon.Points.ForEach(x => { list.Add(x); });
 
@@ -335,12 +338,10 @@ namespace MissionPlanner
             list.ForEach(x => { list2.Add(x); });
 
             var poly = new GMapPolygon(list2, "poly");
-            poly.Stroke.Brush = Brushes.Red;
-            poly.Stroke.Color = Color.Red;
+            poly.Stroke = new Pen(Color.Red, 4);
             poly.Fill = Brushes.Transparent;
 
             layerpolygons.Polygons.Add(poly);
-        
 
             foreach (var item in list)
             {
@@ -435,8 +436,7 @@ namespace MissionPlanner
                             footprint.Add(item.newpos(bearing - angle1, dist1));
 
                             GMapPolygon poly = new GMapPolygon(footprint, a.ToString());
-                            poly.Stroke.Color = Color.FromArgb(250 - ((a * 5) % 240), 250 - ((a * 3) % 240), 250 - ((a * 9) % 240));
-                            poly.Stroke.Width = 1;
+                            poly.Stroke = new Pen(Color.FromArgb(250 - ((a * 5) % 240), 250 - ((a * 3) % 240), 250 - ((a * 9) % 240)), 1);
                             poly.Fill = new SolidBrush(Color.FromArgb(40, Color.Purple));
                             if (chk_footprints.Checked)
                                 layerpolygons.Polygons.Add(poly);
@@ -669,6 +669,68 @@ namespace MissionPlanner
             else
             {
                 plugin.Host.AddWPtoList(MAVLink.MAV_CMD.WAYPOINT, 0, 0, 0, 0, Lng, Lat, Alt * MainV2.comPort.MAV.cs.multiplierdist);
+            }
+        }
+
+        //Map Left mouse PAN
+        internal PointLatLng MouseDownStart = new PointLatLng();
+
+        private void map_MouseDown(object sender, MouseEventArgs e)
+        {
+            MouseDownStart = map.FromLocalToLatLng(e.X, e.Y);
+        }
+
+        private void map_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                PointLatLng point = map.FromLocalToLatLng(e.X, e.Y);
+
+                double latdif = MouseDownStart.Lat - point.Lat;
+                double lngdif = MouseDownStart.Lng - point.Lng;
+
+                try
+                {
+                    map.Position = new PointLatLng(map.Position.Lat + latdif, map.Position.Lng + lngdif);
+                }
+                catch { }
+            }
+        }
+
+        // Map Zooming
+        private void trackBar1_ValueChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                lock (thisLock)
+                {
+                    map.Zoom = trackBar1.Value;
+                }
+            }
+            catch { }
+        }
+
+        private void trackBar1_Scroll(object sender, EventArgs e)
+        {
+            try
+            {
+                lock (thisLock)
+                {
+                    map.Zoom = trackBar1.Value;
+                }
+            }
+            catch { }
+        }
+
+        void map_OnMapZoomChanged()
+        {
+            if (map.Zoom > 0)
+            {
+                try
+                {
+                    trackBar1.Value = (float)map.Zoom;
+                }
+                catch { }
             }
         }
 
@@ -920,6 +982,8 @@ namespace MissionPlanner
             loadsettings();
 
             //CHK_advanced_CheckedChanged(null, null);
+
+            trackBar1.Value = (float)map.Zoom;
         }
 
         private void TXT_TextChanged(object sender, EventArgs e)
