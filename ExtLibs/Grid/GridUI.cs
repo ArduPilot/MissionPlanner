@@ -338,12 +338,10 @@ namespace MissionPlanner
             list.ForEach(x => { list2.Add(x); });
 
             var poly = new GMapPolygon(list2, "poly");
-            poly.Stroke.Brush = Brushes.Red;
-            poly.Stroke.Color = Color.Red;
+            poly.Stroke = new Pen(Color.Red, 4);
             poly.Fill = Brushes.Transparent;
 
             layerpolygons.Polygons.Add(poly);
-        
 
             foreach (var item in list)
             {
@@ -438,8 +436,7 @@ namespace MissionPlanner
                             footprint.Add(item.newpos(bearing - angle1, dist1));
 
                             GMapPolygon poly = new GMapPolygon(footprint, a.ToString());
-                            poly.Stroke.Color = Color.FromArgb(250 - ((a * 5) % 240), 250 - ((a * 3) % 240), 250 - ((a * 9) % 240));
-                            poly.Stroke.Width = 1;
+                            poly.Stroke = new Pen(Color.FromArgb(250 - ((a * 5) % 240), 250 - ((a * 3) % 240), 250 - ((a * 9) % 240)), 1);
                             poly.Fill = new SolidBrush(Color.FromArgb(40, Color.Purple));
                             if (chk_footprints.Checked)
                                 layerpolygons.Polygons.Add(poly);
