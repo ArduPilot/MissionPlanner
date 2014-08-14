@@ -465,14 +465,45 @@ namespace MissionPlanner
 
             Console.WriteLine("Poly Dist " + wppoly.Distance);
 
+            // Update Stats 
             if (DistUnits == "Feet")
             {
-                float multiplierdist = 3.2808399f;
-                lbl_area.Text = (calcpolygonarea(list) * (double)multiplierdist).ToString("#") + " ft^2";
-                lbl_distance.Text = (wppoly.Distance * 0.621371).ToString("0.##") + " miles";
-                lbl_spacing.Text = (NUM_spacing.Value * (decimal)multiplierdist).ToString("#") + " ft";
+                // Area
+                float area = (float)calcpolygonarea(list) * 10.7639f; // Calculate the area in square feet
+                lbl_area.Text = area.ToString("#") + " ft^2";
+                if (area < 21780f)
+                {
+                    lbl_area.Text = area.ToString("#") + " ft^2";
+                }
+                else
+                {
+                    area = area / 43560f;
+                    if (area < 640f)
+                    {
+                        lbl_area.Text = area.ToString("0.##") + " acres";
+                    }
+                    else
+                    {
+                        area = area / 640f;
+                        lbl_area.Text = area.ToString("0.##") + " miles^2";
+                    }
+                }
+
+                // Distance
+                float distance = (float)wppoly.Distance * 3280.84f; // Calculate the distance in feet
+                if (distance < 5280f)
+                {
+                    lbl_distance.Text = distance.ToString("#") + " ft";
+                }
+                else
+                {
+                    distance = distance / 5280f;
+                    lbl_distance.Text = distance.ToString("0.##") + " miles";
+                }
+
+                lbl_spacing.Text = (NUM_spacing.Value * 3.2808399m).ToString("#") + " ft";
                 lbl_grndres.Text = inchpixel;
-                lbl_distbetweenlines.Text = (NUM_Distance.Value * (decimal)multiplierdist).ToString("0.##") + " ft";
+                lbl_distbetweenlines.Text = (NUM_Distance.Value * 3.2808399m).ToString("0.##") + " ft";
                 lbl_footprint.Text = feet_fovH + " x " + feet_fovV + " ft";
             }
             else
