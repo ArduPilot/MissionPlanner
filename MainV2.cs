@@ -2271,6 +2271,8 @@ namespace MissionPlanner
 
         public void changelanguage(CultureInfo ci)
         {
+            log.Info("change lang to " + ci.ToString() + " current " + Thread.CurrentThread.CurrentUICulture.ToString());
+
             if (ci != null && !Thread.CurrentThread.CurrentUICulture.Equals(ci))
             {
                 Thread.CurrentThread.CurrentUICulture = ci;
