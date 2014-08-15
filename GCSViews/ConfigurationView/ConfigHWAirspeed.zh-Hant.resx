@@ -259,80 +259,16 @@
   <data name="label17.Size" type="System.Drawing.Size, System.Drawing">
     <value>79, 13</value>
   </data>
-  <data name="groupBox1.Text" xml:space="preserve">
-    <value>FailSafe Options</value>
+  <data name="CHK_airspeeduse.Text" xml:space="preserve">
+    <value>使用空速計</value>
   </data>
-  <data name="label1.Text" xml:space="preserve">
-    <value>Radio IN</value>
+  <data name="CHK_enableairspeed.Text" xml:space="preserve">
+    <value>啟用</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>Servo/Motor OUT</value>
+    <value>空速計</value>
   </data>
-  <data name="label3.Text" xml:space="preserve">
-    <value>FS Pwm</value>
-  </data>
-  <data name="label4.Text" xml:space="preserve">
-    <value>Low Battery</value>
-  </data>
-  <data name="label5.Text" xml:space="preserve">
-    <value>Reserved MAH</value>
-  </data>
-  <data name="lbl_armed.Text" xml:space="preserve">
-    <value>Dissarmed</value>
-  </data>
-  <data name="lbl_currentmode.Text" xml:space="preserve">
-    <value>Manual</value>
-  </data>
-  <data name="lbl_gpslock.Text" xml:space="preserve">
-    <value>No Lock</value>
-  </data>
-  <data name="LNK_wiki.Text" xml:space="preserve">
-    <value>Wiki</value>
-  </data>
-  <data name="mavlinkCheckBoxFS_GCS_ENABLE.Text" xml:space="preserve">
-    <value>GCS FS Enable</value>
-  </data>
-  <data name="mavlinkCheckBoxgcs_fs.Text" xml:space="preserve">
-    <value>GCS FailSafe</value>
-  </data>
-  <data name="mavlinkCheckBoxgcs_fs.ToolTip" xml:space="preserve">
-    <value>Enable Failsafe on GCS loss of communication</value>
-  </data>
-  <data name="mavlinkCheckBoxlong_fs.Text" xml:space="preserve">
-    <value>FailSafe Long (20 sec)</value>
-  </data>
-  <data name="mavlinkCheckBoxlong_fs.ToolTip" xml:space="preserve">
-    <value>Off, no Action, On, RTL</value>
-  </data>
-  <data name="mavlinkCheckBoxshort_fs.Text" xml:space="preserve">
-    <value>FailSafe Short (1 sec)</value>
-  </data>
-  <data name="mavlinkCheckBoxshort_fs.ToolTip" xml:space="preserve">
-    <value>Off, no Action, On, RTL</value>
-  </data>
-  <data name="mavlinkCheckBoxthr_fs.Text" xml:space="preserve">
-    <value>Throttle FailSafe</value>
-  </data>
-  <data name="mavlinkCheckBoxthr_fs.ToolTip" xml:space="preserve">
-    <value>Enable Failsafe on low throttle pwm</value>
-  </data>
-  <data name="mavlinkCheckBoxthr_fs_action.Text" xml:space="preserve">
-    <value>Throttle Failsafe Action</value>
-  </data>
-  <data name="mavlinkCheckBoxthr_fs_action.ToolTip" xml:space="preserve">
-    <value>Arducopter Auto: Off, no Action, On, RTL
-Arducopter Other: if have gps, RTL, Otherwise Land</value>
-  </data>
-  <data name="mavlinkComboBox_fs_thr_enable.ToolTip" xml:space="preserve">
-    <value>Failsafe mode on low pwm</value>
-  </data>
-  <data name="mavlinkNumericUpDownfs_thr_value.ToolTip" xml:space="preserve">
-    <value>Trigger Throttle Pwm</value>
-  </data>
-  <data name="mavlinkNumericUpDownlow_voltage.ToolTip" xml:space="preserve">
-    <value>Low Voltage Trigger</value>
-  </data>
-  <data name="mavlinkNumericUpDownthr_fs_value.ToolTip" xml:space="preserve">
-    <value>Trigger Throttle Pwm</value>
+  <data name="lbl_airspeed_pin.Text" xml:space="preserve">
+    <value>空速計 Pin 腳</value>
   </data>
 </root>

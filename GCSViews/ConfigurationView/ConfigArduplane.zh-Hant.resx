@@ -117,158 +117,181 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="CHK_revch3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>50, 17</value>
+  <data name="BUT_refreshpart.Text" xml:space="preserve">
+    <value>更新畫面</value>
   </data>
-  <data name="CHK_revch4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>50, 17</value>
+  <data name="BUT_rerequestparams.Text" xml:space="preserve">
+    <value>更新參數</value>
   </data>
-  <data name="CHK_revch2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>50, 17</value>
+  <data name="BUT_writePIDS.Text" xml:space="preserve">
+    <value>寫入參數</value>
   </data>
-  <data name="CHK_revch1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>50, 17</value>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>空速 m/s</value>
   </data>
-  <data name="CB_simple6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>74, 17</value>
+  <data name="groupBox10.Text" xml:space="preserve">
+    <value>Servo Yaw</value>
   </data>
-  <data name="CB_simple5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>74, 17</value>
+  <data name="groupBox12.Text" xml:space="preserve">
+    <value>Nav Pitch AS Pid</value>
   </data>
-  <data name="CB_simple4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>74, 17</value>
+  <data name="groupBox13.Text" xml:space="preserve">
+    <value>Nav Pitch Alt Pid</value>
   </data>
-  <data name="CB_simple3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>74, 17</value>
+  <data name="groupBox14.Text" xml:space="preserve">
+    <value>Energy/Alt Pid</value>
   </data>
-  <data name="CB_simple2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>74, 17</value>
+  <data name="groupBox16.Text" xml:space="preserve">
+    <value>Other Mix's</value>
   </data>
-  <data name="CB_simple1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>74, 17</value>
+  <data name="groupBox2.Text" xml:space="preserve">
+    <value>Navigation Angles</value>
   </data>
-  <data name="label14.Size" type="System.Drawing.Size, System.Drawing">
-    <value>64, 13</value>
+  <data name="groupBox3.Text" xml:space="preserve">
+    <value>油門 0-100%</value>
   </data>
-  <data name="label13.Size" type="System.Drawing.Size, System.Drawing">
-    <value>58, 13</value>
+  <data name="groupBox4.Text" xml:space="preserve">
+    <value>L1 Control - Turn Control</value>
   </data>
-  <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>64, 13</value>
+  <data name="groupBox5.Text" xml:space="preserve">
+    <value>TECS</value>
   </data>
-  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>64, 13</value>
+  <data name="groupBox8.Text" xml:space="preserve">
+    <value>Servo Roll Pid</value>
   </data>
-  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>64, 13</value>
+  <data name="groupBox9.Text" xml:space="preserve">
+    <value>Servo Pitch Pid</value>
   </data>
-  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>64, 13</value>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Ratio</value>
   </data>
-  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>64, 13</value>
+  <data name="label10.Text" xml:space="preserve">
+    <value>Period</value>
   </data>
-  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>64, 13</value>
+  <data name="label11.Text" xml:space="preserve">
+    <value>Sink Min (m/s)</value>
   </data>
-  <data name="linkLabelmagdec.Size" type="System.Drawing.Size, System.Drawing">
-    <value>67, 13</value>
+  <data name="label12.Text" xml:space="preserve">
+    <value>Climb Max (m/s)</value>
   </data>
-  <data name="label35.Size" type="System.Drawing.Size, System.Drawing">
-    <value>63, 13</value>
+  <data name="label13.Text" xml:space="preserve">
+    <value>Pitch Dampening</value>
   </data>
-  <data name="label34.Size" type="System.Drawing.Size, System.Drawing">
-    <value>52, 13</value>
+  <data name="label14.Text" xml:space="preserve">
+    <value>Time Const</value>
   </data>
-  <data name="label33.Size" type="System.Drawing.Size, System.Drawing">
-    <value>58, 13</value>
+  <data name="label15.Text" xml:space="preserve">
+    <value>Sink Max (m/s)</value>
   </data>
-  <data name="label32.Size" type="System.Drawing.Size, System.Drawing">
-    <value>94, 13</value>
+  <data name="label2.Text" xml:space="preserve">
+    <value>FBW max</value>
   </data>
-  <data name="label31.Size" type="System.Drawing.Size, System.Drawing">
-    <value>58, 13</value>
+  <data name="label3.Text" xml:space="preserve">
+    <value>FBW min</value>
   </data>
-  <data name="label29.Size" type="System.Drawing.Size, System.Drawing">
-    <value>31, 13</value>
+  <data name="label37.Text" xml:space="preserve">
+    <value>Bank Max</value>
   </data>
-  <data name="label30.Size" type="System.Drawing.Size, System.Drawing">
-    <value>48, 13</value>
+  <data name="label38.Text" xml:space="preserve">
+    <value>Pitch Max</value>
   </data>
-  <data name="label28.Size" type="System.Drawing.Size, System.Drawing">
-    <value>175, 13</value>
+  <data name="label39.Text" xml:space="preserve">
+    <value>Pitch Min</value>
   </data>
-  <data name="label16.Size" type="System.Drawing.Size, System.Drawing">
-    <value>261, 13</value>
+  <data name="label4.Text" xml:space="preserve">
+    <value>Cruise</value>
   </data>
-  <data name="label15.Size" type="System.Drawing.Size, System.Drawing">
-    <value>93, 13</value>
+  <data name="label49.Text" xml:space="preserve">
+    <value>INT_MAX</value>
   </data>
-  <data name="label46.Size" type="System.Drawing.Size, System.Drawing">
-    <value>31, 13</value>
+  <data name="label5.Text" xml:space="preserve">
+    <value>SlewRate</value>
   </data>
-  <data name="label45.Size" type="System.Drawing.Size, System.Drawing">
-    <value>31, 13</value>
+  <data name="label50.Text" xml:space="preserve">
+    <value>D</value>
   </data>
-  <data name="label44.Size" type="System.Drawing.Size, System.Drawing">
-    <value>31, 13</value>
+  <data name="label51.Text" xml:space="preserve">
+    <value>I</value>
   </data>
-  <data name="label43.Size" type="System.Drawing.Size, System.Drawing">
-    <value>31, 13</value>
+  <data name="label52.Text" xml:space="preserve">
+    <value>P</value>
   </data>
-  <data name="label42.Size" type="System.Drawing.Size, System.Drawing">
-    <value>43, 13</value>
+  <data name="label53.Text" xml:space="preserve">
+    <value>INT_MAX</value>
   </data>
-  <data name="label24.Size" type="System.Drawing.Size, System.Drawing">
-    <value>31, 13</value>
+  <data name="label54.Text" xml:space="preserve">
+    <value>D</value>
   </data>
-  <data name="label40.Size" type="System.Drawing.Size, System.Drawing">
-    <value>31, 13</value>
+  <data name="label55.Text" xml:space="preserve">
+    <value>I</value>
   </data>
-  <data name="label41.Size" type="System.Drawing.Size, System.Drawing">
-    <value>31, 13</value>
+  <data name="label56.Text" xml:space="preserve">
+    <value>P</value>
   </data>
-  <data name="label21.Size" type="System.Drawing.Size, System.Drawing">
-    <value>31, 13</value>
+  <data name="label57.Text" xml:space="preserve">
+    <value>Intergrator Max</value>
   </data>
-  <data name="label39.Size" type="System.Drawing.Size, System.Drawing">
-    <value>31, 13</value>
+  <data name="label58.Text" xml:space="preserve">
+    <value>Dampening</value>
   </data>
-  <data name="label38.Size" type="System.Drawing.Size, System.Drawing">
-    <value>31, 13</value>
+  <data name="label59.Text" xml:space="preserve">
+    <value>Integral</value>
   </data>
-  <data name="label37.Size" type="System.Drawing.Size, System.Drawing">
-    <value>31, 13</value>
+  <data name="label6.Text" xml:space="preserve">
+    <value>Max</value>
   </data>
-  <data name="label36.Size" type="System.Drawing.Size, System.Drawing">
-    <value>31, 13</value>
+  <data name="label60.Text" xml:space="preserve">
+    <value>Yaw 2 roll</value>
   </data>
-  <data name="label26.Size" type="System.Drawing.Size, System.Drawing">
-    <value>55, 13</value>
+  <data name="label65.Text" xml:space="preserve">
+    <value>INT_MAX</value>
   </data>
-  <data name="label25.Size" type="System.Drawing.Size, System.Drawing">
-    <value>55, 13</value>
+  <data name="label66.Text" xml:space="preserve">
+    <value>D</value>
   </data>
-  <data name="label23.Size" type="System.Drawing.Size, System.Drawing">
-    <value>55, 13</value>
+  <data name="label67.Text" xml:space="preserve">
+    <value>I</value>
   </data>
-  <data name="label22.Size" type="System.Drawing.Size, System.Drawing">
-    <value>79, 13</value>
+  <data name="label68.Text" xml:space="preserve">
+    <value>P</value>
   </data>
-  <data name="label17.Size" type="System.Drawing.Size, System.Drawing">
-    <value>79, 13</value>
+  <data name="label69.Text" xml:space="preserve">
+    <value>INT_MAX</value>
   </data>
-  <data name="BUT_zero_att.Text" xml:space="preserve">
-    <value>零高度</value>
+  <data name="label7.Text" xml:space="preserve">
+    <value>Min</value>
   </data>
-  <data name="BUT_zero_att.ToolTip" xml:space="preserve">
-    <value>加速度計校準。</value>
+  <data name="label70.Text" xml:space="preserve">
+    <value>D</value>
   </data>
-  <data name="BUT_zero_press.Text" xml:space="preserve">
-    <value>零氣壓</value>
+  <data name="label71.Text" xml:space="preserve">
+    <value>I</value>
   </data>
-  <data name="BUT_zero_press.ToolTip" xml:space="preserve">
-    <value>加速度計校準。</value>
+  <data name="label72.Text" xml:space="preserve">
+    <value>P</value>
+  </data>
+  <data name="label73.Text" xml:space="preserve">
+    <value>INT_MAX</value>
+  </data>
+  <data name="label74.Text" xml:space="preserve">
+    <value>D</value>
+  </data>
+  <data name="label75.Text" xml:space="preserve">
+    <value>I</value>
+  </data>
+  <data name="label76.Text" xml:space="preserve">
+    <value>P</value>
+  </data>
+  <data name="label78.Text" xml:space="preserve">
+    <value>Rudder Mix</value>
+  </data>
+  <data name="label8.Text" xml:space="preserve">
+    <value>Cruise</value>
+  </data>
+  <data name="label83.Text" xml:space="preserve">
+    <value>P to T</value>
+  </data>
+  <data name="label9.Text" xml:space="preserve">
+    <value>Damping</value>
   </data>
 </root>
