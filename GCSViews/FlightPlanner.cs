@@ -483,6 +483,8 @@ namespace MissionPlanner.GCSViews
                 cmds.Add(item);
             }
 
+            cmds.Add("UNKNOWN");
+
             Command.DataSource = cmds;
         }
 
@@ -1015,6 +1017,9 @@ namespace MissionPlanner.GCSViews
                 {
                     try
                     {
+                        if (Commands.Rows[a].Cells[Command.Index].Value.ToString().Contains("UNKNOWN"))
+                            continue;
+
                         int command = (byte)(int)Enum.Parse(typeof(MAVLink.MAV_CMD), Commands.Rows[a].Cells[Command.Index].Value.ToString(), false);
                         if (command < (byte)MAVLink.MAV_CMD.LAST && command != (byte)MAVLink.MAV_CMD.TAKEOFF || command == (byte)MAVLink.MAV_CMD.DO_SET_ROI)
                         {
@@ -1559,6 +1564,9 @@ namespace MissionPlanner.GCSViews
                     if (TXT_altwarn.Text == "")
                         TXT_altwarn.Text = (0).ToString();
 
+                    if (Commands.Rows[a].Cells[Command.Index].Value.ToString().Contains("UNKNOWN"))
+                        continue;
+
                     byte cmd = (byte)(int)Enum.Parse(typeof(MAVLink.MAV_CMD), Commands.Rows[a].Cells[Command.Index].Value.ToString(), false);
 
                     if (cmd < (byte)MAVLink.MAV_CMD.LAST && double.Parse(Commands[Alt.Index,a].Value.ToString()) < double.Parse(TXT_altwarn.Text))
@@ -1634,7 +1642,14 @@ namespace MissionPlanner.GCSViews
                         }
 
                         MAVLink.mavlink_mission_item_t temp = new MAVLink.mavlink_mission_item_t();
-                        temp.command = (byte)(int)Enum.Parse(typeof(MAVLink.MAV_CMD), Commands.Rows[a].Cells[Command.Index].Value.ToString(), false);
+                        if (Commands.Rows[a].Cells[Command.Index].Value.ToString().Contains("UNKNOWN"))
+                        {
+                            temp.command = (byte)Commands.Rows[a].Cells[Command.Index].Tag;
+                        }
+                        else 
+                        {
+                            temp.command = (byte)(int)Enum.Parse(typeof(MAVLink.MAV_CMD), Commands.Rows[a].Cells[Command.Index].Value.ToString(), false);
+                        }
                         temp.z = (float)(double.Parse(Commands.Rows[a].Cells[Alt.Index].Value.ToString()) / MainV2.comPort.MAV.cs.multiplierdist);
                         temp.x = (float)(double.Parse(Commands.Rows[a].Cells[Lat.Index].Value.ToString()));
                         temp.y = (float)(double.Parse(Commands.Rows[a].Cells[Lon.Index].Value.ToString()));
@@ -1683,7 +1698,14 @@ namespace MissionPlanner.GCSViews
                     ((Controls.ProgressReporterDialogue)sender).UpdateProgressAndStatus(a * 100 / Commands.Rows.Count, "Setting WP " + a);
 
                     Locationwp temp = new Locationwp();
-                    temp.id = (byte)(int)Enum.Parse(typeof(MAVLink.MAV_CMD), Commands.Rows[a].Cells[Command.Index].Value.ToString(), false);
+                    if (Commands.Rows[a].Cells[Command.Index].Value.ToString().Contains("UNKNOWN"))
+                    {
+                        temp.id = (byte)Commands.Rows[a].Cells[Command.Index].Tag;
+                    }
+                    else
+                    {
+                        temp.id = (byte)(int)Enum.Parse(typeof(MAVLink.MAV_CMD), Commands.Rows[a].Cells[Command.Index].Value.ToString(), false);
+                    }
                     temp.p1 = float.Parse(Commands.Rows[a].Cells[Param1.Index].Value.ToString());
                     if (temp.id < (byte)MAVLink.MAV_CMD.LAST || temp.id == (byte)MAVLink.MAV_CMD.DO_SET_HOME)
                     {
@@ -1807,7 +1829,8 @@ namespace MissionPlanner.GCSViews
                 DataGridViewTextBoxCell cell;
                 DataGridViewComboBoxCell cellcmd;
                 cellcmd = Commands.Rows[i].Cells[Command.Index] as DataGridViewComboBoxCell;
-                cellcmd.Value = "WAYPOINT";
+                cellcmd.Value = "UNKNOWN";
+                cellcmd.Tag = temp.id;
 
                 foreach (object value in Enum.GetValues(typeof(MAVLink.MAV_CMD)))
                 {
@@ -3369,7 +3392,7 @@ namespace MissionPlanner.GCSViews
                 }
                 else if (MainV2.comPort.MAV.aptype == MAVLink.MAV_TYPE.HELICOPTER)
                 {
-                    routesoverlay.Markers[0] = (new GMapMarkerHeli(currentloc, MainV2.comPort.MAV.cs.yaw, MainV2.comPort.MAV.cs.groundcourse, MainV2.comPort.MAV.cs.nav_bearing));
+                    routesoverlay.Markers.Add((new GMapMarkerHeli(currentloc, MainV2.comPort.MAV.cs.yaw, MainV2.comPort.MAV.cs.groundcourse, MainV2.comPort.MAV.cs.nav_bearing)));
                 }
                 else
                 {
