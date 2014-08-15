@@ -227,6 +227,8 @@ namespace MissionPlanner
         /// </summary>
         [DisplayText("Time over Target (sec)")]
         public int tot { get { if (groundspeed <= 0) return 0; return (int)(wp_dist / groundspeed); } }
+        [DisplayText("Time over Home (sec)")]
+        public int toh { get { if (groundspeed <= 0) return 0; return (int)(DistToHome  / groundspeed); } }
         [DisplayText("Dist Traveled (dist)")]
         public float distTraveled { get; set; }
         [DisplayText("Time in Air (sec)")]
@@ -840,7 +842,7 @@ namespace MissionPlanner
                             messageHigh = "Bad/No Terrain Data";
                             messageHighTime = DateTime.Now;
                         }
-                        else if (sensors_health.geofence != sensors_enabled.geofence)
+                        else if (sensors_health.geofence == sensors_enabled.geofence)
                         {
                             messageHigh = "Geofence Breach";
                             messageHighTime = DateTime.Now;
