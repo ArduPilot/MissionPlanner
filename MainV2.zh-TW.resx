@@ -117,158 +117,64 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="CHK_revch3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>50, 17</value>
+  <data name="MenuSimulation.ToolTipText" xml:space="preserve">
+    <value>模擬器</value>
   </data>
-  <data name="CHK_revch4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>50, 17</value>
+  <data name="MenuFlightPlanner.Text" xml:space="preserve">
+    <value>飛行計劃</value>
   </data>
-  <data name="CHK_revch2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>50, 17</value>
+  <data name="MenuHelp.Text" xml:space="preserve">
+    <value>關於</value>
   </data>
-  <data name="CHK_revch1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>50, 17</value>
+  <data name="MenuInitConfig.ToolTipText" xml:space="preserve">
+    <value>硬體配置</value>
   </data>
-  <data name="CB_simple6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>74, 17</value>
+  <data name="$this.Text" xml:space="preserve">
+    <value>Mission Planner - By Michael Oborne</value>
   </data>
-  <data name="CB_simple5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>74, 17</value>
+  <data name="MenuTerminal.Text" xml:space="preserve">
+    <value>終端模式</value>
   </data>
-  <data name="CB_simple4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>74, 17</value>
+  <data name="MenuDonate.Text" xml:space="preserve">
+    <value>捐贈</value>
   </data>
-  <data name="CB_simple3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>74, 17</value>
+  <data name="MenuFlightData.Text" xml:space="preserve">
+    <value>飛行數據</value>
   </data>
-  <data name="CB_simple2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>74, 17</value>
+  <data name="MenuInitConfig.Text" xml:space="preserve">
+    <value>初始配置</value>
   </data>
-  <data name="CB_simple1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>74, 17</value>
+  <data name="MenuConnect.Text" xml:space="preserve">
+    <value>開始連接</value>
   </data>
-  <data name="label14.Size" type="System.Drawing.Size, System.Drawing">
-    <value>64, 13</value>
+  <data name="MenuFlightPlanner.ToolTipText" xml:space="preserve">
+    <value>飛行規劃器</value>
   </data>
-  <data name="label13.Size" type="System.Drawing.Size, System.Drawing">
-    <value>58, 13</value>
+  <data name="MenuConfigTune.Text" xml:space="preserve">
+    <value>配置/調試</value>
   </data>
-  <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>64, 13</value>
+  <data name="MenuFlightData.ToolTipText" xml:space="preserve">
+    <value>飛行數據</value>
   </data>
-  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>64, 13</value>
+  <data name="MenuConfigTune.ToolTipText" xml:space="preserve">
+    <value>軟體配置</value>
   </data>
-  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>64, 13</value>
+  <data name="MenuSimulation.Text" xml:space="preserve">
+    <value>模擬器</value>
   </data>
-  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>64, 13</value>
+  <data name="MenuHelp.ToolTipText" xml:space="preserve">
+    <value>終端模式</value>
   </data>
-  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>64, 13</value>
+  <data name="MainMenu.Text" xml:space="preserve">
+    <value>menuStrip1</value>
   </data>
-  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>64, 13</value>
+  <data name="MenuTerminal.ToolTipText" xml:space="preserve">
+    <value>終端模式</value>
   </data>
-  <data name="linkLabelmagdec.Size" type="System.Drawing.Size, System.Drawing">
-    <value>67, 13</value>
+  <data name="menu.Text" xml:space="preserve">
+    <value>選單</value>
   </data>
-  <data name="label35.Size" type="System.Drawing.Size, System.Drawing">
-    <value>63, 13</value>
-  </data>
-  <data name="label34.Size" type="System.Drawing.Size, System.Drawing">
-    <value>52, 13</value>
-  </data>
-  <data name="label33.Size" type="System.Drawing.Size, System.Drawing">
-    <value>58, 13</value>
-  </data>
-  <data name="label32.Size" type="System.Drawing.Size, System.Drawing">
-    <value>94, 13</value>
-  </data>
-  <data name="label31.Size" type="System.Drawing.Size, System.Drawing">
-    <value>58, 13</value>
-  </data>
-  <data name="label29.Size" type="System.Drawing.Size, System.Drawing">
-    <value>31, 13</value>
-  </data>
-  <data name="label30.Size" type="System.Drawing.Size, System.Drawing">
-    <value>48, 13</value>
-  </data>
-  <data name="label28.Size" type="System.Drawing.Size, System.Drawing">
-    <value>175, 13</value>
-  </data>
-  <data name="label16.Size" type="System.Drawing.Size, System.Drawing">
-    <value>261, 13</value>
-  </data>
-  <data name="label15.Size" type="System.Drawing.Size, System.Drawing">
-    <value>93, 13</value>
-  </data>
-  <data name="label46.Size" type="System.Drawing.Size, System.Drawing">
-    <value>31, 13</value>
-  </data>
-  <data name="label45.Size" type="System.Drawing.Size, System.Drawing">
-    <value>31, 13</value>
-  </data>
-  <data name="label44.Size" type="System.Drawing.Size, System.Drawing">
-    <value>31, 13</value>
-  </data>
-  <data name="label43.Size" type="System.Drawing.Size, System.Drawing">
-    <value>31, 13</value>
-  </data>
-  <data name="label42.Size" type="System.Drawing.Size, System.Drawing">
-    <value>43, 13</value>
-  </data>
-  <data name="label24.Size" type="System.Drawing.Size, System.Drawing">
-    <value>31, 13</value>
-  </data>
-  <data name="label40.Size" type="System.Drawing.Size, System.Drawing">
-    <value>31, 13</value>
-  </data>
-  <data name="label41.Size" type="System.Drawing.Size, System.Drawing">
-    <value>31, 13</value>
-  </data>
-  <data name="label21.Size" type="System.Drawing.Size, System.Drawing">
-    <value>31, 13</value>
-  </data>
-  <data name="label39.Size" type="System.Drawing.Size, System.Drawing">
-    <value>31, 13</value>
-  </data>
-  <data name="label38.Size" type="System.Drawing.Size, System.Drawing">
-    <value>31, 13</value>
-  </data>
-  <data name="label37.Size" type="System.Drawing.Size, System.Drawing">
-    <value>31, 13</value>
-  </data>
-  <data name="label36.Size" type="System.Drawing.Size, System.Drawing">
-    <value>31, 13</value>
-  </data>
-  <data name="label26.Size" type="System.Drawing.Size, System.Drawing">
-    <value>55, 13</value>
-  </data>
-  <data name="label25.Size" type="System.Drawing.Size, System.Drawing">
-    <value>55, 13</value>
-  </data>
-  <data name="label23.Size" type="System.Drawing.Size, System.Drawing">
-    <value>55, 13</value>
-  </data>
-  <data name="label22.Size" type="System.Drawing.Size, System.Drawing">
-    <value>79, 13</value>
-  </data>
-  <data name="label17.Size" type="System.Drawing.Size, System.Drawing">
-    <value>79, 13</value>
-  </data>
-  <data name="BUT_zero_att.Text" xml:space="preserve">
-    <value>零高度</value>
-  </data>
-  <data name="BUT_zero_att.ToolTip" xml:space="preserve">
-    <value>加速度計校準。</value>
-  </data>
-  <data name="BUT_zero_press.Text" xml:space="preserve">
-    <value>零氣壓</value>
-  </data>
-  <data name="BUT_zero_press.ToolTip" xml:space="preserve">
-    <value>加速度計校準。</value>
+  <data name="autoHideToolStripMenuItem.Text" xml:space="preserve">
+    <value>自動隱藏</value>
   </data>
 </root>
