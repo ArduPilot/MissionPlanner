@@ -191,14 +191,15 @@ namespace MissionPlanner
             bool havecompass2 = false;
 
             //compass2 get mag2 offsets
-            float com2ofsx = 0;
-            float com2ofsy = 0;
-            float com2ofsz = 0;
             if (MainV2.comPort.MAV.param.ContainsKey("COMPASS_OFS2_X"))
             {
-                com2ofsx = MainV2.comPort.GetParam("COMPASS_OFS2_X");
-                com2ofsy = MainV2.comPort.GetParam("COMPASS_OFS2_Y");
-                com2ofsz = MainV2.comPort.GetParam("COMPASS_OFS2_Z");
+                //com2ofsx = MainV2.comPort.GetParam("COMPASS_OFS2_X");
+                //com2ofsy = MainV2.comPort.GetParam("COMPASS_OFS2_Y");
+                //com2ofsz = MainV2.comPort.GetParam("COMPASS_OFS2_Z");
+
+                MainV2.comPort.setParam("COMPASS_OFS2_X", 0);
+                MainV2.comPort.setParam("COMPASS_OFS2_Y", 0);
+                MainV2.comPort.setParam("COMPASS_OFS2_Z", 0);
 
                 havecompass2 = true;
             }
