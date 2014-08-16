@@ -64,7 +64,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             if (MainV2.comPort.MAV.param["SONAR_TYPE"] != null)
             {
-                CMB_sonartype.SelectedIndex = int.Parse(MainV2.comPort.MAV.param["SONAR_TYPE"].ToString());
+                try
+                {
+                    CMB_sonartype.SelectedIndex = int.Parse(MainV2.comPort.MAV.param["SONAR_TYPE"].ToString());
+                }
+                catch { }
             }
 
             startup = false;
