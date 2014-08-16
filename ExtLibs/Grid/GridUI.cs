@@ -68,7 +68,11 @@ namespace MissionPlanner
             endlineOverlay = new GMapOverlay("endline");
             map.Overlays.Add(endlineOverlay);
 
+            // Map Events
             map.OnMapZoomChanged += new MapZoomChanged(map_OnMapZoomChanged);
+            map.OnMarkerEnter += new MarkerEnter(map_OnMarkerEnter);
+            map.OnMarkerLeave += new MarkerLeave(map_OnMarkerLeave);
+            map.MouseUp += new MouseEventHandler(map_MouseUp);
 
             plugin.Host.FPDrawnPolygon.Points.ForEach(x => { list.Add(x); });
 
@@ -474,8 +478,6 @@ namespace MissionPlanner
                 prevpoint = item;
             }
 
-
-
             GMapRoute wproute = new GMapRoute(list2, "GridRoute");
             wproute.Stroke = new Pen(Color.Yellow, 4);
             if (chk_grid.Checked)
@@ -550,7 +552,8 @@ namespace MissionPlanner
             seconds = ((wproute.Distance * 1000.0) / ((double)numericUpDownFlySpeed.Value));
             label32.Text = secondsToNice(((double)NUM_spacing.Value / (double)numericUpDownFlySpeed.Value));
             map.HoldInvalidation = false;
-            map.ZoomAndCenterMarkers("routes");
+            if (!isMouseDown)
+                map.ZoomAndCenterMarkers("routes");
         }
 
         string secondsToNice(double seconds)
@@ -705,6 +708,9 @@ namespace MissionPlanner
                     }
                 }
 
+                // Redraw the polygon in FP
+                plugin.Host.RedrawFPPolygon(list);
+
                 savesettings();
 
                 MainV2.instance.FlightPlanner.quickadd = false;
@@ -736,28 +742,129 @@ namespace MissionPlanner
             }
         }
 
-        //Map Left mouse PAN
+        // Map Left mouse PAN
         internal PointLatLng MouseDownStart = new PointLatLng();
+        internal PointLatLng MouseDownEnd;
+
+        // Move polygon point
+        bool isMouseDown = false;
+        bool isMouseDraging = false;
+        GMapMarker CurrentGMapMarker = null;
+        internal PointLatLngAlt CurrentGMapMarkerStartPos;
+        int CurrentGMapMarkerIndex = 0;
+
+        void map_OnMarkerLeave(GMapMarker item)
+        {
+            if (!isMouseDown)
+            {
+                if (item is GMapMarker)
+                {
+                    // when you click the context menu this triggers and causes problems
+                    CurrentGMapMarker = null;
+                }
+
+            }
+        }
+
+        void map_OnMarkerEnter(GMapMarker item)
+        {
+            if (!isMouseDown)
+            {
+                if (item is GMapMarker)
+                {
+                    CurrentGMapMarker = item as GMapMarker;
+                    CurrentGMapMarkerStartPos = CurrentGMapMarker.Position;
+                }
+            }
+        }
+
+        void map_MouseUp(object sender, MouseEventArgs e)
+        {
+            MouseDownEnd = map.FromLocalToLatLng(e.X, e.Y);
+
+            // Console.WriteLine("MainMap MU");
+
+            if (e.Button == MouseButtons.Right) // ignore right clicks
+            {
+                return;
+            }
+
+            if (isMouseDown) // mouse down on some other object and dragged to here.
+            {
+                if (e.Button == MouseButtons.Left)
+                {
+                    isMouseDown = false;
+                }
+                if (!isMouseDraging)
+                {
+                    if (CurrentGMapMarker != null)
+                    {
+                        // Redraw polygon
+                        //AddDrawPolygon();
+                    }
+                }
+            }
+            isMouseDraging = false;
+            CurrentGMapMarker = null;
+            CurrentGMapMarkerIndex = 0;
+            CurrentGMapMarkerStartPos = null;
+        }
 
         private void map_MouseDown(object sender, MouseEventArgs e)
         {
             MouseDownStart = map.FromLocalToLatLng(e.X, e.Y);
+
+            if (e.Button == MouseButtons.Left && Control.ModifierKeys != Keys.Alt)
+            {
+                isMouseDown = true;
+                isMouseDraging = false;
+
+                if (CurrentGMapMarkerStartPos != null)
+                    CurrentGMapMarkerIndex = list.FindIndex(c => c.ToString() == CurrentGMapMarkerStartPos.ToString());
+            }
         }
 
-        private void map_MouseMove(object sender, MouseEventArgs e)
+        void map_MouseMove(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Left)
+            PointLatLng point = map.FromLocalToLatLng(e.X, e.Y);
+
+            if (MouseDownStart == point)
+                return;
+
+            if (!isMouseDown)
             {
-                PointLatLng point = map.FromLocalToLatLng(e.X, e.Y);
+                // update mouse pos display
+                //SetMouseDisplay(point.Lat, point.Lng, 0);
+            }
 
-                double latdif = MouseDownStart.Lat - point.Lat;
-                double lngdif = MouseDownStart.Lng - point.Lng;
-
-                try
+            //draging
+            if (e.Button == MouseButtons.Left && isMouseDown)
+            {
+                isMouseDraging = true;
+                
+                if (CurrentGMapMarker != null)
                 {
-                    map.Position = new PointLatLng(map.Position.Lat + latdif, map.Position.Lng + lngdif);
+                    PointLatLng pnew = map.FromLocalToLatLng(e.X, e.Y);
+
+                    CurrentGMapMarker.Position = pnew;
+
+                    list[CurrentGMapMarkerIndex] = new PointLatLngAlt(pnew);
+                    domainUpDown1_ValueChanged(sender, e);
                 }
-                catch { }
+                else // left click pan
+                {
+                    double latdif = MouseDownStart.Lat - point.Lat;
+                    double lngdif = MouseDownStart.Lng - point.Lng;
+
+                    try
+                    {
+                        lock (thisLock)
+                        {
+                            map.Position = new PointLatLng(map.Position.Lat + latdif, map.Position.Lng + lngdif);
+                        }
+                    }
+                    catch { }
+                }
             }
         }
 
@@ -997,6 +1104,7 @@ namespace MissionPlanner
 
             doCalc();
         }
+
         private void BUT_save_Click(object sender, EventArgs e)
         {
             camerainfo camera = new camerainfo();
