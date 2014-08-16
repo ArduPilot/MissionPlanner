@@ -29,8 +29,8 @@ namespace MissionPlanner
         const float rad2deg = (float)(180 / Math.PI);
         const float deg2rad = (float)(1.0 / rad2deg);
 
-        GMapOverlay layerpolygons;
-        GMapPolygon wppoly;
+        GMapOverlay routesOverlay;
+        GMapOverlay endlineOverlay;
         static public Object thisLock = new Object();
         private GridPlugin plugin;
         List<PointLatLngAlt> list = new List<PointLatLngAlt>();
@@ -62,8 +62,11 @@ namespace MissionPlanner
 
             map.MapProvider = plugin.Host.FDMapType;
 
-            layerpolygons = new GMapOverlay( "polygons");
-            map.Overlays.Add(layerpolygons);
+            routesOverlay = new GMapOverlay("routes");
+            map.Overlays.Add(routesOverlay);
+
+            endlineOverlay = new GMapOverlay("endline");
+            map.Overlays.Add(endlineOverlay);
 
             map.OnMapZoomChanged += new MapZoomChanged(map_OnMapZoomChanged);
 
@@ -338,14 +341,14 @@ namespace MissionPlanner
             list.ForEach(x => { list2.Add(x); });
 
             var poly = new GMapPolygon(list2, "poly");
-            poly.Stroke = new Pen(Color.Red, 4);
+            poly.Stroke = new Pen(Color.Red, 2);
             poly.Fill = Brushes.Transparent;
 
-            layerpolygons.Polygons.Add(poly);
+            routesOverlay.Polygons.Add(poly);
 
             foreach (var item in list)
             {
-                layerpolygons.Markers.Add(new GMarkerGoogle(item,GMarkerGoogleType.red));
+                routesOverlay.Markers.Add(new GMarkerGoogle(item, GMarkerGoogleType.red));
             }
         }
 
@@ -380,12 +383,28 @@ namespace MissionPlanner
 
             List<PointLatLng> list2 = new List<PointLatLng>();
 
-            grid.ForEach(x => { list2.Add(x); });
+            List<PointLatLng> endline = new List<PointLatLng>();
+
+            int count = grid.Count;
+            int counter = 0;
+
+            grid.ForEach(x => {
+                counter++;
+                if (counter == 1)
+                    endline.Add(x);
+
+                if (counter == count)
+                    endline.Add(x);
+
+                list2.Add(x);
+            });
 
             map.HoldInvalidation = true;
 
-            layerpolygons.Polygons.Clear();
-            layerpolygons.Markers.Clear();
+            routesOverlay.Routes.Clear();
+            routesOverlay.Polygons.Clear();
+            routesOverlay.Markers.Clear();
+            endlineOverlay.Routes.Clear();
 
             if (grid.Count == 0)
             {
@@ -407,7 +426,7 @@ namespace MissionPlanner
 
                     if (chk_internals.Checked)
                     {
-                        layerpolygons.Markers.Add(new GMarkerGoogle(item,GMarkerGoogleType.green) { ToolTipText = a.ToString(), ToolTipMode = MarkerTooltipMode.OnMouseOver });
+                        routesOverlay.Markers.Add(new GMarkerGoogle(item, GMarkerGoogleType.green) { ToolTipText = a.ToString(), ToolTipMode = MarkerTooltipMode.OnMouseOver });
                         a++;
                     }
                     try
@@ -439,7 +458,7 @@ namespace MissionPlanner
                             poly.Stroke = new Pen(Color.FromArgb(250 - ((a * 5) % 240), 250 - ((a * 3) % 240), 250 - ((a * 9) % 240)), 1);
                             poly.Fill = new SolidBrush(Color.FromArgb(40, Color.Purple));
                             if (chk_footprints.Checked)
-                                layerpolygons.Polygons.Add(poly);
+                                routesOverlay.Polygons.Add(poly);
                         }
                     }
                     catch { }
@@ -448,22 +467,28 @@ namespace MissionPlanner
                 {
                     strips++;
                     if (chk_markers.Checked)
-                        layerpolygons.Markers.Add(new GMarkerGoogle(item,GMarkerGoogleType.green) { ToolTipText = a.ToString(), ToolTipMode = MarkerTooltipMode.Always });
+                        routesOverlay.Markers.Add(new GMarkerGoogle(item, GMarkerGoogleType.green) { ToolTipText = a.ToString(), ToolTipMode = MarkerTooltipMode.Always });
 
                     a++;
                 }
                 prevpoint = item;
             }
 
-            // add wp polygon
-            wppoly = new GMapPolygon(list2, "Grid");
-            wppoly.Stroke.Color = Color.Yellow;
-            wppoly.Fill = Brushes.Transparent;
-            wppoly.Stroke.Width = 4;
-            if (chk_grid.Checked)
-                layerpolygons.Polygons.Add(wppoly);
 
-            Console.WriteLine("Poly Dist " + wppoly.Distance);
+
+            GMapRoute wproute = new GMapRoute(list2, "GridRoute");
+            wproute.Stroke = new Pen(Color.Yellow, 4);
+            if (chk_grid.Checked)
+                routesOverlay.Routes.Add(wproute);
+
+            // Uncomment the lines below to add line between first and last point
+            // If it is decided that omitting the line is permanent delete below and clean up anywhere "endline" is found
+ 
+            //GMapRoute wproute_endline = new GMapRoute(endline, "GridRoute_EndLine");
+            //wproute_endline.Stroke = new Pen(Color.White, 1);
+            //wproute_endline.Stroke.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
+            //if (chk_grid.Checked)
+            //    endlineOverlay.Routes.Add(wproute_endline);
 
             // Update Stats 
             if (DistUnits == "Feet")
@@ -490,7 +515,7 @@ namespace MissionPlanner
                 }
 
                 // Distance
-                float distance = (float)wppoly.Distance * 3280.84f; // Calculate the distance in feet
+                float distance = (float)wproute.Distance * 3280.84f; // Calculate the distance in feet
                 if (distance < 5280f)
                 {
                     lbl_distance.Text = distance.ToString("#") + " ft";
@@ -510,7 +535,7 @@ namespace MissionPlanner
             {
                 // Meters
                 lbl_area.Text = calcpolygonarea(list).ToString("#") + " m^2";
-                lbl_distance.Text = wppoly.Distance.ToString("0.##") + " km";
+                lbl_distance.Text = wproute.Distance.ToString("0.##") + " km";
                 lbl_spacing.Text = NUM_spacing.Value.ToString("#") + " m";
                 lbl_grndres.Text = TXT_cmpixel.Text;
                 lbl_distbetweenlines.Text = NUM_Distance.Value.ToString("0.##") + " m";
@@ -519,13 +544,13 @@ namespace MissionPlanner
 
             lbl_pictures.Text = images.ToString();
             lbl_strips.Text = ((int)(strips / 2)).ToString();
-            double seconds = ((wppoly.Distance * 1000.0) / ((double)numericUpDownFlySpeed.Value * 0.8));
+            double seconds = ((wproute.Distance * 1000.0) / ((double)numericUpDownFlySpeed.Value * 0.8));
             // reduce flying speed by 20 %
             label28.Text = secondsToNice(seconds);
-            seconds = ((wppoly.Distance * 1000.0) / ((double)numericUpDownFlySpeed.Value));
+            seconds = ((wproute.Distance * 1000.0) / ((double)numericUpDownFlySpeed.Value));
             label32.Text = secondsToNice(((double)NUM_spacing.Value / (double)numericUpDownFlySpeed.Value));
             map.HoldInvalidation = false;
-            map.ZoomAndCenterMarkers("polygons");
+            map.ZoomAndCenterMarkers("routes");
         }
 
         string secondsToNice(double seconds)
