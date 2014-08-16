@@ -29,8 +29,8 @@ namespace MissionPlanner
         const float rad2deg = (float)(180 / Math.PI);
         const float deg2rad = (float)(1.0 / rad2deg);
 
-        GMapOverlay layerpolygons;
-        GMapPolygon wppoly;
+        GMapOverlay routesOverlay;
+        GMapOverlay endlineOverlay;
         static public Object thisLock = new Object();
         private GridPlugin plugin;
         List<PointLatLngAlt> list = new List<PointLatLngAlt>();
@@ -62,10 +62,17 @@ namespace MissionPlanner
 
             map.MapProvider = plugin.Host.FDMapType;
 
-            layerpolygons = new GMapOverlay( "polygons");
-            map.Overlays.Add(layerpolygons);
+            routesOverlay = new GMapOverlay("routes");
+            map.Overlays.Add(routesOverlay);
 
+            endlineOverlay = new GMapOverlay("endline");
+            map.Overlays.Add(endlineOverlay);
+
+            // Map Events
             map.OnMapZoomChanged += new MapZoomChanged(map_OnMapZoomChanged);
+            map.OnMarkerEnter += new MarkerEnter(map_OnMarkerEnter);
+            map.OnMarkerLeave += new MarkerLeave(map_OnMarkerLeave);
+            map.MouseUp += new MouseEventHandler(map_MouseUp);
 
             plugin.Host.FPDrawnPolygon.Points.ForEach(x => { list.Add(x); });
 
@@ -338,14 +345,14 @@ namespace MissionPlanner
             list.ForEach(x => { list2.Add(x); });
 
             var poly = new GMapPolygon(list2, "poly");
-            poly.Stroke = new Pen(Color.Red, 4);
+            poly.Stroke = new Pen(Color.Red, 2);
             poly.Fill = Brushes.Transparent;
 
-            layerpolygons.Polygons.Add(poly);
+            routesOverlay.Polygons.Add(poly);
 
             foreach (var item in list)
             {
-                layerpolygons.Markers.Add(new GMarkerGoogle(item,GMarkerGoogleType.red));
+                routesOverlay.Markers.Add(new GMarkerGoogle(item, GMarkerGoogleType.red));
             }
         }
 
@@ -380,12 +387,28 @@ namespace MissionPlanner
 
             List<PointLatLng> list2 = new List<PointLatLng>();
 
-            grid.ForEach(x => { list2.Add(x); });
+            List<PointLatLng> endline = new List<PointLatLng>();
+
+            int count = grid.Count;
+            int counter = 0;
+
+            grid.ForEach(x => {
+                counter++;
+                if (counter == 1)
+                    endline.Add(x);
+
+                if (counter == count)
+                    endline.Add(x);
+
+                list2.Add(x);
+            });
 
             map.HoldInvalidation = true;
 
-            layerpolygons.Polygons.Clear();
-            layerpolygons.Markers.Clear();
+            routesOverlay.Routes.Clear();
+            routesOverlay.Polygons.Clear();
+            routesOverlay.Markers.Clear();
+            endlineOverlay.Routes.Clear();
 
             if (grid.Count == 0)
             {
@@ -407,7 +430,7 @@ namespace MissionPlanner
 
                     if (chk_internals.Checked)
                     {
-                        layerpolygons.Markers.Add(new GMarkerGoogle(item,GMarkerGoogleType.green) { ToolTipText = a.ToString(), ToolTipMode = MarkerTooltipMode.OnMouseOver });
+                        routesOverlay.Markers.Add(new GMarkerGoogle(item, GMarkerGoogleType.green) { ToolTipText = a.ToString(), ToolTipMode = MarkerTooltipMode.OnMouseOver });
                         a++;
                     }
                     try
@@ -439,7 +462,7 @@ namespace MissionPlanner
                             poly.Stroke = new Pen(Color.FromArgb(250 - ((a * 5) % 240), 250 - ((a * 3) % 240), 250 - ((a * 9) % 240)), 1);
                             poly.Fill = new SolidBrush(Color.FromArgb(40, Color.Purple));
                             if (chk_footprints.Checked)
-                                layerpolygons.Polygons.Add(poly);
+                                routesOverlay.Polygons.Add(poly);
                         }
                     }
                     catch { }
@@ -448,38 +471,73 @@ namespace MissionPlanner
                 {
                     strips++;
                     if (chk_markers.Checked)
-                        layerpolygons.Markers.Add(new GMarkerGoogle(item,GMarkerGoogleType.green) { ToolTipText = a.ToString(), ToolTipMode = MarkerTooltipMode.Always });
+                        routesOverlay.Markers.Add(new GMarkerGoogle(item, GMarkerGoogleType.green) { ToolTipText = a.ToString(), ToolTipMode = MarkerTooltipMode.Always });
 
                     a++;
                 }
                 prevpoint = item;
             }
 
-            // add wp polygon
-            wppoly = new GMapPolygon(list2, "Grid");
-            wppoly.Stroke.Color = Color.Yellow;
-            wppoly.Fill = Brushes.Transparent;
-            wppoly.Stroke.Width = 4;
+            GMapRoute wproute = new GMapRoute(list2, "GridRoute");
+            wproute.Stroke = new Pen(Color.Yellow, 4);
             if (chk_grid.Checked)
-                layerpolygons.Polygons.Add(wppoly);
+                routesOverlay.Routes.Add(wproute);
 
-            Console.WriteLine("Poly Dist " + wppoly.Distance);
+            // Uncomment the lines below to add line between first and last point
+            // If it is decided that omitting the line is permanent delete below and clean up anywhere "endline" is found
+ 
+            //GMapRoute wproute_endline = new GMapRoute(endline, "GridRoute_EndLine");
+            //wproute_endline.Stroke = new Pen(Color.White, 1);
+            //wproute_endline.Stroke.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
+            //if (chk_grid.Checked)
+            //    endlineOverlay.Routes.Add(wproute_endline);
 
+            // Update Stats 
             if (DistUnits == "Feet")
             {
-                float multiplierdist = 3.2808399f;
-                lbl_area.Text = (calcpolygonarea(list) * (double)multiplierdist).ToString("#") + " ft^2";
-                lbl_distance.Text = (wppoly.Distance * 0.621371).ToString("0.##") + " miles";
-                lbl_spacing.Text = (NUM_spacing.Value * (decimal)multiplierdist).ToString("#") + " ft";
+                // Area
+                float area = (float)calcpolygonarea(list) * 10.7639f; // Calculate the area in square feet
+                lbl_area.Text = area.ToString("#") + " ft^2";
+                if (area < 21780f)
+                {
+                    lbl_area.Text = area.ToString("#") + " ft^2";
+                }
+                else
+                {
+                    area = area / 43560f;
+                    if (area < 640f)
+                    {
+                        lbl_area.Text = area.ToString("0.##") + " acres";
+                    }
+                    else
+                    {
+                        area = area / 640f;
+                        lbl_area.Text = area.ToString("0.##") + " miles^2";
+                    }
+                }
+
+                // Distance
+                float distance = (float)wproute.Distance * 3280.84f; // Calculate the distance in feet
+                if (distance < 5280f)
+                {
+                    lbl_distance.Text = distance.ToString("#") + " ft";
+                }
+                else
+                {
+                    distance = distance / 5280f;
+                    lbl_distance.Text = distance.ToString("0.##") + " miles";
+                }
+
+                lbl_spacing.Text = (NUM_spacing.Value * 3.2808399m).ToString("#") + " ft";
                 lbl_grndres.Text = inchpixel;
-                lbl_distbetweenlines.Text = (NUM_Distance.Value * (decimal)multiplierdist).ToString("0.##") + " ft";
+                lbl_distbetweenlines.Text = (NUM_Distance.Value * 3.2808399m).ToString("0.##") + " ft";
                 lbl_footprint.Text = feet_fovH + " x " + feet_fovV + " ft";
             }
             else
             {
                 // Meters
                 lbl_area.Text = calcpolygonarea(list).ToString("#") + " m^2";
-                lbl_distance.Text = wppoly.Distance.ToString("0.##") + " km";
+                lbl_distance.Text = wproute.Distance.ToString("0.##") + " km";
                 lbl_spacing.Text = NUM_spacing.Value.ToString("#") + " m";
                 lbl_grndres.Text = TXT_cmpixel.Text;
                 lbl_distbetweenlines.Text = NUM_Distance.Value.ToString("0.##") + " m";
@@ -488,13 +546,14 @@ namespace MissionPlanner
 
             lbl_pictures.Text = images.ToString();
             lbl_strips.Text = ((int)(strips / 2)).ToString();
-            double seconds = ((wppoly.Distance * 1000.0) / ((double)numericUpDownFlySpeed.Value * 0.8));
+            double seconds = ((wproute.Distance * 1000.0) / ((double)numericUpDownFlySpeed.Value * 0.8));
             // reduce flying speed by 20 %
             label28.Text = secondsToNice(seconds);
-            seconds = ((wppoly.Distance * 1000.0) / ((double)numericUpDownFlySpeed.Value));
+            seconds = ((wproute.Distance * 1000.0) / ((double)numericUpDownFlySpeed.Value));
             label32.Text = secondsToNice(((double)NUM_spacing.Value / (double)numericUpDownFlySpeed.Value));
             map.HoldInvalidation = false;
-            map.ZoomAndCenterMarkers("polygons");
+            if (!isMouseDown)
+                map.ZoomAndCenterMarkers("routes");
         }
 
         string secondsToNice(double seconds)
@@ -579,11 +638,11 @@ namespace MissionPlanner
                 {
                     if (plugin.Host.cs.firmware == MainV2.Firmwares.ArduCopter2)
                     {
-                        plugin.Host.AddWPtoList(MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0, 0, 30 * MainV2.comPort.MAV.cs.multiplierdist);
+                        plugin.Host.AddWPtoList(MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0, 0, (int)(30 * MainV2.comPort.MAV.cs.multiplierdist));
                     }
                     else
                     {
-                        plugin.Host.AddWPtoList(MAVLink.MAV_CMD.TAKEOFF, 20, 0, 0, 0, 0, 0, 30 * MainV2.comPort.MAV.cs.multiplierdist);
+                        plugin.Host.AddWPtoList(MAVLink.MAV_CMD.TAKEOFF, 20, 0, 0, 0, 0, 0, (int)(30 * MainV2.comPort.MAV.cs.multiplierdist));
                     }
                 }
 
@@ -592,30 +651,38 @@ namespace MissionPlanner
                     plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_CHANGE_SPEED, 0, (int)numericUpDownFlySpeed.Value, 0, 0, 0, 0, 0);
                 }
 
-                if (rad_trigdist.Checked)
-                {
-                    plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_SET_CAM_TRIGG_DIST, (float)NUM_spacing.Value, 0, 0, 0, 0, 0, 0);
-                }
-
+                int i = 0;
                 grid.ForEach(plla =>
                 {
-                    if (plla.Tag == "M")
+                    if (i > 0)
                     {
-                        if (rad_repeatservo.Checked)
+                        if (plla.Tag == "M")
                         {
-                            AddWP(plla.Lng, plla.Lat, plla.Alt);
-                            plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_REPEAT_SERVO, (float)num_reptservo.Value, (float)num_reptpwm.Value, 999, (float)num_repttime.Value, 0, 0, 0);
+                            if (rad_repeatservo.Checked)
+                            {
+                                AddWP(plla.Lng, plla.Lat, plla.Alt);
+                                plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_REPEAT_SERVO, (float)num_reptservo.Value, (float)num_reptpwm.Value, 999, (float)num_repttime.Value, 0, 0, 0);
+                            }
+                            if (rad_digicam.Checked)
+                            {
+                                AddWP(plla.Lng, plla.Lat, plla.Alt);
+                                plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_DIGICAM_CONTROL, 0, 0, 0, 0, 0, 0, 0);
+                            }
                         }
-                        if (rad_digicam.Checked)
+                        else
                         {
                             AddWP(plla.Lng, plla.Lat, plla.Alt);
-                            plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_DIGICAM_CONTROL, 0, 0, 0, 0, 0, 0, 0);
                         }
                     }
                     else
                     {
                         AddWP(plla.Lng, plla.Lat, plla.Alt);
+                        if (rad_trigdist.Checked)
+                        {
+                            plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_SET_CAM_TRIGG_DIST, (float)NUM_spacing.Value, 0, 0, 0, 0, 0, 0);
+                        }
                     }
+                    ++i;
                 });
 
                 if (rad_trigdist.Checked)
@@ -640,6 +707,9 @@ namespace MissionPlanner
                         plugin.Host.AddWPtoList(MAVLink.MAV_CMD.LAND, 0, 0, 0, 0, plugin.Host.cs.HomeLocation.Lng, plugin.Host.cs.HomeLocation.Lat, 0);
                     }
                 }
+
+                // Redraw the polygon in FP
+                plugin.Host.RedrawFPPolygon(list);
 
                 savesettings();
 
@@ -668,32 +738,133 @@ namespace MissionPlanner
             }
             else
             {
-                plugin.Host.AddWPtoList(MAVLink.MAV_CMD.WAYPOINT, 0, 0, 0, 0, Lng, Lat, Alt * MainV2.comPort.MAV.cs.multiplierdist);
+                plugin.Host.AddWPtoList(MAVLink.MAV_CMD.WAYPOINT, 0, 0, 0, 0, Lng, Lat, (int)(Alt * MainV2.comPort.MAV.cs.multiplierdist));
             }
         }
 
-        //Map Left mouse PAN
+        // Map Left mouse PAN
         internal PointLatLng MouseDownStart = new PointLatLng();
+        internal PointLatLng MouseDownEnd;
+
+        // Move polygon point
+        bool isMouseDown = false;
+        bool isMouseDraging = false;
+        GMapMarker CurrentGMapMarker = null;
+        internal PointLatLngAlt CurrentGMapMarkerStartPos;
+        int CurrentGMapMarkerIndex = 0;
+
+        void map_OnMarkerLeave(GMapMarker item)
+        {
+            if (!isMouseDown)
+            {
+                if (item is GMapMarker)
+                {
+                    // when you click the context menu this triggers and causes problems
+                    CurrentGMapMarker = null;
+                }
+
+            }
+        }
+
+        void map_OnMarkerEnter(GMapMarker item)
+        {
+            if (!isMouseDown)
+            {
+                if (item is GMapMarker)
+                {
+                    CurrentGMapMarker = item as GMapMarker;
+                    CurrentGMapMarkerStartPos = CurrentGMapMarker.Position;
+                }
+            }
+        }
+
+        void map_MouseUp(object sender, MouseEventArgs e)
+        {
+            MouseDownEnd = map.FromLocalToLatLng(e.X, e.Y);
+
+            // Console.WriteLine("MainMap MU");
+
+            if (e.Button == MouseButtons.Right) // ignore right clicks
+            {
+                return;
+            }
+
+            if (isMouseDown) // mouse down on some other object and dragged to here.
+            {
+                if (e.Button == MouseButtons.Left)
+                {
+                    isMouseDown = false;
+                }
+                if (!isMouseDraging)
+                {
+                    if (CurrentGMapMarker != null)
+                    {
+                        // Redraw polygon
+                        //AddDrawPolygon();
+                    }
+                }
+            }
+            isMouseDraging = false;
+            CurrentGMapMarker = null;
+            CurrentGMapMarkerIndex = 0;
+            CurrentGMapMarkerStartPos = null;
+        }
 
         private void map_MouseDown(object sender, MouseEventArgs e)
         {
             MouseDownStart = map.FromLocalToLatLng(e.X, e.Y);
+
+            if (e.Button == MouseButtons.Left && Control.ModifierKeys != Keys.Alt)
+            {
+                isMouseDown = true;
+                isMouseDraging = false;
+
+                if (CurrentGMapMarkerStartPos != null)
+                    CurrentGMapMarkerIndex = list.FindIndex(c => c.ToString() == CurrentGMapMarkerStartPos.ToString());
+            }
         }
 
-        private void map_MouseMove(object sender, MouseEventArgs e)
+        void map_MouseMove(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Left)
+            PointLatLng point = map.FromLocalToLatLng(e.X, e.Y);
+
+            if (MouseDownStart == point)
+                return;
+
+            if (!isMouseDown)
             {
-                PointLatLng point = map.FromLocalToLatLng(e.X, e.Y);
+                // update mouse pos display
+                //SetMouseDisplay(point.Lat, point.Lng, 0);
+            }
 
-                double latdif = MouseDownStart.Lat - point.Lat;
-                double lngdif = MouseDownStart.Lng - point.Lng;
-
-                try
+            //draging
+            if (e.Button == MouseButtons.Left && isMouseDown)
+            {
+                isMouseDraging = true;
+                
+                if (CurrentGMapMarker != null)
                 {
-                    map.Position = new PointLatLng(map.Position.Lat + latdif, map.Position.Lng + lngdif);
+                    PointLatLng pnew = map.FromLocalToLatLng(e.X, e.Y);
+
+                    CurrentGMapMarker.Position = pnew;
+
+                    list[CurrentGMapMarkerIndex] = new PointLatLngAlt(pnew);
+                    domainUpDown1_ValueChanged(sender, e);
                 }
-                catch { }
+                else // left click pan
+                {
+                    double latdif = MouseDownStart.Lat - point.Lat;
+                    double lngdif = MouseDownStart.Lng - point.Lng;
+
+                    try
+                    {
+                        lock (thisLock)
+                        {
+                            map.Position = new PointLatLng(map.Position.Lat + latdif, map.Position.Lng + lngdif);
+                        }
+                    }
+                    catch { }
+                }
             }
         }
 
@@ -933,6 +1104,7 @@ namespace MissionPlanner
 
             doCalc();
         }
+
         private void BUT_save_Click(object sender, EventArgs e)
         {
             camerainfo camera = new camerainfo();

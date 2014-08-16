@@ -3182,6 +3182,24 @@ namespace MissionPlanner.GCSViews
 
         }
 
+        public void redrawPolygonSurvey(List<PointLatLngAlt> list)
+        {
+            drawnpolygon.Points.Clear();
+            drawnpolygonsoverlay.Clear();
+            
+            int tag = 0;
+            list.ForEach(x =>
+            {
+                tag++;
+                drawnpolygon.Points.Add(x);
+                addpolygonmarkergrid(tag.ToString(), x.Lng, x.Lat, 0);
+            });
+
+            drawnpolygonsoverlay.Polygons.Add(drawnpolygon);
+            MainMap.UpdatePolygonLocalPosition(drawnpolygon);
+            MainMap.Invalidate();
+        }
+
         private void clearPolygonToolStripMenuItem_Click(object sender, EventArgs e)
         {
             polygongridmode = false;
