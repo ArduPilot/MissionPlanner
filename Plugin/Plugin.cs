@@ -9,6 +9,7 @@ using GMap.NET;
 using GMap.NET.MapProviders;
 using GMap.NET.WindowsForms;
 using MissionPlanner;
+using MissionPlanner.Utilities;
 using MissionPlanner.GCSViews;
 
 namespace MissionPlanner.Plugin
@@ -131,6 +132,11 @@ namespace MissionPlanner.Plugin
         /// The polygon drawn by the user on the FP page
         /// </summary>
         public GMapPolygon FPDrawnPolygon { get { return new GMapPolygon(new List<PointLatLng>(MainV2.instance.FlightPlanner.drawnpolygon.Points), "Poly Copy") { Stroke = MainV2.instance.FlightPlanner.drawnpolygon.Stroke }; } }
+
+        public void RedrawFPPolygon(List<PointLatLngAlt> list)
+        {
+            MainV2.instance.FlightPlanner.redrawPolygonSurvey(list);
+        }
 
         /// <summary>
         /// add wp to command queue - dont upload to mav
