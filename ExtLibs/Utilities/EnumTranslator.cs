@@ -22,6 +22,13 @@ namespace MissionPlanner.Utilities
          return Translate<T>(true);
       }
 
+      public static List<KeyValuePair<int, string>> EnumToList<T>()
+      {
+          var ans = Translate<T>(string.Empty, true, false);
+
+          return ans.ToList();
+      }   
+
       /// <summary>
       /// Translates the specified check private.
       /// </summary>
