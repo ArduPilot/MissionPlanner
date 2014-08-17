@@ -2352,6 +2352,7 @@ namespace MissionPlanner.GCSViews
         GMapMarker CurrentGMapMarker = null;
         bool isMouseDown = false;
         bool isMouseDraging = false;
+        bool isMouseClickOffMenu = false;
         PointLatLng MouseDownStart;
         internal PointLatLng MouseDownEnd;
 
@@ -2594,6 +2595,12 @@ namespace MissionPlanner.GCSViews
 
         void MainMap_MouseUp(object sender, MouseEventArgs e)
         {
+            if (isMouseClickOffMenu == true)
+            {
+                isMouseClickOffMenu = false;
+                return;
+            }
+
             MouseDownEnd = MainMap.FromLocalToLatLng(e.X, e.Y);
 
             // Console.WriteLine("MainMap MU");
@@ -2648,6 +2655,9 @@ namespace MissionPlanner.GCSViews
 
         void MainMap_MouseDown(object sender, MouseEventArgs e)
         {
+            if (isMouseClickOffMenu == true)
+                return;
+
             MouseDownStart = MainMap.FromLocalToLatLng(e.X, e.Y);
 
             //   Console.WriteLine("MainMap MD");
@@ -5174,6 +5184,13 @@ namespace MissionPlanner.GCSViews
             {
                 geoFenceToolStripMenuItem.Enabled = true;
             }
+            isMouseClickOffMenu = false; // Just incase
+        }
+
+        private void contextMenuStrip1_Closed(object sender, ToolStripDropDownClosedEventArgs e)
+        {
+            if (e.CloseReason.ToString() == "AppClicked")
+                isMouseClickOffMenu = true;
         }
 
         private void areaToolStripMenuItem_Click(object sender, EventArgs e)
