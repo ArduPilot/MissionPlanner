@@ -110,7 +110,7 @@ namespace MissionPlanner
         public GMapMarkerADSBPlane(PointLatLng p, float heading)
             : base(p)
         {
-            icon = new Bitmap(icon, new Size(59, 59));
+            icon = new Bitmap(icon, new Size(40, 40));
             this.heading = heading;
             Size = icon.Size;
         }
