@@ -81,7 +81,6 @@ namespace MissionPlanner
 
             // set and angle that is good
             NUM_angle.Value = (decimal)((getAngleOfLongestSide(list) + 360) % 360);
-
         }
 
         void loadsettings()
@@ -692,8 +691,12 @@ namespace MissionPlanner
 
                 if (CHK_usespeed.Checked)
                 {
-                    // Need to load MP_NAV_SPEED before we can set it back.
-                    //plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_CHANGE_SPEED, 0, 0, 0, 0, 0, 0, 0);
+                    if (MainV2.comPort.MAV.param["WPNAV_SPEED"] != null)
+                    {
+                        float speed = ((float)MainV2.comPort.MAV.param["WPNAV_SPEED"]);
+                        speed = speed / 100;
+                        plugin.Host.AddWPtoList(MAVLink.MAV_CMD.DO_CHANGE_SPEED, 0, speed, 0, 0, 0, 0, 0);
+                    }
                 }
 
                 if (CHK_toandland.Checked)
