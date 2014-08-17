@@ -53,6 +53,7 @@ namespace MissionPlanner.GCSViews
         public List<PointLatLngAlt> pointlist = new List<PointLatLngAlt>(); // used to calc distance
         public List<PointLatLngAlt> fullpointlist = new List<PointLatLngAlt>();
         public GMapRoute route = new GMapRoute("wp route");
+        public GMapRoute homeroute = new GMapRoute("home route");
         static public Object thisLock = new Object();
         private ComponentResourceManager rm = new ComponentResourceManager(typeof(FlightPlanner));
 
@@ -1203,6 +1204,7 @@ namespace MissionPlanner.GCSViews
             
 
             route.Clear();
+            homeroute.Clear();
 
             polygonsoverlay.Routes.Clear();
 
@@ -1210,6 +1212,7 @@ namespace MissionPlanner.GCSViews
             PointLatLngAlt lastpnt2 = fullpointlist[0];
             PointLatLngAlt lastnonspline = fullpointlist[0];
             List<PointLatLngAlt> splinepnts = new List<PointLatLngAlt>();
+            List<PointLatLngAlt> wproute = new List<PointLatLngAlt>();
             
             // add home - this causeszx the spline to always have a straight finish
             fullpointlist.Add(fullpointlist[0]);
@@ -1272,7 +1275,11 @@ namespace MissionPlanner.GCSViews
 
                         }
 
-                        route.Points.AddRange(list);
+                        list.ForEach(x =>
+                            {
+                                wproute.Add(x);
+                            });
+                        
 
                         splinepnts.Clear();
 
@@ -1287,7 +1294,7 @@ namespace MissionPlanner.GCSViews
                         lastnonspline = fullpointlist[a];
                     }
 
-                    route.Points.Add(fullpointlist[a]);
+                    wproute.Add(fullpointlist[a]);
 
                     lastpnt2 = lastpnt;
                     lastpnt = fullpointlist[a];
@@ -1299,8 +1306,32 @@ namespace MissionPlanner.GCSViews
             fullpointlist.ForEach(x => { list.Add(x); });
             route.Points.AddRange(list);
             */
-            route.Stroke = new Pen(Color.Yellow, 4);
-            polygonsoverlay.Routes.Add(route);
+            // route is full need to get 1, 2 and last point as "HOME" route
+
+            int count = wproute.Count;
+            int counter = 0;
+            PointLatLngAlt homepoint = new PointLatLngAlt();
+            PointLatLngAlt lastpoint = new PointLatLngAlt();
+
+            if (count > 2)
+            {
+                wproute.ForEach(x =>
+                {
+                    counter++;
+                    if (counter == 1){ homepoint = x; return; }
+                    if (counter == 2){ homeroute.Points.Add(x); homeroute.Points.Add(homepoint); }
+                    if (counter == count - 1) { lastpoint = x; }
+                    if (counter == count) { homeroute.Points.Add(x); homeroute.Points.Add(lastpoint); return; }
+                    route.Points.Add(x);
+                });
+
+                homeroute.Stroke = new Pen(Color.Yellow, 2);
+                homeroute.Stroke.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
+                polygonsoverlay.Routes.Add(homeroute);
+
+                route.Stroke = new Pen(Color.Yellow, 4);
+                polygonsoverlay.Routes.Add(route);
+            }
         }
         
         /// <summary>
