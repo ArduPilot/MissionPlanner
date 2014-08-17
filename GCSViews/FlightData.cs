@@ -34,7 +34,6 @@ namespace MissionPlanner.GCSViews
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         public static int threadrun = 0;
-        static int mainloopexitsignal = 0;
         int tickStart = 0;
         RollingPointPairList list1 = new RollingPointPairList(1200);
         RollingPointPairList list2 = new RollingPointPairList(1200);
@@ -78,6 +77,8 @@ namespace MissionPlanner.GCSViews
 
         bool huddropout = false;
         bool huddropoutresize = false;
+
+        Thread thisthread;
 
         //      private DockStateSerializer _serializer = null;
 
@@ -130,13 +131,14 @@ namespace MissionPlanner.GCSViews
 
         protected override void Dispose(bool disposing)
         {
+            // stop the thread before disposing element
+            threadrun = 0;
+            if (thisthread != null && thisthread.IsAlive)
+                thisthread.Join();
+
             base.Dispose(disposing);
 
-            threadrun = 0;
             MainV2.comPort.logreadmode = false;
-            // this should make the current pending invokes run
-            System.Threading.Thread.Sleep(100);
-            Application.DoEvents();
             try
             {
                 if (hud1 != null)
@@ -161,12 +163,6 @@ namespace MissionPlanner.GCSViews
             {
                 components.Dispose();
             }
-
-            //Application.DoEvents();
-            //System.Threading.Thread.Sleep(200);
-            //Application.DoEvents();
-
-           
         }
 
         public FlightData()
@@ -600,8 +596,6 @@ namespace MissionPlanner.GCSViews
 
         private void FlightData_Load(object sender, EventArgs e)
         {
-            System.Threading.ThreadPool.QueueUserWorkItem(mainloop);
-
             POI.POIModified += POI_POIModified;
 
             TRK_zoom.Minimum = gMapControl1.MapProvider.MinZoom;
@@ -632,6 +626,10 @@ namespace MissionPlanner.GCSViews
             }
 
             hud1.doResize();
+
+            thisthread = new Thread(mainloop);
+            thisthread.IsBackground = true;
+            thisthread.Start();
         }
 
         void POI_POIModified(object sender, EventArgs e)
@@ -639,7 +637,7 @@ namespace MissionPlanner.GCSViews
             POI.UpdateOverlay(poioverlay);
         }
 
-        private void mainloop(object o)
+        private void mainloop()
         {
             //System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en-US");
             //System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
@@ -1152,7 +1150,6 @@ namespace MissionPlanner.GCSViews
                 catch (Exception ex) { log.Error(ex); Console.WriteLine("FD Main loop exception " + ex.ToString()); }
             }
             Console.WriteLine("FD Main loop exit");
-            mainloopexitsignal = 1;
         }
 
         private double ConvertToDouble(object input)
@@ -1543,6 +1540,7 @@ namespace MissionPlanner.GCSViews
         {
             ZedGraphTimer.Stop();
             threadrun = 0;
+            thisthread.Join();
             try
             {
                 if (MainV2.comPort.BaseStream.IsOpen)
@@ -1552,12 +1550,6 @@ namespace MissionPlanner.GCSViews
             }
             catch { }
 
-            // allow time for thread to finish
-            DateTime deadline = DateTime.Now.AddSeconds(5);
-            while (mainloopexitsignal == 0 && DateTime.Now < deadline)
-            {
-                System.Threading.Thread.Sleep(50);
-            }
         }
 
         private void BUT_clear_track_Click(object sender, EventArgs e)

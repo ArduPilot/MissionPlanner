@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using System.Threading;
 
 namespace MissionPlanner.Warnings
 {
@@ -50,15 +51,23 @@ namespace MissionPlanner.Warnings
         public static void Start()
         {
             if (run == false)
-                System.Threading.ThreadPool.QueueUserWorkItem(MainLoop);
+            {
+                thisthread = new Thread(MainLoop);
+                thisthread.IsBackground = true;
+                thisthread.Start();
+            }
         }
 
         public static void Stop()
         {
             run = false;
+            if (thisthread != null && thisthread.IsAlive)
+                thisthread.Join();
         }
 
-        public static void MainLoop(object state)
+        static Thread thisthread;
+
+        public static void MainLoop()
         {
             run = true;
             while (run)
