@@ -103,6 +103,8 @@ namespace MissionPlanner.Utilities.DroneApi
 
             try
             {
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls;
+
                 // http post
                 string JSONresp = UploadFilesToRemoteUrl(webAppUploadUrl, file, @params);
 
@@ -164,6 +166,10 @@ namespace MissionPlanner.Utilities.DroneApi
             {
                 Console.WriteLine(ex.ToString());
                 throw;
+            }
+            finally
+            {
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3;
             }
 
             return "";
