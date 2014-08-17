@@ -1155,23 +1155,29 @@ namespace MissionPlanner
 
             Warnings.WarningEngine.Stop();
 
-            // shutdown threads
-            GCSViews.FlightData.threadrun = 0;
-
             log.Info("closing pluginthread");
 
             pluginthreadrun = false;
 
-            PluginThreadrunner.WaitOne();
+            pluginthread.Join();
 
             log.Info("closing serialthread");
 
-            // shutdown local thread
             serialThread = false;
 
-          //  SerialThreadrunner.WaitOne();
+            serialreaderthread.Join();
+
+            log.Info("closing joystickthread");
 
             joystickthreadrun = false;
+
+            joystickthread.Join();
+
+            log.Info("closing httpthread");
+
+            // if we are waiting on a socket we need to force an abort
+            httpserver.run = false;
+            httpthread.Abort();
 
             log.Info("sorting tlogs");
             try
@@ -1222,9 +1228,6 @@ namespace MissionPlanner
             log.Info("save config");
             // save config
             xmlconfig(true);
-
-            httpserver.run = false;
-            httpserver.tcpClientConnected.Set();
 
             Console.WriteLine(httpthread.IsAlive);
             Console.WriteLine(joystickthread.IsAlive);

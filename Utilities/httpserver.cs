@@ -85,6 +85,10 @@ namespace MissionPlanner.Utilities
                     System.Threading.Thread.Sleep(50);
 
                 }
+                catch (ThreadAbortException ex) 
+                {
+                    return;
+                }
                 catch (Exception ex)
                 {
                     log.Error(ex);
