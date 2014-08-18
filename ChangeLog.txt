@@ -1,4 +1,112 @@
-﻿* Mission Planner 1.3.7
+﻿* Mission Planner 1.3.8
+grid modifications by tristan novak
+language mods by ellissu
+fix timeinair bug #521
+LOGS BROWSER: Added interactivity between map, graph chart and data grid
+turn off overflow checking in gmaps
+flightplanner: add new frame selection
+uploader: remove code causing exception
+FlightPlanner -- Render first and last flight line to home as "dashed". Issue: #584
+FlightPlanner - Click off menu to close. #583
+enum: add enumtolist option
+adsbplane: shrink from 59 to 40 pix
+droneshare: modify ssl profile for droneshare
+Threading: modify thread termination stratagy
+Survey (Grid) - Remove return path between first and last point. #584
+Survey (Grid) Move DO_SET_CAM_TRIGG_DIST to after the first waypoint.
+Survey (Grid) Auto change units (Imperial) Stats show most reasonable unit. Area: ft^2->Acres->miles^2  Distance: ft->miles
+sonar add exception check
+magcalib: 0 compass 2 before calib
+msi drivers
+flightplanner: add ability to load custom commands
+mainv2: add lang debug
+currentstate: add toh and inverse geofence status check
+spline: update first spline point to match actual
+gridv2: mod color
+DFLog: add extra df ERR messages
+speech: add armed check to low alt, and low airspeed warnings
+gridv2 changes
+Changed "Survey (Grid)" plug-in. Added RTL option in UI. Also saves/loads camera trigger type.
+heli: add heli icon on map.
+magcalib: fix comments
+simulation: stop exception on not connected
+paramtree: add node expansion
+stkv2: fix posible overflow
+radioinput: use rcmap for display.
+paramtreeview: fix spacing
+currentstate: add monitoring of geofence,ahrs and terrain problems
+flightplanner: remove terrain_check on wp upload (now done by ap)
+terrainfollow: add exception protection and logging
+terrain: fix east north mixup
+use new gps_offset method in TerrainFollow
+fix build refrences
+tweak networklink kml
+terrainfollow: unsubscribe on destroy and dont send 0 alts
+update jsbsim.exe
+currentstate: improve ch3 % calc
+quickview: add number formating
+gridv2: use min and max alt from file
+magcalib: reduce number of points required.
+enable nuget package restore on build
+httpserver: update generated kml of flightpath
+appconfig: remove some network tracing
+flightplanner: add terrain alt frame type
+gmapmarkerairport: fix overflow
+paramcompare: add ability to use a callback
+mavlink: add locking on getwp
+rawparamtree: initial trial
+flightplanner: fix null exception
+commportserial: add exception logging
+clean error exit on failed connect.
+modify exception type to timeoutexception
+make sure canceled box closes
+fix bluetooth "element not found"
+VRBRAIN: Added VRX/VRBRAIN into list of boards for connect the terminal
+VRBRAIN: Added preset of battery monitor for VR Brain and VR Micro Brain 5
+add FP null checks
+add terrain status to currentstate
+fix dual mag message on change
+fix updateClearRouteMarker
+fix a cross thread call
+cleanup python engine after run
+fix udp serial issues
+udpserial. ensure the old client is closed.
+progressreporter. if we cancel something, dont show the dialog
+update Traditional Chinese translation
+remove airport.dat and usage
+open up udpconnections
+include shorts in tlog to csv conversion
+rename label on compassmot screen
+clip srtm
+add mirrorstream write access option
+fix exceptions on connect to ardutracker
+add option to stop/start adsb
+fix gmaps web cache
+quickview speed tweak
+update mavlink
+bring back gauges
+add mapbox nofly zone
+fix motor test text
+try release joystick more
+dont touch dtr on no reset
+droneapi updates
+add text grid fit to hud
+add watts
+close selectform on main log window close
+add antenna tracker exception
+add firmware type to stats
+identify bootloader
+update upload failure message
+update set tracker here to use srtm alt.
+add imax to pid link check for AC
+change manual to loiter on action tab
+check p,i,d for arducopter pid link
+update for speech engine during logmap creation
+update sonar types to use autodoc
+add elevation graph null check
+add exception handle on motor test
+
+* Mission Planner 1.3.7
 fix a mag calib issue on apm2
 
 * Mission Planner 1.3.6
