@@ -104,7 +104,7 @@ namespace MissionPlanner
                 System.Configuration.ConfigurationManager.AppSettings["UpdateLocationVersion"] = "";
             }
 
-            fontgen.dowork();
+            //fontgen.dowork();
 
             //adsb.server = "64.93.124.152";
             //adsb.serverport = 31001;
