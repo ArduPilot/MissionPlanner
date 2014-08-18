@@ -1705,7 +1705,7 @@ Please check the following
 
                         var wp = buffer.ByteArrayToStructure<mavlink_mission_item_t>(6);
 
-                        loc.options = (byte)(wp.frame & 0x1);
+                        loc.options = (byte)(wp.frame);
                         loc.id = (byte)(wp.command);
                         loc.p1 = (wp.param1);
                         loc.p2 = (wp.param2);

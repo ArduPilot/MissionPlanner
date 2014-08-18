@@ -45,6 +45,7 @@ namespace MissionPlanner.GCSViews
         bool polygongridmode = false;
         Hashtable param = new Hashtable();
         bool splinemode = false;
+        altmode currentaltmode = altmode.Relative;
 
         bool grid = false;
 
@@ -58,6 +59,13 @@ namespace MissionPlanner.GCSViews
         private ComponentResourceManager rm = new ComponentResourceManager(typeof(FlightPlanner));
 
         private Dictionary<string, string[]> cmdParamNames = new Dictionary<string, string[]>();
+
+        public enum altmode
+        {
+            Relative = 0,
+            Absolute = 1,
+            Terrain = 2,
+        }
 
 
         private void poieditToolStripMenuItem_Click(object sender, System.EventArgs e)
@@ -214,7 +222,7 @@ namespace MissionPlanner.GCSViews
                         if (CHK_geheight.Checked) // use srtm data
                         {
                             // is absolute but no verify
-                            if (CHK_altmode.Checked)
+                            if ((altmode)CMB_altmode.SelectedItem == altmode.Absolute)
                             {
                                 //abs
                                 cell.Value = (srtm.getAltitude(lat, lng) + int.Parse(TXT_DefaultAlt.Text)).ToString();
@@ -440,6 +448,13 @@ namespace MissionPlanner.GCSViews
             top.Markers.Add(center);
 
             MainMap.Zoom = 3;
+
+            CMB_altmode.DisplayMember = "Value";
+            CMB_altmode.ValueMember = "Key";
+            CMB_altmode.DataSource = EnumTranslator.EnumToList<altmode>();
+
+            //set default
+            CMB_altmode.SelectedItem = altmode.Relative;
 
             //set home
             try
@@ -1002,7 +1017,7 @@ namespace MissionPlanner.GCSViews
                         homealt = (int)double.Parse(TXT_homealt.Text);
                 }
                 catch { }
-                if (CHK_altmode.Checked)
+                if ((altmode)CMB_altmode.SelectedValue == altmode.Absolute)
                 {
                     homealt = 0; // for absolute we dont need to add homealt
                 }
@@ -1438,7 +1453,7 @@ namespace MissionPlanner.GCSViews
 
                         sw.Write((a + 1)); // seq
                         sw.Write("\t" + 0); // current
-                        sw.Write("\t" + (CHK_altmode.Checked == true ? (byte)MAVLink.MAV_FRAME.GLOBAL : (byte)MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT)); //frame 
+                        sw.Write("\t" + ((altmode)CMB_altmode.SelectedValue == altmode.Absolute ? (byte)MAVLink.MAV_FRAME.GLOBAL : (byte)MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT)); //frame 
                         sw.Write("\t" + mode);
                         sw.Write("\t" + double.Parse(Commands.Rows[a].Cells[Param1.Index].Value.ToString()).ToString("0.000000", new System.Globalization.CultureInfo("en-US")));
                         sw.Write("\t" + double.Parse(Commands.Rows[a].Cells[Param2.Index].Value.ToString()).ToString("0.000000", new System.Globalization.CultureInfo("en-US")));
@@ -1569,11 +1584,11 @@ namespace MissionPlanner.GCSViews
         /// <param name="e"></param>
         private void BUT_write_Click(object sender, EventArgs e)
         {
-            if (CHK_altmode.Checked)
+            if ((altmode)CMB_altmode.SelectedValue == altmode.Absolute)
             {
-                if (DialogResult.No == CustomMessageBox.Show("Absolute Alt is ticked are you sure?", "Alt Mode", MessageBoxButtons.YesNo))
+                if (DialogResult.No == CustomMessageBox.Show("Absolute Alt is selected are you sure?", "Alt Mode", MessageBoxButtons.YesNo))
                 {
-                    CHK_altmode.Checked = false;
+                    CMB_altmode.SelectedValue = (int)altmode.Relative;
                 }
             }
 
@@ -1740,11 +1755,13 @@ namespace MissionPlanner.GCSViews
                     temp.p1 = float.Parse(Commands.Rows[a].Cells[Param1.Index].Value.ToString());
                     if (temp.id < (byte)MAVLink.MAV_CMD.LAST || temp.id == (byte)MAVLink.MAV_CMD.DO_SET_HOME)
                     {
-                        if (CHK_terrain.Checked)
+                        var mode = currentaltmode;
+
+                        if (mode == altmode.Terrain)
                         {
                             frame = MAVLink.MAV_FRAME.GLOBAL_TERRAIN_ALT;
                         }
-                        else if (CHK_altmode.Checked)
+                        else if (mode == altmode.Absolute)
                         {
                             frame = MAVLink.MAV_FRAME.GLOBAL;
                         }
@@ -1872,19 +1889,21 @@ namespace MissionPlanner.GCSViews
                     }
                 }
 
+                // from ap_common.h
                 if (temp.id < (byte)MAVLink.MAV_CMD.LAST || temp.id == (byte)MAVLink.MAV_CMD.DO_SET_HOME)
                 {
-                    if ((temp.options & 0x1) == 0 && i != 0) // home is always abs
+                    if ((temp.options & 0x1) == 0 && i != 0)
                     {
-                        CHK_altmode.Checked = true;
+                        CMB_altmode.SelectedValue = (int)altmode.Absolute;
                     }
-                    else
+                    else if ((temp.options & 0x8) != 0 && i != 0)
                     {
-                        CHK_altmode.Checked = false;
+                        CMB_altmode.SelectedValue = (int)altmode.Terrain;
                     }
-
-
-
+                    else if ((temp.options & 0x1) != 0 && i != 0)
+                    {
+                        CMB_altmode.SelectedValue = (int)altmode.Relative;
+                    }
                 }
 
                 cell = Commands.Rows[i].Cells[Alt.Index] as DataGridViewTextBoxCell;
@@ -2007,7 +2026,7 @@ namespace MissionPlanner.GCSViews
 
                 MissionPlanner.MainV2.config["TXT_DefaultAlt"] = TXT_DefaultAlt.Text;
 
-                MissionPlanner.MainV2.config["CHK_altmode"] = CHK_altmode.Checked;
+                MissionPlanner.MainV2.config["CMB_altmode"] = CMB_altmode.Text;
 
                 MissionPlanner.MainV2.config["fpminaltwarning"] = TXT_altwarn.Text;
 
@@ -2030,8 +2049,8 @@ namespace MissionPlanner.GCSViews
                         case "TXT_DefaultAlt":
                             TXT_DefaultAlt.Text = MissionPlanner.MainV2.config[key].ToString();
                             break;
-                        case "CHK_altmode":
-                            CHK_altmode.Checked = false;//bool.Parse(MissionPlanner.MainV2.config[key].ToString());
+                        case "CMB_altmode":
+                            CMB_altmode.Text = MissionPlanner.MainV2.config[key].ToString();
                             break;
                         case "fpminaltwarning":
                             TXT_altwarn.Text = MainV2.getConfig("fpminaltwarning");
@@ -2996,14 +3015,6 @@ namespace MissionPlanner.GCSViews
             MainMap.Zoom = trackBar1.Value;
         }
 
-        private void CHK_altmode_CheckedChanged(object sender, EventArgs e)
-        {
-            CHK_terrain.Checked = false;
-
-            if (Commands.RowCount > 0 && !quickadd)
-                CustomMessageBox.Show("You will need to change your altitudes");
-        }
-
         protected override void OnPaint(PaintEventArgs pe)
         {
             try
@@ -3906,11 +3917,11 @@ namespace MissionPlanner.GCSViews
 
             if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
             {
-                CHK_altmode.Visible = false;
+                CMB_altmode.Visible = false;
             }
             else
             {
-                CHK_altmode.Visible = true;
+                CMB_altmode.Visible = true;
             }
 
             //switchDockingToolStripMenuItem_Click(null, null);
@@ -5994,9 +6005,9 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
         }
 
-        private void CHK_terrain_CheckedChanged(object sender, EventArgs e)
+        private void CMB_altmode_SelectedIndexChanged(object sender, EventArgs e)
         {
-            CHK_altmode.Checked = false;
+            currentaltmode = (altmode)CMB_altmode.SelectedValue;
         }
     }
 }
