@@ -679,12 +679,6 @@ namespace px4uploader
         {
             try
             {
-                this.port.BaseStream.Close();
-            }
-            catch { }
-
-            try
-            {
                 this.port.Close();
             }
             catch { }
