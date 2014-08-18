@@ -30,9 +30,9 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GridUI));
             this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.label32 = new System.Windows.Forms.Label();
+            this.lbl_photoevery = new System.Windows.Forms.Label();
             this.label35 = new System.Windows.Forms.Label();
-            this.label28 = new System.Windows.Forms.Label();
+            this.lbl_flighttime = new System.Windows.Forms.Label();
             this.label31 = new System.Windows.Forms.Label();
             this.lbl_distbetweenlines = new System.Windows.Forms.Label();
             this.label25 = new System.Windows.Forms.Label();
@@ -55,9 +55,9 @@
             this.label18 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
-            this.num_repttime = new System.Windows.Forms.NumericUpDown();
+            this.NUM_repttime = new System.Windows.Forms.NumericUpDown();
             this.num_reptpwm = new System.Windows.Forms.NumericUpDown();
-            this.num_reptservo = new System.Windows.Forms.NumericUpDown();
+            this.NUM_reptservo = new System.Windows.Forms.NumericUpDown();
             this.rad_digicam = new System.Windows.Forms.RadioButton();
             this.rad_repeatservo = new System.Windows.Forms.RadioButton();
             this.rad_trigdist = new System.Windows.Forms.RadioButton();
@@ -74,7 +74,7 @@
             this.TXT_senswidth = new System.Windows.Forms.TextBox();
             this.TXT_imgheight = new System.Windows.Forms.TextBox();
             this.TXT_imgwidth = new System.Windows.Forms.TextBox();
-            this.num_focallength = new System.Windows.Forms.NumericUpDown();
+            this.NUM_focallength = new System.Windows.Forms.NumericUpDown();
             this.label9 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
@@ -108,7 +108,7 @@
             this.CHK_toandland_RTL = new System.Windows.Forms.CheckBox();
             this.CHK_toandland = new System.Windows.Forms.CheckBox();
             this.label24 = new System.Windows.Forms.Label();
-            this.numericUpDownFlySpeed = new System.Windows.Forms.NumericUpDown();
+            this.NUM_UpDownFlySpeed = new System.Windows.Forms.NumericUpDown();
             this.label26 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.NUM_angle = new System.Windows.Forms.NumericUpDown();
@@ -118,23 +118,23 @@
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.CHK_advanced = new System.Windows.Forms.CheckBox();
-            this.chk_footprints = new System.Windows.Forms.CheckBox();
-            this.chk_internals = new System.Windows.Forms.CheckBox();
-            this.chk_grid = new System.Windows.Forms.CheckBox();
-            this.chk_markers = new System.Windows.Forms.CheckBox();
-            this.chk_boundary = new System.Windows.Forms.CheckBox();
+            this.CHK_footprints = new System.Windows.Forms.CheckBox();
+            this.CHK_internals = new System.Windows.Forms.CheckBox();
+            this.CHK_grid = new System.Windows.Forms.CheckBox();
+            this.CHK_markers = new System.Windows.Forms.CheckBox();
+            this.CHK_boundary = new System.Windows.Forms.CheckBox();
             this.BUT_Accept = new MissionPlanner.Controls.MyButton();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.map = new MissionPlanner.Controls.myGMAP();
-            this.trackBar1 = new MissionPlanner.Controls.MyTrackBar();
+            this.TRK_zoom = new MissionPlanner.Controls.MyTrackBar();
             this.groupBox5.SuspendLayout();
             this.tabCamera.SuspendLayout();
             this.groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.num_repttime)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_repttime)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_reptpwm)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.num_reptservo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_reptservo)).BeginInit();
             this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.num_focallength)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_focallength)).BeginInit();
             this.tabGrid.SuspendLayout();
             this.groupBox_copter.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_copter_headinghold)).BeginInit();
@@ -148,19 +148,19 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUM_Distance)).BeginInit();
             this.tabSimple.SuspendLayout();
             this.groupBox6.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownFlySpeed)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_UpDownFlySpeed)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_angle)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_altitude)).BeginInit();
             this.groupBox4.SuspendLayout();
             this.tabControl1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TRK_zoom)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox5
             // 
-            this.groupBox5.Controls.Add(this.label32);
+            this.groupBox5.Controls.Add(this.lbl_photoevery);
             this.groupBox5.Controls.Add(this.label35);
-            this.groupBox5.Controls.Add(this.label28);
+            this.groupBox5.Controls.Add(this.lbl_flighttime);
             this.groupBox5.Controls.Add(this.label31);
             this.groupBox5.Controls.Add(this.lbl_distbetweenlines);
             this.groupBox5.Controls.Add(this.label25);
@@ -182,20 +182,20 @@
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.TabStop = false;
             // 
-            // label32
+            // lbl_photoevery
             // 
-            resources.ApplyResources(this.label32, "label32");
-            this.label32.Name = "label32";
+            resources.ApplyResources(this.lbl_photoevery, "lbl_photoevery");
+            this.lbl_photoevery.Name = "lbl_photoevery";
             // 
             // label35
             // 
             resources.ApplyResources(this.label35, "label35");
             this.label35.Name = "label35";
             // 
-            // label28
+            // lbl_flighttime
             // 
-            resources.ApplyResources(this.label28, "label28");
-            this.label28.Name = "label28";
+            resources.ApplyResources(this.lbl_flighttime, "lbl_flighttime");
+            this.lbl_flighttime.Name = "lbl_flighttime";
             // 
             // label31
             // 
@@ -295,9 +295,9 @@
             this.groupBox3.Controls.Add(this.label18);
             this.groupBox3.Controls.Add(this.label17);
             this.groupBox3.Controls.Add(this.label16);
-            this.groupBox3.Controls.Add(this.num_repttime);
+            this.groupBox3.Controls.Add(this.NUM_repttime);
             this.groupBox3.Controls.Add(this.num_reptpwm);
-            this.groupBox3.Controls.Add(this.num_reptservo);
+            this.groupBox3.Controls.Add(this.NUM_reptservo);
             this.groupBox3.Controls.Add(this.rad_digicam);
             this.groupBox3.Controls.Add(this.rad_repeatservo);
             this.groupBox3.Controls.Add(this.rad_trigdist);
@@ -320,21 +320,21 @@
             resources.ApplyResources(this.label16, "label16");
             this.label16.Name = "label16";
             // 
-            // num_repttime
+            // NUM_repttime
             // 
-            resources.ApplyResources(this.num_repttime, "num_repttime");
-            this.num_repttime.Maximum = new decimal(new int[] {
+            resources.ApplyResources(this.NUM_repttime, "NUM_repttime");
+            this.NUM_repttime.Maximum = new decimal(new int[] {
             5000,
             0,
             0,
             0});
-            this.num_repttime.Minimum = new decimal(new int[] {
+            this.NUM_repttime.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
-            this.num_repttime.Name = "num_repttime";
-            this.num_repttime.Value = new decimal(new int[] {
+            this.NUM_repttime.Name = "NUM_repttime";
+            this.NUM_repttime.Value = new decimal(new int[] {
             2,
             0,
             0,
@@ -355,21 +355,21 @@
             0,
             0});
             // 
-            // num_reptservo
+            // NUM_reptservo
             // 
-            resources.ApplyResources(this.num_reptservo, "num_reptservo");
-            this.num_reptservo.Maximum = new decimal(new int[] {
+            resources.ApplyResources(this.NUM_reptservo, "NUM_reptservo");
+            this.NUM_reptservo.Maximum = new decimal(new int[] {
             12,
             0,
             0,
             0});
-            this.num_reptservo.Minimum = new decimal(new int[] {
+            this.NUM_reptservo.Minimum = new decimal(new int[] {
             5,
             0,
             0,
             0});
-            this.num_reptservo.Name = "num_reptservo";
-            this.num_reptservo.Value = new decimal(new int[] {
+            this.NUM_reptservo.Name = "NUM_reptservo";
+            this.NUM_reptservo.Value = new decimal(new int[] {
             5,
             0,
             0,
@@ -413,7 +413,7 @@
             this.groupBox2.Controls.Add(this.TXT_senswidth);
             this.groupBox2.Controls.Add(this.TXT_imgheight);
             this.groupBox2.Controls.Add(this.TXT_imgwidth);
-            this.groupBox2.Controls.Add(this.num_focallength);
+            this.groupBox2.Controls.Add(this.NUM_focallength);
             this.groupBox2.Controls.Add(this.label9);
             this.groupBox2.Controls.Add(this.label10);
             this.groupBox2.Controls.Add(this.label14);
@@ -489,32 +489,32 @@
             this.TXT_imgwidth.Name = "TXT_imgwidth";
             this.TXT_imgwidth.TextChanged += new System.EventHandler(this.TXT_TextChanged);
             // 
-            // num_focallength
+            // NUM_focallength
             // 
-            this.num_focallength.DecimalPlaces = 1;
-            this.num_focallength.Increment = new decimal(new int[] {
+            this.NUM_focallength.DecimalPlaces = 1;
+            this.NUM_focallength.Increment = new decimal(new int[] {
             1,
             0,
             0,
             65536});
-            resources.ApplyResources(this.num_focallength, "num_focallength");
-            this.num_focallength.Maximum = new decimal(new int[] {
+            resources.ApplyResources(this.NUM_focallength, "NUM_focallength");
+            this.NUM_focallength.Maximum = new decimal(new int[] {
             180,
             0,
             0,
             0});
-            this.num_focallength.Minimum = new decimal(new int[] {
+            this.NUM_focallength.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
-            this.num_focallength.Name = "num_focallength";
-            this.num_focallength.Value = new decimal(new int[] {
+            this.NUM_focallength.Name = "NUM_focallength";
+            this.NUM_focallength.Value = new decimal(new int[] {
             5,
             0,
             0,
             0});
-            this.num_focallength.ValueChanged += new System.EventHandler(this.num_ValueChanged);
+            this.NUM_focallength.ValueChanged += new System.EventHandler(this.NUM_ValueChanged);
             // 
             // label9
             // 
@@ -681,7 +681,7 @@
             0,
             0,
             0});
-            this.num_overlap.ValueChanged += new System.EventHandler(this.num_ValueChanged);
+            this.num_overlap.ValueChanged += new System.EventHandler(this.NUM_ValueChanged);
             // 
             // num_sidelap
             // 
@@ -693,7 +693,7 @@
             0,
             0,
             0});
-            this.num_sidelap.ValueChanged += new System.EventHandler(this.num_ValueChanged);
+            this.num_sidelap.ValueChanged += new System.EventHandler(this.NUM_ValueChanged);
             // 
             // label5
             // 
@@ -752,7 +752,7 @@
             this.groupBox6.Controls.Add(this.CHK_toandland_RTL);
             this.groupBox6.Controls.Add(this.CHK_toandland);
             this.groupBox6.Controls.Add(this.label24);
-            this.groupBox6.Controls.Add(this.numericUpDownFlySpeed);
+            this.groupBox6.Controls.Add(this.NUM_UpDownFlySpeed);
             this.groupBox6.Controls.Add(this.label26);
             this.groupBox6.Controls.Add(this.label4);
             this.groupBox6.Controls.Add(this.NUM_angle);
@@ -791,21 +791,21 @@
             resources.ApplyResources(this.label24, "label24");
             this.label24.Name = "label24";
             // 
-            // numericUpDownFlySpeed
+            // NUM_UpDownFlySpeed
             // 
-            resources.ApplyResources(this.numericUpDownFlySpeed, "numericUpDownFlySpeed");
-            this.numericUpDownFlySpeed.Maximum = new decimal(new int[] {
+            resources.ApplyResources(this.NUM_UpDownFlySpeed, "NUM_UpDownFlySpeed");
+            this.NUM_UpDownFlySpeed.Maximum = new decimal(new int[] {
             360,
             0,
             0,
             0});
-            this.numericUpDownFlySpeed.Name = "numericUpDownFlySpeed";
-            this.numericUpDownFlySpeed.Value = new decimal(new int[] {
+            this.NUM_UpDownFlySpeed.Name = "NUM_UpDownFlySpeed";
+            this.NUM_UpDownFlySpeed.Value = new decimal(new int[] {
             5,
             0,
             0,
             0});
-            this.numericUpDownFlySpeed.ValueChanged += new System.EventHandler(this.domainUpDown1_ValueChanged);
+            this.NUM_UpDownFlySpeed.ValueChanged += new System.EventHandler(this.domainUpDown1_ValueChanged);
             // 
             // label26
             // 
@@ -878,11 +878,11 @@
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.CHK_advanced);
-            this.groupBox4.Controls.Add(this.chk_footprints);
-            this.groupBox4.Controls.Add(this.chk_internals);
-            this.groupBox4.Controls.Add(this.chk_grid);
-            this.groupBox4.Controls.Add(this.chk_markers);
-            this.groupBox4.Controls.Add(this.chk_boundary);
+            this.groupBox4.Controls.Add(this.CHK_footprints);
+            this.groupBox4.Controls.Add(this.CHK_internals);
+            this.groupBox4.Controls.Add(this.CHK_grid);
+            this.groupBox4.Controls.Add(this.CHK_markers);
+            this.groupBox4.Controls.Add(this.CHK_boundary);
             resources.ApplyResources(this.groupBox4, "groupBox4");
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.TabStop = false;
@@ -894,46 +894,46 @@
             this.CHK_advanced.UseVisualStyleBackColor = true;
             this.CHK_advanced.CheckedChanged += new System.EventHandler(this.CHK_advanced_CheckedChanged);
             // 
-            // chk_footprints
+            // CHK_footprints
             // 
-            resources.ApplyResources(this.chk_footprints, "chk_footprints");
-            this.chk_footprints.Name = "chk_footprints";
-            this.chk_footprints.UseVisualStyleBackColor = true;
-            this.chk_footprints.CheckedChanged += new System.EventHandler(this.domainUpDown1_ValueChanged);
+            resources.ApplyResources(this.CHK_footprints, "CHK_footprints");
+            this.CHK_footprints.Name = "CHK_footprints";
+            this.CHK_footprints.UseVisualStyleBackColor = true;
+            this.CHK_footprints.CheckedChanged += new System.EventHandler(this.domainUpDown1_ValueChanged);
             // 
-            // chk_internals
+            // CHK_internals
             // 
-            resources.ApplyResources(this.chk_internals, "chk_internals");
-            this.chk_internals.Name = "chk_internals";
-            this.chk_internals.UseVisualStyleBackColor = true;
-            this.chk_internals.CheckedChanged += new System.EventHandler(this.domainUpDown1_ValueChanged);
+            resources.ApplyResources(this.CHK_internals, "CHK_internals");
+            this.CHK_internals.Name = "CHK_internals";
+            this.CHK_internals.UseVisualStyleBackColor = true;
+            this.CHK_internals.CheckedChanged += new System.EventHandler(this.domainUpDown1_ValueChanged);
             // 
-            // chk_grid
+            // CHK_grid
             // 
-            resources.ApplyResources(this.chk_grid, "chk_grid");
-            this.chk_grid.Checked = true;
-            this.chk_grid.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chk_grid.Name = "chk_grid";
-            this.chk_grid.UseVisualStyleBackColor = true;
-            this.chk_grid.CheckedChanged += new System.EventHandler(this.domainUpDown1_ValueChanged);
+            resources.ApplyResources(this.CHK_grid, "CHK_grid");
+            this.CHK_grid.Checked = true;
+            this.CHK_grid.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_grid.Name = "CHK_grid";
+            this.CHK_grid.UseVisualStyleBackColor = true;
+            this.CHK_grid.CheckedChanged += new System.EventHandler(this.domainUpDown1_ValueChanged);
             // 
-            // chk_markers
+            // CHK_markers
             // 
-            resources.ApplyResources(this.chk_markers, "chk_markers");
-            this.chk_markers.Checked = true;
-            this.chk_markers.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chk_markers.Name = "chk_markers";
-            this.chk_markers.UseVisualStyleBackColor = true;
-            this.chk_markers.CheckedChanged += new System.EventHandler(this.domainUpDown1_ValueChanged);
+            resources.ApplyResources(this.CHK_markers, "CHK_markers");
+            this.CHK_markers.Checked = true;
+            this.CHK_markers.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_markers.Name = "CHK_markers";
+            this.CHK_markers.UseVisualStyleBackColor = true;
+            this.CHK_markers.CheckedChanged += new System.EventHandler(this.domainUpDown1_ValueChanged);
             // 
-            // chk_boundary
+            // CHK_boundary
             // 
-            resources.ApplyResources(this.chk_boundary, "chk_boundary");
-            this.chk_boundary.Checked = true;
-            this.chk_boundary.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chk_boundary.Name = "chk_boundary";
-            this.chk_boundary.UseVisualStyleBackColor = true;
-            this.chk_boundary.CheckedChanged += new System.EventHandler(this.domainUpDown1_ValueChanged);
+            resources.ApplyResources(this.CHK_boundary, "CHK_boundary");
+            this.CHK_boundary.Checked = true;
+            this.CHK_boundary.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CHK_boundary.Name = "CHK_boundary";
+            this.CHK_boundary.UseVisualStyleBackColor = true;
+            this.CHK_boundary.CheckedChanged += new System.EventHandler(this.domainUpDown1_ValueChanged);
             // 
             // BUT_Accept
             // 
@@ -976,24 +976,24 @@
             this.map.MouseDown += new System.Windows.Forms.MouseEventHandler(this.map_MouseDown);
             this.map.MouseMove += new System.Windows.Forms.MouseEventHandler(this.map_MouseMove);
             // 
-            // trackBar1
+            // TRK_zoom
             // 
-            resources.ApplyResources(this.trackBar1, "trackBar1");
-            this.trackBar1.LargeChange = 0.005F;
-            this.trackBar1.Maximum = 19F;
-            this.trackBar1.Minimum = 2F;
-            this.trackBar1.Name = "trackBar1";
-            this.trackBar1.SmallChange = 0.001F;
-            this.trackBar1.TickFrequency = 1F;
-            this.trackBar1.TickStyle = System.Windows.Forms.TickStyle.TopLeft;
-            this.trackBar1.Value = 2F;
-            this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
+            resources.ApplyResources(this.TRK_zoom, "TRK_zoom");
+            this.TRK_zoom.LargeChange = 0.005F;
+            this.TRK_zoom.Maximum = 19F;
+            this.TRK_zoom.Minimum = 2F;
+            this.TRK_zoom.Name = "TRK_zoom";
+            this.TRK_zoom.SmallChange = 0.001F;
+            this.TRK_zoom.TickFrequency = 1F;
+            this.TRK_zoom.TickStyle = System.Windows.Forms.TickStyle.TopLeft;
+            this.TRK_zoom.Value = 2F;
+            this.TRK_zoom.Scroll += new System.EventHandler(this.trackBar1_Scroll);
             // 
             // GridUI
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             resources.ApplyResources(this, "$this");
-            this.Controls.Add(this.trackBar1);
+            this.Controls.Add(this.TRK_zoom);
             this.Controls.Add(this.map);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.tabControl1);
@@ -1005,12 +1005,12 @@
             this.tabCamera.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.num_repttime)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_repttime)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.num_reptpwm)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.num_reptservo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_reptservo)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.num_focallength)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_focallength)).EndInit();
             this.tabGrid.ResumeLayout(false);
             this.groupBox_copter.ResumeLayout(false);
             this.groupBox_copter.PerformLayout();
@@ -1027,13 +1027,13 @@
             this.tabSimple.ResumeLayout(false);
             this.groupBox6.ResumeLayout(false);
             this.groupBox6.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownFlySpeed)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_UpDownFlySpeed)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_angle)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_altitude)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             this.tabControl1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.TRK_zoom)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1059,18 +1059,18 @@
         private System.Windows.Forms.Label lbl_pictures;
         private System.Windows.Forms.Label label33;
         private System.Windows.Forms.Label label34;
-        private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.Label lbl_flighttime;
         private System.Windows.Forms.Label label31;
-        private System.Windows.Forms.Label label32;
+        private System.Windows.Forms.Label lbl_photoevery;
         private System.Windows.Forms.Label label35;
         private System.Windows.Forms.TabPage tabCamera;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Label label16;
-        private System.Windows.Forms.NumericUpDown num_repttime;
+        private System.Windows.Forms.NumericUpDown NUM_repttime;
         private System.Windows.Forms.NumericUpDown num_reptpwm;
-        private System.Windows.Forms.NumericUpDown num_reptservo;
+        private System.Windows.Forms.NumericUpDown NUM_reptservo;
         private System.Windows.Forms.RadioButton rad_digicam;
         private System.Windows.Forms.RadioButton rad_repeatservo;
         private System.Windows.Forms.RadioButton rad_trigdist;
@@ -1087,7 +1087,7 @@
         private System.Windows.Forms.TextBox TXT_senswidth;
         private System.Windows.Forms.TextBox TXT_imgheight;
         private System.Windows.Forms.TextBox TXT_imgwidth;
-        private System.Windows.Forms.NumericUpDown num_focallength;
+        private System.Windows.Forms.NumericUpDown NUM_focallength;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label14;
@@ -1121,7 +1121,7 @@
         private System.Windows.Forms.CheckBox CHK_toandland_RTL;
         private System.Windows.Forms.CheckBox CHK_toandland;
         private System.Windows.Forms.Label label24;
-        private System.Windows.Forms.NumericUpDown numericUpDownFlySpeed;
+        private System.Windows.Forms.NumericUpDown NUM_UpDownFlySpeed;
         private System.Windows.Forms.Label label26;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.NumericUpDown NUM_angle;
@@ -1131,13 +1131,13 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.CheckBox CHK_advanced;
-        private System.Windows.Forms.CheckBox chk_footprints;
-        private System.Windows.Forms.CheckBox chk_internals;
-        private System.Windows.Forms.CheckBox chk_grid;
-        private System.Windows.Forms.CheckBox chk_markers;
-        private System.Windows.Forms.CheckBox chk_boundary;
+        private System.Windows.Forms.CheckBox CHK_footprints;
+        private System.Windows.Forms.CheckBox CHK_internals;
+        private System.Windows.Forms.CheckBox CHK_grid;
+        private System.Windows.Forms.CheckBox CHK_markers;
+        private System.Windows.Forms.CheckBox CHK_boundary;
         private Controls.MyButton BUT_Accept;
         private System.Windows.Forms.TabControl tabControl1;
-        private Controls.MyTrackBar trackBar1;
+        private Controls.MyTrackBar TRK_zoom;
     }
 }
