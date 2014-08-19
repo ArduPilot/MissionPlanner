@@ -222,7 +222,7 @@ namespace MissionPlanner.GCSViews
                         if (CHK_geheight.Checked) // use srtm data
                         {
                             // is absolute but no verify
-                            if ((altmode)CMB_altmode.SelectedItem == altmode.Absolute)
+                            if ((altmode)CMB_altmode.SelectedValue == altmode.Absolute)
                             {
                                 //abs
                                 cell.Value = (srtm.getAltitude(lat, lng) + int.Parse(TXT_DefaultAlt.Text)).ToString();
