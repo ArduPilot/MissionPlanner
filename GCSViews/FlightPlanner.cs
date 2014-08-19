@@ -1453,7 +1453,7 @@ namespace MissionPlanner.GCSViews
 
                         sw.Write((a + 1)); // seq
                         sw.Write("\t" + 0); // current
-                        sw.Write("\t" + ((altmode)CMB_altmode.SelectedValue == altmode.Absolute ? (byte)MAVLink.MAV_FRAME.GLOBAL : (byte)MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT)); //frame 
+                        sw.Write("\t" + CMB_altmode.SelectedValue.ToString()); //frame 
                         sw.Write("\t" + mode);
                         sw.Write("\t" + double.Parse(Commands.Rows[a].Cells[Param1.Index].Value.ToString()).ToString("0.000000", new System.Globalization.CultureInfo("en-US")));
                         sw.Write("\t" + double.Parse(Commands.Rows[a].Cells[Param2.Index].Value.ToString()).ToString("0.000000", new System.Globalization.CultureInfo("en-US")));
