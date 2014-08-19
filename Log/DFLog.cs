@@ -275,7 +275,7 @@ namespace MissionPlanner.Log
                             Array.Resize(ref items, items.Length + 1);
                             try
                             {
-                                int fixme;
+                                int fixme_addmagfield;
                             }
                             catch { }
                         }

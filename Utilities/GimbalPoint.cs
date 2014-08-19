@@ -99,7 +99,11 @@ namespace MissionPlanner.Utilities
         {
             //MainV2.comPort.GetMountStatus();
 
-            int fixme;
+            yawchannel =  (int)(float)MainV2.comPort.MAV.param["MNT_RC_IN_PAN"];
+
+            pitchchannel = (int)(float)MainV2.comPort.MAV.param["MNT_RC_IN_TILT"];
+
+            rollchannel = (int)(float)MainV2.comPort.MAV.param["MNT_RC_IN_ROLL"];
 
             if (!MainV2.comPort.BaseStream.IsOpen)
                 return PointLatLngAlt.Zero;

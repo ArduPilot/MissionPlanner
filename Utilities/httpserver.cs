@@ -87,6 +87,7 @@ namespace MissionPlanner.Utilities
                 }
                 catch (ThreadAbortException ex) 
                 {
+                    log.Info(ex);
                     return;
                 }
                 catch (Exception ex)

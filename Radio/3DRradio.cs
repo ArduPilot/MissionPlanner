@@ -224,7 +224,7 @@ S15: MAX_WINDOW=131
                 comPort.Close();
                 if (MainV2.comPort.BaseStream.IsOpen)
                 {
-                    int fixme;
+                    int fixme_guessbaud;
                     // default baud... guess
                     comPort.BaudRate = 57600;
                 } else {

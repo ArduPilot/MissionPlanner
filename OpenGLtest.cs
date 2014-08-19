@@ -10,10 +10,7 @@ using GMap.NET;
 using GMap.NET.WindowsForms;
 using MissionPlanner.Utilities;
 using GMap.NET.MapProviders;
-using GMap.NET;
 using GMap.NET.Projections;
-using GMap.NET.WindowsForms;
-using GMap.NET.MapProviders;
 
 namespace MissionPlanner.Controls
 {
@@ -33,7 +30,6 @@ namespace MissionPlanner.Controls
 
         // image zoom level
         int zoom = 14;
-        int verticalscale = 1;
 
         RectLatLng area = new RectLatLng(-35.04286,117.84262,0.1,0.1);
 
