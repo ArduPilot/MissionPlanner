@@ -325,12 +325,21 @@ namespace MissionPlanner.Utilities
 
         public static List<software> LoadSoftwares()
         {
-            System.Xml.Serialization.XmlSerializer reader = new System.Xml.Serialization.XmlSerializer(typeof(List<software>), new Type[] { typeof(software) });
-
-            using (StreamReader sr = new StreamReader(Application.StartupPath + Path.DirectorySeparatorChar + "fwversions.xml"))
+            try
             {
-                return (List<software>)reader.Deserialize(sr);
+                System.Xml.Serialization.XmlSerializer reader = new System.Xml.Serialization.XmlSerializer(typeof(List<software>), new Type[] { typeof(software) });
+
+                using (StreamReader sr = new StreamReader(Application.StartupPath + Path.DirectorySeparatorChar + "fwversions.xml"))
+                {
+                    return (List<software>)reader.Deserialize(sr);
+                }
             }
+            catch (Exception ex) 
+            { 
+                log.Error(ex);
+            }
+
+            return new List<software>();
         }
 
         void updateProgress(int percent, string status)
