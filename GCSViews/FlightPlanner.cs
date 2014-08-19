@@ -6009,5 +6009,67 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
         {
             currentaltmode = (altmode)CMB_altmode.SelectedValue;
         }
+
+        private void fromSHPToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog fd = new OpenFileDialog();
+            fd.Filter = "Shape file|*.shp";
+            DialogResult result = fd.ShowDialog();
+            string file = fd.FileName;
+            ProjectionInfo pStart = new ProjectionInfo();
+            ProjectionInfo pESRIEnd = KnownCoordinateSystems.Geographic.World.WGS1984;
+            bool reproject = false;
+            // Poly Clear
+            drawnpolygonsoverlay.Markers.Clear();
+            drawnpolygonsoverlay.Polygons.Clear();
+            drawnpolygon.Points.Clear();
+            if (File.Exists(file))
+            {
+                string prjfile = Path.GetDirectoryName(file) + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(file) + ".prj";
+                if (File.Exists(prjfile))
+                {
+                    using (StreamReader re = File.OpenText(Path.GetDirectoryName(file) + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(file) + ".prj"))
+                    {
+                        pStart.ParseEsriString(re.ReadLine());
+                        reproject = true;
+                    }
+                }
+                DotSpatial.Data.IFeatureSet fs = DotSpatial.Data.FeatureSet.Open(file);
+                fs.FillAttributes();
+                int rows = fs.NumRows();
+                DataTable dtOriginal = fs.DataTable;
+                for (int row = 0; row < dtOriginal.Rows.Count; row++)
+                {
+                    object[] original = dtOriginal.Rows[row].ItemArray;
+                }
+                string path = Path.GetDirectoryName(file);
+                foreach (var feature in fs.Features)
+                {
+                    foreach (var point in feature.Coordinates)
+                    {
+                        if (reproject)
+                        {
+                            double[] xyarray = { point.X, point.Y };
+                            double[] zarray = { point.Z };
+                            Reproject.ReprojectPoints(xyarray, zarray, pStart, pESRIEnd, 0, 1);
+                            point.X = xyarray[0];
+                            point.Y = xyarray[1];
+                            point.Z = zarray[0];
+                        }
+                        drawnpolygon.Points.Add(new PointLatLng(point.Y, point.X));
+                        addpolygonmarkergrid(drawnpolygon.Points.Count.ToString(), point.X, point.Y, 0);
+                    }
+                    // remove loop close
+                    if (drawnpolygon.Points.Count > 1 && drawnpolygon.Points[0] == drawnpolygon.Points[drawnpolygon.Points.Count - 1])
+                    {
+                        drawnpolygon.Points.RemoveAt(drawnpolygon.Points.Count - 1);
+                    }
+                    drawnpolygonsoverlay.Polygons.Add(drawnpolygon);
+                    MainMap.UpdatePolygonLocalPosition(drawnpolygon);
+                    MainMap.Invalidate();
+                    MainMap.ZoomAndCenterMarkers(drawnpolygonsoverlay.Id);
+                }
+            }
+        }
     }
 }
