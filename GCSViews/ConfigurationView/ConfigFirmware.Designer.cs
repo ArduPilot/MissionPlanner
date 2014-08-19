@@ -79,6 +79,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.lbl_devfw = new System.Windows.Forms.Label();
             this.lbl_dlfw = new System.Windows.Forms.Label();
             this.lbl_px4bl = new System.Windows.Forms.Label();
+            this.pictureAntennaTracker = new MissionPlanner.Controls.ImageLabel();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxHilimage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAPHil)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxACHil)).BeginInit();
@@ -276,10 +277,21 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.lbl_px4bl.Name = "lbl_px4bl";
             this.lbl_px4bl.Click += new System.EventHandler(this.lbl_px4bl_Click);
             // 
+            // pictureAntennaTracker
+            // 
+            this.pictureAntennaTracker.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pictureAntennaTracker.Image = global::MissionPlanner.Properties.Resources.airspeed;
+            resources.ApplyResources(this.pictureAntennaTracker, "pictureAntennaTracker");
+            this.pictureAntennaTracker.Name = "pictureAntennaTracker";
+            this.pictureAntennaTracker.TabStop = false;
+            this.pictureAntennaTracker.Tag = "";
+            this.pictureAntennaTracker.Click += new System.EventHandler(this.pictureBoxFW_Click);
+            // 
             // ConfigFirmware
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.pictureAntennaTracker);
             this.Controls.Add(this.lbl_px4bl);
             this.Controls.Add(this.lbl_dlfw);
             this.Controls.Add(this.lbl_devfw);
@@ -320,6 +332,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private Label lbl_devfw;
         private Label lbl_dlfw;
         private Label lbl_px4bl;
+        private Controls.ImageLabel pictureAntennaTracker;
 
     }
 }

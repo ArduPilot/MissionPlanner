@@ -217,6 +217,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 pictureBoxOcta.Text = temp.name += " Octa";
                 pictureBoxOcta.Tag = temp;
             }
+            else if (temp.url2560_2.ToLower().Contains("antennatracker"))
+            {
+                pictureAntennaTracker.Text = temp.name;
+                pictureAntennaTracker.Tag = temp;
+            }
             else
             {
                 log.Info("No Home " + temp.name + " " + temp.url2560);
