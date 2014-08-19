@@ -38,7 +38,7 @@ namespace MissionPlanner.Utilities
 
             StreamWriter file = new StreamWriter(File.Open("fonts.txt",FileMode.Create));
 
-            var flags = TextFormatFlags.Default;// TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter;// |  TextFormatFlags.GlyphOverhangPadding;
+            //var flags = TextFormatFlags.Default;// TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter;// |  TextFormatFlags.GlyphOverhangPadding;
 
             for (; letter <= 'Z'; letter++)
             {

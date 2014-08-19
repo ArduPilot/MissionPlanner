@@ -24,7 +24,7 @@ namespace MissionPlanner.Utilities
             /// <summary>
             /// Abstract object
             /// </summary>
-            protected SymmetricAlgorithm algorithm;
+            SymmetricAlgorithm algorithm;
 
             /// <summary>
             /// Default constructor
@@ -33,7 +33,6 @@ namespace MissionPlanner.Utilities
             {
                 try
                 {
-                    int usethis; // makes it per machine
                     var macAddr = (     
                         from nic in NetworkInterface.GetAllNetworkInterfaces()
                                                            // where nic.OperationalStatus == OperationalStatus.Up
@@ -82,7 +81,7 @@ namespace MissionPlanner.Utilities
             /// <summary>
             /// Process the data with CryptoStream
             /// </summary>
-            protected byte[] Process(byte[] data, int startIndex, int count, ICryptoTransform cryptor)
+            byte[] Process(byte[] data, int startIndex, int count, ICryptoTransform cryptor)
             {
                 //
                 // the memory stream granularity must match the block size

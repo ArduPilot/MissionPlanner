@@ -1,4 +1,5 @@
 ﻿using fastJSON;
+using log4net;
 using MissionPlanner.Controls;
 using System;
 using System.Collections.Generic;
@@ -6,6 +7,7 @@ using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Text;
 using System.Web;
 using System.Windows.Forms;
@@ -14,6 +16,8 @@ namespace MissionPlanner.Utilities.DroneApi
 {
     public class droneshare
     {
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         private static string ToQueryString(NameValueCollection nvc)
         {
             var array = (from key in nvc.AllKeys
@@ -86,7 +90,7 @@ namespace MissionPlanner.Utilities.DroneApi
                 {
                     System.Diagnostics.Process.Start(viewurl);
                 }
-                catch (Exception ex) { CustomMessageBox.Show("Failed to open url "+ viewurl); }
+                catch (Exception ex) { log.Error(ex); CustomMessageBox.Show("Failed to open url " + viewurl); }
             }
         }
 
@@ -178,8 +182,6 @@ namespace MissionPlanner.Utilities.DroneApi
 
         public static string UploadFilesToRemoteUrl(string url, string file, NameValueCollection nvc)
         {
-
-            long length = 0;
             string boundary = "----------------------------" + DateTime.Now.Ticks.ToString("x");
 
 

@@ -25,10 +25,6 @@ namespace MissionPlanner
 
         static double[] ans;
         static double[] ans2;
-        
-        static float com2ofsx;
-        static float com2ofsy; 
-        static float com2ofsz;
        
         /// <summary>
         /// Self contained process tlog and save/display offsets
@@ -132,9 +128,9 @@ namespace MissionPlanner
                 }
 
                 // values - offsets are 0
-                float rawmx = packet.xmag - com2ofsx;
-                float rawmy = packet.ymag - com2ofsy;
-                float rawmz = packet.zmag - com2ofsz;
+                float rawmx = packet.xmag;
+                float rawmy = packet.ymag;
+                float rawmz = packet.zmag;
 
                 // add data
                 lock (datacompass2)

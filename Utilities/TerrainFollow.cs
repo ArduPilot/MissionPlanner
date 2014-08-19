@@ -11,8 +11,6 @@ namespace MissionPlanner.Utilities
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        ulong sentbits = 0;
-
         bool issending = false;
 
         MAVLink.mavlink_terrain_request_t lastrequest;
