@@ -62,9 +62,9 @@ namespace MissionPlanner.GCSViews
 
         public enum altmode
         {
-            Relative = 0,
-            Absolute = 1,
-            Terrain = 2,
+            Relative = MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT,
+            Absolute = MAVLink.MAV_FRAME.GLOBAL,
+            Terrain = MAVLink.MAV_FRAME.GLOBAL_TERRAIN_ALT,
         }
 
 
