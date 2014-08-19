@@ -100,6 +100,7 @@
             this.lbl_status = new System.Windows.Forms.Label();
             this.panelWaypoints = new BSE.Windows.Forms.Panel();
             this.splitter1 = new BSE.Windows.Forms.Splitter();
+            this.CHK_terrain = new System.Windows.Forms.CheckBox();
             this.CHK_splinedefault = new System.Windows.Forms.CheckBox();
             this.label17 = new System.Windows.Forms.Label();
             this.TXT_altwarn = new System.Windows.Forms.TextBox();
@@ -190,7 +191,7 @@
             this.panelBASE = new System.Windows.Forms.Panel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.CHK_terrain = new System.Windows.Forms.CheckBox();
+            this.fromSHPToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.Commands)).BeginInit();
             this.panel5.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -570,6 +571,13 @@
             this.splitter1.Name = "splitter1";
             this.splitter1.TabStop = false;
             // 
+            // CHK_terrain
+            // 
+            resources.ApplyResources(this.CHK_terrain, "CHK_terrain");
+            this.CHK_terrain.Name = "CHK_terrain";
+            this.CHK_terrain.UseVisualStyleBackColor = true;
+            this.CHK_terrain.CheckedChanged += new System.EventHandler(this.CHK_terrain_CheckedChanged);
+            // 
             // CHK_splinedefault
             // 
             resources.ApplyResources(this.CHK_splinedefault, "CHK_splinedefault");
@@ -783,8 +791,8 @@
             this.switchDockingToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             resources.ApplyResources(this.contextMenuStrip1, "contextMenuStrip1");
-            this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             this.contextMenuStrip1.Closed += new System.Windows.Forms.ToolStripDropDownClosedEventHandler(this.contextMenuStrip1_Closed);
+            this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // deleteWPToolStripMenuItem
             // 
@@ -892,7 +900,8 @@
             this.addPolygonPointToolStripMenuItem,
             this.clearPolygonToolStripMenuItem,
             this.savePolygonToolStripMenuItem,
-            this.loadPolygonToolStripMenuItem});
+            this.loadPolygonToolStripMenuItem,
+            this.fromSHPToolStripMenuItem});
             this.polygonToolStripMenuItem.Name = "polygonToolStripMenuItem";
             resources.ApplyResources(this.polygonToolStripMenuItem, "polygonToolStripMenuItem");
             // 
@@ -1241,12 +1250,11 @@
             this.timer1.Interval = 1200;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // CHK_terrain
+            // fromSHPToolStripMenuItem
             // 
-            resources.ApplyResources(this.CHK_terrain, "CHK_terrain");
-            this.CHK_terrain.Name = "CHK_terrain";
-            this.CHK_terrain.UseVisualStyleBackColor = true;
-            this.CHK_terrain.CheckedChanged += new System.EventHandler(this.CHK_terrain_CheckedChanged);
+            this.fromSHPToolStripMenuItem.Name = "fromSHPToolStripMenuItem";
+            resources.ApplyResources(this.fromSHPToolStripMenuItem, "fromSHPToolStripMenuItem");
+            this.fromSHPToolStripMenuItem.Click += new System.EventHandler(this.fromSHPToolStripMenuItem_Click);
             // 
             // FlightPlanner
             // 
@@ -1414,5 +1422,6 @@
         private System.Windows.Forms.CheckBox CHK_splinedefault;
         private System.Windows.Forms.ToolStripMenuItem createSplineCircleToolStripMenuItem;
         private System.Windows.Forms.CheckBox CHK_terrain;
+        private System.Windows.Forms.ToolStripMenuItem fromSHPToolStripMenuItem;
     }
 }
