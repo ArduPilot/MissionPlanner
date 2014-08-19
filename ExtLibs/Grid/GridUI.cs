@@ -39,7 +39,7 @@ namespace MissionPlanner
 
         Dictionary<string, camerainfo> cameras = new Dictionary<string, camerainfo>();
 
-        public string DistUnits = MainV2.config["distunits"].ToString();         // Distance Imperial Units
+        public string DistUnits = "";
         public string inchpixel = "";
         public string feet_fovH = "";
         public string feet_fovV = "";
@@ -115,6 +115,8 @@ namespace MissionPlanner
             map.OnRouteLeave += new RouteLeave(map_OnRouteLeave);
 
             plugin.Host.FPDrawnPolygon.Points.ForEach(x => { list.Add(x); });
+            if (plugin.Host.config["distunits"] != null)
+                DistUnits = plugin.Host.config["distunits"].ToString();
 
             CMB_startfrom.DataSource = Enum.GetNames(typeof(Grid.StartPosition));
             CMB_startfrom.SelectedIndex = 0;
@@ -835,7 +837,7 @@ namespace MissionPlanner
             }
             else
             {
-                dist = ((float)item.Distance / 1000).ToString("0.##") + " m";
+                dist = ((float)item.Distance * 1000f).ToString("0.##") + " m";
             }
             if (marker != null)
             {
