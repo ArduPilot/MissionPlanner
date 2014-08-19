@@ -523,7 +523,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 double min = 0;
                 double max = 0;
 
-                float newvalue = float.Parse(e.NewValue.ToString());
+                float newvalue = 0;
+
+                try
+                {
+                    newvalue = float.Parse(e.NewValue.ToString());
+                }
+                catch { CustomMessageBox.Show("Bad number"); e.Cancel = true; return; }
 
                 if (ParameterMetaDataRepository.GetParameterRange(((data)e.RowObject).paramname, ref min, ref max))
                 {
