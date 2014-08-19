@@ -487,12 +487,17 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             if (CustomMessageBox.Show("Reset all parameters to default\nAre you sure!!", "Reset", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-                MainV2.comPort.setParam(new string[] {"FORMAT_VERSION","SYSID_SW_MREV"}, 0);
-                System.Threading.Thread.Sleep(1000);
-                MainV2.comPort.doReboot(false);
-                MainV2.comPort.BaseStream.Close();
+                try
+                {
+                    MainV2.comPort.setParam(new string[] { "FORMAT_VERSION", "SYSID_SW_MREV" }, 0);
+                    System.Threading.Thread.Sleep(1000);
+                    MainV2.comPort.doReboot(false);
+                    MainV2.comPort.BaseStream.Close();
+                
 
                 CustomMessageBox.Show("Your board is now rebooting, You will be required to reconnect to the autopilot.");
+                }
+                catch (Exception ex) { log.Error(ex); CustomMessageBox.Show("Error talking to board."+ex.ToString(), "Error"); }
             }
         }
     }
