@@ -47,12 +47,21 @@ namespace MissionPlanner.Utilities
                {
                    string element = "none";
 
-                   if (parameterLocation.ToLower().Contains("arducopter")) {
+                   if (parameterLocation.ToLower().Contains("arducopter")) 
+                   {
                        element = MainV2.Firmwares.ArduCopter2.ToString();
-                   } else if (parameterLocation.ToLower().Contains("arduplane")) {
+                   } 
+                   else if (parameterLocation.ToLower().Contains("arduplane")) 
+                   {
                        element = MainV2.Firmwares.ArduPlane.ToString();
-                   } else if (parameterLocation.ToLower().Contains("rover")) {
+                   } 
+                   else if (parameterLocation.ToLower().Contains("rover"))
+                   {
                        element = MainV2.Firmwares.ArduRover.ToString();
+                   }
+                   else if (parameterLocation.ToLower().Contains("tracker"))
+                   {
+                       element = MainV2.Firmwares.ArduTracker.ToString();
                    }
 
                   // Write the start element for this parameter location
