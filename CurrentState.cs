@@ -807,52 +807,52 @@ namespace MissionPlanner
                         Mavlink_Sensors sensors_health = new Mavlink_Sensors(sysstatus.onboard_control_sensors_health);
                         Mavlink_Sensors sensors_present = new Mavlink_Sensors(sysstatus.onboard_control_sensors_present);
 
-                        if (sensors_health.gps != sensors_enabled.gps)
+                        if (sensors_health.gps != sensors_enabled.gps && sensors_present.gps)
                         {
                             messageHigh = "Bad GPS Health";
                             messageHighTime = DateTime.Now;
                         }
-                        else if (sensors_health.gyro != sensors_enabled.gyro)
+                        else if (sensors_health.gyro != sensors_enabled.gyro && sensors_present.gyro)
                         {
                             messageHigh = "Bad Gyro Health";
                             messageHighTime = DateTime.Now;
                         }
-                        else if (sensors_health.accelerometer != sensors_enabled.accelerometer)
+                        else if (sensors_health.accelerometer != sensors_enabled.accelerometer && sensors_present.accelerometer)
                         {
                             messageHigh = "Bad Accel Health";
                             messageHighTime = DateTime.Now;
                         }
-                        else if (sensors_health.compass != sensors_enabled.compass)
+                        else if (sensors_health.compass != sensors_enabled.compass && sensors_present.compass)
                         {
                             messageHigh = "Bad Compass Health";
                             messageHighTime = DateTime.Now;
                         }
-                        else if (sensors_health.barometer != sensors_enabled.barometer)
+                        else if (sensors_health.barometer != sensors_enabled.barometer && sensors_present.barometer)
                         {
                             messageHigh = "Bad Baro Health";
                             messageHighTime = DateTime.Now;
                         }
-                        else if (sensors_health.optical_flow != sensors_enabled.optical_flow)
+                        else if (sensors_health.optical_flow != sensors_enabled.optical_flow && sensors_present.optical_flow)
                         {
                             messageHigh = "Bad OptFlow Health";
                             messageHighTime = DateTime.Now;
                         }
-                        else if (sensors_health.terrain != sensors_enabled.terrain)
+                        else if (sensors_health.terrain != sensors_enabled.terrain && sensors_present.terrain)
                         {
                             messageHigh = "Bad/No Terrain Data";
                             messageHighTime = DateTime.Now;
                         }
-                        else if (sensors_health.geofence == sensors_enabled.geofence)
+                        else if (sensors_health.geofence == sensors_enabled.geofence && sensors_present.geofence)
                         {
                             messageHigh = "Geofence Breach";
                             messageHighTime = DateTime.Now;
                         }
-                        else if (sensors_health.ahrs != sensors_enabled.ahrs)
+                        else if (sensors_health.ahrs != sensors_enabled.ahrs && sensors_present.ahrs)
                         {
                             messageHigh = "Bad AHRS";
                             messageHighTime = DateTime.Now;
                         }
-                        else if (sensors_present.rc_receiver != sensors_enabled.rc_receiver)
+                        else if (sensors_present.rc_receiver != sensors_enabled.rc_receiver && sensors_present.rc_receiver)
                         {
                             int reenable;
                             //messageHigh = "NO RC Receiver";
