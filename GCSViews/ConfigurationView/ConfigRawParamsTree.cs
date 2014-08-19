@@ -137,9 +137,23 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 Hashtable data = new Hashtable();
                 foreach (data row in Params.Objects)
                 {
-                    float value = float.Parse(row.Value.ToString());
 
-                    data[row.paramname.ToString()] = value;
+                    foreach (var item in row.children) 
+                    {
+                        if (item.Value != null)
+                        {
+                            float value = float.Parse(item.Value.ToString());
+
+                            data[item.paramname.ToString()] = value;
+                        }
+                    }
+
+                    if (row.Value != null)
+                    {
+                        float value = float.Parse(row.Value.ToString());
+
+                        data[row.paramname.ToString()] = value;
+                    }
                 }
 
                 Utilities.ParamFile.SaveParamFile(sfd.FileName,data);
