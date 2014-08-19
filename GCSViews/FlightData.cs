@@ -1109,13 +1109,16 @@ namespace MissionPlanner.GCSViews
                             // for testing
                             try
                             {
-                                int testing;
-                                int fixme;
-                                var marker = MissionPlanner.Utilities.GimbalPoint.ProjectPoint();
+                                if ((float)MainV2.comPort.MAV.param["MNT_STAB_PAN"] == 1 &&
+                                    (float)MainV2.comPort.MAV.param["MNT_STAB_TILT"] == 1 &&
+                                    (float)MainV2.comPort.MAV.param["MNT_STAB_ROLL"] == 0)
+                                {
+                                    var marker = MissionPlanner.Utilities.GimbalPoint.ProjectPoint();
 
-                                MainV2.comPort.MAV.cs.GimbalPoint = marker;
+                                    MainV2.comPort.MAV.cs.GimbalPoint = marker;
 
-                                routes.Markers.Add(new GMarkerGoogle(marker, GMarkerGoogleType.blue_dot) { ToolTipText = "Camera Target\n"+marker.ToString(), ToolTipMode = MarkerTooltipMode.OnMouseOver });
+                                    routes.Markers.Add(new GMarkerGoogle(marker, GMarkerGoogleType.blue_dot) { ToolTipText = "Camera Target\n" + marker.ToString(), ToolTipMode = MarkerTooltipMode.OnMouseOver });
+                                }
                             }
                             catch { }
 
