@@ -112,24 +112,42 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="BUTradiosetup.Text" xml:space="preserve">
+    <value>數傳設定</value>
+  </data>
   <data name="BUTsetupshow.Text" xml:space="preserve">
     <value>顯示設定</value>
-  </data>
-  <data name="BUTradiosetup.Text" xml:space="preserve">
-    <value>設定遙控</value>
   </data>
   <data name="BUTtests.Text" xml:space="preserve">
     <value>測試</value>
   </data>
-  <data name="Logs.Text" xml:space="preserve">
-    <value>下載記錄</value>
+  <data name="BUT_ConnectAPM.Text" xml:space="preserve">
+    <value>連線</value>
+  </data>
+  <data name="BUT_disconnect.Text" xml:space="preserve">
+    <value>中斷連線</value>
   </data>
   <data name="BUT_logbrowse.Text" xml:space="preserve">
-    <value>劉灠記錄</value>
+    <value>記錄檔瀏覽</value>
+  </data>
+  <data name="CMB_boardtype.Items" xml:space="preserve">
+    <value>APM</value>
+  </data>
+  <data name="CMB_boardtype.Items1" xml:space="preserve">
+    <value>PX4/PIXHAWK</value>
+  </data>
+  <data name="CMB_boardtype.Text" xml:space="preserve">
+    <value>APM</value>
+  </data>
+  <data name="Logs.Text" xml:space="preserve">
+    <value>記錄檔下載</value>
+  </data>
+  <data name="TXT_terminal.Text" xml:space="preserve">
+    <value>*注意* 記錄檔下載只能使用 USB 連線時的 CLI 模式</value>
   </data>
 </root>
