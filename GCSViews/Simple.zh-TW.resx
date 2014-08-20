@@ -112,80 +112,11 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="goHereToolStripMenuItem.Text" xml:space="preserve">
-    <value>飛到這里</value>
-  </data>
-  <data name="BUT_joystick.Text" xml:space="preserve">
-    <value>飛行摇桿</value>
-  </data>
-  <data name="BUT_quickmanual.Text" xml:space="preserve">
-    <value>手動</value>
-  </data>
-  <data name="BUT_quickmanual.ToolTip" xml:space="preserve">
-    <value>更改為手動/穩定模式</value>
-  </data>
-  <data name="BUT_quickrtl.Text" xml:space="preserve">
-    <value>返航</value>
-  </data>
-  <data name="BUT_quickrtl.ToolTip" xml:space="preserve">
-    <value>更改為返航模式</value>
-  </data>
-  <data name="BUT_quickauto.Text" xml:space="preserve">
-    <value>自動</value>
-  </data>
-  <data name="BUT_quickauto.ToolTip" xml:space="preserve">
-    <value>更改為自動模式</value>
-  </data>
-  <data name="BUT_setwp.Text" xml:space="preserve">
-    <value>設置航點</value>
-  </data>
-  <data name="BUT_setwp.ToolTip" xml:space="preserve">
-    <value>更改當前目標航點</value>
-  </data>
-  <data name="BUT_setmode.Text" xml:space="preserve">
-    <value>設置模式</value>
-  </data>
-  <data name="BUT_setmode.ToolTip" xml:space="preserve">
-    <value>更改為左侧的模式</value>
-  </data>
-  <data name="BUT_clear_track.Text" xml:space="preserve">
-    <value>清除路徑</value>
-  </data>
-  <data name="BUT_clear_track.ToolTip" xml:space="preserve">
-    <value>清空地圖上記錄的路徑</value>
-  </data>
-  <data name="BUT_Homealt.Text" xml:space="preserve">
-    <value>設置起始高度</value>
-  </data>
-  <data name="BUT_Homealt.ToolTip" xml:space="preserve">
-    <value>將當前高度設為0，即起始點高度顯示為0</value>
-  </data>
-  <data name="BUT_RAWSensor.Text" xml:space="preserve">
-    <value>感應器原始數據</value>
-  </data>
-  <data name="BUT_RAWSensor.ToolTip" xml:space="preserve">
-    <value>查看原始陀螺儀和加速度計數據，和原始遙控輸入/輸出</value>
-  </data>
-  <data name="BUTrestartmission.Text" xml:space="preserve">
-    <value>重啟任務</value>
-  </data>
-  <data name="BUTrestartmission.ToolTip" xml:space="preserve">
-    <value>重頭開始任務</value>
-  </data>
-  <data name="BUTactiondo.Text" xml:space="preserve">
-    <value>執　　行</value>
-  </data>
-  <data name="BUTactiondo.ToolTip" xml:space="preserve">
-    <value>執行左側的動作</value>
-  </data>
-  <data name="tabActions.Text" xml:space="preserve">
-    <value>動作</value>
-  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="Gvspeed.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -4167,18 +4098,6 @@
         an+FN5rNTSpY1divRTiUek6K2tXTNqq8zWHT/53G/1AVtv8fjhuF2iv2lz4AAAAASUVORK5CYII=
 </value>
   </data>
-  <data name="Gspeed.ToolTip" xml:space="preserve">
-    <value />
-  </data>
-  <data name="tabGauges.Text" xml:space="preserve">
-    <value>儀表</value>
-  </data>
-  <data name="BUT_playlog.Text" xml:space="preserve">
-    <value>播放/暂停</value>
-  </data>
-  <data name="BUT_loadtelem.Text" xml:space="preserve">
-    <value>加載記錄</value>
-  </data>
   <data name="gMapControl1.streamjpg" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
         AAEAAAD/////AQAAAAAAAAAEAQAAABZTeXN0ZW0uSU8uTWVtb3J5U3RyZWFtCgAAAAdfYnVmZmVyB19v
@@ -4336,9 +4255,6 @@
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
     <value>31, 13</value>
   </data>
-  <data name="label1.Text" xml:space="preserve">
-    <value>縮放</value>
-  </data>
   <data name="TXT_long.Location" type="System.Drawing.Point, System.Drawing">
     <value>90, 10</value>
   </data>
@@ -4357,9 +4273,6 @@
   <data name="CHK_autopan.Size" type="System.Drawing.Size, System.Drawing">
     <value>98, 17</value>
   </data>
-  <data name="CHK_autopan.Text" xml:space="preserve">
-    <value>自動平移地圖</value>
-  </data>
   <data name="CB_tuning.Location" type="System.Drawing.Point, System.Drawing">
     <value>250, 9</value>
   </data>
@@ -4367,33 +4280,78 @@
     <value>74, 17</value>
   </data>
   <data name="CB_tuning.Text" xml:space="preserve">
-    <value>舵機調整</value>
+    <value>Tuning</value>
   </data>
-  <data name="BUT_script.Text" xml:space="preserve">
-    <value>脚本</value>
+  <data name="CB_tuning.ToolTip" xml:space="preserve">
+    <value>顯示目標高度 VS 實際高度</value>
+  </data>
+  <data name="CHK_autopan.Text" xml:space="preserve">
+    <value>自動平移地圖</value>
+  </data>
+  <data name="CHK_autopan.ToolTip" xml:space="preserve">
+    <value>讓地圖自動移動到目前的位置</value>
+  </data>
+  <data name="connectToolStripMenuItem.Text" xml:space="preserve">
+    <value>連線</value>
+  </data>
+  <data name="dataGridViewImageColumn1.HeaderText" xml:space="preserve">
+    <value>上移</value>
+  </data>
+  <data name="dataGridViewImageColumn2.HeaderText" xml:space="preserve">
+    <value>下移</value>
+  </data>
+  <data name="flyToHereAltToolStripMenuItem.Text" xml:space="preserve">
+    <value>飛至這個高度</value>
+  </data>
+  <data name="goHereToolStripMenuItem.Text" xml:space="preserve">
+    <value>飛到這個位置</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>縮放</value>
+  </data>
+  <data name="lbl_hdop.Text" xml:space="preserve">
+    <value>hdop: 0</value>
+  </data>
+  <data name="lbl_hdop.ToolTip" xml:space="preserve">
+    <value>gps hdop</value>
+  </data>
+  <data name="lbl_sats.Text" xml:space="preserve">
+    <value>Sats: 0</value>
+  </data>
+  <data name="lbl_sats.ToolTip" xml:space="preserve">
+    <value>衛星數目</value>
   </data>
   <data name="lbl_winddir.Text" xml:space="preserve">
-    <value>風向: 0</value>
+    <value>Dir: 0</value>
   </data>
   <data name="lbl_winddir.ToolTip" xml:space="preserve">
-    <value>估計的風向</value>
+    <value>預計風向</value>
   </data>
   <data name="lbl_windvel.Text" xml:space="preserve">
-    <value>風速: 0</value>
+    <value>Vel: 0</value>
   </data>
   <data name="lbl_windvel.ToolTip" xml:space="preserve">
-    <value>估計的風速</value>
+    <value>預計風速</value>
   </data>
-  <data name="recordHudToAVIToolStripMenuItem.Text" xml:space="preserve">
-    <value>錄製為AVI</value>
+  <data name="loiterToolStripMenuItem.Text" xml:space="preserve">
+    <value>Loiter</value>
   </data>
-  <data name="stopRecordToolStripMenuItem.Text" xml:space="preserve">
-    <value>停止錄製</value>
+  <data name="rTLToolStripMenuItem.Text" xml:space="preserve">
+    <value>RTL</value>
   </data>
-  <data name="tabStatus.Text1" xml:space="preserve">
-    <value>狀態</value>
+  <data name="trackerToolStripMenuItem.Text" xml:space="preserve">
+    <value>追蹤器</value>
   </data>
-  <data name="tabTLogs.Text1" xml:space="preserve">
-    <value>遥測記錄</value>
+  <data name="TXT_alt.Text" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="TXT_lat.Text" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="TXT_long.Text" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="Zoomlevel.ToolTip" xml:space="preserve">
+    <value>改變縮放比例</value>
   </data>
 </root>
