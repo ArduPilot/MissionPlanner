@@ -589,6 +589,12 @@
             // 
             // NUM_copter_delay
             // 
+            this.NUM_copter_delay.DecimalPlaces = 1;
+            this.NUM_copter_delay.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
             resources.ApplyResources(this.NUM_copter_delay, "NUM_copter_delay");
             this.NUM_copter_delay.Maximum = new decimal(new int[] {
             9999,

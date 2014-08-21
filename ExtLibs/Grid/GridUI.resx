@@ -1639,13 +1639,13 @@
     <value>6, 23</value>
   </data>
   <data name="LBL_copter_delay.Size" type="System.Drawing.Size, System.Drawing">
-    <value>67, 13</value>
+    <value>93, 13</value>
   </data>
   <data name="LBL_copter_delay.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
   </data>
   <data name="LBL_copter_delay.Text" xml:space="preserve">
-    <value>Delay at WP</value>
+    <value>Delay at WP (sec)</value>
   </data>
   <data name="&gt;&gt;LBL_copter_delay.Name" xml:space="preserve">
     <value>LBL_copter_delay</value>

@@ -654,9 +654,9 @@ namespace MissionPlanner
                 plugin.Host.AddWPtoList(MAVLink.MAV_CMD.CONDITION_YAW, (int)NUM_copter_headinghold.Value, 0, 0, 0, 0, 0, 0);
             }
 
-            if ((int)NUM_copter_delay.Value > 0)
+            if (NUM_copter_delay.Value > 0)
             {
-                plugin.Host.AddWPtoList(MAVLink.MAV_CMD.WAYPOINT, (int)NUM_copter_delay.Value, 0, 0, 0, Lng, Lat, Alt * MainV2.comPort.MAV.cs.multiplierdist);
+                plugin.Host.AddWPtoList(MAVLink.MAV_CMD.WAYPOINT, (double)NUM_copter_delay.Value, 0, 0, 0, Lng, Lat, Alt * MainV2.comPort.MAV.cs.multiplierdist);
             }
             else
             {
