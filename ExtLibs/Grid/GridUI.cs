@@ -123,6 +123,7 @@ namespace MissionPlanner
 
             // set and angle that is good
             NUM_angle.Value = (decimal)((getAngleOfLongestSide(list) + 360) % 360);
+            TXT_headinghold.Text = (Math.Round(NUM_angle.Value)).ToString();
         }
 
         private void GridUI_Load(object sender, EventArgs e)
@@ -216,8 +217,7 @@ namespace MissionPlanner
 
             // Copter Settings
             NUM_copter_delay.Value = griddata.copter_delay;
-            CHK_copter_headinghold.Checked = griddata.copter_headinghold_chk;
-            NUM_copter_headinghold.Value = griddata.copter_headinghold;
+            //CHK_copter_headinghold.Checked = griddata.copter_headinghold_chk; //UNcomment after adding headinghold offset function
         }
 
         GridData savegriddata()
@@ -294,8 +294,7 @@ namespace MissionPlanner
 
                 // Copter Settings
                 loadsetting("grid_copter_delay", NUM_copter_delay);
-                loadsetting("grid_copter_headinghold_chk", CHK_copter_headinghold);
-                loadsetting("grid_copter_headinghold", NUM_copter_headinghold);
+                //loadsetting("grid_copter_headinghold_chk", CHK_copter_headinghold);
             }
         }
 
@@ -351,7 +350,6 @@ namespace MissionPlanner
             // Copter Settings
             plugin.Host.config["grid_copter_delay"] = NUM_copter_delay.Value.ToString();
             plugin.Host.config["grid_copter_headinghold_chk"] = CHK_copter_headinghold.Checked.ToString();
-            plugin.Host.config["grid_copter_headinghold"] = NUM_copter_headinghold.Value.ToString();
         }
 
         private void xmlcamera(bool write, string filename = "cameras.xml")
@@ -645,13 +643,15 @@ namespace MissionPlanner
             map.HoldInvalidation = false;
             if (!isMouseDown)
                 map.ZoomAndCenterMarkers("routes");
+
+            CalcHeadingHold();
         }
 
         private void AddWP(double Lng, double Lat, double Alt)
         {
             if (CHK_copter_headinghold.Checked)
             {
-                plugin.Host.AddWPtoList(MAVLink.MAV_CMD.CONDITION_YAW, (int)NUM_copter_headinghold.Value, 0, 0, 0, 0, 0, 0);
+                plugin.Host.AddWPtoList(MAVLink.MAV_CMD.CONDITION_YAW, Convert.ToInt32(TXT_headinghold.Text), 0, 0, 0, 0, 0, 0);
             }
 
             if (NUM_copter_delay.Value > 0)
@@ -825,6 +825,34 @@ namespace MissionPlanner
 
             }
             catch { return; }
+        }
+
+        private void CalcHeadingHold()
+        {
+            int previous = (int)Math.Round(Convert.ToDecimal(((UpDownBase)NUM_angle).Text)); //((UpDownBase)sender).Text
+            int current = (int)Math.Round(NUM_angle.Value);
+
+            int change = current - previous;
+            
+            if (change > 0) // Positive change
+            {
+                int val = Convert.ToInt32(TXT_headinghold.Text) + change;
+                if (val > 359) 
+                {
+                    val = val - 360;
+                }
+                TXT_headinghold.Text = val.ToString();
+            }
+
+            if (change < 0) // Negative change
+            {
+                int val = Convert.ToInt32(TXT_headinghold.Text) + change;
+                if (val < 0)
+                {
+                    val = val + 360;
+                }
+                TXT_headinghold.Text = val.ToString();
+            }
         }
 
         // Map Operators
@@ -1064,6 +1092,93 @@ namespace MissionPlanner
             {
                 tabControl1.TabPages.Remove(tabGrid);
                 tabControl1.TabPages.Remove(tabCamera);
+            }
+        }
+
+        private void CHK_copter_headinghold_CheckedChanged(object sender, EventArgs e)
+        {
+            if (CHK_copter_headinghold.Checked)
+            {
+                TXT_headinghold.Enabled = true;
+                CHK_copter_headingholdlock.Enabled = true;
+                CHK_copter_headingholdlock.Checked = false;
+                BUT_headingholdplus.Enabled = true;
+                BUT_headingholdminus.Enabled = true;
+            }
+            else
+            {
+                TXT_headinghold.Enabled = false;
+                CHK_copter_headingholdlock.Enabled = false;
+                BUT_headingholdplus.Enabled = false;
+                BUT_headingholdminus.Enabled = false;
+            }
+        }
+
+        private void CHK_copter_headingholdlock_CheckedChanged(object sender, EventArgs e)
+        {
+            if (CHK_copter_headingholdlock.Checked)
+            {
+                TXT_headinghold.ReadOnly = false;
+            }
+            else
+            {
+                TXT_headinghold.ReadOnly = true;
+                TXT_headinghold.Text = Decimal.Round(NUM_angle.Value).ToString();
+            }
+        }
+
+        private void BUT_headingholdplus_Click(object sender, EventArgs e)
+        {
+            int previous = Convert.ToInt32(TXT_headinghold.Text);
+            if(!CHK_copter_headingholdlock.Checked)
+            {                
+                if (previous + 180 > 359)
+                {
+                    TXT_headinghold.Text = (previous - 180).ToString();
+                }
+                else
+                {
+                    TXT_headinghold.Text = (previous + 180).ToString();
+                }
+            }
+            else
+            {
+                if (previous + 1 > 359)
+                {
+                    TXT_headinghold.Text = (previous - 359).ToString();
+                }
+                else
+                {
+                    TXT_headinghold.Text = (previous + 1).ToString();
+                }
+            }
+        }
+
+        private void BUT_headingholdminus_Click(object sender, EventArgs e)
+        {
+            int previous = Convert.ToInt32(TXT_headinghold.Text);
+            
+            if (!CHK_copter_headingholdlock.Checked)
+            {
+                if (previous - 180 < 0)
+                {
+                    TXT_headinghold.Text = (previous + 180).ToString();
+                }
+                else
+                {
+                    TXT_headinghold.Text = (previous - 180).ToString();
+                }
+            }
+            else
+            {
+                if (previous - 1 < 0)
+                {
+                    TXT_headinghold.Text = (previous + 359).ToString();
+                }
+                else
+                {
+                    TXT_headinghold.Text = (previous - 1).ToString();
+                }
             }
         }
 
