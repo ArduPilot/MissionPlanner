@@ -6007,7 +6007,14 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
         private void CMB_altmode_SelectedIndexChanged(object sender, EventArgs e)
         {
-            currentaltmode = (altmode)CMB_altmode.SelectedValue;
+            if (CMB_altmode.SelectedValue == null)
+            {
+                CMB_altmode.SelectedIndex = 0;
+            }
+            else
+            {
+                currentaltmode = (altmode)CMB_altmode.SelectedValue;
+            }
         }
 
         private void fromSHPToolStripMenuItem_Click(object sender, EventArgs e)
