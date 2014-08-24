@@ -1176,8 +1176,7 @@ namespace MissionPlanner
             log.Info("closing httpthread");
 
             // if we are waiting on a socket we need to force an abort
-            httpserver.run = false;
-            httpthread.Abort();
+            httpserver.Stop();
 
             log.Info("sorting tlogs");
             try
