@@ -113,6 +113,16 @@ namespace MissionPlanner.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Antenna_Tracker_01 {
+            get {
+                object obj = ResourceManager.GetObject("Antenna Tracker-01", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap APM_airframes_001 {
             get {
                 object obj = ResourceManager.GetObject("APM_airframes_001", resourceCulture);
