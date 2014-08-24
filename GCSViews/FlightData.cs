@@ -33,7 +33,7 @@ namespace MissionPlanner.GCSViews
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        public static int threadrun = 0;
+        public static bool threadrun = false;
         int tickStart = 0;
         RollingPointPairList list1 = new RollingPointPairList(1200);
         RollingPointPairList list2 = new RollingPointPairList(1200);
@@ -132,9 +132,12 @@ namespace MissionPlanner.GCSViews
         protected override void Dispose(bool disposing)
         {
             // stop the thread before disposing element
-            threadrun = 0;
-            if (thisthread != null && thisthread.IsAlive)
+            threadrun = false;
+            if (thisthread != null)
+            {
                 thisthread.Join();
+                thisthread = null;
+            }
 
             base.Dispose(disposing);
 
@@ -628,6 +631,7 @@ namespace MissionPlanner.GCSViews
             hud1.doResize();
 
             thisthread = new Thread(mainloop);
+            thisthread.Name = "FD Mainloop";
             thisthread.IsBackground = true;
             thisthread.Start();
         }
@@ -639,18 +643,7 @@ namespace MissionPlanner.GCSViews
 
         private void mainloop()
         {
-            //System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en-US");
-            //System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
-
-            try
-            {
-                System.Threading.Thread.CurrentThread.Name = "FD Mainloop";
-            }
-            catch { }
-
-            System.Threading.Thread.CurrentThread.IsBackground = true;
-
-            threadrun = 1;
+            threadrun = true;
             EndPoint Remote = (EndPoint)(new IPEndPoint(IPAddress.Any, 0));
 
             DateTime lastdata = DateTime.MinValue;
@@ -673,10 +666,8 @@ namespace MissionPlanner.GCSViews
 
             //comPort.stopall(true);
 
-            while (threadrun == 1)
+            while (threadrun)
             {
-                if (threadrun == 0) { return; }
-
                 if (MainV2.comPort.giveComport == true)
                 {
                     System.Threading.Thread.Sleep(50);
@@ -732,8 +723,6 @@ namespace MissionPlanner.GCSViews
                 // log playback
                 if (MainV2.comPort.logreadmode && MainV2.comPort.logplaybackfile != null)
                 {
-                    if (threadrun == 0) { return; }
-
                     if (MainV2.comPort.BaseStream.IsOpen)
                     {
                         MainV2.comPort.logreadmode = false;
@@ -806,10 +795,6 @@ namespace MissionPlanner.GCSViews
                     if (ts > 0 && ts < 1000)
                         System.Threading.Thread.Sleep((int)ts);
 
-
-
-                    if (threadrun == 0) { return; }
-
                     tracklast = tracklast.AddMilliseconds(ts - act);
                     tunning = tunning.AddMilliseconds(ts - act);
 
@@ -843,13 +828,10 @@ namespace MissionPlanner.GCSViews
 
                 try
                 {
-                    if (threadrun == 0) { return; }
                      //Console.WriteLine(DateTime.Now.Millisecond);
                     //int fixme;
                     updateBindingSource();
                     // Console.WriteLine(DateTime.Now.Millisecond + " done ");
-
-                    if (threadrun == 0) { return; }
 
                     // battery warning.
                     float warnvolt = 0;
@@ -910,8 +892,6 @@ namespace MissionPlanner.GCSViews
                     // update map
                     if (tracklast.AddSeconds(1.2) < DateTime.Now && gMapControl1.Visible)
                     {
-                        if (threadrun == 0) { return; }
-
                         if (MainV2.config["CHK_maprotation"] != null && MainV2.config["CHK_maprotation"].ToString() == "True")
                         {
                             // dont holdinvalidation here
@@ -936,8 +916,6 @@ namespace MissionPlanner.GCSViews
                             cnt++;
                         }
 
-                        if (threadrun == 0) { return; }
-
                         // maintain route history length
                         if (route.Points.Count > int.Parse(MainV2.config["NUM_tracklength"].ToString()))
                         {
@@ -959,8 +937,6 @@ namespace MissionPlanner.GCSViews
                                 cnt++;
                             }
 
-                            if (threadrun == 0) { return; }
-
                             //route = new GMapRoute(route.Points, "track");
                             //track.Stroke = Pens.Red;
                             //route.Stroke = new Pen(Color.FromArgb(144, Color.Red));
@@ -973,9 +949,7 @@ namespace MissionPlanner.GCSViews
 
                             // update programed wp course
                             if (waypoints.AddSeconds(5) < DateTime.Now)
-                            {
-                                if (threadrun == 0) { return; }
-
+                            {                            
                                 //Console.WriteLine("Doing FD WP's");
                                 updateClearMissionRouteMarkers();
 
@@ -1109,7 +1083,8 @@ namespace MissionPlanner.GCSViews
                             // for testing
                             try
                             {
-                                if ((float)MainV2.comPort.MAV.param["MNT_STAB_PAN"] == 1 &&
+                                if (MainV2.comPort.MAV.param.ContainsKey("MNT_STAB_PAN") &&
+                                    (float)MainV2.comPort.MAV.param["MNT_STAB_PAN"] == 1 &&
                                     (float)MainV2.comPort.MAV.param["MNT_STAB_TILT"] == 1 &&
                                     (float)MainV2.comPort.MAV.param["MNT_STAB_ROLL"] == 0)
                                 {
@@ -1534,22 +1509,6 @@ namespace MissionPlanner.GCSViews
                 // Force a redraw
 
                 zg1.Invalidate();
-            }
-            catch { }
-
-        }
-
-        private void FlightData_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            ZedGraphTimer.Stop();
-            threadrun = 0;
-            thisthread.Join();
-            try
-            {
-                if (MainV2.comPort.BaseStream.IsOpen)
-                {
-                    MainV2.comPort.Close();
-                }
             }
             catch { }
 
