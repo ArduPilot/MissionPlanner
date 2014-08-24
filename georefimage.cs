@@ -708,7 +708,22 @@ namespace MissionPlanner
                 TXT_outputlog.AppendText("Start Processing\n");
 
                 // Dont know why but it was 10 in the past so let it be. Used to generate jxl file simulating x100 from trimble
-                int lastRecordN = JXL_ID_OFFSET; 
+                int lastRecordN = JXL_ID_OFFSET;
+
+                // path
+                CoordinateCollection coords = new CoordinateCollection();
+
+                foreach (var item in vehicleLocations.Values)
+                {
+                    coords.Add(new SharpKml.Base.Vector(item.Lat, item.Lon, item.AltAMSL));
+                }
+
+                var ls = new LineString() { Coordinates = coords, AltitudeMode = AltitudeMode.Absolute };
+
+                SharpKml.Dom.Placemark pm = new SharpKml.Dom.Placemark() { Geometry = ls, Name = "path" };
+
+                kml.AddFeature(pm);
+
 
                 foreach (PictureInformation picInfo in listPhotosWithInfo.Values)
                 {
@@ -724,10 +739,12 @@ namespace MissionPlanner
                         new Placemark()
                         {
                             Time = tstamp,
+                            Visibility = true,
                             Name = filenameWithoutExt,
                             Geometry = new SharpKml.Dom.Point()
                             {
-                                Coordinate = new Vector(picInfo.Lat, picInfo.Lon, picInfo.RelAlt)
+                                Coordinate = new Vector(picInfo.Lat, picInfo.Lon, picInfo.AltAMSL),
+                                 AltitudeMode = AltitudeMode.Absolute
                             },
                             Description = new Description()
                             {
@@ -760,7 +777,7 @@ namespace MissionPlanner
 
                             swjpw.Close();
                         }*/
-
+                    
                     kml.AddFeature(
                         new GroundOverlay()
                         {
@@ -782,8 +799,6 @@ namespace MissionPlanner
                             },
                         }
                     );
-
-
 
                     swloctxt.WriteLine(filename + " " + picInfo.Lat + " " + picInfo.Lon + " " + picInfo.getAltitude(useAMSLAlt) + " " + picInfo.Yaw + " " + picInfo.Pitch + " " + picInfo.Roll);
 
@@ -939,12 +954,15 @@ namespace MissionPlanner
 
         private void GuessImageDimensions(string imagePath, out int imageWidth, out int imageHeight)
         {
-            MemoryStream ms = new MemoryStream(File.ReadAllBytes(imagePath));
+            using (MemoryStream ms = new MemoryStream(File.ReadAllBytes(imagePath)))
+            {
+                using (Image picture = Image.FromStream(ms))
+                {
 
-            Image picture = Image.FromStream(ms);
-
-            imageHeight = picture.Height;
-            imageWidth = picture.Width;
+                    imageHeight = picture.Height;
+                    imageWidth = picture.Width;
+                }
+            }
         }
 
         public Dictionary<string, PictureInformation> doworkCAM(string logFile, string dirWithImages)
