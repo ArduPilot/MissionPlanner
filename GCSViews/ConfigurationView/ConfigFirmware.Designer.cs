@@ -280,7 +280,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // pictureAntennaTracker
             // 
             this.pictureAntennaTracker.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.pictureAntennaTracker.Image = global::MissionPlanner.Properties.Resources.airspeed;
+            this.pictureAntennaTracker.Image = global::MissionPlanner.Properties.Resources.Antenna_Tracker_01;
             resources.ApplyResources(this.pictureAntennaTracker, "pictureAntennaTracker");
             this.pictureAntennaTracker.Name = "pictureAntennaTracker";
             this.pictureAntennaTracker.TabStop = false;
