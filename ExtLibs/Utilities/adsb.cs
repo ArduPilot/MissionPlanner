@@ -49,7 +49,10 @@ namespace MissionPlanner.Utilities
             run = false;
 
             if (thisthread != null)
+            {
                 thisthread.Join();
+                thisthread = null;
+            }
 
             log.Info("adsb stopped");
         }
@@ -605,7 +608,7 @@ namespace MissionPlanner.Utilities
 
             //st.ReadTimeout = 5000;
 
-            while (true)
+            while (run)
             {
                 int by = st1.ReadByte();
                 if (by == -1)
