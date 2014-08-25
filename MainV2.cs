@@ -1453,7 +1453,10 @@ namespace MissionPlanner
                                 */
                                 //                                Console.WriteLine(DateTime.Now.Millisecond + " {0} {1} {2} {3} {4}", rc.chan1_raw, rc.chan2_raw, rc.chan3_raw, rc.chan4_raw,rate);
 
-                                Console.WriteLine("Joystick btw " + comPort.BaseStream.BytesToWrite);
+                                //Console.WriteLine("Joystick btw " + comPort.BaseStream.BytesToWrite);
+
+                                if (!comPort.BaseStream.IsOpen)
+                                    continue;
 
                                 if (comPort.BaseStream.BytesToWrite < 50)
                                 {
