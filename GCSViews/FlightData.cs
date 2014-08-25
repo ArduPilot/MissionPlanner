@@ -135,7 +135,8 @@ namespace MissionPlanner.GCSViews
             threadrun = false;
             if (thisthread != null)
             {
-                thisthread.Join();
+                if (thisthread.IsAlive)
+                    thisthread.Join();
                 thisthread = null;
             }
 
