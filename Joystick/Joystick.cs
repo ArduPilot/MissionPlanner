@@ -87,6 +87,7 @@ namespace MissionPlanner.Joystick
             Arm,
             Disarm,
             Digicam_Control,
+            TakeOff
        //     Mount_Control
         }
 
@@ -623,6 +624,23 @@ namespace MissionPlanner.Joystick
                                 }
                                 catch { CustomMessageBox.Show("Failed to Arm"); }
                             });
+                        break;
+                    case buttonfunction.TakeOff:
+                        MainV2.instance.BeginInvoke((System.Windows.Forms.MethodInvoker)delegate()
+                        {
+                            try
+                            {
+                                MainV2.comPort.setMode("Guided");
+                                if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2) {
+                                    MainV2.comPort.doCommand(MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0, 0, 2);
+                                }
+                                else
+                                {
+                                    MainV2.comPort.doCommand(MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0, 0, 20);
+                                }
+                            }
+                            catch { CustomMessageBox.Show("Failed to takeoff"); }
+                        });
                         break;
                     case buttonfunction.Disarm:
                         MainV2.instance.BeginInvoke((System.Windows.Forms.MethodInvoker)delegate()
