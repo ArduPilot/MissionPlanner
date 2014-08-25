@@ -87,7 +87,8 @@ namespace MissionPlanner.Joystick
             Arm,
             Disarm,
             Digicam_Control,
-            TakeOff
+            TakeOff,
+            Mount_Mode
        //     Mount_Control
         }
 
@@ -615,6 +616,20 @@ namespace MissionPlanner.Joystick
                             });
                         }
                         break;
+                    case buttonfunction.Mount_Mode:
+                        if (but.p1 != null)
+                        {
+                            MainV2.instance.BeginInvoke((System.Windows.Forms.MethodInvoker)delegate()
+                            {
+                                try
+                                {
+                                    MainV2.comPort.setParam("MNT_MODE", but.p1);
+                                }
+                                catch { CustomMessageBox.Show("Failed to change mount mode"); }
+                            });
+                        }
+                        break;
+                        
                     case buttonfunction.Arm:
                         MainV2.instance.BeginInvoke((System.Windows.Forms.MethodInvoker)delegate()
                             {

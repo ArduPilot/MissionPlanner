@@ -528,6 +528,9 @@ namespace MissionPlanner.Joystick
                 case Joystick.buttonfunction.ChangeMode:
                     new Joy_ChangeMode((string)cmb.Tag).ShowDialog();
                     break;
+                case Joystick.buttonfunction.Mount_Mode:
+                    new Joy_Mount_Mode((string)cmb.Tag).ShowDialog();
+                    break;
                 case Joystick.buttonfunction.Do_Repeat_Relay:
                     new Joy_Do_Repeat_Relay((string)cmb.Tag).ShowDialog();
                     break;
