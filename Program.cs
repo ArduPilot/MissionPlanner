@@ -105,6 +105,8 @@ namespace MissionPlanner
                 System.Configuration.ConfigurationManager.AppSettings["UpdateLocationVersion"] = "";
             }
 
+            Remove();
+
             //fontgen.dowork();
 
             //adsb.server = "64.93.124.152";
@@ -217,6 +219,17 @@ namespace MissionPlanner
                 Console.WriteLine("\nPress any key to exit!");
                 Console.ReadLine();
             }
+        }
+
+        static void Remove()
+        {
+            //cleanup bad file
+            string file = Application.StartupPath + Path.DirectorySeparatorChar + "LogAnalyzer\tests\TestUnderpowered.py";
+            if (File.Exists(file))
+            {
+                File.Delete(file);
+            }
+            //File.Delete("*.xaml");
         }
 
 
