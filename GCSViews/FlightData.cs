@@ -3129,7 +3129,7 @@ namespace MissionPlanner.GCSViews
         private void BUT_loganalysis_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = "*.log|*.log|*.bin|*.bin";
+            ofd.Filter = "*.log;*.bin|*.log;*.bin";
             ofd.ShowDialog();
 
             if (ofd.FileName != "")
@@ -3140,7 +3140,7 @@ namespace MissionPlanner.GCSViews
                 {
                     var log = MissionPlanner.Log.BinaryLog.ReadLog(ofd.FileName);
 
-                    newlogfile = Path.GetTempPath() + Path.DirectorySeparatorChar + Path.GetTempFileName() + ".log";
+                    newlogfile = Path.GetTempFileName() + ".log";
 
                     using (StreamWriter sw = new StreamWriter(newlogfile))
                     {
@@ -3154,6 +3154,8 @@ namespace MissionPlanner.GCSViews
                 }
 
                 string xmlfile = MissionPlanner.Utilities.LogAnalyzer.CheckLogFile(ofd.FileName);
+
+                GC.Collect();
 
                 if (File.Exists(xmlfile))
                 {
@@ -3170,7 +3172,11 @@ namespace MissionPlanner.GCSViews
 
                 if (!String.IsNullOrEmpty(newlogfile))
                 {
-                    File.Delete(newlogfile);
+                    try
+                    {
+                        File.Delete(newlogfile);
+                    }
+                    catch { }
                 }
             }
         }
