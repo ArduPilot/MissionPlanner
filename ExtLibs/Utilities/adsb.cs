@@ -38,6 +38,8 @@ namespace MissionPlanner.Utilities
 
             thisthread = new Thread(TryConnect);
 
+            thisthread.Name = "ADSB reader thread";
+
             thisthread.IsBackground = true;
 
             thisthread.Start();
@@ -50,6 +52,7 @@ namespace MissionPlanner.Utilities
 
             if (thisthread != null)
             {
+                thisthread.Abort();
                 thisthread.Join();
                 thisthread = null;
             }
@@ -59,13 +62,6 @@ namespace MissionPlanner.Utilities
 
         void TryConnect()
         {
-            try
-            {
-                System.Threading.Thread.CurrentThread.Name = "ADSB Reader";
-            }
-            catch { }
-            System.Threading.Thread.CurrentThread.IsBackground = true;
-
             run = true;
 
             while (run)

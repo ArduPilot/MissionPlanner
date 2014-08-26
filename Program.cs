@@ -224,7 +224,7 @@ namespace MissionPlanner
         static void Remove()
         {
             //cleanup bad file
-            string file = Application.StartupPath + Path.DirectorySeparatorChar + "LogAnalyzer\tests\TestUnderpowered.py";
+            string file = Application.StartupPath + Path.DirectorySeparatorChar + @"LogAnalyzer\tests\TestUnderpowered.py";
             if (File.Exists(file))
             {
                 File.Delete(file);
