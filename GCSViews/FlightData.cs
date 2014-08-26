@@ -115,6 +115,9 @@ namespace MissionPlanner.GCSViews
 
         private void deleteToolStripMenuItem_Click(object sender, System.EventArgs e)
         {
+            if (CurrentGMapMarker == null)
+                return;
+
             POI.POIDelete(CurrentGMapMarker.Position);
         }
 

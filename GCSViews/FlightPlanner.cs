@@ -67,14 +67,19 @@ namespace MissionPlanner.GCSViews
             Terrain = MAVLink.MAV_FRAME.GLOBAL_TERRAIN_ALT,
         }
 
-
         private void poieditToolStripMenuItem_Click(object sender, System.EventArgs e)
         {
+            if (CurrentGMapMarker == null)
+                return;
+
             POI.POIEdit(CurrentGMapMarker.Position);
         }
 
         private void poideleteToolStripMenuItem_Click(object sender, System.EventArgs e)
         {
+            if (CurrentGMapMarker == null)
+                return;
+
             POI.POIDelete(CurrentGMapMarker.Position);
         }
 
