@@ -117,148 +117,37 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="TXT_terminal.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left, Right</value>
+  <data name="label2.Text" xml:space="preserve">
+    <value>控制器是藉由羅盤來辨識方向(朝向/航向)，正確校準羅盤是很重要的。
+請按下[開始校準]按鈕，並拿起您的多軸機任意 360 度旋轉，直到圖片中的小點平均分佈成一個球形。</value>
   </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="TXT_terminal.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Courier New, 10pt, style=Bold</value>
+  <data name="label3.Text" xml:space="preserve">
+    <value>根據您的硬體，羅盤的方向可能會改變。請依下列說明，請確定在校準方向時您的控制器是保持水平的。
+
+</value>
   </data>
-  <data name="TXT_terminal.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 60</value>
+  <data name="label1.Text" xml:space="preserve">
+    <value>羅盤校準</value>
   </data>
-  <data name="TXT_terminal.Size" type="System.Drawing.Size, System.Drawing">
-    <value>708, 400</value>
+  <data name="label6.Text" xml:space="preserve">
+    <value>.</value>
   </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="TXT_terminal.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+  <data name="label4.Text" xml:space="preserve">
+    <value>羅盤定位</value>
   </data>
-  <data name="TXT_terminal.Text" xml:space="preserve">
-    <value>*注意* 記錄檔下載只能使用 USB 連線時的 CLI 模式</value>
+  <data name="label5.Text" xml:space="preserve">
+    <value>請按下開始</value>
   </data>
-  <data name="BUTsetupshow.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 32</value>
+  <data name="linkLabel1.Text" xml:space="preserve">
+    <value>Youtube 範例</value>
   </data>
-  <data name="BUTsetupshow.Size" type="System.Drawing.Size, System.Drawing">
-    <value>87, 23</value>
+  <data name="BUT_MagCalibrationLive.Text" xml:space="preserve">
+    <value>開始校準</value>
   </data>
-  <data name="BUTsetupshow.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+  <data name="BUT_compassorient.Text" xml:space="preserve">
+    <value>開始</value>
   </data>
-  <data name="BUTsetupshow.Text" xml:space="preserve">
-    <value>顯示設定</value>
-  </data>
-  <data name="BUTradiosetup.Location" type="System.Drawing.Point, System.Drawing">
-    <value>96, 32</value>
-  </data>
-  <data name="BUTradiosetup.Size" type="System.Drawing.Size, System.Drawing">
-    <value>87, 23</value>
-  </data>
-  <data name="BUTradiosetup.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="BUTradiosetup.Text" xml:space="preserve">
-    <value>數傳設定</value>
-  </data>
-  <data name="BUTtests.Location" type="System.Drawing.Point, System.Drawing">
-    <value>189, 32</value>
-  </data>
-  <data name="BUTtests.Size" type="System.Drawing.Size, System.Drawing">
-    <value>87, 23</value>
-  </data>
-  <data name="BUTtests.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="BUTtests.Text" xml:space="preserve">
-    <value>測試</value>
-  </data>
-  <data name="Logs.Location" type="System.Drawing.Point, System.Drawing">
-    <value>282, 32</value>
-  </data>
-  <data name="Logs.Size" type="System.Drawing.Size, System.Drawing">
-    <value>87, 23</value>
-  </data>
-  <data name="Logs.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="Logs.Text" xml:space="preserve">
-    <value>記錄檔下載</value>
-  </data>
-  <data name="BUT_logbrowse.Location" type="System.Drawing.Point, System.Drawing">
-    <value>375, 32</value>
-  </data>
-  <data name="BUT_logbrowse.Size" type="System.Drawing.Size, System.Drawing">
-    <value>87, 23</value>
-  </data>
-  <data name="BUT_logbrowse.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="BUT_logbrowse.Text" xml:space="preserve">
-    <value>記錄檔瀏覽</value>
-  </data>
-  <data name="BUT_ConnectAPM.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="BUT_ConnectAPM.Location" type="System.Drawing.Point, System.Drawing">
-    <value>96, 3</value>
-  </data>
-  <data name="BUT_ConnectAPM.Size" type="System.Drawing.Size, System.Drawing">
-    <value>87, 23</value>
-  </data>
-  <data name="BUT_ConnectAPM.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="BUT_ConnectAPM.Text" xml:space="preserve">
-    <value>連線</value>
-  </data>
-  <data name="BUT_disconnect.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
-  </data>
-  <data name="BUT_disconnect.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="BUT_disconnect.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="BUT_disconnect.Location" type="System.Drawing.Point, System.Drawing">
-    <value>617, 3</value>
-  </data>
-  <data name="BUT_disconnect.Size" type="System.Drawing.Size, System.Drawing">
-    <value>87, 23</value>
-  </data>
-  <data name="BUT_disconnect.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
-  </data>
-  <data name="BUT_disconnect.Text" xml:space="preserve">
-    <value>中斷連線</value>
-  </data>
-  <data name="CMB_boardtype.Items" xml:space="preserve">
-    <value>APM</value>
-  </data>
-  <data name="CMB_boardtype.Items1" xml:space="preserve">
-    <value>PX4/PIXHAWK</value>
-  </data>
-  <data name="CMB_boardtype.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 4</value>
-  </data>
-  <data name="CMB_boardtype.Size" type="System.Drawing.Size, System.Drawing">
-    <value>86, 21</value>
-  </data>
-  <data name="CMB_boardtype.TabIndex" type="System.Int32, mscorlib">
-    <value>9</value>
-  </data>
-  <data name="CMB_boardtype.Text" xml:space="preserve">
-    <value>APM</value>
-  </data>
-  <data name="$this.Localizable" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>6, 13</value>
-  </data>
-  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>707, 461</value>
+  <data name="radialGradientBG1.Label.Text" xml:space="preserve">
+    <value>校準您的羅盤</value>
   </data>
 </root>

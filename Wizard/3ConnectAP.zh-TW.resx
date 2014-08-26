@@ -117,148 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="TXT_terminal.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left, Right</value>
+  <data name="label2.Text" xml:space="preserve">
+    <value>請使用 USB 連接您的電腦與自動駕駛儀。
+
+注意: 有些 USB 分接器可能無法提供電源，所以請直接使用電腦上的 USB。</value>
   </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="TXT_terminal.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Courier New, 10pt, style=Bold</value>
+  <data name="label1.Text" xml:space="preserve">
+    <value>連接您的自動駕駛儀</value>
   </data>
-  <data name="TXT_terminal.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 60</value>
+  <data name="label7.Text" xml:space="preserve">
+    <value>請選擇下拉選單上的通訊埠。
+
+正確的下拉選單上應該會有 "Arduino Mega 2560" 或 "PX4 FMU"
+
+</value>
   </data>
-  <data name="TXT_terminal.Size" type="System.Drawing.Size, System.Drawing">
-    <value>708, 400</value>
+  <data name="label8.Text" xml:space="preserve">
+    <value>請選擇 COM PORT</value>
   </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="TXT_terminal.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="TXT_terminal.Text" xml:space="preserve">
-    <value>*注意* 記錄檔下載只能使用 USB 連線時的 CLI 模式</value>
-  </data>
-  <data name="BUTsetupshow.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 32</value>
-  </data>
-  <data name="BUTsetupshow.Size" type="System.Drawing.Size, System.Drawing">
-    <value>87, 23</value>
-  </data>
-  <data name="BUTsetupshow.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="BUTsetupshow.Text" xml:space="preserve">
-    <value>顯示設定</value>
-  </data>
-  <data name="BUTradiosetup.Location" type="System.Drawing.Point, System.Drawing">
-    <value>96, 32</value>
-  </data>
-  <data name="BUTradiosetup.Size" type="System.Drawing.Size, System.Drawing">
-    <value>87, 23</value>
-  </data>
-  <data name="BUTradiosetup.TabIndex" type="System.Int32, mscorlib">
-    <value>2</value>
-  </data>
-  <data name="BUTradiosetup.Text" xml:space="preserve">
-    <value>數傳設定</value>
-  </data>
-  <data name="BUTtests.Location" type="System.Drawing.Point, System.Drawing">
-    <value>189, 32</value>
-  </data>
-  <data name="BUTtests.Size" type="System.Drawing.Size, System.Drawing">
-    <value>87, 23</value>
-  </data>
-  <data name="BUTtests.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="BUTtests.Text" xml:space="preserve">
-    <value>測試</value>
-  </data>
-  <data name="Logs.Location" type="System.Drawing.Point, System.Drawing">
-    <value>282, 32</value>
-  </data>
-  <data name="Logs.Size" type="System.Drawing.Size, System.Drawing">
-    <value>87, 23</value>
-  </data>
-  <data name="Logs.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="Logs.Text" xml:space="preserve">
-    <value>記錄檔下載</value>
-  </data>
-  <data name="BUT_logbrowse.Location" type="System.Drawing.Point, System.Drawing">
-    <value>375, 32</value>
-  </data>
-  <data name="BUT_logbrowse.Size" type="System.Drawing.Size, System.Drawing">
-    <value>87, 23</value>
-  </data>
-  <data name="BUT_logbrowse.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="BUT_logbrowse.Text" xml:space="preserve">
-    <value>記錄檔瀏覽</value>
-  </data>
-  <data name="BUT_ConnectAPM.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="BUT_ConnectAPM.Location" type="System.Drawing.Point, System.Drawing">
-    <value>96, 3</value>
-  </data>
-  <data name="BUT_ConnectAPM.Size" type="System.Drawing.Size, System.Drawing">
-    <value>87, 23</value>
-  </data>
-  <data name="BUT_ConnectAPM.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="BUT_ConnectAPM.Text" xml:space="preserve">
-    <value>連線</value>
-  </data>
-  <data name="BUT_disconnect.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
-  </data>
-  <data name="BUT_disconnect.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="BUT_disconnect.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="BUT_disconnect.Location" type="System.Drawing.Point, System.Drawing">
-    <value>617, 3</value>
-  </data>
-  <data name="BUT_disconnect.Size" type="System.Drawing.Size, System.Drawing">
-    <value>87, 23</value>
-  </data>
-  <data name="BUT_disconnect.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
-  </data>
-  <data name="BUT_disconnect.Text" xml:space="preserve">
-    <value>中斷連線</value>
-  </data>
-  <data name="CMB_boardtype.Items" xml:space="preserve">
-    <value>APM</value>
-  </data>
-  <data name="CMB_boardtype.Items1" xml:space="preserve">
-    <value>PX4/PIXHAWK</value>
-  </data>
-  <data name="CMB_boardtype.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 4</value>
-  </data>
-  <data name="CMB_boardtype.Size" type="System.Drawing.Size, System.Drawing">
-    <value>86, 21</value>
-  </data>
-  <data name="CMB_boardtype.TabIndex" type="System.Int32, mscorlib">
-    <value>9</value>
-  </data>
-  <data name="CMB_boardtype.Text" xml:space="preserve">
-    <value>APM</value>
-  </data>
-  <data name="$this.Localizable" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>6, 13</value>
-  </data>
-  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>707, 461</value>
+  <data name="radialGradientBG1.Label.Text" xml:space="preserve">
+    <value>連接您的自動駕駛儀</value>
   </data>
 </root>
