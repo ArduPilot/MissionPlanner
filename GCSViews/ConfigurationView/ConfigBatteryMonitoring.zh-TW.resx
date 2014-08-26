@@ -260,7 +260,7 @@
     <value>79, 13</value>
   </data>
   <data name="CHK_speechbattery.Text" xml:space="preserve">
-    <value>MP Alert on Low Battery</value>
+    <value>低電壓警報</value>
   </data>
   <data name="CMB_apmversion.Items" xml:space="preserve">
     <value>0: APM1</value>
@@ -284,7 +284,7 @@
     <value>6: VR Micro Brain 5</value>
   </data>
   <data name="CMB_batmonsensortype.Items" xml:space="preserve">
-    <value>0: Other</value>
+    <value>0: 其他</value>
   </data>
   <data name="CMB_batmonsensortype.Items1" xml:space="preserve">
     <value>1: AttoPilot 45A</value>
@@ -308,49 +308,49 @@
     <value>7: 3DR HV Power Module PX4</value>
   </data>
   <data name="CMB_batmontype.Items" xml:space="preserve">
-    <value>0: Disabled</value>
+    <value>0: 關閉監控</value>
   </data>
   <data name="CMB_batmontype.Items1" xml:space="preserve">
-    <value>3: Battery Volts</value>
+    <value>3: 電池電壓</value>
   </data>
   <data name="CMB_batmontype.Items2" xml:space="preserve">
-    <value>4: Voltage and Current</value>
+    <value>4: 電壓及電流</value>
   </data>
   <data name="groupBox4.Text" xml:space="preserve">
-    <value>Calibration</value>
+    <value>校準</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>APM Ver</value>
+    <value>APM 版本</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
     <value>mAh</value>
   </data>
   <data name="label29.Text" xml:space="preserve">
-    <value>Battery Capacity</value>
+    <value>電池容量</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
-    <value>4. Measured current:</value>
+    <value>4. 量測電流:</value>
   </data>
   <data name="label30.Text" xml:space="preserve">
-    <value>Monitor</value>
+    <value>電源監控</value>
   </data>
   <data name="label32.Text" xml:space="preserve">
-    <value>1. Measured battery voltage:</value>
+    <value>1. 量測電池電壓:</value>
   </data>
   <data name="label33.Text" xml:space="preserve">
-    <value>2. Battery voltage (Calced):</value>
+    <value>2. 電池電壓 (計算):</value>
   </data>
   <data name="label34.Text" xml:space="preserve">
-    <value>3. Voltage divider (Calced):</value>
+    <value>3. Voltage divider (計算):</value>
   </data>
   <data name="label35.Text" xml:space="preserve">
     <value>6. Amperes per volt:</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
-    <value>5. Current (Calced)</value>
+    <value>5. 電流 (計算)</value>
   </data>
   <data name="label47.Text" xml:space="preserve">
-    <value>Sensor</value>
+    <value>電源感應器</value>
   </data>
   <data name="TXT_battcapacity.Text" xml:space="preserve">
     <value>2200</value>
