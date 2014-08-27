@@ -25,6 +25,8 @@ namespace MissionPlanner.GCSViews
 
         public bool isDisConnected { get { return !MainV2.comPort.BaseStream.IsOpen; } }
 
+        public bool isTracker { get { return isConnected && MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduTracker; } }
+
         public bool isCopter { get { return isConnected && MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2; } }
 
         public bool isHeli { get { return isConnected && MainV2.comPort.MAV.param["H_SWASH_TYPE"] != null; } }

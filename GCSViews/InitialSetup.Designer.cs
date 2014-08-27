@@ -50,6 +50,8 @@
             this.configAccelerometerCalibrationQuad1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigAccelerometerCalibrationQuad();
             this.backstageViewPageaccelplane = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
             this.configAccelerometerCalibrationPlane1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigAccelerometerCalibrationPlane();
+            this.backstageViewPageacceltracker = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
+            this.configAccelerometerCalibrationTracker1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigAccelerometerCalibrationTracker();
             this.backstageViewPageradio = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
             this.configRadioInput1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigRadioInput();
             this.backstageViewPageflmode = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
@@ -97,6 +99,7 @@
             this.backstageView.Pages.Add(this.backstageViewPagecompass);
             this.backstageView.Pages.Add(this.backstageViewPageaccelquad);
             this.backstageView.Pages.Add(this.backstageViewPageaccelplane);
+            this.backstageView.Pages.Add(this.backstageViewPageacceltracker);
             this.backstageView.Pages.Add(this.backstageViewPageradio);
             this.backstageView.Pages.Add(this.backstageViewPageflmode);
             this.backstageView.Pages.Add(this.backstageViewPagefs);
@@ -258,6 +261,22 @@
             // 
             resources.ApplyResources(this.configAccelerometerCalibrationPlane1, "configAccelerometerCalibrationPlane1");
             this.configAccelerometerCalibrationPlane1.Name = "configAccelerometerCalibrationPlane1";
+            // 
+            // backstageViewPageacceltracker
+            // 
+            this.backstageViewPageacceltracker.Advanced = false;
+            this.backstageViewPageacceltracker.DataBindings.Add(new System.Windows.Forms.Binding("Show", this.initialSetupBindingSource, "isPlane", true));
+            this.backstageViewPageacceltracker.LinkText = "Accel Calibration";
+            this.backstageViewPageacceltracker.Page = this.configAccelerometerCalibrationTracker1;
+            this.backstageViewPageacceltracker.Parent = this.backstageViewPagemand;
+            this.backstageViewPageacceltracker.Show = true;
+            this.backstageViewPageacceltracker.Spacing = 30;
+            resources.ApplyResources(this.backstageViewPageacceltracker, "backstageViewPageacceltracker");
+            // 
+            // configAccelerometerCalibrationTracker1
+            // 
+            resources.ApplyResources(this.configAccelerometerCalibrationTracker1, "configAccelerometerCalibrationTracker1");
+            this.configAccelerometerCalibrationTracker1.Name = "configAccelerometerCalibrationTracker1";
             // 
             // backstageViewPageradio
             // 
@@ -494,6 +513,7 @@
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.backstageView);
+            this.Controls.Add(this.configAccelerometerCalibrationTracker1);
             this.MinimumSize = new System.Drawing.Size(1000, 450);
             this.Name = "InitialSetup";
             resources.ApplyResources(this, "$this");
@@ -555,5 +575,7 @@
         private Controls.BackstageView.BackstageViewPage backstageViewPagecompassmot;
         private ConfigurationView.ConfigCompassMot configCompassMot1;
         private Controls.BackstageView.BackstageViewPage backstageViewPageMotorTest;
+        private Controls.BackstageView.BackstageViewPage backstageViewPageacceltracker;
+        private ConfigurationView.ConfigAccelerometerCalibrationTracker configAccelerometerCalibrationTracker1;
     }
 }
