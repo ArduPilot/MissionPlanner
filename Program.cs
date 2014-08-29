@@ -105,7 +105,7 @@ namespace MissionPlanner
                 System.Configuration.ConfigurationManager.AppSettings["UpdateLocationVersion"] = "";
             }
 
-            Remove();
+            CleanupFiles();
 
             //fontgen.dowork();
 
@@ -221,7 +221,7 @@ namespace MissionPlanner
             }
         }
 
-        static void Remove()
+        static void CleanupFiles()
         {
             //cleanup bad file
             string file = Application.StartupPath + Path.DirectorySeparatorChar + @"LogAnalyzer\tests\TestUnderpowered.py";

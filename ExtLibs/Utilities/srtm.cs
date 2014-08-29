@@ -127,8 +127,9 @@ namespace MissionPlanner
                     lat -= y;
                     lng -= x;
 
-                    double xf = lng * (size - 1);
-                    double yf = lat * (size - 1);
+                    // values should be 0-1199, 1200 is for interpolation
+                    double xf = lng * (size - 2);
+                    double yf = lat * (size - 2);
 
                     int x_int = (int)xf;
                     double x_frac = xf - x_int;
@@ -136,7 +137,7 @@ namespace MissionPlanner
                     int y_int = (int)yf;
                     double y_frac = yf - y_int;
 
-                    y_int = (size - 1) - y_int;
+                    y_int = (size - 2) - y_int;
 
                     double alt00 = GetAlt(filename, x_int, y_int);
                     double alt10 = GetAlt(filename, x_int + 1, y_int);
@@ -145,7 +146,7 @@ namespace MissionPlanner
 
                     double v1 = avg(alt00, alt10, x_frac);
                     double v2 = avg(alt01, alt11, x_frac);
-                    double v = avg(v1, v2, y_frac);
+                    double v = avg(v1, v2, -y_frac);
 
                     return v;
                 }
@@ -277,10 +278,6 @@ namespace MissionPlanner
 
         static double GetAlt(string filename, int x, int y)
         {
-            if (x == 1201)
-                x = 1200;
-            if (y == 1201)
-                y = 1200;
             return cache[filename][x, y];
         }
 

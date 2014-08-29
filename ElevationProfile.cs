@@ -129,7 +129,7 @@ namespace MissionPlanner
 
                 double dist = last.GetDistance(loc);
 
-                int points = (int)(dist / 100)+1;
+                int points = (int)(dist / 10)+1;
 
                 double deltalat = (last.Lat - loc.Lat);
                 double deltalng = (last.Lng - loc.Lng);
