@@ -265,7 +265,7 @@
             // backstageViewPageacceltracker
             // 
             this.backstageViewPageacceltracker.Advanced = false;
-            this.backstageViewPageacceltracker.DataBindings.Add(new System.Windows.Forms.Binding("Show", this.initialSetupBindingSource, "isPlane", true));
+            this.backstageViewPageacceltracker.DataBindings.Add(new System.Windows.Forms.Binding("Show", this.initialSetupBindingSource, "isTracker", true));
             this.backstageViewPageacceltracker.LinkText = "Accel Calibration";
             this.backstageViewPageacceltracker.Page = this.configAccelerometerCalibrationTracker1;
             this.backstageViewPageacceltracker.Parent = this.backstageViewPagemand;
