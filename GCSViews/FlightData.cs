@@ -1115,9 +1115,9 @@ namespace MissionPlanner.GCSViews
                         gMapControl1.HoldInvalidation = false;
 
                         gMapControl1.Invalidate();
-                    }
 
-                    tracklast = DateTime.Now;
+                        tracklast = DateTime.Now;
+                    }  
                 }
                 catch (Exception ex) { log.Error(ex); Console.WriteLine("FD Main loop exception " + ex.ToString()); }
             }
