@@ -341,7 +341,7 @@ namespace MissionPlanner
         static void get3secfile(object name)
         {
             string baseurl1sec = "http://dds.cr.usgs.gov/srtm/version2_1/SRTM1/";
-            string baseurl = "http://dds.cr.usgs.gov/srtm/version2_1/SRTM3/";
+            string baseurl = "http://firmware.diydrones.com/SRTM/";
 
             // check file doesnt already exist
             if (File.Exists(datadirectory + Path.DirectorySeparatorChar + (string)name))
