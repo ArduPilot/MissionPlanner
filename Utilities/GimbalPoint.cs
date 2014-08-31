@@ -97,7 +97,7 @@ namespace MissionPlanner.Utilities
 
         public static PointLatLngAlt ProjectPoint()
         {
-            //MainV2.comPort.GetMountStatus();
+            MainV2.comPort.GetMountStatus();
 
             yawchannel =  (int)(float)MainV2.comPort.MAV.param["MNT_RC_IN_PAN"];
 
@@ -110,15 +110,18 @@ namespace MissionPlanner.Utilities
 
             PointLatLngAlt currentlocation = new PointLatLngAlt(MainV2.comPort.MAV.cs.lat, MainV2.comPort.MAV.cs.lng);
 
-            double yawangle = MainV2.comPort.MAV.cs.campointc * 0.01f;
-            double rollangle = MainV2.comPort.MAV.cs.campointb * 0.01f;
-            double pitchangle = MainV2.comPort.MAV.cs.campointa * 0.01f;
+            double yawangle = MainV2.comPort.MAV.cs.campointc;
+            double rollangle = MainV2.comPort.MAV.cs.campointb;
+            double pitchangle = MainV2.comPort.MAV.cs.campointa;
 
-            yawangle = ConvertPwmtoAngle(axis.yaw);
-            //rollangle = ConvertPwmtoAngle(axis.roll);
-            pitchangle = ConvertPwmtoAngle(axis.pitch) + MainV2.comPort.MAV.cs.pitch;
 
-            pitchangle -= Math.Sin(yawangle * deg2rad) * MainV2.comPort.MAV.cs.roll;
+            if (Math.Abs(rollangle) > 180) {
+                yawangle = ConvertPwmtoAngle(axis.yaw);
+                //rollangle = ConvertPwmtoAngle(axis.roll);
+                pitchangle = ConvertPwmtoAngle(axis.pitch) + MainV2.comPort.MAV.cs.pitch;
+
+                pitchangle -= Math.Sin(yawangle * deg2rad) * MainV2.comPort.MAV.cs.roll;
+            }
 
             // tan (o/a)
             double dist = Math.Tan((90 +pitchangle)* deg2rad) * (MainV2.comPort.MAV.cs.alt);
