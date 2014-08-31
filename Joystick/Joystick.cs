@@ -88,7 +88,8 @@ namespace MissionPlanner.Joystick
             Disarm,
             Digicam_Control,
             TakeOff,
-            Mount_Mode
+            Mount_Mode,
+            Toggle_Pan_Stab
        //     Mount_Control
         }
 
@@ -720,6 +721,18 @@ namespace MissionPlanner.Joystick
                                }
                                catch { CustomMessageBox.Show("Failed to DO_REPEAT_SERVO"); }
                            });
+                        break;
+                    case buttonfunction.Toggle_Pan_Stab:
+                        MainV2.instance.BeginInvoke((System.Windows.Forms.MethodInvoker)delegate()
+                          {
+                              try
+                              {
+                                  float current = (float)MainV2.comPort.MAV.param["MNT_STAB_PAN"];
+                                  float newvalue = (current > 0) ? 0 : 1;
+                                  MainV2.comPort.setParam("MNT_STAB_PAN", newvalue);
+                              }
+                              catch { CustomMessageBox.Show("Failed to Toggle_Pan_Stab"); }
+                          });
                         break;
                 }
             }
