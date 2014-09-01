@@ -586,7 +586,7 @@ namespace MissionPlanner.Joystick
                     delegate
                     {
                         CustomMessageBox.Show("Lost Joystick","Lost Joystick");
-                    });
+                    });                    
                     return;
                 }
                 catch (Exception ex) { log.Info("Joystick thread error " + ex.ToString()); } // so we cant fall out
@@ -595,6 +595,9 @@ namespace MissionPlanner.Joystick
 
         public void clearRCOverride()
         {
+            // disable it, before continuing
+            this.enabled = false;
+
             MAVLink.mavlink_rc_channels_override_t rc = new MAVLink.mavlink_rc_channels_override_t();
 
             rc.target_component = MainV2.comPort.MAV.compid;
