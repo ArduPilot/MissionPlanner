@@ -110,8 +110,8 @@ namespace MissionPlanner
 
         public static bool ShowAirports { get; set; }
 
-        private static Utilities.adsb _adsb;
-        public static bool EnableADSB
+        private Utilities.adsb _adsb;
+        public bool EnableADSB
         {
             get { return _adsb != null; }
             set
@@ -119,6 +119,11 @@ namespace MissionPlanner
                 if (value == true)
                 {
                     _adsb = new Utilities.adsb();
+
+                    if (MainV2.config["adsbserver"] != null)
+                        Utilities.adsb.server = MainV2.config["adsbserver"].ToString();
+                    if (MainV2.config["adsbport"] != null)
+                        Utilities.adsb.serverport = int.Parse(MainV2.config["adsbport"].ToString());
                 }
                 else
                 {
@@ -433,7 +438,7 @@ namespace MissionPlanner
 
             if (MainV2.config["enableadsb"] != null)
             {
-                MainV2.EnableADSB = bool.Parse(config["enableadsb"].ToString());
+                MainV2.instance.EnableADSB = bool.Parse(config["enableadsb"].ToString());
             }
 
             // load this before the other screens get loaded

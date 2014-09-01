@@ -785,8 +785,28 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void chk_ADSB_CheckedChanged(object sender, EventArgs e)
         {
+            if (startup)
+                return;
+
+            if (((CheckBox)sender).Checked)
+            {
+                string server = "127.0.0.1";
+                if (MainV2.config["adsbserver"] != null)
+                    server = MainV2.config["adsbserver"].ToString();
+                if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Server", "Server IP?", ref server))
+                    return;
+                MainV2.config["adsbserver"] = server;
+
+                string port = "30003";
+                if (MainV2.config["adsbport"] != null)
+                    port = MainV2.config["adsbport"].ToString();
+                if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Server port", "Server port?", ref port))
+                    return;
+                MainV2.config["adsbport"] = port;
+            }
+
             MainV2.config["enableadsb"] = chk_ADSB.Checked.ToString();
-            MainV2.EnableADSB = CHK_showairports.Checked;
+            MainV2.instance.EnableADSB = CHK_showairports.Checked;
         }
     }
 }
