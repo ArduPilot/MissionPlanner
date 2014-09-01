@@ -573,7 +573,9 @@ namespace MissionPlanner.Joystick
                     if (getJoystickAxis(8) != Joystick.joystickaxis.None)
                         MainV2.comPort.MAV.cs.rcoverridech8 = pickchannel(8, JoyChannels[8].axis, JoyChannels[8].reverse, JoyChannels[8].expo);
 
-                    DoJoystickButtonFunction();
+                    // disable button actions when not connected.
+                    if (MainV2.comPort.BaseStream.IsOpen)
+                        DoJoystickButtonFunction();
 
                     //Console.WriteLine("{0} {1} {2} {3}", MainV2.comPort.MAV.cs.rcoverridech1, MainV2.comPort.MAV.cs.rcoverridech2, MainV2.comPort.MAV.cs.rcoverridech3, MainV2.comPort.MAV.cs.rcoverridech4);
                 }
