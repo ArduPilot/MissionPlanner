@@ -164,37 +164,12 @@ namespace MissionPlanner.Joystick
             else
             {
                 MainV2.joystick.enabled = false;
+
+                MainV2.joystick.clearRCOverride();
+
                 MainV2.joystick = null;
 
-                MAVLink.mavlink_rc_channels_override_t rc = new MAVLink.mavlink_rc_channels_override_t();
-
-                rc.target_component = MainV2.comPort.MAV.compid;
-                rc.target_system = MainV2.comPort.MAV.sysid;
-
-                rc.chan1_raw = 0;
-                rc.chan2_raw = 0;
-                rc.chan3_raw = 0;
-                rc.chan4_raw = 0;
-                rc.chan5_raw = 0;
-                rc.chan6_raw = 0;
-                rc.chan7_raw = 0;
-                rc.chan8_raw = 0;
-
-                MainV2.comPort.sendPacket(rc);
-                System.Threading.Thread.Sleep(20);
-                MainV2.comPort.sendPacket(rc);
-                System.Threading.Thread.Sleep(20);
-                MainV2.comPort.sendPacket(rc);
-                System.Threading.Thread.Sleep(20);
-                MainV2.comPort.sendPacket(rc);
-                System.Threading.Thread.Sleep(20);
-                MainV2.comPort.sendPacket(rc);
-                System.Threading.Thread.Sleep(20);
-                MainV2.comPort.sendPacket(rc);
-
-                MainV2.comPort.sendPacket(rc);
-                MainV2.comPort.sendPacket(rc);
-                MainV2.comPort.sendPacket(rc);
+                
 
                 //timer1.Stop();
 

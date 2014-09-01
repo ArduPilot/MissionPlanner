@@ -577,8 +577,51 @@ namespace MissionPlanner.Joystick
 
                     //Console.WriteLine("{0} {1} {2} {3}", MainV2.comPort.MAV.cs.rcoverridech1, MainV2.comPort.MAV.cs.rcoverridech2, MainV2.comPort.MAV.cs.rcoverridech3, MainV2.comPort.MAV.cs.rcoverridech4);
                 }
+                catch (InputLostException ex)
+                {
+                    clearRCOverride();
+                    MainV2.instance.Invoke((System.Action)
+                    delegate
+                    {
+                        CustomMessageBox.Show("Lost Joystick","Lost Joystick");
+                    });
+                    return;
+                }
                 catch (Exception ex) { log.Info("Joystick thread error " + ex.ToString()); } // so we cant fall out
             }
+        }
+
+        public void clearRCOverride()
+        {
+            MAVLink.mavlink_rc_channels_override_t rc = new MAVLink.mavlink_rc_channels_override_t();
+
+            rc.target_component = MainV2.comPort.MAV.compid;
+            rc.target_system = MainV2.comPort.MAV.sysid;
+
+            rc.chan1_raw = 0;
+            rc.chan2_raw = 0;
+            rc.chan3_raw = 0;
+            rc.chan4_raw = 0;
+            rc.chan5_raw = 0;
+            rc.chan6_raw = 0;
+            rc.chan7_raw = 0;
+            rc.chan8_raw = 0;
+
+            MainV2.comPort.sendPacket(rc);
+            System.Threading.Thread.Sleep(20);
+            MainV2.comPort.sendPacket(rc);
+            System.Threading.Thread.Sleep(20);
+            MainV2.comPort.sendPacket(rc);
+            System.Threading.Thread.Sleep(20);
+            MainV2.comPort.sendPacket(rc);
+            System.Threading.Thread.Sleep(20);
+            MainV2.comPort.sendPacket(rc);
+            System.Threading.Thread.Sleep(20);
+            MainV2.comPort.sendPacket(rc);
+
+            MainV2.comPort.sendPacket(rc);
+            MainV2.comPort.sendPacket(rc);
+            MainV2.comPort.sendPacket(rc);
         }
 
         public void DoJoystickButtonFunction()
