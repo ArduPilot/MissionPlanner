@@ -81,6 +81,9 @@ namespace MissionPlanner
             public string startfrom;
             public bool autotakeoff;
             public bool autotakeoff_RTL;
+
+            public bool internals;
+            public bool footprints;
             public bool advanced;
 
             public bool trigdist;
@@ -209,6 +212,8 @@ namespace MissionPlanner
             CHK_toandland.Checked = griddata.autotakeoff;
             CHK_toandland_RTL.Checked = griddata.autotakeoff_RTL;
 
+            CHK_internals.Checked = griddata.internals;
+            CHK_footprints.Checked = griddata.footprints;
             CHK_advanced.Checked = griddata.advanced;
 
             rad_trigdist.Checked = griddata.trigdist;
@@ -245,6 +250,8 @@ namespace MissionPlanner
             griddata.autotakeoff = CHK_toandland.Checked;
             griddata.autotakeoff_RTL = CHK_toandland_RTL.Checked;
 
+            griddata.internals = CHK_internals.Checked;
+            griddata.footprints = CHK_footprints.Checked;
             griddata.advanced = CHK_advanced.Checked;
 
             griddata.trigdist = rad_trigdist.Checked;
@@ -282,6 +289,8 @@ namespace MissionPlanner
                 loadsetting("grid_autotakeoff", CHK_toandland);
                 loadsetting("grid_autotakeoff_RTL", CHK_toandland_RTL);
 
+                loadsetting("grid_internals", CHK_internals);
+                loadsetting("grid_footprints", CHK_footprints);
                 loadsetting("grid_advanced", CHK_advanced);
 
                 // Should probably be saved as one setting, and us logic
@@ -342,7 +351,10 @@ namespace MissionPlanner
             plugin.Host.config["grid_autotakeoff"] = CHK_toandland.Checked.ToString();
             plugin.Host.config["grid_autotakeoff_RTL"] = CHK_toandland_RTL.Checked.ToString();
 
+            plugin.Host.config["grid_internals"] = CHK_internals.Checked.ToString();
+            plugin.Host.config["grid_footprints"] = CHK_footprints.Checked.ToString();
             plugin.Host.config["grid_advanced"] = CHK_advanced.Checked.ToString();
+
             plugin.Host.config["grid_trigdist"] = rad_trigdist.Checked.ToString();
             plugin.Host.config["grid_digicam"] = rad_digicam.Checked.ToString();
             plugin.Host.config["grid_repeatservo"] = rad_repeatservo.Checked.ToString();
