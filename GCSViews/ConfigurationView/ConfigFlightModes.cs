@@ -198,6 +198,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 chk_ss5.Visible = false;
                 chk_ss6.Visible = false;
 
+                linkLabel1_ss.Visible = false;
+
 
                 try
                 {
@@ -233,6 +235,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 chk_ss4.Visible = false;
                 chk_ss5.Visible = false;
                 chk_ss6.Visible = false;
+
+                linkLabel1_ss.Visible = false;
 
                 try
                 {
@@ -313,6 +317,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             ctl.DataSource = ParameterMetaDataRepository.GetParameterOptionsInt(param).ToList();
             ctl.DisplayMember = "Value";
             ctl.ValueMember = "Key";
+        }
+
+        private void linkLabel1_ss_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("http://copter.ardupilot.com/wiki/flight-modes/simpleandsuper-simple-modes/");
         }
     }
 }

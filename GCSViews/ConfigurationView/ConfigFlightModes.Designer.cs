@@ -67,6 +67,7 @@
             this.chk_ss2 = new System.Windows.Forms.CheckBox();
             this.chk_ss1 = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.linkLabel1_ss = new System.Windows.Forms.LinkLabel();
             ((System.ComponentModel.ISupportInitialize)(this.currentStateBindingSource)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -322,8 +323,16 @@
             this.tableLayoutPanel1.Controls.Add(this.BUT_SaveModes, 1, 6);
             this.tableLayoutPanel1.Controls.Add(this.CB_simple1, 2, 0);
             this.tableLayoutPanel1.Controls.Add(this.CB_simple6, 2, 5);
+            this.tableLayoutPanel1.Controls.Add(this.linkLabel1_ss, 3, 6);
             resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            // 
+            // linkLabel1_ss
+            // 
+            resources.ApplyResources(this.linkLabel1_ss, "linkLabel1_ss");
+            this.linkLabel1_ss.Name = "linkLabel1_ss";
+            this.linkLabel1_ss.TabStop = true;
+            this.linkLabel1_ss.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_ss_LinkClicked);
             // 
             // ConfigFlightModes
             // 
@@ -382,5 +391,6 @@
         private System.Windows.Forms.CheckBox chk_ss2;
         private System.Windows.Forms.CheckBox chk_ss1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.LinkLabel linkLabel1_ss;
     }
 }
