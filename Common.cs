@@ -698,6 +698,8 @@ namespace MissionPlanner
 
             input = input.Replace("{vsp}", (MainV2.comPort.MAV.cs.verticalspeed).ToString("0.0"));
 
+            input = input.Replace("{curr}", (MainV2.comPort.MAV.cs.current).ToString("0.0"));
+
             return input;
         }
     }
