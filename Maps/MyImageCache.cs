@@ -18,8 +18,12 @@ namespace MissionPlanner.Maps
         string dir;
         bool Created = false;
 
+        public static MyImageCache Instance;
+
         public MyImageCache()
         {
+            Instance = this;
+
             CacheLocation = Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + "gmapcache" + Path.DirectorySeparatorChar;
         }
 

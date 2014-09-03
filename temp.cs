@@ -37,17 +37,17 @@ namespace MissionPlanner
         {
             InitializeComponent();
 
-            //if (System.Diagnostics.Debugger.IsAttached) {
+            if (System.Diagnostics.Debugger.IsAttached) {
             try
             {
-                //Controls.OpenGLtest ogl = new Controls.OpenGLtest();
+                Controls.OpenGLtest ogl = new Controls.OpenGLtest();
 
-                //this.Controls.Add(ogl);
+                this.Controls.Add(ogl);
 
-                //ogl.Dock = DockStyle.Fill;
+                ogl.Dock = DockStyle.Fill;
             }
             catch { }
-           // }
+            }
 
             MissionPlanner.Utilities.Tracking.AddPage(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.ToString(), System.Reflection.MethodBase.GetCurrentMethod().Name);
         }

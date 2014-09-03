@@ -47,7 +47,7 @@ namespace MissionPlanner.Controls
                     return;
 
                 _alt = value.Alt;
-                double size = 0.15;
+                double size = 0.01;
                 area = new RectLatLng(value.Lat + size, value.Lng - size, size*2,size*2);
                // Console.WriteLine(area.LocationMiddle + " " + value.ToString());
                 this.Invalidate();
@@ -68,6 +68,8 @@ namespace MissionPlanner.Controls
             GMapProvider type  = GMap.NET.MapProviders.GoogleSatelliteMapProvider.Instance;
             PureProjection prj = type.Projection;
 
+            //GMap.NET.GMaps.Instance.GetImageFrom();
+            
             if (!area.IsEmpty)
             {
                 try
@@ -82,7 +84,7 @@ namespace MissionPlanner.Controls
                     var types = type;// GMaps.Instance.GetAllLayersOfType(type);
 
                     // max zoom level
-                    zoom = 16;
+                    zoom = 20;
 
                     GPoint topLeftPx = prj.FromLatLngToPixel(area.LocationTopLeft, zoom);
                     GPoint rightButtomPx = prj.FromLatLngToPixel(area.Bottom, area.Right, zoom);
@@ -103,6 +105,8 @@ namespace MissionPlanner.Controls
                     // get type list at new zoom level
                     List<GPoint> tileArea = prj.GetAreaTileList(area, zoom, 0);
 
+                    //this.Invalidate();
+
                     DateTime startimage = DateTime.Now;
 
                     int padding = 0;
@@ -121,7 +125,10 @@ namespace MissionPlanner.Controls
                                    foreach (var tp in type.Overlays)
                                     {
                                         Exception ex;
-                                        GMapImage tile = GMaps.Instance.GetImageFrom(tp, p, zoom, out ex) as GMapImage;
+
+                                        GMapImage tile = ((PureImageCache)Maps.MyImageCache.Instance).GetImageFromCache(type.DbId, p, zoom) as GMapImage;
+
+                                        //GMapImage tile = GMaps.Instance.GetImageFrom(tp, p, zoom, out ex) as GMapImage;
                                         //GMapImage tile = type.GetTileImage(p, zoom) as GMapImage;
                                         //tile.Img.Save(zoom + "-" + p.X + "-" + p.Y + ".bmp");
 
@@ -136,9 +143,15 @@ namespace MissionPlanner.Controls
                                                 }
                                             }
                                         }
+                                        else
+                                        {
+                                            
+                                        }
                                     }
                                 }
                             }
+
+                            Console.WriteLine((startimage-DateTime.Now).TotalMilliseconds);
                             _terrain = new Bitmap(bmpDestination, 1024*2, 1024*2);
 
                            // _terrain.Save(zoom +"-map.bmp");
@@ -199,7 +212,7 @@ namespace MissionPlanner.Controls
             }
             catch { return;  }
 
-            double heightscale = (step / 90.0) * 3;
+            double heightscale = (step / 90.0) * 1;
 
             float radians = (float)(Math.PI * (rpy.Z * -1) / 180.0f);
 
@@ -222,7 +235,7 @@ namespace MissionPlanner.Controls
 
             GL.MatrixMode(MatrixMode.Projection);
 
-            OpenTK.Matrix4 projection = OpenTK.Matrix4.CreatePerspectiveFieldOfView(60 * deg2rad, 1f, 0.00001f, 5000.0f);
+            OpenTK.Matrix4 projection = OpenTK.Matrix4.CreatePerspectiveFieldOfView(100 * deg2rad, 1f, 0.00001f, (float)step* 50);
             GL.LoadMatrix(ref projection);
 
             Matrix4 modelview = Matrix4.LookAt((float)cameraX, (float)cameraY, (float)cameraZ, (float)lookX, (float)lookY, (float)lookZ, 0,1,0);
@@ -271,11 +284,10 @@ namespace MissionPlanner.Controls
 
             sw.Start();
 
-           double increment = step *5;
+           double increment = step *1;
 
             double cleanup = area.Bottom % increment;
             double cleanup2 = area.Left % increment;
-
             
 
             for (double z = (area.Bottom - cleanup); z < area.Top - step; z += increment)
