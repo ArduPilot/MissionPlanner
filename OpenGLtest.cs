@@ -22,6 +22,8 @@ namespace MissionPlanner.Controls
         Bitmap _terrain = new Bitmap(640,480);
         int texture = 0;
 
+        GMap.NET.Internals.Core core = new GMap.NET.Internals.Core();
+
         float _angle = 0;
         double cameraX, cameraY, cameraZ;       // camera coordinates
         double lookX, lookY, lookZ;             // camera look-at coordinates
@@ -61,6 +63,8 @@ namespace MissionPlanner.Controls
             instance = this;
 
             InitializeComponent();
+
+            core.OnMapOpen();
         }
 
         void getImage()
@@ -69,6 +73,8 @@ namespace MissionPlanner.Controls
             PureProjection prj = type.Projection;
 
             //GMap.NET.GMaps.Instance.GetImageFrom();
+
+            DateTime startimage = DateTime.Now;
             
             if (!area.IsEmpty)
             {
@@ -102,20 +108,29 @@ namespace MissionPlanner.Controls
 
                     }
 
+                    // get tiles - bg
+                    core.Provider = type;
+                    core.Position = LocationCenter;
+                    core.Zoom = zoom;
+
                     // get type list at new zoom level
                     List<GPoint> tileArea = prj.GetAreaTileList(area, zoom, 0);
 
                     //this.Invalidate();
 
-                    DateTime startimage = DateTime.Now;
+                    Console.WriteLine((startimage - DateTime.Now).TotalMilliseconds);
 
                     int padding = 0;
                     {
                         using (Bitmap bmpDestination = new Bitmap((int)pxDelta.X + padding * 2, (int)pxDelta.Y + padding * 2))
                         {
+                            Console.WriteLine((startimage - DateTime.Now).TotalMilliseconds);
                             using (Graphics gfx = Graphics.FromImage(bmpDestination))
                             {
+                                Console.WriteLine((startimage - DateTime.Now).TotalMilliseconds);
                                 gfx.CompositingMode = System.Drawing.Drawing2D.CompositingMode.SourceOver;
+                                gfx.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighSpeed;
+                                gfx.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighSpeed;
 
                                 // get tiles & combine into one
                                 foreach (var p in tileArea)
@@ -126,6 +141,7 @@ namespace MissionPlanner.Controls
                                     {
                                         Exception ex;
 
+                                        Console.WriteLine((startimage - DateTime.Now).TotalMilliseconds);
                                         GMapImage tile = ((PureImageCache)Maps.MyImageCache.Instance).GetImageFromCache(type.DbId, p, zoom) as GMapImage;
 
                                         //GMapImage tile = GMaps.Instance.GetImageFrom(tp, p, zoom, out ex) as GMapImage;
@@ -139,7 +155,9 @@ namespace MissionPlanner.Controls
                                                 long x = p.X * prj.TileSize.Width - topLeftPx.X + padding;
                                                 long y = p.Y * prj.TileSize.Width - topLeftPx.Y + padding;
                                                 {
+                                                    Console.WriteLine((startimage - DateTime.Now).TotalMilliseconds);
                                                     gfx.DrawImage(tile.Img, x, y, prj.TileSize.Width, prj.TileSize.Height);
+                                                    Console.WriteLine((startimage - DateTime.Now).TotalMilliseconds);
                                                 }
                                             }
                                         }
@@ -212,7 +230,7 @@ namespace MissionPlanner.Controls
             }
             catch { return;  }
 
-            double heightscale = (step / 90.0) * 1;
+            double heightscale = (step / 90.0) * 1.3;
 
             float radians = (float)(Math.PI * (rpy.Z * -1) / 180.0f);
 

@@ -5,7 +5,7 @@ namespace GMap.NET.Internals
    /// <summary>
    /// struct for drawing tile
    /// </summary>
-   internal struct DrawTile : IEquatable<DrawTile>, IComparable<DrawTile>
+    public struct DrawTile : IEquatable<DrawTile>, IComparable<DrawTile>
    {
       public GPoint PosXY;
       public GPoint PosPixel;

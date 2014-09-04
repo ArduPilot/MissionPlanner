@@ -19,7 +19,7 @@ namespace GMap.NET.Internals
    /// <summary>
    /// internal map control core
    /// </summary>
-   internal class Core : IDisposable
+   public class Core : IDisposable
    {
       public PointLatLng position;
       public GPoint positionPixel;
