@@ -2233,7 +2233,7 @@ namespace MissionPlanner.GCSViews
             {
                 Name = "select",
                 Width = 50,
-                Height = 250,
+                Height = 410,
                 Text = "Display This"
             };
 
@@ -2252,6 +2252,8 @@ namespace MissionPlanner.GCSViews
                 {
                     fieldValue = field.GetValue(thisBoxed, null); // Get value
 
+                    if (fieldValue == null)
+                        continue;
 
                     // Get the TypeCode enumeration. Multiple types get mapped to a common typecode.
                     typeCode = Type.GetTypeCode(fieldValue.GetType());
