@@ -40,7 +40,7 @@ namespace MissionPlanner
             if (System.Diagnostics.Debugger.IsAttached) {
             try
             {
-                Controls.OpenGLtest ogl = new Controls.OpenGLtest();
+                Controls.OpenGLtest2 ogl = new Controls.OpenGLtest2();
 
                 this.Controls.Add(ogl);
 

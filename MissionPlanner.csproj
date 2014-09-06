@@ -502,6 +502,9 @@
     <Compile Include="Log\MatLab.cs" />
     <Compile Include="Magfitrotation.cs" />
     <Compile Include="Models\BattMonitor.cs" />
+    <Compile Include="OpenGLtest2.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Plugin\Plugin.cs" />
     <Compile Include="Plugin\PluginLoader.cs" />
     <Compile Include="Plugin\PluginUI.cs">
@@ -824,6 +827,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MovingBase.zh-TW.resx">
       <DependentUpon>MovingBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OpenGLtest2.resx">
+      <DependentUpon>OpenGLtest2.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Radio\3DRradio.it-IT.resx">
       <DependentUpon>3DRradio.cs</DependentUpon>

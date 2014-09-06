@@ -856,6 +856,13 @@ namespace MissionPlanner.GCSViews
                         OpenGLtest.instance.LocationCenter = new PointLatLngAlt(MainV2.comPort.MAV.cs.lat, MainV2.comPort.MAV.cs.lng, MainV2.comPort.MAV.cs.alt, "here");
                     }
 
+                    // update opengltest2
+                    if (OpenGLtest2.instance != null)
+                    {
+                        OpenGLtest2.instance.rpy = new OpenTK.Vector3(MainV2.comPort.MAV.cs.roll, MainV2.comPort.MAV.cs.pitch, MainV2.comPort.MAV.cs.yaw);
+                        OpenGLtest2.instance.LocationCenter = new PointLatLngAlt(MainV2.comPort.MAV.cs.lat, MainV2.comPort.MAV.cs.lng, MainV2.comPort.MAV.cs.alt, "here");
+                    }
+
                     // update vario info
                     MissionPlanner.Utilities.Vario.SetValue(MainV2.comPort.MAV.cs.climbrate);
 
