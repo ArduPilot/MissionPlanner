@@ -99,6 +99,7 @@ namespace MissionPlanner.Utilities
         {
             MainV2.comPort.GetMountStatus();
 
+            // this should be looking at rc_channel function
             yawchannel =  (int)(float)MainV2.comPort.MAV.param["MNT_RC_IN_PAN"];
 
             pitchchannel = (int)(float)MainV2.comPort.MAV.param["MNT_RC_IN_TILT"];
@@ -115,7 +116,8 @@ namespace MissionPlanner.Utilities
             double pitchangle = MainV2.comPort.MAV.cs.campointa;
 
 
-            if (Math.Abs(rollangle) > 180) {
+            if (Math.Abs(rollangle) > 180 || yawangle == 0 && pitchangle == 0)
+            {
                 yawangle = ConvertPwmtoAngle(axis.yaw);
                 //rollangle = ConvertPwmtoAngle(axis.roll);
                 pitchangle = ConvertPwmtoAngle(axis.pitch) + MainV2.comPort.MAV.cs.pitch;
@@ -124,6 +126,7 @@ namespace MissionPlanner.Utilities
             }
 
             // tan (o/a)
+            // todo account for ground elevation change.
             double dist = Math.Tan((90 +pitchangle)* deg2rad) * (MainV2.comPort.MAV.cs.alt);
 
             if (dist > 9999)
@@ -135,11 +138,6 @@ namespace MissionPlanner.Utilities
 
             //Console.WriteLine(newpos);
             return newpos;
-        }
-
-        public void test()
-        {
-
         }
     }
 }
