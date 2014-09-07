@@ -43,6 +43,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             int motormax = 8;
 
+            if (!MainV2.comPort.MAV.param.ContainsKey("FRAME"))
+            {
+                this.Enabled = false;
+                return;
+            }
+
             HIL.Motor[] motors = new HIL.Motor[0];
 
             if (MainV2.comPort.MAV.aptype == MAVLink.MAV_TYPE.TRICOPTER)
