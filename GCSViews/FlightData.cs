@@ -1083,7 +1083,6 @@ namespace MissionPlanner.GCSViews
                             routes.Markers.Add(new GMarkerGoogle(currentloc, GMarkerGoogleType.blue_dot) { Position = MainV2.comPort.MAV.cs.MovingBase, ToolTipText = "Moving Base", ToolTipMode = MarkerTooltipMode.OnMouseOver });
                         }
 
-
                         // for testing
                         try
                         {
@@ -1094,9 +1093,12 @@ namespace MissionPlanner.GCSViews
                             {
                                 var marker = MissionPlanner.Utilities.GimbalPoint.ProjectPoint();
 
-                                MainV2.comPort.MAV.cs.GimbalPoint = marker;
+                                if (marker != PointLatLngAlt.Zero)
+                                {
+                                    MainV2.comPort.MAV.cs.GimbalPoint = marker;
 
-                                routes.Markers.Add(new GMarkerGoogle(marker, GMarkerGoogleType.blue_dot) { ToolTipText = "Camera Target\n" + marker.ToString(), ToolTipMode = MarkerTooltipMode.OnMouseOver });
+                                    routes.Markers.Add(new GMarkerGoogle(marker, GMarkerGoogleType.blue_dot) { ToolTipText = "Camera Target\n" + marker.ToString(), ToolTipMode = MarkerTooltipMode.OnMouseOver });
+                                }
                             }
                         }
                         catch { }
