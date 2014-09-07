@@ -89,7 +89,8 @@ namespace MissionPlanner.Joystick
             Digicam_Control,
             TakeOff,
             Mount_Mode,
-            Toggle_Pan_Stab
+            Toggle_Pan_Stab,
+            Gimbal_pnt_track
        //     Mount_Control
         }
 
@@ -781,6 +782,16 @@ namespace MissionPlanner.Joystick
                               }
                               catch { CustomMessageBox.Show("Failed to Toggle_Pan_Stab"); }
                           });
+                        break;
+                    case buttonfunction.Gimbal_pnt_track:
+                        MainV2.instance.BeginInvoke((System.Windows.Forms.MethodInvoker)delegate()
+                        {
+                            try
+                            {
+                                MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_ROI, 0, 0, 0, 0, MainV2.comPort.MAV.cs.gimballat, MainV2.comPort.MAV.cs.gimballng, (float)MainV2.comPort.MAV.cs.GimbalPoint.Alt);
+                            }
+                            catch { CustomMessageBox.Show("Failed to Gimbal_pnt_track"); }
+                        });
                         break;
                 }
             }
