@@ -1133,6 +1133,10 @@ namespace MissionPlanner
         {
             base.OnClosing(e);
 
+            // speed up tile saving on exit
+            GMap.NET.GMaps.Instance.CacheOnIdleRead = false;
+            GMap.NET.GMaps.Instance.BoostCacheEngine = true;
+
             log.Info("MainV2_FormClosing");
 
             config["MainHeight"] = this.Height;
