@@ -59,6 +59,14 @@ namespace MissionPlanner.Log
         List<displaylist> graphs = new List<displaylist>()
         { 
             new displaylist() { Name = "None"},
+            new displaylist() { Name = "Mechanical Failure", items = new displayitem[] { 
+                new displayitem(){ type= "ATT", field ="Roll"}, 
+                new displayitem(){ type= "ATT", field = "DesRoll"},
+                new displayitem(){ type= "ATT", field = "Pitch"},
+                new displayitem(){ type= "ATT", field = "DesPitch"},
+                new displayitem(){ type= "CTUN", field = "Alt", left =false},
+                new displayitem(){ type= "CTUN", field = "DAlt", left =false }
+            }},
             new displaylist() { Name = "Mechanical Failure - Stab", items = new displayitem[] { new displayitem(){ type= "ATT", field ="Roll"}, new displayitem(){ type= "ATT", field = "DesRoll"}}},
             new displaylist() { Name = "Mechanical Failure - Auto", items = new displayitem[] { new displayitem(){ type= "ATT", field ="Roll"}, new displayitem(){ type= "NTUN", field = "DRoll"}}},
             new displaylist() { Name = "Vibrations", items = new displayitem[] { new displayitem(){ type= "IMU", field ="AccX"}, new displayitem(){ type= "IMU", field ="AccY"},new displayitem(){ type= "IMU", field ="AccZ"}}},
