@@ -5560,7 +5560,11 @@ namespace MissionPlanner.GCSViews
 
         private void lnk_kml_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            System.Diagnostics.Process.Start("http://127.0.0.1:56781/network.kml");
+            try
+            {
+                System.Diagnostics.Process.Start("http://127.0.0.1:56781/network.kml");
+            }
+            catch { CustomMessageBox.Show("Failed to open url http://127.0.0.1:56781/network.kml"); }
         }
         
         private void modifyAltToolStripMenuItem_Click(object sender, EventArgs e)
