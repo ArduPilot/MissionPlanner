@@ -1366,8 +1366,14 @@ namespace MissionPlanner.Log
                 int targetRow = index;
                
                 targetRow = Math.Max(targetRow-halfWay, 0);
-                dataGridView.FirstDisplayedScrollingRowIndex = targetRow;
-
+                try
+                {
+                    dataGridView.FirstDisplayedScrollingRowIndex = targetRow;
+                }
+                catch 
+                { 
+                    //soft fail
+                }
             }
         }
 

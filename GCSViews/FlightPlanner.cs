@@ -3589,7 +3589,16 @@ namespace MissionPlanner.GCSViews
             // points + return + close
             byte pointcount = (byte)(drawnpolygon.Points.Count + 2);
 
-            MainV2.comPort.setParam("FENCE_TOTAL", pointcount);
+
+            try
+            {
+                MainV2.comPort.setParam("FENCE_TOTAL", pointcount);
+            }
+            catch
+            {
+                CustomMessageBox.Show("Failed to set FENCE_TOTAL");
+                return;
+            }
 
             byte a = 0;
 
