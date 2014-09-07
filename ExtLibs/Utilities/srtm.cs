@@ -57,6 +57,7 @@ namespace MissionPlanner
             else
                 ew = "W";
 
+            // running tostring at a high rate was costing cpu
             if (fnamecache[y] == null)
                 fnamecache[y] = Math.Abs(y).ToString("00");
             if (fnamecache[1000 + x] == null)
