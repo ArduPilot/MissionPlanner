@@ -516,7 +516,10 @@ namespace MissionPlanner
 
             double[] x = LeastSq(data);
 
-            double[] x2 = LeastSq(data2);
+            if (data2.Count > 0)
+            {
+                double[] x2 = LeastSq(data2);
+            }
 
             log.Info("Least Sq Done " + DateTime.Now);
 
