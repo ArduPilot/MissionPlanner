@@ -3035,8 +3035,6 @@ namespace MissionPlanner.GCSViews
 
             if (File.Exists(ofd.FileName))
             {
-                var log = BinaryLog.ReadLog(ofd.FileName);
-
                 SaveFileDialog sfd = new SaveFileDialog();
                 sfd.Filter = "log|*.log";
                 sfd.FileName = Path.GetFileNameWithoutExtension(ofd.FileName) + ".log";
@@ -3045,12 +3043,7 @@ namespace MissionPlanner.GCSViews
 
                 if (res == System.Windows.Forms.DialogResult.OK)
                 {
-                    StreamWriter sw = new StreamWriter(sfd.OpenFile());
-                    foreach (string line in log)
-                    {
-                        sw.Write(line);
-                    }
-                    sw.Close();
+                    BinaryLog.ConvertBin(ofd.FileName,sfd.FileName);
                 }
             }
         }
@@ -3079,14 +3072,10 @@ namespace MissionPlanner.GCSViews
 
                         if (logfile.ToLower().EndsWith(".bin"))
                         {
-                            var ms = new MemoryStream();
-                            var lines = BinaryLog.ReadLog(logfile);
-                            foreach (var line in lines)
-                            {
-                                ms.Write(ASCIIEncoding.ASCII.GetBytes(line), 0, line.Length);
-                            }
-                            ms.Seek(0, SeekOrigin.Begin);
-                            tr = new StreamReader(ms);
+                            string tempfile = Path.GetTempFileName();
+                            BinaryLog.ConvertBin(logfile, tempfile);
+
+                            tr = new StreamReader(tempfile);
                         }
                         else
                         {
@@ -3145,17 +3134,9 @@ namespace MissionPlanner.GCSViews
 
                 if (ofd.FileName.ToLower().EndsWith(".bin"))
                 {
-                    var log = MissionPlanner.Log.BinaryLog.ReadLog(ofd.FileName);
-
                     newlogfile = Path.GetTempFileName() + ".log";
 
-                    using (StreamWriter sw = new StreamWriter(newlogfile))
-                    {
-                        foreach (string line in log)
-                        {
-                            sw.Write(line);
-                        }
-                    }
+                    BinaryLog.ConvertBin(ofd.FileName, newlogfile);
 
                     ofd.FileName = newlogfile;
                 }

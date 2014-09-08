@@ -1056,8 +1056,6 @@ namespace MissionPlanner
 
             if (File.Exists(ofd.FileName))
             {
-                var log = Log.BinaryLog.ReadLog(ofd.FileName);
-
                 SaveFileDialog sfd = new SaveFileDialog();
                 sfd.Filter = "log|*.log";
 
@@ -1065,12 +1063,7 @@ namespace MissionPlanner
 
                 if (res == System.Windows.Forms.DialogResult.OK)
                 {
-                    StreamWriter sw = new StreamWriter(sfd.OpenFile());
-                    foreach (string line in log)
-                    {
-                        sw.Write(line);
-                    }
-                    sw.Close();
+                    MissionPlanner.Log.BinaryLog.ConvertBin(ofd.FileName, sfd.FileName);
                 }
             }
         }

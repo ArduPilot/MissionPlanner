@@ -173,23 +173,11 @@ namespace MissionPlanner.Log
                 bw.Write(ms.ToArray());
             }
 
-            // read binary log to assci log
-            var temp1 = Log.BinaryLog.ReadLog(logfile);
+            // create ascii log
+            BinaryLog.ConvertBin(logfile, logfile + ".log");
 
-            // delete binary log file
-            //File.Delete(logfile);
-
+            //update the new filename
             logfile = logfile + ".log";
-
-            // write assci log
-            using (StreamWriter sw = new StreamWriter(logfile))
-            {
-                foreach (string line in temp1)
-                {
-                    sw.Write(line);
-                }
-                sw.Close();
-            }
 
             // get gps time of assci log
             DateTime logtime = DFLog.GetFirstGpsTime(logfile);
@@ -410,8 +398,6 @@ namespace MissionPlanner.Log
 
             if (File.Exists(ofd.FileName))
             {
-                var log = BinaryLog.ReadLog(ofd.FileName);
-
                 SaveFileDialog sfd = new SaveFileDialog();
                 sfd.Filter = "log|*.log";
 
@@ -419,12 +405,7 @@ namespace MissionPlanner.Log
 
                 if (res == System.Windows.Forms.DialogResult.OK)
                 {
-                    StreamWriter sw = new StreamWriter(sfd.OpenFile());
-                    foreach (string line in log)
-                    {
-                        sw.Write(line);
-                    }
-                    sw.Close();
+                    BinaryLog.ConvertBin(ofd.FileName, sfd.FileName);
                 }
             }
         }
