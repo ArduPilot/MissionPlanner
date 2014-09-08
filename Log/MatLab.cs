@@ -68,17 +68,20 @@ namespace MissionPlanner.Log
 
         public static void log(string fn)
         {
-            string[] filelines;
+            StreamReader sr;
 
             if (fn.ToLower().EndsWith(".bin"))
-            {
-                filelines = BinaryLog.ReadLog(fn).ToArray();
+            { 
+                string tmpfile = Path.GetTempFileName();
+                BinaryLog.ConvertBin(fn, tmpfile);
+                sr = new StreamReader(tmpfile);
             }
             else
             {
-                // read the file
-                filelines = File.ReadAllLines(fn);
+                sr = new StreamReader(fn);
             }
+
+            //Dictionary<string, List<mAdcOW.DataStructures.Array<double>>> data2 = new Dictionary<string, List<mAdcOW.DataStructures.Array<double>>>();
 
             // store all the arrays
             List<MLArray> mlList = new List<MLArray>();
@@ -94,10 +97,13 @@ namespace MissionPlanner.Log
             // keep track of line no
             int a = 0;
 
-            foreach (var line in filelines)
+            while (!sr.EndOfStream)
             {
+                var line = sr.ReadLine();
+
                 a++;
-                Console.Write(a + "\r");
+                if (a % 100 == 0)
+                    Console.Write(a + "\r");
 
                 string strLine = line.Replace(", ", ",");
                 strLine = strLine.Replace(": ", ":");
@@ -167,8 +173,26 @@ namespace MissionPlanner.Log
 
                     data[items[0]].Add(dbarray);
                 }
+
+                long memory = GC.GetTotalMemory(false);
+                if (memory > 1024 * 1024 * 200)
+                {
+                    DoWrite(fn + "-" + a, data, param, mlList, seen);
+                    mlList.Clear();
+                    data.Clear();
+                    param.Clear();
+                    seen.Clear();
+                    GC.Collect();
+                }
             }
 
+            DoWrite(fn + "-" + a, data, param, mlList, seen);
+
+            sr.Close();
+        }
+
+        static void DoWrite(string fn, Dictionary<string, List<double[]>> data, SortedDictionary<string, double> param, List<MLArray> mlList, Hashtable seen) 
+        {
             foreach (var item in data)
             {
                 double[][] temp = item.Value.ToArray();
@@ -193,11 +217,12 @@ namespace MissionPlanner.Log
 
             try
             {
+                Console.WriteLine("write " + fn + ".mat");
                 MatFileWriter mfw = new MatFileWriter(fn + ".mat", mlList, true);
             }
             catch (Exception err)
             {
-                MessageBox.Show("There was an error when creating the MAT-file: \n" + err.ToString(),
+                CustomMessageBox.Show("There was an error when creating the MAT-file: \n" + err.ToString(),
                     "MAT-File Creation Error!", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
