@@ -244,7 +244,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             else if (selection == 7) // hv 3dr px4
             {
                 TXT_divider.Text = (12.02).ToString();
-                TXT_ampspervolt.Text = (33.52).ToString();
+                TXT_ampspervolt.Text = (39.877).ToString();
             }
 
             // enable to update
