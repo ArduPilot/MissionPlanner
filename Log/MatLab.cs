@@ -9,11 +9,16 @@ using MissionPlanner;
 using csmatio.io;
 using csmatio.types;
 using System.Globalization;
+using log4net;
+using System.Reflection;
+using System.Runtime.InteropServices;
 
 namespace MissionPlanner.Log
 {
     public class MatLab
     {
+        private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         public static void ProcessTLog()
         {
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
@@ -53,7 +58,7 @@ namespace MissionPlanner.Log
             {
                 foreach (string logfile in openFileDialog1.FileNames)
                 {
-                    MissionPlanner.Log.MatLab.log(logfile);
+                    MissionPlanner.Log.MatLab.ProcessLog(logfile);
                 }
             }
         }
@@ -66,7 +71,7 @@ namespace MissionPlanner.Log
             return cell;
         }
 
-        public static void log(string fn)
+        public static void ProcessLog(string fn)
         {
             StreamReader sr;
 
@@ -81,12 +86,10 @@ namespace MissionPlanner.Log
                 sr = new StreamReader(fn);
             }
 
-            //Dictionary<string, List<mAdcOW.DataStructures.Array<double>>> data2 = new Dictionary<string, List<mAdcOW.DataStructures.Array<double>>>();
-
             // store all the arrays
             List<MLArray> mlList = new List<MLArray>();
             // store data to putinto the arrays
-            Dictionary<string, List<double[]>> data = new Dictionary<string, List<double[]>>();
+            Dictionary<string, DoubleList> data = new Dictionary<string, DoubleList>();
             // store line item lengths
             Hashtable len = new Hashtable();
             // store whats we have seen in the log
@@ -96,6 +99,8 @@ namespace MissionPlanner.Log
 
             // keep track of line no
             int a = 0;
+
+            log.Info("ProcessLog start " + (GC.GetTotalMemory(false) / 1024.0 / 1024.0));
 
             while (!sr.EndOfStream)
             {
@@ -169,14 +174,15 @@ namespace MissionPlanner.Log
                     }
 
                     if (!data.ContainsKey(items[0]))
-                        data[items[0]] = new List<double[]>();
+                        data[items[0]] = new DoubleList();
 
                     data[items[0]].Add(dbarray);
                 }
 
-                long memory = GC.GetTotalMemory(false);
-                if (memory > 1024 * 1024 * 200)
+                // split at x records
+                if (a % 2000000 == 0)
                 {
+                    GC.Collect();
                     DoWrite(fn + "-" + a, data, param, mlList, seen);
                     mlList.Clear();
                     data.Clear();
@@ -191,14 +197,20 @@ namespace MissionPlanner.Log
             sr.Close();
         }
 
-        static void DoWrite(string fn, Dictionary<string, List<double[]>> data, SortedDictionary<string, double> param, List<MLArray> mlList, Hashtable seen) 
+        static void DoWrite(string fn, Dictionary<string, DoubleList> data, SortedDictionary<string, double> param, List<MLArray> mlList, Hashtable seen) 
         {
+            log.Info("DoWrite start " + (GC.GetTotalMemory(false) / 1024.0 / 1024.0));
+
             foreach (var item in data)
             {
                 double[][] temp = item.Value.ToArray();
                 MLArray dbarray = new MLDouble(item.Key, temp);
                 mlList.Add(dbarray);
+                log.Info("DoWrite "+item.Key+" " + (GC.GetTotalMemory(false) / 1024.0 / 1024.0));
+
             }
+
+            log.Info("DoWrite mllist " + (GC.GetTotalMemory(false) / 1024.0 / 1024.0));
 
             MLCell cell = new MLCell("PARM", new int[] { param.Keys.Count, 2 });
             int m = 0;
@@ -217,8 +229,10 @@ namespace MissionPlanner.Log
 
             try
             {
-                Console.WriteLine("write " + fn + ".mat");
+                log.Info("write " + fn + ".mat");
+                log.Info("DoWrite before" + (GC.GetTotalMemory(false) / 1024.0 / 1024.0));
                 MatFileWriter mfw = new MatFileWriter(fn + ".mat", mlList, true);
+                log.Info("DoWrite done" + (GC.GetTotalMemory(false) / 1024.0 / 1024.0));
             }
             catch (Exception err)
             {
@@ -376,6 +390,117 @@ namespace MissionPlanner.Log
             double answer = (dt.AddYears(1).AddDays(1) - timebase).TotalDays;
 
             return answer;
+        }
+
+        public class DoubleList: IDisposable
+        {
+            Stream file;
+
+            string filename;
+
+            Stream offsetfile;
+
+            string offsetfilename;
+
+            const int offsetsize = sizeof(long);
+
+            public int Count { get { return (int)(offsetfile.Length / offsetsize); } }
+
+            public DoubleList()
+            {
+                filename = Path.GetTempFileName();
+                file = File.Open(filename, FileMode.Create);
+
+                offsetfilename = Path.GetTempFileName();
+                offsetfile = File.Open(offsetfilename, FileMode.Create);
+            }
+
+            void setoffset(int index, long offset)
+            {
+                byte[] data = BitConverter.GetBytes(offset);
+                offsetfile.Seek(offsetsize * index,SeekOrigin.Begin);
+                offsetfile.Write(data, 0, offsetsize);                
+            }
+
+            long getoffset(int index)
+            {
+                byte[] data = new byte[offsetsize];
+                offsetfile.Seek(offsetsize * index, SeekOrigin.Begin);
+                offsetfile.Read(data, 0, offsetsize);
+                return BitConverter.ToInt64(data, 0);
+            }
+
+            ~DoubleList()
+            {
+                Dispose();
+            }
+
+            public void Dispose()
+            {
+                offsetfile.Close();
+                offsetfile = null;
+
+                file.Close();
+                file = null;
+
+                File.Delete(filename);
+                File.Delete(offsetfilename);
+            }
+
+            public double[] this[int index]
+            {
+                get
+                {
+                    // init a buffer
+                    byte[] buffer = new byte[sizeof(double)];
+                    // seek to the offset of this index we want
+                    file.Seek(getoffset(index), SeekOrigin.Begin);
+                    // read the number of elements following
+                     file.Read(buffer, 0, sizeof(int));
+                     int elements = BitConverter.ToInt32(buffer, 0);
+
+                    // read the elements
+                    List<double> data = new List<double>();
+                    for (int a = 0; a < elements; a++)
+                    {
+                        file.Read(buffer,0,buffer.Length);
+                        data.Add(BitConverter.ToDouble(buffer,0));
+                    }
+                    // return the data
+                    return data.ToArray();
+                }
+            }
+
+            public int Add(double[] items)
+            {
+                // goto the end of the file
+                file.Seek(0, SeekOrigin.End);
+                // save the position of the data following
+                setoffset(Count, file.Position);
+                // save the number of elements following
+                file.Write(BitConverter.GetBytes(items.Length), 0, sizeof(int));
+                // save the elements
+                foreach (var item in items)
+                {
+                    file.Write(BitConverter.GetBytes(item), 0, sizeof(double));
+                }
+
+                // return the index
+                return Count;
+            }
+
+            public double[][] ToArray()
+            {
+                double[][] data = new double[Count][];
+                
+                for (int a = 0; a < Count; a++)
+                {
+                    data[a] = this[a];
+                }
+
+                return data;
+            }
+
         }
     }
 }
