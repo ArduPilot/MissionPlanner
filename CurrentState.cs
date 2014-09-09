@@ -276,6 +276,13 @@ namespace MissionPlanner
         [DisplayText("Bat used EST (mah)")]
         public float battery_usedmah { get; set; }
 
+        [DisplayText("Bat2 Voltage (V)")]
+        public float battery_voltage2 { get { return _battery_voltage2; } set { if (_battery_voltage2 == 0) _battery_voltage2 = value; _battery_voltage2 = value * 0.1f + _battery_voltage2 * 0.9f; } }
+        private float _battery_voltage2;
+        [DisplayText("Bat2 Current (Amps)")]
+        public float current2 { get { return _current2; } set { if (value < 0) return; _current2 = value; } }
+        private float _current2;
+
         public float HomeAlt { get { return (float)HomeLocation.Alt; } set { } }
         public PointLatLngAlt HomeLocation = new PointLatLngAlt();
 
@@ -861,6 +868,14 @@ namespace MissionPlanner
                         
 
                         mavinterface.MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.SYS_STATUS] = null;
+                    }
+                    
+                    bytearray = mavinterface.MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.BATTERY2];
+                    if (bytearray != null)
+                    {
+                        var bat = bytearray.ByteArrayToStructure<MAVLink.mavlink_battery2_t>(6);
+                        _battery_voltage2 = bat.voltage;
+                        current2 = bat.current_battery;
                     }
 
                     bytearray = mavinterface.MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.SCALED_PRESSURE];
