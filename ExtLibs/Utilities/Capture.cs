@@ -60,6 +60,21 @@ namespace WebCamService
         {
             [DllImport("Kernel32.dll", EntryPoint = "RtlMoveMemory")]
             internal static extern void CopyMemory(IntPtr Destination, IntPtr Source, int Length);
+
+            [DllImport("oleaut32.dll", CharSet = CharSet.Unicode, ExactSpelling = true)]
+            public static extern int OleCreatePropertyFrame(
+                IntPtr hwndOwner,
+                int x,
+                int y,
+                [MarshalAs(UnmanagedType.LPWStr)] string lpszCaption,
+                int cObjects,
+                [MarshalAs(UnmanagedType.Interface, ArraySubType = UnmanagedType.IUnknown)] 
+            ref object ppUnk,
+                int cPages,
+                IntPtr lpPageClsID,
+                int lcid,
+                int dwReserved,
+                IntPtr lpvReserved);
         }
 
         #endregion
@@ -278,6 +293,39 @@ namespace WebCamService
             {
                 // Get the ICaptureGraphBuilder2
                 capGraph = (ICaptureGraphBuilder2) new CaptureGraphBuilder2();
+                /*
+                // check for crossbar
+                var capDevices2 = DsDevice.GetDevicesOfCat(FilterCategory.AMKSCrossbar);
+                if (capDevices2.Length > 0)
+                {
+
+                    IBaseFilter cross;
+                    hr = m_FilterGraph.AddSourceFilterForMoniker(capDevices2[0].Mon, null, "crossbar", out cross);
+                    ISpecifyPropertyPages pProp = cross as ISpecifyPropertyPages;
+
+                    //Get the name of the filter from the FilterInfo struct
+                    FilterInfo filterInfo;
+                    hr = cross.QueryFilterInfo(out filterInfo);
+                    DsError.ThrowExceptionForHR(hr);
+
+                    // Get the propertypages from the property bag
+                    DsCAUUID caGUID;
+                    hr = pProp.GetPages(out caGUID);
+                    DsError.ThrowExceptionForHR(hr);
+
+                    //Create and display the OlePropertyFrame
+                    object oDevice = (object)cross;
+                    hr = NativeMethods.OleCreatePropertyFrame(IntPtr.Zero, 0, 0, filterInfo.achName, 1, ref oDevice, caGUID.cElems, caGUID.pElems, 0, 0, IntPtr.Zero);
+                    DsError.ThrowExceptionForHR(hr);
+
+                    Marshal.ReleaseComObject(oDevice);
+
+                    //IAMCrossbar crossbar2 = cross as IAMCrossbar;
+                    //int inputPinCount, outputPinCount;
+                    //crossbar2.get_PinCounts(out inputPinCount, out outputPinCount);
+                    //crossbar2.Route(0, (int)PhysicalConnectorType.Video_Composite);
+                    cross = null;
+                }*/
 
                 // Get the SampleGrabber interface
                 sampGrabber = (ISampleGrabber) new SampleGrabber();
