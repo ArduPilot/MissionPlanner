@@ -5026,8 +5026,14 @@ namespace MissionPlanner.GCSViews
             selectedrow = Commands.Rows.Add();
 
             Commands.Rows[selectedrow].Cells[Command.Index].Value = cmd.ToString();
-
             ChangeColumnHeader(cmd.ToString());
+
+            // switch wp to spline if spline checked
+            if (splinemode && cmd == MAVLink.MAV_CMD.WAYPOINT)
+            {
+                Commands.Rows[selectedrow].Cells[Command.Index].Value = MAVLink.MAV_CMD.SPLINE_WAYPOINT.ToString();
+                ChangeColumnHeader(MAVLink.MAV_CMD.SPLINE_WAYPOINT.ToString());
+            }
 
             if (cmd == MAVLink.MAV_CMD.WAYPOINT)
             {
