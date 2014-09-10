@@ -1578,26 +1578,122 @@
   <data name="groupBox_copter.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Right</value>
   </data>
-  <data name="NUM_copter_headinghold.Location" type="System.Drawing.Point, System.Drawing">
-    <value>143, 47</value>
+  <data name="TXT_headinghold.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
-  <data name="NUM_copter_headinghold.Size" type="System.Drawing.Size, System.Drawing">
-    <value>51, 20</value>
+  <data name="TXT_headinghold.Location" type="System.Drawing.Point, System.Drawing">
+    <value>143, 48</value>
   </data>
-  <data name="NUM_copter_headinghold.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
+  <data name="TXT_headinghold.Size" type="System.Drawing.Size, System.Drawing">
+    <value>31, 20</value>
   </data>
-  <data name="&gt;&gt;NUM_copter_headinghold.Name" xml:space="preserve">
-    <value>NUM_copter_headinghold</value>
+  <data name="TXT_headinghold.TabIndex" type="System.Int32, mscorlib">
+    <value>62</value>
   </data>
-  <data name="&gt;&gt;NUM_copter_headinghold.Type" xml:space="preserve">
-    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="TXT_headinghold.Text" xml:space="preserve">
+    <value>0</value>
   </data>
-  <data name="&gt;&gt;NUM_copter_headinghold.Parent" xml:space="preserve">
+  <data name="&gt;&gt;TXT_headinghold.Name" xml:space="preserve">
+    <value>TXT_headinghold</value>
+  </data>
+  <data name="&gt;&gt;TXT_headinghold.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TXT_headinghold.Parent" xml:space="preserve">
     <value>groupBox_copter</value>
   </data>
-  <data name="&gt;&gt;NUM_copter_headinghold.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;TXT_headinghold.ZOrder" xml:space="preserve">
     <value>0</value>
+  </data>
+  <data name="BUT_headingholdminus.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="BUT_headingholdminus.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="BUT_headingholdminus.Location" type="System.Drawing.Point, System.Drawing">
+    <value>204, 46</value>
+  </data>
+  <data name="BUT_headingholdminus.Size" type="System.Drawing.Size, System.Drawing">
+    <value>23, 23</value>
+  </data>
+  <data name="BUT_headingholdminus.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="BUT_headingholdminus.Text" xml:space="preserve">
+    <value>--</value>
+  </data>
+  <data name="&gt;&gt;BUT_headingholdminus.Name" xml:space="preserve">
+    <value>BUT_headingholdminus</value>
+  </data>
+  <data name="&gt;&gt;BUT_headingholdminus.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;BUT_headingholdminus.Parent" xml:space="preserve">
+    <value>groupBox_copter</value>
+  </data>
+  <data name="&gt;&gt;BUT_headingholdminus.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="BUT_headingholdplus.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="BUT_headingholdplus.Location" type="System.Drawing.Point, System.Drawing">
+    <value>180, 46</value>
+  </data>
+  <data name="BUT_headingholdplus.Size" type="System.Drawing.Size, System.Drawing">
+    <value>23, 23</value>
+  </data>
+  <data name="BUT_headingholdplus.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="BUT_headingholdplus.Text" xml:space="preserve">
+    <value>+</value>
+  </data>
+  <data name="&gt;&gt;BUT_headingholdplus.Name" xml:space="preserve">
+    <value>BUT_headingholdplus</value>
+  </data>
+  <data name="&gt;&gt;BUT_headingholdplus.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;BUT_headingholdplus.Parent" xml:space="preserve">
+    <value>groupBox_copter</value>
+  </data>
+  <data name="&gt;&gt;BUT_headingholdplus.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="CHK_copter_headingholdlock.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CHK_copter_headingholdlock.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="CHK_copter_headingholdlock.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="CHK_copter_headingholdlock.Location" type="System.Drawing.Point, System.Drawing">
+    <value>32, 73</value>
+  </data>
+  <data name="CHK_copter_headingholdlock.Size" type="System.Drawing.Size, System.Drawing">
+    <value>103, 17</value>
+  </data>
+  <data name="CHK_copter_headingholdlock.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="CHK_copter_headingholdlock.Text" xml:space="preserve">
+    <value>Unlock from grid</value>
+  </data>
+  <data name="&gt;&gt;CHK_copter_headingholdlock.Name" xml:space="preserve">
+    <value>CHK_copter_headingholdlock</value>
+  </data>
+  <data name="&gt;&gt;CHK_copter_headingholdlock.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;CHK_copter_headingholdlock.Parent" xml:space="preserve">
+    <value>groupBox_copter</value>
+  </data>
+  <data name="&gt;&gt;CHK_copter_headingholdlock.ZOrder" xml:space="preserve">
+    <value>3</value>
   </data>
   <data name="CHK_copter_headinghold.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1627,7 +1723,7 @@
     <value>groupBox_copter</value>
   </data>
   <data name="&gt;&gt;CHK_copter_headinghold.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>4</value>
   </data>
   <data name="LBL_copter_delay.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1639,13 +1735,13 @@
     <value>6, 23</value>
   </data>
   <data name="LBL_copter_delay.Size" type="System.Drawing.Size, System.Drawing">
-    <value>67, 13</value>
+    <value>93, 13</value>
   </data>
   <data name="LBL_copter_delay.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
   </data>
   <data name="LBL_copter_delay.Text" xml:space="preserve">
-    <value>Delay at WP</value>
+    <value>Delay at WP (sec)</value>
   </data>
   <data name="&gt;&gt;LBL_copter_delay.Name" xml:space="preserve">
     <value>LBL_copter_delay</value>
@@ -1657,7 +1753,7 @@
     <value>groupBox_copter</value>
   </data>
   <data name="&gt;&gt;LBL_copter_delay.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>5</value>
   </data>
   <data name="NUM_copter_delay.Location" type="System.Drawing.Point, System.Drawing">
     <value>143, 21</value>
@@ -1678,13 +1774,13 @@
     <value>groupBox_copter</value>
   </data>
   <data name="&gt;&gt;NUM_copter_delay.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>6</value>
   </data>
   <data name="groupBox_copter.Location" type="System.Drawing.Point, System.Drawing">
     <value>6, 223</value>
   </data>
   <data name="groupBox_copter.Size" type="System.Drawing.Size, System.Drawing">
-    <value>233, 80</value>
+    <value>233, 97</value>
   </data>
   <data name="groupBox_copter.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>

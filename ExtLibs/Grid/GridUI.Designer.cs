@@ -83,7 +83,10 @@
             this.BUT_save = new MissionPlanner.Controls.MyButton();
             this.tabGrid = new System.Windows.Forms.TabPage();
             this.groupBox_copter = new System.Windows.Forms.GroupBox();
-            this.NUM_copter_headinghold = new System.Windows.Forms.NumericUpDown();
+            this.TXT_headinghold = new System.Windows.Forms.TextBox();
+            this.BUT_headingholdminus = new System.Windows.Forms.Button();
+            this.BUT_headingholdplus = new System.Windows.Forms.Button();
+            this.CHK_copter_headingholdlock = new System.Windows.Forms.CheckBox();
             this.CHK_copter_headinghold = new System.Windows.Forms.CheckBox();
             this.LBL_copter_delay = new System.Windows.Forms.Label();
             this.NUM_copter_delay = new System.Windows.Forms.NumericUpDown();
@@ -137,7 +140,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUM_focallength)).BeginInit();
             this.tabGrid.SuspendLayout();
             this.groupBox_copter.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NUM_copter_headinghold)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_copter_delay)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_spacing)).BeginInit();
@@ -559,28 +561,49 @@
             // groupBox_copter
             // 
             resources.ApplyResources(this.groupBox_copter, "groupBox_copter");
-            this.groupBox_copter.Controls.Add(this.NUM_copter_headinghold);
+            this.groupBox_copter.Controls.Add(this.TXT_headinghold);
+            this.groupBox_copter.Controls.Add(this.BUT_headingholdminus);
+            this.groupBox_copter.Controls.Add(this.BUT_headingholdplus);
+            this.groupBox_copter.Controls.Add(this.CHK_copter_headingholdlock);
             this.groupBox_copter.Controls.Add(this.CHK_copter_headinghold);
             this.groupBox_copter.Controls.Add(this.LBL_copter_delay);
             this.groupBox_copter.Controls.Add(this.NUM_copter_delay);
             this.groupBox_copter.Name = "groupBox_copter";
             this.groupBox_copter.TabStop = false;
             // 
-            // NUM_copter_headinghold
+            // TXT_headinghold
             // 
-            resources.ApplyResources(this.NUM_copter_headinghold, "NUM_copter_headinghold");
-            this.NUM_copter_headinghold.Maximum = new decimal(new int[] {
-            360,
-            0,
-            0,
-            0});
-            this.NUM_copter_headinghold.Name = "NUM_copter_headinghold";
+            resources.ApplyResources(this.TXT_headinghold, "TXT_headinghold");
+            this.TXT_headinghold.Name = "TXT_headinghold";
+            this.TXT_headinghold.ReadOnly = true;
+            // 
+            // BUT_headingholdminus
+            // 
+            resources.ApplyResources(this.BUT_headingholdminus, "BUT_headingholdminus");
+            this.BUT_headingholdminus.Name = "BUT_headingholdminus";
+            this.BUT_headingholdminus.UseVisualStyleBackColor = true;
+            this.BUT_headingholdminus.Click += new System.EventHandler(this.BUT_headingholdminus_Click);
+            // 
+            // BUT_headingholdplus
+            // 
+            resources.ApplyResources(this.BUT_headingholdplus, "BUT_headingholdplus");
+            this.BUT_headingholdplus.Name = "BUT_headingholdplus";
+            this.BUT_headingholdplus.UseVisualStyleBackColor = true;
+            this.BUT_headingholdplus.Click += new System.EventHandler(this.BUT_headingholdplus_Click);
+            // 
+            // CHK_copter_headingholdlock
+            // 
+            resources.ApplyResources(this.CHK_copter_headingholdlock, "CHK_copter_headingholdlock");
+            this.CHK_copter_headingholdlock.Name = "CHK_copter_headingholdlock";
+            this.CHK_copter_headingholdlock.UseVisualStyleBackColor = true;
+            this.CHK_copter_headingholdlock.CheckedChanged += new System.EventHandler(this.CHK_copter_headingholdlock_CheckedChanged);
             // 
             // CHK_copter_headinghold
             // 
             resources.ApplyResources(this.CHK_copter_headinghold, "CHK_copter_headinghold");
             this.CHK_copter_headinghold.Name = "CHK_copter_headinghold";
             this.CHK_copter_headinghold.UseVisualStyleBackColor = true;
+            this.CHK_copter_headinghold.CheckedChanged += new System.EventHandler(this.CHK_copter_headinghold_CheckedChanged);
             // 
             // LBL_copter_delay
             // 
@@ -589,6 +612,12 @@
             // 
             // NUM_copter_delay
             // 
+            this.NUM_copter_delay.DecimalPlaces = 1;
+            this.NUM_copter_delay.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
             resources.ApplyResources(this.NUM_copter_delay, "NUM_copter_delay");
             this.NUM_copter_delay.Maximum = new decimal(new int[] {
             9999,
@@ -821,7 +850,7 @@
             // 
             resources.ApplyResources(this.NUM_angle, "NUM_angle");
             this.NUM_angle.Maximum = new decimal(new int[] {
-            360,
+            359,
             0,
             0,
             0});
@@ -1014,7 +1043,6 @@
             this.tabGrid.ResumeLayout(false);
             this.groupBox_copter.ResumeLayout(false);
             this.groupBox_copter.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NUM_copter_headinghold)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_copter_delay)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -1096,7 +1124,6 @@
         private Controls.MyButton BUT_save;
         private System.Windows.Forms.TabPage tabGrid;
         private System.Windows.Forms.GroupBox groupBox_copter;
-        private System.Windows.Forms.NumericUpDown NUM_copter_headinghold;
         private System.Windows.Forms.CheckBox CHK_copter_headinghold;
         private System.Windows.Forms.Label LBL_copter_delay;
         private System.Windows.Forms.NumericUpDown NUM_copter_delay;
@@ -1139,5 +1166,9 @@
         private Controls.MyButton BUT_Accept;
         private System.Windows.Forms.TabControl tabControl1;
         private Controls.MyTrackBar TRK_zoom;
+        private System.Windows.Forms.CheckBox CHK_copter_headingholdlock;
+        private System.Windows.Forms.TextBox TXT_headinghold;
+        private System.Windows.Forms.Button BUT_headingholdminus;
+        private System.Windows.Forms.Button BUT_headingholdplus;
     }
 }

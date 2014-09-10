@@ -143,7 +143,7 @@ namespace MissionPlanner.GCSViews
         /// <param name="lat"></param>
         /// <param name="lng"></param>
         /// <param name="alt"></param>
-        public void setfromMap(double lat, double lng, int alt, int p1 = 0)
+        public void setfromMap(double lat, double lng, int alt, double p1 = 0)
         {
             if (selectedrow > Commands.RowCount)
             {
@@ -5028,7 +5028,7 @@ namespace MissionPlanner.GCSViews
 
             if (cmd == MAVLink.MAV_CMD.WAYPOINT)
             {
-                setfromMap(y, x, (int)z, (int)p1);
+                setfromMap(y, x, (int)z, Math.Round(p1, 1));
             }
             else
             {
@@ -5227,6 +5227,8 @@ namespace MissionPlanner.GCSViews
                 MainMap.UpdatePolygonLocalPosition(drawnpolygon);
 
                 MainMap.Invalidate();
+
+                MainMap.ZoomAndCenterMarkers(drawnpolygonsoverlay.Id);
             }
         }
 
