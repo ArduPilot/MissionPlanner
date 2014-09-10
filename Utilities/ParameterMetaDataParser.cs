@@ -30,6 +30,9 @@ namespace MissionPlanner.Utilities
       {
          string parameterLocationsString = ConfigurationManager.AppSettings["ParameterLocations"];
 
+         if (MissionPlanner.Utilities.Update.dobeta)
+            parameterLocationsString = ConfigurationManager.AppSettings["ParameterLocationsBleeding"];
+
          if(!String.IsNullOrEmpty(parameterLocationsString))
          {
             var parameterLocations = parameterLocationsString.Split(';').ToList();
@@ -47,11 +50,11 @@ namespace MissionPlanner.Utilities
                {
                    string element = "none";
 
-                   if (parameterLocation.ToLower().Contains("arducopter")) 
+                   if (parameterLocation.ToLower().Contains("arducopter"))
                    {
                        element = MainV2.Firmwares.ArduCopter2.ToString();
                    } 
-                   else if (parameterLocation.ToLower().Contains("arduplane")) 
+                   else if (parameterLocation.ToLower().Contains("arduplane"))
                    {
                        element = MainV2.Firmwares.ArduPlane.ToString();
                    } 
