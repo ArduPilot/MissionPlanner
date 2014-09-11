@@ -3,6 +3,7 @@ namespace GMap.NET.MapProviders
 {
    using System;
    using GMap.NET.Projections;
+    using System.Globalization;
 
    /// <summary>
    /// SpainMap provider, http://sigpac.mapa.es/fega/visor/
@@ -14,7 +15,7 @@ namespace GMap.NET.MapProviders
       SpainMapProvider()
       {
          Copyright = string.Format("©{0} SIGPAC", DateTime.Today.Year);
-         MinZoom = 5;
+         MinZoom = 1;
          Area = new RectLatLng(43.8741381814747, -9.700927734375, 14.34814453125, 7.8605775962932);
       }
 
@@ -85,9 +86,20 @@ namespace GMap.NET.MapProviders
 
       string MakeTileImageUrl(GPoint pos, int zoom, string language)
       {
-         return string.Format(UrlFormat, levels[zoom], zoom, pos.X, ((2 << zoom - 1) - pos.Y - 1));
+          var px1 = Projection.FromTileXYToPixel(pos);
+          var px2 = px1;
+
+          px1.Offset(0, Projection.TileSize.Height);
+          PointLatLng p1 = Projection.FromPixelToLatLng(px1, zoom);
+
+          px2.Offset(Projection.TileSize.Width, 0);
+          PointLatLng p2 = Projection.FromPixelToLatLng(px2, zoom);
+
+          var ret = string.Format(CultureInfo.InvariantCulture, UrlFormat, p1.Lng, p1.Lat, p2.Lng, p2.Lat, Projection.TileSize.Width, Projection.TileSize.Height, levels[zoom]);
+
+          return ret;
       }
 
-      static readonly string UrlFormat = "http://sigpac.mapa.es/kmlserver/raster/{0}@3785/{1}.{2}.{3}.img";
+      static readonly string UrlFormat = "http://wms.magrama.es/wms/wms.aspx?VERSION=1.1.0&REQUEST=GetMap&SERVICE=WMS&LAYERS={6}&styles=&bbox={0},{1},{2},{3}&width={4}&height={5}&srs=EPSG:4326&format=image/jpeg";
    }
 }
