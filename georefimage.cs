@@ -5,6 +5,7 @@ using System.Reflection;
 using System.IO;
 using System.Windows.Forms;
 using com.drew.imaging.jpg;
+using com.drew.imaging.tiff;
 using com.drew.metadata;
 using log4net;
 using SharpKml.Base;
@@ -139,7 +140,7 @@ namespace MissionPlanner
             
         }
 
-        private const string PHOTO_FILES_FILTER = "*.jpg";
+        private const string PHOTO_FILES_FILTER = "*.jpg;*.tif";
         private const int JXL_ID_OFFSET = 10;
 
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
@@ -307,9 +308,21 @@ namespace MissionPlanner
                 {
                     FileInfo lcImgFile = new FileInfo(fn);
                     // Loading all meta data
-                    lcMetadata = JpegMetadataReader.ReadMetadata(lcImgFile);
+                    if (fn.ToLower().EndsWith(".jpg"))
+                    {
+                        lcMetadata = JpegMetadataReader.ReadMetadata(lcImgFile);
+                    }
+                    else if (fn.ToLower().EndsWith(".tif"))
+                    {
+                        lcMetadata = TiffMetadataReader.ReadMetadata(lcImgFile);
+                    }
                 }
                 catch (JpegProcessingException e)
+                {
+                    log.InfoFormat(e.Message);
+                    return dtaken;
+                }
+                catch (TiffProcessingException e)
                 {
                     log.InfoFormat(e.Message);
                     return dtaken;
@@ -528,7 +541,14 @@ namespace MissionPlanner
             if (vehicleLocations == null || vehicleLocations.Count <= 0)
                 return -1;
 
-            string[] files = Directory.GetFiles(dirWithImages, PHOTO_FILES_FILTER);
+            List<string> filelist = new List<string>();
+            string[] exts = PHOTO_FILES_FILTER.Split(';');
+            foreach (var ext in exts)
+            {
+                filelist.AddRange(Directory.GetFiles(dirWithImages, ext));
+            }
+
+            string[] files = filelist.ToArray();
 
             if (files == null || files.Length == 0)
                 return -1;
@@ -892,7 +912,14 @@ namespace MissionPlanner
 
             TXT_outputlog.AppendText("Read images\n");
 
-            string[] files = Directory.GetFiles(dirWithImages, "*.jpg");
+            List<string> filelist = new List<string>();
+            string[] exts = PHOTO_FILES_FILTER.Split(';');
+            foreach (var ext in exts)
+            {
+                filelist.AddRange(Directory.GetFiles(dirWithImages, ext));
+            }
+
+            string[] files = filelist.ToArray();
 
             TXT_outputlog.AppendText("Images read : " + files.Length + "\n");
 
