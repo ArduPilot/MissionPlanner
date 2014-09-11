@@ -50,11 +50,11 @@ namespace MissionPlanner.Controls
             {
                 if (Vertical)
                 {
-                    e.Graphics.DrawString(Lat.ToString("0.000000") + "\n" + Lng.ToString("0.000000") + "\n" + Alt.ToString("0.00"), this.Font, new SolidBrush(this.ForeColor), text, StringFormat.GenericDefault);
+                    e.Graphics.DrawString(Lat.ToString("0.000000") + "\n" + Lng.ToString("0.000000") + "\n" + Alt.ToString("0.00m"), this.Font, new SolidBrush(this.ForeColor), text, StringFormat.GenericDefault);
                 }
                 else
                 {
-                    e.Graphics.DrawString(Lat.ToString("0.000000") + " " + Lng.ToString("0.000000") + "   " + Alt.ToString("0.00"), this.Font, new SolidBrush(this.ForeColor), text, StringFormat.GenericDefault);
+                    e.Graphics.DrawString(Lat.ToString("0.000000") + " " + Lng.ToString("0.000000") + "   " + Alt.ToString("0.00m"), this.Font, new SolidBrush(this.ForeColor), text, StringFormat.GenericDefault);
                 }
             } 
             else  if (System == CoordsSystems.UTM.ToString())
@@ -70,11 +70,11 @@ namespace MissionPlanner.Controls
 
                     if (Vertical)
                     {
-                        e.Graphics.DrawString(parts[0] + "\n" + parts[1] + "\n" + parts[2] + "\n" + Alt.ToString("0.00"), this.Font, new SolidBrush(this.ForeColor), text, StringFormat.GenericDefault);
+                        e.Graphics.DrawString(parts[0] + "\n" + parts[1] + "\n" + parts[2] + "\n" + Alt.ToString("0.00m"), this.Font, new SolidBrush(this.ForeColor), text, StringFormat.GenericDefault);
                     }
                     else
                     {
-                        e.Graphics.DrawString(utm.ToString() + "   " + Alt.ToString("0.00"), this.Font, new SolidBrush(this.ForeColor), text, StringFormat.GenericDefault);
+                        e.Graphics.DrawString(utm.ToString() + "   " + Alt.ToString("0.00m"), this.Font, new SolidBrush(this.ForeColor), text, StringFormat.GenericDefault);
                     }
                 }
                 catch { }
@@ -91,11 +91,11 @@ namespace MissionPlanner.Controls
 
                     if (Vertical)
                     {
-                        e.Graphics.DrawString(mgrs.ToString() + "\n" + Alt.ToString("0.00"), this.Font, new SolidBrush(this.ForeColor), new Point(5, CMB_coordsystem.Bottom + 2), StringFormat.GenericDefault);
+                        e.Graphics.DrawString(mgrs.ToString() + "\n" + Alt.ToString("0.00m"), this.Font, new SolidBrush(this.ForeColor), new Point(5, CMB_coordsystem.Bottom + 2), StringFormat.GenericDefault);
                     }
                     else
                     {
-                        e.Graphics.DrawString(mgrs.ToString() + "   " + Alt.ToString("0.00"), this.Font, new SolidBrush(this.ForeColor), text, StringFormat.GenericDefault);
+                        e.Graphics.DrawString(mgrs.ToString() + "   " + Alt.ToString("0.00m"), this.Font, new SolidBrush(this.ForeColor), text, StringFormat.GenericDefault);
                     }
                 }
                 catch { }

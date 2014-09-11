@@ -105,7 +105,7 @@ namespace MissionPlanner.GCSViews
             // dragging a WP
             if (pointno == "Home")
             {
-                if (isonline && CHK_geheight.Checked)
+                if (isonline && CHK_verifyheight.Checked)
                 {
                     TXT_homealt.Text = getGEAlt(lat, lng).ToString();
                 }
@@ -207,39 +207,24 @@ namespace MissionPlanner.GCSViews
                         cell.Value = 50;
                     if (ans == 0 && (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2))
                         cell.Value = 15;
-                    //   online          verify height using google
-                  /*  if (isonline && CHK_geheight.Checked)
+                    
+                        // not online and verify alt via srtm
+                    if (CHK_verifyheight.Checked) // use srtm data
                     {
-                        if (CHK_altmode.Checked)
+                        // is absolute but no verify
+                        if ((altmode)CMB_altmode.SelectedValue == altmode.Absolute)
                         {
-                            // abs
-                            cell.Value = ((int)getGEAlt(lat, lng) + int.Parse(TXT_DefaultAlt.Text)).ToString();
+                            //abs
+                            cell.Value = (srtm.getAltitude(lat, lng) * MainV2.comPort.MAV.cs.multiplierdist + int.Parse(TXT_DefaultAlt.Text)).ToString();
                         }
                         else
                         {
-                            // relative
-                            cell.Value = ((int)getGEAlt(lat, lng) + int.Parse(TXT_DefaultAlt.Text) - (int)getGEAlt(MainV2.comPort.MAV.cs.HomeLocation.Lat, MainV2.comPort.MAV.cs.HomeLocation.Lng)).ToString();
-                        }
-                    }
-                    else*/
-                    {
-                        // not online and verify alt via srtm
-                        if (CHK_geheight.Checked) // use srtm data
-                        {
-                            // is absolute but no verify
-                            if ((altmode)CMB_altmode.SelectedValue == altmode.Absolute)
-                            {
-                                //abs
-                                cell.Value = (srtm.getAltitude(lat, lng) + int.Parse(TXT_DefaultAlt.Text)).ToString();
-                            }
-                            else
-                            {
-                                //relative and verify
-                                cell.Value = ((int)srtm.getAltitude(lat, lng) + int.Parse(TXT_DefaultAlt.Text) - (int)srtm.getAltitude(MainV2.comPort.MAV.cs.HomeLocation.Lat, MainV2.comPort.MAV.cs.HomeLocation.Lng)).ToString();
+                            //relative and verify
+                            cell.Value = ((int)srtm.getAltitude(lat, lng) * MainV2.comPort.MAV.cs.multiplierdist + int.Parse(TXT_DefaultAlt.Text) - (int)srtm.getAltitude(MainV2.comPort.MAV.cs.HomeLocation.Lat, MainV2.comPort.MAV.cs.HomeLocation.Lng) * MainV2.comPort.MAV.cs.multiplierdist).ToString();
 
-                            }
                         }
                     }
+                    
                     cell.DataGridView.EndEdit();
                 }
                 else

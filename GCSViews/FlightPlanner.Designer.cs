@@ -74,7 +74,7 @@
             this.Grad = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Dist = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.AZ = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CHK_geheight = new System.Windows.Forms.CheckBox();
+            this.CHK_verifyheight = new System.Windows.Forms.CheckBox();
             this.TXT_WPRad = new System.Windows.Forms.TextBox();
             this.TXT_DefaultAlt = new System.Windows.Forms.TextBox();
             this.LBL_WPRad = new System.Windows.Forms.Label();
@@ -362,9 +362,9 @@
             // 
             // CHK_geheight
             // 
-            resources.ApplyResources(this.CHK_geheight, "CHK_geheight");
-            this.CHK_geheight.Name = "CHK_geheight";
-            this.CHK_geheight.UseVisualStyleBackColor = true;
+            resources.ApplyResources(this.CHK_verifyheight, "CHK_geheight");
+            this.CHK_verifyheight.Name = "CHK_geheight";
+            this.CHK_verifyheight.UseVisualStyleBackColor = true;
             // 
             // TXT_WPRad
             // 
@@ -530,7 +530,7 @@
             this.panelWaypoints.Controls.Add(this.LBL_defalutalt);
             this.panelWaypoints.Controls.Add(this.Commands);
             this.panelWaypoints.Controls.Add(this.TXT_DefaultAlt);
-            this.panelWaypoints.Controls.Add(this.CHK_geheight);
+            this.panelWaypoints.Controls.Add(this.CHK_verifyheight);
             this.panelWaypoints.Controls.Add(this.TXT_WPRad);
             this.panelWaypoints.Controls.Add(this.BUT_Add);
             this.panelWaypoints.CustomColors.BorderColor = System.Drawing.Color.Black;
@@ -1297,7 +1297,7 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label lbl_status;
         private System.Windows.Forms.DataGridView Commands;
-        private System.Windows.Forms.CheckBox CHK_geheight;
+        private System.Windows.Forms.CheckBox CHK_verifyheight;
         private Controls.MyButton BUT_Add;
         private System.Windows.Forms.TextBox TXT_WPRad;
         private System.Windows.Forms.TextBox TXT_DefaultAlt;
