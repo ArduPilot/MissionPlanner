@@ -25,6 +25,69 @@ namespace MissionPlanner
 
         static double[] ans;
         static double[] ans2;
+
+        static string GetColour(int pitch, int yaw)
+        {
+            // yaw doesnt matter with these 2
+            if (pitch == 0)
+                return "DarkBlue";
+
+            if (pitch == 180)
+                return "Yellow";
+
+            // select hemisphere
+            if (pitch < 90)
+            {
+                if (yaw < 90 || yaw > 270)
+                    return "DarkBlue-Red";
+                if (yaw < 180)
+                    return "DarkBlue-Blue";
+                if (yaw < 270)
+                    return "DarkBlue-Pink";
+            }
+            else
+            {
+                if (yaw < 90 || yaw > 270)
+                    return "Yellow-Green";
+                if (yaw < 180)
+                    return "Yellow-Blue";
+                if (yaw < 270)
+                    return "Yellow-Pink";
+            }
+
+            return "";
+        }
+
+
+        /*
+         *      // pitch, yaw
+                // 0 , 0 is directly up dark blue axis
+                // 60, 360 is red and blue
+                // 60, 180 is dark blue and blue
+                // 90, 180 is light blue axis
+                // 90, 90 green axis
+                // 90, 270 pink axis
+                // 90, 360 red axis
+                // 180, 0 yellow axis
+
+              0,0,
+                0,120,
+                0,240,
+                0,360,
+                60,0,
+                60,120,
+                60,240,
+                60,360,
+                120,0,
+                120,120,
+                120,240,
+                120,360,
+                180,0,
+                180,120,
+                180,240,
+                180,360,
+         */
+   
        
         /// <summary>
         /// Self contained process tlog and save/display offsets
@@ -347,7 +410,7 @@ namespace MissionPlanner
                             (float)(Math.Sin(theta) * Math.Sin(phi) * radius),
                             (float)(Math.Cos(theta) * radius)) - centre;
 
-                        //log.DebugFormat("magcalib check - {0} {1} dist {2}", theta * rad2deg, phi * rad2deg, max_distance);
+                        //log.InfoFormat("magcalib check - {0} {1} dist {2}", theta * rad2deg, phi * rad2deg, max_distance);
 
                         bool found = false;
                         for (int k = 0; k < datacompass1.Count; k++)
@@ -364,7 +427,7 @@ namespace MissionPlanner
                         //((ProgressReporterSphere)sender).sphere1.AimFor(new OpenTK.Vector3((float)point_sphere.x, (float)point_sphere.y, (float)point_sphere.z));
                         if (!found)
                         {
-                            displayresult = "more data needed " + (theta * rad2deg).ToString("0") + " " + (phi * rad2deg).ToString("0");
+                            displayresult = "more data needed " + (theta * rad2deg).ToString("0") + " " + (phi * rad2deg).ToString("0") + " Aim For " + GetColour((int)(theta * rad2deg),(int)(phi * rad2deg));
                             ((ProgressReporterSphere)sender).sphere1.AimFor(new OpenTK.Vector3((float)point_sphere.x, (float)point_sphere.y, (float)point_sphere.z));
                             //j = factor;
                             //break;

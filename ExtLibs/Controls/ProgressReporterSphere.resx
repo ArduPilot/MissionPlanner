@@ -117,4 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="label1.Text" xml:space="preserve">
+    <value>Aim for the White dots.
+Pitch, Yaw
+0 , 0-360 dark blue axis
+60, 360-0 red and blue
+60, 180 dark blue and blue
+90, 180 light blue axis
+90, 90 green axis
+90, 270 pink axis
+90, 360-0 red axis
+180, 0-360 yellow axis</value>
+  </data>
 </root>

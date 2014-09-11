@@ -9,6 +9,7 @@ namespace MissionPlanner.Controls
     {
         private System.Windows.Forms.CheckBox CHK_rotate;
         public Sphere sphere2;
+        private System.Windows.Forms.Label label1;
         public Sphere sphere1;
 
         public ProgressReporterSphere()
@@ -18,9 +19,11 @@ namespace MissionPlanner.Controls
 
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ProgressReporterSphere));
             this.sphere1 = new MissionPlanner.Controls.Sphere();
             this.CHK_rotate = new System.Windows.Forms.CheckBox();
             this.sphere2 = new MissionPlanner.Controls.Sphere();
+            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btnCancel
@@ -62,9 +65,19 @@ namespace MissionPlanner.Controls
             this.sphere2.TabIndex = 8;
             this.sphere2.VSync = false;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(282, 8);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(134, 130);
+            this.label1.TabIndex = 9;
+            this.label1.Text = resources.GetString("label1.Text");
+            // 
             // ProgressReporterSphere
             // 
             this.ClientSize = new System.Drawing.Size(565, 446);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.sphere2);
             this.Controls.Add(this.CHK_rotate);
             this.Controls.Add(this.sphere1);
@@ -73,6 +86,7 @@ namespace MissionPlanner.Controls
             this.Controls.SetChildIndex(this.sphere1, 0);
             this.Controls.SetChildIndex(this.CHK_rotate, 0);
             this.Controls.SetChildIndex(this.sphere2, 0);
+            this.Controls.SetChildIndex(this.label1, 0);
             this.ResumeLayout(false);
             this.PerformLayout();
 
