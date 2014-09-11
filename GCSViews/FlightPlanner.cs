@@ -3589,6 +3589,18 @@ namespace MissionPlanner.GCSViews
                 return;
             }
 
+            float oldaction = (float)MainV2.comPort.MAV.param["FENCE_ACTION"];
+
+            try
+            {
+                MainV2.comPort.setParam("FENCE_ACTION", 0);
+            }
+            catch
+            {
+                CustomMessageBox.Show("Failed to set FENCE_ACTION");
+                return;
+            }
+
             // points + return + close
             byte pointcount = (byte)(drawnpolygon.Points.Count + 2);
 
@@ -3603,44 +3615,60 @@ namespace MissionPlanner.GCSViews
                 return;
             }
 
-            byte a = 0;
-
-            // add return loc
-            MainV2.comPort.setFencePoint(a, new PointLatLngAlt(geofenceoverlay.Markers[0].Position), pointcount);
-            a++;
-
-            // add points
-            foreach (var pll in drawnpolygon.Points)
+            try
             {
-                MainV2.comPort.setFencePoint(a, new PointLatLngAlt(pll), pointcount);
+                byte a = 0;
+                // add return loc
+                MainV2.comPort.setFencePoint(a, new PointLatLngAlt(geofenceoverlay.Markers[0].Position), pointcount);
                 a++;
+                // add points
+                foreach (var pll in drawnpolygon.Points)
+                {
+                    MainV2.comPort.setFencePoint(a, new PointLatLngAlt(pll), pointcount);
+                    a++;
+                }
+
+                // add polygon close
+                MainV2.comPort.setFencePoint(a, new PointLatLngAlt(drawnpolygon.Points[0]), pointcount);
+
+                try
+                {
+                    MainV2.comPort.setParam("FENCE_ACTION", oldaction);
+                }
+                catch
+                {
+                    CustomMessageBox.Show("Failed to restore FENCE_ACTION");
+                    return;
+                }
+
+                // clear everything
+                drawnpolygonsoverlay.Polygons.Clear();
+                drawnpolygonsoverlay.Markers.Clear();
+                geofenceoverlay.Polygons.Clear();
+                geofencepolygon.Points.Clear();
+
+                // add polygon
+                geofencepolygon.Points.AddRange(drawnpolygon.Points.ToArray());
+
+                drawnpolygon.Points.Clear();
+
+                geofenceoverlay.Polygons.Add(geofencepolygon);
+
+                // update flightdata
+                FlightData.geofence.Markers.Clear();
+                FlightData.geofence.Polygons.Clear();
+                FlightData.geofence.Polygons.Add(new GMapPolygon(geofencepolygon.Points, "gf fd") { Stroke = geofencepolygon.Stroke });
+                FlightData.geofence.Markers.Add(new GMarkerGoogle(geofenceoverlay.Markers[0].Position, GMarkerGoogleType.red) { ToolTipText = geofenceoverlay.Markers[0].ToolTipText, ToolTipMode = geofenceoverlay.Markers[0].ToolTipMode });
+
+                MainMap.UpdatePolygonLocalPosition(geofencepolygon);
+                MainMap.UpdateMarkerLocalPosition(geofenceoverlay.Markers[0]);
+
+                MainMap.Invalidate();
             }
-            // add polygon close
-            MainV2.comPort.setFencePoint(a, new PointLatLngAlt(drawnpolygon.Points[0]), pointcount);
-
-            // clear everything
-            drawnpolygonsoverlay.Polygons.Clear();
-            drawnpolygonsoverlay.Markers.Clear();
-            geofenceoverlay.Polygons.Clear();
-            geofencepolygon.Points.Clear();
-
-            // add polygon
-            geofencepolygon.Points.AddRange(drawnpolygon.Points.ToArray());
-
-            drawnpolygon.Points.Clear();
-
-            geofenceoverlay.Polygons.Add(geofencepolygon);
-
-            // update flightdata
-            FlightData.geofence.Markers.Clear();
-            FlightData.geofence.Polygons.Clear();
-            FlightData.geofence.Polygons.Add(new GMapPolygon(geofencepolygon.Points, "gf fd") { Stroke = geofencepolygon.Stroke });
-            FlightData.geofence.Markers.Add(new GMarkerGoogle(geofenceoverlay.Markers[0].Position,GMarkerGoogleType.red) { ToolTipText = geofenceoverlay.Markers[0].ToolTipText, ToolTipMode = geofenceoverlay.Markers[0].ToolTipMode });
-
-            MainMap.UpdatePolygonLocalPosition(geofencepolygon);
-            MainMap.UpdateMarkerLocalPosition(geofenceoverlay.Markers[0]);
-
-            MainMap.Invalidate();
+            catch 
+            {
+                CustomMessageBox.Show("Failed to send new fence points","Error");
+            }
         }
 
         private void GeoFencedownloadToolStripMenuItem_Click(object sender, EventArgs e)

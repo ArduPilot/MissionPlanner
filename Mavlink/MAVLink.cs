@@ -3253,7 +3253,7 @@ Please check the following
                 retry--;
             }
 
-            return false;
+            throw new Exception("Could not verify GeoFence Point");
         }
 
         public bool setRallyPoint(byte index, PointLatLngAlt plla,short break_alt, UInt16 land_dir_cd, byte flags, byte rallypointcount)
