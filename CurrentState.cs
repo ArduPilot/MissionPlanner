@@ -1359,14 +1359,15 @@ namespace MissionPlanner
 
         public bool landed { get; set; }
 
-        public float ter_curalt { get; set; }
+        float _ter_curalt;
+        public float ter_curalt { get { return _ter_curalt * multiplierdist; } set { _ter_curalt = value; } }
+        float _ter_alt;
+        public float ter_alt { get { return _ter_alt * multiplierdist; } set { _ter_alt = value; } }
 
-        public float ter_alt { get; set; }
+        public float ter_load { get; set; }
 
-        public ushort ter_load { get; set; }
+        public float ter_pend { get; set; }
 
-        public ushort ter_pend { get; set; }
-
-        public ushort ter_space { get; set; }
+        public float ter_space { get; set; }
     }
 }
