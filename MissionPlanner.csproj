@@ -50,6 +50,7 @@
     <UseVSHostingProcess>true</UseVSHostingProcess>
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
     <LangVersion>default</LangVersion>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -61,6 +62,7 @@
     <WarningLevel>4</WarningLevel>
     <DebugSymbols>true</DebugSymbols>
     <UseVSHostingProcess>true</UseVSHostingProcess>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Mavlink10)'=='false'">
     <DefineConstants>TRACE;DEBUG</DefineConstants>
@@ -514,7 +516,6 @@
       <DependentUpon>PluginUI.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\ConfigCameraStabModel.cs" />
-    <Compile Include="Properties\AssemblyInfo.log4net.cs" />
     <Compile Include="ScriptConsole.cs">
       <SubType>Form</SubType>
     </Compile>

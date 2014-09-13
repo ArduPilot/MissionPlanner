@@ -1,4 +1,74 @@
-﻿* Mission Planner 1.3.9
+﻿* Mission Planner 1.3.10
+georef: add tiff support
+currentstate: add m to ft conversion on terrain alt
+FlightPlanner: fix m to feet conversion
+magcalib: add colours
+SpainMap: update main url
+Geofence: set fence_action to 0 before upload, and restore on finish
+configfirmware: update 3.2 warning message
+ParameterMetaData: update to use stable or master on param meta data based on MP beta usage.
+app.config: update metadata to always pull from stable branchs
+Capture: placeholder code for crossbar selection.
+ConfigPlanner: remember video device.
+flightplanner: make sline work from the grid interfaces
+FlightPlanner: add distance check to dashed home line
+Survey (Grid) Delay and HeadingHold Upgrades
+Survey(Grid) Save "checked" for internals and footprints.
+User requested survey save the checked option.
+Survey (Grid).copter. Change waypoint delay.
+currentstate: add battery2 values
+mavlink: update library
+configbatterymonitor: update hv power module number
+matlab: reduce memory footprint more using file backed arrays
+matlab: deal with large bin files, output split mat files
+Binarylog: new function ConvertBin, and update users
+configmotortest: check frame param exists
+srtm: add comment
+magcalib: fix exception on mag calib from log on apm2
+gimbalpoint: add another check to determine if feature exists
+logbrowse: add another  presaved mechanical issue check
+joystick: add gimbal point track.
+flightdata: add gimbal point zero check
+mainv2: speedup gmaps cache on mp close
+opengltest2
+Flightdata: expand user item selection box
+Program: fix http get issues
+FlightModes: add simple mode note
+Common: add {curr} to speech engine
+ADSB: add custom server option #617
+Joystick: disable on error
+joystick: add connected check when a button is pushed on the joystick #623
+Mavlink: add code to prefer a non antenna tracker target. if one exists
+flightdata: fix status screen exception on first run
+joystick: send rcoverride of 0 on unplug. #624
+program: swich back to default http options
+gimbalpoint: update to use mount status message.
+joystick: add ability to toggle mount pan stab on and off
+initialsetup: accel fix tracker detection
+flightdata: fix map update issue
+srtm: update to use new data location
+srtm fix srtm alt. wrong average
+configaccel tracker: add ability to accel calib tracker
+POI: add null check on delete poi
+speedup application shutdown
+program: remove bad log analysis file
+update TC translation
+flightdata: fix log analysis from a bin file.
+flightdata: tweak thread join
+joystick mount mode: add description of modes
+joystick: add mount mode via joystick
+joystick: add takeoff via button
+flightplanner: fix mono exception
+Firmware: update antenna tracker icon
+add statkart_topo map for general use
+Main: update httpserver stop method to new api
+georef: add path list, and fix point alts
+httpserver: add stop method
+add statkart topo maps
+flightdata: fix termination, and mount exception
+adsb: fix termination
+
+* Mission Planner 1.3.9
 fix grid issue.
 fix treeview save
 add treeview param checking
