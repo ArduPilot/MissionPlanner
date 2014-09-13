@@ -260,7 +260,7 @@
     <value>79, 13</value>
   </data>
   <data name="groupBox1.Text" xml:space="preserve">
-    <value>FailSafe Options</value>
+    <value>失控保護</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
     <value>Radio IN</value>
@@ -269,19 +269,19 @@
     <value>Servo/Motor OUT</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
-    <value>FS Pwm</value>
+    <value>失控保護的  Pwm</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
-    <value>Low Battery</value>
+    <value>電池低電壓</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
     <value>Reserved MAH</value>
   </data>
   <data name="lbl_armed.Text" xml:space="preserve">
-    <value>Dissarmed</value>
+    <value>關閉</value>
   </data>
   <data name="lbl_currentmode.Text" xml:space="preserve">
-    <value>Manual</value>
+    <value>手動</value>
   </data>
   <data name="lbl_gpslock.Text" xml:space="preserve">
     <value>No Lock</value>
@@ -290,13 +290,13 @@
     <value>Wiki</value>
   </data>
   <data name="mavlinkCheckBoxFS_GCS_ENABLE.Text" xml:space="preserve">
-    <value>GCS FS Enable</value>
+    <value>啟用地面站的失控保護</value>
   </data>
   <data name="mavlinkCheckBoxgcs_fs.Text" xml:space="preserve">
-    <value>GCS FailSafe</value>
+    <value>地面站的失控保護</value>
   </data>
   <data name="mavlinkCheckBoxgcs_fs.ToolTip" xml:space="preserve">
-    <value>Enable Failsafe on GCS loss of communication</value>
+    <value>當沒有地面站訊號時觸發失控保護</value>
   </data>
   <data name="mavlinkCheckBoxlong_fs.Text" xml:space="preserve">
     <value>FailSafe Long (20 sec)</value>
@@ -311,28 +311,28 @@
     <value>Off, no Action, On, RTL</value>
   </data>
   <data name="mavlinkCheckBoxthr_fs.Text" xml:space="preserve">
-    <value>Throttle FailSafe</value>
+    <value>油門失控保護</value>
   </data>
   <data name="mavlinkCheckBoxthr_fs.ToolTip" xml:space="preserve">
-    <value>Enable Failsafe on low throttle pwm</value>
+    <value>當油門的 Pwm 過低時觸發失控保護</value>
   </data>
   <data name="mavlinkCheckBoxthr_fs_action.Text" xml:space="preserve">
-    <value>Throttle Failsafe Action</value>
+    <value>油門失控保護動作</value>
   </data>
   <data name="mavlinkCheckBoxthr_fs_action.ToolTip" xml:space="preserve">
     <value>Arducopter Auto: Off, no Action, On, RTL
 Arducopter Other: if have gps, RTL, Otherwise Land</value>
   </data>
   <data name="mavlinkComboBox_fs_thr_enable.ToolTip" xml:space="preserve">
-    <value>Failsafe mode on low pwm</value>
+    <value>較低 Pwm要時的失控保護</value>
   </data>
   <data name="mavlinkNumericUpDownfs_thr_value.ToolTip" xml:space="preserve">
-    <value>Trigger Throttle Pwm</value>
+    <value>觸發油門的 Pwm</value>
   </data>
   <data name="mavlinkNumericUpDownlow_voltage.ToolTip" xml:space="preserve">
-    <value>Low Voltage Trigger</value>
+    <value>低電壓觸發</value>
   </data>
   <data name="mavlinkNumericUpDownthr_fs_value.ToolTip" xml:space="preserve">
-    <value>Trigger Throttle Pwm</value>
+    <value>觸發油門的 Pwm</value>
   </data>
 </root>
