@@ -849,7 +849,7 @@ namespace MissionPlanner
                             messageHigh = "Bad/No Terrain Data";
                             messageHighTime = DateTime.Now;
                         }
-                        else if (sensors_health.geofence == sensors_enabled.geofence && sensors_present.geofence)
+                        else if (sensors_health.geofence != sensors_enabled.geofence && sensors_present.geofence)
                         {
                             messageHigh = "Geofence Breach";
                             messageHighTime = DateTime.Now;
