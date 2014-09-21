@@ -161,6 +161,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void CHK_hudshow_CheckedChanged(object sender, EventArgs e)
         {
             GCSViews.FlightData.myhud.hudon = CHK_hudshow.Checked;
+            MainV2.config["CHK_hudshow"] = CHK_hudshow.Checked;
         }
 
         private void CHK_enablespeech_CheckedChanged(object sender, EventArgs e)

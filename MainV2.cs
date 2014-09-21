@@ -497,6 +497,9 @@ namespace MissionPlanner
             if (MainV2.config["CHK_GDIPlus"] != null)
                 GCSViews.FlightData.myhud.UseOpenGL = !bool.Parse(MainV2.config["CHK_GDIPlus"].ToString());
 
+            if (MainV2.config["CHK_hudshow"] != null)
+                GCSViews.FlightData.myhud.hudon = bool.Parse(MainV2.config["CHK_hudshow"].ToString());
+
             try
             {
                 if (config["MainLocX"] != null && config["MainLocY"] != null)
