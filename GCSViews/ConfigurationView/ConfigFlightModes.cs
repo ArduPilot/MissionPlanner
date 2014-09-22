@@ -200,7 +200,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                 linkLabel1_ss.Visible = false;
 
-
                 try
                 {
                     updateDropDown(CMB_fmode1, "FLTMODE1");
@@ -303,8 +302,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 catch { }
             }
 
-
-
             timer.Tick += new EventHandler(timer_Tick);
 
             timer.Enabled = true;
@@ -322,6 +319,48 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private void linkLabel1_ss_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             System.Diagnostics.Process.Start("http://copter.ardupilot.com/wiki/flight-modes/simpleandsuper-simple-modes/");
+        }
+
+        private void flightmode_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
+            {
+                Control sender2 = (Control)sender;
+                string currentmode = sender2.Text.ToLower();
+
+                if (currentmode.Contains("althold") || currentmode.Contains("auto") ||
+                    currentmode.Contains("autotune") || currentmode.Contains("land") ||
+                    currentmode.Contains("loiter") || currentmode.Contains("ofloiter") ||
+                    currentmode.Contains("poshold") || currentmode.Contains("rtl") ||
+                    currentmode.Contains("sport") || currentmode.Contains("stabilize"))
+                {
+                    //CMB_fmode1
+                    //CB_simple1
+                    //chk_ss1
+
+                    string number = sender2.Name.Substring(sender2.Name.Length - 1);
+
+                    findandenableordisable("CB_simple" + number, true);
+                    findandenableordisable("chk_ss" + number, true);
+                }
+                else
+                {
+                    string number = sender2.Name.Substring(sender2.Name.Length - 1);
+
+                    findandenableordisable("CB_simple" + number, false);
+                    findandenableordisable("chk_ss" + number, false);
+                }
+            }
+        }
+
+        void findandenableordisable(string ctl, bool enable)
+        {
+            Control[] items = this.Controls.Find(ctl, true);
+
+            if (items.Length > 0)
+            {
+                items[0].Enabled = enable;
+            }
         }
     }
 }
