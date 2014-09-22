@@ -79,6 +79,22 @@ namespace MissionPlanner
         [DisplayText("Sat Count")]
         public float satcount { get; set; }
 
+        public float lat2 { get; set; }
+
+        public float lng2 { get; set; }
+
+        public float altasl2 { get; set; }
+
+        public float gpsstatus2 { get; set; }
+
+        public float gpshdop2 { get; set; }
+
+        public float satcount2 { get; set; }
+
+        public float groundspeed2 { get; set; }
+
+        public float groundcourse2 { get; set; }
+
         public float altd1000 { get { return (alt / 1000) % 10; } }
         public float altd100 { get { return (alt / 100) % 10; } }
 
@@ -1341,21 +1357,6 @@ namespace MissionPlanner
         public float gimballat { get { if (GimbalPoint == null) return 0; return (float)GimbalPoint.Lat; } }
         public float gimballng { get { if (GimbalPoint == null) return 0; return (float)GimbalPoint.Lng; } }
 
-        public float lat2 { get; set; }
-
-        public float lng2 { get; set; }
-
-        public float altasl2 { get; set; }
-
-        public byte gpsstatus2 { get; set; }
-
-        public float gpshdop2 { get; set; }
-
-        public byte satcount2 { get; set; }
-
-        public float groundspeed2 { get; set; }
-
-        public float groundcourse2 { get; set; }
 
         public bool landed { get; set; }
 
