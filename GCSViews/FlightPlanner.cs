@@ -3497,10 +3497,9 @@ namespace MissionPlanner.GCSViews
                 {
                     if (lastmapposchange.Second != DateTime.Now.Second)
                     {
-                        gMapControl1.Position = currentloc;
+                        MainMap.Position = currentloc;
                         lastmapposchange = DateTime.Now;
                     }
-                    //hud1.Refresh();
                 }
                 catch { }
             });
