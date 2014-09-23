@@ -30,18 +30,41 @@ namespace MissionPlanner.Warnings
             {
                 foreach (var item in WarningEngine.warnings)
                 {
-                    WarningControl wrnctl = new WarningControl(item);
-
-                    wrnctl.Location = new Point(5, y);
+                    var wrnctl = addwarningcontrol(5, y,item);
 
                     y = wrnctl.Bottom;
-
-                    panel1.Controls.Add(wrnctl);
                 }
             }
         }
 
+        WarningControl addwarningcontrol(int x, int y, CustomWarning item, bool hideforchild = false)
+        {
+            WarningControl wrnctl = new WarningControl(item);
 
+            wrnctl.ReloadList += wrnctl_ChildAdd;
+
+            wrnctl.Location = new Point(x, y);
+
+            if (hideforchild)
+                wrnctl.TXT_warningtext.Visible = false;
+
+            panel1.Controls.Add(wrnctl);
+
+            y = wrnctl.Bottom;
+
+            if (item.Child != null)
+            {
+                wrnctl = addwarningcontrol(x += 5, y, item.Child, true);
+            }
+
+            return wrnctl;
+        }
+
+        void wrnctl_ChildAdd(object sender, EventArgs e)
+        {
+            reload();
+        }
+        
         private void BUT_Add_Click(object sender, EventArgs e)
         {
             var newcw = new CustomWarning();

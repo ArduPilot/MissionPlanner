@@ -9,6 +9,8 @@ namespace MissionPlanner.Warnings
 {
     public class WarningControl: UserControl
     {
+        public event EventHandler ReloadList;
+
         public WarningControl(CustomWarning item)
         {
             InitializeComponent();
@@ -52,7 +54,9 @@ namespace MissionPlanner.Warnings
         private ComboBox CMB_condition;
         private NumericUpDown NUM_warning;
         private NumericUpDown NUM_repeattime;
-        private TextBox TXT_warningtext;
+        public TextBox TXT_warningtext;
+        private Controls.MyButton but_addchild;
+        private Controls.MyButton but_remove;
         private ComboBox CMB_Source;
         // posible child
         //private CustomWarning item;
@@ -65,6 +69,8 @@ namespace MissionPlanner.Warnings
             this.NUM_warning = new System.Windows.Forms.NumericUpDown();
             this.NUM_repeattime = new System.Windows.Forms.NumericUpDown();
             this.TXT_warningtext = new System.Windows.Forms.TextBox();
+            this.but_addchild = new MissionPlanner.Controls.MyButton();
+            this.but_remove = new MissionPlanner.Controls.MyButton();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_warning)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_repeattime)).BeginInit();
             this.SuspendLayout();
@@ -130,15 +136,37 @@ namespace MissionPlanner.Warnings
             this.TXT_warningtext.Text = "WARNING: {name} is {value}";
             this.TXT_warningtext.TextChanged += new System.EventHandler(this.TXT_warningtext_TextChanged);
             // 
+            // but_addchild
+            // 
+            this.but_addchild.Location = new System.Drawing.Point(549, 3);
+            this.but_addchild.Name = "but_addchild";
+            this.but_addchild.Size = new System.Drawing.Size(25, 20);
+            this.but_addchild.TabIndex = 5;
+            this.but_addchild.Text = "+";
+            this.but_addchild.UseVisualStyleBackColor = true;
+            this.but_addchild.Click += new System.EventHandler(this.but_addchild_Click);
+            // 
+            // but_remove
+            // 
+            this.but_remove.Location = new System.Drawing.Point(580, 3);
+            this.but_remove.Name = "but_remove";
+            this.but_remove.Size = new System.Drawing.Size(25, 20);
+            this.but_remove.TabIndex = 6;
+            this.but_remove.Text = "-";
+            this.but_remove.UseVisualStyleBackColor = true;
+            this.but_remove.Click += new System.EventHandler(this.but_remove_Click);
+            // 
             // WarningControl
             // 
+            this.Controls.Add(this.but_remove);
+            this.Controls.Add(this.but_addchild);
             this.Controls.Add(this.TXT_warningtext);
             this.Controls.Add(this.NUM_repeattime);
             this.Controls.Add(this.NUM_warning);
             this.Controls.Add(this.CMB_condition);
             this.Controls.Add(this.CMB_Source);
             this.Name = "WarningControl";
-            this.Size = new System.Drawing.Size(548, 27);
+            this.Size = new System.Drawing.Size(619, 27);
             ((System.ComponentModel.ISupportInitialize)(this.NUM_warning)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_repeattime)).EndInit();
             this.ResumeLayout(false);
@@ -174,6 +202,25 @@ namespace MissionPlanner.Warnings
         {
             if (custwarning != null)
             custwarning.RepeatTime = (int)NUM_repeattime.Value;
+        }
+
+        private void but_addchild_Click(object sender, EventArgs e)
+        {
+            custwarning.Child = new CustomWarning();
+
+            if (ReloadList != null)
+                ReloadList(this,null);
+        }
+
+        private void but_remove_Click(object sender, EventArgs e)
+        {
+            lock (WarningEngine.warnings)
+            {
+                WarningEngine.warnings.Remove(custwarning);
+            }
+            
+            if (ReloadList != null)
+                ReloadList(this, null);
         }
     }
 }

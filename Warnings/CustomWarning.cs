@@ -55,6 +55,9 @@ namespace MissionPlanner.Warnings
                 {
                     fieldValue = field.GetValue(src, null); // Get value
 
+                    if (fieldValue == null)
+                        continue;
+
                     // Get the TypeCode enumeration. Multiple types get mapped to a common typecode.
                     typeCode = Type.GetTypeCode(fieldValue.GetType());
                 }
