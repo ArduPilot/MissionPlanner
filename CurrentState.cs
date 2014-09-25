@@ -79,9 +79,9 @@ namespace MissionPlanner
         [DisplayText("Sat Count")]
         public float satcount { get; set; }
 
-        public float lat2 { get; set; }
+        public double lat2 { get; set; }
 
-        public float lng2 { get; set; }
+        public double lng2 { get; set; }
 
         public float altasl2 { get; set; }
 
@@ -957,8 +957,8 @@ namespace MissionPlanner
 
                         if (!useLocation)
                         {
-                            lat = gps.lat * 1.0e-7f;
-                            lng = gps.lon * 1.0e-7f;
+                            lat = gps.lat * 1.0e-7;
+                            lng = gps.lon * 1.0e-7;
 
                             altasl = gps.alt / 1000.0f;
                            // alt = gps.alt; // using vfr as includes baro calc
@@ -982,8 +982,8 @@ namespace MissionPlanner
                     {
                         var gps = bytearray.ByteArrayToStructure<MAVLink.mavlink_gps2_raw_t>(6);
 
-                        lat2 = gps.lat * 1.0e-7f;
-                        lng2 = gps.lon * 1.0e-7f;
+                        lat2 = gps.lat * 1.0e-7;
+                        lng2 = gps.lon * 1.0e-7;
                         altasl2 = gps.alt / 1000.0f;
 
                         gpsstatus2 = gps.fix_type;
@@ -1045,8 +1045,8 @@ namespace MissionPlanner
                         }
                         else
                         {
-                            lat = loc.lat / 10000000.0f;
-                            lng = loc.lon / 10000000.0f;
+                            lat = loc.lat / 10000000.0;
+                            lng = loc.lon / 10000000.0;
 
                             altasl = loc.alt / 1000.0f;
                         }
