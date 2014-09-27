@@ -1166,11 +1166,16 @@ namespace MissionPlanner.Joystick
             if (rev)
                 working *= -1;
 
+            // save for later
+            int raw = working;
+
+            working = (int)Expo(working, expo, min, max, trim);
+
+            /*
             // calc scale from actualy pwm range
             float scale = range / 1000.0f;
 
-            // save for later
-            int raw = working;
+            
 
 
             double B = 4 * (expo / 100.0);
@@ -1188,16 +1193,72 @@ namespace MissionPlanner.Joystick
 
             working = (int)(t_out * 1000);
 
+             
             if (expo == 0)
             {
                 working = (int)(raw) + trim;
-            }
+            }*/
 
             //add limits to movement
             working = Math.Max(min, working);
             working = Math.Min(max, working);
 
             return (ushort)working;
+        }
+
+        public static double Expo(double input, double expo, double min, double max, double mid)
+        {
+            // input range -500 to 500
+
+            double expomult = expo / 100.0;
+
+            if (input >= 0)
+            {
+                // linear scale
+                double linearpwm = map(input, 0, 500, mid, max);
+
+                double expomid = (max - mid) / 2;
+
+                double factor = 0;
+
+                // over half way though input
+                if (input > 250)
+                {
+                    factor = 250 - (input-250); 
+                }
+                else
+                {
+                    factor = input;
+                }
+
+                return linearpwm - (factor * expomult);
+            }
+            else
+            {
+                double linearpwm = map(input, -500, 0, min, mid);
+
+                double expomid = (mid - min) / 2;
+
+                double factor = 0;
+
+                // over half way though input
+                if (input < -250)
+                {
+                    factor = -250 - (input + 250); 
+                }
+                else
+                {
+                    factor = input;
+                }
+
+                return linearpwm - (factor * expomult);
+            }
+            
+        }
+
+        static double map(double x, double in_min, double in_max, double out_min, double out_max)
+        {
+            return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
         }
 
         double Constrain(double value, double min, double max)
