@@ -11,6 +11,13 @@ namespace MissionPlanner.Warnings
     {
         public event EventHandler ReloadList;
 
+        public WarningControl()
+        {
+            int fixme;
+            int fixme2;
+            InitializeComponent();
+        }
+
         public WarningControl(CustomWarning item)
         {
             InitializeComponent();
@@ -217,10 +224,35 @@ namespace MissionPlanner.Warnings
             lock (WarningEngine.warnings)
             {
                 WarningEngine.warnings.Remove(custwarning);
+
+                foreach (var item in WarningEngine.warnings)
+                {
+                    removewarning(item,custwarning);
+                }
             }
             
             if (ReloadList != null)
                 ReloadList(this, null);
+        }
+
+        void removewarning(CustomWarning lookin, CustomWarning removeme) 
+        {
+            // depth first check children
+            if (lookin.Child != null)
+                removewarning(lookin.Child, removeme);
+
+            if (lookin.Child == removeme)
+            {
+                if (lookin.Child.Child != null)
+                {
+                    lookin.Child = lookin.Child.Child;
+                }
+                else
+                {
+                    lookin.Child = null;
+                }
+                return;
+            }
         }
     }
 }

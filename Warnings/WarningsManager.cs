@@ -35,6 +35,8 @@ namespace MissionPlanner.Warnings
                     y = wrnctl.Bottom;
                 }
             }
+
+            Utilities.ThemeManager.ApplyThemeTo(this);
         }
 
         WarningControl addwarningcontrol(int x, int y, CustomWarning item, bool hideforchild = false)
