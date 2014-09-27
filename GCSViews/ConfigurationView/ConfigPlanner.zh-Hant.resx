@@ -232,7 +232,7 @@
     <value>85</value>
   </data>
   <data name="CHK_GDIPlus.Text" xml:space="preserve">
-    <value>GDI+ (old type)</value>
+    <value>GDI+ (舊版樣式)</value>
   </data>
   <data name="label24.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -262,7 +262,7 @@
     <value>83</value>
   </data>
   <data name="CHK_loadwponconnect.Text" xml:space="preserve">
-    <value>連線時是否可載入航點</value>
+    <value>連線後自動載入航點</value>
   </data>
   <data name="label23.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -277,7 +277,7 @@
     <value>81</value>
   </data>
   <data name="label23.Text" xml:space="preserve">
-    <value>Track Length</value>
+    <value>飛行軌跡(點)</value>
   </data>
   <data name="NUM_tracklength.Location" type="System.Drawing.Point, System.Drawing">
     <value>124, 273</value>
@@ -370,7 +370,7 @@
     <value>48</value>
   </data>
   <data name="label107.Text" xml:space="preserve">
-    <value>RC</value>
+    <value>遙控</value>
   </data>
   <data name="CMB_raterc.Items" xml:space="preserve">
     <value>0</value>
@@ -472,7 +472,7 @@
     <value>53</value>
   </data>
   <data name="label101.Text" xml:space="preserve">
-    <value>遙測速率</value>
+    <value>數傳封包率</value>
   </data>
   <data name="CMB_ratestatus.Items" xml:space="preserve">
     <value>0</value>
@@ -676,7 +676,7 @@
     <value>62</value>
   </data>
   <data name="label96.Text" xml:space="preserve">
-    <value>遙桿</value>
+    <value>飛行遙桿</value>
   </data>
   <data name="label95.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -691,7 +691,7 @@
     <value>63</value>
   </data>
   <data name="label95.Text" xml:space="preserve">
-    <value>語音警報</value>
+    <value>語音</value>
   </data>
   <data name="CHK_speechbattery.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -790,7 +790,7 @@
     <value>68</value>
   </data>
   <data name="label94.Text" xml:space="preserve">
-    <value>OSD Color</value>
+    <value>OSD 顏色</value>
   </data>
   <data name="CMB_osdcolor.Location" type="System.Drawing.Point, System.Drawing">
     <value>124, 62</value>
@@ -823,7 +823,7 @@
     <value>71</value>
   </data>
   <data name="label93.Text" xml:space="preserve">
-    <value>軟體介面語言</value>
+    <value>使用語言</value>
   </data>
   <data name="CHK_enablespeech.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -856,7 +856,7 @@
     <value>73</value>
   </data>
   <data name="CHK_hudshow.Text" xml:space="preserve">
-    <value>啟用 HUD </value>
+    <value>HUD 影像疊加</value>
   </data>
   <data name="label92.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -871,7 +871,7 @@
     <value>74</value>
   </data>
   <data name="label92.Text" xml:space="preserve">
-    <value>視訊設備</value>
+    <value>影像擷取卡</value>
   </data>
   <data name="CMB_videosources.Location" type="System.Drawing.Point, System.Drawing">
     <value>124, 8</value>
@@ -931,7 +931,7 @@
     <value>91</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>距離起飛地</value>
+    <value>離家距離</value>
   </data>
   <data name="CHK_disttohomeflightdata.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -946,7 +946,7 @@
     <value>92</value>
   </data>
   <data name="CHK_disttohomeflightdata.Text" xml:space="preserve">
-    <value>顯示於飛行資訊</value>
+    <value>顯示於飛行資訊中</value>
   </data>
   <data name="BUT_Joystick.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -991,7 +991,7 @@
     <value>78</value>
   </data>
   <data name="BUT_videostart.Text" xml:space="preserve">
-    <value>開啟</value>
+    <value>開始</value>
   </data>
   <data name="label3.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -1006,7 +1006,7 @@
     <value>93</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
-    <value>Log 檔路徑</value>
+    <value>記錄檔資料夾</value>
   </data>
   <data name="txt_log_dir.Location" type="System.Drawing.Point, System.Drawing">
     <value>124, 368</value>
@@ -1045,7 +1045,7 @@
     <value>96</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
-    <value>介面風格</value>
+    <value>主題配色</value>
   </data>
   <data name="CMB_theme.Location" type="System.Drawing.Point, System.Drawing">
     <value>124, 394</value>
@@ -1066,7 +1066,7 @@
     <value>98</value>
   </data>
   <data name="BUT_themecustom.Text" xml:space="preserve">
-    <value>客置介面</value>
+    <value>自定</value>
   </data>
   <data name="CHK_speecharmdisarm.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1102,7 +1102,7 @@
     <value>100</value>
   </data>
   <data name="BUT_Vario.Text" xml:space="preserve">
-    <value>開啟/停止 Vario</value>
+    <value>啟動/停止</value>
   </data>
   <data name="label5.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -1117,7 +1117,7 @@
     <value>101</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
-    <value>Vario</value>
+    <value>爬升率音調</value>
   </data>
   <data name="chk_analytics.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1153,7 +1153,7 @@
     <value>103</value>
   </data>
   <data name="CHK_beta.Text" xml:space="preserve">
-    <value>Beta Updates</value>
+    <value>測試版更新</value>
   </data>
   <data name="CHK_Password.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1171,7 +1171,7 @@
     <value>104</value>
   </data>
   <data name="CHK_Password.Text" xml:space="preserve">
-    <value>密碼設定</value>
+    <value>調參密碼設定</value>
   </data>
   <data name="CHK_speechlowspeed.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1210,7 +1210,7 @@
     <value>106</value>
   </data>
   <data name="CHK_advancedview.Text" xml:space="preserve">
-    <value>Advanced View</value>
+    <value>進階功能選項</value>
   </data>
   <data name="CHK_showairports.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1246,7 +1246,7 @@
     <value>108</value>
   </data>
   <data name="chk_ADSB.Text" xml:space="preserve">
-    <value>ADSB</value>
+    <value>ADSB航班顯示</value>
   </data>
   <data name="$this.Localizable" type="System.Boolean, mscorlib">
     <value>True</value>
