@@ -22,3 +22,5 @@ MAV.setParam("PARM",1.0);
 MAV.getWPCount();
 
 MAV.getWP(1);
+
+MAV.getParamList();
