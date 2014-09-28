@@ -64,6 +64,7 @@ namespace MissionPlanner
                 this.VersionString = "";
                 this.SoftwareVersions = "";
                 this.SerialString = "";
+                this.FrameString = "";
             }
 
             // all
@@ -71,7 +72,9 @@ namespace MissionPlanner
             // px4+ only
             public string SoftwareVersions { get; set; }
             // px4+ only
-            public string SerialString            {                get;                set;            }
+            public string SerialString { get; set; }
+            // AC frame type
+            public string FrameString { get; set; }
 
             public string Guid { get; set; }
             /// <summary>
@@ -333,6 +336,7 @@ namespace MissionPlanner
             MAV.VersionString = "";
             MAV.SoftwareVersions = "";
             MAV.SerialString = "";
+            MAV.FrameString = "";
 
             Terrain = new TerrainFollow();
 
@@ -1013,6 +1017,10 @@ Please check the following
                         else if (logdata.ToLower().Contains("px4v2"))
                         {
                             MAV.SerialString = logdata;
+                        }
+                        else if (logdata.ToLower().Contains("frame"))
+                        {
+                            MAV.FrameString = logdata;
                         }
                     }
                     //stopwatch.Stop();
