@@ -130,7 +130,7 @@
     <value>硬件配置</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>Mission Planner - By Michael Oborne 简体中文 by APM中文网</value>
+    <value>Mission Planner - By Michael Oborne</value>
   </data>
   <data name="MenuTerminal.Text" xml:space="preserve">
     <value>终端</value>

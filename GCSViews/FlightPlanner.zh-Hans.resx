@@ -235,7 +235,7 @@
     <value>清除集结点</value>
   </data>
   <data name="AZ.HeaderText" xml:space="preserve">
-    <value>AZ</value>
+    <value>角度</value>
   </data>
   <data name="label13.Text" xml:space="preserve">
     <value>X</value>
@@ -334,7 +334,7 @@
     <value>P2</value>
   </data>
   <data name="Grad.HeaderText" xml:space="preserve">
-    <value>研究生％</value>
+    <value>坡度</value>
   </data>
   <data name="lnk_kml.Text" xml:space="preserve">
     <value>查看KML</value>
@@ -343,7 +343,7 @@
     <value>视图曲线化</value>
   </data>
   <data name="CHK_geheight.Text" xml:space="preserve">
-    <value>验证海拔</value>
+    <value>验证高度</value>
   </data>
   <data name="flyToHereToolStripMenuItem.Text" xml:space="preserve">
     <value>飞到这里</value>
@@ -367,7 +367,7 @@
     <value>下载</value>
   </data>
   <data name="BUT_Add.ToolTip" xml:space="preserve">
-    <value>添加一行到网格波纹管</value>
+    <value>添加一行到网格下</value>
   </data>
   <data name="label16.Text" xml:space="preserve">
     <value>MGRS（测试中）</value>
@@ -376,7 +376,7 @@
     <value>下载档案</value>
   </data>
   <data name="rTLToolStripMenuItem.Text" xml:space="preserve">
-    <value>缓航降落</value>
+    <value>返航</value>
   </data>
   <data name="clearMissionToolStripMenuItem.Text" xml:space="preserve">
     <value>清除任务</value>

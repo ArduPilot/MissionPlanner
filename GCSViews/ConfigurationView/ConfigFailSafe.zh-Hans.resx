@@ -151,7 +151,7 @@
     <value>低电量</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
-    <value>保留MAH（毫安时）</value>
+    <value>保留MAH</value>
   </data>
   <data name="groupBox1.Text" xml:space="preserve">
     <value>失控保护选项</value>
