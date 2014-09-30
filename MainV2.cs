@@ -969,7 +969,7 @@ namespace MissionPlanner
                     connecttime = DateTime.Now;
 
                     // do the connect
-                    comPort.Open(true);
+                    comPort.Open(false);
 
                     if (!comPort.BaseStream.IsOpen)
                     {
@@ -983,6 +983,16 @@ namespace MissionPlanner
                         catch { }
                         return;
                     }
+
+                    // 3dr radio is hidden as no hb packet is ever emitted
+                    if (comPort.sysidseen.Count > 1)
+                    {
+                        // we have more than one mav
+                        int todo;
+                        // user selection of sysid
+                    }
+
+                    comPort.getParamList();
                         
                     // detect firmware we are conected to.
                         if (comPort.MAV.cs.firmware == Firmwares.ArduCopter2)
