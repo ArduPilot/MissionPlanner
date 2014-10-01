@@ -136,7 +136,7 @@
     <value>校准</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
-    <value>5. 电流(计算过)</value>
+    <value>5. 电流(计算过)：</value>
   </data>
   <data name="TXT_battcapacity.Text" xml:space="preserve">
     <value>2200</value>
@@ -148,15 +148,24 @@
     <value>1. 测量电池电压：</value>
   </data>
   <data name="label34.Text" xml:space="preserve">
-    <value>3. 电压分压器（计算过）：</value>
+    <value>3. 电压分压器(计算过)：</value>
   </data>
   <data name="label33.Text" xml:space="preserve">
-    <value>2. 电池电压（计算过）：</value>
+    <value>2. 电池电压(计算过)：</value>
   </data>
   <data name="label35.Text" xml:space="preserve">
     <value>6. 安培每伏：</value>
   </data>
   <data name="label47.Text" xml:space="preserve">
     <value>传感器</value>
+  </data>
+  <data name="CMB_batmontype.Items" xml:space="preserve">
+    <value>0: 关闭监测</value>
+  </data>
+  <data name="CMB_batmontype.Items1" xml:space="preserve">
+    <value>3: 电池电压</value>
+  </data>
+  <data name="CMB_batmontype.Items2" xml:space="preserve">
+    <value>4: 电压及电流</value>
   </data>
 </root>
