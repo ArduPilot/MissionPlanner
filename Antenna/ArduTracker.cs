@@ -26,6 +26,10 @@ namespace MissionPlanner.Antenna
         public int TiltPWMRange { get; set; }
         public int PanPWMCenter { get; set; }
         public int TiltPWMCenter { get; set; }
+        public int PanSpeed { get; set; }
+        public int TiltSpeed { get; set; }
+        public int PanAccel { get; set; }
+        public int TiltAccel { get; set; }
 
         public bool PanReverse { get { return _panreverse == 1; } set { _panreverse = value == true ? -1 : 1; } }
         public bool TiltReverse { get { return _tiltreverse == 1; } set { _tiltreverse = value == true ? -1 : 1; } }
