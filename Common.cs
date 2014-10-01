@@ -372,6 +372,31 @@ namespace MissionPlanner
         }
     }
 
+    [Serializable]
+    public class GMapMarkerAntennaTracker : GMapMarker
+    {
+        const float rad2deg = (float)(180 / Math.PI);
+        const float deg2rad = (float)(1.0 / rad2deg);
+
+        private readonly Bitmap icon = global::MissionPlanner.Properties.Resources.Antenna_Tracker_01;
+
+        public GMapMarkerAntennaTracker(PointLatLng p)
+            : base(p)
+        {
+            Size = icon.Size;
+        }
+
+        public override void OnRender(Graphics g)
+        {
+            Matrix temp = g.Transform;
+            g.TranslateTransform(LocalPosition.X, LocalPosition.Y);
+
+            g.DrawImage(icon,-20,-20,40,40);
+
+            g.Transform = temp;
+        }
+    }
+
 
     class NoCheckCertificatePolicy : ICertificatePolicy
     {
