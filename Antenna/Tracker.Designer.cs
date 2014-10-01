@@ -60,6 +60,14 @@
             this.TXT_centertilt = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
+            this.TXT_panspeed = new System.Windows.Forms.TextBox();
+            this.TXT_panaccel = new System.Windows.Forms.TextBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
+            this.TXT_tiltspeed = new System.Windows.Forms.TextBox();
+            this.TXT_tiltaccel = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.TRK_pantrim)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TRK_tilttrim)).BeginInit();
             this.SuspendLayout();
@@ -257,10 +265,62 @@
             resources.ApplyResources(this.label14, "label14");
             this.label14.Name = "label14";
             // 
+            // TXT_panspeed
+            // 
+            resources.ApplyResources(this.TXT_panspeed, "TXT_panspeed");
+            this.TXT_panspeed.Name = "TXT_panspeed";
+            this.TXT_panspeed.TextChanged += new System.EventHandler(this.TXT_panspeed_TextChanged);
+            // 
+            // TXT_panaccel
+            // 
+            resources.ApplyResources(this.TXT_panaccel, "TXT_panaccel");
+            this.TXT_panaccel.Name = "TXT_panaccel";
+            this.TXT_panaccel.TextChanged += new System.EventHandler(this.TXT_panaccel_TextChanged);
+            // 
+            // label15
+            // 
+            resources.ApplyResources(this.label15, "label15");
+            this.label15.Name = "label15";
+            // 
+            // label16
+            // 
+            resources.ApplyResources(this.label16, "label16");
+            this.label16.Name = "label16";
+            // 
+            // label17
+            // 
+            resources.ApplyResources(this.label17, "label17");
+            this.label17.Name = "label17";
+            // 
+            // label18
+            // 
+            resources.ApplyResources(this.label18, "label18");
+            this.label18.Name = "label18";
+            // 
+            // TXT_tiltspeed
+            // 
+            resources.ApplyResources(this.TXT_tiltspeed, "TXT_tiltspeed");
+            this.TXT_tiltspeed.Name = "TXT_tiltspeed";
+            this.TXT_tiltspeed.TextChanged += new System.EventHandler(this.TXT_tiltspeed_TextChanged);
+            // 
+            // TXT_tiltaccel
+            // 
+            resources.ApplyResources(this.TXT_tiltaccel, "TXT_tiltaccel");
+            this.TXT_tiltaccel.Name = "TXT_tiltaccel";
+            this.TXT_tiltaccel.TextChanged += new System.EventHandler(this.TXT_tiltaccel_TextChanged);
+            // 
             // Tracker
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.label17);
+            this.Controls.Add(this.label18);
+            this.Controls.Add(this.TXT_tiltspeed);
+            this.Controls.Add(this.TXT_tiltaccel);
+            this.Controls.Add(this.label16);
+            this.Controls.Add(this.label15);
+            this.Controls.Add(this.TXT_panspeed);
+            this.Controls.Add(this.TXT_panaccel);
             this.Controls.Add(this.label14);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.TXT_centertilt);
@@ -333,5 +393,13 @@
         private System.Windows.Forms.TextBox TXT_centertilt;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.TextBox TXT_panspeed;
+        private System.Windows.Forms.TextBox TXT_panaccel;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.TextBox TXT_tiltspeed;
+        private System.Windows.Forms.TextBox TXT_tiltaccel;
     }
 }
