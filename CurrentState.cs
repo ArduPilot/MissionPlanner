@@ -1205,6 +1205,12 @@ namespace MissionPlanner
                 {
                     if (bs != null)
                     {
+                        bs.DataSource = this;
+                        bs.ResetBindings(false);
+
+                        return;
+                        /*
+
                         if (bs.Count > 200)
                         {
                             while (bs.Count > 3)
