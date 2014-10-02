@@ -3155,13 +3155,15 @@ Please check the following
 
             int retry = 3;
 
+            PointLatLngAlt newfp;
+
             while (retry > 0)
             {
                 generatePacket((byte)MAVLINK_MSG_ID.FENCE_POINT, fp);
                 int counttemp = 0;
-                PointLatLngAlt newfp = getFencePoint(fp.idx, ref counttemp);
+                newfp = getFencePoint(fp.idx, ref counttemp);
 
-                if (newfp.Lat == plla.Lat && newfp.Lng == fp.lng)
+                if (newfp.GetDistance(plla) < 5)
                     return true;
                 retry--;
             }
