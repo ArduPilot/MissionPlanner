@@ -288,9 +288,12 @@ namespace MissionPlanner.GCSViews
                 lbl_prevdist.Text = rm.GetString("lbl_prevdist.Text") + ": " + FormatDistance(lastdist, true) + " AZ: " + lastbearing.ToString("0");
 
                 // 0 is home
-                double homedist = MainMap.MapProvider.Projection.GetDistance(currentMarker.Position, pointlist[0]);
+                if (pointlist[0] != null)
+                {
+                    double homedist = MainMap.MapProvider.Projection.GetDistance(currentMarker.Position, pointlist[0]);
 
-                lbl_homedist.Text = rm.GetString("lbl_homedist.Text") + ": " + FormatDistance(homedist, true);
+                    lbl_homedist.Text = rm.GetString("lbl_homedist.Text") + ": " + FormatDistance(homedist, true);
+                }
             }
             catch { }
         }
@@ -1188,6 +1191,9 @@ namespace MissionPlanner.GCSViews
                     for (int a = 1; a < fullpointlist.Count; a++)
                     {
                         if (fullpointlist[a - 1] == null)
+                            continue;
+
+                        if (fullpointlist[a] == null)
                             continue;
 
                         dist += MainMap.MapProvider.Projection.GetDistance(fullpointlist[a - 1], fullpointlist[a]);
@@ -3689,9 +3695,9 @@ namespace MissionPlanner.GCSViews
 
                 MainMap.Invalidate();
             }
-            catch 
+            catch (Exception ex)
             {
-                CustomMessageBox.Show("Failed to send new fence points","Error");
+                CustomMessageBox.Show("Failed to send new fence points "+ ex.ToString(),"Error");
             }
         }
 
