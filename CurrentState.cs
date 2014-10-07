@@ -1199,7 +1199,7 @@ namespace MissionPlanner
                     }
                 }
 
-                //Console.Write(DateTime.Now.Millisecond + " start ");
+                Console.Write(DateTime.Now.Millisecond + " start ");
                 // update form
                 try
                 {

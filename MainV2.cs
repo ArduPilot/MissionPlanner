@@ -990,6 +990,9 @@ namespace MissionPlanner
                         // we have more than one mav
                         int todo;
                         // user selection of sysid
+                        MissionPlanner.Controls.SysidSelector id = new SysidSelector();
+
+                        id.ShowDialog();
                     }
 
                     comPort.getParamList();
@@ -2223,6 +2226,12 @@ namespace MissionPlanner
                 ThemeManager.ApplyThemeTo(frm);
                 frm.Show();
                 return true;
+            }
+            if (keyData == (Keys.Control | Keys.X)) // select sysid
+            {
+                MissionPlanner.Controls.SysidSelector id = new SysidSelector();
+
+                id.ShowDialog();
             }
             if (keyData == (Keys.Control | Keys.L)) // limits
             {

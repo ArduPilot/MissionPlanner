@@ -2518,6 +2518,24 @@ Please check the following
                         MAVlist[sysid].packetseencount[buffer[5]]++;
                     }
 
+                    // set seens sysid's based on hb packet - this will hide 3dr radio packets
+                    if (buffer[5] == (byte)MAVLink.MAVLINK_MSG_ID.HEARTBEAT)
+                    {
+                        mavlink_heartbeat_t hb = buffer.ByteArrayToStructure<mavlink_heartbeat_t>(6);
+
+                        // not a gcs
+                        if (hb.type != (byte)MAV_TYPE.GCS)
+                        {
+                            // add a seen sysid
+                            if (!sysidseen.Contains(sysid))
+                                sysidseen.Add(sysid);
+
+                            // attach to the only remote device. / default to first device seen
+                            if (sysidseen.Count == 1)
+                                sysidcurrent = sysid;
+                        }
+                    }
+
                     // only process for active mav
                     if (sysidcurrent == sysid)
                         PacketReceived(buffer, sysid);
@@ -2549,16 +2567,6 @@ Please check the following
                                 MainV2.speechEngine.SpeakAsync(logdata);
                             }
                         }
-                    }
-
-                    // set seens sysid's based on hb packet - this will hide 3dr radio packets
-                    if (buffer[5] == (byte)MAVLink.MAVLINK_MSG_ID.HEARTBEAT)
-                    {
-                        mavlink_heartbeat_t hb = buffer.ByteArrayToStructure<mavlink_heartbeat_t>(6);
-
-                        // add a seen sysid
-                        if (!sysidseen.Contains(sysid))
-                            sysidseen.Add(sysid);
                     }
 
                     getWPsfromstream(ref buffer, sysid);
@@ -3224,8 +3232,6 @@ Please check the following
         {
             byte[] temp = new byte[300];
 
-            MAV.sysid = 0;
-
             //byte[] datearray = BitConverter.GetBytes((ulong)(DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalMilliseconds);
 
             byte[] datearray = new byte[8];
@@ -3255,7 +3261,7 @@ Please check the following
             }
             catch { }
 
-            MAV.cs.datetime = lastlogread;
+
 
             int length = 5;
             int a = 0;
@@ -3277,18 +3283,7 @@ Please check the following
                 a++;
             }
 
-            // set ap type for log file playback
-            if (temp[5] == 0 && a > 5)
-            {
-                mavlink_heartbeat_t hb = temp.ByteArrayToStructure<mavlink_heartbeat_t>(6);
-                if (hb.type != (byte)MAVLink.MAV_TYPE.GCS)
-                {
-                    mavlinkversion = hb.mavlink_version;
-                    MAV.aptype = (MAV_TYPE)hb.type;
-                    MAV.apname = (MAV_AUTOPILOT)hb.autopilot;
-                    setAPType(temp[3]);
-                }
-            }
+            MAVlist[temp[3]].cs.datetime = lastlogread;
 
             return temp;
         }
@@ -3326,6 +3321,8 @@ Please check the following
 
         public void setAPType(byte sysid)
         {
+            MAVlist[sysid].sysid = sysid;
+
             switch (MAVlist[sysid].apname)
             {
                 case MAV_AUTOPILOT.ARDUPILOTMEGA:
@@ -3393,7 +3390,13 @@ Please check the following
 
         public override string ToString()
         {
-            return "MAV " + MAV.sysid + " on " + BaseStream.PortName;
+            if (BaseStream.IsOpen)
+                return "MAV " + MAV.sysid + " on " + BaseStream.PortName;
+
+            if (logreadmode)
+                return "MAV " + MAV.sysid + " on LogFile";
+
+            return "MAV " + MAV.sysid + " on Ice";
         }
 
 
