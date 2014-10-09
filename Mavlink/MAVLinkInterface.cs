@@ -30,6 +30,8 @@ namespace MissionPlanner
 
         public event EventHandler ParamListChanged;
 
+        public event EventHandler MavChanged;
+
         /// <summary>
         /// used to prevent comport access for exclusive use
         /// </summary>
@@ -47,8 +49,19 @@ namespace MissionPlanner
 
         public event ProgressEventHandler Progress;
 
-        public int sysidcurrent = 0;
-
+        int _sysidcurrent = 0;
+        public int sysidcurrent 
+        { 
+            get { 
+                return _sysidcurrent;
+            }
+            set {
+                if (_sysidcurrent == value)
+                    return;
+                _sysidcurrent = value; 
+                if (MavChanged != null) MavChanged(this, null); 
+            }  
+        }
         public List<int> sysidseen = new List<int>();
 
         public MAVState[] MAVlist = new MAVState[0x100];

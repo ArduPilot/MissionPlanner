@@ -206,6 +206,8 @@ namespace MissionPlanner.GCSViews
                 hud1.hudcolor = Color.FromName(MainV2.config["hudcolor"].ToString());
             }
 
+            MainV2.comPort.MavChanged += comPort_MavChanged;
+
             log.Info("HUD Settings");
             foreach (string item in MainV2.config.Keys)
             {
@@ -219,7 +221,7 @@ namespace MissionPlanner.GCSViews
 
                     HUD.Custom cust = new HUD.Custom();
                     cust.Header = MainV2.config[item].ToString();
-                    cust.src = MainV2.comPort.MAV.cs;
+                    HUD.Custom.src = MainV2.comPort.MAV.cs;
 
                     addHudUserItem(ref cust, chk);
                 }
@@ -300,6 +302,11 @@ namespace MissionPlanner.GCSViews
 
             // first run
             MainV2_AdvancedChanged(null, null);
+        }
+
+        void comPort_MavChanged(object sender, EventArgs e)
+        {
+            HUD.Custom.src = MainV2.comPort.MAV.cs;
         }
 
         internal GMapMarker CurrentGMapMarker;
@@ -2324,7 +2331,7 @@ namespace MissionPlanner.GCSViews
             if (((CheckBox)sender).Checked)
             {
                 HUD.Custom cust = new HUD.Custom();
-                cust.src = MainV2.comPort.MAV.cs;
+                HUD.Custom.src = MainV2.comPort.MAV.cs;
 
                 string prefix = ((CheckBox)sender).Name + ": ";
                 if (MainV2.config["hud1_useritem_" + ((CheckBox)sender).Name] != null)

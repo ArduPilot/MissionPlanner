@@ -230,12 +230,10 @@ namespace MissionPlanner.Controls
                     throw new Exception("Bad data type");
                 }
             }
-            public object src { get; set; }
+            public static object src { get; set; }
         }
 
         public Hashtable CustomItems = new Hashtable();
-        
-
 
         public bool bgon = true;
         public bool hudon = true;
