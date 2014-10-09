@@ -634,8 +634,6 @@ namespace px4uploader
                 throw new Exception("Firmware not suitable for this board");
             if (self.fw_maxsize < fw.image_size)
                 throw new Exception("Firmware image is too large for this board");
-            if (!verifyotp())
-                throw new Exception("Bad board OTP");
 
             print("erase...");
             self.__erase();
