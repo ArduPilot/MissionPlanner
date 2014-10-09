@@ -143,6 +143,9 @@ namespace MissionPlanner
             //CHK_advanced_CheckedChanged(null, null);
 
             TRK_zoom.Value = (float)map.Zoom;
+
+            label1.Text += " (" + plugin.Host.cs.DistanceUnit+")";
+            label24.Text += " (" + plugin.Host.cs.SpeedUnit+")";
         }
 
         private void GridUI_Resize(object sender, EventArgs e)
@@ -309,25 +312,30 @@ namespace MissionPlanner
 
         void loadsetting(string key, Control item)
         {
-            if (plugin.Host.config.ContainsKey(key))
+            // soft fail on bad param
+            try
             {
-                if (item is NumericUpDown)
+                if (plugin.Host.config.ContainsKey(key))
                 {
-                    ((NumericUpDown)item).Value = decimal.Parse(plugin.Host.config[key].ToString());
-                }
-                else if (item is ComboBox)
-                {
-                    ((ComboBox)item).Text = plugin.Host.config[key].ToString();
-                }
-                else if (item is CheckBox)
-                {
-                    ((CheckBox)item).Checked = bool.Parse(plugin.Host.config[key].ToString());
-                }
-                else if (item is RadioButton)
-                {
-                    ((RadioButton)item).Checked = bool.Parse(plugin.Host.config[key].ToString());
+                    if (item is NumericUpDown)
+                    {
+                        ((NumericUpDown)item).Value = decimal.Parse(plugin.Host.config[key].ToString());
+                    }
+                    else if (item is ComboBox)
+                    {
+                        ((ComboBox)item).Text = plugin.Host.config[key].ToString();
+                    }
+                    else if (item is CheckBox)
+                    {
+                        ((CheckBox)item).Checked = bool.Parse(plugin.Host.config[key].ToString());
+                    }
+                    else if (item is RadioButton)
+                    {
+                        ((RadioButton)item).Checked = bool.Parse(plugin.Host.config[key].ToString());
+                    }
                 }
             }
+            catch { }
         }
 
         void savesettings()
@@ -491,7 +499,7 @@ namespace MissionPlanner
 
             // new grid system test
 
-            grid = Grid.CreateGrid(list, (double)NUM_altitude.Value, (double)NUM_Distance.Value, (double)NUM_spacing.Value, (double)NUM_angle.Value, (double)NUM_overshoot.Value, (double)NUM_overshoot2.Value, (Grid.StartPosition)Enum.Parse(typeof(Grid.StartPosition), CMB_startfrom.Text), false);
+            grid = Grid.CreateGrid(list,  plugin.Host.cs.fromDistDisplayUnit((double)NUM_altitude.Value), (double)NUM_Distance.Value, (double)NUM_spacing.Value, (double)NUM_angle.Value, (double)NUM_overshoot.Value, (double)NUM_overshoot2.Value, (Grid.StartPosition)Enum.Parse(typeof(Grid.StartPosition), CMB_startfrom.Text), false);
 
             List<PointLatLng> list2 = new List<PointLatLng>();
 
@@ -645,13 +653,15 @@ namespace MissionPlanner
                 lbl_footprint.Text = TXT_fovH.Text + " x " + TXT_fovV.Text + " m";
             }
 
+            double flyspeedms = plugin.Host.cs.fromSpeedDisplayUnit((double)NUM_UpDownFlySpeed.Value);
+
             lbl_pictures.Text = images.ToString();
             lbl_strips.Text = ((int)(strips / 2)).ToString();
-            double seconds = ((routetotal * 1000.0) / ((double)NUM_UpDownFlySpeed.Value * 0.8));
+            double seconds = ((routetotal * 1000.0) / ((flyspeedms) * 0.8));
             // reduce flying speed by 20 %
             lbl_flighttime.Text = secondsToNice(seconds);
-            seconds = ((routetotal * 1000.0) / ((double)NUM_UpDownFlySpeed.Value));
-            lbl_photoevery.Text = secondsToNice(((double)NUM_spacing.Value / (double)NUM_UpDownFlySpeed.Value));
+            seconds = ((routetotal * 1000.0) / (flyspeedms));
+            lbl_photoevery.Text = secondsToNice(((double)NUM_spacing.Value / flyspeedms));
             map.HoldInvalidation = false;
             if (!isMouseDown)
                 map.ZoomAndCenterMarkers("routes");

@@ -16,9 +16,9 @@ namespace MissionPlanner
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         // multipliers
         public float multiplierdist = 1;
-        internal string DistanceUnit = "";
+        public string DistanceUnit = "";
         public float multiplierspeed = 1;
-        internal string SpeedUnit = "";
+        public string SpeedUnit = "";
 
         public double toDistDisplayUnit(double input) { return input * multiplierdist; }
         public double toSpeedDisplayUnit(double input) { return input * multiplierspeed; }
