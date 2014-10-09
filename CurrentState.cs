@@ -862,7 +862,7 @@ namespace MissionPlanner
                         }
                         else if (sensors_health.terrain != sensors_enabled.terrain && sensors_present.terrain)
                         {
-                            messageHigh = "Bad/No Terrain Data";
+                            messageHigh = "Bad or No Terrain Data";
                             messageHighTime = DateTime.Now;
                         }
                         else if (sensors_health.geofence != sensors_enabled.geofence && sensors_present.geofence)
@@ -1199,7 +1199,7 @@ namespace MissionPlanner
                     }
                 }
 
-                Console.Write(DateTime.Now.Millisecond + " start ");
+                //Console.Write(DateTime.Now.Millisecond + " start ");
                 // update form
                 try
                 {
