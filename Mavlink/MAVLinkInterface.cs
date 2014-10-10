@@ -2541,7 +2541,14 @@ Please check the following
                         {
                             // add a seen sysid
                             if (!sysidseen.Contains(sysid))
+                            {
                                 sysidseen.Add(sysid);
+
+                                // ensure its set from connect or log playback
+                                MAVlist[sysid].aptype = (MAV_TYPE)hb.type;
+                                MAVlist[sysid].apname = (MAV_AUTOPILOT)hb.autopilot;
+                                setAPType(sysid);
+                            }
 
                             // attach to the only remote device. / default to first device seen
                             if (sysidseen.Count == 1)
