@@ -1016,62 +1016,45 @@ namespace MissionPlanner.GCSViews
                         if (route.Points.Count > 0)
                         {
                             // add primary route icon
-                            if (routes.Markers.Count != 1)
-                            {
-                                updateClearRouteMarker(currentloc);
-                            }
+                            updateClearRouteMarker(currentloc);
 
+                            // draw guide mode point for only main mav
                             if (MainV2.comPort.MAV.cs.mode.ToLower() == "guided" && MainV2.comPort.MAV.GuidedMode.x != 0)
                             {
                                 addpolygonmarker("Guided Mode", MainV2.comPort.MAV.GuidedMode.y, MainV2.comPort.MAV.GuidedMode.x, (int)MainV2.comPort.MAV.GuidedMode.z, Color.Blue, routes);
                             }
 
-                            if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.Ateryx)
-                            {
-                                routes.Markers[0] = (new GMapMarkerPlane(currentloc, MainV2.comPort.MAV.cs.yaw, MainV2.comPort.MAV.cs.groundcourse, MainV2.comPort.MAV.cs.nav_bearing, MainV2.comPort.MAV.cs.target_bearing) { ToolTipText = MainV2.comPort.MAV.cs.alt.ToString("0"), ToolTipMode = MarkerTooltipMode.Always });
-                            }
-                            else if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduRover)
-                            {
-                                routes.Markers[0] = (new GMapMarkerRover(currentloc, MainV2.comPort.MAV.cs.yaw, MainV2.comPort.MAV.cs.groundcourse, MainV2.comPort.MAV.cs.nav_bearing, MainV2.comPort.MAV.cs.target_bearing));
-                            }
-                            else if (MainV2.comPort.MAV.aptype == MAVLink.MAV_TYPE.HELICOPTER)
-                            {
-                                routes.Markers[0] = (new GMapMarkerHeli(currentloc, MainV2.comPort.MAV.cs.yaw, MainV2.comPort.MAV.cs.groundcourse, MainV2.comPort.MAV.cs.nav_bearing));
-                            }
-                            else if (MainV2.comPort.MAV.aptype == MAVLink.MAV_TYPE.ANTENNA_TRACKER)
-                            {
-                                routes.Markers[0] =new GMapMarkerAntennaTracker(currentloc);
-                            }
-                            else
-                            {
-                                routes.Markers[0] = (new GMapMarkerQuad(currentloc, MainV2.comPort.MAV.cs.yaw, MainV2.comPort.MAV.cs.groundcourse, MainV2.comPort.MAV.cs.nav_bearing));
-                            }
-
-                            // add extra mavs
-                            int a = 1;
+                            // draw all icons for all connected mavs
                             foreach (var port in MainV2.Comports)
                             {
-                                if (port == MainV2.comPort)
-                                    continue;
-
-                                PointLatLng portlocation = new PointLatLng(port.MAV.cs.lat, port.MAV.cs.lng);
-
-                                while (routes.Markers.Count < (a + 1))
-                                    routes.Markers.Add(new GMarkerGoogle(portlocation, GMarkerGoogleType.none));
-
-                                if (port.MAV.cs.firmware == MainV2.Firmwares.ArduPlane || MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.Ateryx)
+                                // draw the mavs seen on this port
+                                foreach (var portsysid in port.sysidseen)
                                 {
-                                    routes.Markers[a] = (new GMapMarkerPlane(portlocation, port.MAV.cs.yaw, port.MAV.cs.groundcourse, port.MAV.cs.nav_bearing, port.MAV.cs.target_bearing) { ToolTipText = "MAV: " + a + " " + port.MAV.cs.alt.ToString("0"), ToolTipMode = MarkerTooltipMode.Always });
+                                    var MAV = port.MAVlist[portsysid];
+
+                                    PointLatLng portlocation = new PointLatLng(MAV.cs.lat, MAV.cs.lng);
+
+                                    if (MAV.cs.firmware == MainV2.Firmwares.ArduPlane || MAV.cs.firmware == MainV2.Firmwares.Ateryx)
+                                    {
+                                        routes.Markers.Add(new GMapMarkerPlane(portlocation, MAV.cs.yaw, MAV.cs.groundcourse, MAV.cs.nav_bearing, MAV.cs.target_bearing) { ToolTipText = MAV.cs.alt.ToString("0"), ToolTipMode = MarkerTooltipMode.Always });
+                                    }
+                                    else if (MAV.cs.firmware == MainV2.Firmwares.ArduRover)
+                                    {
+                                        routes.Markers.Add(new GMapMarkerRover(portlocation, MAV.cs.yaw, MAV.cs.groundcourse, MAV.cs.nav_bearing, MAV.cs.target_bearing));
+                                    }
+                                    else if (MAV.aptype == MAVLink.MAV_TYPE.HELICOPTER)
+                                    {
+                                        routes.Markers.Add(new GMapMarkerHeli(portlocation, MAV.cs.yaw, MAV.cs.groundcourse, MAV.cs.nav_bearing));
+                                    }
+                                    else if (MAV.aptype == MAVLink.MAV_TYPE.ANTENNA_TRACKER)
+                                    {
+                                        routes.Markers.Add(new GMapMarkerAntennaTracker(portlocation));
+                                    }
+                                    else
+                                    {
+                                        routes.Markers.Add(new GMapMarkerQuad(portlocation, MAV.cs.yaw, MAV.cs.groundcourse, MAV.cs.nav_bearing));
+                                    }
                                 }
-                                else if (port.MAV.cs.firmware == MainV2.Firmwares.ArduRover)
-                                {
-                                    routes.Markers[a] = (new GMapMarkerRover(portlocation, port.MAV.cs.yaw, port.MAV.cs.groundcourse, port.MAV.cs.nav_bearing, port.MAV.cs.target_bearing));
-                                }
-                                else
-                                {
-                                    routes.Markers[a] = (new GMapMarkerQuad(portlocation, port.MAV.cs.yaw, port.MAV.cs.groundcourse, port.MAV.cs.nav_bearing));
-                                }
-                                a++;
                             }
 
                             if (route.Points[route.Points.Count - 1].Lat != 0 && (mapupdate.AddSeconds(3) < DateTime.Now) && CHK_autopan.Checked)
@@ -1177,7 +1160,7 @@ namespace MissionPlanner.GCSViews
             this.Invoke((System.Windows.Forms.MethodInvoker)delegate()
             {
                 routes.Markers.Clear();
-                routes.Markers.Add(new GMarkerGoogle(currentloc, GMarkerGoogleType.none));
+                //routes.Markers.Add(new GMarkerGoogle(currentloc, GMarkerGoogleType.none));
             });
         }
 
