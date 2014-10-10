@@ -130,8 +130,12 @@ namespace MissionPlanner.Utilities
               // Add the values to the ddl
               foreach (string val in availableValues)
               {
-                  string[] valParts = val.Split(new[] { ':' });
-                  splitValues.Add(new KeyValuePair<int, string>(int.Parse(valParts[0].Trim()), (valParts.Length > 1) ? valParts[1].Trim() : valParts[0].Trim()));
+                  try
+                  {
+                      string[] valParts = val.Split(new[] { ':' });
+                      splitValues.Add(new KeyValuePair<int, string>(int.Parse(valParts[0].Trim()), (valParts.Length > 1) ? valParts[1].Trim() : valParts[0].Trim()));
+                  }
+                  catch { Console.WriteLine("Bad entry in param meta data: " + nodeKey); }
               };
 
               return splitValues;

@@ -332,6 +332,12 @@
     <Compile Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationTracker.Designer.cs">
       <DependentUpon>ConfigAccelerometerCalibrationTracker.cs</DependentUpon>
     </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigAntennaTracker.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigAntennaTracker.Designer.cs">
+      <DependentUpon>ConfigAntennaTracker.cs</DependentUpon>
+    </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigCompassMot.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -628,6 +634,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAP_Limits.zh-Hans.resx">
       <DependentUpon>ConfigAP_Limits.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAntennaTracker.resx">
+      <DependentUpon>ConfigAntennaTracker.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigArducopter.zh-Hans.resx">
       <DependentUpon>ConfigArducopter.cs</DependentUpon>
