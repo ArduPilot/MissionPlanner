@@ -89,18 +89,18 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             mavlinkNumericUpDown8.setup(0, 180, 1, 1, "PITCH_RANGE", MainV2.comPort.MAV.param);
 
             // yaw gain
-            mavlinkNumericUpDown9.setup(0, 100, 1, 1, "YAW2SRV_P", MainV2.comPort.MAV.param);
-            mavlinkNumericUpDown10.setup(0, 100, 1, 1, "YAW2SRV_I", MainV2.comPort.MAV.param);
-            mavlinkNumericUpDown11.setup(0, 100, 1, 1, "YAW2SRV_D", MainV2.comPort.MAV.param);
+            mavlinkNumericUpDown9.setup(0, 100, 1, .1f, "YAW2SRV_P", MainV2.comPort.MAV.param);
+            mavlinkNumericUpDown10.setup(0, 100, 1, .1f, "YAW2SRV_I", MainV2.comPort.MAV.param);
+            mavlinkNumericUpDown11.setup(0, 100, 1, .1f, "YAW2SRV_D", MainV2.comPort.MAV.param);
             mavlinkNumericUpDown12.setup(0, 100, 1, 1, "YAW2SRV_IMAX", MainV2.comPort.MAV.param);
-            mavlinkNumericUpDown13.setup(0, 100, 1, 1, "YAW_SLEW_TIME", MainV2.comPort.MAV.param);
+            mavlinkNumericUpDown13.setup(0, 100, 1, .1f, "YAW_SLEW_TIME", MainV2.comPort.MAV.param);
 
             // pitch gain
-            mavlinkNumericUpDown14.setup(0, 100, 1, 1, "PITCH2SRV_P", MainV2.comPort.MAV.param);
-            mavlinkNumericUpDown15.setup(0, 100, 1, 1, "PITCH2SRV_I", MainV2.comPort.MAV.param);
-            mavlinkNumericUpDown16.setup(0, 100, 1, 1, "PITCH2SRV_D", MainV2.comPort.MAV.param);
+            mavlinkNumericUpDown14.setup(0, 100, 1, .1f, "PITCH2SRV_P", MainV2.comPort.MAV.param);
+            mavlinkNumericUpDown15.setup(0, 100, 1, .1f, "PITCH2SRV_I", MainV2.comPort.MAV.param);
+            mavlinkNumericUpDown16.setup(0, 100, 1, .1f, "PITCH2SRV_D", MainV2.comPort.MAV.param);
             mavlinkNumericUpDown17.setup(0, 100, 1, 1, "PITCH2SRV_IMAX", MainV2.comPort.MAV.param);
-            mavlinkNumericUpDown18.setup(0, 100, 1, 1, "PITCH_SLEW_TIME", MainV2.comPort.MAV.param);
+            mavlinkNumericUpDown18.setup(0, 100, 1, .1f, "PITCH_SLEW_TIME", MainV2.comPort.MAV.param);
 
             startup = false;
         }
