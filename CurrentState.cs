@@ -875,11 +875,10 @@ namespace MissionPlanner
                             messageHigh = "Bad AHRS";
                             messageHighTime = DateTime.Now;
                         }
-                        else if (sensors_present.rc_receiver != sensors_enabled.rc_receiver && sensors_present.rc_receiver)
+                        else if (sensors_health.rc_receiver != sensors_enabled.rc_receiver && sensors_present.rc_receiver)
                         {
-                            int reenable;
-                            //messageHigh = "NO RC Receiver";
-                            //messageHighTime = DateTime.Now;
+                            messageHigh = "NO RC Receiver";
+                            messageHighTime = DateTime.Now;
                         }
                         
 
