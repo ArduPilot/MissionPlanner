@@ -1846,12 +1846,8 @@ namespace MissionPlanner
                             mavlink_version = 3,
                         };
 
-                        comPort.sendPacket(htb);
-
                         foreach (var port in MainV2.Comports)
                         {
-                            if (port == MainV2.comPort)
-                                continue;
                             try
                             {
                                 port.sendPacket(htb);
@@ -1880,7 +1876,7 @@ namespace MissionPlanner
                         }
 
                         System.Threading.Thread.Sleep(100);
-                        continue;
+                        //continue;
                     }
 
                     // actualy read the packets
@@ -1893,25 +1889,30 @@ namespace MissionPlanner
                         catch { }
                     }
 
-                    // update currentstate of main port
-                    try
+                    // update currentstate of sysids on main port
+                    foreach (var sysid in comPort.sysidseen)
                     {
-                        comPort.MAV.cs.UpdateCurrentSettings(null, false, comPort);
+                        try
+                        {
+                            comPort.MAVlist[sysid].cs.UpdateCurrentSettings(null, false, comPort, comPort.MAVlist[sysid]);
+                        }
+                        catch { }
                     }
-                    catch { }
 
                     // read the other interfaces
                     foreach (var port in Comports)
                     {
+                        // skip primary interface
+                        if (port == comPort)
+                            continue;
+
                         if (!port.BaseStream.IsOpen)
                         {
                             // modify array and drop out
                             Comports.Remove(port);
                             break;
                         }
-                        // skip primary interface
-                        if (port == comPort)
-                            continue;
+
                         while (port.BaseStream.IsOpen && port.BaseStream.BytesToRead > minbytes)
                         {
                             try
@@ -1920,12 +1921,15 @@ namespace MissionPlanner
                             }
                             catch { }
                         }
-                        // update currentstate of port
-                        try
+                        // update currentstate of sysids on the port
+                        foreach (var sysid in port.sysidseen)
                         {
-                            port.MAV.cs.UpdateCurrentSettings(null, false, port);
+                            try
+                            {
+                                port.MAVlist[sysid].cs.UpdateCurrentSettings(null, false, port, port.MAVlist[sysid]);
+                            }
+                            catch { }
                         }
-                        catch { }
                     }
                 }
                 catch (Exception e)

@@ -565,28 +565,25 @@ namespace MissionPlanner
         {
             log.Info("getModesList Called");
 
-            // ensure we get the correct list
-            MainV2.comPort.MAV.cs.firmware = cs.firmware;
-
             if (cs.firmware == MainV2.Firmwares.ArduPlane)
             {
-                var flightModes = Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("FLTMODE1");
+                var flightModes = Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("FLTMODE1", cs.firmware.ToString());
                 flightModes.Add(new KeyValuePair<int, string>(16, "INITIALISING"));
                 return flightModes;
             }
             else if (cs.firmware == MainV2.Firmwares.Ateryx)
             {
-                var flightModes = Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("FLTMODE1"); //same as apm
+                var flightModes = Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("FLTMODE1", cs.firmware.ToString()); //same as apm
                 return flightModes;
             }
             else if (cs.firmware == MainV2.Firmwares.ArduCopter2)
             {
-                var flightModes = Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("FLTMODE1");
+                var flightModes = Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("FLTMODE1", cs.firmware.ToString());
                 return flightModes;
             }
             else if (cs.firmware == MainV2.Firmwares.ArduRover)
             {
-                var flightModes = Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("MODE1");
+                var flightModes = Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("MODE1", cs.firmware.ToString());
                 return flightModes;
             }
             else if (cs.firmware == MainV2.Firmwares.ArduTracker)

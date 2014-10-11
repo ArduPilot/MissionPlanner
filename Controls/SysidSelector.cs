@@ -27,5 +27,10 @@ namespace MissionPlanner.Controls
         {
             this.Close();
         }
+
+        private void cmb_sysid_Format(object sender, ListControlConvertEventArgs e)
+        {
+            e.Value = MainV2.comPort.MAVlist[(int)e.Value].aptype.ToString() + "-" + e.Value;
+        }
     }
 }

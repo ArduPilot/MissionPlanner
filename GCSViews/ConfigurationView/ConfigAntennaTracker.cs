@@ -60,15 +60,15 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             changes.Clear();
 
-            mavlinkComboBox1.DataSource = ParameterMetaDataRepository.GetParameterOptionsInt("AHRS_ORIENTATION").ToList();
+            mavlinkComboBox1.DataSource = ParameterMetaDataRepository.GetParameterOptionsInt("AHRS_ORIENTATION", MainV2.comPort.MAV.cs.firmware.ToString()).ToList();
             mavlinkComboBox1.DisplayMember = "Value";
             mavlinkComboBox1.ValueMember = "Key";
 
-            mavlinkComboBox2.DataSource = ParameterMetaDataRepository.GetParameterOptionsInt("SERVO_TYPE").ToList();
+            mavlinkComboBox2.DataSource = ParameterMetaDataRepository.GetParameterOptionsInt("SERVO_TYPE", MainV2.comPort.MAV.cs.firmware.ToString()).ToList();
             mavlinkComboBox2.DisplayMember = "Value";
             mavlinkComboBox2.ValueMember = "Key";
 
-            mavlinkComboBox3.DataSource = ParameterMetaDataRepository.GetParameterOptionsInt("PROXY_MODE").ToList();
+            mavlinkComboBox3.DataSource = ParameterMetaDataRepository.GetParameterOptionsInt("PROXY_MODE", MainV2.comPort.MAV.cs.firmware.ToString()).ToList();
             mavlinkComboBox3.DisplayMember = "Value";
             mavlinkComboBox3.ValueMember = "Key";
 

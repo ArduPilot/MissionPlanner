@@ -615,7 +615,7 @@ namespace MissionPlanner.GCSViews
             Zoomlevel.Maximum = (decimal)24;
             Zoomlevel.Value = Convert.ToDecimal(gMapControl1.Zoom);
 
-            CMB_mountmode.DataSource = Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("MNT_MODE");
+            CMB_mountmode.DataSource = Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("MNT_MODE", MainV2.comPort.MAV.cs.firmware.ToString());
             CMB_mountmode.DisplayMember = "Value";
             CMB_mountmode.ValueMember = "Key";
 
@@ -1046,7 +1046,7 @@ namespace MissionPlanner.GCSViews
                                     {
                                         routes.Markers.Add(new GMapMarkerHeli(portlocation, MAV.cs.yaw, MAV.cs.groundcourse, MAV.cs.nav_bearing));
                                     }
-                                    else if (MAV.aptype == MAVLink.MAV_TYPE.ANTENNA_TRACKER)
+                                    else if (MAV.cs.firmware == MainV2.Firmwares.ArduTracker)
                                     {
                                         routes.Markers.Add(new GMapMarkerAntennaTracker(portlocation));
                                     }

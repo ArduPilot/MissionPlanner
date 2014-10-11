@@ -35,12 +35,14 @@
             // 
             // cmb_sysid
             // 
+            this.cmb_sysid.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmb_sysid.FormattingEnabled = true;
             this.cmb_sysid.Location = new System.Drawing.Point(76, 38);
             this.cmb_sysid.Name = "cmb_sysid";
             this.cmb_sysid.Size = new System.Drawing.Size(161, 21);
             this.cmb_sysid.TabIndex = 0;
             this.cmb_sysid.SelectedIndexChanged += new System.EventHandler(this.cmb_sysid_SelectedIndexChanged);
+            this.cmb_sysid.Format += new System.Windows.Forms.ListControlConvertEventHandler(this.cmb_sysid_Format);
             // 
             // label1
             // 

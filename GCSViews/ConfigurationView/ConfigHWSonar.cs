@@ -22,7 +22,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             InitializeComponent();
 
-            CMB_sonartype.setup(Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("SONAR_TYPE"), "SONAR_TYPE", MainV2.comPort.MAV.param);
+            CMB_sonartype.setup(Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("SONAR_TYPE", MainV2.comPort.MAV.cs.firmware.ToString()), "SONAR_TYPE", MainV2.comPort.MAV.param);
         }
 
         private void CHK_enablesonar_CheckedChanged(object sender, EventArgs e)

@@ -26,10 +26,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             mavlinkCheckBox1.setup(1, 0, "FENCE_ENABLE", MainV2.comPort.MAV.param);
 
-            mavlinkComboBox1.setup(Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("FENCE_TYPE"), "FENCE_TYPE", MainV2.comPort.MAV.param);
+            mavlinkComboBox1.setup(Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("FENCE_TYPE", MainV2.comPort.MAV.cs.firmware.ToString()), "FENCE_TYPE", MainV2.comPort.MAV.param);
 
 
-            mavlinkComboBox2.setup(Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("FENCE_ACTION"), "FENCE_ACTION", MainV2.comPort.MAV.param);
+            mavlinkComboBox2.setup(Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("FENCE_ACTION", MainV2.comPort.MAV.cs.firmware.ToString()), "FENCE_ACTION", MainV2.comPort.MAV.param);
   
 
             // 3
