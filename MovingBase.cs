@@ -168,6 +168,8 @@ namespace MissionPlanner
                             try
                             {
                                     MainV2.comPort.setRallyPoint(0, new PointLatLngAlt(gotolocation) { Alt = gotolocation.Alt + double.Parse(MainV2.config["TXT_DefaultAlt"].ToString()) }, 0, 0, 0, (byte)(float)MainV2.comPort.MAV.param["RALLY_TOTAL"]);
+
+                                    MainV2.comPort.setParam("RALLY_TOTAL", 1);
                             }
                             catch (Exception ex) { Console.WriteLine(ex.ToString()); }
                         }
