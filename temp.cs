@@ -1254,8 +1254,13 @@ namespace MissionPlanner
 
         TcpListener listener;
 
+        TcpClient client;
+
         private void but_mavserialport_Click(object sender, EventArgs e)
         {
+            if (comport != null)
+                comport.Close();
+
             comport = new Comms.MAVLinkSerialPort(MainV2.comPort, MAVLink.SERIAL_CONTROL_DEV.GPS1);
 
             if (listener != null)
@@ -1273,19 +1278,25 @@ namespace MissionPlanner
 
         private void DoAcceptTcpClientCallback(IAsyncResult ar)
         {
-                   // Get the listener that handles the client request.
+            // Get the listener that handles the client request.
             TcpListener listener = (TcpListener)ar.AsyncState;
+
+            listener.BeginAcceptTcpClient(new AsyncCallback(DoAcceptTcpClientCallback), listener);
+
+            if (client != null && client.Connected)
+                return;
 
             // End the operation and display the received data on  
             // the console.
             using (
-            TcpClient client = listener.EndAcceptTcpClient(ar))
+            client = listener.EndAcceptTcpClient(ar))
             {
                 NetworkStream stream = client.GetStream();
 
-                comport.Open();
+                if (!comport.IsOpen)
+                    comport.Open();
 
-                while (true)
+                while (client.Connected && comport.IsOpen)
                 {
 
                     while (stream.DataAvailable)
@@ -1305,14 +1316,14 @@ namespace MissionPlanner
                         var data = new byte[4096];
                         try
                         {
-                        int len = comport.Read(data, 0, data.Length);
+                            int len = comport.Read(data, 0, data.Length);
 
-                        stream.Write(data, 0, len);
+                            stream.Write(data, 0, len);
                         }
                         catch { }
                     }
 
-                   // System.Threading.Thread.Sleep(1);
+                     System.Threading.Thread.Sleep(1);
                 }
             }
         }
