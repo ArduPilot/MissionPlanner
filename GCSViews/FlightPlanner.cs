@@ -3469,7 +3469,7 @@ namespace MissionPlanner.GCSViews
                 }
                 else if (MainV2.comPort.MAV.aptype == MAVLink.MAV_TYPE.ANTENNA_TRACKER)
                 {
-                    routesoverlay.Markers.Add(new GMapMarkerAntennaTracker(currentloc));
+                    routesoverlay.Markers.Add(new GMapMarkerAntennaTracker(currentloc, MainV2.comPort.MAV.cs.yaw));
                 }
                 else
                 {

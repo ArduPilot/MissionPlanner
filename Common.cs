@@ -380,7 +380,9 @@ namespace MissionPlanner
 
         private readonly Bitmap icon = global::MissionPlanner.Properties.Resources.Antenna_Tracker_01;
 
-        public GMapMarkerAntennaTracker(PointLatLng p)
+        float heading = 0;
+
+        public GMapMarkerAntennaTracker(PointLatLng p, float heading)
             : base(p)
         {
             Size = icon.Size;
@@ -390,6 +392,14 @@ namespace MissionPlanner
         {
             Matrix temp = g.Transform;
             g.TranslateTransform(LocalPosition.X, LocalPosition.Y);
+
+            int length = 500;
+
+            try
+            {
+                g.DrawLine(new Pen(Color.Red, 2), 0.0f, 0.0f, (float)Math.Cos((heading - 90) * deg2rad) * length, (float)Math.Sin((heading - 90) * deg2rad) * length);
+            }
+            catch { }
 
             g.DrawImage(icon,-20,-20,40,40);
 
