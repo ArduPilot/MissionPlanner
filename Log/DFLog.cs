@@ -322,6 +322,7 @@ namespace MissionPlanner.Log
                     }
                     catch (OutOfMemoryException ex)
                     {
+                        log.Error(ex);
                         CustomMessageBox.Show("out of memory");
                         return answer;
                     }

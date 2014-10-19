@@ -24,7 +24,6 @@ namespace MissionPlanner.Controls
         
         GMap.NET.Internals.Core core = new GMap.NET.Internals.Core();
 
-        float _angle = 0;
         double cameraX, cameraY, cameraZ;       // camera coordinates
         double lookX, lookY, lookZ;             // camera look-at coordinates
 
@@ -367,7 +366,7 @@ namespace MissionPlanner.Controls
             GL.End();
             */
 
-            GL.Begin(BeginMode.LineStrip);
+            GL.Begin(PrimitiveType.LineStrip);
             GL.PointSize(200);
             GL.Color3(Color.Red);
             //GL.Vertex3(new Vector3((float)center.Lng,(float)center.Lat,(float)(center.Alt * heightscale)));
@@ -384,7 +383,7 @@ namespace MissionPlanner.Controls
 
             GL.End();
 
-            GL.Begin(BeginMode.LineStrip);
+            GL.Begin(PrimitiveType.LineStrip);
             GL.PointSize(200);
             GL.Color3(Color.Red);
             GL.Vertex3(new Vector3((float)center.Lng, (float)center.Lat, 0));
@@ -392,7 +391,7 @@ namespace MissionPlanner.Controls
 
             GL.End();
 
-            GL.Begin(BeginMode.Points);
+            GL.Begin(PrimitiveType.Points);
             GL.PointSize(100);
             GL.Color3(Color.Blue);
             GL.Vertex3(new Vector3((float)center.Lng, (float)center.Lat, 0));
@@ -464,8 +463,6 @@ namespace MissionPlanner.Controls
 
                 // generate terrain
                 GL.Begin(PrimitiveType.TriangleStrip);
-
-                double z = 0;
 
                 var latlng = prj.FromPixelToLatLng(xr,yr,zoom);
 

@@ -13,8 +13,6 @@ namespace MissionPlanner.Warnings
 
         public WarningControl()
         {
-            int fixme;
-            int fixme2;
             InitializeComponent();
         }
 

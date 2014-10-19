@@ -988,7 +988,6 @@ namespace MissionPlanner
                     if (comPort.sysidseen.Count > 1)
                     {
                         // we have more than one mav
-                        int todo;
                         // user selection of sysid
                         MissionPlanner.Controls.SysidSelector id = new SysidSelector();
 

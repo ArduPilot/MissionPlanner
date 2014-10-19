@@ -139,8 +139,6 @@ namespace MissionPlanner.Controls
 
                                    foreach (var tp in type.Overlays)
                                     {
-                                        Exception ex;
-
                                         Console.WriteLine((startimage - DateTime.Now).TotalMilliseconds);
                                         GMapImage tile = ((PureImageCache)Maps.MyImageCache.Instance).GetImageFromCache(type.DbId, p, zoom) as GMapImage;
 

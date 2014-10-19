@@ -582,6 +582,7 @@ namespace MissionPlanner.Joystick
                 }
                 catch (InputLostException ex)
                 {
+                    log.Error(ex);
                     clearRCOverride();
                     MainV2.instance.Invoke((System.Action)
                     delegate
@@ -667,8 +668,7 @@ namespace MissionPlanner.Joystick
                         }
                         break;
                     case buttonfunction.Mount_Mode:
-                        if (but.p1 != null)
-                        {
+                        
                             MainV2.instance.BeginInvoke((System.Windows.Forms.MethodInvoker)delegate()
                             {
                                 try
@@ -677,7 +677,7 @@ namespace MissionPlanner.Joystick
                                 }
                                 catch { CustomMessageBox.Show("Failed to change mount mode"); }
                             });
-                        }
+                        
                         break;
                         
                     case buttonfunction.Arm:
