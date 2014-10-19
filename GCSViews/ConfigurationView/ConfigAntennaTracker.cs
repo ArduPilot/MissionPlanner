@@ -60,17 +60,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             changes.Clear();
 
-            mavlinkComboBox1.DataSource = ParameterMetaDataRepository.GetParameterOptionsInt("AHRS_ORIENTATION", MainV2.comPort.MAV.cs.firmware.ToString()).ToList();
-            mavlinkComboBox1.DisplayMember = "Value";
-            mavlinkComboBox1.ValueMember = "Key";
-
-            mavlinkComboBox2.DataSource = ParameterMetaDataRepository.GetParameterOptionsInt("SERVO_TYPE", MainV2.comPort.MAV.cs.firmware.ToString()).ToList();
-            mavlinkComboBox2.DisplayMember = "Value";
-            mavlinkComboBox2.ValueMember = "Key";
-
-            mavlinkComboBox3.DataSource = ParameterMetaDataRepository.GetParameterOptionsInt("PROXY_MODE", MainV2.comPort.MAV.cs.firmware.ToString()).ToList();
-            mavlinkComboBox3.DisplayMember = "Value";
-            mavlinkComboBox3.ValueMember = "Key";
+            mavlinkComboBox1.setup(Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("AHRS_ORIENTATION", MainV2.comPort.MAV.cs.firmware.ToString()), "AHRS_ORIENTATION", MainV2.comPort.MAV.param);
+            mavlinkComboBox2.setup(Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("SERVO_TYPE", MainV2.comPort.MAV.cs.firmware.ToString()), "SERVO_TYPE", MainV2.comPort.MAV.param);
+            mavlinkComboBox3.setup(Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("PROXY_MODE", MainV2.comPort.MAV.cs.firmware.ToString()), "PROXY_MODE", MainV2.comPort.MAV.param);
 
             // yaw
             mavlinkNumericUpDown1.setup(900, 2200, 1, 1, "RC1_MIN", MainV2.comPort.MAV.param);
@@ -279,13 +271,21 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void BUT_test_yaw_Click(object sender, EventArgs e)
         {
-            MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_SERVO, 1, myTrackBar1.Value,0,0,0,0,0);
+            double output = map(myTrackBar1.Value, myTrackBar1.Minimum, myTrackBar1.Maximum, (double)mavlinkNumericUpDown1.Value, (double)mavlinkNumericUpDown2.Value);
+
+            MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_SERVO, 1, (float)output, 0, 0, 0, 0, 0);
         }
 
         private void BUT_test_pitch_Click(object sender, EventArgs e)
         {
-            MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_SERVO, 1, myTrackBar2.Value, 0, 0, 0, 0, 0);
+            double output = map(myTrackBar2.Value, myTrackBar2.Minimum, myTrackBar2.Maximum, (double)mavlinkNumericUpDown6.Value, (double)mavlinkNumericUpDown5.Value);
+
+            MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_SERVO, 2, (float)output, 0, 0, 0, 0, 0);
         }
-        
+
+        double map(double x, double in_min, double in_max, double out_min, double out_max)
+        {
+            return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+        }
     }
 }
