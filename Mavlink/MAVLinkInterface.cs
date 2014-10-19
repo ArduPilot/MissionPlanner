@@ -1975,6 +1975,7 @@ Please check the following
                     {
                         var ans = buffer.ByteArrayToStructure<mavlink_mission_ack_t>(6);
                         log.Info("set wp " + index + " ACK 47 : " + buffer[5] + " ans " + Enum.Parse(typeof(MAV_MISSION_RESULT), ans.type.ToString()));
+                        giveComport = false;
 
                         if (req.current == 2)
                         {
