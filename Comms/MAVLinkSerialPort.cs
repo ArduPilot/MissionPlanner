@@ -21,7 +21,7 @@ namespace MissionPlanner.Comms
 
         uint baud = 0;
 
-        ushort timeout = 50;
+        ushort timeout = 10;
 
         public MAVLink.SERIAL_CONTROL_DEV port = MAVLink.SERIAL_CONTROL_DEV.TELEM1;
 
