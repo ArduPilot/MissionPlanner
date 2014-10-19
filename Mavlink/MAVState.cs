@@ -22,7 +22,17 @@ namespace MissionPlanner
             this.SoftwareVersions = "";
             this.SerialString = "";
             this.FrameString = "";
+
+            this.packetslost = 0f;
+            this.packetsnotlost = 0f;
+            this.packetlosttimer = DateTime.MinValue;
+            cs.parent = this;
         }
+
+        public float packetslost = 0;
+        public float packetsnotlost = 0;
+        public DateTime packetlosttimer = DateTime.MinValue;
+        public float synclost = 0;
 
         // all
         public string VersionString { get; set; }

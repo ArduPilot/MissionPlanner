@@ -14,6 +14,9 @@ namespace MissionPlanner
     public class CurrentState : ICloneable
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
+        internal MAVState parent;
+
         // multipliers
         public float multiplierdist = 1;
         public string DistanceUnit = "";
@@ -596,7 +599,7 @@ namespace MissionPlanner
                     lastupdate = DateTime.Now;
 
                     //check if valid mavinterface
-                    if (mavinterface != null && mavinterface.packetsnotlost != 0)
+                    if (parent != null && parent.packetsnotlost != 0)
                     {
                         if ((DateTime.Now - mavinterface.lastvalidpacket).TotalSeconds > 10)
                         {
@@ -604,7 +607,7 @@ namespace MissionPlanner
                         }
                         else
                         {
-                            linkqualitygcs = (ushort)((mavinterface.packetsnotlost / (mavinterface.packetsnotlost + mavinterface.packetslost)) * 100.0);
+                            linkqualitygcs = (ushort)((parent.packetsnotlost / (parent.packetsnotlost + parent.packetslost)) * 100.0);
                         }
                     }
 
