@@ -117,6 +117,17 @@ namespace MissionPlanner.Utilities
             return "utmpos: " + x + "," + y;
         }
 
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int hashCode = x.GetHashCode();
+                hashCode = (hashCode * 397) ^ y.GetHashCode();
+                hashCode = (hashCode * 397) ^ zone;
+                return hashCode;
+            }
+        }
+
         public bool IsZero { get { if (this == Zero) return true; return false; } }
     }
 
