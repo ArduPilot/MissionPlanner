@@ -96,10 +96,10 @@
             this.backstageView.Pages.Add(this.backstageViewPagemand);
             this.backstageView.Pages.Add(this.backstageViewPagetradheli);
             this.backstageView.Pages.Add(this.backstageViewPageframetype);
-            this.backstageView.Pages.Add(this.backstageViewPagecompass);
             this.backstageView.Pages.Add(this.backstageViewPageaccelquad);
             this.backstageView.Pages.Add(this.backstageViewPageaccelplane);
             this.backstageView.Pages.Add(this.backstageViewPageacceltracker);
+            this.backstageView.Pages.Add(this.backstageViewPagecompass);
             this.backstageView.Pages.Add(this.backstageViewPageradio);
             this.backstageView.Pages.Add(this.backstageViewPageflmode);
             this.backstageView.Pages.Add(this.backstageViewPagefs);
