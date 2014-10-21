@@ -34,11 +34,9 @@
             this.label100 = new System.Windows.Forms.Label();
             this.TXT_declination_deg = new System.Windows.Forms.TextBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.BUT_MagCalibrationLog = new MissionPlanner.Controls.MyButton();
             this.CHK_autodec = new System.Windows.Forms.CheckBox();
             this.label5 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.lbl_adv_cfg_only = new System.Windows.Forms.Label();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.label1 = new System.Windows.Forms.Label();
             this.imageLabel1 = new MissionPlanner.Controls.ImageLabel();
@@ -97,13 +95,6 @@
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.TabStop = false;
             // 
-            // BUT_MagCalibrationLog
-            // 
-            resources.ApplyResources(this.BUT_MagCalibrationLog, "BUT_MagCalibrationLog");
-            this.BUT_MagCalibrationLog.Name = "BUT_MagCalibrationLog";
-            this.BUT_MagCalibrationLog.UseVisualStyleBackColor = true;
-            this.BUT_MagCalibrationLog.Click += new System.EventHandler(this.BUT_MagCalibrationLog_Click);
-            // 
             // CHK_autodec
             // 
             resources.ApplyResources(this.CHK_autodec, "CHK_autodec");
@@ -121,11 +112,6 @@
             resources.ApplyResources(this.groupBox2, "groupBox2");
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.TabStop = false;
-            // 
-            // lbl_adv_cfg_only
-            // 
-            resources.ApplyResources(this.lbl_adv_cfg_only, "lbl_adv_cfg_only");
-            this.lbl_adv_cfg_only.Name = "lbl_adv_cfg_only";
             // 
             // linkLabel1
             // 
@@ -267,12 +253,10 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.imageLabel1);
             this.Controls.Add(this.linkLabel1);
-            this.Controls.Add(this.lbl_adv_cfg_only);
             this.Controls.Add(this.CHK_enablecompass);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.CHK_autodec);
-            this.Controls.Add(this.BUT_MagCalibrationLog);
             this.Controls.Add(this.BUT_MagCalibrationLive);
             this.Controls.Add(this.linkLabelmagdec);
             this.Controls.Add(this.label100);
@@ -299,12 +283,10 @@
         private System.Windows.Forms.TextBox TXT_declination_deg;
         private Controls.MavlinkCheckBox CHK_enablecompass;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private Controls.MyButton BUT_MagCalibrationLog;
         private System.Windows.Forms.CheckBox CHK_autodec;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.GroupBox groupBox2;
         private Controls.MavlinkComboBox CMB_compass_orient;
-        private System.Windows.Forms.Label lbl_adv_cfg_only;
         private System.Windows.Forms.LinkLabel linkLabel1;
         private System.Windows.Forms.Label label1;
         private Controls.ImageLabel imageLabel1;
