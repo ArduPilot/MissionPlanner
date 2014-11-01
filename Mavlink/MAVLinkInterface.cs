@@ -1652,10 +1652,14 @@ Please check the following
                     {
                         //Console.WriteLine("getwp ans " + DateTime.Now.Millisecond);
 
-
-                        //Array.Copy(buffer, 6, buffer, 0, buffer.Length - 6);
-
                         var wp = buffer.ByteArrayToStructure<mavlink_mission_item_t>(6);
+
+                        // received a packet, but not what we requested
+                        if (req.seq != wp.seq)
+                        {
+                            generatePacket((byte)MAVLINK_MSG_ID.MISSION_REQUEST, req);
+                            continue;
+                        }
 
                         loc.options = (byte)(wp.frame);
                         loc.id = (byte)(wp.command);
