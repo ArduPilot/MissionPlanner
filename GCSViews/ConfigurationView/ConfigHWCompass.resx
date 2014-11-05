@@ -349,7 +349,7 @@
     <value>NoControl</value>
   </data>
   <data name="linkLabel1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>252, 96</value>
+    <value>84, 439</value>
   </data>
   <data name="linkLabel1.Size" type="System.Drawing.Size, System.Drawing">
     <value>90, 13</value>
@@ -698,7 +698,7 @@ PX4 with onboard or external Compass: ROTATION_NONE</value>
     <value>6</value>
   </data>
   <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>11, 122</value>
+    <value>11, 112</value>
   </data>
   <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
     <value>314, 304</value>
@@ -806,7 +806,7 @@ PX4 with onboard or external Compass: ROTATION_NONE</value>
     <value>1</value>
   </data>
   <data name="groupBox3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>331, 212</value>
+    <value>331, 205</value>
   </data>
   <data name="groupBox3.Size" type="System.Drawing.Size, System.Drawing">
     <value>302, 94</value>
