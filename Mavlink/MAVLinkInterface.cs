@@ -3151,9 +3151,13 @@ Please check the following
                 {
                     if (buffer[5] == (byte)MAVLINK_MSG_ID.RALLY_POINT)
                     {
-                        giveComport = false;
-
                         mavlink_rally_point_t fp = buffer.ByteArrayToStructure<mavlink_rally_point_t>(6);
+
+                        if (req.idx != fp.idx)
+                        {
+                            generatePacket((byte)MAVLINK_MSG_ID.FENCE_FETCH_POINT, req);
+                            continue;
+                        }
 
                         plla.Lat = fp.lat / t7;
                         plla.Lng = fp.lng / t7;
@@ -3161,6 +3165,8 @@ Please check the following
                         plla.Alt = fp.alt;
 
                         total = fp.count;
+
+                        giveComport = false;
 
                         return plla;
                     }
