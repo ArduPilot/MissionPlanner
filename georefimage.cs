@@ -21,8 +21,7 @@ namespace MissionPlanner
 {
     public class Georefimage : Form 
     {
-        enum PROCESSING_MODE
-        { 
+        enum PROCESSING_MODE {
             TIME_OFFSET,
             CAM_MSG
         }
@@ -419,6 +418,8 @@ namespace MissionPlanner
                 float currentRoll = 0f;
                 float currentPitch = 0f;
 
+                long lineNumber = 1;
+
                 while (!sr.EndOfStream)
                 {
                     string line = sr.ReadLine();
@@ -431,24 +432,35 @@ namespace MissionPlanner
 
                         string[] gpsLineValues = line.Split(new char[] { ',', ':' });
 
-                        location.Time = GetTimeFromGps(int.Parse(getValueFromStringArray(gpsLineValues, gpsweekpos), CultureInfo.InvariantCulture), int.Parse(getValueFromStringArray(gpsLineValues, timepos), CultureInfo.InvariantCulture));
-                        location.Lat = double.Parse(getValueFromStringArray(gpsLineValues, latpos), CultureInfo.InvariantCulture);
-                        location.Lon = double.Parse(getValueFromStringArray(gpsLineValues, lngpos), CultureInfo.InvariantCulture);
-                        location.RelAlt = double.Parse(getValueFromStringArray(gpsLineValues, altpos), CultureInfo.InvariantCulture);
-                        location.AltAMSL = double.Parse(getValueFromStringArray(gpsLineValues, altAMSLpos), CultureInfo.InvariantCulture);
 
-                        location.Roll = currentRoll;
-                        location.Pitch = currentPitch;
-                        location.Yaw = currentYaw;
+                        try
+                        {
+                            location.Time = GetTimeFromGps(int.Parse(getValueFromStringArray(gpsLineValues, gpsweekpos), CultureInfo.InvariantCulture), int.Parse(getValueFromStringArray(gpsLineValues, timepos), CultureInfo.InvariantCulture));
+                            location.Lat = double.Parse(getValueFromStringArray(gpsLineValues, latpos), CultureInfo.InvariantCulture);
+                            location.Lon = double.Parse(getValueFromStringArray(gpsLineValues, lngpos), CultureInfo.InvariantCulture);
+                            location.RelAlt = double.Parse(getValueFromStringArray(gpsLineValues, altpos), CultureInfo.InvariantCulture);
+                            location.AltAMSL = double.Parse(getValueFromStringArray(gpsLineValues, altAMSLpos), CultureInfo.InvariantCulture);
 
-                        
+                            location.Roll = currentRoll;
+                            location.Pitch = currentPitch;
+                            location.Yaw = currentYaw;
 
-                        long millis = ToMilliseconds(location.Time);
+                            long millis = ToMilliseconds(location.Time);
+                            //System.Diagnostics.Debug.WriteLine("GPS MSG - UTCMillis = " + millis  + "  GPS Week = " + getValueFromStringArray(gpsLineValues, gpsweekpos) + "  TimeMS = " + getValueFromStringArray(gpsLineValues, timepos));
 
-                        //System.Diagnostics.Debug.WriteLine("GPS MSG - UTCMillis = " + millis  + "  GPS Week = " + getValueFromStringArray(gpsLineValues, gpsweekpos) + "  TimeMS = " + getValueFromStringArray(gpsLineValues, timepos));
-
-                        if (!vehiclePositionList.ContainsKey(millis))
-                            vehiclePositionList[millis] = location;
+                            if (!vehiclePositionList.ContainsKey(millis))
+                            {
+                                vehiclePositionList[millis] = location;
+                            }
+                        } catch (Exception ex) {
+                            System.Diagnostics.Debug.WriteLine(
+                                String.Format(
+                                "Error getting GPS data from log on log line number {0}. Message{1}",
+                                lineNumber,
+                                ex.Message
+                                )
+                            );
+                        }
                     }
                     else if (line.ToLower().StartsWith("att"))
                     {
@@ -457,10 +469,9 @@ namespace MissionPlanner
                         currentRoll = float.Parse(getValueFromStringArray(attLineValues, rollATT), CultureInfo.InvariantCulture);
                         currentPitch = float.Parse(getValueFromStringArray(attLineValues, pitchATT), CultureInfo.InvariantCulture);
                         currentYaw = float.Parse(getValueFromStringArray(attLineValues, yawATT), CultureInfo.InvariantCulture);
-
                     }
 
-
+                ++lineNumber;
                 }
 
                 sr.Close();
