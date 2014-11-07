@@ -453,13 +453,11 @@ namespace MissionPlanner
                                 vehiclePositionList[millis] = location;
                             }
                         } catch (Exception ex) {
-                            System.Diagnostics.Debug.WriteLine(
-                                String.Format(
-                                "Error getting GPS data from log on log line number {0}. Message{1}",
+                            TXT_outputlog.AppendText(String.Format(
+                                "Error getting data from line number {0}. This line will be skipped.{1}",
                                 lineNumber,
-                                ex.Message
-                                )
-                            );
+                                Environment.NewLine
+                                ));
                         }
                     }
                     else if (line.ToLower().StartsWith("att"))
