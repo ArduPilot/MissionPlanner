@@ -304,7 +304,7 @@ namespace MissionPlanner
             while (true)
             {
                 // slow down execution
-                System.Threading.Thread.Sleep(20);
+                System.Threading.Thread.Sleep(2);
 
                 ((ProgressReporterDialogue)sender).UpdateProgressAndStatus(-1, "Got " + datacompass1.Count + " Samples\ncompass 1 error:" +error  + "\ncompass 2 error:" +error2 +" "+ extramsg);
 
@@ -331,7 +331,7 @@ namespace MissionPlanner
                 //new HIL.Vector3((float)-((maxx + minx) / 2), (float)-((maxy + miny) / 2), (float)-((maxz + minz) / 2));
 
                 // run lsq every second when more than 100 datapoints
-                if (datacompass1.Count > 30 && lastlsq.Second != DateTime.Now.Second)
+                if (datacompass1.Count > 50 && lastlsq.Second != DateTime.Now.Second)
                 {
                     MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.ALL, 0);
                     MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RAW_SENSORS, 50);
@@ -352,7 +352,7 @@ namespace MissionPlanner
                 }
 
                 // run lsq every second when more than 100 datapoints
-                if (datacompass2.Count > 10 && lastlsq2.Second != DateTime.Now.Second)
+                if (datacompass2.Count > 50 && lastlsq2.Second != DateTime.Now.Second)
                 {
                     lastlsq2 = DateTime.Now;
                     lock (datacompass2)
