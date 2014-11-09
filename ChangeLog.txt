@@ -1,4 +1,57 @@
-﻿* Mission Planner 1.3.10
+﻿* Mission Planner 1.3.11
+MetaData: update backup meta data
+MAVLink: update library
+Mainv2: prevent loading bad home location
+RangeControl: fix orange highlighting #654
+add land complete maybe #663
+MAVLinkinterface: fix posible exclusive issue
+cleanup warnings
+AntennTrackerIcon: add heading display
+configantennatracker: fix test button, and dropdowns
+mavlinkNumericUpDown: add auto decimal places
+move packetloss counters
+MAVLinkserialport: modify to use a thread
+Multiple: multiple sysids on 1 link
+MovingBase: set rally total if enabled
+currentstate: reinstate rc receiver message
+mavlinkinterface: make sure aptype is set from log/serial
+FlightData: display all connected mavs
+ConfigAntennaTracker: fix increments
+ConfigAntennaTracker: initial extended tuning
+Backstate: add scrollbars
+mavinterface: add mavchanged event
+GridUI: add units to simple screen
+currentstate: remove debug
+px4uploader: do otp check only once
+sysid selection
+mavlinkinterface: fix geofence upload verification check
+flightplanner: fix null exceptions on no home
+Currentstate: modify binding source method
+Update Simplified Chinese Translation
+Add Maestro speed/accel parameters
+update to use antenna tracker icon on map
+common: add antenna tracker icon
+MAVLinkinterface: prep for multiple sysids on 1 link
+python example 2: add parameter fetch
+mavlink: add frametype storing
+update TC translation
+WarningManager: add theme, and item remove
+Joystick: modify expo function
+Currentstate: update lat2lng2 to double, update lat/lng sig figures when coming from an int type packet
+WarningManager: add child support. (WIP)
+Flightplanner: fix mapcontrol name
+FlightPlanner: add autopan to FP
+configflightmodes: add simple and super simple filter
+currentstate: move gps2 info, and make satcount2 visible/plotable
+HUD: remember hud show option on restart
+mavcmd: add do_gripper to command list for AC
+MAVLink: update library
+dflog: add out of memory error
+Fix GeoFence Breach Logic
+fix , vs . issue #636
+update TC translation
+
+* Mission Planner 1.3.10
 georef: add tiff support
 currentstate: add m to ft conversion on terrain alt
 FlightPlanner: fix m to feet conversion
