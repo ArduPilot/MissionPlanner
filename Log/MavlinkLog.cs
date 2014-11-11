@@ -127,6 +127,7 @@ namespace MissionPlanner.Log
             }
             foreach (CurrentState cs in flightdata)
             {
+
                 progressBar1.Value = 50 + (int)((float)a / (float)flightdata.Count * 100.0f / 2.0f);
                 progressBar1.Refresh();
 
@@ -363,8 +364,8 @@ namespace MissionPlanner.Log
         {
             try
             {
-                if (selectform != null)
-                    selectform.Close();
+             //   if (selectform != null)
+              //      selectform.Close();
             }
             catch { }
         }
@@ -403,10 +404,12 @@ namespace MissionPlanner.Log
 
                     while (mine.logplaybackfile.BaseStream.Position < mine.logplaybackfile.BaseStream.Length)
                     {
-                        // bar moves to 50 % in this step
-                        progressBar1.Value = (int)((float)mine.logplaybackfile.BaseStream.Position / (float)mine.logplaybackfile.BaseStream.Length * 100.0f / 2.0f);
-                        progressBar1.Invalidate();
-                        progressBar1.Refresh();
+                        int percent = (int)((float)mine.logplaybackfile.BaseStream.Position / (float)mine.logplaybackfile.BaseStream.Length * 100.0f);
+                        if (progressBar1.Value != percent)
+                        {
+                            progressBar1.Value = percent;
+                            progressBar1.Refresh();
+                        }
 
                         byte[] packet = mine.readPacket();
 
@@ -591,11 +594,12 @@ namespace MissionPlanner.Log
 
                     while (mine.logplaybackfile.BaseStream.Position < mine.logplaybackfile.BaseStream.Length)
                     {
-                        // bar moves to 100 % in this step
-                        progressBar1.Value = (int)((float)mine.logplaybackfile.BaseStream.Position / (float)mine.logplaybackfile.BaseStream.Length * 100.0f / 1.0f);
-
-                        progressBar1.Refresh();
-                        //Application.DoEvents();
+                        int percent = (int)((float)mine.logplaybackfile.BaseStream.Position / (float)mine.logplaybackfile.BaseStream.Length * 100.0f);
+                        if (progressBar1.Value != percent)
+                        {
+                            progressBar1.Value = percent;
+                            progressBar1.Refresh();
+                        }
 
                         byte[] packet = mine.readPacket();
                         string text = "";
@@ -668,14 +672,14 @@ namespace MissionPlanner.Log
             0xA00000,0x00A000,0x0000A0,0xA0A000,0xA000A0,0x00A0A0, 
             0xE00000,0x00E000,0x0000E0,0xE0E000,0xE000E0,0x00E0E0,  */
         };
-        Form selectform;
+       // Form selectform;
 
         private List<string> GetLogFileValidFields(string logfile)
         {
-            if (selectform != null && !selectform.IsDisposed)
-                selectform.Close();
+           // if (selectform != null && !selectform.IsDisposed)
+           //     selectform.Close();
 
-            selectform = SelectDataToGraphForm();
+           // selectform = SelectDataToGraphForm();
 
             Hashtable seenIt = new Hashtable();
 
@@ -710,8 +714,12 @@ namespace MissionPlanner.Log
 
                 while (MavlinkInterface.logplaybackfile.BaseStream.Position < MavlinkInterface.logplaybackfile.BaseStream.Length)
                 {
-                    progressBar1.Value = (int)((float)MavlinkInterface.logplaybackfile.BaseStream.Position / (float)MavlinkInterface.logplaybackfile.BaseStream.Length * 100.0f);
-                    progressBar1.Refresh();
+                    int percent = (int)((float)MavlinkInterface.logplaybackfile.BaseStream.Position / (float)MavlinkInterface.logplaybackfile.BaseStream.Length * 100.0f);
+                    if (progressBar1.Value != percent) 
+                    {
+                        progressBar1.Value = percent;
+                        progressBar1.Refresh();
+                    }
 
                     byte[] packet = MavlinkInterface.readPacket();
 
@@ -859,7 +867,7 @@ namespace MissionPlanner.Log
                 //String.Compare(c1.Substring(0,c1.IndexOf('.')),c2.Substring(0,c2.IndexOf('.')))
 
                 // this needs sorting
-                string lastitem = "";
+            /*    string lastitem = "";
                 foreach (string item in options)
                 {
                     var items = item.Split('.');
@@ -868,8 +876,11 @@ namespace MissionPlanner.Log
                     AddDataOption(selectform, items[1] + " " + items[0]);
                     lastitem = items[0];
                 }
+                */
+                // add new treeview
+                ResetTreeView(options);
 
-                selectform.Show();
+              //  selectform.Show();
 
                 progressBar1.Value = 100;
 
@@ -1072,6 +1083,31 @@ namespace MissionPlanner.Log
                 //Console.WriteLine("{0} {1} {2} {3}", ans, listx[a].Y, listy[a].Y, listz[a].Y);
 
                 list.Add(listx[a].X, ans);
+            }
+        }
+
+        private void ResetTreeView(List<string> seenmessagetypes)
+        {
+            treeView1.Nodes.Clear();
+
+            Hashtable addedrootnodes = new Hashtable();
+            TreeNode tn = treeView1.TopNode;
+
+            foreach (var item in seenmessagetypes)
+            {
+                var items = item.Split('.');
+
+                var item1text = items[0].Replace("mavlink_", "").Replace("_t", "").ToUpper();
+                var item2text = items[1];
+
+                if (!addedrootnodes.ContainsKey(item1text)) 
+                {
+                    tn = new TreeNode(item1text); 
+                    treeView1.Nodes.Add(tn);
+                    addedrootnodes[item1text] = 1;
+                }
+
+                tn.Nodes.Add(item2text);
             }
         }
 
@@ -1282,11 +1318,12 @@ namespace MissionPlanner.Log
 
                     while (mine.logplaybackfile.BaseStream.Position < mine.logplaybackfile.BaseStream.Length)
                     {
-                        // bar moves to 100 % in this step
-                        progressBar1.Value = (int)((float)mine.logplaybackfile.BaseStream.Position / (float)mine.logplaybackfile.BaseStream.Length * 100.0f / 1.0f);
-
-                        progressBar1.Refresh();
-                        //Application.DoEvents();
+                        int percent = (int)((float)mine.logplaybackfile.BaseStream.Position / (float)mine.logplaybackfile.BaseStream.Length * 100.0f);
+                        if (progressBar1.Value != percent)
+                        {
+                            progressBar1.Value = percent;
+                            progressBar1.Refresh();
+                        }
 
                         byte[] packet = mine.readPacket();
                         string text = "";
@@ -1339,11 +1376,12 @@ namespace MissionPlanner.Log
 
                         StreamWriter sw = new StreamWriter(Path.GetDirectoryName(logfile) + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(logfile) + ".param");
 
-                        // bar moves to 100 % in this step
-                        progressBar1.Value = (int)((float)mine.logplaybackfile.BaseStream.Position / (float)mine.logplaybackfile.BaseStream.Length * 100.0f / 1.0f);
-
-                        progressBar1.Refresh();
-                        //Application.DoEvents();
+                        int percent = (int)((float)mine.logplaybackfile.BaseStream.Position / (float)mine.logplaybackfile.BaseStream.Length * 100.0f);
+                        if (progressBar1.Value != percent)
+                        {
+                            progressBar1.Value = percent;
+                            progressBar1.Refresh();
+                        }
 
                         mine.getParamList();
 
@@ -1400,11 +1438,13 @@ namespace MissionPlanner.Log
 
                     while (mine.logplaybackfile.BaseStream.Position < mine.logplaybackfile.BaseStream.Length)
                     {
-                        // bar moves to 100 % in this step
-                        progressBar1.Value = (int)((float)mine.logplaybackfile.BaseStream.Position / (float)mine.logplaybackfile.BaseStream.Length * 100.0f / 1.0f);
+                        int percent = (int)((float)mine.logplaybackfile.BaseStream.Position / (float)mine.logplaybackfile.BaseStream.Length * 100.0f);
+                        if (progressBar1.Value != percent)
+                        {
+                            progressBar1.Value = percent;
+                            progressBar1.Refresh();
+                        }
 
-                        progressBar1.Refresh();
-                        //Application.DoEvents();
                         byte count = 0;
                         try
                         {
@@ -1502,6 +1542,78 @@ namespace MissionPlanner.Log
         private void BUT_matlab_Click(object sender, EventArgs e)
         {
             MissionPlanner.Log.MatLab.ProcessTLog();
+        }
+
+        private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            if (e.Node != null && e.Node.Parent != null)
+            {
+                // set the check if we right click
+                if (e.Button == System.Windows.Forms.MouseButtons.Right)
+                {
+                    e.Node.Checked = !e.Node.Checked;
+                }
+
+                if (e.Node.Checked)
+                {
+                    if (e.Button == System.Windows.Forms.MouseButtons.Right)
+                    {
+                        GraphItem(e.Node.Parent.Text, e.Node.Text, false);
+                    }
+                    else
+                    {
+                        GraphItem(e.Node.Parent.Text, e.Node.Text, true);
+                    }
+                }
+                else
+                {
+                    List<CurveItem> removeitems = new List<CurveItem>();
+
+                    foreach (var item in zg1.GraphPane.CurveList)
+                    {
+                        if (item.Label.Text.StartsWith(e.Node.Text))
+                        {
+                            removeitems.Add(item);
+                            //break;
+                        }
+                    }
+
+                    foreach (var item in removeitems)
+                        zg1.GraphPane.CurveList.Remove(item);
+                }
+
+                zg1.Invalidate();
+            }
+            else if (e.Node != null && e.Node.Parent == null) // root nood ticked
+            {
+                if (e.Node.Checked)
+                {
+                    e.Node.Checked = false;
+                   /* foreach (var child in e.Node.Nodes)
+                    {
+                        ((TreeNode)child).Checked = true;
+                        var newe = new TreeNodeMouseClickEventArgs((TreeNode)child, e.Button, e.Clicks, e.X, e.Y);
+                        treeView1_NodeMouseClick(child, newe);
+                    }
+                    */
+                }
+                else
+                {
+
+                }
+            }
+        }
+
+        private void GraphItem(string parenttext, string text, bool leftaxis)
+        {
+            rightclick = !leftaxis;
+
+            chk_box_CheckedChanged(new CheckBox() { Name = text + " mavlink_" + parenttext.ToLower() + "_t", Checked = true }, null);
+        }
+
+        private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+
         }
     }
 }
