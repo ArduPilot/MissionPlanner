@@ -144,8 +144,8 @@ namespace MissionPlanner
 
             TRK_zoom.Value = (float)map.Zoom;
 
-            label1.Text += " (" + plugin.Host.cs.DistanceUnit+")";
-            label24.Text += " (" + plugin.Host.cs.SpeedUnit+")";
+            label1.Text += " (" + CurrentState.DistanceUnit+")";
+            label24.Text += " (" + CurrentState.SpeedUnit + ")";
         }
 
         private void GridUI_Resize(object sender, EventArgs e)
@@ -499,7 +499,7 @@ namespace MissionPlanner
 
             // new grid system test
 
-            grid = Grid.CreateGrid(list,  plugin.Host.cs.fromDistDisplayUnit((double)NUM_altitude.Value), (double)NUM_Distance.Value, (double)NUM_spacing.Value, (double)NUM_angle.Value, (double)NUM_overshoot.Value, (double)NUM_overshoot2.Value, (Grid.StartPosition)Enum.Parse(typeof(Grid.StartPosition), CMB_startfrom.Text), false);
+            grid = Grid.CreateGrid(list, CurrentState.fromDistDisplayUnit((double)NUM_altitude.Value), (double)NUM_Distance.Value, (double)NUM_spacing.Value, (double)NUM_angle.Value, (double)NUM_overshoot.Value, (double)NUM_overshoot2.Value, (Grid.StartPosition)Enum.Parse(typeof(Grid.StartPosition), CMB_startfrom.Text), false);
 
             List<PointLatLng> list2 = new List<PointLatLng>();
 
@@ -653,7 +653,7 @@ namespace MissionPlanner
                 lbl_footprint.Text = TXT_fovH.Text + " x " + TXT_fovV.Text + " m";
             }
 
-            double flyspeedms = plugin.Host.cs.fromSpeedDisplayUnit((double)NUM_UpDownFlySpeed.Value);
+            double flyspeedms = CurrentState.fromSpeedDisplayUnit((double)NUM_UpDownFlySpeed.Value);
 
             lbl_pictures.Text = images.ToString();
             lbl_strips.Text = ((int)(strips / 2)).ToString();
@@ -678,11 +678,11 @@ namespace MissionPlanner
 
             if (NUM_copter_delay.Value > 0)
             {
-                plugin.Host.AddWPtoList(MAVLink.MAV_CMD.WAYPOINT, (double)NUM_copter_delay.Value, 0, 0, 0, Lng, Lat, Alt * MainV2.comPort.MAV.cs.multiplierdist);
+                plugin.Host.AddWPtoList(MAVLink.MAV_CMD.WAYPOINT, (double)NUM_copter_delay.Value, 0, 0, 0, Lng, Lat, Alt * CurrentState.multiplierdist);
             }
             else
             {
-                plugin.Host.AddWPtoList(MAVLink.MAV_CMD.WAYPOINT, 0, 0, 0, 0, Lng, Lat, (int)(Alt * MainV2.comPort.MAV.cs.multiplierdist));
+                plugin.Host.AddWPtoList(MAVLink.MAV_CMD.WAYPOINT, 0, 0, 0, 0, Lng, Lat, (int)(Alt * CurrentState.multiplierdist));
             }
         }
 
@@ -1326,11 +1326,11 @@ namespace MissionPlanner
                 {
                     if (plugin.Host.cs.firmware == MainV2.Firmwares.ArduCopter2)
                     {
-                        plugin.Host.AddWPtoList(MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0, 0, (int)(30 * MainV2.comPort.MAV.cs.multiplierdist));
+                        plugin.Host.AddWPtoList(MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0, 0, (int)(30 * CurrentState.multiplierdist));
                     }
                     else
                     {
-                        plugin.Host.AddWPtoList(MAVLink.MAV_CMD.TAKEOFF, 20, 0, 0, 0, 0, 0, (int)(30 * MainV2.comPort.MAV.cs.multiplierdist));
+                        plugin.Host.AddWPtoList(MAVLink.MAV_CMD.TAKEOFF, 20, 0, 0, 0, 0, 0, (int)(30 * CurrentState.multiplierdist));
                     }
                 }
 
