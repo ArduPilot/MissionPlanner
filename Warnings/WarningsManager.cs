@@ -71,7 +71,7 @@ namespace MissionPlanner.Warnings
         {
             var newcw = new CustomWarning();
 
-            newcw.SetSource(MainV2.comPort.MAV.cs);
+            CustomWarning.defaultsrc = MainV2.comPort.MAV.cs;
             newcw.SetField(newcw.GetOptions()[0]);
 
             lock (WarningEngine.warnings)

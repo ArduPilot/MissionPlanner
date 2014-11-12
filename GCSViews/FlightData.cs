@@ -307,6 +307,8 @@ namespace MissionPlanner.GCSViews
         void comPort_MavChanged(object sender, EventArgs e)
         {
             HUD.Custom.src = MainV2.comPort.MAV.cs;
+
+            MissionPlanner.Warnings.CustomWarning.defaultsrc = MainV2.comPort.MAV.cs;
         }
 
         internal GMapMarker CurrentGMapMarker;

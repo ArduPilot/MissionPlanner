@@ -11,8 +11,6 @@ namespace MissionPlanner.Warnings
 
         System.Reflection.PropertyInfo Item { get; set; }
 
-        object src { get; set; }
-
         public CustomWarning Child = null;  
 
         public enum Conditional
@@ -28,7 +26,6 @@ namespace MissionPlanner.Warnings
 
         public CustomWarning()
         {
-            src = defaultsrc;
             RepeatTime = 10;
             Warning = 0;
             ConditionType = Conditional.NONE;
@@ -39,12 +36,12 @@ namespace MissionPlanner.Warnings
         /// </summary>
         public List<string> GetOptions()
         {
-            if (src == null)
+            if (defaultsrc == null)
                 throw new ArgumentNullException("src");
 
             List<string> answer = new List<string>();
 
-            Type test = src.GetType();
+            Type test = defaultsrc.GetType();
 
             foreach (var field in test.GetProperties())
             {
@@ -53,7 +50,7 @@ namespace MissionPlanner.Warnings
                 TypeCode typeCode;
                 try
                 {
-                    fieldValue = field.GetValue(src, null); // Get value
+                    fieldValue = field.GetValue(defaultsrc, null); // Get value
 
                     if (fieldValue == null)
                         continue;
@@ -114,12 +111,12 @@ namespace MissionPlanner.Warnings
         {
             get
             {
-                if (src == null)
+                if (defaultsrc == null)
                     throw new ArgumentNullException("src");
                 if (Item == null)
                     throw new ArgumentNullException("Item");
 
-                return (double)Convert.ChangeType(Item.GetValue(src, null), typeof(double));
+                return (double)Convert.ChangeType(Item.GetValue(defaultsrc, null), typeof(double));
             }
         }
 
@@ -168,21 +165,16 @@ namespace MissionPlanner.Warnings
             return false;
         }
 
-        public bool SetSource(object src)
-        {
-            this.src = src;
-            return true;
-        }
 
         public void SetField(string name)
         {
-            if (src == null)
+            if (defaultsrc == null)
                 throw new ArgumentNullException("src");
 
             if (name == "")
                 return;
 
-            Type test = src.GetType();
+            Type test = defaultsrc.GetType();
 
             foreach (var field in test.GetProperties())
             {
