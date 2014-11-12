@@ -559,11 +559,11 @@ namespace MissionPlanner
 
             if (desc.Contains("(dist)"))
             {
-                desc = desc.Replace("(dist)", "(" + MainV2.comPort.MAV.cs.DistanceUnit + ")");
+                desc = desc.Replace("(dist)", "(" + CurrentState.DistanceUnit + ")");
             }
             else if (desc.Contains("(speed)"))
             {
-                desc = desc.Replace("(speed)", "(" + MainV2.comPort.MAV.cs.SpeedUnit + ")");
+                desc = desc.Replace("(speed)", "(" + CurrentState.SpeedUnit + ")");
             }
 
             return desc;

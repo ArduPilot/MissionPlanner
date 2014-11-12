@@ -1486,7 +1486,7 @@ namespace MissionPlanner.Log
                             sw.Write("\t" + wp.p4.ToString("0.000000", new System.Globalization.CultureInfo("en-US")));
                             sw.Write("\t" + wp.lat.ToString("0.000000", new System.Globalization.CultureInfo("en-US")));
                             sw.Write("\t" + wp.lng.ToString("0.000000", new System.Globalization.CultureInfo("en-US")));
-                            sw.Write("\t" + (wp.alt / MainV2.comPort.MAV.cs.multiplierdist).ToString("0.000000", new System.Globalization.CultureInfo("en-US")));
+                            sw.Write("\t" + (wp.alt / CurrentState.multiplierdist).ToString("0.000000", new System.Globalization.CultureInfo("en-US")));
                             sw.Write("\t" + 1);
                             sw.WriteLine("");
                         }

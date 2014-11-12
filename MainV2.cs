@@ -2360,19 +2360,19 @@ namespace MissionPlanner
                     switch ((Common.distances)Enum.Parse(typeof(Common.distances), MainV2.config["distunits"].ToString()))
                     {
                         case Common.distances.Meters:
-                            MainV2.comPort.MAV.cs.multiplierdist = 1;
-                            MainV2.comPort.MAV.cs.DistanceUnit = "m";
+                            CurrentState.multiplierdist = 1;
+                            CurrentState.DistanceUnit = "m";
                             break;
                         case Common.distances.Feet:
-                            MainV2.comPort.MAV.cs.multiplierdist = 3.2808399f;
-                            MainV2.comPort.MAV.cs.DistanceUnit = "ft";
+                            CurrentState.multiplierdist = 3.2808399f;
+                            CurrentState.DistanceUnit = "ft";
                             break;
                     }
                 }
                 else
                 {
-                    MainV2.comPort.MAV.cs.multiplierdist = 1;
-                    MainV2.comPort.MAV.cs.DistanceUnit = "m";
+                    CurrentState.multiplierdist = 1;
+                    CurrentState.DistanceUnit = "m";
                 }
 
                 // speed
@@ -2381,31 +2381,31 @@ namespace MissionPlanner
                     switch ((Common.speeds)Enum.Parse(typeof(Common.speeds), MainV2.config["speedunits"].ToString()))
                     {
                         case Common.speeds.ms:
-                            MainV2.comPort.MAV.cs.multiplierspeed = 1;
-                            MainV2.comPort.MAV.cs.SpeedUnit = "m/s";
+                            CurrentState.multiplierspeed = 1;
+                            CurrentState.SpeedUnit = "m/s";
                             break;
                         case Common.speeds.fps:
-                            MainV2.comPort.MAV.cs.multiplierdist = 3.2808399f;
-                            MainV2.comPort.MAV.cs.SpeedUnit = "fps";
+                            CurrentState.multiplierdist = 3.2808399f;
+                            CurrentState.SpeedUnit = "fps";
                             break;
                         case Common.speeds.kph:
-                            MainV2.comPort.MAV.cs.multiplierspeed = 3.6f;
-                            MainV2.comPort.MAV.cs.SpeedUnit = "kph";
+                            CurrentState.multiplierspeed = 3.6f;
+                            CurrentState.SpeedUnit = "kph";
                             break;
                         case Common.speeds.mph:
-                            MainV2.comPort.MAV.cs.multiplierspeed = 2.23693629f;
-                            MainV2.comPort.MAV.cs.SpeedUnit = "mph";
+                            CurrentState.multiplierspeed = 2.23693629f;
+                            CurrentState.SpeedUnit = "mph";
                             break;
                         case Common.speeds.knots:
-                            MainV2.comPort.MAV.cs.multiplierspeed = 1.94384449f;
-                            MainV2.comPort.MAV.cs.SpeedUnit = "knots";
+                            CurrentState.multiplierspeed = 1.94384449f;
+                            CurrentState.SpeedUnit = "knots";
                             break;
                     }
                 }
                 else
                 {
-                    MainV2.comPort.MAV.cs.multiplierspeed = 1;
-                    MainV2.comPort.MAV.cs.SpeedUnit = "m/s";
+                    CurrentState.multiplierspeed = 1;
+                    CurrentState.SpeedUnit = "m/s";
                 }
             }
             catch { }

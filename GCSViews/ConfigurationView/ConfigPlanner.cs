@@ -429,7 +429,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     speechstring = MainV2.config["speechaltheight"].ToString();
                 if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Min Alt", "What altitude do you want to warn at? (relative to home)", ref speechstring))
                     return;
-                MainV2.config["speechaltheight"] = (double.Parse(speechstring) / MainV2.comPort.MAV.cs.multiplierdist).ToString(); // save as m
+                MainV2.config["speechaltheight"] = (double.Parse(speechstring) / CurrentState.multiplierdist).ToString(); // save as m
 
             }
         }

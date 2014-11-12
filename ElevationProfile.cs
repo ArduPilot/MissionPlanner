@@ -49,7 +49,7 @@ namespace MissionPlanner
                 lastloc = loc;
             }
 
-            this.homealt = homealt / MainV2.comPort.MAV.cs.multiplierdist;
+            this.homealt = homealt / CurrentState.multiplierdist;
 
             Form frm = Common.LoadingBox("Loading", "using srtm data");//Downloading Google Earth Data
 
@@ -99,7 +99,7 @@ namespace MissionPlanner
                     a += planloc.GetDistance(lastloc);
                 }
 
-                list1.Add(a, planloc.Alt / MainV2.comPort.MAV.cs.multiplierdist, 0, planloc.Tag); // homealt
+                list1.Add(a, planloc.Alt / CurrentState.multiplierdist, 0, planloc.Tag); // homealt
 
                 lastloc = planloc;
                 count++;

@@ -66,7 +66,7 @@ namespace MissionPlanner.Warnings
             return answer;
         }
 
-        public string Name { get { return _name; } set { if (_name == value) { return; } _name = value; if (src != null) SetField(value); } }
+        public string Name { get { return _name; } set { if (_name == value) { return; } _name = value; if (defaultsrc != null) SetField(value); } }
         string _name = "";
 
         /// <summary>
