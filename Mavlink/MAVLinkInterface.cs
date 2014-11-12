@@ -2126,6 +2126,9 @@ Please check the following
             generatePacket((byte)MAVLINK_MSG_ID.DIGICAM_CONTROL, req);
             System.Threading.Thread.Sleep(20);
             generatePacket((byte)MAVLINK_MSG_ID.DIGICAM_CONTROL, req);
+            //MAVLINK_MSG_ID.CAMERA_FEEDBACK;
+
+                //mavlink_camera_feedback_t
         }
 
         public void setMountConfigure(MAV_MOUNT_MODE mountmode, bool stabroll, bool stabpitch, bool stabyaw)
@@ -2527,6 +2530,13 @@ Please check the following
                     {
                         MAVlist[sysid].packets[buffer[5]] = buffer;
                         MAVlist[sysid].packetseencount[buffer[5]]++;
+
+                        // 3dr radio status packet are injected into the current mav
+                        if (buffer[5] == (byte)MAVLink.MAVLINK_MSG_ID.RADIO_STATUS)
+                        {
+                            MAVlist[sysidcurrent].packets[buffer[5]] = buffer;
+                            MAVlist[sysidcurrent].packetseencount[buffer[5]]++;
+                        }
                     }
 
                     // set seens sysid's based on hb packet - this will hide 3dr radio packets
