@@ -2532,7 +2532,8 @@ Please check the following
                         MAVlist[sysid].packetseencount[buffer[5]]++;
 
                         // 3dr radio status packet are injected into the current mav
-                        if (buffer[5] == (byte)MAVLink.MAVLINK_MSG_ID.RADIO_STATUS)
+                        if (buffer[5] == (byte)MAVLink.MAVLINK_MSG_ID.RADIO_STATUS ||
+                            buffer[5] == (byte)MAVLink.MAVLINK_MSG_ID.RADIO)
                         {
                             MAVlist[sysidcurrent].packets[buffer[5]] = buffer;
                             MAVlist[sysidcurrent].packetseencount[buffer[5]]++;
