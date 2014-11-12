@@ -18,16 +18,16 @@ namespace MissionPlanner
         internal MAVState parent;
 
         // multipliers
-        public float multiplierdist = 1;
-        public string DistanceUnit = "";
-        public float multiplierspeed = 1;
-        public string SpeedUnit = "";
+        public static float multiplierdist = 1;
+        public static string DistanceUnit = "";
+        public static float multiplierspeed = 1;
+        public static string SpeedUnit = "";
 
-        public double toDistDisplayUnit(double input) { return input * multiplierdist; }
-        public double toSpeedDisplayUnit(double input) { return input * multiplierspeed; }
+        public static double toDistDisplayUnit(double input) { return input * multiplierdist; }
+        public static double toSpeedDisplayUnit(double input) { return input * multiplierspeed; }
 
-        public double fromDistDisplayUnit(double input) { return input / multiplierdist; }
-        public double fromSpeedDisplayUnit(double input) { return input / multiplierspeed; }
+        public static double fromDistDisplayUnit(double input) { return input / multiplierdist; }
+        public static double fromSpeedDisplayUnit(double input) { return input / multiplierspeed; }
 
         // orientation - rads
         [DisplayText("Roll (deg)")]
