@@ -154,6 +154,8 @@ namespace MissionPlanner
         public Hashtable adsbPlanes = new Hashtable();
         public Hashtable adsbPlaneAge = new Hashtable();
 
+        string titlebar;
+
         /// <summary>
         /// Comport name
         /// </summary>
@@ -398,6 +400,7 @@ namespace MissionPlanner
             }
 
             this.Text = splash.Text;
+            titlebar = splash.Text;
 
             if (!MONO) // windows only
             {
@@ -1060,6 +1063,8 @@ namespace MissionPlanner
 
                     // save the baudrate for this port
                     config[_connectionControl.CMB_serialport.Text + "_BAUD"] = _connectionControl.CMB_baudrate.Text;
+
+                    this.Text = titlebar +" "+ comPort.MAV.VersionString;
 
                     // refresh config window if needed
                     if (MyView.current != null)
