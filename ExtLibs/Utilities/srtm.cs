@@ -13,6 +13,15 @@ namespace MissionPlanner
 {
     public class srtm: IDisposable
     {
+        public enum tiletype
+        {
+            valid,
+            invalid,
+            ocean
+        }
+
+        public static tiletype currenttype = tiletype.invalid;
+
         public static string datadirectory = "./srtm/";
 
         static List<string> allhgts = new List<string>();
@@ -28,6 +37,8 @@ namespace MissionPlanner
         static Hashtable fnamecache = new Hashtable();
 
         static Hashtable filecache = new Hashtable();
+
+        static List<string> oceantile = new List<string>();
 
         static Dictionary<string, short[,]> cache = new Dictionary<string, short[,]>();
 
@@ -149,6 +160,7 @@ namespace MissionPlanner
                     double v2 = avg(alt01, alt11, x_frac);
                     double v = avg(v1, v2, -y_frac);
 
+                    currenttype = tiletype.valid;
                     return v;
                 }
 
@@ -237,11 +249,14 @@ namespace MissionPlanner
                     }
 
                     //sr.Close();
-
+                    currenttype = tiletype.valid;
                     return alt;
                 }
                 else // get something
                 {
+                    if (oceantile.Contains(filename))
+                        currenttype = tiletype.ocean;
+
                     if (zoom >= 12)
                     {
                         if (!Directory.Exists(datadirectory))
@@ -272,7 +287,7 @@ namespace MissionPlanner
                 }
 
             }
-            catch { alt = 0; }
+            catch { alt = 0; currenttype = tiletype.invalid; }
 
             return alt;
         }
@@ -374,6 +389,9 @@ namespace MissionPlanner
                     }
                 }
             }
+
+            // we must be an ocean tile - no matchs
+            oceantile.Add((string)name);
         }
 
         static void gethgt(string url, string filename)
