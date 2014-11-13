@@ -1529,7 +1529,17 @@ namespace MissionPlanner.GCSViews
                 {
                     ((Button)sender).Enabled = false;
 
-                    MainV2.comPort.doCommand((MAVLink.MAV_CMD)Enum.Parse(typeof(MAVLink.MAV_CMD), CMB_action.Text), 0, 0, 1, 0, 0, 0, 0);
+                    int param1 = 0;
+                    int param3 = 1;
+
+                    // request gyro
+                    if (CMB_action.Text == "PREFLIGHT_CALIBRATION")
+                    {
+                        param1 = 1; // gyro
+                        param3 = 1; // baro / airspeed
+                    }
+
+                    MainV2.comPort.doCommand((MAVLink.MAV_CMD)Enum.Parse(typeof(MAVLink.MAV_CMD), CMB_action.Text), param1, 0, param3, 0, 0, 0, 0);
                 }
                 catch { CustomMessageBox.Show("The Command failed to execute", "Error"); }
                 ((Button)sender).Enabled = true;
