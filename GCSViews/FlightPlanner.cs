@@ -1534,6 +1534,12 @@ namespace MissionPlanner.GCSViews
 
                 for (ushort a = 0; a < cmdcount; a++)
                 {
+                    if (((Controls.ProgressReporterDialogue)sender).doWorkArgs.CancelRequested)
+                    {
+                        ((Controls.ProgressReporterDialogue)sender).doWorkArgs.CancelAcknowledged = true;
+                        throw new Exception("Cancel Requested");
+                    }
+
                     log.Info("Getting WP" + a);
                     ((Controls.ProgressReporterDialogue)sender).UpdateProgressAndStatus(a * 100 / cmdcount, "Getting WP " + a);
                     cmds.Add(port.getWP(a));
