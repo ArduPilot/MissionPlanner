@@ -1,4 +1,27 @@
-﻿* Mission Planner 1.3.11
+﻿* Mission Planner 1.3.12
+FlightData: fix quickview sizeing
+FlightData: remove FP autopan.
+Fix language issues
+flightdata: make tuning graph this higher.
+srtm&terrainfollow: add ability to detect ocean tiles
+flightdata: PREFLIGHT_CALIBRATION do gyro cal as well
+mavcmd.xml remofe ROI
+ConfigFailSafe: section up failsafe screen
+georefimage: fix for bad gps line
+FlightPlanner: add cancel code to getwps
+Mainv2: add fw version to titlebar
+flightdata: add disarm confirmation
+mavlinkinterface: add other radio status packet to current mav
+Plugins: fix units
+Fix Unit scaling.
+WarningManager: fix to us correct currentstate
+MAVLinkInterface: make sure radio packets are seen on active mav
+currentstate: fix unit conversion
+configcompassmot: fix compassmot issue
+update drivers
+MavlinkLog: make more efficient and add treeview
+
+* Mission Planner 1.3.11
 MetaData: update backup meta data
 MAVLink: update library
 Mainv2: prevent loading bad home location
