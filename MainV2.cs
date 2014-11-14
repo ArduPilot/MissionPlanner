@@ -1257,7 +1257,6 @@ namespace MissionPlanner
             }
             catch { } // i get alot of these errors, the port is still open, but not valid - user has unpluged usb
 
-            log.Info("save config");
             // save config
             xmlconfig(true);
 
@@ -1300,6 +1299,8 @@ namespace MissionPlanner
             {
                 try
                 {
+                    log.Info("Saving config");
+
                     XmlTextWriter xmlwriter = new XmlTextWriter(Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + @"config.xml", Encoding.ASCII);
                     xmlwriter.Formatting = Formatting.Indented;
 
@@ -1337,6 +1338,8 @@ namespace MissionPlanner
                 {
                     using (XmlTextReader xmlreader = new XmlTextReader(Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + @"config.xml"))
                     {
+                        log.Info("Loading config");
+
                         while (xmlreader.Read())
                         {
                             xmlreader.MoveToElement();

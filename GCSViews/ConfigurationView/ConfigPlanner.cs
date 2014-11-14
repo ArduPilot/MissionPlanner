@@ -199,11 +199,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 return;
             MainV2.instance.changelanguage((CultureInfo)CMB_language.SelectedItem);
 
-#if !DEBUG
                 MessageBox.Show("Please Restart the Planner");
 
-                Application.Exit();
-#endif
+                MainV2.instance.Close();
+                //Application.Exit();
         }
 
         private void CMB_osdcolor_SelectedIndexChanged(object sender, EventArgs e)
