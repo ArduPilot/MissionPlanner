@@ -2560,7 +2560,7 @@ namespace MissionPlanner.GCSViews
         {
             MainV2.config["CHK_autopan"] = CHK_autopan.Checked.ToString();
 
-            GCSViews.FlightPlanner.instance.autopan = CHK_autopan.Checked;
+                //GCSViews.FlightPlanner.instance.autopan = CHK_autopan.Checked;
         }
 
         private void setMJPEGSourceToolStripMenuItem_Click(object sender, EventArgs e)
