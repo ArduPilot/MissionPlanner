@@ -2782,7 +2782,8 @@ namespace MissionPlanner.GCSViews
 
         private void tabQuick_Resize(object sender, EventArgs e)
         {
-
+            tableLayoutPanelQuick.Width = tabQuick.Width;
+            tableLayoutPanelQuick.AutoScroll = false;
         }
 
         private void hud1_Resize(object sender, EventArgs e)
