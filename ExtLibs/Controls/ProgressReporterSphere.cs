@@ -70,7 +70,7 @@ namespace MissionPlanner.Controls
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(282, 8);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(134, 130);
+            this.label1.Size = new System.Drawing.Size(254, 104);
             this.label1.TabIndex = 9;
             this.label1.Text = resources.GetString("label1.Text");
             // 

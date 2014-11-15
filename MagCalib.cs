@@ -304,7 +304,7 @@ namespace MissionPlanner
             while (true)
             {
                 // slow down execution
-                System.Threading.Thread.Sleep(2);
+                System.Threading.Thread.Sleep(10);
 
                 ((ProgressReporterDialogue)sender).UpdateProgressAndStatus(-1, "Got " + datacompass1.Count + " Samples\ncompass 1 error:" +error  + "\ncompass 2 error:" +error2 +" "+ extramsg);
 
@@ -330,8 +330,10 @@ namespace MissionPlanner
                 // get the current estimated centerpoint
                 //new HIL.Vector3((float)-((maxx + minx) / 2), (float)-((maxy + miny) / 2), (float)-((maxz + minz) / 2));
 
+                //Console.WriteLine("1 " + DateTime.Now.Millisecond);
+
                 // run lsq every second when more than 100 datapoints
-                if (datacompass1.Count > 50 && lastlsq.Second != DateTime.Now.Second)
+                if (datacompass1.Count > 100 && lastlsq.Second != DateTime.Now.Second)
                 {
                     MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.ALL, 0);
                     MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RAW_SENSORS, 50);
@@ -352,7 +354,7 @@ namespace MissionPlanner
                 }
 
                 // run lsq every second when more than 100 datapoints
-                if (datacompass2.Count > 50 && lastlsq2.Second != DateTime.Now.Second)
+                if (datacompass2.Count > 100 && lastlsq2.Second != DateTime.Now.Second)
                 {
                     lastlsq2 = DateTime.Now;
                     lock (datacompass2)
@@ -368,6 +370,8 @@ namespace MissionPlanner
                         }
                     }
                 }
+
+                //Console.WriteLine("1a " + DateTime.Now.Millisecond);
 
                 // dont use dup data
                 if (lastcount == datacompass1.Count)
@@ -388,7 +392,9 @@ namespace MissionPlanner
                     ((ProgressReporterSphere)sender).sphere2.AddPoint(new OpenTK.Vector3(raw2mx, raw2my, raw2mz));
                     ((ProgressReporterSphere)sender).sphere2.AimClear();
                 }
-                
+
+                //Console.WriteLine("2 " + DateTime.Now.Millisecond);
+
                 HIL.Vector3 point;
 
                 point = new HIL.Vector3(rawmx, rawmy, rawmz) + centre;
@@ -448,8 +454,10 @@ namespace MissionPlanner
                 }
                 extramsg = displayresult;
 
+                //Console.WriteLine("3 "+ DateTime.Now.Millisecond);
+
                 // check primary compass error
-                if (error < 0.2 && pointshit > 12)
+                if (error < 0.2 && pointshit > 18)
                 {
                     extramsg = "";
                     break;

@@ -132,6 +132,9 @@ namespace MissionPlanner.Controls
 
             double max = Math.Max(Math.Max((maxx - minx)/2,(maxy - miny)/2),(maxz - minz)/2);
 
+            if (max < 300)
+                max = 400;
+
             max *= 1.3;
 
             if (points.Count > 0)
