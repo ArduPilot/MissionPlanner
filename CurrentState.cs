@@ -315,7 +315,7 @@ namespace MissionPlanner
         {
             get
             {
-                if (lat == 0 && lng == 0)
+                if (lat == 0 && lng == 0 || TrackerLocation.Lat == 0)
                     return 0;
 
                 // shrinking factor for longitude going to poles direction
