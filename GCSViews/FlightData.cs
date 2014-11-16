@@ -607,6 +607,8 @@ namespace MissionPlanner.GCSViews
         {
             POI.POIModified += POI_POIModified;
 
+            tfr.GotTFRs += tfr_GotTFRs;
+
             TRK_zoom.Minimum = gMapControl1.MapProvider.MinZoom;
             TRK_zoom.Maximum = (float)24;
             TRK_zoom.Value = (float)gMapControl1.Zoom;
@@ -640,6 +642,18 @@ namespace MissionPlanner.GCSViews
             thisthread.Name = "FD Mainloop";
             thisthread.IsBackground = true;
             thisthread.Start();
+        }
+
+        void tfr_GotTFRs(object sender, EventArgs e)
+        {
+            foreach (var item in tfr.tfrs)
+            {
+                List<PointLatLng> points = item.GetPath();
+
+                GMapPolygon poly = new GMapPolygon(points, item.NAME);
+
+                kmlpolygons.Polygons.Add(poly);
+            }
         }
 
         void POI_POIModified(object sender, EventArgs e)
