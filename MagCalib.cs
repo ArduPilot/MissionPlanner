@@ -457,7 +457,7 @@ namespace MissionPlanner
                 //Console.WriteLine("3 "+ DateTime.Now.Millisecond);
 
                 // check primary compass error
-                if (error < 0.2 && pointshit > 18)
+                if (error < 0.2 && pointshit > 18 && ((ProgressReporterSphere)sender).autoaccept)
                 {
                     extramsg = "";
                     break;
