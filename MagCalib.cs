@@ -258,9 +258,9 @@ namespace MissionPlanner
                 //com2ofsy = MainV2.comPort.GetParam("COMPASS_OFS2_Y");
                 //com2ofsz = MainV2.comPort.GetParam("COMPASS_OFS2_Z");
 
-                MainV2.comPort.setParam("COMPASS_OFS2_X", 0);
-                MainV2.comPort.setParam("COMPASS_OFS2_Y", 0);
-                MainV2.comPort.setParam("COMPASS_OFS2_Z", 0);
+                MainV2.comPort.setParam("COMPASS_OFS2_X", 0, true);
+                MainV2.comPort.setParam("COMPASS_OFS2_Y", 0, true);
+                MainV2.comPort.setParam("COMPASS_OFS2_Z", 0, true);
 
                 havecompass2 = true;
             }
@@ -286,15 +286,18 @@ namespace MissionPlanner
             MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.ALL, 0);
             MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RAW_SENSORS, 50);
 
+            // subscribe to data packets
             var sub = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.RAW_IMU, ReceviedPacket);
 
             var sub2 = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.SCALED_IMU2, ReceviedPacket);
 
             string extramsg = "";
 
+            // clear any old data
             ((ProgressReporterSphere)sender).sphere1.Clear();
             ((ProgressReporterSphere)sender).sphere2.Clear();
 
+            // keep track of data count and last lsq run
             int lastcount = 0;
             DateTime lastlsq = DateTime.MinValue;
             DateTime lastlsq2 = DateTime.MinValue;
