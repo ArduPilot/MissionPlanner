@@ -638,7 +638,7 @@ Please check the following
         /// </summary>
         /// <param name="paramname">name as a string</param>
         /// <param name="value"></param>
-        public bool setParam(string paramname, float value)
+        public bool setParam(string paramname, float value, bool force = false)
         {
             if (!MAV.param.ContainsKey(paramname))
             {
@@ -646,7 +646,7 @@ Please check the following
                 return false;
             }
 
-            if ((float)MAV.param[paramname] == value)
+            if ((float)MAV.param[paramname] == value && !force)
             {
                 log.Warn("setParam " + paramname + " not modified as same");
                 return true;
