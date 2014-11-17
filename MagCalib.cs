@@ -264,6 +264,8 @@ namespace MissionPlanner
 
                 havecompass2 = true;
             }
+
+            int hittarget = 14;// int.Parse(File.ReadAllText("magtarget.txt"));
             
             // old method
             float minx = 0;
@@ -460,7 +462,7 @@ namespace MissionPlanner
                 //Console.WriteLine("3 "+ DateTime.Now.Millisecond);
 
                 // check primary compass error
-                if (error < 0.2 && pointshit > 18 && ((ProgressReporterSphere)sender).autoaccept)
+                if (error < 0.2 && pointshit > hittarget && ((ProgressReporterSphere)sender).autoaccept)
                 {
                     extramsg = "";
                     break;

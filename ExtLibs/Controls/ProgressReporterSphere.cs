@@ -13,11 +13,13 @@ namespace MissionPlanner.Controls
         private System.Windows.Forms.CheckBox chk_auto;
         public Sphere sphere1;
 
-        public bool autoaccept = true;
+        public bool autoaccept = false;
 
         public ProgressReporterSphere()
         {
             InitializeComponent();
+
+            chk_auto.Checked = autoaccept;
         }
 
         private void InitializeComponent()
