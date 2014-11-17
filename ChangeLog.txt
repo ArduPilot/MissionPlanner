@@ -1,4 +1,16 @@
-﻿* Mission Planner 1.3.12
+﻿* Mission Planner 1.3.13
+magcalib: add new hitcount target, and default autcompelte to off
+configarducopter: add heli FF's
+magcalib: use new force param to set compass 2 offsets
+mavinterface: add ability to force a param upload
+magcalib: add option to not autocomplete
+TFR: add tfr
+mavcmd: update do_repeat_relay and do_set_relay
+CurrentState: update dist to home to be 0 if home is 0
+MagCalib: modify completion trigger, and change instructions
+configcompassmot: add exception handle around deactivate, not sure how this is happening.
+
+* Mission Planner 1.3.12
 FlightData: fix quickview sizeing
 FlightData: remove FP autopan.
 Fix language issues
