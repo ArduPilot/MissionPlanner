@@ -1,4 +1,5 @@
 ﻿* Mission Planner 1.3.13
+magcalib: add mag2 0's check
 magcalib: add new hitcount target, and default autcompelte to off
 configarducopter: add heli FF's
 magcalib: use new force param to set compass 2 offsets
