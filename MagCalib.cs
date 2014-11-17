@@ -200,6 +200,9 @@ namespace MissionPlanner
                 // add data
                 lock (datacompass2)
                 {
+                    if (rawmx == 0 || rawmy == 0 || rawmz == 0)
+                        return true;
+
                     datacompass2.Add(new Tuple<float, float, float>(rawmx, rawmy, rawmz));
                 }
 
