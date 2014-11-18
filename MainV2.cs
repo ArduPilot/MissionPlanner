@@ -1983,7 +1983,8 @@ namespace MissionPlanner
             // init button depressed - ensures correct action
             //int fixme;
 
-            tfr.GetTFRs();
+            
+            //tfr.GetTFRs();
 
             this.SuspendLayout();
 
