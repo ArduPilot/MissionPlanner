@@ -137,6 +137,8 @@ namespace MissionPlanner
             datacompass1.Clear();
             datacompass2.Clear();
             filtercompass2.Clear();
+            error = 99;
+            error2 = 99;
 
             if (dointro)
                 CustomMessageBox.Show("Please click ok and move the autopilot around all axises in a circular motion");
@@ -314,7 +316,7 @@ namespace MissionPlanner
                 // slow down execution
                 System.Threading.Thread.Sleep(10);
 
-                ((ProgressReporterDialogue)sender).UpdateProgressAndStatus(-1, "Got " + datacompass1.Count + " Samples\ncompass 1 error:" +error  + "\ncompass 2 error:" +error2 +" "+ extramsg);
+                ((ProgressReporterDialogue)sender).UpdateProgressAndStatus(-1, "Got " + datacompass1.Count + " Samples\ncompass 1 error:" +error  + "\ncompass 2 error:" +error2 +"\n"+ extramsg);
 
                 if (e.CancelRequested)
                 {
