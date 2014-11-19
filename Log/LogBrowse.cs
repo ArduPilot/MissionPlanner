@@ -819,10 +819,10 @@ namespace MissionPlanner.Log
         {
             int rtcnt = 0;
 
-            mapoverlay.Routes.Clear();
-            
             try
             {
+                mapoverlay.Routes.Clear();
+
                 DateTime starttime = DateTime.MinValue;
                 DateTime workingtime = starttime;
 
