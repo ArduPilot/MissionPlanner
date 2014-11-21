@@ -121,7 +121,7 @@ namespace MissionPlanner.Controls
 
         private void chk_auto_CheckedChanged(object sender, EventArgs e)
         {
-            autoaccept = !autoaccept;
+            autoaccept = chk_auto.Checked;
         }
     }
 }
