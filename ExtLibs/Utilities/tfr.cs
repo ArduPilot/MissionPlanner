@@ -89,8 +89,6 @@ namespace MissionPlanner.Utilities
                 if (newtfrs == null || newtfrs.Count == 0)
                     break;
 
-                newtfrs[0].GetPath();
-
                 tfrs.AddRange(newtfrs);
             }
 
@@ -121,16 +119,20 @@ namespace MissionPlanner.Utilities
             public string SUBMITID;// Submitter ID “Publisher”
             public string SUBMITHOST;// Submitter Host “1.2.3.4” or “enduser5.faa.gov”
 
-            public List<PointLatLng> GetPath()
+            public List<List<PointLatLng>> GetPaths()
             {
                 //RLN27.576944W97.108611LN27.468056W96.961111LN27.322222W97.050000LN27.345833W97.088889LN27.439167W97.186944RLN27.672778W97.212222LN27.576944W97.108611LN27.533333W97.133333LN27.638333W97.237222RCN27.686333W97.294667R007.00
-                List<PointLatLng> points = new List<PointLatLng>();
+
+                List<List<PointLatLng>> list = new List<List<PointLatLng>>();
+
+                List<PointLatLng> pointlist = new List<PointLatLng>();
 
                 var matches = all.Matches(BOUND);
 
                 Console.WriteLine(BOUND);
 
                 bool isarcterminate = false;
+                bool iscircleterminate = false;
                 int arcdir = 0;
                 PointLatLngAlt pointcent = null;
                 PointLatLngAlt pointstart = null;
@@ -164,22 +166,35 @@ namespace MissionPlanner.Utilities
                                 {
                                     for (double a = startbearing; a > endbearing; a += (10 * arcdir))
                                     {
-                                        points.Add(pointcent.newpos(a, radius));
+                                        pointlist.Add(pointcent.newpos(a, radius));
                                     }
                                 }
                                 else
                                 {
                                     for (double a = startbearing; a < endbearing; a += (10 * arcdir))
                                     {
-                                        points.Add(pointcent.newpos(a, radius));
+                                        pointlist.Add(pointcent.newpos(a, radius));
                                     }
                                 }
 
+                                pointlist.Add(point);
+
+                                list.Add(pointlist);
+                                pointlist = new List<PointLatLng>();
+
                                 isarcterminate = false;
+                                iscircleterminate = false;
+
+                                continue;
                             }
 
+                            if (iscircleterminate)
+                            {
+                                iscircleterminate = false;
+                                continue;
+                            }
 
-                            points.Add(point);
+                            pointlist.Add(point);
 
                             continue;
                         }
@@ -222,8 +237,13 @@ namespace MissionPlanner.Utilities
 
                             for (int a = 0; a <= 360; a += 10)
                             {
-                                points.Add(point.newpos(a,radius));
+                                pointlist.Add(point.newpos(a, radius));
                             }
+
+                            list.Add(pointlist);
+                            pointlist = new List<PointLatLng>();
+
+                            iscircleterminate = true;
 
                             continue;
                         }
@@ -231,7 +251,7 @@ namespace MissionPlanner.Utilities
                     catch { }
                 }
 
-                return points;
+                return list;
             }
         }
     }

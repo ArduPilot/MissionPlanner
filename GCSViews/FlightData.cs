@@ -648,11 +648,14 @@ namespace MissionPlanner.GCSViews
         {
             foreach (var item in tfr.tfrs)
             {
-                List<PointLatLng> points = item.GetPath();
+                List<List<PointLatLng>> points = item.GetPaths();
 
-                GMapPolygon poly = new GMapPolygon(points, item.NAME);
+                foreach (var list in points)
+                {
+                    GMapPolygon poly = new GMapPolygon(list, item.NAME);
 
-                kmlpolygons.Polygons.Add(poly);
+                    kmlpolygons.Polygons.Add(poly);
+                }
             }
         }
 

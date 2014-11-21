@@ -1983,9 +1983,6 @@ namespace MissionPlanner
             // init button depressed - ensures correct action
             //int fixme;
 
-            
-            //tfr.GetTFRs();
-
             this.SuspendLayout();
 
             if (Program.Logo != null && Program.vvvvz)
@@ -2081,7 +2078,11 @@ namespace MissionPlanner
             }
             catch (Exception ex) { log.Error(ex); }
 
-
+            try
+            {
+                tfr.GetTFRs();
+            }
+            catch (Exception ex) { log.Error(ex); }
 
             MissionPlanner.Utilities.Tracking.AddTiming("AppLoad", "Load Time", (DateTime.Now - Program.starttime).TotalMilliseconds, "");
 
