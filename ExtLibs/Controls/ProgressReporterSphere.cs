@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Configuration;
 
 namespace MissionPlanner.Controls
 {
@@ -13,11 +14,22 @@ namespace MissionPlanner.Controls
         private System.Windows.Forms.CheckBox chk_auto;
         public Sphere sphere1;
 
-        public bool autoaccept = false;
+        public bool autoaccept = true;
 
         public ProgressReporterSphere()
         {
             InitializeComponent();
+            try
+            {
+                if (ConfigurationManager.AppSettings["sphereautocomplete"] != null)
+                {
+
+                    string value = ConfigurationManager.AppSettings["sphereautocomplete"].ToString();
+                    autoaccept = bool.Parse(value);
+
+                }
+            }
+            catch { }
 
             chk_auto.Checked = autoaccept;
         }
@@ -122,6 +134,20 @@ namespace MissionPlanner.Controls
         private void chk_auto_CheckedChanged(object sender, EventArgs e)
         {
             autoaccept = chk_auto.Checked;
+
+            try
+            {
+                Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+
+                config.AppSettings.Settings.Remove("sphereautocomplete");
+
+                config.AppSettings.Settings.Add(new KeyValueConfigurationElement("sphereautocomplete", autoaccept.ToString()));
+
+                config.Save(ConfigurationSaveMode.Modified);
+
+                ConfigurationManager.RefreshSection(config.AppSettings.SectionInformation.Name);
+            }
+            catch { }
         }
     }
 }
