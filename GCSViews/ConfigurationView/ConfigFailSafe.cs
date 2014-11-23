@@ -43,10 +43,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         public void Activate()
         {
-            mavlinkComboBox_fs_thr_enable.setup(ParameterMetaDataRepository.GetParameterOptionsInt("FS_THR_ENABLE"), "FS_THR_ENABLE", MainV2.comPort.MAV.param);
+            mavlinkComboBox_fs_thr_enable.setup(ParameterMetaDataRepository.GetParameterOptionsInt("FS_THR_ENABLE", MainV2.comPort.MAV.cs.firmware.ToString()), "FS_THR_ENABLE", MainV2.comPort.MAV.param);
 
             // arducopter
-            mavlinkComboBoxfs_batt_enable.setup(ParameterMetaDataRepository.GetParameterOptionsInt("FS_BATT_ENABLE"), "FS_BATT_ENABLE", MainV2.comPort.MAV.param);
+            mavlinkComboBoxfs_batt_enable.setup(ParameterMetaDataRepository.GetParameterOptionsInt("FS_BATT_ENABLE", MainV2.comPort.MAV.cs.firmware.ToString()), "FS_BATT_ENABLE", MainV2.comPort.MAV.param);
             mavlinkNumericUpDownfs_thr_value.setup(800, 1200, 1, 1, "FS_THR_VALUE", MainV2.comPort.MAV.param);
 
             // low battery

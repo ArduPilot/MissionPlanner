@@ -132,6 +132,9 @@ namespace MissionPlanner.Controls
 
             double max = Math.Max(Math.Max((maxx - minx)/2,(maxy - miny)/2),(maxz - minz)/2);
 
+            if (max < 300)
+                max = 400;
+
             max *= 1.3;
 
             if (points.Count > 0)
@@ -161,7 +164,7 @@ namespace MissionPlanner.Controls
 
             eye *= eyedist;
 
-            Console.WriteLine("eye "+ eye.ToString());
+            //Console.WriteLine("eye "+ eye.ToString());
             //(maxx + minx) / 2, (maxy + miny) / 2, (maxz + minz) / 2
             Matrix4 modelview = Matrix4.LookAt(eye.X, eye.Y, eye.Z, 0,0,0, 0, 0, 1); // CenterPoint.X, CenterPoint.Y, CenterPoint.Z
             GL.MatrixMode(MatrixMode.Modelview);
@@ -260,7 +263,34 @@ namespace MissionPlanner.Controls
 
             GL.End();
 
+            Console.WriteLine(Math.Atan2(eye.Y, eye.X));
+
+            float newyaw = 0 * deg2rad;
+
+            //DrawCircle(CenterPoint.X, CenterPoint.Y, CenterPoint.Z, newyaw, (float)(max), 60);
+
             this.SwapBuffers();
+        }
+
+        void DrawCircle(float cx, float cy, float cz, float yaw, float r, int num_segments)
+        {
+            GL.Begin(PrimitiveType.LineLoop);
+            for (int ii = 0; ii < num_segments; ii++)
+            {
+                double theta = 2.0f * 3.1415926f * (double)ii / (double)num_segments;//get the current angle 
+
+                double x = r * Math.Cos(theta);//calculate the x component 
+                double y = 0;//r * Math.Sin(theta);//calculate the y component 
+                double z = r * Math.Sin(theta);//calculate the y component 
+
+                //x = x * Math.Cos(yaw) - y * Math.Sin(yaw);
+                y = x * Math.Sin(yaw) + y * Math.Cos(yaw);
+                z = z;
+
+                GL.Vertex3(x + cx, y + cy, z + cz);//output vertex 
+
+            }
+            GL.End();
         }
 
         void get_pos(double radius, double theta, double phi, ref Vector3 camera_pos)

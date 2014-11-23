@@ -112,7 +112,8 @@ namespace MissionPlanner.Utilities
 
                 double alt = srtm.getAltitude(plla.Lat, plla.Lng);
 
-                if (alt == 0)
+                // check where the alt returned came from.
+                if (srtm.currenttype == srtm.tiletype.invalid)
                     return;
 
                 resp.data[i] = (short)alt;

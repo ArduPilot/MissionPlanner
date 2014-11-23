@@ -70,15 +70,15 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             changes.Clear();
 
             // ensure the fields are populated before setting them
-            CH7_OPT.DataSource = ParameterMetaDataRepository.GetParameterOptionsInt("CH7_OPT").ToList(); 
+            CH7_OPT.DataSource = ParameterMetaDataRepository.GetParameterOptionsInt("CH7_OPT", MainV2.comPort.MAV.cs.firmware.ToString()).ToList(); 
             CH7_OPT.DisplayMember = "Value";
             CH7_OPT.ValueMember = "Key";
 
-            CH8_OPT.DataSource = ParameterMetaDataRepository.GetParameterOptionsInt("CH8_OPT").ToList(); 
+            CH8_OPT.DataSource = ParameterMetaDataRepository.GetParameterOptionsInt("CH8_OPT", MainV2.comPort.MAV.cs.firmware.ToString()).ToList(); 
             CH8_OPT.DisplayMember = "Value";
             CH8_OPT.ValueMember = "Key";
 
-            TUNE.DataSource = ParameterMetaDataRepository.GetParameterOptionsInt("TUNE").ToList();
+            TUNE.DataSource = ParameterMetaDataRepository.GetParameterOptionsInt("TUNE", MainV2.comPort.MAV.cs.firmware.ToString()).ToList();
             TUNE.DisplayMember = "Value";
             TUNE.ValueMember = "Key";
 

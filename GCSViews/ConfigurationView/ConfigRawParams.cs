@@ -270,7 +270,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                 float newvalue = float.Parse(value.Replace(',', '.'), CultureInfo.InvariantCulture);
 
-                if (ParameterMetaDataRepository.GetParameterRange(Params[Command.Index, e.RowIndex].Value.ToString(), ref min, ref max))
+                if (ParameterMetaDataRepository.GetParameterRange(Params[Command.Index, e.RowIndex].Value.ToString(), ref min, ref max, MainV2.comPort.MAV.cs.firmware.ToString()))
                 {
                     if (newvalue > max || newvalue < min)
                     {
@@ -351,15 +351,15 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 Params.Rows[Params.RowCount - 1].Cells[Value.Index].Value = ((float)MainV2.comPort.MAV.param[value]).ToString();
                 try
                 {
-                    string metaDataDescription = ParameterMetaDataRepository.GetParameterMetaData(value, ParameterMetaDataConstants.Description);
+                    string metaDataDescription = ParameterMetaDataRepository.GetParameterMetaData(value, ParameterMetaDataConstants.Description, MainV2.comPort.MAV.cs.firmware.ToString());
                     if (!String.IsNullOrEmpty(metaDataDescription))
                     {
                         Params.Rows[Params.RowCount - 1].Cells[Command.Index].ToolTipText = metaDataDescription;
                         Params.Rows[Params.RowCount - 1].Cells[Value.Index].ToolTipText = metaDataDescription;
 
-                        string range = ParameterMetaDataRepository.GetParameterMetaData(value, ParameterMetaDataConstants.Range);
-                        string options = ParameterMetaDataRepository.GetParameterMetaData(value, ParameterMetaDataConstants.Values);
-                        string units = ParameterMetaDataRepository.GetParameterMetaData(value, ParameterMetaDataConstants.Units);
+                        string range = ParameterMetaDataRepository.GetParameterMetaData(value, ParameterMetaDataConstants.Range, MainV2.comPort.MAV.cs.firmware.ToString());
+                        string options = ParameterMetaDataRepository.GetParameterMetaData(value, ParameterMetaDataConstants.Values, MainV2.comPort.MAV.cs.firmware.ToString());
+                        string units = ParameterMetaDataRepository.GetParameterMetaData(value, ParameterMetaDataConstants.Units, MainV2.comPort.MAV.cs.firmware.ToString());
 
                         Params.Rows[Params.RowCount - 1].Cells[Units.Index].Value = units;
                         Params.Rows[Params.RowCount - 1].Cells[Options.Index].Value = range + options.Replace(","," ");

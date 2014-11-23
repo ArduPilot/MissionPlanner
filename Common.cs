@@ -372,6 +372,41 @@ namespace MissionPlanner
         }
     }
 
+    [Serializable]
+    public class GMapMarkerAntennaTracker : GMapMarker
+    {
+        const float rad2deg = (float)(180 / Math.PI);
+        const float deg2rad = (float)(1.0 / rad2deg);
+
+        private readonly Bitmap icon = global::MissionPlanner.Properties.Resources.Antenna_Tracker_01;
+
+        float heading = 0;
+
+        public GMapMarkerAntennaTracker(PointLatLng p, float heading)
+            : base(p)
+        {
+            Size = icon.Size;
+        }
+
+        public override void OnRender(Graphics g)
+        {
+            Matrix temp = g.Transform;
+            g.TranslateTransform(LocalPosition.X, LocalPosition.Y);
+
+            int length = 500;
+
+            try
+            {
+                g.DrawLine(new Pen(Color.Red, 2), 0.0f, 0.0f, (float)Math.Cos((heading - 90) * deg2rad) * length, (float)Math.Sin((heading - 90) * deg2rad) * length);
+            }
+            catch { }
+
+            g.DrawImage(icon,-20,-20,40,40);
+
+            g.Transform = temp;
+        }
+    }
+
 
     class NoCheckCertificatePolicy : ICertificatePolicy
     {
@@ -540,28 +575,25 @@ namespace MissionPlanner
         {
             log.Info("getModesList Called");
 
-            // ensure we get the correct list
-            MainV2.comPort.MAV.cs.firmware = cs.firmware;
-
             if (cs.firmware == MainV2.Firmwares.ArduPlane)
             {
-                var flightModes = Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("FLTMODE1");
+                var flightModes = Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("FLTMODE1", cs.firmware.ToString());
                 flightModes.Add(new KeyValuePair<int, string>(16, "INITIALISING"));
                 return flightModes;
             }
             else if (cs.firmware == MainV2.Firmwares.Ateryx)
             {
-                var flightModes = Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("FLTMODE1"); //same as apm
+                var flightModes = Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("FLTMODE1", cs.firmware.ToString()); //same as apm
                 return flightModes;
             }
             else if (cs.firmware == MainV2.Firmwares.ArduCopter2)
             {
-                var flightModes = Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("FLTMODE1");
+                var flightModes = Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("FLTMODE1", cs.firmware.ToString());
                 return flightModes;
             }
             else if (cs.firmware == MainV2.Firmwares.ArduRover)
             {
-                var flightModes = Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("MODE1");
+                var flightModes = Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("MODE1", cs.firmware.ToString());
                 return flightModes;
             }
             else if (cs.firmware == MainV2.Firmwares.ArduTracker)

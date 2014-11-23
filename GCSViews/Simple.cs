@@ -673,7 +673,7 @@ namespace MissionPlanner.GCSViews
                     mBorders.InnerMarker = m;
                     try
                     {
-                        mBorders.wprad = (int)(float.Parse(MissionPlanner.MainV2.config["TXT_WPRad"].ToString()) / MainV2.comPort.MAV.cs.multiplierdist);
+                        mBorders.wprad = (int)(float.Parse(MissionPlanner.MainV2.config["TXT_WPRad"].ToString()) / CurrentState.multiplierdist);
                     }
                     catch { }
                     if (color.HasValue)
@@ -1023,7 +1023,7 @@ namespace MissionPlanner.GCSViews
                     marker = new GMapMarkerRect(point);
                     marker.ToolTip = new GMapToolTip(marker);
                     marker.ToolTipMode = MarkerTooltipMode.Always;
-                    marker.ToolTipText = "Dist to Home: " + ((gMapControl1.MapProvider.Projection.GetDistance(point, MainV2.comPort.MAV.cs.HomeLocation.Point()) * 1000) * MainV2.comPort.MAV.cs.multiplierdist).ToString("0");
+                    marker.ToolTipText = "Dist to Home: " + ((gMapControl1.MapProvider.Projection.GetDistance(point, MainV2.comPort.MAV.cs.HomeLocation.Point()) * 1000) * CurrentState.multiplierdist).ToString("0");
 
                     routes.Markers.Add(marker);
                 }
@@ -1045,7 +1045,7 @@ namespace MissionPlanner.GCSViews
             }
             else
             {
-                MainV2.comPort.MAV.cs.altoffsethome = MainV2.comPort.MAV.cs.alt / MainV2.comPort.MAV.cs.multiplierdist;
+                MainV2.comPort.MAV.cs.altoffsethome = MainV2.comPort.MAV.cs.alt / CurrentState.multiplierdist;
             }
         }
 
@@ -1396,11 +1396,11 @@ namespace MissionPlanner.GCSViews
                 return;
             }
 
-            string alt = (100 * MainV2.comPort.MAV.cs.multiplierdist).ToString("0");
+            string alt = (100 * CurrentState.multiplierdist).ToString("0");
             if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Enter Alt", "Enter Target Alt (absolute)", ref alt))
                 return;
 
-            int intalt = (int)(100 * MainV2.comPort.MAV.cs.multiplierdist);
+            int intalt = (int)(100 * CurrentState.multiplierdist);
             if (!int.TryParse(alt, out intalt))
             {
                 CustomMessageBox.Show("Bad Alt");
@@ -1414,7 +1414,7 @@ namespace MissionPlanner.GCSViews
             }
 
             MainV2.comPort.setMountConfigure(MAVLink.MAV_MOUNT_MODE.GPS_POINT, true, true, true);
-            MainV2.comPort.setMountControl(gotolocation.Lat, gotolocation.Lng, (int)(intalt / MainV2.comPort.MAV.cs.multiplierdist), true);
+            MainV2.comPort.setMountControl(gotolocation.Lat, gotolocation.Lng, (int)(intalt / CurrentState.multiplierdist), true);
 
         }
 
@@ -1547,11 +1547,11 @@ namespace MissionPlanner.GCSViews
 
             if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
             {
-                alt = (10 * MainV2.comPort.MAV.cs.multiplierdist).ToString("0");
+                alt = (10 * CurrentState.multiplierdist).ToString("0");
             }
             else
             {
-                alt = (100 * MainV2.comPort.MAV.cs.multiplierdist).ToString("0");
+                alt = (100 * CurrentState.multiplierdist).ToString("0");
             }
 
             if (MainV2.config.ContainsKey("guided_alt"))
@@ -1562,7 +1562,7 @@ namespace MissionPlanner.GCSViews
 
             MainV2.config["guided_alt"] = alt;
 
-            int intalt = (int)(100 * MainV2.comPort.MAV.cs.multiplierdist);
+            int intalt = (int)(100 * CurrentState.multiplierdist);
             if (!int.TryParse(alt, out intalt))
             {
                 CustomMessageBox.Show("Bad Alt");

@@ -99,6 +99,7 @@ namespace MissionPlanner.Log
             DATA_DISARMED = 11,
             DATA_AUTO_ARMED = 15,
             DATA_TAKEOFF = 16,
+            DATA_LAND_COMPLETE_MAYBE = 17,
             DATA_LAND_COMPLETE = 18,
             DATA_NOT_LANDED = 28,
             DATA_LOST_GPS = 19,
@@ -322,6 +323,7 @@ namespace MissionPlanner.Log
                     }
                     catch (OutOfMemoryException ex)
                     {
+                        log.Error(ex);
                         CustomMessageBox.Show("out of memory");
                         return answer;
                     }

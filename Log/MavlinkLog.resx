@@ -112,23 +112,23 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="BUT_redokml.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top</value>
   </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="BUT_redokml.Location" type="System.Drawing.Point, System.Drawing">
-    <value>10, 6</value>
+    <value>129, 6</value>
   </data>
   <data name="BUT_redokml.Size" type="System.Drawing.Size, System.Drawing">
     <value>68, 30</value>
   </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="BUT_redokml.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
   </data>
@@ -139,13 +139,13 @@
     <value>BUT_redokml</value>
   </data>
   <data name="&gt;&gt;BUT_redokml.Type" xml:space="preserve">
-    <value>Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_redokml.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BUT_redokml.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>10</value>
   </data>
   <data name="progressBar1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
@@ -154,7 +154,7 @@
     <value>10, 42</value>
   </data>
   <data name="progressBar1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>622, 26</value>
+    <value>862, 26</value>
   </data>
   <data name="progressBar1.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -163,13 +163,13 @@
     <value>progressBar1</value>
   </data>
   <data name="&gt;&gt;progressBar1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ProgressBar, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.ProgressBar, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;progressBar1.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;progressBar1.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>9</value>
   </data>
   <data name="BUT_humanreadable.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top</value>
@@ -178,7 +178,7 @@
     <value>NoControl</value>
   </data>
   <data name="BUT_humanreadable.Location" type="System.Drawing.Point, System.Drawing">
-    <value>84, 6</value>
+    <value>203, 6</value>
   </data>
   <data name="BUT_humanreadable.Size" type="System.Drawing.Size, System.Drawing">
     <value>68, 30</value>
@@ -193,13 +193,13 @@
     <value>BUT_humanreadable</value>
   </data>
   <data name="&gt;&gt;BUT_humanreadable.Type" xml:space="preserve">
-    <value>Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_humanreadable.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BUT_humanreadable.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>8</value>
   </data>
   <data name="BUT_graphmavlog.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top</value>
@@ -208,7 +208,7 @@
     <value>NoControl</value>
   </data>
   <data name="BUT_graphmavlog.Location" type="System.Drawing.Point, System.Drawing">
-    <value>232, 6</value>
+    <value>351, 6</value>
   </data>
   <data name="BUT_graphmavlog.Size" type="System.Drawing.Size, System.Drawing">
     <value>68, 30</value>
@@ -223,13 +223,13 @@
     <value>BUT_graphmavlog</value>
   </data>
   <data name="&gt;&gt;BUT_graphmavlog.Type" xml:space="preserve">
-    <value>Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_graphmavlog.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BUT_graphmavlog.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="zg1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
@@ -238,7 +238,7 @@
     <value>10, 74</value>
   </data>
   <data name="zg1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>624, 293</value>
+    <value>705, 293</value>
   </data>
   <data name="zg1.TabIndex" type="System.Int32, mscorlib">
     <value>12</value>
@@ -247,13 +247,13 @@
     <value>zg1</value>
   </data>
   <data name="&gt;&gt;zg1.Type" xml:space="preserve">
-    <value>ZedGraph.ZedGraphControl, ZedGraph, Version=5.1.5.15638, Culture=neutral, PublicKeyToken=null</value>
+    <value>ZedGraph.ZedGraphControl, ZedGraph, Version=5.1.5.14263, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;zg1.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;zg1.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="BUT_convertcsv.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top</value>
@@ -262,7 +262,7 @@
     <value>NoControl</value>
   </data>
   <data name="BUT_convertcsv.Location" type="System.Drawing.Point, System.Drawing">
-    <value>158, 6</value>
+    <value>277, 6</value>
   </data>
   <data name="BUT_convertcsv.Size" type="System.Drawing.Size, System.Drawing">
     <value>68, 30</value>
@@ -277,13 +277,13 @@
     <value>BUT_convertcsv</value>
   </data>
   <data name="&gt;&gt;BUT_convertcsv.Type" xml:space="preserve">
-    <value>Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_convertcsv.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BUT_convertcsv.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="BUT_paramsfromlog.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top</value>
@@ -292,7 +292,7 @@
     <value>NoControl</value>
   </data>
   <data name="BUT_paramsfromlog.Location" type="System.Drawing.Point, System.Drawing">
-    <value>306, 6</value>
+    <value>425, 6</value>
   </data>
   <data name="BUT_paramsfromlog.Size" type="System.Drawing.Size, System.Drawing">
     <value>68, 30</value>
@@ -307,13 +307,13 @@
     <value>BUT_paramsfromlog</value>
   </data>
   <data name="&gt;&gt;BUT_paramsfromlog.Type" xml:space="preserve">
-    <value>Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_paramsfromlog.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BUT_paramsfromlog.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="BUT_getwpsfromlog.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top</value>
@@ -322,7 +322,7 @@
     <value>NoControl</value>
   </data>
   <data name="BUT_getwpsfromlog.Location" type="System.Drawing.Point, System.Drawing">
-    <value>380, 6</value>
+    <value>499, 6</value>
   </data>
   <data name="BUT_getwpsfromlog.Size" type="System.Drawing.Size, System.Drawing">
     <value>68, 30</value>
@@ -337,13 +337,13 @@
     <value>BUT_getwpsfromlog</value>
   </data>
   <data name="&gt;&gt;BUT_getwpsfromlog.Type" xml:space="preserve">
-    <value>Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_getwpsfromlog.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BUT_getwpsfromlog.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="BUT_droneshare.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top</value>
@@ -352,7 +352,7 @@
     <value>NoControl</value>
   </data>
   <data name="BUT_droneshare.Location" type="System.Drawing.Point, System.Drawing">
-    <value>454, 6</value>
+    <value>573, 6</value>
   </data>
   <data name="BUT_droneshare.Size" type="System.Drawing.Size, System.Drawing">
     <value>68, 30</value>
@@ -367,13 +367,13 @@
     <value>BUT_droneshare</value>
   </data>
   <data name="&gt;&gt;BUT_droneshare.Type" xml:space="preserve">
-    <value>Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_droneshare.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BUT_droneshare.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="BUT_matlab.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top</value>
@@ -382,7 +382,7 @@
     <value>NoControl</value>
   </data>
   <data name="BUT_matlab.Location" type="System.Drawing.Point, System.Drawing">
-    <value>528, 6</value>
+    <value>647, 6</value>
   </data>
   <data name="BUT_matlab.Size" type="System.Drawing.Size, System.Drawing">
     <value>68, 30</value>
@@ -397,22 +397,46 @@
     <value>BUT_matlab</value>
   </data>
   <data name="&gt;&gt;BUT_matlab.Type" xml:space="preserve">
-    <value>Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_matlab.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BUT_matlab.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="treeView1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Right</value>
+  </data>
+  <data name="treeView1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>721, 74</value>
+  </data>
+  <data name="treeView1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>151, 292</value>
+  </data>
+  <data name="treeView1.TabIndex" type="System.Int32, mscorlib">
+    <value>18</value>
+  </data>
+  <data name="&gt;&gt;treeView1.Name" xml:space="preserve">
+    <value>treeView1</value>
+  </data>
+  <data name="&gt;&gt;treeView1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TreeView, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;treeView1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;treeView1.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>6, 13</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>646, 379</value>
+    <value>884, 379</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -500,6 +524,6 @@
     <value>MavlinkLog</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

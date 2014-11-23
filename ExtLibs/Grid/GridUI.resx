@@ -2317,13 +2317,13 @@
     <value>6, 117</value>
   </data>
   <data name="label24.Size" type="System.Drawing.Size, System.Drawing">
-    <value>118, 13</value>
+    <value>91, 13</value>
   </data>
   <data name="label24.TabIndex" type="System.Int32, mscorlib">
     <value>62</value>
   </data>
   <data name="label24.Text" xml:space="preserve">
-    <value>Flying Speed [m/s] (est)</value>
+    <value>Flying Speed (est)</value>
   </data>
   <data name="&gt;&gt;label24.Name" xml:space="preserve">
     <value>label24</value>
@@ -2521,13 +2521,13 @@
     <value>6, 42</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>59, 13</value>
+    <value>42, 13</value>
   </data>
   <data name="label1.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>Altitude [m]</value>
+    <value>Altitude</value>
   </data>
   <data name="&gt;&gt;label1.Name" xml:space="preserve">
     <value>label1</value>

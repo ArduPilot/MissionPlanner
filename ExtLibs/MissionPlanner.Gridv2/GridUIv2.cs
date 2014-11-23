@@ -36,11 +36,7 @@ namespace MissionPlanner
         List<PointLatLng> list = new List<PointLatLng>();
         List<PointLatLngAlt> grid;
 
-        mode currentmode = mode.panmode;
-
-        //
-        camerainfo camera;
-        
+        mode currentmode = mode.panmode;       
 
         Dictionary<string, camerainfo> cameras = new Dictionary<string, camerainfo>();
 

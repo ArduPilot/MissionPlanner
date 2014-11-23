@@ -55,12 +55,12 @@ namespace MissionPlanner.Wizard
         {
 
             string value = ((float)MainV2.comPort.MAV.param[x.Key]).ToString("0.###", CultureInfo.InvariantCulture);
-            string description = ParameterMetaDataRepository.GetParameterMetaData(x.Key, ParameterMetaDataConstants.Description);
-            string displayName = ParameterMetaDataRepository.GetParameterMetaData(x.Key, ParameterMetaDataConstants.DisplayName) + " (" + x.Key + ")";
-            string units = ParameterMetaDataRepository.GetParameterMetaData(x.Key, ParameterMetaDataConstants.Units);
-            string rangeRaw = ParameterMetaDataRepository.GetParameterMetaData(x.Key, ParameterMetaDataConstants.Range);
-            string incrementRaw = ParameterMetaDataRepository.GetParameterMetaData(x.Key, ParameterMetaDataConstants.Increment);
-            string availableValuesRaw = ParameterMetaDataRepository.GetParameterMetaData(x.Key, ParameterMetaDataConstants.Values);
+            string description = ParameterMetaDataRepository.GetParameterMetaData(x.Key, ParameterMetaDataConstants.Description, MainV2.comPort.MAV.cs.firmware.ToString());
+            string displayName = ParameterMetaDataRepository.GetParameterMetaData(x.Key, ParameterMetaDataConstants.DisplayName, MainV2.comPort.MAV.cs.firmware.ToString()) + " (" + x.Key + ")";
+            string units = ParameterMetaDataRepository.GetParameterMetaData(x.Key, ParameterMetaDataConstants.Units, MainV2.comPort.MAV.cs.firmware.ToString());
+            string rangeRaw = ParameterMetaDataRepository.GetParameterMetaData(x.Key, ParameterMetaDataConstants.Range, MainV2.comPort.MAV.cs.firmware.ToString());
+            string incrementRaw = ParameterMetaDataRepository.GetParameterMetaData(x.Key, ParameterMetaDataConstants.Increment, MainV2.comPort.MAV.cs.firmware.ToString());
+            string availableValuesRaw = ParameterMetaDataRepository.GetParameterMetaData(x.Key, ParameterMetaDataConstants.Values, MainV2.comPort.MAV.cs.firmware.ToString());
 
             float displayscale = 1;
 
@@ -96,7 +96,7 @@ namespace MissionPlanner.Wizard
 
                 valueControl.ComboBoxControl.DisplayMember = "Value";
                 valueControl.ComboBoxControl.ValueMember = "Key";
-                valueControl.ComboBoxControl.DataSource = ParameterMetaDataRepository.GetParameterOptionsInt(x.Key);
+                valueControl.ComboBoxControl.DataSource = ParameterMetaDataRepository.GetParameterOptionsInt(x.Key, MainV2.comPort.MAV.cs.firmware.ToString());
                 valueControl.ComboBoxControl.SelectedItem = value;
 
                 valueControl.ValueChanged += valueControl_ValueChanged;

@@ -670,7 +670,7 @@ namespace MissionPlanner.Utilities
                         if (MainV2.comPort.MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.SYS_STATUS] != null)
                             message.SYS_STATUS = new Message2() { index = MainV2.comPort.MAV.packetseencount[(byte)MAVLink.MAVLINK_MSG_ID.SYS_STATUS], msg = MainV2.comPort.MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.SYS_STATUS].ByteArrayToStructure<MAVLink.mavlink_sys_status_t>(6) };
 
-                        message.META_LINKQUALITY = message.SYS_STATUS = new Message2() { index = packetindex, time_usec = 0, msg = new META_LINKQUALITY() { master_in = (int)MainV2.comPort.packetsnotlost, mavpackettype = "META_LINKQUALITY", master_out = MainV2.comPort.packetcount, packet_loss = 100 - MainV2.comPort.MAV.cs.linkqualitygcs, mav_loss = 0 } };
+                        message.META_LINKQUALITY = message.SYS_STATUS = new Message2() { index = packetindex, time_usec = 0, msg = new META_LINKQUALITY() { master_in = (int)MainV2.comPort.MAV.packetsnotlost, mavpackettype = "META_LINKQUALITY", master_out = MainV2.comPort.packetcount, packet_loss = 100 - MainV2.comPort.MAV.cs.linkqualitygcs, mav_loss = 0 } };
 
                         packetindex++;
 

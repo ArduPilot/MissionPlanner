@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 public partial class MAVLink
 {
-        public const string MAVLINK_BUILD_DATE = "Mon Sep 22 06:38:30 2014";
+        public const string MAVLINK_BUILD_DATE = "Mon Oct 20 06:26:45 2014";
         public const string MAVLINK_WIRE_PROTOCOL_VERSION = "1.0";
         public const int MAVLINK_MAX_DIALECT_PAYLOAD_SIZE = 255;
 
@@ -230,8 +230,12 @@ DEBUG = 254,
             KITE=17, 
         	///<summary> Onboard companion controller | </summary>
             ONBOARD_CONTROLLER=18, 
+        	///<summary> Two-rotor VTOL using control surfaces in vertical operation in addition. Tailsitter. | </summary>
+            VTOL_DUOROTOR=19, 
+        	///<summary> Quad-rotor VTOL using a V-shaped quad config in vertical operation. Tailsitter. | </summary>
+            VTOL_QUADROTOR=20, 
         	///<summary>  | </summary>
-            ENUM_END=19, 
+            ENUM_END=21, 
         
         };
         
@@ -620,6 +624,8 @@ DEBUG = 254,
             DO_REPEAT_SERVO=184, 
         	///<summary> Terminate flight immediately |Flight termination activated if > 0.5| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>
             DO_FLIGHTTERMINATION=185, 
+        	///<summary> Mission command to perform a landing. This is used as a marker in a mission to tell the autopilot where a sequence of mission items that represents a landing starts. It may also be sent via a COMMAND_LONG to trigger a landing, in which case the nearest (geographically) landing sequence in the mission will be used. The Latitude/Longitude is optional, and may be set to 0/0 if not needed. If specified then it will be used to help find the closest landing sequence. |Empty| Empty| Empty| Empty| Latitude| Longitude| Empty|  </summary>
+            DO_LAND_START=189, 
         	///<summary> Mission command to perform a landing from a rally point. |Break altitude (meters)| Landing speed (m/s)| Empty| Empty| Empty| Empty| Empty|  </summary>
             DO_RALLY_LAND=190, 
         	///<summary> Mission command to safely abort an autonmous landing. |Altitude (meters)| Empty| Empty| Empty| Empty| Empty| Empty|  </summary>

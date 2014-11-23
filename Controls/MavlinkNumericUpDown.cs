@@ -43,6 +43,7 @@ namespace MissionPlanner.Controls
             this.Minimum = (decimal)(Min);
             this.Maximum = (decimal)(Max);
             this.Increment = (decimal)(Increment);
+            this.DecimalPlaces = BitConverter.GetBytes(decimal.GetBits((decimal)Increment)[3])[2];
             this.ParamName = paramname;
             this.param = paramlist;
             this._control = enabledisable;
@@ -55,6 +56,11 @@ namespace MissionPlanner.Controls
                 enableControl(true);
 
                 decimal value = (decimal)((float)paramlist[paramname] / _scale);
+
+                int dec = BitConverter.GetBytes(decimal.GetBits((decimal)value)[3])[2];
+
+                if (dec > this.DecimalPlaces)
+                    this.DecimalPlaces = dec;
 
                 if (value < this.Minimum)
                     this.Minimum = value;

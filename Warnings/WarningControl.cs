@@ -13,8 +13,6 @@ namespace MissionPlanner.Warnings
 
         public WarningControl()
         {
-            int fixme;
-            int fixme2;
             InitializeComponent();
         }
 
@@ -22,7 +20,7 @@ namespace MissionPlanner.Warnings
         {
             InitializeComponent();
 
-            item.SetSource(MainV2.comPort.MAV.cs);
+            CustomWarning.defaultsrc = MainV2.comPort.MAV.cs;
             item.SetField(item.Name);
 
             CMB_condition.DataSource = Enum.GetNames(typeof(CustomWarning.Conditional));

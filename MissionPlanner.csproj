@@ -297,6 +297,12 @@
     <Compile Include="Controls\ServoOptions.Designer.cs">
       <DependentUpon>ServoOptions.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\SysidSelector.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\SysidSelector.Designer.cs">
+      <DependentUpon>SysidSelector.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ThemeColors.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -325,6 +331,12 @@
     </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigAccelerometerCalibrationTracker.Designer.cs">
       <DependentUpon>ConfigAccelerometerCalibrationTracker.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigAntennaTracker.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigAntennaTracker.Designer.cs">
+      <DependentUpon>ConfigAntennaTracker.cs</DependentUpon>
     </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigCompassMot.cs">
       <SubType>UserControl</SubType>
@@ -411,6 +423,7 @@
     <Compile Include="Maps\Mapbox.cs" />
     <Compile Include="Maps\Earthbuilder.cs" />
     <Compile Include="Maps\Statkart_Topo2.cs" />
+    <Compile Include="Mavlink\MAVState.cs" />
     <Compile Include="MovingBase.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -559,6 +572,9 @@
     <EmbeddedResource Include="Controls\LogAnalyzer.resx">
       <DependentUpon>LogAnalyzer.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Controls\SysidSelector.resx">
+      <DependentUpon>SysidSelector.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\ThemeColors.zh-Hans.resx">
       <DependentUpon>ThemeColors.cs</DependentUpon>
     </EmbeddedResource>
@@ -618,6 +634,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAP_Limits.zh-Hans.resx">
       <DependentUpon>ConfigAP_Limits.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAntennaTracker.resx">
+      <DependentUpon>ConfigAntennaTracker.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigArducopter.zh-Hans.resx">
       <DependentUpon>ConfigArducopter.cs</DependentUpon>
@@ -1838,7 +1857,7 @@
     <Compile Include="ElevationProfile.Designer.cs">
       <DependentUpon>ElevationProfile.cs</DependentUpon>
     </Compile>
-    <Compile Include="Mavlink\MAVLink.cs" />
+    <Compile Include="Mavlink\MAVLinkInterface.cs" />
     <Compile Include="Log\LogDownload.cs">
       <SubType>Form</SubType>
     </Compile>

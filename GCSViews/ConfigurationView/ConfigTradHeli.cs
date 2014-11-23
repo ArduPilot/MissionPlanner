@@ -400,7 +400,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             mavlinkNumericUpDownpitchmax.setup(10, 65, 100, 1, "H_PIT_MAX", MainV2.comPort.MAV.param);
             mavlinkNumericUpDownrollmax.setup(10, 65, 100, 1, "H_ROL_MAX", MainV2.comPort.MAV.param);
 
-            mavlinkComboBoxTailType.setup(Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("H_TAIL_TYPE"), "H_TAIL_TYPE", MainV2.comPort.MAV.param);
+            mavlinkComboBoxTailType.setup(Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("H_TAIL_TYPE", MainV2.comPort.MAV.cs.firmware.ToString()), "H_TAIL_TYPE", MainV2.comPort.MAV.param);
 
             mavlinkNumericUpDowntailspeed.setup(0,1000,1,1, "H_TAIL_SPEED", MainV2.comPort.MAV.param);
 
@@ -411,7 +411,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             H_COLYAW.setup(0, 5, 1, 1, "H_COLYAW", MainV2.comPort.MAV.param);
             mavlinkudH_RSC_RATE.setup(0, 60, 1, 1, "H_RSC_RAMP_TIME", MainV2.comPort.MAV.param);
             mavlinkNumericUpDownrunuptime.setup(0, 60, 1, 1, "H_RSC_RUNUP_TIME", MainV2.comPort.MAV.param);
-            H_RSC_MODE.setup(Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("H_RSC_MODE"), "H_RSC_MODE", MainV2.comPort.MAV.param);
+            H_RSC_MODE.setup(Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("H_RSC_MODE", MainV2.comPort.MAV.cs.firmware.ToString()), "H_RSC_MODE", MainV2.comPort.MAV.param);
             mavlinkudH_RSC_SETPOINT.setup(800, 2200, 1, 1, "H_RSC_SETPOINT", MainV2.comPort.MAV.param);
 
             startup = true;

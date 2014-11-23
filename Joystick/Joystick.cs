@@ -90,8 +90,8 @@ namespace MissionPlanner.Joystick
             TakeOff,
             Mount_Mode,
             Toggle_Pan_Stab,
-            Gimbal_pnt_track
-       //     Mount_Control
+            Gimbal_pnt_track,
+            Mount_Control_0
         }
 
 
@@ -582,6 +582,7 @@ namespace MissionPlanner.Joystick
                 }
                 catch (InputLostException ex)
                 {
+                    log.Error(ex);
                     clearRCOverride();
                     MainV2.instance.Invoke((System.Action)
                     delegate
@@ -667,8 +668,7 @@ namespace MissionPlanner.Joystick
                         }
                         break;
                     case buttonfunction.Mount_Mode:
-                        if (but.p1 != null)
-                        {
+                        
                             MainV2.instance.BeginInvoke((System.Windows.Forms.MethodInvoker)delegate()
                             {
                                 try
@@ -677,7 +677,7 @@ namespace MissionPlanner.Joystick
                                 }
                                 catch { CustomMessageBox.Show("Failed to change mount mode"); }
                             });
-                        }
+                        
                         break;
                         
                     case buttonfunction.Arm:
@@ -791,6 +791,16 @@ namespace MissionPlanner.Joystick
                                 MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_ROI, 0, 0, 0, 0, MainV2.comPort.MAV.cs.gimballat, MainV2.comPort.MAV.cs.gimballng, (float)MainV2.comPort.MAV.cs.GimbalPoint.Alt);
                             }
                             catch { CustomMessageBox.Show("Failed to Gimbal_pnt_track"); }
+                        });
+                        break;
+                    case buttonfunction.Mount_Control_0:
+                        MainV2.instance.BeginInvoke((System.Windows.Forms.MethodInvoker)delegate()
+                        {
+                            try
+                            {
+                                MainV2.comPort.setMountControl(0,0,0,false);
+                            }
+                            catch { CustomMessageBox.Show("Failed to Mount_Control_0"); }
                         });
                         break;
                 }

@@ -175,8 +175,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 if (value > item.max)
                     item.max = value;
 
-                string range = ParameterMetaDataRepository.GetParameterMetaData(item.paramname, ParameterMetaDataConstants.Range);
-                string increment = ParameterMetaDataRepository.GetParameterMetaData(item.paramname, ParameterMetaDataConstants.Increment);
+                string range = ParameterMetaDataRepository.GetParameterMetaData(item.paramname, ParameterMetaDataConstants.Range, MainV2.comPort.MAV.cs.firmware.ToString());
+                string increment = ParameterMetaDataRepository.GetParameterMetaData(item.paramname, ParameterMetaDataConstants.Increment, MainV2.comPort.MAV.cs.firmware.ToString());
 
                 string[] rangeopt = range.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
@@ -212,7 +212,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             TXT_info.Clear();
 
-            float value = float.Parse(Value);
+            if (Value.Contains(','))
+                Value = Value.Replace(",",".");
+
+            float value = float.Parse(Value, System.Globalization.CultureInfo.InvariantCulture);
 
             Controls.RangeControl rc = ((Controls.RangeControl)sender);
             log.Info(rc.Name + " " + rc.Value);

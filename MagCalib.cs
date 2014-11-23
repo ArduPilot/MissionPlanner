@@ -23,6 +23,8 @@ namespace MissionPlanner
         const float rad2deg = (float)(180 / Math.PI);
         const float deg2rad = (float)(1.0 / rad2deg);
 
+        static double error = 99;
+        static double error2 = 99;
         static double[] ans;
         static double[] ans2;
 
@@ -135,6 +137,8 @@ namespace MissionPlanner
             datacompass1.Clear();
             datacompass2.Clear();
             filtercompass2.Clear();
+            error = 99;
+            error2 = 99;
 
             if (dointro)
                 CustomMessageBox.Show("Please click ok and move the autopilot around all axises in a circular motion");
@@ -198,6 +202,9 @@ namespace MissionPlanner
                 // add data
                 lock (datacompass2)
                 {
+                    if (rawmx == 0 || rawmy == 0 || rawmz == 0)
+                        return true;
+
                     datacompass2.Add(new Tuple<float, float, float>(rawmx, rawmy, rawmz));
                 }
 
@@ -256,12 +263,14 @@ namespace MissionPlanner
                 //com2ofsy = MainV2.comPort.GetParam("COMPASS_OFS2_Y");
                 //com2ofsz = MainV2.comPort.GetParam("COMPASS_OFS2_Z");
 
-                MainV2.comPort.setParam("COMPASS_OFS2_X", 0);
-                MainV2.comPort.setParam("COMPASS_OFS2_Y", 0);
-                MainV2.comPort.setParam("COMPASS_OFS2_Z", 0);
+                MainV2.comPort.setParam("COMPASS_OFS2_X", 0, true);
+                MainV2.comPort.setParam("COMPASS_OFS2_Y", 0, true);
+                MainV2.comPort.setParam("COMPASS_OFS2_Z", 0, true);
 
                 havecompass2 = true;
             }
+
+            int hittarget = 14;// int.Parse(File.ReadAllText("magtarget.txt"));
             
             // old method
             float minx = 0;
@@ -271,20 +280,31 @@ namespace MissionPlanner
             float minz = 0;
             float maxz = 0;
 
-            // backup current rate and set to 10 hz
+            // backup current rate and set
             byte backupratesens = MainV2.comPort.MAV.cs.ratesensors;
-            MainV2.comPort.MAV.cs.ratesensors = 10;
-            MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RAW_SENSORS, MainV2.comPort.MAV.cs.ratesensors); // mag captures at 10 hz
 
+            byte backuprateatt = MainV2.comPort.MAV.cs.rateattitude;
+            byte backupratepos = MainV2.comPort.MAV.cs.rateposition;
+
+            MainV2.comPort.MAV.cs.ratesensors = 2;
+            MainV2.comPort.MAV.cs.rateattitude = 0;
+            MainV2.comPort.MAV.cs.rateposition = 0;
+
+            MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.ALL, 0);
+            MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RAW_SENSORS, 50);
+
+            // subscribe to data packets
             var sub = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.RAW_IMU, ReceviedPacket);
 
             var sub2 = MainV2.comPort.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.SCALED_IMU2, ReceviedPacket);
 
             string extramsg = "";
 
+            // clear any old data
             ((ProgressReporterSphere)sender).sphere1.Clear();
             ((ProgressReporterSphere)sender).sphere2.Clear();
 
+            // keep track of data count and last lsq run
             int lastcount = 0;
             DateTime lastlsq = DateTime.MinValue;
             DateTime lastlsq2 = DateTime.MinValue;
@@ -294,16 +314,12 @@ namespace MissionPlanner
             while (true)
             {
                 // slow down execution
-                System.Threading.Thread.Sleep(20);
+                System.Threading.Thread.Sleep(10);
 
-                ((ProgressReporterDialogue)sender).UpdateProgressAndStatus(-1, "Got " + datacompass1.Count + " Samples " + extramsg);
+                ((ProgressReporterDialogue)sender).UpdateProgressAndStatus(-1, "Got " + datacompass1.Count + " Samples\ncompass 1 error:" +error  + "\ncompass 2 error:" +error2 +"\n"+ extramsg);
 
                 if (e.CancelRequested)
                 {
-                    // restore old sensor rate
-                    MainV2.comPort.MAV.cs.ratesensors = backupratesens;
-                    MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RAW_SENSORS, MainV2.comPort.MAV.cs.ratesensors);
-
                     e.CancelAcknowledged = false;
                     e.CancelRequested = false;
                     break;
@@ -312,12 +328,6 @@ namespace MissionPlanner
                 if (datacompass1.Count == 0)
                     continue;
                 
-                // dont use dup data
-                if (lastcount == datacompass1.Count)
-                    continue;
-
-                lastcount = datacompass1.Count;
-
                 float rawmx = datacompass1[datacompass1.Count - 1].Item1;
                 float rawmy = datacompass1[datacompass1.Count - 1].Item2;
                 float rawmz = datacompass1[datacompass1.Count - 1].Item3;
@@ -330,9 +340,14 @@ namespace MissionPlanner
                 // get the current estimated centerpoint
                 //new HIL.Vector3((float)-((maxx + minx) / 2), (float)-((maxy + miny) / 2), (float)-((maxz + minz) / 2));
 
+                //Console.WriteLine("1 " + DateTime.Now.Millisecond);
+
                 // run lsq every second when more than 100 datapoints
                 if (datacompass1.Count > 100 && lastlsq.Second != DateTime.Now.Second)
                 {
+                    MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.ALL, 0);
+                    MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RAW_SENSORS, 50);
+
                     lastlsq = DateTime.Now;
                     lock (datacompass1)
                     {
@@ -366,11 +381,19 @@ namespace MissionPlanner
                     }
                 }
 
+                //Console.WriteLine("1a " + DateTime.Now.Millisecond);
+
+                // dont use dup data
+                if (lastcount == datacompass1.Count)
+                    continue;
+
+                lastcount = datacompass1.Count;
+
                 // add to sphere with center correction
                 ((ProgressReporterSphere)sender).sphere1.AddPoint(new OpenTK.Vector3(rawmx, rawmy, rawmz));
                 ((ProgressReporterSphere)sender).sphere1.AimClear();
 
-                if (havecompass2 && datacompass2.Count > 0)
+                if (datacompass2.Count > 30)
                 {
                     float raw2mx = datacompass2[datacompass2.Count - 1].Item1;
                     float raw2my = datacompass2[datacompass2.Count - 1].Item2;
@@ -379,7 +402,9 @@ namespace MissionPlanner
                     ((ProgressReporterSphere)sender).sphere2.AddPoint(new OpenTK.Vector3(raw2mx, raw2my, raw2mz));
                     ((ProgressReporterSphere)sender).sphere2.AimClear();
                 }
-                
+
+                //Console.WriteLine("2 " + DateTime.Now.Millisecond);
+
                 HIL.Vector3 point;
 
                 point = new HIL.Vector3(rawmx, rawmy, rawmz) + centre;
@@ -394,16 +419,18 @@ namespace MissionPlanner
                 radius /= datacompass1.Count;
 
                 //test that we can find one point near a set of points all around the sphere surface
+                int pointshit = 0;
                 string displayresult = "";
-                int factor = 3; // 4 point check 16 points
+                int factor = 3; // pitch
+                int factor2 = 4; // yaw
                 float max_distance = radius / 3; //pretty generouse
                 for (int j = 0; j <= factor; j++)
                 {
-                    double theta = (Math.PI * (j +0)) / factor;
+                    double theta = (Math.PI * (j+0.5)) / factor;
 
-                    for (int i = 0; i <= factor; i++)
+                    for (int i = 0; i <= factor2; i++)
                     {
-                        double phi = (2 * Math.PI * i) / factor;
+                        double phi = (2 * Math.PI * i) / factor2;
 
                         HIL.Vector3 point_sphere = new HIL.Vector3(
                             (float)(Math.Sin(theta) * Math.Cos(phi) * radius),
@@ -419,6 +446,7 @@ namespace MissionPlanner
                             double d = (point_sphere - point).length();
                             if (d < max_distance)
                             {
+                                pointshit++;
                                 found = true;
                                 break;
                             }
@@ -427,7 +455,7 @@ namespace MissionPlanner
                         //((ProgressReporterSphere)sender).sphere1.AimFor(new OpenTK.Vector3((float)point_sphere.x, (float)point_sphere.y, (float)point_sphere.z));
                         if (!found)
                         {
-                            displayresult = "more data needed " + (theta * rad2deg).ToString("0") + " " + (phi * rad2deg).ToString("0") + " Aim For " + GetColour((int)(theta * rad2deg),(int)(phi * rad2deg));
+                            displayresult = "more data needed Aim For " + GetColour((int)(theta * rad2deg),(int)(phi * rad2deg));
                             ((ProgressReporterSphere)sender).sphere1.AimFor(new OpenTK.Vector3((float)point_sphere.x, (float)point_sphere.y, (float)point_sphere.z));
                             //j = factor;
                             //break;
@@ -435,10 +463,42 @@ namespace MissionPlanner
                     }
                 }
                 extramsg = displayresult;
+
+                //Console.WriteLine("3 "+ DateTime.Now.Millisecond);
+
+                // check primary compass error
+                if (error < 0.2 && pointshit > hittarget && ((ProgressReporterSphere)sender).autoaccept)
+                {
+                    extramsg = "";
+                    break;
+                }
             }
 
             MainV2.comPort.UnSubscribeToPacketType(sub);
             MainV2.comPort.UnSubscribeToPacketType(sub2);
+
+
+            // restore old sensor rate
+            MainV2.comPort.MAV.cs.ratesensors = backupratesens;
+            MainV2.comPort.MAV.cs.rateattitude = backuprateatt;
+            MainV2.comPort.MAV.cs.rateposition = backupratepos;
+            MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RAW_SENSORS, MainV2.comPort.MAV.cs.ratesensors);
+
+            MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.POSITION, MainV2.comPort.MAV.cs.rateposition); // request gps
+            MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTRA1, MainV2.comPort.MAV.cs.rateattitude); // request attitude
+            MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTRA2, MainV2.comPort.MAV.cs.rateattitude); // request vfr
+            MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTRA3, MainV2.comPort.MAV.cs.ratesensors); // request extra stuff - tridge
+            MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RAW_SENSORS, MainV2.comPort.MAV.cs.ratesensors); // request raw sensor
+            MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RC_CHANNELS, MainV2.comPort.MAV.cs.raterc); // request rc info
+
+            if (MainV2.speechEnable)
+            {
+                MainV2.speechEngine.SpeakAsync("Compass Calibration Complete");
+            }
+            else
+            {
+                Console.Beep();
+            }
 
             if (minx > 0 && maxx > 0 || minx < 0 && maxx < 0 || miny > 0 && maxy > 0 || miny < 0 && maxy < 0 || minz > 0 && maxz > 0 || minz < 0 && maxz < 0)
             {
@@ -447,10 +507,6 @@ namespace MissionPlanner
                 ans2 = null;
                 return;
             }
-
-            // restore old sensor rate
-            MainV2.comPort.MAV.cs.ratesensors = backupratesens;
-            MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RAW_SENSORS, MainV2.comPort.MAV.cs.ratesensors);
 
             if (extramsg != "")
             {
@@ -847,7 +903,37 @@ namespace MissionPlanner
 
             log.InfoFormat("passes {0}", rep.iterationscount);
             log.InfoFormat("term type {0}", rep.terminationtype);
+            log.InfoFormat("njac {0}", rep.njac);
+            log.InfoFormat("ncholesky {0}", rep.ncholesky);
+            log.InfoFormat("nfunc{0}", rep.nfunc);
+            log.InfoFormat("ngrad {0}", rep.ngrad);
             log.InfoFormat("ans {0}", alglib.ap.format(x, 4));
+
+            if (data == datacompass1)
+            {
+
+                error = 0;
+
+                foreach (var item in state.fi)
+                {
+                    error += item;
+                }
+
+                error = Math.Round(Math.Sqrt(Math.Abs(error)), 2);
+            }
+
+
+            if (data == datacompass2)
+            {
+                error2 = 0;
+
+                foreach (var item in state.fi)
+                {
+                    error2 += item;
+                }
+
+                error2 = Math.Round(Math.Sqrt(Math.Abs(error2)), 2);
+            }
 
             return x;
         }

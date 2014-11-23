@@ -30,16 +30,17 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MavlinkLog));
-            this.BUT_redokml = new Controls.MyButton();
+            this.BUT_redokml = new MissionPlanner.Controls.MyButton();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
-            this.BUT_humanreadable = new Controls.MyButton();
-            this.BUT_graphmavlog = new Controls.MyButton();
+            this.BUT_humanreadable = new MissionPlanner.Controls.MyButton();
+            this.BUT_graphmavlog = new MissionPlanner.Controls.MyButton();
             this.zg1 = new ZedGraph.ZedGraphControl();
-            this.BUT_convertcsv = new Controls.MyButton();
-            this.BUT_paramsfromlog = new Controls.MyButton();
-            this.BUT_getwpsfromlog = new Controls.MyButton();
-            this.BUT_droneshare = new Controls.MyButton();
-            this.BUT_matlab = new Controls.MyButton();
+            this.BUT_convertcsv = new MissionPlanner.Controls.MyButton();
+            this.BUT_paramsfromlog = new MissionPlanner.Controls.MyButton();
+            this.BUT_getwpsfromlog = new MissionPlanner.Controls.MyButton();
+            this.BUT_droneshare = new MissionPlanner.Controls.MyButton();
+            this.BUT_matlab = new MissionPlanner.Controls.MyButton();
+            this.treeView1 = new System.Windows.Forms.TreeView();
             this.SuspendLayout();
             // 
             // BUT_redokml
@@ -115,10 +116,19 @@
             this.BUT_matlab.UseVisualStyleBackColor = true;
             this.BUT_matlab.Click += new System.EventHandler(this.BUT_matlab_Click);
             // 
+            // treeView1
+            // 
+            resources.ApplyResources(this.treeView1, "treeView1");
+            this.treeView1.CheckBoxes = true;
+            this.treeView1.Name = "treeView1";
+            this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
+            this.treeView1.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView1_NodeMouseClick);
+            // 
             // MavlinkLog
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.treeView1);
             this.Controls.Add(this.BUT_matlab);
             this.Controls.Add(this.BUT_droneshare);
             this.Controls.Add(this.BUT_getwpsfromlog);
@@ -147,5 +157,6 @@
         private Controls.MyButton BUT_getwpsfromlog;
         private Controls.MyButton BUT_droneshare;
         private Controls.MyButton BUT_matlab;
+        private System.Windows.Forms.TreeView treeView1;
     }
 }

@@ -84,6 +84,7 @@
     <Compile Include="Speech.cs" />
     <Compile Include="srtm.cs" />
     <Compile Include="TCPConsole.cs" />
+    <Compile Include="tfr.cs" />
     <Compile Include="Tracking.cs" />
     <Compile Include="utmpos.cs" />
     <Compile Include="Vario.cs" />

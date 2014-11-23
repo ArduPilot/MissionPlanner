@@ -334,12 +334,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 data.Value = ((float)MainV2.comPort.MAV.param[value]).ToString();
                 try
                 {
-                    string metaDataDescription = ParameterMetaDataRepository.GetParameterMetaData(value, ParameterMetaDataConstants.Description);
+                    string metaDataDescription = ParameterMetaDataRepository.GetParameterMetaData(value, ParameterMetaDataConstants.Description, MainV2.comPort.MAV.cs.firmware.ToString());
                     if (!String.IsNullOrEmpty(metaDataDescription))
                     {
-                        string range = ParameterMetaDataRepository.GetParameterMetaData(value, ParameterMetaDataConstants.Range);
-                        string options = ParameterMetaDataRepository.GetParameterMetaData(value, ParameterMetaDataConstants.Values);
-                        string units = ParameterMetaDataRepository.GetParameterMetaData(value, ParameterMetaDataConstants.Units);
+                        string range = ParameterMetaDataRepository.GetParameterMetaData(value, ParameterMetaDataConstants.Range, MainV2.comPort.MAV.cs.firmware.ToString());
+                        string options = ParameterMetaDataRepository.GetParameterMetaData(value, ParameterMetaDataConstants.Values, MainV2.comPort.MAV.cs.firmware.ToString());
+                        string units = ParameterMetaDataRepository.GetParameterMetaData(value, ParameterMetaDataConstants.Units, MainV2.comPort.MAV.cs.firmware.ToString());
 
                         data.unit = (units);
                         data.range =( range + options.Replace(","," "));
@@ -531,7 +531,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
                 catch { CustomMessageBox.Show("Bad number"); e.Cancel = true; return; }
 
-                if (ParameterMetaDataRepository.GetParameterRange(((data)e.RowObject).paramname, ref min, ref max))
+                if (ParameterMetaDataRepository.GetParameterRange(((data)e.RowObject).paramname, ref min, ref max, MainV2.comPort.MAV.cs.firmware.ToString()))
                 {
                     if (newvalue > max || newvalue < min)
                     {

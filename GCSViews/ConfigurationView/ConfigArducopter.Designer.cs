@@ -118,6 +118,12 @@
             this.BUT_refreshpart = new MissionPlanner.Controls.MyButton();
             this.myLabel4 = new MissionPlanner.Controls.MyLabel();
             this.CH8_OPT = new System.Windows.Forms.ComboBox();
+            this.RATE_ROLL_FF = new System.Windows.Forms.NumericUpDown();
+            this.label12 = new System.Windows.Forms.Label();
+            this.RATE_PITCH_FF = new System.Windows.Forms.NumericUpDown();
+            this.label14 = new System.Windows.Forms.Label();
+            this.RATE_YAW_FF = new System.Windows.Forms.NumericUpDown();
+            this.label18 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.TUNE_LOW)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TUNE_HIGH)).BeginInit();
             this.groupBox5.SuspendLayout();
@@ -163,6 +169,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.THR_ACCEL_IMAX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.THR_ACCEL_I)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.THR_ACCEL_P)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.RATE_ROLL_FF)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.RATE_PITCH_FF)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.RATE_YAW_FF)).BeginInit();
             this.SuspendLayout();
             // 
             // TUNE_LOW
@@ -375,6 +384,8 @@
             // 
             // groupBox23
             // 
+            this.groupBox23.Controls.Add(this.RATE_YAW_FF);
+            this.groupBox23.Controls.Add(this.label18);
             this.groupBox23.Controls.Add(this.RATE_YAW_D);
             this.groupBox23.Controls.Add(this.label10);
             this.groupBox23.Controls.Add(this.RATE_YAW_IMAX);
@@ -429,6 +440,8 @@
             // 
             // groupBox24
             // 
+            this.groupBox24.Controls.Add(this.RATE_PITCH_FF);
+            this.groupBox24.Controls.Add(this.label14);
             this.groupBox24.Controls.Add(this.RATE_PIT_D);
             this.groupBox24.Controls.Add(this.label11);
             this.groupBox24.Controls.Add(this.RATE_PIT_IMAX);
@@ -483,6 +496,8 @@
             // 
             // groupBox25
             // 
+            this.groupBox25.Controls.Add(this.RATE_ROLL_FF);
+            this.groupBox25.Controls.Add(this.label12);
             this.groupBox25.Controls.Add(this.RATE_RLL_D);
             this.groupBox25.Controls.Add(this.label17);
             this.groupBox25.Controls.Add(this.RATE_RLL_IMAX);
@@ -707,6 +722,36 @@
             resources.ApplyResources(this.CH8_OPT, "CH8_OPT");
             this.CH8_OPT.Name = "CH8_OPT";
             // 
+            // RATE_ROLL_FF
+            // 
+            resources.ApplyResources(this.RATE_ROLL_FF, "RATE_ROLL_FF");
+            this.RATE_ROLL_FF.Name = "RATE_ROLL_FF";
+            // 
+            // label12
+            // 
+            resources.ApplyResources(this.label12, "label12");
+            this.label12.Name = "label12";
+            // 
+            // RATE_PITCH_FF
+            // 
+            resources.ApplyResources(this.RATE_PITCH_FF, "RATE_PITCH_FF");
+            this.RATE_PITCH_FF.Name = "RATE_PITCH_FF";
+            // 
+            // label14
+            // 
+            resources.ApplyResources(this.label14, "label14");
+            this.label14.Name = "label14";
+            // 
+            // RATE_YAW_FF
+            // 
+            resources.ApplyResources(this.RATE_YAW_FF, "RATE_YAW_FF");
+            this.RATE_YAW_FF.Name = "RATE_YAW_FF";
+            // 
+            // label18
+            // 
+            resources.ApplyResources(this.label18, "label18");
+            this.label18.Name = "label18";
+            // 
             // ConfigArducopter
             // 
             resources.ApplyResources(this, "$this");
@@ -782,6 +827,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.THR_ACCEL_IMAX)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.THR_ACCEL_I)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.THR_ACCEL_P)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.RATE_ROLL_FF)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.RATE_PITCH_FF)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.RATE_YAW_FF)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -877,5 +925,11 @@
         private Controls.MyButton BUT_refreshpart;
         private Controls.MyLabel myLabel4;
         private System.Windows.Forms.ComboBox CH8_OPT;
+        private System.Windows.Forms.NumericUpDown RATE_YAW_FF;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.NumericUpDown RATE_PITCH_FF;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.NumericUpDown RATE_ROLL_FF;
+        private System.Windows.Forms.Label label12;
     }
 }

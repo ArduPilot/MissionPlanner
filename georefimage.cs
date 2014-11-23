@@ -431,24 +431,29 @@ namespace MissionPlanner
 
                         string[] gpsLineValues = line.Split(new char[] { ',', ':' });
 
-                        location.Time = GetTimeFromGps(int.Parse(getValueFromStringArray(gpsLineValues, gpsweekpos), CultureInfo.InvariantCulture), int.Parse(getValueFromStringArray(gpsLineValues, timepos), CultureInfo.InvariantCulture));
-                        location.Lat = double.Parse(getValueFromStringArray(gpsLineValues, latpos), CultureInfo.InvariantCulture);
-                        location.Lon = double.Parse(getValueFromStringArray(gpsLineValues, lngpos), CultureInfo.InvariantCulture);
-                        location.RelAlt = double.Parse(getValueFromStringArray(gpsLineValues, altpos), CultureInfo.InvariantCulture);
-                        location.AltAMSL = double.Parse(getValueFromStringArray(gpsLineValues, altAMSLpos), CultureInfo.InvariantCulture);
+                        try
+                        {
 
-                        location.Roll = currentRoll;
-                        location.Pitch = currentPitch;
-                        location.Yaw = currentYaw;
+                            location.Time = GetTimeFromGps(int.Parse(getValueFromStringArray(gpsLineValues, gpsweekpos), CultureInfo.InvariantCulture), int.Parse(getValueFromStringArray(gpsLineValues, timepos), CultureInfo.InvariantCulture));
+                            location.Lat = double.Parse(getValueFromStringArray(gpsLineValues, latpos), CultureInfo.InvariantCulture);
+                            location.Lon = double.Parse(getValueFromStringArray(gpsLineValues, lngpos), CultureInfo.InvariantCulture);
+                            location.RelAlt = double.Parse(getValueFromStringArray(gpsLineValues, altpos), CultureInfo.InvariantCulture);
+                            location.AltAMSL = double.Parse(getValueFromStringArray(gpsLineValues, altAMSLpos), CultureInfo.InvariantCulture);
 
-                        
+                            location.Roll = currentRoll;
+                            location.Pitch = currentPitch;
+                            location.Yaw = currentYaw;
 
-                        long millis = ToMilliseconds(location.Time);
 
-                        //System.Diagnostics.Debug.WriteLine("GPS MSG - UTCMillis = " + millis  + "  GPS Week = " + getValueFromStringArray(gpsLineValues, gpsweekpos) + "  TimeMS = " + getValueFromStringArray(gpsLineValues, timepos));
 
-                        if (!vehiclePositionList.ContainsKey(millis))
-                            vehiclePositionList[millis] = location;
+                            long millis = ToMilliseconds(location.Time);
+
+                            //System.Diagnostics.Debug.WriteLine("GPS MSG - UTCMillis = " + millis  + "  GPS Week = " + getValueFromStringArray(gpsLineValues, gpsweekpos) + "  TimeMS = " + getValueFromStringArray(gpsLineValues, timepos));
+
+                            if (!vehiclePositionList.ContainsKey(millis))
+                                vehiclePositionList[millis] = location;
+                        }
+                        catch { Console.WriteLine("Bad GPS Line"); }
                     }
                     else if (line.ToLower().StartsWith("att"))
                     {

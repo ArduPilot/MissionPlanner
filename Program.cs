@@ -186,8 +186,8 @@ namespace MissionPlanner
 
          //   return;
              
-            if (Debugger.IsAttached)
-                ThemeManager.doxamlgen();
+          //  if (Debugger.IsAttached)
+          //      ThemeManager.doxamlgen();
 
             if (File.Exists("simple.txt"))
             {

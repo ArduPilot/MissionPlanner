@@ -43,27 +43,32 @@ namespace MissionPlanner.Controls
 
       #region Interface Properties
 
-      public string Value
-      {
-          get { return ((float)numericUpDown1.Value * DisplayScale).ToString(CultureInfo.InvariantCulture); } 
-         set
-         {
-             float back1 = _minrange;
-             float back2 = _maxrange;
+       public string Value
+       {
+           get { return ((float)numericUpDown1.Value * DisplayScale).ToString(CultureInfo.InvariantCulture); }
+           set
+           {
+               float back1 = _minrange;
+               float back2 = _maxrange;
 
-             MinRange = (float)Math.Min(MinRange, double.Parse(value));
-             MaxRange = (float)Math.Max(MaxRange, double.Parse(value));
+               MinRange = (float)Math.Min(MinRange, double.Parse(value));
+               MaxRange = (float)Math.Max(MaxRange, double.Parse(value));
 
-             _minrange = back1;
-             _maxrange = back2;
+               _minrange = back1;
+               _maxrange = back2;
 
-             numericUpDown1.Value = (decimal)((float)decimal.Parse(value) / DisplayScale);
-            numericUpDown1_ValueChanged(null, null);
+               if (double.Parse(value) > _maxrange || double.Parse(value) < _minrange)
+               {
+                   numericUpDown1.BackColor = Color.Orange;
+               }
 
-            if (ValueChanged != null)
-                ValueChanged(this,Name, Value);
-         }
-      }
+               numericUpDown1.Value = (decimal)((float)decimal.Parse(value) / DisplayScale);
+               numericUpDown1_ValueChanged(null, null);
+
+               if (ValueChanged != null)
+                   ValueChanged(this, Name, Value);
+           }
+       }
 
       #endregion
 
@@ -133,10 +138,10 @@ namespace MissionPlanner.Controls
 
          numericUpDown1.BackColor = Color.Green;
 
-         if ((float)numericUpDown1.Value < (MinRange))
+         if ((float)numericUpDown1.Value < (_minrange))
              numericUpDown1.BackColor = Color.Orange;
 
-         if ((float)numericUpDown1.Value > (MaxRange))
+         if ((float)numericUpDown1.Value > (_maxrange))
              numericUpDown1.BackColor = Color.Orange;
 
          if (ValueChanged != null)

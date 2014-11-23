@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using log4net;
+using System.Threading;
 
 namespace MissionPlanner.Comms
 {
@@ -20,16 +21,20 @@ namespace MissionPlanner.Comms
 
         uint baud = 0;
 
+        ushort timeout = 10;
+
         public MAVLink.SERIAL_CONTROL_DEV port = MAVLink.SERIAL_CONTROL_DEV.TELEM1;
 
         CircularBuffer.CircularBuffer<byte> buffer = new CircularBuffer.CircularBuffer<byte>(4096);
+
+        Thread bgdata;
 
         public int BaudRate
         {
             set
             {
                 log.Info("MAVLinkSerialPort baudrate " + value);
-                mavint.SendSerialControl(port, 100, null, (uint)value);
+                mavint.SendSerialControl(port, timeout, null, (uint)value);
                 System.Threading.Thread.Sleep(500);
                 baud = (uint)value;
             }
@@ -55,12 +60,32 @@ namespace MissionPlanner.Comms
                 mavint.UnSubscribeToPacketType(subscription);
             
             subscription = mavint.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.SERIAL_CONTROL, ReceviedPacket,true);
+
+            bgdata = new Thread(mainloop);
+            bgdata.Name = "MAVLinkSerialPort";
+            bgdata.IsBackground = true;
+            bgdata.Start();
+        }
+
+        private void mainloop(object obj)
+        {
+            try
+            {
+                while (true)
+                {
+                    GetData();
+                    System.Threading.Thread.Sleep(5);
+                }
+            }
+            catch { }
         }
 
         ~MAVLinkSerialPort()
         {
             log.Info("Destroy");
 
+            if (bgdata != null && bgdata.IsAlive)
+                bgdata.Abort();
             //mavint.UnSubscribeToPacketType(subscription);
         }
 
@@ -91,21 +116,22 @@ namespace MissionPlanner.Comms
 
             lock (buffer)
             {
+                buffer.AllowOverflow = true;
                 buffer.Put(item.data, 0, item.count);
             }
 
-            mavint.SendSerialControl(port, 10, null);
-            lastgetdata = DateTime.Now;
+            // we just received data, so do a request again
+            GetData(true);
 
             return true;
         }
         DateTime lastgetdata = DateTime.MinValue;
 
-        void GetData()
+        void GetData(bool now = false)
         {
-            if (lastgetdata.AddMilliseconds(15) < DateTime.Now)
+            if (lastgetdata.AddMilliseconds(timeout) < DateTime.Now || now)
             {
-                mavint.SendSerialControl(port, 10, null);
+                mavint.SendSerialControl(port, timeout, null);
                 lastgetdata = DateTime.Now;
             }
         }
@@ -141,11 +167,14 @@ namespace MissionPlanner.Comms
         {
             log.Info("Close");
             mavint.SendSerialControl(port, 0, null, 0, true);
+
+      if (bgdata.IsAlive)
+                bgdata.Abort();
         }
 
         public void DiscardInBuffer()
         {
-            mavint.SendSerialControl(port, 50, null);
+            mavint.SendSerialControl(port, timeout, null);
 
             buffer.Clear();
         }
@@ -153,7 +182,7 @@ namespace MissionPlanner.Comms
         public void Open()
         {
             log.Info("Open");
-            mavint.SendSerialControl(port, 20, null, 0, false);
+            mavint.SendSerialControl(port, timeout, null, 0, false);
             System.Threading.Thread.Sleep(100);
         }
 
