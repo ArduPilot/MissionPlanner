@@ -1192,19 +1192,22 @@ namespace MissionPlanner
 
             pluginthreadrun = false;
 
-            pluginthread.Join();
+            if (pluginthread != null)
+                pluginthread.Join();
 
             log.Info("closing serialthread");
 
             serialThread = false;
 
-            serialreaderthread.Join();
+            if (serialreaderthread != null)
+                serialreaderthread.Join();
 
             log.Info("closing joystickthread");
 
             joystickthreadrun = false;
 
-            joystickthread.Join();
+            if (joystickthread != null)
+                joystickthread.Join();
 
             log.Info("closing httpthread");
 
