@@ -61,12 +61,20 @@ namespace MissionPlanner.Wizard
                 Wizard.instance.Close();
             }
 
-            MainV2.comPort.MAV.cs.ratesensors = 2;
+            try
+            {
+                MainV2.comPort.MAV.cs.ratesensors = 2;
 
-            MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTRA3, MainV2.comPort.MAV.cs.ratesensors);
-            MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RAW_SENSORS, MainV2.comPort.MAV.cs.ratesensors);
+                MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTRA3, MainV2.comPort.MAV.cs.ratesensors);
+                MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RAW_SENSORS, MainV2.comPort.MAV.cs.ratesensors);
 
-            MainV2.comPort.setParam("MAG_ENABLE", 1);
+                MainV2.comPort.setParam("MAG_ENABLE", 1);
+            }
+            catch
+            {
+                CustomMessageBox.Show("You are no longer connected to the board\n the wizard will now exit", "Error");
+                Wizard.instance.Close();
+            }
 
             MagCalib.DoGUIMagCalib();
         }
