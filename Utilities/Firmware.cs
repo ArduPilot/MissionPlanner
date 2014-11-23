@@ -602,11 +602,18 @@ namespace MissionPlanner.Utilities
                 // check if we are seeing heartbeats
                 MainV2.comPort.BaseStream.Open();
                 MainV2.comPort.giveComport = true;
+                BoardDetect.boards board = BoardDetect.DetectBoard(MainV2.comPortName);
 
                 if (MainV2.comPort.getHeartBeat().Length > 0)
                 {
                     MainV2.comPort.doReboot(true);
                     MainV2.comPort.Close();
+
+                    //specific action for VRBRAIN4 board that needs to be manually disconnected before uploading
+                    if (board == BoardDetect.boards.vrbrainv40)
+                    {
+                        CustomMessageBox.Show("VRBRAIN 4 detected. Please unplug the board then press OK and plug back in.\n");
+                    }
                 }
                 else
                 {
@@ -776,11 +783,19 @@ namespace MissionPlanner.Utilities
                 // check if we are seeing heartbeats
                 MainV2.comPort.BaseStream.Open();
                 MainV2.comPort.giveComport = true;
+                BoardDetect.boards board = BoardDetect.DetectBoard(MainV2.comPortName);
 
                 if (MainV2.comPort.getHeartBeat().Length > 0)
                 {
                     MainV2.comPort.doReboot(true);
                     MainV2.comPort.Close();
+
+                    //specific action for VRBRAIN4 board that needs to be manually disconnected before uploading
+                    if (board == BoardDetect.boards.vrbrainv40)
+                    {
+                        CustomMessageBox.Show("VRBRAIN 4 detected. Please unplug the board, and then press OK and plug back in.\n");
+                    }
+
                 }
                 else
                 {
@@ -868,9 +883,18 @@ namespace MissionPlanner.Utilities
                         up.close();
                     }
 
-                    // wait for IO firmware upgrade and boot to a mavlink state
-                    CustomMessageBox.Show("Please wait for the musical tones to finish before clicking OK");
-
+                    if (up.board_type == 1140 || up.board_type == 1145 || up.board_type == 1150 || up.board_type == 1151)
+                    {//VR boards have no tone alarm
+                        if(up.board_type ==1140)
+                            CustomMessageBox.Show("Upload complete! Please unplug and reconnect board.");
+                        else
+                            CustomMessageBox.Show("Upload complete!");
+                    }
+                    else
+                    {
+                        // wait for IO firmware upgrade and boot to a mavlink state
+                        CustomMessageBox.Show("Please wait for the musical tones to finish before clicking OK");
+                    }
                     return true;
                 }
             }
