@@ -864,6 +864,11 @@ namespace MissionPlanner
                             messageHigh = "Bad Baro Health";
                             messageHighTime = DateTime.Now;
                         }
+                        else if (sensors_health.LASER_POSITION != sensors_enabled.LASER_POSITION && sensors_present.LASER_POSITION)
+                        {
+                            messageHigh = "Bad LiDAR Health";
+                            messageHighTime = DateTime.Now;
+                        }                            
                         else if (sensors_health.optical_flow != sensors_enabled.optical_flow && sensors_present.optical_flow)
                         {
                             messageHigh = "Bad OptFlow Health";
@@ -1312,7 +1317,7 @@ namespace MissionPlanner
 
             public Mavlink_Sensors()
             {
-                //var item = MAVLink.MAV_SYS_STATUS_SENSOR._3D_ACCEL;
+                var item = MAVLink.MAV_SYS_STATUS_SENSOR._3D_ACCEL;
             }
 
             public Mavlink_Sensors(uint p)
