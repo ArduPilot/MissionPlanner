@@ -377,6 +377,21 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 { // pixhawk
                     CMB_apmversion.SelectedIndex = 4;
                 }
+                else if (value == 6)
+                { // vrbrain4
+                    CMB_apmversion.SelectedIndex = 7;
+                }
+                else if (value == 10)
+                { // vrbrain 5 or micro
+                    if ((float)MainV2.comPort.MAV.param["BATT_CURR_PIN"] == 11)
+                    {
+                        CMB_apmversion.SelectedIndex = 5;
+                    }
+                    else
+                    {
+                        CMB_apmversion.SelectedIndex = 6;
+                    }
+                }
             }
             else
             {
@@ -464,6 +479,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     //vr micro brain 5
                     MainV2.comPort.setParam("BATT_VOLT_PIN", 10);
                     MainV2.comPort.setParam("BATT_CURR_PIN", -1);
+                    MainV2.comPort.setParam(new string[] { "VOLT_DIVIDER", "BATT_VOLT_MULT" }, 10);
+                    TXT_divider.Text = "10";
+                }
+                else if (selection == 7)
+                {
+                    //vr brain 4
+                    MainV2.comPort.setParam("BATT_VOLT_PIN", 6);
+                    MainV2.comPort.setParam("BATT_CURR_PIN", 7);
                     MainV2.comPort.setParam(new string[] { "VOLT_DIVIDER", "BATT_VOLT_MULT" }, 10);
                     TXT_divider.Text = "10";
                 }
