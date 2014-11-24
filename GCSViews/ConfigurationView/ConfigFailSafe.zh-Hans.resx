@@ -142,7 +142,7 @@
     <value>遥控输入</value>
   </data>
   <data name="mavlinkCheckBoxgcs_fs.ToolTip" xml:space="preserve">
-    <value>在GCS失去通讯时启动故障保护</value>
+    <value>在地面站失去通讯时启动故障保护</value>
   </data>
   <data name="mavlinkCheckBoxshort_fs.ToolTip" xml:space="preserve">
     <value>关，无动作，开，返航</value>
@@ -175,7 +175,7 @@
     <value>触发器油门Pwm</value>
   </data>
   <data name="mavlinkCheckBoxFS_GCS_ENABLE.Text" xml:space="preserve">
-    <value>GCS故障保护启用</value>
+    <value>地面站故障保护启用</value>
   </data>
   <data name="mavlinkCheckBoxthr_fs.ToolTip" xml:space="preserve">
     <value>在低油门pwm时启用故障保护</value>
@@ -184,7 +184,7 @@
     <value>锁定</value>
   </data>
   <data name="mavlinkCheckBoxgcs_fs.Text" xml:space="preserve">
-    <value>GCS故障保护</value>
+    <value>地面站故障保护</value>
   </data>
   <data name="mavlinkNumericUpDownthr_fs_value.ToolTip" xml:space="preserve">
     <value>触发器油门Pwm</value>

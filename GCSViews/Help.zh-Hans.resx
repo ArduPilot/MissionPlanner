@@ -124,10 +124,10 @@
     <value />
   </data>
   <data name="CHK_showconsole.Text" xml:space="preserve">
-    <value>显示控制台窗口（重启）</value>
+    <value>显示控制台窗口（需重启）</value>
   </data>
   <data name="linkLabel1.Text" xml:space="preserve">
-    <value>修改日志</value>
+    <value>更新日志</value>
   </data>
   <data name="BUT_updatecheck.Text" xml:space="preserve">
     <value>检查更新</value>
