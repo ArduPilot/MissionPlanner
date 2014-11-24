@@ -27,6 +27,18 @@ namespace MissionPlanner.Utilities
       {
           string paramMetaDataXMLFileName = String.Format("{0}{1}{2}", Application.StartupPath, Path.DirectorySeparatorChar, ConfigurationManager.AppSettings["ParameterMetaDataXMLFileName"]);
 
+          switch (System.Globalization.CultureInfo.CurrentUICulture.Name)
+          {
+              case "zh-Hans":
+                  paramMetaDataXMLFileName = String.Format("{0}{1}{2}", Application.StartupPath, Path.DirectorySeparatorChar, "ParameterMetaData.zh-Hans.xml");
+                  break;
+              case "zh-CN":
+                  paramMetaDataXMLFileName = String.Format("{0}{1}{2}", Application.StartupPath, Path.DirectorySeparatorChar, "ParameterMetaData.zh-Hans.xml");
+                  break;
+              default:
+                  break;
+          }
+
           string paramMetaDataXMLFileNameBackup = String.Format("{0}{1}{2}", Application.StartupPath, Path.DirectorySeparatorChar, ConfigurationManager.AppSettings["ParameterMetaDataXMLFileNameBackup"]);
 
           try

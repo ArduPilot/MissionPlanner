@@ -47,51 +47,51 @@ namespace MissionPlanner.GCSViews
 
                 if (MainV2.comPort.BaseStream.IsOpen)
                 {
-                    AddBackstageViewPage(new ConfigFlightModes(), "Flight Modes");
+                    AddBackstageViewPage(new ConfigFlightModes(), ExtTranslations.SoftwareConfigT.FlightModes);
 
                     if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
-                        AddBackstageViewPage(new ConfigAC_Fence(), "GeoFence");
+                        AddBackstageViewPage(new ConfigAC_Fence(), ExtTranslations.SoftwareConfigT.GeoFence);
 
                     if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
                     {
-                        start = AddBackstageViewPage(new ConfigSimplePids(), "Basic Tuning");
+                        start = AddBackstageViewPage(new ConfigSimplePids(), ExtTranslations.SoftwareConfigT.BasicTuning);
 
-                        AddBackstageViewPage(new ConfigArducopter(), "Extended Tuning");
+                        AddBackstageViewPage(new ConfigArducopter(), ExtTranslations.SoftwareConfigT.ExtendedTuning);
                     }
 
                     if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduPlane)
                     {
-                        start = AddBackstageViewPage(new ConfigArduplane(), "Basic Tuning");
+                        start = AddBackstageViewPage(new ConfigArduplane(), ExtTranslations.SoftwareConfigT.BasicTuning);
 
                     }
 
                     if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduRover)
                     {
-                        start = AddBackstageViewPage(new ConfigArdurover(), "Basic Tuning");
+                        start = AddBackstageViewPage(new ConfigArdurover(), ExtTranslations.SoftwareConfigT.BasicTuning);
                     }
 
                     if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduTracker)
                     {
-                        start = AddBackstageViewPage(new ConfigAntennaTracker(), "Extended Tuning");
+                        start = AddBackstageViewPage(new ConfigAntennaTracker(), ExtTranslations.SoftwareConfigT.ExtendedTuning);
                     }
 
-                    AddBackstageViewPage(new ConfigFriendlyParams { ParameterMode = ParameterMetaDataConstants.Standard }, "Standard Params");
-                    AddBackstageViewPage(new ConfigFriendlyParams { ParameterMode = ParameterMetaDataConstants.Advanced }, "Advanced Params",null,true);
-                    AddBackstageViewPage(new ConfigRawParams(), "Full Parameter List", null, true);
+                    AddBackstageViewPage(new ConfigFriendlyParams { ParameterMode = ParameterMetaDataConstants.Standard }, ExtTranslations.SoftwareConfigT.StandardParams);
+                    AddBackstageViewPage(new ConfigFriendlyParams { ParameterMode = ParameterMetaDataConstants.Advanced }, ExtTranslations.SoftwareConfigT.AdvancedParams, null, true);
+                    AddBackstageViewPage(new ConfigRawParams(), ExtTranslations.SoftwareConfigT.FullParameterList, null, true);
 
-                    AddBackstageViewPage(new ConfigRawParamsTree(), "Full Parameter Tree", null, true);
+                    AddBackstageViewPage(new ConfigRawParamsTree(), ExtTranslations.SoftwareConfigT.FullParameterTree, null, true);
 
 
                     if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.Ateryx)
                     {
-                        start = AddBackstageViewPage(new ConfigFlightModes(), "Flight Modes");
+                        start = AddBackstageViewPage(new ConfigFlightModes(), ExtTranslations.SoftwareConfigT.FlightModes);
                         AddBackstageViewPage(new ConfigAteryxSensors(), "Ateryx Zero Sensors");
                         AddBackstageViewPage(new ConfigAteryx(), "Ateryx Pids");
                     }
 
                     if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduTracker)
                     {
-                        start = AddBackstageViewPage(new ConfigRawParams(), "Full Parameter List", null, true);
+                        start = AddBackstageViewPage(new ConfigRawParams(), ExtTranslations.SoftwareConfigT.FullParameterList, null, true);
                     }
 
                     AddBackstageViewPage(new ConfigPlanner(), "Planner");
