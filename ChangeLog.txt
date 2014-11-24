@@ -1,4 +1,18 @@
-﻿* Mission Planner 1.3.13
+﻿* Mission Planner 1.3.15
+MainV2: add null check on threads on exit
+wizard: compasscalib, add exception handle
+Currentstate: add laser positon health message
+MAVLink: update upstream lib
+sphere: remeber autocomplete
+tfr: update to individual shapes (wip)
+progresssphere: fix autocomplete logic bug
+logbrowse: move map clear inside exception handle
+ConfigSimplePid: convert to invariant culture
+
+* Mission Planner 1.3.14
+tfr bug fix
+
+* Mission Planner 1.3.13
 magcalib: add mag2 0's check
 magcalib: add new hitcount target, and default autcompelte to off
 configarducopter: add heli FF's
