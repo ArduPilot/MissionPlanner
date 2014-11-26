@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Configuration;
 using System.IO;
 using System.Windows.Forms;
@@ -13,6 +13,7 @@ namespace MissionPlanner.Utilities
    public static class ParameterMetaDataRepository
    {
       private static XDocument _parameterMetaDataXML;
+      private static XDocument _parameterMetaDataXMLEn;
 
       /// <summary>
       /// Initializes a new instance of the <see cref="ParameterMetaDataRepository"/> class.
@@ -26,13 +27,17 @@ namespace MissionPlanner.Utilities
       public static void Reload()
       {
           string paramMetaDataXMLFileName = String.Format("{0}{1}{2}", Application.StartupPath, Path.DirectorySeparatorChar, ConfigurationManager.AppSettings["ParameterMetaDataXMLFileName"]);
+          string paramMetaDataXMLFileNameEn = paramMetaDataXMLFileName;
+          bool isNotEn = false;
 
           switch (System.Globalization.CultureInfo.CurrentUICulture.Name)
           {
               case "zh-Hans":
+                  isNotEn = true;
                   paramMetaDataXMLFileName = String.Format("{0}{1}{2}", Application.StartupPath, Path.DirectorySeparatorChar, "ParameterMetaData.zh-Hans.xml");
                   break;
               case "zh-CN":
+                  isNotEn = true;
                   paramMetaDataXMLFileName = String.Format("{0}{1}{2}", Application.StartupPath, Path.DirectorySeparatorChar, "ParameterMetaData.zh-Hans.xml");
                   break;
               default:
@@ -45,6 +50,12 @@ namespace MissionPlanner.Utilities
           {
               if (File.Exists(paramMetaDataXMLFileName))
                   _parameterMetaDataXML = XDocument.Load(paramMetaDataXMLFileName);
+              if (isNotEn)
+                  if (File.Exists(paramMetaDataXMLFileNameEn))
+                      _parameterMetaDataXMLEn = XDocument.Load(paramMetaDataXMLFileNameEn);
+                  else if (File.Exists(paramMetaDataXMLFileNameBackup))
+                      _parameterMetaDataXMLEn = XDocument.Load(paramMetaDataXMLFileNameBackup);
+
           }
           catch (Exception ex) { Console.WriteLine(ex.ToString()); } // Exception System.Xml.XmlException: Root element is missing.
 
@@ -93,6 +104,28 @@ namespace MissionPlanner.Utilities
              }
              catch { } // Exception System.ArgumentException: '' is an invalid expanded name.
          }
+
+         if (_parameterMetaDataXMLEn != null)
+         {
+             try
+             {
+                 var element = _parameterMetaDataXMLEn.Element("Params").Element(vechileType);
+                 if (element != null && element.HasElements)
+                 {
+                     var node = element.Element(nodeKey);
+                     if (node != null && node.HasElements)
+                     {
+                         var metaValue = node.Element(metaKey);
+                         if (metaValue != null)
+                         {
+                             return metaValue.Value;
+                         }
+                     }
+                 }
+             }
+             catch { }
+         }
+
          return string.Empty;
       }
 
