@@ -1,4 +1,4 @@
-﻿<?xml version="1.0"?>
+<?xml version="1.0"?>
 <Params>
   <ArduCopter2>
     <HS1_MIN>
@@ -2113,37 +2113,37 @@
     <FLTMODE1>
       <DisplayName>飞行模式1</DisplayName>
       <Description>当通道5的pwm &lt;= 1230 时的飞行模式</Description>
-      <Values>0:自稳,1:特技,2:定高,3:自动,4:引导,5:Loiter,6:RTL,7:绕圈,8:Position,9:降落,10:OF_Loiter,11:飘移,13:运动</Values>
+      <Values>0:Stabilize,1:Acro,2:AltHold,3:Auto,4:Guided,5:Loiter,6:RTL,7:Circle,9:Land,10:OF_Loiter,11:Drift,13:Sport,16:PosHold</Values>
       <User>Standard</User>
     </FLTMODE1>
     <FLTMODE2>
       <DisplayName>飞行模式2</DisplayName>
       <Description>当通道5的pwm &gt;1230, &lt;= 1360 时的飞行模式</Description>
-      <Values>0:自稳,1:特技,2:定高,3:自动,4:引导,5:Loiter,6:RTL,7:绕圈,8:Position,9:降落,10:OF_Loiter,11:飘移,13:运动</Values>
+      <Values>0:Stabilize,1:Acro,2:AltHold,3:Auto,4:Guided,5:Loiter,6:RTL,7:Circle,9:Land,10:OF_Loiter,11:Drift,13:Sport,16:PosHold</Values>
       <User>Standard</User>
     </FLTMODE2>
     <FLTMODE3>
       <DisplayName>飞行模式3</DisplayName>
       <Description>当通道5的pwm &gt;1360, &lt;= 1490 时的飞行模式</Description>
-      <Values>0:自稳,1:特技,2:定高,3:自动,4:引导,5:Loiter,6:RTL,7:绕圈,8:Position,9:降落,10:OF_Loiter,11:飘移,13:运动</Values>
+      <Values>0:Stabilize,1:Acro,2:AltHold,3:Auto,4:Guided,5:Loiter,6:RTL,7:Circle,9:Land,10:OF_Loiter,11:Drift,13:Sport,16:PosHold</Values>
       <User>Standard</User>
     </FLTMODE3>
     <FLTMODE4>
       <DisplayName>飞行模式4</DisplayName>
       <Description>当通道5的pwm &gt;1490, &lt;= 1620 时的飞行模式</Description>
-      <Values>0:自稳,1:特技,2:定高,3:自动,4:引导,5:Loiter,6:RTL,7:绕圈,8:Position,9:降落,10:OF_Loiter,11:飘移,13:运动</Values>
+      <Values>0:Stabilize,1:Acro,2:AltHold,3:Auto,4:Guided,5:Loiter,6:RTL,7:Circle,9:Land,10:OF_Loiter,11:Drift,13:Sport,16:PosHold</Values>
       <User>Standard</User>
     </FLTMODE4>
     <FLTMODE5>
       <DisplayName>飞行模式5</DisplayName>
       <Description>当通道5的pwm &gt;1620, &lt;= 1749 时的飞行模式</Description>
-      <Values>0:自稳,1:特技,2:定高,3:自动,4:引导,5:Loiter,6:RTL,7:绕圈,8:Position,9:降落,10:OF_Loiter,11:飘移,13:运动</Values>
+      <Values>0:Stabilize,1:Acro,2:AltHold,3:Auto,4:Guided,5:Loiter,6:RTL,7:Circle,9:Land,10:OF_Loiter,11:Drift,13:Sport,16:PosHold</Values>
       <User>Standard</User>
     </FLTMODE5>
     <FLTMODE6>
       <DisplayName>飞行模式6</DisplayName>
       <Description>当通道5的pwm &gt;=1750 时的飞行模式</Description>
-      <Values>0:自稳,1:特技,2:定高,3:自动,4:引导,5:Loiter,6:RTL,7:绕圈,8:Position,9:降落,10:OF_Loiter,11:飘移,13:运动</Values>
+      <Values>0:Stabilize,1:Acro,2:AltHold,3:Auto,4:Guided,5:Loiter,6:RTL,7:Circle,9:Land,10:OF_Loiter,11:Drift,13:Sport,16:PosHold</Values>
       <User>Standard</User>
     </FLTMODE6>
     <SIMPLE>
