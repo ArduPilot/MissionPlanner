@@ -28,6 +28,9 @@ namespace MissionPlanner.Arduino
             vrbrainv51,
             vrherov10,
             vrubrainv51,
+            vrubrainv52,
+            vrgimbalv20,
+            vrugimbalv11
         }
 
         /// <summary>
@@ -124,6 +127,24 @@ namespace MissionPlanner.Arduino
                     {
                         log.Info("is a vrubrain 5.1 bootloader");
                         return boards.vrubrainv51;
+                    }
+
+                    if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_27AC&PID_1352"))
+                    {
+                        log.Info("is a vrubrain 5.2 bootloader");
+                        return boards.vrubrainv52;
+                    }
+
+                    if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_27AC&PID_1520"))
+                    {
+                        log.Info("is a vrgimbal2.0 bootloader");
+                        return boards.vrgimbalv20;
+                    }
+
+                    if (obj2.Properties["PNPDeviceID"].Value.ToString().Contains(@"USB\VID_27AC&PID_1411"))
+                    {
+                        log.Info("is a vrugimbal 1.1 bootloader");
+                        return boards.vrugimbalv11;
                     }
 
                 }
