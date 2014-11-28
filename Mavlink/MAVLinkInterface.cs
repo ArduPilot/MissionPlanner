@@ -2123,8 +2123,7 @@ Please check the following
             req.shot = (shot == true) ? (byte)1 : (byte)0;
 
             generatePacket((byte)MAVLINK_MSG_ID.DIGICAM_CONTROL, req);
-            System.Threading.Thread.Sleep(20);
-            generatePacket((byte)MAVLINK_MSG_ID.DIGICAM_CONTROL, req);
+
             //MAVLINK_MSG_ID.CAMERA_FEEDBACK;
 
                 //mavlink_camera_feedback_t
