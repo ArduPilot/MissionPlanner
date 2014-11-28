@@ -8,7 +8,7 @@ Class=Ports
 ClassGuid={4D36E978-E325-11CE-BFC1-08002BE10318}
 Provider=%MFGNAME%
 LayoutFile=layout.inf
-CatalogFile=vrbrain.cat
+CatalogFile=vrubrain.cat
 DriverVer=04/11/2013,2.0.0.4
 
 [Manufacturer]
@@ -85,10 +85,10 @@ ServiceBinary=%12%\%DRIVERFILENAME%.sys
 [SourceDisksFiles]
 [SourceDisksNames]
 [DeviceList]
-%DESCRIPTION%=DriverInstall, USB\VID_27AC&PID_1351
+%DESCRIPTION%=DriverInstall, USB\VID_27AC&PID_1351, USB\VID_27AC&PID_1352
 
 [DeviceList.NTamd64]
-%DESCRIPTION%=DriverInstall, USB\VID_27AC&PID_1351
+%DESCRIPTION%=DriverInstall, USB\VID_27AC&PID_1351, USB\VID_27AC&PID_1352
 
 
 ;------------------------------------------------------------------------------
