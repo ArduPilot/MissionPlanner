@@ -916,7 +916,7 @@ namespace MissionPlanner.Utilities
                         up.close();
                     }
 
-                    if (up.board_type == 1140 || up.board_type == 1145 || up.board_type == 1150 || up.board_type == 1151)
+                    if (up.board_type == 1140 || up.board_type == 1145 || up.board_type == 1150 || up.board_type == 1151 || up.board_type == 1210 || up.board_type == 1351 || up.board_type == 1352 || up.board_type == 1411 || up.board_type == 1520)
                     {//VR boards have no tone alarm
                         if(up.board_type ==1140)
                             CustomMessageBox.Show("Upload complete! Please unplug and reconnect board.");
