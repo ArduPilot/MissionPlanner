@@ -2077,7 +2077,6 @@ Please check the following
             {
                 gotohere.id = (byte)MAV_CMD.WAYPOINT;
 
-                int fixme_guidedfollowme;
                 // fix for followme change
                 if (MAV.cs.mode.ToUpper() != "GUIDED")
                     setMode("GUIDED");

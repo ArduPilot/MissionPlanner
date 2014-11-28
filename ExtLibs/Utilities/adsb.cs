@@ -94,7 +94,7 @@ namespace MissionPlanner.Utilities
 
                     ReadMessage(cl.GetStream());
                 }
-                catch (Exception ex) {  }
+                catch (Exception) {  }
 
                 // dump1090 avr
                 try
@@ -107,7 +107,7 @@ namespace MissionPlanner.Utilities
 
                     ReadMessage(cl.GetStream());
                 }
-                catch (Exception ex) {  }
+                catch (Exception) {  }
 
 
                 // rtl1090 -sbs1
@@ -121,7 +121,7 @@ namespace MissionPlanner.Utilities
 
                     ReadMessage(cl.GetStream());
                 }
-                catch (Exception ex) { }
+                catch (Exception) { }
 
                 // rtl1090 - avr
                 try
@@ -134,7 +134,7 @@ namespace MissionPlanner.Utilities
 
                     ReadMessage(cl.GetStream());
                 }
-                catch (Exception ex) {  }
+                catch (Exception) {  }
 
 
                 // adsb#
@@ -148,7 +148,7 @@ namespace MissionPlanner.Utilities
 
                     ReadMessage(cl.GetStream());
                 }
-                catch (Exception ex) {  }
+                catch (Exception) {  }
 
                 // cleanup any sockets that might be outstanding.
                 GC.Collect();

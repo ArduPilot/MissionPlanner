@@ -1317,7 +1317,7 @@ namespace MissionPlanner
 
             public Mavlink_Sensors()
             {
-                var item = MAVLink.MAV_SYS_STATUS_SENSOR._3D_ACCEL;
+                //var item = MAVLink.MAV_SYS_STATUS_SENSOR._3D_ACCEL;
             }
 
             public Mavlink_Sensors(uint p)

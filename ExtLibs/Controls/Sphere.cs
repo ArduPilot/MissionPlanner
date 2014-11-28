@@ -265,7 +265,7 @@ namespace MissionPlanner.Controls
 
             Console.WriteLine(Math.Atan2(eye.Y, eye.X));
 
-            float newyaw = 0 * deg2rad;
+            //float newyaw = 0 * deg2rad;
 
             //DrawCircle(CenterPoint.X, CenterPoint.Y, CenterPoint.Z, newyaw, (float)(max), 60);
 
