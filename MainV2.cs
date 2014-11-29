@@ -109,6 +109,7 @@ namespace MissionPlanner
         }
 
         public static bool ShowAirports { get; set; }
+        public static bool ShowTFR { get; set; }
 
         private Utilities.adsb _adsb;
         public bool EnableADSB
@@ -437,6 +438,14 @@ namespace MissionPlanner
             if (MainV2.config["showairports"] != null)
             {
                 MainV2.ShowAirports = bool.Parse(config["showairports"].ToString());
+            }
+
+            // set default
+            ShowTFR = true;
+            // load saved
+            if (MainV2.config["showtfr"] != null)
+            {
+                MainV2.ShowTFR = bool.Parse(config["showtfr"].ToString());
             }
 
             if (MainV2.config["enableadsb"] != null)
@@ -2724,6 +2733,8 @@ namespace MissionPlanner
         private void readonlyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MainV2.comPort.ReadOnly = readonlyToolStripMenuItem.Checked;
-        }    
+        }
+
+        
     }
 }
