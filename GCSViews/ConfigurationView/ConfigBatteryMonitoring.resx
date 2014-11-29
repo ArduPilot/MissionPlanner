@@ -349,10 +349,13 @@
     <value>4: Pixhawk</value>
   </data>
   <data name="CMB_apmversion.Items5" xml:space="preserve">
-    <value>5: VR Brain 5</value>
+    <value>5: VR Brain 4.5 - 5</value>
   </data>
   <data name="CMB_apmversion.Items6" xml:space="preserve">
     <value>6: VR Micro Brain 5</value>
+  </data>
+  <data name="CMB_apmversion.Items7" xml:space="preserve">
+    <value>7: VR Brain 4</value>
   </data>
   <data name="CMB_apmversion.Location" type="System.Drawing.Point, System.Drawing">
     <value>160, 95</value>
