@@ -68,6 +68,7 @@ namespace MissionPlanner.GCSViews
         CurveItem list9curve;
         CurveItem list10curve;
 
+        internal static GMapOverlay tfrpolygons;
         internal static GMapOverlay kmlpolygons;
         internal static GMapOverlay geofence;
         internal static GMapOverlay rallypointoverlay;
@@ -269,6 +270,9 @@ namespace MissionPlanner.GCSViews
 
             gMapControl1.RoutesEnabled = true;
             gMapControl1.PolygonsEnabled = true;
+
+            tfrpolygons = new GMapOverlay("tfrpolygons");
+            gMapControl1.Overlays.Add(tfrpolygons);
 
             kmlpolygons = new GMapOverlay("kmlpolygons");
             gMapControl1.Overlays.Add(kmlpolygons);
@@ -654,7 +658,7 @@ namespace MissionPlanner.GCSViews
                 {
                     GMapPolygon poly = new GMapPolygon(list, item.NAME);
 
-                    kmlpolygons.Polygons.Add(poly);
+                    tfrpolygons.Polygons.Add(poly);
                 }
             }
         }
