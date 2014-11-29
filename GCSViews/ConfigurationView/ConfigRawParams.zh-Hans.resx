@@ -154,13 +154,13 @@
     <value>值</value>
   </data>
   <data name="Units.HeaderText" xml:space="preserve">
-    <value>单元</value>
+    <value>单位</value>
   </data>
   <data name="Options.HeaderText" xml:space="preserve">
     <value>选项</value>
   </data>
   <data name="Desc.HeaderText" xml:space="preserve">
-    <value>降序</value>
+    <value>描述</value>
   </data>
   <data name="Params.ToolTip" xml:space="preserve">
     <value />

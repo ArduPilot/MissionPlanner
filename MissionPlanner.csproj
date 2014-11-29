@@ -368,6 +368,8 @@
     <Compile Include="GCSViews\ConfigurationView\ConfigWizard.Designer.cs">
       <DependentUpon>ConfigWizard.cs</DependentUpon>
     </Compile>
+    <Compile Include="GCSViews\ExtTranslations\ConfigFriendlyParamsT.Designer.cs" />
+    <Compile Include="GCSViews\ExtTranslations\SoftwareConfigT.Designer.cs" />
     <Compile Include="Joystick\Joy_Do_Repeat_Servo.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -701,6 +703,9 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFrameType.zh-TW.resx">
       <DependentUpon>ConfigFrameType.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFriendlyParams.zh-Hans.resx">
+      <DependentUpon>ConfigFriendlyParams.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWAirspeed.zh-Hant.resx">
       <DependentUpon>ConfigHWAirspeed.cs</DependentUpon>
     </EmbeddedResource>
@@ -731,6 +736,9 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWSonar.zh-TW.resx">
       <DependentUpon>ConfigHWSonar.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigMandatory.zh-Hans.resx">
+      <DependentUpon>ConfigMandatory.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigMotorTest.resx">
       <DependentUpon>ConfigMotorTest.cs</DependentUpon>
     </EmbeddedResource>
@@ -739,6 +747,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigMount.zh-TW.resx">
       <DependentUpon>ConfigMount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigOptional.zh-Hans.resx">
+      <DependentUpon>ConfigOptional.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigPlanner.zh-Hant.resx">
       <DependentUpon>ConfigPlanner.cs</DependentUpon>
@@ -785,6 +796,10 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigTradHeli.zh-TW.resx">
       <DependentUpon>ConfigTradHeli.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ExtTranslations\ConfigFriendlyParamsT.resx" />
+    <EmbeddedResource Include="GCSViews\ExtTranslations\ConfigFriendlyParamsT.zh-Hans.resx" />
+    <EmbeddedResource Include="GCSViews\ExtTranslations\SoftwareConfigT.resx" />
+    <EmbeddedResource Include="GCSViews\ExtTranslations\SoftwareConfigT.zh-Hans.resx" />
     <EmbeddedResource Include="GCSViews\FlightData.zh-Hant.resx">
       <DependentUpon>FlightData.cs</DependentUpon>
     </EmbeddedResource>
@@ -875,6 +890,7 @@
     <EmbeddedResource Include="OpenGLtest2.resx">
       <DependentUpon>OpenGLtest2.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.zh-Hans.resx" />
     <EmbeddedResource Include="Radio\3DRradio.it-IT.resx">
       <DependentUpon>3DRradio.cs</DependentUpon>
     </EmbeddedResource>
@@ -6212,6 +6228,9 @@
     <None Include="Resources\quadhover_14.png" />
     <None Include="Resources\maggps.png" />
     <Content Include="mpdesktop.ico" />
+    <Content Include="ParameterMetaData.zh-Hans.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="ParameterMetaDataBackup.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -6474,7 +6493,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>cd $(ProjectDir)
-"C:\Program Files (x86)\Git\bin\git.exe" rev-parse HEAD &gt; "$(ProjectDir)\githash.txt"</PreBuildEvent>
+-"C:\Program Files (x86)\Git\bin\git.exe" rev-parse HEAD &gt; "$(ProjectDir)\githash.txt"</PreBuildEvent>
   </PropertyGroup>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
