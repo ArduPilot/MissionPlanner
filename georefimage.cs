@@ -341,6 +341,16 @@ namespace MissionPlanner
                         break;
                     }
 
+                    if (lcDirectory.ContainsTag(0x9004))
+                    {
+                        dtaken = lcDirectory.GetDate(0x9004);
+                        log.InfoFormat("does " + lcDirectory.GetTagName(0x9004) + " " + dtaken);
+
+                        filedatecache[fn] = dtaken;
+
+                        break;
+                    }
+
                 }
 
 
