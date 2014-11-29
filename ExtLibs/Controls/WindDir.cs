@@ -24,6 +24,8 @@ namespace MissionPlanner.Controls
         double _direction = 0;
         double _speed = 0;
 
+        double maxspeed = 10;
+
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Options")]
         public double Direction { get { return _direction; } set { if (_direction == (value + 180)) return; _direction = (value + 180); this.Invalidate(); } }
         [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Options")]
@@ -70,8 +72,10 @@ namespace MissionPlanner.Controls
 
             // full scale is 10ms
 
-            x = x/10 * Speed;
-            y = y/10 * Speed;
+            double scale = Math.Max(maxspeed, Speed);
+
+            x = x / scale * Speed;
+            y = y / scale * Speed;
 
             if (x != 0 || y != 0)
             {
