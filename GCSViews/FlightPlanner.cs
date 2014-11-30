@@ -5040,8 +5040,8 @@ namespace MissionPlanner.GCSViews
         private void elevationGraphToolStripMenuItem_Click(object sender, EventArgs e)
         {
             writeKML();
-            double homealt = srtm.getAltitude(MainV2.comPort.MAV.cs.HomeLocation.Lat, MainV2.comPort.MAV.cs.HomeLocation.Lng);
-            Form temp = new ElevationProfile(pointlist, homealt);
+            double homealt = MainV2.comPort.MAV.cs.HomeAlt;
+            Form temp = new ElevationProfile(pointlist, homealt, (altmode)CMB_altmode.SelectedValue);
             ThemeManager.ApplyThemeTo(temp);
             temp.ShowDialog();
         }
