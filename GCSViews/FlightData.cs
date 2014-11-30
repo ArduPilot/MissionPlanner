@@ -662,7 +662,10 @@ namespace MissionPlanner.GCSViews
                 }
             }
 
-            tfrpolygons.IsVisibile = MainV2.ShowTFR;
+            this.Invoke((Action)delegate
+            {
+                tfrpolygons.IsVisibile = MainV2.ShowTFR;
+            });
         }
 
         void POI_POIModified(object sender, EventArgs e)
