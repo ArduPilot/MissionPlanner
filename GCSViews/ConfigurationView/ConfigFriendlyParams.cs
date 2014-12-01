@@ -419,12 +419,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             if (!String.IsNullOrEmpty(units))
             {
-                returnDescription.Append(String.Format("Units: {0}{1}", units, Environment.NewLine));
+                returnDescription.Append(String.Format(ExtTranslations.ConfigFriendlyParamsT.Units, units, Environment.NewLine));
             }
 
             if (!String.IsNullOrEmpty(description))
             {
-                returnDescription.Append("Description: ");
+                returnDescription.Append(ExtTranslations.ConfigFriendlyParamsT.Desc);
                 var descriptionParts = description.Split(new char[] { ' ' });
                 for (int i = 0; i < descriptionParts.Length; i++)
                 {

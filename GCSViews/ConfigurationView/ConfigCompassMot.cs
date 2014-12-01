@@ -35,7 +35,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         public void Deactivate()
         {
             // make sure we are stopped
-            MainV2.comPort.SendAck();
+            try
+            {
+                if (MainV2.comPort.BaseStream.IsOpen)
+                    MainV2.comPort.SendAck();
+            }
+            catch {  }
+
             timer1.Stop();
         }
 

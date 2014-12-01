@@ -212,7 +212,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             TXT_info.Clear();
 
-            float value = float.Parse(Value);
+            if (Value.Contains(','))
+                Value = Value.Replace(",",".");
+
+            float value = float.Parse(Value, System.Globalization.CultureInfo.InvariantCulture);
 
             Controls.RangeControl rc = ((Controls.RangeControl)sender);
             log.Info(rc.Name + " " + rc.Value);

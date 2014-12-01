@@ -75,23 +75,23 @@ namespace MissionPlanner
 
                 if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
                 {
-                    alt = (10 * MainV2.comPort.MAV.cs.multiplierdist).ToString("0");
+                    alt = (10 * CurrentState.multiplierdist).ToString("0");
                 }
                 else
                 {
-                    alt = (100 * MainV2.comPort.MAV.cs.multiplierdist).ToString("0");
+                    alt = (100 * CurrentState.multiplierdist).ToString("0");
                 }
                 if (DialogResult.Cancel == InputBox.Show("Enter Alt", "Enter Alt (relative to home alt)", ref alt))
                     return;
 
-                intalt = (int)(100 * MainV2.comPort.MAV.cs.multiplierdist);
+                intalt = (int)(100 * CurrentState.multiplierdist);
                 if (!int.TryParse(alt, out intalt))
                 {
                     CustomMessageBox.Show("Bad Alt", "Error");
                     return;
                 }
 
-                intalt = (int)(intalt / MainV2.comPort.MAV.cs.multiplierdist);
+                intalt = (int)(intalt / CurrentState.multiplierdist);
 
                 t12 = new System.Threading.Thread(new System.Threading.ThreadStart(mainloop))
                 {

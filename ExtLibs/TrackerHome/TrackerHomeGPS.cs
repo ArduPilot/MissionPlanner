@@ -141,6 +141,6 @@ using TrackerHomeGPS;
             }
             catch { }
 
-            return alt * MainV2.comPort.MAV.cs.multiplierdist;
+            return alt * CurrentState.multiplierdist;
         }
     }

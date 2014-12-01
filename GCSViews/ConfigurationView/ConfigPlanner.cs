@@ -199,11 +199,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 return;
             MainV2.instance.changelanguage((CultureInfo)CMB_language.SelectedItem);
 
-#if !DEBUG
                 MessageBox.Show("Please Restart the Planner");
 
-                Application.Exit();
-#endif
+                MainV2.instance.Close();
+                //Application.Exit();
         }
 
         private void CMB_osdcolor_SelectedIndexChanged(object sender, EventArgs e)
@@ -429,7 +428,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     speechstring = MainV2.config["speechaltheight"].ToString();
                 if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Min Alt", "What altitude do you want to warn at? (relative to home)", ref speechstring))
                     return;
-                MainV2.config["speechaltheight"] = (double.Parse(speechstring) / MainV2.comPort.MAV.cs.multiplierdist).ToString(); // save as m
+                MainV2.config["speechaltheight"] = (double.Parse(speechstring) / CurrentState.multiplierdist).ToString(); // save as m
 
             }
         }
@@ -804,6 +803,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             MainV2.config["enableadsb"] = chk_ADSB.Checked.ToString();
             MainV2.instance.EnableADSB = CHK_showairports.Checked;
+        }
+
+        private void chk_tfr_CheckedChanged(object sender, EventArgs e)
+        {
+            MainV2.config["showtfr"] = chk_tfr.Checked.ToString();
+            MainV2.ShowTFR = chk_tfr.Checked;
         }
     }
 }

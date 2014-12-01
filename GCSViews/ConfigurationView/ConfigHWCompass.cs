@@ -120,17 +120,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 this.Enabled = true;
             }
 
-            if (!MainV2.Advanced)
-            {
-                BUT_MagCalibrationLog.Visible = false;
-                lbl_adv_cfg_only.Visible = false;
-            }
-            else
-            {
-                BUT_MagCalibrationLog.Visible = true;
-                lbl_adv_cfg_only.Visible = true;
-            }
-
             startup = true;
 
             CMB_compass_orient.setup(typeof(Common.Rotation), "COMPASS_ORIENT", MainV2.comPort.MAV.param);

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Configuration;
 
 namespace MissionPlanner.Controls
 {
@@ -10,11 +11,27 @@ namespace MissionPlanner.Controls
         private System.Windows.Forms.CheckBox CHK_rotate;
         public Sphere sphere2;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.CheckBox chk_auto;
         public Sphere sphere1;
+
+        public bool autoaccept = true;
 
         public ProgressReporterSphere()
         {
             InitializeComponent();
+            try
+            {
+                if (ConfigurationManager.AppSettings["sphereautocomplete"] != null)
+                {
+
+                    string value = ConfigurationManager.AppSettings["sphereautocomplete"].ToString();
+                    autoaccept = bool.Parse(value);
+
+                }
+            }
+            catch { }
+
+            chk_auto.Checked = autoaccept;
         }
 
         private void InitializeComponent()
@@ -24,6 +41,7 @@ namespace MissionPlanner.Controls
             this.CHK_rotate = new System.Windows.Forms.CheckBox();
             this.sphere2 = new MissionPlanner.Controls.Sphere();
             this.label1 = new System.Windows.Forms.Label();
+            this.chk_auto = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // btnCancel
@@ -70,13 +88,27 @@ namespace MissionPlanner.Controls
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(282, 8);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(134, 130);
+            this.label1.Size = new System.Drawing.Size(254, 104);
             this.label1.TabIndex = 9;
             this.label1.Text = resources.GetString("label1.Text");
+            // 
+            // chk_auto
+            // 
+            this.chk_auto.AutoSize = true;
+            this.chk_auto.Checked = true;
+            this.chk_auto.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chk_auto.Location = new System.Drawing.Point(176, 410);
+            this.chk_auto.Name = "chk_auto";
+            this.chk_auto.Size = new System.Drawing.Size(107, 17);
+            this.chk_auto.TabIndex = 10;
+            this.chk_auto.Text = "Use Auto Accept";
+            this.chk_auto.UseVisualStyleBackColor = true;
+            this.chk_auto.CheckedChanged += new System.EventHandler(this.chk_auto_CheckedChanged);
             // 
             // ProgressReporterSphere
             // 
             this.ClientSize = new System.Drawing.Size(565, 446);
+            this.Controls.Add(this.chk_auto);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.sphere2);
             this.Controls.Add(this.CHK_rotate);
@@ -87,6 +119,7 @@ namespace MissionPlanner.Controls
             this.Controls.SetChildIndex(this.CHK_rotate, 0);
             this.Controls.SetChildIndex(this.sphere2, 0);
             this.Controls.SetChildIndex(this.label1, 0);
+            this.Controls.SetChildIndex(this.chk_auto, 0);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -96,6 +129,25 @@ namespace MissionPlanner.Controls
         {
             sphere1.rotatewithdata = CHK_rotate.Checked;
             sphere2.rotatewithdata = CHK_rotate.Checked;
+        }
+
+        private void chk_auto_CheckedChanged(object sender, EventArgs e)
+        {
+            autoaccept = chk_auto.Checked;
+
+            try
+            {
+                Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+
+                config.AppSettings.Settings.Remove("sphereautocomplete");
+
+                config.AppSettings.Settings.Add(new KeyValueConfigurationElement("sphereautocomplete", autoaccept.ToString()));
+
+                config.Save(ConfigurationSaveMode.Modified);
+
+                ConfigurationManager.RefreshSection(config.AppSettings.SectionInformation.Name);
+            }
+            catch { }
         }
     }
 }

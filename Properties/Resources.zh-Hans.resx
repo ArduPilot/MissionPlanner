@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="help_text" xml:space="preserve">
+    <value>{\rtf1\ansi\ansicpg936\deff0\deflang1033\deflangfe2052{\fonttbl{\f0\fmodern\fprq6\fcharset134 Microsoft YaHei;}}
+{\colortbl ;\red255\green255\blue255;\red0\green0\blue255;}
+{\*\generator Msftedit 5.41.21.2510;}\viewkind5\uc1{\*\background{\shp{\*\shpinst
+{\sp{\sn fillType}{\sv 0}}
+{\sp{\sn fillColor}{\sv 2565927}}
+{\sp{\sn fillBackColor}{\sv 0}}
+{\sp{\sn fillFocus}{\sv 0}}
+{\sp{\sn fillBlip}{\sv {\pict\wmetafile0\picscalex1\picscaley1 
+}}}}}}
+\pard\nowidctlpar\sa200\sl276\slmult1\cf1\f0\fs22\par
+\tab 欢迎使用\b Mission Planner\b0 ，本软件可以为无人机(\b UAV\b0 )规划任务。\par
+\tab 快速入门：\par
+\tab\tab\tab\b 飞行数据 \endash  \b0 带有位置和姿态的简单飞行屏幕。\par
+\b\tab\tab\tab 飞行计划 \endash  \b0 计划你的飞行和其它脚本任务。\par
+\b\tab\tab\tab 初始设置 \endash  \b0 升级APM固件、设置与初次调试各个功能等。\par
+\b\tab\tab\tab 配置/调试 \endash  \b0 自定义PID和其它关键设置，包括启用和禁用硬件。\par
+\b\tab\tab\tab 模拟 \endash  \b0 使用Xplanes和Flightgear来HIL模拟，当和你的板子一起使用时。\par
+\b\tab\tab\tab 终端 \endash  \b0 手动设置你的APM并且运行传感器测试，读取日志和其它功能。\par
+\pard\nowidctlpar\b\tab 主要开发者:\b0  Michael Oborne\par
+\tab\b 设计:\b0  Samantha Nelson\par
+\tab\b 捐款:\b0  Andrew Radford,  Marooned, Ryan Beall\par
+\pard\nowidctlpar\fi720\b ArduCopter插图:\b0  Max Levine\par
+\b 库:\b0  Gmap.net, Sharpkml, SharpZipLib, IronPython, KMLib, OpenTK, ZedGraph\par
+\par
+\b 帮助（简体中文）:\par
+Arduplane: http://plane.ardupilot.cn\par
+ArduCopter: http://copter.ardupilot.cn\par
+ArduRover: http://rover.ardupilot.cn\par
+\par
+请访问{\field{\*\fldinst{HYPERLINK "www.diydrones.com"}}{\fldrslt{\ul\cf2 www.diydrones.com}}}\f0\fs22 获得更多信息。\par
+\par
+\b简体中文翻译附加说明：\b0\par
+本简体中文翻译由APM中文网(http://ardupilot.cn/)翻译组提供，并正在不断完善中。\par
+MP翻译组成员：hazy、四季天书[现主要维护]、斯东、猎手、飞鹰、冷枫、Jothen\par
+}</value>
+  </data>
+</root>

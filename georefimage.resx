@@ -966,291 +966,6 @@
   <data name="&gt;&gt;label16.ZOrder" xml:space="preserve">
     <value>32</value>
   </data>
-  <data name="&gt;&gt;NUM_CAM_Week.Name" xml:space="preserve">
-    <value>NUM_CAM_Week</value>
-  </data>
-  <data name="&gt;&gt;NUM_CAM_Week.Type" xml:space="preserve">
-    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;NUM_CAM_Week.Parent" xml:space="preserve">
-    <value>PANEL_CAM</value>
-  </data>
-  <data name="&gt;&gt;NUM_CAM_Week.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;label26.Name" xml:space="preserve">
-    <value>label26</value>
-  </data>
-  <data name="&gt;&gt;label26.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label26.Parent" xml:space="preserve">
-    <value>PANEL_CAM</value>
-  </data>
-  <data name="&gt;&gt;label26.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;panel2.Name" xml:space="preserve">
-    <value>panel2</value>
-  </data>
-  <data name="&gt;&gt;panel2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;panel2.Parent" xml:space="preserve">
-    <value>PANEL_CAM</value>
-  </data>
-  <data name="&gt;&gt;panel2.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;NUM_ATT_Roll.Name" xml:space="preserve">
-    <value>NUM_ATT_Roll</value>
-  </data>
-  <data name="&gt;&gt;NUM_ATT_Roll.Type" xml:space="preserve">
-    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;NUM_ATT_Roll.Parent" xml:space="preserve">
-    <value>PANEL_CAM</value>
-  </data>
-  <data name="&gt;&gt;NUM_ATT_Roll.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;label25.Name" xml:space="preserve">
-    <value>label25</value>
-  </data>
-  <data name="&gt;&gt;label25.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label25.Parent" xml:space="preserve">
-    <value>PANEL_CAM</value>
-  </data>
-  <data name="&gt;&gt;label25.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="&gt;&gt;NUM_ATT_Pitch.Name" xml:space="preserve">
-    <value>NUM_ATT_Pitch</value>
-  </data>
-  <data name="&gt;&gt;NUM_ATT_Pitch.Type" xml:space="preserve">
-    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;NUM_ATT_Pitch.Parent" xml:space="preserve">
-    <value>PANEL_CAM</value>
-  </data>
-  <data name="&gt;&gt;NUM_ATT_Pitch.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="&gt;&gt;label24.Name" xml:space="preserve">
-    <value>label24</value>
-  </data>
-  <data name="&gt;&gt;label24.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label24.Parent" xml:space="preserve">
-    <value>PANEL_CAM</value>
-  </data>
-  <data name="&gt;&gt;label24.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="&gt;&gt;label6.Name" xml:space="preserve">
-    <value>label6</value>
-  </data>
-  <data name="&gt;&gt;label6.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label6.Parent" xml:space="preserve">
-    <value>PANEL_CAM</value>
-  </data>
-  <data name="&gt;&gt;label6.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
-  <data name="&gt;&gt;label23.Name" xml:space="preserve">
-    <value>label23</value>
-  </data>
-  <data name="&gt;&gt;label23.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label23.Parent" xml:space="preserve">
-    <value>PANEL_CAM</value>
-  </data>
-  <data name="&gt;&gt;label23.ZOrder" xml:space="preserve">
-    <value>8</value>
-  </data>
-  <data name="&gt;&gt;NUM_GPS_Week.Name" xml:space="preserve">
-    <value>NUM_GPS_Week</value>
-  </data>
-  <data name="&gt;&gt;NUM_GPS_Week.Type" xml:space="preserve">
-    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;NUM_GPS_Week.Parent" xml:space="preserve">
-    <value>PANEL_CAM</value>
-  </data>
-  <data name="&gt;&gt;NUM_GPS_Week.ZOrder" xml:space="preserve">
-    <value>9</value>
-  </data>
-  <data name="&gt;&gt;panel1.Name" xml:space="preserve">
-    <value>panel1</value>
-  </data>
-  <data name="&gt;&gt;panel1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;panel1.Parent" xml:space="preserve">
-    <value>PANEL_CAM</value>
-  </data>
-  <data name="&gt;&gt;panel1.ZOrder" xml:space="preserve">
-    <value>10</value>
-  </data>
-  <data name="&gt;&gt;NUM_CAM_Time.Name" xml:space="preserve">
-    <value>NUM_CAM_Time</value>
-  </data>
-  <data name="&gt;&gt;NUM_CAM_Time.Type" xml:space="preserve">
-    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;NUM_CAM_Time.Parent" xml:space="preserve">
-    <value>PANEL_CAM</value>
-  </data>
-  <data name="&gt;&gt;NUM_CAM_Time.ZOrder" xml:space="preserve">
-    <value>12</value>
-  </data>
-  <data name="&gt;&gt;label22.Name" xml:space="preserve">
-    <value>label22</value>
-  </data>
-  <data name="&gt;&gt;label22.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label22.Parent" xml:space="preserve">
-    <value>PANEL_CAM</value>
-  </data>
-  <data name="&gt;&gt;label22.ZOrder" xml:space="preserve">
-    <value>14</value>
-  </data>
-  <data name="&gt;&gt;label21.Name" xml:space="preserve">
-    <value>label21</value>
-  </data>
-  <data name="&gt;&gt;label21.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label21.Parent" xml:space="preserve">
-    <value>PANEL_CAM</value>
-  </data>
-  <data name="&gt;&gt;label21.ZOrder" xml:space="preserve">
-    <value>16</value>
-  </data>
-  <data name="&gt;&gt;NUM_GPS_AMSL_Alt.Name" xml:space="preserve">
-    <value>NUM_GPS_AMSL_Alt</value>
-  </data>
-  <data name="&gt;&gt;NUM_GPS_AMSL_Alt.Type" xml:space="preserve">
-    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;NUM_GPS_AMSL_Alt.Parent" xml:space="preserve">
-    <value>PANEL_CAM</value>
-  </data>
-  <data name="&gt;&gt;NUM_GPS_AMSL_Alt.ZOrder" xml:space="preserve">
-    <value>18</value>
-  </data>
-  <data name="&gt;&gt;label20.Name" xml:space="preserve">
-    <value>label20</value>
-  </data>
-  <data name="&gt;&gt;label20.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label20.Parent" xml:space="preserve">
-    <value>PANEL_CAM</value>
-  </data>
-  <data name="&gt;&gt;label20.ZOrder" xml:space="preserve">
-    <value>20</value>
-  </data>
-  <data name="&gt;&gt;NUM_CAM_Pitch.Name" xml:space="preserve">
-    <value>NUM_CAM_Pitch</value>
-  </data>
-  <data name="&gt;&gt;NUM_CAM_Pitch.Type" xml:space="preserve">
-    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;NUM_CAM_Pitch.Parent" xml:space="preserve">
-    <value>PANEL_CAM</value>
-  </data>
-  <data name="&gt;&gt;NUM_CAM_Pitch.ZOrder" xml:space="preserve">
-    <value>23</value>
-  </data>
-  <data name="&gt;&gt;label19.Name" xml:space="preserve">
-    <value>label19</value>
-  </data>
-  <data name="&gt;&gt;label19.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label19.Parent" xml:space="preserve">
-    <value>PANEL_CAM</value>
-  </data>
-  <data name="&gt;&gt;label19.ZOrder" xml:space="preserve">
-    <value>25</value>
-  </data>
-  <data name="&gt;&gt;NUM_CAM_Roll.Name" xml:space="preserve">
-    <value>NUM_CAM_Roll</value>
-  </data>
-  <data name="&gt;&gt;NUM_CAM_Roll.Type" xml:space="preserve">
-    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;NUM_CAM_Roll.Parent" xml:space="preserve">
-    <value>PANEL_CAM</value>
-  </data>
-  <data name="&gt;&gt;NUM_CAM_Roll.ZOrder" xml:space="preserve">
-    <value>27</value>
-  </data>
-  <data name="&gt;&gt;label18.Name" xml:space="preserve">
-    <value>label18</value>
-  </data>
-  <data name="&gt;&gt;label18.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label18.Parent" xml:space="preserve">
-    <value>PANEL_CAM</value>
-  </data>
-  <data name="&gt;&gt;label18.ZOrder" xml:space="preserve">
-    <value>29</value>
-  </data>
-  <data name="&gt;&gt;NUM_CAM_Heading.Name" xml:space="preserve">
-    <value>NUM_CAM_Heading</value>
-  </data>
-  <data name="&gt;&gt;NUM_CAM_Heading.Type" xml:space="preserve">
-    <value>System.Windows.Forms.NumericUpDown, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;NUM_CAM_Heading.Parent" xml:space="preserve">
-    <value>PANEL_CAM</value>
-  </data>
-  <data name="&gt;&gt;NUM_CAM_Heading.ZOrder" xml:space="preserve">
-    <value>30</value>
-  </data>
-  <data name="&gt;&gt;label17.Name" xml:space="preserve">
-    <value>label17</value>
-  </data>
-  <data name="&gt;&gt;label17.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label17.Parent" xml:space="preserve">
-    <value>PANEL_CAM</value>
-  </data>
-  <data name="&gt;&gt;label17.ZOrder" xml:space="preserve">
-    <value>31</value>
-  </data>
-  <data name="PANEL_CAM.Location" type="System.Drawing.Point, System.Drawing">
-    <value>32, 184</value>
-  </data>
-  <data name="PANEL_CAM.Size" type="System.Drawing.Size, System.Drawing">
-    <value>597, 136</value>
-  </data>
-  <data name="PANEL_CAM.TabIndex" type="System.Int32, mscorlib">
-    <value>33</value>
-  </data>
-  <data name="&gt;&gt;PANEL_CAM.Name" xml:space="preserve">
-    <value>PANEL_CAM</value>
-  </data>
-  <data name="&gt;&gt;PANEL_CAM.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;PANEL_CAM.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;PANEL_CAM.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
   <data name="NUM_CAM_Week.Location" type="System.Drawing.Point, System.Drawing">
     <value>13, 93</value>
   </data>
@@ -1812,6 +1527,27 @@
   <data name="&gt;&gt;label17.ZOrder" xml:space="preserve">
     <value>31</value>
   </data>
+  <data name="PANEL_CAM.Location" type="System.Drawing.Point, System.Drawing">
+    <value>32, 184</value>
+  </data>
+  <data name="PANEL_CAM.Size" type="System.Drawing.Size, System.Drawing">
+    <value>597, 136</value>
+  </data>
+  <data name="PANEL_CAM.TabIndex" type="System.Int32, mscorlib">
+    <value>33</value>
+  </data>
+  <data name="&gt;&gt;PANEL_CAM.Name" xml:space="preserve">
+    <value>PANEL_CAM</value>
+  </data>
+  <data name="&gt;&gt;PANEL_CAM.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;PANEL_CAM.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;PANEL_CAM.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
   <data name="label9.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -1843,7 +1579,7 @@
     <value>2</value>
   </data>
   <data name="num_camerarotation.Location" type="System.Drawing.Point, System.Drawing">
-    <value>311, 25</value>
+    <value>261, 25</value>
   </data>
   <data name="num_camerarotation.Size" type="System.Drawing.Size, System.Drawing">
     <value>42, 20</value>
@@ -1924,7 +1660,7 @@
     <value>6</value>
   </data>
   <data name="num_hfov.Location" type="System.Drawing.Point, System.Drawing">
-    <value>258, 26</value>
+    <value>314, 25</value>
   </data>
   <data name="num_hfov.Size" type="System.Drawing.Size, System.Drawing">
     <value>42, 20</value>
@@ -1965,6 +1701,21 @@
   <data name="&gt;&gt;num_vfov.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
+  <data name="CHECK_AMSLAlt_Use.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="CHECK_AMSLAlt_Use.Location" type="System.Drawing.Point, System.Drawing">
+    <value>236, 63</value>
+  </data>
+  <data name="CHECK_AMSLAlt_Use.Size" type="System.Drawing.Size, System.Drawing">
+    <value>92, 17</value>
+  </data>
+  <data name="CHECK_AMSLAlt_Use.TabIndex" type="System.Int32, mscorlib">
+    <value>40</value>
+  </data>
+  <data name="CHECK_AMSLAlt_Use.Text" xml:space="preserve">
+    <value>Use AMSL Alt</value>
+  </data>
   <data name="&gt;&gt;CHECK_AMSLAlt_Use.Name" xml:space="preserve">
     <value>CHECK_AMSLAlt_Use</value>
   </data>
@@ -1997,33 +1748,6 @@
   </data>
   <data name="&gt;&gt;panel3.ZOrder" xml:space="preserve">
     <value>1</value>
-  </data>
-  <data name="CHECK_AMSLAlt_Use.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="CHECK_AMSLAlt_Use.Location" type="System.Drawing.Point, System.Drawing">
-    <value>236, 63</value>
-  </data>
-  <data name="CHECK_AMSLAlt_Use.Size" type="System.Drawing.Size, System.Drawing">
-    <value>92, 17</value>
-  </data>
-  <data name="CHECK_AMSLAlt_Use.TabIndex" type="System.Int32, mscorlib">
-    <value>40</value>
-  </data>
-  <data name="CHECK_AMSLAlt_Use.Text" xml:space="preserve">
-    <value>Use AMSL Alt</value>
-  </data>
-  <data name="&gt;&gt;CHECK_AMSLAlt_Use.Name" xml:space="preserve">
-    <value>CHECK_AMSLAlt_Use</value>
-  </data>
-  <data name="&gt;&gt;CHECK_AMSLAlt_Use.Type" xml:space="preserve">
-    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;CHECK_AMSLAlt_Use.Parent" xml:space="preserve">
-    <value>panel3</value>
-  </data>
-  <data name="&gt;&gt;CHECK_AMSLAlt_Use.ZOrder" xml:space="preserve">
-    <value>0</value>
   </data>
   <data name="TXT_shutterLag.Location" type="System.Drawing.Point, System.Drawing">
     <value>128, 19</value>

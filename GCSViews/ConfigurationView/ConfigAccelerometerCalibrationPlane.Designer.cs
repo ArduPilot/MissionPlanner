@@ -34,10 +34,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.lbl_Accel_user = new System.Windows.Forms.Label();
-            this.BUT_calib_accell = new Controls.MyButton();
-            this.lineSeparator2 = new Controls.LineSeparator();
-            this.BUT_level = new Controls.MyButton();
+            this.BUT_calib_accell = new MissionPlanner.Controls.MyButton();
+            this.lineSeparator2 = new MissionPlanner.Controls.LineSeparator();
+            this.BUT_level = new MissionPlanner.Controls.MyButton();
             this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label5
@@ -58,12 +59,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             // BUT_calib_accell
             // 
-            this.BUT_calib_accell.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
-            this.BUT_calib_accell.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
             resources.ApplyResources(this.BUT_calib_accell, "BUT_calib_accell");
             this.BUT_calib_accell.Name = "BUT_calib_accell";
-            this.BUT_calib_accell.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
-            this.BUT_calib_accell.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_calib_accell.UseVisualStyleBackColor = true;
             this.BUT_calib_accell.Click += new System.EventHandler(this.BUT_calib_accell_Click);
             // 
@@ -79,12 +76,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             // BUT_level
             // 
-            this.BUT_level.BGGradBot = System.Drawing.Color.FromArgb(((int)(((byte)(205)))), ((int)(((byte)(226)))), ((int)(((byte)(150)))));
-            this.BUT_level.BGGradTop = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(193)))), ((int)(((byte)(31)))));
             resources.ApplyResources(this.BUT_level, "BUT_level");
             this.BUT_level.Name = "BUT_level";
-            this.BUT_level.Outline = System.Drawing.Color.FromArgb(((int)(((byte)(121)))), ((int)(((byte)(148)))), ((int)(((byte)(41)))));
-            this.BUT_level.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(87)))), ((int)(((byte)(4)))));
             this.BUT_level.UseVisualStyleBackColor = true;
             this.BUT_level.Click += new System.EventHandler(this.BUT_level_Click);
             // 
@@ -93,10 +86,16 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
             // 
+            // label2
+            // 
+            resources.ApplyResources(this.label2, "label2");
+            this.label2.Name = "label2";
+            // 
             // ConfigAccelerometerCalibrationPlane
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.BUT_level);
             this.Controls.Add(this.lbl_Accel_user);
@@ -119,5 +118,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private System.Windows.Forms.Label lbl_Accel_user;
         private MyButton BUT_level;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
     }
 }

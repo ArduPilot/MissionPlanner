@@ -638,7 +638,7 @@ Please check the following
         /// </summary>
         /// <param name="paramname">name as a string</param>
         /// <param name="value"></param>
-        public bool setParam(string paramname, float value)
+        public bool setParam(string paramname, float value, bool force = false)
         {
             if (!MAV.param.ContainsKey(paramname))
             {
@@ -646,7 +646,7 @@ Please check the following
                 return false;
             }
 
-            if ((float)MAV.param[paramname] == value)
+            if ((float)MAV.param[paramname] == value && !force)
             {
                 log.Warn("setParam " + paramname + " not modified as same");
                 return true;
@@ -1652,10 +1652,14 @@ Please check the following
                     {
                         //Console.WriteLine("getwp ans " + DateTime.Now.Millisecond);
 
-
-                        //Array.Copy(buffer, 6, buffer, 0, buffer.Length - 6);
-
                         var wp = buffer.ByteArrayToStructure<mavlink_mission_item_t>(6);
+
+                        // received a packet, but not what we requested
+                        if (req.seq != wp.seq)
+                        {
+                            generatePacket((byte)MAVLINK_MSG_ID.MISSION_REQUEST, req);
+                            continue;
+                        }
 
                         loc.options = (byte)(wp.frame);
                         loc.id = (byte)(wp.command);
@@ -2073,7 +2077,6 @@ Please check the following
             {
                 gotohere.id = (byte)MAV_CMD.WAYPOINT;
 
-                int fixme_guidedfollowme;
                 // fix for followme change
                 if (MAV.cs.mode.ToUpper() != "GUIDED")
                     setMode("GUIDED");
@@ -2120,8 +2123,10 @@ Please check the following
             req.shot = (shot == true) ? (byte)1 : (byte)0;
 
             generatePacket((byte)MAVLINK_MSG_ID.DIGICAM_CONTROL, req);
-            System.Threading.Thread.Sleep(20);
-            generatePacket((byte)MAVLINK_MSG_ID.DIGICAM_CONTROL, req);
+
+            //MAVLINK_MSG_ID.CAMERA_FEEDBACK;
+
+                //mavlink_camera_feedback_t
         }
 
         public void setMountConfigure(MAV_MOUNT_MODE mountmode, bool stabroll, bool stabpitch, bool stabyaw)
@@ -2523,6 +2528,14 @@ Please check the following
                     {
                         MAVlist[sysid].packets[buffer[5]] = buffer;
                         MAVlist[sysid].packetseencount[buffer[5]]++;
+
+                        // 3dr radio status packet are injected into the current mav
+                        if (buffer[5] == (byte)MAVLink.MAVLINK_MSG_ID.RADIO_STATUS ||
+                            buffer[5] == (byte)MAVLink.MAVLINK_MSG_ID.RADIO)
+                        {
+                            MAVlist[sysidcurrent].packets[buffer[5]] = buffer;
+                            MAVlist[sysidcurrent].packetseencount[buffer[5]]++;
+                        }
                     }
 
                     // set seens sysid's based on hb packet - this will hide 3dr radio packets
@@ -3147,9 +3160,13 @@ Please check the following
                 {
                     if (buffer[5] == (byte)MAVLINK_MSG_ID.RALLY_POINT)
                     {
-                        giveComport = false;
-
                         mavlink_rally_point_t fp = buffer.ByteArrayToStructure<mavlink_rally_point_t>(6);
+
+                        if (req.idx != fp.idx)
+                        {
+                            generatePacket((byte)MAVLINK_MSG_ID.FENCE_FETCH_POINT, req);
+                            continue;
+                        }
 
                         plla.Lat = fp.lat / t7;
                         plla.Lng = fp.lng / t7;
@@ -3157,6 +3174,8 @@ Please check the following
                         plla.Alt = fp.alt;
 
                         total = fp.count;
+
+                        giveComport = false;
 
                         return plla;
                     }

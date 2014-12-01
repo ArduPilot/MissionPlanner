@@ -109,6 +109,7 @@ namespace MissionPlanner
         }
 
         public static bool ShowAirports { get; set; }
+        public static bool ShowTFR { get; set; }
 
         private Utilities.adsb _adsb;
         public bool EnableADSB
@@ -153,6 +154,8 @@ namespace MissionPlanner
         /// </summary>
         public Hashtable adsbPlanes = new Hashtable();
         public Hashtable adsbPlaneAge = new Hashtable();
+
+        string titlebar;
 
         /// <summary>
         /// Comport name
@@ -398,6 +401,7 @@ namespace MissionPlanner
             }
 
             this.Text = splash.Text;
+            titlebar = splash.Text;
 
             if (!MONO) // windows only
             {
@@ -434,6 +438,14 @@ namespace MissionPlanner
             if (MainV2.config["showairports"] != null)
             {
                 MainV2.ShowAirports = bool.Parse(config["showairports"].ToString());
+            }
+
+            // set default
+            ShowTFR = true;
+            // load saved
+            if (MainV2.config["showtfr"] != null)
+            {
+                MainV2.ShowTFR = bool.Parse(config["showtfr"].ToString());
             }
 
             if (MainV2.config["enableadsb"] != null)
@@ -1061,6 +1073,8 @@ namespace MissionPlanner
                     // save the baudrate for this port
                     config[_connectionControl.CMB_serialport.Text + "_BAUD"] = _connectionControl.CMB_baudrate.Text;
 
+                    this.Text = titlebar +" "+ comPort.MAV.VersionString;
+
                     // refresh config window if needed
                     if (MyView.current != null)
                     {
@@ -1187,19 +1201,22 @@ namespace MissionPlanner
 
             pluginthreadrun = false;
 
-            pluginthread.Join();
+            if (pluginthread != null)
+                pluginthread.Join();
 
             log.Info("closing serialthread");
 
             serialThread = false;
 
-            serialreaderthread.Join();
+            if (serialreaderthread != null)
+                serialreaderthread.Join();
 
             log.Info("closing joystickthread");
 
             joystickthreadrun = false;
 
-            joystickthread.Join();
+            if (joystickthread != null)
+                joystickthread.Join();
 
             log.Info("closing httpthread");
 
@@ -1252,7 +1269,6 @@ namespace MissionPlanner
             }
             catch { } // i get alot of these errors, the port is still open, but not valid - user has unpluged usb
 
-            log.Info("save config");
             // save config
             xmlconfig(true);
 
@@ -1295,6 +1311,8 @@ namespace MissionPlanner
             {
                 try
                 {
+                    log.Info("Saving config");
+
                     XmlTextWriter xmlwriter = new XmlTextWriter(Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + @"config.xml", Encoding.ASCII);
                     xmlwriter.Formatting = Formatting.Indented;
 
@@ -1332,6 +1350,8 @@ namespace MissionPlanner
                 {
                     using (XmlTextReader xmlreader = new XmlTextReader(Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + @"config.xml"))
                     {
+                        log.Info("Loading config");
+
                         while (xmlreader.Read())
                         {
                             xmlreader.MoveToElement();
@@ -2070,7 +2090,11 @@ namespace MissionPlanner
             }
             catch (Exception ex) { log.Error(ex); }
 
-
+            try
+            {
+                tfr.GetTFRs();
+            }
+            catch (Exception ex) { log.Error(ex); }
 
             MissionPlanner.Utilities.Tracking.AddTiming("AppLoad", "Load Time", (DateTime.Now - Program.starttime).TotalMilliseconds, "");
 
@@ -2360,19 +2384,19 @@ namespace MissionPlanner
                     switch ((Common.distances)Enum.Parse(typeof(Common.distances), MainV2.config["distunits"].ToString()))
                     {
                         case Common.distances.Meters:
-                            MainV2.comPort.MAV.cs.multiplierdist = 1;
-                            MainV2.comPort.MAV.cs.DistanceUnit = "m";
+                            CurrentState.multiplierdist = 1;
+                            CurrentState.DistanceUnit = "m";
                             break;
                         case Common.distances.Feet:
-                            MainV2.comPort.MAV.cs.multiplierdist = 3.2808399f;
-                            MainV2.comPort.MAV.cs.DistanceUnit = "ft";
+                            CurrentState.multiplierdist = 3.2808399f;
+                            CurrentState.DistanceUnit = "ft";
                             break;
                     }
                 }
                 else
                 {
-                    MainV2.comPort.MAV.cs.multiplierdist = 1;
-                    MainV2.comPort.MAV.cs.DistanceUnit = "m";
+                    CurrentState.multiplierdist = 1;
+                    CurrentState.DistanceUnit = "m";
                 }
 
                 // speed
@@ -2381,31 +2405,31 @@ namespace MissionPlanner
                     switch ((Common.speeds)Enum.Parse(typeof(Common.speeds), MainV2.config["speedunits"].ToString()))
                     {
                         case Common.speeds.ms:
-                            MainV2.comPort.MAV.cs.multiplierspeed = 1;
-                            MainV2.comPort.MAV.cs.SpeedUnit = "m/s";
+                            CurrentState.multiplierspeed = 1;
+                            CurrentState.SpeedUnit = "m/s";
                             break;
                         case Common.speeds.fps:
-                            MainV2.comPort.MAV.cs.multiplierdist = 3.2808399f;
-                            MainV2.comPort.MAV.cs.SpeedUnit = "fps";
+                            CurrentState.multiplierdist = 3.2808399f;
+                            CurrentState.SpeedUnit = "fps";
                             break;
                         case Common.speeds.kph:
-                            MainV2.comPort.MAV.cs.multiplierspeed = 3.6f;
-                            MainV2.comPort.MAV.cs.SpeedUnit = "kph";
+                            CurrentState.multiplierspeed = 3.6f;
+                            CurrentState.SpeedUnit = "kph";
                             break;
                         case Common.speeds.mph:
-                            MainV2.comPort.MAV.cs.multiplierspeed = 2.23693629f;
-                            MainV2.comPort.MAV.cs.SpeedUnit = "mph";
+                            CurrentState.multiplierspeed = 2.23693629f;
+                            CurrentState.SpeedUnit = "mph";
                             break;
                         case Common.speeds.knots:
-                            MainV2.comPort.MAV.cs.multiplierspeed = 1.94384449f;
-                            MainV2.comPort.MAV.cs.SpeedUnit = "knots";
+                            CurrentState.multiplierspeed = 1.94384449f;
+                            CurrentState.SpeedUnit = "knots";
                             break;
                     }
                 }
                 else
                 {
-                    MainV2.comPort.MAV.cs.multiplierspeed = 1;
-                    MainV2.comPort.MAV.cs.SpeedUnit = "m/s";
+                    CurrentState.multiplierspeed = 1;
+                    CurrentState.SpeedUnit = "m/s";
                 }
             }
             catch { }
@@ -2709,6 +2733,8 @@ namespace MissionPlanner
         private void readonlyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MainV2.comPort.ReadOnly = readonlyToolStripMenuItem.Checked;
-        }    
+        }
+
+        
     }
 }

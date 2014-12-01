@@ -18,16 +18,16 @@ namespace MissionPlanner
         internal MAVState parent;
 
         // multipliers
-        public float multiplierdist = 1;
-        public string DistanceUnit = "";
-        public float multiplierspeed = 1;
-        public string SpeedUnit = "";
+        public static float multiplierdist = 1;
+        public static string DistanceUnit = "";
+        public static float multiplierspeed = 1;
+        public static string SpeedUnit = "";
 
-        public double toDistDisplayUnit(double input) { return input * multiplierdist; }
-        public double toSpeedDisplayUnit(double input) { return input * multiplierspeed; }
+        public static double toDistDisplayUnit(double input) { return input * multiplierdist; }
+        public static double toSpeedDisplayUnit(double input) { return input * multiplierspeed; }
 
-        public double fromDistDisplayUnit(double input) { return input / multiplierdist; }
-        public double fromSpeedDisplayUnit(double input) { return input / multiplierspeed; }
+        public static double fromDistDisplayUnit(double input) { return input / multiplierdist; }
+        public static double fromSpeedDisplayUnit(double input) { return input / multiplierspeed; }
 
         // orientation - rads
         [DisplayText("Roll (deg)")]
@@ -315,7 +315,7 @@ namespace MissionPlanner
         {
             get
             {
-                if (lat == 0 && lng == 0)
+                if (lat == 0 && lng == 0 || TrackerLocation.Lat == 0)
                     return 0;
 
                 // shrinking factor for longitude going to poles direction
@@ -559,11 +559,11 @@ namespace MissionPlanner
 
             if (desc.Contains("(dist)"))
             {
-                desc = desc.Replace("(dist)", "(" + MainV2.comPort.MAV.cs.DistanceUnit + ")");
+                desc = desc.Replace("(dist)", "(" + CurrentState.DistanceUnit + ")");
             }
             else if (desc.Contains("(speed)"))
             {
-                desc = desc.Replace("(speed)", "(" + MainV2.comPort.MAV.cs.SpeedUnit + ")");
+                desc = desc.Replace("(speed)", "(" + CurrentState.SpeedUnit + ")");
             }
 
             return desc;
@@ -864,6 +864,11 @@ namespace MissionPlanner
                             messageHigh = "Bad Baro Health";
                             messageHighTime = DateTime.Now;
                         }
+                        else if (sensors_health.LASER_POSITION != sensors_enabled.LASER_POSITION && sensors_present.LASER_POSITION)
+                        {
+                            messageHigh = "Bad LiDAR Health";
+                            messageHighTime = DateTime.Now;
+                        }                            
                         else if (sensors_health.optical_flow != sensors_enabled.optical_flow && sensors_present.optical_flow)
                         {
                             messageHigh = "Bad OptFlow Health";

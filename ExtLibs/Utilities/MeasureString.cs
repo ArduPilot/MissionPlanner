@@ -24,6 +24,8 @@ namespace System.Drawing
         public static SizeF MeasureStringCache(this Graphics g, string text, Font font)
         {
         //    Console.WriteLine("MeasureStringCache > " + text);
+            if (text == null)
+                return new SizeF();
             return Measure.MeasureString(g, font, text);
         }
     }

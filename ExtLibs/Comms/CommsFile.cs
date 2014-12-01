@@ -16,7 +16,6 @@ namespace MissionPlanner.Comms
         public int bps { get; set; }
         int currentbps = 0;
         int bytecredit = 0;
-        int sleepvalue = 1;
         DateTime lastread = DateTime.MinValue;
         int lastsecond = 0;
 
