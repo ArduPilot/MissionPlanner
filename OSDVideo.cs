@@ -647,7 +647,7 @@ namespace MissionPlanner
             {
                 newManager = new AviManager(System.IO.Path.GetDirectoryName(txtAviFileName.Text) + System.IO.Path.DirectorySeparatorChar + System.IO.Path.GetFileNameWithoutExtension(txtAviFileName.Text) + "-overlay.avi", false);
             }
-            catch { CustomMessageBox.Show("bad filename","error"); return; }
+            catch { CustomMessageBox.Show(Strings.InvalidFileName, Strings.ERROR); return; }
 
 
             //newManager.Close();

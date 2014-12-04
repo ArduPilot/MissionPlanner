@@ -90,7 +90,7 @@ namespace MissionPlanner.Wizard
 
             if (comport == "")
             {
-                CustomMessageBox.Show("Please select a comport", "error");
+                CustomMessageBox.Show(Strings.SelectComport, Strings.ERROR);
                 return 0;
             }
 

@@ -226,7 +226,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (!MainV2.comPort.BaseStream.IsOpen)
                 return;
 
-            if (DialogResult.OK == CustomMessageBox.Show("Update Params\nDON'T DO THIS IF YOU ARE IN THE AIR\n", "Error", MessageBoxButtons.OKCancel))
+            if (DialogResult.OK == CustomMessageBox.Show(Strings.WarningUpdateParamList, Strings.ERROR, MessageBoxButtons.OKCancel))
             {
                 ((Control)sender).Enabled = false;
 
@@ -237,7 +237,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 catch (Exception ex)
                 {
                     log.Error("Exception getting param list", ex);
-                    CustomMessageBox.Show("Error: getting param list", "Error");
+                    CustomMessageBox.Show(Strings.ErrorReceivingParams, Strings.ERROR);
                 }
 
 
@@ -497,7 +497,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                 CustomMessageBox.Show("Your board is now rebooting, You will be required to reconnect to the autopilot.");
                 }
-                catch (Exception ex) { log.Error(ex); CustomMessageBox.Show("Error talking to board."+ex.ToString(), "Error"); }
+                catch (Exception ex) { log.Error(ex); CustomMessageBox.Show(Strings.ErrorCommunicating +"\n"+ ex.ToString(), Strings.ERROR); }
             }
         }
     }

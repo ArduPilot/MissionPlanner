@@ -64,15 +64,15 @@ namespace MissionPlanner
                 {
                     comPort.PortName = CMB_serialport.Text;
                 }
-                catch { CustomMessageBox.Show("Invalid PortName", "Error"); return; }
+                catch { CustomMessageBox.Show(Strings.InvalidPortName, Strings.ERROR); return; }
                 try {
                 comPort.BaudRate = int.Parse(CMB_baudrate.Text);
                 }
-                catch { CustomMessageBox.Show("Invalid BaudRate", "Error"); return; }
+                catch { CustomMessageBox.Show(Strings.InvalidBaudRate, Strings.ERROR); return; }
                 try {
                 comPort.Open();
                 }
-                catch (Exception ex) { CustomMessageBox.Show("Error Connecting\nif using com0com please rename the ports to COM??\n" + ex.ToString(), "Error"); return; }
+                catch (Exception ex) { CustomMessageBox.Show("Error Connecting\nif using com0com please rename the ports to COM??\n" + ex.ToString(), Strings.ERROR); return; }
 
                 t12 = new System.Threading.Thread(new System.Threading.ThreadStart(mainloop))
                 {
@@ -238,7 +238,7 @@ namespace MissionPlanner
             {
                 updaterate = float.Parse(CMB_updaterate.Text.Replace("hz", ""));
             }
-            catch { CustomMessageBox.Show("Bad Update Rate", "Error"); }
+            catch { CustomMessageBox.Show(Strings.InvalidUpdateRate, Strings.ERROR); }
         }
 
         private void CHK_updateRallyPnt_CheckedChanged(object sender, EventArgs e)

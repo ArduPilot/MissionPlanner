@@ -321,7 +321,7 @@ namespace MissionPlanner.Presenter
 
             if (_errors.Count != errCount)
             {
-                this.RaisePropertyChanged("Error", false);
+                this.RaisePropertyChanged(Strings.ERROR, false);
             }
 
             HasError = _errors.Count > 0;

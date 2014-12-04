@@ -159,7 +159,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         MainV2.comPort.setParam("SUPER_SIMPLE", value);
                 }
             }
-            catch { CustomMessageBox.Show("Failed to set Flight modes", "Error"); }
+            catch { CustomMessageBox.Show(Strings.ErrorSettingParameter, Strings.ERROR); }
             BUT_SaveModes.Text = "Complete";
         }
 

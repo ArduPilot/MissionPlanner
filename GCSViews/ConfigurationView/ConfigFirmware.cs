@@ -256,7 +256,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
                 else
                 {
-                    CustomMessageBox.Show("Error uploading firmware","Error");
+                    CustomMessageBox.Show("Error uploading firmware",Strings.ERROR);
                 }
             }
 
@@ -266,7 +266,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             if (((Control)sender).Tag.GetType() != typeof(Utilities.Firmware.software))
             {
-                CustomMessageBox.Show("Bad Firmware", "Error"); return;
+                CustomMessageBox.Show(Strings.ErrorFirmwareFile, Strings.ERROR); return;
             }
 
             findfirmware((Utilities.Firmware.software)((Control)sender).Tag);
@@ -291,14 +291,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.progress.Refresh();
         }
 
-        private void FirmwareVisual_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (flashing == true)
-            {
-                e.Cancel = true;
-                CustomMessageBox.Show("Cant exit while updating", "Error");
-            }
-        }
 
         private void CMB_history_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -346,7 +338,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
                 catch
                 {
-                    CustomMessageBox.Show("Can not connect to com port and detect board type", "Error");
+                    CustomMessageBox.Show("Can not connect to com port and detect board type", Strings.ERROR);
                     return;
                 }
 
@@ -421,7 +413,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 lbl_status.Text = "Done";
                 Application.DoEvents();
             }
-            catch { CustomMessageBox.Show("Error receiving firmware", "Error"); return; }
+            catch { CustomMessageBox.Show("Error receiving firmware", Strings.ERROR); return; }
 
             SaveFileDialog sfd = new SaveFileDialog();
             sfd.FileName = "px4io.bin";
@@ -447,7 +439,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 System.Diagnostics.Process.Start("http://firmware.diydrones.com/");
             }
-            catch { CustomMessageBox.Show("Can not open url http://firmware.diydrones.com/", "Error"); }
+            catch { CustomMessageBox.Show("Can not open url http://firmware.diydrones.com/", Strings.ERROR); }
         }
 
         private void lbl_px4bl_Click(object sender, EventArgs e)
@@ -466,7 +458,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     throw new Exception();
                 }
             }
-            catch { CustomMessageBox.Show("Failed to connect and send the reboot command","Error"); }
+            catch { CustomMessageBox.Show("Failed to connect and send the reboot command",Strings.ERROR); }
         }
     }
 }

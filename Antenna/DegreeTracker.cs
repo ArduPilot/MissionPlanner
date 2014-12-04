@@ -42,24 +42,11 @@ namespace MissionPlanner.Antenna
 
         public bool Init()
         {
-
-/*            if ((PanStartRange - PanEndRange) == 0)
-            {
-                System.Windows.Forms.CustomMessageBox.Show("Invalid Pan Range", "Error");
-                return false;
-            }
-
-            if ((TiltStartRange - TiltEndRange) == 0)
-            {
-                System.Windows.Forms.CustomMessageBox.Show("Invalid Tilt Range", "Error");
-                return false;
-            }
-*/
             try
             {
                 ComPort.Open();
             }
-            catch (Exception ex) { CustomMessageBox.Show("Connect failed " + ex.Message, "Error"); return false; }
+            catch (Exception ex) { CustomMessageBox.Show(Strings.ErrorConnecting + ex.Message, Strings.ERROR); return false; }
 
             return true;
         }

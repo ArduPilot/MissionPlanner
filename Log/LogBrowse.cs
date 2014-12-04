@@ -257,7 +257,7 @@ namespace MissionPlanner.Log
 
                 if (DFLog.logformat.Count == 0)
                 {
-                    CustomMessageBox.Show("Log Browse will not function correctly without FMT messages in your log.\nThese appear to be missing from your log.", "Error");
+                    CustomMessageBox.Show(Strings.WarningLogBrowseFMTMissing, Strings.ERROR);
                     this.Close();
                     return;
                 }
@@ -551,13 +551,13 @@ namespace MissionPlanner.Log
         {
             if (dataGridView1 == null || dataGridView1.RowCount == 0 || dataGridView1.ColumnCount == 0)
             {
-                CustomMessageBox.Show("Please load a valid file", "Error");
+                CustomMessageBox.Show(Strings.PleaseLoadValidFile, Strings.ERROR);
                 return;
             }
 
             if (dataGridView1.CurrentCell == null)
             {
-                CustomMessageBox.Show("Please select a cell first", "Error");
+                CustomMessageBox.Show(Strings.PleaseSelectCell, Strings.ERROR);
                 return;
             }
 
@@ -567,25 +567,25 @@ namespace MissionPlanner.Log
 
             if (col == 0)
             {
-                CustomMessageBox.Show("Please pick another column, Highlight the cell you wish to graph", "Error");
+                CustomMessageBox.Show("Please pick another column, Highlight the cell you wish to graph", Strings.ERROR);
                 return;
             }
 
             if (!DFLog.logformat.ContainsKey(type))
             {
-                CustomMessageBox.Show("Your log file doesnt contain the required FMT messages","Error");
+                CustomMessageBox.Show(Strings.NoFMTMessage + type, Strings.ERROR);
                 return;
             }
 
             if ((col - typecoloum - 1) < 0)
             {
-                CustomMessageBox.Show("Cannot graph this field", "Error");
+                CustomMessageBox.Show(Strings.CannotGraphField, Strings.ERROR);
                 return;
             }
 
             if (DFLog.logformat[type].FieldNames.Length <= (col - typecoloum - 1))
             {
-                CustomMessageBox.Show("Invalid Field (not in FMT)", "Error");
+                CustomMessageBox.Show(Strings.InvalidField, Strings.ERROR);
                 return;
             }
 
@@ -617,7 +617,7 @@ namespace MissionPlanner.Log
 
             if (!DFLog.logformat.ContainsKey(type))
             {
-                CustomMessageBox.Show("No FMT message for "+type + " - " + fieldname,"Error");
+                CustomMessageBox.Show(Strings.NoFMTMessage + type + " - " + fieldname, Strings.ERROR);
                 return;
             }
 

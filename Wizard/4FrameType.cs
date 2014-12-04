@@ -66,8 +66,8 @@ namespace MissionPlanner.Wizard
             {
                 setframeType(sender);
             }
-            catch { 
-                CustomMessageBox.Show("Error setting frame type, ensure your autopilot is still connected. Exiting wizard","Error");
+            catch {
+                CustomMessageBox.Show(Strings.ErrorNotConnected, Strings.ERROR);
                 Wizard.instance.Close();
             }
         }
@@ -87,7 +87,7 @@ namespace MissionPlanner.Wizard
         {
             if (!MainV2.comPort.BaseStream.IsOpen)
             {
-                CustomMessageBox.Show("You are no longer connected to the board\n the wizard will now exit", "Error");
+                CustomMessageBox.Show(Strings.ErrorNotConnected, Strings.ERROR);
                 Wizard.instance.Close();
                 return;
             }

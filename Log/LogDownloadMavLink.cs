@@ -80,7 +80,7 @@ namespace MissionPlanner.Log
                     TXT_seriallog.AppendText("No logs to download");
                 }
             }
-            catch { CustomMessageBox.Show("Cannot get log list.","Error"); this.Close(); }
+            catch { CustomMessageBox.Show(Strings.ErrorLogList, Strings.ERROR); this.Close(); }
 
             status = serialstatus.Done;
         }
@@ -195,7 +195,7 @@ namespace MissionPlanner.Log
                     File.Move(logfile.Replace(".log", ""), newlogfilename.Replace(".log", ".bin"));
                     logfile = newlogfilename;
                 }
-                catch  { CustomMessageBox.Show("Failed to rename file " + logfile + "\nto " + newlogfilename, "Error"); }
+                catch  { CustomMessageBox.Show(Strings.ErrorRenameFile+ " " + logfile + "\nto " + newlogfilename, Strings.ERROR); }
             }
 
             return logfile;
@@ -302,7 +302,7 @@ namespace MissionPlanner.Log
                     updateDisplay();
                     CHK_logs.Items.Clear();
                 }
-                catch (Exception ex) { CustomMessageBox.Show(ex.Message, "Error"); }
+                catch (Exception ex) { CustomMessageBox.Show(ex.Message, Strings.ERROR); }
             }
         }
 

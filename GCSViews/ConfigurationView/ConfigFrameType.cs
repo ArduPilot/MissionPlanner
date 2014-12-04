@@ -156,7 +156,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
             catch
             {
-                CustomMessageBox.Show("Set frame failed", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                CustomMessageBox.Show(String.Format(Strings.ErrorSetValueFailed, "FRAME"), Strings.ERROR, MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 

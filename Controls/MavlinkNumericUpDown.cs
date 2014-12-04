@@ -94,9 +94,9 @@ namespace MissionPlanner.Controls
             {
                 bool ans = MainV2.comPort.setParam(ParamName, (float)this.Value * _scale);
                 if (ans == false)
-                    CustomMessageBox.Show("Set " + ParamName + " Failed 1!", "Error");
+                    CustomMessageBox.Show(String.Format(Strings.ErrorSetValueFailed,ParamName), Strings.ERROR);
             }
-            catch { CustomMessageBox.Show("Set " + ParamName + " Failed 2!", "Error"); }
+            catch { CustomMessageBox.Show(String.Format(Strings.ErrorSetValueFailed, ParamName), Strings.ERROR); }
         }
 
     }

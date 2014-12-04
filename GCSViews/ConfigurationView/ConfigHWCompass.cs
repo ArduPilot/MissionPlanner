@@ -52,7 +52,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 if (MainV2.comPort.MAV.param["COMPASS_DEC"] == null)
                 {
-                    CustomMessageBox.Show("Not Available", "Error");
+                    CustomMessageBox.Show(Strings.ErrorFeatureNotEnabled, Strings.ERROR);
                 }
                 else
                 {
@@ -67,10 +67,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                         MainV2.comPort.setParam("COMPASS_DEC", dec * deg2rad);
                     }
-                    catch { CustomMessageBox.Show("Invalid input!", "Error"); return; }
+                    catch { CustomMessageBox.Show(Strings.InvalidNumberEntered, Strings.ERROR); return; }
                 }
             }
-            catch { CustomMessageBox.Show("Set COMPASS_DEC Failed", "Error"); }
+            catch { CustomMessageBox.Show(String.Format(Strings.ErrorSetValueFailed, "COMPASS_DEC"), Strings.ERROR); }
         }
 
 
@@ -95,14 +95,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 if (MainV2.comPort.MAV.param["MAG_ENABLE"] == null)
                 {
-                    CustomMessageBox.Show("Not Available", "Error");
+                    CustomMessageBox.Show(Strings.ErrorFeatureNotEnabled, Strings.ERROR);
                 }
                 else
                 {
                     MainV2.comPort.setParam("MAG_ENABLE", ((CheckBox)sender).Checked == true ? 1 : 0);
                 }
             }
-            catch { CustomMessageBox.Show("Set MAG_ENABLE Failed", "Error"); }
+            catch { CustomMessageBox.Show(String.Format(Strings.ErrorSetValueFailed, "MAG_ENABLE"), Strings.ERROR); }
         }
 
  

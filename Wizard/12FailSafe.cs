@@ -114,7 +114,7 @@ namespace MissionPlanner.Wizard
             {
                 MainV2.comPort.setParam(Name, float.Parse(Value));
             }
-            catch (Exception ex) { CustomMessageBox.Show("Failed to set Param " + Name + ", Check your autopilot.\n"+ex.ToString(),"Error"); }
+            catch (Exception ex) { CustomMessageBox.Show(Strings.ErrorSettingParameter + Name +"\n"+ex.ToString(),Strings.ERROR); }
         }
 
         /// <summary>

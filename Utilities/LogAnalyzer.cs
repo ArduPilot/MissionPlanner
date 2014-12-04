@@ -78,7 +78,7 @@ LogAnalyzer.main()
 
                 stringresult = Encoding.ASCII.GetString(memstream.GetBuffer());
             }
-            catch (Exception ex) { log.Error(ex); CustomMessageBox.Show(ex.Message, "Error"); return ""; }
+            catch (Exception ex) { log.Error(ex); CustomMessageBox.Show(ex.Message, Strings.ERROR); return ""; }
 
             engine = null;
 

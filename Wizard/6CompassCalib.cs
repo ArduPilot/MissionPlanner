@@ -57,7 +57,7 @@ namespace MissionPlanner.Wizard
         {
             if (!MainV2.comPort.BaseStream.IsOpen)
             {
-                CustomMessageBox.Show("You are no longer connected to the board\n the wizard will now exit","Error");
+                CustomMessageBox.Show(Strings.ErrorNotConnected, Strings.ERROR);
                 Wizard.instance.Close();
             }
 
@@ -72,7 +72,7 @@ namespace MissionPlanner.Wizard
             }
             catch
             {
-                CustomMessageBox.Show("You are no longer connected to the board\n the wizard will now exit", "Error");
+                CustomMessageBox.Show(Strings.ErrorNotConnected, Strings.ERROR);
                 Wizard.instance.Close();
             }
 

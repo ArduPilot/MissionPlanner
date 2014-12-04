@@ -33,14 +33,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 if (MainV2.comPort.MAV.param["ARSPD_ENABLE"] == null)
                 {
-                    CustomMessageBox.Show("Not Available on " + MainV2.comPort.MAV.cs.firmware.ToString(), "Error");
+                    CustomMessageBox.Show(Strings.ErrorFeatureNotEnabled, Strings.ERROR);
                 }
                 else
                 {
                     MainV2.comPort.setParam("ARSPD_ENABLE", ((CheckBox)sender).Checked == true ? 1 : 0);
                 }
             }
-            catch { CustomMessageBox.Show("Set ARSPD_ENABLE Failed", "Error"); }
+            catch { CustomMessageBox.Show(String.Format(Strings.ErrorSetValueFailed, "ARSPD_ENABLE"), Strings.ERROR); }
         }
 
         public void Activate()

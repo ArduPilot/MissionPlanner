@@ -537,6 +537,11 @@
     <Compile Include="ScriptConsole.Designer.cs">
       <DependentUpon>ScriptConsole.cs</DependentUpon>
     </Compile>
+    <Compile Include="Strings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
     <Compile Include="Swarm\FollowPathControl.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -911,6 +916,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ScriptConsole.zh-TW.resx">
       <DependentUpon>ScriptConsole.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Strings.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Warnings\WarningControl.resx">
       <DependentUpon>WarningControl.cs</DependentUpon>

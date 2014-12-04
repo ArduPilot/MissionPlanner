@@ -216,7 +216,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (!MainV2.comPort.BaseStream.IsOpen)
                 return;
 
-            if (DialogResult.OK == CustomMessageBox.Show("Update Params\nDON'T DO THIS IF YOU ARE IN THE AIR\n", "Error", MessageBoxButtons.OKCancel))
+            if (DialogResult.OK == CustomMessageBox.Show(Strings.WarningUpdateParamList, Strings.ERROR, MessageBoxButtons.OKCancel))
             {
                 ((Control)sender).Enabled = false;
 
@@ -227,7 +227,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 catch (Exception ex)
                 {
                     log.Error("Exception getting param list", ex);
-                    CustomMessageBox.Show("Error: getting param list", "Error");
+                    CustomMessageBox.Show(Strings.ErrorReceivingParams, Strings.ERROR);
                 }
 
 

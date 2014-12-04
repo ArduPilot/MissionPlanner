@@ -825,7 +825,7 @@ namespace MissionPlanner
             }
             catch (Exception ex)
             {
-                CustomMessageBox.Show("Error closing log files (Out of disk space?)\n" + ex.Message, "Error");
+                CustomMessageBox.Show(Strings.ErrorClosingLogFile + "\n" + ex.Message, Strings.ERROR);
             }
 
             comPort.logfile = null;

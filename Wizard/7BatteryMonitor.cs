@@ -107,7 +107,7 @@ namespace MissionPlanner.Wizard
             {
                 if (!MainV2.comPort.MAV.param.ContainsKey("BATT_CAPACITY"))
                 {
-                    CustomMessageBox.Show("Missing BATT_CAPACITY param, somethign is wrong.", "Error"); MainV2.comPort.getParamList();
+                    CustomMessageBox.Show("Missing BATT_CAPACITY param, something is wrong.", Strings.ERROR); MainV2.comPort.getParamList();
                 }
 
                 txt_mah.Text = MainV2.comPort.MAV.param["BATT_CAPACITY"].ToString();

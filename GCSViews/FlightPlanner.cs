@@ -3703,7 +3703,7 @@ namespace MissionPlanner.GCSViews
             }
             catch (Exception ex)
             {
-                CustomMessageBox.Show("Failed to send new fence points "+ ex.ToString(),"Error");
+                CustomMessageBox.Show("Failed to send new fence points "+ ex.ToString(),Strings.ERROR);
             }
         }
 
@@ -3736,7 +3736,7 @@ namespace MissionPlanner.GCSViews
                     PointLatLngAlt plla = MainV2.comPort.getFencePoint(a, ref count);
                     geofencepolygon.Points.Add(new PointLatLng(plla.Lat, plla.Lng));
                 }
-                catch { CustomMessageBox.Show("Failed to get fence point", "Error"); return; }
+                catch { CustomMessageBox.Show("Failed to get fence point", Strings.ERROR); return; }
             }
 
             // do return location
@@ -4065,7 +4065,7 @@ namespace MissionPlanner.GCSViews
         {
             if (!cmdParamNames.ContainsKey("DO_SET_ROI"))
             {
-                CustomMessageBox.Show("Command not supported","Error");
+                CustomMessageBox.Show(Strings.ErrorFeatureNotEnabled, Strings.ERROR);
                 return;
             }
 
@@ -5428,7 +5428,7 @@ namespace MissionPlanner.GCSViews
                 {
                     Commands.Rows.Insert(int.Parse(wpno), 1);
                 }
-                catch { CustomMessageBox.Show("Invalid insert position", "Error"); return; }
+                catch { CustomMessageBox.Show("Invalid insert position", Strings.ERROR); return; }
 
                 selectedrow = int.Parse(wpno);
 
@@ -5463,7 +5463,7 @@ namespace MissionPlanner.GCSViews
                     PointLatLngAlt plla = MainV2.comPort.getRallyPoint(a, ref count);
                     rallypointoverlay.Markers.Add(new GMapMarkerRallyPt(new PointLatLng(plla.Lat, plla.Lng)) { Alt = (int)plla.Alt, ToolTipMode = MarkerTooltipMode.OnMouseOver, ToolTipText = "Rally Point" + "\nAlt: " + (plla.Alt * CurrentState.multiplierdist) });
                 }
-                catch { CustomMessageBox.Show("Failed to get rally point", "Error"); return; }
+                catch { CustomMessageBox.Show("Failed to get rally point", Strings.ERROR); return; }
             }
 
             MainMap.UpdateMarkerLocalPosition(rallypointoverlay.Markers[0]);
@@ -5484,7 +5484,7 @@ namespace MissionPlanner.GCSViews
                     MainV2.comPort.setRallyPoint(count, new PointLatLngAlt(pnt.Position) { Alt = pnt.Alt }, 0, 0, 0, (byte)(float)MainV2.comPort.MAV.param["RALLY_TOTAL"]);
                     count++;
                 }
-                catch { CustomMessageBox.Show("Failed to save rally point", "Error"); return; }
+                catch { CustomMessageBox.Show("Failed to save rally point", Strings.ERROR); return; }
             }
         }
 
@@ -5512,7 +5512,7 @@ namespace MissionPlanner.GCSViews
             }
             else
             {
-                CustomMessageBox.Show("Bad Altitude","error");
+                CustomMessageBox.Show(Strings.InvalidAlt, Strings.ERROR);
             }
         }
 
@@ -5944,7 +5944,7 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                 {
                     Commands.Rows.Insert(int.Parse(wpno), 1);
                 }
-                catch { CustomMessageBox.Show("Invalid insert position", "Error"); return; }
+                catch { CustomMessageBox.Show(Strings.InvalidNumberEntered, Strings.ERROR); return; }
 
                 selectedrow = int.Parse(wpno);
 

@@ -626,7 +626,7 @@ namespace MissionPlanner.Utilities
             }
             catch (Exception ex)
             {
-                CustomMessageBox.Show("Error loading firmware file\n\n" + ex.ToString(), "Error");
+                CustomMessageBox.Show(Strings.ErrorFirmwareFile + "\n\n" + ex.ToString(), Strings.ERROR);
                 return false;
             }
 
@@ -807,7 +807,7 @@ namespace MissionPlanner.Utilities
             }
             catch (Exception ex)
             {
-                CustomMessageBox.Show("Error loading firmware file\n\n" + ex.ToString(), "Error");
+                CustomMessageBox.Show(Strings.ErrorFirmwareFile + "\n\n" + ex.ToString(), Strings.ERROR);
                 return false;
             }
 

@@ -281,7 +281,7 @@ namespace MissionPlanner.Log
                                     File.Move(logfile, newlogfilename);
                                     logfile = newlogfilename;
                                 }
-                                catch (Exception ex) { log.Error(ex); CustomMessageBox.Show("Failed to rename file " + logfile + "\nto " + newlogfilename, "Error"); }
+                                catch (Exception ex) { log.Error(ex); CustomMessageBox.Show("Failed to rename file " + logfile + "\nto " + newlogfilename, Strings.ERROR); }
                             }
 
                             TextReader tr = new StreamReader(logfile);
@@ -452,7 +452,7 @@ namespace MissionPlanner.Log
 
                 Console.Beep();
             }
-            catch (Exception ex) { CustomMessageBox.Show(ex.Message,"Error"); }
+            catch (Exception ex) { CustomMessageBox.Show(ex.Message,Strings.ERROR); }
         }
 
         private void downloadsinglethread()
@@ -480,7 +480,7 @@ namespace MissionPlanner.Log
 
                 Console.Beep();
             }
-            catch (Exception ex) { CustomMessageBox.Show(ex.Message, "Error"); }
+            catch (Exception ex) { CustomMessageBox.Show(ex.Message, Strings.ERROR); }
         }
 
         private void BUT_DLthese_Click(object sender, EventArgs e)
@@ -504,7 +504,7 @@ namespace MissionPlanner.Log
                 status = serialstatus.Done;
                 CHK_logs.Items.Clear();
             }
-            catch (Exception ex) { CustomMessageBox.Show(ex.Message, "Error"); }
+            catch (Exception ex) { CustomMessageBox.Show(ex.Message, Strings.ERROR); }
         }
 
         private void BUT_redokml_Click(object sender, EventArgs e)

@@ -132,7 +132,7 @@ namespace MissionPlanner.Antenna
                     BaudRate = int.Parse(CMB_baudrate.Text)
                 };
             }
-            catch (Exception ex) { CustomMessageBox.Show("Bad Port settings " + ex.Message,"Error"); return; }
+            catch (Exception ex) { CustomMessageBox.Show(Strings.ErrorConnecting + ex.Message, Strings.ERROR); return; }
 
             try
             {
@@ -158,7 +158,7 @@ namespace MissionPlanner.Antenna
                 tracker.TiltSpeed = int.Parse(TXT_tiltspeed.Text);
                 tracker.TiltAccel = int.Parse(TXT_tiltaccel.Text);
             }
-            catch (Exception ex) { CustomMessageBox.Show("Bad User input " + ex.Message,"Error"); return; }
+            catch (Exception ex) { CustomMessageBox.Show(Strings.InvalidNumberEntered + ex.Message, Strings.ERROR); return; }
 
             if (tracker.Init())
             {
@@ -175,7 +175,7 @@ namespace MissionPlanner.Antenna
                         tracker.PanAndTilt(0, 0);
                     }
                     catch (Exception ex) { 
-                        CustomMessageBox.Show("Failed to set initial pan and tilt\n" + ex.Message, "Error");
+                        CustomMessageBox.Show("Failed to set initial pan and tilt\n" + ex.Message, Strings.ERROR);
                         tracker.Close();
                         return;
                     }
@@ -284,7 +284,7 @@ namespace MissionPlanner.Antenna
 
             if (snr == 0)
             {
-                CustomMessageBox.Show("No valid 3dr radio","Error");
+                CustomMessageBox.Show("No valid 3dr radio",Strings.ERROR);
                 return;
             }
 

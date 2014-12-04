@@ -275,7 +275,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
                 catch
                 {
-                    CustomMessageBox.Show("Set " + value + " Failed", "Error");
+                    CustomMessageBox.Show(String.Format(Strings.ErrorSetValueFailed, value), Strings.ERROR);
                 }
             }
         }
@@ -298,7 +298,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
             catch (Exception ex)
             {
-                CustomMessageBox.Show("Error: getting param list " + ex.ToString(), "Error");
+                CustomMessageBox.Show(Strings.ErrorReceivingParams + ex.ToString(), Strings.ERROR);
             }
 
 

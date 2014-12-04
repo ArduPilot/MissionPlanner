@@ -747,7 +747,7 @@ Please check the following
             foreach (string item in MAV.param.Keys)
             {
                 if (float.IsNaN((float)MAV.param[item]))
-                    CustomMessageBox.Show("BAD PARAM, "+item+" = NAN \n Fix this NOW!!","Error");
+                    CustomMessageBox.Show("BAD PARAM, "+item+" = NAN \n Fix this NOW!!",Strings.ERROR);
             }
         }
 

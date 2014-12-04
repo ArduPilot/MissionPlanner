@@ -45,13 +45,13 @@ namespace MissionPlanner.Antenna
 
             if ((PanStartRange - PanEndRange) == 0)
             {
-                CustomMessageBox.Show("Invalid Pan Range", "Error");
+                CustomMessageBox.Show(Strings.InvalidPanRange,Strings.ERROR);
                 return false;
             }
 
             if ((TiltStartRange - TiltEndRange) == 0)
             {
-                CustomMessageBox.Show("Invalid Tilt Range", "Error");
+                CustomMessageBox.Show(Strings.InvalidTiltRange,Strings.ERROR);
                 return false;
             }
 
@@ -59,7 +59,7 @@ namespace MissionPlanner.Antenna
             {
                 ComPort.Open();
             }
-            catch (Exception ex) { CustomMessageBox.Show("Connect failed " + ex.Message, "Error"); return false; }
+            catch (Exception ex) { CustomMessageBox.Show(Strings.ErrorConnecting + ex.Message, Strings.ERROR); return false; }
 
             return true;
         }

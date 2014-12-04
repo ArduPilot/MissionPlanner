@@ -76,10 +76,10 @@ namespace MissionPlanner.Controls
                 }
                 else
                 {
-                    CustomMessageBox.Show("Command Failed", "Error");
+                    CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
                 }
             }
-            catch (Exception ex) { CustomMessageBox.Show("Command Failed " + ex.ToString(), "Error"); }
+            catch (Exception ex) { CustomMessageBox.Show(Strings.CommandFailed + ex.ToString(), Strings.ERROR); }
         }
 
         private void BUT_High_Click(object sender, EventArgs e)
@@ -92,10 +92,10 @@ namespace MissionPlanner.Controls
                 }
                 else
                 {
-                    CustomMessageBox.Show("Command Failed", "Error");
+                    CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
                 }
             }
-            catch (Exception ex) { CustomMessageBox.Show("Command Failed " + ex.ToString(), "Error"); }
+            catch (Exception ex) { CustomMessageBox.Show(Strings.CommandFailed + ex.ToString(), Strings.ERROR); }
         }
 
         private void BUT_Repeat_Click(object sender, EventArgs e)
@@ -123,7 +123,7 @@ namespace MissionPlanner.Controls
                     TXT_rcchannel.BackColor = Color.Red;
                 }
             }
-            catch (Exception ex) { CustomMessageBox.Show("Command Failed " + ex.ToString(), "Error"); }
+            catch (Exception ex) { CustomMessageBox.Show(Strings.CommandFailed + ex.ToString(), Strings.ERROR); }
             // MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_SERVO, int.Parse(TXT_rcchannel.Text), int.Parse(TXT_pwm_high.Text), 10, 1000, 0, 0, 0);         
         }
 

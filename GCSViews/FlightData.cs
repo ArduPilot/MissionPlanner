@@ -1568,7 +1568,7 @@ namespace MissionPlanner.GCSViews
 
                     MainV2.comPort.doCommand((MAVLink.MAV_CMD)Enum.Parse(typeof(MAVLink.MAV_CMD), CMB_action.Text), param1, 0, param3, 0, 0, 0, 0);
                 }
-                catch { CustomMessageBox.Show("The Command failed to execute", "Error"); }
+                catch { CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR); }
                 ((Button)sender).Enabled = true;
             }
         }
@@ -1582,7 +1582,7 @@ namespace MissionPlanner.GCSViews
                 MainV2.comPort.setWPCurrent(0); // set nav to
 
             }
-            catch { CustomMessageBox.Show("The command failed to execute", "Error"); }
+            catch { CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR); }
             ((Button)sender).Enabled = true;
         }
 
@@ -1641,7 +1641,7 @@ namespace MissionPlanner.GCSViews
         {
             if (!MainV2.comPort.BaseStream.IsOpen)
             {
-                CustomMessageBox.Show("Please Connect First", "Error");
+                CustomMessageBox.Show(Strings.PleaseConnect, Strings.ERROR);
                 return;
             }
 
@@ -1655,7 +1655,7 @@ namespace MissionPlanner.GCSViews
 
             if (MouseDownStart.Lat == 0 || MouseDownStart.Lng == 0)
             {
-                CustomMessageBox.Show("Bad Lat/Long", "Error");
+                CustomMessageBox.Show(Strings.BadCoords, Strings.ERROR);
                 return;
             }
 
@@ -1670,7 +1670,7 @@ namespace MissionPlanner.GCSViews
             {
                 MainV2.comPort.setGuidedModeWP(gotohere);
             }
-            catch (Exception ex) { MainV2.comPort.giveComport = false; CustomMessageBox.Show("Error sending command : " + ex.Message, "Error"); }
+            catch (Exception ex) { MainV2.comPort.giveComport = false; CustomMessageBox.Show(Strings.CommandFailed + ex.Message, Strings.ERROR); }
 
         }
 
@@ -1819,7 +1819,7 @@ namespace MissionPlanner.GCSViews
                     tracklog.Minimum = 0;
                     tracklog.Maximum = 100;
                 }
-                catch { CustomMessageBox.Show("Error: Failed to read log file", "Error"); }
+                catch { CustomMessageBox.Show(Strings.PleaseLoadValidFile, Strings.ERROR); }
             }
         }
 
@@ -1946,7 +1946,7 @@ namespace MissionPlanner.GCSViews
                 ((Button)sender).Enabled = false;
                 MainV2.comPort.setWPCurrent((ushort)CMB_setwp.SelectedIndex); // set nav to
             }
-            catch { CustomMessageBox.Show("The command failed to execute", "Error"); }
+            catch { CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR); }
             ((Button)sender).Enabled = true;
         }
 
@@ -1991,7 +1991,7 @@ namespace MissionPlanner.GCSViews
                 ((Button)sender).Enabled = false;
                 MainV2.comPort.setMode("Auto");
             }
-            catch { CustomMessageBox.Show("The Command failed to execute", "Error"); }
+            catch { CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR); }
             ((Button)sender).Enabled = true;
         }
 
@@ -2002,7 +2002,7 @@ namespace MissionPlanner.GCSViews
                 ((Button)sender).Enabled = false;
                 MainV2.comPort.setMode("RTL");
             }
-            catch { CustomMessageBox.Show("The Command failed to execute", "Error"); }
+            catch { CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR); }
             ((Button)sender).Enabled = true;
         }
 
@@ -2017,7 +2017,7 @@ namespace MissionPlanner.GCSViews
                     MainV2.comPort.setMode("Loiter");
 
             }
-            catch { CustomMessageBox.Show("The Command failed to execute", "Error"); }
+            catch { CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR); }
             ((Button)sender).Enabled = true;
         }
 
@@ -2839,9 +2839,9 @@ namespace MissionPlanner.GCSViews
 
                 bool ans = MainV2.comPort.doARM(!MainV2.comPort.MAV.cs.armed);
                 if (ans == false)
-                    CustomMessageBox.Show("Error: Arm message rejected by MAV", "Error");
+                    CustomMessageBox.Show(Strings.ErrorRejectedByMAV, Strings.ERROR);
             }
-            catch { CustomMessageBox.Show("Error: No response from MAV", "Error"); }
+            catch { CustomMessageBox.Show(Strings.ErrorNoResponce, Strings.ERROR); }
 
 
         }
@@ -2853,7 +2853,7 @@ namespace MissionPlanner.GCSViews
             {
                 MainV2.comPort.setNewWPAlt(new Locationwp() { alt = newalt / CurrentState.multiplierdist });
             }
-            catch { CustomMessageBox.Show("Error sending new Alt", "Error"); }
+            catch { CustomMessageBox.Show(Strings.ErrorCommunicating, Strings.ERROR); }
             //MainV2.comPort.setNextWPTargetAlt((ushort)MainV2.comPort.MAV.cs.wpno, newalt);
         }
 
@@ -2879,7 +2879,7 @@ namespace MissionPlanner.GCSViews
                 {
                     MainV2.comPort.setParam("WP_SPEED_MAX", ((float)modifyandSetSpeed.Value * 100.0f));
                 }
-                catch { CustomMessageBox.Show("Error sending WP_SPEED_MAX command", "Error"); }
+                catch { CustomMessageBox.Show(String.Format(Strings.ErrorSetValueFailed, "WP_SPEED_MAX"), Strings.ERROR); }
             } // plane with airspeed
             else if (MainV2.comPort.MAV.param.ContainsKey("TRIM_ARSPD_CM") && MainV2.comPort.MAV.param.ContainsKey("ARSPD_ENABLE")
                 && MainV2.comPort.MAV.param.ContainsKey("ARSPD_USE") && (float)MainV2.comPort.MAV.param["ARSPD_ENABLE"] == 1
@@ -2889,7 +2889,7 @@ namespace MissionPlanner.GCSViews
                 {
                     MainV2.comPort.setParam("TRIM_ARSPD_CM", ((float)modifyandSetSpeed.Value * 100.0f));
                 }
-                catch { CustomMessageBox.Show("Error sending TRIM_ARSPD_CM command", "Error"); }
+                catch { CustomMessageBox.Show(String.Format(Strings.ErrorSetValueFailed, "TRIM_ARSPD_CM"), Strings.ERROR); }
             } // plane without airspeed
             else if (MainV2.comPort.MAV.param.ContainsKey("TRIM_THROTTLE") && MainV2.comPort.MAV.param.ContainsKey("ARSPD_USE")
                 && (float)MainV2.comPort.MAV.param["ARSPD_USE"] == 0)
@@ -2898,7 +2898,7 @@ namespace MissionPlanner.GCSViews
                 {
                     MainV2.comPort.setParam("TRIM_THROTTLE", (float)modifyandSetSpeed.Value);
                 }
-                catch { CustomMessageBox.Show("Error sending TRIM_THROTTLE command", "Error"); }
+                catch { CustomMessageBox.Show(String.Format(Strings.ErrorSetValueFailed, "TRIM_THROTTLE"), Strings.ERROR); }
             }
         }
 
@@ -2913,7 +2913,7 @@ namespace MissionPlanner.GCSViews
             {
                 MainV2.comPort.setDigicamControl(true);
             }
-            catch { CustomMessageBox.Show("Error sending command", "Error"); }
+            catch { CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR); }
         }
 
         private void TRK_zoom_Scroll(object sender, EventArgs e)

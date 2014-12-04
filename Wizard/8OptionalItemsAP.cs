@@ -49,7 +49,7 @@ namespace MissionPlanner.Wizard
                 MainV2.comPort.setParam("SR3_RAW_SENS", 2);
                 MainV2.comPort.setParam("SR3_RC_CHAN", 2);
             }
-            catch (Exception ex) { CustomMessageBox.Show("Error setting parameters " + ex.ToString(),"Error"); }
+            catch (Exception ex) { CustomMessageBox.Show(Strings.ErrorSettingParameter + ex.ToString(),Strings.ERROR); }
 
             connected();
         }
@@ -58,7 +58,7 @@ namespace MissionPlanner.Wizard
         {
             if (!MainV2.comPort.BaseStream.IsOpen)
             {
-                CustomMessageBox.Show("Error you are not connected.\n\nExiting wizard, please check your board, and try again", "Error");
+                CustomMessageBox.Show(Strings.ErrorNotConnected, Strings.ERROR);
                 Wizard.instance.Close();
             }
         }
