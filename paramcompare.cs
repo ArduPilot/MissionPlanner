@@ -79,7 +79,7 @@ namespace MissionPlanner
                         }
                     }
                 }
-                catch { CustomMessageBox.Show(Strings.ErrorSettingParamter, Strings.ERROR); return; }
+                catch { CustomMessageBox.Show(Strings.ErrorSettingParameter, Strings.ERROR); return; }
             }
             else
             {
