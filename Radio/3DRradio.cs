@@ -253,7 +253,7 @@ S15: MAX_WINDOW=131
                 {
                     comPort.Open();
                 }
-                catch { CustomMessageBox.Show("Error opening port", Strings.ERROR); return; }
+                catch { CustomMessageBox.Show("Error opening port", "Error"); return; }
 
                 uploader.ProgressEvent += new ProgressEventHandler(uploader_ProgressEvent);
                 uploader.LogEvent += new LogEventHandler(uploader_LogEvent);
@@ -841,7 +841,7 @@ S15: MAX_WINDOW=131
                 BUT_savesettings.Enabled = true;
             }
 
-            catch (Exception ex) { lbl_status.Text = Strings.ERROR; CustomMessageBox.Show("Error during read " + ex.ToString()); return; } 
+            catch (Exception ex) { lbl_status.Text = "Error"; CustomMessageBox.Show("Error during read " + ex.ToString()); return; } 
         }
 
         string Serial_ReadLine(ICommsSerial comPort)
