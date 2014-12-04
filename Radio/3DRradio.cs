@@ -125,6 +125,18 @@ S15: MAX_WINDOW=131
                 }
 
             }
+            else if (device == uploader.Uploader.Board.DEVICE_ID_RFD900U)
+            {
+                if (beta)
+                {
+                    return Common.getFilefromNet("http://rfdesign.com.au/firmware/RFD_SiK_V1.10_BETA_rfd900u.ihx", firmwarefile);
+                }
+                else
+                {
+                    return Common.getFilefromNet("http://rfdesign.com.au/firmware/RFD_SiK_V1.9_rfd900u.ihx", firmwarefile);
+                }
+
+            }
             else
             {
                 return false;
