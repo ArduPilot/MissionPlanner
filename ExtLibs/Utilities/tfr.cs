@@ -44,56 +44,60 @@ namespace MissionPlanner.Utilities
 
         private static void tfrcallback(IAsyncResult ar)
         {
-            // Set the State of request to asynchronous.
-            WebRequest myWebRequest1 = (WebRequest)ar.AsyncState;
-
-            WebResponse response = myWebRequest1.EndGetResponse(ar);
-
-            var st = response.GetResponseStream();
-
-            StreamReader sr = new StreamReader(st);
-
-            string content = sr.ReadToEnd();
-
-            XDocument xdoc = XDocument.Parse(content);
-
-            tfritem currenttfr = new tfritem();
-
-            for (int a = 1; a < 100; a++)
+            try
             {
-                var newtfrs = (from _item in xdoc.Element("TFRSET").Elements("TFR" + a)
-                               select new tfritem
-                               {
-                                   ID = _item.Element("ID").Value,
-                                   NID = _item.Element("NID").Value,
-                                   VERIFIED = _item.Element("VERIFIED").Value,
-                                   NAME = _item.Element("NAME").Value,
-                                   COMMENT = _item.Element("COMMENT").Value,
-                                   ACCESS = _item.Element("ACCESS").Value,
-                                   APPEAR = _item.Element("APPEAR").Value,
-                                   TYPE = _item.Element("TYPE").Value,
-                                   MINALT = _item.Element("MINALT").Value,
-                                   MAXALT = _item.Element("MAXALT").Value,
-                                   SEGS = _item.Element("SEGS").Value,
-                                   BOUND = _item.Element("BOUND").Value,
-                                   SRC = _item.Element("SRC").Value,
-                                   CREATED = _item.Element("CREATED").Value,
-                                   MODIFIED = _item.Element("MODIFIED").Value,
-                                   DELETED = _item.Element("DELETED").Value,
-                                   ACTIVE = _item.Element("ACTIVE").Value,
-                                   EXPIRES = _item.Element("EXPIRES").Value,
-                                   SUBMITID = _item.Element("SUBMITID").Value,
-                                   SUBMITHOST = _item.Element("SUBMITHOST").Value,
-                               }).ToList();
+                // Set the State of request to asynchronous.
+                WebRequest myWebRequest1 = (WebRequest)ar.AsyncState;
 
-                if (newtfrs == null || newtfrs.Count == 0)
-                    break;
+                WebResponse response = myWebRequest1.EndGetResponse(ar);
 
-                tfrs.AddRange(newtfrs);
+                var st = response.GetResponseStream();
+
+                StreamReader sr = new StreamReader(st);
+
+                string content = sr.ReadToEnd();
+
+                XDocument xdoc = XDocument.Parse(content);
+
+                tfritem currenttfr = new tfritem();
+
+                for (int a = 1; a < 100; a++)
+                {
+                    var newtfrs = (from _item in xdoc.Element("TFRSET").Elements("TFR" + a)
+                                   select new tfritem
+                                   {
+                                       ID = _item.Element("ID").Value,
+                                       NID = _item.Element("NID").Value,
+                                       VERIFIED = _item.Element("VERIFIED").Value,
+                                       NAME = _item.Element("NAME").Value,
+                                       COMMENT = _item.Element("COMMENT").Value,
+                                       ACCESS = _item.Element("ACCESS").Value,
+                                       APPEAR = _item.Element("APPEAR").Value,
+                                       TYPE = _item.Element("TYPE").Value,
+                                       MINALT = _item.Element("MINALT").Value,
+                                       MAXALT = _item.Element("MAXALT").Value,
+                                       SEGS = _item.Element("SEGS").Value,
+                                       BOUND = _item.Element("BOUND").Value,
+                                       SRC = _item.Element("SRC").Value,
+                                       CREATED = _item.Element("CREATED").Value,
+                                       MODIFIED = _item.Element("MODIFIED").Value,
+                                       DELETED = _item.Element("DELETED").Value,
+                                       ACTIVE = _item.Element("ACTIVE").Value,
+                                       EXPIRES = _item.Element("EXPIRES").Value,
+                                       SUBMITID = _item.Element("SUBMITID").Value,
+                                       SUBMITHOST = _item.Element("SUBMITHOST").Value,
+                                   }).ToList();
+
+                    if (newtfrs == null || newtfrs.Count == 0)
+                        break;
+
+                    tfrs.AddRange(newtfrs);
+                }
+
+                if (GotTFRs != null)
+                    GotTFRs(tfrs, null);
             }
-
-            if (GotTFRs != null)
-                GotTFRs(tfrs, null);
+            catch {  }
         }
 
         public class tfritem
