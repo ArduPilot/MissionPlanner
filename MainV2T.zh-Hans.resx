@@ -126,13 +126,6 @@
   <data name="DISCONNECTc" xml:space="preserve">
     <value>断开连接</value>
   </data>
-  <data name="Error" xml:space="preserve">
-    <value>错误</value>
-  </data>
-  <data name="Errorclosing" xml:space="preserve">
-    <value>关闭日志文件时发生错误（磁盘空间已满？）
-</value>
-  </data>
   <data name="Failclog" xml:space="preserve">
     <value>Failed to create log - wont log this session</value>
   </data>

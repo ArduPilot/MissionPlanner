@@ -126,12 +126,6 @@
   <data name="DISCONNECTc" xml:space="preserve">
     <value>DISCONNECT</value>
   </data>
-  <data name="Error" xml:space="preserve">
-    <value>Error</value>
-  </data>
-  <data name="Errorclosing" xml:space="preserve">
-    <value>Error closing log files (Out of disk space?)\n</value>
-  </data>
   <data name="Failclog" xml:space="preserve">
     <value>Failed to create log - wont log this session</value>
   </data>

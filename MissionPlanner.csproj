@@ -889,7 +889,9 @@
       <DependentUpon>MainV2.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainV2T.resx" />
-    <EmbeddedResource Include="MainV2T.zh-Hans.resx" />
+    <EmbeddedResource Include="MainV2T.zh-Hans.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Mavlink\MAVLinkT.resx" />
     <EmbeddedResource Include="Mavlink\MAVLinkT.zh-Hans.resx" />
     <EmbeddedResource Include="MovingBase.zh-Hant.resx">
@@ -926,6 +928,10 @@
     <EmbeddedResource Include="Strings.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Strings.zh-Hans.resx">
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Utilities\UpdateT.resx" />
     <EmbeddedResource Include="Utilities\UpdateT.zh-Hans.resx" />
