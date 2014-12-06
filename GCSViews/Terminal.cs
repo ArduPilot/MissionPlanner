@@ -198,7 +198,7 @@ namespace MissionPlanner.GCSViews
         {
             if (e.KeyChar == '\r')
             {
-                
+
                 if (comPort.IsOpen)
                 {
                     try
@@ -232,7 +232,7 @@ namespace MissionPlanner.GCSViews
                             comPort.Write(Encoding.ASCII.GetBytes(cmd + "\r"), 0, cmd.Length + 1);
                         }
                     }
-                    catch { CustomMessageBox.Show("Error writing to com port"); }
+                    catch { CustomMessageBox.Show(Strings.ErrorCommunicating, Strings.ERROR); }
                 }
             }
             /*
@@ -292,10 +292,17 @@ namespace MissionPlanner.GCSViews
         {
             if (comPort == null)
             {
-                comPort = new MissionPlanner.Comms.SerialPort();
-                comPort.PortName = MainV2.comPortName;
-                comPort.BaudRate = int.Parse(MainV2._connectionControl.CMB_baudrate.Text);
-                comPort.ReadBufferSize = 1024 * 1024 * 4;
+                try
+                {
+                    comPort = new MissionPlanner.Comms.SerialPort();
+                    comPort.PortName = MainV2.comPortName;
+                    comPort.BaudRate = int.Parse(MainV2._connectionControl.CMB_baudrate.Text);
+                    comPort.ReadBufferSize = 1024 * 1024 * 4;
+                }
+                catch 
+                { 
+                    CustomMessageBox.Show(Strings.InvalidBaudRate, Strings.ERROR);
+                }
             }
         }
 

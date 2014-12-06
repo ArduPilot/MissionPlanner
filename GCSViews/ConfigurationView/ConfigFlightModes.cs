@@ -318,7 +318,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void linkLabel1_ss_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            System.Diagnostics.Process.Start("http://copter.ardupilot.com/wiki/flight-modes/simpleandsuper-simple-modes/");
+            try
+            {
+                System.Diagnostics.Process.Start("http://copter.ardupilot.com/wiki/flight-modes/simpleandsuper-simple-modes/");
+            }
+            catch { CustomMessageBox.Show(Strings.ERROR + " http://copter.ardupilot.com/wiki/flight-modes/simpleandsuper-simple-modes/"); }
         }
 
         private void flightmode_SelectedIndexChanged(object sender, EventArgs e)

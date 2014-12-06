@@ -163,10 +163,14 @@ namespace MissionPlanner.Comms
                     catch { }
                 }
 
-                string[] ports = System.IO.Ports.SerialPort.GetPortNames()
-                .Select(p => p.TrimEnd())
-                .Select(FixBlueToothPortNameBug)
-                .ToArray();
+                try
+                {
+                    string[] ports = System.IO.Ports.SerialPort.GetPortNames()
+                    .Select(p => p.TrimEnd())
+                    .Select(FixBlueToothPortNameBug)
+                    .ToArray();
+                }
+                catch { }
 
                 allPorts.AddRange(ports);
 

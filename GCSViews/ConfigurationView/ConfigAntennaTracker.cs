@@ -129,7 +129,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         }
 
 
-               void ComboBox_Validated(object sender, EventArgs e)
+        void ComboBox_Validated(object sender, EventArgs e)
         {
             EEPROM_View_float_TextChanged(sender, e);
         }
@@ -178,7 +178,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 try
                 {
                     if ((float)changes[value] > (float)MainV2.comPort.MAV.param[value] * 2.0f)
-                        if (CustomMessageBox.Show(value +" has more than doubled the last input. Are you sure?", "Large Value", MessageBoxButtons.YesNo) == DialogResult.No)
+                        if (CustomMessageBox.Show(value + " has more than doubled the last input. Are you sure?", "Large Value", MessageBoxButtons.YesNo) == DialogResult.No)
                             return;
 
                     MainV2.comPort.setParam(value, (float)changes[value]);
@@ -200,7 +200,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
                 catch
                 {
-                    CustomMessageBox.Show(String.Format(Strings.ErrorSetValueFailed,value), Strings.ERROR);
+                    CustomMessageBox.Show(String.Format(Strings.ErrorSetValueFailed, value), Strings.ERROR);
                 }
             }
         }
@@ -273,14 +273,22 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             double output = map(myTrackBar1.Value, myTrackBar1.Minimum, myTrackBar1.Maximum, (double)mavlinkNumericUpDown1.Value, (double)mavlinkNumericUpDown2.Value);
 
-            MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_SERVO, 1, (float)output, 0, 0, 0, 0, 0);
+            try
+            {
+                MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_SERVO, 1, (float)output, 0, 0, 0, 0, 0);
+            }
+            catch { CustomMessageBox.Show(Strings.ErrorNoResponce, Strings.ERROR); }
         }
 
         private void BUT_test_pitch_Click(object sender, EventArgs e)
         {
             double output = map(myTrackBar2.Value, myTrackBar2.Minimum, myTrackBar2.Maximum, (double)mavlinkNumericUpDown6.Value, (double)mavlinkNumericUpDown5.Value);
 
-            MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_SERVO, 2, (float)output, 0, 0, 0, 0, 0);
+            try
+            {
+                MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_SERVO, 2, (float)output, 0, 0, 0, 0, 0);
+            }
+            catch { CustomMessageBox.Show(Strings.ErrorNoResponce, Strings.ERROR); }
         }
 
         double map(double x, double in_min, double in_max, double out_min, double out_max)
