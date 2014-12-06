@@ -825,7 +825,7 @@ namespace MissionPlanner
             }
             catch (Exception ex)
             {
-                CustomMessageBox.Show(MainV2T.Errorclosing + ex.Message, MainV2T.Error);
+                CustomMessageBox.Show(Strings.ErrorClosingLogFile + ex.Message, Strings.ERROR);
             }
 
             comPort.logfile = null;

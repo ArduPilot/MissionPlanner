@@ -124,7 +124,8 @@
     <value>Cannot graph this field</value>
   </data>
   <data name="CommandFailed" xml:space="preserve">
-    <value>The Command failed to execute\n</value>
+    <value>The Command failed to execute
+</value>
   </data>
   <data name="ERROR" xml:space="preserve">
     <value>Error</value>
@@ -136,7 +137,8 @@
     <value>Error communicating with the autopilot</value>
   </data>
   <data name="ErrorConnecting" xml:space="preserve">
-    <value>Error Connecting\n</value>
+    <value>Error Connecting
+</value>
   </data>
   <data name="ErrorFeatureNotEnabled" xml:space="preserve">
     <value>This feature is not enabled in your firmware.</value>
@@ -154,7 +156,8 @@
     <value>You are not connected.</value>
   </data>
   <data name="ErrorReceivingParams" xml:space="preserve">
-    <value>Error receiving list\n</value>
+    <value>Error receiving list
+</value>
   </data>
   <data name="ErrorRejectedByMAV" xml:space="preserve">
     <value>Error: command rejected by MAV</value>
@@ -211,9 +214,12 @@
     <value>Please select a comport</value>
   </data>
   <data name="WarningLogBrowseFMTMissing" xml:space="preserve">
-    <value>Log Browse will not function correctly without FMT messages in your log.\nThese appear to be missing from your log.</value>
+    <value>Log Browse will not function correctly without FMT messages in your log.
+These appear to be missing from your log.</value>
   </data>
   <data name="WarningUpdateParamList" xml:space="preserve">
-    <value>Update Params\nDON'T DO THIS IF YOU ARE IN THE AIR\n</value>
+    <value>Update Params
+DON'T DO THIS IF YOU ARE IN THE AIR
+</value>
   </data>
 </root>

@@ -117,41 +117,109 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="help_text" xml:space="preserve">
-    <value>{\rtf1\ansi\ansicpg936\deff0\deflang1033\deflangfe2052{\fonttbl{\f0\fmodern\fprq6\fcharset134 Microsoft YaHei;}}
-{\colortbl ;\red255\green255\blue255;\red0\green0\blue255;}
-{\*\generator Msftedit 5.41.21.2510;}\viewkind5\uc1{\*\background{\shp{\*\shpinst
-{\sp{\sn fillType}{\sv 0}}
-{\sp{\sn fillColor}{\sv 2565927}}
-{\sp{\sn fillBackColor}{\sv 0}}
-{\sp{\sn fillFocus}{\sv 0}}
-{\sp{\sn fillBlip}{\sv {\pict\wmetafile0\picscalex1\picscaley1 
-}}}}}}
-\pard\nowidctlpar\sa200\sl276\slmult1\cf1\f0\fs22\par
-\tab 欢迎使用\b Mission Planner\b0 ，本软件可以为无人机(\b UAV\b0 )规划任务。\par
-\tab 快速入门：\par
-\tab\tab\tab\b 飞行数据 \endash  \b0 带有位置和姿态的简单飞行屏幕。\par
-\b\tab\tab\tab 飞行计划 \endash  \b0 计划你的飞行和其它脚本任务。\par
-\b\tab\tab\tab 初始设置 \endash  \b0 升级APM固件、设置与初次调试各个功能等。\par
-\b\tab\tab\tab 配置/调试 \endash  \b0 自定义PID和其它关键设置，包括启用和禁用硬件。\par
-\b\tab\tab\tab 模拟 \endash  \b0 使用Xplanes和Flightgear来HIL模拟，当和你的板子一起使用时。\par
-\b\tab\tab\tab 终端 \endash  \b0 手动设置你的APM并且运行传感器测试，读取日志和其它功能。\par
-\pard\nowidctlpar\b\tab 主开发者:\b0  Michael Oborne\par
-\tab\b 设计:\b0  Samantha Nelson\par
-\tab\b 捐款:\b0  Andrew Radford,  Marooned, Ryan Beall\par
-\pard\nowidctlpar\fi720\b ArduCopter插图:\b0  Max Levine\par
-\b 库:\b0  Gmap.net, Sharpkml, SharpZipLib, IronPython, KMLib, OpenTK, ZedGraph\par
-\par
-\b 帮助（简体中文）:\par
-Arduplane: http://plane.ardupilot.cn\par
-ArduCopter: http://copter.ardupilot.cn\par
-ArduRover: http://rover.ardupilot.cn\par
-\par
-请访问{\field{\*\fldinst{HYPERLINK "www.diydrones.com"}}{\fldrslt{\ul\cf2 www.diydrones.com}}}\f0\fs22 获得更多信息。\par
-\par
-\b本简体中文翻译由APM中文网(http://ardupilot.cn/)MP翻译组提供，并正在不断完善中。\b0\par
-组长：四季天书\par
-组员：hazy、斯东、猎手、飞鹰、AD、酷酷小狼、猎手\par
-}</value>
+  <data name="BadCoords" xml:space="preserve">
+    <value>Bad Lat/Lng</value>
+  </data>
+  <data name="CannotGraphField" xml:space="preserve">
+    <value>Cannot graph this field</value>
+  </data>
+  <data name="CommandFailed" xml:space="preserve">
+    <value>The Command failed to execute
+</value>
+  </data>
+  <data name="ERROR" xml:space="preserve">
+    <value>错误</value>
+  </data>
+  <data name="ErrorClosingLogFile" xml:space="preserve">
+    <value>Error closing log files</value>
+  </data>
+  <data name="ErrorCommunicating" xml:space="preserve">
+    <value>Error communicating with the autopilot</value>
+  </data>
+  <data name="ErrorConnecting" xml:space="preserve">
+    <value>Error Connecting
+</value>
+  </data>
+  <data name="ErrorFeatureNotEnabled" xml:space="preserve">
+    <value>This feature is not enabled in your firmware.</value>
+  </data>
+  <data name="ErrorFirmwareFile" xml:space="preserve">
+    <value>Error loading firmware file</value>
+  </data>
+  <data name="ErrorLogList" xml:space="preserve">
+    <value>Error receiving log list</value>
+  </data>
+  <data name="ErrorNoResponce" xml:space="preserve">
+    <value>Error: no responce from MAV</value>
+  </data>
+  <data name="ErrorNotConnected" xml:space="preserve">
+    <value>You are not connected.</value>
+  </data>
+  <data name="ErrorReceivingParams" xml:space="preserve">
+    <value>Error receiving list
+</value>
+  </data>
+  <data name="ErrorRejectedByMAV" xml:space="preserve">
+    <value>Error: command rejected by MAV</value>
+  </data>
+  <data name="ErrorRenameFile" xml:space="preserve">
+    <value>Error renaming file</value>
+  </data>
+  <data name="ErrorSettingParameter" xml:space="preserve">
+    <value>Error setting parameter </value>
+  </data>
+  <data name="ErrorSetValueFailed" xml:space="preserve">
+    <value>Set {0} Failed</value>
+  </data>
+  <data name="InvalidAlt" xml:space="preserve">
+    <value>Invalid Alt</value>
+  </data>
+  <data name="InvalidBaudRate" xml:space="preserve">
+    <value>Invalid BaudRate</value>
+  </data>
+  <data name="InvalidField" xml:space="preserve">
+    <value>Invalid Field</value>
+  </data>
+  <data name="InvalidFileName" xml:space="preserve">
+    <value>Invalid FileName</value>
+  </data>
+  <data name="InvalidNumberEntered" xml:space="preserve">
+    <value>Invalid number entered\n</value>
+  </data>
+  <data name="InvalidPanRange" xml:space="preserve">
+    <value>Invalid Pan Range</value>
+  </data>
+  <data name="InvalidPortName" xml:space="preserve">
+    <value>Invalid PortName</value>
+  </data>
+  <data name="InvalidTiltRange" xml:space="preserve">
+    <value>Invalid Tilt Range</value>
+  </data>
+  <data name="InvalidUpdateRate" xml:space="preserve">
+    <value>Invalid Update Rate</value>
+  </data>
+  <data name="NoFMTMessage" xml:space="preserve">
+    <value>No FMT message for </value>
+  </data>
+  <data name="PleaseConnect" xml:space="preserve">
+    <value>Please connect first</value>
+  </data>
+  <data name="PleaseLoadValidFile" xml:space="preserve">
+    <value>Please load a valid file</value>
+  </data>
+  <data name="PleaseSelectCell" xml:space="preserve">
+    <value>Please select a cell first</value>
+  </data>
+  <data name="SelectComport" xml:space="preserve">
+    <value>Please select a comport</value>
+  </data>
+  <data name="WarningLogBrowseFMTMissing" xml:space="preserve">
+    <value>Log Browse will not function correctly without FMT messages in your log.
+These appear to be missing from your log.</value>
+  </data>
+  <data name="WarningUpdateParamList" xml:space="preserve">
+    <value>更新参数
+如果你在空中，请不要这么做！
+</value>
   </data>
 </root>
