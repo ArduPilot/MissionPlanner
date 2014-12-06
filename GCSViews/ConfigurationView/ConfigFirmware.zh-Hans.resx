@@ -128,13 +128,13 @@
     <value>702, 409</value>
   </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>图片 by Max Levine</value>
+    <value>图片由Max Levine提供</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>185, 12</value>
+    <value>161, 12</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>请点击以下图片查看“飞行版本”</value>
+    <value>请点击上方图片选择飞机种类</value>
   </data>
   <data name="CMB_history_label.Size" type="System.Drawing.Size, System.Drawing">
     <value>89, 12</value>

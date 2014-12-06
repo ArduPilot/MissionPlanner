@@ -421,10 +421,12 @@
       <DependentUpon>LogIndex.cs</DependentUpon>
     </Compile>
     <Compile Include="Log\LogMap.cs" />
+    <Compile Include="MainV2T.Designer.cs" />
     <Compile Include="Maps\MapboxNoFly.cs" />
     <Compile Include="Maps\Mapbox.cs" />
     <Compile Include="Maps\Earthbuilder.cs" />
     <Compile Include="Maps\Statkart_Topo2.cs" />
+    <Compile Include="Mavlink\MAVLinkT.Designer.cs" />
     <Compile Include="Mavlink\MAVState.cs" />
     <Compile Include="MovingBase.cs">
       <SubType>Form</SubType>
@@ -886,6 +888,10 @@
     <EmbeddedResource Include="MainV2.zh-TW.resx">
       <DependentUpon>MainV2.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="MainV2T.resx" />
+    <EmbeddedResource Include="MainV2T.zh-Hans.resx" />
+    <EmbeddedResource Include="Mavlink\MAVLinkT.resx" />
+    <EmbeddedResource Include="Mavlink\MAVLinkT.zh-Hans.resx" />
     <EmbeddedResource Include="MovingBase.zh-Hant.resx">
       <DependentUpon>MovingBase.cs</DependentUpon>
     </EmbeddedResource>
@@ -921,6 +927,8 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Utilities\UpdateT.resx" />
+    <EmbeddedResource Include="Utilities\UpdateT.zh-Hans.resx" />
     <EmbeddedResource Include="Warnings\WarningControl.resx">
       <DependentUpon>WarningControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -1132,6 +1140,7 @@
     <Compile Include="Utilities\StringRedirectWriter.cs" />
     <Compile Include="Utilities\TerrainFollow.cs" />
     <Compile Include="Utilities\Update.cs" />
+    <Compile Include="Utilities\UpdateT.Designer.cs" />
     <Compile Include="Utilities\VersionDetection.cs" />
     <Compile Include="Warnings\CustomWarning.cs" />
     <Compile Include="Warnings\WarningControl.cs">
