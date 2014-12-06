@@ -781,7 +781,7 @@ Please check the following
             req.target_system = MAV.sysid;
             req.target_component = MAV.compid;
 
-            //generatePacket((byte)MAVLINK_MSG_ID.PARAM_REQUEST_LIST, req);
+            generatePacket((byte)MAVLINK_MSG_ID.PARAM_REQUEST_LIST, req);
 
             DateTime start = DateTime.Now;
             DateTime restart = DateTime.Now;
