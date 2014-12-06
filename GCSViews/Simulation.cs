@@ -578,9 +578,12 @@ namespace MissionPlanner.GCSViews
             Remote = (EndPoint)(new IPEndPoint(IPAddress.Any, 0));
 
             DateTime lastdata = DateTime.MinValue;
-
-            // set enable hil status flag - sends base_mode = 0
-            MainV2.comPort.setMode(new MAVLink.mavlink_set_mode_t() { target_system = MainV2.comPort.MAV.sysid }, MAVLink.MAV_MODE_FLAG.HIL_ENABLED);
+            try
+            {
+                // set enable hil status flag - sends base_mode = 0
+                MainV2.comPort.setMode(new MAVLink.mavlink_set_mode_t() { target_system = MainV2.comPort.MAV.sysid }, MAVLink.MAV_MODE_FLAG.HIL_ENABLED);
+            }
+            catch { }
 
             while (threadrun == 1)
             {
