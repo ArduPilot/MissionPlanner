@@ -566,7 +566,7 @@ namespace MissionPlanner
                         MainV2.comPort.MAV.cs.HomeLocation.Alt = double.Parse(config["TXT_homealt"].ToString());
 
                     // remove invalid entrys
-                    if (Math.Abs(MainV2.comPort.MAV.cs.HomeLocation.Lat) > 90)
+                    if (Math.Abs(MainV2.comPort.MAV.cs.HomeLocation.Lat) > 90 || Math.Abs(MainV2.comPort.MAV.cs.HomeLocation.Lng) > 180)
                         MainV2.comPort.MAV.cs.HomeLocation = new PointLatLngAlt();
                 }
                 catch { }

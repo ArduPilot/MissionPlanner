@@ -1535,10 +1535,6 @@ namespace MissionPlanner.Log
 
             if (movemap)
             {
-                //double z = myGMAP1.Zoom;
-                //myGMAP1.ZoomAndCenterMarkers(markeroverlay.Id);
-                //myGMAP1.MarkersEnabled = true;
-                //myGMAP1.Zoom = z;
                 myGMAP1.Position = pt1;
             }
 
@@ -1575,12 +1571,16 @@ namespace MissionPlanner.Log
 
             if (movegrid)
             {
-                scrollGrid(dataGridView1, SampleID);
-                dataGridView1.CurrentCell = dataGridView1.Rows[SampleID].Cells[1];
+                try
+                {
+                    scrollGrid(dataGridView1, SampleID);
+                    dataGridView1.CurrentCell = dataGridView1.Rows[SampleID].Cells[1];
 
-                dataGridView1.ClearSelection();
-                dataGridView1.Rows[(int)SampleID].Selected = true;
-                dataGridView1.Rows[(int)SampleID].Cells[1].Selected = true;
+                    dataGridView1.ClearSelection();
+                    dataGridView1.Rows[(int)SampleID].Selected = true;
+                    dataGridView1.Rows[(int)SampleID].Cells[1].Selected = true;
+                }
+                catch { }
             }
 
 

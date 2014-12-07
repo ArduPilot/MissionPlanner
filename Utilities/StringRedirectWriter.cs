@@ -29,7 +29,18 @@ namespace MissionPlanner.Utilities
         private void writeString(string s)
         {
             lock (internalString)
+            {
+                int lengthmax = 1024 * 1024;
+
+                if (internalString.Length > lengthmax)
+                {
+                    // add 5kb free
+                    string temp = internalString.ToString().Substring(internalString.Length - lengthmax + 5000);
+                    internalString.Clear();
+                    internalString.Append(temp);
+                }
                 internalString.Append(s);
+            }
         }
 
         public string RetrieveWrittenString()

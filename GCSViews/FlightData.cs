@@ -3065,7 +3065,11 @@ namespace MissionPlanner.GCSViews
 
         private void BUT_mountmode_Click(object sender, EventArgs e)
         {
-            MainV2.comPort.setParam("MNT_MODE", (int)CMB_mountmode.SelectedValue);
+            try
+            {
+                MainV2.comPort.setParam("MNT_MODE", (int)CMB_mountmode.SelectedValue);
+            }
+            catch { CustomMessageBox.Show(Strings.ErrorNoResponce, Strings.ERROR); }
         }
 
         private void but_bintolog_Click(object sender, EventArgs e)

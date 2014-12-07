@@ -876,7 +876,14 @@ S15: MAX_WINDOW=131
             {
                 var temp1 = Serial_ReadLine(comPort);
             }
-            catch { comPort.ReadExisting(); }
+            catch 
+            {
+                try
+                {
+                    comPort.ReadExisting();
+                }
+                catch { return ""; }
+            }
             Sleep(100);
             comPort.DiscardInBuffer();
             lbl_status.Text = "Doing Command " + cmd;

@@ -38,9 +38,13 @@ namespace MissionPlanner.Wizard
 
             busy = true;
 
-            // start the process off
-            MainV2.comPort.doCommand(MAVLink.MAV_CMD.PREFLIGHT_CALIBRATION, 0, 0, 0, 0, 1, 0, 0);
-            MainV2.comPort.giveComport = true;
+            try
+            {
+                // start the process off
+                MainV2.comPort.doCommand(MAVLink.MAV_CMD.PREFLIGHT_CALIBRATION, 0, 0, 0, 0, 1, 0, 0);
+                MainV2.comPort.giveComport = true;
+            }
+            catch { busy = false; CustomMessageBox.Show(Strings.ErrorNoResponce, Strings.ERROR); return; }
 
             // start thread to update display
             System.Threading.ThreadPool.QueueUserWorkItem(readmessage, this);
@@ -144,7 +148,7 @@ namespace MissionPlanner.Wizard
             {
                 MainV2.comPort.sendPacket(new MAVLink.mavlink_command_ack_t() { command = 1, result = count });
             }
-            catch (IOException ex) { CustomMessageBox.Show("Failed to ack command.\n" + ex); Wizard.instance.Close(); }
+            catch (IOException ex) { CustomMessageBox.Show(Strings.CommandFailed + ex); Wizard.instance.Close(); }
         }
     }
 }
