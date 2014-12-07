@@ -253,7 +253,8 @@ namespace MissionPlanner {
         }
         
         /// <summary>
-        ///   查找类似 Invalid number entered\n 的本地化字符串。
+        ///   查找类似 Invalid number entered
+        /// 的本地化字符串。
         /// </summary>
         public static string InvalidNumberEntered {
             get {
