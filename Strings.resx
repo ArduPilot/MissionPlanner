@@ -184,7 +184,8 @@
     <value>Invalid FileName</value>
   </data>
   <data name="InvalidNumberEntered" xml:space="preserve">
-    <value>Invalid number entered\n</value>
+    <value>Invalid number entered
+</value>
   </data>
   <data name="InvalidPanRange" xml:space="preserve">
     <value>Invalid Pan Range</value>
