@@ -170,7 +170,7 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
                     DialogResult dr = DialogResult.Cancel;
 
 
-                    dr = CustomMessageBox.Show(extra + "Update Found\n\nDo you wish to update now? [link;" + baseurl + "/ChangeLog.txt;ChangeLog]", "Update Now", MessageBoxButtons.YesNo);
+                    dr = CustomMessageBox.Show(extra + UpdateT.UpdateFound + baseurl + "/ChangeLog.txt;ChangeLog]", UpdateT.UpdateNow, MessageBoxButtons.YesNo);
 
                     if (dr == DialogResult.Yes)
                     {

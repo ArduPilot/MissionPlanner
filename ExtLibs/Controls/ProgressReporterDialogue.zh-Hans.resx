@@ -117,41 +117,39 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="help_text" xml:space="preserve">
-    <value>{\rtf1\ansi\ansicpg936\deff0\deflang1033\deflangfe2052{\fonttbl{\f0\fmodern\fprq6\fcharset134 Microsoft YaHei;}}
-{\colortbl ;\red255\green255\blue255;\red0\green0\blue255;}
-{\*\generator Msftedit 5.41.21.2510;}\viewkind5\uc1{\*\background{\shp{\*\shpinst
-{\sp{\sn fillType}{\sv 0}}
-{\sp{\sn fillColor}{\sv 2565927}}
-{\sp{\sn fillBackColor}{\sv 0}}
-{\sp{\sn fillFocus}{\sv 0}}
-{\sp{\sn fillBlip}{\sv {\pict\wmetafile0\picscalex1\picscaley1 
-}}}}}}
-\pard\nowidctlpar\sa200\sl276\slmult1\cf1\f0\fs22\par
-\tab 欢迎使用\b Mission Planner\b0 ，本软件可以为无人机(\b UAV\b0 )规划任务。\par
-\tab 快速入门：\par
-\tab\tab\tab\b 飞行数据 \endash  \b0 带有位置和姿态的简单飞行屏幕。\par
-\b\tab\tab\tab 飞行计划 \endash  \b0 计划你的飞行和其它脚本任务。\par
-\b\tab\tab\tab 初始设置 \endash  \b0 升级APM固件、设置与初次调试各个功能等。\par
-\b\tab\tab\tab 配置/调试 \endash  \b0 自定义PID和其它关键设置，包括启用和禁用硬件。\par
-\b\tab\tab\tab 模拟 \endash  \b0 使用Xplanes和Flightgear来HIL模拟，当和你的板子一起使用时。\par
-\b\tab\tab\tab 终端 \endash  \b0 手动设置你的APM并且运行传感器测试，读取日志和其它功能。\par
-\pard\nowidctlpar\b\tab 主开发者:\b0  Michael Oborne\par
-\tab\b 设计:\b0  Samantha Nelson\par
-\tab\b 捐款:\b0  Andrew Radford,  Marooned, Ryan Beall\par
-\pard\nowidctlpar\fi720\b ArduCopter插图:\b0  Max Levine\par
-\b 库:\b0  Gmap.net, Sharpkml, SharpZipLib, IronPython, KMLib, OpenTK, ZedGraph\par
-\par
-\b 帮助（简体中文）:\par
-Arduplane: http://plane.ardupilot.cn\par
-ArduCopter: http://copter.ardupilot.cn\par
-ArduRover: http://rover.ardupilot.cn\par
-\par
-请访问{\field{\*\fldinst{HYPERLINK "www.diydrones.com"}}{\fldrslt{\ul\cf2 www.diydrones.com}}}\f0\fs22 获得更多信息。\par
-\par
-\b本简体中文翻译由APM中文网(http://ardupilot.cn/)MP翻译组提供，并正在不断完善中。\b0\par
-组长：四季天书\par
-组员：hazy、斯东、猎手、飞鹰、AD、酷酷小狼、猎手\par
-}</value>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="lblProgressMessage.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="btnCancel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="linkLabel1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="linkLabel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>47, 12</value>
+  </data>
+  <data name="linkLabel1.Text" xml:space="preserve">
+    <value>详情...</value>
+  </data>
+  <data name="btnClose.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="btnClose.Text" xml:space="preserve">
+    <value>关闭</value>
+  </data>
+  <data name="imgWarning.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="btnCancel.Text" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>进程</value>
   </data>
 </root>

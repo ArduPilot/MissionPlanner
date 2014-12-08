@@ -23,8 +23,8 @@ namespace MissionPlanner.Utilities
         public event ProgressEventHandler Progress;
 
         string firmwareurl = "https://raw.github.com/diydrones/binary/master/Firmware/firmware2.xml";
-		
-		//string firmwareurl = "http://www.radionav.it/portale/MissionPlanner/firmware2.xml";
+
+        //string firmwareurl = "http://www.radionav.it/portale/MissionPlanner/firmware2.xml";
 
         // ap 2.5 - ac 2.7
         //"https://meee146-planner.googlecode.com/git-history/dfc5737c5efc1e7b78e908829a097624c273d9d7/Tools/MissionPlanner.lanner/Firmware/firmware2.xml";
@@ -41,6 +41,9 @@ namespace MissionPlanner.Utilities
         int ingetapmversion = 0;
 
         List<software> softwares = new List<software>();
+
+        //Mirror
+        string serverLocation = "Default";
 
         [Serializable]
         [XmlType(TypeName = "software")]
@@ -144,6 +147,17 @@ namespace MissionPlanner.Utilities
                     a++;
                 }
             }
+
+            //Mirror
+            switch (System.Globalization.CultureInfo.CurrentUICulture.Name)
+            {
+                case "zh-Hans":
+                    serverLocation = "China";
+                    break;
+                case "zh-CN":
+                    serverLocation = "China";
+                    break;
+            }
         }
 
         /// <summary>
@@ -154,6 +168,10 @@ namespace MissionPlanner.Utilities
         {
             if (firmwareurl == "")
                 firmwareurl = this.firmwareurl;
+
+            //Mirror
+            string defaultUrl = firmwareurl;
+            bool isReplaced = ReplaceMirrorUrl(ref firmwareurl);
 
             log.Info("getFWList");
 
@@ -183,7 +201,17 @@ namespace MissionPlanner.Utilities
             //ServicePointManager.CertificatePolicy = new NoCheckCertificatePolicy(); 
             ServicePointManager.ServerCertificateValidationCallback = new System.Net.Security.RemoteCertificateValidationCallback((sender1, certificate, chain, policyErrors) => { return true; });
 
-            updateProgress(-1, "Getting FW List");
+            if (isReplaced)
+            {
+                switch (serverLocation)
+                {
+                    case "China":
+                        updateProgress(-1, "正在从奠基网镜像获取固件列表");
+                        break;
+                }
+            }
+            else
+                updateProgress(-1, "Getting FW List");
 
             try
             {
@@ -319,7 +347,15 @@ namespace MissionPlanner.Utilities
             }
             catch (Exception ex)
             {
-                log.Error(ex);
+                if (isReplaced)
+                {
+                    serverLocation = "Default";
+                    return getFWList(defaultUrl);
+                }
+                else
+                {
+                    log.Error(ex);
+                }
                 //CustomMessageBox.Show("Failed to get Firmware List : " + ex.Message);
                 throw;
             }
@@ -355,8 +391,8 @@ namespace MissionPlanner.Utilities
                     return (List<software>)reader.Deserialize(sr);
                 }
             }
-            catch (Exception ex) 
-            { 
+            catch (Exception ex)
+            {
                 log.Error(ex);
             }
 
@@ -381,11 +417,27 @@ namespace MissionPlanner.Utilities
 
                 software temp = (software)tempin;
 
+                //Mirror
+                string defaultUrl = temp.url2560_2;
+                bool isReplaced = ReplaceMirrorUrl(ref temp.url2560_2);
+
                 Uri url = new Uri(new Uri(temp.url2560_2), "git-version.txt");
 
                 log.Info("Get url " + url.ToString());
 
-                updateProgress(-1, "Getting FW Version");
+                if (isReplaced)
+                {
+                    switch (serverLocation)
+                    {
+                        case "China":
+                            updateProgress(-1, "正在从奠基网镜像获取固件版本");
+                            break;
+                    }
+                    temp.url2560_2 = defaultUrl;
+                }
+                else
+                    updateProgress(-1, "Getting FW Version");
+
 
                 WebRequest wr = WebRequest.Create(url);
                 WebResponse wresp = wr.GetResponse();
@@ -433,6 +485,10 @@ namespace MissionPlanner.Utilities
         public bool update(string comport, software temp, string historyhash)
         {
             BoardDetect.boards board = BoardDetect.boards.none;
+
+            //Mirror
+            bool isReplaced = false;
+            software defaultTemp = temp;
 
             try
             {
@@ -538,6 +594,10 @@ namespace MissionPlanner.Utilities
                 if (historyhash != "")
                     baseurl = getUrl(historyhash, baseurl);
 
+                //Mirror
+                string defaultUrl = baseurl;
+                isReplaced = ReplaceMirrorUrl(ref baseurl);
+
                 log.Info("Using " + baseurl);
 
                 // Create a request using a URL that can receive a post. 
@@ -561,7 +621,18 @@ namespace MissionPlanner.Utilities
 
                 FileStream fs = new FileStream(Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + @"firmware.hex", FileMode.Create);
 
-                updateProgress(0, "Downloading from Internet");
+                if (isReplaced)
+                {
+                    switch (serverLocation)
+                    {
+                        case "China":
+                            updateProgress(0, "正在通过奠基网镜像下载固件");
+                            break;
+                    }
+                }
+                else
+                    updateProgress(0, "Downloading from Internet");
+
 
                 dataStream.ReadTimeout = 30000;
 
@@ -569,7 +640,17 @@ namespace MissionPlanner.Utilities
                 {
                     try
                     {
-                        updateProgress(50, "Downloading from Internet");
+                        if (isReplaced)
+                        {
+                            switch (serverLocation)
+                            {
+                                case "China":
+                                    updateProgress(50, "正在通过奠基网镜像下载固件");
+                                    break;
+                            }
+                        }
+                        else
+                            updateProgress(50, "Downloading from Internet");
                     }
                     catch { }
                     int len = dataStream.Read(buf1, 0, 1024);
@@ -583,10 +664,34 @@ namespace MissionPlanner.Utilities
                 dataStream.Close();
                 response.Close();
 
-                updateProgress(100, "Downloaded from Internet");
+                if (isReplaced)
+                {
+                    switch (serverLocation)
+                    {
+                        case "China":
+                            updateProgress(100, "固件已成功通过奠基网镜像下载");
+                            break;
+                    }
+                }
+                else
+                    updateProgress(100, "Downloaded from Internet");
+
                 log.Info("Downloaded");
             }
-            catch (Exception ex) { updateProgress(50, "Failed download"); CustomMessageBox.Show("Failed to download new firmware : " + ex.ToString()); return false; }
+            catch (Exception ex) 
+            {
+                if (isReplaced)
+                {
+                    serverLocation = "Default";
+                    return update(comport, defaultTemp, historyhash);
+                }
+                else
+                {
+                    updateProgress(50, "Failed download");
+                    CustomMessageBox.Show("Failed to download new firmware : " + ex.ToString());
+                    return false; 
+                }
+            }
 
             MissionPlanner.Utilities.Tracking.AddFW(temp.name, board.ToString());
 
@@ -709,10 +814,10 @@ namespace MissionPlanner.Utilities
                     {
                         up.verifyotp();
                     }
-                    catch (Org.BouncyCastle.Security.InvalidKeyException ex) 
+                    catch (Org.BouncyCastle.Security.InvalidKeyException ex)
                     {
                         log.Error(ex);
-                        CustomMessageBox.Show("You are using unsupported hardware.\nThis board does not contain a valid certificate of authenticity.\nPlease contact your hardware vendor about signing your hardware.", "Invalid Cert"); 
+                        CustomMessageBox.Show("You are using unsupported hardware.\nThis board does not contain a valid certificate of authenticity.\nPlease contact your hardware vendor about signing your hardware.", "Invalid Cert");
                         up.skipotp = true;
                     }
                     catch (FormatException ex)
@@ -721,7 +826,7 @@ namespace MissionPlanner.Utilities
                         CustomMessageBox.Show("You are using unsupported hardware.\nThis board does not contain a valid certificate of authenticity.\nPlease contact your hardware vendor about signing your hardware.", "Invalid Cert");
                         up.skipotp = true;
                     }
-                    catch (IOException ex) 
+                    catch (IOException ex)
                     {
                         log.Error(ex);
                         CustomMessageBox.Show("lost communication with the board.", "lost comms");
@@ -918,7 +1023,7 @@ namespace MissionPlanner.Utilities
 
                     if (up.board_type == 1140 || up.board_type == 1145 || up.board_type == 1150 || up.board_type == 1151 || up.board_type == 1210 || up.board_type == 1351 || up.board_type == 1352 || up.board_type == 1411 || up.board_type == 1520)
                     {//VR boards have no tone alarm
-                        if(up.board_type ==1140)
+                        if (up.board_type == 1140)
                             CustomMessageBox.Show("Upload complete! Please unplug and reconnect board.");
                         else
                             CustomMessageBox.Show("Upload complete!");
@@ -1176,6 +1281,35 @@ namespace MissionPlanner.Utilities
             Array.Resize<byte>(ref FLASH, total);
 
             return FLASH;
+        }
+
+        bool ReplaceMirrorUrl(ref string url)
+        {
+            bool isReplaced = true;
+            switch (serverLocation)
+            {
+                case "China":
+                    if (url.Contains("raw.github.com"))
+                    {
+                        url = url.Replace("raw.github.com", "githubraw.diywrj.com");
+                    }
+                    else if (url.Contains("firmware.diydrones.com"))
+                    {
+                        url = url.Replace("firmware.diydrones.com", "fwcdn.diywrj.com");
+                    } else if (url.Contains("github.com"))
+                    {
+                        url = url.Replace("github.com", "github.diywrj.com");
+                    }
+                    else
+                    {
+                        isReplaced = false;
+                    }
+                    break;
+                default:
+                    isReplaced = false;
+                    break;
+            }
+            return isReplaced;
         }
     }
 }
