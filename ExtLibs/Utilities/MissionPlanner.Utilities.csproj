@@ -75,6 +75,7 @@
     <Compile Include="CollectionExtensions.cs" />
     <Compile Include="EnumTranslator.cs" />
     <Compile Include="hires.cs" />
+    <Compile Include="KIndex.cs" />
     <Compile Include="LangUtility.cs" />
     <Compile Include="locationwp.cs" />
     <Compile Include="MeasureString.cs" />

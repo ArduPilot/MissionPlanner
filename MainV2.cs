@@ -2096,6 +2096,13 @@ namespace MissionPlanner
             }
             catch (Exception ex) { log.Error(ex); }
 
+            try
+            {
+                KIndex.KIndex += KIndex_KIndex;
+                KIndex.GetKIndex();
+            }
+            catch (Exception ex) { log.Error(ex); }
+
             MissionPlanner.Utilities.Tracking.AddTiming("AppLoad", "Load Time", (DateTime.Now - Program.starttime).TotalMilliseconds, "");
 
             // play a tlog that was passed to the program
@@ -2162,6 +2169,11 @@ namespace MissionPlanner
                 config["newuser"] = DateTime.Now.ToShortDateString();
             }
             */
+        }
+
+        void KIndex_KIndex(object sender, EventArgs e)
+        {
+            comPort.MAV.cs.KIndex = (int)sender;
         }
 
         private void BGCreateMaps(object state)
