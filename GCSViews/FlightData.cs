@@ -2152,8 +2152,12 @@ namespace MissionPlanner.GCSViews
         {
             recordHudToAVIToolStripMenuItem.Text = "Start Recording";
 
-            if (aviwriter != null)
-                aviwriter.avi_close();
+            try
+            {
+                if (aviwriter != null)
+                    aviwriter.avi_close();
+            }
+            catch (Exception ex) { CustomMessageBox.Show(Strings.ERROR + " " + ex.ToString(),Strings.ERROR); }
 
             aviwriter = null;
         }
