@@ -1,4 +1,41 @@
-﻿* Mission Planner 1.3.15
+﻿* Mission Planner 1.3.16
+KIndex: implement kindex
+Multiple: Exception checks
+mavlinkinterface: reinstate request param list
+MAVLinkInterface: modify parameter get when packets are lost
+3drradio standalone: changelog dates
+FlightPlanner: remove unused code
+tfr: add exception handle
+3drradio standalone: update changelog
+3drradio: switch back to static strings
+paramcompare: fix typo
+3DRRadio: update for 900u
+Strings: add some localization
+ElevationGraph: add terrain follow
+MeasureString: add null check
+tfr: fix crossthread call on load
+mavcmd: update loiter_turns
+thememanager: fix alternate row colour on other themes
+flightplanner: turn on autosize on all coloums
+winddir: autoscale max speed
+configaccelplace: add warning about only doing 1 of the 2 calibs
+georef: fix field reverse #727
+mavcmd: update to display do_land_start
+TFR: allow enable/disable of tfrs
+Support for TetraCAM Time offset Geotagging
+VRBRAIN: added and updated drivers for all VRX boards
+VRBRAIN: inhibited the message of waiting of musical tones after firmware's upload for all VRX boards
+VRBRAIN: added recognition and management of boards VR Micro Brain 5.2, VR Gimbal 2.0 and VR Micro Gimbal 1.1
+FirmwareUpload: VRBRAIN added board detection for VRBRAIN 4.
+ConfigBatteryMonitoring: Added VRBRAIN4 board pins and corrected VRBRAIN 5 and VR Micro drop down auto-select
+update Simplified Chinese translation
+flightdata: move tfr to its own layer
+firmwarehistory: update
+mavlinkinterface: trigger camera only once. #731
+Added DefaultWebProxy to WebRequest to use IE default settings.
+flightdata: preflight_calib, only set gyro calib on copter
+
+* Mission Planner 1.3.15
 MainV2: add null check on threads on exit
 wizard: compasscalib, add exception handle
 Currentstate: add laser positon health message
