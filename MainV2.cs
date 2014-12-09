@@ -2179,7 +2179,11 @@ namespace MissionPlanner
 
         private void BGCreateMaps(object state)
         {
-            Log.LogMap.MapLogs(Directory.GetFiles(MainV2.LogDir, "*.tlog", SearchOption.AllDirectories));
+            try
+            {
+                Log.LogMap.MapLogs(Directory.GetFiles(MainV2.LogDir, "*.tlog", SearchOption.AllDirectories));
+            }
+            catch (Exception ex) { log.Error(ex); }
         }
 
         private void checkupdate(object stuff)
