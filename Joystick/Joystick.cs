@@ -614,21 +614,26 @@ namespace MissionPlanner.Joystick
             rc.chan7_raw = 0;
             rc.chan8_raw = 0;
 
-            MainV2.comPort.sendPacket(rc);
-            System.Threading.Thread.Sleep(20);
-            MainV2.comPort.sendPacket(rc);
-            System.Threading.Thread.Sleep(20);
-            MainV2.comPort.sendPacket(rc);
-            System.Threading.Thread.Sleep(20);
-            MainV2.comPort.sendPacket(rc);
-            System.Threading.Thread.Sleep(20);
-            MainV2.comPort.sendPacket(rc);
-            System.Threading.Thread.Sleep(20);
-            MainV2.comPort.sendPacket(rc);
+            try
+            {
 
-            MainV2.comPort.sendPacket(rc);
-            MainV2.comPort.sendPacket(rc);
-            MainV2.comPort.sendPacket(rc);
+                MainV2.comPort.sendPacket(rc);
+                System.Threading.Thread.Sleep(20);
+                MainV2.comPort.sendPacket(rc);
+                System.Threading.Thread.Sleep(20);
+                MainV2.comPort.sendPacket(rc);
+                System.Threading.Thread.Sleep(20);
+                MainV2.comPort.sendPacket(rc);
+                System.Threading.Thread.Sleep(20);
+                MainV2.comPort.sendPacket(rc);
+                System.Threading.Thread.Sleep(20);
+                MainV2.comPort.sendPacket(rc);
+
+                MainV2.comPort.sendPacket(rc);
+                MainV2.comPort.sendPacket(rc);
+                MainV2.comPort.sendPacket(rc);
+            }
+            catch (Exception ex) { log.Error(ex); }
         }
 
         public void DoJoystickButtonFunction()
