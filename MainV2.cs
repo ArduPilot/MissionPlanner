@@ -2099,7 +2099,7 @@ namespace MissionPlanner
 
             try
             {
-                KIndex.KIndex += KIndex_KIndex;
+                KIndex.KIndexEvent += KIndex_KIndex;
                 KIndex.GetKIndex();
             }
             catch (Exception ex) { log.Error(ex); }
@@ -2174,7 +2174,7 @@ namespace MissionPlanner
 
         void KIndex_KIndex(object sender, EventArgs e)
         {
-            comPort.MAV.cs.KIndex = (int)sender;
+            CurrentState.KIndexstatic = (int)sender;
         }
 
         private void BGCreateMaps(object state)

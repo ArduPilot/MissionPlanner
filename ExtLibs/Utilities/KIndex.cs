@@ -14,7 +14,7 @@ namespace MissionPlanner.Utilities
 
         static Regex kregex = new Regex("K-index at [.]+ was ([0-9]+)");
 
-        public static event EventHandler KIndex;
+        public static event EventHandler KIndexEvent;
 
         public static void GetKIndex()
         {
@@ -46,8 +46,8 @@ namespace MissionPlanner.Utilities
 
                     int kno = int.Parse(number);
 
-                    if (KIndex != null)
-                        KIndex(kno,null);
+                    if (KIndexEvent != null)
+                        KIndexEvent(kno, null);
 
                     return;
                 }
@@ -57,8 +57,8 @@ namespace MissionPlanner.Utilities
 
             }
 
-            if (KIndex != null)
-                KIndex(-1, null);
+            if (KIndexEvent != null)
+                KIndexEvent(-1, null);
         }
     }
 }
