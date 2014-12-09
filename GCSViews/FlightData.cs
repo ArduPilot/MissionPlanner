@@ -658,6 +658,8 @@ namespace MissionPlanner.GCSViews
                 {
                     GMapPolygon poly = new GMapPolygon(list, item.NAME);
 
+                    poly.Fill = new SolidBrush(Color.FromArgb(30, Color.Blue));
+
                     tfrpolygons.Polygons.Add(poly);
                 }
             }
