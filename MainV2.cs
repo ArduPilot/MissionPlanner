@@ -104,7 +104,7 @@ namespace MissionPlanner
                 MissionPlanner.Controls.BackstageView.BackstageView.Advanced = value;
 
                 if (AdvancedChanged != null)
-                    AdvancedChanged(null ,new EventArgs());
+                    AdvancedChanged(null, new EventArgs());
             }
         }
 
@@ -807,7 +807,7 @@ namespace MissionPlanner
             // sanity check
             if (comPort.BaseStream.IsOpen && MainV2.comPort.MAV.cs.groundspeed > 4)
             {
-                if (DialogResult.No == CustomMessageBox.Show("Your model is still moving are you sure you want to disconnect?", "Disconnect", MessageBoxButtons.YesNo))
+                if (DialogResult.No == CustomMessageBox.Show(MainV2T.Stillmoving, MainV2T.Disconnect, MessageBoxButtons.YesNo))
                 {
                     return;
                 }
@@ -825,7 +825,7 @@ namespace MissionPlanner
             }
             catch (Exception ex)
             {
-                CustomMessageBox.Show(Strings.ErrorClosingLogFile + "\n" + ex.Message, Strings.ERROR);
+                CustomMessageBox.Show(Strings.ErrorClosingLogFile + ex.Message, Strings.ERROR);
             }
 
             comPort.logfile = null;
@@ -930,7 +930,7 @@ namespace MissionPlanner
 
                             if (DateTime.Now > deadline)
                             {
-                                CustomMessageBox.Show("Timeout waiting for autoscan/no mavlink device connected");
+                                CustomMessageBox.Show(MainV2T.Timeout);
                                 _connectionControl.IsConnected(false);
                                 return;
                             }
@@ -949,8 +949,9 @@ namespace MissionPlanner
                     {
                         comPort.BaseStream.BaudRate = int.Parse(_connectionControl.CMB_baudrate.Text);
                     }
-                    catch (Exception exp) {
-                        log.Error(exp); 
+                    catch (Exception exp)
+                    {
+                        log.Error(exp);
                     }
 
                     // prevent serialreader from doing anything
@@ -979,7 +980,7 @@ namespace MissionPlanner
 
                         log.Info("creating logfile " + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + ".tlog");
                     }
-                    catch (Exception exp2) { log.Error(exp2); CustomMessageBox.Show("Failed to create log - wont log this session"); } // soft fail
+                    catch (Exception exp2) { log.Error(exp2); CustomMessageBox.Show(MainV2T.Failclog); } // soft fail
 
                     // reset connect time - for timeout functions
                     connecttime = DateTime.Now;
@@ -1011,57 +1012,57 @@ namespace MissionPlanner
                     }
 
                     comPort.getParamList();
-                        
+
                     // detect firmware we are conected to.
-                        if (comPort.MAV.cs.firmware == Firmwares.ArduCopter2)
-                        {
-                            _connectionControl.TOOL_APMFirmware.SelectedIndex = _connectionControl.TOOL_APMFirmware.Items.IndexOf(Firmwares.ArduCopter2);
-                        }
-                        else if (comPort.MAV.cs.firmware == Firmwares.Ateryx)
-                        {
-                            _connectionControl.TOOL_APMFirmware.SelectedIndex = _connectionControl.TOOL_APMFirmware.Items.IndexOf(Firmwares.Ateryx);
-                        }
-                        else if (comPort.MAV.cs.firmware == Firmwares.ArduRover)
-                        {
-                            _connectionControl.TOOL_APMFirmware.SelectedIndex = _connectionControl.TOOL_APMFirmware.Items.IndexOf(Firmwares.ArduRover);
-                        }
-                        else if (comPort.MAV.cs.firmware == Firmwares.ArduPlane)
-                        {
-                            _connectionControl.TOOL_APMFirmware.SelectedIndex = _connectionControl.TOOL_APMFirmware.Items.IndexOf(Firmwares.ArduPlane);
-                        }
+                    if (comPort.MAV.cs.firmware == Firmwares.ArduCopter2)
+                    {
+                        _connectionControl.TOOL_APMFirmware.SelectedIndex = _connectionControl.TOOL_APMFirmware.Items.IndexOf(Firmwares.ArduCopter2);
+                    }
+                    else if (comPort.MAV.cs.firmware == Firmwares.Ateryx)
+                    {
+                        _connectionControl.TOOL_APMFirmware.SelectedIndex = _connectionControl.TOOL_APMFirmware.Items.IndexOf(Firmwares.Ateryx);
+                    }
+                    else if (comPort.MAV.cs.firmware == Firmwares.ArduRover)
+                    {
+                        _connectionControl.TOOL_APMFirmware.SelectedIndex = _connectionControl.TOOL_APMFirmware.Items.IndexOf(Firmwares.ArduRover);
+                    }
+                    else if (comPort.MAV.cs.firmware == Firmwares.ArduPlane)
+                    {
+                        _connectionControl.TOOL_APMFirmware.SelectedIndex = _connectionControl.TOOL_APMFirmware.Items.IndexOf(Firmwares.ArduPlane);
+                    }
 
                     // check for newer firmware
-                      var softwares = Firmware.LoadSoftwares();
+                    var softwares = Firmware.LoadSoftwares();
 
-                      if (softwares.Count > 0)
-                      {
-                          try
-                          {
-                              string[] fields1 = comPort.MAV.VersionString.Split(' ');
+                    if (softwares.Count > 0)
+                    {
+                        try
+                        {
+                            string[] fields1 = comPort.MAV.VersionString.Split(' ');
 
-                              foreach (Firmware.software item in softwares)
-                              {
-                                  string[] fields2 = item.name.Split(' ');
+                            foreach (Firmware.software item in softwares)
+                            {
+                                string[] fields2 = item.name.Split(' ');
 
-                                  // check primare firmware type. ie arudplane, arducopter
-                                  if (fields1[0] == fields2[0])
-                                  {
-                                      Version ver1 = VersionDetection.GetVersion(comPort.MAV.VersionString);
-                                      Version ver2 = VersionDetection.GetVersion(item.name);
+                                // check primare firmware type. ie arudplane, arducopter
+                                if (fields1[0] == fields2[0])
+                                {
+                                    Version ver1 = VersionDetection.GetVersion(comPort.MAV.VersionString);
+                                    Version ver2 = VersionDetection.GetVersion(item.name);
 
-                                      if (ver2 > ver1)
-                                      {
-                                          Common.MessageShowAgain("New Firmware","New firmware available\n" + item.name + "\nPlease upgrade");
-                                          break;
-                                      }
+                                    if (ver2 > ver1)
+                                    {
+                                        Common.MessageShowAgain(MainV2T.NewFirmware, MainV2T.NewFirmwareA + item.name + MainV2T.Pleaseup);
+                                        break;
+                                    }
 
-                                      // check the first hit only
-                                      break;
-                                  }
-                              }
-                          }
-                          catch (Exception ex) { log.Error(ex); }
-                      }
+                                    // check the first hit only
+                                    break;
+                                }
+                            }
+                        }
+                        catch (Exception ex) { log.Error(ex); }
+                    }
 
                     FlightData.CheckBatteryShow();
 
@@ -1073,7 +1074,7 @@ namespace MissionPlanner
                     // save the baudrate for this port
                     config[_connectionControl.CMB_serialport.Text + "_BAUD"] = _connectionControl.CMB_baudrate.Text;
 
-                    this.Text = titlebar +" "+ comPort.MAV.VersionString;
+                    this.Text = titlebar + " " + comPort.MAV.VersionString;
 
                     // refresh config window if needed
                     if (MyView.current != null)
@@ -1153,7 +1154,7 @@ namespace MissionPlanner
             catch { }
         }
 
-        
+
 
         /// <summary>
         /// overriding the OnCLosing is a bit cleaner than handling the event, since it 
@@ -1292,7 +1293,7 @@ namespace MissionPlanner
         protected override void OnFormClosed(FormClosedEventArgs e)
         {
             base.OnFormClosed(e);
-            
+
             Console.WriteLine("MainV2_FormClosed");
 
             if (joystick != null)
@@ -1542,7 +1543,7 @@ namespace MissionPlanner
                         {
                             this.MenuConnect.Image = diplayicons.disconnect;
                             this.MenuConnect.Image.Tag = "Disconnect";
-                            this.MenuConnect.Text = "DISCONNECT";
+                            this.MenuConnect.Text = MainV2T.DISCONNECTc;
                             _connectionControl.IsConnected(true);
                         });
                     }
@@ -1555,7 +1556,7 @@ namespace MissionPlanner
                         {
                             this.MenuConnect.Image = diplayicons.connect;
                             this.MenuConnect.Image.Tag = "Connect";
-                            this.MenuConnect.Text = "CONNECT";
+                            this.MenuConnect.Text = MainV2T.CONNECTc;
                             _connectionControl.IsConnected(false);
                             if (_connectionStats != null)
                             {
@@ -2032,11 +2033,11 @@ namespace MissionPlanner
 
             /// setup joystick packet sender
             joystickthread = new Thread(new ThreadStart(joysticksend))
-             {
-                 IsBackground = true,
-                 Priority = ThreadPriority.AboveNormal,
-                 Name = "Main joystick sender"
-             };
+            {
+                IsBackground = true,
+                Priority = ThreadPriority.AboveNormal,
+                Name = "Main joystick sender"
+            };
             joystickthread.Start();
 
             // setup main serial reader
@@ -2096,6 +2097,13 @@ namespace MissionPlanner
             }
             catch (Exception ex) { log.Error(ex); }
 
+            try
+            {
+                KIndex.KIndexEvent += KIndex_KIndex;
+                KIndex.GetKIndex();
+            }
+            catch (Exception ex) { log.Error(ex); }
+
             MissionPlanner.Utilities.Tracking.AddTiming("AppLoad", "Load Time", (DateTime.Now - Program.starttime).TotalMilliseconds, "");
 
             // play a tlog that was passed to the program
@@ -2147,26 +2155,35 @@ namespace MissionPlanner
             catch { }
 
             // show wizard on first use
-          /*  if (getConfig("newuser") == "")
-            {
-                if (CustomMessageBox.Show("This is your first run, Do you wish to use the setup wizard?\nRecomended for new users.", "Wizard", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
-                {
-                    Wizard.Wizard wiz = new Wizard.Wizard();
+            /*  if (getConfig("newuser") == "")
+              {
+                  if (CustomMessageBox.Show("This is your first run, Do you wish to use the setup wizard?\nRecomended for new users.", "Wizard", MessageBoxButtons.YesNo) == System.Windows.Forms.DialogResult.Yes)
+                  {
+                      Wizard.Wizard wiz = new Wizard.Wizard();
 
-                    wiz.ShowDialog(this);
+                      wiz.ShowDialog(this);
 
-                }
+                  }
 
-                CustomMessageBox.Show("To use the wizard please goto the initial setup screen, and click the wizard icon.", "Wizard");
+                  CustomMessageBox.Show("To use the wizard please goto the initial setup screen, and click the wizard icon.", "Wizard");
 
-                config["newuser"] = DateTime.Now.ToShortDateString();
-            }
-            */
+                  config["newuser"] = DateTime.Now.ToShortDateString();
+              }
+              */
+        }
+
+        void KIndex_KIndex(object sender, EventArgs e)
+        {
+            CurrentState.KIndexstatic = (int)sender;
         }
 
         private void BGCreateMaps(object state)
         {
-            Log.LogMap.MapLogs(Directory.GetFiles(MainV2.LogDir, "*.tlog", SearchOption.AllDirectories));
+            try
+            {
+                Log.LogMap.MapLogs(Directory.GetFiles(MainV2.LogDir, "*.tlog", SearchOption.AllDirectories));
+            }
+            catch (Exception ex) { log.Error(ex); }
         }
 
         private void checkupdate(object stuff)
@@ -2735,6 +2752,6 @@ namespace MissionPlanner
             MainV2.comPort.ReadOnly = readonlyToolStripMenuItem.Checked;
         }
 
-        
+
     }
 }

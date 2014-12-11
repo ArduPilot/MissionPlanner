@@ -531,7 +531,8 @@ namespace MissionPlanner
             battery_usedmah = 0;
             _lastcurrent = DateTime.MinValue;
             distTraveled = 0;
-           timeInAir = 0;
+            timeInAir = 0;
+            KIndexstatic = -1;
         }
 
         const float rad2deg = (float)(180 / Math.PI);
@@ -1389,5 +1390,9 @@ namespace MissionPlanner
         public float ter_pend { get; set; }
 
         public float ter_space { get; set; }
+
+        public static float KIndexstatic = -1;
+
+        public int KIndex { get { return (int)CurrentState.KIndexstatic; } }
     }
 }

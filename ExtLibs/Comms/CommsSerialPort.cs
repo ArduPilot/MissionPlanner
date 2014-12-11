@@ -163,9 +163,11 @@ namespace MissionPlanner.Comms
                     catch { }
                 }
 
+                string[] ports = null;
+
                 try
                 {
-                    string[] ports = System.IO.Ports.SerialPort.GetPortNames()
+                    ports = System.IO.Ports.SerialPort.GetPortNames()
                     .Select(p => p.TrimEnd())
                     .Select(FixBlueToothPortNameBug)
                     .ToArray();

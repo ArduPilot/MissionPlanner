@@ -658,6 +658,8 @@ namespace MissionPlanner.GCSViews
                 {
                     GMapPolygon poly = new GMapPolygon(list, item.NAME);
 
+                    poly.Fill = new SolidBrush(Color.FromArgb(30, Color.Blue));
+
                     tfrpolygons.Polygons.Add(poly);
                 }
             }
@@ -2150,8 +2152,12 @@ namespace MissionPlanner.GCSViews
         {
             recordHudToAVIToolStripMenuItem.Text = "Start Recording";
 
-            if (aviwriter != null)
-                aviwriter.avi_close();
+            try
+            {
+                if (aviwriter != null)
+                    aviwriter.avi_close();
+            }
+            catch (Exception ex) { CustomMessageBox.Show(Strings.ERROR + " " + ex.ToString(),Strings.ERROR); }
 
             aviwriter = null;
         }

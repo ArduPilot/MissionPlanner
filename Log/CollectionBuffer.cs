@@ -9,7 +9,6 @@ namespace MissionPlanner.Log
 {
     public class CollectionBuffer<T> : IList<T>, ICollection<T>, IEnumerable<T>
     {
-
         Stream basestream;
         private int _count;
         List<long> linestartoffset = new List<long>();
@@ -25,15 +24,33 @@ namespace MissionPlanner.Log
 
         int getlinecount()
         {
+            // first line starts at 0
+            linestartoffset.Add(0);
+
+            int offset = 0;
+
+            byte[] buffer = new byte[1024 * 1024];
+
             var lineCount = 0;
             while (basestream.Position < basestream.Length)
             {
-                if (basestream.ReadByte() == '\n')
-                {
-                    linestartoffset.Add(basestream.Position + 1);
-                    lineCount++;
-                }
+                offset = 0;
 
+                long startpos = basestream.Position;
+
+                int read = basestream.Read(buffer, offset, buffer.Length);
+
+                while (read > 0)
+                {
+                    if (buffer[offset] == '\n')
+                    {
+                        linestartoffset.Add(startpos + 1 + offset);
+                        lineCount++;
+                    }
+
+                    offset++;
+                    read--;
+                }
             }
             return lineCount;
         }
@@ -58,7 +75,22 @@ namespace MissionPlanner.Log
         {
             get
             {
-                throw new NotImplementedException();
+                StringBuilder sb = new StringBuilder();
+
+                basestream.Seek(linestartoffset[index], SeekOrigin.Begin);
+
+                while (basestream.Position < basestream.Length)
+                {
+                    byte cha = (byte)basestream.ReadByte();
+
+                    sb.Append((char)cha);
+                    if (cha == '\n')
+                    {
+                        break;
+                    }
+                }
+
+                return (T)(object)sb.ToString();
             }
             set
             {
@@ -88,12 +120,12 @@ namespace MissionPlanner.Log
 
         public int Count
         {
-            get { throw new NotImplementedException(); }
+            get { return _count; }
         }
 
         public bool IsReadOnly
         {
-            get { throw new NotImplementedException(); }
+            get { return true; }
         }
 
         public bool Remove(T item)

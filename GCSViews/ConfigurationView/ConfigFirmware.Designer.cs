@@ -80,6 +80,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.lbl_dlfw = new System.Windows.Forms.Label();
             this.lbl_px4bl = new System.Windows.Forms.Label();
             this.pictureAntennaTracker = new MissionPlanner.Controls.ImageLabel();
+            this.lbl_licence = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxHilimage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxAPHil)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxACHil)).BeginInit();
@@ -287,10 +288,18 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.pictureAntennaTracker.Tag = "";
             this.pictureAntennaTracker.Click += new System.EventHandler(this.pictureBoxFW_Click);
             // 
+            // lbl_licence
+            // 
+            resources.ApplyResources(this.lbl_licence, "lbl_licence");
+            this.lbl_licence.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lbl_licence.Name = "lbl_licence";
+            this.lbl_licence.Click += new System.EventHandler(this.lbl_dlfw_Click);
+            // 
             // ConfigFirmware
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.lbl_licence);
             this.Controls.Add(this.pictureAntennaTracker);
             this.Controls.Add(this.lbl_px4bl);
             this.Controls.Add(this.lbl_dlfw);
@@ -333,6 +342,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private Label lbl_dlfw;
         private Label lbl_px4bl;
         private Controls.ImageLabel pictureAntennaTracker;
+        private Label lbl_licence;
 
     }
 }
