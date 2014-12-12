@@ -46,6 +46,8 @@ namespace MissionPlanner.Plugin
 
                 if (pluginInfo != null)
                 {
+                    log.Info("Plugin Load " + file);
+
                     Object o = Activator.CreateInstance(pluginInfo);
                     Plugin plugin = (Plugin)o;
 
@@ -55,7 +57,7 @@ namespace MissionPlanner.Plugin
 
                     if (plugin.Init())
                     {
-                        log.InfoFormat("Plugin Init {0} {1} by {2}", plugin.Name,plugin.Version,plugin.Author );
+                        log.InfoFormat("Plugin Init {0} {1} by {2}", plugin.Name, plugin.Version, plugin.Author);
                         lock (Plugins)
                         {
                             Plugins.Add(plugin);
@@ -66,7 +68,6 @@ namespace MissionPlanner.Plugin
             catch (Exception)
             {
             }
-
         }
 
         public static void LoadAll()
@@ -93,8 +94,9 @@ namespace MissionPlanner.Plugin
                             --i;
                         }
                     }
-                    catch (Exception)
+                    catch (Exception ex)
                     {
+                        log.Error(ex);
                         Plugins.RemoveAt(i);
                         --i;
                     }
