@@ -24,6 +24,9 @@ namespace MissionPlanner.Utilities
        static bool MONO = false;
        public static bool dobeta = false;
 
+        //Mirror
+        static string serverLocation = "Default";
+
         public static void updateCheckMain(ProgressReporterDialogue frmProgressReporter)
         {
 
@@ -210,6 +213,22 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
                 baseurl = ConfigurationManager.AppSettings["BetaUpdateLocation"];
             }
 
+            //Mirror
+            string getting = "Getting ";
+            string checking = "Checking ";
+
+            switch (serverLocation)
+            {
+                case "China":
+                    if (url.Contains("firmware.diydrones.com") && baseurl.Contains("firmware.diydrones.com"))
+                    {
+                        url = url.Replace("firmware.diydrones.com", "fwcdn.diywrj.com");
+                        baseurl = baseurl.Replace("firmware.diydrones.com", "fwcdn.diywrj.com");
+                        getting = "正在从奠基网镜像获取 ";
+                        checking = "检查 ";
+                    }
+                    break;
+            }
 
             WebRequest request = WebRequest.Create(url);
             request.Timeout = 10000;
@@ -258,7 +277,7 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
                         if (!MD5File(file + ".new", hash))
                         {
                             if (frmProgressReporter != null)
-                                frmProgressReporter.UpdateProgressAndStatus(-1, "Getting " + file);
+                                frmProgressReporter.UpdateProgressAndStatus(-1, getting + file);
 
                             string subdir = Path.GetDirectoryName(file) + Path.DirectorySeparatorChar;
 
@@ -278,7 +297,7 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
                         log.Info("Same File " + file);
 
                         if (frmProgressReporter != null)
-                            frmProgressReporter.UpdateProgressAndStatus(-1, "Checking " + file);
+                            frmProgressReporter.UpdateProgressAndStatus(-1, checking + file);
                     }
                 }
             }
@@ -329,8 +348,20 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
 
                 try
                 {
-
                     string url = baseurl + file + "?" + new Random().Next();
+
+                    //Mirror
+                    string getting = "Getting ";
+
+                    switch (serverLocation)
+                    {
+                        case "China":
+                            getting = "正在从奠基网镜像获取 ";
+                            url = baseurl + file;
+                            break;
+                    }
+
+                    
                     // Create a request using a URL that can receive a post. 
                     WebRequest request = WebRequest.Create(url);
                     log.Info("GetNewFile " + url);
@@ -350,7 +381,7 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
 
                         // update status
                         if (frmProgressReporter != null)
-                            frmProgressReporter.UpdateProgressAndStatus(-1, "Getting " + file);
+                            frmProgressReporter.UpdateProgressAndStatus(-1, getting + file);
 
                         // from head
                         long bytes = response.ContentLength;
@@ -374,7 +405,7 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
                                     if (dt.Second != DateTime.Now.Second)
                                     {
                                         if (frmProgressReporter != null)
-                                            frmProgressReporter.UpdateProgressAndStatus((int)(((double)(contlen - bytes) / (double)contlen) * 100), "Getting " + file + ": " + (((double)(contlen - bytes) / (double)contlen) * 100).ToString("0.0") + "%"); //+ Math.Abs(bytes) + " bytes");
+                                            frmProgressReporter.UpdateProgressAndStatus((int)(((double)(contlen - bytes) / (double)contlen) * 100), getting + file + ": " + (((double)(contlen - bytes) / (double)contlen) * 100).ToString("0.0") + "%"); //+ Math.Abs(bytes) + " bytes");
                                         dt = DateTime.Now;
                                     }
                                 }
@@ -407,7 +438,29 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
             #region Fetch Parameter Meta Data
 
             var progressReporterDialogue = ((ProgressReporterDialogue)sender);
-            progressReporterDialogue.UpdateProgressAndStatus(-1, "Getting Updated Parameters");
+
+            //Mirror
+            switch (System.Globalization.CultureInfo.CurrentUICulture.Name)
+            {
+                case "zh-Hans":
+                    serverLocation = "China";
+                    ParameterMetaDataParser.serverLocation = "China";
+                    break;
+                case "zh-CN":
+                    serverLocation = "China";
+                    ParameterMetaDataParser.serverLocation = "China";
+                    break;
+            }
+
+            switch (serverLocation)
+            {
+                case "China":
+                    progressReporterDialogue.UpdateProgressAndStatus(-1, "正在从奠基网镜像获取英文参数列表");
+                    break;
+                default:
+                    progressReporterDialogue.UpdateProgressAndStatus(-1, "Getting Updated Parameters");
+                    break;
+            }
 
             try
             {

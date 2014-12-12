@@ -20,6 +20,9 @@ namespace MissionPlanner.Utilities
 
       static Dictionary<string, string> cache = new Dictionary<string, string>();
 
+       //Mirror
+      public static string serverLocation = "Default";
+
        /// <summary>
        /// retrived parameter info from the net
        /// </summary>
@@ -32,6 +35,21 @@ namespace MissionPlanner.Utilities
 
          if (MissionPlanner.Utilities.Update.dobeta)
             parameterLocationsString = ConfigurationManager.AppSettings["ParameterLocationsBleeding"];
+
+         //Mirror
+         switch (serverLocation)
+         {
+             case "China":
+                 if (parameterLocationsString.Contains("raw.github.com"))
+                 {
+                     parameterLocationsString = parameterLocationsString.Replace("raw.github.com", "githubraw.diywrj.com");
+                 }
+                 if (parameterLocationsString.Contains("github.com"))
+                 {
+                     parameterLocationsString = parameterLocationsString.Replace("github.com", "github.diywrj.com");
+                 }
+                 break;
+         }
 
          if(!String.IsNullOrEmpty(parameterLocationsString))
          {
