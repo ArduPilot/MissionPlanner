@@ -155,6 +155,9 @@ namespace MissionPlanner.Utilities
             if (firmwareurl == "")
                 firmwareurl = this.firmwareurl;
 
+            // mirror support
+            ReplaceMirrorUrl(ref firmwareurl);
+
             log.Info("getFWList");
 
             string url = "";
@@ -247,7 +250,7 @@ namespace MissionPlanner.Utilities
                                 desc = xmlreader.ReadString();
                                 break;
                             case "Firmware":
-                                if (!url2560_2.Equals("") && !name.Equals("") && !desc.Equals("Please Update"))
+                                if (!name.Equals("") && !desc.Equals("Please Update"))
                                 {
                                     temp.desc = desc.Trim();
                                     temp.name = name;
@@ -381,7 +384,11 @@ namespace MissionPlanner.Utilities
 
                 software temp = (software)tempin;
 
-                Uri url = new Uri(new Uri(temp.url2560_2), "git-version.txt");
+                string baseurl = temp.url2560_2;
+
+                ReplaceMirrorUrl(ref baseurl);
+
+                Uri url = new Uri(new Uri(baseurl), "git-version.txt");
 
                 log.Info("Get url " + url.ToString());
 
@@ -538,6 +545,9 @@ namespace MissionPlanner.Utilities
                 if (historyhash != "")
                     baseurl = getUrl(historyhash, baseurl);
 
+                // update to use mirror url
+                ReplaceMirrorUrl(ref baseurl);
+
                 log.Info("Using " + baseurl);
 
                 // Create a request using a URL that can receive a post. 
@@ -561,7 +571,7 @@ namespace MissionPlanner.Utilities
 
                 FileStream fs = new FileStream(Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + @"firmware.hex", FileMode.Create);
 
-                updateProgress(0, "Downloading from Internet");
+                updateProgress(0, Strings.DownloadedFromInternet);
 
                 dataStream.ReadTimeout = 30000;
 
@@ -569,7 +579,7 @@ namespace MissionPlanner.Utilities
                 {
                     try
                     {
-                        updateProgress(50, "Downloading from Internet");
+                        updateProgress(50, Strings.DownloadedFromInternet);
                     }
                     catch { }
                     int len = dataStream.Read(buf1, 0, 1024);
@@ -586,7 +596,12 @@ namespace MissionPlanner.Utilities
                 updateProgress(100, "Downloaded from Internet");
                 log.Info("Downloaded");
             }
-            catch (Exception ex) { updateProgress(50, "Failed download"); CustomMessageBox.Show("Failed to download new firmware : " + ex.ToString()); return false; }
+            catch (Exception ex) 
+            { 
+                updateProgress(50, "Failed download"); 
+                CustomMessageBox.Show("Failed to download new firmware : " + ex.ToString()); 
+                return false; 
+            }
 
             MissionPlanner.Utilities.Tracking.AddFW(temp.name, board.ToString());
 
@@ -918,7 +933,7 @@ namespace MissionPlanner.Utilities
 
                     if (up.board_type == 1140 || up.board_type == 1145 || up.board_type == 1150 || up.board_type == 1151 || up.board_type == 1210 || up.board_type == 1351 || up.board_type == 1352 || up.board_type == 1411 || up.board_type == 1520)
                     {//VR boards have no tone alarm
-                        if(up.board_type ==1140)
+                        if(up.board_type == 1140)
                             CustomMessageBox.Show("Upload complete! Please unplug and reconnect board.");
                         else
                             CustomMessageBox.Show("Upload complete!");
@@ -1176,6 +1191,35 @@ namespace MissionPlanner.Utilities
             Array.Resize<byte>(ref FLASH, total);
 
             return FLASH;
+        }
+
+        string ReplaceMirrorUrl(ref string url)
+        {
+            switch (System.Globalization.CultureInfo.CurrentUICulture.Name)
+            {
+                case "zh-CN":
+                case "zh-Hans":
+                    if (url.Contains("raw.github.com"))
+                    {
+                        url = url.Replace("raw.github.com", "githubraw.diywrj.com");
+                    }
+                    else if (url.Contains("firmware.diydrones.com"))
+                    {
+                        url = url.Replace("firmware.diydrones.com", "fwcdn.diywrj.com");
+                    }
+                    else if (url.Contains("github.com"))
+                    {
+                        url = url.Replace("github.com", "github.diywrj.com");
+                    }
+                    else
+                    {
+                    }
+                    break;
+                default:
+                    break;
+            }
+
+            return url;
         }
     }
 }

@@ -644,6 +644,8 @@ namespace MissionPlanner.Log
 
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
+                this.Text = "Log - " + Path.GetFileName(openFileDialog1.FileName);
+
                 List<string> fields = GetLogFileValidFields(openFileDialog1.FileName);
 
                 zg1.GraphPane.CurveList.Clear();

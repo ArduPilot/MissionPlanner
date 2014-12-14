@@ -223,4 +223,16 @@ These appear to be missing from your log.</value>
 DON'T DO THIS IF YOU ARE IN THE AIR
 </value>
   </data>
+  <data name="Checking" xml:space="preserve">
+    <value>Checking </value>
+  </data>
+  <data name="DownloadedFromInternet" xml:space="preserve">
+    <value>Downloaded from internet</value>
+  </data>
+  <data name="Getting" xml:space="preserve">
+    <value>Getting </value>
+  </data>
+  <data name="GettingUpdatedParams" xml:space="preserve">
+    <value>Getting updated parameters</value>
+  </data>
 </root>
