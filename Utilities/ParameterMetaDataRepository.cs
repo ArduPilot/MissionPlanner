@@ -164,7 +164,19 @@ namespace MissionPlanner.Utilities
       {
           CheckLoad();
 
-          string availableValuesRaw = GetParameterMetaData(nodeKey, ParameterMetaDataConstants.Values, vechileType);
+          string availableValuesRaw;
+
+          if (nodeKey == "FLTMODE1" && _parameterMetaDataXMLEn != null)
+          {
+              _parameterMetaDataXML = _parameterMetaDataXMLEn;
+              availableValuesRaw = GetParameterMetaData(nodeKey, ParameterMetaDataConstants.Values, vechileType);
+              Reload();
+          }
+          else
+          {
+              availableValuesRaw = GetParameterMetaData(nodeKey, ParameterMetaDataConstants.Values, vechileType);
+          }
+          
 
           string[] availableValues = availableValuesRaw.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
           if (availableValues.Any())

@@ -235,4 +235,80 @@ DON'T DO THIS IF YOU ARE IN THE AIR
   <data name="GettingUpdatedParams" xml:space="preserve">
     <value>Getting updated parameters</value>
   </data>
+  <data name="CantDetectBoardVersion" xml:space="preserve">
+    <value>Cant detect your Board version. Please check your cabling</value>
+  </data>
+  <data name="CheckPortSettingsOr" xml:space="preserve">
+    <value>Check port settings or Port in use?</value>
+  </data>
+  <data name="CommunicationErrorNoConnection" xml:space="preserve">
+    <value>Communication Error - no connection</value>
+  </data>
+  <data name="DetectedA" xml:space="preserve">
+    <value>Detected a</value>
+  </data>
+  <data name="DetectingBoardVersion" xml:space="preserve">
+    <value>Detecting Board Version</value>
+  </data>
+  <data name="Done" xml:space="preserve">
+    <value>Done</value>
+  </data>
+  <data name="DownloadingFromInternet" xml:space="preserve">
+    <value>Downloading from Internet</value>
+  </data>
+  <data name="EppromChanged" xml:space="preserve">
+    <value>Epprom changed, all your setting will be lost during the update,
+Do you wish to continue?</value>
+  </data>
+  <data name="EppromFormatChanged" xml:space="preserve">
+    <value>Epprom format changed ({0) vs {1})</value>
+  </data>
+  <data name="FailedDownload" xml:space="preserve">
+    <value>Failed download</value>
+  </data>
+  <data name="FailedReadHEX" xml:space="preserve">
+    <value>Failed read HEX</value>
+  </data>
+  <data name="FailedToReadHex" xml:space="preserve">
+    <value>Failed to read firmware.hex :</value>
+  </data>
+  <data name="FailedUpload" xml:space="preserve">
+    <value>Failed upload</value>
+  </data>
+  <data name="GettingFWList" xml:space="preserve">
+    <value>Getting FW List</value>
+  </data>
+  <data name="GettingFWVersion" xml:space="preserve">
+    <value>Getting FW Version</value>
+  </data>
+  <data name="InvalidBoardType" xml:space="preserve">
+    <value>Invalid Board Type</value>
+  </data>
+  <data name="PleaseConnectAndBackupConfig" xml:space="preserve">
+    <value>Please connect and backup your config in the configuration tab.</value>
+  </data>
+  <data name="ReadingHexFile" xml:space="preserve">
+    <value>Reading Hex File</value>
+  </data>
+  <data name="ReceivedList" xml:space="preserve">
+    <value>Received List</value>
+  </data>
+  <data name="UploadComplete" xml:space="preserve">
+    <value>Upload Complete</value>
+  </data>
+  <data name="UploadingBytesToBoard" xml:space="preserve">
+    <value>Uploading {0} bytes to Board:</value>
+  </data>
+  <data name="VerifyComplete" xml:space="preserve">
+    <value>Verify Complete</value>
+  </data>
+  <data name="VerifyFirmware" xml:space="preserve">
+    <value>Verify Firmware</value>
+  </data>
+  <data name="UploadSucceededButVerifyFailed" xml:space="preserve">
+    <value>Upload succeeded, but verify failed: exp {0} got {1} at </value>
+  </data>
+  <data name="ReadingHex" xml:space="preserve">
+    <value>Reading Hex</value>
+  </data>
 </root>

@@ -369,6 +369,11 @@
       <DependentUpon>ConfigWizard.cs</DependentUpon>
     </Compile>
     <Compile Include="GCSViews\ExtTranslations\ConfigFriendlyParamsT.Designer.cs" />
+    <Compile Include="GCSViews\ExtTranslations\ConfigRawParamsT.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ConfigRawParamsT.resx</DependentUpon>
+    </Compile>
     <Compile Include="GCSViews\ExtTranslations\SoftwareConfigT.Designer.cs" />
     <Compile Include="Joystick\Joy_Do_Repeat_Servo.cs">
       <SubType>Form</SubType>
@@ -698,6 +703,9 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFirmware.zh-TW.resx">
       <DependentUpon>ConfigFirmware.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFirmwareDisabled.zh-Hans.resx">
+      <DependentUpon>ConfigFirmwareDisabled.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFlightModes.zh-Hant.resx">
       <DependentUpon>ConfigFlightModes.cs</DependentUpon>
     </EmbeddedResource>
@@ -800,11 +808,22 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigRawParamsTree.zh-TW.resx">
       <DependentUpon>ConfigRawParamsTree.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigSimplePids.zh-Hans.resx">
+      <DependentUpon>ConfigSimplePids.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigTradHeli.zh-TW.resx">
       <DependentUpon>ConfigTradHeli.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ExtTranslations\ConfigFriendlyParamsT.resx" />
     <EmbeddedResource Include="GCSViews\ExtTranslations\ConfigFriendlyParamsT.zh-Hans.resx" />
+    <EmbeddedResource Include="GCSViews\ExtTranslations\ConfigRawParamsT.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ConfigRawParamsT.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ExtTranslations\ConfigRawParamsT.zh-Hans.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ExtTranslations\SoftwareConfigT.resx" />
     <EmbeddedResource Include="GCSViews\ExtTranslations\SoftwareConfigT.zh-Hans.resx" />
     <EmbeddedResource Include="GCSViews\FlightData.zh-Hant.resx">
@@ -2119,6 +2138,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\FlightData.de-DE.resx">
       <DependentUpon>FlightData.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\FlightPlanner.de-DE.resx">
       <DependentUpon>FlightPlanner.cs</DependentUpon>
