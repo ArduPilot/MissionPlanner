@@ -1425,6 +1425,32 @@ namespace MissionPlanner.GCSViews
                 }
             }
 
+            if (polygonPoints.Count < 2)
+                return;
+
+            GMapRoute homeroute = new GMapRoute("homepath");
+            homeroute.Stroke = new Pen(Color.Yellow, 2);
+            homeroute.Stroke.DashStyle = DashStyle.Dash;
+            // add first point past home
+            homeroute.Points.Add(polygonPoints[1]);
+            // add home location
+            homeroute.Points.Add(polygonPoints[0]);
+            // add last point
+            homeroute.Points.Add(polygonPoints[polygonPoints.Count - 1]);
+
+            GMapRoute wppath = new GMapRoute("wp path");
+            wppath.Stroke = new Pen(Color.Yellow, 4);
+
+            for (int a = 1; a < polygonPoints.Count; a++)
+            {
+                wppath.Points.Add(polygonPoints[a]);
+            }
+
+            polygons.Routes.Add(homeroute);
+            polygons.Routes.Add(wppath);
+
+            return;
+
             if (polygon == null)
             {
                 polygon = new GMapPolygon(polygonPoints, "polygon test");
