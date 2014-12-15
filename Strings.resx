@@ -235,4 +235,34 @@ DON'T DO THIS IF YOU ARE IN THE AIR
   <data name="GettingUpdatedParams" xml:space="preserve">
     <value>Getting updated parameters</value>
   </data>
+  <data name="AdvancedParams" xml:space="preserve">
+    <value>Advanced Params</value>
+  </data>
+  <data name="BasicTuning" xml:space="preserve">
+    <value>Basic Tuning</value>
+  </data>
+  <data name="Desc" xml:space="preserve">
+    <value>Description: </value>
+  </data>
+  <data name="ExtendedTuning" xml:space="preserve">
+    <value>Extended Tuning</value>
+  </data>
+  <data name="FlightModes" xml:space="preserve">
+    <value>Flight Modes</value>
+  </data>
+  <data name="FullParameterList" xml:space="preserve">
+    <value>Full Parameter List</value>
+  </data>
+  <data name="FullParameterTree" xml:space="preserve">
+    <value>Full Parameter Tree</value>
+  </data>
+  <data name="GeoFence" xml:space="preserve">
+    <value>GeoFence</value>
+  </data>
+  <data name="StandardParams" xml:space="preserve">
+    <value>Standard Params</value>
+  </data>
+  <data name="Units" xml:space="preserve">
+    <value>Units: {0}{1}</value>
+  </data>
 </root>

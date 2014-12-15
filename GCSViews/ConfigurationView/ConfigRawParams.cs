@@ -144,7 +144,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                         data[row.Cells[0].Value.ToString()] = value;
                     }
-                    catch (Exception ex) { CustomMessageBox.Show(Strings.InvalidNumberEntered + " " + row.Cells[0].Value.ToString()); }
+                    catch (Exception) { CustomMessageBox.Show(Strings.InvalidNumberEntered + " " + row.Cells[0].Value.ToString()); }
                 }
 
                 Utilities.ParamFile.SaveParamFile(sfd.FileName,data);

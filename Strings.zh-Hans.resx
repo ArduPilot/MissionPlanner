@@ -223,4 +223,34 @@ These appear to be missing from your log.</value>
 如果你在空中，请不要这么做！
 </value>
   </data>
+  <data name="AdvancedParams" xml:space="preserve">
+    <value>高级参数</value>
+  </data>
+  <data name="BasicTuning" xml:space="preserve">
+    <value>基本调参</value>
+  </data>
+  <data name="Desc" xml:space="preserve">
+    <value>描述：</value>
+  </data>
+  <data name="ExtendedTuning" xml:space="preserve">
+    <value>扩展调参</value>
+  </data>
+  <data name="FlightModes" xml:space="preserve">
+    <value>飞行模式</value>
+  </data>
+  <data name="FullParameterList" xml:space="preserve">
+    <value>全部参数表</value>
+  </data>
+  <data name="FullParameterTree" xml:space="preserve">
+    <value>全部参数树</value>
+  </data>
+  <data name="GeoFence" xml:space="preserve">
+    <value>地理围栏</value>
+  </data>
+  <data name="StandardParams" xml:space="preserve">
+    <value>标准参数</value>
+  </data>
+  <data name="Units" xml:space="preserve">
+    <value>单位：{0}{1}</value>
+  </data>
 </root>

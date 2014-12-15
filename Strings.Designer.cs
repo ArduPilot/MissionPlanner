@@ -61,11 +61,29 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Advanced Params.
+        /// </summary>
+        public static string AdvancedParams {
+            get {
+                return ResourceManager.GetString("AdvancedParams", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Bad Lat/Lng.
         /// </summary>
         public static string BadCoords {
             get {
                 return ResourceManager.GetString("BadCoords", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Basic Tuning.
+        /// </summary>
+        public static string BasicTuning {
+            get {
+                return ResourceManager.GetString("BasicTuning", resourceCulture);
             }
         }
         
@@ -94,6 +112,15 @@ namespace MissionPlanner {
         public static string CommandFailed {
             get {
                 return ResourceManager.GetString("CommandFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Description: .
+        /// </summary>
+        public static string Desc {
+            get {
+                return ResourceManager.GetString("Desc", resourceCulture);
             }
         }
         
@@ -231,6 +258,51 @@ namespace MissionPlanner {
         public static string ErrorSetValueFailed {
             get {
                 return ResourceManager.GetString("ErrorSetValueFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Extended Tuning.
+        /// </summary>
+        public static string ExtendedTuning {
+            get {
+                return ResourceManager.GetString("ExtendedTuning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Flight Modes.
+        /// </summary>
+        public static string FlightModes {
+            get {
+                return ResourceManager.GetString("FlightModes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Full Parameter List.
+        /// </summary>
+        public static string FullParameterList {
+            get {
+                return ResourceManager.GetString("FullParameterList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Full Parameter Tree.
+        /// </summary>
+        public static string FullParameterTree {
+            get {
+                return ResourceManager.GetString("FullParameterTree", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to GeoFence.
+        /// </summary>
+        public static string GeoFence {
+            get {
+                return ResourceManager.GetString("GeoFence", resourceCulture);
             }
         }
         
@@ -376,6 +448,24 @@ namespace MissionPlanner {
         public static string SelectComport {
             get {
                 return ResourceManager.GetString("SelectComport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Standard Params.
+        /// </summary>
+        public static string StandardParams {
+            get {
+                return ResourceManager.GetString("StandardParams", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Units: {0}{1}.
+        /// </summary>
+        public static string Units {
+            get {
+                return ResourceManager.GetString("Units", resourceCulture);
             }
         }
         

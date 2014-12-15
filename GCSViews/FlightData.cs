@@ -1449,30 +1449,6 @@ namespace MissionPlanner.GCSViews
             polygons.Routes.Add(homeroute);
             polygons.Routes.Add(wppath);
 
-            return;
-
-            if (polygon == null)
-            {
-                polygon = new GMapPolygon(polygonPoints, "polygon test");
-                polygons.Polygons.Add(polygon);
-            }
-            else
-            {
-                polygon.Points.Clear();
-                polygon.Points.AddRange(polygonPoints);
-
-                polygon.Stroke = new Pen(Color.Yellow, 4);
-                polygon.Fill = Brushes.Transparent;
-
-                if (polygons.Polygons.Count == 0)
-                {
-                    polygons.Polygons.Add(polygon);
-                }
-                else
-                {
-                    gMapControl1.UpdatePolygonLocalPosition(polygon);
-                }
-            }
         }
 
         GMapPolygon polygon;
