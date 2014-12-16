@@ -350,6 +350,12 @@
     <Compile Include="Controls\DefaultSettings.Designer.cs">
       <DependentUpon>DefaultSettings.cs</DependentUpon>
     </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigHWBT.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigHWBT.Designer.cs">
+      <DependentUpon>ConfigHWBT.cs</DependentUpon>
+    </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigMotorTest.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -368,8 +374,6 @@
     <Compile Include="GCSViews\ConfigurationView\ConfigWizard.Designer.cs">
       <DependentUpon>ConfigWizard.cs</DependentUpon>
     </Compile>
-    <Compile Include="GCSViews\ExtTranslations\ConfigFriendlyParamsT.Designer.cs" />
-    <Compile Include="GCSViews\ExtTranslations\SoftwareConfigT.Designer.cs" />
     <Compile Include="Joystick\Joy_Do_Repeat_Servo.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -731,6 +735,9 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWOptFlow.zh-TW.resx">
       <DependentUpon>ConfigHWOptFlow.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWBT.resx">
+      <DependentUpon>ConfigHWBT.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWOSD.zh-Hant.resx">
       <DependentUpon>ConfigHWOSD.cs</DependentUpon>
     </EmbeddedResource>
@@ -803,10 +810,6 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigTradHeli.zh-TW.resx">
       <DependentUpon>ConfigTradHeli.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ExtTranslations\ConfigFriendlyParamsT.resx" />
-    <EmbeddedResource Include="GCSViews\ExtTranslations\ConfigFriendlyParamsT.zh-Hans.resx" />
-    <EmbeddedResource Include="GCSViews\ExtTranslations\SoftwareConfigT.resx" />
-    <EmbeddedResource Include="GCSViews\ExtTranslations\SoftwareConfigT.zh-Hans.resx" />
     <EmbeddedResource Include="GCSViews\FlightData.zh-Hant.resx">
       <DependentUpon>FlightData.cs</DependentUpon>
     </EmbeddedResource>
