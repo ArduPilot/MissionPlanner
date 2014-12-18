@@ -1576,9 +1576,9 @@ namespace MissionPlanner
                         
                     }
 
-                    dp.close();
+                   // dp.close();
 
-                    mine.Close();
+                   // mine.Close();
                 }
             }
 

@@ -774,7 +774,6 @@ Please check the following
             // clear old
             MAV.param = new Hashtable();
 
-            int retrys = 6;
             int param_count = 0;
             int param_total = 1;
 
