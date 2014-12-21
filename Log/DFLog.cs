@@ -303,12 +303,6 @@ namespace MissionPlanner.Log
             }
             else if (line.StartsWith("MAG"))
             {
-                Array.Resize(ref items, items.Length + 1);
-                try
-                {
-                    int fixme_addmagfield;
-                }
-                catch { }
             }
 
             DFItem item = new DFItem();

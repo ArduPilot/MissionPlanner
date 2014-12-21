@@ -151,8 +151,6 @@ namespace MissionPlanner.GCSViews
                 routes.Dispose();
             if (route != null)
                 route.Dispose();
-            if (polygon != null)
-                polygon.Dispose();
             if (marker != null)
                 marker.Dispose();
             if (aviwriter != null)
@@ -1469,7 +1467,6 @@ namespace MissionPlanner.GCSViews
 
         }
 
-        GMapPolygon polygon;
         GMapOverlay polygons;
         GMapOverlay routes;
         GMapRoute route;
