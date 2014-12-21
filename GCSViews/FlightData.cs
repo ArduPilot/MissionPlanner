@@ -181,6 +181,8 @@ namespace MissionPlanner.GCSViews
             myhud = hud1;
             MainHcopy = MainH;
 
+            mymap.Paint += mymap_Paint;
+
             //  mymap.Manager.UseMemoryCache = false;
 
             log.Info("Tunning Graph Settings");
@@ -306,6 +308,11 @@ namespace MissionPlanner.GCSViews
 
             // first run
             MainV2_AdvancedChanged(null, null);
+        }
+
+        void mymap_Paint(object sender, PaintEventArgs e)
+        {
+            distanceBar1.Invalidate();
         }
 
         void comPort_MavChanged(object sender, EventArgs e)
@@ -994,6 +1001,10 @@ namespace MissionPlanner.GCSViews
                             //Console.WriteLine("Doing FD WP's");
                             updateClearMissionRouteMarkers();
 
+                            float dist = 0;
+                            distanceBar1.ClearWPDist();
+                            MAVLink.mavlink_mission_item_t lastplla = new MAVLink.mavlink_mission_item_t();
+
                             foreach (MAVLink.mavlink_mission_item_t plla in MainV2.comPort.MAV.wps.Values)
                             {
                                 if (plla.x == 0 || plla.y == 0)
@@ -1015,7 +1026,14 @@ namespace MissionPlanner.GCSViews
                                     continue;
                                 }
 
+                                if (lastplla.command == 0)
+                                    lastplla = plla;
+
+                                distanceBar1.AddWPDist((float)new PointLatLngAlt(plla.y, plla.x).GetDistance(new PointLatLngAlt(lastplla.y,lastplla.x)));
+
                                 addpolygonmarker(tag, plla.y, plla.x, (int)plla.z, Color.White, polygons);
+
+                                lastplla = plla;
                             }
 
                             RegeneratePolygon();
@@ -1818,6 +1836,8 @@ namespace MissionPlanner.GCSViews
                     LBL_logfn.Text = Path.GetFileName(file);
 
                     log.Info("Open logfile " + file);
+
+                    MainV2.comPort.getHeartBeat();
 
                     tracklog.Value = 0;
                     tracklog.Minimum = 0;
