@@ -285,6 +285,9 @@
   <data name="txt_name.TabIndex" type="System.Int32, mscorlib">
     <value>81</value>
   </data>
+  <data name="txt_name.Text" xml:space="preserve">
+    <value>Ardupilot</value>
+  </data>
   <data name="&gt;&gt;txt_name.Name" xml:space="preserve">
     <value>txt_name</value>
   </data>
@@ -305,6 +308,9 @@
   </data>
   <data name="txt_pin.TabIndex" type="System.Int32, mscorlib">
     <value>82</value>
+  </data>
+  <data name="txt_pin.Text" xml:space="preserve">
+    <value>1234</value>
   </data>
   <data name="&gt;&gt;txt_pin.Name" xml:space="preserve">
     <value>txt_pin</value>

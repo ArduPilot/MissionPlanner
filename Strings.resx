@@ -265,4 +265,7 @@ DON'T DO THIS IF YOU ARE IN THE AIR
   <data name="Units" xml:space="preserve">
     <value>Units: {0}{1}</value>
   </data>
+  <data name="ProgrammedOK" xml:space="preserve">
+    <value>Sucessfully programmed</value>
+  </data>
 </root>

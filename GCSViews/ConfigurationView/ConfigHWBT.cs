@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using MissionPlanner.Controls.BackstageView;
 using MissionPlanner.Controls;
+using log4net;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
@@ -16,6 +17,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         const float rad2deg = (float)(180 / Math.PI);
         const float deg2rad = (float)(1.0 / rad2deg);
 
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         
 
         public ConfigHWBT()
@@ -38,14 +40,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         Dictionary<int, int> baudmap = new Dictionary<int, int>
         {
+            {57600 , 7},
+            {38400 , 6},
+            {9600 , 4},
+            {19200 , 5},
+            {115200 , 8},
             {1200 , 1},
             {2400 , 2},
             {4800 , 3},
-            {9600 , 4},
-            {19200 , 5},
-            {38400 , 6},
-            {57600 , 7},
-            {115200 , 8}
         };
 
         private void BUT_btsettings_Click(object sender, EventArgs e)
@@ -64,29 +66,51 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 "AT+RESET"
             };
 
+            bool pass = false;
+
             foreach (var baud in baudmap)
             {
+                log.Info("Try baud " + baud);
                 using (System.IO.Ports.SerialPort port = new System.IO.Ports.SerialPort(MainV2.comPortName, baud.Key))
                 {
                     port.Open();
 
-                    port.Write("AT\r\n");
+                    port.Write("AT");
 
-                    System.Threading.Thread.Sleep(500);
+                    System.Threading.Thread.Sleep(1100);
+
+                    port.Write("\r\n");
+
+                    System.Threading.Thread.Sleep(200);
 
                     string isok = port.ReadExisting();
 
                     if (isok.Contains("OK"))
                     {
+                        log.Info("Valid Answer");
+
                         foreach (var cmd in commands)
                         {
+                            log.Info("Sending " + cmd);
                             port.Write(cmd);
                             System.Threading.Thread.Sleep(1000);
+                            log.Info("Resp "+port.ReadExisting());
                         }
+
+                        pass = true;
                         break;
+                    }
+                    else
+                    {
+                        log.Info("No Answer");
                     }
                 }
             }
+
+            if (!pass)
+                CustomMessageBox.Show(Strings.ErrorSettingParameter, Strings.ERROR);
+            else
+                CustomMessageBox.Show(Strings.ProgrammedOK);
         }
     }
 }

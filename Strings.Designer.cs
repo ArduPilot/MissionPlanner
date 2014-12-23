@@ -443,6 +443,15 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sucessfully programmed.
+        /// </summary>
+        public static string ProgrammedOK {
+            get {
+                return ResourceManager.GetString("ProgrammedOK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please select a comport.
         /// </summary>
         public static string SelectComport {
