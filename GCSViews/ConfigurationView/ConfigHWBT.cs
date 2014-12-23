@@ -57,12 +57,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 "AT",
                 "AT+VERSION",
                 string.Format("AT+ROLE={0}\r\n",0),
-                string.Format("AT+NAME{0}",txt_name.Text),
                 string.Format("AT+NAME={0}\r\n",txt_name.Text),
-                string.Format("AT+BAUD{0}",baudmap[int.Parse(cmb_baud.Text)]),
+                string.Format("AT+NAME{0}",txt_name.Text),                
                 string.Format("AT+BAUD={0}\r\n",cmb_baud.Text),
-                string.Format("AT+PIN{0}",txt_pin.Text),
+                string.Format("AT+BAUD{0}",baudmap[int.Parse(cmb_baud.Text)]),
                 string.Format("AT+PSWD={0}\r\n",txt_pin.Text),
+                string.Format("AT+PIN{0}",txt_pin.Text),                
                 "AT+RESET"
             };
 
