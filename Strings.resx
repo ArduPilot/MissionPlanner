@@ -268,4 +268,33 @@ DON'T DO THIS IF YOU ARE IN THE AIR
   <data name="ProgrammedOK" xml:space="preserve">
     <value>Sucessfully programmed</value>
   </data>
+  <data name="CONNECTc" xml:space="preserve">
+    <value>CONNECT</value>
+  </data>
+  <data name="Disconnect" xml:space="preserve">
+    <value>Disconnect</value>
+  </data>
+  <data name="DISCONNECTc" xml:space="preserve">
+    <value>DISCONNECT</value>
+  </data>
+  <data name="Failclog" xml:space="preserve">
+    <value>Failed to create log - wont log this session</value>
+  </data>
+  <data name="NewFirmware" xml:space="preserve">
+    <value>New Firmware</value>
+  </data>
+  <data name="NewFirmwareA" xml:space="preserve">
+    <value>New firmware available
+</value>
+  </data>
+  <data name="Pleaseup" xml:space="preserve">
+    <value>
+Please upgrade</value>
+  </data>
+  <data name="Stillmoving" xml:space="preserve">
+    <value>Your model is still moving are you sure you want to disconnect?</value>
+  </data>
+  <data name="Timeout" xml:space="preserve">
+    <value>Timeout waiting for autoscan/no mavlink device connected</value>
+  </data>
 </root>

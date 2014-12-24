@@ -116,11 +116,38 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to CONNECT.
+        /// </summary>
+        public static string CONNECTc {
+            get {
+                return ResourceManager.GetString("CONNECTc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Description: .
         /// </summary>
         public static string Desc {
             get {
                 return ResourceManager.GetString("Desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Disconnect.
+        /// </summary>
+        public static string Disconnect {
+            get {
+                return ResourceManager.GetString("Disconnect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DISCONNECT.
+        /// </summary>
+        public static string DISCONNECTc {
+            get {
+                return ResourceManager.GetString("DISCONNECTc", resourceCulture);
             }
         }
         
@@ -271,6 +298,15 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to create log - wont log this session.
+        /// </summary>
+        public static string Failclog {
+            get {
+                return ResourceManager.GetString("Failclog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Flight Modes.
         /// </summary>
         public static string FlightModes {
@@ -407,6 +443,25 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to New Firmware.
+        /// </summary>
+        public static string NewFirmware {
+            get {
+                return ResourceManager.GetString("NewFirmware", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New firmware available
+        ///.
+        /// </summary>
+        public static string NewFirmwareA {
+            get {
+                return ResourceManager.GetString("NewFirmwareA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No FMT message for .
         /// </summary>
         public static string NoFMTMessage {
@@ -443,6 +498,16 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 
+        ///Please upgrade.
+        /// </summary>
+        public static string Pleaseup {
+            get {
+                return ResourceManager.GetString("Pleaseup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sucessfully programmed.
         /// </summary>
         public static string ProgrammedOK {
@@ -466,6 +531,24 @@ namespace MissionPlanner {
         public static string StandardParams {
             get {
                 return ResourceManager.GetString("StandardParams", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your model is still moving are you sure you want to disconnect?.
+        /// </summary>
+        public static string Stillmoving {
+            get {
+                return ResourceManager.GetString("Stillmoving", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Timeout waiting for autoscan/no mavlink device connected.
+        /// </summary>
+        public static string Timeout {
+            get {
+                return ResourceManager.GetString("Timeout", resourceCulture);
             }
         }
         

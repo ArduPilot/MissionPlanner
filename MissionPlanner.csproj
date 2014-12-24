@@ -437,7 +437,6 @@
       <DependentUpon>LogIndex.cs</DependentUpon>
     </Compile>
     <Compile Include="Log\LogMap.cs" />
-    <Compile Include="MainV2T.Designer.cs" />
     <Compile Include="Maps\MapboxNoFly.cs" />
     <Compile Include="Maps\Mapbox.cs" />
     <Compile Include="Maps\Earthbuilder.cs" />
@@ -909,15 +908,6 @@
     <EmbeddedResource Include="MainV2.zh-TW.resx">
       <DependentUpon>MainV2.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MainV2T.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>MainV2T1.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MainV2T.zh-Hans.resx">
-      <SubType>Designer</SubType>
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>MainV2T.zh-Hans.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
     <EmbeddedResource Include="Mavlink\MAVLinkT.resx" />
     <EmbeddedResource Include="Mavlink\MAVLinkT.zh-Hans.resx" />
     <EmbeddedResource Include="MovingBase.zh-Hant.resx">
@@ -952,13 +942,12 @@
       <DependentUpon>ScriptConsole.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Strings.resx">
+      <SubType>Designer</SubType>
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Strings.zh-Hans.resx">
       <SubType>Designer</SubType>
-      <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.zh-Hans.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Utilities\UpdateT.resx" />

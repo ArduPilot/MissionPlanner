@@ -253,4 +253,33 @@ These appear to be missing from your log.</value>
   <data name="Units" xml:space="preserve">
     <value>单位：{0}{1}</value>
   </data>
+  <data name="CONNECTc" xml:space="preserve">
+    <value>连接</value>
+  </data>
+  <data name="Disconnect" xml:space="preserve">
+    <value>断开连接</value>
+  </data>
+  <data name="DISCONNECTc" xml:space="preserve">
+    <value>断开连接</value>
+  </data>
+  <data name="Failclog" xml:space="preserve">
+    <value>Failed to create log - wont log this session</value>
+  </data>
+  <data name="NewFirmware" xml:space="preserve">
+    <value>新固件</value>
+  </data>
+  <data name="NewFirmwareA" xml:space="preserve">
+    <value>有新固件可用
+</value>
+  </data>
+  <data name="Pleaseup" xml:space="preserve">
+    <value>
+请升级</value>
+  </data>
+  <data name="Stillmoving" xml:space="preserve">
+    <value>你的模型仍然在移动，确认断开连接？</value>
+  </data>
+  <data name="Timeout" xml:space="preserve">
+    <value>自动扫描超时或者没有mavlink设备</value>
+  </data>
 </root>

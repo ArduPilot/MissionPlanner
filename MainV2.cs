@@ -54,7 +54,7 @@ namespace MissionPlanner
             static public int SW_HIDE = 0;
         }
 
-        static menuicons diplayicons = new menuicons2();
+        static menuicons displayicons = new menuicons2();
 
         public class menuicons
         {
@@ -807,7 +807,7 @@ namespace MissionPlanner
             // sanity check
             if (comPort.BaseStream.IsOpen && MainV2.comPort.MAV.cs.groundspeed > 4)
             {
-                if (DialogResult.No == CustomMessageBox.Show(MainV2T.Stillmoving, MainV2T.Disconnect, MessageBoxButtons.YesNo))
+                if (DialogResult.No == CustomMessageBox.Show(Strings.Stillmoving, Strings.Disconnect, MessageBoxButtons.YesNo))
                 {
                     return;
                 }
@@ -930,7 +930,7 @@ namespace MissionPlanner
 
                             if (DateTime.Now > deadline)
                             {
-                                CustomMessageBox.Show(MainV2T.Timeout);
+                                CustomMessageBox.Show(Strings.Timeout);
                                 _connectionControl.IsConnected(false);
                                 return;
                             }
@@ -980,7 +980,7 @@ namespace MissionPlanner
 
                         log.Info("creating logfile " + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + ".tlog");
                     }
-                    catch (Exception exp2) { log.Error(exp2); CustomMessageBox.Show(MainV2T.Failclog); } // soft fail
+                    catch (Exception exp2) { log.Error(exp2); CustomMessageBox.Show(Strings.Failclog); } // soft fail
 
                     // reset connect time - for timeout functions
                     connecttime = DateTime.Now;
@@ -1052,7 +1052,7 @@ namespace MissionPlanner
 
                                     if (ver2 > ver1)
                                     {
-                                        Common.MessageShowAgain(MainV2T.NewFirmware, MainV2T.NewFirmwareA + item.name + MainV2T.Pleaseup);
+                                        Common.MessageShowAgain(Strings.NewFirmware, Strings.NewFirmwareA + item.name + Strings.Pleaseup);
                                         break;
                                     }
 
@@ -1098,7 +1098,7 @@ namespace MissionPlanner
                     }
 
                     // set connected icon
-                    this.MenuConnect.Image = diplayicons.disconnect;
+                    this.MenuConnect.Image = displayicons.disconnect;
                 }
                 catch (Exception ex)
                 {
@@ -1541,9 +1541,9 @@ namespace MissionPlanner
                     {
                         this.BeginInvoke((MethodInvoker)delegate
                         {
-                            this.MenuConnect.Image = diplayicons.disconnect;
+                            this.MenuConnect.Image = displayicons.disconnect;
                             this.MenuConnect.Image.Tag = "Disconnect";
-                            this.MenuConnect.Text = MainV2T.DISCONNECTc;
+                            this.MenuConnect.Text = Strings.DISCONNECTc;
                             _connectionControl.IsConnected(true);
                         });
                     }
@@ -1554,9 +1554,9 @@ namespace MissionPlanner
                     {
                         this.BeginInvoke((MethodInvoker)delegate
                         {
-                            this.MenuConnect.Image = diplayicons.connect;
+                            this.MenuConnect.Image = displayicons.connect;
                             this.MenuConnect.Image.Tag = "Connect";
-                            this.MenuConnect.Text = MainV2T.CONNECTc;
+                            this.MenuConnect.Text = Strings.CONNECTc;
                             _connectionControl.IsConnected(false);
                             if (_connectionStats != null)
                             {
