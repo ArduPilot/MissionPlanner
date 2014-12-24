@@ -1,4 +1,5 @@
-﻿using System;
+﻿using log4net;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -10,9 +11,12 @@ namespace MissionPlanner.Utilities
 {
     public class KIndex
     {
-        static string kindexurl = "http://www.swpc.noaa.gov/ftpdir/latest/wwv.txt";
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        static Regex kregex = new Regex("K-index at [.]+ was ([0-9]+)");
+        static string kindexurl = "http://services.swpc.noaa.gov/text/wwv.txt";
+
+        //The estimated planetary K-index at 2100 UTC on 24 December was 3.
+        static Regex kregex = new Regex("K-index at .+ was ([0-9]+)");
 
         public static event EventHandler KIndexEvent;
 
@@ -46,15 +50,17 @@ namespace MissionPlanner.Utilities
 
                     int kno = int.Parse(number);
 
+                    log.Info("K-Index is " + kno);
+
                     if (KIndexEvent != null)
                         KIndexEvent(kno, null);
 
                     return;
                 }
             }
-            catch 
+            catch (Exception ex)
             {
-
+                log.Error(ex);
             }
 
             if (KIndexEvent != null)
