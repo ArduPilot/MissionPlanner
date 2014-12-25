@@ -148,7 +148,7 @@ namespace MissionPlanner.Wizard
             {
                 MainV2.comPort.sendPacket(new MAVLink.mavlink_command_ack_t() { command = 1, result = count });
             }
-            catch (IOException ex) { CustomMessageBox.Show(Strings.CommandFailed + ex); Wizard.instance.Close(); }
+            catch (Exception ex) { CustomMessageBox.Show(Strings.CommandFailed + ex); Wizard.instance.Close(); }
         }
     }
 }
