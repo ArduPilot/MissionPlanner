@@ -297,4 +297,36 @@ Please upgrade</value>
   <data name="Timeout" xml:space="preserve">
     <value>Timeout waiting for autoscan/no mavlink device connected</value>
   </data>
+  <data name="ConnectFailed" xml:space="preserve">
+    <value>Connect Failed</value>
+  </data>
+  <data name="ConnectingMavlink" xml:space="preserve">
+    <value>Connecting Mavlink</value>
+  </data>
+  <data name="Done" xml:space="preserve">
+    <value>Done.</value>
+  </data>
+  <data name="GettingParams" xml:space="preserve">
+    <value>Getting Params</value>
+  </data>
+  <data name="GettingParamsD" xml:space="preserve">
+    <value>Getting Params...</value>
+  </data>
+  <data name="Gotparam" xml:space="preserve">
+    <value>Got param </value>
+  </data>
+  <data name="MavlinkConnecting" xml:space="preserve">
+    <value>Mavlink Connecting...</value>
+  </data>
+  <data name="Only1Hb" xml:space="preserve">
+    <value>Only 1 Heatbeat Received</value>
+  </data>
+  <data name="Only1HbD" xml:space="preserve">
+    <value>Only 1 Mavlink Heartbeat Packets was read from this port - Verify your hardware is setup correctly
+Mission Planner waits for 2 valid heartbeat packets before connecting</value>
+  </data>
+  <data name="Trying" xml:space="preserve">
+    <value>Trying to connect.
+Timeout in {0}</value>
+  </data>
 </root>

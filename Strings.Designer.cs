@@ -125,6 +125,24 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Connect Failed.
+        /// </summary>
+        public static string ConnectFailed {
+            get {
+                return ResourceManager.GetString("ConnectFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Connecting Mavlink.
+        /// </summary>
+        public static string ConnectingMavlink {
+            get {
+                return ResourceManager.GetString("ConnectingMavlink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Description: .
         /// </summary>
         public static string Desc {
@@ -148,6 +166,15 @@ namespace MissionPlanner {
         public static string DISCONNECTc {
             get {
                 return ResourceManager.GetString("DISCONNECTc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Done..
+        /// </summary>
+        public static string Done {
+            get {
+                return ResourceManager.GetString("Done", resourceCulture);
             }
         }
         
@@ -352,11 +379,38 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Getting Params.
+        /// </summary>
+        public static string GettingParams {
+            get {
+                return ResourceManager.GetString("GettingParams", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Getting Params....
+        /// </summary>
+        public static string GettingParamsD {
+            get {
+                return ResourceManager.GetString("GettingParamsD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Getting updated parameters.
         /// </summary>
         public static string GettingUpdatedParams {
             get {
                 return ResourceManager.GetString("GettingUpdatedParams", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Got param .
+        /// </summary>
+        public static string Gotparam {
+            get {
+                return ResourceManager.GetString("Gotparam", resourceCulture);
             }
         }
         
@@ -443,6 +497,15 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Mavlink Connecting....
+        /// </summary>
+        public static string MavlinkConnecting {
+            get {
+                return ResourceManager.GetString("MavlinkConnecting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to New Firmware.
         /// </summary>
         public static string NewFirmware {
@@ -467,6 +530,25 @@ namespace MissionPlanner {
         public static string NoFMTMessage {
             get {
                 return ResourceManager.GetString("NoFMTMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Only 1 Heatbeat Received.
+        /// </summary>
+        public static string Only1Hb {
+            get {
+                return ResourceManager.GetString("Only1Hb", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Only 1 Mavlink Heartbeat Packets was read from this port - Verify your hardware is setup correctly
+        ///Mission Planner waits for 2 valid heartbeat packets before connecting.
+        /// </summary>
+        public static string Only1HbD {
+            get {
+                return ResourceManager.GetString("Only1HbD", resourceCulture);
             }
         }
         
@@ -549,6 +631,16 @@ namespace MissionPlanner {
         public static string Timeout {
             get {
                 return ResourceManager.GetString("Timeout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Trying to connect.
+        ///Timeout in {0}.
+        /// </summary>
+        public static string Trying {
+            get {
+                return ResourceManager.GetString("Trying", resourceCulture);
             }
         }
         
