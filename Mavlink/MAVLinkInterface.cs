@@ -17,7 +17,6 @@ using MissionPlanner.Comms;
 using MissionPlanner.Utilities;
 using System.Windows.Forms;
 using MissionPlanner.HIL;
-using MissionPlanner.Mavlink;
 
 namespace MissionPlanner
 {
@@ -227,7 +226,7 @@ namespace MissionPlanner
             frmProgressReporter = new ProgressReporterDialogue
                                       {
                                           StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen,
-                                          Text = MAVLinkT.ConnectingMavlink
+                                          Text = Strings.ConnectingMavlink
                                       };
 
             if (getparams)
@@ -238,7 +237,7 @@ namespace MissionPlanner
             {
                 frmProgressReporter.DoWork += FrmProgressReporterDoWorkNOParams;
             }
-            frmProgressReporter.UpdateProgressAndStatus(-1, MAVLinkT.MavlinkConnecting);
+            frmProgressReporter.UpdateProgressAndStatus(-1, Strings.MavlinkConnecting);
             ThemeManager.ApplyThemeTo(frmProgressReporter);
 
             frmProgressReporter.RunBackgroundOperationAsync();
@@ -261,7 +260,7 @@ namespace MissionPlanner
 
         private void OpenBg(object PRsender, bool getparams, ProgressWorkerEventArgs progressWorkerEventArgs)
         {
-            frmProgressReporter.UpdateProgressAndStatus(-1, MAVLinkT.MavlinkConnecting);
+            frmProgressReporter.UpdateProgressAndStatus(-1, Strings.MavlinkConnecting);
 
             giveComport = true;
 
@@ -298,7 +297,7 @@ namespace MissionPlanner
                 countDown.Elapsed += (sender, e) =>
                 {
                     int secondsRemaining = (deadline - e.SignalTime).Seconds;
-                    frmProgressReporter.UpdateProgressAndStatus(-1, string.Format(MAVLinkT.Trying, secondsRemaining));
+                    frmProgressReporter.UpdateProgressAndStatus(-1, string.Format(Strings.Trying, secondsRemaining));
                     if (secondsRemaining > 0) countDown.Start();
                 };
                 countDown.Start();
@@ -328,8 +327,8 @@ namespace MissionPlanner
 
                         if (hbseen)
                         {
-                            progressWorkerEventArgs.ErrorMessage = MAVLinkT.Only1Hb;
-                            throw new Exception(MAVLinkT.Only1HbD);
+                            progressWorkerEventArgs.ErrorMessage = Strings.Only1Hb;
+                            throw new Exception(Strings.Only1HbD);
                         }
                         else
                         {
@@ -420,13 +419,13 @@ Please check the following
                 catch { }
                 giveComport = false;
                 if (string.IsNullOrEmpty(progressWorkerEventArgs.ErrorMessage))
-                    progressWorkerEventArgs.ErrorMessage = MAVLinkT.ConnectFailed;
+                    progressWorkerEventArgs.ErrorMessage = Strings.ConnectFailed;
                 log.Error(e);
                 throw;
             }
             //frmProgressReporter.Close();
             giveComport = false;
-            frmProgressReporter.UpdateProgressAndStatus(100, MAVLinkT.Done);
+            frmProgressReporter.UpdateProgressAndStatus(100, Strings.Done);
             log.Info("Done open " + MAV.sysid + " " + MAV.compid);
             MAV.packetslost = 0;
             MAV.synclost = 0;
@@ -730,11 +729,11 @@ Please check the following
             frmProgressReporter = new ProgressReporterDialogue
             {
                 StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen,
-                Text = MAVLinkT.GettingParams
+                Text = Strings.GettingParams
             };
 
             frmProgressReporter.DoWork += FrmProgressReporterGetParams;
-            frmProgressReporter.UpdateProgressAndStatus(-1, MAVLinkT.GettingParamsD);
+            frmProgressReporter.UpdateProgressAndStatus(-1, Strings.GettingParamsD);
             ThemeManager.ApplyThemeTo(frmProgressReporter);
 
             frmProgressReporter.RunBackgroundOperationAsync();
@@ -911,7 +910,7 @@ Please check the following
 
                         //Console.WriteLine(DateTime.Now.Millisecond + " gp3 ");
 
-                        this.frmProgressReporter.UpdateProgressAndStatus((indexsreceived.Count * 100) / param_total, MAVLinkT.Gotparam + paramID);
+                        this.frmProgressReporter.UpdateProgressAndStatus((indexsreceived.Count * 100) / param_total, Strings.Gotparam + paramID);
 
                         // we hit the last param - lets escape eq total = 176 index = 0-175
                         if (par.param_index == (param_total - 1))
