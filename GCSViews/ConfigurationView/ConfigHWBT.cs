@@ -103,6 +103,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     else
                     {
                         log.Info("No Answer");
+                        System.Threading.Thread.Sleep(1100);
                     }
                 }
             }
