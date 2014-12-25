@@ -1,4 +1,44 @@
-﻿* Mission Planner 1.3.16
+﻿* Mission Planner 1.3.17
+confighwbt: fix retry on invalid baud
+airport: update list from ourairports.com
+mavlinkinterface: update to use new strings
+Strings: move more strings
+mavlinkinterface: implement both arm methods
+Kindex: update to use new url
+MainV2: move strings
+Terminal: update terminal note
+confighwbt: fix order of commands
+confighwbt: program a hc-06
+Firmware.cs: Added VRBRAIN 5.2 and corrected conflicts after rebase.
+Added new board VR Brain 5.2: detection, driver and upload firmware
+cleanup unused vars
+DistanceBar: add trial
+GStreamerHud: Testing
+Firmware: add failure logging
+SimpleExample: add simple example
+Mavlinparse: add parser
+ConfigHWBT: wip.
+Translation: move some strings, cleanup
+FlightData: update to use dotted line on flightdata
+MAVLinkinterface: change arm/disarm to use current target id
+LogBrowse: add ability to open very large logfiles (300mb bins)
+CollectionBuffer: improve performance
+Firmware: add chinese CDM Mirror by SkiTiSu
+PluginLoader: add plugin fail logging
+csproj: cleanup dependancys
+MAVLink Log - add tlog fn to title bar
+CollectionBuffer: make work for strings
+ConfigFirmware: add licence details
+configrawparamtree: add exception check on reset
+LogBrowse: exception handle on no data on rowpaint
+FlightData: add avi close exception handle
+ConfigRawParam: exception check values on save
+Joystick: add exception check to rcoverrideclear
+Mainv2: fix log map create exception
+joystick: fix load config path
+TFR: change fill color
+
+* Mission Planner 1.3.16
 KIndex: implement kindex
 Multiple: Exception checks
 mavlinkinterface: reinstate request param list

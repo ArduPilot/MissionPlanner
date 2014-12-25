@@ -32,7 +32,7 @@ namespace MissionPlanner
         {
             GStreamerHud.MainForm form = new GStreamerHud.MainForm();
 
-            form.ShowDialog();
+            form.Show();
 
             return true;
         }
