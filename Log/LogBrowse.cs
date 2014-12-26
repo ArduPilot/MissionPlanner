@@ -124,14 +124,14 @@ namespace MissionPlanner.Log
         {
             InitializeComponent();
 
-             mapoverlay = new GMapOverlay("overlay");
-             markeroverlay = new GMapOverlay("markers");
+            mapoverlay = new GMapOverlay("overlay");
+            markeroverlay = new GMapOverlay("markers");
 
-            myGMAP1.MapProvider = GMap.NET.MapProviders.GoogleSatelliteMapProvider.Instance;
+            myGMAP1.MapProvider = GCSViews.FlightData.mymap.MapProvider;
 
             myGMAP1.Overlays.Add(mapoverlay);
-			myGMAP1.Overlays.Add(markeroverlay);
-			
+            myGMAP1.Overlays.Add(markeroverlay);
+
             //CMB_preselect.DisplayMember = "Name";
             CMB_preselect.DataSource = graphs;
 
