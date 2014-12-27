@@ -1000,8 +1000,10 @@ namespace MissionPlanner.GCSViews
                             updateClearMissionRouteMarkers();
 
                             float dist = 0;
+                            float travdist = 0;
                             distanceBar1.ClearWPDist();
                             MAVLink.mavlink_mission_item_t lastplla = new MAVLink.mavlink_mission_item_t();
+                            MAVLink.mavlink_mission_item_t home = new MAVLink.mavlink_mission_item_t(); 
 
                             foreach (MAVLink.mavlink_mission_item_t plla in MainV2.comPort.MAV.wps.Values)
                             {
@@ -1018,6 +1020,7 @@ namespace MissionPlanner.GCSViews
                                 if (plla.seq == 0 && plla.current != 2)
                                 {
                                     tag = "Home";
+                                    home = plla;
                                 }
                                 if (plla.current == 2)
                                 {
@@ -1027,12 +1030,35 @@ namespace MissionPlanner.GCSViews
                                 if (lastplla.command == 0)
                                     lastplla = plla;
 
-                                distanceBar1.AddWPDist((float)new PointLatLngAlt(plla.y, plla.x).GetDistance(new PointLatLngAlt(lastplla.y,lastplla.x)));
+                                try
+                                {
+                                    dist = (float)new PointLatLngAlt(plla.x, plla.y).GetDistance(new PointLatLngAlt(lastplla.x, lastplla.y));
+
+                                    distanceBar1.AddWPDist(dist);
+
+                                    if (plla.seq <= MainV2.comPort.MAV.cs.wpno)
+                                    {
+                                        travdist += dist;
+                                    }
+
+                                    lastplla = plla;
+                                }
+                                catch { }
 
                                 addpolygonmarker(tag, plla.y, plla.x, (int)plla.z, Color.White, polygons);
-
-                                lastplla = plla;
                             }
+
+                            try
+                            {
+                                //dist = (float)new PointLatLngAlt(home.x, home.y).GetDistance(new PointLatLngAlt(lastplla.x, lastplla.y));
+                               // distanceBar1.AddWPDist(dist);
+                            }
+                            catch { }
+
+                            travdist -= MainV2.comPort.MAV.cs.wp_dist;
+
+                            if (MainV2.comPort.MAV.cs.mode.ToUpper() == "AUTO")
+                                distanceBar1.traveleddist = travdist;
 
                             RegeneratePolygon();
 
@@ -1826,7 +1852,7 @@ namespace MissionPlanner.GCSViews
                 {
                     BUT_clear_track_Click(null, null);
 
-                    MainV2.comPort.logreadmode = false;
+                    MainV2.comPort.logreadmode = true;
                     MainV2.comPort.logplaybackfile = new BinaryReader(File.OpenRead(file));
                     MainV2.comPort.lastlogread = DateTime.MinValue;
 
