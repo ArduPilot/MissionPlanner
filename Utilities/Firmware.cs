@@ -183,7 +183,7 @@ namespace MissionPlanner.Utilities
             //ServicePointManager.CertificatePolicy = new NoCheckCertificatePolicy(); 
             ServicePointManager.ServerCertificateValidationCallback = new System.Net.Security.RemoteCertificateValidationCallback((sender1, certificate, chain, policyErrors) => { return true; });
 
-            updateProgress(-1, "Getting FW List");
+            updateProgress(-1, Strings.GettingFWList);
 
             try
             {
@@ -334,7 +334,7 @@ namespace MissionPlanner.Utilities
 
             log.Info("load done");
 
-            updateProgress(-1, "Received List");
+            updateProgress(-1, Strings.ReceivedList);
 
             return softwares;
         }
@@ -394,7 +394,7 @@ namespace MissionPlanner.Utilities
 
                 log.Info("Get url " + url.ToString());
 
-                updateProgress(-1, "Getting FW Version");
+                updateProgress(-1, Strings.GettingFWVersion);
 
                 WebRequest wr = WebRequest.Create(url);
                 WebResponse wresp = wr.GetResponse();
@@ -445,13 +445,13 @@ namespace MissionPlanner.Utilities
 
             try
             {
-                updateProgress(-1, "Detecting Board Version");
+                updateProgress(-1, Strings.DetectingBoardVersion);
 
                 board = BoardDetect.DetectBoard(comport);
 
                 if (board == BoardDetect.boards.none)
                 {
-                    CustomMessageBox.Show("Cant detect your Board version. Please check your cabling");
+                    CustomMessageBox.Show(Strings.CantDetectBoardVersion);
                     return false;
                 }
 
@@ -468,9 +468,9 @@ namespace MissionPlanner.Utilities
 
                     if (apmformat_version != -1 && apmformat_version != temp.k_format_version)
                     {
-                        if (DialogResult.No == CustomMessageBox.Show("Epprom changed, all your setting will be lost during the update,\nDo you wish to continue?", "Epprom format changed (" + apmformat_version + " vs " + temp.k_format_version + ")", MessageBoxButtons.YesNo))
+                        if (DialogResult.No == CustomMessageBox.Show(Strings.EppromChanged, String.Format(Strings.EppromFormatChanged, apmformat_version, temp.k_format_version), MessageBoxButtons.YesNo)) ;
                         {
-                            CustomMessageBox.Show("Please connect and backup your config in the configuration tab.");
+                            CustomMessageBox.Show(Strings.PleaseConnectAndBackupConfig);
                             return false;
                         }
                     }
@@ -479,7 +479,7 @@ namespace MissionPlanner.Utilities
 
                 log.Info("Detected a " + board);
 
-                updateProgress(-1, "Detected a " + board);
+                updateProgress(-1, Strings.DetectedA + board);
 
                 string baseurl = "";
                 if (board == BoardDetect.boards.b2560)
@@ -544,7 +544,7 @@ namespace MissionPlanner.Utilities
                 }
                 else
                 {
-                    CustomMessageBox.Show("Invalid Board Type");
+                    CustomMessageBox.Show(Strings.InvalidBoardType);
                     return false;
                 }
 
@@ -577,7 +577,7 @@ namespace MissionPlanner.Utilities
 
                 FileStream fs = new FileStream(Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + @"firmware.hex", FileMode.Create);
 
-                updateProgress(0, Strings.DownloadedFromInternet);
+                updateProgress(0, Strings.DownloadingFromInternet);
 
                 dataStream.ReadTimeout = 30000;
 
@@ -585,7 +585,7 @@ namespace MissionPlanner.Utilities
                 {
                     try
                     {
-                        updateProgress(50, Strings.DownloadedFromInternet);
+                        updateProgress(50, Strings.DownloadingFromInternet);
                     }
                     catch { }
                     int len = dataStream.Read(buf1, 0, 1024);
@@ -599,12 +599,12 @@ namespace MissionPlanner.Utilities
                 dataStream.Close();
                 response.Close();
 
-                updateProgress(100, "Downloaded from Internet");
+                updateProgress(100, Strings.DownloadedFromInternet);
                 log.Info("Downloaded");
             }
             catch (Exception ex) 
             { 
-                updateProgress(50, "Failed download"); 
+                updateProgress(50, Strings.FailedDownload); 
                 CustomMessageBox.Show("Failed to download new firmware : " + ex.ToString()); 
                 return false; 
             }
@@ -1006,7 +1006,7 @@ namespace MissionPlanner.Utilities
             byte[] FLASH = new byte[1];
             try
             {
-                updateProgress(0, "Reading Hex File");
+                updateProgress(0, Strings.ReadingHexFile);
                 using (StreamReader sr = new StreamReader(filename))
                 {
                     FLASH = readIntelHEXv2(sr);
@@ -1015,8 +1015,8 @@ namespace MissionPlanner.Utilities
             }
             catch (Exception ex)
             {
-                updateProgress(0, "Failed read HEX");
-                CustomMessageBox.Show("Failed to read firmware.hex : " + ex.Message);
+                updateProgress(0, Strings.FailedReadHEX);
+                CustomMessageBox.Show(Strings.FailedToReadHex + ex.Message);
                 return false;
             }
             IArduinoComms port = new ArduinoSTK();
@@ -1052,7 +1052,7 @@ namespace MissionPlanner.Utilities
                 if (port.connectAP())
                 {
                     log.Info("starting");
-                    updateProgress(0, "Uploading " + FLASH.Length + " bytes to Board: " + board);
+                    updateProgress(0, String.Format(Strings.UploadingBytesToBoard, FLASH.Length) + board);
 
                     // this is enough to make ap_var reset
                     //port.upload(new byte[256], 0, 2, 0);
@@ -1068,7 +1068,7 @@ namespace MissionPlanner.Utilities
 
                     port.Progress -= updateProgress;
 
-                    updateProgress(100, "Upload Complete");
+                    updateProgress(100, Strings.UploadComplete);
 
                     log.Info("Uploaded");
 
@@ -1077,11 +1077,11 @@ namespace MissionPlanner.Utilities
 
                     byte[] flashverify = new byte[FLASH.Length + 256];
 
-                    updateProgress(0, "Verify Firmware");
+                    updateProgress(0, Strings.VerifyFirmware);
 
                     while (start < FLASH.Length)
                     {
-                        updateProgress((int)((start / (float)FLASH.Length) * 100), "Verify Firmware");
+                        updateProgress((int)((start / (float)FLASH.Length) * 100), Strings.VerifyFirmware);
                         port.setaddress(start);
                         //log.Info("Downloading " + length + " at " + start);
                         port.downloadflash(length).CopyTo(flashverify, start);
@@ -1092,18 +1092,18 @@ namespace MissionPlanner.Utilities
                     {
                         if (FLASH[s] != flashverify[s])
                         {
-                            CustomMessageBox.Show("Upload succeeded, but verify failed: exp " + FLASH[s].ToString("X") + " got " + flashverify[s].ToString("X") + " at " + s);
+                            CustomMessageBox.Show(String.Format(Strings.UploadSucceededButVerifyFailed, FLASH[s].ToString("X"), flashverify[s].ToString("X")) + s);
                             port.Close();
                             return false;
                         }
                     }
 
-                    updateProgress(100, "Verify Complete");
+                    updateProgress(100, Strings.VerifyComplete);
                 }
                 else
                 {
-                    updateProgress(0, "Failed upload");
-                    CustomMessageBox.Show("Communication Error - no connection");
+                    updateProgress(0, Strings.FailedUpload);
+                    CustomMessageBox.Show(Strings.CommunicationErrorNoConnection);
                 }
                 port.Close();
 
@@ -1121,12 +1121,12 @@ namespace MissionPlanner.Utilities
                 }
                 catch { }
 
-                updateProgress(100, "Done");
+                updateProgress(100, Strings.Done);
             }
             catch (Exception ex)
             {
-                updateProgress(0, "Failed upload");
-                CustomMessageBox.Show("Check port settings or Port in use? " + ex);
+                updateProgress(0, Strings.FailedUpload);
+                CustomMessageBox.Show(Strings.CheckPortSettingsOr + ex);
                 try
                 {
                     port.Close();
@@ -1153,7 +1153,7 @@ namespace MissionPlanner.Utilities
 
             while (!sr.EndOfStream)
             {
-                updateProgress((int)(((float)sr.BaseStream.Position / (float)sr.BaseStream.Length) * 100), "Reading Hex");
+                updateProgress((int)(((float)sr.BaseStream.Position / (float)sr.BaseStream.Length) * 100), Strings.ReadingHex);
 
                 string line = sr.ReadLine();
 
