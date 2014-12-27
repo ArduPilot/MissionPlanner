@@ -117,28 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AdvancedParams" xml:space="preserve">
-    <value>高级参数</value>
-  </data>
-  <data name="BasicTuning" xml:space="preserve">
-    <value>基本调参</value>
-  </data>
-  <data name="ExtendedTuning" xml:space="preserve">
-    <value>扩展调参</value>
-  </data>
-  <data name="FlightModes" xml:space="preserve">
-    <value>飞行模式</value>
-  </data>
-  <data name="FullParameterList" xml:space="preserve">
-    <value>全部参数表</value>
-  </data>
-  <data name="FullParameterTree" xml:space="preserve">
-    <value>全部参数树</value>
-  </data>
-  <data name="GeoFence" xml:space="preserve">
-    <value>地理围栏</value>
-  </data>
-  <data name="StandardParams" xml:space="preserve">
-    <value>标准参数</value>
-  </data>
+  <metadata name="serialPort1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
 </root>

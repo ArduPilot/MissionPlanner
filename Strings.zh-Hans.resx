@@ -223,4 +223,95 @@ These appear to be missing from your log.</value>
 如果你在空中，请不要这么做！
 </value>
   </data>
+  <data name="AdvancedParams" xml:space="preserve">
+    <value>高级参数</value>
+  </data>
+  <data name="BasicTuning" xml:space="preserve">
+    <value>基本调参</value>
+  </data>
+  <data name="Desc" xml:space="preserve">
+    <value>描述：</value>
+  </data>
+  <data name="ExtendedTuning" xml:space="preserve">
+    <value>扩展调参</value>
+  </data>
+  <data name="FlightModes" xml:space="preserve">
+    <value>飞行模式</value>
+  </data>
+  <data name="FullParameterList" xml:space="preserve">
+    <value>全部参数表</value>
+  </data>
+  <data name="FullParameterTree" xml:space="preserve">
+    <value>全部参数树</value>
+  </data>
+  <data name="GeoFence" xml:space="preserve">
+    <value>地理围栏</value>
+  </data>
+  <data name="StandardParams" xml:space="preserve">
+    <value>标准参数</value>
+  </data>
+  <data name="Units" xml:space="preserve">
+    <value>单位：{0}{1}</value>
+  </data>
+  <data name="CONNECTc" xml:space="preserve">
+    <value>连接</value>
+  </data>
+  <data name="Disconnect" xml:space="preserve">
+    <value>断开连接</value>
+  </data>
+  <data name="DISCONNECTc" xml:space="preserve">
+    <value>断开连接</value>
+  </data>
+  <data name="Failclog" xml:space="preserve">
+    <value>Failed to create log - wont log this session</value>
+  </data>
+  <data name="NewFirmware" xml:space="preserve">
+    <value>新固件</value>
+  </data>
+  <data name="NewFirmwareA" xml:space="preserve">
+    <value>有新固件可用
+</value>
+  </data>
+  <data name="Pleaseup" xml:space="preserve">
+    <value>
+请升级</value>
+  </data>
+  <data name="Stillmoving" xml:space="preserve">
+    <value>你的模型仍然在移动，确认断开连接？</value>
+  </data>
+  <data name="Timeout" xml:space="preserve">
+    <value>自动扫描超时或者没有mavlink设备</value>
+  </data>
+  <data name="ConnectFailed" xml:space="preserve">
+    <value>连接失败</value>
+  </data>
+  <data name="ConnectingMavlink" xml:space="preserve">
+    <value>正在连接Mavlink</value>
+  </data>
+  <data name="Done" xml:space="preserve">
+    <value>完成。</value>
+  </data>
+  <data name="GettingParams" xml:space="preserve">
+    <value>正在获取参数</value>
+  </data>
+  <data name="GettingParamsD" xml:space="preserve">
+    <value>正在获取参数...</value>
+  </data>
+  <data name="Gotparam" xml:space="preserve">
+    <value>获得参数 </value>
+  </data>
+  <data name="MavlinkConnecting" xml:space="preserve">
+    <value>Mavlink 正在连接...</value>
+  </data>
+  <data name="Only1Hb" xml:space="preserve">
+    <value>Only 1 Heatbeat Received</value>
+  </data>
+  <data name="Only1HbD" xml:space="preserve">
+    <value>Only 1 Mavlink Heartbeat Packets was read from this port - Verify your hardware is setup correctly
+Mission Planner waits for 2 valid heartbeat packets before connecting</value>
+  </data>
+  <data name="Trying" xml:space="preserve">
+    <value>尝试连接。
+在{0}秒后超时</value>
+  </data>
 </root>

@@ -223,4 +223,110 @@ These appear to be missing from your log.</value>
 DON'T DO THIS IF YOU ARE IN THE AIR
 </value>
   </data>
+  <data name="Checking" xml:space="preserve">
+    <value>Checking </value>
+  </data>
+  <data name="DownloadedFromInternet" xml:space="preserve">
+    <value>Downloaded from internet</value>
+  </data>
+  <data name="Getting" xml:space="preserve">
+    <value>Getting </value>
+  </data>
+  <data name="GettingUpdatedParams" xml:space="preserve">
+    <value>Getting updated parameters</value>
+  </data>
+  <data name="AdvancedParams" xml:space="preserve">
+    <value>Advanced Params</value>
+  </data>
+  <data name="BasicTuning" xml:space="preserve">
+    <value>Basic Tuning</value>
+  </data>
+  <data name="Desc" xml:space="preserve">
+    <value>Description: </value>
+  </data>
+  <data name="ExtendedTuning" xml:space="preserve">
+    <value>Extended Tuning</value>
+  </data>
+  <data name="FlightModes" xml:space="preserve">
+    <value>Flight Modes</value>
+  </data>
+  <data name="FullParameterList" xml:space="preserve">
+    <value>Full Parameter List</value>
+  </data>
+  <data name="FullParameterTree" xml:space="preserve">
+    <value>Full Parameter Tree</value>
+  </data>
+  <data name="GeoFence" xml:space="preserve">
+    <value>GeoFence</value>
+  </data>
+  <data name="StandardParams" xml:space="preserve">
+    <value>Standard Params</value>
+  </data>
+  <data name="Units" xml:space="preserve">
+    <value>Units: {0}{1}</value>
+  </data>
+  <data name="ProgrammedOK" xml:space="preserve">
+    <value>Sucessfully programmed</value>
+  </data>
+  <data name="CONNECTc" xml:space="preserve">
+    <value>CONNECT</value>
+  </data>
+  <data name="Disconnect" xml:space="preserve">
+    <value>Disconnect</value>
+  </data>
+  <data name="DISCONNECTc" xml:space="preserve">
+    <value>DISCONNECT</value>
+  </data>
+  <data name="Failclog" xml:space="preserve">
+    <value>Failed to create log - wont log this session</value>
+  </data>
+  <data name="NewFirmware" xml:space="preserve">
+    <value>New Firmware</value>
+  </data>
+  <data name="NewFirmwareA" xml:space="preserve">
+    <value>New firmware available
+</value>
+  </data>
+  <data name="Pleaseup" xml:space="preserve">
+    <value>
+Please upgrade</value>
+  </data>
+  <data name="Stillmoving" xml:space="preserve">
+    <value>Your model is still moving are you sure you want to disconnect?</value>
+  </data>
+  <data name="Timeout" xml:space="preserve">
+    <value>Timeout waiting for autoscan/no mavlink device connected</value>
+  </data>
+  <data name="ConnectFailed" xml:space="preserve">
+    <value>Connect Failed</value>
+  </data>
+  <data name="ConnectingMavlink" xml:space="preserve">
+    <value>Connecting Mavlink</value>
+  </data>
+  <data name="Done" xml:space="preserve">
+    <value>Done.</value>
+  </data>
+  <data name="GettingParams" xml:space="preserve">
+    <value>Getting Params</value>
+  </data>
+  <data name="GettingParamsD" xml:space="preserve">
+    <value>Getting Params...</value>
+  </data>
+  <data name="Gotparam" xml:space="preserve">
+    <value>Got param </value>
+  </data>
+  <data name="MavlinkConnecting" xml:space="preserve">
+    <value>Mavlink Connecting...</value>
+  </data>
+  <data name="Only1Hb" xml:space="preserve">
+    <value>Only 1 Heatbeat Received</value>
+  </data>
+  <data name="Only1HbD" xml:space="preserve">
+    <value>Only 1 Mavlink Heartbeat Packets was read from this port - Verify your hardware is setup correctly
+Mission Planner waits for 2 valid heartbeat packets before connecting</value>
+  </data>
+  <data name="Trying" xml:space="preserve">
+    <value>Trying to connect.
+Timeout in {0}</value>
+  </data>
 </root>

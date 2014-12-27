@@ -41,12 +41,15 @@
     </Reference>
     <Reference Include="GMap.NET.Core">
       <HintPath>..\..\extLibs\GMap.NET.Core.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="GMap.NET.WindowsForms">
       <HintPath>..\..\extLibs\GMap.NET.WindowsForms.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="ProjNet">
       <HintPath>..\..\packages\ProjNet.1.2\lib\net20\ProjNet.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

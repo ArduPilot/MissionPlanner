@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -9,9 +10,72 @@ public partial class MAVLink
     {
         public static int packetcount = 0;
 
-        public byte[] GenerateMAVLinkPacket(byte messageType, object indata)
+        public object ReadPacket(Stream BaseStream)
         {
-            return GenerateMAVLinkPacket((MAVLINK_MSG_ID)messageType, indata);
+            byte[] buffer = new byte[270];
+
+            int readcount = 0;
+
+            while (readcount < 200)
+            {
+                // read STX byte
+                BaseStream.Read(buffer, 0, 1);
+
+                if (buffer[0] == MAVLink.MAVLINK_STX)
+                    break;
+
+                readcount++;
+            }
+
+            // read header
+            int read = BaseStream.Read(buffer, 1, 5);
+
+            // packet length
+            int lengthtoread = buffer[1] + 6 + 2 - 2; // data + header + checksum - STX - length
+
+            //read rest of packet
+            read = BaseStream.Read(buffer, 6, lengthtoread - 4);
+
+            // resize the packet to the correct length
+            Array.Resize<byte>(ref buffer, lengthtoread+2);
+
+            // calc crc
+            ushort crc = MavlinkCRC.crc_calculate(buffer, buffer.Length - 2);
+
+            // calc extra bit of crc for mavlink 1.0
+            if (buffer.Length > 5 && buffer[0] == 254)
+            {
+                crc = MavlinkCRC.crc_accumulate(MAVLINK_MESSAGE_CRCS[buffer[5]], crc);
+            }
+
+            // check message length vs table
+            if (buffer.Length > 5 && buffer[1] != MAVLINK_MESSAGE_LENGTHS[buffer[5]])
+            {
+                // bad or unknown packet
+                return null;
+            }
+
+            // check crc
+            if (buffer.Length < 5 || buffer[buffer.Length - 1] != (crc >> 8) || buffer[buffer.Length - 2] != (crc & 0xff))
+            {
+                // crc fail
+                return null;
+            }
+
+            byte header = buffer[0];
+            byte length = buffer[1];
+            byte seq = buffer[2];
+            byte sysid = buffer[3];
+            byte compid = buffer[4];
+            byte messid = buffer[5];
+
+            //create the object spcified by the packet type
+            object data = Activator.CreateInstance(MAVLINK_MESSAGE_INFO[messid]);
+
+            // fill in the data of the object
+            MavlinkUtil.ByteArrayToStructure(buffer, ref data, 6);
+
+            return data;
         }
 
         public byte[] GenerateMAVLinkPacket(MAVLINK_MSG_ID messageType, object indata)

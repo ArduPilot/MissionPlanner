@@ -23,8 +23,14 @@ namespace MissionPlanner.Log
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         DataTable m_dtCSV = new DataTable();
 
-        List<DFLog.DFItem> logdata;
+        //List<DFLog.DFItem> logdata;
+        CollectionBuffer<string> logdata;
         Hashtable logdatafilter = new Hashtable();
+        Hashtable seenmessagetypes = new Hashtable();
+
+        List<TextObj> ModeCache = new List<TextObj>();
+        List<TextObj> ErrorCache = new List<TextObj>();
+        List<TextObj> TimeCache = new List<TextObj>();
 
         const int typecoloum = 2;
 
@@ -118,14 +124,14 @@ namespace MissionPlanner.Log
         {
             InitializeComponent();
 
-             mapoverlay = new GMapOverlay("overlay");
-             markeroverlay = new GMapOverlay("markers");
+            mapoverlay = new GMapOverlay("overlay");
+            markeroverlay = new GMapOverlay("markers");
 
-            myGMAP1.MapProvider = GMap.NET.MapProviders.GoogleSatelliteMapProvider.Instance;
+            myGMAP1.MapProvider = GCSViews.FlightData.mymap.MapProvider;
 
             myGMAP1.Overlays.Add(mapoverlay);
-			myGMAP1.Overlays.Add(markeroverlay);
-			
+            myGMAP1.Overlays.Add(markeroverlay);
+
             //CMB_preselect.DisplayMember = "Name";
             CMB_preselect.DataSource = graphs;
 
@@ -134,7 +140,6 @@ namespace MissionPlanner.Log
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            Hashtable seenmessagetypes = new Hashtable();
             mapoverlay.Clear();
             markeroverlay.Clear();
 
@@ -165,7 +170,13 @@ namespace MissionPlanner.Log
                         stream = File.Open(openFileDialog1.FileName, FileMode.Open, FileAccess.Read, FileShare.Read);
                     }
 
-                    logdata = DFLog.ReadLog(stream);
+                    log.Info("before read " + (GC.GetTotalMemory(false) / 1024.0 / 1024.0));
+
+                    logdata = new CollectionBuffer<string>(stream);
+
+                    log.Info("got log lines " + (GC.GetTotalMemory(false) / 1024.0 / 1024.0));
+
+                    //logdata = DFLog.ReadLog(stream);
 
                     this.Text = "Log Browser - " + Path.GetFileName(openFileDialog1.FileName);
                     log.Info("about to create DataTable " + (GC.GetTotalMemory(false) / 1024.0 / 1024.0));
@@ -175,8 +186,12 @@ namespace MissionPlanner.Log
 
                     bool largelog = logdata.Count > 500000 ? true : false;
 
-                    foreach (var item in logdata)
+                    int b = 0;
+
+                    foreach (var item2 in logdata)
                     {
+                        b++;
+                        var item = DFLog.GetDFItemFromLine(item2,b);
 
                         if (item.items != null)
                         {
@@ -186,6 +201,10 @@ namespace MissionPlanner.Log
                             }
 
                             seenmessagetypes[item.msgtype] = "";
+
+                            // check first 30000 lines for max coloums needed
+                            if (b > 30000 && largelog)
+                                break;
 
                             if (largelog)
                                 continue;
@@ -208,7 +227,7 @@ namespace MissionPlanner.Log
 
                     //PopulateDataTableFromUploadedFile(stream);
 
-                    stream.Close();
+                   // stream.Close();
 
                     log.Info("set dgv datasourse " + (GC.GetTotalMemory(false) / 1024.0 / 1024.0));
 
@@ -240,16 +259,21 @@ namespace MissionPlanner.Log
                     log.Info("datasource set " + (GC.GetTotalMemory(false) / 1024.0 / 1024.0));
 
                 }
-                catch (Exception ex) { CustomMessageBox.Show("Failed to read File: " + ex.ToString()); }
+                catch (Exception ex) { CustomMessageBox.Show("Failed to read File: " + ex.ToString()); return; }
 
                 foreach (DataGridViewColumn column in dataGridView1.Columns)
                 {
                     column.SortMode = DataGridViewColumnSortMode.NotSortable;
                 }
 
+
 				BuildTimeTable(m_dtCSV, DFLog.logformat);
 
+                log.Info("Done timetable " + (GC.GetTotalMemory(false) / 1024.0 / 1024.0));
+
                 DrawMap();
+
+                log.Info("Done map " + (GC.GetTotalMemory(false) / 1024.0 / 1024.0));
 
                 CreateChart(zg1);
 
@@ -413,6 +437,7 @@ namespace MissionPlanner.Log
                     if (option == "GPS")
                     {
                         // display current gps point
+                        /*
                         var ans = getPointLatLng(logdata.Find(x => { return x.lineno.ToString() == dataGridView1[0, e.RowIndex].Value.ToString(); }));// dataGridView1.Rows[e.RowIndex]);
                         if (ans.HasValue)
                         {
@@ -424,6 +449,7 @@ namespace MissionPlanner.Log
                         {
                             // mapoverlay.Markers.Clear();
                         }
+                         */
                     }
 
                     return;
@@ -627,12 +653,26 @@ namespace MissionPlanner.Log
             if (col == -1)
                 return;
 
+            log.Info("Graphing " + type + " - " + fieldname );
+
             PointPairList list1 = new PointPairList();
 
             string header = fieldname;
 
-            foreach (var item in logdata)
+            int b = 0;
+
+            foreach (var item2 in logdata)
             {
+                b++;
+
+                if (!item2.StartsWith(type))
+                {
+                    a++;
+                    continue;
+                }
+
+                var item = DFLog.GetDFItemFromLine(item2, b);
+
                 if (item.msgtype == type)
                 {
                     try
@@ -687,8 +727,32 @@ namespace MissionPlanner.Log
             bool top = false;
             int a = 0;
 
-            foreach (var item in logdata)
+            if (ErrorCache.Count > 0)
             {
+                foreach (var item in ErrorCache)
+                {
+                    item.Location.Y = zg1.GraphPane.YAxis.Scale.Max;
+                    zg1.GraphPane.GraphObjList.Add(item);
+                }
+                return;
+            }
+
+            int b = 0;
+
+            ErrorCache.Add(new TextObj("", -500, 0));
+
+            foreach (var item2 in logdata)
+            {
+                b++;
+
+                if (!item2.StartsWith("ERR"))
+                {
+                    a++;
+                    continue;
+                }
+
+                var item = DFLog.GetDFItemFromLine(item2, b);
+
                 if (item.msgtype == "ERR")
                 {
                     if (!DFLog.logformat.ContainsKey("ERR"))
@@ -711,12 +775,14 @@ namespace MissionPlanner.Log
                     {
                         var temp = new TextObj(mode, a, zg1.GraphPane.YAxis.Scale.Max, CoordType.AxisXYScale, AlignH.Left, AlignV.Top);
                         temp.FontSpec.Fill.Color = Color.Red;
+                        ErrorCache.Add(temp);
                         zg1.GraphPane.GraphObjList.Add(temp);
                     }
                     else
                     {
                         var temp = new TextObj(mode, a, zg1.GraphPane.YAxis.Scale.Max, CoordType.AxisXYScale, AlignH.Left, AlignV.Bottom);
                         temp.FontSpec.Fill.Color = Color.Red;
+                        ErrorCache.Add(temp);
                         zg1.GraphPane.GraphObjList.Add(temp);
                     }
                     top = !top;
@@ -732,8 +798,30 @@ namespace MissionPlanner.Log
 
             zg1.GraphPane.GraphObjList.Clear();
 
-            foreach (var item in logdata)
+            if (ModeCache.Count > 0)
             {
+                foreach (var item in ModeCache)
+                {
+                    item.Location.Y = zg1.GraphPane.YAxis.Scale.Min;
+                    zg1.GraphPane.GraphObjList.Add(item);
+                }
+                return;
+            }
+
+            int b = 0;
+
+            foreach (var item2 in logdata)
+            {
+                b++;
+
+                if (!item2.StartsWith("MODE"))
+                {
+                    a++;
+                    continue;
+                }
+
+                var item = DFLog.GetDFItemFromLine(item2, b);
+
                 if (item.msgtype == "MODE")
                 {
                     if (!DFLog.logformat.ContainsKey("MODE"))
@@ -748,11 +836,15 @@ namespace MissionPlanner.Log
                     string mode = item.items[index].ToString().Trim();
                     if (top)
                     {
-                        zg1.GraphPane.GraphObjList.Add(new TextObj(mode, a, zg1.GraphPane.YAxis.Scale.Min, CoordType.AxisXYScale, AlignH.Left, AlignV.Top));
+                        var temp = new TextObj(mode, a, zg1.GraphPane.YAxis.Scale.Min, CoordType.AxisXYScale, AlignH.Left, AlignV.Top);
+                        ModeCache.Add(temp);
+                        zg1.GraphPane.GraphObjList.Add(temp);
                     }
                     else
                     {
-                        zg1.GraphPane.GraphObjList.Add(new TextObj(mode, a, zg1.GraphPane.YAxis.Scale.Min, CoordType.AxisXYScale, AlignH.Left, AlignV.Bottom));
+                        var temp = new TextObj(mode, a, zg1.GraphPane.YAxis.Scale.Min, CoordType.AxisXYScale, AlignH.Left, AlignV.Bottom);
+                        ModeCache.Add(temp);
+                        zg1.GraphPane.GraphObjList.Add(temp);
                     }
                     top = !top;
                 }
@@ -770,10 +862,31 @@ namespace MissionPlanner.Log
 
             DateTime lastdrawn = DateTime.MinValue;
 
-            //zg1.GraphPane.GraphObjList.Clear();
 
-            foreach (var item in logdata)
+            if (TimeCache.Count > 0)
             {
+                foreach (var item in TimeCache)
+                {
+                    item.Location.Y = zg1.GraphPane.YAxis.Scale.Max;
+                    zg1.GraphPane.GraphObjList.Add(item);
+                }
+                return;
+            }
+
+            int b = 0;
+
+            foreach (var item2 in logdata)
+            {
+                b++;
+
+                if (!item2.StartsWith("GPS"))
+                {
+                    a++;
+                    continue;
+                }
+
+                var item = DFLog.GetDFItemFromLine(item2, b);
+
                 if (item.msgtype == "GPS")
                 {
                     if (!DFLog.logformat.ContainsKey("GPS"))
@@ -787,19 +900,21 @@ namespace MissionPlanner.Log
                     }
 
                     string time = item.items[index].ToString();
-                    int temp;
-                    if (int.TryParse(time, out temp))
+                    int tempt;
+                    if (int.TryParse(time, out tempt))
                     {
                         if (startdelta == 0)
-                            startdelta = temp;
+                            startdelta = tempt;
 
-                        workingtime = starttime.AddMilliseconds(temp - startdelta);
+                        workingtime = starttime.AddMilliseconds(tempt - startdelta);
 
                         TimeSpan span = workingtime - starttime;
 
                         if (workingtime.Minute != lastdrawn.Minute)
                         {
-                            zg1.GraphPane.GraphObjList.Add(new TextObj(span.TotalMinutes.ToString("0") + " min", a, zg1.GraphPane.YAxis.Scale.Max, CoordType.AxisXYScale, AlignH.Left, AlignV.Top));
+                            var temp = new TextObj(span.TotalMinutes.ToString("0") + " min", a, zg1.GraphPane.YAxis.Scale.Max, CoordType.AxisXYScale, AlignH.Left, AlignV.Top);
+                            TimeCache.Add(temp);
+                            zg1.GraphPane.GraphObjList.Add(temp);                            
                             lastdrawn = workingtime;
                         }
                     }
@@ -857,8 +972,13 @@ namespace MissionPlanner.Log
 				
                 int i = 0;
                 int firstpoint = 0;
-                foreach (var item in logdata)
+                int b = 0;
+
+                foreach (var item2 in logdata)
                 {
+                    b++;
+                    var item = DFLog.GetDFItemFromLine(item2, b);
+
                     if (item.msgtype == "GPS")
                     {
                         var ans = getPointLatLng(item);
@@ -1015,8 +1135,13 @@ namespace MissionPlanner.Log
 
             List<string> options = new List<string>();
 
-            foreach (var item in logdata)
+            int b = 0;
+
+            foreach (var item2 in logdata)
             {
+                b++;
+                var item = DFLog.GetDFItemFromLine(item2, b);
+
                 if (item.msgtype == null)
                     continue;
     
@@ -1043,8 +1168,13 @@ namespace MissionPlanner.Log
                 logdatafilter.Clear();
 
                 int a = 0;
-                foreach (var item in logdata)
+                b = 0;
+
+                foreach (var item2 in logdata)
                 {
+                    b++;
+                    var item = DFLog.GetDFItemFromLine(item2, b);
+
                     if (item.msgtype == opt.SelectedItem) 
                     {
                         logdatafilter.Add(a,item);
@@ -1148,7 +1278,7 @@ namespace MissionPlanner.Log
             {
                 log.Info("Get map");
 
-                DrawMap();
+               // DrawMap();
 
                 log.Info("map done");
             }
@@ -1297,7 +1427,9 @@ namespace MissionPlanner.Log
         {
             try
             {
-                var item = logdata[e.RowIndex];
+                var item2 = logdata[e.RowIndex];
+
+                var item = DFLog.GetDFItemFromLine(item2, e.RowIndex);
 
                 if (logdatafilter.Count > 0)
                 {

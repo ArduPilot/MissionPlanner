@@ -7,15 +7,15 @@ using System.Text;
 
 namespace MissionPlanner.Log
 {
-    public class CollectionBuffer<T> : IList<T>, ICollection<T>, IEnumerable<T>
+    public class CollectionBuffer<T> : IList<T>, ICollection<T>, IEnumerable<T>, IDisposable
     {
-        Stream basestream;
+        BufferedStream basestream;
         private int _count;
         List<long> linestartoffset = new List<long>();
 
         public CollectionBuffer(Stream instream)
         {
-            basestream = instream;
+            basestream = new BufferedStream(instream);
 
             _count = getlinecount();
 
@@ -75,10 +75,31 @@ namespace MissionPlanner.Log
         {
             get
             {
-                StringBuilder sb = new StringBuilder();
+                //StringBuilder sb = new StringBuilder();
+
+                long startoffset = linestartoffset[index];
+                long endoffset=startoffset;
+
+                if ((index + 1) > linestartoffset.Count)
+                {
+                    endoffset = basestream.Length;
+                }
+                else
+                {
+                    endoffset = linestartoffset[index + 1];
+                }
+
+                int length = (int)(endoffset - startoffset);
 
                 basestream.Seek(linestartoffset[index], SeekOrigin.Begin);
 
+                byte[] data = new byte[length];
+
+                basestream.Read(data,0,length);
+
+                return (T)(object)ASCIIEncoding.ASCII.GetString(data);
+
+                /*
                 while (basestream.Position < basestream.Length)
                 {
                     byte cha = (byte)basestream.ReadByte();
@@ -91,6 +112,7 @@ namespace MissionPlanner.Log
                 }
 
                 return (T)(object)sb.ToString();
+                 */
             }
             set
             {
@@ -135,12 +157,23 @@ namespace MissionPlanner.Log
 
         public IEnumerator<T> GetEnumerator()
         {
-            throw new NotImplementedException();
+            int position = 0; // state
+            while (position < Count)
+            {
+                position++;
+                yield return this[position-1];
+            }
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            throw new NotImplementedException();
+            return this.GetEnumerator();
+        }
+
+        public void Dispose()
+        {
+            basestream.Close();
+            linestartoffset = null;
         }
     }
 }

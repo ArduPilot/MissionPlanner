@@ -151,8 +151,6 @@ namespace MissionPlanner.GCSViews
                 routes.Dispose();
             if (route != null)
                 route.Dispose();
-            if (polygon != null)
-                polygon.Dispose();
             if (marker != null)
                 marker.Dispose();
             if (aviwriter != null)
@@ -180,6 +178,8 @@ namespace MissionPlanner.GCSViews
             mymap = gMapControl1;
             myhud = hud1;
             MainHcopy = MainH;
+
+            mymap.Paint += mymap_Paint;
 
             //  mymap.Manager.UseMemoryCache = false;
 
@@ -306,6 +306,11 @@ namespace MissionPlanner.GCSViews
 
             // first run
             MainV2_AdvancedChanged(null, null);
+        }
+
+        void mymap_Paint(object sender, PaintEventArgs e)
+        {
+            distanceBar1.Invalidate();
         }
 
         void comPort_MavChanged(object sender, EventArgs e)
@@ -994,6 +999,10 @@ namespace MissionPlanner.GCSViews
                             //Console.WriteLine("Doing FD WP's");
                             updateClearMissionRouteMarkers();
 
+                            float dist = 0;
+                            distanceBar1.ClearWPDist();
+                            MAVLink.mavlink_mission_item_t lastplla = new MAVLink.mavlink_mission_item_t();
+
                             foreach (MAVLink.mavlink_mission_item_t plla in MainV2.comPort.MAV.wps.Values)
                             {
                                 if (plla.x == 0 || plla.y == 0)
@@ -1015,7 +1024,14 @@ namespace MissionPlanner.GCSViews
                                     continue;
                                 }
 
+                                if (lastplla.command == 0)
+                                    lastplla = plla;
+
+                                distanceBar1.AddWPDist((float)new PointLatLngAlt(plla.y, plla.x).GetDistance(new PointLatLngAlt(lastplla.y,lastplla.x)));
+
                                 addpolygonmarker(tag, plla.y, plla.x, (int)plla.z, Color.White, polygons);
+
+                                lastplla = plla;
                             }
 
                             RegeneratePolygon();
@@ -1425,31 +1441,32 @@ namespace MissionPlanner.GCSViews
                 }
             }
 
-            if (polygon == null)
-            {
-                polygon = new GMapPolygon(polygonPoints, "polygon test");
-                polygons.Polygons.Add(polygon);
-            }
-            else
-            {
-                polygon.Points.Clear();
-                polygon.Points.AddRange(polygonPoints);
+            if (polygonPoints.Count < 2)
+                return;
 
-                polygon.Stroke = new Pen(Color.Yellow, 4);
-                polygon.Fill = Brushes.Transparent;
+            GMapRoute homeroute = new GMapRoute("homepath");
+            homeroute.Stroke = new Pen(Color.Yellow, 2);
+            homeroute.Stroke.DashStyle = DashStyle.Dash;
+            // add first point past home
+            homeroute.Points.Add(polygonPoints[1]);
+            // add home location
+            homeroute.Points.Add(polygonPoints[0]);
+            // add last point
+            homeroute.Points.Add(polygonPoints[polygonPoints.Count - 1]);
 
-                if (polygons.Polygons.Count == 0)
-                {
-                    polygons.Polygons.Add(polygon);
-                }
-                else
-                {
-                    gMapControl1.UpdatePolygonLocalPosition(polygon);
-                }
+            GMapRoute wppath = new GMapRoute("wp path");
+            wppath.Stroke = new Pen(Color.Yellow, 4);
+
+            for (int a = 1; a < polygonPoints.Count; a++)
+            {
+                wppath.Points.Add(polygonPoints[a]);
             }
+
+            polygons.Routes.Add(homeroute);
+            polygons.Routes.Add(wppath);
+
         }
 
-        GMapPolygon polygon;
         GMapOverlay polygons;
         GMapOverlay routes;
         GMapRoute route;
@@ -1816,6 +1833,8 @@ namespace MissionPlanner.GCSViews
                     LBL_logfn.Text = Path.GetFileName(file);
 
                     log.Info("Open logfile " + file);
+
+                    MainV2.comPort.getHeartBeat();
 
                     tracklog.Value = 0;
                     tracklog.Minimum = 0;

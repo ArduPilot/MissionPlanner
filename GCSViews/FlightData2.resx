@@ -117,36 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ConnectFailed" xml:space="preserve">
-    <value>连接失败</value>
-  </data>
-  <data name="ConnectingMavlink" xml:space="preserve">
-    <value>正在连接Mavlink</value>
-  </data>
-  <data name="Done" xml:space="preserve">
-    <value>完成。</value>
-  </data>
-  <data name="GettingParams" xml:space="preserve">
-    <value>正在获取参数</value>
-  </data>
-  <data name="GettingParamsD" xml:space="preserve">
-    <value>正在获取参数...</value>
-  </data>
-  <data name="Gotparam" xml:space="preserve">
-    <value>获得参数 </value>
-  </data>
-  <data name="MavlinkConnecting" xml:space="preserve">
-    <value>Mavlink 正在连接...</value>
-  </data>
-  <data name="Only1Hb" xml:space="preserve">
-    <value>Only 1 Heatbeat Received</value>
-  </data>
-  <data name="Only1HbD" xml:space="preserve">
-    <value>Only 1 Mavlink Heartbeat Packets was read from this port - Verify your hardware is setup correctly
-Mission Planner waits for 2 valid heartbeat packets before connecting</value>
-  </data>
-  <data name="Trying" xml:space="preserve">
-    <value>尝试连接。
-在{0}秒后超时</value>
-  </data>
+  <metadata name="menuStrip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>57</value>
+  </metadata>
 </root>

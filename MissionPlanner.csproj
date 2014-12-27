@@ -83,7 +83,7 @@
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <PropertyGroup />
   <PropertyGroup>
@@ -276,6 +276,12 @@
     <Compile Include="Controls\ConnectionStats.Designer.cs">
       <DependentUpon>ConnectionStats.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\DistanceBar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\DistanceBar.Designer.cs">
+      <DependentUpon>DistanceBar.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\LogAnalyzer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -350,6 +356,12 @@
     <Compile Include="Controls\DefaultSettings.Designer.cs">
       <DependentUpon>DefaultSettings.cs</DependentUpon>
     </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigHWBT.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GCSViews\ConfigurationView\ConfigHWBT.Designer.cs">
+      <DependentUpon>ConfigHWBT.cs</DependentUpon>
+    </Compile>
     <Compile Include="GCSViews\ConfigurationView\ConfigMotorTest.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -368,8 +380,12 @@
     <Compile Include="GCSViews\ConfigurationView\ConfigWizard.Designer.cs">
       <DependentUpon>ConfigWizard.cs</DependentUpon>
     </Compile>
-    <Compile Include="GCSViews\ExtTranslations\ConfigFriendlyParamsT.Designer.cs" />
-    <Compile Include="GCSViews\ExtTranslations\SoftwareConfigT.Designer.cs" />
+    <Compile Include="GCSViews\FlightData2.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GCSViews\FlightData2.Designer.cs">
+      <DependentUpon>FlightData2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Joystick\Joy_Do_Repeat_Servo.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -421,12 +437,10 @@
       <DependentUpon>LogIndex.cs</DependentUpon>
     </Compile>
     <Compile Include="Log\LogMap.cs" />
-    <Compile Include="MainV2T.Designer.cs" />
     <Compile Include="Maps\MapboxNoFly.cs" />
     <Compile Include="Maps\Mapbox.cs" />
     <Compile Include="Maps\Earthbuilder.cs" />
     <Compile Include="Maps\Statkart_Topo2.cs" />
-    <Compile Include="Mavlink\MAVLinkT.Designer.cs" />
     <Compile Include="Mavlink\MAVState.cs" />
     <Compile Include="MovingBase.cs">
       <SubType>Form</SubType>
@@ -577,6 +591,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\DefaultSettings.zh-Hans.resx">
       <DependentUpon>DefaultSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\DistanceBar.resx">
+      <DependentUpon>DistanceBar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\LogAnalyzer.resx">
       <DependentUpon>LogAnalyzer.cs</DependentUpon>
@@ -731,6 +748,9 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWOptFlow.zh-TW.resx">
       <DependentUpon>ConfigHWOptFlow.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWBT.resx">
+      <DependentUpon>ConfigHWBT.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigHWOSD.zh-Hant.resx">
       <DependentUpon>ConfigHWOSD.cs</DependentUpon>
     </EmbeddedResource>
@@ -803,15 +823,14 @@
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigTradHeli.zh-TW.resx">
       <DependentUpon>ConfigTradHeli.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\ExtTranslations\ConfigFriendlyParamsT.resx" />
-    <EmbeddedResource Include="GCSViews\ExtTranslations\ConfigFriendlyParamsT.zh-Hans.resx" />
-    <EmbeddedResource Include="GCSViews\ExtTranslations\SoftwareConfigT.resx" />
-    <EmbeddedResource Include="GCSViews\ExtTranslations\SoftwareConfigT.zh-Hans.resx" />
     <EmbeddedResource Include="GCSViews\FlightData.zh-Hant.resx">
       <DependentUpon>FlightData.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\FlightData.zh-TW.resx">
       <DependentUpon>FlightData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GCSViews\FlightData2.resx">
+      <DependentUpon>FlightData2.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\FlightPlanner.zh-Hant.resx">
       <DependentUpon>FlightPlanner.cs</DependentUpon>
@@ -888,12 +907,6 @@
     <EmbeddedResource Include="MainV2.zh-TW.resx">
       <DependentUpon>MainV2.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MainV2T.resx" />
-    <EmbeddedResource Include="MainV2T.zh-Hans.resx">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Mavlink\MAVLinkT.resx" />
-    <EmbeddedResource Include="Mavlink\MAVLinkT.zh-Hans.resx" />
     <EmbeddedResource Include="MovingBase.zh-Hant.resx">
       <DependentUpon>MovingBase.cs</DependentUpon>
     </EmbeddedResource>
@@ -926,12 +939,13 @@
       <DependentUpon>ScriptConsole.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Strings.resx">
+      <SubType>Designer</SubType>
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Strings.zh-Hans.resx">
       <SubType>Designer</SubType>
+      <LastGenOutput>Strings.zh-Hans.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Utilities\UpdateT.resx" />
     <EmbeddedResource Include="Utilities\UpdateT.zh-Hans.resx" />
