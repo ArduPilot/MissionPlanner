@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(InitialSetup));
             this.backstageView = new MissionPlanner.Controls.BackstageView.BackstageView();
+            this.backstageViewPagehwbt = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
             this.backstageViewPagefw = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
             this.initialSetupBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.configFirmware1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigFirmware();
@@ -44,14 +45,14 @@
             this.configTradHeli1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigTradHeli();
             this.backstageViewPageframetype = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
             this.configFrameType1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigFrameType();
-            this.backstageViewPagecompass = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
-            this.configHWCompass1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigHWCompass();
             this.backstageViewPageaccelquad = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
             this.configAccelerometerCalibrationQuad1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigAccelerometerCalibrationQuad();
             this.backstageViewPageaccelplane = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
             this.configAccelerometerCalibrationPlane1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigAccelerometerCalibrationPlane();
             this.backstageViewPageacceltracker = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
             this.configAccelerometerCalibrationTracker1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigAccelerometerCalibrationTracker();
+            this.backstageViewPagecompass = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
+            this.configHWCompass1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigHWCompass();
             this.backstageViewPageradio = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
             this.configRadioInput1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigRadioInput();
             this.backstageViewPageflmode = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
@@ -81,6 +82,7 @@
             this.backstageViewPageMotorTest = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
             this.configMotor1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigMotorTest();
             this.backstageViewPageinstfw = new MissionPlanner.Controls.BackstageView.BackstageViewPage();
+            this.configHWBT1 = new MissionPlanner.GCSViews.ConfigurationView.ConfigHWBT();
             ((System.ComponentModel.ISupportInitialize)(this.initialSetupBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
@@ -114,7 +116,18 @@
             this.backstageView.Pages.Add(this.backstageViewPagegimbal);
             this.backstageView.Pages.Add(this.backstageViewPageAntTrack);
             this.backstageView.Pages.Add(this.backstageViewPageMotorTest);
+            this.backstageView.Pages.Add(this.backstageViewPagehwbt);
             this.backstageView.WidthMenu = 172;
+            // 
+            // backstageViewPagehwbt
+            // 
+            this.backstageViewPagehwbt.Advanced = false;
+            this.backstageViewPagehwbt.LinkText = "Bluetooth Setup";
+            this.backstageViewPagehwbt.Page = this.configHWBT1;
+            this.backstageViewPagehwbt.Parent = this.backstageViewPageopt;
+            this.backstageViewPagehwbt.Show = true;
+            this.backstageViewPagehwbt.Spacing = 30;
+            resources.ApplyResources(this.backstageViewPagehwbt, "backstageViewPagehwbt");
             // 
             // backstageViewPagefw
             // 
@@ -215,21 +228,6 @@
             resources.ApplyResources(this.configFrameType1, "configFrameType1");
             this.configFrameType1.Name = "configFrameType1";
             // 
-            // backstageViewPagecompass
-            // 
-            this.backstageViewPagecompass.Advanced = false;
-            this.backstageViewPagecompass.LinkText = "Compass";
-            this.backstageViewPagecompass.Page = this.configHWCompass1;
-            this.backstageViewPagecompass.Parent = this.backstageViewPagemand;
-            this.backstageViewPagecompass.Show = true;
-            this.backstageViewPagecompass.Spacing = 30;
-            resources.ApplyResources(this.backstageViewPagecompass, "backstageViewPagecompass");
-            // 
-            // configHWCompass1
-            // 
-            resources.ApplyResources(this.configHWCompass1, "configHWCompass1");
-            this.configHWCompass1.Name = "configHWCompass1";
-            // 
             // backstageViewPageaccelquad
             // 
             this.backstageViewPageaccelquad.Advanced = false;
@@ -277,6 +275,21 @@
             // 
             resources.ApplyResources(this.configAccelerometerCalibrationTracker1, "configAccelerometerCalibrationTracker1");
             this.configAccelerometerCalibrationTracker1.Name = "configAccelerometerCalibrationTracker1";
+            // 
+            // backstageViewPagecompass
+            // 
+            this.backstageViewPagecompass.Advanced = false;
+            this.backstageViewPagecompass.LinkText = "Compass";
+            this.backstageViewPagecompass.Page = this.configHWCompass1;
+            this.backstageViewPagecompass.Parent = this.backstageViewPagemand;
+            this.backstageViewPagecompass.Show = true;
+            this.backstageViewPagecompass.Spacing = 30;
+            resources.ApplyResources(this.backstageViewPagecompass, "backstageViewPagecompass");
+            // 
+            // configHWCompass1
+            // 
+            resources.ApplyResources(this.configHWCompass1, "configHWCompass1");
+            this.configHWCompass1.Name = "configHWCompass1";
             // 
             // backstageViewPageradio
             // 
@@ -509,11 +522,17 @@
             this.backstageViewPageinstfw.Spacing = 30;
             resources.ApplyResources(this.backstageViewPageinstfw, "backstageViewPageinstfw");
             // 
+            // configHWBT1
+            // 
+            resources.ApplyResources(this.configHWBT1, "configHWBT1");
+            this.configHWBT1.Name = "configHWBT1";
+            // 
             // InitialSetup
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.backstageView);
             this.Controls.Add(this.configAccelerometerCalibrationTracker1);
+            this.Controls.Add(this.configHWBT1);
             this.MinimumSize = new System.Drawing.Size(1000, 450);
             this.Name = "InitialSetup";
             resources.ApplyResources(this, "$this");
@@ -577,5 +596,7 @@
         private Controls.BackstageView.BackstageViewPage backstageViewPageMotorTest;
         private Controls.BackstageView.BackstageViewPage backstageViewPageacceltracker;
         private ConfigurationView.ConfigAccelerometerCalibrationTracker configAccelerometerCalibrationTracker1;
+        private Controls.BackstageView.BackstageViewPage backstageViewPagehwbt;
+        private ConfigurationView.ConfigHWBT configHWBT1;
     }
 }

@@ -246,6 +246,11 @@ namespace MissionPlanner.Log
                     var logname = GetLog((ushort)a);
 
                     CreateLog(logname);
+
+                    if (chk_droneshare.Checked)
+                    {
+                        Utilities.DroneApi.droneshare.doUpload(logname);
+                    }
                 }
 
                 status = serialstatus.Done;
@@ -263,12 +268,16 @@ namespace MissionPlanner.Log
                 for (int i = 0; i < CHK_logs.CheckedItems.Count; ++i)
                 {
                     int a = (int)CHK_logs.CheckedItems[i];
+
+                    currentlog = a;
+
+                    var logname = GetLog((ushort)a);
+
+                    CreateLog(logname);
+
+                    if (chk_droneshare.Checked)
                     {
-                        currentlog = a;
-
-                        var logname = GetLog((ushort)a);
-
-                        CreateLog(logname);
+                        Utilities.DroneApi.droneshare.doUpload(logname);
                     }
                 }
 
@@ -408,6 +417,11 @@ namespace MissionPlanner.Log
                     BinaryLog.ConvertBin(ofd.FileName, sfd.FileName);
                 }
             }
+        }
+
+        private void chk_droneshare_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

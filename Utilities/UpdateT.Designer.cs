@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MissionPlanner.GCSViews.ExtTranslations {
+namespace MissionPlanner.Utilities {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace MissionPlanner.GCSViews.ExtTranslations {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class SoftwareConfigT {
+    internal class UpdateT {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal SoftwareConfigT() {
+        internal UpdateT() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace MissionPlanner.GCSViews.ExtTranslations {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MissionPlanner.GCSViews.ExtTranslations.SoftwareConfigT", typeof(SoftwareConfigT).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MissionPlanner.Utilities.UpdateT", typeof(UpdateT).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,74 +61,22 @@ namespace MissionPlanner.GCSViews.ExtTranslations {
         }
         
         /// <summary>
-        ///   查找类似 Advanced Params 的本地化字符串。
+        ///   查找类似 Update Found
+        ///
+        ///Do you wish to update now? [link; 的本地化字符串。
         /// </summary>
-        internal static string AdvancedParams {
+        internal static string UpdateFound {
             get {
-                return ResourceManager.GetString("AdvancedParams", resourceCulture);
+                return ResourceManager.GetString("UpdateFound", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   查找类似 Basic Tuning 的本地化字符串。
+        ///   查找类似 Update Now 的本地化字符串。
         /// </summary>
-        internal static string BasicTuning {
+        internal static string UpdateNow {
             get {
-                return ResourceManager.GetString("BasicTuning", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Extended Tuning 的本地化字符串。
-        /// </summary>
-        internal static string ExtendedTuning {
-            get {
-                return ResourceManager.GetString("ExtendedTuning", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Flight Modes 的本地化字符串。
-        /// </summary>
-        internal static string FlightModes {
-            get {
-                return ResourceManager.GetString("FlightModes", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Full Parameter List 的本地化字符串。
-        /// </summary>
-        internal static string FullParameterList {
-            get {
-                return ResourceManager.GetString("FullParameterList", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Full Parameter Tree 的本地化字符串。
-        /// </summary>
-        internal static string FullParameterTree {
-            get {
-                return ResourceManager.GetString("FullParameterTree", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 GeoFence 的本地化字符串。
-        /// </summary>
-        internal static string GeoFence {
-            get {
-                return ResourceManager.GetString("GeoFence", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   查找类似 Standard Params 的本地化字符串。
-        /// </summary>
-        internal static string StandardParams {
-            get {
-                return ResourceManager.GetString("StandardParams", resourceCulture);
+                return ResourceManager.GetString("UpdateNow", resourceCulture);
             }
         }
     }

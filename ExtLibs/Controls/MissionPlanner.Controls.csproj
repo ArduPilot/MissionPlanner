@@ -256,6 +256,9 @@
     <EmbeddedResource Include="ProgressReporterDialogue.resx">
       <DependentUpon>ProgressReporterDialogue.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ProgressReporterDialogue.zh-Hans.resx">
+      <DependentUpon>ProgressReporterDialogue.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ProgressReporterSphere.resx">
       <DependentUpon>ProgressReporterSphere.cs</DependentUpon>
     </EmbeddedResource>

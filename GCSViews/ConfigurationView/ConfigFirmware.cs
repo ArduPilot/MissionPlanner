@@ -51,7 +51,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         }
 
         static List<Utilities.Firmware.software> softwares = new List<Utilities.Firmware.software>();
-        bool flashing = false;
 
         public ConfigFirmware()
         {

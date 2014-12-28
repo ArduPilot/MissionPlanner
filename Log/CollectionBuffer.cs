@@ -7,16 +7,15 @@ using System.Text;
 
 namespace MissionPlanner.Log
 {
-    public class CollectionBuffer<T> : IList<T>, ICollection<T>, IEnumerable<T>
+    public class CollectionBuffer<T> : IList<T>, ICollection<T>, IEnumerable<T>, IDisposable
     {
-
-        Stream basestream;
+        BufferedStream basestream;
         private int _count;
         List<long> linestartoffset = new List<long>();
 
         public CollectionBuffer(Stream instream)
         {
-            basestream = instream;
+            basestream = new BufferedStream(instream);
 
             _count = getlinecount();
 
@@ -25,15 +24,33 @@ namespace MissionPlanner.Log
 
         int getlinecount()
         {
+            // first line starts at 0
+            linestartoffset.Add(0);
+
+            int offset = 0;
+
+            byte[] buffer = new byte[1024 * 1024];
+
             var lineCount = 0;
             while (basestream.Position < basestream.Length)
             {
-                if (basestream.ReadByte() == '\n')
-                {
-                    linestartoffset.Add(basestream.Position + 1);
-                    lineCount++;
-                }
+                offset = 0;
 
+                long startpos = basestream.Position;
+
+                int read = basestream.Read(buffer, offset, buffer.Length);
+
+                while (read > 0)
+                {
+                    if (buffer[offset] == '\n')
+                    {
+                        linestartoffset.Add(startpos + 1 + offset);
+                        lineCount++;
+                    }
+
+                    offset++;
+                    read--;
+                }
             }
             return lineCount;
         }
@@ -58,7 +75,44 @@ namespace MissionPlanner.Log
         {
             get
             {
-                throw new NotImplementedException();
+                //StringBuilder sb = new StringBuilder();
+
+                long startoffset = linestartoffset[index];
+                long endoffset=startoffset;
+
+                if ((index + 1) > linestartoffset.Count)
+                {
+                    endoffset = basestream.Length;
+                }
+                else
+                {
+                    endoffset = linestartoffset[index + 1];
+                }
+
+                int length = (int)(endoffset - startoffset);
+
+                basestream.Seek(linestartoffset[index], SeekOrigin.Begin);
+
+                byte[] data = new byte[length];
+
+                basestream.Read(data,0,length);
+
+                return (T)(object)ASCIIEncoding.ASCII.GetString(data);
+
+                /*
+                while (basestream.Position < basestream.Length)
+                {
+                    byte cha = (byte)basestream.ReadByte();
+
+                    sb.Append((char)cha);
+                    if (cha == '\n')
+                    {
+                        break;
+                    }
+                }
+
+                return (T)(object)sb.ToString();
+                 */
             }
             set
             {
@@ -88,12 +142,12 @@ namespace MissionPlanner.Log
 
         public int Count
         {
-            get { throw new NotImplementedException(); }
+            get { return _count; }
         }
 
         public bool IsReadOnly
         {
-            get { throw new NotImplementedException(); }
+            get { return true; }
         }
 
         public bool Remove(T item)
@@ -103,12 +157,23 @@ namespace MissionPlanner.Log
 
         public IEnumerator<T> GetEnumerator()
         {
-            throw new NotImplementedException();
+            int position = 0; // state
+            while (position < Count)
+            {
+                position++;
+                yield return this[position-1];
+            }
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            throw new NotImplementedException();
+            return this.GetEnumerator();
+        }
+
+        public void Dispose()
+        {
+            basestream.Close();
+            linestartoffset = null;
         }
     }
 }

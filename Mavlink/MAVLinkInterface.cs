@@ -226,7 +226,7 @@ namespace MissionPlanner
             frmProgressReporter = new ProgressReporterDialogue
                                       {
                                           StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen,
-                                          Text = "Connecting Mavlink"
+                                          Text = Strings.ConnectingMavlink
                                       };
 
             if (getparams)
@@ -237,7 +237,7 @@ namespace MissionPlanner
             {
                 frmProgressReporter.DoWork += FrmProgressReporterDoWorkNOParams;
             }
-            frmProgressReporter.UpdateProgressAndStatus(-1, "Mavlink Connecting...");
+            frmProgressReporter.UpdateProgressAndStatus(-1, Strings.MavlinkConnecting);
             ThemeManager.ApplyThemeTo(frmProgressReporter);
 
             frmProgressReporter.RunBackgroundOperationAsync();
@@ -260,7 +260,7 @@ namespace MissionPlanner
 
         private void OpenBg(object PRsender, bool getparams, ProgressWorkerEventArgs progressWorkerEventArgs)
         {
-            frmProgressReporter.UpdateProgressAndStatus(-1, "Mavlink Connecting...");
+            frmProgressReporter.UpdateProgressAndStatus(-1, Strings.MavlinkConnecting);
 
             giveComport = true;
 
@@ -297,7 +297,7 @@ namespace MissionPlanner
                 countDown.Elapsed += (sender, e) =>
                 {
                     int secondsRemaining = (deadline - e.SignalTime).Seconds;
-                    frmProgressReporter.UpdateProgressAndStatus(-1, string.Format("Trying to connect.\nTimeout in {0}", secondsRemaining));
+                    frmProgressReporter.UpdateProgressAndStatus(-1, string.Format(Strings.Trying, secondsRemaining));
                     if (secondsRemaining > 0) countDown.Start();
                 };
                 countDown.Start();
@@ -327,8 +327,8 @@ namespace MissionPlanner
 
                         if (hbseen)
                         {
-                            progressWorkerEventArgs.ErrorMessage = "Only 1 Heatbeat Received";
-                            throw new Exception("Only 1 Mavlink Heartbeat Packets was read from this port - Verify your hardware is setup correctly\nMission Planner waits for 2 valid heartbeat packets before connecting");
+                            progressWorkerEventArgs.ErrorMessage = Strings.Only1Hb;
+                            throw new Exception(Strings.Only1HbD);
                         }
                         else
                         {
@@ -419,13 +419,13 @@ Please check the following
                 catch { }
                 giveComport = false;
                 if (string.IsNullOrEmpty(progressWorkerEventArgs.ErrorMessage))
-                    progressWorkerEventArgs.ErrorMessage = "Connect Failed";
+                    progressWorkerEventArgs.ErrorMessage = Strings.ConnectFailed;
                 log.Error(e);
                 throw;
             }
             //frmProgressReporter.Close();
             giveComport = false;
-            frmProgressReporter.UpdateProgressAndStatus(100, "Done.");
+            frmProgressReporter.UpdateProgressAndStatus(100, Strings.Done);
             log.Info("Done open " + MAV.sysid + " " + MAV.compid);
             MAV.packetslost = 0;
             MAV.synclost = 0;
@@ -465,6 +465,8 @@ Please check the following
 
                         if (hb.type != (byte)MAVLink.MAV_TYPE.GCS)
                         {
+                            SetupMavConnect(buffer[3], buffer[4], buffer[2], hb);
+
                             giveComport = false;
                             return buffer;
                         }
@@ -729,11 +731,11 @@ Please check the following
             frmProgressReporter = new ProgressReporterDialogue
             {
                 StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen,
-                Text = "Getting Params"
+                Text = Strings.GettingParams
             };
 
             frmProgressReporter.DoWork += FrmProgressReporterGetParams;
-            frmProgressReporter.UpdateProgressAndStatus(-1, "Getting Params...");
+            frmProgressReporter.UpdateProgressAndStatus(-1, Strings.GettingParamsD);
             ThemeManager.ApplyThemeTo(frmProgressReporter);
 
             frmProgressReporter.RunBackgroundOperationAsync();
@@ -747,7 +749,7 @@ Please check the following
             foreach (string item in MAV.param.Keys)
             {
                 if (float.IsNaN((float)MAV.param[item]))
-                    CustomMessageBox.Show("BAD PARAM, "+item+" = NAN \n Fix this NOW!!",Strings.ERROR);
+                    CustomMessageBox.Show("BAD PARAM, " + item + " = NAN \n Fix this NOW!!", Strings.ERROR);
             }
         }
 
@@ -773,7 +775,6 @@ Please check the following
             // clear old
             MAV.param = new Hashtable();
 
-            int retrys = 6;
             int param_count = 0;
             int param_total = 1;
 
@@ -911,7 +912,7 @@ Please check the following
 
                         //Console.WriteLine(DateTime.Now.Millisecond + " gp3 ");
 
-                        this.frmProgressReporter.UpdateProgressAndStatus((indexsreceived.Count * 100) / param_total, "Got param " + paramID);
+                        this.frmProgressReporter.UpdateProgressAndStatus((indexsreceived.Count * 100) / param_total, Strings.Gotparam + paramID);
 
                         // we hit the last param - lets escape eq total = 176 index = 0-175
                         if (par.param_index == (param_total - 1))
@@ -919,7 +920,7 @@ Please check the following
                     }
                     if (buffer[5] == (byte)MAVLINK_MSG_ID.STATUSTEXT) 
                     {
-                        var msg = MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.STATUSTEXT].ByteArrayToStructure<MAVLink.mavlink_statustext_t>(6);
+                        var msg = buffer.ByteArrayToStructure<MAVLink.mavlink_statustext_t>(6);
 
                         string logdata = Encoding.ASCII.GetString(msg.text);
 
@@ -1247,11 +1248,6 @@ Please check the following
             req.target_system = MAV.sysid;
             req.target_component = MAV.compid;
 
-            if (actionid == MAV_CMD.COMPONENT_ARM_DISARM)
-            {
-                req.target_component = (byte)MAV_COMPONENT.MAV_COMP_ID_SYSTEM_CONTROL;
-            }
-
             req.command = (ushort)actionid;
 
             req.param1 = p1;
@@ -1263,6 +1259,16 @@ Please check the following
             req.param7 = p7;
 
             log.InfoFormat("doCommand cmd {0} {1} {2} {3} {4} {5} {6} {7}",actionid.ToString(),p1,p2,p3,p4,p5,p6,p7);
+
+            // send old style, then new style
+            if (actionid == MAV_CMD.COMPONENT_ARM_DISARM)
+            {
+                req.target_component = (byte)MAV_COMPONENT.MAV_COMP_ID_SYSTEM_CONTROL;
+
+                generatePacket((byte)MAVLINK_MSG_ID.COMMAND_LONG, req);
+
+                req.target_component = MAV.compid;
+            }
 
             generatePacket((byte)MAVLINK_MSG_ID.COMMAND_LONG, req);
 

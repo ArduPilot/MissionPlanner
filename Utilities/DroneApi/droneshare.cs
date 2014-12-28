@@ -121,42 +121,6 @@ namespace MissionPlanner.Utilities.DroneApi
                 string answer = item2["viewURL"].ToString();
 
                 return answer;
-
-                // http port with query string
-                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(webAppUploadUrl);
-                request.ContentType = APIConstants.TLOG_MIME_TYPE;
-                request.Method = "POST";
-                request.KeepAlive = true;
-                request.Credentials = System.Net.CredentialCache.DefaultCredentials;
-                request.Accept = "application/json";
-
-                request.ContentLength = new FileInfo(file).Length;
-
-                using (var stream = request.GetRequestStream())
-                {
-                    using (var filebin = new BinaryReader(File.OpenRead(file)))
-                    {
-                        byte[] buffer = new byte[1024 * 4];
-                        while (filebin.BaseStream.Position < filebin.BaseStream.Length)
-                        {
-                            int read = filebin.Read(buffer, 0, buffer.Length);
-                            stream.Write(buffer, 0, read);
-                        }
-                    }
-                }
-
-                try
-                {
-
-                    var response = (HttpWebResponse)request.GetResponse();
-
-                    var JSONresp2 = new StreamReader(response.GetResponseStream()).ReadToEnd();
-
-                    var JSONnobj2 = JSON.Instance.ToObject(JSONresp2);
-
-                    return JSONnobj2.ToString();
-                }
-                catch (Exception ex) { Console.WriteLine(ex); }
             }
             catch (WebException ex)
             {

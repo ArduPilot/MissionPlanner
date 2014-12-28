@@ -34,6 +34,7 @@ namespace px4uploader
         public int board_rev;
         public int fw_maxsize;
         public int bl_rev;
+        public bool libre = false;
 
         public enum Code : byte
         {
@@ -233,6 +234,7 @@ namespace px4uploader
                     if (ByteArrayCompare(sn, new byte[] { 0x00, 0x23, 0x00, 0x30, 0x35, 0x32, 0x47, 0x18, 0x36, 0x34, 0x30, 0x32, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 }))
                     {
                         print("Libre bootloader");
+                        libre = true;
                     }
 
                     object obj = new otp();

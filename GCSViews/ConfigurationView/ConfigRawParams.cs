@@ -138,9 +138,13 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 Hashtable data = new Hashtable();
                 foreach (DataGridViewRow row in Params.Rows)
                 {
-                    float value = float.Parse(row.Cells[1].Value.ToString());
+                    try
+                    {
+                        float value = float.Parse(row.Cells[1].Value.ToString());
 
-                    data[row.Cells[0].Value.ToString()] = value;
+                        data[row.Cells[0].Value.ToString()] = value;
+                    }
+                    catch (Exception) { CustomMessageBox.Show(Strings.InvalidNumberEntered + " " + row.Cells[0].Value.ToString()); }
                 }
 
                 Utilities.ParamFile.SaveParamFile(sfd.FileName,data);

@@ -160,8 +160,8 @@ namespace MissionPlanner.Joystick
             log.Info("Loading joystick config files " + joystickconfigbutton + " " + joystickconfigaxis);
 
             // save for later
-            this.joystickconfigbutton = Application11.StartupPath + joystickconfigbutton;
-            this.joystickconfigaxis = Application11.StartupPath + joystickconfigaxis;
+            this.joystickconfigbutton = Application11.StartupPath + Path.DirectorySeparatorChar + joystickconfigbutton;
+            this.joystickconfigaxis = Application11.StartupPath + Path.DirectorySeparatorChar + joystickconfigaxis;
 
             // load config
             if (File.Exists(joystickconfigbutton) && File.Exists(joystickconfigaxis))
@@ -614,21 +614,26 @@ namespace MissionPlanner.Joystick
             rc.chan7_raw = 0;
             rc.chan8_raw = 0;
 
-            MainV2.comPort.sendPacket(rc);
-            System.Threading.Thread.Sleep(20);
-            MainV2.comPort.sendPacket(rc);
-            System.Threading.Thread.Sleep(20);
-            MainV2.comPort.sendPacket(rc);
-            System.Threading.Thread.Sleep(20);
-            MainV2.comPort.sendPacket(rc);
-            System.Threading.Thread.Sleep(20);
-            MainV2.comPort.sendPacket(rc);
-            System.Threading.Thread.Sleep(20);
-            MainV2.comPort.sendPacket(rc);
+            try
+            {
 
-            MainV2.comPort.sendPacket(rc);
-            MainV2.comPort.sendPacket(rc);
-            MainV2.comPort.sendPacket(rc);
+                MainV2.comPort.sendPacket(rc);
+                System.Threading.Thread.Sleep(20);
+                MainV2.comPort.sendPacket(rc);
+                System.Threading.Thread.Sleep(20);
+                MainV2.comPort.sendPacket(rc);
+                System.Threading.Thread.Sleep(20);
+                MainV2.comPort.sendPacket(rc);
+                System.Threading.Thread.Sleep(20);
+                MainV2.comPort.sendPacket(rc);
+                System.Threading.Thread.Sleep(20);
+                MainV2.comPort.sendPacket(rc);
+
+                MainV2.comPort.sendPacket(rc);
+                MainV2.comPort.sendPacket(rc);
+                MainV2.comPort.sendPacket(rc);
+            }
+            catch (Exception ex) { log.Error(ex); }
         }
 
         public void DoJoystickButtonFunction()

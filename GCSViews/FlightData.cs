@@ -151,8 +151,6 @@ namespace MissionPlanner.GCSViews
                 routes.Dispose();
             if (route != null)
                 route.Dispose();
-            if (polygon != null)
-                polygon.Dispose();
             if (marker != null)
                 marker.Dispose();
             if (aviwriter != null)
@@ -180,6 +178,8 @@ namespace MissionPlanner.GCSViews
             mymap = gMapControl1;
             myhud = hud1;
             MainHcopy = MainH;
+
+            mymap.Paint += mymap_Paint;
 
             //  mymap.Manager.UseMemoryCache = false;
 
@@ -306,6 +306,11 @@ namespace MissionPlanner.GCSViews
 
             // first run
             MainV2_AdvancedChanged(null, null);
+        }
+
+        void mymap_Paint(object sender, PaintEventArgs e)
+        {
+            distanceBar1.Invalidate();
         }
 
         void comPort_MavChanged(object sender, EventArgs e)
@@ -658,6 +663,8 @@ namespace MissionPlanner.GCSViews
                 {
                     GMapPolygon poly = new GMapPolygon(list, item.NAME);
 
+                    poly.Fill = new SolidBrush(Color.FromArgb(30, Color.Blue));
+
                     tfrpolygons.Polygons.Add(poly);
                 }
             }
@@ -992,6 +999,12 @@ namespace MissionPlanner.GCSViews
                             //Console.WriteLine("Doing FD WP's");
                             updateClearMissionRouteMarkers();
 
+                            float dist = 0;
+                            float travdist = 0;
+                            distanceBar1.ClearWPDist();
+                            MAVLink.mavlink_mission_item_t lastplla = new MAVLink.mavlink_mission_item_t();
+                            MAVLink.mavlink_mission_item_t home = new MAVLink.mavlink_mission_item_t(); 
+
                             foreach (MAVLink.mavlink_mission_item_t plla in MainV2.comPort.MAV.wps.Values)
                             {
                                 if (plla.x == 0 || plla.y == 0)
@@ -1007,14 +1020,45 @@ namespace MissionPlanner.GCSViews
                                 if (plla.seq == 0 && plla.current != 2)
                                 {
                                     tag = "Home";
+                                    home = plla;
                                 }
                                 if (plla.current == 2)
                                 {
                                     continue;
                                 }
 
+                                if (lastplla.command == 0)
+                                    lastplla = plla;
+
+                                try
+                                {
+                                    dist = (float)new PointLatLngAlt(plla.x, plla.y).GetDistance(new PointLatLngAlt(lastplla.x, lastplla.y));
+
+                                    distanceBar1.AddWPDist(dist);
+
+                                    if (plla.seq <= MainV2.comPort.MAV.cs.wpno)
+                                    {
+                                        travdist += dist;
+                                    }
+
+                                    lastplla = plla;
+                                }
+                                catch { }
+
                                 addpolygonmarker(tag, plla.y, plla.x, (int)plla.z, Color.White, polygons);
                             }
+
+                            try
+                            {
+                                //dist = (float)new PointLatLngAlt(home.x, home.y).GetDistance(new PointLatLngAlt(lastplla.x, lastplla.y));
+                               // distanceBar1.AddWPDist(dist);
+                            }
+                            catch { }
+
+                            travdist -= MainV2.comPort.MAV.cs.wp_dist;
+
+                            if (MainV2.comPort.MAV.cs.mode.ToUpper() == "AUTO")
+                                distanceBar1.traveleddist = travdist;
 
                             RegeneratePolygon();
 
@@ -1423,31 +1467,32 @@ namespace MissionPlanner.GCSViews
                 }
             }
 
-            if (polygon == null)
-            {
-                polygon = new GMapPolygon(polygonPoints, "polygon test");
-                polygons.Polygons.Add(polygon);
-            }
-            else
-            {
-                polygon.Points.Clear();
-                polygon.Points.AddRange(polygonPoints);
+            if (polygonPoints.Count < 2)
+                return;
 
-                polygon.Stroke = new Pen(Color.Yellow, 4);
-                polygon.Fill = Brushes.Transparent;
+            GMapRoute homeroute = new GMapRoute("homepath");
+            homeroute.Stroke = new Pen(Color.Yellow, 2);
+            homeroute.Stroke.DashStyle = DashStyle.Dash;
+            // add first point past home
+            homeroute.Points.Add(polygonPoints[1]);
+            // add home location
+            homeroute.Points.Add(polygonPoints[0]);
+            // add last point
+            homeroute.Points.Add(polygonPoints[polygonPoints.Count - 1]);
 
-                if (polygons.Polygons.Count == 0)
-                {
-                    polygons.Polygons.Add(polygon);
-                }
-                else
-                {
-                    gMapControl1.UpdatePolygonLocalPosition(polygon);
-                }
+            GMapRoute wppath = new GMapRoute("wp path");
+            wppath.Stroke = new Pen(Color.Yellow, 4);
+
+            for (int a = 1; a < polygonPoints.Count; a++)
+            {
+                wppath.Points.Add(polygonPoints[a]);
             }
+
+            polygons.Routes.Add(homeroute);
+            polygons.Routes.Add(wppath);
+
         }
 
-        GMapPolygon polygon;
         GMapOverlay polygons;
         GMapOverlay routes;
         GMapRoute route;
@@ -1807,13 +1852,15 @@ namespace MissionPlanner.GCSViews
                 {
                     BUT_clear_track_Click(null, null);
 
-                    MainV2.comPort.logreadmode = false;
+                    MainV2.comPort.logreadmode = true;
                     MainV2.comPort.logplaybackfile = new BinaryReader(File.OpenRead(file));
                     MainV2.comPort.lastlogread = DateTime.MinValue;
 
                     LBL_logfn.Text = Path.GetFileName(file);
 
                     log.Info("Open logfile " + file);
+
+                    MainV2.comPort.getHeartBeat();
 
                     tracklog.Value = 0;
                     tracklog.Minimum = 0;
@@ -2150,8 +2197,12 @@ namespace MissionPlanner.GCSViews
         {
             recordHudToAVIToolStripMenuItem.Text = "Start Recording";
 
-            if (aviwriter != null)
-                aviwriter.avi_close();
+            try
+            {
+                if (aviwriter != null)
+                    aviwriter.avi_close();
+            }
+            catch (Exception ex) { CustomMessageBox.Show(Strings.ERROR + " " + ex.ToString(),Strings.ERROR); }
 
             aviwriter = null;
         }
