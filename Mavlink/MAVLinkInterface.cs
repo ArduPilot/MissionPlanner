@@ -920,7 +920,7 @@ Please check the following
                     }
                     if (buffer[5] == (byte)MAVLINK_MSG_ID.STATUSTEXT) 
                     {
-                        var msg = MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.STATUSTEXT].ByteArrayToStructure<MAVLink.mavlink_statustext_t>(6);
+                        var msg = buffer.ByteArrayToStructure<MAVLink.mavlink_statustext_t>(6);
 
                         string logdata = Encoding.ASCII.GetString(msg.text);
 
