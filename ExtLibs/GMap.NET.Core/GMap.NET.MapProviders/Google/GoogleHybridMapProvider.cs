@@ -32,7 +32,7 @@ namespace GMap.NET.MapProviders
          }
       }
 
-      readonly string name = "GoogleHybridMap";
+      readonly string name = Resources.Strings.GoogleHybridMap;
       public override string Name
       {
          get
