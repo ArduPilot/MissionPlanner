@@ -314,4 +314,92 @@ Mission Planner waits for 2 valid heartbeat packets before connecting</value>
     <value>尝试连接。
 在{0}秒后超时</value>
   </data>
+  <data name="Checking" xml:space="preserve">
+    <value>正在检查 </value>
+  </data>
+  <data name="DownloadedFromInternet" xml:space="preserve">
+    <value>已从奠基网镜像下载完毕</value>
+  </data>
+  <data name="Getting" xml:space="preserve">
+    <value>正在获取 </value>
+  </data>
+  <data name="GettingUpdatedParams" xml:space="preserve">
+    <value>正在获取更新的参数列表</value>
+  </data>
+  <data name="CantDetectBoardVersion" xml:space="preserve">
+    <value>不能检测到你控制板的版本。 请检查连接</value>
+  </data>
+  <data name="CheckPortSettingsOr" xml:space="preserve">
+    <value>检查端口设置或者正在使用端口？</value>
+  </data>
+  <data name="CommunicationErrorNoConnection" xml:space="preserve">
+    <value>通信错误 - 没有连接</value>
+  </data>
+  <data name="DetectedA" xml:space="preserve">
+    <value>检测到一个</value>
+  </data>
+  <data name="DetectingBoardVersion" xml:space="preserve">
+    <value>正在检测控制板的版本</value>
+  </data>
+  <data name="Done" xml:space="preserve">
+    <value>完成</value>
+  </data>
+  <data name="DownloadingFromInternet" xml:space="preserve">
+    <value>正在从奠基网镜像下载</value>
+  </data>
+  <data name="EppromChanged" xml:space="preserve">
+    <value>Epprom更改了, 你所有的设置将在更新中丢失,
+你希望继续吗？</value>
+  </data>
+  <data name="EppromFormatChanged" xml:space="preserve">
+    <value>Epprom格式已更改 ({0) vs {1})</value>
+  </data>
+  <data name="FailedDownload" xml:space="preserve">
+    <value>下载失败</value>
+  </data>
+  <data name="FailedReadHEX" xml:space="preserve">
+    <value>读取十六进制文件失败</value>
+  </data>
+  <data name="FailedToReadHex" xml:space="preserve">
+    <value>读取firmware.hex失败 :</value>
+  </data>
+  <data name="FailedUpload" xml:space="preserve">
+    <value>上传失败</value>
+  </data>
+  <data name="GettingFWList" xml:space="preserve">
+    <value>正在从奠基网镜像获取固件列表</value>
+  </data>
+  <data name="GettingFWVersion" xml:space="preserve">
+    <value>正在从奠基网镜像获取固件版本</value>
+  </data>
+  <data name="InvalidBoardType" xml:space="preserve">
+    <value>无效的控制板类型</value>
+  </data>
+  <data name="PleaseConnectAndBackupConfig" xml:space="preserve">
+    <value>请在配置选项卡连接并备份配置。</value>
+  </data>
+  <data name="ReadingHexFile" xml:space="preserve">
+    <value>正在读取十六进制文件</value>
+  </data>
+  <data name="ReceivedList" xml:space="preserve">
+    <value>从奠基网镜像获取列表完成</value>
+  </data>
+  <data name="UploadComplete" xml:space="preserve">
+    <value>上传完成</value>
+  </data>
+  <data name="UploadingBytesToBoard" xml:space="preserve">
+    <value>正在上传 {0}字节 到你的控制板</value>
+  </data>
+  <data name="VerifyComplete" xml:space="preserve">
+    <value>校验完成</value>
+  </data>
+  <data name="VerifyFirmware" xml:space="preserve">
+    <value>校验固件</value>
+  </data>
+  <data name="UploadSucceededButVerifyFailed" xml:space="preserve">
+    <value>上传成功，但是校验失败: 输出 {0} 获得 {1} 位于 </value>
+  </data>
+  <data name="ReadingHex" xml:space="preserve">
+    <value>正在读取十六进制文件</value>
+  </data>
 </root>
