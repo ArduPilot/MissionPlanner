@@ -105,6 +105,8 @@ namespace MissionPlanner.Comms
 
             client.Client.NoDelay = true;
 
+            client.Connect(host, int.Parse(Port));
+
             VerifyConnected();
 
             return;
