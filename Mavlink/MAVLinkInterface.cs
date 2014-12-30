@@ -512,13 +512,13 @@ Please check the following
                 return;
             }
 
-            if (ReadOnly) 
+            if (ReadOnly)
             {
                 // allow these messages
-                if (messageType == (byte)MAVLink.MAVLINK_MSG_ID.MISSION_REQUEST_LIST || 
+                if (messageType == (byte)MAVLink.MAVLINK_MSG_ID.MISSION_REQUEST_LIST ||
                     messageType == (byte)MAVLink.MAVLINK_MSG_ID.MISSION_REQUEST_PARTIAL_LIST ||
                     messageType == (byte)MAVLink.MAVLINK_MSG_ID.MISSION_REQUEST ||
-                    messageType == (byte)MAVLink.MAVLINK_MSG_ID.PARAM_REQUEST_LIST || 
+                    messageType == (byte)MAVLink.MAVLINK_MSG_ID.PARAM_REQUEST_LIST ||
                     messageType == (byte)MAVLink.MAVLINK_MSG_ID.PARAM_REQUEST_READ ||
                     messageType == (byte)MAVLink.MAVLINK_MSG_ID.RALLY_FETCH_POINT ||
                     messageType == (byte)MAVLink.MAVLINK_MSG_ID.FENCE_FETCH_POINT
@@ -526,10 +526,10 @@ Please check the following
                 {
 
                 }
-                else 
+                else
                 {
                     return;
-                }                
+                }
             }
 
             lock (objlock)
@@ -541,14 +541,14 @@ Please check the following
                 //Console.WriteLine(DateTime.Now + " PC Doing req "+ messageType + " " + this.BytesToRead);
                 byte[] packet = new byte[data.Length + 6 + 2];
 
-                packet[0] = 254;    
+                packet[0] = 254;
                 packet[1] = (byte)data.Length;
                 packet[2] = (byte)packetcount;
 
                 packetcount++;
 
                 packet[3] = 255; // this is always 255 - MYGCS
-                packet[4] = (byte)MAV_COMPONENT.MAV_COMP_ID_MISSIONPLANNER;
+                packet[4] = (byte)MAV_COMPONENT.MAV_COMP_ID_ALL;
                 packet[5] = messageType;
 
                 int i = 6;
@@ -560,7 +560,7 @@ Please check the following
 
                 ushort checksum = MavlinkCRC.crc_calculate(packet, packet[1] + 6);
 
-                    checksum = MavlinkCRC.crc_accumulate(MAVLINK_MESSAGE_CRCS[messageType], checksum);
+                checksum = MavlinkCRC.crc_accumulate(MAVLINK_MESSAGE_CRCS[messageType], checksum);
 
                 byte ck_a = (byte)(checksum & 0xFF); ///< High byte
                 byte ck_b = (byte)(checksum >> 8); ///< Low byte
