@@ -18,6 +18,8 @@ namespace MissionPlanner.Comms
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         public UdpClient client = new UdpClient();
         IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
+        byte[] rbuffer = new byte[0];
+        int rbufferread = 0;
 
         int retrys = 3;
 
@@ -52,9 +54,9 @@ namespace MissionPlanner.Comms
 
         public string PortName { get; set; }
 
-        public  int BytesToRead
+        public int BytesToRead
         {
-            get { return (int)client.Available; }
+            get { return client.Available + rbuffer.Length - rbufferread; }
         }
 
         public int BytesToWrite { get { return 0; } }
@@ -103,8 +105,6 @@ namespace MissionPlanner.Comms
 
             client = new UdpClient(host, int.Parse(Port));
 
-            client.Client.NoDelay = true;
-
             client.Connect(host, int.Parse(Port));
 
             VerifyConnected();
@@ -134,16 +134,45 @@ namespace MissionPlanner.Comms
             }
         }
 
-        public  int Read(byte[] readto,int offset,int length)
+        public int Read(byte[] readto, int offset, int length)
         {
             VerifyConnected();
             try
             {
                 if (length < 1) { return 0; }
 
-				return client.Client.Receive(readto, offset, length, SocketFlags.None);
+                // check if we are at the end of our current allocation
+                if (rbufferread == rbuffer.Length)
+                {
+                    DateTime deadline = DateTime.Now.AddMilliseconds(this.ReadTimeout);
+
+                    MemoryStream r = new MemoryStream();
+                    do
+                    {
+                        // read more
+                        while (client.Available > 0 && r.Length < (1024 * 1024))
+                        {
+                            Byte[] b = client.Receive(ref RemoteIpEndPoint);
+                            r.Write(b, 0, b.Length);
+                        }
+                        // copy mem stream to byte array.
+                        rbuffer = r.ToArray();
+                        // reset head.
+                        rbufferread = 0;
+                    } while (rbuffer.Length < length && DateTime.Now < deadline);
+                }
+
+                // prevent read past end of array
+                if ((rbuffer.Length - rbufferread) < length)
+                    return 0;
+
+                Array.Copy(rbuffer, rbufferread, readto, offset, length);
+
+                rbufferread += length;
+
+                return length;
             }
-            catch { throw new Exception("Socket Closed"); }
+            catch { throw; }
         }
 
         public  int ReadByte()
