@@ -222,6 +222,9 @@
   <data name="CHK_logs.Location" type="System.Drawing.Point, System.Drawing">
     <value>13, 72</value>
   </data>
+  <data name="CHK_logs.ScrollAlwaysVisible" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
   <data name="CHK_logs.Size" type="System.Drawing.Size, System.Drawing">
     <value>116, 109</value>
   </data>
