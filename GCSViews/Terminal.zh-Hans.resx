@@ -127,7 +127,7 @@
     <value>连接</value>
   </data>
   <data name="Logs.Text" xml:space="preserve">
-    <value>下载记录</value>
+    <value>下载日志</value>
   </data>
   <data name="BUTradiosetup.Text" xml:space="preserve">
     <value>设置遥控</value>
@@ -136,11 +136,12 @@
     <value>断开连接</value>
   </data>
   <data name="TXT_terminal.Text" xml:space="preserve">
-    <value>*注意* 请在第一次连接电源时点击
-CLI Works only上方的连接，日志只能通过USB下载</value>
+    <value>*注意* 请点击上方的连接
+命令行只在第一次连接电源时工作，日志只能通过USB下载
+新版本仅支持通过mavlink下载日志，请访问 飞行数据 &gt; 数据闪存日志</value>
   </data>
   <data name="BUT_logbrowse.Text" xml:space="preserve">
-    <value>浏览记录</value>
+    <value>浏览日志</value>
   </data>
   <data name="BUTsetupshow.Text" xml:space="preserve">
     <value>显示设置</value>
