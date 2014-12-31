@@ -1225,7 +1225,7 @@ namespace MissionPlanner.Utilities
                     }
                     else if (url.Contains("firmware.diydrones.com"))
                     {
-                        url = url.Replace("firmware.diydrones.com", "fwcdn.diywrj.com");
+                        url = url.Replace("firmware.diydrones.com", "firmware.diywrj.com");
                     }
                     else if (url.Contains("github.com"))
                     {
