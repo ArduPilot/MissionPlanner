@@ -1262,6 +1262,7 @@ namespace MissionPlanner.GCSViews
             // not async
             this.Invoke((System.Windows.Forms.MethodInvoker)delegate()
             {
+                polygons.Routes.Clear();
                 polygons.Markers.Clear();
                 routes.Markers.Clear();
             });
