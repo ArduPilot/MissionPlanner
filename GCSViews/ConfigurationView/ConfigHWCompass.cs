@@ -63,11 +63,16 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                         string min = TXT_declination_min.Text;
 
-                        dec = float.Parse(deg) + (float.Parse(min) / 60);
+                        dec = float.Parse(deg);
 
-                        MainV2.comPort.setParam("COMPASS_DEC", dec * deg2rad);
+                        if (dec < 0)
+                            dec -= (float.Parse(min) / 60);
+                        else
+                            dec += (float.Parse(min) / 60);                        
                     }
                     catch { CustomMessageBox.Show(Strings.InvalidNumberEntered, Strings.ERROR); return; }
+
+                    MainV2.comPort.setParam("COMPASS_DEC", dec * deg2rad);
                 }
             }
             catch { CustomMessageBox.Show(String.Format(Strings.ErrorSetValueFailed, "COMPASS_DEC"), Strings.ERROR); }
