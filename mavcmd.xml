@@ -155,15 +155,6 @@
       <Y></Y>
       <Z></Z>
     </DO_GRIPPER>
-    <DO_SET_HOME>
-      <P1>Current(1)/Spec(0)</P1>
-      <P2></P2>
-      <P3></P3>
-      <P4></P4>
-      <X>Lat</X>
-      <Y>Long</Y>
-      <Z>Alt</Z>
-    </DO_SET_HOME>
     <DO_SET_CAM_TRIGG_DIST>
       <P1>Dist (m)</P1>
       <P2></P2>
