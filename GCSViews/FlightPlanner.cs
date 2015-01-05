@@ -1168,7 +1168,7 @@ namespace MissionPlanner.GCSViews
                         MainMap.Position = rect.Value.LocationMiddle;
                     }
 
-                    MainMap.Zoom = 17;
+                    //MainMap.Zoom = 17;
 
                     MainMap_OnMapZoomChanged();
                 }
