@@ -1873,7 +1873,7 @@ namespace MissionPlanner
                             {
                                 port.sendPacket(htb);
                             }
-                            catch { }
+                            catch (Exception ex) { port.Close(); }
                         }
 
                         heatbeatSend = DateTime.Now;
