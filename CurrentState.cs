@@ -303,11 +303,13 @@ namespace MissionPlanner
         private float _current2;
 
         public float HomeAlt { get { return (float)HomeLocation.Alt; } set { } }
-        public PointLatLngAlt HomeLocation = new PointLatLngAlt();
+
+        static PointLatLngAlt _homelocation = new PointLatLngAlt();
+        public PointLatLngAlt HomeLocation { get { return _homelocation; } set { _homelocation = value; } }
 
         public PointLatLngAlt MovingBase = null;
 
-        PointLatLngAlt _trackerloc = new PointLatLngAlt();
+        static PointLatLngAlt _trackerloc = new PointLatLngAlt();
         public PointLatLngAlt TrackerLocation { get { if (_trackerloc.Lng != 0) return _trackerloc; return HomeLocation; } set { _trackerloc = value; } }
 
         [DisplayText("Distance to Home (dist)")]
@@ -685,6 +687,16 @@ namespace MissionPlanner
                         hilch4 = (int)(hil.yaw_rudder * 10000);
 
                         //MAVLink.packets[(byte)MAVLink.MSG_NAMES.HIL_CONTROLS] = null;
+                    }
+
+                    bytearray = MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.OPTICAL_FLOW];
+
+                    if (bytearray != null)
+                    {
+                        var optflow = bytearray.ByteArrayToStructure<MAVLink.mavlink_optical_flow_t>(6);
+
+                        int completeme;
+
                     }
 
                     bytearray = MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.MOUNT_STATUS];
