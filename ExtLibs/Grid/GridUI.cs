@@ -590,7 +590,7 @@ namespace MissionPlanner
                 seg.IsHitTestVisible = true;
                 if (CHK_grid.Checked)
                     routesOverlay.Routes.Add(seg);
-                routetotal = routetotal + (float)seg.Distance;
+                routetotal = routetotal + (float)seg.Distance + (float)NUM_copter_delay.Value;
                 segment.Clear();
             }
 
