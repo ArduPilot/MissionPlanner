@@ -695,7 +695,11 @@ namespace MissionPlanner
                     {
                         var optflow = bytearray.ByteArrayToStructure<MAVLink.mavlink_optical_flow_t>(6);
 
-                        int completeme;
+                        opt_m_x = optflow.flow_comp_m_x;
+                        opt_m_y = optflow.flow_comp_m_x;
+                        opt_x = optflow.flow_x;
+                        opt_y = optflow.flow_y;
+                        opt_qua = optflow.quality;
 
                     }
 
@@ -1406,5 +1410,16 @@ namespace MissionPlanner
         public static float KIndexstatic = -1;
 
         public int KIndex { get { return (int)CurrentState.KIndexstatic; } }
+
+        [DisplayText("flow_comp_m_x")]
+        public float opt_m_x { get; set; }
+        [DisplayText("flow_comp_m_y")]
+        public float opt_m_y { get; set; }
+        [DisplayText("flow_x")]
+        public short opt_x { get; set; }
+        [DisplayText("flow_y")]
+        public short opt_y { get; set; }
+        [DisplayText("flow quality")]
+        public byte opt_qua { get; set; }
     }
 }
