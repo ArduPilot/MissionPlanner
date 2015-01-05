@@ -2248,6 +2248,8 @@ namespace MissionPlanner.GCSViews
                 selectform.Controls.Add(chk_box);
             }
 
+            ThemeManager.ApplyThemeTo(selectform);
+
             y += 20;
 
             object thisBoxed = MainV2.comPort.MAV.cs;
@@ -2276,26 +2278,58 @@ namespace MissionPlanner.GCSViews
 
                 CheckBox chk_box = new CheckBox();
 
+                ThemeManager.ApplyThemeTo(chk_box);
+
                 if (list1item != null && list1item.Name == field.Name)
+                {
                     chk_box.Checked = true;
+                    chk_box.BackColor = Color.Green;
+                }
                 if (list2item != null && list2item.Name == field.Name)
-                    chk_box.Checked = true;
+                {
+                    chk_box.Checked = true; 
+                    chk_box.BackColor = Color.Green;
+                }
                 if (list3item != null && list3item.Name == field.Name)
+                {
                     chk_box.Checked = true;
+                    chk_box.BackColor = Color.Green;
+                }
                 if (list4item != null && list4item.Name == field.Name)
+                {
                     chk_box.Checked = true;
+                    chk_box.BackColor = Color.Green;
+                }
                 if (list5item != null && list5item.Name == field.Name)
+                {
                     chk_box.Checked = true;
+                    chk_box.BackColor = Color.Green;
+                }
                 if (list6item != null && list6item.Name == field.Name)
+                {
                     chk_box.Checked = true;
+                    chk_box.BackColor = Color.Green;
+                }
                 if (list7item != null && list7item.Name == field.Name)
+                {
                     chk_box.Checked = true;
+                    chk_box.BackColor = Color.Green;
+                }
                 if (list8item != null && list8item.Name == field.Name)
+                {
                     chk_box.Checked = true;
+                    chk_box.BackColor = Color.Green;
+                }
                 if (list9item != null && list9item.Name == field.Name)
+                {
                     chk_box.Checked = true;
+                    chk_box.BackColor = Color.Green;
+                }
                 if (list10item != null && list10item.Name == field.Name)
+                {
                     chk_box.Checked = true;
+                    chk_box.BackColor = Color.Green;
+                }
 
                 chk_box.Text = field.Name;
                 chk_box.Name = field.Name;
@@ -2318,7 +2352,7 @@ namespace MissionPlanner.GCSViews
                     selectform.Width = x + 100;
                 }
             }
-            ThemeManager.ApplyThemeTo(selectform);
+            
             selectform.Show();
         }
 
@@ -2332,6 +2366,8 @@ namespace MissionPlanner.GCSViews
                 Height = 410,
                 Text = "Display This"
             };
+
+            ThemeManager.ApplyThemeTo(selectform);
 
             int x = 10;
             int y = 10;
@@ -2362,6 +2398,8 @@ namespace MissionPlanner.GCSViews
 
                 CheckBox chk_box = new CheckBox();
 
+                ThemeManager.ApplyThemeTo(chk_box);
+
                 chk_box.Text = field.Name;
                 chk_box.Name = field.Name;
                 chk_box.Tag = (sender);
@@ -2370,6 +2408,7 @@ namespace MissionPlanner.GCSViews
                 if (hud1.CustomItems.ContainsKey(field.Name))
                 {
                     chk_box.Checked = true;
+                    chk_box.BackColor = Color.Green;
                 }
 
                 chk_box.CheckedChanged += chk_box_hud_UserItem_CheckedChanged;
@@ -2389,7 +2428,7 @@ namespace MissionPlanner.GCSViews
                     selectform.Width = x + 100;
                 }
             }
-            ThemeManager.ApplyThemeTo(selectform);
+           
             selectform.Show();
         }
 
@@ -2406,6 +2445,8 @@ namespace MissionPlanner.GCSViews
         {
             if (((CheckBox)sender).Checked)
             {
+                ((CheckBox)sender).BackColor = Color.Green;
+
                 HUD.Custom cust = new HUD.Custom();
                 HUD.Custom.src = MainV2.comPort.MAV.cs;
 
@@ -2424,6 +2465,8 @@ namespace MissionPlanner.GCSViews
             }
             else
             {
+                ((CheckBox)sender).BackColor = Color.Transparent;
+
                 if (hud1.CustomItems.ContainsKey(((CheckBox)sender).Name))
                 {
                     hud1.CustomItems.Remove(((CheckBox)sender).Name);
@@ -2449,6 +2492,8 @@ namespace MissionPlanner.GCSViews
         {
             if (((CheckBox)sender).Checked)
             {
+                ((CheckBox)sender).BackColor = Color.Green;
+
                 if (list1item == null)
                 {
                     if (setupPropertyInfo(ref list1item, ((CheckBox)sender).Name, MainV2.comPort.MAV.cs))
@@ -2549,6 +2594,8 @@ namespace MissionPlanner.GCSViews
             }
             else
             {
+                ((CheckBox)sender).BackColor = Color.Transparent;
+
                 // reset old stuff
                 if (list1item != null && list1item.Name == ((CheckBox)sender).Name)
                 {
