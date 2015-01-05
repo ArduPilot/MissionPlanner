@@ -247,7 +247,7 @@ namespace MissionPlanner.Log
                 <tr><td>Pitch: " + model.Orientation.Tilt.Value.ToString("0.00") + @" </td></tr>
                 <tr><td>Yaw: " + model.Orientation.Heading.Value.ToString("0.00") + @" </td></tr>
                 <tr><td>Time: " + cs.datetime.ToString("HH:mm:sszzzzzz") + @" </td></tr>
-              </table> ";
+              </table> ]]>";
 //            ]]>";
 
                     pmplane.Description = desc;
