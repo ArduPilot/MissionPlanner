@@ -625,6 +625,7 @@
             0,
             0});
             this.NUM_copter_delay.Name = "NUM_copter_delay";
+            this.NUM_copter_delay.ValueChanged += new System.EventHandler(this.domainUpDown1_ValueChanged);
             // 
             // groupBox1
             // 

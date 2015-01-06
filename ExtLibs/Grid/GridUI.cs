@@ -590,7 +590,7 @@ namespace MissionPlanner
                 seg.IsHitTestVisible = true;
                 if (CHK_grid.Checked)
                     routesOverlay.Routes.Add(seg);
-                routetotal = routetotal + (float)seg.Distance + (float)NUM_copter_delay.Value;
+                routetotal = routetotal + (float)seg.Distance;
                 segment.Clear();
             }
 
@@ -657,7 +657,7 @@ namespace MissionPlanner
 
             lbl_pictures.Text = images.ToString();
             lbl_strips.Text = ((int)(strips / 2)).ToString();
-            double seconds = ((routetotal * 1000.0) / ((flyspeedms) * 0.8));
+            double seconds = ((routetotal * 1000.0) / ((flyspeedms) * 0.8)) + (float)NUM_copter_delay.Value * strips;
             // reduce flying speed by 20 %
             lbl_flighttime.Text = secondsToNice(seconds);
             seconds = ((routetotal * 1000.0) / (flyspeedms));
