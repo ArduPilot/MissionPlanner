@@ -1092,6 +1092,12 @@ namespace MissionPlanner
                         }
                     }
 
+                    // get any rallypoints
+                    if (MainV2.comPort.MAV.param.ContainsKey("RALLY_TOTAL") && int.Parse(MainV2.comPort.MAV.param["RALLY_TOTAL"].ToString()) > 0)
+                    {
+                        FlightPlanner.getRallyPointsToolStripMenuItem_Click(null, null);
+                    }
+
                     // set connected icon
                     this.MenuConnect.Image = displayicons.disconnect;
                 }

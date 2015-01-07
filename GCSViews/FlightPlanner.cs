@@ -451,18 +451,6 @@ namespace MissionPlanner.GCSViews
             //set default
             CMB_altmode.SelectedItem = altmode.Relative;
 
-            //set home
-            try
-            {
-                if (TXT_homelat.Text != "")
-                {
-                    MainMap.Position = new PointLatLng(double.Parse(TXT_homelat.Text), double.Parse(TXT_homelng.Text));
-                    MainMap.Zoom = 13;
-                }
-
-            }
-            catch (Exception) { }
-
             RegeneratePolygon();
 
             if (MainV2.getConfig("MapType") != "")
@@ -655,6 +643,18 @@ namespace MissionPlanner.GCSViews
             panelMap.Dock = DockStyle.None;
             panelMap.Dock = DockStyle.Fill;
             panelMap_Resize(null, null);
+
+            //set home
+            try
+            {
+                if (TXT_homelat.Text != "")
+                {
+                    MainMap.Position = new PointLatLng(double.Parse(TXT_homelat.Text), double.Parse(TXT_homelng.Text));
+                    MainMap.Zoom = 16;
+                }
+
+            }
+            catch (Exception) { }
 
             writeKML();
 
@@ -5091,7 +5091,7 @@ namespace MissionPlanner.GCSViews
             }
         }
 
-        private void getRallyPointsToolStripMenuItem_Click(object sender, EventArgs e)
+        public void getRallyPointsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (MainV2.comPort.MAV.param["RALLY_TOTAL"] == null)
             {

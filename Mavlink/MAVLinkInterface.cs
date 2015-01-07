@@ -32,6 +32,8 @@ namespace MissionPlanner
 
         public event EventHandler MavChanged;
 
+        const int gcssysid = 255;
+
         /// <summary>
         /// used to prevent comport access for exclusive use
         /// </summary>
@@ -547,7 +549,7 @@ Please check the following
 
                 packetcount++;
 
-                packet[3] = 255; // this is always 255 - MYGCS
+                packet[3] = gcssysid; // this is always 255 - MYGCS
                 packet[4] = (byte)MAV_COMPONENT.MAV_COMP_ID_MISSIONPLANNER;
                 packet[5] = messageType;
 
@@ -2720,12 +2722,19 @@ Please check the following
             {
                 // clear old
                 mavlink_mission_count_t wp = buffer.ByteArrayToStructure<mavlink_mission_count_t>(6);
+
+                if (wp.target_system == gcssysid)
+                    wp.target_system = buffer[3];
+
                 MAVlist[wp.target_system].wps.Clear();
             }
 
             if (buffer[5] == (byte)MAVLink.MAVLINK_MSG_ID.MISSION_ITEM)
             {
                 mavlink_mission_item_t wp = buffer.ByteArrayToStructure<mavlink_mission_item_t>(6);
+
+                if (wp.target_system == gcssysid)
+                    wp.target_system = buffer[3];
 
                 if (wp.current == 2)
                 {
@@ -2744,6 +2753,9 @@ Please check the following
             {
                 mavlink_rally_point_t rallypt = buffer.ByteArrayToStructure<mavlink_rally_point_t>(6);
 
+                if (rallypt.target_system == gcssysid)
+                    rallypt.target_system = buffer[3];
+
                 MAVlist[rallypt.target_system].rallypoints[rallypt.idx] = rallypt;
 
                 Console.WriteLine("RP # {0} {1} {2} {3} {4}", rallypt.idx, rallypt.lat,rallypt.lng,rallypt.alt, rallypt.break_alt);
@@ -2752,6 +2764,9 @@ Please check the following
             if (buffer[5] == (byte)MAVLINK_MSG_ID.FENCE_POINT)
             {
                 mavlink_fence_point_t fencept = buffer.ByteArrayToStructure<mavlink_fence_point_t>(6);
+
+                if (fencept.target_system == gcssysid)
+                    fencept.target_system = buffer[3];
 
                 MAVlist[fencept.target_system].fencepoints[fencept.idx] = fencept;
             }
