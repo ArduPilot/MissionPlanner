@@ -165,7 +165,7 @@ namespace MissionPlanner
                     double lat = last.Lat - steplat * a;
                     double lng = last.Lng - steplng * a;
 
-                    var newpoint = new PointLatLngAlt(lat, lng, srtm.getAltitude(lat, lng), "");
+                    var newpoint = new PointLatLngAlt(lat, lng, srtm.getAltitude(lat, lng).alt, "");
 
                     double subdist = lastpnt.GetDistance(newpoint);
 
@@ -180,7 +180,7 @@ namespace MissionPlanner
                     lastpnt = newpoint;
                 }
 
-                answer.Add(new PointLatLngAlt(loc.Lat, loc.Lng, srtm.getAltitude(loc.Lat, loc.Lng), ""));
+                answer.Add(new PointLatLngAlt(loc.Lat, loc.Lng, srtm.getAltitude(loc.Lat, loc.Lng).alt, ""));
 
                 last = loc;
             }

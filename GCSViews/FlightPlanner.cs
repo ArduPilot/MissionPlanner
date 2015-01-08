@@ -217,12 +217,12 @@ namespace MissionPlanner.GCSViews
                         if ((altmode)CMB_altmode.SelectedValue == altmode.Absolute)
                         {
                             //abs
-                            cell.Value = (srtm.getAltitude(lat, lng) * CurrentState.multiplierdist + int.Parse(TXT_DefaultAlt.Text)).ToString();
+                            cell.Value = ((srtm.getAltitude(lat, lng).alt) * CurrentState.multiplierdist + int.Parse(TXT_DefaultAlt.Text)).ToString();
                         }
                         else
                         {
                             //relative and verify
-                            cell.Value = ((int)srtm.getAltitude(lat, lng) * CurrentState.multiplierdist + int.Parse(TXT_DefaultAlt.Text) - (int)srtm.getAltitude(MainV2.comPort.MAV.cs.HomeLocation.Lat, MainV2.comPort.MAV.cs.HomeLocation.Lng) * CurrentState.multiplierdist).ToString();
+                            cell.Value = ((int)(srtm.getAltitude(lat, lng).alt) * CurrentState.multiplierdist + int.Parse(TXT_DefaultAlt.Text) - (int)srtm.getAltitude(MainV2.comPort.MAV.cs.HomeLocation.Lat, MainV2.comPort.MAV.cs.HomeLocation.Lng).alt * CurrentState.multiplierdist).ToString();
 
                         }
                     }
@@ -265,7 +265,7 @@ namespace MissionPlanner.GCSViews
 
             coords1.Lat = mouseposdisplay.Lat;
             coords1.Lng = mouseposdisplay.Lng;
-            coords1.Alt = srtm.getAltitude(mouseposdisplay.Lat, mouseposdisplay.Lng, MainMap.Zoom);
+            coords1.Alt = srtm.getAltitude(mouseposdisplay.Lat, mouseposdisplay.Lng, MainMap.Zoom).alt;
 
             try
             {

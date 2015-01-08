@@ -20,7 +20,11 @@ namespace MissionPlanner
             ocean
         }
 
-        public static tiletype currenttype = tiletype.invalid;
+        public class altresponce
+        {
+            public tiletype currenttype = tiletype.invalid;
+            public double alt = 0;
+        }
 
         public static string datadirectory = "./srtm/";
 
@@ -42,9 +46,10 @@ namespace MissionPlanner
 
         static Dictionary<string, short[,]> cache = new Dictionary<string, short[,]>();
 
-        public static double getAltitude(double lat, double lng, double zoom = 16)
+        public static altresponce getAltitude(double lat, double lng, double zoom = 16)
         {
             short alt = 0;
+            var answer = new altresponce();
 
             //lat += 1 / 1199.0;
             //lng -= 1 / 1201f;
@@ -97,8 +102,8 @@ namespace MissionPlanner
                         {
                             size = 3601;
                         }
-                        else 
-                            return -1;
+                        else
+                            return answer;
 
                         byte[] altbytes = new byte[2];
                         short[,] altdata = new short[size, size];
@@ -133,7 +138,7 @@ namespace MissionPlanner
                         size = 3601;
                     }
                     else
-                        return -1;
+                        return answer;
 
                     // remove the base lat long
                     lat -= y;
@@ -160,8 +165,9 @@ namespace MissionPlanner
                     double v2 = avg(alt01, alt11, x_frac);
                     double v = avg(v1, v2, -y_frac);
 
-                    currenttype = tiletype.valid;
-                    return v;
+                    answer.currenttype = tiletype.valid;
+                    answer.alt = v;
+                    return answer;
                 }
 
                 string filename2 = "srtm_" + Math.Round((lng + 2.5 + 180) / 5, 0).ToString("00") + "_" + Math.Round((60 - lat + 2.5) / 5, 0).ToString("00") + ".asc";
@@ -237,7 +243,9 @@ namespace MissionPlanner
                                 {
                                     Console.WriteLine("{0} {1} {2} {3} ans {4} x {5}", lng, lat, left, top, data[(int)wantcol], (nox + wantcol * cellsize));
 
-                                    return int.Parse(data[(int)wantcol]);
+                                    answer.currenttype = tiletype.valid;
+                                    answer.alt = int.Parse(data[(int)wantcol]);
+                                    return answer;
                                 }
 
                                 rowcounter++;
@@ -249,13 +257,14 @@ namespace MissionPlanner
                     }
 
                     //sr.Close();
-                    currenttype = tiletype.valid;
-                    return alt;
+                    answer.currenttype = tiletype.valid;
+                    answer.alt = alt;
+                    return answer;
                 }
                 else // get something
                 {
                     if (oceantile.Contains(filename))
-                        currenttype = tiletype.ocean;
+                        answer.currenttype = tiletype.ocean;
 
                     if (zoom >= 12)
                     {
@@ -287,9 +296,9 @@ namespace MissionPlanner
                 }
 
             }
-            catch { alt = 0; currenttype = tiletype.invalid; }
+            catch { answer.alt = 0; answer.currenttype = tiletype.invalid; }
 
-            return alt;
+            return answer;
         }
 
         static double GetAlt(string filename, int x, int y)
@@ -390,8 +399,11 @@ namespace MissionPlanner
                 }
             }
 
-            // we must be an ocean tile - no matchs
-            oceantile.Add((string)name);
+            if (list.Count > 0)
+            {
+                // we must be an ocean tile - no matchs
+                oceantile.Add((string)name);
+            }
         }
 
         static void gethgt(string url, string filename)
