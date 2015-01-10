@@ -83,10 +83,6 @@ S15: MAX_WINDOW=131
 
         bool getFirmware(uploader.Uploader.Board device, bool custom = false)
         {
-            // was https://raw.github.com/tridge/SiK/master/Firmware/dst/radio.hm_trp.hex
-            // was http://www.samba.org/tridge/UAV/3DR/radio.hm_trp.hex
-            // now http://firmware.diydrones.com/SiK/stable/
-
             if (custom)
             {
                 return getFirmwareLocal(device);
@@ -95,7 +91,9 @@ S15: MAX_WINDOW=131
             if (device == uploader.Uploader.Board.DEVICE_ID_HM_TRP)
             {
                 if (beta)
-                { return Common.getFilefromNet("http://firmware.diydrones.com/SiK/beta/radio~hm_trp.ihx", firmwarefile); }
+                { 
+                    return Common.getFilefromNet("http://firmware.diydrones.com/SiK/beta/radio~hm_trp.ihx", firmwarefile); 
+                }
                 else
                 {
                     return Common.getFilefromNet("http://firmware.diydrones.com/SiK/stable/radio~hm_trp.ihx", firmwarefile);
@@ -109,19 +107,18 @@ S15: MAX_WINDOW=131
                 }
                 else
                 {
-                    return Common.getFilefromNet("http://firmware.diydrones.com/SiK/stable/radio~rfd900.ihx", firmwarefile);
+                    return Common.getFilefromNet("http://rfdesign.com.au/firmware/radio.rfd900.hex", firmwarefile);
                 }
             }
             else if (device == uploader.Uploader.Board.DEVICE_ID_RFD900A)
             {
-                //  return Common.getFilefromNet("http://rfdesign.com.au/firmware/MPSik%20V2.3%20radio~rfd900a.ihx", firmwarefile);
                 if (beta)
                 {
                     return Common.getFilefromNet("http://firmware.diydrones.com/SiK/beta/radio~rfd900a.ihx", firmwarefile);
                 }
                 else
                 {
-                    return Common.getFilefromNet("http://firmware.diydrones.com/SiK/stable/radio~rfd900a.ihx", firmwarefile);
+                    return Common.getFilefromNet("http://rfdesign.com.au/firmware/radio.rfd900a.hex", firmwarefile);
                 }
 
             }
@@ -129,11 +126,23 @@ S15: MAX_WINDOW=131
             {
                 if (beta)
                 {
-                    return Common.getFilefromNet("http://rfdesign.com.au/firmware/RFD_SiK_V1.10_BETA_rfd900u.ihx", firmwarefile);
+                    return Common.getFilefromNet("http://rfdesign.com.au/firmware/radio~rfd900u.ihx", firmwarefile);
                 }
                 else
                 {
-                    return Common.getFilefromNet("http://rfdesign.com.au/firmware/RFD_SiK_V1.9_rfd900u.ihx", firmwarefile);
+                    return Common.getFilefromNet("http://rfdesign.com.au/firmware/radio~rfd900u.ihx", firmwarefile);
+                }
+
+            }
+            else if (device == uploader.Uploader.Board.DEVICE_ID_RFD900P)
+            {
+                if (beta)
+                {
+                    return Common.getFilefromNet("http://rfdesign.com.au/firmware/radio~rfd900p.ihx", firmwarefile);
+                }
+                else
+                {
+                    return Common.getFilefromNet("http://rfdesign.com.au/firmware/radio~rfd900p.ihx", firmwarefile);
                 }
 
             }
