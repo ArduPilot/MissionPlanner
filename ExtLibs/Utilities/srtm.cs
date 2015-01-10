@@ -8,11 +8,14 @@ using System.Text.RegularExpressions;
 using ICSharpCode.SharpZipLib.Zip;
 using System.Threading;
 using System.Collections;
+using log4net;
 
 namespace MissionPlanner
 {
     public class srtm: IDisposable
     {
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         public enum tiletype
         {
             valid,
@@ -358,7 +361,10 @@ namespace MissionPlanner
                         }
                     }
                 }
-                catch { }
+                catch (Exception ex)
+                { 
+                    log.Error(ex);
+                }
                 Thread.Sleep(1000);
             }
         }
@@ -376,8 +382,11 @@ namespace MissionPlanner
                     return;
             }
 
+            int checkednames = 0;
+            List<string> list = new List<string>();
+
             // load 1 arc seconds first
-            List<string> list = getListing(baseurl1sec);
+            list.AddRange(getListing(baseurl1sec));
             // load 3 arc second
             list.AddRange(getListing(baseurl));
 
@@ -389,6 +398,7 @@ namespace MissionPlanner
 
                 foreach (string hgt in hgtfiles)
                 {
+                    checkednames++;
                     if (hgt.Contains((string)name))
                     {
                         // get file
@@ -399,7 +409,9 @@ namespace MissionPlanner
                 }
             }
 
-            if (list.Count > 0)
+            // if there are no http exceptions, and the list is >= 20, then everything above is valid
+            // 15760 is all srtm3 and srtm1
+            if (list.Count >= 20 && checkednames > 15700)
             {
                 // we must be an ocean tile - no matchs
                 oceantile.Add((string)name);
@@ -437,7 +449,10 @@ namespace MissionPlanner
 
                 fzip.ExtractZip(datadirectory + Path.DirectorySeparatorChar + filename + ".zip", datadirectory, "");
             }
-            catch { }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
         }
 
         static List<string> getListing(string url)
@@ -450,22 +465,21 @@ namespace MissionPlanner
 
             if (File.Exists(datadirectory + Path.DirectorySeparatorChar + name))
             {
-                StreamReader sr = new StreamReader(datadirectory + Path.DirectorySeparatorChar + name);
-
-                while (!sr.EndOfStream)
+                using (StreamReader sr = new StreamReader(datadirectory + Path.DirectorySeparatorChar + name))
                 {
-                    list.Add(sr.ReadLine());
+                    while (!sr.EndOfStream)
+                    {
+                        list.Add(sr.ReadLine());
+                    }
+
+                    sr.Close();
                 }
-
-                sr.Close();
-
                 return list;
             }
 
-
             try
             {
-                StreamWriter sw = new StreamWriter(datadirectory + Path.DirectorySeparatorChar + name);
+                log.Info("srtm req " + url);
 
                 WebRequest req = HttpWebRequest.Create(url);
 
@@ -485,20 +499,28 @@ namespace MissionPlanner
                             continue;
                         if (matchs[i].Groups[1].Value.ToString().Contains("http"))
                             continue;
+                        if (matchs[i].Groups[1].Value.ToString().EndsWith("/srtm/version2_1/"))
+                            continue;
 
                         list.Add(url.TrimEnd(new char[] { '/', '\\' }) + "/" + matchs[i].Groups[1].Value.ToString());
-
                     }
                 }
 
-                list.ForEach(x =>
+                using (StreamWriter sw = new StreamWriter(datadirectory + Path.DirectorySeparatorChar + name))
                 {
-                    sw.WriteLine((string)x);
-                });
+                    list.ForEach(x =>
+                    {
+                        sw.WriteLine((string)x);
+                    });
 
-                sw.Close();
+                    sw.Close();
+                }
             }
-            catch { }
+            catch (WebException ex)
+            {
+                log.Error(ex);
+                throw;
+            }
 
             return list;
         }
