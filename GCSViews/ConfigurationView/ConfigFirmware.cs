@@ -459,5 +459,17 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
             catch { CustomMessageBox.Show("Failed to connect and send the reboot command",Strings.ERROR); }
         }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            try
+            {
+                System.Diagnostics.Process.Start(@"http://copter.ardupilot.com/wiki/motor-setup/");
+            }
+            catch 
+            {
+                CustomMessageBox.Show("http://copter.ardupilot.com/wiki/motor-setup/",Strings.ERROR); 
+            }
+        }
     }
 }

@@ -303,11 +303,13 @@ namespace MissionPlanner
         private float _current2;
 
         public float HomeAlt { get { return (float)HomeLocation.Alt; } set { } }
-        public PointLatLngAlt HomeLocation = new PointLatLngAlt();
+
+        static PointLatLngAlt _homelocation = new PointLatLngAlt();
+        public PointLatLngAlt HomeLocation { get { return _homelocation; } set { _homelocation = value; } }
 
         public PointLatLngAlt MovingBase = null;
 
-        PointLatLngAlt _trackerloc = new PointLatLngAlt();
+        static PointLatLngAlt _trackerloc = new PointLatLngAlt();
         public PointLatLngAlt TrackerLocation { get { if (_trackerloc.Lng != 0) return _trackerloc; return HomeLocation; } set { _trackerloc = value; } }
 
         [DisplayText("Distance to Home (dist)")]
@@ -685,6 +687,20 @@ namespace MissionPlanner
                         hilch4 = (int)(hil.yaw_rudder * 10000);
 
                         //MAVLink.packets[(byte)MAVLink.MSG_NAMES.HIL_CONTROLS] = null;
+                    }
+
+                    bytearray = MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.OPTICAL_FLOW];
+
+                    if (bytearray != null)
+                    {
+                        var optflow = bytearray.ByteArrayToStructure<MAVLink.mavlink_optical_flow_t>(6);
+
+                        opt_m_x = optflow.flow_comp_m_x;
+                        opt_m_y = optflow.flow_comp_m_x;
+                        opt_x = optflow.flow_x;
+                        opt_y = optflow.flow_y;
+                        opt_qua = optflow.quality;
+
                     }
 
                     bytearray = MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.MOUNT_STATUS];
@@ -1394,5 +1410,16 @@ namespace MissionPlanner
         public static float KIndexstatic = -1;
 
         public int KIndex { get { return (int)CurrentState.KIndexstatic; } }
+
+        [DisplayText("flow_comp_m_x")]
+        public float opt_m_x { get; set; }
+        [DisplayText("flow_comp_m_y")]
+        public float opt_m_y { get; set; }
+        [DisplayText("flow_x")]
+        public short opt_x { get; set; }
+        [DisplayText("flow_y")]
+        public short opt_y { get; set; }
+        [DisplayText("flow quality")]
+        public byte opt_qua { get; set; }
     }
 }

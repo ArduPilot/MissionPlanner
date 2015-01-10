@@ -32,6 +32,8 @@ namespace MissionPlanner
 
         public event EventHandler MavChanged;
 
+        const int gcssysid = 255;
+
         /// <summary>
         /// used to prevent comport access for exclusive use
         /// </summary>
@@ -547,7 +549,7 @@ Please check the following
 
                 packetcount++;
 
-                packet[3] = 255; // this is always 255 - MYGCS
+                packet[3] = gcssysid; // this is always 255 - MYGCS
                 packet[4] = (byte)MAV_COMPONENT.MAV_COMP_ID_MISSIONPLANNER;
                 packet[5] = messageType;
 
@@ -2719,21 +2721,29 @@ Please check the following
             if (buffer[5] == (byte)MAVLINK_MSG_ID.MISSION_COUNT)
             {
                 // clear old
-                MAVlist[sysid].wps.Clear();
+                mavlink_mission_count_t wp = buffer.ByteArrayToStructure<mavlink_mission_count_t>(6);
+
+                if (wp.target_system == gcssysid)
+                    wp.target_system = buffer[3];
+
+                MAVlist[wp.target_system].wps.Clear();
             }
 
             if (buffer[5] == (byte)MAVLink.MAVLINK_MSG_ID.MISSION_ITEM)
             {
                 mavlink_mission_item_t wp = buffer.ByteArrayToStructure<mavlink_mission_item_t>(6);
 
+                if (wp.target_system == gcssysid)
+                    wp.target_system = buffer[3];
+
                 if (wp.current == 2)
                 {
                     // guide mode wp
-                    MAVlist[sysid].GuidedMode = wp;
+                    MAVlist[wp.target_system].GuidedMode = wp;
                 }
                 else
                 {
-                    MAVlist[sysid].wps[wp.seq] = wp;
+                    MAVlist[wp.target_system].wps[wp.seq] = wp;
                 }
 
                 Console.WriteLine("WP # {7} cmd {8} p1 {0} p2 {1} p3 {2} p4 {3} x {4} y {5} z {6}", wp.param1, wp.param2, wp.param3, wp.param4, wp.x, wp.y, wp.z, wp.seq, wp.command);
@@ -2743,7 +2753,10 @@ Please check the following
             {
                 mavlink_rally_point_t rallypt = buffer.ByteArrayToStructure<mavlink_rally_point_t>(6);
 
-                MAVlist[sysid].rallypoints[rallypt.idx] = rallypt;
+                if (rallypt.target_system == gcssysid)
+                    rallypt.target_system = buffer[3];
+
+                MAVlist[rallypt.target_system].rallypoints[rallypt.idx] = rallypt;
 
                 Console.WriteLine("RP # {0} {1} {2} {3} {4}", rallypt.idx, rallypt.lat,rallypt.lng,rallypt.alt, rallypt.break_alt);
             }
@@ -2752,7 +2765,10 @@ Please check the following
             {
                 mavlink_fence_point_t fencept = buffer.ByteArrayToStructure<mavlink_fence_point_t>(6);
 
-                MAVlist[sysid].fencepoints[fencept.idx] = fencept;
+                if (fencept.target_system == gcssysid)
+                    fencept.target_system = buffer[3];
+
+                MAVlist[fencept.target_system].fencepoints[fencept.idx] = fencept;
             }
         }
 

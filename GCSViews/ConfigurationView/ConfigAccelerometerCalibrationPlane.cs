@@ -120,6 +120,16 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             try
             {
+                if ((float)MainV2.comPort.MAV.param["AHRS_EKF_USE"] > 0)
+                {
+                    CustomMessageBox.Show("WARNING: 1D calibration should not be used when the EKF is enabled");
+                    return;
+                }
+            }
+            catch { }
+
+            try
+            {
                 Log.Info("Sending level command (mavlink 1.0)");
                 MainV2.comPort.doCommand(MAVLink.MAV_CMD.PREFLIGHT_CALIBRATION, 1, 0, 0, 0, 0, 0, 0);
 

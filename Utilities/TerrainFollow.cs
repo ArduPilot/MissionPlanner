@@ -110,13 +110,13 @@ namespace MissionPlanner.Utilities
 
                 PointLatLngAlt plla = new PointLatLngAlt(lat, lon).gps_offset(x * grid_spacing, y * grid_spacing);
 
-                double alt = srtm.getAltitude(plla.Lat, plla.Lng);
+                var alt = srtm.getAltitude(plla.Lat, plla.Lng);
 
                 // check where the alt returned came from.
-                if (srtm.currenttype == srtm.tiletype.invalid)
+                if (alt.currenttype == srtm.tiletype.invalid)
                     return;
 
-                resp.data[i] = (short)alt;
+                resp.data[i] = (short)alt.alt;
             }
 
             MainV2.comPort.sendPacket(resp);

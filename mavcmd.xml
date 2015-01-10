@@ -74,15 +74,24 @@
       <Y></Y>
       <Z>Alt</Z>
     </TAKEOFF>
-    <GUIDED>
-    <P1>timeout S</P1>
+    <GUIDED_ENABLE>
+    <P1>on=1/off=0</P1>
+      <P2></P2>
+      <P3></P3>
+      <P4></P4>
+      <X></X>
+      <Y></Y>
+      <Z></Z>
+    </GUIDED_ENABLE>
+    <DO_GUIDED_LIMITS>
+      <P1>timeout S</P1>
       <P2>min alt</P2>
       <P3>max alt</P3>
       <P4>max dist</P4>
       <X></X>
       <Y></Y>
       <Z></Z>
-    </GUIDED>
+    </DO_GUIDED_LIMITS>
     <DO_SET_ROI>
       <P1></P1>
       <P2></P2>
@@ -155,15 +164,6 @@
       <Y></Y>
       <Z></Z>
     </DO_GRIPPER>
-    <DO_SET_HOME>
-      <P1>Current(1)/Spec(0)</P1>
-      <P2></P2>
-      <P3></P3>
-      <P4></P4>
-      <X>Lat</X>
-      <Y>Long</Y>
-      <Z>Alt</Z>
-    </DO_SET_HOME>
     <DO_SET_CAM_TRIGG_DIST>
       <P1>Dist (m)</P1>
       <P2></P2>
@@ -339,6 +339,15 @@
       <Y>Long</Y>
       <Z></Z>
     </DO_LAND_START>
+    <DO_SET_ROI>
+      <P1></P1>
+      <P2></P2>
+      <P3></P3>
+      <P4></P4>
+      <X>Lat</X>
+      <Y>Long</Y>
+      <Z>Alt</Z>
+    </DO_SET_ROI>
     <DO_INVERTED_FLIGHT>
       <P1>0=normal, 1=inverted</P1>
       <P2></P2>

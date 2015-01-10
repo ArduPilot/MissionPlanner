@@ -238,7 +238,7 @@ namespace MissionPlanner.Controls
  
       cameraX = area.LocationMiddle.Lng;     // multiplying by mouseY makes the
       cameraZ = area.LocationMiddle.Lat;    // camera get closer/farther away with mouseY
-      cameraY = (LocationCenter.Alt < srtm.getAltitude(cameraZ, cameraX, 20)) ? (srtm.getAltitude(cameraZ, cameraX, 20)+ 0.2) * heightscale : LocationCenter.Alt * heightscale;// (srtm.getAltitude(lookZ, lookX, 20) + 100) * heighscale;
+      cameraY = (LocationCenter.Alt < srtm.getAltitude(cameraZ, cameraX, 20).alt) ? (srtm.getAltitude(cameraZ, cameraX, 20).alt + 0.2) * heightscale : LocationCenter.Alt * heightscale;// (srtm.getAltitude(lookZ, lookX, 20) + 100) * heighscale;
 
 
       lookX = area.LocationMiddle.Lng + Math.Sin(radians) * mouseY; ;
@@ -312,7 +312,7 @@ namespace MissionPlanner.Controls
                 GL.Begin(PrimitiveType.TriangleStrip);
                 for (double x = (area.Left - cleanup2); x < area.Right - step; x += increment)
                 {
-                    double heightl = srtm.getAltitude(z, area.Right + area.Left - x, 20);
+                    double heightl = srtm.getAltitude(z, area.Right + area.Left - x, 20).alt;
 
                   //  Console.WriteLine(x + " " + z);
 
@@ -335,7 +335,7 @@ namespace MissionPlanner.Controls
 
                     try
                     {
-                        heightl = srtm.getAltitude(z + increment, area.Right + area.Left - x, 20);
+                        heightl = srtm.getAltitude(z + increment, area.Right + area.Left - x, 20).alt;
 
                         //scale2 = (Math.Abs(x - area.Left) / area.WidthLng) * (float)_terrain.Width;
 

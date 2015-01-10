@@ -49,6 +49,7 @@
     <Compile Include="CommsSerialPort.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="CommsUDPSerialConnect.cs" />
     <Compile Include="CommsTCPSerial.cs" />
     <Compile Include="CommsUdpSerial.cs" />
     <Compile Include="ICommsSerial.cs" />

@@ -455,7 +455,9 @@ namespace MissionPlanner.Controls
             if (opengl)
             {
                 GL.ClearColor(color);
-            } else 
+
+            }
+            else
             {
                 graphicsObjectGDIP.Clear(color);
             }
@@ -841,7 +843,16 @@ namespace MissionPlanner.Controls
 
                 graphicsObjectGDIP.InterpolationMode = InterpolationMode.Bilinear;
 
-                graphicsObject.Clear(Color.Transparent);
+                try
+                {
+                    graphicsObject.Clear(Color.Transparent);
+                }
+                catch
+                {
+                    // this is the first posible opengl call
+                    // in vmware fusion on mac, this fails, so switch back to legacy
+                    opengl = false;
+                }
 
                 if (_bgimage != null)
                 {

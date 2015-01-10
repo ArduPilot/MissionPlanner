@@ -258,7 +258,7 @@ namespace MissionPlanner.Controls
 
             cameraX = area.LocationMiddle.Lng;// -Math.Sin(yawradians) * mouseY;     // multiplying by mouseY makes the
             cameraY = area.LocationMiddle.Lat;// -Math.Cos(yawradians) * mouseY;    // camera get closer/farther away with mouseY
-            cameraZ = (LocationCenter.Alt < srtm.getAltitude(center.Lat, center.Lng)) ? (srtm.getAltitude(center.Lat, center.Lng) + 1) * heightscale : LocationCenter.Alt * heightscale;// (srtm.getAltitude(lookZ, lookX, 20) + 100) * heighscale;
+            cameraZ = (LocationCenter.Alt < srtm.getAltitude(center.Lat, center.Lng).alt) ? (srtm.getAltitude(center.Lat, center.Lng).alt + 1) * heightscale : LocationCenter.Alt * heightscale;// (srtm.getAltitude(lookZ, lookX, 20) + 100) * heighscale;
 
       lookX = area.LocationMiddle.Lng + Math.Sin(yawradians) * mouseY;
       lookY = area.LocationMiddle.Lat + Math.Cos(yawradians) * mouseY;
@@ -466,7 +466,7 @@ namespace MissionPlanner.Controls
 
                 var latlng = prj.FromPixelToLatLng(xr,yr,zoom);
 
-                double heightl = srtm.getAltitude(latlng.Lat, latlng.Lng);
+                double heightl = srtm.getAltitude(latlng.Lat, latlng.Lng).alt;
 
                 GL.Color3(Color.White);
                 //xr - topLeftPx.X, yr - topLeftPx.Y
@@ -477,7 +477,7 @@ namespace MissionPlanner.Controls
                 // next down
                 latlng = prj.FromPixelToLatLng(xr, y2, zoom);
 
-                heightl = srtm.getAltitude(latlng.Lat, latlng.Lng);
+                heightl = srtm.getAltitude(latlng.Lat, latlng.Lng).alt;
 
                 GL.TexCoord2(0,.99);
                 GL.Vertex3(latlng.Lng, latlng.Lat, heightl * heightscale);
@@ -486,7 +486,7 @@ namespace MissionPlanner.Controls
                 // next right
                 latlng = prj.FromPixelToLatLng(x2, yr, zoom);
 
-                heightl = srtm.getAltitude(latlng.Lat, latlng.Lng);
+                heightl = srtm.getAltitude(latlng.Lat, latlng.Lng).alt;
 
                 GL.TexCoord2(.99,0);
                 GL.Vertex3(latlng.Lng, latlng.Lat, heightl * heightscale);
@@ -495,7 +495,7 @@ namespace MissionPlanner.Controls
                 // next right down
                 latlng = prj.FromPixelToLatLng(x2, y2, zoom);
 
-                heightl = srtm.getAltitude(latlng.Lat, latlng.Lng);
+                heightl = srtm.getAltitude(latlng.Lat, latlng.Lng).alt;
 
                 GL.TexCoord2(.99,.99);
                 GL.Vertex3(latlng.Lng, latlng.Lat, heightl * heightscale);

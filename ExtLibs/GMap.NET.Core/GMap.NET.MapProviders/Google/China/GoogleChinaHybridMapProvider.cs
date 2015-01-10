@@ -33,7 +33,7 @@ namespace GMap.NET.MapProviders
          }
       }
 
-      readonly string name = "GoogleChinaHybridMap";
+      readonly string name = Resources.Strings.GoogleChinaHybridMap;
       public override string Name
       {
          get

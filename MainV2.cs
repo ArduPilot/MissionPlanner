@@ -350,20 +350,7 @@ namespace MissionPlanner
 
             comPort.BaseStream.BaudRate = 115200;
 
-            // ** Old
-            //            CMB_serialport.Items.AddRange(SerialPort.GetPortNames());
-            //            CMB_serialport.Items.Add("TCP");
-            //            CMB_serialport.Items.Add("UDP");
-            //            if (CMB_serialport.Items.Count > 0)
-            //            {
-            //                CMB_baudrate.SelectedIndex = 7;
-            //                CMB_serialport.SelectedIndex = 0;
-            //            }
-            // ** new
-            _connectionControl.CMB_serialport.Items.Add("AUTO");
-            _connectionControl.CMB_serialport.Items.AddRange(SerialPort.GetPortNames());
-            _connectionControl.CMB_serialport.Items.Add("TCP");
-            _connectionControl.CMB_serialport.Items.Add("UDP");
+            PopulateSerialportList();
             if (_connectionControl.CMB_serialport.Items.Count > 0)
             {
                 _connectionControl.CMB_baudrate.SelectedIndex = 8;
@@ -738,15 +725,20 @@ namespace MissionPlanner
         private void CMB_serialport_Click(object sender, EventArgs e)
         {
             string oldport = _connectionControl.CMB_serialport.Text;
+            PopulateSerialportList();
+            if (_connectionControl.CMB_serialport.Items.Contains(oldport))
+                _connectionControl.CMB_serialport.Text = oldport;
+        }
+
+        private void PopulateSerialportList()
+        {
             _connectionControl.CMB_serialport.Items.Clear();
             _connectionControl.CMB_serialport.Items.Add("AUTO");
             _connectionControl.CMB_serialport.Items.AddRange(SerialPort.GetPortNames());
             _connectionControl.CMB_serialport.Items.Add("TCP");
             _connectionControl.CMB_serialport.Items.Add("UDP");
-            if (_connectionControl.CMB_serialport.Items.Contains(oldport))
-                _connectionControl.CMB_serialport.Text = oldport;
+            _connectionControl.CMB_serialport.Items.Add("UDPCl");
         }
-
 
         private void MenuFlightData_Click(object sender, EventArgs e)
         {
@@ -894,6 +886,9 @@ namespace MissionPlanner
                         break;
                     case "UDP":
                         comPort.BaseStream = new UdpSerial();
+                        break;
+                    case "UDPCl":
+                        comPort.BaseStream = new UdpSerialConnect();
                         break;
                     case "AUTO":
                     default:
@@ -1097,6 +1092,12 @@ namespace MissionPlanner
                         }
                     }
 
+                    // get any rallypoints
+                    if (MainV2.comPort.MAV.param.ContainsKey("RALLY_TOTAL") && int.Parse(MainV2.comPort.MAV.param["RALLY_TOTAL"].ToString()) > 0)
+                    {
+                        FlightPlanner.getRallyPointsToolStripMenuItem_Click(null, null);
+                    }
+
                     // set connected icon
                     this.MenuConnect.Image = displayicons.disconnect;
                 }
@@ -1119,13 +1120,15 @@ namespace MissionPlanner
         private void CMB_serialport_SelectedIndexChanged(object sender, EventArgs e)
         {
             comPortName = _connectionControl.CMB_serialport.Text;
-            if (comPortName == "UDP" || comPortName == "TCP" || comPortName == "AUTO")
+            if (comPortName == "UDP" || comPortName == "UDPCl" || comPortName == "TCP" || comPortName == "AUTO")
             {
                 _connectionControl.CMB_baudrate.Enabled = false;
                 if (comPortName == "TCP")
                     MainV2.comPort.BaseStream = new TcpSerial();
                 if (comPortName == "UDP")
                     MainV2.comPort.BaseStream = new UdpSerial();
+                if (comPortName == "UDPCl")
+                    MainV2.comPort.BaseStream = new UdpSerialConnect();
                 if (comPortName == "AUTO")
                 {
                     MainV2.comPort.BaseStream = new SerialPort();
@@ -1876,7 +1879,7 @@ namespace MissionPlanner
                             {
                                 port.sendPacket(htb);
                             }
-                            catch { }
+                            catch (Exception ex) { port.Close(); }
                         }
 
                         heatbeatSend = DateTime.Now;
