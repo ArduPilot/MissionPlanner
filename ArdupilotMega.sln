@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MissionPlanner", "MissionPlanner.csproj", "{A2E22272-95FE-47B6-B050-9AE7E2055BF5}"
 EndProject
@@ -440,6 +440,9 @@ Global
 		{D0C39D9D-BED0-418B-9A5E-713176CAF40C} = {7E264F12-9EC3-4CDC-A187-6879C2B2BFCF}
 		{E06DEF77-F933-42FB-AFD7-DB2D0D8D6A98} = {7E264F12-9EC3-4CDC-A187-6879C2B2BFCF}
 		{CE746B5E-02BD-43EC-B79A-B449DBF9374F} = {9B3AC501-5FCB-4A2A-A628-BE0985DB2BD4}
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = MissionPlanner.csproj
