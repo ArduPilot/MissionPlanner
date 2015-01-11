@@ -70,7 +70,7 @@ namespace MissionPlanner
             //map.Invalidate();
         }
 
-        public static List<PointLatLngAlt> CreateGrid(List<PointLatLngAlt> polygon, double altitude, double distance, double spacing, double angle, double overshoot1,double overshoot2, StartPosition startpos, bool shutter)
+        public static List<PointLatLngAlt> CreateGrid(List<PointLatLngAlt> polygon, double altitude, double distance, double spacing, double angle, double overshoot1,double overshoot2, StartPosition startpos, bool shutter, float minLaneSeparation)
         {
             if (spacing < 10 && spacing != 0)
                 spacing = 10;
@@ -80,6 +80,13 @@ namespace MissionPlanner
 
             if (polygon.Count == 0)
                 return new List<PointLatLngAlt>();
+
+            
+            // Make a non round number in case of corner cases
+            if (minLaneSeparation != 0)
+                minLaneSeparation += 0.5F;
+            // Lane Separation in meters
+            double minLaneSeparationINMeters = minLaneSeparation * distance;
 
             List<PointLatLngAlt> ans = new List<PointLatLngAlt>();
 
@@ -286,7 +293,7 @@ namespace MissionPlanner
           //      FindPath(grid, startposutm);
 
             // find closest line point to home
-            linelatlng closest = findClosestLine(startposutm, grid);
+            linelatlng closest = findClosestLine(startposutm, grid, 0 /*Lane separation does not apply to starting point*/, angle);
 
             utmpos lastpnt;
 
@@ -337,7 +344,8 @@ namespace MissionPlanner
                     grid.Remove(closest);
                     if (grid.Count == 0)
                         break;
-                    closest = findClosestLine(newend, grid);
+
+                    closest = findClosestLine(newend, grid, minLaneSeparationINMeters, angle);
                 }
                 else
                 {
@@ -373,7 +381,7 @@ namespace MissionPlanner
                     grid.Remove(closest);
                     if (grid.Count == 0)
                         break;
-                    closest = findClosestLine(newend, grid);
+                    closest = findClosestLine(newend, grid, minLaneSeparationINMeters, angle);
                 }
             }
 
@@ -659,25 +667,85 @@ namespace MissionPlanner
             return answer;
         }
 
-        static linelatlng findClosestLine(utmpos start, List<linelatlng> list)
+        // Add an angle while normalizing output in the range 0...360
+        static double AddAngle(double angle, double degrees)
         {
-            linelatlng answer = list[0];
-            double shortest = double.MaxValue;
+            angle += degrees;
+
+            angle = angle % 360;
+
+            if (angle < 0)
+            {
+                angle += 360;
+            }
+            return angle;
+        }
+
+        static linelatlng findClosestLine(utmpos start, List<linelatlng> list, double minDistance, double angle)
+        {
+            // By now, just add 5.000 km to our lines so they are long enough to allow intersection
+            double METERS_TO_EXTEND = 5000000;
+
+            double perperndicularOrientation = AddAngle(angle, 90);
+
+            // Calculation of a perpendicular line to the grid lines containing the "start" point
+            /*
+             *  --------------------------------------|------------------------------------------
+             *  --------------------------------------|------------------------------------------
+             *  -------------------------------------start---------------------------------------
+             *  --------------------------------------|------------------------------------------
+             *  --------------------------------------|------------------------------------------
+             *  --------------------------------------|------------------------------------------
+             *  --------------------------------------|------------------------------------------
+             *  --------------------------------------|------------------------------------------
+             */
+            utmpos start_perpendicular_line = newpos(start, perperndicularOrientation, -METERS_TO_EXTEND);
+            utmpos stop_perpendicular_line = newpos(start, perperndicularOrientation, METERS_TO_EXTEND);
+
+            // Store one intersection point per grid line
+            Dictionary<utmpos, linelatlng> intersectedPoints = new Dictionary<utmpos, linelatlng>();
+            // lets order distances from every intersected point per line with the "start" point
+            Dictionary<double, utmpos> ordered_min_to_max = new Dictionary<double, utmpos>();
 
             foreach (linelatlng line in list)
             {
-                double ans1 = start.GetDistance(line.p1);
-                double ans2 = start.GetDistance(line.p2);
-                utmpos shorterpnt = ans1 < ans2 ? line.p1 : line.p2;
+                // Extend line at both ends so it intersecs for sure with our perpendicular line
+                utmpos extended_line_start = newpos(line.p1, angle, -METERS_TO_EXTEND);
+                utmpos extended_line_stop = newpos(line.p2, angle, METERS_TO_EXTEND);
+                // Calculate intersection point
+                utmpos p = FindLineIntersection(extended_line_start, extended_line_stop, start_perpendicular_line, stop_perpendicular_line);
+                
+                // Store it
+                intersectedPoints.Add(p, line);
 
-                if (shortest > start.GetDistance(shorterpnt))
-                {
-                    answer = line;
-                    shortest = start.GetDistance(shorterpnt);
-                }
+                // Calculate distances between interesected point and "start" (i.e. line and start)
+                double distance_p = start.GetDistance(p);
+                if (!ordered_min_to_max.ContainsKey(distance_p))
+                    ordered_min_to_max.Add(distance_p, p);
+            }
+     
+            // Acquire keys and sort them.
+            List<double> ordered_keys = ordered_min_to_max.Keys.ToList();
+            ordered_keys.Sort();
+
+            // Lets select a line that is the closest to "start" point but "mindistance" away at least.
+            // If we have only one line, return that line whatever the minDistance says
+            double key = double.MaxValue;
+            int i = 0;
+            while (key == double.MaxValue && i < ordered_keys.Count)
+            {
+                if (ordered_keys[i] >= minDistance)
+                    key = ordered_keys[i];
+                i++;
             }
 
-            return answer;
+            // If no line is selected (because all of them are closer than minDistance, then get the farest one
+            if (key == double.MaxValue)
+                key = ordered_keys[ordered_keys.Count-1];
+
+            // return line
+            return intersectedPoints[ordered_min_to_max[key]];
+
         }
 
         static bool PointInPolygon(utmpos p, List<utmpos> poly)
