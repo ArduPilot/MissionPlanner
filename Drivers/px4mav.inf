@@ -8,7 +8,7 @@ Class=Ports
 ClassGuid={4D36E978-E325-11CE-BFC1-08002BE10318}
 Provider=%MFGNAME%
 LayoutFile=layout.inf
-CatalogFile=px4fmu.cat
+CatalogFile=px4mav.cat
 DriverVer=01/01/2015,2.0.0.9
 
 [Manufacturer]
@@ -85,10 +85,10 @@ ServiceBinary=%12%\%DRIVERFILENAME%.sys
 [SourceDisksFiles]
 [SourceDisksNames]
 [DeviceList]
-%DESCRIPTION%=DriverInstall, USB\VID_26AC&PID_0001, USB\VID_26AC&PID_0002, USB\VID_26AC&PID_0003, USB\VID_26AC&PID_0010, USB\VID_26AC&PID_0011, USB\VID_26AC&PID_0012, USB\VID_26AC&PID_0013
+%DESCRIPTIONMAVSTATION%=DriverInstall, USB\VID_26AC&PID_0014
 
 [DeviceList.NTamd64]
-%DESCRIPTION%=DriverInstall, USB\VID_26AC&PID_0001, USB\VID_26AC&PID_0002, USB\VID_26AC&PID_0003, USB\VID_26AC&PID_0010, USB\VID_26AC&PID_0011, USB\VID_26AC&PID_0012, USB\VID_26AC&PID_0013
+%DESCRIPTIONMAVSTATION%=DriverInstall, USB\VID_26AC&PID_0014
 
 
 ;------------------------------------------------------------------------------
@@ -101,5 +101,5 @@ MFGFILENAME="CDC_vista"
 DRIVERFILENAME ="usbser"
 MFGNAME="3D Robotics"
 INSTDISK="3DR PX4 Installer"
-DESCRIPTION="PX4 FMU"
+DESCRIPTIONMAVSTATION="MAVStation Daughterboard"
 SERVICE="USB RS-232 Emulation Driver"
