@@ -1,6 +1,7 @@
 ﻿using GMap.NET;
 using GMap.NET.MapProviders;
 using GMap.NET.WindowsForms;
+using MissionPlanner.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -19,61 +20,109 @@ namespace MissionPlanner.Log
                 if (File.Exists(logfile + ".jpg"))
                     continue;
 
-                MAVLinkInterface mine = new MAVLinkInterface();
+                double minx = 99999;
+                double maxx = -99999;
+                double miny = 99999;
+                double maxy = -99999;
 
-                List<MAVLink.mavlink_global_position_int_t> locs = new List<MAVLink.mavlink_global_position_int_t>();
-
+                List<PointLatLngAlt> locs = new List<PointLatLngAlt>();
                 try
                 {
-                    double minx = 99999;
-                    double maxx = -99999;
-                    double miny = 99999;
-                    double maxy = -99999;
-
-                    using (mine.logplaybackfile = new BinaryReader(File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.Read)))
+                    if (logfile.ToLower().EndsWith(".tlog"))
                     {
-                        mine.logreadmode = true;
+                        MAVLinkInterface mine = new MAVLinkInterface();
 
-                        CurrentState cs = new CurrentState();
 
-                        while (mine.logplaybackfile.BaseStream.Position < mine.logplaybackfile.BaseStream.Length)
+                        using (mine.logplaybackfile = new BinaryReader(File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.Read)))
                         {
-                            byte[] packet = mine.readPacket();
+                            mine.logreadmode = true;
 
-                            //Console.Write((mine.logplaybackfile.BaseStream.Position / (double)mine.logplaybackfile.BaseStream.Length) +"\r");
+                            CurrentState cs = new CurrentState();
 
-                            if (packet.Length < 5)
-                                continue;
-
-                            try
+                            while (mine.logplaybackfile.BaseStream.Position < mine.logplaybackfile.BaseStream.Length)
                             {
-                                if (MainV2.speechEngine != null)
-                                    MainV2.speechEngine.SpeakAsyncCancelAll();
-                            }
-                            catch { }
+                                byte[] packet = mine.readPacket();
 
-                            if (packet[5] == (byte)MAVLink.MAVLINK_MSG_ID.GLOBAL_POSITION_INT)
-                            {
-                                var loc = packet.ByteArrayToStructure<MAVLink.mavlink_global_position_int_t>(6);
-
-                                if (loc.lat == 0 || loc.lon == 0)
+                                if (packet.Length < 5)
                                     continue;
 
-                                locs.Add(loc);
+                                try
+                                {
+                                    if (MainV2.speechEngine != null)
+                                        MainV2.speechEngine.SpeakAsyncCancelAll();
+                                }
+                                catch { }
 
-                                minx = Math.Min(minx, loc.lon / 10000000.0f);
-                                maxx = Math.Max(maxx, loc.lon / 10000000.0f);
-                                miny = Math.Min(miny, loc.lat / 10000000.0f);
-                                maxy = Math.Max(maxy, loc.lat / 10000000.0f);
+                                if (packet[5] == (byte)MAVLink.MAVLINK_MSG_ID.GLOBAL_POSITION_INT)
+                                {
+                                    var loc = packet.ByteArrayToStructure<MAVLink.mavlink_global_position_int_t>(6);
 
+                                    if (loc.lat == 0 || loc.lon == 0)
+                                        continue;
+
+                                    locs.Add(new PointLatLngAlt(loc.lat / 10000000.0f, loc.lon / 10000000.0f));
+
+                                    minx = Math.Min(minx, loc.lon / 10000000.0f);
+                                    maxx = Math.Max(maxx, loc.lon / 10000000.0f);
+                                    miny = Math.Min(miny, loc.lat / 10000000.0f);
+                                    maxy = Math.Max(maxy, loc.lat / 10000000.0f);
+                                }
+                            }
+                        }
+
+                    }
+                    else if (logfile.ToLower().EndsWith(".bin") || logfile.ToLower().EndsWith(".log"))
+                    {
+                        bool bin = logfile.ToLower().EndsWith(".bin");
+
+                        using (var st = File.OpenRead(logfile))
+                        {
+                            using (StreamReader sr = new StreamReader(st))
+                            {
+                                while (sr.BaseStream.Position < sr.BaseStream.Length)
+                                {
+                                    string line = "";
+
+                                    if (bin)
+                                    {
+                                        line = BinaryLog.ReadMessage(sr.BaseStream);
+                                    }
+                                    else
+                                    {
+                                        line = sr.ReadLine();
+                                    }
+
+                                    if (line.StartsWith("FMT"))
+                                    {
+                                        DFLog.FMTLine(line);
+                                    }
+                                    else if (line.StartsWith("GPS"))
+                                    {
+                                        var item = DFLog.GetDFItemFromLine(line, 0);
+
+                                        var lat = double.Parse(item.items[DFLog.FindMessageOffset(item.msgtype, "Lat")]);
+                                        var lon = double.Parse(item.items[DFLog.FindMessageOffset(item.msgtype, "Lng")]);
+
+                                        if (lat == 0 || lon == 0)
+                                            continue;
+
+                                        locs.Add(new PointLatLngAlt(lat, lon));
+
+                                        minx = Math.Min(minx, lon);
+                                        maxx = Math.Max(maxx, lon);
+                                        miny = Math.Min(miny, lat);
+                                        maxy = Math.Max(maxy, lat);
+                                    }
+                                }
                             }
                         }
                     }
 
+
                     if (locs.Count > 10)
                     {
                         // add a bit of buffer
-                        var area = RectLatLng.FromLTRB(minx - 0.001 , maxy  + 0.001, maxx + 0.001 , miny - 0.001 );
+                        var area = RectLatLng.FromLTRB(minx - 0.001, maxy + 0.001, maxx + 0.001, miny - 0.001);
                         var map = GetMap(area);
 
                         var grap = Graphics.FromImage(map);
@@ -87,7 +136,7 @@ namespace MissionPlanner.Log
                             if (!lastpoint.IsEmpty)
                                 grap.DrawLine(Pens.Red, lastpoint, newpoint);
 
-                            lastpoint = newpoint;                            
+                            lastpoint = newpoint;
                         }
 
                         map.Save(logfile + ".jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
@@ -115,10 +164,10 @@ namespace MissionPlanner.Log
             }
         }
 
-        static PointF GetPixel(RectLatLng area, MAVLink.mavlink_global_position_int_t loc, Size size) 
+        static PointF GetPixel(RectLatLng area, PointLatLngAlt loc, Size size) 
         {
-            double lon =  loc.lon / 10000000.0f;
-            double lat = loc.lat / 10000000.0f;
+            double lon =  loc.Lng;
+            double lat = loc.Lat;
 
             double lonscale = (lon - area.Left) * (size.Width - 0) / (area.Right - area.Left) + 0;
 

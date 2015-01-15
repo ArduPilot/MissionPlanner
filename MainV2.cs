@@ -2189,7 +2189,20 @@ namespace MissionPlanner
             try
             {
                 Log.LogMap.MapLogs(Directory.GetFiles(MainV2.LogDir, "*.tlog", SearchOption.AllDirectories));
+                Log.LogMap.MapLogs(Directory.GetFiles(MainV2.LogDir, "*.bin", SearchOption.AllDirectories));
+                Log.LogMap.MapLogs(Directory.GetFiles(MainV2.LogDir, "*.log", SearchOption.AllDirectories));
 
+                if (File.Exists(tlogThumbnailHandler.tlogThumbnailHandler.queuefile))
+                {
+                    Log.LogMap.MapLogs(File.ReadAllLines(tlogThumbnailHandler.tlogThumbnailHandler.queuefile));
+
+                    File.Delete(tlogThumbnailHandler.tlogThumbnailHandler.queuefile);
+                }
+            }
+            catch (Exception ex) { log.Error(ex); }
+
+            try
+            {
                 if (File.Exists(tlogThumbnailHandler.tlogThumbnailHandler.queuefile))
                 {
                     Log.LogMap.MapLogs(File.ReadAllLines(tlogThumbnailHandler.tlogThumbnailHandler.queuefile));
