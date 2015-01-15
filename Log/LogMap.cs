@@ -147,21 +147,32 @@ namespace MissionPlanner.Log
                     }
                     else
                     {
-                        var map = new Bitmap(100, 100);
-
-                        var grap = Graphics.FromImage(map);
-
-                        grap.DrawString("No gps data", SystemFonts.DefaultFont, Brushes.Red, 0, 0, StringFormat.GenericDefault);
-
-                        map.Save(logfile + ".jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
-
-                        map.Dispose();
-
-                        map = null;
+                        DoTextMap(logfile + ".jpg", "No gps data");
                     }
                 }
-                catch { continue; }
+                catch (Exception ex) 
+                {
+                    if (ex.ToString().Contains("Mavlink 0.9"))
+                        DoTextMap(logfile + ".jpg", "Old log\nMavlink 0.9");
+
+                    continue; 
+                }
             }
+        }
+
+        static void DoTextMap(string jpgname, string text)
+        {
+            var map = new Bitmap(100, 100);
+
+            var grap = Graphics.FromImage(map);
+
+            grap.DrawString(text, SystemFonts.DefaultFont, Brushes.Red, 0, 0, StringFormat.GenericDefault);
+
+            map.Save(jpgname, System.Drawing.Imaging.ImageFormat.Jpeg);
+
+            map.Dispose();
+
+            map = null;
         }
 
         static PointF GetPixel(RectLatLng area, PointLatLngAlt loc, Size size) 
