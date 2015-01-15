@@ -71,7 +71,13 @@ namespace MissionPlanner.Controls
 
                     current.Control.Dispose();
 
-                    current.Control = (MyUserControl)Activator.CreateInstance(current.Control.GetType());
+                    Type type = current.Control.GetType();
+
+                    current.Control = null;
+
+                    GC.Collect();
+
+                    current.Control = (MyUserControl)Activator.CreateInstance(type);
 
                     // set the next new instance as not visible
                     current.Control.Visible = false;
