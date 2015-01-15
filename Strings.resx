@@ -304,7 +304,7 @@ Please upgrade</value>
     <value>Connecting Mavlink</value>
   </data>
   <data name="Done" xml:space="preserve">
-    <value>Done.</value>
+    <value>Done</value>
   </data>
   <data name="GettingParams" xml:space="preserve">
     <value>Getting Params</value>
@@ -343,9 +343,6 @@ Timeout in {0}</value>
   </data>
   <data name="DetectingBoardVersion" xml:space="preserve">
     <value>Detecting Board Version</value>
-  </data>
-  <data name="Done" xml:space="preserve">
-    <value>Done</value>
   </data>
   <data name="DownloadingFromInternet" xml:space="preserve">
     <value>Downloading from Internet</value>
@@ -404,5 +401,8 @@ Do you wish to continue?</value>
   </data>
   <data name="ReadingHex" xml:space="preserve">
     <value>Reading Hex</value>
+  </data>
+  <data name="Warningrallypointdistance" xml:space="preserve">
+    <value>Warning rally points are located greater than RALLY_LIMIT_KM</value>
   </data>
 </root>

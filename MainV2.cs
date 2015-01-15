@@ -1080,7 +1080,6 @@ namespace MissionPlanner
                             MyView.ShowScreen("SWConfig");
                     }
 
-
                     // load wps on connect option.
                     if (config["loadwpsonconnect"] != null && bool.Parse(config["loadwpsonconnect"].ToString()) == true)
                     {
@@ -1097,9 +1096,25 @@ namespace MissionPlanner
                     {
                         FlightPlanner.getRallyPointsToolStripMenuItem_Click(null, null);
 
-                        // check max distance to rally points from known location
-                        int fixme;
-                        // warning rally points are located greater than rally limit km.
+                        double maxdist = 0;
+
+                        foreach (var rally in comPort.MAV.rallypoints)
+                        {
+                            foreach (var rally1 in comPort.MAV.rallypoints)
+                            {
+                                var pnt1 = new PointLatLngAlt(rally.Value.lat / 10000000.0f, rally.Value.lng / 10000000.0f);
+                                var pnt2 = new PointLatLngAlt(rally1.Value.lat / 10000000.0f, rally1.Value.lng / 10000000.0f);
+
+                                var dist = pnt1.GetDistance(pnt2);
+
+                                maxdist = Math.Max(maxdist, dist);
+                            }
+                        }
+
+                        if (comPort.MAV.param.ContainsKey("RALLY_LIMIT_KM") && (maxdist/1000.0) > (float)comPort.MAV.param["RALLY_LIMIT_KM"])
+                        {
+                            CustomMessageBox.Show(Strings.Warningrallypointdistance + " " + (maxdist / 1000.0).ToString("0.00") + " > " + (float)comPort.MAV.param["RALLY_LIMIT_KM"]);
+                        }
                     }
 
                     // set connected icon
@@ -1883,7 +1898,10 @@ namespace MissionPlanner
                             {
                                 port.sendPacket(htb);
                             }
-                            catch (Exception ex) { port.Close(); }
+                            catch (Exception ex)
+                            {
+                                port.Close();
+                            }
                         }
 
                         heatbeatSend = DateTime.Now;
@@ -1917,7 +1935,7 @@ namespace MissionPlanner
                         {
                             comPort.readPacket();
                         }
-                        catch { }
+                        catch (Exception ex) { log.Error(ex); }
                     }
 
                     // update currentstate of sysids on main port
@@ -1927,7 +1945,7 @@ namespace MissionPlanner
                         {
                             comPort.MAVlist[sysid].cs.UpdateCurrentSettings(null, false, comPort, comPort.MAVlist[sysid]);
                         }
-                        catch { }
+                        catch (Exception ex) { log.Error(ex); }
                     }
 
                     // read the other interfaces
@@ -1950,7 +1968,7 @@ namespace MissionPlanner
                             {
                                 port.readPacket();
                             }
-                            catch { }
+                            catch (Exception ex) { log.Error(ex); }
                         }
                         // update currentstate of sysids on the port
                         foreach (var sysid in port.sysidseen)
@@ -1959,7 +1977,7 @@ namespace MissionPlanner
                             {
                                 port.MAVlist[sysid].cs.UpdateCurrentSettings(null, false, port, port.MAVlist[sysid]);
                             }
-                            catch { }
+                            catch (Exception ex) { log.Error(ex); }
                         }
                     }
                 }
@@ -1970,7 +1988,7 @@ namespace MissionPlanner
                     {
                         comPort.Close();
                     }
-                    catch { }
+                    catch (Exception ex) { log.Error(ex); }
                 }
             }
 
