@@ -1096,6 +1096,10 @@ namespace MissionPlanner
                     if (MainV2.comPort.MAV.param.ContainsKey("RALLY_TOTAL") && int.Parse(MainV2.comPort.MAV.param["RALLY_TOTAL"].ToString()) > 0)
                     {
                         FlightPlanner.getRallyPointsToolStripMenuItem_Click(null, null);
+
+                        // check max distance to rally points from known location
+                        int fixme;
+                        // warning rally points are located greater than rally limit km.
                     }
 
                     // set connected icon
@@ -2185,6 +2189,13 @@ namespace MissionPlanner
             try
             {
                 Log.LogMap.MapLogs(Directory.GetFiles(MainV2.LogDir, "*.tlog", SearchOption.AllDirectories));
+
+                if (File.Exists(tlogThumbnailHandler.tlogThumbnailHandler.queuefile))
+                {
+                    Log.LogMap.MapLogs(File.ReadAllLines(tlogThumbnailHandler.tlogThumbnailHandler.queuefile));
+
+                    File.Delete(tlogThumbnailHandler.tlogThumbnailHandler.queuefile);
+                }
             }
             catch (Exception ex) { log.Error(ex); }
         }

@@ -10,7 +10,7 @@ using System.Text;
 
 namespace MissionPlanner.Log
 {
-    class LogMap
+    public class LogMap
     {
         public static void MapLogs(string[] logs)
         {
@@ -102,7 +102,7 @@ namespace MissionPlanner.Log
 
                         var grap = Graphics.FromImage(map);
 
-                        grap.DrawString("NO MAP", SystemFonts.DefaultFont, Brushes.Red, 0, 0, StringFormat.GenericDefault);
+                        grap.DrawString("No gps data", SystemFonts.DefaultFont, Brushes.Red, 0, 0, StringFormat.GenericDefault);
 
                         map.Save(logfile + ".jpg", System.Drawing.Imaging.ImageFormat.Jpeg);
 
