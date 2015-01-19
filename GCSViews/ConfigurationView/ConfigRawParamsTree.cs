@@ -346,19 +346,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         data.desc = (metaDataDescription);
 
                     }
-                    else if (tooltips[value] != null)
-                    {
-                        //Params.Rows[Params.RowCount - 1].Cells[Command.Index].ToolTipText = ((paramsettings)tooltips[value]).desc;
-                        //Params.Rows[Params.RowCount - 1].Cells[RawValue.Index].ToolTipText = ((paramsettings)tooltips[value]).desc;
-                       // Params.Rows[Params.RowCount - 1].Cells[Value.Index].ToolTipText = ((paramsettings)tooltips[value]).desc;
-
-                        //  Params.Rows[Params.RowCount - 1].Cells[Desc.Index].Value = "Old: "+((paramsettings)tooltips[value]).desc;
-
-                        //Params.Rows[Params.RowCount - 1].Cells[Default.Index].Value = ((paramsettings)tooltips[value]).normalvalue;
-                        //Params.Rows[Params.RowCount - 1].Cells[mavScale.Index].Value = ((paramsettings)tooltips[value]).scale;
-                        //Params.Rows[Params.RowCount - 1].Cells[Value.Index].Value = float.Parse(Params.Rows[Params.RowCount - 1].Cells[RawValue.Index].Value.ToString()) / float.Parse(Params.Rows[Params.RowCount - 1].Cells[mavScale.Index].Value.ToString());
-                    }
-
                     
                     if (lastroot.root == split[0])
                     {
@@ -403,7 +390,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             CMB_paramfiles.Enabled = false;
             BUT_paramfileload.Enabled = false;
-
 
             System.Threading.ThreadPool.QueueUserWorkItem(updatedefaultlist);
 

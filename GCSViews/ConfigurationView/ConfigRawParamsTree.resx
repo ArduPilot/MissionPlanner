@@ -209,7 +209,7 @@ format with no scaling</value>
     <value>Description</value>
   </data>
   <data name="olvColumn5.Width" type="System.Int32, mscorlib">
-    <value>220</value>
+    <value>210</value>
   </data>
   <data name="Params.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom, Left, Right</value>
