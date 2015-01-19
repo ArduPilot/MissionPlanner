@@ -101,6 +101,7 @@ namespace tlogThumbnailHandler
 
         public tlogThumbnailHandler()
         {
+            /*
             NativeMethods.AllocConsole();
             IntPtr stdHandle = NativeMethods.GetStdHandle(STD_OUTPUT_HANDLE);
             SafeFileHandle safeFileHandle = new SafeFileHandle(stdHandle, true);
@@ -109,6 +110,7 @@ namespace tlogThumbnailHandler
             StreamWriter standardOutput = new StreamWriter(fileStream, encoding);
             standardOutput.AutoFlush = true;
             Console.SetOut(standardOutput);
+             */
             Console.WriteLine("tlogThumbnailHandler ctor");
         }
 
