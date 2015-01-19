@@ -578,6 +578,16 @@
                     <param index="5">Latitude</param>
                     <param index="6">Longitude</param>
                     <param index="7">Altitude</param>
+                </entry>
+               <entry value="30" name="MAV_CMD_NAV_CONTINUE_AND_CHANGE_ALT">
+                   <description>Continue on the current course and climb/descend to specified altitude.  When the altitude is reached continue to the next command (i.e., don't proceed to the next command until the desired altitude is reached.</description>
+                    <param index="1">Empty</param>
+                    <param index="2">Empty</param>
+                    <param index="3">Empty</param>
+                    <param index="4">Empty</param>
+                    <param index="5">Empty</param>
+                    <param index="6">Empty</param>
+                    <param index="7">Desired altitude in meters</param>
                </entry>
                <entry value="80" name="MAV_CMD_NAV_ROI">
                     <description>Sets the region of interest (ROI) for a sensor set or the vehicle itself. This can then be used by the vehicles control system to control the vehicle attitude and the attitude of various sensors such as cameras.</description>
@@ -2500,6 +2510,13 @@
             <field type="float" name="current_height">Current vehicle height above lat/lon terrain height (meters)</field>
             <field type="uint16_t" name="pending">Number of 4x4 terrain blocks waiting to be received or read from disk</field>
             <field type="uint16_t" name="loaded">Number of 4x4 terrain blocks in memory</field>
+         </message>
+         <message id="137" name="SCALED_PRESSURE2">
+           <description>Barometer readings for 2nd barometer</description>
+           <field type="uint32_t" name="time_boot_ms">Timestamp (milliseconds since system boot)</field>
+           <field type="float" name="press_abs">Absolute pressure (hectopascal)</field>
+           <field type="float" name="press_diff">Differential pressure 1 (hectopascal)</field>
+           <field type="int16_t" name="temperature">Temperature measurement (0.01 degrees celsius)</field>
          </message>
         <message id="147" name="BATTERY_STATUS">
             <description>Battery information</description>
