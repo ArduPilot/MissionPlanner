@@ -405,4 +405,13 @@ Do you wish to continue?</value>
   <data name="Warningrallypointdistance" xml:space="preserve">
     <value>Warning rally points are located greater than RALLY_LIMIT_KM</value>
   </data>
+  <data name="Warning" xml:space="preserve">
+    <value>Warning</value>
+  </data>
+  <data name="WarningAC32" xml:space="preserve">
+    <value>Warning, if you are installing AC 3.2 for the first time you MUST redo a Compass calibration.</value>
+  </data>
+  <data name="WarningAC31" xml:space="preserve">
+    <value>Warning, as of AC 3.1 motors will spin when armed, configurable through the MOT_SPIN_ARMED parameter</value>
+  </data>
 </root>
