@@ -13,6 +13,8 @@
     </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
     <IsWebBootstrapper>true</IsWebBootstrapper>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">.\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
     <PublishUrl>C:\publish\MissionPlanner\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Web</InstallFrom>
@@ -35,8 +37,6 @@
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">.\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -1145,6 +1145,15 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Drivers\Static\i386\ftd2xx.lib">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Drivers\vrbrain.cat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Drivers\vrhero.cat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Drivers\vrubrain.cat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="flightgear.zip">
@@ -2805,6 +2814,15 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Drivers\i386\ftserui2.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Drivers\vrbrain.inf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Drivers\vrhero.inf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Drivers\vrubrain.inf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="FirmwareHistory.txt">
@@ -6516,6 +6534,10 @@
     <ProjectReference Include="ExtLibs\SharpKml\SharpKml.csproj">
       <Project>{53F12A60-E9CC-44BC-8366-1AE3AB2B547D}</Project>
       <Name>SharpKml</Name>
+    </ProjectReference>
+    <ProjectReference Include="ExtLibs\tlogThumbnailHandler\tlogThumbnailHandler.csproj">
+      <Project>{aba78b2e-77c3-4377-8568-9542ac227971}</Project>
+      <Name>tlogThumbnailHandler</Name>
     </ProjectReference>
     <ProjectReference Include="ExtLibs\Utilities\MissionPlanner.Utilities.csproj">
       <Project>{1378A66C-38E4-46F5-A05F-DC04EF7D4D16}</Project>

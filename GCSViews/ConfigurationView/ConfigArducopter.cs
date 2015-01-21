@@ -340,19 +340,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         arr[0].BackColor = Color.Green;
                     }
                 }
-                // keep nav_lat and nav_lon paired
-                if (name.Contains("HLD_LAT_"))
-                {
-                    string newname = name.Replace("HLD_LAT_", "HLD_LON_");
-                    Control[] arr = this.Controls.Find(newname, true);
-                    changes[newname] = value;
-
-                    if (arr.Length > 0)
-                    {
-                        arr[0].Text = ((Control)sender).Text;
-                        arr[0].BackColor = Color.Green;
-                    }
-                }
             }
             catch { }
         }

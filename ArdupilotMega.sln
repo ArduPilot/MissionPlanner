@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MissionPlanner", "MissionPlanner.csproj", "{A2E22272-95FE-47B6-B050-9AE7E2055BF5}"
 EndProject
@@ -68,7 +68,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{6A21E0
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GStreamerHud", "ExtLibs\GStreamerHud\GStreamerHud.csproj", "{CE746B5E-02BD-43EC-B79A-B449DBF9374F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tlogThumbnailHandler", "ExtLibs\tlogThumbnailHandler\tlogThumbnailHandler.csproj", "{ABA78B2E-77C3-4377-8568-9542AC227971}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -400,18 +400,16 @@ Global
 		{E06DEF77-F933-42FB-AFD7-DB2D0D8D6A98}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{E06DEF77-F933-42FB-AFD7-DB2D0D8D6A98}.Release|x86.ActiveCfg = Release|Any CPU
 		{E06DEF77-F933-42FB-AFD7-DB2D0D8D6A98}.Release|x86.Build.0 = Release|Any CPU
-		{CE746B5E-02BD-43EC-B79A-B449DBF9374F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CE746B5E-02BD-43EC-B79A-B449DBF9374F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CE746B5E-02BD-43EC-B79A-B449DBF9374F}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{CE746B5E-02BD-43EC-B79A-B449DBF9374F}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{CE746B5E-02BD-43EC-B79A-B449DBF9374F}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{CE746B5E-02BD-43EC-B79A-B449DBF9374F}.Debug|x86.Build.0 = Debug|Any CPU
-		{CE746B5E-02BD-43EC-B79A-B449DBF9374F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CE746B5E-02BD-43EC-B79A-B449DBF9374F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CE746B5E-02BD-43EC-B79A-B449DBF9374F}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{CE746B5E-02BD-43EC-B79A-B449DBF9374F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{CE746B5E-02BD-43EC-B79A-B449DBF9374F}.Release|x86.ActiveCfg = Release|Any CPU
-		{CE746B5E-02BD-43EC-B79A-B449DBF9374F}.Release|x86.Build.0 = Release|Any CPU
+		{ABA78B2E-77C3-4377-8568-9542AC227971}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABA78B2E-77C3-4377-8568-9542AC227971}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABA78B2E-77C3-4377-8568-9542AC227971}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{ABA78B2E-77C3-4377-8568-9542AC227971}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{ABA78B2E-77C3-4377-8568-9542AC227971}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{ABA78B2E-77C3-4377-8568-9542AC227971}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABA78B2E-77C3-4377-8568-9542AC227971}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ABA78B2E-77C3-4377-8568-9542AC227971}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{ABA78B2E-77C3-4377-8568-9542AC227971}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{ABA78B2E-77C3-4377-8568-9542AC227971}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -439,7 +437,10 @@ Global
 		{664FC484-2A94-4B0D-808F-A71F88E06B11} = {7E264F12-9EC3-4CDC-A187-6879C2B2BFCF}
 		{D0C39D9D-BED0-418B-9A5E-713176CAF40C} = {7E264F12-9EC3-4CDC-A187-6879C2B2BFCF}
 		{E06DEF77-F933-42FB-AFD7-DB2D0D8D6A98} = {7E264F12-9EC3-4CDC-A187-6879C2B2BFCF}
-		{CE746B5E-02BD-43EC-B79A-B449DBF9374F} = {9B3AC501-5FCB-4A2A-A628-BE0985DB2BD4}
+		{ABA78B2E-77C3-4377-8568-9542AC227971} = {7E264F12-9EC3-4CDC-A187-6879C2B2BFCF}
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = MissionPlanner.csproj

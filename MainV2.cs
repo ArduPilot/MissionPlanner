@@ -790,6 +790,321 @@ namespace MissionPlanner
             MyView.ShowScreen("Terminal");
         }
 
+        private void doDisconnect()
+        {
+            log.Info("We are disconnecting");
+            try
+            {
+                if (speechEngine != null) // cancel all pending speech
+                    speechEngine.SpeakAsyncCancelAll();
+
+                comPort.BaseStream.DtrEnable = false;
+                comPort.Close();
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex);
+            }
+
+            // now that we have closed the connection, cancel the connection stats
+            // so that the 'time connected' etc does not grow, but the user can still
+            // look at the now frozen stats on the still open form
+            try
+            {
+                // if terminal is used, then closed using this button.... exception
+                if (this.connectionStatsForm != null)
+                    ((ConnectionStats)this.connectionStatsForm.Controls[0]).StopUpdates();
+            }
+            catch { }
+
+            // refresh config window if needed
+            if (MyView.current != null)
+            {
+                if (MyView.current.Name == "HWConfig")
+                    MyView.ShowScreen("HWConfig");
+                if (MyView.current.Name == "SWConfig")
+                    MyView.ShowScreen("SWConfig");
+            }
+
+            try
+            {
+                System.Threading.ThreadPool.QueueUserWorkItem((WaitCallback)delegate
+                {
+                    try
+                    {
+                        MissionPlanner.Log.LogSort.SortLogs(Directory.GetFiles(MainV2.LogDir, "*.tlog"));
+                    }
+                    catch { }
+                }
+                );
+            }
+            catch { }
+
+            this.MenuConnect.Image = global::MissionPlanner.Properties.Resources.light_connect_icon;
+        }
+
+        private void doConnect()
+        {
+            log.Info("We are connecting");
+            switch (_connectionControl.CMB_serialport.Text)
+            {
+                case "TCP":
+                    comPort.BaseStream = new TcpSerial();
+                    break;
+                case "UDP":
+                    comPort.BaseStream = new UdpSerial();
+                    break;
+                case "UDPCl":
+                    comPort.BaseStream = new UdpSerialConnect();
+                    break;
+                case "AUTO":
+                default:
+                    comPort.BaseStream = new SerialPort();
+                    break;
+            }
+
+            // Tell the connection UI that we are now connected.
+            _connectionControl.IsConnected(true);
+
+            // Here we want to reset the connection stats counter etc.
+            this.ResetConnectionStats();
+
+            MainV2.comPort.MAV.cs.ResetInternals();
+
+            //cleanup any log being played
+            comPort.logreadmode = false;
+            if (comPort.logplaybackfile != null)
+                comPort.logplaybackfile.Close();
+            comPort.logplaybackfile = null;
+
+            try
+            {
+                // do autoscan
+                if (_connectionControl.CMB_serialport.Text == "AUTO")
+                {
+                    Comms.CommsSerialScan.Scan(false);
+
+                    DateTime deadline = DateTime.Now.AddSeconds(50);
+
+                    while (Comms.CommsSerialScan.foundport == false)
+                    {
+                        System.Threading.Thread.Sleep(100);
+
+                        if (DateTime.Now > deadline)
+                        {
+                            CustomMessageBox.Show(Strings.Timeout);
+                            _connectionControl.IsConnected(false);
+                            return;
+                        }
+                    }
+
+                    _connectionControl.CMB_serialport.Text = Comms.CommsSerialScan.portinterface.PortName;
+                    _connectionControl.CMB_baudrate.Text = Comms.CommsSerialScan.portinterface.BaudRate.ToString();
+                }
+
+                log.Info("Set Portname");
+                // set port, then options
+                comPort.BaseStream.PortName = _connectionControl.CMB_serialport.Text;
+
+                log.Info("Set Baudrate");
+                try
+                {
+                    comPort.BaseStream.BaudRate = int.Parse(_connectionControl.CMB_baudrate.Text);
+                }
+                catch (Exception exp)
+                {
+                    log.Error(exp);
+                }
+
+                // prevent serialreader from doing anything
+                comPort.giveComport = true;
+
+                log.Info("About to do dtr if needed");
+                // reset on connect logic.
+                if (config["CHK_resetapmonconnect"] == null || bool.Parse(config["CHK_resetapmonconnect"].ToString()) == true)
+                {
+                    log.Info("set dtr rts to false");
+                    comPort.BaseStream.DtrEnable = false;
+                    comPort.BaseStream.RtsEnable = false;
+
+                    comPort.BaseStream.toggleDTR();
+                }
+
+                comPort.giveComport = false;
+
+                // setup to record new logs
+                try
+                {
+                    Directory.CreateDirectory(MainV2.LogDir);
+                    comPort.logfile = new BufferedStream(File.Open(MainV2.LogDir + Path.DirectorySeparatorChar + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + ".tlog", FileMode.CreateNew, FileAccess.ReadWrite, FileShare.None));
+
+                    comPort.rawlogfile = new BufferedStream(File.Open(MainV2.LogDir + Path.DirectorySeparatorChar + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + ".rlog", FileMode.CreateNew, FileAccess.ReadWrite, FileShare.None));
+
+                    log.Info("creating logfile " + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + ".tlog");
+                }
+                catch (Exception exp2) { log.Error(exp2); CustomMessageBox.Show(Strings.Failclog); } // soft fail
+
+                // reset connect time - for timeout functions
+                connecttime = DateTime.Now;
+
+                // do the connect
+                comPort.Open(false);
+
+                if (!comPort.BaseStream.IsOpen)
+                {
+                    log.Info("comport is closed. existing connect");
+                    try
+                    {
+                        _connectionControl.IsConnected(false);
+                        UpdateConnectIcon();
+                        comPort.Close();
+                    }
+                    catch { }
+                    return;
+                }
+
+                // 3dr radio is hidden as no hb packet is ever emitted
+                if (comPort.sysidseen.Count > 1)
+                {
+                    // we have more than one mav
+                    // user selection of sysid
+                    MissionPlanner.Controls.SysidSelector id = new SysidSelector();
+
+                    id.ShowDialog();
+                }
+
+                comPort.getParamList();
+
+                // detect firmware we are conected to.
+                if (comPort.MAV.cs.firmware == Firmwares.ArduCopter2)
+                {
+                    _connectionControl.TOOL_APMFirmware.SelectedIndex = _connectionControl.TOOL_APMFirmware.Items.IndexOf(Firmwares.ArduCopter2);
+                }
+                else if (comPort.MAV.cs.firmware == Firmwares.Ateryx)
+                {
+                    _connectionControl.TOOL_APMFirmware.SelectedIndex = _connectionControl.TOOL_APMFirmware.Items.IndexOf(Firmwares.Ateryx);
+                }
+                else if (comPort.MAV.cs.firmware == Firmwares.ArduRover)
+                {
+                    _connectionControl.TOOL_APMFirmware.SelectedIndex = _connectionControl.TOOL_APMFirmware.Items.IndexOf(Firmwares.ArduRover);
+                }
+                else if (comPort.MAV.cs.firmware == Firmwares.ArduPlane)
+                {
+                    _connectionControl.TOOL_APMFirmware.SelectedIndex = _connectionControl.TOOL_APMFirmware.Items.IndexOf(Firmwares.ArduPlane);
+                }
+
+                // check for newer firmware
+                var softwares = Firmware.LoadSoftwares();
+
+                if (softwares.Count > 0)
+                {
+                    try
+                    {
+                        string[] fields1 = comPort.MAV.VersionString.Split(' ');
+
+                        foreach (Firmware.software item in softwares)
+                        {
+                            string[] fields2 = item.name.Split(' ');
+
+                            // check primare firmware type. ie arudplane, arducopter
+                            if (fields1[0] == fields2[0])
+                            {
+                                Version ver1 = VersionDetection.GetVersion(comPort.MAV.VersionString);
+                                Version ver2 = VersionDetection.GetVersion(item.name);
+
+                                if (ver2 > ver1)
+                                {
+                                    Common.MessageShowAgain(Strings.NewFirmware, Strings.NewFirmwareA + item.name + Strings.Pleaseup);
+                                    break;
+                                }
+
+                                // check the first hit only
+                                break;
+                            }
+                        }
+                    }
+                    catch (Exception ex) { log.Error(ex); }
+                }
+
+                FlightData.CheckBatteryShow();
+
+                MissionPlanner.Utilities.Tracking.AddEvent("Connect", "Connect", comPort.MAV.cs.firmware.ToString(), comPort.MAV.param.Count.ToString());
+                MissionPlanner.Utilities.Tracking.AddTiming("Connect", "Connect Time", (DateTime.Now - connecttime).TotalMilliseconds, "");
+
+                MissionPlanner.Utilities.Tracking.AddEvent("Connect", "Baud", comPort.BaseStream.BaudRate.ToString(), "");
+
+                // save the baudrate for this port
+                config[_connectionControl.CMB_serialport.Text + "_BAUD"] = _connectionControl.CMB_baudrate.Text;
+
+                this.Text = titlebar + " " + comPort.MAV.VersionString;
+
+                // refresh config window if needed
+                if (MyView.current != null)
+                {
+                    if (MyView.current.Name == "HWConfig")
+                        MyView.ShowScreen("HWConfig");
+                    if (MyView.current.Name == "SWConfig")
+                        MyView.ShowScreen("SWConfig");
+                }
+
+                // load wps on connect option.
+                if (config["loadwpsonconnect"] != null && bool.Parse(config["loadwpsonconnect"].ToString()) == true)
+                {
+                    // only do it if we are connected.
+                    if (comPort.BaseStream.IsOpen)
+                    {
+                        MenuFlightPlanner_Click(null, null);
+                        FlightPlanner.BUT_read_Click(null, null);
+                    }
+                }
+
+                // get any rallypoints
+                if (MainV2.comPort.MAV.param.ContainsKey("RALLY_TOTAL") && int.Parse(MainV2.comPort.MAV.param["RALLY_TOTAL"].ToString()) > 0)
+                {
+                    FlightPlanner.getRallyPointsToolStripMenuItem_Click(null, null);
+
+                    double maxdist = 0;
+
+                    foreach (var rally in comPort.MAV.rallypoints)
+                    {
+                        foreach (var rally1 in comPort.MAV.rallypoints)
+                        {
+                            var pnt1 = new PointLatLngAlt(rally.Value.lat / 10000000.0f, rally.Value.lng / 10000000.0f);
+                            var pnt2 = new PointLatLngAlt(rally1.Value.lat / 10000000.0f, rally1.Value.lng / 10000000.0f);
+
+                            var dist = pnt1.GetDistance(pnt2);
+
+                            maxdist = Math.Max(maxdist, dist);
+                        }
+                    }
+
+                    if (comPort.MAV.param.ContainsKey("RALLY_LIMIT_KM") && (maxdist / 1000.0) > (float)comPort.MAV.param["RALLY_LIMIT_KM"])
+                    {
+                        CustomMessageBox.Show(Strings.Warningrallypointdistance + " " + (maxdist / 1000.0).ToString("0.00") + " > " + (float)comPort.MAV.param["RALLY_LIMIT_KM"]);
+                    }
+                }
+
+                // set connected icon
+                this.MenuConnect.Image = displayicons.disconnect;
+            }
+            catch (Exception ex)
+            {
+                log.Warn(ex);
+                try
+                {
+                    _connectionControl.IsConnected(false);
+                    UpdateConnectIcon();
+                    comPort.Close();
+                }
+                catch (Exception ex2) 
+                {
+                    log.Warn(ex2);
+                }
+                CustomMessageBox.Show("Can not establish a connection\n\n" + ex.Message);
+                return;
+            }
+        }
+
         private void MenuConnect_Click(object sender, EventArgs e)
         {
             comPort.giveComport = false;
@@ -826,294 +1141,11 @@ namespace MissionPlanner
             // decide if this is a connect or disconnect
             if (comPort.BaseStream.IsOpen)
             {
-                log.Info("We are disconnecting");
-                try
-                {
-                    if (speechEngine != null) // cancel all pending speech
-                        speechEngine.SpeakAsyncCancelAll();
-
-                    comPort.BaseStream.DtrEnable = false;
-                    comPort.Close();
-                }
-                catch (Exception ex)
-                {
-                    log.Error(ex);
-                }
-
-                // now that we have closed the connection, cancel the connection stats
-                // so that the 'time connected' etc does not grow, but the user can still
-                // look at the now frozen stats on the still open form
-                try
-                {
-                    // if terminal is used, then closed using this button.... exception
-                    if (this.connectionStatsForm != null)
-                        ((ConnectionStats)this.connectionStatsForm.Controls[0]).StopUpdates();
-                }
-                catch { }
-
-                // refresh config window if needed
-                if (MyView.current != null)
-                {
-                    if (MyView.current.Name == "HWConfig")
-                        MyView.ShowScreen("HWConfig");
-                    if (MyView.current.Name == "SWConfig")
-                        MyView.ShowScreen("SWConfig");
-                }
-
-                try
-                {
-                    System.Threading.ThreadPool.QueueUserWorkItem((WaitCallback)delegate
-                    {
-                        try
-                        {
-                            MissionPlanner.Log.LogSort.SortLogs(Directory.GetFiles(MainV2.LogDir, "*.tlog"));
-                        }
-                        catch { }
-                    }
-                    );
-                }
-                catch { }
-
-                this.MenuConnect.Image = global::MissionPlanner.Properties.Resources.light_connect_icon;
+                doDisconnect();
             }
             else
             {
-                log.Info("We are connecting");
-                switch (_connectionControl.CMB_serialport.Text)
-                {
-                    case "TCP":
-                        comPort.BaseStream = new TcpSerial();
-                        break;
-                    case "UDP":
-                        comPort.BaseStream = new UdpSerial();
-                        break;
-                    case "UDPCl":
-                        comPort.BaseStream = new UdpSerialConnect();
-                        break;
-                    case "AUTO":
-                    default:
-                        comPort.BaseStream = new SerialPort();
-                        break;
-                }
-
-                // Tell the connection UI that we are now connected.
-                _connectionControl.IsConnected(true);
-
-                // Here we want to reset the connection stats counter etc.
-                this.ResetConnectionStats();
-
-                MainV2.comPort.MAV.cs.ResetInternals();
-
-                //cleanup any log being played
-                comPort.logreadmode = false;
-                if (comPort.logplaybackfile != null)
-                    comPort.logplaybackfile.Close();
-                comPort.logplaybackfile = null;
-
-                try
-                {
-                    // do autoscan
-                    if (_connectionControl.CMB_serialport.Text == "AUTO")
-                    {
-                        Comms.CommsSerialScan.Scan(false);
-
-                        DateTime deadline = DateTime.Now.AddSeconds(50);
-
-                        while (Comms.CommsSerialScan.foundport == false)
-                        {
-                            System.Threading.Thread.Sleep(100);
-
-                            if (DateTime.Now > deadline)
-                            {
-                                CustomMessageBox.Show(Strings.Timeout);
-                                _connectionControl.IsConnected(false);
-                                return;
-                            }
-                        }
-
-                        _connectionControl.CMB_serialport.Text = Comms.CommsSerialScan.portinterface.PortName;
-                        _connectionControl.CMB_baudrate.Text = Comms.CommsSerialScan.portinterface.BaudRate.ToString();
-                    }
-
-                    log.Info("Set Portname");
-                    // set port, then options
-                    comPort.BaseStream.PortName = _connectionControl.CMB_serialport.Text;
-
-                    log.Info("Set Baudrate");
-                    try
-                    {
-                        comPort.BaseStream.BaudRate = int.Parse(_connectionControl.CMB_baudrate.Text);
-                    }
-                    catch (Exception exp)
-                    {
-                        log.Error(exp);
-                    }
-
-                    // prevent serialreader from doing anything
-                    comPort.giveComport = true;
-
-                    log.Info("About to do dtr if needed");
-                    // reset on connect logic.
-                    if (config["CHK_resetapmonconnect"] == null || bool.Parse(config["CHK_resetapmonconnect"].ToString()) == true)
-                    {
-                        log.Info("set dtr rts to false");
-                        comPort.BaseStream.DtrEnable = false;
-                        comPort.BaseStream.RtsEnable = false;
-
-                        comPort.BaseStream.toggleDTR();
-                    }
-
-                    comPort.giveComport = false;
-
-                    // setup to record new logs
-                    try
-                    {
-                        Directory.CreateDirectory(MainV2.LogDir);
-                        comPort.logfile = new BufferedStream(File.Open(MainV2.LogDir + Path.DirectorySeparatorChar + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + ".tlog", FileMode.CreateNew, FileAccess.ReadWrite, FileShare.None));
-
-                        comPort.rawlogfile = new BufferedStream(File.Open(MainV2.LogDir + Path.DirectorySeparatorChar + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + ".rlog", FileMode.CreateNew, FileAccess.ReadWrite, FileShare.None));
-
-                        log.Info("creating logfile " + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + ".tlog");
-                    }
-                    catch (Exception exp2) { log.Error(exp2); CustomMessageBox.Show(Strings.Failclog); } // soft fail
-
-                    // reset connect time - for timeout functions
-                    connecttime = DateTime.Now;
-
-                    // do the connect
-                    comPort.Open(false);
-
-                    if (!comPort.BaseStream.IsOpen)
-                    {
-                        log.Info("comport is closed. existing connect");
-                        try
-                        {
-                            _connectionControl.IsConnected(false);
-                            UpdateConnectIcon();
-                            comPort.Close();
-                        }
-                        catch { }
-                        return;
-                    }
-
-                    // 3dr radio is hidden as no hb packet is ever emitted
-                    if (comPort.sysidseen.Count > 1)
-                    {
-                        // we have more than one mav
-                        // user selection of sysid
-                        MissionPlanner.Controls.SysidSelector id = new SysidSelector();
-
-                        id.ShowDialog();
-                    }
-
-                    comPort.getParamList();
-
-                    // detect firmware we are conected to.
-                    if (comPort.MAV.cs.firmware == Firmwares.ArduCopter2)
-                    {
-                        _connectionControl.TOOL_APMFirmware.SelectedIndex = _connectionControl.TOOL_APMFirmware.Items.IndexOf(Firmwares.ArduCopter2);
-                    }
-                    else if (comPort.MAV.cs.firmware == Firmwares.Ateryx)
-                    {
-                        _connectionControl.TOOL_APMFirmware.SelectedIndex = _connectionControl.TOOL_APMFirmware.Items.IndexOf(Firmwares.Ateryx);
-                    }
-                    else if (comPort.MAV.cs.firmware == Firmwares.ArduRover)
-                    {
-                        _connectionControl.TOOL_APMFirmware.SelectedIndex = _connectionControl.TOOL_APMFirmware.Items.IndexOf(Firmwares.ArduRover);
-                    }
-                    else if (comPort.MAV.cs.firmware == Firmwares.ArduPlane)
-                    {
-                        _connectionControl.TOOL_APMFirmware.SelectedIndex = _connectionControl.TOOL_APMFirmware.Items.IndexOf(Firmwares.ArduPlane);
-                    }
-
-                    // check for newer firmware
-                    var softwares = Firmware.LoadSoftwares();
-
-                    if (softwares.Count > 0)
-                    {
-                        try
-                        {
-                            string[] fields1 = comPort.MAV.VersionString.Split(' ');
-
-                            foreach (Firmware.software item in softwares)
-                            {
-                                string[] fields2 = item.name.Split(' ');
-
-                                // check primare firmware type. ie arudplane, arducopter
-                                if (fields1[0] == fields2[0])
-                                {
-                                    Version ver1 = VersionDetection.GetVersion(comPort.MAV.VersionString);
-                                    Version ver2 = VersionDetection.GetVersion(item.name);
-
-                                    if (ver2 > ver1)
-                                    {
-                                        Common.MessageShowAgain(Strings.NewFirmware, Strings.NewFirmwareA + item.name + Strings.Pleaseup);
-                                        break;
-                                    }
-
-                                    // check the first hit only
-                                    break;
-                                }
-                            }
-                        }
-                        catch (Exception ex) { log.Error(ex); }
-                    }
-
-                    FlightData.CheckBatteryShow();
-
-                    MissionPlanner.Utilities.Tracking.AddEvent("Connect", "Connect", comPort.MAV.cs.firmware.ToString(), comPort.MAV.param.Count.ToString());
-                    MissionPlanner.Utilities.Tracking.AddTiming("Connect", "Connect Time", (DateTime.Now - connecttime).TotalMilliseconds, "");
-
-                    MissionPlanner.Utilities.Tracking.AddEvent("Connect", "Baud", comPort.BaseStream.BaudRate.ToString(), "");
-
-                    // save the baudrate for this port
-                    config[_connectionControl.CMB_serialport.Text + "_BAUD"] = _connectionControl.CMB_baudrate.Text;
-
-                    this.Text = titlebar + " " + comPort.MAV.VersionString;
-
-                    // refresh config window if needed
-                    if (MyView.current != null)
-                    {
-                        if (MyView.current.Name == "HWConfig")
-                            MyView.ShowScreen("HWConfig");
-                        if (MyView.current.Name == "SWConfig")
-                            MyView.ShowScreen("SWConfig");
-                    }
-
-
-                    // load wps on connect option.
-                    if (config["loadwpsonconnect"] != null && bool.Parse(config["loadwpsonconnect"].ToString()) == true)
-                    {
-                        // only do it if we are connected.
-                        if (comPort.BaseStream.IsOpen)
-                        {
-                            MenuFlightPlanner_Click(null, null);
-                            FlightPlanner.BUT_read_Click(null, null);
-                        }
-                    }
-
-                    // get any rallypoints
-                    if (MainV2.comPort.MAV.param.ContainsKey("RALLY_TOTAL") && int.Parse(MainV2.comPort.MAV.param["RALLY_TOTAL"].ToString()) > 0)
-                    {
-                        FlightPlanner.getRallyPointsToolStripMenuItem_Click(null, null);
-                    }
-
-                    // set connected icon
-                    this.MenuConnect.Image = displayicons.disconnect;
-                }
-                catch (Exception ex)
-                {
-                    log.Warn(ex);
-                    try
-                    {
-                        _connectionControl.IsConnected(false);
-                        UpdateConnectIcon();
-                        comPort.Close();
-                    }
-                    catch { }
-                    CustomMessageBox.Show("Can not establish a connection\n\n" + ex.Message);
-                    return;
-                }
+                doConnect();
             }
         }
 
@@ -1879,7 +1911,23 @@ namespace MissionPlanner
                             {
                                 port.sendPacket(htb);
                             }
-                            catch (Exception ex) { port.Close(); }
+                            catch (Exception ex)
+                            {
+                                // close the bad port
+                                port.Close();
+                                // refresh the screen is needed
+                                if (port == MainV2.comPort)
+                                {
+                                    // refresh config window if needed
+                                    if (MyView.current != null)
+                                    {
+                                        if (MyView.current.Name == "HWConfig")
+                                            MyView.ShowScreen("HWConfig");
+                                        if (MyView.current.Name == "SWConfig")
+                                            MyView.ShowScreen("SWConfig");
+                                    }
+                                }
+                            }
                         }
 
                         heatbeatSend = DateTime.Now;
@@ -1913,7 +1961,7 @@ namespace MissionPlanner
                         {
                             comPort.readPacket();
                         }
-                        catch { }
+                        catch (Exception ex) { log.Error(ex); }
                     }
 
                     // update currentstate of sysids on main port
@@ -1923,7 +1971,7 @@ namespace MissionPlanner
                         {
                             comPort.MAVlist[sysid].cs.UpdateCurrentSettings(null, false, comPort, comPort.MAVlist[sysid]);
                         }
-                        catch { }
+                        catch (Exception ex) { log.Error(ex); }
                     }
 
                     // read the other interfaces
@@ -1946,7 +1994,7 @@ namespace MissionPlanner
                             {
                                 port.readPacket();
                             }
-                            catch { }
+                            catch (Exception ex) { log.Error(ex); }
                         }
                         // update currentstate of sysids on the port
                         foreach (var sysid in port.sysidseen)
@@ -1955,7 +2003,7 @@ namespace MissionPlanner
                             {
                                 port.MAVlist[sysid].cs.UpdateCurrentSettings(null, false, port, port.MAVlist[sysid]);
                             }
-                            catch { }
+                            catch (Exception ex) { log.Error(ex); }
                         }
                     }
                 }
@@ -1966,7 +2014,7 @@ namespace MissionPlanner
                     {
                         comPort.Close();
                     }
-                    catch { }
+                    catch (Exception ex) { log.Error(ex); }
                 }
             }
 
@@ -2185,6 +2233,26 @@ namespace MissionPlanner
             try
             {
                 Log.LogMap.MapLogs(Directory.GetFiles(MainV2.LogDir, "*.tlog", SearchOption.AllDirectories));
+                Log.LogMap.MapLogs(Directory.GetFiles(MainV2.LogDir, "*.bin", SearchOption.AllDirectories));
+                Log.LogMap.MapLogs(Directory.GetFiles(MainV2.LogDir, "*.log", SearchOption.AllDirectories));
+
+                if (File.Exists(tlogThumbnailHandler.tlogThumbnailHandler.queuefile))
+                {
+                    Log.LogMap.MapLogs(File.ReadAllLines(tlogThumbnailHandler.tlogThumbnailHandler.queuefile));
+
+                    File.Delete(tlogThumbnailHandler.tlogThumbnailHandler.queuefile);
+                }
+            }
+            catch (Exception ex) { log.Error(ex); }
+
+            try
+            {
+                if (File.Exists(tlogThumbnailHandler.tlogThumbnailHandler.queuefile))
+                {
+                    Log.LogMap.MapLogs(File.ReadAllLines(tlogThumbnailHandler.tlogThumbnailHandler.queuefile));
+
+                    File.Delete(tlogThumbnailHandler.tlogThumbnailHandler.queuefile);
+                }
             }
             catch (Exception ex) { log.Error(ex); }
         }

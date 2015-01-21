@@ -30,7 +30,15 @@ namespace MissionPlanner.Log
         {
             //this.Invoke((MethodInvoker)delegate { objectListView1.Clear(); });            
 
-            string[] files = Directory.GetFiles(directory.ToString(), "*.tlog", SearchOption.AllDirectories);
+            string[] files1 = Directory.GetFiles(directory.ToString(), "*.tlog", SearchOption.AllDirectories);
+            string[] files2 = Directory.GetFiles(directory.ToString(), "*.bin", SearchOption.AllDirectories);
+            string[] files3 = Directory.GetFiles(directory.ToString(), "*.log", SearchOption.AllDirectories);
+
+            List<string> files = new List<string>();
+
+            files.AddRange(files1);
+            files.AddRange(files2);
+            files.AddRange(files3);
 
             //objectListView1.VirtualListSize = files.Length;
 

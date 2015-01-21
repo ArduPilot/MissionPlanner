@@ -282,7 +282,7 @@ namespace MissionPlanner
         //battery
         [DisplayText("Bat Voltage (V)")]
         public float battery_voltage { get { return _battery_voltage; } set { if (_battery_voltage == 0) _battery_voltage = value; _battery_voltage = value * 0.1f + _battery_voltage * 0.9f; } }
-        private float _battery_voltage;
+        internal float _battery_voltage;
         [DisplayText("Bat Remaining (%)")]
         public int battery_remaining { get { return _battery_remaining; } set { _battery_remaining = value; if (_battery_remaining < 0 || _battery_remaining > 100) _battery_remaining = 0; } }
         private int _battery_remaining;
@@ -297,7 +297,7 @@ namespace MissionPlanner
 
         [DisplayText("Bat2 Voltage (V)")]
         public float battery_voltage2 { get { return _battery_voltage2; } set { if (_battery_voltage2 == 0) _battery_voltage2 = value; _battery_voltage2 = value * 0.1f + _battery_voltage2 * 0.9f; } }
-        private float _battery_voltage2;
+        internal float _battery_voltage2;
         [DisplayText("Bat2 Current (Amps)")]
         public float current2 { get { return _current2; } set { if (value < 0) return; _current2 = value; } }
         private float _current2;
