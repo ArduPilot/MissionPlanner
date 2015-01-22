@@ -294,6 +294,15 @@
       <Y></Y>
       <Z>Alt</Z>
     </TAKEOFF>
+    <CONTINUE_AND_CHANGE_ALT>
+      <P1></P1>
+      <P2></P2>
+      <P3></P3>
+      <P4></P4>
+      <X></X>
+      <Y></Y>
+      <Z>Alt</Z>
+    </CONTINUE_AND_CHANGE_ALT>    
     <CONDITION_DELAY>
       <P1>Time (sec)</P1>
       <P2></P2>
