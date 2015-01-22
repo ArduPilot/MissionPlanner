@@ -321,7 +321,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting</value>
     <value>已从奠基网镜像下载完毕</value>
   </data>
   <data name="Getting" xml:space="preserve">
-    <value>正在获取 </value>
+    <value>正在从奠基网镜像获取 </value>
   </data>
   <data name="GettingUpdatedParams" xml:space="preserve">
     <value>正在获取更新的参数列表</value>
