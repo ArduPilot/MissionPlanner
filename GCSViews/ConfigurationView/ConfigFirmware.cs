@@ -248,10 +248,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 {
 
                     if (fwtoupload.url2560_2 != null && fwtoupload.url2560_2.ToLower().Contains("copter") && fwtoupload.name.ToLower().Contains("3.1"))
-                        CustomMessageBox.Show("Warning, as of AC 3.1 motors will spin when armed, configurable through the MOT_SPIN_ARMED parameter", "Warning");
+                        CustomMessageBox.Show(Strings.WarningAC31, Strings.Warning);
 
                     if (fwtoupload.url2560_2 != null && fwtoupload.url2560_2.ToLower().Contains("copter") && fwtoupload.name.ToLower().Contains("3.2"))
-                        CustomMessageBox.Show("Warning, if you are installing AC 3.2 for the first time you MUST redo a Compass calibration.", "Warning");
+                        CustomMessageBox.Show(Strings.WarningAC32, Strings.Warning);
                 }
                 else
                 {
@@ -458,6 +458,18 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
             }
             catch { CustomMessageBox.Show("Failed to connect and send the reboot command",Strings.ERROR); }
+        }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            try
+            {
+                System.Diagnostics.Process.Start(@"http://copter.ardupilot.com/wiki/motor-setup/");
+            }
+            catch 
+            {
+                CustomMessageBox.Show("http://copter.ardupilot.com/wiki/motor-setup/",Strings.ERROR); 
+            }
         }
     }
 }

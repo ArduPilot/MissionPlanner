@@ -178,7 +178,7 @@
     <value>无效的波特率</value>
   </data>
   <data name="InvalidField" xml:space="preserve">
-    <value>Invalid Field</value>
+    <value>无效的 Field</value>
   </data>
   <data name="InvalidFileName" xml:space="preserve">
     <value>无效的文件名</value>
@@ -188,7 +188,7 @@
 </value>
   </data>
   <data name="InvalidPanRange" xml:space="preserve">
-    <value>Invalid Pan Range</value>
+    <value>无效的 Pan 范围</value>
   </data>
   <data name="InvalidPortName" xml:space="preserve">
     <value>无效的串口名</value>
@@ -200,7 +200,7 @@
     <value>无效的刷新率</value>
   </data>
   <data name="NoFMTMessage" xml:space="preserve">
-    <value>No FMT message for </value>
+    <value>没有格式(FMT)信息 for</value>
   </data>
   <data name="PleaseConnect" xml:space="preserve">
     <value>请先连接</value>
@@ -215,8 +215,8 @@
     <value>请先选择一个串口</value>
   </data>
   <data name="WarningLogBrowseFMTMissing" xml:space="preserve">
-    <value>Log Browse will not function correctly without FMT messages in your log.
-These appear to be missing from your log.</value>
+    <value>日志浏览因你的日志中没有格式(FMT)信息而不能正确工作。
+这些似乎是从你的日志里丢失的。</value>
   </data>
   <data name="WarningUpdateParamList" xml:space="preserve">
     <value>更新参数
@@ -289,7 +289,7 @@ These appear to be missing from your log.</value>
     <value>正在连接Mavlink</value>
   </data>
   <data name="Done" xml:space="preserve">
-    <value>完成。</value>
+    <value>完成</value>
   </data>
   <data name="GettingParams" xml:space="preserve">
     <value>正在获取参数</value>
@@ -304,7 +304,7 @@ These appear to be missing from your log.</value>
     <value>Mavlink 正在连接...</value>
   </data>
   <data name="Only1Hb" xml:space="preserve">
-    <value>Only 1 Heatbeat Received</value>
+    <value>只接收到一次Heartbeat</value>
   </data>
   <data name="Only1HbD" xml:space="preserve">
     <value>Only 1 Mavlink Heartbeat Packets was read from this port - Verify your hardware is setup correctly
@@ -313,5 +313,102 @@ Mission Planner waits for 2 valid heartbeat packets before connecting</value>
   <data name="Trying" xml:space="preserve">
     <value>尝试连接。
 在{0}秒后超时</value>
+  </data>
+  <data name="Checking" xml:space="preserve">
+    <value>正在检查 </value>
+  </data>
+  <data name="DownloadedFromInternet" xml:space="preserve">
+    <value>已从奠基网镜像下载完毕</value>
+  </data>
+  <data name="Getting" xml:space="preserve">
+    <value>正在从奠基网镜像获取 </value>
+  </data>
+  <data name="GettingUpdatedParams" xml:space="preserve">
+    <value>正在获取更新的参数列表</value>
+  </data>
+  <data name="CantDetectBoardVersion" xml:space="preserve">
+    <value>不能检测到你控制板的版本。 请检查连接</value>
+  </data>
+  <data name="CheckPortSettingsOr" xml:space="preserve">
+    <value>检查端口设置或者正在使用端口？</value>
+  </data>
+  <data name="CommunicationErrorNoConnection" xml:space="preserve">
+    <value>通信错误 - 没有连接</value>
+  </data>
+  <data name="DetectedA" xml:space="preserve">
+    <value>检测到一个</value>
+  </data>
+  <data name="DetectingBoardVersion" xml:space="preserve">
+    <value>正在检测控制板的版本</value>
+  </data>
+  <data name="DownloadingFromInternet" xml:space="preserve">
+    <value>正在从奠基网镜像下载</value>
+  </data>
+  <data name="EppromChanged" xml:space="preserve">
+    <value>Epprom更改了, 你所有的设置将在更新中丢失,
+你希望继续吗？</value>
+  </data>
+  <data name="EppromFormatChanged" xml:space="preserve">
+    <value>Epprom格式已更改 ({0) vs {1})</value>
+  </data>
+  <data name="FailedDownload" xml:space="preserve">
+    <value>下载失败</value>
+  </data>
+  <data name="FailedReadHEX" xml:space="preserve">
+    <value>读取十六进制文件失败</value>
+  </data>
+  <data name="FailedToReadHex" xml:space="preserve">
+    <value>读取firmware.hex失败 :</value>
+  </data>
+  <data name="FailedUpload" xml:space="preserve">
+    <value>上传失败</value>
+  </data>
+  <data name="GettingFWList" xml:space="preserve">
+    <value>正在从奠基网镜像获取固件列表</value>
+  </data>
+  <data name="GettingFWVersion" xml:space="preserve">
+    <value>正在从奠基网镜像获取固件版本</value>
+  </data>
+  <data name="InvalidBoardType" xml:space="preserve">
+    <value>无效的控制板类型</value>
+  </data>
+  <data name="PleaseConnectAndBackupConfig" xml:space="preserve">
+    <value>请在配置选项卡连接并备份配置。</value>
+  </data>
+  <data name="ReadingHexFile" xml:space="preserve">
+    <value>正在读取十六进制文件</value>
+  </data>
+  <data name="ReceivedList" xml:space="preserve">
+    <value>从奠基网镜像获取列表完成</value>
+  </data>
+  <data name="UploadComplete" xml:space="preserve">
+    <value>上传完成</value>
+  </data>
+  <data name="UploadingBytesToBoard" xml:space="preserve">
+    <value>正在上传 {0}字节 到你的控制板</value>
+  </data>
+  <data name="VerifyComplete" xml:space="preserve">
+    <value>校验完成</value>
+  </data>
+  <data name="VerifyFirmware" xml:space="preserve">
+    <value>校验固件</value>
+  </data>
+  <data name="UploadSucceededButVerifyFailed" xml:space="preserve">
+    <value>上传成功，但是校验失败: 输出 {0} 获得 {1} 位于 </value>
+  </data>
+  <data name="ReadingHex" xml:space="preserve">
+    <value>正在读取十六进制文件</value>
+  </data>
+  <data name="Warning" xml:space="preserve">
+    <value>警告</value>
+  </data>
+  <data name="WarningAC32" xml:space="preserve">
+    <value>警告，如果你是第一次安装AC 3.2，你*必须*重做一次罗盘校准。</value>
+  </data>
+  <data name="WarningAC31" xml:space="preserve">
+    <value>警告，从AC 3.1起，电机将在解锁后转动，这可以通过MOT_SPIN_ARMED参数配置</value>
+  </data>
+  <data name="Warningrallypointdistance" xml:space="preserve">
+    <value>Warning rally points are located greater than RALLY_LIMIT_KM</value>
   </data>
 </root>

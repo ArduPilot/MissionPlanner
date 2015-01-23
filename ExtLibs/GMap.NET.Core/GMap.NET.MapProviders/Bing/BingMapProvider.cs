@@ -599,7 +599,7 @@ namespace GMap.NET.MapProviders
          }
       }
 
-      readonly string name = "BingMap";
+      readonly string name = Resources.Strings.BingMap;
       public override string Name
       {
          get

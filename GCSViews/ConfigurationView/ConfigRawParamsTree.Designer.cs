@@ -106,6 +106,8 @@
             // olvColumn2
             // 
             this.olvColumn2.AspectName = "Value";
+            this.olvColumn2.AutoCompleteEditor = false;
+            this.olvColumn2.AutoCompleteEditorMode = System.Windows.Forms.AutoCompleteMode.None;
             this.olvColumn2.CellPadding = null;
             resources.ApplyResources(this.olvColumn2, "olvColumn2");
             // 

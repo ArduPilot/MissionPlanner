@@ -129,6 +129,9 @@
   <data name="TXT_seriallog.Multiline" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
+  <data name="TXT_seriallog.ScrollBars" type="System.Windows.Forms.ScrollBars, System.Windows.Forms">
+    <value>Vertical</value>
+  </data>
   <data name="TXT_seriallog.Size" type="System.Drawing.Size, System.Drawing">
     <value>470, 352</value>
   </data>
@@ -145,7 +148,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;TXT_seriallog.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>9</value>
   </data>
   <data name="BUT_DLall.Location" type="System.Drawing.Point, System.Drawing">
     <value>13, 13</value>
@@ -169,7 +172,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BUT_DLall.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>8</value>
   </data>
   <data name="BUT_DLthese.Location" type="System.Drawing.Point, System.Drawing">
     <value>13, 43</value>
@@ -193,7 +196,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BUT_DLthese.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="BUT_clearlogs.Location" type="System.Drawing.Point, System.Drawing">
     <value>13, 187</value>
@@ -217,10 +220,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BUT_clearlogs.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="CHK_logs.Location" type="System.Drawing.Point, System.Drawing">
     <value>13, 72</value>
+  </data>
+  <data name="CHK_logs.ScrollAlwaysVisible" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
   <data name="CHK_logs.Size" type="System.Drawing.Size, System.Drawing">
     <value>116, 109</value>
@@ -238,7 +244,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CHK_logs.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="TXT_status.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -262,7 +268,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;TXT_status.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="BUT_redokml.Location" type="System.Drawing.Point, System.Drawing">
     <value>13, 311</value>
@@ -286,7 +292,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BUT_redokml.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="BUT_firstperson.Location" type="System.Drawing.Point, System.Drawing">
     <value>13, 282</value>
@@ -310,7 +316,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BUT_firstperson.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="BUT_bintolog.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -337,6 +343,33 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BUT_bintolog.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="chk_droneshare.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="chk_droneshare.Location" type="System.Drawing.Point, System.Drawing">
+    <value>5, 243</value>
+  </data>
+  <data name="chk_droneshare.Size" type="System.Drawing.Size, System.Drawing">
+    <value>132, 17</value>
+  </data>
+  <data name="chk_droneshare.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="chk_droneshare.Text" xml:space="preserve">
+    <value>Upload to DroneShare</value>
+  </data>
+  <data name="&gt;&gt;chk_droneshare.Name" xml:space="preserve">
+    <value>chk_droneshare</value>
+  </data>
+  <data name="&gt;&gt;chk_droneshare.Type" xml:space="preserve">
+    <value>System.Windows.Forms.CheckBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;chk_droneshare.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;chk_droneshare.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">

@@ -62,13 +62,16 @@ namespace MissionPlanner.Utilities
             param.Add(new KeyValuePair<string, string>("t", "event"));
             param.Add(new KeyValuePair<string, string>("an", Application.ProductName));
             param.Add(new KeyValuePair<string, string>("av", Application.ProductVersion));
-            param.Add(new KeyValuePair<string, string>("ec", cat));
-            param.Add(new KeyValuePair<string, string>("ea", action));
-            param.Add(new KeyValuePair<string, string>("el", label));
-            param.Add(new KeyValuePair<string, string>("ev", value));
 
             param.Add(new KeyValuePair<string, string>("cd", currentscreen));
             param.Add(new KeyValuePair<string, string>("dp", currentscreen));
+
+            param.Add(new KeyValuePair<string, string>("ec", cat));
+            param.Add(new KeyValuePair<string, string>("ea", action));
+            param.Add(new KeyValuePair<string, string>("el", label));
+            if (value != "")
+                param.Add(new KeyValuePair<string, string>("ev", value));
+
 
             if (sessionstart == false)
             {

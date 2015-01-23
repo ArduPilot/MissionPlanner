@@ -104,8 +104,6 @@ namespace wix
                         </CreateFolder>");
             sw.WriteLine(@"</Component>");
 
-            //sw.WriteLine("<File Id=\"_" + no + "\" Source=\"" + file + "\" />");
-
             dodirectory(path, 0);
 
 
@@ -113,22 +111,12 @@ namespace wix
 
             sw.Close();
 
-            /*
-            System.Diagnostics.Process P = new System.Diagnostics.Process();
-            P.StartInfo.FileName = "cmd.exe";
-                
-            P.StartInfo.Arguments =  " /c \"" + Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + "installer.bat\"";
-            P.StartInfo.WorkingDirectory = Path.GetDirectoryName(Application.ExecutablePath);
-            P.Start();
-            */
-            //Console.ReadLine();
-
             string exepath = Path.GetFullPath(path) + Path.DirectorySeparatorChar + "MissionPlanner.exe";
             string version = Assembly.LoadFile(exepath).GetName().Version.ToString();
 
             System.Diagnostics.FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(exepath);
 
-            string fn = outputfilename+"-" + fvi.FileVersion;
+            string fn = outputfilename + "-" + fvi.FileVersion;
 
             StreamWriter st = new StreamWriter("create.bat", false);
 
@@ -138,13 +126,11 @@ namespace wix
 
             st.WriteLine(@"""%wix%\bin\light"" installer.wixobj ""%wix%\bin\difxapp_x86.wixlib"" -o " + fn + ".msi -ext WiXNetFxExtension -ext WixDifxAppExtension -ext WixUIExtension.dll -ext WixUtilExtension -ext WixIisExtension");
 
+            st.WriteLine("pause");
+
             st.WriteLine(@"""C:\Program Files\7-Zip\7z.exe"" a -tzip -xr!*.log -xr!*.log* -xr!cameras.xml -xr!firmware.hex -xr!*.zip -xr!stats.xml -xr!*.bin -xr!*.xyz -xr!*.sqlite -xr!*.dxf -xr!*.zip -xr!*.h -xr!*.param -xr!ParameterMetaData.xml -xr!translation -xr!mavelous_web -xr!stats.xml -xr!driver -xr!*.etag -xr!srtm -xr!*.rlog -xr!*.zip -xr!*.tlog -xr!config.xml -xr!gmapcache -xr!eeprom.bin -xr!dataflash.bin -xr!*.new -xr!*.log -xr!ArdupilotPlanner.log* -xr!cameras.xml -xr!firmware.hex -xr!*.zip -xr!stats.xml -xr!ParameterMetaData.xml -xr!*.etag -xr!*.rlog -xr!*.tlog -xr!config.xml -xr!gmapcache -xr!eeprom.bin -xr!dataflash.bin -xr!*.new " + fn + @".zip " + path + "*");
 
             st.WriteLine("pause");
-
-            //st.WriteLine("googlecode_upload.py -s \"Mission Planner zip file, " + fvi.FileVersion + "\" -p ardupilot-mega \"" + fn + @".zip""");
-
-            //st.WriteLine("googlecode_upload.py -s \"Mission Planner installer\" -p ardupilot-mega " + fn + ".msi");
 
             st.WriteLine(@"c:\cygwin\bin\ln.exe -f -s " + fn + ".zip " + outputfilename + "-latest.zip");
             st.WriteLine(@"c:\cygwin\bin\ln.exe -f -s " + fn + ".msi " + outputfilename + "-latest.msi");
@@ -167,7 +153,7 @@ namespace wix
             System.Diagnostics.Process P = new System.Diagnostics.Process();
             P.StartInfo.FileName = run;
 
-//            P.StartInfo.WorkingDirectory = Path.GetDirectoryName(Application.ExecutablePath);
+            //            P.StartInfo.WorkingDirectory = Path.GetDirectoryName(Application.ExecutablePath);
             P.StartInfo.UseShellExecute = true;
             P.Start();
         }
@@ -182,11 +168,12 @@ namespace wix
 
             string version = "0";
 
-            while (!sr.EndOfStream) {
+            while (!sr.EndOfStream)
+            {
                 string line = sr.ReadLine();
                 if (line.Contains("AssemblyFileVersion"))
                 {
-                    string[] items = line.Split(new char[] { '"' },StringSplitOptions.RemoveEmptyEntries);
+                    string[] items = line.Split(new char[] { '"' }, StringSplitOptions.RemoveEmptyEntries);
                     version = items[1];
                     break;
                 }
@@ -254,6 +241,36 @@ namespace wix
 	Installed AND VersionNT64</Custom>
   </InstallExecuteSequence>
 
+<InstallExecuteSequence>
+  <Custom Action='comReg' After='CreateShortcuts'>NOT REMOVE</Custom>
+  <Custom Action='comUnreg' Before='RemoveFiles'>Installed</Custom> 
+  <Custom Action='comReg64' After='CreateShortcuts'>NOT REMOVE AND VersionNT64</Custom>
+  <Custom Action='comUnreg64' Before='RemoveFiles'>Installed AND VersionNT64</Custom> 
+</InstallExecuteSequence>
+ 
+<CustomAction
+  Id='comReg' Impersonate='no' Execute='deferred' 
+  Directory='MissionPlanner'
+  ExeCommand='[SystemFolder]cmd.exe /c """"[WindowsFolder]Microsoft.NET\Framework\v4.0.30319\regasm.exe"" ""[MissionPlanner]tlogThumbnailHandler.dll"" /codebase""'
+  Return='ignore' />
+ 
+<CustomAction
+  Id='comUnreg' Impersonate='no' Execute='deferred' 
+  Directory='MissionPlanner'
+  ExeCommand='[SystemFolder]cmd.exe /c """"[WindowsFolder]Microsoft.NET\Framework\v4.0.30319\regasm.exe"" /u ""[MissionPlanner]tlogThumbnailHandler.dll""""'
+  Return='ignore' />        
+
+<CustomAction
+  Id='comReg64' Impersonate='no' Execute='deferred' 
+  Directory='MissionPlanner'
+  ExeCommand='[SystemFolder]cmd.exe /c """"[WindowsFolder]Microsoft.NET\Framework64\v4.0.30319\regasm.exe"" ""[MissionPlanner]tlogThumbnailHandler.dll"" /codebase""'
+  Return='ignore' />
+ 
+<CustomAction
+  Id='comUnreg64' Impersonate='no' Execute='deferred' 
+  Directory='MissionPlanner'
+  ExeCommand='[SystemFolder]cmd.exe /c """"[WindowsFolder]Microsoft.NET\Framework64\v4.0.30319\regasm.exe"" /u ""[MissionPlanner]tlogThumbnailHandler.dll""""'
+  Return='ignore' />           
 
         <DirectoryRef Id=""ApplicationProgramsFolder"">
             <Component Id=""ApplicationShortcut"" Guid=""*"">
@@ -275,10 +292,10 @@ namespace wix
 
             foreach (string comp in components)
             {
-                sw.WriteLine(@"<ComponentRef Id="""+comp+@""" />");
+                sw.WriteLine(@"<ComponentRef Id=""" + comp + @""" />");
             }
 
-data = @"
+            data = @"
             
             <ComponentRef Id=""ApplicationShortcut"" />
         </Feature>
@@ -334,8 +351,9 @@ data = @"
 
             no++;
 
-            sw.WriteLine("<Component Id=\""+fixname(Path.GetFileName(path)) +"_"+no+"\" Guid=\""+ System.Guid.NewGuid().ToString() +"\">");
-            components.Add(fixname(Path.GetFileName(path)) + "_" + no);
+            string compname = fixname(Path.GetFileName(path));
+            sw.WriteLine("<Component Id=\"" + compname + "\" Guid=\"" + System.Guid.NewGuid().ToString() + "\">");
+            components.Add(compname);
 
             foreach (string filepath in files)
             {
@@ -346,21 +364,26 @@ data = @"
                     continue;
 
                 no++;
-                
 
-                if (filepath.EndsWith("MissionPlanner.exe")) {
+
+                if (filepath.EndsWith("MissionPlanner.exe"))
+                {
                     mainexeid = "_" + no;
 
-                    sw.WriteLine("<File Id=\"_" + no + "\" Source=\"" + filepath + "\" ><netfx:NativeImage Id=\"ngen_MissionPlannerexe\"/> </File>");
+                    sw.WriteLine("<File Id=\"" + mainexeid + "\" Source=\"" + filepath + "\" ><netfx:NativeImage Id=\"ngen_MissionPlannerexe\"/> </File>");
 
                     sw.WriteLine(@"<ProgId Id='MissionPlanner.tlog' Description='Telemetry Log'>
   <Extension Id='tlog' ContentType='application/tlog'>
-     <Verb Id='open' Command='Open' TargetFile='"+mainexeid+@"' Argument='""%1""' />
+     <Verb Id='open' Command='Open' TargetFile='" + mainexeid + @"' Argument='""%1""' />
   </Extension>
-</ProgId>");
+</ProgId>
+ <RegistryValue Root=""HKCR"" Key=""MissionPlanner.tlog\shellex\{BB2E617C-0920-11D1-9A0B-00C04FC2D6C1}"" Value=""{f3b857f1-0b79-4e77-9d0b-8b8b7e874f56}"" Type=""string"" Action=""write"" />
+");
 
-                } else {
-                    sw.WriteLine("<File Id=\"_" + fixname(Path.GetFileName(filepath))+ "_" + no + "\" Source=\"" + filepath + "\" />");
+                }
+                else
+                {
+                    sw.WriteLine("<File Id=\"" + fixname(Path.GetFileName(filepath)) + "\" Source=\"" + filepath + "\" />");
                 }
             }
 
@@ -385,12 +408,37 @@ data = @"
                 sw.WriteLine("</Directory>");
         }
 
+        static bool IsNumeric(string s)
+        {
+            float output;
+            return float.TryParse(s, out output);
+        }
+
+        static Hashtable usedfns = new Hashtable();
+
         static string fixname(string name)
         {
+            if (name == "")
+                return name + "_1";
+
             name = name.Replace("-", "_");
             name = name.Replace(" ", "_");
             name = name.Replace(" ", "_");
             name = name.Replace(".", "_");
+
+            if (IsNumeric(name[0].ToString()))
+                name = "_" + name;
+
+            string nameorig = name;
+
+            int a = 1;
+            while (usedfns.ContainsKey(name.ToLower()))
+            {
+                name = nameorig + "_" + a;
+                a++;
+            }
+
+            usedfns[name.ToLower()] = 1;
 
             return name;
         }

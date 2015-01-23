@@ -421,7 +421,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            TXT_voltage.Text = MainV2.comPort.MAV.cs.battery_voltage.ToString();
+            TXT_voltage.Text = MainV2.comPort.MAV.cs._battery_voltage.ToString();
             txt_current.Text = MainV2.comPort.MAV.cs.current.ToString();
         }
 

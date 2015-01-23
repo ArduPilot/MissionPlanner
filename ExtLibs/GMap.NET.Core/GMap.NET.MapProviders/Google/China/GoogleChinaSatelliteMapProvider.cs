@@ -33,7 +33,7 @@ namespace GMap.NET.MapProviders
          }
       }
 
-      readonly string name = "GoogleChinaSatelliteMap";
+      readonly string name = Resources.Strings.GoogleChinaSatelliteMap;
       public override string Name
       {
          get

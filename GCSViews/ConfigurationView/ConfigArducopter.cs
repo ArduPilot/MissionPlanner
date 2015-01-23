@@ -198,8 +198,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                                 thisctl.Minimum = 0;
                             } else if (thisctl.Name.EndsWith("_IMAX"))
                             {
-                                thisctl.Maximum = 1800;
-                                thisctl.Minimum = -1800;
+                                thisctl.Maximum = 4000;
+                                thisctl.Minimum = -4000;
                             }
 
                             thisctl.Enabled = true;
@@ -331,19 +331,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 if (name.Contains("LOITER_LAT_"))
                 {
                     string newname = name.Replace("LOITER_LAT_", "LOITER_LON_");
-                    Control[] arr = this.Controls.Find(newname, true);
-                    changes[newname] = value;
-
-                    if (arr.Length > 0)
-                    {
-                        arr[0].Text = ((Control)sender).Text;
-                        arr[0].BackColor = Color.Green;
-                    }
-                }
-                // keep nav_lat and nav_lon paired
-                if (name.Contains("HLD_LAT_"))
-                {
-                    string newname = name.Replace("HLD_LAT_", "HLD_LON_");
                     Control[] arr = this.Controls.Find(newname, true);
                     changes[newname] = value;
 

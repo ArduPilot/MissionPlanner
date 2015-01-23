@@ -80,6 +80,33 @@ namespace MissionPlanner.Log
             new displaylist() { Name = "Power Issues", items = new displayitem[] { new displayitem(){ type= "CURR", field ="Vcc"}}},
             new displaylist() { Name = "Errors", items = new displayitem[] { new displayitem(){ type= "ERR", field ="ECode"}}},
             new displaylist() { Name = "Battery Issues", items = new displayitem[] { new displayitem(){ type= "CTUN", field ="ThrIn"},new displayitem(){ type= "CURR", field ="ThrOut"},new displayitem(){ type= "CURR", field ="Volt", left = false}}},
+
+            new displaylist() { Name = "imu consistency xyz", items = new displayitem[] { 
+                new displayitem(){ type= "IMU", field ="AccX"},
+                new displayitem(){ type= "IMU2", field ="AccX"},
+                new displayitem(){ type= "IMU", field ="AccY"},
+                new displayitem(){ type= "IMU2", field ="AccY"},
+                   new displayitem(){ type= "IMU", field ="AccZ",left = false},
+                new displayitem(){ type= "IMU2", field ="AccZ",left = false},}
+            },
+
+                  new displaylist() { Name = "max consistency xyz", items = new displayitem[] { 
+                new displayitem(){ type= "MAG", field ="MagX"},
+                new displayitem(){ type= "MAG2", field ="MagX"},
+                new displayitem(){ type= "MAG", field ="MagY",left = false},
+                new displayitem(){ type= "MAG2", field ="MagY",left = false},
+                    new displayitem(){ type= "MAG", field ="MagZ"},
+                new displayitem(){ type= "MAG2", field ="MagZ"},}
+            },
+
+                              new displaylist() { Name = "dcm ekf crosscheck", items = new displayitem[] { 
+                new displayitem(){ type= "ATT", field ="roll"},
+                new displayitem(){ type= "AHRS2", field ="roll"},
+                new displayitem(){ type= "ATT", field ="yaw",left = false},
+                new displayitem(){ type= "AHRS2", field ="yaw",left = false},
+                    new displayitem(){ type= "ATT", field ="pitch"},
+                new displayitem(){ type= "AHRS2", field ="pitch"},}
+            },
         };
 
         /*  
@@ -1277,6 +1304,8 @@ namespace MissionPlanner.Log
             if (CHK_map.Checked)
             {
                 log.Info("Get map");
+
+                myGMAP1.MapProvider = GCSViews.FlightData.mymap.MapProvider;
 
                // DrawMap();
 

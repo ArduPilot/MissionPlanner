@@ -110,6 +110,9 @@ namespace MissionPlanner.Controls
                 {
                     trav += disttrav;
 
+                    if (trav > totaldist)
+                        trav = totaldist;
+
                     e.Graphics.DrawImage(icon, (bar.X + bar.Width * (trav / totaldist)) - iconwidth/2, 1, iconwidth, (this.Height / 5) * 2.5f);
                 }
             }

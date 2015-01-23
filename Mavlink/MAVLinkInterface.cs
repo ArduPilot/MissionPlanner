@@ -32,13 +32,17 @@ namespace MissionPlanner
 
         public event EventHandler MavChanged;
 
+        public event EventHandler CommsClose;
+
+        const int gcssysid = 255;
+
         /// <summary>
         /// used to prevent comport access for exclusive use
         /// </summary>
         public bool giveComport { get { return _giveComport; } set { _giveComport = value; } }
         volatile bool _giveComport = false;
 
-        public Dictionary<string, MAV_PARAM_TYPE> param_types = new Dictionary<string, MAV_PARAM_TYPE>();
+        
 
         internal string plaintxtline = "";
         string buildplaintxtline = "";
@@ -182,6 +186,12 @@ namespace MissionPlanner
                 MAVlist[a] = new MAVState();
         }
 
+        public MAVLinkInterface(Stream st): this()
+        {
+            logplaybackfile = new BinaryReader(st);
+            logreadmode = true;
+        }
+
         public void Close()
         {
             try
@@ -207,6 +217,13 @@ namespace MissionPlanner
             {
                 if (BaseStream.IsOpen)
                     BaseStream.Close();
+            }
+            catch { }
+
+            try
+            {
+                if (CommsClose != null)
+                    CommsClose(this, null);
             }
             catch { }
         }
@@ -465,6 +482,8 @@ Please check the following
 
                         if (hb.type != (byte)MAVLink.MAV_TYPE.GCS)
                         {
+                            SetupMavConnect(buffer[3], buffer[4], buffer[2], hb);
+
                             giveComport = false;
                             return buffer;
                         }
@@ -545,7 +564,7 @@ Please check the following
 
                 packetcount++;
 
-                packet[3] = 255; // this is always 255 - MYGCS
+                packet[3] = gcssysid; // this is always 255 - MYGCS
                 packet[4] = (byte)MAV_COMPONENT.MAV_COMP_ID_MISSIONPLANNER;
                 packet[5] = messageType;
 
@@ -655,7 +674,7 @@ Please check the following
             giveComport = true;
 
             // param type is set here, however it is always sent over the air as a float 100int = 100f.
-            var req = new mavlink_param_set_t { target_system = MAV.sysid, target_component = MAV.compid, param_type = (byte)param_types[paramname] };
+            var req = new mavlink_param_set_t { target_system = MAV.sysid, target_component = MAV.compid, param_type = (byte)MAV.param_types[paramname] };
 
             byte[] temp = Encoding.ASCII.GetBytes(paramname);
 
@@ -906,7 +925,7 @@ Please check the following
                         param_count++;
                         indexsreceived.Add(par.param_index);
 
-                        param_types[paramID] = (MAV_PARAM_TYPE)par.param_type;
+                        MAV.param_types[paramID] = (MAV_PARAM_TYPE)par.param_type;
 
                         //Console.WriteLine(DateTime.Now.Millisecond + " gp3 ");
 
@@ -918,7 +937,7 @@ Please check the following
                     }
                     if (buffer[5] == (byte)MAVLINK_MSG_ID.STATUSTEXT) 
                     {
-                        var msg = MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.STATUSTEXT].ByteArrayToStructure<MAVLink.mavlink_statustext_t>(6);
+                        var msg = buffer.ByteArrayToStructure<MAVLink.mavlink_statustext_t>(6);
 
                         string logdata = Encoding.ASCII.GetString(msg.text);
 
@@ -1048,7 +1067,7 @@ Please check the following
                         // update table
                         MAV.param[st] = par.param_value;
 
-                        param_types[st] = (MAV_PARAM_TYPE)par.param_type;
+                        MAV.param_types[st] = (MAV_PARAM_TYPE)par.param_type;
 
                         log.Info(DateTime.Now.Millisecond + " got param " + (par.param_index) + " of " + (par.param_count) + " name: " + st);
 
@@ -2260,7 +2279,7 @@ Please check the following
                     catch (Exception e) { log.Info("MAVLink readpacket read error: " + e.ToString()); break; }
 
                     // check if looks like a mavlink packet and check for exclusions and write to console
-                    if (buffer[0] != 254)
+                    if (buffer[0] != 254 && buffer[0] != 'U')
                     {
                         if (buffer[0] >= 0x20 && buffer[0] <= 127 || buffer[0] == '\n' || buffer[0] == '\r')
                         {
@@ -2292,7 +2311,7 @@ Please check the following
                     //Console.WriteLine(DateTime.Now.Millisecond + " SR2 " + BaseStream.BytesToRead);
 
                     // check for a header
-                    if (buffer[0] == 254)
+                    if (buffer[0] == 254 || buffer[0] == 'U')
                     {
                         // if we have the header, and no other chars, get the length and packet identifiers
                         if (count == 0 && !logreadmode)
@@ -2426,7 +2445,9 @@ Please check the following
                     if (buffer.Length == 11 && buffer[0] == 'U' && buffer[5] == 0) // check for 0.9 hb packet
                     {
                         string message = "Mavlink 0.9 Heartbeat, Please upgrade your AP, This planner is for Mavlink 1.0\n\n";
-                        CustomMessageBox.Show(message);
+                        Console.WriteLine(message);
+                        if (logreadmode)
+                            logplaybackfile.BaseStream.Seek(0, SeekOrigin.End);
                         throw new Exception(message);
                     }
                     return new byte[0];
@@ -2717,21 +2738,29 @@ Please check the following
             if (buffer[5] == (byte)MAVLINK_MSG_ID.MISSION_COUNT)
             {
                 // clear old
-                MAVlist[sysid].wps.Clear();
+                mavlink_mission_count_t wp = buffer.ByteArrayToStructure<mavlink_mission_count_t>(6);
+
+                if (wp.target_system == gcssysid)
+                    wp.target_system = buffer[3];
+
+                MAVlist[wp.target_system].wps.Clear();
             }
 
             if (buffer[5] == (byte)MAVLink.MAVLINK_MSG_ID.MISSION_ITEM)
             {
                 mavlink_mission_item_t wp = buffer.ByteArrayToStructure<mavlink_mission_item_t>(6);
 
+                if (wp.target_system == gcssysid)
+                    wp.target_system = buffer[3];
+
                 if (wp.current == 2)
                 {
                     // guide mode wp
-                    MAVlist[sysid].GuidedMode = wp;
+                    MAVlist[wp.target_system].GuidedMode = wp;
                 }
                 else
                 {
-                    MAVlist[sysid].wps[wp.seq] = wp;
+                    MAVlist[wp.target_system].wps[wp.seq] = wp;
                 }
 
                 Console.WriteLine("WP # {7} cmd {8} p1 {0} p2 {1} p3 {2} p4 {3} x {4} y {5} z {6}", wp.param1, wp.param2, wp.param3, wp.param4, wp.x, wp.y, wp.z, wp.seq, wp.command);
@@ -2741,7 +2770,10 @@ Please check the following
             {
                 mavlink_rally_point_t rallypt = buffer.ByteArrayToStructure<mavlink_rally_point_t>(6);
 
-                MAVlist[sysid].rallypoints[rallypt.idx] = rallypt;
+                if (rallypt.target_system == gcssysid)
+                    rallypt.target_system = buffer[3];
+
+                MAVlist[rallypt.target_system].rallypoints[rallypt.idx] = rallypt;
 
                 Console.WriteLine("RP # {0} {1} {2} {3} {4}", rallypt.idx, rallypt.lat,rallypt.lng,rallypt.alt, rallypt.break_alt);
             }
@@ -2750,7 +2782,10 @@ Please check the following
             {
                 mavlink_fence_point_t fencept = buffer.ByteArrayToStructure<mavlink_fence_point_t>(6);
 
-                MAVlist[sysid].fencepoints[fencept.idx] = fencept;
+                if (fencept.target_system == gcssysid)
+                    fencept.target_system = buffer[3];
+
+                MAVlist[fencept.target_system].fencepoints[fencept.idx] = fencept;
             }
         }
 

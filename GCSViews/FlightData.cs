@@ -1000,8 +1000,10 @@ namespace MissionPlanner.GCSViews
                             updateClearMissionRouteMarkers();
 
                             float dist = 0;
+                            float travdist = 0;
                             distanceBar1.ClearWPDist();
                             MAVLink.mavlink_mission_item_t lastplla = new MAVLink.mavlink_mission_item_t();
+                            MAVLink.mavlink_mission_item_t home = new MAVLink.mavlink_mission_item_t(); 
 
                             foreach (MAVLink.mavlink_mission_item_t plla in MainV2.comPort.MAV.wps.Values)
                             {
@@ -1018,6 +1020,7 @@ namespace MissionPlanner.GCSViews
                                 if (plla.seq == 0 && plla.current != 2)
                                 {
                                     tag = "Home";
+                                    home = plla;
                                 }
                                 if (plla.current == 2)
                                 {
@@ -1027,12 +1030,35 @@ namespace MissionPlanner.GCSViews
                                 if (lastplla.command == 0)
                                     lastplla = plla;
 
-                                distanceBar1.AddWPDist((float)new PointLatLngAlt(plla.y, plla.x).GetDistance(new PointLatLngAlt(lastplla.y,lastplla.x)));
+                                try
+                                {
+                                    dist = (float)new PointLatLngAlt(plla.x, plla.y).GetDistance(new PointLatLngAlt(lastplla.x, lastplla.y));
+
+                                    distanceBar1.AddWPDist(dist);
+
+                                    if (plla.seq <= MainV2.comPort.MAV.cs.wpno)
+                                    {
+                                        travdist += dist;
+                                    }
+
+                                    lastplla = plla;
+                                }
+                                catch { }
 
                                 addpolygonmarker(tag, plla.y, plla.x, (int)plla.z, Color.White, polygons);
-
-                                lastplla = plla;
                             }
+
+                            try
+                            {
+                                //dist = (float)new PointLatLngAlt(home.x, home.y).GetDistance(new PointLatLngAlt(lastplla.x, lastplla.y));
+                               // distanceBar1.AddWPDist(dist);
+                            }
+                            catch { }
+
+                            travdist -= MainV2.comPort.MAV.cs.wp_dist;
+
+                            if (MainV2.comPort.MAV.cs.mode.ToUpper() == "AUTO")
+                                distanceBar1.traveleddist = travdist;
 
                             RegeneratePolygon();
 
@@ -1236,6 +1262,7 @@ namespace MissionPlanner.GCSViews
             // not async
             this.Invoke((System.Windows.Forms.MethodInvoker)delegate()
             {
+                polygons.Routes.Clear();
                 polygons.Markers.Clear();
                 routes.Markers.Clear();
             });
@@ -1826,7 +1853,7 @@ namespace MissionPlanner.GCSViews
                 {
                     BUT_clear_track_Click(null, null);
 
-                    MainV2.comPort.logreadmode = false;
+                    MainV2.comPort.logreadmode = true;
                     MainV2.comPort.logplaybackfile = new BinaryReader(File.OpenRead(file));
                     MainV2.comPort.lastlogread = DateTime.MinValue;
 
@@ -2221,6 +2248,8 @@ namespace MissionPlanner.GCSViews
                 selectform.Controls.Add(chk_box);
             }
 
+            ThemeManager.ApplyThemeTo(selectform);
+
             y += 20;
 
             object thisBoxed = MainV2.comPort.MAV.cs;
@@ -2249,26 +2278,58 @@ namespace MissionPlanner.GCSViews
 
                 CheckBox chk_box = new CheckBox();
 
+                ThemeManager.ApplyThemeTo(chk_box);
+
                 if (list1item != null && list1item.Name == field.Name)
+                {
                     chk_box.Checked = true;
+                    chk_box.BackColor = Color.Green;
+                }
                 if (list2item != null && list2item.Name == field.Name)
-                    chk_box.Checked = true;
+                {
+                    chk_box.Checked = true; 
+                    chk_box.BackColor = Color.Green;
+                }
                 if (list3item != null && list3item.Name == field.Name)
+                {
                     chk_box.Checked = true;
+                    chk_box.BackColor = Color.Green;
+                }
                 if (list4item != null && list4item.Name == field.Name)
+                {
                     chk_box.Checked = true;
+                    chk_box.BackColor = Color.Green;
+                }
                 if (list5item != null && list5item.Name == field.Name)
+                {
                     chk_box.Checked = true;
+                    chk_box.BackColor = Color.Green;
+                }
                 if (list6item != null && list6item.Name == field.Name)
+                {
                     chk_box.Checked = true;
+                    chk_box.BackColor = Color.Green;
+                }
                 if (list7item != null && list7item.Name == field.Name)
+                {
                     chk_box.Checked = true;
+                    chk_box.BackColor = Color.Green;
+                }
                 if (list8item != null && list8item.Name == field.Name)
+                {
                     chk_box.Checked = true;
+                    chk_box.BackColor = Color.Green;
+                }
                 if (list9item != null && list9item.Name == field.Name)
+                {
                     chk_box.Checked = true;
+                    chk_box.BackColor = Color.Green;
+                }
                 if (list10item != null && list10item.Name == field.Name)
+                {
                     chk_box.Checked = true;
+                    chk_box.BackColor = Color.Green;
+                }
 
                 chk_box.Text = field.Name;
                 chk_box.Name = field.Name;
@@ -2291,7 +2352,7 @@ namespace MissionPlanner.GCSViews
                     selectform.Width = x + 100;
                 }
             }
-            ThemeManager.ApplyThemeTo(selectform);
+            
             selectform.Show();
         }
 
@@ -2305,6 +2366,8 @@ namespace MissionPlanner.GCSViews
                 Height = 410,
                 Text = "Display This"
             };
+
+            ThemeManager.ApplyThemeTo(selectform);
 
             int x = 10;
             int y = 10;
@@ -2335,6 +2398,8 @@ namespace MissionPlanner.GCSViews
 
                 CheckBox chk_box = new CheckBox();
 
+                ThemeManager.ApplyThemeTo(chk_box);
+
                 chk_box.Text = field.Name;
                 chk_box.Name = field.Name;
                 chk_box.Tag = (sender);
@@ -2343,6 +2408,7 @@ namespace MissionPlanner.GCSViews
                 if (hud1.CustomItems.ContainsKey(field.Name))
                 {
                     chk_box.Checked = true;
+                    chk_box.BackColor = Color.Green;
                 }
 
                 chk_box.CheckedChanged += chk_box_hud_UserItem_CheckedChanged;
@@ -2362,7 +2428,7 @@ namespace MissionPlanner.GCSViews
                     selectform.Width = x + 100;
                 }
             }
-            ThemeManager.ApplyThemeTo(selectform);
+           
             selectform.Show();
         }
 
@@ -2379,6 +2445,8 @@ namespace MissionPlanner.GCSViews
         {
             if (((CheckBox)sender).Checked)
             {
+                ((CheckBox)sender).BackColor = Color.Green;
+
                 HUD.Custom cust = new HUD.Custom();
                 HUD.Custom.src = MainV2.comPort.MAV.cs;
 
@@ -2397,6 +2465,8 @@ namespace MissionPlanner.GCSViews
             }
             else
             {
+                ((CheckBox)sender).BackColor = Color.Transparent;
+
                 if (hud1.CustomItems.ContainsKey(((CheckBox)sender).Name))
                 {
                     hud1.CustomItems.Remove(((CheckBox)sender).Name);
@@ -2422,6 +2492,8 @@ namespace MissionPlanner.GCSViews
         {
             if (((CheckBox)sender).Checked)
             {
+                ((CheckBox)sender).BackColor = Color.Green;
+
                 if (list1item == null)
                 {
                     if (setupPropertyInfo(ref list1item, ((CheckBox)sender).Name, MainV2.comPort.MAV.cs))
@@ -2522,6 +2594,8 @@ namespace MissionPlanner.GCSViews
             }
             else
             {
+                ((CheckBox)sender).BackColor = Color.Transparent;
+
                 // reset old stuff
                 if (list1item != null && list1item.Name == ((CheckBox)sender).Name)
                 {

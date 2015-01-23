@@ -66,7 +66,7 @@ namespace MissionPlanner.Log
             return lines;
         }
 
-        static string ReadMessage(Stream br)
+        public static string ReadMessage(Stream br)
         {
             int log_step = 0;
 

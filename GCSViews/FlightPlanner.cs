@@ -217,12 +217,12 @@ namespace MissionPlanner.GCSViews
                         if ((altmode)CMB_altmode.SelectedValue == altmode.Absolute)
                         {
                             //abs
-                            cell.Value = (srtm.getAltitude(lat, lng) * CurrentState.multiplierdist + int.Parse(TXT_DefaultAlt.Text)).ToString();
+                            cell.Value = ((srtm.getAltitude(lat, lng).alt) * CurrentState.multiplierdist + int.Parse(TXT_DefaultAlt.Text)).ToString();
                         }
                         else
                         {
                             //relative and verify
-                            cell.Value = ((int)srtm.getAltitude(lat, lng) * CurrentState.multiplierdist + int.Parse(TXT_DefaultAlt.Text) - (int)srtm.getAltitude(MainV2.comPort.MAV.cs.HomeLocation.Lat, MainV2.comPort.MAV.cs.HomeLocation.Lng) * CurrentState.multiplierdist).ToString();
+                            cell.Value = ((int)(srtm.getAltitude(lat, lng).alt) * CurrentState.multiplierdist + int.Parse(TXT_DefaultAlt.Text) - (int)srtm.getAltitude(MainV2.comPort.MAV.cs.HomeLocation.Lat, MainV2.comPort.MAV.cs.HomeLocation.Lng).alt * CurrentState.multiplierdist).ToString();
 
                         }
                     }
@@ -265,7 +265,7 @@ namespace MissionPlanner.GCSViews
 
             coords1.Lat = mouseposdisplay.Lat;
             coords1.Lng = mouseposdisplay.Lng;
-            coords1.Alt = srtm.getAltitude(mouseposdisplay.Lat, mouseposdisplay.Lng, MainMap.Zoom);
+            coords1.Alt = srtm.getAltitude(mouseposdisplay.Lat, mouseposdisplay.Lng, MainMap.Zoom).alt;
 
             try
             {
@@ -450,18 +450,6 @@ namespace MissionPlanner.GCSViews
 
             //set default
             CMB_altmode.SelectedItem = altmode.Relative;
-
-            //set home
-            try
-            {
-                if (TXT_homelat.Text != "")
-                {
-                    MainMap.Position = new PointLatLng(double.Parse(TXT_homelat.Text), double.Parse(TXT_homelng.Text));
-                    MainMap.Zoom = 13;
-                }
-
-            }
-            catch (Exception) { }
 
             RegeneratePolygon();
 
@@ -655,6 +643,18 @@ namespace MissionPlanner.GCSViews
             panelMap.Dock = DockStyle.None;
             panelMap.Dock = DockStyle.Fill;
             panelMap_Resize(null, null);
+
+            //set home
+            try
+            {
+                if (TXT_homelat.Text != "")
+                {
+                    MainMap.Position = new PointLatLng(double.Parse(TXT_homelat.Text), double.Parse(TXT_homelng.Text));
+                    MainMap.Zoom = 16;
+                }
+
+            }
+            catch (Exception) { }
 
             writeKML();
 
@@ -1168,7 +1168,7 @@ namespace MissionPlanner.GCSViews
                         MainMap.Position = rect.Value.LocationMiddle;
                     }
 
-                    MainMap.Zoom = 17;
+                    //MainMap.Zoom = 17;
 
                     MainMap_OnMapZoomChanged();
                 }
@@ -1468,8 +1468,10 @@ namespace MissionPlanner.GCSViews
                         sw.WriteLine("");
                     }
                     sw.Close();
+
+                    lbl_wpfile.Text = "Saved "+Path.GetFileName(file);
                 }
-                catch (Exception) { CustomMessageBox.Show("Error writing file"); }
+                catch (Exception) { CustomMessageBox.Show(Strings.ERROR); }
             }
         }
 
@@ -2232,6 +2234,8 @@ namespace MissionPlanner.GCSViews
                     wpfilename = file;
                     readQGC110wpfile(file);
                 }
+
+                lbl_wpfile.Text = "Loaded "+Path.GetFileName(file);
             }
         }
 
@@ -5087,7 +5091,7 @@ namespace MissionPlanner.GCSViews
             }
         }
 
-        private void getRallyPointsToolStripMenuItem_Click(object sender, EventArgs e)
+        public void getRallyPointsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (MainV2.comPort.MAV.param["RALLY_TOTAL"] == null)
             {

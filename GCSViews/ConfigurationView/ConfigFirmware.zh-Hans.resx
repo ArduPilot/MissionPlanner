@@ -206,7 +206,7 @@
     <value>150, 150</value>
   </data>
   <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>274, 351</value>
+    <value>331, 328</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
     <value>163, 13</value>
@@ -227,7 +227,7 @@
     <value>91, 13</value>
   </data>
   <data name="CMB_history_label.Text" xml:space="preserve">
-    <value>挑选以前的固件</value>
+    <value>选择以前的固件</value>
   </data>
   <data name="lbl_Custom_firmware_label.Location" type="System.Drawing.Point, System.Drawing">
     <value>690, 373</value>
@@ -239,7 +239,7 @@
     <value>加载自定义固件</value>
   </data>
   <data name="lbl_devfw.Location" type="System.Drawing.Point, System.Drawing">
-    <value>484, 393</value>
+    <value>458, 393</value>
   </data>
   <data name="lbl_devfw.Size" type="System.Drawing.Size, System.Drawing">
     <value>67, 13</value>
@@ -251,25 +251,34 @@
     <value>566, 373</value>
   </data>
   <data name="lbl_dlfw.Size" type="System.Drawing.Size, System.Drawing">
-    <value>55, 13</value>
+    <value>91, 13</value>
   </data>
   <data name="lbl_dlfw.Text" xml:space="preserve">
-    <value>下载固件</value>
+    <value>从网页下载固件</value>
   </data>
   <data name="lbl_px4bl.Location" type="System.Drawing.Point, System.Drawing">
     <value>566, 393</value>
   </data>
   <data name="lbl_px4bl.Size" type="System.Drawing.Size, System.Drawing">
-    <value>81, 13</value>
+    <value>105, 13</value>
   </data>
   <data name="lbl_px4bl.Text" xml:space="preserve">
-    <value>PX4 Bootloader</value>
+    <value>刷写PX4 Bootloader</value>
   </data>
   <data name="pictureAntennaTracker.Location" type="System.Drawing.Point, System.Drawing">
     <value>30, 176</value>
   </data>
   <data name="pictureAntennaTracker.Size" type="System.Drawing.Size, System.Drawing">
     <value>150, 150</value>
+  </data>
+  <data name="lbl_licence.Location" type="System.Drawing.Point, System.Drawing">
+    <value>255, 349</value>
+  </data>
+  <data name="lbl_licence.Size" type="System.Drawing.Size, System.Drawing">
+    <value>304, 13</value>
+  </data>
+  <data name="lbl_licence.Text" xml:space="preserve">
+    <value>Ardupilot是一个自由的软件。点击这里阅读开源固件许可。</value>
   </data>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
     <value>6, 13</value>

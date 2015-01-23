@@ -60,6 +60,8 @@ namespace MissionPlanner
         /// storage for whole paramater list
         /// </summary>
         public Hashtable param { get; set; }
+
+        public Dictionary<string, MAV_PARAM_TYPE> param_types = new Dictionary<string, MAV_PARAM_TYPE>();
         /// <summary>
         /// storage of a previous packet recevied of a specific type
         /// </summary>
