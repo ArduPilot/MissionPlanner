@@ -240,7 +240,7 @@ namespace MissionPlanner.Log
             //line = line.Replace(",", ",");
             //line = line.Replace(":", ":");
 
-            string[] items = line.Split(new char[] { ',', ':' }, StringSplitOptions.RemoveEmptyEntries);
+            string[] items = line.Trim().Split(new char[] { ',', ':' }, StringSplitOptions.RemoveEmptyEntries);
 
             if (line.StartsWith("FMT"))
             {
@@ -355,7 +355,7 @@ namespace MissionPlanner.Log
                     strLine = strLine.Replace(", ", ",");
                     strLine = strLine.Replace(": ", ":");
 
-                    string[] items = strLine.Split(',', ':');
+                    string[] items = strLine.Trim().Split(',', ':');
 
                     string[] names = new string[items.Length - 5];
                     Array.ConstrainedCopy(items, 5, names, 0, names.Length);
