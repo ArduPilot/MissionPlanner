@@ -66,9 +66,6 @@ namespace MissionPlanner.Utilities
         {
 
             running = true;
-
-            Bitmap frame = new Bitmap(640, 480);
-
             try
             {
 
@@ -150,26 +147,25 @@ namespace MissionPlanner.Utilities
                             */
                             try
                             {
+                                Bitmap frame = new Bitmap(new MemoryStream(buf1));
 
-                                frame = new Bitmap(new MemoryStream(buf1));
+                                fps++;
 
+                                if (lastimage.Second != DateTime.Now.Second)
+                                {
+                                    Console.WriteLine("MJPEG " + fps);
+                                    fps = 0;
+                                    lastimage = DateTime.Now;
+                                }
+
+                                if (OnNewImage != null)
+                                    OnNewImage(frame, new EventArgs());
                             }
                             catch { }
-
-                            fps++;
-
-                            if (lastimage.Second != DateTime.Now.Second)
-                            {
-                                Console.WriteLine("MJPEG " + fps);
-                                fps = 0;
-                                lastimage = DateTime.Now;
-                            }
-
-                            if (OnNewImage != null)
-                                OnNewImage(frame, new EventArgs());
                         }
 
                         // blank line at end of data
+                        System.Threading.Thread.Sleep(1);
                         ReadLine(br);
                     }
                     catch (Exception ex) { log.Info(ex); break; }
