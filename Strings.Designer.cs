@@ -633,11 +633,29 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   查找类似 Please click ok and move the autopilot around all axises in a circular motion 的本地化字符串。
+        /// </summary>
+        public static string MagCalibMsg {
+            get {
+                return ResourceManager.GetString("MagCalibMsg", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Mavlink Connecting... 的本地化字符串。
         /// </summary>
         public static string MavlinkConnecting {
             get {
                 return ResourceManager.GetString("MavlinkConnecting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 You are missing data points. do you want to run the calibration anyway? 的本地化字符串。
+        /// </summary>
+        public static string MissingDataPoints {
+            get {
+                return ResourceManager.GetString("MissingDataPoints", resourceCulture);
             }
         }
         
@@ -767,6 +785,15 @@ namespace MissionPlanner {
         public static string ReceivedList {
             get {
                 return ResourceManager.GetString("ReceivedList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 run anyway 的本地化字符串。
+        /// </summary>
+        public static string RunAnyway {
+            get {
+                return ResourceManager.GetString("RunAnyway", resourceCulture);
             }
         }
         
