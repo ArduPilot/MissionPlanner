@@ -411,4 +411,13 @@ Mission Planner waits for 2 valid heartbeat packets before connecting</value>
   <data name="Warningrallypointdistance" xml:space="preserve">
     <value>Warning rally points are located greater than RALLY_LIMIT_KM</value>
   </data>
+  <data name="MagCalibMsg" xml:space="preserve">
+    <value>请单击确认并且将自动驾驶仪绕所有轴做圆周运动</value>
+  </data>
+  <data name="MissingDataPoints" xml:space="preserve">
+    <value>你缺少数据点。你想无论如何也运行校准吗？</value>
+  </data>
+  <data name="RunAnyway" xml:space="preserve">
+    <value>非要运行</value>
+  </data>
 </root>

@@ -414,4 +414,13 @@ Do you wish to continue?</value>
   <data name="WarningAC31" xml:space="preserve">
     <value>Warning, as of AC 3.1 motors will spin when armed, configurable through the MOT_SPIN_ARMED parameter</value>
   </data>
+  <data name="MagCalibMsg" xml:space="preserve">
+    <value>Please click ok and move the autopilot around all axises in a circular motion</value>
+  </data>
+  <data name="MissingDataPoints" xml:space="preserve">
+    <value>You are missing data points. do you want to run the calibration anyway?</value>
+  </data>
+  <data name="RunAnyway" xml:space="preserve">
+    <value>run anyway</value>
+  </data>
 </root>

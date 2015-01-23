@@ -46,68 +46,50 @@ namespace MissionPlanner.Controls
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(472, 411);
+            resources.ApplyResources(this.btnCancel, "btnCancel");
             // 
             // sphere1
             // 
-            this.sphere1.Anchor = System.Windows.Forms.AnchorStyles.None;
+            resources.ApplyResources(this.sphere1, "sphere1");
             this.sphere1.BackColor = System.Drawing.Color.Black;
-            this.sphere1.Location = new System.Drawing.Point(16, 141);
             this.sphere1.Name = "sphere1";
             this.sphere1.rotatewithdata = true;
-            this.sphere1.Size = new System.Drawing.Size(263, 263);
-            this.sphere1.TabIndex = 6;
             this.sphere1.VSync = false;
             // 
             // CHK_rotate
             // 
-            this.CHK_rotate.AutoSize = true;
+            resources.ApplyResources(this.CHK_rotate, "CHK_rotate");
             this.CHK_rotate.Checked = true;
             this.CHK_rotate.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CHK_rotate.Location = new System.Drawing.Point(13, 411);
             this.CHK_rotate.Name = "CHK_rotate";
-            this.CHK_rotate.Size = new System.Drawing.Size(157, 17);
-            this.CHK_rotate.TabIndex = 7;
-            this.CHK_rotate.Text = "Rotate with each data point";
             this.CHK_rotate.UseVisualStyleBackColor = true;
             this.CHK_rotate.CheckedChanged += new System.EventHandler(this.CHK_rotate_CheckedChanged);
             // 
             // sphere2
             // 
-            this.sphere2.Anchor = System.Windows.Forms.AnchorStyles.None;
+            resources.ApplyResources(this.sphere2, "sphere2");
             this.sphere2.BackColor = System.Drawing.Color.Black;
-            this.sphere2.Location = new System.Drawing.Point(285, 141);
             this.sphere2.Name = "sphere2";
             this.sphere2.rotatewithdata = true;
-            this.sphere2.Size = new System.Drawing.Size(263, 263);
-            this.sphere2.TabIndex = 8;
             this.sphere2.VSync = false;
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(282, 8);
+            resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(254, 104);
-            this.label1.TabIndex = 9;
-            this.label1.Text = resources.GetString("label1.Text");
             // 
             // chk_auto
             // 
-            this.chk_auto.AutoSize = true;
+            resources.ApplyResources(this.chk_auto, "chk_auto");
             this.chk_auto.Checked = true;
             this.chk_auto.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chk_auto.Location = new System.Drawing.Point(176, 410);
             this.chk_auto.Name = "chk_auto";
-            this.chk_auto.Size = new System.Drawing.Size(107, 17);
-            this.chk_auto.TabIndex = 10;
-            this.chk_auto.Text = "Use Auto Accept";
             this.chk_auto.UseVisualStyleBackColor = true;
             this.chk_auto.CheckedChanged += new System.EventHandler(this.chk_auto_CheckedChanged);
             // 
             // ProgressReporterSphere
             // 
-            this.ClientSize = new System.Drawing.Size(565, 446);
+            resources.ApplyResources(this, "$this");
             this.Controls.Add(this.chk_auto);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.sphere2);

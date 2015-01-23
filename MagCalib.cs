@@ -141,7 +141,7 @@ namespace MissionPlanner
             error2 = 99;
 
             if (dointro)
-                CustomMessageBox.Show("Please click ok and move the autopilot around all axises in a circular motion");
+                CustomMessageBox.Show(Strings.MagCalibMsg);
 
             ProgressReporterSphere prd = new ProgressReporterSphere();
 
@@ -510,7 +510,7 @@ namespace MissionPlanner
 
             if (extramsg != "")
             {
-                if (CustomMessageBox.Show("You are missing data points. do you want to run the calibration anyway?", "run anyway", MessageBoxButtons.YesNo) == DialogResult.No)
+                if (CustomMessageBox.Show(Strings.MissingDataPoints, Strings.RunAnyway, MessageBoxButtons.YesNo) == DialogResult.No)
                 {
                     e.CancelAcknowledged = true;
                     e.CancelRequested = true;
