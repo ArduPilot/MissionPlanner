@@ -122,7 +122,6 @@
             // 
             this.olvColumn4.AspectName = "range";
             this.olvColumn4.CellPadding = null;
-            this.olvColumn4.FillsFreeSpace = true;
             this.olvColumn4.IsEditable = false;
             resources.ApplyResources(this.olvColumn4, "olvColumn4");
             this.olvColumn4.WordWrap = true;
@@ -131,7 +130,6 @@
             // 
             this.olvColumn5.AspectName = "desc";
             this.olvColumn5.CellPadding = null;
-            this.olvColumn5.FillsFreeSpace = true;
             this.olvColumn5.IsEditable = false;
             resources.ApplyResources(this.olvColumn5, "olvColumn5");
             this.olvColumn5.WordWrap = true;
