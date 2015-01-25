@@ -1,4 +1,83 @@
-﻿* Mission Planner 1.3.17
+﻿* Mission Planner 1.3.18
+hud: reduce spin time and tweak image resize
+capturemjpeg: tweak object lifetime
+droneshare: fix messagebox type
+logdownloadmavlink: add droneshare exception
+logbrowse: add better cleanup on load/reload #782
+dflog: add line end trimming.
+mavcmd.xml: add MAV_CMD_NAV_CONTINUE_AND_CHANGE_ALT #776
+Update: add Chinese CDN Mirror
+ConfigFirmware: some warnings zh-Hans translation
+Survey Grid generation improvement. Alternating Lanes
+configraparamtree: cleanup
+mavlink: update from master mavlink repo
+mavlink: update
+mainv2: refresh screen on usb unplug #778
+tlogthumbnailhandler: remove console grab
+ConfigBatVoltage: bypass low pass #779
+MainV2: add rally point warning
+LogMap: create image for mavlink 0.9 logs
+MainSwitcher: update cleanup method
+wix: update installer for com registration
+httpserver: fix tracking value
+ConfigArducopter: remove hld_lon_p
+logindex: add .bin and .log
+Tracking: fix event value
+LogMap: add .log and .bin support
+tlogThumbnailHandler: first commit
+logbrowse: add more predefined graphs
+Drivers
+srtm: allow http exception to requestRunner
+distancebar: fix posible overflow error
+3drradio: update urls for rfd900s
+srtm: return new altresponce on alt query
+configfirmware: add motor setup url
+RallyPoints: fetch on connect to AP
+Grid: fix time calc #774
+configarducopter: increase imax min/max #655
+flightplanner: remove snap zooming #690
+configarducopter: fix french translation #683
+mavcmd: add guided_limits #676
+flightdata: add colors to graph this dialog. #735
+configrawparamtreeview: turn off autocomplete #714
+grid: add delay to total time taken #716
+configaccelplane: add more warnings. #718
+mavlinklog: fix kml cdata close tag #733
+wizard: fix tri frame selection #738
+mainv2: make sure usb unplug is seen #744
+mavcmd: remove do_Set_home for copter #747
+currentstate: add optflow info #745
+confighwcompass: tweak posible bad error on mag dec input.
+mavcmd: add do_set_roi for plane. #763
+currentstate: fix posible bad home location #768
+configmotortest: update url #770
+FlightData: fix time based slowdown.
+mavlinkinterface: fix logplayback wp reading (gcs side)
+logdownloadmavlink: add scrollbar
+Firmware: update CN mirror url
+Multiple: update zh-Hans translation
+GMAP: add AMap and localization for maps' names
+Hud: update to fail to gdi on first opengl command
+logdownloadmavlink: add scrollbar to log list
+px4uploader: add new public key
+comms: updserialconnect
+Solution: fix build dependancys
+comms: udpserialconnect force initial connection
+Mainv2: add new udpserialconnect
+Comms: add udpserialconnect
+3drradio: update note
+configfirmware: default back to ENG
+Strings: re-add some of Firmware
+bin2log: fix chinese appear at log's mode name
+mavlinkinterface: fix statustext bug
+flightplanner: add loaded wp filename
+logdownloadmavlink: add droneshare intergration
+mavlinkinterface: fix mav type detection on getheartbeat
+flightdata: fix distance bar
+logbrowse: use common map provider
+wizard accel: fix exception
+
+* Mission Planner 1.3.17
 confighwbt: fix retry on invalid baud
 airport: update list from ourairports.com
 mavlinkinterface: update to use new strings
