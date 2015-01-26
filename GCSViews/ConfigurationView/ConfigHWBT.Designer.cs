@@ -59,6 +59,7 @@
             this.pictureBox5.BackgroundImage = global::MissionPlanner.Properties.Resources.MinimOSD;
             resources.ApplyResources(this.pictureBox5, "pictureBox5");
             this.pictureBox5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBox5.Image = global::MissionPlanner.Properties.Resources.BT_hc06;
             this.pictureBox5.Name = "pictureBox5";
             this.pictureBox5.TabStop = false;
             // 
