@@ -28,27 +28,21 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigFirmwareDisabled));
             this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
             // 
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(31, 31);
+            resources.ApplyResources(this.label1, "label1");
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(411, 78);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "You cannot load new firmware while connected via MAVLink. \r\n\r\nPlease press the Di" +
-    "sconnect button at top right to end the current MAVLink session and enable the f" +
-    "irmware loading screen.";
             // 
             // ConfigFirmwareDisabled
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.label1);
             this.Name = "ConfigFirmwareDisabled";
-            this.Size = new System.Drawing.Size(486, 256);
             this.ResumeLayout(false);
 
         }
