@@ -48,8 +48,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.radioButton_Y = new System.Windows.Forms.RadioButton();
             this.pictureBoxY = new MissionPlanner.Controls.PictureBoxWithPseudoOpacity();
             this.label7 = new System.Windows.Forms.Label();
-            this.configDefaultSettings1 = new MissionPlanner.Controls.DefaultSettings();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.configDefaultSettings1 = new MissionPlanner.Controls.DefaultSettings();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label9 = new System.Windows.Forms.Label();
             this.radioButton_VTail = new System.Windows.Forms.RadioButton();
@@ -184,17 +184,17 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             resources.ApplyResources(this.label7, "label7");
             this.label7.Name = "label7";
             // 
-            // configDefaultSettings1
-            // 
-            resources.ApplyResources(this.configDefaultSettings1, "configDefaultSettings1");
-            this.configDefaultSettings1.Name = "configDefaultSettings1";
-            // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.configDefaultSettings1);
             resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
+            // 
+            // configDefaultSettings1
+            // 
+            resources.ApplyResources(this.configDefaultSettings1, "configDefaultSettings1");
+            this.configDefaultSettings1.Name = "configDefaultSettings1";
             // 
             // groupBox2
             // 

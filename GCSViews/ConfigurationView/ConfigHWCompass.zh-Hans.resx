@@ -118,63 +118,100 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="BUT_MagCalibrationLive.Text" xml:space="preserve">
-    <value>开始校准</value>
+    <value>现场校准</value>
   </data>
-  <data name="BUT_MagCalibrationLog.Text" xml:space="preserve">
-    <value>日志校准</value>
-  </data>
-  <data name="CHK_autodec.Text" xml:space="preserve">
-    <value>自动</value>
-  </data>
-  <data name="CHK_enablecompass.Text" xml:space="preserve">
-    <value>启用</value>
-  </data>
-  <data name="groupBox1.Text" xml:space="preserve">
-    <value>方向</value>
-  </data>
-  <data name="groupBox3.Text" xml:space="preserve">
-    <value>手动设置示例</value>
-  </data>
-  <data name="label1.Text" xml:space="preserve">
-    <value>APM 内置罗盘: ROTATION_NONE</value>
-  </data>
-  <data name="label100.Text" xml:space="preserve">
-    <value>磁偏角</value>
-  </data>
-  <data name="label2.Text" xml:space="preserve">
-    <value>度</value>
-  </data>
-  <data name="label3.Text" xml:space="preserve">
-    <value>分</value>
-  </data>
-  <data name="label5.Text" xml:space="preserve">
-    <value>罗盘</value>
-  </data>
-  <data name="lbl_adv_cfg_only.Text" xml:space="preserve">
-    <value>仅供高级配置</value>
-  </data>
-  <data name="linkLabel1.Text" xml:space="preserve">
-    <value>Youtube 示例</value>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="linkLabelmagdec.Size" type="System.Drawing.Size, System.Drawing">
+    <value>65, 12</value>
   </data>
   <data name="linkLabelmagdec.Text" xml:space="preserve">
     <value>磁偏角网站</value>
   </data>
+  <data name="label100.Text" xml:space="preserve">
+    <value>磁偏角</value>
+  </data>
+  <data name="CHK_autodec.Text" xml:space="preserve">
+    <value>自动</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>罗盘</value>
+  </data>
+  <data name="linkLabel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>77, 12</value>
+  </data>
+  <data name="linkLabel1.Text" xml:space="preserve">
+    <value>Youtube 示例</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>APM 内置罗盘: ROTATION_NONE
+
+APM 外置罗盘: ROTATION_ROLL_180
+
+PX4 内外置罗盘: ROTATION_NONE</value>
+  </data>
+  <data name="imageLabel1.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAAoAAAAHgCAYAAAA10dzkAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
+        vAAADrwBlbxySQAABL5JREFUeF7twQENAAAAwqD3T20ONyAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIALNcLuAAH0a6ijAAAAAElFTkSuQmCC
+</value>
+  </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>方向</value>
+  </data>
+  <data name="radioButtonmanual.Size" type="System.Drawing.Size, System.Drawing">
+    <value>47, 16</value>
+  </data>
   <data name="radioButtonmanual.Text" xml:space="preserve">
     <value>手动</value>
+  </data>
+  <data name="radioButton_external.Size" type="System.Drawing.Size, System.Drawing">
+    <value>95, 16</value>
   </data>
   <data name="radioButton_external.Text" xml:space="preserve">
     <value>APM 外置罗盘</value>
   </data>
+  <data name="radioButton_onboard.Size" type="System.Drawing.Size, System.Drawing">
+    <value>95, 16</value>
+  </data>
   <data name="radioButton_onboard.Text" xml:space="preserve">
     <value>APM 内置罗盘</value>
   </data>
-  <data name="rb_px4pixhawk.Text" xml:space="preserve">
-    <value>Pixhawk/PX4</value>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>17, 12</value>
   </data>
-  <data name="String" xml:space="preserve">
-    <value>APM 外置罗盘: ROTATION_ROLL_180</value>
+  <data name="label2.Text" xml:space="preserve">
+    <value>度</value>
   </data>
-  <data name="String1" xml:space="preserve">
-    <value>PX4 内外置罗盘: ROTATION_NONE</value>
+  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>17, 12</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>分</value>
+  </data>
+  <data name="groupBox3.Text" xml:space="preserve">
+    <value>手动设置示例</value>
+  </data>
+  <data name="CHK_enablecompass.Text" xml:space="preserve">
+    <value>启用</value>
   </data>
 </root>

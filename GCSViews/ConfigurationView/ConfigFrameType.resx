@@ -127,7 +127,7 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="radioButton_Plus.Location" type="System.Drawing.Point, System.Drawing">
-    <value>62, 41</value>
+    <value>62, 38</value>
   </data>
   <data name="radioButton_Plus.Size" type="System.Drawing.Size, System.Drawing">
     <value>14, 13</value>
@@ -154,7 +154,7 @@
     <value>NoControl</value>
   </data>
   <data name="radioButton_X.Location" type="System.Drawing.Point, System.Drawing">
-    <value>62, 128</value>
+    <value>62, 118</value>
   </data>
   <data name="radioButton_X.Size" type="System.Drawing.Size, System.Drawing">
     <value>14, 13</value>
@@ -181,10 +181,10 @@
     <value>NoControl</value>
   </data>
   <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>25, 41</value>
+    <value>25, 38</value>
   </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>31, 13</value>
+    <value>41, 12</value>
   </data>
   <data name="label2.TabIndex" type="System.Int32, mscorlib">
     <value>68</value>
@@ -211,10 +211,10 @@
     <value>NoControl</value>
   </data>
   <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 128</value>
+    <value>8, 118</value>
   </data>
   <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>51, 13</value>
+    <value>71, 12</value>
   </data>
   <data name="label3.TabIndex" type="System.Int32, mscorlib">
     <value>69</value>
@@ -238,10 +238,10 @@
     <value>NoControl</value>
   </data>
   <data name="pictureBoxPlus.Location" type="System.Drawing.Point, System.Drawing">
-    <value>83, 10</value>
+    <value>83, 9</value>
   </data>
   <data name="pictureBoxPlus.Size" type="System.Drawing.Size, System.Drawing">
-    <value>248, 81</value>
+    <value>248, 75</value>
   </data>
   <data name="pictureBoxPlus.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
     <value>Zoom</value>
@@ -265,10 +265,10 @@
     <value>NoControl</value>
   </data>
   <data name="pictureBoxX.Location" type="System.Drawing.Point, System.Drawing">
-    <value>83, 95</value>
+    <value>83, 88</value>
   </data>
   <data name="pictureBoxX.Size" type="System.Drawing.Size, System.Drawing">
-    <value>406, 85</value>
+    <value>406, 78</value>
   </data>
   <data name="pictureBoxX.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
     <value>Zoom</value>
@@ -295,10 +295,10 @@
     <value>NoControl</value>
   </data>
   <data name="label6.Location" type="System.Drawing.Point, System.Drawing">
-    <value>38, 220</value>
+    <value>38, 203</value>
   </data>
   <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>18, 13</value>
+    <value>23, 12</value>
   </data>
   <data name="label6.TabIndex" type="System.Int32, mscorlib">
     <value>86</value>
@@ -325,7 +325,7 @@
     <value>NoControl</value>
   </data>
   <data name="radioButton_V.Location" type="System.Drawing.Point, System.Drawing">
-    <value>62, 220</value>
+    <value>62, 203</value>
   </data>
   <data name="radioButton_V.Size" type="System.Drawing.Size, System.Drawing">
     <value>14, 13</value>
@@ -349,10 +349,10 @@
     <value>NoControl</value>
   </data>
   <data name="pictureBoxV.Location" type="System.Drawing.Point, System.Drawing">
-    <value>83, 187</value>
+    <value>83, 173</value>
   </data>
   <data name="pictureBoxV.Size" type="System.Drawing.Size, System.Drawing">
-    <value>111, 85</value>
+    <value>111, 78</value>
   </data>
   <data name="pictureBoxV.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
     <value>Zoom</value>
@@ -379,10 +379,10 @@
     <value>NoControl</value>
   </data>
   <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>38, 311</value>
+    <value>38, 287</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>19, 13</value>
+    <value>23, 12</value>
   </data>
   <data name="label1.TabIndex" type="System.Int32, mscorlib">
     <value>89</value>
@@ -409,7 +409,7 @@
     <value>NoControl</value>
   </data>
   <data name="radioButton_H.Location" type="System.Drawing.Point, System.Drawing">
-    <value>62, 311</value>
+    <value>62, 287</value>
   </data>
   <data name="radioButton_H.Size" type="System.Drawing.Size, System.Drawing">
     <value>14, 13</value>
@@ -433,10 +433,10 @@
     <value>NoControl</value>
   </data>
   <data name="pictureBoxH.Location" type="System.Drawing.Point, System.Drawing">
-    <value>83, 278</value>
+    <value>83, 257</value>
   </data>
   <data name="pictureBoxH.Size" type="System.Drawing.Size, System.Drawing">
-    <value>111, 85</value>
+    <value>111, 78</value>
   </data>
   <data name="pictureBoxH.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
     <value>Zoom</value>
@@ -457,10 +457,10 @@
     <value>19</value>
   </data>
   <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>200, 295</value>
+    <value>200, 272</value>
   </data>
   <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>131, 47</value>
+    <value>131, 43</value>
   </data>
   <data name="label4.TabIndex" type="System.Int32, mscorlib">
     <value>90</value>
@@ -487,10 +487,10 @@
     <value>NoControl</value>
   </data>
   <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>19, 402</value>
+    <value>19, 371</value>
   </data>
   <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>31, 13</value>
+    <value>35, 12</value>
   </data>
   <data name="label5.TabIndex" type="System.Int32, mscorlib">
     <value>93</value>
@@ -517,7 +517,7 @@
     <value>NoControl</value>
   </data>
   <data name="radioButton_Y.Location" type="System.Drawing.Point, System.Drawing">
-    <value>62, 402</value>
+    <value>62, 371</value>
   </data>
   <data name="radioButton_Y.Size" type="System.Drawing.Size, System.Drawing">
     <value>14, 13</value>
@@ -541,10 +541,10 @@
     <value>NoControl</value>
   </data>
   <data name="pictureBoxY.Location" type="System.Drawing.Point, System.Drawing">
-    <value>83, 369</value>
+    <value>83, 341</value>
   </data>
   <data name="pictureBoxY.Size" type="System.Drawing.Size, System.Drawing">
-    <value>111, 83</value>
+    <value>111, 77</value>
   </data>
   <data name="pictureBoxY.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
     <value>Zoom</value>
@@ -568,10 +568,10 @@
     <value>NoControl</value>
   </data>
   <data name="label7.Location" type="System.Drawing.Point, System.Drawing">
-    <value>200, 386</value>
+    <value>200, 356</value>
   </data>
   <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>142, 47</value>
+    <value>142, 43</value>
   </data>
   <data name="label7.TabIndex" type="System.Int32, mscorlib">
     <value>94</value>
@@ -592,10 +592,10 @@
     <value>5</value>
   </data>
   <data name="configDefaultSettings1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 19</value>
+    <value>6, 18</value>
   </data>
   <data name="configDefaultSettings1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>255, 96</value>
+    <value>255, 89</value>
   </data>
   <data name="configDefaultSettings1.TabIndex" type="System.Int32, mscorlib">
     <value>95</value>
@@ -604,7 +604,7 @@
     <value>configDefaultSettings1</value>
   </data>
   <data name="&gt;&gt;configDefaultSettings1.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.DefaultSettings, MissionPlanner, Version=1.1.5217.13218, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.DefaultSettings, MissionPlanner, Version=1.1.5505.250, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;configDefaultSettings1.Parent" xml:space="preserve">
     <value>groupBox1</value>
@@ -616,7 +616,7 @@
     <value>513, 3</value>
   </data>
   <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>263, 121</value>
+    <value>263, 112</value>
   </data>
   <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
     <value>96</value>
@@ -643,10 +643,10 @@
     <value>NoControl</value>
   </data>
   <data name="label9.Location" type="System.Drawing.Point, System.Drawing">
-    <value>313, 220</value>
+    <value>313, 203</value>
   </data>
   <data name="label9.Size" type="System.Drawing.Size, System.Drawing">
-    <value>38, 13</value>
+    <value>53, 12</value>
   </data>
   <data name="label9.TabIndex" type="System.Int32, mscorlib">
     <value>97</value>
@@ -673,7 +673,7 @@
     <value>NoControl</value>
   </data>
   <data name="radioButton_VTail.Location" type="System.Drawing.Point, System.Drawing">
-    <value>357, 220</value>
+    <value>357, 203</value>
   </data>
   <data name="radioButton_VTail.Size" type="System.Drawing.Size, System.Drawing">
     <value>14, 13</value>
@@ -697,10 +697,10 @@
     <value>NoControl</value>
   </data>
   <data name="pictureBoxVTail.Location" type="System.Drawing.Point, System.Drawing">
-    <value>378, 187</value>
+    <value>378, 173</value>
   </data>
   <data name="pictureBoxVTail.Size" type="System.Drawing.Size, System.Drawing">
-    <value>111, 85</value>
+    <value>111, 78</value>
   </data>
   <data name="pictureBoxVTail.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
     <value>Zoom</value>
@@ -724,7 +724,7 @@
     <value>3, 3</value>
   </data>
   <data name="groupBox2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>504, 455</value>
+    <value>504, 420</value>
   </data>
   <data name="groupBox2.TabIndex" type="System.Int32, mscorlib">
     <value>97</value>
@@ -744,14 +744,17 @@
   <data name="&gt;&gt;groupBox2.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <metadata name="$this.Language" type="System.Globalization.CultureInfo, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>zh-Hans</value>
+  </metadata>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>6, 13</value>
+    <value>6, 12</value>
   </data>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>787, 461</value>
+    <value>787, 426</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>ConfigFrameType</value>
