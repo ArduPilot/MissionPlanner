@@ -155,7 +155,7 @@
     <value />
   </data>
   <data name="label27.Text" xml:space="preserve">
-    <value>速度加</value>
+    <value>上升速度</value>
   </data>
   <data name="label27.ToolTip" xml:space="preserve">
     <value />
@@ -173,7 +173,7 @@
     <value />
   </data>
   <data name="label13.Text" xml:space="preserve">
-    <value>速度减</value>
+    <value>下降速度</value>
   </data>
   <data name="label13.ToolTip" xml:space="preserve">
     <value />
