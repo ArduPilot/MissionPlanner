@@ -133,7 +133,7 @@
     <value>空速计</value>
   </data>
   <data name="backstageViewPageAntTrack.Text" xml:space="preserve">
-    <value>自动追踪天线</value>
+    <value>天线追踪器</value>
   </data>
   <data name="backstageViewPagebatmon.Text" xml:space="preserve">
     <value>电池监测器</value>
