@@ -716,7 +716,7 @@ namespace MissionPlanner
                 utmpos p = FindLineIntersection(extended_line_start, extended_line_stop, start_perpendicular_line, stop_perpendicular_line);
                 
                 // Store it
-                intersectedPoints.Add(p, line);
+                intersectedPoints[p] = line;
 
                 // Calculate distances between interesected point and "start" (i.e. line and start)
                 double distance_p = start.GetDistance(p);
