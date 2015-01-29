@@ -11,7 +11,7 @@ using System.Resources;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Michael Oborne")]
 [assembly: AssemblyProduct("Mission Planner")]
-[assembly: AssemblyCopyright("Copyright © Michael Oborne 2010-2014")]
+[assembly: AssemblyCopyright("Copyright © Michael Oborne 2010-2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -34,7 +34,7 @@ using System.Resources;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.1.*")]
-[assembly: AssemblyFileVersion("1.3.18")]
+[assembly: AssemblyFileVersion("1.3.19")]
 [assembly: NeutralResourcesLanguageAttribute("")]
 
 [assembly: AssemblyDelaySign(false)]
