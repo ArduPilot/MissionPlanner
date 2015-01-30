@@ -170,7 +170,7 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
                     DialogResult dr = DialogResult.Cancel;
 
 
-                    dr = CustomMessageBox.Show(extra + UpdateT.UpdateFound + baseurl + "/ChangeLog.txt;ChangeLog]", UpdateT.UpdateNow, MessageBoxButtons.YesNo);
+                    dr = CustomMessageBox.Show(extra + Strings.UpdateFound + baseurl + "/ChangeLog.txt;ChangeLog]", Strings.UpdateNow, MessageBoxButtons.YesNo);
 
                     if (dr == DialogResult.Yes)
                     {

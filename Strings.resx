@@ -423,4 +423,12 @@ Do you wish to continue?</value>
   <data name="RunAnyway" xml:space="preserve">
     <value>run anyway</value>
   </data>
+  <data name="UpdateFound" xml:space="preserve">
+    <value>Update Found
+
+Do you wish to update now? [link;</value>
+  </data>
+  <data name="UpdateNow" xml:space="preserve">
+    <value>Update Now</value>
+  </data>
 </root>
