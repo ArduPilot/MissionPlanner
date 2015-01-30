@@ -853,6 +853,26 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   查找类似 Update Found
+        ///
+        ///Do you wish to update now? [link; 的本地化字符串。
+        /// </summary>
+        public static string UpdateFound {
+            get {
+                return ResourceManager.GetString("UpdateFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Update Now 的本地化字符串。
+        /// </summary>
+        public static string UpdateNow {
+            get {
+                return ResourceManager.GetString("UpdateNow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Upload Complete 的本地化字符串。
         /// </summary>
         public static string UploadComplete {

@@ -420,4 +420,12 @@ Mission Planner waits for 2 valid heartbeat packets before connecting</value>
   <data name="RunAnyway" xml:space="preserve">
     <value>非要运行</value>
   </data>
+  <data name="UpdateFound" xml:space="preserve">
+    <value>发现更新
+
+你希望现在更新吗？ [link;</value>
+  </data>
+  <data name="UpdateNow" xml:space="preserve">
+    <value>现在更新</value>
+  </data>
 </root>

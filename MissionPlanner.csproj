@@ -962,8 +962,6 @@
       <LastGenOutput>Strings.zh-Hans.Designer.cs</LastGenOutput>
       <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Include="Utilities\UpdateT.resx" />
-    <EmbeddedResource Include="Utilities\UpdateT.zh-Hans.resx" />
     <EmbeddedResource Include="Warnings\WarningControl.resx">
       <DependentUpon>WarningControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -1184,7 +1182,6 @@
     <Compile Include="Utilities\StringRedirectWriter.cs" />
     <Compile Include="Utilities\TerrainFollow.cs" />
     <Compile Include="Utilities\Update.cs" />
-    <Compile Include="Utilities\UpdateT.Designer.cs" />
     <Compile Include="Utilities\VersionDetection.cs" />
     <Compile Include="Warnings\CustomWarning.cs" />
     <Compile Include="Warnings\WarningControl.cs">
