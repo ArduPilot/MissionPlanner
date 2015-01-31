@@ -3,11 +3,11 @@
     using GMap.NET;
     using System;
 
-    public class AMapProjection : PureProjection
+    public class MercatorProjectionGCJ : PureProjection
     {
         internal double a = 6378245.0;
         internal double ee = 0.0066934216229659433;
-        public static readonly AMapProjection Instance = new AMapProjection();
+        public static readonly MercatorProjectionGCJ Instance = new MercatorProjectionGCJ();
         private static readonly double MaxLatitude = 85.05112878;
         private static readonly double MaxLongitude = 180.0;
         private static readonly double MinLatitude = -85.05112878;

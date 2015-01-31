@@ -1,7 +1,8 @@
 ﻿
 namespace GMap.NET.MapProviders
 {
-   using System;
+    using GMap.NET.Projections;
+    using System;
 
    /// <summary>
    /// GoogleChinaHybridMap provider
@@ -18,6 +19,14 @@ namespace GMap.NET.MapProviders
       static GoogleChinaHybridMapProvider()
       {
          Instance = new GoogleChinaHybridMapProvider();
+      }
+
+      public override PureProjection Projection
+      {
+          get
+          {
+              return MercatorProjectionGCJ.Instance;
+          }
       }
 
       public string Version = "h@264000000";

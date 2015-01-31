@@ -31,7 +31,7 @@
         {
             get
             {
-                return AMapProjection.Instance;
+                return MercatorProjectionGCJ.Instance;
             }
         }
     }
