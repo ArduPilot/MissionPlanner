@@ -248,6 +248,9 @@ namespace MissionPlanner.GCSViews
             CMB_modes.ValueMember = "Key";
             CMB_modes.DisplayMember = "Value";
 
+            //default to auto
+            CMB_modes.Text = "Auto";
+
             CMB_setwp.SelectedIndex = 0;
 
             log.Info("Graph Setup");
