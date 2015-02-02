@@ -10,6 +10,16 @@ namespace MissionPlanner.Utilities
     /// </summary>
     public struct Locationwp
     {
+        public Locationwp Set(double lat, double lng, double alt, byte id)
+        {
+            this.lat = lat;
+            this.lng = lng;
+            this.alt = (float)alt;
+            this.id = id;
+
+            return this;
+        }
+
         public byte id;				// command id
         public byte options;
         public float p1;				// param 1
