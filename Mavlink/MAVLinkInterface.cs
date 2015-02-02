@@ -1277,16 +1277,6 @@ Please check the following
 
             log.InfoFormat("doCommand cmd {0} {1} {2} {3} {4} {5} {6} {7}",actionid.ToString(),p1,p2,p3,p4,p5,p6,p7);
 
-            // send old style, then new style
-            if (actionid == MAV_CMD.COMPONENT_ARM_DISARM)
-            {
-                req.target_component = (byte)MAV_COMPONENT.MAV_COMP_ID_SYSTEM_CONTROL;
-
-                generatePacket((byte)MAVLINK_MSG_ID.COMMAND_LONG, req);
-
-                req.target_component = MAV.compid;
-            }
-
             generatePacket((byte)MAVLINK_MSG_ID.COMMAND_LONG, req);
 
             DateTime start = DateTime.Now;
