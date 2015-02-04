@@ -873,7 +873,7 @@
             // 
             resources.ApplyResources(this.NUM_angle, "NUM_angle");
             this.NUM_angle.Maximum = new decimal(new int[] {
-            359,
+            360,
             0,
             0,
             0});
