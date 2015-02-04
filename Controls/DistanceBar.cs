@@ -20,11 +20,12 @@ namespace MissionPlanner.Controls
 
         bool parentpaint = false;
 
+        private object locker = new object();
         private List<float> wpdist = new List<float>();
 
         public void AddWPDist(float dist)
         {
-            lock (wpdist)
+            lock (locker)
                 wpdist.Add(dist);
 
             totaldist = wpdist.Sum();
@@ -32,10 +33,11 @@ namespace MissionPlanner.Controls
 
         public void ClearWPDist()
         {
-            lock (wpdist)
+            lock (locker)
+            {
                 wpdist.Clear();
-
-            wpdist.Add(0);
+                wpdist.Add(0);
+            }
         }
 
         protected override CreateParams CreateParams
@@ -80,7 +82,7 @@ namespace MissionPlanner.Controls
 
             // bar
 
-            RectangleF bar = new RectangleF(4, this.Height - this.Height / 5, this.Width - 8, this.Height / 5);
+            RectangleF bar = new RectangleF(4, 4, this.Width - 8, this.Height - 8);
 
             e.Graphics.FillRectangle(brushbar, bar);
 
@@ -94,15 +96,9 @@ namespace MissionPlanner.Controls
             e.Graphics.FillRectangle(brushbar, bartrav);
             e.Graphics.FillRectangle(brushbar, bartrav);
 
-            // draw dist traveled
-
-            string dist = traveleddist.ToString("0");
-
-            e.Graphics.DrawString(dist, this.Font, new SolidBrush(this.ForeColor), bartrav.Right, bartrav.Top - this.Font.Height);
-
             // draw wp dist
 
-            lock (wpdist)
+            lock (locker)
             {
                 float iconwidth = this.Height / 4;
                 float trav = 0;
@@ -113,11 +109,16 @@ namespace MissionPlanner.Controls
                     if (trav > totaldist)
                         trav = totaldist;
 
-                    e.Graphics.DrawImage(icon, (bar.X + bar.Width * (trav / totaldist)) - iconwidth/2, 1, iconwidth, (this.Height / 5) * 2.5f);
+                    e.Graphics.FillPie(Brushes.Yellow, (bar.X + bar.Width * (trav / totaldist)) - iconwidth / 2, bar.Top, bar.Height / 2, bar.Height, 0, 360);
+                    //e.Graphics.DrawImage(icon, (bar.X + bar.Width * (trav / totaldist)) - iconwidth / 2, 1, iconwidth, bar.Height);
                 }
             }
 
-            
+            // draw dist traveled
+
+            string dist = traveleddist.ToString("0");
+
+            e.Graphics.DrawString(dist, this.Font, new SolidBrush(this.ForeColor), bartrav.Right, bartrav.Bottom - this.Font.Height);            
         }
 
         protected override void OnPaintBackground(PaintEventArgs e)
