@@ -128,7 +128,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             IAMStreamConfig videoStreamConfig = o as IAMStreamConfig;
             if (videoStreamConfig == null)
             {
-                throw new Exception("Failed to get IAMStreamConfig");
+                CustomMessageBox.Show("Failed to get IAMStreamConfig");
+                return;
             }
 
             hr = videoStreamConfig.GetNumberOfCapabilities(out count, out size);
