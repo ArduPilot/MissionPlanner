@@ -70,6 +70,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{6A21E0
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tlogThumbnailHandler", "ExtLibs\tlogThumbnailHandler\tlogThumbnailHandler.csproj", "{ABA78B2E-77C3-4377-8568-9542AC227971}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExtGuided", "ExtLibs\ExtGuided\ExtGuided.csproj", "{B5211B56-CA30-4B2A-843B-832849F18CEA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -410,6 +412,16 @@ Global
 		{ABA78B2E-77C3-4377-8568-9542AC227971}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{ABA78B2E-77C3-4377-8568-9542AC227971}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{ABA78B2E-77C3-4377-8568-9542AC227971}.Release|x86.ActiveCfg = Release|Any CPU
+		{B5211B56-CA30-4B2A-843B-832849F18CEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5211B56-CA30-4B2A-843B-832849F18CEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5211B56-CA30-4B2A-843B-832849F18CEA}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{B5211B56-CA30-4B2A-843B-832849F18CEA}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{B5211B56-CA30-4B2A-843B-832849F18CEA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B5211B56-CA30-4B2A-843B-832849F18CEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5211B56-CA30-4B2A-843B-832849F18CEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5211B56-CA30-4B2A-843B-832849F18CEA}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{B5211B56-CA30-4B2A-843B-832849F18CEA}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{B5211B56-CA30-4B2A-843B-832849F18CEA}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -438,6 +450,7 @@ Global
 		{D0C39D9D-BED0-418B-9A5E-713176CAF40C} = {7E264F12-9EC3-4CDC-A187-6879C2B2BFCF}
 		{E06DEF77-F933-42FB-AFD7-DB2D0D8D6A98} = {7E264F12-9EC3-4CDC-A187-6879C2B2BFCF}
 		{ABA78B2E-77C3-4377-8568-9542AC227971} = {7E264F12-9EC3-4CDC-A187-6879C2B2BFCF}
+		{B5211B56-CA30-4B2A-843B-832849F18CEA} = {9B3AC501-5FCB-4A2A-A628-BE0985DB2BD4}
 	EndGlobalSection
 	GlobalSection(Performance) = preSolution
 		HasPerformanceSessions = true
