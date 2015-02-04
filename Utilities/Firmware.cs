@@ -995,7 +995,15 @@ namespace MissionPlanner.Utilities
         {
             if (board == BoardDetect.boards.px4 || board == BoardDetect.boards.px4v2)
             {
-                return UploadPX4(filename);
+                try
+                {
+                    return UploadPX4(filename);
+                }
+                catch (MissingFieldException) 
+                {
+                    CustomMessageBox.Show("Please update, your install is currupt",Strings.ERROR);
+                    return false;
+                }
             }
 
             if (board == BoardDetect.boards.vrbrainv40 || board == BoardDetect.boards.vrbrainv45 || board == BoardDetect.boards.vrbrainv50 || board == BoardDetect.boards.vrbrainv51 || board == BoardDetect.boards.vrbrainv52 || board == BoardDetect.boards.vrherov10 || board == BoardDetect.boards.vrubrainv51 || board == BoardDetect.boards.vrubrainv52 || board == BoardDetect.boards.vrgimbalv20 || board == BoardDetect.boards.vrugimbalv11)
