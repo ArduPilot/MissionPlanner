@@ -73,7 +73,15 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 log.Info("Try baud " + baud);
                 using (System.IO.Ports.SerialPort port = new System.IO.Ports.SerialPort(MainV2.comPortName, baud.Key))
                 {
-                    port.Open();
+                    try
+                    {
+                        port.Open();
+                    }
+                    catch
+                    {
+                        CustomMessageBox.Show(Strings.SelectComport, Strings.ERROR);
+                        return;
+                    }
 
                     port.Write("AT");
 
