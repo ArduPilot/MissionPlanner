@@ -1573,7 +1573,7 @@ namespace MissionPlanner.Log
 
                     foreach (var item in zg1.GraphPane.CurveList)
                     {
-                        if (item.Label.Text.StartsWith(e.Node.Text))
+                        if (item.Label.Text.StartsWith(e.Node.Text) && item.Label.Text.Contains(e.Node.Parent.Text.ToLower()))
                         {
                             removeitems.Add(item);
                             //break;
