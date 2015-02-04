@@ -1382,29 +1382,37 @@ Please check the following
             }
             else
             {
-                ctl.flags = (byte)(SERIAL_CONTROL_FLAG.EXCLUSIVE | SERIAL_CONTROL_FLAG.RESPOND);// | SERIAL_CONTROL_FLAG.MULTI);
+                ctl.flags = (byte)SERIAL_CONTROL_FLAG.EXCLUSIVE;// | SERIAL_CONTROL_FLAG.MULTI);
             }
 
             if (data != null && data.Length != 0)
             {
+                int packets = (data.Length / 70) + 1;
                 int len = data.Length;
                 while (len > 0)
                 {
+                    if (packets == 1)
+                        ctl.flags |= (byte)SERIAL_CONTROL_FLAG.RESPOND;
+
                     byte n = (byte)Math.Min(70, len);
 
                     ctl.count = n;
                     Array.Copy(data, data.Length - len, ctl.data, 0, n);
 
-                    // dont flod the port
+                    // dont flood the port
                     System.Threading.Thread.Sleep(10);
 
                     generatePacket((byte)MAVLINK_MSG_ID.SERIAL_CONTROL, ctl);
 
                     len -= n;
+                    packets--;
                 } 
             }
             else
             {
+                if (!close)
+                    ctl.flags |= (byte)SERIAL_CONTROL_FLAG.RESPOND | (byte)SERIAL_CONTROL_FLAG.MULTI;
+
                 generatePacket((byte)MAVLINK_MSG_ID.SERIAL_CONTROL, ctl);
             }
         }

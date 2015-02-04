@@ -425,7 +425,7 @@ S15: MAX_WINDOW=131
                 if (RTI.Text != "")
                 {
                     // remote
-                    string answer = doCommand(comPort, "RTI5");
+                    string answer = doCommand(comPort, "RTI5", true);
 
                     string[] items = answer.Split(new char[] {'\n'},StringSplitOptions.RemoveEmptyEntries);
 
@@ -515,7 +515,7 @@ S15: MAX_WINDOW=131
                 comPort.DiscardInBuffer();
                 {
                     //local
-                    string answer = doCommand(comPort, "ATI5");
+                    string answer = doCommand(comPort, "ATI5", true);
 
                     string[] items = answer.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
 
@@ -659,7 +659,6 @@ S15: MAX_WINDOW=131
 
             try
             {
-
                 if (doConnect(comPort))
                 {
                     // cleanup
@@ -681,7 +680,9 @@ S15: MAX_WINDOW=131
                     ATI2.Text = board.ToString();
                     try
                     {
-                        RTI2.Text = ((uploader.Uploader.Board)Enum.Parse(typeof(uploader.Uploader.Board), doCommand(comPort, "RTI2"))).ToString();
+                        string resp = doCommand(comPort, "RTI2");
+                        if (resp.Trim() != "")
+                            RTI2.Text = ((uploader.Uploader.Board)Enum.Parse(typeof(uploader.Uploader.Board), resp)).ToString();
                     }
                     catch { }
                     // 8 and 9
@@ -721,7 +722,7 @@ S15: MAX_WINDOW=131
 
                     lbl_status.Text = "Doing Command ATI5";
 
-                    string answer = doCommand(comPort, "ATI5");
+                    string answer = doCommand(comPort, "ATI5", true);
 
                     string[] items = answer.Split('\n');
 
@@ -772,7 +773,7 @@ S15: MAX_WINDOW=131
 
                     lbl_status.Text = "Doing Command RTI5";
 
-                    answer = doCommand(comPort, "RTI5");
+                    answer = doCommand(comPort, "RTI5", true);
 
                     items = answer.Split('\n');
 
@@ -849,8 +850,18 @@ S15: MAX_WINDOW=131
 
                 BUT_savesettings.Enabled = true;
             }
-
-            catch (Exception ex) { lbl_status.Text = "Error"; CustomMessageBox.Show("Error during read " + ex.ToString()); return; } 
+            catch (Exception ex)
+            {
+                try
+                {
+                    if (comPort != null)
+                        comPort.Close();
+                }
+                catch { }
+                lbl_status.Text = "Error";
+                CustomMessageBox.Show("Error during read " + ex.ToString());
+                return;
+            }
         }
 
         string Serial_ReadLine(ICommsSerial comPort)
@@ -872,75 +883,61 @@ S15: MAX_WINDOW=131
             return sb.ToString();
         }
 
-        public string doCommand(ICommsSerial comPort, string cmd, int level = 0)
+        public string doCommand(ICommsSerial comPort, string cmd, bool multiLineResponce = false, int level = 0)
         {
             if (!comPort.IsOpen)
                 return "";
 
-            comPort.ReadTimeout = 1000;
             comPort.DiscardInBuffer();
-            // setup to known state
-            comPort.Write("\r\n");
-            try
-            {
-                var temp1 = Serial_ReadLine(comPort);
-            }
-            catch 
-            {
-                try
-                {
-                    comPort.ReadExisting();
-                }
-                catch { return ""; }
-            }
-            Sleep(100);
-            comPort.DiscardInBuffer();
+
             lbl_status.Text = "Doing Command " + cmd;
             log.Info("Doing Command " + cmd);
-            // write command
+
             comPort.Write(cmd + "\r\n");
-            // read echoed line or existing data
-            string temp;
-            try
+
+            comPort.ReadTimeout = 1000;
+
+            // command echo
+            var cmdecho = Serial_ReadLine(comPort);
+
+            if (cmdecho.Contains(cmd))
             {
-                temp = Serial_ReadLine(comPort);
-            }
-            catch { temp = comPort.ReadExisting(); }
-            log.Info("cmd " + cmd + " echo " + temp);
-            // get response
-            string ans = "";
-            DateTime deadline = DateTime.Now.AddMilliseconds(200);
-            while (comPort.BytesToRead > 0 || DateTime.Now < deadline)
-            {
-                try
+                var value = "";
+
+                if (multiLineResponce)
                 {
-                    ans = ans + Serial_ReadLine(comPort) + "\n";
+                    DateTime deadline = DateTime.Now.AddMilliseconds(200);
+                    while (comPort.BytesToRead > 0 || DateTime.Now < deadline)
+                    {
+                        try
+                        {
+                            value = value + Serial_ReadLine(comPort);
+                        }
+                        catch { value = value + comPort.ReadExisting(); }
+                    }
                 }
-                catch { ans = ans + comPort.ReadExisting() + "\n"; }
-                Sleep(50);
-
-                if (ans.Length > 1024)
+                else
                 {
-                    break;
+                    value = Serial_ReadLine(comPort);
+
+                    if (value == "" && level == 0)
+                    {
+                        return doCommand(comPort, cmd, multiLineResponce, 1);
+                    }
                 }
+
+                log.Info(value.Replace('\0', ' '));
+
+                return value;
             }
 
-            log.Info("response " + level + " " + ans.Replace('\0', ' '));
-
-            Regex pattern = new Regex(@"^\[([0-9+])\]\s+", RegexOptions.Multiline);
-
-            if (pattern.IsMatch(ans))
-            {
-                Match mat = pattern.Match(ans);
-
-                ans = pattern.Replace(ans, "");
-            }
+            comPort.DiscardInBuffer();
 
             // try again
-            if (ans == "" && level == 0)
-                return doCommand(comPort, cmd, 1);
+            if (level == 0)
+                return doCommand(comPort, cmd, multiLineResponce, 1);
 
-            return ans;
+            return "";
         }
 
         public bool doConnect(ICommsSerial comPort)
@@ -949,18 +946,28 @@ S15: MAX_WINDOW=131
             {
                 Console.WriteLine("doConnect");
 
+                int trys = 1;
+
                 // setup a known enviroment
                 comPort.Write("ATO\r\n");
+
+                retry:
+
                 // wait
-                Sleep(1100, comPort);
+                Sleep(1500, comPort);
                 comPort.DiscardInBuffer();
                 // send config string
                 comPort.Write("+++");
-                Sleep(1100,comPort);
+                Sleep(1500,comPort);
                 // check for config response "OK"
                 log.Info("Connect btr " + comPort.BytesToRead + " baud " + comPort.BaudRate);
                 // allow time for data/response
                 
+                if (comPort.BytesToRead == 0 && trys <= 3) {
+                    trys++;
+                    log.Info("doConnect retry");
+                        goto retry;
+                }
 
                 byte[] buffer = new byte[20];
                 int len = comPort.Read(buffer, 0, buffer.Length);

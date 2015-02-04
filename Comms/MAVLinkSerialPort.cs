@@ -33,9 +33,11 @@ namespace MissionPlanner.Comms
         {
             set
             {
-                log.Info("MAVLinkSerialPort baudrate " + value);
-                mavint.SendSerialControl(port, timeout, null, (uint)value);
-                System.Threading.Thread.Sleep(500);
+                if (open)
+                {
+                    log.Info("MAVLinkSerialPort baudrate " + value);
+                    mavint.SendSerialControl(port, timeout, null, (uint)value);
+                }
                 baud = (uint)value;
             }
             get { return (int)baud; }
@@ -59,7 +61,7 @@ namespace MissionPlanner.Comms
             if (subscription.Value != null)
                 mavint.UnSubscribeToPacketType(subscription);
             
-            subscription = mavint.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.SERIAL_CONTROL, ReceviedPacket,true);
+            subscription = mavint.SubscribeToPacketType(MAVLink.MAVLINK_MSG_ID.SERIAL_CONTROL, ReceviedPacket, true);
 
             bgdata = new Thread(mainloop);
             bgdata.Name = "MAVLinkSerialPort";
@@ -129,7 +131,7 @@ namespace MissionPlanner.Comms
 
         void GetData(bool now = false)
         {
-            if (lastgetdata.AddMilliseconds(timeout) < DateTime.Now || now)
+            if (lastgetdata.AddMilliseconds(timeout) < DateTime.Now && open || now)
             {
                 mavint.SendSerialControl(port, timeout, null);
                 lastgetdata = DateTime.Now;
@@ -165,25 +167,28 @@ namespace MissionPlanner.Comms
 
         public void Close()
         {
+            open = false;
+
+            if (bgdata.IsAlive)
+                bgdata.Abort();
+
             log.Info("Close");
             mavint.SendSerialControl(port, 0, null, 0, true);
 
-      if (bgdata.IsAlive)
-                bgdata.Abort();
+
         }
 
         public void DiscardInBuffer()
         {
-            mavint.SendSerialControl(port, timeout, null);
-
             buffer.Clear();
         }
 
         public void Open()
         {
             log.Info("Open");
-            mavint.SendSerialControl(port, timeout, null, 0, false);
-            System.Threading.Thread.Sleep(100);
+            mavint.SendSerialControl(port, timeout, null, baud, false);
+            System.Threading.Thread.Sleep(1000);
+            open = true;
         }
 
         public int ReadByte()
@@ -266,9 +271,11 @@ namespace MissionPlanner.Comms
 
         public bool DtrEnable{ get; set; }
 
+        bool open = false;
+
         public bool IsOpen
         {
-            get { return true; }
+            get { return open; }
         }
 
         public System.IO.Ports.Parity Parity { get; set; }
