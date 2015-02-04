@@ -492,6 +492,15 @@ namespace MissionPlanner.GCSViews
                 hud1.Dock = DockStyle.Fill;
             }
 
+            if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
+            {
+                but_autotune.Visible = true;
+            }
+            else
+            {
+                but_autotune.Visible = false;
+            }
+
             for (int f = 1; f < 10; f++)
             {
                 // load settings
@@ -3329,6 +3338,16 @@ namespace MissionPlanner.GCSViews
             // you cannot call join on the main thread, and invoke on the thread. as it just hangs on the invoke.
 
             //thisthread.Join();
+        }
+
+        private void but_autotune_Click(object sender, EventArgs e)
+        {
+            MainV2.comPort.setMode(new MAVLink.mavlink_set_mode_t() 
+            { 
+                base_mode = (byte)MAVLink.MAV_MODE_FLAG.CUSTOM_MODE_ENABLED,
+                custom_mode = 15,  // #define AUTOTUNE    15                  // autotune the vehicle's roll and pitch gains
+                target_system = MainV2.comPort.MAV.sysid 
+            });
         }
 
     }
