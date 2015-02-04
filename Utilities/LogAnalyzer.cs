@@ -102,39 +102,43 @@ LogAnalyzer.main()
                             subtree.MoveToElement();
                             if (subtree.IsStartElement())
                             {
-                                switch (subtree.Name.ToLower())
+                                try
                                 {
-                                    case "logfile":
-                                        answer.logfile = subtree.ReadString();
-                                        break;
-                                    case "sizekb":
-                                        answer.sizekb = subtree.ReadString();
-                                        break;
-                                    case "sizelines":
-                                        answer.sizelines = subtree.ReadString();
-                                        break;
-                                    case "duration":
-                                        answer.duration = subtree.ReadString();
-                                        break;
-                                    case "vehicletype":
-                                        answer.vehicletype = subtree.ReadString();
-                                        break;
-                                    case "firmwareversion":
-                                        answer.firmwareversion = subtree.ReadString();
-                                        break;
-                                    case "firmwarehash":
-                                        answer.firmwarehash = subtree.ReadString();
-                                        break;
-                                    case "hardwaretype":
-                                        answer.hardwaretype = subtree.ReadString();
-                                        break;
-                                    case "freemem":
-                                        answer.freemem = subtree.ReadString();
-                                        break;
-                                    case "skippedlines":
-                                        answer.skippedlines = subtree.ReadString();
-                                        break;
+                                    switch (subtree.Name.ToLower())
+                                    {
+                                        case "logfile":
+                                            answer.logfile = subtree.ReadString();
+                                            break;
+                                        case "sizekb":
+                                            answer.sizekb = subtree.ReadString();
+                                            break;
+                                        case "sizelines":
+                                            answer.sizelines = subtree.ReadString();
+                                            break;
+                                        case "duration":
+                                            answer.duration = subtree.ReadString();
+                                            break;
+                                        case "vehicletype":
+                                            answer.vehicletype = subtree.ReadString();
+                                            break;
+                                        case "firmwareversion":
+                                            answer.firmwareversion = subtree.ReadString();
+                                            break;
+                                        case "firmwarehash":
+                                            answer.firmwarehash = subtree.ReadString();
+                                            break;
+                                        case "hardwaretype":
+                                            answer.hardwaretype = subtree.ReadString();
+                                            break;
+                                        case "freemem":
+                                            answer.freemem = subtree.ReadString();
+                                            break;
+                                        case "skippedlines":
+                                            answer.skippedlines = subtree.ReadString();
+                                            break;
+                                    }
                                 }
+                                catch (Exception ex) { log.Error(ex); }
                             }
                         }
                     }
