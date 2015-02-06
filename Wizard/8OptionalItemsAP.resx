@@ -135,7 +135,7 @@
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="radialGradientBG1.Image.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>Inherit</value>
+    <value>NoControl</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="CHK_enableairspeed.TabIndex" type="System.Int32, mscorlib">
@@ -361,7 +361,7 @@
     <value>radialGradientBG1</value>
   </data>
   <data name="radialGradientBG1.Label.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>Inherit</value>
+    <value>NoControl</value>
   </data>
   <data name="radialGradientBG1.Label.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>TopLeft</value>

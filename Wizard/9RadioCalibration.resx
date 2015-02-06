@@ -274,7 +274,7 @@
     <value>0, 0</value>
   </data>
   <data name="radialGradientBG1.Image.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>Inherit</value>
+    <value>NoControl</value>
   </data>
   <data name="radialGradientBG1.Image.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -367,7 +367,7 @@
     <value>System.Windows.Forms.MyUserControl, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="radialGradientBG1.Label.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>Inherit</value>
+    <value>NoControl</value>
   </data>
   <data name="radialGradientBG1.Image.AccessibleName" type="System.Resources.ResXNullRef, System.Windows.Forms">
     <value />

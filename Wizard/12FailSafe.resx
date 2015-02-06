@@ -262,7 +262,7 @@
     <value>These settings control what the autopilot does when rc, and gcs failsafes are triggered</value>
   </data>
   <data name="radialGradientBG1.Image.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>Inherit</value>
+    <value>NoControl</value>
   </data>
   <data name="radialGradientBG1.Image.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -349,7 +349,7 @@
     <value>System.Windows.Forms.MyUserControl, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="radialGradientBG1.Label.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>Inherit</value>
+    <value>NoControl</value>
   </data>
   <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
     <value>1</value>

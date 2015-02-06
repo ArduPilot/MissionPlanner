@@ -134,13 +134,13 @@
   <data name="&gt;&gt;BUT_MagCalibrationLive.Name" xml:space="preserve">
     <value>BUT_MagCalibrationLive</value>
   </data>
-  <data name="&gt;&gt;BUT_compassorient.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="label6.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
   </data>
   <data name="&gt;&gt;label5.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="label4.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
   </data>
@@ -165,8 +165,8 @@
   <data name="BUT_compassorient.Location" type="System.Drawing.Point, System.Drawing">
     <value>115, 138</value>
   </data>
-  <data name="radialGradientBG1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
+  <data name="label6.Text" xml:space="preserve">
+    <value>.</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
     <value>Depending on your hardware, the compass orientation needs to be changed. Please follow the instructions bellow. Make sure to keep the autopilot flat during the orientation.
@@ -177,14 +177,14 @@
   <data name="&gt;&gt;label1.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="panel1.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+  <data name="radialGradientBG1.Label.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left</value>
   </data>
   <data name="&gt;&gt;label6.Parent" xml:space="preserve">
     <value>panel2</value>
   </data>
-  <data name="radialGradientBG1.Image.WaitOnLoad" type="System.Boolean, mscorlib">
-    <value>False</value>
+  <data name="&gt;&gt;label2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="radialGradientBG1.TabIndex" type="System.Int32, mscorlib">
     <value>4</value>
@@ -192,11 +192,8 @@
   <data name="&gt;&gt;label3.Parent" xml:space="preserve">
     <value>panel2</value>
   </data>
-  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>539, 77</value>
-  </data>
-  <data name="label4.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Arial, 14.25pt, style=Bold</value>
+  <data name="radialGradientBG1.Image.WaitOnLoad" type="System.Boolean, mscorlib">
+    <value>False</value>
   </data>
   <data name="BUT_MagCalibrationLive.Location" type="System.Drawing.Point, System.Drawing">
     <value>115, 106</value>
@@ -240,6 +237,9 @@
   <data name="radialGradientBG1.Image.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
     <value>Tile</value>
   </data>
+  <data name="label4.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
   <data name="pictureBoxMouseOver1.Location" type="System.Drawing.Point, System.Drawing">
     <value>588, 71</value>
   </data>
@@ -249,8 +249,8 @@
   <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
     <value>71, 12</value>
   </data>
-  <data name="&gt;&gt;linkLabel1.Parent" xml:space="preserve">
-    <value>panel1</value>
+  <data name="pictureBoxMouseOver1.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
   </data>
   <data name="radialGradientBG1.Label.Location" type="System.Drawing.Point, System.Drawing">
     <value>30, 5</value>
@@ -262,7 +262,7 @@
     <value>800, 41</value>
   </data>
   <data name="radialGradientBG1.Label.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>Inherit</value>
+    <value>NoControl</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
     <value>Press Start</value>
@@ -285,9 +285,6 @@
   <data name="&gt;&gt;label5.Parent" xml:space="preserve">
     <value>panel2</value>
   </data>
-  <data name="&gt;&gt;pictureBoxMouseOver2.Name" xml:space="preserve">
-    <value>pictureBoxMouseOver2</value>
-  </data>
   <data name="&gt;&gt;label2.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
@@ -303,11 +300,11 @@
   <data name="&gt;&gt;BUT_MagCalibrationLive.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
-  <data name="label6.Text" xml:space="preserve">
-    <value>.</value>
-  </data>
   <data name="&gt;&gt;linkLabel1.ZOrder" xml:space="preserve">
     <value>1</value>
+  </data>
+  <data name="&gt;&gt;linkLabel1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label5.Name" xml:space="preserve">
     <value>label5</value>
@@ -336,14 +333,14 @@
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>_6CompassCalib</value>
   </data>
-  <data name="label1.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+  <data name="radialGradientBG1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
   </data>
   <data name="&gt;&gt;panel2.Name" xml:space="preserve">
     <value>panel2</value>
   </data>
-  <data name="pictureBoxMouseOver1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>133, 61</value>
+  <data name="&gt;&gt;label4.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;pictureBoxMouseOver3.Parent" xml:space="preserve">
     <value>panel2</value>
@@ -351,11 +348,14 @@
   <data name="&gt;&gt;pictureBoxMouseOver3.Type" xml:space="preserve">
     <value>MissionPlanner.Controls.PictureBoxMouseOver, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
-  <data name="radialGradientBG1.Label.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left</value>
+  <data name="BUT_MagCalibrationLive.Text" xml:space="preserve">
+    <value>Live Calibration</value>
   </data>
   <data name="radialGradientBG1.Label.ImageIndex" type="System.Int32, mscorlib">
     <value>-1</value>
+  </data>
+  <data name="pictureBoxMouseOver1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>133, 61</value>
   </data>
   <data name="linkLabel1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -378,17 +378,17 @@
   <data name="BUT_MagCalibrationLive.TabIndex" type="System.Int32, mscorlib">
     <value>86</value>
   </data>
-  <data name="&gt;&gt;pictureBoxMouseOver3.Name" xml:space="preserve">
-    <value>pictureBoxMouseOver3</value>
+  <data name="&gt;&gt;pictureBoxMouseOver2.Name" xml:space="preserve">
+    <value>pictureBoxMouseOver2</value>
   </data>
-  <data name="pictureBoxMouseOver1.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>539, 77</value>
   </data>
   <data name="radialGradientBG1.Image.Visible" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
-  <data name="&gt;&gt;label2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="radialGradientBG1.Label.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>None</value>
   </data>
   <data name="radialGradientBG1.Image.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
     <value>Normal</value>
@@ -396,8 +396,8 @@
   <data name="&gt;&gt;panel1.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="pictureBoxMouseOver2.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
+  <data name="&gt;&gt;BUT_compassorient.Type" xml:space="preserve">
+    <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
     <value>210, 143</value>
@@ -408,11 +408,8 @@
   <data name="BUT_compassorient.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
   </data>
-  <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="radialGradientBG1.Image.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>None</value>
+  <data name="label4.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Arial, 14.25pt, style=Bold</value>
   </data>
   <data name="linkLabel1.Location" type="System.Drawing.Point, System.Drawing">
     <value>208, 113</value>
@@ -423,14 +420,17 @@
   <data name="panel1.Size" type="System.Drawing.Size, System.Drawing">
     <value>740, 186</value>
   </data>
-  <data name="radialGradientBG1.Label.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+  <data name="&gt;&gt;pictureBoxMouseOver3.Name" xml:space="preserve">
+    <value>pictureBoxMouseOver3</value>
+  </data>
+  <data name="radialGradientBG1.Image.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>None</value>
   </data>
   <data name="label3.Font" type="System.Drawing.Font, System.Drawing">
     <value>Arial, 12pt</value>
   </data>
   <data name="radialGradientBG1.Image.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>Inherit</value>
+    <value>NoControl</value>
   </data>
   <data name="&gt;&gt;label4.Name" xml:space="preserve">
     <value>label4</value>
@@ -462,9 +462,6 @@
   <data name="pictureBoxMouseOver2.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
     <value>Zoom</value>
   </data>
-  <data name="label6.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
     <value>800, 500</value>
   </data>
@@ -474,17 +471,17 @@
   <data name="pictureBoxMouseOver1.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
     <value>Zoom</value>
   </data>
+  <data name="&gt;&gt;timer1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Timer, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="radialGradientBG1.Label.RightToLeft" type="System.Windows.Forms.RightToLeft, System.Windows.Forms">
     <value>Inherit</value>
   </data>
   <data name="radialGradientBG1.Label.AccessibleName" type="System.Resources.ResXNullRef, System.Windows.Forms">
     <value />
   </data>
-  <data name="&gt;&gt;label6.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label4.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="panel1.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
   </data>
   <data name="&gt;&gt;pictureBoxMouseOver1.Parent" xml:space="preserve">
     <value>panel2</value>
@@ -495,11 +492,14 @@
   <data name="panel2.TabIndex" type="System.Int32, mscorlib">
     <value>5</value>
   </data>
+  <data name="linkLabel1.Text" xml:space="preserve">
+    <value>Youtube Example</value>
+  </data>
   <data name="radialGradientBG1.Image.ImageLocation" type="System.Resources.ResXNullRef, System.Windows.Forms">
     <value />
   </data>
-  <data name="linkLabel1.Text" xml:space="preserve">
-    <value>Youtube Example</value>
+  <data name="&gt;&gt;label6.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;label1.Parent" xml:space="preserve">
     <value>panel1</value>
@@ -534,6 +534,12 @@
   <data name="&gt;&gt;BUT_compassorient.Name" xml:space="preserve">
     <value>BUT_compassorient</value>
   </data>
+  <data name="label1.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;panel1.Name" xml:space="preserve">
+    <value>panel1</value>
+  </data>
   <data name="label5.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -555,9 +561,6 @@
   <data name="radialGradientBG1.Label.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
     <value>Tile</value>
   </data>
-  <data name="BUT_MagCalibrationLive.Text" xml:space="preserve">
-    <value>Live Calibration</value>
-  </data>
   <data name="&gt;&gt;label2.Name" xml:space="preserve">
     <value>label2</value>
   </data>
@@ -567,8 +570,8 @@
   <data name="radialGradientBG1.Label.Font" type="System.Drawing.Font, System.Drawing">
     <value>Arial, 18pt, style=Bold</value>
   </data>
-  <data name="&gt;&gt;panel1.Name" xml:space="preserve">
-    <value>panel1</value>
+  <data name="label1.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Arial, 14.25pt, style=Bold</value>
   </data>
   <data name="label2.Location" type="System.Drawing.Point, System.Drawing">
     <value>5, 26</value>
@@ -579,29 +582,26 @@
   <data name="linkLabel1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="&gt;&gt;label6.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
   <data name="&gt;&gt;BUT_MagCalibrationLive.Parent" xml:space="preserve">
     <value>panel1</value>
   </data>
-  <data name="label1.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Arial, 14.25pt, style=Bold</value>
+  <data name="&gt;&gt;label6.ZOrder" xml:space="preserve">
+    <value>0</value>
   </data>
-  <data name="&gt;&gt;linkLabel1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.LinkLabel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;label3.ZOrder" xml:space="preserve">
+    <value>6</value>
   </data>
   <data name="&gt;&gt;pictureBoxMouseOver1.Name" xml:space="preserve">
     <value>pictureBoxMouseOver1</value>
   </data>
-  <data name="label1.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
+  <data name="pictureBoxMouseOver2.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
   </data>
   <data name="linkLabel1.TabIndex" type="System.Int32, mscorlib">
     <value>85</value>
   </data>
-  <data name="&gt;&gt;timer1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Timer, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;linkLabel1.Parent" xml:space="preserve">
+    <value>panel1</value>
   </data>
   <data name="&gt;&gt;radialGradientBG1.Parent" xml:space="preserve">
     <value>$this</value>
@@ -624,7 +624,7 @@
   <data name="radialGradientBG1.Label.Size" type="System.Drawing.Size, System.Drawing">
     <value>288, 29</value>
   </data>
-  <data name="label4.AutoSize" type="System.Boolean, mscorlib">
+  <data name="label1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="label4.Text" xml:space="preserve">

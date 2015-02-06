@@ -158,9 +158,6 @@
   <data name="radialGradientBG1.Image.ImageLocation" type="System.Resources.ResXNullRef, System.Windows.Forms">
     <value />
   </data>
-  <data name="radialGradientBG1.Image.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>Inherit</value>
-  </data>
   <data name="radialGradientBG1.Image.RightToLeft" type="System.Windows.Forms.RightToLeft, System.Windows.Forms">
     <value>Inherit</value>
   </data>
@@ -195,14 +192,17 @@
   <data name="radialGradientBG1.Label.ImageKey" xml:space="preserve">
     <value />
   </data>
-  <data name="radialGradientBG1.Label.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>Inherit</value>
-  </data>
   <data name="radialGradientBG1.Label.MaximumSize" type="System.Drawing.Size, System.Drawing">
     <value>0, 0</value>
   </data>
   <data name="radialGradientBG1.Label.RightToLeft" type="System.Windows.Forms.RightToLeft, System.Windows.Forms">
     <value>Inherit</value>
+  </data>
+  <data name="radialGradientBG1.Label.Size" type="System.Drawing.Size, System.Drawing">
+    <value>138, 29</value>
+  </data>
+  <data name="radialGradientBG1.Label.Text" xml:space="preserve">
+    <value>遥控器校准</value>
   </data>
   <data name="radialGradientBG1.Label.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
     <value>TopLeft</value>

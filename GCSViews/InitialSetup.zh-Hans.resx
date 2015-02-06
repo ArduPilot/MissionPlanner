@@ -121,13 +121,13 @@
     <value>3DR数传</value>
   </data>
   <data name="backstageViewPageaccelplane.Text" xml:space="preserve">
-    <value>加速计校准</value>
+    <value>加速度计校准</value>
   </data>
   <data name="backstageViewPageaccelquad.Text" xml:space="preserve">
-    <value>加速计校准</value>
+    <value>加速度计校准</value>
   </data>
   <data name="backstageViewPageacceltracker.Text" xml:space="preserve">
-    <value>加速计校准</value>
+    <value>加速度计校准</value>
   </data>
   <data name="backstageViewPageairspeed.Text" xml:space="preserve">
     <value>空速</value>

@@ -117,123 +117,57 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="label10.Text" xml:space="preserve">
-    <value>验证预解锁测试</value>
-  </data>
-  <data name="lbl_prearm.Text" xml:space="preserve">
-    <value>你可以解锁自动驾驶仪吗？
-请用你的发射机尝试解锁。</value>
-  </data>
-  <data name="label8.Text" xml:space="preserve">
-    <value>验证遥控</value>
-  </data>
-  <data name="lbl_rc.Text" xml:space="preserve">
-    <value>你已经配置好遥控发射机了吗？</value>
-  </data>
-  <data name="label2.Text" xml:space="preserve">
-    <value>验证GPS</value>
-  </data>
-  <data name="label4.Text" xml:space="preserve">
-    <value>验证加速计</value>
-  </data>
-  <data name="lbl_compass.Text" xml:space="preserve">
-    <value>你完成罗盘校准了吗？</value>
-  </data>
-  <data name="label5.Text" xml:space="preserve">
-    <value>验证罗盘</value>
-  </data>
-  <data name="lbl_accel.Text" xml:space="preserve">
-    <value>你完成加速计校准了吗？</value>
-  </data>
-  <data name="lbl_gps.Text" xml:space="preserve">
-    <value>自动驾驶仪的GPS锁定了吗？</value>
-  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>488, 36</value>
+    <value>504, 54</value>
   </data>
   <data name="label3.Text" xml:space="preserve">
-    <value>使用该界面来验证你是否符合解锁以及飞行自动驾驶仪的基本要求。
+    <value>使用该界面来核验你是否符合自动驾驶仪的解锁以及飞行的基本要求。
+
 注意：这个测试将尝试解锁你的自动驾驶仪，请移除所有螺旋桨。</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
     <value>136, 22</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>验证当前进度</value>
+    <value>核验当前进度</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="radialGradientBG1.Image.AccessibleDescription" type="System.Resources.ResXNullRef, System.Windows.Forms">
-    <value />
+  <data name="label10.Text" xml:space="preserve">
+    <value>核验解锁前测试</value>
   </data>
-  <data name="radialGradientBG1.Image.AccessibleName" type="System.Resources.ResXNullRef, System.Windows.Forms">
-    <value />
+  <data name="lbl_prearm.Text" xml:space="preserve">
+    <value>你能解锁自动驾驶仪吗？
+请尝试使用发射机解锁。
+注意：螺旋桨可能会转起来！</value>
   </data>
-  <data name="radialGradientBG1.Image.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left</value>
+  <data name="label8.Text" xml:space="preserve">
+    <value>核验遥控</value>
   </data>
-  <data name="radialGradientBG1.Image.BackgroundImage" type="System.Resources.ResXNullRef, System.Windows.Forms">
-    <value />
+  <data name="lbl_rc.Text" xml:space="preserve">
+    <value>你是否配置好了遥控发射机？</value>
   </data>
-  <data name="radialGradientBG1.Image.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
-    <value>Tile</value>
+  <data name="label2.Text" xml:space="preserve">
+    <value>核验GPS</value>
   </data>
-  <data name="radialGradientBG1.Image.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>None</value>
+  <data name="label4.Text" xml:space="preserve">
+    <value>核验加速度计</value>
   </data>
-  <data name="radialGradientBG1.Image.Font" type="System.Resources.ResXNullRef, System.Windows.Forms">
-    <value />
+  <data name="lbl_compass.Text" xml:space="preserve">
+    <value>你是否完成了罗盘校准？</value>
   </data>
-  <data name="radialGradientBG1.Image.ImageLocation" type="System.Resources.ResXNullRef, System.Windows.Forms">
-    <value />
+  <data name="label5.Text" xml:space="preserve">
+    <value>核验罗盘</value>
   </data>
-  <data name="radialGradientBG1.Image.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>Inherit</value>
+  <data name="lbl_accel.Text" xml:space="preserve">
+    <value>你是否完成了加速度计校准？</value>
   </data>
-  <data name="radialGradientBG1.Image.RightToLeft" type="System.Windows.Forms.RightToLeft, System.Windows.Forms">
-    <value>Inherit</value>
+  <data name="lbl_gps.Text" xml:space="preserve">
+    <value>自动驾驶仪是否获得了GPS锁定？</value>
   </data>
-  <data name="radialGradientBG1.Image.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
-    <value>Normal</value>
+  <data name="radialGradientBG1.Label.Size" type="System.Drawing.Size, System.Drawing">
+    <value>63, 29</value>
   </data>
-  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="radialGradientBG1.Image.WaitOnLoad" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="radialGradientBG1.Label.AccessibleDescription" type="System.Resources.ResXNullRef, System.Windows.Forms">
-    <value />
-  </data>
-  <data name="radialGradientBG1.Label.AccessibleName" type="System.Resources.ResXNullRef, System.Windows.Forms">
-    <value />
-  </data>
-  <data name="radialGradientBG1.Label.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left</value>
-  </data>
-  <data name="radialGradientBG1.Label.BackgroundImageLayout" type="System.Windows.Forms.ImageLayout, System.Windows.Forms">
-    <value>Tile</value>
-  </data>
-  <data name="radialGradientBG1.Label.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
-    <value>None</value>
-  </data>
-  <data name="radialGradientBG1.Label.ImageAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleCenter</value>
-  </data>
-  <data name="radialGradientBG1.Label.ImageIndex" type="System.Int32, mscorlib">
-    <value>-1</value>
-  </data>
-  <data name="radialGradientBG1.Label.ImageKey" xml:space="preserve">
-    <value />
-  </data>
-  <data name="radialGradientBG1.Label.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>Inherit</value>
-  </data>
-  <data name="radialGradientBG1.Label.MaximumSize" type="System.Drawing.Size, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="radialGradientBG1.Label.RightToLeft" type="System.Windows.Forms.RightToLeft, System.Windows.Forms">
-    <value>Inherit</value>
-  </data>
-  <data name="radialGradientBG1.Label.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>TopLeft</value>
+  <data name="radialGradientBG1.Label.Text" xml:space="preserve">
+    <value>核验</value>
   </data>
 </root>
