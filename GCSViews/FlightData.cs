@@ -512,7 +512,9 @@ namespace MissionPlanner.GCSViews
                         QuickView QV = (QuickView)ctls[0];
 
                         // set description and unit
-                        QV.desc = MainV2.comPort.MAV.cs.GetNameandUnit(MainV2.config["quickView" + f].ToString());
+                        string desc = MainV2.config["quickView" + f].ToString();
+                        QV.Tag = QV.desc;
+                        QV.desc = MainV2.comPort.MAV.cs.GetNameandUnit(desc);
 
                         // set databinding for value
                         QV.DataBindings.Clear();
@@ -531,7 +533,10 @@ namespace MissionPlanner.GCSViews
                         Control[] ctls = this.Controls.Find("quickView" + f, true);
                         if (ctls.Length > 0)
                         {
-                            ((QuickView)ctls[0]).desc = MainV2.comPort.MAV.cs.GetNameandUnit(((QuickView)ctls[0]).desc);
+                            QuickView QV = (QuickView)ctls[0];
+                            string desc = QV.desc;
+                            QV.Tag = desc;
+                            QV.desc = MainV2.comPort.MAV.cs.GetNameandUnit(desc);
                         }
                     }
                     catch (Exception ex) { log.Debug(ex); }
@@ -2370,78 +2375,71 @@ namespace MissionPlanner.GCSViews
 
         private void hud_UserItem(object sender, EventArgs e)
         {
-
             Form selectform = new Form()
             {
                 Name = "select",
                 Width = 50,
                 Height = 410,
-                Text = "Display This"
+                Text = "Display This",
+                AutoSize = true,
+                StartPosition = FormStartPosition.CenterParent,
+                MaximizeBox = false,
+                MinimizeBox = false
             };
-
-            ThemeManager.ApplyThemeTo(selectform);
-
-            int x = 10;
-            int y = 10;
 
             object thisBoxed = MainV2.comPort.MAV.cs;
             Type test = thisBoxed.GetType();
 
+            int max_length = 0;
+            List<string> fields = new List<string>();
+
             foreach (var field in test.GetProperties())
             {
                 // field.Name has the field's name.
-                object fieldValue;
-                TypeCode typeCode;
-                try
-                {
-                    fieldValue = field.GetValue(thisBoxed, null); // Get value
+                object fieldValue = field.GetValue(thisBoxed, null); // Get value
+                if (fieldValue == null)
+                    continue;
 
-                    if (fieldValue == null)
-                        continue;
-
-                    // Get the TypeCode enumeration. Multiple types get mapped to a common typecode.
-                    typeCode = Type.GetTypeCode(fieldValue.GetType());
-
-                }
-                catch { continue; }
+                // Get the TypeCode enumeration. Multiple types get mapped to a common typecode.
+                TypeCode typeCode = Type.GetTypeCode(fieldValue.GetType());
 
                 if (!(typeCode == TypeCode.Single || typeCode == TypeCode.Double || typeCode == TypeCode.Int32 || typeCode == TypeCode.UInt16))
                     continue;
 
-                CheckBox chk_box = new CheckBox();
-
-                ThemeManager.ApplyThemeTo(chk_box);
-
-                chk_box.Text = field.Name;
-                chk_box.Name = field.Name;
-                chk_box.Tag = (sender);
-                chk_box.Location = new Point(x, y);
-                chk_box.Size = new System.Drawing.Size(100, 20);
-                if (hud1.CustomItems.ContainsKey(field.Name))
-                {
-                    chk_box.Checked = true;
-                    chk_box.BackColor = Color.Green;
-                }
-
-                chk_box.CheckedChanged += chk_box_hud_UserItem_CheckedChanged;
-
-                selectform.Controls.Add(chk_box);
-
-                Application.DoEvents();
-
-                x += 0;
-                y += 20;
-
-                if (y > selectform.Height - 50)
-                {
-                    x += 100;
-                    y = 10;
-
-                    selectform.Width = x + 100;
-                }
+                max_length = Math.Max(max_length, TextRenderer.MeasureText(field.Name, selectform.Font).Width);
+                fields.Add(field.Name);
             }
-           
-            selectform.Show();
+            max_length += 15;
+            fields.Sort();
+
+            int col_count = (int)(Screen.FromControl(this).Bounds.Width * 0.8f) / max_length;
+            int row_count = fields.Count / col_count + ((fields.Count % col_count == 0) ? 0 : 1);
+            int row_height = 20;
+            selectform.MinimumSize = new Size(col_count * max_length, row_count * row_height);
+
+            for (int i = 0; i < fields.Count; i++)
+            {
+                CheckBox chk_box = new CheckBox()
+                {
+                    Text = fields[i],
+                    Name = fields[i],
+                    Tag = sender,
+                    Location = new Point(5 + (i / row_count) * (max_length + 5), 2 + (i % row_count) * row_height),
+                    Size = new System.Drawing.Size(max_length, row_height),
+                    Checked = hud1.CustomItems.ContainsKey(fields[i])
+                };
+                chk_box.CheckedChanged += chk_box_hud_UserItem_CheckedChanged;
+                selectform.Controls.Add(chk_box);
+                Application.DoEvents();
+            }
+
+            ThemeManager.ApplyThemeTo(selectform);
+            foreach (Control ctrl in selectform.Controls)
+            {
+                if (ctrl is CheckBox && ((CheckBox)ctrl).Checked)
+                    ((CheckBox)ctrl).BackColor = Color.Green;
+            }
+            selectform.ShowDialog(this);
         }
 
         void addHudUserItem(ref HUD.Custom cust, CheckBox sender)
@@ -2455,35 +2453,39 @@ namespace MissionPlanner.GCSViews
 
         void chk_box_hud_UserItem_CheckedChanged(object sender, EventArgs e)
         {
-            if (((CheckBox)sender).Checked)
+            CheckBox checkbox = (CheckBox)sender;
+
+            if (checkbox.Checked)
             {
-                ((CheckBox)sender).BackColor = Color.Green;
+                checkbox.BackColor = Color.Green;
 
                 HUD.Custom cust = new HUD.Custom();
                 HUD.Custom.src = MainV2.comPort.MAV.cs;
 
-                string prefix = ((CheckBox)sender).Name + ": ";
-                if (MainV2.config["hud1_useritem_" + ((CheckBox)sender).Name] != null)
-                    prefix = (string)MainV2.config["hud1_useritem_" + ((CheckBox)sender).Name];
+                string prefix = checkbox.Name + ": ";
+                if (MainV2.config["hud1_useritem_" + checkbox.Name] != null)
+                    prefix = (string)MainV2.config["hud1_useritem_" + checkbox.Name];
 
                 if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Header", "Please enter your item prefix", ref prefix))
+                {
+                    checkbox.Checked = false;
                     return;
+                }
 
-                MainV2.config["hud1_useritem_" + ((CheckBox)sender).Name] = prefix;
+                MainV2.config["hud1_useritem_" + checkbox.Name] = prefix;
 
                 cust.Header = prefix;
 
-                addHudUserItem(ref cust, (CheckBox)sender);
+                addHudUserItem(ref cust, checkbox);
             }
             else
             {
-                ((CheckBox)sender).BackColor = Color.Transparent;
+                checkbox.BackColor = Color.Transparent;
 
-                if (hud1.CustomItems.ContainsKey(((CheckBox)sender).Name))
-                {
-                    hud1.CustomItems.Remove(((CheckBox)sender).Name);
-                }
-                MainV2.config.Remove("hud1_useritem_" + ((CheckBox)sender).Name);
+                if (hud1.CustomItems.ContainsKey(checkbox.Name))
+                    hud1.CustomItems.Remove(checkbox.Name);
+
+                MainV2.config.Remove("hud1_useritem_" + checkbox.Name);
                 hud1.Invalidate();
             }
         }
@@ -2737,91 +2739,99 @@ namespace MissionPlanner.GCSViews
 
         private void quickView_DoubleClick(object sender, EventArgs e)
         {
+            QuickView qv = (QuickView)sender;
 
             Form selectform = new Form()
             {
                 Name = "select",
                 Width = 50,
                 Height = 250,
-                Text = "Display This"
+                Text = "Display This",
+                AutoSize = true,
+                StartPosition = FormStartPosition.CenterParent,
+                MaximizeBox = false,
+                MinimizeBox = false
             };
-
-            int x = 10;
-            int y = 10;
 
             object thisBoxed = MainV2.comPort.MAV.cs;
             Type test = thisBoxed.GetType();
 
+            int max_length = 0;
+            List<string> fields = new List<string>();
+
             foreach (var field in test.GetProperties())
             {
                 // field.Name has the field's name.
-                object fieldValue;
-                TypeCode typeCode;
-                try
-                {
-                    fieldValue = field.GetValue(thisBoxed, null); // Get value
+                object fieldValue = field.GetValue(thisBoxed, null); // Get value
+                if (fieldValue == null)
+                    continue;
 
-                    // Get the TypeCode enumeration. Multiple types get mapped to a common typecode.
-                    typeCode = Type.GetTypeCode(fieldValue.GetType());
-                }
-                catch { continue; }
+                // Get the TypeCode enumeration. Multiple types get mapped to a common typecode.
+                TypeCode typeCode = Type.GetTypeCode(fieldValue.GetType());
 
                 if (!(typeCode == TypeCode.Single || typeCode == TypeCode.Double || typeCode == TypeCode.Int32 || typeCode == TypeCode.UInt16))
                     continue;
 
-                CheckBox chk_box = new CheckBox();
-
-                // dont change to ToString() = null exception
-                if (((QuickView)sender).Tag != null && ((QuickView)sender).Tag.ToString() == field.Name)
-                    chk_box.Checked = true;
-
-                chk_box.Text = field.Name;
-                chk_box.Name = field.Name;
-                chk_box.Tag = ((QuickView)sender);
-                chk_box.Location = new Point(x, y);
-                chk_box.Size = new System.Drawing.Size(100, 20);
-                chk_box.CheckedChanged += new EventHandler(chk_box_quickview_CheckedChanged);
-
-                selectform.Controls.Add(chk_box);
-
-                Application.DoEvents();
-
-                x += 0;
-                y += 20;
-
-                if (y > selectform.Height - 50)
-                {
-                    x += 100;
-                    y = 10;
-
-                    selectform.Width = x + 100;
-                }
+                max_length = Math.Max(max_length, TextRenderer.MeasureText(field.Name, selectform.Font).Width);
+                fields.Add(field.Name);
             }
+            max_length += 15;
+            fields.Sort();
+
+            int col_count = (int)(Screen.FromControl(this).Bounds.Width * 0.8f) / max_length;
+            int row_count = fields.Count / col_count + ((fields.Count % col_count == 0) ? 0 : 1);
+            int row_height = 20;
+            selectform.MinimumSize = new Size(col_count * max_length, row_count * row_height);
+
+            for (int i = 0; i < fields.Count; i++)
+            {
+                CheckBox chk_box = new CheckBox()
+                {
+                    // dont change to ToString() = null exception
+                    Checked = qv.Tag != null && qv.Tag.ToString() == fields[i],
+                    Text = fields[i],
+                    Name = fields[i],
+                    Tag = qv,
+                    Location = new Point(5 + (i / row_count) * (max_length + 5), 2 + (i % row_count) * row_height),
+                    Size = new System.Drawing.Size(max_length, row_height)
+                };
+                chk_box.CheckedChanged += new EventHandler(chk_box_quickview_CheckedChanged);
+                selectform.Controls.Add(chk_box);
+                Application.DoEvents();
+            }
+
             ThemeManager.ApplyThemeTo(selectform);
-            selectform.Show();
+            foreach (Control ctrl in selectform.Controls)
+            {
+                if (ctrl is CheckBox && ((CheckBox)ctrl).Checked)
+                    ((CheckBox)ctrl).BackColor = Color.Green;
+            }
+            selectform.ShowDialog(this);
         }
 
         void chk_box_quickview_CheckedChanged(object sender, EventArgs e)
         {
-            if (((CheckBox)sender).Checked)
+            CheckBox checkbox = (CheckBox)sender;
+
+            if (checkbox.Checked)
             {
                 // save settings
-                MainV2.config[((QuickView)((CheckBox)sender).Tag).Name] = ((CheckBox)sender).Name;
+                MainV2.config[((QuickView)checkbox.Tag).Name] = checkbox.Name;
 
                 // set description
-                string desc = ((CheckBox)sender).Name;
-                ((QuickView)((CheckBox)sender).Tag).Tag = desc;
+                string desc = checkbox.Name;
+                ((QuickView)checkbox.Tag).Tag = desc;
 
                 desc = MainV2.comPort.MAV.cs.GetNameandUnit(desc);
 
-                ((QuickView)((CheckBox)sender).Tag).desc = desc;
+                ((QuickView)checkbox.Tag).desc = desc;
 
                 // set databinding for value
-                ((QuickView)((CheckBox)sender).Tag).DataBindings.Clear();
-                ((QuickView)((CheckBox)sender).Tag).DataBindings.Add(new System.Windows.Forms.Binding("number", this.bindingSourceQuickTab, ((CheckBox)sender).Name, true));
+                ((QuickView)checkbox.Tag).DataBindings.Clear();
+                ((QuickView)checkbox.Tag).DataBindings.Add(new System.Windows.Forms.Binding("number", this.bindingSourceQuickTab, checkbox.Name, true));
 
                 // close selection form
-                ((Form)((CheckBox)sender).Parent).Close();
+                ((Form)checkbox.Parent).Close();
             }
         }
 
