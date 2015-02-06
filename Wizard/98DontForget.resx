@@ -198,7 +198,7 @@ Check them out!!
     <value>0, 0</value>
   </data>
   <data name="radialGradientBG1.Image.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>Inherit</value>
+    <value>NoControl</value>
   </data>
   <data name="linkLabel6.Font" type="System.Drawing.Font, System.Drawing">
     <value>Arial, 12pt</value>
@@ -345,7 +345,7 @@ Check them out!!
     <value>2</value>
   </data>
   <data name="radialGradientBG1.Label.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>Inherit</value>
+    <value>NoControl</value>
   </data>
   <data name="flowLayoutPanel1.Location" type="System.Drawing.Point, System.Drawing">
     <value>8, 75</value>
