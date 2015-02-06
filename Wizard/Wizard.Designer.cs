@@ -39,8 +39,8 @@ namespace MissionPlanner.Wizard
             // 
             // panel1
             // 
-            this.panel1.BackColor = System.Drawing.Color.Transparent;
             resources.ApplyResources(this.panel1, "panel1");
+            this.panel1.BackColor = System.Drawing.Color.Transparent;
             this.panel1.Name = "panel1";
             // 
             // progressStep1
