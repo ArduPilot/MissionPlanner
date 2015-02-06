@@ -117,13 +117,17 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>536, 18</value>
+  </data>
   <data name="label2.Text" xml:space="preserve">
-    <value>Please select your frame type from below, so we can upload the correct firmware to your autopilot</value>
+    <value>请在下方选择你的机架类型，以便我们上传正确的固件到你的自动驾驶仪中</value>
+  </data>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>199, 22</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
-    <value>UAV SELECTION: COPTER</value>
-  </data>
-  <data name="radialGradientBG1.Label.Text" xml:space="preserve">
-    <value>Select your frame type</value>
+    <value>无人机选择：飞行器</value>
   </data>
 </root>

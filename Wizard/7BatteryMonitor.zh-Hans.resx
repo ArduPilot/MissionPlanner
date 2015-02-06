@@ -117,19 +117,29 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="label2.Text" xml:space="preserve">
-    <value>What sensor are you using?</value>
-  </data>
-  <data name="label3.Text" xml:space="preserve">
-    <value>What autopilot version do you own?</value>
-  </data>
-  <data name="label1.Text" xml:space="preserve">
-    <value>Battery Monitor Configuration</value>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>240, 18</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
-    <value>What size batterys are you using (mah)?</value>
+    <value>你正在用多大容量的电池(mah)？</value>
   </data>
-  <data name="radialGradientBG1.Label.Text" xml:space="preserve">
-    <value>Battery Monitor</value>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>184, 18</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>你正在使用的传感器是？</value>
+  </data>
+  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>200, 18</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>你的自动驾驶仪的版本是？</value>
+  </data>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>157, 22</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>电池监测器配置</value>
   </data>
 </root>

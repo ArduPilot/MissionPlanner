@@ -117,37 +117,44 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="BUT_MagCalibrationLive.Text" xml:space="preserve">
+    <value>现场校准</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="linkLabel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>71, 12</value>
+  </data>
+  <data name="linkLabel1.Text" xml:space="preserve">
+    <value>Youtube示例</value>
+  </data>
   <data name="label2.Text" xml:space="preserve">
     <value>罗盘的校准是非常重要的，这样你的自动驾驶仪才能知道它所在的方向。让每一个方向（左右前后上下）指向北方，然后在这6个轴每个轴从左至右旋转360度。</value>
   </data>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>94, 22</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>罗盘校准</value>
+  </data>
+  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>53, 12</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>点击开始</value>
+  </data>
+  <data name="BUT_compassorient.Text" xml:space="preserve">
+    <value>开始</value>
+  </data>
   <data name="label3.Text" xml:space="preserve">
-    <value>Depending on your hardware, the compass orientation needs to be changed. Please follow the instructions bellow. Make sure to keep the autopilot flat during the orientation.
+    <value>根据你的硬件，罗盘方向需要改变。请遵循下面的说明。确保取向期间自动驾驶仪保持平放。
 
 
 </value>
   </data>
-  <data name="label1.Text" xml:space="preserve">
-    <value>COMPASS CALIBRATION</value>
-  </data>
-  <data name="label6.Text" xml:space="preserve">
-    <value>.</value>
+  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>94, 22</value>
   </data>
   <data name="label4.Text" xml:space="preserve">
-    <value>COMPASS ORIENTATION</value>
-  </data>
-  <data name="label5.Text" xml:space="preserve">
-    <value>Press Start</value>
-  </data>
-  <data name="linkLabel1.Text" xml:space="preserve">
-    <value>Youtube Example</value>
-  </data>
-  <data name="BUT_MagCalibrationLive.Text" xml:space="preserve">
-    <value>Live Calibration</value>
-  </data>
-  <data name="BUT_compassorient.Text" xml:space="preserve">
-    <value>Start</value>
-  </data>
-  <data name="radialGradientBG1.Label.Text" xml:space="preserve">
-    <value>Calibrate your Compass</value>
+    <value>罗盘方向</value>
   </data>
 </root>

@@ -117,13 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="$this.Text" xml:space="preserve">
-    <value>Wizard</value>
+  <data name="BUT_Next.Text" xml:space="preserve">
+    <value>下一步 &gt;&gt;</value>
   </data>
   <data name="BUT_Back.Text" xml:space="preserve">
-    <value>&lt;&lt; Back</value>
+    <value>&lt;&lt; 上一步</value>
   </data>
-  <data name="BUT_Next.Text" xml:space="preserve">
-    <value>Next &gt;&gt;</value>
+  <data name="$this.Text" xml:space="preserve">
+    <value>向导</value>
   </data>
 </root>

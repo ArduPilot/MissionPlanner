@@ -147,6 +147,7 @@ namespace MissionPlanner.Wizard
             // 
             // 
             this.radialGradientBG1.Image.BackColor = System.Drawing.Color.Transparent;
+            this.radialGradientBG1.Image.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("radialGradientBG1.Image.ImeMode")));
             this.radialGradientBG1.Image.Location = ((System.Drawing.Point)(resources.GetObject("radialGradientBG1.Image.Location")));
             this.radialGradientBG1.Image.MaximumSize = ((System.Drawing.Size)(resources.GetObject("radialGradientBG1.Image.MaximumSize")));
             this.radialGradientBG1.Image.MinimumSize = ((System.Drawing.Size)(resources.GetObject("radialGradientBG1.Image.MinimumSize")));
@@ -162,6 +163,7 @@ namespace MissionPlanner.Wizard
             this.radialGradientBG1.Label.BackColor = System.Drawing.Color.Transparent;
             this.radialGradientBG1.Label.Font = ((System.Drawing.Font)(resources.GetObject("radialGradientBG1.Label.Font")));
             this.radialGradientBG1.Label.ForeColor = System.Drawing.Color.Black;
+            this.radialGradientBG1.Label.ImeMode = ((System.Windows.Forms.ImeMode)(resources.GetObject("radialGradientBG1.Label.ImeMode")));
             this.radialGradientBG1.Label.Location = ((System.Drawing.Point)(resources.GetObject("radialGradientBG1.Label.Location")));
             this.radialGradientBG1.Label.Name = "_Label";
             this.radialGradientBG1.Label.Size = ((System.Drawing.Size)(resources.GetObject("radialGradientBG1.Label.Size")));

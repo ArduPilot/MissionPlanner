@@ -117,40 +117,62 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="mavlinkCheckBox1.Text" xml:space="preserve">
-    <value>Enable</value>
-  </data>
-  <data name="mavlinkCheckBox2.Text" xml:space="preserve">
-    <value>Enable</value>
-  </data>
-  <data name="label2.Text" xml:space="preserve">
-    <value>Distance: </value>
-  </data>
-  <data name="label3.Text" xml:space="preserve">
-    <value>Do you have a sonar attached?</value>
-  </data>
-  <data name="label1.Text" xml:space="preserve">
-    <value>Sonar</value>
-  </data>
-  <data name="label6.Text" xml:space="preserve">
-    <value>Do you have a Optical flow sensor attached?</value>
-  </data>
-  <data name="label7.Text" xml:space="preserve">
-    <value>Optical Flow</value>
-  </data>
-  <data name="label4.Text" xml:space="preserve">
-    <value>Voltage: </value>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>72, 18</value>
   </data>
   <data name="label5.Text" xml:space="preserve">
-    <value>Sonar Model</value>
+    <value>声呐型号</value>
   </data>
-  <data name="LBL_dist.Text" xml:space="preserve">
-    <value>0.0</value>
+  <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>56, 18</value>
   </data>
-  <data name="radialGradientBG1.Label.Text" xml:space="preserve">
-    <value>Optional Items</value>
+  <data name="label4.Text" xml:space="preserve">
+    <value>电压：</value>
   </data>
-  <data name="LBL_volt.Text" xml:space="preserve">
-    <value>0.0</value>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>56, 18</value>
+  </data>
+  <data name="label2.Text" xml:space="preserve">
+    <value>距离：</value>
+  </data>
+  <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>136, 18</value>
+  </data>
+  <data name="label3.Text" xml:space="preserve">
+    <value>你有连接声呐吗？</value>
+  </data>
+  <data name="mavlinkCheckBox1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>48, 16</value>
+  </data>
+  <data name="mavlinkCheckBox1.Text" xml:space="preserve">
+    <value>启用</value>
+  </data>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>52, 22</value>
+  </data>
+  <data name="label1.Text" xml:space="preserve">
+    <value>声呐</value>
+  </data>
+  <data name="mavlinkCheckBox2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>255, 36</value>
+  </data>
+  <data name="mavlinkCheckBox2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>48, 16</value>
+  </data>
+  <data name="mavlinkCheckBox2.Text" xml:space="preserve">
+    <value>启用</value>
+  </data>
+  <data name="label7.Size" type="System.Drawing.Size, System.Drawing">
+    <value>52, 22</value>
+  </data>
+  <data name="label7.Text" xml:space="preserve">
+    <value>光流</value>
+  </data>
+  <data name="label6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>184, 18</value>
+  </data>
+  <data name="label6.Text" xml:space="preserve">
+    <value>你有连接光流传感器吗？</value>
   </data>
 </root>

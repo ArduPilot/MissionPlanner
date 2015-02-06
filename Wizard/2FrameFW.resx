@@ -393,6 +393,9 @@
   <data name="&gt;&gt;panel1.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
+  <data name="radialGradientBG1.Image.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <data name="radialGradientBG1.Image.Location" type="System.Drawing.Point, System.Drawing">
     <value>38, 10</value>
   </data>
@@ -416,6 +419,9 @@
   </data>
   <data name="radialGradientBG1.Label.Font" type="System.Drawing.Font, System.Drawing">
     <value>Arial, 18pt, style=Bold</value>
+  </data>
+  <data name="radialGradientBG1.Label.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="radialGradientBG1.Label.Location" type="System.Drawing.Point, System.Drawing">
     <value>30, 5</value>
