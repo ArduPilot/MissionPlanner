@@ -2387,6 +2387,7 @@ namespace MissionPlanner.GCSViews
                 MaximizeBox = false,
                 MinimizeBox = false
             };
+            ThemeManager.ApplyThemeTo(selectform);
 
             object thisBoxed = MainV2.comPort.MAV.cs;
             Type test = thisBoxed.GetType();
@@ -2430,16 +2431,12 @@ namespace MissionPlanner.GCSViews
                     Checked = hud1.CustomItems.ContainsKey(fields[i])
                 };
                 chk_box.CheckedChanged += chk_box_hud_UserItem_CheckedChanged;
+                if (chk_box.Checked)
+                    chk_box.BackColor = Color.Green;
                 selectform.Controls.Add(chk_box);
                 Application.DoEvents();
             }
 
-            ThemeManager.ApplyThemeTo(selectform);
-            foreach (Control ctrl in selectform.Controls)
-            {
-                if (ctrl is CheckBox && ((CheckBox)ctrl).Checked)
-                    ((CheckBox)ctrl).BackColor = Color.Green;
-            }
             selectform.ShowDialog(this);
         }
 
@@ -2753,6 +2750,7 @@ namespace MissionPlanner.GCSViews
                 MaximizeBox = false,
                 MinimizeBox = false
             };
+            ThemeManager.ApplyThemeTo(selectform);
 
             object thisBoxed = MainV2.comPort.MAV.cs;
             Type test = thisBoxed.GetType();
@@ -2797,16 +2795,12 @@ namespace MissionPlanner.GCSViews
                     Size = new System.Drawing.Size(max_length, row_height)
                 };
                 chk_box.CheckedChanged += new EventHandler(chk_box_quickview_CheckedChanged);
+                if (chk_box.Checked)
+                    chk_box.BackColor = Color.Green;
                 selectform.Controls.Add(chk_box);
                 Application.DoEvents();
             }
 
-            ThemeManager.ApplyThemeTo(selectform);
-            foreach (Control ctrl in selectform.Controls)
-            {
-                if (ctrl is CheckBox && ((CheckBox)ctrl).Checked)
-                    ((CheckBox)ctrl).BackColor = Color.Green;
-            }
             selectform.ShowDialog(this);
         }
 
