@@ -247,6 +247,15 @@ namespace MissionPlanner.Joystick
             ProgressBarCH7.Value = MainV2.comPort.MAV.cs.rcoverridech7;
             ProgressBarCH8.Value = MainV2.comPort.MAV.cs.rcoverridech8;
 
+            progressBarRoll.maxline = MainV2.joystick.getRawValueForChannel(1);
+            progressBarPith.maxline = MainV2.joystick.getRawValueForChannel(2);
+            progressBarThrottle.maxline = MainV2.joystick.getRawValueForChannel(3);
+            progressBarRudder.maxline = MainV2.joystick.getRawValueForChannel(4);
+            ProgressBarCH5.maxline = MainV2.joystick.getRawValueForChannel(5);
+            ProgressBarCH6.maxline = MainV2.joystick.getRawValueForChannel(6);
+            ProgressBarCH7.maxline = MainV2.joystick.getRawValueForChannel(7);
+            ProgressBarCH8.maxline = MainV2.joystick.getRawValueForChannel(8);
+
             try
             {
                 for (int f = 0; f < noButtons; f++)

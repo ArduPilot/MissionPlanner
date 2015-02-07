@@ -997,6 +997,20 @@ namespace MissionPlanner.Joystick
             return ans;
         }
 
+        public ushort getRawValueForChannel(int channel)
+        {
+            if (joystick == null)
+                return 0;
+
+            joystick.Poll();
+
+            state = joystick.CurrentJoystickState;
+
+            ushort ans = pickchannel(channel, JoyChannels[channel].axis, false, 0);
+            log.DebugFormat("{0} = {1} = {2}", channel, ans, state.X);
+            return ans;
+        }
+
         ushort pickchannel(int chan, joystickaxis axis, bool rev, int expo)
         {
             int min, max, trim = 0;
