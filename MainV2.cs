@@ -152,6 +152,7 @@ namespace MissionPlanner
         /// <summary>
         /// other planes in the area from adsb
         /// </summary>
+        internal object adsblock = new object();
         public Hashtable adsbPlanes = new Hashtable();
         public Hashtable adsbPlaneAge = new Hashtable();
 
@@ -673,7 +674,7 @@ namespace MissionPlanner
 
         void adsb_UpdatePlanePosition(object sender, EventArgs e)
         {
-            lock (adsbPlanes)
+            lock (adsblock)
             {
                 adsbPlanes[((MissionPlanner.Utilities.adsb.PointLatLngAltHdg)sender).Tag] = ((MissionPlanner.Utilities.adsb.PointLatLngAltHdg)sender);
                 adsbPlaneAge[((MissionPlanner.Utilities.adsb.PointLatLngAltHdg)sender).Tag] = DateTime.Now;
