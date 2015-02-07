@@ -225,6 +225,16 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
             }
 
+            if (rcmin[0] > 800 && rcmin[0] < 2200)
+            {
+
+            }
+            else
+            {
+                CustomMessageBox.Show("Bad channel 1 input, canceling");
+                return;
+            }
+
             CustomMessageBox.Show("Ensure all your sticks are centered and throttle is down, and click ok to continue");
 
             MainV2.comPort.MAV.cs.UpdateCurrentSettings(currentStateBindingSource, true, MainV2.comPort);
