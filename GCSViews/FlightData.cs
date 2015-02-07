@@ -1181,7 +1181,7 @@ namespace MissionPlanner.GCSViews
                         }
                         catch { }
 
-                        lock (MainV2.instance.adsbPlanes)
+                        lock (MainV2.instance.adsblock)
                         {
                             for (int a = (routes.Markers.Count - 1); a >= 0; a--)
                             {
