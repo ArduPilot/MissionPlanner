@@ -72,32 +72,34 @@ namespace MissionPlanner.Warnings
             run = true;
             while (run)
             {
-                try
+                if (MainV2.comPort.BaseStream.IsOpen)
                 {
-                    lock (warnings)
+                    try
                     {
-                        foreach (var item in warnings)
+                        lock (warnings)
                         {
-                            // check primary condition
-                            if (checkCond(item))
+                            foreach (var item in warnings)
                             {
-                                if (MainV2.speechEnable)
+                                // check primary condition
+                                if (checkCond(item))
                                 {
-                                    while (MainV2.speechEngine.State != System.Speech.Synthesis.SynthesizerState.Ready)
-                                        System.Threading.Thread.Sleep(10);
+                                    if (MainV2.speechEnable)
+                                    {
+                                        while (MainV2.speechEngine.State != System.Speech.Synthesis.SynthesizerState.Ready)
+                                            System.Threading.Thread.Sleep(10);
 
-                                    MainV2.speechEngine.SpeakAsync(item.SayText());
+                                        MainV2.speechEngine.SpeakAsync(item.SayText());
+                                    }
+
+                                    MainV2.comPort.MAV.cs.messageHigh = item.SayText();
+                                    MainV2.comPort.MAV.cs.messageHighTime = DateTime.Now;
                                 }
 
-                                MainV2.comPort.MAV.cs.messageHigh = item.SayText();
-                                MainV2.comPort.MAV.cs.messageHighTime = DateTime.Now;
                             }
-
                         }
                     }
+                    catch { }
                 }
-                catch { }
-
 
                 System.Threading.Thread.Sleep(100);
             }
