@@ -591,7 +591,14 @@ namespace MissionPlanner
         private void CreateReportFiles(Dictionary<string, PictureInformation> listPhotosWithInfo, string dirWithImages, float offset)
         {
             // Write report files
-            Document kml = new Document();
+            Document kmlroot = new Document();
+            Folder kml = new Folder("Pins");
+
+            Folder overlayfolder = new Folder("Overlay");
+
+            // add root folder to document
+            kmlroot.AddFeature(kml);
+            kmlroot.AddFeature(overlayfolder);
 
             // Clear Stations IDs
             JXL_StationIDs.Clear();
@@ -812,8 +819,8 @@ namespace MissionPlanner
 
                             swjpw.Close();
                         }*/
-                    
-                    kml.AddFeature(
+
+                    overlayfolder.AddFeature(
                         new GroundOverlay()
                         {
                             Name = filenameWithoutExt,
@@ -848,7 +855,7 @@ namespace MissionPlanner
                 }
 
                 Serializer serializer = new Serializer();
-                serializer.Serialize(kml);
+                serializer.Serialize(kmlroot);
                 swlockml.Write(serializer.Xml);
 
                 Utilities.httpserver.georefkml = serializer.Xml;
