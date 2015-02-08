@@ -15,6 +15,7 @@ namespace SharpKml.Dom
 
         public Folder(string name)
         {
+            this.RegisterValidChild<Feature>();
             this.Name = name;
         }
     }
