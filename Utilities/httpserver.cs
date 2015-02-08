@@ -62,7 +62,7 @@ namespace MissionPlanner.Utilities
             {
                 listener = new TcpListener(IPAddress.Any, 56781);
 
-                listener.Start();
+                listener.Start(10);
             }
             catch (Exception e)
             {
@@ -88,7 +88,7 @@ namespace MissionPlanner.Utilities
                     // continuing.
                     tcpClientConnected.WaitOne();
 
-                    System.Threading.Thread.Sleep(50);
+                    //System.Threading.Thread.Sleep(50);
 
                 }
                 catch (ThreadAbortException ex) 
@@ -137,16 +137,28 @@ namespace MissionPlanner.Utilities
 
                     NetworkStream stream = client.GetStream();
 
-                    // 3 seconds
-                    stream.ReadTimeout = 3000;
+                    // 5 seconds - default for httpd 2.2+
+                    stream.ReadTimeout = 5000;
+
+                    goto skipagain;
 
                 again:
+                    log.Info("doing Again");
+
+                    skipagain:
 
                     var asciiEncoding = new ASCIIEncoding();
 
-                    var request = new byte[1024];
+                    var request = new byte[1024 * 4];
+                    int len = 0;
 
-                    int len = stream.Read(request, 0, request.Length);
+                    // handle header
+                    try
+                    {
+                        len = stream.Read(request, 0, request.Length);
+                    }
+                    catch { return; }
+
                     string head = System.Text.Encoding.ASCII.GetString(request, 0, len);
                     log.Info(head);
 
@@ -215,17 +227,17 @@ namespace MissionPlanner.Utilities
                     /////////////////////////////////////////////////////////////////
                     else if (url.Contains("georefnetwork.kml"))
                     {
-                        string header = "HTTP/1.1 200 OK\r\nConnection: close\r\nContent-Type: application/vnd.google-earth.kml+xml\r\nContent-Length: " + georefkml.Length + "\r\n\r\n";
+                        byte[] buffer = Encoding.ASCII.GetBytes(georefkml);
+
+                        string header = "HTTP/1.1 200 OK\r\nServer: here\r\nKeep-Alive: timeout=15, max=100\r\nConnection: Keep-Alive\r\nCache-Control: no-cache\r\nContent-Type: application/vnd.google-earth.kml+xml\r\nX-Pad: avoid browser bug\r\nContent-Length: " + buffer.Length + "\r\n\r\n";
                         byte[] temp = asciiEncoding.GetBytes(header);
                         stream.Write(temp, 0, temp.Length);
 
-                        byte[] buffer = Encoding.ASCII.GetBytes(georefkml);
-
                         stream.Write(buffer, 0, buffer.Length);
 
-                        //goto again;
+                        goto again;
 
-                        stream.Close();
+                        //stream.Close();
                     }
                     /////////////////////////////////////////////////////////////////
                     else if (url.Contains("network.kml"))
@@ -521,8 +533,7 @@ namespace MissionPlanner.Utilities
                                 resi.Save(memstream, System.Drawing.Imaging.ImageFormat.Jpeg);
 
                                 memstream.Position = 0;
-
-                                string header = "HTTP/1.1 200 OK\r\nConnection: close\r\nContent-Type: image/jpg\r\nContent-Length: " + memstream.Length + "\r\n\r\n";
+                                string header = "HTTP/1.1 200 OK\r\nServer: here\r\nKeep-Alive: timeout=15, max=100\r\nConnection: Keep-Alive\r\nContent-Type: image/jpg\r\nX-Pad: avoid browser bug\r\nContent-Length: " + memstream.Length + "\r\n\r\n";
                                 byte[] temp = asciiEncoding.GetBytes(header);
                                 stream.Write(temp, 0, temp.Length);
 
@@ -539,9 +550,9 @@ namespace MissionPlanner.Utilities
                                 }
                             }
 
-                            //goto again;
+                            goto again;
 
-                            stream.Close();
+                            //stream.Close();
                         }
                         /////////////////////////////////////////////////////////////////
                         else
@@ -767,6 +778,7 @@ namespace MissionPlanner.Utilities
                     }
 
                     stream.Close();
+                    log.Info("Close http " + url);
                 }
                 catch (Exception ee)
                 {
