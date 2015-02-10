@@ -247,6 +247,7 @@ namespace MissionPlanner
         int millisShutterLag = 0;
 
         Hashtable filedatecache = new Hashtable();
+        private CheckBox chk_cammsg;
         List<int> JXL_StationIDs = new List<int>();
 
         internal Georefimage() {
@@ -486,28 +487,65 @@ namespace MissionPlanner
         }
 
         // Return List with all CAMs messages splitted in string arrays
-        List<string[]> readCAMMsgInLog(string fn)
+        Dictionary<long, VehicleLocation> readCAMMsgInLog(string fn)
+        {
+            Dictionary<long, VehicleLocation> list = new Dictionary<long, VehicleLocation>();
+
+            if (fn.ToLower().EndsWith("tlog"))
+                return null;
+
+            using (StreamReader sr = new StreamReader(fn))
+            {
+                while (!sr.EndOfStream)
+                {
+                    string line = sr.ReadLine();
+
+                    if (line.ToLower().StartsWith("cam"))
+                    {
+                        string[] currentCAM = line.Split(new char[] { ',', ':' });
+
+                        VehicleLocation p = new VehicleLocation();
+
+                        p.Time = GetTimeFromGps(int.Parse(getValueFromStringArray(currentCAM, weekCAMPos), CultureInfo.InvariantCulture), int.Parse(getValueFromStringArray(currentCAM, timeCAMpos), CultureInfo.InvariantCulture));
+
+                        p.Lat = double.Parse(getValueFromStringArray(currentCAM, latCAMpos), CultureInfo.InvariantCulture);
+                        p.Lon = double.Parse(getValueFromStringArray(currentCAM, lngCAMpos), CultureInfo.InvariantCulture);
+                        p.AltAMSL = double.Parse(getValueFromStringArray(currentCAM, altCAMpos), CultureInfo.InvariantCulture);
+                        p.RelAlt = double.Parse(getValueFromStringArray(currentCAM, altCAMpos), CultureInfo.InvariantCulture);
+
+                        p.Pitch = float.Parse(getValueFromStringArray(currentCAM, pitchCAMATT), CultureInfo.InvariantCulture);
+                        p.Roll = float.Parse(getValueFromStringArray(currentCAM, rollCAMATT), CultureInfo.InvariantCulture);
+                        p.Yaw = float.Parse(getValueFromStringArray(currentCAM, yawCAMATT), CultureInfo.InvariantCulture);
+
+                        list[ToMilliseconds(p.Time)] = p;
+                    }
+                }
+            }
+            return list;
+        }
+
+        // Return List with all CAMs messages splitted in string arrays
+        List<string[]> readCAMMsgInLogString(string fn)
         {
             List<string[]> list = new List<string[]>();
 
             if (fn.ToLower().EndsWith("tlog"))
                 return null;
 
-            StreamReader sr = new StreamReader(fn);
-
-            while (!sr.EndOfStream)
+            using (StreamReader sr = new StreamReader(fn))
             {
-                string line = sr.ReadLine();
-
-                if (line.ToLower().StartsWith("cam"))
+                while (!sr.EndOfStream)
                 {
-                    string[] vals = line.Split(new char[] { ',', ':' });
+                    string line = sr.ReadLine();
 
-                    list.Add(vals);
+                    if (line.ToLower().StartsWith("cam"))
+                    {
+                        string[] vals = line.Split(new char[] { ',', ':' });
+
+                        list.Add(vals);
+                    }
                 }
             }
-
-            sr.Close();
             return list;
         }
 
@@ -551,10 +589,19 @@ namespace MissionPlanner
         private double EstimateOffset(string logFile, string dirWithImages)
         {
             if (vehicleLocations == null || vehicleLocations.Count <= 0)
-                vehicleLocations = readGPSMsgInLog(logFile);
+            {
+                if (chk_cammsg.Checked)
+                {
+                    vehicleLocations = readCAMMsgInLog(logFile);
+                }
+                else
+                {
+                    vehicleLocations = readGPSMsgInLog(logFile);
+                }
+            }
 
             if (vehicleLocations == null || vehicleLocations.Count <= 0)
-                return -1;
+                return -1;     
 
             List<string> filelist = new List<string>();
             string[] exts = PHOTO_FILES_FILTER.Split(';');
@@ -875,7 +922,7 @@ namespace MissionPlanner
             }
         }
 
-        private VehicleLocation LookForLocation(DateTime t, Dictionary<long, VehicleLocation> listLocations)
+        private VehicleLocation LookForLocation(DateTime t, Dictionary<long, VehicleLocation> listLocations, int offsettime = 2000)
         {
             long time = ToMilliseconds(t);
 
@@ -884,7 +931,7 @@ namespace MissionPlanner
             int millisSTEP = 1; 
 
             // 2 seconds (2000 ms) in the log as absolute maximum
-            int maxIteration = 2000; 
+            int maxIteration = offsettime; 
 
             bool found = false;
             int iteration = 0;
@@ -917,20 +964,28 @@ namespace MissionPlanner
             // Lets start over 
             Dictionary<string, PictureInformation> picturesInformationTemp = new Dictionary<string, PictureInformation>();
 
-            //logFile = @"C:\Users\hog\Pictures\farm 1-10-2011\100SSCAM\2011-10-01 11-48 1.log";
-            TXT_outputlog.AppendText("Reading log for GPS-ATT Messages\n");
-
             // Read Vehicle Locations from log. GPS Messages. Will have to do it anyway
             if (vehicleLocations == null || vehicleLocations.Count <= 0)
-                vehicleLocations = readGPSMsgInLog(logFile);
+            {
+                if (chk_cammsg.Checked)
+                {
+                    TXT_outputlog.AppendText("Reading log for CAM Messages\n");
+
+                    vehicleLocations = readCAMMsgInLog(logFile);
+                }
+                else
+                {
+                    TXT_outputlog.AppendText("Reading log for GPS-ATT Messages\n");
+
+                    vehicleLocations = readGPSMsgInLog(logFile);
+                }
+            }
 
             if (vehicleLocations == null)
             {
                 TXT_outputlog.AppendText("Log file problem. Aborting....\n");
                 return null;
             }
-
-            //dirWithImages = @"C:\Users\hog\Pictures\farm 1-10-2011\100SSCAM";
 
             TXT_outputlog.AppendText("Read images\n");
 
@@ -967,7 +1022,7 @@ namespace MissionPlanner
 
                 // Lookfor corresponding Location in vehicleLocationList
                 DateTime correctedTime = p.ShotTimeReportedByCamera.AddSeconds(-offset);
-                VehicleLocation shotLocation = LookForLocation(correctedTime, vehicleLocations);
+                VehicleLocation shotLocation = LookForLocation(correctedTime, vehicleLocations, 5000);
 
                 if (shotLocation == null)
                 {
@@ -1043,7 +1098,7 @@ namespace MissionPlanner
             //logFile = @"C:\Users\hog\Pictures\farm 1-10-2011\100SSCAM\2011-10-01 11-48 1.log";
             TXT_outputlog.AppendText("Reading log for CAM Messages\n");
 
-            List<string[]> list = readCAMMsgInLog(logFile);
+            List<string[]> list = readCAMMsgInLogString(logFile);
 
             if (list == null)
             {
@@ -1064,7 +1119,7 @@ namespace MissionPlanner
             // Check that we have same number of CAMs than files
             if (files.Length != list.Count)
             {
-                TXT_outputlog.AppendText("CAM Msgs and Files discrepancy. Check it!  Aborting..... \n");
+                TXT_outputlog.AppendText("CAM Msgs and Files discrepancy. Check it!\n");
                 return null;
             }
 
@@ -1536,6 +1591,7 @@ namespace MissionPlanner
             this.PANEL_SHUTTER_LAG = new System.Windows.Forms.Panel();
             this.TXT_shutterLag = new System.Windows.Forms.TextBox();
             this.label27 = new System.Windows.Forms.Label();
+            this.chk_cammsg = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_latpos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_lngpos)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_altpos)).BeginInit();
@@ -2120,9 +2176,17 @@ namespace MissionPlanner
             resources.ApplyResources(this.label27, "label27");
             this.label27.Name = "label27";
             // 
+            // chk_cammsg
+            // 
+            resources.ApplyResources(this.chk_cammsg, "chk_cammsg");
+            this.chk_cammsg.Name = "chk_cammsg";
+            this.chk_cammsg.UseVisualStyleBackColor = true;
+            this.chk_cammsg.CheckedChanged += new System.EventHandler(this.chk_cammsg_CheckedChanged);
+            // 
             // Georefimage
             // 
             resources.ApplyResources(this, "$this");
+            this.Controls.Add(this.chk_cammsg);
             this.Controls.Add(this.PANEL_SHUTTER_LAG);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.PANEL_CAM);
@@ -2529,6 +2593,12 @@ namespace MissionPlanner
             weekCAMPos = (int)((NumericUpDown)sender).Value;
         }
         #endregion
+
+        private void chk_cammsg_CheckedChanged(object sender, EventArgs e)
+        {
+            if (vehicleLocations != null)
+                vehicleLocations.Clear();
+        }
 
 
     }
