@@ -35,6 +35,8 @@ namespace MissionPlanner.Utilities
 
         // R is inclusive, B is exclusive
 
+        static string tfrcache = System.Windows.Forms.Application.StartupPath + Path.DirectorySeparatorChar + "tfr.xml";
+
         public static void GetTFRs()
         {
                 var request = WebRequest.Create(tfrurl);
@@ -46,16 +48,29 @@ namespace MissionPlanner.Utilities
         {
             try
             {
-                // Set the State of request to asynchronous.
-                WebRequest myWebRequest1 = (WebRequest)ar.AsyncState;
+                string content = "";
 
-                WebResponse response = myWebRequest1.EndGetResponse(ar);
+                // check if cache exists and last write was today
+                if (File.Exists(tfrcache) &&
+                    new FileInfo(tfrcache).LastWriteTime.ToShortDateString() == DateTime.Now.ToShortDateString()) 
+                {
+                    content = File.ReadAllText(tfrcache);
+                }
+                else
+                {
+                    // Set the State of request to asynchronous.
+                    WebRequest myWebRequest1 = (WebRequest)ar.AsyncState;
 
-                var st = response.GetResponseStream();
+                    WebResponse response = myWebRequest1.EndGetResponse(ar);
 
-                StreamReader sr = new StreamReader(st);
+                    var st = response.GetResponseStream();
 
-                string content = sr.ReadToEnd();
+                    StreamReader sr = new StreamReader(st);
+
+                    content = sr.ReadToEnd();
+
+                    File.WriteAllText(tfrcache, content);                    
+                }
 
                 XDocument xdoc = XDocument.Parse(content);
 
