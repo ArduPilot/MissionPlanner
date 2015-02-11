@@ -617,22 +617,34 @@ namespace MissionPlanner
 
             Array.Sort(files, Comparer.DefaultInvariant);
 
-            // First Photo time
-            string firstPhoto = files[0];
+            double ans = 0;
 
-            DateTime photoTime = getPhotoTime(firstPhoto);
+            TXT_outputlog.Clear(); 
 
-            TXT_outputlog.AppendText("First Picture " + Path.GetFileNameWithoutExtension(firstPhoto) + " with DateTime: " + photoTime.ToString("yyyy:MM:dd HH:mm:ss") + "\n");
+            for (int a = 0; a < 4; a++)
+            {
+                // First Photo time
+                string firstPhoto = files[a];
 
-            // First GPS Message in Log time
-            List<long> times = new List<long>(vehicleLocations.Keys); 
-            times.Sort();
-            long firstTimeInGPSMsg = times[0];
-            DateTime logTime = FromUTCTimeMilliseconds(firstTimeInGPSMsg);
+                DateTime photoTime = getPhotoTime(firstPhoto);
 
-            TXT_outputlog.AppendText("First GPS Log Msg: " + logTime.ToString("yyyy:MM:dd HH:mm:ss") + "\n");
+                TXT_outputlog.AppendText((a+1) + " Picture " + Path.GetFileNameWithoutExtension(firstPhoto) + " with DateTime: " + photoTime.ToString("yyyy:MM:dd HH:mm:ss") + "\n");
 
-            return (double)(photoTime - logTime).TotalSeconds;
+                // First GPS Message in Log time
+                List<long> times = new List<long>(vehicleLocations.Keys);
+                times.Sort();
+                long firstTimeInGPSMsg = times[a];
+                DateTime logTime = FromUTCTimeMilliseconds(firstTimeInGPSMsg);
+
+                TXT_outputlog.AppendText((a+1) + " GPS Log Msg: " + logTime.ToString("yyyy:MM:dd HH:mm:ss") + "\n");
+
+                TXT_outputlog.AppendText((a + 1) + " Est: " + (double)(photoTime - logTime).TotalSeconds + "\n");
+
+                if (ans == 0)
+                    ans = (double)(photoTime - logTime).TotalSeconds;
+            }
+
+            return ans;
         }
 
         private void CreateReportFiles(Dictionary<string, PictureInformation> listPhotosWithInfo, string dirWithImages, float offset)
