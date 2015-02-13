@@ -155,6 +155,56 @@ namespace GMap.NET.WindowsForms
             if(graphicsPath != null)
             {
                g.DrawPath(Stroke, graphicsPath);
+
+               if (Stroke.DashStyle == DashStyle.Custom)
+               {
+                   if (graphicsPath.PointCount > 0)
+                   {
+                       double deg2rad = Math.PI / 180.0;
+                       double rad2deg = 1 / deg2rad;
+
+                       PointF last = PointF.Empty;
+                       foreach (PointF item in graphicsPath.PathPoints)
+                       {
+                           if (last == PointF.Empty)
+                           {
+                               last = item;
+                               continue;
+                           }
+
+                           float polx = item.X - last.X;
+                           float poly = item.Y - last.Y;
+
+                           // distance
+                           double r = Math.Sqrt(Math.Pow(polx, 2) + Math.Pow(poly, 2));
+
+                           if (r == 0)
+                               continue;
+
+                           // angle
+                           double angle = Math.Atan2(poly, polx);
+
+                           if (double.IsNaN(angle))
+                               continue;
+
+                           float midx = polx / 2;
+                           float midy = poly / 2;
+
+                           float midxstart = last.X + midx;
+                           float midystart = last.Y + midy;
+
+                           double leftangle = angle + 210 * deg2rad;
+                           double rightangle = angle - 210 * deg2rad;
+
+                           float length = 15;
+
+                           g.DrawLine(Stroke, midxstart, midystart, midxstart + length * (float)Math.Cos(leftangle), midystart + length * (float)Math.Sin(leftangle));
+                           g.DrawLine(Stroke, midxstart, midystart, midxstart + length * (float)Math.Cos(rightangle), midystart + length * (float)Math.Sin(rightangle));
+
+                           last = item;
+                       }
+                   }
+               }
             }
          }
 #else
