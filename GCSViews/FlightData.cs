@@ -1495,6 +1495,7 @@ namespace MissionPlanner.GCSViews
 
             GMapRoute wppath = new GMapRoute("wp path");
             wppath.Stroke = new Pen(Color.Yellow, 4);
+            wppath.Stroke.DashStyle = DashStyle.Custom;
 
             for (int a = 1; a < polygonPoints.Count; a++)
             {
