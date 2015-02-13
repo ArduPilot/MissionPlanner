@@ -32,6 +32,7 @@ using GMap.NET.MapProviders;
 using MissionPlanner.Maps;
 using System.Data;
 using DotSpatial.Projections;
+using System.Drawing.Drawing2D;
 
 namespace MissionPlanner.GCSViews
 {
@@ -1325,17 +1326,19 @@ namespace MissionPlanner.GCSViews
             int count = wproute.Count;
             int counter = 0;
             PointLatLngAlt homepoint = new PointLatLngAlt();
+            PointLatLngAlt firstpoint = new PointLatLngAlt();
             PointLatLngAlt lastpoint = new PointLatLngAlt();
 
             if (count > 2)
             {
+                // homeroute = last, home, first
                 wproute.ForEach(x =>
                 {
                     counter++;
                     if (counter == 1) { homepoint = x; return; }
-                    if (counter == 2) { homeroute.Points.Add(x); homeroute.Points.Add(homepoint); }
+                    if (counter == 2) { firstpoint = x; }
                     if (counter == count - 1) { lastpoint = x; }
-                    if (counter == count) { homeroute.Points.Add(x); homeroute.Points.Add(lastpoint); return; }
+                    if (counter == count) { homeroute.Points.Add(lastpoint); homeroute.Points.Add(homepoint); homeroute.Points.Add(firstpoint); return; }
                     route.Points.Add(x);
                 });
 
@@ -1347,6 +1350,7 @@ namespace MissionPlanner.GCSViews
                 polygonsoverlay.Routes.Add(homeroute);
 
                 route.Stroke = new Pen(Color.Yellow, 4);
+                route.Stroke.DashStyle = DashStyle.Custom;
                 polygonsoverlay.Routes.Add(route);
             }
         }
@@ -1384,6 +1388,7 @@ namespace MissionPlanner.GCSViews
                 wppolygon.Points.AddRange(polygonPoints);
 
                 wppolygon.Stroke = new Pen(Color.Yellow, 4);
+                wppolygon.Stroke.DashStyle = DashStyle.Custom;
                 wppolygon.Fill = Brushes.Transparent;
 
                 if (polygonsoverlay.Polygons.Count == 0)
