@@ -602,6 +602,7 @@ namespace MissionPlanner
                 }
                 GMapRoute seg = new GMapRoute(segment, "segment" + a.ToString());
                 seg.Stroke = new Pen(Color.Yellow, 4);
+                seg.Stroke.DashStyle = System.Drawing.Drawing2D.DashStyle.Custom;
                 seg.IsHitTestVisible = true;
                 if (CHK_grid.Checked)
                     routesOverlay.Routes.Add(seg);
