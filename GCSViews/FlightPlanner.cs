@@ -92,7 +92,7 @@ namespace MissionPlanner.GCSViews
         }
 
         /// <summary>
-        /// used to adjust existing point in the datagrid including "Home"
+        /// used to adjust existing point in the datagrid including "H"
         /// </summary>
         /// <param name="pointno"></param>
         /// <param name="lat"></param>
@@ -106,7 +106,7 @@ namespace MissionPlanner.GCSViews
             }
 
             // dragging a WP
-            if (pointno == "Home")
+            if (pointno == "H")
             {
                 if (isonline && CHK_verifyheight.Checked)
                 {
@@ -316,7 +316,7 @@ namespace MissionPlanner.GCSViews
             if (sethome)
             {
                 sethome = false;
-                callMeDrag("Home", lat, lng, alt);
+                callMeDrag("H", lat, lng, alt);
                 return;
             }
             // creating a WP
@@ -880,15 +880,16 @@ namespace MissionPlanner.GCSViews
             try
             {
                 PointLatLng point = new PointLatLng(lat, lng);
-                GMarkerGoogle m = new GMarkerGoogle(point, GMarkerGoogleType.green);
-                m.ToolTipMode = MarkerTooltipMode.Always;
-                m.ToolTipText = tag;
+                GMapMarkerWP m = new GMapMarkerWP(point, tag);
+                m.ToolTipMode = MarkerTooltipMode.OnMouseOver;
+                m.ToolTipText = "Alt: " + alt.ToString("0");
                 m.Tag = tag;
 
                 //MissionPlanner.GMapMarkerRectWPRad mBorders = new MissionPlanner.GMapMarkerRectWPRad(point, (int)float.Parse(TXT_WPRad.Text), MainMap);
                 GMapMarkerRect mBorders = new GMapMarkerRect(point);
                 {
                     mBorders.InnerMarker = m;
+                    mBorders.Tag = tag;
                     mBorders.wprad = (int)(float.Parse(TXT_WPRad.Text) / CurrentState.multiplierdist);
                     if (color.HasValue)
                     {
@@ -987,9 +988,9 @@ namespace MissionPlanner.GCSViews
                     home = string.Format("{0},{1},{2}\r\n", TXT_homelng.Text, TXT_homelat.Text, TXT_DefaultAlt.Text);
                     if (objectsoverlay != null) // during startup
                     {
-                        pointlist.Add(new PointLatLngAlt(double.Parse(TXT_homelat.Text), double.Parse(TXT_homelng.Text), (int)double.Parse(TXT_homealt.Text), "Home"));
+                        pointlist.Add(new PointLatLngAlt(double.Parse(TXT_homelat.Text), double.Parse(TXT_homelng.Text), (int)double.Parse(TXT_homealt.Text), "H"));
                         fullpointlist.Add(pointlist[pointlist.Count - 1]);
-                        addpolygonmarker("Home", double.Parse(TXT_homelng.Text), double.Parse(TXT_homelat.Text), 0, null);
+                        addpolygonmarker("H", double.Parse(TXT_homelng.Text), double.Parse(TXT_homelat.Text), 0, null);
                     }
                 }
                 else
@@ -1415,7 +1416,7 @@ namespace MissionPlanner.GCSViews
                     continue;
                 try
                 {
-                    if (lla.Tag != null && lla.Tag != "Home" && !lla.Tag.Contains("ROI"))
+                    if (lla.Tag != null && lla.Tag != "H" && !lla.Tag.Contains("ROI"))
                     {
                         Commands.Rows[int.Parse(lla.Tag) - 1].Cells[Grad.Index].Value = (((lla.Alt - last.Alt) / (lla.GetDistance(last) * CurrentState.multiplierdist)) * 100).ToString("0.0");
 
