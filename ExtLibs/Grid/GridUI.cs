@@ -594,7 +594,11 @@ namespace MissionPlanner
                 {
                     strips++;
                     if (CHK_markers.Checked)
-                        routesOverlay.Markers.Add(new GMarkerGoogle(item, GMarkerGoogleType.green) { ToolTipText = a.ToString(), ToolTipMode = MarkerTooltipMode.Always });
+                    {
+                        var marker = new GMapMarkerWP(item, a.ToString()) { ToolTipText = a.ToString(), ToolTipMode = MarkerTooltipMode.OnMouseOver };
+                        routesOverlay.Markers.Add(marker);
+                    }
+
                     segment.Add(prevpoint);
                     segment.Add(item);
                     prevpoint = item;
