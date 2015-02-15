@@ -73,7 +73,7 @@ namespace MissionPlanner.Utilities
                 int widtharc = (int)Math.Abs(loc.X - LocalPosition.X);
                 int heightarc = (int)Math.Abs(loc.X - LocalPosition.X);
 
-                if (widtharc > 0)
+                if (widtharc > 0 && m2pixelheight > 0.5)
                 {
                     g.DrawArc(Pen, new System.Drawing.Rectangle(x, y, widtharc, heightarc), 0, 360);
 
