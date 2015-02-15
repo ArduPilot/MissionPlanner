@@ -62,7 +62,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             mavlinkComboBox1.setup(Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("AHRS_ORIENTATION", MainV2.comPort.MAV.cs.firmware.ToString()), "AHRS_ORIENTATION", MainV2.comPort.MAV.param);
             mavlinkComboBox2.setup(Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("SERVO_TYPE", MainV2.comPort.MAV.cs.firmware.ToString()), "SERVO_TYPE", MainV2.comPort.MAV.param);
-            mavlinkComboBox3.setup(Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("PROXY_MODE", MainV2.comPort.MAV.cs.firmware.ToString()), "PROXY_MODE", MainV2.comPort.MAV.param);
 
             // yaw
             mavlinkNumericUpDown1.setup(900, 2200, 1, 1, "RC1_MIN", MainV2.comPort.MAV.param);
