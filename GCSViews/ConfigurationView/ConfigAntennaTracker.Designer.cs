@@ -45,8 +45,6 @@
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.mavlinkComboBox2 = new MissionPlanner.Controls.MavlinkComboBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.mavlinkComboBox3 = new MissionPlanner.Controls.MavlinkComboBox();
             this.BUT_refreshpart = new MissionPlanner.Controls.MyButton();
             this.BUT_rerequestparams = new MissionPlanner.Controls.MyButton();
             this.BUT_writePIDS = new MissionPlanner.Controls.MyButton();
@@ -95,7 +93,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.myTrackBar1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown1)).BeginInit();
             this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown5)).BeginInit();
@@ -241,22 +238,6 @@
             this.mavlinkComboBox2.Name = "mavlinkComboBox2";
             this.mavlinkComboBox2.param = null;
             this.mavlinkComboBox2.ParamName = null;
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.mavlinkComboBox3);
-            resources.ApplyResources(this.groupBox2, "groupBox2");
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.TabStop = false;
-            // 
-            // mavlinkComboBox3
-            // 
-            this.mavlinkComboBox3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            resources.ApplyResources(this.mavlinkComboBox3, "mavlinkComboBox3");
-            this.mavlinkComboBox3.FormattingEnabled = true;
-            this.mavlinkComboBox3.Name = "mavlinkComboBox3";
-            this.mavlinkComboBox3.param = null;
-            this.mavlinkComboBox3.ParamName = null;
             // 
             // BUT_refreshpart
             // 
@@ -589,7 +570,6 @@
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.BUT_refreshpart);
             this.Controls.Add(this.BUT_rerequestparams);
@@ -605,7 +585,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.myTrackBar1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown1)).EndInit();
             this.groupBox1.ResumeLayout(false);
-            this.groupBox2.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mavlinkNumericUpDown4)).EndInit();
@@ -650,8 +629,6 @@
         private Controls.MavlinkComboBox mavlinkComboBox1;
         private System.Windows.Forms.GroupBox groupBox1;
         private Controls.MavlinkComboBox mavlinkComboBox2;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private Controls.MavlinkComboBox mavlinkComboBox3;
         private Controls.MyButton BUT_test_yaw;
         private Controls.MavlinkNumericUpDown mavlinkNumericUpDown3;
         private Controls.MavlinkNumericUpDown mavlinkNumericUpDown2;
