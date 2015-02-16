@@ -72,7 +72,7 @@ namespace MissionPlanner.Plugin
 
         public static void LoadAll()
         {
-            string path = Application.StartupPath +  Path.DirectorySeparatorChar+ "Plugins" +  Path.DirectorySeparatorChar;
+            string path = Application.StartupPath +  Path.DirectorySeparatorChar+ "plugins" +  Path.DirectorySeparatorChar;
 
             if (!Directory.Exists(path))
                 return;
