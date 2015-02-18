@@ -428,4 +428,20 @@ Mission Planner waits for 2 valid heartbeat packets before connecting</value>
   <data name="UpdateNow" xml:space="preserve">
     <value>现在更新</value>
   </data>
+  <data name="RawParamWarning" xml:space="preserve">
+    <value>原始参数警告</value>
+  </data>
+  <data name="RawParamWarningi" xml:space="preserve">
+    <value>本页面所有的值都不会进行大小检查。请再三检查你输入的值。
+如想安全地设置，请使用标准/高级参数</value>
+  </data>
+  <data name="ShowMeAgain" xml:space="preserve">
+    <value>再次显示？</value>
+  </data>
+  <data name="OK" xml:space="preserve">
+    <value>好的</value>
+  </data>
+  <data name="LinkStats" xml:space="preserve">
+    <value>链接统计</value>
+  </data>
 </root>

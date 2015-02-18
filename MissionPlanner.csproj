@@ -591,6 +591,9 @@
     <EmbeddedResource Include="Antenna\Tracker.zh-TW.resx">
       <DependentUpon>Tracker.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ConnectionControl.zh-Hans.resx">
+      <DependentUpon>ConnectionControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\ConnectionStats.zh-Hans.resx">
       <DependentUpon>ConnectionStats.cs</DependentUpon>
     </EmbeddedResource>
