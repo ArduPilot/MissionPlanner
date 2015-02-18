@@ -1350,7 +1350,7 @@ namespace MissionPlanner
                 {
                     log.Info("Saving config");
 
-                    XmlTextWriter xmlwriter = new XmlTextWriter(Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + @"config.xml", Encoding.ASCII);
+                    XmlTextWriter xmlwriter = new XmlTextWriter(Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + @"config.xml", Encoding.UTF8);
                     xmlwriter.Formatting = Formatting.Indented;
 
                     xmlwriter.WriteStartDocument();
