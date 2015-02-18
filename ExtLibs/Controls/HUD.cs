@@ -248,7 +248,7 @@ namespace MissionPlanner.Controls
         Image _bgimage;
 
         // move these global as they rarely change - reduce GC
-        Font font = new Font("Arial", 10);
+        Font font = new Font(HUDT.Font, 10);
         public Bitmap objBitmap = new Bitmap(1024, 1024,System.Drawing.Imaging.PixelFormat.Format32bppArgb);
         int count = 0;
         DateTime countdate = DateTime.Now;
@@ -1137,35 +1137,35 @@ namespace MissionPlanner.Controls
                         disp = disp % 360;
                         if (disp == 0)
                         {
-                            drawstring(graphicsObject, "N".PadLeft(2), font, fontsize + 4, whiteBrush, headbg.Left - 5 + space * (a - start) - fontoffset, headbg.Bottom - 24 - (int)(fontoffset * 1.7));
+                            drawstring(graphicsObject, HUDT.N.PadLeft(2), font, fontsize + 4, whiteBrush, headbg.Left - 5 + space * (a - start) - fontoffset, headbg.Bottom - 24 - (int)(fontoffset * 1.7));
                         }
                         else if (disp == 45)
                         {
-                            drawstring(graphicsObject, "NE".PadLeft(2), font, fontsize + 4, whiteBrush, headbg.Left - 5 + space * (a - start) - fontoffset, headbg.Bottom - 24 - (int)(fontoffset * 1.7));
+                            drawstring(graphicsObject, HUDT.NE.PadLeft(2), font, fontsize + 4, whiteBrush, headbg.Left - 5 + space * (a - start) - fontoffset, headbg.Bottom - 24 - (int)(fontoffset * 1.7));
                         }
                         else if (disp == 90)
                         {
-                            drawstring(graphicsObject, "E".PadLeft(2), font, fontsize + 4, whiteBrush, headbg.Left - 5 + space * (a - start) - fontoffset, headbg.Bottom - 24 - (int)(fontoffset * 1.7));
+                            drawstring(graphicsObject, HUDT.E.PadLeft(2), font, fontsize + 4, whiteBrush, headbg.Left - 5 + space * (a - start) - fontoffset, headbg.Bottom - 24 - (int)(fontoffset * 1.7));
                         }
                         else if (disp == 135)
                         {
-                            drawstring(graphicsObject, "SE".PadLeft(2), font, fontsize + 4, whiteBrush, headbg.Left - 5 + space * (a - start) - fontoffset, headbg.Bottom - 24 - (int)(fontoffset * 1.7));
+                            drawstring(graphicsObject, HUDT.SE.PadLeft(2), font, fontsize + 4, whiteBrush, headbg.Left - 5 + space * (a - start) - fontoffset, headbg.Bottom - 24 - (int)(fontoffset * 1.7));
                         }
                         else if (disp == 180)
                         {
-                            drawstring(graphicsObject, "S".PadLeft(2), font, fontsize + 4, whiteBrush, headbg.Left - 5 + space * (a - start) - fontoffset, headbg.Bottom - 24 - (int)(fontoffset * 1.7));
+                            drawstring(graphicsObject, HUDT.S.PadLeft(2), font, fontsize + 4, whiteBrush, headbg.Left - 5 + space * (a - start) - fontoffset, headbg.Bottom - 24 - (int)(fontoffset * 1.7));
                         }
                         else if (disp == 225)
                         {
-                            drawstring(graphicsObject, "SW".PadLeft(2), font, fontsize + 4, whiteBrush, headbg.Left - 5 + space * (a - start) - fontoffset, headbg.Bottom - 24 - (int)(fontoffset * 1.7));
+                            drawstring(graphicsObject, HUDT.SW.PadLeft(2), font, fontsize + 4, whiteBrush, headbg.Left - 5 + space * (a - start) - fontoffset, headbg.Bottom - 24 - (int)(fontoffset * 1.7));
                         }
                         else if (disp == 270)
                         {
-                            drawstring(graphicsObject, "W".PadLeft(2), font, fontsize + 4, whiteBrush, headbg.Left - 5 + space * (a - start) - fontoffset, headbg.Bottom - 24 - (int)(fontoffset * 1.7));
+                            drawstring(graphicsObject, HUDT.W.PadLeft(2), font, fontsize + 4, whiteBrush, headbg.Left - 5 + space * (a - start) - fontoffset, headbg.Bottom - 24 - (int)(fontoffset * 1.7));
                         }
                         else if (disp == 315)
                         {
-                            drawstring(graphicsObject, "NW".PadLeft(2), font, fontsize + 4, whiteBrush, headbg.Left - 5 + space * (a - start) - fontoffset, headbg.Bottom - 24 - (int)(fontoffset * 1.7));
+                            drawstring(graphicsObject, HUDT.NW.PadLeft(2), font, fontsize + 4, whiteBrush, headbg.Left - 5 + space * (a - start) - fontoffset, headbg.Bottom - 24 - (int)(fontoffset * 1.7));
                         }
                         else
                         {
@@ -1331,20 +1331,20 @@ namespace MissionPlanner.Controls
 
                 if (_lowairspeed)
                 {
-                    drawstring(graphicsObject, "AS " + _airspeed.ToString("0.0"), font, fontsize, (SolidBrush)Brushes.Red, 1, scrollbg.Bottom + 5);
+                    drawstring(graphicsObject, HUDT.AS + _airspeed.ToString("0.0"), font, fontsize, (SolidBrush)Brushes.Red, 1, scrollbg.Bottom + 5);
                 }
                 else
                 {
-                    drawstring(graphicsObject, "AS " + _airspeed.ToString("0.0"), font, fontsize, whiteBrush, 1, scrollbg.Bottom + 5);
+                    drawstring(graphicsObject, HUDT.AS + _airspeed.ToString("0.0"), font, fontsize, whiteBrush, 1, scrollbg.Bottom + 5);
                 }
 
                 if (_lowgroundspeed)
                 {
-                    drawstring(graphicsObject, "GS " + _groundspeed.ToString("0.0"), font, fontsize, (SolidBrush)Brushes.Red, 1, scrollbg.Bottom + fontsize + 2 + 10);
+                    drawstring(graphicsObject, HUDT.GS + _groundspeed.ToString("0.0"), font, fontsize, (SolidBrush)Brushes.Red, 1, scrollbg.Bottom + fontsize + 2 + 10);
                 }
                 else
                 {
-                    drawstring(graphicsObject, "GS " + _groundspeed.ToString("0.0"), font, fontsize, whiteBrush, 1, scrollbg.Bottom + fontsize + 2 + 10);
+                    drawstring(graphicsObject, HUDT.GS + _groundspeed.ToString("0.0"), font, fontsize, whiteBrush, 1, scrollbg.Bottom + fontsize + 2 + 10);
                 }
 
                 //drawstring(e,, new Font("Arial", fontsize + 2), whiteBrush, 1, scrollbg.Bottom + fontsize + 2 + 10);
@@ -1513,9 +1513,9 @@ namespace MissionPlanner.Controls
                 {
                     graphicsObject.ResetTransform();
 
-                    string text = "Bat " + _batterylevel.ToString("0.00v") + " " + _current.ToString("0.0 A");
+                    string text = HUDT.Bat + _batterylevel.ToString("0.00v") + " " + _current.ToString("0.0 A");
 
-                    text = "Bat " + _batterylevel.ToString("0.00v") + " " + _current.ToString("0.0 A") + " " + (_batteryremaining) + "%";
+                    text = HUDT.Bat + _batterylevel.ToString("0.00v") + " " + _current.ToString("0.0 A") + " " + (_batteryremaining) + "%";
 
                     if (lowvoltagealert)
                     {
@@ -1533,29 +1533,29 @@ namespace MissionPlanner.Controls
 
                 if (_gpsfix == 0)
                 {
-                    gps = ("GPS: No GPS");
+                    gps = (HUDT.GPS0);
                     col = (SolidBrush)Brushes.Red;
                 }
                 else if (_gpsfix == 1)
                 {
-                    gps = ("GPS: No Fix");
+                    gps = (HUDT.GPS1);
                     col = (SolidBrush)Brushes.Red;
                 }
                 else if (_gpsfix == 2)
                 {
-                    gps = ("GPS: 2D Fix");
+                    gps = (HUDT.GPS2);
                 }
                 else if (_gpsfix == 3)
                 {
-                    gps = ("GPS: 3D Fix");
+                    gps = (HUDT.GPS3);
                 }
                 else if (_gpsfix == 4)
                 {
-                    gps = ("GPS: 3D dgps");
+                    gps = (HUDT.GPS4);
                 }
                 else if (_gpsfix == 5)
                 {
-                    gps = ("GPS: 3D rtk");
+                    gps = (HUDT.GPS5);
                 }
                 drawstring(graphicsObject, gps, font, fontsize + 2, col, this.Width - 13 * fontsize, this.Height - 30 - fontoffset);
 
@@ -1617,7 +1617,7 @@ namespace MissionPlanner.Controls
                 {
                     //if ((armedtimer.AddSeconds(8) > DateTime.Now))
                     {
-                        drawstring(graphicsObject, "DISARMED", font, fontsize + 10, (SolidBrush)Brushes.Red, -85, halfheight / -3);
+                        drawstring(graphicsObject, HUDT.DISARMED, font, fontsize + 10, (SolidBrush)Brushes.Red, -85, halfheight / -3);
                         statuslast = status;
                     }
                 }
@@ -1625,14 +1625,14 @@ namespace MissionPlanner.Controls
                 {
                     if ((armedtimer.AddSeconds(8) > DateTime.Now))
                     {
-                        drawstring(graphicsObject, "ARMED", font, fontsize + 20, (SolidBrush)Brushes.Red, -70, halfheight / -3);
+                        drawstring(graphicsObject, HUDT.ARMED, font, fontsize + 20, (SolidBrush)Brushes.Red, -70, halfheight / -3);
                         statuslast = status;
                     }
                 }
 
                 if (failsafe == true)
                 {
-                    drawstring(graphicsObject, "FAILSAFE", font, fontsize + 20, (SolidBrush)Brushes.Red, -85, halfheight / -5);
+                    drawstring(graphicsObject, HUDT.FAILSAFE, font, fontsize + 20, (SolidBrush)Brushes.Red, -85, halfheight / -5);
                     statuslast = status;
                 }
 
