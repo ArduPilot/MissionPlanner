@@ -431,4 +431,20 @@ Do you wish to update now? [link;</value>
   <data name="UpdateNow" xml:space="preserve">
     <value>Update Now</value>
   </data>
+  <data name="RawParamWarning" xml:space="preserve">
+    <value>Raw Param Warning</value>
+  </data>
+  <data name="RawParamWarningi" xml:space="preserve">
+    <value>All values on this screen are not min/max checked. Please double check your input.
+Please use Standard/Advanced Params for the safe settings</value>
+  </data>
+  <data name="ShowMeAgain" xml:space="preserve">
+    <value>Show me again?</value>
+  </data>
+  <data name="OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="LinkStats" xml:space="preserve">
+    <value>Link Stats</value>
+  </data>
 </root>

@@ -656,7 +656,7 @@ namespace MissionPlanner
 
             chk.Tag = ("SHOWAGAIN_" + title.Replace(" ", "_"));
             chk.AutoSize = true;
-            chk.Text = "Show me again?";
+            chk.Text = Strings.ShowMeAgain;
             chk.Checked = true;
             chk.Location = new Point(9, 80);
 
@@ -671,7 +671,7 @@ namespace MissionPlanner
 
             chk.CheckStateChanged += new EventHandler(chk_CheckStateChanged);
 
-            buttonOk.Text = "OK";
+            buttonOk.Text = Strings.OK;
             buttonOk.DialogResult = DialogResult.OK;
             buttonOk.Location = new Point(form.Right - 100, 80);
 

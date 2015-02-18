@@ -762,32 +762,32 @@
       <Range>0 1000</Range>
     </CAM_TRIGG_DIST>
     <RELAY_PIN>
-      <DisplayName>First Relay Pin</DisplayName>
-      <Description>Digital pin number for first relay control. This is the pin used for camera control.</Description>
+      <DisplayName>第1中继针脚</DisplayName>
+      <Description>第1中继控制使用的数字针脚。这个针脚用于相机控制。</Description>
       <User>Standard</User>
       <Values>-1:Disabled,13:APM2 A9 pin,47:APM1 relay,50:Pixhawk AUXOUT1,51:Pixhawk AUXOUT2,52:Pixhawk AUXOUT3,53:Pixhawk AUXOUT4,54:Pixhawk AUXOUT5,55:Pixhawk AUXOUT6,111:PX4 FMU Relay1,112:PX4 FMU Relay2,113:PX4IO Relay1,114:PX4IO Relay2,115:PX4IO ACC1,116:PX4IO ACC2</Values>
     </RELAY_PIN>
     <RELAY_PIN2>
-      <DisplayName>Second Relay Pin</DisplayName>
-      <Description>Digital pin number for 2nd relay control.</Description>
+      <DisplayName>第2中继针脚</DisplayName>
+      <Description>第2中继控制使用的数字针脚。</Description>
       <User>Standard</User>
       <Values>-1:Disabled,13:APM2 A9 pin,47:APM1 relay,50:Pixhawk AUXOUT1,51:Pixhawk AUXOUT2,52:Pixhawk AUXOUT3,53:Pixhawk AUXOUT4,54:Pixhawk AUXOUT5,55:Pixhawk AUXOUT6,111:PX4 FMU Relay1,112:PX4 FMU Relay2,113:PX4IO Relay1,114:PX4IO Relay2,115:PX4IO ACC1,116:PX4IO ACC2</Values>
     </RELAY_PIN2>
     <RELAY_PIN3>
-      <DisplayName>Third Relay Pin</DisplayName>
-      <Description>Digital pin number for 3rd relay control.</Description>
+      <DisplayName>第3中继针脚</DisplayName>
+      <Description>第3中继控制使用的数字针脚。</Description>
       <User>Standard</User>
       <Values>-1:Disabled,13:APM2 A9 pin,47:APM1 relay,50:Pixhawk AUXOUT1,51:Pixhawk AUXOUT2,52:Pixhawk AUXOUT3,53:Pixhawk AUXOUT4,54:Pixhawk AUXOUT5,55:Pixhawk AUXOUT6,111:PX4 FMU Relay1,112:PX4 FMU Relay2,113:PX4IO Relay1,114:PX4IO Relay2,115:PX4IO ACC1,116:PX4IO ACC2</Values>
     </RELAY_PIN3>
     <RELAY_PIN4>
-      <DisplayName>Fourth Relay Pin</DisplayName>
-      <Description>Digital pin number for 4th relay control.</Description>
+      <DisplayName>第4中继针脚</DisplayName>
+      <Description>第4中继控制使用的数字针脚。</Description>
       <User>Standard</User>
       <Values>-1:Disabled,13:APM2 A9 pin,47:APM1 relay,50:Pixhawk AUXOUT1,51:Pixhawk AUXOUT2,52:Pixhawk AUXOUT3,53:Pixhawk AUXOUT4,54:Pixhawk AUXOUT5,55:Pixhawk AUXOUT6,111:PX4 FMU Relay1,112:PX4 FMU Relay2,113:PX4IO Relay1,114:PX4IO Relay2,115:PX4IO ACC1,116:PX4IO ACC2</Values>
     </RELAY_PIN4>
     <RELAY_DEFAULT>
-      <DisplayName>Default relay state</DisplayName>
-      <Description>The state of the relay on boot.</Description>
+      <DisplayName>默认中继状态</DisplayName>
+      <Description>启动时的中继状态。</Description>
       <User>Standard</User>
       <Values>0:Off,1:On,2:NoChange</Values>
     </RELAY_DEFAULT>
@@ -822,38 +822,38 @@
       <Values>0:Never, 15:every 15 seconds, 30:every 30 seconds, 60:once per minute</Values>
     </EPM_REGRAB>
     <CHUTE_ENABLED>
-      <DisplayName>Parachute release enabled or disabled</DisplayName>
-      <Description>Parachute release enabled or disabled</Description>
-      <Values>0:Disabled,1:Enabled</Values>
+      <DisplayName>降落伞释放启用或禁用</DisplayName>
+      <Description>降落伞释放启用或禁用</Description>
+      <Values>0:禁用,1:启用</Values>
       <User>Standard</User>
     </CHUTE_ENABLED>
     <CHUTE_TYPE>
-      <DisplayName>Parachute release mechanism type (relay or servo)</DisplayName>
-      <Description>Parachute release mechanism type (relay or servo)</Description>
-      <Values>0:First Relay,1:Second Relay,2:Third Relay,3:Fourth Relay,10:Servo</Values>
+      <DisplayName>降落伞释放机制（中继或舵机）</DisplayName>
+      <Description>降落伞释放机制（中继或舵机）</Description>
+      <Values>0:d第一中继,2:第二中继,3:第四中继,10:舵机</Values>
       <User>Standard</User>
     </CHUTE_TYPE>
     <CHUTE_SERVO_ON>
-      <DisplayName>Parachute Servo ON PWM value</DisplayName>
-      <Description>Parachute Servo PWM value when parachute is released</Description>
+      <DisplayName>降落伞舵机启动PWM值</DisplayName>
+      <Description>当降落伞释放时的舵机PWM值</Description>
       <Range>1000 2000</Range>
       <Units>pwm</Units>
       <Increment>1</Increment>
       <User>Standard</User>
     </CHUTE_SERVO_ON>
     <CHUTE_SERVO_OFF>
-      <DisplayName>Servo OFF PWM value</DisplayName>
-      <Description>Parachute Servo PWM value when parachute is not released</Description>
+      <DisplayName>舵机关闭的PWM值</DisplayName>
+      <Description>降落伞没有释放时舵机的PWM值</Description>
       <Range>1000 2000</Range>
       <Units>pwm</Units>
       <Increment>1</Increment>
       <User>Standard</User>
     </CHUTE_SERVO_OFF>
     <CHUTE_ALT_MIN>
-      <DisplayName>Parachute min altitude in cm above home</DisplayName>
-      <Description>Parachute min altitude above home.  Parachute will not be released below this altitude.  0 to disable alt check.</Description>
+      <DisplayName>降落伞在家的高度之上的最小高度</DisplayName>
+      <Description>降落伞在家之上的最小高度。在这个高度之下降落伞不会被释放。0会禁用这个检查。</Description>
       <Range>0 32000</Range>
-      <Units>Meters</Units>
+      <Units>米</Units>
       <Increment>1</Increment>
       <User>Standard</User>
     </CHUTE_ALT_MIN>
@@ -1269,136 +1269,136 @@
       <Increment>0.1</Increment>
     </INAV_TC_Z>
     <WPNAV_SPEED>
-      <DisplayName>Waypoint Horizontal Speed Target</DisplayName>
-      <Description>Defines the speed in cm/s which the aircraft will attempt to maintain horizontally during a WP mission</Description>
+      <DisplayName>航点水平速度目标</DisplayName>
+      <Description>定义航空器在航点任务中将试图维持的水平速度，以cm/s为单位</Description>
       <Units>cm/s</Units>
       <Range>0 2000</Range>
       <Increment>50</Increment>
       <User>Standard</User>
     </WPNAV_SPEED>
     <WPNAV_RADIUS>
-      <DisplayName>Waypoint Radius</DisplayName>
-      <Description>Defines the distance from a waypoint, that when crossed indicates the wp has been hit.</Description>
+      <DisplayName>航点半径</DisplayName>
+      <Description>定义航点的距离范围。一旦穿越该范围，就表明航点已命中。</Description>
       <Units>cm</Units>
       <Range>100 1000</Range>
       <Increment>1</Increment>
       <User>Standard</User>
     </WPNAV_RADIUS>
     <WPNAV_SPEED_UP>
-      <DisplayName>Waypoint Climb Speed Target</DisplayName>
-      <Description>Defines the speed in cm/s which the aircraft will attempt to maintain while climbing during a WP mission</Description>
+      <DisplayName>航点爬升速度目标</DisplayName>
+      <Description>定义航空器在航点任务中将试图维持的爬升速度，以cm/s为单位</Description>
       <Units>cm/s</Units>
       <Range>0 1000</Range>
       <Increment>50</Increment>
       <User>Standard</User>
     </WPNAV_SPEED_UP>
     <WPNAV_SPEED_DN>
-      <DisplayName>Waypoint Descent Speed Target</DisplayName>
-      <Description>Defines the speed in cm/s which the aircraft will attempt to maintain while descending during a WP mission</Description>
+      <DisplayName>航点下降速度目标</DisplayName>
+      <Description>定义航空器在航点任务中将试图维持的下降速度，以cm/s为单位</Description>
       <Units>cm/s</Units>
       <Range>0 500</Range>
       <Increment>10</Increment>
       <User>Standard</User>
     </WPNAV_SPEED_DN>
     <WPNAV_LOIT_SPEED>
-      <DisplayName>Loiter Horizontal Maximum Speed</DisplayName>
-      <Description>Defines the maximum speed in cm/s which the aircraft will travel horizontally while in loiter mode</Description>
+      <DisplayName>留待水平最大速度</DisplayName>
+      <Description>定义航空器在留待模式中将水平移动的最大速度，以cm/s为单位</Description>
       <Units>cm/s</Units>
       <Range>0 2000</Range>
       <Increment>50</Increment>
       <User>Standard</User>
     </WPNAV_LOIT_SPEED>
     <WPNAV_ACCEL>
-      <DisplayName>Waypoint Acceleration</DisplayName>
-      <Description>Defines the horizontal acceleration in cm/s/s used during missions</Description>
+      <DisplayName>航点水平加速度</DisplayName>
+      <Description>定义在任务中的水平加速度，以cm/s/s为单位</Description>
       <Units>cm/s/s</Units>
       <Range>50 500</Range>
       <Increment>10</Increment>
       <User>Standard</User>
     </WPNAV_ACCEL>
     <WPNAV_ACCEL_Z>
-      <DisplayName>Waypoint Vertical Acceleration</DisplayName>
-      <Description>Defines the vertical acceleration in cm/s/s used during missions</Description>
+      <DisplayName>航点垂直加速度</DisplayName>
+      <Description>定义在任务中的垂直加速度，以cm/s/s为单位</Description>
       <Units>cm/s/s</Units>
       <Range>50 500</Range>
       <Increment>10</Increment>
       <User>Standard</User>
     </WPNAV_ACCEL_Z>
     <WPNAV_LOIT_JERK>
-      <DisplayName>Loiter maximum jerk</DisplayName>
-      <Description>Loiter maximum jerk in cm/s/s/s</Description>
+      <DisplayName>留待最大加加速度</DisplayName>
+      <Description>留待最大加加速度(jerk)，以cm/s/s/s为单位</Description>
       <Units>cm/s/s/s</Units>
       <Range>500 2000</Range>
       <Increment>1</Increment>
       <User>Advanced</User>
     </WPNAV_LOIT_JERK>
     <CIRCLE_RADIUS>
-      <DisplayName>Circle Radius</DisplayName>
-      <Description>Defines the radius of the circle the vehicle will fly when in Circle flight mode</Description>
+      <DisplayName>绕圈半径</DisplayName>
+      <Description>定义载具在绕圈模式时将要飞行的圆的半径</Description>
       <Units>cm</Units>
       <Range>0 10000</Range>
       <Increment>100</Increment>
       <User>Standard</User>
     </CIRCLE_RADIUS>
     <CIRCLE_RATE>
-      <DisplayName>Circle rate</DisplayName>
-      <Description>Circle mode's turn rate in deg/sec.  Positive to turn clockwise, negative for counter clockwise</Description>
+      <DisplayName>绕圈速率</DisplayName>
+      <Description>绕圈模式时转向的速率，以deg/s为单位。正值为顺时针旋转，负值为逆时针旋转</Description>
       <Units>deg/s</Units>
       <Range>-90 90</Range>
       <Increment>1</Increment>
       <User>Standard</User>
     </CIRCLE_RATE>
     <ATC_RATE_RP_MAX>
-      <DisplayName>Angle Rate Roll-Pitch max</DisplayName>
-      <Description>maximum rotation rate in roll/pitch axis requested by angle controller used in stabilize, loiter, rtl, auto flight modes</Description>
-      <Units>Centi-Degrees/Sec</Units>
+      <DisplayName>最大Roll-Pitch速率</DisplayName>
+      <Description>在自稳, 留待, 返航, 自动飞行模式角度控制器可以请求的roll/pitch轴最大的旋转速率</Description>
+      <Units>百分度/秒</Units>
       <Range>9000 36000</Range>
       <Increment>500</Increment>
       <User>Advanced</User>
     </ATC_RATE_RP_MAX>
     <ATC_RATE_Y_MAX>
-      <DisplayName>Angle Rate Yaw max</DisplayName>
-      <Description>maximum rotation rate in roll/pitch axis requested by angle controller used in stabilize, loiter, rtl, auto flight modes</Description>
-      <Units>Centi-Degrees/Sec</Units>
+      <DisplayName>最大Yaw角速率</DisplayName>
+      <Description>在自稳, 留待, 返航, 自动飞行模式角度控制器可以请求的yaw轴最大的旋转速率</Description>
+      <Units>百分度/秒</Units>
       <Range>4500 18000</Range>
       <Increment>500</Increment>
       <User>Advanced</User>
     </ATC_RATE_Y_MAX>
     <ATC_SLEW_YAW>
-      <DisplayName>Yaw target slew rate</DisplayName>
-      <Description>Maximum rate the yaw target can be updated in Loiter, RTL, Auto flight modes</Description>
+      <DisplayName>目标Yaw转换速率</DisplayName>
+      <Description>在留待，返航，自动飞行模式下，目标yaw最大更新速率</Description>
       <Units>Centi-Degrees/Sec</Units>
       <Range>500 18000</Range>
       <Increment>100</Increment>
       <User>Advanced</User>
     </ATC_SLEW_YAW>
     <ATC_ACCEL_RP_MAX>
-      <DisplayName>Acceleration Max for Roll/Pitch</DisplayName>
-      <Description>Maximum acceleration in roll/pitch axis</Description>
-      <Units>Centi-Degrees/Sec/Sec</Units>
+      <DisplayName>Roll/Pitch轴最大加速度</DisplayName>
+      <Description>roll/pitch轴最大加速度</Description>
+      <Units>百分度/秒/秒</Units>
       <Range>0 180000</Range>
       <Increment>1000</Increment>
       <Values>0:Disabled, 72000:Slow, 108000:Medium, 162000:Fast</Values>
       <User>Advanced</User>
     </ATC_ACCEL_RP_MAX>
     <ATC_ACCEL_Y_MAX>
-      <DisplayName>Acceleration Max for Yaw</DisplayName>
-      <Description>Maximum acceleration in yaw axis</Description>
-      <Units>Centi-Degrees/Sec/Sec</Units>
+      <DisplayName>Yaw最大加速度</DisplayName>
+      <Description>yaw轴最大加速度</Description>
+      <Units>百分度/秒/秒</Units>
       <Range>0 72000</Range>
       <Values>0:Disabled, 18000:Slow, 36000:Medium, 54000:Fast</Values>
       <Increment>1000</Increment>
       <User>Advanced</User>
     </ATC_ACCEL_Y_MAX>
     <ATC_RATE_FF_ENAB>
-      <DisplayName>Rate Feedforward Enable</DisplayName>
-      <Description>Controls whether body-frame rate feedfoward is enabled or disabled</Description>
-      <Values>0:Disabled, 1:Enabled</Values>
+      <DisplayName>开启速率前馈</DisplayName>
+      <Description>控制机体速率前馈开启或关闭</Description>
+      <Values>0:禁止,1:开启</Values>
       <User>Advanced</User>
     </ATC_RATE_FF_ENAB>
     <POSCON_THR_HOVER>
-      <DisplayName>Throttle Hover</DisplayName>
-      <Description>The autopilot's estimate of the throttle required to maintain a level hover.  Calculated automatically from the pilot's throttle input while in stabilize mode</Description>
+      <DisplayName>油门悬停</DisplayName>
+      <Description>自动驾驶仪估计的油门以保持水平悬停.自稳模式自动计算飞行器的油门输入</Description>
       <Range>0 1000</Range>
       <Units>Percent*10</Units>
       <User>Advanced</User>
@@ -2014,61 +2014,61 @@
       <User>Advanced</User>
     </GPS_MIN_ELEV>
     <SCHED_DEBUG>
-      <DisplayName>Scheduler debug level</DisplayName>
-      <Description>Set to non-zero to enable scheduler debug messages. When set to show "Slips" the scheduler will display a message whenever a scheduled task is delayed due to too much CPU load. When set to ShowOverruns the scheduled will display a message whenever a task takes longer than the limit promised in the task table.</Description>
-      <Values>0:Disabled,2:ShowSlips,3:ShowOverruns</Values>
+      <DisplayName>规划器调试级别Scheduler debug level</DisplayName>
+      <Description>设为非0来启用规划器调试信息。当设置为显示Slikps的时候，规划器会在任务由于过高的CPU负载而被推迟的时候显示一条信息。当设为ShowOverruns时规划器会在任务花费了比任务列表中限制的更长的时候显示一条消息。</Description>
+      <Values>0:禁用,2:ShowSlips,3:ShowOverruns</Values>
       <User>Advanced</User>
     </SCHED_DEBUG>
     <FENCE_ENABLE>
-      <DisplayName>Fence enable/disable</DisplayName>
-      <Description>Allows you to enable (1) or disable (0) the fence functionality</Description>
-      <Values>0:Disabled,1:Enabled</Values>
+      <DisplayName>地理围栏 开启/禁止</DisplayName>
+      <Description>允许你开启(1)或者禁止(0)地理围栏功能</Description>
+      <Values>0:禁止,1:开启</Values>
       <User>Standard</User>
     </FENCE_ENABLE>
     <FENCE_TYPE>
-      <DisplayName>Fence Type</DisplayName>
-      <Description>Enabled fence types held as bitmask</Description>
-      <Values>0:None,1:Altitude,2:Circle,3:Altitude and Circle</Values>
+      <DisplayName>地理围栏类型</DisplayName>
+      <Description>开启地理围栏类型，保留为位掩码</Description>
+      <Values>0:无,1:Altitude,2:Circle,3:Altitude and Circle</Values>
       <User>Standard</User>
     </FENCE_TYPE>
     <FENCE_ACTION>
       <DisplayName>Fence Action</DisplayName>
-      <Description>What action should be taken when fence is breached</Description>
-      <Values>0:Report Only,1:RTL or Land</Values>
+      <Description>当突破地理围栏后，采取什么动作。</Description>
+      <Values>0:仅通知,1:RTL或降落</Values>
       <User>Standard</User>
     </FENCE_ACTION>
     <FENCE_ALT_MAX>
-      <DisplayName>Fence Maximum Altitude</DisplayName>
-      <Description>Maximum altitude allowed before geofence triggers</Description>
-      <Units>Meters</Units>
+      <DisplayName>地理围栏最大高度</DisplayName>
+      <Description>在突破地理围栏前，允许的最大飞行高度</Description>
+      <Units>米</Units>
       <Range>10 1000</Range>
       <Increment>1</Increment>
       <User>Standard</User>
     </FENCE_ALT_MAX>
     <FENCE_RADIUS>
-      <DisplayName>Circular Fence Radius</DisplayName>
-      <Description>Circle fence radius which when breached will cause an RTL</Description>
-      <Units>Meters</Units>
+      <DisplayName>圆形围栏半径</DisplayName>
+      <Description>当超出圆形围栏半径时，会触发RTL模式</Description>
+      <Units>米</Units>
       <Range>30 10000</Range>
       <User>Standard</User>
     </FENCE_RADIUS>
     <FENCE_MARGIN>
-      <DisplayName>Fence Margin</DisplayName>
-      <Description>Distance that autopilot's should maintain from the fence to avoid a breach</Description>
-      <Units>Meters</Units>
+      <DisplayName>地理围栏余量</DisplayName>
+      <Description>避免突破地理围栏，自动驾驶仪应该保持与围栏的距离</Description>
+      <Units>米</Units>
       <Range>1 10</Range>
       <User>Standard</User>
     </FENCE_MARGIN>
     <RALLY_TOTAL>
-      <DisplayName>Rally Total</DisplayName>
-      <Description>Number of rally points currently loaded</Description>
-      <User>Advanced</User>
+      <DisplayName>集结点总数</DisplayName>
+      <Description>当前加载的所有集结点的数目</Description>
+      <User>高级</User>
     </RALLY_TOTAL>
     <RALLY_LIMIT_KM>
-      <DisplayName>Rally Limit</DisplayName>
-      <Description>Maximum distance to rally point. If the closest rally point is more than this number of kilometers from the current position and the home location is closer than any of the rally points from the current position then do RTL to home rather than to the closest rally point. This prevents a leftover rally point from a different airfield being used accidentally. If this is set to 0 then the closest rally point is always used.</Description>
-      <User>Advanced</User>
-      <Units>kilometers</Units>
+      <DisplayName>集结点限制</DisplayName>
+      <Description>到集结点的最大距离。如果最近的集结点比这个公里数远并且家比从当前位置到任何集结点的距离都近，那么就返回家而不是最近的集结点。这可以防止另一个飞行场地的残余集结点被意外使用。如果设为0，那么最近的集结点将一直被使用。</Description>
+      <User>高级</User>
+      <Units>公里</Units>
       <Increment>0.1</Increment>
     </RALLY_LIMIT_KM>
     <GPSGLITCH_ENABLE>
@@ -2463,32 +2463,32 @@
       <Values>50, 125, 250</Values>
     </MOT_SV_SPEED>
     <RCMAP_ROLL>
-      <DisplayName>Roll channel</DisplayName>
-      <Description>Roll channel number. This is useful when you have a RC transmitter that can't change the channel order easily. Roll is normally on channel 1, but you can move it to any channel with this parameter.</Description>
+      <DisplayName>横滚通道</DisplayName>
+      <Description>横滚通道数。这在你有一个不能改变通道顺序的遥控器时有用。横滚通常在通道1，但是你可以使用这个参数把它移到其他通道。</Description>
       <Range>1 8</Range>
       <Increment>1</Increment>
-      <User>Advanced</User>
+      <User>高级</User>
     </RCMAP_ROLL>
     <RCMAP_PITCH>
-      <DisplayName>Pitch channel</DisplayName>
-      <Description>Pitch channel number. This is useful when you have a RC transmitter that can't change the channel order easily. Pitch is normally on channel 2, but you can move it to any channel with this parameter.</Description>
+      <DisplayName>俯仰通道</DisplayName>
+      <Description>俯仰通道数。这在你有一个不能改变通道顺序的遥控器时有用。俯仰通常在通道2，但是你可以使用这个参数把它移到其他通道。</Description>
       <Range>1 8</Range>
       <Increment>1</Increment>
-      <User>Advanced</User>
+      <User>高级</User>
     </RCMAP_PITCH>
     <RCMAP_THROTTLE>
-      <DisplayName>Throttle channel</DisplayName>
-      <Description>Throttle channel number. This is useful when you have a RC transmitter that can't change the channel order easily. Throttle is normally on channel 3, but you can move it to any channel with this parameter. Warning APM 2.X: Changing the throttle channel could produce unexpected fail-safe results if connection between receiver and on-board PPM Encoder is lost. Disabling on-board PPM Encoder is recommended.</Description>
+      <DisplayName>油门通道</DisplayName>
+      <Description>油门通道数。这在你有一个不能改变通道顺序的遥控器时有用。油门通常在通道3，但是你可以使用这个参数把它移到其他通道。警告APM2.x：改变油门通道可能导致意外的失控保护如果接收机和板载PPM编码器的连接丢失。推荐禁用板载PPM编码器。</Description>
       <Range>1 8</Range>
       <Increment>1</Increment>
-      <User>Advanced</User>
+      <User>高级</User>
     </RCMAP_THROTTLE>
     <RCMAP_YAW>
-      <DisplayName>Yaw channel</DisplayName>
-      <Description>Yaw channel number. This is useful when you have a RC transmitter that can't change the channel order easily. Yaw (also known as rudder) is normally on channel 4, but you can move it to any channel with this parameter.</Description>
+      <DisplayName>方向通道</DisplayName>
+      <Description>方向通道数。这在你有一个不能改变通道顺序的遥控器时有用。方向通常在通道4，但是你可以使用这个参数把它移到其他通道。</Description>
       <Range>1 8</Range>
       <Increment>1</Increment>
-      <User>Advanced</User>
+      <User>高级</User>
     </RCMAP_YAW>
     <EKF_VELNE_NOISE>
       <DisplayName>GPS horizontal velocity measurement noise (m/s)</DisplayName>
@@ -2722,110 +2722,110 @@
       <Values>0:Resume Mission, 1:Restart Mission</Values>
     </MIS_RESTART>
     <RNGFND_TYPE>
-      <DisplayName>Rangefinder type</DisplayName>
-      <Description>What type of rangefinder device that is connected</Description>
+      <DisplayName>测距仪类型</DisplayName>
+      <Description>所连接的测距仪的类型</Description>
       <Values>0:None,1:Analog,2:APM2-MaxbotixI2C,3:APM2-PulsedLightI2C,4:PX4-I2C</Values>
     </RNGFND_TYPE>
     <RNGFND_PIN>
-      <DisplayName>Rangefinder pin</DisplayName>
-      <Description>Analog pin that rangefinder is connected to. Set this to 0..9 for the APM2 analog pins. Set to 64 on an APM1 for the dedicated 'airspeed' port on the end of the board. Set to 11 on PX4 for the analog 'airspeed' port. Set to 15 on the Pixhawk for the analog 'airspeed' port.</Description>
+      <DisplayName>测距仪针脚</DisplayName>
+      <Description>测距仪连接到的模拟针脚。对APM2设为0~9。对APM1设为64作为独立空速接口在板子的末端。（Set to 64 on an APM1 for the dedicated 'airspeed' port on the end of the board.）在PX4上设为11作为模拟空速接口。在Pixhawk上设为15作为模拟空速接口。</Description>
     </RNGFND_PIN>
     <RNGFND_SCALING>
-      <DisplayName>Rangefinder scaling</DisplayName>
-      <Description>Scaling factor between rangefinder reading and distance. For the linear and inverted functions this is in meters per volt. For the hyperbolic function the units are meterVolts.</Description>
+      <DisplayName>测距仪比例</DisplayName>
+      <Description>测距仪读数和距离之间的比例。对于线性和反向函数这是米/伏特。对于双曲线函数他的单位是米伏特。</Description>
       <Units>meters/Volt</Units>
       <Increment>0.001</Increment>
     </RNGFND_SCALING>
     <RNGFND_OFFSET>
-      <DisplayName>rangefinder offset</DisplayName>
-      <Description>Offset in volts for zero distance</Description>
+      <DisplayName>测距仪偏移</DisplayName>
+      <Description>距离为0时的电压</Description>
       <Units>Volts</Units>
       <Increment>0.001</Increment>
     </RNGFND_OFFSET>
     <RNGFND_FUNCTION>
-      <DisplayName>Rangefinder function</DisplayName>
-      <Description>Control over what function is used to calculate distance. For a linear function, the distance is (voltage-offset)*scaling. For a inverted function the distance is (offset-voltage)*scaling. For a hyperbolic function the distance is scaling/(voltage-offset). The functions return the distance in meters.</Description>
-      <Values>0:Linear,1:Inverted,2:Hyperbolic</Values>
+      <DisplayName>测距仪函数</DisplayName>
+      <Description>控制用于计算距离的函数。罪域线性函数，距离=（电压-偏移）*比例。对于反向函数距离=（偏移-电压）*比例。对于双曲函数距离=比例/（电压-偏移）。函数返回以米为单位的距离。</Description>
+      <Values>0:线性,1:反向,2:双曲</Values>
     </RNGFND_FUNCTION>
     <RNGFND_MIN_CM>
-      <DisplayName>Rangefinder minimum distance</DisplayName>
-      <Description>Minimum distance in centimeters that rangefinder can reliably read</Description>
-      <Units>centimeters</Units>
+      <DisplayName>测距仪最小距离</DisplayName>
+      <Description>测距仪所能可靠测到的最小厘米数。</Description>
+      <Units>厘米</Units>
       <Increment>1</Increment>
     </RNGFND_MIN_CM>
     <RNGFND_MAX_CM>
-      <DisplayName>Rangefinder maximum distance</DisplayName>
-      <Description>Maximum distance in centimeters that rangefinder can reliably read</Description>
-      <Units>centimeters</Units>
+      <DisplayName>测距仪最大距离</DisplayName>
+      <Description>测距仪能测到的最大厘米数。</Description>
+      <Units>厘米</Units>
       <Increment>1</Increment>
     </RNGFND_MAX_CM>
     <RNGFND_STOP_PIN>
-      <DisplayName>Rangefinder stop pin</DisplayName>
-      <Description>Digital pin that enables/disables rangefinder measurement for an analog rangefinder. A value of -1 means no pin. If this is set, then the pin is set to 1 to enable the rangefinder and set to 0 to disable it. This can be used to ensure that multiple sonar rangefinders don't interfere with each other.</Description>
+      <DisplayName>测距仪停止针脚</DisplayName>
+      <Description>用于启用/禁用测距仪测量的数字针脚。-1代表没有这个针脚。如果设置了，那么这个针设为1代表启用测距仪，0代表禁用。这可以确保多个声呐测距仪不会互相干扰。</Description>
     </RNGFND_STOP_PIN>
     <RNGFND_SETTLE>
-      <DisplayName>Rangefinder settle time</DisplayName>
-      <Description>The time in milliseconds that the rangefinder reading takes to settle. This is only used when a STOP_PIN is specified. It determines how long we have to wait for the rangefinder to give a reading after we set the STOP_PIN high. For a sonar rangefinder with a range of around 7m this would need to be around 50 milliseconds to allow for the sonar pulse to travel to the target and back again.</Description>
-      <Units>milliseconds</Units>
+      <DisplayName>测距仪稳定读数时间</DisplayName>
+      <Description>测距仪稳定读数需要的毫秒单位时间。仅当STOP_PIN制定的时候需要这个数值。它决定了当我们设置STOP_PIN为高电平时测距仪给出读数需要多久。对于一个7m范围的声呐传感器，这需要大约50ms以允许声呐脉冲到达目标并返回。</Description>
+      <Units>毫秒</Units>
       <Increment>1</Increment>
     </RNGFND_SETTLE>
     <RNGFND_RMETRIC>
-      <DisplayName>Ratiometric</DisplayName>
-      <Description>This parameter sets whether an analog rangefinder is ratiometric. Most analog rangefinders are ratiometric, meaning that their output voltage is influenced by the supply voltage. Some analog rangefinders (such as the SF/02) have their own internal voltage regulators so they are not ratiometric.</Description>
-      <Values>0:No,1:Yes</Values>
+      <DisplayName>比率计（Ratiometric）</DisplayName>
+      <Description>这个参数设定一个模拟测距仪是否符合比率计。大多数模拟测距仪都符合比率计，意味着他们的输出电压会受供电电压的影响。有些模拟测距仪（例如SF/02）有自己的内部稳压器，所以他们就不符合比率计。</Description>
+      <Values>0:否,1:是</Values>
     </RNGFND_RMETRIC>
     <RNGFND2_TYPE>
-      <DisplayName>Second Rangefinder type</DisplayName>
-      <Description>What type of rangefinder device that is connected</Description>
-      <Values>0:None,1:Analog,2:APM2-MaxbotixI2C,3:APM2-PulsedLightI2C,4:PX4-I2C</Values>
+      <DisplayName>第二测距仪类型</DisplayName>
+      <Description>第二测距仪所连接的设备类型</Description>
+      <Values>0:无,1:模拟,2:APM2-MaxbotixI2C,3:APM2-PulsedLightI2C,4:PX4-I2C</Values>
     </RNGFND2_TYPE>
     <RNGFND2_PIN>
-      <DisplayName>Rangefinder pin</DisplayName>
-      <Description>Analog pin that rangefinder is connected to. Set this to 0..9 for the APM2 analog pins. Set to 64 on an APM1 for the dedicated 'airspeed' port on the end of the board. Set to 11 on PX4 for the analog 'airspeed' port. Set to 15 on the Pixhawk for the analog 'airspeed' port.</Description>
+      <DisplayName>测距仪针脚</DisplayName>
+      <Description>测距仪连接到的模拟针脚。对APM2设为0~9。对APM1设为64作为独立空速接口在板子的末端。（Set to 64 on an APM1 for the dedicated 'airspeed' port on the end of the board.）在PX4上设为11作为模拟空速接口。在Pixhawk上设为15作为模拟空速接口。</Description>
     </RNGFND2_PIN>
     <RNGFND2_SCALING>
-      <DisplayName>Rangefinder scaling</DisplayName>
-      <Description>Scaling factor between rangefinder reading and distance. For the linear and inverted functions this is in meters per volt. For the hyperbolic function the units are meterVolts.</Description>
+      <DisplayName>测距仪比例</DisplayName>
+      <Description>测距仪读数和距离之间的比例。对于线性和反向函数这是米/伏特。对于双曲线函数他的单位是米伏特。</Description>
       <Units>meters/Volt</Units>
       <Increment>0.001</Increment>
     </RNGFND2_SCALING>
     <RNGFND2_OFFSET>
-      <DisplayName>rangefinder offset</DisplayName>
-      <Description>Offset in volts for zero distance</Description>
+      <DisplayName>测距仪偏移</DisplayName>
+      <Description>距离为0时的电压</Description>
       <Units>Volts</Units>
       <Increment>0.001</Increment>
     </RNGFND2_OFFSET>
     <RNGFND2_FUNCTION>
-      <DisplayName>Rangefinder function</DisplayName>
-      <Description>Control over what function is used to calculate distance. For a linear function, the distance is (voltage-offset)*scaling. For a inverted function the distance is (offset-voltage)*scaling. For a hyperbolic function the distance is scaling/(voltage-offset). The functions return the distance in meters.</Description>
-      <Values>0:Linear,1:Inverted,2:Hyperbolic</Values>
+      <DisplayName>测距仪函数</DisplayName>
+      <Description>控制用于计算距离的函数。罪域线性函数，距离=（电压-偏移）*比例。对于反向函数距离=（偏移-电压）*比例。对于双曲函数距离=比例/（电压-偏移）。函数返回以米为单位的距离。</Description>
+      <Values>0:线性,1:反向,2:双曲</Values>
     </RNGFND2_FUNCTION>
     <RNGFND2_MIN_CM>
-      <DisplayName>Rangefinder minimum distance</DisplayName>
-      <Description>Minimum distance in centimeters that rangefinder can reliably read</Description>
-      <Units>centimeters</Units>
+      <DisplayName>测距仪最小距离</DisplayName>
+      <Description>测距仪所能可靠测到的最小厘米数。</Description>
+      <Units>厘米</Units>
       <Increment>1</Increment>
     </RNGFND2_MIN_CM>
     <RNGFND2_MAX_CM>
-      <DisplayName>Rangefinder maximum distance</DisplayName>
-      <Description>Maximum distance in centimeters that rangefinder can reliably read</Description>
-      <Units>centimeters</Units>
+      <DisplayName>测距仪最大距离</DisplayName>
+      <Description>测距仪所能可靠测到的最大厘米数。</Description>
+      <Units>厘米</Units>
       <Increment>1</Increment>
     </RNGFND2_MAX_CM>
     <RNGFND2_STOP_PIN>
-      <DisplayName>Rangefinder stop pin</DisplayName>
-      <Description>Digital pin that enables/disables rangefinder measurement for an analog rangefinder. A value of -1 means no pin. If this is set, then the pin is set to 1 to enable the rangefinder and set to 0 to disable it. This can be used to ensure that multiple sonar rangefinders don't interfere with each other.</Description>
+      <DisplayName>测距仪停止针脚</DisplayName>
+      <Description>用于启用/禁用测距仪测量的数字针脚。-1代表没有这个针脚。如果设置了，那么这个针设为1代表启用测距仪，0代表禁用。这可以确保多个声呐测距仪不会互相干扰。</Description>
     </RNGFND2_STOP_PIN>
     <RNGFND2_SETTLE>
-      <DisplayName>Sonar settle time</DisplayName>
-      <Description>The time in milliseconds that the rangefinder reading takes to settle. This is only used when a STOP_PIN is specified. It determines how long we have to wait for the rangefinder to give a reading after we set the STOP_PIN high. For a sonar rangefinder with a range of around 7m this would need to be around 50 milliseconds to allow for the sonar pulse to travel to the target and back again.</Description>
-      <Units>milliseconds</Units>
+      <DisplayName>测距仪稳定读数时间</DisplayName>
+      <Description>测距仪稳定读数需要的毫秒单位时间。仅当STOP_PIN制定的时候需要这个数值。它决定了当我们设置STOP_PIN为高电平时测距仪给出读数需要多久。对于一个7m范围的声呐传感器，这需要大约50ms以允许声呐脉冲到达目标并返回。</Description>
+      <Units>毫秒</Units>
       <Increment>1</Increment>
     </RNGFND2_SETTLE>
     <RNGFND2_RMETRIC>
-      <DisplayName>Ratiometric</DisplayName>
-      <Description>This parameter sets whether an analog rangefinder is ratiometric. Most analog rangefinders are ratiometric, meaning that their output voltage is influenced by the supply voltage. Some analog rangefinders (such as the SF/02) have their own internal voltage regulators so they are not ratiometric.</Description>
-      <Values>0:No,1:Yes</Values>
+      <DisplayName>比率计（Ratiometric）</DisplayName>
+      <Description>这个参数设定一个模拟测距仪是否符合比率计。大多数模拟测距仪都符合比率计，意味着他们的输出电压会受供电电压的影响。有些模拟测距仪（例如SF/02）有自己的内部稳压器，所以他们就不符合比率计。</Description>
+      <Values>0:否,1:是</Values>
     </RNGFND2_RMETRIC>
     <TERRAIN_ENABLE>
       <DisplayName>Terrain data enable</DisplayName>
@@ -3093,37 +3093,37 @@
     <FLTMODE1>
       <DisplayName>飞行模式 1</DisplayName>
       <Description>当5通道 pwm &lt;= 1230时的飞行模式是</Description>
-      <Values>0:自稳Stabilize,1:特技Acro,2:定高AltHold,3:自动Auto,4:引导Guided,5:留待Loiter,6:返航RTL,7:绕圈Circle,9:降落Land,10:光流留待OF_Loiter,11:飘移Drift,13:运动Sport,16:定点PosHold</Values>
+      <Values>0:自稳Stabilize,1:特技Acro,2:定高AltHold,3:自动Auto,4:引导Guided,5:留待Loiter,6:返航RTL,7:绕圈Circle,9:降落Land,11:飘移Drift,13:运动Sport,16:定点PosHold</Values>
       <User>Standard</User>
     </FLTMODE1>
     <FLTMODE2>
       <DisplayName>飞行模式 2</DisplayName>
       <Description>当通道5 pwm &gt;1230, &lt;= 1360时的飞行模式是</Description>
-      <Values>0:自稳Stabilize,1:特技Acro,2:定高AltHold,3:自动Auto,4:引导Guided,5:留待Loiter,6:返航RTL,7:绕圈Circle,9:降落Land,10:光流留待OF_Loiter,11:飘移Drift,13:运动Sport,16:定点PosHold</Values>
+      <Values>0:自稳Stabilize,1:特技Acro,2:定高AltHold,3:自动Auto,4:引导Guided,5:留待Loiter,6:返航RTL,7:绕圈Circle,9:降落Land,11:飘移Drift,13:运动Sport,16:定点PosHold</Values>
       <User>Standard</User>
     </FLTMODE2>
     <FLTMODE3>
       <DisplayName>飞行模式 3</DisplayName>
       <Description>当5通道 5 pwm &gt;1360, &lt;= 1490时的飞行模式是</Description>
-      <Values>0:自稳Stabilize,1:特技Acro,2:定高AltHold,3:自动Auto,4:引导Guided,5:留待Loiter,6:返航RTL,7:绕圈Circle,9:降落Land,10:光流留待OF_Loiter,11:飘移Drift,13:运动Sport,16:定点PosHold</Values>
+      <Values>0:自稳Stabilize,1:特技Acro,2:定高AltHold,3:自动Auto,4:引导Guided,5:留待Loiter,6:返航RTL,7:绕圈Circle,9:降落Land,11:飘移Drift,13:运动Sport,16:定点PosHold</Values>
       <User>Standard</User>
     </FLTMODE3>
     <FLTMODE4>
       <DisplayName>飞行模式 4</DisplayName>
       <Description>当通道5 pwm &gt;1490, &lt;= 1620时的飞行模式是</Description>
-      <Values>0:自稳Stabilize,1:特技Acro,2:定高AltHold,3:自动Auto,4:引导Guided,5:留待Loiter,6:返航RTL,7:绕圈Circle,9:降落Land,10:光流留待OF_Loiter,11:飘移Drift,13:运动Sport,16:定点PosHold</Values>
+      <Values>0:自稳Stabilize,1:特技Acro,2:定高AltHold,3:自动Auto,4:引导Guided,5:留待Loiter,6:返航RTL,7:绕圈Circle,9:降落Land,11:飘移Drift,13:运动Sport,16:定点PosHold</Values>
       <User>Standard</User>
     </FLTMODE4>
     <FLTMODE5>
       <DisplayName>飞行模式 5</DisplayName>
       <Description>当通道5 pwm &gt;1620, &lt;= 1749时的飞行模式是</Description>
-      <Values>0:自稳Stabilize,1:特技Acro,2:定高AltHold,3:自动Auto,4:引导Guided,5:留待Loiter,6:返航RTL,7:绕圈Circle,9:降落Land,10:光流留待OF_Loiter,11:飘移Drift,13:运动Sport,16:定点PosHold</Values>
+      <Values>0:自稳Stabilize,1:特技Acro,2:定高AltHold,3:自动Auto,4:引导Guided,5:留待Loiter,6:返航RTL,7:绕圈Circle,9:降落Land,11:飘移Drift,13:运动Sport,16:定点PosHold</Values>
       <User>Standard</User>
     </FLTMODE5>
     <FLTMODE6>
       <DisplayName>飞行模式 6</DisplayName>
       <Description>当通道5 pwm &gt;=1750时的飞行模式是</Description>
-      <Values>0:自稳Stabilize,1:特技Acro,2:定高AltHold,3:自动Auto,4:引导Guided,5:留待Loiter,6:返航RTL,7:绕圈Circle,9:降落Land,10:光流留待OF_Loiter,11:飘移Drift,13:运动Sport,16:定点PosHold</Values>
+      <Values>0:自稳Stabilize,1:特技Acro,2:定高AltHold,3:自动Auto,4:引导Guided,5:留待Loiter,6:返航RTL,7:绕圈Circle,9:降落Land,11:飘移Drift,13:运动Sport,16:定点PosHold</Values>
       <User>Standard</User>
     </FLTMODE6>
     <SIMPLE>
@@ -3492,56 +3492,6 @@
       <Range>0.000 0.400</Range>
       <User>Standard</User>
     </THR_ACCEL_D>
-    <OF_RLL_P>
-      <DisplayName>Optical Flow based loiter controller roll axis P gain</DisplayName>
-      <Description>Optical Flow based loiter controller roll axis P gain.  Converts the position error from the target point to a roll angle</Description>
-      <Range>2.000 3.000</Range>
-      <User>Standard</User>
-    </OF_RLL_P>
-    <OF_RLL_I>
-      <DisplayName>Optical Flow based loiter controller roll axis I gain</DisplayName>
-      <Description>Optical Flow based loiter controller roll axis I gain.  Corrects long-term position error by more persistently rolling left or right</Description>
-      <Range>0.250 0.750</Range>
-      <User>Standard</User>
-    </OF_RLL_I>
-    <OF_RLL_IMAX>
-      <DisplayName>Optical Flow based loiter controller roll axis I gain maximum</DisplayName>
-      <Description>Optical Flow based loiter controller roll axis I gain maximum.  Constrains the maximum roll angle that the I term will generate</Description>
-      <Range>0 4500</Range>
-      <Units>Centi-Degrees</Units>
-      <User>Standard</User>
-    </OF_RLL_IMAX>
-    <OF_RLL_D>
-      <DisplayName>Optical Flow based loiter controller roll axis D gain</DisplayName>
-      <Description>Optical Flow based loiter controller roll axis D gain.  Compensates for short-term change in speed in the roll direction</Description>
-      <Range>0.100 0.140</Range>
-      <User>Standard</User>
-    </OF_RLL_D>
-    <OF_PIT_P>
-      <DisplayName>Optical Flow based loiter controller pitch axis P gain</DisplayName>
-      <Description>Optical Flow based loiter controller pitch axis P gain.  Converts the position error from the target point to a pitch angle</Description>
-      <Range>2.000 3.000</Range>
-      <User>Standard</User>
-    </OF_PIT_P>
-    <OF_PIT_I>
-      <DisplayName>Optical Flow based loiter controller pitch axis I gain</DisplayName>
-      <Description>Optical Flow based loiter controller pitch axis I gain.  Corrects long-term position error by more persistently pitching left or right</Description>
-      <Range>0.250 0.750</Range>
-      <User>Standard</User>
-    </OF_PIT_I>
-    <OF_PIT_IMAX>
-      <DisplayName>Optical Flow based loiter controller pitch axis I gain maximum</DisplayName>
-      <Description>Optical Flow based loiter controller pitch axis I gain maximum.  Constrains the maximum pitch angle that the I term will generate</Description>
-      <Range>0 4500</Range>
-      <Units>Centi-Degrees</Units>
-      <User>Standard</User>
-    </OF_PIT_IMAX>
-    <OF_PIT_D>
-      <DisplayName>Optical Flow based loiter controller pitch axis D gain</DisplayName>
-      <Description>Optical Flow based loiter controller pitch axis D gain.  Compensates for short-term change in speed in the pitch direction</Description>
-      <Range>0.100 0.140</Range>
-      <User>Standard</User>
-    </OF_PIT_D>
     <STB_RLL_P>
       <DisplayName>Roll axis stabilize controller P gain</DisplayName>
       <Description>Roll axis stabilize (i.e. angle) controller P gain.  Converts the error between the desired roll angle and actual angle to a desired roll rate</Description>
@@ -3688,140 +3638,140 @@
       <User>Advanced</User>
     </ARMING_CHECK>
     <RELAY_PIN>
-      <DisplayName>First Relay Pin</DisplayName>
-      <Description>Digital pin number for first relay control. This is the pin used for camera control.</Description>
+      <DisplayName>第1中继针脚</DisplayName>
+      <Description>第1中继控制使用的数字针脚。这个针脚用于相机控制。</Description>
       <User>Standard</User>
       <Values>-1:Disabled,13:APM2 A9 pin,47:APM1 relay,50:Pixhawk AUXOUT1,51:Pixhawk AUXOUT2,52:Pixhawk AUXOUT3,53:Pixhawk AUXOUT4,54:Pixhawk AUXOUT5,55:Pixhawk AUXOUT6,111:PX4 FMU Relay1,112:PX4 FMU Relay2,113:PX4IO Relay1,114:PX4IO Relay2,115:PX4IO ACC1,116:PX4IO ACC2</Values>
     </RELAY_PIN>
     <RELAY_PIN2>
-      <DisplayName>Second Relay Pin</DisplayName>
-      <Description>Digital pin number for 2nd relay control.</Description>
+      <DisplayName>第2中继针脚</DisplayName>
+      <Description>第2中继控制使用的数字针脚。</Description>
       <User>Standard</User>
       <Values>-1:Disabled,13:APM2 A9 pin,47:APM1 relay,50:Pixhawk AUXOUT1,51:Pixhawk AUXOUT2,52:Pixhawk AUXOUT3,53:Pixhawk AUXOUT4,54:Pixhawk AUXOUT5,55:Pixhawk AUXOUT6,111:PX4 FMU Relay1,112:PX4 FMU Relay2,113:PX4IO Relay1,114:PX4IO Relay2,115:PX4IO ACC1,116:PX4IO ACC2</Values>
     </RELAY_PIN2>
     <RELAY_PIN3>
-      <DisplayName>Third Relay Pin</DisplayName>
-      <Description>Digital pin number for 3rd relay control.</Description>
+      <DisplayName>第3中继针脚</DisplayName>
+      <Description>第3中继控制使用的数字针脚。</Description>
       <User>Standard</User>
       <Values>-1:Disabled,13:APM2 A9 pin,47:APM1 relay,50:Pixhawk AUXOUT1,51:Pixhawk AUXOUT2,52:Pixhawk AUXOUT3,53:Pixhawk AUXOUT4,54:Pixhawk AUXOUT5,55:Pixhawk AUXOUT6,111:PX4 FMU Relay1,112:PX4 FMU Relay2,113:PX4IO Relay1,114:PX4IO Relay2,115:PX4IO ACC1,116:PX4IO ACC2</Values>
     </RELAY_PIN3>
     <RELAY_PIN4>
-      <DisplayName>Fourth Relay Pin</DisplayName>
-      <Description>Digital pin number for 4th relay control.</Description>
+      <DisplayName>第4中继针脚</DisplayName>
+      <Description>第4中继控制使用的数字针脚。</Description>
       <User>Standard</User>
       <Values>-1:Disabled,13:APM2 A9 pin,47:APM1 relay,50:Pixhawk AUXOUT1,51:Pixhawk AUXOUT2,52:Pixhawk AUXOUT3,53:Pixhawk AUXOUT4,54:Pixhawk AUXOUT5,55:Pixhawk AUXOUT6,111:PX4 FMU Relay1,112:PX4 FMU Relay2,113:PX4IO Relay1,114:PX4IO Relay2,115:PX4IO ACC1,116:PX4IO ACC2</Values>
     </RELAY_PIN4>
     <RELAY_DEFAULT>
-      <DisplayName>Default relay state</DisplayName>
-      <Description>The state of the relay on boot.</Description>
+      <DisplayName>默认中继状态</DisplayName>
+      <Description>启动时的中继状态。</Description>
       <User>Standard</User>
       <Values>0:Off,1:On,2:NoChange</Values>
     </RELAY_DEFAULT>
     <RNGFND_TYPE>
-      <DisplayName>Rangefinder type</DisplayName>
-      <Description>What type of rangefinder device that is connected</Description>
+      <DisplayName>测距仪类型</DisplayName>
+      <Description>所连接的测距仪的类型</Description>
       <Values>0:None,1:Analog,2:APM2-MaxbotixI2C,3:APM2-PulsedLightI2C,4:PX4-I2C</Values>
     </RNGFND_TYPE>
     <RNGFND_PIN>
-      <DisplayName>Rangefinder pin</DisplayName>
-      <Description>Analog pin that rangefinder is connected to. Set this to 0..9 for the APM2 analog pins. Set to 64 on an APM1 for the dedicated 'airspeed' port on the end of the board. Set to 11 on PX4 for the analog 'airspeed' port. Set to 15 on the Pixhawk for the analog 'airspeed' port.</Description>
+      <DisplayName>测距仪针脚</DisplayName>
+      <Description>测距仪连接到的模拟针脚。对APM2设为0~9。对APM1设为64作为独立空速接口在板子的末端。（Set to 64 on an APM1 for the dedicated 'airspeed' port on the end of the board.）在PX4上设为11作为模拟空速接口。在Pixhawk上设为15作为模拟空速接口。</Description>
     </RNGFND_PIN>
     <RNGFND_SCALING>
-      <DisplayName>Rangefinder scaling</DisplayName>
-      <Description>Scaling factor between rangefinder reading and distance. For the linear and inverted functions this is in meters per volt. For the hyperbolic function the units are meterVolts.</Description>
+      <DisplayName>测距仪比例</DisplayName>
+      <Description>测距仪读数和距离之间的比例。对于线性和反向函数这是米/伏特。对于双曲线函数他的单位是米伏特。</Description>
       <Units>meters/Volt</Units>
       <Increment>0.001</Increment>
     </RNGFND_SCALING>
     <RNGFND_OFFSET>
-      <DisplayName>rangefinder offset</DisplayName>
-      <Description>Offset in volts for zero distance</Description>
+      <DisplayName>测距仪偏移</DisplayName>
+      <Description>距离为0时的电压</Description>
       <Units>Volts</Units>
       <Increment>0.001</Increment>
     </RNGFND_OFFSET>
     <RNGFND_FUNCTION>
-      <DisplayName>Rangefinder function</DisplayName>
-      <Description>Control over what function is used to calculate distance. For a linear function, the distance is (voltage-offset)*scaling. For a inverted function the distance is (offset-voltage)*scaling. For a hyperbolic function the distance is scaling/(voltage-offset). The functions return the distance in meters.</Description>
-      <Values>0:Linear,1:Inverted,2:Hyperbolic</Values>
+      <DisplayName>测距仪函数</DisplayName>
+      <Description>控制用于计算距离的函数。罪域线性函数，距离=（电压-偏移）*比例。对于反向函数距离=（偏移-电压）*比例。对于双曲函数距离=比例/（电压-偏移）。函数返回以米为单位的距离。</Description>
+      <Values>0:线性,1:反向,2:双曲</Values>
     </RNGFND_FUNCTION>
     <RNGFND_MIN_CM>
-      <DisplayName>Rangefinder minimum distance</DisplayName>
-      <Description>Minimum distance in centimeters that rangefinder can reliably read</Description>
-      <Units>centimeters</Units>
+      <DisplayName>测距仪最小距离</DisplayName>
+      <Description>测距仪所能可靠测到的最小厘米数。</Description>
+      <Units>厘米</Units>
       <Increment>1</Increment>
     </RNGFND_MIN_CM>
     <RNGFND_MAX_CM>
-      <DisplayName>Rangefinder maximum distance</DisplayName>
-      <Description>Maximum distance in centimeters that rangefinder can reliably read</Description>
-      <Units>centimeters</Units>
+      <DisplayName>测距仪最大距离</DisplayName>
+      <Description>测距仪能测到的最大厘米数。</Description>
+      <Units>厘米</Units>
       <Increment>1</Increment>
     </RNGFND_MAX_CM>
     <RNGFND_STOP_PIN>
-      <DisplayName>Rangefinder stop pin</DisplayName>
-      <Description>Digital pin that enables/disables rangefinder measurement for an analog rangefinder. A value of -1 means no pin. If this is set, then the pin is set to 1 to enable the rangefinder and set to 0 to disable it. This can be used to ensure that multiple sonar rangefinders don't interfere with each other.</Description>
+      <DisplayName>测距仪停止针脚</DisplayName>
+      <Description>用于启用/禁用测距仪测量的数字针脚。-1代表没有这个针脚。如果设置了，那么这个针设为1代表启用测距仪，0代表禁用。这可以确保多个声呐测距仪不会互相干扰。</Description>
     </RNGFND_STOP_PIN>
     <RNGFND_SETTLE>
-      <DisplayName>Rangefinder settle time</DisplayName>
-      <Description>The time in milliseconds that the rangefinder reading takes to settle. This is only used when a STOP_PIN is specified. It determines how long we have to wait for the rangefinder to give a reading after we set the STOP_PIN high. For a sonar rangefinder with a range of around 7m this would need to be around 50 milliseconds to allow for the sonar pulse to travel to the target and back again.</Description>
-      <Units>milliseconds</Units>
+      <DisplayName>测距仪稳定读数时间</DisplayName>
+      <Description>测距仪稳定读数需要的毫秒单位时间。仅当STOP_PIN制定的时候需要这个数值。它决定了当我们设置STOP_PIN为高电平时测距仪给出读数需要多久。对于一个7m范围的声呐传感器，这需要大约50ms以允许声呐脉冲到达目标并返回。</Description>
+      <Units>毫秒</Units>
       <Increment>1</Increment>
     </RNGFND_SETTLE>
     <RNGFND_RMETRIC>
-      <DisplayName>Ratiometric</DisplayName>
-      <Description>This parameter sets whether an analog rangefinder is ratiometric. Most analog rangefinders are ratiometric, meaning that their output voltage is influenced by the supply voltage. Some analog rangefinders (such as the SF/02) have their own internal voltage regulators so they are not ratiometric.</Description>
-      <Values>0:No,1:Yes</Values>
+      <DisplayName>比率计（Ratiometric）</DisplayName>
+      <Description>这个参数设定一个模拟测距仪是否符合比率计。大多数模拟测距仪都符合比率计，意味着他们的输出电压会受供电电压的影响。有些模拟测距仪（例如SF/02）有自己的内部稳压器，所以他们就不符合比率计。</Description>
+      <Values>0:否,1:是</Values>
     </RNGFND_RMETRIC>
     <RNGFND2_TYPE>
-      <DisplayName>Second Rangefinder type</DisplayName>
-      <Description>What type of rangefinder device that is connected</Description>
-      <Values>0:None,1:Analog,2:APM2-MaxbotixI2C,3:APM2-PulsedLightI2C,4:PX4-I2C</Values>
+      <DisplayName>第二测距仪类型</DisplayName>
+      <Description>第二测距仪所连接的设备类型</Description>
+      <Values>0:无,1:模拟,2:APM2-MaxbotixI2C,3:APM2-PulsedLightI2C,4:PX4-I2C</Values>
     </RNGFND2_TYPE>
     <RNGFND2_PIN>
-      <DisplayName>Rangefinder pin</DisplayName>
-      <Description>Analog pin that rangefinder is connected to. Set this to 0..9 for the APM2 analog pins. Set to 64 on an APM1 for the dedicated 'airspeed' port on the end of the board. Set to 11 on PX4 for the analog 'airspeed' port. Set to 15 on the Pixhawk for the analog 'airspeed' port.</Description>
+      <DisplayName>测距仪针脚</DisplayName>
+      <Description>测距仪连接到的模拟针脚。对APM2设为0~9。对APM1设为64作为独立空速接口在板子的末端。（Set to 64 on an APM1 for the dedicated 'airspeed' port on the end of the board.）在PX4上设为11作为模拟空速接口。在Pixhawk上设为15作为模拟空速接口。</Description>
     </RNGFND2_PIN>
     <RNGFND2_SCALING>
-      <DisplayName>Rangefinder scaling</DisplayName>
-      <Description>Scaling factor between rangefinder reading and distance. For the linear and inverted functions this is in meters per volt. For the hyperbolic function the units are meterVolts.</Description>
+      <DisplayName>测距仪比例</DisplayName>
+      <Description>测距仪读数和距离之间的比例。对于线性和反向函数这是米/伏特。对于双曲线函数他的单位是米伏特。</Description>
       <Units>meters/Volt</Units>
       <Increment>0.001</Increment>
     </RNGFND2_SCALING>
     <RNGFND2_OFFSET>
-      <DisplayName>rangefinder offset</DisplayName>
-      <Description>Offset in volts for zero distance</Description>
+      <DisplayName>测距仪偏移</DisplayName>
+      <Description>距离为0时的电压</Description>
       <Units>Volts</Units>
       <Increment>0.001</Increment>
     </RNGFND2_OFFSET>
     <RNGFND2_FUNCTION>
-      <DisplayName>Rangefinder function</DisplayName>
-      <Description>Control over what function is used to calculate distance. For a linear function, the distance is (voltage-offset)*scaling. For a inverted function the distance is (offset-voltage)*scaling. For a hyperbolic function the distance is scaling/(voltage-offset). The functions return the distance in meters.</Description>
-      <Values>0:Linear,1:Inverted,2:Hyperbolic</Values>
+      <DisplayName>测距仪函数</DisplayName>
+      <Description>控制用于计算距离的函数。罪域线性函数，距离=（电压-偏移）*比例。对于反向函数距离=（偏移-电压）*比例。对于双曲函数距离=比例/（电压-偏移）。函数返回以米为单位的距离。</Description>
+      <Values>0:线性,1:反向,2:双曲</Values>
     </RNGFND2_FUNCTION>
     <RNGFND2_MIN_CM>
-      <DisplayName>Rangefinder minimum distance</DisplayName>
-      <Description>Minimum distance in centimeters that rangefinder can reliably read</Description>
-      <Units>centimeters</Units>
+      <DisplayName>测距仪最小距离</DisplayName>
+      <Description>测距仪所能可靠测到的最小厘米数。</Description>
+      <Units>厘米</Units>
       <Increment>1</Increment>
     </RNGFND2_MIN_CM>
     <RNGFND2_MAX_CM>
-      <DisplayName>Rangefinder maximum distance</DisplayName>
-      <Description>Maximum distance in centimeters that rangefinder can reliably read</Description>
-      <Units>centimeters</Units>
+      <DisplayName>测距仪最大距离</DisplayName>
+      <Description>测距仪所能可靠测到的最大厘米数。</Description>
+      <Units>厘米</Units>
       <Increment>1</Increment>
     </RNGFND2_MAX_CM>
     <RNGFND2_STOP_PIN>
-      <DisplayName>Rangefinder stop pin</DisplayName>
-      <Description>Digital pin that enables/disables rangefinder measurement for an analog rangefinder. A value of -1 means no pin. If this is set, then the pin is set to 1 to enable the rangefinder and set to 0 to disable it. This can be used to ensure that multiple sonar rangefinders don't interfere with each other.</Description>
+      <DisplayName>测距仪停止针脚</DisplayName>
+      <Description>用于启用/禁用测距仪测量的数字针脚。-1代表没有这个针脚。如果设置了，那么这个针设为1代表启用测距仪，0代表禁用。这可以确保多个声呐测距仪不会互相干扰。</Description>
     </RNGFND2_STOP_PIN>
     <RNGFND2_SETTLE>
-      <DisplayName>Sonar settle time</DisplayName>
-      <Description>The time in milliseconds that the rangefinder reading takes to settle. This is only used when a STOP_PIN is specified. It determines how long we have to wait for the rangefinder to give a reading after we set the STOP_PIN high. For a sonar rangefinder with a range of around 7m this would need to be around 50 milliseconds to allow for the sonar pulse to travel to the target and back again.</Description>
-      <Units>milliseconds</Units>
+      <DisplayName>测距仪稳定读数时间</DisplayName>
+      <Description>测距仪稳定读数需要的毫秒单位时间。仅当STOP_PIN制定的时候需要这个数值。它决定了当我们设置STOP_PIN为高电平时测距仪给出读数需要多久。对于一个7m范围的声呐传感器，这需要大约50ms以允许声呐脉冲到达目标并返回。</Description>
+      <Units>毫秒</Units>
       <Increment>1</Increment>
     </RNGFND2_SETTLE>
     <RNGFND2_RMETRIC>
-      <DisplayName>Ratiometric</DisplayName>
-      <Description>This parameter sets whether an analog rangefinder is ratiometric. Most analog rangefinders are ratiometric, meaning that their output voltage is influenced by the supply voltage. Some analog rangefinders (such as the SF/02) have their own internal voltage regulators so they are not ratiometric.</Description>
-      <Values>0:No,1:Yes</Values>
+      <DisplayName>比率计（Ratiometric）</DisplayName>
+      <Description>这个参数设定一个模拟测距仪是否符合比率计。大多数模拟测距仪都符合比率计，意味着他们的输出电压会受供电电压的影响。有些模拟测距仪（例如SF/02）有自己的内部稳压器，所以他们就不符合比率计。</Description>
+      <Values>0:否,1:是</Values>
     </RNGFND2_RMETRIC>
     <TERRAIN_ENABLE>
       <DisplayName>Terrain data enable</DisplayName>
@@ -4806,38 +4756,38 @@
       <User>Advanced</User>
     </COMPASS_EXTERN3>
     <SCHED_DEBUG>
-      <DisplayName>Scheduler debug level</DisplayName>
-      <Description>Set to non-zero to enable scheduler debug messages. When set to show "Slips" the scheduler will display a message whenever a scheduled task is delayed due to too much CPU load. When set to ShowOverruns the scheduled will display a message whenever a task takes longer than the limit promised in the task table.</Description>
-      <Values>0:Disabled,2:ShowSlips,3:ShowOverruns</Values>
+      <DisplayName>规划器调试级别Scheduler debug level</DisplayName>
+      <Description>设为非0来启用规划器调试信息。当设置为显示Slikps的时候，规划器会在任务由于过高的CPU负载而被推迟的时候显示一条信息。当设为ShowOverruns时规划器会在任务花费了比任务列表中限制的更长的时候显示一条消息。</Description>
+      <Values>0:禁用,2:ShowSlips,3:ShowOverruns</Values>
       <User>Advanced</User>
     </SCHED_DEBUG>
     <RCMAP_ROLL>
-      <DisplayName>Roll channel</DisplayName>
-      <Description>Roll channel number. This is useful when you have a RC transmitter that can't change the channel order easily. Roll is normally on channel 1, but you can move it to any channel with this parameter.</Description>
+      <DisplayName>横滚通道</DisplayName>
+      <Description>横滚通道数。这在你有一个不能改变通道顺序的遥控器时有用。横滚通常在通道1，但是你可以使用这个参数把它移到其他通道。</Description>
       <Range>1 8</Range>
       <Increment>1</Increment>
-      <User>Advanced</User>
+      <User>高级</User>
     </RCMAP_ROLL>
     <RCMAP_PITCH>
-      <DisplayName>Pitch channel</DisplayName>
-      <Description>Pitch channel number. This is useful when you have a RC transmitter that can't change the channel order easily. Pitch is normally on channel 2, but you can move it to any channel with this parameter.</Description>
+      <DisplayName>俯仰通道</DisplayName>
+      <Description>俯仰通道数。这在你有一个不能改变通道顺序的遥控器时有用。俯仰通常在通道2，但是你可以使用这个参数把它移到其他通道。</Description>
       <Range>1 8</Range>
       <Increment>1</Increment>
-      <User>Advanced</User>
+      <User>高级</User>
     </RCMAP_PITCH>
     <RCMAP_THROTTLE>
-      <DisplayName>Throttle channel</DisplayName>
-      <Description>Throttle channel number. This is useful when you have a RC transmitter that can't change the channel order easily. Throttle is normally on channel 3, but you can move it to any channel with this parameter. Warning APM 2.X: Changing the throttle channel could produce unexpected fail-safe results if connection between receiver and on-board PPM Encoder is lost. Disabling on-board PPM Encoder is recommended.</Description>
+      <DisplayName>油门通道</DisplayName>
+      <Description>油门通道数。这在你有一个不能改变通道顺序的遥控器时有用。油门通常在通道3，但是你可以使用这个参数把它移到其他通道。警告APM2.x：改变油门通道可能导致意外的失控保护如果接收机和板载PPM编码器的连接丢失。推荐禁用板载PPM编码器。</Description>
       <Range>1 8</Range>
       <Increment>1</Increment>
-      <User>Advanced</User>
+      <User>高级</User>
     </RCMAP_THROTTLE>
     <RCMAP_YAW>
-      <DisplayName>Yaw channel</DisplayName>
-      <Description>Yaw channel number. This is useful when you have a RC transmitter that can't change the channel order easily. Yaw (also known as rudder) is normally on channel 4, but you can move it to any channel with this parameter.</Description>
+      <DisplayName>方向通道</DisplayName>
+      <Description>方向通道数。这在你有一个不能改变通道顺序的遥控器时有用。方向通常在通道4，但是你可以使用这个参数把它移到其他通道。</Description>
       <Range>1 8</Range>
       <Increment>1</Increment>
-      <User>Advanced</User>
+      <User>高级</User>
     </RCMAP_YAW>
     <INS_PRODUCT_ID>
       <DisplayName>IMU Product ID</DisplayName>
@@ -5159,141 +5109,141 @@
       <Increment>0.05</Increment>
     </NAVL1_DAMPING>
     <TECS_CLMB_MAX>
-      <DisplayName>Maximum Climb Rate (metres/sec)</DisplayName>
-      <Description>This is the best climb rate that the aircraft can achieve with the throttle set to THR_MAX and the airspeed set to the default value. For electric aircraft make sure this number can be achieved towards the end of flight when the battery voltage has reduced. The setting of this parameter can be checked by commanding a positive altitude change of 100m in loiter, RTL or guided mode. If the throttle required to climb is close to THR_MAX and the aircraft is maintaining airspeed, then this parameter is set correctly. If the airspeed starts to reduce, then the parameter is set to high, and if the throttle demand require to climb and maintain speed is noticeably less than THR_MAX, then either CLMB_MAX should be increased or THR_MAX reduced.</Description>
+      <DisplayName>最大爬升速度（m/s）</DisplayName>
+      <Description>这是飞行器在油门达到THR_MAX并且空速为default时能达到的最大爬升速度。对于电动飞行器请确认这个数值在飞行最后电池电压减小的情况下仍然能够被达到。这个数字的设置能够通过控制正向100m的高度变化在Loiter，RTL或者guided模式下来检查。如果需要的油门接近THR_MAX并且飞行器保持空速，那么这个参数就设置正确了。如果空速开始减小，那么参数就设置的太高，如果空速油门达到所需的爬升速度并且维持且显著地低于THR_MAX，那么CLMB_MAX应该被增加或者THR_MAX应该被减小。</Description>
       <Increment>0.1</Increment>
       <Range>0.1 20.0</Range>
       <User>User</User>
     </TECS_CLMB_MAX>
     <TECS_SINK_MIN>
-      <DisplayName>Minimum Sink Rate (metres/sec)</DisplayName>
-      <Description>This is the sink rate of the aircraft with the throttle set to THR_MIN and the same airspeed as used to measure CLMB_MAX.</Description>
+      <DisplayName>最小下降速度（m/s）</DisplayName>
+      <Description>这是飞行器在油门位于THR_MIN并且空速和用来测量CLMB_MAX的一样时的最小下降速度。</Description>
       <Increment>0.1</Increment>
       <Range>0.1 10.0</Range>
       <User>User</User>
     </TECS_SINK_MIN>
     <TECS_TIME_CONST>
-      <DisplayName>Controller time constant (sec)</DisplayName>
-      <Description>This is the time constant of the TECS control algorithm. Smaller values make it faster to respond, large values make it slower to respond.</Description>
+      <DisplayName>控制器时间常数（s）</DisplayName>
+      <Description>这是TECS控制算法的时间常数。更小的值让它更快的相应，更大的值让更慢的相应。</Description>
       <Range>3.0 10.0</Range>
       <Increment>0.2</Increment>
       <User>Advanced</User>
     </TECS_TIME_CONST>
     <TECS_THR_DAMP>
-      <DisplayName>Controller throttle damping</DisplayName>
-      <Description>This is the damping gain for the throttle demand loop. Increase to add damping  to correct for oscillations in speed and height.</Description>
+      <DisplayName>控制器油门抑制</DisplayName>
+      <Description>这是用于油门需求循环的抑制增益。增加会提高增益来校正速度和高度上的抖动。</Description>
       <Range>0.1 1.0</Range>
       <Increment>0.1</Increment>
       <User>Advanced</User>
     </TECS_THR_DAMP>
     <TECS_INTEG_GAIN>
-      <DisplayName>Controller integrator</DisplayName>
-      <Description>This is the integrator gain on the control loop. Increase to increase the rate at which speed and height offsets are trimmed out</Description>
+      <DisplayName>控制器积分器</DisplayName>
+      <Description>这是控制循环的积分增益。增加会增加速度和高度位移的剪切速度。</Description>
       <Range>0.0 0.5</Range>
       <Increment>0.02</Increment>
       <User>Advanced</User>
     </TECS_INTEG_GAIN>
     <TECS_VERT_ACC>
-      <DisplayName>Vertical Acceleration Limit (metres/sec^2)</DisplayName>
-      <Description>This is the maximum vertical acceleration either up or down that the  controller will use to correct speed or height errors.</Description>
+      <DisplayName>垂直加速度限制（m/s^2)</DisplayName>
+      <Description>这是上升或下降的最大垂直加速度，用于修正速度或高度误差。</Description>
       <Range>1.0 10.0</Range>
       <Increment>0.5</Increment>
       <User>Advanced</User>
     </TECS_VERT_ACC>
     <TECS_HGT_OMEGA>
-      <DisplayName>Height complementary filter frequency (radians/sec)</DisplayName>
-      <Description>This is the cross-over frequency of the complementary filter used to fuse vertical acceleration and baro alt to obtain an estimate of height rate and height.</Description>
+      <DisplayName>高度辅助过滤器频率（rad/s)</DisplayName>
+      <Description>这是辅助过滤器用来结合垂直加速度和气压计高度估算高度和垂直速度的交叉频率</Description>
       <Range>1.0 5.0</Range>
       <Increment>0.05</Increment>
       <User>Advanced</User>
     </TECS_HGT_OMEGA>
     <TECS_SPD_OMEGA>
-      <DisplayName>Speed complementary filter frequency (radians/sec)</DisplayName>
-      <Description>This is the cross-over frequency of the complementary filter used to fuse longitudinal acceleration and airspeed to obtain a lower noise and lag estimate of airspeed.</Description>
+      <DisplayName>速度辅助过滤器频率（rad/s）</DisplayName>
+      <Description>这是辅助过滤器用来结合纵向加速度和空速来获得更低的噪声和空速延迟的交叉频率</Description>
       <Range>0.5 2.0</Range>
       <Increment>0.05</Increment>
       <User>Advanced</User>
     </TECS_SPD_OMEGA>
     <TECS_RLL2THR>
-      <DisplayName>Bank angle compensation gain</DisplayName>
-      <Description>Increasing this gain turn increases the amount of throttle that will be used to compensate for the additional drag created by turning. Ideally this should be set to approximately 10 x the extra sink rate in m/s created by a 45 degree bank turn. Increase this gain if the aircraft initially loses energy in turns and reduce if the aircraft initially gains energy in turns. Efficient high aspect-ratio aircraft (eg powered sailplanes) can use a lower value, whereas inefficient low aspect-ratio models (eg delta wings) can use a higher value.</Description>
+      <DisplayName>倾斜角度补偿增益</DisplayName>
+      <Description>增大这个增益值会增大油门量以抵消转弯时的额外阻力。理想情况下这个应该设为45度角倾斜转弯时下降速度（m/s）的10倍。如果飞机一开始在转弯时缺乏能量，增加这个数值，如果能量过高，降低这个数值。高效的高长宽比的飞机（例如有动力的轻型滑翔机）可以使用更低的数值，而低效率低长宽比的飞机（例如三角翼）可以使用更高的数值。</Description>
       <Range>5.0 30.0</Range>
       <Increment>1.0</Increment>
       <User>Advanced</User>
     </TECS_RLL2THR>
     <TECS_SPDWEIGHT>
-      <DisplayName>Weighting applied to speed control</DisplayName>
-      <Description>This parameter adjusts the amount of weighting that the pitch control applies to speed vs height errors. Setting it to 0.0 will cause the pitch control to control height and ignore speed errors. This will normally improve height accuracy but give larger airspeed errors. Setting it to 2.0 will cause the pitch control loop to control speed and ignore height errors. This will normally reduce airsped errors, but give larger height errors.	A value of 1.0 gives a balanced response and is the default.</Description>
+      <DisplayName>速度控制比重</DisplayName>
+      <Description>这个参数调节俯仰控制在速度和高度误差上的比重。设为0.0会导致俯仰控制控制高度而忽略速度误差。这会通常提高高度精度但是会造成更大的空速误差。设为2.0会导致俯仰控制控制速度而忽略高度误差。这通常会减少速度误差，但是会造成更大的高度误差。1.0附近的取值会给出平衡的响应并且这是默认值。</Description>
       <Range>0.0 2.0</Range>
       <Increment>0.1</Increment>
       <User>Advanced</User>
     </TECS_SPDWEIGHT>
     <TECS_PTCH_DAMP>
-      <DisplayName>Controller pitch damping</DisplayName>
-      <Description>This is the damping gain for the pitch demand loop. Increase to add damping  to correct for oscillations in speed and height.</Description>
+      <DisplayName>控制器俯仰抑制</DisplayName>
+      <Description>这是俯仰需求循环的抑制增益。增大会提高抑制来校正速度和高度上的抖动。</Description>
       <Range>0.1 1.0</Range>
       <Increment>0.1</Increment>
       <User>Advanced</User>
     </TECS_PTCH_DAMP>
     <TECS_SINK_MAX>
-      <DisplayName>Maximum Descent Rate (metres/sec)</DisplayName>
-      <Description>This sets the maximum descent rate that the controller will use.  If this value is too large, the aircraft will reach the pitch angle limit first and be unable to achieve the descent rate. This should be set to a value that can be achieved at the lower pitch angle limit.</Description>
+      <DisplayName>最大下降速度（m/s）</DisplayName>
+      <Description>这个设置控制器使用的最大的下降速度。如果这个值过大，飞机会先达到俯仰角度限制而无法达到最大下降速度。这个值应该设为在最低俯仰角下飞机能够达到的最快下降速度。</Description>
       <Increment>0.1</Increment>
       <Range>0.0 20.0</Range>
       <User>User</User>
     </TECS_SINK_MAX>
     <TECS_LAND_ARSPD>
-      <DisplayName>Airspeed during landing approach (m/s)</DisplayName>
-      <Description>When performing an autonomus landing, this value is used as the goal airspeed during approach.  Note that this parameter is not useful if your platform does not have an airspeed sensor (use TECS_LAND_THR instead).  If negative then this value is not used during landing.</Description>
+      <DisplayName>下降接近时空速（m/s）</DisplayName>
+      <Description>当自动降落时，这个数值会被座位目标空速用于降落。注意如果你的平台没有空速传感器，那么这个参数无效（请换用TECS_LAND_THR）。如果数值是负值，降落期间这个数值将不会被使用。</Description>
       <Range>-1 127</Range>
       <Increment>1</Increment>
       <User>User</User>
     </TECS_LAND_ARSPD>
     <TECS_LAND_THR>
-      <DisplayName>Cruise throttle during landing approach (percentage)</DisplayName>
-      <Description>Use this parameter instead of LAND_ASPD if your platform does not have an airspeed sensor.  It is the cruise throttle during landing approach.  If it is negative if TECS_LAND_ASPD is in use then this value is not used during landing.</Description>
+      <DisplayName>接近着陆时巡航油门（%）</DisplayName>
+      <Description>使用这个参数而不是LAND_ASPD如果你的平台没有空速传感器。这是接近着陆时的巡航油门。如果这个值是负值并且TECS_LAND_ASPD在使用，那么这个值在接近着陆时不会被使用。</Description>
       <Range>-1 to 100</Range>
       <Increment>0.1</Increment>
       <User>User</User>
     </TECS_LAND_THR>
     <TECS_LAND_SPDWGT>
-      <DisplayName>Weighting applied to speed control during landing.</DisplayName>
-      <Description>Same as SPDWEIGHT parameter, with the exception that this parameter is applied during landing flight stages.  A value closer to 2 will result in the plane ignoring height error during landing and our experience has been that the plane will therefore keep the nose up -- sometimes good for a glider landing (with the side effect that you will likely glide a ways past the landing point).  A value closer to 0 results in the plane ignoring speed error -- use caution when lowering the value below 1 -- ignoring speed could result in a stall.</Description>
+      <DisplayName>着陆期间速度控制器比重</DisplayName>
+      <Description>和SPDWEIGHT参数一样，但是这个参数应用于着陆飞行阶段。2左右的数值会使飞机在着陆期间忽略高度误差并且我们的经验是飞机会保持机头向上--有时有益于滑翔机着陆（负面效应是你可能滑过着陆点）。0左右的数值会使飞机忽略速度误差--小心使用低于1的数值--忽略速度可能导致空中停车。</Description>
       <Range>0.0 2.0</Range>
       <Increment>0.1</Increment>
       <User>Advanced</User>
     </TECS_LAND_SPDWGT>
     <TECS_PITCH_MAX>
-      <DisplayName>Maximum pitch in auto flight</DisplayName>
-      <Description>This controls maximum pitch up in automatic throttle modes. If this is set to zero then LIM_PITCH_MAX is used instead. The purpose of this parameter is to allow the use of a smaller pitch range when in automatic flight than what is used in FBWA mode.</Description>
+      <DisplayName>自动飞行中的最大俯仰角</DisplayName>
+      <Description>这个参数控制自动油门模式中的最大俯仰角。如果这个值被设为0，那么LIM_PITCH_MAX将会被使用。这个参数的目的是允许在自动飞行模式中使用一个相比FBWA模式中更小的俯仰角。</Description>
       <Range>0 45</Range>
       <Increment>1</Increment>
       <User>Advanced</User>
     </TECS_PITCH_MAX>
     <TECS_PITCH_MIN>
-      <DisplayName>Minimum pitch in auto flight</DisplayName>
-      <Description>This controls minimum pitch in automatic throttle modes. If this is set to zero then LIM_PITCH_MIN is used instead. The purpose of this parameter is to allow the use of a smaller pitch range when in automatic flight than what is used in FBWA mode. Note that TECS_PITCH_MIN should be a negative number.</Description>
+      <DisplayName>最小俯仰角</DisplayName>
+      <Description>这个值控制自动油门模式中的最小俯仰角。如果这个值被设为0，那么LIM_PITCH_MIN将被使用。 这个参数的目的是允许在自动飞行模式中使用比FBWA模式中更小的俯仰角。注意TECS_PITCH_MIN应该为负值。</Description>
       <Range>-45 0</Range>
       <Increment>1</Increment>
       <User>Advanced</User>
     </TECS_PITCH_MIN>
     <TECS_LAND_SINK>
-      <DisplayName>Sink rate for final landing stage</DisplayName>
-      <Description>The sink rate in meters/second for the final stage of landing.</Description>
+      <DisplayName>最终着陆阶段下降速度</DisplayName>
+      <Description>最终着陆阶段的下降速度，m/s。</Description>
       <Range>0.0 2.0</Range>
       <Increment>0.1</Increment>
       <User>Advanced</User>
     </TECS_LAND_SINK>
     <TECS_LAND_TCONST>
-      <DisplayName>Land controller time constant (sec)</DisplayName>
-      <Description>This is the time constant of the TECS control algorithm when in final landing stage of flight. It should be smaller than TECS_TIME_CONST to allow for faster flare</Description>
+      <DisplayName>着陆控制器时间常数（秒）</DisplayName>
+      <Description>这是TECS控制算法在最终着陆阶段使用的时间常数。这个参数应该比TECS_TIME_CONST更小以允许更快的爆闪</Description>
       <Range>1.0 5.0</Range>
       <Increment>0.2</Increment>
       <User>Advanced</User>
     </TECS_LAND_TCONST>
     <TECS_LAND_DAMP>
-      <DisplayName>Controller sink rate to pitch gain during flare</DisplayName>
-      <Description>This is the sink rate gain for the pitch demand loop when in final landing stage of flight. It should be larger than TECS_PTCH_DAMP to allow for better sink rate control during flare.</Description>
+      <DisplayName>爆闪期间控制器下降速度到俯仰增益（Controller sink rate during flare)</DisplayName>
+      <Description>这是最终飞行着陆阶段的俯仰需求循环的下降速度增益。它应该大于TECS_PTCH_DAMP以允许更好的下降速度控制在爆闪期间。（ to allow for better sink rate control during flare.）</Description>
       <Range>0.1 1.0</Range>
       <Increment>0.1</Increment>
       <User>Advanced</User>
@@ -6039,15 +5989,15 @@
       <Values>0:Resume Mission, 1:Restart Mission</Values>
     </MIS_RESTART>
     <RALLY_TOTAL>
-      <DisplayName>Rally Total</DisplayName>
-      <Description>Number of rally points currently loaded</Description>
-      <User>Advanced</User>
+      <DisplayName>集结点总数</DisplayName>
+      <Description>当前加载的所有集结点的数目</Description>
+      <User>高级</User>
     </RALLY_TOTAL>
     <RALLY_LIMIT_KM>
-      <DisplayName>Rally Limit</DisplayName>
-      <Description>Maximum distance to rally point. If the closest rally point is more than this number of kilometers from the current position and the home location is closer than any of the rally points from the current position then do RTL to home rather than to the closest rally point. This prevents a leftover rally point from a different airfield being used accidentally. If this is set to 0 then the closest rally point is always used.</Description>
-      <User>Advanced</User>
-      <Units>kilometers</Units>
+      <DisplayName>集结点限制</DisplayName>
+      <Description>到集结点的最大距离。如果最近的集结点比这个公里数远并且家比从当前位置到任何集结点的距离都近，那么就返回家而不是最近的集结点。这可以防止另一个飞行场地的残余集结点被意外使用。如果设为0，那么最近的集结点将一直被使用。</Description>
+      <User>高级</User>
+      <Units>公里</Units>
       <Increment>0.1</Increment>
     </RALLY_LIMIT_KM>
     <FORMAT_VERSION>
@@ -6542,35 +6492,35 @@
       <DisplayName>飞行模式1</DisplayName>
       <Values>0:手动Manual,1:绕圈CIRCLE,2:自稳STABILIZE,3:教练TRAINING,4:特技ACRO,5:电传A|FBWA,6:电传B|FBWB,7:巡航CRUISE,8:自动调参AUTOTUNE,10:自动Auto,11:返航RTL,12:留待Loiter,15:引导Guided</Values>
       <User>Standard</User>
-      <Description>Flight mode for switch position 1 (910 to 1230 and above 2049)</Description>
+      <Description>用于开关位置1的飞行模式（910至1230及2049以上)</Description>
     </FLTMODE1>
     <FLTMODE2>
       <DisplayName>飞行模式2</DisplayName>
-      <Description>Flight mode for switch position 2 (1231 to 1360)</Description>
+      <Description>用于开关位置2的飞行模式（1231至1360）</Description>
       <Values>0:手动Manual,1:绕圈CIRCLE,2:自稳STABILIZE,3:教练TRAINING,4:特技ACRO,5:电传A|FBWA,6:电传B|FBWB,7:巡航CRUISE,8:自动调参AUTOTUNE,10:自动Auto,11:返航RTL,12:留待Loiter,15:引导Guided</Values>
       <User>Standard</User>
     </FLTMODE2>
     <FLTMODE3>
       <DisplayName>飞行模式3</DisplayName>
-      <Description>Flight mode for switch position 3 (1361 to 1490)</Description>
+      <Description>用于开关位置3的飞行模式（1361至1490）</Description>
       <Values>0:手动Manual,1:绕圈CIRCLE,2:自稳STABILIZE,3:教练TRAINING,4:特技ACRO,5:电传A|FBWA,6:电传B|FBWB,7:巡航CRUISE,8:自动调参AUTOTUNE,10:自动Auto,11:返航RTL,12:留待Loiter,15:引导Guided</Values>
       <User>Standard</User>
     </FLTMODE3>
     <FLTMODE4>
       <DisplayName>飞行模式4</DisplayName>
-      <Description>Flight mode for switch position 4 (1491 to 1620)</Description>
+      <Description>用于开关位置4的飞行模式（1491至1620）</Description>
       <Values>0:手动Manual,1:绕圈CIRCLE,2:自稳STABILIZE,3:教练TRAINING,4:特技ACRO,5:电传A|FBWA,6:电传B|FBWB,7:巡航CRUISE,8:自动调参AUTOTUNE,10:自动Auto,11:返航RTL,12:留待Loiter,15:引导Guided</Values>
       <User>Standard</User>
     </FLTMODE4>
     <FLTMODE5>
       <DisplayName>飞行模式5</DisplayName>
-      <Description>Flight mode for switch position 5 (1621 to 1749)</Description>
+      <Description>用于开关位置5的飞行模式（1621至1749）</Description>
       <Values>0:手动Manual,1:绕圈CIRCLE,2:自稳STABILIZE,3:教练TRAINING,4:特技ACRO,5:电传A|FBWA,6:电传B|FBWB,7:巡航CRUISE,8:自动调参AUTOTUNE,10:自动Auto,11:返航RTL,12:留待Loiter,15:引导Guided</Values>
       <User>Standard</User>
     </FLTMODE5>
     <FLTMODE6>
       <DisplayName>飞行模式6</DisplayName>
-      <Description>Flight mode for switch position 6 (1750 to 2049)</Description>
+      <Description>用于开关位置6的飞行模式（1750至2049）</Description>
       <Values>0:手动Manual,1:绕圈CIRCLE,2:自稳STABILIZE,3:教练TRAINING,4:特技ACRO,5:电传A|FBWA,6:电传B|FBWB,7:巡航CRUISE,8:自动调参AUTOTUNE,10:自动Auto,11:返航RTL,12:留待Loiter,15:引导Guided</Values>
       <User>Standard</User>
     </FLTMODE6>
@@ -7695,9 +7645,9 @@
       <User>Advanced</User>
     </COMPASS_EXTERN3>
     <SCHED_DEBUG>
-      <DisplayName>Scheduler debug level</DisplayName>
-      <Description>Set to non-zero to enable scheduler debug messages. When set to show "Slips" the scheduler will display a message whenever a scheduled task is delayed due to too much CPU load. When set to ShowOverruns the scheduled will display a message whenever a task takes longer than the limit promised in the task table.</Description>
-      <Values>0:Disabled,2:ShowSlips,3:ShowOverruns</Values>
+      <DisplayName>规划器调试级别Scheduler debug level</DisplayName>
+      <Description>设为非0来启用规划器调试信息。当设置为显示Slikps的时候，规划器会在任务由于过高的CPU负载而被推迟的时候显示一条信息。当设为ShowOverruns时规划器会在任务花费了比任务列表中限制的更长的时候显示一条消息。</Description>
+      <Values>0:禁用,2:ShowSlips,3:ShowOverruns</Values>
       <User>Advanced</User>
     </SCHED_DEBUG>
     <GND_ABS_PRESS>
@@ -7720,62 +7670,62 @@
       <Increment>1</Increment>
     </GND_ALT_OFFSET>
     <RELAY_PIN>
-      <DisplayName>First Relay Pin</DisplayName>
-      <Description>Digital pin number for first relay control. This is the pin used for camera control.</Description>
+      <DisplayName>第1中继针脚</DisplayName>
+      <Description>第1中继控制使用的数字针脚。这个针脚用于相机控制。</Description>
       <User>Standard</User>
       <Values>-1:Disabled,13:APM2 A9 pin,47:APM1 relay,50:Pixhawk AUXOUT1,51:Pixhawk AUXOUT2,52:Pixhawk AUXOUT3,53:Pixhawk AUXOUT4,54:Pixhawk AUXOUT5,55:Pixhawk AUXOUT6,111:PX4 FMU Relay1,112:PX4 FMU Relay2,113:PX4IO Relay1,114:PX4IO Relay2,115:PX4IO ACC1,116:PX4IO ACC2</Values>
     </RELAY_PIN>
     <RELAY_PIN2>
-      <DisplayName>Second Relay Pin</DisplayName>
-      <Description>Digital pin number for 2nd relay control.</Description>
+      <DisplayName>第2中继针脚</DisplayName>
+      <Description>第2中继控制使用的数字针脚。</Description>
       <User>Standard</User>
       <Values>-1:Disabled,13:APM2 A9 pin,47:APM1 relay,50:Pixhawk AUXOUT1,51:Pixhawk AUXOUT2,52:Pixhawk AUXOUT3,53:Pixhawk AUXOUT4,54:Pixhawk AUXOUT5,55:Pixhawk AUXOUT6,111:PX4 FMU Relay1,112:PX4 FMU Relay2,113:PX4IO Relay1,114:PX4IO Relay2,115:PX4IO ACC1,116:PX4IO ACC2</Values>
     </RELAY_PIN2>
     <RELAY_PIN3>
-      <DisplayName>Third Relay Pin</DisplayName>
-      <Description>Digital pin number for 3rd relay control.</Description>
+      <DisplayName>第3中继针脚</DisplayName>
+      <Description>第3中继控制使用的数字针脚。</Description>
       <User>Standard</User>
       <Values>-1:Disabled,13:APM2 A9 pin,47:APM1 relay,50:Pixhawk AUXOUT1,51:Pixhawk AUXOUT2,52:Pixhawk AUXOUT3,53:Pixhawk AUXOUT4,54:Pixhawk AUXOUT5,55:Pixhawk AUXOUT6,111:PX4 FMU Relay1,112:PX4 FMU Relay2,113:PX4IO Relay1,114:PX4IO Relay2,115:PX4IO ACC1,116:PX4IO ACC2</Values>
     </RELAY_PIN3>
     <RELAY_PIN4>
-      <DisplayName>Fourth Relay Pin</DisplayName>
-      <Description>Digital pin number for 4th relay control.</Description>
+      <DisplayName>第4中继针脚</DisplayName>
+      <Description>第4中继控制使用的数字针脚。</Description>
       <User>Standard</User>
       <Values>-1:Disabled,13:APM2 A9 pin,47:APM1 relay,50:Pixhawk AUXOUT1,51:Pixhawk AUXOUT2,52:Pixhawk AUXOUT3,53:Pixhawk AUXOUT4,54:Pixhawk AUXOUT5,55:Pixhawk AUXOUT6,111:PX4 FMU Relay1,112:PX4 FMU Relay2,113:PX4IO Relay1,114:PX4IO Relay2,115:PX4IO ACC1,116:PX4IO ACC2</Values>
     </RELAY_PIN4>
     <RELAY_DEFAULT>
-      <DisplayName>Default relay state</DisplayName>
-      <Description>The state of the relay on boot.</Description>
+      <DisplayName>默认中继状态</DisplayName>
+      <Description>启动时的中继状态。</Description>
       <User>Standard</User>
       <Values>0:Off,1:On,2:NoChange</Values>
     </RELAY_DEFAULT>
     <RCMAP_ROLL>
-      <DisplayName>Roll channel</DisplayName>
-      <Description>Roll channel number. This is useful when you have a RC transmitter that can't change the channel order easily. Roll is normally on channel 1, but you can move it to any channel with this parameter.</Description>
+      <DisplayName>横滚通道</DisplayName>
+      <Description>横滚通道数。这在你有一个不能改变通道顺序的遥控器时有用。横滚通常在通道1，但是你可以使用这个参数把它移到其他通道。</Description>
       <Range>1 8</Range>
       <Increment>1</Increment>
-      <User>Advanced</User>
+      <User>高级</User>
     </RCMAP_ROLL>
     <RCMAP_PITCH>
-      <DisplayName>Pitch channel</DisplayName>
-      <Description>Pitch channel number. This is useful when you have a RC transmitter that can't change the channel order easily. Pitch is normally on channel 2, but you can move it to any channel with this parameter.</Description>
+      <DisplayName>俯仰通道</DisplayName>
+      <Description>俯仰通道数。这在你有一个不能改变通道顺序的遥控器时有用。俯仰通常在通道2，但是你可以使用这个参数把它移到其他通道。</Description>
       <Range>1 8</Range>
       <Increment>1</Increment>
-      <User>Advanced</User>
+      <User>高级</User>
     </RCMAP_PITCH>
     <RCMAP_THROTTLE>
-      <DisplayName>Throttle channel</DisplayName>
-      <Description>Throttle channel number. This is useful when you have a RC transmitter that can't change the channel order easily. Throttle is normally on channel 3, but you can move it to any channel with this parameter. Warning APM 2.X: Changing the throttle channel could produce unexpected fail-safe results if connection between receiver and on-board PPM Encoder is lost. Disabling on-board PPM Encoder is recommended.</Description>
+      <DisplayName>油门通道</DisplayName>
+      <Description>油门通道数。这在你有一个不能改变通道顺序的遥控器时有用。油门通常在通道3，但是你可以使用这个参数把它移到其他通道。警告APM2.x：改变油门通道可能导致意外的失控保护如果接收机和板载PPM编码器的连接丢失。推荐禁用板载PPM编码器。</Description>
       <Range>1 8</Range>
       <Increment>1</Increment>
-      <User>Advanced</User>
+      <User>高级</User>
     </RCMAP_THROTTLE>
     <RCMAP_YAW>
-      <DisplayName>Yaw channel</DisplayName>
-      <Description>Yaw channel number. This is useful when you have a RC transmitter that can't change the channel order easily. Yaw (also known as rudder) is normally on channel 4, but you can move it to any channel with this parameter.</Description>
+      <DisplayName>方向通道</DisplayName>
+      <Description>方向通道数。这在你有一个不能改变通道顺序的遥控器时有用。方向通常在通道4，但是你可以使用这个参数把它移到其他通道。</Description>
       <Range>1 8</Range>
       <Increment>1</Increment>
-      <User>Advanced</User>
+      <User>高级</User>
     </RCMAP_YAW>
     <NAVL1_PERIOD>
       <DisplayName>L1 control period</DisplayName>
@@ -7791,110 +7741,110 @@
       <Increment>0.05</Increment>
     </NAVL1_DAMPING>
     <RNGFND_TYPE>
-      <DisplayName>Rangefinder type</DisplayName>
-      <Description>What type of rangefinder device that is connected</Description>
+      <DisplayName>测距仪类型</DisplayName>
+      <Description>所连接的测距仪的类型</Description>
       <Values>0:None,1:Analog,2:APM2-MaxbotixI2C,3:APM2-PulsedLightI2C,4:PX4-I2C</Values>
     </RNGFND_TYPE>
     <RNGFND_PIN>
-      <DisplayName>Rangefinder pin</DisplayName>
-      <Description>Analog pin that rangefinder is connected to. Set this to 0..9 for the APM2 analog pins. Set to 64 on an APM1 for the dedicated 'airspeed' port on the end of the board. Set to 11 on PX4 for the analog 'airspeed' port. Set to 15 on the Pixhawk for the analog 'airspeed' port.</Description>
+      <DisplayName>测距仪针脚</DisplayName>
+      <Description>测距仪连接到的模拟针脚。对APM2设为0~9。对APM1设为64作为独立空速接口在板子的末端。（Set to 64 on an APM1 for the dedicated 'airspeed' port on the end of the board.）在PX4上设为11作为模拟空速接口。在Pixhawk上设为15作为模拟空速接口。</Description>
     </RNGFND_PIN>
     <RNGFND_SCALING>
-      <DisplayName>Rangefinder scaling</DisplayName>
-      <Description>Scaling factor between rangefinder reading and distance. For the linear and inverted functions this is in meters per volt. For the hyperbolic function the units are meterVolts.</Description>
+      <DisplayName>测距仪比例</DisplayName>
+      <Description>测距仪读数和距离之间的比例。对于线性和反向函数这是米/伏特。对于双曲线函数他的单位是米伏特。</Description>
       <Units>meters/Volt</Units>
       <Increment>0.001</Increment>
     </RNGFND_SCALING>
     <RNGFND_OFFSET>
-      <DisplayName>rangefinder offset</DisplayName>
-      <Description>Offset in volts for zero distance</Description>
+      <DisplayName>测距仪偏移</DisplayName>
+      <Description>距离为0时的电压</Description>
       <Units>Volts</Units>
       <Increment>0.001</Increment>
     </RNGFND_OFFSET>
     <RNGFND_FUNCTION>
-      <DisplayName>Rangefinder function</DisplayName>
-      <Description>Control over what function is used to calculate distance. For a linear function, the distance is (voltage-offset)*scaling. For a inverted function the distance is (offset-voltage)*scaling. For a hyperbolic function the distance is scaling/(voltage-offset). The functions return the distance in meters.</Description>
-      <Values>0:Linear,1:Inverted,2:Hyperbolic</Values>
+      <DisplayName>测距仪函数</DisplayName>
+      <Description>控制用于计算距离的函数。罪域线性函数，距离=（电压-偏移）*比例。对于反向函数距离=（偏移-电压）*比例。对于双曲函数距离=比例/（电压-偏移）。函数返回以米为单位的距离。</Description>
+      <Values>0:线性,1:反向,2:双曲</Values>
     </RNGFND_FUNCTION>
     <RNGFND_MIN_CM>
-      <DisplayName>Rangefinder minimum distance</DisplayName>
-      <Description>Minimum distance in centimeters that rangefinder can reliably read</Description>
-      <Units>centimeters</Units>
+      <DisplayName>测距仪最小距离</DisplayName>
+      <Description>测距仪所能可靠测到的最小厘米数。</Description>
+      <Units>厘米</Units>
       <Increment>1</Increment>
     </RNGFND_MIN_CM>
     <RNGFND_MAX_CM>
-      <DisplayName>Rangefinder maximum distance</DisplayName>
-      <Description>Maximum distance in centimeters that rangefinder can reliably read</Description>
-      <Units>centimeters</Units>
+      <DisplayName>测距仪最大距离</DisplayName>
+      <Description>测距仪能测到的最大厘米数。</Description>
+      <Units>厘米</Units>
       <Increment>1</Increment>
     </RNGFND_MAX_CM>
     <RNGFND_STOP_PIN>
-      <DisplayName>Rangefinder stop pin</DisplayName>
-      <Description>Digital pin that enables/disables rangefinder measurement for an analog rangefinder. A value of -1 means no pin. If this is set, then the pin is set to 1 to enable the rangefinder and set to 0 to disable it. This can be used to ensure that multiple sonar rangefinders don't interfere with each other.</Description>
+      <DisplayName>测距仪停止针脚</DisplayName>
+      <Description>用于启用/禁用测距仪测量的数字针脚。-1代表没有这个针脚。如果设置了，那么这个针设为1代表启用测距仪，0代表禁用。这可以确保多个声呐测距仪不会互相干扰。</Description>
     </RNGFND_STOP_PIN>
     <RNGFND_SETTLE>
-      <DisplayName>Rangefinder settle time</DisplayName>
-      <Description>The time in milliseconds that the rangefinder reading takes to settle. This is only used when a STOP_PIN is specified. It determines how long we have to wait for the rangefinder to give a reading after we set the STOP_PIN high. For a sonar rangefinder with a range of around 7m this would need to be around 50 milliseconds to allow for the sonar pulse to travel to the target and back again.</Description>
-      <Units>milliseconds</Units>
+      <DisplayName>测距仪稳定读数时间</DisplayName>
+      <Description>测距仪稳定读数需要的毫秒单位时间。仅当STOP_PIN制定的时候需要这个数值。它决定了当我们设置STOP_PIN为高电平时测距仪给出读数需要多久。对于一个7m范围的声呐传感器，这需要大约50ms以允许声呐脉冲到达目标并返回。</Description>
+      <Units>毫秒</Units>
       <Increment>1</Increment>
     </RNGFND_SETTLE>
     <RNGFND_RMETRIC>
-      <DisplayName>Ratiometric</DisplayName>
-      <Description>This parameter sets whether an analog rangefinder is ratiometric. Most analog rangefinders are ratiometric, meaning that their output voltage is influenced by the supply voltage. Some analog rangefinders (such as the SF/02) have their own internal voltage regulators so they are not ratiometric.</Description>
-      <Values>0:No,1:Yes</Values>
+      <DisplayName>比率计（Ratiometric）</DisplayName>
+      <Description>这个参数设定一个模拟测距仪是否符合比率计。大多数模拟测距仪都符合比率计，意味着他们的输出电压会受供电电压的影响。有些模拟测距仪（例如SF/02）有自己的内部稳压器，所以他们就不符合比率计。</Description>
+      <Values>0:否,1:是</Values>
     </RNGFND_RMETRIC>
     <RNGFND2_TYPE>
-      <DisplayName>Second Rangefinder type</DisplayName>
-      <Description>What type of rangefinder device that is connected</Description>
-      <Values>0:None,1:Analog,2:APM2-MaxbotixI2C,3:APM2-PulsedLightI2C,4:PX4-I2C</Values>
+      <DisplayName>第二测距仪类型</DisplayName>
+      <Description>第二测距仪所连接的设备类型</Description>
+      <Values>0:无,1:模拟,2:APM2-MaxbotixI2C,3:APM2-PulsedLightI2C,4:PX4-I2C</Values>
     </RNGFND2_TYPE>
     <RNGFND2_PIN>
-      <DisplayName>Rangefinder pin</DisplayName>
-      <Description>Analog pin that rangefinder is connected to. Set this to 0..9 for the APM2 analog pins. Set to 64 on an APM1 for the dedicated 'airspeed' port on the end of the board. Set to 11 on PX4 for the analog 'airspeed' port. Set to 15 on the Pixhawk for the analog 'airspeed' port.</Description>
+      <DisplayName>测距仪针脚</DisplayName>
+      <Description>测距仪连接到的模拟针脚。对APM2设为0~9。对APM1设为64作为独立空速接口在板子的末端。（Set to 64 on an APM1 for the dedicated 'airspeed' port on the end of the board.）在PX4上设为11作为模拟空速接口。在Pixhawk上设为15作为模拟空速接口。</Description>
     </RNGFND2_PIN>
     <RNGFND2_SCALING>
-      <DisplayName>Rangefinder scaling</DisplayName>
-      <Description>Scaling factor between rangefinder reading and distance. For the linear and inverted functions this is in meters per volt. For the hyperbolic function the units are meterVolts.</Description>
+      <DisplayName>测距仪比例</DisplayName>
+      <Description>测距仪读数和距离之间的比例。对于线性和反向函数这是米/伏特。对于双曲线函数他的单位是米伏特。</Description>
       <Units>meters/Volt</Units>
       <Increment>0.001</Increment>
     </RNGFND2_SCALING>
     <RNGFND2_OFFSET>
-      <DisplayName>rangefinder offset</DisplayName>
-      <Description>Offset in volts for zero distance</Description>
+      <DisplayName>测距仪偏移</DisplayName>
+      <Description>距离为0时的电压</Description>
       <Units>Volts</Units>
       <Increment>0.001</Increment>
     </RNGFND2_OFFSET>
     <RNGFND2_FUNCTION>
-      <DisplayName>Rangefinder function</DisplayName>
-      <Description>Control over what function is used to calculate distance. For a linear function, the distance is (voltage-offset)*scaling. For a inverted function the distance is (offset-voltage)*scaling. For a hyperbolic function the distance is scaling/(voltage-offset). The functions return the distance in meters.</Description>
-      <Values>0:Linear,1:Inverted,2:Hyperbolic</Values>
+      <DisplayName>测距仪函数</DisplayName>
+      <Description>控制用于计算距离的函数。罪域线性函数，距离=（电压-偏移）*比例。对于反向函数距离=（偏移-电压）*比例。对于双曲函数距离=比例/（电压-偏移）。函数返回以米为单位的距离。</Description>
+      <Values>0:线性,1:反向,2:双曲</Values>
     </RNGFND2_FUNCTION>
     <RNGFND2_MIN_CM>
-      <DisplayName>Rangefinder minimum distance</DisplayName>
-      <Description>Minimum distance in centimeters that rangefinder can reliably read</Description>
-      <Units>centimeters</Units>
+      <DisplayName>测距仪最小距离</DisplayName>
+      <Description>测距仪所能可靠测到的最小厘米数。</Description>
+      <Units>厘米</Units>
       <Increment>1</Increment>
     </RNGFND2_MIN_CM>
     <RNGFND2_MAX_CM>
-      <DisplayName>Rangefinder maximum distance</DisplayName>
-      <Description>Maximum distance in centimeters that rangefinder can reliably read</Description>
-      <Units>centimeters</Units>
+      <DisplayName>测距仪最大距离</DisplayName>
+      <Description>测距仪所能可靠测到的最大厘米数。</Description>
+      <Units>厘米</Units>
       <Increment>1</Increment>
     </RNGFND2_MAX_CM>
     <RNGFND2_STOP_PIN>
-      <DisplayName>Rangefinder stop pin</DisplayName>
-      <Description>Digital pin that enables/disables rangefinder measurement for an analog rangefinder. A value of -1 means no pin. If this is set, then the pin is set to 1 to enable the rangefinder and set to 0 to disable it. This can be used to ensure that multiple sonar rangefinders don't interfere with each other.</Description>
+      <DisplayName>测距仪停止针脚</DisplayName>
+      <Description>用于启用/禁用测距仪测量的数字针脚。-1代表没有这个针脚。如果设置了，那么这个针设为1代表启用测距仪，0代表禁用。这可以确保多个声呐测距仪不会互相干扰。</Description>
     </RNGFND2_STOP_PIN>
     <RNGFND2_SETTLE>
-      <DisplayName>Sonar settle time</DisplayName>
-      <Description>The time in milliseconds that the rangefinder reading takes to settle. This is only used when a STOP_PIN is specified. It determines how long we have to wait for the rangefinder to give a reading after we set the STOP_PIN high. For a sonar rangefinder with a range of around 7m this would need to be around 50 milliseconds to allow for the sonar pulse to travel to the target and back again.</Description>
-      <Units>milliseconds</Units>
+      <DisplayName>测距仪稳定读数时间</DisplayName>
+      <Description>测距仪稳定读数需要的毫秒单位时间。仅当STOP_PIN制定的时候需要这个数值。它决定了当我们设置STOP_PIN为高电平时测距仪给出读数需要多久。对于一个7m范围的声呐传感器，这需要大约50ms以允许声呐脉冲到达目标并返回。</Description>
+      <Units>毫秒</Units>
       <Increment>1</Increment>
     </RNGFND2_SETTLE>
     <RNGFND2_RMETRIC>
-      <DisplayName>Ratiometric</DisplayName>
-      <Description>This parameter sets whether an analog rangefinder is ratiometric. Most analog rangefinders are ratiometric, meaning that their output voltage is influenced by the supply voltage. Some analog rangefinders (such as the SF/02) have their own internal voltage regulators so they are not ratiometric.</Description>
-      <Values>0:No,1:Yes</Values>
+      <DisplayName>比率计（Ratiometric）</DisplayName>
+      <Description>这个参数设定一个模拟测距仪是否符合比率计。大多数模拟测距仪都符合比率计，意味着他们的输出电压会受供电电压的影响。有些模拟测距仪（例如SF/02）有自己的内部稳压器，所以他们就不符合比率计。</Description>
+      <Values>0:否,1:是</Values>
     </RNGFND2_RMETRIC>
     <INS_PRODUCT_ID>
       <DisplayName>IMU Product ID</DisplayName>
@@ -9276,9 +9226,9 @@
       <User>Advanced</User>
     </COMPASS_EXTERN3>
     <SCHED_DEBUG>
-      <DisplayName>Scheduler debug level</DisplayName>
-      <Description>Set to non-zero to enable scheduler debug messages. When set to show "Slips" the scheduler will display a message whenever a scheduled task is delayed due to too much CPU load. When set to ShowOverruns the scheduled will display a message whenever a task takes longer than the limit promised in the task table.</Description>
-      <Values>0:Disabled,2:ShowSlips,3:ShowOverruns</Values>
+      <DisplayName>规划器调试级别Scheduler debug level</DisplayName>
+      <Description>设为非0来启用规划器调试信息。当设置为显示Slikps的时候，规划器会在任务由于过高的CPU负载而被推迟的时候显示一条信息。当设为ShowOverruns时规划器会在任务花费了比任务列表中限制的更长的时候显示一条消息。</Description>
+      <Values>0:禁用,2:ShowSlips,3:ShowOverruns</Values>
       <User>Advanced</User>
     </SCHED_DEBUG>
     <INS_PRODUCT_ID>
@@ -9772,12 +9722,6 @@
       <Range>0 10</Range>
       <User>Standard</User>
     </STARTUP_DELAY>
-    <PROXY_MODE>
-      <DisplayName>Also act as a MAVLink proxy for a vehicle</DisplayName>
-      <Description>If true, the tracker will act as a MAVlink proxy for a remote vehicle, and will eavesdrop vehicle position reports.</Description>
-      <Values>0:Off,1:On</Values>
-      <User>Standard</User>
-    </PROXY_MODE>
     <SERVO_TYPE>
       <DisplayName>Type of servo system being used</DisplayName>
       <Description>This allows selection of position servos or on/off servos</Description>

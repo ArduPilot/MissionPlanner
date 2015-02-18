@@ -708,7 +708,7 @@ namespace MissionPlanner
                     MaximizeBox = false,
                     MinimizeBox = false,
                     FormBorderStyle = FormBorderStyle.FixedDialog,
-                    Text = "Link Stats"
+                    Text = Strings.LinkStats
                 };
                 // Change the connection stats control, so that when/if the connection stats form is showing,
                 // there will be something to see

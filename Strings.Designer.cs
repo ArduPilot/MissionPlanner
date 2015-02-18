@@ -633,6 +633,15 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   查找类似 Link Stats 的本地化字符串。
+        /// </summary>
+        public static string LinkStats {
+            get {
+                return ResourceManager.GetString("LinkStats", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Please click ok and move the autopilot around all axises in a circular motion 的本地化字符串。
         /// </summary>
         public static string MagCalibMsg {
@@ -684,6 +693,15 @@ namespace MissionPlanner {
         public static string NoFMTMessage {
             get {
                 return ResourceManager.GetString("NoFMTMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 OK 的本地化字符串。
+        /// </summary>
+        public static string OK {
+            get {
+                return ResourceManager.GetString("OK", resourceCulture);
             }
         }
         
@@ -762,6 +780,25 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   查找类似 Raw Param Warning 的本地化字符串。
+        /// </summary>
+        public static string RawParamWarning {
+            get {
+                return ResourceManager.GetString("RawParamWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 All values on this screen are not min/max checked. Please double check your input.
+        ///Please use Standard/Advanced Params for the safe settings 的本地化字符串。
+        /// </summary>
+        public static string RawParamWarningi {
+            get {
+                return ResourceManager.GetString("RawParamWarningi", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Reading Hex 的本地化字符串。
         /// </summary>
         public static string ReadingHex {
@@ -803,6 +840,15 @@ namespace MissionPlanner {
         public static string SelectComport {
             get {
                 return ResourceManager.GetString("SelectComport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 Show me again? 的本地化字符串。
+        /// </summary>
+        public static string ShowMeAgain {
+            get {
+                return ResourceManager.GetString("ShowMeAgain", resourceCulture);
             }
         }
         
