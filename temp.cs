@@ -1125,6 +1125,8 @@ namespace MissionPlanner
 
             Firmware fw = new Firmware();
 
+            string betafirmwareurl = "https://raw.github.com/diydrones/binary/master/dev/firmware2.xml";
+
             var list = fw.getFWList();
 
             using (XmlTextWriter xmlwriter = new XmlTextWriter(basedir + Path.DirectorySeparatorChar + @"firmware2.xml", Encoding.ASCII))
@@ -1137,6 +1139,9 @@ namespace MissionPlanner
 
                 foreach (var software in list)
                 {
+                    //if (!software.name.Contains("Copter"))
+                      //  continue;
+
                     xmlwriter.WriteStartElement("Firmware");
 
                     if (software.url != "")
@@ -1195,6 +1200,7 @@ namespace MissionPlanner
                     {
                         Common.getFilefromNet(software.urlpx4v2, basedir + new Uri(software.urlpx4v2).LocalPath);
                     }
+                    
                     if (software.urlvrbrainv40 != "")
                     {
                         Common.getFilefromNet(software.urlvrbrainv40, basedir + new Uri(software.urlvrbrainv40).LocalPath);
@@ -1235,6 +1241,7 @@ namespace MissionPlanner
                     {
                         Common.getFilefromNet(software.urlvrugimbalv11, basedir + new Uri(software.urlvrugimbalv11).LocalPath);
                     }
+                     
                 }
 
                 xmlwriter.WriteEndElement();
@@ -1593,6 +1600,53 @@ namespace MissionPlanner
         private void but_terrain_Click(object sender, EventArgs e)
         {
             MainV2.comPort.Terrain.checkTerrain(MainV2.comPort.MAV.cs.HomeLocation.Lat, MainV2.comPort.MAV.cs.HomeLocation.Lng);
+        }
+
+        private void but_structtest_Click(object sender, EventArgs e)
+        {
+
+            var array = new byte[100];
+
+            for (int l = 0; l < array.Length; l++)
+            {
+                array[l] = (byte)l;
+            }
+
+            int a = 0;
+            DateTime start = DateTime.MinValue;
+            DateTime end = DateTime.MinValue;
+
+
+            start = DateTime.Now;
+            for (a = 0; a < 1000000; a++)
+            {
+                var obj = (object)new MAVLink.mavlink_heartbeat_t();
+                MavlinkUtil.ByteArrayToStructure(array, ref obj, 6);
+            }
+            end = DateTime.Now;
+            Console.WriteLine("ByteArrayToStructure " + (end - start).TotalMilliseconds);
+            start = DateTime.Now;
+            for (a = 0; a < 1000000; a++)
+            {
+                var ans1 = MavlinkUtil.ByteArrayToStructureT<MAVLink.mavlink_heartbeat_t>(array, 6);
+            }
+            end = DateTime.Now;
+            Console.WriteLine("ByteArrayToStructureT<> " + (end - start).TotalMilliseconds);
+            start = DateTime.Now;
+            for (a = 0; a < 1000000; a++)
+            {
+                var ans2 = MavlinkUtil.ReadUsingPointer<MAVLink.mavlink_heartbeat_t>(array, 6);
+            }
+            end = DateTime.Now;
+            Console.WriteLine("ReadUsingPointer " + (end - start).TotalMilliseconds);
+            start = DateTime.Now;
+
+            for (a = 0; a < 1000000; a++)
+            {
+                var ans3 = MavlinkUtil.ByteArrayToStructureGC<MAVLink.mavlink_heartbeat_t>(array, 6);
+            }
+            end = DateTime.Now;
+            Console.WriteLine("ByteArrayToStructureGC " + (end - start).TotalMilliseconds);
         }
     }
 }

@@ -20,9 +20,7 @@ public static class MavlinkUtil
     /// <returns>The newly created mavlink packet</returns>
     public static TMavlinkPacket ByteArrayToStructure<TMavlinkPacket>(this byte[] bytearray, int startoffset = 6) where TMavlinkPacket : struct
     {
-        object newPacket = new TMavlinkPacket();
-        ByteArrayToStructure(bytearray, ref newPacket, startoffset);
-        return (TMavlinkPacket)newPacket;
+        return ReadUsingPointer<TMavlinkPacket>(bytearray,startoffset);
     }
 
     public static TMavlinkPacket ByteArrayToStructureBigEndian<TMavlinkPacket>(this byte[] bytearray, int startoffset = 6) where TMavlinkPacket : struct
@@ -34,34 +32,69 @@ public static class MavlinkUtil
 
     public static void ByteArrayToStructure(byte[] bytearray, ref object obj, int startoffset)
     {
-        if (bytearray[0] == 'U')
+        int len = Marshal.SizeOf(obj);
+
+        IntPtr i = Marshal.AllocHGlobal(len);
+
+        try
         {
-            ByteArrayToStructureEndian(bytearray, ref obj, startoffset);
+            // copy byte array to ptr
+            Marshal.Copy(bytearray, startoffset, i, len);
         }
-        else
+        catch (Exception ex)
         {
+            Console.WriteLine("ByteArrayToStructure FAIL " + ex.Message);
+        }
 
-            int len = Marshal.SizeOf(obj);
+        obj = Marshal.PtrToStructure(i, obj.GetType());
 
-            IntPtr i = Marshal.AllocHGlobal(len);
+        Marshal.FreeHGlobal(i);
+    }
 
-            // create structure from ptr
-            obj = Marshal.PtrToStructure(i, obj.GetType());
+    public static TMavlinkPacket ByteArrayToStructureT<TMavlinkPacket>(byte[] bytearray, int startoffset)
+    {
+        int len = bytearray.Length - startoffset;
 
-            try
+        IntPtr i = Marshal.AllocHGlobal(len);
+
+        try
+        {
+            // copy byte array to ptr
+            Marshal.Copy(bytearray, startoffset, i, len);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("ByteArrayToStructure FAIL " + ex.Message);
+        }
+
+        var obj = Marshal.PtrToStructure(i, typeof(TMavlinkPacket));
+
+        Marshal.FreeHGlobal(i);
+
+        return (TMavlinkPacket)obj;
+    }
+
+    public static T ReadUsingPointer<T>(byte[] data, int startoffset) where T : struct
+    {
+        unsafe
+        {
+            fixed (byte* p = &data[startoffset])
             {
-                // copy byte array to ptr
-                Marshal.Copy(bytearray, startoffset, i, len);
+                return (T)Marshal.PtrToStructure(new IntPtr(p), typeof(T));
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine("ByteArrayToStructure FAIL " + ex.Message);
-            }
+        }
+    }
 
-            obj = Marshal.PtrToStructure(i, obj.GetType());
-
-            Marshal.FreeHGlobal(i);
-
+    public static T ByteArrayToStructureGC<T>(byte[] bytearray, int startoffset) where T : struct
+    {
+        GCHandle gch = GCHandle.Alloc(bytearray, GCHandleType.Pinned);
+        try
+        {
+            return (T)Marshal.PtrToStructure(gch.AddrOfPinnedObject() + startoffset , typeof(T));
+        }
+        finally
+        {
+            gch.Free();
         }
     }
 

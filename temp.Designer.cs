@@ -78,6 +78,7 @@
             this.butlogindex = new MissionPlanner.Controls.MyButton();
             this.but_droneapi = new MissionPlanner.Controls.MyButton();
             this.but_terrain = new MissionPlanner.Controls.MyButton();
+            this.but_structtest = new MissionPlanner.Controls.MyButton();
             this.SuspendLayout();
             // 
             // label1
@@ -559,11 +560,22 @@
             this.but_terrain.UseVisualStyleBackColor = true;
             this.but_terrain.Click += new System.EventHandler(this.but_terrain_Click);
             // 
+            // but_structtest
+            // 
+            this.but_structtest.Location = new System.Drawing.Point(37, 172);
+            this.but_structtest.Name = "but_structtest";
+            this.but_structtest.Size = new System.Drawing.Size(75, 23);
+            this.but_structtest.TabIndex = 54;
+            this.but_structtest.Text = "structtest";
+            this.but_structtest.UseVisualStyleBackColor = true;
+            this.but_structtest.Click += new System.EventHandler(this.but_structtest_Click);
+            // 
             // temp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(685, 450);
+            this.Controls.Add(this.but_structtest);
             this.Controls.Add(this.but_terrain);
             this.Controls.Add(this.but_droneapi);
             this.Controls.Add(this.butlogindex);
@@ -671,5 +683,6 @@
         private Controls.MyButton butlogindex;
         private Controls.MyButton but_droneapi;
         private Controls.MyButton but_terrain;
+        private Controls.MyButton but_structtest;
     }
 }
