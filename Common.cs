@@ -575,6 +575,23 @@ namespace MissionPlanner
                 log.Info(((HttpWebResponse)response).StatusDescription);
                 if (((HttpWebResponse)response).StatusCode != HttpStatusCode.OK)
                     return false;
+
+                if (File.Exists(saveto))
+                {
+                    DateTime lastfilewrite = new FileInfo(saveto).LastWriteTime;
+                    DateTime lasthttpmod = ((HttpWebResponse)response).LastModified;
+
+                    if (lasthttpmod < lastfilewrite)
+                    {
+                        if (((HttpWebResponse)response).ContentLength == new FileInfo(saveto).Length)
+                        {
+                            log.Info("got LastModified " + saveto + " " + ((HttpWebResponse)response).LastModified + " vs " + new FileInfo(saveto).LastWriteTime);
+                            response.Close();
+                            return true;
+                        }
+                    }
+                }
+
                 // Get the stream containing content returned by the server.
                 Stream dataStream = response.GetResponseStream();
 
