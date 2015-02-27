@@ -711,7 +711,8 @@ S15: MAX_WINDOW=131
                         RS9.DataSource = Range(849000, 1000, 889000);
                     }
 
-                    if (board == uploader.Uploader.Board.DEVICE_ID_RFD900 || board == uploader.Uploader.Board.DEVICE_ID_RFD900A)
+                    if (board == uploader.Uploader.Board.DEVICE_ID_RFD900 || board == uploader.Uploader.Board.DEVICE_ID_RFD900A 
+                        || board == uploader.Uploader.Board.DEVICE_ID_RFD900P || board == uploader.Uploader.Board.DEVICE_ID_RFD900U)
                     {
                         S4.DataSource = Range(1, 1, 30);
                         RS4.DataSource = Range(1, 1, 30);
