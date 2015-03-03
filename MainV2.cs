@@ -66,6 +66,7 @@ namespace MissionPlanner
             public Image terminal = global::MissionPlanner.Properties.Resources.light_terminal_icon;
             public Image help = global::MissionPlanner.Properties.Resources.light_help_icon;
             public Image donate = global::MissionPlanner.Properties.Resources.donate;
+            public Image crop_health = global::MissionPlanner.Properties.Resources.light_flightplan_icon;
             public Image connect = global::MissionPlanner.Properties.Resources.light_connect_icon;
             public Image disconnect = global::MissionPlanner.Properties.Resources.light_disconnect_icon;
             public Image bg = global::MissionPlanner.Properties.Resources.bgdark;
@@ -81,6 +82,7 @@ namespace MissionPlanner
             public new Image terminal = global::MissionPlanner.Properties.Resources.dark_terminal_icon;
             public new Image help = global::MissionPlanner.Properties.Resources.dark_help_icon;
             public new Image donate = global::MissionPlanner.Properties.Resources.donate;
+            public new Image crop_health = global::MissionPlanner.Properties.Resources.dark_flightplan_icon;
             public new Image connect = global::MissionPlanner.Properties.Resources.dark_connect_icon;
             public new Image disconnect = global::MissionPlanner.Properties.Resources.dark_disconnect_icon;
             public new Image bg = global::MissionPlanner.Properties.Resources.bgdark;
@@ -2044,6 +2046,7 @@ namespace MissionPlanner
             MyView.AddScreen(new MainSwitcher.Screen("Simulation", Simulation, true));
             MyView.AddScreen(new MainSwitcher.Screen("Terminal", new GCSViews.Terminal(), false));
             MyView.AddScreen(new MainSwitcher.Screen("Help", new GCSViews.Help(), false));
+            MyView.AddScreen(new MainSwitcher.Screen("CropHealth", FlightData, true));
 
             // init button depressed - ensures correct action
             //int fixme;

@@ -48,6 +48,7 @@ namespace MissionPlanner
             this.MenuConnect = new System.Windows.Forms.ToolStripButton();
             this.toolStripConnectionControl = new MissionPlanner.Controls.ToolStripConnectionControl();
             this.MenuDonate = new System.Windows.Forms.ToolStripMenuItem();
+            this.MenuCropHealth = new System.Windows.Forms.ToolStripMenuItem();
             this.menu = new MissionPlanner.Controls.MyButton();
             this.panel1 = new System.Windows.Forms.Panel();
             this.readonlyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -72,7 +73,8 @@ namespace MissionPlanner
             this.MenuHelp,
             this.MenuConnect,
             this.toolStripConnectionControl,
-            this.MenuDonate});
+            this.MenuDonate,
+            this.MenuCropHealth});
             resources.ApplyResources(this.MainMenu, "MainMenu");
             this.MainMenu.Name = "MainMenu";
             this.MainMenu.Stretch = false;
@@ -161,6 +163,15 @@ namespace MissionPlanner
             this.MenuHelp.Name = "MenuHelp";
             this.MenuHelp.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
             this.MenuHelp.Click += new System.EventHandler(this.MenuHelp_Click);
+            //
+            // MenuCropHealth
+            //
+            resources.ApplyResources(this.MenuCropHealth, "MenuCropHealth");
+            this.MenuCropHealth.ForeColor = System.Drawing.Color.White;
+            this.MenuCropHealth.Margin = new System.Windows.Forms.Padding(0);
+            this.MenuCropHealth.Name = "MenuCropHealth";
+            this.MenuCropHealth.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
+            this.MenuCropHealth.Click += new System.EventHandler(this.MenuHelp_Click);
             // 
             // MenuConnect
             // 
@@ -250,6 +261,7 @@ namespace MissionPlanner
         private System.Windows.Forms.ContextMenuStrip CTX_mainmenu;
         private System.Windows.Forms.ToolStripMenuItem autoHideToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem MenuDonate;
+        private System.Windows.Forms.ToolStripMenuItem MenuCropHealth;
         public System.Windows.Forms.MenuStrip MainMenu;
         private System.Windows.Forms.ToolStripMenuItem fullScreenToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem readonlyToolStripMenuItem;
