@@ -2526,7 +2526,7 @@ namespace MissionPlanner.GCSViews
                 if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("WMS Server", "Enter the WMS server URL", ref url))
                     return;
 
-                string szCapabilityRequest = url + "?version=1.1.0&Request=GetCapabilities";
+                string szCapabilityRequest = url + "?version=1.1.0&Request=GetCapabilities&service=WMS";
 
                 XmlDocument xCapabilityResponse = MakeRequest(szCapabilityRequest);
                 ProcessWmsCapabilitesRequest(xCapabilityResponse);
