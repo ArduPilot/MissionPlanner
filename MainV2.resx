@@ -659,6 +659,73 @@
   <data name="MenuDonate.TextImageRelation" type="System.Windows.Forms.TextImageRelation, System.Windows.Forms">
     <value>TextAboveImage</value>
   </data>
+  <data name="MenuCropHealth.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Arial, 8.25pt</value>
+  </data>
+  <data name="MenuCropHealth.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+      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
+      AAAASUVORK5CYII=
+    </value>
+  </data>
+  <data name="MenuCropHealth.ImageScaling" type="System.Windows.Forms.ToolStripItemImageScaling, System.Windows.Forms">
+    <value>None</value>
+  </data>
+  <data name="MenuCropHealth.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
+    <value>Magenta</value>
+  </data>
+  <data name="MenuCropHealth.Size" type="System.Drawing.Size, System.Drawing">
+    <value>94, 63</value>
+  </data>
+  <data name="MenuCropHealth.Text" xml:space="preserve">
+    <value>CROP HEALTH</value>
+  </data>
+  <data name="MenuCropHealth.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>BottomCenter</value>
+  </data>
+  <data name="MenuCropHealth.TextImageRelation" type="System.Windows.Forms.TextImageRelation, System.Windows.Forms">
+    <value>TextAboveImage</value>
+  </data>
+  <data name="MenuCropHealth.ToolTipText" xml:space="preserve">
+    <value>Crop Health</value>
+  </data>
   <data name="MainMenu.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
@@ -697,7 +764,7 @@
     <value>4, 4, 4, 4</value>
   </data>
   <data name="menu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>1008, 28</value>
+    <value>1508, 28</value>
   </data>
   <data name="menu.TabIndex" type="System.Int32, mscorlib">
     <value>6</value>
@@ -2421,8 +2488,8 @@
   <data name="&gt;&gt;autoHideToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;fullScreenToolStripMenuItem.Name" xml:space="preserve">
-    <value>fullScreenToolStripMenuItem</value>
+  <data name="&gt;&gt;.Name" xml:space="preserve">
+    <value></value>
   </data>
   <data name="&gt;&gt;fullScreenToolStripMenuItem.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -2486,6 +2553,12 @@
   </data>
   <data name="&gt;&gt;MenuDonate.Type" xml:space="preserve">
     <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;MenuCropHealth.Name" xml:space="preserve">
+    <value>MenuConfigTune</value>
+  </data>
+  <data name="&gt;&gt;MenuCropHealth.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;readonlyToolStripMenuItem.Name" xml:space="preserve">
     <value>readonlyToolStripMenuItem</value>
