@@ -19,15 +19,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         static Hashtable tooltips = new Hashtable();
         internal bool startup = true;
 
-        public struct paramsettings // hk's
-        {
-            public string name;
-            public float minvalue;
-            public float maxvalue;
-            public float normalvalue;
-            public float scale;
-            public string desc;
-        }
 
         public ConfigArducopter()
         {
@@ -70,20 +61,56 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             changes.Clear();
 
             // ensure the fields are populated before setting them
-            CH7_OPT.DataSource = ParameterMetaDataRepository.GetParameterOptionsInt("CH7_OPT", MainV2.comPort.MAV.cs.firmware.ToString()).ToList(); 
+            CH7_OPT.DataSource = ParameterMetaDataRepository.GetParameterOptionsInt("CH7_OPT", MainV2.comPort.MAV.cs.firmware.ToString()).ToList();
             CH7_OPT.DisplayMember = "Value";
             CH7_OPT.ValueMember = "Key";
 
-            CH8_OPT.DataSource = ParameterMetaDataRepository.GetParameterOptionsInt("CH8_OPT", MainV2.comPort.MAV.cs.firmware.ToString()).ToList(); 
+            CH8_OPT.DataSource = ParameterMetaDataRepository.GetParameterOptionsInt("CH8_OPT", MainV2.comPort.MAV.cs.firmware.ToString()).ToList();
             CH8_OPT.DisplayMember = "Value";
             CH8_OPT.ValueMember = "Key";
 
             TUNE.DataSource = ParameterMetaDataRepository.GetParameterOptionsInt("TUNE", MainV2.comPort.MAV.cs.firmware.ToString()).ToList();
             TUNE.DisplayMember = "Value";
             TUNE.ValueMember = "Key";
+            
+            TUNE_LOW.setup(0, 0, 1, 0.0001f, "TUNE_LOW", MainV2.comPort.MAV.param);
+            TUNE_HIGH.setup(0, 0, 1, 0.0001f, "TUNE_HIGH", MainV2.comPort.MAV.param);
 
-            // prefill all fields
-            processToScreen();
+            HLD_LAT_P.setup(0, 0, 1, 0.001f, new string[] { "HLD_LAT_P", "POS_XY_P" }, MainV2.comPort.MAV.param);
+            LOITER_LAT_D.setup(0, 0, 1, 0.001f, "LOITER_LAT_D", MainV2.comPort.MAV.param);
+            LOITER_LAT_I.setup(0, 0, 1, 0.001f, "LOITER_LAT_I", MainV2.comPort.MAV.param);
+            LOITER_LAT_IMAX.setup(0, 0, 10, 0.1f, "LOITER_LAT_IMAX", MainV2.comPort.MAV.param);
+            LOITER_LAT_P.setup(0, 0, 1, 0.001f, "LOITER_LAT_P", MainV2.comPort.MAV.param);
+            RATE_PITCH_FF.setup(0, 0, 1, 0.001f, "RATE_PITCH_FF", MainV2.comPort.MAV.param);
+            RATE_PIT_D.setup(0, 0, 1, 0.001f, "RATE_PIT_D", MainV2.comPort.MAV.param);
+            RATE_PIT_I.setup(0, 0, 1, 0.001f, "RATE_PIT_I", MainV2.comPort.MAV.param);
+            RATE_PIT_IMAX.setup(0, 0, 10, 0.1f, "RATE_PIT_IMAX", MainV2.comPort.MAV.param);
+            RATE_PIT_P.setup(0, 0, 1, 0.001f, "RATE_PIT_P", MainV2.comPort.MAV.param);
+            RATE_RLL_D.setup(0, 0, 1, 0.001f, "RATE_RLL_D", MainV2.comPort.MAV.param);
+            RATE_RLL_I.setup(0, 0, 1, 0.001f, "RATE_RLL_I", MainV2.comPort.MAV.param);
+            RATE_RLL_IMAX.setup(0, 0, 10, 0.1f, "RATE_RLL_IMAX", MainV2.comPort.MAV.param);
+            RATE_RLL_P.setup(0, 0, 1, 0.001f, "RATE_RLL_P", MainV2.comPort.MAV.param);
+            RATE_ROLL_FF.setup(0, 0, 1, 0.001f, "RATE_ROLL_FF", MainV2.comPort.MAV.param);
+            RATE_YAW_D.setup(0, 0, 1, 0.001f, "RATE_YAW_D", MainV2.comPort.MAV.param);
+            RATE_YAW_FF.setup(0, 0, 1, 0.001f, "RATE_YAW_FF", MainV2.comPort.MAV.param);
+            RATE_YAW_I.setup(0, 0, 1, 0.001f, "RATE_YAW_I", MainV2.comPort.MAV.param);
+            RATE_YAW_IMAX.setup(0, 0, 10, 0.1f, "RATE_YAW_IMAX", MainV2.comPort.MAV.param);
+            RATE_YAW_P.setup(0, 0, 1, 0.001f, "RATE_YAW_P", MainV2.comPort.MAV.param);
+            STB_PIT_P.setup(0, 0, 1, 0.001f, "STB_PIT_P", MainV2.comPort.MAV.param);
+            STB_RLL_P.setup(0, 0, 1, 0.001f, "STB_RLL_P", MainV2.comPort.MAV.param);
+            STB_YAW_P.setup(0, 0, 1, 0.001f, "STB_YAW_P", MainV2.comPort.MAV.param);
+            THR_ACCEL_D.setup(0, 0, 1, 0.001f, new string[] { "THR_ACCEL_D", "ACCEL_Z_D" }, MainV2.comPort.MAV.param);
+            THR_ACCEL_I.setup(0, 0, 1, 0.001f, new string[] {"THR_ACCEL_I" ,"ACCEL_Z_I"}, MainV2.comPort.MAV.param);
+            THR_ACCEL_IMAX.setup(0, 0, 10, 0.1f,new string[] { "THR_ACCEL_IMAX" ,"ACCEL_Z_IMAX"}, MainV2.comPort.MAV.param);
+            THR_ACCEL_P.setup(0, 0, 1, 0.001f, new string[] {"THR_ACCEL_P" ,"ACCEL_Z_P"}, MainV2.comPort.MAV.param);
+            THR_ALT_P.setup(0, 0, 1, 0.001f, new string[] { "THR_ALT_P" ,"POS_Z_P"}, MainV2.comPort.MAV.param);
+            THR_RATE_P.setup(0, 0, 1, 0.001f, "THR_RATE_P", MainV2.comPort.MAV.param);         
+            WPNAV_LOIT_SPEED.setup(0, 0, 1, 0.001f, "WPNAV_LOIT_SPEED", MainV2.comPort.MAV.param);
+            WPNAV_RADIUS.setup(0, 0, 1, 0.001f, "WPNAV_RADIUS", MainV2.comPort.MAV.param);
+            WPNAV_SPEED.setup(0, 0, 1, 0.001f, "WPNAV_SPEED", MainV2.comPort.MAV.param);
+            WPNAV_SPEED_DN.setup(0, 0, 1, 0.001f, "WPNAV_SPEED_DN", MainV2.comPort.MAV.param);
+            WPNAV_SPEED_UP.setup(0, 0, 1, 0.001f, "WPNAV_SPEED_UP", MainV2.comPort.MAV.param);
+            
 
             // unlock entries if they differ
             if (RATE_RLL_P.Value != RATE_PIT_P.Value || RATE_RLL_I.Value != RATE_PIT_I.Value
@@ -146,102 +173,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
-        internal void processToScreen()
-        {
-            toolTip1.RemoveAll();
-
-            disableNumericUpDownControls(this);
-
-
-            // process hashdefines and update display
-            foreach (string value in MainV2.comPort.MAV.param.Keys)
-            {
-                if (value == null || value == "")
-                    continue;
-
-                //System.Diagnostics.Debug.WriteLine("Doing: " + value);
-
-
-                string name = value;
-                Control[] text = this.Controls.Find(name, true);
-                foreach (Control ctl in text)
-                {
-                    try
-                    {
-                        if (ctl.GetType() == typeof(NumericUpDown))
-                        {
-
-                            float numbervalue = (float)MainV2.comPort.MAV.param[value];
-
-                            MAVLinkInterface.modifyParamForDisplay(true, value, ref numbervalue);
-
-                            NumericUpDown thisctl = ((NumericUpDown)ctl);
-                            thisctl.Maximum = 9000;
-                            thisctl.Minimum = -9000;
-                            thisctl.Value = (decimal)numbervalue;
-                            thisctl.Increment = (decimal)0.0001;
-                            if (thisctl.Name.EndsWith("_P") || thisctl.Name.EndsWith("_I") || thisctl.Name.EndsWith("_D")
-                                || thisctl.Name.EndsWith("_LOW") || thisctl.Name.EndsWith("_HIGH") || thisctl.Value == 0
-                                || thisctl.Value.ToString("0.####", new System.Globalization.CultureInfo("en-US")).Contains("."))
-                            {
-                                thisctl.DecimalPlaces = 4;
-                            }
-                            else
-                            {
-                                thisctl.Increment = (decimal)1;
-                                thisctl.DecimalPlaces = 1;
-                            }
-
-                            if (thisctl.Name.ToUpper().EndsWith("THR_RATE_IMAX"))
-                            {
-                                thisctl.Maximum = 1000; // is a pwm
-                                thisctl.Minimum = 0;
-                            } else if (thisctl.Name.EndsWith("_IMAX"))
-                            {
-                                thisctl.Maximum = 4000;
-                                thisctl.Minimum = -4000;
-                            }
-
-                            thisctl.Enabled = true;
-
-                            ThemeManager.ApplyThemeTo(thisctl);
-
-                            thisctl.Validated += null;
-                            if (tooltips[value] != null)
-                            {
-                                try
-                                {
-                                    toolTip1.SetToolTip(ctl, ((paramsettings)tooltips[value]).desc);
-                                }
-                                catch { }
-                            }
-                            thisctl.Validated += new EventHandler(EEPROM_View_float_TextChanged);
-
-                        }
-                        else if (ctl.GetType() == typeof(ComboBox))
-                        {
-
-                            ComboBox thisctl = ((ComboBox)ctl);
-
-                            thisctl.SelectedValue = (int)(float)MainV2.comPort.MAV.param[value];
-
-                            thisctl.Validated += new EventHandler(ComboBox_Validated);
-
-                            ThemeManager.ApplyThemeTo(thisctl);
-                        }
-                    }
-                    catch { }
-
-                }
-                if (text.Length == 0)
-                {
-                    //Console.WriteLine(name + " not found");
-                }
-
-            }
-        }
-
-               void ComboBox_Validated(object sender, EventArgs e)
+        void ComboBox_Validated(object sender, EventArgs e)
         {
             EEPROM_View_float_TextChanged(sender, e);
         }
@@ -262,10 +194,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // do domainupdown state check
             try
             {
-                if (sender.GetType() == typeof(NumericUpDown))
+                if (sender.GetType() == typeof(MavlinkNumericUpDown))
                 {
-                    value = (float)((NumericUpDown)sender).Value;
-                    MAVLinkInterface.modifyParamForDisplay(false, ((Control)sender).Name, ref value);
+                    value = (float)((Controls.MavlinkNumericUpDown.ParamChanged)e).value;
                     changes[name] = value;
                 }
                 else if (sender.GetType() == typeof(ComboBox))
@@ -358,6 +289,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                     MainV2.comPort.setParam(value, (float)changes[value]);
 
+                    changes.Remove(value);
+
                     try
                     {
                         // set control as well
@@ -428,7 +361,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             foreach (Control ctl in parentctl.Controls)
             {
-                if (typeof(NumericUpDown) == ctl.GetType() || typeof(ComboBox) == ctl.GetType())
+                if (typeof(MavlinkNumericUpDown) == ctl.GetType() || typeof(ComboBox) == ctl.GetType())
                 {
                     try
                     {
@@ -443,6 +376,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
             }
         }
-        
+
+        private void numeric_ValueUpdated(object sender,EventArgs e)
+        {
+            EEPROM_View_float_TextChanged(sender, e);
+        }
     }
 }
