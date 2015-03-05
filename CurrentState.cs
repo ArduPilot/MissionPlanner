@@ -980,6 +980,30 @@ namespace MissionPlanner
 
                         //MAVLink.packets[(byte)MAVLink.MSG_NAMES.ATTITUDE] = null;
                     }
+
+                    bytearray = MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.GLOBAL_POSITION_INT];
+                    if (bytearray != null)
+                    {
+                        var loc = bytearray.ByteArrayToStructure<MAVLink.mavlink_global_position_int_t>(6);
+
+                        // the new arhs deadreckoning may send 0 alt and 0 long. check for and undo
+
+                        alt = loc.relative_alt / 1000.0f;
+
+                        useLocation = true;
+                        if (loc.lat == 0 && loc.lon == 0)
+                        {
+                            useLocation = false;
+                        }
+                        else
+                        {
+                            lat = loc.lat / 10000000.0;
+                            lng = loc.lon / 10000000.0;
+
+                            altasl = loc.alt / 1000.0f;
+                        }
+                    }
+
                     bytearray = MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.GPS_RAW_INT];
                     if (bytearray != null)
                     {
@@ -991,13 +1015,13 @@ namespace MissionPlanner
                             lng = gps.lon * 1.0e-7;
 
                             altasl = gps.alt / 1000.0f;
-                           // alt = gps.alt; // using vfr as includes baro calc
+                            // alt = gps.alt; // using vfr as includes baro calc
                         }
 
                         gpsstatus = gps.fix_type;
                         //                    Console.WriteLine("gpsfix {0}",gpsstatus);
 
-                        gpshdop = (float)Math.Round((double)gps.eph / 100.0,2);
+                        gpshdop = (float)Math.Round((double)gps.eph / 100.0, 2);
 
                         satcount = gps.satellites_visible;
 
@@ -1056,30 +1080,6 @@ namespace MissionPlanner
                         noise = radio.noise;
                         remnoise = radio.remnoise;
                         fixedp = radio.@fixed;
-                    }
-
-                    bytearray = MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.GLOBAL_POSITION_INT];
-                    if (bytearray != null)
-                    {
-                        var loc = bytearray.ByteArrayToStructure<MAVLink.mavlink_global_position_int_t>(6);
-
-                        // the new arhs deadreckoning may send 0 alt and 0 long. check for and undo
-
-                        alt = loc.relative_alt / 1000.0f;
-
-
-                        useLocation = true;
-                        if (loc.lat == 0 && loc.lon == 0)
-                        {
-                            useLocation = false;
-                        }
-                        else
-                        {
-                            lat = loc.lat / 10000000.0;
-                            lng = loc.lon / 10000000.0;
-
-                            altasl = loc.alt / 1000.0f;
-                        }
                     }
 
                     bytearray = MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.MISSION_CURRENT];
