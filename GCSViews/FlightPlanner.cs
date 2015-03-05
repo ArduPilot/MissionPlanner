@@ -2790,15 +2790,19 @@ namespace MissionPlanner.GCSViews
                     // adjust polyline point while we drag
                     try
                     {
-                        int? pIndex = (int?)CurentRectMarker.Tag;
-                        if (pIndex.HasValue)
+                        if (CurrentGMapMarker.Tag is int)
                         {
-                            if (pIndex < wppolygon.Points.Count)
+
+                            int? pIndex = (int?)CurentRectMarker.Tag;
+                            if (pIndex.HasValue)
                             {
-                                wppolygon.Points[pIndex.Value] = pnew;
-                                lock (thisLock)
+                                if (pIndex < wppolygon.Points.Count)
                                 {
-                                    MainMap.UpdatePolygonLocalPosition(wppolygon);
+                                    wppolygon.Points[pIndex.Value] = pnew;
+                                    lock (thisLock)
+                                    {
+                                        MainMap.UpdatePolygonLocalPosition(wppolygon);
+                                    }
                                 }
                             }
                         }
