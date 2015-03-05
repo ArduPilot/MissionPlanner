@@ -727,6 +727,8 @@ Please check the following
                             continue;
                         }
 
+                        log.Info("setParam gotback "+ st + " : " +par.param_value);
+
                         MAV.param[st] = (par.param_value);
 
                         giveComport = false;
