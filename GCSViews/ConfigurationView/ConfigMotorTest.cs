@@ -102,7 +102,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                 int motor = (int)((MyButton)sender).Tag;
 
-                if (MainV2.comPort.doMotorTest(motor, MAVLink.MOTOR_TEST_THROTTLE_TYPE.MOTOR_TEST_THROTTLE_PERCENT, (int)NUM_thr_percent.Value, 2))
+                if (MainV2.comPort.doMotorTest(motor, MAVLink.MOTOR_TEST_THROTTLE_TYPE.MOTOR_TEST_THROTTLE_PERCENT, (int)NUM_thr_percent.Value, (int)NUM_duration.Value))
                 {
 
                 }

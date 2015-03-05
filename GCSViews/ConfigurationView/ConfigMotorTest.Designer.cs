@@ -32,7 +32,10 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.NUM_duration = new System.Windows.Forms.NumericUpDown();
+            this.label3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_thr_percent)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_duration)).BeginInit();
             this.SuspendLayout();
             // 
             // NUM_thr_percent
@@ -77,10 +80,33 @@
             this.linkLabel1.Text = "Please click here to see your motor numbers,\r\nscroll to the bottom of the page";
             this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
             // 
+            // NUM_duration
+            // 
+            this.NUM_duration.Location = new System.Drawing.Point(246, 3);
+            this.NUM_duration.Name = "NUM_duration";
+            this.NUM_duration.Size = new System.Drawing.Size(54, 20);
+            this.NUM_duration.TabIndex = 4;
+            this.NUM_duration.Value = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(174, 5);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(61, 13);
+            this.label3.TabIndex = 5;
+            this.label3.Text = "Duration (s)";
+            // 
             // ConfigMotorTest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.NUM_duration);
             this.Controls.Add(this.linkLabel1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -88,6 +114,7 @@
             this.Name = "ConfigMotorTest";
             this.Size = new System.Drawing.Size(563, 264);
             ((System.ComponentModel.ISupportInitialize)(this.NUM_thr_percent)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_duration)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -99,5 +126,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.LinkLabel linkLabel1;
+        private System.Windows.Forms.NumericUpDown NUM_duration;
+        private System.Windows.Forms.Label label3;
     }
 }
