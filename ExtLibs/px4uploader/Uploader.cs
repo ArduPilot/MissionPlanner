@@ -43,20 +43,21 @@ namespace px4uploader
             OK = 0x10,
             FAILED = 0x11,
             INSYNC = 0x12,
-            INVALID		= 0x13,//	# rev3+
+            INVALID = 0x13,//	# rev3+
 
             // protocol commands
-            EOC         = 0x20,
-            GET_SYNC    = 0x21,
-            GET_DEVICE  = 0x22,	// returns DEVICE_ID and FREQ bytes
-            CHIP_ERASE  = 0x23,
+            EOC = 0x20,
+            GET_SYNC = 0x21,
+            GET_DEVICE = 0x22,	// returns DEVICE_ID and FREQ bytes
+            CHIP_ERASE = 0x23,
             CHIP_VERIFY = 0x24,//# rev2 only
-            PROG_MULTI  = 0x27,
-            READ_MULTI  = 0x28,//# rev2 only
-            GET_CRC		= 0x29,//	# rev3+
-            GET_OTP     = 0x2a, // read a byte from OTP at the given address 
-            GET_SN      = 0x2b,    // read a word from UDID area ( Serial)  at the given address 
-            REBOOT      = 0x30,
+            PROG_MULTI = 0x27,
+            READ_MULTI = 0x28,//# rev2 only
+            GET_CRC = 0x29,//	# rev3+
+            GET_OTP = 0x2a, // read a byte from OTP at the given address 
+            GET_SN = 0x2b,    // read a word from UDID area ( Serial)  at the given address 
+            GET_CHIP = 0x2c, // read chip version (MCU IDCODE)
+            REBOOT = 0x30,
 
             INFO_BL_REV = 1,//	# bootloader protocol revision
             BL_REV_MIN = 2,//	# minimum supported bootloader protocol 
@@ -350,6 +351,14 @@ namespace px4uploader
             }
 
             return sn;
+        }
+
+        public int __getCHIP()
+        {
+            __send(new byte[] { (byte)Code.GET_CHIP, (byte)Code.EOC });
+            int info = __recv_int();
+            __getSync();
+            return info;
         }
 
         public void __send(byte c)
