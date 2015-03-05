@@ -1563,7 +1563,7 @@ Please check the following
         /// Returns WP count
         /// </summary>
         /// <returns></returns>
-        public byte getWPCount()
+        public ushort getWPCount()
         {
             giveComport = true;
             byte[] buffer;
@@ -1605,7 +1605,7 @@ Please check the following
 
                         log.Info("wpcount: " + count.count);
                         giveComport = false;
-                        return (byte)count.count; // should be ushort, but apm has limited wp count < byte
+                        return count.count; // should be ushort, but apm has limited wp count < byte
                     }
                     else
                     {
