@@ -159,7 +159,7 @@ namespace MissionPlanner
             if (txtsize.Width > 15)
                 midw -= 4;
 
-                g.DrawString(wpno, SystemFonts.DefaultFont, Brushes.DarkRed , new PointF(midw, midh));
+                g.DrawString(wpno, SystemFonts.DefaultFont, Brushes.Black , new PointF(midw, midh));
 
             //Matrix temp = g.Transform;
             //g.TranslateTransform(LocalPosition.X, LocalPosition.Y);

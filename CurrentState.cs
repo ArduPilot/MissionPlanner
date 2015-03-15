@@ -174,6 +174,15 @@ namespace MissionPlanner
         public float ch7in { get; set; }
         public float ch8in { get; set; }
 
+        public float ch9in { get; set; }
+        public float ch10in { get; set; }
+        public float ch11in { get; set; }
+        public float ch12in { get; set; }
+        public float ch13in { get; set; }
+        public float ch14in { get; set; }
+        public float ch15in { get; set; }
+        public float ch16in { get; set; }
+
         // motors
         public float ch1out { get; set; }
         public float ch2out { get; set; }
@@ -1130,6 +1139,35 @@ namespace MissionPlanner
                         ch6in = rcin.chan6_raw;
                         ch7in = rcin.chan7_raw;
                         ch8in = rcin.chan8_raw;
+
+                        //percent
+                        rxrssi = (int)((rcin.rssi / 255.0) * 100.0);
+
+                        //MAVLink.packets[(byte)MAVLink.MSG_NAMES.RC_CHANNELS_RAW] = null;
+                    }
+                    
+                    bytearray = MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.RC_CHANNELS];
+                    if (bytearray != null)
+                    {
+                        var rcin = bytearray.ByteArrayToStructure<MAVLink.mavlink_rc_channels_t>(6);
+
+                        ch1in = rcin.chan1_raw;
+                        ch2in = rcin.chan2_raw;
+                        ch3in = rcin.chan3_raw;
+                        ch4in = rcin.chan4_raw;
+                        ch5in = rcin.chan5_raw;
+                        ch6in = rcin.chan6_raw;
+                        ch7in = rcin.chan7_raw;
+                        ch8in = rcin.chan8_raw;
+
+                        ch9in = rcin.chan9_raw;
+                        ch10in = rcin.chan10_raw;
+                        ch11in = rcin.chan11_raw;
+                        ch12in = rcin.chan12_raw;
+                        ch13in = rcin.chan13_raw;
+                        ch14in = rcin.chan14_raw;
+                        ch15in = rcin.chan15_raw;
+                        ch16in = rcin.chan16_raw;
 
                         //percent
                         rxrssi = (int)((rcin.rssi / 255.0) * 100.0);
