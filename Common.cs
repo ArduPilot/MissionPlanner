@@ -789,6 +789,10 @@ namespace MissionPlanner
 
             input = input.Replace("{curr}", (MainV2.comPort.MAV.cs.current).ToString("0.0"));
 
+            input = input.Replace("{hdop}", (MainV2.comPort.MAV.cs.gpshdop).ToString("0.00"));
+
+            input = input.Replace("{satcount}", (MainV2.comPort.MAV.cs.satcount).ToString("0"));
+
             return input;
         }
     }
