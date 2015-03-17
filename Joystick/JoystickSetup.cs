@@ -43,8 +43,12 @@ namespace MissionPlanner.Joystick
             if (CMB_joysticks.Items.Count > 0 && CMB_joysticks.SelectedIndex == -1)
                 CMB_joysticks.SelectedIndex = 0;
 
-            if (MainV2.config["joystick_name"] != "")
-                CMB_joysticks.Text = MainV2.config["joystick_name"].ToString();
+            try
+            {
+                if (MainV2.config.ContainsKey("joystick_name") && MainV2.config["joystick_name"] != "")
+                    CMB_joysticks.Text = MainV2.config["joystick_name"].ToString();
+            }
+            catch { }
 
             CMB_CH1.DataSource = (Enum.GetValues(typeof(Joystick.joystickaxis)));
             CMB_CH2.DataSource = (Enum.GetValues(typeof(Joystick.joystickaxis)));
@@ -247,14 +251,22 @@ namespace MissionPlanner.Joystick
             ProgressBarCH7.Value = MainV2.comPort.MAV.cs.rcoverridech7;
             ProgressBarCH8.Value = MainV2.comPort.MAV.cs.rcoverridech8;
 
-            progressBarRoll.maxline = MainV2.joystick.getRawValueForChannel(1);
-            progressBarPith.maxline = MainV2.joystick.getRawValueForChannel(2);
-            progressBarThrottle.maxline = MainV2.joystick.getRawValueForChannel(3);
-            progressBarRudder.maxline = MainV2.joystick.getRawValueForChannel(4);
-            ProgressBarCH5.maxline = MainV2.joystick.getRawValueForChannel(5);
-            ProgressBarCH6.maxline = MainV2.joystick.getRawValueForChannel(6);
-            ProgressBarCH7.maxline = MainV2.joystick.getRawValueForChannel(7);
-            ProgressBarCH8.maxline = MainV2.joystick.getRawValueForChannel(8);
+            try
+            {
+                progressBarRoll.maxline = MainV2.joystick.getRawValueForChannel(1);
+                progressBarPith.maxline = MainV2.joystick.getRawValueForChannel(2);
+                progressBarThrottle.maxline = MainV2.joystick.getRawValueForChannel(3);
+                progressBarRudder.maxline = MainV2.joystick.getRawValueForChannel(4);
+                ProgressBarCH5.maxline = MainV2.joystick.getRawValueForChannel(5);
+                ProgressBarCH6.maxline = MainV2.joystick.getRawValueForChannel(6);
+                ProgressBarCH7.maxline = MainV2.joystick.getRawValueForChannel(7);
+                ProgressBarCH8.maxline = MainV2.joystick.getRawValueForChannel(8);
+            }
+            catch (Exception ex3) 
+            {
+                //Exception Error in the application. -2147024866 (DIERR_INPUTLOST)
+
+            }
 
             try
             {

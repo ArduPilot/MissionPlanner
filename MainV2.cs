@@ -625,8 +625,8 @@ namespace MissionPlanner
                 //    MainV2.config["fixparams"] = 1;
             }
 
-
-
+            // save config to test we have write access
+            xmlconfig(true);
         }
 
         private void BGLoadAirports(object nothing)
