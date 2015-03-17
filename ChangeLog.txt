@@ -1,4 +1,80 @@
-﻿* Mission Planner 1.3.19
+﻿* Mission Planner 1.3.20
+currentstate: add ch9-16 in
+firmwarehistory: update
+flightplanner: fix dragging home exception
+wizard:optionalhw update pram name
+confighwsonar: update to new param name
+currentstate: arrange gps info together
+Uploader: add get_chip command
+configmotortest: add duration option #796
+mavlinkinterface: fix getwpcount bug #805
+Optimize checked BackColor
+forms "Display this"
+Localization: update HUD translation
+Locallization: update Params zh-Hans translation
+Config: add UTF-8 support
+Localization: fix Wizard zh-Hans translation
+Localization: update Wizard zh-Hans translation
+mavlinkinterface: add setparam debug logging
+configarducopter: update to use new controls, and paramnames
+mavlinknumericupdown: add post value update, auto min,max, and multiple paramnames
+gmapmarkerairport: disable at low zoom levels
+flightplanner: fix wms layer request
+3drradio: fix max transmit power for new radios
+common: modify get file from net to check last modified and file size
+mavlinkutil: implement more efficent bytetostruct method. (50% faster)
+pluginloader: fix path to all lower case
+common: add new gmapmarkerwp
+flightplanner: use new wpmarker and homename
+gridui: use new wpmarkers
+gmapmarkerairport: fix scale on zoomout
+configantennatrakcer: remove proxymode
+configantennatracker: remove proxy mode #799
+parammetadatebackup: update baseline param set
+flightplanner: use new dashstyle
+flightdata: use new dashstyle
+gridui: use new dashstyle
+gmaproute: add custom dashstyle
+kindex: add daily cache
+tfr: add daily cache
+georefimage: add a few estimates
+georefimage: add option to use offsets on just cam messages
+georefimage: fix GE kml networkload issue
+httpserver: tweak output
+sharpkml: fix folder
+WarningEngine: only alert when connected.
+mainv2: change adsb lock
+joystick: add raw input line. (no expo)
+horizontalprogressbar: seperate min max line draw
+flightdata: change adsb lock
+configreadioinput: prevent config if radio off #793
+DistanceBar: tweaks
+firmware: add bad dependancy error message on firmware upload
+configplanner: change excpetion to error message
+loganalyzer: handle malformed data better
+confighwbt: handle comport open exception
+gridui: fix error on 359 + start angle
+GMap: add MercatorProjectionGCJ
+Localization: move Update strings
+Localization: update InitalSetup zh-Hans translation
+Localization: update ConfigAC zh-Hans translation
+ConfigHWBT: add a Bluetooth module picture
+Multiple: update zh-Hans translation
+MagCalib: add zh-Hans translation
+GMap: fix GoogleChinaSatelliteMap
+RawParamsTree: fix diydrones/MissionPlanner#769
+3drradio: update mavlinkserialport #785
+mavlinklog: fix remove from graph #790
+ExtGuided: new test plugin
+joysticksetup: preselect last joystick used
+configplanner: restore last video resolution
+flightdata: add autotune button
+mavlinkinterface: remove old arming method
+python example: upload mission
+gitignore: add ignore
+flightdata: default mode dropdown to auto
+
+* Mission Planner 1.3.19
 grid: fix exception #784
 
 * Mission Planner 1.3.18
