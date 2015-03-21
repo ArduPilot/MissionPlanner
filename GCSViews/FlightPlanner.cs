@@ -63,6 +63,8 @@ namespace MissionPlanner.GCSViews
 
         private Dictionary<string, string[]> cmdParamNames = new Dictionary<string, string[]>();
 
+        List<List<Locationwp>> history = new List<List<Locationwp>>();
+
         public enum altmode
         {
             Relative = MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT,
@@ -153,6 +155,16 @@ namespace MissionPlanner.GCSViews
                 CustomMessageBox.Show("Invalid coord, How did you do this?");
                 return;
             }
+
+            // add history
+            history.Add(GetCommandList());
+
+            // remove more than 20 revisions
+            if (history.Count > 20)
+            {
+                history.RemoveRange(0, history.Count - 20);
+            }
+
             DataGridViewTextBoxCell cell;
             if (Commands.Columns[Lat.Index].HeaderText.Equals(cmdParamNames["WAYPOINT"][4]/*"Lat"*/))
             {
@@ -339,6 +351,19 @@ namespace MissionPlanner.GCSViews
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
+            // undo
+            if (keyData == (Keys.Control | Keys.Z))
+            {
+                if (history.Count > 0)
+                {
+                    int no = history.Count - 1;
+                    var pop = history[no];
+                    history.RemoveAt(no);
+                    WPtoScreen(pop);
+                }
+                return true;
+            }
+
             // open wp file
             if (keyData == (Keys.Control | Keys.O))
             {
@@ -1518,9 +1543,7 @@ namespace MissionPlanner.GCSViews
 
         void getWPs(object sender, Controls.ProgressWorkerEventArgs e, object passdata = null)
         {
-
             List<Locationwp> cmds = new List<Locationwp>();
-            int error = 0;
 
             try
             {
@@ -1560,27 +1583,30 @@ namespace MissionPlanner.GCSViews
 
                 log.Info("Done");
             }
-            catch { error = 1; throw; }
+            catch { throw; }
+
+            WPtoScreen(cmds);
+        }
+
+        public void WPtoScreen(List<Locationwp> cmds, bool withrally = true)
+        {
             try
             {
                 this.Invoke((MethodInvoker)delegate()
                 {
-                    if (error == 0)
+                    try
                     {
-                        try
-                        {
-                            log.Info("Process " + cmds.Count);
-                            processToScreen(cmds);
-                        }
-                        catch (Exception exx) { log.Info(exx.ToString()); }
-
-                        try
-                        {
-                            if (MainV2.comPort.MAV.param.ContainsKey("RALLY_TOTAL") && int.Parse(MainV2.comPort.MAV.param["RALLY_TOTAL"].ToString()) >= 1)
-                                getRallyPointsToolStripMenuItem_Click(null, null);
-                        }
-                        catch { }
+                        log.Info("Process " + cmds.Count);
+                        processToScreen(cmds);
                     }
+                    catch (Exception exx) { log.Info(exx.ToString()); }
+
+                    try
+                    {
+                        if (withrally && MainV2.comPort.MAV.param.ContainsKey("RALLY_TOTAL") && int.Parse(MainV2.comPort.MAV.param["RALLY_TOTAL"].ToString()) >= 1)
+                            getRallyPointsToolStripMenuItem_Click(null, null);
+                    }
+                    catch { }
 
                     MainV2.comPort.giveComport = false;
 
@@ -3592,7 +3618,6 @@ namespace MissionPlanner.GCSViews
 
                 GMapMarkerRect mBorders = new GMapMarkerRect(point);
                 {
-
                     mBorders.InnerMarker = m;
                     try
                     {
