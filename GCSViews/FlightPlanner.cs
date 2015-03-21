@@ -65,6 +65,8 @@ namespace MissionPlanner.GCSViews
 
         List<List<Locationwp>> history = new List<List<Locationwp>>();
 
+        List<int> groupmarkers = new List<int>();
+
         public enum altmode
         {
             Relative = MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT,
@@ -2571,6 +2573,16 @@ namespace MissionPlanner.GCSViews
                     // home.. etc
                     return;
                 }
+
+                if (Control.ModifierKeys == Keys.Control)
+                {
+                    try
+                    {
+                        groupmarkers.Add(int.Parse(item.Tag.ToString()));
+                        log.Info("add marker to group");
+                    }
+                    catch { }
+                }
                 if (int.TryParse(item.Tag.ToString(), out answer))
                 {
 
@@ -2754,6 +2766,32 @@ namespace MissionPlanner.GCSViews
                 {
                     isMouseDown = false;
                 }
+                if (Control.ModifierKeys == Keys.Control)
+                {
+                    // group select wps
+                    GMapPolygon poly = new GMapPolygon(new List<PointLatLng>(),"temp");
+
+                    poly.Points.Add(MouseDownStart);
+                    poly.Points.Add(new PointLatLng(MouseDownStart.Lat,MouseDownEnd.Lng));
+                    poly.Points.Add(MouseDownEnd);
+                    poly.Points.Add(new PointLatLng(MouseDownEnd.Lat,MouseDownStart.Lng));
+
+                    foreach (var marker in objectsoverlay.Markers)
+                    {
+                        if (poly.IsInside(marker.Position))
+                        {
+                            try
+                            {
+                                if (marker.Tag != null)
+                                    groupmarkers.Add(int.Parse(marker.Tag.ToString()));
+                            }
+                            catch { }
+                        }
+                    }
+
+                    isMouseDraging = false;
+                    return;
+                }
                 if (!isMouseDraging)
                 {
                     if (CurentRectMarker != null)
@@ -2781,7 +2819,36 @@ namespace MissionPlanner.GCSViews
                         }
                         else
                         {
-                            callMeDrag(CurentRectMarker.InnerMarker.Tag.ToString(), currentMarker.Position.Lat, currentMarker.Position.Lng, -1);
+                            if (groupmarkers.Count > 0)
+                            {
+                                Dictionary<string, PointLatLng> dest = new Dictionary<string, PointLatLng>();
+
+                                foreach (var markerid in groupmarkers)
+                                {
+                                    for (int a = 0; a < objectsoverlay.Markers.Count; a++)
+                                    {
+                                        var marker = objectsoverlay.Markers[a];
+
+                                        if (marker.Tag != null && marker.Tag.ToString() == markerid.ToString())
+                                        {
+                                            dest[marker.Tag.ToString()] = marker.Position;                                            
+                                            break;
+                                        }
+                                    }
+                                }
+
+                                foreach (KeyValuePair<string, PointLatLng> item in dest)
+                                {
+                                    var value = (PointLatLng)item.Value;
+                                    callMeDrag(item.Key, value.Lat, value.Lng, -1);
+                                }
+
+                                groupmarkers.Clear();
+                            }
+                            else
+                            {
+                                callMeDrag(CurentRectMarker.InnerMarker.Tag.ToString(), currentMarker.Position.Lat, currentMarker.Position.Lng, -1);
+                            }
                         }
                         CurentRectMarker = null;
                     }
@@ -2800,7 +2867,16 @@ namespace MissionPlanner.GCSViews
 
             //   Console.WriteLine("MainMap MD");
 
-            if (e.Button == MouseButtons.Left && Control.ModifierKeys != Keys.Alt)
+            if (e.Button == MouseButtons.Left && (groupmarkers.Count > 0 || Control.ModifierKeys == Keys.Control))
+            {
+                // group move
+                isMouseDown = true;
+                isMouseDraging = false;
+
+                return;
+            }
+
+            if (e.Button == MouseButtons.Left && Control.ModifierKeys != Keys.Alt && Control.ModifierKeys != Keys.Control)
             {
                 isMouseDown = true;
                 isMouseDraging = false;
@@ -2840,6 +2916,36 @@ namespace MissionPlanner.GCSViews
 
                     CurrentRallyPt.Position = pnew;
                 }
+                else if (groupmarkers.Count > 0)
+                {
+                    // group drag
+
+                    double latdif = MouseDownStart.Lat - point.Lat;
+                    double lngdif = MouseDownStart.Lng - point.Lng;
+
+                    MouseDownStart = point;
+
+                    Hashtable seen = new Hashtable();
+
+                    foreach (var markerid in groupmarkers)
+                    {
+                        if (seen.ContainsKey(markerid))
+                            continue;
+
+                        seen[markerid] = 1;
+                        for (int a = 0; a < objectsoverlay.Markers.Count; a++)
+                        {
+                            var marker = objectsoverlay.Markers[a];
+
+                            if (marker.Tag != null && marker.Tag.ToString() == markerid.ToString())
+                            {
+                                var temp = new PointLatLng(marker.Position.Lat, marker.Position.Lng);
+                                temp.Offset(latdif, -lngdif);
+                                marker.Position = temp;
+                            }
+                        }
+                    }
+                }
                 else if (CurentRectMarker != null) // left click pan
                 {
                     try
@@ -2859,7 +2965,7 @@ namespace MissionPlanner.GCSViews
                     // adjust polyline point while we drag
                     try
                     {
-                        if (CurrentGMapMarker.Tag is int)
+                        if (CurrentGMapMarker != null && CurrentGMapMarker.Tag is int)
                         {
 
                             int? pIndex = (int?)CurentRectMarker.Tag;
