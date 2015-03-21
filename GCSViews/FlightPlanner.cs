@@ -1662,6 +1662,44 @@ namespace MissionPlanner.GCSViews
 
         }
 
+        Locationwp DataViewtoLocationwp(int a)
+        {
+            Locationwp temp = new Locationwp();
+            if (Commands.Rows[a].Cells[Command.Index].Value.ToString().Contains("UNKNOWN"))
+            {
+                temp.id = (byte)Commands.Rows[a].Cells[Command.Index].Tag;
+            }
+            else
+            {
+                temp.id = (byte)(int)Enum.Parse(typeof(MAVLink.MAV_CMD), Commands.Rows[a].Cells[Command.Index].Value.ToString(), false);
+            }
+            temp.p1 = float.Parse(Commands.Rows[a].Cells[Param1.Index].Value.ToString());
+
+            temp.alt = (float)(double.Parse(Commands.Rows[a].Cells[Alt.Index].Value.ToString()) / CurrentState.multiplierdist);
+            temp.lat = (double.Parse(Commands.Rows[a].Cells[Lat.Index].Value.ToString()));
+            temp.lng = (double.Parse(Commands.Rows[a].Cells[Lon.Index].Value.ToString()));
+
+            temp.p2 = (float)(double.Parse(Commands.Rows[a].Cells[Param2.Index].Value.ToString()));
+            temp.p3 = (float)(double.Parse(Commands.Rows[a].Cells[Param3.Index].Value.ToString()));
+            temp.p4 = (float)(double.Parse(Commands.Rows[a].Cells[Param4.Index].Value.ToString()));
+
+            return temp;
+        }
+
+        List<Locationwp> GetCommandList()
+        {
+            List<Locationwp> commands = new List<Locationwp>();
+
+            for (int a = 0; a < Commands.Rows.Count - 0; a++)
+            {
+                var temp = DataViewtoLocationwp(a);
+
+                commands.Add(temp);
+            }
+
+            return commands;
+        }
+
         void saveWPs(object sender, Controls.ProgressWorkerEventArgs e, object passdata = null)
         {
             try
@@ -1674,9 +1712,10 @@ namespace MissionPlanner.GCSViews
                 }
 
                 MainV2.comPort.giveComport = true;
+                int a = 0;
 
+                // define the home point
                 Locationwp home = new Locationwp();
-
                 try
                 {
                     home.id = (byte)MAVLink.MAV_CMD.WAYPOINT;
@@ -1686,14 +1725,16 @@ namespace MissionPlanner.GCSViews
                 }
                 catch { throw new Exception("Your home location is invalid"); }
 
+                // log
                 log.Info("wps values " + MainV2.comPort.MAV.wps.Values.Count);
                 log.Info("cmd rows " + (Commands.Rows.Count + 1)); // + home
 
+                // check for changes / future mod to send just changed wp's
                 if (MainV2.comPort.MAV.wps.Values.Count == (Commands.Rows.Count + 1))
                 {
                     Hashtable wpstoupload = new Hashtable();
 
-                    int a = -1;
+                    a = -1;
                     foreach (var item in MainV2.comPort.MAV.wps.Values)
                     {
                         // skip home
@@ -1744,31 +1785,38 @@ namespace MissionPlanner.GCSViews
                     }
                 }
 
+                // set wp total
                 ((Controls.ProgressReporterDialogue)sender).UpdateProgressAndStatus(0, "Set total wps ");
 
-                port.setWPTotal((ushort)(Commands.Rows.Count + 1)); // + home
+                ushort totalwpcountforupload = (ushort)(Commands.Rows.Count + 1);
 
+                port.setWPTotal(totalwpcountforupload); // + home
+
+                // set home location - overwritten/ignored depending on firmware.
                 ((Controls.ProgressReporterDialogue)sender).UpdateProgressAndStatus(0, "Set home");
 
-                port.setWP(home, (ushort)0, MAVLink.MAV_FRAME.GLOBAL, 0);
+                var homeans = port.setWP(home, (ushort)0, MAVLink.MAV_FRAME.GLOBAL, 0);
 
+                if (homeans != MAVLink.MAV_MISSION_RESULT.MAV_MISSION_ACCEPTED)
+                {
+                    CustomMessageBox.Show(Strings.ErrorRejectedByMAV, Strings.ERROR);
+                    return;
+                }
+
+                // define the default frame.
                 MAVLink.MAV_FRAME frame = MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT;
 
-                // process grid to memory eeprom
-                for (int a = 0; a < Commands.Rows.Count - 0; a++)
+                // get the command list from the datagrid
+                var commandlist = GetCommandList();
+
+                // upload from wp1, as home is alreadey sent
+                a = 1;
+                // process commandlist to the mav
+                foreach (var temp in commandlist)
                 {
                     ((Controls.ProgressReporterDialogue)sender).UpdateProgressAndStatus(a * 100 / Commands.Rows.Count, "Setting WP " + a);
 
-                    Locationwp temp = new Locationwp();
-                    if (Commands.Rows[a].Cells[Command.Index].Value.ToString().Contains("UNKNOWN"))
-                    {
-                        temp.id = (byte)Commands.Rows[a].Cells[Command.Index].Tag;
-                    }
-                    else
-                    {
-                        temp.id = (byte)(int)Enum.Parse(typeof(MAVLink.MAV_CMD), Commands.Rows[a].Cells[Command.Index].Value.ToString(), false);
-                    }
-                    temp.p1 = float.Parse(Commands.Rows[a].Cells[Param1.Index].Value.ToString());
+                    // make sure we are using the correct frame for these commands
                     if (temp.id < (byte)MAVLink.MAV_CMD.LAST || temp.id == (byte)MAVLink.MAV_CMD.DO_SET_HOME)
                     {
                         var mode = currentaltmode;
@@ -1787,25 +1835,18 @@ namespace MissionPlanner.GCSViews
                         }
                     }
 
-                    temp.alt = (float)(double.Parse(Commands.Rows[a].Cells[Alt.Index].Value.ToString()) / CurrentState.multiplierdist);
-                    temp.lat = (double.Parse(Commands.Rows[a].Cells[Lat.Index].Value.ToString()));
-                    temp.lng = (double.Parse(Commands.Rows[a].Cells[Lon.Index].Value.ToString()));
-
-                    temp.p2 = (float)(double.Parse(Commands.Rows[a].Cells[Param2.Index].Value.ToString()));
-                    temp.p3 = (float)(double.Parse(Commands.Rows[a].Cells[Param3.Index].Value.ToString()));
-                    temp.p4 = (float)(double.Parse(Commands.Rows[a].Cells[Param4.Index].Value.ToString()));
-
-                    MAVLink.MAV_MISSION_RESULT ans = port.setWP(temp, (ushort)(a + 1), frame, 0);
+                    // try send the wp
+                    MAVLink.MAV_MISSION_RESULT ans = port.setWP(temp, (ushort)(a), frame, 0);
 
                     // we timed out while uploading wps/ command wasnt replaced/ command wasnt added
                     if (ans == MAVLink.MAV_MISSION_RESULT.MAV_MISSION_ERROR)
                     {
                         // resend for partial upload
-                        port.setWPPartialUpdate((short)(a + 1), (short)(Commands.Rows.Count + 1));
+                        port.setWPPartialUpdate((ushort)(a), totalwpcountforupload);
                         // reupload this point.
-                        ans = port.setWP(temp, (ushort)(a + 1), frame, 0);
+                        ans = port.setWP(temp, (ushort)(a), frame, 0);
                     }
-
+                    
                     if (ans == MAVLink.MAV_MISSION_RESULT.MAV_MISSION_NO_SPACE)
                     {
                         e.ErrorMessage = "Upload failed, please reduce the number of wp's";
@@ -1813,7 +1854,7 @@ namespace MissionPlanner.GCSViews
                     }
                     if (ans == MAVLink.MAV_MISSION_RESULT.MAV_MISSION_INVALID)
                     {
-                        e.ErrorMessage = "Upload failed, mission was rejected byt the Mav,\n item had a bad option wp# " + a + 1 + " " + ans;
+                        e.ErrorMessage = "Upload failed, mission was rejected byt the Mav,\n item had a bad option wp# " + a + " " + ans;
                         return;
                     }
                     if (ans == MAVLink.MAV_MISSION_RESULT.MAV_MISSION_INVALID_SEQUENCE)
@@ -1824,9 +1865,11 @@ namespace MissionPlanner.GCSViews
                     }
                     if (ans != MAVLink.MAV_MISSION_RESULT.MAV_MISSION_ACCEPTED)
                     {
-                        e.ErrorMessage = "Upload wps failed " + Commands.Rows[a].Cells[Command.Index].Value.ToString() + " " + Enum.Parse(typeof(MAVLink.MAV_MISSION_RESULT), ans.ToString());
+                        e.ErrorMessage = "Upload wps failed " + Enum.Parse(typeof(MAVLink.MAV_CMD), temp.id.ToString()) + " " + Enum.Parse(typeof(MAVLink.MAV_MISSION_RESULT), ans.ToString());
                         return;
                     }
+
+                    a++;
                 }
 
                 port.setWPACK();
