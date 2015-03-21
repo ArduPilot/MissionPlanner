@@ -1851,15 +1851,15 @@ Please check the following
         /// </summary>
         /// <param name="startwp"></param>
         /// <param name="endwp"></param>
-        public void setWPPartialUpdate(short startwp, short endwp)
+        public void setWPPartialUpdate(ushort startwp, ushort endwp)
         {
             mavlink_mission_write_partial_list_t req = new mavlink_mission_write_partial_list_t();
 
             req.target_system = MAV.sysid;
             req.target_component = MAV.compid;
 
-            req.start_index = startwp;
-            req.end_index = endwp;
+            req.start_index = (short)startwp;
+            req.end_index = (short)endwp;
 
             generatePacket((byte)MAVLINK_MSG_ID.MISSION_WRITE_PARTIAL_LIST, req);
         }
@@ -1937,7 +1937,6 @@ Please check the following
         /// <param name="current">0 = no , 2 = guided mode</param>
         public MAV_MISSION_RESULT setWP(Locationwp loc, ushort index, MAV_FRAME frame, byte current = 0, byte autocontinue = 1)
         {
-            giveComport = true;
             mavlink_mission_item_t req = new mavlink_mission_item_t();
 
             req.target_system = MAV.sysid;
@@ -1959,6 +1958,15 @@ Please check the following
             req.param4 = loc.p4;
 
             req.seq = index;
+
+            return setWP(req);
+        }
+
+        public MAV_MISSION_RESULT setWP(mavlink_mission_item_t req)
+        {
+            giveComport = true;
+
+            ushort index = req.seq;
 
             log.InfoFormat("setWP {6} frame {0} cmd {1} p1 {2} x {3} y {4} z {5}", req.frame, req.command, req.param1, req.x, req.y, req.z, index);
 
