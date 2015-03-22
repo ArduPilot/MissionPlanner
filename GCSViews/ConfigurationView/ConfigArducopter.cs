@@ -73,8 +73,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             TUNE.DisplayMember = "Value";
             TUNE.ValueMember = "Key";
             
-            TUNE_LOW.setup(0, 0, 1, 0.0001f, "TUNE_LOW", MainV2.comPort.MAV.param);
-            TUNE_HIGH.setup(0, 0, 1, 0.0001f, "TUNE_HIGH", MainV2.comPort.MAV.param);
+            TUNE_LOW.setup(0, 10000, 1, 0.0001f, "TUNE_LOW", MainV2.comPort.MAV.param);
+            TUNE_HIGH.setup(0, 10000, 1, 0.0001f, "TUNE_HIGH", MainV2.comPort.MAV.param);
 
             HLD_LAT_P.setup(0, 0, 1, 0.001f, new string[] { "HLD_LAT_P", "POS_XY_P" }, MainV2.comPort.MAV.param);
             LOITER_LAT_D.setup(0, 0, 1, 0.001f, "LOITER_LAT_D", MainV2.comPort.MAV.param);
