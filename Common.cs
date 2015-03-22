@@ -140,6 +140,7 @@ namespace MissionPlanner
         const float deg2rad = (float)(1.0 / rad2deg);
 
         string wpno = "";
+        public bool selected = false;
 
         public GMapMarkerWP(PointLatLng p, string wpno)
             : base(p, GMarkerGoogleType.green)
@@ -148,7 +149,13 @@ namespace MissionPlanner
         }
 
         public override void OnRender(Graphics g)
-        {
+        {        
+            if (selected)
+            {
+                g.FillEllipse(Brushes.Red, new Rectangle(this.LocalPosition, this.Size));
+                g.DrawArc(Pens.Red,new Rectangle(this.LocalPosition,this.Size),0,360);
+            }
+
             base.OnRender(g);
 
             var midw = LocalPosition.X + 10 ;

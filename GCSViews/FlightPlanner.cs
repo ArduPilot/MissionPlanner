@@ -912,6 +912,14 @@ namespace MissionPlanner.GCSViews
                 m.ToolTipText = "Alt: " + alt.ToString("0");
                 m.Tag = tag;
 
+                try
+                {
+                    // preselect groupmarker
+                    if (groupmarkers.Contains(int.Parse(tag)))
+                        m.selected = true;
+                }
+                catch { }
+
                 //MissionPlanner.GMapMarkerRectWPRad mBorders = new MissionPlanner.GMapMarkerRectWPRad(point, (int)float.Parse(TXT_WPRad.Text), MainMap);
                 GMapMarkerRect mBorders = new GMapMarkerRect(point);
                 {
@@ -2578,7 +2586,8 @@ namespace MissionPlanner.GCSViews
                 {
                     try
                     {
-                        groupmarkers.Add(int.Parse(item.Tag.ToString()));
+                        groupmarkeradd(item);
+
                         log.Info("add marker to group");
                     }
                     catch { }
@@ -2742,6 +2751,18 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        void groupmarkeradd(GMapMarker marker)
+        {
+            groupmarkers.Add(int.Parse(marker.Tag.ToString()));
+            if (marker is GMapMarkerWP)
+            {
+                ((GMapMarkerWP)marker).selected = true;
+            }
+            if (marker is GMapMarkerRect)
+            {
+                ((GMapMarkerWP)((GMapMarkerRect)marker).InnerMarker).selected = true;
+            }
+        }
 
         void MainMap_MouseUp(object sender, MouseEventArgs e)
         {
@@ -2783,7 +2804,9 @@ namespace MissionPlanner.GCSViews
                             try
                             {
                                 if (marker.Tag != null)
-                                    groupmarkers.Add(int.Parse(marker.Tag.ToString()));
+                                {
+                                    groupmarkeradd(marker);
+                                }
                             }
                             catch { }
                         }
@@ -2805,6 +2828,38 @@ namespace MissionPlanner.GCSViews
                 }
                 else
                 {
+                    if (groupmarkers.Count > 0)
+                    {
+                        Dictionary<string, PointLatLng> dest = new Dictionary<string, PointLatLng>();
+
+                        foreach (var markerid in groupmarkers)
+                        {
+                            for (int a = 0; a < objectsoverlay.Markers.Count; a++)
+                            {
+                                var marker = objectsoverlay.Markers[a];
+
+                                if (marker.Tag != null && marker.Tag.ToString() == markerid.ToString())
+                                {
+                                    dest[marker.Tag.ToString()] = marker.Position;
+                                    break;
+                                }
+                            }
+                        }
+
+                        foreach (KeyValuePair<string, PointLatLng> item in dest)
+                        {
+                            var value = (PointLatLng)item.Value;
+                            callMeDrag(item.Key, value.Lat, value.Lng, -1);
+                        }
+
+                        MainMap.SelectedArea = RectLatLng.Empty;
+                        groupmarkers.Clear();
+                        // redraw to remove selection
+                        writeKML();
+
+                        CurentRectMarker = null;
+                    }
+
                     if (CurentRectMarker != null)
                     {
                         if (CurentRectMarker.InnerMarker.Tag.ToString().Contains("grid"))
@@ -2819,36 +2874,7 @@ namespace MissionPlanner.GCSViews
                         }
                         else
                         {
-                            if (groupmarkers.Count > 0)
-                            {
-                                Dictionary<string, PointLatLng> dest = new Dictionary<string, PointLatLng>();
-
-                                foreach (var markerid in groupmarkers)
-                                {
-                                    for (int a = 0; a < objectsoverlay.Markers.Count; a++)
-                                    {
-                                        var marker = objectsoverlay.Markers[a];
-
-                                        if (marker.Tag != null && marker.Tag.ToString() == markerid.ToString())
-                                        {
-                                            dest[marker.Tag.ToString()] = marker.Position;                                            
-                                            break;
-                                        }
-                                    }
-                                }
-
-                                foreach (KeyValuePair<string, PointLatLng> item in dest)
-                                {
-                                    var value = (PointLatLng)item.Value;
-                                    callMeDrag(item.Key, value.Lat, value.Lng, -1);
-                                }
-
-                                groupmarkers.Clear();
-                            }
-                            else
-                            {
                                 callMeDrag(CurentRectMarker.InnerMarker.Tag.ToString(), currentMarker.Position.Lat, currentMarker.Position.Lng, -1);
-                            }
                         }
                         CurentRectMarker = null;
                     }
@@ -3001,6 +3027,14 @@ namespace MissionPlanner.GCSViews
                     PointLatLng pnew = MainMap.FromLocalToLatLng(e.X, e.Y);
 
                     CurrentGMapMarker.Position = pnew;
+                }
+                else if (Control.ModifierKeys == Keys.Control)
+                {
+                    // draw selection box
+                    double latdif = MouseDownStart.Lat - point.Lat;
+                    double lngdif = MouseDownStart.Lng - point.Lng;
+
+                    MainMap.SelectedArea = new RectLatLng(Math.Max(MouseDownStart.Lat, point.Lat), Math.Min(MouseDownStart.Lng, point.Lng), Math.Abs(lngdif), Math.Abs(latdif));
                 }
                 else // left click pan
                 {
