@@ -29,8 +29,8 @@ namespace MissionPlanner.Joystick
         // set to default midpoint
         int hat1 = 65535 / 2;
         int hat2 = 65535 / 2;
+        int custom0 = 65535 / 2;
         int custom1 = 65535 / 2;
-        int custom2 = 65535 / 2;
 
 
         public struct JoyChannel
@@ -91,7 +91,9 @@ namespace MissionPlanner.Joystick
             Mount_Mode,
             Toggle_Pan_Stab,
             Gimbal_pnt_track,
-            Mount_Control_0
+            Mount_Control_0,
+            Button_axis0,
+            Button_axis1,
         }
 
 
@@ -651,10 +653,16 @@ namespace MissionPlanner.Joystick
         {
             if (but.buttonno != -1)
             {
-                // only do_set_relay uses the button up option
+                // only do_set_relay and Button_axis0-1 uses the button up option
                 if (buttondown == false)
-                 if (but.function != buttonfunction.Do_Set_Relay)
-                    return;
+                {
+                    if (but.function != buttonfunction.Do_Set_Relay &&
+                        but.function != buttonfunction.Button_axis0 &&
+                        but.function != buttonfunction.Button_axis1)
+                    {
+                        return;
+                    }
+                }
 
                 switch (but.function)
                 {
@@ -806,6 +814,39 @@ namespace MissionPlanner.Joystick
                                 MainV2.comPort.setMountControl(0,0,0,false);
                             }
                             catch { CustomMessageBox.Show("Failed to Mount_Control_0"); }
+                        });
+                        break;
+                    case buttonfunction.Button_axis0:
+                        MainV2.instance.BeginInvoke((System.Windows.Forms.MethodInvoker)delegate()
+                        {
+                            try
+                            {
+                                int pwmmin = (int)but.p1;
+                                int pwmmax = (int)but.p2;
+
+                                if (buttondown)
+                                    custom0 = pwmmax;
+                                else
+                                    custom0 = pwmmin;
+
+                            }
+                            catch { CustomMessageBox.Show("Failed to Button_axis0"); }
+                        });
+                        break;
+                    case buttonfunction.Button_axis1:
+                        MainV2.instance.BeginInvoke((System.Windows.Forms.MethodInvoker)delegate()
+                        {
+                            try
+                            {
+                                int pwmmin = (int)but.p1;
+                                int pwmmax = (int)but.p2;
+
+                                if (buttondown)
+                                    custom1 = pwmmax;
+                                else
+                                    custom1 = pwmmin;
+                            }
+                            catch { CustomMessageBox.Show("Failed to Button_axis1"); }
                         });
                         break;
                 }
@@ -1180,13 +1221,13 @@ namespace MissionPlanner.Joystick
                     break;
 
                 case joystickaxis.Custom1:
-                    custom1 = (int)Constrain(custom1, 0, 65535);
-                    working = custom1;
+                    custom0 = (int)Constrain(custom0, 0, 65535);
+                    working = custom0;
                     break;
 
                 case joystickaxis.Custom2:
-                    custom2 = (int)Constrain(custom2, 0, 65535);
-                    working = custom2;
+                    custom1 = (int)Constrain(custom1, 0, 65535);
+                    working = custom1;
                     break;
             }
             // between 0 and 65535 - convert to int -500 to 500

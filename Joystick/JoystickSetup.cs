@@ -482,6 +482,12 @@ namespace MissionPlanner.Joystick
                 case Joystick.buttonfunction.Do_Set_Servo:
                     new Joy_Do_Set_Servo((string)cmb.Tag).ShowDialog();
                     break;
+                case Joystick.buttonfunction.Button_axis0:
+                    new Joy_Button_axis((string)cmb.Tag).ShowDialog();
+                    break;
+                case Joystick.buttonfunction.Button_axis1:
+                    new Joy_Button_axis((string)cmb.Tag).ShowDialog();
+                    break;
                 default:
                     CustomMessageBox.Show("No settings to set","No settings");
                     break;

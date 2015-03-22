@@ -392,6 +392,12 @@
     <Compile Include="Joystick\Joy_Do_Repeat_Servo.Designer.cs">
       <DependentUpon>Joy_Do_Repeat_Servo.cs</DependentUpon>
     </Compile>
+    <Compile Include="Joystick\Joy_Button_axis.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Joystick\Joy_Button_axis.Designer.cs">
+      <DependentUpon>Joy_Button_axis.cs</DependentUpon>
+    </Compile>
     <Compile Include="Joystick\Joy_Do_Set_Servo.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -908,6 +914,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Joystick\Joy_Do_Set_Relay.resx">
       <DependentUpon>Joy_Do_Set_Relay.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Joystick\Joy_Button_axis.resx">
+      <DependentUpon>Joy_Button_axis.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Joystick\Joy_Do_Set_Servo.resx">
       <DependentUpon>Joy_Do_Set_Servo.cs</DependentUpon>
