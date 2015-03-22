@@ -28,37 +28,41 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
+            this.quickView9 = new MissionPlanner.Controls.QuickView();
+            this.bindingSourceQuickTab = new System.Windows.Forms.BindingSource(this.components);
+            this.quickView8 = new MissionPlanner.Controls.QuickView();
+            this.quickView4 = new MissionPlanner.Controls.QuickView();
             this.quickView3 = new MissionPlanner.Controls.QuickView();
             this.quickView2 = new MissionPlanner.Controls.QuickView();
             this.quickView1 = new MissionPlanner.Controls.QuickView();
             this.panel4 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.panel5 = new System.Windows.Forms.Panel();
             this.quickView7 = new MissionPlanner.Controls.QuickView();
-            this.quickView6 = new MissionPlanner.Controls.QuickView();
             this.quickView5 = new MissionPlanner.Controls.QuickView();
-            this.quickView4 = new MissionPlanner.Controls.QuickView();
+            this.quickView6 = new MissionPlanner.Controls.QuickView();
             this.hud1 = new MissionPlanner.Controls.HUD();
+            this.bindingSourceHud = new System.Windows.Forms.BindingSource(this.components);
             this.panel3 = new System.Windows.Forms.Panel();
             this.coords1 = new MissionPlanner.Controls.Coords();
-            this.myGMAP1 = new MissionPlanner.Controls.myGMAP();
+            this.gMapControl1 = new MissionPlanner.Controls.myGMAP();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.panel1.SuspendLayout();
-            this.groupBox1.SuspendLayout();
-            this.menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSourceQuickTab)).BeginInit();
             this.panel2.SuspendLayout();
+            this.panel5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSourceHud)).BeginInit();
             this.panel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // panel1
             // 
-            this.panel1.BackColor = System.Drawing.SystemColors.InactiveCaptionText;
-            this.panel1.Controls.Add(this.groupBox1);
+            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(48)))), ((int)(((byte)(52)))));
+            this.panel1.Controls.Add(this.quickView9);
+            this.panel1.Controls.Add(this.quickView8);
+            this.panel1.Controls.Add(this.quickView4);
             this.panel1.Controls.Add(this.quickView3);
             this.panel1.Controls.Add(this.quickView2);
             this.panel1.Controls.Add(this.quickView1);
@@ -69,62 +73,52 @@
             this.panel1.Size = new System.Drawing.Size(155, 507);
             this.panel1.TabIndex = 0;
             // 
-            // groupBox1
+            // quickView9
             // 
-            this.groupBox1.Controls.Add(this.menuStrip1);
-            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox1.Location = new System.Drawing.Point(0, 129);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(155, 216);
-            this.groupBox1.TabIndex = 3;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "groupBox1";
+            this.quickView9.DataBindings.Add(new System.Windows.Forms.Binding("number", this.bindingSourceQuickTab, "wp_dist", true));
+            this.quickView9.desc = "Altitude:";
+            this.quickView9.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.quickView9.Location = new System.Drawing.Point(0, 183);
+            this.quickView9.Name = "quickView9";
+            this.quickView9.number = -9999D;
+            this.quickView9.numberColor = System.Drawing.Color.White;
+            this.quickView9.numberformat = "0.00";
+            this.quickView9.Size = new System.Drawing.Size(155, 54);
+            this.quickView9.TabIndex = 7;
             // 
-            // menuStrip1
+            // bindingSourceQuickTab
             // 
-            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(30, 30);
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem1,
-            this.toolStripMenuItem2,
-            this.toolStripMenuItem3,
-            this.toolStripMenuItem4});
-            this.menuStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
-            this.menuStrip1.Location = new System.Drawing.Point(3, 16);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(149, 142);
-            this.menuStrip1.TabIndex = 0;
-            this.menuStrip1.Text = "menuStrip1";
+            this.bindingSourceQuickTab.DataSource = typeof(MissionPlanner.CurrentState);
             // 
-            // toolStripMenuItem1
+            // quickView8
             // 
-            this.toolStripMenuItem1.Image = global::MissionPlanner.Properties.Resources.dark_flightdata_icon;
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(142, 34);
-            this.toolStripMenuItem1.Text = "Flight";
+            this.quickView8.DataBindings.Add(new System.Windows.Forms.Binding("number", this.bindingSourceQuickTab, "wp_dist", true));
+            this.quickView8.desc = "Altitude:";
+            this.quickView8.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.quickView8.Location = new System.Drawing.Point(0, 237);
+            this.quickView8.Name = "quickView8";
+            this.quickView8.number = -9999D;
+            this.quickView8.numberColor = System.Drawing.Color.White;
+            this.quickView8.numberformat = "0.00";
+            this.quickView8.Size = new System.Drawing.Size(155, 54);
+            this.quickView8.TabIndex = 6;
             // 
-            // toolStripMenuItem2
+            // quickView4
             // 
-            this.toolStripMenuItem2.Image = global::MissionPlanner.Properties.Resources.dark_flightplan_icon;
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(142, 34);
-            this.toolStripMenuItem2.Text = "Plan";
-            // 
-            // toolStripMenuItem3
-            // 
-            this.toolStripMenuItem3.Image = global::MissionPlanner.Properties.Resources.dark_initialsetup_icon;
-            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(142, 34);
-            this.toolStripMenuItem3.Text = "Setup";
-            // 
-            // toolStripMenuItem4
-            // 
-            this.toolStripMenuItem4.Image = global::MissionPlanner.Properties.Resources.dark_tuningconfig_icon;
-            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(142, 34);
-            this.toolStripMenuItem4.Text = "Tune";
+            this.quickView4.DataBindings.Add(new System.Windows.Forms.Binding("number", this.bindingSourceQuickTab, "wp_dist", true));
+            this.quickView4.desc = "Altitude:";
+            this.quickView4.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.quickView4.Location = new System.Drawing.Point(0, 291);
+            this.quickView4.Name = "quickView4";
+            this.quickView4.number = -9999D;
+            this.quickView4.numberColor = System.Drawing.Color.White;
+            this.quickView4.numberformat = "0.00";
+            this.quickView4.Size = new System.Drawing.Size(155, 54);
+            this.quickView4.TabIndex = 5;
             // 
             // quickView3
             // 
+            this.quickView3.DataBindings.Add(new System.Windows.Forms.Binding("number", this.bindingSourceQuickTab, "wp_dist", true));
             this.quickView3.desc = "Altitude:";
             this.quickView3.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.quickView3.Location = new System.Drawing.Point(0, 345);
@@ -137,6 +131,7 @@
             // 
             // quickView2
             // 
+            this.quickView2.DataBindings.Add(new System.Windows.Forms.Binding("number", this.bindingSourceQuickTab, "groundspeed", true));
             this.quickView2.desc = "Altitude:";
             this.quickView2.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.quickView2.Location = new System.Drawing.Point(0, 399);
@@ -149,6 +144,7 @@
             // 
             // quickView1
             // 
+            this.quickView1.DataBindings.Add(new System.Windows.Forms.Binding("number", this.bindingSourceQuickTab, "alt", true));
             this.quickView1.desc = "Altitude:";
             this.quickView1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.quickView1.Location = new System.Drawing.Point(0, 453);
@@ -169,11 +165,8 @@
             // 
             // panel2
             // 
-            this.panel2.BackColor = System.Drawing.SystemColors.InfoText;
-            this.panel2.Controls.Add(this.quickView7);
-            this.panel2.Controls.Add(this.quickView6);
-            this.panel2.Controls.Add(this.quickView5);
-            this.panel2.Controls.Add(this.quickView4);
+            this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(34)))), ((int)(((byte)(34)))));
+            this.panel2.Controls.Add(this.panel5);
             this.panel2.Controls.Add(this.hud1);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel2.Location = new System.Drawing.Point(155, 0);
@@ -181,53 +174,52 @@
             this.panel2.Size = new System.Drawing.Size(328, 507);
             this.panel2.TabIndex = 1;
             // 
+            // panel5
+            // 
+            this.panel5.Controls.Add(this.quickView7);
+            this.panel5.Controls.Add(this.quickView5);
+            this.panel5.Controls.Add(this.quickView6);
+            this.panel5.Location = new System.Drawing.Point(6, 332);
+            this.panel5.Name = "panel5";
+            this.panel5.Size = new System.Drawing.Size(316, 172);
+            this.panel5.TabIndex = 7;
+            // 
             // quickView7
             // 
             this.quickView7.desc = "Altitude:";
-            this.quickView7.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.quickView7.Location = new System.Drawing.Point(0, 291);
+            this.quickView7.Dock = System.Windows.Forms.DockStyle.Top;
+            this.quickView7.Location = new System.Drawing.Point(0, 108);
             this.quickView7.Name = "quickView7";
             this.quickView7.number = -9999D;
             this.quickView7.numberColor = System.Drawing.Color.White;
             this.quickView7.numberformat = "0.00";
-            this.quickView7.Size = new System.Drawing.Size(328, 54);
+            this.quickView7.Size = new System.Drawing.Size(316, 54);
             this.quickView7.TabIndex = 6;
-            // 
-            // quickView6
-            // 
-            this.quickView6.desc = "Altitude:";
-            this.quickView6.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.quickView6.Location = new System.Drawing.Point(0, 345);
-            this.quickView6.Name = "quickView6";
-            this.quickView6.number = -9999D;
-            this.quickView6.numberColor = System.Drawing.Color.White;
-            this.quickView6.numberformat = "0.00";
-            this.quickView6.Size = new System.Drawing.Size(328, 54);
-            this.quickView6.TabIndex = 5;
             // 
             // quickView5
             // 
+            this.quickView5.DataBindings.Add(new System.Windows.Forms.Binding("number", this.bindingSourceQuickTab, "verticalspeed", true));
             this.quickView5.desc = "Altitude:";
-            this.quickView5.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.quickView5.Location = new System.Drawing.Point(0, 399);
+            this.quickView5.Dock = System.Windows.Forms.DockStyle.Top;
+            this.quickView5.Location = new System.Drawing.Point(0, 54);
             this.quickView5.Name = "quickView5";
             this.quickView5.number = -9999D;
             this.quickView5.numberColor = System.Drawing.Color.White;
             this.quickView5.numberformat = "0.00";
-            this.quickView5.Size = new System.Drawing.Size(328, 54);
+            this.quickView5.Size = new System.Drawing.Size(316, 54);
             this.quickView5.TabIndex = 4;
             // 
-            // quickView4
+            // quickView6
             // 
-            this.quickView4.desc = "Altitude:";
-            this.quickView4.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.quickView4.Location = new System.Drawing.Point(0, 453);
-            this.quickView4.Name = "quickView4";
-            this.quickView4.number = -9999D;
-            this.quickView4.numberColor = System.Drawing.Color.White;
-            this.quickView4.numberformat = "0.00";
-            this.quickView4.Size = new System.Drawing.Size(328, 54);
-            this.quickView4.TabIndex = 3;
+            this.quickView6.desc = "Altitude:";
+            this.quickView6.Dock = System.Windows.Forms.DockStyle.Top;
+            this.quickView6.Location = new System.Drawing.Point(0, 0);
+            this.quickView6.Name = "quickView6";
+            this.quickView6.number = -9999D;
+            this.quickView6.numberColor = System.Drawing.Color.White;
+            this.quickView6.numberformat = "0.00";
+            this.quickView6.Size = new System.Drawing.Size(316, 54);
+            this.quickView6.TabIndex = 5;
             // 
             // hud1
             // 
@@ -238,6 +230,37 @@
             this.hud1.batteryremaining = 0F;
             this.hud1.connected = false;
             this.hud1.current = 0F;
+            this.hud1.DataBindings.Add(new System.Windows.Forms.Binding("airspeed", this.bindingSourceHud, "airspeed", true));
+            this.hud1.DataBindings.Add(new System.Windows.Forms.Binding("alt", this.bindingSourceHud, "alt", true));
+            this.hud1.DataBindings.Add(new System.Windows.Forms.Binding("batterylevel", this.bindingSourceHud, "battery_voltage", true));
+            this.hud1.DataBindings.Add(new System.Windows.Forms.Binding("batteryremaining", this.bindingSourceHud, "battery_remaining", true));
+            this.hud1.DataBindings.Add(new System.Windows.Forms.Binding("connected", this.bindingSourceHud, "connected", true));
+            this.hud1.DataBindings.Add(new System.Windows.Forms.Binding("current", this.bindingSourceHud, "current", true));
+            this.hud1.DataBindings.Add(new System.Windows.Forms.Binding("datetime", this.bindingSourceHud, "datetime", true));
+            this.hud1.DataBindings.Add(new System.Windows.Forms.Binding("disttowp", this.bindingSourceHud, "wp_dist", true));
+            this.hud1.DataBindings.Add(new System.Windows.Forms.Binding("failsafe", this.bindingSourceHud, "failsafe", true));
+            this.hud1.DataBindings.Add(new System.Windows.Forms.Binding("gpsfix", this.bindingSourceHud, "gpsstatus", true));
+            this.hud1.DataBindings.Add(new System.Windows.Forms.Binding("gpshdop", this.bindingSourceHud, "gpshdop", true));
+            this.hud1.DataBindings.Add(new System.Windows.Forms.Binding("groundalt", this.bindingSourceHud, "HomeAlt", true));
+            this.hud1.DataBindings.Add(new System.Windows.Forms.Binding("groundcourse", this.bindingSourceHud, "groundcourse", true));
+            this.hud1.DataBindings.Add(new System.Windows.Forms.Binding("groundspeed", this.bindingSourceHud, "groundspeed", true));
+            this.hud1.DataBindings.Add(new System.Windows.Forms.Binding("heading", this.bindingSourceHud, "yaw", true));
+            this.hud1.DataBindings.Add(new System.Windows.Forms.Binding("linkqualitygcs", this.bindingSourceHud, "linkqualitygcs", true));
+            this.hud1.DataBindings.Add(new System.Windows.Forms.Binding("message", this.bindingSourceHud, "messageHigh", true));
+            this.hud1.DataBindings.Add(new System.Windows.Forms.Binding("messagetime", this.bindingSourceHud, "messageHighTime", true));
+            this.hud1.DataBindings.Add(new System.Windows.Forms.Binding("mode", this.bindingSourceHud, "mode", true));
+            this.hud1.DataBindings.Add(new System.Windows.Forms.Binding("navpitch", this.bindingSourceHud, "nav_pitch", true));
+            this.hud1.DataBindings.Add(new System.Windows.Forms.Binding("navroll", this.bindingSourceHud, "nav_roll", true));
+            this.hud1.DataBindings.Add(new System.Windows.Forms.Binding("pitch", this.bindingSourceHud, "pitch", true));
+            this.hud1.DataBindings.Add(new System.Windows.Forms.Binding("roll", this.bindingSourceHud, "roll", true));
+            this.hud1.DataBindings.Add(new System.Windows.Forms.Binding("status", this.bindingSourceHud, "armed", true));
+            this.hud1.DataBindings.Add(new System.Windows.Forms.Binding("targetalt", this.bindingSourceHud, "targetalt", true));
+            this.hud1.DataBindings.Add(new System.Windows.Forms.Binding("targetheading", this.bindingSourceHud, "nav_bearing", true));
+            this.hud1.DataBindings.Add(new System.Windows.Forms.Binding("targetspeed", this.bindingSourceHud, "targetairspeed", true));
+            this.hud1.DataBindings.Add(new System.Windows.Forms.Binding("turnrate", this.bindingSourceHud, "turnrate", true));
+            this.hud1.DataBindings.Add(new System.Windows.Forms.Binding("verticalspeed", this.bindingSourceHud, "verticalspeed", true));
+            this.hud1.DataBindings.Add(new System.Windows.Forms.Binding("wpno", this.bindingSourceHud, "wpno", true));
+            this.hud1.DataBindings.Add(new System.Windows.Forms.Binding("xtrack_error", this.bindingSourceHud, "xtrack_error", true));
             this.hud1.datetime = new System.DateTime(((long)(0)));
             this.hud1.disttowp = 0F;
             this.hud1.Dock = System.Windows.Forms.DockStyle.Top;
@@ -278,10 +301,14 @@
             this.hud1.wpno = 0;
             this.hud1.xtrack_error = 0F;
             // 
+            // bindingSourceHud
+            // 
+            this.bindingSourceHud.DataSource = typeof(MissionPlanner.CurrentState);
+            // 
             // panel3
             // 
             this.panel3.Controls.Add(this.coords1);
-            this.panel3.Controls.Add(this.myGMAP1);
+            this.panel3.Controls.Add(this.gMapControl1);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel3.Location = new System.Drawing.Point(483, 0);
             this.panel3.Name = "panel3";
@@ -300,31 +327,35 @@
             this.coords1.TabIndex = 1;
             this.coords1.Vertical = false;
             // 
-            // myGMAP1
+            // gMapControl1
             // 
-            this.myGMAP1.Bearing = 0F;
-            this.myGMAP1.CanDragMap = true;
-            this.myGMAP1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.myGMAP1.EmptyTileColor = System.Drawing.Color.Navy;
-            this.myGMAP1.GrayScaleMode = false;
-            this.myGMAP1.HelperLineOption = GMap.NET.WindowsForms.HelperLineOptions.DontShow;
-            this.myGMAP1.LevelsKeepInMemmory = 5;
-            this.myGMAP1.Location = new System.Drawing.Point(0, 0);
-            this.myGMAP1.MarkersEnabled = true;
-            this.myGMAP1.MaxZoom = 2;
-            this.myGMAP1.MinZoom = 2;
-            this.myGMAP1.MouseWheelZoomType = GMap.NET.MouseWheelZoomType.MousePositionAndCenter;
-            this.myGMAP1.Name = "myGMAP1";
-            this.myGMAP1.NegativeMode = false;
-            this.myGMAP1.PolygonsEnabled = true;
-            this.myGMAP1.RetryLoadTile = 0;
-            this.myGMAP1.RoutesEnabled = true;
-            this.myGMAP1.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
-            this.myGMAP1.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
-            this.myGMAP1.ShowTileGridLines = false;
-            this.myGMAP1.Size = new System.Drawing.Size(539, 507);
-            this.myGMAP1.TabIndex = 0;
-            this.myGMAP1.Zoom = 0D;
+            this.gMapControl1.Bearing = 0F;
+            this.gMapControl1.CanDragMap = true;
+            this.gMapControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gMapControl1.EmptyTileColor = System.Drawing.Color.Navy;
+            this.gMapControl1.GrayScaleMode = false;
+            this.gMapControl1.HelperLineOption = GMap.NET.WindowsForms.HelperLineOptions.DontShow;
+            this.gMapControl1.LevelsKeepInMemmory = 5;
+            this.gMapControl1.Location = new System.Drawing.Point(0, 0);
+            this.gMapControl1.MarkersEnabled = true;
+            this.gMapControl1.MaxZoom = 2;
+            this.gMapControl1.MinZoom = 2;
+            this.gMapControl1.MouseWheelZoomType = GMap.NET.MouseWheelZoomType.MousePositionAndCenter;
+            this.gMapControl1.Name = "gMapControl1";
+            this.gMapControl1.NegativeMode = false;
+            this.gMapControl1.PolygonsEnabled = true;
+            this.gMapControl1.RetryLoadTile = 0;
+            this.gMapControl1.RoutesEnabled = true;
+            this.gMapControl1.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
+            this.gMapControl1.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
+            this.gMapControl1.ShowTileGridLines = false;
+            this.gMapControl1.Size = new System.Drawing.Size(539, 507);
+            this.gMapControl1.TabIndex = 0;
+            this.gMapControl1.Zoom = 0D;
+            // 
+            // timer1
+            // 
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // FlightData2
             // 
@@ -337,11 +368,10 @@
             this.Name = "FlightData2";
             this.Size = new System.Drawing.Size(1022, 507);
             this.panel1.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSourceQuickTab)).EndInit();
             this.panel2.ResumeLayout(false);
+            this.panel5.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSourceHud)).EndInit();
             this.panel3.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -353,21 +383,21 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel3;
         private Controls.Coords coords1;
-        private Controls.myGMAP myGMAP1;
+        private Controls.myGMAP gMapControl1;
         private Controls.QuickView quickView3;
         private Controls.QuickView quickView2;
         private Controls.QuickView quickView1;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.MenuStrip menuStrip1;
         private Controls.HUD hud1;
         private System.Windows.Forms.Panel panel4;
         private Controls.QuickView quickView7;
         private Controls.QuickView quickView6;
         private Controls.QuickView quickView5;
+        private System.Windows.Forms.BindingSource bindingSourceHud;
+        private System.Windows.Forms.BindingSource bindingSourceQuickTab;
+        private System.Windows.Forms.Panel panel5;
+        private System.Windows.Forms.Timer timer1;
+        private Controls.QuickView quickView9;
+        private Controls.QuickView quickView8;
         private Controls.QuickView quickView4;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem4;
     }
 }

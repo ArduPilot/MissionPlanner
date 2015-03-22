@@ -1,4 +1,15 @@
-﻿* Mission Planner 1.3.20
+﻿* Mission Planner 1.3.21
+joystick: add button axis #815
+configarducopter: mod min max #818
+flightplanner: tweak multi point move (control+click wp, or control+drag box)
+flightplanner: initial multi move (use control key)
+flightplanner: add undo (control-z)
+3drradio: fix string reference
+mavlinkinterface: factor out setwp
+flightplanner: function out datagrid population
+Joystick, Radio, add exception handling.
+
+* Mission Planner 1.3.20
 currentstate: add ch9-16 in
 firmwarehistory: update
 flightplanner: fix dragging home exception
