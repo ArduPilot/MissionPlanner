@@ -174,7 +174,8 @@ namespace MissionPlanner.Comms
                 }
                 catch { }
 
-                allPorts.AddRange(ports);
+                if (ports != null)
+                    allPorts.AddRange(ports);
 
                 return allPorts.ToArray();
             }
