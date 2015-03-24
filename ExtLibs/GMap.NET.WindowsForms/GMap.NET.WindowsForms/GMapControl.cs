@@ -1756,7 +1756,11 @@ namespace GMap.NET.WindowsForms
                   UpdateRotationMatrix();
                }
 #endif
-               ForceUpdateOverlays();
+               try
+               {
+                   ForceUpdateOverlays();
+               }
+               catch (System.OverflowException ex) { System.Diagnostics.Debug.WriteLine(ex); }
             }
          }
       }
