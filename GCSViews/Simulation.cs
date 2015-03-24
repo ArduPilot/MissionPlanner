@@ -830,28 +830,37 @@ namespace MissionPlanner.GCSViews
                 sitldata.longitude = (DATA[20][1]);
                 sitldata.altitude = (DATA[20][2] * ft2m);
 
-           
+
+                //http://en.wikipedia.org/wiki/Banked_turn
 
                 Matrix3 dcm = new Matrix3();
-                dcm.from_euler(sitldata.rollDeg * deg2rad, sitldata.pitchDeg * deg2rad, sitldata.heading * deg2rad);
+                dcm.from_euler(sitldata.rollDeg * deg2rad, sitldata.pitchDeg * deg2rad, sitldata.yawDeg * deg2rad);
+
+                // v squared in m/s
+                float v_sq = (float)((DATA[3][7] * 0.44704) * (DATA[3][7] * 0.44704));
 
                 // rad = tas^2 / (tan(angle) * G)
-                float turnrad = (float)(((DATA[3][7] * 0.44704) * (DATA[3][7] * 0.44704)) / (float)(9.808f * Math.Tan(sitldata.rollDeg * deg2rad)));
+                float turnrad = (float)(v_sq / (float)(9.808f * Math.Tan(sitldata.rollDeg * deg2rad)));
 
                 float gload = (float)(1 / Math.Cos(sitldata.rollDeg * deg2rad)); // calculated Gs
-
+                
                 // a = v^2/r
-                float centripaccel = (float)((DATA[3][7] * 0.44704) * (DATA[3][7] * 0.44704)) / turnrad;
+                float centripaccel = v_sq / turnrad;
 
                 Vector3 accel_body = dcm.transposed() * (new Vector3(0, 0, -9.808));
 
                 Vector3 centrip_accel = new Vector3(0, centripaccel * Math.Cos(sitldata.rollDeg * deg2rad), centripaccel * Math.Sin(sitldata.rollDeg * deg2rad));
 
-              //  accel_body += centrip_accel;
+                accel_body -= centrip_accel;
 
                 Vector3 velocitydelta = dcm.transposed() * (new Vector3((sitldata_old.speedN - sitldata.speedN), (sitldata_old.speedE - sitldata.speedE), (sitldata_old.speedD - sitldata.speedD)));
 
-                Vector3 velocity = dcm.transposed() * (new Vector3((sitldata.speedN), (sitldata.speedE), (sitldata.speedD)));
+                // v = d/t   a = v/t      add linear accel - t is 50 hz
+                //accel_body.x += -velocitydelta.x / 0.02;
+
+                //accel_body += velocitydelta / 0.2;
+
+                //Vector3 velocity = dcm.transposed() * (new Vector3((sitldata.speedN), (sitldata.speedE), (sitldata.speedD)));
 
                 //Console.WriteLine("vel " + velocity.ToString());
                 //Console.WriteLine("ved " + velocitydelta.ToString());
@@ -861,8 +870,8 @@ namespace MissionPlanner.GCSViews
                 // 50 hz = 0.02sec
                 Vector3 accel_mine_body = dcm.transposed() * (new Vector3((sitldata_old.speedN - sitldata.speedN) / 0.02, (sitldata_old.speedE - sitldata.speedE) / 0.02, (sitldata_old.speedD - sitldata.speedD) / 0.02));
 
-             //   Console.WriteLine("G"+accel_body.ToString());
-                //Console.WriteLine("M"+accel_mine_body.ToString());
+               // Console.WriteLine("G"+accel_body.ToString());
+              //  Console.WriteLine("M"+accel_mine_body.ToString());
 
              //   sitldata.pitchRate = 0;
               //  sitldata.rollRate = 0;
@@ -877,12 +886,12 @@ namespace MissionPlanner.GCSViews
                 sitldata.yAccel = accel_body.y;//  DATA[4][6] * 1;
                 sitldata.zAccel = accel_body.z;//  (0 - DATA[4][4]) * 9.808;
 
-                sitldata.xAccel = DATA[4][5] *9.808;
-                sitldata.yAccel = DATA[4][6] *9.808;
-                sitldata.zAccel = -DATA[4][4] *9.808;
+               // sitldata.xAccel = DATA[4][5] *9.808;
+                //sitldata.yAccel = DATA[4][6] *9.808;
+                //sitldata.zAccel = -DATA[4][4] *9.808;
 
-             //   Console.WriteLine(accel_body.ToString());
-              //  Console.WriteLine("        {0} {1} {2}",sitldata.xAccel, sitldata.yAccel, sitldata.zAccel);
+                //Console.WriteLine(accel_body.ToString());
+                //Console.WriteLine("        {0} {1} {2}",sitldata.xAccel, sitldata.yAccel, sitldata.zAccel);
 
             }
             else if (receviedbytes == 0x64) // FG binary udp
@@ -1359,10 +1368,10 @@ namespace MissionPlanner.GCSViews
             }
             else
             {
-                roll_out = (float)MainV2.comPort.MAV.cs.hilch1 / rollgain;
-                pitch_out = (float)MainV2.comPort.MAV.cs.hilch2 / pitchgain;
-                throttle_out = ((float)MainV2.comPort.MAV.cs.hilch3) / throttlegain;
-                rudder_out = (float)MainV2.comPort.MAV.cs.hilch4 / ruddergain;
+                roll_out = (float)(MainV2.comPort.MAV.cs.ch1out- 1500) / rollgain;
+                pitch_out = (float)(MainV2.comPort.MAV.cs.ch2out- 1500) / pitchgain;
+                throttle_out = (float)(MainV2.comPort.MAV.cs.ch3out- 1500) / throttlegain;
+                rudder_out = (float)(MainV2.comPort.MAV.cs.ch4out - 1500) / ruddergain;
 
                 if (RAD_aerosimrc.Checked && CHK_quad.Checked)
                 {
@@ -1418,16 +1427,18 @@ namespace MissionPlanner.GCSViews
                 {
                     if (RAD_softXplanes.Checked)
                     {
-
-                        bool xplane9 = !CHK_xplane10.Checked;
-                        if (xplane9)
+                        if (DATA[20] != null)
                         {
-                            updateScreenDisplay(DATA[20][0] * deg2rad, DATA[20][1] * deg2rad, DATA[20][2] * .3048, DATA[18][1] * deg2rad, DATA[18][0] * deg2rad, DATA[19][2] * deg2rad, DATA[18][2] * deg2rad, roll_out, pitch_out, rudder_out, throttle_out);
-                        }
-                        else
-                        {
+                            bool xplane9 = !CHK_xplane10.Checked;
+                            if (xplane9)
+                            {
+                                updateScreenDisplay(DATA[20][0] * deg2rad, DATA[20][1] * deg2rad, DATA[20][2] * .3048, DATA[18][1] * deg2rad, DATA[18][0] * deg2rad, DATA[19][2] * deg2rad, DATA[18][2] * deg2rad, roll_out, pitch_out, rudder_out, throttle_out);
+                            }
+                            else
+                            {
 
-                            updateScreenDisplay(DATA[20][0] * deg2rad, DATA[20][1] * deg2rad, DATA[20][2] * .3048, DATA[17][1] * deg2rad, DATA[17][0] * deg2rad, DATA[18][2] * deg2rad, DATA[17][2] * deg2rad, roll_out, pitch_out, rudder_out, throttle_out);
+                                updateScreenDisplay(DATA[20][0] * deg2rad, DATA[20][1] * deg2rad, DATA[20][2] * .3048, DATA[17][1] * deg2rad, DATA[17][0] * deg2rad, DATA[18][2] * deg2rad, DATA[17][2] * deg2rad, roll_out, pitch_out, rudder_out, throttle_out);
+                            }
                         }
                     }
 
@@ -2194,6 +2205,6 @@ namespace MissionPlanner.GCSViews
         private void Simulation_FormClosing(object sender, FormClosingEventArgs e)
         {
             timer_servo_graph.Stop();
-        }
+        }      
     }
 }
