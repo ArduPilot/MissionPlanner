@@ -1987,14 +1987,15 @@ namespace MissionPlanner.GCSViews
                 // from ap_common.h
                 if (temp.id < (byte)MAVLink.MAV_CMD.LAST || temp.id == (byte)MAVLink.MAV_CMD.DO_SET_HOME)
                 {
-                    if ((temp.options & 0x1) == 0 && i != 0)
+                    // check ralatice and terrain flags
+                    if ((temp.options & 0x9) == 0 && i != 0)
                     {
                         CMB_altmode.SelectedValue = (int)altmode.Absolute;
-                    }
+                    }// check terrain flag
                     else if ((temp.options & 0x8) != 0 && i != 0)
                     {
                         CMB_altmode.SelectedValue = (int)altmode.Terrain;
-                    }
+                    }// check relative flag
                     else if ((temp.options & 0x1) != 0 && i != 0)
                     {
                         CMB_altmode.SelectedValue = (int)altmode.Relative;
