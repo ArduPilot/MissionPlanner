@@ -53,7 +53,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             if (MainV2.comPort.MAV.aptype == MAVLink.MAV_TYPE.TRICOPTER)
             {
-                motormax = 3;
+                motormax = 4;
 
                 motors = HIL.Motor.build_motors(MAVLink.MAV_TYPE.TRICOPTER, (int)(float)MainV2.comPort.MAV.param["FRAME"]);
             }
