@@ -111,10 +111,22 @@ namespace MissionPlanner.Controls
             if (ApplyTheme != null)
                 ApplyTheme(nextscreen.Control);
 
-            MainControl.Controls.Add(nextscreen.Control);
 
-            nextscreen.Control.ResumeLayout();
-            MainControl.ResumeLayout();
+            if (MainControl.InvokeRequired)
+            {
+                MainControl.Invoke((MethodInvoker)delegate
+                {
+                    MainControl.Controls.Add(nextscreen.Control);
+                    nextscreen.Control.ResumeLayout();
+                    MainControl.ResumeLayout();
+                });
+            }
+            else
+            {
+                MainControl.Controls.Add(nextscreen.Control);
+                nextscreen.Control.ResumeLayout();
+                MainControl.ResumeLayout();
+            }
 
             nextscreen.Visible = true;
 
