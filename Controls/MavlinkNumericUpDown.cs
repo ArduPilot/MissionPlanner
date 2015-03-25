@@ -25,18 +25,6 @@ namespace MissionPlanner.Controls
         Control _control;
         float _scale = 1;
 
-        public class ParamChanged : EventArgs
-        {
-            public string name;
-            public float value;
-
-            public ParamChanged(string Name, float Value)
-            {
-                this.name = Name;
-                this.value = Value;
-            }
-        }
-
         [System.ComponentModel.Browsable(true)]
         public event EventHandler ValueUpdated;
 
@@ -136,7 +124,7 @@ namespace MissionPlanner.Controls
             if (ValueUpdated!= null)
             {
                 this.UpdateEditText();
-                ValueUpdated(this, new ParamChanged(ParamName, (float)base.Value * (float)_scale));
+                ValueUpdated(this, new MAVLinkParamChanged(ParamName, (float)base.Value * (float)_scale));
                 return;
             }
 

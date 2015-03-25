@@ -61,17 +61,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             changes.Clear();
 
             // ensure the fields are populated before setting them
-            CH7_OPT.DataSource = ParameterMetaDataRepository.GetParameterOptionsInt("CH7_OPT", MainV2.comPort.MAV.cs.firmware.ToString()).ToList();
-            CH7_OPT.DisplayMember = "Value";
-            CH7_OPT.ValueMember = "Key";
-
-            CH8_OPT.DataSource = ParameterMetaDataRepository.GetParameterOptionsInt("CH8_OPT", MainV2.comPort.MAV.cs.firmware.ToString()).ToList();
-            CH8_OPT.DisplayMember = "Value";
-            CH8_OPT.ValueMember = "Key";
-
-            TUNE.DataSource = ParameterMetaDataRepository.GetParameterOptionsInt("TUNE", MainV2.comPort.MAV.cs.firmware.ToString()).ToList();
-            TUNE.DisplayMember = "Value";
-            TUNE.ValueMember = "Key";
+            TUNE.setup(ParameterMetaDataRepository.GetParameterOptionsInt("TUNE", MainV2.comPort.MAV.cs.firmware.ToString()).ToList(), "TUNE", MainV2.comPort.MAV.param);
+            CH7_OPT.setup(ParameterMetaDataRepository.GetParameterOptionsInt("CH7_OPT", MainV2.comPort.MAV.cs.firmware.ToString()).ToList(), "CH7_OPT", MainV2.comPort.MAV.param);
+            CH8_OPT.setup(ParameterMetaDataRepository.GetParameterOptionsInt("CH8_OPT", MainV2.comPort.MAV.cs.firmware.ToString()).ToList(), "CH8_OPT", MainV2.comPort.MAV.param);
             
             TUNE_LOW.setup(0, 10000, 1, 0.0001f, "TUNE_LOW", MainV2.comPort.MAV.param);
             TUNE_HIGH.setup(0, 10000, 1, 0.0001f, "TUNE_HIGH", MainV2.comPort.MAV.param);
@@ -109,8 +101,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             WPNAV_RADIUS.setup(0, 0, 1, 0.001f, "WPNAV_RADIUS", MainV2.comPort.MAV.param);
             WPNAV_SPEED.setup(0, 0, 1, 0.001f, "WPNAV_SPEED", MainV2.comPort.MAV.param);
             WPNAV_SPEED_DN.setup(0, 0, 1, 0.001f, "WPNAV_SPEED_DN", MainV2.comPort.MAV.param);
-            WPNAV_SPEED_UP.setup(0, 0, 1, 0.001f, "WPNAV_SPEED_UP", MainV2.comPort.MAV.param);
-            
+            WPNAV_SPEED_UP.setup(0, 0, 1, 0.001f, "WPNAV_SPEED_UP", MainV2.comPort.MAV.param);            
 
             // unlock entries if they differ
             if (RATE_RLL_P.Value != RATE_PIT_P.Value || RATE_RLL_I.Value != RATE_PIT_I.Value
@@ -172,17 +163,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
             }
         }
-
-        void ComboBox_Validated(object sender, EventArgs e)
-        {
-            EEPROM_View_float_TextChanged(sender, e);
-        }
-
-        void Configuration_Validating(object sender, CancelEventArgs e)
-        {
-            EEPROM_View_float_TextChanged(sender, e);
-        }
-
         internal void EEPROM_View_float_TextChanged(object sender, EventArgs e)
         {
             if (startup == true)
@@ -196,12 +176,12 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 if (sender.GetType() == typeof(MavlinkNumericUpDown))
                 {
-                    value = (float)((Controls.MavlinkNumericUpDown.ParamChanged)e).value;
+                    value = (float)((MAVLinkParamChanged)e).value;
                     changes[name] = value;
                 }
-                else if (sender.GetType() == typeof(ComboBox))
+                else if (sender.GetType() == typeof(MavlinkComboBox))
                 {
-                    value = (int)((ComboBox)sender).SelectedValue;
+                    value = (float)((MAVLinkParamChanged)e).value;
                     changes[name] = value;
                 }
                 ((Control)sender).BackColor = Color.Green;

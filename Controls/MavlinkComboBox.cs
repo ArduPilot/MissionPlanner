@@ -22,13 +22,16 @@ namespace MissionPlanner.Controls
         List<KeyValuePair<int, string>> _source2;
         string paramname2 = "";
 
+        [System.ComponentModel.Browsable(true)]
+        public event EventHandler ValueUpdated;
+
         public MavlinkComboBox()
         {
             this.Enabled = false;
             this.DropDownStyle = ComboBoxStyle.DropDownList;
         }
 
-        public void setup(List<KeyValuePair<int, string>> source, string paramname, Hashtable paramlist, string paramname2 = "", Control enabledisable = null)
+        public void setup(List<KeyValuePair<int, string>> source, string paramname, Hashtable paramlist) //, string paramname2 = "", Control enabledisable = null)
         {
             base.SelectedIndexChanged -= MavlinkComboBox_SelectedIndexChanged;
 
@@ -40,8 +43,8 @@ namespace MissionPlanner.Controls
 
             this.ParamName = paramname;
             this.param = paramlist;
-            this.paramname2 = paramname2;
-            this._control = enabledisable;
+            //this.paramname2 = paramname2;
+            //this._control = enabledisable;
 
             if (paramlist.ContainsKey(paramname))
             {
@@ -59,7 +62,7 @@ namespace MissionPlanner.Controls
         }
         
 
-        public void setup(Type source, string paramname, Hashtable paramlist, string paramname2 = "", Control enabledisable = null)
+        public void setup(Type source, string paramname, Hashtable paramlist)//, string paramname2 = "", Control enabledisable = null)
         {
             base.SelectedIndexChanged -= MavlinkComboBox_SelectedIndexChanged;
 
@@ -69,8 +72,8 @@ namespace MissionPlanner.Controls
 
             this.ParamName = paramname;
             this.param = paramlist;
-            this.paramname2 = paramname2;
-            this._control = enabledisable;
+            //this.paramname2 = paramname2;
+            //this._control = enabledisable;
 
             if (paramlist.ContainsKey(paramname))
             {
@@ -100,6 +103,12 @@ namespace MissionPlanner.Controls
             {
                 try
                 {
+                    if (ValueUpdated != null)
+                    {
+                        ValueUpdated(this, new MAVLinkParamChanged(ParamName, (float)(Int32)Enum.Parse(_source, this.Text)));
+                        return;
+                    }
+
                     if (!MainV2.comPort.setParam(ParamName, (float)(Int32)Enum.Parse(_source, this.Text)))
                     {
                         CustomMessageBox.Show(String.Format(Strings.ErrorSetValueFailed, ParamName), Strings.ERROR);
@@ -119,6 +128,12 @@ namespace MissionPlanner.Controls
             {
                 try
                 {
+                    if (ValueUpdated != null)
+                    {
+                        ValueUpdated(this, new MAVLinkParamChanged(ParamName, (float)(int)((MavlinkComboBox)sender).SelectedValue));
+                        return;
+                    }
+
                     if (!MainV2.comPort.setParam(ParamName, (float)(int)((MavlinkComboBox)sender).SelectedValue))
                     {
                         CustomMessageBox.Show("Set " + ParamName + " Failed!", Strings.ERROR);

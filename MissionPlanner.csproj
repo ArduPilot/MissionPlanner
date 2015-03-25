@@ -297,6 +297,7 @@
     <Compile Include="Controls\MavlinkNumericUpDown.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controls\MAVLinkParamChanged.cs" />
     <Compile Include="Controls\ServoOptions.cs">
       <SubType>UserControl</SubType>
     </Compile>

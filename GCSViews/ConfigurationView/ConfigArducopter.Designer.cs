@@ -32,8 +32,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigArducopter));
             this.TUNE_LOW = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.TUNE_HIGH = new MissionPlanner.Controls.MavlinkNumericUpDown();
-            this.TUNE = new System.Windows.Forms.ComboBox();
-            this.CH7_OPT = new System.Windows.Forms.ComboBox();
+            this.TUNE = new MissionPlanner.Controls.MavlinkComboBox();
+            this.CH7_OPT = new MissionPlanner.Controls.MavlinkComboBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.THR_RATE_P = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.label25 = new System.Windows.Forms.Label();
@@ -123,7 +123,7 @@
             this.label8 = new System.Windows.Forms.Label();
             this.BUT_refreshpart = new MissionPlanner.Controls.MyButton();
             this.myLabel4 = new MissionPlanner.Controls.MyLabel();
-            this.CH8_OPT = new System.Windows.Forms.ComboBox();
+            this.CH8_OPT = new MissionPlanner.Controls.MavlinkComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.TUNE_LOW)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.TUNE_HIGH)).BeginInit();
             this.groupBox5.SuspendLayout();
@@ -198,17 +198,23 @@
             // 
             this.TUNE.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.TUNE.DropDownWidth = 170;
-            this.TUNE.FormattingEnabled = true;
             resources.ApplyResources(this.TUNE, "TUNE");
+            this.TUNE.FormattingEnabled = true;
             this.TUNE.Name = "TUNE";
+            this.TUNE.param = null;
+            this.TUNE.ParamName = null;
+            this.TUNE.ValueUpdated += new System.EventHandler(this.numeric_ValueUpdated);
             // 
             // CH7_OPT
             // 
             this.CH7_OPT.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CH7_OPT.DropDownWidth = 170;
-            this.CH7_OPT.FormattingEnabled = true;
             resources.ApplyResources(this.CH7_OPT, "CH7_OPT");
+            this.CH7_OPT.FormattingEnabled = true;
             this.CH7_OPT.Name = "CH7_OPT";
+            this.CH7_OPT.param = null;
+            this.CH7_OPT.ParamName = null;
+            this.CH7_OPT.ValueUpdated += new System.EventHandler(this.numeric_ValueUpdated);
             // 
             // groupBox5
             // 
@@ -928,9 +934,12 @@
             // 
             this.CH8_OPT.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.CH8_OPT.DropDownWidth = 170;
-            this.CH8_OPT.FormattingEnabled = true;
             resources.ApplyResources(this.CH8_OPT, "CH8_OPT");
+            this.CH8_OPT.FormattingEnabled = true;
             this.CH8_OPT.Name = "CH8_OPT";
+            this.CH8_OPT.param = null;
+            this.CH8_OPT.ParamName = null;
+            this.CH8_OPT.ValueUpdated += new System.EventHandler(this.numeric_ValueUpdated);
             // 
             // ConfigArducopter
             // 
@@ -1023,9 +1032,9 @@
         private Controls.MavlinkNumericUpDown TUNE_LOW;
         private Controls.MavlinkNumericUpDown TUNE_HIGH;
         private Controls.MyLabel myLabel2;
-        private System.Windows.Forms.ComboBox TUNE;
+        private Controls.MavlinkComboBox  TUNE;
         private Controls.MyLabel myLabel1;
-        private System.Windows.Forms.ComboBox CH7_OPT;
+        private Controls.MavlinkComboBox CH7_OPT;
         private System.Windows.Forms.GroupBox groupBox5;
         private Controls.MavlinkNumericUpDown THR_RATE_P;
         private System.Windows.Forms.Label label25;
@@ -1106,7 +1115,7 @@
         private System.Windows.Forms.Label label8;
         private Controls.MyButton BUT_refreshpart;
         private Controls.MyLabel myLabel4;
-        private System.Windows.Forms.ComboBox CH8_OPT;
+        private Controls.MavlinkComboBox CH8_OPT;
         private Controls.MavlinkNumericUpDown RATE_YAW_FF;
         private System.Windows.Forms.Label label18;
         private Controls.MavlinkNumericUpDown RATE_PITCH_FF;
