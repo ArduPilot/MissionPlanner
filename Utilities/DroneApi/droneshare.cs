@@ -96,18 +96,22 @@ namespace MissionPlanner.Utilities.DroneApi
 
         public static string doUpload(string file, string userId, string userPass, string vehicleId, string apiKey)
         {
+            if (vehicleId == null)
+                vehicleId = Guid.NewGuid().ToString();
+
             String baseUrl = APIConstants.URL_BASE;
             NameValueCollection @params = new NameValueCollection();
             @params.Add("api_key", apiKey);
             @params.Add("login", userId);
             @params.Add("password", userPass);
-            @params.Add("autoCreate", "true");
+            @params.Add("privacy", "DEFAULT");
+            @params.Add("autoCreate", "false");
             String queryParams = ToQueryString(@params);
-            String webAppUploadUrl = String.Format("{0}/api/v1/mission/upload/{1}", baseUrl, vehicleId);
+            String webAppUploadUrl = String.Format("{0}/api/v1/mission/upload/{1}", baseUrl, vehicleId, queryParams);
 
             try
             {
-                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls;
+                //ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls;
 
                 // http post
                 string JSONresp = UploadFilesToRemoteUrl(webAppUploadUrl, file, @params);
@@ -137,7 +141,7 @@ namespace MissionPlanner.Utilities.DroneApi
             }
             finally
             {
-                ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3;
+                //ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3;
             }
 
             return "";
@@ -152,10 +156,10 @@ namespace MissionPlanner.Utilities.DroneApi
             HttpWebRequest httpWebRequest2 = (HttpWebRequest)WebRequest.Create(url);
             httpWebRequest2.ContentType = "multipart/form-data; boundary=" + boundary;
             httpWebRequest2.Method = "POST";
-            httpWebRequest2.KeepAlive = true;
+            httpWebRequest2.KeepAlive = false;
             httpWebRequest2.Credentials = System.Net.CredentialCache.DefaultCredentials;
             httpWebRequest2.Accept = "application/json";
-            httpWebRequest2.Timeout = 5000;
+            //httpWebRequest2.Timeout = 5000;
 
 
 
