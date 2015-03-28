@@ -2534,7 +2534,7 @@ Please check the following
 
                         MAVlist[sysid].packetsnotlost++;
 
-                        Console.WriteLine("{0} {1}", sysid, packetSeqNo);
+                        //Console.WriteLine("{0} {1}", sysid, packetSeqNo);
 
                         MAVlist[sysid].recvpacketcount = packetSeqNo;
                     }
