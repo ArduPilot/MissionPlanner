@@ -2253,7 +2253,7 @@ Please check the following
                         readcount++;
                         if (logreadmode)
                         {
-                                buffer = readlogPacketMavlink();
+                            buffer = readlogPacketMavlink();
                         }
                         else
                         {
@@ -2508,35 +2508,38 @@ Please check the following
                 if ((buffer[0] == 'U' || buffer[0] == 254) && buffer.Length >= buffer[1])
                 {
                     // check if we lost pacakets based on seqno
-                        byte packetSeqNo = buffer[2];
-                        int expectedPacketSeqNo = ((MAVlist[sysid].recvpacketcount + 1) % 0x100);
+                    byte packetSeqNo = buffer[2];
+                    int expectedPacketSeqNo = ((MAVlist[sysid].recvpacketcount + 1) % 0x100);
 
+                    {
+                        // the seconds part it to work around a 3dr radio bug sending dup seqno's
+                        if (packetSeqNo != expectedPacketSeqNo && packetSeqNo != MAVlist[sysid].recvpacketcount)
                         {
-                            if (packetSeqNo != expectedPacketSeqNo)
+                            MAVlist[sysid].synclost++; // actualy sync loss's
+                            int numLost = 0;
+
+                            if (packetSeqNo < ((MAVlist[sysid].recvpacketcount + 1))) // recvpacketcount = 255 then   10 < 256 = true if was % 0x100 this would fail
                             {
-                                MAVlist[sysid].synclost++; // actualy sync loss's
-                                int numLost = 0;
-
-                                if (packetSeqNo < ((MAVlist[sysid].recvpacketcount + 1))) // recvpacketcount = 255 then   10 < 256 = true if was % 0x100 this would fail
-                                {
-                                    numLost = 0x100 - expectedPacketSeqNo + packetSeqNo;
-                                }
-                                else
-                                {
-                                    numLost = packetSeqNo - MAV.recvpacketcount;
-                                }
-                                MAVlist[sysid].packetslost += numLost;
-                                WhenPacketLost.OnNext(numLost);
-
-                                log.InfoFormat("lost pkts new seqno {0} pkts lost {1}", packetSeqNo, numLost);
+                                numLost = 0x100 - expectedPacketSeqNo + packetSeqNo;
                             }
+                            else
+                            {
+                                numLost = packetSeqNo - MAV.recvpacketcount;
+                            }
+                            MAVlist[sysid].packetslost += numLost;
+                            WhenPacketLost.OnNext(numLost);
 
-                            MAVlist[sysid].packetsnotlost++;
-
-                            MAVlist[sysid].recvpacketcount = packetSeqNo;
+                            log.InfoFormat("{2} lost pkts new seqno {0} pkts lost {1}", packetSeqNo, numLost, sysid);
                         }
-                        WhenPacketReceived.OnNext(1);
-  
+
+                        MAVlist[sysid].packetsnotlost++;
+
+                        Console.WriteLine("{0} {1}", sysid, packetSeqNo);
+
+                        MAVlist[sysid].recvpacketcount = packetSeqNo;
+                    }
+                    WhenPacketReceived.OnNext(1);
+
                     // packet stats
                     if (double.IsInfinity(packetspersecond[buffer[5]]))
                         packetspersecond[buffer[5]] = 0;
