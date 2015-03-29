@@ -158,10 +158,14 @@ namespace GMap.NET.WindowsForms
              {
                  if (graphicsPath != null)
                  {
+                     // max graphics size
+                     if (Math.Abs(graphicsPath.PathPoints[0].X) > ((1 << 24) - 1) || Math.Abs(graphicsPath.PathPoints[0].Y) > ((1 << 24) - 1))
+                         return;
+
                      g.FillPath(Fill, graphicsPath);
                      g.DrawPath(Stroke, graphicsPath);
                  }
-             }            
+             }           
          }
 #else
          {
