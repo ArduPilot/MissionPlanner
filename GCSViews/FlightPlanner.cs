@@ -2386,13 +2386,6 @@ namespace MissionPlanner.GCSViews
 
                     }
                     catch { CustomMessageBox.Show("Line invalid\n" + line); }
-
-                    if (wp_count == byte.MaxValue)
-                    {
-                        CustomMessageBox.Show("To many Waypoints!!!");
-                        break;
-                    }
-
                 }
 
                 sr.Close();
