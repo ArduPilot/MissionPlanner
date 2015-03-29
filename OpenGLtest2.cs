@@ -219,12 +219,12 @@ namespace MissionPlanner.Controls
 
             image.UnlockBits(data);
 
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Nearest);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Nearest);
 
             GL.Finish();
 
-          
+            GL.End();
 
             image.Dispose();
 
@@ -248,32 +248,37 @@ namespace MissionPlanner.Controls
             }
             catch { return;  }
 
-            double heightscale = (step / 90.0) * 3;
+            double heightscale = (step / 90.0) * 1;
 
             float yawradians = (float)(Math.PI * (rpy.Z * 1) / 180.0f);
 
              //radians = 0;
 
-            float mouseY = (float)(0.0025);
+            float mouseY = (float)step/10f;
 
-            cameraX = area.LocationMiddle.Lng;// -Math.Sin(yawradians) * mouseY;     // multiplying by mouseY makes the
-            cameraY = area.LocationMiddle.Lat;// -Math.Cos(yawradians) * mouseY;    // camera get closer/farther away with mouseY
-            cameraZ = (LocationCenter.Alt < srtm.getAltitude(center.Lat, center.Lng).alt) ? (srtm.getAltitude(center.Lat, center.Lng).alt + 1) * heightscale : LocationCenter.Alt * heightscale;// (srtm.getAltitude(lookZ, lookX, 20) + 100) * heighscale;
+            cameraX = center.Lng;// -Math.Sin(yawradians) * mouseY;     // multiplying by mouseY makes the
+            cameraY = center.Lat;// -Math.Cos(yawradians) * mouseY;    // camera get closer/farther away with mouseY
+            cameraZ = (center.Alt < srtm.getAltitude(center.Lat, center.Lng).alt) ? (srtm.getAltitude(center.Lat, center.Lng).alt + 1) * heightscale : center.Alt * heightscale;// (srtm.getAltitude(lookZ, lookX, 20) + 100) * heighscale;
 
-      lookX = area.LocationMiddle.Lng + Math.Sin(yawradians) * mouseY;
-      lookY = area.LocationMiddle.Lat + Math.Cos(yawradians) * mouseY;
-      lookZ = cameraZ;
+            lookX = center.Lng + Math.Sin(yawradians) * mouseY;
+            lookY = center.Lat + Math.Cos(yawradians) * mouseY;
+            lookZ = cameraZ;
 
      // cameraZ += 0.04;
             
             GMapProvider type = GMap.NET.MapProviders.GoogleSatelliteMapProvider.Instance;
             PureProjection prj = type.Projection;
 
-          
-            PointLatLngAlt leftf = center.newpos(rpy.Z ,500);
-            PointLatLngAlt rightf = center.newpos(rpy.Z, 10);
-            PointLatLngAlt left = center.newpos(rpy.Z - 90, 500);
-            PointLatLngAlt right = center.newpos(rpy.Z + 90, 500);
+            int size = (int)(cameraZ * 150000);
+
+            // in front
+            PointLatLngAlt leftf = center.newpos(rpy.Z, size);
+            // behind
+            PointLatLngAlt rightf = center.newpos(rpy.Z, 50);
+            // left : 90 allows for 180 degree viewing angle
+            PointLatLngAlt left = center.newpos(rpy.Z - 90, size);
+            // right
+            PointLatLngAlt right = center.newpos(rpy.Z + 90, size);
 
             double maxlat = Math.Max(left.Lat,Math.Max(right.Lat,Math.Max(leftf.Lat,rightf.Lat)));
             double minlat = Math.Min(left.Lat, Math.Min(right.Lat, Math.Min(leftf.Lat, rightf.Lat)));
@@ -281,16 +286,26 @@ namespace MissionPlanner.Controls
             double maxlng = Math.Max(left.Lng, Math.Max(right.Lng, Math.Max(leftf.Lng, rightf.Lng)));
             double minlng = Math.Min(left.Lng, Math.Min(right.Lng, Math.Min(leftf.Lng, rightf.Lng)));
 
-            area = RectLatLng.FromLTRB(minlng, maxlat, maxlng, minlat);
+           // if (Math.Abs(area.Lat - maxlat) < 0.001)
+            {
+                
+            }
+          // else
+            {
+                area = RectLatLng.FromLTRB(minlng, maxlat, maxlng, minlat);
+            }
 
             GPoint topLeftPx = prj.FromLatLngToPixel(area.LocationTopLeft, zoom);
             GPoint rightButtomPx = prj.FromLatLngToPixel(area.Bottom, area.Right, zoom);
             GPoint pxDelta = new GPoint(rightButtomPx.X - topLeftPx.X, rightButtomPx.Y - topLeftPx.Y);
 
-            zoom = 17;
+            zoom = 21;
+            pxDelta.X = 9999;
+
+            int otherzoomlevel = 12;
 
             // zoom based on pixel density
-            while (pxDelta.X > 2000)
+            while (pxDelta.X > this.Width)
             {
                 zoom--;
 
@@ -301,12 +316,22 @@ namespace MissionPlanner.Controls
 
             }
 
+            otherzoomlevel = zoom - 4;
+
+            Console.WriteLine("zoom {0}",zoom);
+
             // update once per seconds - we only read from disk, so need to let cahce settle
-            if (lastrefresh.AddSeconds(.6) < DateTime.Now)
+            if (lastrefresh.AddSeconds(0.5) < DateTime.Now)
             {
                 // get tiles - bg
                 core.Provider = type;
                 core.Position = LocationCenter;
+
+                // get zoom 10
+                core.Zoom = otherzoomlevel;
+                core.OnMapSizeChanged(this.Width, this.Height);
+
+                // get actual current zoom
                 core.Zoom = zoom;
                 core.OnMapSizeChanged(this.Width, this.Height);
 
@@ -317,12 +342,13 @@ namespace MissionPlanner.Controls
                 //return;
             }
 
-            MakeCurrent();
+            float screenscale = this.Width/(float)this.Height;
 
+            MakeCurrent();
 
             GL.MatrixMode(MatrixMode.Projection);
 
-            OpenTK.Matrix4 projection = OpenTK.Matrix4.CreatePerspectiveFieldOfView(130 * deg2rad, 1f, 0.00001f, (float)step * 100);
+            OpenTK.Matrix4 projection = OpenTK.Matrix4.CreatePerspectiveFieldOfView(120 * deg2rad, screenscale, 0.00001f, (float)step * 20000);
             GL.LoadMatrix(ref projection);
 
             Matrix4 modelview = Matrix4.LookAt((float)cameraX, (float)cameraY, (float)cameraZ, (float)lookX, (float)lookY, (float)lookZ, 0, 0, 1);
@@ -331,25 +357,29 @@ namespace MissionPlanner.Controls
             // roll
             modelview = Matrix4.Mult(modelview, Matrix4.CreateRotationZ(rpy.X * deg2rad));
             // pitch
-            modelview = Matrix4.Mult(modelview, Matrix4.CreateRotationX((rpy.Y - 10) * -deg2rad));
+            modelview = Matrix4.Mult(modelview, Matrix4.CreateRotationX((rpy.Y - 15) * -deg2rad));
 
             GL.LoadMatrix(ref modelview);
 
-            GL.ClearColor(Color.LightBlue);
+            GL.ClearColor(Color.CornflowerBlue);
 
-            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit | ClearBufferMask.AccumBufferBit);
 
-            GL.LightModel(LightModelParameter.LightModelAmbient, new float[] { 1f, 1f, 1f, 1f });
+            GL.LightModel(LightModelParameter.LightModelAmbient, new float[] { 1f,1f,1f, 1f });
 
+          //  GL.Disable(EnableCap.Fog);
             GL.Enable(EnableCap.Fog);
-            // GL.Enable(EnableCap.Lighting);
-            // GL.Enable(EnableCap.Light0);
+             //GL.Enable(EnableCap.Lighting);
+             //GL.Enable(EnableCap.Light0);
 
-            GL.Fog(FogParameter.FogColor, new float[] { 0.5f, 0.5f, 0.5f, 1f });
+            GL.Fog(FogParameter.FogColor, new float[] { 100 / 255.0f, 149 / 255.0f, 237 / 255.0f, 1f });
             //GL.Fog(FogParameter.FogDensity,0.1f);
             GL.Fog(FogParameter.FogMode, (int)FogMode.Linear);
-            GL.Fog(FogParameter.FogStart, (float)step * 1);
-            GL.Fog(FogParameter.FogEnd, (float)(step * 7));
+            GL.Fog(FogParameter.FogStart, (float)step * 40);
+            GL.Fog(FogParameter.FogEnd, (float)(step * 50));
+
+//            GL.Enable(EnableCap.DepthTest);
+            GL.DepthFunc(DepthFunction.Always);
 
             /*
             GL.Begin(BeginMode.LineStrip);
@@ -357,59 +387,85 @@ namespace MissionPlanner.Controls
             GL.Color3(Color.White);
             GL.Vertex3(0, 0, 0);
 
+            //GL.Color3(Color.Red);
             GL.Vertex3(area.Bottom, 0, area.Left);
 
+            //GL.Color3(Color.Yellow);
             GL.Vertex3(lookX, lookY, lookZ);
 
-            //GL.Vertex3(cameraX, cameraY, cameraZ);
+            //GL.Color3(Color.Green);
+            GL.Vertex3(cameraX, cameraY, cameraZ);
 
             GL.End();
-            */
+             */
+            /*
+            GL.PointSize(10);
+            GL.Color4(Color.Yellow);
+            GL.LineWidth(5);
+           
 
             GL.Begin(PrimitiveType.LineStrip);
-            GL.PointSize(200);
-            GL.Color3(Color.Red);
+ 
             //GL.Vertex3(new Vector3((float)center.Lng,(float)center.Lat,(float)(center.Alt * heightscale)));
             //GL.Vertex3(new Vector3(0, 0, 0));
             //GL.Vertex3(new Vector3((float)cameraX, (float)cameraY, (float)cameraZ));
             //GL.Color3(Color.Green);
             //GL.Vertex3(new Vector3((float)lookX, (float)lookY, (float)lookZ));
 
-            GL.Vertex3(area.LocationTopLeft.Lng, area.LocationTopLeft.Lat, 0);
-            GL.Vertex3(area.LocationTopLeft.Lng, area.LocationRightBottom.Lat, 0);
-            GL.Vertex3(area.LocationRightBottom.Lng, area.LocationRightBottom.Lat, 0);
-            GL.Vertex3(area.LocationRightBottom.Lng, area.LocationTopLeft.Lat, 0);
-            GL.Vertex3(area.LocationTopLeft.Lng, area.LocationTopLeft.Lat, 0);
+            GL.Vertex3(area.LocationTopLeft.Lng, area.LocationTopLeft.Lat, (float)cameraZ);
+            GL.Vertex3(area.LocationTopLeft.Lng, area.LocationRightBottom.Lat, (float)cameraZ);
+            GL.Vertex3(area.LocationRightBottom.Lng, area.LocationRightBottom.Lat, (float)cameraZ);
+            GL.Vertex3(area.LocationRightBottom.Lng, area.LocationTopLeft.Lat, (float)cameraZ);
+            GL.Vertex3(area.LocationTopLeft.Lng, area.LocationTopLeft.Lat, (float)cameraZ);
 
             GL.End();
+            */
+            GL.Finish();
 
-            GL.Begin(PrimitiveType.LineStrip);
-            GL.PointSize(200);
-            GL.Color3(Color.Red);
-            GL.Vertex3(new Vector3((float)center.Lng, (float)center.Lat, 0));
-            GL.Vertex3(new Vector3((float)leftf.Lng, (float)leftf.Lat, 0));
-
-            GL.End();
-
-            GL.Begin(PrimitiveType.Points);
-            GL.PointSize(100);
+            GL.PointSize((float)(step * 1));
             GL.Color3(Color.Blue);
-            GL.Vertex3(new Vector3((float)center.Lng, (float)center.Lat, 0));
+            GL.Begin(PrimitiveType.Points);
+            GL.Vertex3(new Vector3((float)center.Lng, (float)center.Lat, (float)cameraZ));
             GL.End();
 
-            //textureid.Clear();
+
+
+            //GL.ClampColor(ClampColorTarget.ClampReadColor, ClampColorMode.True);
+            /*
+            GL.Enable(EnableCap.Blend);
+            GL.DepthMask(false);
+            GL.BlendFunc(BlendingFactorSrc.Zero, BlendingFactorDest.Src1Color);
+            GL.DepthMask(true);
+            GL.Disable(EnableCap.Blend);
+            */
+           // textureid.Clear();
+
+            // get level 10 tiles
+            List<GPoint> tileArea1 = prj.GetAreaTileList(area, otherzoomlevel, 1);
 
             // get type list at new zoom level
-            List<GPoint> tileArea = prj.GetAreaTileList(area, zoom, 0);
+            List<GPoint> tileArea2 = prj.GetAreaTileList(area, zoom, 2);
+
+            List<GPoint> tileArea = new List<GPoint>();
+
+            tileArea.AddRange(tileArea1);
+            tileArea.AddRange(tileArea2);
 
              // get tiles & combine into one
             foreach (var p in tileArea)
             {
+                int localzoom = zoom;
+
                 core.tileDrawingListLock.AcquireReaderLock();
                 core.Matrix.EnterReadLock();
                 try
                 {
-                    GMap.NET.Internals.Tile t = core.Matrix.GetTileWithNoLock(core.Zoom, p);
+                    if (tileArea1.Contains(p))
+                        localzoom = otherzoomlevel;
+
+                    topLeftPx = prj.FromLatLngToPixel(area.LocationTopLeft, localzoom);
+
+                    GMap.NET.Internals.Tile t = core.Matrix.GetTileWithNoLock(localzoom, p);
 
                     if (t.NotEmpty)
                     {
@@ -449,8 +505,10 @@ namespace MissionPlanner.Controls
                 }
                 else
                 {
+                    //Console.WriteLine("Missing tile");
+                    continue;
                     GL.Disable(EnableCap.Texture2D);
-                }
+                }                
 
                 long x = p.X * prj.TileSize.Width - topLeftPx.X;
                 long y = p.Y * prj.TileSize.Width - topLeftPx.Y;
@@ -461,55 +519,59 @@ namespace MissionPlanner.Controls
                 long x2 = (p.X+1) * prj.TileSize.Width;
                 long y2 = (p.Y+1) * prj.TileSize.Width;
 
+
+                GL.LineWidth(0);
+                GL.Color3(Color.White);
+
                 // generate terrain
                 GL.Begin(PrimitiveType.TriangleStrip);
 
-                var latlng = prj.FromPixelToLatLng(xr,yr,zoom);
+                var latlng = prj.FromPixelToLatLng(xr, yr, localzoom);
 
                 double heightl = srtm.getAltitude(latlng.Lat, latlng.Lng).alt;
+                if (localzoom == 10)
+                    heightl = 0;
 
-                GL.Color3(Color.White);
                 //xr - topLeftPx.X, yr - topLeftPx.Y
                 GL.TexCoord2(0,0);
                 GL.Vertex3(latlng.Lng, latlng.Lat, heightl * heightscale);
 
 
                 // next down
-                latlng = prj.FromPixelToLatLng(xr, y2, zoom);
+                latlng = prj.FromPixelToLatLng(xr, y2, localzoom);
 
                 heightl = srtm.getAltitude(latlng.Lat, latlng.Lng).alt;
+                if (localzoom == 10)
+                    heightl = 0;
 
-                GL.TexCoord2(0,.99);
+                GL.TexCoord2(0, 1);
                 GL.Vertex3(latlng.Lng, latlng.Lat, heightl * heightscale);
 
 
                 // next right
-                latlng = prj.FromPixelToLatLng(x2, yr, zoom);
+                latlng = prj.FromPixelToLatLng(x2, yr, localzoom);
 
                 heightl = srtm.getAltitude(latlng.Lat, latlng.Lng).alt;
+                if (localzoom == 10)
+                    heightl = 0;
 
-                GL.TexCoord2(.99,0);
+                GL.TexCoord2(1, 0);
                 GL.Vertex3(latlng.Lng, latlng.Lat, heightl * heightscale);
 
 
                 // next right down
-                latlng = prj.FromPixelToLatLng(x2, y2, zoom);
+                latlng = prj.FromPixelToLatLng(x2, y2, localzoom);
 
                 heightl = srtm.getAltitude(latlng.Lat, latlng.Lng).alt;
+                if (localzoom == 10)
+                    heightl = 0;
 
-                GL.TexCoord2(.99,.99);
+                GL.TexCoord2(1,1);
                 GL.Vertex3(latlng.Lng, latlng.Lat, heightl * heightscale);
 
                 GL.End();
 
             }
-
-
-            GL.Enable(EnableCap.Blend);
-            GL.DepthMask(false);
-            GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.One);
-            GL.DepthMask(true);
-            GL.Disable(EnableCap.Blend);
 
             GL.Flush();
 
@@ -522,6 +584,8 @@ namespace MissionPlanner.Controls
                 Context.MakeCurrent(null);
             }
             catch { }
+
+            //this.Invalidate();
 
             return;
         }

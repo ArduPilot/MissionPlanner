@@ -215,9 +215,9 @@ namespace MissionPlanner.Controls
             if (area.LocationMiddle.Lat == 0 && area.LocationMiddle.Lng == 0)
                 return;
 
-            _angle+=1f;
+            _angle += 1f;
 
-           // area.LocationTopLeft = new PointLatLng(area.LocationTopLeft.Lat + 0.0001,area.LocationTopLeft.Lng);
+            // area.LocationTopLeft = new PointLatLng(area.LocationTopLeft.Lat + 0.0001,area.LocationTopLeft.Lng);
 
             //area.Size = new SizeLatLng(0.1, 0.1);
 
@@ -226,24 +226,24 @@ namespace MissionPlanner.Controls
                 base.OnPaint(e);
 
             }
-            catch { return;  }
+            catch { return; }
 
             double heightscale = (step / 90.0) * 1.3;
 
             float radians = (float)(Math.PI * (rpy.Z * -1) / 180.0f);
 
-             //radians = 0;
+            //radians = 0;
 
             float mouseY = (float)(0.1);
- 
-      cameraX = area.LocationMiddle.Lng;     // multiplying by mouseY makes the
-      cameraZ = area.LocationMiddle.Lat;    // camera get closer/farther away with mouseY
-      cameraY = (LocationCenter.Alt < srtm.getAltitude(cameraZ, cameraX, 20).alt) ? (srtm.getAltitude(cameraZ, cameraX, 20).alt + 0.2) * heightscale : LocationCenter.Alt * heightscale;// (srtm.getAltitude(lookZ, lookX, 20) + 100) * heighscale;
+
+            cameraX = area.LocationMiddle.Lng;     // multiplying by mouseY makes the
+            cameraZ = area.LocationMiddle.Lat;    // camera get closer/farther away with mouseY
+            cameraY = (LocationCenter.Alt < srtm.getAltitude(cameraZ, cameraX, 20).alt) ? (srtm.getAltitude(cameraZ, cameraX, 20).alt + 0.2) * heightscale : LocationCenter.Alt * heightscale;// (srtm.getAltitude(lookZ, lookX, 20) + 100) * heighscale;
 
 
-      lookX = area.LocationMiddle.Lng + Math.Sin(radians) * mouseY; ;
-      lookY = cameraY;
-      lookZ = area.LocationMiddle.Lat + Math.Cos(radians) * mouseY; ;
+            lookX = area.LocationMiddle.Lng + Math.Sin(radians) * mouseY; ;
+            lookY = cameraY;
+            lookZ = area.LocationMiddle.Lat + Math.Cos(radians) * mouseY; ;
 
 
             MakeCurrent();
@@ -251,14 +251,14 @@ namespace MissionPlanner.Controls
 
             GL.MatrixMode(MatrixMode.Projection);
 
-            OpenTK.Matrix4 projection = OpenTK.Matrix4.CreatePerspectiveFieldOfView(100 * deg2rad, 1f, 0.00001f, (float)step* 50);
+            OpenTK.Matrix4 projection = OpenTK.Matrix4.CreatePerspectiveFieldOfView(100 * deg2rad, 1f, 0.00001f, (float)step * 50);
             GL.LoadMatrix(ref projection);
 
-            Matrix4 modelview = Matrix4.LookAt((float)cameraX, (float)cameraY, (float)cameraZ, (float)lookX, (float)lookY, (float)lookZ, 0,1,0);
+            Matrix4 modelview = Matrix4.LookAt((float)cameraX, (float)cameraY, (float)cameraZ, (float)lookX, (float)lookY, (float)lookZ, 0, 1, 0);
             GL.MatrixMode(MatrixMode.Modelview);
 
             // roll
-            modelview = Matrix4.Mult(modelview,Matrix4.CreateRotationZ (rpy.X * deg2rad));
+            modelview = Matrix4.Mult(modelview, Matrix4.CreateRotationZ(rpy.X * deg2rad));
             // pitch
             modelview = Matrix4.Mult(modelview, Matrix4.CreateRotationX(rpy.Y * -deg2rad));
 
@@ -268,7 +268,7 @@ namespace MissionPlanner.Controls
 
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-            GL.LightModel(LightModelParameter.LightModelAmbient,new float[] {1f,1f,1f,1f});
+            GL.LightModel(LightModelParameter.LightModelAmbient, new float[] { 1f, 1f, 1f, 1f });
 
             GL.Enable(EnableCap.Texture2D);
             GL.BindTexture(TextureTarget.Texture2D, texture);
@@ -296,15 +296,14 @@ namespace MissionPlanner.Controls
 
             sw.Stop();
 
-            Console.WriteLine("img " +sw.ElapsedMilliseconds);
+            Console.WriteLine("img " + sw.ElapsedMilliseconds);
 
             sw.Start();
 
-           double increment = step *1;
+            double increment = step * 1;
 
             double cleanup = area.Bottom % increment;
             double cleanup2 = area.Left % increment;
-            
 
             for (double z = (area.Bottom - cleanup); z < area.Top - step; z += increment)
             {
@@ -314,12 +313,12 @@ namespace MissionPlanner.Controls
                 {
                     double heightl = srtm.getAltitude(z, area.Right + area.Left - x, 20).alt;
 
-                  //  Console.WriteLine(x + " " + z);
+                    //  Console.WriteLine(x + " " + z);
 
                     GL.Color3(Color.White);
 
 
-                  //  int heightl = 0;
+                    //  int heightl = 0;
 
                     double scale2 = (Math.Abs(x - area.Left) / area.WidthLng);// / (float)_terrain.Width;
 
@@ -330,7 +329,7 @@ namespace MissionPlanner.Controls
                     //GL.Color3(Color.Red);
 
                     //GL.Color3(_terrain.GetPixel(imgx, imgy));
-                    GL.TexCoord2(imgx,imgy);
+                    GL.TexCoord2(imgx, imgy);
                     GL.Vertex3(x, heightl * heightscale, z); //  _terrain.GetPixel(x, z).R
 
                     try
@@ -341,17 +340,16 @@ namespace MissionPlanner.Controls
 
                         scale3 = (Math.Abs(((z + increment) - area.Bottom)) / area.HeightLat);// / (float)_terrain.Height;
 
-                        imgx = 1- scale2;
+                        imgx = 1 - scale2;
                         imgy = 1 - scale3;
-                       // GL.Color3(Color.Green);
-                       //GL.Color3(_terrain.GetPixel(imgx, imgy));
-                        GL.TexCoord2(imgx,imgy);
+                        // GL.Color3(Color.Green);
+                        //GL.Color3(_terrain.GetPixel(imgx, imgy));
+                        GL.TexCoord2(imgx, imgy);
                         GL.Vertex3(x, heightl * heightscale, z + increment);
 
-                      //  Console.WriteLine(x + " " + (z + step));
+                        //  Console.WriteLine(x + " " + (z + step));
                     }
                     catch { break; }
-                    
                 }
                 GL.End();
             }
@@ -364,17 +362,14 @@ namespace MissionPlanner.Controls
 
             GL.Flush();
 
-
             sw.Stop();
 
-            Console.WriteLine("GL  "+sw.ElapsedMilliseconds);
+            Console.WriteLine("GL  " + sw.ElapsedMilliseconds);
 
             try
             {
+                this.SwapBuffers();
 
-            this.SwapBuffers();
-
-          
                 Context.MakeCurrent(null);
             }
             catch { }

@@ -37,7 +37,8 @@ namespace MissionPlanner
         {
             InitializeComponent();
 
-            if (System.Diagnostics.Debugger.IsAttached) {
+            //if (System.Diagnostics.Debugger.IsAttached) 
+            {
             try
             {
                 Controls.OpenGLtest2 ogl = new Controls.OpenGLtest2();
