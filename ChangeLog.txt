@@ -1,4 +1,21 @@
-﻿* Mission Planner 1.3.21
+﻿* Mission Planner 1.3.22
+GMapPolyon: fix exception
+flightplanner: fix reading saved wp file with more than 255 wp's
+opengltest: update
+joystick: do repeat servo, fix pwm max #822
+mavlinkinterface: cleanup debug
+mavlinkinterface: workaround for 3dr radio dup seqnos
+droneshare: update
+configarducopter: fix ch7/ch8 and tune combobox
+mainswitcher: fix for crossthread screenchange
+commsserialport: add null exception check
+gmapcontrol: add resize exception handle
+configbatterymonitor: give more text space
+configmotortest: add another button for tricopters
+simulation: fix sitl/hil
+flightplanner: fix terrain wp readback
+
+* Mission Planner 1.3.21
 joystick: add button axis #815
 configarducopter: mod min max #818
 flightplanner: tweak multi point move (control+click wp, or control+drag box)
