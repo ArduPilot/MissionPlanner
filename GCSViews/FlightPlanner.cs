@@ -1850,6 +1850,8 @@ namespace MissionPlanner.GCSViews
                 // process commandlist to the mav
                 foreach (var temp in commandlist)
                 {
+                    a = commandlist.IndexOf(temp) + 1;
+
                     ((Controls.ProgressReporterDialogue)sender).UpdateProgressAndStatus(a * 100 / Commands.Rows.Count, "Setting WP " + a);
 
                     // make sure we are using the correct frame for these commands
@@ -1904,8 +1906,6 @@ namespace MissionPlanner.GCSViews
                         e.ErrorMessage = "Upload wps failed " + Enum.Parse(typeof(MAVLink.MAV_CMD), temp.id.ToString()) + " " + Enum.Parse(typeof(MAVLink.MAV_MISSION_RESULT), ans.ToString());
                         return;
                     }
-
-                    a++;
                 }
 
                 port.setWPACK();
