@@ -1,4 +1,8 @@
-﻿* Mission Planner 1.3.22
+﻿* Mission Planner 1.3.23
+Add satcount and GPS HDOP to 3O second interval speech synthesis.
+flightplanner: fix posible missed wp on lossy link #823
+
+* Mission Planner 1.3.22
 GMapPolyon: fix exception
 flightplanner: fix reading saved wp file with more than 255 wp's
 opengltest: update
