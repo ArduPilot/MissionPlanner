@@ -972,6 +972,9 @@ Please check the following
                 {
                     break;
                 }
+                if (!logreadmode && !BaseStream.IsOpen)
+                    throw new Exception("Not Connected");
+
             } while (indexsreceived.Count < param_total);
 
             if (indexsreceived.Count != param_total)
