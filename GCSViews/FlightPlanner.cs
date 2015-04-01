@@ -1069,14 +1069,17 @@ namespace MissionPlanner.GCSViews
                             continue;
 
                         int command = (byte)(int)Enum.Parse(typeof(MAVLink.MAV_CMD), Commands.Rows[a].Cells[Command.Index].Value.ToString(), false);
-                        if (command < (byte)MAVLink.MAV_CMD.LAST && command != (byte)MAVLink.MAV_CMD.TAKEOFF || command == (byte)MAVLink.MAV_CMD.DO_SET_ROI)
+                        if (command < (byte)MAVLink.MAV_CMD.LAST && 
+                            command != (byte)MAVLink.MAV_CMD.TAKEOFF && 
+                            command != (byte)MAVLink.MAV_CMD.RETURN_TO_LAUNCH && 
+                            command != (byte)MAVLink.MAV_CMD.CONTINUE_AND_CHANGE_ALT &&
+                            command != (byte)MAVLink.MAV_CMD.GUIDED_ENABLE
+                            || command == (byte)MAVLink.MAV_CMD.DO_SET_ROI)
                         {
                             string cell2 = Commands.Rows[a].Cells[Alt.Index].Value.ToString(); // alt
                             string cell3 = Commands.Rows[a].Cells[Lat.Index].Value.ToString(); // lat
                             string cell4 = Commands.Rows[a].Cells[Lon.Index].Value.ToString(); // lng
 
-                            //if (cell4 == "0" || cell3 == "0")
-                              //  continue;
                             if (cell4 == "?" || cell3 == "?")
                                 continue;
 
