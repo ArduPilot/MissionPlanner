@@ -154,6 +154,14 @@ namespace GMap.NET.WindowsForms
          {
             if(graphicsPath != null)
             {
+                bool customarrows = false;
+
+                if (Stroke.DashStyle == DashStyle.Custom)
+                {
+                    customarrows = true;
+                    Stroke.DashStyle = DashStyle.Solid;
+                }
+
                g.DrawPath(Stroke, graphicsPath);
 
                if (Stroke.DashStyle == DashStyle.Custom)
