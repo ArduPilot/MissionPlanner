@@ -152,11 +152,11 @@ namespace MissionPlanner.Utilities
 
             while (distout < 1000)
             {
-                // get a projected point to test intersection against
+                // get a projected point to test intersection against - not using slope distance
                 PointLatLngAlt newposdist = currentlocation.newpos(yawangle + MainV2.comPort.MAV.cs.yaw, distout);
                 newposdist.Alt = srtm.getAltitude(newposdist.Lat, newposdist.Lng).alt;
 
-                // get another point
+                // get another point 50 infront
                 PointLatLngAlt newposdist2 = currentlocation.newpos(yawangle + MainV2.comPort.MAV.cs.yaw, distout + 50);
                 newposdist2.Alt = srtm.getAltitude(newposdist2.Lat, newposdist2.Lng).alt;
 
