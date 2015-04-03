@@ -31,7 +31,7 @@
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
-            this.myLabel1 = new Controls.MyLabel();
+            this.myLabel1 = new MissionPlanner.Controls.MyLabel();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -46,6 +46,9 @@
             // 
             // tableLayoutPanel1
             // 
+            this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel1.AutoSize = true;
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
@@ -57,7 +60,7 @@
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(471, 55);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(434, 55);
             this.tableLayoutPanel1.TabIndex = 2;
             // 
             // label1
@@ -71,11 +74,13 @@
             // 
             // myLabel1
             // 
+            this.myLabel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.myLabel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.myLabel1.Location = new System.Drawing.Point(4, 3);
             this.myLabel1.Name = "myLabel1";
             this.myLabel1.resize = false;
-            this.myLabel1.Size = new System.Drawing.Size(471, 23);
+            this.myLabel1.Size = new System.Drawing.Size(434, 23);
             this.myLabel1.TabIndex = 0;
             this.myLabel1.Text = "myLabel1";
             // 
@@ -87,7 +92,7 @@
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.myLabel1);
             this.Name = "ValuesControl";
-            this.Size = new System.Drawing.Size(478, 108);
+            this.Size = new System.Drawing.Size(441, 86);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);

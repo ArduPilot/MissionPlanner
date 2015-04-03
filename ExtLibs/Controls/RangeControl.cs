@@ -17,7 +17,7 @@ namespace MissionPlanner.Controls
        public event EventValueChanged ValueChanged;
 
       public NumericUpDown NumericUpDownControl { get { return numericUpDown1; } set { numericUpDown1 = value; } }
-      public string DescriptionText { get { return label1.Text; } set { label1.Text = value; } }
+      public string DescriptionText { get { return label1.Text; } set { label1.Text = value; Size sz = new Size(this.Width, int.MaxValue); sz = TextRenderer.MeasureText(value, this.Font, sz, TextFormatFlags.TextBoxControl | TextFormatFlags.WordBreak); label1.Height = sz.Height; } }
       public string LabelText { get { return myLabel1.Text; } set { myLabel1.Text = value; } }
       public TrackBar TrackBarControl { get { return trackBar1; } set { trackBar1 = value; } }
       public float Increment

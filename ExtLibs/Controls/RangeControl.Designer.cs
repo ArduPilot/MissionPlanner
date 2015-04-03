@@ -51,47 +51,49 @@
             // tableLayoutPanel3
             // 
             this.tableLayoutPanel3.AutoSize = true;
-            this.tableLayoutPanel3.ColumnCount = 4;
+            this.tableLayoutPanel3.ColumnCount = 3;
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel3.Controls.Add(this.myLabel1, 0, 0);
             this.tableLayoutPanel3.Controls.Add(this.label1, 0, 1);
             this.tableLayoutPanel3.Controls.Add(this.LBL_max, 2, 3);
             this.tableLayoutPanel3.Controls.Add(this.LBL_min, 1, 3);
             this.tableLayoutPanel3.Controls.Add(this.numericUpDown1, 0, 2);
             this.tableLayoutPanel3.Controls.Add(this.trackBar1, 1, 2);
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 4;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(487, 98);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(493, 104);
             this.tableLayoutPanel3.TabIndex = 6;
             // 
             // myLabel1
             // 
             this.myLabel1.AutoSize = true;
-            this.tableLayoutPanel3.SetColumnSpan(this.myLabel1, 4);
+            this.tableLayoutPanel3.SetColumnSpan(this.myLabel1, 3);
             this.myLabel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.myLabel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.myLabel1.Location = new System.Drawing.Point(3, 0);
             this.myLabel1.Name = "myLabel1";
-            this.myLabel1.Size = new System.Drawing.Size(481, 16);
+            this.myLabel1.Size = new System.Drawing.Size(487, 16);
             this.myLabel1.TabIndex = 1;
             this.myLabel1.Text = "myLabel1";
             // 
             // label1
             // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
-            this.tableLayoutPanel3.SetColumnSpan(this.label1, 4);
-            this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel3.SetColumnSpan(this.label1, 3);
             this.label1.Location = new System.Drawing.Point(3, 16);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(481, 13);
+            this.label1.Size = new System.Drawing.Size(487, 13);
             this.label1.TabIndex = 5;
             this.label1.Text = "label1";
             // 
@@ -99,7 +101,7 @@
             // 
             this.LBL_max.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.LBL_max.AutoSize = true;
-            this.LBL_max.Location = new System.Drawing.Point(377, 80);
+            this.LBL_max.Location = new System.Drawing.Point(477, 80);
             this.LBL_max.Name = "LBL_max";
             this.LBL_max.Size = new System.Drawing.Size(13, 13);
             this.LBL_max.TabIndex = 6;
@@ -117,11 +119,12 @@
             // trackBar1
             // 
             this.tableLayoutPanel3.SetColumnSpan(this.trackBar1, 2);
+            this.trackBar1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.trackBar1.LargeChange = 10;
             this.trackBar1.Location = new System.Drawing.Point(66, 32);
             this.trackBar1.Maximum = 1000;
             this.trackBar1.Name = "trackBar1";
-            this.trackBar1.Size = new System.Drawing.Size(324, 45);
+            this.trackBar1.Size = new System.Drawing.Size(424, 45);
             this.trackBar1.SmallChange = 10;
             this.trackBar1.TabIndex = 8;
             this.trackBar1.TickFrequency = 100;

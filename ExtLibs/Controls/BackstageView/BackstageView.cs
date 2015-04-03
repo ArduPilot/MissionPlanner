@@ -486,19 +486,17 @@ namespace MissionPlanner.Controls.BackstageView
             }
             catch { }
 
+            associatedPage.Page.ResumeLayout(false);
+            this.ResumeLayout(false);
+            // show it
+            associatedPage.Page.Visible = true;
+
             // new way of notifying activation. Goal is to get rid of BackStageViewContentPanel
             // so plain old user controls can be added
             if (associatedPage.Page is IActivate)
             {
                 ((IActivate)(associatedPage.Page)).Activate();
             }
-
-            //this.PerformLayout();
-
-            associatedPage.Page.ResumeLayout();
-            this.ResumeLayout();
-            // show it
-            associatedPage.Page.Visible = true;
 
             try
             {

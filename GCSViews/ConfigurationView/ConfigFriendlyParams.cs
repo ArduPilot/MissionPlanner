@@ -240,6 +240,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             tableLayoutPanel1.VerticalScroll.Value = 0;
 
+            this.SuspendLayout();
 
             _params.OrderBy(x => x.Key).ForEach(x =>
          {
@@ -247,6 +248,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
              Console.WriteLine("add ctl " + x.Key + " " + DateTime.Now.ToString("mm.fff"));
          });
             Console.WriteLine("Add done" + DateTime.Now.ToString("mm.fff"));
+
+            this.ResumeLayout(false);
             
         }
 
@@ -321,7 +324,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                               //  increment /= 100;
                             }
 
-                            var rangeControl = new RangeControl(x.Key, FitDescriptionText(units, description), displayName, increment, displayscale, lowerRange, upperRange, value);
+                            var rangeControl = new RangeControl(x.Key, FitDescriptionText(units, description, tableLayoutPanel1.Width-100), displayName, increment, displayscale, lowerRange, upperRange, value);
+
+                            rangeControl.Width = tableLayoutPanel1.Width - 50;
 
                             //Console.WriteLine("{0} {1} {2} {3} {4}", x.Key, increment, lowerRange, upperRange, value);
 
@@ -359,7 +364,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                             {
                                 var valueControl = new ValuesControl();
                                 valueControl.Name = x.Key;
-                                valueControl.DescriptionText = FitDescriptionText(units, description);
+                                valueControl.DescriptionText = FitDescriptionText(units, description, tableLayoutPanel1.Width);
                                 valueControl.LabelText = displayName;
 
                                 ThemeManager.ApplyThemeTo(valueControl);
@@ -400,20 +405,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         /// <summary>
         /// Fits the description text.
         /// </summary>
-        /// <param name="description">The description.</param>
-        /// <returns></returns>
-        private string FitDescriptionText(string description)
-        {
-            return FitDescriptionText(string.Empty, description);
-        }
-
-        /// <summary>
-        /// Fits the description text.
-        /// </summary>
         /// <param name="units">The units.</param>
         /// <param name="description">The description.</param>
         /// <returns></returns>
-        private string FitDescriptionText(string units, string description)
+        private string FitDescriptionText(string units, string description, int width)
         {
             var returnDescription = new StringBuilder();
 
@@ -425,11 +420,20 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (!String.IsNullOrEmpty(description))
             {
                 returnDescription.Append(Strings.Desc);
+                //returnDescription.Append(description);
+                //return returnDescription.ToString();
+
                 var descriptionParts = description.Split(new char[] { ' ' });
                 for (int i = 0; i < descriptionParts.Length; i++)
                 {
-                    returnDescription.Append(String.Format("{0} ", descriptionParts[i]));
-                    if (i != 0 && i % 12 == 0) returnDescription.Append(Environment.NewLine);
+                    // what we are adding to the string
+                    string appendtext = String.Format("{0} ", descriptionParts[i]);
+                    returnDescription.Append(appendtext);
+
+                    if (i != 0 && i % (width / 40) == 0) 
+                    {
+                        returnDescription.Append(Environment.NewLine);
+                    }
                 }
             }
 
