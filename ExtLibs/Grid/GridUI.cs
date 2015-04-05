@@ -621,6 +621,10 @@ namespace MissionPlanner
                 routesOverlay.Routes.Add(wproute);
             */
 
+            // turn radrad = tas^2 / (tan(angle) * G)
+            float v_sq = (float)(NUM_UpDownFlySpeed.Value * NUM_UpDownFlySpeed.Value);
+            float turnrad = (float)(v_sq / (float)(9.808f * Math.Tan(35 * deg2rad)));
+
             // Update Stats 
             if (DistUnits == "Feet")
             {
@@ -661,6 +665,7 @@ namespace MissionPlanner
                 lbl_grndres.Text = inchpixel;
                 lbl_distbetweenlines.Text = (NUM_Distance.Value * 3.2808399m).ToString("0.##") + " ft";
                 lbl_footprint.Text = feet_fovH + " x " + feet_fovV + " ft";
+                lbl_turnrad.Text = (turnrad * 2 * 3.2808399).ToString("0") + " ft";
             }
             else
             {
@@ -671,6 +676,7 @@ namespace MissionPlanner
                 lbl_grndres.Text = TXT_cmpixel.Text;
                 lbl_distbetweenlines.Text = NUM_Distance.Value.ToString("0.##") + " m";
                 lbl_footprint.Text = TXT_fovH.Text + " x " + TXT_fovV.Text + " m";
+                lbl_turnrad.Text = (turnrad * 2).ToString("0") + " m";
             }
 
             double flyspeedms = CurrentState.fromSpeedDisplayUnit((double)NUM_UpDownFlySpeed.Value);

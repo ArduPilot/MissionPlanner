@@ -30,6 +30,8 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GridUI));
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.lbl_turnrad = new System.Windows.Forms.Label();
+            this.label36 = new System.Windows.Forms.Label();
             this.lbl_photoevery = new System.Windows.Forms.Label();
             this.label35 = new System.Windows.Forms.Label();
             this.lbl_flighttime = new System.Windows.Forms.Label();
@@ -83,6 +85,9 @@
             this.BUT_save = new MissionPlanner.Controls.MyButton();
             this.tabGrid = new System.Windows.Forms.TabPage();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.LBL_Alternating_lanes = new System.Windows.Forms.Label();
+            this.LBL_Lane_Dist = new System.Windows.Forms.Label();
+            this.NUM_Lane_Dist = new System.Windows.Forms.NumericUpDown();
             this.label28 = new System.Windows.Forms.Label();
             this.groupBox_copter = new System.Windows.Forms.GroupBox();
             this.TXT_headinghold = new System.Windows.Forms.TextBox();
@@ -132,9 +137,6 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.map = new MissionPlanner.Controls.myGMAP();
             this.TRK_zoom = new MissionPlanner.Controls.MyTrackBar();
-            this.NUM_Lane_Dist = new System.Windows.Forms.NumericUpDown();
-            this.LBL_Lane_Dist = new System.Windows.Forms.Label();
-            this.LBL_Alternating_lanes = new System.Windows.Forms.Label();
             this.groupBox5.SuspendLayout();
             this.tabCamera.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -145,6 +147,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.NUM_focallength)).BeginInit();
             this.tabGrid.SuspendLayout();
             this.groupBox7.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_Lane_Dist)).BeginInit();
             this.groupBox_copter.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_copter_delay)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -162,11 +165,12 @@
             this.groupBox4.SuspendLayout();
             this.tabControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.TRK_zoom)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUM_Lane_Dist)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox5
             // 
+            this.groupBox5.Controls.Add(this.lbl_turnrad);
+            this.groupBox5.Controls.Add(this.label36);
             this.groupBox5.Controls.Add(this.lbl_photoevery);
             this.groupBox5.Controls.Add(this.label35);
             this.groupBox5.Controls.Add(this.lbl_flighttime);
@@ -190,6 +194,16 @@
             resources.ApplyResources(this.groupBox5, "groupBox5");
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.TabStop = false;
+            // 
+            // lbl_turnrad
+            // 
+            resources.ApplyResources(this.lbl_turnrad, "lbl_turnrad");
+            this.lbl_turnrad.Name = "lbl_turnrad";
+            // 
+            // label36
+            // 
+            resources.ApplyResources(this.label36, "label36");
+            this.label36.Name = "label36";
             // 
             // lbl_photoevery
             // 
@@ -575,6 +589,27 @@
             this.groupBox7.Controls.Add(this.label28);
             this.groupBox7.Name = "groupBox7";
             this.groupBox7.TabStop = false;
+            // 
+            // LBL_Alternating_lanes
+            // 
+            resources.ApplyResources(this.LBL_Alternating_lanes, "LBL_Alternating_lanes");
+            this.LBL_Alternating_lanes.Name = "LBL_Alternating_lanes";
+            // 
+            // LBL_Lane_Dist
+            // 
+            resources.ApplyResources(this.LBL_Lane_Dist, "LBL_Lane_Dist");
+            this.LBL_Lane_Dist.Name = "LBL_Lane_Dist";
+            // 
+            // NUM_Lane_Dist
+            // 
+            resources.ApplyResources(this.NUM_Lane_Dist, "NUM_Lane_Dist");
+            this.NUM_Lane_Dist.Maximum = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
+            this.NUM_Lane_Dist.Name = "NUM_Lane_Dist";
+            this.NUM_Lane_Dist.ValueChanged += new System.EventHandler(this.NUM_Lane_Dist_ValueChanged);
             // 
             // label28
             // 
@@ -1041,27 +1076,6 @@
             this.TRK_zoom.Value = 2F;
             this.TRK_zoom.Scroll += new System.EventHandler(this.trackBar1_Scroll);
             // 
-            // NUM_Lane_Dist
-            // 
-            resources.ApplyResources(this.NUM_Lane_Dist, "NUM_Lane_Dist");
-            this.NUM_Lane_Dist.Maximum = new decimal(new int[] {
-            9999,
-            0,
-            0,
-            0});
-            this.NUM_Lane_Dist.Name = "NUM_Lane_Dist";
-            this.NUM_Lane_Dist.ValueChanged += new System.EventHandler(this.NUM_Lane_Dist_ValueChanged);
-            // 
-            // LBL_Lane_Dist
-            // 
-            resources.ApplyResources(this.LBL_Lane_Dist, "LBL_Lane_Dist");
-            this.LBL_Lane_Dist.Name = "LBL_Lane_Dist";
-            // 
-            // LBL_Alternating_lanes
-            // 
-            resources.ApplyResources(this.LBL_Alternating_lanes, "LBL_Alternating_lanes");
-            this.LBL_Alternating_lanes.Name = "LBL_Alternating_lanes";
-            // 
             // GridUI
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1087,6 +1101,7 @@
             this.tabGrid.ResumeLayout(false);
             this.groupBox7.ResumeLayout(false);
             this.groupBox7.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_Lane_Dist)).EndInit();
             this.groupBox_copter.ResumeLayout(false);
             this.groupBox_copter.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_copter_delay)).EndInit();
@@ -1108,7 +1123,6 @@
             this.groupBox4.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.TRK_zoom)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.NUM_Lane_Dist)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1222,5 +1236,7 @@
         private System.Windows.Forms.Label LBL_Lane_Dist;
         private System.Windows.Forms.NumericUpDown NUM_Lane_Dist;
         private System.Windows.Forms.Label LBL_Alternating_lanes;
+        private System.Windows.Forms.Label lbl_turnrad;
+        private System.Windows.Forms.Label label36;
     }
 }
