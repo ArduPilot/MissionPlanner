@@ -2061,8 +2061,6 @@ namespace MissionPlanner
                 MainMenu_ItemClicked(this, new ToolStripItemClickedEventArgs(MenuFlightData));
             }
 
-            this.ResumeLayout();
-
             // for long running tasks using own threads.
             // for short use threadpool
 
@@ -2114,27 +2112,6 @@ namespace MissionPlanner
 
             ThreadPool.QueueUserWorkItem(BGCreateMaps);
 
-            Program.Splash.Close();
-
-            try
-            {
-                // single update check per day - in a seperate thread
-                if (getConfig("update_check") != DateTime.Now.ToShortDateString())
-                {
-                    System.Threading.ThreadPool.QueueUserWorkItem(checkupdate);
-                    config["update_check"] = DateTime.Now.ToShortDateString();
-                }
-                else if (getConfig("beta_updates") == "True")
-                {
-                    MissionPlanner.Utilities.Update.dobeta = true;
-                    System.Threading.ThreadPool.QueueUserWorkItem(checkupdate);
-                }
-            }
-            catch (Exception ex)
-            {
-                log.Error("Update check failed", ex);
-            }
-
             try
             {
                 log.Info("Load Pluggins");
@@ -2168,18 +2145,6 @@ namespace MissionPlanner
                 }
             }
             catch (Exception ex) { log.Error(ex); }
-
-            MissionPlanner.Utilities.Tracking.AddTiming("AppLoad", "Load Time", (DateTime.Now - Program.starttime).TotalMilliseconds, "");
-
-            // play a tlog that was passed to the program
-            if (Program.args.Length > 0)
-            {
-                if (File.Exists(Program.args[0]) && Program.args[0].ToLower().Contains(".tlog"))
-                {
-                    FlightData.LoadLogFile(Program.args[0]);
-                    FlightData.BUT_playlog_Click(null, null);
-                }
-            }
 
             // sort tlogs
             try
@@ -2218,6 +2183,41 @@ namespace MissionPlanner
                 );
             }
             catch { }
+
+            this.ResumeLayout();
+
+            Program.Splash.Close();
+
+            MissionPlanner.Utilities.Tracking.AddTiming("AppLoad", "Load Time", (DateTime.Now - Program.starttime).TotalMilliseconds, "");
+
+            try
+            {
+                // single update check per day - in a seperate thread
+                if (getConfig("update_check") != DateTime.Now.ToShortDateString())
+                {
+                    System.Threading.ThreadPool.QueueUserWorkItem(checkupdate);
+                    config["update_check"] = DateTime.Now.ToShortDateString();
+                }
+                else if (getConfig("beta_updates") == "True")
+                {
+                    MissionPlanner.Utilities.Update.dobeta = true;
+                    System.Threading.ThreadPool.QueueUserWorkItem(checkupdate);
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Update check failed", ex);
+            }
+
+            // play a tlog that was passed to the program
+            if (Program.args.Length > 0)
+            {
+                if (File.Exists(Program.args[0]) && Program.args[0].ToLower().Contains(".tlog"))
+                {
+                    FlightData.LoadLogFile(Program.args[0]);
+                    FlightData.BUT_playlog_Click(null, null);
+                }
+            }
 
             // show wizard on first use
             /*  if (getConfig("newuser") == "")

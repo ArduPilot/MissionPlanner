@@ -849,8 +849,14 @@ namespace MissionPlanner.GCSViews
 
                 Vector3 accel_body = dcm.transposed() * (new Vector3(0, 0, -9.808));
 
-                Vector3 centrip_accel = new Vector3(0, centripaccel * Math.Cos(sitldata.rollDeg * deg2rad), centripaccel * Math.Sin(sitldata.rollDeg * deg2rad));
+                Vector3 centrip_accel = new Vector3(0, -centripaccel * Math.Cos(sitldata.rollDeg * deg2rad), centripaccel * Math.Sin(sitldata.rollDeg * deg2rad));
 
+                double pitchpart = centrip_accel.y * Math.Cos(sitldata.pitchDeg * deg2rad);
+                //centrip_accel.x += pitchpart;
+                //centrip_accel.y += pitchpart;
+
+
+                //centrip_accel.y = -centripaccel;
                 accel_body -= centrip_accel;
 
                 Vector3 velocitydelta = dcm.transposed() * (new Vector3((sitldata_old.speedN - sitldata.speedN), (sitldata_old.speedE - sitldata.speedE), (sitldata_old.speedD - sitldata.speedD)));
@@ -858,7 +864,6 @@ namespace MissionPlanner.GCSViews
                 // v = d/t   a = v/t      add linear accel - t is 50 hz
                 //accel_body.x += -velocitydelta.x / 0.02;
 
-                //accel_body += velocitydelta / 0.2;
 
                 //Vector3 velocity = dcm.transposed() * (new Vector3((sitldata.speedN), (sitldata.speedE), (sitldata.speedD)));
 
@@ -873,25 +878,17 @@ namespace MissionPlanner.GCSViews
                // Console.WriteLine("G"+accel_body.ToString());
               //  Console.WriteLine("M"+accel_mine_body.ToString());
 
-             //   sitldata.pitchRate = 0;
-              //  sitldata.rollRate = 0;
-              //  sitldata.yawRate = 0;
-
-                //accel_mine_body.x =0;// *= -1;
-                //accel_mine_body.y =0;//*= -1;
-
-               // accel_body -= accel_mine_body;
+                //sitldata.pitchRate = 0;
+                //sitldata.rollRate = 0;
+                //sitldata.yawRate = 0;
 
                 sitldata.xAccel = accel_body.x;// DATA[4][5] * 1;
                 sitldata.yAccel = accel_body.y;//  DATA[4][6] * 1;
                 sitldata.zAccel = accel_body.z;//  (0 - DATA[4][4]) * 9.808;
 
-               // sitldata.xAccel = DATA[4][5] *9.808;
+                //sitldata.xAccel = DATA[4][5] *9.808;
                 //sitldata.yAccel = DATA[4][6] *9.808;
                 //sitldata.zAccel = -DATA[4][4] *9.808;
-
-                //Console.WriteLine(accel_body.ToString());
-                //Console.WriteLine("        {0} {1} {2}",sitldata.xAccel, sitldata.yAccel, sitldata.zAccel);
 
             }
             else if (receviedbytes == 0x64) // FG binary udp
