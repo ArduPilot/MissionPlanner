@@ -1,4 +1,5 @@
-﻿namespace MissionPlanner.Controls
+﻿
+namespace MissionPlanner.Controls
 {
     partial class QuickView
     {
@@ -29,22 +30,22 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.labelWithPseudoOpacity1 = new MissionPlanner.Controls.LabelWithPseudoOpacity();
+            this.labelWithPseudoOpacity1 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.labelWithPseudoOpacity2 = new MissionPlanner.Controls.LabelWithPseudoOpacity();
+            this.labelWithPseudoOpacity2 = new System.Windows.Forms.Label();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // labelWithPseudoOpacity1
             // 
+            this.labelWithPseudoOpacity1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.labelWithPseudoOpacity1.AutoSize = true;
-            this.labelWithPseudoOpacity1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelWithPseudoOpacity1.DoubleBuffered = true;
             this.labelWithPseudoOpacity1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelWithPseudoOpacity1.Location = new System.Drawing.Point(3, 0);
             this.labelWithPseudoOpacity1.Name = "labelWithPseudoOpacity1";
-            this.labelWithPseudoOpacity1.Size = new System.Drawing.Size(118, 20);
+            this.labelWithPseudoOpacity1.Size = new System.Drawing.Size(118, 16);
             this.labelWithPseudoOpacity1.TabIndex = 0;
             this.labelWithPseudoOpacity1.Text = "Altitude:";
             this.labelWithPseudoOpacity1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -67,8 +68,9 @@
             // 
             // labelWithPseudoOpacity2
             // 
-            this.labelWithPseudoOpacity2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelWithPseudoOpacity2.DoubleBuffered = true;
+            this.labelWithPseudoOpacity2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.labelWithPseudoOpacity2.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelWithPseudoOpacity2.Location = new System.Drawing.Point(3, 20);
             this.labelWithPseudoOpacity2.Name = "labelWithPseudoOpacity2";
@@ -92,9 +94,9 @@
 
         #endregion
 
-        private LabelWithPseudoOpacity labelWithPseudoOpacity1;
+        private System.Windows.Forms.Label labelWithPseudoOpacity1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private LabelWithPseudoOpacity labelWithPseudoOpacity2;
+        private System.Windows.Forms.Label labelWithPseudoOpacity2;
         private System.Windows.Forms.ToolTip toolTip1;
     }
 }

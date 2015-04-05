@@ -11,6 +11,8 @@ namespace MissionPlanner.Controls
 {
     public partial class QuickView : UserControl
     {
+        //http://stackoverflow.com/questions/3816362/winforms-label-flickering
+
         [System.ComponentModel.Browsable(true)]
         public string desc
         {
@@ -55,8 +57,6 @@ namespace MissionPlanner.Controls
 
             labelWithPseudoOpacity1.DoubleClick += new EventHandler(labelWithPseudoOpacity1_DoubleClick);
             labelWithPseudoOpacity2.DoubleClick += new EventHandler(labelWithPseudoOpacity2_DoubleClick);
-
-            labelWithPseudoOpacity2.DoubleBuffered = true;
 
             // set the initial value as something invalid
             number = -9999;
