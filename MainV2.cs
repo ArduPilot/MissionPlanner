@@ -2025,6 +2025,8 @@ namespace MissionPlanner
 
         protected override void OnLoad(EventArgs e)
         {
+            
+
             // check if its defined, and force to show it if not known about
             if (config["menu_autohide"] == null)
             {
@@ -2034,6 +2036,7 @@ namespace MissionPlanner
             try
             {
                 AutoHideMenu(bool.Parse(config["menu_autohide"].ToString()));
+
             }
             catch { }
 
@@ -2045,24 +2048,31 @@ namespace MissionPlanner
             MyView.AddScreen(new MainSwitcher.Screen("Terminal", new GCSViews.Terminal(), false));
             MyView.AddScreen(new MainSwitcher.Screen("Help", new GCSViews.Help(), false));
 
-            // init button depressed - ensures correct action
-            //int fixme;
-
-            this.SuspendLayout();
+            try
+            {
+                log.Info("Load Pluggins");
+                Plugin.PluginLoader.LoadAll();
+                log.Info("Load Pluggins Done");
+            }
+            catch (Exception ex) { log.Error(ex); }
 
             if (Program.Logo != null && Program.vvvvz)
             {
+                this.PerformLayout();
                 MenuFlightPlanner_Click(this, e);
                 MainMenu_ItemClicked(this, new ToolStripItemClickedEventArgs(MenuFlightPlanner));
             }
             else
             {
+                this.PerformLayout();
                 MenuFlightData_Click(this, e);
                 MainMenu_ItemClicked(this, new ToolStripItemClickedEventArgs(MenuFlightData));
             }
 
             // for long running tasks using own threads.
             // for short use threadpool
+
+            this.SuspendLayout();
 
             // setup http server
             try
@@ -2112,13 +2122,7 @@ namespace MissionPlanner
 
             ThreadPool.QueueUserWorkItem(BGCreateMaps);
 
-            try
-            {
-                log.Info("Load Pluggins");
-                Plugin.PluginLoader.LoadAll();
-                log.Info("Load Pluggins Done");
-            }
-            catch (Exception ex) { log.Error(ex); }
+  
 
             try
             {
@@ -2598,7 +2602,7 @@ namespace MissionPlanner
                 MainMenu.MouseLeave -= MainMenu_MouseLeave;
                 panel1.MouseLeave -= MainMenu_MouseLeave;
                 toolStripConnectionControl.MouseLeave -= MainMenu_MouseLeave;
-                this.ResumeLayout();
+                this.ResumeLayout(false);
             }
             else
             {
@@ -2610,7 +2614,7 @@ namespace MissionPlanner
                 toolStripConnectionControl.MouseLeave += MainMenu_MouseLeave;
                 menu.Visible = true;
                 menu.SendToBack();
-                this.ResumeLayout();
+                this.ResumeLayout(false);
             }
         }
 

@@ -59,6 +59,7 @@ namespace MissionPlanner
             if (args.Length > 0 && args[0] == "/update")
             {
                 Utilities.Update.DoUpdate();
+                return;
             }
 
             // setup theme provider
