@@ -1853,7 +1853,8 @@ namespace MissionPlanner.GCSViews
                 // process commandlist to the mav
                 foreach (var temp in commandlist)
                 {
-                    a = commandlist.IndexOf(temp) + 1;
+                    // this code below fails
+                    //a = commandlist.IndexOf(temp) + 1;
 
                     ((Controls.ProgressReporterDialogue)sender).UpdateProgressAndStatus(a * 100 / Commands.Rows.Count, "Setting WP " + a);
 
@@ -1902,6 +1903,7 @@ namespace MissionPlanner.GCSViews
                     {
                         // invalid sequence can only occur if we failed to see a response from the apm when we sent the request.
                         // therefore it did see the request and has moved on that step, and so do we.
+                        a++;
                         continue;
                     }
                     if (ans != MAVLink.MAV_MISSION_RESULT.MAV_MISSION_ACCEPTED)
@@ -1909,6 +1911,8 @@ namespace MissionPlanner.GCSViews
                         e.ErrorMessage = "Upload wps failed " + Enum.Parse(typeof(MAVLink.MAV_CMD), temp.id.ToString()) + " " + Enum.Parse(typeof(MAVLink.MAV_MISSION_RESULT), ans.ToString());
                         return;
                     }
+
+                    a++;
                 }
 
                 port.setWPACK();
