@@ -90,6 +90,9 @@ namespace MissionPlanner.Utilities
             if (dobeta)
                 baseurl = ConfigurationManager.AppSettings["BetaUpdateLocationVersion"];
 
+            if (baseurl == "")
+                return;
+
             string path = Path.GetDirectoryName(Application.ExecutablePath);
 
             path = path + Path.DirectorySeparatorChar + "version.txt";
