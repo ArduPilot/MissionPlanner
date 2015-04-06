@@ -65,6 +65,10 @@ namespace MissionPlanner.Controls
         [System.ComponentModel.Browsable(true), DefaultValue(true)]
         public bool displayxtrack { get; set; }
         [System.ComponentModel.Browsable(true), DefaultValue(true)]
+        public bool displayrollpitch { get; set; }
+        [System.ComponentModel.Browsable(true), DefaultValue(true)]
+        public bool displaygps { get; set; }
+        [System.ComponentModel.Browsable(true), DefaultValue(true)]
         public bool bgon { get; set; }
         [System.ComponentModel.Browsable(true), DefaultValue(true)]
         public bool hudon { get; set; }
@@ -84,7 +88,7 @@ namespace MissionPlanner.Controls
                 //return;
             }
 
-            displayheading = displayspeed = displayalt = displayconninfo = displayxtrack = bgon = hudon = batteryon = true;
+            displayheading = displayspeed = displayalt = displayconninfo = displayxtrack = displayrollpitch = displaygps = bgon = hudon = batteryon = true;
 
             this.Name = "Hud";
 
@@ -963,117 +967,119 @@ namespace MissionPlanner.Controls
 
                 graphicsObject.ResetTransform();
 
-                graphicsObject.SetClip(new Rectangle(0, this.Height / 14, this.Width, this.Height - this.Height / 14));
-
-                graphicsObject.TranslateTransform(this.Width / 2, this.Height / 2);
-
-                graphicsObject.RotateTransform(-_roll);
-
-                //draw pitch           
-
-                int lengthshort = this.Width / 14;
-                int lengthlong = this.Width / 10;
-
-                for (int a = -90; a <= 90; a += 5)
+                if (displayrollpitch)
                 {
-                    // limit to 40 degrees
-                    if (a >= _pitch - 29 && a <= _pitch + 20)
+                    graphicsObject.SetClip(new Rectangle(0, this.Height / 14, this.Width, this.Height - this.Height / 14));
+
+                    graphicsObject.TranslateTransform(this.Width / 2, this.Height / 2);
+
+                    graphicsObject.RotateTransform(-_roll);
+
+                    //draw pitch           
+
+                    int lengthshort = this.Width / 14;
+                    int lengthlong = this.Width / 10;
+
+                    for (int a = -90; a <= 90; a += 5)
                     {
-                        if (a % 10 == 0)
+                        // limit to 40 degrees
+                        if (a >= _pitch - 29 && a <= _pitch + 20)
                         {
-                            if (a == 0)
+                            if (a % 10 == 0)
                             {
-                                graphicsObject.DrawLine(greenPen, this.Width / 2 - lengthlong - halfwidth, pitchoffset + a * every5deg, this.Width / 2 + lengthlong - halfwidth, pitchoffset + a * every5deg);
+                                if (a == 0)
+                                {
+                                    graphicsObject.DrawLine(greenPen, this.Width / 2 - lengthlong - halfwidth, pitchoffset + a * every5deg, this.Width / 2 + lengthlong - halfwidth, pitchoffset + a * every5deg);
+                                }
+                                else
+                                {
+                                    graphicsObject.DrawLine(whitePen, this.Width / 2 - lengthlong - halfwidth, pitchoffset + a * every5deg, this.Width / 2 + lengthlong - halfwidth, pitchoffset + a * every5deg);
+                                }
+                                drawstring(graphicsObject, a.ToString(), font, fontsize + 2, whiteBrush, this.Width / 2 - lengthlong - 30 - halfwidth - (int)(fontoffset * 1.7), pitchoffset + a * every5deg - 8 - fontoffset);
                             }
                             else
                             {
-                                graphicsObject.DrawLine(whitePen, this.Width / 2 - lengthlong - halfwidth, pitchoffset + a * every5deg, this.Width / 2 + lengthlong - halfwidth, pitchoffset + a * every5deg);
+                                graphicsObject.DrawLine(whitePen, this.Width / 2 - lengthshort - halfwidth, pitchoffset + a * every5deg, this.Width / 2 + lengthshort - halfwidth, pitchoffset + a * every5deg);
+                                //drawstring(e,a.ToString(), new Font("Arial", 10), whiteBrush, this.Width / 2 - lengthshort - 20 - halfwidth, this.Height / 2 + pitchoffset + a * every5deg - 8);
                             }
-                            drawstring(graphicsObject, a.ToString(), font, fontsize + 2, whiteBrush, this.Width / 2 - lengthlong - 30 - halfwidth - (int)(fontoffset * 1.7), pitchoffset + a * every5deg - 8 - fontoffset);
-                        }
-                        else
-                        {
-                            graphicsObject.DrawLine(whitePen, this.Width / 2 - lengthshort - halfwidth, pitchoffset + a * every5deg, this.Width / 2 + lengthshort - halfwidth, pitchoffset + a * every5deg);
-                            //drawstring(e,a.ToString(), new Font("Arial", 10), whiteBrush, this.Width / 2 - lengthshort - 20 - halfwidth, this.Height / 2 + pitchoffset + a * every5deg - 8);
                         }
                     }
-                }
 
-                graphicsObject.ResetTransform();
+                    graphicsObject.ResetTransform();
 
-                // draw roll ind needle
+                    // draw roll ind needle
 
-                graphicsObject.TranslateTransform(this.Width / 2, this.Height / 2);
+                    graphicsObject.TranslateTransform(this.Width / 2, this.Height / 2);
 
-                Point[] pointlist = new Point[3];
+                    Point[] pointlist = new Point[3];
 
-                lengthlong = this.Height / 66;
+                    lengthlong = this.Height / 66;
 
-                int extra = (int)(this.Height / 15 * 4.9f);
+                    int extra = (int)(this.Height / 15 * 4.9f);
 
-                int lengthlongex = lengthlong + 2;
+                    int lengthlongex = lengthlong + 2;
 
-                pointlist[0] = new Point(0, -lengthlongex * 2 - extra);
-                pointlist[1] = new Point(-lengthlongex, -lengthlongex - extra);
-                pointlist[2] = new Point(lengthlongex, -lengthlongex - extra);
+                    pointlist[0] = new Point(0, -lengthlongex * 2 - extra);
+                    pointlist[1] = new Point(-lengthlongex, -lengthlongex - extra);
+                    pointlist[2] = new Point(lengthlongex, -lengthlongex - extra);
 
-                redPen.Width = 2;
+                    redPen.Width = 2;
 
-                if (Math.Abs(_roll) > 45)
-                {
-                    redPen.Width = 4;
-                }
+                    if (Math.Abs(_roll) > 45)
+                    {
+                        redPen.Width = 4;
+                    }
 
-                graphicsObject.DrawPolygon(redPen, pointlist);
+                    graphicsObject.DrawPolygon(redPen, pointlist);
 
-                redPen.Width = 2;
+                    redPen.Width = 2;
 
-                int[] array = new int[] { -60, -45, -30, -20, -10, 0, 10, 20, 30, 45, 60 };
+                    int[] array = new int[] { -60, -45, -30, -20, -10, 0, 10, 20, 30, 45, 60 };
 
-                foreach (int a in array)
-                {
+                    foreach (int a in array)
+                    {
+                        graphicsObject.ResetTransform();
+                        graphicsObject.TranslateTransform(this.Width / 2, this.Height / 2);
+                        graphicsObject.RotateTransform(a - _roll);
+                        drawstring(graphicsObject, Math.Abs(a).ToString("0").PadLeft(2), font, fontsize, whiteBrush, 0 - 6 - fontoffset, -lengthlong * 8 - extra);
+                        graphicsObject.DrawLine(whitePen, 0, -lengthlong * 3 - extra, 0, -lengthlong * 3 - extra - lengthlong);
+                    }
+
                     graphicsObject.ResetTransform();
                     graphicsObject.TranslateTransform(this.Width / 2, this.Height / 2);
-                    graphicsObject.RotateTransform(a - _roll);
-                    drawstring(graphicsObject, Math.Abs(a).ToString("0").PadLeft(2), font, fontsize, whiteBrush, 0 - 6 - fontoffset, -lengthlong * 8 - extra);
-                    graphicsObject.DrawLine(whitePen, 0, -lengthlong * 3 - extra, 0, -lengthlong * 3 - extra - lengthlong);
+
+                    // draw roll ind
+                    RectangleF arcrect = new RectangleF(-lengthlong * 3 - extra, -lengthlong * 3 - extra, (extra + lengthlong * 3) * 2f, (extra + lengthlong * 3) * 2f);
+
+                    //DrawRectangle(Pens.Beige, arcrect);
+
+                    graphicsObject.DrawArc(whitePen, arcrect, 180 + 30 + -_roll, 120); // 120
+
+                    graphicsObject.ResetTransform();
+
+                    //draw centre / current att
+
+                    graphicsObject.TranslateTransform(this.Width / 2, this.Height / 2);//  +this.Height / 14);
+
+                    // plane wings
+                    if (Russian)
+                        graphicsObject.RotateTransform(-_roll);
+
+                    Rectangle centercircle = new Rectangle(-halfwidth / 2, -halfwidth / 2, halfwidth, halfwidth);
+
+                    //  graphicsObject.DrawEllipse(redPen, centercircle);
+                    Pen redtemp = new Pen(Color.FromArgb(200, redPen.Color.R, redPen.Color.G, redPen.Color.B));
+                    redtemp.Width = 4.0f;
+                    // left
+                    graphicsObject.DrawLine(redtemp, centercircle.Left - halfwidth / 5, 0, centercircle.Left, 0);
+                    // right
+                    graphicsObject.DrawLine(redtemp, centercircle.Right, 0, centercircle.Right + halfwidth / 5, 0);
+                    // center point
+                    graphicsObject.DrawLine(redtemp, 0 - 1, 0, centercircle.Right - halfwidth / 3, 0 + halfheight / 10);
+                    graphicsObject.DrawLine(redtemp, 0 + 1, 0, centercircle.Left + halfwidth / 3, 0 + halfheight / 10);
                 }
 
-                graphicsObject.ResetTransform();
-                graphicsObject.TranslateTransform(this.Width / 2, this.Height / 2);
-
-                // draw roll ind
-                RectangleF arcrect = new RectangleF(-lengthlong * 3 - extra, -lengthlong * 3 - extra, (extra + lengthlong * 3) * 2f, (extra + lengthlong * 3) * 2f);
-
-                //DrawRectangle(Pens.Beige, arcrect);
-
-                graphicsObject.DrawArc(whitePen, arcrect, 180 + 30 + -_roll, 120); // 120
-
-                graphicsObject.ResetTransform();
-
-                //draw centre / current att
-
-                graphicsObject.TranslateTransform(this.Width / 2, this.Height / 2);//  +this.Height / 14);
-
-                // plane wings
-                if (Russian)
-                    graphicsObject.RotateTransform(-_roll);
-
-                Rectangle centercircle = new Rectangle(-halfwidth / 2, -halfwidth / 2, halfwidth, halfwidth);
-
-                //  graphicsObject.DrawEllipse(redPen, centercircle);
-                Pen redtemp = new Pen(Color.FromArgb(200, redPen.Color.R, redPen.Color.G, redPen.Color.B));
-                redtemp.Width = 4.0f;
-                // left
-                graphicsObject.DrawLine(redtemp, centercircle.Left - halfwidth / 5, 0, centercircle.Left, 0);
-                // right
-                graphicsObject.DrawLine(redtemp, centercircle.Right, 0, centercircle.Right + halfwidth / 5, 0);
-                // center point
-                graphicsObject.DrawLine(redtemp, 0 - 1, 0, centercircle.Right - halfwidth / 3, 0 + halfheight / 10);
-                graphicsObject.DrawLine(redtemp, 0 + 1, 0, centercircle.Left + halfwidth / 3, 0 + halfheight / 10);
-
                 //draw heading ind
-
                 Rectangle headbg = new Rectangle(0, 0, this.Width - 0, this.Height / 14);
                 SolidBrush solidBrush = new SolidBrush(Color.FromArgb(0x55, 0xff, 0xff, 0xff));
   
@@ -1486,11 +1492,11 @@ namespace MissionPlanner.Controls
 
                     drawstring(graphicsObject, ((int)_alt).ToString("0"), font, 10, (SolidBrush)Brushes.AliceBlue, scrollbg.Left + 10, -9);
                     graphicsObject.ResetTransform();
-                }
-                // mode and wp dist and wp
 
-                drawstring(graphicsObject, _mode, font, fontsize, whiteBrush, scrollbg.Left - 30, scrollbg.Bottom + 5);
-                drawstring(graphicsObject, (int)_disttowp + ">" + _wpno, font, fontsize, whiteBrush, scrollbg.Left - 30, scrollbg.Bottom + fontsize + 2 + 10);
+                    // mode and wp dist and wp
+                    drawstring(graphicsObject, _mode, font, fontsize, whiteBrush, scrollbg.Left - 30, scrollbg.Bottom + 5);
+                    drawstring(graphicsObject, (int)_disttowp + ">" + _wpno, font, fontsize, whiteBrush, scrollbg.Left - 30, scrollbg.Bottom + fontsize + 2 + 10);
+                }
 
                 if (displayconninfo)
                 {
@@ -1527,38 +1533,39 @@ namespace MissionPlanner.Controls
                     }
                 }
                 // gps
+                if (displaygps)
+                {
+                    string gps = "";
+                    SolidBrush col = whiteBrush;
 
-                string gps = "";
-                SolidBrush col = whiteBrush;
-
-                if (_gpsfix == 0)
-                {
-                    gps = (HUDT.GPS0);
-                    col = (SolidBrush)Brushes.Red;
+                    if (_gpsfix == 0)
+                    {
+                        gps = (HUDT.GPS0);
+                        col = (SolidBrush)Brushes.Red;
+                    }
+                    else if (_gpsfix == 1)
+                    {
+                        gps = (HUDT.GPS1);
+                        col = (SolidBrush)Brushes.Red;
+                    }
+                    else if (_gpsfix == 2)
+                    {
+                        gps = (HUDT.GPS2);
+                    }
+                    else if (_gpsfix == 3)
+                    {
+                        gps = (HUDT.GPS3);
+                    }
+                    else if (_gpsfix == 4)
+                    {
+                        gps = (HUDT.GPS4);
+                    }
+                    else if (_gpsfix == 5)
+                    {
+                        gps = (HUDT.GPS5);
+                    }
+                    drawstring(graphicsObject, gps, font, fontsize + 2, col, this.Width - 13 * fontsize, this.Height - 30 - fontoffset);
                 }
-                else if (_gpsfix == 1)
-                {
-                    gps = (HUDT.GPS1);
-                    col = (SolidBrush)Brushes.Red;
-                }
-                else if (_gpsfix == 2)
-                {
-                    gps = (HUDT.GPS2);
-                }
-                else if (_gpsfix == 3)
-                {
-                    gps = (HUDT.GPS3);
-                }
-                else if (_gpsfix == 4)
-                {
-                    gps = (HUDT.GPS4);
-                }
-                else if (_gpsfix == 5)
-                {
-                    gps = (HUDT.GPS5);
-                }
-                drawstring(graphicsObject, gps, font, fontsize + 2, col, this.Width - 13 * fontsize, this.Height - 30 - fontoffset);
-
 
                 if (isNaN)
                     drawstring(graphicsObject, "NaN Error " + DateTime.Now, font, this.Height / 30 + 10, (SolidBrush)Brushes.Red, 50, 50);
