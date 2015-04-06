@@ -1,4 +1,25 @@
-﻿* Mission Planner 1.3.23
+﻿* Mission Planner 1.3.24
+MainV2: change plugin load order
+update: do a blank string check on update
+flightplanner: fix wp upload issue when 2 wp's have the same values #829 *IMPORTANT*
+HUD: create more turn off options
+Mainv2: rearrange startup
+missionplanner: update post build event
+quickview: modify docking to prevent flicker
+Grid: add turn dia
+Gimbalpoint: new geopoint calc using srtm alt
+rangecontrol: width tweaks
+resources: make public
+HUD: cleanup and option parts
+GimbalPoint: update code
+flightplanner: fix no display of some mav_cmds based on recent 0 check change
+flightplanner: show 0 lats and 0 longs on map
+gmaproute: add better stroke handleing
+mavlinkinerface: add connected check to param fetch
+airports: update airports
+GMappolygon: fix null reference
+
+* Mission Planner 1.3.23
 Add satcount and GPS HDOP to 3O second interval speech synthesis.
 flightplanner: fix posible missed wp on lossy link #823
 
