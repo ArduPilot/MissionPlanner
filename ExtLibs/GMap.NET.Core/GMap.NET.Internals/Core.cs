@@ -445,7 +445,7 @@ namespace GMap.NET.Internals
                skiped = false;
 
                w.ReportProgress(1);
-               Debug.WriteLine("Invalidate delta: " + (int)delta.TotalMilliseconds + "ms");
+               //Debug.WriteLine("Invalidate delta: " + (int)delta.TotalMilliseconds + "ms");
             }
             else
             {
