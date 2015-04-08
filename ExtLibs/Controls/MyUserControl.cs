@@ -37,6 +37,7 @@ namespace System.Windows.Forms
         {
             try
             {
+                // MARKER - Seems to keep looping around here during run time
                 base.WndProc(ref m);
             }
             catch { }
