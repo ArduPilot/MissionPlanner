@@ -26,6 +26,7 @@ namespace MissionPlanner.Log
     public partial class LogDownloadMavLink : Form
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        // MARKER - I think this is the first jump when pressing the Download Button
         serialstatus status = serialstatus.Connecting;
         int currentlog = 0;
         string logfile = "";
@@ -48,6 +49,7 @@ namespace MissionPlanner.Log
 
         public LogDownloadMavLink()
         {
+            
             InitializeComponent();
 
             ThemeManager.ApplyThemeTo(this);
@@ -56,6 +58,7 @@ namespace MissionPlanner.Log
         }
 
         private void Log_Load(object sender, EventArgs e)
+        // This is the form load event
         {
             if (!MainV2.comPort.BaseStream.IsOpen)
             {
