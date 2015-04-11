@@ -2369,6 +2369,12 @@ namespace MissionPlanner
             // create it again
             System.IO.Directory.CreateDirectory(geoTagFolder);
 
+            if (picturesInfo == null)
+            {
+                TXT_outputlog.AppendText("no valid matchs");
+                return;
+            }
+
             foreach (PictureInformation picInfo in picturesInfo.Values)
             {
                 WriteCoordinatesToImage(picInfo.Path, picInfo.Lat, picInfo.Lon, picInfo.AltAMSL);
