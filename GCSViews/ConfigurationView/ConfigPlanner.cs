@@ -632,6 +632,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
 
             txt_log_dir.Text = MainV2.LogDir;
+
+            startup = false;
         }
 
 
