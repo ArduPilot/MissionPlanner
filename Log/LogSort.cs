@@ -18,6 +18,7 @@ namespace MissionPlanner.Log
             {
                 FileInfo info = new FileInfo(logfile);
 
+                // delete 0 size files
                 if (info.Length == 0)
                 {
                     try
@@ -28,6 +29,7 @@ namespace MissionPlanner.Log
                     continue;
                 }
 
+                // move small logs - most likerly invalid
                 if (info.Length <= 1024)
                 {
                     try
@@ -40,8 +42,7 @@ namespace MissionPlanner.Log
 
                         log.Info("Move log small " + logfile + " to " + destdir + Path.GetFileName(logfile));
 
-                        File.Move(logfile, destdir + Path.GetFileName(logfile));
-                        File.Move(logfile.Replace(".tlog", ".rlog"), destdir + Path.GetFileName(logfile).Replace(".tlog", ".rlog"));
+                        movefileusingmask(logfile, destdir);
                     }
                     catch { }
                     continue;
@@ -67,7 +68,7 @@ namespace MissionPlanner.Log
 
                             log.Info("Move log bad " + logfile + " to " + Path.GetDirectoryName(logfile) + Path.DirectorySeparatorChar + "BAD" + Path.DirectorySeparatorChar + Path.GetFileName(logfile));
 
-                            File.Move(logfile, Path.GetDirectoryName(logfile) + Path.DirectorySeparatorChar + "BAD" + Path.DirectorySeparatorChar + Path.GetFileName(logfile));
+                            movefileusingmask(logfile, Path.GetDirectoryName(logfile) + Path.DirectorySeparatorChar + "BAD" + Path.DirectorySeparatorChar);
                             continue;
                         }
 
@@ -83,18 +84,24 @@ namespace MissionPlanner.Log
                         if (!Directory.Exists(destdir))
                             Directory.CreateDirectory(destdir);
 
-                        log.Info("Move log " + logfile + " to " + destdir + Path.GetFileName(logfile));
-
-                        File.Move(logfile, destdir + Path.GetFileName(logfile));
-
-                        try
-                        {
-                            File.Move(logfile.Replace(".tlog", ".rlog"), destdir + Path.GetFileName(logfile).Replace(".tlog", ".rlog"));
-                        }
-                        catch { }
+                        movefileusingmask(logfile, destdir);
                     }
                 }
                 catch { continue; }
+            }
+        }
+
+        static void movefileusingmask(string logfile, string destdir)
+        {
+            string dir = Path.GetDirectoryName(logfile);
+            string filter = Path.GetFileNameWithoutExtension(logfile)+"*";
+
+            string[] files = Directory.GetFiles(dir, filter);
+            foreach (var file in files)
+            {
+                log.Info("Move log " + file + " to " + destdir + Path.GetFileName(file));
+
+                File.Move(file, destdir + Path.GetFileName(file));
             }
         }
     }
