@@ -54,36 +54,51 @@ namespace MissionPlanner
             static public int SW_HIDE = 0;
         }
 
-        static menuicons displayicons = new menuicons2();
+        static menuicons displayicons = new menuicons1();
 
-        public class menuicons
+        public abstract class menuicons
         {
-            public Image fd = global::MissionPlanner.Properties.Resources.light_flightdata_icon;
-            public Image fp = global::MissionPlanner.Properties.Resources.light_flightplan_icon;
-            public Image initsetup = global::MissionPlanner.Properties.Resources.light_initialsetup_icon;
-            public Image config_tuning = global::MissionPlanner.Properties.Resources.light_tuningconfig_icon;
-            public Image sim = global::MissionPlanner.Properties.Resources.light_simulation_icon;
-            public Image terminal = global::MissionPlanner.Properties.Resources.light_terminal_icon;
-            public Image help = global::MissionPlanner.Properties.Resources.light_help_icon;
-            public Image donate = global::MissionPlanner.Properties.Resources.donate;
-            public Image connect = global::MissionPlanner.Properties.Resources.light_connect_icon;
-            public Image disconnect = global::MissionPlanner.Properties.Resources.light_disconnect_icon;
-            public Image bg = global::MissionPlanner.Properties.Resources.bgdark;
+            public abstract Image fd { get; }
+            public abstract Image fp { get;  }
+            public abstract Image initsetup { get;  }
+            public abstract Image config_tuning { get;  }
+            public abstract Image sim { get;  }
+            public abstract Image terminal { get;  }
+            public abstract Image help { get;  }
+            public abstract Image donate { get;  }
+            public abstract Image connect { get;  }
+            public abstract Image disconnect { get;  }
+            public abstract Image bg { get;  }
+        }
+
+        public class menuicons1 : menuicons
+        {
+            public override Image fd { get { return global::MissionPlanner.Properties.Resources.light_flightdata_icon; } }
+            public override Image fp { get { return global::MissionPlanner.Properties.Resources.light_flightplan_icon; } }
+            public override Image initsetup { get { return global::MissionPlanner.Properties.Resources.light_initialsetup_icon; } }
+            public override Image config_tuning { get { return global::MissionPlanner.Properties.Resources.light_tuningconfig_icon; } }
+            public override Image sim { get { return global::MissionPlanner.Properties.Resources.light_simulation_icon; } }
+            public override Image terminal { get { return global::MissionPlanner.Properties.Resources.light_terminal_icon; } }
+            public override Image help { get { return global::MissionPlanner.Properties.Resources.light_help_icon; } }
+            public override Image donate { get { return global::MissionPlanner.Properties.Resources.donate; } }
+            public override Image connect { get { return global::MissionPlanner.Properties.Resources.light_connect_icon; } }
+            public override Image disconnect { get { return global::MissionPlanner.Properties.Resources.light_disconnect_icon; } }
+            public override Image bg { get { return global::MissionPlanner.Properties.Resources.bgdark; } }
         }
 
         public class menuicons2 : menuicons
         {
-            public new Image fd = global::MissionPlanner.Properties.Resources.dark_flightdata_icon;
-            public new Image fp = global::MissionPlanner.Properties.Resources.dark_flightplan_icon;
-            public new Image initsetup = global::MissionPlanner.Properties.Resources.dark_initialsetup_icon;
-            public new Image config_tuning = global::MissionPlanner.Properties.Resources.dark_tuningconfig_icon;
-            public new Image sim = global::MissionPlanner.Properties.Resources.dark_simulation_icon;
-            public new Image terminal = global::MissionPlanner.Properties.Resources.dark_terminal_icon;
-            public new Image help = global::MissionPlanner.Properties.Resources.dark_help_icon;
-            public new Image donate = global::MissionPlanner.Properties.Resources.donate;
-            public new Image connect = global::MissionPlanner.Properties.Resources.dark_connect_icon;
-            public new Image disconnect = global::MissionPlanner.Properties.Resources.dark_disconnect_icon;
-            public new Image bg = global::MissionPlanner.Properties.Resources.bgdark;
+            public override Image fd { get { return global::MissionPlanner.Properties.Resources.dark_flightdata_icon; } }
+            public override Image fp { get { return global::MissionPlanner.Properties.Resources.dark_flightplan_icon; } }
+            public override Image initsetup { get { return global::MissionPlanner.Properties.Resources.dark_initialsetup_icon; } }
+            public override Image config_tuning { get { return global::MissionPlanner.Properties.Resources.dark_tuningconfig_icon; } }
+            public override Image sim { get { return global::MissionPlanner.Properties.Resources.dark_simulation_icon; } }
+            public override Image terminal { get { return global::MissionPlanner.Properties.Resources.dark_terminal_icon; } }
+            public override Image help { get { return global::MissionPlanner.Properties.Resources.dark_help_icon; } }
+            public override Image donate { get { return global::MissionPlanner.Properties.Resources.donate; } }
+            public override Image connect { get { return global::MissionPlanner.Properties.Resources.dark_connect_icon; } }
+            public override Image disconnect { get { return global::MissionPlanner.Properties.Resources.dark_disconnect_icon; } }
+            public override Image bg { get { return null; } }
         }
 
         Controls.MainSwitcher MyView;
@@ -421,6 +436,11 @@ namespace MissionPlanner
                     }
                     catch { log.Error("Bad Custom theme - reset to standard"); ThemeManager.SetTheme(ThemeManager.Themes.BurntKermit); }
                 }
+
+                if (ThemeManager.CurrentTheme == ThemeManager.Themes.HighContrast)
+                {
+                    switchlight(new menuicons2());
+                }
             }
 
             if (MainV2.config["showairports"] != null)
@@ -636,6 +656,36 @@ namespace MissionPlanner
                 log.Info("Loaded " + Utilities.Airports.GetAirportCount + " airports");
             }
             catch { }
+        }
+
+        void switchlight(menuicons icons)
+        {
+            displayicons = icons;
+
+            MainMenu.BackColor = SystemColors.MenuBar;
+
+            MainMenu.BackgroundImage = displayicons.bg;
+
+            MenuFlightData.Image = displayicons.fd;
+            MenuFlightPlanner.Image = displayicons.fp;
+            MenuInitConfig.Image = displayicons.config_tuning;
+            MenuSimulation.Image = displayicons.sim;
+            MenuConfigTune.Image = displayicons.config_tuning;
+            MenuTerminal.Image = displayicons.terminal;
+            MenuConnect.Image = displayicons.connect;
+            MenuHelp.Image = displayicons.help;
+            MenuDonate.Image = displayicons.donate;
+
+
+            MenuFlightData.ForeColor = ThemeManager.TextColor;
+            MenuFlightPlanner.ForeColor = ThemeManager.TextColor;
+            MenuInitConfig.ForeColor = ThemeManager.TextColor;
+            MenuSimulation.ForeColor = ThemeManager.TextColor;
+            MenuConfigTune.ForeColor = ThemeManager.TextColor;
+            MenuTerminal.ForeColor = ThemeManager.TextColor;
+            MenuConnect.ForeColor = ThemeManager.TextColor;
+            MenuHelp.ForeColor = ThemeManager.TextColor;
+            MenuDonate.ForeColor = ThemeManager.TextColor;
         }
 
         void MenuCustom_Click(object sender, EventArgs e)
@@ -2788,7 +2838,7 @@ namespace MissionPlanner
                 else
                 {
                     item.BackColor = Color.Transparent;
-                    item.BackgroundImage = MissionPlanner.Properties.Resources.bgdark;//.BackColor = Color.Black;
+                    item.BackgroundImage = displayicons.bg;//.BackColor = Color.Black;
                 }
             }
             //MainMenu.BackColor = Color.Black;
