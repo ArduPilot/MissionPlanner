@@ -468,7 +468,7 @@ namespace MissionPlanner.Utilities
 
                     if (apmformat_version != -1 && apmformat_version != temp.k_format_version)
                     {
-                        if (DialogResult.No == CustomMessageBox.Show(Strings.EppromChanged, String.Format(Strings.EppromFormatChanged, apmformat_version, temp.k_format_version), MessageBoxButtons.YesNo)) ;
+                        if (DialogResult.No == CustomMessageBox.Show(Strings.EppromChanged, String.Format(Strings.EppromFormatChanged, apmformat_version, temp.k_format_version), MessageBoxButtons.YesNo))
                         {
                             CustomMessageBox.Show(Strings.PleaseConnectAndBackupConfig);
                             return false;
