@@ -618,13 +618,6 @@ namespace MissionPlanner
 
             Comports.Add(comPort);
 
-            //int fixmenextrelease;
-            // if (MainV2.getConfig("fixparams") == "")
-            {
-                //    Utilities.ParameterMetaDataParser.GetParameterInformation();
-                //    MainV2.config["fixparams"] = 1;
-            }
-
             // save config to test we have write access
             xmlconfig(true);
         }
@@ -2120,9 +2113,7 @@ namespace MissionPlanner
 
             ThreadPool.QueueUserWorkItem(BGLoadAirports);
 
-            ThreadPool.QueueUserWorkItem(BGCreateMaps);
-
-  
+            ThreadPool.QueueUserWorkItem(BGCreateMaps); 
 
             try
             {
@@ -2149,21 +2140,6 @@ namespace MissionPlanner
                 }
             }
             catch (Exception ex) { log.Error(ex); }
-
-            // sort tlogs
-            try
-            {
-                System.Threading.ThreadPool.QueueUserWorkItem((WaitCallback)delegate
-                {
-                    try
-                    {
-                        MissionPlanner.Log.LogSort.SortLogs(Directory.GetFiles(MainV2.LogDir, "*.tlog"));
-                    }
-                    catch (Exception ex) { log.Error(ex); }
-                }
-                );
-            }
-            catch { }
 
             // update firmware version list - only once per day
             try
@@ -2249,8 +2225,16 @@ namespace MissionPlanner
 
         private void BGCreateMaps(object state)
         {
+            // sort logs
             try
             {
+                MissionPlanner.Log.LogSort.SortLogs(Directory.GetFiles(MainV2.LogDir, "*.tlog"));
+            }
+            catch (Exception ex) { log.Error(ex); }
+
+            try
+            {
+                // create maps
                 Log.LogMap.MapLogs(Directory.GetFiles(MainV2.LogDir, "*.tlog", SearchOption.AllDirectories));
                 Log.LogMap.MapLogs(Directory.GetFiles(MainV2.LogDir, "*.bin", SearchOption.AllDirectories));
                 Log.LogMap.MapLogs(Directory.GetFiles(MainV2.LogDir, "*.log", SearchOption.AllDirectories));
