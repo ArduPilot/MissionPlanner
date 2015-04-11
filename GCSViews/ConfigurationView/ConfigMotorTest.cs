@@ -121,7 +121,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            System.Diagnostics.Process.Start("http://copter.ardupilot.com/wiki/motor-setup/");
+            try
+            {
+                System.Diagnostics.Process.Start("http://copter.ardupilot.com/wiki/motor-setup/");
+            }
+            catch { CustomMessageBox.Show("Bad default system association", Strings.ERROR); }
         }
     }
 }
