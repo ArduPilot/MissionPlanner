@@ -124,6 +124,24 @@
                     <description>Quad-rotor VTOL using a V-shaped quad config in vertical operation. Tailsitter.</description>
                </entry>
                <!-- Entries up to 25 reserved for other VTOL airframes -->
+               <entry value="21" name="MAV_TYPE_VTOL_RESERVED1">
+                    <description>VTOL reserved 1</description>
+               </entry>
+               <entry value="22" name="MAV_TYPE_VTOL_RESERVED2">
+                    <description>VTOL reserved 2</description>
+               </entry>
+               <entry value="23" name="MAV_TYPE_VTOL_RESERVED3">
+                    <description>VTOL reserved 3</description>
+               </entry>
+               <entry value="24" name="MAV_TYPE_VTOL_RESERVED4">
+                    <description>VTOL reserved 4</description>
+               </entry>
+               <entry value="25" name="MAV_TYPE_VTOL_RESERVED5">
+                    <description>VTOL reserved 5</description>
+               </entry>
+               <entry value="26" name="MAV_TYPE_GIMBAL">
+                    <description>Onboard gimbal</description>
+               </entry>
           </enum>
           <!-- WARNING: MAV_ACTION Enum is no longer supported - has been removed. Please use MAV_CMD -->
           <enum name="MAV_MODE_FLAG">
@@ -337,6 +355,9 @@
                <entry value="153" name="MAV_COMP_ID_SERVO14">
                     <description/>
                </entry>
+               <entry value="154" name="MAV_COMP_ID_GIMBAL">
+                    <description/>
+               </entry>
           </enum>
           <enum name="MAV_SYS_STATUS_SENSOR">
                <description>These encode the sensors whose status is sent as part of the SYS_STATUS message.</description>
@@ -426,6 +447,12 @@
                <entry value="4" name="MAV_FRAME_LOCAL_ENU">
                     <description>Local coordinate frame, Z-down (x: east, y: north, z: up)</description>
                </entry>
+               <entry value="5" name="MAV_FRAME_GLOBAL_INT">
+                   <description>Global coordinate frame, WGS84 coordinate system. First value / x: latitude in degrees*1.0e-7, second value / y: longitude in degrees*1.0e-7, third value / z: positive altitude over mean sea level (MSL)</description>
+               </entry>
+               <entry value="6" name="MAV_FRAME_GLOBAL_RELATIVE_ALT_INT">
+                   <description>Global coordinate frame, WGS84 coordinate system, relative altitude over ground with respect to the home position. First value / x: latitude in degrees*10e-7, second value / y: longitude in degrees*10e-7, third value / z: positive altitude with 0 being at the altitude of the home location.</description>
+               </entry>
                <entry value="7" name="MAV_FRAME_LOCAL_OFFSET_NED">
                    <description>Offset to the current local frame. Anything expressed in this frame should be added to the current local frame position.</description>
                </entry>
@@ -437,6 +464,9 @@
                </entry>
                <entry value="10" name="MAV_FRAME_GLOBAL_TERRAIN_ALT">
                    <description>Global coordinate frame with above terrain level altitude. WGS84 coordinate system, relative altitude over terrain with respect to the waypoint coordinate. First value / x: latitude in degrees, second value / y: longitude in degrees, third value / z: positive altitude in meters with 0 being at ground level in terrain model.</description>
+               </entry>
+               <entry value="11" name="MAV_FRAME_GLOBAL_TERRAIN_ALT_INT">
+                   <description>Global coordinate frame with above terrain level altitude. WGS84 coordinate system, relative altitude over terrain with respect to the waypoint coordinate. First value / x: latitude in degrees*10e-7, second value / y: longitude in degrees*10e-7, third value / z: positive altitude in meters with 0 being at ground level in terrain model.</description>
                </entry>
           </enum>
           <enum name="MAVLINK_DATA_STREAM_TYPE">
@@ -1034,6 +1064,11 @@
                     <param index="1">0:Spektrum</param>
                     <param index="2">0:Spektrum DSM2, 1:Spektrum DSMX</param>
                </entry>
+               <entry value="520" name="MAV_CMD_REQUEST_AUTOPILOT_CAPABILITIES">
+                 <description>Request autopilot capabilities</description>
+                 <param index="1">1: Request autopilot version</param>
+                 <param index="2">Reserved (all remaining params)</param>
+               </entry>
               <entry value="2000" name="MAV_CMD_IMAGE_START_CAPTURE">
                   <description>Start image capture sequence</description>
                   <param index="1">Duration between two consecutive pictures (in seconds)</param>
@@ -1395,6 +1430,9 @@
               </entry>
               <entry value="512" name="MAV_PROTOCOL_CAPABILITY_TERRAIN">
                   <description>Autopilot supports terrain protocol / data handling.</description>
+              </entry>
+              <entry value="1024" name="MAV_PROTOCOL_CAPABILITY_SET_ACTUATOR_TARGET">
+                  <description>Autopilot supports direct actuator control.</description>
               </entry>
           </enum>
           <enum name="MAV_ESTIMATOR_TYPE">
@@ -2265,17 +2303,16 @@
             <field type="float" name="vd">True velocity in m/s in DOWN direction in earth-fixed NED frame</field>
 	  </message>
 
-	  <message name="RADIO_STATUS" id="109">
-	    <description>Status generated by radio</description>
-            <field type="uint8_t" name="rssi">local signal strength</field>
-            <field type="uint8_t" name="remrssi">remote signal strength</field>
-	    <field type="uint8_t" name="txbuf">how full the tx buffer is as a percentage</field>
-            <field type="uint8_t" name="noise">background noise level</field>
-            <field type="uint8_t" name="remnoise">remote background noise level</field>
-	    <field type="uint16_t" name="rxerrors">receive errors</field>
-	    <field type="uint16_t" name="fixed">count of error corrected packets</field>
-	  </message>
-
+    	  <message name="RADIO_STATUS" id="109">
+    	      <description>Status generated by radio and injected into MAVLink stream.</description>
+            <field type="uint8_t" name="rssi">Local signal strength</field>
+            <field type="uint8_t" name="remrssi">Remote signal strength</field>
+            <field type="uint8_t" name="txbuf">Remaining free buffer space in percent.</field>
+            <field type="uint8_t" name="noise">Background noise level</field>
+            <field type="uint8_t" name="remnoise">Remote background noise level</field>
+            <field type="uint16_t" name="rxerrors">Receive errors</field>
+            <field type="uint16_t" name="fixed">Count of error corrected packets</field>
+    	  </message>
         <message id="110" name="FILE_TRANSFER_PROTOCOL">
             <description>File transfer message</description>
             <field type="uint8_t" name="target_network">Network ID (0 for broadcast)</field>
@@ -2461,6 +2498,19 @@
             <field type="uint32_t" name="accuracy">Current estimate of baseline accuracy.</field>
             <field type="int32_t" name="iar_num_hypotheses">Current number of integer ambiguity hypotheses.</field>
         </message>
+        <message id="129" name="SCALED_IMU3">
+          <description>The RAW IMU readings for 3rd 9DOF sensor setup. This message should contain the scaled values to the described units</description>
+          <field type="uint32_t" name="time_boot_ms">Timestamp (milliseconds since system boot)</field>
+          <field type="int16_t" name="xacc">X acceleration (mg)</field>
+          <field type="int16_t" name="yacc">Y acceleration (mg)</field>
+          <field type="int16_t" name="zacc">Z acceleration (mg)</field>
+          <field type="int16_t" name="xgyro">Angular speed around X axis (millirad /sec)</field>
+          <field type="int16_t" name="ygyro">Angular speed around Y axis (millirad /sec)</field>
+          <field type="int16_t" name="zgyro">Angular speed around Z axis (millirad /sec)</field>
+          <field type="int16_t" name="xmag">X Magnetic field (milli tesla)</field>
+          <field type="int16_t" name="ymag">Y Magnetic field (milli tesla)</field>
+          <field type="int16_t" name="zmag">Z Magnetic field (milli tesla)</field>
+        </message>
         <message id="130" name="DATA_TRANSMISSION_HANDSHAKE">
             <field type="uint8_t" name="type">type of requested/acknowledged data (as defined in ENUM DATA_TYPES in mavlink/include/mavlink_types.h)</field>
             <field type="uint32_t" name="size">total data size in bytes (set on ACK only)</field>
@@ -2521,6 +2571,28 @@
            <field type="float" name="press_diff">Differential pressure 1 (hectopascal)</field>
            <field type="int16_t" name="temperature">Temperature measurement (0.01 degrees celsius)</field>
          </message>
+        <message id="138" name="ATT_POS_MOCAP">
+          <description>Motion capture attitude and position</description>
+          <field type="uint64_t" name="time_usec">Timestamp (micros since boot or Unix epoch)</field>
+          <field type="float[4]" name="q">Attitude quaternion (w, x, y, z order, zero-rotation is 1, 0, 0, 0)</field>
+          <field type="float" name="x">X position in meters (NED)</field>
+          <field type="float" name="y">Y position in meters (NED)</field>
+          <field type="float" name="z">Z position in meters (NED)</field>
+        </message>
+        <message id="139" name="SET_ACTUATOR_CONTROL_TARGET">
+            <description>Set the vehicle attitude and body angular rates.</description>
+            <field type="uint64_t" name="time_usec">Timestamp (micros since boot or Unix epoch)</field>
+            <field type="uint8_t" name="group_mlx">Actuator group. The "_mlx" indicates this is a multi-instance message and a MAVLink parser should use this field to difference between instances.</field>
+            <field type="uint8_t" name="target_system">System ID</field>
+            <field type="uint8_t" name="target_component">Component ID</field>
+            <field type="float[8]" name="controls">Actuator controls. Normed to -1..+1 where 0 is neutral position. Throttle for single rotation direction motors is 0..1, negative range for reverse direction. Standard mapping for attitude controls (group 0): (index 0-7): roll, pitch, yaw, throttle, flaps, spoilers, airbrakes, landing gear. Load a pass-through mixer to repurpose them as generic outputs.</field>
+        </message>
+        <message id="140" name="ACTUATOR_CONTROL_TARGET">
+            <description>Set the vehicle attitude and body angular rates.</description>
+            <field type="uint64_t" name="time_usec">Timestamp (micros since boot or Unix epoch)</field>
+            <field type="uint8_t" name="group_mlx">Actuator group. The "_mlx" indicates this is a multi-instance message and a MAVLink parser should use this field to difference between instances.</field>
+            <field type="float[8]" name="controls">Actuator controls. Normed to -1..+1 where 0 is neutral position. Throttle for single rotation direction motors is 0..1, negative range for reverse direction. Standard mapping for attitude controls (group 0): (index 0-7): roll, pitch, yaw, throttle, flaps, spoilers, airbrakes, landing gear. Load a pass-through mixer to repurpose them as generic outputs.</field>
+        </message>
         <message id="147" name="BATTERY_STATUS">
             <description>Battery information</description>
             <field type="uint8_t" name="id">Battery ID</field>

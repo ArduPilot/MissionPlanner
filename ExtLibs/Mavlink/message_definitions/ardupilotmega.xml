@@ -115,6 +115,28 @@
         <entry name="OPENLOOP"    value="4"> <description>Open loop camera, an image trigger has been requested but we can't know for sure it has successfully taken a picture</description></entry>
     </enum>
 
+    <!-- led control pattern enums (enumeration of specific patterns) -->
+    <enum name="LED_CONTROL_PATTERN">
+        <entry name="LED_CONTROL_PATTERN_OFF" value="0"> <description>LED patterns off (return control to regular vehicle control)</description></entry>
+        <entry name="LED_CONTROL_PATTERN_FIRMWAREUPDATE" value="1"> <description>LEDs show pattern during firmware update</description></entry>
+        <entry name="LED_CONTROL_PATTERN_CUSTOM" value="255"> <description>Custom Pattern using custom bytes fields</description></entry>
+    </enum>
+
+	<!-- EKF_STATUS_FLAGS - these values should be bit-and with the messages flags field to know if flag has been set -->
+    <enum name="EKF_STATUS_FLAGS">
+        <description>Flags in EKF_STATUS message</description>
+        <entry name="EKF_ATTITUDE" value="1"> <description>set if EKF's attitude estimate is good</description></entry>
+        <entry name="EKF_VELOCITY_HORIZ" value="2"> <description>set if EKF's horizontal velocity estimate is good</description></entry>
+        <entry name="EKF_VELOCITY_VERT" value="4"> <description>set if EKF's vertical velocity estimate is good</description></entry>
+        <entry name="EKF_POS_HORIZ_REL" value="8"> <description>set if EKF's horizontal position (relative) estimate is good</description></entry>
+        <entry name="EKF_POS_HORIZ_ABS" value="16"> <description>set if EKF's horizontal position (absolute) estimate is good</description></entry>
+        <entry name="EKF_POS_VERT_ABS" value="32"> <description>set if EKF's vertical position (absolute) estimate is good</description></entry>
+        <entry name="EKF_POS_VERT_AGL" value="64"> <description>set if EKF's vertical position (above ground) estimate is good</description></entry>
+        <entry name="EKF_CONST_POS_MODE" value="128"> <description>EKF is in constant position mode and does not know it's absolute or relative position</description></entry>
+        <entry name="EKF_PRED_POS_HORIZ_REL" value="256"> <description>set if EKF's predicted horizontal position (relative) estimate is good</description></entry>
+        <entry name="EKF_PRED_POS_HORIZ_ABS" value="512"> <description>set if EKF's predicted horizontal position (absolute) estimate is good</description></entry>
+	</enum>
+
       </enums>
 
      <messages>
@@ -478,6 +500,63 @@
       <field type="float" name="v3">test variable3</field>
       <field type="float" name="v4">test variable4</field>
     </message>
+
+    <message name="AUTOPILOT_VERSION_REQUEST" id="183">
+        <description>Request the autopilot version from the system/component.</description>
+        <field type="uint8_t" name="target_system">System ID</field>
+        <field type="uint8_t" name="target_component">Component ID</field>
+    </message>
+
+    <message name="LED_CONTROL" id="186">
+        <description>Control vehicle LEDs</description>
+        <field type="uint8_t" name="target_system">System ID</field>
+        <field type="uint8_t" name="target_component">Component ID</field>
+        <field type="uint8_t" name="instance">Instance (LED instance to control or 255 for all LEDs)</field>
+        <field type="uint8_t" name="pattern">Pattern (see LED_PATTERN_ENUM)</field>
+        <field type="uint8_t" name="custom_len">Custom Byte Length</field>
+        <field type="uint8_t[24]" name="custom_bytes">Custom Bytes</field>
+    </message>
+
+    <!-- 191 to 192 RESERVED for mag calibration -->
+    
+    <!-- EKF status message from autopilot to GCS.   -->
+    <message name="EKF_STATUS_REPORT" id="193">
+        <description>EKF Status message including flags and variances</description>
+        <field name="flags" type="uint16_t">Flags</field>   <!-- supported flags see EKF_STATUS_FLAGS enum -->
+        <field name="velocity_variance" type="float">Velocity variance</field>   <!-- below 0.5 is good, 0.5~0.79 is warning, 0.8 or higher is bad  -->
+        <field name="pos_horiz_variance" type="float">Horizontal Position variance</field>
+        <field name="pos_vert_variance" type="float">Vertical Position variance</field>
+        <field name="compass_variance" type="float">Compass variance</field>
+        <field name="terrain_alt_variance" type="float">Terrain Altitude variance</field>
+    </message>
+
+    <message name="GIMBAL_REPORT" id="200">
+        <description>3 axis gimbal mesuraments</description>
+        <field type="uint8_t" name="target_system">System ID</field>
+        <field type="uint8_t" name="target_component">Component ID</field>
+        <field type="float" name="delta_time">Time since last update (seconds)</field>
+        <field type="float" name="delta_angle_x">Delta angle X (radians)</field>
+        <field type="float" name="delta_angle_y">Delta angle Y (radians)</field>
+        <field type="float" name="delta_angle_z">Delta angle X (radians)</field>
+        <field type="float" name="delta_velocity_x">Delta velocity X (m/s)</field>
+        <field type="float" name="delta_velocity_y">Delta velocity Y (m/s)</field>
+        <field type="float" name="delta_velocity_z">Delta velocity Z (m/s)</field>
+        <field type="float" name="joint_roll"> Joint ROLL (radians)</field>
+        <field type="float" name="joint_el"> Joint EL (radians)</field>
+        <field type="float" name="joint_az"> Joint AZ (radians)</field>
+    </message>
+
+    <message name="GIMBAL_CONTROL" id="201">
+        <description>Control message for rate gimbal</description>
+        <field type="uint8_t" name="target_system">System ID</field>
+        <field type="uint8_t" name="target_component">Component ID</field>
+        <field type="float" name="demanded_rate_x">Demanded angular rate X (rad/s)</field>
+        <field type="float" name="demanded_rate_y">Demanded angular rate Y (rad/s)</field>
+        <field type="float" name="demanded_rate_z">Demanded angular rate Z (rad/s)</field>
+    </message>
+
+    <!-- 202 to 214 RESERVED for gimbal control -->
+    <!-- 215 to 218 RESERVED for camera control -->
 
      </messages>
 </mavlink>
