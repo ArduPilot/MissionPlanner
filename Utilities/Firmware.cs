@@ -386,7 +386,7 @@ namespace MissionPlanner.Utilities
 
                 software temp = (software)tempin;
 
-                string baseurl = temp.url2560_2;
+                string baseurl = temp.urlpx4v2;
 
                 ReplaceMirrorUrl(ref baseurl);
 
@@ -546,6 +546,14 @@ namespace MissionPlanner.Utilities
                 {
                     CustomMessageBox.Show(Strings.InvalidBoardType);
                     return false;
+                }
+
+                if (board <= BoardDetect.boards.px4)
+                {
+                    if (temp.name.ToLower().Contains("arducopter")) 
+                    {
+                        CustomMessageBox.Show("This board has been retired, Mission Planner this will upload the last available version to your board","Note");
+                    }
                 }
 
                 if (historyhash != "")
