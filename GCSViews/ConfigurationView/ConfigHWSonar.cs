@@ -13,8 +13,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 {
     public partial class ConfigHWSonar : UserControl, IActivate, IDeactivate
     {
-        bool startup = false;
-
+  
         const float rad2deg = (float)(180 / Math.PI);
         const float deg2rad = (float)(1.0 / rad2deg);
 
@@ -35,13 +34,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 this.Enabled = true;
             }
 
-            startup = true;
-
             CMB_sonartype.setup(Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("RNGFND_TYPE", MainV2.comPort.MAV.cs.firmware.ToString()), "RNGFND_TYPE", MainV2.comPort.MAV.param);
 
             timer1.Start();
-
-            startup = false;
         }
 
         private void timer1_Tick(object sender, EventArgs e)
