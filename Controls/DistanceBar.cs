@@ -18,8 +18,6 @@ namespace MissionPlanner.Controls
         public float totaldist { get; set; }
         public float traveleddist { get; set; }
 
-        bool parentpaint = false;
-
         private object locker = new object();
         private List<float> wpdist = new List<float>();
 
@@ -54,6 +52,8 @@ namespace MissionPlanner.Controls
         {
             SetStyle(ControlStyles.SupportsTransparentBackColor, true);
             SetStyle(ControlStyles.Opaque, true);
+
+            this.DoubleBuffered = true;
 
             InitializeComponent();
 
