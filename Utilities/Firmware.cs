@@ -548,7 +548,7 @@ namespace MissionPlanner.Utilities
                     return false;
                 }
 
-                if (board <= BoardDetect.boards.px4)
+                if (board < BoardDetect.boards.px4)
                 {
                     if (temp.name.ToLower().Contains("arducopter")) 
                     {
