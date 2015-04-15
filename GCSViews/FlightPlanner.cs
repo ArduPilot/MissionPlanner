@@ -1080,6 +1080,10 @@ namespace MissionPlanner.GCSViews
                             string cell3 = Commands.Rows[a].Cells[Lat.Index].Value.ToString(); // lat
                             string cell4 = Commands.Rows[a].Cells[Lon.Index].Value.ToString(); // lng
 
+                            // land can be 0,0 or a lat,lng
+                            if (command == (byte)MAVLink.MAV_CMD.LAND && cell3 == "0" && cell4 == "0")
+                                continue;
+
                             if (cell4 == "?" || cell3 == "?")
                                 continue;
 
