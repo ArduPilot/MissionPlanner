@@ -21,6 +21,8 @@ namespace MissionPlanner.Controls
         private object locker = new object();
         private List<float> wpdist = new List<float>();
 
+        Bitmap buffer = new Bitmap(640, 480);
+
         public void AddWPDist(float dist)
         {
             lock (locker)
@@ -53,7 +55,7 @@ namespace MissionPlanner.Controls
             SetStyle(ControlStyles.SupportsTransparentBackColor, true);
             SetStyle(ControlStyles.Opaque, true);
 
-            this.DoubleBuffered = true;
+            this.DoubleBuffered = false;
 
             InitializeComponent();
 
@@ -75,50 +77,63 @@ namespace MissionPlanner.Controls
                 //Parent.Invalidate(this.Bounds, true);
             }
 
-
-
-            if (totaldist <= 0)
-                totaldist = 100;
-
-            // bar
-
-            RectangleF bar = new RectangleF(4, 4, this.Width - 8, this.Height - 8);
-
-            e.Graphics.FillRectangle(brushbar, bar);
-
-            // draw bar traveled
-
-            RectangleF bartrav = new RectangleF(bar.X, bar.Y, bar.Width * (traveleddist / totaldist) , bar.Height);
-
-            e.Graphics.FillRectangle(brushbar, bartrav);
-            e.Graphics.FillRectangle(brushbar, bartrav);
-            e.Graphics.FillRectangle(brushbar, bartrav);
-            e.Graphics.FillRectangle(brushbar, bartrav);
-            e.Graphics.FillRectangle(brushbar, bartrav);
-
-            // draw wp dist
-
-            lock (locker)
+            using (Graphics etemp = Graphics.FromImage(buffer))
             {
-                float iconwidth = this.Height / 4;
-                float trav = 0;
-                foreach (var disttrav in wpdist)
+
+                if (totaldist <= 0)
+                    totaldist = 100;
+
+                // bar
+
+                RectangleF bar = new RectangleF(4, 4, this.Width - 8, this.Height - 8);
+
+                etemp.Clear(Color.Transparent);
+
+                etemp.FillRectangle(brushbar, bar);
+
+                // draw bar traveled
+
+                RectangleF bartrav = new RectangleF(bar.X, bar.Y, bar.Width * (traveleddist / totaldist), bar.Height);
+
+                etemp.FillRectangle(brushbar, bartrav);
+                etemp.FillRectangle(brushbar, bartrav);
+                etemp.FillRectangle(brushbar, bartrav);
+                etemp.FillRectangle(brushbar, bartrav);
+                etemp.FillRectangle(brushbar, bartrav);
+
+                // draw wp dist
+
+                lock (locker)
                 {
-                    trav += disttrav;
+                    float iconwidth = this.Height / 4;
+                    float trav = 0;
+                    foreach (var disttrav in wpdist)
+                    {
+                        trav += disttrav;
 
-                    if (trav > totaldist)
-                        trav = totaldist;
+                        if (trav > totaldist)
+                            trav = totaldist;
 
-                    e.Graphics.FillPie(Brushes.Yellow, (bar.X + bar.Width * (trav / totaldist)) - iconwidth / 2, bar.Top, bar.Height / 2, bar.Height, 0, 360);
-                    //e.Graphics.DrawImage(icon, (bar.X + bar.Width * (trav / totaldist)) - iconwidth / 2, 1, iconwidth, bar.Height);
+                        etemp.FillPie(Brushes.Yellow, (bar.X + bar.Width * (trav / totaldist)) - iconwidth / 2, bar.Top, bar.Height / 2, bar.Height, 0, 360);
+                        //e.Graphics.DrawImage(icon, (bar.X + bar.Width * (trav / totaldist)) - iconwidth / 2, 1, iconwidth, bar.Height);
+                    }
                 }
+
+                // draw dist traveled
+
+                string dist = traveleddist.ToString("0");
+
+                etemp.DrawString(dist, this.Font, new SolidBrush(this.ForeColor), bartrav.Right, bartrav.Bottom - this.Font.Height);
+
+                e.Graphics.DrawImageUnscaled(buffer, 0, 0);
             }
+        }
 
-            // draw dist traveled
+        protected override void OnResize(EventArgs e)
+        {
+            base.OnResize(e);
 
-            string dist = traveleddist.ToString("0");
-
-            e.Graphics.DrawString(dist, this.Font, new SolidBrush(this.ForeColor), bartrav.Right, bartrav.Bottom - this.Font.Height);            
+            buffer = new Bitmap(this.Width,this.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
         }
 
         protected override void OnPaintBackground(PaintEventArgs e)
