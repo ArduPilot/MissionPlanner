@@ -44,6 +44,104 @@ namespace MissionPlanner.Log
         GMapOverlay mapoverlay;
 		GMapOverlay markeroverlay;
 		LineObj m_cursorLine = null;
+        Hashtable dataModifierHash = new Hashtable();
+
+        class DataModifer
+        {
+            private bool isValid;
+            public string commandString;
+            public double offset;
+            public double scalar;
+            public bool doOffsetFirst;
+            
+            public DataModifer(string commandString)
+            {
+                this.scalar = 1;
+                this.offset = 0;
+                this.doOffsetFirst = false;
+                this.commandString = commandString;
+
+                this.isValid = ParseCommandString(commandString);
+
+                if (this.isValid == false)
+                {
+                    this.offset = 0;
+                    this.scalar = 1;
+                    this.doOffsetFirst = false;
+                    this.commandString = "";
+                }
+            }
+
+            private bool ParseCommandString(string commandString)
+            {
+                char[] splitOnThese = {' ', ','};
+                string[] split = commandString.Trim().Split(splitOnThese,2, StringSplitOptions.RemoveEmptyEntries);
+
+                if (split.Length < 1)
+                {
+                    return false;
+                }
+
+                for (int i = 0; i < split.Length; i++)
+                {
+                    string strTrimmed = split[i].Trim();
+
+                    // each command is a minimum of 2 chars
+                    // expecting: x123, /5, +1000, *10, *0.01, -50,
+                    if (strTrimmed.Length < 2)
+                    {
+                        return false;
+                    }
+
+                    char cmd = strTrimmed[0];
+                    string param = strTrimmed.Substring(1);
+                    double value = 0;
+
+                    if (double.TryParse(param, out value) == false)
+                    {
+                        return false;
+                    }
+
+                    switch (cmd)
+                    {
+                        case 'x':
+                        case '*':
+                            this.scalar = value;
+                            break;
+                        case '\\':
+                        case '/':
+                            this.scalar = 1.0 / value;
+                            break;
+
+                        case '+':
+                            doOffsetFirst = (i == 0);
+                            this.offset = value;
+                            break;
+                        case '-':
+                            doOffsetFirst = (i == 0);
+                            this.offset = -value;
+                            break;
+
+                        default:
+                            return false;
+
+                    } // switch
+                } // for i
+                return true;
+            }
+
+            public bool IsValid()
+            {
+                return this.isValid;
+            }
+
+            public static string GetNodeName(string parent, string child)
+            {
+                return parent + ":" + child;
+            }
+                       
+        }
+
 
         class displayitem
         {
@@ -417,6 +515,7 @@ namespace MissionPlanner.Log
         private void ResetTreeView(Hashtable seenmessagetypes)
         {
             treeView1.Nodes.Clear();
+            dataModifierHash = new Hashtable();
 
             var sorted = new SortedList(DFLog.logformat);
 
@@ -660,7 +759,18 @@ namespace MissionPlanner.Log
         {
             double a = 0; // row counter
             int error = 0;
+            DataModifer dataModifier;
+            string nodeName = DataModifer.GetNodeName(type, fieldname);
 
+            if (dataModifierHash.ContainsKey(nodeName))
+            {
+                dataModifier = (DataModifer)dataModifierHash[nodeName];
+            }
+            else
+            {
+                dataModifier = new DataModifer("x1+0"); // multiply by one then add zero
+            }
+            
             // ensure we tick the treeview
             foreach (TreeNode node in treeView1.Nodes)
             {
@@ -714,6 +824,17 @@ namespace MissionPlanner.Log
                     try
                     {
                         double value = double.Parse(item.items[col], System.Globalization.CultureInfo.InvariantCulture);
+
+                        if (dataModifier.doOffsetFirst)
+                        {
+                            value += dataModifier.scalar;
+                            value *= dataModifier.offset;
+                        }
+                        else
+                        {
+                            value *= dataModifier.scalar;
+                            value += dataModifier.offset;
+                        }
 
                         // XDate time = new XDate(DateTime.Parse(datarow.Cells[1].Value.ToString()));
 
@@ -1361,7 +1482,36 @@ namespace MissionPlanner.Log
 
         private void treeView1_DoubleClick(object sender, EventArgs e)
         {
+            // apply a slope and offset to a selected child
+            if (treeView1.SelectedNode.Parent == null)
+            {
+                // only apply scalers to children
+                return;
+            }
 
+            string dataModifer_str = "";
+            string nodeName = DataModifer.GetNodeName(treeView1.SelectedNode.Parent.Text, treeView1.SelectedNode.Text);
+
+            if (dataModifierHash.ContainsKey(nodeName))
+            {
+                DataModifer initialDataModifier = (DataModifer)dataModifierHash[nodeName];
+                if (initialDataModifier.IsValid())
+                    dataModifer_str = initialDataModifier.commandString;
+            }
+
+            string title = "Apply scaler and offset to " + nodeName;
+            string instructions = "Enter modifer then value, they are applied in the order you provide. Modifiers are x + - /\n";
+            instructions +=       "Example: Convert cm to to m with an offset of 50: '/100 +50' or 'x0.01 +50' or '*0.01,+50'";
+            InputBox.Show(title, instructions, ref dataModifer_str);
+
+            // if it's already there, remove it.
+            dataModifierHash.Remove(nodeName);
+
+            DataModifer dataModifer = new DataModifer(dataModifer_str);
+            if (dataModifer.IsValid())
+            {
+                dataModifierHash.Add(nodeName, dataModifer);
+            }
         }
 
         private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
