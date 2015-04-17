@@ -725,6 +725,10 @@ namespace MissionPlanner.GCSViews
                 JSBSimSEND.Client.Send(System.Text.Encoding.ASCII.GetBytes("info\r\n"));
 
                 JSBSimSEND.Client.Send(System.Text.Encoding.ASCII.GetBytes("resume\r\n"));
+
+                System.Threading.Thread.Sleep(1500);
+
+                JSBSimSEND.Client.Send(System.Text.Encoding.ASCII.GetBytes("step\r\n"));
             }
             catch { log.Info("JSB console fail"); }
         }
@@ -1513,7 +1517,7 @@ namespace MissionPlanner.GCSViews
 
                 throttle_out = Constrain(throttle_out, -0.0f, 1f);
 
-                string cmd = string.Format("set fcs/aileron-cmd-norm {0}\r\nset fcs/elevator-cmd-norm {1}\r\nset fcs/rudder-cmd-norm {2}\r\nset fcs/throttle-cmd-norm {3}\r\n", roll_out, pitch_out, rudder_out, throttle_out);
+                string cmd = string.Format("set fcs/aileron-cmd-norm {0}\r\nset fcs/elevator-cmd-norm {1}\r\nset fcs/rudder-cmd-norm {2}\r\nset fcs/throttle-cmd-norm {3}\r\nstep\r\n", roll_out, pitch_out, rudder_out, throttle_out);
 
                 //Console.Write(cmd);
                 byte[] data = System.Text.Encoding.ASCII.GetBytes(cmd);
