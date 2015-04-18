@@ -1957,6 +1957,7 @@ namespace MissionPlanner
                             }
                             catch (Exception ex)
                             {
+                                log.Error(ex);
                                 // close the bad port
                                 port.Close();
                                 // refresh the screen is needed
