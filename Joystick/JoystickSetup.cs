@@ -45,7 +45,7 @@ namespace MissionPlanner.Joystick
 
             try
             {
-                if (MainV2.config.ContainsKey("joystick_name") && MainV2.config["joystick_name"] != "")
+                if (MainV2.config.ContainsKey("joystick_name") && MainV2.config["joystick_name"].ToString() != "")
                     CMB_joysticks.Text = MainV2.config["joystick_name"].ToString();
             }
             catch { }
@@ -240,7 +240,7 @@ namespace MissionPlanner.Joystick
                     BUT_enable_Click(null, null);
                 }
             }
-            catch (Exception ex2) { }
+            catch { }
 
             progressBarRoll.Value = MainV2.comPort.MAV.cs.rcoverridech1;
             progressBarPith.Value = MainV2.comPort.MAV.cs.rcoverridech2;
@@ -262,7 +262,7 @@ namespace MissionPlanner.Joystick
                 ProgressBarCH7.maxline = MainV2.joystick.getRawValueForChannel(7);
                 ProgressBarCH8.maxline = MainV2.joystick.getRawValueForChannel(8);
             }
-            catch (Exception ex3) 
+            catch
             {
                 //Exception Error in the application. -2147024866 (DIERR_INPUTLOST)
 
