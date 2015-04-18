@@ -22,6 +22,8 @@ namespace MissionPlanner.Controls
         List<KeyValuePair<int, string>> _source2;
         string paramname2 = "";
 
+        public Control SubControl { get { return _control; } set { _control = value; } }
+
         [System.ComponentModel.Browsable(true)]
         public event EventHandler ValueUpdated;
 
