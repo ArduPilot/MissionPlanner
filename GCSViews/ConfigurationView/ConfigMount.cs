@@ -351,7 +351,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void LNK_Wiki_Clicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start(new ProcessStartInfo("http://code.google.com/p/arducopter/wiki/AC2_Camera"));
+            Process.Start(new ProcessStartInfo("http://copter.ardupilot.com/wiki/common-optional-hardware/common-cameras-and-gimbals/common-camera-gimbal/"));
         }
 
         private void mavlinkComboBox_SelectedIndexChanged(object sender, EventArgs e)
