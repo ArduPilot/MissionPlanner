@@ -388,7 +388,7 @@ namespace MissionPlanner.Utilities
 
                 string baseurl = temp.urlpx4v2;
 
-                if (baseurl == null) return;
+                if (baseurl == "") return;
 
                 ReplaceMirrorUrl(ref baseurl);
 
