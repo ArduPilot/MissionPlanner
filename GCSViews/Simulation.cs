@@ -1205,12 +1205,23 @@ namespace MissionPlanner.GCSViews
                 m[2] = (ushort)MainV2.comPort.MAV.cs.ch3out;
                 m[3] = (ushort)MainV2.comPort.MAV.cs.ch4out;
 
+                if (lastfdmdata.latitude == 0 && lastfdmdata.longitude == 0)
+                {
+                    lastfdmdata.latitude = MainV2.comPort.MAV.cs.HomeLocation.Lat * deg2rad;
+                    lastfdmdata.longitude = MainV2.comPort.MAV.cs.HomeLocation.Lng * deg2rad;
+                    lastfdmdata.altitude = (MainV2.comPort.MAV.cs.HomeLocation.Alt);
+                    lastfdmdata.version = 999;
+                }
+
                 if (!RAD_softFlightGear.Checked)
                 {
-                    lastfdmdata.latitude = DATA[20][0] * deg2rad;
-                    lastfdmdata.longitude = DATA[20][1] * deg2rad;
-                    lastfdmdata.altitude = (DATA[20][2]);
-                    lastfdmdata.version = 999;
+                    if (DATA[20] != null)
+                    {
+                        lastfdmdata.latitude = DATA[20][0] * deg2rad;
+                        lastfdmdata.longitude = DATA[20][1] * deg2rad;
+                        lastfdmdata.altitude = (DATA[20][2]);
+                        lastfdmdata.version = 999;
+                    }
                 }
 
                 try
