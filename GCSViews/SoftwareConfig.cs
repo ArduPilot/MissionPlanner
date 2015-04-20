@@ -101,6 +101,9 @@ namespace MissionPlanner.GCSViews
                     start = AddBackstageViewPage(new ConfigPlanner(), "Planner");
                 }
 
+                // apply theme before trying to display it
+                ThemeManager.ApplyThemeTo(this);
+
                 // remeber last page accessed
                 foreach (BackstageViewPage page in backstageView.Pages)
                 {
@@ -114,8 +117,6 @@ namespace MissionPlanner.GCSViews
 
                 if (this.backstageView.SelectedPage == null && start != null)
                     backstageView.ActivatePage(start);
-
-                ThemeManager.ApplyThemeTo(this);
             }
             catch (Exception ex) { log.Error(ex); }
         }
