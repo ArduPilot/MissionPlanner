@@ -2094,9 +2094,16 @@ namespace MissionPlanner
 
             try
             {
-                log.Info("Load Pluggins");
-                Plugin.PluginLoader.LoadAll();
-                log.Info("Load Pluggins Done");
+                if (Control.ModifierKeys == Keys.Shift)
+                {
+
+                }
+                else
+                {
+                    log.Info("Load Pluggins");
+                    Plugin.PluginLoader.LoadAll();
+                    log.Info("Load Pluggins Done");
+                }
             }
             catch (Exception ex) { log.Error(ex); }
 
