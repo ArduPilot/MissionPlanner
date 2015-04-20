@@ -65,8 +65,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             CH7_OPT.setup(ParameterMetaDataRepository.GetParameterOptionsInt("CH7_OPT", MainV2.comPort.MAV.cs.firmware.ToString()).ToList(), "CH7_OPT", MainV2.comPort.MAV.param);
             CH8_OPT.setup(ParameterMetaDataRepository.GetParameterOptionsInt("CH8_OPT", MainV2.comPort.MAV.cs.firmware.ToString()).ToList(), "CH8_OPT", MainV2.comPort.MAV.param);
             
-            TUNE_LOW.setup(0, 10000, 1, 0.0001f, "TUNE_LOW", MainV2.comPort.MAV.param);
-            TUNE_HIGH.setup(0, 10000, 1, 0.0001f, "TUNE_HIGH", MainV2.comPort.MAV.param);
+            TUNE_LOW.setup(0, 10000, 1000, 0.01f, "TUNE_LOW", MainV2.comPort.MAV.param);
+            TUNE_HIGH.setup(0, 10000, 1000, 0.01f, "TUNE_HIGH", MainV2.comPort.MAV.param);
 
             HLD_LAT_P.setup(0, 0, 1, 0.001f, new string[] { "HLD_LAT_P", "POS_XY_P" }, MainV2.comPort.MAV.param);
             LOITER_LAT_D.setup(0, 0, 1, 0.001f, "LOITER_LAT_D", MainV2.comPort.MAV.param);
