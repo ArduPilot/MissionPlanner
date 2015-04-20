@@ -113,6 +113,7 @@
             this.comboBoxMapType = new System.Windows.Forms.ComboBox();
             this.lnk_kml = new System.Windows.Forms.LinkLabel();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.lbl_wpfile = new System.Windows.Forms.Label();
             this.BUT_loadwpfile = new MissionPlanner.Controls.MyButton();
             this.BUT_saveWPFile = new MissionPlanner.Controls.MyButton();
             this.panelMap = new System.Windows.Forms.Panel();
@@ -191,7 +192,6 @@
             this.panelBASE = new System.Windows.Forms.Panel();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.lbl_wpfile = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.Commands)).BeginInit();
             this.panel5.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -558,6 +558,7 @@
             this.panelWaypoints.ToolTipTextCloseIcon = null;
             this.panelWaypoints.ToolTipTextExpandIconPanelCollapsed = null;
             this.panelWaypoints.ToolTipTextExpandIconPanelExpanded = null;
+            this.panelWaypoints.ExpandClick += new System.EventHandler<System.EventArgs>(this.panelWaypoints_ExpandClick);
             // 
             // splitter1
             // 
@@ -689,6 +690,11 @@
             this.panel2.Controls.Add(this.BUT_saveWPFile);
             resources.ApplyResources(this.panel2, "panel2");
             this.panel2.Name = "panel2";
+            // 
+            // lbl_wpfile
+            // 
+            resources.ApplyResources(this.lbl_wpfile, "lbl_wpfile");
+            this.lbl_wpfile.Name = "lbl_wpfile";
             // 
             // BUT_loadwpfile
             // 
@@ -1251,11 +1257,6 @@
             // 
             this.timer1.Interval = 1200;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
-            // lbl_wpfile
-            // 
-            resources.ApplyResources(this.lbl_wpfile, "lbl_wpfile");
-            this.lbl_wpfile.Name = "lbl_wpfile";
             // 
             // FlightPlanner
             // 
