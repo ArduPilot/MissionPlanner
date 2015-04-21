@@ -1643,7 +1643,7 @@ namespace MissionPlanner.Controls
 
                 if (failsafe == true)
                 {
-                    drawstring(graphicsObject, HUDT.FAILSAFE, font, fontsize + 20, (SolidBrush)Brushes.Red, -85, halfheight / -5);
+                    drawstring(graphicsObject, HUDT.FAILSAFE, font, fontsize + 20, (SolidBrush)Brushes.Red, -85, halfheight / - Convert.ToInt32(HUDT.FailsafeH));
                     statuslast = status;
                 }
 

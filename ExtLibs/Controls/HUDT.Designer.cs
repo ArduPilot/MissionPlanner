@@ -115,6 +115,15 @@ namespace MissionPlanner.Controls {
         }
         
         /// <summary>
+        ///   查找类似 5 的本地化字符串。
+        /// </summary>
+        internal static string FailsafeH {
+            get {
+                return ResourceManager.GetString("FailsafeH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Arial 的本地化字符串。
         /// </summary>
         internal static string Font {
