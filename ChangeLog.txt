@@ -1,4 +1,45 @@
-﻿* Mission Planner 1.3.24
+﻿* Mission Planner 1.3.25
+configframetype: update
+configrawparam: modify load/save button text
+hud video: add vlc test
+HUD: fix bgimage whiteout
+mainv2: add plugin load skip (shift key)
+Mainv2: make menu panel public
+Coords: add ability to change unit test
+firmware: change url null to blank check
+flightplanner: autoresize Columns on panel expand
+SoftwareConfig: make sure theme applys to children
+Missionplanner: remove old defines
+firmware: add url null check
+simulation: add default init of sitl quad to home location
+configarducopter: fix tune high and low scale #839
+mainv2: add error logging
+joysticksetup: fix warnings
+utils: update speech lib
+mavlinkcombobox: add subcontrol support
+simulation: add jsbsim step
+Uploader: segmented enum values and moved others to consts due to improper enum use.
+flightplanner: better handle land command display
+Distancebar: fix double buffer
+jsbsim: update config to match sitl
+firmware: fix <= board version
+jsbsim: update
+mavcmd: add DO_DIGICAM_CONTROL and DO_DIGICAM_CONFIGURE #841
+scripts: add more sample python scripts
+firmware: update firmware version no is pulled from, and add arducopter on apm2 retired board message
+confighwsonar: cleanup unused var
+distancebar: enable double buffer
+mavlink: update library
+georefimage: add null check
+configmotortest: add exception message
+firmware: fix extra ;
+Mainv2: fix light/dark icons
+configplanner: fix startup flag
+mainv2: change logsort/maps order
+logsort: cleanup and move by filename filter
+Missionplanner: fix version.txt creation
+
+* Mission Planner 1.3.24
 MainV2: change plugin load order
 update: do a blank string check on update
 flightplanner: fix wp upload issue when 2 wp's have the same values #829 *IMPORTANT*
