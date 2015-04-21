@@ -1,57 +1,80 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-using System.Text.RegularExpressions;
-using System.IO.Ports;
+using System.Drawing.Imaging;
+using System.Globalization;
 using System.IO;
-using System.Runtime.InteropServices;
+using System.IO.Ports;
 using System.Net;
-
-using GMap.NET.WindowsForms;
-using GMap.NET.CacheProviders;
-using log4net;
-
-using System.Security.Permissions;
-using MissionPlanner.Arduino;
-using MissionPlanner.Utilities;
-using GMap.NET;
-using System.Xml;
-using IronPython.Hosting;
-using IronPython.Runtime.Operations;
 using System.Net.Sockets;
-using DotSpatial.Projections;
-using MissionPlanner.Controls;
+using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Security;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading;
+using System.Windows.Forms;
+using System.Xml;
+using DeltaEngine.Multimedia.VlcToTexture;
+using DotSpatial.Data;
+using DotSpatial.Projections;
+using GMap.NET;
+using GMap.NET.MapProviders;
+using GMap.NET.WindowsForms;
+using log4net;
+using MissionPlanner.Arduino;
+using MissionPlanner.Comms;
+using MissionPlanner.Controls;
+using MissionPlanner.GCSViews;
+using MissionPlanner.HIL;
+using MissionPlanner.Log;
+using MissionPlanner.Maps;
+using MissionPlanner.Swarm;
+using MissionPlanner.Utilities;
+using MissionPlanner.Utilities.DroneApi;
+using MissionPlanner.Warnings;
+using resedit;
+using ILog = log4net.ILog;
+using LogAnalyzer = MissionPlanner.Utilities.LogAnalyzer;
 
 namespace MissionPlanner
 {
     public partial class temp : Form
     {
         private static readonly ILog log =
-          LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+          LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         public temp()
         {
             InitializeComponent();
 
             //if (System.Diagnostics.Debugger.IsAttached) 
             {
-            try
-            {
-                Controls.OpenGLtest2 ogl = new Controls.OpenGLtest2();
+                try
+                {
+                    OpenGLtest2 ogl = new OpenGLtest2();
 
-                this.Controls.Add(ogl);
+                    this.Controls.Add(ogl);
 
-                ogl.Dock = DockStyle.Fill;
+                    ogl.Dock = DockStyle.Fill;
+                }
+                catch
+                {
+                }
             }
-            catch { }
-            }
 
-            MissionPlanner.Utilities.Tracking.AddPage(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.ToString(), System.Reflection.MethodBase.GetCurrentMethod().Name);
+            Tracking.AddPage(
+                MethodBase.GetCurrentMethod().DeclaringType.ToString(),
+                MethodBase.GetCurrentMethod().Name);
+
         }
+
+        private static Factory factory; 
+ 		private static VideoPlayer player; 
+ 		private static Renderer renderer; 
+ 		private Media media; 
+
 
         private void temp_Load(object sender, EventArgs e)
         {
@@ -178,7 +201,7 @@ namespace MissionPlanner
             port.Parity = Parity.None;
             port.DtrEnable = true;
 
-            port.PortName = MissionPlanner.MainV2.comPortName;
+            port.PortName = MainV2.comPortName;
             try
             {
                 port.Open();
@@ -198,7 +221,7 @@ namespace MissionPlanner
 
                             if (port.keepalive())
                             {
-                                System.Threading.Thread.Sleep(2000);
+                                Thread.Sleep(2000);
                                 //MessageBox.Show("Upload Completed");
                             }
                             else
@@ -249,7 +272,7 @@ namespace MissionPlanner
             port.Parity = Parity.None;
             port.DtrEnable = true;
 
-            port.PortName = MissionPlanner.MainV2.comPortName;
+            port.PortName = MainV2.comPortName;
             try
             {
                 port.Open();
@@ -269,7 +292,7 @@ namespace MissionPlanner
 
                             if (port.keepalive())
                             {
-                                System.Threading.Thread.Sleep(2000);
+                                Thread.Sleep(2000);
                                 //MessageBox.Show("Upload Completed");
                             }
                             else
@@ -312,12 +335,12 @@ namespace MissionPlanner
             port.Parity = Parity.None;
             port.DtrEnable = true;
 
-            port.PortName = MissionPlanner.MainV2.comPortName;
+            port.PortName = MainV2.comPortName;
             try
             {
                 port.Open();
 
-                System.Threading.Thread.Sleep(100);
+                Thread.Sleep(100);
                 
                 if (port.connectAP())
                 {
@@ -419,7 +442,7 @@ namespace MissionPlanner
 
             try
             {
-                port.PortName = MissionPlanner.MainV2.comPortName;
+                port.PortName = MainV2.comPortName;
 
                 port.Open();
 
@@ -563,7 +586,7 @@ namespace MissionPlanner
 
             try
             {
-                port.PortName = MissionPlanner.MainV2.comPortName;
+                port.PortName = MainV2.comPortName;
 
                 log.Info("Open Port");
                 port.Open();
@@ -614,7 +637,7 @@ namespace MissionPlanner
 
             try
             {
-                port.PortName = MissionPlanner.MainV2.comPortName;
+                port.PortName = MainV2.comPortName;
 
                 log.Info("Open Port");
                 port.Open();
@@ -678,7 +701,7 @@ namespace MissionPlanner
 
             try
             {
-                port.PortName = MissionPlanner.MainV2.comPortName;
+                port.PortName = MainV2.comPortName;
 
                 log.Info("Open Port");
                 port.Open();
@@ -755,7 +778,7 @@ namespace MissionPlanner
 
             try
             {
-                port.PortName = MissionPlanner.MainV2.comPortName;
+                port.PortName = MainV2.comPortName;
 
                 port.Open();
 
@@ -811,7 +834,7 @@ namespace MissionPlanner
         {
             GMapControl MainMap = new GMapControl();
 
-            MainMap.MapProvider = GMap.NET.MapProviders.GoogleSatelliteMapProvider.Instance;
+            MainMap.MapProvider = GoogleSatelliteMapProvider.Instance;
 
             MainMap.CacheLocation = Path.GetDirectoryName(Application.ExecutablePath) + "/gmapcache/";
 
@@ -823,7 +846,7 @@ namespace MissionPlanner
             }
             catch { }
 
-            if (fbd.ShowDialog() != System.Windows.Forms.DialogResult.OK)
+            if (fbd.ShowDialog() != DialogResult.OK)
                 return;
 
             if (fbd.SelectedPath != "") 
@@ -848,7 +871,7 @@ namespace MissionPlanner
 
                     int temp = 1 << int.Parse(mat.Groups[1].Value);
 
-                    GMap.NET.GPoint pnt = new GMap.NET.GPoint(int.Parse(mat.Groups[3].Value), int.Parse(mat.Groups[2].Value));
+                    GPoint pnt = new GPoint(int.Parse(mat.Groups[3].Value), int.Parse(mat.Groups[2].Value));
 
                     BUT_geinjection.Text = file;
                     BUT_geinjection.Refresh();
@@ -858,14 +881,14 @@ namespace MissionPlanner
                     MemoryStream tile = new MemoryStream();
 
                     Image Img = Image.FromFile(file);
-                    Img.Save(tile,System.Drawing.Imaging.ImageFormat.Jpeg);
+                    Img.Save(tile,ImageFormat.Jpeg);
 
                     tile.Seek(0, SeekOrigin.Begin);
                     log.Info(pnt.X + " " + pnt.Y);
 
                     Application.DoEvents();
 
-                    GMaps.Instance.PrimaryCache.PutImageToCache(tile.ToArray(), Maps.Custom.Instance.DbId, pnt, int.Parse(mat.Groups[1].Value)); 
+                    GMaps.Instance.PrimaryCache.PutImageToCache(tile.ToArray(), Custom.Instance.DbId, pnt, int.Parse(mat.Groups[1].Value)); 
 
                    // Application.DoEvents();
                 }
@@ -889,9 +912,9 @@ namespace MissionPlanner
         private void BUT_clearcustommaps_Click(object sender, EventArgs e)
         {
             GMapControl MainMap = new GMapControl();
-            MainMap.MapProvider = GMap.NET.MapProviders.GoogleSatelliteMapProvider.Instance;
+            MainMap.MapProvider = GoogleSatelliteMapProvider.Instance;
 
-            int removed = MainMap.Manager.PrimaryCache.DeleteOlderThan(DateTime.Now, Maps.Custom.Instance.DbId);
+            int removed = MainMap.Manager.PrimaryCache.DeleteOlderThan(DateTime.Now, Custom.Instance.DbId);
 
             CustomMessageBox.Show("Removed "+removed + " images");
 
@@ -899,7 +922,7 @@ namespace MissionPlanner
         }
         private void BUT_lang_edit_Click(object sender, EventArgs e)
         {
-            new resedit.Form1().Show();
+            new Form1().Show();
         }
 
         private void BUT_georefimage_Click(object sender, EventArgs e)
@@ -931,19 +954,19 @@ namespace MissionPlanner
             new OSDVideo().Show();
         }
 
-        public static HIL.XPlane xp;
+        public static XPlane xp;
 
         private void BUT_xplane_Click(object sender, EventArgs e)
         {
             if (xp == null)
             {
-                xp = new HIL.XPlane();
+                xp = new XPlane();
 
                 xp.SetupSockets(49005, 49000, "127.0.0.1");
             }
 
 
-            System.Threading.ThreadPool.QueueUserWorkItem(runxplanemove);
+            ThreadPool.QueueUserWorkItem(runxplanemove);
 
             //xp.Shutdown();
         }
@@ -952,7 +975,7 @@ namespace MissionPlanner
         {
             while (xp != null)
             {
-                System.Threading.Thread.Sleep(500);
+                Thread.Sleep(500);
                 xp.MoveToPos(MainV2.comPort.MAV.cs.lat, MainV2.comPort.MAV.cs.lng, MainV2.comPort.MAV.cs.alt, MainV2.comPort.MAV.cs.roll, MainV2.comPort.MAV.cs.pitch, MainV2.comPort.MAV.cs.yaw);
             }
         }
@@ -964,7 +987,7 @@ namespace MissionPlanner
 
             ofd.ShowDialog();
 
-            var com = new Comms.CommsFile();
+            var com = new CommsFile();
             com.Open(ofd.FileName);
 
             MainV2.comPort.BaseStream = com;
@@ -976,13 +999,13 @@ namespace MissionPlanner
 
         private void but_multimav_Click(object sender, EventArgs e)
         {
-            Comms.CommsSerialScan.Scan(false);
+            CommsSerialScan.Scan(false);
 
             DateTime deadline = DateTime.Now.AddSeconds(50);
 
-            while (Comms.CommsSerialScan.foundport == false)
+            while (CommsSerialScan.foundport == false)
             {
-                System.Threading.Thread.Sleep(100);
+                Thread.Sleep(100);
 
                 if (DateTime.Now > deadline)
                 {
@@ -993,8 +1016,8 @@ namespace MissionPlanner
 
             MAVLinkInterface com2 = new MAVLinkInterface();
 
-            com2.BaseStream.PortName = Comms.CommsSerialScan.portinterface.PortName;
-            com2.BaseStream.BaudRate = Comms.CommsSerialScan.portinterface.BaudRate;
+            com2.BaseStream.PortName = CommsSerialScan.portinterface.PortName;
+            com2.BaseStream.BaudRate = CommsSerialScan.portinterface.BaudRate;
 
             com2.Open(true);
 
@@ -1017,7 +1040,7 @@ namespace MissionPlanner
 
         private void BUT_swarm_Click(object sender, EventArgs e)
         {
-            new Swarm.FormationControl().Show();
+            new FormationControl().Show();
         }
 
         private void BUT_outputMavlink_Click(object sender, EventArgs e)
@@ -1038,7 +1061,7 @@ namespace MissionPlanner
         private void BUT_simmulti_Click(object sender, EventArgs e)
         {
             Form frm = new Form();
-            var sim = new GCSViews.Simulation();
+            var sim = new Simulation();
             frm.Controls.Add(sim);
             frm.Size = sim.Size;
             sim.Dock = DockStyle.Fill;
@@ -1062,26 +1085,26 @@ namespace MissionPlanner
 
                 DialogResult res = sfd.ShowDialog();
 
-                if (res == System.Windows.Forms.DialogResult.OK)
+                if (res == DialogResult.OK)
                 {
-                    MissionPlanner.Log.BinaryLog.ConvertBin(ofd.FileName, sfd.FileName);
+                    BinaryLog.ConvertBin(ofd.FileName, sfd.FileName);
                 }
             }
         }
 
         private void BUT_followleader_Click(object sender, EventArgs e)
         {
-            new Swarm.FollowPathControl().Show();
+            new FollowPathControl().Show();
         }
 
         private void BUT_driverclean_Click(object sender, EventArgs e)
         {
-            MissionPlanner.Utilities.CleanDrivers.Clean();
+            CleanDrivers.Clean();
         }
 
         private void but_compassrotation_Click(object sender, EventArgs e)
         {
-            MissionPlanner.Magfitrotation.magfit();
+            Magfitrotation.magfit();
         }
 
         private void BUT_sorttlogs_Click(object sender, EventArgs e)
@@ -1089,11 +1112,11 @@ namespace MissionPlanner
             FolderBrowserDialog fbd = new FolderBrowserDialog();
             fbd.SelectedPath = MainV2.LogDir;
 
-            if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            if (fbd.ShowDialog() == DialogResult.OK)
             {
                 try
                 {
-                    MissionPlanner.Log.LogSort.SortLogs(Directory.GetFiles(fbd.SelectedPath, "*.tlog"));
+                    LogSort.SortLogs(Directory.GetFiles(fbd.SelectedPath, "*.tlog"));
                 }
                 catch { }
             }
@@ -1101,13 +1124,20 @@ namespace MissionPlanner
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-    
+            try
+            {
+                if (renderer != null && renderer.CurrentFrame != null)
+                    FlightData.myhud.bgimage = renderer.CurrentFrame;
+            }
+            catch
+            {
+            }
         }
 
         private void BUT_accellogs_Click(object sender, EventArgs e)
         {
             CustomMessageBox.Show("This scan may take some time.");
-            Log.Scan.ScanAccel();
+            Scan.ScanAccel();
             CustomMessageBox.Show("Scan Complete");
         }
 
@@ -1258,13 +1288,13 @@ namespace MissionPlanner
 
             if (ofd.FileName != "")
             {
-                string xmlfile = MissionPlanner.Utilities.LogAnalyzer.CheckLogFile(ofd.FileName);
+                string xmlfile = LogAnalyzer.CheckLogFile(ofd.FileName);
 
                 if (File.Exists(xmlfile))
                 {
-                    var out1 = MissionPlanner.Utilities.LogAnalyzer.Results(xmlfile);
+                    var out1 = LogAnalyzer.Results(xmlfile);
 
-                    MissionPlanner.Controls.LogAnalyzer frm = new Controls.LogAnalyzer(out1);
+                    Controls.LogAnalyzer frm = new Controls.LogAnalyzer(out1);
 
                     frm.Show();
                 }
@@ -1277,12 +1307,12 @@ namespace MissionPlanner
 
         private void button3_Click(object sender, EventArgs e)
         {
-            Warnings.WarningsManager frm = new Warnings.WarningsManager();
+            WarningsManager frm = new WarningsManager();
 
             frm.Show();
         }
 		
-        Comms.MAVLinkSerialPort comport;
+        MAVLinkSerialPort comport;
 
         TcpListener listener;
 
@@ -1293,7 +1323,7 @@ namespace MissionPlanner
             if (comport != null)
                 comport.Close();
 
-            comport = new Comms.MAVLinkSerialPort(MainV2.comPort, MAVLink.SERIAL_CONTROL_DEV.GPS1);
+            comport = new MAVLinkSerialPort(MainV2.comPort, MAVLink.SERIAL_CONTROL_DEV.GPS1);
 
             if (listener != null)
             {
@@ -1355,7 +1385,7 @@ namespace MissionPlanner
                         catch { }
                     }
 
-                     System.Threading.Thread.Sleep(1);
+                     Thread.Sleep(1);
                 }
             }
         }
@@ -1390,7 +1420,7 @@ namespace MissionPlanner
                     }
                 }
 
-                DotSpatial.Data.IFeatureSet fs = DotSpatial.Data.FeatureSet.Open(file);
+                IFeatureSet fs = FeatureSet.Open(file);
 
                 fs.FillAttributes();
 
@@ -1430,7 +1460,7 @@ namespace MissionPlanner
                             point.Z = zarray[0];
                         }
 
-                        sb.Append(point.Y.ToString(System.Globalization.CultureInfo.InvariantCulture) + "\t" + point.X.ToString(System.Globalization.CultureInfo.InvariantCulture) + "\r\n");
+                        sb.Append(point.Y.ToString(CultureInfo.InvariantCulture) + "\t" + point.X.ToString(CultureInfo.InvariantCulture) + "\r\n");
                     }
 
                     log.Info("writting poly to " + path + Path.DirectorySeparatorChar + "poly-" + a + ".poly");
@@ -1479,10 +1509,10 @@ namespace MissionPlanner
             {
                 foreach (var file in ofd.FileNames) 
                 {
-                    string viewurl = Utilities.DroneApi.droneshare.doUpload(file, droneshareusername, dronesharepassword, Guid.NewGuid().ToString(), Utilities.DroneApi.APIConstants.apiKey);
+                    string viewurl = droneshare.doUpload(file, droneshareusername, dronesharepassword, Guid.NewGuid().ToString(), APIConstants.apiKey);
 
                     if (viewurl != "")
-                        System.Diagnostics.Process.Start(viewurl);
+                        Process.Start(viewurl);
                 }
             }
 
@@ -1518,15 +1548,15 @@ namespace MissionPlanner
             FolderBrowserDialog fbd = new FolderBrowserDialog();
             fbd.SelectedPath = MainV2.LogDir;
 
-            if (fbd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            if (fbd.ShowDialog() == DialogResult.OK)
             {
-                Log.LogMap.MapLogs(Directory.GetFiles(fbd.SelectedPath, "*.tlog", SearchOption.AllDirectories));
+                LogMap.MapLogs(Directory.GetFiles(fbd.SelectedPath, "*.tlog", SearchOption.AllDirectories));
             }
         }
 
         private void butlogindex_Click(object sender, EventArgs e)
         {
-            Log.LogIndex form = new Log.LogIndex();
+            LogIndex form = new LogIndex();
 
             form.Show();
         }
@@ -1561,14 +1591,14 @@ namespace MissionPlanner
 
             MainV2.config["dronesharepassword"] = encryptedpw;  
 
-            Utilities.DroneApi.DroneProto dp = new Utilities.DroneApi.DroneProto();
+            DroneProto dp = new DroneProto();
 
             if (dp.connect())
             {
                 if (dp.loginUser(droneshareusername, dronesharepassword))
                 {
                     MAVLinkInterface mine = new MAVLinkInterface();
-                    var comfile = new Comms.CommsFile();
+                    var comfile = new CommsFile();
                     mine.BaseStream = comfile;
                     mine.BaseStream.PortName = @"C:\Users\hog\Documents\apm logs\iris 6-4-14\2014-04-06 09-07-32.tlog";
                     mine.BaseStream.Open();
@@ -1648,6 +1678,38 @@ namespace MissionPlanner
             }
             end = DateTime.Now;
             Console.WriteLine("ByteArrayToStructureGC " + (end - start).TotalMilliseconds);
+        }
+
+        private void temp_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            try
+            {
+                player.Stop();
+            }
+            catch
+            {
+            }
+            timer1.Stop();
+        }
+
+        private void but_rtspurl_Click(object sender, EventArgs e)
+        {
+            string url = "rtsp://192.168.1.252/";
+            InputBox.Show("video address", "enter video address", ref url);
+
+            factory = new Factory();
+
+            media = factory.CreateMedia(url);
+
+            player = factory.CreatePlayer();
+
+            renderer = player.Renderer;
+
+            player.Open(media);
+
+            renderer.SetFormat(new BitmapFormat(512, 512, ChromaType.RV32));
+
+            player.Play();
         }
     }
 }

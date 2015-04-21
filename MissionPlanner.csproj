@@ -123,6 +123,10 @@
     <Reference Include="alglibnet2">
       <HintPath>ExtLibs\alglibnet2.dll</HintPath>
     </Reference>
+    <Reference Include="DeltaEngine.Multimedia.VlcToTexture, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\DeltaEngine.Multimedia.VlcToTexture.1.0.0.1\lib\NET40\DeltaEngine.Multimedia.VlcToTexture.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="DirectShowLib-2005">
       <HintPath>ExtLibs\DirectShowLib-2005.dll</HintPath>
     </Reference>
@@ -2780,6 +2784,21 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="ChangeLog.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Plugins\liblive555_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Plugins\libpacketizer_h264_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Plugins\libpacketizer_mpeg4video_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Plugins\libpacketizer_mpegvideo_plugin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Plugins\libpacketizer_vc1_plugin.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Scripts\TAKEOFF.py">
@@ -6580,7 +6599,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>"$(TargetDir)version.exe" "$(TargetPath)" &gt; "$(TargetDir)version.txt"</PostBuildEvent>
+    <PostBuildEvent>"$(TargetDir)version.exe" "$(TargetPath)" &gt; "$(TargetDir)version.txt"
+xcopy /s /y "$(SolutionDir)packages\DeltaEngine.Multimedia.VlcToTexture.1.0.0.1\NativeBinaries\x86\*.*" "$(TargetDir)"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>

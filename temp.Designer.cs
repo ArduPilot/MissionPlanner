@@ -78,6 +78,7 @@
             this.butlogindex = new MissionPlanner.Controls.MyButton();
             this.but_droneapi = new MissionPlanner.Controls.MyButton();
             this.but_structtest = new MissionPlanner.Controls.MyButton();
+            this.but_rtspurl = new MissionPlanner.Controls.MyButton();
             this.SuspendLayout();
             // 
             // label1
@@ -559,11 +560,21 @@
             this.but_structtest.UseVisualStyleBackColor = true;
             this.but_structtest.Click += new System.EventHandler(this.but_structtest_Click);
             // 
+            // but_rtspurl
+            // 
+            this.but_rtspurl.Location = new System.Drawing.Point(159, 287);
+            this.but_rtspurl.Name = "but_rtspurl";
+            this.but_rtspurl.Size = new System.Drawing.Size(96, 23);
+            this.but_rtspurl.TabIndex = 55;
+            this.but_rtspurl.Text = "rtsp";
+            this.but_rtspurl.Click += new System.EventHandler(this.but_rtspurl_Click);
+            // 
             // temp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(685, 450);
+            this.Controls.Add(this.but_rtspurl);
             this.Controls.Add(this.but_structtest);
             this.Controls.Add(this.but_droneapi);
             this.Controls.Add(this.butlogindex);
@@ -614,6 +625,7 @@
             this.Controls.Add(this.button1);
             this.Name = "temp";
             this.Text = "temp";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.temp_FormClosing);
             this.Load += new System.EventHandler(this.temp_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -671,5 +683,6 @@
         private Controls.MyButton butlogindex;
         private Controls.MyButton but_droneapi;
         private Controls.MyButton but_structtest;
+        private Controls.MyButton but_rtspurl;
     }
 }
