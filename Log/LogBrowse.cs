@@ -48,34 +48,32 @@ namespace MissionPlanner.Log
 
         class DataModifer
         {
-            private bool isValid;
-            public string commandString;
-            public double offset;
-            public double scalar;
-            public bool doOffsetFirst;
+            private readonly bool isValid;
+            public readonly string commandString;
+            public double offset = 0;
+            public double scalar = 1;
+            public bool doOffsetFirst = false;
             
-            public DataModifer(string commandString)
+            public DataModifer()
             {
-                this.scalar = 1;
-                this.offset = 0;
-                this.doOffsetFirst = false;
-                this.commandString = commandString;
-
-                this.isValid = ParseCommandString(commandString);
-
-                if (this.isValid == false)
-                {
-                    this.offset = 0;
-                    this.scalar = 1;
-                    this.doOffsetFirst = false;
-                    this.commandString = "";
-                }
+                this.commandString = "";
+                this.isValid = false;
+            }
+            public DataModifer(string _commandString)
+            {
+                this.commandString = _commandString;
+                this.isValid = ParseCommandString(_commandString);
             }
 
-            private bool ParseCommandString(string commandString)
+            private bool ParseCommandString(string _commandString)
             {
+                if (_commandString == null)
+                {
+                    return false;
+                }
+
                 char[] splitOnThese = {' ', ','};
-                string[] split = commandString.Trim().Split(splitOnThese,2, StringSplitOptions.RemoveEmptyEntries);
+                string[] split = _commandString.Trim().Split(splitOnThese, 2, StringSplitOptions.RemoveEmptyEntries);
 
                 if (split.Length < 1)
                 {
@@ -114,11 +112,11 @@ namespace MissionPlanner.Log
                             break;
 
                         case '+':
-                            doOffsetFirst = (i == 0);
+                            this.doOffsetFirst = (i == 0);
                             this.offset = value;
                             break;
                         case '-':
-                            doOffsetFirst = (i == 0);
+                            this.doOffsetFirst = (i == 0);
                             this.offset = -value;
                             break;
 
@@ -759,16 +757,12 @@ namespace MissionPlanner.Log
         {
             double a = 0; // row counter
             int error = 0;
-            DataModifer dataModifier;
+            DataModifer dataModifier = new DataModifer();
             string nodeName = DataModifer.GetNodeName(type, fieldname);
 
             if (dataModifierHash.ContainsKey(nodeName))
             {
                 dataModifier = (DataModifer)dataModifierHash[nodeName];
-            }
-            else
-            {
-                dataModifier = new DataModifer("x1+0"); // multiply by one then add zero
             }
             
             // ensure we tick the treeview
@@ -825,17 +819,19 @@ namespace MissionPlanner.Log
                     {
                         double value = double.Parse(item.items[col], System.Globalization.CultureInfo.InvariantCulture);
 
-                        if (dataModifier.doOffsetFirst)
+                        if (dataModifier.IsValid())
                         {
-                            value += dataModifier.scalar;
-                            value *= dataModifier.offset;
+                            if (dataModifier.doOffsetFirst)
+                            {
+                                value += dataModifier.scalar;
+                                value *= dataModifier.offset;
+                            }
+                            else
+                            {
+                                value *= dataModifier.scalar;
+                                value += dataModifier.offset;
+                            }
                         }
-                        else
-                        {
-                            value *= dataModifier.scalar;
-                            value += dataModifier.offset;
-                        }
-
                         // XDate time = new XDate(DateTime.Parse(datarow.Cells[1].Value.ToString()));
 
                         list1.Add(a, value);
