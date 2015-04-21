@@ -112,75 +112,12 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ARMED" xml:space="preserve">
-    <value>    已解锁</value>
-  </data>
-  <data name="AS" xml:space="preserve">
-    <value>空速 </value>
-  </data>
-  <data name="Bat" xml:space="preserve">
-    <value>电池 </value>
-  </data>
-  <data name="DISARMED" xml:space="preserve">
-    <value>            已锁定</value>
-  </data>
-  <data name="E" xml:space="preserve">
-    <value>东</value>
-  </data>
-  <data name="FAILSAFE" xml:space="preserve">
-    <value>    故障保护</value>
-  </data>
-  <data name="FailsafeH" xml:space="preserve">
-    <value>15</value>
-  </data>
-  <data name="Font" xml:space="preserve">
-    <value>Microsoft Yahei</value>
-  </data>
-  <data name="GPS0" xml:space="preserve">
-    <value>GPS: 无GPS</value>
-  </data>
-  <data name="GPS1" xml:space="preserve">
-    <value>GPS: 未定位</value>
-  </data>
-  <data name="GPS2" xml:space="preserve">
-    <value>GPS: 2D定位</value>
-  </data>
-  <data name="GPS3" xml:space="preserve">
-    <value>GPS: 3D定位</value>
-  </data>
-  <data name="GPS4" xml:space="preserve">
-    <value>GPS: 3D DGPS</value>
-  </data>
-  <data name="GPS5" xml:space="preserve">
-    <value>GPS: 3D RTK</value>
-  </data>
-  <data name="GS" xml:space="preserve">
-    <value>地速 </value>
-  </data>
-  <data name="N" xml:space="preserve">
-    <value>北</value>
-  </data>
-  <data name="NE" xml:space="preserve">
-    <value>东北</value>
-  </data>
-  <data name="NW" xml:space="preserve">
-    <value>西北</value>
-  </data>
-  <data name="S" xml:space="preserve">
-    <value>南</value>
-  </data>
-  <data name="SE" xml:space="preserve">
-    <value>东南</value>
-  </data>
-  <data name="SW" xml:space="preserve">
-    <value>西南</value>
-  </data>
-  <data name="W" xml:space="preserve">
-    <value>西</value>
+  <data name="TXT_info.Text" xml:space="preserve">
+    <value>注意：使用这个界面可能会重设一部分自定义PID</value>
   </data>
 </root>

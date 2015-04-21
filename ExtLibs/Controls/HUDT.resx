@@ -135,6 +135,9 @@
   <data name="FAILSAFE" xml:space="preserve">
     <value>FAILSAFE</value>
   </data>
+  <data name="FailsafeH" xml:space="preserve">
+    <value>5</value>
+  </data>
   <data name="Font" xml:space="preserve">
     <value>Arial</value>
   </data>
