@@ -344,7 +344,7 @@ format with no scaling</value>
     <value>70</value>
   </data>
   <data name="BUT_save.Text" xml:space="preserve">
-    <value>Save</value>
+    <value>Save from file</value>
   </data>
   <data name="&gt;&gt;BUT_save.Name" xml:space="preserve">
     <value>BUT_save</value>
@@ -377,7 +377,7 @@ format with no scaling</value>
     <value>71</value>
   </data>
   <data name="BUT_load.Text" xml:space="preserve">
-    <value>Load</value>
+    <value>Load from file</value>
   </data>
   <data name="&gt;&gt;BUT_load.Name" xml:space="preserve">
     <value>BUT_load</value>
@@ -437,7 +437,7 @@ format with no scaling</value>
     <value>77</value>
   </data>
   <data name="BUT_paramfileload.Text" xml:space="preserve">
-    <value>Load Params</value>
+    <value>Load Presaved</value>
   </data>
   <data name="&gt;&gt;BUT_paramfileload.Name" xml:space="preserve">
     <value>BUT_paramfileload</value>
