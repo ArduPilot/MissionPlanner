@@ -31,18 +31,18 @@ namespace MissionPlanner.Controls
 
        [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Colors")]
        [DefaultValue(typeof(Color), "0x94, 0xc1, 0x1f")]
-       public Color BGGradTop { get { return _BGGradTop; } set { _BGGradTop = value; } }
+       public Color BGGradTop { get { return _BGGradTop; } set { _BGGradTop = value; this.Invalidate(); } }
          [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Colors")]
          [DefaultValue(typeof(Color), "0xcd, 0xe2, 0x96")]
-       public Color BGGradBot { get { return _BGGradBot; } set { _BGGradBot = value; } }
+       public Color BGGradBot { get { return _BGGradBot; } set { _BGGradBot = value; this.Invalidate(); } }
 
         // i want to ignore forecolor
          [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Colors")]
          [DefaultValue(typeof(Color), "0x40, 0x57, 0x04")]
-         public Color TextColor { get { return _TextColor; } set { _TextColor = value; } }
+         public Color TextColor { get { return _TextColor; } set { _TextColor = value; this.Invalidate(); } }
          [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Colors")]
          [DefaultValue(typeof(Color), "0x79, 0x94, 0x29")]
-         public Color Outline { get { return _Outline; } set { _Outline = value; } }
+         public Color Outline { get { return _Outline; } set { _Outline = value; this.Invalidate(); } }
 
          public MyButton()
          {
