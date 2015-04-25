@@ -276,6 +276,15 @@
       <Y>Long</Y>
       <Z>Alt</Z>
     </LOITER_TIME>
+    <LOITER_TO_ALT>
+      <P1>Heading</P1>
+      <P2>Radius</P2>
+      <P3></P3>
+      <P4></P4>
+      <X>Lat</X>
+      <Y>Long</Y>
+      <Z>Alt</Z>
+    </LOITER_TO_ALT>
     <RETURN_TO_LAUNCH>
       <P1></P1>
       <P2></P2>
