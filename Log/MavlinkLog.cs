@@ -30,6 +30,7 @@ using MissionPlanner.Utilities;
 
 using System.CodeDom.Compiler;
 using MissionPlanner;
+using MissionPlanner.Controls;
 
 namespace MissionPlanner.Log
 {
@@ -65,7 +66,7 @@ namespace MissionPlanner.Log
             MissionPlanner.Utilities.Tracking.AddPage(this.GetType().ToString(), this.Text);
         }
 
-        private void writeKML(string filename)
+        private void writeKML(string filename, double basealt = 0)
         {
             SharpKml.Dom.AltitudeMode altmode = SharpKml.Dom.AltitudeMode.Absolute;
 
@@ -104,13 +105,12 @@ namespace MissionPlanner.Log
 
             // create sub folders
             Folder planes = new Folder();
-            planes.Name = "Planes";
+            planes.Name = "Models";
             kml.AddFeature(planes);
 
             Folder points = new Folder();
             points.Name = "Points";
             kml.AddFeature(points);
-
 
             // coords for line string
             CoordinateCollection coords = new CoordinateCollection();
@@ -175,7 +175,17 @@ namespace MissionPlanner.Log
                     coords = new CoordinateCollection();
                 }
 
-                coords.Add(new Vector(cs.lat, cs.lng, cs.altasl));
+                Vector location = new Vector(cs.lat, cs.lng, cs.altasl);
+
+                if (basealt != 0)
+                {
+                    location.Altitude = cs.alt + basealt;
+                    coords.Add(location);
+                }
+                else
+                {
+                    coords.Add(location);
+                }
 
                 SharpKml.Dom.Timestamp tstamp = new SharpKml.Dom.Timestamp();
                 tstamp.When = cs.datetime;
@@ -189,7 +199,7 @@ namespace MissionPlanner.Log
                 cam.AltitudeMode = altmode;
                 cam.Latitude = cs.lat;
                 cam.Longitude = cs.lng;
-                cam.Altitude = cs.altasl;
+                cam.Altitude = location.Altitude;
                 cam.Heading = cs.yaw;
                 cam.Roll = -cs.roll;
                 cam.Tilt = (90 - (cs.pitch * -1));
@@ -216,7 +226,7 @@ namespace MissionPlanner.Log
                 SharpKml.Dom.Location loc = new SharpKml.Dom.Location();
                 loc.Latitude = cs.lat;
                 loc.Longitude = cs.lng;
-                loc.Altitude = cs.altasl;
+                loc.Altitude = location.Altitude;
 
                 if (loc.Altitude < 0)
                     loc.Altitude = 0.01;
@@ -269,7 +279,7 @@ namespace MissionPlanner.Log
 
                 SharpKml.Dom.Point pnt = new SharpKml.Dom.Point();
                 pnt.AltitudeMode = altmode;
-                pnt.Coordinate = new Vector(cs.lat, cs.lng, cs.altasl);
+                pnt.Coordinate = location;
 
                 pmt.Name = "" + a;
 
@@ -377,17 +387,11 @@ namespace MissionPlanner.Log
             openFileDialog1.FilterIndex = 2;
             openFileDialog1.RestoreDirectory = true;
             openFileDialog1.Multiselect = true;
-            try
-            {
-               // openFileDialog1.InitialDirectory = MainV2.LogDir + Path.DirectorySeparatorChar;
-            }
-            catch { } // incase dir doesnt exist
 
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 foreach (string logfile in openFileDialog1.FileNames)
                 {
-
                     MAVLinkInterface mine = new MAVLinkInterface();
                     try
                     {
@@ -450,12 +454,25 @@ namespace MissionPlanner.Log
                     mine.logplaybackfile.Close();
                     mine.logplaybackfile = null;
 
+                    string basealtstring = "0";
+
+                    if (mine.MAV.wps.ContainsKey(0))
+                    {
+                        basealtstring = mine.MAV.wps[0].z.ToString();
+                    }
+                    else
+                    {
+                        InputBox.Show("Relative Alt",
+                            "Please enter your home altitude, or press cancel to use absolute alt",
+                            ref basealtstring);
+                    }
+
                     Application.DoEvents();
 
                     log.Info(mine.MAV.cs.firmware + " : " + logfile);
 
                     writeGPX(logfile);
-                    writeKML(logfile + ".kml");
+                    writeKML(logfile + ".kml", double.Parse(basealtstring) / CurrentState.multiplierdist);
 
                     flightdata.Clear();
 
@@ -484,6 +501,9 @@ namespace MissionPlanner.Log
                 xw.WriteAttributeString("lon", cs.lng.ToString(new System.Globalization.CultureInfo("en-US")));
 
                 xw.WriteElementString("ele", cs.altasl.ToString(new System.Globalization.CultureInfo("en-US")));
+
+                xw.WriteElementString("ele2", cs.alt.ToString(new System.Globalization.CultureInfo("en-US")));
+
                 xw.WriteElementString("time", cs.datetime.ToString("yyyy-MM-ddTHH:mm:sszzzzzz"));
                 xw.WriteElementString("course", (cs.yaw).ToString(new System.Globalization.CultureInfo("en-US")));
 
