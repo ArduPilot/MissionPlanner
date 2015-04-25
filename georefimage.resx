@@ -325,7 +325,7 @@
     <value>12</value>
   </data>
   <data name="BUT_browsedir.Location" type="System.Drawing.Point, System.Drawing">
-    <value>520, 44</value>
+    <value>523, 44</value>
   </data>
   <data name="BUT_browsedir.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 28</value>
@@ -349,7 +349,7 @@
     <value>15</value>
   </data>
   <data name="BUT_browselog.Location" type="System.Drawing.Point, System.Drawing">
-    <value>520, 9</value>
+    <value>523, 9</value>
   </data>
   <data name="BUT_browselog.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 29</value>
@@ -1576,7 +1576,7 @@
     <value>panel3</value>
   </data>
   <data name="&gt;&gt;label9.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>4</value>
   </data>
   <data name="num_camerarotation.Location" type="System.Drawing.Point, System.Drawing">
     <value>261, 25</value>
@@ -1597,7 +1597,7 @@
     <value>panel3</value>
   </data>
   <data name="&gt;&gt;num_camerarotation.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>6</value>
   </data>
   <data name="label8.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1627,7 +1627,7 @@
     <value>panel3</value>
   </data>
   <data name="&gt;&gt;label8.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>3</value>
   </data>
   <data name="label7.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -1657,7 +1657,7 @@
     <value>panel3</value>
   </data>
   <data name="&gt;&gt;label7.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>8</value>
   </data>
   <data name="num_hfov.Location" type="System.Drawing.Point, System.Drawing">
     <value>314, 25</value>
@@ -1678,7 +1678,7 @@
     <value>panel3</value>
   </data>
   <data name="&gt;&gt;num_hfov.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>7</value>
   </data>
   <data name="num_vfov.Location" type="System.Drawing.Point, System.Drawing">
     <value>205, 26</value>
@@ -1699,13 +1699,67 @@
     <value>panel3</value>
   </data>
   <data name="&gt;&gt;num_vfov.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>5</value>
+  </data>
+  <data name="label28.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label28.Location" type="System.Drawing.Point, System.Drawing">
+    <value>266, 63</value>
+  </data>
+  <data name="label28.Size" type="System.Drawing.Size, System.Drawing">
+    <value>64, 13</value>
+  </data>
+  <data name="label28.TabIndex" type="System.Int32, mscorlib">
+    <value>41</value>
+  </data>
+  <data name="label28.Text" xml:space="preserve">
+    <value>Rel Alt base</value>
+  </data>
+  <data name="&gt;&gt;label28.Name" xml:space="preserve">
+    <value>label28</value>
+  </data>
+  <data name="&gt;&gt;label28.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label28.Parent" xml:space="preserve">
+    <value>panel3</value>
+  </data>
+  <data name="&gt;&gt;label28.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="txt_basealt.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="txt_basealt.Location" type="System.Drawing.Point, System.Drawing">
+    <value>336, 61</value>
+  </data>
+  <data name="txt_basealt.Size" type="System.Drawing.Size, System.Drawing">
+    <value>100, 20</value>
+  </data>
+  <data name="txt_basealt.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="txt_basealt.Text" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;txt_basealt.Name" xml:space="preserve">
+    <value>txt_basealt</value>
+  </data>
+  <data name="&gt;&gt;txt_basealt.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;txt_basealt.Parent" xml:space="preserve">
+    <value>panel3</value>
+  </data>
+  <data name="&gt;&gt;txt_basealt.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <data name="CHECK_AMSLAlt_Use.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
   <data name="CHECK_AMSLAlt_Use.Location" type="System.Drawing.Point, System.Drawing">
-    <value>236, 63</value>
+    <value>144, 63</value>
   </data>
   <data name="CHECK_AMSLAlt_Use.Size" type="System.Drawing.Size, System.Drawing">
     <value>92, 17</value>
@@ -1726,7 +1780,7 @@
     <value>panel3</value>
   </data>
   <data name="&gt;&gt;CHECK_AMSLAlt_Use.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>2</value>
   </data>
   <data name="panel3.Location" type="System.Drawing.Point, System.Drawing">
     <value>32, 319</value>

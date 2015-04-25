@@ -393,6 +393,9 @@
     <Compile Include="GCSViews\FlightData2.Designer.cs">
       <DependentUpon>FlightData2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Georefimage.Designer.cs">
+      <DependentUpon>georefimage.cs</DependentUpon>
+    </Compile>
     <Compile Include="Joystick\Joy_Do_Repeat_Servo.cs">
       <SubType>Form</SubType>
     </Compile>
