@@ -133,6 +133,9 @@ namespace MissionPlanner.Controls
         {
             base.OnResize(e);
 
+            if (this.Width == 0 || this.Height == 0)
+                return;
+
             buffer = new Bitmap(this.Width,this.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
         }
 
