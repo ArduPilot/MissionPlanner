@@ -847,45 +847,48 @@ namespace GMap.NET.WindowsForms
 #endif
       }
 
-      /// <summary>
-      /// updates polygons local position
-      /// </summary>
-      /// <param name="polygon"></param>
-      public void UpdatePolygonLocalPosition(GMapPolygon polygon)
-      {
-         polygon.LocalPoints.Clear();
+       /// <summary>
+       /// updates polygons local position
+       /// </summary>
+       /// <param name="polygon"></param>
+       public void UpdatePolygonLocalPosition(GMapPolygon polygon)
+       {
+           polygon.LocalPoints.Clear();
 
-         foreach(GMap.NET.PointLatLng pg in polygon.Points)
-         {
-            GPoint p = FromLatLngToLocal(pg);
+           foreach (GMap.NET.PointLatLng pg in polygon.Points)
+           {
+               GPoint p = FromLatLngToLocal(pg);
 
 #if !PocketPC
-            if(!MobileMode)
-            {
-               p.OffsetNegative(Core.renderOffset);
-            }
+               if (!MobileMode)
+               {
+                   p.OffsetNegative(Core.renderOffset);
+               }
 #endif
 
-            //            if(IsRotated)
-            //            {
-            //#if !PocketPC
-            //               System.Drawing.Point[] tt = new System.Drawing.Point[] { new System.Drawing.Point(p.X, p.Y) };
-            //               rotationMatrix.TransformPoints(tt);
-            //               var f = tt[0];
+               //            if(IsRotated)
+               //            {
+               //#if !PocketPC
+               //               System.Drawing.Point[] tt = new System.Drawing.Point[] { new System.Drawing.Point(p.X, p.Y) };
+               //               rotationMatrix.TransformPoints(tt);
+               //               var f = tt[0];
 
-            //               p.X = f.X;
-            //               p.Y = f.Y;
-            //#endif
-            //            }
+               //               p.X = f.X;
+               //               p.Y = f.Y;
+               //#endif
+               //            }
 
-            polygon.LocalPoints.Add(p);
-         }
+               polygon.LocalPoints.Add(p);
+           }
 #if !PocketPC
-         polygon.UpdateGraphicsPath();
+           unchecked
+           {
+               polygon.UpdateGraphicsPath();
+           }
 #endif
-      }
+       }
 
-      /// <summary>
+       /// <summary>
       /// sets zoom to max to fit rect
       /// </summary>
       /// <param name="rect"></param>
