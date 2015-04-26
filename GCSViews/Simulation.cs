@@ -29,6 +29,7 @@ namespace MissionPlanner.GCSViews
         Socket SimulatorRECV;
         TcpClient JSBSimSEND;
         UdpClient SITLSEND;
+        Socket SITLRCRECV;
         EndPoint Remote = (EndPoint)(new IPEndPoint(IPAddress.Any, 0));
         byte[] udpdata = new byte[113 * 9 + 5]; // 113 types - 9 items per type (index+8) + 5 byte header
         float[][] DATA = new float[113][];
@@ -96,6 +97,7 @@ namespace MissionPlanner.GCSViews
             // this is the packet sent by the simulator
             // to the APM executable to update the simulator state
             // All values are little-endian
+            public UInt64 timestamp; // timestamp for lockstep
             public double latitude, longitude; // degrees
             public double altitude;  // MSL
             public double heading;   // degrees
@@ -247,6 +249,7 @@ namespace MissionPlanner.GCSViews
             MavLink = null;
             XplanesSEND = null;
             SimulatorRECV = null;
+            SITLRCRECV = null;
             SITLSEND = null;
         }
 
@@ -295,6 +298,9 @@ namespace MissionPlanner.GCSViews
 
                     if (chkSITL.Checked)
                     {
+                        SITLRCRECV = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+                        SITLRCRECV.Bind(new IPEndPoint(IPAddress.Any, 5502));
+                        OutputLog.AppendText("SITL rc from " + SITLIP + " port " + 5502 + " \n");
                         SITLSEND = new UdpClient(SITLIP, 5501);
                         OutputLog.AppendText("SITL to " + SITLIP + " port " + 5501 + " \n");
                     }
@@ -361,6 +367,8 @@ namespace MissionPlanner.GCSViews
                     SimulatorRECV.Close();
                 if (SimulatorRECV != null && SimulatorRECV.Connected)
                     SimulatorRECV.Disconnect(true);
+                if (SITLRCRECV != null)
+                    SITLRCRECV.Close();
                 if (MavLink != null)
                     MavLink.Close();
                 position.Clear();
@@ -570,6 +578,10 @@ namespace MissionPlanner.GCSViews
         const float deg2rad = (float)(1.0 / rad2deg);
         const float kts2fps = (float)1.68780986;
 
+        // 1000 hz = 1000ms
+        private double simstep = 1.0/1000;
+        private double simtime = 0;
+
         private void mainloop()
         {
             //System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en-US");
@@ -608,6 +620,15 @@ namespace MissionPlanner.GCSViews
                     catch { }
                     lastdata = DateTime.Now; // prevent flooding
                 }
+
+                if (hzcounttime.Second != DateTime.Now.Second)
+                {
+                    Console.WriteLine("SIM recv hz {0} processArduPilot hz {1}", hzcount, hzcount2);
+                    hzcount = 0;
+                    hzcount2 = 0;
+                    hzcounttime = DateTime.Now;
+                }
+
                 try
                 {
                     if (SimulatorRECV != null && SimulatorRECV.Available > 0)
@@ -622,11 +643,42 @@ namespace MissionPlanner.GCSViews
 
                             hzcount++;
                         }
-
                     }
                 }
                 catch
                 { //OutputLog.AppendText("Xplanes Data Problem - You need DATA IN/OUT 3, 4, 17, 18, 19, 20\n" + ex.Message + "\n");
+                }
+
+                if (SITLRCRECV != null && SITLRCRECV.Available > 0)
+                {
+                    byte[] receiveBytes = new byte[28];
+
+                    var remote = (EndPoint)(new IPEndPoint(IPAddress.Any, 5502));
+                   
+                    var recv = SITLRCRECV.ReceiveFrom(receiveBytes, ref remote);
+
+                    if (recv == 28)
+                    {
+                        MainV2.comPort.MAV.cs.ch1out = BitConverter.ToUInt16(receiveBytes, 0);
+                        MainV2.comPort.MAV.cs.ch2out = BitConverter.ToUInt16(receiveBytes, 2);
+                        MainV2.comPort.MAV.cs.ch3out = BitConverter.ToUInt16(receiveBytes, 4);
+                        MainV2.comPort.MAV.cs.ch4out = BitConverter.ToUInt16(receiveBytes, 6);
+                        MainV2.comPort.MAV.cs.ch5out = BitConverter.ToUInt16(receiveBytes, 8);
+                        MainV2.comPort.MAV.cs.ch6out = BitConverter.ToUInt16(receiveBytes, 10);
+                        MainV2.comPort.MAV.cs.ch7out = BitConverter.ToUInt16(receiveBytes, 12);
+                        MainV2.comPort.MAV.cs.ch8out = BitConverter.ToUInt16(receiveBytes, 14);
+                        try
+                        {
+                            processArduPilot();
+                        }
+                        catch { }
+
+                        simsendtime = DateTime.Now;
+
+                        hzcount2++;
+
+                        continue;
+                    }
                 }
                 try
                 {
@@ -635,10 +687,8 @@ namespace MissionPlanner.GCSViews
                         IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
 
                         Byte[] receiveBytes = MavLink.Receive(ref RemoteIpEndPoint);
-
-
+                        
                         comPort.BaseStream.Write(receiveBytes, 0, receiveBytes.Length);
-
                     }
                 }
                 catch { }
@@ -650,24 +700,16 @@ namespace MissionPlanner.GCSViews
 
                     if ((DateTime.Now - simsendtime).TotalMilliseconds > 19 && chkSITL.Checked ||(DateTime.Now - simsendtime).TotalMilliseconds > 25)
                     {
-                        hzcount2++;
                         simsendtime = DateTime.Now;
 
                         if (comPort.BaseStream.IsOpen == true)
+                        {
                             processArduPilot();
+                            hzcount2++;
+                        }
                     }
                 }
                 catch (Exception ex) { log.Info("SIM Main loop exception " + ex.ToString()); }
-
-                if (hzcounttime.Second != DateTime.Now.Second)
-                {
-                    Console.WriteLine("SIM recv hz {0} processArduPilot hz {1}", hzcount,hzcount2);
-                    hzcount = 0;
-                    hzcount2 = 0;
-                    hzcounttime = DateTime.Now;
-                }
-
-
 
                 System.Threading.Thread.Sleep(1); // this controls send speed  to sim     
 
@@ -711,7 +753,7 @@ namespace MissionPlanner.GCSViews
                 JSBSimSEND = new TcpClient();
                 JSBSimSEND.Client.NoDelay = true;
                 JSBSimSEND.Connect("127.0.0.1", simPort);
-                OutputLog.AppendText("Console port TCP " + simPort + " (planner->sim)\n");
+                OutputLog.AppendText("JSB Console port TCP " + simPort + " (planner->sim)\n");
 
                 //JSBSimSEND.Client.Send(System.Text.Encoding.ASCII.GetBytes("set position/h-agl-ft 0\r\n"));
 
@@ -726,7 +768,7 @@ namespace MissionPlanner.GCSViews
 
                 JSBSimSEND.Client.Send(System.Text.Encoding.ASCII.GetBytes("resume\r\n"));
 
-                System.Threading.Thread.Sleep(1500);
+                System.Threading.Thread.Sleep(3000);
 
                 JSBSimSEND.Client.Send(System.Text.Encoding.ASCII.GetBytes("step\r\n"));
             }
@@ -982,11 +1024,11 @@ namespace MissionPlanner.GCSViews
             }
             else if (receviedbytes == 408)
             {
-                
                 FGNetFDM fdm = data.ByteArrayToStructureBigEndian<FGNetFDM>(0);
 
                 lastfdmdata = fdm;
 
+                sitldata.timestamp = (UInt64)(simtime * 1.0e6);
                 sitldata.altitude = (fdm.altitude);
                 sitldata.latitude = (fdm.latitude * rad2deg);
                 sitldata.longitude = (fdm.longitude * rad2deg);
@@ -1009,7 +1051,7 @@ namespace MissionPlanner.GCSViews
 
                 sitldata.airspeed = fdm.vcas * 0.5144444f;//  knots to m/s
 
-               // Console.WriteLine("1 {0} {1} {2} {3}",(float)sitldata.rollDeg,MainV2.comPort.MAV.cs.roll,sitldata.pitchDeg,MainV2.comPort.MAV.cs.pitch);
+                //Console.WriteLine("1 {0} {1} {2} {3}",(float)sitldata.rollDeg,MainV2.comPort.MAV.cs.roll,sitldata.pitchDeg,MainV2.comPort.MAV.cs.pitch);
 
                 if (RAD_JSBSim.Checked)
                     sitldata.airspeed = fdm.vcas * ft2m;//  fps to m/s
@@ -1038,7 +1080,8 @@ namespace MissionPlanner.GCSViews
                 while (JSBSimSEND.Client.Available > 5)
                 {
                     int read = JSBSimSEND.Client.Receive(buffer);
-                   // Console.WriteLine(ASCIIEncoding.ASCII.GetString(buffer,0,read));
+                    string readdata = ASCIIEncoding.ASCII.GetString(buffer, 0, read);
+                    //Console.WriteLine();
                 }
 
                 sitldata.magic = (int)0x4c56414f;
@@ -1238,8 +1281,6 @@ namespace MissionPlanner.GCSViews
 
                     if (chkSITL.Checked)
                     {
-  
-
                         sitl_fdm sitldata = new sitl_fdm();
                         sitldata.latitude = quad.latitude;
                         sitldata.longitude = quad.longitude;
@@ -1528,7 +1569,9 @@ namespace MissionPlanner.GCSViews
 
                 throttle_out = Constrain(throttle_out, -0.0f, 1f);
 
-                string cmd = string.Format("set fcs/aileron-cmd-norm {0}\r\nset fcs/elevator-cmd-norm {1}\r\nset fcs/rudder-cmd-norm {2}\r\nset fcs/throttle-cmd-norm {3}\r\nstep\r\n", roll_out, pitch_out, rudder_out, throttle_out);
+                string cmd = string.Format("set fcs/aileron-cmd-norm {0}\r\nset fcs/elevator-cmd-norm {1}\r\nset fcs/rudder-cmd-norm {2}\r\nset fcs/throttle-cmd-norm {3}\r\nstep\n", roll_out, pitch_out, rudder_out, throttle_out);
+
+                simtime += simstep;
 
                 //Console.Write(cmd);
                 byte[] data = System.Text.Encoding.ASCII.GetBytes(cmd);
@@ -2217,6 +2260,6 @@ namespace MissionPlanner.GCSViews
         private void Simulation_FormClosing(object sender, FormClosingEventArgs e)
         {
             timer_servo_graph.Stop();
-        }      
+        }
     }
 }
