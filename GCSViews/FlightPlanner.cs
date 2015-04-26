@@ -5525,14 +5525,23 @@ namespace MissionPlanner.GCSViews
             int altchange = 0;
             float multiplyer = 1;
 
-            if (altdif.Contains("*"))
+            try
             {
-                multiplyer = float.Parse(altdif.Replace('*', ' '));
+                if (altdif.Contains("*"))
+                {
+                    multiplyer = float.Parse(altdif.Replace('*', ' '));
+                }
+                else
+                {
+                    altchange = int.Parse(altdif);
+                }
             }
-            else
+            catch
             {
-                altchange = int.Parse(altdif);
+                CustomMessageBox.Show(Strings.InvalidNumberEntered, Strings.ERROR);
+                return;
             }
+
 
             foreach (DataGridViewRow line in Commands.Rows)
             {
