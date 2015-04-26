@@ -50,7 +50,7 @@ namespace MissionPlanner.Controls
 
         public void ShowScreen(string name)
         {
-            if (current != null)
+            if (current != null && current.Control != null)
             {
                 // hide current screen
                 current.Visible = false;
@@ -139,7 +139,13 @@ namespace MissionPlanner.Controls
         {
             public string Name;
             public MyUserControl Control;
-            public bool Visible { get { return Control.Visible; } set { Control.Visible = value; } }
+
+            public bool Visible
+            {
+                get { return Control.Visible; }
+                set { Control.Visible = value; }
+            }
+
             public bool Persistent;
 
             public Screen(string Name, MyUserControl Control, bool Persistent = false)
