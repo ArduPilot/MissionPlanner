@@ -33,7 +33,7 @@ namespace MissionPlanner.Log
                         MAVLinkInterface mine = new MAVLinkInterface();
 
 
-                        using (mine.logplaybackfile = new BinaryReader(File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.Read)))
+                        using (mine.logplaybackfile = new BinaryReader(File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)))
                         {
                             mine.logreadmode = true;
 
@@ -75,7 +75,7 @@ namespace MissionPlanner.Log
                     {
                         bool bin = logfile.ToLower().EndsWith(".bin");
 
-                        using (var st = File.OpenRead(logfile))
+                        using (var st = File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
                         {
                             using (StreamReader sr = new StreamReader(st))
                             {
