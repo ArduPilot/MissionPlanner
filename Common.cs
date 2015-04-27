@@ -433,6 +433,7 @@ namespace MissionPlanner
             : base(p)
         {
             Size = icon.Size;
+            this.heading = heading;
         }
 
         public override void OnRender(Graphics g)
