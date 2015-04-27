@@ -390,6 +390,22 @@ namespace MissionPlanner.Log
 
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
+                string offsetalt = "0";
+
+                if (Control.ModifierKeys == Keys.Shift)
+                {
+                    InputBox.Show("Alt offset",
+                        "Please enter your offset altitude",
+                        ref offsetalt);
+
+                    float temp = 0;
+                    if (!float.TryParse(offsetalt, out temp))
+                    {
+                        CustomMessageBox.Show("Bad Offset","Error");
+                        return;
+                    }
+                }
+
                 foreach (string logfile in openFileDialog1.FileNames)
                 {
                     MAVLinkInterface mine = new MAVLinkInterface();
@@ -458,7 +474,7 @@ namespace MissionPlanner.Log
 
                     if (mine.MAV.wps.ContainsKey(0))
                     {
-                        basealtstring = mine.MAV.wps[0].z.ToString();
+                        basealtstring = (mine.MAV.wps[0].z + float.Parse(offsetalt)).ToString();
                     }
                     else
                     {
