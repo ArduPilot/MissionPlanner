@@ -580,7 +580,7 @@ namespace MissionPlanner.GCSViews
 
         // 1000 hz = 1000ms
         private double simstep = 1.0/1000;
-        private double simtime = 0;
+        private double simtime = 1;
 
         private void mainloop()
         {
@@ -711,7 +711,7 @@ namespace MissionPlanner.GCSViews
                 }
                 catch (Exception ex) { log.Info("SIM Main loop exception " + ex.ToString()); }
 
-                System.Threading.Thread.Sleep(1); // this controls send speed  to sim     
+                //System.Threading.Thread.Sleep(1); // this controls send speed  to sim     
 
                 if (this.Disposing)
                     threadrun = 0;
