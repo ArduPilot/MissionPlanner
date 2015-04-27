@@ -137,6 +137,8 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.map = new MissionPlanner.Controls.myGMAP();
             this.TRK_zoom = new MissionPlanner.Controls.MyTrackBar();
+            this.label32 = new System.Windows.Forms.Label();
+            this.NUM_leadin = new System.Windows.Forms.NumericUpDown();
             this.groupBox5.SuspendLayout();
             this.tabCamera.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -165,6 +167,7 @@
             this.groupBox4.SuspendLayout();
             this.tabControl1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.TRK_zoom)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_leadin)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox5
@@ -687,6 +690,8 @@
             // groupBox1
             // 
             resources.ApplyResources(this.groupBox1, "groupBox1");
+            this.groupBox1.Controls.Add(this.label32);
+            this.groupBox1.Controls.Add(this.NUM_leadin);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.NUM_spacing);
             this.groupBox1.Controls.Add(this.label7);
@@ -1076,6 +1081,22 @@
             this.TRK_zoom.Value = 2F;
             this.TRK_zoom.Scroll += new System.EventHandler(this.trackBar1_Scroll);
             // 
+            // label32
+            // 
+            resources.ApplyResources(this.label32, "label32");
+            this.label32.Name = "label32";
+            // 
+            // NUM_leadin
+            // 
+            resources.ApplyResources(this.NUM_leadin, "NUM_leadin");
+            this.NUM_leadin.Maximum = new decimal(new int[] {
+            9999,
+            0,
+            0,
+            0});
+            this.NUM_leadin.Name = "NUM_leadin";
+            this.NUM_leadin.ValueChanged += new System.EventHandler(this.domainUpDown1_ValueChanged);
+            // 
             // GridUI
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -1123,6 +1144,7 @@
             this.groupBox4.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.TRK_zoom)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_leadin)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1238,5 +1260,7 @@
         private System.Windows.Forms.Label LBL_Alternating_lanes;
         private System.Windows.Forms.Label lbl_turnrad;
         private System.Windows.Forms.Label label36;
+        private System.Windows.Forms.Label label32;
+        private System.Windows.Forms.NumericUpDown NUM_leadin;
     }
 }
