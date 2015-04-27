@@ -1137,7 +1137,7 @@ namespace MissionPlanner.GCSViews
                                     }
                                     else if (MAV.cs.firmware == MainV2.Firmwares.ArduTracker)
                                     {
-                                        routes.Markers.Add(new GMapMarkerAntennaTracker(portlocation,MAV.cs.yaw));
+                                        routes.Markers.Add(new GMapMarkerAntennaTracker(portlocation, MAV.cs.yaw, MAV.cs.target_bearing));
                                     }
                                     else
                                     {
