@@ -677,6 +677,8 @@ namespace MissionPlanner.GCSViews
 
                         hzcount2++;
 
+                        System.Threading.Thread.Sleep(1);
+
                         continue;
                     }
                 }
@@ -711,7 +713,8 @@ namespace MissionPlanner.GCSViews
                 }
                 catch (Exception ex) { log.Info("SIM Main loop exception " + ex.ToString()); }
 
-                //System.Threading.Thread.Sleep(1); // this controls send speed  to sim     
+                // yield
+                System.Threading.Thread.Sleep(0); // this controls send speed  to sim     
 
                 if (this.Disposing)
                     threadrun = 0;
