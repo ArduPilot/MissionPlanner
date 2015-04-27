@@ -667,6 +667,7 @@ namespace MissionPlanner
                 temp.Add(new KeyValuePair<int, string>(0, "MANUAL"));
                 temp.Add(new KeyValuePair<int, string>(1, "STOP"));
                 temp.Add(new KeyValuePair<int, string>(2, "SCAN"));
+                temp.Add(new KeyValuePair<int, string>(3, "SERVO_TEST"));
                 temp.Add(new KeyValuePair<int, string>(10, "AUTO"));
                 temp.Add(new KeyValuePair<int, string>(16, "INITIALISING"));
 
