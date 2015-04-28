@@ -476,8 +476,11 @@ namespace MissionPlanner
         public float hwvoltage { get; set; }
         [DisplayText("Board Voltage")]
         public float boardvoltage { get; set; }
-        [DisplayText("Serov Rail Voltage")]
+        [DisplayText("Servo Rail Voltage")]
         public float servovoltage { get; set; }
+        [DisplayText("Voltage Flags")]
+        public MAVLink.MAV_POWER_STATUS voltageflag { get; set; }
+        
         public ushort i2cerrors { get; set; }
 
         // requested stream rates
@@ -773,6 +776,8 @@ namespace MissionPlanner
 
                         boardvoltage = power.Vcc;
                         servovoltage = power.Vservo;
+
+                        voltageflag = (MAVLink.MAV_POWER_STATUS) power.flags;
                     }
                     
 
