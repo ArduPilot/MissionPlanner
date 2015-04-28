@@ -649,38 +649,46 @@ namespace MissionPlanner.GCSViews
                 { //OutputLog.AppendText("Xplanes Data Problem - You need DATA IN/OUT 3, 4, 17, 18, 19, 20\n" + ex.Message + "\n");
                 }
 
-                if (SITLRCRECV != null && SITLRCRECV.Available > 0)
+                try
                 {
-                    byte[] receiveBytes = new byte[28];
-
-                    var remote = (EndPoint)(new IPEndPoint(IPAddress.Any, 5502));
-                   
-                    var recv = SITLRCRECV.ReceiveFrom(receiveBytes, ref remote);
-
-                    if (recv == 28)
+                    if (SITLRCRECV != null && SITLRCRECV.Available > 0)
                     {
-                        MainV2.comPort.MAV.cs.ch1out = BitConverter.ToUInt16(receiveBytes, 0);
-                        MainV2.comPort.MAV.cs.ch2out = BitConverter.ToUInt16(receiveBytes, 2);
-                        MainV2.comPort.MAV.cs.ch3out = BitConverter.ToUInt16(receiveBytes, 4);
-                        MainV2.comPort.MAV.cs.ch4out = BitConverter.ToUInt16(receiveBytes, 6);
-                        MainV2.comPort.MAV.cs.ch5out = BitConverter.ToUInt16(receiveBytes, 8);
-                        MainV2.comPort.MAV.cs.ch6out = BitConverter.ToUInt16(receiveBytes, 10);
-                        MainV2.comPort.MAV.cs.ch7out = BitConverter.ToUInt16(receiveBytes, 12);
-                        MainV2.comPort.MAV.cs.ch8out = BitConverter.ToUInt16(receiveBytes, 14);
-                        try
+                        byte[] receiveBytes = new byte[28];
+
+                        var remote = (EndPoint) (new IPEndPoint(IPAddress.Any, 5502));
+
+                        var recv = SITLRCRECV.ReceiveFrom(receiveBytes, ref remote);
+
+                        if (recv == 28)
                         {
-                            processArduPilot();
+                            MainV2.comPort.MAV.cs.ch1out = BitConverter.ToUInt16(receiveBytes, 0);
+                            MainV2.comPort.MAV.cs.ch2out = BitConverter.ToUInt16(receiveBytes, 2);
+                            MainV2.comPort.MAV.cs.ch3out = BitConverter.ToUInt16(receiveBytes, 4);
+                            MainV2.comPort.MAV.cs.ch4out = BitConverter.ToUInt16(receiveBytes, 6);
+                            MainV2.comPort.MAV.cs.ch5out = BitConverter.ToUInt16(receiveBytes, 8);
+                            MainV2.comPort.MAV.cs.ch6out = BitConverter.ToUInt16(receiveBytes, 10);
+                            MainV2.comPort.MAV.cs.ch7out = BitConverter.ToUInt16(receiveBytes, 12);
+                            MainV2.comPort.MAV.cs.ch8out = BitConverter.ToUInt16(receiveBytes, 14);
+                            try
+                            {
+                                processArduPilot();
+                            }
+                            catch
+                            {
+                            }
+
+                            simsendtime = DateTime.Now;
+
+                            hzcount2++;
+
+                            System.Threading.Thread.Sleep(1);
+
+                            continue;
                         }
-                        catch { }
-
-                        simsendtime = DateTime.Now;
-
-                        hzcount2++;
-
-                        System.Threading.Thread.Sleep(1);
-
-                        continue;
                     }
+                }
+                catch
+                {
                 }
                 try
                 {
@@ -812,6 +820,8 @@ namespace MissionPlanner.GCSViews
         {
             sitl_fdm sitldata = new sitl_fdm();
 
+            sitldata.timestamp = (UInt64)(simtime * 1.0e6);
+
             if (data[0] == 'D' && data[1] == 'A')
             {
                 // Xplanes sends
@@ -839,8 +849,6 @@ namespace MissionPlanner.GCSViews
 
                 bool xplane9 = !CHK_xplane10.Checked;
 
-               
-
                 if (xplane9)
                 {
                     sitldata.pitchDeg = (DATA[18][0]);
@@ -852,20 +860,20 @@ namespace MissionPlanner.GCSViews
 
                     sitldata.heading = ((float)DATA[19][2]);
 
-                    sitldata.speedN =-DATA[21][5];// (DATA[3][7] * 0.44704 * Math.Sin(sitldata.heading * deg2rad));
+                    sitldata.speedN = -DATA[21][5];// (DATA[3][7] * 0.44704 * Math.Sin(sitldata.heading * deg2rad));
                     sitldata.speedE = DATA[21][3];// (DATA[3][7] * 0.44704 * Math.Cos(sitldata.heading * deg2rad));
                     sitldata.speedD = -DATA[21][4];
                 }
                 else
                 {
-                    sitldata.pitchDeg = (DATA[17][0]);
-                    sitldata.rollDeg = (DATA[17][1]);
-                    sitldata.yawDeg = (DATA[17][2]);
+                    sitldata.pitchDeg  = (DATA[17][0]);
+                    sitldata.rollDeg   = (DATA[17][1]);
+                    sitldata.yawDeg    = (DATA[17][2]);
                     sitldata.pitchRate = (DATA[16][0] * rad2deg);
-                    sitldata.rollRate = (DATA[16][1] * rad2deg);
-                    sitldata.yawRate = (DATA[16][2] * rad2deg);
+                    sitldata.rollRate  = (DATA[16][1] * rad2deg);
+                    sitldata.yawRate   = (DATA[16][2] * rad2deg);
 
-                    sitldata.heading = (DATA[18][2]); // 18-2
+                    sitldata.heading   = (DATA[18][2]); // 18-2
 
 
                     sitldata.speedN = -DATA[21][5];// (DATA[3][7] * 0.44704 * Math.Sin(sitldata.heading * deg2rad));
@@ -1285,6 +1293,7 @@ namespace MissionPlanner.GCSViews
                     if (chkSITL.Checked)
                     {
                         sitl_fdm sitldata = new sitl_fdm();
+                        sitldata.timestamp = (UInt64)(simtime * 1.0e6);
                         sitldata.latitude = quad.latitude;
                         sitldata.longitude = quad.longitude;
                         sitldata.altitude = quad.altitude;
@@ -1308,6 +1317,8 @@ namespace MissionPlanner.GCSViews
                         byte[] sendme = StructureToByteArray(sitldata);
 
                         SITLSEND.Send(sendme, sendme.Length);
+
+                        simtime += simstep;
 
                         byte[] rcreceiver = new byte[2 * 8];
                         Array.ConstrainedCopy(BitConverter.GetBytes((ushort)MainV2.comPort.MAV.cs.rcoverridech1), 0, rcreceiver, 0, 2);

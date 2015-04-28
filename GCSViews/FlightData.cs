@@ -841,7 +841,7 @@ namespace MissionPlanner.GCSViews
                                 timeerror = 0;
                             }
                         }
-                        if (ts > 1000)
+                        if (Math.Abs(ts) > 1000)
                             ts = 1000;
                     }
 
@@ -3353,6 +3353,15 @@ namespace MissionPlanner.GCSViews
                 custom_mode = 15,  // #define AUTOTUNE    15                  // autotune the vehicle's roll and pitch gains
                 target_system = MainV2.comPort.MAV.sysid 
             });
+        }
+
+        private void takeOffToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            flyToHereAltToolStripMenuItem_Click(null, null);
+
+            MainV2.comPort.setMode("GUIDED");
+
+            MainV2.comPort.doCommand(MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0, 0, MainV2.comPort.MAV.GuidedMode.z);
         }
 
     }

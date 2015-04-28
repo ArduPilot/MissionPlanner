@@ -50,7 +50,7 @@ namespace MissionPlanner.HIL
             return (-position.z) + self.home_altitude <= self.ground_level + self.frame_height;
         }
 
-        public void update_position(double delta_time = 0)
+        public void update_position()
         {
             //'''update lat/lon/alt from position'''
 

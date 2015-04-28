@@ -353,12 +353,12 @@ namespace MissionPlanner.HIL
         {
             self = this;
 
-            motors = Motor.build_motors(MAVLink.MAV_TYPE.QUADROTOR, (int)MissionPlanner.GCSViews.ConfigurationView.ConfigFrameType.Frame.X);
+            motors = Motor.build_motors(MAVLink.MAV_TYPE.QUADROTOR, (int)MissionPlanner.GCSViews.ConfigurationView.ConfigFrameType.Frame.Plus);
             motor_speed = new double[motors.Length];
             mass = 1.5;// # Kg
             frame_height = 0.1;
-            
-            hover_throttle = 0.45;
+
+            hover_throttle = 0.51;
             terminal_velocity = 15.0;
             terminal_rotation_rate = 4 * (360.0 * deg2rad);
 
@@ -392,9 +392,12 @@ namespace MissionPlanner.HIL
             double[] m = motor_speed;
 
             //# how much time has passed?
-            DateTime t = DateTime.Now;
-            TimeSpan delta_time = t - last_time; // 0.02
-            last_time = t;
+            //DateTime t = DateTime.Now;
+            //TimeSpan delta_time = t - last_time; // 0.02
+            //last_time = t;
+
+            // run at 1000hz lockstep
+            TimeSpan delta_time = new TimeSpan(0, 0, 0, 0, 1);
 
             if (delta_time.TotalMilliseconds > 100) // somethings wrong / debug
             {
@@ -409,7 +412,7 @@ namespace MissionPlanner.HIL
             {
                 rot_accel.x += -radians(5000.0) * sin(radians(self.motors[i].angle)) * m[i];
                 rot_accel.y += radians(5000.0) * cos(radians(self.motors[i].angle)) * m[i];
-                if (self.motors[i].clockwise)
+                if (!self.motors[i].clockwise)
                 {
                     rot_accel.z -= m[i] * radians(400.0);
                 }
@@ -419,6 +422,8 @@ namespace MissionPlanner.HIL
                 }
                 thrust += m[i] * self.thrust_scale; // newtons
             }
+
+            //Console.WriteLine("rot_accel " + rot_accel.ToString());
 
             // rotational air resistance
             rot_accel.x -= self.gyro.x * radians(5000.0) / self.terminal_rotation_rate;
@@ -435,7 +440,6 @@ namespace MissionPlanner.HIL
             // update attitude
             self.dcm.rotate(self.gyro * delta_time.TotalSeconds);
             self.dcm.normalize();
-
 
             // air resistance
             Vector3 air_resistance = -self.velocity * (self.gravity / self.terminal_velocity);
@@ -493,7 +497,7 @@ namespace MissionPlanner.HIL
             }
 
             // update lat/lon/altitude
-            self.update_position(delta_time.TotalSeconds);
+            self.update_position();
         }
     }
 }
