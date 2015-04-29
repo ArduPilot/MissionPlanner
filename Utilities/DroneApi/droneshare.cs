@@ -152,19 +152,19 @@ namespace MissionPlanner.Utilities.DroneApi
         {
             string boundary = "----------------------------" + DateTime.Now.Ticks.ToString("x");
 
-
             HttpWebRequest httpWebRequest2 = (HttpWebRequest)WebRequest.Create(url);
             httpWebRequest2.ContentType = "multipart/form-data; boundary=" + boundary;
+            //httpWebRequest2.ContentType = APIConstants.TLOG_MIME_TYPE;
             httpWebRequest2.Method = "POST";
-            httpWebRequest2.KeepAlive = false;
+            httpWebRequest2.KeepAlive = true;
             httpWebRequest2.Credentials = System.Net.CredentialCache.DefaultCredentials;
             httpWebRequest2.Accept = "application/json";
-            //httpWebRequest2.Timeout = 5000;
-
-
+            httpWebRequest2.AllowWriteStreamBuffering = false;
+            httpWebRequest2.Timeout = 7200000; // 2 hrs
 
             Stream memStream = new System.IO.MemoryStream();
 
+            
             byte[] boundarybytes = System.Text.Encoding.ASCII.GetBytes("\r\n--" + boundary + "\r\n");
             byte[] boundarybytes2 = System.Text.Encoding.ASCII.GetBytes("\r\n--" + boundary);
 
@@ -186,7 +186,6 @@ namespace MissionPlanner.Utilities.DroneApi
 
            // for (int i = 0; i < files.Length; i++)
             {
-
                 //string header = string.Format(headerTemplate, "file" + i, files[i]);
                 string header = string.Format(headerTemplate, "uplTheFile.tlog", file);
 
@@ -195,36 +194,44 @@ namespace MissionPlanner.Utilities.DroneApi
                 memStream.Write(headerbytes, 0, headerbytes.Length);
 
 
-                FileStream fileStream = new FileStream(file, FileMode.Open,
-                FileAccess.Read);
-                byte[] buffer = new byte[1024];
-
-                int bytesRead = 0;
-
-                while ((bytesRead = fileStream.Read(buffer, 0, buffer.Length)) != 0)
+                using (FileStream fileStream = new FileStream(file, FileMode.Open,
+                    FileAccess.Read))
                 {
-                    memStream.Write(buffer, 0, bytesRead);
+                    byte[] buffer = new byte[1024];
+
+                    int bytesRead = 0;
+
+                    while ((bytesRead = fileStream.Read(buffer, 0, buffer.Length)) != 0)
+                    {
+                        memStream.Write(buffer, 0, bytesRead);
+
+                    }
 
                 }
 
-                fileStream.Close();
             }
 
             // write last boundry
             memStream.Write(boundarybytes2, 0, boundarybytes2.Length);
             // write last -- to last boundry
             memStream.Write(new byte[] {(byte)'-',(byte)'-'},0,2);
-
+            
             httpWebRequest2.ContentLength = memStream.Length;
 
             Stream requestStream = httpWebRequest2.GetRequestStream();
 
             memStream.Position = 0;
-            byte[] tempBuffer = new byte[memStream.Length];
-            memStream.Read(tempBuffer, 0, tempBuffer.Length);
-            memStream.Close();
-            requestStream.Write(tempBuffer, 0, tempBuffer.Length);
+
+            while (memStream.Position < memStream.Length)
+            {
+                Console.WriteLine("Upload file " + memStream.Position + "/" + memStream.Length);
+                byte[] tempBuffer = new byte[1024];
+                int read = memStream.Read(tempBuffer, 0, tempBuffer.Length);
+                requestStream.Write(tempBuffer, 0, read);
+                requestStream.Flush();
+            }
             requestStream.Close();
+            memStream.Close();
 
             WebResponse webResponse2 = httpWebRequest2.GetResponse();
 
