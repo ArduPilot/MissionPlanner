@@ -1932,6 +1932,22 @@ Please check the following
         }
 
         /// <summary>
+        /// used to injecy data into the gps ie rtcm/sbp/ubx
+        /// </summary>
+        /// <param name="data"></param>
+        public void InjectGpsData(byte[] data)
+        {
+            mavlink_gps_inject_data_t gps = new mavlink_gps_inject_data_t();
+
+            gps.data = data;
+            gps.len = (byte)data.Length;
+            gps.target_component = MAV.compid;
+            gps.target_system = MAV.sysid;
+
+            generatePacket((byte)MAVLINK_MSG_ID.GPS_INJECT_DATA, gps);
+        }
+
+        /// <summary>
         /// Save wp to eeprom
         /// </summary>
         /// <param name="loc">location struct</param>
@@ -2148,9 +2164,11 @@ Please check the following
 
             generatePacket((byte)MAVLINK_MSG_ID.DIGICAM_CONTROL, req);
 
+            MainV2.comPort.doCommand(MAV_CMD.DO_DIGICAM_CONTROL, 0, 0, 0, 0, 1, 0, 0);
+
             //MAVLINK_MSG_ID.CAMERA_FEEDBACK;
 
-                //mavlink_camera_feedback_t
+            //mavlink_camera_feedback_t
         }
 
         public void setMountConfigure(MAV_MOUNT_MODE mountmode, bool stabroll, bool stabpitch, bool stabyaw)
