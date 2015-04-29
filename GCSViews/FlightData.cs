@@ -3192,21 +3192,15 @@ namespace MissionPlanner.GCSViews
         {
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.Filter = "Binary Log|*.bin;*.BIN";
+            ofd.Multiselect = true;
 
             ofd.ShowDialog();
 
-            if (File.Exists(ofd.FileName))
+            foreach (string logfile in ofd.FileNames)
             {
-                SaveFileDialog sfd = new SaveFileDialog();
-                sfd.Filter = "log|*.log";
-                sfd.FileName = Path.GetFileNameWithoutExtension(ofd.FileName) + ".log";
+                string outfilename = Path.GetFileNameWithoutExtension(logfile) + ".log";
 
-                DialogResult res = sfd.ShowDialog();
-
-                if (res == System.Windows.Forms.DialogResult.OK)
-                {
-                    BinaryLog.ConvertBin(ofd.FileName,sfd.FileName);
-                }
+                BinaryLog.ConvertBin(logfile, outfilename);
             }
         }
 
