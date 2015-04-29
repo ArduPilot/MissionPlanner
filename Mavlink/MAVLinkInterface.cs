@@ -12,6 +12,7 @@ using System.Drawing;
 using System.Threading;
 using MissionPlanner.Controls;
 using System.ComponentModel;
+using System.Linq;
 using log4net;
 using MissionPlanner.Comms;
 using MissionPlanner.Utilities;
@@ -1935,12 +1936,12 @@ Please check the following
         /// used to injecy data into the gps ie rtcm/sbp/ubx
         /// </summary>
         /// <param name="data"></param>
-        public void InjectGpsData(byte[] data)
+        public void InjectGpsData(byte[] data, byte length)
         {
             mavlink_gps_inject_data_t gps = new mavlink_gps_inject_data_t();
 
-            gps.data = data;
-            gps.len = (byte)data.Length;
+            gps.data = data.Take(length).ToArray();
+            gps.len = length;
             gps.target_component = MAV.compid;
             gps.target_system = MAV.sysid;
 
