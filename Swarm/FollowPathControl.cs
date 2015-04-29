@@ -48,14 +48,14 @@ namespace MissionPlanner.Swarm
             if (threadrun == true)
             {
                 threadrun = false;
-                BUT_Start.Text = "Start";
+                BUT_Start.Text = Strings.Start;
                 return;
             }
 
             if (SwarmInterface != null)
             {
                 new System.Threading.Thread(mainloop) { IsBackground = true }.Start();
-                BUT_Start.Text = "Stop";
+                BUT_Start.Text = Strings.Stop;
             }
         }
 

@@ -26,7 +26,7 @@ namespace MissionPlanner
 
             if (threadrun)
             {
-                BUT_connect.Text = "Stop";
+                BUT_connect.Text = Strings.Stop;
             }
 
             MissionPlanner.Utilities.Tracking.AddPage(this.GetType().ToString(), this.Text);
@@ -38,7 +38,7 @@ namespace MissionPlanner
             {
                 threadrun = false;
                 comPort.Close();
-                BUT_connect.Text = "Connect";
+                BUT_connect.Text = Strings.Connect;
             }
             else
             {
@@ -46,10 +46,10 @@ namespace MissionPlanner
                 {
                     comPort.PortName = CMB_serialport.Text;
                 }
-                catch { CustomMessageBox.Show("Invalid PortName"); return; }
+                catch { CustomMessageBox.Show(Strings.InvalidPortName); return; }
                 try {
                 comPort.BaudRate = int.Parse(CMB_baudrate.Text);
-                } catch {CustomMessageBox.Show("Invalid BaudRate"); return;}
+                } catch {CustomMessageBox.Show(Strings.InvalidBaudRate); return;}
                 try {
                 comPort.Open();
                 } catch {CustomMessageBox.Show("Error Connecting\nif using com0com please rename the ports to COM??"); return;}

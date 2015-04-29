@@ -447,4 +447,13 @@ Please use Standard/Advanced Params for the safe settings</value>
   <data name="LinkStats" xml:space="preserve">
     <value>Link Stats</value>
   </data>
+  <data name="Stop" xml:space="preserve">
+    <value>Stop</value>
+  </data>
+  <data name="Connect" xml:space="preserve">
+    <value>Connect</value>
+  </data>
+  <data name="Start" xml:space="preserve">
+    <value>Start</value>
+  </data>
 </root>

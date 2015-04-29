@@ -44,7 +44,7 @@
             this.BUT_compassmot.Name = "BUT_compassmot";
             this.BUT_compassmot.Size = new System.Drawing.Size(75, 23);
             this.BUT_compassmot.TabIndex = 0;
-            this.BUT_compassmot.Text = "Start";
+            this.BUT_compassmot.Text = Strings.Start;
             this.BUT_compassmot.UseVisualStyleBackColor = true;
             this.BUT_compassmot.Click += new System.EventHandler(this.BUT_compassmot_Click);
             // 
@@ -67,7 +67,7 @@
             this.lbl_start.Name = "lbl_start";
             this.lbl_start.Size = new System.Drawing.Size(29, 13);
             this.lbl_start.TabIndex = 2;
-            this.lbl_start.Text = "Start";
+            this.lbl_start.Text = Strings.Start;
             this.lbl_start.Visible = false;
             // 
             // lbl_finish

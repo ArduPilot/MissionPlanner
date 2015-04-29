@@ -97,7 +97,7 @@ namespace MissionPlanner.Antenna
             if (threadrun)
             {
                 threadrun = false;
-                BUT_connect.Text = "Connect";
+                BUT_connect.Text = Strings.Connect;
                 tracker.Close();
                 foreach (Control ctl in Controls)
                 {

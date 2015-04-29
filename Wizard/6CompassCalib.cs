@@ -128,7 +128,7 @@ namespace MissionPlanner.Wizard
                     {
                         label5.Text = "Error, please try again, verify where north is.";
                     }
-                    BUT_compassorient.Text = "Start";
+                    BUT_compassorient.Text = Strings.Start;
                     step = 0;
                     return;
             }

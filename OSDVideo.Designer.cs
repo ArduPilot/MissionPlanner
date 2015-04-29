@@ -182,7 +182,7 @@
             this.BUT_start.Name = "BUT_start";
             this.BUT_start.Size = new System.Drawing.Size(75, 19);
             this.BUT_start.TabIndex = 3;
-            this.BUT_start.Text = "Start";
+            this.BUT_start.Text = Strings.Start;
             this.BUT_start.UseVisualStyleBackColor = true;
             this.BUT_start.Click += new System.EventHandler(this.BUT_start_Click);
             // 

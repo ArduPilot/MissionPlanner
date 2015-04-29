@@ -37,7 +37,7 @@ namespace MissionPlanner
 
             if (threadrun)
             {
-                BUT_connect.Text = "Stop";
+                BUT_connect.Text = Strings.Stop;
                 CMB_baudrate.Text = comPort.BaudRate.ToString();
                 CMB_serialport.Text = comPort.PortName;
                 CMB_updaterate.Text = updaterate.ToString();
@@ -52,7 +52,7 @@ namespace MissionPlanner
             {
                 threadrun = false;
                 comPort.Close();
-                BUT_connect.Text = "Connect";
+                BUT_connect.Text = Strings.Connect;
             }
             else
             {
@@ -103,7 +103,7 @@ namespace MissionPlanner
                 };
                 t12.Start();
 
-                BUT_connect.Text = "Stop";
+                BUT_connect.Text = Strings.Stop;
             }
         }
 
