@@ -356,6 +356,14 @@ namespace MissionPlanner
             // DataFlash Log
             else
             {
+                // convert bin to log
+                if (fn.ToLower().EndsWith("bin"))
+                {
+                    string tempfile = Path.GetTempFileName();
+                    Log.BinaryLog.ConvertBin(fn, tempfile);
+                    fn = tempfile;
+                }
+
                 StreamReader sr = new StreamReader(fn);
 
                 // Will hold the last seen Attitude information in order to incorporate them into the GPS Info
@@ -427,6 +435,14 @@ namespace MissionPlanner
             if (fn.ToLower().EndsWith("tlog"))
                 return null;
 
+            // convert bin to log
+            if (fn.ToLower().EndsWith("bin"))
+            {
+                string tempfile = Path.GetTempFileName();
+                Log.BinaryLog.ConvertBin(fn, tempfile);
+                fn = tempfile;
+            }
+
             using (StreamReader sr = new StreamReader(fn))
             {
                 while (!sr.EndOfStream)
@@ -464,6 +480,14 @@ namespace MissionPlanner
 
             if (fn.ToLower().EndsWith("tlog"))
                 return null;
+
+            // convert bin to log
+            if (fn.ToLower().EndsWith("bin"))
+            {
+                string tempfile = Path.GetTempFileName();
+                Log.BinaryLog.ConvertBin(fn, tempfile);
+                fn = tempfile;
+            }
 
             using (StreamReader sr = new StreamReader(fn))
             {
@@ -1466,7 +1490,7 @@ namespace MissionPlanner
 
         private void BUT_browselog_Click(object sender, EventArgs e)
         {
-            openFileDialog1.Filter = "Logs|*.log;*.tlog";
+            openFileDialog1.Filter = "Logs|*.log;*.tlog;*.bin";
             openFileDialog1.ShowDialog();
 
             if (File.Exists(openFileDialog1.FileName))
