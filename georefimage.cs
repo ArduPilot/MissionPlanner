@@ -1102,6 +1102,9 @@ namespace MissionPlanner
 
                 PictureInformation p = new PictureInformation();
 
+                // Fill shot time in Picture
+                p.ShotTimeReportedByCamera = getPhotoTime(files[i]);
+
                 DateTime dCAMMsgTime = GetTimeFromGps(int.Parse(getValueFromStringArray(currentCAM, weekCAMPos), CultureInfo.InvariantCulture), int.Parse(getValueFromStringArray(currentCAM, timeCAMpos), CultureInfo.InvariantCulture));
 
                 if (millisShutterLag == 0)
@@ -1123,7 +1126,7 @@ namespace MissionPlanner
                         cameraLocationFromGPSMsg = LookForLocation(p.Time, vehicleLocations);
                         if (cameraLocationFromGPSMsg != null)
                         {
-                            logAltMsg = "AMSL Alt " + (cameraLocationFromGPSMsg.Time - p.Time).Milliseconds + " ms away";
+                            logAltMsg = "AMSL Alt " + (cameraLocationFromGPSMsg.Time - p.Time).Milliseconds + " ms away" + " offset: " + (p.ShotTimeReportedByCamera - dCAMMsgTime).TotalSeconds;
                             p.AltAMSL = cameraLocationFromGPSMsg.AltAMSL;
                         }
                         else
@@ -1141,7 +1144,7 @@ namespace MissionPlanner
 
                     picturesInformationTemp.Add(picturePath, p);
 
-                    TXT_outputlog.AppendText("Photo " + Path.GetFileNameWithoutExtension(picturePath) + " processed from CAM Msg with " + millisShutterLag +  " ms shutter lag. " + logAltMsg + "\n");
+                    TXT_outputlog.AppendText("Photo " + Path.GetFileNameWithoutExtension(picturePath) + " processed from CAM Msg with " + millisShutterLag +  " ms shutter lag. " + logAltMsg +"\n");
 
                 }
                 else
