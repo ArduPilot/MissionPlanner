@@ -286,6 +286,8 @@ namespace MissionPlanner.GCSViews
 
                 try
                 {
+                    // reset/create
+                    lastfdmdata = new FGNetFDM();
                     quad = new HIL.MultiCopter();
 
                     if (RAD_JSBSim.Checked)
@@ -1263,7 +1265,7 @@ namespace MissionPlanner.GCSViews
                 {
                     lastfdmdata.latitude = MainV2.comPort.MAV.cs.HomeLocation.Lat * deg2rad;
                     lastfdmdata.longitude = MainV2.comPort.MAV.cs.HomeLocation.Lng * deg2rad;
-                    lastfdmdata.altitude = (MainV2.comPort.MAV.cs.HomeLocation.Alt);
+                    lastfdmdata.altitude = srtm.getAltitude(MainV2.comPort.MAV.cs.HomeLocation.Lat, MainV2.comPort.MAV.cs.HomeLocation.Lng).alt;
                     lastfdmdata.version = 999;
                 }
 

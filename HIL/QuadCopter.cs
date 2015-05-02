@@ -475,7 +475,8 @@ namespace MissionPlanner.HIL
             {
                 home_latitude = fdm.latitude * rad2deg;
                 home_longitude = fdm.longitude * rad2deg;
-                home_altitude = altitude;
+                home_altitude = fdm.altitude;
+                ground_level = home_altitude;
             }
 
             // constrain height to the ground
