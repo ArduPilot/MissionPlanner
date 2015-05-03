@@ -953,7 +953,7 @@ namespace MissionPlanner.GCSViews
                     }
 
                     // update map
-                    if (tracklast.AddSeconds(1.2) < DateTime.Now && gMapControl1.Visible)
+                    if (tracklast.AddSeconds(1.2) < DateTime.Now)
                     {
                         if (MainV2.config["CHK_maprotation"] != null && MainV2.config["CHK_maprotation"].ToString() == "True")
                         {
@@ -1208,7 +1208,10 @@ namespace MissionPlanner.GCSViews
 
                         gMapControl1.HoldInvalidation = false;
 
-                        gMapControl1.Invalidate();
+                        if (gMapControl1.Visible)
+                        {
+                            gMapControl1.Invalidate();
+                        }
 
                         tracklast = DateTime.Now;
                     }  
@@ -3341,21 +3344,28 @@ namespace MissionPlanner.GCSViews
 
         private void but_autotune_Click(object sender, EventArgs e)
         {
-            MainV2.comPort.setMode(new MAVLink.mavlink_set_mode_t() 
-            { 
-                base_mode = (byte)MAVLink.MAV_MODE_FLAG.CUSTOM_MODE_ENABLED,
-                custom_mode = 15,  // #define AUTOTUNE    15                  // autotune the vehicle's roll and pitch gains
-                target_system = MainV2.comPort.MAV.sysid 
-            });
+            if (MainV2.comPort.BaseStream.IsOpen)
+            {
+                MainV2.comPort.setMode(new MAVLink.mavlink_set_mode_t()
+                {
+                    base_mode = (byte) MAVLink.MAV_MODE_FLAG.CUSTOM_MODE_ENABLED,
+                    custom_mode = 15,
+                    // #define AUTOTUNE    15                  // autotune the vehicle's roll and pitch gains
+                    target_system = MainV2.comPort.MAV.sysid
+                });
+            }
         }
 
         private void takeOffToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            flyToHereAltToolStripMenuItem_Click(null, null);
+            if (MainV2.comPort.BaseStream.IsOpen)
+            {
+                flyToHereAltToolStripMenuItem_Click(null, null);
 
-            MainV2.comPort.setMode("GUIDED");
+                MainV2.comPort.setMode("GUIDED");
 
-            MainV2.comPort.doCommand(MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0, 0, MainV2.comPort.MAV.GuidedMode.z);
+                MainV2.comPort.doCommand(MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0, 0, MainV2.comPort.MAV.GuidedMode.z);
+            }
         }
 
     }
