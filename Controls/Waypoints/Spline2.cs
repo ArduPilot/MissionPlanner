@@ -331,7 +331,7 @@ void calc_slow_down_distance(float speed_cms, float accel_cmss)
                 {
                     // increase velocity using acceleration
                     // To-Do: replace 0.1f below with update frequency passed in from main program
-                    _spline_vel_scaler += _wp_accel_cms * 0.1f;
+                    _spline_vel_scaler += _wp_accel_cms * dt;
                 }
 
                 // constrain target velocity
