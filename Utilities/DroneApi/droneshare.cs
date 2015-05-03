@@ -18,6 +18,8 @@ namespace MissionPlanner.Utilities.DroneApi
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
+        private static bool validcred = false;
+
         private static string ToQueryString(NameValueCollection nvc)
         {
             var array = (from key in nvc.AllKeys
@@ -59,7 +61,10 @@ namespace MissionPlanner.Utilities.DroneApi
 
         public static void doUpload(string file)
         {
-            doUserAndPassword();
+            if (!validcred)
+            {
+                doUserAndPassword();
+            }
 
             string droneshareusername = MainV2.getConfig("droneshareusername");
 
@@ -79,7 +84,12 @@ namespace MissionPlanner.Utilities.DroneApi
             MAVLinkInterface mav = new MAVLinkInterface();
             mav.BaseStream = new Comms.CommsFile();
             mav.BaseStream.PortName = file;
-            mav.getHeartBeat();
+            mav.BaseStream.Open();
+            if (mav.getHeartBeat().Length == 0)
+            {
+                CustomMessageBox.Show("Invalid log");
+                return;
+            }
             mav.Close();
 
             string viewurl = Utilities.DroneApi.droneshare.doUpload(file, droneshareusername, dronesharepassword, mav.MAV.Guid , Utilities.DroneApi.APIConstants.apiKey);
@@ -88,6 +98,7 @@ namespace MissionPlanner.Utilities.DroneApi
             {
                 try
                 {
+                    validcred = true;
                     System.Diagnostics.Process.Start(viewurl);
                 }
                 catch (Exception ex) { log.Error(ex); CustomMessageBox.Show("Failed to open url " + viewurl); }
@@ -104,7 +115,7 @@ namespace MissionPlanner.Utilities.DroneApi
             @params.Add("api_key", apiKey);
             @params.Add("login", userId);
             @params.Add("password", userPass);
-            @params.Add("privacy", "DEFAULT");
+            @params.Add("privacy", "Private");
             @params.Add("autoCreate", "false");
             String queryParams = ToQueryString(@params);
             String webAppUploadUrl = String.Format("{0}/api/v1/mission/upload/{1}", baseUrl, vehicleId, queryParams);
@@ -187,7 +198,7 @@ namespace MissionPlanner.Utilities.DroneApi
            // for (int i = 0; i < files.Length; i++)
             {
                 //string header = string.Format(headerTemplate, "file" + i, files[i]);
-                string header = string.Format(headerTemplate, "uplTheFile.tlog", file);
+                string header = string.Format(headerTemplate, "uplTheFile.tlog", Path.GetFileName(file));
 
                 byte[] headerbytes = System.Text.Encoding.UTF8.GetBytes(header);
 
