@@ -36,6 +36,9 @@ namespace MissionPlanner.Comms
         }
         public int Read(byte[] buffer, int offset, int count)
         {
+            if (!IsOpen)
+                throw new EndOfStreamException("File not open");
+
             while (true) 
             {
                 // check if we have credit and continue
