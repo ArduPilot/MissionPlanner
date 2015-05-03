@@ -884,19 +884,14 @@ namespace MissionPlanner.Log
                 try
                 {
 
-                    dospecial("GPS_RAW");
+                    dospecial("GPS_RAW_INT");
                 }
                 catch (Exception ex) { log.Info(ex.ToString()); }
                 try
                 {
-
                     addMagField();
-                }
-                catch (Exception ex) { log.Info(ex.ToString()); }
-                try
-                {
                     addDistHome();
-
+                    addIMUTime();
                 }
                 catch (Exception ex) { log.Info(ex.ToString()); }
 
@@ -934,11 +929,11 @@ namespace MissionPlanner.Log
 
         void dospecial(string PacketName)
         {
-            Dictionary<double, object> temp = null;
+            Dictionary<DateTime, object> temp = null;
 
             try
             {
-                temp = (Dictionary<double, object>)packetdata[PacketName];
+                temp = (Dictionary<DateTime, object>)packetdata[PacketName];
             }
             catch
             {
@@ -955,9 +950,9 @@ namespace MissionPlanner.Log
         public double getAltAboveHome(MAVLink.mavlink_gps_raw_int_t gps)
         {
             if (customforusenumber == -1 && gps.fix_type != 2)
-                customforusenumber = gps.alt;
+                customforusenumber = gps.alt  / 1000.0f;
 
-            return gps.alt - customforusenumber;
+            return (gps.alt / 1000.0f) - customforusenumber;
         }
 ";
 
@@ -970,9 +965,9 @@ namespace MissionPlanner.Log
 
             if (results != null && results.CompiledAssembly != null)
             {
-                string field = "Custom Custom"; // reverse bellow
+                string field = "custom mavlink_custom_t"; // reverse bellow
 
-                options.Add("Custom.Custom");
+                options.Add("mavlink_custom_t.custom");
 
                 this.datappl[field] = new PointPairList();
 
@@ -991,9 +986,10 @@ namespace MissionPlanner.Log
 
                     object assemblyInstance = results.CompiledAssembly.CreateInstance("ExpressionEvaluator.Calculator");
 
-                    foreach (double time in temp.Keys)
+                    foreach (DateTime time in temp.Keys)
                     {
-                        result.Add(time, (double)mi.Invoke(assemblyInstance, new object[] { temp[time] }));
+                        XDate time2 = new XDate(time);
+                        result.Add(time2, (double)mi.Invoke(assemblyInstance, new object[] { temp[time] }));
                     }
                 }
                 catch { }
@@ -1060,9 +1056,9 @@ namespace MissionPlanner.Log
 
         void addMagField()
         {
-            string field = "mag_field Custom";
+            string field = "mag_field mavlink_custom_t";
 
-            options.Add("Custom.mag_field");
+            options.Add("mavlink_custom_t.mag_field");
 
             this.datappl[field] = new PointPairList();
 
@@ -1085,11 +1081,38 @@ namespace MissionPlanner.Log
             }
         }
 
+        void addIMUTime()
+        {
+            string field = "sitltime mavlink_custom_t";
+
+            options.Add("mavlink_custom_t.sitltime");
+
+            this.datappl[field] = new PointPairList();
+
+            PointPairList list = ((PointPairList)this.datappl[field]);
+
+            PointPairList listtime = ((PointPairList)this.datappl["time_usec mavlink_raw_imu_t"]);
+
+            double lastrealtime = listtime[0].X;
+            double lastvalue = listtime[0].Y * 1.0e-6;
+
+            for (int a = 0; a < listtime.Count; a++)
+            {
+                double delta = ((listtime[a].Y * 1.0e-6) - lastvalue);
+
+                // convert to seconds
+                list.Add(listtime[a].X, delta);
+
+                lastvalue = listtime[a].Y * 1.0e-6;
+                lastrealtime = listtime[a].X;
+            }
+        }
+
         void addDistHome()
         {
-            string field = "dist_home Custom";
+            string field = "dist_home mavlink_custom_t";
 
-            options.Add("Custom.dist_home");
+            options.Add("mavlink_custom_t.dist_home");
 
             this.datappl[field] = new PointPairList();
 
