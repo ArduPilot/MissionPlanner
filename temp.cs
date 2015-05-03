@@ -1711,5 +1711,16 @@ namespace MissionPlanner
 
             player.Play();
         }
+
+        private void but_armandtakeoff_Click(object sender, EventArgs e)
+        {
+            MainV2.comPort.setMode("Stabilize");
+
+            MainV2.comPort.doARM(true);
+
+            MainV2.comPort.setMode("GUIDED");
+
+            MainV2.comPort.doCommand(MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0, 0, 10);
+        }
     }
 }

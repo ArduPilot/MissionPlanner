@@ -79,6 +79,7 @@
             this.but_droneapi = new MissionPlanner.Controls.MyButton();
             this.but_structtest = new MissionPlanner.Controls.MyButton();
             this.but_rtspurl = new MissionPlanner.Controls.MyButton();
+            this.but_armandtakeoff = new MissionPlanner.Controls.MyButton();
             this.SuspendLayout();
             // 
             // label1
@@ -569,11 +570,21 @@
             this.but_rtspurl.Text = "rtsp";
             this.but_rtspurl.Click += new System.EventHandler(this.but_rtspurl_Click);
             // 
+            // but_armandtakeoff
+            // 
+            this.but_armandtakeoff.Location = new System.Drawing.Point(12, 301);
+            this.but_armandtakeoff.Name = "but_armandtakeoff";
+            this.but_armandtakeoff.Size = new System.Drawing.Size(96, 23);
+            this.but_armandtakeoff.TabIndex = 56;
+            this.but_armandtakeoff.Text = "arm and takeoff";
+            this.but_armandtakeoff.Click += new System.EventHandler(this.but_armandtakeoff_Click);
+            // 
             // temp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(685, 450);
+            this.Controls.Add(this.but_armandtakeoff);
             this.Controls.Add(this.but_rtspurl);
             this.Controls.Add(this.but_structtest);
             this.Controls.Add(this.but_droneapi);
@@ -684,5 +695,6 @@
         private Controls.MyButton but_droneapi;
         private Controls.MyButton but_structtest;
         private Controls.MyButton but_rtspurl;
+        private Controls.MyButton but_armandtakeoff;
     }
 }
