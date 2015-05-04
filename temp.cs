@@ -1023,20 +1023,11 @@ namespace MissionPlanner
 
             MainV2.Comports.Add(com2);
 
-            CMB_mavs.DataSource = MainV2.Comports;
+            
 
 
         }
 
-        private void CMB_mavs_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            foreach (var port in MainV2.Comports) {
-
-                if (port.ToString() == CMB_mavs.Text) {
-                    MainV2.comPort = port;
-                }
-            }
-        }
 
         private void BUT_swarm_Click(object sender, EventArgs e)
         {

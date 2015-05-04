@@ -29,11 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.CMB_mavs = new System.Windows.Forms.ComboBox();
-            this.but_multimav = new MissionPlanner.Controls.MyButton();
             this.BUT_xplane = new MissionPlanner.Controls.MyButton();
             this.but_osdvideo = new MissionPlanner.Controls.MyButton();
             this.BUT_outputMD = new MissionPlanner.Controls.MyButton();
@@ -43,96 +38,60 @@
             this.BUT_lang_edit = new MissionPlanner.Controls.MyButton();
             this.BUT_clearcustommaps = new MissionPlanner.Controls.MyButton();
             this.BUT_geinjection = new MissionPlanner.Controls.MyButton();
-            this.button2 = new MissionPlanner.Controls.MyButton();
-            this.BUT_copyto2560 = new MissionPlanner.Controls.MyButton();
-            this.BUT_copyto1280 = new MissionPlanner.Controls.MyButton();
-            this.BUT_copy2560 = new MissionPlanner.Controls.MyButton();
-            this.BUT_copy1280 = new MissionPlanner.Controls.MyButton();
-            this.BUT_dleeprom = new MissionPlanner.Controls.MyButton();
-            this.BUT_flashup = new MissionPlanner.Controls.MyButton();
-            this.BUT_flashdl = new MissionPlanner.Controls.MyButton();
-            this.BUT_wipeeeprom = new MissionPlanner.Controls.MyButton();
-            this.button1 = new MissionPlanner.Controls.MyButton();
             this.BUT_swarm = new MissionPlanner.Controls.MyButton();
             this.BUT_outputnmea = new MissionPlanner.Controls.MyButton();
             this.BUT_outputMavlink = new MissionPlanner.Controls.MyButton();
-            this.BUT_simmulti = new MissionPlanner.Controls.MyButton();
             this.BUT_followleader = new MissionPlanner.Controls.MyButton();
             this.BUT_driverclean = new MissionPlanner.Controls.MyButton();
-            this.but_compassrotation = new MissionPlanner.Controls.MyButton();
             this.BUT_sorttlogs = new MissionPlanner.Controls.MyButton();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.BUT_accellogs = new MissionPlanner.Controls.MyButton();
             this.BUT_movingbase = new MissionPlanner.Controls.MyButton();
             this.but_getfw = new MissionPlanner.Controls.MyButton();
-            this.but_loganalysis = new MissionPlanner.Controls.MyButton();
-            this.BUT_magfit = new MissionPlanner.Controls.MyButton();
             this.but_mavserialport = new MissionPlanner.Controls.MyButton();
             this.button3 = new System.Windows.Forms.Button();
-            this.BUT_magfit2 = new MissionPlanner.Controls.MyButton();
             this.BUT_shptopoly = new MissionPlanner.Controls.MyButton();
-            this.but_droneshare = new MissionPlanner.Controls.MyButton();
             this.but_gimbaltest = new MissionPlanner.Controls.MyButton();
-            this.but_mntstatus = new MissionPlanner.Controls.MyButton();
             this.but_maplogs = new MissionPlanner.Controls.MyButton();
             this.butlogindex = new MissionPlanner.Controls.MyButton();
-            this.but_droneapi = new MissionPlanner.Controls.MyButton();
             this.but_structtest = new MissionPlanner.Controls.MyButton();
             this.but_rtspurl = new MissionPlanner.Controls.MyButton();
             this.but_armandtakeoff = new MissionPlanner.Controls.MyButton();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.label26 = new System.Windows.Forms.Label();
+            this.label25 = new System.Windows.Forms.Label();
+            this.label24 = new System.Windows.Forms.Label();
+            this.label23 = new System.Windows.Forms.Label();
+            this.label22 = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
+            this.label20 = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(274, 17);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(85, 13);
-            this.label1.TabIndex = 10;
-            this.label1.Text = "Includes eeprom";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(274, 46);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(125, 13);
-            this.label2.TabIndex = 12;
-            this.label2.Text = "Does not include eeprom";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(95, 81);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(273, 13);
-            this.label3.TabIndex = 13;
-            this.label3.Text = "1280 - can do full copy\'s   2560- full read, write flash only";
-            // 
-            // CMB_mavs
-            // 
-            this.CMB_mavs.FormattingEnabled = true;
-            this.CMB_mavs.Location = new System.Drawing.Point(12, 258);
-            this.CMB_mavs.Name = "CMB_mavs";
-            this.CMB_mavs.Size = new System.Drawing.Size(121, 21);
-            this.CMB_mavs.TabIndex = 26;
-            this.CMB_mavs.SelectedIndexChanged += new System.EventHandler(this.CMB_mavs_SelectedIndexChanged);
-            // 
-            // but_multimav
-            // 
-            this.but_multimav.Location = new System.Drawing.Point(37, 229);
-            this.but_multimav.Name = "but_multimav";
-            this.but_multimav.Size = new System.Drawing.Size(75, 23);
-            this.but_multimav.TabIndex = 25;
-            this.but_multimav.Text = "2nd mav";
-            this.but_multimav.UseVisualStyleBackColor = true;
-            this.but_multimav.Click += new System.EventHandler(this.but_multimav_Click);
             // 
             // BUT_xplane
             // 
-            this.BUT_xplane.Location = new System.Drawing.Point(598, 238);
+            this.BUT_xplane.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.BUT_xplane.Location = new System.Drawing.Point(3, 234);
             this.BUT_xplane.Name = "BUT_xplane";
-            this.BUT_xplane.Size = new System.Drawing.Size(75, 23);
+            this.BUT_xplane.Size = new System.Drawing.Size(113, 15);
             this.BUT_xplane.TabIndex = 23;
             this.BUT_xplane.Text = "live xplane output";
             this.BUT_xplane.UseVisualStyleBackColor = true;
@@ -140,9 +99,10 @@
             // 
             // but_osdvideo
             // 
-            this.but_osdvideo.Location = new System.Drawing.Point(495, 183);
+            this.but_osdvideo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.but_osdvideo.Location = new System.Drawing.Point(3, 171);
             this.but_osdvideo.Name = "but_osdvideo";
-            this.but_osdvideo.Size = new System.Drawing.Size(75, 23);
+            this.but_osdvideo.Size = new System.Drawing.Size(113, 15);
             this.but_osdvideo.TabIndex = 22;
             this.but_osdvideo.Text = "OSDVideo";
             this.but_osdvideo.UseVisualStyleBackColor = true;
@@ -150,9 +110,10 @@
             // 
             // BUT_outputMD
             // 
-            this.BUT_outputMD.Location = new System.Drawing.Point(308, 132);
+            this.BUT_outputMD.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.BUT_outputMD.Location = new System.Drawing.Point(3, 87);
             this.BUT_outputMD.Name = "BUT_outputMD";
-            this.BUT_outputMD.Size = new System.Drawing.Size(75, 23);
+            this.BUT_outputMD.Size = new System.Drawing.Size(113, 15);
             this.BUT_outputMD.TabIndex = 21;
             this.BUT_outputMD.Text = "MicroDrone";
             this.BUT_outputMD.UseVisualStyleBackColor = true;
@@ -160,9 +121,10 @@
             // 
             // BUT_paramgen
             // 
-            this.BUT_paramgen.Location = new System.Drawing.Point(414, 183);
+            this.BUT_paramgen.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.BUT_paramgen.Location = new System.Drawing.Point(3, 129);
             this.BUT_paramgen.Name = "BUT_paramgen";
-            this.BUT_paramgen.Size = new System.Drawing.Size(75, 23);
+            this.BUT_paramgen.Size = new System.Drawing.Size(113, 15);
             this.BUT_paramgen.TabIndex = 20;
             this.BUT_paramgen.Text = "Param gen";
             this.BUT_paramgen.UseVisualStyleBackColor = true;
@@ -170,9 +132,10 @@
             // 
             // BUT_follow_me
             // 
-            this.BUT_follow_me.Location = new System.Drawing.Point(333, 183);
+            this.BUT_follow_me.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.BUT_follow_me.Location = new System.Drawing.Point(3, 45);
             this.BUT_follow_me.Name = "BUT_follow_me";
-            this.BUT_follow_me.Size = new System.Drawing.Size(75, 23);
+            this.BUT_follow_me.Size = new System.Drawing.Size(113, 15);
             this.BUT_follow_me.TabIndex = 17;
             this.BUT_follow_me.Text = "Follow Me";
             this.BUT_follow_me.UseVisualStyleBackColor = true;
@@ -180,18 +143,20 @@
             // 
             // BUT_georefimage
             // 
-            this.BUT_georefimage.Location = new System.Drawing.Point(150, 183);
+            this.BUT_georefimage.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.BUT_georefimage.Location = new System.Drawing.Point(3, 3);
             this.BUT_georefimage.Name = "BUT_georefimage";
-            this.BUT_georefimage.Size = new System.Drawing.Size(96, 23);
+            this.BUT_georefimage.Size = new System.Drawing.Size(113, 15);
             this.BUT_georefimage.TabIndex = 0;
             this.BUT_georefimage.Text = "Geo ref images";
             this.BUT_georefimage.Click += new System.EventHandler(this.BUT_georefimage_Click);
             // 
             // BUT_lang_edit
             // 
-            this.BUT_lang_edit.Location = new System.Drawing.Point(252, 183);
+            this.BUT_lang_edit.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.BUT_lang_edit.Location = new System.Drawing.Point(3, 150);
             this.BUT_lang_edit.Name = "BUT_lang_edit";
-            this.BUT_lang_edit.Size = new System.Drawing.Size(75, 23);
+            this.BUT_lang_edit.Size = new System.Drawing.Size(113, 15);
             this.BUT_lang_edit.TabIndex = 16;
             this.BUT_lang_edit.Text = "Lang Edit";
             this.BUT_lang_edit.UseVisualStyleBackColor = true;
@@ -199,128 +164,32 @@
             // 
             // BUT_clearcustommaps
             // 
-            this.BUT_clearcustommaps.Location = new System.Drawing.Point(365, 229);
+            this.BUT_clearcustommaps.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.BUT_clearcustommaps.Location = new System.Drawing.Point(3, 402);
             this.BUT_clearcustommaps.Name = "BUT_clearcustommaps";
-            this.BUT_clearcustommaps.Size = new System.Drawing.Size(209, 40);
+            this.BUT_clearcustommaps.Size = new System.Drawing.Size(113, 15);
             this.BUT_clearcustommaps.TabIndex = 15;
-            this.BUT_clearcustommaps.Text = "Clear Custom Maps from Database";
+            this.BUT_clearcustommaps.Text = "Clear Custom Maps";
             this.BUT_clearcustommaps.UseVisualStyleBackColor = true;
             this.BUT_clearcustommaps.Click += new System.EventHandler(this.BUT_clearcustommaps_Click);
             // 
             // BUT_geinjection
             // 
-            this.BUT_geinjection.Location = new System.Drawing.Point(150, 229);
+            this.BUT_geinjection.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.BUT_geinjection.Location = new System.Drawing.Point(3, 381);
             this.BUT_geinjection.Name = "BUT_geinjection";
-            this.BUT_geinjection.Size = new System.Drawing.Size(209, 40);
+            this.BUT_geinjection.Size = new System.Drawing.Size(113, 15);
             this.BUT_geinjection.TabIndex = 14;
-            this.BUT_geinjection.Text = "Inject GE into database (now jpgs)";
+            this.BUT_geinjection.Text = "Inject GE";
             this.BUT_geinjection.UseVisualStyleBackColor = true;
             this.BUT_geinjection.Click += new System.EventHandler(this.BUT_geinjection_Click);
             // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(37, 97);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(159, 23);
-            this.button2.TabIndex = 9;
-            this.button2.Text = "firmware.hex 2 firmware.bin";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
-            // BUT_copyto2560
-            // 
-            this.BUT_copyto2560.Location = new System.Drawing.Point(143, 41);
-            this.BUT_copyto2560.Name = "BUT_copyto2560";
-            this.BUT_copyto2560.Size = new System.Drawing.Size(125, 23);
-            this.BUT_copyto2560.TabIndex = 8;
-            this.BUT_copyto2560.Text = "Copy to APM 2560";
-            this.BUT_copyto2560.UseVisualStyleBackColor = true;
-            // 
-            // BUT_copyto1280
-            // 
-            this.BUT_copyto1280.Location = new System.Drawing.Point(143, 12);
-            this.BUT_copyto1280.Name = "BUT_copyto1280";
-            this.BUT_copyto1280.Size = new System.Drawing.Size(125, 23);
-            this.BUT_copyto1280.TabIndex = 7;
-            this.BUT_copyto1280.Text = "Copy to APM 1280";
-            this.BUT_copyto1280.UseVisualStyleBackColor = true;
-            this.BUT_copyto1280.Click += new System.EventHandler(this.BUT_copyto1280_Click);
-            // 
-            // BUT_copy2560
-            // 
-            this.BUT_copy2560.Location = new System.Drawing.Point(12, 41);
-            this.BUT_copy2560.Name = "BUT_copy2560";
-            this.BUT_copy2560.Size = new System.Drawing.Size(125, 23);
-            this.BUT_copy2560.TabIndex = 6;
-            this.BUT_copy2560.Text = "Copy APM 2560";
-            this.BUT_copy2560.UseVisualStyleBackColor = true;
-            this.BUT_copy2560.Click += new System.EventHandler(this.BUT_copy2560_Click);
-            // 
-            // BUT_copy1280
-            // 
-            this.BUT_copy1280.Location = new System.Drawing.Point(12, 12);
-            this.BUT_copy1280.Name = "BUT_copy1280";
-            this.BUT_copy1280.Size = new System.Drawing.Size(125, 23);
-            this.BUT_copy1280.TabIndex = 5;
-            this.BUT_copy1280.Text = "Copy APM 1280";
-            this.BUT_copy1280.UseVisualStyleBackColor = true;
-            this.BUT_copy1280.Click += new System.EventHandler(this.BUT_copy1280_Click);
-            // 
-            // BUT_dleeprom
-            // 
-            this.BUT_dleeprom.Location = new System.Drawing.Point(476, 46);
-            this.BUT_dleeprom.Name = "BUT_dleeprom";
-            this.BUT_dleeprom.Size = new System.Drawing.Size(125, 23);
-            this.BUT_dleeprom.TabIndex = 4;
-            this.BUT_dleeprom.Text = "download eeprom";
-            this.BUT_dleeprom.UseVisualStyleBackColor = true;
-            this.BUT_dleeprom.Click += new System.EventHandler(this.BUT_dleeprom_Click);
-            // 
-            // BUT_flashup
-            // 
-            this.BUT_flashup.Location = new System.Drawing.Point(542, 81);
-            this.BUT_flashup.Name = "BUT_flashup";
-            this.BUT_flashup.Size = new System.Drawing.Size(125, 23);
-            this.BUT_flashup.TabIndex = 3;
-            this.BUT_flashup.Text = "upload flash";
-            this.BUT_flashup.UseVisualStyleBackColor = true;
-            this.BUT_flashup.Click += new System.EventHandler(this.BUT_flashup_Click);
-            // 
-            // BUT_flashdl
-            // 
-            this.BUT_flashdl.Location = new System.Drawing.Point(411, 81);
-            this.BUT_flashdl.Name = "BUT_flashdl";
-            this.BUT_flashdl.Size = new System.Drawing.Size(125, 23);
-            this.BUT_flashdl.TabIndex = 2;
-            this.BUT_flashdl.Text = "download flash";
-            this.BUT_flashdl.UseVisualStyleBackColor = true;
-            this.BUT_flashdl.Click += new System.EventHandler(this.BUT_flashdl_Click);
-            // 
-            // BUT_wipeeeprom
-            // 
-            this.BUT_wipeeeprom.Location = new System.Drawing.Point(411, 12);
-            this.BUT_wipeeeprom.Name = "BUT_wipeeeprom";
-            this.BUT_wipeeeprom.Size = new System.Drawing.Size(125, 23);
-            this.BUT_wipeeeprom.TabIndex = 1;
-            this.BUT_wipeeeprom.Text = "WIPE eeprom";
-            this.BUT_wipeeeprom.UseVisualStyleBackColor = true;
-            this.BUT_wipeeeprom.Click += new System.EventHandler(this.BUT_wipeeeprom_Click);
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(542, 12);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(125, 23);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "upload eeprom";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
             // BUT_swarm
             // 
-            this.BUT_swarm.Location = new System.Drawing.Point(307, 287);
+            this.BUT_swarm.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.BUT_swarm.Location = new System.Drawing.Point(3, 255);
             this.BUT_swarm.Name = "BUT_swarm";
-            this.BUT_swarm.Size = new System.Drawing.Size(75, 23);
+            this.BUT_swarm.Size = new System.Drawing.Size(113, 15);
             this.BUT_swarm.TabIndex = 27;
             this.BUT_swarm.Text = "Swarm";
             this.BUT_swarm.UseVisualStyleBackColor = true;
@@ -328,9 +197,10 @@
             // 
             // BUT_outputnmea
             // 
-            this.BUT_outputnmea.Location = new System.Drawing.Point(227, 132);
+            this.BUT_outputnmea.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.BUT_outputnmea.Location = new System.Drawing.Point(3, 66);
             this.BUT_outputnmea.Name = "BUT_outputnmea";
-            this.BUT_outputnmea.Size = new System.Drawing.Size(75, 23);
+            this.BUT_outputnmea.Size = new System.Drawing.Size(113, 15);
             this.BUT_outputnmea.TabIndex = 28;
             this.BUT_outputnmea.Text = "NMEA";
             this.BUT_outputnmea.UseVisualStyleBackColor = true;
@@ -338,29 +208,21 @@
             // 
             // BUT_outputMavlink
             // 
-            this.BUT_outputMavlink.Location = new System.Drawing.Point(389, 132);
+            this.BUT_outputMavlink.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.BUT_outputMavlink.Location = new System.Drawing.Point(3, 108);
             this.BUT_outputMavlink.Name = "BUT_outputMavlink";
-            this.BUT_outputMavlink.Size = new System.Drawing.Size(75, 23);
+            this.BUT_outputMavlink.Size = new System.Drawing.Size(113, 15);
             this.BUT_outputMavlink.TabIndex = 29;
             this.BUT_outputMavlink.Text = "Mavlink";
             this.BUT_outputMavlink.UseVisualStyleBackColor = true;
             this.BUT_outputMavlink.Click += new System.EventHandler(this.BUT_outputMavlink_Click);
             // 
-            // BUT_simmulti
-            // 
-            this.BUT_simmulti.Location = new System.Drawing.Point(592, 287);
-            this.BUT_simmulti.Name = "BUT_simmulti";
-            this.BUT_simmulti.Size = new System.Drawing.Size(75, 23);
-            this.BUT_simmulti.TabIndex = 31;
-            this.BUT_simmulti.Text = "Multi Sim";
-            this.BUT_simmulti.UseVisualStyleBackColor = true;
-            this.BUT_simmulti.Click += new System.EventHandler(this.BUT_simmulti_Click);
-            // 
             // BUT_followleader
             // 
-            this.BUT_followleader.Location = new System.Drawing.Point(307, 316);
+            this.BUT_followleader.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.BUT_followleader.Location = new System.Drawing.Point(3, 276);
             this.BUT_followleader.Name = "BUT_followleader";
-            this.BUT_followleader.Size = new System.Drawing.Size(75, 23);
+            this.BUT_followleader.Size = new System.Drawing.Size(113, 15);
             this.BUT_followleader.TabIndex = 33;
             this.BUT_followleader.Text = "Follow the leader";
             this.BUT_followleader.UseVisualStyleBackColor = true;
@@ -368,29 +230,21 @@
             // 
             // BUT_driverclean
             // 
-            this.BUT_driverclean.Location = new System.Drawing.Point(526, 380);
+            this.BUT_driverclean.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.BUT_driverclean.Location = new System.Drawing.Point(3, 318);
             this.BUT_driverclean.Name = "BUT_driverclean";
-            this.BUT_driverclean.Size = new System.Drawing.Size(75, 23);
+            this.BUT_driverclean.Size = new System.Drawing.Size(113, 15);
             this.BUT_driverclean.TabIndex = 36;
             this.BUT_driverclean.Text = "Driver Clean";
             this.BUT_driverclean.UseVisualStyleBackColor = true;
             this.BUT_driverclean.Click += new System.EventHandler(this.BUT_driverclean_Click);
             // 
-            // but_compassrotation
-            // 
-            this.but_compassrotation.Location = new System.Drawing.Point(542, 338);
-            this.but_compassrotation.Name = "but_compassrotation";
-            this.but_compassrotation.Size = new System.Drawing.Size(75, 23);
-            this.but_compassrotation.TabIndex = 37;
-            this.but_compassrotation.Text = "Compass Rotation";
-            this.but_compassrotation.UseVisualStyleBackColor = true;
-            this.but_compassrotation.Click += new System.EventHandler(this.but_compassrotation_Click);
-            // 
             // BUT_sorttlogs
             // 
-            this.BUT_sorttlogs.Location = new System.Drawing.Point(526, 409);
+            this.BUT_sorttlogs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.BUT_sorttlogs.Location = new System.Drawing.Point(3, 339);
             this.BUT_sorttlogs.Name = "BUT_sorttlogs";
-            this.BUT_sorttlogs.Size = new System.Drawing.Size(75, 23);
+            this.BUT_sorttlogs.Size = new System.Drawing.Size(113, 15);
             this.BUT_sorttlogs.TabIndex = 38;
             this.BUT_sorttlogs.Text = "Sort TLogs";
             this.BUT_sorttlogs.UseVisualStyleBackColor = true;
@@ -401,21 +255,12 @@
             this.timer1.Enabled = true;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // BUT_accellogs
-            // 
-            this.BUT_accellogs.Location = new System.Drawing.Point(429, 380);
-            this.BUT_accellogs.Name = "BUT_accellogs";
-            this.BUT_accellogs.Size = new System.Drawing.Size(75, 23);
-            this.BUT_accellogs.TabIndex = 39;
-            this.BUT_accellogs.Text = "Find High Accel";
-            this.BUT_accellogs.UseVisualStyleBackColor = true;
-            this.BUT_accellogs.Click += new System.EventHandler(this.BUT_accellogs_Click);
-            // 
             // BUT_movingbase
             // 
-            this.BUT_movingbase.Location = new System.Drawing.Point(576, 183);
+            this.BUT_movingbase.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.BUT_movingbase.Location = new System.Drawing.Point(3, 192);
             this.BUT_movingbase.Name = "BUT_movingbase";
-            this.BUT_movingbase.Size = new System.Drawing.Size(75, 23);
+            this.BUT_movingbase.Size = new System.Drawing.Size(113, 15);
             this.BUT_movingbase.TabIndex = 40;
             this.BUT_movingbase.Text = "Moving Base";
             this.BUT_movingbase.UseVisualStyleBackColor = true;
@@ -423,39 +268,21 @@
             // 
             // but_getfw
             // 
-            this.but_getfw.Location = new System.Drawing.Point(121, 380);
+            this.but_getfw.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.but_getfw.Location = new System.Drawing.Point(3, 360);
             this.but_getfw.Name = "but_getfw";
-            this.but_getfw.Size = new System.Drawing.Size(75, 23);
+            this.but_getfw.Size = new System.Drawing.Size(113, 15);
             this.but_getfw.TabIndex = 41;
             this.but_getfw.Text = "rip all fw";
             this.but_getfw.UseVisualStyleBackColor = true;
             this.but_getfw.Click += new System.EventHandler(this.but_getfw_Click);
             // 
-            // but_loganalysis
-            // 
-            this.but_loganalysis.Location = new System.Drawing.Point(121, 338);
-            this.but_loganalysis.Name = "but_loganalysis";
-            this.but_loganalysis.Size = new System.Drawing.Size(75, 23);
-            this.but_loganalysis.TabIndex = 42;
-            this.but_loganalysis.Text = "Log Analyser";
-            this.but_loganalysis.UseVisualStyleBackColor = true;
-            this.but_loganalysis.Click += new System.EventHandler(this.but_loganalysis_Click);
-            // 
-            // BUT_magfit
-            // 
-            this.BUT_magfit.Location = new System.Drawing.Point(389, 287);
-            this.BUT_magfit.Name = "BUT_magfit";
-            this.BUT_magfit.Size = new System.Drawing.Size(75, 23);
-            this.BUT_magfit.TabIndex = 43;
-            this.BUT_magfit.Text = "magfit";
-            this.BUT_magfit.UseVisualStyleBackColor = true;
-            this.BUT_magfit.Click += new System.EventHandler(this.BUT_magfit_Click);
-            // 
             // but_mavserialport
             // 
-            this.but_mavserialport.Location = new System.Drawing.Point(216, 360);
+            this.but_mavserialport.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.but_mavserialport.Location = new System.Drawing.Point(3, 297);
             this.but_mavserialport.Name = "but_mavserialport";
-            this.but_mavserialport.Size = new System.Drawing.Size(75, 23);
+            this.but_mavserialport.Size = new System.Drawing.Size(113, 15);
             this.but_mavserialport.TabIndex = 44;
             this.but_mavserialport.Text = "MAVSerial pass";
             this.but_mavserialport.UseVisualStyleBackColor = true;
@@ -463,69 +290,44 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(429, 338);
+            this.button3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.button3.Location = new System.Drawing.Point(0, 21);
+            this.button3.Margin = new System.Windows.Forms.Padding(0);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(107, 23);
+            this.button3.Size = new System.Drawing.Size(119, 21);
             this.button3.TabIndex = 44;
             this.button3.Text = "Warning Manager";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
-            // BUT_magfit2
-            // 
-            this.BUT_magfit2.Location = new System.Drawing.Point(470, 287);
-            this.BUT_magfit2.Name = "BUT_magfit2";
-            this.BUT_magfit2.Size = new System.Drawing.Size(75, 23);
-            this.BUT_magfit2.TabIndex = 45;
-            this.BUT_magfit2.Text = "magfit2";
-            this.BUT_magfit2.UseVisualStyleBackColor = true;
-            this.BUT_magfit2.Click += new System.EventHandler(this.BUT_magfit2_Click);
-            // 
             // BUT_shptopoly
             // 
-            this.BUT_shptopoly.Location = new System.Drawing.Point(592, 132);
+            this.BUT_shptopoly.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.BUT_shptopoly.Location = new System.Drawing.Point(3, 213);
             this.BUT_shptopoly.Name = "BUT_shptopoly";
-            this.BUT_shptopoly.Size = new System.Drawing.Size(75, 23);
+            this.BUT_shptopoly.Size = new System.Drawing.Size(113, 15);
             this.BUT_shptopoly.TabIndex = 46;
             this.BUT_shptopoly.Text = "Shp to Poly";
             this.BUT_shptopoly.UseVisualStyleBackColor = true;
             this.BUT_shptopoly.Click += new System.EventHandler(this.BUT_shptopoly_Click);
             // 
-            // but_droneshare
-            // 
-            this.but_droneshare.Location = new System.Drawing.Point(324, 380);
-            this.but_droneshare.Name = "but_droneshare";
-            this.but_droneshare.Size = new System.Drawing.Size(75, 23);
-            this.but_droneshare.TabIndex = 47;
-            this.but_droneshare.Text = "test droneshare";
-            this.but_droneshare.UseVisualStyleBackColor = true;
-            this.but_droneshare.Click += new System.EventHandler(this.but_droneshare_Click);
-            // 
             // but_gimbaltest
             // 
-            this.but_gimbaltest.Location = new System.Drawing.Point(324, 351);
+            this.but_gimbaltest.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.but_gimbaltest.Location = new System.Drawing.Point(3, 486);
             this.but_gimbaltest.Name = "but_gimbaltest";
-            this.but_gimbaltest.Size = new System.Drawing.Size(75, 23);
+            this.but_gimbaltest.Size = new System.Drawing.Size(113, 15);
             this.but_gimbaltest.TabIndex = 48;
             this.but_gimbaltest.Text = "gimbal test";
             this.but_gimbaltest.UseVisualStyleBackColor = true;
             this.but_gimbaltest.Click += new System.EventHandler(this.but_gimbaltest_Click);
             // 
-            // but_mntstatus
-            // 
-            this.but_mntstatus.Location = new System.Drawing.Point(227, 389);
-            this.but_mntstatus.Name = "but_mntstatus";
-            this.but_mntstatus.Size = new System.Drawing.Size(75, 23);
-            this.but_mntstatus.TabIndex = 49;
-            this.but_mntstatus.Text = "mount status msg";
-            this.but_mntstatus.UseVisualStyleBackColor = true;
-            this.but_mntstatus.Click += new System.EventHandler(this.but_mntstatus_Click);
-            // 
             // but_maplogs
             // 
-            this.but_maplogs.Location = new System.Drawing.Point(12, 380);
+            this.but_maplogs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.but_maplogs.Location = new System.Drawing.Point(3, 507);
             this.but_maplogs.Name = "but_maplogs";
-            this.but_maplogs.Size = new System.Drawing.Size(75, 23);
+            this.but_maplogs.Size = new System.Drawing.Size(113, 15);
             this.but_maplogs.TabIndex = 50;
             this.but_maplogs.Text = "map logs";
             this.but_maplogs.UseVisualStyleBackColor = true;
@@ -533,29 +335,21 @@
             // 
             // butlogindex
             // 
-            this.butlogindex.Location = new System.Drawing.Point(12, 415);
+            this.butlogindex.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.butlogindex.Location = new System.Drawing.Point(3, 528);
             this.butlogindex.Name = "butlogindex";
-            this.butlogindex.Size = new System.Drawing.Size(75, 23);
+            this.butlogindex.Size = new System.Drawing.Size(113, 17);
             this.butlogindex.TabIndex = 51;
             this.butlogindex.Text = "logindex";
             this.butlogindex.UseVisualStyleBackColor = true;
             this.butlogindex.Click += new System.EventHandler(this.butlogindex_Click);
             // 
-            // but_droneapi
-            // 
-            this.but_droneapi.Location = new System.Drawing.Point(12, 351);
-            this.but_droneapi.Name = "but_droneapi";
-            this.but_droneapi.Size = new System.Drawing.Size(75, 23);
-            this.but_droneapi.TabIndex = 52;
-            this.but_droneapi.Text = "droneapi";
-            this.but_droneapi.UseVisualStyleBackColor = true;
-            this.but_droneapi.Click += new System.EventHandler(this.but_droneapi_Click);
-            // 
             // but_structtest
             // 
-            this.but_structtest.Location = new System.Drawing.Point(37, 172);
+            this.but_structtest.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.but_structtest.Location = new System.Drawing.Point(3, 423);
             this.but_structtest.Name = "but_structtest";
-            this.but_structtest.Size = new System.Drawing.Size(75, 23);
+            this.but_structtest.Size = new System.Drawing.Size(113, 15);
             this.but_structtest.TabIndex = 54;
             this.but_structtest.Text = "structtest";
             this.but_structtest.UseVisualStyleBackColor = true;
@@ -563,101 +357,366 @@
             // 
             // but_rtspurl
             // 
-            this.but_rtspurl.Location = new System.Drawing.Point(159, 287);
+            this.but_rtspurl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.but_rtspurl.Location = new System.Drawing.Point(3, 444);
             this.but_rtspurl.Name = "but_rtspurl";
-            this.but_rtspurl.Size = new System.Drawing.Size(96, 23);
+            this.but_rtspurl.Size = new System.Drawing.Size(113, 15);
             this.but_rtspurl.TabIndex = 55;
             this.but_rtspurl.Text = "rtsp";
             this.but_rtspurl.Click += new System.EventHandler(this.but_rtspurl_Click);
             // 
             // but_armandtakeoff
             // 
-            this.but_armandtakeoff.Location = new System.Drawing.Point(12, 301);
+            this.but_armandtakeoff.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.but_armandtakeoff.Location = new System.Drawing.Point(3, 465);
             this.but_armandtakeoff.Name = "but_armandtakeoff";
-            this.but_armandtakeoff.Size = new System.Drawing.Size(96, 23);
+            this.but_armandtakeoff.Size = new System.Drawing.Size(113, 15);
             this.but_armandtakeoff.TabIndex = 56;
             this.but_armandtakeoff.Text = "arm and takeoff";
             this.but_armandtakeoff.Click += new System.EventHandler(this.but_armandtakeoff_Click);
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.BackColor = System.Drawing.Color.Transparent;
+            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 29.46636F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 70.53365F));
+            this.tableLayoutPanel1.Controls.Add(this.label26, 1, 25);
+            this.tableLayoutPanel1.Controls.Add(this.label25, 1, 24);
+            this.tableLayoutPanel1.Controls.Add(this.label24, 1, 23);
+            this.tableLayoutPanel1.Controls.Add(this.label23, 1, 22);
+            this.tableLayoutPanel1.Controls.Add(this.label22, 1, 21);
+            this.tableLayoutPanel1.Controls.Add(this.label21, 1, 20);
+            this.tableLayoutPanel1.Controls.Add(this.label20, 1, 19);
+            this.tableLayoutPanel1.Controls.Add(this.label19, 1, 18);
+            this.tableLayoutPanel1.Controls.Add(this.label18, 1, 17);
+            this.tableLayoutPanel1.Controls.Add(this.butlogindex, 0, 25);
+            this.tableLayoutPanel1.Controls.Add(this.but_armandtakeoff, 0, 22);
+            this.tableLayoutPanel1.Controls.Add(this.but_maplogs, 0, 24);
+            this.tableLayoutPanel1.Controls.Add(this.label17, 1, 16);
+            this.tableLayoutPanel1.Controls.Add(this.but_gimbaltest, 0, 23);
+            this.tableLayoutPanel1.Controls.Add(this.but_rtspurl, 0, 21);
+            this.tableLayoutPanel1.Controls.Add(this.label16, 1, 15);
+            this.tableLayoutPanel1.Controls.Add(this.but_structtest, 0, 20);
+            this.tableLayoutPanel1.Controls.Add(this.label15, 1, 14);
+            this.tableLayoutPanel1.Controls.Add(this.label14, 1, 13);
+            this.tableLayoutPanel1.Controls.Add(this.label13, 1, 12);
+            this.tableLayoutPanel1.Controls.Add(this.label12, 1, 11);
+            this.tableLayoutPanel1.Controls.Add(this.label11, 1, 10);
+            this.tableLayoutPanel1.Controls.Add(this.label10, 1, 9);
+            this.tableLayoutPanel1.Controls.Add(this.label9, 1, 8);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_clearcustommaps, 0, 19);
+            this.tableLayoutPanel1.Controls.Add(this.but_getfw, 0, 17);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_geinjection, 0, 18);
+            this.tableLayoutPanel1.Controls.Add(this.label8, 1, 7);
+            this.tableLayoutPanel1.Controls.Add(this.label7, 1, 6);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_sorttlogs, 0, 16);
+            this.tableLayoutPanel1.Controls.Add(this.label6, 1, 5);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_driverclean, 0, 15);
+            this.tableLayoutPanel1.Controls.Add(this.label5, 1, 4);
+            this.tableLayoutPanel1.Controls.Add(this.label4, 1, 3);
+            this.tableLayoutPanel1.Controls.Add(this.label3, 1, 2);
+            this.tableLayoutPanel1.Controls.Add(this.label2, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_outputMavlink, 0, 5);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_outputMD, 0, 4);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_outputnmea, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_georefimage, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.button3, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_lang_edit, 0, 7);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_follow_me, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_paramgen, 0, 6);
+            this.tableLayoutPanel1.Controls.Add(this.but_osdvideo, 0, 8);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_movingbase, 0, 9);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_shptopoly, 0, 10);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_xplane, 0, 11);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_swarm, 0, 12);
+            this.tableLayoutPanel1.Controls.Add(this.BUT_followleader, 0, 13);
+            this.tableLayoutPanel1.Controls.Add(this.label1, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.but_mavserialport, 0, 14);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 12);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 26;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3.846154F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3.846154F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3.846154F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3.846154F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3.846154F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3.846154F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3.846154F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3.846154F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3.846154F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3.846154F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3.846154F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3.846154F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3.846154F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3.846154F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3.846154F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3.846154F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3.846154F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3.846154F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3.846154F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3.846154F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3.846154F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3.846154F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3.846154F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3.846154F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3.846154F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3.846154F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(406, 548);
+            this.tableLayoutPanel1.TabIndex = 57;
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Location = new System.Drawing.Point(122, 525);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(64, 13);
+            this.label26.TabIndex = 72;
+            this.label26.Text = "tlog browser";
+            // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(122, 504);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(171, 13);
+            this.label25.TabIndex = 71;
+            this.label25.Text = "create map jpg\'s for all tlogs in a dir";
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(122, 483);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(136, 13);
+            this.label24.TabIndex = 70;
+            this.label24.Text = "run the gimbal pointing algo";
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.Location = new System.Drawing.Point(122, 462);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(111, 13);
+            this.label23.TabIndex = 69;
+            this.label23.Text = "quad: arm and takeoff";
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(122, 441);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(192, 13);
+            this.label22.TabIndex = 68;
+            this.label22.Text = "open a rstp stream for the hud bg video";
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(122, 420);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(140, 13);
+            this.label21.TabIndex = 67;
+            this.label21.Text = "struct conversion speed test";
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(122, 399);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(105, 13);
+            this.label20.TabIndex = 66;
+            this.label20.Text = "wipe custom imagery";
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(122, 378);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(130, 13);
+            this.label19.TabIndex = 65;
+            this.label19.Text = "add custom imagery to mp";
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Location = new System.Drawing.Point(122, 357);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(123, 13);
+            this.label18.TabIndex = 64;
+            this.label18.Text = "download all current fw\'s";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(122, 336);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(214, 13);
+            this.label17.TabIndex = 63;
+            this.label17.Text = "sort tlogs into there type and sysid directorys";
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(122, 315);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(112, 13);
+            this.label16.TabIndex = 62;
+            this.label16.Text = "remove all apm drivers";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(122, 294);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(204, 13);
+            this.label15.TabIndex = 61;
+            this.label15.Text = "create a exclusive passthrough to the gps";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(122, 273);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(117, 13);
+            this.label14.TabIndex = 60;
+            this.label14.Text = "follow the leader swarm";
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(122, 252);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(128, 13);
+            this.label13.TabIndex = 59;
+            this.label13.Text = "multi mav swarm interface";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(122, 231);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(177, 13);
+            this.label12.TabIndex = 58;
+            this.label12.Text = "output the mav location into xplanes";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(122, 210);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(156, 13);
+            this.label11.TabIndex = 57;
+            this.label11.Text = "convert shp file ot a polygon file";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(122, 189);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(266, 13);
+            this.label10.TabIndex = 56;
+            this.label10.Text = "show an extra icon on the map of your current location.";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(122, 168);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(202, 13);
+            this.label9.TabIndex = 55;
+            this.label9.Text = "overlay the hud into your recorded videos";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(122, 147);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(131, 13);
+            this.label8.TabIndex = 54;
+            this.label8.Text = "translation language editor";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(122, 126);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(204, 13);
+            this.label7.TabIndex = 53;
+            this.label7.Text = "regenerage the param info used inside mp";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(122, 105);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(203, 13);
+            this.label6.TabIndex = 52;
+            this.label6.Text = "mirrors the mavlink stream received by mp";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(122, 84);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(221, 13);
+            this.label5.TabIndex = 51;
+            this.label5.Text = "outputs the mav location in microdrone format";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(122, 63);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(163, 13);
+            this.label4.TabIndex = 50;
+            this.label4.Text = "outputs the mav location in nmea";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(122, 42);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(141, 13);
+            this.label3.TabIndex = 49;
+            this.label3.Text = "use a nmea gps to follow me";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(122, 21);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(149, 13);
+            this.label2.TabIndex = 48;
+            this.label2.Text = "Create custom audio warnings";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(122, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(109, 13);
+            this.label1.TabIndex = 47;
+            this.label1.Text = "Geo Refrence photos";
             // 
             // temp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(685, 450);
-            this.Controls.Add(this.but_armandtakeoff);
-            this.Controls.Add(this.but_rtspurl);
-            this.Controls.Add(this.but_structtest);
-            this.Controls.Add(this.but_droneapi);
-            this.Controls.Add(this.butlogindex);
-            this.Controls.Add(this.but_maplogs);
-            this.Controls.Add(this.but_mntstatus);
-            this.Controls.Add(this.but_gimbaltest);
-            this.Controls.Add(this.but_droneshare);
-            this.Controls.Add(this.BUT_shptopoly);
-            this.Controls.Add(this.BUT_magfit2);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.but_mavserialport);
-            this.Controls.Add(this.BUT_magfit);
-            this.Controls.Add(this.but_loganalysis);
-            this.Controls.Add(this.but_getfw);
-            this.Controls.Add(this.BUT_movingbase);
-            this.Controls.Add(this.BUT_accellogs);
-            this.Controls.Add(this.BUT_sorttlogs);
-            this.Controls.Add(this.but_compassrotation);
-            this.Controls.Add(this.BUT_driverclean);
-            this.Controls.Add(this.BUT_followleader);
-            this.Controls.Add(this.BUT_simmulti);
-            this.Controls.Add(this.BUT_outputMavlink);
-            this.Controls.Add(this.BUT_outputnmea);
-            this.Controls.Add(this.BUT_swarm);
-            this.Controls.Add(this.CMB_mavs);
-            this.Controls.Add(this.but_multimav);
-            this.Controls.Add(this.BUT_xplane);
-            this.Controls.Add(this.but_osdvideo);
-            this.Controls.Add(this.BUT_outputMD);
-            this.Controls.Add(this.BUT_paramgen);
-            this.Controls.Add(this.BUT_follow_me);
-            this.Controls.Add(this.BUT_georefimage);
-            this.Controls.Add(this.BUT_lang_edit);
-            this.Controls.Add(this.BUT_clearcustommaps);
-            this.Controls.Add(this.BUT_geinjection);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.BUT_copyto2560);
-            this.Controls.Add(this.BUT_copyto1280);
-            this.Controls.Add(this.BUT_copy2560);
-            this.Controls.Add(this.BUT_copy1280);
-            this.Controls.Add(this.BUT_dleeprom);
-            this.Controls.Add(this.BUT_flashup);
-            this.Controls.Add(this.BUT_flashdl);
-            this.Controls.Add(this.BUT_wipeeeprom);
-            this.Controls.Add(this.button1);
+            this.ClientSize = new System.Drawing.Size(548, 572);
+            this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "temp";
             this.Text = "temp";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.temp_FormClosing);
             this.Load += new System.EventHandler(this.temp_Load);
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
-        private Controls.MyButton button1;
-        private Controls.MyButton BUT_wipeeeprom;
-        private Controls.MyButton BUT_flashdl;
-        private Controls.MyButton BUT_flashup;
-        private Controls.MyButton BUT_dleeprom;
-        private Controls.MyButton BUT_copy1280;
-        private Controls.MyButton BUT_copy2560;
-        private Controls.MyButton BUT_copyto2560;
-        private Controls.MyButton BUT_copyto1280;
-        private Controls.MyButton button2;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
         private Controls.MyButton BUT_geinjection;
         private Controls.MyButton BUT_clearcustommaps;
         private Controls.MyButton BUT_lang_edit;
@@ -667,34 +726,50 @@
         private Controls.MyButton BUT_outputMD;
         private Controls.MyButton but_osdvideo;
         private Controls.MyButton BUT_xplane;
-        private Controls.MyButton but_multimav;
-        private System.Windows.Forms.ComboBox CMB_mavs;
         private Controls.MyButton BUT_swarm;
         private Controls.MyButton BUT_outputnmea;
         private Controls.MyButton BUT_outputMavlink;
-        private Controls.MyButton BUT_simmulti;
         private Controls.MyButton BUT_followleader;
         private Controls.MyButton BUT_driverclean;
-        private Controls.MyButton but_compassrotation;
         private Controls.MyButton BUT_sorttlogs;
         private System.Windows.Forms.Timer timer1;
-        private Controls.MyButton BUT_accellogs;
         private Controls.MyButton BUT_movingbase;
         private Controls.MyButton but_getfw;
-        private Controls.MyButton but_loganalysis;
-        private Controls.MyButton BUT_magfit;
         private Controls.MyButton but_mavserialport;
         System.Windows.Forms.Button button3;
-        private Controls.MyButton BUT_magfit2;
         private Controls.MyButton BUT_shptopoly;
-        private Controls.MyButton but_droneshare;
         private Controls.MyButton but_gimbaltest;
-        private Controls.MyButton but_mntstatus;
         private Controls.MyButton but_maplogs;
         private Controls.MyButton butlogindex;
-        private Controls.MyButton but_droneapi;
         private Controls.MyButton but_structtest;
         private Controls.MyButton but_rtspurl;
         private Controls.MyButton but_armandtakeoff;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Label label19;
     }
 }
