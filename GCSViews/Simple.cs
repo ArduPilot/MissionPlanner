@@ -553,7 +553,7 @@ namespace MissionPlanner.GCSViews
                                 }
                                 else
                                 {
-                                    routes.Markers[0] = (new GMapMarkerQuad(currentloc, MainV2.comPort.MAV.cs.yaw, MainV2.comPort.MAV.cs.groundcourse, MainV2.comPort.MAV.cs.nav_bearing)
+                                    routes.Markers[0] = (new GMapMarkerQuad(currentloc, MainV2.comPort.MAV.cs.yaw, MainV2.comPort.MAV.cs.groundcourse, MainV2.comPort.MAV.cs.nav_bearing, MainV2.comPort.MAV.sysid)
                                           {
                                               ToolTipText = MainV2.comPort.MAV.cs.mode + "\n" + "alt " + MainV2.comPort.MAV.cs.alt.ToString("0") + "\ngs " + MainV2.comPort.MAV.cs.groundspeed.ToString("0"),
                                               ToolTipMode = MarkerTooltipMode.Always

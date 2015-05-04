@@ -1141,7 +1141,7 @@ namespace MissionPlanner.GCSViews
                                     }
                                     else
                                     {
-                                        routes.Markers.Add(new GMapMarkerQuad(portlocation, MAV.cs.yaw, MAV.cs.groundcourse, MAV.cs.nav_bearing));
+                                        routes.Markers.Add(new GMapMarkerQuad(portlocation, MAV.cs.yaw, MAV.cs.groundcourse, MAV.cs.nav_bearing,MAV.sysid));
                                     }
                                 }
                             }
