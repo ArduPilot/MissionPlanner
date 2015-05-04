@@ -400,7 +400,7 @@ namespace MissionPlanner.GCSViews
                 {
 
                     lbl1.Location = new Point(x, y);
-                    lbl1.Size = new System.Drawing.Size(75, 13);
+                    lbl1.Size = new System.Drawing.Size(90, 13);
                     lbl1.Text = field.Name;
                     lbl1.Name = field.Name;
                     lbl1.Visible = true;
@@ -432,7 +432,7 @@ namespace MissionPlanner.GCSViews
 
                 if (y > tabStatus.Height - 30)
                 {
-                    x += 140;
+                    x = lbl2.Right + 10;//+= 165;
                     y = 10;
                 }
             }
