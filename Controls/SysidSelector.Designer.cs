@@ -60,7 +60,7 @@
             this.myButton1.Name = "myButton1";
             this.myButton1.Size = new System.Drawing.Size(75, 23);
             this.myButton1.TabIndex = 2;
-            this.myButton1.Text = "OK";
+            this.myButton1.Text = "Close";
             this.myButton1.UseVisualStyleBackColor = true;
             this.myButton1.Click += new System.EventHandler(this.myButton1_Click);
             // 

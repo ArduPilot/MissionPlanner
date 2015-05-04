@@ -2534,20 +2534,22 @@ Please check the following
                     int expectedPacketSeqNo = ((MAVlist[sysid].recvpacketcount + 1) % 0x100);
 
                     {
-                        // the seconds part it to work around a 3dr radio bug sending dup seqno's
+                        // the seconds part is to work around a 3dr radio bug sending dup seqno's
                         if (packetSeqNo != expectedPacketSeqNo && packetSeqNo != MAVlist[sysid].recvpacketcount)
                         {
                             MAVlist[sysid].synclost++; // actualy sync loss's
                             int numLost = 0;
 
-                            if (packetSeqNo < ((MAVlist[sysid].recvpacketcount + 1))) // recvpacketcount = 255 then   10 < 256 = true if was % 0x100 this would fail
+                            if (packetSeqNo < ((MAVlist[sysid].recvpacketcount + 1)))
+                                // recvpacketcount = 255 then   10 < 256 = true if was % 0x100 this would fail
                             {
                                 numLost = 0x100 - expectedPacketSeqNo + packetSeqNo;
                             }
                             else
                             {
-                                numLost = packetSeqNo - MAV.recvpacketcount;
+                                numLost = packetSeqNo - MAVlist[sysid].recvpacketcount;
                             }
+
                             MAVlist[sysid].packetslost += numLost;
                             WhenPacketLost.OnNext(numLost);
 
