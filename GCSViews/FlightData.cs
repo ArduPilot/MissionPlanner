@@ -3170,11 +3170,11 @@ namespace MissionPlanner.GCSViews
 
         private void setHomeHereToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            CustomMessageBox.Show("Not implemented yet");
-            return;
-            //MainV2.comPort.getWP(0);
-
-            //MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_HOME, 0, 0, 0, 0, gotolocation.Lat, gotolocation.Lng, 0);
+            if (MainV2.comPort.BaseStream.IsOpen)
+            {
+                MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_HOME, 0, 0, 0, 0, (float) MouseDownStart.Lat,
+                    (float) MouseDownStart.Lng, (float) srtm.getAltitude(MouseDownStart.Lat, MouseDownStart.Lng).alt);
+            }
         }
 
         private void BUT_matlab_Click(object sender, EventArgs e)
