@@ -229,6 +229,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.mavlinkComboBox_fs_thr_enable.Name = "mavlinkComboBox_fs_thr_enable";
             this.mavlinkComboBox_fs_thr_enable.param = null;
             this.mavlinkComboBox_fs_thr_enable.ParamName = null;
+            this.mavlinkComboBox_fs_thr_enable.SubControl = null;
             this.toolTip1.SetToolTip(this.mavlinkComboBox_fs_thr_enable, resources.GetString("mavlinkComboBox_fs_thr_enable.ToolTip"));
             // 
             // mavlinkComboBoxfs_batt_enable
@@ -239,6 +240,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.mavlinkComboBoxfs_batt_enable.Name = "mavlinkComboBoxfs_batt_enable";
             this.mavlinkComboBoxfs_batt_enable.param = null;
             this.mavlinkComboBoxfs_batt_enable.ParamName = null;
+            this.mavlinkComboBoxfs_batt_enable.SubControl = null;
             // 
             // mavlinkCheckBoxFS_GCS_ENABLE
             // 
