@@ -823,8 +823,8 @@ namespace MissionPlanner.Log
                         {
                             if (dataModifier.doOffsetFirst)
                             {
-                                value += dataModifier.scalar;
-                                value *= dataModifier.offset;
+                                value += dataModifier.offset;
+                                value *= dataModifier.scalar;
                             }
                             else
                             {
