@@ -1439,7 +1439,7 @@ Please check the following
                     pps = packetspersecond[(byte)MAVLINK_MSG_ID.SYS_STATUS];
                     if (hzratecheck(pps, hzrate))
                     {
-                        return;
+                        //return;
                     }
                     break;
                 case MAVLink.MAV_DATA_STREAM.EXTRA1:
@@ -1448,7 +1448,7 @@ Please check the following
                     pps = packetspersecond[(byte)MAVLINK_MSG_ID.ATTITUDE];
                     if (hzratecheck(pps, hzrate))
                     {
-                        return;
+                        //return;
                     }
                     break;
                 case MAVLink.MAV_DATA_STREAM.EXTRA2:
@@ -1457,7 +1457,7 @@ Please check the following
                     pps = packetspersecond[(byte)MAVLINK_MSG_ID.VFR_HUD];
                     if (hzratecheck(pps, hzrate))
                     {
-                        return;
+                        //return;
                     }
                     break;
                 case MAVLink.MAV_DATA_STREAM.EXTRA3:
@@ -1466,7 +1466,7 @@ Please check the following
                     pps = packetspersecond[(byte)MAVLINK_MSG_ID.AHRS];
                     if (hzratecheck(pps, hzrate))
                     {
-                        return;
+                        //return;
                     }
                     break;
                 case MAVLink.MAV_DATA_STREAM.POSITION:
@@ -1475,7 +1475,7 @@ Please check the following
                     pps = packetspersecond[(byte)MAVLINK_MSG_ID.GLOBAL_POSITION_INT];
                     if (hzratecheck(pps, hzrate))
                     {
-                        return;
+                        //return;
                     }
                     break;
                 case MAVLink.MAV_DATA_STREAM.RAW_CONTROLLER:
@@ -1484,7 +1484,7 @@ Please check the following
                     pps = packetspersecond[(byte)MAVLINK_MSG_ID.RC_CHANNELS_SCALED];
                     if (hzratecheck(pps, hzrate))
                     {
-                        return;
+                        //return;
                     }
                     break;
                 case MAVLink.MAV_DATA_STREAM.RAW_SENSORS:
@@ -1493,7 +1493,7 @@ Please check the following
                     pps = packetspersecond[(byte)MAVLINK_MSG_ID.RAW_IMU];
                     if (hzratecheck(pps, hzrate))
                     {
-                        return;
+                        //return;
                     }
                     break;
                 case MAVLink.MAV_DATA_STREAM.RC_CHANNELS:
@@ -1502,7 +1502,7 @@ Please check the following
                     pps = packetspersecond[(byte)MAVLINK_MSG_ID.RC_CHANNELS_RAW];
                     if (hzratecheck(pps, hzrate))
                     {
-                        return;
+                        //return;
                     }
                     break;
             }

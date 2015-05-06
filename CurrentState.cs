@@ -563,6 +563,8 @@ namespace MissionPlanner
         private DateTime lastsecondcounter = DateTime.Now;
         private PointLatLngAlt lastpos = new PointLatLngAlt();
 
+        DateTime lastdata = DateTime.MinValue;
+
         public string GetNameandUnit(string name)
         {
             string desc = name;
@@ -658,6 +660,23 @@ namespace MissionPlanner
 
                         if (!gotwind)
                             dowindcalc();
+                    }
+
+                    // re-request servo data
+                    if (!(lastdata.AddSeconds(8) > DateTime.Now) && MainV2.comPort.BaseStream.IsOpen)
+                    {
+                        try
+                        {
+                            MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTENDED_STATUS, MAV.cs.ratestatus); // mode
+                            MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.POSITION, MAV.cs.rateposition); // request gps
+                            MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTRA1, MAV.cs.rateattitude); // request attitude
+                            MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTRA2, MAV.cs.rateattitude); // request vfr
+                            MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTRA3, MAV.cs.ratesensors); // request extra stuff - tridge
+                            MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RAW_SENSORS,MAV.cs.ratesensors); // request raw sensor
+                            MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RC_CHANNELS, MAV.cs.raterc); // request rc info
+                        }
+                        catch { log.Error("Failed to request rates"); }
+                        lastdata = DateTime.Now.AddSeconds(60); // prevent flooding
                     }
 
                     byte[] bytearray = MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.RC_CHANNELS_SCALED];
@@ -999,7 +1018,7 @@ namespace MissionPlanner
                         pitch = att.pitch * rad2deg;
                         yaw = att.yaw * rad2deg;
 
-                        //                    Console.WriteLine(roll + " " + pitch + " " + yaw);
+                        //Console.WriteLine(MAV.sysid + " " +roll + " " + pitch + " " + yaw);
 
                         //MAVLink.packets[(byte)MAVLink.MSG_NAMES.ATTITUDE] = null;
                     }

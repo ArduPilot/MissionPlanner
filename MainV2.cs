@@ -2282,7 +2282,7 @@ namespace MissionPlanner
             {
                 if (getConfig("almanac_date") != DateTime.Now.ToShortDateString())
                 {
-                    Common.getFilefromNet("http://alp.u-blox.com/current_1d.alp", "current_d1.alp");
+                    Common.getFilefromNet("http://alp.u-blox.com/current_1d.alp", Application.StartupPath + Path.DirectorySeparatorChar + "current_d1.alp");
                     config["almanac_date"] = DateTime.Now.ToShortDateString();
                 }
             }

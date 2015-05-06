@@ -702,8 +702,6 @@ namespace MissionPlanner.GCSViews
             threadrun = true;
             EndPoint Remote = (EndPoint)(new IPEndPoint(IPAddress.Any, 0));
 
-            DateTime lastdata = DateTime.MinValue;
-
             DateTime tracklast = DateTime.Now.AddSeconds(0);
 
             DateTime tunning = DateTime.Now.AddSeconds(0);
@@ -728,32 +726,6 @@ namespace MissionPlanner.GCSViews
                 {
                     System.Threading.Thread.Sleep(50);
                     continue;
-                }
-                try
-                {
-                    if (!MainV2.comPort.BaseStream.IsOpen)
-                        lastdata = DateTime.Now;
-                }
-                catch { }
-                // re-request servo data
-                if (!(lastdata.AddSeconds(8) > DateTime.Now) && MainV2.comPort.BaseStream.IsOpen)
-                {
-                    //Console.WriteLine("REQ streams - flightdata");
-                    try
-                    {
-                        //System.Threading.Thread.Sleep(1000);
-
-                        //comPort.requestDatastream((byte)MissionPlanner.MAVLink09.MAV_DATA_STREAM.RAW_CONTROLLER, 0); // request servoout
-                        MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTENDED_STATUS, MainV2.comPort.MAV.cs.ratestatus); // mode
-                        MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.POSITION, MainV2.comPort.MAV.cs.rateposition); // request gps
-                        MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTRA1, MainV2.comPort.MAV.cs.rateattitude); // request attitude
-                        MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTRA2, MainV2.comPort.MAV.cs.rateattitude); // request vfr
-                        MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTRA3, MainV2.comPort.MAV.cs.ratesensors); // request extra stuff - tridge
-                        MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RAW_SENSORS, MainV2.comPort.MAV.cs.ratesensors); // request raw sensor
-                        MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RC_CHANNELS, MainV2.comPort.MAV.cs.raterc); // request rc info
-                    }
-                    catch { log.Error("Failed to request rates"); }
-                    lastdata = DateTime.Now.AddSeconds(60); // prevent flooding
                 }
 
                 if (!MainV2.comPort.logreadmode)

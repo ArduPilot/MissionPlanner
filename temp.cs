@@ -1713,5 +1713,10 @@ namespace MissionPlanner
 
             MainV2.comPort.doCommand(MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0, 0, 10);
         }
+
+        private void but_sitl_comb_Click(object sender, EventArgs e)
+        {
+            Utilities.StreamCombiner.Start();
+        }
     }
 }

@@ -83,6 +83,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.but_sitl_comb = new MissionPlanner.Controls.MyButton();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -699,11 +700,22 @@
             this.label1.TabIndex = 47;
             this.label1.Text = "Geo Refrence photos";
             // 
+            // but_sitl_comb
+            // 
+            this.but_sitl_comb.Location = new System.Drawing.Point(467, 33);
+            this.but_sitl_comb.Name = "but_sitl_comb";
+            this.but_sitl_comb.Size = new System.Drawing.Size(75, 23);
+            this.but_sitl_comb.TabIndex = 58;
+            this.but_sitl_comb.Text = "sitl streamcombiner";
+            this.but_sitl_comb.UseVisualStyleBackColor = true;
+            this.but_sitl_comb.Click += new System.EventHandler(this.but_sitl_comb_Click);
+            // 
             // temp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(548, 572);
+            this.ClientSize = new System.Drawing.Size(598, 572);
+            this.Controls.Add(this.but_sitl_comb);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "temp";
             this.Text = "temp";
@@ -771,5 +783,6 @@
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.Label label19;
+        private Controls.MyButton but_sitl_comb;
     }
 }

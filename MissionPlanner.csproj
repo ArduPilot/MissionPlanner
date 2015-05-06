@@ -1218,6 +1218,7 @@
     <Compile Include="Utilities\Password.cs" />
     <Compile Include="Utilities\POI.cs" />
     <Compile Include="Utilities\SignXML.cs" />
+    <Compile Include="Utilities\StreamCombiner.cs" />
     <Compile Include="Utilities\StringRedirectWriter.cs" />
     <Compile Include="Utilities\TerrainFollow.cs" />
     <Compile Include="Utilities\Update.cs" />
