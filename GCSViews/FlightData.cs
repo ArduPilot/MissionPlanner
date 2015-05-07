@@ -3173,7 +3173,7 @@ namespace MissionPlanner.GCSViews
 
             foreach (string logfile in ofd.FileNames)
             {
-                string outfilename = Path.GetFileNameWithoutExtension(logfile) + ".log";
+                string outfilename = Path.GetDirectoryName(logfile) + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(logfile) + ".log";
 
                 BinaryLog.ConvertBin(logfile, outfilename);
             }
