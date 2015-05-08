@@ -1017,7 +1017,18 @@ namespace MissionPlanner
                     id.ShowDialog();
                 }
 
-                comPort.getParamList();
+                // save the selection
+                int selectedsysid = comPort.sysidcurrent;
+
+                // get all the params
+                foreach (var sysid in comPort.sysidseen)
+                {
+                    comPort.sysidcurrent = sysid;
+                    comPort.getParamList();
+                }
+
+                // restore selection
+                comPort.sysidcurrent = selectedsysid;
 
                 // detect firmware we are conected to.
                 if (comPort.MAV.cs.firmware == Firmwares.ArduCopter2)
