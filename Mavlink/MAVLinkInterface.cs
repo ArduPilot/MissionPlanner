@@ -751,7 +751,7 @@ Please check the following
             frmProgressReporter = new ProgressReporterDialogue
             {
                 StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen,
-                Text = Strings.GettingParams
+                Text = Strings.GettingParams + " " + sysidcurrent
             };
 
             frmProgressReporter.DoWork += FrmProgressReporterGetParams;
