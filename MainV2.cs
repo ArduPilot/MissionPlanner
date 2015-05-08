@@ -1,33 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Configuration;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using System.Xml;
 using System.Collections;
-using System.Net;
-using System.Text.RegularExpressions;
-using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Globalization;
 using System.Threading;
-using System.Net.Sockets;
 using MissionPlanner.Utilities;
 using IronPython.Hosting;
 using log4net;
 using MissionPlanner.Controls;
-using System.Security.Cryptography;
 using MissionPlanner.Comms;
-using MissionPlanner.Arduino;
 using Transitions;
-using System.Web.Script.Serialization;
 using System.Speech.Synthesis;
-using MissionPlanner;
-using MissionPlanner.Joystick;
-using System.Collections.ObjectModel;
 
 namespace MissionPlanner
 {
@@ -1757,7 +1746,6 @@ namespace MissionPlanner
 
             DateTime speechcustomtime = DateTime.Now;
 
-            DateTime speechbatterytime = DateTime.Now;
             DateTime speechlowspeedtime = DateTime.Now;
 
             DateTime linkqualitytime = DateTime.Now;
@@ -1779,7 +1767,8 @@ namespace MissionPlanner
                     UpdateConnectIcon();
 
                     // 30 seconds interval speech options
-                    if (speechEnable && speechEngine != null && (DateTime.Now - speechcustomtime).TotalSeconds > 30 && (MainV2.comPort.logreadmode || comPort.BaseStream.IsOpen))
+                    if (speechEnable && speechEngine != null && (DateTime.Now - speechcustomtime).TotalSeconds > 30 &&
+                        (MainV2.comPort.logreadmode || comPort.BaseStream.IsOpen))
                     {
                         if (MainV2.speechEngine.State == SynthesizerState.Ready)
                         {
@@ -1790,31 +1779,32 @@ namespace MissionPlanner
 
                             speechcustomtime = DateTime.Now;
                         }
-                    }
 
-                    // speech for battery alerts
-                    if (speechEnable && speechEngine != null && (DateTime.Now - speechbatterytime).TotalSeconds > 30 && (MainV2.comPort.logreadmode || comPort.BaseStream.IsOpen))
-                    {
+                        // speech for battery alerts
                         //speechbatteryvolt
                         float warnvolt = 0;
                         float.TryParse(MainV2.getConfig("speechbatteryvolt"), out warnvolt);
                         float warnpercent = 0;
                         float.TryParse(MainV2.getConfig("speechbatterypercent"), out warnpercent);
 
-                        if (MainV2.getConfig("speechbatteryenabled") == "True" && MainV2.comPort.MAV.cs.battery_voltage <= warnvolt && MainV2.comPort.MAV.cs.battery_voltage >= 5.0)
+                        if (MainV2.getConfig("speechbatteryenabled") == "True" &&
+                            MainV2.comPort.MAV.cs.battery_voltage <= warnvolt &&
+                            MainV2.comPort.MAV.cs.battery_voltage >= 5.0)
                         {
                             if (MainV2.speechEngine.State == SynthesizerState.Ready)
                             {
                                 MainV2.speechEngine.SpeakAsync(Common.speechConversion(MainV2.getConfig("speechbattery")));
-                                speechbatterytime = DateTime.Now;
                             }
                         }
-                        else if (MainV2.getConfig("speechbatteryenabled") == "True" && (MainV2.comPort.MAV.cs.battery_remaining) < warnpercent && MainV2.comPort.MAV.cs.battery_voltage >= 5.0 && MainV2.comPort.MAV.cs.battery_remaining != 0.0)
+                        else if (MainV2.getConfig("speechbatteryenabled") == "True" &&
+                                 (MainV2.comPort.MAV.cs.battery_remaining) < warnpercent &&
+                                 MainV2.comPort.MAV.cs.battery_voltage >= 5.0 &&
+                                 MainV2.comPort.MAV.cs.battery_remaining != 0.0)
                         {
                             if (MainV2.speechEngine.State == SynthesizerState.Ready)
                             {
-                                MainV2.speechEngine.SpeakAsync(Common.speechConversion(MainV2.getConfig("speechbattery")));
-                                speechbatterytime = DateTime.Now;
+                                MainV2.speechEngine.SpeakAsync(
+                                    Common.speechConversion(MainV2.getConfig("speechbattery")));
                             }
                         }
                     }
@@ -1957,10 +1947,10 @@ namespace MissionPlanner
                         {
                             type = (byte)MAVLink.MAV_TYPE.GCS,
                             autopilot = (byte)MAVLink.MAV_AUTOPILOT.INVALID,
-                            mavlink_version = 3,
+                            mavlink_version = MAVLink.MAVLINK_VERSION
                         };
 
-                        foreach (var port in MainV2.Comports)
+                        foreach (var port in Comports)
                         {
                             try
                             {
@@ -1971,7 +1961,7 @@ namespace MissionPlanner
                                 log.Error(ex);
                                 // close the bad port
                                 port.Close();
-                                // refresh the screen is needed
+                                // refresh the screen if needed
                                 if (port == MainV2.comPort)
                                 {
                                     // refresh config window if needed
@@ -2007,44 +1997,23 @@ namespace MissionPlanner
                         }
 
                         System.Threading.Thread.Sleep(100);
-                        //continue;
                     }
 
-                    // actualy read the packets
-                    while (comPort.BaseStream.IsOpen && comPort.BaseStream.BytesToRead > minbytes && comPort.giveComport == false)
-                    {
-                        try
-                        {
-                            comPort.readPacket();
-                        }
-                        catch (Exception ex) { log.Error(ex); }
-                    }
-
-                    // update currentstate of sysids on main port
-                    foreach (var sysid in comPort.sysidseen)
-                    {
-                        try
-                        {
-                            comPort.MAVlist[sysid].cs.UpdateCurrentSettings(null, false, comPort, comPort.MAVlist[sysid]);
-                        }
-                        catch (Exception ex) { log.Error(ex); }
-                    }
-
-                    // read the other interfaces
+                    // read the interfaces
                     foreach (var port in Comports)
                     {
-                        // skip primary interface
-                        if (port == comPort)
-                            continue;
-
                         if (!port.BaseStream.IsOpen)
                         {
+                            // skip primary interface
+                            if (port == comPort)
+                                continue;
+
                             // modify array and drop out
                             Comports.Remove(port);
                             break;
                         }
 
-                        while (port.BaseStream.IsOpen && port.BaseStream.BytesToRead > minbytes)
+                        while (port.BaseStream.IsOpen && port.BaseStream.BytesToRead > minbytes && port.giveComport == false)
                         {
                             try
                             {
@@ -2089,7 +2058,6 @@ namespace MissionPlanner
             try
             {
                 AutoHideMenu(bool.Parse(config["menu_autohide"].ToString()));
-
             }
             catch { }
 
@@ -2137,7 +2105,6 @@ namespace MissionPlanner
             // setup http server
             try
             {
-
                 httpthread = new Thread(new httpserver().listernforclients)
                 {
                     Name = "motion jpg stream-network kml",
