@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Runtime.Remoting.Channels;
-using System.Text;
 using System.Threading;
 using Core.ExtendedObjects;
-using webapi;
+using MissionPlanner.Comms;
 
 namespace MissionPlanner.Utilities
 {
@@ -25,12 +22,14 @@ namespace MissionPlanner.Utilities
 
         private static bool run = false;
 
+        static byte newsysid = 1;
+
         public static void Start()
         {
             if (run == true)
             {
-                run = false;
-                clients.Clear();
+                Stop();
+                
                 return;
             }
 
@@ -38,11 +37,13 @@ namespace MissionPlanner.Utilities
 
             listener.BeginAcceptTcpClient(DoAcceptTcpClientCallback, listener);
 
-            foreach (var portno in  portlist)
+            foreach (var portno in portlist)
             {
                 TcpClient cl = new TcpClient();
 
                 cl.BeginConnect(IPAddress.Loopback, portno, RequestCallback, cl);
+
+                System.Threading.Thread.Sleep(500);
             }
 
             th = new System.Threading.Thread(new System.Threading.ThreadStart(mainloop))
@@ -50,12 +51,24 @@ namespace MissionPlanner.Utilities
                 IsBackground = true,
                 Name = "stream combiner"
             };
-            th.Start();   
+            th.Start();
         }
 
         public static void Stop()
         {
             run = false;
+            foreach (TcpClient client in clients)
+            {
+                try
+                {
+                    client.Close();
+                }
+                catch
+                {
+                }
+            }
+
+            clients.Clear();
         }
 
         private static void mainloop()
@@ -68,7 +81,7 @@ namespace MissionPlanner.Utilities
             {
                 try
                 {
-                    if (Server.Connected && Server.Available > 0)
+                    while (Server.Connected && Server.Available > 0)
                     {
                         int read = Server.GetStream().Read(buffer, 0, buffer.Length);
 
@@ -89,18 +102,20 @@ namespace MissionPlanner.Utilities
                 {
                     try
                     {
-                        if (client.Connected && client.Available > 0)
+                        while (client.Connected && client.Available > 0)
                         {
                             int read = client.GetStream().Read(buffer, 0, buffer.Length);
                             if (Server != null && Server.Connected)
                                 Server.GetStream().Write(buffer, 0, read);
                         }
-                    } 
+                    }
                     catch
                     {
                         client.Close();
                     }
                 }
+
+                System.Threading.Thread.Sleep(1);
             }
         }
 
@@ -120,12 +135,36 @@ namespace MissionPlanner.Utilities
 
         private static void RequestCallback(IAsyncResult ar)
         {
-            TcpClient client = (TcpClient) ar.AsyncState;
+            TcpClient client = (TcpClient)ar.AsyncState;
+
+            byte localsysid = newsysid++;
 
             if (client.Connected)
+            {
                 clients.Add(client);
+
+                MAVLinkInterface mav = new MAVLinkInterface();
+
+                mav.BaseStream = new TcpSerial() { client = client };
+
+                byte[] packet = mav.getHeartBeat();
+
+                Console.WriteLine("HB " + packet.Length);
+
+                try
+                {
+                    mav.GetParam("SYSID_THISMAV");
+                }
+                catch { }
+
+                var ans = mav.setParam("SYSID_THISMAV", localsysid);
+
+                Console.WriteLine("this mav set " + ans);
+
+                mav = null;
+            }
         }
 
-   
+
     }
 }
