@@ -3368,5 +3368,11 @@ namespace MissionPlanner.GCSViews
             }
         }
 
+        private void txt_messagebox_TextChanged(object sender, EventArgs e)
+        {
+            txt_messagebox.Select(txt_messagebox.Text.Length, 0);
+            txt_messagebox.ScrollToCaret();
+        }
+
     }
 }
