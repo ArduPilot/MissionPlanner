@@ -85,16 +85,6 @@ namespace MissionPlanner
         /// </summary>
         internal int packetcount = 0;
 
-        /// <summary>
-        /// used to calc packets per second on any single message type - used for stream rate comparaison
-        /// </summary>
-        public double[] packetspersecond { get; set; }
-        /// <summary>
-        /// time last seen a packet of a type
-        /// </summary>
-        DateTime[] packetspersecondbuild = new DateTime[256];
-
-
         private readonly Subject<int> _bytesReceivedSubj = new Subject<int>();
         private readonly Subject<int> _bytesSentSubj = new Subject<int>();
 
@@ -159,9 +149,6 @@ namespace MissionPlanner
             // init fields
             this.BaseStream = new SerialPort();
             this.packetcount = 0;
-
-            this.packetspersecond = new double[0x100];
-            this.packetspersecondbuild = new DateTime[0x100];
             this._bytesReceivedSubj = new Subject<int>();
             this._bytesSentSubj = new Subject<int>();
             this.WhenPacketLost = new Subject<int>();
@@ -187,9 +174,9 @@ namespace MissionPlanner
                 MAVlist[a] = new MAVState();
         }
 
-        public MAVLinkInterface(Stream st): this()
+        public MAVLinkInterface(Stream logfileStream): this()
         {
-            logplaybackfile = new BinaryReader(st);
+            logplaybackfile = new BinaryReader(logfileStream);
             logreadmode = true;
         }
 
@@ -1423,8 +1410,10 @@ Please check the following
             }
         }
 
-        public void requestDatastream(MAVLink.MAV_DATA_STREAM id, byte hzrate)
+        public void requestDatastream(MAVLink.MAV_DATA_STREAM id, byte hzrate, int sysid = -1)
         {
+            if (sysid == -1)
+                sysid = sysidcurrent;
 
             double pps = 0;
 
@@ -1434,75 +1423,75 @@ Please check the following
 
                     break;
                 case MAVLink.MAV_DATA_STREAM.EXTENDED_STATUS:
-                    if (packetspersecondbuild[(byte)MAVLINK_MSG_ID.SYS_STATUS] < DateTime.Now.AddSeconds(-2))
+                    if (MAVlist[sysid].packetspersecondbuild[(byte)MAVLINK_MSG_ID.SYS_STATUS] < DateTime.Now.AddSeconds(-2))
                         break;
-                    pps = packetspersecond[(byte)MAVLINK_MSG_ID.SYS_STATUS];
+                    pps = MAVlist[sysid].packetspersecond[(byte)MAVLINK_MSG_ID.SYS_STATUS];
                     if (hzratecheck(pps, hzrate))
                     {
-                        //return;
+                        return;
                     }
                     break;
                 case MAVLink.MAV_DATA_STREAM.EXTRA1:
-                    if (packetspersecondbuild[(byte)MAVLINK_MSG_ID.ATTITUDE] < DateTime.Now.AddSeconds(-2))
+                    if (MAVlist[sysid].packetspersecondbuild[(byte)MAVLINK_MSG_ID.ATTITUDE] < DateTime.Now.AddSeconds(-2))
                         break;
-                    pps = packetspersecond[(byte)MAVLINK_MSG_ID.ATTITUDE];
+                    pps = MAVlist[sysid].packetspersecond[(byte)MAVLINK_MSG_ID.ATTITUDE];
                     if (hzratecheck(pps, hzrate))
                     {
-                        //return;
+                        return;
                     }
                     break;
                 case MAVLink.MAV_DATA_STREAM.EXTRA2:
-                    if (packetspersecondbuild[(byte)MAVLINK_MSG_ID.VFR_HUD] < DateTime.Now.AddSeconds(-2))
+                    if (MAVlist[sysid].packetspersecondbuild[(byte)MAVLINK_MSG_ID.VFR_HUD] < DateTime.Now.AddSeconds(-2))
                         break;
-                    pps = packetspersecond[(byte)MAVLINK_MSG_ID.VFR_HUD];
+                    pps = MAVlist[sysid].packetspersecond[(byte)MAVLINK_MSG_ID.VFR_HUD];
                     if (hzratecheck(pps, hzrate))
                     {
-                        //return;
+                        return;
                     }
                     break;
                 case MAVLink.MAV_DATA_STREAM.EXTRA3:
-                    if (packetspersecondbuild[(byte)MAVLINK_MSG_ID.AHRS] < DateTime.Now.AddSeconds(-2))
+                    if (MAVlist[sysid].packetspersecondbuild[(byte)MAVLINK_MSG_ID.AHRS] < DateTime.Now.AddSeconds(-2))
                         break;
-                    pps = packetspersecond[(byte)MAVLINK_MSG_ID.AHRS];
+                    pps = MAVlist[sysid].packetspersecond[(byte)MAVLINK_MSG_ID.AHRS];
                     if (hzratecheck(pps, hzrate))
                     {
-                        //return;
+                        return;
                     }
                     break;
                 case MAVLink.MAV_DATA_STREAM.POSITION:
-                    if (packetspersecondbuild[(byte)MAVLINK_MSG_ID.GLOBAL_POSITION_INT] < DateTime.Now.AddSeconds(-2))
+                    if (MAVlist[sysid].packetspersecondbuild[(byte)MAVLINK_MSG_ID.GLOBAL_POSITION_INT] < DateTime.Now.AddSeconds(-2))
                         break;
-                    pps = packetspersecond[(byte)MAVLINK_MSG_ID.GLOBAL_POSITION_INT];
+                    pps = MAVlist[sysid].packetspersecond[(byte)MAVLINK_MSG_ID.GLOBAL_POSITION_INT];
                     if (hzratecheck(pps, hzrate))
                     {
-                        //return;
+                        return;
                     }
                     break;
                 case MAVLink.MAV_DATA_STREAM.RAW_CONTROLLER:
-                    if (packetspersecondbuild[(byte)MAVLINK_MSG_ID.RC_CHANNELS_SCALED] < DateTime.Now.AddSeconds(-2))
+                    if (MAVlist[sysid].packetspersecondbuild[(byte)MAVLINK_MSG_ID.RC_CHANNELS_SCALED] < DateTime.Now.AddSeconds(-2))
                         break;
-                    pps = packetspersecond[(byte)MAVLINK_MSG_ID.RC_CHANNELS_SCALED];
+                    pps = MAVlist[sysid].packetspersecond[(byte)MAVLINK_MSG_ID.RC_CHANNELS_SCALED];
                     if (hzratecheck(pps, hzrate))
                     {
-                        //return;
+                        return;
                     }
                     break;
                 case MAVLink.MAV_DATA_STREAM.RAW_SENSORS:
-                    if (packetspersecondbuild[(byte)MAVLINK_MSG_ID.RAW_IMU] < DateTime.Now.AddSeconds(-2))
+                    if (MAVlist[sysid].packetspersecondbuild[(byte)MAVLINK_MSG_ID.RAW_IMU] < DateTime.Now.AddSeconds(-2))
                         break;
-                    pps = packetspersecond[(byte)MAVLINK_MSG_ID.RAW_IMU];
+                    pps = MAVlist[sysid].packetspersecond[(byte)MAVLINK_MSG_ID.RAW_IMU];
                     if (hzratecheck(pps, hzrate))
                     {
-                        //return;
+                        return;
                     }
                     break;
                 case MAVLink.MAV_DATA_STREAM.RC_CHANNELS:
-                    if (packetspersecondbuild[(byte)MAVLINK_MSG_ID.RC_CHANNELS_RAW] < DateTime.Now.AddSeconds(-2))
+                    if (MAVlist[sysid].packetspersecondbuild[(byte)MAVLINK_MSG_ID.RC_CHANNELS_RAW] < DateTime.Now.AddSeconds(-2))
                         break;
-                    pps = packetspersecond[(byte)MAVLINK_MSG_ID.RC_CHANNELS_RAW];
+                    pps = MAVlist[sysid].packetspersecond[(byte)MAVLINK_MSG_ID.RC_CHANNELS_RAW];
                     if (hzratecheck(pps, hzrate))
                     {
-                        //return;
+                        return;
                     }
                     break;
             }
@@ -1515,7 +1504,7 @@ Please check the following
             }
 
 
-            log.InfoFormat("Request stream {0} at {1} hz", Enum.Parse(typeof(MAV_DATA_STREAM), id.ToString()), hzrate);
+            log.InfoFormat("Request stream {0} at {1} hz for {2}", Enum.Parse(typeof(MAV_DATA_STREAM), id.ToString()), hzrate, sysid);
             getDatastream(id, hzrate);
         }
 
@@ -2564,13 +2553,13 @@ Please check the following
                     }
                     WhenPacketReceived.OnNext(1);
 
-                    // packet stats
-                    if (double.IsInfinity(packetspersecond[buffer[5]]))
-                        packetspersecond[buffer[5]] = 0;
+                    // packet stats per mav
+                    if (double.IsInfinity(MAVlist[sysid].packetspersecond[buffer[5]]))
+                        MAVlist[sysid].packetspersecond[buffer[5]] = 0;
 
-                    packetspersecond[buffer[5]] = (((1000 / ((DateTime.Now - packetspersecondbuild[buffer[5]]).TotalMilliseconds) + packetspersecond[buffer[5]]) / 2));
+                    MAVlist[sysid].packetspersecond[buffer[5]] = (((1000 / ((DateTime.Now - MAVlist[sysid].packetspersecondbuild[buffer[5]]).TotalMilliseconds) + MAVlist[sysid].packetspersecond[buffer[5]]) / 2));
 
-                    packetspersecondbuild[buffer[5]] = DateTime.Now;
+                    MAVlist[sysid].packetspersecondbuild[buffer[5]] = DateTime.Now;
 
                     //Console.WriteLine("Packet {0}",temp[5]);
                     // store packet history

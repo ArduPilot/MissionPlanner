@@ -10,6 +10,8 @@ namespace MissionPlanner
     {
         public MAVState()
         {
+            this.packetspersecond = new double[0x100];
+            this.packetspersecondbuild = new DateTime[0x100];
             this.sysid = 0;
             this.compid = 0;
             this.param = new Hashtable();
@@ -67,6 +69,16 @@ namespace MissionPlanner
         /// </summary>
         public byte[][] packets { get; set; }
         public int[] packetseencount { get; set; }
+
+        /// <summary>
+        /// used to calc packets per second on any single message type - used for stream rate comparaison
+        /// </summary>
+        public double[] packetspersecond { get; set; }
+        /// <summary>
+        /// time last seen a packet of a type
+        /// </summary>
+        public DateTime[] packetspersecondbuild = new DateTime[256];
+
         /// <summary>
         /// mavlink ap type
         /// </summary>
