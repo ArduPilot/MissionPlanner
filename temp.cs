@@ -1707,11 +1707,14 @@ namespace MissionPlanner
         {
             MainV2.comPort.setMode("Stabilize");
 
-            MainV2.comPort.doARM(true);
+            if (MainV2.comPort.doARM(true))
+            {
+                MainV2.comPort.setMode("GUIDED");
 
-            MainV2.comPort.setMode("GUIDED");
+                System.Threading.Thread.Sleep(300);
 
-            MainV2.comPort.doCommand(MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0, 0, 10);
+                MainV2.comPort.doCommand(MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0, 0, 10);
+            }
         }
 
         private void but_sitl_comb_Click(object sender, EventArgs e)
