@@ -663,17 +663,17 @@ namespace MissionPlanner
                     }
 
                     // re-request servo data
-                    if (!(lastdata.AddSeconds(8) > DateTime.Now) && MainV2.comPort.BaseStream.IsOpen)
+                    if (!(lastdata.AddSeconds(8) > DateTime.Now) && mavinterface.BaseStream.IsOpen)
                     {
                         try
                         {
-                            MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTENDED_STATUS, MAV.cs.ratestatus); // mode
-                            MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.POSITION, MAV.cs.rateposition); // request gps
-                            MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTRA1, MAV.cs.rateattitude); // request attitude
-                            MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTRA2, MAV.cs.rateattitude); // request vfr
-                            MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTRA3, MAV.cs.ratesensors); // request extra stuff - tridge
-                            MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RAW_SENSORS,MAV.cs.ratesensors); // request raw sensor
-                            MainV2.comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RC_CHANNELS, MAV.cs.raterc); // request rc info
+                            mavinterface.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTENDED_STATUS, MAV.cs.ratestatus, MAV.sysid); // mode
+                            mavinterface.requestDatastream(MAVLink.MAV_DATA_STREAM.POSITION, MAV.cs.rateposition, MAV.sysid); // request gps
+                            mavinterface.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTRA1, MAV.cs.rateattitude, MAV.sysid); // request attitude
+                            mavinterface.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTRA2, MAV.cs.rateattitude, MAV.sysid); // request vfr
+                            mavinterface.requestDatastream(MAVLink.MAV_DATA_STREAM.EXTRA3, MAV.cs.ratesensors, MAV.sysid); // request extra stuff - tridge
+                            mavinterface.requestDatastream(MAVLink.MAV_DATA_STREAM.RAW_SENSORS, MAV.cs.ratesensors, MAV.sysid); // request raw sensor
+                            mavinterface.requestDatastream(MAVLink.MAV_DATA_STREAM.RC_CHANNELS, MAV.cs.raterc, MAV.sysid); // request rc info
                         }
                         catch { log.Error("Failed to request rates"); }
                         lastdata = DateTime.Now.AddSeconds(60); // prevent flooding
