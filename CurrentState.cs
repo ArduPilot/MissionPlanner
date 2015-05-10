@@ -770,10 +770,14 @@ namespace MissionPlanner
                         var systime = bytearray.ByteArrayToStructure<MAVLink.mavlink_system_time_t>(6);
 
                         DateTime date1 = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+                        try
+                        {
+                            date1 = date1.AddMilliseconds(systime.time_unix_usec/1000);
 
-                        date1 = date1.AddMilliseconds(systime.time_unix_usec / 1000);
+                            gpstime = date1;
+                        }
+                        catch { }
 
-                        gpstime = date1;
                     }
 
                     bytearray = MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.HWSTATUS];
