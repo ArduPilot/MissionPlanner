@@ -12,15 +12,26 @@ public partial class MAVLink
 
         public static void ReadWithTimeout(Stream BaseStream, byte[] buffer, int offset, int count)
         {
-            DateTime to = DateTime.Now.AddMilliseconds(BaseStream.ReadTimeout);
+            int timeout = BaseStream.ReadTimeout;
+
+            if (timeout == -1)
+                timeout = 60000;
+
+            DateTime to = DateTime.Now.AddMilliseconds(timeout);
 
             int toread = count;
 
             while (true)
             {
+                // read from stream
                 int read = BaseStream.Read(buffer, offset, count);
 
+                // update counter
                 toread -= read;
+
+                // reset timeout if we get data
+                if (read > 0)
+                    to = DateTime.Now.AddMilliseconds(timeout);
 
                 if (toread == 0)
                     break;
