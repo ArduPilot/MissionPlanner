@@ -8,9 +8,32 @@ public partial class MAVLink
 {
     public class MavlinkParse
     {
-        public static int packetcount = 0;
+        public int packetcount = 0;
 
-        public object ReadPacket(Stream BaseStream)
+        public static void ReadWithTimeout(Stream BaseStream, byte[] buffer, int offset, int count)
+        {
+            DateTime to = DateTime.Now.AddMilliseconds(BaseStream.ReadTimeout);
+
+            int toread = count;
+
+            while (true)
+            {
+                int read = BaseStream.Read(buffer, offset, count);
+
+                toread -= read;
+
+                if (toread == 0)
+                    break;
+
+                if (DateTime.Now > to)
+                {
+                    throw new TimeoutException("Timeout waiting for data");
+                }
+                System.Threading.Thread.Sleep(1);
+            }
+        }
+
+        public byte[] ReadPacket(Stream BaseStream)
         {
             byte[] buffer = new byte[270];
 
@@ -19,7 +42,7 @@ public partial class MAVLink
             while (readcount < 200)
             {
                 // read STX byte
-                BaseStream.Read(buffer, 0, 1);
+                ReadWithTimeout(BaseStream, buffer, 0, 1);
 
                 if (buffer[0] == MAVLink.MAVLINK_STX)
                     break;
@@ -28,16 +51,16 @@ public partial class MAVLink
             }
 
             // read header
-            int read = BaseStream.Read(buffer, 1, 5);
+            ReadWithTimeout(BaseStream, buffer, 1, 5);
 
             // packet length
             int lengthtoread = buffer[1] + 6 + 2 - 2; // data + header + checksum - STX - length
 
             //read rest of packet
-            read = BaseStream.Read(buffer, 6, lengthtoread - 4);
+            ReadWithTimeout(BaseStream, buffer, 6, lengthtoread - 4);
 
             // resize the packet to the correct length
-            Array.Resize<byte>(ref buffer, lengthtoread+2);
+            Array.Resize<byte>(ref buffer, lengthtoread + 2);
 
             // calc crc
             ushort crc = MavlinkCRC.crc_calculate(buffer, buffer.Length - 2);
@@ -56,11 +79,19 @@ public partial class MAVLink
             }
 
             // check crc
-            if (buffer.Length < 5 || buffer[buffer.Length - 1] != (crc >> 8) || buffer[buffer.Length - 2] != (crc & 0xff))
+            if (buffer.Length < 5 || buffer[buffer.Length - 1] != (crc >> 8) ||
+                buffer[buffer.Length - 2] != (crc & 0xff))
             {
                 // crc fail
                 return null;
             }
+
+            return buffer;
+        }
+
+        public object ReadPacketObj(Stream BaseStream)
+        {
+            byte[] buffer = ReadPacket(BaseStream);
 
             byte header = buffer[0];
             byte length = buffer[1];
@@ -69,7 +100,7 @@ public partial class MAVLink
             byte compid = buffer[4];
             byte messid = buffer[5];
 
-            //create the object spcified by the packet type
+            //create the object specified by the packet type
             object data = Activator.CreateInstance(MAVLINK_MESSAGE_INFO[messid]);
 
             // fill in the data of the object
@@ -118,6 +149,5 @@ public partial class MAVLink
 
             return packet;
         }
-
     }
 }
