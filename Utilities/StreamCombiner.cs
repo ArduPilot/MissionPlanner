@@ -10,7 +10,7 @@ namespace MissionPlanner.Utilities
 {
     public class StreamCombiner
     {
-        static List<MAVLinkInterface> clients = new List<MAVLinkInterface>();
+        static List<TcpClient> clients = new List<TcpClient>();
 
         static List<int> portlist = new EventList<int>() { 5760, 5770, 5780, 5790, 5800 };
 
@@ -32,6 +32,8 @@ namespace MissionPlanner.Utilities
                 
                 return;
             }
+
+            newsysid = 1;
 
             listener.Start();
 
@@ -77,6 +79,8 @@ namespace MissionPlanner.Utilities
 
             byte[] buffer = new byte[1024];
 
+            MAVLink.MavlinkParse mav = new MAVLink.MavlinkParse();
+
             while (run)
             {
                 try
@@ -88,8 +92,8 @@ namespace MissionPlanner.Utilities
                         // write to all clients
                         foreach (var client in clients)
                         {
-                            if (client.BaseStream.IsOpen)
-                                client.BaseStream.Write(buffer, 0, read);
+                            if (client.Connected)
+                                client.GetStream().Write(buffer, 0, read);
                         }
                     }
                 }
@@ -102,9 +106,11 @@ namespace MissionPlanner.Utilities
                 {
                     try
                     {
-                        while (client.BaseStream.IsOpen && client.BaseStream.BytesToRead > 0)
+                        while (client.Connected && client.Available > 0)
                         {
-                            byte[] packet = client.readPacket();
+                            byte[] packet = mav.ReadPacket(client.GetStream());
+                            if (packet == null)
+                                continue;
                             if (Server != null && Server.Connected)
                                 Server.GetStream().Write(packet, 0, packet.Length);
                         }
@@ -145,10 +151,6 @@ namespace MissionPlanner.Utilities
 
                 mav.BaseStream = new TcpSerial() { client = client };
 
-                //byte[] packet = mav.getHeartBeat();
-
-                //Console.WriteLine("HB " + packet.Length);
-
                 try
                 {
                     mav.GetParam("SYSID_THISMAV");
@@ -159,7 +161,9 @@ namespace MissionPlanner.Utilities
 
                 Console.WriteLine("this mav set " + ans);
 
-                clients.Add(mav);
+                mav = null;
+
+                clients.Add(client);
             }
         }
 
