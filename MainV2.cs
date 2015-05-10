@@ -1947,7 +1947,7 @@ namespace MissionPlanner
                         {
                             type = (byte)MAVLink.MAV_TYPE.GCS,
                             autopilot = (byte)MAVLink.MAV_AUTOPILOT.INVALID,
-                            mavlink_version = MAVLink.MAVLINK_VERSION
+                            mavlink_version = 3// MAVLink.MAVLINK_VERSION
                         };
 
                         foreach (var port in Comports)
