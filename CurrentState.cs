@@ -624,7 +624,7 @@ namespace MissionPlanner
                     //check if valid mavinterface
                     if (parent != null && parent.packetsnotlost != 0)
                     {
-                        if ((DateTime.Now - mavinterface.lastvalidpacket).TotalSeconds > 10)
+                        if ((DateTime.Now - MAV.lastvalidpacket).TotalSeconds > 10)
                         {
                             linkqualitygcs = 0;
                         }

@@ -38,6 +38,7 @@ namespace MissionPlanner
             this.CTX_mainmenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.autoHideToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fullScreenToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.readonlyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuFlightData = new System.Windows.Forms.ToolStripButton();
             this.MenuFlightPlanner = new System.Windows.Forms.ToolStripButton();
             this.MenuInitConfig = new System.Windows.Forms.ToolStripButton();
@@ -50,7 +51,6 @@ namespace MissionPlanner
             this.MenuDonate = new System.Windows.Forms.ToolStripMenuItem();
             this.menu = new MissionPlanner.Controls.MyButton();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.readonlyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MainMenu.SuspendLayout();
             this.CTX_mainmenu.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -101,6 +101,13 @@ namespace MissionPlanner
             this.fullScreenToolStripMenuItem.Name = "fullScreenToolStripMenuItem";
             resources.ApplyResources(this.fullScreenToolStripMenuItem, "fullScreenToolStripMenuItem");
             this.fullScreenToolStripMenuItem.Click += new System.EventHandler(this.fullScreenToolStripMenuItem_Click);
+            // 
+            // readonlyToolStripMenuItem
+            // 
+            this.readonlyToolStripMenuItem.CheckOnClick = true;
+            this.readonlyToolStripMenuItem.Name = "readonlyToolStripMenuItem";
+            resources.ApplyResources(this.readonlyToolStripMenuItem, "readonlyToolStripMenuItem");
+            this.readonlyToolStripMenuItem.Click += new System.EventHandler(this.readonlyToolStripMenuItem_Click);
             // 
             // MenuFlightData
             // 
@@ -205,13 +212,6 @@ namespace MissionPlanner
             resources.ApplyResources(this.panel1, "panel1");
             this.panel1.Name = "panel1";
             this.panel1.MouseLeave += new System.EventHandler(this.MainMenu_MouseLeave);
-            // 
-            // readonlyToolStripMenuItem
-            // 
-            this.readonlyToolStripMenuItem.CheckOnClick = true;
-            this.readonlyToolStripMenuItem.Name = "readonlyToolStripMenuItem";
-            resources.ApplyResources(this.readonlyToolStripMenuItem, "readonlyToolStripMenuItem");
-            this.readonlyToolStripMenuItem.Click += new System.EventHandler(this.readonlyToolStripMenuItem_Click);
             // 
             // MainV2
             // 

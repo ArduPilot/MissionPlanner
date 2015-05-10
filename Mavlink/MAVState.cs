@@ -12,6 +12,7 @@ namespace MissionPlanner
         {
             this.packetspersecond = new double[0x100];
             this.packetspersecondbuild = new DateTime[0x100];
+            this.lastvalidpacket = DateTime.MinValue;
             this.sysid = 0;
             this.compid = 0;
             this.param = new Hashtable();
@@ -35,6 +36,8 @@ namespace MissionPlanner
         public float packetsnotlost = 0;
         public DateTime packetlosttimer = DateTime.MinValue;
         public float synclost = 0;
+
+
 
         // all
         public string VersionString { get; set; }
@@ -69,6 +72,11 @@ namespace MissionPlanner
         /// </summary>
         public byte[][] packets { get; set; }
         public int[] packetseencount { get; set; }
+
+        /// <summary>
+        /// time seen of last mavlink packet
+        /// </summary>
+        public DateTime lastvalidpacket { get; set; }
 
         /// <summary>
         /// used to calc packets per second on any single message type - used for stream rate comparaison

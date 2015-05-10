@@ -115,10 +115,6 @@ namespace MissionPlanner
         /// used for a readlock on readpacket
         /// </summary>
         volatile object readlock = new object();
-        /// <summary>
-        /// time seen of last mavlink packet
-        /// </summary>
-        public DateTime lastvalidpacket { get; set; }
 
         /// <summary>
         /// mavlink version
@@ -154,7 +150,7 @@ namespace MissionPlanner
             this.WhenPacketLost = new Subject<int>();
             this.WhenPacketReceived = new Subject<int>();
             this.readlock = new object();
-            this.lastvalidpacket = DateTime.MinValue;
+            
             this.mavlinkversion = 0;
 
             this.debugmavlink = false;
@@ -272,7 +268,7 @@ namespace MissionPlanner
             // allow settings to settle - previous dtr 
             System.Threading.Thread.Sleep(1000);
 
-            Terrain = new TerrainFollow();
+            Terrain = new TerrainFollow(this);
 
             bool hbseen = false;
 
@@ -2684,14 +2680,8 @@ Please check the following
             }
             catch { }
 
-            if (buffer[3] == '3' && buffer[4] == 'D')
-            {
-                // dont update last packet time for 3dr radio packets
-            }
-            else
-            {
-                lastvalidpacket = DateTime.Now;
-            }
+            // update last valid packet receive time
+            MAVlist[sysid].lastvalidpacket = DateTime.Now;
 
             return buffer;
         }

@@ -823,7 +823,7 @@ namespace MissionPlanner
             MyView.ShowScreen("Terminal");
         }
 
-        private void doDisconnect()
+        private void doDisconnect(MAVLinkInterface comPort)
         {
             log.Info("We are disconnecting");
             try
@@ -876,7 +876,7 @@ namespace MissionPlanner
             this.MenuConnect.Image = global::MissionPlanner.Properties.Resources.light_connect_icon;
         }
 
-        private void doConnect()
+        private void doConnect(MAVLinkInterface comPort)
         {
             log.Info("We are connecting");
             switch (_connectionControl.CMB_serialport.Text)
@@ -1185,11 +1185,11 @@ namespace MissionPlanner
             // decide if this is a connect or disconnect
             if (comPort.BaseStream.IsOpen)
             {
-                doDisconnect();
+                doDisconnect(comPort);
             }
             else
             {
-                doConnect();
+                doConnect(comPort);
             }
         }
 
@@ -1866,6 +1866,7 @@ namespace MissionPlanner
 
                         try
                         {
+                            // say the latest high priority message
                             if (MainV2.speechEngine.State == SynthesizerState.Ready && lastmessagehigh != MainV2.comPort.MAV.cs.messageHigh)
                             {
                                 MainV2.speechEngine.SpeakAsync(MainV2.comPort.MAV.cs.messageHigh);
@@ -1876,7 +1877,7 @@ namespace MissionPlanner
                     }
 
                     // attenuate the link qualty over time
-                    if ((DateTime.Now - comPort.lastvalidpacket).TotalSeconds >= 1)
+                    if ((DateTime.Now - MainV2.comPort.MAV.lastvalidpacket).TotalSeconds >= 1)
                     {
                         if (linkqualitytime.Second != DateTime.Now.Second)
                         {
@@ -1889,7 +1890,7 @@ namespace MissionPlanner
                     }
 
                     // data loss warning - wait min of 10 seconds, ignore first 30 seconds of connect, repeat at 5 seconds interval
-                    if ((DateTime.Now - comPort.lastvalidpacket).TotalSeconds > 10
+                    if ((DateTime.Now - MainV2.comPort.MAV.lastvalidpacket).TotalSeconds > 10
                         && (DateTime.Now - connecttime).TotalSeconds > 30
                         && (DateTime.Now - nodatawarning).TotalSeconds > 5
                         && (MainV2.comPort.logreadmode || comPort.BaseStream.IsOpen)
@@ -1899,7 +1900,7 @@ namespace MissionPlanner
                         {
                             if (MainV2.speechEngine.State == SynthesizerState.Ready)
                             {
-                                MainV2.speechEngine.SpeakAsync("WARNING No Data for " + (int)(DateTime.Now - comPort.lastvalidpacket).TotalSeconds + " Seconds");
+                                MainV2.speechEngine.SpeakAsync("WARNING No Data for " + (int)(DateTime.Now - MainV2.comPort.MAV.lastvalidpacket).TotalSeconds + " Seconds");
                                 nodatawarning = DateTime.Now;
                             }
                         }
