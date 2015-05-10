@@ -489,10 +489,11 @@ namespace WebCamService
             try
             {
                 hr = videoStreamConfig.SetFormat(media);
+                DsError.ThrowExceptionForHR(hr);
             }
             catch { }
 
-                DsError.ThrowExceptionForHR(hr);
+                
 
 
             DsUtils.FreeAMMediaType(media);
