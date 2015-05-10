@@ -10,6 +10,9 @@ public partial class MAVLink
     {
         public int packetcount = 0;
 
+        public int badCRC = 0;
+        public int badLength = 0;
+
         public static void ReadWithTimeout(Stream BaseStream, byte[] buffer, int offset, int count)
         {
             int timeout = BaseStream.ReadTimeout;
@@ -20,14 +23,16 @@ public partial class MAVLink
             DateTime to = DateTime.Now.AddMilliseconds(timeout);
 
             int toread = count;
+            int pos = offset;
 
             while (true)
             {
                 // read from stream
-                int read = BaseStream.Read(buffer, offset, toread);
+                int read = BaseStream.Read(buffer, pos, toread);
 
                 // update counter
                 toread -= read;
+                pos += read;
 
                 // reset timeout if we get data
                 if (read > 0)
@@ -70,6 +75,14 @@ public partial class MAVLink
             //read rest of packet
             ReadWithTimeout(BaseStream, buffer, 6, lengthtoread - 4);
 
+            // check message length vs table
+            if (buffer[1] != MAVLINK_MESSAGE_LENGTHS[buffer[5]])
+            {
+                badLength++;
+                // bad or unknown packet
+                return null;
+            }
+
             // resize the packet to the correct length
             Array.Resize<byte>(ref buffer, lengthtoread + 2);
 
@@ -82,17 +95,11 @@ public partial class MAVLink
                 crc = MavlinkCRC.crc_accumulate(MAVLINK_MESSAGE_CRCS[buffer[5]], crc);
             }
 
-            // check message length vs table
-            if (buffer.Length > 5 && buffer[1] != MAVLINK_MESSAGE_LENGTHS[buffer[5]])
-            {
-                // bad or unknown packet
-                return null;
-            }
-
             // check crc
             if (buffer.Length < 5 || buffer[buffer.Length - 1] != (crc >> 8) ||
                 buffer[buffer.Length - 2] != (crc & 0xff))
             {
+                badCRC++;
                 // crc fail
                 return null;
             }
