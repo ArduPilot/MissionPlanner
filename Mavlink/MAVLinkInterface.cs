@@ -121,6 +121,8 @@ namespace MissionPlanner
         /// </summary>
         byte mavlinkversion = 0;
 
+        private MavlinkParse mavparse = new MavlinkParse();
+
         /// <summary>
         /// turns on console packet display
         /// </summary>
@@ -2234,6 +2236,13 @@ Please check the following
         /// <returns></returns>
         public byte[] readPacket()
         {
+            /*
+            var buffer =  mavparse.ReadPacket(BaseStream.BaseStream);
+            
+            if (buffer == null)
+                return new byte[0];
+            */
+
             byte[] buffer = new byte[270];
             int count = 0;
             int length = 0;
@@ -2355,30 +2364,6 @@ Please check the following
                         length = buffer[1] + 6 + 2 - 2; // data + header + checksum - U - length
                         if (count >= 5 || logreadmode)
                         {
-                            /*
-                            if (MAV.sysid != 0)
-                            {
-                                if (MAV.sysid != buffer[3] || MAV.compid != buffer[4])
-                                {
-                                    if (buffer[3] == '3' && buffer[4] == 'D')
-                                    {
-                                        // this is a 3dr radio rssi packet
-                                    }
-                                    else
-                                    {
-                                        //give hb a chance
-                                        if (buffer[5] == (byte)MAVLink.MAVLINK_MSG_ID.HEARTBEAT)
-                                        {
-
-                                        } else {
-                                            log.InfoFormat("Mavlink Bad Packet (not addressed to this MAV) got {0} {1} vs {2} {3}", buffer[3], buffer[4], MAV.sysid, MAV.compid);
-                                            return new byte[0];
-                                        }
-                                    }
-                                }
-                            }
-                            */
-
                             try
                             {
                                 if (logreadmode)

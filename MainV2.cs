@@ -876,10 +876,10 @@ namespace MissionPlanner
             this.MenuConnect.Image = global::MissionPlanner.Properties.Resources.light_connect_icon;
         }
 
-        private void doConnect(MAVLinkInterface comPort)
+        private void doConnect(MAVLinkInterface comPort, string portname, string baud)
         {
             log.Info("We are connecting");
-            switch (_connectionControl.CMB_serialport.Text)
+            switch (portname)
             {
                 case "TCP":
                     comPort.BaseStream = new TcpSerial();
@@ -902,7 +902,7 @@ namespace MissionPlanner
             // Here we want to reset the connection stats counter etc.
             this.ResetConnectionStats();
 
-            MainV2.comPort.MAV.cs.ResetInternals();
+            comPort.MAV.cs.ResetInternals();
 
             //cleanup any log being played
             comPort.logreadmode = false;
@@ -913,7 +913,7 @@ namespace MissionPlanner
             try
             {
                 // do autoscan
-                if (_connectionControl.CMB_serialport.Text == "AUTO")
+                if (portname == "AUTO")
                 {
                     Comms.CommsSerialScan.Scan(false);
 
@@ -937,12 +937,12 @@ namespace MissionPlanner
 
                 log.Info("Set Portname");
                 // set port, then options
-                comPort.BaseStream.PortName = _connectionControl.CMB_serialport.Text;
+                comPort.BaseStream.PortName = portname;
 
                 log.Info("Set Baudrate");
                 try
                 {
-                    comPort.BaseStream.BaudRate = int.Parse(_connectionControl.CMB_baudrate.Text);
+                    comPort.BaseStream.BaudRate = int.Parse(baud);
                 }
                 catch (Exception exp)
                 {
@@ -1003,21 +1003,21 @@ namespace MissionPlanner
                     // user selection of sysid
                     MissionPlanner.Controls.SysidSelector id = new SysidSelector();
 
-                    id.ShowDialog();
+                    id.Show();
                 }
 
-                // save the selection
-                int selectedsysid = comPort.sysidcurrent;
+                // create a copy
+                int[] list = comPort.sysidseen.ToArray();
 
                 // get all the params
-                foreach (var sysid in comPort.sysidseen)
+                foreach (var sysid in list)
                 {
                     comPort.sysidcurrent = sysid;
                     comPort.getParamList();
                 }
 
-                // restore selection
-                comPort.sysidcurrent = selectedsysid;
+                // set to first seen
+                comPort.sysidcurrent = list[0];
 
                 // detect firmware we are conected to.
                 if (comPort.MAV.cs.firmware == Firmwares.ArduCopter2)
@@ -1189,7 +1189,7 @@ namespace MissionPlanner
             }
             else
             {
-                doConnect(comPort);
+                doConnect(comPort, _connectionControl.CMB_serialport.Text, _connectionControl.CMB_baudrate.Text);
             }
         }
 
