@@ -1511,8 +1511,11 @@ Please check the following
         // returns true for ok
         bool hzratecheck(double pps, int hzrate)
         {
-
-            if (hzrate == 0 && pps == 0)
+            if (double.IsInfinity(pps))
+            {
+                return false;
+            }
+            else if (hzrate == 0 && pps == 0)
             {
                 return true;
             }
@@ -1534,7 +1537,6 @@ Please check the following
             }
 
             return false;
-
         }
 
         void getDatastream(MAVLink.MAV_DATA_STREAM id, byte hzrate)
