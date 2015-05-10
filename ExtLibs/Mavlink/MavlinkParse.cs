@@ -24,7 +24,7 @@ public partial class MAVLink
             while (true)
             {
                 // read from stream
-                int read = BaseStream.Read(buffer, offset, count);
+                int read = BaseStream.Read(buffer, offset, toread);
 
                 // update counter
                 toread -= read;
