@@ -662,7 +662,7 @@ namespace MissionPlanner
                             dowindcalc();
                     }
 
-                    // re-request servo data
+                    // re-request streams
                     if (!(lastdata.AddSeconds(8) > DateTime.Now) && mavinterface.BaseStream.IsOpen)
                     {
                         try
@@ -676,7 +676,7 @@ namespace MissionPlanner
                             mavinterface.requestDatastream(MAVLink.MAV_DATA_STREAM.RC_CHANNELS, MAV.cs.raterc, MAV.sysid); // request rc info
                         }
                         catch { log.Error("Failed to request rates"); }
-                        lastdata = DateTime.Now.AddSeconds(60); // prevent flooding
+                        lastdata = DateTime.Now.AddSeconds(30); // prevent flooding
                     }
 
                     byte[] bytearray = MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.RC_CHANNELS_SCALED];
