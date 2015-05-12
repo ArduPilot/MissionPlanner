@@ -823,7 +823,7 @@ namespace MissionPlanner
             MyView.ShowScreen("Terminal");
         }
 
-        private void doDisconnect(MAVLinkInterface comPort)
+        public void doDisconnect(MAVLinkInterface comPort)
         {
             log.Info("We are disconnecting");
             try
@@ -876,7 +876,7 @@ namespace MissionPlanner
             this.MenuConnect.Image = global::MissionPlanner.Properties.Resources.light_connect_icon;
         }
 
-        private void doConnect(MAVLinkInterface comPort, string portname, string baud)
+        public void doConnect(MAVLinkInterface comPort, string portname, string baud)
         {
             log.Info("We are connecting");
             switch (portname)
@@ -2869,6 +2869,11 @@ namespace MissionPlanner
         private void readonlyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MainV2.comPort.ReadOnly = readonlyToolStripMenuItem.Checked;
+        }
+
+        private void connectionOptionsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new ConnectionOptions().Show(this);
         }
 
 

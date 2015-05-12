@@ -575,6 +575,12 @@
     <Compile Include="SerialInjectGPS.Designer.cs">
       <DependentUpon>SerialInjectGPS.cs</DependentUpon>
     </Compile>
+    <Compile Include="ConnectionOptions.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConnectionOptions.Designer.cs">
+      <DependentUpon>ConnectionOptions.cs</DependentUpon>
+    </Compile>
     <Compile Include="Strings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -985,6 +991,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SerialInjectGPS.resx">
       <DependentUpon>SerialInjectGPS.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConnectionOptions.resx">
+      <DependentUpon>ConnectionOptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ConnectionOptions.zh-Hans.resx">
+      <DependentUpon>ConnectionOptions.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SerialOutputPass.zh-Hans.resx">
       <DependentUpon>SerialOutputPass.cs</DependentUpon>
