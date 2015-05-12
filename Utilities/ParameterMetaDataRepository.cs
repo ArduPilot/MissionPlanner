@@ -224,5 +224,22 @@ namespace MissionPlanner.Utilities
 
           return false;
       }
+
+      public static bool GetParameterRebootRequired(string nodeKey, string vechileType)
+      {
+          // set the default answer
+          bool answer = false;
+
+          CheckLoad();
+
+          string rebootrequired = ParameterMetaDataRepository.GetParameterMetaData(nodeKey, ParameterMetaDataConstants.RebootRequired, vechileType);
+
+          if (!string.IsNullOrEmpty(rebootrequired))
+          {
+              bool.TryParse(rebootrequired, out answer);
+          }
+
+          return answer;
+      }
    }
 }
