@@ -214,6 +214,7 @@ namespace MissionPlanner.Log
     110    +  i   : int32_t  
     111    +  I   : uint32_t  
     112    +  f   : float  
+         *     d   : double
     113    +  N   : char[16]  
     114    +  c   : int16_t * 100  
     115    +  C   : uint16_t * 100  
@@ -268,6 +269,10 @@ namespace MissionPlanner.Log
                     case 'f':
                         line.Append( ", " + BitConverter.ToSingle(message, offset).ToString(System.Globalization.CultureInfo.InvariantCulture));
                         offset += 4;
+                        break;
+                    case 'd':
+                        line.Append(", " + BitConverter.ToDouble(message, offset).ToString(System.Globalization.CultureInfo.InvariantCulture));
+                        offset += 8;
                         break;
                     case 'c':
                         line.Append( ", " + (BitConverter.ToInt16(message, offset) / 100.0).ToString("0.00", System.Globalization.CultureInfo.InvariantCulture));
