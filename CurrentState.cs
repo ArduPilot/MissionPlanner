@@ -15,6 +15,8 @@ namespace MissionPlanner
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
+        public event EventHandler csCallBack;
+
         internal MAVState parent;
 
         // multipliers
@@ -1316,6 +1318,13 @@ namespace MissionPlanner
                         brklevel = mem.brkval;
                     }
                 }
+
+                try
+                {
+                    if (csCallBack != null)
+                        csCallBack(this, null);
+                }
+                catch { }
 
                 //Console.Write(DateTime.Now.Millisecond + " start ");
                 // update form
