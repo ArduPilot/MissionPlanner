@@ -483,4 +483,7 @@ Please use Standard/Advanced Params for the safe settings</value>
   <data name="TrunkWarning" xml:space="preserve">
     <value>These are the latest trunk firmware, use at your own risk!!!</value>
   </data>
+  <data name="AutoWP" xml:space="preserve">
+    <value>Auto WP</value>
+  </data>
 </root>

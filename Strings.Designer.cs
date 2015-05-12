@@ -79,6 +79,15 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   查找类似 Auto WP 的本地化字符串。
+        /// </summary>
+        public static string AutoWP {
+            get {
+                return ResourceManager.GetString("AutoWP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Bad Lat/Lng 的本地化字符串。
         /// </summary>
         public static string BadCoords {
