@@ -12,8 +12,8 @@ env:
 #  - sudo apt-get install -y mono-complete
 #  - mozroots --import --sync
 #  - mono --runtime=v4.0.30319 .nuget/NuGet.exe restore ArdupilotMega.sln
-#script:    # the following commands are just examples, use whatever your build process requires
-#  - xbuild /p:Configuration=Release ArdupilotMega.sln
+script:    # the following commands are just examples, use whatever your build process requires
+  - xbuild /p:Configuration=Release ArdupilotMega.sln
 
 mono:
   - latest
