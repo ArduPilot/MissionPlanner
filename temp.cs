@@ -1721,5 +1721,10 @@ namespace MissionPlanner
         {
             Utilities.StreamCombiner.Start();
         }
+
+        private void but_injectgps_Click(object sender, EventArgs e)
+        {
+            new SerialInjectGPS().Show();
+        }
     }
 }

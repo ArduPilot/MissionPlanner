@@ -35,6 +35,7 @@ namespace MissionPlanner
             CMB_serialport.Items.Add("UDP Host - 14550");
             CMB_serialport.Items.Add("UDP Client");
             CMB_serialport.Items.Add("TCP Client");
+            CMB_serialport.Items.Add("NTRIP");
 
             if (threadrun)
             {
@@ -58,6 +59,10 @@ namespace MissionPlanner
                 {
                     switch (CMB_serialport.Text)
                     {
+                        case "NTRIP":
+                            comPort = new CommsNTRIP();
+                            CMB_baudrate.Text = "0";
+                            break;
                         case "TCP Client":
                             comPort = new TcpSerial();
                             break;
@@ -100,9 +105,11 @@ namespace MissionPlanner
                 t12 = new System.Threading.Thread(new System.Threading.ThreadStart(mainloop))
                 {
                     IsBackground = true,
-                    Name = "Nmea output"
+                    Name = "injectgps"
                 };
                 t12.Start();
+
+                BUT_connect.Text = Strings.Stop;
             }
         }
 
