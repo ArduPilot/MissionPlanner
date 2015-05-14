@@ -1387,7 +1387,7 @@ namespace MissionPlanner.GCSViews
 
                 homeroute.Stroke = new Pen(Color.Yellow, 2);
                 // if we have a large distance between home and the first/last point, it hangs on the draw of a the dashed line.
-                if (homepoint.GetDistance(lastpoint) < 5000)
+                if (homepoint.GetDistance(lastpoint) < 5000 && homepoint.GetDistance(firstpoint) < 5000)
                     homeroute.Stroke.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
 
                 polygonsoverlay.Routes.Add(homeroute);
