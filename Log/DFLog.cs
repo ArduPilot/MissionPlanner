@@ -248,20 +248,29 @@ namespace MissionPlanner.Log
             }
             else if (line.StartsWith("GPS"))
             {
-                // if (gpsstarttime == DateTime.MinValue)
+                if (line.StartsWith("GPS") && gpsstarttime == DateTime.MinValue)
                 {
-                    gpsstarttime = GetTimeGPS(line);
-                    lasttime = gpsstarttime;
+                    var time = GetTimeGPS(line);
 
-                    int indextimems = FindMessageOffset("GPS", "T");
-
-                    if (indextimems != -1)
+                    if (time != DateTime.MinValue)
                     {
-                        try
+                        gpsstarttime = time;
+
+                        lasttime = gpsstarttime;
+
+                        int indextimems = FindMessageOffset(items[0], "T");
+
+                        if (indextimems != -1)
                         {
-                            msoffset = int.Parse(items[indextimems]);
+                            try
+                            {
+                                msoffset = int.Parse(items[indextimems]);
+                            }
+                            catch
+                            {
+                                gpsstarttime = DateTime.MinValue;
+                            }
                         }
-                        catch { }
                     }
                 }
             }
@@ -315,15 +324,15 @@ namespace MissionPlanner.Log
                     item.msgtype = items[0];
                     item.items = items;
 
-                    if (line.StartsWith("GPS"))
-                    {
-                        item.time = GetTimeGPS(line);
-                    }
-                    else
-                    {
+                    
                         if (logformat.ContainsKey(item.msgtype))
                         {
                             int indextimems = FindMessageOffset(item.msgtype, "TimeMS");
+
+                            if (item.msgtype.StartsWith("GPS"))
+                            {
+                                indextimems = FindMessageOffset(item.msgtype, "T");
+                            }
 
                             if (indextimems != -1)
                             {
@@ -338,7 +347,7 @@ namespace MissionPlanner.Log
                                 item.time = lasttime;
                             }
                         }
-                    }
+                    
                 }
             }
             catch { }

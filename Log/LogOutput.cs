@@ -111,6 +111,9 @@ namespace MissionPlanner.Log
                 }
                 else if (items[0].Contains("GPS") && DFLog.logformat.ContainsKey("GPS"))
                 {
+                    if (items[0].Contains("GPS2"))
+                        return;
+
                     if (items[DFLog.FindMessageOffset("GPS", "Status")] != "3")
                         return;
 
@@ -474,6 +477,17 @@ namespace MissionPlanner.Log
             return color;
         }
 
+        public bool IsClockwise(IList<Point3D> vertices)
+        {
+            double sum = 0.0;
+            for (int i = 0; i < vertices.Count; i++)
+            {
+                Point3D v1 = vertices[i];
+                Point3D v2 = vertices[(i + 1) % vertices.Count];
+                sum += (v2.X - v1.X) * (v2.Y + v1.Y);
+            }
+            return sum > 0.0;
+        }
 
         public void writeKML(string filename)
         {
@@ -500,11 +514,17 @@ namespace MissionPlanner.Log
             style.Id = "yellowLineGreenPoly";
             style.Add(new LineStyle(HexStringToColor("7f00ffff"), 4));
 
+            Style style1 = new Style();
+            style1.Id = "spray";
+            style1.Add(new LineStyle(HexStringToColor("4c0000ff"), 0));
+            style1.Add(new PolyStyle() { Color = HexStringToColor("4c0000ff") });
+
             PolyStyle pstyle = new PolyStyle();
             pstyle.Color = HexStringToColor("7f00ff00");
             style.Add(pstyle);
 
             kml.Document.AddStyle(style);
+            kml.Document.AddStyle(style1);
 
             int stylecode = 0xff;
             int g = -1;
@@ -514,6 +534,51 @@ namespace MissionPlanner.Log
                 if (poslist == null)
                     continue;
 
+                /*
+                List<PointLatLngAlt> pllalist = new List<PointLatLngAlt>();
+
+                foreach (var point in poslist)
+                {
+                    pllalist.Add(new PointLatLngAlt(point.Y, point.X, point.Z, ""));
+                }
+
+                var ans = Utilities.LineOffset.GetPolygon(pllalist, 2);
+
+
+
+                while (ans.Count > 0)
+                {
+                    var first = ans[0];
+                    var second = ans[1];
+                    var secondlast = ans[ans.Count - 2];
+                    var last = ans[ans.Count-1];
+
+                    ans.Remove(first);
+                    ans.Remove(last);
+
+                    var polycoords = new BoundaryIs();
+
+                    polycoords.LinearRing = new LinearRing();
+
+                    polycoords.LinearRing.Coordinates.Add(new Point3D(first.Lng, first.Lat, 1));
+                    polycoords.LinearRing.Coordinates.Add(new Point3D(second.Lng, second.Lat, 1));
+                    polycoords.LinearRing.Coordinates.Add(new Point3D(secondlast.Lng, secondlast.Lat, 1));
+                    polycoords.LinearRing.Coordinates.Add(new Point3D(last.Lng, last.Lat, 1));
+                    polycoords.LinearRing.Coordinates.Add(new Point3D(first.Lng, first.Lat, 1));
+
+                    //if (!IsClockwise(polycoords.LinearRing.Coordinates))
+                      //  polycoords.LinearRing.Coordinates.Reverse();
+
+                    Polygon kmlpoly = new Polygon() { AltitudeMode = AltitudeMode.relativeToGround, Extrude = false, OuterBoundaryIs = polycoords };
+
+                    Placemark pmpoly = new Placemark();
+                    pmpoly.Polygon = kmlpoly;
+                    pmpoly.name = g + " test";
+                    pmpoly.styleUrl = "#spray";
+
+                    fldr.Add(pmpoly);
+                }
+                */
                 LineString ls = new LineString();
                 ls.AltitudeMode = altmode;
                 ls.Extrude = true;
