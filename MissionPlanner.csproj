@@ -2833,6 +2833,9 @@
     <Content Include="Plugins\libpacketizer_vc1_plugin.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Scripts\example5 inject data.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Scripts\TAKEOFF.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
