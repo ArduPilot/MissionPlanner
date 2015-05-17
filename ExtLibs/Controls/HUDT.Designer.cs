@@ -115,11 +115,12 @@ namespace MissionPlanner.Controls {
         }
         
         /// <summary>
-        ///   查找类似 5 的本地化字符串。
+        ///   查找类似于 5 的 System.Int32 类型的本地化资源。
         /// </summary>
-        internal static string FailsafeH {
+        internal static int FailsafeH {
             get {
-                return ResourceManager.GetString("FailsafeH", resourceCulture);
+                object obj = ResourceManager.GetObject("FailsafeH", resourceCulture);
+                return ((int)(obj));
             }
         }
         

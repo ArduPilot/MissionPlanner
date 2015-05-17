@@ -135,7 +135,7 @@
   <data name="FAILSAFE" xml:space="preserve">
     <value>    故障保护</value>
   </data>
-  <data name="FailsafeH" xml:space="preserve">
+  <data name="FailsafeH" type="System.Int32" xml:space="preserve">
     <value>15</value>
   </data>
   <data name="Font" xml:space="preserve">

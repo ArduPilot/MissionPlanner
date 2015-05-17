@@ -130,7 +130,7 @@
     <value>342, 5</value>
   </data>
   <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>93, 13</value>
+    <value>95, 12</value>
   </data>
   <data name="label2.TabIndex" type="System.Int32, mscorlib">
     <value>104</value>
@@ -160,7 +160,7 @@
     <value>84, 5</value>
   </data>
   <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>49, 13</value>
+    <value>53, 12</value>
   </data>
   <data name="label1.TabIndex" type="System.Int32, mscorlib">
     <value>103</value>
@@ -190,10 +190,10 @@
     <value>NoControl</value>
   </data>
   <data name="lbl_currentmode.Location" type="System.Drawing.Point, System.Drawing">
-    <value>473, 21</value>
+    <value>473, 19</value>
   </data>
   <data name="lbl_currentmode.Size" type="System.Drawing.Size, System.Drawing">
-    <value>215, 35</value>
+    <value>215, 32</value>
   </data>
   <data name="lbl_currentmode.TabIndex" type="System.Int32, mscorlib">
     <value>140</value>
@@ -216,9 +216,6 @@
   <data name="&gt;&gt;lbl_currentmode.ZOrder" xml:space="preserve">
     <value>6</value>
   </data>
-  <metadata name="currentStateBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
   <data name="LNK_wiki.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
   </data>
@@ -232,7 +229,7 @@
     <value>657, 5</value>
   </data>
   <data name="LNK_wiki.Size" type="System.Drawing.Size, System.Drawing">
-    <value>28, 13</value>
+    <value>29, 12</value>
   </data>
   <data name="LNK_wiki.TabIndex" type="System.Int32, mscorlib">
     <value>143</value>
@@ -262,7 +259,7 @@
     <value>96, 0</value>
   </data>
   <data name="mavlinkNumericUpDownlow_voltage.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 20</value>
+    <value>100, 21</value>
   </data>
   <data name="mavlinkNumericUpDownlow_voltage.TabIndex" type="System.Int32, mscorlib">
     <value>153</value>
@@ -274,7 +271,7 @@
     <value>mavlinkNumericUpDownlow_voltage</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownlow_voltage.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5431.9901, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5602.41497, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownlow_voltage.Parent" xml:space="preserve">
     <value>PNL_low_bat</value>
@@ -292,10 +289,10 @@
     <value>NoControl</value>
   </data>
   <data name="mavlinkCheckBoxlong_fs.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 63</value>
+    <value>6, 58</value>
   </data>
   <data name="mavlinkCheckBoxlong_fs.Size" type="System.Drawing.Size, System.Drawing">
-    <value>132, 17</value>
+    <value>156, 16</value>
   </data>
   <data name="mavlinkCheckBoxlong_fs.TabIndex" type="System.Int32, mscorlib">
     <value>146</value>
@@ -313,7 +310,7 @@
     <value>mavlinkCheckBoxlong_fs</value>
   </data>
   <data name="&gt;&gt;mavlinkCheckBoxlong_fs.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5431.9901, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5602.41497, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkCheckBoxlong_fs.Parent" xml:space="preserve">
     <value>groupBox3</value>
@@ -331,10 +328,10 @@
     <value>NoControl</value>
   </data>
   <data name="mavlinkCheckBoxshort_fs.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 47</value>
+    <value>6, 43</value>
   </data>
   <data name="mavlinkCheckBoxshort_fs.Size" type="System.Drawing.Size, System.Drawing">
-    <value>127, 17</value>
+    <value>156, 16</value>
   </data>
   <data name="mavlinkCheckBoxshort_fs.TabIndex" type="System.Int32, mscorlib">
     <value>145</value>
@@ -352,7 +349,7 @@
     <value>mavlinkCheckBoxshort_fs</value>
   </data>
   <data name="&gt;&gt;mavlinkCheckBoxshort_fs.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5431.9901, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5602.41497, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkCheckBoxshort_fs.Parent" xml:space="preserve">
     <value>groupBox3</value>
@@ -370,10 +367,10 @@
     <value>NoControl</value>
   </data>
   <data name="mavlinkCheckBoxgcs_fs.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 31</value>
+    <value>6, 29</value>
   </data>
   <data name="mavlinkCheckBoxgcs_fs.Size" type="System.Drawing.Size, System.Drawing">
-    <value>89, 17</value>
+    <value>96, 16</value>
   </data>
   <data name="mavlinkCheckBoxgcs_fs.TabIndex" type="System.Int32, mscorlib">
     <value>144</value>
@@ -391,7 +388,7 @@
     <value>mavlinkCheckBoxgcs_fs</value>
   </data>
   <data name="&gt;&gt;mavlinkCheckBoxgcs_fs.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5431.9901, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5602.41497, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkCheckBoxgcs_fs.Parent" xml:space="preserve">
     <value>groupBox3</value>
@@ -409,10 +406,10 @@
     <value>NoControl</value>
   </data>
   <data name="mavlinkCheckBoxthr_fs_action.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 83</value>
+    <value>6, 77</value>
   </data>
   <data name="mavlinkCheckBoxthr_fs_action.Size" type="System.Drawing.Size, System.Drawing">
-    <value>134, 17</value>
+    <value>168, 16</value>
   </data>
   <data name="mavlinkCheckBoxthr_fs_action.TabIndex" type="System.Int32, mscorlib">
     <value>147</value>
@@ -431,7 +428,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>mavlinkCheckBoxthr_fs_action</value>
   </data>
   <data name="&gt;&gt;mavlinkCheckBoxthr_fs_action.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5431.9901, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5602.41497, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkCheckBoxthr_fs_action.Parent" xml:space="preserve">
     <value>groupBox2</value>
@@ -449,7 +446,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>3, 0</value>
   </data>
   <data name="mavlinkNumericUpDownfs_thr_value.Size" type="System.Drawing.Size, System.Drawing">
-    <value>93, 20</value>
+    <value>93, 21</value>
   </data>
   <data name="mavlinkNumericUpDownfs_thr_value.TabIndex" type="System.Int32, mscorlib">
     <value>153</value>
@@ -464,7 +461,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>mavlinkNumericUpDownfs_thr_value</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownfs_thr_value.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5431.9901, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5602.41497, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownfs_thr_value.Parent" xml:space="preserve">
     <value>PNL_thr_fs_value</value>
@@ -482,7 +479,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>96, 0</value>
   </data>
   <data name="mavlinkNumericUpDownthr_fs_value.Size" type="System.Drawing.Size, System.Drawing">
-    <value>103, 20</value>
+    <value>103, 21</value>
   </data>
   <data name="mavlinkNumericUpDownthr_fs_value.TabIndex" type="System.Int32, mscorlib">
     <value>142</value>
@@ -497,7 +494,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>mavlinkNumericUpDownthr_fs_value</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownthr_fs_value.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5431.9901, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5602.41497, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownthr_fs_value.Parent" xml:space="preserve">
     <value>PNL_thr_fs_value</value>
@@ -515,10 +512,10 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>NoControl</value>
   </data>
   <data name="mavlinkCheckBoxthr_fs.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 65</value>
+    <value>6, 60</value>
   </data>
   <data name="mavlinkCheckBoxthr_fs.Size" type="System.Drawing.Size, System.Drawing">
-    <value>103, 17</value>
+    <value>126, 16</value>
   </data>
   <data name="mavlinkCheckBoxthr_fs.TabIndex" type="System.Int32, mscorlib">
     <value>141</value>
@@ -536,7 +533,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>mavlinkCheckBoxthr_fs</value>
   </data>
   <data name="&gt;&gt;mavlinkCheckBoxthr_fs.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5431.9901, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5602.41497, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkCheckBoxthr_fs.Parent" xml:space="preserve">
     <value>groupBox2</value>
@@ -548,13 +545,13 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>False</value>
   </data>
   <data name="mavlinkComboBox_fs_thr_enable.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 14</value>
+    <value>6, 13</value>
   </data>
   <data name="mavlinkComboBox_fs_thr_enable.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 3, 7</value>
+    <value>3, 3, 3, 6</value>
   </data>
   <data name="mavlinkComboBox_fs_thr_enable.Size" type="System.Drawing.Size, System.Drawing">
-    <value>193, 21</value>
+    <value>193, 20</value>
   </data>
   <data name="mavlinkComboBox_fs_thr_enable.TabIndex" type="System.Int32, mscorlib">
     <value>151</value>
@@ -569,7 +566,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>mavlinkComboBox_fs_thr_enable</value>
   </data>
   <data name="&gt;&gt;mavlinkComboBox_fs_thr_enable.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.5431.9901, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.5602.41497, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkComboBox_fs_thr_enable.Parent" xml:space="preserve">
     <value>groupBox2</value>
@@ -581,13 +578,13 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>False</value>
   </data>
   <data name="mavlinkComboBoxfs_batt_enable.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 67</value>
+    <value>6, 62</value>
   </data>
   <data name="mavlinkComboBoxfs_batt_enable.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 3, 3, 7</value>
+    <value>3, 3, 3, 6</value>
   </data>
   <data name="mavlinkComboBoxfs_batt_enable.Size" type="System.Drawing.Size, System.Drawing">
-    <value>199, 21</value>
+    <value>199, 20</value>
   </data>
   <data name="mavlinkComboBoxfs_batt_enable.TabIndex" type="System.Int32, mscorlib">
     <value>158</value>
@@ -599,7 +596,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>mavlinkComboBoxfs_batt_enable</value>
   </data>
   <data name="&gt;&gt;mavlinkComboBoxfs_batt_enable.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.5431.9901, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkComboBox, MissionPlanner, Version=1.1.5602.41497, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkComboBoxfs_batt_enable.Parent" xml:space="preserve">
     <value>groupBox4</value>
@@ -617,10 +614,10 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>NoControl</value>
   </data>
   <data name="mavlinkCheckBoxFS_GCS_ENABLE.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 15</value>
+    <value>6, 14</value>
   </data>
   <data name="mavlinkCheckBoxFS_GCS_ENABLE.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 17</value>
+    <value>102, 16</value>
   </data>
   <data name="mavlinkCheckBoxFS_GCS_ENABLE.TabIndex" type="System.Int32, mscorlib">
     <value>156</value>
@@ -635,7 +632,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>mavlinkCheckBoxFS_GCS_ENABLE</value>
   </data>
   <data name="&gt;&gt;mavlinkCheckBoxFS_GCS_ENABLE.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5431.9901, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkCheckBox, MissionPlanner, Version=1.1.5602.41497, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkCheckBoxFS_GCS_ENABLE.Parent" xml:space="preserve">
     <value>groupBox3</value>
@@ -653,7 +650,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>4, 3</value>
   </data>
   <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>80, 13</value>
+    <value>77, 12</value>
   </data>
   <data name="label5.TabIndex" type="System.Int32, mscorlib">
     <value>154</value>
@@ -680,7 +677,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>96, 0</value>
   </data>
   <data name="mavlinkNumericUpDownFS_BATT_MAH.Size" type="System.Drawing.Size, System.Drawing">
-    <value>100, 20</value>
+    <value>100, 21</value>
   </data>
   <data name="mavlinkNumericUpDownFS_BATT_MAH.TabIndex" type="System.Int32, mscorlib">
     <value>153</value>
@@ -689,7 +686,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>mavlinkNumericUpDownFS_BATT_MAH</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownFS_BATT_MAH.Type" xml:space="preserve">
-    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5431.9901, Culture=neutral, PublicKeyToken=null</value>
+    <value>MissionPlanner.Controls.MavlinkNumericUpDown, MissionPlanner, Version=1.1.5602.41497, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;mavlinkNumericUpDownFS_BATT_MAH.Parent" xml:space="preserve">
     <value>pnlmah</value>
@@ -698,10 +695,10 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>1</value>
   </data>
   <data name="pnlmah.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 43</value>
+    <value>6, 40</value>
   </data>
   <data name="pnlmah.Size" type="System.Drawing.Size, System.Drawing">
-    <value>199, 23</value>
+    <value>199, 21</value>
   </data>
   <data name="pnlmah.TabIndex" type="System.Int32, mscorlib">
     <value>157</value>
@@ -721,42 +718,6 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
   <data name="&gt;&gt;pnlmah.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="&gt;&gt;label4.Name" xml:space="preserve">
-    <value>label4</value>
-  </data>
-  <data name="&gt;&gt;label4.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;label4.Parent" xml:space="preserve">
-    <value>PNL_low_bat</value>
-  </data>
-  <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="PNL_low_bat.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 19</value>
-  </data>
-  <data name="PNL_low_bat.Size" type="System.Drawing.Size, System.Drawing">
-    <value>199, 23</value>
-  </data>
-  <data name="PNL_low_bat.TabIndex" type="System.Int32, mscorlib">
-    <value>154</value>
-  </data>
-  <data name="PNL_low_bat.Visible" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;PNL_low_bat.Name" xml:space="preserve">
-    <value>PNL_low_bat</value>
-  </data>
-  <data name="&gt;&gt;PNL_low_bat.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;PNL_low_bat.Parent" xml:space="preserve">
-    <value>groupBox4</value>
-  </data>
-  <data name="&gt;&gt;PNL_low_bat.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
   <data name="label4.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -767,7 +728,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>4, 3</value>
   </data>
   <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>63, 13</value>
+    <value>71, 12</value>
   </data>
   <data name="label4.TabIndex" type="System.Int32, mscorlib">
     <value>154</value>
@@ -787,6 +748,30 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
   <data name="&gt;&gt;label4.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <data name="PNL_low_bat.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 18</value>
+  </data>
+  <data name="PNL_low_bat.Size" type="System.Drawing.Size, System.Drawing">
+    <value>199, 21</value>
+  </data>
+  <data name="PNL_low_bat.TabIndex" type="System.Int32, mscorlib">
+    <value>154</value>
+  </data>
+  <data name="PNL_low_bat.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;PNL_low_bat.Name" xml:space="preserve">
+    <value>PNL_low_bat</value>
+  </data>
+  <data name="&gt;&gt;PNL_low_bat.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;PNL_low_bat.Parent" xml:space="preserve">
+    <value>groupBox4</value>
+  </data>
+  <data name="&gt;&gt;PNL_low_bat.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
   <data name="label3.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
@@ -800,7 +785,7 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>0, 0</value>
   </data>
   <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>46, 13</value>
+    <value>41, 12</value>
   </data>
   <data name="label3.TabIndex" type="System.Int32, mscorlib">
     <value>148</value>
@@ -821,10 +806,10 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>0</value>
   </data>
   <data name="PNL_thr_fs_value.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 38</value>
+    <value>6, 35</value>
   </data>
   <data name="PNL_thr_fs_value.Size" type="System.Drawing.Size, System.Drawing">
-    <value>199, 25</value>
+    <value>199, 23</value>
   </data>
   <data name="PNL_thr_fs_value.TabIndex" type="System.Int32, mscorlib">
     <value>149</value>
@@ -848,10 +833,10 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>NoControl</value>
   </data>
   <data name="lbl_armed.Location" type="System.Drawing.Point, System.Drawing">
-    <value>473, 65</value>
+    <value>473, 60</value>
   </data>
   <data name="lbl_armed.Size" type="System.Drawing.Size, System.Drawing">
-    <value>215, 36</value>
+    <value>215, 33</value>
   </data>
   <data name="lbl_armed.TabIndex" type="System.Int32, mscorlib">
     <value>149</value>
@@ -878,10 +863,10 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>NoControl</value>
   </data>
   <data name="lbl_gpslock.Location" type="System.Drawing.Point, System.Drawing">
-    <value>473, 110</value>
+    <value>473, 102</value>
   </data>
   <data name="lbl_gpslock.Size" type="System.Drawing.Size, System.Drawing">
-    <value>215, 32</value>
+    <value>215, 30</value>
   </data>
   <data name="lbl_gpslock.TabIndex" type="System.Int32, mscorlib">
     <value>150</value>
@@ -905,10 +890,10 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>NoControl</value>
   </data>
   <data name="horizontalProgressBar9.Location" type="System.Drawing.Point, System.Drawing">
-    <value>297, 406</value>
+    <value>297, 375</value>
   </data>
   <data name="horizontalProgressBar9.Size" type="System.Drawing.Size, System.Drawing">
-    <value>170, 25</value>
+    <value>170, 23</value>
   </data>
   <data name="horizontalProgressBar9.TabIndex" type="System.Int32, mscorlib">
     <value>102</value>
@@ -929,10 +914,10 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>NoControl</value>
   </data>
   <data name="horizontalProgressBar10.Location" type="System.Drawing.Point, System.Drawing">
-    <value>297, 351</value>
+    <value>297, 324</value>
   </data>
   <data name="horizontalProgressBar10.Size" type="System.Drawing.Size, System.Drawing">
-    <value>170, 25</value>
+    <value>170, 23</value>
   </data>
   <data name="horizontalProgressBar10.TabIndex" type="System.Int32, mscorlib">
     <value>101</value>
@@ -953,10 +938,10 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>NoControl</value>
   </data>
   <data name="horizontalProgressBar11.Location" type="System.Drawing.Point, System.Drawing">
-    <value>297, 296</value>
+    <value>297, 273</value>
   </data>
   <data name="horizontalProgressBar11.Size" type="System.Drawing.Size, System.Drawing">
-    <value>170, 25</value>
+    <value>170, 23</value>
   </data>
   <data name="horizontalProgressBar11.TabIndex" type="System.Int32, mscorlib">
     <value>100</value>
@@ -977,10 +962,10 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>NoControl</value>
   </data>
   <data name="horizontalProgressBar12.Location" type="System.Drawing.Point, System.Drawing">
-    <value>297, 241</value>
+    <value>297, 222</value>
   </data>
   <data name="horizontalProgressBar12.Size" type="System.Drawing.Size, System.Drawing">
-    <value>170, 25</value>
+    <value>170, 23</value>
   </data>
   <data name="horizontalProgressBar12.TabIndex" type="System.Int32, mscorlib">
     <value>99</value>
@@ -1001,10 +986,10 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>NoControl</value>
   </data>
   <data name="horizontalProgressBar13.Location" type="System.Drawing.Point, System.Drawing">
-    <value>297, 186</value>
+    <value>297, 172</value>
   </data>
   <data name="horizontalProgressBar13.Size" type="System.Drawing.Size, System.Drawing">
-    <value>170, 25</value>
+    <value>170, 23</value>
   </data>
   <data name="horizontalProgressBar13.TabIndex" type="System.Int32, mscorlib">
     <value>98</value>
@@ -1025,10 +1010,10 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>NoControl</value>
   </data>
   <data name="horizontalProgressBar14.Location" type="System.Drawing.Point, System.Drawing">
-    <value>297, 131</value>
+    <value>297, 121</value>
   </data>
   <data name="horizontalProgressBar14.Size" type="System.Drawing.Size, System.Drawing">
-    <value>170, 25</value>
+    <value>170, 23</value>
   </data>
   <data name="horizontalProgressBar14.TabIndex" type="System.Int32, mscorlib">
     <value>97</value>
@@ -1049,10 +1034,10 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>NoControl</value>
   </data>
   <data name="horizontalProgressBar15.Location" type="System.Drawing.Point, System.Drawing">
-    <value>297, 21</value>
+    <value>297, 19</value>
   </data>
   <data name="horizontalProgressBar15.Size" type="System.Drawing.Size, System.Drawing">
-    <value>170, 25</value>
+    <value>170, 23</value>
   </data>
   <data name="horizontalProgressBar15.TabIndex" type="System.Int32, mscorlib">
     <value>96</value>
@@ -1073,10 +1058,10 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>NoControl</value>
   </data>
   <data name="horizontalProgressBar16.Location" type="System.Drawing.Point, System.Drawing">
-    <value>297, 76</value>
+    <value>297, 70</value>
   </data>
   <data name="horizontalProgressBar16.Size" type="System.Drawing.Size, System.Drawing">
-    <value>170, 25</value>
+    <value>170, 23</value>
   </data>
   <data name="horizontalProgressBar16.TabIndex" type="System.Int32, mscorlib">
     <value>95</value>
@@ -1097,10 +1082,10 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>NoControl</value>
   </data>
   <data name="horizontalProgressBar8.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 406</value>
+    <value>15, 375</value>
   </data>
   <data name="horizontalProgressBar8.Size" type="System.Drawing.Size, System.Drawing">
-    <value>170, 25</value>
+    <value>170, 23</value>
   </data>
   <data name="horizontalProgressBar8.TabIndex" type="System.Int32, mscorlib">
     <value>94</value>
@@ -1121,10 +1106,10 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>NoControl</value>
   </data>
   <data name="horizontalProgressBar7.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 351</value>
+    <value>15, 324</value>
   </data>
   <data name="horizontalProgressBar7.Size" type="System.Drawing.Size, System.Drawing">
-    <value>170, 25</value>
+    <value>170, 23</value>
   </data>
   <data name="horizontalProgressBar7.TabIndex" type="System.Int32, mscorlib">
     <value>93</value>
@@ -1145,10 +1130,10 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>NoControl</value>
   </data>
   <data name="horizontalProgressBar6.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 296</value>
+    <value>15, 273</value>
   </data>
   <data name="horizontalProgressBar6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>170, 25</value>
+    <value>170, 23</value>
   </data>
   <data name="horizontalProgressBar6.TabIndex" type="System.Int32, mscorlib">
     <value>92</value>
@@ -1169,10 +1154,10 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>NoControl</value>
   </data>
   <data name="horizontalProgressBar5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 241</value>
+    <value>15, 222</value>
   </data>
   <data name="horizontalProgressBar5.Size" type="System.Drawing.Size, System.Drawing">
-    <value>170, 25</value>
+    <value>170, 23</value>
   </data>
   <data name="horizontalProgressBar5.TabIndex" type="System.Int32, mscorlib">
     <value>91</value>
@@ -1193,10 +1178,10 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>NoControl</value>
   </data>
   <data name="horizontalProgressBar4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 186</value>
+    <value>15, 172</value>
   </data>
   <data name="horizontalProgressBar4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>170, 25</value>
+    <value>170, 23</value>
   </data>
   <data name="horizontalProgressBar4.TabIndex" type="System.Int32, mscorlib">
     <value>90</value>
@@ -1217,10 +1202,10 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>NoControl</value>
   </data>
   <data name="horizontalProgressBar3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 131</value>
+    <value>15, 121</value>
   </data>
   <data name="horizontalProgressBar3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>170, 25</value>
+    <value>170, 23</value>
   </data>
   <data name="horizontalProgressBar3.TabIndex" type="System.Int32, mscorlib">
     <value>89</value>
@@ -1241,10 +1226,10 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>NoControl</value>
   </data>
   <data name="horizontalProgressBar2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 21</value>
+    <value>15, 19</value>
   </data>
   <data name="horizontalProgressBar2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>170, 25</value>
+    <value>170, 23</value>
   </data>
   <data name="horizontalProgressBar2.TabIndex" type="System.Int32, mscorlib">
     <value>88</value>
@@ -1265,10 +1250,10 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>NoControl</value>
   </data>
   <data name="horizontalProgressBar1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 76</value>
+    <value>15, 70</value>
   </data>
   <data name="horizontalProgressBar1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>170, 25</value>
+    <value>170, 23</value>
   </data>
   <data name="horizontalProgressBar1.TabIndex" type="System.Int32, mscorlib">
     <value>87</value>
@@ -1286,10 +1271,10 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>24</value>
   </data>
   <data name="groupBox2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>480, 240</value>
+    <value>480, 222</value>
   </data>
   <data name="groupBox2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>208, 99</value>
+    <value>208, 91</value>
   </data>
   <data name="groupBox2.TabIndex" type="System.Int32, mscorlib">
     <value>151</value>
@@ -1310,10 +1295,10 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>2</value>
   </data>
   <data name="groupBox3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>480, 341</value>
+    <value>480, 315</value>
   </data>
   <data name="groupBox3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>208, 79</value>
+    <value>208, 73</value>
   </data>
   <data name="groupBox3.TabIndex" type="System.Int32, mscorlib">
     <value>152</value>
@@ -1334,10 +1319,10 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>1</value>
   </data>
   <data name="groupBox4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>480, 148</value>
+    <value>480, 137</value>
   </data>
   <data name="groupBox4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>208, 90</value>
+    <value>208, 83</value>
   </data>
   <data name="groupBox4.TabIndex" type="System.Int32, mscorlib">
     <value>153</value>
@@ -1361,10 +1346,10 @@ Arducopter Other: if have gps, RTL, Otherwise Land</value>
     <value>True</value>
   </metadata>
   <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>6, 13</value>
+    <value>6, 12</value>
   </data>
   <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
-    <value>688, 449</value>
+    <value>688, 414</value>
   </data>
   <data name="&gt;&gt;currentStateBindingSource.Name" xml:space="preserve">
     <value>currentStateBindingSource</value>
