@@ -464,6 +464,9 @@ namespace MissionPlanner.Log
 
         public void writeRinex(string filename)
         {
+            if (gpsrawdata.Count == 0)
+                return;
+
             string file = Path.GetDirectoryName(filename) + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(filename) + ".obs";
 
             var rinexoutput = new StreamWriter(file);
