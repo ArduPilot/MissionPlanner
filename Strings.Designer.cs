@@ -70,11 +70,92 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bad Accel Health.
+        /// </summary>
+        public static string BadAccelHealth {
+            get {
+                return ResourceManager.GetString("BadAccelHealth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bad AHRS.
+        /// </summary>
+        public static string BadAHRS {
+            get {
+                return ResourceManager.GetString("BadAHRS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bad Baro Health.
+        /// </summary>
+        public static string BadBaroHealth {
+            get {
+                return ResourceManager.GetString("BadBaroHealth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bad Compass Health.
+        /// </summary>
+        public static string BadCompassHealth {
+            get {
+                return ResourceManager.GetString("BadCompassHealth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Bad Lat/Lng.
         /// </summary>
         public static string BadCoords {
             get {
                 return ResourceManager.GetString("BadCoords", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bad GPS Health.
+        /// </summary>
+        public static string BadGPSHealth {
+            get {
+                return ResourceManager.GetString("BadGPSHealth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bad Gyro Health.
+        /// </summary>
+        public static string BadGyroHealth {
+            get {
+                return ResourceManager.GetString("BadGyroHealth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bad LiDAR Health.
+        /// </summary>
+        public static string BadLiDARHealth {
+            get {
+                return ResourceManager.GetString("BadLiDARHealth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bad OptFlow Health.
+        /// </summary>
+        public static string BadOptFlowHealth {
+            get {
+                return ResourceManager.GetString("BadOptFlowHealth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bad or No Terrain Data.
+        /// </summary>
+        public static string BadorNoTerrainData {
+            get {
+                return ResourceManager.GetString("BadorNoTerrainData", resourceCulture);
             }
         }
         
@@ -488,6 +569,15 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Geofence Breach.
+        /// </summary>
+        public static string GeofenceBreach {
+            get {
+                return ResourceManager.GetString("GeofenceBreach", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Getting .
         /// </summary>
         public static string Getting {
@@ -702,6 +792,15 @@ namespace MissionPlanner {
         public static string NoFMTMessage {
             get {
                 return ResourceManager.GetString("NoFMTMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to NO RC Receiver.
+        /// </summary>
+        public static string NORCReceiver {
+            get {
+                return ResourceManager.GetString("NORCReceiver", resourceCulture);
             }
         }
         

@@ -456,4 +456,37 @@ Please use Standard/Advanced Params for the safe settings</value>
   <data name="Start" xml:space="preserve">
     <value>Start</value>
   </data>
+  <data name="BadGPSHealth" xml:space="preserve">
+    <value>Bad GPS Health</value>
+  </data>
+  <data name="BadGyroHealth" xml:space="preserve">
+    <value>Bad Gyro Health</value>
+  </data>
+  <data name="BadAccelHealth" xml:space="preserve">
+    <value>Bad Accel Health</value>
+  </data>
+  <data name="BadCompassHealth" xml:space="preserve">
+    <value>Bad Compass Health</value>
+  </data>
+  <data name="BadBaroHealth" xml:space="preserve">
+    <value>Bad Baro Health</value>
+  </data>
+  <data name="BadLiDARHealth" xml:space="preserve">
+    <value>Bad LiDAR Health</value>
+  </data>
+  <data name="BadOptFlowHealth" xml:space="preserve">
+    <value>Bad OptFlow Health</value>
+  </data>
+  <data name="BadorNoTerrainData" xml:space="preserve">
+    <value>Bad or No Terrain Data</value>
+  </data>
+  <data name="GeofenceBreach" xml:space="preserve">
+    <value>Geofence Breach</value>
+  </data>
+  <data name="BadAHRS" xml:space="preserve">
+    <value>Bad AHRS</value>
+  </data>
+  <data name="NORCReceiver" xml:space="preserve">
+    <value>NO RC Receiver</value>
+  </data>
 </root>
