@@ -118,51 +118,6 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="goHereToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>172, 22</value>
-  </data>
-  <data name="goHereToolStripMenuItem.Text" xml:space="preserve">
-    <value>飞行至此</value>
-  </data>
-  <data name="flyToHereAltToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>172, 22</value>
-  </data>
-  <data name="flyToHereAltToolStripMenuItem.Text" xml:space="preserve">
-    <value>飞行至此高度</value>
-  </data>
-  <data name="addPoiToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>172, 22</value>
-  </data>
-  <data name="pointCameraHereToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>172, 22</value>
-  </data>
-  <data name="pointCameraHereToolStripMenuItem.Text" xml:space="preserve">
-    <value>在此放置相机</value>
-  </data>
-  <data name="triggerCameraToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>172, 22</value>
-  </data>
-  <data name="triggerCameraToolStripMenuItem.Text" xml:space="preserve">
-    <value>现在按下相机快门</value>
-  </data>
-  <data name="flightPlannerToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>172, 22</value>
-  </data>
-  <data name="flightPlannerToolStripMenuItem.Text" xml:space="preserve">
-    <value>飞行规划器</value>
-  </data>
-  <data name="setHomeHereToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>172, 22</value>
-  </data>
-  <data name="setHomeHereToolStripMenuItem.Text" xml:space="preserve">
-    <value>设置家在此</value>
-  </data>
-  <data name="contextMenuStripMap.Size" type="System.Drawing.Size, System.Drawing">
-    <value>173, 158</value>
-  </data>
-  <data name="contextMenuStripMap.ToolTip" xml:space="preserve">
-    <value />
-  </data>
   <data name="recordHudToAVIToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>156, 22</value>
   </data>
@@ -205,35 +160,98 @@
   <data name="contextMenuStripHud.ToolTip" xml:space="preserve">
     <value />
   </data>
+  <data name="hud1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>358, 245</value>
+  </data>
   <data name="hud1.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="SubMainLeft.Panel1.ToolTip" xml:space="preserve">
     <value />
   </data>
+  <data name="dropOutToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>131, 22</value>
+  </data>
+  <data name="contextMenuStripactionstab.Size" type="System.Drawing.Size, System.Drawing">
+    <value>132, 26</value>
+  </data>
   <data name="contextMenuStripactionstab.ToolTip" xml:space="preserve">
     <value />
+  </data>
+  <data name="quickView6.Location" type="System.Drawing.Point, System.Drawing">
+    <value>175, 97</value>
+  </data>
+  <data name="quickView6.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>100, 25</value>
+  </data>
+  <data name="quickView6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>166, 41</value>
   </data>
   <data name="quickView6.ToolTip" xml:space="preserve">
     <value />
   </data>
+  <data name="quickView5.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 97</value>
+  </data>
+  <data name="quickView5.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>100, 25</value>
+  </data>
+  <data name="quickView5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>166, 41</value>
+  </data>
   <data name="quickView5.ToolTip" xml:space="preserve">
     <value />
+  </data>
+  <data name="quickView4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>175, 50</value>
+  </data>
+  <data name="quickView4.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>100, 25</value>
+  </data>
+  <data name="quickView4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>166, 41</value>
   </data>
   <data name="quickView4.ToolTip" xml:space="preserve">
     <value />
   </data>
+  <data name="quickView3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 50</value>
+  </data>
+  <data name="quickView3.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>100, 25</value>
+  </data>
+  <data name="quickView3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>166, 41</value>
+  </data>
   <data name="quickView3.ToolTip" xml:space="preserve">
     <value />
+  </data>
+  <data name="quickView2.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>100, 25</value>
+  </data>
+  <data name="quickView2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>166, 41</value>
   </data>
   <data name="quickView2.ToolTip" xml:space="preserve">
     <value />
   </data>
+  <data name="quickView1.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>100, 25</value>
+  </data>
+  <data name="quickView1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>166, 41</value>
+  </data>
   <data name="quickView1.ToolTip" xml:space="preserve">
     <value>双击我修改</value>
   </data>
+  <data name="tableLayoutPanelQuick.Size" type="System.Drawing.Size, System.Drawing">
+    <value>344, 141</value>
+  </data>
   <data name="tableLayoutPanelQuick.ToolTip" xml:space="preserve">
     <value />
+  </data>
+  <data name="tabQuick.Size" type="System.Drawing.Size, System.Drawing">
+    <value>350, 147</value>
   </data>
   <data name="tabQuick.Text" xml:space="preserve">
     <value>快速</value>
@@ -241,11 +259,29 @@
   <data name="tabQuick.ToolTip" xml:space="preserve">
     <value />
   </data>
+  <data name="but_autotune.Location" type="System.Drawing.Point, System.Drawing">
+    <value>200, 113</value>
+  </data>
+  <data name="but_autotune.Size" type="System.Drawing.Size, System.Drawing">
+    <value>69, 21</value>
+  </data>
   <data name="but_autotune.ToolTip" xml:space="preserve">
     <value />
   </data>
+  <data name="CMB_mountmode.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 86</value>
+  </data>
+  <data name="CMB_mountmode.Size" type="System.Drawing.Size, System.Drawing">
+    <value>76, 20</value>
+  </data>
   <data name="CMB_mountmode.ToolTip" xml:space="preserve">
     <value />
+  </data>
+  <data name="BUT_mountmode.Location" type="System.Drawing.Point, System.Drawing">
+    <value>86, 86</value>
+  </data>
+  <data name="BUT_mountmode.Size" type="System.Drawing.Size, System.Drawing">
+    <value>55, 21</value>
   </data>
   <data name="BUT_mountmode.Text" xml:space="preserve">
     <value>设置挂载</value>
@@ -253,11 +289,29 @@
   <data name="BUT_mountmode.ToolTip" xml:space="preserve">
     <value>改变为左侧的模式</value>
   </data>
+  <data name="modifyandSetSpeed.Location" type="System.Drawing.Point, System.Drawing">
+    <value>275, 6</value>
+  </data>
+  <data name="modifyandSetSpeed.Size" type="System.Drawing.Size, System.Drawing">
+    <value>114, 30</value>
+  </data>
   <data name="modifyandSetSpeed.ToolTip" xml:space="preserve">
     <value />
   </data>
+  <data name="modifyandSetAlt.Location" type="System.Drawing.Point, System.Drawing">
+    <value>275, 32</value>
+  </data>
+  <data name="modifyandSetAlt.Size" type="System.Drawing.Size, System.Drawing">
+    <value>130, 27</value>
+  </data>
   <data name="modifyandSetAlt.ToolTip" xml:space="preserve">
     <value />
+  </data>
+  <data name="BUT_ARM.Location" type="System.Drawing.Point, System.Drawing">
+    <value>200, 86</value>
+  </data>
+  <data name="BUT_ARM.Size" type="System.Drawing.Size, System.Drawing">
+    <value>69, 21</value>
   </data>
   <data name="BUT_ARM.Text" xml:space="preserve">
     <value>解锁/锁定</value>
@@ -265,11 +319,23 @@
   <data name="BUT_ARM.ToolTip" xml:space="preserve">
     <value>解锁Mav</value>
   </data>
+  <data name="BUT_joystick.Location" type="System.Drawing.Point, System.Drawing">
+    <value>147, 86</value>
+  </data>
+  <data name="BUT_joystick.Size" type="System.Drawing.Size, System.Drawing">
+    <value>49, 21</value>
+  </data>
   <data name="BUT_joystick.Text" xml:space="preserve">
     <value>游戏摇杆</value>
   </data>
   <data name="BUT_joystick.ToolTip" xml:space="preserve">
     <value>设置与启用你的游戏摇杆</value>
+  </data>
+  <data name="BUT_quickmanual.Location" type="System.Drawing.Point, System.Drawing">
+    <value>147, 32</value>
+  </data>
+  <data name="BUT_quickmanual.Size" type="System.Drawing.Size, System.Drawing">
+    <value>47, 21</value>
   </data>
   <data name="BUT_quickmanual.Text" xml:space="preserve">
     <value>手动</value>
@@ -277,11 +343,23 @@
   <data name="BUT_quickmanual.ToolTip" xml:space="preserve">
     <value>改变模式为手动/自稳</value>
   </data>
+  <data name="BUT_quickrtl.Location" type="System.Drawing.Point, System.Drawing">
+    <value>147, 59</value>
+  </data>
+  <data name="BUT_quickrtl.Size" type="System.Drawing.Size, System.Drawing">
+    <value>47, 21</value>
+  </data>
   <data name="BUT_quickrtl.Text" xml:space="preserve">
     <value>返航</value>
   </data>
   <data name="BUT_quickrtl.ToolTip" xml:space="preserve">
     <value>改变模式为返航</value>
+  </data>
+  <data name="BUT_quickauto.Location" type="System.Drawing.Point, System.Drawing">
+    <value>147, 6</value>
+  </data>
+  <data name="BUT_quickauto.Size" type="System.Drawing.Size, System.Drawing">
+    <value>47, 21</value>
   </data>
   <data name="BUT_quickauto.Text" xml:space="preserve">
     <value>自动</value>
@@ -289,8 +367,20 @@
   <data name="BUT_quickauto.ToolTip" xml:space="preserve">
     <value>更改为自动模式</value>
   </data>
+  <data name="CMB_setwp.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 32</value>
+  </data>
+  <data name="CMB_setwp.Size" type="System.Drawing.Size, System.Drawing">
+    <value>76, 20</value>
+  </data>
   <data name="CMB_setwp.ToolTip" xml:space="preserve">
     <value />
+  </data>
+  <data name="BUT_setwp.Location" type="System.Drawing.Point, System.Drawing">
+    <value>86, 32</value>
+  </data>
+  <data name="BUT_setwp.Size" type="System.Drawing.Size, System.Drawing">
+    <value>55, 21</value>
   </data>
   <data name="BUT_setwp.Text" xml:space="preserve">
     <value>设定航点</value>
@@ -298,8 +388,20 @@
   <data name="BUT_setwp.ToolTip" xml:space="preserve">
     <value>更改当前目标航点</value>
   </data>
+  <data name="CMB_modes.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 59</value>
+  </data>
+  <data name="CMB_modes.Size" type="System.Drawing.Size, System.Drawing">
+    <value>76, 20</value>
+  </data>
   <data name="CMB_modes.ToolTip" xml:space="preserve">
     <value />
+  </data>
+  <data name="BUT_setmode.Location" type="System.Drawing.Point, System.Drawing">
+    <value>86, 59</value>
+  </data>
+  <data name="BUT_setmode.Size" type="System.Drawing.Size, System.Drawing">
+    <value>55, 21</value>
   </data>
   <data name="BUT_setmode.Text" xml:space="preserve">
     <value>设置模式</value>
@@ -307,14 +409,32 @@
   <data name="BUT_setmode.ToolTip" xml:space="preserve">
     <value>更改为左侧的模式</value>
   </data>
+  <data name="BUT_clear_track.Location" type="System.Drawing.Point, System.Drawing">
+    <value>275, 86</value>
+  </data>
+  <data name="BUT_clear_track.Size" type="System.Drawing.Size, System.Drawing">
+    <value>72, 21</value>
+  </data>
   <data name="BUT_clear_track.Text" xml:space="preserve">
     <value>清除追踪</value>
   </data>
   <data name="BUT_clear_track.ToolTip" xml:space="preserve">
     <value>在地图上清除记录路径</value>
   </data>
+  <data name="CMB_action.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 6</value>
+  </data>
+  <data name="CMB_action.Size" type="System.Drawing.Size, System.Drawing">
+    <value>76, 20</value>
+  </data>
   <data name="CMB_action.ToolTip" xml:space="preserve">
     <value />
+  </data>
+  <data name="BUT_Homealt.Location" type="System.Drawing.Point, System.Drawing">
+    <value>200, 6</value>
+  </data>
+  <data name="BUT_Homealt.Size" type="System.Drawing.Size, System.Drawing">
+    <value>69, 21</value>
   </data>
   <data name="BUT_Homealt.Text" xml:space="preserve">
     <value>设置家的高度</value>
@@ -322,11 +442,23 @@
   <data name="BUT_Homealt.ToolTip" xml:space="preserve">
     <value>设置当前显示高度为0，或者家的高度显示为0</value>
   </data>
+  <data name="BUT_RAWSensor.Location" type="System.Drawing.Point, System.Drawing">
+    <value>200, 59</value>
+  </data>
+  <data name="BUT_RAWSensor.Size" type="System.Drawing.Size, System.Drawing">
+    <value>69, 21</value>
+  </data>
   <data name="BUT_RAWSensor.Text" xml:space="preserve">
     <value>原始传感器查看</value>
   </data>
   <data name="BUT_RAWSensor.ToolTip" xml:space="preserve">
     <value>查看陀螺仪和加速度计原始数据，及数传原始收发</value>
+  </data>
+  <data name="BUTrestartmission.Location" type="System.Drawing.Point, System.Drawing">
+    <value>200, 32</value>
+  </data>
+  <data name="BUTrestartmission.Size" type="System.Drawing.Size, System.Drawing">
+    <value>69, 21</value>
   </data>
   <data name="BUTrestartmission.Text" xml:space="preserve">
     <value>重新开始任务</value>
@@ -334,11 +466,20 @@
   <data name="BUTrestartmission.ToolTip" xml:space="preserve">
     <value>重新从头开始任务</value>
   </data>
+  <data name="BUTactiondo.Location" type="System.Drawing.Point, System.Drawing">
+    <value>86, 6</value>
+  </data>
+  <data name="BUTactiondo.Size" type="System.Drawing.Size, System.Drawing">
+    <value>55, 21</value>
+  </data>
   <data name="BUTactiondo.Text" xml:space="preserve">
     <value>执行动作</value>
   </data>
   <data name="BUTactiondo.ToolTip" xml:space="preserve">
     <value>预先在左侧形成动作</value>
+  </data>
+  <data name="tabActions.Size" type="System.Drawing.Size, System.Drawing">
+    <value>350, 147</value>
   </data>
   <data name="tabActions.Text" xml:space="preserve">
     <value>动作</value>
@@ -346,14 +487,35 @@
   <data name="tabActions.ToolTip" xml:space="preserve">
     <value />
   </data>
+  <data name="myButton1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>150, 45</value>
+  </data>
+  <data name="myButton1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>47, 21</value>
+  </data>
   <data name="myButton1.Text" xml:space="preserve">
     <value>留待</value>
+  </data>
+  <data name="myButton2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>150, 72</value>
+  </data>
+  <data name="myButton2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>47, 21</value>
   </data>
   <data name="myButton2.Text" xml:space="preserve">
     <value>返航</value>
   </data>
+  <data name="myButton3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>150, 18</value>
+  </data>
+  <data name="myButton3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>47, 21</value>
+  </data>
   <data name="myButton3.Text" xml:space="preserve">
     <value>自动</value>
+  </data>
+  <data name="tabActionsSimple.Size" type="System.Drawing.Size, System.Drawing">
+    <value>350, 147</value>
   </data>
   <data name="tabActionsSimple.Text" xml:space="preserve">
     <value>简单动作</value>
@@ -361,17 +523,44 @@
   <data name="tabActionsSimple.ToolTip" xml:space="preserve">
     <value />
   </data>
+  <data name="Gvspeed.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 6</value>
+  </data>
+  <data name="Gvspeed.Size" type="System.Drawing.Size, System.Drawing">
+    <value>92, 92</value>
+  </data>
   <data name="Gvspeed.ToolTip" xml:space="preserve">
     <value />
+  </data>
+  <data name="Gheading.Location" type="System.Drawing.Point, System.Drawing">
+    <value>303, 6</value>
+  </data>
+  <data name="Gheading.Size" type="System.Drawing.Size, System.Drawing">
+    <value>92, 92</value>
   </data>
   <data name="Gheading.ToolTip" xml:space="preserve">
     <value />
   </data>
+  <data name="Galt.Location" type="System.Drawing.Point, System.Drawing">
+    <value>203, 6</value>
+  </data>
+  <data name="Galt.Size" type="System.Drawing.Size, System.Drawing">
+    <value>92, 92</value>
+  </data>
   <data name="Galt.ToolTip" xml:space="preserve">
     <value />
   </data>
+  <data name="Gspeed.Location" type="System.Drawing.Point, System.Drawing">
+    <value>103, 6</value>
+  </data>
+  <data name="Gspeed.Size" type="System.Drawing.Size, System.Drawing">
+    <value>92, 92</value>
+  </data>
   <data name="Gspeed.ToolTip" xml:space="preserve">
     <value>双击我改变最大值</value>
+  </data>
+  <data name="tabGauges.Size" type="System.Drawing.Size, System.Drawing">
+    <value>350, 147</value>
   </data>
   <data name="tabGauges.Text" xml:space="preserve">
     <value>仪表</value>
@@ -379,35 +568,83 @@
   <data name="tabGauges.ToolTip" xml:space="preserve">
     <value />
   </data>
+  <data name="tabStatus.Size" type="System.Drawing.Size, System.Drawing">
+    <value>350, 147</value>
+  </data>
   <data name="tabStatus.Text" xml:space="preserve">
     <value>状态</value>
   </data>
   <data name="tabStatus.ToolTip" xml:space="preserve">
     <value />
   </data>
+  <data name="servoOptions1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>294, 25</value>
+  </data>
   <data name="servoOptions1.ToolTip" xml:space="preserve">
     <value />
+  </data>
+  <data name="servoOptions2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 34</value>
+  </data>
+  <data name="servoOptions2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>294, 25</value>
   </data>
   <data name="servoOptions2.ToolTip" xml:space="preserve">
     <value />
   </data>
+  <data name="servoOptions3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 65</value>
+  </data>
+  <data name="servoOptions3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>294, 25</value>
+  </data>
   <data name="servoOptions3.ToolTip" xml:space="preserve">
     <value />
+  </data>
+  <data name="servoOptions4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 96</value>
+  </data>
+  <data name="servoOptions4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>294, 25</value>
   </data>
   <data name="servoOptions4.ToolTip" xml:space="preserve">
     <value />
   </data>
+  <data name="servoOptions5.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 127</value>
+  </data>
+  <data name="servoOptions5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>294, 25</value>
+  </data>
   <data name="servoOptions5.ToolTip" xml:space="preserve">
     <value />
+  </data>
+  <data name="servoOptions6.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 158</value>
+  </data>
+  <data name="servoOptions6.Size" type="System.Drawing.Size, System.Drawing">
+    <value>294, 25</value>
   </data>
   <data name="servoOptions6.ToolTip" xml:space="preserve">
     <value />
   </data>
+  <data name="servoOptions7.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 189</value>
+  </data>
+  <data name="servoOptions7.Size" type="System.Drawing.Size, System.Drawing">
+    <value>294, 25</value>
+  </data>
   <data name="servoOptions7.ToolTip" xml:space="preserve">
     <value />
   </data>
+  <data name="flowLayoutPanelServos.Size" type="System.Drawing.Size, System.Drawing">
+    <value>344, 141</value>
+  </data>
   <data name="flowLayoutPanelServos.ToolTip" xml:space="preserve">
     <value />
+  </data>
+  <data name="tabServo.Size" type="System.Drawing.Size, System.Drawing">
+    <value>350, 147</value>
   </data>
   <data name="tabServo.Text" xml:space="preserve">
     <value>舵机</value>
@@ -415,29 +652,69 @@
   <data name="tabServo.ToolTip" xml:space="preserve">
     <value />
   </data>
+  <data name="BUT_loadtelem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 21</value>
+  </data>
   <data name="BUT_loadtelem.Text" xml:space="preserve">
     <value>加载日志</value>
   </data>
   <data name="BUT_loadtelem.ToolTip" xml:space="preserve">
     <value />
   </data>
+  <data name="lbl_playbackspeed.Location" type="System.Drawing.Point, System.Drawing">
+    <value>312, 59</value>
+  </data>
+  <data name="lbl_playbackspeed.Size" type="System.Drawing.Size, System.Drawing">
+    <value>35, 42</value>
+  </data>
   <data name="lbl_playbackspeed.ToolTip" xml:space="preserve">
     <value />
+  </data>
+  <data name="lbl_logpercent.Location" type="System.Drawing.Point, System.Drawing">
+    <value>312, 31</value>
+  </data>
+  <data name="lbl_logpercent.Size" type="System.Drawing.Size, System.Drawing">
+    <value>35, 18</value>
   </data>
   <data name="lbl_logpercent.ToolTip" xml:space="preserve">
     <value />
   </data>
+  <data name="tracklog.Location" type="System.Drawing.Point, System.Drawing">
+    <value>89, 31</value>
+  </data>
+  <data name="tracklog.Size" type="System.Drawing.Size, System.Drawing">
+    <value>217, 22</value>
+  </data>
   <data name="tracklog.ToolTip" xml:space="preserve">
     <value />
   </data>
+  <data name="LBL_logfn.Size" type="System.Drawing.Size, System.Drawing">
+    <value>258, 22</value>
+  </data>
   <data name="LBL_logfn.ToolTip" xml:space="preserve">
     <value />
+  </data>
+  <data name="BUT_log2kml.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 59</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="BUT_log2kml.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 0, 46</value>
+  </data>
+  <data name="BUT_log2kml.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 42</value>
   </data>
   <data name="BUT_log2kml.Text" xml:space="preserve">
     <value>Tlog &gt; Kml 或图像</value>
   </data>
   <data name="BUT_log2kml.ToolTip" xml:space="preserve">
     <value />
+  </data>
+  <data name="BUT_playlog.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 31</value>
+  </data>
+  <data name="BUT_playlog.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 21</value>
   </data>
   <data name="BUT_playlog.Text" xml:space="preserve">
     <value>播放/暂停</value>
@@ -454,32 +731,86 @@
   <data name="label2.ToolTip" xml:space="preserve">
     <value />
   </data>
+  <data name="BUT_speed10.Location" type="System.Drawing.Point, System.Drawing">
+    <value>184, 21</value>
+  </data>
+  <data name="BUT_speed10.Size" type="System.Drawing.Size, System.Drawing">
+    <value>23, 18</value>
+  </data>
   <data name="BUT_speed10.ToolTip" xml:space="preserve">
     <value />
+  </data>
+  <data name="BUT_speed5.Location" type="System.Drawing.Point, System.Drawing">
+    <value>155, 21</value>
+  </data>
+  <data name="BUT_speed5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>23, 18</value>
   </data>
   <data name="BUT_speed5.ToolTip" xml:space="preserve">
     <value />
   </data>
+  <data name="BUT_speed2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>126, 21</value>
+  </data>
+  <data name="BUT_speed2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>23, 18</value>
+  </data>
   <data name="BUT_speed2.ToolTip" xml:space="preserve">
     <value />
+  </data>
+  <data name="BUT_speed1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>97, 21</value>
+  </data>
+  <data name="BUT_speed1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>23, 18</value>
   </data>
   <data name="BUT_speed1.ToolTip" xml:space="preserve">
     <value />
   </data>
+  <data name="BUT_speed1_2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>68, 21</value>
+  </data>
+  <data name="BUT_speed1_2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>23, 18</value>
+  </data>
   <data name="BUT_speed1_2.ToolTip" xml:space="preserve">
     <value />
+  </data>
+  <data name="BUT_speed1_4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>39, 21</value>
+  </data>
+  <data name="BUT_speed1_4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>23, 18</value>
   </data>
   <data name="BUT_speed1_4.ToolTip" xml:space="preserve">
     <value />
   </data>
+  <data name="BUT_speed1_10.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 21</value>
+  </data>
+  <data name="BUT_speed1_10.Size" type="System.Drawing.Size, System.Drawing">
+    <value>23, 18</value>
+  </data>
   <data name="BUT_speed1_10.ToolTip" xml:space="preserve">
     <value />
+  </data>
+  <data name="panel2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>89, 59</value>
+  </data>
+  <data name="panel2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>217, 85</value>
   </data>
   <data name="panel2.ToolTip" xml:space="preserve">
     <value />
   </data>
+  <data name="tableLayoutPaneltlogs.Size" type="System.Drawing.Size, System.Drawing">
+    <value>350, 147</value>
+  </data>
   <data name="tableLayoutPaneltlogs.ToolTip" xml:space="preserve">
     <value />
+  </data>
+  <data name="tabTLogs.Size" type="System.Drawing.Size, System.Drawing">
+    <value>350, 147</value>
   </data>
   <data name="tabTLogs.Text" xml:space="preserve">
     <value>遥测日志</value>
@@ -487,11 +818,23 @@
   <data name="tabTLogs.ToolTip" xml:space="preserve">
     <value />
   </data>
+  <data name="BUT_loganalysis.Location" type="System.Drawing.Point, System.Drawing">
+    <value>229, 6</value>
+  </data>
+  <data name="BUT_loganalysis.Size" type="System.Drawing.Size, System.Drawing">
+    <value>87, 32</value>
+  </data>
   <data name="BUT_loganalysis.Text" xml:space="preserve">
     <value>自动分析</value>
   </data>
   <data name="BUT_loganalysis.ToolTip" xml:space="preserve">
     <value />
+  </data>
+  <data name="BUT_DFMavlink.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 6</value>
+  </data>
+  <data name="BUT_DFMavlink.Size" type="System.Drawing.Size, System.Drawing">
+    <value>124, 32</value>
   </data>
   <data name="BUT_DFMavlink.Text" xml:space="preserve">
     <value>通过Mavlink
@@ -500,11 +843,23 @@
   <data name="BUT_DFMavlink.ToolTip" xml:space="preserve">
     <value />
   </data>
+  <data name="but_dflogtokml.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 43</value>
+  </data>
+  <data name="but_dflogtokml.Size" type="System.Drawing.Size, System.Drawing">
+    <value>124, 32</value>
+  </data>
   <data name="but_dflogtokml.Text" xml:space="preserve">
     <value>创建KML + gpx</value>
   </data>
   <data name="but_dflogtokml.ToolTip" xml:space="preserve">
     <value />
+  </data>
+  <data name="but_bintolog.Location" type="System.Drawing.Point, System.Drawing">
+    <value>136, 43</value>
+  </data>
+  <data name="but_bintolog.Size" type="System.Drawing.Size, System.Drawing">
+    <value>87, 32</value>
   </data>
   <data name="but_bintolog.Text" xml:space="preserve">
     <value>PX4 .Bin 转 .Log</value>
@@ -512,11 +867,23 @@
   <data name="but_bintolog.ToolTip" xml:space="preserve">
     <value />
   </data>
+  <data name="BUT_matlab.Location" type="System.Drawing.Point, System.Drawing">
+    <value>228, 43</value>
+  </data>
+  <data name="BUT_matlab.Size" type="System.Drawing.Size, System.Drawing">
+    <value>88, 32</value>
+  </data>
   <data name="BUT_matlab.Text" xml:space="preserve">
     <value>创建Matlab文件</value>
   </data>
   <data name="BUT_matlab.ToolTip" xml:space="preserve">
     <value />
+  </data>
+  <data name="BUT_logbrowse.Location" type="System.Drawing.Point, System.Drawing">
+    <value>136, 6</value>
+  </data>
+  <data name="BUT_logbrowse.Size" type="System.Drawing.Size, System.Drawing">
+    <value>87, 32</value>
   </data>
   <data name="BUT_logbrowse.Text" xml:space="preserve">
     <value>回顾日志</value>
@@ -524,11 +891,17 @@
   <data name="BUT_logbrowse.ToolTip" xml:space="preserve">
     <value />
   </data>
+  <data name="tablogbrowse.Size" type="System.Drawing.Size, System.Drawing">
+    <value>350, 147</value>
+  </data>
   <data name="tablogbrowse.Text" xml:space="preserve">
     <value>数据闪存日志</value>
   </data>
   <data name="tablogbrowse.ToolTip" xml:space="preserve">
     <value />
+  </data>
+  <data name="checkBoxRedirectOutput.Location" type="System.Drawing.Point, System.Drawing">
+    <value>19, 44</value>
   </data>
   <data name="checkBoxRedirectOutput.Size" type="System.Drawing.Size, System.Drawing">
     <value>126, 16</value>
@@ -539,11 +912,20 @@
   <data name="checkBoxRedirectOutput.ToolTip" xml:space="preserve">
     <value />
   </data>
+  <data name="BUT_edit_selected.Location" type="System.Drawing.Point, System.Drawing">
+    <value>255, 73</value>
+  </data>
+  <data name="BUT_edit_selected.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 21</value>
+  </data>
   <data name="BUT_edit_selected.Text" xml:space="preserve">
     <value>编辑所选脚本</value>
   </data>
   <data name="BUT_edit_selected.ToolTip" xml:space="preserve">
     <value />
+  </data>
+  <data name="labelSelectedScript.Location" type="System.Drawing.Point, System.Drawing">
+    <value>19, 27</value>
   </data>
   <data name="labelSelectedScript.Size" type="System.Drawing.Size, System.Drawing">
     <value>77, 12</value>
@@ -554,17 +936,32 @@
   <data name="labelSelectedScript.ToolTip" xml:space="preserve">
     <value />
   </data>
+  <data name="BUT_run_script.Location" type="System.Drawing.Point, System.Drawing">
+    <value>92, 74</value>
+  </data>
+  <data name="BUT_run_script.Size" type="System.Drawing.Size, System.Drawing">
+    <value>71, 21</value>
+  </data>
   <data name="BUT_run_script.Text" xml:space="preserve">
     <value>运行脚本</value>
   </data>
   <data name="BUT_run_script.ToolTip" xml:space="preserve">
     <value />
   </data>
+  <data name="BUT_abort_script.Location" type="System.Drawing.Point, System.Drawing">
+    <value>169, 74</value>
+  </data>
+  <data name="BUT_abort_script.Size" type="System.Drawing.Size, System.Drawing">
+    <value>80, 21</value>
+  </data>
   <data name="BUT_abort_script.Text" xml:space="preserve">
     <value>忽略运行中的脚本</value>
   </data>
   <data name="BUT_abort_script.ToolTip" xml:space="preserve">
     <value />
+  </data>
+  <data name="labelScriptStatus.Location" type="System.Drawing.Point, System.Drawing">
+    <value>19, 9</value>
   </data>
   <data name="labelScriptStatus.Size" type="System.Drawing.Size, System.Drawing">
     <value>161, 12</value>
@@ -575,11 +972,20 @@
   <data name="labelScriptStatus.ToolTip" xml:space="preserve">
     <value />
   </data>
+  <data name="BUT_select_script.Location" type="System.Drawing.Point, System.Drawing">
+    <value>16, 74</value>
+  </data>
+  <data name="BUT_select_script.Size" type="System.Drawing.Size, System.Drawing">
+    <value>71, 21</value>
+  </data>
   <data name="BUT_select_script.Text" xml:space="preserve">
     <value>选择脚本</value>
   </data>
   <data name="BUT_select_script.ToolTip" xml:space="preserve">
     <value />
+  </data>
+  <data name="tabScripts.Size" type="System.Drawing.Size, System.Drawing">
+    <value>350, 147</value>
   </data>
   <data name="tabScripts.Text" xml:space="preserve">
     <value>脚本</value>
@@ -587,8 +993,14 @@
   <data name="tabScripts.ToolTip" xml:space="preserve">
     <value />
   </data>
+  <data name="txt_messagebox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>344, 141</value>
+  </data>
   <data name="txt_messagebox.ToolTip" xml:space="preserve">
     <value />
+  </data>
+  <data name="tabPagemessages.Size" type="System.Drawing.Size, System.Drawing">
+    <value>350, 147</value>
   </data>
   <data name="tabPagemessages.Text" xml:space="preserve">
     <value>消息</value>
@@ -596,11 +1008,21 @@
   <data name="tabPagemessages.ToolTip" xml:space="preserve">
     <value />
   </data>
+  <data name="tabControlactions.Size" type="System.Drawing.Size, System.Drawing">
+    <value>358, 173</value>
+  </data>
   <data name="tabControlactions.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="SubMainLeft.Panel2.ToolTip" xml:space="preserve">
     <value />
+  </data>
+  <data name="SubMainLeft.Size" type="System.Drawing.Size, System.Drawing">
+    <value>360, 426</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="SubMainLeft.SplitterDistance" type="System.Int32, mscorlib">
+    <value>247</value>
   </data>
   <data name="SubMainLeft.ToolTip" xml:space="preserve">
     <value />
@@ -608,17 +1030,74 @@
   <data name="MainH.Panel1.ToolTip" xml:space="preserve">
     <value />
   </data>
-  <data name="zg1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>634, 210</value>
-  </data>
   <data name="zg1.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="splitContainer1.Panel1.ToolTip" xml:space="preserve">
     <value />
   </data>
+  <data name="goHereToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>172, 22</value>
+  </data>
+  <data name="goHereToolStripMenuItem.Text" xml:space="preserve">
+    <value>飞行至此</value>
+  </data>
+  <data name="flyToHereAltToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>172, 22</value>
+  </data>
+  <data name="flyToHereAltToolStripMenuItem.Text" xml:space="preserve">
+    <value>飞行至此高度</value>
+  </data>
+  <data name="deleteToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>126, 22</value>
+  </data>
+  <data name="saveFileToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>126, 22</value>
+  </data>
+  <data name="addPoiToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>172, 22</value>
+  </data>
+  <data name="pointCameraHereToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>172, 22</value>
+  </data>
+  <data name="pointCameraHereToolStripMenuItem.Text" xml:space="preserve">
+    <value>在此放置相机</value>
+  </data>
+  <data name="triggerCameraToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>172, 22</value>
+  </data>
+  <data name="triggerCameraToolStripMenuItem.Text" xml:space="preserve">
+    <value>现在按下相机快门</value>
+  </data>
+  <data name="flightPlannerToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>172, 22</value>
+  </data>
+  <data name="flightPlannerToolStripMenuItem.Text" xml:space="preserve">
+    <value>飞行规划器</value>
+  </data>
+  <data name="setHomeHereToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>172, 22</value>
+  </data>
+  <data name="setHomeHereToolStripMenuItem.Text" xml:space="preserve">
+    <value>设置家在此</value>
+  </data>
+  <data name="takeOffToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>172, 22</value>
+  </data>
+  <data name="contextMenuStripMap.Size" type="System.Drawing.Size, System.Drawing">
+    <value>173, 180</value>
+  </data>
+  <data name="contextMenuStripMap.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="distanceBar1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>517, 20</value>
+  </data>
   <data name="distanceBar1.ToolTip" xml:space="preserve">
     <value />
+  </data>
+  <data name="windDir1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>60, 55</value>
   </data>
   <data name="windDir1.ToolTip" xml:space="preserve">
     <value />
@@ -636,7 +1115,7 @@
     <value />
   </data>
   <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>224, 359</value>
+    <value>225, 359</value>
   </data>
   <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
     <value>53, 12</value>
@@ -648,7 +1127,7 @@
     <value />
   </data>
   <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>141, 359</value>
+    <value>142, 359</value>
   </data>
   <data name="label3.Size" type="System.Drawing.Size, System.Drawing">
     <value>77, 12</value>
@@ -660,7 +1139,7 @@
     <value />
   </data>
   <data name="label4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>82, 359</value>
+    <value>83, 359</value>
   </data>
   <data name="label4.Size" type="System.Drawing.Size, System.Drawing">
     <value>53, 12</value>
@@ -671,8 +1150,17 @@
   <data name="label4.ToolTip" xml:space="preserve">
     <value />
   </data>
+  <data name="lbl_hdop.Location" type="System.Drawing.Point, System.Drawing">
+    <value>-1, 343</value>
+  </data>
+  <data name="lbl_hdop.Size" type="System.Drawing.Size, System.Drawing">
+    <value>43, 11</value>
+  </data>
   <data name="lbl_hdop.ToolTip" xml:space="preserve">
     <value>GPS 水平误差</value>
+  </data>
+  <data name="lbl_sats.Location" type="System.Drawing.Point, System.Drawing">
+    <value>-1, 360</value>
   </data>
   <data name="lbl_sats.Size" type="System.Drawing.Size, System.Drawing">
     <value>77, 11</value>
@@ -680,8 +1168,14 @@
   <data name="lbl_sats.ToolTip" xml:space="preserve">
     <value>卫星数量</value>
   </data>
+  <data name="gMapControl1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>589, 387</value>
+  </data>
   <data name="gMapControl1.ToolTip" xml:space="preserve">
     <value />
+  </data>
+  <data name="TRK_zoom.Size" type="System.Drawing.Size, System.Drawing">
+    <value>45, 387</value>
   </data>
   <data name="TRK_zoom.ToolTip" xml:space="preserve">
     <value />
@@ -689,14 +1183,32 @@
   <data name="splitContainer1.Panel2.ToolTip" xml:space="preserve">
     <value />
   </data>
+  <data name="splitContainer1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>634, 387</value>
+  </data>
   <data name="splitContainer1.ToolTip" xml:space="preserve">
     <value />
+  </data>
+  <data name="coords1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>247, 19</value>
   </data>
   <data name="coords1.ToolTip" xml:space="preserve">
     <value />
   </data>
+  <data name="Zoomlevel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>438, 7</value>
+  </data>
+  <data name="Zoomlevel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>76, 21</value>
+  </data>
   <data name="Zoomlevel.ToolTip" xml:space="preserve">
     <value>改变放大级别</value>
+  </data>
+  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>401, 10</value>
+  </data>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>34, 12</value>
   </data>
   <data name="label1.Text" xml:space="preserve">
     <value>缩放</value>
@@ -704,11 +1216,20 @@
   <data name="label1.ToolTip" xml:space="preserve">
     <value />
   </data>
+  <data name="CHK_autopan.Location" type="System.Drawing.Point, System.Drawing">
+    <value>325, 10</value>
+  </data>
+  <data name="CHK_autopan.Size" type="System.Drawing.Size, System.Drawing">
+    <value>72, 16</value>
+  </data>
   <data name="CHK_autopan.Text" xml:space="preserve">
     <value>自动平移</value>
   </data>
   <data name="CHK_autopan.ToolTip" xml:space="preserve">
     <value>根据当前位置自动平移地图</value>
+  </data>
+  <data name="CB_tuning.Location" type="System.Drawing.Point, System.Drawing">
+    <value>260, 9</value>
   </data>
   <data name="CB_tuning.Size" type="System.Drawing.Size, System.Drawing">
     <value>48, 16</value>
@@ -719,14 +1240,26 @@
   <data name="CB_tuning.ToolTip" xml:space="preserve">
     <value>显示调试图表，咬合目标高度和实际高度</value>
   </data>
+  <data name="panel1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>1, 395</value>
+  </data>
+  <data name="panel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>640, 28</value>
+  </data>
   <data name="panel1.ToolTip" xml:space="preserve">
     <value />
+  </data>
+  <data name="tableMap.Size" type="System.Drawing.Size, System.Drawing">
+    <value>642, 424</value>
   </data>
   <data name="tableMap.ToolTip" xml:space="preserve">
     <value />
   </data>
   <data name="MainH.Panel2.ToolTip" xml:space="preserve">
     <value />
+  </data>
+  <data name="MainH.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1008, 426</value>
   </data>
   <data name="MainH.ToolTip" xml:space="preserve">
     <value />
@@ -736,6 +1269,12 @@
   </data>
   <data name="dataGridViewImageColumn2.HeaderText" xml:space="preserve">
     <value>下</value>
+  </data>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>6, 12</value>
+  </data>
+  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1008, 426</value>
   </data>
   <data name="$this.ToolTip" xml:space="preserve">
     <value />

@@ -141,7 +141,7 @@
 </value>
   </data>
   <data name="ErrorFeatureNotEnabled" xml:space="preserve">
-    <value>这个功能在你的固件没有启用</value>
+    <value>这个功能在您的固件没有启用</value>
   </data>
   <data name="ErrorFirmwareFile" xml:space="preserve">
     <value>加载固件时错误</value>
@@ -153,7 +153,7 @@
     <value>错误: 没有来自飞行器的响应</value>
   </data>
   <data name="ErrorNotConnected" xml:space="preserve">
-    <value>你还没有连接。</value>
+    <value>您还没有连接。</value>
   </data>
   <data name="ErrorReceivingParams" xml:space="preserve">
     <value>接收列表时错误
@@ -215,12 +215,12 @@
     <value>请先选择一个串口</value>
   </data>
   <data name="WarningLogBrowseFMTMissing" xml:space="preserve">
-    <value>日志浏览因你的日志中没有格式(FMT)信息而不能正确工作。
-这些似乎是从你的日志里丢失的。</value>
+    <value>日志浏览因您的日志中没有格式(FMT)信息而不能正确工作。
+这些似乎是从您的日志里丢失的。</value>
   </data>
   <data name="WarningUpdateParamList" xml:space="preserve">
     <value>更新参数
-如果你在空中，请不要这么做！
+如果您的载具在空中，请不要这么做！
 </value>
   </data>
   <data name="AdvancedParams" xml:space="preserve">
@@ -277,7 +277,7 @@
 请升级</value>
   </data>
   <data name="Stillmoving" xml:space="preserve">
-    <value>你的模型仍然在移动，确认断开连接？</value>
+    <value>您的模型仍然在移动，确认断开连接？</value>
   </data>
   <data name="Timeout" xml:space="preserve">
     <value>自动扫描超时或者没有mavlink设备</value>
@@ -327,7 +327,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting</value>
     <value>正在获取更新的参数列表</value>
   </data>
   <data name="CantDetectBoardVersion" xml:space="preserve">
-    <value>不能检测到你控制板的版本。 请检查连接</value>
+    <value>不能检测到您控制板的版本。 请检查连接</value>
   </data>
   <data name="CheckPortSettingsOr" xml:space="preserve">
     <value>检查端口设置或者正在使用端口？</value>
@@ -345,8 +345,8 @@ Mission Planner waits for 2 valid heartbeat packets before connecting</value>
     <value>正在从奠基网镜像下载</value>
   </data>
   <data name="EppromChanged" xml:space="preserve">
-    <value>Epprom更改了, 你所有的设置将在更新中丢失,
-你希望继续吗？</value>
+    <value>Epprom更改了, 您所有的设置将在更新中丢失,
+您希望继续吗？</value>
   </data>
   <data name="EppromFormatChanged" xml:space="preserve">
     <value>Epprom格式已更改 ({0) vs {1})</value>
@@ -385,7 +385,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting</value>
     <value>上传完成</value>
   </data>
   <data name="UploadingBytesToBoard" xml:space="preserve">
-    <value>正在上传 {0}字节 到你的控制板</value>
+    <value>正在上传 {0}字节 到您的控制板</value>
   </data>
   <data name="VerifyComplete" xml:space="preserve">
     <value>校验完成</value>
@@ -403,7 +403,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting</value>
     <value>警告</value>
   </data>
   <data name="WarningAC32" xml:space="preserve">
-    <value>警告，如果你是第一次安装AC 3.2，你*必须*重做一次罗盘校准。</value>
+    <value>警告，如果您是第一次安装AC 3.2，您“必须”重做一次罗盘校准。</value>
   </data>
   <data name="WarningAC31" xml:space="preserve">
     <value>警告，从AC 3.1起，电机将在解锁后转动，这可以通过MOT_SPIN_ARMED参数配置</value>
@@ -415,7 +415,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting</value>
     <value>请单击确认并且将自动驾驶仪绕所有轴做圆周运动</value>
   </data>
   <data name="MissingDataPoints" xml:space="preserve">
-    <value>你缺少数据点。你想无论如何也运行校准吗？</value>
+    <value>还缺少数据点。您无论如何也想结束校准吗？</value>
   </data>
   <data name="RunAnyway" xml:space="preserve">
     <value>非要运行</value>
@@ -423,7 +423,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting</value>
   <data name="UpdateFound" xml:space="preserve">
     <value>发现更新
 
-你希望现在更新吗？ [link;</value>
+您希望现在更新吗？ [link;</value>
   </data>
   <data name="UpdateNow" xml:space="preserve">
     <value>现在更新</value>
@@ -432,7 +432,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting</value>
     <value>原始参数警告</value>
   </data>
   <data name="RawParamWarningi" xml:space="preserve">
-    <value>本页面所有的值都不会进行大小检查。请再三检查你输入的值。
+    <value>本页面所有的值都不会进行大小检查。请再三检查您输入的值。
 如想安全地设置，请使用标准/高级参数</value>
   </data>
   <data name="ShowMeAgain" xml:space="preserve">
@@ -443,5 +443,41 @@ Mission Planner waits for 2 valid heartbeat packets before connecting</value>
   </data>
   <data name="LinkStats" xml:space="preserve">
     <value>链接统计</value>
+  </data>
+  <data name="Stop" xml:space="preserve">
+    <value>停止</value>
+  </data>
+  <data name="Connect" xml:space="preserve">
+    <value>连接</value>
+  </data>
+  <data name="Start" xml:space="preserve">
+    <value>开始</value>
+   </data>
+  <data name="Beta" xml:space="preserve">
+    <value>测试版</value>
+  </data>
+  <data name="BetaWarning" xml:space="preserve">
+    <value>这些是测试版固件，请您自担风险！！！</value>
+  </data>
+  <data name="Trunk" xml:space="preserve">
+    <value>主干分支</value>
+  </data>
+  <data name="TrunkWarning" xml:space="preserve">
+    <value>这些是最新的主干分支（开发版）固件，请您自担风险！！！</value>
+  </data>
+  <data name="AreYouSureYouWantToUpload" xml:space="preserve">
+    <value>您确认要升级到</value>
+  </data>
+  <data name="CanNotConnectToComPortAnd" xml:space="preserve">
+    <value>不能连接COM口检测控制板类型</value>
+  </data>
+  <data name="Continue" xml:space="preserve">
+    <value>继续</value>
+  </data>
+  <data name="ErrorUploadingFirmware" xml:space="preserve">
+    <value>上载固件错误</value>
+  </data>
+  <data name="QuestionMark" xml:space="preserve">
+    <value>吗？</value>
   </data>
 </root>

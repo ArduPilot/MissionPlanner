@@ -456,6 +456,36 @@ Please use Standard/Advanced Params for the safe settings</value>
   <data name="Start" xml:space="preserve">
     <value>Start</value>
   </data>
+
+
+  <data name="AreYouSureYouWantToUpload" xml:space="preserve">
+    <value>Are you sure you want to upload </value>
+  </data>
+  <data name="Beta" xml:space="preserve">
+    <value>Beta</value>
+  </data>
+  <data name="BetaWarning" xml:space="preserve">
+    <value>These are beta firmware, use at your own risk!!!</value>
+  </data>
+  <data name="CanNotConnectToComPortAnd" xml:space="preserve">
+    <value>Can not connect to com port and detect board type</value>
+  </data>
+  <data name="Continue" xml:space="preserve">
+    <value>Continue</value>
+  </data>
+  <data name="ErrorUploadingFirmware" xml:space="preserve">
+    <value>Error uploading firmware</value>
+  </data>
+  <data name="QuestionMark" xml:space="preserve">
+    <value>?</value>
+  </data>
+  <data name="Trunk" xml:space="preserve">
+    <value>trunk</value>
+  </data>
+  <data name="TrunkWarning" xml:space="preserve">
+    <value>These are the latest trunk firmware, use at your own risk!!!</value>
+  </data>
+
   <data name="BadGPSHealth" xml:space="preserve">
     <value>Bad GPS Health</value>
   </data>
@@ -488,5 +518,4 @@ Please use Standard/Advanced Params for the safe settings</value>
   </data>
   <data name="NORCReceiver" xml:space="preserve">
     <value>NO RC Receiver</value>
-  </data>
-</root>
+  </data></root>

@@ -1492,6 +1492,8 @@
             // 
             resources.ApplyResources(this.txt_messagebox, "txt_messagebox");
             this.txt_messagebox.Name = "txt_messagebox";
+            this.txt_messagebox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txt_messagebox.TextChanged += txt_messagebox_TextChanged;
             // 
             // tableMap
             // 

@@ -40,7 +40,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             if (keyData == (Keys.Control | Keys.Q))
             {
-                CustomMessageBox.Show("These are the latest trunk firmware, use at your own risk!!!", "trunk");
+                CustomMessageBox.Show(Strings.TrunkWarning, Strings.Trunk);
                 firmwareurl = "https://raw.github.com/diydrones/binary/master/dev/firmwarelatest.xml";
                 softwares.Clear();
                 UpdateFWList();
@@ -229,7 +229,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         void findfirmware(Utilities.Firmware.software fwtoupload)
         {
-            DialogResult dr = CustomMessageBox.Show("Are you sure you want to upload " + fwtoupload.name + "?", "Continue", MessageBoxButtons.YesNo);
+            DialogResult dr = CustomMessageBox.Show(Strings.AreYouSureYouWantToUpload + fwtoupload.name + Strings.QuestionMark, Strings.Continue, MessageBoxButtons.YesNo);
             if (dr == System.Windows.Forms.DialogResult.Yes)
             {
                 try
@@ -255,7 +255,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
                 else
                 {
-                    CustomMessageBox.Show("Error uploading firmware",Strings.ERROR);
+                    CustomMessageBox.Show(Strings.ErrorUploadingFirmware, Strings.ERROR);
                 }
             }
 
@@ -337,7 +337,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 }
                 catch
                 {
-                    CustomMessageBox.Show("Can not connect to com port and detect board type", Strings.ERROR);
+                    CustomMessageBox.Show(Strings.CanNotConnectToComPortAnd, Strings.ERROR);
                     return;
                 }
 
@@ -347,7 +347,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void lbl_devfw_Click(object sender, EventArgs e)
         {
-            CustomMessageBox.Show("These are beta firmware, use at your own risk!!!", "Beta");
+            CustomMessageBox.Show(Strings.BetaWarning, Strings.Beta);
             firmwareurl = "https://raw.github.com/diydrones/binary/master/dev/firmware2.xml";
             softwares.Clear();
             UpdateFWList();
@@ -383,7 +383,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                 FileStream fs = new FileStream(Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + @"px4io.bin", FileMode.Create);
 
-                lbl_status.Text = "Downloading from Internet";
+                lbl_status.Text = Strings.DownloadingFromInternet;
 
                 this.Refresh();
                 Application.DoEvents();

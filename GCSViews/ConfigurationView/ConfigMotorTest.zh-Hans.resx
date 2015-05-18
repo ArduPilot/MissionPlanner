@@ -117,82 +117,39 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="backstageViewPage3drradio.Text" xml:space="preserve">
-    <value>3DR电台(数传)</value>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="label1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>64, 5</value>
   </data>
-  <data name="backstageViewPageaccelplane.Text" xml:space="preserve">
-    <value>加速度计校准</value>
+  <data name="label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>41, 12</value>
   </data>
-  <data name="backstageViewPageaccelquad.Text" xml:space="preserve">
-    <value>加速度计校准</value>
+  <data name="label1.Text" xml:space="preserve">
+    <value>油门 %</value>
   </data>
-  <data name="backstageViewPageacceltracker.Text" xml:space="preserve">
-    <value>加速度计校准</value>
+  <data name="label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>161, 48</value>
   </data>
-  <data name="backstageViewPageairspeed.Text" xml:space="preserve">
-    <value>空速</value>
+  <data name="label2.Text" xml:space="preserve">
+    <value>注意：请压住您的无人机
+这将测试电机是否工作。
+测试将于右前方的电机开始，
+按顺时针方向旋转。</value>
   </data>
-  <data name="backstageViewPageAntTrack.Text" xml:space="preserve">
-    <value>天线追踪器</value>
+  <data name="linkLabel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>173, 24</value>
   </data>
-  <data name="backstageViewPagebatmon.Text" xml:space="preserve">
-    <value>电池监测器</value>
+  <data name="linkLabel1.Text" xml:space="preserve">
+    <value>请点击此处查看您的电机序号，
+滚动到页面底部</value>
   </data>
-  <data name="backstageViewPagecompass.Text" xml:space="preserve">
-    <value>罗盘</value>
+  <data name="NUM_duration.Location" type="System.Drawing.Point, System.Drawing">
+    <value>254, 3</value>
   </data>
-  <data name="backstageViewPagecompassmot.Text" xml:space="preserve">
-    <value>罗盘/电机 校准</value>
+  <data name="label3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>171, 5</value>
   </data>
-  <data name="backstageViewPageflmode.Text" xml:space="preserve">
-    <value>飞行模式</value>
-  </data>
-  <data name="backstageViewPageframetype.Text" xml:space="preserve">
-    <value>机架类型</value>
-  </data>
-  <data name="backstageViewPagefs.Text" xml:space="preserve">
-    <value>故障保护</value>
-  </data>
-  <data name="backstageViewPagefw.Text" xml:space="preserve">
-    <value>安装固件</value>
-  </data>
-  <data name="backstageViewPagefwdisabled.Text" xml:space="preserve">
-    <value>安装固件</value>
-  </data>
-  <data name="backstageViewPagegimbal.Text" xml:space="preserve">
-    <value>相机云台</value>
-  </data>
-  <data name="backstageViewPageinstfw.Text1" xml:space="preserve">
-    <value>安装固件</value>
-  </data>
-  <data name="backstageViewPagemand.Text" xml:space="preserve">
-    <value>必要硬件</value>
-  </data>
-  <data name="backstageViewPageMotorTest.Text" xml:space="preserve">
-    <value>电机测试</value>
-  </data>
-  <data name="backstageViewPageopt.Text" xml:space="preserve">
-    <value>可选硬件</value>
-  </data>
-  <data name="backstageViewPageoptflow.Text" xml:space="preserve">
-    <value>光流</value>
-  </data>
-  <data name="backstageViewPageosd.Text" xml:space="preserve">
-    <value>OSD</value>
-  </data>
-  <data name="backstageViewPageradio.Text" xml:space="preserve">
-    <value>遥控器校准</value>
-  </data>
-  <data name="backstageViewPagesonar.Text" xml:space="preserve">
-    <value>声呐</value>
-  </data>
-  <data name="backstageViewPagetradheli.Text" xml:space="preserve">
-    <value>直升机安装</value>
-  </data>
-  <data name="backstageViewPagewizard.Text" xml:space="preserve">
-    <value>向导</value>
-  </data>
-  <data name="backstageViewPagehwbt.Text" xml:space="preserve">
-    <value>蓝牙设置</value>
+  <data name="label3.Text" xml:space="preserve">
+    <value>持续时间 (s)</value>
   </data>
 </root>
