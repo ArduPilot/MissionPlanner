@@ -483,6 +483,7 @@ namespace MissionPlanner.Log
         0.0000        0.0000        0.0000                  APPROX POSITION XYZ 
         0.0000        0.0000        0.0000                  ANTENNA: DELTA H/E/N
 G    4 C1C L1C D1C S1C                                      SYS / # / OBS TYPES 
+S    4 C1C L1C D1C S1C                                      SYS / # / OBS TYPES 
 G                                                           SYS / PHASE SHIFT   
                                                             END OF HEADER       ";
 
