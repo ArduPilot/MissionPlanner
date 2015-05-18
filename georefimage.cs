@@ -761,7 +761,7 @@ namespace MissionPlanner
                 swloctel.WriteLine("#longitude and latitude - in degrees");
                 swloctel.WriteLine("#name	utc	longitude	latitude	height");
 
-                swloctxt.WriteLine("#name longitude/X latitude/Y height/Z yaw pitch roll");
+                swloctxt.WriteLine("#name latitude/Y longitude/X height/Z yaw pitch roll");
 
                 TXT_outputlog.AppendText("Start Processing\n");
 
