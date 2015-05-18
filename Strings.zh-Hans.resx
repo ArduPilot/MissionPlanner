@@ -452,7 +452,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting</value>
   </data>
   <data name="Start" xml:space="preserve">
     <value>开始</value>
-   </data>
+  </data>
   <data name="Beta" xml:space="preserve">
     <value>测试版</value>
   </data>
