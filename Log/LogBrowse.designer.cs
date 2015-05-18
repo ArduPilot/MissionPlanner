@@ -43,6 +43,7 @@
             this.BUT_removeitem = new MissionPlanner.Controls.MyButton();
             this.CHK_map = new System.Windows.Forms.CheckBox();
             this.BUT_Graphit_R = new MissionPlanner.Controls.MyButton();
+            this.chk_time = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -64,8 +65,8 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            this.dataGridView1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellDoubleClick);
             this.dataGridView1.CellValueNeeded += new System.Windows.Forms.DataGridViewCellValueEventHandler(this.dataGridView1_CellValueNeeded);
-			this.dataGridView1.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellDoubleClick);
             this.dataGridView1.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView1_ColumnHeaderMouseClick);
             this.dataGridView1.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_RowEnter);
             this.dataGridView1.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.dataGridView1_RowPostPaint);
@@ -102,6 +103,7 @@
             // 
             // splitContainer1.Panel2
             // 
+            this.splitContainer1.Panel2.Controls.Add(this.chk_time);
             this.splitContainer1.Panel2.Controls.Add(this.treeView1);
             this.splitContainer1.Panel2.Controls.Add(this.CMB_preselect);
             this.splitContainer1.Panel2.Controls.Add(this.BUT_removeitem);
@@ -162,7 +164,7 @@
             this.myGMAP1.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
             this.myGMAP1.ShowTileGridLines = false;
             this.myGMAP1.Zoom = 0D;
-			this.myGMAP1.OnRouteClick += new GMap.NET.WindowsForms.RouteClick(this.myGMAP1_OnRouteClick);
+            this.myGMAP1.OnRouteClick += new GMap.NET.WindowsForms.RouteClick(this.myGMAP1_OnRouteClick);
             // 
             // treeView1
             // 
@@ -205,6 +207,13 @@
             this.BUT_Graphit_R.UseVisualStyleBackColor = true;
             this.BUT_Graphit_R.Click += new System.EventHandler(this.BUT_Graphit_R_Click);
             // 
+            // chk_time
+            // 
+            resources.ApplyResources(this.chk_time, "chk_time");
+            this.chk_time.Name = "chk_time";
+            this.chk_time.UseVisualStyleBackColor = true;
+            this.chk_time.CheckedChanged += new System.EventHandler(this.chk_time_CheckedChanged);
+            // 
             // LogBrowse
             // 
             resources.ApplyResources(this, "$this");
@@ -242,6 +251,7 @@
         private Controls.MyButton BUT_removeitem;
         private System.Windows.Forms.ComboBox CMB_preselect;
         private System.Windows.Forms.TreeView treeView1;
+        private System.Windows.Forms.CheckBox chk_time;
     }
 }
 
