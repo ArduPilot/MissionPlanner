@@ -1,4 +1,102 @@
-﻿* Mission Planner 1.3.25
+﻿* Mission Planner 1.3.26
+logbrowse: add time base to log browser #872
+georefimage: fix coloum label order #873
+Localization: update ConfigFM zh-Hans translation
+Localization: update ConfigMotorTest zh-Hans
+Localization: update ConfigFS/3DRradio zh-Hans
+FlightData: fix zh-Hans text place
+FlightData: add auto scroll and scrollbar for Messages
+Strings: add AutoWP
+logoutput: add sbas obs header
+currentstate: add ekfstatus
+LogOutput: dont create rinex file if no obs
+LogOutput: create rinex file if obs data present
+Scripts: add another python example
+DFLog: improve time calc, and gps msg filter
+mavlinkinterface: add cmd line on connect
+SerialInjectGPS: add ntrip
+LogBrowse: update message type scanning to scan the first 500000, from 30000
+FlightPlanner: fix freeze on add bellow
+Script: update example 2
+Log: fixed bug when offset is added before scalar
+update solution to remove old projects
+CurrentState: add csCallBack
+ParameterMetaData: add rebootrequired
+BinaryLog: add double support
+MainV2: add connection options
+currentstate: ignore date exception
+Capture: allow fall back to default capture options
+MavlinkParse: fix offset start on split read
+MavlinParse: fix runaway read
+mavlinparse: fix timeout issue
+StreamCombiner: update to use mavlinkparse
+Mainv2: make doConnect more generic
+TerrainFollow: make interface specific
+Currentstate: change requestdatastreams to 30 sec interval
+Mainv2: fix mavlinkversion in hb
+streamcombiner: use packetreader to prevent bad packets
+MAvlininterface: add infinity check to hzratecheck
+MavlinkParse: add reader function
+script: add rc - heli. arm and takeoff script
+SerialInjectGPS: update to allow more input sources
+temp: modify arm and takeoff button
+MainV2: cleanup read code
+Currentstate: specify sysid when requesting datastream
+StreamCombiner: modify to set sysid's
+MavlinkInterface: move requestDatastream packet stats to per MAV
+Mainv2: get all params on connect
+mavlinkinterface: add sysid to param list dialog
+flightdata: fix bintolog conversions directory #854
+MultiMav: update
+temp: give fresh look
+mainv2: make sysidselector always topmost, and non modal
+currentstate: add sitl speedup value
+mavlinkinterface: fix bad packet count bug (when multi mav)
+GMapMarkerQuad: add sysid and display
+flightdata: add do-set-home support on flightdata #846
+flightdata: make status tab text wider #860
+temp: add arm and takeoff button
+droneshare: change to private as default
+CommsFile: add read exception when not connected
+mavlinklog: fixup custom log items
+Flightdata: add takeoff connected check, and capture traveled path when screen not active
+Spline2: change to use dt
+SITL: fix quad home alt
+googlesatallitemaps: version update
+georefimage: add image time offset for each image when using cam sync #856
+SerialInjectGPS: add new form to inject data
+droneshare: upload change
+Strings: move strings to resource
+Mavlinkinterface: add InjectGPSData
+georefimage: add bin support #855
+Flightdata: add ability to convert multiple bins to logs in one hit #854
+CurrentState: add voltage flags
+HIL: update for sitl quad lockstep
+Common: add target heading to AT icon
+Grid: add leadin and cleanup
+Common: add AT servo_test mode
+Common: fix antenna tracker heading
+Simulation: change timing structure
+Simulation: get sitl working with jsbsim
+Mavlinklog: add ability to offset a log from its home alt (shift key on kml button)
+Simulation: add sitl timestep (no realtime)
+FlightPlanner: add modifyalt exception handle
+GMapControl: allow int overflow on polygon draw
+DistanceBar: add resize 0 checks
+MainSwitcher: invoke creation on gui thread
+LogMap: add log open file share
+MainSwitcher: add null control check
+mavcmd: add loiter to alt
+Mavlink: lib update
+georef: add relative basealt option
+mavlinklog: update kml creation to use home alt + rel alt
+Localization: optimize HUD translations
+ConfigMount: fix wiki link and zh-Hans translation
+Log: DoubleClick log item to apply user-defined offset and scalar
+Log: Optimize constructor for faster graphing
+mybutton: add colour change invalidate
+
+* Mission Planner 1.3.25
 configframetype: update
 configrawparam: modify load/save button text
 hud video: add vlc test
