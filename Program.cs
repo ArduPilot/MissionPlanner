@@ -107,7 +107,7 @@ namespace MissionPlanner
                 System.Configuration.ConfigurationManager.AppSettings["UpdateLocationVersion"] = "";
             }
 
-            CleanupFiles();  
+            CleanupFiles();
 
             //fontgen.dowork();
 
