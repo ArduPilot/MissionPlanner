@@ -71,7 +71,7 @@ namespace MissionPlanner.Utilities
                         objXmlTextWriter.WriteStartElement(element);
 
                         // Read and parse the content.
-                        string dataFromAddress = ReadDataFromAddress(parameterLocation);
+                        string dataFromAddress = ReadDataFromAddress(parameterLocation.Trim());
                         ParseGroupInformation(dataFromAddress, objXmlTextWriter, parameterLocation);
                         ParseParameterInformation(dataFromAddress, objXmlTextWriter);
 

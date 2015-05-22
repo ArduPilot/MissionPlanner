@@ -1,4 +1,13 @@
-﻿* Mission Planner 1.3.26
+﻿* Mission Planner 1.3.27
+ParameterMetaDataParse: patch for pde to cpp rename that prevents update from working
+ParameterMetaData: update backup data
+ConfigArducopter: update FF param names #876
+update .gitignore
+temp: remove vlctotexture
+ConfigAccelPlane: remove 1d accel calib
+CommsSerialScan: update to allow cancel/exit
+
+* Mission Planner 1.3.26
 logbrowse: add time base to log browser #872
 georefimage: fix coloum label order #873
 Localization: update ConfigFM zh-Hans translation

@@ -109,6 +109,10 @@ namespace MissionPlanner
 
             CleanupFiles();
 
+            //new AP_GPS_SBF();
+
+            //return;
+
             //fontgen.dowork();
 
             //adsb.server = "64.93.124.152";
