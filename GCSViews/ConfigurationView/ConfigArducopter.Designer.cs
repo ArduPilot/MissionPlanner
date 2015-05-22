@@ -76,7 +76,7 @@
             this.RATE_YAW_P = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.label82 = new System.Windows.Forms.Label();
             this.groupBox24 = new System.Windows.Forms.GroupBox();
-            this.RATE_PITCH_FF = new MissionPlanner.Controls.MavlinkNumericUpDown();
+            this.RATE_PIT_FF = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.label14 = new System.Windows.Forms.Label();
             this.RATE_PIT_D = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.label11 = new System.Windows.Forms.Label();
@@ -87,7 +87,7 @@
             this.RATE_PIT_P = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.label87 = new System.Windows.Forms.Label();
             this.groupBox25 = new System.Windows.Forms.GroupBox();
-            this.RATE_ROLL_FF = new MissionPlanner.Controls.MavlinkNumericUpDown();
+            this.RATE_RLL_FF = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.label12 = new System.Windows.Forms.Label();
             this.RATE_RLL_D = new MissionPlanner.Controls.MavlinkNumericUpDown();
             this.label17 = new System.Windows.Forms.Label();
@@ -151,13 +151,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.RATE_YAW_I)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RATE_YAW_P)).BeginInit();
             this.groupBox24.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.RATE_PITCH_FF)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.RATE_PIT_FF)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RATE_PIT_D)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RATE_PIT_IMAX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RATE_PIT_I)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RATE_PIT_P)).BeginInit();
             this.groupBox25.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.RATE_ROLL_FF)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.RATE_RLL_FF)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RATE_RLL_D)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RATE_RLL_IMAX)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.RATE_RLL_I)).BeginInit();
@@ -546,7 +546,7 @@
             // 
             // groupBox24
             // 
-            this.groupBox24.Controls.Add(this.RATE_PITCH_FF);
+            this.groupBox24.Controls.Add(this.RATE_PIT_FF);
             this.groupBox24.Controls.Add(this.label14);
             this.groupBox24.Controls.Add(this.RATE_PIT_D);
             this.groupBox24.Controls.Add(this.label11);
@@ -562,13 +562,13 @@
             // 
             // RATE_PITCH_FF
             // 
-            resources.ApplyResources(this.RATE_PITCH_FF, "RATE_PITCH_FF");
-            this.RATE_PITCH_FF.Max = 1F;
-            this.RATE_PITCH_FF.Min = 0F;
-            this.RATE_PITCH_FF.Name = "RATE_PITCH_FF";
-            this.RATE_PITCH_FF.param = null;
-            this.RATE_PITCH_FF.ParamName = null;
-            this.RATE_PITCH_FF.ValueUpdated += new System.EventHandler(this.numeric_ValueUpdated);
+            resources.ApplyResources(this.RATE_PIT_FF, "RATE_PITCH_FF");
+            this.RATE_PIT_FF.Max = 1F;
+            this.RATE_PIT_FF.Min = 0F;
+            this.RATE_PIT_FF.Name = "RATE_PITCH_FF";
+            this.RATE_PIT_FF.param = null;
+            this.RATE_PIT_FF.ParamName = null;
+            this.RATE_PIT_FF.ValueUpdated += new System.EventHandler(this.numeric_ValueUpdated);
             // 
             // label14
             // 
@@ -637,7 +637,7 @@
             // 
             // groupBox25
             // 
-            this.groupBox25.Controls.Add(this.RATE_ROLL_FF);
+            this.groupBox25.Controls.Add(this.RATE_RLL_FF);
             this.groupBox25.Controls.Add(this.label12);
             this.groupBox25.Controls.Add(this.RATE_RLL_D);
             this.groupBox25.Controls.Add(this.label17);
@@ -653,13 +653,13 @@
             // 
             // RATE_ROLL_FF
             // 
-            resources.ApplyResources(this.RATE_ROLL_FF, "RATE_ROLL_FF");
-            this.RATE_ROLL_FF.Max = 1F;
-            this.RATE_ROLL_FF.Min = 0F;
-            this.RATE_ROLL_FF.Name = "RATE_ROLL_FF";
-            this.RATE_ROLL_FF.param = null;
-            this.RATE_ROLL_FF.ParamName = null;
-            this.RATE_ROLL_FF.ValueUpdated += new System.EventHandler(this.numeric_ValueUpdated);
+            resources.ApplyResources(this.RATE_RLL_FF, "RATE_ROLL_FF");
+            this.RATE_RLL_FF.Max = 1F;
+            this.RATE_RLL_FF.Min = 0F;
+            this.RATE_RLL_FF.Name = "RATE_ROLL_FF";
+            this.RATE_RLL_FF.param = null;
+            this.RATE_RLL_FF.ParamName = null;
+            this.RATE_RLL_FF.ValueUpdated += new System.EventHandler(this.numeric_ValueUpdated);
             // 
             // label12
             // 
@@ -998,13 +998,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.RATE_YAW_I)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.RATE_YAW_P)).EndInit();
             this.groupBox24.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.RATE_PITCH_FF)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.RATE_PIT_FF)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.RATE_PIT_D)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.RATE_PIT_IMAX)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.RATE_PIT_I)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.RATE_PIT_P)).EndInit();
             this.groupBox25.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.RATE_ROLL_FF)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.RATE_RLL_FF)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.RATE_RLL_D)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.RATE_RLL_IMAX)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.RATE_RLL_I)).EndInit();
@@ -1118,9 +1118,9 @@
         private Controls.MavlinkComboBox CH8_OPT;
         private Controls.MavlinkNumericUpDown RATE_YAW_FF;
         private System.Windows.Forms.Label label18;
-        private Controls.MavlinkNumericUpDown RATE_PITCH_FF;
+        private Controls.MavlinkNumericUpDown RATE_PIT_FF;
         private System.Windows.Forms.Label label14;
-        private Controls.MavlinkNumericUpDown RATE_ROLL_FF;
+        private Controls.MavlinkNumericUpDown RATE_RLL_FF;
         private System.Windows.Forms.Label label12;
     }
 }
