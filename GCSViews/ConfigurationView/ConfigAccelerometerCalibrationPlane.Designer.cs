@@ -36,10 +36,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.lbl_Accel_user = new System.Windows.Forms.Label();
             this.BUT_calib_accell = new MissionPlanner.Controls.MyButton();
             this.lineSeparator2 = new MissionPlanner.Controls.LineSeparator();
-            this.BUT_level = new MissionPlanner.Controls.MyButton();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label5
@@ -75,37 +71,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.lineSeparator2.PrimaryColor = System.Drawing.Color.Black;
             this.lineSeparator2.SecondaryColor = System.Drawing.Color.Gainsboro;
             // 
-            // BUT_level
-            // 
-            resources.ApplyResources(this.BUT_level, "BUT_level");
-            this.BUT_level.Name = "BUT_level";
-            this.BUT_level.UseVisualStyleBackColor = true;
-            this.BUT_level.Click += new System.EventHandler(this.BUT_level_Click);
-            // 
-            // label1
-            // 
-            resources.ApplyResources(this.label1, "label1");
-            this.label1.Name = "label1";
-            // 
-            // label2
-            // 
-            resources.ApplyResources(this.label2, "label2");
-            this.label2.ForeColor = System.Drawing.Color.Red;
-            this.label2.Name = "label2";
-            // 
-            // label3
-            // 
-            resources.ApplyResources(this.label3, "label3");
-            this.label3.Name = "label3";
-            // 
             // ConfigAccelerometerCalibrationPlane
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.BUT_level);
             this.Controls.Add(this.lbl_Accel_user);
             this.Controls.Add(this.BUT_calib_accell);
             this.Controls.Add(this.lineSeparator2);
@@ -124,9 +93,5 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private LineSeparator lineSeparator2;
         private MyButton BUT_calib_accell;
         private System.Windows.Forms.Label lbl_Accel_user;
-        private MyButton BUT_level;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
     }
 }

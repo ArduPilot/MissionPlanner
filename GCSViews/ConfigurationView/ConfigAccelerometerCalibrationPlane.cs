@@ -133,7 +133,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 Log.Info("Sending level command (mavlink 1.0)");
                 MainV2.comPort.doCommand(MAVLink.MAV_CMD.PREFLIGHT_CALIBRATION, 1, 0, 0, 0, 0, 0, 0);
 
-                BUT_level.Text = "Complete";
+                //BUT_level.Text = "Complete";
             }
             catch (Exception ex)
             {
