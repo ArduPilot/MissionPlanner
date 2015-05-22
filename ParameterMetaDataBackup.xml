@@ -3313,6 +3313,60 @@
     </HLD_LAT_P>
   </ArduCopter2>
   <ArduPlane>
+    <SERIAL0_BAUD>
+      <DisplayName>Serial0 baud rate</DisplayName>
+      <Description>The baud rate used on the USB console. The APM2 can support all baudrates up to 115, and also can support 500. The PX4 can support rates of up to 1500. If you setup a rate you cannot support on APM2 and then can't connect to your board you should load a firmware from a different vehicle type. That will reset all your parameters to defaults.</Description>
+      <Values>1:1200,2:2400,4:4800,9:9600,19:19200,38:38400,57:57600,111:111100,115:115200,500:500000,921:921600,1500:1500000</Values>
+      <User>Standard</User>
+    </SERIAL0_BAUD>
+    <SERIAL1_PROTOCOL>
+      <DisplayName>Telem1 protocol selection</DisplayName>
+      <Description>Control what protocol to use on the Telem1 port. Note that the Frsky options require external converter hardware. See the wiki for details.</Description>
+      <Values>1:GCS Mavlink, 3:Frsky D-PORT, 4:Frsky S-PORT, 5:GPS, 7:Alexmos Gimbal Serial</Values>
+      <User>Standard</User>
+    </SERIAL1_PROTOCOL>
+    <SERIAL1_BAUD>
+      <DisplayName>Telem1 Baud Rate</DisplayName>
+      <Description>The baud rate used on the Telem1 port. The APM2 can support all baudrates up to 115, and also can support 500. The PX4 can support rates of up to 1500. If you setup a rate you cannot support on APM2 and then can't connect to your board you should load a firmware from a different vehicle type. That will reset all your parameters to defaults.</Description>
+      <Values>1:1200,2:2400,4:4800,9:9600,19:19200,38:38400,57:57600,111:111100,115:115200,500:500000,921:921600,1500:1500000</Values>
+      <User>Standard</User>
+    </SERIAL1_BAUD>
+    <SERIAL2_PROTOCOL>
+      <DisplayName>Telemetry 2 protocol selection</DisplayName>
+      <Description>Control what protocol to use on the Telem2 port. Note that the Frsky options require external converter hardware. See the wiki for details.</Description>
+      <Values>1:GCS Mavlink, 3:Frsky D-PORT, 4:Frsky S-PORT, 5:GPS, 7:Alexmos Gimbal Serial</Values>
+      <User>Standard</User>
+    </SERIAL2_PROTOCOL>
+    <SERIAL2_BAUD>
+      <DisplayName>Telemetry 2 Baud Rate</DisplayName>
+      <Description>The baud rate of the Telem2 port. The APM2 can support all baudrates up to 115, and also can support 500. The PX4 can support rates of up to 1500. If you setup a rate you cannot support on APM2 and then can't connect to your board you should load a firmware from a different vehicle type. That will reset all your parameters to defaults.</Description>
+      <Values>1:1200,2:2400,4:4800,9:9600,19:19200,38:38400,57:57600,111:111100,115:115200,500:500000,921:921600,1500:1500000</Values>
+      <User>Standard</User>
+    </SERIAL2_BAUD>
+    <SERIAL3_PROTOCOL>
+      <DisplayName>Serial 3 (GPS) protocol selection</DisplayName>
+      <Description>Control what protocol Serial 3 (GPS) should be used for. Note that the Frsky options require external converter hardware. See the wiki for details.</Description>
+      <Values>1:GCS Mavlink, 3:Frsky D-PORT, 4:Frsky S-PORT, 5:GPS, 7:Alexmos Gimbal Serial</Values>
+      <User>Standard</User>
+    </SERIAL3_PROTOCOL>
+    <SERIAL3_BAUD>
+      <DisplayName>Serial 3 (GPS) Baud Rate</DisplayName>
+      <Description>The baud rate used for the Serial 3 (GPS). The APM2 can support all baudrates up to 115, and also can support 500. The PX4 can support rates of up to 1500. If you setup a rate you cannot support on APM2 and then can't connect to your board you should load a firmware from a different vehicle type. That will reset all your parameters to defaults.</Description>
+      <Values>1:1200,2:2400,4:4800,9:9600,19:19200,38:38400,57:57600,111:111100,115:115200,500:500000,921:921600,1500:1500000</Values>
+      <User>Standard</User>
+    </SERIAL3_BAUD>
+    <SERIAL4_PROTOCOL>
+      <DisplayName>Serial4 protocol selection</DisplayName>
+      <Description>Control what protocol Serial4 port should be used for. Note that the Frsky options require external converter hardware. See the wiki for details.</Description>
+      <Values>1:GCS Mavlink, 3:Frsky D-PORT, 4:Frsky S-PORT, 5:GPS, 7:Alexmos Gimbal Serial</Values>
+      <User>Standard</User>
+    </SERIAL4_PROTOCOL>
+    <SERIAL4_BAUD>
+      <DisplayName>Serial 4 Baud Rate</DisplayName>
+      <Description>The baud rate used for Serial4. The APM2 can support all baudrates up to 115, and also can support 500. The PX4 can support rates of up to 1500. If you setup a rate you cannot support on APM2 and then can't connect to your board you should load a firmware from a different vehicle type. That will reset all your parameters to defaults.</Description>
+      <Values>1:1200,2:2400,4:4800,9:9600,19:19200,38:38400,57:57600,111:111100,115:115200,500:500000,921:921600,1500:1500000</Values>
+      <User>Standard</User>
+    </SERIAL4_BAUD>
     <GND_ABS_PRESS>
       <DisplayName>Absolute Pressure</DisplayName>
       <Description>calibrated ground pressure in Pascals</Description>
@@ -3335,12 +3389,12 @@
     <GPS_TYPE>
       <DisplayName>GPS type</DisplayName>
       <Description>GPS type</Description>
-      <Values>0:None,1:AUTO,2:uBlox,3:MTK,4:MTK19,5:NMEA,6:SiRF,7:HIL,8:SwiftNav,9:PX4EXPERIMENTAL</Values>
+      <Values>0:None,1:AUTO,2:uBlox,3:MTK,4:MTK19,5:NMEA,6:SiRF,7:HIL,8:SwiftNav,9:PX4-UAVCAN</Values>
     </GPS_TYPE>
     <GPS_TYPE2>
       <DisplayName>2nd GPS type</DisplayName>
       <Description>GPS type of 2nd GPS</Description>
-      <Values>0:None,1:AUTO,2:uBlox,3:MTK,4:MTK19,5:NMEA,6:SiRF,7:HIL,8:SwiftNav,9:PX4EXPERIMENTAL</Values>
+      <Values>0:None,1:AUTO,2:uBlox,3:MTK,4:MTK19,5:NMEA,6:SiRF,7:HIL,8:SwiftNav,9:PX4-UAVCAN</Values>
     </GPS_TYPE2>
     <GPS_NAVFILTER>
       <DisplayName>Navigation filter setting</DisplayName>
@@ -3372,6 +3426,22 @@
       <Units>Degrees</Units>
       <User>Advanced</User>
     </GPS_MIN_ELEV>
+    <GPS_INJECT_TO>
+      <DisplayName>Destination for GPS_INJECT_DATA MAVLink packets</DisplayName>
+      <Description>The GGS can send raw serial packets to inject data to multiple GPSes.</Description>
+      <Values>0,1: send to specified instance. 127: broadcast</Values>
+    </GPS_INJECT_TO>
+    <GPS_SBP_LOGMASK>
+      <DisplayName>Swift Binary Protocol Logging Mask</DisplayName>
+      <Description>Masked with the SBP msg_type field to determine whether SBR1/SBR2 data is logged</Description>
+      <Values>0x0000 for none, 0xFFFF for all, 0xFF00 for external only.</Values>
+      <User>Advanced</User>
+    </GPS_SBP_LOGMASK>
+    <GPS_RXM_RAW>
+      <DisplayName>Raw data logging</DisplayName>
+      <Description>Enable logging of RXM raw data from uBlox which includes carrier phase and pseudo range information. This allows for post processing of dataflash logs for more precise positioning. Note that this requires a raw capable uBlox such as the 6P or 6T.</Description>
+      <Values>0:Disabled,1:log at 1MHz,5:log at 5MHz.</Values>
+    </GPS_RXM_RAW>
     <CAM_TRIGG_TYPE>
       <DisplayName>Camera shutter (trigger) type</DisplayName>
       <Description>how to trigger the camera to take a picture</Description>
@@ -3420,8 +3490,8 @@
     </ARMING_DIS_RUD>
     <ARMING_CHECK>
       <DisplayName>Arm Checks to Peform (bitmask)</DisplayName>
-      <Description>Checks prior to arming motor. This is a bitmask of checks that will be performed befor allowing arming. The default is no checks, allowing arming at any time. You can select whatever checks you prefer by adding together the values of each check type to set this parameter. For example, to only allow arming when you have GPS lock and manual RC control you would set ARMING_CHECK to 72.</Description>
-      <Values>0:None,1:All,2:Barometer,4:Compass,8:GPS,16:INS,32:Parameters,64:Manual RC Trasmitter,128:Board voltage,256:Battery Level,512:Airspeed</Values>
+      <Description>Checks prior to arming motor. This is a bitmask of checks that will be performed befor allowing arming. The default is no checks, allowing arming at any time. You can select whatever checks you prefer by adding together the values of each check type to set this parameter. For example, to only allow arming when you have GPS lock and no RC failsafe you would set ARMING_CHECK to 72. For most users it is recommended that you set this to 1 to enable all checks.</Description>
+      <Values>0:None,1:All,2:Barometer,4:Compass,8:GPS,16:INS,32:Parameters,64:RC Failsafe,128:Board voltage,256:Battery Level,512:Airspeed,1024:LoggingAvailable</Values>
       <User>Advanced</User>
     </ARMING_CHECK>
     <RELAY_PIN>
@@ -3457,7 +3527,7 @@
     <RNGFND_TYPE>
       <DisplayName>Rangefinder type</DisplayName>
       <Description>What type of rangefinder device that is connected</Description>
-      <Values>0:None,1:Analog,2:APM2-MaxbotixI2C,3:APM2-PulsedLightI2C,4:PX4-I2C</Values>
+      <Values>0:None,1:Analog,2:APM2-MaxbotixI2C,3:APM2-PulsedLightI2C,4:PX4-I2C,5:PX4-PWM</Values>
     </RNGFND_TYPE>
     <RNGFND_PIN>
       <DisplayName>Rangefinder pin</DisplayName>
@@ -3472,7 +3542,7 @@
     </RNGFND_SCALING>
     <RNGFND_OFFSET>
       <DisplayName>rangefinder offset</DisplayName>
-      <Description>Offset in volts for zero distance</Description>
+      <Description>Offset in volts for zero distance for analog rangefinders. Offset added to distance in centimeters for PWM and I2C Lidars</Description>
       <Units>Volts</Units>
       <Increment>0.001</Increment>
     </RNGFND_OFFSET>
@@ -3509,10 +3579,24 @@
       <Description>This parameter sets whether an analog rangefinder is ratiometric. Most analog rangefinders are ratiometric, meaning that their output voltage is influenced by the supply voltage. Some analog rangefinders (such as the SF/02) have their own internal voltage regulators so they are not ratiometric.</Description>
       <Values>0:No,1:Yes</Values>
     </RNGFND_RMETRIC>
+    <RNGFNDRNGFND_PWRRNG>
+      <DisplayName>Powersave range</DisplayName>
+      <Description>This parameter sets the estimated terrain distance in meters above which the sensor will be put into a power saving mode (if available). A value of zero means power saving is not enabled</Description>
+      <Units>meters</Units>
+      <Range>0 32767</Range>
+    </RNGFNDRNGFND_PWRRNG>
+    <RNGFND_GNDCLEAR>
+      <DisplayName>Distance (in cm) from the range finder to the ground</DisplayName>
+      <Description>This parameter sets the expected range measurement(in cm) that the range finder should return when the vehicle is on the ground.</Description>
+      <Units>centimeters</Units>
+      <Range>0 127</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RNGFND_GNDCLEAR>
     <RNGFND2_TYPE>
       <DisplayName>Second Rangefinder type</DisplayName>
       <Description>What type of rangefinder device that is connected</Description>
-      <Values>0:None,1:Analog,2:APM2-MaxbotixI2C,3:APM2-PulsedLightI2C,4:PX4-I2C</Values>
+      <Values>0:None,1:Analog,2:APM2-MaxbotixI2C,3:APM2-PulsedLightI2C,4:PX4-I2C,5:PX4-PWM</Values>
     </RNGFND2_TYPE>
     <RNGFND2_PIN>
       <DisplayName>Rangefinder pin</DisplayName>
@@ -3564,6 +3648,14 @@
       <Description>This parameter sets whether an analog rangefinder is ratiometric. Most analog rangefinders are ratiometric, meaning that their output voltage is influenced by the supply voltage. Some analog rangefinders (such as the SF/02) have their own internal voltage regulators so they are not ratiometric.</Description>
       <Values>0:No,1:Yes</Values>
     </RNGFND2_RMETRIC>
+    <RNGFND2_GNDCLEAR>
+      <DisplayName>Distance (in cm) from the second range finder to the ground</DisplayName>
+      <Description>This parameter sets the expected range measurement(in cm) that the second range finder should return when the vehicle is on the ground.</Description>
+      <Units>centimeters</Units>
+      <Range>0 127</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </RNGFND2_GNDCLEAR>
     <TERRAIN_ENABLE>
       <DisplayName>Terrain data enable</DisplayName>
       <Description>enable terrain data. This enables the vehicle storing a database of terrain data on the SD card. The terrain data is requested from the ground station as needed, and stored for later use on the SD card. To be useful the ground station must support TERRAIN_REQUEST messages and have access to a terrain database, such as the SRTM database.</Description>
@@ -3607,7 +3699,7 @@
     </RC1_REV>
     <RC1_DZ>
       <DisplayName>RC dead-zone</DisplayName>
-      <Description>dead zone around trim.</Description>
+      <Description>dead zone around trim or bottom</Description>
       <Units>pwm</Units>
       <Range>0 200</Range>
       <User>Advanced</User>
@@ -3644,7 +3736,7 @@
     </RC2_REV>
     <RC2_DZ>
       <DisplayName>RC dead-zone</DisplayName>
-      <Description>dead zone around trim.</Description>
+      <Description>dead zone around trim or bottom</Description>
       <Units>pwm</Units>
       <Range>0 200</Range>
       <User>Advanced</User>
@@ -3681,7 +3773,7 @@
     </RC3_REV>
     <RC3_DZ>
       <DisplayName>RC dead-zone</DisplayName>
-      <Description>dead zone around trim.</Description>
+      <Description>dead zone around trim or bottom</Description>
       <Units>pwm</Units>
       <Range>0 200</Range>
       <User>Advanced</User>
@@ -3718,7 +3810,7 @@
     </RC4_REV>
     <RC4_DZ>
       <DisplayName>RC dead-zone</DisplayName>
-      <Description>dead zone around trim.</Description>
+      <Description>dead zone around trim or bottom</Description>
       <Units>pwm</Units>
       <Range>0 200</Range>
       <User>Advanced</User>
@@ -3755,7 +3847,7 @@
     </RC5_REV>
     <RC5_DZ>
       <DisplayName>RC dead-zone</DisplayName>
-      <Description>dead zone around trim.</Description>
+      <Description>dead zone around trim or bottom</Description>
       <Units>pwm</Units>
       <Range>0 200</Range>
       <User>Advanced</User>
@@ -3798,7 +3890,7 @@
     </RC6_REV>
     <RC6_DZ>
       <DisplayName>RC dead-zone</DisplayName>
-      <Description>dead zone around trim.</Description>
+      <Description>dead zone around trim or bottom</Description>
       <Units>pwm</Units>
       <Range>0 200</Range>
       <User>Advanced</User>
@@ -3841,7 +3933,7 @@
     </RC7_REV>
     <RC7_DZ>
       <DisplayName>RC dead-zone</DisplayName>
-      <Description>dead zone around trim.</Description>
+      <Description>dead zone around trim or bottom</Description>
       <Units>pwm</Units>
       <Range>0 200</Range>
       <User>Advanced</User>
@@ -3884,7 +3976,7 @@
     </RC8_REV>
     <RC8_DZ>
       <DisplayName>RC dead-zone</DisplayName>
-      <Description>dead zone around trim.</Description>
+      <Description>dead zone around trim or bottom</Description>
       <Units>pwm</Units>
       <Range>0 200</Range>
       <User>Advanced</User>
@@ -3927,7 +4019,7 @@
     </RC9_REV>
     <RC9_DZ>
       <DisplayName>RC dead-zone</DisplayName>
-      <Description>dead zone around trim.</Description>
+      <Description>dead zone around trim or bottom</Description>
       <Units>pwm</Units>
       <Range>0 200</Range>
       <User>Advanced</User>
@@ -3970,7 +4062,7 @@
     </RC10_REV>
     <RC10_DZ>
       <DisplayName>RC dead-zone</DisplayName>
-      <Description>dead zone around trim.</Description>
+      <Description>dead zone around trim or bottom</Description>
       <Units>pwm</Units>
       <Range>0 200</Range>
       <User>Advanced</User>
@@ -4013,7 +4105,7 @@
     </RC11_REV>
     <RC11_DZ>
       <DisplayName>RC dead-zone</DisplayName>
-      <Description>dead zone around trim.</Description>
+      <Description>dead zone around trim or bottom</Description>
       <Units>pwm</Units>
       <Range>0 200</Range>
       <User>Advanced</User>
@@ -4056,7 +4148,7 @@
     </RC12_REV>
     <RC12_DZ>
       <DisplayName>RC dead-zone</DisplayName>
-      <Description>dead zone around trim.</Description>
+      <Description>dead zone around trim or bottom</Description>
       <Units>pwm</Units>
       <Range>0 200</Range>
       <User>Advanced</User>
@@ -4099,7 +4191,7 @@
     </RC13_REV>
     <RC13_DZ>
       <DisplayName>RC dead-zone</DisplayName>
-      <Description>dead zone around trim.</Description>
+      <Description>dead zone around trim or bottom</Description>
       <Units>pwm</Units>
       <Range>0 200</Range>
       <User>Advanced</User>
@@ -4142,7 +4234,7 @@
     </RC14_REV>
     <RC14_DZ>
       <DisplayName>RC dead-zone</DisplayName>
-      <Description>dead zone around trim.</Description>
+      <Description>dead zone around trim or bottom</Description>
       <Units>pwm</Units>
       <Range>0 200</Range>
       <User>Advanced</User>
@@ -4192,7 +4284,7 @@
     </RLL2SRV_RMAX>
     <RLL2SRV_IMAX>
       <DisplayName>Integrator limit</DisplayName>
-      <Description>This limits the number of degrees of aileron in centi-degrees over which the integrator will operate. At the default setting of 1500 centi-degrees, the integrator will be limited to +- 15 degrees of servo travel. The maximum servo deflection is +- 45 centi-degrees, so the default value represents a 1/3rd of the total control throw which is adequate unless the aircraft is severely out of trim.</Description>
+      <Description>This limits the number of degrees of aileron in centi-degrees over which the integrator will operate. At the default setting of 3000 centi-degrees, the integrator will be limited to +- 30 degrees of servo travel. The maximum servo deflection is +- 45 centi-degrees, so the default value represents a 2/3rd of the total control throw which is adequate unless the aircraft is severely out of trim.</Description>
       <Range>0 4500</Range>
       <Increment>1</Increment>
       <User>Advanced</User>
@@ -4251,7 +4343,7 @@
     </PTCH2SRV_RLL>
     <PTCH2SRV_IMAX>
       <DisplayName>Integrator limit</DisplayName>
-      <Description>This limits the number of centi-degrees of elevator over which the integrator will operate. At the default setting of 1500 centi-degrees, the integrator will be limited to +- 15 degrees of servo travel. The maximum servo deflection is +- 45 degrees, so the default value represents a 1/3rd of the total control throw which is adequate for most aircraft unless they are severely out of trim or have very limited elevator control effectiveness.</Description>
+      <Description>This limits the number of centi-degrees of elevator over which the integrator will operate. At the default setting of 3000 centi-degrees, the integrator will be limited to +- 30 degrees of servo travel. The maximum servo deflection is +- 45 degrees, so the default value represents a 2/3rd of the total control throw which is adequate for most aircraft unless they are severely out of trim or have very limited elevator control effectiveness.</Description>
       <Range>0 4500</Range>
       <Increment>1</Increment>
       <User>Advanced</User>
@@ -4586,6 +4678,60 @@
       <User>Advanced</User>
       <Values>0:Unknown,1:APM1-1280,2:APM1-2560,88:APM2,3:SITL,4:PX4v1,5:PX4v2,256:Flymaple,257:Linux</Values>
     </INS_PRODUCT_ID>
+    <INS_GYROFFS_X>
+      <DisplayName>Gyro offsets of X axis</DisplayName>
+      <Description>Gyro sensor offsets of X axis. This is setup on each boot during gyro calibrations</Description>
+      <Units>rad/s</Units>
+      <User>Advanced</User>
+    </INS_GYROFFS_X>
+    <INS_GYROFFS_Y>
+      <DisplayName>Gyro offsets of Y axis</DisplayName>
+      <Description>Gyro sensor offsets of Y axis. This is setup on each boot during gyro calibrations</Description>
+      <Units>rad/s</Units>
+      <User>Advanced</User>
+    </INS_GYROFFS_Y>
+    <INS_GYROFFS_Z>
+      <DisplayName>Gyro offsets of Z axis</DisplayName>
+      <Description>Gyro sensor offsets of Z axis. This is setup on each boot during gyro calibrations</Description>
+      <Units>rad/s</Units>
+      <User>Advanced</User>
+    </INS_GYROFFS_Z>
+    <INS_GYR2OFFS_X>
+      <DisplayName>Gyro2 offsets of X axis</DisplayName>
+      <Description>Gyro2 sensor offsets of X axis. This is setup on each boot during gyro calibrations</Description>
+      <Units>rad/s</Units>
+      <User>Advanced</User>
+    </INS_GYR2OFFS_X>
+    <INS_GYR2OFFS_Y>
+      <DisplayName>Gyro2 offsets of Y axis</DisplayName>
+      <Description>Gyro2 sensor offsets of Y axis. This is setup on each boot during gyro calibrations</Description>
+      <Units>rad/s</Units>
+      <User>Advanced</User>
+    </INS_GYR2OFFS_Y>
+    <INS_GYR2OFFS_Z>
+      <DisplayName>Gyro2 offsets of Z axis</DisplayName>
+      <Description>Gyro2 sensor offsets of Z axis. This is setup on each boot during gyro calibrations</Description>
+      <Units>rad/s</Units>
+      <User>Advanced</User>
+    </INS_GYR2OFFS_Z>
+    <INS_GYR3OFFS_X>
+      <DisplayName>Gyro3 offsets of X axis</DisplayName>
+      <Description>Gyro3 sensor offsets of X axis. This is setup on each boot during gyro calibrations</Description>
+      <Units>rad/s</Units>
+      <User>Advanced</User>
+    </INS_GYR3OFFS_X>
+    <INS_GYR3OFFS_Y>
+      <DisplayName>Gyro3 offsets of Y axis</DisplayName>
+      <Description>Gyro3 sensor offsets of Y axis. This is setup on each boot during gyro calibrations</Description>
+      <Units>rad/s</Units>
+      <User>Advanced</User>
+    </INS_GYR3OFFS_Y>
+    <INS_GYR3OFFS_Z>
+      <DisplayName>Gyro3 offsets of Z axis</DisplayName>
+      <Description>Gyro3 sensor offsets of Z axis. This is setup on each boot during gyro calibrations</Description>
+      <Units>rad/s</Units>
+      <User>Advanced</User>
+    </INS_GYR3OFFS_Z>
     <INS_ACCSCAL_X>
       <DisplayName>Accelerometer scaling of X axis</DisplayName>
       <Description>Accelerometer scaling of X axis.  Calculated during acceleration calibration routine</Description>
@@ -4625,31 +4771,6 @@
       <Range>-300 300</Range>
       <User>Advanced</User>
     </INS_ACCOFFS_Z>
-    <INS_GYROFFS_X>
-      <DisplayName>Gyro offsets of X axis</DisplayName>
-      <Description>Gyro sensor offsets of X axis. This is setup on each boot during gyro calibrations</Description>
-      <Units>rad/s</Units>
-      <User>Advanced</User>
-    </INS_GYROFFS_X>
-    <INS_GYROFFS_Y>
-      <DisplayName>Gyro offsets of Y axis</DisplayName>
-      <Description>Gyro sensor offsets of Y axis. This is setup on each boot during gyro calibrations</Description>
-      <Units>rad/s</Units>
-      <User>Advanced</User>
-    </INS_GYROFFS_Y>
-    <INS_GYROFFS_Z>
-      <DisplayName>Gyro offsets of Z axis</DisplayName>
-      <Description>Gyro sensor offsets of Z axis. This is setup on each boot during gyro calibrations</Description>
-      <Units>rad/s</Units>
-      <User>Advanced</User>
-    </INS_GYROFFS_Z>
-    <INS_MPU6K_FILTER>
-      <DisplayName>MPU6000 filter frequency</DisplayName>
-      <Description>Filter frequency to ask the MPU6000 to apply to samples. This can be set to a lower value to try to cope with very high vibration levels in aircraft. The default value on ArduPlane, APMrover2 and ArduCopter is 20Hz. This option takes effect on the next reboot or gyro initialisation</Description>
-      <Units>Hz</Units>
-      <Values>0:Default,5:5Hz,10:10Hz,20:20Hz,42:42Hz,98:98Hz</Values>
-      <User>Advanced</User>
-    </INS_MPU6K_FILTER>
     <INS_ACC2SCAL_X>
       <DisplayName>Accelerometer2 scaling of X axis</DisplayName>
       <Description>Accelerometer2 scaling of X axis.  Calculated during acceleration calibration routine</Description>
@@ -4689,24 +4810,6 @@
       <Range>-300 300</Range>
       <User>Advanced</User>
     </INS_ACC2OFFS_Z>
-    <INS_GYR2OFFS_X>
-      <DisplayName>Gyro2 offsets of X axis</DisplayName>
-      <Description>Gyro2 sensor offsets of X axis. This is setup on each boot during gyro calibrations</Description>
-      <Units>rad/s</Units>
-      <User>Advanced</User>
-    </INS_GYR2OFFS_X>
-    <INS_GYR2OFFS_Y>
-      <DisplayName>Gyro2 offsets of Y axis</DisplayName>
-      <Description>Gyro2 sensor offsets of Y axis. This is setup on each boot during gyro calibrations</Description>
-      <Units>rad/s</Units>
-      <User>Advanced</User>
-    </INS_GYR2OFFS_Y>
-    <INS_GYR2OFFS_Z>
-      <DisplayName>Gyro2 offsets of Z axis</DisplayName>
-      <Description>Gyro2 sensor offsets of Z axis. This is setup on each boot during gyro calibrations</Description>
-      <Units>rad/s</Units>
-      <User>Advanced</User>
-    </INS_GYR2OFFS_Z>
     <INS_ACC3SCAL_X>
       <DisplayName>Accelerometer3 scaling of X axis</DisplayName>
       <Description>Accelerometer3 scaling of X axis.  Calculated during acceleration calibration routine</Description>
@@ -4746,24 +4849,20 @@
       <Range>-300 300</Range>
       <User>Advanced</User>
     </INS_ACC3OFFS_Z>
-    <INS_GYR3OFFS_X>
-      <DisplayName>Gyro3 offsets of X axis</DisplayName>
-      <Description>Gyro3 sensor offsets of X axis. This is setup on each boot during gyro calibrations</Description>
-      <Units>rad/s</Units>
+    <INS_GYRO_FILTER>
+      <DisplayName>Gyro filter cutoff frequency</DisplayName>
+      <Description>Filter cutoff frequency for gyroscopes. This can be set to a lower value to try to cope with very high vibration levels in aircraft. This option takes effect on the next reboot. A value of zero means no filtering (not recommended!)</Description>
+      <Units>Hz</Units>
+      <Range>0 127</Range>
       <User>Advanced</User>
-    </INS_GYR3OFFS_X>
-    <INS_GYR3OFFS_Y>
-      <DisplayName>Gyro3 offsets of Y axis</DisplayName>
-      <Description>Gyro3 sensor offsets of Y axis. This is setup on each boot during gyro calibrations</Description>
-      <Units>rad/s</Units>
+    </INS_GYRO_FILTER>
+    <INS_ACCEL_FILTER>
+      <DisplayName>Accel filter cutoff frequency</DisplayName>
+      <Description>Filter cutoff frequency for accelerometers. This can be set to a lower value to try to cope with very high vibration levels in aircraft. This option takes effect on the next reboot. A value of zero means no filtering (not recommended!)</Description>
+      <Units>Hz</Units>
+      <Range>0 127</Range>
       <User>Advanced</User>
-    </INS_GYR3OFFS_Y>
-    <INS_GYR3OFFS_Z>
-      <DisplayName>Gyro3 offsets of Z axis</DisplayName>
-      <Description>Gyro3 sensor offsets of Z axis. This is setup on each boot during gyro calibrations</Description>
-      <Units>rad/s</Units>
-      <User>Advanced</User>
-    </INS_GYR3OFFS_Z>
+    </INS_ACCEL_FILTER>
     <AHRS_GPS_GAIN>
       <DisplayName>AHRS GPS gain</DisplayName>
       <Description>This controls how how much to use the GPS to correct the attitude. This should never be set to zero for a plane as it would result in the plane losing control in turns. For a plane please use the default value of 1.0.</Description>
@@ -4841,8 +4940,8 @@
     </AHRS_GPS_MINSATS>
     <AHRS_EKF_USE>
       <DisplayName>Use NavEKF Kalman filter for attitude and position estimation</DisplayName>
-      <Description>This controls whether the NavEKF Kalman filter is used for attitude and position estimation</Description>
-      <Values>0:Disabled,1:Enabled</Values>
+      <Description>This controls whether the NavEKF Kalman filter is used for attitude and position estimation and whether fallback to the DCM algorithm is allowed</Description>
+      <Values>0:Disabled,1:Enabled, 2:Enabled - No Fallback</Values>
       <User>Advanced</User>
     </AHRS_EKF_USE>
     <ARSPD_ENABLE>
@@ -4888,7 +4987,7 @@
     </ARSPD_SKIP_CAL>
     <NAVL1_PERIOD>
       <DisplayName>L1 control period</DisplayName>
-      <Description>Period in seconds of L1 tracking loop. This parameter is the primary control for agressiveness of turns in auto mode. This needs to be larger for less responsive airframes. The default of 30 is very conservative, and for most RC aircraft will lead to slow and lazy turns. For smaller more agile aircraft a value closer to 20 is appropriate, or even as low as 10 for some very agile aircraft. When tuning, change this value in small increments, as a value that is much too small (say 5 or 10 below the right value) can lead to very radical turns, and a risk of stalling.</Description>
+      <Description>Period in seconds of L1 tracking loop. This parameter is the primary control for agressiveness of turns in auto mode. This needs to be larger for less responsive airframes. The default of 20 is quite conservative, but for most RC aircraft will lead to reasonable flight. For smaller more agile aircraft a value closer to 15 is appropriate, or even as low as 10 for some very agile aircraft. When tuning, change this value in small increments, as a value that is much too small (say 5 or 10 below the right value) can lead to very radical turns, and a risk of stalling.</Description>
       <Units>seconds</Units>
       <Range>1-60</Range>
       <Increment>1</Increment>
@@ -5039,12 +5138,19 @@
       <Increment>0.1</Increment>
       <User>Advanced</User>
     </TECS_LAND_DAMP>
-    <MNT_MODE>
-      <DisplayName>Mount operation mode</DisplayName>
-      <Description>Camera or antenna mount operation mode</Description>
-      <Values>0:retract,1:neutral,2:MavLink_targeting,3:RC_targeting,4:GPS_point</Values>
+    <TECS_LAND_PMAX>
+      <DisplayName>Maximum pitch during final stage of landing</DisplayName>
+      <Description>This limits the pitch used during the final stage of automatic landing. During the final landing stage most planes need to keep their pitch small to avoid stalling. A maximum of 10 degrees is usually good. A value of zero means to use the normal pitch limits.</Description>
+      <Range>0 40</Range>
+      <Increment>1</Increment>
+      <User>Advanced</User>
+    </TECS_LAND_PMAX>
+    <MNT_DEFLT_MODE>
+      <DisplayName>Mount default operating mode</DisplayName>
+      <Description>Mount default operating mode on startup and after control is returned from autopilot</Description>
+      <Values>0:Retracted,1:Neutral,2:MavLink Targeting,3:RC Targeting,4:GPS Point</Values>
       <User>Standard</User>
-    </MNT_MODE>
+    </MNT_DEFLT_MODE>
     <MNT_RETRACT_X>
       <DisplayName>Mount roll angle when in retracted position</DisplayName>
       <Description>Mount roll angle when in retracted position</Description>
@@ -5093,27 +5199,6 @@
       <Increment>1</Increment>
       <User>Standard</User>
     </MNT_NEUTRAL_Z>
-    <MNT_CONTROL_X>
-      <DisplayName>Mount roll angle command from groundstation</DisplayName>
-      <Description>Mount roll angle when in MavLink or RC control operation mode</Description>
-      <Units>Degrees</Units>
-      <Range>-180.00 179.99</Range>
-      <Increment>1</Increment>
-    </MNT_CONTROL_X>
-    <MNT_CONTROL_Y>
-      <DisplayName>Mount tilt/pitch angle command from groundstation</DisplayName>
-      <Description>Mount tilt/pitch angle when in MavLink or RC control operation mode</Description>
-      <Units>Degrees</Units>
-      <Range>-180.00 179.99</Range>
-      <Increment>1</Increment>
-    </MNT_CONTROL_Y>
-    <MNT_CONTROL_Z>
-      <DisplayName>Mount pan/yaw angle command from groundstation</DisplayName>
-      <Description>Mount pan/yaw angle when in MavLink or RC control operation mode</Description>
-      <Units>Degrees</Units>
-      <Range>-180.00 179.99</Range>
-      <Increment>1</Increment>
-    </MNT_CONTROL_Z>
     <MNT_STAB_ROLL>
       <DisplayName>Stabilize mount's roll angle</DisplayName>
       <Description>enable roll stabilisation relative to Earth</Description>
@@ -5221,174 +5306,221 @@
       <Increment>.005</Increment>
       <User>Standard</User>
     </MNT_LEAD_PTCH>
-    <MNT2_MODE>
-      <DisplayName>Mount operation mode</DisplayName>
-      <Description>Camera or antenna mount operation mode</Description>
-      <Values>0:retract,1:neutral,2:MavLink_targeting,3:RC_targeting,4:GPS_point</Values>
+    <MNT_TYPE>
+      <DisplayName>Mount Type</DisplayName>
+      <Description>Mount Type (None, Servo or MAVLink)</Description>
+      <Values>0:None, 1:Servo, 2:MAVLink, 3:Alexmos Serial, 4:SToRM32</Values>
       <User>Standard</User>
-    </MNT2_MODE>
+    </MNT_TYPE>
+    <MNT_OFF_JNT_X>
+      <DisplayName>MAVLink Mount's roll angle offsets</DisplayName>
+      <Description>MAVLink Mount's roll angle offsets</Description>
+      <Units>radians</Units>
+      <Range>0 0.5</Range>
+      <User>Advanced</User>
+    </MNT_OFF_JNT_X>
+    <MNT_OFF_JNT_Y>
+      <DisplayName>MAVLink Mount's pitch angle offsets</DisplayName>
+      <Description>MAVLink Mount's pitch angle offsets</Description>
+      <Units>radians</Units>
+      <Range>0 0.5</Range>
+      <User>Advanced</User>
+    </MNT_OFF_JNT_Y>
+    <MNT_OFF_JNT_Z>
+      <DisplayName>MAVLink Mount's yaw angle offsets</DisplayName>
+      <Description>MAVLink Mount's yaw angle offsets</Description>
+      <Units>radians</Units>
+      <Range>0 0.5</Range>
+      <User>Advanced</User>
+    </MNT_OFF_JNT_Z>
+    <MNT_OFF_ACC_X>
+      <DisplayName>MAVLink Mount's roll velocity offsets</DisplayName>
+      <Description>MAVLink Mount's roll velocity offsets</Description>
+      <Units>m/s</Units>
+      <Range>0 2</Range>
+      <User>Advanced</User>
+    </MNT_OFF_ACC_X>
+    <MNT_OFF_ACC_Y>
+      <DisplayName>MAVLink Mount's pitch velocity offsets</DisplayName>
+      <Description>MAVLink Mount's pitch velocity offsets</Description>
+      <Units>m/s</Units>
+      <Range>0 2</Range>
+      <User>Advanced</User>
+    </MNT_OFF_ACC_Y>
+    <MNT_OFF_ACC_Z>
+      <DisplayName>MAVLink Mount's yaw velocity offsets</DisplayName>
+      <Description>MAVLink Mount's yaw velocity offsets</Description>
+      <Units>m/s</Units>
+      <Range>0 2</Range>
+      <User>Advanced</User>
+    </MNT_OFF_ACC_Z>
+    <MNT_OFF_GYRO_X>
+      <DisplayName>MAVLink Mount's roll gyro offsets</DisplayName>
+      <Description>MAVLink Mount's roll gyro offsets</Description>
+      <Units>radians/sec</Units>
+      <Range>0 0.5</Range>
+      <User>Advanced</User>
+    </MNT_OFF_GYRO_X>
+    <MNT_OFF_GYRO_Y>
+      <DisplayName>MAVLink Mount's pitch gyro offsets</DisplayName>
+      <Description>MAVLink Mount's pitch gyro offsets</Description>
+      <Units>radians/sec</Units>
+      <Range>0 0.5</Range>
+      <User>Advanced</User>
+    </MNT_OFF_GYRO_Y>
+    <MNT_OFF_GYRO_Z>
+      <DisplayName>MAVLink Mount's yaw gyro offsets</DisplayName>
+      <Description>MAVLink Mount's yaw gyro offsets</Description>
+      <Units>radians/sec</Units>
+      <Range>0 0.5</Range>
+      <User>Advanced</User>
+    </MNT_OFF_GYRO_Z>
+    <MNT_K_RATE>
+      <DisplayName>MAVLink Mount's rate gain</DisplayName>
+      <Description>MAVLink Mount's rate gain</Description>
+      <Range>0 10</Range>
+      <User>Advanced</User>
+    </MNT_K_RATE>
+    <MNT2_DEFLT_MODE>
+      <DisplayName>Mount default operating mode</DisplayName>
+      <Description>Mount default operating mode on startup and after control is returned from autopilot</Description>
+      <Values>0:Retracted,1:Neutral,2:MavLink Targeting,3:RC Targeting,4:GPS Point</Values>
+      <User>Standard</User>
+    </MNT2_DEFLT_MODE>
     <MNT2_RETRACT_X>
-      <DisplayName>Mount roll angle when in retracted position</DisplayName>
-      <Description>Mount roll angle when in retracted position</Description>
+      <DisplayName>Mount2 roll angle when in retracted position</DisplayName>
+      <Description>Mount2 roll angle when in retracted position</Description>
       <Units>Degrees</Units>
       <Range>-180.00 179.99</Range>
       <Increment>1</Increment>
       <User>Standard</User>
     </MNT2_RETRACT_X>
     <MNT2_RETRACT_Y>
-      <DisplayName>Mount tilt/pitch angle when in retracted position</DisplayName>
-      <Description>Mount tilt/pitch angle when in retracted position</Description>
+      <DisplayName>Mount2 tilt/pitch angle when in retracted position</DisplayName>
+      <Description>Mount2 tilt/pitch angle when in retracted position</Description>
       <Units>Degrees</Units>
       <Range>-180.00 179.99</Range>
       <Increment>1</Increment>
       <User>Standard</User>
     </MNT2_RETRACT_Y>
     <MNT2_RETRACT_Z>
-      <DisplayName>Mount yaw/pan angle when in retracted position</DisplayName>
-      <Description>Mount yaw/pan angle when in retracted position</Description>
+      <DisplayName>Mount2 yaw/pan angle when in retracted position</DisplayName>
+      <Description>Mount2 yaw/pan angle when in retracted position</Description>
       <Units>Degrees</Units>
       <Range>-180.00 179.99</Range>
       <Increment>1</Increment>
       <User>Standard</User>
     </MNT2_RETRACT_Z>
     <MNT2_NEUTRAL_X>
-      <DisplayName>Mount roll angle when in neutral position</DisplayName>
-      <Description>Mount roll angle when in neutral position</Description>
+      <DisplayName>Mount2 roll angle when in neutral position</DisplayName>
+      <Description>Mount2 roll angle when in neutral position</Description>
       <Units>Degrees</Units>
       <Range>-180.00 179.99</Range>
       <Increment>1</Increment>
       <User>Standard</User>
     </MNT2_NEUTRAL_X>
     <MNT2_NEUTRAL_Y>
-      <DisplayName>Mount tilt/pitch angle when in neutral position</DisplayName>
-      <Description>Mount tilt/pitch angle when in neutral position</Description>
+      <DisplayName>Mount2 tilt/pitch angle when in neutral position</DisplayName>
+      <Description>Mount2 tilt/pitch angle when in neutral position</Description>
       <Units>Degrees</Units>
       <Range>-180.00 179.99</Range>
       <Increment>1</Increment>
       <User>Standard</User>
     </MNT2_NEUTRAL_Y>
     <MNT2_NEUTRAL_Z>
-      <DisplayName>Mount pan/yaw angle when in neutral position</DisplayName>
-      <Description>Mount pan/yaw angle when in neutral position</Description>
+      <DisplayName>Mount2 pan/yaw angle when in neutral position</DisplayName>
+      <Description>Mount2 pan/yaw angle when in neutral position</Description>
       <Units>Degrees</Units>
       <Range>-180.00 179.99</Range>
       <Increment>1</Increment>
       <User>Standard</User>
     </MNT2_NEUTRAL_Z>
-    <MNT2_CONTROL_X>
-      <DisplayName>Mount roll angle command from groundstation</DisplayName>
-      <Description>Mount roll angle when in MavLink or RC control operation mode</Description>
-      <Units>Degrees</Units>
-      <Range>-180.00 179.99</Range>
-      <Increment>1</Increment>
-    </MNT2_CONTROL_X>
-    <MNT2_CONTROL_Y>
-      <DisplayName>Mount tilt/pitch angle command from groundstation</DisplayName>
-      <Description>Mount tilt/pitch angle when in MavLink or RC control operation mode</Description>
-      <Units>Degrees</Units>
-      <Range>-180.00 179.99</Range>
-      <Increment>1</Increment>
-    </MNT2_CONTROL_Y>
-    <MNT2_CONTROL_Z>
-      <DisplayName>Mount pan/yaw angle command from groundstation</DisplayName>
-      <Description>Mount pan/yaw angle when in MavLink or RC control operation mode</Description>
-      <Units>Degrees</Units>
-      <Range>-180.00 179.99</Range>
-      <Increment>1</Increment>
-    </MNT2_CONTROL_Z>
     <MNT2_STAB_ROLL>
-      <DisplayName>Stabilize mount's roll angle</DisplayName>
+      <DisplayName>Stabilize Mount2's roll angle</DisplayName>
       <Description>enable roll stabilisation relative to Earth</Description>
       <Values>0:Disabled,1:Enabled</Values>
       <User>Standard</User>
     </MNT2_STAB_ROLL>
     <MNT2_STAB_TILT>
-      <DisplayName>Stabilize mount's pitch/tilt angle</DisplayName>
+      <DisplayName>Stabilize Mount2's pitch/tilt angle</DisplayName>
       <Description>enable tilt/pitch stabilisation relative to Earth</Description>
       <Values>0:Disabled,1:Enabled</Values>
       <User>Standard</User>
     </MNT2_STAB_TILT>
     <MNT2_STAB_PAN>
-      <DisplayName>Stabilize mount pan/yaw angle</DisplayName>
+      <DisplayName>Stabilize mount2 pan/yaw angle</DisplayName>
       <Description>enable pan/yaw stabilisation relative to Earth</Description>
       <Values>0:Disabled,1:Enabled</Values>
       <User>Standard</User>
     </MNT2_STAB_PAN>
     <MNT2_RC_IN_ROLL>
-      <DisplayName>roll RC input channel</DisplayName>
+      <DisplayName>Mount2's roll RC input channel</DisplayName>
       <Description>0 for none, any other for the RC channel to be used to control roll movements</Description>
       <Values>0:Disabled,5:RC5,6:RC6,7:RC7,8:RC8</Values>
       <User>Standard</User>
     </MNT2_RC_IN_ROLL>
     <MNT2_ANGMIN_ROL>
-      <DisplayName>Minimum roll angle</DisplayName>
-      <Description>Minimum physical roll angular position of mount.</Description>
+      <DisplayName>Mount2's minimum roll angle</DisplayName>
+      <Description>Mount2's minimum physical roll angular position</Description>
       <Units>Centi-Degrees</Units>
       <Range>-18000 17999</Range>
       <Increment>1</Increment>
       <User>Standard</User>
     </MNT2_ANGMIN_ROL>
     <MNT2_ANGMAX_ROL>
-      <DisplayName>Maximum roll angle</DisplayName>
-      <Description>Maximum physical roll angular position of the mount</Description>
+      <DisplayName>Mount2's maximum roll angle</DisplayName>
+      <Description>Mount2's maximum physical roll angular position</Description>
       <Units>Centi-Degrees</Units>
       <Range>-18000 17999</Range>
       <Increment>1</Increment>
       <User>Standard</User>
     </MNT2_ANGMAX_ROL>
     <MNT2_RC_IN_TILT>
-      <DisplayName>tilt (pitch) RC input channel</DisplayName>
+      <DisplayName>Mount2's tilt (pitch) RC input channel</DisplayName>
       <Description>0 for none, any other for the RC channel to be used to control tilt (pitch) movements</Description>
       <Values>0:Disabled,5:RC5,6:RC6,7:RC7,8:RC8</Values>
       <User>Standard</User>
     </MNT2_RC_IN_TILT>
     <MNT2_ANGMIN_TIL>
-      <DisplayName>Minimum tilt angle</DisplayName>
-      <Description>Minimum physical tilt (pitch) angular position of mount.</Description>
+      <DisplayName>Mount2's minimum tilt angle</DisplayName>
+      <Description>Mount2's minimum physical tilt (pitch) angular position</Description>
       <Units>Centi-Degrees</Units>
       <Range>-18000 17999</Range>
       <Increment>1</Increment>
       <User>Standard</User>
     </MNT2_ANGMIN_TIL>
     <MNT2_ANGMAX_TIL>
-      <DisplayName>Maximum tilt angle</DisplayName>
-      <Description>Maximum physical tilt (pitch) angular position of the mount</Description>
+      <DisplayName>Mount2's maximum tilt angle</DisplayName>
+      <Description>Mount2's maximum physical tilt (pitch) angular position</Description>
       <Units>Centi-Degrees</Units>
       <Range>-18000 17999</Range>
       <Increment>1</Increment>
       <User>Standard</User>
     </MNT2_ANGMAX_TIL>
     <MNT2_RC_IN_PAN>
-      <DisplayName>pan (yaw) RC input channel</DisplayName>
+      <DisplayName>Mount2's pan (yaw) RC input channel</DisplayName>
       <Description>0 for none, any other for the RC channel to be used to control pan (yaw) movements</Description>
       <Values>0:Disabled,5:RC5,6:RC6,7:RC7,8:RC8</Values>
       <User>Standard</User>
     </MNT2_RC_IN_PAN>
     <MNT2_ANGMIN_PAN>
-      <DisplayName>Minimum pan angle</DisplayName>
-      <Description>Minimum physical pan (yaw) angular position of mount.</Description>
+      <DisplayName>Mount2's minimum pan angle</DisplayName>
+      <Description>Mount2's minimum physical pan (yaw) angular position</Description>
       <Units>Centi-Degrees</Units>
       <Range>-18000 17999</Range>
       <Increment>1</Increment>
       <User>Standard</User>
     </MNT2_ANGMIN_PAN>
     <MNT2_ANGMAX_PAN>
-      <DisplayName>Maximum pan angle</DisplayName>
-      <Description>Maximum physical pan (yaw) angular position of the mount</Description>
+      <DisplayName>Mount2's maximum pan angle</DisplayName>
+      <Description>MOunt2's maximum physical pan (yaw) angular position</Description>
       <Units>Centi-Degrees</Units>
       <Range>-18000 17999</Range>
       <Increment>1</Increment>
       <User>Standard</User>
     </MNT2_ANGMAX_PAN>
-    <MNT2_JSTICK_SPD>
-      <DisplayName>mount joystick speed</DisplayName>
-      <Description>0 for position control, small for low speeds, 100 for max speed. A good general value is 10 which gives a movement speed of 3 degrees per second.</Description>
-      <Range>0 100</Range>
-      <Increment>1</Increment>
-      <User>Standard</User>
-    </MNT2_JSTICK_SPD>
     <MNT2_LEAD_RLL>
-      <DisplayName>Roll stabilization lead time</DisplayName>
+      <DisplayName>Mount2's Roll stabilization lead time</DisplayName>
       <Description>Causes the servo angle output to lead the current angle of the vehicle by some amount of time based on current angular rate, compensating for servo delay. Increase until the servo is responsive but doesn't overshoot. Does nothing with pan stabilization enabled.</Description>
       <Units>Seconds</Units>
       <Range>0.0 0.2</Range>
@@ -5396,13 +5528,19 @@
       <User>Standard</User>
     </MNT2_LEAD_RLL>
     <MNT2_LEAD_PTCH>
-      <DisplayName>Pitch stabilization lead time</DisplayName>
+      <DisplayName>Mount2's Pitch stabilization lead time</DisplayName>
       <Description>Causes the servo angle output to lead the current angle of the vehicle by some amount of time based on current angular rate. Increase until the servo is responsive but doesn't overshoot. Does nothing with pan stabilization enabled.</Description>
       <Units>Seconds</Units>
       <Range>0.0 0.2</Range>
       <Increment>.005</Increment>
       <User>Standard</User>
     </MNT2_LEAD_PTCH>
+    <MNT2_TYPE>
+      <DisplayName>Mount2 Type</DisplayName>
+      <Description>Mount Type (None, Servo or MAVLink)</Description>
+      <Values>0:None, 1:Servo, 2:MAVLink, 3:Alexmos Serial, 4:SToRM32</Values>
+      <User>Standard</User>
+    </MNT2_TYPE>
     <BATT_MONITOR>
       <DisplayName>Battery monitoring</DisplayName>
       <Description>Controls enabling monitoring of the battery's voltage and current</Description>
@@ -5507,6 +5645,11 @@
       <Description>Disabling this option will disable the use of the safety switch on PX4 for arming. Use of the safety switch is highly recommended, so you should leave this option set to 1 except in unusual circumstances.</Description>
       <Values>0:Disabled,1:Enabled</Values>
     </BRD_SAFETYENABLE>
+    <BRD_SBUS_OUT>
+      <DisplayName>Enable use of SBUS output</DisplayName>
+      <Description>Enabling this option on a Pixhawk enables SBUS servo output from the SBUS output connector</Description>
+      <Values>0:Disabled,1:Enabled</Values>
+    </BRD_SBUS_OUT>
     <AFS_MAN_PIN>
       <DisplayName>Manual Pin</DisplayName>
       <Description>This sets a digital output pin to set high when in manual mode</Description>
@@ -5581,15 +5724,15 @@
       <User>Advanced</User>
     </AFS_MAX_COM_LOSS>
     <EKF_VELNE_NOISE>
-      <DisplayName>GPS horizontal velocity measurement noise (m/s)</DisplayName>
-      <Description>This is the RMS value of noise in the North and East GPS velocity measurements. Increasing it reduces the weighting on these measurements.</Description>
+      <DisplayName>GPS horizontal velocity measurement noise scaler</DisplayName>
+      <Description>This is the scaler that is applied to the speed accuracy reported by the receiver to estimate the horizontal velocity observation noise. If the model of receiver used does not provide a speed accurcy estimate, then a speed acuracy of 1 is assumed. Increasing it reduces the weighting on these measurements.</Description>
       <Range>0.05 5.0</Range>
       <Increment>0.05</Increment>
       <User>Advanced</User>
     </EKF_VELNE_NOISE>
     <EKF_VELD_NOISE>
-      <DisplayName>GPS vertical velocity measurement noise (m/s)</DisplayName>
-      <Description>This is the RMS value of noise in the vertical GPS velocity measurement. Increasing it reduces the weighting on this measurement.</Description>
+      <DisplayName>GPS vertical velocity measurement noise scaler</DisplayName>
+      <Description>This is the scaler that is applied to the speed accuracy reported by the receiver to estimate the vertical velocity observation noise. If the model of receiver used does not provide a speed accurcy estimate, then a speed acuracy of 1 is assumed. Increasing it reduces the weighting on this measurement.</Description>
       <Range>0.05 5.0</Range>
       <Increment>0.05</Increment>
       <User>Advanced</User>
@@ -5617,7 +5760,7 @@
     </EKF_MAG_NOISE>
     <EKF_EAS_NOISE>
       <DisplayName>Equivalent airspeed measurement noise (m/s)</DisplayName>
-      <Description>This is the RMS value of noise in magnetometer measurements. Increasing it reduces the weighting on these measurements.</Description>
+      <Description>This is the RMS value of noise in equivalent airspeed measurements. Increasing it reduces the weighting on these measurements.</Description>
       <Range>0.5 5.0</Range>
       <Increment>0.1</Increment>
       <User>Advanced</User>
@@ -5689,8 +5832,8 @@
       <User>Advanced</User>
     </EKF_POS_DELAY>
     <EKF_GPS_TYPE>
-      <DisplayName>GPS velocity mode control</DisplayName>
-      <Description>This parameter controls use of GPS velocity measurements : 0 = use 3D velocity, 1 = use 2D velocity, 2 = use no velocity, 3 = use no GPS</Description>
+      <DisplayName>GPS mode control</DisplayName>
+      <Description>This parameter controls use of GPS measurements : 0 = use 3D velocity &amp; 2D position, 1 = use 2D velocity and 2D position, 2 = use 2D position, 3 = use no GPS (optical flow will be used if available)</Description>
       <Range>0 3</Range>
       <Increment>1</Increment>
       <User>Advanced</User>
@@ -5733,7 +5876,7 @@
     <EKF_MAG_CAL>
       <DisplayName>Magnetometer calibration mode</DisplayName>
       <Description>EKF_MAG_CAL = 0 enables calibration based on flying speed and altitude and is the default setting for Plane users. EKF_MAG_CAL = 1 enables calibration based on manoeuvre level and is the default setting for Copter and Rover users. EKF_MAG_CAL = 2 prevents magnetometer calibration regardless of flight condition and is recommended if in-flight magnetometer calibration is unreliable.</Description>
-      <Values>0:Speed and Height,1:Acceleration,2:Never</Values>
+      <Values>0:Speed and Height,1:Acceleration,2:Never,3:Always</Values>
       <Increment>1</Increment>
       <User>Advanced</User>
     </EKF_MAG_CAL>
@@ -5799,6 +5942,12 @@
       <Values>0:Trust EKF more, 1:Trust DCM more</Values>
       <User>Advanced</User>
     </EKF_FALLBACK>
+    <EKF_ALT_SOURCE>
+      <DisplayName>Primary height source</DisplayName>
+      <Description>This parameter controls which height sensor is used by the EKF during optical flow navigation (when EKF_GPS_TYPE = 3). A value of will 0 cause it to always use baro altitude. A value of 1 will casue it to use range finder if available.</Description>
+      <Values>0:Use Baro, 1:Use Range Finder</Values>
+      <User>Advanced</User>
+    </EKF_ALT_SOURCE>
     <FLOWENABLE>
       <DisplayName>Optical flow enable/disable</DisplayName>
       <Description>Setting this to Enabled(1) will enable optical flow. Setting this to Disabled(0) will disable optical flow</Description>
@@ -5819,6 +5968,13 @@
       <Increment>1</Increment>
       <User>Standard</User>
     </FLOWFYSCALER>
+    <FLOWORIENT_YAW>
+      <DisplayName>Flow sensor yaw alignment</DisplayName>
+      <Description>Specifies the number of centi-degrees that the flow sensor is yawed relative to the vehicle. A sensor with its X-axis pointing to the right of the vehicle X axis has a positive yaw angle.</Description>
+      <Range>-18000 +18000</Range>
+      <Increment>1</Increment>
+      <User>Standard</User>
+    </FLOWORIENT_YAW>
     <MIS_TOTAL>
       <DisplayName>Total mission commands</DisplayName>
       <Description>The number of mission mission items that has been loaded by the ground station. Do not change this manually.</Description>
@@ -5854,8 +6010,8 @@
       <User>Advanced</User>
     </SYSID_SW_TYPE>
     <SYSID_THISMAV>
-      <DisplayName>MAVLink system ID</DisplayName>
-      <Description>The identifier of this device in the MAVLink protocol</Description>
+      <DisplayName>MAVLink system ID of this vehicle</DisplayName>
+      <Description>Allows setting an individual MAVLink system id for this vehicle to distinguish it from others on the same network</Description>
       <Range>1 255</Range>
       <User>Advanced</User>
     </SYSID_THISMAV>
@@ -5865,30 +6021,14 @@
       <Range>1 255</Range>
       <User>Advanced</User>
     </SYSID_MYGCS>
-    <SERIAL0_BAUD>
-      <DisplayName>USB Console Baud Rate</DisplayName>
-      <Description>The baud rate used on the USB console. The APM2 can support all baudrates up to 115, and also can support 500. The PX4 can support rates of up to 1500. If you setup a rate you cannot support on APM2 and then can't connect to your board you should load a firmware from a different vehicle type. That will reset all your parameters to defaults.</Description>
-      <Values>1:1200,2:2400,4:4800,9:9600,19:19200,38:38400,57:57600,111:111100,115:115200,500:500000,921:921600,1500:1500000</Values>
-      <User>Standard</User>
-    </SERIAL0_BAUD>
-    <SERIAL1_BAUD>
-      <DisplayName>Telemetry Baud Rate</DisplayName>
-      <Description>The baud rate used on the first telemetry port. The APM2 can support all baudrates up to 115, and also can support 500. The PX4 can support rates of up to 1500. If you setup a rate you cannot support on APM2 and then can't connect to your board you should load a firmware from a different vehicle type. That will reset all your parameters to defaults.</Description>
-      <Values>1:1200,2:2400,4:4800,9:9600,19:19200,38:38400,57:57600,111:111100,115:115200,500:500000,921:921600,1500:1500000</Values>
-      <User>Standard</User>
-    </SERIAL1_BAUD>
-    <SERIAL2_BAUD>
-      <DisplayName>Telemetry Baud Rate</DisplayName>
-      <Description>The baud rate used on the second telemetry port. The APM2 can support all baudrates up to 115, and also can support 500. The PX4 can support rates of up to 1500. If you setup a rate you cannot support on APM2 and then can't connect to your board you should load a firmware from a different vehicle type. That will reset all your parameters to defaults.</Description>
-      <Values>1:1200,2:2400,4:4800,9:9600,19:19200,38:38400,57:57600,111:111100,115:115200,500:500000,921:921600,1500:1500000</Values>
-      <User>Standard</User>
-    </SERIAL2_BAUD>
-    <SERIAL2_PROTOCOL>
-      <DisplayName>SERIAL2 protocol selection</DisplayName>
-      <Description>Control what protocol telemetry 2 port should be used for</Description>
-      <Values>1:GCS Mavlink,2:Frsky D-PORT,3:Frsky S-PORT</Values>
-      <User>Standard</User>
-    </SERIAL2_PROTOCOL>
+    <CLI_ENABLED>
+      <DisplayName>CLI Enable</DisplayName>
+      <Description>This enables/disables the checking for three carriage returns on telemetry links on startup to enter the diagnostics command line interface</Description>
+      <Values>0:Disabled,1:Enabled</Values>
+      <User>Advanced</User>
+      <Group>SERIAL</Group>
+      <Path>../libraries/AP_SerialManager/AP_SerialManager.cpp</Path>
+    </CLI_ENABLED>
     <AUTOTUNE_LEVEL>
       <DisplayName>Autotune level</DisplayName>
       <Description>Level of agressiveness for autotune. When autotune is run a lower AUTOTUNE_LEVEL will result in a 'softer' tune, with less agressive gains. For most users a level of 6 is recommended.</Description>
@@ -5927,13 +6067,21 @@
       <User>Advanced</User>
     </STAB_PITCH_DOWN>
     <GLIDE_SLOPE_MIN>
-      <DisplayName>Glide slope threshold</DisplayName>
+      <DisplayName>Glide slope minimum</DisplayName>
       <Description>This controls the minimum altitude change for a waypoint before a glide slope will be used instead of an immediate altitude change. The default value is 15 meters, which helps to smooth out waypoint missions where small altitude changes happen near waypoints. If you don't want glide slopes to be used in missions then you can set this to zero, which will disable glide slope calculations. Otherwise you can set it to a minimum number of meters of altitude error to the destination waypoint before a glide slope will be used to change altitude.</Description>
       <Range>0 1000</Range>
       <Increment>1</Increment>
       <Units>meters</Units>
       <User>Advanced</User>
     </GLIDE_SLOPE_MIN>
+    <GLIDE_SLOPE_THR>
+      <DisplayName>Glide slope threshold</DisplayName>
+      <Description>This controls the height above the glide slope the plane may be before rebuilding a glide slope. This is useful for smoothing out an autotakeoff</Description>
+      <Range>0 100</Range>
+      <Increment>1</Increment>
+      <Units>meters</Units>
+      <User>Advanced</User>
+    </GLIDE_SLOPE_THR>
     <STICK_MIXING>
       <DisplayName>Stick Mixing</DisplayName>
       <Description>When enabled, this adds user stick input to the control surfaces in auto modes, allowing the user to have some degree of flight control without changing modes.  There are two types of stick mixing available. If you set STICK_MIXING to 1 then it will use "fly by wire" mixing, which controls the roll and pitch in the same way that the FBWA mode does. This is the safest option if you usually fly ArduPlane in FBWA or FBWB mode. If you set STICK_MIXING to 2 then it will enable direct mixing mode, which is what the STABILIZE mode uses. That will allow for much more extreme maneuvers while in AUTO mode.</Description>
@@ -6043,11 +6191,19 @@
     </LAND_FLARE_ALT>
     <LAND_FLARE_SEC>
       <DisplayName>Landing flare time</DisplayName>
-      <Description>Vertical time before landing point at which to lock heading and flare with the motor stopped. This is vertical time, and is calculated based solely on the current height above the ground and the current descent rate.</Description>
+      <Description>Vertical time before landing point at which to lock heading and flare with the motor stopped. This is vertical time, and is calculated based solely on the current height above the ground and the current descent rate.  Set to 0 if you only wish to flare based on altitude (see LAND_FLARE_ALT).</Description>
       <Units>seconds</Units>
       <Increment>0.1</Increment>
       <User>Advanced</User>
     </LAND_FLARE_SEC>
+    <LAND_DISARMDELAY>
+      <DisplayName>Landing disarm delay</DisplayName>
+      <Description>After a landing has completed using a LAND waypoint, automatically disarm after this many seconds have passed. Use 0 to not disarm.</Description>
+      <Units>seconds</Units>
+      <Increment>1</Increment>
+      <Range>0 127</Range>
+      <User>Advanced</User>
+    </LAND_DISARMDELAY>
     <NAV_CONTROLLER>
       <DisplayName>Navigation controller selection</DisplayName>
       <Description>Which navigation controller to enable. Currently the only navigation controller available is L1. From time to time other experimental conrtrollers will be added which are selected using this parameter.</Description>
@@ -6142,8 +6298,8 @@
     </FENCE_RETALT>
     <FENCE_AUTOENABLE>
       <DisplayName>Fence automatic enable</DisplayName>
-      <Description>When set to 1, gefence automatically enables after an auto takeoff and automatically disables at the beginning of an auto landing.  When on the ground before takeoff the fence is disabled. It is highly recommended to not use this option for line of sight flying and use a fence enable channel instead.</Description>
-      <Values>0:NoAutoEnable,1:AutoEnable</Values>
+      <Description>When set to 1, gefence automatically enables after an auto takeoff and automatically disables at the beginning of an auto landing.  When on the ground before takeoff the fence is disabled.  When set to 2, the fence autoenables after an auto takeoff, but only disables the fence floor during landing. It is highly recommended to not use this option for line of sight flying and use a fence enable channel instead.</Description>
+      <Values>0:NoAutoEnable,1:AutoEnable,2:AutoEnableDisableFloorOnly</Values>
       <User>Standard</User>
     </FENCE_AUTOENABLE>
     <FENCE_RET_RALLY>
@@ -6301,7 +6457,7 @@
     </FS_LONG_ACTN>
     <FS_LONG_TIMEOUT>
       <DisplayName>Long failsafe timeout</DisplayName>
-      <Description>The time in seconds that a failsafe condition has to persist before a long failsafe event will occor. This defaults to 20 seconds</Description>
+      <Description>The time in seconds that a failsafe condition has to persist before a long failsafe event will occor. This defaults to 5 seconds</Description>
       <Units>seconds</Units>
       <Range>1 300</Range>
       <Increment>0.5</Increment>
@@ -6368,6 +6524,12 @@
       <Values>0:Manual,1:CIRCLE,2:STABILIZE,3:TRAINING,4:ACRO,5:FBWA,6:FBWB,7:CRUISE,8:AUTOTUNE,10:Auto,11:RTL,12:Loiter,15:Guided</Values>
       <User>Standard</User>
     </FLTMODE6>
+    <INITIAL_MODE>
+      <DisplayName>Initial flight mode</DisplayName>
+      <Description>This selects the mode to start in on boot. This is useful for when you want to start in AUTO mode on boot without a receiver.</Description>
+      <Values>0:Manual,1:CIRCLE,2:STABILIZE,3:TRAINING,4:ACRO,5:FBWA,6:FBWB,7:CRUISE,8:AUTOTUNE,10:Auto,11:RTL,12:Loiter,15:Guided</Values>
+      <User>Advanced</User>
+    </INITIAL_MODE>
     <LIM_ROLL_CD>
       <DisplayName>Maximum Bank Angle</DisplayName>
       <Description>The maximum commanded bank angle in either direction</Description>
@@ -6438,7 +6600,7 @@
     </TRIM_AUTO>
     <ELEVON_MIXING>
       <DisplayName>Elevon mixing</DisplayName>
-      <Description>Enable elevon mixing  on both input and output. To enable just output mixing see the ELEVON_OUTPUT option.</Description>
+      <Description>This enables an older form of elevon mixing which is now deprecated. Please see the ELEVON_OUTPUT option for setting up elevons. The ELEVON_MIXING option should be set to 0 for elevon planes except for backwards compatibilty with older setups.</Description>
       <Values>0:Disabled,1:Enabled</Values>
       <User>User</User>
     </ELEVON_MIXING>
@@ -6478,6 +6640,12 @@
       <Range>0.5 1.2</Range>
       <User>User</User>
     </MIXING_GAIN>
+    <RUDDER_ONLY>
+      <DisplayName>Rudder only aircraft</DisplayName>
+      <Description>Enable rudder only mode. The rudder will control attitude in attitude controlled modes (such as FBWA). You should setup your transmitter to send roll stick inputs to the RCMAP_YAW channel (normally channel 4). The rudder servo should be attached to the RCMAP_YAW channel as well. Note that automatic ground steering will be disabled for rudder only aircraft. You should also set KFF_RDDRMIX to 1.0. You will also need to setup the YAW2SRV_DAMP yaw damping appropriately for your aircraft. A value of 0.5 for YAW2SRV_DAMP is a good starting point.</Description>
+      <Values>0:Disabled,1:Enabled</Values>
+      <User>User</User>
+    </RUDDER_ONLY>
     <SYS_NUM_RESETS>
       <DisplayName>Num Resets</DisplayName>
       <Description>Number of APM board resets</Description>
@@ -6485,7 +6653,7 @@
     </SYS_NUM_RESETS>
     <LOG_BITMASK>
       <DisplayName>Log bitmask</DisplayName>
-      <Description>Bitmap of what log types to enable in dataflash. This values is made up of the sum of each of the log types you want to be saved on dataflash. On a PX4 or Pixhawk the large storage size of a microSD card means it is usually best just to enable all log types by setting this to 65535. On APM2 the smaller 4 MByte dataflash means you need to be more selective in your logging or you may run out of log space while flying (in which case it will wrap and overwrite the start of the log). The individual bits are ATTITUDE_FAST=1, ATTITUDE_MEDIUM=2, GPS=4, PerformanceMonitoring=8, ControlTuning=16, NavigationTuning=32, Mode=64, IMU=128, Commands=256, Battery=512, Compass=1024, TECS=2048, Camera=4096, RCandServo=8192, Sonar=16384, Arming=32768, LogWhenDisarmed=65536</Description>
+      <Description>Bitmap of what log types to enable in dataflash. This values is made up of the sum of each of the log types you want to be saved on dataflash. On a PX4 or Pixhawk the large storage size of a microSD card means it is usually best just to enable all log types by setting this to 65535. On APM2 the smaller 4 MByte dataflash means you need to be more selective in your logging or you may run out of log space while flying (in which case it will wrap and overwrite the start of the log). The individual bits are ATTITUDE_FAST=1, ATTITUDE_MEDIUM=2, GPS=4, PerformanceMonitoring=8, ControlTuning=16, NavigationTuning=32, Mode=64, IMU=128, Commands=256, Battery=512, Compass=1024, TECS=2048, Camera=4096, RCandServo=8192, Sonar=16384, Arming=32768, LogWhenDisarmed=65536, FullLogsArmedOnly=65535, FullLogsWhenDisarmed=131071</Description>
       <Values>0:Disabled,5190:APM2-Default,65535:PX4/Pixhawk-Default</Values>
       <User>Advanced</User>
     </LOG_BITMASK>
@@ -6613,6 +6781,12 @@
       <Values>0:Disabled,1:Channel1,2:Channel2,3:Channel3,4:Channel4,5:Channel5,6:Channel6,7:Channel7,8:Channel8</Values>
       <User>Standard</User>
     </INVERTEDFLT_CH>
+    <HIL_MODE>
+      <DisplayName>HIL mode enable</DisplayName>
+      <Description>This enables and disables hardware in the loop mode. If HIL_MODE is 1 then on the next reboot all sensors are replaced with HIL sensors which come from the GCS.</Description>
+      <Values>0:Disabled,1:Enabled</Values>
+      <User>Advanced</User>
+    </HIL_MODE>
     <HIL_SERVOS>
       <DisplayName>HIL Servos enable</DisplayName>
       <Description>This controls whether real servo controls are used in HIL mode. If you enable this then the APM will control the real servos in HIL mode. If disabled it will report servo values, but will not output to the real servos. Be careful that your motor and propeller are not connected if you enable this option.</Description>
@@ -6630,11 +6804,17 @@
     <RTL_AUTOLAND>
       <DisplayName>RTL auto land</DisplayName>
       <Description>Automatically begin landing sequence after arriving at RTL location. This requires the addition of a DO_LAND_START mission item, which acts as a marker for the start of a landing sequence. The closest landing sequence will be chosen to the current location.</Description>
+      <Values>0:Disable,1:Enable - go HOME then land,2:Enable - go directly to landing sequence</Values>
+      <User>Standard</User>
+    </RTL_AUTOLAND>
+    <RC_TRIM_AT_START>
+      <DisplayName>RC Trims auto set at start.</DisplayName>
+      <Description>Automatically set roll/pitch trim from Tx at ground start. This makes the assumption that the RC transmitter has not been altered since trims were last captured.</Description>
       <Values>0:Disable,1:Enable</Values>
       <User>Standard</User>
       <Group>GND_</Group>
       <Path>../libraries/AP_Baro/AP_Baro.cpp</Path>
-    </RTL_AUTOLAND>
+    </RC_TRIM_AT_START>
     <RNGFND_LANDING>
       <DisplayName>Enable rangefinder for landing</DisplayName>
       <Description>This enables the use of a rangefinder for automatic landing. The rangefinder will be used both on the landing approach and for final flare</Description>
@@ -6644,6 +6824,7 @@
       <Path>../libraries/AP_Terrain/AP_Terrain.cpp</Path>
     </RNGFND_LANDING>
   </ArduPlane>
+  <ArduPlane />
   <ArduRover>
     <RC1_MIN>
       <DisplayName>RC min PWM</DisplayName>
@@ -7347,7 +7528,7 @@
     <COMPASS_ORIENT>
       <DisplayName>Compass orientation</DisplayName>
       <Description>The orientation of the compass relative to the autopilot board. This will default to the right value for each board type, but can be changed if you have an external compass. See the documentation for your external compass for the right value. The correct orientation should give the X axis forward, the Y axis to the right and the Z axis down. So if your aircraft is pointing west it should show a positive value for the Y axis, and a value close to zero for the X axis. On a PX4 or Pixhawk with an external compass the correct value is zero if the compass is correctly oriented. NOTE: This orientation is combined with any AHRS_ORIENTATION setting.</Description>
-      <Values>0:None,1:Yaw45,2:Yaw90,3:Yaw135,4:Yaw180,5:Yaw225,6:Yaw270,7:Yaw315,8:Roll180,9:Roll180Yaw45,10:Roll180Yaw90,11:Roll180Yaw135,12:Pitch180,13:Roll180Yaw225,14:Roll180Yaw270,15:Roll180Yaw315,16:Roll90,17:Roll90Yaw45,18:Roll90Yaw90,19:Roll90Yaw135,20:Roll270,21:Roll270Yaw45,22:Roll270Yaw90,23:Roll270Yaw136,24:Pitch90,25:Pitch270,26:Pitch180Yaw90,27:Pitch180Yaw270,28:Roll90Pitch90,29:Roll180Pitch90,30:Roll270Pitch90,31:Roll90Pitch180,32:Roll270Pitch180,33:Roll90Pitch270,34:Roll180Pitch270,35:Roll270Pitch270,36:Roll90Pitch180Yaw90,37:Roll90Yaw270</Values>
+      <Values>0:None,1:Yaw45,2:Yaw90,3:Yaw135,4:Yaw180,5:Yaw225,6:Yaw270,7:Yaw315,8:Roll180,9:Roll180Yaw45,10:Roll180Yaw90,11:Roll180Yaw135,12:Pitch180,13:Roll180Yaw225,14:Roll180Yaw270,15:Roll180Yaw315,16:Roll90,17:Roll90Yaw45,18:Roll90Yaw90,19:Roll90Yaw135,20:Roll270,21:Roll270Yaw45,22:Roll270Yaw90,23:Roll270Yaw136,24:Pitch90,25:Pitch270,26:Pitch180Yaw90,27:Pitch180Yaw270,28:Roll90Pitch90,29:Roll180Pitch90,30:Roll270Pitch90,31:Roll90Pitch180,32:Roll270Pitch180,33:Roll90Pitch270,34:Roll180Pitch270,35:Roll270Pitch270,36:Roll90Pitch180Yaw90,37:Roll90Yaw270,38:Yaw293Pitch68Roll90</Values>
     </COMPASS_ORIENT>
     <COMPASS_EXTERNAL>
       <DisplayName>Compass is attached via an external cable</DisplayName>
@@ -7463,7 +7644,7 @@
     <COMPASS_ORIENT2>
       <DisplayName>Compass2 orientation</DisplayName>
       <Description>The orientation of the second compass relative to the frame (if external) or autopilot board (if internal).</Description>
-      <Values>0:None,1:Yaw45,2:Yaw90,3:Yaw135,4:Yaw180,5:Yaw225,6:Yaw270,7:Yaw315,8:Roll180,9:Roll180Yaw45,10:Roll180Yaw90,11:Roll180Yaw135,12:Pitch180,13:Roll180Yaw225,14:Roll180Yaw270,15:Roll180Yaw315,16:Roll90,17:Roll90Yaw45,18:Roll90Yaw90,19:Roll90Yaw135,20:Roll270,21:Roll270Yaw45,22:Roll270Yaw90,23:Roll270Yaw136,24:Pitch90,25:Pitch270,26:Pitch180Yaw90,27:Pitch180Yaw270,28:Roll90Pitch90,29:Roll180Pitch90,30:Roll270Pitch90,31:Roll90Pitch180,32:Roll270Pitch180,33:Roll90Pitch270,34:Roll180Pitch270,35:Roll270Pitch270,36:Roll90Pitch180Yaw90,37:Roll90Yaw270</Values>
+      <Values>0:None,1:Yaw45,2:Yaw90,3:Yaw135,4:Yaw180,5:Yaw225,6:Yaw270,7:Yaw315,8:Roll180,9:Roll180Yaw45,10:Roll180Yaw90,11:Roll180Yaw135,12:Pitch180,13:Roll180Yaw225,14:Roll180Yaw270,15:Roll180Yaw315,16:Roll90,17:Roll90Yaw45,18:Roll90Yaw90,19:Roll90Yaw135,20:Roll270,21:Roll270Yaw45,22:Roll270Yaw90,23:Roll270Yaw136,24:Pitch90,25:Pitch270,26:Pitch180Yaw90,27:Pitch180Yaw270,28:Roll90Pitch90,29:Roll180Pitch90,30:Roll270Pitch90,31:Roll90Pitch180,32:Roll270Pitch180,33:Roll90Pitch270,34:Roll180Pitch270,35:Roll270Pitch270,36:Roll90Pitch180Yaw90,37:Roll90Yaw270,38:Yaw293Pitch68Roll90</Values>
     </COMPASS_ORIENT2>
     <COMPASS_EXTERN2>
       <DisplayName>Compass2 is attached via an external cable</DisplayName>
@@ -7480,7 +7661,7 @@
     <COMPASS_ORIENT3>
       <DisplayName>Compass3 orientation</DisplayName>
       <Description>The orientation of the third compass relative to the frame (if external) or autopilot board (if internal).</Description>
-      <Values>0:None,1:Yaw45,2:Yaw90,3:Yaw135,4:Yaw180,5:Yaw225,6:Yaw270,7:Yaw315,8:Roll180,9:Roll180Yaw45,10:Roll180Yaw90,11:Roll180Yaw135,12:Pitch180,13:Roll180Yaw225,14:Roll180Yaw270,15:Roll180Yaw315,16:Roll90,17:Roll90Yaw45,18:Roll90Yaw90,19:Roll90Yaw135,20:Roll270,21:Roll270Yaw45,22:Roll270Yaw90,23:Roll270Yaw136,24:Pitch90,25:Pitch270,26:Pitch180Yaw90,27:Pitch180Yaw270,28:Roll90Pitch90,29:Roll180Pitch90,30:Roll270Pitch90,31:Roll90Pitch180,32:Roll270Pitch180,33:Roll90Pitch270,34:Roll180Pitch270,35:Roll270Pitch270,36:Roll90Pitch180Yaw90,37:Roll90Yaw270</Values>
+      <Values>0:None,1:Yaw45,2:Yaw90,3:Yaw135,4:Yaw180,5:Yaw225,6:Yaw270,7:Yaw315,8:Roll180,9:Roll180Yaw45,10:Roll180Yaw90,11:Roll180Yaw135,12:Pitch180,13:Roll180Yaw225,14:Roll180Yaw270,15:Roll180Yaw315,16:Roll90,17:Roll90Yaw45,18:Roll90Yaw90,19:Roll90Yaw135,20:Roll270,21:Roll270Yaw45,22:Roll270Yaw90,23:Roll270Yaw136,24:Pitch90,25:Pitch270,26:Pitch180Yaw90,27:Pitch180Yaw270,28:Roll90Pitch90,29:Roll180Pitch90,30:Roll270Pitch90,31:Roll90Pitch180,32:Roll270Pitch180,33:Roll90Pitch270,34:Roll180Pitch270,35:Roll270Pitch270,36:Roll90Pitch180Yaw90,37:Roll90Yaw270,38:Yaw293Pitch68Roll90</Values>
     </COMPASS_ORIENT3>
     <COMPASS_EXTERN3>
       <DisplayName>Compass3 is attached via an external cable</DisplayName>
@@ -7517,25 +7698,25 @@
       <DisplayName>First Relay Pin</DisplayName>
       <Description>Digital pin number for first relay control. This is the pin used for camera control.</Description>
       <User>Standard</User>
-      <Values>-1:Disabled,13:APM2 A9 pin,47:APM1 relay,50:Pixhawk FMU AUX1,51:Pixhawk FMU AUX2,52:Pixhawk FMU AUX3,53:Pixhawk FMU AUX4,54:Pixhawk FMU AUX5,55:Pixhawk FMU AUX6,111:PX4 FMU Relay1,112:PX4 FMU Relay2,113:PX4IO Relay1,114:PX4IO Relay2,115:PX4IO ACC1,116:PX4IO ACC2</Values>
+      <Values>-1:Disabled,13:APM2 A9 pin,47:APM1 relay,50:Pixhawk AUXOUT1,51:Pixhawk AUXOUT2,52:Pixhawk AUXOUT3,53:Pixhawk AUXOUT4,54:Pixhawk AUXOUT5,55:Pixhawk AUXOUT6,111:PX4 FMU Relay1,112:PX4 FMU Relay2,113:PX4IO Relay1,114:PX4IO Relay2,115:PX4IO ACC1,116:PX4IO ACC2</Values>
     </RELAY_PIN>
     <RELAY_PIN2>
       <DisplayName>Second Relay Pin</DisplayName>
       <Description>Digital pin number for 2nd relay control.</Description>
       <User>Standard</User>
-      <Values>-1:Disabled,13:APM2 A9 pin,47:APM1 relay,50:Pixhawk FMU AUX1,51:Pixhawk FMU AUX2,52:Pixhawk FMU AUX3,53:Pixhawk FMU AUX4,54:Pixhawk FMU AUX5,55:Pixhawk FMU AUX6,111:PX4 FMU Relay1,112:PX4 FMU Relay2,113:PX4IO Relay1,114:PX4IO Relay2,115:PX4IO ACC1,116:PX4IO ACC2</Values>
+      <Values>-1:Disabled,13:APM2 A9 pin,47:APM1 relay,50:Pixhawk AUXOUT1,51:Pixhawk AUXOUT2,52:Pixhawk AUXOUT3,53:Pixhawk AUXOUT4,54:Pixhawk AUXOUT5,55:Pixhawk AUXOUT6,111:PX4 FMU Relay1,112:PX4 FMU Relay2,113:PX4IO Relay1,114:PX4IO Relay2,115:PX4IO ACC1,116:PX4IO ACC2</Values>
     </RELAY_PIN2>
     <RELAY_PIN3>
       <DisplayName>Third Relay Pin</DisplayName>
       <Description>Digital pin number for 3rd relay control.</Description>
       <User>Standard</User>
-      <Values>-1:Disabled,13:APM2 A9 pin,47:APM1 relay,50:Pixhawk FMU AUX1,51:Pixhawk FMU AUX2,52:Pixhawk FMU AUX3,53:Pixhawk FMU AUX4,54:Pixhawk FMU AUX5,55:Pixhawk FMU AUX6,111:PX4 FMU Relay1,112:PX4 FMU Relay2,113:PX4IO Relay1,114:PX4IO Relay2,115:PX4IO ACC1,116:PX4IO ACC2</Values>
+      <Values>-1:Disabled,13:APM2 A9 pin,47:APM1 relay,50:Pixhawk AUXOUT1,51:Pixhawk AUXOUT2,52:Pixhawk AUXOUT3,53:Pixhawk AUXOUT4,54:Pixhawk AUXOUT5,55:Pixhawk AUXOUT6,111:PX4 FMU Relay1,112:PX4 FMU Relay2,113:PX4IO Relay1,114:PX4IO Relay2,115:PX4IO ACC1,116:PX4IO ACC2</Values>
     </RELAY_PIN3>
     <RELAY_PIN4>
       <DisplayName>Fourth Relay Pin</DisplayName>
       <Description>Digital pin number for 4th relay control.</Description>
       <User>Standard</User>
-      <Values>-1:Disabled,13:APM2 A9 pin,47:APM1 relay,50:Pixhawk FMU AUX1,51:Pixhawk FMU AUX2,52:Pixhawk FMU AUX3,53:Pixhawk FMU AUX4,54:Pixhawk FMU AUX5,55:Pixhawk FMU AUX6,111:PX4 FMU Relay1,112:PX4 FMU Relay2,113:PX4IO Relay1,114:PX4IO Relay2,115:PX4IO ACC1,116:PX4IO ACC2</Values>
+      <Values>-1:Disabled,13:APM2 A9 pin,47:APM1 relay,50:Pixhawk AUXOUT1,51:Pixhawk AUXOUT2,52:Pixhawk AUXOUT3,53:Pixhawk AUXOUT4,54:Pixhawk AUXOUT5,55:Pixhawk AUXOUT6,111:PX4 FMU Relay1,112:PX4 FMU Relay2,113:PX4IO Relay1,114:PX4IO Relay2,115:PX4IO ACC1,116:PX4IO ACC2</Values>
     </RELAY_PIN4>
     <RELAY_DEFAULT>
       <DisplayName>Default relay state</DisplayName>
@@ -7571,9 +7752,63 @@
       <Increment>1</Increment>
       <User>Advanced</User>
     </RCMAP_YAW>
+    <SERIAL0_BAUD>
+      <DisplayName>Serial0 baud rate</DisplayName>
+      <Description>The baud rate used on the USB console. The APM2 can support all baudrates up to 115, and also can support 500. The PX4 can support rates of up to 1500. If you setup a rate you cannot support on APM2 and then can't connect to your board you should load a firmware from a different vehicle type. That will reset all your parameters to defaults.</Description>
+      <Values>1:1200,2:2400,4:4800,9:9600,19:19200,38:38400,57:57600,111:111100,115:115200,500:500000,921:921600,1500:1500000</Values>
+      <User>Standard</User>
+    </SERIAL0_BAUD>
+    <SERIAL1_PROTOCOL>
+      <DisplayName>Telem1 protocol selection</DisplayName>
+      <Description>Control what protocol to use on the Telem1 port. Note that the Frsky options require external converter hardware. See the wiki for details.</Description>
+      <Values>1:GCS Mavlink, 2:GCS Mavlink (2nd), 3:Frsky D-PORT, 4:Frsky S-PORT, 5:GPS, 6:2nd GPS, 7:Alexmos Gimbal Serial</Values>
+      <User>Standard</User>
+    </SERIAL1_PROTOCOL>
+    <SERIAL1_BAUD>
+      <DisplayName>Telem1 Baud Rate</DisplayName>
+      <Description>The baud rate used on the Telem1 port. The APM2 can support all baudrates up to 115, and also can support 500. The PX4 can support rates of up to 1500. If you setup a rate you cannot support on APM2 and then can't connect to your board you should load a firmware from a different vehicle type. That will reset all your parameters to defaults.</Description>
+      <Values>1:1200,2:2400,4:4800,9:9600,19:19200,38:38400,57:57600,111:111100,115:115200,500:500000,921:921600,1500:1500000</Values>
+      <User>Standard</User>
+    </SERIAL1_BAUD>
+    <SERIAL2_PROTOCOL>
+      <DisplayName>Telemetry 2 protocol selection</DisplayName>
+      <Description>Control what protocol to use on the Telem2 port. Note that the Frsky options require external converter hardware. See the wiki for details.</Description>
+      <Values>1:GCS Mavlink, 2:GCS Mavlink (2nd), 3:Frsky D-PORT, 4:Frsky S-PORT, 5:GPS, 6:GPS (2nd), 7:Alexmos Gimbal Serial</Values>
+      <User>Standard</User>
+    </SERIAL2_PROTOCOL>
+    <SERIAL2_BAUD>
+      <DisplayName>Telemetry 2 Baud Rate</DisplayName>
+      <Description>The baud rate of the Telem2 port. The APM2 can support all baudrates up to 115, and also can support 500. The PX4 can support rates of up to 1500. If you setup a rate you cannot support on APM2 and then can't connect to your board you should load a firmware from a different vehicle type. That will reset all your parameters to defaults.</Description>
+      <Values>1:1200,2:2400,4:4800,9:9600,19:19200,38:38400,57:57600,111:111100,115:115200,500:500000,921:921600,1500:1500000</Values>
+      <User>Standard</User>
+    </SERIAL2_BAUD>
+    <SERIAL3_PROTOCOL>
+      <DisplayName>Serial 3 (GPS) protocol selection</DisplayName>
+      <Description>Control what protocol Serial 3 (GPS) should be used for. Note that the Frsky options require external converter hardware. See the wiki for details.</Description>
+      <Values>1:GCS Mavlink, 2:GCS Mavlink (2nd), 3:Frsky D-PORT, 4:Frsky S-PORT, 5:GPS, 6:GPS (2nd), 7:Alexmos Gimbal Serial</Values>
+      <User>Standard</User>
+    </SERIAL3_PROTOCOL>
+    <SERIAL3_BAUD>
+      <DisplayName>Serial 3 (GPS) Baud Rate</DisplayName>
+      <Description>The baud rate used for the Serial 3 (GPS). The APM2 can support all baudrates up to 115, and also can support 500. The PX4 can support rates of up to 1500. If you setup a rate you cannot support on APM2 and then can't connect to your board you should load a firmware from a different vehicle type. That will reset all your parameters to defaults.</Description>
+      <Values>1:1200,2:2400,4:4800,9:9600,19:19200,38:38400,57:57600,111:111100,115:115200,500:500000,921:921600,1500:1500000</Values>
+      <User>Standard</User>
+    </SERIAL3_BAUD>
+    <SERIAL4_PROTOCOL>
+      <DisplayName>Serial4 protocol selection</DisplayName>
+      <Description>Control what protocol Serial4 port should be used for. Note that the Frsky options require external converter hardware. See the wiki for details.</Description>
+      <Values>1:GCS Mavlink, 2:GCS Mavlink (2nd), 3:Frsky D-PORT, 4:Frsky S-PORT, 5:GPS, 6:GPS (2nd), 7:Alexmos Gimbal Serial</Values>
+      <User>Standard</User>
+    </SERIAL4_PROTOCOL>
+    <SERIAL4_BAUD>
+      <DisplayName>Serial 4 Baud Rate</DisplayName>
+      <Description>The baud rate used for Serial4. The APM2 can support all baudrates up to 115, and also can support 500. The PX4 can support rates of up to 1500. If you setup a rate you cannot support on APM2 and then can't connect to your board you should load a firmware from a different vehicle type. That will reset all your parameters to defaults.</Description>
+      <Values>1:1200,2:2400,4:4800,9:9600,19:19200,38:38400,57:57600,111:111100,115:115200,500:500000,921:921600,1500:1500000</Values>
+      <User>Standard</User>
+    </SERIAL4_BAUD>
     <NAVL1_PERIOD>
       <DisplayName>L1 control period</DisplayName>
-      <Description>Period in seconds of L1 tracking loop. This parameter is the primary control for agressiveness of turns in auto mode. This needs to be larger for less responsive airframes. The default of 30 is very conservative, and for most RC aircraft will lead to slow and lazy turns. For smaller more agile aircraft a value closer to 20 is appropriate, or even as low as 10 for some very agile aircraft. When tuning, change this value in small increments, as a value that is much too small (say 5 or 10 below the right value) can lead to very radical turns, and a risk of stalling.</Description>
+      <Description>Period in seconds of L1 tracking loop. This parameter is the primary control for agressiveness of turns in auto mode. This needs to be larger for less responsive airframes. The default of 20 is quite conservative, but for most RC aircraft will lead to reasonable flight. For smaller more agile aircraft a value closer to 15 is appropriate, or even as low as 10 for some very agile aircraft. When tuning, change this value in small increments, as a value that is much too small (say 5 or 10 below the right value) can lead to very radical turns, and a risk of stalling.</Description>
       <Units>seconds</Units>
       <Range>1-60</Range>
       <Increment>1</Increment>
@@ -7587,11 +7822,12 @@
     <RNGFND_TYPE>
       <DisplayName>Rangefinder type</DisplayName>
       <Description>What type of rangefinder device that is connected</Description>
-      <Values>0:None,1:Analog,2:APM2-MaxbotixI2C,3:APM2-PulsedLightI2C,4:PX4-I2C</Values>
+      <Values>0:None,1:Analog,2:APM2-MaxbotixI2C,3:APM2-PulsedLightI2C,4:PX4-I2C,5:PX4-PWM</Values>
     </RNGFND_TYPE>
     <RNGFND_PIN>
       <DisplayName>Rangefinder pin</DisplayName>
       <Description>Analog pin that rangefinder is connected to. Set this to 0..9 for the APM2 analog pins. Set to 64 on an APM1 for the dedicated 'airspeed' port on the end of the board. Set to 11 on PX4 for the analog 'airspeed' port. Set to 15 on the Pixhawk for the analog 'airspeed' port.</Description>
+      <Values>-1:Not Used, 0:APM2-A0, 1:APM2-A1, 2:APM2-A2, 3:APM2-A3, 4:APM2-A4, 5:APM2-A5, 6:APM2-A6, 7:APM2-A7, 8:APM2-A8, 9:APM2-A9, 11:PX4-airspeed port, 15:Pixhawk-airspeed port, 64:APM1-airspeed port</Values>
     </RNGFND_PIN>
     <RNGFND_SCALING>
       <DisplayName>Rangefinder scaling</DisplayName>
@@ -7625,6 +7861,7 @@
     <RNGFND_STOP_PIN>
       <DisplayName>Rangefinder stop pin</DisplayName>
       <Description>Digital pin that enables/disables rangefinder measurement for an analog rangefinder. A value of -1 means no pin. If this is set, then the pin is set to 1 to enable the rangefinder and set to 0 to disable it. This can be used to ensure that multiple sonar rangefinders don't interfere with each other.</Description>
+      <Values>-1:Not Used,50:Pixhawk AUXOUT1,51:Pixhawk AUXOUT2,52:Pixhawk AUXOUT3,53:Pixhawk AUXOUT4,54:Pixhawk AUXOUT5,55:Pixhawk AUXOUT6,111:PX4 FMU Relay1,112:PX4 FMU Relay2,113:PX4IO Relay1,114:PX4IO Relay2,115:PX4IO ACC1,116:PX4IO ACC2</Values>
     </RNGFND_STOP_PIN>
     <RNGFND_SETTLE>
       <DisplayName>Rangefinder settle time</DisplayName>
@@ -7637,14 +7874,21 @@
       <Description>This parameter sets whether an analog rangefinder is ratiometric. Most analog rangefinders are ratiometric, meaning that their output voltage is influenced by the supply voltage. Some analog rangefinders (such as the SF/02) have their own internal voltage regulators so they are not ratiometric.</Description>
       <Values>0:No,1:Yes</Values>
     </RNGFND_RMETRIC>
+    <RNGFNDRNGFND_PWRRNG>
+      <DisplayName>Powersave range</DisplayName>
+      <Description>This parameter sets the estimated terrain distance in meters above which the sensor will be put into a power saving mode (if available). A value of zero means power saving is not enabled</Description>
+      <Units>meters</Units>
+      <Range>0 32767</Range>
+    </RNGFNDRNGFND_PWRRNG>
     <RNGFND2_TYPE>
       <DisplayName>Second Rangefinder type</DisplayName>
       <Description>What type of rangefinder device that is connected</Description>
-      <Values>0:None,1:Analog,2:APM2-MaxbotixI2C,3:APM2-PulsedLightI2C,4:PX4-I2C</Values>
+      <Values>0:None,1:Analog,2:APM2-MaxbotixI2C,3:APM2-PulsedLightI2C,4:PX4-I2C,5:PX4-PWM</Values>
     </RNGFND2_TYPE>
     <RNGFND2_PIN>
       <DisplayName>Rangefinder pin</DisplayName>
       <Description>Analog pin that rangefinder is connected to. Set this to 0..9 for the APM2 analog pins. Set to 64 on an APM1 for the dedicated 'airspeed' port on the end of the board. Set to 11 on PX4 for the analog 'airspeed' port. Set to 15 on the Pixhawk for the analog 'airspeed' port.</Description>
+      <Values>-1:Not Used, 0:APM2-A0, 1:APM2-A1, 2:APM2-A2, 3:APM2-A3, 4:APM2-A4, 5:APM2-A5, 6:APM2-A6, 7:APM2-A7, 8:APM2-A8, 9:APM2-A9, 11:PX4-airspeed port, 15:Pixhawk-airspeed port, 64:APM1-airspeed port</Values>
     </RNGFND2_PIN>
     <RNGFND2_SCALING>
       <DisplayName>Rangefinder scaling</DisplayName>
@@ -7678,6 +7922,7 @@
     <RNGFND2_STOP_PIN>
       <DisplayName>Rangefinder stop pin</DisplayName>
       <Description>Digital pin that enables/disables rangefinder measurement for an analog rangefinder. A value of -1 means no pin. If this is set, then the pin is set to 1 to enable the rangefinder and set to 0 to disable it. This can be used to ensure that multiple sonar rangefinders don't interfere with each other.</Description>
+      <Values>-1:Not Used,50:Pixhawk AUXOUT1,51:Pixhawk AUXOUT2,52:Pixhawk AUXOUT3,53:Pixhawk AUXOUT4,54:Pixhawk AUXOUT5,55:Pixhawk AUXOUT6,111:PX4 FMU Relay1,112:PX4 FMU Relay2,113:PX4IO Relay1,114:PX4IO Relay2,115:PX4IO ACC1,116:PX4IO ACC2</Values>
     </RNGFND2_STOP_PIN>
     <RNGFND2_SETTLE>
       <DisplayName>Sonar settle time</DisplayName>
@@ -7989,192 +8234,337 @@
       <Units>meters</Units>
       <Range>0 1000</Range>
     </CAM_TRIGG_DIST>
-    <MNT_MODE>
-      <DisplayName>Mount operation mode</DisplayName>
-      <Description>Camera or antenna mount operation mode</Description>
-      <Values>0:retract,1:neutral,2:MavLink_targeting,3:RC_targeting,4:GPS_point</Values>
+    <MNT__DEFLT_MODE>
+      <DisplayName>Mount default operating mode</DisplayName>
+      <Description>Mount default operating mode on startup and after control is returned from autopilot</Description>
+      <Values>0:Retracted,1:Neutral,2:MavLink Targeting,3:RC Targeting,4:GPS Point</Values>
       <User>Standard</User>
-    </MNT_MODE>
-    <MNT_RETRACT_X>
+    </MNT__DEFLT_MODE>
+    <MNT__RETRACT_X>
       <DisplayName>Mount roll angle when in retracted position</DisplayName>
       <Description>Mount roll angle when in retracted position</Description>
       <Units>Degrees</Units>
       <Range>-180.00 179.99</Range>
       <Increment>1</Increment>
       <User>Standard</User>
-    </MNT_RETRACT_X>
-    <MNT_RETRACT_Y>
+    </MNT__RETRACT_X>
+    <MNT__RETRACT_Y>
       <DisplayName>Mount tilt/pitch angle when in retracted position</DisplayName>
       <Description>Mount tilt/pitch angle when in retracted position</Description>
       <Units>Degrees</Units>
       <Range>-180.00 179.99</Range>
       <Increment>1</Increment>
       <User>Standard</User>
-    </MNT_RETRACT_Y>
-    <MNT_RETRACT_Z>
+    </MNT__RETRACT_Y>
+    <MNT__RETRACT_Z>
       <DisplayName>Mount yaw/pan angle when in retracted position</DisplayName>
       <Description>Mount yaw/pan angle when in retracted position</Description>
       <Units>Degrees</Units>
       <Range>-180.00 179.99</Range>
       <Increment>1</Increment>
       <User>Standard</User>
-    </MNT_RETRACT_Z>
-    <MNT_NEUTRAL_X>
+    </MNT__RETRACT_Z>
+    <MNT__NEUTRAL_X>
       <DisplayName>Mount roll angle when in neutral position</DisplayName>
       <Description>Mount roll angle when in neutral position</Description>
       <Units>Degrees</Units>
       <Range>-180.00 179.99</Range>
       <Increment>1</Increment>
       <User>Standard</User>
-    </MNT_NEUTRAL_X>
-    <MNT_NEUTRAL_Y>
+    </MNT__NEUTRAL_X>
+    <MNT__NEUTRAL_Y>
       <DisplayName>Mount tilt/pitch angle when in neutral position</DisplayName>
       <Description>Mount tilt/pitch angle when in neutral position</Description>
       <Units>Degrees</Units>
       <Range>-180.00 179.99</Range>
       <Increment>1</Increment>
       <User>Standard</User>
-    </MNT_NEUTRAL_Y>
-    <MNT_NEUTRAL_Z>
+    </MNT__NEUTRAL_Y>
+    <MNT__NEUTRAL_Z>
       <DisplayName>Mount pan/yaw angle when in neutral position</DisplayName>
       <Description>Mount pan/yaw angle when in neutral position</Description>
       <Units>Degrees</Units>
       <Range>-180.00 179.99</Range>
       <Increment>1</Increment>
       <User>Standard</User>
-    </MNT_NEUTRAL_Z>
-    <MNT_CONTROL_X>
-      <DisplayName>Mount roll angle command from groundstation</DisplayName>
-      <Description>Mount roll angle when in MavLink or RC control operation mode</Description>
-      <Units>Degrees</Units>
-      <Range>-180.00 179.99</Range>
-      <Increment>1</Increment>
-    </MNT_CONTROL_X>
-    <MNT_CONTROL_Y>
-      <DisplayName>Mount tilt/pitch angle command from groundstation</DisplayName>
-      <Description>Mount tilt/pitch angle when in MavLink or RC control operation mode</Description>
-      <Units>Degrees</Units>
-      <Range>-180.00 179.99</Range>
-      <Increment>1</Increment>
-    </MNT_CONTROL_Y>
-    <MNT_CONTROL_Z>
-      <DisplayName>Mount pan/yaw angle command from groundstation</DisplayName>
-      <Description>Mount pan/yaw angle when in MavLink or RC control operation mode</Description>
-      <Units>Degrees</Units>
-      <Range>-180.00 179.99</Range>
-      <Increment>1</Increment>
-    </MNT_CONTROL_Z>
-    <MNT_STAB_ROLL>
+    </MNT__NEUTRAL_Z>
+    <MNT__STAB_ROLL>
       <DisplayName>Stabilize mount's roll angle</DisplayName>
       <Description>enable roll stabilisation relative to Earth</Description>
       <Values>0:Disabled,1:Enabled</Values>
       <User>Standard</User>
-    </MNT_STAB_ROLL>
-    <MNT_STAB_TILT>
+    </MNT__STAB_ROLL>
+    <MNT__STAB_TILT>
       <DisplayName>Stabilize mount's pitch/tilt angle</DisplayName>
       <Description>enable tilt/pitch stabilisation relative to Earth</Description>
       <Values>0:Disabled,1:Enabled</Values>
       <User>Standard</User>
-    </MNT_STAB_TILT>
-    <MNT_STAB_PAN>
+    </MNT__STAB_TILT>
+    <MNT__STAB_PAN>
       <DisplayName>Stabilize mount pan/yaw angle</DisplayName>
       <Description>enable pan/yaw stabilisation relative to Earth</Description>
       <Values>0:Disabled,1:Enabled</Values>
       <User>Standard</User>
-    </MNT_STAB_PAN>
-    <MNT_RC_IN_ROLL>
+    </MNT__STAB_PAN>
+    <MNT__RC_IN_ROLL>
       <DisplayName>roll RC input channel</DisplayName>
       <Description>0 for none, any other for the RC channel to be used to control roll movements</Description>
       <Values>0:Disabled,5:RC5,6:RC6,7:RC7,8:RC8</Values>
       <User>Standard</User>
-    </MNT_RC_IN_ROLL>
-    <MNT_ANGMIN_ROL>
+    </MNT__RC_IN_ROLL>
+    <MNT__ANGMIN_ROL>
       <DisplayName>Minimum roll angle</DisplayName>
       <Description>Minimum physical roll angular position of mount.</Description>
       <Units>Centi-Degrees</Units>
       <Range>-18000 17999</Range>
       <Increment>1</Increment>
       <User>Standard</User>
-    </MNT_ANGMIN_ROL>
-    <MNT_ANGMAX_ROL>
+    </MNT__ANGMIN_ROL>
+    <MNT__ANGMAX_ROL>
       <DisplayName>Maximum roll angle</DisplayName>
       <Description>Maximum physical roll angular position of the mount</Description>
       <Units>Centi-Degrees</Units>
       <Range>-18000 17999</Range>
       <Increment>1</Increment>
       <User>Standard</User>
-    </MNT_ANGMAX_ROL>
-    <MNT_RC_IN_TILT>
+    </MNT__ANGMAX_ROL>
+    <MNT__RC_IN_TILT>
       <DisplayName>tilt (pitch) RC input channel</DisplayName>
       <Description>0 for none, any other for the RC channel to be used to control tilt (pitch) movements</Description>
       <Values>0:Disabled,5:RC5,6:RC6,7:RC7,8:RC8</Values>
       <User>Standard</User>
-    </MNT_RC_IN_TILT>
-    <MNT_ANGMIN_TIL>
+    </MNT__RC_IN_TILT>
+    <MNT__ANGMIN_TIL>
       <DisplayName>Minimum tilt angle</DisplayName>
       <Description>Minimum physical tilt (pitch) angular position of mount.</Description>
       <Units>Centi-Degrees</Units>
       <Range>-18000 17999</Range>
       <Increment>1</Increment>
       <User>Standard</User>
-    </MNT_ANGMIN_TIL>
-    <MNT_ANGMAX_TIL>
+    </MNT__ANGMIN_TIL>
+    <MNT__ANGMAX_TIL>
       <DisplayName>Maximum tilt angle</DisplayName>
       <Description>Maximum physical tilt (pitch) angular position of the mount</Description>
       <Units>Centi-Degrees</Units>
       <Range>-18000 17999</Range>
       <Increment>1</Increment>
       <User>Standard</User>
-    </MNT_ANGMAX_TIL>
-    <MNT_RC_IN_PAN>
+    </MNT__ANGMAX_TIL>
+    <MNT__RC_IN_PAN>
       <DisplayName>pan (yaw) RC input channel</DisplayName>
       <Description>0 for none, any other for the RC channel to be used to control pan (yaw) movements</Description>
       <Values>0:Disabled,5:RC5,6:RC6,7:RC7,8:RC8</Values>
       <User>Standard</User>
-    </MNT_RC_IN_PAN>
-    <MNT_ANGMIN_PAN>
+    </MNT__RC_IN_PAN>
+    <MNT__ANGMIN_PAN>
       <DisplayName>Minimum pan angle</DisplayName>
       <Description>Minimum physical pan (yaw) angular position of mount.</Description>
       <Units>Centi-Degrees</Units>
       <Range>-18000 17999</Range>
       <Increment>1</Increment>
       <User>Standard</User>
-    </MNT_ANGMIN_PAN>
-    <MNT_ANGMAX_PAN>
+    </MNT__ANGMIN_PAN>
+    <MNT__ANGMAX_PAN>
       <DisplayName>Maximum pan angle</DisplayName>
       <Description>Maximum physical pan (yaw) angular position of the mount</Description>
       <Units>Centi-Degrees</Units>
       <Range>-18000 17999</Range>
       <Increment>1</Increment>
       <User>Standard</User>
-    </MNT_ANGMAX_PAN>
-    <MNT_JSTICK_SPD>
+    </MNT__ANGMAX_PAN>
+    <MNT__JSTICK_SPD>
       <DisplayName>mount joystick speed</DisplayName>
       <Description>0 for position control, small for low speeds, 100 for max speed. A good general value is 10 which gives a movement speed of 3 degrees per second.</Description>
       <Range>0 100</Range>
       <Increment>1</Increment>
       <User>Standard</User>
-    </MNT_JSTICK_SPD>
-    <MNT_LEAD_RLL>
+    </MNT__JSTICK_SPD>
+    <MNT__LEAD_RLL>
       <DisplayName>Roll stabilization lead time</DisplayName>
       <Description>Causes the servo angle output to lead the current angle of the vehicle by some amount of time based on current angular rate, compensating for servo delay. Increase until the servo is responsive but doesn't overshoot. Does nothing with pan stabilization enabled.</Description>
       <Units>Seconds</Units>
       <Range>0.0 0.2</Range>
       <Increment>.005</Increment>
       <User>Standard</User>
-    </MNT_LEAD_RLL>
-    <MNT_LEAD_PTCH>
+    </MNT__LEAD_RLL>
+    <MNT__LEAD_PTCH>
       <DisplayName>Pitch stabilization lead time</DisplayName>
       <Description>Causes the servo angle output to lead the current angle of the vehicle by some amount of time based on current angular rate. Increase until the servo is responsive but doesn't overshoot. Does nothing with pan stabilization enabled.</Description>
       <Units>Seconds</Units>
       <Range>0.0 0.2</Range>
       <Increment>.005</Increment>
       <User>Standard</User>
-    </MNT_LEAD_PTCH>
+    </MNT__LEAD_PTCH>
+    <MNT__TYPE>
+      <DisplayName>Mount Type</DisplayName>
+      <Description>Mount Type (None, Servo or MAVLink)</Description>
+      <Values>0:None, 1:Servo, 2:MAVLink, 3:Alexmos Serial, 4:SToRM32</Values>
+      <User>Standard</User>
+    </MNT__TYPE>
+    <MNT_2_DEFLT_MODE>
+      <DisplayName>Mount default operating mode</DisplayName>
+      <Description>Mount default operating mode on startup and after control is returned from autopilot</Description>
+      <Values>0:Retracted,1:Neutral,2:MavLink Targeting,3:RC Targeting,4:GPS Point</Values>
+      <User>Standard</User>
+    </MNT_2_DEFLT_MODE>
+    <MNT_2_RETRACT_X>
+      <DisplayName>Mount2 roll angle when in retracted position</DisplayName>
+      <Description>Mount2 roll angle when in retracted position</Description>
+      <Units>Degrees</Units>
+      <Range>-180.00 179.99</Range>
+      <Increment>1</Increment>
+      <User>Standard</User>
+    </MNT_2_RETRACT_X>
+    <MNT_2_RETRACT_Y>
+      <DisplayName>Mount2 tilt/pitch angle when in retracted position</DisplayName>
+      <Description>Mount2 tilt/pitch angle when in retracted position</Description>
+      <Units>Degrees</Units>
+      <Range>-180.00 179.99</Range>
+      <Increment>1</Increment>
+      <User>Standard</User>
+    </MNT_2_RETRACT_Y>
+    <MNT_2_RETRACT_Z>
+      <DisplayName>Mount2 yaw/pan angle when in retracted position</DisplayName>
+      <Description>Mount2 yaw/pan angle when in retracted position</Description>
+      <Units>Degrees</Units>
+      <Range>-180.00 179.99</Range>
+      <Increment>1</Increment>
+      <User>Standard</User>
+    </MNT_2_RETRACT_Z>
+    <MNT_2_NEUTRAL_X>
+      <DisplayName>Mount2 roll angle when in neutral position</DisplayName>
+      <Description>Mount2 roll angle when in neutral position</Description>
+      <Units>Degrees</Units>
+      <Range>-180.00 179.99</Range>
+      <Increment>1</Increment>
+      <User>Standard</User>
+    </MNT_2_NEUTRAL_X>
+    <MNT_2_NEUTRAL_Y>
+      <DisplayName>Mount2 tilt/pitch angle when in neutral position</DisplayName>
+      <Description>Mount2 tilt/pitch angle when in neutral position</Description>
+      <Units>Degrees</Units>
+      <Range>-180.00 179.99</Range>
+      <Increment>1</Increment>
+      <User>Standard</User>
+    </MNT_2_NEUTRAL_Y>
+    <MNT_2_NEUTRAL_Z>
+      <DisplayName>Mount2 pan/yaw angle when in neutral position</DisplayName>
+      <Description>Mount2 pan/yaw angle when in neutral position</Description>
+      <Units>Degrees</Units>
+      <Range>-180.00 179.99</Range>
+      <Increment>1</Increment>
+      <User>Standard</User>
+    </MNT_2_NEUTRAL_Z>
+    <MNT_2_STAB_ROLL>
+      <DisplayName>Stabilize Mount2's roll angle</DisplayName>
+      <Description>enable roll stabilisation relative to Earth</Description>
+      <Values>0:Disabled,1:Enabled</Values>
+      <User>Standard</User>
+    </MNT_2_STAB_ROLL>
+    <MNT_2_STAB_TILT>
+      <DisplayName>Stabilize Mount2's pitch/tilt angle</DisplayName>
+      <Description>enable tilt/pitch stabilisation relative to Earth</Description>
+      <Values>0:Disabled,1:Enabled</Values>
+      <User>Standard</User>
+    </MNT_2_STAB_TILT>
+    <MNT_2_STAB_PAN>
+      <DisplayName>Stabilize mount2 pan/yaw angle</DisplayName>
+      <Description>enable pan/yaw stabilisation relative to Earth</Description>
+      <Values>0:Disabled,1:Enabled</Values>
+      <User>Standard</User>
+    </MNT_2_STAB_PAN>
+    <MNT_2_RC_IN_ROLL>
+      <DisplayName>Mount2's roll RC input channel</DisplayName>
+      <Description>0 for none, any other for the RC channel to be used to control roll movements</Description>
+      <Values>0:Disabled,5:RC5,6:RC6,7:RC7,8:RC8</Values>
+      <User>Standard</User>
+    </MNT_2_RC_IN_ROLL>
+    <MNT_2_ANGMIN_ROL>
+      <DisplayName>Mount2's minimum roll angle</DisplayName>
+      <Description>Mount2's minimum physical roll angular position</Description>
+      <Units>Centi-Degrees</Units>
+      <Range>-18000 17999</Range>
+      <Increment>1</Increment>
+      <User>Standard</User>
+    </MNT_2_ANGMIN_ROL>
+    <MNT_2_ANGMAX_ROL>
+      <DisplayName>Mount2's maximum roll angle</DisplayName>
+      <Description>Mount2's maximum physical roll angular position</Description>
+      <Units>Centi-Degrees</Units>
+      <Range>-18000 17999</Range>
+      <Increment>1</Increment>
+      <User>Standard</User>
+    </MNT_2_ANGMAX_ROL>
+    <MNT_2_RC_IN_TILT>
+      <DisplayName>Mount2's tilt (pitch) RC input channel</DisplayName>
+      <Description>0 for none, any other for the RC channel to be used to control tilt (pitch) movements</Description>
+      <Values>0:Disabled,5:RC5,6:RC6,7:RC7,8:RC8</Values>
+      <User>Standard</User>
+    </MNT_2_RC_IN_TILT>
+    <MNT_2_ANGMIN_TIL>
+      <DisplayName>Mount2's minimum tilt angle</DisplayName>
+      <Description>Mount2's minimum physical tilt (pitch) angular position</Description>
+      <Units>Centi-Degrees</Units>
+      <Range>-18000 17999</Range>
+      <Increment>1</Increment>
+      <User>Standard</User>
+    </MNT_2_ANGMIN_TIL>
+    <MNT_2_ANGMAX_TIL>
+      <DisplayName>Mount2's maximum tilt angle</DisplayName>
+      <Description>Mount2's maximum physical tilt (pitch) angular position</Description>
+      <Units>Centi-Degrees</Units>
+      <Range>-18000 17999</Range>
+      <Increment>1</Increment>
+      <User>Standard</User>
+    </MNT_2_ANGMAX_TIL>
+    <MNT_2_RC_IN_PAN>
+      <DisplayName>Mount2's pan (yaw) RC input channel</DisplayName>
+      <Description>0 for none, any other for the RC channel to be used to control pan (yaw) movements</Description>
+      <Values>0:Disabled,5:RC5,6:RC6,7:RC7,8:RC8</Values>
+      <User>Standard</User>
+    </MNT_2_RC_IN_PAN>
+    <MNT_2_ANGMIN_PAN>
+      <DisplayName>Mount2's minimum pan angle</DisplayName>
+      <Description>Mount2's minimum physical pan (yaw) angular position</Description>
+      <Units>Centi-Degrees</Units>
+      <Range>-18000 17999</Range>
+      <Increment>1</Increment>
+      <User>Standard</User>
+    </MNT_2_ANGMIN_PAN>
+    <MNT_2_ANGMAX_PAN>
+      <DisplayName>Mount2's maximum pan angle</DisplayName>
+      <Description>MOunt2's maximum physical pan (yaw) angular position</Description>
+      <Units>Centi-Degrees</Units>
+      <Range>-18000 17999</Range>
+      <Increment>1</Increment>
+      <User>Standard</User>
+    </MNT_2_ANGMAX_PAN>
+    <MNT_2_LEAD_RLL>
+      <DisplayName>Mount2's Roll stabilization lead time</DisplayName>
+      <Description>Causes the servo angle output to lead the current angle of the vehicle by some amount of time based on current angular rate, compensating for servo delay. Increase until the servo is responsive but doesn't overshoot. Does nothing with pan stabilization enabled.</Description>
+      <Units>Seconds</Units>
+      <Range>0.0 0.2</Range>
+      <Increment>.005</Increment>
+      <User>Standard</User>
+    </MNT_2_LEAD_RLL>
+    <MNT_2_LEAD_PTCH>
+      <DisplayName>Mount2's Pitch stabilization lead time</DisplayName>
+      <Description>Causes the servo angle output to lead the current angle of the vehicle by some amount of time based on current angular rate. Increase until the servo is responsive but doesn't overshoot. Does nothing with pan stabilization enabled.</Description>
+      <Units>Seconds</Units>
+      <Range>0.0 0.2</Range>
+      <Increment>.005</Increment>
+      <User>Standard</User>
+    </MNT_2_LEAD_PTCH>
+    <MNT_2_TYPE>
+      <DisplayName>Mount2 Type</DisplayName>
+      <Description>Mount Type (None, Servo or MAVLink)</Description>
+      <Values>0:None, 1:Servo, 2:MAVLink, 3:Alexmos Serial, 4:SToRM32</Values>
+      <User>Standard</User>
+    </MNT_2_TYPE>
     <BATT_MONITOR>
       <DisplayName>Battery monitoring</DisplayName>
       <Description>Controls enabling monitoring of the battery's voltage and current</Description>
-      <Values>0:Disabled,3:Voltage Only,4:Voltage and Current</Values>
+      <Values>0:Disabled,3:Analog Voltage Only,4:Analog Voltage and Current,5:SMBus</Values>
       <User>Standard</User>
     </BATT_MONITOR>
     <BATT_VOLT_PIN>
@@ -8213,16 +8603,48 @@
       <Increment>50</Increment>
       <User>Standard</User>
     </BATT_CAPACITY>
-    <BATT_VOLT2_PIN>
-      <DisplayName>2nd Battery Voltage sensing pin</DisplayName>
-      <Description>This sets the pin for sensing the voltage on a 2nd battery. Set to -1 to disable sensing of a second battery</Description>
+    <BATT_2_MONITOR>
+      <DisplayName>Battery monitoring</DisplayName>
+      <Description>Controls enabling monitoring of the battery's voltage and current</Description>
+      <Values>0:Disabled,3:Analog Voltage Only,4:Analog Voltage and Current,5:SMBus</Values>
       <User>Standard</User>
-    </BATT_VOLT2_PIN>
-    <BATT_VOLT2_MULT>
-      <DisplayName>2nd battery voltage multiplier</DisplayName>
-      <Description>Used to convert the voltage of the VOLT2_PIN to the actual battery's voltage (pin_voltage * VOLT_MULT).</Description>
+    </BATT_2_MONITOR>
+    <BATT_2_VOLT_PIN>
+      <DisplayName>Battery Voltage sensing pin</DisplayName>
+      <Description>Setting this to 0 ~ 13 will enable battery voltage sensing on pins A0 ~ A13. For the 3DR power brick on APM2.5 it should be set to 13. On the PX4 it should be set to 100. On the Pixhawk powered from the PM connector it should be set to 2.</Description>
+      <Values>-1:Disabled, 0:A0, 1:A1, 2:Pixhawk, 13:A13, 100:PX4</Values>
+      <User>Standard</User>
+    </BATT_2_VOLT_PIN>
+    <BATT_2_CURR_PIN>
+      <DisplayName>Battery Current sensing pin</DisplayName>
+      <Description>Setting this to 0 ~ 13 will enable battery current sensing on pins A0 ~ A13. For the 3DR power brick on APM2.5 it should be set to 12. On the PX4 it should be set to 101. On the Pixhawk powered from the PM connector it should be set to 3.</Description>
+      <Values>-1:Disabled, 1:A1, 2:A2, 3:Pixhawk, 12:A12, 101:PX4</Values>
+      <User>Standard</User>
+    </BATT_2_CURR_PIN>
+    <BATT_2_VOLT_MULT>
+      <DisplayName>Voltage Multiplier</DisplayName>
+      <Description>Used to convert the voltage of the voltage sensing pin (BATT_VOLT_PIN) to the actual battery's voltage (pin_voltage * VOLT_MULT). For the 3DR Power brick on APM2 or Pixhawk, this should be set to 10.1. For the Pixhawk with the 3DR 4in1 ESC this should be 12.02. For the PX4 using the PX4IO power supply this should be set to 1.</Description>
       <User>Advanced</User>
-    </BATT_VOLT2_MULT>
+    </BATT_2_VOLT_MULT>
+    <BATT_2_AMP_PERVOL>
+      <DisplayName>Amps per volt</DisplayName>
+      <Description>Number of amps that a 1V reading on the current sensor corresponds to. On the APM2 or Pixhawk using the 3DR Power brick this should be set to 17. For the Pixhawk with the 3DR 4in1 ESC this should be 17.</Description>
+      <Units>Amps/Volt</Units>
+      <User>Standard</User>
+    </BATT_2_AMP_PERVOL>
+    <BATT_2_AMP_OFFSET>
+      <DisplayName>AMP offset</DisplayName>
+      <Description>Voltage offset at zero current on current sensor</Description>
+      <Units>Volts</Units>
+      <User>Standard</User>
+    </BATT_2_AMP_OFFSET>
+    <BATT_2_CAPACITY>
+      <DisplayName>Battery capacity</DisplayName>
+      <Description>Capacity of the battery in mAh when full</Description>
+      <Units>mAh</Units>
+      <Increment>50</Increment>
+      <User>Standard</User>
+    </BATT_2_CAPACITY>
     <BRD_PWM_COUNT>
       <DisplayName>PWM Count</DisplayName>
       <Description>Number of auxillary PWMs to enable. On PX4v1 only 0 or 2 is valid. On Pixhawk 0, 2, 4 or 6 is valid.</Description>
@@ -8243,6 +8665,11 @@
       <Description>Disabling this option will disable the use of the safety switch on PX4 for arming. Use of the safety switch is highly recommended, so you should leave this option set to 1 except in unusual circumstances.</Description>
       <Values>0:Disabled,1:Enabled</Values>
     </BRD_SAFETYENABLE>
+    <BRD_SBUS_OUT>
+      <DisplayName>Enable use of SBUS output</DisplayName>
+      <Description>Enabling this option on a Pixhawk enables SBUS servo output from the SBUS output connector</Description>
+      <Values>0:Disabled,1:Enabled</Values>
+    </BRD_SBUS_OUT>
     <GPS_TYPE>
       <DisplayName>GPS type</DisplayName>
       <Description>GPS type</Description>
@@ -8393,7 +8820,7 @@
     </EKF_POS_DELAY>
     <EKF_GPS_TYPE>
       <DisplayName>GPS velocity mode control</DisplayName>
-      <Description>This parameter controls use of GPS velocity measurements : 0 = use 3D velocity, 1 = use 2D velocity, 2 = use no velocity</Description>
+      <Description>This parameter controls use of GPS velocity measurements : 0 = use 3D velocity, 1 = use 2D velocity, 2 = use no velocity, 3 = use no GPS</Description>
       <Range>0 3</Range>
       <Increment>1</Increment>
       <User>Advanced</User>
@@ -8454,6 +8881,48 @@
       <Increment>5</Increment>
       <User>Advanced</User>
     </EKF_GLITCH_RAD>
+    <EKF_GND_GRADIENT>
+      <DisplayName>Terrain Gradient % RMS</DisplayName>
+      <Description>This parameter sets the RMS terrain gradient percentage assumed by the terrain height estimation. Terrain height can be estimated using optical flow and/or range finder sensor data if fitted. Smaller values cause the terrain height estimate to be slower to respond to changes in measurement. Larger values casue the terrain height estimate to be faster to respond, but also more noisy. Generally this value can be reduced if operating over very flat terrain and increased if operating over uneven terrain.</Description>
+      <Range>1 - 50</Range>
+      <Increment>1</Increment>
+      <User>advanced</User>
+    </EKF_GND_GRADIENT>
+    <EKF_FLOW_NOISE>
+      <DisplayName>Optical flow measurement noise (rad/s)</DisplayName>
+      <Description>This is the RMS value of noise and errors in optical flow measurements. Increasing it reduces the weighting on these measurements.</Description>
+      <Range>0.05 - 1.0</Range>
+      <Increment>0.05</Increment>
+      <User>advanced</User>
+    </EKF_FLOW_NOISE>
+    <EKF_FLOW_GATE>
+      <DisplayName>Optical Flow measurement gate size</DisplayName>
+      <Description>This parameter sets the number of standard deviations applied to the optical flow innovation consistency check. Decreasing it makes it more likely that good measurements will be rejected. Increasing it makes it more likely that bad measurements will be accepted.</Description>
+      <Range>1 - 100</Range>
+      <Increment>1</Increment>
+      <User>advanced</User>
+    </EKF_FLOW_GATE>
+    <EKF_FLOW_DELAY>
+      <DisplayName>Optical Flow measurement delay (msec)</DisplayName>
+      <Description>This is the number of msec that the optical flow measurements lag behind the inertial measurements. It is the time from the end of the optical flow averaging period and does not include the time delay due to the 100msec of averaging within the flow sensor.</Description>
+      <Range>0 - 500</Range>
+      <Increment>10</Increment>
+      <User>advanced</User>
+    </EKF_FLOW_DELAY>
+    <EKF_RNG_GATE>
+      <DisplayName>Range finder measurement gate size</DisplayName>
+      <Description>This parameter sets the number of standard deviations applied to the range finder innovation consistency check. Decreasing it makes it more likely that good measurements will be rejected. Increasing it makes it more likely that bad measurements will be accepted.</Description>
+      <Range>1 - 100</Range>
+      <Increment>1</Increment>
+      <User>advanced</User>
+    </EKF_RNG_GATE>
+    <EKF_MAX_FLOW>
+      <DisplayName>Maximum valid optical flow rate</DisplayName>
+      <Description>This parameter sets the magnitude maximum optical flow rate in rad/sec that will be accepted by the filter</Description>
+      <Range>1.0 - 4.0</Range>
+      <Increment>0.1</Increment>
+      <User>advanced</User>
+    </EKF_MAX_FLOW>
     <EKF_FALLBACK>
       <DisplayName>Fallback strictness</DisplayName>
       <Description>This parameter controls the conditions necessary to trigger a fallback to DCM and INAV. A value of 1 will cause fallbacks to occur on loss of GPS and other conditions. A value of 0 will trust the EKF more.</Description>
@@ -8507,30 +8976,6 @@
       <Range>1 255</Range>
       <User>Advanced</User>
     </SYSID_MYGCS>
-    <SERIAL0_BAUD>
-      <DisplayName>USB Console Baud Rate</DisplayName>
-      <Description>The baud rate used on the USB console. The APM2 can support all baudrates up to 115, and also can support 500. The PX4 can support rates of up to 1500. If you setup a rate you cannot support on APM2 and then can't connect to your board you should load a firmware from a different vehicle type. That will reset all your parameters to defaults.</Description>
-      <Values>1:1200,2:2400,4:4800,9:9600,19:19200,38:38400,57:57600,111:111100,115:115200,500:500000,921:921600,1500:1500000</Values>
-      <User>Standard</User>
-    </SERIAL0_BAUD>
-    <SERIAL1_BAUD>
-      <DisplayName>Telemetry Baud Rate</DisplayName>
-      <Description>The baud rate used on the first telemetry port. The APM2 can support all baudrates up to 115, and also can support 500. The PX4 can support rates of up to 1500. If you setup a rate you cannot support on APM2 and then can't connect to your board you should load a firmware from a different vehicle type. That will reset all your parameters to defaults.</Description>
-      <Values>1:1200,2:2400,4:4800,9:9600,19:19200,38:38400,57:57600,111:111100,115:115200,500:500000,921:921600,1500:1500000</Values>
-      <User>Standard</User>
-    </SERIAL1_BAUD>
-    <SERIAL2_BAUD>
-      <DisplayName>Telemetry Baud Rate</DisplayName>
-      <Description>The baud rate used on the second telemetry port. The APM2 can support all baudrates up to 115, and also can support 500. The PX4 can support rates of up to 1500. If you setup a rate you cannot support on APM2 and then can't connect to your board you should load a firmware from a different vehicle type. That will reset all your parameters to defaults.</Description>
-      <Values>1:1200,2:2400,4:4800,9:9600,19:19200,38:38400,57:57600,111:111100,115:115200,500:500000,921:921600,1500:1500000</Values>
-      <User>Standard</User>
-    </SERIAL2_BAUD>
-    <SERIAL2_PROTOCOL>
-      <DisplayName>SERIAL2 protocol selection</DisplayName>
-      <Description>Control what protocol telemetry 2 port should be used for</Description>
-      <Values>1:GCS Mavlink,2:Frsky D-PORT</Values>
-      <User>Standard</User>
-    </SERIAL2_PROTOCOL>
     <TELEM_DELAY>
       <DisplayName>Telemetry startup delay</DisplayName>
       <Description>The amount of time (in seconds) to delay radio telemetry to prevent an Xbee bricking on power up</Description>
@@ -8792,6 +9237,7 @@
       <Path>../libraries/APM_Control/AP_SteerController.cpp</Path>
     </TURN_MAX_G>
   </ArduRover>
+  <ArduRover />
   <ArduTracker>
     <GND_ABS_PRESS>
       <DisplayName>Absolute Pressure</DisplayName>
@@ -9039,6 +9485,60 @@
       <User>Advanced</User>
       <Values>0:Unknown,1:APM1-1280,2:APM1-2560,88:APM2,3:SITL,4:PX4v1,5:PX4v2,256:Flymaple,257:Linux</Values>
     </INS_PRODUCT_ID>
+    <INS_GYROFFS_X>
+      <DisplayName>Gyro offsets of X axis</DisplayName>
+      <Description>Gyro sensor offsets of X axis. This is setup on each boot during gyro calibrations</Description>
+      <Units>rad/s</Units>
+      <User>Advanced</User>
+    </INS_GYROFFS_X>
+    <INS_GYROFFS_Y>
+      <DisplayName>Gyro offsets of Y axis</DisplayName>
+      <Description>Gyro sensor offsets of Y axis. This is setup on each boot during gyro calibrations</Description>
+      <Units>rad/s</Units>
+      <User>Advanced</User>
+    </INS_GYROFFS_Y>
+    <INS_GYROFFS_Z>
+      <DisplayName>Gyro offsets of Z axis</DisplayName>
+      <Description>Gyro sensor offsets of Z axis. This is setup on each boot during gyro calibrations</Description>
+      <Units>rad/s</Units>
+      <User>Advanced</User>
+    </INS_GYROFFS_Z>
+    <INS_GYR2OFFS_X>
+      <DisplayName>Gyro2 offsets of X axis</DisplayName>
+      <Description>Gyro2 sensor offsets of X axis. This is setup on each boot during gyro calibrations</Description>
+      <Units>rad/s</Units>
+      <User>Advanced</User>
+    </INS_GYR2OFFS_X>
+    <INS_GYR2OFFS_Y>
+      <DisplayName>Gyro2 offsets of Y axis</DisplayName>
+      <Description>Gyro2 sensor offsets of Y axis. This is setup on each boot during gyro calibrations</Description>
+      <Units>rad/s</Units>
+      <User>Advanced</User>
+    </INS_GYR2OFFS_Y>
+    <INS_GYR2OFFS_Z>
+      <DisplayName>Gyro2 offsets of Z axis</DisplayName>
+      <Description>Gyro2 sensor offsets of Z axis. This is setup on each boot during gyro calibrations</Description>
+      <Units>rad/s</Units>
+      <User>Advanced</User>
+    </INS_GYR2OFFS_Z>
+    <INS_GYR3OFFS_X>
+      <DisplayName>Gyro3 offsets of X axis</DisplayName>
+      <Description>Gyro3 sensor offsets of X axis. This is setup on each boot during gyro calibrations</Description>
+      <Units>rad/s</Units>
+      <User>Advanced</User>
+    </INS_GYR3OFFS_X>
+    <INS_GYR3OFFS_Y>
+      <DisplayName>Gyro3 offsets of Y axis</DisplayName>
+      <Description>Gyro3 sensor offsets of Y axis. This is setup on each boot during gyro calibrations</Description>
+      <Units>rad/s</Units>
+      <User>Advanced</User>
+    </INS_GYR3OFFS_Y>
+    <INS_GYR3OFFS_Z>
+      <DisplayName>Gyro3 offsets of Z axis</DisplayName>
+      <Description>Gyro3 sensor offsets of Z axis. This is setup on each boot during gyro calibrations</Description>
+      <Units>rad/s</Units>
+      <User>Advanced</User>
+    </INS_GYR3OFFS_Z>
     <INS_ACCSCAL_X>
       <DisplayName>Accelerometer scaling of X axis</DisplayName>
       <Description>Accelerometer scaling of X axis.  Calculated during acceleration calibration routine</Description>
@@ -9078,31 +9578,6 @@
       <Range>-300 300</Range>
       <User>Advanced</User>
     </INS_ACCOFFS_Z>
-    <INS_GYROFFS_X>
-      <DisplayName>Gyro offsets of X axis</DisplayName>
-      <Description>Gyro sensor offsets of X axis. This is setup on each boot during gyro calibrations</Description>
-      <Units>rad/s</Units>
-      <User>Advanced</User>
-    </INS_GYROFFS_X>
-    <INS_GYROFFS_Y>
-      <DisplayName>Gyro offsets of Y axis</DisplayName>
-      <Description>Gyro sensor offsets of Y axis. This is setup on each boot during gyro calibrations</Description>
-      <Units>rad/s</Units>
-      <User>Advanced</User>
-    </INS_GYROFFS_Y>
-    <INS_GYROFFS_Z>
-      <DisplayName>Gyro offsets of Z axis</DisplayName>
-      <Description>Gyro sensor offsets of Z axis. This is setup on each boot during gyro calibrations</Description>
-      <Units>rad/s</Units>
-      <User>Advanced</User>
-    </INS_GYROFFS_Z>
-    <INS_MPU6K_FILTER>
-      <DisplayName>MPU6000 filter frequency</DisplayName>
-      <Description>Filter frequency to ask the MPU6000 to apply to samples. This can be set to a lower value to try to cope with very high vibration levels in aircraft. The default value on ArduPlane, APMrover2 and ArduCopter is 20Hz. This option takes effect on the next reboot or gyro initialisation</Description>
-      <Units>Hz</Units>
-      <Values>0:Default,5:5Hz,10:10Hz,20:20Hz,42:42Hz,98:98Hz</Values>
-      <User>Advanced</User>
-    </INS_MPU6K_FILTER>
     <INS_ACC2SCAL_X>
       <DisplayName>Accelerometer2 scaling of X axis</DisplayName>
       <Description>Accelerometer2 scaling of X axis.  Calculated during acceleration calibration routine</Description>
@@ -9142,24 +9617,6 @@
       <Range>-300 300</Range>
       <User>Advanced</User>
     </INS_ACC2OFFS_Z>
-    <INS_GYR2OFFS_X>
-      <DisplayName>Gyro2 offsets of X axis</DisplayName>
-      <Description>Gyro2 sensor offsets of X axis. This is setup on each boot during gyro calibrations</Description>
-      <Units>rad/s</Units>
-      <User>Advanced</User>
-    </INS_GYR2OFFS_X>
-    <INS_GYR2OFFS_Y>
-      <DisplayName>Gyro2 offsets of Y axis</DisplayName>
-      <Description>Gyro2 sensor offsets of Y axis. This is setup on each boot during gyro calibrations</Description>
-      <Units>rad/s</Units>
-      <User>Advanced</User>
-    </INS_GYR2OFFS_Y>
-    <INS_GYR2OFFS_Z>
-      <DisplayName>Gyro2 offsets of Z axis</DisplayName>
-      <Description>Gyro2 sensor offsets of Z axis. This is setup on each boot during gyro calibrations</Description>
-      <Units>rad/s</Units>
-      <User>Advanced</User>
-    </INS_GYR2OFFS_Z>
     <INS_ACC3SCAL_X>
       <DisplayName>Accelerometer3 scaling of X axis</DisplayName>
       <Description>Accelerometer3 scaling of X axis.  Calculated during acceleration calibration routine</Description>
@@ -9199,24 +9656,20 @@
       <Range>-300 300</Range>
       <User>Advanced</User>
     </INS_ACC3OFFS_Z>
-    <INS_GYR3OFFS_X>
-      <DisplayName>Gyro3 offsets of X axis</DisplayName>
-      <Description>Gyro3 sensor offsets of X axis. This is setup on each boot during gyro calibrations</Description>
-      <Units>rad/s</Units>
+    <INS_GYRO_FILTER>
+      <DisplayName>Gyro filter cutoff frequency</DisplayName>
+      <Description>Filter cutoff frequency for gyroscopes. This can be set to a lower value to try to cope with very high vibration levels in aircraft. This option takes effect on the next reboot. A value of zero means no filtering (not recommended!)</Description>
+      <Units>Hz</Units>
+      <Range>0 127</Range>
       <User>Advanced</User>
-    </INS_GYR3OFFS_X>
-    <INS_GYR3OFFS_Y>
-      <DisplayName>Gyro3 offsets of Y axis</DisplayName>
-      <Description>Gyro3 sensor offsets of Y axis. This is setup on each boot during gyro calibrations</Description>
-      <Units>rad/s</Units>
+    </INS_GYRO_FILTER>
+    <INS_ACCEL_FILTER>
+      <DisplayName>Accel filter cutoff frequency</DisplayName>
+      <Description>Filter cutoff frequency for accelerometers. This can be set to a lower value to try to cope with very high vibration levels in aircraft. This option takes effect on the next reboot. A value of zero means no filtering (not recommended!)</Description>
+      <Units>Hz</Units>
+      <Range>0 127</Range>
       <User>Advanced</User>
-    </INS_GYR3OFFS_Y>
-    <INS_GYR3OFFS_Z>
-      <DisplayName>Gyro3 offsets of Z axis</DisplayName>
-      <Description>Gyro3 sensor offsets of Z axis. This is setup on each boot during gyro calibrations</Description>
-      <Units>rad/s</Units>
-      <User>Advanced</User>
-    </INS_GYR3OFFS_Z>
+    </INS_ACCEL_FILTER>
     <AHRS_GPS_GAIN>
       <DisplayName>AHRS GPS gain</DisplayName>
       <Description>This controls how how much to use the GPS to correct the attitude. This should never be set to zero for a plane as it would result in the plane losing control in turns. For a plane please use the default value of 1.0.</Description>
@@ -9294,8 +9747,8 @@
     </AHRS_GPS_MINSATS>
     <AHRS_EKF_USE>
       <DisplayName>Use NavEKF Kalman filter for attitude and position estimation</DisplayName>
-      <Description>This controls whether the NavEKF Kalman filter is used for attitude and position estimation</Description>
-      <Values>0:Disabled,1:Enabled</Values>
+      <Description>This controls whether the NavEKF Kalman filter is used for attitude and position estimation and whether fallback to the DCM algorithm is allowed</Description>
+      <Values>0:Disabled,1:Enabled, 2:Enabled - No Fallback</Values>
       <User>Advanced</User>
     </AHRS_EKF_USE>
     <BRD_PWM_COUNT>
@@ -9326,12 +9779,12 @@
     <GPS_TYPE>
       <DisplayName>GPS type</DisplayName>
       <Description>GPS type</Description>
-      <Values>0:None,1:AUTO,2:uBlox,3:MTK,4:MTK19,5:NMEA,6:SiRF,7:HIL,8:SwiftNav,9:PX4EXPERIMENTAL</Values>
+      <Values>0:None,1:AUTO,2:uBlox,3:MTK,4:MTK19,5:NMEA,6:SiRF,7:HIL,8:SwiftNav,9:PX4-UAVCAN</Values>
     </GPS_TYPE>
     <GPS_TYPE2>
       <DisplayName>2nd GPS type</DisplayName>
       <Description>GPS type of 2nd GPS</Description>
-      <Values>0:None,1:AUTO,2:uBlox,3:MTK,4:MTK19,5:NMEA,6:SiRF,7:HIL,8:SwiftNav,9:PX4EXPERIMENTAL</Values>
+      <Values>0:None,1:AUTO,2:uBlox,3:MTK,4:MTK19,5:NMEA,6:SiRF,7:HIL,8:SwiftNav,9:PX4-UAVCAN</Values>
     </GPS_TYPE2>
     <GPS_NAVFILTER>
       <DisplayName>Navigation filter setting</DisplayName>
@@ -9363,6 +9816,22 @@
       <Units>Degrees</Units>
       <User>Advanced</User>
     </GPS_MIN_ELEV>
+    <GPS_INJECT_TO>
+      <DisplayName>Destination for GPS_INJECT_DATA MAVLink packets</DisplayName>
+      <Description>The GGS can send raw serial packets to inject data to multiple GPSes.</Description>
+      <Values>0,1: send to specified instance. 127: broadcast</Values>
+    </GPS_INJECT_TO>
+    <GPS_SBP_LOGMASK>
+      <DisplayName>Swift Binary Protocol Logging Mask</DisplayName>
+      <Description>Masked with the SBP msg_type field to determine whether SBR1/SBR2 data is logged</Description>
+      <Values>0x0000 for none, 0xFFFF for all, 0xFF00 for external only.</Values>
+      <User>Advanced</User>
+    </GPS_SBP_LOGMASK>
+    <GPS_RXM_RAW>
+      <DisplayName>Raw data logging</DisplayName>
+      <Description>Enable logging of RXM raw data from uBlox which includes carrier phase and pseudo range information. This allows for post processing of dataflash logs for more precise positioning. Note that this requires a raw capable uBlox such as the 6P or 6T.</Description>
+      <Values>0:Disabled,1:log at 1MHz,5:log at 5MHz.</Values>
+    </GPS_RXM_RAW>
     <RC1_MIN>
       <DisplayName>RC min PWM</DisplayName>
       <Description>RC minimum PWM pulse width. Typically 1000 is lower limit, 1500 is neutral and 2000 is upper limit.</Description>
@@ -9395,7 +9864,7 @@
     </RC1_REV>
     <RC1_DZ>
       <DisplayName>RC dead-zone</DisplayName>
-      <Description>dead zone around trim.</Description>
+      <Description>dead zone around trim or bottom</Description>
       <Units>pwm</Units>
       <Range>0 200</Range>
       <User>Advanced</User>
@@ -9432,7 +9901,7 @@
     </RC2_REV>
     <RC2_DZ>
       <DisplayName>RC dead-zone</DisplayName>
-      <Description>dead zone around trim.</Description>
+      <Description>dead zone around trim or bottom</Description>
       <Units>pwm</Units>
       <Range>0 200</Range>
       <User>Advanced</User>
@@ -9445,8 +9914,8 @@
     </SERIAL0_BAUD>
     <SERIAL1_PROTOCOL>
       <DisplayName>Telem1 protocol selection</DisplayName>
-      <Description>Control what protocol to use on the Telem1 port</Description>
-      <Values>1:GCS Mavlink, 2:GCS Mavlink (2nd), 3:Frsky D-PORT, 4:Frsky S-PORT, 5:GPS, 6:2nd GPS, 7:Alexmos Gimbal Serial</Values>
+      <Description>Control what protocol to use on the Telem1 port. Note that the Frsky options require external converter hardware. See the wiki for details.</Description>
+      <Values>1:GCS Mavlink, 3:Frsky D-PORT, 4:Frsky S-PORT, 5:GPS, 7:Alexmos Gimbal Serial</Values>
       <User>Standard</User>
     </SERIAL1_PROTOCOL>
     <SERIAL1_BAUD>
@@ -9457,8 +9926,8 @@
     </SERIAL1_BAUD>
     <SERIAL2_PROTOCOL>
       <DisplayName>Telemetry 2 protocol selection</DisplayName>
-      <Description>Control what protocol to use on the Telem2 port</Description>
-      <Values>1:GCS Mavlink, 2:GCS Mavlink (2nd), 3:Frsky D-PORT, 4:Frsky S-PORT, 5:GPS, 6:GPS (2nd), 7:Alexmos Gimbal Serial</Values>
+      <Description>Control what protocol to use on the Telem2 port. Note that the Frsky options require external converter hardware. See the wiki for details.</Description>
+      <Values>1:GCS Mavlink, 3:Frsky D-PORT, 4:Frsky S-PORT, 5:GPS, 7:Alexmos Gimbal Serial</Values>
       <User>Standard</User>
     </SERIAL2_PROTOCOL>
     <SERIAL2_BAUD>
@@ -9469,8 +9938,8 @@
     </SERIAL2_BAUD>
     <SERIAL3_PROTOCOL>
       <DisplayName>Serial 3 (GPS) protocol selection</DisplayName>
-      <Description>Control what protocol Serial 3 (GPS) should be used for</Description>
-      <Values>1:GCS Mavlink, 2:GCS Mavlink (2nd), 3:Frsky D-PORT, 4:Frsky S-PORT, 5:GPS, 6:GPS (2nd), 7:Alexmos Gimbal Serial</Values>
+      <Description>Control what protocol Serial 3 (GPS) should be used for. Note that the Frsky options require external converter hardware. See the wiki for details.</Description>
+      <Values>1:GCS Mavlink, 3:Frsky D-PORT, 4:Frsky S-PORT, 5:GPS, 7:Alexmos Gimbal Serial</Values>
       <User>Standard</User>
     </SERIAL3_PROTOCOL>
     <SERIAL3_BAUD>
@@ -9481,8 +9950,8 @@
     </SERIAL3_BAUD>
     <SERIAL4_PROTOCOL>
       <DisplayName>Serial4 protocol selection</DisplayName>
-      <Description>Control what protocol Serial4 port should be used for</Description>
-      <Values>1:GCS Mavlink, 2:GCS Mavlink (2nd), 3:Frsky D-PORT, 4:Frsky S-PORT, 5:GPS, 6:GPS (2nd), 7:Alexmos Gimbal Serial</Values>
+      <Description>Control what protocol Serial4 port should be used for. Note that the Frsky options require external converter hardware. See the wiki for details.</Description>
+      <Values>1:GCS Mavlink, 3:Frsky D-PORT, 4:Frsky S-PORT, 5:GPS, 7:Alexmos Gimbal Serial</Values>
       <User>Standard</User>
     </SERIAL4_PROTOCOL>
     <SERIAL4_BAUD>
@@ -9492,8 +9961,8 @@
       <User>Standard</User>
     </SERIAL4_BAUD>
     <SYSID_THISMAV>
-      <DisplayName>MAVLink system ID</DisplayName>
-      <Description>The identifier of this device in the MAVLink protocol</Description>
+      <DisplayName>MAVLink system ID of this vehicle</DisplayName>
+      <Description>Allows setting an individual system id for this vehicle to distinguish it from others on the same network</Description>
       <Range>1 255</Range>
       <User>Advanced</User>
     </SYSID_THISMAV>
@@ -9503,6 +9972,12 @@
       <Range>1 255</Range>
       <User>Advanced</User>
     </SYSID_MYGCS>
+    <SYSID_TARGET>
+      <DisplayName>Target vehicle's MAVLink system ID</DisplayName>
+      <Description>The identifier of the vehicle being tracked. This should be zero (to auto detect) or be the same as the SYSID_THISMAV parameter of the vehicle being tracked.</Description>
+      <Range>1 255</Range>
+      <User>Advanced</User>
+    </SYSID_TARGET>
     <MAG_ENABLE>
       <DisplayName>Enable Compass</DisplayName>
       <Description>Setting this to Enabled(1) will enable the compass. Setting this to Disabled(0) will disable the compass. Note that this is separate from COMPASS_USE. This will enable the low level senor, and will enable logging of magnetometer data. To use the compass for navigation you must also set COMPASS_USE to 1.</Description>
@@ -9634,9 +10109,17 @@
       <Increment>0.1</Increment>
       <Range>0 180</Range>
       <User>Standard</User>
+    </PITCH_RANGE>
+    <DISTANCE_MIN>
+      <DisplayName>Distance minimum to target</DisplayName>
+      <Description>Tracker will track targets at least this distance away</Description>
+      <Units>meters</Units>
+      <Increment>1</Increment>
+      <Range>0 100</Range>
+      <User>Standard</User>
       <Group>GND_</Group>
       <Path>../libraries/AP_Baro/AP_Baro.cpp</Path>
-    </PITCH_RANGE>
+    </DISTANCE_MIN>
     <CMD_TOTAL>
       <DisplayName>Number of loaded mission items</DisplayName>
       <Description>Set to 1 if HOME location has been loaded by the ground station. Do not change this manually.</Description>
