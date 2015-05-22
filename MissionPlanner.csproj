@@ -123,10 +123,6 @@
     <Reference Include="alglibnet2">
       <HintPath>ExtLibs\alglibnet2.dll</HintPath>
     </Reference>
-    <Reference Include="DeltaEngine.Multimedia.VlcToTexture, Version=1.0.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\DeltaEngine.Multimedia.VlcToTexture.1.0.0.1\lib\NET40\DeltaEngine.Multimedia.VlcToTexture.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="DirectShowLib-2005">
       <HintPath>ExtLibs\DirectShowLib-2005.dll</HintPath>
     </Reference>
@@ -599,6 +595,7 @@
     </Compile>
     <Compile Include="System.cs" />
     <Compile Include="Utilities\Airports.cs" />
+    <Compile Include="Utilities\AP_GPS_SBF.cs" />
     <Compile Include="Utilities\Crypto.cs" />
     <Compile Include="Utilities\DroneApi\APIConstants.cs" />
     <Compile Include="Utilities\DroneApi\droneapi-protobuf.cs" />
@@ -6637,8 +6634,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>"$(TargetDir)version.exe" "$(TargetPath)" &gt; "$(TargetDir)version.txt"
-xcopy /s /y "$(SolutionDir)packages\DeltaEngine.Multimedia.VlcToTexture.1.0.0.1\NativeBinaries\x86\*.*" "$(TargetDir)"</PostBuildEvent>
+    <PostBuildEvent>"$(TargetDir)version.exe" "$(TargetPath)" &gt; "$(TargetDir)version.txt"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>

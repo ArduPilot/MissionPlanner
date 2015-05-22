@@ -16,7 +16,6 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Windows.Forms;
 using System.Xml;
-using DeltaEngine.Multimedia.VlcToTexture;
 using DotSpatial.Data;
 using DotSpatial.Projections;
 using GMap.NET;
@@ -70,10 +69,10 @@ namespace MissionPlanner
 
         }
 
-        private static Factory factory; 
- 		private static VideoPlayer player; 
- 		private static Renderer renderer; 
- 		private Media media; 
+        //private static Factory factory; 
+ 		//private static VideoPlayer player; 
+ 		//private static Renderer renderer; 
+ 		//private Media media; 
 
 
         private void temp_Load(object sender, EventArgs e)
@@ -1117,8 +1116,8 @@ namespace MissionPlanner
         {
             try
             {
-                if (renderer != null && renderer.CurrentFrame != null)
-                    FlightData.myhud.bgimage = renderer.CurrentFrame;
+                //if (renderer != null && renderer.CurrentFrame != null)
+                  //  FlightData.myhud.bgimage = renderer.CurrentFrame;
             }
             catch
             {
@@ -1675,7 +1674,7 @@ namespace MissionPlanner
         {
             try
             {
-                player.Stop();
+                //player.Stop();
             }
             catch
             {
@@ -1685,6 +1684,7 @@ namespace MissionPlanner
 
         private void but_rtspurl_Click(object sender, EventArgs e)
         {
+            /*
             string url = "rtsp://192.168.1.252/";
             InputBox.Show("video address", "enter video address", ref url);
 
@@ -1701,6 +1701,7 @@ namespace MissionPlanner
             renderer.SetFormat(new BitmapFormat(512, 512, ChromaType.RV32));
 
             player.Play();
+             */
         }
 
         private void but_armandtakeoff_Click(object sender, EventArgs e)
