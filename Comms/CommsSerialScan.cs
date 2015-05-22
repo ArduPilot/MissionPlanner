@@ -55,6 +55,9 @@ namespace MissionPlanner.Comms
 
             redo:
 
+                if (run == 0)
+                    return;
+
                 DateTime deadline = DateTime.Now.AddSeconds(5);
 
                 while (DateTime.Now < deadline)
@@ -112,8 +115,10 @@ namespace MissionPlanner.Comms
                 catch { }
             }
             catch (Exception ex) { Console.WriteLine(ex.ToString()); }
-
-            running--;
+            finally
+            {
+                running--;
+            }
 
             Console.WriteLine("Scan port {0} Finished!!", port.BaseStream.PortName);
         }
