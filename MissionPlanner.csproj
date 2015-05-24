@@ -601,6 +601,7 @@
     <Compile Include="Utilities\DroneApi\droneapi-protobuf.cs" />
     <Compile Include="Utilities\DroneApi\DroneProto.cs" />
     <Compile Include="Utilities\DroneApi\droneshare.cs" />
+    <Compile Include="Utilities\fft.cs" />
     <Compile Include="Utilities\fontgen.cs" />
     <Compile Include="Utilities\GimbalPoint.cs" />
     <Compile Include="Utilities\GitHubContent.cs" />
@@ -2818,19 +2819,67 @@
     <Content Include="ChangeLog.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Plugins\liblive555_plugin.dll">
+    <Content Include="LogAnalyzer\DataflashLog.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Plugins\libpacketizer_h264_plugin.dll">
+    <Content Include="LogAnalyzer\example_output.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Plugins\libpacketizer_mpeg4video_plugin.dll">
+    <Content Include="LogAnalyzer\LogAnalyzer.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Plugins\libpacketizer_mpegvideo_plugin.dll">
+    <Content Include="LogAnalyzer\tests\TestAutotune.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Plugins\libpacketizer_vc1_plugin.dll">
+    <Content Include="LogAnalyzer\tests\TestBalanceTwist.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LogAnalyzer\tests\TestBrownout.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LogAnalyzer\tests\TestCompass.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LogAnalyzer\tests\TestDualGyroDrift.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LogAnalyzer\tests\TestDupeLogData.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LogAnalyzer\tests\TestEmpty.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LogAnalyzer\tests\TestEvents.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LogAnalyzer\tests\TestGPSGlitch.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LogAnalyzer\tests\TestIMUMatch.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LogAnalyzer\tests\TestMotorBalance.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LogAnalyzer\tests\TestParams.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LogAnalyzer\tests\TestPerformance.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LogAnalyzer\tests\TestPitchRollCoupling.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LogAnalyzer\tests\TestThrust.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LogAnalyzer\tests\TestVCC.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LogAnalyzer\tests\TestVibration.py">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="LogAnalyzer\UnitTest.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Scripts\example5 inject data.py">
@@ -6631,6 +6680,9 @@
       <Name>ZedGraph</Name>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Plugins\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
