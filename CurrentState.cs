@@ -799,11 +799,41 @@ namespace MissionPlanner
                     {
                         var ekfstatus = bytearray.ByteArrayToStructure<MAVLink.mavlink_ekf_status_report_t>(6);
 
+                        // > 1, between 0-1 typical > 1 = reject measurement - red
+                        // 0.5 > amber
+
                         ekfvelv = ekfstatus.velocity_variance;
                         ekfcompv = ekfstatus.compass_variance;
                         ekfposhor = ekfstatus.pos_horiz_variance;
                         ekfposvert = ekfstatus.pos_vert_variance;
                         ekfteralt = ekfstatus.terrain_alt_variance;
+
+                        //TODO need to localize - wait for testing to complete first
+                        if (ekfvelv >= 1)
+                        {
+                            messageHigh = Strings.ERROR + " " + "velocity variance";
+                            messageHighTime = DateTime.Now;
+                        }
+                        if (ekfcompv >= 1)
+                        {
+                            messageHigh = Strings.ERROR + " " + "compass variance";
+                            messageHighTime = DateTime.Now;
+                        }
+                        if (ekfposhor >= 1)
+                        {
+                            messageHigh = Strings.ERROR + " " + "pos horiz variance";
+                            messageHighTime = DateTime.Now;
+                        }
+                        if (ekfposvert >= 1)
+                        {
+                            messageHigh = Strings.ERROR + " " + "pos vert variance";
+                            messageHighTime = DateTime.Now;
+                        }
+                        if (ekfteralt >= 1)
+                        {
+                            messageHigh = Strings.ERROR + " " + "terrain alt variance";
+                            messageHighTime = DateTime.Now;
+                        }
 
                         for (int a = 1; a < (int)MAVLink.EKF_STATUS_FLAGS.ENUM_END; a = a << 1)
                         {
@@ -812,21 +842,24 @@ namespace MissionPlanner
                             {
                                 var currentflag =
                                     (MAVLink.EKF_STATUS_FLAGS)
-                                        Enum.Parse(typeof (MAVLink.EKF_STATUS_FLAGS), a.ToString());
+                                        Enum.Parse(typeof(MAVLink.EKF_STATUS_FLAGS), a.ToString());
+
                                 switch (currentflag)
                                 {
-                                    case MAVLink.EKF_STATUS_FLAGS.EKF_ATTITUDE:
-                                    case MAVLink.EKF_STATUS_FLAGS.EKF_VELOCITY_HORIZ:
-                                    case MAVLink.EKF_STATUS_FLAGS.EKF_VELOCITY_VERT:
-                                    case MAVLink.EKF_STATUS_FLAGS.EKF_POS_HORIZ_REL:
-                                    case MAVLink.EKF_STATUS_FLAGS.EKF_POS_HORIZ_ABS:
-                                    case MAVLink.EKF_STATUS_FLAGS.EKF_POS_VERT_ABS:
-                                    case MAVLink.EKF_STATUS_FLAGS.EKF_POS_VERT_AGL:
-                                    case MAVLink.EKF_STATUS_FLAGS.EKF_CONST_POS_MODE:
-                                    case MAVLink.EKF_STATUS_FLAGS.EKF_PRED_POS_HORIZ_REL:
-                                    case MAVLink.EKF_STATUS_FLAGS.EKF_PRED_POS_HORIZ_ABS:
-                                        messageHigh = Strings.ERROR + " " + currentflag.ToString().Replace("_"," ");
+                                    case MAVLink.EKF_STATUS_FLAGS.EKF_ATTITUDE: // step 1
+                                    case MAVLink.EKF_STATUS_FLAGS.EKF_VELOCITY_HORIZ: // with pos
+                                    case MAVLink.EKF_STATUS_FLAGS.EKF_VELOCITY_VERT: // with pos
+                                    //case MAVLink.EKF_STATUS_FLAGS.EKF_POS_HORIZ_REL: // optical flow
+                                    case MAVLink.EKF_STATUS_FLAGS.EKF_POS_HORIZ_ABS: // step 1
+                                    case MAVLink.EKF_STATUS_FLAGS.EKF_POS_VERT_ABS: // step 1
+                                    //case MAVLink.EKF_STATUS_FLAGS.EKF_POS_VERT_AGL: //  range finder
+                                    //case MAVLink.EKF_STATUS_FLAGS.EKF_CONST_POS_MODE:  // never true when absolute - non gps
+                                    //case MAVLink.EKF_STATUS_FLAGS.EKF_PRED_POS_HORIZ_REL: // optical flow
+                                    case MAVLink.EKF_STATUS_FLAGS.EKF_PRED_POS_HORIZ_ABS: // ekf has origin - post arm
+                                        messageHigh = Strings.ERROR + " " + currentflag.ToString().Replace("_", " ");
                                         messageHighTime = DateTime.Now;
+                                        break;
+                                    default:
                                         break;
                                 }
                             }
