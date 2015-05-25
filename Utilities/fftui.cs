@@ -52,7 +52,7 @@ namespace MissionPlanner.Utilities
 
                 if (a == (1 << bins))
                 {
-                    var fftanswer = fft.rin(buffer, 1000, (uint)bins);
+                    var fftanswer = fft.rin(buffer, (uint)bins);
 
                     var freqt = fft.FreqTable(buffer.Length, 1000);
 
@@ -153,6 +153,7 @@ namespace MissionPlanner.Utilities
             double lasttime = 0;
             double timedelta = 0;
             double[] freqt = null;
+            double samplerate = 0;
             
 
             while (!file.EndOfStream)
@@ -172,9 +173,19 @@ namespace MissionPlanner.Utilities
                     double time = double.Parse(item.items[offsetTime]);
 
                     if (lasttime == 0)
+                    {
                         lasttime = time;
+                        // dump first sample
+                        continue;
+                    }
 
-                    timedelta = timedelta * 0.9 + (time - lasttime) * 0.1;
+                    // set first value
+                    if (timedelta == 0)
+                    {
+                        timedelta = (time - lasttime);
+                    }
+
+                    timedelta = timedelta * 0.99 + (time - lasttime) * 0.01;
 
                     lasttime = time;
 
@@ -202,11 +213,22 @@ namespace MissionPlanner.Utilities
                     int inputdataindex = 0;
 
                     if (freqt == null)
-                        freqt = fft.FreqTable(N, (int)Math.Round(1000 / timedelta,0));
+                    {
+                        if (timedelta > 2 && timedelta < 4) // 2.5
+                            samplerate = 400; // 400*2.5 = 1000
+                        if (timedelta > 10 && timedelta < 30) // 20
+                            samplerate = 50; // 20 * 50 = 1000
+                        if (timedelta < 2) // 1
+                            samplerate = 1000;
+
+                        if (samplerate == 0)
+                            samplerate = Math.Round(1000 / timedelta, 1);
+                        freqt = fft.FreqTable(N, (int)samplerate);
+                    }
 
                     foreach (var itemlist in datas)
                     {
-                        var fftanswer = fft.rin((double[])itemlist, 1000, (uint)bins);
+                        var fftanswer = fft.rin((double[])itemlist, (uint)bins);
 
                         for (int b = 0; b < N/2; b++)
                         {
@@ -237,7 +259,7 @@ namespace MissionPlanner.Utilities
 
                 ctls[controlindex].GraphPane.XAxis.Title.Text = "Freq Hz";
                 ctls[controlindex].GraphPane.YAxis.Title.Text = "Amplitude";
-                ctls[controlindex].GraphPane.Title.Text = "FFT " + datashead[controlindex];
+                ctls[controlindex].GraphPane.Title.Text = "FFT " + datashead[controlindex] + " - " + Path.GetFileName(ofd.FileName) + " - " + samplerate + "hz input";
 
                 ctls[controlindex].GraphPane.CurveList.Clear();
 

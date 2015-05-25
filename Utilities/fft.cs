@@ -99,7 +99,7 @@ namespace MissionPlanner.Utilities
         // max hz = 1/2 sample rate
 
         //https://gerrybeauregard.wordpress.com/2010/08/06/real-time-spectrum-analysis/
-        public double[] rin(double[] data, double samplerate, uint bins) 
+        public double[] rin(double[] data, uint bins) 
         {
             double MIN_VALUE = 0;
             double SCALE = 20/Math.Log(10);
