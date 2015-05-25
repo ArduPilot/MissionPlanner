@@ -1,4 +1,16 @@
-﻿* Mission Planner 1.3.27
+﻿* Mission Planner 1.3.28
+fftui: change to higher data rate data
+currentstate: remove ekf error flags
+fft: auto detect sample rate
+ConfigRadioInput: fix min/max lines and loading settings #883 #884
+temp: add fft button
+FFT Gui and update
+FFT library
+currentstate: ekf status update
+Plugins: cleanup
+LogAnalyzer: add to MP git
+
+* Mission Planner 1.3.27
 ParameterMetaDataParse: patch for pde to cpp rename that prevents update from working
 ParameterMetaData: update backup data
 ConfigArducopter: update FF param names #876
