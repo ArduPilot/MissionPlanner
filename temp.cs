@@ -1727,5 +1727,12 @@ namespace MissionPlanner
         {
             new SerialInjectGPS().Show();
         }
+
+        private void BUT_fft_Click(object sender, EventArgs e)
+        {
+            Utilities.fftui fft = new fftui();
+
+            fft.Show();
+        }
     }
 }

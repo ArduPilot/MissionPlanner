@@ -110,11 +110,6 @@ namespace MissionPlanner
             CleanupFiles();
 
 
-
-            Application.Run(new fftui());
-
-            //return;
-
             //new AP_GPS_SBF();
 
             //return;

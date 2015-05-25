@@ -150,7 +150,10 @@ namespace MissionPlanner.Utilities
 
             int samplecount = 0;
 
-            var freqt = fft.FreqTable(N, 1000);
+            double lasttime = 0;
+            double timedelta = 0;
+            double[] freqt = null;
+            
 
             while (!file.EndOfStream)
             {
@@ -164,6 +167,16 @@ namespace MissionPlanner.Utilities
                     int offsetAX = Log.DFLog.FindMessageOffset("IMU", "AccX");
                     int offsetAY = Log.DFLog.FindMessageOffset("IMU", "AccY");
                     int offsetAZ = Log.DFLog.FindMessageOffset("IMU", "AccZ");
+                    int offsetTime = Log.DFLog.FindMessageOffset("IMU", "TimeMS");
+
+                    double time = double.Parse(item.items[offsetTime]);
+
+                    if (lasttime == 0)
+                        lasttime = time;
+
+                    timedelta = timedelta * 0.9 + (time - lasttime) * 0.1;
+
+                    lasttime = time;
 
                     datainGX[samplecount] = double.Parse(item.items[offsetGX]);
                     datainGY[samplecount] = double.Parse(item.items[offsetGY]);
@@ -187,6 +200,10 @@ namespace MissionPlanner.Utilities
                 if (samplecount == N)
                 {
                     int inputdataindex = 0;
+
+                    if (freqt == null)
+                        freqt = fft.FreqTable(N, (int)Math.Round(1000 / timedelta,0));
+
                     foreach (var itemlist in datas)
                     {
                         var fftanswer = fft.rin((double[])itemlist, 1000, (uint)bins);
@@ -204,8 +221,6 @@ namespace MissionPlanner.Utilities
                     }                
                 }
             }
-
-
 
             int controlindex = 0;
             foreach (var item in avg)
@@ -230,8 +245,6 @@ namespace MissionPlanner.Utilities
 
                 ctls[controlindex].Invalidate();
                 ctls[controlindex].AxisChange();
-
-                ctls[controlindex].GraphPane.XAxis.Scale.Max = 512;
 
                 ctls[controlindex].Refresh();
 
