@@ -109,57 +109,16 @@ namespace MissionPlanner
 
             CleanupFiles();
 
+
+
+            Application.Run(new fftui());
+
+            //return;
+
             //new AP_GPS_SBF();
 
             //return;
-            /*
-            Utilities.FFT2 fft = new FFT2();
 
-            var st = File.OpenRead(@"C:\Users\hog\Music\both.wav");
-
-            int bins = 8;
-
-            double[] buffer = new double[1 << bins];
-
-            int a = 0;
-
-            while (st.Position < st.Length)
-            {
-                byte[] temp = new byte[2];
-                var read = st.Read(temp, 0, temp.Length);
-
-                var val = (double)BitConverter.ToInt16(temp, 0);
-
-                buffer[a] = val;
-
-                a++;
-
-                if (a == (1 << bins))
-                {
-                    var fftanswer = fft.rin(buffer,44100, (uint)bins);
-
-                    int width = Console.WindowWidth - 1;
-                    int height = Console.WindowHeight -1;
-
-                    int r = 1;
-                    foreach (var ff in fftanswer)
-                    {
-                        int col = (int)((r / (double)fftanswer.Length) * width);
-                        int row = (int)((ff * 0.2) + 0.5);
-
-                        Console.SetCursorPosition(col, height - row);
-                        Console.Write("*");
-                        r++;
-                    }
-
-                    // 50% overlap
-                    //st.Seek((1 << bins)*-0.5, SeekOrigin.Current);
-                    a = 0;
-                    buffer = new double[buffer.Length];
-                    Console.Clear();
-                }
-            }
-            */
             //fontgen.dowork();
 
             //adsb.server = "64.93.124.152";
@@ -260,7 +219,6 @@ namespace MissionPlanner
             try
             {
                 //System.Diagnostics.Process.GetCurrentProcess().PriorityClass = System.Diagnostics.ProcessPriorityClass.RealTime;
-
                 Thread.CurrentThread.Name = "Base Thread";
                 Application.Run(new MainV2());
             }

@@ -602,6 +602,12 @@
     <Compile Include="Utilities\DroneApi\DroneProto.cs" />
     <Compile Include="Utilities\DroneApi\droneshare.cs" />
     <Compile Include="Utilities\fft.cs" />
+    <Compile Include="Utilities\fftui.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Utilities\fftui.Designer.cs">
+      <DependentUpon>fftui.cs</DependentUpon>
+    </Compile>
     <Compile Include="Utilities\fontgen.cs" />
     <Compile Include="Utilities\GimbalPoint.cs" />
     <Compile Include="Utilities\GitHubContent.cs" />
@@ -1012,6 +1018,9 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Strings.zh-Hans.Designer.cs</LastGenOutput>
       <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Utilities\fftui.resx">
+      <DependentUpon>fftui.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Warnings\WarningControl.resx">
       <DependentUpon>WarningControl.cs</DependentUpon>

@@ -79,6 +79,21 @@ namespace MissionPlanner.Utilities
                 m_X[k].revTgt = BitReverse(k, logN);
         }
 
+        public double[] FreqTable(int samplecount, int samplerate)
+        {
+            int N = samplecount;
+
+            double[] m_freq = new double[N / 2];
+
+            // Vector with frequencies for each bin number. Used
+            // in the graphing code (not in the analysis itself).
+            m_freq = new double[(N / 2)];
+            for (int i = 0; i < N / 2; i++)
+                m_freq[i] = i * samplerate / N;
+
+            return m_freq;
+        }
+
         // 1000 hz data - accel - 100 sec, 1024 avg
 
         // max hz = 1/2 sample rate
@@ -92,16 +107,9 @@ namespace MissionPlanner.Utilities
             double[] xRe = new double[N];
             double[] xIm = new double[N];
             double[] m_mag = new double[N / 2];
-            double[] m_freq = new double[N / 2];
             double avg_sum = 0;
 
             init(bins); // 1024 = 1 << 10
-
-            // Vector with frequencies for each bin number. Used
-            // in the graphing code (not in the analysis itself).
-            m_freq = new double[(N / 2)];
-            for (int i = 0; i < N/2; i++ )
-                m_freq[i] = i * samplerate / N;
 
             // Hanning analysis window
             double[] m_win = new double[N];
@@ -129,7 +137,7 @@ namespace MissionPlanner.Utilities
 
                 m_mag[i] = Math.Sqrt(re * re + im * im); // Convert magnitude to decibels
 
-                m_mag[i] = SCALE * Math.Log(m_mag[i] + MIN_VALUE);
+                //m_mag[i] = SCALE * Math.Log(m_mag[i] + MIN_VALUE);
             }
 
 
