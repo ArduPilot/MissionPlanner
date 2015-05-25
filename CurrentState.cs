@@ -856,8 +856,8 @@ namespace MissionPlanner
                                     //case MAVLink.EKF_STATUS_FLAGS.EKF_CONST_POS_MODE:  // never true when absolute - non gps
                                     //case MAVLink.EKF_STATUS_FLAGS.EKF_PRED_POS_HORIZ_REL: // optical flow
                                     case MAVLink.EKF_STATUS_FLAGS.EKF_PRED_POS_HORIZ_ABS: // ekf has origin - post arm
-                                        messageHigh = Strings.ERROR + " " + currentflag.ToString().Replace("_", " ");
-                                        messageHighTime = DateTime.Now;
+                                        //messageHigh = Strings.ERROR + " " + currentflag.ToString().Replace("_", " ");
+                                        //messageHighTime = DateTime.Now;
                                         break;
                                     default:
                                         break;
