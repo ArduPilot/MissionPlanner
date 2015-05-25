@@ -107,6 +107,13 @@ namespace MissionPlanner.Utilities
         //FMT, 135, 43, IMU2, IffffffIIf, TimeMS,GyrX,GyrY,GyrZ,AccX,AccY,AccZ,ErrG,ErrA,Temp
         //FMT, 149, 43, IMU3, IffffffIIf, TimeMS,GyrX,GyrY,GyrZ,AccX,AccY,AccZ,ErrG,ErrA,Temp
 
+        //FMT, 172, 23, ACC1, IIfff, TimeMS,TimeUS,AccX,AccY,AccZ
+        //FMT, 173, 23, ACC2, IIfff, TimeMS,TimeUS,AccX,AccY,AccZ
+        //FMT, 174, 23, ACC3, IIfff, TimeMS,TimeUS,AccX,AccY,AccZ
+        //FMT, 175, 23, GYR1, IIfff, TimeMS,TimeUS,GyrX,GyrY,GyrZ
+        //FMT, 176, 23, GYR2, IIfff, TimeMS,TimeUS,GyrX,GyrY,GyrZ
+        //FMT, 177, 23, GYR3, IIfff, TimeMS,TimeUS,GyrX,GyrY,GyrZ
+
         private void myButton1_Click(object sender, EventArgs e)
         {
             Utilities.FFT2 fft = new FFT2();
@@ -144,7 +151,7 @@ namespace MissionPlanner.Utilities
             avg.Add(new double[N / 2]);
 
             object[] datas = new object[] { datainGX, datainGY, datainGZ, datainAX, datainAY, datainAZ };
-            string[] datashead = new string[] { "GyrX", "GyrY", "GyrZ", "AccX", "AccY", "AccZ" };
+            string[] datashead = new string[] { "GYR1-GyrX", "GYR1-GyrY", "GYR1-GyrZ", "ACC1-AccX", "ACC1-AccY", "ACC1-AccZ" };
             Color[] color = new Color[] { Color.Red, Color.Green, Color.Black, Color.Violet, Color.Blue, Color.Orange };
             ZedGraphControl[] ctls = new ZedGraphControl[] { zedGraphControl1,zedGraphControl2,zedGraphControl3,zedGraphControl4,zedGraphControl5,zedGraphControl6 };
 
@@ -160,52 +167,47 @@ namespace MissionPlanner.Utilities
             {
                 var item = Log.DFLog.GetDFItemFromLine(file.ReadLine(), 0);
 
-                if (item.msgtype == "IMU")
+                if (item.msgtype == "ACC1")
                 {
-                    int offsetGX = Log.DFLog.FindMessageOffset("IMU", "GyrX");
-                    int offsetGY = Log.DFLog.FindMessageOffset("IMU", "GyrY");
-                    int offsetGZ = Log.DFLog.FindMessageOffset("IMU", "GyrZ");
-                    int offsetAX = Log.DFLog.FindMessageOffset("IMU", "AccX");
-                    int offsetAY = Log.DFLog.FindMessageOffset("IMU", "AccY");
-                    int offsetAZ = Log.DFLog.FindMessageOffset("IMU", "AccZ");
-                    int offsetTime = Log.DFLog.FindMessageOffset("IMU", "TimeMS");
+                    int offsetAX = Log.DFLog.FindMessageOffset("ACC1", "AccX");
+                    int offsetAY = Log.DFLog.FindMessageOffset("ACC1", "AccY");
+                    int offsetAZ = Log.DFLog.FindMessageOffset("ACC1", "AccZ");
+                    int offsetTime = Log.DFLog.FindMessageOffset("ACC1", "TimeUS");
 
-                    double time = double.Parse(item.items[offsetTime]);
+                    double time = double.Parse(item.items[offsetTime]) / 1000.0;
 
-                    if (lasttime == 0)
-                    {
-                        lasttime = time;
-                        // dump first sample
-                        continue;
-                    }
+                    if (time != lasttime)
+                        timedelta = timedelta * 0.99 + (time - lasttime) * 0.01;
 
-                    // set first value
-                    if (timedelta == 0)
-                    {
-                        timedelta = (time - lasttime);
-                    }
+                    datainAX[samplecount] = double.Parse(item.items[offsetAX]);
+                    datainAY[samplecount] = double.Parse(item.items[offsetAY]);
+                    datainAZ[samplecount] = double.Parse(item.items[offsetAZ]);
 
-                    timedelta = timedelta * 0.99 + (time - lasttime) * 0.01;
+                    if (lasttime != time && lasttime != 0)
+                        samplecount++;
 
                     lasttime = time;
+                }
+                else if (item.msgtype == "GYR1")
+                {
+                    int offsetGX = Log.DFLog.FindMessageOffset("GYR1", "GyrX");
+                    int offsetGY = Log.DFLog.FindMessageOffset("GYR1", "GyrY");
+                    int offsetGZ = Log.DFLog.FindMessageOffset("GYR1", "GyrZ");
+                    int offsetTime = Log.DFLog.FindMessageOffset("ACC1", "TimeUS");
+
+                    double time = double.Parse(item.items[offsetTime]) / 1000.0;
+
+                    if (time != lasttime)
+                        timedelta = timedelta * 0.99 + (time - lasttime) * 0.01;
 
                     datainGX[samplecount] = double.Parse(item.items[offsetGX]);
                     datainGY[samplecount] = double.Parse(item.items[offsetGY]);
                     datainGZ[samplecount] = double.Parse(item.items[offsetGZ]);
-                    datainAX[samplecount] = double.Parse(item.items[offsetAX]);
-                    datainAY[samplecount] = double.Parse(item.items[offsetAY]);
-                    datainAZ[samplecount] = double.Parse(item.items[offsetAZ]);
-                    samplecount++;
-                }
-                else if (item.msgtype == "IMU2")
-                {
-                    //datainGX[a] = double.Parse(item.items[offsetGX]);
-                    //datainGY[a] = double.Parse(item.items[offsetGY]);
-                    //datainGZ[a] = double.Parse(item.items[offsetGZ]);
-                    //datainAX[a] = double.Parse(item.items[offsetAX]);
-                    //datainAY[a] = double.Parse(item.items[offsetAY]);
-                    //datainAZ[a] = double.Parse(item.items[offsetAZ]);
-                    //a++;
+
+                    if (lasttime != time && lasttime != 0)
+                        samplecount++;
+
+                    lasttime = time;
                 }
 
                 if (samplecount == N)
@@ -214,12 +216,16 @@ namespace MissionPlanner.Utilities
 
                     if (freqt == null)
                     {
+                        // 1000 16000 800/760
                         if (timedelta > 2 && timedelta < 4) // 2.5
                             samplerate = 400; // 400*2.5 = 1000
                         if (timedelta > 10 && timedelta < 30) // 20
                             samplerate = 50; // 20 * 50 = 1000
                         if (timedelta < 2) // 1
                             samplerate = 1000;
+                        if (timedelta < 0.8) // 0.625
+                            samplerate = 1600;
+
 
                         if (samplerate == 0)
                             samplerate = Math.Round(1000 / timedelta, 1);
