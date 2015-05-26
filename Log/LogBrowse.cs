@@ -397,6 +397,10 @@ namespace MissionPlanner.Log
 
                 log.Info("Done map " + (GC.GetTotalMemory(false) / 1024.0 / 1024.0));
 
+                DrawTime();
+
+                log.Info("Done time " + (GC.GetTotalMemory(false) / 1024.0 / 1024.0));
+
                 CreateChart(zg1);
 
                 ResetTreeView(seenmessagetypes);
