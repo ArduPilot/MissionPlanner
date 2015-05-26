@@ -13,9 +13,12 @@ namespace MissionPlanner.Log
         private int _count;
         List<long> linestartoffset = new List<long>();
 
+        int indexcachelineno = -1;
+        object currentindexcache = null;
+
         public CollectionBuffer(Stream instream)
         {
-            basestream = new BufferedStream(instream);
+            basestream = new BufferedStream(instream,1024*256);
 
             _count = getlinecount();
 
@@ -75,7 +78,9 @@ namespace MissionPlanner.Log
         {
             get
             {
-                //StringBuilder sb = new StringBuilder();
+                // return cached value is same index
+                if (indexcachelineno == index)
+                    return (T)currentindexcache;
 
                 long startoffset = linestartoffset[index];
                 long endoffset=startoffset;
@@ -91,13 +96,17 @@ namespace MissionPlanner.Log
 
                 int length = (int)(endoffset - startoffset);
 
-                basestream.Seek(linestartoffset[index], SeekOrigin.Begin);
+                if (linestartoffset[index] != basestream.Position)
+                    basestream.Seek(linestartoffset[index], SeekOrigin.Begin);
 
                 byte[] data = new byte[length];
 
                 basestream.Read(data,0,length);
 
-                return (T)(object)ASCIIEncoding.ASCII.GetString(data);
+                currentindexcache = (object)ASCIIEncoding.ASCII.GetString(data);
+                indexcachelineno = index;
+
+                return (T)currentindexcache;
 
                 /*
                 while (basestream.Position < basestream.Length)
