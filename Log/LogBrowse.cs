@@ -720,10 +720,17 @@ namespace MissionPlanner.Log
             string header = fieldname;
 
             int b = 0;
+            DateTime screenupdate = DateTime.MinValue;
 
             foreach (var item2 in logdata)
             {
                 b++;
+
+                if (screenupdate.Second != DateTime.Now.Second)
+                {
+                    Console.Write(b + " of " + logdata.Count + "     \r");
+                    screenupdate = DateTime.Now;
+                }
 
                 if (!item2.StartsWith(type))
                 {
