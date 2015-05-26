@@ -42,6 +42,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.NUM_startfreq = new System.Windows.Forms.NumericUpDown();
+            this.BUT_log2 = new MissionPlanner.Controls.MyButton();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_bins)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NUM_startfreq)).BeginInit();
@@ -206,7 +207,6 @@
             0,
             0,
             0});
-            
             // 
             // label1
             // 
@@ -241,11 +241,23 @@
             0,
             0});
             // 
+            // BUT_log2
+            // 
+            this.BUT_log2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.BUT_log2.Location = new System.Drawing.Point(560, 508);
+            this.BUT_log2.Name = "BUT_log2";
+            this.BUT_log2.Size = new System.Drawing.Size(75, 23);
+            this.BUT_log2.TabIndex = 8;
+            this.BUT_log2.Text = "Run Log 2";
+            this.BUT_log2.UseVisualStyleBackColor = true;
+            this.BUT_log2.Click += new System.EventHandler(this.BUT_log2_Click);
+            // 
             // fftui
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(809, 542);
+            this.Controls.Add(this.BUT_log2);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.NUM_startfreq);
             this.Controls.Add(this.label1);
@@ -278,5 +290,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.NumericUpDown NUM_startfreq;
+        private Controls.MyButton BUT_log2;
     }
 }
