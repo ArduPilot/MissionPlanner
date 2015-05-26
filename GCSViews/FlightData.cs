@@ -1143,8 +1143,9 @@ namespace MissionPlanner.GCSViews
                         {
                             if (MainV2.comPort.MAV.param.ContainsKey("MNT_STAB_PAN") &&
                                // (float)MainV2.comPort.MAV.param["MNT_STAB_PAN"] == 1 &&
-                                (float)MainV2.comPort.MAV.param["MNT_STAB_TILT"] == 1 &&
-                                (float)MainV2.comPort.MAV.param["MNT_STAB_ROLL"] == 0)
+                               ((float)MainV2.comPort.MAV.param["MNT_STAB_TILT"] == 1 &&
+                                (float)MainV2.comPort.MAV.param["MNT_STAB_ROLL"] == 0) ||
+                                (float)MainV2.comPort.MAV.param["MNT_STAB_ROLL"] == 4) // storm driver
                             {
                                 var marker = MissionPlanner.Utilities.GimbalPoint.ProjectPoint();
 
