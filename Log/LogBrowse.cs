@@ -1068,6 +1068,13 @@ namespace MissionPlanner.Log
                 foreach (var item2 in logdata)
                 {
                     b++;
+
+                    if (!item2.StartsWith("GPS"))
+                    {
+                        i++;
+                        continue;
+                    }
+
                     var item = DFLog.GetDFItemFromLine(item2, b);
 
                     if (item.msgtype == "GPS")
@@ -1077,8 +1084,7 @@ namespace MissionPlanner.Log
                         if (ans.HasValue)
                         {
                             routelist.Add(ans.Value);
-							samplelist.Add(i);
-							
+							samplelist.Add(i);							
 							
 							if (routelist.Count > 1000)
                             {
