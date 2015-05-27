@@ -266,6 +266,14 @@ namespace MissionPlanner.Log
                         line.Append( ", " + BitConverter.ToUInt32(message, offset).ToString(System.Globalization.CultureInfo.InvariantCulture));
                         offset += 4;
                         break;
+                    case 'q':
+                         line.Append( ", " + BitConverter.ToInt64(message, offset).ToString(System.Globalization.CultureInfo.InvariantCulture));
+                        offset += 8;
+                        break;
+                    case 'Q':
+                         line.Append( ", " + BitConverter.ToUInt64(message, offset).ToString(System.Globalization.CultureInfo.InvariantCulture));
+                        offset += 8;
+                        break;
                     case 'f':
                         line.Append( ", " + BitConverter.ToSingle(message, offset).ToString(System.Globalization.CultureInfo.InvariantCulture));
                         offset += 4;
