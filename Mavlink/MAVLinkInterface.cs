@@ -2791,6 +2791,22 @@ Please check the following
 
                 MAVlist[fencept.target_system].fencepoints[fencept.idx] = fencept;
             }
+
+            if (buffer[5] == (byte)MAVLINK_MSG_ID.PARAM_VALUE)
+            {
+                mavlink_param_value_t value = buffer.ByteArrayToStructure<mavlink_param_value_t>(6);
+
+                string st = System.Text.ASCIIEncoding.ASCII.GetString(value.param_id);
+
+                int pos = st.IndexOf('\0');
+
+                if (pos != -1)
+                {
+                    st = st.Substring(0, pos);
+                }
+
+                MAVlist[sysid].param[st] = value.param_value;
+            }
         }
 
         public PointLatLngAlt getFencePoint(int no, ref int total)
