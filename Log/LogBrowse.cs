@@ -262,6 +262,13 @@ namespace MissionPlanner.Log
 
             logdatafilter.Clear();
 
+            m_dtCSV.Clear();
+            
+            if (logdata != null)
+                logdata.Clear();
+
+            GC.Collect();
+
             ErrorCache = new List<TextObj>();
             ModeCache = new List<TextObj>();
             TimeCache = new List<TextObj>();
@@ -373,6 +380,7 @@ namespace MissionPlanner.Log
                     else
                     {
                         dataGridView1.VirtualMode = true;
+                        dataGridView1.RowCount = 0;
                         dataGridView1.RowCount = logdata.Count;
                         dataGridView1.ColumnCount = m_dtCSV.Columns.Count;
                     }
@@ -397,8 +405,15 @@ namespace MissionPlanner.Log
 
                 log.Info("Done map " + (GC.GetTotalMemory(false) / 1024.0 / 1024.0));
 
-                DrawTime();
-
+                try
+                {
+                    DrawTime();
+                }
+                catch (Exception ex) 
+                { 
+                    log.Error(ex);
+                }
+                               
                 log.Info("Done time " + (GC.GetTotalMemory(false) / 1024.0 / 1024.0));
 
                 CreateChart(zg1);
@@ -814,7 +829,7 @@ namespace MissionPlanner.Log
             catch { }
 
             // Force a redraw
-            zg1.Invalidate();
+            zg1.Refresh();
         }
 
         void DrawErrors()
@@ -952,7 +967,7 @@ namespace MissionPlanner.Log
             int a = 0;
 
             DateTime starttime = DateTime.MinValue;
-            int startdelta = 0;
+            UInt64 startdelta = 0;
             DateTime workingtime = starttime;
 
             DateTime lastdrawn = DateTime.MinValue;
@@ -986,22 +1001,37 @@ namespace MissionPlanner.Log
                 {
                     if (!DFLog.logformat.ContainsKey("GPS"))
                         break;
-
+                    
                     int index = DFLog.FindMessageOffset("GPS", "TimeMS");
+                    int index2 = DFLog.FindMessageOffset("GPS", "TimeUS");
                     if (index == -1)
                     {
-                        a++;
-                        continue;
+                        if (index2 == -1)
+                        {
+                            a++;
+                            continue;
+                        }
+                        else
+                        {
+                            index = index2;
+                        }
                     }
 
-                    string time = item.items[index].ToString();
-                    int tempt;
-                    if (int.TryParse(time, out tempt))
+                    string time = double.Parse(item.items[index]).ToString();
+                    UInt64 tempt;
+                    if (UInt64.TryParse(time, out tempt))
                     {
                         if (startdelta == 0)
                             startdelta = tempt;
 
-                        workingtime = starttime.AddMilliseconds(tempt - startdelta);
+                        if (index2 != -1)
+                        {
+                            workingtime = starttime.AddMilliseconds(((tempt) - startdelta)/1000.0);
+                        }
+                        else
+                        {
+                            workingtime = starttime.AddMilliseconds((double)(tempt - startdelta));
+                        }
 
                         TimeSpan span = workingtime - starttime;
 
