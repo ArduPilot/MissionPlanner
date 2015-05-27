@@ -332,7 +332,7 @@ namespace MissionPlanner.Log
                         offset += 64;
                         break;
                     default:
-
+                        return "Bad Conversion";
                         break;
                 }
             }
