@@ -400,8 +400,16 @@ namespace MissionPlanner.Log
                 // get time since start of week
                 int indextimems = FindMessageOffset("GPS", "TimeMS");
 
+                if (indextimems == -1)
+                {
+                    indextimems = FindMessageOffset("GPS", "GMS");
+                }
+
                 // get week number
                 int indexweek = FindMessageOffset("GPS", "Week");
+
+                if (indexweek == -1)
+                    indexweek = FindMessageOffset("GPS", "GWk");
 
                 if (indextimems == -1 || indexweek == -1)
                     return DateTime.MinValue;
