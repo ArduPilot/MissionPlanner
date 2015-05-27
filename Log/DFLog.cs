@@ -271,6 +271,20 @@ namespace MissionPlanner.Log
                                 gpsstarttime = DateTime.MinValue;
                             }
                         }
+
+                        int indextimeus = FindMessageOffset(items[0], "TimeUS");
+
+                        if (indextimeus != -1)
+                        {
+                            try
+                            {
+                                msoffset = int.Parse(items[indextimeus]) / 1000;
+                            }
+                            catch
+                            {
+                                gpsstarttime = DateTime.MinValue;
+                            }
+                        }
                     }
                 }
             }
