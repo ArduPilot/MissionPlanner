@@ -124,8 +124,8 @@ namespace MissionPlanner.Utilities
 
             rollchannel = (int)(float)MainV2.comPort.MAV.param["MNT_RC_IN_ROLL"];
 
-            if (!MainV2.comPort.BaseStream.IsOpen)
-                return PointLatLngAlt.Zero;
+            //if (!MainV2.comPort.BaseStream.IsOpen)
+              //  return PointLatLngAlt.Zero;
 
             PointLatLngAlt currentlocation = new PointLatLngAlt(MainV2.comPort.MAV.cs.lat, MainV2.comPort.MAV.cs.lng);
 
