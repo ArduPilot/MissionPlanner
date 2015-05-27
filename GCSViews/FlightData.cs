@@ -492,15 +492,6 @@ namespace MissionPlanner.GCSViews
                 hud1.Dock = DockStyle.Fill;
             }
 
-            if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
-            {
-                but_autotune.Visible = true;
-            }
-            else
-            {
-                but_autotune.Visible = false;
-            }
-
             for (int f = 1; f < 10; f++)
             {
                 // load settings
@@ -3347,5 +3338,92 @@ namespace MissionPlanner.GCSViews
             txt_messagebox.ScrollToCaret();
         }
 
+        private void BUT_resumemis_Click(object sender, EventArgs e)
+        {
+            if (Common.MessageShowAgain("Resume Mission", "Warning this will arm and issue a takeoff command") != DialogResult.OK)
+                return;
+
+      
+
+            if (MainV2.comPort.BaseStream.IsOpen)
+            {
+                string lastwp = MainV2.comPort.MAV.cs.lastautowp.ToString();
+
+                if (InputBox.Show("Resume at", "Resume mission at waypoint#", ref lastwp) == DialogResult.OK)
+                {
+                    int timeout = 0;
+                    int lastwpno = int.Parse(lastwp);                    
+
+                    while (MainV2.comPort.MAV.cs.mode.ToLower() != "Guided".ToLower())
+                    {
+                        MainV2.comPort.setMode("GUIDED");
+                        System.Threading.Thread.Sleep(1000);
+                        timeout++;
+
+                        if (timeout > 30)
+                        {
+                            CustomMessageBox.Show(Strings.ERROR, Strings.ErrorNoResponce);
+                            return;
+                        }
+                    }
+
+                    timeout = 0;
+                    while (!MainV2.comPort.MAV.cs.armed)
+                    {
+                        MainV2.comPort.doARM(true);
+                        System.Threading.Thread.Sleep(1000);
+                        timeout++;
+
+                        if (timeout > 30)
+                        {
+                            CustomMessageBox.Show(Strings.ERROR, Strings.ErrorNoResponce);
+                            return;
+                        }
+                    }
+
+                    timeout = 0;
+                    while (MainV2.comPort.MAV.cs.alt < 2)
+                    {
+                        MainV2.comPort.doCommand(MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0, 0, 5);
+                        System.Threading.Thread.Sleep(1000);
+                        timeout++;
+
+                        if (timeout > 30)
+                        {
+                            CustomMessageBox.Show(Strings.ERROR, Strings.ErrorNoResponce);
+                            return;
+                        }
+                    }
+
+                    timeout = 0;
+                    while ((int)MainV2.comPort.MAV.cs.wpno != lastwpno)
+                    {
+                        MainV2.comPort.setWPCurrent((ushort)lastwpno);
+                        System.Threading.Thread.Sleep(1000);
+                        timeout++;
+
+                        if (timeout > 30)
+                        {
+                            CustomMessageBox.Show(Strings.ERROR, Strings.ErrorNoResponce);
+                            return;
+                        }
+                    }
+
+                    timeout = 0;
+                    while (MainV2.comPort.MAV.cs.mode.ToLower() != "AUTO".ToLower())
+                    {
+                        MainV2.comPort.setMode("AUTO");
+                        System.Threading.Thread.Sleep(1000);
+                        timeout++;
+
+                        if (timeout > 30)
+                        {
+                            CustomMessageBox.Show(Strings.ERROR, Strings.ErrorNoResponce);
+                            return;
+                        }
+                    }
+                }
+            }
+        }
     }
 }
