@@ -337,7 +337,7 @@ namespace MissionPlanner.Log
                 {
                     item.msgtype = items[0];
                     item.items = items;
-
+                    bool timeus = false;
                     
                         if (logformat.ContainsKey(item.msgtype))
                         {
@@ -348,9 +348,18 @@ namespace MissionPlanner.Log
                                 indextimems = FindMessageOffset(item.msgtype, "T");
                             }
 
+                            if (indextimems == -1)
+                            {
+                                indextimems = FindMessageOffset(item.msgtype, "TimeUS");
+                                timeus = true;
+                            } 
+
                             if (indextimems != -1)
                             {
                                 item.timems = int.Parse(items[indextimems]);
+
+                                if (timeus)
+                                    item.timems /= 1000;
 
                                 item.time = gpsstarttime.AddMilliseconds(item.timems - msoffset);
 
