@@ -136,7 +136,9 @@ namespace MissionPlanner.Log
 
         public void Clear()
         {
-            throw new NotImplementedException();
+            basestream.Close();
+            _count = 0;
+            linestartoffset.Clear();
         }
 
         public bool Contains(T item)
