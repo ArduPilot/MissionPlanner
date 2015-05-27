@@ -19,6 +19,8 @@ namespace MissionPlanner
 
         internal MAVState parent;
 
+        internal int lastautowp =-1;
+
         // multipliers
         public static float multiplierdist = 1;
         public static string DistanceUnit = "";
@@ -1210,6 +1212,11 @@ namespace MissionPlanner
                         int oldwp = (int)wpno;
 
                         wpno = wpcur.seq;
+
+                        if (mode.ToLower() == "auto" && wpno != 0)
+                        {
+                            lastautowp = (int)wpno;
+                        }
 
                         if (oldwp != wpno && MainV2.speechEnable && MainV2.comPort.MAV.cs == this && MainV2.getConfig("speechwaypointenabled") == "True")
                         {
