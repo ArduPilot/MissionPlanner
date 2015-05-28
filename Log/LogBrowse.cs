@@ -263,6 +263,8 @@ namespace MissionPlanner.Log
             logdatafilter.Clear();
 
             m_dtCSV.Clear();
+
+            DFLog.Clear();
             
             if (logdata != null)
                 logdata.Clear();

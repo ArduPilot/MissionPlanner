@@ -139,6 +139,15 @@ namespace MissionPlanner.Log
         public static void Clear()
         {
             logformat.Clear();
+
+            GC.Collect();
+
+            // current gps time
+            gpstime = DateTime.MinValue;
+            // last time of message
+            lasttime = DateTime.MinValue;
+            // first valid gpstime
+            gpsstarttime = DateTime.MinValue;
         }
 
         public static DateTime GetFirstGpsTime(string fn)
@@ -233,7 +242,7 @@ namespace MissionPlanner.Log
 
             return answer;
         }
-
+        
         public static DFItem GetDFItemFromLine(string line, int lineno)
         {
 
