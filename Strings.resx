@@ -516,4 +516,7 @@ Please use Standard/Advanced Params for the safe settings</value>
   <data name="NORCReceiver" xml:space="preserve">
     <value>NO RC Receiver</value>
   </data>
+  <data name="AutoWP" xml:space="preserve">
+    <value>Auto WP</value>
+  </data>
 </root>
