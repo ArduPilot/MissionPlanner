@@ -140,6 +140,8 @@ namespace MissionPlanner.Utilities
                     a++;
                 }
             }
+
+            System.Threading.Thread.CurrentThread.CurrentUICulture = Localizations.ConfigLang;
         }
 
         /// <summary>
@@ -152,7 +154,7 @@ namespace MissionPlanner.Utilities
                 firmwareurl = this.firmwareurl;
 
             // mirror support
-            ReplaceMirrorUrl(ref firmwareurl);
+            Localizations.ReplaceMirrorUrl(ref firmwareurl);
 
             log.Info("getFWList");
 
@@ -381,6 +383,8 @@ namespace MissionPlanner.Utilities
         /// <returns></returns>
         void getAPMVersion(object tempin)
         {
+            System.Threading.Thread.CurrentThread.CurrentUICulture = Localizations.ConfigLang;
+
             try
             {
 
@@ -390,7 +394,7 @@ namespace MissionPlanner.Utilities
 
                 if (baseurl == "") return;
 
-                ReplaceMirrorUrl(ref baseurl);
+                Localizations.ReplaceMirrorUrl(ref baseurl);
 
                 Uri url = new Uri(new Uri(baseurl), "git-version.txt");
 
@@ -562,7 +566,7 @@ namespace MissionPlanner.Utilities
                     baseurl = getUrl(historyhash, baseurl);
 
                 // update to use mirror url
-                ReplaceMirrorUrl(ref baseurl);
+                Localizations.ReplaceMirrorUrl(ref baseurl);
 
                 log.Info("Using " + baseurl);
 
@@ -1229,35 +1233,6 @@ namespace MissionPlanner.Utilities
             Array.Resize<byte>(ref FLASH, total);
 
             return FLASH;
-        }
-
-        string ReplaceMirrorUrl(ref string url)
-        {
-            switch (System.Globalization.CultureInfo.CurrentUICulture.Name)
-            {
-                case "zh-CN":
-                case "zh-Hans":
-                    if (url.Contains("raw.github.com"))
-                    {
-                        url = url.Replace("raw.github.com", "githubraw.diywrj.com");
-                    }
-                    else if (url.Contains("firmware.diydrones.com"))
-                    {
-                        url = url.Replace("firmware.diydrones.com", "firmware.diywrj.com");
-                    }
-                    else if (url.Contains("github.com"))
-                    {
-                        url = url.Replace("github.com", "github.diywrj.com");
-                    }
-                    else
-                    {
-                    }
-                    break;
-                default:
-                    break;
-            }
-
-            return url;
         }
     }
 }
