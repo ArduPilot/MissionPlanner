@@ -103,12 +103,7 @@
             this.CHKgraphrudder = new System.Windows.Forms.CheckBox();
             this.CHKgraphthrottle = new System.Windows.Forms.CheckBox();
             this.but_advsettings = new MissionPlanner.Controls.MyButton();
-            this.chkSITL = new System.Windows.Forms.CheckBox();
-            this.CHK_quad = new System.Windows.Forms.CheckBox();
-            this.BUT_startfgquad = new MissionPlanner.Controls.MyButton();
-            this.BUT_startfgplane = new MissionPlanner.Controls.MyButton();
             this.BUT_startxplane = new MissionPlanner.Controls.MyButton();
-            this.CHK_heli = new System.Windows.Forms.CheckBox();
             this.RAD_aerosimrc = new System.Windows.Forms.RadioButton();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.RAD_JSBSim = new System.Windows.Forms.RadioButton();
@@ -642,45 +637,12 @@
             this.but_advsettings.UseVisualStyleBackColor = true;
             this.but_advsettings.Click += new System.EventHandler(this.but_advsettings_Click);
             // 
-            // chkSITL
-            // 
-            resources.ApplyResources(this.chkSITL, "chkSITL");
-            this.chkSITL.Name = "chkSITL";
-            this.chkSITL.UseVisualStyleBackColor = true;
-            // 
-            // CHK_quad
-            // 
-            resources.ApplyResources(this.CHK_quad, "CHK_quad");
-            this.CHK_quad.Name = "CHK_quad";
-            this.CHK_quad.UseVisualStyleBackColor = true;
-            this.CHK_quad.CheckedChanged += new System.EventHandler(this.CHK_quad_CheckedChanged);
-            // 
-            // BUT_startfgquad
-            // 
-            resources.ApplyResources(this.BUT_startfgquad, "BUT_startfgquad");
-            this.BUT_startfgquad.Name = "BUT_startfgquad";
-            this.BUT_startfgquad.UseVisualStyleBackColor = true;
-            this.BUT_startfgquad.Click += new System.EventHandler(this.BUT_startfgquad_Click);
-            // 
-            // BUT_startfgplane
-            // 
-            resources.ApplyResources(this.BUT_startfgplane, "BUT_startfgplane");
-            this.BUT_startfgplane.Name = "BUT_startfgplane";
-            this.BUT_startfgplane.UseVisualStyleBackColor = true;
-            this.BUT_startfgplane.Click += new System.EventHandler(this.BUT_startfgplane_Click);
-            // 
             // BUT_startxplane
             // 
             resources.ApplyResources(this.BUT_startxplane, "BUT_startxplane");
             this.BUT_startxplane.Name = "BUT_startxplane";
             this.BUT_startxplane.UseVisualStyleBackColor = true;
             this.BUT_startxplane.Click += new System.EventHandler(this.BUT_startxplane_Click);
-            // 
-            // CHK_heli
-            // 
-            resources.ApplyResources(this.CHK_heli, "CHK_heli");
-            this.CHK_heli.Name = "CHK_heli";
-            this.CHK_heli.UseVisualStyleBackColor = true;
             // 
             // RAD_aerosimrc
             // 
@@ -717,12 +679,7 @@
             this.Controls.Add(this.CHK_xplane10);
             this.Controls.Add(this.RAD_JSBSim);
             this.Controls.Add(this.RAD_aerosimrc);
-            this.Controls.Add(this.CHK_heli);
             this.Controls.Add(this.BUT_startxplane);
-            this.Controls.Add(this.BUT_startfgplane);
-            this.Controls.Add(this.BUT_startfgquad);
-            this.Controls.Add(this.CHK_quad);
-            this.Controls.Add(this.chkSITL);
             this.Controls.Add(this.but_advsettings);
             this.Controls.Add(this.CHKgraphthrottle);
             this.Controls.Add(this.CHKgraphrudder);
@@ -836,12 +793,7 @@
         private Controls.MyLabel label30;
         private Controls.MyLabel TXT_yaw;
         private Controls.MyButton but_advsettings;
-        private System.Windows.Forms.CheckBox chkSITL;
-        private System.Windows.Forms.CheckBox CHK_quad;
-        private Controls.MyButton BUT_startfgquad;
-        private Controls.MyButton BUT_startfgplane;
         private Controls.MyButton BUT_startxplane;
-        private System.Windows.Forms.CheckBox CHK_heli;
         private System.Windows.Forms.RadioButton RAD_aerosimrc;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.RadioButton RAD_JSBSim;

@@ -298,15 +298,6 @@ namespace MissionPlanner.GCSViews
 
                     SetupUDPRecv();
 
-                    if (chkSITL.Checked)
-                    {
-                        SITLRCRECV = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-                        SITLRCRECV.Bind(new IPEndPoint(IPAddress.Any, 5502));
-                        OutputLog.AppendText("SITL rc from " + SITLIP + " port " + 5502 + " \n");
-                        SITLSEND = new UdpClient(SITLIP, 5501);
-                        OutputLog.AppendText("SITL to " + SITLIP + " port " + 5501 + " \n");
-                    }
-
                     if (RAD_softXplanes.Checked)
                     {
                         SetupUDPXplanes();
@@ -314,24 +305,7 @@ namespace MissionPlanner.GCSViews
                     }
                     else
                     {
-                        if (RAD_JSBSim.Checked)
-                        {
-                            System.Diagnostics.ProcessStartInfo _procstartinfo = new System.Diagnostics.ProcessStartInfo();
-                            _procstartinfo.WorkingDirectory = Path.GetDirectoryName(Application.ExecutablePath);
-                            _procstartinfo.Arguments = "--realtime --suspend --nice --simulation-rate=1000 --logdirectivefile=jsbsim/fgout.xml --script=jsbsim/rascal_test.xml";
-                            _procstartinfo.FileName = "JSBSim.exe";
-                            // Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar +
-
-                            _procstartinfo.UseShellExecute = true;
-                            //_procstartinfo.RedirectStandardOutput = true;
-
-
-                            System.Diagnostics.Process.Start(_procstartinfo);
-
-                            System.Threading.Thread.Sleep(2000);
-
-                            SetupTcpJSBSim();
-                        }
+                       
 
                         SetupUDPXplanes(); // fg udp style
                         SetupUDPMavLink(); // pass traffic - raw
@@ -608,16 +582,9 @@ namespace MissionPlanner.GCSViews
                     try
                     {
 
-                        if (CHK_quad.Checked && !RAD_aerosimrc.Checked)// || chkSensor.Checked && RAD_JSBSim.Checked)
-                        {
-                            //comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RAW_CONTROLLER, 0); // request servoout
-                            comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RC_CHANNELS, 50); // request servoout
-                            comPort.MAV.cs.raterc = 50;
-                        }
-                        else
-                        {
+          
                             comPort.requestDatastream(MAVLink.MAV_DATA_STREAM.RAW_CONTROLLER, 50); // request servoout
-                        }
+                        
                     }
                     catch { }
                     lastdata = DateTime.Now; // prevent flooding
@@ -710,7 +677,7 @@ namespace MissionPlanner.GCSViews
 
                     MainV2.comPort.MAV.cs.UpdateCurrentSettings(null,true,MainV2.comPort); // when true this uses alot more cpu time
 
-                    if ((DateTime.Now - simsendtime).TotalMilliseconds > 19 && chkSITL.Checked ||(DateTime.Now - simsendtime).TotalMilliseconds > 25)
+                    if ((DateTime.Now - simsendtime).TotalMilliseconds > 25)
                     {
                         simsendtime = DateTime.Now;
 
@@ -1081,42 +1048,7 @@ namespace MissionPlanner.GCSViews
 
             sitldata_old = sitldata;
 
-            // write arduimu to ardupilot
-            if (CHK_quad.Checked && !RAD_aerosimrc.Checked) // quad does its own
-            {
-                return;
-            }
-
-            if (RAD_JSBSim.Checked && chkSITL.Checked)
-            {
-                byte[] buffer = new byte[1500];
-                while (JSBSimSEND.Client.Available > 5)
-                {
-                    int read = JSBSimSEND.Client.Receive(buffer);
-                    string readdata = ASCIIEncoding.ASCII.GetString(buffer, 0, read);
-                    //Console.WriteLine();
-                }
-
-                sitldata.magic = (int)0x4c56414f;
-
-                byte[] sendme = StructureToByteArray(sitldata);
-
-                SITLSEND.Send(sendme, sendme.Length);
-
-                return;
-            }
-
-            if (chkSITL.Checked)
-            {
-                sitldata.magic = (int)0x4c56414f;
-
-                byte[] sendme = StructureToByteArray(sitldata);
-
-                SITLSEND.Send(sendme, sendme.Length);
-                
-                return;
-            }
-
+           
 
             TimeSpan gpsspan = DateTime.Now - lastgpsupdate;
 
@@ -1245,209 +1177,16 @@ namespace MissionPlanner.GCSViews
 
         private void processArduPilot()
         {
-
-            bool heli = CHK_heli.Checked;
-
-            if (CHK_quad.Checked && !RAD_aerosimrc.Checked)
-            {
-
-                double[] m = new double[4]; // 11
-
-                for (int a = 0; a < m.Length; a++)
-                    m[a] = 0;
-
-                    m[0] = (ushort)MainV2.comPort.MAV.cs.ch1out;
-                m[1] = (ushort)MainV2.comPort.MAV.cs.ch2out;
-                m[2] = (ushort)MainV2.comPort.MAV.cs.ch3out;
-                m[3] = (ushort)MainV2.comPort.MAV.cs.ch4out;
-
-                if (lastfdmdata.latitude == 0 && lastfdmdata.longitude == 0)
-                {
-                    lastfdmdata.latitude = MainV2.comPort.MAV.cs.HomeLocation.Lat * deg2rad;
-                    lastfdmdata.longitude = MainV2.comPort.MAV.cs.HomeLocation.Lng * deg2rad;
-                    lastfdmdata.altitude = srtm.getAltitude(MainV2.comPort.MAV.cs.HomeLocation.Lat, MainV2.comPort.MAV.cs.HomeLocation.Lng).alt;
-                    lastfdmdata.version = 999;
-                }
-
-                if (!RAD_softFlightGear.Checked)
-                {
-                    if (DATA[20] != null)
-                    {
-                        lastfdmdata.latitude = DATA[20][0] * deg2rad;
-                        lastfdmdata.longitude = DATA[20][1] * deg2rad;
-                        lastfdmdata.altitude = (DATA[20][2]);
-                        lastfdmdata.version = 999;
-                    }
-                }
-
-                try
-                {
-
-                    if (lastfdmdata.version == 0)
-                        return;
-
-                    quad.update(ref m, lastfdmdata);
-
-                    Vector3 earth_rates = Utils.BodyRatesToEarthRates(quad.dcm, quad.gyro);
-                    quad.dcm.to_euler(ref quad.roll, ref quad.pitch, ref quad.yaw);
-                    //quad.dcm.to_euler(ref roll, ref pitch, ref yaw);
-
-                    if (chkSITL.Checked)
-                    {
-                        sitl_fdm sitldata = new sitl_fdm();
-                        sitldata.timestamp = (UInt64)(simtime * 1.0e6);
-                        sitldata.latitude = quad.latitude;
-                        sitldata.longitude = quad.longitude;
-                        sitldata.altitude = quad.altitude;
-                        sitldata.heading = quad.yaw;
-                        sitldata.speedN = quad.velocity.x;
-                        sitldata.speedE = quad.velocity.y;
-                        sitldata.speedD = quad.velocity.z;
-                        sitldata.xAccel = quad.accelerometer.x;
-                        sitldata.yAccel = quad.accelerometer.y;
-                        sitldata.zAccel = quad.accelerometer.z;
-                        sitldata.rollDeg = quad.roll * rad2deg;
-                        sitldata.pitchDeg = quad.pitch * rad2deg;
-                        sitldata.yawDeg = quad.yaw * rad2deg;
-                        sitldata.rollRate = earth_rates.x * rad2deg;
-                        sitldata.pitchRate = earth_rates.y * rad2deg;
-                        sitldata.yawRate = earth_rates.z * rad2deg;
-                        sitldata.airspeed = ((float)Math.Sqrt((sitldata.speedN * sitldata.speedN) + (sitldata.speedE * sitldata.speedE))); ;
-
-                        sitldata.magic = (int)0x4c56414f;
-
-                        byte[] sendme = StructureToByteArray(sitldata);
-
-                        SITLSEND.Send(sendme, sendme.Length);
-
-                        simtime += simstep;
-
-                        byte[] rcreceiver = new byte[2 * 8];
-                        Array.ConstrainedCopy(BitConverter.GetBytes((ushort)MainV2.comPort.MAV.cs.rcoverridech1), 0, rcreceiver, 0, 2);
-                        Array.ConstrainedCopy(BitConverter.GetBytes((ushort)MainV2.comPort.MAV.cs.rcoverridech2), 0, rcreceiver, 2, 2);
-                        Array.ConstrainedCopy(BitConverter.GetBytes((ushort)MainV2.comPort.MAV.cs.rcoverridech3), 0, rcreceiver, 4, 2);
-                        Array.ConstrainedCopy(BitConverter.GetBytes((ushort)MainV2.comPort.MAV.cs.rcoverridech4), 0, rcreceiver, 6, 2);
-                        Array.ConstrainedCopy(BitConverter.GetBytes((ushort)1505), 0, rcreceiver, 8, 2);
-                        Array.ConstrainedCopy(BitConverter.GetBytes((ushort)1506), 0, rcreceiver, 10, 2);
-                        Array.ConstrainedCopy(BitConverter.GetBytes((ushort)1507), 0, rcreceiver, 12, 2);
-                        Array.ConstrainedCopy(BitConverter.GetBytes((ushort)1508), 0, rcreceiver, 14, 2);
-
-                        SITLSEND.Send(rcreceiver, rcreceiver.Length);
-                    }
-                    else
-                    {
-                        // send to apm
-                        MAVLink.mavlink_hil_state_t hilstate = new MAVLink.mavlink_hil_state_t();
-
-                        hilstate.time_usec = (UInt64)DateTime.Now.Ticks; // microsec
-
-                        hilstate.lat = (int)(quad.latitude * 1e7); // * 1E7
-                        hilstate.lon = (int)(quad.longitude * 1e7); // * 1E7
-                        hilstate.alt = (int)(quad.altitude * 1000); // mm
-
-                        quad.dcm.to_euler(ref quad.roll, ref quad.pitch, ref quad.yaw);
-
-                        if (double.IsNaN(quad.roll))
-                        {
-                            quad.dcm.identity();
-                        }
-
-                        hilstate.roll = (float)quad.roll;
-                        hilstate.pitch = (float)quad.pitch;
-                        hilstate.yaw = (float)quad.yaw;
-
-                          //Vector3 earth_rates2 = Utils.BodyRatesToEarthRates(quad.dcm, quad.gyro);
-
-                        hilstate.rollspeed = (float)quad.gyro.x;
-                        hilstate.pitchspeed = (float)quad.gyro.y;
-                        hilstate.yawspeed = (float)quad.gyro.z;
-
-                        //hilstate.rollspeed = (float)earth_rates2.x;
-                        //hilstate.pitchspeed = (float)earth_rates2.y;
-                        //hilstate.yawspeed = (float)earth_rates2.z;
-
-                        hilstate.vx = (short)(quad.velocity.y * 100); // m/s * 100
-                        hilstate.vy = (short)(quad.velocity.x * 100); // m/s * 100
-                        hilstate.vz = (short)(quad.velocity.z * 100); // m/s * 100
-
-                        hilstate.xacc = (short)(quad.accelerometer.x * 100); // (mg)
-                        hilstate.yacc = (short)(quad.accelerometer.y * 100); // (mg)
-                        hilstate.zacc = (short)(quad.accelerometer.z * 100); // (mg)
-
-                        MainV2.comPort.sendPacket(hilstate);
-                    }
-                }
-                catch (Exception e) { log.Info("Quad hil error " + e.ToString()); }
-
-                byte[] FlightGear = new byte[8 * 11];// StructureToByteArray(fg);
-
-                Array.Copy(BitConverter.GetBytes((double)(quad.motor_speed[0])), 0, FlightGear, 0, 8);
-                Array.Copy(BitConverter.GetBytes((double)(quad.motor_speed[1])), 0, FlightGear, 8, 8);
-                Array.Copy(BitConverter.GetBytes((double)(quad.motor_speed[2])), 0, FlightGear, 16, 8);
-                Array.Copy(BitConverter.GetBytes((double)(quad.motor_speed[3])), 0, FlightGear, 24, 8);
-                Array.Copy(BitConverter.GetBytes((double)(quad.latitude)), 0, FlightGear, 32, 8);
-                Array.Copy(BitConverter.GetBytes((double)(quad.longitude)), 0, FlightGear, 40, 8);
-                Array.Copy(BitConverter.GetBytes((double)(quad.altitude * 1 / ft2m)), 0, FlightGear, 48, 8);
-                Array.Copy(BitConverter.GetBytes((double)((quad.altitude - quad.ground_level) * 1 / ft2m)), 0, FlightGear, 56, 8);
-                Array.Copy(BitConverter.GetBytes((double)(quad.roll * rad2deg)), 0, FlightGear, 64, 8);
-                Array.Copy(BitConverter.GetBytes((double)(quad.pitch * rad2deg)), 0, FlightGear, 72, 8);
-                Array.Copy(BitConverter.GetBytes((double)(quad.yaw * rad2deg)), 0, FlightGear, 80, 8);
-
-                if (RAD_softFlightGear.Checked || RAD_softXplanes.Checked)
-                {
-
-                    Array.Reverse(FlightGear, 0, 8);
-                    Array.Reverse(FlightGear, 8, 8);
-                    Array.Reverse(FlightGear, 16, 8);
-                    Array.Reverse(FlightGear, 24, 8);
-                    Array.Reverse(FlightGear, 32, 8);
-                    Array.Reverse(FlightGear, 40, 8);
-                    Array.Reverse(FlightGear, 48, 8);
-                    Array.Reverse(FlightGear, 56, 8);
-                    Array.Reverse(FlightGear, 64, 8);
-                    Array.Reverse(FlightGear, 72, 8);
-                    Array.Reverse(FlightGear, 80, 8);
-
-                }
-
-                try
-                {
-                    XplanesSEND.Send(FlightGear, FlightGear.Length);
-                }
-                catch (Exception) { log.Info("Socket Write failed, FG closed?"); }
-
-                updateScreenDisplay(lastfdmdata.latitude, lastfdmdata.longitude, lastfdmdata.altitude * .3048, lastfdmdata.phi, lastfdmdata.theta, lastfdmdata.psi, lastfdmdata.psi, m[0], m[1], m[2], m[3]);
-
-                return;
-
-            }
-
             float roll_out, pitch_out, throttle_out, rudder_out, collective_out;
 
             collective_out = 0;
 
-            if (heli)
-            {
-                roll_out = (float)MainV2.comPort.MAV.cs.hilch1 / rollgain;
-                pitch_out = (float)MainV2.comPort.MAV.cs.hilch2 / pitchgain;
-                throttle_out = 1;
-                rudder_out = (float)MainV2.comPort.MAV.cs.hilch4 / -ruddergain;
-
-                collective_out = (float)(MainV2.comPort.MAV.cs.hilch3 - 1500) / throttlegain;
-            }
-            else
-            {
+        
                 roll_out = (float)(MainV2.comPort.MAV.cs.ch1out- 1500) / rollgain;
                 pitch_out = (float)(MainV2.comPort.MAV.cs.ch2out- 1500) / pitchgain;
                 throttle_out = (float)(MainV2.comPort.MAV.cs.ch3out- 1500) / throttlegain;
                 rudder_out = (float)(MainV2.comPort.MAV.cs.ch4out - 1500) / ruddergain;
 
-                if (RAD_aerosimrc.Checked && CHK_quad.Checked)
-                {
-                    throttle_out = ((float)MainV2.comPort.MAV.cs.hilch7 / 2 + 5000) / throttlegain;
-                    throttle_out = (float)(MainV2.comPort.MAV.cs.hilch3 - 1100) / throttlegain;
-                }
-            }
 
 
             // Limit min and max
@@ -1480,14 +1219,9 @@ namespace MissionPlanner.GCSViews
                     else { list3.Clear(); }
                     if (CHKgraphthrottle.Checked)
                     {
-                        if (heli)
-                        {
-                            list4.Add(time, collective_out);
-                        }
-                        else
-                        {
+                 
                             list4.Add(time, throttle_out);
-                        }
+                        
                     }
                     else { list4.Clear(); }
                 }
@@ -1518,9 +1252,7 @@ namespace MissionPlanner.GCSViews
 
                     if (RAD_aerosimrc.Checked)
                     {
-                        if (heli)
-                            updateScreenDisplay(aeroin.Model_fLatitude * deg2rad, aeroin.Model_fLongitude * deg2rad, aeroin.Model_fPosZ, aeroin.Model_fRoll, aeroin.Model_fPitch, aeroin.Model_fHeading, aeroin.Model_fHeading, roll_out, pitch_out, rudder_out, collective_out);
-                        else 
+           
                             updateScreenDisplay(aeroin.Model_fLatitude * deg2rad, aeroin.Model_fLongitude * deg2rad, aeroin.Model_fPosZ, aeroin.Model_fRoll, aeroin.Model_fPitch, aeroin.Model_fHeading, aeroin.Model_fHeading, roll_out, pitch_out, rudder_out, throttle_out);
                     }
                 }
@@ -1539,34 +1271,6 @@ namespace MissionPlanner.GCSViews
                 Array.Copy(BitConverter.GetBytes((double)(rudder_out * REV_rudder)), 0, AeroSimRC, 16, 8);
                 Array.Copy(BitConverter.GetBytes((double)((throttle_out * 2) - 1)), 0, AeroSimRC, 24, 8);
 
-                if (heli)
-                {
-                    Array.Copy(BitConverter.GetBytes((double)(collective_out)), 0, AeroSimRC, 24, 8);
-                }
-
-                if (CHK_quad.Checked)
-                {
-                    //MainV2.comPort.MAV.cs.ch1out = 1100; 
-                    //MainV2.comPort.MAV.cs.ch2out = 1100;
-                    //MainV2.comPort.MAV.cs.ch3out = 1100;
-                    //MainV2.comPort.MAV.cs.ch4out = 1100;
-
-                    //ac
-                    // 3 front
-                    // 1 left
-                    // 4 back
-                    // 2 left
-
-                  //  Array.Copy(BitConverter.GetBytes((double)((MainV2.comPort.MAV.cs.ch3out - 1100) / 800 * 2 - 1)), 0, AeroSimRC, 0, 8); // motor 1 = front
-                  //  Array.Copy(BitConverter.GetBytes((double)((MainV2.comPort.MAV.cs.ch1out - 1100) / 800 * 2 - 1)), 0, AeroSimRC, 8, 8); // motor 2 = right
-                  //  Array.Copy(BitConverter.GetBytes((double)((MainV2.comPort.MAV.cs.ch4out - 1100) / 800 * 2 - 1)), 0, AeroSimRC, 16, 8);// motor 3 = back
-                  //  Array.Copy(BitConverter.GetBytes((double)((MainV2.comPort.MAV.cs.ch2out - 1100) / 800 * 2 - 1)), 0, AeroSimRC, 24, 8);// motor 4 = left
-
-                }
-                else
-                {
-
-                }
 
                 try
                 {
@@ -1630,10 +1334,7 @@ namespace MissionPlanner.GCSViews
 
                 byte[] Xplane = new byte[5 + 36 + 36];
 
-                if (heli)
-                {
-                    Xplane = new byte[5 + 36 + 36 + 36];
-                }
+        
 
                 Xplane[0] = (byte)'D';
                 Xplane[1] = (byte)'A';
@@ -1666,31 +1367,6 @@ namespace MissionPlanner.GCSViews
                 Array.Copy(BitConverter.GetBytes((int)-999), 0, Xplane, 65, 4);
                 Array.Copy(BitConverter.GetBytes((int)-999), 0, Xplane, 69, 4);
                 Array.Copy(BitConverter.GetBytes((int)-999), 0, Xplane, 73, 4);
-
-                if (heli)
-                {
-                    Array.Copy(BitConverter.GetBytes((float)(0)), 0, Xplane, 53, 4);
-
-
-                    int a = 73 + 4;
-                    Array.Copy(BitConverter.GetBytes((int)39), 0, Xplane, a, 4); // packet index
-                    a += 4;
-                    Array.Copy(BitConverter.GetBytes((float)(12 * collective_out)), 0, Xplane, a, 4); // main rotor 0 - 12
-                    a += 4;
-                    Array.Copy(BitConverter.GetBytes((float)(12 * rudder_out)), 0, Xplane, a, 4); // tail rotor -12 - 12
-                    a += 4;
-                    Array.Copy(BitConverter.GetBytes((int)-999), 0, Xplane, a, 4);
-                    a += 4;
-                    Array.Copy(BitConverter.GetBytes((int)-999), 0, Xplane, a, 4);
-                    a += 4;
-                    Array.Copy(BitConverter.GetBytes((int)-999), 0, Xplane, a, 4);
-                    a += 4;
-                    Array.Copy(BitConverter.GetBytes((int)-999), 0, Xplane, a, 4);
-                    a += 4;
-                    Array.Copy(BitConverter.GetBytes((int)-999), 0, Xplane, a, 4);
-                    a += 4;
-                    Array.Copy(BitConverter.GetBytes((int)-999), 0, Xplane, a, 4);
-                }
 
                 try
                 {
