@@ -363,6 +363,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                             bitmask.setup(x.Key, MainV2.comPort.MAV.param);
 
+                            bitmask.myLabel1.Text = displayName;
+                            bitmask.label1.Text = FitDescriptionText(units, description, bitmask.Width - 100);
+
                             ThemeManager.ApplyThemeTo(bitmask);
 
                             // set pos

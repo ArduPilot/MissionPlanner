@@ -10,6 +10,10 @@ namespace MissionPlanner.Controls
 {
     public class MavlinkCheckBoxBitMask : MyUserControl
     {
+        private TableLayoutPanel tableLayoutPanel1;
+        public Label label1;
+        public MyLabel myLabel1;
+        public Panel panel1;
         public event EventValueChanged ValueChanged;
 
         [System.ComponentModel.Browsable(true)]
@@ -37,6 +41,8 @@ namespace MissionPlanner.Controls
 
         public MavlinkCheckBoxBitMask()
         {
+            InitializeComponent();
+
             this.Enabled = false;
             this.Width = 700;
         }
@@ -71,7 +77,7 @@ namespace MissionPlanner.Controls
                     }
 
                     chklist.Add(new KeyValuePair<int,CheckBox>(list[a].Key,chk));
-                    this.Controls.Add(chk);
+                    panel1.Controls.Add(chk);
 
                     chk.CheckedChanged += MavlinkCheckBoxBitMask_CheckedChanged;
 
@@ -85,7 +91,10 @@ namespace MissionPlanner.Controls
                     }
                 }
 
-                this.Height = top + 25;
+
+                this.panel1.Height = top + 25;
+
+                    //this.Height = top + 25;
             }
             else
             {
@@ -114,13 +123,71 @@ namespace MissionPlanner.Controls
 
         private void InitializeComponent()
         {
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.myLabel1 = new MissionPlanner.Controls.MyLabel();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel1.AutoSize = true;
+            this.tableLayoutPanel1.ColumnCount = 1;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel1.Controls.Add(this.label1, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.panel1, 0, 1);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 28);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.Padding = new System.Windows.Forms.Padding(0, 5, 0, 10);
+            this.tableLayoutPanel1.RowCount = 2;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(337, 84);
+            this.tableLayoutPanel1.TabIndex = 4;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(3, 5);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(35, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "label1";
+            // 
+            // myLabel1
+            // 
+            this.myLabel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.myLabel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.myLabel1.Location = new System.Drawing.Point(3, 3);
+            this.myLabel1.Name = "myLabel1";
+            this.myLabel1.resize = false;
+            this.myLabel1.Size = new System.Drawing.Size(267, 23);
+            this.myLabel1.TabIndex = 3;
+            this.myLabel1.Text = "myLabel1";
+            // 
+            // panel1
+            // 
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(3, 21);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(331, 50);
+            this.panel1.TabIndex = 1;
             // 
             // MavlinkCheckBoxBitMask
             // 
+            this.Controls.Add(this.tableLayoutPanel1);
+            this.Controls.Add(this.myLabel1);
             this.Name = "MavlinkCheckBoxBitMask";
-            this.Size = new System.Drawing.Size(217, 111);
+            this.Size = new System.Drawing.Size(343, 115);
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
