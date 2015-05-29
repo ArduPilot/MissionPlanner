@@ -219,9 +219,9 @@ namespace MissionPlanner
             Open(false);
         }
 
-        public void Open(bool getparams)
+        public void Open(bool getparams, bool skipconnectedcheck = false)
         {
-            if (BaseStream.IsOpen)
+            if (BaseStream.IsOpen && !skipconnectedcheck)
                 return;
 
             sysidseen.Clear();

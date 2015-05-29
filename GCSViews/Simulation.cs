@@ -2277,5 +2277,12 @@ namespace MissionPlanner.GCSViews
         {
             timer_servo_graph.Stop();
         }
+
+        private void BUT_sitl_Click(object sender, EventArgs e)
+        {
+            var form = new Controls.SITL();
+
+            form.Show();
+        }
     }
 }

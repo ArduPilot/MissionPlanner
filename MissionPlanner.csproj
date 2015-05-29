@@ -306,6 +306,12 @@
     <Compile Include="Controls\ServoOptions.Designer.cs">
       <DependentUpon>ServoOptions.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\SITL.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\SITL.Designer.cs">
+      <DependentUpon>SITL.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\SysidSelector.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -638,6 +644,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\LogAnalyzer.resx">
       <DependentUpon>LogAnalyzer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\SITL.resx">
+      <DependentUpon>SITL.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\SysidSelector.resx">
       <DependentUpon>SysidSelector.cs</DependentUpon>
