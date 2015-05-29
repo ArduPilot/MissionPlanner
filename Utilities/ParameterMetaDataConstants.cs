@@ -22,6 +22,7 @@
         public const string Increment = "Increment";
         public const string User = "User";
         public const string RebootRequired = "RebootRequired";
+        public const string Bitmask = "Bitmask";
 
         #endregion
 

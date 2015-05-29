@@ -199,6 +199,35 @@ namespace MissionPlanner.Utilities
           return new List<KeyValuePair<int, string>>();
       }
 
+      public static List<KeyValuePair<int, string>> GetParameterBitMaskInt(string nodeKey, string vechileType)
+      {
+          CheckLoad();
+
+          string availableValuesRaw;
+
+          availableValuesRaw = GetParameterMetaData(nodeKey, ParameterMetaDataConstants.Bitmask, vechileType);
+
+          string[] availableValues = availableValuesRaw.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+          if (availableValues.Any())
+          {
+              var splitValues = new List<KeyValuePair<int, string>>();
+              // Add the values to the ddl
+              foreach (string val in availableValues)
+              {
+                  try
+                  {
+                      string[] valParts = val.Split(new[] { ':' });
+                      splitValues.Add(new KeyValuePair<int, string>(int.Parse(valParts[0].Trim()), (valParts.Length > 1) ? valParts[1].Trim() : valParts[0].Trim()));
+                  }
+                  catch { Console.WriteLine("Bad entry in param meta data: " + nodeKey); }
+              };
+
+              return splitValues;
+          }
+
+          return new List<KeyValuePair<int, string>>();
+      }
+
       public static bool GetParameterRange(string nodeKey, ref double min, ref double max, string vechileType)
       {
           CheckLoad();

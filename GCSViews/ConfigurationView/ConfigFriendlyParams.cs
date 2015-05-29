@@ -353,6 +353,31 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         }
                     }
 
+                    // try bitmask next
+                    if (!controlAdded)
+                    {
+                        var availableBitMask = ParameterMetaDataRepository.GetParameterBitMaskInt(x.Key, MainV2.comPort.MAV.cs.firmware.ToString());
+                        if (availableBitMask.Count > 0)
+                        {
+                            MavlinkCheckBoxBitMask bitmask = new MavlinkCheckBoxBitMask();
+
+                            bitmask.setup(x.Key, MainV2.comPort.MAV.param);
+
+                            ThemeManager.ApplyThemeTo(bitmask);
+
+                            // set pos
+                            bitmask.Location = new Point(0, y);
+                            // add control - let it autosize height
+                            tableLayoutPanel1.Controls.Add(bitmask);
+                            // add height for next control
+                            y += bitmask.Height;
+
+                            bitmask.ValueChanged += Control_ValueChanged;
+
+                            controlAdded = true;
+                        }
+                    }
+
                     if (!controlAdded)
                     {
                         // If this is a subset of values

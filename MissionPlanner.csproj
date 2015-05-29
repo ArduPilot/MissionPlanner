@@ -290,6 +290,9 @@
     <Compile Include="Controls\LogAnalyzer.Designer.cs">
       <DependentUpon>LogAnalyzer.cs</DependentUpon>
     </Compile>
+    <Compile Include="Controls\MavlinkCheckBoxBitMask.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Controls\MavlinkCheckBox.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -644,6 +647,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\LogAnalyzer.resx">
       <DependentUpon>LogAnalyzer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\MavlinkCheckBoxBitMask.resx">
+      <DependentUpon>MavlinkCheckBoxBitMask.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\SITL.resx">
       <DependentUpon>SITL.cs</DependentUpon>
