@@ -15,6 +15,8 @@ namespace MissionPlanner.Controls
         {
             InitializeComponent();
 
+            Utilities.ThemeManager.ApplyThemeTo(this);
+
             cmb_sysid.DataSource = MainV2.comPort.sysidseen;
         }
 
