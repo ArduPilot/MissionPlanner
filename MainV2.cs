@@ -883,12 +883,15 @@ namespace MissionPlanner
             {
                 case "TCP":
                     comPort.BaseStream = new TcpSerial();
+                    _connectionControl.CMB_serialport.Text = "TCP";
                     break;
                 case "UDP":
                     comPort.BaseStream = new UdpSerial();
+                    _connectionControl.CMB_serialport.Text = "UDP";
                     break;
                 case "UDPCl":
                     comPort.BaseStream = new UdpSerialConnect();
+                    _connectionControl.CMB_serialport.Text = "UDPCl";
                     break;
                 case "AUTO":
                 default:
