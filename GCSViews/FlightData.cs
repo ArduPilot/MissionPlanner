@@ -3353,6 +3353,8 @@ namespace MissionPlanner.GCSViews
             if (MainV2.comPort.BaseStream.IsOpen)
             {
                 string lastwp = MainV2.comPort.MAV.cs.lastautowp.ToString();
+                if (lastwp == "-1")
+                    lastwp = "1";
 
                 if (InputBox.Show("Resume at", "Resume mission at waypoint#", ref lastwp) == DialogResult.OK)
                 {
@@ -3363,6 +3365,7 @@ namespace MissionPlanner.GCSViews
                     {
                         MainV2.comPort.setMode("GUIDED");
                         System.Threading.Thread.Sleep(1000);
+                        Application.DoEvents();
                         timeout++;
 
                         if (timeout > 30)
@@ -3377,6 +3380,7 @@ namespace MissionPlanner.GCSViews
                     {
                         MainV2.comPort.doARM(true);
                         System.Threading.Thread.Sleep(1000);
+                        Application.DoEvents();
                         timeout++;
 
                         if (timeout > 30)
@@ -3391,6 +3395,7 @@ namespace MissionPlanner.GCSViews
                     {
                         MainV2.comPort.doCommand(MAVLink.MAV_CMD.TAKEOFF, 0, 0, 0, 0, 0, 0, 5);
                         System.Threading.Thread.Sleep(1000);
+                        Application.DoEvents();
                         timeout++;
 
                         if (timeout > 30)
@@ -3405,6 +3410,7 @@ namespace MissionPlanner.GCSViews
                     {
                         MainV2.comPort.setWPCurrent((ushort)lastwpno);
                         System.Threading.Thread.Sleep(1000);
+                        Application.DoEvents();
                         timeout++;
 
                         if (timeout > 30)
@@ -3419,6 +3425,7 @@ namespace MissionPlanner.GCSViews
                     {
                         MainV2.comPort.setMode("AUTO");
                         System.Threading.Thread.Sleep(1000);
+                        Application.DoEvents();
                         timeout++;
 
                         if (timeout > 30)

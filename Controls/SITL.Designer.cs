@@ -40,12 +40,14 @@
             this.pictureBoxrover = new MissionPlanner.Controls.PictureBoxMouseOver();
             this.pictureBoxplane = new MissionPlanner.Controls.PictureBoxMouseOver();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxheli)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxquad)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxrover)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxplane)).BeginInit();
             this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // myGMAP1
@@ -81,7 +83,7 @@
             // 
             // panel1
             // 
-            this.panel1.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.panel1.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.panel1.Controls.Add(this.label6);
             this.panel1.Controls.Add(this.label5);
             this.panel1.Controls.Add(this.label4);
@@ -90,7 +92,7 @@
             this.panel1.Controls.Add(this.pictureBoxquad);
             this.panel1.Controls.Add(this.pictureBoxrover);
             this.panel1.Controls.Add(this.pictureBoxplane);
-            this.panel1.Location = new System.Drawing.Point(69, 345);
+            this.panel1.Location = new System.Drawing.Point(60, 12);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(716, 137);
             this.panel1.TabIndex = 1;
@@ -208,13 +210,25 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Home Location";
             // 
+            // groupBox2
+            // 
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Controls.Add(this.panel1);
+            this.groupBox2.Location = new System.Drawing.Point(13, 346);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(837, 152);
+            this.groupBox2.TabIndex = 3;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Please select a firmware to run";
+            // 
             // SITL
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(862, 500);
+            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.panel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "SITL";
             this.Text = "SITL";
@@ -225,6 +239,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxrover)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxplane)).EndInit();
             this.groupBox1.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -242,5 +257,6 @@
         private PictureBoxMouseOver pictureBoxrover;
         private PictureBoxMouseOver pictureBoxplane;
         private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox groupBox2;
     }
 }

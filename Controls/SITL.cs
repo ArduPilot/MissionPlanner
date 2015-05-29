@@ -121,15 +121,25 @@ namespace MissionPlanner.Controls
         {
             Uri fullurl = new Uri(sitlurl, filename);
 
+            var load = Common.LoadingBox("Downloading", "Downloading sitl software");
+
             Common.getFilefromNet(fullurl.ToString(), sitldirectory + Path.GetFileNameWithoutExtension(filename) + ".exe");
+
+            load.Refresh();
 
             // dependancys
             var depurl = new Uri(sitlurl, "cyggcc_s-1.dll");
             Common.getFilefromNet(depurl.ToString(), sitldirectory + depurl.Segments[depurl.Segments.Length - 1]);
+
+            load.Refresh();
             depurl = new Uri(sitlurl, "cygstdc++-6.dll");
             Common.getFilefromNet(depurl.ToString(), sitldirectory + depurl.Segments[depurl.Segments.Length - 1]);
+
+            load.Refresh();
             depurl = new Uri(sitlurl, "cygwin1.dll");
             Common.getFilefromNet(depurl.ToString(), sitldirectory + depurl.Segments[depurl.Segments.Length - 1]);
+
+            load.Close();
 
             return sitldirectory + Path.GetFileNameWithoutExtension(filename) + ".exe";
         }
@@ -157,15 +167,9 @@ namespace MissionPlanner.Controls
 
             System.Threading.Thread.Sleep(2000);
 
-            var tcpserial = new Comms.TcpSerial();
-
-            tcpserial.client = new System.Net.Sockets.TcpClient("127.0.0.1", 5760);
-
-            MainV2.comPort.BaseStream = tcpserial;
-
-            MainV2.comPort.Open(true, true);
-
             MainV2.View.ShowScreen(MainV2.View.screens[0].Name);
+
+            MainV2.instance.doConnect(MainV2.comPort, "TCP", "5760");            
 
             this.Close();
         }
