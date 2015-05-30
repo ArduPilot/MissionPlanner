@@ -900,10 +900,12 @@ namespace MissionPlanner
 
         public void doConnect(MAVLinkInterface comPort, string portname, string baud)
         {
+            bool skipconnectcheck = false;
             log.Info("We are connecting");
             switch (portname)
             {
                 case "preset":
+                    skipconnectcheck = true;
                     break;
                 case "TCP":
                     comPort.BaseStream = new TcpSerial();
@@ -1008,7 +1010,7 @@ namespace MissionPlanner
                 connecttime = DateTime.Now;
 
                 // do the connect
-                comPort.Open(false);
+                comPort.Open(false, skipconnectcheck);
 
                 if (!comPort.BaseStream.IsOpen)
                 {

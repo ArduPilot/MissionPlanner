@@ -95,6 +95,8 @@ namespace MissionPlanner.Controls
 
         private void pictureBoxplane_Click(object sender, EventArgs e)
         {
+            Common.MessageShowAgain("MS Visual C++ Runtime 2013", "Please note that the plane sim requires\n'Visual C++ Redistributable Packages for Visual Studio 2013' to run.\n https://www.microsoft.com/en-us/download/details.aspx?id=40784");
+
             var exepath = CheckandGetSITLImage("ArduPlane.elf");
 
             string simdir = sitldirectory + "jsbsim" + Path.DirectorySeparatorChar;
