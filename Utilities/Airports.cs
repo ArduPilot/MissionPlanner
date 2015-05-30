@@ -164,7 +164,7 @@ namespace MissionPlanner.Utilities
                     if (items[1].Length != 6) // "xxxx"
                         continue;
 
-                    if (items[2].Contains("small_airport") || items[2].Contains("heliport") || items[2].Contains("closed"))
+                    if (items[2].Contains("small_airport") || items[2].Contains("seaplane_base") || items[2].Contains("heliport") || items[2].Contains("closed"))
                         continue;
 
 
