@@ -156,6 +156,28 @@ namespace MissionPlanner
         [DisplayText("Mag Z")]
         public float mz { get; set; }
 
+        // accel2
+        [DisplayText("Accel2 X")]
+        public float ax2 { get; set; }
+        [DisplayText("Accel2 Y")]
+        public float ay2 { get; set; }
+        [DisplayText("Accel2 Z")]
+        public float az2 { get; set; }
+        // gyro2
+        [DisplayText("Gyro2 X")]
+        public float gx2 { get; set; }
+        [DisplayText("Gyro2 Y")]
+        public float gy2 { get; set; }
+        [DisplayText("Gyro2 Z")]
+        public float gz2 { get; set; }
+        // mag2
+        [DisplayText("Mag2 X")]
+        public float mx2 { get; set; }
+        [DisplayText("Mag2 Y")]
+        public float my2 { get; set; }
+        [DisplayText("Mag2 Z")]
+        public float mz2 { get; set; }
+
         [DisplayText("Mag Field")]
         public float magfield { get { return (float)Math.Sqrt(Math.Pow(mx, 2) + Math.Pow(my, 2) + Math.Pow(mz, 2)); } }
         [DisplayText("Accel Strength")]
@@ -1364,6 +1386,23 @@ namespace MissionPlanner
                         //MAVLink.packets[(byte)MAVLink.MSG_NAMES.RAW_IMU] = null;
                     }
 
+                    bytearray = MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.SCALED_IMU2];
+                    if (bytearray != null)
+                    {
+                        var imu2 = bytearray.ByteArrayToStructure<MAVLink.mavlink_scaled_imu2_t>(6);
+
+                        gx2 = imu2.xgyro;
+                        gy2 = imu2.ygyro;
+                        gz2 = imu2.zgyro;
+
+                        ax2 = imu2.xacc;
+                        ay2 = imu2.yacc;
+                        az2 = imu2.zacc;
+
+                        mx2 = imu2.xmag;
+                        my2 = imu2.ymag;
+                        mz2 = imu2.zmag;
+                    }
 
                     bytearray = MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.VFR_HUD];
                     if (bytearray != null)
