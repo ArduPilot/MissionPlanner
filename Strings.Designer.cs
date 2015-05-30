@@ -386,6 +386,15 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   查找类似 Ensure your props are not on the Plane/Quad 的本地化字符串。
+        /// </summary>
+        public static string EnsurePropsNotOn {
+            get {
+                return ResourceManager.GetString("EnsurePropsNotOn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查找类似 Epprom changed, all your setting will be lost during the update,
         ///Do you wish to continue? 的本地化字符串。
         /// </summary>
@@ -592,6 +601,15 @@ namespace MissionPlanner {
         public static string FailedUpload {
             get {
                 return ResourceManager.GetString("FailedUpload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 FailSafe 的本地化字符串。
+        /// </summary>
+        public static string FailSafe {
+            get {
+                return ResourceManager.GetString("FailSafe", resourceCulture);
             }
         }
         

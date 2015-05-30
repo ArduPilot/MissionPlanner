@@ -640,6 +640,9 @@
     <EmbeddedResource Include="Controls\LogAnalyzer.resx">
       <DependentUpon>LogAnalyzer.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Controls\ServoOptions.zh-Hans.resx">
+      <DependentUpon>ServoOptions.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\SysidSelector.resx">
       <DependentUpon>SysidSelector.cs</DependentUpon>
     </EmbeddedResource>

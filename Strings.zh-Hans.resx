@@ -483,4 +483,10 @@ Mission Planner waits for 2 valid heartbeat packets before connecting</value>
   <data name="AutoWP" xml:space="preserve">
     <value>自动航点</value>
   </data>
+  <data name="EnsurePropsNotOn" xml:space="preserve">
+    <value>确保飞行器没有安装螺旋桨</value>
+  </data>
+  <data name="FailSafe" xml:space="preserve">
+    <value>故障保护</value>
+  </data>
 </root>
