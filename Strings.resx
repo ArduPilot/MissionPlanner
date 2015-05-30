@@ -519,4 +519,10 @@ Please use Standard/Advanced Params for the safe settings</value>
   <data name="AutoWP" xml:space="preserve">
     <value>Auto WP</value>
   </data>
+  <data name="EnsurePropsNotOn" xml:space="preserve">
+    <value>Ensure your props are not on the Plane/Quad</value>
+  </data>
+  <data name="FailSafe" xml:space="preserve">
+    <value>FailSafe</value>
+  </data>
 </root>

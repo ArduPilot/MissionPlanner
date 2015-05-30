@@ -654,8 +654,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\SITL.resx">
       <DependentUpon>SITL.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\SysidSelector.resx">
+    </EmbeddedResource>    <EmbeddedResource Include="Controls\ServoOptions.zh-Hans.resx">
+      <DependentUpon>ServoOptions.cs</DependentUpon>
+    </EmbeddedResource>   <EmbeddedResource Include="Controls\SysidSelector.resx">
       <DependentUpon>SysidSelector.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\ThemeColors.zh-Hans.resx">

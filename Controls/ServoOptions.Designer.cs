@@ -31,28 +31,41 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ServoOptions));
             this.BUT_Low = new MissionPlanner.Controls.MyButton();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.renameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.BUT_High = new MissionPlanner.Controls.MyButton();
             this.TXT_pwm_low = new System.Windows.Forms.TextBox();
             this.TXT_pwm_high = new System.Windows.Forms.TextBox();
             this.BUT_Repeat = new MissionPlanner.Controls.MyButton();
             this.TXT_rcchannel = new System.Windows.Forms.Label();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.renameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // BUT_Low
             // 
-            this.BUT_Low.ContextMenuStrip = this.contextMenuStrip1;
             resources.ApplyResources(this.BUT_Low, "BUT_Low");
+            this.BUT_Low.ContextMenuStrip = this.contextMenuStrip1;
             this.BUT_Low.Name = "BUT_Low";
             this.BUT_Low.UseVisualStyleBackColor = true;
             this.BUT_Low.Click += new System.EventHandler(this.BUT_Low_Click);
             // 
+            // contextMenuStrip1
+            // 
+            resources.ApplyResources(this.contextMenuStrip1, "contextMenuStrip1");
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.renameToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            // 
+            // renameToolStripMenuItem
+            // 
+            resources.ApplyResources(this.renameToolStripMenuItem, "renameToolStripMenuItem");
+            this.renameToolStripMenuItem.Name = "renameToolStripMenuItem";
+            this.renameToolStripMenuItem.Click += new System.EventHandler(this.renameToolStripMenuItem_Click);
+            // 
             // BUT_High
             // 
-            this.BUT_High.ContextMenuStrip = this.contextMenuStrip1;
             resources.ApplyResources(this.BUT_High, "BUT_High");
+            this.BUT_High.ContextMenuStrip = this.contextMenuStrip1;
             this.BUT_High.Name = "BUT_High";
             this.BUT_High.UseVisualStyleBackColor = true;
             this.BUT_High.Click += new System.EventHandler(this.BUT_High_Click);
@@ -78,23 +91,10 @@
             // 
             // TXT_rcchannel
             // 
+            resources.ApplyResources(this.TXT_rcchannel, "TXT_rcchannel");
             this.TXT_rcchannel.BackColor = System.Drawing.Color.Red;
             this.TXT_rcchannel.ContextMenuStrip = this.contextMenuStrip1;
-            resources.ApplyResources(this.TXT_rcchannel, "TXT_rcchannel");
             this.TXT_rcchannel.Name = "TXT_rcchannel";
-            // 
-            // contextMenuStrip1
-            // 
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.renameToolStripMenuItem});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            resources.ApplyResources(this.contextMenuStrip1, "contextMenuStrip1");
-            // 
-            // renameToolStripMenuItem
-            // 
-            this.renameToolStripMenuItem.Name = "renameToolStripMenuItem";
-            resources.ApplyResources(this.renameToolStripMenuItem, "renameToolStripMenuItem");
-            this.renameToolStripMenuItem.Click += new System.EventHandler(this.renameToolStripMenuItem_Click);
             // 
             // ServoOptions
             // 
