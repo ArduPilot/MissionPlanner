@@ -208,7 +208,7 @@
             this.groupBox1.Size = new System.Drawing.Size(837, 326);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Home Location";
+            this.groupBox1.Text = "Home Location - Drag Me";
             // 
             // groupBox2
             // 

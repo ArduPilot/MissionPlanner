@@ -881,6 +881,8 @@ namespace MissionPlanner
             log.Info("We are connecting");
             switch (portname)
             {
+                case "preset":
+                    break;
                 case "TCP":
                     comPort.BaseStream = new TcpSerial();
                     _connectionControl.CMB_serialport.Text = "TCP";

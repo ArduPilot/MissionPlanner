@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Windows.Forms;
 
@@ -26,7 +27,7 @@ namespace MissionPlanner.Controls
         bool mousedown = false;
         private PointLatLng MouseDownStart;
 
-        static System.Diagnostics.Process simulator;
+        internal static System.Diagnostics.Process simulator;
 
         /*
         { "+",         MultiCopter::create },
@@ -47,6 +48,15 @@ namespace MissionPlanner.Controls
         ///tmp/.build/ArduPlane.elf -Mjsbsim -O-34.98106,117.85201,40,0 --autotest-dir ./
         ///tmp/.build/ArduCopter.elf -Mheli -O-34.98106,117.85201,40,0 
 
+        ~SITL()
+        {
+            try
+            {
+                if (simulator != null)
+                    simulator.Kill();
+            }
+            catch { }
+        }
 
         public SITL()
         {
@@ -71,8 +81,12 @@ namespace MissionPlanner.Controls
 
             myGMAP1.Invalidate();
 
-            if (simulator != null)
-                simulator.Kill();
+            try
+            {
+                if (simulator != null)
+                    simulator.Kill();
+            }
+            catch { }
 
             Utilities.ThemeManager.ApplyThemeTo(this);
 
@@ -173,7 +187,13 @@ namespace MissionPlanner.Controls
 
             MainV2.View.ShowScreen(MainV2.View.screens[0].Name);
 
-            MainV2.instance.doConnect(MainV2.comPort, "TCP", "5760");            
+            var client = new Comms.TcpSerial();
+
+            client.client = new TcpClient("127.0.0.1", 5760);
+
+            MainV2.comPort.BaseStream = client;
+
+            MainV2.instance.doConnect(MainV2.comPort, "preset","5760");            
 
             this.Close();
         }

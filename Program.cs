@@ -225,6 +225,14 @@ namespace MissionPlanner
                 Console.WriteLine("\nPress any key to exit!");
                 Console.ReadLine();
             }
+
+            try
+            {
+                // kill sim background process if its still running
+                if (Controls.SITL.simulator != null)
+                    Controls.SITL.simulator.Kill();
+            }
+            catch { }
         }
 
         static void CleanupFiles()
