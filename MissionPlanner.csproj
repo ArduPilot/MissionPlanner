@@ -2985,7 +2985,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="JSBSim.exe" />
+    <Content Include="JSBSim.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="jsbsim\fgout.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -26,6 +26,7 @@ namespace MissionPlanner.Controls
         bool mousedown = false;
         private PointLatLng MouseDownStart;
 
+        static System.Diagnostics.Process simulator;
 
         /*
         { "+",         MultiCopter::create },
@@ -69,6 +70,9 @@ namespace MissionPlanner.Controls
             markeroverlay.Markers.Add(homemarker);
 
             myGMAP1.Invalidate();
+
+            if (simulator != null)
+                simulator.Kill();
 
             Utilities.ThemeManager.ApplyThemeTo(this);
 
@@ -163,7 +167,7 @@ namespace MissionPlanner.Controls
             exestart.WindowStyle = ProcessWindowStyle.Minimized;
             exestart.UseShellExecute = true;
 
-            var proc = System.Diagnostics.Process.Start(exestart);
+            simulator = System.Diagnostics.Process.Start(exestart);
 
             System.Threading.Thread.Sleep(2000);
 
