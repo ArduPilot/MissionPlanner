@@ -39,6 +39,14 @@ namespace MissionPlanner
             IntPtr NotificationFilter,
             Int32 Flags);
 
+            // Import SetThreadExecutionState Win32 API and necessary flags
+
+            [DllImport("kernel32.dll")]
+            public static extern uint SetThreadExecutionState(uint esFlags);
+
+            public const uint ES_CONTINUOUS = 0x80000000;
+            public const uint ES_SYSTEM_REQUIRED = 0x00000001;
+
             static public int SW_SHOWNORMAL = 1;
             static public int SW_HIDE = 0;
         }
@@ -405,6 +413,9 @@ namespace MissionPlanner
                     int win = NativeMethods.FindWindow("ConsoleWindowClass", null);
                     NativeMethods.ShowWindow(win, NativeMethods.SW_HIDE); // hide window
                 }
+
+                // prevent system from sleeping while mp open
+                var previousExecutionState = NativeMethods.SetThreadExecutionState(NativeMethods.ES_CONTINUOUS | NativeMethods.ES_SYSTEM_REQUIRED);
             }
 
             ChangeUnits();
@@ -586,6 +597,8 @@ namespace MissionPlanner
 
             //System.Threading.Thread.Sleep(2000);
 
+            Microsoft.Win32.SystemEvents.PowerModeChanged += SystemEvents_PowerModeChanged;
+
             // make sure new enough .net framework is installed
             if (!MONO)
             {
@@ -629,6 +642,15 @@ namespace MissionPlanner
 
             // save config to test we have write access
             xmlconfig(true);
+        }
+
+        void SystemEvents_PowerModeChanged(object sender, Microsoft.Win32.PowerModeChangedEventArgs e)
+        {
+            // try prevent crash on resume
+            if (e.Mode == Microsoft.Win32.PowerModes.Suspend)
+            {
+                doDisconnect(MainV2.comPort);
+            }
         }
 
         private void BGLoadAirports(object nothing)
