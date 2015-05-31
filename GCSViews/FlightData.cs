@@ -1291,15 +1291,26 @@ namespace MissionPlanner.GCSViews
         }
 
         DateTime lastscreenupdate = DateTime.Now;
+        object updateBindingSourcelock = new object();
+        int updateBindingSourcecount = 0;
 
         private void updateBindingSource()
         {
             //  run at 25 hz.
             if (lastscreenupdate.AddMilliseconds(40) < DateTime.Now)
             {
+                if (updateBindingSourcecount > 0)
+                    return;
+
+                lock (updateBindingSourcelock)
+                {
+                    updateBindingSourcecount++;
+                }
+
                 // async
                 this.BeginInvoke((System.Windows.Forms.MethodInvoker)delegate()
                 {
+
                     try
                     {
 
@@ -1333,6 +1344,10 @@ namespace MissionPlanner.GCSViews
 
                     }
                     catch { }
+                    lock (updateBindingSourcelock)
+                    {
+                        updateBindingSourcecount--;
+                    }
                 });
             }
         }
