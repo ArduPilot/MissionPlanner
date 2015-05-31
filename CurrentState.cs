@@ -367,6 +367,26 @@ namespace MissionPlanner
             }
         }
 
+        [DisplayText("Distance From Moving Base (dist)")]
+        public float DistFromMovingBase
+        {
+            get
+            {
+                if (lat == 0 && lng == 0 || MovingBase == null)
+                    return 0;
+
+                // shrinking factor for longitude going to poles direction
+                double rads = Math.Abs(MovingBase.Lat) * 0.0174532925;
+                double scaleLongDown = Math.Cos(rads);
+                double scaleLongUp = 1.0f / Math.Cos(rads);
+
+                //DST to Home
+                double dstlat = Math.Abs(MovingBase.Lat - lat) * 111319.5;
+                double dstlon = Math.Abs(MovingBase.Lng - lng) * 111319.5 * scaleLongDown;
+                return (float)Math.Sqrt((dstlat * dstlat) + (dstlon * dstlon)) * multiplierdist;
+            }
+        }
+
      [DisplayText("Elevation to Mav (deg)")]
         public float ELToMAV
         {
