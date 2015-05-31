@@ -14,6 +14,8 @@ MAV.doCommand(MAVLink.MAV_CMD.DO_DIGICAM_CONTROL, 0, 0, 0, 0, 0, 0, 0);
 
 MAV.doCommand(MAVLink.MAV_CMD.DO_DIGICAM_CONTROL, MAVLink.MAV_MOUNT_MODE.NEUTRAL.value__, 0, 0, 0, 0, 0, 0);
 
+MAV.setDigicamControl(True);
+
 MAV.doARM(True);
 
 #MAV.doReboot(False);
