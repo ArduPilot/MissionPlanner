@@ -2465,7 +2465,7 @@ namespace MissionPlanner
                 catch (Exception ex) { CustomMessageBox.Show(ex.ToString()); }
                 return true;
             }
-            if (keyData == (Keys.Control | Keys.Y)) // for ryan beall
+            if (keyData == (Keys.Control | Keys.Y)) // for ryan beall and ollyw42
             {
                 // write
                 try

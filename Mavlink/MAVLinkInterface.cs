@@ -43,7 +43,7 @@ namespace MissionPlanner
         public bool giveComport { get { return _giveComport; } set { _giveComport = value; } }
         volatile bool _giveComport = false;
 
-        
+        DateTime lastparamset = DateTime.MinValue;
 
         internal string plaintxtline = "";
         string buildplaintxtline = "";
@@ -719,6 +719,8 @@ Please check the following
                         log.Info("setParam gotback "+ st + " : " +par.param_value);
 
                         MAV.param[st] = (par.param_value);
+
+                        lastparamset = DateTime.Now;
 
                         giveComport = false;
                         //System.Threading.Thread.Sleep(100);//(int)(8.5 * 5)); // 8.5ms per byte
@@ -2618,6 +2620,16 @@ Please check the following
                             {
                                 MainV2.speechEngine.SpeakAsync(logdata);
                             }
+                        }
+                    }
+
+                    if (lastparamset != DateTime.MinValue && lastparamset.AddSeconds(10) < DateTime.Now) 
+                    {
+                        lastparamset = DateTime.MinValue;
+
+                        if (BaseStream.IsOpen)
+                        {
+                            doCommand(MAV_CMD.PREFLIGHT_STORAGE, 0, 0, 0, 0, 0, 0, 0);
                         }
                     }
 
