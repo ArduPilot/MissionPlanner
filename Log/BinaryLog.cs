@@ -13,8 +13,8 @@ namespace MissionPlanner.Log
     /// </summary>
     public class BinaryLog
     {
-        const byte HEAD_BYTE1 = 0xA3;    // Decimal 163  
-        const byte HEAD_BYTE2 = 0x95;    // Decimal 149  
+        public const byte HEAD_BYTE1 = 0xA3;    // Decimal 163  
+        public const byte HEAD_BYTE2 = 0x95;    // Decimal 149  
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
         public struct log_Format

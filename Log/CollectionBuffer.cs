@@ -13,12 +13,32 @@ namespace MissionPlanner.Log
         private int _count;
         List<long> linestartoffset = new List<long>();
 
+        Dictionary<byte, List<long>> messageindex = new Dictionary<byte, List<long>>();
+
+        bool binary = false;
+
         int indexcachelineno = -1;
         object currentindexcache = null;
 
         public CollectionBuffer(Stream instream)
         {
+            for (byte a = 0; a <= byte.MaxValue; a++) 
+            {
+                messageindex[a] = new List<long>();
+            }
+
             basestream = new BufferedStream(instream,1024*256);
+
+            if (basestream.ReadByte() == BinaryLog.HEAD_BYTE1)
+            {
+                if (basestream.ReadByte() == BinaryLog.HEAD_BYTE2)
+                {
+                    binary = true;
+                }
+            }
+
+            // back to start
+            basestream.Seek(0, SeekOrigin.Begin);
 
             _count = getlinecount();
 
@@ -27,14 +47,48 @@ namespace MissionPlanner.Log
 
         int getlinecount()
         {
-            // first line starts at 0
-            linestartoffset.Add(0);
-
             int offset = 0;
 
             byte[] buffer = new byte[1024 * 1024];
 
             var lineCount = 0;
+
+            if (binary)
+            {
+                while (basestream.Position < basestream.Length)
+                {
+                    offset = 0;
+
+                    // seek back 5 on each buffer fill
+                    if (basestream.Position > 10)
+                        basestream.Seek(-5, SeekOrigin.Current);
+
+                    long startpos = basestream.Position;
+
+                    int read = basestream.Read(buffer, offset, buffer.Length);
+
+                    // 5 byte overlap
+                    while (read > 2)
+                    {
+                        if (buffer[offset] == BinaryLog.HEAD_BYTE1 && buffer[offset + 1] == BinaryLog.HEAD_BYTE2)
+                        {
+                            byte type = buffer[offset + 2];
+                            messageindex[type].Add(startpos + offset);
+
+                            linestartoffset.Add(startpos + offset);
+                            lineCount++;
+                        }
+
+                        offset++;
+                        read--;
+                    }
+                }
+                return lineCount;
+            }
+
+            // first line starts at 0
+            linestartoffset.Add(0);
+
             while (basestream.Position < basestream.Length)
             {
                 offset = 0;
@@ -85,7 +139,7 @@ namespace MissionPlanner.Log
                 long startoffset = linestartoffset[index];
                 long endoffset=startoffset;
 
-                if ((index + 1) > linestartoffset.Count)
+                if ((index + 1) >= linestartoffset.Count)
                 {
                     endoffset = basestream.Length;
                 }
@@ -99,29 +153,24 @@ namespace MissionPlanner.Log
                 if (linestartoffset[index] != basestream.Position)
                     basestream.Seek(linestartoffset[index], SeekOrigin.Begin);
 
-                byte[] data = new byte[length];
-
-                basestream.Read(data,0,length);
-
-                currentindexcache = (object)ASCIIEncoding.ASCII.GetString(data);
-                indexcachelineno = index;
-
-                return (T)currentindexcache;
-
-                /*
-                while (basestream.Position < basestream.Length)
+                if (binary)
                 {
-                    byte cha = (byte)basestream.ReadByte();
+                    var answer = BinaryLog.ReadMessage(basestream);
 
-                    sb.Append((char)cha);
-                    if (cha == '\n')
-                    {
-                        break;
-                    }
+                    currentindexcache = (object)answer;
+                    indexcachelineno = index;
+                }
+                else
+                {
+                    byte[] data = new byte[length];
+
+                    basestream.Read(data, 0, length);
+
+                    currentindexcache = (object)ASCIIEncoding.ASCII.GetString(data);
+                    indexcachelineno = index;
                 }
 
-                return (T)(object)sb.ToString();
-                 */
+                return (T)currentindexcache;
             }
             set
             {
