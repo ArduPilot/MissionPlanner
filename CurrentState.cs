@@ -1020,6 +1020,8 @@ namespace MissionPlanner
                         Mavlink_Sensors sensors_health = new Mavlink_Sensors(sysstatus.onboard_control_sensors_health);
                         Mavlink_Sensors sensors_present = new Mavlink_Sensors(sysstatus.onboard_control_sensors_present);
 
+                        terrainactive = sensors_health.terrain && sensors_enabled.terrain && sensors_present.terrain;
+
                         if (sensors_health.gps != sensors_enabled.gps && sensors_present.gps)
                         {
                             messageHigh = Strings.BadGPSHealth;
@@ -1631,6 +1633,8 @@ namespace MissionPlanner
 
         public bool landed { get; set; }
 
+        public  bool terrainactive { get; set; }
+
         float _ter_curalt;
         public float ter_curalt { get { return _ter_curalt * multiplierdist; } set { _ter_curalt = value; } }
         float _ter_alt;
@@ -1666,5 +1670,5 @@ namespace MissionPlanner
         public float ekfposvert { get; set; }
 
         public float ekfteralt { get; set; }
-    }
+    }    
 }
