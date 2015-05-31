@@ -606,6 +606,7 @@
     <Compile Include="System.cs" />
     <Compile Include="Utilities\Airports.cs" />
     <Compile Include="Utilities\AP_GPS_SBF.cs" />
+    <Compile Include="Utilities\AP_Terrain.cs" />
     <Compile Include="Utilities\Crypto.cs" />
     <Compile Include="Utilities\DroneApi\APIConstants.cs" />
     <Compile Include="Utilities\DroneApi\droneapi-protobuf.cs" />

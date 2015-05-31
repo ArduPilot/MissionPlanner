@@ -11,7 +11,7 @@ namespace MissionPlanner.HIL
         public const double deg2rad = (1.0 / rad2deg);
         public const double ft2m = (1.0 / 3.2808399);
         public const double kts2fps = 1.68780986;
-
+        public const float PI = (float)Math.PI;
         public const bool True = true;
         public const bool False = false;
 
@@ -29,6 +29,41 @@ namespace MissionPlanner.HIL
             return st;
         }
 
+        // scaling factor from 1e-7 degrees to meters at equater
+        // == 1.0e-7 * DEG_TO_RAD * RADIUS_OF_EARTH
+        public const float LOCATION_SCALING_FACTOR = 0.011131884502145034f;
+        // inverse of LOCATION_SCALING_FACTOR
+        public const float LOCATION_SCALING_FACTOR_INV = 89.83204953368922f;
+
+        //Single precision conversions
+        public const float DEG_TO_RAD = 0.017453292519943295769236907684886f;
+        public const float RAD_TO_DEG = 57.295779513082320876798154814105f;
+
+        // are two floats equal
+        public static bool is_equal(float fVal1, float fVal2) { return fabsf(fVal1 - fVal2) < Single.Epsilon ? true : false; }
+
+// is a float is zero
+        public static bool is_zero(float fVal1) { return fabsf(fVal1) < Single.Epsilon ? true : false; }
+
+
+        public static Int32 labs(double val)
+        {
+            return (Int32)Math.Abs(val);
+        }
+
+        public static float fabsf(double val)
+        {
+            return (float)Math.Abs(val);
+        }
+
+        public static float sinf(double val)
+        {
+            return (float)System.Math.Sin(val);
+        }
+        public static float cosf(double val)
+        {
+            return (float)System.Math.Cos(val);
+        }
         public static double sin(double val)
         {
             return System.Math.Sin(val);
@@ -40,6 +75,10 @@ namespace MissionPlanner.HIL
         public static double acos(double val)
         {
             return System.Math.Acos(val);
+        }
+        public static float asinf(float val)
+        {
+            return (float)System.Math.Asin(val);
         }
         public static double asin(double val)
         {
@@ -61,9 +100,68 @@ namespace MissionPlanner.HIL
         {
             return System.Math.Sqrt(val);
         }
+        public static float sqrtf(float val)
+        {
+            return (float)System.Math.Sqrt(val);
+        }
         public static double abs(double val)
         {
             return System.Math.Abs(val);
+        }
+
+        public static bool isnan(float val)
+        {
+            return float.IsNaN(val);
+        }
+
+        // constrain a value
+        public static float constrain_float(float amt, float low, float high)
+        {
+            // the check for NaN as a float prevents propogation of
+            // floating point errors through any function that uses
+            // constrain_float(). The normal float semantics already handle -Inf
+            // and +Inf
+            if (isnan(amt))
+            {
+                return (low + high) * 0.5f;
+            }
+            return ((amt) < (low) ? (low) : ((amt) > (high) ? (high) : (amt)));
+        }
+
+
+        // a varient of asin() that checks the input ranges and ensures a
+        // valid angle as output. If nan is given as input then zero is
+        // returned.
+        public static float safe_asin(float v)
+        {
+            if (isnan(v))
+            {
+                return 0.0f;
+            }
+            if (v >= 1.0f)
+            {
+                return PI / 2;
+            }
+            if (v <= -1.0f)
+            {
+                return -PI / 2;
+            }
+            return asinf(v);
+        }
+
+        // a varient of sqrt() that checks the input ranges and ensures a
+        // valid value as output. If a negative number is given then 0 is
+        // returned. The reasoning is that a negative number for sqrt() in our
+        // code is usually caused by small numerical rounding errors, so the
+        // real input should have been zero
+        public static float safe_sqrt(float v)
+        {
+            float ret = sqrtf(v);
+            if (isnan(ret))
+            {
+                return 0;
+            }
+            return ret;
         }
 
         public static int[] range(int no)
