@@ -452,7 +452,8 @@ namespace MissionPlanner
         public float accel_cal_z { get; set; }
 
         [DisplayText("Sonar Range (meters)")]
-        public float sonarrange { get; set; }
+        public float sonarrange { get { return toDistDisplayUnit(_sonarrange); } set { _sonarrange = value; } }
+        float _sonarrange = 0;
         [DisplayText("Sonar Voltage (Volt)")]
         public float sonarvoltage { get; set; }
 
