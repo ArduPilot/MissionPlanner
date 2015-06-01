@@ -22,7 +22,7 @@ namespace MissionPlanner.Log
 
         public CollectionBuffer(Stream instream)
         {
-            for (byte a = 0; a <= byte.MaxValue; a++) 
+            for (byte a = 0; a < byte.MaxValue; a++) 
             {
                 messageindex[a] = new List<long>();
             }
