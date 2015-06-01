@@ -6557,7 +6557,6 @@
     <Content Include="mavelous_web\index.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Readme.txt" />
     <None Include="Resources\apm1.jpg" />
     <None Include="Resources\apm2.5.jpg" />
     <None Include="Resources\apm2.jpg" />
