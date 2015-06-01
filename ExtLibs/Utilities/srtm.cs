@@ -61,7 +61,7 @@ namespace MissionPlanner
                     FileInfo fi = new FileInfo(file);
                     if (fi.Length > (1201 * 1201 * 2 + 1000))
                     {
-                        fi.MoveTo(Path.GetFileNameWithoutExtension() + "-1sec" + Path.GetExtension(file));
+                        fi.MoveTo(Path.GetFileNameWithoutExtension(file) + "-1sec" + Path.GetExtension(file));
                         lock (objlock)
                         {
                             queue.Add(Path.GetFileName(file));
