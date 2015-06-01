@@ -49,6 +49,29 @@ namespace MissionPlanner
 
         static Dictionary<string, short[,]> cache = new Dictionary<string, short[,]>();
 
+        static srtm()
+        {
+            try
+            {
+                // remove all srtm 1 seconds data
+                string[] files = Directory.GetFiles(datadirectory, "*.hgt");
+
+                foreach (var file in files)
+                {
+                    FileInfo fi = new FileInfo(file);
+                    if (fi.Length > (1201 * 1201 * 2 + 1000))
+                    {
+                        fi.MoveTo(Path.GetFileNameWithoutExtension() + "-1sec" + Path.GetExtension(file));
+                        lock (objlock)
+                        {
+                            queue.Add(Path.GetFileName(file));
+                        }                        
+                    }
+                }
+            }
+            catch { }
+        }
+
         public static altresponce getAltitude(double lat, double lng, double zoom = 16)
         {
             short alt = 0;
@@ -386,7 +409,7 @@ namespace MissionPlanner
             List<string> list = new List<string>();
 
             // load 1 arc seconds first
-            list.AddRange(getListing(baseurl1sec));
+            //list.AddRange(getListing(baseurl1sec));
             // load 3 arc second
             list.AddRange(getListing(baseurl));
 
@@ -411,7 +434,7 @@ namespace MissionPlanner
 
             // if there are no http exceptions, and the list is >= 20, then everything above is valid
             // 15760 is all srtm3 and srtm1
-            if (list.Count >= 20 && checkednames > 15700)
+            if (list.Count >= 12 && checkednames > 14000)
             {
                 // we must be an ocean tile - no matchs
                 oceantile.Add((string)name);
