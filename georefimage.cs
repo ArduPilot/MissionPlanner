@@ -1621,11 +1621,11 @@ namespace MissionPlanner
             {
                 if (useAMSLAlt)
                 {
-                    WriteCoordinatesToImage(picInfo.Path, picInfo.Lat, picInfo.Lon, double.Parse(txt_basealt.Text) + picInfo.RelAlt);
+                    WriteCoordinatesToImage(picInfo.Path, picInfo.Lat, picInfo.Lon, double.Parse(txt_basealt.Text) + picInfo.AltAMSL);
                 } 
                 else
                 {
-                    WriteCoordinatesToImage(picInfo.Path, picInfo.Lat, picInfo.Lon, picInfo.AltAMSL);
+                    WriteCoordinatesToImage(picInfo.Path, picInfo.Lat, picInfo.Lon, picInfo.RelAlt);
                 }
             }
 
