@@ -1102,9 +1102,14 @@ namespace MissionPlanner.GCSViews
                                     mBorders.InnerMarker = m;
                                     mBorders.Tag = "Dont draw line";
                                 }
-                                // order matters
-                                objectsoverlay.Markers.Add(m);
-                                objectsoverlay.Markers.Add(mBorders);
+
+                                // check for clear roi, and hide it
+                                if (m.Position.Lat != 0 && m.Position.Lng != 0)
+                                {
+                                    // order matters
+                                    objectsoverlay.Markers.Add(m);
+                                    objectsoverlay.Markers.Add(mBorders);
+                                }
                             }
                             else if (command == (byte)MAVLink.MAV_CMD.LOITER_TIME || command == (byte)MAVLink.MAV_CMD.LOITER_TURNS || command == (byte)MAVLink.MAV_CMD.LOITER_UNLIM)
                             {
