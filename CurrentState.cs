@@ -1427,6 +1427,22 @@ namespace MissionPlanner
                         mz2 = imu2.zmag;
                     }
 
+                    bytearray = MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.PID_TUNING];
+                    if (bytearray != null)
+                    {
+                        var pid = bytearray.ByteArrayToStructure<MAVLink.mavlink_pid_tuning_t>(6);
+
+                        //todo: currently only deals with single axis at once
+
+                        pidff = pid.FF;
+                        pidP = pid.P;
+                        pidI = pid.I;
+                        pidD = pid.D;
+                        pidaxis = pid.axis;
+                        piddesired = pid.desired;
+                        pidachieved = pid.achieved;
+                    }
+
                     bytearray = MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.VFR_HUD];
                     if (bytearray != null)
                     {
@@ -1671,5 +1687,19 @@ namespace MissionPlanner
         public float ekfposvert { get; set; }
 
         public float ekfteralt { get; set; }
+
+        public float pidff { get; set; }
+
+        public float pidP { get; set; }
+
+        public float pidI { get; set; }
+
+        public float pidD { get; set; }
+
+        public byte pidaxis { get; set; }
+
+        public float piddesired { get; set; }
+
+        public float pidachieved { get; set; }
     }    
 }
