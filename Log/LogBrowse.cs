@@ -252,6 +252,8 @@ namespace MissionPlanner.Log
             //CMB_preselect.DisplayMember = "Name";
             CMB_preselect.DataSource = graphs;
 
+            chk_time.Checked = true;
+
             MissionPlanner.Utilities.Tracking.AddPage(this.GetType().ToString(), this.Text);
         }
 
@@ -611,7 +613,7 @@ namespace MissionPlanner.Log
             // Show the x axis grid
             myPane.XAxis.MajorGrid.IsVisible = true;
 
-            myPane.XAxis.Scale.Min = 0;
+            //myPane.XAxis.Scale.Min = 0;
             //myPane.XAxis.Scale.Max = -1;
 
             // Make the Y axis scale red
@@ -837,7 +839,7 @@ namespace MissionPlanner.Log
         void DrawErrors()
         {
             bool top = false;
-            int a = 0;
+            double a = 0;
 
             if (ErrorCache.Count > 0)
             {
@@ -849,9 +851,11 @@ namespace MissionPlanner.Log
                 return;
             }
 
+            ErrorCache.Clear();
+
             int b = 0;
 
-            ErrorCache.Add(new TextObj("", -500, 0));
+            //ErrorCache.Add(new TextObj("", -500, 0));
 
             foreach (var item2 in logdata)
             {
@@ -882,6 +886,9 @@ namespace MissionPlanner.Log
                         continue;
                     }
 
+                    XDate date = new XDate(item.time);
+                    a = date.XLDate;
+
                     string mode = "Err: " + ((DFLog.error_subsystem)int.Parse(item.items[index].ToString())) + "-" + item.items[index2].ToString().Trim();
                     if (top)
                     {
@@ -906,7 +913,7 @@ namespace MissionPlanner.Log
         void DrawModes()
         {
             bool top = false;
-            int a = 0;
+            double a = 0;
 
             zg1.GraphPane.GraphObjList.Clear();
 
@@ -919,6 +926,8 @@ namespace MissionPlanner.Log
                 }
                 return;
             }
+
+            ModeCache.Clear();
 
             int b = 0;
 
@@ -945,6 +954,9 @@ namespace MissionPlanner.Log
                         continue;
                     }
 
+                    XDate date = new XDate(item.time);
+                    a = date.XLDate;
+
                     string mode = item.items[index].ToString().Trim();
                     if (top)
                     {
@@ -966,6 +978,9 @@ namespace MissionPlanner.Log
 
         void DrawTime()
         {
+            if (chk_time.Checked)
+                return;
+
             int a = 0;
 
             DateTime starttime = DateTime.MinValue;
