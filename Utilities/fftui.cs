@@ -321,6 +321,11 @@ namespace MissionPlanner.Utilities
             {
                 var item = Log.DFLog.GetDFItemFromLine(file.ReadLine(), 0);
 
+                if (item.msgtype == null)
+                {
+                    continue;
+                }
+
                 if (item.msgtype.StartsWith("ACC"))
                 {
                     int sensorno = int.Parse(item.msgtype.Substring(3)) - 1 + 3;
