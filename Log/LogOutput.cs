@@ -497,7 +497,7 @@ G                                                           SYS / PHASE SHIFT
 
                 double weekms = double.Parse(items[DFLog.FindMessageOffset("GRAW", "WkMS")]);
                 int week = int.Parse(items[DFLog.FindMessageOffset("GRAW", "Week")]);
-                double NSats = double.Parse(items[DFLog.FindMessageOffset("GRAW", "NSats")]);
+                double NSats = double.Parse(items[DFLog.FindMessageOffset("GRAW", "numSV")]);
                 double sv = double.Parse(items[DFLog.FindMessageOffset("GRAW", "sv")]);
                 double cpMes = double.Parse(items[DFLog.FindMessageOffset("GRAW", "cpMes")]);
                 double prMes = double.Parse(items[DFLog.FindMessageOffset("GRAW", "prMes")]);
