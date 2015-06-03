@@ -27,6 +27,8 @@ namespace MissionPlanner.Controls
         bool mousedown = false;
         private PointLatLng MouseDownStart;
 
+        internal static UdpClient SITLSEND;
+
         internal static System.Diagnostics.Process simulator;
 
         /*
@@ -108,28 +110,28 @@ namespace MissionPlanner.Controls
                 File.Copy(Application.StartupPath + Path.DirectorySeparatorChar + "JSBSim.exe", destfile);
             }
 
-            StartSITL(exepath, "jsbsim", BuildHomeLocation(markeroverlay.Markers[0].Position), @" --autotest-dir """ + Application.StartupPath.Replace('\\','/') + @"""", 1);
+            StartSITL(exepath, "jsbsim", BuildHomeLocation(markeroverlay.Markers[0].Position, (int)NUM_heading.Value), @" --autotest-dir """ + Application.StartupPath.Replace('\\','/') + @"""", 1);
         }
 
         private void pictureBoxrover_Click(object sender, EventArgs e)
         {
             var exepath = CheckandGetSITLImage("APMrover2.elf");
 
-            StartSITL(exepath, "rover", BuildHomeLocation(markeroverlay.Markers[0].Position));
+            StartSITL(exepath, "rover", BuildHomeLocation(markeroverlay.Markers[0].Position, (int)NUM_heading.Value));
         }
 
         private void pictureBoxquad_Click(object sender, EventArgs e)
         {
             var exepath = CheckandGetSITLImage("ArduCopter.elf");
 
-            StartSITL(exepath, "+", BuildHomeLocation(markeroverlay.Markers[0].Position));
+            StartSITL(exepath, "+", BuildHomeLocation(markeroverlay.Markers[0].Position, (int)NUM_heading.Value));
         }
 
         private void pictureBoxheli_Click(object sender, EventArgs e)
         {
             var exepath = CheckandGetSITLImage("ArduHeli.elf");
 
-            StartSITL(exepath, "heli", BuildHomeLocation(markeroverlay.Markers[0].Position));
+            StartSITL(exepath, "heli", BuildHomeLocation(markeroverlay.Markers[0].Position, (int)NUM_heading.Value));
         }
 
         string BuildHomeLocation(PointLatLng homelocation, int heading = 0)
@@ -195,9 +197,30 @@ namespace MissionPlanner.Controls
 
             MainV2.comPort.BaseStream = client;
 
-            MainV2.instance.doConnect(MainV2.comPort, "preset","5760");            
+            SITLSEND = new UdpClient("127.0.0.1", 5501);
+
+            MainV2.instance.doConnect(MainV2.comPort, "preset","5760");
 
             this.Close();
+        }
+
+        static internal void rcinput()
+        {
+            try
+            {
+                byte[] rcreceiver = new byte[2 * 8];
+                Array.ConstrainedCopy(BitConverter.GetBytes((ushort)MainV2.comPort.MAV.cs.rcoverridech1), 0, rcreceiver, 0, 2);
+                Array.ConstrainedCopy(BitConverter.GetBytes((ushort)MainV2.comPort.MAV.cs.rcoverridech2), 0, rcreceiver, 2, 2);
+                Array.ConstrainedCopy(BitConverter.GetBytes((ushort)MainV2.comPort.MAV.cs.rcoverridech3), 0, rcreceiver, 4, 2);
+                Array.ConstrainedCopy(BitConverter.GetBytes((ushort)MainV2.comPort.MAV.cs.rcoverridech4), 0, rcreceiver, 6, 2);
+                Array.ConstrainedCopy(BitConverter.GetBytes((ushort)MainV2.comPort.MAV.cs.rcoverridech5), 0, rcreceiver, 8, 2);
+                Array.ConstrainedCopy(BitConverter.GetBytes((ushort)MainV2.comPort.MAV.cs.rcoverridech6), 0, rcreceiver, 10, 2);
+                Array.ConstrainedCopy(BitConverter.GetBytes((ushort)MainV2.comPort.MAV.cs.rcoverridech7), 0, rcreceiver, 12, 2);
+                Array.ConstrainedCopy(BitConverter.GetBytes((ushort)MainV2.comPort.MAV.cs.rcoverridech8), 0, rcreceiver, 14, 2);
+
+                SITLSEND.Send(rcreceiver, rcreceiver.Length);
+            }
+            catch { }
         }
 
         private void myGMAP1_OnMarkerEnter(GMapMarker item)

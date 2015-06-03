@@ -198,6 +198,19 @@ namespace MissionPlanner
         /// track last joystick packet sent. used to control rate
         /// </summary>
         DateTime lastjoystick = DateTime.Now;
+
+        /// <summary>
+        /// determine if we are running sitl
+        /// </summary>
+        public static bool sitl 
+        { 
+            get 
+            { 
+                if (MissionPlanner.Controls.SITL.SITLSEND == null) return false;
+                if (MissionPlanner.Controls.SITL.SITLSEND.Client.Connected) return true;
+                return false;
+            } 
+        }
         /// <summary>
         /// hud background image grabber from a video stream - not realy that efficent. ie no hardware overlays etc.
         /// </summary>
@@ -1617,12 +1630,19 @@ namespace MissionPlanner
 
                                 if (comPort.BaseStream.BytesToWrite < 50)
                                 {
-                                    comPort.sendPacket(rc);
+                                    if (sitl)
+                                    {
+                                        MissionPlanner.Controls.SITL.rcinput();
+                                    }
+                                    else
+                                    {
+                                        comPort.sendPacket(rc);
+                                    }
                                     count++;
                                     lastjoystick = DateTime.Now;
                                 }
-                            }
 
+                            }
                         }
                     }
                     Thread.Sleep(20);

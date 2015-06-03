@@ -41,6 +41,9 @@
             this.pictureBoxplane = new MissionPlanner.Controls.PictureBoxMouseOver();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.NUM_heading = new System.Windows.Forms.NumericUpDown();
+            this.label1 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxheli)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxquad)).BeginInit();
@@ -48,6 +51,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxplane)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_heading)).BeginInit();
             this.SuspendLayout();
             // 
             // myGMAP1
@@ -72,7 +77,7 @@
             this.myGMAP1.ScaleMode = GMap.NET.WindowsForms.ScaleModes.Integer;
             this.myGMAP1.SelectedAreaFillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(65)))), ((int)(((byte)(105)))), ((int)(((byte)(225)))));
             this.myGMAP1.ShowTileGridLines = false;
-            this.myGMAP1.Size = new System.Drawing.Size(831, 307);
+            this.myGMAP1.Size = new System.Drawing.Size(831, 303);
             this.myGMAP1.TabIndex = 0;
             this.myGMAP1.Zoom = 0D;
             this.myGMAP1.OnMarkerEnter += new GMap.NET.WindowsForms.MarkerEnter(this.myGMAP1_OnMarkerEnter);
@@ -205,7 +210,7 @@
             this.groupBox1.Controls.Add(this.myGMAP1);
             this.groupBox1.Location = new System.Drawing.Point(13, 13);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(837, 326);
+            this.groupBox1.Size = new System.Drawing.Size(837, 322);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Home Location - Drag Me";
@@ -215,18 +220,46 @@
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox2.Controls.Add(this.panel1);
-            this.groupBox2.Location = new System.Drawing.Point(13, 346);
+            this.groupBox2.Location = new System.Drawing.Point(13, 390);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(837, 152);
             this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Please select a firmware to run";
             // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.label1);
+            this.groupBox3.Controls.Add(this.NUM_heading);
+            this.groupBox3.Location = new System.Drawing.Point(13, 341);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(837, 43);
+            this.groupBox3.TabIndex = 4;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Options";
+            // 
+            // NUM_heading
+            // 
+            this.NUM_heading.Location = new System.Drawing.Point(60, 18);
+            this.NUM_heading.Name = "NUM_heading";
+            this.NUM_heading.Size = new System.Drawing.Size(51, 20);
+            this.NUM_heading.TabIndex = 0;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(7, 20);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(47, 13);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "Heading";
+            // 
             // SITL
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(862, 500);
+            this.ClientSize = new System.Drawing.Size(862, 544);
+            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -240,6 +273,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxplane)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NUM_heading)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -258,5 +294,8 @@
         private PictureBoxMouseOver pictureBoxplane;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.NumericUpDown NUM_heading;
     }
 }
