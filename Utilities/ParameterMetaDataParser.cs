@@ -67,11 +67,17 @@ namespace MissionPlanner.Utilities
                             element = MainV2.Firmwares.ArduTracker.ToString();
                         }
 
-                        // Write the start element for this parameter location
-                        objXmlTextWriter.WriteStartElement(element);
-
                         // Read and parse the content.
                         string dataFromAddress = ReadDataFromAddress(parameterLocation.Trim());
+
+                        if (String.IsNullOrEmpty(dataFromAddress)) // 404
+                            continue;
+
+                        if (dataFromAddress.Length < 200) // blank template file
+                            continue;
+
+                        // Write the start element for this parameter location
+                        objXmlTextWriter.WriteStartElement(element);
                         ParseGroupInformation(dataFromAddress, objXmlTextWriter, parameterLocation);
                         ParseParameterInformation(dataFromAddress, objXmlTextWriter);
 
