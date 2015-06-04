@@ -88,16 +88,20 @@ namespace MissionPlanner.Utilities
             // Either it will be pulled from a file in the ArduPlane hierarchy or the ArduCopter hierarchy
              try
              {
-                 var element = _parameterMetaDataXML.Element("Params").Element(vechileType);
-                 if (element != null && element.HasElements)
+                 var elements = _parameterMetaDataXML.Element("Params").Elements(vechileType);
+
+                 foreach (var element in elements)
                  {
-                     var node = element.Element(nodeKey);
-                     if (node != null && node.HasElements)
+                     if (element != null && element.HasElements)
                      {
-                         var metaValue = node.Element(metaKey);
-                         if (metaValue != null)
+                         var node = element.Element(nodeKey);
+                         if (node != null && node.HasElements)
                          {
-                             return metaValue.Value;
+                             var metaValue = node.Element(metaKey);
+                             if (metaValue != null)
+                             {
+                                 return metaValue.Value;
+                             }
                          }
                      }
                  }
