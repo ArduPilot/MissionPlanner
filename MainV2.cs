@@ -973,8 +973,8 @@ namespace MissionPlanner
                         }
                     }
 
-                    _connectionControl.CMB_serialport.Text = Comms.CommsSerialScan.portinterface.PortName;
-                    _connectionControl.CMB_baudrate.Text = Comms.CommsSerialScan.portinterface.BaudRate.ToString();
+                    _connectionControl.CMB_serialport.Text = portname = Comms.CommsSerialScan.portinterface.PortName;
+                    _connectionControl.CMB_baudrate.Text = baud = Comms.CommsSerialScan.portinterface.BaudRate.ToString();
                 }
 
                 log.Info("Set Portname");
