@@ -66,18 +66,20 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void BUT_load_Click(object sender, EventArgs e)
         {
-            var ofd = new OpenFileDialog
+            using (var ofd = new OpenFileDialog
                           {
                               AddExtension = true,
                               DefaultExt = ".param",
                               RestoreDirectory = true,
                               Filter = "Param List|*.param;*.parm"
-                          };
-            var dr = ofd.ShowDialog();
-
-            if (dr == DialogResult.OK)
+                          })
             {
-                loadparamsfromfile(ofd.FileName);
+                var dr = ofd.ShowDialog();
+
+                if (dr == DialogResult.OK)
+                {
+                    loadparamsfromfile(ofd.FileName);
+                }
             }
         }
 
@@ -123,41 +125,43 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void BUT_save_Click(object sender, EventArgs e)
         {
-            var sfd = new SaveFileDialog
+            using (var sfd = new SaveFileDialog
                           {
                               AddExtension = true,
                               DefaultExt = ".param",
                               RestoreDirectory = true,
                               Filter = "Param List|*.param;*.parm"
-                          };
-
-            var dr = sfd.ShowDialog();
-            if (dr == DialogResult.OK)
+                          })
             {
-                Hashtable data = new Hashtable();
-                foreach (data row in Params.Objects)
+
+                var dr = sfd.ShowDialog();
+                if (dr == DialogResult.OK)
                 {
-
-                    foreach (var item in row.children) 
+                    Hashtable data = new Hashtable();
+                    foreach (data row in Params.Objects)
                     {
-                        if (item.Value != null)
-                        {
-                            float value = float.Parse(item.Value.ToString());
 
-                            data[item.paramname.ToString()] = value;
+                        foreach (var item in row.children)
+                        {
+                            if (item.Value != null)
+                            {
+                                float value = float.Parse(item.Value.ToString());
+
+                                data[item.paramname.ToString()] = value;
+                            }
+                        }
+
+                        if (row.Value != null)
+                        {
+                            float value = float.Parse(row.Value.ToString());
+
+                            data[row.paramname.ToString()] = value;
                         }
                     }
 
-                    if (row.Value != null)
-                    {
-                        float value = float.Parse(row.Value.ToString());
+                    Utilities.ParamFile.SaveParamFile(sfd.FileName, data);
 
-                        data[row.paramname.ToString()] = value;
-                    }
                 }
-
-                Utilities.ParamFile.SaveParamFile(sfd.FileName,data);
-
             }
         }
 
@@ -188,25 +192,27 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             Hashtable param2 = new Hashtable();
 
-            var ofd = new OpenFileDialog
+            using (var ofd = new OpenFileDialog
                           {
                               AddExtension = true,
                               DefaultExt = ".param",
                               RestoreDirectory = true,
                               Filter = "Param List|*.param;*.parm"
-                          };
-
-            var dr = ofd.ShowDialog();
-            if (dr == DialogResult.OK)
+                          })
             {
-                param2 = Utilities.ParamFile.loadParamFile(ofd.FileName);
 
-                ParamCompare paramCompareForm = new ParamCompare(null, MainV2.comPort.MAV.param, param2);
+                var dr = ofd.ShowDialog();
+                if (dr == DialogResult.OK)
+                {
+                    param2 = Utilities.ParamFile.loadParamFile(ofd.FileName);
 
-                paramCompareForm.dtlvcallback += paramCompareForm_dtlvcallback;
-                
-                ThemeManager.ApplyThemeTo(paramCompareForm);
-                paramCompareForm.ShowDialog();
+                    ParamCompare paramCompareForm = new ParamCompare(null, MainV2.comPort.MAV.param, param2);
+
+                    paramCompareForm.dtlvcallback += paramCompareForm_dtlvcallback;
+
+                    ThemeManager.ApplyThemeTo(paramCompareForm);
+                    paramCompareForm.ShowDialog();
+                }
             }
         }
 

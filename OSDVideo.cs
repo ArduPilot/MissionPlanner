@@ -606,20 +606,22 @@ namespace MissionPlanner
 
         private String GetFileName(String filter, Control ctl)
         {
-            OpenFileDialog dlg = new OpenFileDialog();
-            dlg.Filter = filter;
-            dlg.RestoreDirectory = true;
-            if (ctl.Text.Length > 0)
+            using (OpenFileDialog dlg = new OpenFileDialog())
             {
-                dlg.InitialDirectory = GetCurrentFilePath(ctl);
-            }
-            if (dlg.ShowDialog(this) == DialogResult.OK)
-            {
-                return dlg.FileName;
-            }
-            else
-            {
-                return null;
+                dlg.Filter = filter;
+                dlg.RestoreDirectory = true;
+                if (ctl.Text.Length > 0)
+                {
+                    dlg.InitialDirectory = GetCurrentFilePath(ctl);
+                }
+                if (dlg.ShowDialog(this) == DialogResult.OK)
+                {
+                    return dlg.FileName;
+                }
+                else
+                {
+                    return null;
+                }
             }
         }
 

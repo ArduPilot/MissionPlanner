@@ -96,36 +96,38 @@ namespace MissionPlanner
         /// </summary>
         public static void ProcessLog(int throttleThreshold = 0)
         {
-            OpenFileDialog openFileDialog1 = new OpenFileDialog();
-            openFileDialog1.Filter = "Log Files|*.tlog;*.log";
-            openFileDialog1.FilterIndex = 2;
-            openFileDialog1.RestoreDirectory = true;
-            openFileDialog1.Multiselect = true;
-            try
+            using (OpenFileDialog openFileDialog1 = new OpenFileDialog())
             {
-                openFileDialog1.InitialDirectory = MainV2.LogDir + Path.DirectorySeparatorChar;
-            }
-            catch { } // incase dir doesnt exist
-
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
-            {
+                openFileDialog1.Filter = "Log Files|*.tlog;*.log";
+                openFileDialog1.FilterIndex = 2;
+                openFileDialog1.RestoreDirectory = true;
+                openFileDialog1.Multiselect = true;
                 try
                 {
-                    double[] ans;
-
-                    if (openFileDialog1.FileName.ToLower().EndsWith("tlog"))
-                    {
-                        ans = getOffsets(openFileDialog1.FileName, throttleThreshold);
-                    }
-                    else
-                    {
-                        ans = getOffsetsLog(openFileDialog1.FileName);
-                    }
-
-                    if (ans.Length != 1)
-                        SaveOffsets(ans);
+                    openFileDialog1.InitialDirectory = MainV2.LogDir + Path.DirectorySeparatorChar;
                 }
-                catch (Exception ex) { log.Debug(ex.ToString()); }
+                catch { } // incase dir doesnt exist
+
+                if (openFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        double[] ans;
+
+                        if (openFileDialog1.FileName.ToLower().EndsWith("tlog"))
+                        {
+                            ans = getOffsets(openFileDialog1.FileName, throttleThreshold);
+                        }
+                        else
+                        {
+                            ans = getOffsetsLog(openFileDialog1.FileName);
+                        }
+
+                        if (ans.Length != 1)
+                            SaveOffsets(ans);
+                    }
+                    catch (Exception ex) { log.Debug(ex.ToString()); }
+                }
             }
         }
 

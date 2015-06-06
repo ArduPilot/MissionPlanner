@@ -1482,49 +1482,51 @@ namespace MissionPlanner.GCSViews
         /// </summary>
         private void savewaypoints()
         {
-            SaveFileDialog fd = new SaveFileDialog();
-            fd.Filter = "Ardupilot Mission (*.txt)|*.*";
-            fd.DefaultExt = ".txt";
-            fd.FileName = wpfilename;
-            DialogResult result = fd.ShowDialog();
-            string file = fd.FileName;
-            if (file != "")
+            using (SaveFileDialog fd = new SaveFileDialog())
             {
-                try
+                fd.Filter = "Ardupilot Mission (*.txt)|*.*";
+                fd.DefaultExt = ".txt";
+                fd.FileName = wpfilename;
+                DialogResult result = fd.ShowDialog();
+                string file = fd.FileName;
+                if (file != "")
                 {
-                    StreamWriter sw = new StreamWriter(file);
-                    sw.WriteLine("QGC WPL 110");
                     try
                     {
-                        sw.WriteLine("0\t1\t0\t16\t0\t0\t0\t0\t" + double.Parse(TXT_homelat.Text).ToString("0.000000", new System.Globalization.CultureInfo("en-US")) + "\t" + double.Parse(TXT_homelng.Text).ToString("0.000000", new System.Globalization.CultureInfo("en-US")) + "\t" + double.Parse(TXT_homealt.Text).ToString("0.000000", new System.Globalization.CultureInfo("en-US")) + "\t1");
-                    }
-                    catch
-                    {
-                        sw.WriteLine("0\t1\t0\t0\t0\t0\t0\t0\t0\t0\t0\t1");
-                    }
-                    for (int a = 0; a < Commands.Rows.Count - 0; a++)
-                    {
-                        byte mode = (byte)(MAVLink.MAV_CMD)Enum.Parse(typeof(MAVLink.MAV_CMD), Commands.Rows[a].Cells[0].Value.ToString());
+                        StreamWriter sw = new StreamWriter(file);
+                        sw.WriteLine("QGC WPL 110");
+                        try
+                        {
+                            sw.WriteLine("0\t1\t0\t16\t0\t0\t0\t0\t" + double.Parse(TXT_homelat.Text).ToString("0.000000", new System.Globalization.CultureInfo("en-US")) + "\t" + double.Parse(TXT_homelng.Text).ToString("0.000000", new System.Globalization.CultureInfo("en-US")) + "\t" + double.Parse(TXT_homealt.Text).ToString("0.000000", new System.Globalization.CultureInfo("en-US")) + "\t1");
+                        }
+                        catch
+                        {
+                            sw.WriteLine("0\t1\t0\t0\t0\t0\t0\t0\t0\t0\t0\t1");
+                        }
+                        for (int a = 0; a < Commands.Rows.Count - 0; a++)
+                        {
+                            byte mode = (byte)(MAVLink.MAV_CMD)Enum.Parse(typeof(MAVLink.MAV_CMD), Commands.Rows[a].Cells[0].Value.ToString());
 
-                        sw.Write((a + 1)); // seq
-                        sw.Write("\t" + 0); // current
-                        sw.Write("\t" + CMB_altmode.SelectedValue.ToString()); //frame 
-                        sw.Write("\t" + mode);
-                        sw.Write("\t" + double.Parse(Commands.Rows[a].Cells[Param1.Index].Value.ToString()).ToString("0.000000", new System.Globalization.CultureInfo("en-US")));
-                        sw.Write("\t" + double.Parse(Commands.Rows[a].Cells[Param2.Index].Value.ToString()).ToString("0.000000", new System.Globalization.CultureInfo("en-US")));
-                        sw.Write("\t" + double.Parse(Commands.Rows[a].Cells[Param3.Index].Value.ToString()).ToString("0.000000", new System.Globalization.CultureInfo("en-US")));
-                        sw.Write("\t" + double.Parse(Commands.Rows[a].Cells[Param4.Index].Value.ToString()).ToString("0.000000", new System.Globalization.CultureInfo("en-US")));
-                        sw.Write("\t" + double.Parse(Commands.Rows[a].Cells[Lat.Index].Value.ToString()).ToString("0.000000", new System.Globalization.CultureInfo("en-US")));
-                        sw.Write("\t" + double.Parse(Commands.Rows[a].Cells[Lon.Index].Value.ToString()).ToString("0.000000", new System.Globalization.CultureInfo("en-US")));
-                        sw.Write("\t" + (double.Parse(Commands.Rows[a].Cells[Alt.Index].Value.ToString()) / CurrentState.multiplierdist).ToString("0.000000", new System.Globalization.CultureInfo("en-US")));
-                        sw.Write("\t" + 1);
-                        sw.WriteLine("");
-                    }
-                    sw.Close();
+                            sw.Write((a + 1)); // seq
+                            sw.Write("\t" + 0); // current
+                            sw.Write("\t" + CMB_altmode.SelectedValue.ToString()); //frame 
+                            sw.Write("\t" + mode);
+                            sw.Write("\t" + double.Parse(Commands.Rows[a].Cells[Param1.Index].Value.ToString()).ToString("0.000000", new System.Globalization.CultureInfo("en-US")));
+                            sw.Write("\t" + double.Parse(Commands.Rows[a].Cells[Param2.Index].Value.ToString()).ToString("0.000000", new System.Globalization.CultureInfo("en-US")));
+                            sw.Write("\t" + double.Parse(Commands.Rows[a].Cells[Param3.Index].Value.ToString()).ToString("0.000000", new System.Globalization.CultureInfo("en-US")));
+                            sw.Write("\t" + double.Parse(Commands.Rows[a].Cells[Param4.Index].Value.ToString()).ToString("0.000000", new System.Globalization.CultureInfo("en-US")));
+                            sw.Write("\t" + double.Parse(Commands.Rows[a].Cells[Lat.Index].Value.ToString()).ToString("0.000000", new System.Globalization.CultureInfo("en-US")));
+                            sw.Write("\t" + double.Parse(Commands.Rows[a].Cells[Lon.Index].Value.ToString()).ToString("0.000000", new System.Globalization.CultureInfo("en-US")));
+                            sw.Write("\t" + (double.Parse(Commands.Rows[a].Cells[Alt.Index].Value.ToString()) / CurrentState.multiplierdist).ToString("0.000000", new System.Globalization.CultureInfo("en-US")));
+                            sw.Write("\t" + 1);
+                            sw.WriteLine("");
+                        }
+                        sw.Close();
 
-                    lbl_wpfile.Text = "Saved "+Path.GetFileName(file);
+                        lbl_wpfile.Text = "Saved " + Path.GetFileName(file);
+                    }
+                    catch (Exception) { CustomMessageBox.Show(Strings.ERROR); }
                 }
-                catch (Exception) { CustomMessageBox.Show(Strings.ERROR); }
             }
         }
 
@@ -2320,24 +2322,26 @@ namespace MissionPlanner.GCSViews
 
         private void BUT_loadwpfile_Click(object sender, EventArgs e)
         {
-            OpenFileDialog fd = new OpenFileDialog();
-            fd.Filter = "All Supported Types|*.txt;*.shp|Ardupilot Mission (*.txt)|*.*|Shape file|*.shp";
-            DialogResult result = fd.ShowDialog();
-            string file = fd.FileName;
-
-            if (File.Exists(file))
+            using (OpenFileDialog fd = new OpenFileDialog())
             {
-                if (file.ToLower().EndsWith(".shp"))
-                {
-                    LoadSHPFile(file);
-                }
-                else
-                {
-                    wpfilename = file;
-                    readQGC110wpfile(file);
-                }
+                fd.Filter = "All Supported Types|*.txt;*.shp|Ardupilot Mission (*.txt)|*.*|Shape file|*.shp";
+                DialogResult result = fd.ShowDialog();
+                string file = fd.FileName;
 
-                lbl_wpfile.Text = "Loaded "+Path.GetFileName(file);
+                if (File.Exists(file))
+                {
+                    if (file.ToLower().EndsWith(".shp"))
+                    {
+                        LoadSHPFile(file);
+                    }
+                    else
+                    {
+                        wpfilename = file;
+                        readQGC110wpfile(file);
+                    }
+
+                    lbl_wpfile.Text = "Loaded " + Path.GetFileName(file);
+                }
             }
         }
 
@@ -4024,56 +4028,58 @@ namespace MissionPlanner.GCSViews
 
         private void loadFromFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OpenFileDialog fd = new OpenFileDialog();
-            fd.Filter = "Fence (*.fen)|*.fen";
-            fd.ShowDialog();
-            if (File.Exists(fd.FileName))
+            using (OpenFileDialog fd = new OpenFileDialog())
             {
-                StreamReader sr = new StreamReader(fd.OpenFile());
-
-                drawnpolygonsoverlay.Markers.Clear();
-                drawnpolygonsoverlay.Polygons.Clear();
-                drawnpolygon.Points.Clear();
-
-                int a = 0;
-
-                while (!sr.EndOfStream)
+                fd.Filter = "Fence (*.fen)|*.fen";
+                fd.ShowDialog();
+                if (File.Exists(fd.FileName))
                 {
-                    string line = sr.ReadLine();
-                    if (line.StartsWith("#"))
-                    {
-                        continue;
-                    }
-                    else
-                    {
-                        string[] items = line.Split(new char[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
+                    StreamReader sr = new StreamReader(fd.OpenFile());
 
-                        if (a == 0)
+                    drawnpolygonsoverlay.Markers.Clear();
+                    drawnpolygonsoverlay.Polygons.Clear();
+                    drawnpolygon.Points.Clear();
+
+                    int a = 0;
+
+                    while (!sr.EndOfStream)
+                    {
+                        string line = sr.ReadLine();
+                        if (line.StartsWith("#"))
                         {
-                            geofenceoverlay.Markers.Clear();
-                            geofenceoverlay.Markers.Add(new GMarkerGoogle(new PointLatLng(double.Parse(items[0]), double.Parse(items[1])), GMarkerGoogleType.red) { ToolTipMode = MarkerTooltipMode.OnMouseOver, ToolTipText = "GeoFence Return" });
-                            MainMap.UpdateMarkerLocalPosition(geofenceoverlay.Markers[0]);
+                            continue;
                         }
                         else
                         {
-                            drawnpolygon.Points.Add(new PointLatLng(double.Parse(items[0]), double.Parse(items[1])));
-                            addpolygonmarkergrid(drawnpolygon.Points.Count.ToString(), double.Parse(items[1]), double.Parse(items[0]), 0);
+                            string[] items = line.Split(new char[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
+
+                            if (a == 0)
+                            {
+                                geofenceoverlay.Markers.Clear();
+                                geofenceoverlay.Markers.Add(new GMarkerGoogle(new PointLatLng(double.Parse(items[0]), double.Parse(items[1])), GMarkerGoogleType.red) { ToolTipMode = MarkerTooltipMode.OnMouseOver, ToolTipText = "GeoFence Return" });
+                                MainMap.UpdateMarkerLocalPosition(geofenceoverlay.Markers[0]);
+                            }
+                            else
+                            {
+                                drawnpolygon.Points.Add(new PointLatLng(double.Parse(items[0]), double.Parse(items[1])));
+                                addpolygonmarkergrid(drawnpolygon.Points.Count.ToString(), double.Parse(items[1]), double.Parse(items[0]), 0);
+                            }
+                            a++;
                         }
-                        a++;
                     }
+
+                    // remove loop close
+                    if (drawnpolygon.Points.Count > 1 && drawnpolygon.Points[0] == drawnpolygon.Points[drawnpolygon.Points.Count - 1])
+                    {
+                        drawnpolygon.Points.RemoveAt(drawnpolygon.Points.Count - 1);
+                    }
+
+                    drawnpolygonsoverlay.Polygons.Add(drawnpolygon);
+
+                    MainMap.UpdatePolygonLocalPosition(drawnpolygon);
+
+                    MainMap.Invalidate();
                 }
-
-                // remove loop close
-                if (drawnpolygon.Points.Count > 1 && drawnpolygon.Points[0] == drawnpolygon.Points[drawnpolygon.Points.Count - 1])
-                {
-                    drawnpolygon.Points.RemoveAt(drawnpolygon.Points.Count - 1);
-                }
-
-                drawnpolygonsoverlay.Polygons.Add(drawnpolygon);
-
-                MainMap.UpdatePolygonLocalPosition(drawnpolygon);
-
-                MainMap.Invalidate();
             }
         }
 
@@ -4086,44 +4092,46 @@ namespace MissionPlanner.GCSViews
             }
 
 
-            SaveFileDialog sf = new SaveFileDialog();
-            sf.Filter = "Fence (*.fen)|*.fen";
-            sf.ShowDialog();
-            if (sf.FileName != "")
+            using (SaveFileDialog sf = new SaveFileDialog())
             {
-                try
+                sf.Filter = "Fence (*.fen)|*.fen";
+                sf.ShowDialog();
+                if (sf.FileName != "")
                 {
-                    StreamWriter sw = new StreamWriter(sf.OpenFile());
-
-                    sw.WriteLine("#saved by APM Planner " + Application.ProductVersion);
-
-                    sw.WriteLine(geofenceoverlay.Markers[0].Position.Lat + " " + geofenceoverlay.Markers[0].Position.Lng);
-                    if (drawnpolygon.Points.Count > 0)
+                    try
                     {
-                        foreach (var pll in drawnpolygon.Points)
+                        StreamWriter sw = new StreamWriter(sf.OpenFile());
+
+                        sw.WriteLine("#saved by APM Planner " + Application.ProductVersion);
+
+                        sw.WriteLine(geofenceoverlay.Markers[0].Position.Lat + " " + geofenceoverlay.Markers[0].Position.Lng);
+                        if (drawnpolygon.Points.Count > 0)
                         {
-                            sw.WriteLine(pll.Lat + " " + pll.Lng);
+                            foreach (var pll in drawnpolygon.Points)
+                            {
+                                sw.WriteLine(pll.Lat + " " + pll.Lng);
+                            }
+
+                            PointLatLng pll2 = drawnpolygon.Points[0];
+
+                            sw.WriteLine(pll2.Lat + " " + pll2.Lng);
+                        }
+                        else
+                        {
+                            foreach (var pll in geofencepolygon.Points)
+                            {
+                                sw.WriteLine(pll.Lat + " " + pll.Lng);
+                            }
+
+                            PointLatLng pll2 = geofencepolygon.Points[0];
+
+                            sw.WriteLine(pll2.Lat + " " + pll2.Lng);
                         }
 
-                        PointLatLng pll2 = drawnpolygon.Points[0];
-
-                        sw.WriteLine(pll2.Lat + " " + pll2.Lng);
+                        sw.Close();
                     }
-                    else
-                    {
-                        foreach (var pll in geofencepolygon.Points)
-                        {
-                            sw.WriteLine(pll.Lat + " " + pll.Lng);
-                        }
-
-                        PointLatLng pll2 = geofencepolygon.Points[0];
-
-                        sw.WriteLine(pll2.Lat + " " + pll2.Lng);
-                    }
-
-                    sw.Close();
+                    catch { CustomMessageBox.Show("Failed to write fence file"); }
                 }
-                catch { CustomMessageBox.Show("Failed to write fence file"); }
             }
         }
 
@@ -4457,73 +4465,75 @@ namespace MissionPlanner.GCSViews
         private void kMLOverlayToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
-            OpenFileDialog fd = new OpenFileDialog();
-            fd.Filter = "Google Earth KML |*.kml;*.kmz";
-            DialogResult result = fd.ShowDialog();
-            string file = fd.FileName;
-            if (file != "")
+            using (OpenFileDialog fd = new OpenFileDialog())
             {
-                try
+                fd.Filter = "Google Earth KML |*.kml;*.kmz";
+                DialogResult result = fd.ShowDialog();
+                string file = fd.FileName;
+                if (file != "")
                 {
-                    kmlpolygonsoverlay.Polygons.Clear();
-                    kmlpolygonsoverlay.Routes.Clear();
-
-                    FlightData.kmlpolygons.Routes.Clear();
-                    FlightData.kmlpolygons.Polygons.Clear();
-
-                    string kml = "";
-                    string tempdir = "";
-                    if (file.ToLower().EndsWith("kmz"))
+                    try
                     {
-                        Ionic.Zip.ZipFile input = new Ionic.Zip.ZipFile(file);
+                        kmlpolygonsoverlay.Polygons.Clear();
+                        kmlpolygonsoverlay.Routes.Clear();
 
-                        tempdir = Path.GetTempPath() + Path.DirectorySeparatorChar + Path.GetRandomFileName();
-                        input.ExtractAll(tempdir, Ionic.Zip.ExtractExistingFileAction.OverwriteSilently);
+                        FlightData.kmlpolygons.Routes.Clear();
+                        FlightData.kmlpolygons.Polygons.Clear();
 
-                        string[] kmls = Directory.GetFiles(tempdir, "*.kml");
-
-                        if (kmls.Length > 0)
+                        string kml = "";
+                        string tempdir = "";
+                        if (file.ToLower().EndsWith("kmz"))
                         {
-                            file = kmls[0];
+                            Ionic.Zip.ZipFile input = new Ionic.Zip.ZipFile(file);
 
-                            input.Dispose();
+                            tempdir = Path.GetTempPath() + Path.DirectorySeparatorChar + Path.GetRandomFileName();
+                            input.ExtractAll(tempdir, Ionic.Zip.ExtractExistingFileAction.OverwriteSilently);
+
+                            string[] kmls = Directory.GetFiles(tempdir, "*.kml");
+
+                            if (kmls.Length > 0)
+                            {
+                                file = kmls[0];
+
+                                input.Dispose();
+                            }
+                            else
+                            {
+                                input.Dispose();
+                                return;
+                            }
                         }
-                        else
+
+                        var sr = new StreamReader(File.OpenRead(file));
+                        kml = sr.ReadToEnd();
+                        sr.Close();
+
+                        // cleanup after out
+                        if (tempdir != "")
+                            Directory.Delete(tempdir, true);
+
+                        kml = kml.Replace("<Snippet/>", "");
+
+                        var parser = new SharpKml.Base.Parser();
+
+                        parser.ElementAdded += parser_ElementAdded;
+                        parser.ParseString(kml, false);
+
+                        if (DialogResult.Yes == CustomMessageBox.Show("Do you want to load this into the flight data screen?", "Load data", MessageBoxButtons.YesNo))
                         {
-                            input.Dispose();
-                            return;
+                            foreach (var temp in kmlpolygonsoverlay.Polygons)
+                            {
+                                FlightData.kmlpolygons.Polygons.Add(temp);
+                            }
+                            foreach (var temp in kmlpolygonsoverlay.Routes)
+                            {
+                                FlightData.kmlpolygons.Routes.Add(temp);
+                            }
                         }
+
                     }
-
-                    var sr = new StreamReader(File.OpenRead(file));
-                    kml = sr.ReadToEnd();
-                    sr.Close();
-
-                    // cleanup after out
-                    if (tempdir != "")
-                        Directory.Delete(tempdir, true);
-
-                    kml = kml.Replace("<Snippet/>", "");
-
-                    var parser = new SharpKml.Base.Parser();
-
-                    parser.ElementAdded += parser_ElementAdded;
-                    parser.ParseString(kml, false);
-
-                    if (DialogResult.Yes == CustomMessageBox.Show("Do you want to load this into the flight data screen?", "Load data", MessageBoxButtons.YesNo))
-                    {
-                        foreach (var temp in kmlpolygonsoverlay.Polygons)
-                        {
-                            FlightData.kmlpolygons.Polygons.Add(temp);
-                        }
-                        foreach (var temp in kmlpolygonsoverlay.Routes)
-                        {
-                            FlightData.kmlpolygons.Routes.Add(temp);
-                        }
-                    }
-
+                    catch (Exception ex) { CustomMessageBox.Show("Bad KML File :" + ex.ToString()); }
                 }
-                catch (Exception ex) { CustomMessageBox.Show("Bad KML File :" + ex.ToString()); }
             }
         }
 
@@ -4693,14 +4703,16 @@ namespace MissionPlanner.GCSViews
 
         private void loadAndAppendToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OpenFileDialog fd = new OpenFileDialog();
-            fd.Filter = "Ardupilot Mission (*.txt)|*.*";
-            fd.DefaultExt = ".txt";
-            DialogResult result = fd.ShowDialog();
-            string file = fd.FileName;
-            if (file != "")
+            using (OpenFileDialog fd = new OpenFileDialog())
             {
-                readQGC110wpfile(file, true);
+                fd.Filter = "Ardupilot Mission (*.txt)|*.*";
+                fd.DefaultExt = ".txt";
+                DialogResult result = fd.ShowDialog();
+                string file = fd.FileName;
+                if (file != "")
+                {
+                    readQGC110wpfile(file, true);
+                }
             }
         }
 
@@ -4712,81 +4724,85 @@ namespace MissionPlanner.GCSViews
             }
 
 
-            SaveFileDialog sf = new SaveFileDialog();
-            sf.Filter = "Polygon (*.poly)|*.poly";
-            sf.ShowDialog();
-            if (sf.FileName != "")
+            using (SaveFileDialog sf = new SaveFileDialog())
             {
-                try
+                sf.Filter = "Polygon (*.poly)|*.poly";
+                sf.ShowDialog();
+                if (sf.FileName != "")
                 {
-                    StreamWriter sw = new StreamWriter(sf.OpenFile());
-
-                    sw.WriteLine("#saved by Mission Planner " + Application.ProductVersion);
-
-                    if (drawnpolygon.Points.Count > 0)
+                    try
                     {
-                        foreach (var pll in drawnpolygon.Points)
+                        StreamWriter sw = new StreamWriter(sf.OpenFile());
+
+                        sw.WriteLine("#saved by Mission Planner " + Application.ProductVersion);
+
+                        if (drawnpolygon.Points.Count > 0)
                         {
-                            sw.WriteLine(pll.Lat + " " + pll.Lng);
+                            foreach (var pll in drawnpolygon.Points)
+                            {
+                                sw.WriteLine(pll.Lat + " " + pll.Lng);
+                            }
+
+                            PointLatLng pll2 = drawnpolygon.Points[0];
+
+                            sw.WriteLine(pll2.Lat + " " + pll2.Lng);
                         }
 
-                        PointLatLng pll2 = drawnpolygon.Points[0];
-
-                        sw.WriteLine(pll2.Lat + " " + pll2.Lng);
+                        sw.Close();
                     }
-
-                    sw.Close();
+                    catch { CustomMessageBox.Show("Failed to write fence file"); }
                 }
-                catch { CustomMessageBox.Show("Failed to write fence file"); }
             }
         }
 
         private void loadPolygonToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OpenFileDialog fd = new OpenFileDialog();
-            fd.Filter = "Polygon (*.poly)|*.poly";
-            fd.ShowDialog();
-            if (File.Exists(fd.FileName))
+            using (OpenFileDialog fd = new OpenFileDialog())
             {
-                StreamReader sr = new StreamReader(fd.OpenFile());
-
-                drawnpolygonsoverlay.Markers.Clear();
-                drawnpolygonsoverlay.Polygons.Clear();
-                drawnpolygon.Points.Clear();
-
-                int a = 0;
-
-                while (!sr.EndOfStream)
+                fd.Filter = "Polygon (*.poly)|*.poly";
+                fd.ShowDialog();
+                if (File.Exists(fd.FileName))
                 {
-                    string line = sr.ReadLine();
-                    if (line.StartsWith("#"))
+                    StreamReader sr = new StreamReader(fd.OpenFile());
+
+                    drawnpolygonsoverlay.Markers.Clear();
+                    drawnpolygonsoverlay.Polygons.Clear();
+                    drawnpolygon.Points.Clear();
+
+                    int a = 0;
+
+                    while (!sr.EndOfStream)
                     {
-                        continue;
+                        string line = sr.ReadLine();
+                        if (line.StartsWith("#"))
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            string[] items = line.Split(new char[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
+
+                            drawnpolygon.Points.Add(new PointLatLng(double.Parse(items[0]), double.Parse(items[1])));
+                            addpolygonmarkergrid(drawnpolygon.Points.Count.ToString(), double.Parse(items[1]), double.Parse(items[0]), 0);
+
+                            a++;
+                        }
                     }
-                    else
+
+                    // remove loop close
+                    if (drawnpolygon.Points.Count > 1 && drawnpolygon.Points[0] == drawnpolygon.Points[drawnpolygon.Points.Count - 1])
                     {
-                        string[] items = line.Split(new char[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
-
-                        drawnpolygon.Points.Add(new PointLatLng(double.Parse(items[0]), double.Parse(items[1])));
-                        addpolygonmarkergrid(drawnpolygon.Points.Count.ToString(), double.Parse(items[1]), double.Parse(items[0]), 0);
-
-                        a++;
+                        drawnpolygon.Points.RemoveAt(drawnpolygon.Points.Count - 1);
                     }
+
+                    drawnpolygonsoverlay.Polygons.Add(drawnpolygon);
+
+                    MainMap.UpdatePolygonLocalPosition(drawnpolygon);
+
+                    MainMap.Invalidate();
+
+                    MainMap.ZoomAndCenterMarkers(drawnpolygonsoverlay.Id);
                 }
-
-                // remove loop close
-                if (drawnpolygon.Points.Count > 1 && drawnpolygon.Points[0] == drawnpolygon.Points[drawnpolygon.Points.Count - 1])
-                {
-                    drawnpolygon.Points.RemoveAt(drawnpolygon.Points.Count - 1);
-                }
-
-                drawnpolygonsoverlay.Polygons.Add(drawnpolygon);
-
-                MainMap.UpdatePolygonLocalPosition(drawnpolygon);
-
-                MainMap.Invalidate();
-
-                MainMap.ZoomAndCenterMarkers(drawnpolygonsoverlay.Id);
             }
         }
 
@@ -5015,55 +5031,57 @@ namespace MissionPlanner.GCSViews
         private void loadKMLFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
-            OpenFileDialog fd = new OpenFileDialog();
-            fd.Filter = "Google Earth KML |*.kml;*.kmz";
-            DialogResult result = fd.ShowDialog();
-            string file = fd.FileName;
-            if (file != "")
+            using (OpenFileDialog fd = new OpenFileDialog())
             {
-                try
+                fd.Filter = "Google Earth KML |*.kml;*.kmz";
+                DialogResult result = fd.ShowDialog();
+                string file = fd.FileName;
+                if (file != "")
                 {
-                    string kml = "";
-                    string tempdir = "";
-                    if (file.ToLower().EndsWith("kmz"))
+                    try
                     {
-                        Ionic.Zip.ZipFile input = new Ionic.Zip.ZipFile(file);
-
-                        tempdir = Path.GetTempPath() + Path.DirectorySeparatorChar + Path.GetRandomFileName();
-                        input.ExtractAll(tempdir, Ionic.Zip.ExtractExistingFileAction.OverwriteSilently);
-
-                        string[] kmls = Directory.GetFiles(tempdir, "*.kml");
-
-                        if (kmls.Length > 0)
+                        string kml = "";
+                        string tempdir = "";
+                        if (file.ToLower().EndsWith("kmz"))
                         {
-                            file = kmls[0];
+                            Ionic.Zip.ZipFile input = new Ionic.Zip.ZipFile(file);
 
-                            input.Dispose();
+                            tempdir = Path.GetTempPath() + Path.DirectorySeparatorChar + Path.GetRandomFileName();
+                            input.ExtractAll(tempdir, Ionic.Zip.ExtractExistingFileAction.OverwriteSilently);
+
+                            string[] kmls = Directory.GetFiles(tempdir, "*.kml");
+
+                            if (kmls.Length > 0)
+                            {
+                                file = kmls[0];
+
+                                input.Dispose();
+                            }
+                            else
+                            {
+                                input.Dispose();
+                                return;
+                            }
                         }
-                        else
-                        {
-                            input.Dispose();
-                            return;
-                        }
+
+                        var sr = new StreamReader(File.OpenRead(file));
+                        kml = sr.ReadToEnd();
+                        sr.Close();
+
+                        // cleanup after out
+                        if (tempdir != "")
+                            Directory.Delete(tempdir, true);
+
+                        kml = kml.Replace("<Snippet/>", "");
+
+                        var parser = new SharpKml.Base.Parser();
+
+                        parser.ElementAdded += processKMLMission;
+                        parser.ParseString(kml, false);
+
                     }
-
-                    var sr = new StreamReader(File.OpenRead(file));
-                    kml = sr.ReadToEnd();
-                    sr.Close();
-
-                    // cleanup after out
-                    if (tempdir != "")
-                        Directory.Delete(tempdir, true);
-
-                    kml = kml.Replace("<Snippet/>", "");
-
-                    var parser = new SharpKml.Base.Parser();
-
-                    parser.ElementAdded += processKMLMission;
-                    parser.ParseString(kml, false);
-
+                    catch (Exception ex) { CustomMessageBox.Show("Bad KML File :" + ex.ToString()); }
                 }
-                catch (Exception ex) { CustomMessageBox.Show("Bad KML File :" + ex.ToString()); }
             }
         }
 
@@ -5174,74 +5192,78 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
  Column 7: Flags (just 0 for now, also future use).
              */
 
-            SaveFileDialog sf = new SaveFileDialog();
-            sf.Filter = "Rally (*.ral)|*.ral";
-            sf.ShowDialog();
-            if (sf.FileName != "")
+            using (SaveFileDialog sf = new SaveFileDialog())
             {
-                try
+                sf.Filter = "Rally (*.ral)|*.ral";
+                sf.ShowDialog();
+                if (sf.FileName != "")
                 {
-                    using (StreamWriter sw = new StreamWriter(sf.OpenFile()))
+                    try
                     {
-
-                        sw.WriteLine("#saved by Mission Planner " + Application.ProductVersion);
-
-
-                        foreach (GMapMarkerRallyPt mark in rallypointoverlay.Markers)
+                        using (StreamWriter sw = new StreamWriter(sf.OpenFile()))
                         {
-                            sw.WriteLine(string.Format("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}", "RALLY", mark.Position.Lat, mark.Position.Lng, mark.Alt, 0, 0, 0));
+
+                            sw.WriteLine("#saved by Mission Planner " + Application.ProductVersion);
+
+
+                            foreach (GMapMarkerRallyPt mark in rallypointoverlay.Markers)
+                            {
+                                sw.WriteLine(string.Format("{0}\t{1}\t{2}\t{3}\t{4}\t{5}\t{6}", "RALLY", mark.Position.Lat, mark.Position.Lng, mark.Alt, 0, 0, 0));
+                            }
                         }
                     }
+                    catch { CustomMessageBox.Show("Failed to write rally file"); }
                 }
-                catch { CustomMessageBox.Show("Failed to write rally file"); }
             }
         }
 
         private void loadFromFileToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            OpenFileDialog fd = new OpenFileDialog();
-            fd.Filter = "Rally (*.ral)|*.ral";
-            fd.ShowDialog();
-            if (File.Exists(fd.FileName))
+            using (OpenFileDialog fd = new OpenFileDialog())
             {
-                StreamReader sr = new StreamReader(fd.OpenFile());
-
-                int a = 0;
-
-                while (!sr.EndOfStream)
+                fd.Filter = "Rally (*.ral)|*.ral";
+                fd.ShowDialog();
+                if (File.Exists(fd.FileName))
                 {
-                    string line = sr.ReadLine();
-                    if (line.StartsWith("#"))
+                    StreamReader sr = new StreamReader(fd.OpenFile());
+
+                    int a = 0;
+
+                    while (!sr.EndOfStream)
                     {
-                        continue;
-                    }
-                    else
-                    {
-                        string[] items = line.Split(new char[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
-
-                        MAVLink.mavlink_rally_point_t rally = new MAVLink.mavlink_rally_point_t();
-
-                        rally.lat = (int)(float.Parse(items[1]) * 1e7);
-                        rally.lng = (int)(float.Parse(items[2]) * 1e7);
-                        rally.alt = (short)float.Parse(items[3]);
-                        rally.break_alt = (short)float.Parse(items[4]);
-                        rally.land_dir = (ushort)float.Parse(items[5]);
-                        rally.flags = byte.Parse(items[6]);
-
-                        if (a == 0)
+                        string line = sr.ReadLine();
+                        if (line.StartsWith("#"))
                         {
-                            rallypointoverlay.Markers.Clear();
-
-                            rallypointoverlay.Markers.Add(new GMapMarkerRallyPt(rally));
+                            continue;
                         }
                         else
                         {
-                            rallypointoverlay.Markers.Add(new GMapMarkerRallyPt(rally));
+                            string[] items = line.Split(new char[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
+
+                            MAVLink.mavlink_rally_point_t rally = new MAVLink.mavlink_rally_point_t();
+
+                            rally.lat = (int)(float.Parse(items[1]) * 1e7);
+                            rally.lng = (int)(float.Parse(items[2]) * 1e7);
+                            rally.alt = (short)float.Parse(items[3]);
+                            rally.break_alt = (short)float.Parse(items[4]);
+                            rally.land_dir = (ushort)float.Parse(items[5]);
+                            rally.flags = byte.Parse(items[6]);
+
+                            if (a == 0)
+                            {
+                                rallypointoverlay.Markers.Clear();
+
+                                rallypointoverlay.Markers.Add(new GMapMarkerRallyPt(rally));
+                            }
+                            else
+                            {
+                                rallypointoverlay.Markers.Add(new GMapMarkerRallyPt(rally));
+                            }
+                            a++;
                         }
-                        a++;
                     }
+                    MainMap.Invalidate();
                 }
-                MainMap.Invalidate();
             }
         }
 
@@ -5282,12 +5304,14 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
         private void loadSHPFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OpenFileDialog fd = new OpenFileDialog();
-            fd.Filter = "Shape file|*.shp";
-            DialogResult result = fd.ShowDialog();
-            string file = fd.FileName;
+            using (OpenFileDialog fd = new OpenFileDialog())
+            {
+                fd.Filter = "Shape file|*.shp";
+                DialogResult result = fd.ShowDialog();
+                string file = fd.FileName;
 
-            LoadSHPFile(file);
+                LoadSHPFile(file);
+            }
         }
 
         private void LoadSHPFile(string file)
@@ -5607,69 +5631,71 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
 
         private void fromSHPToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OpenFileDialog fd = new OpenFileDialog();
-            fd.Filter = "Shape file|*.shp";
-            DialogResult result = fd.ShowDialog();
-            string file = fd.FileName;
-            ProjectionInfo pStart = new ProjectionInfo();
-            ProjectionInfo pESRIEnd = KnownCoordinateSystems.Geographic.World.WGS1984;
-            bool reproject = false;
-            // Poly Clear
-            drawnpolygonsoverlay.Markers.Clear();
-            drawnpolygonsoverlay.Polygons.Clear();
-            drawnpolygon.Points.Clear();
-            if (File.Exists(file))
+            using (OpenFileDialog fd = new OpenFileDialog())
             {
-                string prjfile = Path.GetDirectoryName(file) + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(file) + ".prj";
-                if (File.Exists(prjfile))
+                fd.Filter = "Shape file|*.shp";
+                DialogResult result = fd.ShowDialog();
+                string file = fd.FileName;
+                ProjectionInfo pStart = new ProjectionInfo();
+                ProjectionInfo pESRIEnd = KnownCoordinateSystems.Geographic.World.WGS1984;
+                bool reproject = false;
+                // Poly Clear
+                drawnpolygonsoverlay.Markers.Clear();
+                drawnpolygonsoverlay.Polygons.Clear();
+                drawnpolygon.Points.Clear();
+                if (File.Exists(file))
                 {
-                    using (StreamReader re = File.OpenText(Path.GetDirectoryName(file) + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(file) + ".prj"))
+                    string prjfile = Path.GetDirectoryName(file) + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(file) + ".prj";
+                    if (File.Exists(prjfile))
                     {
-                        pStart.ParseEsriString(re.ReadLine());
-                        reproject = true;
-                    }
-                }
-                try
-                {
-                    DotSpatial.Data.IFeatureSet fs = DotSpatial.Data.FeatureSet.Open(file);
-                    fs.FillAttributes();
-                    int rows = fs.NumRows();
-                    DataTable dtOriginal = fs.DataTable;
-                    for (int row = 0; row < dtOriginal.Rows.Count; row++)
-                    {
-                        object[] original = dtOriginal.Rows[row].ItemArray;
-                    }
-                    string path = Path.GetDirectoryName(file);
-                    foreach (var feature in fs.Features)
-                    {
-                        foreach (var point in feature.Coordinates)
+                        using (StreamReader re = File.OpenText(Path.GetDirectoryName(file) + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(file) + ".prj"))
                         {
-                            if (reproject)
+                            pStart.ParseEsriString(re.ReadLine());
+                            reproject = true;
+                        }
+                    }
+                    try
+                    {
+                        DotSpatial.Data.IFeatureSet fs = DotSpatial.Data.FeatureSet.Open(file);
+                        fs.FillAttributes();
+                        int rows = fs.NumRows();
+                        DataTable dtOriginal = fs.DataTable;
+                        for (int row = 0; row < dtOriginal.Rows.Count; row++)
+                        {
+                            object[] original = dtOriginal.Rows[row].ItemArray;
+                        }
+                        string path = Path.GetDirectoryName(file);
+                        foreach (var feature in fs.Features)
+                        {
+                            foreach (var point in feature.Coordinates)
                             {
-                                double[] xyarray = { point.X, point.Y };
-                                double[] zarray = { point.Z };
-                                Reproject.ReprojectPoints(xyarray, zarray, pStart, pESRIEnd, 0, 1);
-                                point.X = xyarray[0];
-                                point.Y = xyarray[1];
-                                point.Z = zarray[0];
+                                if (reproject)
+                                {
+                                    double[] xyarray = { point.X, point.Y };
+                                    double[] zarray = { point.Z };
+                                    Reproject.ReprojectPoints(xyarray, zarray, pStart, pESRIEnd, 0, 1);
+                                    point.X = xyarray[0];
+                                    point.Y = xyarray[1];
+                                    point.Z = zarray[0];
+                                }
+                                drawnpolygon.Points.Add(new PointLatLng(point.Y, point.X));
+                                addpolygonmarkergrid(drawnpolygon.Points.Count.ToString(), point.X, point.Y, 0);
                             }
-                            drawnpolygon.Points.Add(new PointLatLng(point.Y, point.X));
-                            addpolygonmarkergrid(drawnpolygon.Points.Count.ToString(), point.X, point.Y, 0);
+                            // remove loop close
+                            if (drawnpolygon.Points.Count > 1 && drawnpolygon.Points[0] == drawnpolygon.Points[drawnpolygon.Points.Count - 1])
+                            {
+                                drawnpolygon.Points.RemoveAt(drawnpolygon.Points.Count - 1);
+                            }
+                            drawnpolygonsoverlay.Polygons.Add(drawnpolygon);
+                            MainMap.UpdatePolygonLocalPosition(drawnpolygon);
+                            MainMap.Invalidate();
+                            MainMap.ZoomAndCenterMarkers(drawnpolygonsoverlay.Id);
                         }
-                        // remove loop close
-                        if (drawnpolygon.Points.Count > 1 && drawnpolygon.Points[0] == drawnpolygon.Points[drawnpolygon.Points.Count - 1])
-                        {
-                            drawnpolygon.Points.RemoveAt(drawnpolygon.Points.Count - 1);
-                        }
-                        drawnpolygonsoverlay.Polygons.Add(drawnpolygon);
-                        MainMap.UpdatePolygonLocalPosition(drawnpolygon);
-                        MainMap.Invalidate();
-                        MainMap.ZoomAndCenterMarkers(drawnpolygonsoverlay.Id);
                     }
-                }
-                catch (Exception ex)
-                {
-                    CustomMessageBox.Show(Strings.ERROR + "\n" + ex.ToString(), Strings.ERROR);
+                    catch (Exception ex)
+                    {
+                        CustomMessageBox.Show(Strings.ERROR + "\n" + ex.ToString(), Strings.ERROR);
+                    }
                 }
             }
         }

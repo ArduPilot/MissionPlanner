@@ -319,29 +319,31 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         //Load custom firmware (old CTRL+C shortcut)
         private void Custom_firmware_label_Click(object sender, EventArgs e)
         {
-            var fd = new OpenFileDialog { Filter = "Firmware (*.hex;*.px4;*.vrx)|*.hex;*.px4;*.vrx" };
-            if (Directory.Exists(custom_fw_dir))
-                fd.InitialDirectory = custom_fw_dir;
-            fd.ShowDialog();
-            if (File.Exists(fd.FileName))
+            using (var fd = new OpenFileDialog { Filter = "Firmware (*.hex;*.px4;*.vrx)|*.hex;*.px4;*.vrx" })
             {
-                custom_fw_dir = Path.GetDirectoryName(fd.FileName);
-
-                fw.Progress -= fw_Progress;
-                fw.Progress += fw_Progress1;
-
-                BoardDetect.boards boardtype = BoardDetect.boards.none;
-                try
+                if (Directory.Exists(custom_fw_dir))
+                    fd.InitialDirectory = custom_fw_dir;
+                fd.ShowDialog();
+                if (File.Exists(fd.FileName))
                 {
-                    boardtype = BoardDetect.DetectBoard(MainV2.comPortName);
-                }
-                catch
-                {
-                    CustomMessageBox.Show(Strings.CanNotConnectToComPortAnd, Strings.ERROR);
-                    return;
-                }
+                    custom_fw_dir = Path.GetDirectoryName(fd.FileName);
 
-                fw.UploadFlash(MainV2.comPortName, fd.FileName, boardtype);
+                    fw.Progress -= fw_Progress;
+                    fw.Progress += fw_Progress1;
+
+                    BoardDetect.boards boardtype = BoardDetect.boards.none;
+                    try
+                    {
+                        boardtype = BoardDetect.DetectBoard(MainV2.comPortName);
+                    }
+                    catch
+                    {
+                        CustomMessageBox.Show(Strings.CanNotConnectToComPortAnd, Strings.ERROR);
+                        return;
+                    }
+
+                    fw.UploadFlash(MainV2.comPortName, fd.FileName, boardtype);
+                }
             }
         }
 
@@ -414,16 +416,18 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
             catch { CustomMessageBox.Show("Error receiving firmware", Strings.ERROR); return; }
 
-            SaveFileDialog sfd = new SaveFileDialog();
-            sfd.FileName = "px4io.bin";
-            if (sfd.ShowDialog() == DialogResult.OK)
+            using (SaveFileDialog sfd = new SaveFileDialog())
             {
-                if (sfd.FileName != "")
+                sfd.FileName = "px4io.bin";
+                if (sfd.ShowDialog() == DialogResult.OK)
                 {
-                    if (File.Exists(sfd.FileName))
-                        File.Delete(sfd.FileName);
+                    if (sfd.FileName != "")
+                    {
+                        if (File.Exists(sfd.FileName))
+                            File.Delete(sfd.FileName);
 
-                    File.Copy(Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + @"px4io.bin", sfd.FileName);
+                        File.Copy(Path.GetDirectoryName(Application.ExecutablePath) + Path.DirectorySeparatorChar + @"px4io.bin", sfd.FileName);
+                    }
                 }
             }
 

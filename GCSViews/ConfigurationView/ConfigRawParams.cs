@@ -65,18 +65,20 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void BUT_load_Click(object sender, EventArgs e)
         {
-            var ofd = new OpenFileDialog
+            using (var ofd = new OpenFileDialog
                           {
                               AddExtension = true,
                               DefaultExt = ".param",
                               RestoreDirectory = true,
                               Filter = "Param List|*.param;*.parm"
-                          };
-            var dr = ofd.ShowDialog();
-
-            if (dr == DialogResult.OK)
+                          })
             {
-                loadparamsfromfile(ofd.FileName);
+                var dr = ofd.ShowDialog();
+
+                if (dr == DialogResult.OK)
+                {
+                    loadparamsfromfile(ofd.FileName);
+                }
             }
         }
 
@@ -124,31 +126,33 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void BUT_save_Click(object sender, EventArgs e)
         {
-            var sfd = new SaveFileDialog
+            using (var sfd = new SaveFileDialog
                           {
                               AddExtension = true,
                               DefaultExt = ".param",
                               RestoreDirectory = true,
                               Filter = "Param List|*.param;*.parm"
-                          };
-
-            var dr = sfd.ShowDialog();
-            if (dr == DialogResult.OK)
+                          })
             {
-                Hashtable data = new Hashtable();
-                foreach (DataGridViewRow row in Params.Rows)
+
+                var dr = sfd.ShowDialog();
+                if (dr == DialogResult.OK)
                 {
-                    try
+                    Hashtable data = new Hashtable();
+                    foreach (DataGridViewRow row in Params.Rows)
                     {
-                        float value = float.Parse(row.Cells[1].Value.ToString());
+                        try
+                        {
+                            float value = float.Parse(row.Cells[1].Value.ToString());
 
-                        data[row.Cells[0].Value.ToString()] = value;
+                            data[row.Cells[0].Value.ToString()] = value;
+                        }
+                        catch (Exception) { CustomMessageBox.Show(Strings.InvalidNumberEntered + " " + row.Cells[0].Value.ToString()); }
                     }
-                    catch (Exception) { CustomMessageBox.Show(Strings.InvalidNumberEntered + " " + row.Cells[0].Value.ToString()); }
+
+                    Utilities.ParamFile.SaveParamFile(sfd.FileName, data);
+
                 }
-
-                Utilities.ParamFile.SaveParamFile(sfd.FileName,data);
-
             }
         }
 
@@ -204,23 +208,25 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             Hashtable param2 = new Hashtable();
 
-            var ofd = new OpenFileDialog
+            using (var ofd = new OpenFileDialog
                           {
                               AddExtension = true,
                               DefaultExt = ".param",
                               RestoreDirectory = true,
                               Filter = "Param List|*.param;*.parm"
-                          };
-
-            var dr = ofd.ShowDialog();
-            if (dr == DialogResult.OK)
+                          })
             {
-                param2 = Utilities.ParamFile.loadParamFile(ofd.FileName);
 
-                Form paramCompareForm = new ParamCompare(Params, MainV2.comPort.MAV.param, param2);
-                
-                ThemeManager.ApplyThemeTo(paramCompareForm);
-                paramCompareForm.ShowDialog();
+                var dr = ofd.ShowDialog();
+                if (dr == DialogResult.OK)
+                {
+                    param2 = Utilities.ParamFile.loadParamFile(ofd.FileName);
+
+                    Form paramCompareForm = new ParamCompare(Params, MainV2.comPort.MAV.param, param2);
+
+                    ThemeManager.ApplyThemeTo(paramCompareForm);
+                    paramCompareForm.ShowDialog();
+                }
             }
         }
 

@@ -160,17 +160,19 @@ namespace MissionPlanner
         {
             System.Xml.Serialization.XmlSerializer reader = new System.Xml.Serialization.XmlSerializer(typeof(GridData));
 
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = "*.grid|*.grid";
-            ofd.ShowDialog();
-
-            if (File.Exists(ofd.FileName))
+            using (OpenFileDialog ofd = new OpenFileDialog())
             {
-                using (StreamReader sr = new StreamReader(ofd.FileName))
-                {
-                    var test = (GridData)reader.Deserialize(sr);
+                ofd.Filter = "*.grid|*.grid";
+                ofd.ShowDialog();
 
-                    loadgriddata(test);
+                if (File.Exists(ofd.FileName))
+                {
+                    using (StreamReader sr = new StreamReader(ofd.FileName))
+                    {
+                        var test = (GridData)reader.Deserialize(sr);
+
+                        loadgriddata(test);
+                    }
                 }
             }
         }
@@ -181,15 +183,17 @@ namespace MissionPlanner
 
             var griddata = savegriddata();
 
-            SaveFileDialog sfd = new SaveFileDialog();
-            sfd.Filter = "*.grid|*.grid";
-            sfd.ShowDialog();
-
-            if (sfd.FileName != "")
+            using (SaveFileDialog sfd = new SaveFileDialog())
             {
-                using (StreamWriter sw = new StreamWriter(sfd.FileName))
+                sfd.Filter = "*.grid|*.grid";
+                sfd.ShowDialog();
+
+                if (sfd.FileName != "")
                 {
-                    writer.Serialize(sw, griddata);
+                    using (StreamWriter sw = new StreamWriter(sfd.FileName))
+                    {
+                        writer.Serialize(sw, griddata);
+                    }
                 }
             }
         }
@@ -1232,75 +1236,77 @@ namespace MissionPlanner
 
         private void BUT_samplephoto_Click(object sender, EventArgs e)
         {
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = "*.jpg|*.jpg";
-
-            ofd.ShowDialog();
-
-            if (File.Exists(ofd.FileName))
+            using (OpenFileDialog ofd = new OpenFileDialog())
             {
-                string fn = ofd.FileName;
+                ofd.Filter = "*.jpg|*.jpg";
 
-                Metadata lcMetadata = null;
-                try
+                ofd.ShowDialog();
+
+                if (File.Exists(ofd.FileName))
                 {
-                    FileInfo lcImgFile = new FileInfo(fn);
-                    // Loading all meta data
-                    lcMetadata = JpegMetadataReader.ReadMetadata(lcImgFile);
-                }
-                catch (JpegProcessingException ex)
-                {
-                    log.InfoFormat(ex.Message);
-                    return;
-                }
+                    string fn = ofd.FileName;
 
-                foreach (AbstractDirectory lcDirectory in lcMetadata)
-                {
-                    foreach (var tag in lcDirectory)
+                    Metadata lcMetadata = null;
+                    try
                     {
-                        Console.WriteLine(lcDirectory.GetName() + " - " + tag.GetTagName() + " " + tag.GetTagValue().ToString());
+                        FileInfo lcImgFile = new FileInfo(fn);
+                        // Loading all meta data
+                        lcMetadata = JpegMetadataReader.ReadMetadata(lcImgFile);
+                    }
+                    catch (JpegProcessingException ex)
+                    {
+                        log.InfoFormat(ex.Message);
+                        return;
                     }
 
-                    if (lcDirectory.ContainsTag(ExifDirectory.TAG_EXIF_IMAGE_HEIGHT))
+                    foreach (AbstractDirectory lcDirectory in lcMetadata)
                     {
-                        TXT_imgheight.Text = lcDirectory.GetInt(ExifDirectory.TAG_EXIF_IMAGE_HEIGHT).ToString();
-                    }
-
-                    if (lcDirectory.ContainsTag(ExifDirectory.TAG_EXIF_IMAGE_WIDTH))
-                    {
-                        TXT_imgwidth.Text = lcDirectory.GetInt(ExifDirectory.TAG_EXIF_IMAGE_WIDTH).ToString();
-                    }
-
-                    if (lcDirectory.ContainsTag(ExifDirectory.TAG_FOCAL_PLANE_X_RES))
-                    {
-                        var unit = lcDirectory.GetFloat(ExifDirectory.TAG_FOCAL_PLANE_UNIT);
-
-                        // TXT_senswidth.Text = lcDirectory.GetDouble(ExifDirectory.TAG_FOCAL_PLANE_X_RES).ToString();
-                    }
-
-                    if (lcDirectory.ContainsTag(ExifDirectory.TAG_FOCAL_PLANE_Y_RES))
-                    {
-                        var unit = lcDirectory.GetFloat(ExifDirectory.TAG_FOCAL_PLANE_UNIT);
-
-                        // TXT_sensheight.Text = lcDirectory.GetDouble(ExifDirectory.TAG_FOCAL_PLANE_Y_RES).ToString();
-                    }
-
-                    if (lcDirectory.ContainsTag(ExifDirectory.TAG_FOCAL_LENGTH))
-                    {
-                        try
+                        foreach (var tag in lcDirectory)
                         {
-                            var item = lcDirectory.GetFloat(ExifDirectory.TAG_FOCAL_LENGTH);
-                            NUM_focallength.Value = (decimal)item;
+                            Console.WriteLine(lcDirectory.GetName() + " - " + tag.GetTagName() + " " + tag.GetTagValue().ToString());
                         }
-                        catch { }
+
+                        if (lcDirectory.ContainsTag(ExifDirectory.TAG_EXIF_IMAGE_HEIGHT))
+                        {
+                            TXT_imgheight.Text = lcDirectory.GetInt(ExifDirectory.TAG_EXIF_IMAGE_HEIGHT).ToString();
+                        }
+
+                        if (lcDirectory.ContainsTag(ExifDirectory.TAG_EXIF_IMAGE_WIDTH))
+                        {
+                            TXT_imgwidth.Text = lcDirectory.GetInt(ExifDirectory.TAG_EXIF_IMAGE_WIDTH).ToString();
+                        }
+
+                        if (lcDirectory.ContainsTag(ExifDirectory.TAG_FOCAL_PLANE_X_RES))
+                        {
+                            var unit = lcDirectory.GetFloat(ExifDirectory.TAG_FOCAL_PLANE_UNIT);
+
+                            // TXT_senswidth.Text = lcDirectory.GetDouble(ExifDirectory.TAG_FOCAL_PLANE_X_RES).ToString();
+                        }
+
+                        if (lcDirectory.ContainsTag(ExifDirectory.TAG_FOCAL_PLANE_Y_RES))
+                        {
+                            var unit = lcDirectory.GetFloat(ExifDirectory.TAG_FOCAL_PLANE_UNIT);
+
+                            // TXT_sensheight.Text = lcDirectory.GetDouble(ExifDirectory.TAG_FOCAL_PLANE_Y_RES).ToString();
+                        }
+
+                        if (lcDirectory.ContainsTag(ExifDirectory.TAG_FOCAL_LENGTH))
+                        {
+                            try
+                            {
+                                var item = lcDirectory.GetFloat(ExifDirectory.TAG_FOCAL_LENGTH);
+                                NUM_focallength.Value = (decimal)item;
+                            }
+                            catch { }
+                        }
+
+
+                        if (lcDirectory.ContainsTag(ExifDirectory.TAG_DATETIME_ORIGINAL))
+                        {
+
+                        }
+
                     }
-
-
-                    if (lcDirectory.ContainsTag(ExifDirectory.TAG_DATETIME_ORIGINAL))
-                    {
-
-                    }
-
                 }
             }
         }

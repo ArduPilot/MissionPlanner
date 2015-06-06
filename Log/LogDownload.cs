@@ -509,40 +509,42 @@ namespace MissionPlanner.Log
 
         private void BUT_redokml_Click(object sender, EventArgs e)
         {
-            OpenFileDialog openFileDialog1 = new OpenFileDialog();
-            openFileDialog1.Filter = "*.log|*.log";
-            openFileDialog1.FilterIndex = 2;
-            openFileDialog1.RestoreDirectory = true;
-            openFileDialog1.Multiselect = true;
-            try
+            using (OpenFileDialog openFileDialog1 = new OpenFileDialog())
             {
-                openFileDialog1.InitialDirectory = MainV2.LogDir + Path.DirectorySeparatorChar;
-            }
-            catch { } // incase dir doesnt exist
-
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
-            {
-                foreach (string logfile in openFileDialog1.FileNames)
+                openFileDialog1.Filter = "*.log|*.log";
+                openFileDialog1.FilterIndex = 2;
+                openFileDialog1.RestoreDirectory = true;
+                openFileDialog1.Multiselect = true;
+                try
                 {
-                    TXT_seriallog.AppendText("\n\nProcessing " + logfile + "\n");
-                    this.Refresh();
-                    LogOutput lo = new LogOutput();
-                    try
+                    openFileDialog1.InitialDirectory = MainV2.LogDir + Path.DirectorySeparatorChar;
+                }
+                catch { } // incase dir doesnt exist
+
+                if (openFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    foreach (string logfile in openFileDialog1.FileNames)
                     {
-                        TextReader tr = new StreamReader(logfile);
-
-                        while (tr.Peek() != -1)
+                        TXT_seriallog.AppendText("\n\nProcessing " + logfile + "\n");
+                        this.Refresh();
+                        LogOutput lo = new LogOutput();
+                        try
                         {
-                            lo.processLine(tr.ReadLine());
+                            TextReader tr = new StreamReader(logfile);
+
+                            while (tr.Peek() != -1)
+                            {
+                                lo.processLine(tr.ReadLine());
+                            }
+
+                            tr.Close();
                         }
+                        catch (Exception ex) { CustomMessageBox.Show("Error processing file. Make sure the file is not in use.\n" + ex.ToString()); }
 
-                        tr.Close();
+                        lo.writeKML(logfile + ".kml");
+
+                        TXT_seriallog.AppendText("Done\n");
                     }
-                    catch (Exception ex) { CustomMessageBox.Show("Error processing file. Make sure the file is not in use.\n"+ex.ToString()); }
-
-                    lo.writeKML(logfile + ".kml");
-
-                    TXT_seriallog.AppendText("Done\n");
                 }
             }
         }
@@ -550,44 +552,46 @@ namespace MissionPlanner.Log
 
         private void BUT_firstperson_Click(object sender, EventArgs e)
         {
-            OpenFileDialog openFileDialog1 = new OpenFileDialog();
-            openFileDialog1.Filter = "*.log|*.log";
-            openFileDialog1.FilterIndex = 2;
-            openFileDialog1.RestoreDirectory = true;
-            openFileDialog1.Multiselect = true;
-            try
+            using (OpenFileDialog openFileDialog1 = new OpenFileDialog())
             {
-                openFileDialog1.InitialDirectory = MainV2.LogDir + Path.DirectorySeparatorChar;
-            }
-            catch { } // incase dir doesnt exist
-
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
-            {
-                foreach (string logfile in openFileDialog1.FileNames)
+                openFileDialog1.Filter = "*.log|*.log";
+                openFileDialog1.FilterIndex = 2;
+                openFileDialog1.RestoreDirectory = true;
+                openFileDialog1.Multiselect = true;
+                try
                 {
-                    TXT_seriallog.AppendText("\n\nProcessing " + logfile + "\n");
-                    this.Refresh();
+                    openFileDialog1.InitialDirectory = MainV2.LogDir + Path.DirectorySeparatorChar;
+                }
+                catch { } // incase dir doesnt exist
 
-                    LogOutput lo = new LogOutput();
-
-                    try
+                if (openFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    foreach (string logfile in openFileDialog1.FileNames)
                     {
-                        TextReader tr = new StreamReader(logfile);
+                        TXT_seriallog.AppendText("\n\nProcessing " + logfile + "\n");
+                        this.Refresh();
 
-                        
+                        LogOutput lo = new LogOutput();
 
-                        while (tr.Peek() != -1)
+                        try
                         {
-                            lo.processLine(tr.ReadLine());
+                            TextReader tr = new StreamReader(logfile);
+
+
+
+                            while (tr.Peek() != -1)
+                            {
+                                lo.processLine(tr.ReadLine());
+                            }
+
+                            tr.Close();
                         }
+                        catch (Exception ex) { CustomMessageBox.Show("Error processing log. Is it still downloading? " + ex.Message); continue; }
 
-                        tr.Close();
+                        lo.writeKMLFirstPerson(logfile + "-fp.kml");
+
+                        TXT_seriallog.AppendText("Done\n");
                     }
-                    catch (Exception ex) { CustomMessageBox.Show("Error processing log. Is it still downloading? " + ex.Message); continue; }
-
-                    lo.writeKMLFirstPerson(logfile + "-fp.kml");
-
-                    TXT_seriallog.AppendText("Done\n");
                 }
             }
         }
@@ -608,21 +612,25 @@ namespace MissionPlanner.Log
 
         private void BUT_bintolog_Click(object sender, EventArgs e)
         {
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = "Binary Log|*.bin";
-
-            ofd.ShowDialog();
-
-            if (File.Exists(ofd.FileName))
+            using (OpenFileDialog ofd = new OpenFileDialog())
             {
-                SaveFileDialog sfd = new SaveFileDialog();
-                sfd.Filter = "log|*.log";
+                ofd.Filter = "Binary Log|*.bin";
 
-                DialogResult res = sfd.ShowDialog();
+                ofd.ShowDialog();
 
-                if (res == System.Windows.Forms.DialogResult.OK)
+                if (File.Exists(ofd.FileName))
                 {
-                    BinaryLog.ConvertBin(ofd.FileName, sfd.FileName);
+                    using (SaveFileDialog sfd = new SaveFileDialog())
+                    {
+                        sfd.Filter = "log|*.log";
+
+                        DialogResult res = sfd.ShowDialog();
+
+                        if (res == System.Windows.Forms.DialogResult.OK)
+                        {
+                            BinaryLog.ConvertBin(ofd.FileName, sfd.FileName);
+                        }
+                    }
                 }
             }
         }

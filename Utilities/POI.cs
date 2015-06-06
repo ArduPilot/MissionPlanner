@@ -82,18 +82,20 @@ namespace MissionPlanner.Utilities
 
         public static void POISave()
         {
-            SaveFileDialog sfd = new SaveFileDialog();
-            sfd.Filter = "Poi File|*.txt";
-
-            if (sfd.ShowDialog() == DialogResult.OK)
+            using (SaveFileDialog sfd = new SaveFileDialog())
             {
-                using (Stream file = sfd.OpenFile())
+                sfd.Filter = "Poi File|*.txt";
+
+                if (sfd.ShowDialog() == DialogResult.OK)
                 {
-                    foreach (var item in POI.POIs)
+                    using (Stream file = sfd.OpenFile())
                     {
-                        string line = item.Lat.ToString(CultureInfo.InvariantCulture) + "\t" + item.Lng.ToString(CultureInfo.InvariantCulture) + "\t" + item.Tag + "\r\n";
-                        byte[] buffer = ASCIIEncoding.ASCII.GetBytes(line);
-                        file.Write(buffer, 0, buffer.Length);
+                        foreach (var item in POI.POIs)
+                        {
+                            string line = item.Lat.ToString(CultureInfo.InvariantCulture) + "\t" + item.Lng.ToString(CultureInfo.InvariantCulture) + "\t" + item.Tag + "\r\n";
+                            byte[] buffer = ASCIIEncoding.ASCII.GetBytes(line);
+                            file.Write(buffer, 0, buffer.Length);
+                        }
                     }
                 }
             }

@@ -1840,14 +1840,16 @@ namespace MissionPlanner.GCSViews
                 catch { }
             }
 
-            OpenFileDialog fd = new OpenFileDialog();
-            fd.AddExtension = true;
-            fd.Filter = "Ardupilot Telemtry log (*.tlog)|*.tlog|Mavlink Log (*.mavlog)|*.mavlog";
-            fd.InitialDirectory = MainV2.LogDir;
-            fd.DefaultExt = ".tlog";
-            DialogResult result = fd.ShowDialog();
-            string file = fd.FileName;
-            LoadLogFile(file);
+            using (OpenFileDialog fd = new OpenFileDialog())
+            {
+                fd.AddExtension = true;
+                fd.Filter = "Ardupilot Telemtry log (*.tlog)|*.tlog|Mavlink Log (*.mavlog)|*.mavlog";
+                fd.InitialDirectory = MainV2.LogDir;
+                fd.DefaultExt = ".tlog";
+                DialogResult result = fd.ShowDialog();
+                string file = fd.FileName;
+                LoadLogFile(file);
+            }
         }
 
         public void LoadLogFile(string file)
@@ -3177,65 +3179,69 @@ namespace MissionPlanner.GCSViews
 
         private void but_bintolog_Click(object sender, EventArgs e)
         {
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = "Binary Log|*.bin;*.BIN";
-            ofd.Multiselect = true;
-
-            ofd.ShowDialog();
-
-            foreach (string logfile in ofd.FileNames)
+            using (OpenFileDialog ofd = new OpenFileDialog())
             {
-                string outfilename = Path.GetDirectoryName(logfile) + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(logfile) + ".log";
+                ofd.Filter = "Binary Log|*.bin;*.BIN";
+                ofd.Multiselect = true;
 
-                BinaryLog.ConvertBin(logfile, outfilename);
+                ofd.ShowDialog();
+
+                foreach (string logfile in ofd.FileNames)
+                {
+                    string outfilename = Path.GetDirectoryName(logfile) + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(logfile) + ".log";
+
+                    BinaryLog.ConvertBin(logfile, outfilename);
+                }
             }
         }
 
         private void but_dflogtokml_Click(object sender, EventArgs e)
         {
-            OpenFileDialog openFileDialog1 = new OpenFileDialog();
-            openFileDialog1.Filter = "Log Files|*.log;*.bin";
-            openFileDialog1.FilterIndex = 2;
-            openFileDialog1.RestoreDirectory = true;
-            openFileDialog1.Multiselect = true;
-            try
+            using (OpenFileDialog openFileDialog1 = new OpenFileDialog())
             {
-                openFileDialog1.InitialDirectory = MainV2.LogDir + Path.DirectorySeparatorChar;
-            }
-            catch { } // incase dir doesnt exist
-
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
-            {
-                foreach (string logfile in openFileDialog1.FileNames)
+                openFileDialog1.Filter = "Log Files|*.log;*.bin";
+                openFileDialog1.FilterIndex = 2;
+                openFileDialog1.RestoreDirectory = true;
+                openFileDialog1.Multiselect = true;
+                try
                 {
-                    LogOutput lo = new LogOutput();
-                    try
+                    openFileDialog1.InitialDirectory = MainV2.LogDir + Path.DirectorySeparatorChar;
+                }
+                catch { } // incase dir doesnt exist
+
+                if (openFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    foreach (string logfile in openFileDialog1.FileNames)
                     {
-                        StreamReader tr;
-
-                        if (logfile.ToLower().EndsWith(".bin"))
+                        LogOutput lo = new LogOutput();
+                        try
                         {
-                            string tempfile = Path.GetTempFileName();
-                            BinaryLog.ConvertBin(logfile, tempfile);
+                            StreamReader tr;
 
-                            tr = new StreamReader(tempfile);
-                        }
-                        else
-                        {
-                            tr = new StreamReader(logfile);
-                        }
+                            if (logfile.ToLower().EndsWith(".bin"))
+                            {
+                                string tempfile = Path.GetTempFileName();
+                                BinaryLog.ConvertBin(logfile, tempfile);
 
-                        while (!tr.EndOfStream)
-                        {
-                            lo.processLine(tr.ReadLine());
-                        }
+                                tr = new StreamReader(tempfile);
+                            }
+                            else
+                            {
+                                tr = new StreamReader(logfile);
+                            }
 
-                        tr.Close();
+                            while (!tr.EndOfStream)
+                            {
+                                lo.processLine(tr.ReadLine());
+                            }
+
+                            tr.Close();
+                        }
+                        catch (Exception ex) { CustomMessageBox.Show("Error processing file. Make sure the file is not in use.\n" + ex.ToString()); }
+
+                        lo.writeKML(logfile + ".kml");
+
                     }
-                    catch (Exception ex) { CustomMessageBox.Show("Error processing file. Make sure the file is not in use.\n" + ex.ToString()); }
-
-                    lo.writeKML(logfile + ".kml");
-
                 }
             }
         }
@@ -3267,47 +3273,49 @@ namespace MissionPlanner.GCSViews
 
         private void BUT_loganalysis_Click(object sender, EventArgs e)
         {
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Filter = "*.log;*.bin|*.log;*.bin";
-            ofd.ShowDialog();
-
-            if (ofd.FileName != "")
+            using (OpenFileDialog ofd = new OpenFileDialog())
             {
-                string newlogfile = null;
+                ofd.Filter = "*.log;*.bin|*.log;*.bin";
+                ofd.ShowDialog();
 
-                if (ofd.FileName.ToLower().EndsWith(".bin"))
+                if (ofd.FileName != "")
                 {
-                    newlogfile = Path.GetTempFileName() + ".log";
+                    string newlogfile = null;
 
-                    BinaryLog.ConvertBin(ofd.FileName, newlogfile);
-
-                    ofd.FileName = newlogfile;
-                }
-
-                string xmlfile = MissionPlanner.Utilities.LogAnalyzer.CheckLogFile(ofd.FileName);
-
-                GC.Collect();
-
-                if (File.Exists(xmlfile))
-                {
-                    var out1 = MissionPlanner.Utilities.LogAnalyzer.Results(xmlfile);
-
-                    MissionPlanner.Controls.LogAnalyzer frm = new Controls.LogAnalyzer(out1);
-
-                    frm.Show();
-                }
-                else
-                {
-                    CustomMessageBox.Show("Bad input file");
-                }
-
-                if (!String.IsNullOrEmpty(newlogfile))
-                {
-                    try
+                    if (ofd.FileName.ToLower().EndsWith(".bin"))
                     {
-                        File.Delete(newlogfile);
+                        newlogfile = Path.GetTempFileName() + ".log";
+
+                        BinaryLog.ConvertBin(ofd.FileName, newlogfile);
+
+                        ofd.FileName = newlogfile;
                     }
-                    catch { }
+
+                    string xmlfile = MissionPlanner.Utilities.LogAnalyzer.CheckLogFile(ofd.FileName);
+
+                    GC.Collect();
+
+                    if (File.Exists(xmlfile))
+                    {
+                        var out1 = MissionPlanner.Utilities.LogAnalyzer.Results(xmlfile);
+
+                        MissionPlanner.Controls.LogAnalyzer frm = new Controls.LogAnalyzer(out1);
+
+                        frm.Show();
+                    }
+                    else
+                    {
+                        CustomMessageBox.Show("Bad input file");
+                    }
+
+                    if (!String.IsNullOrEmpty(newlogfile))
+                    {
+                        try
+                        {
+                            File.Delete(newlogfile);
+                        }
+                        catch { }
+                    }
                 }
             }
         }

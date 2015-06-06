@@ -1739,149 +1739,154 @@ namespace MissionPlanner.GCSViews
         private void BUT_startfgquad_Click(object sender, EventArgs e)
         {
             string extra = "";
-            OpenFileDialog ofd = new OpenFileDialog()
+            using (OpenFileDialog ofd = new OpenFileDialog()
             {
                 Filter = "fgfs|*fgfs*"
-            };
-            if (File.Exists(@"C:\Program Files (x86)\FlightGear\bin\Win32\fgfs.exe"))
+            })
             {
-                ofd.InitialDirectory = @"C:\Program Files (x86)\FlightGear\bin\Win32\";
-                extra = " --fg-root=\"C:\\Program Files (x86)\\FlightGear\\data\"";
-            }
-            else if (File.Exists(@"C:\Program Files\FlightGear\bin\Win32\fgfs.exe"))
-            {
-                ofd.InitialDirectory = @"C:\Program Files\FlightGear\bin\Win32\";
-                extra = " --fg-root=\"C:\\Program Files\\FlightGear\\data\"";
-            }
-            else if (File.Exists(@"C:\Program Files\FlightGear 2.4.0\bin\Win32\fgfs.exe"))
-            {
-                ofd.InitialDirectory = @"C:\Program Files\FlightGear 2.4.0\bin\Win32\";
-                extra = " --fg-root=\"C:\\Program Files\\FlightGear 2.4.0\\data\"";
-            }
-            else if (File.Exists(@"C:\Program Files (x86)\FlightGear 2.4.0\bin\Win32\fgfs.exe"))
-            {
-                ofd.InitialDirectory = @"C:\Program Files (x86)\FlightGear 2.4.0\bin\Win32\";
-                extra = " --fg-root=\"C:\\Program Files (x86)\\FlightGear 2.4.0\\data\"";
-            }
-            else if (File.Exists(@"/usr/games/fgfs"))
-            {
-                ofd.InitialDirectory = @"/usr/games";
-            }
-
-            if (File.Exists(MainV2.getConfig("fgexe")) || ofd.ShowDialog() == DialogResult.OK)
-            {
-                if (ofd.FileName != "")
+                if (File.Exists(@"C:\Program Files (x86)\FlightGear\bin\Win32\fgfs.exe"))
                 {
-                    MainV2.config["fgexe"] = ofd.FileName;
+                    ofd.InitialDirectory = @"C:\Program Files (x86)\FlightGear\bin\Win32\";
+                    extra = " --fg-root=\"C:\\Program Files (x86)\\FlightGear\\data\"";
                 }
-                else
+                else if (File.Exists(@"C:\Program Files\FlightGear\bin\Win32\fgfs.exe"))
                 {
-                    ofd.FileName = MainV2.config["fgexe"].ToString();
+                    ofd.InitialDirectory = @"C:\Program Files\FlightGear\bin\Win32\";
+                    extra = " --fg-root=\"C:\\Program Files\\FlightGear\\data\"";
+                }
+                else if (File.Exists(@"C:\Program Files\FlightGear 2.4.0\bin\Win32\fgfs.exe"))
+                {
+                    ofd.InitialDirectory = @"C:\Program Files\FlightGear 2.4.0\bin\Win32\";
+                    extra = " --fg-root=\"C:\\Program Files\\FlightGear 2.4.0\\data\"";
+                }
+                else if (File.Exists(@"C:\Program Files (x86)\FlightGear 2.4.0\bin\Win32\fgfs.exe"))
+                {
+                    ofd.InitialDirectory = @"C:\Program Files (x86)\FlightGear 2.4.0\bin\Win32\";
+                    extra = " --fg-root=\"C:\\Program Files (x86)\\FlightGear 2.4.0\\data\"";
+                }
+                else if (File.Exists(@"/usr/games/fgfs"))
+                {
+                    ofd.InitialDirectory = @"/usr/games";
                 }
 
-                if (!MainV2.MONO)
+                if (File.Exists(MainV2.getConfig("fgexe")) || ofd.ShowDialog() == DialogResult.OK)
                 {
-                    extra = " --fg-root=\"" + Path.GetDirectoryName(ofd.FileName.ToLower().Replace("bin\\win32\\", "")) + "\\data\"";
-                }
+                    if (ofd.FileName != "")
+                    {
+                        MainV2.config["fgexe"] = ofd.FileName;
+                    }
+                    else
+                    {
+                        ofd.FileName = MainV2.config["fgexe"].ToString();
+                    }
 
-                System.Diagnostics.Process P = new System.Diagnostics.Process();
-                P.StartInfo.FileName = ofd.FileName;
-                P.StartInfo.Arguments = extra + @" --geometry=400x300      --aircraft=arducopter      --native-fdm=socket,out,50,127.0.0.1,49005,udp 	 --generic=socket,in,50,127.0.0.1,49000,udp,quadhil 	 --fdm=external 	   --roll=0       --pitch=0       --wind=0@0       --turbulence=0.0       --prop:/sim/frame-rate-throttle-hz111111=30       --timeofday=noon       --shading-flat       --fog-disable       --disable-specular-highlight       --disable-skyblend       --disable-random-objects       --disable-panel       --disable-horizon-effect       --disable-clouds       --disable-anti-alias-hud ";
-                try
-                {
-                    P.Start();
+                    if (!MainV2.MONO)
+                    {
+                        extra = " --fg-root=\"" + Path.GetDirectoryName(ofd.FileName.ToLower().Replace("bin\\win32\\", "")) + "\\data\"";
+                    }
+
+                    System.Diagnostics.Process P = new System.Diagnostics.Process();
+                    P.StartInfo.FileName = ofd.FileName;
+                    P.StartInfo.Arguments = extra + @" --geometry=400x300      --aircraft=arducopter      --native-fdm=socket,out,50,127.0.0.1,49005,udp 	 --generic=socket,in,50,127.0.0.1,49000,udp,quadhil 	 --fdm=external 	   --roll=0       --pitch=0       --wind=0@0       --turbulence=0.0       --prop:/sim/frame-rate-throttle-hz111111=30       --timeofday=noon       --shading-flat       --fog-disable       --disable-specular-highlight       --disable-skyblend       --disable-random-objects       --disable-panel       --disable-horizon-effect       --disable-clouds       --disable-anti-alias-hud ";
+                    try
+                    {
+                        P.Start();
+                    }
+                    catch { CustomMessageBox.Show("Failed to start FlightGear"); }
                 }
-                catch { CustomMessageBox.Show("Failed to start FlightGear"); }
             }
         }
 
         private void BUT_startfgplane_Click(object sender, EventArgs e)
         {
             string extra = "";
-            OpenFileDialog ofd = new OpenFileDialog()
+            using (OpenFileDialog ofd = new OpenFileDialog()
             {
                 Filter = "fgfs|*fgfs*"
-            };
-            if (File.Exists(@"C:\Program Files (x86)\FlightGear\bin\Win32\fgfs.exe"))
+            })
             {
-                ofd.InitialDirectory = @"C:\Program Files (x86)\FlightGear\bin\Win32\";
-            }
-            else if (File.Exists(@"C:\Program Files\FlightGear\bin\Win32\fgfs.exe"))
-            {
-                ofd.InitialDirectory = @"C:\Program Files\FlightGear\bin\Win32\";
-            }
-            else if (File.Exists(@"C:\Program Files\FlightGear 2.4.0\bin\Win32\fgfs.exe"))
-            {
-                ofd.InitialDirectory = @"C:\Program Files\FlightGear 2.4.0\bin\Win32\";
-            }
-            else if (File.Exists(@"C:\Program Files (x86)\FlightGear 2.4.0\bin\Win32\fgfs.exe"))
-            {
-                ofd.InitialDirectory = @"C:\Program Files (x86)\FlightGear 2.4.0\bin\Win32\";
-            }
-            else if (File.Exists(@"/usr/games/fgfs"))
-            {
-                ofd.InitialDirectory = @"/usr/games";
-            }
-
-            if (File.Exists(MainV2.getConfig("fgexe")) || ofd.ShowDialog() == DialogResult.OK)
-            {
-                if (ofd.FileName != "")
+                if (File.Exists(@"C:\Program Files (x86)\FlightGear\bin\Win32\fgfs.exe"))
                 {
-                    MainV2.config["fgexe"] = ofd.FileName;
+                    ofd.InitialDirectory = @"C:\Program Files (x86)\FlightGear\bin\Win32\";
                 }
-                else
+                else if (File.Exists(@"C:\Program Files\FlightGear\bin\Win32\fgfs.exe"))
                 {
-                    ofd.FileName = MainV2.config["fgexe"].ToString();
+                    ofd.InitialDirectory = @"C:\Program Files\FlightGear\bin\Win32\";
+                }
+                else if (File.Exists(@"C:\Program Files\FlightGear 2.4.0\bin\Win32\fgfs.exe"))
+                {
+                    ofd.InitialDirectory = @"C:\Program Files\FlightGear 2.4.0\bin\Win32\";
+                }
+                else if (File.Exists(@"C:\Program Files (x86)\FlightGear 2.4.0\bin\Win32\fgfs.exe"))
+                {
+                    ofd.InitialDirectory = @"C:\Program Files (x86)\FlightGear 2.4.0\bin\Win32\";
+                }
+                else if (File.Exists(@"/usr/games/fgfs"))
+                {
+                    ofd.InitialDirectory = @"/usr/games";
                 }
 
-                if (!MainV2.MONO)
+                if (File.Exists(MainV2.getConfig("fgexe")) || ofd.ShowDialog() == DialogResult.OK)
                 {
-                    extra = " --fg-root=\"" + Path.GetDirectoryName(ofd.FileName.ToLower().Replace("bin\\win32\\", "")) + "\\data\"";
-                }
+                    if (ofd.FileName != "")
+                    {
+                        MainV2.config["fgexe"] = ofd.FileName;
+                    }
+                    else
+                    {
+                        ofd.FileName = MainV2.config["fgexe"].ToString();
+                    }
 
-                System.Diagnostics.Process P = new System.Diagnostics.Process();
-                P.StartInfo.FileName = ofd.FileName;
-                P.StartInfo.Arguments = extra + @" --geometry=400x300         --native-fdm=socket,out,50,127.0.0.1,49005,udp 	--generic=socket,in,50,127.0.0.1,49000,udp,MAVLink		   --roll=0       --pitch=0       --wind=0@0       --turbulence=0.0       --prop:/sim/frame-rate-throttle-hz=30       --timeofday=noon       --shading-flat       --fog-disable       --disable-specular-highlight       --disable-skyblend       --disable-random-objects       --disable-panel       --disable-horizon-effect       --disable-clouds       --disable-anti-alias-hud ";
-                try
-                {
-                    P.Start();
+                    if (!MainV2.MONO)
+                    {
+                        extra = " --fg-root=\"" + Path.GetDirectoryName(ofd.FileName.ToLower().Replace("bin\\win32\\", "")) + "\\data\"";
+                    }
+
+                    System.Diagnostics.Process P = new System.Diagnostics.Process();
+                    P.StartInfo.FileName = ofd.FileName;
+                    P.StartInfo.Arguments = extra + @" --geometry=400x300         --native-fdm=socket,out,50,127.0.0.1,49005,udp 	--generic=socket,in,50,127.0.0.1,49000,udp,MAVLink		   --roll=0       --pitch=0       --wind=0@0       --turbulence=0.0       --prop:/sim/frame-rate-throttle-hz=30       --timeofday=noon       --shading-flat       --fog-disable       --disable-specular-highlight       --disable-skyblend       --disable-random-objects       --disable-panel       --disable-horizon-effect       --disable-clouds       --disable-anti-alias-hud ";
+                    try
+                    {
+                        P.Start();
+                    }
+                    catch { CustomMessageBox.Show("Failed to start FlightGear"); }
                 }
-                catch { CustomMessageBox.Show("Failed to start FlightGear"); }
             }
         }
 
         private void BUT_startxplane_Click(object sender, EventArgs e)
         {
-            OpenFileDialog ofd = new OpenFileDialog()
+            using (OpenFileDialog ofd = new OpenFileDialog()
             {
                 Filter = "X-Plane|*X-Plane*"
-            };
-            try
+            })
             {
-                ofd.InitialDirectory = Path.GetDirectoryName(MainV2.config["xplaneexe"].ToString());
-            }
-            catch { }
-
-            if (File.Exists(MainV2.getConfig("xplaneexe")) || ofd.ShowDialog() == DialogResult.OK)
-            {
-                if (ofd.FileName != "")
-                {
-                    MainV2.config["xplaneexe"] = ofd.FileName;
-                }
-                else
-                {
-                    ofd.FileName = MainV2.config["xplaneexe"].ToString();
-                }
-
-                System.Diagnostics.Process P = new System.Diagnostics.Process();
-                P.StartInfo.FileName = ofd.FileName;
-                P.StartInfo.Arguments = "";
                 try
                 {
-                    P.Start();
+                    ofd.InitialDirectory = Path.GetDirectoryName(MainV2.config["xplaneexe"].ToString());
                 }
-                catch { CustomMessageBox.Show("Failed to start XPlanes"); }
+                catch { }
 
+                if (File.Exists(MainV2.getConfig("xplaneexe")) || ofd.ShowDialog() == DialogResult.OK)
+                {
+                    if (ofd.FileName != "")
+                    {
+                        MainV2.config["xplaneexe"] = ofd.FileName;
+                    }
+                    else
+                    {
+                        ofd.FileName = MainV2.config["xplaneexe"].ToString();
+                    }
+
+                    System.Diagnostics.Process P = new System.Diagnostics.Process();
+                    P.StartInfo.FileName = ofd.FileName;
+                    P.StartInfo.Arguments = "";
+                    try
+                    {
+                        P.Start();
+                    }
+                    catch { CustomMessageBox.Show("Failed to start XPlanes"); }
+                }
             }
         }
 
