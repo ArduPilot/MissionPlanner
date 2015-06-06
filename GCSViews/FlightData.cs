@@ -191,15 +191,31 @@ namespace MissionPlanner.GCSViews
                 string[] lines = line.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
                 foreach (string option in lines)
                 {
-                    chk_box_CheckedChanged((object)(new CheckBox() { Name = option, Checked = true }), new EventArgs());
+                    using (var cb = new CheckBox() { Name = option, Checked = true })
+                    {
+                        chk_box_CheckedChanged((object)(cb), new EventArgs());
+                    }
+
                 }
             }
             else
             {
-                chk_box_CheckedChanged((object)(new CheckBox() { Name = "roll", Checked = true }), new EventArgs());
-                chk_box_CheckedChanged((object)(new CheckBox() { Name = "pitch", Checked = true }), new EventArgs());
-                chk_box_CheckedChanged((object)(new CheckBox() { Name = "nav_roll", Checked = true }), new EventArgs());
-                chk_box_CheckedChanged((object)(new CheckBox() { Name = "nav_pitch", Checked = true }), new EventArgs());
+                using (var cb = new CheckBox() { Name = "roll", Checked = true })
+                {
+                    chk_box_CheckedChanged((object)(cb), new EventArgs());
+                }
+                using (var cb = new CheckBox() { Name = "pitch", Checked = true })
+                {
+                    chk_box_CheckedChanged((object)(cb), new EventArgs());
+                }
+                using (var cb = new CheckBox() { Name = "nav_roll", Checked = true })
+                {
+                    chk_box_CheckedChanged((object)(cb), new EventArgs());
+                }
+                using (var cb = new CheckBox() { Name = "nav_pitch", Checked = true })
+                {
+                    chk_box_CheckedChanged((object)(cb), new EventArgs());
+                }
             }
 
             if (MainV2.config.ContainsKey("hudcolor"))
@@ -376,10 +392,8 @@ namespace MissionPlanner.GCSViews
                 }
                 catch { continue; }
 
-                bool add = true;
-
-                MyLabel lbl1 = new MyLabel();
-                MyLabel lbl2 = new MyLabel();
+                MyLabel lbl1 = null;
+                MyLabel lbl2 = null;
                 try
                 {
                     var temp = tabStatus.Controls.Find(field.Name, false);
@@ -391,41 +405,36 @@ namespace MissionPlanner.GCSViews
 
                     if (temp2.Length > 0)
                         lbl2 = (MyLabel)temp2[0];
-
-                    //add = false;
                 }
                 catch { }
 
-                if (add)
-                {
 
-                    lbl1.Location = new Point(x, y);
-                    lbl1.Size = new System.Drawing.Size(90, 13);
-                    lbl1.Text = field.Name;
-                    lbl1.Name = field.Name;
-                    lbl1.Visible = true;
-                    lbl2.AutoSize = false;
+                if (lbl1 == null)
+                    lbl1 = new MyLabel();
 
-                    lbl2.Location = new Point(lbl1.Right + 5, y);
-                    lbl2.Size = new System.Drawing.Size(50, 13);
-                    //if (lbl2.Name == "")
-                    lbl2.DataBindings.Clear();
-                    lbl2.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.bindingSourceStatusTab, field.Name, false, System.Windows.Forms.DataSourceUpdateMode.Never, "0"));
-                    lbl2.Name = field.Name + "value";
-                    lbl2.Visible = true;
-                    //lbl2.Text = fieldValue.ToString();
+                lbl1.Location = new Point(x, y);
+                lbl1.Size = new System.Drawing.Size(90, 13);
+                lbl1.Text = field.Name;
+                lbl1.Name = field.Name;
+                lbl1.Visible = true;
 
+                if (lbl2 == null)
+                    lbl2 = new MyLabel();
 
-                    tabStatus.Controls.Add(lbl1);
-                    tabStatus.Controls.Add(lbl2);
-                }
-                else
-                {
-                    lbl1.Location = new Point(x, y);
-                    lbl2.Location = new Point(lbl1.Right + 5, y);
-                }
+                lbl2.AutoSize = false;
 
-                //Application.DoEvents();
+                lbl2.Location = new Point(lbl1.Right + 5, y);
+                lbl2.Size = new System.Drawing.Size(50, 13);
+                //if (lbl2.Name == "")
+                lbl2.DataBindings.Clear();
+                lbl2.DataBindings.Add(new System.Windows.Forms.Binding("Text", this.bindingSourceStatusTab, field.Name, false, System.Windows.Forms.DataSourceUpdateMode.Never, "0"));
+                lbl2.Name = field.Name + "value";
+                lbl2.Visible = true;
+                //lbl2.Text = fieldValue.ToString();
+
+                tabStatus.Controls.Add(lbl1);
+                tabStatus.Controls.Add(lbl2);
+
 
                 x += 0;
                 y += 15;
@@ -440,8 +449,6 @@ namespace MissionPlanner.GCSViews
             tabStatus.Width = x;
 
             ThemeManager.ApplyThemeTo(tabStatus);
-
-            //   tabStatus.ResumeLayout();
         }
 
         private void MainV2_AdvancedChanged(object sender, EventArgs e)
@@ -1292,13 +1299,14 @@ namespace MissionPlanner.GCSViews
 
         DateTime lastscreenupdate = DateTime.Now;
         object updateBindingSourcelock = new object();
-        int updateBindingSourcecount = 0;
+        volatile int updateBindingSourcecount = 0;
 
         private void updateBindingSource()
         {
             //  run at 25 hz.
             if (lastscreenupdate.AddMilliseconds(40) < DateTime.Now)
             {
+                // this is an attempt to prevent an invoke queue on the binding update on slow machines
                 if (updateBindingSourcecount > 0)
                     return;
 
@@ -1310,10 +1318,8 @@ namespace MissionPlanner.GCSViews
                 // async
                 this.BeginInvoke((System.Windows.Forms.MethodInvoker)delegate()
                 {
-
                     try
                     {
-
                         if (this.Visible)
                         {
                             //Console.Write("bindingSource1 ");
@@ -3127,6 +3133,7 @@ namespace MissionPlanner.GCSViews
                 ThemeManager.ApplyThemeTo((Form)console);
                 console.Show();
                 console.BringToFront();
+                components.Add(console);
             }
         }
 

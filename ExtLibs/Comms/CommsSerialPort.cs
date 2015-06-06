@@ -218,15 +218,17 @@ namespace MissionPlanner.Comms
         {
             try
             {
-                ObjectQuery query = new ObjectQuery("SELECT * FROM Win32_SerialPort"); // Win32_USBControllerDevice
-                ManagementObjectSearcher searcher = new ManagementObjectSearcher(query);
-                foreach (ManagementObject obj2 in searcher.Get())
+                ObjectQuery query = new ObjectQuery("SELECT * FROM Win32_SerialPort");                // Win32_USBControllerDevice
+                using (ManagementObjectSearcher searcher = new ManagementObjectSearcher(query))
                 {
-                    //DeviceID                     
-                    if (obj2.Properties["DeviceID"].Value.ToString().ToUpper() == port.ToUpper())
+                    foreach (ManagementObject obj2 in searcher.Get())
                     {
-                        portnamenice = obj2.Properties["Name"].Value.ToString();
-                        return;
+                        //DeviceID                     
+                        if (obj2.Properties["DeviceID"].Value.ToString().ToUpper() == port.ToUpper())
+                        {
+                            portnamenice = obj2.Properties["Name"].Value.ToString();
+                            return;
+                        }
                     }
                 }
             }
@@ -260,16 +262,19 @@ namespace MissionPlanner.Comms
         {
             try
             {
-                ObjectQuery query = new ObjectQuery("SELECT * FROM Win32_SerialPort"); // Win32_USBControllerDevice
-                ManagementObjectSearcher searcher = new ManagementObjectSearcher(query);
-                foreach (ManagementObject obj2 in searcher.Get())
+                ObjectQuery query = new ObjectQuery("SELECT * FROM Win32_SerialPort");// Win32_USBControllerDevice
+                using (ManagementObjectSearcher searcher = new ManagementObjectSearcher(query))
                 {
-                    //DeviceID                     
-                    if (obj2.Properties["DeviceID"].Value.ToString().ToUpper() == port.ToUpper())
+                    foreach (ManagementObject obj2 in searcher.Get())
                     {
-                        if (obj2.Properties["Name"].Value.ToString().ToLower().Contains("px4"))
-                            return true;
+                        //DeviceID                     
+                        if (obj2.Properties["DeviceID"].Value.ToString().ToUpper() == port.ToUpper())
+                        {
+                            if (obj2.Properties["Name"].Value.ToString().ToLower().Contains("px4"))
+                                return true;
+                        }
                     }
+
                 }
             }
             catch (Exception ex) { log.Error(ex); }

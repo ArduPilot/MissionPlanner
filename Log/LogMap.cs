@@ -230,16 +230,18 @@ namespace MissionPlanner.Log
                         foreach (var tp in type.Overlays)
                         {
                             Exception ex;
-                            GMapImage tile = GMaps.Instance.GetImageFrom(tp, p, zoom, out ex) as GMapImage;
-
-                            if (tile != null)
+                            using (GMapImage tile = GMaps.Instance.GetImageFrom(tp, p, zoom, out ex) as GMapImage)
                             {
-                                using (tile)
+
+                                if (tile != null)
                                 {
-                                    long x = p.X * prj.TileSize.Width - topLeftPx.X + padding;
-                                    long y = p.Y * prj.TileSize.Width - topLeftPx.Y + padding;
+                                    using (tile)
                                     {
-                                        gfx.DrawImage(tile.Img, x, y, prj.TileSize.Width, prj.TileSize.Height);
+                                        long x = p.X * prj.TileSize.Width - topLeftPx.X + padding;
+                                        long y = p.Y * prj.TileSize.Width - topLeftPx.Y + padding;
+                                        {
+                                            gfx.DrawImage(tile.Img, x, y, prj.TileSize.Width, prj.TileSize.Height);
+                                        }
                                     }
                                 }
                             }

@@ -116,7 +116,7 @@ namespace MissionPlanner.Comms
 
         void VerifyConnected()
         {
-            if (client == null || !IsOpen)
+            if (!IsOpen)
             {
                 try
                 {

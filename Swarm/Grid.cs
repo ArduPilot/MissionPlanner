@@ -71,7 +71,7 @@ namespace MissionPlanner.Swarm
             for (float y = 0; y <= ydist; y++)
             {
                 // middle
-                if (y == ydist / 2)
+                if (y == ydist / 2.0f)
                 {
                    
                 }
@@ -173,10 +173,10 @@ namespace MissionPlanner.Swarm
                         mouseover.y = (ydist / -2 + e.Y / yline) * -1;
                     }
 
-                    if (mouseover.x < xdist / -2) { mouseover.x = xdist / -2; }
-                    if (mouseover.x > xdist / 2) { mouseover.x = xdist / 2; }
-                    if (mouseover.y < ydist / -2) { mouseover.y = ydist / -2; }
-                    if (mouseover.y > ydist / 2) { mouseover.y = ydist / 2; }
+                    if (mouseover.x < xdist / -2.0f) { mouseover.x = xdist / -2.0f; }
+                    if (mouseover.x > xdist / 2.0f) { mouseover.x = xdist / 2.0f; }
+                    if (mouseover.y < ydist / -2.0f) { mouseover.y = ydist / -2.0f; }
+                    if (mouseover.y > ydist / 2.0f) { mouseover.y = ydist / 2.0f; }
 
                     if (UpdateOffsets != null)
                         UpdateOffsets(mouseover.interf, mouseover.x, mouseover.y, mouseover.z,mouseover);

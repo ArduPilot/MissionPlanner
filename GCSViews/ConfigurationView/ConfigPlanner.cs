@@ -457,10 +457,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         // on start up. See Activate() for the remainder
         private void ConfigPlanner_Load(object sender, EventArgs e)
         {
-            startup = true;
-
-
-            startup = false;
         }
 
         private void CMB_osdcolor_DrawItem(object sender, DrawItemEventArgs e)

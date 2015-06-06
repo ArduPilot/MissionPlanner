@@ -46,68 +46,6 @@ namespace MissionPlanner.Utilities
             polygonPoints.AddRange(rightoffsetpoints);
 
             return polygonPoints;
-
-            prevpoint = leftoffsetpoints[0];
-
-            while (leftoffsetpoints.Count > 0)
-            {
-                PointLatLngAlt closest = PointLatLngAlt.Zero;
-                double closestdist = double.MaxValue;
-
-                foreach (var pointLatLngAlt in leftoffsetpoints)
-                {
-                    double ans;
-
-                    if ((ans = prevpoint.GetDistance(pointLatLngAlt)) < closestdist)
-                    {
-                        closestdist = ans;
-                        closest = pointLatLngAlt;
-
-                        if (ans == 0)
-                            break;
-                    }
-                }
-
-                leftoffsetpoints.Remove(closest);
-
-                if (closestdist != 0)
-                    polygonPoints.Add(closest);
-
-                prevpoint = closest;
-            }
-
-            prevpoint = rightoffsetpoints[rightoffsetpoints.Count - 1];
-            rightoffsetpoints.Add(prevpoint);
-            polygonPoints.Add(prevpoint);
-
-            while (rightoffsetpoints.Count > 0)
-            {
-                PointLatLngAlt closest = PointLatLngAlt.Zero;
-                double closestdist = double.MaxValue;
-
-                foreach (var pointLatLngAlt in rightoffsetpoints)
-                {
-                    double ans;
-
-                    if ((ans = prevpoint.GetDistance(pointLatLngAlt)) < closestdist)
-                    {
-                        closestdist = ans;
-                        closest = pointLatLngAlt;
-
-                        if (ans == 0)
-                            break;
-                    }
-                }
-
-                rightoffsetpoints.Remove(closest);
-
-                if (closestdist != 0)
-                    polygonPoints.Add(closest);
-
-                prevpoint = closest;
-            }
-
-            return polygonPoints;
         }
     }
 }

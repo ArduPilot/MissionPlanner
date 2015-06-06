@@ -76,8 +76,7 @@ namespace MissionPlanner.Comms
                 return;
             }
 
-            if (client != null)
-                client.Close();
+            client.Close();
 
             string dest = Port;
 

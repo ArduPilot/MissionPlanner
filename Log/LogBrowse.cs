@@ -1835,7 +1835,6 @@ namespace MissionPlanner.Log
 
         private void GoToSample(int SampleID, bool movemap, bool movegraph, bool movegrid)
         {
-            bool zoomgraph = false;
 
             markeroverlay.Markers.Clear();
 
@@ -1871,11 +1870,6 @@ namespace MissionPlanner.Log
             if (movegraph)
             {
                 double delta = zg1.GraphPane.XAxis.Scale.Max - zg1.GraphPane.XAxis.Scale.Min;
-                if (zoomgraph)
-                {
-                    delta = 2 * 60.0 / 20;
-                    delta = Math.Max(100, delta);
-                }
                 zg1.GraphPane.XAxis.Scale.Min = SampleID - delta / 2;
                 zg1.GraphPane.XAxis.Scale.Max = SampleID + delta / 2;
                 zg1.AxisChange();                

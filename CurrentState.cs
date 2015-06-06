@@ -585,21 +585,24 @@ namespace MissionPlanner
 
         public void ResetInternals()
         {
-            mode = "Unknown";
-            _mode = 99999;
-            messages = new List<string>();
-            useLocation = false;
-            rateattitude = 10;
-            rateposition = 3;
-            ratestatus = 2;
-            ratesensors = 2;
-            raterc = 2;
-            datetime = DateTime.MinValue;
-            battery_usedmah = 0;
-            _lastcurrent = DateTime.MinValue;
-            distTraveled = 0;
-            timeInAir = 0;
-            KIndexstatic = -1;
+            lock (this)
+            {
+                mode = "Unknown";
+                _mode = 99999;
+                messages = new List<string>();
+                useLocation = false;
+                rateattitude = 10;
+                rateposition = 3;
+                ratestatus = 2;
+                ratesensors = 2;
+                raterc = 2;
+                datetime = DateTime.MinValue;
+                battery_usedmah = 0;
+                _lastcurrent = DateTime.MinValue;
+                distTraveled = 0;
+                timeInAir = 0;
+                KIndexstatic = -1;
+            }
         }
 
         const float rad2deg = (float)(180 / Math.PI);

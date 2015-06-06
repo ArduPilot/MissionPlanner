@@ -44,7 +44,10 @@ namespace MissionPlanner.Warnings
 
             using (StreamWriter sw = new StreamWriter(warningconfigfile))
             {
-                writer.Serialize(sw, warnings);
+                lock (warnings)
+                {
+                    writer.Serialize(sw, warnings);
+                }
             }
         }
 

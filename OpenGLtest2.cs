@@ -507,7 +507,6 @@ namespace MissionPlanner.Controls
                 {
                     //Console.WriteLine("Missing tile");
                     continue;
-                    GL.Disable(EnableCap.Texture2D);
                 }                
 
                 long x = p.X * prj.TileSize.Width - topLeftPx.X;

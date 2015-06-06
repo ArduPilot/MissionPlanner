@@ -1680,55 +1680,6 @@ namespace MissionPlanner.GCSViews
             recvPort = int.Parse(temp);
 
             xmlconfig(true);
-
-            //Microsoft.VisualBasic.Interaction.InputBox("Enter Xplane pc IP", "IP", "127.0.0.1", -1, -1);
-            //Microsoft.VisualBasic.Interaction.InputBox("Enter Xplane pc IP", "IP", "127.0.0.1", -1, -1);
-        }
-
-        //from http://www.csharp-examples.net/inputbox/
-        public static DialogResult InputBox(string title, string promptText, ref string value)
-        {
-            Form form = new Form();
-            System.Windows.Forms.Label label = new System.Windows.Forms.Label();
-            TextBox textBox = new TextBox();
-            Button buttonOk = new Button();
-            Button buttonCancel = new Button();
-
-            form.Text = title;
-            label.Text = promptText;
-            textBox.Text = value;
-
-            buttonOk.Text = "OK";
-            buttonCancel.Text = "Cancel";
-            buttonOk.DialogResult = DialogResult.OK;
-            buttonCancel.DialogResult = DialogResult.Cancel;
-
-            label.SetBounds(9, 20, 372, 13);
-            textBox.SetBounds(12, 36, 372, 20);
-            buttonOk.SetBounds(228, 72, 75, 23);
-            buttonCancel.SetBounds(309, 72, 75, 23);
-
-            label.AutoSize = true;
-            textBox.Anchor = textBox.Anchor | AnchorStyles.Right;
-            buttonOk.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            buttonCancel.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-
-            form.ClientSize = new Size(396, 107);
-            form.Controls.AddRange(new Control[] { label, textBox, buttonOk, buttonCancel });
-            form.ClientSize = new Size(Math.Max(300, label.Right + 10), form.ClientSize.Height);
-            form.FormBorderStyle = FormBorderStyle.FixedDialog;
-            form.StartPosition = FormStartPosition.CenterScreen;
-            form.MinimizeBox = false;
-            form.MaximizeBox = false;
-            form.AcceptButton = buttonOk;
-            form.CancelButton = buttonCancel;
-
-            DialogResult dialogResult = form.ShowDialog();
-            if (dialogResult == DialogResult.OK)
-            {
-                value = textBox.Text;
-            }
-            return dialogResult;
         }
 
         private void CHK_quad_CheckedChanged(object sender, EventArgs e)

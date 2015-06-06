@@ -26,9 +26,10 @@ namespace MissionPlanner.Controls
         public void AddWPDist(float dist)
         {
             lock (locker)
+            {
                 wpdist.Add(dist);
-
-            totaldist = wpdist.Sum();
+                totaldist = wpdist.Sum();
+            }
         }
 
         public void ClearWPDist()
@@ -105,7 +106,7 @@ namespace MissionPlanner.Controls
 
                 lock (locker)
                 {
-                    float iconwidth = this.Height / 4;
+                    float iconwidth = this.Height / 4.0f;
                     float trav = 0;
                     foreach (var disttrav in wpdist)
                     {
