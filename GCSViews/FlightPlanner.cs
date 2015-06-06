@@ -3410,6 +3410,7 @@ namespace MissionPlanner.GCSViews
                 startmeasure = MouseDownStart;
                 polygonsoverlay.Markers.Add(new GMarkerGoogle(MouseDownStart, GMarkerGoogleType.red));
                 MainMap.Invalidate();
+                Common.MessageShowAgain("Measure Dist", "You can now pan/zoom around.\nClick this option again to get the distance.");
             }
             else
             {
