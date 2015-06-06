@@ -202,6 +202,8 @@ new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate
             frmProgressReporter.UpdateProgressAndStatus(-1, "Checking for Updates");
 
             frmProgressReporter.RunBackgroundOperationAsync();
+
+            frmProgressReporter.Dispose();
         }
 
         static void CheckMD5(ProgressReporterDialogue frmProgressReporter, string url)

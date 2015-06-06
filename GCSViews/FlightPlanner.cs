@@ -1563,6 +1563,8 @@ namespace MissionPlanner.GCSViews
             ThemeManager.ApplyThemeTo(frmProgressReporter);
 
             frmProgressReporter.RunBackgroundOperationAsync();
+
+            frmProgressReporter.Dispose();
         }
 
         void getWPs(object sender, Controls.ProgressWorkerEventArgs e, object passdata = null)
@@ -1707,6 +1709,7 @@ namespace MissionPlanner.GCSViews
 
             frmProgressReporter.RunBackgroundOperationAsync();
 
+            frmProgressReporter.Dispose();
 
             MainMap.Focus();
 

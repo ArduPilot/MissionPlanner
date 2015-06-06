@@ -93,6 +93,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             pdr.RunBackgroundOperationAsync();
 
+            pdr.Dispose();
         }
 
         void pdr_DoWork(object sender, Controls.ProgressWorkerEventArgs e, object passdata = null)

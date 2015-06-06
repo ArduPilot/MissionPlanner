@@ -103,7 +103,7 @@ namespace MissionPlanner.Comms
 
             frmProgressReporter.RunBackgroundOperationAsync();
 
-            
+            frmProgressReporter.Dispose();
         }
 
         void frmProgressReporter_DoWork(object sender, Controls.ProgressWorkerEventArgs e, object passdata = null)

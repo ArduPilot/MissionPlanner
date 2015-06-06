@@ -245,6 +245,8 @@ namespace MissionPlanner
 
             frmProgressReporter.RunBackgroundOperationAsync();
 
+            frmProgressReporter.Dispose();
+
             if (ParamListChanged != null)
             {
                 ParamListChanged(this, null);
@@ -749,6 +751,8 @@ Please check the following
             ThemeManager.ApplyThemeTo(frmProgressReporter);
 
             frmProgressReporter.RunBackgroundOperationAsync();
+
+            frmProgressReporter.Dispose();
 
             if (ParamListChanged != null)
             {
