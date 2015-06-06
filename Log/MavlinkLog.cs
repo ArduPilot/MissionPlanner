@@ -409,92 +409,93 @@ namespace MissionPlanner.Log
 
                     foreach (string logfile in openFileDialog1.FileNames)
                     {
-                        MAVLinkInterface mine = new MAVLinkInterface();
-                        try
+                        using (MAVLinkInterface mine = new MAVLinkInterface())
                         {
-                            mine.logplaybackfile = new BinaryReader(File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.Read));
-                        }
-                        catch (Exception ex) { log.Debug(ex.ToString()); CustomMessageBox.Show("Log Can not be opened. Are you still connected?"); return; }
-                        mine.logreadmode = true;
-
-                        mine.MAV.packets.Initialize(); // clear
-
-                        double oldlatlngsum = 0;
-
-                        int appui = 0;
-
-                        while (mine.logplaybackfile.BaseStream.Position < mine.logplaybackfile.BaseStream.Length)
-                        {
-                            int percent = (int)((float)mine.logplaybackfile.BaseStream.Position / (float)mine.logplaybackfile.BaseStream.Length * 100.0f);
-                            if (progressBar1.Value != percent)
-                            {
-                                progressBar1.Value = percent;
-                                progressBar1.Refresh();
-                            }
-
-                            byte[] packet = mine.readPacket();
-
-                            mine.MAV.cs.datetime = mine.lastlogread;
-
-                            mine.MAV.cs.UpdateCurrentSettings(null, true, mine);
-
-                            if (appui != DateTime.Now.Second)
-                            {
-                                // cant do entire app as mixes with flightdata timer
-                                this.Refresh();
-                                appui = DateTime.Now.Second;
-                            }
-
                             try
                             {
-                                if (MainV2.speechEngine != null)
-                                    MainV2.speechEngine.SpeakAsyncCancelAll();
+                                mine.logplaybackfile = new BinaryReader(File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.Read));
                             }
-                            catch { } // ignore because of this Exception System.PlatformNotSupportedException: No voice installed on the system or none available with the current security setting.
+                            catch (Exception ex) { log.Debug(ex.ToString()); CustomMessageBox.Show("Log Can not be opened. Are you still connected?"); return; }
+                            mine.logreadmode = true;
 
-                            if ((mine.MAV.cs.lat + mine.MAV.cs.lng) != oldlatlngsum
-                                && mine.MAV.cs.lat != 0 && mine.MAV.cs.lng != 0)
+                            mine.MAV.packets.Initialize(); // clear
+
+                            double oldlatlngsum = 0;
+
+                            int appui = 0;
+
+                            while (mine.logplaybackfile.BaseStream.Position < mine.logplaybackfile.BaseStream.Length)
                             {
-                                if (Math.Round(mine.MAV.cs.lat, 5) == 0 || Math.Round(mine.MAV.cs.lng, 5) == 0)
-                                    continue;
+                                int percent = (int)((float)mine.logplaybackfile.BaseStream.Position / (float)mine.logplaybackfile.BaseStream.Length * 100.0f);
+                                if (progressBar1.Value != percent)
+                                {
+                                    progressBar1.Value = percent;
+                                    progressBar1.Refresh();
+                                }
 
-                                // Console.WriteLine(cs.lat + " " + cs.lng + " " + cs.alt + "   lah " + (float)(cs.lat + cs.lng) + "!=" + oldlatlngsum);
-                                CurrentState cs2 = (CurrentState)mine.MAV.cs.Clone();
+                                byte[] packet = mine.readPacket();
 
-                                flightdata.Add(cs2);
+                                mine.MAV.cs.datetime = mine.lastlogread;
 
-                                oldlatlngsum = (mine.MAV.cs.lat + mine.MAV.cs.lng);
+                                mine.MAV.cs.UpdateCurrentSettings(null, true, mine);
+
+                                if (appui != DateTime.Now.Second)
+                                {
+                                    // cant do entire app as mixes with flightdata timer
+                                    this.Refresh();
+                                    appui = DateTime.Now.Second;
+                                }
+
+                                try
+                                {
+                                    if (MainV2.speechEngine != null)
+                                        MainV2.speechEngine.SpeakAsyncCancelAll();
+                                }
+                                catch { } // ignore because of this Exception System.PlatformNotSupportedException: No voice installed on the system or none available with the current security setting.
+
+                                if ((mine.MAV.cs.lat + mine.MAV.cs.lng) != oldlatlngsum
+                                    && mine.MAV.cs.lat != 0 && mine.MAV.cs.lng != 0)
+                                {
+                                    if (Math.Round(mine.MAV.cs.lat, 5) == 0 || Math.Round(mine.MAV.cs.lng, 5) == 0)
+                                        continue;
+
+                                    // Console.WriteLine(cs.lat + " " + cs.lng + " " + cs.alt + "   lah " + (float)(cs.lat + cs.lng) + "!=" + oldlatlngsum);
+                                    CurrentState cs2 = (CurrentState)mine.MAV.cs.Clone();
+
+                                    flightdata.Add(cs2);
+
+                                    oldlatlngsum = (mine.MAV.cs.lat + mine.MAV.cs.lng);
+                                }
                             }
+
+                            mine.logreadmode = false;
+                            mine.logplaybackfile.Close();
+                            mine.logplaybackfile = null;
+
+                            string basealtstring = "0";
+
+                            if (mine.MAV.wps.ContainsKey(0))
+                            {
+                                basealtstring = (mine.MAV.wps[0].z + float.Parse(offsetalt)).ToString();
+                            }
+                            else
+                            {
+                                InputBox.Show("Relative Alt",
+                                    "Please enter your home altitude, or press cancel to use absolute alt",
+                                    ref basealtstring);
+                            }
+
+                            Application.DoEvents();
+
+                            log.Info(mine.MAV.cs.firmware + " : " + logfile);
+
+                            writeGPX(logfile);
+                            writeKML(logfile + ".kml", double.Parse(basealtstring) / CurrentState.multiplierdist);
+
+                            flightdata.Clear();
+
+                            progressBar1.Value = 100;
                         }
-
-                        mine.logreadmode = false;
-                        mine.logplaybackfile.Close();
-                        mine.logplaybackfile = null;
-
-                        string basealtstring = "0";
-
-                        if (mine.MAV.wps.ContainsKey(0))
-                        {
-                            basealtstring = (mine.MAV.wps[0].z + float.Parse(offsetalt)).ToString();
-                        }
-                        else
-                        {
-                            InputBox.Show("Relative Alt",
-                                "Please enter your home altitude, or press cancel to use absolute alt",
-                                ref basealtstring);
-                        }
-
-                        Application.DoEvents();
-
-                        log.Info(mine.MAV.cs.firmware + " : " + logfile);
-
-                        writeGPX(logfile);
-                        writeKML(logfile + ".kml", double.Parse(basealtstring) / CurrentState.multiplierdist);
-
-                        flightdata.Clear();
-
-                        progressBar1.Value = 100;
-
                     }
                 }
             }
@@ -617,44 +618,44 @@ namespace MissionPlanner.Log
                 {
                     foreach (string logfile in openFileDialog1.FileNames)
                     {
-
-                        MAVLinkInterface mine = new MAVLinkInterface();
-                        try
+                        using (MAVLinkInterface mine = new MAVLinkInterface())
                         {
-                            mine.logplaybackfile = new BinaryReader(File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.Read));
-                        }
-                        catch (Exception ex) { log.Debug(ex.ToString()); CustomMessageBox.Show("Log Can not be opened. Are you still connected?"); return; }
-
-                        mine.logreadmode = true;
-
-                        mine.MAV.packets.Initialize(); // clear
-
-                        StreamWriter sw = new StreamWriter(Path.GetDirectoryName(logfile) + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(logfile) + ".txt");
-
-                        while (mine.logplaybackfile.BaseStream.Position < mine.logplaybackfile.BaseStream.Length)
-                        {
-                            int percent = (int)((float)mine.logplaybackfile.BaseStream.Position / (float)mine.logplaybackfile.BaseStream.Length * 100.0f);
-                            if (progressBar1.Value != percent)
+                            try
                             {
-                                progressBar1.Value = percent;
-                                progressBar1.Refresh();
+                                mine.logplaybackfile = new BinaryReader(File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.Read));
+                            }
+                            catch (Exception ex) { log.Debug(ex.ToString()); CustomMessageBox.Show("Log Can not be opened. Are you still connected?"); return; }
+
+                            mine.logreadmode = true;
+
+                            mine.MAV.packets.Initialize(); // clear
+
+                            StreamWriter sw = new StreamWriter(Path.GetDirectoryName(logfile) + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(logfile) + ".txt");
+
+                            while (mine.logplaybackfile.BaseStream.Position < mine.logplaybackfile.BaseStream.Length)
+                            {
+                                int percent = (int)((float)mine.logplaybackfile.BaseStream.Position / (float)mine.logplaybackfile.BaseStream.Length * 100.0f);
+                                if (progressBar1.Value != percent)
+                                {
+                                    progressBar1.Value = percent;
+                                    progressBar1.Refresh();
+                                }
+
+                                byte[] packet = mine.readPacket();
+                                string text = "";
+                                mine.DebugPacket(packet, ref text);
+
+                                sw.Write(mine.lastlogread + " " + text);
                             }
 
-                            byte[] packet = mine.readPacket();
-                            string text = "";
-                            mine.DebugPacket(packet, ref text);
+                            sw.Close();
 
-                            sw.Write(mine.lastlogread + " " + text);
+                            progressBar1.Value = 100;
+
+                            mine.logreadmode = false;
+                            mine.logplaybackfile.Close();
+                            mine.logplaybackfile = null;
                         }
-
-                        sw.Close();
-
-                        progressBar1.Value = 100;
-
-                        mine.logreadmode = false;
-                        mine.logplaybackfile.Close();
-                        mine.logplaybackfile = null;
-
                     }
                 }
             }
@@ -736,9 +737,8 @@ namespace MissionPlanner.Log
 
             colorStep = 0;
             
-            {
-
-                MAVLinkInterface MavlinkInterface = new MAVLinkInterface();
+            using (MAVLinkInterface MavlinkInterface = new MAVLinkInterface())
+            {                
                 try
                 {
                     MavlinkInterface.logplaybackfile = new BinaryReader(File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.Read));
@@ -1372,42 +1372,43 @@ namespace MissionPlanner.Log
                     foreach (string logfile in openFileDialog1.FileNames)
                     {
 
-                        MAVLinkInterface mine = new MAVLinkInterface();
-                        try
+                        using (MAVLinkInterface mine = new MAVLinkInterface())
                         {
-                            mine.logplaybackfile = new BinaryReader(File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.Read));
-                        }
-                        catch (Exception ex) { log.Debug(ex.ToString()); CustomMessageBox.Show("Log Can not be opened. Are you still connected?"); return; }
-                        mine.logreadmode = true;
-
-                        mine.MAV.packets.Initialize(); // clear
-
-                        StreamWriter sw = new StreamWriter(Path.GetDirectoryName(logfile) + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(logfile) + ".csv");
-
-                        while (mine.logplaybackfile.BaseStream.Position < mine.logplaybackfile.BaseStream.Length)
-                        {
-                            int percent = (int)((float)mine.logplaybackfile.BaseStream.Position / (float)mine.logplaybackfile.BaseStream.Length * 100.0f);
-                            if (progressBar1.Value != percent)
+                            try
                             {
-                                progressBar1.Value = percent;
-                                progressBar1.Refresh();
+                                mine.logplaybackfile = new BinaryReader(File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.Read));
+                            }
+                            catch (Exception ex) { log.Debug(ex.ToString()); CustomMessageBox.Show("Log Can not be opened. Are you still connected?"); return; }
+                            mine.logreadmode = true;
+
+                            mine.MAV.packets.Initialize(); // clear
+
+                            StreamWriter sw = new StreamWriter(Path.GetDirectoryName(logfile) + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(logfile) + ".csv");
+
+                            while (mine.logplaybackfile.BaseStream.Position < mine.logplaybackfile.BaseStream.Length)
+                            {
+                                int percent = (int)((float)mine.logplaybackfile.BaseStream.Position / (float)mine.logplaybackfile.BaseStream.Length * 100.0f);
+                                if (progressBar1.Value != percent)
+                                {
+                                    progressBar1.Value = percent;
+                                    progressBar1.Refresh();
+                                }
+
+                                byte[] packet = mine.readPacket();
+                                string text = "";
+                                mine.DebugPacket(packet, ref text, true, ",");
+
+                                sw.Write(mine.lastlogread.ToString("yyyy-MM-ddTHH:mm:ss.fff") + "," + text);
                             }
 
-                            byte[] packet = mine.readPacket();
-                            string text = "";
-                            mine.DebugPacket(packet, ref text, true, ",");
+                            sw.Close();
 
-                            sw.Write(mine.lastlogread.ToString("yyyy-MM-ddTHH:mm:ss.fff") + "," + text);
+                            progressBar1.Value = 100;
+
+                            mine.logreadmode = false;
+                            mine.logplaybackfile.Close();
+                            mine.logplaybackfile = null;
                         }
-
-                        sw.Close();
-
-                        progressBar1.Value = 100;
-
-                        mine.logreadmode = false;
-                        mine.logplaybackfile.Close();
-                        mine.logplaybackfile = null;
-
                     }
                 }
             }
@@ -1433,41 +1434,42 @@ namespace MissionPlanner.Log
                     {
                         try
                         {
-                            MAVLinkInterface mine = new MAVLinkInterface();
-                            try
+                            using (MAVLinkInterface mine = new MAVLinkInterface())
                             {
-                                mine.logplaybackfile = new BinaryReader(File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.Read));
+                                try
+                                {
+                                    mine.logplaybackfile = new BinaryReader(File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.Read));
+                                }
+                                catch (Exception ex) { log.Debug(ex.ToString()); CustomMessageBox.Show("Log Can not be opened. Are you still connected?"); return; }
+
+                                mine.logreadmode = true;
+
+                                mine.MAV.packets.Initialize(); // clear
+
+                                StreamWriter sw = new StreamWriter(Path.GetDirectoryName(logfile) + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(logfile) + ".param");
+
+                                int percent = (int)((float)mine.logplaybackfile.BaseStream.Position / (float)mine.logplaybackfile.BaseStream.Length * 100.0f);
+                                if (progressBar1.Value != percent)
+                                {
+                                    progressBar1.Value = percent;
+                                    progressBar1.Refresh();
+                                }
+
+                                mine.getParamList();
+
+                                foreach (string item in mine.MAV.param.Keys)
+                                {
+                                    sw.WriteLine(item + "\t" + mine.MAV.param[item]);
+                                }
+
+                                sw.Close();
+
+                                progressBar1.Value = 100;
+
+                                mine.logreadmode = false;
+                                mine.logplaybackfile.Close();
+                                mine.logplaybackfile = null;
                             }
-                            catch (Exception ex) { log.Debug(ex.ToString()); CustomMessageBox.Show("Log Can not be opened. Are you still connected?"); return; }
-
-                            mine.logreadmode = true;
-
-                            mine.MAV.packets.Initialize(); // clear
-
-                            StreamWriter sw = new StreamWriter(Path.GetDirectoryName(logfile) + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(logfile) + ".param");
-
-                            int percent = (int)((float)mine.logplaybackfile.BaseStream.Position / (float)mine.logplaybackfile.BaseStream.Length * 100.0f);
-                            if (progressBar1.Value != percent)
-                            {
-                                progressBar1.Value = percent;
-                                progressBar1.Refresh();
-                            }
-
-                            mine.getParamList();
-
-                            foreach (string item in mine.MAV.param.Keys)
-                            {
-                                sw.WriteLine(item + "\t" + mine.MAV.param[item]);
-                            }
-
-                            sw.Close();
-
-                            progressBar1.Value = 100;
-
-                            mine.logreadmode = false;
-                            mine.logplaybackfile.Close();
-                            mine.logplaybackfile = null;
-
                             CustomMessageBox.Show("File Saved with log file");
                         }
                         catch { CustomMessageBox.Show("Error Extracting params"); }
@@ -1497,89 +1499,91 @@ namespace MissionPlanner.Log
 
                         int wplists = 0;
 
-                        MAVLinkInterface mine = new MAVLinkInterface();
-                        try
+                        using (MAVLinkInterface mine = new MAVLinkInterface())
                         {
-                            mine.logplaybackfile = new BinaryReader(File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.Read));
-                        }
-                        catch (Exception ex) { log.Debug(ex.ToString()); CustomMessageBox.Show("Log Can not be opened. Are you still connected?"); return; }
-
-                        mine.logreadmode = true;
-
-                        mine.MAV.packets.Initialize(); // clear
-
-                        while (mine.logplaybackfile.BaseStream.Position < mine.logplaybackfile.BaseStream.Length)
-                        {
-                            int percent = (int)((float)mine.logplaybackfile.BaseStream.Position / (float)mine.logplaybackfile.BaseStream.Length * 100.0f);
-                            if (progressBar1.Value != percent)
-                            {
-                                progressBar1.Value = percent;
-                                progressBar1.Refresh();
-                            }
-
-                            ushort count = 0;
                             try
                             {
-                                count = mine.getWPCount();
+                                mine.logplaybackfile = new BinaryReader(File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.Read));
                             }
-                            catch { }
+                            catch (Exception ex) { log.Debug(ex.ToString()); CustomMessageBox.Show("Log Can not be opened. Are you still connected?"); return; }
 
-                            if (count == 0)
+                            mine.logreadmode = true;
+
+                            mine.MAV.packets.Initialize(); // clear
+
+                            while (mine.logplaybackfile.BaseStream.Position < mine.logplaybackfile.BaseStream.Length)
                             {
-                                continue;
+                                int percent = (int)((float)mine.logplaybackfile.BaseStream.Position / (float)mine.logplaybackfile.BaseStream.Length * 100.0f);
+                                if (progressBar1.Value != percent)
+                                {
+                                    progressBar1.Value = percent;
+                                    progressBar1.Refresh();
+                                }
+
+                                ushort count = 0;
+                                try
+                                {
+                                    count = mine.getWPCount();
+                                }
+                                catch { }
+
+                                if (count == 0)
+                                {
+                                    continue;
+                                }
+
+
+
+                                StreamWriter sw = new StreamWriter(Path.GetDirectoryName(logfile) + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(logfile) + "-" + wplists + ".txt");
+
+                                sw.WriteLine("QGC WPL 110");
+                                try
+                                {
+                                    //get mission count info 
+                                    var item = mine.MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.MISSION_COUNT].ByteArrayToStructure<MAVLink.mavlink_mission_count_t>();
+                                    mine.MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.MISSION_COUNT] = null;
+                                    sw.WriteLine("# count packet sent to comp " + item.target_component + " sys " + item.target_system);
+                                }
+                                catch { }
+                                for (ushort a = 0; a < count; a++)
+                                {
+                                    Locationwp wp = mine.getWP(a);
+                                    //sw.WriteLine(item + "\t" + mine.param[item]);
+                                    byte mode = (byte)wp.id;
+
+                                    sw.Write((a + 1)); // seq
+                                    sw.Write("\t" + 0); // current
+                                    sw.Write("\t" + (byte)MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT); //frame 
+                                    sw.Write("\t" + mode);
+                                    sw.Write("\t" + wp.p1.ToString("0.000000", new System.Globalization.CultureInfo("en-US")));
+                                    sw.Write("\t" + wp.p2.ToString("0.000000", new System.Globalization.CultureInfo("en-US")));
+                                    sw.Write("\t" + wp.p3.ToString("0.000000", new System.Globalization.CultureInfo("en-US")));
+                                    sw.Write("\t" + wp.p4.ToString("0.000000", new System.Globalization.CultureInfo("en-US")));
+                                    sw.Write("\t" + wp.lat.ToString("0.000000", new System.Globalization.CultureInfo("en-US")));
+                                    sw.Write("\t" + wp.lng.ToString("0.000000", new System.Globalization.CultureInfo("en-US")));
+                                    sw.Write("\t" + (wp.alt / CurrentState.multiplierdist).ToString("0.000000", new System.Globalization.CultureInfo("en-US")));
+                                    sw.Write("\t" + 1);
+                                    sw.WriteLine("");
+                                }
+
+                                sw.Close();
+                                wplists++;
                             }
 
+                            progressBar1.Value = 100;
 
+                            mine.logreadmode = false;
+                            mine.logplaybackfile.Close();
+                            mine.logplaybackfile = null;
 
-                            StreamWriter sw = new StreamWriter(Path.GetDirectoryName(logfile) + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(logfile) + "-" + wplists + ".txt");
-
-                            sw.WriteLine("QGC WPL 110");
-                            try
+                            if (wplists == 0)
                             {
-                                //get mission count info 
-                                var item = mine.MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.MISSION_COUNT].ByteArrayToStructure<MAVLink.mavlink_mission_count_t>();
-                                mine.MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.MISSION_COUNT] = null;
-                                sw.WriteLine("# count packet sent to comp " + item.target_component + " sys " + item.target_system);
+                                CustomMessageBox.Show("No Waypoint found in file!");
                             }
-                            catch { }
-                            for (ushort a = 0; a < count; a++)
+                            else
                             {
-                                Locationwp wp = mine.getWP(a);
-                                //sw.WriteLine(item + "\t" + mine.param[item]);
-                                byte mode = (byte)wp.id;
-
-                                sw.Write((a + 1)); // seq
-                                sw.Write("\t" + 0); // current
-                                sw.Write("\t" + (byte)MAVLink.MAV_FRAME.GLOBAL_RELATIVE_ALT); //frame 
-                                sw.Write("\t" + mode);
-                                sw.Write("\t" + wp.p1.ToString("0.000000", new System.Globalization.CultureInfo("en-US")));
-                                sw.Write("\t" + wp.p2.ToString("0.000000", new System.Globalization.CultureInfo("en-US")));
-                                sw.Write("\t" + wp.p3.ToString("0.000000", new System.Globalization.CultureInfo("en-US")));
-                                sw.Write("\t" + wp.p4.ToString("0.000000", new System.Globalization.CultureInfo("en-US")));
-                                sw.Write("\t" + wp.lat.ToString("0.000000", new System.Globalization.CultureInfo("en-US")));
-                                sw.Write("\t" + wp.lng.ToString("0.000000", new System.Globalization.CultureInfo("en-US")));
-                                sw.Write("\t" + (wp.alt / CurrentState.multiplierdist).ToString("0.000000", new System.Globalization.CultureInfo("en-US")));
-                                sw.Write("\t" + 1);
-                                sw.WriteLine("");
+                                CustomMessageBox.Show("File Saved with log file!");
                             }
-
-                            sw.Close();
-                            wplists++;
-                        }
-
-                        progressBar1.Value = 100;
-
-                        mine.logreadmode = false;
-                        mine.logplaybackfile.Close();
-                        mine.logplaybackfile = null;
-
-                        if (wplists == 0)
-                        {
-                            CustomMessageBox.Show("No Waypoint found in file!");
-                        }
-                        else
-                        {
-                            CustomMessageBox.Show("File Saved with log file!");
                         }
                     }
                 }

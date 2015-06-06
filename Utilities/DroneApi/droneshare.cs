@@ -81,27 +81,29 @@ namespace MissionPlanner.Utilities.DroneApi
                 catch { }
             }
 
-            MAVLinkInterface mav = new MAVLinkInterface();
-            mav.BaseStream = new Comms.CommsFile();
-            mav.BaseStream.PortName = file;
-            mav.BaseStream.Open();
-            if (mav.getHeartBeat().Length == 0)
+            using (MAVLinkInterface mav = new MAVLinkInterface())
             {
-                CustomMessageBox.Show("Invalid log");
-                return;
-            }
-            mav.Close();
-
-            string viewurl = Utilities.DroneApi.droneshare.doUpload(file, droneshareusername, dronesharepassword, mav.MAV.Guid , Utilities.DroneApi.APIConstants.apiKey);
-
-            if (viewurl != "")
-            {
-                try
+                mav.BaseStream = new Comms.CommsFile();
+                mav.BaseStream.PortName = file;
+                mav.BaseStream.Open();
+                if (mav.getHeartBeat().Length == 0)
                 {
-                    validcred = true;
-                    System.Diagnostics.Process.Start(viewurl);
+                    CustomMessageBox.Show("Invalid log");
+                    return;
                 }
-                catch (Exception ex) { log.Error(ex); CustomMessageBox.Show("Failed to open url " + viewurl); }
+                mav.Close();
+
+                string viewurl = Utilities.DroneApi.droneshare.doUpload(file, droneshareusername, dronesharepassword, mav.MAV.Guid, Utilities.DroneApi.APIConstants.apiKey);
+
+                if (viewurl != "")
+                {
+                    try
+                    {
+                        validcred = true;
+                        System.Diagnostics.Process.Start(viewurl);
+                    }
+                    catch (Exception ex) { log.Error(ex); CustomMessageBox.Show("Failed to open url " + viewurl); }
+                }
             }
         }
 

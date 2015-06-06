@@ -1667,16 +1667,16 @@ namespace MissionPlanner.GCSViews
 
         private void but_advsettings_Click(object sender, EventArgs e)
         {
-            InputBox("IP", "Enter Sim pc IP (def 127.0.0.1)", ref simIP);
+            InputBox.Show("IP", "Enter Sim pc IP (def 127.0.0.1)", ref simIP);
 
-            InputBox("IP", "Enter SITL pc IP (def 127.0.0.1)", ref SITLIP);
+            InputBox.Show("IP", "Enter SITL pc IP (def 127.0.0.1)", ref SITLIP);
 
             string temp = simPort.ToString();
-            InputBox("Port", "Enter Sim pc Port (def 49000)", ref temp);
+            InputBox.Show("Port", "Enter Sim pc Port (def 49000)", ref temp);
             simPort = int.Parse(temp);
 
             temp = recvPort.ToString();
-            InputBox("Port", "Enter Planner pc Port (def 49005)", ref temp);
+            InputBox.Show("Port", "Enter Planner pc Port (def 49005)", ref temp);
             recvPort = int.Parse(temp);
 
             xmlconfig(true);

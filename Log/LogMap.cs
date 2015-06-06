@@ -30,9 +30,7 @@ namespace MissionPlanner.Log
                 {
                     if (logfile.ToLower().EndsWith(".tlog"))
                     {
-                        MAVLinkInterface mine = new MAVLinkInterface();
-
-
+                        using (MAVLinkInterface mine = new MAVLinkInterface())
                         using (mine.logplaybackfile = new BinaryReader(File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite)))
                         {
                             mine.logreadmode = true;

@@ -3505,6 +3505,13 @@ Please check the following
             if (_bytesSentSubj != null)
                 _bytesSentSubj.Dispose();
             this.Close();
+
+            Terrain = null;
+
+            MirrorStream = null;
+
+            logreadmode = false;
+            logplaybackfile = null;
         }
     }
 }

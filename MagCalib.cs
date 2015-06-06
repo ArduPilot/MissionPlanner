@@ -687,101 +687,103 @@ namespace MissionPlanner
 
             log.Info("Start log: " + DateTime.Now);
 
-            MAVLinkInterface mine = new MAVLinkInterface();
-            try
+            using (MAVLinkInterface mine = new MAVLinkInterface())
             {
-                mine.logplaybackfile = new BinaryReader(File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.Read));
+                try
+                {
+                    mine.logplaybackfile = new BinaryReader(File.Open(logfile, FileMode.Open, FileAccess.Read, FileShare.Read));
+                }
+                catch (Exception ex) { log.Debug(ex.ToString()); CustomMessageBox.Show("Log Can not be opened. Are you still connected?"); return new double[] { 0 }; }
+
+                mine.logreadmode = true;
+
+                mine.MAV.packets.Initialize(); // clear
+
+                // gather data
+                while (mine.logplaybackfile.BaseStream.Position < mine.logplaybackfile.BaseStream.Length)
+                {
+                    byte[] packetraw = mine.readPacket();
+
+                    var packet = mine.DebugPacket(packetraw, false);
+
+                    // this is for packets we dont know about
+                    if (packet == null)
+                        continue;
+
+                    if (packet.GetType() == typeof(MAVLink.mavlink_vfr_hud_t))
+                    {
+                        if (((MAVLink.mavlink_vfr_hud_t)packet).throttle >= throttleThreshold)
+                        {
+                            useData = true;
+                        }
+                        else
+                        {
+                            useData = false;
+                        }
+
+                    }
+
+                    if (packet.GetType() == typeof(MAVLink.mavlink_sensor_offsets_t))
+                    {
+                        offset = new Tuple<float, float, float>(
+                            ((MAVLink.mavlink_sensor_offsets_t)packet).mag_ofs_x,
+                            ((MAVLink.mavlink_sensor_offsets_t)packet).mag_ofs_y,
+                            ((MAVLink.mavlink_sensor_offsets_t)packet).mag_ofs_z);
+                    }
+                    else if (packet.GetType() == typeof(MAVLink.mavlink_raw_imu_t) && useData)
+                    {
+                        int div = 20;
+
+                        // fox dxf
+                        vertex = new Polyline3dVertex(new Vector3f(
+                            ((MAVLink.mavlink_raw_imu_t)packet).xmag - offset.Item1,
+                            ((MAVLink.mavlink_raw_imu_t)packet).ymag - offset.Item2,
+                            ((MAVLink.mavlink_raw_imu_t)packet).zmag - offset.Item3)
+                            );
+                        vertexes.Add(vertex);
+
+
+                        // for old method
+                        setMinorMax(((MAVLink.mavlink_raw_imu_t)packet).xmag - offset.Item1, ref minx, ref maxx);
+                        setMinorMax(((MAVLink.mavlink_raw_imu_t)packet).ymag - offset.Item2, ref miny, ref maxy);
+                        setMinorMax(((MAVLink.mavlink_raw_imu_t)packet).zmag - offset.Item3, ref minz, ref maxz);
+
+                        // for new lease sq
+                        string item = (int)(((MAVLink.mavlink_raw_imu_t)packet).xmag / div) + "," +
+                            (int)(((MAVLink.mavlink_raw_imu_t)packet).ymag / div) + "," +
+                            (int)(((MAVLink.mavlink_raw_imu_t)packet).zmag / div);
+
+                        if (filter.ContainsKey(item))
+                        {
+                            filter[item] = (int)filter[item] + 1;
+
+                            if ((int)filter[item] > 3)
+                                continue;
+                        }
+                        else
+                        {
+                            filter[item] = 1;
+                        }
+
+
+                        data.Add(new Tuple<float, float, float>(
+                            ((MAVLink.mavlink_raw_imu_t)packet).xmag - offset.Item1,
+                            ((MAVLink.mavlink_raw_imu_t)packet).ymag - offset.Item2,
+                            ((MAVLink.mavlink_raw_imu_t)packet).zmag - offset.Item3));
+
+                    }
+
+                }
+
+                log.Info("Log Processed " + DateTime.Now);
+
+                Console.WriteLine("Extracted " + data.Count + " data points");
+                Console.WriteLine("Current offset: " + offset);
+
+                mine.logreadmode = false;
+                mine.logplaybackfile.Close();
+                mine.logplaybackfile = null;
             }
-            catch (Exception ex) { log.Debug(ex.ToString()); CustomMessageBox.Show("Log Can not be opened. Are you still connected?"); return new double[] { 0 }; }
-
-            mine.logreadmode = true;
-
-            mine.MAV.packets.Initialize(); // clear
-
-            // gather data
-            while (mine.logplaybackfile.BaseStream.Position < mine.logplaybackfile.BaseStream.Length)
-            {
-                byte[] packetraw = mine.readPacket();
-
-                var packet = mine.DebugPacket(packetraw, false);
-
-                // this is for packets we dont know about
-                if (packet == null)
-                    continue;
-
-                if (packet.GetType() == typeof(MAVLink.mavlink_vfr_hud_t))
-                {
-                    if (((MAVLink.mavlink_vfr_hud_t)packet).throttle >= throttleThreshold)
-                    {
-                        useData = true;
-                    }
-                    else
-                    {
-                        useData = false;
-                    }
-
-                }
-
-                if (packet.GetType() == typeof(MAVLink.mavlink_sensor_offsets_t))
-                {
-                    offset = new Tuple<float, float, float>(
-                        ((MAVLink.mavlink_sensor_offsets_t)packet).mag_ofs_x,
-                        ((MAVLink.mavlink_sensor_offsets_t)packet).mag_ofs_y,
-                        ((MAVLink.mavlink_sensor_offsets_t)packet).mag_ofs_z);
-                }
-                else if (packet.GetType() == typeof(MAVLink.mavlink_raw_imu_t) && useData)
-                {
-                    int div = 20;
-
-                    // fox dxf
-                    vertex = new Polyline3dVertex(new Vector3f(
-                        ((MAVLink.mavlink_raw_imu_t)packet).xmag - offset.Item1,
-                        ((MAVLink.mavlink_raw_imu_t)packet).ymag - offset.Item2,
-                        ((MAVLink.mavlink_raw_imu_t)packet).zmag - offset.Item3)
-                        );
-                    vertexes.Add(vertex);
-
-
-                    // for old method
-                    setMinorMax(((MAVLink.mavlink_raw_imu_t)packet).xmag - offset.Item1, ref minx, ref maxx);
-                    setMinorMax(((MAVLink.mavlink_raw_imu_t)packet).ymag - offset.Item2, ref miny, ref maxy);
-                    setMinorMax(((MAVLink.mavlink_raw_imu_t)packet).zmag - offset.Item3, ref minz, ref maxz);
-
-                    // for new lease sq
-                    string item = (int)(((MAVLink.mavlink_raw_imu_t)packet).xmag / div) + "," +
-                        (int)(((MAVLink.mavlink_raw_imu_t)packet).ymag / div) + "," +
-                        (int)(((MAVLink.mavlink_raw_imu_t)packet).zmag / div);
-
-                    if (filter.ContainsKey(item))
-                    {
-                        filter[item] = (int)filter[item] + 1;
-
-                        if ((int)filter[item] > 3)
-                            continue;
-                    }
-                    else
-                    {
-                        filter[item] = 1;
-                    }
-
-
-                    data.Add(new Tuple<float, float, float>(
-                        ((MAVLink.mavlink_raw_imu_t)packet).xmag - offset.Item1,
-                        ((MAVLink.mavlink_raw_imu_t)packet).ymag - offset.Item2,
-                        ((MAVLink.mavlink_raw_imu_t)packet).zmag - offset.Item3));
-
-                }
-
-            }
-
-            log.Info("Log Processed " + DateTime.Now);
-
-            Console.WriteLine("Extracted " + data.Count + " data points");
-            Console.WriteLine("Current offset: " + offset);
-
-            mine.logreadmode = false;
-            mine.logplaybackfile.Close();
-            mine.logplaybackfile = null;
 
             if (data.Count < 10)
             {

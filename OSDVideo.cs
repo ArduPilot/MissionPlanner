@@ -286,69 +286,71 @@ namespace MissionPlanner
         {
             flightdata.Clear();
 
-            MAVLinkInterface mine = new MAVLinkInterface();
-            try
+            using (MAVLinkInterface mine = new MAVLinkInterface())
             {
-                mine.logplaybackfile = new BinaryReader(File.Open(txt_tlog.Text, FileMode.Open, FileAccess.Read, FileShare.Read));
-            }
-            catch { CustomMessageBox.Show("Log Can not be opened. Are you still connected?"); return; }
-            mine.logreadmode = true;
-
-            mine.MAV.packets.Initialize(); // clear
-
-            mine.readPacket();
-
-            startlogtime = mine.lastlogread;
-
-            double oldlatlngsum = 0;
-
-            int appui = 0;
-
-            while (mine.logplaybackfile.BaseStream.Position < mine.logplaybackfile.BaseStream.Length)
-            {
-                byte[] packet = mine.readPacket();
-
-                cs.datetime = mine.lastlogread;
-
-                cs.UpdateCurrentSettings(null, true, mine);
-
-                if (appui != DateTime.Now.Second)
-                {
-                    // cant do entire app as mixes with flightdata timer
-                    this.Refresh();
-                    appui = DateTime.Now.Second;
-                }
-
                 try
                 {
-                    if (MainV2.speechEngine != null)
-                        MainV2.speechEngine.SpeakAsyncCancelAll();
+                    mine.logplaybackfile = new BinaryReader(File.Open(txt_tlog.Text, FileMode.Open, FileAccess.Read, FileShare.Read));
                 }
-                catch { } // ignore because of this Exception System.PlatformNotSupportedException: No voice installed on the system or none available with the current security setting.
+                catch { CustomMessageBox.Show("Log Can not be opened. Are you still connected?"); return; }
+                mine.logreadmode = true;
 
-               // if ((float)(cs.lat + cs.lng + cs.alt) != oldlatlngsum
-               //     && cs.lat != 0 && cs.lng != 0)
+                mine.MAV.packets.Initialize(); // clear
 
-                DateTime nexttime = mine.lastlogread.AddMilliseconds(-(mine.lastlogread.Millisecond % 100));
+                mine.readPacket();
 
-                if (!flightdata.ContainsKey(nexttime))
+                startlogtime = mine.lastlogread;
+
+                double oldlatlngsum = 0;
+
+                int appui = 0;
+
+                while (mine.logplaybackfile.BaseStream.Position < mine.logplaybackfile.BaseStream.Length)
                 {
-                    Console.WriteLine(cs.lat + " " + cs.lng + " " + cs.alt + "   lah " + (float)(cs.lat + cs.lng + cs.alt) + "!=" + oldlatlngsum);
-                    CurrentState cs2 = (CurrentState)cs.Clone();
+                    byte[] packet = mine.readPacket();
+
+                    cs.datetime = mine.lastlogread;
+
+                    cs.UpdateCurrentSettings(null, true, mine);
+
+                    if (appui != DateTime.Now.Second)
+                    {
+                        // cant do entire app as mixes with flightdata timer
+                        this.Refresh();
+                        appui = DateTime.Now.Second;
+                    }
 
                     try
                     {
-                        flightdata.Add(nexttime, cs2);
+                        if (MainV2.speechEngine != null)
+                            MainV2.speechEngine.SpeakAsyncCancelAll();
                     }
-                    catch { }
+                    catch { } // ignore because of this Exception System.PlatformNotSupportedException: No voice installed on the system or none available with the current security setting.
 
-                    oldlatlngsum = (cs.lat + cs.lng + cs.alt);
+                    // if ((float)(cs.lat + cs.lng + cs.alt) != oldlatlngsum
+                    //     && cs.lat != 0 && cs.lng != 0)
+
+                    DateTime nexttime = mine.lastlogread.AddMilliseconds(-(mine.lastlogread.Millisecond % 100));
+
+                    if (!flightdata.ContainsKey(nexttime))
+                    {
+                        Console.WriteLine(cs.lat + " " + cs.lng + " " + cs.alt + "   lah " + (float)(cs.lat + cs.lng + cs.alt) + "!=" + oldlatlngsum);
+                        CurrentState cs2 = (CurrentState)cs.Clone();
+
+                        try
+                        {
+                            flightdata.Add(nexttime, cs2);
+                        }
+                        catch { }
+
+                        oldlatlngsum = (cs.lat + cs.lng + cs.alt);
+                    }
                 }
-            }
 
-            mine.logreadmode = false;
-            mine.logplaybackfile.Close();
-            mine.logplaybackfile = null;
+                mine.logreadmode = false;
+                mine.logplaybackfile.Close();
+                mine.logplaybackfile = null;
+            }
         }
 
         public void timer()

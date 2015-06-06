@@ -320,38 +320,40 @@ namespace MissionPlanner
             // Telemetry Log
             if (fn.ToLower().EndsWith("tlog"))
             {
-                MAVLinkInterface mine = new MAVLinkInterface();
-                mine.logplaybackfile = new BinaryReader(File.Open(fn, FileMode.Open, FileAccess.Read, FileShare.Read));
-                mine.logreadmode = true;
-
-                mine.MAV.packets.Initialize(); // clear
-
-                CurrentState cs = new CurrentState();
-
-                while (mine.logplaybackfile.BaseStream.Position < mine.logplaybackfile.BaseStream.Length)
+                using (MAVLinkInterface mine = new MAVLinkInterface())
                 {
-                    byte[] packet = mine.readPacket();
+                    mine.logplaybackfile = new BinaryReader(File.Open(fn, FileMode.Open, FileAccess.Read, FileShare.Read));
+                    mine.logreadmode = true;
 
-                    cs.datetime = mine.lastlogread;
+                    mine.MAV.packets.Initialize(); // clear
 
-                    cs.UpdateCurrentSettings(null, true, mine);
+                    CurrentState cs = new CurrentState();
 
-                    VehicleLocation location = new VehicleLocation();
-                    location.Time = cs.datetime;
-                    location.Lat = cs.lat;
-                    location.Lon = cs.lng;
-                    location.RelAlt = cs.alt;
-                    location.AltAMSL = cs.altasl;
+                    while (mine.logplaybackfile.BaseStream.Position < mine.logplaybackfile.BaseStream.Length)
+                    {
+                        byte[] packet = mine.readPacket();
 
-                    location.Roll = cs.roll;
-                    location.Pitch = cs.pitch;
-                    location.Yaw = cs.yaw;
+                        cs.datetime = mine.lastlogread;
 
-                    vehiclePositionList[ToMilliseconds(location.Time)] = location;
-                    // 4 5 7
-                    Console.Write((mine.logplaybackfile.BaseStream.Position * 100 / mine.logplaybackfile.BaseStream.Length) + "    \r");
+                        cs.UpdateCurrentSettings(null, true, mine);
+
+                        VehicleLocation location = new VehicleLocation();
+                        location.Time = cs.datetime;
+                        location.Lat = cs.lat;
+                        location.Lon = cs.lng;
+                        location.RelAlt = cs.alt;
+                        location.AltAMSL = cs.altasl;
+
+                        location.Roll = cs.roll;
+                        location.Pitch = cs.pitch;
+                        location.Yaw = cs.yaw;
+
+                        vehiclePositionList[ToMilliseconds(location.Time)] = location;
+                        // 4 5 7
+                        Console.Write((mine.logplaybackfile.BaseStream.Position * 100 / mine.logplaybackfile.BaseStream.Length) + "    \r");
+                    }
+                    mine.logplaybackfile.Close();
                 }
-                mine.logplaybackfile.Close();
             }
             // DataFlash Log
             else

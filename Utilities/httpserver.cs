@@ -891,11 +891,10 @@ bool preserveAspectRatio = true)
             using (System.Security.Cryptography.SHA1 sha = new System.Security.Cryptography.SHA1CryptoServiceProvider())
             {
                 byte[] sha1Hash = sha.ComputeHash(Encoding.UTF8.GetBytes(ret));
+
+                // 3. Base64 encode the hash
+                secWebSocketAccept = Convert.ToBase64String(sha1Hash);
             }
-
-            // 3. Base64 encode the hash
-            secWebSocketAccept = Convert.ToBase64String(sha1Hash);
-
             return secWebSocketAccept;
         }
 
