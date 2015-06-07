@@ -115,24 +115,6 @@ namespace MissionPlanner
         public float asratio { get; set; }
         [DisplayText("GroundSpeed (speed)")]
         public float groundspeed { get { return _groundspeed * multiplierspeed; } set { _groundspeed = value; } }
-        public bool lowgroundspeed { get; set; }
-        float _airspeed;
-        float _groundspeed;
-        float _verticalspeed;
-        [DisplayText("Vertical Speed (speed)")]
-        public float verticalspeed { get { if (float.IsNaN(_verticalspeed)) _verticalspeed = 0; return _verticalspeed * multiplierspeed; } set { _verticalspeed = _verticalspeed * 0.4f + value * 0.6f; } }
-        [DisplayText("Wind Direction (Deg)")]
-        public float wind_dir { get; set; }
-        [DisplayText("Wind Velocity (speed)")]
-        public float wind_vel { get; set; }
-        /// <summary>
-        /// used in wind calc
-        /// </summary>
-        double Wn_fgo;
-        /// <summary>
-        /// used for wind calc
-        /// </summary>
-        double We_fgo;
 
         // accel
         [DisplayText("Accel X")]
@@ -247,6 +229,25 @@ namespace MissionPlanner
         }
 
         float _ch3percent = -1;
+
+        public bool lowgroundspeed { get; set; }
+        float _airspeed;
+        float _groundspeed;
+        float _verticalspeed;
+        [DisplayText("Vertical Speed (speed)")]
+        public float verticalspeed { get { if (float.IsNaN(_verticalspeed)) _verticalspeed = 0; return _verticalspeed * multiplierspeed; } set { _verticalspeed = _verticalspeed * 0.4f + value * 0.6f; } }
+        [DisplayText("Wind Direction (Deg)")]
+        public float wind_dir { get; set; }
+        [DisplayText("Wind Velocity (speed)")]
+        public float wind_vel { get; set; }
+        /// <summary>
+        /// used in wind calc
+        /// </summary>
+        double Wn_fgo;
+        /// <summary>
+        /// used for wind calc
+        /// </summary>
+        double We_fgo;
 
         //nav state
         [DisplayText("Roll Target (deg)")]
