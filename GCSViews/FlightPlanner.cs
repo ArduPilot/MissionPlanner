@@ -1797,24 +1797,7 @@ namespace MissionPlanner.GCSViews
                             continue;
                         }
 
-                        MAVLink.mavlink_mission_item_t temp = new MAVLink.mavlink_mission_item_t();
-                        if (Commands.Rows[a].Cells[Command.Index].Value.ToString().Contains("UNKNOWN"))
-                        {
-                            temp.command = (byte)Commands.Rows[a].Cells[Command.Index].Tag;
-                        }
-                        else
-                        {
-                            temp.command = (byte)(int)Enum.Parse(typeof(MAVLink.MAV_CMD), Commands.Rows[a].Cells[Command.Index].Value.ToString(), false);
-                        }
-                        temp.z = (float)(double.Parse(Commands.Rows[a].Cells[Alt.Index].Value.ToString()) / CurrentState.multiplierdist);
-                        temp.x = (float)(double.Parse(Commands.Rows[a].Cells[Lat.Index].Value.ToString()));
-                        temp.y = (float)(double.Parse(Commands.Rows[a].Cells[Lon.Index].Value.ToString()));
-                        temp.param1 = float.Parse(Commands.Rows[a].Cells[Param1.Index].Value.ToString());
-                        temp.param2 = (float)(double.Parse(Commands.Rows[a].Cells[Param2.Index].Value.ToString()));
-                        temp.param3 = (float)(double.Parse(Commands.Rows[a].Cells[Param3.Index].Value.ToString()));
-                        temp.param4 = (float)(double.Parse(Commands.Rows[a].Cells[Param4.Index].Value.ToString()));
-
-
+                        MAVLink.mavlink_mission_item_t temp = DataViewtoLocationwp(a);
 
                         if (temp.command == item.command &&
                             temp.x == item.x &&
