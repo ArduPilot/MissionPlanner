@@ -20,7 +20,7 @@ namespace MissionPlanner.Utilities
             return this;
         }
 
-        public static implicit operator MAVLink.mavlink_mission_item_t(this Locationwp input)
+        public static implicit operator MAVLink.mavlink_mission_item_t(Locationwp input)
         {
             return new MAVLink.mavlink_mission_item_t()
             {
