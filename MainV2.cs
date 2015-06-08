@@ -326,6 +326,9 @@ namespace MissionPlanner
 
             instance = this;
 
+            //disable dpi scaling
+            Font = new Font(Font.Name, 8.25f * 96f / CreateGraphics().DpiX, Font.Style, Font.Unit, Font.GdiCharSet, Font.GdiVerticalFont);
+
             InitializeComponent();
 
             MyView = new MainSwitcher(this);
