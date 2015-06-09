@@ -449,7 +449,10 @@ namespace MissionPlanner.Controls
                 huddrawtime = 0;
             }
 
-            inOnPaint = false;
+            lock (this)
+            {
+                inOnPaint = false;
+            }
         }
 
         void Clear(Color color)

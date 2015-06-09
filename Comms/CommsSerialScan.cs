@@ -22,8 +22,11 @@ namespace MissionPlanner.Comms
         {
             foundport = false;
             portinterface = null;
-            run = 0;
-            running = 0;
+            lock (runlock)
+            {
+                run = 0;
+                running = 0;
+            }
             CommsSerialScan.connect = connect;
 
             List<MAVLinkInterface> scanports = new List<MAVLinkInterface>();
@@ -59,8 +62,8 @@ namespace MissionPlanner.Comms
 
             redo:
 
-                if (run == 0)
-                    return;
+                    if (run == 0)
+                        return;
 
                 DateTime deadline = DateTime.Now.AddSeconds(5);
 

@@ -1015,17 +1015,6 @@ namespace MissionPlanner
                     layerpolygons.Markers.Add(new GMarkerGoogle(bestp0, GMarkerGoogleType.blue));
                     layerpolygons.Markers.Add(new GMarkerGoogle(bestp1, GMarkerGoogleType.blue));
 
-                    if (bestcrosstrack > 0) 
-                    {
-                        bearing += 90;
-                        bearing = (bearing + 360) % 360;
-                    }
-                    else
-                    {
-                        bearing -= 90;
-                        bearing = (bearing + 360) % 360;
-                    }
-
                     bearing = ((PointLatLngAlt)mousestart).GetBearing(mousecurrent);
 
                     var newposp0 = bestp0.newpos(bearing, Math.Abs(bestcrosstrack));

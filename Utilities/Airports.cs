@@ -24,7 +24,7 @@ namespace MissionPlanner.Utilities
 
         static List<PointLatLngAlt> airports = new List<PointLatLngAlt>();
 
-        public static int GetAirportCount { get { return airports.Count; } }
+        public static int GetAirportCount { get { lock (locker) return airports.Count; } }
 
         static PointLatLngAlt currentcenter = PointLatLngAlt.Zero;
 

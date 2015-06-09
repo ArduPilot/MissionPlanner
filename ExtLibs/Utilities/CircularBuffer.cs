@@ -101,15 +101,18 @@ namespace CircularBuffer
             if (!AllowOverflow &&  count > capacity - size)
                 throw new InvalidOperationException("Buffer Overflow");
 
-            int srcIndex = offset;
-            for (int i = 0; i < count; i++, tail++, srcIndex++)
+            lock (syncRoot)
             {
-                if (tail == capacity)
-                    tail = 0;
-                buffer[tail] = src[srcIndex];
+                int srcIndex = offset;
+                for (int i = 0; i < count; i++, tail++, srcIndex++)
+                {
+                    if (tail == capacity)
+                        tail = 0;
+                    buffer[tail] = src[srcIndex];
+                }
+                size = Math.Min(size + count, capacity);
+                return count;
             }
-            size = Math.Min(size + count, capacity);
-            return count;
         }
 
         public void Put(T item)
@@ -117,17 +120,23 @@ namespace CircularBuffer
             if (!AllowOverflow && size == capacity)
                 throw new InvalidOperationException("Buffer Overflow");
 
-            buffer[tail] = item;
-            if (++tail == capacity)
-                tail = 0;
-            size++;
+            lock (syncRoot)
+            {
+                buffer[tail] = item;
+                if (++tail == capacity)
+                    tail = 0;
+                size++;
+            }
         }
 
         public void Skip(int count)
         {
-            head += count;
-            if (head >= capacity)
-                head -= capacity;
+            lock (syncRoot)
+            {
+                head += count;
+                if (head >= capacity)
+                    head -= capacity;
+            }
         }
 
         public T[] Get(int count)
@@ -144,16 +153,19 @@ namespace CircularBuffer
 
         public int Get(T[] dst, int offset, int count)
         {
-            int realCount = Math.Min(count, size);
-            int dstIndex = offset;
-            for (int i = 0; i < realCount; i++, head++, dstIndex++)
+            lock (syncRoot)
             {
-                if (head == capacity)
-                    head = 0;
-                dst[dstIndex] = buffer[head];
+                int realCount = Math.Min(count, size);
+                int dstIndex = offset;
+                for (int i = 0; i < realCount; i++, head++, dstIndex++)
+                {
+                    if (head == capacity)
+                        head = 0;
+                    dst[dstIndex] = buffer[head];
+                }
+                size -= realCount;
+                return realCount;
             }
-            size -= realCount;
-            return realCount;
         }
 
         public T Get()
@@ -161,11 +173,14 @@ namespace CircularBuffer
             if (size == 0)
                 throw new InvalidOperationException("Buffer Empty");
 
-            var item = buffer[head];
-            if (++head == capacity)
-                head = 0;
-            size--;
-            return item;
+            lock (syncRoot)
+            {
+                var item = buffer[head];
+                if (++head == capacity)
+                    head = 0;
+                size--;
+                return item;
+            }
         }
 
         public void CopyTo(T[] array)

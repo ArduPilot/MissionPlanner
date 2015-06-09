@@ -288,7 +288,6 @@ namespace MissionPlanner.GCSViews
                 {
                     // reset/create
                     lastfdmdata = new FGNetFDM();
-                    quad = new HIL.MultiCopter();
 
                     if (RAD_JSBSim.Checked)
                     {
@@ -1125,8 +1124,6 @@ namespace MissionPlanner.GCSViews
 
            // comPort.sendPacket(pres);
         }
-
-        HIL.MultiCopter quad = new HIL.MultiCopter();
 
         int packetcount = 0;
 

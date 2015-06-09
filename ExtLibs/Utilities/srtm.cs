@@ -300,7 +300,10 @@ namespace MissionPlanner
                         if (requestThread == null)
                         {
                             Console.WriteLine("Getting " + filename);
-                            queue.Add(filename);
+                            lock (objlock)
+                            {
+                                queue.Add(filename);
+                            }
 
                             requestThread = new Thread(requestRunner);
                             requestThread.IsBackground = true;
@@ -445,32 +448,30 @@ namespace MissionPlanner
         {
             try
             {
-
                 WebRequest req = HttpWebRequest.Create(url);
 
-                WebResponse res = req.GetResponse();
-
-                Stream resstream = res.GetResponseStream();
-
-                BinaryWriter bw = new BinaryWriter(File.Create(datadirectory + Path.DirectorySeparatorChar + filename + ".zip"));
-
-                byte[] buf1 = new byte[1024];
-
-                while (resstream.CanRead)
+                using (WebResponse res = req.GetResponse())
+                using (Stream resstream = res.GetResponseStream())
+                using (BinaryWriter bw = new BinaryWriter(File.Create(datadirectory + Path.DirectorySeparatorChar + filename + ".zip")))
                 {
+                    byte[] buf1 = new byte[1024];
 
-                    int len = resstream.Read(buf1, 0, 1024);
-                    if (len == 0)
-                        break;
-                    bw.Write(buf1, 0, len);
+                    while (resstream.CanRead)
+                    {
 
+                        int len = resstream.Read(buf1, 0, 1024);
+                        if (len == 0)
+                            break;
+                        bw.Write(buf1, 0, len);
+
+                    }
+
+                    bw.Close();
+
+                    FastZip fzip = new FastZip();
+
+                    fzip.ExtractZip(datadirectory + Path.DirectorySeparatorChar + filename + ".zip", datadirectory, "");
                 }
-
-                bw.Close();
-
-                FastZip fzip = new FastZip();
-
-                fzip.ExtractZip(datadirectory + Path.DirectorySeparatorChar + filename + ".zip", datadirectory, "");
             }
             catch (Exception ex)
             {
@@ -506,26 +507,27 @@ namespace MissionPlanner
 
                 WebRequest req = HttpWebRequest.Create(url);
 
-                WebResponse res = req.GetResponse();
-
-                StreamReader resstream = new StreamReader(res.GetResponseStream());
-
-                string data = resstream.ReadToEnd();
-
-                Regex regex = new Regex("href=\"([^\"]+)\"", RegexOptions.IgnoreCase);
-                if (regex.IsMatch(data))
+                using (WebResponse res = req.GetResponse())
+                using (StreamReader resstream = new StreamReader(res.GetResponseStream()))
                 {
-                    MatchCollection matchs = regex.Matches(data);
-                    for (int i = 0; i < matchs.Count; i++)
-                    {
-                        if (matchs[i].Groups[1].Value.ToString().Contains(".."))
-                            continue;
-                        if (matchs[i].Groups[1].Value.ToString().Contains("http"))
-                            continue;
-                        if (matchs[i].Groups[1].Value.ToString().EndsWith("/srtm/version2_1/"))
-                            continue;
 
-                        list.Add(url.TrimEnd(new char[] { '/', '\\' }) + "/" + matchs[i].Groups[1].Value.ToString());
+                    string data = resstream.ReadToEnd();
+
+                    Regex regex = new Regex("href=\"([^\"]+)\"", RegexOptions.IgnoreCase);
+                    if (regex.IsMatch(data))
+                    {
+                        MatchCollection matchs = regex.Matches(data);
+                        for (int i = 0; i < matchs.Count; i++)
+                        {
+                            if (matchs[i].Groups[1].Value.ToString().Contains(".."))
+                                continue;
+                            if (matchs[i].Groups[1].Value.ToString().Contains("http"))
+                                continue;
+                            if (matchs[i].Groups[1].Value.ToString().EndsWith("/srtm/version2_1/"))
+                                continue;
+
+                            list.Add(url.TrimEnd(new char[] {'/', '\\'}) + "/" + matchs[i].Groups[1].Value.ToString());
+                        }
                     }
                 }
 

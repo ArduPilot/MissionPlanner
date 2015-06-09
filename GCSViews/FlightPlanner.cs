@@ -5476,14 +5476,6 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
             if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Radius", "Radius", ref RadiusIn))
                 return;
 
-            //string Pointsin = "20";
-            //if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Points", "Number of points to generate Circle", ref Pointsin))
-            //  return;
-
-            //string Directionin = "1";
-            //if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("Points", "Direction of circle (-1 or 1)", ref Directionin))
-            //  return;
-
             string minaltin = "5";
             if (System.Windows.Forms.DialogResult.Cancel == InputBox.Show("min alt", "Min Alt", ref minaltin))
                 return;
@@ -5529,31 +5521,9 @@ Column 1: Field type (RALLY is the only one at the moment -- may have RALLY_LAND
                 CustomMessageBox.Show("Bad alt step");
                 return;
             }
-            //if (!int.TryParse(Pointsin, out Points))
-            {
-                //  CustomMessageBox.Show("Bad Point value");
-                //return;
-            }
-
-            //if (!int.TryParse(Directionin, out Direction))
-            {
-                //  CustomMessageBox.Show("Bad Direction value");
-                //return;
-            }
-
-            //if (!int.TryParse(startanglein, out startangle))
-            {
-                //  CustomMessageBox.Show("Bad start angle value");
-                //return;
-            }
-
+           
             double a = startangle;
             double step = 360.0f / Points;
-            if (Direction == -1)
-            {
-                a += 360;
-                step *= -1;
-            }
 
             quickadd = true;
 

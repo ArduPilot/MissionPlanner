@@ -154,10 +154,10 @@ namespace MissionPlanner.Controls
 
         private static string ToHumanReadableByteCount(int i)
         {
-            if (i > 1024)
-                return string.Format("{0:0.00}K", i/ (float)1024);
             if (i > 1024 * 1024)
                 return string.Format("{0:0.00}Mb", i / (float)(1024 * 1024));
+            if (i > 1024)
+                return string.Format("{0:0.00}K", i / (float)1024);
             return string.Format("{0:####}",i);
         }
     }
