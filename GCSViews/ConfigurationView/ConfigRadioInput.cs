@@ -424,5 +424,35 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
             catch { CustomMessageBox.Show("Error Reversing"); }
         }
+
+        private void BUT_Bindradio_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                MainV2.comPort.doCommand(MAVLink.MAV_CMD.START_RX_PAIR, 0, 0, 0, 0, 0, 0, 0);
+                CustomMessageBox.Show("Put the transmitter in bind mode. Receiver is waiting.");
+            }
+            catch { CustomMessageBox.Show("Error binding"); }
+        }
+
+        private void myButton1_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                MainV2.comPort.doCommand(MAVLink.MAV_CMD.START_RX_PAIR, 0, 1, 0, 0, 0, 0, 0);
+                CustomMessageBox.Show("Put the transmitter in bind mode. Receiver is waiting.");
+            }
+            catch { CustomMessageBox.Show("Error binding"); }
+        }
+
+        private void myButton2_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                MainV2.comPort.doCommand(MAVLink.MAV_CMD.START_RX_PAIR, 0, 2, 0, 0, 0, 0, 0);
+                CustomMessageBox.Show("Put the transmitter in bind mode. Receiver is waiting.");
+            }
+            catch { CustomMessageBox.Show("Error binding"); }
+        }
     }
 }
