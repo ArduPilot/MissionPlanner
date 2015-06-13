@@ -805,6 +805,20 @@ namespace MissionPlanner
                         campointc = status.pointing_c / 100.0f;
                     }
 
+                    bytearray = MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.VIBRATION];
+
+                    if (bytearray != null)
+                    {
+                        var vibe = bytearray.ByteArrayToStructure<MAVLink.mavlink_vibration_t>(6);
+
+                        vibeclip0 = vibe.clipping_0;
+                        vibeclip1 = vibe.clipping_1;
+                        vibeclip2 = vibe.clipping_2;
+                        vibex = vibe.vibration_x;
+                        vibey = vibe.vibration_y;
+                        vibez = vibe.vibration_z;
+                    }
+
                     bytearray = MAV.packets[(byte)MAVLink.MAVLINK_MSG_ID.AIRSPEED_AUTOCAL];
 
                     if (bytearray != null)
@@ -1705,5 +1719,17 @@ namespace MissionPlanner
         public float piddesired { get; set; }
 
         public float pidachieved { get; set; }
+
+        public uint vibeclip0 { get; set; }
+
+        public uint vibeclip1 { get; set; }
+
+        public uint vibeclip2 { get; set; }
+
+        public float vibex { get; set; }
+
+        public float vibey { get; set; }
+
+        public float vibez { get; set; }
     }    
 }

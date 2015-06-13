@@ -83,7 +83,7 @@
             this.myButton1.Name = "myButton1";
             this.myButton1.Size = new System.Drawing.Size(75, 23);
             this.myButton1.TabIndex = 2;
-            this.myButton1.Text = "Run Log";
+            this.myButton1.Text = "Run Log - imu1";
             this.myButton1.UseVisualStyleBackColor = true;
             this.myButton1.Click += new System.EventHandler(this.myButton1_Click);
             // 
@@ -248,7 +248,7 @@
             this.BUT_log2.Name = "BUT_log2";
             this.BUT_log2.Size = new System.Drawing.Size(75, 23);
             this.BUT_log2.TabIndex = 8;
-            this.BUT_log2.Text = "Run Log 2";
+            this.BUT_log2.Text = "Run all imus";
             this.BUT_log2.UseVisualStyleBackColor = true;
             this.BUT_log2.Click += new System.EventHandler(this.BUT_log2_Click);
             // 
