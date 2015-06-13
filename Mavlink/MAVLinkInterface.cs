@@ -2448,7 +2448,7 @@ Please check the following
             {
                 if (MAVLINK_MESSAGE_LENGTHS[buffer[5]] == 0) // pass for unknown packets
                 {
-
+                    log.InfoFormat("unknown packet type {0}", buffer[5]);
                 }
                 else
                 {
@@ -2534,7 +2534,7 @@ Please check the following
                             MAVlist[sysid].packetslost += numLost;
                             WhenPacketLost.OnNext(numLost);
 
-                            log.InfoFormat("{2} lost pkts new seqno {0} pkts lost {1}", packetSeqNo, numLost, sysid);
+                            log.InfoFormat("mav {2} seqno {0} exp {3} pkts lost {1}", packetSeqNo, numLost, sysid, expectedPacketSeqNo);
                         }
 
                         MAVlist[sysid].packetsnotlost++;
