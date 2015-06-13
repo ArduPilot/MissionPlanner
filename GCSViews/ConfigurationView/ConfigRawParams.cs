@@ -348,6 +348,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             sorted.Sort();
 
+            List<DataGridViewRow> rowlist = new List<DataGridViewRow>();
+
             // process hashdefines and update display
             foreach (string value in sorted)
             {
@@ -356,48 +358,42 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
                 //System.Diagnostics.Debug.WriteLine("Doing: " + value);
 
-                Params.Rows.Add();
-                Params.Rows[Params.RowCount - 1].Cells[Command.Index].Value = value;
-                Params.Rows[Params.RowCount - 1].Cells[Value.Index].Value = ((float)MainV2.comPort.MAV.param[value]).ToString();
+                DataGridViewRow row = new DataGridViewRow();
+                rowlist.Add(row);
+                row.CreateCells(Params);
+                row.Cells[Command.Index].Value = value;
+                row.Cells[Value.Index].Value = ((float)MainV2.comPort.MAV.param[value]).ToString();
                 try
                 {
                     string metaDataDescription = ParameterMetaDataRepository.GetParameterMetaData(value, ParameterMetaDataConstants.Description, MainV2.comPort.MAV.cs.firmware.ToString());
                     if (!String.IsNullOrEmpty(metaDataDescription))
                     {
-                        Params.Rows[Params.RowCount - 1].Cells[Command.Index].ToolTipText = metaDataDescription;
-                        Params.Rows[Params.RowCount - 1].Cells[Value.Index].ToolTipText = metaDataDescription;
+                        row.Cells[Command.Index].ToolTipText = metaDataDescription;
+                        row.Cells[Value.Index].ToolTipText = metaDataDescription;
 
                         string range = ParameterMetaDataRepository.GetParameterMetaData(value, ParameterMetaDataConstants.Range, MainV2.comPort.MAV.cs.firmware.ToString());
                         string options = ParameterMetaDataRepository.GetParameterMetaData(value, ParameterMetaDataConstants.Values, MainV2.comPort.MAV.cs.firmware.ToString());
                         string units = ParameterMetaDataRepository.GetParameterMetaData(value, ParameterMetaDataConstants.Units, MainV2.comPort.MAV.cs.firmware.ToString());
 
-                        Params.Rows[Params.RowCount - 1].Cells[Units.Index].Value = units;
-                        Params.Rows[Params.RowCount - 1].Cells[Options.Index].Value = range + options.Replace(","," ");
-                        Params.Rows[Params.RowCount - 1].Cells[Desc.Index].Value = metaDataDescription;
-
-                    }
-                    else if (tooltips[value] != null)
-                    {
-                        //Params.Rows[Params.RowCount - 1].Cells[Command.Index].ToolTipText = ((paramsettings)tooltips[value]).desc;
-                        //Params.Rows[Params.RowCount - 1].Cells[RawValue.Index].ToolTipText = ((paramsettings)tooltips[value]).desc;
-                       // Params.Rows[Params.RowCount - 1].Cells[Value.Index].ToolTipText = ((paramsettings)tooltips[value]).desc;
-
-                        //  Params.Rows[Params.RowCount - 1].Cells[Desc.Index].Value = "Old: "+((paramsettings)tooltips[value]).desc;
-
-                        //Params.Rows[Params.RowCount - 1].Cells[Default.Index].Value = ((paramsettings)tooltips[value]).normalvalue;
-                        //Params.Rows[Params.RowCount - 1].Cells[mavScale.Index].Value = ((paramsettings)tooltips[value]).scale;
-                        //Params.Rows[Params.RowCount - 1].Cells[Value.Index].Value = float.Parse(Params.Rows[Params.RowCount - 1].Cells[RawValue.Index].Value.ToString()) / float.Parse(Params.Rows[Params.RowCount - 1].Cells[mavScale.Index].Value.ToString());
+                        row.Cells[Units.Index].Value = units;
+                        row.Cells[Options.Index].Value = range + options.Replace(",", " ");
+                        row.Cells[Desc.Index].Value = metaDataDescription;
                     }
                 }
                 catch (Exception ex) { log.Error(ex); }
 
             }
-            //Params.Sort(Params.Columns[0], ListSortDirection.Ascending);
+
+            Params.Rows.AddRange(rowlist.ToArray());
         }
 
         public void Activate()
         {
             startup = true;
+
+            CMB_paramfiles.Enabled = false;
+            BUT_paramfileload.Enabled = false;
+            System.Threading.ThreadPool.QueueUserWorkItem(updatedefaultlist);
 
             this.SuspendLayout();
 
@@ -407,11 +403,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             Common.MessageShowAgain(Strings.RawParamWarning, Strings.RawParamWarningi);
 
-            CMB_paramfiles.Enabled = false;
-            BUT_paramfileload.Enabled = false;
-
-
-            System.Threading.ThreadPool.QueueUserWorkItem(updatedefaultlist);
+        
 
             startup = false;
         }
@@ -456,6 +448,8 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     }
                 }
             }
+
+            Params.Refresh();
         }
 
         private void BUT_paramfileload_Click(object sender, EventArgs e)
