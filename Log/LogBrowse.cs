@@ -609,7 +609,7 @@ namespace MissionPlanner.Log
 
             // Set the titles and axis labels
             myPane.Title.Text = "Value Graph";
-            myPane.XAxis.Title.Text = "Line Number";
+            myPane.XAxis.Title.Text = "Time";
             myPane.YAxis.Title.Text = "Output";
 
             // Show the x axis grid
