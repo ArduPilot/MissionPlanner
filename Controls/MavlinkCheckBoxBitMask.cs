@@ -71,6 +71,8 @@ namespace MissionPlanner.Controls
                     chk.Text = list[a].Value.ToString();
                     chk.Location = new System.Drawing.Point(leftside, top);
 
+                    chk.CheckedChanged -= MavlinkCheckBoxBitMask_CheckedChanged;
+
                     if ((value & ((uint)list[a].Key) << a) > 0)
                     {
                         chk.Checked = true;
@@ -125,8 +127,8 @@ namespace MissionPlanner.Controls
         {
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
-            this.myLabel1 = new MissionPlanner.Controls.MyLabel();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.myLabel1 = new MissionPlanner.Controls.MyLabel();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -158,18 +160,6 @@ namespace MissionPlanner.Controls
             this.label1.TabIndex = 0;
             this.label1.Text = "label1";
             // 
-            // myLabel1
-            // 
-            this.myLabel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.myLabel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.myLabel1.Location = new System.Drawing.Point(3, 3);
-            this.myLabel1.Name = "myLabel1";
-            this.myLabel1.resize = false;
-            this.myLabel1.Size = new System.Drawing.Size(267, 23);
-            this.myLabel1.TabIndex = 3;
-            this.myLabel1.Text = "myLabel1";
-            // 
             // panel1
             // 
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -177,6 +167,18 @@ namespace MissionPlanner.Controls
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(331, 50);
             this.panel1.TabIndex = 1;
+            // 
+            // myLabel1
+            // 
+            this.myLabel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.myLabel1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold);
+            this.myLabel1.Location = new System.Drawing.Point(3, 3);
+            this.myLabel1.Name = "myLabel1";
+            this.myLabel1.resize = false;
+            this.myLabel1.Size = new System.Drawing.Size(337, 23);
+            this.myLabel1.TabIndex = 3;
+            this.myLabel1.Text = "myLabel1";
             // 
             // MavlinkCheckBoxBitMask
             // 

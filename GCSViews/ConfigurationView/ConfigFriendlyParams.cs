@@ -149,9 +149,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
             y = 10;
 
-            Console.WriteLine("Activate " + DateTime.Now.ToString("mm.fff"));
+            Console.WriteLine("Activate " + DateTime.Now.ToString("ss.fff"));
             BindParamList();
-            Console.WriteLine("Activate Done " + DateTime.Now.ToString("mm.fff"));
+            Console.WriteLine("Activate Done " + DateTime.Now.ToString("ss.fff"));
         }
 
         /// <summary>
@@ -209,7 +209,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
              //   ctl.Dispose();
             }
 
-            Console.WriteLine("Disposed "+DateTime.Now.ToString("mm.fff"));
+            Console.WriteLine("Disposed "+DateTime.Now.ToString("ss.fff"));
 
            // tableLayoutPanel1.Controls.Clear();
 
@@ -218,7 +218,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             try
             {
                 SortParamList();
-                Console.WriteLine("Sorted " + DateTime.Now.ToString("mm.fff"));
+                Console.WriteLine("Sorted " + DateTime.Now.ToString("ss.fff"));
             }
             catch { }
 
@@ -236,24 +236,29 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 catch (Exception exp) { log.Error(exp); } // just to cleanup any errors
             }
 
-            Console.WriteLine("next " + DateTime.Now.ToString("mm.fff"));
+            Console.WriteLine("next " + DateTime.Now.ToString("ss.fff"));
 
             tableLayoutPanel1.VerticalScroll.Value = 0;
 
             this.SuspendLayout();
 
+            List<Control> toadd = new List<Control>();
+
             _params.OrderBy(x => x.Key).ForEach(x =>
          {
-             AddControl(x);//,ref ypos);
-             Console.WriteLine("add ctl " + x.Key + " " + DateTime.Now.ToString("mm.fff"));
+             AddControl(x, toadd);//,ref ypos);
+             Console.WriteLine("add ctl " + x.Key + " " + DateTime.Now.ToString("ss.fff"));
          });
-            Console.WriteLine("Add done" + DateTime.Now.ToString("mm.fff"));
+
+            tableLayoutPanel1.Controls.AddRange(toadd.ToArray());
+
+            Console.WriteLine("Add done" + DateTime.Now.ToString("ss.fff"));
 
             this.ResumeLayout(false);
             
         }
 
-        void AddControl(KeyValuePair<string,string> x) //, ref int ypos)
+        void AddControl(KeyValuePair<string,string> x, List<Control> toadd) //, ref int ypos)
         {
             if (!String.IsNullOrEmpty(x.Key))
             {
@@ -262,30 +267,39 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     bool controlAdded = false;
 
                     string value = ((float)MainV2.comPort.MAV.param[x.Key]).ToString("0.###");
-                    string description = ParameterMetaDataRepository.GetParameterMetaData(x.Key, ParameterMetaDataConstants.Description, MainV2.comPort.MAV.cs.firmware.ToString());
-                    string displayName = x.Value + " (" + x.Key + ")";
-                    string units = ParameterMetaDataRepository.GetParameterMetaData(x.Key, ParameterMetaDataConstants.Units, MainV2.comPort.MAV.cs.firmware.ToString());
 
                     var items = this.Controls.Find(x.Key,true);
                     if (items.Length > 0)
                     {
-                        if (items[0].GetType() == typeof(RangeControl)) {
-                            ((RangeControl)items[0]).ValueChanged -= Control_ValueChanged;
-                            ((RangeControl)items[0]).DeAttachEvents();
-                            ((RangeControl)items[0]).Value = value;
-                            ThemeManager.ApplyThemeTo(((RangeControl)items[0]));
-                            ((RangeControl)items[0]).AttachEvents();
-                            ((RangeControl)items[0]).ValueChanged += Control_ValueChanged;
-                            return;
-                        } else 
-                        if (items[0].GetType() == typeof(ValuesControl))
+                        if (items[0].GetType() == typeof (RangeControl))
                         {
-                            ((ValuesControl)items[0]).ValueChanged -= Control_ValueChanged;
-                            ((ValuesControl)items[0]).Value = value;
-                            ((ValuesControl)items[0]).ValueChanged += Control_ValueChanged;
+                            ((RangeControl) items[0]).ValueChanged -= Control_ValueChanged;
+                            ((RangeControl) items[0]).DeAttachEvents();
+                            ((RangeControl) items[0]).Value = value;
+                            ThemeManager.ApplyThemeTo(((RangeControl) items[0]));
+                            ((RangeControl) items[0]).AttachEvents();
+                            ((RangeControl) items[0]).ValueChanged += Control_ValueChanged;
+                            return;
+                        }
+                        else if (items[0].GetType() == typeof (ValuesControl))
+                        {
+                            ((ValuesControl) items[0]).ValueChanged -= Control_ValueChanged;
+                            ((ValuesControl) items[0]).Value = value;
+                            ((ValuesControl) items[0]).ValueChanged += Control_ValueChanged;
+                            return;
+                        }
+                        else if (items[0].GetType() == typeof (MavlinkCheckBoxBitMask))
+                        {
+                            ((MavlinkCheckBoxBitMask) items[0]).ValueChanged -= Control_ValueChanged;
+                            ((MavlinkCheckBoxBitMask) items[0]).setup(x.Key, MainV2.comPort.MAV.param);
+                            ((MavlinkCheckBoxBitMask) items[0]).ValueChanged += Control_ValueChanged;
                             return;
                         }
                     }
+
+                    string description = ParameterMetaDataRepository.GetParameterMetaData(x.Key, ParameterMetaDataConstants.Description, MainV2.comPort.MAV.cs.firmware.ToString());
+                    string displayName = x.Value + " (" + x.Key + ")";
+                    string units = ParameterMetaDataRepository.GetParameterMetaData(x.Key, ParameterMetaDataConstants.Units, MainV2.comPort.MAV.cs.firmware.ToString());
 
                     // If this is a range
                     string rangeRaw = ParameterMetaDataRepository.GetParameterMetaData(x.Key, ParameterMetaDataConstants.Range, MainV2.comPort.MAV.cs.firmware.ToString());
@@ -324,7 +338,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                               //  increment /= 100;
                             }
 
-                            var rangeControl = new RangeControl(x.Key, FitDescriptionText(units, description, tableLayoutPanel1.Width-100), displayName, increment, displayscale, lowerRange, upperRange, value);
+                            string desc = FitDescriptionText(units, description, tableLayoutPanel1.Width);
+
+                            var rangeControl = new RangeControl(x.Key, desc, displayName, increment, displayscale, lowerRange, upperRange, value);
 
                             rangeControl.Width = tableLayoutPanel1.Width - 50;
 
@@ -345,7 +361,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                             // set pos
                             rangeControl.Location = new Point(0, y);
                             // add control - let it autosize height
-                            tableLayoutPanel1.Controls.Add(rangeControl);
+                            toadd.Add(rangeControl);
                             // add height for next control
                             y += rangeControl.Height;
 
@@ -360,7 +376,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                         if (availableBitMask.Count > 0)
                         {
                             MavlinkCheckBoxBitMask bitmask = new MavlinkCheckBoxBitMask();
-
+                            bitmask.Name = x.Key;
                             bitmask.setup(x.Key, MainV2.comPort.MAV.param);
 
                             bitmask.myLabel1.Text = displayName;
@@ -371,7 +387,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                             // set pos
                             bitmask.Location = new Point(0, y);
                             // add control - let it autosize height
-                            tableLayoutPanel1.Controls.Add(bitmask);
+                            toadd.Add(bitmask);
                             // add height for next control
                             y += bitmask.Height;
 
@@ -391,6 +407,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                             if (availableValues.Any())
                             {
                                 var valueControl = new ValuesControl();
+                                valueControl.Width = tableLayoutPanel1.Width - 50;
                                 valueControl.Name = x.Key;
                                 valueControl.DescriptionText = FitDescriptionText(units, description, tableLayoutPanel1.Width);
                                 valueControl.LabelText = displayName;
@@ -414,7 +431,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                                 // set pos
                                 valueControl.Location = new Point(0, y);
                                 // add control - let it autosize height
-                                tableLayoutPanel1.Controls.Add(valueControl);
+                                toadd.Add(valueControl);
                                 // add height for next control
                                 y += valueControl.Height;
                             }
