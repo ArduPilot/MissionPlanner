@@ -198,12 +198,6 @@ namespace MissionPlanner
           //  if (Debugger.IsAttached)
           //      ThemeManager.doxamlgen();
 
-            if (File.Exists("simple.txt"))
-            {
-                Application.Run(new GCSViews.Simple());
-                return;
-            }
-
             Splash = new MissionPlanner.Splash();
             string strVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
             Splash.Text = name+" " + Application.ProductVersion + " build " + strVersion;
