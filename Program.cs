@@ -333,7 +333,14 @@ namespace MissionPlanner
                     string data = "";
                         foreach (System.Collections.DictionaryEntry de in ex.Data)
                             data += String.Format("-> {0}: {1}", de.Key, de.Value);
-              
+
+                    string message = "";
+
+                    try
+                    {
+                        Controls.InputBox.Show("Message", "Please enter a message about this error if you can.", message);
+                    }
+                    catch { }
 
                     // Create a request using a URL that can receive a post. 
                     WebRequest request = WebRequest.Create("http://vps.oborne.me/mail.php");
@@ -346,7 +353,8 @@ namespace MissionPlanner
                         + "\nException " + ex.ToString().Replace('&', ' ').Replace('=', ' ') 
                         + "\nStack: " + ex.StackTrace.ToString().Replace('&', ' ').Replace('=', ' ') 
                         + "\nTargetSite " + ex.TargetSite + " " + ex.TargetSite.DeclaringType
-                        + "\ndata " + data;
+                        + "\ndata " + data
+                        + "\nmessage " + message.Replace('&', ' ').Replace('=', ' ');
                     byte[] byteArray = Encoding.ASCII.GetBytes(postData);
                     // Set the ContentType property of the WebRequest.
                     request.ContentType = "application/x-www-form-urlencoded";
