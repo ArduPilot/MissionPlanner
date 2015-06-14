@@ -452,7 +452,7 @@ Please check the following
             MAV.sysid = sysid;
             MAV.compid = compid;
             MAV.recvpacketcount = mgsno;
-            log.InfoFormat("ID sys {0} comp {1} ver{2}", MAV.sysid, MAV.compid, mavlinkversion);
+            log.InfoFormat("ID sys {0} comp {1} ver{2} type {3} name {4}", MAV.sysid, MAV.compid, mavlinkversion, MAV.aptype.ToString(), MAV.apname.ToString());
         }
 
         public byte[] getHeartBeat()
@@ -3471,6 +3471,13 @@ Please check the following
                             break;
                     }
                     break;
+                default:
+                    switch (MAVlist[sysid].aptype)
+                    {
+                        case MAV_TYPE.GIMBAL: // storm32 - name 83
+                            MAVlist[sysid].cs.firmware = MainV2.Firmwares.Gymbal;
+                            break;
+                    }
             }
 
             switch (MAVlist[sysid].cs.firmware)

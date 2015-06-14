@@ -1115,7 +1115,7 @@ namespace MissionPlanner.GCSViews
                                     }
                                     else
                                     { // unknown type
-                                        routes.Markers.Add(new GMapMarker(portlocation));
+                                        routes.Markers.Add(new GMarkerGoogle(portlocation, GMarkerGoogleType.green_dot));
                                     }
                                 }
                             }

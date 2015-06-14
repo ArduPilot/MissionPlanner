@@ -270,10 +270,10 @@ namespace MissionPlanner
         {
             ArduPlane,
             ArduCopter2,
-            //ArduHeli,
             ArduRover,
             Ateryx,
-            ArduTracker
+            ArduTracker,
+            Gymbal
         }
 
         DateTime connectButtonUpdate = DateTime.Now;

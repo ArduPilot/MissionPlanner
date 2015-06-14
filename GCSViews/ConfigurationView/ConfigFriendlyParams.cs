@@ -227,11 +227,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
                 try
                 {
-                    Utilities.ParameterMetaDataParser.GetParameterInformation();
-
-                    ParameterMetaDataRepository.Reload();
-
-                    SortParamList();
+                    //Utilities.ParameterMetaDataParser.GetParameterInformation();
+                    //ParameterMetaDataRepository.Reload();
+                    //SortParamList();
                 }
                 catch (Exception exp) { log.Error(exp); } // just to cleanup any errors
             }
