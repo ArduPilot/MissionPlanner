@@ -1938,7 +1938,8 @@ Please check the following
         {
             mavlink_gps_inject_data_t gps = new mavlink_gps_inject_data_t();
 
-            gps.data = data.Take(length).ToArray();
+            gps.data = new byte[110];
+            Array.Copy(data, gps.data, length);
             gps.len = length;
             gps.target_component = MAV.compid;
             gps.target_system = MAV.sysid;
