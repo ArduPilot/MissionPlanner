@@ -1109,9 +1109,13 @@ namespace MissionPlanner.GCSViews
                                     {
                                         routes.Markers.Add(new GMapMarkerAntennaTracker(portlocation, MAV.cs.yaw, MAV.cs.target_bearing));
                                     }
-                                    else
+                                    else if (MAV.cs.firmware == MainV2.Firmwares.ArduCopter2)
                                     {
                                         routes.Markers.Add(new GMapMarkerQuad(portlocation, MAV.cs.yaw, MAV.cs.groundcourse, MAV.cs.nav_bearing,MAV.sysid));
+                                    }
+                                    else
+                                    { // unknown type
+                                        routes.Markers.Add(new GMapMarker(portlocation));
                                     }
                                 }
                             }
