@@ -65,11 +65,21 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             timer.Interval = 100;
             timer.Start();
 
-            //setup bindings
-            chroll = (int)(float)MainV2.comPort.MAV.param["RCMAP_ROLL"];
-            chpitch = (int)(float)MainV2.comPort.MAV.param["RCMAP_PITCH"];
-            chyaw = (int)(float)MainV2.comPort.MAV.param["RCMAP_THROTTLE"];
-            chthro = (int)(float)MainV2.comPort.MAV.param["RCMAP_YAW"];
+            if (!MainV2.comPort.MAV.param.ContainsKey("RCMAP_ROLL"))
+            {
+                chroll = 1;
+                chpitch = 2;
+                chthro = 3;
+                chyaw = 4;                
+            }
+            else
+            {
+                //setup bindings
+                chroll = (int)(float)MainV2.comPort.MAV.param["RCMAP_ROLL"];
+                chpitch = (int)(float)MainV2.comPort.MAV.param["RCMAP_PITCH"];
+                chyaw = (int)(float)MainV2.comPort.MAV.param["RCMAP_THROTTLE"];
+                chthro = (int)(float)MainV2.comPort.MAV.param["RCMAP_YAW"];
+            }
 
             this.BARroll.DataBindings.Clear();
             this.BARpitch.DataBindings.Clear();
@@ -80,17 +90,16 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.BAR7.DataBindings.Clear();
             this.BAR8.DataBindings.Clear();
 
-            this.BARroll.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.currentStateBindingSource, "ch" + MainV2.comPort.MAV.param["RCMAP_ROLL"] + "in", true));
-            this.BARpitch.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.currentStateBindingSource, "ch" + MainV2.comPort.MAV.param["RCMAP_PITCH"] + "in", true));
-            this.BARthrottle.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.currentStateBindingSource, "ch" + MainV2.comPort.MAV.param["RCMAP_THROTTLE"] + "in", true));
-            this.BARyaw.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.currentStateBindingSource, "ch" + MainV2.comPort.MAV.param["RCMAP_YAW"] + "in", true));
+            this.BARroll.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.currentStateBindingSource, "ch" + chroll + "in", true));
+            this.BARpitch.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.currentStateBindingSource, "ch" + chpitch + "in", true));
+            this.BARthrottle.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.currentStateBindingSource, "ch" + chthro + "in", true));
+            this.BARyaw.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.currentStateBindingSource, "ch" + chyaw + "in", true));
 
 
             this.BAR5.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.currentStateBindingSource, "ch5in", true));
             this.BAR6.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.currentStateBindingSource, "ch6in", true));
             this.BAR7.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.currentStateBindingSource, "ch7in", true));
             this.BAR8.DataBindings.Add(new System.Windows.Forms.Binding("Value", this.currentStateBindingSource, "ch8in", true));
-
 
             try
             {
