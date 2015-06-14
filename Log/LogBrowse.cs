@@ -1476,7 +1476,7 @@ namespace MissionPlanner.Log
         private void treeView1_DoubleClick(object sender, EventArgs e)
         {
             // apply a slope and offset to a selected child
-            if (treeView1.SelectedNode.Parent == null)
+            if (treeView1.SelectedNode == null || treeView1.SelectedNode.Parent == null)
             {
                 // only apply scalers to children
                 return;
