@@ -3478,6 +3478,7 @@ Please check the following
                             MAVlist[sysid].cs.firmware = MainV2.Firmwares.Gymbal;
                             break;
                     }
+                    break;
             }
 
             switch (MAVlist[sysid].cs.firmware)
