@@ -158,13 +158,13 @@ namespace MissionPlanner.Utilities
                 Color[] color = new Color[] { Color.Red, Color.Green, Color.Black, Color.Violet, Color.Blue, Color.Orange };
                 ZedGraphControl[] ctls = new ZedGraphControl[] { zedGraphControl1, zedGraphControl2, zedGraphControl3, zedGraphControl4, zedGraphControl5, zedGraphControl6 };
 
-                int samplecount = 0;
+                int samplecounta = 0;
+                int samplecountg = 0;
 
                 double lasttime = 0;
                 double timedelta = 0;
                 double[] freqt = null;
                 double samplerate = 0;
-
 
                 while (!file.EndOfStream)
                 {
@@ -179,15 +179,17 @@ namespace MissionPlanner.Utilities
 
                         double time = double.Parse(item.items[offsetTime]) / 1000.0;
 
-                        if (time != lasttime)
-                            timedelta = timedelta * 0.99 + (time - lasttime) * 0.01;
+                        timedelta = timedelta * 0.99 + (time - lasttime) * 0.01;
 
-                        datainAX[samplecount] = double.Parse(item.items[offsetAX]);
-                        datainAY[samplecount] = double.Parse(item.items[offsetAY]);
-                        datainAZ[samplecount] = double.Parse(item.items[offsetAZ]);
+                        // we missed gyro data
+                        if (samplecounta >= N)
+                            continue;
 
-                        if (lasttime != time && lasttime != 0)
-                            samplecount++;
+                        datainAX[samplecounta] = double.Parse(item.items[offsetAX]);
+                        datainAY[samplecounta] = double.Parse(item.items[offsetAY]);
+                        datainAZ[samplecounta] = double.Parse(item.items[offsetAZ]);
+                        
+                        samplecounta++;
 
                         lasttime = time;
                     }
@@ -200,20 +202,18 @@ namespace MissionPlanner.Utilities
 
                         double time = double.Parse(item.items[offsetTime]) / 1000.0;
 
-                        if (time != lasttime)
-                            timedelta = timedelta * 0.99 + (time - lasttime) * 0.01;
+                        // we missed accel data
+                        if (samplecountg >= N)
+                            continue;
 
-                        datainGX[samplecount] = double.Parse(item.items[offsetGX]);
-                        datainGY[samplecount] = double.Parse(item.items[offsetGY]);
-                        datainGZ[samplecount] = double.Parse(item.items[offsetGZ]);
+                        datainGX[samplecountg] = double.Parse(item.items[offsetGX]);
+                        datainGY[samplecountg] = double.Parse(item.items[offsetGY]);
+                        datainGZ[samplecountg] = double.Parse(item.items[offsetGZ]);
 
-                        if (lasttime != time && lasttime != 0)
-                            samplecount++;
-
-                        lasttime = time;
+                        samplecountg++;
                     }
 
-                    if (samplecount == N)
+                    if (samplecounta >= N && samplecountg >= N)
                     {
                         int inputdataindex = 0;
 
@@ -226,7 +226,8 @@ namespace MissionPlanner.Utilities
                                 avg[inputdataindex][b] += fftanswer[b] * (1.0 / (N / 2.0));
                             }
 
-                            samplecount = 0;
+                            samplecounta = 0;
+                            samplecountg = 0;
                             inputdataindex++;
                         }
                     }
@@ -234,19 +235,7 @@ namespace MissionPlanner.Utilities
 
                 if (freqt == null)
                 {
-                    // 1000 16000 800/760
-                    if (timedelta > 2 && timedelta < 4) // 2.5
-                        samplerate = 400; // 400*2.5 = 1000
-                    if (timedelta > 10 && timedelta < 30) // 20
-                        samplerate = 50; // 20 * 50 = 1000
-                    if (timedelta < 2) // 1
-                        samplerate = 1000;
-                    if (timedelta < 0.8) // 0.625
-                        samplerate = 1600;
-
-
-                    if (samplerate == 0)
-                        samplerate = Math.Round(1000 / timedelta, 1);
+                    samplerate = Math.Round(1000 / timedelta, 1);
                     freqt = fft.FreqTable(N, (int)samplerate);
                 }
 
