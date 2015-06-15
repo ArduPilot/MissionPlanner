@@ -525,4 +525,19 @@ Please use Standard/Advanced Params for the safe settings</value>
   <data name="FailSafe" xml:space="preserve">
     <value>FailSafe</value>
   </data>
+  <data name="Error_binding" xml:space="preserve">
+    <value>Error binding</value>
+  </data>
+  <data name="Put_the_transmitter_in_bind_mode__Receiver_is_waiting" xml:space="preserve">
+    <value>Put the transmitter in bind mode. Receiver is waiting.</value>
+  </data>
+  <data name="Completed" xml:space="preserve">
+    <value>Completed</value>
+  </data>
+  <data name="Click_when_Done" xml:space="preserve">
+    <value>Click when Done</value>
+  </data>
+  <data name="Saving" xml:space="preserve">
+    <value>Saving</value>
+  </data>
 </root>

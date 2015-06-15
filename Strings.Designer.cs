@@ -250,6 +250,15 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Click when Done.
+        /// </summary>
+        public static string Click_when_Done {
+            get {
+                return ResourceManager.GetString("Click_when_Done", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The Command failed to execute
         ///.
         /// </summary>
@@ -265,6 +274,15 @@ namespace MissionPlanner {
         public static string CommunicationErrorNoConnection {
             get {
                 return ResourceManager.GetString("CommunicationErrorNoConnection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Completed.
+        /// </summary>
+        public static string Completed {
+            get {
+                return ResourceManager.GetString("Completed", resourceCulture);
             }
         }
         
@@ -419,6 +437,15 @@ namespace MissionPlanner {
         public static string ERROR {
             get {
                 return ResourceManager.GetString("ERROR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error binding.
+        /// </summary>
+        public static string Error_binding {
+            get {
+                return ResourceManager.GetString("Error_binding", resourceCulture);
             }
         }
         
@@ -969,6 +996,15 @@ namespace MissionPlanner {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Put the transmitter in bind mode. Receiver is waiting..
+        /// </summary>
+        public static string Put_the_transmitter_in_bind_mode__Receiver_is_waiting {
+            get {
+                return ResourceManager.GetString("Put_the_transmitter_in_bind_mode__Receiver_is_waiting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ?.
         /// </summary>
         public static string QuestionMark {
@@ -1029,6 +1065,15 @@ namespace MissionPlanner {
         public static string RunAnyway {
             get {
                 return ResourceManager.GetString("RunAnyway", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Saving.
+        /// </summary>
+        public static string Saving {
+            get {
+                return ResourceManager.GetString("Saving", resourceCulture);
             }
         }
         

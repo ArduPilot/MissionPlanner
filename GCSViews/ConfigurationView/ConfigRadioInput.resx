@@ -157,7 +157,7 @@
     <value>NoControl</value>
   </data>
   <data name="CHK_elevonch2rev.Location" type="System.Drawing.Point, System.Drawing">
-    <value>292, 19</value>
+    <value>293, 19</value>
   </data>
   <data name="CHK_elevonch2rev.Size" type="System.Drawing.Size, System.Drawing">
     <value>111, 17</value>
@@ -187,7 +187,7 @@
     <value>NoControl</value>
   </data>
   <data name="CHK_elevonrev.Location" type="System.Drawing.Point, System.Drawing">
-    <value>82, 19</value>
+    <value>83, 19</value>
   </data>
   <data name="CHK_elevonrev.Size" type="System.Drawing.Size, System.Drawing">
     <value>87, 17</value>
@@ -217,7 +217,7 @@
     <value>NoControl</value>
   </data>
   <data name="CHK_elevonch1rev.Location" type="System.Drawing.Point, System.Drawing">
-    <value>175, 19</value>
+    <value>176, 19</value>
   </data>
   <data name="CHK_elevonch1rev.Size" type="System.Drawing.Size, System.Drawing">
     <value>111, 17</value>
@@ -241,7 +241,7 @@
     <value>3</value>
   </data>
   <data name="groupBoxElevons.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 356</value>
+    <value>3, 356</value>
   </data>
   <data name="groupBoxElevons.Size" type="System.Drawing.Size, System.Drawing">
     <value>409, 42</value>
@@ -262,7 +262,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;groupBoxElevons.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>1</value>
   </data>
   <data name="CHK_revch3.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -292,7 +292,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CHK_revch3.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>2</value>
   </data>
   <data name="CHK_revch4.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -322,7 +322,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CHK_revch4.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>3</value>
   </data>
   <data name="CHK_revch2.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -352,7 +352,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CHK_revch2.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>4</value>
   </data>
   <data name="CHK_revch1.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -382,13 +382,13 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;CHK_revch1.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>5</value>
   </data>
   <data name="BUT_BindDSM8.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="BUT_BindDSM8.Location" type="System.Drawing.Point, System.Drawing">
-    <value>555, 375</value>
+    <value>138, 15</value>
   </data>
   <data name="BUT_BindDSM8.Size" type="System.Drawing.Size, System.Drawing">
     <value>65, 23</value>
@@ -406,16 +406,16 @@
     <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_BindDSM8.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;BUT_BindDSM8.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="BUT_BindDSMX.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="BUT_BindDSMX.Location" type="System.Drawing.Point, System.Drawing">
-    <value>490, 375</value>
+    <value>71, 15</value>
   </data>
   <data name="BUT_BindDSMX.Size" type="System.Drawing.Size, System.Drawing">
     <value>65, 23</value>
@@ -433,16 +433,16 @@
     <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_BindDSMX.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;BUT_BindDSMX.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="BUT_BindDSM2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="BUT_BindDSM2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>427, 375</value>
+    <value>6, 15</value>
   </data>
   <data name="BUT_BindDSM2.Size" type="System.Drawing.Size, System.Drawing">
     <value>63, 23</value>
@@ -460,16 +460,16 @@
     <value>MissionPlanner.Controls.MyButton, MissionPlanner.Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;BUT_BindDSM2.Parent" xml:space="preserve">
-    <value>$this</value>
+    <value>groupBox1</value>
   </data>
   <data name="&gt;&gt;BUT_BindDSM2.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>0</value>
   </data>
   <data name="BUT_Calibrateradio.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="BUT_Calibrateradio.Location" type="System.Drawing.Point, System.Drawing">
-    <value>473, 346</value>
+    <value>473, 307</value>
   </data>
   <data name="BUT_Calibrateradio.Size" type="System.Drawing.Size, System.Drawing">
     <value>134, 23</value>
@@ -490,7 +490,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BUT_Calibrateradio.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>6</value>
   </data>
   <data name="BAR8.Location" type="System.Drawing.Point, System.Drawing">
     <value>437, 247</value>
@@ -511,7 +511,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BAR8.ZOrder" xml:space="preserve">
-    <value>9</value>
+    <value>7</value>
   </data>
   <data name="BAR7.Location" type="System.Drawing.Point, System.Drawing">
     <value>437, 192</value>
@@ -532,7 +532,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BAR7.ZOrder" xml:space="preserve">
-    <value>10</value>
+    <value>8</value>
   </data>
   <data name="BAR6.Location" type="System.Drawing.Point, System.Drawing">
     <value>437, 137</value>
@@ -553,7 +553,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BAR6.ZOrder" xml:space="preserve">
-    <value>11</value>
+    <value>9</value>
   </data>
   <data name="BAR5.Location" type="System.Drawing.Point, System.Drawing">
     <value>437, 82</value>
@@ -574,7 +574,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BAR5.ZOrder" xml:space="preserve">
-    <value>12</value>
+    <value>10</value>
   </data>
   <data name="BARpitch.Location" type="System.Drawing.Point, System.Drawing">
     <value>134, 64</value>
@@ -595,7 +595,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BARpitch.ZOrder" xml:space="preserve">
-    <value>13</value>
+    <value>11</value>
   </data>
   <data name="BARthrottle.Location" type="System.Drawing.Point, System.Drawing">
     <value>350, 64</value>
@@ -616,7 +616,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BARthrottle.ZOrder" xml:space="preserve">
-    <value>14</value>
+    <value>12</value>
   </data>
   <data name="BARyaw.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 307</value>
@@ -637,7 +637,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BARyaw.ZOrder" xml:space="preserve">
-    <value>15</value>
+    <value>13</value>
   </data>
   <data name="BARroll.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 13</value>
@@ -658,11 +658,35 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;BARroll.ZOrder" xml:space="preserve">
-    <value>16</value>
+    <value>14</value>
   </data>
   <metadata name="currentStateBindingSource.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
+  <data name="groupBox1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>418, 356</value>
+  </data>
+  <data name="groupBox1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>207, 42</value>
+  </data>
+  <data name="groupBox1.TabIndex" type="System.Int32, mscorlib">
+    <value>129</value>
+  </data>
+  <data name="groupBox1.Text" xml:space="preserve">
+    <value>Spektrum Bind</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Name" xml:space="preserve">
+    <value>groupBox1</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.GroupBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;groupBox1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>

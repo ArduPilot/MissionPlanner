@@ -53,8 +53,10 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.BARyaw = new MissionPlanner.Controls.HorizontalProgressBar2();
             this.BARroll = new MissionPlanner.Controls.HorizontalProgressBar2();
             this.currentStateBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBoxElevons.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.currentStateBindingSource)).BeginInit();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBoxElevons
@@ -128,21 +130,21 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             resources.ApplyResources(this.BUT_BindDSM8, "BUT_BindDSM8");
             this.BUT_BindDSM8.Name = "BUT_BindDSM8";
             this.BUT_BindDSM8.UseVisualStyleBackColor = true;
-            this.BUT_BindDSM8.Click += new System.EventHandler(this.myButton2_Click);
+            this.BUT_BindDSM8.Click += new System.EventHandler(this.BUT_Bindradiodsm8_Click);
             // 
             // BUT_BindDSMX
             // 
             resources.ApplyResources(this.BUT_BindDSMX, "BUT_BindDSMX");
             this.BUT_BindDSMX.Name = "BUT_BindDSMX";
             this.BUT_BindDSMX.UseVisualStyleBackColor = true;
-            this.BUT_BindDSMX.Click += new System.EventHandler(this.myButton1_Click);
+            this.BUT_BindDSMX.Click += new System.EventHandler(this.BUT_BindradiodsmX_Click);
             // 
             // BUT_BindDSM2
             // 
             resources.ApplyResources(this.BUT_BindDSM2, "BUT_BindDSM2");
             this.BUT_BindDSM2.Name = "BUT_BindDSM2";
             this.BUT_BindDSM2.UseVisualStyleBackColor = true;
-            this.BUT_BindDSM2.Click += new System.EventHandler(this.BUT_Bindradio_Click);
+            this.BUT_BindDSM2.Click += new System.EventHandler(this.BUT_Bindradiodsm2_Click);
             // 
             // BUT_Calibrateradio
             // 
@@ -267,13 +269,20 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             // 
             this.currentStateBindingSource.DataSource = typeof(MissionPlanner.CurrentState);
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.BUT_BindDSM2);
+            this.groupBox1.Controls.Add(this.BUT_BindDSM8);
+            this.groupBox1.Controls.Add(this.BUT_BindDSMX);
+            resources.ApplyResources(this.groupBox1, "groupBox1");
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.TabStop = false;
+            // 
             // ConfigRadioInput
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.BUT_BindDSM8);
-            this.Controls.Add(this.BUT_BindDSMX);
-            this.Controls.Add(this.BUT_BindDSM2);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.groupBoxElevons);
             this.Controls.Add(this.CHK_revch3);
             this.Controls.Add(this.CHK_revch4);
@@ -292,6 +301,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             this.groupBoxElevons.ResumeLayout(false);
             this.groupBoxElevons.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.currentStateBindingSource)).EndInit();
+            this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -321,5 +331,6 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         private MyButton BUT_BindDSM2;
         private MyButton BUT_BindDSMX;
         private MyButton BUT_BindDSM8;
+        private System.Windows.Forms.GroupBox groupBox1;
     }
 }

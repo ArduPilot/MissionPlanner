@@ -154,7 +154,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             if (run)
             {
-                BUT_Calibrateradio.Text = "Completed";
+                BUT_Calibrateradio.Text = Strings.Completed;
                 run = false;
                 return;
             }
@@ -180,7 +180,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             {
             }
 
-            BUT_Calibrateradio.Text = "Click when Done";
+            BUT_Calibrateradio.Text = Strings.Click_when_Done;
 
             CustomMessageBox.Show(
                 "Click OK and move all RC sticks and switches to their\nextreme positions so the red bars hit the limits.");
@@ -276,7 +276,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             for (var a = 0; a < 8; a++)
             {
                 // we want these to save no matter what
-                BUT_Calibrateradio.Text = "Saving";
+                BUT_Calibrateradio.Text = Strings.Saving;
                 try
                 {
                     if (rcmin[a] != rcmax[a])
@@ -312,7 +312,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 "Here are the detected radio options\nNOTE Channels not connected are displayed as 1500 +-2\nNormal values are around 1100 | 1900\nChannel:Min | Max \n" +
                 data, "Radio");
 
-            BUT_Calibrateradio.Text = "Completed";
+            BUT_Calibrateradio.Text = Strings.Completed;
         }
 
         private void CHK_mixmode_CheckedChanged(object sender, EventArgs e)
@@ -460,34 +460,34 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
         }
 
-        private void BUT_Bindradio_Click(object sender, EventArgs e)
+        private void BUT_Bindradiodsm2_Click(object sender, EventArgs e)
         {
             try
             {
                 MainV2.comPort.doCommand(MAVLink.MAV_CMD.START_RX_PAIR, 0, 0, 0, 0, 0, 0, 0);
-                CustomMessageBox.Show("Put the transmitter in bind mode. Receiver is waiting.");
+                CustomMessageBox.Show(Strings.Put_the_transmitter_in_bind_mode__Receiver_is_waiting);
             }
-            catch { CustomMessageBox.Show("Error binding"); }
+            catch { CustomMessageBox.Show(Strings.Error_binding); }
         }
 
-        private void myButton1_Click(object sender, EventArgs e)
+        private void BUT_BindradiodsmX_Click(object sender, EventArgs e)
         {
             try
             {
                 MainV2.comPort.doCommand(MAVLink.MAV_CMD.START_RX_PAIR, 0, 1, 0, 0, 0, 0, 0);
-                CustomMessageBox.Show("Put the transmitter in bind mode. Receiver is waiting.");
+                CustomMessageBox.Show(Strings.Put_the_transmitter_in_bind_mode__Receiver_is_waiting);
             }
-            catch { CustomMessageBox.Show("Error binding"); }
+            catch { CustomMessageBox.Show(Strings.Error_binding); }
         }
 
-        private void myButton2_Click(object sender, EventArgs e)
+        private void BUT_Bindradiodsm8_Click(object sender, EventArgs e)
         {
             try
             {
                 MainV2.comPort.doCommand(MAVLink.MAV_CMD.START_RX_PAIR, 0, 2, 0, 0, 0, 0, 0);
-                CustomMessageBox.Show("Put the transmitter in bind mode. Receiver is waiting.");
+                CustomMessageBox.Show(Strings.Put_the_transmitter_in_bind_mode__Receiver_is_waiting);
             }
-            catch { CustomMessageBox.Show("Error binding"); }
+            catch { CustomMessageBox.Show(Strings.Error_binding); }
         }
     }
 }
