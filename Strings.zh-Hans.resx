@@ -489,4 +489,19 @@ Mission Planner waits for 2 valid heartbeat packets before connecting</value>
   <data name="FailSafe" xml:space="preserve">
     <value>故障保护</value>
   </data>
+  <data name="Error_binding" xml:space="preserve">
+    <value>对频错误</value>
+  </data>
+  <data name="Put_the_transmitter_in_bind_mode__Receiver_is_waiting" xml:space="preserve">
+    <value>请将发射机置于对频(bind)模式。接收机正在等待。</value>
+  </data>
+  <data name="Completed" xml:space="preserve">
+    <value>完成</value>
+  </data>
+  <data name="Click_when_Done" xml:space="preserve">
+    <value>完成时点击</value>
+  </data>
+  <data name="Saving" xml:space="preserve">
+    <value>保存中</value>
+  </data>
 </root>
