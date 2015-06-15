@@ -217,39 +217,51 @@ namespace MissionPlanner.Utilities
                     {
                         int inputdataindex = 0;
 
-                        if (freqt == null)
-                        {
-                            // 1000 16000 800/760
-                            if (timedelta > 2 && timedelta < 4) // 2.5
-                                samplerate = 400; // 400*2.5 = 1000
-                            if (timedelta > 10 && timedelta < 30) // 20
-                                samplerate = 50; // 20 * 50 = 1000
-                            if (timedelta < 2) // 1
-                                samplerate = 1000;
-                            if (timedelta < 0.8) // 0.625
-                                samplerate = 1600;
-
-
-                            if (samplerate == 0)
-                                samplerate = Math.Round(1000 / timedelta, 1);
-                            freqt = fft.FreqTable(N, (int)samplerate);
-                        }
-
                         foreach (var itemlist in datas)
                         {
                             var fftanswer = fft.rin((double[])itemlist, (uint)bins);
 
                             for (int b = 0; b < N / 2; b++)
                             {
-                                if (freqt[b] < (double)NUM_startfreq.Value)
-                                    continue;
-
                                 avg[inputdataindex][b] += fftanswer[b] * (1.0 / (N / 2.0));
                             }
 
                             samplecount = 0;
                             inputdataindex++;
                         }
+                    }
+                }
+
+                if (freqt == null)
+                {
+                    // 1000 16000 800/760
+                    if (timedelta > 2 && timedelta < 4) // 2.5
+                        samplerate = 400; // 400*2.5 = 1000
+                    if (timedelta > 10 && timedelta < 30) // 20
+                        samplerate = 50; // 20 * 50 = 1000
+                    if (timedelta < 2) // 1
+                        samplerate = 1000;
+                    if (timedelta < 0.8) // 0.625
+                        samplerate = 1600;
+
+
+                    if (samplerate == 0)
+                        samplerate = Math.Round(1000 / timedelta, 1);
+                    freqt = fft.FreqTable(N, (int)samplerate);
+                }
+
+                // 0 out all data befor cutoff
+                for (int inputdataindex = 0; inputdataindex < 6; inputdataindex++)
+                {
+                    for (int b = 0; b < N/2; b++)
+                    {
+                        if (freqt[b] < (double) NUM_startfreq.Value)
+                        {
+                            avg[inputdataindex][b] = 0;
+                            continue;
+                        }
+
+                        break;
                     }
                 }
 
