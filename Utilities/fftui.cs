@@ -447,5 +447,10 @@ namespace MissionPlanner.Utilities
                 }
             }
         }
+
+        private string zedGraphControl_PointValueEvent(ZedGraphControl sender, GraphPane pane, CurveItem curve, int iPt)
+        {
+            return String.Format("{0} hz/{1} rpm", curve[iPt].X,curve[iPt].X * 60.0);
+        }
     }
 }
