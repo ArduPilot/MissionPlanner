@@ -119,6 +119,9 @@
   <PropertyGroup>
     <ManifestTimestampUrl>http://timestamp.verisign.com/scripts/timestamp.dll</ManifestTimestampUrl>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="alglibnet2">
       <HintPath>ExtLibs\alglibnet2.dll</HintPath>
@@ -401,6 +404,7 @@
     <Compile Include="Georefimage.Designer.cs">
       <DependentUpon>georefimage.cs</DependentUpon>
     </Compile>
+    <Compile Include="HIL\QuadCopter.cs" />
     <Compile Include="Joystick\Joy_Do_Repeat_Servo.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -626,6 +630,7 @@
     <Compile Include="Utilities\GMapMarkerRallyPt.cs" />
     <Compile Include="Utilities\LineOffset.cs" />
     <Compile Include="Utilities\LogAnalyzer.cs" />
+    <Compile Include="Utilities\NoFly.cs" />
     <Compile Include="Utilities\ParameterMetaDataRepositoryAutoTest.cs" />
     <Compile Include="Utilities\Firmware.cs" />
     <Compile Include="Utilities\ImageOverFilter.cs" />
@@ -928,12 +933,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\InitialSetup.zh-TW.resx">
       <DependentUpon>InitialSetup.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Simple.zh-Hant.resx">
-      <DependentUpon>Simple.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Simple.zh-TW.resx">
-      <DependentUpon>Simple.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\Simulation.zh-Hant.resx">
       <DependentUpon>Simulation.cs</DependentUpon>
@@ -1779,12 +1778,6 @@
     <Compile Include="GCSViews\ConfigurationView\ConfigAteryxSensors.Designer.cs">
       <DependentUpon>ConfigAteryxSensors.cs</DependentUpon>
     </Compile>
-    <Compile Include="GCSViews\Simple.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GCSViews\Simple.Designer.cs">
-      <DependentUpon>Simple.cs</DependentUpon>
-    </Compile>
     <Compile Include="HIL\Hil.cs" />
     <Compile Include="HIL\Wind.cs" />
     <Compile Include="HIL\XPlane.cs" />
@@ -1942,7 +1935,6 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="HIL\Aircraft.cs" />
-    <Compile Include="HIL\QuadCopter.cs" />
     <Compile Include="Log\MavlinkLog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -2205,32 +2197,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigAteryxSensors.zh-Hans.resx">
       <DependentUpon>ConfigAteryxSensors.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Simple.de-DE.resx">
-      <DependentUpon>Simple.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Simple.es-ES.resx">
-      <DependentUpon>Simple.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Simple.fr.resx">
-      <DependentUpon>Simple.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Simple.it-IT.resx">
-      <DependentUpon>Simple.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Simple.pl.resx">
-      <DependentUpon>Simple.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Simple.resx">
-      <DependentUpon>Simple.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Simple.ru-RU.resx">
-      <DependentUpon>Simple.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GCSViews\Simple.zh-Hans.resx">
-      <DependentUpon>Simple.cs</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="GCSViews\ConfigurationView\ConfigFirmware.de-DE.resx">
       <DependentUpon>ConfigFirmware.cs</DependentUpon>

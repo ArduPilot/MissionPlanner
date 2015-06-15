@@ -223,6 +223,14 @@ namespace MissionPlanner.Utilities
                     }
                 }
             }
+            // ExtEventPVTGeodetic
+            if (blockid == 4038)
+            {
+                var temp = (msg4038)sbf_msg.data.ByteArrayToStructure<msg4038>(0);
+
+
+            }
+            // PVTGeodetic
             if (blockid == 4007) // geo position
             {
                 var temp = (msg4007)sbf_msg.data.ByteArrayToStructure<msg4007>(0);
@@ -282,7 +290,7 @@ namespace MissionPlanner.Utilities
                     case 7:
                         state.status = GPS_Status.GPS_OK_FIX_3D_RTK;
                         break;
-                    case 8:
+                    /*case 8:
                         state.status = GPS_Status.GPS_OK_FIX_3D_DGPS;
                         break;
                     case 9:
@@ -291,6 +299,7 @@ namespace MissionPlanner.Utilities
                     case 10:
                         state.status = GPS_Status.GPS_OK_FIX_3D;
                         break;
+                     */
                 }
 
 
@@ -399,6 +408,33 @@ namespace MissionPlanner.Utilities
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
         public struct msg4007
+        {
+            public uint32_t TOW;
+            public uint16_t WNc;
+            public uint8_t Mode;
+            public uint8_t Error;
+            public double Latitude;
+            public double Longitude;
+            public double Height;
+            public float Undulation;
+            public float Vn;
+            public float Ve;
+            public float Vu;
+            public float COG;
+            public double RxClkBias;
+            public float RxClkDrift;
+            public uint8_t TimeSystem;
+            public uint8_t Datum;
+            public uint8_t NrSV;
+            public uint8_t WACorrInfo;
+            public uint16_t ReferenceID;
+            public uint16_t MeanCorrAge;
+            public uint32_t SignalInfo;
+            public uint8_t AlertFlag;
+        }
+
+        [StructLayout(LayoutKind.Sequential, Pack = 1)]
+        public struct msg4038
         {
             public uint32_t TOW;
             public uint16_t WNc;

@@ -1,15 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using MissionPlanner.Controls.BackstageView;
 using System.Collections;
-using MissionPlanner.Controls;
 using System.Diagnostics;
+using System.Windows.Forms;
+using MissionPlanner.Controls;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
@@ -20,6 +13,11 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             InitializeComponent();
         }
 
+        public void Activate()
+        {
+            PopulateData();
+        }
+
         private void LNK_wiki_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Process.Start(new ProcessStartInfo("https://code.google.com/p/ardupilot-mega/wiki/APLimitsLibrary"));
@@ -27,15 +25,15 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void ProcessChange(object sender, EventArgs e)
         {
-            if (sender.GetType() == typeof(CheckBox))
+            if (sender.GetType() == typeof (CheckBox))
             {
-                CheckBox chk = ((CheckBox)sender);
+                var chk = ((CheckBox) sender);
                 MainV2.comPort.setParam(chk.Name, chk.Checked ? 1 : 0);
             }
-            else if (sender.GetType() == typeof(NumericUpDown))
+            else if (sender.GetType() == typeof (NumericUpDown))
             {
-                NumericUpDown nud = ((NumericUpDown)sender);
-                MainV2.comPort.setParam(nud.Name, (float)nud.Value);
+                var nud = ((NumericUpDown) sender);
+                MainV2.comPort.setParam(nud.Name, (float) nud.Value);
             }
         }
 
@@ -46,7 +44,7 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                 CustomMessageBox.Show(Strings.ErrorFeatureNotEnabled, Strings.ERROR);
                 return;
             }
-            
+
             if (LIM_ENABLED.Checked)
             {
                 groupBox1.Enabled = true;
@@ -73,37 +71,32 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             ProcessChange(sender, e);
         }
 
-        public void Activate()
+        private void PopulateData()
         {
-            PopulateData();
-        }
-
-        void PopulateData()
-        {
-            Hashtable copy = new Hashtable(MainV2.comPort.MAV.param);
+            var copy = new Hashtable(MainV2.comPort.MAV.param);
 
             foreach (string key in copy.Keys)
             {
-                Control[] ctls = this.Controls.Find(key, true);
+                var ctls = Controls.Find(key, true);
                 if (ctls.Length > 0)
                 {
-                    if (ctls[0].GetType() == typeof(CheckBox))
+                    if (ctls[0].GetType() == typeof (CheckBox))
                     {
-                        CheckBox chk = ((CheckBox)ctls[0]);
-                        Console.WriteLine(chk.Name + " "+  copy[key]);
+                        var chk = ((CheckBox) ctls[0]);
+                        Console.WriteLine(chk.Name + " " + copy[key]);
 
-                        chk.Checked = (float)copy[key] == 1 ? true: false;
+                        chk.Checked = (float) copy[key] == 1 ? true : false;
                         chk.Enabled = true;
                     }
-                    else if (ctls[0].GetType() == typeof(NumericUpDown))
+                    else if (ctls[0].GetType() == typeof (NumericUpDown))
                     {
-                        NumericUpDown nud = ((NumericUpDown)ctls[0]);
+                        var nud = ((NumericUpDown) ctls[0]);
                         Console.WriteLine(nud.Name + " " + copy[key]);
                         // set new max
-                        if ((decimal)(float)copy[key] > nud.Maximum)
-                            nud.Maximum = (decimal)(float)copy[key];
+                        if ((decimal) (float) copy[key] > nud.Maximum)
+                            nud.Maximum = (decimal) (float) copy[key];
 
-                        nud.Value = (decimal)(float)copy[key];
+                        nud.Value = (decimal) (float) copy[key];
                         nud.Enabled = true;
                     }
                 }

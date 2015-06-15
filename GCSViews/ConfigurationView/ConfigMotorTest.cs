@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using MissionPlanner.Controls;
+using MissionPlanner.HIL;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
@@ -38,94 +35,93 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         public void Activate()
         {
-            int x = 20;
-            int y = 40;
+            var x = 20;
+            var y = 40;
 
-            int motormax = 8;
+            var motormax = 8;
 
             if (!MainV2.comPort.MAV.param.ContainsKey("FRAME"))
             {
-                this.Enabled = false;
+                Enabled = false;
                 return;
             }
 
-            HIL.Motor[] motors = new HIL.Motor[0];
+            var motors = new Motor[0];
 
             if (MainV2.comPort.MAV.aptype == MAVLink.MAV_TYPE.TRICOPTER)
             {
                 motormax = 4;
 
-                motors = HIL.Motor.build_motors(MAVLink.MAV_TYPE.TRICOPTER, (int)(float)MainV2.comPort.MAV.param["FRAME"]);
+                motors = Motor.build_motors(MAVLink.MAV_TYPE.TRICOPTER, (int) (float) MainV2.comPort.MAV.param["FRAME"]);
             }
             else if (MainV2.comPort.MAV.aptype == MAVLink.MAV_TYPE.QUADROTOR)
             {
                 motormax = 4;
 
-                motors = HIL.Motor.build_motors(MAVLink.MAV_TYPE.QUADROTOR, (int)(float)MainV2.comPort.MAV.param["FRAME"]);
+                motors = Motor.build_motors(MAVLink.MAV_TYPE.QUADROTOR, (int) (float) MainV2.comPort.MAV.param["FRAME"]);
             }
             else if (MainV2.comPort.MAV.aptype == MAVLink.MAV_TYPE.HEXAROTOR)
             {
                 motormax = 6;
 
-                motors = HIL.Motor.build_motors(MAVLink.MAV_TYPE.HEXAROTOR, (int)(float)MainV2.comPort.MAV.param["FRAME"]);
+                motors = Motor.build_motors(MAVLink.MAV_TYPE.HEXAROTOR, (int) (float) MainV2.comPort.MAV.param["FRAME"]);
             }
             else if (MainV2.comPort.MAV.aptype == MAVLink.MAV_TYPE.OCTOROTOR)
             {
                 motormax = 8;
 
-                motors = HIL.Motor.build_motors(MAVLink.MAV_TYPE.OCTOROTOR, (int)(float)MainV2.comPort.MAV.param["FRAME"]);
+                motors = Motor.build_motors(MAVLink.MAV_TYPE.OCTOROTOR, (int) (float) MainV2.comPort.MAV.param["FRAME"]);
             }
             else if (MainV2.comPort.MAV.aptype == MAVLink.MAV_TYPE.HELICOPTER)
             {
                 motormax = 0;
             }
 
-            for (int a = 1; a <= motormax; a++)
+            for (var a = 1; a <= motormax; a++)
             {
-
-                MyButton but = new MyButton();
-                but.Text = "Test motor " + (char)((a-1) + 'A');
-                but.Location = new Point(x,y);
+                var but = new MyButton();
+                but.Text = "Test motor " + (char) ((a - 1) + 'A');
+                but.Location = new Point(x, y);
                 but.Click += but_Click;
                 but.Tag = a;
 
-                this.Controls.Add(but);
+                Controls.Add(but);
 
                 y += 25;
             }
         }
 
-        void but_Click(object sender, EventArgs e)
+        private void but_Click(object sender, EventArgs e)
         {
             try
             {
+                var motor = (int) ((MyButton) sender).Tag;
 
-                int motor = (int)((MyButton)sender).Tag;
-
-                if (MainV2.comPort.doMotorTest(motor, MAVLink.MOTOR_TEST_THROTTLE_TYPE.MOTOR_TEST_THROTTLE_PERCENT, (int)NUM_thr_percent.Value, (int)NUM_duration.Value))
+                if (MainV2.comPort.doMotorTest(motor, MAVLink.MOTOR_TEST_THROTTLE_TYPE.MOTOR_TEST_THROTTLE_PERCENT,
+                    (int) NUM_thr_percent.Value, (int) NUM_duration.Value))
                 {
-
                 }
                 else
                 {
                     CustomMessageBox.Show("Command was denied by the autopilot");
                 }
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
-                CustomMessageBox.Show("Failed to test motor\n" + ex.ToString());
+                CustomMessageBox.Show("Failed to test motor\n" + ex);
             }
         }
-
-
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             try
             {
-                System.Diagnostics.Process.Start("http://copter.ardupilot.com/wiki/motor-setup/");
+                Process.Start("http://copter.ardupilot.com/wiki/motor-setup/");
             }
-            catch { CustomMessageBox.Show("Bad default system association", Strings.ERROR); }
+            catch
+            {
+                CustomMessageBox.Show("Bad default system association", Strings.ERROR);
+            }
         }
     }
 }

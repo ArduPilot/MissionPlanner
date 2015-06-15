@@ -1,20 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using MissionPlanner.Controls.BackstageView;
 using MissionPlanner.Controls;
 
 namespace MissionPlanner.GCSViews.ConfigurationView
 {
     public partial class ConfigHWOSD : UserControl, IActivate
     {
-        const float rad2deg = (float)(180 / Math.PI);
-        const float deg2rad = (float)(1.0 / rad2deg);
+        private const float rad2deg = (float) (180/Math.PI);
+        private const float deg2rad = (float) (1.0/rad2deg);
 
         public ConfigHWOSD()
         {
@@ -25,13 +18,9 @@ namespace MissionPlanner.GCSViews.ConfigurationView
         {
             if (!MainV2.comPort.BaseStream.IsOpen)
             {
-                this.Enabled = false;
-                return;
+                Enabled = false;
             }
-            else
-            {
-                this.Enabled = true;
-            }
+            Enabled = true;
         }
 
         private void BUT_osdrates_Click(object sender, EventArgs e)
@@ -76,7 +65,10 @@ SR0_RC_CHAN,0
                 MainV2.comPort.setParam("SR3_RAW_SENS", 2);
                 MainV2.comPort.setParam("SR3_RC_CHAN", 2);
             }
-            catch { CustomMessageBox.Show("Failed to set OSD rates."); }
+            catch
+            {
+                CustomMessageBox.Show("Failed to set OSD rates.");
+            }
         }
     }
 }

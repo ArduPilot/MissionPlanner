@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections;
 using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using MissionPlanner.Controls.BackstageView;
-using System.Collections;
 using MissionPlanner.Controls;
 using MissionPlanner.Utilities;
 
@@ -15,53 +11,44 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 {
     public partial class ConfigAntennaTracker : UserControl, IActivate
     {
-        Hashtable changes = new Hashtable();
-        static Hashtable tooltips = new Hashtable();
+        // from http://stackoverflow.com/questions/2512781/winforms-big-paragraph-tooltip/2512895#2512895
+        private const int maximumSingleLineTooltipLength = 50;
+        private static Hashtable tooltips = new Hashtable();
+        private readonly Hashtable changes = new Hashtable();
         internal bool startup = true;
-
 
         public ConfigAntennaTracker()
         {
             InitializeComponent();
         }
 
-        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
-        {
-            if (keyData == (Keys.Control | Keys.S))
-            {
-                BUT_writePIDS_Click(null, null);
-                return true;
-            }
-
-            return false;
-        }
-
         public void Activate()
         {
             if (!MainV2.comPort.BaseStream.IsOpen)
             {
-                this.Enabled = false;
+                Enabled = false;
                 return;
+            }
+            if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduTracker)
+            {
+                Enabled = true;
             }
             else
             {
-                if (MainV2.comPort.MAV.cs.firmware == MainV2.Firmwares.ArduTracker)
-                {
-                    this.Enabled = true;
-                }
-                else
-                {
-                    this.Enabled = false;
-                    return;
-                }
+                Enabled = false;
+                return;
             }
 
             startup = true;
 
             changes.Clear();
 
-            mavlinkComboBox1.setup(Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("AHRS_ORIENTATION", MainV2.comPort.MAV.cs.firmware.ToString()), "AHRS_ORIENTATION", MainV2.comPort.MAV.param);
-            mavlinkComboBox2.setup(Utilities.ParameterMetaDataRepository.GetParameterOptionsInt("SERVO_TYPE", MainV2.comPort.MAV.cs.firmware.ToString()), "SERVO_TYPE", MainV2.comPort.MAV.param);
+            mavlinkComboBox1.setup(
+                ParameterMetaDataRepository.GetParameterOptionsInt("AHRS_ORIENTATION",
+                    MainV2.comPort.MAV.cs.firmware.ToString()), "AHRS_ORIENTATION", MainV2.comPort.MAV.param);
+            mavlinkComboBox2.setup(
+                ParameterMetaDataRepository.GetParameterOptionsInt("SERVO_TYPE",
+                    MainV2.comPort.MAV.cs.firmware.ToString()), "SERVO_TYPE", MainV2.comPort.MAV.param);
 
             // yaw
             mavlinkNumericUpDown1.setup(900, 2200, 1, 1, "RC1_MIN", MainV2.comPort.MAV.param);
@@ -96,17 +83,25 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             startup = false;
         }
 
-        // from http://stackoverflow.com/questions/2512781/winforms-big-paragraph-tooltip/2512895#2512895
-        private const int maximumSingleLineTooltipLength = 50;
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == (Keys.Control | Keys.S))
+            {
+                BUT_writePIDS_Click(null, null);
+                return true;
+            }
+
+            return false;
+        }
 
         private static string AddNewLinesForTooltip(string text)
         {
             if (text.Length < maximumSingleLineTooltipLength)
                 return text;
-            int lineLength = (int)Math.Sqrt((double)text.Length) * 2;
-            StringBuilder sb = new StringBuilder();
-            int currentLinePosition = 0;
-            for (int textIndex = 0; textIndex < text.Length; textIndex++)
+            var lineLength = (int) Math.Sqrt(text.Length)*2;
+            var sb = new StringBuilder();
+            var currentLinePosition = 0;
+            for (var textIndex = 0; textIndex < text.Length; textIndex++)
             {
                 // If we have reached the target line length and the next      
                 // character is whitespace then begin a new line.   
@@ -127,65 +122,66 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             return sb.ToString();
         }
 
-
-        void ComboBox_Validated(object sender, EventArgs e)
+        private void ComboBox_Validated(object sender, EventArgs e)
         {
             EEPROM_View_float_TextChanged(sender, e);
         }
 
-        void Configuration_Validating(object sender, CancelEventArgs e)
+        private void Configuration_Validating(object sender, CancelEventArgs e)
         {
             EEPROM_View_float_TextChanged(sender, e);
         }
 
         internal void EEPROM_View_float_TextChanged(object sender, EventArgs e)
         {
-            if (startup == true)
+            if (startup)
                 return;
 
             float value = 0;
-            string name = ((Control)sender).Name;
+            var name = ((Control) sender).Name;
 
             // do domainupdown state check
             try
             {
-                if (sender.GetType() == typeof(NumericUpDown))
+                if (sender.GetType() == typeof (NumericUpDown))
                 {
-                    value = (float)((NumericUpDown)sender).Value;
-                    MAVLinkInterface.modifyParamForDisplay(false, ((Control)sender).Name, ref value);
+                    value = (float) ((NumericUpDown) sender).Value;
+                    MAVLinkInterface.modifyParamForDisplay(false, ((Control) sender).Name, ref value);
                     changes[name] = value;
                 }
-                else if (sender.GetType() == typeof(ComboBox))
+                else if (sender.GetType() == typeof (ComboBox))
                 {
-                    value = (int)((ComboBox)sender).SelectedValue;
+                    value = (int) ((ComboBox) sender).SelectedValue;
                     changes[name] = value;
                 }
-                ((Control)sender).BackColor = Color.Green;
+                ((Control) sender).BackColor = Color.Green;
             }
             catch (Exception)
             {
-                ((Control)sender).BackColor = Color.Red;
+                ((Control) sender).BackColor = Color.Red;
             }
         }
 
         private void BUT_writePIDS_Click(object sender, EventArgs e)
         {
-            var temp = (Hashtable)changes.Clone();
+            var temp = (Hashtable) changes.Clone();
 
             foreach (string value in temp.Keys)
             {
                 try
                 {
-                    if ((float)changes[value] > (float)MainV2.comPort.MAV.param[value] * 2.0f)
-                        if (CustomMessageBox.Show(value + " has more than doubled the last input. Are you sure?", "Large Value", MessageBoxButtons.YesNo) == DialogResult.No)
+                    if ((float) changes[value] > (float) MainV2.comPort.MAV.param[value]*2.0f)
+                        if (
+                            CustomMessageBox.Show(value + " has more than doubled the last input. Are you sure?",
+                                "Large Value", MessageBoxButtons.YesNo) == DialogResult.No)
                             return;
 
-                    MainV2.comPort.setParam(value, (float)changes[value]);
+                    MainV2.comPort.setParam(value, (float) changes[value]);
 
                     try
                     {
                         // set control as well
-                        var textControls = this.Controls.Find(value, true);
+                        var textControls = Controls.Find(value, true);
                         if (textControls.Length > 0)
                         {
                             textControls[0].BackColor = Color.FromArgb(0x43, 0x44, 0x45);
@@ -193,28 +189,26 @@ namespace MissionPlanner.GCSViews.ConfigurationView
                     }
                     catch
                     {
-
                     }
-
                 }
                 catch
                 {
-                    CustomMessageBox.Show(String.Format(Strings.ErrorSetValueFailed, value), Strings.ERROR);
+                    CustomMessageBox.Show(string.Format(Strings.ErrorSetValueFailed, value), Strings.ERROR);
                 }
             }
         }
 
         /// <summary>
-        /// Handles the Click event of the BUT_rerequestparams control.
+        ///     Handles the Click event of the BUT_rerequestparams control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+        /// <param name="e">The <see cref="System.EventArgs" /> instance containing the event data.</param>
         protected void BUT_rerequestparams_Click(object sender, EventArgs e)
         {
             if (!MainV2.comPort.BaseStream.IsOpen)
                 return;
 
-            ((Control)sender).Enabled = false;
+            ((Control) sender).Enabled = false;
 
             try
             {
@@ -222,14 +216,14 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             }
             catch (Exception ex)
             {
-                CustomMessageBox.Show(Strings.ErrorReceivingParams + ex.ToString(), Strings.ERROR);
+                CustomMessageBox.Show(Strings.ErrorReceivingParams + ex, Strings.ERROR);
             }
 
 
-            ((Control)sender).Enabled = true;
+            ((Control) sender).Enabled = true;
 
 
-            this.Activate();
+            Activate();
         }
 
         private void BUT_refreshpart_Click(object sender, EventArgs e)
@@ -237,28 +231,30 @@ namespace MissionPlanner.GCSViews.ConfigurationView
             if (!MainV2.comPort.BaseStream.IsOpen)
                 return;
 
-            ((Control)sender).Enabled = false;
+            ((Control) sender).Enabled = false;
 
 
             updateparam(this);
 
-            ((Control)sender).Enabled = true;
+            ((Control) sender).Enabled = true;
 
 
-            this.Activate();
+            Activate();
         }
 
-        void updateparam(Control parentctl)
+        private void updateparam(Control parentctl)
         {
             foreach (Control ctl in parentctl.Controls)
             {
-                if (typeof(NumericUpDown) == ctl.GetType() || typeof(ComboBox) == ctl.GetType())
+                if (typeof (NumericUpDown) == ctl.GetType() || typeof (ComboBox) == ctl.GetType())
                 {
                     try
                     {
                         MainV2.comPort.GetParam(ctl.Name);
                     }
-                    catch { }
+                    catch
+                    {
+                    }
                 }
 
                 if (ctl.Controls.Count > 0)
@@ -270,29 +266,37 @@ namespace MissionPlanner.GCSViews.ConfigurationView
 
         private void BUT_test_yaw_Click(object sender, EventArgs e)
         {
-            double output = map(myTrackBar1.Value, myTrackBar1.Minimum, myTrackBar1.Maximum, (double)mavlinkNumericUpDown1.Value, (double)mavlinkNumericUpDown2.Value);
+            var output = map(myTrackBar1.Value, myTrackBar1.Minimum, myTrackBar1.Maximum,
+                (double) mavlinkNumericUpDown1.Value, (double) mavlinkNumericUpDown2.Value);
 
             try
             {
-                MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_SERVO, 1, (float)output, 0, 0, 0, 0, 0);
+                MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_SERVO, 1, (float) output, 0, 0, 0, 0, 0);
             }
-            catch { CustomMessageBox.Show(Strings.ErrorNoResponce, Strings.ERROR); }
+            catch
+            {
+                CustomMessageBox.Show(Strings.ErrorNoResponce, Strings.ERROR);
+            }
         }
 
         private void BUT_test_pitch_Click(object sender, EventArgs e)
         {
-            double output = map(myTrackBar2.Value, myTrackBar2.Minimum, myTrackBar2.Maximum, (double)mavlinkNumericUpDown6.Value, (double)mavlinkNumericUpDown5.Value);
+            var output = map(myTrackBar2.Value, myTrackBar2.Minimum, myTrackBar2.Maximum,
+                (double) mavlinkNumericUpDown6.Value, (double) mavlinkNumericUpDown5.Value);
 
             try
             {
-                MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_SERVO, 2, (float)output, 0, 0, 0, 0, 0);
+                MainV2.comPort.doCommand(MAVLink.MAV_CMD.DO_SET_SERVO, 2, (float) output, 0, 0, 0, 0, 0);
             }
-            catch { CustomMessageBox.Show(Strings.ErrorNoResponce, Strings.ERROR); }
+            catch
+            {
+                CustomMessageBox.Show(Strings.ErrorNoResponce, Strings.ERROR);
+            }
         }
 
-        double map(double x, double in_min, double in_max, double out_min, double out_max)
+        private double map(double x, double in_min, double in_max, double out_min, double out_max)
         {
-            return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+            return (x - in_min)*(out_max - out_min)/(in_max - in_min) + out_min;
         }
     }
 }
