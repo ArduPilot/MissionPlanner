@@ -90,7 +90,7 @@ public static class MavlinkUtil
         GCHandle gch = GCHandle.Alloc(bytearray, GCHandleType.Pinned);
         try
         {
-            return (T)Marshal.PtrToStructure(gch.AddrOfPinnedObject() + startoffset , typeof(T));
+            return (T)Marshal.PtrToStructure(new IntPtr(gch.AddrOfPinnedObject().ToInt64() + startoffset) , typeof(T));
         }
         finally
         {
