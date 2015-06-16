@@ -1327,7 +1327,7 @@ namespace MissionPlanner
                 {
                     foreach (var file in ofd.FileNames)
                     {
-                        string viewurl = droneshare.doUpload(file, droneshareusername, dronesharepassword, Guid.NewGuid().ToString(), APIConstants.apiKey);
+                        string viewurl = droneshare.doUpload(file, droneshareusername, dronesharepassword, Guid.NewGuid().ToString());
 
                         if (viewurl != "")
                             Process.Start(viewurl);

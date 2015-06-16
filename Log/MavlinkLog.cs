@@ -1595,7 +1595,7 @@ namespace MissionPlanner.Log
 
             using (OpenFileDialog openFileDialog1 = new OpenFileDialog())
             {
-                openFileDialog1.Filter = "*.tlog|*.tlog|*.log|*.log";
+                openFileDialog1.Filter = "Logs|*.tlog;*.log;*.bin";
                 openFileDialog1.RestoreDirectory = true;
                 openFileDialog1.Multiselect = true;
                 try
